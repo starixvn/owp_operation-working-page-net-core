@@ -1,0 +1,15 @@
+@{
+    ViewData["Title"] = "Menu Page";
+    @model IList<Fanex.NAP.Client.Models.MenuItem>;
+}
+
+<div class="text-center">
+    <h1 class="display-4">Menu List</h1>
+    
+    <ul>
+        @foreach (var item in Model)
+        {
+            <li>@item.Name</li>
+        }
+    </ul>
+</div>
