@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OWP.API.SyncMaxbet.service;
+using OWP.API.SyncMaxbet.Services;
 
 namespace OWP.Websites.Controllers
 {

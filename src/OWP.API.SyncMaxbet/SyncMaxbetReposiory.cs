@@ -1,5 +1,5 @@
 ﻿using Fanex.Data.Repository;
-using OWP.API.SyncMaxbet.criteria;
+using OWP.API.SyncMaxbet.Criterias;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +26,7 @@ namespace OWP.API.SyncMaxbet
 
         public async Task<int> GetMatchIdByAdminSiteId(int adminSiteId)
         {
-            var criteria = new AdminsiteIdCriteria
+            var criteria = new MatchIdGetCriteria
             {
                 AdminsiteId = adminSiteId
             };

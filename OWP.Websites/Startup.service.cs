@@ -32,7 +32,6 @@ namespace OWP.Websites
     using ONEbook.UM.Services;
     using ONEbook.UM.Transport;
     using OWP.API.SyncMaxbet;
-    using OWP.API.SyncMaxbet.service;
     using Sentry;
 
     public partial class Startup
@@ -104,7 +103,7 @@ namespace OWP.Websites
 
         private void ConfigInternalService(IServiceCollection services)
         {
-            services.ConfigMaxbetService();
+            services.InjectSyncMaxbetService();
         }
 
         private void ConfigureNapServices(IServiceCollection services)
@@ -126,8 +125,6 @@ namespace OWP.Websites
             services.AddSingleton<IUMCacheService, UMCacheService>();
             services.AddSingleton<IUMRestClient, UMRestClient>();
             services.AddSingleton<IHttpContextHelper, HttpContextHelper>();
-
-            services.AddSingleton<MaxbetService, MaxbetServiceImp>();
         }
 
         private void ConfigureFanex()

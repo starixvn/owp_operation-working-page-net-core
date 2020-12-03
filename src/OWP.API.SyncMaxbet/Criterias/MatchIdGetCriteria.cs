@@ -2,7 +2,7 @@
 
 namespace OWP.API.SyncMaxbet.Criterias
 {
-    public class AdminsiteIdCriteria : CriteriaBase
+    public class MatchIdGetCriteria : CriteriaBase
     {
         public int AdminsiteId { get; set; }
 

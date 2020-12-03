@@ -1,11 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using OWP.API.SyncMaxbet.service;
+using OWP.API.SyncMaxbet.Services;
 
 namespace OWP.API.SyncMaxbet
 {
-    public static class SyncMaxbetServiceCollectionExtensions
+    public static class MaxbetInjector
     {
-        public static void ConfigMaxbetService(this IServiceCollection services)
+        public static void InjectSyncMaxbetService(this IServiceCollection services)
         {
             services.AddScoped<MaxbetService, MaxbetServiceImp>();
             services.AddScoped<SyncMaxbetReposiory,SyncMaxbetReposioryImp>();
