@@ -31,6 +31,7 @@ namespace OWP.Websites
     using ONEbook.UM.Helpers;
     using ONEbook.UM.Services;
     using ONEbook.UM.Transport;
+    using OWP.API.SyncMaxbet;
     using OWP.API.SyncMaxbet.service;
     using Sentry;
 
@@ -99,6 +100,11 @@ namespace OWP.Websites
                 options.IdleTimeout = TimeSpan.FromMinutes(int.Parse(Configuration.GetSection("AuthSettings:SessionTimeOut").Value));
                 options.Cookie.Name = "Fanex.OWP.Session";
             });
+        }
+
+        private void ConfigInternalService(IServiceCollection services)
+        {
+            services.ConfigMaxbetService();
         }
 
         private void ConfigureNapServices(IServiceCollection services)
