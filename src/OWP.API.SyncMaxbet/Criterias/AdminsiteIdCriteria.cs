@@ -1,6 +1,6 @@
 ﻿using Fanex.Data.Repository;
 
-namespace OWP.API.SyncMaxbet.criteria
+namespace OWP.API.SyncMaxbet.Criterias
 {
     public class AdminsiteIdCriteria : CriteriaBase
     {

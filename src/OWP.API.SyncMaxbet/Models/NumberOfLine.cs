@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace OWP.API.SyncMaxbet.model
+namespace OWP.API.SyncMaxbet.Models
 {
     public class NumberOfLine
     {

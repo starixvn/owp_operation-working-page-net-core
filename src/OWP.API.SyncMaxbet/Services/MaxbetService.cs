@@ -1,6 +1,6 @@
-﻿using OWP.API.SyncMaxbet.model;
+﻿using OWP.API.SyncMaxbet.Models;
 
-namespace OWP.API.SyncMaxbet.service
+namespace OWP.API.SyncMaxbet.Services
 {
     public interface MaxbetService
     {
