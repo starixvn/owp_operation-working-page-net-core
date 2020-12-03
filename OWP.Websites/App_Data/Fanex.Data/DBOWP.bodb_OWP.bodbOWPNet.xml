@@ -239,4 +239,8 @@
     <Setting Key="OWP_AssignmentUpload_GetNotificationSetting" SpName="OWP_AssignmentUpload_GetNotificationSetting" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_AssignmentUpload_GetSectionMemberOfUserReceivedWatcher" SpName="OWP_AssignmentUpload_GetSectionMemberOfUserReceivedWatcher" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
   </Function>
+
+	<Function Name="SyncMaxbet">
+		<Setting Key="OWP_API_SyncMaxbet_GetMatchIdByAdminsiteId" SpName="OWP_API_SyncMaxbet_GetMatchIdByAdminsiteId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+	</Function>
 </Functions>

@@ -38,6 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\src\OWP.API.SyncMaxbet\OWP.API.SyncMaxbet.csproj" />
     <ProjectReference Include="..\src\OWP\OWP.csproj" />
   </ItemGroup>
 
