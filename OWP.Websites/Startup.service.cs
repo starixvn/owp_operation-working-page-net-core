@@ -25,6 +25,7 @@ namespace OWP.Websites
     using Microsoft.AspNetCore.Mvc.Authorization;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.OpenApi.Models;
     using ONEbook.UM.AspNetCore;
     using ONEbook.UM.Configurations;
     using ONEbook.UM.Helpers;
@@ -150,6 +151,14 @@ namespace OWP.Websites
             ExceptionHandler
                 .UseConfig(new LoggingConfiguration())
                 .UseGetDbExceptionInfo(DatabaseInfoGetters.GetDbExceptionInfo);
+        }
+
+        private void ConfigureSwagger(IServiceCollection services)
+        {
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "OWPNetCoreApi", Version = "v1" });
+            });
         }
     }
 }

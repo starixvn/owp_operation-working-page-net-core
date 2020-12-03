@@ -31,6 +31,7 @@ namespace OWP.Websites
             ConfigureNapServices(services);
             ConfigureFanex();
 
+            ConfigureSwagger(services);
 
             services.AddControllersWithViews();
             services.AddRazorPages();
@@ -51,6 +52,9 @@ namespace OWP.Websites
             app.UseMiddleware<ErrorHandler>();
 
             app.UseAuthorization();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "OWPNetCoreApi"));
 
             app.UseEndpoints(endpoints =>
             {
