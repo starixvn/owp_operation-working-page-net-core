@@ -21,8 +21,8 @@ namespace OWP.Websites.Controllers
         [Route("{id}")]
         public JsonResult GetMaxbet(int id)
         {
-            //var maxbetInfo = maxbetService.GetMaxbetInfo(id);
-            return new JsonResult("value");
+            var maxbetInfo = maxbetService.GetMaxbetInfo(id);
+            return new JsonResult(maxbetInfo);
         }
     }
 }

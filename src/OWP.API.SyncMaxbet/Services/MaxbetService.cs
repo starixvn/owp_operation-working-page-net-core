@@ -25,7 +25,7 @@ namespace OWP.API.SyncMaxbet.Services
             var traderAssignmentsSender = BuildTraderAssignmentSender(traderAssignments);
             return new MaxbetInfo
             {
-                MatchID = adminsiteId,
+                AdminsiteId = adminsiteId,
                 TraderAssignments = traderAssignmentsSender
             };
         }

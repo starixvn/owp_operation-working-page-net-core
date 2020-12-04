@@ -6,6 +6,7 @@ namespace OWP.Websites
     using System.Threading.Tasks;
     using Fanex.Caching.Redis;
     using Fanex.Data;
+    using Fanex.Data.Repository;
     using Fanex.Data.SqlServer;
     using Fanex.Logging;
     using Fanex.Logging.Extensions;
@@ -78,7 +79,6 @@ namespace OWP.Websites
             });
         }
 
-
         private void ConfigureRedis(IServiceCollection services)
         {
             var redisConfig = Configuration.GetSection("AuthSettings:RedisConfig").Value;
@@ -127,7 +127,7 @@ namespace OWP.Websites
             services.AddSingleton<IHttpContextHelper, HttpContextHelper>();
         }
 
-        private void ConfigureFanex()
+        private void ConfigureFanex(IServiceCollection services)
         {
             var connections = Configuration.GetSection("ConnectionStrings")
                                    .GetChildren()
@@ -157,6 +157,8 @@ namespace OWP.Websites
             ExceptionHandler
                 .UseConfig(new LoggingConfiguration())
                 .UseGetDbExceptionInfo(DatabaseInfoGetters.GetDbExceptionInfo);
+
+            services.AddScoped<IDynamicRepository, DynamicRepository>();
         }
 
         private void ConfigureSwagger(IServiceCollection services)

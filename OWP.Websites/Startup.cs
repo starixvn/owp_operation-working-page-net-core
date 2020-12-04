@@ -28,10 +28,10 @@ namespace OWP.Websites
             ConfigureRedis(services);
             ConfigureSession(services);
 
-            ConfigInternalService(services);
-
             ConfigureNapServices(services);
-            ConfigureFanex();
+            ConfigureFanex(services);
+
+            ConfigInternalService(services);
 
             ConfigureSwagger(services);
 
