@@ -29,7 +29,9 @@ namespace OWP.Websites
             ConfigureSession(services);
 
             ConfigureNapServices(services);
-            ConfigureFanex(services);
+            ConfigureFanex();
+            ConfigureCore(services);
+            ConfigureMediator(services);
 
             ConfigInternalService(services);
 

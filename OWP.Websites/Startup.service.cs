@@ -3,6 +3,7 @@ namespace OWP.Websites
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
     using System.Threading.Tasks;
     using Fanex.Caching.Redis;
     using Fanex.Data;
@@ -20,6 +21,7 @@ namespace OWP.Websites
     using Fanex.NAP.Client.Services;
     using Fanex.NAP.Client.Transport;
     using Fanex.NAP.Client.Web;
+    using MediatR;
     using Microsoft.AspNetCore.Authentication.Cookies;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
@@ -127,7 +129,7 @@ namespace OWP.Websites
             services.AddSingleton<IHttpContextHelper, HttpContextHelper>();
         }
 
-        private void ConfigureFanex(IServiceCollection services)
+        private void ConfigureFanex()
         {
             var connections = Configuration.GetSection("ConnectionStrings")
                                    .GetChildren()
@@ -157,8 +159,16 @@ namespace OWP.Websites
             ExceptionHandler
                 .UseConfig(new LoggingConfiguration())
                 .UseGetDbExceptionInfo(DatabaseInfoGetters.GetDbExceptionInfo);
+        }
 
+        private void ConfigureCore(IServiceCollection services)
+        {
             services.AddScoped<IDynamicRepository, DynamicRepository>();
+        }
+
+        private void ConfigureMediator(IServiceCollection services)
+        {
+            services.AddMediatR(typeof(SyncMaxbetController).GetTypeInfo().Assembly);
         }
 
         private void ConfigureSwagger(IServiceCollection services)

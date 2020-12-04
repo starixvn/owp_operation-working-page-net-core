@@ -2,7 +2,7 @@
 {
     public class MatchResource
     {
-        public int MatchOfferId { get; set; }
+        public int ResourceId { get; set; }
 
         public string Value { get; set; }
     }

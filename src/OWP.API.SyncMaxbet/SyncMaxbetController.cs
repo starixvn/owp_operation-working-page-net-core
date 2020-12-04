@@ -1,28 +1,33 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Threading.Tasks;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using OWP.API.SyncMaxbet.Services;
 
-namespace OWP.Websites.Controllers
+namespace OWP.API.SyncMaxbet
 {
     [Route("api/sync-maxbet")]
     [ApiController]
     [AllowAnonymous]
     public class SyncMaxbetController : ControllerBase
     {
-
         private readonly MaxbetService maxbetService;
 
-        public SyncMaxbetController(MaxbetService maxbetService)
+        private readonly IMediator mediator;
+
+        public SyncMaxbetController(MaxbetService maxbetService, IMediator mediator)
         {
             this.maxbetService = maxbetService;
+            this.mediator = mediator;
         }
 
         [HttpGet]
         [Route("{id}")]
-        public JsonResult GetMaxbet(int id)
+        public async Task<IActionResult> GetMaxbet(int id)
         {
             var maxbetInfo = maxbetService.GetMaxbetInfo(id);
-            return new JsonResult(maxbetInfo);
+            return Ok(JsonConvert.SerializeObject(maxbetInfo));
         }
     }
 }

@@ -2,6 +2,7 @@
 {
     public enum EnumNoOfHdp
     {
+        Empty = 0,
         FirstHDP = 1,
         SecondHDP = 2,
         SecondFirstHaft = 3,

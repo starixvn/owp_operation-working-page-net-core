@@ -8,12 +8,12 @@ namespace OWP.API.SyncMaxbet.Models
         public int CreditFt { get; set; }
 
         [JsonProperty("credit_1h")]
-        public int CreditFirstH { get; set; }
+        public int CreditFirstHaft { get; set; }
 
         [JsonProperty("licensee_ft")]
         public int LicenseeFt { get; set; }
 
-        [JsonProperty("licensee_ft")]
-        public int LicenseeFirstH { get; set; }
+        [JsonProperty("licensee_1h")]
+        public int LicenseeFirstHaft { get; set; }
     }
 }
