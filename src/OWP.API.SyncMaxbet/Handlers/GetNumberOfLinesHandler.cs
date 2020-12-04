@@ -40,8 +40,8 @@
 
             public async Task<NumberOfLines> Handle(Request request, CancellationToken cancellationToken)
             {
-                var noOfHdp = await GetMatchNoOfHDPId(request.OWPMatchId);
-                return BuildNumberOfLines(noOfHdp);
+                var noOfHdpId = await GetMatchNoOfHDPId(request.OWPMatchId);
+                return BuildNumberOfLines(noOfHdpId);
             }
 
             private async Task<int> GetMatchNoOfHDPId(int matchId)

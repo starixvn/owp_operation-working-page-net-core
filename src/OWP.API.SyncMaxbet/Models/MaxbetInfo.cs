@@ -10,6 +10,9 @@ namespace OWP.API.SyncMaxbet.Models
         [JsonProperty("traders")]
         public TraderAssignmentSender TraderAssignments { get; set; } = new TraderAssignmentSender();
 
+        [JsonProperty("second_accept_value")]
+        public int SecondAcceptValue { get; set; }
+
         [JsonProperty("spread")]
         public MaxbetSpread Spread { get; set; }
 
