@@ -242,5 +242,6 @@
 
 	<Function Name="SyncMaxbet">
 		<Setting Key="OWP_API_SyncMaxbet_GetMatchIdByAdminsiteId" SpName="OWP_API_SyncMaxbet_GetMatchIdByAdminsiteId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_API_SyncMaxbet_GetTrader" SpName="OWP_API_SyncMaxbet_GetTrader" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 	</Function>
 </Functions>

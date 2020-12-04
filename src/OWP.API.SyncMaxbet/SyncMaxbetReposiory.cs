@@ -1,18 +1,17 @@
 ﻿using Fanex.Data.Repository;
 using OWP.API.SyncMaxbet.Criterias;
-using System;
+using OWP.API.SyncMaxbet.Models;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace OWP.API.SyncMaxbet
 {
-
-
     public interface SyncMaxbetReposiory
     {
         public Task<int> GetMatchIdByAdminSiteId(int adminSiteId);
+
+        public Task<List<TraderAssignment>> GetTradersByOwpMatchId(int owpMatchId);
     }
 
     public class SyncMaxbetReposioryImp : SyncMaxbetReposiory
@@ -33,6 +32,15 @@ namespace OWP.API.SyncMaxbet
 
             int matchId = (await dynamicRepository.FetchAsync<int>(criteria)).FirstOrDefault();
             return matchId;
+        }
+
+        public async Task<List<TraderAssignment>> GetTradersByOwpMatchId(int owpMatchId)
+        {
+            var criteria = new TradersGetCriteria
+            {
+                OwpMatchId = owpMatchId
+            };
+            return (await dynamicRepository.FetchAsync<TraderAssignment>(criteria)).ToList();
         }
     }
 }

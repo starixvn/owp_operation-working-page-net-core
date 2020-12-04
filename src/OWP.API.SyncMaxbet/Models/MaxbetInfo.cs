@@ -7,7 +7,7 @@ namespace OWP.API.SyncMaxbet.Models
         public int MatchID { get; set; }
 
         [JsonProperty("traders")]
-        public TraderAssignment TraderAssignment { get; set; } = new TraderAssignment();
+        public TraderAssignmentSender TraderAssignments { get; set; } = new TraderAssignmentSender();
 
         [JsonProperty("spread")]
         public MaxbetSpread Spread { get; set; }
