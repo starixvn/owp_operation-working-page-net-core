@@ -1,4 +1,5 @@
-﻿using OWP.API.SyncMaxbet.Enums;
+﻿using OWP.API.SyncMaxbet.Builder;
+using OWP.API.SyncMaxbet.Enums;
 using OWP.API.SyncMaxbet.Models;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,15 +15,21 @@ namespace OWP.API.SyncMaxbet.Services
     public class MaxbetServiceImp : MaxbetService
     {
         private readonly SyncMaxbetReposiory syncMaxbetReposiory;
-        public MaxbetServiceImp(SyncMaxbetReposiory syncMaxbetReposiory)
+        private readonly TraderAssignmentBuilder traderAssignmentBuilder;
+        public MaxbetServiceImp(
+            SyncMaxbetReposiory syncMaxbetReposiory,
+            TraderAssignmentBuilder traderAssignmentBuilder)
         {
             this.syncMaxbetReposiory = syncMaxbetReposiory;
+            this.traderAssignmentBuilder = traderAssignmentBuilder;
         }
         public async Task<MaxbetInfo> GetMaxbetInfo(int adminsiteId)
         {
             var owpMatchId = await syncMaxbetReposiory.GetMatchIdByAdminSiteId(adminsiteId);
-            var traderAssignments = await syncMaxbetReposiory.GetTradersByOwpMatchId(owpMatchId);
-            var traderAssignmentsSender = BuildTraderAssignmentSender(traderAssignments);
+          
+            var traderAssignmentsSender = await traderAssignmentBuilder.BuildTraderAssignmentSender(owpMatchId);
+            
+            
             return new MaxbetInfo
             {
                 AdminsiteId = adminsiteId,
@@ -30,22 +37,13 @@ namespace OWP.API.SyncMaxbet.Services
             };
         }
 
-        public TraderAssignmentSender BuildTraderAssignmentSender(List<TraderAssignment> traderAssignments)
+        
+
+        public MaxbetSpread BuildSpread(List<SpreadModel> traderAssignments)
         {
-            var handicap = FindTraderAssinmentByBettype(traderAssignments, (int)Bettype.Handicap);
-            var overunder = FindTraderAssinmentByBettype(traderAssignments, (int)Bettype.OverUnder);
-            var firstHalfHandicap = FindTraderAssinmentByBettype(traderAssignments, (int)Bettype.FirstHalfHandicap);
-            var firstHalfOverUnder = FindTraderAssinmentByBettype(traderAssignments, (int)Bettype.FirstHalfOverUnder);
-            return new TraderAssignmentSender
-            {
-                Handicap = handicap.UserId,
-                OverUnder = overunder.UserId,
-                FirstHalfHandicap = firstHalfHandicap.UserId,
-                FirstHalfOverUnder = firstHalfOverUnder.UserId,
-            };
+
+            return new MaxbetSpread();
         }
 
-        private T FindTraderAssinmentByBettype<T>(List<T> assignment, int bettypeId) where T : TraderAssignment
-        => assignment.FirstOrDefault(a => a.BettypeId == bettypeId);
     }
 }

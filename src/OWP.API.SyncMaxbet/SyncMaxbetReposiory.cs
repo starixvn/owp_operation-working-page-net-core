@@ -12,6 +12,8 @@ namespace OWP.API.SyncMaxbet
         public Task<int> GetMatchIdByAdminSiteId(int adminSiteId);
 
         public Task<List<TraderAssignment>> GetTradersByOwpMatchId(int owpMatchId);
+
+        public Task<List<SpreadModel>> GetSpreadByOwpmatchId(int owpMatchId);
     }
 
     public class SyncMaxbetReposioryImp : SyncMaxbetReposiory
@@ -30,8 +32,17 @@ namespace OWP.API.SyncMaxbet
                 AdminsiteId = adminSiteId
             };
 
-            int matchId = (await dynamicRepository.FetchAsync<int>(criteria)).FirstOrDefault();
+            var matchId = (await dynamicRepository.FetchAsync<int>(criteria)).FirstOrDefault();
             return matchId;
+        }
+
+        public async Task<List<SpreadModel>> GetSpreadByOwpmatchId(int owpMatchId)
+        {
+            var criteria = new SpreadGetCriteria
+            {
+                OwpMatchId = owpMatchId
+            };
+            return (await dynamicRepository.FetchAsync<SpreadModel>(criteria)).ToList();
         }
 
         public async Task<List<TraderAssignment>> GetTradersByOwpMatchId(int owpMatchId)

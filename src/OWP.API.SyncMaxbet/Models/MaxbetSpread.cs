@@ -11,9 +11,9 @@ namespace OWP.API.SyncMaxbet.Models
         public decimal OverUnder { get; set; }
 
         [JsonProperty("1H_HDP")]
-        public decimal FirstHandicap { get; set; }
+        public decimal FirstHalfHandicap { get; set; }
 
         [JsonProperty("1H_HDP")]
-        public decimal FirstOverUnder { get; set; }
+        public decimal FirstHalfOverUnder { get; set; }
     }
 }
