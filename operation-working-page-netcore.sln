@@ -11,7 +11,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{FE978AE1-F99
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OWP", "src\OWP\OWP.csproj", "{9EC7C205-4B31-48AF-B323-02D3EFC7AC11}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OWP.API.SyncMaxbet", "src\OWP.API.SyncMaxbet\OWP.API.SyncMaxbet.csproj", "{C33A6DEF-BEA1-4C6B-B856-F064ADD96DF5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OWP.API.SyncMaxbet", "src\OWP.API.SyncMaxbet\OWP.API.SyncMaxbet.csproj", "{C33A6DEF-BEA1-4C6B-B856-F064ADD96DF5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{DE6B2701-004C-4EF0-B4AA-A940FAA3C48F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OWP.API.SyncMaxbet.UnitTests", "tests\OWP.API.SyncMaxbet.UnitTests\OWP.API.SyncMaxbet.UnitTests.csproj", "{02D41E31-2039-4D7D-AB50-322439D976FA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +63,18 @@ Global
 		{C33A6DEF-BEA1-4C6B-B856-F064ADD96DF5}.Release|x64.Build.0 = Release|Any CPU
 		{C33A6DEF-BEA1-4C6B-B856-F064ADD96DF5}.Release|x86.ActiveCfg = Release|Any CPU
 		{C33A6DEF-BEA1-4C6B-B856-F064ADD96DF5}.Release|x86.Build.0 = Release|Any CPU
+		{02D41E31-2039-4D7D-AB50-322439D976FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02D41E31-2039-4D7D-AB50-322439D976FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02D41E31-2039-4D7D-AB50-322439D976FA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{02D41E31-2039-4D7D-AB50-322439D976FA}.Debug|x64.Build.0 = Debug|Any CPU
+		{02D41E31-2039-4D7D-AB50-322439D976FA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{02D41E31-2039-4D7D-AB50-322439D976FA}.Debug|x86.Build.0 = Debug|Any CPU
+		{02D41E31-2039-4D7D-AB50-322439D976FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02D41E31-2039-4D7D-AB50-322439D976FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02D41E31-2039-4D7D-AB50-322439D976FA}.Release|x64.ActiveCfg = Release|Any CPU
+		{02D41E31-2039-4D7D-AB50-322439D976FA}.Release|x64.Build.0 = Release|Any CPU
+		{02D41E31-2039-4D7D-AB50-322439D976FA}.Release|x86.ActiveCfg = Release|Any CPU
+		{02D41E31-2039-4D7D-AB50-322439D976FA}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -66,6 +82,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{9EC7C205-4B31-48AF-B323-02D3EFC7AC11} = {FE978AE1-F997-41E2-87FD-0FB2639C45B9}
 		{C33A6DEF-BEA1-4C6B-B856-F064ADD96DF5} = {FE978AE1-F997-41E2-87FD-0FB2639C45B9}
+		{02D41E31-2039-4D7D-AB50-322439D976FA} = {DE6B2701-004C-4EF0-B4AA-A940FAA3C48F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {30A98F70-B5EC-4D12-870E-5B2223D6612A}

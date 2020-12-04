@@ -1,4 +1,4 @@
-﻿namespace OWP.API.SyncMaxbet.Enums
+﻿namespace OWP.Enums
 {
     public enum Bettype
     {

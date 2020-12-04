@@ -1,5 +1,5 @@
-﻿using OWP.API.SyncMaxbet.Enums;
-using OWP.API.SyncMaxbet.Models;
+﻿using OWP.API.SyncMaxbet.Models;
+using OWP.Enums;
 using OWP.Helpers;
 using System.Threading.Tasks;
 

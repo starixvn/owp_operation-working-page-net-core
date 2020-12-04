@@ -1,5 +1,4 @@
 ﻿using OWP.API.SyncMaxbet.Builder;
-using OWP.API.SyncMaxbet.Enums;
 using OWP.API.SyncMaxbet.Models;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,24 +15,30 @@ namespace OWP.API.SyncMaxbet.Services
     {
         private readonly SyncMaxbetReposiory syncMaxbetReposiory;
         private readonly TraderAssignmentBuilder traderAssignmentBuilder;
+        private readonly SpreadBuilder spreadBuilder;
+
         public MaxbetServiceImp(
             SyncMaxbetReposiory syncMaxbetReposiory,
-            TraderAssignmentBuilder traderAssignmentBuilder)
+            TraderAssignmentBuilder traderAssignmentBuilder,
+            SpreadBuilder spreadBuilder)
         {
             this.syncMaxbetReposiory = syncMaxbetReposiory;
             this.traderAssignmentBuilder = traderAssignmentBuilder;
+            this.spreadBuilder = spreadBuilder;
         }
         public async Task<MaxbetInfo> GetMaxbetInfo(int adminsiteId)
         {
             var owpMatchId = await syncMaxbetReposiory.GetMatchIdByAdminSiteId(adminsiteId);
           
             var traderAssignmentsSender = await traderAssignmentBuilder.BuildTraderAssignmentSender(owpMatchId);
-            
-            
+
+            var spread = await spreadBuilder.BuildSpread(owpMatchId);
+
             return new MaxbetInfo
             {
                 AdminsiteId = adminsiteId,
-                TraderAssignments = traderAssignmentsSender
+                TraderAssignments = traderAssignmentsSender,
+                Spread= spread
             };
         }
 
