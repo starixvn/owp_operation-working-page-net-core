@@ -14,9 +14,11 @@ namespace OWP.API.SyncMaxbet.UnitTests.Builder
     {
         private readonly SyncMaxbetReposiory syncMaxbetReposiory;
 
+        private readonly SpreadBuilderImp spreadBuilder;
         public SpreadBuilderUnitTests()
         {
             syncMaxbetReposiory = Substitute.For<SyncMaxbetReposiory>();
+            spreadBuilder = new SpreadBuilderImp(syncMaxbetReposiory);
         }
 
         [Fact]
@@ -25,7 +27,6 @@ namespace OWP.API.SyncMaxbet.UnitTests.Builder
             var spreadTupple = new ValueTuple<IEnumerable<SpreadModel>, IEnumerable<int>>();
             spreadTupple.Item1 = new List<SpreadModel>();
 
-            var spreadBuilder = new SpreadBuilderImp(syncMaxbetReposiory);
             syncMaxbetReposiory
                 .GetSpreadByOwpmatchId(123)
                 .ReturnsForAnyArgs(Task.FromResult(spreadTupple));
@@ -43,29 +44,26 @@ namespace OWP.API.SyncMaxbet.UnitTests.Builder
             {
                 new SpreadModel
                 {
-                    BettypeId= (int)Bettype.Handicap,
+                    BettypeId= (int)EnumBettype.Handicap,
                     Spread=(decimal)0.1
                 },
                 new SpreadModel
                 {
-                    BettypeId= (int)Bettype.OverUnder,
+                    BettypeId= (int)EnumBettype.OverUnder,
                     Spread=(decimal)0.2
                 },
                  new SpreadModel
                 {
-                    BettypeId= (int)Bettype.FirstHalfHandicap,
+                    BettypeId= (int)EnumBettype.FirstHalfHandicap,
                     Spread=(decimal)0.3
                 },
                 new SpreadModel
                 {
-                    BettypeId= (int)Bettype.FirstHalfOverUnder,
+                    BettypeId= (int)EnumBettype.FirstHalfOverUnder,
                     Spread=(decimal)0.4
                 }
             };
 
-
-
-            var spreadBuilder = new SpreadBuilderImp(syncMaxbetReposiory);
             syncMaxbetReposiory
                 .GetSpreadByOwpmatchId(123)
                 .ReturnsForAnyArgs(Task.FromResult(spreadTupple));
@@ -91,19 +89,18 @@ namespace OWP.API.SyncMaxbet.UnitTests.Builder
             {
                 new SpreadModel
                 {
-                    BettypeId= (int)Bettype.Handicap,
+                    BettypeId= (int)EnumBettype.Handicap,
                     Spread=(decimal)0.1
                 },
                 new SpreadModel
                 {
-                    BettypeId= (int)Bettype.OverUnder,
+                    BettypeId= (int)EnumBettype.OverUnder,
                     Spread=(decimal)0.2
                 }
             };
 
             spreadTupple.Item2 = new List<int> { 1 };
 
-            var spreadBuilder = new SpreadBuilderImp(syncMaxbetReposiory);
             syncMaxbetReposiory
                 .GetSpreadByOwpmatchId(123)
                 .ReturnsForAnyArgs(Task.FromResult(spreadTupple));
@@ -128,19 +125,18 @@ namespace OWP.API.SyncMaxbet.UnitTests.Builder
             {
                 new SpreadModel
                 {
-                    BettypeId= (int)Bettype.Handicap,
+                    BettypeId= (int)EnumBettype.Handicap,
                     Spread=(decimal)0.1
                 },
                 new SpreadModel
                 {
-                    BettypeId= (int)Bettype.OverUnder,
+                    BettypeId= (int)EnumBettype.OverUnder,
                     Spread=(decimal)0.1
                 }
             };
 
             spreadTupple.Item2 = new List<int> { 2 };
 
-            var spreadBuilder = new SpreadBuilderImp(syncMaxbetReposiory);
             syncMaxbetReposiory
                 .GetSpreadByOwpmatchId(123)
                 .ReturnsForAnyArgs(Task.FromResult(spreadTupple));
@@ -160,7 +156,7 @@ namespace OWP.API.SyncMaxbet.UnitTests.Builder
         [Fact]
         public void BuildMaxbetSpread_NotExistsHDP_OU_1HHDP_1HOU_ReturnEmptySpread()
         {
-            var spreadBuilder = new SpreadBuilderImp(syncMaxbetReposiory);
+
             var spread = new List<SpreadModel>
             {
                 new SpreadModel()
@@ -174,27 +170,26 @@ namespace OWP.API.SyncMaxbet.UnitTests.Builder
         [Fact]
         public void BuildMaxbetSpread_ExistsHDP_OU_1HHDP_1HOU_ReturnSpread()
         {
-            var spreadBuilder = new SpreadBuilderImp(syncMaxbetReposiory);
             var spread = new List<SpreadModel>
             {
                 new SpreadModel
                 {
-                    BettypeId= (int)Bettype.Handicap,
+                    BettypeId= (int)EnumBettype.Handicap,
                     Spread=(decimal)0.1
                 },
                 new SpreadModel
                 {
-                    BettypeId= (int)Bettype.OverUnder,
+                    BettypeId= (int)EnumBettype.OverUnder,
                     Spread=(decimal)0.2
                 },
                  new SpreadModel
                 {
-                    BettypeId= (int)Bettype.FirstHalfHandicap,
+                    BettypeId= (int)EnumBettype.FirstHalfHandicap,
                     Spread=(decimal)0.3
                 },
                 new SpreadModel
                 {
-                    BettypeId= (int)Bettype.FirstHalfOverUnder,
+                    BettypeId= (int)EnumBettype.FirstHalfOverUnder,
                     Spread=(decimal)0.4
                 }
             };
@@ -208,6 +203,297 @@ namespace OWP.API.SyncMaxbet.UnitTests.Builder
                 FirstHalfOverUnder = (decimal)0.4
             };
             DeepAssert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void BuildSpreadSenderForLeagueGroupNotAllowMJ_Exists_1HHDP_ReturnSpreadModelCorrect()
+        {
+            var spread = new List<SpreadModel>
+            {
+                new SpreadModel
+                {
+                    BettypeId= (int)EnumBettype.Handicap,
+                    Spread=(decimal)0.1
+                },
+                new SpreadModel
+                {
+                    BettypeId= (int)EnumBettype.OverUnder,
+                    Spread=(decimal)0.2
+                },
+                 new SpreadModel
+                {
+                    BettypeId= (int)EnumBettype.FirstHalfHandicap,
+                    Spread=(decimal)0.3
+                },
+                new SpreadModel
+                {
+                    BettypeId= (int)EnumBettype.FirstHalfOverUnder,
+                    Spread=(decimal)0.4
+                }
+            };
+
+            var result = spreadBuilder.BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
+
+            var expected = new MaxbetSpread
+            {
+                Handicap = (decimal)0.1,
+                OverUnder = (decimal)0.2,
+                FirstHalfHandicap = (decimal)0.3,
+                FirstHalfOverUnder = (decimal)0.4
+            };
+
+            DeepAssert.Equal(expected, result);
+        }
+
+        // number=10%
+        [Fact]
+        public void BuildSpreadSenderForLeagueGroupNotAllowMJ_NotExists_1HHDP_And_HDP_HasSpread_Smaller_Specific_Number_ReturnSpreadCorrect()
+        {
+            var spread = new List<SpreadModel>
+            {
+                new SpreadModel
+                {
+                    BettypeId= (int)EnumBettype.Handicap,
+                    Spread=(decimal)0.01
+                }
+            };
+
+            var result = spreadBuilder.BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
+
+            var expected = new MaxbetSpread
+            {
+                Handicap = (decimal)0.01,
+                OverUnder = (decimal)0,
+                FirstHalfHandicap = (decimal)0.1,
+                FirstHalfOverUnder = (decimal)0
+            };
+
+            DeepAssert.Equal(expected, result);
+        }
+
+        // number=10%
+        [Fact]
+        public void BuildSpreadSenderForLeagueGroupNotAllowMJ_NotExists_1HHDP_And_HDP_HasSpread_Greater_Specific_Number_ReturnSpreadCorrect()
+        {
+            var spread = new List<SpreadModel>
+            {
+                new SpreadModel
+                {
+                    BettypeId= (int)EnumBettype.Handicap,
+                    Spread=(decimal)0.2
+                }
+            };
+
+            var result = spreadBuilder.BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
+
+            var expected = new MaxbetSpread
+            {
+                Handicap = (decimal)0.2,
+                OverUnder = 0,
+                FirstHalfHandicap = (decimal)0.2,
+                FirstHalfOverUnder = 0
+            };
+
+            DeepAssert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void BuildSpreadSenderForLeagueGroupNotAllowMJ_Exists_1HOU_ReturnSpreadModelCorrect()
+        {
+            var spread = new List<SpreadModel>
+            {
+                new SpreadModel
+                {
+                    BettypeId= (int)EnumBettype.Handicap,
+                    Spread=(decimal)0.1
+                },
+                new SpreadModel
+                {
+                    BettypeId= (int)EnumBettype.OverUnder,
+                    Spread=(decimal)0.2
+                },
+                 new SpreadModel
+                {
+                    BettypeId= (int)EnumBettype.FirstHalfHandicap,
+                    Spread=(decimal)0.3
+                },
+                new SpreadModel
+                {
+                    BettypeId= (int)EnumBettype.FirstHalfOverUnder,
+                    Spread=(decimal)0.4
+                }
+            };
+
+            var result = spreadBuilder.BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
+
+            var expected = new MaxbetSpread
+            {
+                Handicap = (decimal)0.1,
+                OverUnder = (decimal)0.2,
+                FirstHalfHandicap = (decimal)0.3,
+                FirstHalfOverUnder = (decimal)0.4
+            };
+
+            DeepAssert.Equal(expected, result);
+        }
+
+        // number=10%
+        [Fact]
+        public void BuildSpreadSenderForLeagueGroupNotAllowMJ_NotExists_1HOU_And_OU_HasSpread_Smaller_Specific_Number_ReturnSpreadCorrect()
+        {
+            var spread = new List<SpreadModel>
+            {
+                new SpreadModel
+                {
+                    BettypeId= (int)EnumBettype.OverUnder,
+                    Spread=(decimal)0.01
+                }
+            };
+
+            var result = spreadBuilder.BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
+
+            var expected = new MaxbetSpread
+            {
+                Handicap = 0,
+                OverUnder = (decimal)0.01,
+                FirstHalfHandicap = 0,
+                FirstHalfOverUnder = (decimal)0.1
+            };
+
+            DeepAssert.Equal(expected, result);
+        }
+
+        // number=10%
+        [Fact]
+        public void BuildSpreadSenderForLeagueGroupNotAllowMJ_NotExists_1HOU_And_OU_HasSpread_Greater_Specific_Number_ReturnSpreadCorrect()
+        {
+            var spread = new List<SpreadModel>
+            {
+                new SpreadModel
+                {
+                    BettypeId= (int)EnumBettype.OverUnder,
+                    Spread=(decimal)0.2
+                }
+            };
+
+            var result = spreadBuilder.BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
+
+            var expected = new MaxbetSpread
+            {
+                Handicap = 0,
+                OverUnder = (decimal)0.2,
+                FirstHalfHandicap = 0,
+                FirstHalfOverUnder = (decimal)0.2
+            };
+
+            DeepAssert.Equal(expected, result);
+        }
+    
+        [Fact]
+        public void BuildSpreadSenderForLeagueGroupMJ_Exists_1HHDP_ReturnSpreadCorrect()
+        {
+            var spread = new List<SpreadModel>
+            {
+                new SpreadModel
+                {
+                    BettypeId= (int)EnumBettype.Handicap,
+                    Spread=(decimal)0.2
+                },
+                new SpreadModel
+                {
+                    BettypeId= (int)EnumBettype.FirstHalfHandicap,
+                    Spread=(decimal)0.1
+                }
+            };
+
+            var result = spreadBuilder.BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
+            var expected= new MaxbetSpread
+            {
+                Handicap = (decimal)0.2,
+                OverUnder = 0,
+                FirstHalfHandicap = (decimal)0.1,
+                FirstHalfOverUnder = 0
+            };
+
+            DeepAssert.Equal(expected, result);
+        }
+
+
+        [Fact]
+        public void BuildSpreadSenderForLeagueGroupMJ_NotExists_1HHDP_ReturnSpreadCorrect()
+        {
+            var spread = new List<SpreadModel>
+            {
+                new SpreadModel
+                {
+                    BettypeId= (int)EnumBettype.Handicap,
+                    Spread=(decimal)0.2
+                }
+            };
+
+            var result = spreadBuilder.BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
+            var expected = new MaxbetSpread
+            {
+                Handicap = (decimal)0.2,
+                OverUnder = 0,
+                FirstHalfHandicap = (decimal)0.2,
+                FirstHalfOverUnder = 0
+            };
+
+            DeepAssert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void BuildSpreadSenderForLeagueGroupMJ_Exists_1HOU_ReturnSpreadCorrect()
+        {
+            var spread = new List<SpreadModel>
+            {
+                new SpreadModel
+                {
+                    BettypeId= (int)EnumBettype.OverUnder,
+                    Spread=(decimal)0.2
+                },
+                new SpreadModel
+                {
+                    BettypeId= (int)EnumBettype.FirstHalfOverUnder,
+                    Spread=(decimal)0.1
+                }
+            };
+
+            var result = spreadBuilder.BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
+            var expected = new MaxbetSpread
+            {
+                Handicap = 0,
+                OverUnder = (decimal)0.2,
+                FirstHalfHandicap =0,
+                FirstHalfOverUnder = (decimal)0.1
+            };
+
+            DeepAssert.Equal(expected, result);
+        }
+
+
+        [Fact]
+        public void BuildSpreadSenderForLeagueGroupMJ_NotExists_1HOU_ReturnSpreadCorrect()
+        {
+            var spread = new List<SpreadModel>
+            {
+                new SpreadModel
+                {
+                    BettypeId= (int)EnumBettype.OverUnder,
+                    Spread=(decimal)0.2
+                }
+            };
+
+            var result = spreadBuilder.BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
+            var expected = new MaxbetSpread
+            {
+                Handicap = 0,
+                OverUnder = (decimal)0.2,
+                FirstHalfHandicap = 0,
+                FirstHalfOverUnder = (decimal)0.2
+            };
+            DeepAssert.Equal(expected, result);
         }
     }
 }

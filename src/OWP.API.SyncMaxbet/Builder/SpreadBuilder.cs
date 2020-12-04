@@ -54,7 +54,7 @@ namespace OWP.API.SyncMaxbet.Builder
 
             if (!hasExistsFirstHalfHdp)
             {
-                if (handicap.Spread < (decimal)0.1)
+                if (handicap.Spread < (decimal)0.1 && handicap.Spread > 0)
                 {
                     spread.Add(new SpreadModel
                     {
@@ -74,7 +74,7 @@ namespace OWP.API.SyncMaxbet.Builder
 
             if (!hasExistsFirstHalfOu)
             {
-                if (overUnder.Spread < (decimal)0.1)
+                if (overUnder.Spread < (decimal)0.1 && overUnder.Spread > 0)
                 {
                     spread.Add(new SpreadModel
                     {
