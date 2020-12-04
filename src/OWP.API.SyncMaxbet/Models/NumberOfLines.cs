@@ -2,7 +2,7 @@
 
 namespace OWP.API.SyncMaxbet.Models
 {
-    public class NumberOfLine
+    public class NumberOfLines
     {
         [JsonProperty("credit_ft")]
         public int CreditFt { get; set; }

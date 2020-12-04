@@ -4,7 +4,8 @@ namespace OWP.API.SyncMaxbet.Models
 {
     public class MaxbetInfo
     {
-        public int MatchID { get; set; }
+        [JsonProperty("match_id")]
+        public int AdminsiteId { get; set; }
 
         [JsonProperty("traders")]
         public TraderAssignmentSender TraderAssignments { get; set; } = new TraderAssignmentSender();
@@ -19,7 +20,7 @@ namespace OWP.API.SyncMaxbet.Models
         public MaxbetSpread MaxbetCN88 { get; set; }
 
         [JsonProperty("number_of_lines")]
-        public NumberOfLine NumberOfLine { get; set; }
+        public NumberOfLines NumberOfLines { get; set; }
 
 
     }

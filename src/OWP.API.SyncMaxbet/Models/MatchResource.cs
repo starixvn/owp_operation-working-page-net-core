@@ -1,6 +1,6 @@
 ﻿namespace OWP.API.SyncMaxbet.Models
 {
-    public class MatchOffer
+    public class MatchResource
     {
         public int MatchOfferId { get; set; }
 
