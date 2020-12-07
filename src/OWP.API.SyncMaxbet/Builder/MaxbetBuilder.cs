@@ -1,0 +1,151 @@
+﻿using MediatR;
+using OWP.API.SyncMaxbet.Models;
+using OWP.Enums;
+using OWP.Helpers;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using static OWP.API.SyncMaxbet.Handlers.GetMaxbetCN88Handler;
+
+namespace OWP.API.SyncMaxbet.Builder
+{
+    public interface MaxbetBuilder
+    {
+        Task<MaxbetSpread> BuildMaxbet(int owpMatchId);
+    }
+
+    public class MaxbetBuilderImp : MaxbetBuilder
+    {
+        private readonly IMediator mediator;
+
+        private readonly Dictionary<int, int> maxbetMapper = new Dictionary<int, int>
+            {
+                {400000,80000 },
+                {350000,70000 },
+                {200000,60000 },
+                {180000,30000 },
+                {150000,25000 },
+                {130000,25000 },
+                {120000,25000 },
+                {110000,25000 },
+                {100000,25000 },
+                {90000,25000 },
+                {80000,25000 },
+                {70000,25000 },
+                {60000,25000 },
+                {50000,18000 },
+                {40000,18000 },
+                {35000,15000 },
+                {30000,15000 },
+                {25000,12000 },
+                {20000,10000 },
+                {18000,8000 },
+                {15000,8000 },
+                {12000,6000 },
+                {10000,5000 },
+                {8000,4000 },
+                {7000,4000 },
+                {6000,3000 },
+                {5000,3000 },
+                {4000,2000 },
+                {3000,2000 },
+                {2000,2000 }
+            };
+
+        public MaxbetBuilderImp(IMediator mediator)
+        {
+            this.mediator = mediator;
+
+        }
+        public async Task<MaxbetSpread> BuildMaxbet(int owpMatchId)
+        {
+            //var maxbet = await mediator.Send(new Request { OWPMatchId = owpMatchId });
+            var maxbet = new List<Maxbet>();
+
+            if (!maxbet.Any())
+            {
+                return new MaxbetSpread();
+            }
+
+            if (maxbet.Count() == 4)
+            {
+                return BuildMaxbetSender(maxbet);
+            }
+            var hasExistsFirstHalfHdp = maxbet.Any(s => s.Bettype == (int)EnumBettype.FirstHalfHandicap);
+            if (!hasExistsFirstHalfHdp)
+            {
+                BuildFirstHalfHandicap(maxbet);
+            }
+
+            var hasExistsFirstHalfOu = maxbet.Any(s => s.Bettype == (int)EnumBettype.FirstHalfOverUnder);
+            if (!hasExistsFirstHalfOu)
+            {
+                BuildFirstHalfOverUnder(maxbet);
+            }
+
+            return BuildMaxbetSender(maxbet);
+        }
+
+        public void BuildFirstHalfOverUnder(List<Maxbet> maxbet)
+        {
+            var handicap = maxbet.FirstOrDefault(m => m.Bettype == (int)EnumBettype.Handicap) ?? new Maxbet();
+            var existsValueFirstHalfOverunder = maxbetMapper.TryGetValue(handicap.Bettype, out int valueFirstHalfOverUnder);
+
+            if (existsValueFirstHalfOverunder)
+            {
+                maxbet.Add(new Maxbet
+                {
+                    Bettype = (int)EnumBettype.FirstHalfOverUnder,
+                    Value = valueFirstHalfOverUnder
+                });
+            }
+            else
+            {
+                maxbet.Add(new Maxbet
+                {
+                    Bettype = (int)EnumBettype.FirstHalfOverUnder,
+                    Value = handicap.Value
+                });
+            }
+        }
+
+
+        public void BuildFirstHalfHandicap(List<Maxbet> maxbet)
+        {
+            var handicap = maxbet.FirstOrDefault(m => m.Bettype == (int)EnumBettype.Handicap) ?? new Maxbet();
+            var existsValueFirstHalfHandicap = maxbetMapper.TryGetValue(handicap.Bettype, out int valueFirstHalfHandicap);
+
+            if (existsValueFirstHalfHandicap)
+            {
+                maxbet.Add(new Maxbet
+                {
+                    Bettype = (int)EnumBettype.FirstHalfHandicap,
+                    Value = valueFirstHalfHandicap
+                });
+            }
+            else
+            {
+                maxbet.Add(new Maxbet
+                {
+                    Bettype = (int)EnumBettype.FirstHalfHandicap,
+                    Value = handicap.Value
+                });
+            }
+        }
+
+        public MaxbetSpread BuildMaxbetSender(List<Maxbet> maxbet)
+        {
+            var handicap = MaxbetHelper.FindMaxbetByBettype(maxbet, (int)EnumBettype.Handicap) ?? new Maxbet();
+            var overunder = MaxbetHelper.FindMaxbetByBettype(maxbet, (int)EnumBettype.OverUnder) ?? new Maxbet();
+            var firstHalfHandicap = MaxbetHelper.FindMaxbetByBettype(maxbet, (int)EnumBettype.FirstHalfHandicap) ?? new Maxbet();
+            var firstHalfOverUnder = MaxbetHelper.FindMaxbetByBettype(maxbet, (int)EnumBettype.FirstHalfOverUnder) ?? new Maxbet();
+            return new MaxbetSpread
+            {
+                Handicap = handicap.Value,
+                OverUnder = overunder.Value,
+                FirstHalfHandicap = firstHalfHandicap.Value,
+                FirstHalfOverUnder = firstHalfOverUnder.Value
+            };
+        }
+    }
+}

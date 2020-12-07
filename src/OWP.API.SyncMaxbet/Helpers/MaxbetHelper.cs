@@ -12,5 +12,8 @@ namespace OWP.Helpers
 
         public static T FindSpreadByBettype<T>(List<T> assignment, int bettypeId) where T : SpreadModel
        => assignment.FirstOrDefault(a => a.BettypeId == bettypeId);
+
+        public static T FindMaxbetByBettype<T>(List<T> assignment, int bettypeId) where T : Maxbet
+       => assignment.FirstOrDefault(a => a.Bettype == bettypeId);
     }
 }
