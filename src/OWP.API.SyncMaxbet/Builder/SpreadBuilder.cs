@@ -34,7 +34,7 @@ namespace OWP.API.SyncMaxbet.Builder
                 return new MaxbetSpread();
             }
 
-            if (spread.Count() == 4)
+            if (spread.Count == 4)
             {
                 return BuildSpreadSender(spread);
             }

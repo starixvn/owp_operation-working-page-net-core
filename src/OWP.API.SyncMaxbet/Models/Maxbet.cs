@@ -2,7 +2,7 @@
 {
     public class Maxbet
     {
-        public int Bettype { get; set; }
+        public int BettypeId { get; set; }
 
         public decimal Value { get; set; }
     }
