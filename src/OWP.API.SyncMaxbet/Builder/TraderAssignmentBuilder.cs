@@ -23,10 +23,10 @@ namespace OWP.API.SyncMaxbet.Builder
         {
             var traderAssignments = await syncMaxbetReposiory.GetTradersByOwpMatchId(owpMatchId);
 
-            var handicap = MaxbetHelper.FindTraderAssinmentByBettype(traderAssignments, (int)Bettype.Handicap) ?? new TraderAssignment();
-            var overunder = MaxbetHelper.FindTraderAssinmentByBettype(traderAssignments, (int)Bettype.OverUnder) ?? new TraderAssignment();
-            var firstHalfHandicap = MaxbetHelper.FindTraderAssinmentByBettype(traderAssignments, (int)Bettype.FirstHalfHandicap) ?? new TraderAssignment();
-            var firstHalfOverUnder = MaxbetHelper.FindTraderAssinmentByBettype(traderAssignments, (int)Bettype.FirstHalfOverUnder) ?? new TraderAssignment();
+            var handicap = MaxbetHelper.FindTraderAssinmentByBettype(traderAssignments, (int)EnumBettype.Handicap) ?? new TraderAssignment();
+            var overunder = MaxbetHelper.FindTraderAssinmentByBettype(traderAssignments, (int)EnumBettype.OverUnder) ?? new TraderAssignment();
+            var firstHalfHandicap = MaxbetHelper.FindTraderAssinmentByBettype(traderAssignments, (int)EnumBettype.FirstHalfHandicap) ?? new TraderAssignment();
+            var firstHalfOverUnder = MaxbetHelper.FindTraderAssinmentByBettype(traderAssignments, (int)EnumBettype.FirstHalfOverUnder) ?? new TraderAssignment();
             return new TraderAssignmentSender
             {
                 Handicap = handicap.UserId,

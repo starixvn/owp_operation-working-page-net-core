@@ -1,6 +1,6 @@
 ﻿namespace OWP.Enums
 {
-    public enum Bettype
+    public enum EnumBettype
     {
         Handicap = 1,
         OverUnder = 3,

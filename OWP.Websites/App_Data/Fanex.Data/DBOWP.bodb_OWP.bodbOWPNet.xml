@@ -229,7 +229,7 @@
     <Setting Key="OWP_AssginmentUpload_MatchAssignmentsInsertOrUpdate" SpName="OWP_AssginmentUpload_MatchAssignmentsInsertOrUpdate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_AssginmentUpload_MatchInsertOrUpdate" SpName="OWP_AssginmentUpload_MatchInsertOrUpdate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_AssginmentUpload_MatchNotesInsertOrUpdate" SpName="OWP_AssginmentUpload_MatchNotesInsertOrUpdate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_AssginmentUpload_MatchOffersInsertOrUpdate" SpName="OWP_AssginmentUpload_MatchOffersInsertOrUpdate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />    
+    <Setting Key="OWP_AssginmentUpload_MatchOffersInsertOrUpdate" SpName="OWP_AssginmentUpload_MatchOffersInsertOrUpdate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_AssginmentUpload_MatchOtherProvidersInsertOrUpdate" SpName="OWP_AssginmentUpload_MatchOtherProvidersInsertOrUpdate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_AssginmentUpload_MatchProvidersInsertOrUpdate" SpName="OWP_AssginmentUpload_MatchProvidersInsertOrUpdate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_AssginmentUpload_MatchSettingsInsertOrUpdate" SpName="OWP_AssginmentUpload_MatchSettingsInsertOrUpdate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
@@ -240,11 +240,12 @@
     <Setting Key="OWP_AssignmentUpload_GetSectionMemberOfUserReceivedWatcher" SpName="OWP_AssignmentUpload_GetSectionMemberOfUserReceivedWatcher" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
   </Function>
 
-	<Function Name="SyncMaxbet">
-        <Setting Key="OWP_API_SyncMaxbet_GetMatchIdByAdminsiteId" SpName="OWP_API_SyncMaxbet_GetMatchIdByAdminsiteId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-	    <Setting Key="OWP_API_SyncMaxbet_GetTrader" SpName="OWP_API_SyncMaxbet_GetTrader" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-        <Setting Key="OWP_API_SyncMaxbet_GetMatchOffer" SpName="OWP_API_SyncMaxbet_GetMatchOffer" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-        <Setting Key="OWP_API_SyncMaxbet_GetMatchNoHDP" SpName="OWP_API_SyncMaxbet_GetMatchNoHDP" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-		<Setting Key="OWP_API_SyncMaxbet_GetSpread" SpName="OWP_API_SyncMaxbet_GetSpread" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+  <Function Name="SyncMaxbet">
+    <Setting Key="OWP_API_SyncMaxbet_GetMatchIdByAdminsiteId" SpName="OWP_API_SyncMaxbet_GetMatchIdByAdminsiteId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+    <Setting Key="OWP_API_SyncMaxbet_GetTrader" SpName="OWP_API_SyncMaxbet_GetTrader" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+    <Setting Key="OWP_API_SyncMaxbet_GetMatchOffer" SpName="OWP_API_SyncMaxbet_GetMatchOffer" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+    <Setting Key="OWP_API_SyncMaxbet_GetMatchNoHDP" SpName="OWP_API_SyncMaxbet_GetMatchNoHDP" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+    <Setting Key="OWP_API_SyncMaxbet_GetSpread" SpName="OWP_API_SyncMaxbet_GetSpread" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+    <Setting Key="OWP_API_SyncMaxbet_GetMaxbet" SpName="OWP_API_SyncMaxbet_GetMaxbet" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
   </Function>
 </Functions>
