@@ -122,11 +122,13 @@
 
             private static MaxbetSpread BuildMaxbetCN88(List<Maxbet> cn88Maxbets, decimal? novaFTHDP)
             {
-                var result = new MaxbetSpread();
-                result.Handicap = MaxbetHelper.FindMaxbetByBettype(cn88Maxbets, (int)EnumBettype.Handicap)?.Value ?? GetMaxbetFromNova(EnumBettype.Handicap, novaFTHDP);
-                result.OverUnder = MaxbetHelper.FindMaxbetByBettype(cn88Maxbets, (int)EnumBettype.OverUnder)?.Value ?? GetMaxbetFromNova(EnumBettype.OverUnder, novaFTHDP);
-                result.FirstHalfHandicap = MaxbetHelper.FindMaxbetByBettype(cn88Maxbets, (int)EnumBettype.FirstHalfHandicap)?.Value ?? GetMaxbetFromNova(EnumBettype.FirstHalfHandicap, novaFTHDP);
-                result.FirstHalfOverUnder = MaxbetHelper.FindMaxbetByBettype(cn88Maxbets, (int)EnumBettype.FirstHalfOverUnder)?.Value ?? GetMaxbetFromNova(EnumBettype.FirstHalfOverUnder, novaFTHDP);
+                var result = new MaxbetSpread
+                {
+                    Handicap = MaxbetHelper.FindMaxbetByBettype(cn88Maxbets, (int)EnumBettype.Handicap)?.Value ?? GetMaxbetFromNova(EnumBettype.Handicap, novaFTHDP),
+                    OverUnder = MaxbetHelper.FindMaxbetByBettype(cn88Maxbets, (int)EnumBettype.OverUnder)?.Value ?? GetMaxbetFromNova(EnumBettype.OverUnder, novaFTHDP),
+                    FirstHalfHandicap = MaxbetHelper.FindMaxbetByBettype(cn88Maxbets, (int)EnumBettype.FirstHalfHandicap)?.Value ?? GetMaxbetFromNova(EnumBettype.FirstHalfHandicap, novaFTHDP),
+                    FirstHalfOverUnder = MaxbetHelper.FindMaxbetByBettype(cn88Maxbets, (int)EnumBettype.FirstHalfOverUnder)?.Value ?? GetMaxbetFromNova(EnumBettype.FirstHalfOverUnder, novaFTHDP)
+                };
 
                 return result;
             }

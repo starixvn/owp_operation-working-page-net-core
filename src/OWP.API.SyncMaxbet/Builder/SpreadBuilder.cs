@@ -44,7 +44,7 @@ namespace OWP.API.SyncMaxbet.Builder
                 : BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
         }
 
-        public MaxbetSpread BuildSpreadSenderForLeagueGroupNotAllowMJ(List<SpreadModel> spread)
+        public static MaxbetSpread BuildSpreadSenderForLeagueGroupNotAllowMJ(List<SpreadModel> spread)
         {
             var hasExistsFirstHalfHdp = spread.Any(s => s.BettypeId == (int)EnumBettype.FirstHalfHandicap);
             var hasExistsFirstHalfOu = spread.Any(s => s.BettypeId == (int)EnumBettype.FirstHalfOverUnder);
@@ -95,7 +95,7 @@ namespace OWP.API.SyncMaxbet.Builder
             return BuildSpreadSender(spread);
         }
 
-        public MaxbetSpread BuildSpreadSenderForLeagueGroupMJ(List<SpreadModel> spread)
+        public static MaxbetSpread BuildSpreadSenderForLeagueGroupMJ(List<SpreadModel> spread)
         {
             var hasExistsFirstHalfHdp = spread.Any(s => s.BettypeId == (int)EnumBettype.FirstHalfHandicap);
             var hasExistsFirstHalfOu = spread.Any(s => s.BettypeId == (int)EnumBettype.FirstHalfOverUnder);
@@ -121,7 +121,7 @@ namespace OWP.API.SyncMaxbet.Builder
             return BuildSpreadSender(spread);
         }
 
-        public MaxbetSpread BuildSpreadSender(List<SpreadModel> spread)
+        public static MaxbetSpread BuildSpreadSender(List<SpreadModel> spread)
         {
             var handicap = MaxbetHelper.FindSpreadByBettype(spread, (int)EnumBettype.Handicap) ?? new SpreadModel();
             var overunder = MaxbetHelper.FindSpreadByBettype(spread, (int)EnumBettype.OverUnder) ?? new SpreadModel();

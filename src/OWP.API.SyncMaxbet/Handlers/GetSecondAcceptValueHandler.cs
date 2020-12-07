@@ -56,7 +56,7 @@
                 return matchOffer.Any() ? matchOffer.First().ResourceId : 0;
             }
 
-            private int BuildSecondAcceptValue(int matchOfferId)
+            private static int BuildSecondAcceptValue(int matchOfferId)
             {
                 if (!numberOfLinesDict.TryGetValue((EnumMatchOffer)matchOfferId, out int result))
                 {

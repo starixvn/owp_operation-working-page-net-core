@@ -133,7 +133,7 @@ namespace OWP.API.SyncMaxbet.Builder
             }
         }
 
-        public MaxbetSpread BuildMaxbetSender(List<Maxbet> maxbet)
+        public static MaxbetSpread BuildMaxbetSender(List<Maxbet> maxbet)
         {
             var handicap = MaxbetHelper.FindMaxbetByBettype(maxbet, (int)EnumBettype.Handicap) ?? new Maxbet();
             var overunder = MaxbetHelper.FindMaxbetByBettype(maxbet, (int)EnumBettype.OverUnder) ?? new Maxbet();
