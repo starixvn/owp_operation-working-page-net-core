@@ -16,7 +16,7 @@ namespace OWP.API.SyncMaxbet.Builder
 
     public class MaxbetBuilderImp : MaxbetBuilder
     {
-        private readonly IMediator mediator;
+        private readonly SyncMaxbetReposiory syncMaxbetReposiory;
 
         private readonly Dictionary<int, int> maxbetMapper = new Dictionary<int, int>
             {
@@ -52,15 +52,14 @@ namespace OWP.API.SyncMaxbet.Builder
                 {2000,2000 }
             };
 
-        public MaxbetBuilderImp(IMediator mediator)
+        public MaxbetBuilderImp(SyncMaxbetReposiory syncMaxbetReposiory)
         {
-            this.mediator = mediator;
+            this.syncMaxbetReposiory = syncMaxbetReposiory;
 
         }
         public async Task<MaxbetSpread> BuildMaxbet(int owpMatchId)
         {
-            //var maxbet = await mediator.Send(new Request { OWPMatchId = owpMatchId });
-            var maxbet = new List<Maxbet>();
+            var maxbet = (await syncMaxbetReposiory.GetMaxbetByOwpMatchId(owpMatchId)).ToList();
 
             if (!maxbet.Any())
             {

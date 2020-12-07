@@ -162,7 +162,7 @@ namespace OWP.API.SyncMaxbet.UnitTests.Builder
                 new SpreadModel()
             };
 
-            var actual = spreadBuilder.BuildSpreadSender(spread);
+            var actual = SpreadBuilderImp.BuildSpreadSender(spread);
             var expected = new MaxbetSpread();
             DeepAssert.Equal(expected, actual);
         }
@@ -194,7 +194,7 @@ namespace OWP.API.SyncMaxbet.UnitTests.Builder
                 }
             };
 
-            var actual = spreadBuilder.BuildSpreadSender(spread);
+            var actual = SpreadBuilderImp.BuildSpreadSender(spread);
             var expected = new MaxbetSpread
             {
                 Handicap = (decimal)0.1,
@@ -232,7 +232,7 @@ namespace OWP.API.SyncMaxbet.UnitTests.Builder
                 }
             };
 
-            var result = spreadBuilder.BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
+            var result = SpreadBuilderImp.BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
 
             var expected = new MaxbetSpread
             {
@@ -258,7 +258,7 @@ namespace OWP.API.SyncMaxbet.UnitTests.Builder
                 }
             };
 
-            var result = spreadBuilder.BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
+            var result = SpreadBuilderImp.BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
 
             var expected = new MaxbetSpread
             {
@@ -284,7 +284,7 @@ namespace OWP.API.SyncMaxbet.UnitTests.Builder
                 }
             };
 
-            var result = spreadBuilder.BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
+            var result = SpreadBuilderImp.BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
 
             var expected = new MaxbetSpread
             {
@@ -324,7 +324,7 @@ namespace OWP.API.SyncMaxbet.UnitTests.Builder
                 }
             };
 
-            var result = spreadBuilder.BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
+            var result = SpreadBuilderImp.BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
 
             var expected = new MaxbetSpread
             {
@@ -350,7 +350,7 @@ namespace OWP.API.SyncMaxbet.UnitTests.Builder
                 }
             };
 
-            var result = spreadBuilder.BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
+            var result = SpreadBuilderImp.BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
 
             var expected = new MaxbetSpread
             {
@@ -376,7 +376,7 @@ namespace OWP.API.SyncMaxbet.UnitTests.Builder
                 }
             };
 
-            var result = spreadBuilder.BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
+            var result = SpreadBuilderImp.BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
 
             var expected = new MaxbetSpread
             {
@@ -406,7 +406,7 @@ namespace OWP.API.SyncMaxbet.UnitTests.Builder
                 }
             };
 
-            var result = spreadBuilder.BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
+            var result = SpreadBuilderImp.BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
             var expected= new MaxbetSpread
             {
                 Handicap = (decimal)0.2,
@@ -431,7 +431,7 @@ namespace OWP.API.SyncMaxbet.UnitTests.Builder
                 }
             };
 
-            var result = spreadBuilder.BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
+            var result = SpreadBuilderImp.BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
             var expected = new MaxbetSpread
             {
                 Handicap = (decimal)0.2,
@@ -460,7 +460,7 @@ namespace OWP.API.SyncMaxbet.UnitTests.Builder
                 }
             };
 
-            var result = spreadBuilder.BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
+            var result = SpreadBuilderImp.BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
             var expected = new MaxbetSpread
             {
                 Handicap = 0,
@@ -485,7 +485,7 @@ namespace OWP.API.SyncMaxbet.UnitTests.Builder
                 }
             };
 
-            var result = spreadBuilder.BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
+            var result = SpreadBuilderImp.BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
             var expected = new MaxbetSpread
             {
                 Handicap = 0,
