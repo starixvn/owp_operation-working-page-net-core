@@ -18,7 +18,7 @@
             public int OWPMatchId { get; set; }
         }
 
-        public class RequestHandler : IRequestHandler<Request, int>
+        public class Handler : IRequestHandler<Request, int>
         {
             private static readonly ReadOnlyDictionary<EnumMatchOffer, int> numberOfLinesDict = new ReadOnlyDictionary<EnumMatchOffer, int>(
                 new Dictionary<EnumMatchOffer, int>
@@ -33,7 +33,7 @@
 
             private readonly IDynamicRepository dynamicRepository;
 
-            public RequestHandler(IDynamicRepository dynamicRepository)
+            public Handler(IDynamicRepository dynamicRepository)
             {
                 this.dynamicRepository = dynamicRepository;
             }
