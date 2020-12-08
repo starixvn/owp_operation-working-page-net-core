@@ -32,9 +32,8 @@ namespace OWP.API.SyncMaxbet.Services
             this.spreadBuilder = spreadBuilder;
             this.maxbetBuilder = maxbetBuilder;
         }
-        public async Task<MaxbetInfo> GetMaxbetInfo(int adminsiteId)
+        public async Task<MaxbetInfo> GetMaxbetInfo(int owpMatchId)
         {
-            var owpMatchId = await syncMaxbetReposiory.GetMatchIdByAdminSiteId(adminsiteId);
 
             var traderAssignmentsSender = await traderAssignmentBuilder.BuildTraderAssignmentSender(owpMatchId);
 
@@ -44,7 +43,7 @@ namespace OWP.API.SyncMaxbet.Services
 
             return new MaxbetInfo
             {
-                AdminsiteId = adminsiteId,
+                OwpMatchId = owpMatchId,
                 TraderAssignments = traderAssignmentsSender,
                 Spread = spread,
                 Maxbet = maxbet

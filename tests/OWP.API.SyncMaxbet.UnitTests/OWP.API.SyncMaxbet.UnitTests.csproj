@@ -19,4 +19,8 @@
     <ProjectReference Include="..\..\src\OWP.API.SyncMaxbet\OWP.API.SyncMaxbet.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Helpers\" />
+  </ItemGroup>
+
 </Project>
