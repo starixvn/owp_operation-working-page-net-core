@@ -23,10 +23,10 @@ namespace OWP.API.SyncMaxbet
         }
 
         [HttpGet]
-        [Route("{id}")]
-        public async Task<IActionResult> GetMaxbet(int id)
+        [Route("{matchId}")]
+        public async Task<IActionResult> GetMaxbet(int matchId)
         {
-            var maxbetInfo = await maxbetService.GetMaxbetInfo(id);
+            var maxbetInfo = await maxbetService.GetMaxbetInfo(matchId);
             return Ok(JsonConvert.SerializeObject(maxbetInfo));
         }
     }
