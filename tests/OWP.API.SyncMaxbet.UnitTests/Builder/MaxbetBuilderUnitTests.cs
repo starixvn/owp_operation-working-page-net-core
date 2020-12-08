@@ -157,5 +157,95 @@ namespace OWP.API.SyncMaxbet.UnitTests.Builder
             };
             DeepAssert.Equal(expected, maxbet);
         }
+
+        [Fact]
+        public void BuildMaxbetFirstHalfHandicap_NotFound_HDP_InMaxbetMapper_AddMaxbet1HHDPToListSuccess()
+        {
+            var maxbet = new List<Maxbet>
+            {
+                new Maxbet
+                {
+                    BettypeId= (int)EnumBettype.Handicap,
+                    Value=400
+                }
+            };
+
+            maxbetBuilder.BuildMaxbetFirstHalfHandicap(maxbet);
+
+            var expected = new List<Maxbet>
+            {
+                new Maxbet
+                {
+                    BettypeId= (int)EnumBettype.Handicap,
+                    Value=400
+                },
+                new Maxbet
+                {
+                    BettypeId= (int)EnumBettype.FirstHalfHandicap,
+                    Value=400
+                }
+            };
+            DeepAssert.Equal(expected, maxbet);
+        }
+
+        [Fact]
+        public void BuildMaxbetFirstHalfOverUnder_Found_HDP_InMaxbetMapper_AddMaxbet1HOUToListSuccess()
+        {
+            var maxbet = new List<Maxbet>
+            {
+                new Maxbet
+                {
+                    BettypeId= (int)EnumBettype.Handicap,
+                    Value=400000
+                }
+            };
+
+            maxbetBuilder.BuildMaxbetFirstHalfOverUnder(maxbet);
+
+            var expected = new List<Maxbet>
+            {
+                new Maxbet
+                {
+                    BettypeId= (int)EnumBettype.Handicap,
+                    Value=400000
+                },
+                new Maxbet
+                {
+                    BettypeId= (int)EnumBettype.FirstHalfOverUnder,
+                    Value=80000
+                }
+            };
+            DeepAssert.Equal(expected, maxbet);
+        }
+
+        [Fact]
+        public void BuildMaxbetFirstHalfOverUnder_NotFound_HDP_InMaxbetMapper_AddMaxbet1HOUToListSuccess()
+        {
+            var maxbet = new List<Maxbet>
+            {
+                new Maxbet
+                {
+                    BettypeId= (int)EnumBettype.Handicap,
+                    Value=400
+                }
+            };
+
+            maxbetBuilder.BuildMaxbetFirstHalfOverUnder(maxbet);
+
+            var expected = new List<Maxbet>
+            {
+                new Maxbet
+                {
+                    BettypeId= (int)EnumBettype.Handicap,
+                    Value=400
+                },
+                new Maxbet
+                {
+                    BettypeId= (int)EnumBettype.FirstHalfOverUnder,
+                    Value=400
+                }
+            };
+            DeepAssert.Equal(expected, maxbet);
+        }
     }
 }

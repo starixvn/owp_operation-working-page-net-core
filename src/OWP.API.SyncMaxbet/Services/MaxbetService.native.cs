@@ -1,7 +1,5 @@
 ﻿using OWP.API.SyncMaxbet.Builder;
 using OWP.API.SyncMaxbet.Models;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace OWP.API.SyncMaxbet.Services
