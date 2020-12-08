@@ -1,11 +1,9 @@
-﻿using MediatR;
-using OWP.API.SyncMaxbet.Models;
+﻿using OWP.API.SyncMaxbet.Models;
 using OWP.Enums;
 using OWP.Helpers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using static OWP.API.SyncMaxbet.Handlers.GetMaxbetCN88Handler;
 
 namespace OWP.API.SyncMaxbet.Builder
 {
@@ -73,22 +71,22 @@ namespace OWP.API.SyncMaxbet.Builder
             var hasExistsFirstHalfHdp = maxbet.Any(s => s.BettypeId == (int)EnumBettype.FirstHalfHandicap);
             if (!hasExistsFirstHalfHdp)
             {
-                BuildFirstHalfHandicap(maxbet);
+                BuildMaxbetFirstHalfHandicap(maxbet);
             }
 
             var hasExistsFirstHalfOu = maxbet.Any(s => s.BettypeId == (int)EnumBettype.FirstHalfOverUnder);
             if (!hasExistsFirstHalfOu)
             {
-                BuildFirstHalfOverUnder(maxbet);
+                BuildMaxbetFirstHalfOverUnder(maxbet);
             }
 
             return BuildMaxbetSender(maxbet);
         }
 
-        public void BuildFirstHalfOverUnder(List<Maxbet> maxbet)
+        public void BuildMaxbetFirstHalfOverUnder(List<Maxbet> maxbet)
         {
             var handicap = maxbet.FirstOrDefault(m => m.BettypeId == (int)EnumBettype.Handicap) ?? new Maxbet();
-            var existsValueFirstHalfOverunder = maxbetMapper.TryGetValue(handicap.BettypeId, out int valueFirstHalfOverUnder);
+            var existsValueFirstHalfOverunder = maxbetMapper.TryGetValue((int)handicap.Value, out int valueFirstHalfOverUnder);
 
             if (existsValueFirstHalfOverunder)
             {
@@ -109,10 +107,10 @@ namespace OWP.API.SyncMaxbet.Builder
         }
 
 
-        public void BuildFirstHalfHandicap(List<Maxbet> maxbet)
+        public void BuildMaxbetFirstHalfHandicap(List<Maxbet> maxbet)
         {
             var handicap = maxbet.FirstOrDefault(m => m.BettypeId == (int)EnumBettype.Handicap) ?? new Maxbet();
-            var existsValueFirstHalfHandicap = maxbetMapper.TryGetValue(handicap.BettypeId, out int valueFirstHalfHandicap);
+            var existsValueFirstHalfHandicap = maxbetMapper.TryGetValue((int)handicap.Value, out int valueFirstHalfHandicap);
 
             if (existsValueFirstHalfHandicap)
             {
