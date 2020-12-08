@@ -183,7 +183,7 @@ namespace OWP.Websites
                     var assemblyName = ((ControllerActionDescriptor)apiDesc.ActionDescriptor).ControllerTypeInfo.Assembly.GetName().Name;
                     return !ignoreAssemblies.Contains(assemblyName);
                 });
-
+                c.EnableAnnotations();
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "OWPNetCoreApi", Version = "v1" });
             });
         }

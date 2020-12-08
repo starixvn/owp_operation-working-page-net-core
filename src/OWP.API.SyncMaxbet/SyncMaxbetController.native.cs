@@ -1,7 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System.Net;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OWP.API.SyncMaxbet.Models;
 using OWP.API.SyncMaxbet.Services;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace OWP.API.SyncMaxbet
 {
@@ -19,6 +22,10 @@ namespace OWP.API.SyncMaxbet
 
         [HttpGet]
         [Route("{matchId}")]
+        [SwaggerOperation(Summary = "Get match's maxbet by MatchId")]
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(MaxbetInfo))]
+        [SwaggerResponse((int)HttpStatusCode.NotFound)]
+        [Produces("application/json")]
         public async Task<IActionResult> GetMaxbet(int matchId)
         {
             var owpMatchId = await maxbetService.GetMatchIdByAdminSiteId(matchId);

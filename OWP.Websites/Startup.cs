@@ -58,7 +58,11 @@ namespace OWP.Websites
             app.UseAuthorization();
 
             app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "OWPNetCoreApi"));
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "OWPNetCoreApi");
+                c.DefaultModelsExpandDepth(-1);
+            });
 
             app.UseEndpoints(endpoints =>
             {
