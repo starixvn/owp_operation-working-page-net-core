@@ -15,6 +15,7 @@ namespace OWP.API.SyncMaxbet.UnitTests.Builder
         private readonly SyncMaxbetReposiory syncMaxbetReposiory;
 
         private readonly SpreadBuilderImp spreadBuilder;
+
         public SpreadBuilderUnitTests()
         {
             syncMaxbetReposiory = Substitute.For<SyncMaxbetReposiory>();
@@ -156,7 +157,6 @@ namespace OWP.API.SyncMaxbet.UnitTests.Builder
         [Fact]
         public void BuildMaxbetSpread_NotExistsHDP_OU_1HHDP_1HOU_ReturnEmptySpread()
         {
-
             var spread = new List<SpreadModel>
             {
                 new SpreadModel()
@@ -388,7 +388,7 @@ namespace OWP.API.SyncMaxbet.UnitTests.Builder
 
             DeepAssert.Equal(expected, result);
         }
-    
+
         [Fact]
         public void BuildSpreadSenderForLeagueGroupMJ_Exists_1HHDP_ReturnSpreadCorrect()
         {
@@ -407,7 +407,7 @@ namespace OWP.API.SyncMaxbet.UnitTests.Builder
             };
 
             var result = SpreadBuilderImp.BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
-            var expected= new MaxbetSpread
+            var expected = new MaxbetSpread
             {
                 Handicap = (decimal)0.2,
                 OverUnder = 0,
@@ -417,7 +417,6 @@ namespace OWP.API.SyncMaxbet.UnitTests.Builder
 
             DeepAssert.Equal(expected, result);
         }
-
 
         [Fact]
         public void BuildSpreadSenderForLeagueGroupMJ_NotExists_1HHDP_ReturnSpreadCorrect()
@@ -465,13 +464,12 @@ namespace OWP.API.SyncMaxbet.UnitTests.Builder
             {
                 Handicap = 0,
                 OverUnder = (decimal)0.2,
-                FirstHalfHandicap =0,
+                FirstHalfHandicap = 0,
                 FirstHalfOverUnder = (decimal)0.1
             };
 
             DeepAssert.Equal(expected, result);
         }
-
 
         [Fact]
         public void BuildSpreadSenderForLeagueGroupMJ_NotExists_1HOU_ReturnSpreadCorrect()
