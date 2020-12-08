@@ -21,7 +21,7 @@
         public class Handler : IRequestHandler<Request, NumberOfLines>
         {
             private static readonly ReadOnlyDictionary<EnumNoOfHdp, NumberOfLines> numberOfLinesDict = new ReadOnlyDictionary<EnumNoOfHdp, NumberOfLines>(
-                new Dictionary <EnumNoOfHdp, NumberOfLines>
+                new Dictionary<EnumNoOfHdp, NumberOfLines>
                 {
                     { EnumNoOfHdp.TwoPlusFourLines, new NumberOfLines { CreditFt = 2 , CreditFirstHaft = 2, LicenseeFt = 4, LicenseeFirstHaft = 3 } },
                     { EnumNoOfHdp.ThreePlusThreeLines, new NumberOfLines { CreditFt = 3 , CreditFirstHaft = 2, LicenseeFt = 3, LicenseeFirstHaft = 2 } },

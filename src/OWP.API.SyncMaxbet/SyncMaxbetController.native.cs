@@ -1,8 +1,6 @@
 ﻿using System.Threading.Tasks;
-using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using OWP.API.SyncMaxbet.Services;
 
 namespace OWP.API.SyncMaxbet
@@ -14,20 +12,25 @@ namespace OWP.API.SyncMaxbet
     {
         private readonly MaxbetService maxbetService;
 
-        private readonly IMediator mediator;
-
-        public SyncMaxbetController(MaxbetService maxbetService, IMediator mediator)
+        public SyncMaxbetController(MaxbetService maxbetService)
         {
             this.maxbetService = maxbetService;
-            this.mediator = mediator;
         }
 
         [HttpGet]
         [Route("{matchId}")]
         public async Task<IActionResult> GetMaxbet(int matchId)
         {
-            var maxbetInfo = await maxbetService.GetMaxbetInfo(matchId);
-            return Ok(JsonConvert.SerializeObject(maxbetInfo));
+            var owpMatchId = await maxbetService.GetMatchIdByAdminSiteId(matchId);
+
+            if (owpMatchId == 0)
+            {
+                return NotFound();
+            }
+
+            var maxbetInfo = await maxbetService.GetMaxbetInfo(owpMatchId, matchId);
+
+            return Ok(maxbetInfo);
         }
     }
 }

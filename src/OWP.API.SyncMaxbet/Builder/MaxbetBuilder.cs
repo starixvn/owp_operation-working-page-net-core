@@ -1,9 +1,9 @@
-﻿using OWP.API.SyncMaxbet.Models;
-using OWP.Enums;
-using OWP.Helpers;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using OWP.API.SyncMaxbet.Models;
+using OWP.Enums;
+using OWP.Helpers;
 
 namespace OWP.API.SyncMaxbet.Builder
 {
@@ -53,8 +53,8 @@ namespace OWP.API.SyncMaxbet.Builder
         public MaxbetBuilderImp(SyncMaxbetReposiory syncMaxbetReposiory)
         {
             this.syncMaxbetReposiory = syncMaxbetReposiory;
-
         }
+
         public async Task<MaxbetSpread> BuildMaxbet(int owpMatchId)
         {
             var maxbet = (await syncMaxbetReposiory.GetMaxbetByOwpMatchId(owpMatchId)).ToList();
@@ -105,7 +105,6 @@ namespace OWP.API.SyncMaxbet.Builder
                 });
             }
         }
-
 
         public void BuildMaxbetFirstHalfHandicap(List<Maxbet> maxbet)
         {

@@ -5,6 +5,7 @@ namespace OWP.API.SyncMaxbet.Criterias
     public class SpreadGetCriteria : CriteriaBase
     {
         public int OwpMatchId { get; set; }
+
         public override string GetSettingKey()
             => "OWP_API_SyncMaxbet_GetSpread";
 

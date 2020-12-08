@@ -1,10 +1,10 @@
-﻿using Fanex.Data.Repository;
-using OWP.API.SyncMaxbet.Criterias;
-using OWP.API.SyncMaxbet.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Fanex.Data.Repository;
+using OWP.API.SyncMaxbet.Criterias;
+using OWP.API.SyncMaxbet.Models;
 
 namespace OWP.API.SyncMaxbet
 {

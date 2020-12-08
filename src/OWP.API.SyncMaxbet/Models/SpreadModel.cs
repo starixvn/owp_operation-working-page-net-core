@@ -1,5 +1,4 @@
-﻿
-namespace OWP.API.SyncMaxbet.Models
+﻿namespace OWP.API.SyncMaxbet.Models
 {
     public class SpreadModel
     {

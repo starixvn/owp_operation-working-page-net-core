@@ -13,7 +13,7 @@
 
     public class GetSecondAcceptValueHandler
     {
-        public class Request: IRequest<int>
+        public class Request : IRequest<int>
         {
             public int OWPMatchId { get; set; }
         }

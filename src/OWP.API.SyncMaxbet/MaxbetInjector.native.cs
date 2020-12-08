@@ -12,8 +12,8 @@ namespace OWP.API.SyncMaxbet
             services.AddScoped<SpreadBuilder, SpreadBuilderImp>();
             services.AddScoped<MaxbetBuilder, MaxbetBuilderImp>();
             services.AddScoped<MaxbetService, MaxbetServiceImp>();
-            
-            services.AddScoped<SyncMaxbetReposiory,SyncMaxbetReposioryImp>();
+
+            services.AddScoped<SyncMaxbetReposiory, SyncMaxbetReposioryImp>();
         }
     }
 }

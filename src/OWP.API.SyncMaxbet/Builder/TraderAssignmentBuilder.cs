@@ -1,7 +1,7 @@
-﻿using OWP.API.SyncMaxbet.Models;
+﻿using System.Threading.Tasks;
+using OWP.API.SyncMaxbet.Models;
 using OWP.Enums;
 using OWP.Helpers;
-using System.Threading.Tasks;
 
 namespace OWP.API.SyncMaxbet.Builder
 {

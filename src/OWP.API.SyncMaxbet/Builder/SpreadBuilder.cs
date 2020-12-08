@@ -1,9 +1,9 @@
-﻿using OWP.API.SyncMaxbet.Models;
-using OWP.Enums;
-using OWP.Helpers;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using OWP.API.SyncMaxbet.Models;
+using OWP.Enums;
+using OWP.Helpers;
 
 namespace OWP.API.SyncMaxbet.Builder
 {

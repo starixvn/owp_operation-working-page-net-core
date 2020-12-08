@@ -26,6 +26,7 @@ namespace OWP.Websites
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc.Authorization;
+    using Microsoft.AspNetCore.Mvc.Controllers;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.OpenApi.Models;
@@ -36,11 +37,10 @@ namespace OWP.Websites
     using ONEbook.UM.Transport;
     using OWP.API.SyncMaxbet;
     using Sentry;
+    using Swashbuckle.AspNetCore.SwaggerGen;
 
     public partial class Startup
     {
-        private const string AllowAllOrigins = "AllowAllOrigins";
-
         private void ConfigureAuthentication(IServiceCollection services)
         {
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -173,8 +173,17 @@ namespace OWP.Websites
 
         private void ConfigureSwagger(IServiceCollection services)
         {
+            var ignoreAssemblies = new List<string> { "Olympus.SimpleDataApi" };
+
             services.AddSwaggerGen(c =>
             {
+                c.DocInclusionPredicate((docName, apiDesc) =>
+                {
+                    // Filter out 3rd party controllers
+                    var assemblyName = ((ControllerActionDescriptor)apiDesc.ActionDescriptor).ControllerTypeInfo.Assembly.GetName().Name;
+                    return !ignoreAssemblies.Contains(assemblyName);
+                });
+
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "OWPNetCoreApi", Version = "v1" });
             });
         }

@@ -53,7 +53,7 @@ namespace OWP.Websites
             app.UseSession();
             app.UseRouting();
             app.UseCors();
-            //app.UseMiddleware<ErrorHandler>();
+            app.UseMiddleware<ErrorHandler>();
 
             app.UseAuthorization();
 

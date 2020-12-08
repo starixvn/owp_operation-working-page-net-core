@@ -2,7 +2,7 @@
 
 namespace OWP.API.SyncMaxbet.Criterias
 {
-    public class TradersGetCriteria: CriteriaBase
+    public class TradersGetCriteria : CriteriaBase
     {
         public int OwpMatchId { get; set; }
 
