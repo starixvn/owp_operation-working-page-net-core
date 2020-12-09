@@ -4,6 +4,6 @@
     {
         public int BettypeId { get; set; }
 
-        public decimal Spread { get; set; }
+        public decimal? Spread { get; set; }
     }
 }

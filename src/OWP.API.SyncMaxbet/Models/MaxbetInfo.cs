@@ -2,7 +2,7 @@
 {
     public class MaxbetInfo
     {
-        public int MatchId { get; set; }
+        public int AdminsiteID { get; set; }
 
         public TraderAssignmentSender Traders { get; set; } = new TraderAssignmentSender();
 

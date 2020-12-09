@@ -263,9 +263,7 @@ namespace OWP.API.SyncMaxbet.UnitTests.Builder
             var expected = new MaxbetSpread
             {
                 Handicap = (decimal)0.01,
-                OverUnder = (decimal)0,
                 FirstHalfHandicap = (decimal)0.1,
-                FirstHalfOverUnder = (decimal)0
             };
 
             DeepAssert.Equal(expected, result);
@@ -289,9 +287,7 @@ namespace OWP.API.SyncMaxbet.UnitTests.Builder
             var expected = new MaxbetSpread
             {
                 Handicap = (decimal)0.2,
-                OverUnder = 0,
                 FirstHalfHandicap = (decimal)0.2,
-                FirstHalfOverUnder = 0
             };
 
             DeepAssert.Equal(expected, result);
@@ -354,9 +350,7 @@ namespace OWP.API.SyncMaxbet.UnitTests.Builder
 
             var expected = new MaxbetSpread
             {
-                Handicap = 0,
                 OverUnder = (decimal)0.01,
-                FirstHalfHandicap = 0,
                 FirstHalfOverUnder = (decimal)0.1
             };
 
@@ -380,9 +374,7 @@ namespace OWP.API.SyncMaxbet.UnitTests.Builder
 
             var expected = new MaxbetSpread
             {
-                Handicap = 0,
                 OverUnder = (decimal)0.2,
-                FirstHalfHandicap = 0,
                 FirstHalfOverUnder = (decimal)0.2
             };
 
@@ -410,9 +402,7 @@ namespace OWP.API.SyncMaxbet.UnitTests.Builder
             var expected = new MaxbetSpread
             {
                 Handicap = (decimal)0.2,
-                OverUnder = 0,
                 FirstHalfHandicap = (decimal)0.1,
-                FirstHalfOverUnder = 0
             };
 
             DeepAssert.Equal(expected, result);
@@ -434,9 +424,7 @@ namespace OWP.API.SyncMaxbet.UnitTests.Builder
             var expected = new MaxbetSpread
             {
                 Handicap = (decimal)0.2,
-                OverUnder = 0,
                 FirstHalfHandicap = (decimal)0.2,
-                FirstHalfOverUnder = 0
             };
 
             DeepAssert.Equal(expected, result);
@@ -462,9 +450,7 @@ namespace OWP.API.SyncMaxbet.UnitTests.Builder
             var result = SpreadBuilderImp.BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
             var expected = new MaxbetSpread
             {
-                Handicap = 0,
                 OverUnder = (decimal)0.2,
-                FirstHalfHandicap = 0,
                 FirstHalfOverUnder = (decimal)0.1
             };
 
@@ -486,9 +472,7 @@ namespace OWP.API.SyncMaxbet.UnitTests.Builder
             var result = SpreadBuilderImp.BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
             var expected = new MaxbetSpread
             {
-                Handicap = 0,
                 OverUnder = (decimal)0.2,
-                FirstHalfHandicap = 0,
                 FirstHalfOverUnder = (decimal)0.2
             };
             DeepAssert.Equal(expected, result);

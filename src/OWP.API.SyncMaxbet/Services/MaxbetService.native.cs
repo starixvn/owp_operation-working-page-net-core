@@ -58,7 +58,7 @@ namespace OWP.API.SyncMaxbet.Services
 
             return new MaxbetInfo
             {
-                MatchId = adminsiteId,
+                AdminsiteID = adminsiteId,
                 Traders = traderAssignmentsSender,
                 Spread = spread,
                 Maxbet = maxbet,

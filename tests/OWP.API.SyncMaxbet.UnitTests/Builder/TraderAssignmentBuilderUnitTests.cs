@@ -78,13 +78,7 @@ namespace OWP.API.SyncMaxbet.UnitTests.Builder
 
             var result = await traderAssignment.BuildTraderAssignmentSender(matchId);
 
-            var expected = new TraderAssignmentSender
-            {
-                Handicap = 0,
-                OverUnder = 0,
-                FirstHalfHandicap = 0,
-                FirstHalfOverUnder = 0
-            };
+            var expected = new TraderAssignmentSender();
 
             DeepAssert.Equal(result, expected);
         }

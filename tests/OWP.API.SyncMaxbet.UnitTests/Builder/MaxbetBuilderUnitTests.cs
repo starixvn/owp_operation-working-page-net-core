@@ -129,6 +129,65 @@ namespace OWP.API.SyncMaxbet.UnitTests.Builder
         }
 
         [Fact]
+        public async Task BuildMaxbet_FirstHalfHandicap_NotFound_ReturnMaxbetSpreadIncludeFirstHaflHandicap()
+        {
+            var matchId = 123;
+            IEnumerable<Maxbet> maxbet = new List<Maxbet>
+            {
+                new Maxbet
+                {
+                    BettypeId= (int)EnumBettype.Handicap,
+                    Value=400000
+                }
+            };
+            syncMaxbetReposiory
+              .GetMaxbetByOwpMatchId(matchId)
+              .ReturnsForAnyArgs(Task.FromResult(maxbet));
+
+            var result = await maxbetBuilder.BuildMaxbet(matchId);
+            var expected = new MaxbetSpread
+            {
+                Handicap = 400000,
+                FirstHalfHandicap = 80000,
+                FirstHalfOverUnder = 80000
+            };
+            DeepAssert.Equal(expected, result);
+
+        }
+
+        [Fact]
+        public async Task BuildMaxbet_FirstHalfOverUnder_NotFound_ReturnMaxbetSpreadIncludeFirstHaflOverUnder()
+        {
+            var matchId = 123;
+            IEnumerable<Maxbet> maxbet = new List<Maxbet>
+            {
+                new Maxbet
+                {
+                    BettypeId= (int)EnumBettype.OverUnder,
+                    Value=400000
+                },
+                new Maxbet
+                {
+                    BettypeId= (int)EnumBettype.Handicap,
+                    Value=400000
+                }
+            };
+            syncMaxbetReposiory
+              .GetMaxbetByOwpMatchId(matchId)
+              .ReturnsForAnyArgs(Task.FromResult(maxbet));
+
+            var result = await maxbetBuilder.BuildMaxbet(matchId);
+            var expected = new MaxbetSpread
+            {
+                Handicap = 400000,
+                OverUnder=400000,
+                FirstHalfHandicap = 80000,
+                FirstHalfOverUnder = 80000
+            };
+            DeepAssert.Equal(expected, result);
+        }
+
+        [Fact]
         public void BuildMaxbetFirstHalfHandicap_Found_HDP_InMaxbetMapper_AddMaxbet1HHDPToListSuccess()
         {
             var maxbet = new List<Maxbet>
