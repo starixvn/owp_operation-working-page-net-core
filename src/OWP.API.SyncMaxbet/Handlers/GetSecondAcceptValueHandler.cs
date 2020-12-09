@@ -13,12 +13,12 @@
 
     public class GetSecondAcceptValueHandler
     {
-        public class Request : IRequest<int>
+        public class Request : IRequest<int?>
         {
             public int OWPMatchId { get; set; }
         }
 
-        public class Handler : IRequestHandler<Request, int>
+        public class Handler : IRequestHandler<Request, int?>
         {
             private static readonly ReadOnlyDictionary<EnumMatchOffer, int> numberOfLinesDict = new ReadOnlyDictionary<EnumMatchOffer, int>(
                 new Dictionary<EnumMatchOffer, int>
@@ -38,7 +38,7 @@
                 this.dynamicRepository = dynamicRepository;
             }
 
-            public async Task<int> Handle(Request request, CancellationToken cancellationToken)
+            public async Task<int?> Handle(Request request, CancellationToken cancellationToken)
             {
                 var matchOfferId = await GetMatchOfferId(request.OWPMatchId);
                 return BuildSecondAcceptValue(matchOfferId);
@@ -56,15 +56,17 @@
                 return matchOffer.Any() ? matchOffer.First().ResourceId : 0;
             }
 
-            private static int BuildSecondAcceptValue(int matchOfferId)
+            private static int? BuildSecondAcceptValue(int matchOfferId)
             {
                 if (!numberOfLinesDict.TryGetValue((EnumMatchOffer)matchOfferId, out int result))
                 {
-                    return 0;
+                    return null;
                 }
 
                 return result;
             }
+
+            
         }
     }
 }

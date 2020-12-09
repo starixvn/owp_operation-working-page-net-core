@@ -1,15 +1,12 @@
-﻿using System.Text.Json.Serialization;
-
-namespace OWP.API.SyncMaxbet.Models
+﻿namespace OWP.API.SyncMaxbet.Models
 {
     public class MaxbetInfo
     {
         public int MatchId { get; set; }
 
-        [JsonPropertyName("traders")]
         public TraderAssignmentSender Traders { get; set; } = new TraderAssignmentSender();
 
-        public int SecondAcceptValue { get; set; }
+        public int? SecondAcceptValue { get; set; }
 
         public MaxbetSpread Spread { get; set; }
 

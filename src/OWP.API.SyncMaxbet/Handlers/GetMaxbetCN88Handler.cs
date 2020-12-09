@@ -133,11 +133,11 @@
                 return result;
             }
 
-            private static decimal GetMaxbetFromNova(EnumBettype bettype, decimal? novaFTHDP)
+            private static decimal? GetMaxbetFromNova(EnumBettype bettype, decimal? novaFTHDP)
             {
                 if (!cn88Dict.TryGetValue(Convert.ToInt32(novaFTHDP), out IList<Maxbet> maxbets))
                 {
-                    return novaFTHDP ?? 0;
+                    return novaFTHDP ?? null;
                 }
 
                 var isUsingFTHDP = bettype <= EnumBettype.OverUnder;
