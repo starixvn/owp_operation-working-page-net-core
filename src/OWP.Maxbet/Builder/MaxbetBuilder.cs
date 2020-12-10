@@ -14,7 +14,7 @@ namespace OWP.Maxbet.Builder
 
     public class MaxbetBuilderImp : MaxbetBuilder
     {
-        private readonly SyncMaxbetReposiory syncMaxbetReposiory;
+        private readonly MaxbetReposiory syncMaxbetReposiory;
 
         private readonly Dictionary<int, int> maxbetMapper = new Dictionary<int, int>
             {
@@ -50,7 +50,7 @@ namespace OWP.Maxbet.Builder
                 {2000,2000 }
             };
 
-        public MaxbetBuilderImp(SyncMaxbetReposiory syncMaxbetReposiory)
+        public MaxbetBuilderImp(MaxbetReposiory syncMaxbetReposiory)
         {
             this.syncMaxbetReposiory = syncMaxbetReposiory;
         }

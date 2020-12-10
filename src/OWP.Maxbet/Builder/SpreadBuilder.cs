@@ -16,9 +16,9 @@ namespace OWP.Maxbet.Builder
     {
         private const int leagueGroupMJ = 1;
 
-        private readonly SyncMaxbetReposiory syncMaxbetReposiory;
+        private readonly MaxbetReposiory syncMaxbetReposiory;
 
-        public SpreadBuilderImp(SyncMaxbetReposiory syncMaxbetReposiory)
+        public SpreadBuilderImp(MaxbetReposiory syncMaxbetReposiory)
         {
             this.syncMaxbetReposiory = syncMaxbetReposiory;
         }

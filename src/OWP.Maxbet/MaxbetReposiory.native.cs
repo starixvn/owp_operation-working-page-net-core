@@ -8,7 +8,7 @@ using OWP.Maxbet.Models;
 
 namespace OWP.Maxbet
 {
-    public interface SyncMaxbetReposiory
+    public interface MaxbetReposiory
     {
         public Task<int> GetMatchIdByAdminSiteId(int adminSiteId);
 
@@ -19,11 +19,11 @@ namespace OWP.Maxbet
         public Task<IEnumerable<MaxbetModel>> GetMaxbetByOwpMatchId(int matchId);
     }
 
-    public class SyncMaxbetReposioryImp : SyncMaxbetReposiory
+    public class MaxbetReposioryImp : MaxbetReposiory
     {
         private readonly IDynamicRepository dynamicRepository;
 
-        public SyncMaxbetReposioryImp(IDynamicRepository dynamicRepository)
+        public MaxbetReposioryImp(IDynamicRepository dynamicRepository)
         {
             this.dynamicRepository = dynamicRepository;
         }
@@ -34,7 +34,7 @@ namespace OWP.Maxbet
             {
                 OwpMatchId = owpMatchId
             };
-            var result= await dynamicRepository.FetchMultipleAsync<SpreadModel, int?>(criteria);
+            var result = await dynamicRepository.FetchMultipleAsync<SpreadModel, int?>(criteria);
             var valueTupple = new ValueTuple<IEnumerable<SpreadModel>, IEnumerable<int?>>();
             valueTupple.Item1 = result.firstResultSet;
             valueTupple.Item2 = result.secondResultSet;

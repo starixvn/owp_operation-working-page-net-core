@@ -12,9 +12,9 @@ namespace OWP.Maxbet.Builder
 
     public class TraderAssignmentBuilderImp : TraderAssignmentBuilder
     {
-        private readonly SyncMaxbetReposiory syncMaxbetReposiory;
+        private readonly MaxbetReposiory syncMaxbetReposiory;
 
-        public TraderAssignmentBuilderImp(SyncMaxbetReposiory syncMaxbetReposiory)
+        public TraderAssignmentBuilderImp(MaxbetReposiory syncMaxbetReposiory)
         {
             this.syncMaxbetReposiory = syncMaxbetReposiory;
         }

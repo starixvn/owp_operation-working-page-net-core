@@ -12,13 +12,13 @@ namespace OWP.Maxbet.UnitTests.Builder
 {
     public class SpreadBuilderUnitTests
     {
-        private readonly SyncMaxbetReposiory syncMaxbetReposiory;
+        private readonly MaxbetReposiory syncMaxbetReposiory;
 
         private readonly SpreadBuilderImp spreadBuilder;
 
         public SpreadBuilderUnitTests()
         {
-            syncMaxbetReposiory = Substitute.For<SyncMaxbetReposiory>();
+            syncMaxbetReposiory = Substitute.For<MaxbetReposiory>();
             spreadBuilder = new SpreadBuilderImp(syncMaxbetReposiory);
         }
 

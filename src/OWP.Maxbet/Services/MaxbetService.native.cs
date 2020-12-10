@@ -15,7 +15,7 @@ namespace OWP.Maxbet.Services
 
     public class MaxbetServiceImp : MaxbetService
     {
-        private readonly SyncMaxbetReposiory syncMaxbetReposiory;
+        private readonly MaxbetReposiory syncMaxbetReposiory;
 
         private readonly TraderAssignmentBuilder traderAssignmentBuilder;
 
@@ -26,7 +26,7 @@ namespace OWP.Maxbet.Services
         private readonly IMediator mediator;
 
         public MaxbetServiceImp(
-            SyncMaxbetReposiory syncMaxbetReposiory,
+            MaxbetReposiory syncMaxbetReposiory,
             TraderAssignmentBuilder traderAssignmentBuilder,
             SpreadBuilder spreadBuilder,
             MaxbetBuilder maxbetBuilder,

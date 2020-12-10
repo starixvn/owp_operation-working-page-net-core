@@ -11,13 +11,13 @@ namespace OWP.Maxbet.UnitTests.Builder
 {
     public class TraderAssignmentBuilderUnitTests
     {
-        private readonly SyncMaxbetReposiory syncMaxbetReposiory;
+        private readonly MaxbetReposiory syncMaxbetReposiory;
 
         private readonly TraderAssignmentBuilderImp traderAssignment;
 
         public TraderAssignmentBuilderUnitTests()
         {
-            syncMaxbetReposiory = Substitute.For<SyncMaxbetReposiory>();
+            syncMaxbetReposiory = Substitute.For<MaxbetReposiory>();
             traderAssignment = new TraderAssignmentBuilderImp(syncMaxbetReposiory);
         }
 
