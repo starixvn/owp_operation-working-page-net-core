@@ -39,7 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\OWP.API.SyncMaxbet\OWP.API.SyncMaxbet.csproj" />
+    <ProjectReference Include="..\src\OWP.Maxbet\OWP.Maxbet.csproj" />
     <ProjectReference Include="..\src\OWP\OWP.csproj" />
   </ItemGroup>
 
@@ -54,5 +54,4 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <CodeAnalysisRuleSet>OWP.Websites.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-
 </Project>

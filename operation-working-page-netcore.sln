@@ -11,11 +11,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{FE978AE1-F99
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OWP", "src\OWP\OWP.csproj", "{9EC7C205-4B31-48AF-B323-02D3EFC7AC11}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OWP.API.SyncMaxbet", "src\OWP.API.SyncMaxbet\OWP.API.SyncMaxbet.csproj", "{C33A6DEF-BEA1-4C6B-B856-F064ADD96DF5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OWP.Maxbet", "src\OWP.Maxbet\OWP.Maxbet.csproj", "{C33A6DEF-BEA1-4C6B-B856-F064ADD96DF5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{DE6B2701-004C-4EF0-B4AA-A940FAA3C48F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OWP.API.SyncMaxbet.UnitTests", "tests\OWP.API.SyncMaxbet.UnitTests\OWP.API.SyncMaxbet.UnitTests.csproj", "{02D41E31-2039-4D7D-AB50-322439D976FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OWP.Maxbet.UnitTests", "tests\OWP.Maxbet.UnitTests\OWP.Maxbet.UnitTests.csproj", "{02D41E31-2039-4D7D-AB50-322439D976FA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

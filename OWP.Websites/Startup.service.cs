@@ -35,7 +35,7 @@ namespace OWP.Websites
     using ONEbook.UM.Helpers;
     using ONEbook.UM.Services;
     using ONEbook.UM.Transport;
-    using OWP.API.SyncMaxbet;
+    using OWP.Maxbet;
     using Sentry;
     using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -168,7 +168,7 @@ namespace OWP.Websites
 
         private void ConfigureMediator(IServiceCollection services)
         {
-            services.AddMediatR(typeof(SyncMaxbetController).GetTypeInfo().Assembly);
+            services.AddMediatR(typeof(MaxbetController).GetTypeInfo().Assembly);
         }
 
         private void ConfigureSwagger(IServiceCollection services)
