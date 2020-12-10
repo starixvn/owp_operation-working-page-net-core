@@ -26,10 +26,8 @@ namespace OWP.Websites
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc.Authorization;
-    using Microsoft.AspNetCore.Mvc.Controllers;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.OpenApi.Models;
     using ONEbook.UM.AspNetCore;
     using ONEbook.UM.Configurations;
     using ONEbook.UM.Helpers;
@@ -37,7 +35,6 @@ namespace OWP.Websites
     using ONEbook.UM.Transport;
     using OWP.Maxbet;
     using Sentry;
-    using Swashbuckle.AspNetCore.SwaggerGen;
 
     public partial class Startup
     {
@@ -169,23 +166,6 @@ namespace OWP.Websites
         private void ConfigureMediator(IServiceCollection services)
         {
             services.AddMediatR(typeof(MaxbetController).GetTypeInfo().Assembly);
-        }
-
-        private void ConfigureSwagger(IServiceCollection services)
-        {
-            var ignoreAssemblies = new List<string> { "Olympus.SimpleDataApi" };
-
-            services.AddSwaggerGen(c =>
-            {
-                c.DocInclusionPredicate((docName, apiDesc) =>
-                {
-                    // Filter out 3rd party controllers
-                    var assemblyName = ((ControllerActionDescriptor)apiDesc.ActionDescriptor).ControllerTypeInfo.Assembly.GetName().Name;
-                    return !ignoreAssemblies.Contains(assemblyName);
-                });
-                c.EnableAnnotations();
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "OWPNetCoreApi", Version = "v1" });
-            });
         }
     }
 }

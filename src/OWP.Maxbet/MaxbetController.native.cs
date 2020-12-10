@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OWP.Maxbet.Models;
 using OWP.Maxbet.Services;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace OWP.Maxbet
 {
@@ -22,9 +21,6 @@ namespace OWP.Maxbet
 
         [HttpGet]
         [Route("{matchId}")]
-        [SwaggerOperation(Summary = "Get match's maxbet by MatchId")]
-        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(MaxbetInfo))]
-        [SwaggerResponse((int)HttpStatusCode.NotFound)]
         [Produces("application/json")]
         public async Task<IActionResult> GetMaxbet(int matchId)
         {
