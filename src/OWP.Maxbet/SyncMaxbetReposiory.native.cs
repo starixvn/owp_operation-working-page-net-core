@@ -14,7 +14,7 @@ namespace OWP.Maxbet
 
         public Task<List<TraderAssignment>> GetTradersByOwpMatchId(int owpMatchId);
 
-        public Task<ValueTuple<IEnumerable<SpreadModel>, IEnumerable<int>>> GetSpreadByOwpmatchId(int owpMatchId);
+        public Task<ValueTuple<IEnumerable<SpreadModel>, IEnumerable<int?>>> GetSpreadByOwpmatchId(int owpMatchId);
 
         public Task<IEnumerable<MaxbetModel>> GetMaxbetByOwpMatchId(int matchId);
     }
@@ -28,13 +28,17 @@ namespace OWP.Maxbet
             this.dynamicRepository = dynamicRepository;
         }
 
-        public async Task<ValueTuple<IEnumerable<SpreadModel>, IEnumerable<int>>> GetSpreadByOwpmatchId(int owpMatchId)
+        public async Task<ValueTuple<IEnumerable<SpreadModel>, IEnumerable<int?>>> GetSpreadByOwpmatchId(int owpMatchId)
         {
             var criteria = new SpreadGetCriteria
             {
                 OwpMatchId = owpMatchId
             };
-            return await dynamicRepository.FetchMultipleAsync<SpreadModel, int>(criteria);
+            var result= await dynamicRepository.FetchMultipleAsync<SpreadModel, int?>(criteria);
+            var valueTupple = new ValueTuple<IEnumerable<SpreadModel>, IEnumerable<int?>>();
+            valueTupple.Item1 = result.firstResultSet;
+            valueTupple.Item2 = result.secondResultSet;
+            return valueTupple;
         }
 
         public async Task<List<TraderAssignment>> GetTradersByOwpMatchId(int owpMatchId)

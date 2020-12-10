@@ -25,7 +25,7 @@ namespace OWP.Maxbet.UnitTests.Builder
         [Fact]
         public async Task BuildSpread_NotFound_HDP_OU_1HHDP_1HOU_ReturnDefaultMaxbetSpread()
         {
-            var spreadTupple = new ValueTuple<IEnumerable<SpreadModel>, IEnumerable<int>>();
+            var spreadTupple = new ValueTuple<IEnumerable<SpreadModel>, IEnumerable<int?>>();
             spreadTupple.Item1 = new List<SpreadModel>();
 
             syncMaxbetReposiory
@@ -40,7 +40,7 @@ namespace OWP.Maxbet.UnitTests.Builder
         [Fact]
         public async Task BuildSpread_Found_HDP_OU_1HHDP_1HOU_ReturnMaxbetSpreadCorrect()
         {
-            var spreadTupple = new ValueTuple<IEnumerable<SpreadModel>, IEnumerable<int>>();
+            var spreadTupple = new ValueTuple<IEnumerable<SpreadModel>, IEnumerable<int?>>();
             spreadTupple.Item1 = new List<SpreadModel>
             {
                 new SpreadModel
@@ -85,7 +85,7 @@ namespace OWP.Maxbet.UnitTests.Builder
         [Fact]
         public async Task BuildSpread_ForGroupMJ_NotExists_1HHDP_1HOU_ReturnSpreadHasSpread_1HHDP_1HOU_Follow_HDP_OU()
         {
-            var spreadTupple = new ValueTuple<IEnumerable<SpreadModel>, IEnumerable<int>>();
+            var spreadTupple = new ValueTuple<IEnumerable<SpreadModel>, IEnumerable<int?>>();
             spreadTupple.Item1 = new List<SpreadModel>
             {
                 new SpreadModel
@@ -100,7 +100,7 @@ namespace OWP.Maxbet.UnitTests.Builder
                 }
             };
 
-            spreadTupple.Item2 = new List<int> { 1 };
+            spreadTupple.Item2 = new List<int?> { 1 };
 
             syncMaxbetReposiory
                 .GetSpreadByOwpmatchId(123)
@@ -121,7 +121,7 @@ namespace OWP.Maxbet.UnitTests.Builder
         [Fact]
         public async Task BuildSpread_ForGroupNotMJ_NotExists_1HHDP_1HOU_ReturnSpreadHasSpread_1HHDP_1HOU_Follow_HDP_OU()
         {
-            var spreadTupple = new ValueTuple<IEnumerable<SpreadModel>, IEnumerable<int>>();
+            var spreadTupple = new ValueTuple<IEnumerable<SpreadModel>, IEnumerable<int?>>();
             spreadTupple.Item1 = new List<SpreadModel>
             {
                 new SpreadModel
@@ -136,7 +136,7 @@ namespace OWP.Maxbet.UnitTests.Builder
                 }
             };
 
-            spreadTupple.Item2 = new List<int> { 2 };
+            spreadTupple.Item2 = new List<int?> { 2 };
 
             syncMaxbetReposiory
                 .GetSpreadByOwpmatchId(123)

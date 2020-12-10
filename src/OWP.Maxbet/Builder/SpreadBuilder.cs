@@ -26,7 +26,7 @@ namespace OWP.Maxbet.Builder
         public async Task<MaxbetSpread> BuildSpread(int owpMatchId)
         {
             var spreadTupple = await syncMaxbetReposiory.GetSpreadByOwpmatchId(owpMatchId);
-            var spread = spreadTupple.Item1.ToList();
+            var spread = spreadTupple.Item1?.ToList();
             var leagueGroupId = spreadTupple.Item2?.FirstOrDefault();
 
             if (!spread.Any())
