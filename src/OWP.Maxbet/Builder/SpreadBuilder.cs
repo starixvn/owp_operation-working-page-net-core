@@ -25,23 +25,23 @@ namespace OWP.Maxbet.Builder
 
         public async Task<MaxbetSpread> BuildSpread(int owpMatchId)
         {
-            var spreadTupple = await syncMaxbetReposiory.GetSpreadByOwpmatchId(owpMatchId);
-            var spread = spreadTupple.Item1?.ToList();
-            var leagueGroupId = spreadTupple.Item2?.FirstOrDefault();
+            var (spreads, leagueGroups) = await syncMaxbetReposiory.GetSpreadByOwpmatchId(owpMatchId);
 
-            if (!spread.Any())
+            if (spreads == null)
             {
                 return new MaxbetSpread();
             }
 
-            if (spread.Count == 4)
+            var spreadList = spreads.ToList();
+
+            if (spreads.Count() == 4)
             {
-                return BuildSpreadSender(spread);
+                return BuildSpreadSender(spreadList);
             }
 
-            return leagueGroupId == leagueGroupMJ
-                ? BuildSpreadSenderForLeagueGroupMJ(spread)
-                : BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
+            return leagueGroups?.FirstOrDefault() == leagueGroupMJ
+                ? BuildSpreadSenderForLeagueGroupMJ(spreadList)
+                : BuildSpreadSenderForLeagueGroupNotAllowMJ(spreadList);
         }
 
         public static MaxbetSpread BuildSpreadSenderForLeagueGroupNotAllowMJ(List<SpreadModel> spread)

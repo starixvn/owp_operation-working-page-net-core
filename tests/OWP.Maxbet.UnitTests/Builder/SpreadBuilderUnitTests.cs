@@ -27,7 +27,7 @@ namespace OWP.Maxbet.UnitTests.Builder
         {
             var spreadTupple = new ValueTuple<IEnumerable<SpreadModel>, IEnumerable<int?>>
             {
-                Item1 = new List<SpreadModel>()
+                Item1 = null
             };
 
             syncMaxbetReposiory
