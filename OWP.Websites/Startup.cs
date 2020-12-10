@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Fanex.NAP.Client;
 using Fanex.NAP.Client.Configuration;
 using Fanex.NAP.Client.Helpers.Web;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 using OWP.Websites.CrossCuttingConcern;
 
 namespace OWP.Websites
@@ -59,11 +61,17 @@ namespace OWP.Websites
 
             app.UseSwagger(c =>
             {
-                c.RouteTemplate = "/NetCoreV1/swagger/{documentname}/swagger.json";
+                c.PreSerializeFilters.Add((swaggerDoc, httpReq) =>
+                {
+                    swaggerDoc.Servers = new List<OpenApiServer> {
+                        new OpenApiServer { Url = $"https://ha.nexdev.net:7304/NetCoreV1", Description = "Local V1" },
+                        new OpenApiServer { Url = $"https://localhost:44380", Description = "Dev" }
+                    };
+                });
             });
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/NetCoreV1/swagger/v1/swagger.json", "OWPNetCoreApi");
+                c.SwaggerEndpoint("../swagger/v1/swagger.json", "OWPNetCoreApi");
                 c.DefaultModelsExpandDepth(-1);
             });
 
