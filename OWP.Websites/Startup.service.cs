@@ -183,9 +183,28 @@ namespace OWP.Websites
                     var assemblyName = ((ControllerActionDescriptor)apiDesc.ActionDescriptor).ControllerTypeInfo.Assembly.GetName().Name;
                     return !ignoreAssemblies.Contains(assemblyName);
                 });
+                c.DocumentFilter<SwaggerDocumentFilter>();
                 c.EnableAnnotations();
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "OWPNetCoreApi", Version = "v1" });
             });
+        }
+    }
+
+    internal class SwaggerDocumentFilter : IDocumentFilter
+    {
+        private readonly string _swaggerDocHost;
+
+        public SwaggerDocumentFilter(IHttpContextAccessor httpContextAccessor)
+        {
+            var host = httpContextAccessor.HttpContext.Request.Host.Value;
+            var scheme = httpContextAccessor.HttpContext.Request.Scheme;
+            var pathBase = httpContextAccessor.HttpContext.Request.PathBase;
+            _swaggerDocHost = $"{scheme}://{host}{pathBase}";
+        }
+
+        public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
+        {
+            swaggerDoc.Servers.Add(new OpenApiServer { Url = _swaggerDocHost });
         }
     }
 }

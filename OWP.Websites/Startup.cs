@@ -61,7 +61,6 @@ namespace OWP.Websites
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("../swagger/v1/swagger.json", "OWPNetCoreApi");
-                c.RoutePrefix = "../swagger";
                 c.DefaultModelsExpandDepth(-1);
             });
 
