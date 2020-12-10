@@ -57,10 +57,13 @@ namespace OWP.Websites
 
             app.UseAuthorization();
 
-            app.UseSwagger();
+            app.UseSwagger(c =>
+            {
+                c.RouteTemplate = "/NetCoreV1/swagger/{documentname}/swagger.json";
+            });
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("../swagger/v1/swagger.json", "OWPNetCoreApi");
+                c.SwaggerEndpoint("/NetCoreV1/swagger/v1/swagger.json", "OWPNetCoreApi");
                 c.DefaultModelsExpandDepth(-1);
             });
 
