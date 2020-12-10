@@ -34,10 +34,12 @@ namespace OWP.Maxbet
             {
                 OwpMatchId = owpMatchId
             };
-            var result = await dynamicRepository.FetchMultipleAsync<SpreadModel, int?>(criteria);
-            var valueTupple = new ValueTuple<IEnumerable<SpreadModel>, IEnumerable<int?>>();
-            valueTupple.Item1 = result.firstResultSet;
-            valueTupple.Item2 = result.secondResultSet;
+            var (firstResultSet, secondResultSet) = await dynamicRepository.FetchMultipleAsync<SpreadModel, int?>(criteria);
+            var valueTupple = new ValueTuple<IEnumerable<SpreadModel>, IEnumerable<int?>>
+            {
+                Item1 = firstResultSet,
+                Item2 = secondResultSet
+            };
             return valueTupple;
         }
 

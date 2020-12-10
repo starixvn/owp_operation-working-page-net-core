@@ -56,7 +56,7 @@
                 return noOfHdp.Any() ? noOfHdp.First().ResourceId : 0;
             }
 
-            private NumberOfLines BuildNumberOfLines(int noOfHdpId)
+            private static NumberOfLines BuildNumberOfLines(int noOfHdpId)
             {
                 if (!numberOfLinesDict.TryGetValue((EnumNoOfHdp)noOfHdpId, out NumberOfLines result))
                 {

@@ -54,42 +54,28 @@ namespace OWP.Maxbet.Builder
 
             if (!hasExistsFirstHalfHdp)
             {
-                if (handicap.Spread < (decimal)0.1)
+                spread.Add(handicap.Spread < (decimal)0.1 ? new SpreadModel
                 {
-                    spread.Add(new SpreadModel
-                    {
-                        BettypeId = (int)EnumBettype.FirstHalfHandicap,
-                        Spread = (decimal)0.1
-                    });
-                }
-                else
+                    BettypeId = (int)EnumBettype.FirstHalfHandicap,
+                    Spread = (decimal)0.1
+                } : new SpreadModel
                 {
-                    spread.Add(new SpreadModel
-                    {
-                        BettypeId = (int)EnumBettype.FirstHalfHandicap,
-                        Spread = handicap.Spread
-                    });
-                }
+                    BettypeId = (int)EnumBettype.FirstHalfHandicap,
+                    Spread = handicap.Spread
+                });
             }
 
             if (!hasExistsFirstHalfOu)
             {
-                if (overUnder.Spread < (decimal)0.1)
+                spread.Add(overUnder.Spread < (decimal)0.1 ? new SpreadModel
                 {
-                    spread.Add(new SpreadModel
-                    {
-                        BettypeId = (int)EnumBettype.FirstHalfOverUnder,
-                        Spread = (decimal)0.1
-                    });
-                }
-                else
+                    BettypeId = (int)EnumBettype.FirstHalfOverUnder,
+                    Spread = (decimal)0.1
+                } : new SpreadModel
                 {
-                    spread.Add(new SpreadModel
-                    {
-                        BettypeId = (int)EnumBettype.FirstHalfOverUnder,
-                        Spread = overUnder.Spread
-                    });
-                }
+                    BettypeId = (int)EnumBettype.FirstHalfOverUnder,
+                    Spread = overUnder.Spread
+                });
             }
 
             return BuildSpreadSender(spread);

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using OWP.Maxbet.Models;
 using OWP.Enums;
 using OWP.Helpers;
+using OWP.Maxbet.Models;
 
 namespace OWP.Maxbet.Builder
 {
@@ -89,25 +89,17 @@ namespace OWP.Maxbet.Builder
 
             int valueFirstHalfOverUnder = 0;
             var existsValueFirstHalfOverunder = handicap.Value.HasValue
-                ? maxbetMapper.TryGetValue((int)handicap.Value, out valueFirstHalfOverUnder)
-            : false;
+                && maxbetMapper.TryGetValue((int)handicap.Value, out valueFirstHalfOverUnder);
 
-            if (existsValueFirstHalfOverunder)
+            maxbet.Add(existsValueFirstHalfOverunder ? new MaxbetModel
             {
-                maxbet.Add(new MaxbetModel
-                {
-                    BettypeId = (int)EnumBettype.FirstHalfOverUnder,
-                    Value = valueFirstHalfOverUnder
-                });
-            }
-            else
+                BettypeId = (int)EnumBettype.FirstHalfOverUnder,
+                Value = valueFirstHalfOverUnder
+            } : new MaxbetModel
             {
-                maxbet.Add(new MaxbetModel
-                {
-                    BettypeId = (int)EnumBettype.FirstHalfOverUnder,
-                    Value = handicap.Value
-                });
-            }
+                BettypeId = (int)EnumBettype.FirstHalfOverUnder,
+                Value = handicap.Value
+            });
         }
 
         public void BuildMaxbetFirstHalfHandicap(List<MaxbetModel> maxbet)
@@ -116,25 +108,17 @@ namespace OWP.Maxbet.Builder
             int valueFirstHalfHandicap = 0;
 
             var existsValueFirstHalfHandicap = handicap.Value.HasValue
-                ? maxbetMapper.TryGetValue((int)handicap.Value, out valueFirstHalfHandicap)
-                : false;
+                && maxbetMapper.TryGetValue((int)handicap.Value, out valueFirstHalfHandicap);
 
-            if (existsValueFirstHalfHandicap)
+            maxbet.Add(existsValueFirstHalfHandicap ? new MaxbetModel
             {
-                maxbet.Add(new MaxbetModel
-                {
-                    BettypeId = (int)EnumBettype.FirstHalfHandicap,
-                    Value = valueFirstHalfHandicap
-                });
-            }
-            else
+                BettypeId = (int)EnumBettype.FirstHalfHandicap,
+                Value = valueFirstHalfHandicap
+            } : new MaxbetModel
             {
-                maxbet.Add(new MaxbetModel
-                {
-                    BettypeId = (int)EnumBettype.FirstHalfHandicap,
-                    Value = handicap.Value
-                });
-            }
+                BettypeId = (int)EnumBettype.FirstHalfHandicap,
+                Value = handicap.Value
+            });
         }
 
         public static MaxbetSpread BuildMaxbetSender(List<MaxbetModel> maxbet)
