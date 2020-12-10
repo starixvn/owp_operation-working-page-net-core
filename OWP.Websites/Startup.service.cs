@@ -198,7 +198,7 @@ namespace OWP.Websites
         {
             var host = httpContextAccessor.HttpContext.Request.Host.Value;
             var scheme = httpContextAccessor.HttpContext.Request.Scheme;
-            var pathBase = httpContextAccessor.HttpContext.Request.PathBase;
+            var pathBase = "/NetCoreV1";
             _swaggerDocHost = $"{scheme}://{host}{pathBase}";
         }
 

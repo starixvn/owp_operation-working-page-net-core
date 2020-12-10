@@ -60,7 +60,7 @@ namespace OWP.Websites
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("../swagger/v1/swagger.json", "OWPNetCoreApi");
+                c.SwaggerEndpoint("/NetCoreV1/swagger/v1/swagger.json", "OWPNetCoreApi");
                 c.DefaultModelsExpandDepth(-1);
             });
 
