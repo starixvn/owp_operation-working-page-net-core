@@ -53,7 +53,7 @@
 
                 var matchOffer = await dynamicRepository.FetchAsync<MatchResource>(criteria);
 
-                return matchOffer.Any() ? matchOffer.First().ResourceId : 0;
+                return matchOffer.Count() == 1 ? matchOffer.First().ResourceId : 0;
             }
 
             private static int? BuildSecondAcceptValue(int matchOfferId)

@@ -36,7 +36,7 @@
         }
 
         [Fact]
-        public async Task Handler_MatchWith5sAnd10sAcceptMatchOffer_Return10()
+        public async Task Handler_MatchWith5sAnd10sAcceptMatchOffer_ReturnNull()
         {
             Setup();
             IEnumerable<MatchResource> matchOffer = new List<MatchResource> {
@@ -47,7 +47,19 @@
 
             var actual = await handler.Handle(new GetSecondAcceptValueHandler.Request { OWPMatchId = 123 }, new CancellationToken(false));
 
-            Assert.Equal(10, actual);
+            Assert.Null(actual);
+        }
+
+        [Fact]
+        public async Task Handler_MatchWithNoMatchOffer_ReturnNull()
+        {
+            Setup();
+            IEnumerable<MatchResource> matchOffer = new List<MatchResource>() { };
+            dynamicRepository.FetchAsync<MatchResource>(Arg.Compat.Any<MatchOfferGetCriteria>()).Returns(Task.FromResult(matchOffer));
+
+            var actual = await handler.Handle(new GetSecondAcceptValueHandler.Request { OWPMatchId = 123 }, new CancellationToken(false));
+
+            Assert.Null(actual);
         }
 
         private void Setup()
