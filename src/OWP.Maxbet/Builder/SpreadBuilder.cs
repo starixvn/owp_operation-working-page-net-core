@@ -26,56 +26,63 @@ namespace OWP.Maxbet.Builder
         public async Task<MaxbetSpread> BuildSpread(int owpMatchId)
         {
             var (spreads, leagueGroups) = await syncMaxbetReposiory.GetSpreadByOwpmatchId(owpMatchId);
+            var leagueGroupId = leagueGroups.FirstOrDefault()?.LeagueGroupId;
 
-            if (spreads == null)
-            {
-                return new MaxbetSpread();
-            }
+            spreads = spreads.Where(s => s.Spread != null);
 
             var spreadList = spreads.ToList();
 
-            if (spreads.Count() == 4)
-            {
-                return BuildSpreadSender(spreadList);
-            }
-
-            return leagueGroups?.FirstOrDefault() == leagueGroupMJ
+            return leagueGroupId == leagueGroupMJ
                 ? BuildSpreadSenderForLeagueGroupMJ(spreadList)
                 : BuildSpreadSenderForLeagueGroupNotAllowMJ(spreadList);
         }
 
         public static MaxbetSpread BuildSpreadSenderForLeagueGroupNotAllowMJ(List<SpreadModel> spread)
         {
-            var hasExistsFirstHalfHdp = spread.Any(s => s.BettypeId == (int)EnumBettype.FirstHalfHandicap);
-            var hasExistsFirstHalfOu = spread.Any(s => s.BettypeId == (int)EnumBettype.FirstHalfOverUnder);
+            var hasExistsFirstHalfHdp = spread.Any(s => s.Bettype == (int)EnumBettype.FirstHalfHandicap);
+            var hasExistsFirstHalfOu = spread.Any(s => s.Bettype == (int)EnumBettype.FirstHalfOverUnder);
 
             var handicap = MaxbetHelper.FindSpreadByBettype(spread, (int)EnumBettype.Handicap) ?? new SpreadModel();
             var overUnder = MaxbetHelper.FindSpreadByBettype(spread, (int)EnumBettype.OverUnder) ?? new SpreadModel();
 
             if (!hasExistsFirstHalfHdp)
             {
-                spread.Add(handicap.Spread < (decimal)0.1 ? new SpreadModel
+                if (handicap.Spread < (decimal)0.1)
                 {
-                    BettypeId = (int)EnumBettype.FirstHalfHandicap,
-                    Spread = (decimal)0.1
-                } : new SpreadModel
+                    spread.Add(new SpreadModel
+                    {
+                        Bettype = (int)EnumBettype.FirstHalfHandicap,
+                        Spread = (decimal)0.1
+                    });
+                }
+                else
                 {
-                    BettypeId = (int)EnumBettype.FirstHalfHandicap,
-                    Spread = handicap.Spread
-                });
+                    spread.Add(new SpreadModel
+                    {
+                        Bettype = (int)EnumBettype.FirstHalfHandicap,
+                        Spread = handicap.Spread
+                    });
+                }
             }
 
             if (!hasExistsFirstHalfOu)
             {
-                spread.Add(overUnder.Spread < (decimal)0.1 ? new SpreadModel
+                if (overUnder.Spread < (decimal)0.1)
                 {
-                    BettypeId = (int)EnumBettype.FirstHalfOverUnder,
-                    Spread = (decimal)0.1
-                } : new SpreadModel
+                    spread.Add(new SpreadModel
+                    {
+                        Bettype = (int)EnumBettype.FirstHalfOverUnder,
+                        Spread = (decimal)0.1
+                    });
+                }
+                else
                 {
-                    BettypeId = (int)EnumBettype.FirstHalfOverUnder,
-                    Spread = overUnder.Spread
-                });
+                    spread.Add(new SpreadModel
+                    {
+                        Bettype = (int)EnumBettype.FirstHalfOverUnder,
+                        Spread = overUnder.Spread
+                    });
+                }
             }
 
             return BuildSpreadSender(spread);
@@ -83,8 +90,8 @@ namespace OWP.Maxbet.Builder
 
         public MaxbetSpread BuildSpreadSenderForLeagueGroupMJ(List<SpreadModel> spread)
         {
-            var hasExistsFirstHalfHdp = spread.Any(s => s.BettypeId == (int)EnumBettype.FirstHalfHandicap);
-            var hasExistsFirstHalfOu = spread.Any(s => s.BettypeId == (int)EnumBettype.FirstHalfOverUnder);
+            var hasExistsFirstHalfHdp = spread.Any(s => s.Bettype == (int)EnumBettype.FirstHalfHandicap);
+            var hasExistsFirstHalfOu = spread.Any(s => s.Bettype == (int)EnumBettype.FirstHalfOverUnder);
 
             var handicap = MaxbetHelper.FindSpreadByBettype(spread, (int)EnumBettype.Handicap) ?? new SpreadModel();
             var overUnder = MaxbetHelper.FindSpreadByBettype(spread, (int)EnumBettype.OverUnder) ?? new SpreadModel();
@@ -92,7 +99,7 @@ namespace OWP.Maxbet.Builder
             {
                 spread.Add(new SpreadModel
                 {
-                    BettypeId = (int)EnumBettype.FirstHalfHandicap,
+                    Bettype = (int)EnumBettype.FirstHalfHandicap,
                     Spread = handicap.Spread
                 });
             }
@@ -100,7 +107,7 @@ namespace OWP.Maxbet.Builder
             {
                 spread.Add(new SpreadModel
                 {
-                    BettypeId = (int)EnumBettype.FirstHalfOverUnder,
+                    Bettype = (int)EnumBettype.FirstHalfOverUnder,
                     Spread = overUnder.Spread
                 });
             }

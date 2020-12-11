@@ -25,9 +25,10 @@ namespace OWP.Maxbet.UnitTests.Builder
         [Fact]
         public async Task BuildSpread_NotFound_HDP_OU_1HHDP_1HOU_ReturnDefaultMaxbetSpread()
         {
-            var spreadTupple = new ValueTuple<IEnumerable<SpreadModel>, IEnumerable<int?>>
+            var spreadTupple = new ValueTuple<IEnumerable<SpreadModel>, IEnumerable<LeagueGroup>>
             {
-                Item1 = null
+                Item1 = new List<SpreadModel>(),
+                Item2 = new List<LeagueGroup>()
             };
 
             syncMaxbetReposiory
@@ -42,29 +43,36 @@ namespace OWP.Maxbet.UnitTests.Builder
         [Fact]
         public async Task BuildSpread_Found_HDP_OU_1HHDP_1HOU_ReturnMaxbetSpreadCorrect()
         {
-            var spreadTupple = new ValueTuple<IEnumerable<SpreadModel>, IEnumerable<int?>>
+            var spreadTupple = new ValueTuple<IEnumerable<SpreadModel>, IEnumerable<LeagueGroup>>
             {
                 Item1 = new List<SpreadModel>
                 {
                     new SpreadModel
                     {
-                        BettypeId= (int)EnumBettype.Handicap,
+                        Bettype= (int)EnumBettype.Handicap,
                         Spread=(decimal)0.1
                     },
                     new SpreadModel
                     {
-                        BettypeId= (int)EnumBettype.OverUnder,
+                        Bettype= (int)EnumBettype.OverUnder,
                         Spread=(decimal)0.2
                     },
                      new SpreadModel
                     {
-                        BettypeId= (int)EnumBettype.FirstHalfHandicap,
+                        Bettype= (int)EnumBettype.FirstHalfHandicap,
                         Spread=(decimal)0.3
                     },
                     new SpreadModel
                     {
-                        BettypeId= (int)EnumBettype.FirstHalfOverUnder,
+                        Bettype= (int)EnumBettype.FirstHalfOverUnder,
                         Spread=(decimal)0.4
+                    }
+                },
+                Item2 = new List<LeagueGroup>
+                {
+                    new LeagueGroup
+                    {
+                        LeagueGroupId=1
                     }
                 }
             };
@@ -89,23 +97,27 @@ namespace OWP.Maxbet.UnitTests.Builder
         [Fact]
         public async Task BuildSpread_ForGroupMJ_NotExists_1HHDP_1HOU_ReturnSpreadHasSpread_1HHDP_1HOU_Follow_HDP_OU()
         {
-            var spreadTupple = new ValueTuple<IEnumerable<SpreadModel>, IEnumerable<int?>>
+            var spreadTupple = new ValueTuple<IEnumerable<SpreadModel>, IEnumerable<LeagueGroup>>
             {
                 Item1 = new List<SpreadModel>
                 {
                     new SpreadModel
                     {
-                        BettypeId= (int)EnumBettype.Handicap,
+                        Bettype= (int)EnumBettype.Handicap,
                         Spread=(decimal)0.1
                     },
                     new SpreadModel
                     {
-                        BettypeId= (int)EnumBettype.OverUnder,
+                        Bettype= (int)EnumBettype.OverUnder,
                         Spread=(decimal)0.2
                     }
                 },
 
-                Item2 = new List<int?> { 1 }
+                Item2 = new List<LeagueGroup> {
+                    new LeagueGroup {
+                        LeagueGroupId = 1
+                    }
+                }
             };
 
             syncMaxbetReposiory
@@ -127,23 +139,27 @@ namespace OWP.Maxbet.UnitTests.Builder
         [Fact]
         public async Task BuildSpread_ForGroupNotMJ_NotExists_1HHDP_1HOU_ReturnSpreadHasSpread_1HHDP_1HOU_Follow_HDP_OU()
         {
-            var spreadTupple = new ValueTuple<IEnumerable<SpreadModel>, IEnumerable<int?>>
+            var spreadTupple = new ValueTuple<IEnumerable<SpreadModel>, IEnumerable<LeagueGroup>>
             {
                 Item1 = new List<SpreadModel>
                 {
                     new SpreadModel
                     {
-                        BettypeId= (int)EnumBettype.Handicap,
+                        Bettype= (int)EnumBettype.Handicap,
                         Spread=(decimal)0.1
                     },
                     new SpreadModel
                     {
-                        BettypeId= (int)EnumBettype.OverUnder,
+                        Bettype= (int)EnumBettype.OverUnder,
                         Spread=(decimal)0.1
                     }
                 },
 
-                Item2 = new List<int?> { 2 }
+                Item2 = new List<LeagueGroup> {
+                    new LeagueGroup {
+                        LeagueGroupId = 2
+                    }
+                }
             };
 
             syncMaxbetReposiory
@@ -182,22 +198,22 @@ namespace OWP.Maxbet.UnitTests.Builder
             {
                 new SpreadModel
                 {
-                    BettypeId= (int)EnumBettype.Handicap,
+                    Bettype= (int)EnumBettype.Handicap,
                     Spread=(decimal)0.1
                 },
                 new SpreadModel
                 {
-                    BettypeId= (int)EnumBettype.OverUnder,
+                    Bettype= (int)EnumBettype.OverUnder,
                     Spread=(decimal)0.2
                 },
                  new SpreadModel
                 {
-                    BettypeId= (int)EnumBettype.FirstHalfHandicap,
+                    Bettype= (int)EnumBettype.FirstHalfHandicap,
                     Spread=(decimal)0.3
                 },
                 new SpreadModel
                 {
-                    BettypeId= (int)EnumBettype.FirstHalfOverUnder,
+                    Bettype= (int)EnumBettype.FirstHalfOverUnder,
                     Spread=(decimal)0.4
                 }
             };
@@ -220,22 +236,22 @@ namespace OWP.Maxbet.UnitTests.Builder
             {
                 new SpreadModel
                 {
-                    BettypeId= (int)EnumBettype.Handicap,
+                    Bettype= (int)EnumBettype.Handicap,
                     Spread=(decimal)0.1
                 },
                 new SpreadModel
                 {
-                    BettypeId= (int)EnumBettype.OverUnder,
+                    Bettype= (int)EnumBettype.OverUnder,
                     Spread=(decimal)0.2
                 },
                  new SpreadModel
                 {
-                    BettypeId= (int)EnumBettype.FirstHalfHandicap,
+                    Bettype= (int)EnumBettype.FirstHalfHandicap,
                     Spread=(decimal)0.3
                 },
                 new SpreadModel
                 {
-                    BettypeId= (int)EnumBettype.FirstHalfOverUnder,
+                    Bettype= (int)EnumBettype.FirstHalfOverUnder,
                     Spread=(decimal)0.4
                 }
             };
@@ -261,7 +277,7 @@ namespace OWP.Maxbet.UnitTests.Builder
             {
                 new SpreadModel
                 {
-                    BettypeId= (int)EnumBettype.Handicap,
+                    Bettype= (int)EnumBettype.Handicap,
                     Spread=(decimal)0.01
                 }
             };
@@ -285,7 +301,7 @@ namespace OWP.Maxbet.UnitTests.Builder
             {
                 new SpreadModel
                 {
-                    BettypeId= (int)EnumBettype.Handicap,
+                    Bettype= (int)EnumBettype.Handicap,
                     Spread=(decimal)0.2
                 }
             };
@@ -308,22 +324,22 @@ namespace OWP.Maxbet.UnitTests.Builder
             {
                 new SpreadModel
                 {
-                    BettypeId= (int)EnumBettype.Handicap,
+                    Bettype= (int)EnumBettype.Handicap,
                     Spread=(decimal)0.1
                 },
                 new SpreadModel
                 {
-                    BettypeId= (int)EnumBettype.OverUnder,
+                    Bettype= (int)EnumBettype.OverUnder,
                     Spread=(decimal)0.2
                 },
                  new SpreadModel
                 {
-                    BettypeId= (int)EnumBettype.FirstHalfHandicap,
+                    Bettype= (int)EnumBettype.FirstHalfHandicap,
                     Spread=(decimal)0.3
                 },
                 new SpreadModel
                 {
-                    BettypeId= (int)EnumBettype.FirstHalfOverUnder,
+                    Bettype= (int)EnumBettype.FirstHalfOverUnder,
                     Spread=(decimal)0.4
                 }
             };
@@ -349,7 +365,7 @@ namespace OWP.Maxbet.UnitTests.Builder
             {
                 new SpreadModel
                 {
-                    BettypeId= (int)EnumBettype.OverUnder,
+                    Bettype= (int)EnumBettype.OverUnder,
                     Spread=(decimal)0.01
                 }
             };
@@ -373,7 +389,7 @@ namespace OWP.Maxbet.UnitTests.Builder
             {
                 new SpreadModel
                 {
-                    BettypeId= (int)EnumBettype.OverUnder,
+                    Bettype= (int)EnumBettype.OverUnder,
                     Spread=(decimal)0.2
                 }
             };
@@ -396,12 +412,12 @@ namespace OWP.Maxbet.UnitTests.Builder
             {
                 new SpreadModel
                 {
-                    BettypeId= (int)EnumBettype.Handicap,
+                    Bettype= (int)EnumBettype.Handicap,
                     Spread=(decimal)0.2
                 },
                 new SpreadModel
                 {
-                    BettypeId= (int)EnumBettype.FirstHalfHandicap,
+                    Bettype= (int)EnumBettype.FirstHalfHandicap,
                     Spread=(decimal)0.1
                 }
             };
@@ -423,7 +439,7 @@ namespace OWP.Maxbet.UnitTests.Builder
             {
                 new SpreadModel
                 {
-                    BettypeId= (int)EnumBettype.Handicap,
+                    Bettype= (int)EnumBettype.Handicap,
                     Spread=(decimal)0.2
                 }
             };
@@ -445,12 +461,12 @@ namespace OWP.Maxbet.UnitTests.Builder
             {
                 new SpreadModel
                 {
-                    BettypeId= (int)EnumBettype.OverUnder,
+                    Bettype= (int)EnumBettype.OverUnder,
                     Spread=(decimal)0.2
                 },
                 new SpreadModel
                 {
-                    BettypeId= (int)EnumBettype.FirstHalfOverUnder,
+                    Bettype= (int)EnumBettype.FirstHalfOverUnder,
                     Spread=(decimal)0.1
                 }
             };
@@ -472,7 +488,7 @@ namespace OWP.Maxbet.UnitTests.Builder
             {
                 new SpreadModel
                 {
-                    BettypeId= (int)EnumBettype.OverUnder,
+                    Bettype= (int)EnumBettype.OverUnder,
                     Spread=(decimal)0.2
                 }
             };

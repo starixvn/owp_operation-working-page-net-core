@@ -82,29 +82,29 @@ namespace OWP.Maxbet.UnitTests.Helpers
             {
                 new SpreadModel
                 {
-                    BettypeId= (int)EnumBettype.Handicap,
+                    Bettype= (int)EnumBettype.Handicap,
                     Spread=(decimal)0.1
                 },
                  new SpreadModel
                 {
-                    BettypeId= (int)EnumBettype.OverUnder,
+                    Bettype= (int)EnumBettype.OverUnder,
                      Spread=(decimal)0.3
                 },
                   new SpreadModel
                 {
-                    BettypeId= (int)EnumBettype.FirstHalfHandicap,
+                    Bettype= (int)EnumBettype.FirstHalfHandicap,
                      Spread=(decimal)0.3
                 },
                    new SpreadModel
                 {
-                    BettypeId= (int)EnumBettype.FirstHalfOverUnder,
+                    Bettype= (int)EnumBettype.FirstHalfOverUnder,
                     Spread=(decimal)0.4
                 }
             };
             var result = MaxbetHelper.FindSpreadByBettype(spreads, (int)EnumBettype.Handicap);
             var expected = new SpreadModel
             {
-                BettypeId = (int)EnumBettype.Handicap,
+                Bettype = (int)EnumBettype.Handicap,
                 Spread = (decimal)0.1
             };
             DeepAssert.Equal(expected, result);
@@ -117,17 +117,17 @@ namespace OWP.Maxbet.UnitTests.Helpers
             {
                  new SpreadModel
                 {
-                    BettypeId= (int)EnumBettype.OverUnder,
+                    Bettype= (int)EnumBettype.OverUnder,
                      Spread=(decimal)0.3
                 },
                   new SpreadModel
                 {
-                    BettypeId= (int)EnumBettype.FirstHalfHandicap,
+                    Bettype= (int)EnumBettype.FirstHalfHandicap,
                      Spread=(decimal)0.3
                 },
                    new SpreadModel
                 {
-                    BettypeId= (int)EnumBettype.FirstHalfOverUnder,
+                    Bettype= (int)EnumBettype.FirstHalfOverUnder,
                     Spread=(decimal)0.4
                 }
             };

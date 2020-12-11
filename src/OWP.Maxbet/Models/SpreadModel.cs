@@ -2,7 +2,7 @@
 {
     public class SpreadModel
     {
-        public int BettypeId { get; set; }
+        public int Bettype { get; set; }
 
         public decimal? Spread { get; set; }
     }
