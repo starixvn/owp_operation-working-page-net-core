@@ -34,6 +34,7 @@ namespace OWP.Websites
     using ONEbook.UM.Services;
     using ONEbook.UM.Transport;
     using OWP.Maxbet;
+    using OWP.OtherSport;
     using Sentry;
 
     public partial class Startup
@@ -88,6 +89,11 @@ namespace OWP.Websites
             });
 
             services.AddRedisCache(Configuration.GetSection("fanex.caching.redis"));
+        }
+
+        private void ConfigInternalService(IServiceCollection services)
+        {
+            services.InjectOtherSportService();
         }
 
         private void ConfigureSession(IServiceCollection services)
@@ -166,6 +172,7 @@ namespace OWP.Websites
         private static void ConfigureMediator(IServiceCollection services)
         {
             services.AddMediatR(typeof(MaxbetController).GetTypeInfo().Assembly);
+            services.AddMediatR(typeof(OtherSportController).GetTypeInfo().Assembly);
         }
     }
 }
