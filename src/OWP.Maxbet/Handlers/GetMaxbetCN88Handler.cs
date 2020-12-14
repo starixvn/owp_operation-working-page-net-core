@@ -174,30 +174,40 @@
 
             private static decimal? Get1HMaxbetFromNova(decimal? novaFTHDP)
             {
-                if (novaFTHDP.HasValue)
+                if (!novaFTHDP.HasValue)
                 {
-                    if (novaFTHDP.Value >= 50000)
-                    {
-                        if (!cn88GreaterThan40KDict.TryGetValue(Convert.ToInt32(novaFTHDP), out IList<MaxbetModel> maxbets))
-                        {
-                            return novaFTHDP;
-                        }
-
-                        var maxbet = maxbets.FirstOrDefault(x => x.BettypeId == (int)EnumBettype.FirstHalfHandicap);
-                        return maxbet.Value;
-                    }
-                    else
-                    {
-                        if (!cn88LowerThan40KDict.TryGetValue(Convert.ToInt32(novaFTHDP), out int maxbet))
-                        {
-                            return novaFTHDP;
-                        }
-
-                        return maxbet;
-                    }
+                    return null;
                 }
 
-                return null;
+                const int flagValue = 50000;
+
+                if (novaFTHDP.Value >= flagValue)
+                {
+                    return GetMaxbetValueLargerThan40K(novaFTHDP);
+                }
+
+                return GetMaxbetValueLowerThan40K(novaFTHDP);
+            }
+
+            private static decimal? GetMaxbetValueLargerThan40K(decimal? novaFTHDP)
+            {
+                if (!cn88GreaterThan40KDict.TryGetValue(Convert.ToInt32(novaFTHDP), out IList<MaxbetModel> maxbets))
+                {
+                    return novaFTHDP;
+                }
+
+                var maxbet = maxbets.FirstOrDefault(x => x.BettypeId == (int)EnumBettype.FirstHalfHandicap);
+                return maxbet.Value;
+            }
+
+            private static decimal? GetMaxbetValueLowerThan40K(decimal? novaFTHDP)
+            {
+                if (!cn88LowerThan40KDict.TryGetValue(Convert.ToInt32(novaFTHDP), out int nova1H))
+                {
+                    return novaFTHDP;
+                }
+
+                return nova1H;
             }
         }
     }
