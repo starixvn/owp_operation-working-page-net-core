@@ -59,7 +59,7 @@ namespace OWP.Websites
                         });
         }
 
-        private void ConfigureAuthorization(IServiceCollection services)
+        private static void ConfigureAuthorization(IServiceCollection services)
         {
             services.AddControllers(config =>
             {
@@ -70,7 +70,7 @@ namespace OWP.Websites
             });
         }
 
-        private void ConfigureCORS(IServiceCollection services)
+        private static void ConfigureCORS(IServiceCollection services)
         {
             services.AddCors(options =>
             {
@@ -100,7 +100,7 @@ namespace OWP.Websites
             });
         }
 
-        private void ConfigInternalService(IServiceCollection services)
+        private static void ConfigInternalService(IServiceCollection services)
         {
             services.InjectSyncMaxbetService();
         }
@@ -158,12 +158,12 @@ namespace OWP.Websites
                 .UseGetDbExceptionInfo(DatabaseInfoGetters.GetDbExceptionInfo);
         }
 
-        private void ConfigureCore(IServiceCollection services)
+        private static void ConfigureCore(IServiceCollection services)
         {
             services.AddScoped<IDynamicRepository, DynamicRepository>();
         }
 
-        private void ConfigureMediator(IServiceCollection services)
+        private static void ConfigureMediator(IServiceCollection services)
         {
             services.AddMediatR(typeof(MaxbetController).GetTypeInfo().Assembly);
         }

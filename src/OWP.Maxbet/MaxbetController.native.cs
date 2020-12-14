@@ -1,8 +1,6 @@
-﻿using System.Net;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OWP.Maxbet.Models;
 using OWP.Maxbet.Services;
 
 namespace OWP.Maxbet

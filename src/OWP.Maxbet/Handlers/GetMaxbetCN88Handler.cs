@@ -8,10 +8,10 @@
     using System.Threading.Tasks;
     using Fanex.Data.Repository;
     using MediatR;
-    using OWP.Maxbet.Criterias;
-    using OWP.Maxbet.Models;
     using OWP.Enums;
     using OWP.Helpers;
+    using OWP.Maxbet.Criterias;
+    using OWP.Maxbet.Models;
 
     public class GetMaxbetCN88Handler
     {
@@ -25,76 +25,20 @@
             private static readonly ReadOnlyDictionary<int, IList<MaxbetModel>> cn88GreaterThan40KDict = new ReadOnlyDictionary<int, IList<MaxbetModel>>(
                 new Dictionary<int, IList<MaxbetModel>>
                 {
-                    { 400000, new  List<MaxbetModel> {
-                        new MaxbetModel { BettypeId = (int)EnumBettype.Handicap, Value = 200000},
-                        new MaxbetModel { BettypeId = (int)EnumBettype.FirstHalfHandicap, Value = 60000}
-                        }
-                    },
-                    { 350000, new  List<MaxbetModel> {
-                        new MaxbetModel { BettypeId = (int)EnumBettype.Handicap, Value = 180000},
-                        new MaxbetModel { BettypeId = (int)EnumBettype.FirstHalfHandicap, Value = 40000}
-                        }
-                    },
-                    { 200000, new  List<MaxbetModel> {
-                        new MaxbetModel { BettypeId = (int)EnumBettype.Handicap, Value = 150000},
-                        new MaxbetModel { BettypeId = (int)EnumBettype.FirstHalfHandicap, Value = 40000}
-                        }
-                    },
-                    { 180000, new  List<MaxbetModel> {
-                        new MaxbetModel { BettypeId = (int)EnumBettype.Handicap, Value = 130000},
-                        new MaxbetModel { BettypeId = (int)EnumBettype.FirstHalfHandicap, Value = 40000}
-                        }
-                    },
-                    { 150000, new  List<MaxbetModel> {
-                        new MaxbetModel { BettypeId = (int)EnumBettype.Handicap, Value = 120000},
-                        new MaxbetModel { BettypeId = (int)EnumBettype.FirstHalfHandicap, Value = 40000}
-                        }
-                    },
-                    { 130000, new  List<MaxbetModel> {
-                        new MaxbetModel { BettypeId = (int)EnumBettype.Handicap, Value = 110000},
-                        new MaxbetModel { BettypeId = (int)EnumBettype.FirstHalfHandicap, Value = 40000}
-                        }
-                    },
-                    { 120000, new  List<MaxbetModel> {
-                        new MaxbetModel { BettypeId = (int)EnumBettype.Handicap, Value = 100000},
-                        new MaxbetModel { BettypeId = (int)EnumBettype.FirstHalfHandicap, Value = 40000}
-                        }
-                    },
-                    { 110000, new  List<MaxbetModel> {
-                        new MaxbetModel { BettypeId = (int)EnumBettype.Handicap, Value = 90000},
-                        new MaxbetModel { BettypeId = (int)EnumBettype.FirstHalfHandicap, Value = 40000}
-                        }
-                    },
-                    { 100000, new  List<MaxbetModel> {
-                        new MaxbetModel { BettypeId = (int)EnumBettype.Handicap, Value = 80000},
-                        new MaxbetModel { BettypeId = (int)EnumBettype.FirstHalfHandicap, Value = 30000}
-                        }
-                    },
-                    { 90000, new  List<MaxbetModel> {
-                        new MaxbetModel { BettypeId = (int)EnumBettype.Handicap, Value = 70000},
-                        new MaxbetModel { BettypeId = (int)EnumBettype.FirstHalfHandicap, Value = 30000}
-                        }
-                    },
-                    { 80000, new  List<MaxbetModel> {
-                        new MaxbetModel { BettypeId = (int)EnumBettype.Handicap, Value = 60000},
-                        new MaxbetModel { BettypeId = (int)EnumBettype.FirstHalfHandicap, Value = 24000}
-                        }
-                    },
-                    { 70000, new  List<MaxbetModel> {
-                        new MaxbetModel { BettypeId = (int)EnumBettype.Handicap, Value = 55000},
-                        new MaxbetModel { BettypeId = (int)EnumBettype.FirstHalfHandicap, Value = 18000}
-                        }
-                    },
-                    { 60000, new  List<MaxbetModel> {
-                        new MaxbetModel { BettypeId = (int)EnumBettype.Handicap, Value = 50000},
-                        new MaxbetModel { BettypeId = (int)EnumBettype.FirstHalfHandicap, Value = 18000}
-                        }
-                    },
-                    { 50000, new  List<MaxbetModel> {
-                        new MaxbetModel { BettypeId = (int)EnumBettype.Handicap, Value = 40000},
-                        new MaxbetModel { BettypeId = (int)EnumBettype.FirstHalfHandicap, Value = 18000}
-                        }
-                    },
+                    { 400000, CreateMaxbets(200000, 60000) },
+                    { 350000, CreateMaxbets(180000, 40000) },
+                    { 200000, CreateMaxbets(150000, 40000) },
+                    { 180000, CreateMaxbets(130000, 40000) },
+                    { 150000, CreateMaxbets(120000, 40000) },
+                    { 130000, CreateMaxbets(110000, 40000) },
+                    { 120000, CreateMaxbets(100000, 40000) },
+                    { 110000, CreateMaxbets(90000, 40000) },
+                    { 100000, CreateMaxbets(80000, 30000) },
+                    { 90000, CreateMaxbets(70000, 30000) },
+                    { 80000, CreateMaxbets(60000, 24000) },
+                    { 70000, CreateMaxbets(55000, 18000) },
+                    { 60000, CreateMaxbets(50000, 18000) },
+                    { 50000, CreateMaxbets(40000, 18000) },
                 }
             );
 
@@ -209,6 +153,12 @@
 
                 return nova1H;
             }
+
+            private static IList<MaxbetModel> CreateMaxbets(decimal hdp, decimal firstHalfHDP)
+                => new List<MaxbetModel> {
+                        new MaxbetModel { BettypeId = (int)EnumBettype.Handicap, Value = hdp},
+                        new MaxbetModel { BettypeId = (int)EnumBettype.FirstHalfHandicap, Value = firstHalfHDP}
+                        };
         }
     }
 }
