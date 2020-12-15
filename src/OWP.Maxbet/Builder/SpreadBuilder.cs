@@ -47,7 +47,7 @@ namespace OWP.Maxbet.Builder
 
             if (!hasExistsFirstHalfHdp)
             {
-                if (handicap.Spread < (decimal)0.1)
+                if (handicap?.Spread < (decimal)0.1)
                 {
                     spread.Add(new SpreadModel
                     {
@@ -67,7 +67,7 @@ namespace OWP.Maxbet.Builder
 
             if (!hasExistsFirstHalfOu)
             {
-                if (overUnder.Spread < (decimal)0.1)
+                if (overUnder?.Spread < (decimal)0.1)
                 {
                     spread.Add(new SpreadModel
                     {
