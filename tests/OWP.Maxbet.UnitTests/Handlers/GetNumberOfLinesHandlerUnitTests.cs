@@ -5,10 +5,10 @@
     using System.Threading.Tasks;
     using Fanex.Data.Repository;
     using NSubstitute;
-    using OWP.Maxbet.Criterias;
+    using OWP.Enums;
+    using OWP.Maxbet.Criteria;
     using OWP.Maxbet.Handlers;
     using OWP.Maxbet.Models;
-    using OWP.Enums;
     using Xunit;
     using Xunit.Asserts.Compare;
 
@@ -73,7 +73,7 @@
         public async Task Handler_MatchWithNoNoOfHDP_ReturnData()
         {
             Setup();
-            IEnumerable<MatchResource> noOfHdp = new List<MatchResource> { new MatchResource { ResourceId = (int)EnumNoOfHdp.Empty } };
+            IEnumerable<MatchResource> noOfHdp = new List<MatchResource>();
             dynamicRepository.FetchAsync<MatchResource>(Arg.Compat.Any<MatchNoOfHdpGetCriteria>()).Returns(Task.FromResult(noOfHdp));
             var expected = new NumberOfLines { CreditFt = 2, CreditFirstHalf = 2, LicenseeFt = 3, LicenseeFirstHalf = 2 };
 

@@ -1,8 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using OWP.Maxbet;
 using OWP.Maxbet.Builder;
 using OWP.Maxbet.Services;
 
-namespace OWP.Maxbet
+namespace OWP.Websites
 {
     public static class MaxbetInjector
     {

@@ -5,7 +5,7 @@
     using System.Threading.Tasks;
     using Fanex.Data.Repository;
     using NSubstitute;
-    using OWP.Maxbet.Criterias;
+    using OWP.Maxbet.Criteria;
     using OWP.Maxbet.Handlers;
     using OWP.Maxbet.Models;
     using OWP.Enums;

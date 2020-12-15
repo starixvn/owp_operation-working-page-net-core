@@ -56,10 +56,10 @@ namespace OWP.Websites.Controllers
         public IActionResult ExpiredSession()
         {
             return View();
-
         }
 
 #if DEBUG
+
         [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> FakeLogin()
@@ -80,7 +80,6 @@ namespace OWP.Websites.Controllers
             var securityService = new SecurityService();
             var onUserId = securityService.Login(criteria);
 
-
             await SaveUserSession(onUserId);
 
             return Content("Faked Login");
@@ -88,7 +87,8 @@ namespace OWP.Websites.Controllers
 
         private async Task SaveUserSession(int onUserId)
         {
-            session.UserId = 8;
+            const int fakeUserId = 8;
+            session.UserId = fakeUserId;
             session.UserName = "sa";
             session.OnUserId = onUserId;
 
@@ -101,6 +101,7 @@ namespace OWP.Websites.Controllers
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
         }
+
 #endif
     }
 }

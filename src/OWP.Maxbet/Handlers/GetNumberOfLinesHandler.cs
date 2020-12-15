@@ -7,7 +7,7 @@
     using System.Threading.Tasks;
     using Fanex.Data.Repository;
     using MediatR;
-    using OWP.Maxbet.Criterias;
+    using OWP.Maxbet.Criteria;
     using OWP.Maxbet.Models;
     using OWP.Enums;
 

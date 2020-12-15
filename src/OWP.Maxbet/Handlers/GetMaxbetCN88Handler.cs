@@ -10,7 +10,7 @@
     using MediatR;
     using OWP.Enums;
     using OWP.Helpers;
-    using OWP.Maxbet.Criterias;
+    using OWP.Maxbet.Criteria;
     using OWP.Maxbet.Models;
 
     public class GetMaxbetCN88Handler

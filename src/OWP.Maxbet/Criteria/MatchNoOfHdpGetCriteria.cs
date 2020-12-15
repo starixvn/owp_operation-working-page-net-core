@@ -1,4 +1,4 @@
-﻿namespace OWP.Maxbet.Criterias
+﻿namespace OWP.Maxbet.Criteria
 {
     using Fanex.Data.Repository;
 
