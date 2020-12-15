@@ -5,6 +5,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <AdditionalFiles Include="..\.sonarlint\nap-owp\CSharp\SonarLint.xml" Link="SonarLint.xml" />
     <Content Include="App_Data\Fanex.Data\DBOWP.bodb_OWP.bodbOWPNet.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
