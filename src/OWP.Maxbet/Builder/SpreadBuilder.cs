@@ -14,6 +14,8 @@ namespace OWP.Maxbet.Builder
 
     public class SpreadBuilderImp : SpreadBuilder
     {
+        private const decimal spreaBaseline = (decimal)0.1;
+
         private const int leagueGroupMJ = 1;
 
         private readonly MaxbetReposiory syncMaxbetReposiory;
@@ -47,48 +49,39 @@ namespace OWP.Maxbet.Builder
 
             if (!hasExistsFirstHalfHdp)
             {
-                if (handicap?.Spread < (decimal)0.1)
-                {
-                    spread.Add(new SpreadModel
+                spread.Add(handicap?.Spread < spreaBaseline ?
+                    new SpreadModel
                     {
                         Bettype = (int)EnumBettype.FirstHalfHandicap,
-                        Spread = (decimal)0.1
-                    });
-                }
-                else
-                {
-                    spread.Add(new SpreadModel
+                        Spread = spreaBaseline
+                    } :
+                    new SpreadModel
                     {
                         Bettype = (int)EnumBettype.FirstHalfHandicap,
                         Spread = handicap.Spread
-                    });
-                }
+                    }
+                );
             }
 
             if (!hasExistsFirstHalfOu)
             {
-                if (overUnder?.Spread < (decimal)0.1)
-                {
-                    spread.Add(new SpreadModel
+                spread.Add(overUnder?.Spread < spreaBaseline
+                    ? new SpreadModel
                     {
                         Bettype = (int)EnumBettype.FirstHalfOverUnder,
-                        Spread = (decimal)0.1
-                    });
-                }
-                else
-                {
-                    spread.Add(new SpreadModel
+                        Spread = spreaBaseline
+                    } :
+                    new SpreadModel
                     {
                         Bettype = (int)EnumBettype.FirstHalfOverUnder,
                         Spread = overUnder.Spread
                     });
-                }
             }
 
             return BuildSpreadSender(spread);
         }
 
-        public MaxbetSpread BuildSpreadSenderForLeagueGroupMJ(List<SpreadModel> spread)
+        public static MaxbetSpread BuildSpreadSenderForLeagueGroupMJ(List<SpreadModel> spread)
         {
             var hasExistsFirstHalfHdp = spread.Any(s => s.Bettype == (int)EnumBettype.FirstHalfHandicap);
             var hasExistsFirstHalfOu = spread.Any(s => s.Bettype == (int)EnumBettype.FirstHalfOverUnder);

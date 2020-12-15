@@ -14,6 +14,8 @@ namespace OWP.Maxbet.Builder
 
     public class MaxbetBuilderImp : MaxbetBuilder
     {
+        private const int numberFullyBettype = 4;
+
         private readonly MaxbetReposiory syncMaxbetReposiory;
 
         private readonly Dictionary<int, int> maxbetMapper = new Dictionary<int, int>
@@ -64,7 +66,7 @@ namespace OWP.Maxbet.Builder
                 return new MaxbetSpread();
             }
 
-            if (maxbet.Count == 4)
+            if (maxbet.Count == numberFullyBettype)
             {
                 return BuildMaxbetSender(maxbet);
             }
