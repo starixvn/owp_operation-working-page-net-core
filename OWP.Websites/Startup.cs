@@ -50,7 +50,7 @@ namespace OWP.Websites
             app.UseAuthentication();
             app.UseSession();
             app.UseRouting();
-            app.UseCors();
+            app.UseCors(options => options.WithOrigins("http://localhost:3000").AllowAnyMethod());
             app.UseMiddleware<ErrorHandler>();
 
             app.UseAuthorization();
