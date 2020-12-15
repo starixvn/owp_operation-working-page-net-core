@@ -44,3 +44,5 @@ node_modules
 /NAP.OWP.Websites/App_Data/Files/*
 /NAP.OWP.Websites/App_Data/Files/Readme.md
 /NAP.OWP.Websites/App_Data/Files/Readme.md
+*.ncrunchproject
+*.ncrunchsolution

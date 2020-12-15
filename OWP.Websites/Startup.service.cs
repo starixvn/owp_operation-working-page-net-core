@@ -3,9 +3,11 @@ namespace OWP.Websites
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
     using System.Threading.Tasks;
     using Fanex.Caching.Redis;
     using Fanex.Data;
+    using Fanex.Data.Repository;
     using Fanex.Data.SqlServer;
     using Fanex.Logging;
     using Fanex.Logging.Extensions;
@@ -19,6 +21,7 @@ namespace OWP.Websites
     using Fanex.NAP.Client.Services;
     using Fanex.NAP.Client.Transport;
     using Fanex.NAP.Client.Web;
+    using MediatR;
     using Microsoft.AspNetCore.Authentication.Cookies;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
@@ -30,12 +33,11 @@ namespace OWP.Websites
     using ONEbook.UM.Helpers;
     using ONEbook.UM.Services;
     using ONEbook.UM.Transport;
+    using OWP.Maxbet;
     using Sentry;
 
     public partial class Startup
     {
-        private const string AllowAllOrigins = "AllowAllOrigins";
-
         private void ConfigureAuthentication(IServiceCollection services)
         {
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -57,7 +59,7 @@ namespace OWP.Websites
                         });
         }
 
-        private void ConfigureAuthorization(IServiceCollection services)
+        private static void ConfigureAuthorization(IServiceCollection services)
         {
             services.AddControllers(config =>
             {
@@ -68,14 +70,13 @@ namespace OWP.Websites
             });
         }
 
-        private void ConfigureCORS(IServiceCollection services)
+        private static void ConfigureCORS(IServiceCollection services)
         {
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowOrigin", o => o.AllowAnyOrigin());
             });
         }
-
 
         private void ConfigureRedis(IServiceCollection services)
         {
@@ -97,6 +98,11 @@ namespace OWP.Websites
                 options.IdleTimeout = TimeSpan.FromMinutes(int.Parse(Configuration.GetSection("AuthSettings:SessionTimeOut").Value));
                 options.Cookie.Name = "Fanex.OWP.Session";
             });
+        }
+
+        private static void ConfigInternalService(IServiceCollection services)
+        {
+            services.InjectSyncMaxbetService();
         }
 
         private void ConfigureNapServices(IServiceCollection services)
@@ -150,6 +156,16 @@ namespace OWP.Websites
             ExceptionHandler
                 .UseConfig(new LoggingConfiguration())
                 .UseGetDbExceptionInfo(DatabaseInfoGetters.GetDbExceptionInfo);
+        }
+
+        private static void ConfigureCore(IServiceCollection services)
+        {
+            services.AddScoped<IDynamicRepository, DynamicRepository>();
+        }
+
+        private static void ConfigureMediator(IServiceCollection services)
+        {
+            services.AddMediatR(typeof(MaxbetController).GetTypeInfo().Assembly);
         }
     }
 }
