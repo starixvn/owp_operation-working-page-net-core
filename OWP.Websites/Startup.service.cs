@@ -91,11 +91,6 @@ namespace OWP.Websites
             services.AddRedisCache(Configuration.GetSection("fanex.caching.redis"));
         }
 
-        private void ConfigInternalService(IServiceCollection services)
-        {
-            services.InjectOtherSportService();
-        }
-
         private void ConfigureSession(IServiceCollection services)
         {
             services.AddSession(options =>
@@ -109,6 +104,7 @@ namespace OWP.Websites
         private static void ConfigInternalService(IServiceCollection services)
         {
             services.InjectSyncMaxbetService();
+            services.InjectOtherSportService();
         }
 
         private void ConfigureNapServices(IServiceCollection services)

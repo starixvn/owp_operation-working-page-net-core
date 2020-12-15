@@ -41,14 +41,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\src\OWP.Maxbet\OWP.Maxbet.csproj" />
-    <ProjectReference Include="..\src\OWP.EventUpload.OtherSport\OWP.OtherSport.csproj" />
+    <ProjectReference Include="..\src\OWP.OtherSport\OWP.OtherSport.csproj" />
     <ProjectReference Include="..\src\OWP\OWP.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <CodeAnalysisRuleSet>OWP.Websites.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>

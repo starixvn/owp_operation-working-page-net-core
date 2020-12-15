@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace OWP.OtherSport
+namespace OWP.Websites
 {
     public static class OtherSportInjector
     {
