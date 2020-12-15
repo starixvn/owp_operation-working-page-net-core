@@ -230,6 +230,34 @@ namespace OWP.Maxbet.UnitTests.Builder
         }
 
         [Fact]
+        public void BuildSpreadSenderForLeagueGroupMJ_ListSpread_NotFoundHdp_ReturnMaxbetSpread_HasDefaultValueHdp()
+        {
+            var spread = new List<SpreadModel>
+            {
+                new SpreadModel
+                {
+                    Bettype= (int)EnumBettype.OverUnder
+                }
+            };
+            var result = SpreadBuilderImp.BuildSpreadSenderForLeagueGroupMJ(spread);
+            DeepAssert.Equal(new MaxbetSpread(), result);
+        }
+
+        [Fact]
+        public void BuildSpreadSenderForLeagueGroupMJ_ListSpread_NotFoundOU_ReturnMaxbetSpread_HasDefaultValueHdp()
+        {
+            var spread = new List<SpreadModel>
+            {
+                new SpreadModel
+                {
+                    Bettype= (int)EnumBettype.Handicap
+                }
+            };
+            var result = SpreadBuilderImp.BuildSpreadSenderForLeagueGroupMJ(spread);
+            DeepAssert.Equal(new MaxbetSpread(), result);
+        }
+
+        [Fact]
         public void BuildSpreadSenderForLeagueGroupNotAllowMJ_Exists_1HHDP_ReturnSpreadModelCorrect()
         {
             var spread = new List<SpreadModel>

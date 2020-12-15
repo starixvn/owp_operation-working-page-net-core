@@ -222,7 +222,7 @@ namespace OWP.Maxbet.UnitTests.Builder
             {
                 new MaxbetModel
                 {
-                    BettypeId= (int)EnumBettype.Handicap,
+                    BettypeId= (int)EnumBettype.OverUnder,
                     Value=400
                 }
             };
@@ -233,13 +233,12 @@ namespace OWP.Maxbet.UnitTests.Builder
             {
                 new MaxbetModel
                 {
-                    BettypeId= (int)EnumBettype.Handicap,
+                    BettypeId= (int)EnumBettype.OverUnder,
                     Value=400
                 },
                 new MaxbetModel
                 {
                     BettypeId= (int)EnumBettype.FirstHalfHandicap,
-                    Value=400
                 }
             };
             DeepAssert.Equal(expected, maxbet);
@@ -282,7 +281,7 @@ namespace OWP.Maxbet.UnitTests.Builder
             {
                 new MaxbetModel
                 {
-                    BettypeId= (int)EnumBettype.Handicap,
+                    BettypeId= (int)EnumBettype.OverUnder,
                     Value=400
                 }
             };
@@ -293,13 +292,12 @@ namespace OWP.Maxbet.UnitTests.Builder
             {
                 new MaxbetModel
                 {
-                    BettypeId= (int)EnumBettype.Handicap,
+                    BettypeId= (int)EnumBettype.OverUnder,
                     Value=400
                 },
                 new MaxbetModel
                 {
                     BettypeId= (int)EnumBettype.FirstHalfOverUnder,
-                    Value=400
                 }
             };
             DeepAssert.Equal(expected, maxbet);
