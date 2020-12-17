@@ -22,7 +22,7 @@
         public string OneQ_3Q_OU_OE { get; set; }
     }
 
-    public class AssignmentAnalyzerImp: AssignmentAnalyzer
+    public class AssignmentAnalyzerImp : AssignmentAnalyzer
     {
         public IEnumerable<MatchAssignment> GetAssignmentsOfMatch(AssignmentModel assignment)
         {
@@ -40,8 +40,7 @@
         {
             yield return new MatchAssignment
             {
-                
-            }
+            };
         }
     }
 }

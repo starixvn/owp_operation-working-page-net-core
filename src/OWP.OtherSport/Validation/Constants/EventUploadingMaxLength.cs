@@ -1,4 +1,4 @@
-﻿namespace OWP.OtherSport.Excel.Constants
+﻿namespace OWP.OtherSport.Validation.Constants
 {
     public static class EventUploadingMaxLength
     {

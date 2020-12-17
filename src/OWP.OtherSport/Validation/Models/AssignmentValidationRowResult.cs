@@ -1,4 +1,4 @@
-﻿namespace OWP.OtherSport.Excel.Models
+﻿namespace OWP.OtherSport.Validation.Models
 {
     public class AssignmentValidationRowResult
     {

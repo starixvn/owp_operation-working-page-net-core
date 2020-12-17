@@ -1,4 +1,4 @@
-﻿namespace OWP.OtherSport.Excel
+﻿namespace OWP.OtherSport.Validation
 {
     using System;
     using System.Collections.Generic;
@@ -56,9 +56,11 @@
 
         private async Task<int> ProcessAssignmentUploading(string sessionId, Request request)
         {
-            excelValidator.Validate(request.Stream);
+            //excelValidator.Validate(request.Stream);
 
-            return analyzedResult.OriginalRecordCount;
+            //return analyzedResult.OriginalRecordCount;
+
+            return 1;
         }
     }
 }
