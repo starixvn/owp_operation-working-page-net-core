@@ -32,7 +32,7 @@
 
         public override bool IsValid(object value)
         {
-            if (string.IsNullOrEmpty(value.ToString()) || !sports.Any(x => x.Equals(value.ToString(), System.StringComparison.OrdinalIgnoreCase)))
+            if (string.IsNullOrEmpty(value.ToString()) || !sports.Any(x => x.Equals(value.ToString(), System.StringComparison.CurrentCultureIgnoreCase)))
             {
                 return false;
             }

@@ -16,52 +16,52 @@
         public string Sport { get; set; }
 
         [Display(Name = "Date Time")]
-        [StringLength(EventUploadingMaxLength.DateTime, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.DateTime, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"[0-1]\d\/[0-3]\d\/\d{4} [0-1]\d:[0-5]\d [AP][M]", ErrorMessage = "[Column: {0}] - Error: Invalid date time format")]
         public string DateTime { get; set; }
 
         [Display(Name = "Home")]
-        [StringLength(EventUploadingMaxLength.HomeName,
+        [StringLength(EventUploadingPropertyMaxLength.HomeName,
             MinimumLength = 1,
             ErrorMessage = "[Column: {0}] - Error: The item's value must be not empty and must not exceed {1} characters")]
         public string Home { get; set; }
 
         [Display(Name = "Away")]
-        [StringLength(EventUploadingMaxLength.AwayName,
+        [StringLength(EventUploadingPropertyMaxLength.AwayName,
             MinimumLength = 1,
             ErrorMessage = "[Column: {0}] - Error: The item's value must be not empty and must not exceed {1} characters")]
         public string Away { get; set; }
 
         [Display(Name = "League")]
-        [StringLength(EventUploadingMaxLength.LeagueName,
+        [StringLength(EventUploadingPropertyMaxLength.LeagueName,
             MinimumLength = 1,
             ErrorMessage = "[Column: {0}] - Error: The item's value must be not empty and must not exceed {1} characters")]
         public string League { get; set; }
 
         [Display(Name = "Category")]
-        [StringLength(EventUploadingMaxLength.Category, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Category, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         public string Category { get; set; }
 
         [Display(Name = "No.HDP")]
-        [StringLength(EventUploadingMaxLength.NoHDP, ErrorMessage = "[Column: {0}] - The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.NoHDP, ErrorMessage = "[Column: {0}] - The item's value must not exceed {1} characters")]
         public string NoHDP { get; set; }
 
         [Display(Name = "Match Offer")]
-        [StringLength(EventUploadingMaxLength.MatchOffer, ErrorMessage = "[Column: {0}] - The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.MatchOffer, ErrorMessage = "[Column: {0}] - The item's value must not exceed {1} characters")]
         public string MatchOffer { get; set; }
 
         [Display(Name = "Auto Link")]
-        [StringLength(EventUploadingMaxLength.AutoLink,
+        [StringLength(EventUploadingPropertyMaxLength.AutoLink,
             MinimumLength = 1,
             ErrorMessage = "[Column: {0}] - The item's value must be not empty and must not exceed {1} characters")]
         public string AutoLink { get; set; }
 
         [Display(Name = "Provider")]
-        [StringLength(EventUploadingMaxLength.Provider, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Provider, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         public string Provider { get; set; }
 
         [Display(Name = "Other Provider")]
-        [StringLength(EventUploadingMaxLength.OtherProvider, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.OtherProvider, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         public string OtherProvider { get; set; }
 
         [Display(Name = "Service")]
@@ -70,339 +70,339 @@
         public string Service { get; set; }
 
         [Display(Name = "IPTV")]
-        [StringLength(EventUploadingMaxLength.IPTV, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.IPTV, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         public string IPTV { get; set; }
 
         [Display(Name = "Streaming Info (WB)")]
-        [StringLength(EventUploadingMaxLength.WatchBet, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.WatchBet, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         public string WB { get; set; }
 
         [Display(Name = "Remark")]
-        [StringLength(EventUploadingMaxLength.Remark, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Remark, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         public string Remark { get; set; }
 
         // Basketball
         [Display(Name = "Trader Basketball FT (HDP)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderBasketballFTHDP { get; set; }
 
         [Display(Name = "Trader Basketball 1H (HDP)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderBasketball1HHDP { get; set; }
 
         [Display(Name = "Trader Basketball 1Q & 3Q (HDP)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderBasketball1Q3QHDP { get; set; }
 
         [Display(Name = "Trader Basketball FT (OU/OE)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderBasketballFTOUOE { get; set; }
 
         [Display(Name = "Trader Basketball 1H (OU/OE)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderBasketball1HOUOE { get; set; }
 
         [Display(Name = "Trader Basketball 1Q & 3Q (OU/OE)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderBasketball1Q3QOUOE { get; set; }
 
         // Football
         [Display(Name = "Trader Football FT (HDP)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderFootballFTHDP { get; set; }
 
         [Display(Name = "Trader Football 1H (HDP)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderFootball1HHDP { get; set; }
 
         [Display(Name = "Trader Football 1Q & 3Q (HDP)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderFootball1Q3QHDP { get; set; }
 
         [Display(Name = "Trader Football FT (OU)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderFootballFTOU { get; set; }
 
         [Display(Name = "Trader Football 1H (OU)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderFootball1HOU { get; set; }
 
         [Display(Name = "Trader Football 1Q & 3Q (OU)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderFootball1Q3QOU { get; set; }
 
         // Field Hockey
         [Display(Name = "Trader Field Hockey FT (HDP)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderFieldHockeyFTHDP { get; set; }
 
         [Display(Name = "Trader Field Hockey 1H (HDP)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderFieldHockey1HHDP { get; set; }
 
         [Display(Name = "Trader Field Hockey 1Q (HDP)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderFieldHockey1QHDP { get; set; }
 
         [Display(Name = "Trader Field Hockey FT (O/U)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderFieldHockeyFTOU { get; set; }
 
         [Display(Name = "Trader Field Hockey 1H (O/U)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderFieldHockey1HOU { get; set; }
 
         [Display(Name = "Trader Field Hockey 1Q (OU)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderFieldHockey1QOU { get; set; }
 
         // Field Hockey
         [Display(Name = "Trader Ice Hockey FT (HDP)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderIceHockeyFTHDP { get; set; }
 
         [Display(Name = "Trader Ice Hockey 1st-2nd Periods (HDP)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderIceHockey1st2ndHDP { get; set; }
 
         [Display(Name = "Trader Ice Hockey FT (O/U)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderIceHockeyFTOU { get; set; }
 
         [Display(Name = "Trader Ice Hockey 1st-2nd Periods (OU)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderIceHockey1st2ndOU { get; set; }
 
         // Other sport
         [Display(Name = "Trader Other Sports Match Winner")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderOtherSportsMatchWinner { get; set; }
 
         // Darts Legs
         [Display(Name = "Trader Darts Legs (HDP)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderDartsLegsHDP { get; set; }
 
         [Display(Name = "Trader Darts Most 180s (HDP)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderDartsMost180sHDP { get; set; }
 
         // Pool Match
         [Display(Name = "Trader Pool Match Winner (HDP)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderPoolMatchWinnerHDP { get; set; }
 
         [Display(Name = "Trader Pool Racks Winner (HDP)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderPoolRacksWinnerHDP { get; set; }
 
         // Table Tennis
         [Display(Name = "Trader Table Tennis Set Winner (HDP)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderTableTennisSetWinnerHDP { get; set; }
 
         [Display(Name = "Trader Table Tennis Set x Winner (HDP)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderTableTennisSetXWinnerHDP { get; set; }
 
         // Volleyball
         [Display(Name = "Trader Volleyball Set Winner (HDP/OE)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderVolleyballSetWinnerHDPOE { get; set; }
 
         [Display(Name = "Trader Volleyball Sets x Point Winner (HDP)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderVolleyballSetsXPointWinnerHDP { get; set; }
 
         // Handball
         [Display(Name = "Trader Handball FT (HDP)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderHandballFTHDP { get; set; }
 
         [Display(Name = "Trader Handball 1H (HDP)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderHandball1HHDP { get; set; }
 
         [Display(Name = "Trader Handball FT (O/U)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderHandballFTOU { get; set; }
 
         [Display(Name = "Trader Handball 1H (O/U)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderHandball1HOU { get; set; }
 
         [Display(Name = "Trader Netball FT (HDP)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderNetballFTHDP { get; set; }
 
         [Display(Name = "Trader Netball 1H (HDP)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderNetball1HHDP { get; set; }
 
         [Display(Name = "Trader Netball 1Q & 3Q (HDP)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderNetball1Q3QHDP { get; set; }
 
         [Display(Name = "Trader Netball FT (OU/OE)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderNetballFTOUOE { get; set; }
 
         [Display(Name = "Trader Netball 1H (OU/OE)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderNetball1HOUOE { get; set; }
 
         [Display(Name = "Trader Netball 1Q & 3Q (OU/OE)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderNetball1Q3QOUOE { get; set; }
 
         [Display(Name = "Trader Cricket Match Winner & Innings (OU)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderCricketMatchWinnerInningsOU { get; set; }
 
         [Display(Name = "Trader Cricket Next Over (OU) & Player (OU)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderCricketNextOverOUPlayerOU { get; set; }
 
         [Display(Name = "Trader Cricket FT 1X2")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderCricketFT1X2 { get; set; }
 
         [Display(Name = "Trader Snooker Match Winner (HDP/OU)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderSnookerMatchWinnerHDPOU { get; set; }
 
         [Display(Name = "Trader Snooker Frames Winner (HDP/OU/OE)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderSnookerFramesWinnerHDPOUOE { get; set; }
 
         [Display(Name = "Trader Snooker First 5 Frames (HDP)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderSnookerFirst5FramesHDP { get; set; }
 
         [Display(Name = "Trader Snooker First 8 Frames (HDP)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderSnookerFirst8FramesHDP { get; set; }
 
         [Display(Name = "Trader Snooker First 9 Frames (HDP)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderSnookerFirst9FramesHDP { get; set; }
 
         [Display(Name = "Trader Baseball FT Run Line (HDP)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderBaseballFTRunLineHDP { get; set; }
 
         [Display(Name = "Trader Baseball 1H 1st 5 innings (HDP)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderBaseball1H1st5InningsHDP { get; set; }
 
         [Display(Name = "Trader Baseball FT Total Run (OU)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderBaseballFTTotalRunOU { get; set; }
 
         [Display(Name = "Trader Baseball 1H 1st 5 innings (OU)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderBaseball1H1st5InningsOU { get; set; }
 
         [Display(Name = "Trader Baseball Inning Hits & Runs")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderBaseballInningHitsRuns { get; set; }
 
         [Display(Name = "Trader Badminton All Product (Set Winner)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderBadmintonAllProductSetWinner { get; set; }
 
         [Display(Name = "Trader Badminton All Product (Point Winner)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderBadmintonAllProductPointWinner { get; set; }
 
         [Display(Name = "Trader Badminton Race to Points (7, 9, 11)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderBadmintonRacetoPoints7911 { get; set; }
 
         [Display(Name = "Trader Badminton Next Point Winner")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderBadmintonNextPointWinner { get; set; }
 
         [Display(Name = "Trader Badminton Match Handicap")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderBadmintonMatchHandicap { get; set; }
 
         [Display(Name = "Trader Tennis All Product (LS)")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderTennisAllProductLS { get; set; }
 
         [Display(Name = "Trader Tennis Next Game")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderTennisNextGame { get; set; }
 
         [Display(Name = "Trader Tennis Most Aces")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderTennisMostAces { get; set; }
 
         [Display(Name = "Trader Tennis Most Double Faults")]
-        [StringLength(EventUploadingMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderTennisMostDoubleFaults { get; set; }
 
@@ -596,177 +596,177 @@
         public string OtherTraderTennisMostDoubleFaults { get; set; }
 
         [Display(Name = "Max Bet Basketball FT (HDP)")]
-        public string MaxBetBasketballFTHDP { get; set; }
+        public decimal? MaxBetBasketballFTHDP { get; set; }
 
         [Display(Name = "Max Bet Basketball FT (OE)")]
-        public string MaxBetBasketballFTOE { get; set; }
+        public decimal? MaxBetBasketballFTOE { get; set; }
 
         [Display(Name = "Max Bet Football FT (HDP)")]
-        public string MaxBetFootballFTHDP { get; set; }
+        public decimal? MaxBetFootballFTHDP { get; set; }
 
         [Display(Name = "Max Bet Football 1H (HDP)")]
-        public string MaxBetFootball1HHDP { get; set; }
+        public decimal? MaxBetFootball1HHDP { get; set; }
 
         [Display(Name = "Max Bet Football 1Q & 3Q (HDP)")]
-        public string MaxBetFootball1Q3QHDP { get; set; }
+        public decimal? MaxBetFootball1Q3QHDP { get; set; }
 
         [Display(Name = "Max Bet Football FT (OU)")]
-        public string MaxBetFootballFTOU { get; set; }
+        public decimal? MaxBetFootballFTOU { get; set; }
 
         [Display(Name = "Max Bet Football 1H (OU)")]
-        public string MaxBetFootball1HOU { get; set; }
+        public decimal? MaxBetFootball1HOU { get; set; }
 
         [Display(Name = "Max Bet Football 1Q & 3Q (OU)")]
-        public string MaxBetFootball1Q3QOU { get; set; }
+        public decimal? MaxBetFootball1Q3QOU { get; set; }
 
         [Display(Name = "Max Bet Field Hockey FT (HDP)")]
-        public string MaxBetFieldHockeyFTHDP { get; set; }
+        public decimal? MaxBetFieldHockeyFTHDP { get; set; }
 
         [Display(Name = "Max Bet Field Hockey 1H (HDP)")]
-        public string MaxBetFieldHockey1HHDP { get; set; }
+        public decimal? MaxBetFieldHockey1HHDP { get; set; }
 
         [Display(Name = "Max Bet Field Hockey 1Q (HDP)")]
-        public string MaxBetFieldHockey1QHDP { get; set; }
+        public decimal? MaxBetFieldHockey1QHDP { get; set; }
 
         [Display(Name = "Max Bet Field Hockey FT (O/U)")]
-        public string MaxBetFieldHockeyFTOU { get; set; }
+        public decimal? MaxBetFieldHockeyFTOU { get; set; }
 
         [Display(Name = "Max Bet Field Hockey 1H (O/U)")]
-        public string MaxBetFieldHockey1HOU { get; set; }
+        public decimal? MaxBetFieldHockey1HOU { get; set; }
 
         [Display(Name = "Max Bet Field Hockey 1Q (OU)")]
-        public string MaxBetFieldHockey1QOU { get; set; }
+        public decimal? MaxBetFieldHockey1QOU { get; set; }
 
         [Display(Name = "Max Bet Ice Hockey FT (HDP)")]
-        public string MaxBetIceHockeyFTHDP { get; set; }
+        public decimal? MaxBetIceHockeyFTHDP { get; set; }
 
         [Display(Name = "Max Bet Ice Hockey 1st-2nd Periods (HDP)")]
-        public string MaxBetIceHockey1st2ndPeriodsHDP { get; set; }
+        public decimal? MaxBetIceHockey1st2ndPeriodsHDP { get; set; }
 
         [Display(Name = "Max Bet Ice Hockey FT (O/U)")]
-        public string MaxBetIceHockeyFTOU { get; set; }
+        public decimal? MaxBetIceHockeyFTOU { get; set; }
 
         [Display(Name = "Max Bet Ice Hockey 1st-2nd Periods (OU)")]
-        public string MaxBetIceHockey1st2ndPeriodsOU { get; set; }
+        public decimal? MaxBetIceHockey1st2ndPeriodsOU { get; set; }
 
         [Display(Name = "Max Bet Other Sports HDP")]
-        public string MaxBetOtherSportsHDP { get; set; }
+        public decimal? MaxBetOtherSportsHDP { get; set; }
 
         [Display(Name = "Max Bet Darts Legs (HDP)")]
-        public string MaxBetDartsLegsHDP { get; set; }
+        public decimal? MaxBetDartsLegsHDP { get; set; }
 
         [Display(Name = "Max Bet Darts Most 180s (HDP)")]
-        public string MaxBetDartsMost180sHDP { get; set; }
+        public decimal? MaxBetDartsMost180sHDP { get; set; }
 
         [Display(Name = "Max Bet Pool Match Winner (HDP)")]
-        public string MaxBetPoolMatchWinnerHDP { get; set; }
+        public decimal? MaxBetPoolMatchWinnerHDP { get; set; }
 
         [Display(Name = "Max Bet Pool Racks Winner (HDP)")]
-        public string MaxBetPoolRacksWinnerHDP { get; set; }
+        public decimal? MaxBetPoolRacksWinnerHDP { get; set; }
 
         [Display(Name = "Max Bet Table Tennis HDP")]
-        public string MaxBetTableTennisHDP { get; set; }
+        public decimal? MaxBetTableTennisHDP { get; set; }
 
         [Display(Name = "Max Bet Volleyball Set Winner (HDP/OE)")]
-        public string MaxBetVolleyballSetWinnerHDPOU { get; set; }
+        public decimal? MaxBetVolleyballSetWinnerHDPOU { get; set; }
 
         [Display(Name = "Max Bet Volleyball Sets x Point Winner (HDP)")]
-        public string MaxBetVolleyballSetsXPointWinnerHDP { get; set; }
+        public decimal? MaxBetVolleyballSetsXPointWinnerHDP { get; set; }
 
         [Display(Name = "Max Bet Handball FT (HDP)")]
-        public string MaxBetHandballFTHDP { get; set; }
+        public decimal? MaxBetHandballFTHDP { get; set; }
 
         [Display(Name = "Max Bet Handball 1H (HDP)")]
-        public string MaxBetHandball1HHDP { get; set; }
+        public decimal? MaxBetHandball1HHDP { get; set; }
 
         [Display(Name = "Max Bet Handball FT (O/U)")]
-        public string MaxBetHandballFTOU { get; set; }
+        public decimal? MaxBetHandballFTOU { get; set; }
 
         [Display(Name = "Max Bet Handball 1H (O/U)")]
-        public string MaxBetHandball1HOU { get; set; }
+        public decimal? MaxBetHandball1HOU { get; set; }
 
         [Display(Name = "Max Bet Netball FT (HDP)")]
-        public string MaxBetNetballFTHDP { get; set; }
+        public decimal? MaxBetNetballFTHDP { get; set; }
 
         [Display(Name = "Max Bet Netball 1H (HDP)")]
-        public string MaxBetNetball1HHDP { get; set; }
+        public decimal? MaxBetNetball1HHDP { get; set; }
 
         [Display(Name = "Max Bet Netball 1Q & 3Q (HDP)")]
-        public string MaxBetNetball1Q3QHDP { get; set; }
+        public decimal? MaxBetNetball1Q3QHDP { get; set; }
 
         [Display(Name = "Max Bet Netball FT (OU/OE)")]
-        public string MaxBetNetballFTOUOE { get; set; }
+        public decimal? MaxBetNetballFTOUOE { get; set; }
 
         [Display(Name = "Max Bet Netball 1H (OU/OE)")]
-        public string MaxBetNetball1HOUOE { get; set; }
+        public decimal? MaxBetNetball1HOUOE { get; set; }
 
         [Display(Name = "Max Bet Netball 1Q & 3Q (OU/OE)")]
-        public string MaxBetNetball1Q3QOUOE { get; set; }
+        public decimal? MaxBetNetball1Q3QOUOE { get; set; }
 
         [Display(Name = "Max Bet Cricket Match Winner & Innings (OU)")]
-        public string MaxBetCricketMatchWinnerInningsOU { get; set; }
+        public decimal? MaxBetCricketMatchWinnerInningsOU { get; set; }
 
         [Display(Name = "Max Bet Cricket Next Over (OU) & Player (OU)")]
-        public string MaxBetCricketNextOverOUPlayerOU { get; set; }
+        public decimal? MaxBetCricketNextOverOUPlayerOU { get; set; }
 
         [Display(Name = "Max Bet Cricket FT 1X2")]
-        public string MaxBetCricketFT1X2 { get; set; }
+        public decimal? MaxBetCricketFT1X2 { get; set; }
 
         [Display(Name = "Max Bet Snooker Match Winner (HDP/OU)")]
-        public string MaxBetSnookerMatchWinnerHDPOU { get; set; }
+        public decimal? MaxBetSnookerMatchWinnerHDPOU { get; set; }
 
         [Display(Name = "Max Bet Snooker Frames Winner (HDP/OU/OE)")]
-        public string MaxBetSnookerFramesWinnerHDPOUOE { get; set; }
+        public decimal? MaxBetSnookerFramesWinnerHDPOUOE { get; set; }
 
         [Display(Name = "Max Bet Snooker First 5 Frames (HDP)")]
-        public string MaxBetSnookerFirst5FramesHDP { get; set; }
+        public decimal? MaxBetSnookerFirst5FramesHDP { get; set; }
 
         [Display(Name = "Max Bet Snooker First 8 Frames (HDP)")]
-        public string MaxBetSnookerFirst8FramesHDP { get; set; }
+        public decimal? MaxBetSnookerFirst8FramesHDP { get; set; }
 
         [Display(Name = "Max Bet Snooker First 9 Frames (HDP)")]
-        public string MaxBetSnookerFirst9FramesHDP { get; set; }
+        public decimal? MaxBetSnookerFirst9FramesHDP { get; set; }
 
         [Display(Name = "Max Bet Baseball FT Run Line (HDP)")]
-        public string MaxBetBaseballFTRunLineHDP { get; set; }
+        public decimal? MaxBetBaseballFTRunLineHDP { get; set; }
 
         [Display(Name = "Max Bet Baseball 1H 1st 5 innings (HDP)")]
-        public string MaxBetBaseball1H1st5inningsHDP { get; set; }
+        public decimal? MaxBetBaseball1H1st5inningsHDP { get; set; }
 
         [Display(Name = "Max Bet Baseball FT Total Run (OU)")]
-        public string MaxBetBaseballFTTotalRunOU { get; set; }
+        public decimal? MaxBetBaseballFTTotalRunOU { get; set; }
 
         [Display(Name = "Max Bet Baseball 1H 1st 5 innings (OU)")]
-        public string MaxBetBaseball1H1st5inningsOU { get; set; }
+        public decimal? MaxBetBaseball1H1st5inningsOU { get; set; }
 
         [Display(Name = "Max Bet Baseball Inning Hits & Runs")]
-        public string MaxBetBaseballInningHitsRuns { get; set; }
+        public decimal? MaxBetBaseballInningHitsRuns { get; set; }
 
         [Display(Name = "Max Bet Badminton All Product (Set Winner)")]
-        public string MaxBetBadmintonAllProductSetWinner { get; set; }
+        public decimal? MaxBetBadmintonAllProductSetWinner { get; set; }
 
         [Display(Name = "Max Bet Badminton All Product (Point Winner)")]
-        public string MaxBetBadmintonAllProductPointWinner { get; set; }
+        public decimal? MaxBetBadmintonAllProductPointWinner { get; set; }
 
         [Display(Name = "Max Bet Badminton Race to Points (7, 9, 11)")]
-        public string MaxBetBadmintonRacetoPoints7911 { get; set; }
+        public decimal? MaxBetBadmintonRacetoPoints7911 { get; set; }
 
         [Display(Name = "Max Bet Badminton Next Point Winner")]
-        public string MaxBetBadmintonNextPointWinner { get; set; }
+        public decimal? MaxBetBadmintonNextPointWinner { get; set; }
 
         [Display(Name = "Max Bet Badminton Match Handicap")]
-        public string MaxBetBadmintonMatchHandicap { get; set; }
+        public decimal? MaxBetBadmintonMatchHandicap { get; set; }
 
         [Display(Name = "Max Bet Tennis All Product (LS)")]
-        public string MaxBetTennisAllProductLS { get; set; }
+        public decimal? MaxBetTennisAllProductLS { get; set; }
 
         [Display(Name = "Max Bet Tennis Next Game")]
-        public string MaxBetTennisNextGame { get; set; }
+        public decimal? MaxBetTennisNextGame { get; set; }
 
         [Display(Name = "Max Bet Tennis Most Aces")]
-        public string MaxBetTennisMostAces { get; set; }
+        public decimal? MaxBetTennisMostAces { get; set; }
 
         [Display(Name = "Max Bet Tennis Most Double Faults")]
-        public string MaxBetTennisMostDoubleFaults { get; set; }
+        public decimal? MaxBetTennisMostDoubleFaults { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace OWP.OtherSport.Validation.Constants
 {
-    public static class EventUploadingMaxLength
+    public static class EventUploadingPropertyMaxLength
     {
         public const int MatchStatus = 15;
         public const int Sport = 50;

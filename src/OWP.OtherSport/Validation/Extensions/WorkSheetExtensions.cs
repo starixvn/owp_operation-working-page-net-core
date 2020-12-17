@@ -14,11 +14,10 @@
         {
             var result = new Dictionary<string, int>(StringComparer.CurrentCultureIgnoreCase);
             var type = typeof(AssignmentModelInExcel);
-            var properties = type.GetProperties();
-            var propertiesWithoutNotes = properties.Where(x => x.Name != "Notes").ToList();
-
+            var properties = type.GetProperties().ToList();
             var headers = sheet.GetHeaderNames().ToList();
-            foreach (var property in propertiesWithoutNotes)
+
+            foreach (var property in properties)
             {
                 var displayName = GetDisplayName(property);
                 var headerIndex = headers.FindIndex(h => h.Equals(displayName, StringComparison.CurrentCultureIgnoreCase));
@@ -32,7 +31,7 @@
         {
             for (var i = 1; i <= sheet.Dimension.End.Column; i++)
             {
-                var cellValue = sheet.GetValue<string>(2, i);
+                var cellValue = sheet.GetValue<string>(1, i);
                 if (string.IsNullOrWhiteSpace(cellValue))
                 {
                     continue;

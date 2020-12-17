@@ -8,10 +8,11 @@
     using System.Threading.Tasks;
     using MediatR;
     using Models;
+    using OWP.OtherSport.Validation.Services;
 
     public class ValidationHandler
     {
-        public class Request : IRequest<Result>
+        public class Request : IRequest<Response>
         {
             public Request()
             {
@@ -23,9 +24,9 @@
             public Stream Stream { get; set; }
         }
 
-        public class Result
+        public class Response
         {
-            public Result()
+            public Response()
             {
                 ValidationResults = new List<AssignmentValidationRowResult>();
                 Exception = string.Empty;
@@ -43,24 +44,32 @@
                                         && ValidationResults.Count == 0;
         }
 
-        public async Task<Result> Handle(Request request, CancellationToken cancellationToken)
+        public class Handler : IRequestHandler<Request, Response>
         {
-            var result = new Result
+            private readonly ExcelValidator excelValidator;
+
+            public Handler(ExcelValidator excelValidator)
             {
-                SessionId = request.SessionId
-            };
-            result.RecordCount = await ProcessAssignmentUploading(result.SessionId, request);
+                this.excelValidator = excelValidator;
+            }
 
-            return result;
-        }
+            public async Task<Response> Handle(Request request, CancellationToken cancellationToken)
+            {
+                var result = new Response
+                {
+                    SessionId = request.SessionId
+                };
+                result.RecordCount = await ProcessAssignmentUploading(result.SessionId, request);
 
-        private async Task<int> ProcessAssignmentUploading(string sessionId, Request request)
-        {
-            //excelValidator.Validate(request.Stream);
+                return result;
+            }
 
-            //return analyzedResult.OriginalRecordCount;
+            private async Task<int> ProcessAssignmentUploading(string sessionId, Request request)
+            {
+                excelValidator.Validate(request.Stream);
 
-            return 1;
+                return 1;
+            }
         }
     }
 }
