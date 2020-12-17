@@ -1,4 +1,4 @@
-﻿namespace OWP.OtherSport.Excel.Models
+﻿namespace OWP.OtherSport.Validation.Models
 {
     using System;
     using System.ComponentModel.DataAnnotations;
