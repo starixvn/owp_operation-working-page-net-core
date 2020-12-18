@@ -1,6 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OWP.OtherSport.Validation.Models;
+using static OWP.OtherSport.Validation.ValidationHandler;
 
 namespace OWP.OtherSport
 {
@@ -19,9 +22,27 @@ namespace OWP.OtherSport
 
         [Route("validate")]
         [HttpPost]
-        public async Task<IActionResult> Validate()
+        public IActionResult Validate()
         {
-            return Ok();
+            // Mock data response
+            var validationResult= new Response
+            {
+                ValidationResults= new List<AssignmentValidationRowResult>
+                {
+                    new AssignmentValidationRowResult
+                    {
+                        Row= 1,
+                        Message= "KO time invalid"
+                    },
+                     new AssignmentValidationRowResult
+                    {
+                        Row= 2,
+                        Message= "KO time invalid1"
+                    }
+                }
+            };
+
+            return new JsonResult(validationResult);
         }
 
         [Route("submit")]
