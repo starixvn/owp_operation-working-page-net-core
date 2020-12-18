@@ -43,26 +43,25 @@
             var otherTraders = GetOtherTraders(assignments);
             return mainTraders.Union(otherTraders)
                 .Where(t => !string.IsNullOrEmpty(t))
-                .Select(t => t.Replace(",", string.Empty))
                 .Distinct()
                 .ToList();
         }
 
-        public static List<string> GetMainTraders(List<AssignmentModelInExcel> assignments)
+        private static List<string> GetMainTraders(List<AssignmentModelInExcel> assignments)
         {
-            return assignments.Select(a => new[]
+            return assignments.Select(a =>
             {
-                a.Trader10MinsName,
-                a.Trader15MinsName,
-                a.Trader1H1X2Name,
-                a.Trader1HHDPName,
-                a.Trader1HOUName,
-                a.Trader1X2Name,
-                a.TraderAIOName,
-                a.TraderFMName,
-                a.TraderHDPName,
-                a.TraderOUName,
-                a.TraderLAName
+                var properties = typeof(AssignmentModelInExcel).GetProperties();
+                var result = new List<string>();
+
+                foreach (var prop in properties)
+                {
+                    if (prop.Name.StartsWith("Trader", StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        result.Add(prop.GetValue(a, null).ToString());
+                    }
+                }
+                return result;
             })
             .SelectMany(l => l)
             .Where(b => !string.IsNullOrEmpty(b))
@@ -70,44 +69,36 @@
             .ToList();
         }
 
-        public static List<string> GetOtherTraders(List<AssignmentModelInExcel> assignments)
+        private static List<string> GetOtherTraders(List<AssignmentModelInExcel> assignments)
         {
-            var otherTraderColumns = assignments.Select(a => new[]
-            {
-                a.OtherTraders10Mins,
-                a.OtherTraders15Mins,
-                a.OtherTraders1H1X2,
-                a.OtherTraders1HHDP,
-                a.OtherTraders1HOU,
-                a.OtherTraders1X2,
-                a.OtherTradersAIO,
-                a.OtherTradersFM,
-                a.OtherTradersHDP,
-                a.OtherTradersOU,
-                a.OtherTradersLA
-            })
+            var otherTraderColumns = assignments.Select(a =>
+                {
+                    var properties = typeof(AssignmentModelInExcel).GetProperties();
+                    var result = new List<string>();
+
+                    foreach (var prop in properties)
+                    {
+                        if (prop.Name.StartsWith("OtherTrader", StringComparison.CurrentCultureIgnoreCase))
+                        {
+                            result.Add(prop.GetValue(a, null).ToString());
+                        }
+                    }
+                    return result;
+                })
             .SelectMany(l => l)
             .Where(b => !string.IsNullOrEmpty(b))
             .ToArray();
 
             return otherTraderColumns
-                .Select(ExtractOtherTraders)
-                .SelectMany(l => l)
+                .Select(ExtractOtherTrader)
                 .Distinct()
                 .ToList();
         }
 
-        public static List<string> ExtractOtherTraders(string text)
+        public static string ExtractOtherTrader(string text)
         {
-            const int maxLength = EventUploadingMaxLength.TraderName;
-            var parts = text.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            return parts.Select(p =>
-            {
-                var matches = otherTraderRegex.Matches(p);
-                return matches.Cast<Match>().Select(s => s.Value.Remove(0, 1)).FirstOrDefault();
-            })
-            .Where(n => !string.IsNullOrEmpty(n))
-            .Select(l => l.Length <= maxLength ? l : l.Substring(0, maxLength))
-            .ToList();
+            var matches = otherTraderRegex.Matches(text);
+            return matches.Cast<Match>().FirstOrDefault()?.Value.Remove(0, 1);
         }
     }
+}

@@ -346,7 +346,9 @@
 
         public decimal? MaxBetPoolRacksWinnerHDP { get; set; }
 
-        public decimal? MaxBetTableTennisHDP { get; set; }
+        public decimal? MaxBetTableTennisSetWinnerHDP { get; set; }
+
+        public decimal? MaxBetTableTennisSetXWinnerHDP { get; set; }
 
         public decimal? MaxBetVolleyballSetWinnerHDPOU { get; set; }
 

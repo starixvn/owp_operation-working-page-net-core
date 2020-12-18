@@ -664,8 +664,11 @@
         [Display(Name = "Max Bet Pool Racks Winner (HDP)")]
         public decimal? MaxBetPoolRacksWinnerHDP { get; set; }
 
-        [Display(Name = "Max Bet Table Tennis HDP")]
-        public decimal? MaxBetTableTennisHDP { get; set; }
+        [Display(Name = "Max Bet Table Tennis Set Winner (HDP)")]
+        public decimal? MaxBetTableTennisSetWinnerHDP { get; set; }
+
+        [Display(Name = "Max Bet Table Tennis Set x Winner (HDP)")]
+        public decimal? MaxBetTableTennisSetXWinnerHDP { get; set; }
 
         [Display(Name = "Max Bet Volleyball Set Winner (HDP/OE)")]
         public decimal? MaxBetVolleyballSetWinnerHDPOU { get; set; }
