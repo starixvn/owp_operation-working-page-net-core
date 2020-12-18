@@ -8,9 +8,9 @@
         SecondFirstHaft = 3,
         ThirdHDP = 4,
         FourthHDP = 5,
-        TwoPlusFourLines = 7,
-        ThreePlusThreeLines = 8,
-        ThreePlusFourLines = 9,
-        FourPlusFourLines = 10,
+        TwoPlusFourLines = 6,
+        ThreePlusThreeLines = 7,
+        ThreePlusFourLines = 8,
+        FourPlusFourLines = 9,
     }
 }
