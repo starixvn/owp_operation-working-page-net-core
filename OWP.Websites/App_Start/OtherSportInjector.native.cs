@@ -8,6 +8,9 @@ namespace OWP.Websites
         public static void InjectOtherSportService(this IServiceCollection services)
         {
             services.AddScoped<CacheManipulator, CacheManipulatorImp>();
+            services.AddScoped<AssignmentAnalyzer, AssignmentAnalyzerImp>();
+            services.AddScoped<AssignmentMaxbetMapper, AssignmentMaxbetMapperImp>();
+            services.AddScoped<CommandRepository, CommandRepositoryImp>();
         }
     }
 }
