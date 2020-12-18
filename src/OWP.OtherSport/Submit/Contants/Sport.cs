@@ -4,11 +4,11 @@
     {
         public const string Basketball = "Basketball";
         public const string Football = "Football";
-        public const string Field_Hockey = "Field Hockey";
-        public const string Ice_Hockey  = "Ice Hockey";
+        public const string FieldHockey = "Field Hockey";
+        public const string IceHockey  = "Ice Hockey";
         public const string Darts = "Darts";
         public const string Pool = "Pool";
-        public const string Table_Tennis = "Table Tennis";
+        public const string TableTennis = "Table Tennis";
         public const string Volleyball = "Volleyball";
         public const string Handball = "Handball";
         public const string Netball = "Netball";
@@ -17,6 +17,6 @@
         public const string Baseball = "Baseball";
         public const string Badminton = "Badminton";
         public const string Tennis = "Tennis";
-        public const string Other_Sports = "Other Sports";
+        public const string OtherSports = "Other Sports";
     }
 }

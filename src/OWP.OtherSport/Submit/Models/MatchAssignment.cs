@@ -4,9 +4,9 @@
     {
         public int OSMatchId { get; set; }
 
-        public int BetTypeName { get; set; }
+        public string BetTypeName { get; set; }
 
-        public bool isMainTrader { get; set; }
+        public int AssignmentType { get; set; }
 
         public int UserId { get; set; }
 

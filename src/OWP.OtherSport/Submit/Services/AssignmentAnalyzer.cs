@@ -1,45 +1,74 @@
 ﻿namespace OWP.OtherSport.Submit.Services
 {
     using Models;
-    using Contants;
     using System.Collections.Generic;
+    using OWP.OtherSport.Validation.Models;
+    using Contants;
 
     public interface AssignmentAnalyzer
     {
-        IEnumerable<MatchAssignment> GetAssignmentsOfMatch(AssignmentModel assignment);
-    }
+        IEnumerable<MatchAssignment> GetAllAssignmentsOfMatch(AssignmentModel assignment, List<AssignmentMaxbet> assignmentMaxbets);
 
-    public class AssignmentModel // temp
-    {
-        public int OSMatchId { get; set; }
-        public string MatchOffer { get; set; }
-        public string Sport { get; set; }
-        public string FT_HDP { get; set; }
-        public string OneH_HDP { get; set; }
-        public string OneQ_3Q_HDP { get; set; }
-        public string FT_OU_OE { get; set; }
-        public string OneH_OU_OE { get; set; }
-        public string OneQ_3Q_OU_OE { get; set; }
+        IEnumerable<MatchMaxBet> GetMaxBets(AssignmentModel assignment, List<AssignmentMaxbet> assignmentMaxbets);
     }
 
     public class AssignmentAnalyzerImp : AssignmentAnalyzer
     {
-        public IEnumerable<MatchAssignment> GetAssignmentsOfMatch(AssignmentModel assignment)
+        public IEnumerable<MatchAssignment> GetAllAssignmentsOfMatch(AssignmentModel assignment, List<AssignmentMaxbet> assignmentMaxbets)
         {
-            switch (assignment.Sport)
+            var matchId = assignment.OSMatchId;
+            foreach (var assignmentMaxbet in assignmentMaxbets)
             {
-                case Sport.Basketball:
-                    return GetBasketballAssignments(assignment);
-
-                default:
-                    return new List<MatchAssignment>();
+                yield return GetAssignmentByBettype(matchId, assignmentMaxbet.Bettype, assignmentMaxbet.TraderId);
+                yield return GetOtherAssignmentByBettype(matchId, assignmentMaxbet.Bettype, assignmentMaxbet.OtherTrader);
             }
         }
 
-        public IEnumerable<MatchAssignment> GetBasketballAssignments(AssignmentModel assignment)
+        public IEnumerable<MatchMaxBet> GetMaxBets(AssignmentModel assignment, List<AssignmentMaxbet> assignmentMaxbets)
         {
-            yield return new MatchAssignment
+            var matchId = assignment.OSMatchId;
+            foreach (var assignmentMaxbet in assignmentMaxbets)
             {
+                yield return GetMaxBetByBettype(matchId, assignmentMaxbet.Bettype, assignmentMaxbet.TraderId);
+            }
+        }
+
+        public static MatchAssignment GetAssignmentByBettype(int matchId, string bettype, int userId)
+        {
+            return new MatchAssignment
+            {
+                OSMatchId = matchId,
+                AssignmentType = (int)AssignmentType.Assignment,
+                BetTypeName = bettype,
+                UserId = userId
+            };
+        }
+
+        public static MatchAssignment GetOtherAssignmentByBettype(int matchId, string bettype, string traderInString)
+        {
+            var otherTrader = MapOtherTrader(traderInString);
+            return new MatchAssignment
+            {
+                OSMatchId = matchId,
+                AssignmentType = (int)AssignmentType.OtherAssignment,
+                BetTypeName = bettype,
+                UserId = otherTrader.UserId,
+                AssignmentNote = otherTrader.AssignmentNote
+            };
+        }
+
+        public static OtherTrader MapOtherTrader(string traderInString)
+        {
+            return new OtherTrader();
+        }
+
+        public static MatchMaxBet GetMaxBetByBettype(int matchId, string bettype, decimal? maxbet)
+        {
+            return new MatchMaxBet
+            {
+                OSMatchId = matchId,
+                BetTypeName = bettype,
+                MaxBet = maxbet
             };
         }
     }

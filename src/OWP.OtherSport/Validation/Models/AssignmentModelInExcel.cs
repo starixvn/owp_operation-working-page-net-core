@@ -649,8 +649,8 @@
         [Display(Name = "Max Bet Ice Hockey 1st-2nd Periods (OU)")]
         public decimal? MaxBetIceHockey1st2ndPeriodsOU { get; set; }
 
-        [Display(Name = "Max Bet Other Sports HDP")]
-        public decimal? MaxBetOtherSportsHDP { get; set; }
+        [Display(Name = "Max Bet Other Sports Match Winner")]
+        public string MaxBetOtherSportsMatchWinner { get; set; }
 
         [Display(Name = "Max Bet Darts Legs (HDP)")]
         public decimal? MaxBetDartsLegsHDP { get; set; }

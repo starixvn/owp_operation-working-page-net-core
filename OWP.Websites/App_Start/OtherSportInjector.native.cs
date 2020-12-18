@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using OWP.OtherSport.Submit.Services;
 
 namespace OWP.Websites
 {
@@ -6,6 +7,7 @@ namespace OWP.Websites
     {
         public static void InjectOtherSportService(this IServiceCollection services)
         {
+            services.AddScoped<CacheManipulator, CacheManipulatorImp>();
         }
     }
 }

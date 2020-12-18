@@ -1,9 +1,12 @@
 ﻿namespace OWP.OtherSport.Validation.Models
 {
     using System;
+    using OWP.OtherSport.Validation.Constants;
 
     public class AssignmentModel
     {
+        public int OSMatchId { get; set; }
+
         public string MatchStatus { get; set; }
 
         public string Sport { get; set; }
@@ -234,7 +237,7 @@
 
         public string OtherTraderVolleyballSetWinnerHDPOU { get; set; }
 
-        public string OtherTraderVolleyballSetsXPostringWinnerHDP { get; set; }
+        public string OtherTraderVolleyballSetsXPointWinnerHDP { get; set; }
 
         public string OtherTraderHandballFTHDP { get; set; }
 
@@ -282,15 +285,15 @@
 
         public string OtherTraderBaseballInningHitsRuns { get; set; }
 
-        public string OtherTraderBadmstringonAllProductSetWinner { get; set; }
+        public string OtherTraderBadmintonAllProductSetWinner { get; set; }
 
-        public string OtherTraderBadmstringonAllProductPostringWinner { get; set; }
+        public string OtherTraderBadmintonAllProductPointWinner { get; set; }
 
-        public string OtherTraderBadmstringonRacetoPostrings7911 { get; set; }
+        public string OtherTraderBadmintonRacetoPoints7911 { get; set; }
 
-        public string OtherTraderBadmstringonNextPostringWinner { get; set; }
+        public string OtherTraderBadmintonNextPointWinner { get; set; }
 
-        public string OtherTraderBadmstringonMatchHandicap { get; set; }
+        public string OtherTraderBadmintonMatchHandicap { get; set; }
 
         public string OtherTraderTennisAllProductLS { get; set; }
 
@@ -336,7 +339,7 @@
 
         public decimal? MaxBetIceHockey1st2ndPeriodsOU { get; set; }
 
-        public decimal? MaxBetOtherSportsHDP { get; set; }
+        public decimal? MaxBetOtherSportsMatchWinner { get; set; }
 
         public decimal? MaxBetDartsLegsHDP { get; set; }
 
