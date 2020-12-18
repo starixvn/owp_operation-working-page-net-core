@@ -7,6 +7,7 @@
     using System.Linq;
     using System.Reflection;
     using OfficeOpenXml;
+    using OWP.OtherSport.Validation.Helpers;
     using OWP.OtherSport.Validation.Models;
 
     public static class WorkSheetExtensions
@@ -31,7 +32,7 @@
 
             foreach (var property in properties)
             {
-                var displayName = GetDisplayName(property);
+                var displayName = PropertyHelper.GetDisplayName(property);
                 var headerIndex = headers.FindIndex(h => h.Equals(displayName, StringComparison.CurrentCultureIgnoreCase));
                 result[displayName] = headerIndex + 1;
             }
@@ -53,16 +54,6 @@
 
                 yield return cellValue;
             }
-        }
-
-        private static string GetDisplayName(PropertyInfo property)
-        {
-            var attribute = property.GetCustomAttributes(typeof(DisplayAttribute), true)
-                  .Cast<DisplayAttribute>()
-                  .FirstOrDefault();
-            return attribute == null
-                ? string.Empty
-                : attribute.Name;
         }
 
         public static IEnumerable<AssignmentModelInExcel> ReadAllAssignments(this ExcelWorksheet sheet, int row = 1)

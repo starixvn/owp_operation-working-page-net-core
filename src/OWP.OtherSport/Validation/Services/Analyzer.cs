@@ -11,11 +11,20 @@
     public class AnalyzerImp : Analyzer
     {
         private readonly ExcelReader excelReader;
+        private readonly Repository repository;
+        private readonly AssignmentBuilder assignmentBuilder;
+        private readonly AssignmentValidator assignmentValidator;
 
         public AnalyzerImp(
-            ExcelReader excelReader)
+            ExcelReader excelReader,
+            Repository repository,
+            AssignmentBuilder assignmentBuilder,
+            AssignmentValidator assignmentValidator)
         {
             this.excelReader = excelReader;
+            this.repository = repository;
+            this.assignmentBuilder = assignmentBuilder;
+            this.assignmentValidator = assignmentValidator;
         }
 
         public async Task<AnalyzedResult> Analyze(ValidationHandler.Request request)

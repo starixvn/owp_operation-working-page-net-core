@@ -65,7 +65,7 @@
         public string OtherProvider { get; set; }
 
         [Display(Name = "Service")]
-        [RegularExpression(@"^$|\b^(?:Live|Canceled|Postponed)*$\b",
+        [RegularExpression(@"^$|\b^(?:InPlay|Stadium|Latent)*$\b",
             ErrorMessage = "[Column: {0}] - The Service must be empty or InPlay, Stadium, Latent")]
         public string Service { get; set; }
 
