@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.Globalization;
     using System.Linq;
     using System.Reflection;
     using OfficeOpenXml;
@@ -10,6 +11,17 @@
 
     public static class WorkSheetExtensions
     {
+        public class AssignmentModelInExcelPropertyInfo
+        {
+            public PropertyInfo PropertyInfo { get; set; }
+
+            public string DisplayName { get; set; }
+
+            public List<int> ColumnIndices { get; set; } = new List<int>();
+
+            public Type PropertyType => PropertyInfo.PropertyType;
+        }
+
         public static Dictionary<string, int> GetHeaderMap(this ExcelWorksheet sheet)
         {
             var result = new Dictionary<string, int>(StringComparer.CurrentCultureIgnoreCase);
@@ -51,6 +63,147 @@
             return attribute == null
                 ? string.Empty
                 : attribute.Name;
+        }
+
+        public static IEnumerable<AssignmentModelInExcel> ReadAllAssignments(this ExcelWorksheet sheet, int row = 1)
+        {
+            var properties = GetAssignmentModelInExcelPropertyInfo(sheet);
+
+            for (var i = row; i <= sheet.Dimension.End.Row; i++)
+            {
+                if (IsEmptyRow(sheet, i))
+                {
+                    continue;
+                }
+
+                var assignment = ReadAssignment(sheet, properties, i);
+
+                if (!IsEmptyAssignment(assignment))
+                {
+                    yield return assignment;
+                }
+            }
+        }
+
+        private static List<AssignmentModelInExcelPropertyInfo> GetAssignmentModelInExcelPropertyInfo(this ExcelWorksheet sheet)
+        {
+            var headerNames = sheet.GetHeaderNames().ToList();
+
+            var type = typeof(AssignmentModelInExcel);
+            var properties = type.GetProperties();
+
+            return properties.Select(p =>
+            {
+                var name = GetDisplayName(p);
+
+                return new AssignmentModelInExcelPropertyInfo
+                {
+                    PropertyInfo = p,
+                    DisplayName = GetDisplayName(p),
+                    ColumnIndices = GetItemIndices(headerNames, name).ToList()
+                };
+            }).ToList();
+        }
+
+        private static IEnumerable<int> GetItemIndices(IEnumerable<string> items, string value)
+        {
+            var index = 1;
+            foreach (var item in items)
+            {
+                if (item.Equals(value, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    yield return index;
+                }
+
+                index++;
+            }
+        }
+
+        private static AssignmentModelInExcel ReadAssignment(this ExcelWorksheet sheet, List<AssignmentModelInExcelPropertyInfo> properties, int row = 1)
+        {
+            var methods = typeof(ExcelWorksheet).GetMethods(BindingFlags.Public | BindingFlags.Instance);
+            var getValueMethod = methods.First(m => m.IsGenericMethod && m.Name == "GetValue");
+
+            var model = new AssignmentModelInExcel();
+
+            foreach (var property in properties)
+            {
+                if (!property.ColumnIndices.Any())
+                {
+                    continue;
+                }
+
+                var defaultIndex = property.ColumnIndices[0];
+
+                if (sheet.ReadSpecialProperty(model, property, row, defaultIndex))
+                {
+                    continue;
+                }
+
+                var getValueMethodGeneric = getValueMethod.MakeGenericMethod(property.PropertyType);
+                var excelValue = getValueMethodGeneric.Invoke(sheet, new object[] { row, defaultIndex });
+
+                property.PropertyInfo.SetValue(model, excelValue);
+            }
+
+            return model;
+        }
+
+        private static bool ReadSpecialProperty(this ExcelWorksheet sheet, AssignmentModelInExcel model, AssignmentModelInExcelPropertyInfo property, int row, int column)
+        {
+            if (property.PropertyType == typeof(int))
+            {
+                var cellValue = sheet.GetValue<string>(row, column);
+                int value;
+                int.TryParse(cellValue, out value);
+                property.PropertyInfo.SetValue(model, value);
+                return true;
+            }
+
+            if (property.PropertyType == typeof(string))
+            {
+                var cellValue = sheet.GetValue<string>(row, column) ?? string.Empty;
+                property.PropertyInfo.SetValue(model, cellValue.Trim());
+                return true;
+            }
+
+            if (property.PropertyType == typeof(decimal?))
+            {
+                var cellValue = sheet.GetValue<string>(row, column);
+                var value = GetMaxbetValue(cellValue);
+                property.PropertyInfo.SetValue(model, value);
+                return true;
+            }
+
+            return false;
+        }
+
+        public static decimal? GetMaxbetValue(string maxbet)
+        {
+            const NumberStyles style = NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands;
+            maxbet ??= string.Empty;
+
+            return decimal.TryParse(maxbet, style, CultureInfo.InvariantCulture, out decimal tmpValue) ? tmpValue : null;
+        }
+
+        private static bool IsEmptyRow(this ExcelWorksheet sheet, int row = 1)
+        {
+            for (var col = 1; col <= sheet.Dimension.End.Column; col++)
+            {
+                if (sheet.Cells[row, col].Value != null)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private static bool IsEmptyAssignment(AssignmentModelInExcel assignment)
+        {
+            return string.IsNullOrEmpty(assignment.League)
+                || string.IsNullOrEmpty(assignment.Home)
+                || string.IsNullOrEmpty(assignment.Away);
         }
     }
 }

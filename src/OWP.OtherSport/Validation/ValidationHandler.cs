@@ -48,9 +48,12 @@
         {
             private readonly ExcelValidator excelValidator;
 
-            public Handler(ExcelValidator excelValidator)
+            private readonly Analyzer analyzer;
+
+            public Handler(ExcelValidator excelValidator, Analyzer analyzer)
             {
                 this.excelValidator = excelValidator;
+                this.analyzer = analyzer;
             }
 
             public async Task<Response> Handle(Request request, CancellationToken cancellationToken)
@@ -67,8 +70,9 @@
             private async Task<int> ProcessAssignmentUploading(string sessionId, Request request)
             {
                 excelValidator.Validate(request.Stream);
+                var analyzedResult = await analyzer.Analyze(request);
 
-                return 1;
+                return analyzedResult.OriginalRecordCount;
             }
         }
     }
