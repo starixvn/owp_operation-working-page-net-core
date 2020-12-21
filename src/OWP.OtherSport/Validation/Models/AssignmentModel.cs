@@ -1,10 +1,80 @@
 ﻿namespace OWP.OtherSport.Validation.Models
 {
     using System;
-    using OWP.OtherSport.Validation.Constants;
 
     public class AssignmentModel
     {
+        public AssignmentModel()
+        {
+            MatchStatus = string.Empty;
+            Home = string.Empty;
+            Away = string.Empty;
+            League = string.Empty;       
+            AutoLink = string.Empty;
+            OtherTraderBadmintonAllProductPointWinner = string.Empty;
+            OtherTraderBadmintonAllProductSetWinner = string.Empty;
+            OtherTraderBadmintonMatchHandicap = string.Empty;
+            OtherTraderBadmintonNextPointWinner = string.Empty;
+            OtherTraderBadmintonRacetoPoints7911 = string.Empty;
+            OtherTraderBaseball1H1st5inningsHDP = string.Empty;
+            OtherTraderBaseball1H1st5inningsOU = string.Empty;
+            OtherTraderBaseballFTRunLineHDP = string.Empty;
+            OtherTraderBaseballFTTotalRunOU = string.Empty;
+            OtherTraderBaseballInningHitsRuns = string.Empty;
+            OtherTraderBasketball1HHDP = string.Empty;
+            OtherTraderBasketball1HOUOE = string.Empty;
+            OtherTraderBasketball1Q3QHDP = string.Empty;
+            OtherTraderBasketball1Q3QOUOE = string.Empty;
+            OtherTraderBasketballFTHDP = string.Empty;
+            OtherTraderBasketballFTOUOE = string.Empty;
+            OtherTraderCricketFT1X2 = string.Empty;
+            OtherTraderCricketMatchWinnerInningsOU = string.Empty;
+            OtherTraderCricketNextOverOUPlayerOU = string.Empty;
+            OtherTraderDartsLegsHDP = string.Empty;
+            OtherTraderDartsMost180sHDP = string.Empty;
+            OtherTraderFieldHockey1HHDP = string.Empty;
+            OtherTraderFieldHockey1HOU = string.Empty;
+            OtherTraderFieldHockey1QHDP = string.Empty;
+            OtherTraderFieldHockey1QOU = string.Empty;
+            OtherTraderFieldHockeyFTHDP = string.Empty;
+            OtherTraderFieldHockeyFTOU = string.Empty;
+            OtherTraderFootball1HHDP = string.Empty;
+            OtherTraderFootball1HOU = string.Empty;
+            OtherTraderFootball1Q3QHDP = string.Empty;
+            OtherTraderFootball1Q3QOU = string.Empty;
+            OtherTraderFootballFTHDP = string.Empty;
+            OtherTraderFootballFTOU = string.Empty;
+            OtherTraderHandball1HHDP = string.Empty;
+            OtherTraderHandball1HOU = string.Empty;
+            OtherTraderHandballFTHDP = string.Empty;
+            OtherTraderHandballFTOU = string.Empty;
+            OtherTraderIceHockey1st2ndPeriodsHDP = string.Empty;
+            OtherTraderIceHockey1st2ndPeriodsOU = string.Empty;
+            OtherTraderIceHockeyFTHDP = string.Empty;
+            OtherTraderIceHockeyFTOU = string.Empty;
+            OtherTraderNetball1HHDP = string.Empty;
+            OtherTraderNetball1HOUOE = string.Empty;
+            OtherTraderNetball1Q3QHDP = string.Empty;
+            OtherTraderNetball1Q3QOUOE = string.Empty;
+            OtherTraderNetballFTHDP = string.Empty;
+            OtherTraderNetballFTOUOE = string.Empty;
+            OtherTraderOtherSportsMatchWinner = string.Empty;
+            OtherTraderPoolMatchWinnerHDP = string.Empty;
+            OtherTraderPoolRacksWinnerHDP = string.Empty;
+            OtherTraderSnookerFirst5FramesHDP = string.Empty;
+            OtherTraderSnookerFirst8FramesHDP = string.Empty;
+            OtherTraderSnookerFirst9FramesHDP = string.Empty;
+            OtherTraderSnookerFramesWinnerHDPOUOE = string.Empty;
+            OtherTraderSnookerMatchWinnerHDPOU = string.Empty;
+            OtherTraderTableTennisSetWinnerHDP = string.Empty;
+            OtherTraderTableTennisSetXWinnerHDP = string.Empty;
+            OtherTraderTennisAllProductLS = string.Empty;
+            OtherTraderTennisMostAces = string.Empty;
+            OtherTraderTennisMostDoubleFaults = string.Empty;
+            OtherTraderTennisNextGame = string.Empty;
+            OtherTraderVolleyballSetsXPointWinnerHDP = string.Empty;
+            OtherTraderVolleyballSetWinnerHDPOU = string.Empty;
+        }
         public int OSMatchId { get; set; }
 
         public string MatchStatus { get; set; }

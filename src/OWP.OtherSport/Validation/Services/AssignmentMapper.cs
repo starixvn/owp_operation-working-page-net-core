@@ -35,7 +35,7 @@ namespace OWP.OtherSport.Validation.Services
         private readonly IMapper mapper;
 
         private static readonly Regex otherTraderRegex = new Regex(@"#[^\s#]+", RegexOptions.IgnoreCase);
-        
+
         public AssignmentMapperImp(IMapper mapper)
         {
             this.mapper = mapper;
@@ -54,9 +54,9 @@ namespace OWP.OtherSport.Validation.Services
             MapTraders(excelModel, model);
             MapOtherTraders(excelModel, model);
             return model;
-        }           
-      
-      
+        }
+
+
         public void MapOtherTraders(AssignmentModelInExcel excelModel, AssignmentModel model)
         {
             var properties = typeof(AssignmentModelInExcel).GetProperties();
@@ -86,7 +86,7 @@ namespace OWP.OtherSport.Validation.Services
                     var excelTrader = GetTraderId(traderValueInExcel);
                     property.SetValue(model, excelTrader);
                 }
-            }           
+            }
         }
 
         private static PropertyInfo GetProperty(AssignmentModel model, string propertyName)
@@ -94,7 +94,7 @@ namespace OWP.OtherSport.Validation.Services
             return model.GetType().GetProperties().Single(p => p.Name == propertyName);
         }
 
-        public string ExtractNote(string text) 
+        public string ExtractNote(string text)
         {
             var startIndex = text.IndexOf('#');
             if (startIndex == -1)
