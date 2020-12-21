@@ -6,6 +6,7 @@ namespace OWP.OtherSport.Validation.Services
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
     using System.Text.RegularExpressions;
 
     public interface AssignmentMapper
@@ -248,7 +249,28 @@ namespace OWP.OtherSport.Validation.Services
             model.TraderTennisMostDoubleFaults = GetTraderId(excelModel.TraderTennisMostDoubleFaults);
         }
 
-        public string ExtractNote(string text)
+        public void MapTraders1(AssignmentModel model)
+        {
+            var properties = typeof(AssignmentModel).GetProperties();
+
+            foreach (var prop in properties)
+            {
+                if (prop.Name.StartsWith("Trader", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    var property = GetProperty(model, prop.Name);
+                    var traderValueInExcel = prop.GetValue(prop.Name).ToString();
+                    var excelTrader = GetTraderId(traderValueInExcel);
+                    property.SetValue(prop.Name, excelTrader);
+                }
+            }           
+        }
+
+        private static PropertyInfo GetProperty(AssignmentModel model, string propertyName)
+        {
+            return model.GetType().GetProperties().Single(p => p.Name == propertyName);
+        }
+
+        public string ExtractNote(string text) 
         {
             var startIndex = text.IndexOf('#');
             if (startIndex == -1)

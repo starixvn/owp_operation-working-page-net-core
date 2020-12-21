@@ -85,12 +85,12 @@
 
             return properties.Select(p =>
             {
-                var name = GetDisplayName(p);
+                var name = PropertyHelper.GetDisplayName(p);
 
                 return new AssignmentModelInExcelPropertyInfo
                 {
                     PropertyInfo = p,
-                    DisplayName = GetDisplayName(p),
+                    DisplayName = PropertyHelper.GetDisplayName(p),
                     ColumnIndices = GetItemIndices(headerNames, name).ToList()
                 };
             }).ToList();
