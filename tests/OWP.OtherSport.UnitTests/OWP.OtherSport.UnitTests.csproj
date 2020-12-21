@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Submit\**" />
+    <EmbeddedResource Remove="Submit\**" />
+    <None Remove="Submit\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="NSubstitute" Version="4.2.2" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
     <PackageReference Include="xunit" Version="2.4.1" />
@@ -18,7 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Submit\" />
     <ProjectReference Include="..\..\src\OWP.OtherSport\OWP.OtherSport.csproj" />
   </ItemGroup>
 
