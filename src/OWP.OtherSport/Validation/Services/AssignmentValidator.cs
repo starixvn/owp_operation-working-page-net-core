@@ -15,10 +15,6 @@ namespace OWP.OtherSport.Validation.Services
         void Validate(UploadingDataFromExcel rawDataFromExcel, List<Trader> traders);
 
         void ValidateTraders(AssignmentModelInExcel assignment, List<ValidationResult> results, List<Trader> traders);
-
-        void ValidateInvalidTraders(AssignmentModelInExcel assignment, List<ValidationResult> results, List<Trader> traders);
-
-        void ValidateDuplicatedTraders(List<Trader> traders);
     }
 
     public class AssignmentValidatorImp : AssignmentValidator
@@ -58,25 +54,7 @@ namespace OWP.OtherSport.Validation.Services
             return results;
         }
 
-
         public void ValidateTraders(AssignmentModelInExcel assignment, List<ValidationResult> results, List<Trader> traders)
-        {
-            ValidateInvalidTraders(assignment, results, traders);         
-            ValidateDuplicatedTraders(traders);
-        }
-
-        public void ValidateDuplicatedTraders(List<Trader> traders)
-        {
-            var duplicatedTraders = traders.Where(t => t.IsDuplicate).Select(t => t.Username).ToArray();
-
-            if (duplicatedTraders.Length > 0)
-            {
-                var duplicatedTradersInString = string.Join("; ", duplicatedTraders);
-                throw new DuplicatedTraderException(duplicatedTradersInString);
-            }
-        }
-
-        public void ValidateInvalidTraders(AssignmentModelInExcel assignment, List<ValidationResult> results, List<Trader> traders)
         {
             var invalidTraders = traders.Where(t => t.UserId == 0).Select(t => t.Username).ToList();
 
@@ -90,7 +68,7 @@ namespace OWP.OtherSport.Validation.Services
                     results.Add(new ValidationResult("Invalid " + invalidTradersInString));
                 }
             }
-        }      
+        }
 
         public static List<string> ValidateInvalidTrader(AssignmentModelInExcel assignment, List<string> invalidTraders)
         {
