@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
+
     public static class ValidationHelper
     {
         public static void BuildValidationRowResult(

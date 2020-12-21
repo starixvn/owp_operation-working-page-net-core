@@ -24,17 +24,15 @@
         {
             stream.Seek(0, SeekOrigin.Begin);
 
-            using (var package = new ExcelPackage(stream))
-            {
-                var sheet = package.Workbook.Worksheets.First();
-                var assignments = sheet.ReadAllAssignments(StartRow).ToList();
+            using var package = new ExcelPackage(stream);
+            var sheet = package.Workbook.Worksheets.First();
+            var assignments = sheet.ReadAllAssignments(StartRow).ToList();
 
-                return new UploadingDataFromExcel
-                {
-                    Assignments = assignments,
-                    Traders = GetTraders(assignments)
-                };
-            }
+            return new UploadingDataFromExcel
+            {
+                Assignments = assignments,
+                Traders = GetTraders(assignments)
+            };
         }
 
         public static List<string> GetTraders(List<AssignmentModelInExcel> assignments)
