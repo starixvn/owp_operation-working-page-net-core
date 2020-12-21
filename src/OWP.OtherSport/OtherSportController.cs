@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using OWP.OtherSport.Validation.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using static OWP.OtherSport.Validation.ValidationHandler;
 
 namespace OWP.OtherSport
@@ -10,6 +11,7 @@ namespace OWP.OtherSport
     [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
+    [EnableCors("AllowOrigin")]
     public class OtherSportController : ControllerBase
     {
 
@@ -25,9 +27,9 @@ namespace OWP.OtherSport
         public IActionResult Validate()
         {
             // Mock data response
-            var validationResult= new Response
+            var validationResult = new Response
             {
-                ValidationResults= new List<AssignmentValidationRowResult>
+                ValidationResults = new List<AssignmentValidationRowResult>
                 {
                     new AssignmentValidationRowResult
                     {

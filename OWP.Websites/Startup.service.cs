@@ -1,10 +1,5 @@
 namespace OWP.Websites
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
-    using System.Threading.Tasks;
     using Fanex.Caching.Redis;
     using Fanex.Data;
     using Fanex.Data.Repository;
@@ -36,9 +31,16 @@ namespace OWP.Websites
     using OWP.Maxbet;
     using OWP.OtherSport;
     using Sentry;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
+    using System.Threading.Tasks;
 
     public partial class Startup
     {
+        private static readonly string allowOrigin = "AllowOrigin";
+
         private void ConfigureAuthentication(IServiceCollection services)
         {
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -75,7 +77,26 @@ namespace OWP.Websites
         {
             services.AddCors(options =>
             {
-                options.AddPolicy("AllowOrigin", o => o.AllowAnyOrigin());
+                options.AddPolicy(allowOrigin,
+                    builder =>
+                    {
+                        builder.WithOrigins("https://localhost:44380",
+                                            "http://localhost:57420",
+                                            "https://owp.nexdev.net",
+                                            "https://owp-netcore-v1.nexdev.net",
+                                            "https://owp-netcore-v2.nexdev.net",
+                                            "https://owp-netcore-v3.nexdev.net",
+                                            "https://owp.starixuat.com",
+                                            "https://newowp1.starixuat.com",
+                                            "https://newowp2.starixuat.com",
+                                            "https://newowp3.starixuat.com",
+                                            "https://owp.oneops.net",
+                                            "https://newowp.oneops.net"
+                                            )
+                              .AllowAnyMethod()
+                              .AllowAnyHeader()
+                              .AllowCredentials();
+                    });
             });
         }
 

@@ -28,7 +28,7 @@
     <PackageReference Include="Fanex.Logging.Sentry.RavenClient" Version="1.0.1" />
     <PackageReference Include="Fanex.NAP.Client.AspNetCore" Version="1.0.0-beta5" />
     <PackageReference Include="Fanex.NAP.Client.Transport" Version="1.0.0-beta7" />
-    <PackageReference Include="Fanex.NAP.Signin.AspNetCore" Version="1.0.0-beta8" />
+    <PackageReference Include="Fanex.NAP.Signin.AspNetCore" Version="1.0.0.1-beta1" />
     <PackageReference Include="MediatR" Version="9.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Analyzers" Version="2.2.0" />

@@ -23,8 +23,8 @@ namespace OWP.Websites
         public void ConfigureServices(IServiceCollection services)
         {
             ConfigureCORS(services);
-            ConfigureAuthentication(services);
             ConfigureAuthorization(services);
+            ConfigureAuthentication(services);
             ConfigureRedis(services);
             ConfigureSession(services);
 
@@ -35,8 +35,8 @@ namespace OWP.Websites
 
             ConfigInternalService(services);
 
-            services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddControllersWithViews();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,12 +47,11 @@ namespace OWP.Websites
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-            app.UseAuthentication();
+            app.UseMiddleware<ErrorHandler>();
             app.UseSession();
             app.UseRouting();
-            app.UseCors(options => options.WithOrigins("http://localhost:3000").AllowAnyMethod());
-            app.UseMiddleware<ErrorHandler>();
-
+            app.UseCors(allowOrigin);
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
