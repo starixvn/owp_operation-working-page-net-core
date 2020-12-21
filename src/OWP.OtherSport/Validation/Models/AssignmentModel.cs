@@ -41,6 +41,8 @@
 
         public string Remark { get; set; }
 
+        public string HashKey { get; set; }
+
         // Basketball
         public int TraderBasketballFTHDP { get; set; }
 

@@ -4,12 +4,17 @@
     using System.Collections.Generic;
     using OWP.OtherSport.Validation.Models;
     using Contants;
+    using System.Linq;
 
     public interface AssignmentAnalyzer
     {
         IEnumerable<MatchAssignment> GetAllAssignmentsOfMatch(AssignmentModel assignment, List<AssignmentMaxbet> assignmentMaxbets);
 
         IEnumerable<MatchMaxBet> GetMaxBets(AssignmentModel assignment, List<AssignmentMaxbet> assignmentMaxbets);
+
+        string DetectOldMatchIds(List<int> oldMatchIds, List<int> newMatchIds);
+
+        void ReassignOSMatchId(List<MatchByHashKey> hashKeyMap, List<AssignmentModel> assignments);
     }
 
     public class AssignmentAnalyzerImp : AssignmentAnalyzer
@@ -70,6 +75,20 @@
                 BetTypeName = bettype,
                 MaxBet = maxbet
             };
+        }
+
+        public string DetectOldMatchIds(List<int> oldMatchIds, List<int> newMatchIds)
+        {
+            var deletedMatchIds = oldMatchIds.Except(newMatchIds);
+            var deletedMatchIdsInString = string.Join(',', deletedMatchIds);
+
+            return deletedMatchIdsInString;
+        }
+
+        public void ReassignOSMatchId(List<MatchByHashKey> hashKeyMap, List<AssignmentModel> assignments)
+        {
+            var matchIdMap = hashKeyMap.ToDictionary(h => h.HashKey, h => h.OSMatchId);
+            assignments.ForEach(a => a.OSMatchId = matchIdMap[a.HashKey]);
         }
     }
 }

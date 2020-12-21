@@ -15,16 +15,13 @@
 
     public class SubmitHandler: IRequestHandler<SubmitRequest, string>
     {
-        private readonly AssignmentMaxbetMapper mapper;
         private readonly CacheManipulator cacheManipulator;
         private readonly CommandRepository commandRepository;
 
         public SubmitHandler(
-            AssignmentMaxbetMapper mapper,
             CacheManipulator cacheManipulator,
             CommandRepository commandRepository)
         {
-            this.mapper = mapper;
             this.cacheManipulator = cacheManipulator;
             this.commandRepository = commandRepository;
         }
@@ -47,8 +44,7 @@
 
         public async Task SaveAssignmentsToDatabase(List<AssignmentModel> newAssignments, string eventDateInString)
         {
-            var oldMatchIds = await commandRepository.GetOldMatchIds(eventDateInString);
-            await commandRepository.Update(oldMatchIds, newAssignments);
+            await commandRepository.Update(eventDateInString, newAssignments);
         }
     }
 }

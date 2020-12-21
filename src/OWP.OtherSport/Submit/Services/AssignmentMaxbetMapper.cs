@@ -4,17 +4,21 @@
     using OWP.OtherSport.Submit.Models;
     using OWP.OtherSport.Validation.Models;
     using System.Collections.Generic;
+    using System.Linq;
 
     public interface AssignmentMaxbetMapper
     {
-        List<AssignmentMaxbet> MapBySport(AssignmentModel assignment);
+        Dictionary<int, List<AssignmentMaxbet>> MapBySport(List<AssignmentModel> assignments);
     }
 
     public class AssignmentMaxbetMapperImp: AssignmentMaxbetMapper
     {
+        public Dictionary<int, List<AssignmentMaxbet>> MapBySport(List<AssignmentModel> assignments)
+            => assignments.ToDictionary(a => a.OSMatchId, a => MapBySport(a));
+
         public List<AssignmentMaxbet> MapBySport(AssignmentModel assignment)
         {
-            Dictionary<string, List<AssignmentMaxbet>> sportBetType = new Dictionary<string, List<AssignmentMaxbet>>
+            var sportBetType = new Dictionary<string, List<AssignmentMaxbet>>
             {
                 {Sport.Basketball, MapBasketball(assignment)},
                 {Sport.Football, MapFootball(assignment)},
