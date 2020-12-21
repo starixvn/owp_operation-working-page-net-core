@@ -190,7 +190,8 @@
 
             var actual = assignmentMapper.Map(excelModel);
 
-            DeepAssert.Equal(expected, actual);
+            DeepAssert.Equal(expected, actual, "HashKey");
+            Assert.False(string.IsNullOrEmpty(actual.HashKey));
         }
 
         private static AssignmentModelInExcel GetAssignmentModelInExcel()
