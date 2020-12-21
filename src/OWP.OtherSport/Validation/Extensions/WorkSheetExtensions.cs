@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     using System.Globalization;
     using System.Linq;
     using System.Reflection;
@@ -40,22 +39,6 @@
             return result;
         }
 
-        private static IEnumerable<string> GetHeaderNames(this ExcelWorksheet sheet)
-        {
-            for (var i = 1; i <= sheet.Dimension.End.Column; i++)
-            {
-                var cellValue = sheet.GetValue<string>(1, i);
-                if (string.IsNullOrWhiteSpace(cellValue))
-                {
-                    continue;
-                }
-
-                cellValue = cellValue.Trim();
-
-                yield return cellValue;
-            }
-        }
-
         public static IEnumerable<AssignmentModelInExcel> ReadAllAssignments(this ExcelWorksheet sheet, int row = 1)
         {
             var properties = GetAssignmentModelInExcelPropertyInfo(sheet);
@@ -73,6 +56,22 @@
                 {
                     yield return assignment;
                 }
+            }
+        }
+
+        private static IEnumerable<string> GetHeaderNames(this ExcelWorksheet sheet)
+        {
+            for (var i = 1; i <= sheet.Dimension.End.Column; i++)
+            {
+                var cellValue = sheet.GetValue<string>(1, i);
+                if (string.IsNullOrWhiteSpace(cellValue))
+                {
+                    continue;
+                }
+
+                cellValue = cellValue.Trim();
+
+                yield return cellValue;
             }
         }
 
@@ -142,15 +141,6 @@
 
         private static bool ReadSpecialProperty(this ExcelWorksheet sheet, AssignmentModelInExcel model, AssignmentModelInExcelPropertyInfo property, int row, int column)
         {
-            if (property.PropertyType == typeof(int))
-            {
-                var cellValue = sheet.GetValue<string>(row, column);
-                int value;
-                int.TryParse(cellValue, out value);
-                property.PropertyInfo.SetValue(model, value);
-                return true;
-            }
-
             if (property.PropertyType == typeof(string))
             {
                 var cellValue = sheet.GetValue<string>(row, column) ?? string.Empty;
@@ -169,7 +159,7 @@
             return false;
         }
 
-        public static decimal? GetMaxbetValue(string maxbet)
+        private static decimal? GetMaxbetValue(string maxbet)
         {
             const NumberStyles style = NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands;
             maxbet ??= string.Empty;

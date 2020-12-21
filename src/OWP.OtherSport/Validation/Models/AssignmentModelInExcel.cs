@@ -42,7 +42,7 @@
         [StringLength(EventUploadingPropertyMaxLength.Category, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         public string Category { get; set; }
 
-        [Display(Name = "No.HDP")]
+        [Display(Name = "No. HDP")]
         [StringLength(EventUploadingPropertyMaxLength.NoHDP, ErrorMessage = "[Column: {0}] - The item's value must not exceed {1} characters")]
         public string NoHDP { get; set; }
 
@@ -650,7 +650,7 @@
         public decimal? MaxBetIceHockey1st2ndPeriodsOU { get; set; }
 
         [Display(Name = "Max Bet Other Sports Match Winner")]
-        public string MaxBetOtherSportsMatchWinner { get; set; }
+        public decimal? MaxBetOtherSportsMatchWinner { get; set; }
 
         [Display(Name = "Max Bet Darts Legs (HDP)")]
         public decimal? MaxBetDartsLegsHDP { get; set; }

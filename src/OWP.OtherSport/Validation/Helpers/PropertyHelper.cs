@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OWP.OtherSport.Validation.Helpers
+﻿namespace OWP.OtherSport.Validation.Helpers
 {
+    using System.ComponentModel.DataAnnotations;
+    using System.Linq;
+    using System.Reflection;
+
     public static class PropertyHelper
     {
         public static string GetDisplayName(PropertyInfo property)
