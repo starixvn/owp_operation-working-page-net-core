@@ -17,11 +17,63 @@
         }
 
         [Fact]
+        public void Validate_ValidModel_NotThrowException()
+        {            
+            var uploadingDataFromExcel = new UploadingDataFromExcel
+            {              
+                Assignments = new List<AssignmentModelInExcel>
+                {
+                    new AssignmentModelInExcel
+                    {
+                        Away = "GSW",
+                        Sport = "Basketball"
+                    }
+                }
+            };
+            var traders = new List<Trader>
+            {
+                new Trader{ UserId = 1, Username = "starix1" },
+                new Trader{ UserId = 2, Username = "starix2" },
+                new Trader{ UserId = 3, Username = "starix3" }
+            };
+
+            var exception = Record.Exception(() => assignmentValidator.Validate(uploadingDataFromExcel, traders));
+            Assert.Null(exception);
+        }
+
+        [Fact]
+        public void Validate_InValidTrader_ThrowException()
+        {
+            var uploadingDataFromExcel = new UploadingDataFromExcel
+            {
+                Assignments = new List<AssignmentModelInExcel>
+                {
+                    new AssignmentModelInExcel
+                    {
+                        Away = "GSW",
+                        Sport = "Basketball",
+                        TraderBadmintonAllProductPointWinner = "starix3",
+                        OtherTraderBadmintonRacetoPoints7911 = "#starix3"
+                    }
+                }
+            };
+            var traders = new List<Trader>
+            {
+                new Trader{ UserId = 1, Username = "starix1" },
+                new Trader{ UserId = 2, Username = "starix2" },
+                new Trader{ UserId = 0, Username = "starix3" }
+            };
+
+            var exception = Record.Exception(() => assignmentValidator.Validate(uploadingDataFromExcel, traders));
+            Assert.NotNull(exception);
+        }
+
+        [Fact]
         public void ValidateInvalidTraders_ValidTrader_ResulstIsEmpty()
         {
             var actual = new List<ValidationResult>();
             var invalidTrader = new List<Trader> {
-                new Trader { UserId = 0, Username = "Lisa" }
+                new Trader { UserId = 0, Username = "Bill" }
             };
             var assignmentModelList = GetAssignmentModels();
             

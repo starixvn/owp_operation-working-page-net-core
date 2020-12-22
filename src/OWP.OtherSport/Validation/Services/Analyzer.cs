@@ -33,7 +33,7 @@
 
             //var traders = await repository.GetTraders(rawDataFromExcel.Traders);
 
-            //var assignments = assignmentBuilder.BuildAssignment(traders, request, rawDataFromExcel.Assignments);
+            //var assignments = assignmentBuilder.BuildAssignment(traders, rawDataFromExcel.Assignments);
 
             //assignmentValidator.Validate(rawDataFromExcel, traders);
 

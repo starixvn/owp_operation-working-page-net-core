@@ -7,7 +7,6 @@
     {
         List<AssignmentModel> BuildAssignment(
             List<Trader> traders,
-            ValidationHandler.Request request,
             List<AssignmentModelInExcel> assignmentInExcels);
     }
 
@@ -21,7 +20,6 @@
 
         public List<AssignmentModel> BuildAssignment(
             List<Trader> traders, 
-            ValidationHandler.Request request, 
             List<AssignmentModelInExcel> assignmentInExcels)
         {
             assignmentMapper.Traders = traders;

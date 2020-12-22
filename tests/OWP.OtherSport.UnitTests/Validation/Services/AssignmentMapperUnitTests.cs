@@ -212,7 +212,7 @@
 
         private static AssignmentModel ExpectedAssignment()
         {
-            var excelModel = new AssignmentModel
+            var model = new AssignmentModel
             {
                 AutoLink = "Yes",
                 Away = "LA",
@@ -223,7 +223,7 @@
                 MatchStatus = "Live"
             };
 
-            return excelModel;
+            return model;
         }
     }
 }
