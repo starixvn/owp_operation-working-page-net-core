@@ -170,7 +170,7 @@
                 OtherTraderBadmintonAllProductPointWinner = "#Mira",
                 OtherTraderBadmintonNextPointWinner = "#Esther",
                 OtherTraderBaseballFTRunLineHDP = "",
-                OtherTraderBasketball1HHDP = "#Lita"
+                OtherTraderBasketball1HHDP = "Lita"
             };
             var model = new AssignmentModel();
 
@@ -179,7 +179,7 @@
             Assert.Equal("10, #<user> ", model.OtherTraderBadmintonAllProductPointWinner);
             Assert.Equal("1, #<user> ", model.OtherTraderBadmintonNextPointWinner);
             Assert.Equal("", model.OtherTraderBaseballFTRunLineHDP);
-            Assert.Equal("2, #<user> ", model.OtherTraderBasketball1HHDP);
+            Assert.Equal("0,Lita", model.OtherTraderBasketball1HHDP);
         }
 
         [Fact]

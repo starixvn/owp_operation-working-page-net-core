@@ -114,7 +114,7 @@ namespace OWP.OtherSport.Validation.Services
                 endIndex = text.Length;
             }
 
-            var note = text.Substring(0, startIndex).Trim() + " #<user> " + text.Substring(endIndex).Trim();
+            var note = $"{text.Substring(0, startIndex).Trim()} #<user> {text.Substring(endIndex).Trim()}";
             return $"{note}";
         }
 

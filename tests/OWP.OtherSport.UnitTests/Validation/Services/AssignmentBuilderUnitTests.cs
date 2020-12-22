@@ -26,7 +26,7 @@
         }
 
         [Fact]
-        public void BuildAssignment_EmptyText_ReturnAssignmentModels()
+        public void BuildAssignment_Always_ReturnAssignmentModels()
         {
             var traders = new List<Trader>
             {
