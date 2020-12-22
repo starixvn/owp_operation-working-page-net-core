@@ -27,18 +27,18 @@
 
         private readonly AssignmentAnalyzer assignmentAnalyzer;
 
-        private readonly INapSession session;
+        private readonly INapSession currentSession;
 
         public CommandRepositoryImp(
             IDynamicRepository repository,
             AssignmentMaxbetMapper mapper,
             AssignmentAnalyzer assignmentAnalyzer,
-            INapSession session)
+            INapSession currentSession)
         {
             this.repository = repository;
             this.mapper = mapper;
             this.assignmentAnalyzer = assignmentAnalyzer;
-            this.session = session;
+            this.currentSession = currentSession;
         }
 
         public async Task<AssignmentSnapshot> Query(string eventDates)
@@ -77,7 +77,7 @@
             var criteria = new InsertOrUpdateMatchesCommand
             {
                 Matches = XMLExtensions.Serialize(assignments),
-                UserId = session.UserId
+                UserId = currentSession.UserId
             };
 
             return (await repository.FetchAsync<MatchByHashKey>(criteria)).ToList();

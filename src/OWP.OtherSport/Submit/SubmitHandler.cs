@@ -1,5 +1,6 @@
 ﻿namespace OWP.OtherSport.Submit
 {
+    using Fanex.NAP.Client.Helpers.Web;
     using MediatR;
     using OWP.OtherSport.Submit.Services;
     using OWP.OtherSport.Validation.Models;
@@ -11,29 +12,60 @@
 
     public class SubmitRequest: IRequest<string>
     {
+
     }
 
     public class SubmitHandler: IRequestHandler<SubmitRequest, string>
     {
         private readonly CacheManipulator cacheManipulator;
         private readonly CommandRepository commandRepository;
+        private readonly INapSession session;
 
         public SubmitHandler(
             CacheManipulator cacheManipulator,
-            CommandRepository commandRepository)
+            CommandRepository commandRepository,
+            INapSession session)
         {
             this.cacheManipulator = cacheManipulator;
             this.commandRepository = commandRepository;
+            this.session = session;
         }
 
         public async Task<string> Handle(SubmitRequest request, CancellationToken cancellationToken)
         {
             var newAssignments = await cacheManipulator.GetNewAssignments();
-            var eventDateInString = string.Join(',', newAssignments.Select(a => a.EventDate));
+            var eventDates = newAssignments.Select(a => a.EventDate).ToList();
+
+            var userWhoIsUploadingAssignment = await cacheManipulator.GetUserWhoIsUploadingAssignment(eventDates);
+            if (!string.IsNullOrEmpty(userWhoIsUploadingAssignment))
+            {
+                return userWhoIsUploadingAssignment;
+            }
+
+            await TryHandle(eventDates, newAssignments);
+
+            return string.Empty;
+        }
+
+        private async Task TryHandle(List<DateTime> eventDates, List<AssignmentModel> assignments)
+        {
+            try
+            {
+                await cacheManipulator.SaveUserWhoIsUploadingAssignment(eventDates, session.UserName);
+                await SaveDataAndCleanupCache(eventDates, assignments);
+            }
+            finally
+            {
+                await cacheManipulator.DeleteUserWhoIsUploadingAssignment(eventDates);
+            }
+        }
+
+        private async Task SaveDataAndCleanupCache(List<DateTime> eventDates, List<AssignmentModel> assignments)
+        {
+            var eventDateInString = string.Join(',', eventDates);
 
             await SaveOldAssignmentsToSnapshot(eventDateInString);
-            await SaveAssignmentsToDatabase(newAssignments, eventDateInString);
-            return string.Empty;
+            await SaveAssignmentsToDatabase(assignments, eventDateInString);
         }
 
         public async Task SaveOldAssignmentsToSnapshot(string eventDateInString)
@@ -43,8 +75,6 @@
         }
 
         public async Task SaveAssignmentsToDatabase(List<AssignmentModel> newAssignments, string eventDateInString)
-        {
-            await commandRepository.Update(eventDateInString, newAssignments);
-        }
+            => await commandRepository.Update(eventDateInString, newAssignments);
     }
 }

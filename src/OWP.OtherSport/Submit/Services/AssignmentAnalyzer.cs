@@ -34,7 +34,7 @@
             var matchId = assignment.OSMatchId;
             foreach (var assignmentMaxbet in assignmentMaxbets)
             {
-                yield return GetMaxBetByBettype(matchId, assignmentMaxbet.Bettype, assignmentMaxbet.TraderId);
+                yield return GetMaxBetByBettype(matchId, assignmentMaxbet.Bettype, assignmentMaxbet.MaxBet);
             }
         }
 
@@ -64,7 +64,15 @@
 
         public static OtherTrader MapOtherTrader(string traderInString)
         {
-            return new OtherTrader();
+            var parts = traderInString.Split(',');
+            var traderId = int.Parse(parts[0]);
+            var assignmentNote = parts[1];
+
+            return new OtherTrader
+            {
+                UserId = traderId,
+                AssignmentNote = assignmentNote
+            };
         }
 
         public static MatchMaxBet GetMaxBetByBettype(int matchId, string bettype, decimal? maxbet)
