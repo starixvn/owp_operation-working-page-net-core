@@ -199,7 +199,7 @@
                 worksheet.Cells[1, 178].Value = "Max Bet Netball 1H (OU/OE)";
                 worksheet.Cells[1, 179].Value = "Max Bet Netball 1Q & 3Q (OU/OE)";
                 worksheet.Cells[1, 180].Value = "Max Bet Cricket Match Winner & Innings (OU)";
-                worksheet.Cells[1, 181].Value = "Trader Cricket Next Over (OU) & Player (OU)";
+                worksheet.Cells[1, 181].Value = "Max Bet Cricket Next Over (OU) & Player (OU)";
                 worksheet.Cells[1, 182].Value = "Max Bet Cricket FT 1X2";
                 worksheet.Cells[1, 183].Value = "Max Bet Snooker Match Winner (HDP/OU)";
                 worksheet.Cells[1, 184].Value = "Max Bet Snooker Frames Winner (HDP/OU/OE)";
