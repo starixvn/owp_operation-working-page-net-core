@@ -100,6 +100,57 @@
             DeepAssert.Equal(expected, actual);
         }
 
+        [Fact]
+        public void CustomValidateAssignment_ValidTrader_NotThrowsException()
+        {
+            var assignmentModelList = new AssignmentModelInExcel
+            {
+                Away = "OKC",
+                Home = "Toronto Raptor",
+                League = "NBA",
+                Sport = "Basketball",
+                TraderBadmintonAllProductPointWinner = "Esther"
+            };
+
+            var traders = new List<Trader>
+            {
+                new Trader{ UserId = 1, Username = "Esther"},
+                new Trader{ UserId = 10, Username = "Mira"},
+                new Trader{ UserId = 2, Username = "Lita"}
+            };
+            var expected = new List<ValidationResult>();
+        
+            var actual = assignmentValidator.CustomValidateAssignment(assignmentModelList, traders);
+            DeepAssert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void CustomValidateAssignment_InvalidTrader_NotThrowsInvalidAssignmentRowException()
+        {
+            var assignmentModel = new AssignmentModelInExcel
+            {
+                Away = "OKC",
+                Home = "Toronto Raptor",
+                League = "NBA",
+                Sport = "Basketball",
+                TraderBadmintonAllProductPointWinner = "Curry"
+            };
+
+            var traders = new List<Trader>
+            {
+                new Trader{ UserId = 1, Username = "Esther"},
+                new Trader{ UserId = 10, Username = "Mira"},
+                new Trader{ UserId = 0, Username = "Curry"}
+            };
+            var expected = new List<ValidationResult>
+            {
+                new ValidationResult("Invalid Trader Badminton All Product (Point Winner): Curry")                
+            };
+
+            var actual = assignmentValidator.CustomValidateAssignment(assignmentModel, traders);
+            DeepAssert.Equal(expected, actual);
+        }
+
         private static List<AssignmentModelInExcel> GetAssignmentModels()
         {
             return new List<AssignmentModelInExcel>

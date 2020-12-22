@@ -76,6 +76,7 @@
         {
             const string otherTraders = "#esther";
             const string expected = " #<user> ";
+           
             var actual = assignmentMapper.ExtractNote(otherTraders);
             Assert.Equal(expected, actual);
         }
@@ -85,6 +86,7 @@
         {
             const string otherTraders = "#esther #halo #mira";
             const string expected = " #<user> #halo #mira";
+            
             var actual = assignmentMapper.ExtractNote(otherTraders);
             Assert.Equal(expected, actual);
         }
@@ -152,6 +154,7 @@
                 TraderBasketball1HHDP = "",
                 TraderBaseballFTTotalRunOU = "Lita"
             };
+           
             var model = new AssignmentModel();
 
             assignmentMapper.MapTraders(excelModel, model);
@@ -172,6 +175,7 @@
                 OtherTraderBaseballFTRunLineHDP = "",
                 OtherTraderBasketball1HHDP = "Lita"
             };
+            
             var model = new AssignmentModel();
 
             assignmentMapper.MapOtherTraders(excelModel, model);

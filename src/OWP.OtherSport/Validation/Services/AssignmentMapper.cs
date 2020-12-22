@@ -1,5 +1,4 @@
-﻿
-namespace OWP.OtherSport.Validation.Services
+﻿namespace OWP.OtherSport.Validation.Services
 {
     using AutoMapper;
     using OWP.OtherSport.Validation.Models;

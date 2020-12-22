@@ -1,37 +1,33 @@
-﻿using OWP.OtherSport.Validation.Exceptions;
-using OWP.OtherSport.Validation.Helpers;
-using OWP.OtherSport.Validation.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Reflection;
-using System.Text.RegularExpressions;
-
-namespace OWP.OtherSport.Validation.Services
+﻿namespace OWP.OtherSport.Validation.Services
 {
+    using OWP.OtherSport.Validation.Exceptions;
+    using OWP.OtherSport.Validation.Helpers;
+    using OWP.OtherSport.Validation.Models;
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Linq;
+    using System.Reflection;
+    using System.Text.RegularExpressions;
     public interface AssignmentValidator
     {
         void Validate(UploadingDataFromExcel rawDataFromExcel, List<Trader> traders);
 
         void ValidateTraders(AssignmentModelInExcel assignment, List<ValidationResult> results, List<Trader> traders);
+
+        List<ValidationResult> CustomValidateAssignment(AssignmentModelInExcel assignment, List<Trader> traders);
     }
 
     public class AssignmentValidatorImp : AssignmentValidator
     {
         public void Validate(UploadingDataFromExcel rawDataFromExcel, List<Trader> traders)
         {
-            CustomValidateAssignment(rawDataFromExcel.Assignments, traders);
-        }
-
-        public void CustomValidateAssignment(List<AssignmentModelInExcel> assignments, List<Trader> traders)
-        {
             var validationResults = new List<AssignmentValidationRowResult>();
 
-            for (var i = 0; i < assignments.Count; i++)
+            for (var i = 0; i < rawDataFromExcel.Assignments.Count; i++)
             {
                 var rowIndex = i;
-                var validationResultsOfAssignment = CustomValidateAssignment(assignments[i], traders);
+                var validationResultsOfAssignment = CustomValidateAssignment(rawDataFromExcel.Assignments[i], traders);
                 ValidationHelper.BuildValidationRowResult(
                    validationResultsOfAssignment,
                    validationResults,
@@ -44,7 +40,7 @@ namespace OWP.OtherSport.Validation.Services
             {
                 throw new InvalidAssignmentRowException(validationResults);
             }
-        }
+        }    
 
         public List<ValidationResult> CustomValidateAssignment(AssignmentModelInExcel assignment, List<Trader> traders)
         {

@@ -37,11 +37,13 @@
 
             excelReader.Read(Arg.Compat.Any<Stream>()).Returns(rawModelInExcel);
             repository.GetTraders(Arg.Compat.Any<List<string>>()).Returns(traders);
-            assignmentBuilder.BuildAssignment(Arg.Compat.Any<List<Trader>>(), Arg.Compat.Any<List<AssignmentModelInExcel>>())
+            assignmentBuilder.BuildAssignment(Arg.Compat.Any<List<Trader>>(),
+                Arg.Compat.Any<List<AssignmentModelInExcel>>())
                 .Returns(assignmentModels); 
          
             var request = new ValidationHandler.Request();
             var expected = GetAnalyzedResult();
+            
             var actual = await analyzer.Analyze(request);
 
             DeepAssert.Equal(expected, actual);
