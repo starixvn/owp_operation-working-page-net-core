@@ -31,17 +31,17 @@
         {
             var rawDataFromExcel = excelReader.Read(request.Stream);
 
-            //var traders = await repository.GetTraders(rawDataFromExcel.Traders);
+            var traders = await repository.GetTraders(rawDataFromExcel.Traders);
 
-            //var assignments = assignmentBuilder.BuildAssignment(traders, rawDataFromExcel.Assignments);
+            var assignments = assignmentBuilder.BuildAssignment(traders, rawDataFromExcel.Assignments);
 
-            //assignmentValidator.Validate(rawDataFromExcel, traders);
+            assignmentValidator.Validate(rawDataFromExcel, traders);
 
-            return new AnalyzedResult();
-            //{
-                //Assignments = assignments,
-                //OriginalRecordCount = rawDataFromExcel.Assignments.Count
-            //};
+            return new AnalyzedResult
+            {
+                Assignments = assignments,
+                OriginalRecordCount = rawDataFromExcel.Assignments.Count
+            };
         }
     }
 }
