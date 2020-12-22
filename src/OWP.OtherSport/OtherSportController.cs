@@ -48,7 +48,7 @@ namespace OWP.OtherSport
         }
 
         [Route("submit")]
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> Submit()
         {
             return Ok();
