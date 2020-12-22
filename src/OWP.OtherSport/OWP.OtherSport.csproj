@@ -20,6 +20,7 @@
     <PackageReference Include="Fanex.NAP.Client.AspNetCore" Version="1.0.0-beta5" />
     <PackageReference Include="MediatR" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    <PackageReference Include="Olympus.Xml.AspNetCore" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>

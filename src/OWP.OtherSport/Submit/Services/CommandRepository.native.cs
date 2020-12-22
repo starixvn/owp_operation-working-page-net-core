@@ -2,8 +2,8 @@
 {
     using Fanex.Data.Repository;
     using Fanex.NAP.Client.Helpers.Web;
+    using Olympus.Xml;
     using OWP.OtherSport.Submit.Criteria;
-    using OWP.OtherSport.Submit.Extensions;
     using OWP.OtherSport.Submit.Models;
     using OWP.OtherSport.Validation.Models;
     using System.Collections.Generic;
@@ -74,37 +74,37 @@
 
         public async Task<List<MatchByHashKey>> InsertOrUpdateMatch(List<AssignmentModel> assignments)
         {
-            var criteria = new InsertOrUpdateMatchesCommand
+            var command = new InsertOrUpdateMatchesCommand
             {
-                Matches = XMLExtensions.Serialize(assignments),
+                Matches = XmlConverter.Serialize(assignments),
                 UserId = currentSession.UserId
             };
 
-            return (await repository.FetchAsync<MatchByHashKey>(criteria)).ToList();
+            return (await repository.FetchAsync<MatchByHashKey>(command)).ToList();
         }
 
         public async Task InsertOrUpdateMatchAssignment(List<AssignmentModel> assignments, Dictionary<int, List<AssignmentMaxbet>> assignmentMaxbets, string newMatchIdsInString)
         {
             var matchAssignment = assignments.Select(a => assignmentAnalyzer.GetAllAssignmentsOfMatch(a, assignmentMaxbets[a.OSMatchId]));
-            var criteria = new InsertOrUpdateMatchAssignmentsCommand
+            var command = new InsertOrUpdateMatchAssignmentsCommand
             {
-                MatchAssignments = XMLExtensions.Serialize(matchAssignment),
+                MatchAssignments = XmlConverter.Serialize(matchAssignment),
                 MatchIds = newMatchIdsInString
             };
 
-            await repository.ExecuteAsync(criteria);
+            await repository.ExecuteAsync(command);
         }
 
         public async Task InsertOrUpdateMaxBet(List<AssignmentModel> assignments, Dictionary<int, List<AssignmentMaxbet>> assignmentMaxbets, string newMatchIdsInString)
         {
             var matchAssignment = assignments.Select(a => assignmentAnalyzer.GetMaxBets(a, assignmentMaxbets[a.OSMatchId]));
-            var criteria = new InsertOrUpdateMatchAssignmentsCommand
+            var command = new InsertOrUpdateMatchAssignmentsCommand
             {
-                MatchAssignments = XMLExtensions.Serialize(matchAssignment),
+                MatchAssignments = XmlConverter.Serialize(matchAssignment),
                 MatchIds = newMatchIdsInString
             };
 
-            await repository.ExecuteAsync(criteria);
+            await repository.ExecuteAsync(command);
         }
 
         public async Task DeleteOldMatches(string deletedMatchIdsInString)
