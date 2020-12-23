@@ -255,5 +255,6 @@
     <Setting Key="OWP_OSAssignmentUpload_MatchAssignmentsInsertOrUpdate" SpName="OWP_OSAssignmentUpload_MatchAssignmentsInsertOrUpdate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_OSAssignmentUpload_MaxBetInsertOrUpdate" SpName="OWP_OSAssignmentUpload_MaxBetInsertOrUpdate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_OSAssignmentUpload_MatchInsertOrUpdate" SpName="OWP_OSAssignmentUpload_MatchInsertOrUpdate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+    <Setting Key="OWP_OSAssignmentUpload_GetTraderByUsername" SpName="OWP_OSAssignmentUpload_GetTraderByUsername" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
   </Function>
 </Functions>

@@ -8,6 +8,6 @@
 
         public override bool IsValid() => true;
 
-        public override string GetSettingKey() => "OWP_TraderByUsernameSel";
+        public override string GetSettingKey() => "OWP_OSAssignmentUpload_GetTraderByUsername";
     }
 }

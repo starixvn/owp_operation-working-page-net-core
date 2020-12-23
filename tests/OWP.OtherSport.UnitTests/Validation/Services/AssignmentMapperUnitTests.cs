@@ -145,6 +145,50 @@
         }
 
         [Fact]
+        public void MapEventDate_Always_ReturnsAssignmentModel()
+        {
+            var excelModel = new AssignmentModelInExcel
+            {
+                AutoLink = "Yes",
+                Away = "LA",
+                Home = "GSW",
+                DateTime = "12/10/2020 11:00 AM",
+                Sport = "BasketBall",
+                League = "NBA",
+                MatchStatus = "Live"
+            };
+
+            var model = new AssignmentModel
+            {
+                AutoLink = "Yes",
+                Away = "LA",
+                Home = "GSW",
+                DateTime = DateTime.Now,
+                EventDate = DateTime.Now,
+                Sport = "BasketBall",
+                League = "NBA",
+                MatchStatus = "Live"
+            };
+
+            var expected = new AssignmentModel
+            {
+                AutoLink = "Yes",
+                Away = "LA",
+                Home = "GSW",
+                DateTime = DateTime.Parse("12/10/2020 11:00 AM"),
+                EventDate = DateTime.Parse("12/10/2020 11:00 AM"),
+                Sport = "BasketBall",
+                League = "NBA",
+                MatchStatus = "Live"
+            };
+
+            assignmentMapper.MapEventDate(excelModel, model);
+
+            Assert.Equal(expected.DateTime, model.DateTime);
+            Assert.Equal(expected.EventDate, model.EventDate);        
+        }
+
+        [Fact]
         public void MapTraders_ValidTraderName_SuccessMapTrader()
         {
             var excelModel = new AssignmentModelInExcel
@@ -205,7 +249,7 @@
                 AutoLink = "Yes",
                 Away = "LA",
                 Home = "GSW",
-                DateTime = "12/10/2020 12:00 AM",
+                DateTime = "12/10/2020 12:00:00 AM",
                 Sport = "BasketBall",                             
                 League = "NBA",
                 MatchStatus = "Live"    
@@ -222,6 +266,7 @@
                 Away = "LA",
                 Home = "GSW",
                 DateTime = DateTime.Parse("12/10/2020 12:00 AM"),
+                EventDate = DateTime.Parse("12/10/2020"),
                 Sport = "BasketBall",
                 League = "NBA",
                 MatchStatus = "Live"
