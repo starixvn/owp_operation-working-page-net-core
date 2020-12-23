@@ -1,4 +1,4 @@
-﻿namespace OWP.OtherSport.UnitTests.Helpers
+﻿namespace OWP.OtherSport.UnitTests.Validation.Helpers
 {
     using OWP.OtherSport.Validation.Helpers;
     using OWP.OtherSport.Validation.Models;
