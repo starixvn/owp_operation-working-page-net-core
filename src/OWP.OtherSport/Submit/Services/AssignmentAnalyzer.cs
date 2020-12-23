@@ -8,9 +8,9 @@
 
     public interface AssignmentAnalyzer
     {
-        IEnumerable<MatchAssignment> GetAllAssignmentsOfMatch(AssignmentModel assignment, List<AssignmentMaxbet> assignmentMaxbets);
+        List<MatchAssignment> GetAllAssignmentsOfMatch(AssignmentModel assignment, List<AssignmentMaxbet> assignmentMaxbets);
 
-        IEnumerable<MatchMaxBet> GetMaxBets(AssignmentModel assignment, List<AssignmentMaxbet> assignmentMaxbets);
+        List<MatchMaxBet> GetMaxBets(AssignmentModel assignment, List<AssignmentMaxbet> assignmentMaxbets);
 
         string DetectOldMatchIds(List<int> oldMatchIds, List<int> newMatchIds);
 
@@ -19,23 +19,28 @@
 
     public class AssignmentAnalyzerImp : AssignmentAnalyzer
     {
-        public IEnumerable<MatchAssignment> GetAllAssignmentsOfMatch(AssignmentModel assignment, List<AssignmentMaxbet> assignmentMaxbets)
+        public List<MatchAssignment> GetAllAssignmentsOfMatch(AssignmentModel assignment, List<AssignmentMaxbet> assignmentMaxbets)
         {
             var matchId = assignment.OSMatchId;
+            var matchAssignments = new List<MatchAssignment>();
             foreach (var assignmentMaxbet in assignmentMaxbets)
             {
-                yield return GetAssignmentByBettype(matchId, assignmentMaxbet.Bettype, assignmentMaxbet.TraderId);
-                yield return GetOtherAssignmentByBettype(matchId, assignmentMaxbet.Bettype, assignmentMaxbet.OtherTrader);
+                matchAssignments.Add(GetAssignmentByBettype(matchId, assignmentMaxbet.Bettype, assignmentMaxbet.TraderId));
+                matchAssignments.Add(GetOtherAssignmentByBettype(matchId, assignmentMaxbet.Bettype, assignmentMaxbet.OtherTrader));
             }
+
+            return matchAssignments.Where(a => a.UserId > 0 || !string.IsNullOrWhiteSpace(a.AssignmentNote)).ToList();
         }
 
-        public IEnumerable<MatchMaxBet> GetMaxBets(AssignmentModel assignment, List<AssignmentMaxbet> assignmentMaxbets)
+        public List<MatchMaxBet> GetMaxBets(AssignmentModel assignment, List<AssignmentMaxbet> assignmentMaxbets)
         {
-            var matchId = assignment.OSMatchId;
+            var matchMaxBets = new List<MatchMaxBet>();
             foreach (var assignmentMaxbet in assignmentMaxbets)
             {
-                yield return GetMaxBetByBettype(matchId, assignmentMaxbet.Bettype, assignmentMaxbet.MaxBet);
+                matchMaxBets.Add(GetMaxBetByBettype(assignment.OSMatchId, assignmentMaxbet.Bettype, assignmentMaxbet.MaxBet));
             }
+
+            return matchMaxBets.Where(a => a.MaxBet != null).ToList();
         }
 
         public static MatchAssignment GetAssignmentByBettype(int matchId, string bettype, int userId)
@@ -49,9 +54,9 @@
             };
         }
 
-        public static MatchAssignment GetOtherAssignmentByBettype(int matchId, string bettype, string traderInString)
+        public static MatchAssignment GetOtherAssignmentByBettype(int matchId, string bettype, string otherTraderNote)
         {
-            var otherTrader = MapOtherTrader(traderInString);
+            var otherTrader = MapOtherTrader(otherTraderNote);
             return new MatchAssignment
             {
                 OSMatchId = matchId,
@@ -62,9 +67,13 @@
             };
         }
 
-        public static OtherTrader MapOtherTrader(string traderInString)
+        public static OtherTrader MapOtherTrader(string otherTraderNote)
         {
-            var parts = traderInString.Split(',');
+            if (string.IsNullOrEmpty(otherTraderNote))
+            {
+                return new OtherTrader();
+            }
+            var parts = otherTraderNote.Split(',');
             var traderId = int.Parse(parts[0]);
             var assignmentNote = parts[1];
 

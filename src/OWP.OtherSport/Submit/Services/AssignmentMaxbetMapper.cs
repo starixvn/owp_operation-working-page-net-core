@@ -18,29 +18,21 @@
 
         public List<AssignmentMaxbet> MapBySport(AssignmentModel assignment)
         {
-            var sportBetType = new Dictionary<string, List<AssignmentMaxbet>>
-            {
-                {Sport.Basketball, MapBasketball(assignment)},
-                {Sport.Football, MapFootball(assignment)},
-                //{Sport.FieldHockey, BasketballHelper.GetAllAssignmentsOfMatch(assignment)},
-                //{Sport.IceHockey, BasketballHelper.GetAllAssignmentsOfMatch(assignment)},
-                {Sport.OtherSports, MapOtherSports(assignment)},
-                //{Sport.Darts, GetFieldHockeyAssignments(assignment)},
-                //{Sport.Pool, GetBasketballInformation(assignment)},
-                //{Sport.TableTennis, GetFootballAssignments(assignment)},
-                //{Sport.Volleyball, GetFieldHockeyAssignments(assignment)},
-                //{Sport.Handball, GetFieldHockeyAssignments(assignment)},
-                //{Sport.Netball, GetFieldHockeyAssignments(assignment)},
-                //{Sport.Cricket, GetFieldHockeyAssignments(assignment)},
-                //{Sport.Baseball, GetFieldHockeyAssignments(assignment)},
-                //{Sport.Badminton, GetFieldHockeyAssignments(assignment)},
-                //{Sport.Tennis, GetFieldHockeyAssignments(assignment)}
-            };
-            return sportBetType[assignment.Sport];
+            var assignmentMaxBet = new List<AssignmentMaxbet>();
+            assignmentMaxBet.AddRange(MapBasketball(assignment));
+            assignmentMaxBet.AddRange(MapFootball(assignment));
+            assignmentMaxBet.AddRange(MapOtherSports(assignment));
+
+            return assignmentMaxBet;
         }
 
-        public List<AssignmentMaxbet> MapBasketball(AssignmentModel assignment)
+        public static List<AssignmentMaxbet> MapBasketball(AssignmentModel assignment)
         {
+            if(!assignment.Sport.Equals(Sport.Basketball, System.StringComparison.CurrentCultureIgnoreCase))
+            {
+                return new List<AssignmentMaxbet>();
+            }
+
             return new List<AssignmentMaxbet>
             {
                 new AssignmentMaxbet
@@ -84,8 +76,13 @@
             };
         }
 
-        public List<AssignmentMaxbet> MapFootball(AssignmentModel assignment)
+        public static List<AssignmentMaxbet> MapFootball(AssignmentModel assignment)
         {
+            if (!assignment.Sport.Equals(Sport.Football, System.StringComparison.CurrentCultureIgnoreCase))
+            {
+                return new List<AssignmentMaxbet>();
+            }
+
             return new List<AssignmentMaxbet>
             {
                 new AssignmentMaxbet
