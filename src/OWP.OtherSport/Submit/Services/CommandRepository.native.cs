@@ -43,7 +43,19 @@
 
         public async Task<AssignmentSnapshot> Query(string eventDates)
         {
-            return new AssignmentSnapshot();
+            var criteria = new GetAllMatchesByDateTimeListCriteria
+            {
+                EventDates = eventDates
+            };
+
+            var tuple = await repository.FetchMultipleAsync<MatchInfo, MatchAssignment, MatchMaxBet>(criteria);
+
+            return new AssignmentSnapshot
+            {
+                Matches = tuple.Item1.ToDictionary(m => m.OSMatchId),
+                MatchAssignments = tuple.Item2.GroupBy(a => a.OSMatchId).ToDictionary(a => a.Key, a => a.ToList()),
+                MaxBet = tuple.Item3.GroupBy(a => a.OSMatchId).ToDictionary(a => a.Key, a => a.ToList())
+            };
         }
 
         public async Task<List<int>> GetOldMatchIds(string eventDateInString)
@@ -97,10 +109,10 @@
 
         public async Task InsertOrUpdateMaxBet(List<AssignmentModel> assignments, Dictionary<int, List<AssignmentMaxbet>> assignmentMaxbets, string newMatchIdsInString)
         {
-            var matchAssignment = assignments.Select(a => assignmentAnalyzer.GetMaxBets(a, assignmentMaxbets[a.OSMatchId]));
-            var command = new InsertOrUpdateMatchAssignmentsCommand
+            var maxBets = assignments.Select(a => assignmentAnalyzer.GetMaxBets(a, assignmentMaxbets[a.OSMatchId]));
+            var command = new InsertOrUpdateMaxBetCommand
             {
-                MatchAssignments = XmlConverter.Serialize(matchAssignment),
+                MaxBets = XmlConverter.Serialize(maxBets),
                 MatchIds = newMatchIdsInString
             };
 

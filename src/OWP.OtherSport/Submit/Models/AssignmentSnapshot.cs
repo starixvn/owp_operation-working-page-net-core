@@ -1,14 +1,22 @@
-﻿using System;
-
-namespace OWP.OtherSport.Submit.Models
+﻿namespace OWP.OtherSport.Submit.Models
 {
+    using System;
+    using System.Collections.Generic;
+
     public class AssignmentSnapshot
     {
-        public MatchInfo Match { get; set; }
+        public Dictionary<int, MatchInfo> Matches { get; set; }
 
-        public MatchAssignment Assignment { get; set; }
+        public Dictionary<int, List<MatchMaxBet>> MaxBet { get; set; }
 
-        public MatchMaxBet MaxBet { get; set; }
+        public Dictionary<int, List<MatchAssignment>> MatchAssignments { get; set; }
+
+        public AssignmentSnapshot()
+        {
+            Matches = new Dictionary<int, MatchInfo>();
+            MaxBet = new Dictionary<int, List<MatchMaxBet>>();
+            MatchAssignments = new Dictionary<int, List<MatchAssignment>>();
+        }
     }
 
     public class MatchInfo

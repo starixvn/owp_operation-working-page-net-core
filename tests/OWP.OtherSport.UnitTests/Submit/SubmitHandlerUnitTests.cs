@@ -60,9 +60,9 @@
             };
             var snapShot = new AssignmentSnapshot
             {
-                MaxBet = new MatchMaxBet
+                MaxBet = new Dictionary<int, List<MatchMaxBet>>
                 {
-                    BetTypeName = "bet type"
+                    { 1, new List<MatchMaxBet> { new MatchMaxBet { BetTypeName = "bet type" } } }
                 }
             };
             const string processingUser = "";
