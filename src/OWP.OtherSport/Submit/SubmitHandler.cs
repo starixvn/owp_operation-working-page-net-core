@@ -34,7 +34,7 @@
         public async Task<string> Handle(SubmitRequest request, CancellationToken cancellationToken)
         {
             var newAssignments = await cacheManipulator.GetNewAssignments();
-            var eventDates = newAssignments.Select(a => a.EventDate).ToList();
+            var eventDates = newAssignments.Select(a => a.EventDate).Distinct().ToList();
 
             var userWhoIsUploadingAssignment = await cacheManipulator.GetUserWhoIsUploadingAssignment(eventDates);
             if (!string.IsNullOrEmpty(userWhoIsUploadingAssignment))
