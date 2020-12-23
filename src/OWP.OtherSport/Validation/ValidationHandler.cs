@@ -6,6 +6,7 @@
     using System.IO;
     using System.Threading;
     using System.Threading.Tasks;
+    using Fanex.NAP.Client.Helpers.Web;
     using MediatR;
     using Models;
     using OWP.OtherSport.Validation.Services;
@@ -46,14 +47,20 @@
 
         public class Handler : IRequestHandler<Request, Response>
         {
+            private readonly CacheManipulator cacheManipulator;
+
             private readonly ExcelValidator excelValidator;
 
             private readonly Analyzer analyzer;
 
-            public Handler(ExcelValidator excelValidator, Analyzer analyzer)
+            private readonly INapSession session;
+
+            public Handler(ExcelValidator excelValidator, Analyzer analyzer, INapSession session, CacheManipulator cacheManipulator)
             {
                 this.excelValidator = excelValidator;
                 this.analyzer = analyzer;
+                this.session = session;
+                this.cacheManipulator = cacheManipulator;
             }
 
             public async Task<Response> Handle(Request request, CancellationToken cancellationToken)
@@ -64,6 +71,8 @@
                 };
                 result.RecordCount = await ProcessAssignmentUploading(result.SessionId, request);
 
+                await LogExcelFile(request.SessionId, request.Stream);
+
                 return result;
             }
 
@@ -71,8 +80,22 @@
             {
                 excelValidator.Validate(request.Stream);
                 var analyzedResult = await analyzer.Analyze(request);
+                await cacheManipulator.SaveAssignmentsSnapshot(sessionId, analyzedResult.Assignments);
 
                 return analyzedResult.OriginalRecordCount;
+            }
+
+            private async Task LogExcelFile(string sessionId, Stream file)
+            {
+                const string folderPath = @"App_Data\Files";
+                var absolutedFolderPath = $"{AppDomain.CurrentDomain.BaseDirectory}\\{folderPath}";
+                var fileName = $"{sessionId}-{session.UserName}-New.xlsx";
+                var fullPath = Path.Combine(absolutedFolderPath, fileName);
+                using (var stream = File.Create(fullPath))
+                {
+                    file.Seek(0, SeekOrigin.Begin);
+                    await file.CopyToAsync(stream);
+                }
             }
         }
     }
