@@ -19,7 +19,9 @@
         public const string First2ndPeriodsOU = "1st-2nd Periods (OU)";
         public const string MatchWinner = "Match Winner";
         public const string LegsHDP = "Legs (HDP)";
+        public const string Most180sHDP = "Most 180s (HDP)";
         public const string MatchWinnerHDP = "Match Winner (HDP)";
+        public const string RacksWinnerHDP = "Racks Winner (HDP)";
         public const string SetWinnerHDP = "Set Winner (HDP)";
         public const string SetXWinnerHDP = "Set x Winner (HDP)";
         public const string SetWinnerHDPOE = "Set Winner (HDP/OE)";
@@ -30,12 +32,23 @@
         public const string MatchWinnerHDPOU = "Match Winner (HDP/OU)";
         public const string FramesWinnerHDPOUOE = "Frames Winner (HDP/OU/OE)";
         public const string First5FramesHDP = "First 5 Frames (HDP)";
+        public const string First8FramesHDP = "First 8 Frames (HDP)";
+        public const string First9FramesHDP = "First 9 Frames (HDP)";
+        public const string FTRunLineHDP = "FT Run Line (HDP)";
+        public const string FirstH1st5inningsHDP = "1H 1st 5 innings (HDP)";
+        public const string FTTotalRunOU = "FT Total Run (OU)";
+        public const string FirstH1st5inningsOU = "1H 1st 5 innings (OU)";
+        public const string InningHitsAndRuns = "Inning Hits & Runs";
+        public const string AllProductSetWinner = "All Product (Set Winner)";
+        public const string AllProductPointWinner = "All Product (Point Winner)";
+        public const string RacetoPoints7911 = "Race to Points (7, 9, 11)";
         public const string NextPointWinner = "Next Point Winner";
         public const string MatchHandicap = "Match Handicap";
         public const string AllProductLS = "All Product (LS)";
         public const string NextGame = "Next Game";
         public const string MostAces = "Most Aces";
         public const string MostDoubleFaults = "Most Double Faults";
-        public const string OtherSportsMatchWinner = "Other Sports Match Winner";
+
+
     }
 }
