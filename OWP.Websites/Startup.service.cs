@@ -1,5 +1,6 @@
 namespace OWP.Websites
 {
+    using AutoMapper;
     using Fanex.Caching.Redis;
     using Fanex.Data;
     using Fanex.Data.Repository;
@@ -191,6 +192,19 @@ namespace OWP.Websites
         {
             services.AddMediatR(typeof(MaxbetController).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(OtherSportController).GetTypeInfo().Assembly);
+        }
+
+        private static void ConfigureAutoMapper(IServiceCollection services)
+        {
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new OtherSport.AutoMapperProfile());
+            });
+
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
+
+            services.AddMvc();
         }
     }
 }

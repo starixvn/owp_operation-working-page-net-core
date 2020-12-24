@@ -11,6 +11,7 @@
     public class AssignmentMapperUnitTests
     {
         private readonly AssignmentMapperImp assignmentMapper;
+
         public AssignmentMapperUnitTests()
         {
             var config = new MapperConfiguration(cfg =>
@@ -76,7 +77,7 @@
         {
             const string otherTraders = "#esther";
             const string expected = " #<user> ";
-           
+
             var actual = assignmentMapper.ExtractNote(otherTraders);
             Assert.Equal(expected, actual);
         }
@@ -86,7 +87,7 @@
         {
             const string otherTraders = "#esther #halo #mira";
             const string expected = " #<user> #halo #mira";
-            
+
             var actual = assignmentMapper.ExtractNote(otherTraders);
             Assert.Equal(expected, actual);
         }
@@ -155,47 +156,6 @@
         }
 
         [Fact]
-        public void MapEventDate_Always_ReturnsAssignmentModel()
-        {
-            var excelModel = new AssignmentModelInExcel
-            {
-                AutoLink = "Yes",
-                Away = "LA",
-                Home = "GSW",
-                DateTime = "12/10/2020 11:00 AM",
-                Sport = "BasketBall",
-                League = "NBA",
-                MatchStatus = "Live"
-            };
-
-            var model = new AssignmentModel
-            {
-                AutoLink = "Yes",
-                Away = "LA",
-                Home = "GSW",
-                DateTime = DateTime.Now,
-                Sport = "BasketBall",
-                League = "NBA",
-                MatchStatus = "Live"
-            };
-
-            var expected = new AssignmentModel
-            {
-                AutoLink = "Yes",
-                Away = "LA",
-                Home = "GSW",
-                DateTime = DateTime.Parse("12/10/2020 11:00 AM"),
-                Sport = "BasketBall",
-                League = "NBA",
-                MatchStatus = "Live"
-            };
-
-            assignmentMapper.MapDateTime(excelModel, model);
-
-            Assert.Equal(expected.DateTime, model.DateTime);       
-        }
-
-        [Fact]
         public void MapTraders_ValidTraderName_SuccessMapTrader()
         {
             var excelModel = new AssignmentModelInExcel
@@ -205,7 +165,7 @@
                 TraderBasketball1HHDP = "",
                 TraderBaseballFTTotalRunOU = "Lita"
             };
-           
+
             var model = new AssignmentModel();
 
             assignmentMapper.MapTraders(excelModel, model);
@@ -226,7 +186,7 @@
                 OtherTraderBaseballFTRunLineHDP = "",
                 OtherTraderBasketball1HHDP = "Lita"
             };
-            
+
             var model = new AssignmentModel();
 
             assignmentMapper.MapOtherTraders(excelModel, model);
@@ -257,9 +217,9 @@
                 Away = "LA",
                 Home = "GSW",
                 DateTime = "12/10/2020 12:00:00 AM",
-                Sport = "BasketBall",                             
+                Sport = "BasketBall",
                 League = "NBA",
-                MatchStatus = "Live"    
+                MatchStatus = "Live"
             };
 
             return excelModel;

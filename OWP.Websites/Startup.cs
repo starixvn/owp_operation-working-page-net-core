@@ -34,6 +34,7 @@ namespace OWP.Websites
             ConfigureMediator(services);
 
             ConfigInternalService(services);
+            ConfigureAutoMapper(services);
 
             services.AddRazorPages();
             services.AddControllersWithViews();

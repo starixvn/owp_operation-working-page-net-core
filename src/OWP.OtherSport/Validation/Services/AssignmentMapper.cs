@@ -20,10 +20,6 @@
 
         int GetTraderId(string name);
 
-        void MapHashKey(AssignmentModel model);
-
-        void MapDateTime(AssignmentModelInExcel excelModel, AssignmentModel model);
-
         List<AssignmentModel> Map(List<AssignmentModelInExcel> excelModels);
 
         AssignmentModel Map(AssignmentModelInExcel excelModel);
@@ -54,21 +50,9 @@
         public AssignmentModel Map(AssignmentModelInExcel excelModel)
         {
             var model = mapper.Map<AssignmentModel>(excelModel);
-            MapHashKey(model);
-            MapDateTime(excelModel, model);
             MapTraders(excelModel, model);
             MapOtherTraders(excelModel, model);
             return model;
-        }
-
-        public void MapHashKey(AssignmentModel model)
-        {
-            model.HashKey = Guid.NewGuid().ToString();
-        }
-
-        public void MapDateTime(AssignmentModelInExcel excelModel, AssignmentModel model)
-        {
-            model.DateTime = DateTime.Parse(excelModel.DateTime);
         }
 
         public void MapOtherTraders(AssignmentModelInExcel excelModel, AssignmentModel model)
@@ -109,7 +93,7 @@
         }
 
         public string ExtractNote(string text)
-        {       
+        {
             var startIndex = text.IndexOf('#');
 
             if (startIndex == -1)
