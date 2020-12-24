@@ -2,8 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-
-    <IsPackable>false</IsPackable>
   </PropertyGroup>
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
@@ -19,5 +17,4 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\OWP.OtherSport\OWP.OtherSport.csproj" />
   </ItemGroup>
-
 </Project>
