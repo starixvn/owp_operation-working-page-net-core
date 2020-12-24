@@ -12,7 +12,7 @@
             }
 
             var notNullsearchString = searchString ?? string.Empty;
-            return toBeSearchedString.IndexOf(notNullsearchString, StringComparison.OrdinalIgnoreCase) >= 0;
+            return toBeSearchedString.Contains(notNullsearchString, StringComparison.OrdinalIgnoreCase);
         }
     }
 }

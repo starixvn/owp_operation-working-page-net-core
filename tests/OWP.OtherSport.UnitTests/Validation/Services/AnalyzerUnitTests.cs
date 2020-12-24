@@ -29,7 +29,7 @@
         [Fact]
         public async Task Analyzer_Always_ReturnAnalyzedResult()
         {
-            var analyzer = new AnalyzerImp(excelReader, repository, assignmentBuilder, assignmentValidator);           
+            var analyzer = new AnalyzerImp(excelReader, repository, assignmentBuilder, assignmentValidator);
 
             var rawModelInExcel = GetRawDataFromExcel();
             var traders = GetTraders();
@@ -39,17 +39,17 @@
             repository.GetTraders(Arg.Compat.Any<List<string>>()).Returns(traders);
             assignmentBuilder.BuildAssignment(Arg.Compat.Any<List<Trader>>(),
                 Arg.Compat.Any<List<AssignmentModelInExcel>>())
-                .Returns(assignmentModels); 
-         
+                .Returns(assignmentModels);
+
             var request = new ValidationHandler.Request();
             var expected = GetAnalyzedResult();
-            
+
             var actual = await analyzer.Analyze(request);
 
             DeepAssert.Equal(expected, actual);
         }
 
-        public UploadingDataFromExcel GetRawDataFromExcel()
+        public static UploadingDataFromExcel GetRawDataFromExcel()
         {
             var assignmentModelInExcels = new List<AssignmentModelInExcel>
             {
@@ -90,7 +90,7 @@
             return rawModelInExcel;
         }
 
-        public List<Trader> GetTraders ()
+        public static List<Trader> GetTraders()
         {
             var traders = new List<Trader>
             {
@@ -104,7 +104,7 @@
             return traders;
         }
 
-        public List<AssignmentModel> GetAssignmentModels()
+        public static List<AssignmentModel> GetAssignmentModels()
         {
             var model = new AssignmentModel
             {
@@ -136,7 +136,7 @@
             return assignmentModels;
         }
 
-        public AnalyzedResult GetAnalyzedResult()
+        public static AnalyzedResult GetAnalyzedResult()
         {
             var rawModelInExcel = GetRawDataFromExcel();
             var assignments = GetAssignmentModels();

@@ -39,7 +39,7 @@ namespace OWP.Websites
 
     public partial class Startup
     {
-        private static readonly string allowOrigin = "AllowOrigin";
+        private const string allowOrigin = "AllowOrigin";
 
         private void ConfigureAuthentication(IServiceCollection services)
         {

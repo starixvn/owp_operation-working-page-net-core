@@ -91,11 +91,10 @@
                 var absolutedFolderPath = $"{AppDomain.CurrentDomain.BaseDirectory}\\{folderPath}";
                 var fileName = $"{sessionId}-{session.UserName}-New.xlsx";
                 var fullPath = Path.Combine(absolutedFolderPath, fileName);
-                using (var stream = File.Create(fullPath))
-                {
-                    file.Seek(0, SeekOrigin.Begin);
-                    await file.CopyToAsync(stream);
-                }
+
+                using var stream = File.Create(fullPath);
+                file.Seek(0, SeekOrigin.Begin);
+                await file.CopyToAsync(stream);
             }
         }
     }

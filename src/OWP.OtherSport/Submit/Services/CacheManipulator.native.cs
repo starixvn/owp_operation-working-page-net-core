@@ -21,7 +21,7 @@
         Task DeleteUserWhoIsUploadingAssignment(List<DateTime> eventDates);
     }
 
-    public class CacheManipulatorImp: CacheManipulator
+    public class CacheManipulatorImp : CacheManipulator
     {
         private const string KEY_OS_ASSIGNMENT = "OWP-OS-AssignmentUpload";
         private const string KEY_OLD_OS_ASSIGNMENT_SNAPSHOT = "OWP-Old-OS-Assignment";
@@ -38,11 +38,11 @@
         public async Task<List<AssignmentModel>> GetNewAssignments()
         {
             var cacheKey = $"{KEY_OS_ASSIGNMENT}";
-            var cacheResult = await cache.TryGetAsync<string>(cacheKey);
+            var (_, value) = await cache.TryGetAsync<string>(cacheKey);
 
-            var assignments = string.IsNullOrEmpty(cacheResult.Item2)
+            var assignments = string.IsNullOrEmpty(value)
                 ? new List<AssignmentModel>()
-                : JsonConvert.DeserializeObject<List<AssignmentModel>>(cacheResult.Item2);
+                : JsonConvert.DeserializeObject<List<AssignmentModel>>(value);
 
             return assignments ?? new List<AssignmentModel>();
         }
@@ -57,13 +57,14 @@
 
         public async Task<string> GetUserWhoIsUploadingAssignment(List<DateTime> eventDates)
         {
-            foreach (var eventDate in eventDates) {
+            foreach (var eventDate in eventDates)
+            {
                 var cacheKey = $"{KEY_USER_WHO_IS_OS_UPLOADING_ASSIGNMENT}-{eventDate}";
-                var cacheResult = await cache.TryGetAsync<string>(cacheKey);
+                var (_, value) = await cache.TryGetAsync<string>(cacheKey);
 
-                if (!string.IsNullOrEmpty(cacheResult.Item2))
+                if (!string.IsNullOrEmpty(value))
                 {
-                    return cacheResult.Item2;
+                    return value;
                 }
             }
 

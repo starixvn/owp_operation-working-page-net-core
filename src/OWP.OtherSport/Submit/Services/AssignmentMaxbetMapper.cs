@@ -17,7 +17,7 @@
         public Dictionary<int, List<AssignmentMaxbet>> MapBySport(List<AssignmentModel> assignments)
             => assignments.ToDictionary(a => a.OSMatchId, a => MapBySport(a));
 
-        public List<AssignmentMaxbet> MapBySport(AssignmentModel assignment)
+        public static List<AssignmentMaxbet> MapBySport(AssignmentModel assignment)
         {
             var assignmentMaxBet = new List<AssignmentMaxbet>();
             assignmentMaxBet.AddRange(MapBasketball(assignment));
@@ -246,7 +246,6 @@
                     OtherTrader = assignment.OtherTraderIceHockey1st2ndPeriodsOU,
                     MaxBet = assignment.MaxBetIceHockey1st2ndPeriodsOU
                 }
-
             };
         }
 
