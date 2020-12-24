@@ -32,11 +32,11 @@
         public async Task Handle_ThereIsAProcessingUser_ReturnsThatUser()
         {
             // Arrange
-            var request = new SubmitRequest();
+            const string sessionId = "sessionABC";
+            var request = new SubmitRequest { SessionId = sessionId };
 
             var emptyAssignments = new List<AssignmentModel>();
             const string processingUser = "AnyUser";
-            const string sessionId = "sessionABC";
 
             cacheManipulator.GetUserWhoIsUploadingAssignment(Arg.Compat.Any<List<DateTime>>()).Returns(processingUser);
             await handler.SaveAssignmentsToDatabase(emptyAssignments, string.Empty);
@@ -53,7 +53,8 @@
         public async Task Handle_NoProcessingUser_SnapshotShouldBeSavedAndDataShouldBeUpdated()
         {
             // Arrange
-            var request = new SubmitRequest();
+            const string sessionId = "sessionABC";
+            var request = new SubmitRequest { SessionId = sessionId };
 
             var assignments = new List<AssignmentModel>
             {
@@ -67,7 +68,6 @@
                 }
             };
             const string processingUser = "";
-            const string sessionId = "sessionABC";
 
             cacheManipulator.GetUserWhoIsUploadingAssignment(Arg.Compat.Any<List<DateTime>>()).Returns(processingUser);
             await handler.SaveAssignmentsToDatabase(assignments, string.Empty);
