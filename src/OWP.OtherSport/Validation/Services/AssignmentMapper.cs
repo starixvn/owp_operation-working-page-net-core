@@ -109,8 +109,9 @@
         }
 
         public string ExtractNote(string text)
-        {
+        {       
             var startIndex = text.IndexOf('#');
+
             if (startIndex == -1)
             {
                 return text;
@@ -118,11 +119,10 @@
             var endIndex = text.IndexOf(' ', startIndex);
             if (endIndex == -1)
             {
-                endIndex = text.Length;
+                return $"{text.Substring(0, startIndex).Trim()} #<user> {text[text.Length..].Trim()}";
             }
 
-            var note = $"{text.Substring(0, startIndex).Trim()} #<user> {text[endIndex..].Trim()}";
-            return $"{note}";
+            return $"{text.Substring(0, startIndex).Trim()} #<user> {text[endIndex..].Trim()}";
         }
 
         public int ExtractTrader(string text)

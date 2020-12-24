@@ -102,6 +102,16 @@
         }
 
         [Fact]
+        public void ExtractNote_TextIsMatchRegex_ReturnText()
+        {
+            const string otherTraders = "ahihi #esther";
+            const string expected = "ahihi #<user> ";
+
+            var actual = assignmentMapper.ExtractNote(otherTraders);
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
         public void ExtractNote_EmptyText_ReturnEmpty()
         {
             const string otherTraders = "";
