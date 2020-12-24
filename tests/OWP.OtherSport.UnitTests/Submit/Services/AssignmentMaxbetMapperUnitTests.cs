@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using OWP.OtherSport.Submit.Models;
-using Xunit.Asserts.Compare;
-
-namespace OWP.OtherSport.UnitTests.Submit.Services
+﻿namespace OWP.OtherSport.UnitTests.Submit.Services
 {
+    using System.Collections.Generic;
+    using OWP.OtherSport.Submit.Models;
+    using Xunit.Asserts.Compare;
     using OWP.OtherSport.Submit.Contants;
     using OWP.OtherSport.Submit.Services;
     using OWP.OtherSport.Validation.Models;
@@ -12,7 +10,7 @@ namespace OWP.OtherSport.UnitTests.Submit.Services
 
     public class AssignmentMaxbetMapperUnitTests
     {
-
+        //MapBySport
         [Fact]
         public void MapBySport_Get_AssignmentMaxbet_in_AssignmentModel()
         {
@@ -33,8 +31,9 @@ namespace OWP.OtherSport.UnitTests.Submit.Services
             var actual = AssignmentMaxbetMapperImp.MapBySport(assignment);
             //Assert
             DeepAssert.Equal(expect, actual);
-        } 
+        }
         
+        //MapBasketball
         [Fact]
         public void MapBasketball_Get_Basketball_in_AssignmentModel_Contain_BasketBall()
         {
@@ -70,6 +69,79 @@ namespace OWP.OtherSport.UnitTests.Submit.Services
             DeepAssert.Equal(expect, actual);
         }
 
+        //MapFootball
+        [Fact]
+        public void MapFootball_Get_Football_in_AssignmentModel_Contain_Football()
+        {
+            //Arrange
+            var assignment = GetAssignmentModel(Sport.FieldHockey);
+
+            var expect = new List<AssignmentMaxbet>{};
+
+            //Act
+            var actual = AssignmentMaxbetMapperImp.MapFootball(assignment);
+            //Assert
+            DeepAssert.Equal(expect, actual);
+        }
+        
+        [Fact]
+        public void MapFootball_Get_Football_in_AssignmentModel_not_Contain_Football()
+        {
+            //Arrange
+            var assignment = GetAssignmentModel(Sport.Football);
+
+            var expect = new List<AssignmentMaxbet>{ new()
+                {
+                    Bettype = Bettype.FTHDP,
+                    TraderId = assignment.TraderFootballFTHDP,
+                    OtherTrader = assignment.OtherTraderFootballFTHDP,
+                    MaxBet = assignment.MaxBetFootballFTHDP
+                },
+                new()
+                {
+                    Bettype = Bettype.FirstHHDP,
+                    TraderId = assignment.TraderFootball1HHDP,
+                    OtherTrader = assignment.OtherTraderFootball1HHDP,
+                    MaxBet = assignment.MaxBetFootball1HHDP
+                },
+                new()
+                {
+                    Bettype = Bettype.FirstQ3QHDP,
+                    TraderId = assignment.TraderFootball1Q3QHDP,
+                    OtherTrader = assignment.OtherTraderFootball1Q3QHDP,
+                    MaxBet = assignment.MaxBetFootball1Q3QHDP
+                },
+                new()
+                {
+                    Bettype = Bettype.FTOU,
+                    TraderId = assignment.TraderFootballFTOU,
+                    OtherTrader = assignment.OtherTraderFootballFTOU,
+                    MaxBet = assignment.MaxBetFootballFTOU
+                },
+                new()
+                {
+                    Bettype = Bettype.FirstHOU,
+                    TraderId = assignment.TraderFootball1HOU,
+                    OtherTrader = assignment.OtherTraderFootball1HOU,
+                    MaxBet = assignment.MaxBetFootball1HOU
+                },
+                new()
+                {
+                    Bettype = Bettype.FirstQ3QOU,
+                    TraderId = assignment.TraderFootball1Q3QOU,
+                    OtherTrader = assignment.OtherTraderFootball1Q3QOU,
+                    MaxBet = assignment.MaxBetFootball1Q3QOU
+                }};
+
+            //Act
+            var actual = AssignmentMaxbetMapperImp.MapFootball(assignment);
+            //Assert
+            DeepAssert.Equal(expect, actual);
+        }
+
+        
+        
+        
         private AssignmentModel GetAssignmentModel(string sport)
         {
             return new()
