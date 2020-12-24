@@ -10,9 +10,9 @@
 
     public interface CacheManipulator
     {
-        Task<List<AssignmentModel>> GetNewAssignments();
+        Task<List<AssignmentModel>> GetNewAssignments(string sessionId);
 
-        Task SaveOldAssignmentSnapshot(AssignmentSnapshot assignmentSnapshot);
+        Task SaveOldAssignmentSnapshot(AssignmentSnapshot assignmentSnapshot, string sessionId);
 
         Task<string> GetUserWhoIsUploadingAssignment(List<DateTime> eventDates);
 
@@ -35,9 +35,9 @@
             this.cache = cache;
         }
 
-        public async Task<List<AssignmentModel>> GetNewAssignments()
+        public async Task<List<AssignmentModel>> GetNewAssignments(string sessionId)
         {
-            var cacheKey = $"{KEY_OS_ASSIGNMENT}";
+            var cacheKey = $"{KEY_OS_ASSIGNMENT}-{sessionId}";
             var (_, value) = await cache.TryGetAsync<string>(cacheKey);
 
             var assignments = string.IsNullOrEmpty(value)
@@ -47,11 +47,11 @@
             return assignments ?? new List<AssignmentModel>();
         }
 
-        public async Task SaveOldAssignmentSnapshot(AssignmentSnapshot assignmentSnapshot)
+        public async Task SaveOldAssignmentSnapshot(AssignmentSnapshot assignmentSnapshot, string sessionId)
         {
             var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromDays(CACHE_EXPIRED_IN_DAYS));
             var assignmentSnapshotInJson = JsonConvert.SerializeObject(assignmentSnapshot);
-            var cacheKey = $"{KEY_OLD_OS_ASSIGNMENT_SNAPSHOT}";
+            var cacheKey = $"{KEY_OLD_OS_ASSIGNMENT_SNAPSHOT}-{sessionId}";
             await cache.SetAsync(cacheKey, assignmentSnapshotInJson, cachePolicy);
         }
 

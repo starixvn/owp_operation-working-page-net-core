@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using OWP.OtherSport.Submit;
 using OWP.OtherSport.Validation.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -14,6 +16,12 @@ namespace OWP.OtherSport
     [EnableCors("AllowOrigin")]
     public class OtherSportController : ControllerBase
     {
+        private readonly IMediator mediator;
+
+        public OtherSportController(IMediator mediator)
+        {
+            this.mediator = mediator;
+        }
 
         [Route("test")]
         [HttpGet]
@@ -49,9 +57,10 @@ namespace OWP.OtherSport
 
         [Route("submit")]
         [HttpPost]
-        public async Task<IActionResult> Submit()
+        public async Task<IActionResult> Submit(SubmitRequest request)
         {
-            return Ok();
+            var viewModel = await mediator.Send(request);
+            return new JsonResult(viewModel);
         }
     }
 }

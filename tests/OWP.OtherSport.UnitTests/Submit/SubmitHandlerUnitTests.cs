@@ -36,10 +36,11 @@
 
             var emptyAssignments = new List<AssignmentModel>();
             const string processingUser = "AnyUser";
+            const string sessionId = "sessionABC";
 
             cacheManipulator.GetUserWhoIsUploadingAssignment(Arg.Compat.Any<List<DateTime>>()).Returns(processingUser);
             await handler.SaveAssignmentsToDatabase(emptyAssignments, string.Empty);
-            cacheManipulator.GetNewAssignments().Returns(emptyAssignments);
+            cacheManipulator.GetNewAssignments(sessionId).Returns(emptyAssignments);
 
             // Act
             var actual = await handler.Handle(request, new CancellationToken(false));
@@ -66,12 +67,13 @@
                 }
             };
             const string processingUser = "";
+            const string sessionId = "sessionABC";
 
             cacheManipulator.GetUserWhoIsUploadingAssignment(Arg.Compat.Any<List<DateTime>>()).Returns(processingUser);
             await handler.SaveAssignmentsToDatabase(assignments, string.Empty);
-            cacheManipulator.GetNewAssignments().Returns(assignments);
+            cacheManipulator.GetNewAssignments(sessionId).Returns(assignments);
             await cacheManipulator.SaveUserWhoIsUploadingAssignment(new List<DateTime>(), "sa");
-            await cacheManipulator.SaveOldAssignmentSnapshot(snapShot);
+            await cacheManipulator.SaveOldAssignmentSnapshot(snapShot, sessionId);
 
             // Act
             var actual = await handler.Handle(request, new CancellationToken(false));
@@ -79,7 +81,7 @@
             // Assert
             Assert.Equal(string.Empty, actual);
             await commandRepository.Received().Update(string.Empty, assignments);
-            await cacheManipulator.Received().SaveOldAssignmentSnapshot(snapShot);
+            await cacheManipulator.Received().SaveOldAssignmentSnapshot(snapShot,sessionId);
         }
     }
 }
