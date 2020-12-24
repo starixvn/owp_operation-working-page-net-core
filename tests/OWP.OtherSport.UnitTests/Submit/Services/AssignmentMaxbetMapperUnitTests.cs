@@ -139,9 +139,78 @@
             DeepAssert.Equal(expect, actual);
         }
 
+
+        //MapFieldHockey
+        [Fact]
+        public void MapFieldHockey_Get_Football_in_AssignmentModel_Contain_FieldHockey()
+        {
+            //Arrange
+            var assignment = GetAssignmentModel(Sport.FieldHockey);
+
+            var expect = new List<AssignmentMaxbet> {new()
+                {
+                    Bettype = Bettype.FTHDP,
+                    TraderId = assignment.TraderFieldHockeyFTHDP,
+                    OtherTrader = assignment.OtherTraderFieldHockeyFTHDP,
+                    MaxBet = assignment.MaxBetFieldHockeyFTHDP
+                },
+                new()
+                {
+                    Bettype = Bettype.FirstHHDP,
+                    TraderId = assignment.TraderFieldHockey1HHDP,
+                    OtherTrader = assignment.OtherTraderFieldHockey1HHDP,
+                    MaxBet = assignment.MaxBetFieldHockey1HHDP
+                },
+                new()
+                {
+                    Bettype = Bettype.FirstQHDP,
+                    TraderId = assignment.TraderFieldHockey1QHDP,
+                    OtherTrader = assignment.OtherTraderFieldHockey1QHDP,
+                    MaxBet = assignment.MaxBetFieldHockey1QHDP
+                },
+                new()
+                {
+                    Bettype = Bettype.FTOU,
+                    TraderId = assignment.TraderFieldHockeyFTOU,
+                    OtherTrader = assignment.OtherTraderFieldHockeyFTOU,
+                    MaxBet = assignment.MaxBetFieldHockeyFTOU
+                },
+                new()
+                {
+                    Bettype = Bettype.FirstHOsU,
+                    TraderId = assignment.TraderFieldHockey1HOU,
+                    OtherTrader = assignment.OtherTraderFieldHockey1HOU,
+                    MaxBet = assignment.MaxBetFieldHockey1HOU
+                },
+                new()
+                {
+                    Bettype = Bettype.FirstQOU,
+                    TraderId = assignment.TraderFieldHockey1QOU,
+                    OtherTrader = assignment.OtherTraderFieldHockey1QOU,
+                    MaxBet = assignment.MaxBetFieldHockey1QOU
+                } };
+
+            //Act
+            var actual = AssignmentMaxbetMapperImp.MapFieldHockey(assignment);
+            //Assert
+            DeepAssert.Equal(expect, actual);
+        }   
         
-        
-        
+        [Fact]
+        public void MapFieldHockey_Get_Football_in_AssignmentModel_not_Contain_FieldHockey()
+        {
+            //Arrange
+            var assignment = GetAssignmentModel(Sport.Darts);
+
+            var expect = new List<AssignmentMaxbet> { };
+
+            //Act
+            var actual = AssignmentMaxbetMapperImp.MapFieldHockey(assignment);
+            //Assert
+            DeepAssert.Equal(expect, actual);
+        }
+
+
         private AssignmentModel GetAssignmentModel(string sport)
         {
             return new()

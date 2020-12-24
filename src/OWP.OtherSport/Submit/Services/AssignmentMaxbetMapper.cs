@@ -587,7 +587,7 @@
 
         public static List<AssignmentMaxbet> MapBadminton(AssignmentModel assignment)
         {
-            if (!assignment.Sport.Equals(Sport.Baseball, StringComparison.CurrentCultureIgnoreCase))
+            if (!assignment.Sport.Equals(Sport.Badminton, StringComparison.CurrentCultureIgnoreCase))
             {
                 return new List<AssignmentMaxbet>();
             }
