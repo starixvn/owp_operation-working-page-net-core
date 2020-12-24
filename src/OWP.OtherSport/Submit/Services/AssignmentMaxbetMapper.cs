@@ -61,14 +61,12 @@
                     Bettype = Bettype.FirstHHDP,
                     TraderId = assignment.TraderBasketball1HHDP,
                     OtherTrader = assignment.OtherTraderBasketball1HHDP,
-                    MaxBet = null
                 },
                 new()
                 {
                     Bettype = Bettype.FirstQ3QHDP,
                     TraderId = assignment.TraderBasketball1Q3QHDP,
                     OtherTrader = assignment.OtherTraderBasketball1Q3QHDP,
-                    MaxBet = null
                 },
                 new()
                 {
@@ -81,15 +79,13 @@
                 {
                     Bettype = Bettype.FirstHOUOE,
                     TraderId = assignment.TraderBasketball1HOUOE,
-                    OtherTrader = assignment.OtherTraderBasketball1HOUOE,
-                    MaxBet = null
+                    OtherTrader = assignment.OtherTraderBasketball1HOUOE
                 },
                 new()
                 {
                     Bettype = Bettype.FirstQ3QOUOE,
                     TraderId = assignment.TraderBasketball1Q3QOUOE,
-                    OtherTrader = assignment.OtherTraderBasketball1Q3QOUOE,
-                    MaxBet = null
+                    OtherTrader = assignment.OtherTraderBasketball1Q3QOUOE
                 }
             };
         }
