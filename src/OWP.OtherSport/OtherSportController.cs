@@ -44,7 +44,7 @@ namespace OWP.OtherSport
                 }
             };
 
-            return new JsonResult(validationResult);
+            return new JsonResult(new Response());
         }
 
         [Route("submit")]

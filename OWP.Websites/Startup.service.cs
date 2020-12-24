@@ -91,7 +91,8 @@ namespace OWP.Websites
                                             "https://newowp2.starixuat.com",
                                             "https://newowp3.starixuat.com",
                                             "https://owp.oneops.net",
-                                            "https://newowp.oneops.net"
+                                            "https://newowp.oneops.net",
+                                            "http://localhost:3000"
                                             )
                               .AllowAnyMethod()
                               .AllowAnyHeader()
