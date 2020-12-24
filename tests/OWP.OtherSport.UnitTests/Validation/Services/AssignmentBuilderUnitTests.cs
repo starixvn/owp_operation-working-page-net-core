@@ -43,7 +43,7 @@
             DeepAssert.Equal(expected, actual, "HashKey");
         }
 
-        private List<AssignmentModel> GetAssignmentModels()
+        private static List<AssignmentModel> GetAssignmentModels()
         {
             var model = new AssignmentModel
             {
@@ -52,7 +52,6 @@
                 Away = "LA Laker",
                 MatchStatus = "Completed",
                 DateTime = DateTime.Parse("12/10/2020 12:00 AM"),
-                EventDate = DateTime.Parse("12/10/2020"),
                 League = "NBA",
                 AutoLink = "YES"
             };
@@ -64,7 +63,6 @@
                 Away = "LA Laker",
                 MatchStatus = "Completed",
                 DateTime = DateTime.Parse("12/10/2020 12:00 AM"),
-                EventDate = DateTime.Parse("12/10/2020"),
                 League = "Hookey",
                 AutoLink = "YES"
             };
@@ -77,7 +75,7 @@
             return assignmentModels;
         }
 
-        private List<AssignmentModelInExcel> GetAssignmentModelInExcels()
+        private static List<AssignmentModelInExcel> GetAssignmentModelInExcels()
         {
             var excelModel = new AssignmentModelInExcel
             {

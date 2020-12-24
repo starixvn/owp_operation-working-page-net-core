@@ -83,8 +83,6 @@
 
         public DateTime DateTime { get; set; }
 
-        public DateTime EventDate { get; set; }
-
         public string Home { get; set; }
 
         public string Away { get; set; }

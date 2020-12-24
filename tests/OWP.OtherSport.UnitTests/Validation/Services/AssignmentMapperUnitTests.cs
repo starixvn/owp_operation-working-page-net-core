@@ -164,7 +164,6 @@
                 Away = "LA",
                 Home = "GSW",
                 DateTime = DateTime.Now,
-                EventDate = DateTime.Now,
                 Sport = "BasketBall",
                 League = "NBA",
                 MatchStatus = "Live"
@@ -176,16 +175,14 @@
                 Away = "LA",
                 Home = "GSW",
                 DateTime = DateTime.Parse("12/10/2020 11:00 AM"),
-                EventDate = DateTime.Parse("12/10/2020 11:00 AM"),
                 Sport = "BasketBall",
                 League = "NBA",
                 MatchStatus = "Live"
             };
 
-            assignmentMapper.MapEventDate(excelModel, model);
+            assignmentMapper.MapDateTime(excelModel, model);
 
-            Assert.Equal(expected.DateTime, model.DateTime);
-            Assert.Equal(expected.EventDate, model.EventDate);        
+            Assert.Equal(expected.DateTime, model.DateTime);       
         }
 
         [Fact]
@@ -266,7 +263,6 @@
                 Away = "LA",
                 Home = "GSW",
                 DateTime = DateTime.Parse("12/10/2020 12:00 AM"),
-                EventDate = DateTime.Parse("12/10/2020"),
                 Sport = "BasketBall",
                 League = "NBA",
                 MatchStatus = "Live"

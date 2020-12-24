@@ -22,7 +22,7 @@
 
         void MapHashKey(AssignmentModel model);
 
-        void MapEventDate(AssignmentModelInExcel excelModel, AssignmentModel model);
+        void MapDateTime(AssignmentModelInExcel excelModel, AssignmentModel model);
 
         List<AssignmentModel> Map(List<AssignmentModelInExcel> excelModels);
 
@@ -55,7 +55,7 @@
         {
             var model = mapper.Map<AssignmentModel>(excelModel);
             MapHashKey(model);
-            MapEventDate(excelModel, model);
+            MapDateTime(excelModel, model);
             MapTraders(excelModel, model);
             MapOtherTraders(excelModel, model);
             return model;
@@ -66,10 +66,9 @@
             model.HashKey = Guid.NewGuid().ToString();
         }
 
-        public void MapEventDate(AssignmentModelInExcel excelModel, AssignmentModel model)
+        public void MapDateTime(AssignmentModelInExcel excelModel, AssignmentModel model)
         {
             model.DateTime = DateTime.Parse(excelModel.DateTime);
-            model.EventDate = model.DateTime;
         }
 
         public void MapOtherTraders(AssignmentModelInExcel excelModel, AssignmentModel model)
