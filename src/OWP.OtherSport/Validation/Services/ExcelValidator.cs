@@ -37,11 +37,12 @@
         private static void ValidateHeaders(ExcelWorksheet sheet)
         {
             var headerMap = sheet.GetHeaderMap();
-
             var anyInvalidHeaderColumnIndex = headerMap.Any(i => i.Value <= 0);
+
             if (anyInvalidHeaderColumnIndex)
             {
-                throw new InvalidExcelFormatException();
+                var validHeader = headerMap.FirstOrDefault(x => x.Value <= 0).Key;
+                throw new InvalidExcelFormatException(validHeader);
             }
         }
 

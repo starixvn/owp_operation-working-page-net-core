@@ -6,7 +6,7 @@
     [Serializable]
     public class InvalidExcelFormatException : CriticalValidationException
     {
-        public InvalidExcelFormatException(string message) : base(message)
+        public InvalidExcelFormatException(string validHeader) : base($"Invalid header, should be {validHeader}")
         {
         }
 
