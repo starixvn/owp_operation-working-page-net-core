@@ -54,5 +54,7 @@
         public string WB { get; set; }
 
         public string Remark { get; set; }
+
+        public string Username { get; set; }
     }
 }
