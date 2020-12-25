@@ -38,7 +38,7 @@
         public void Get_Basketball_in_AssignmentModel_Contain_BasketBall()
         {
             //Arrange
-            var assignment = GetAssignmentModel(Sport.Basketball);
+            var assignment = AssignmentModelMock(Sport.Basketball);
 
             var expect = new List<AssignmentMaxbet>
             {
@@ -60,7 +60,7 @@
         public void Get_Basketball_in_AssignmentModel_not_Contain_BasketBall()
         {
             //Arrange
-            var assignment = GetAssignmentModel(Sport.Football);
+            var assignment = AssignmentModelMock(Sport.Football);
 
             var expect = new List<AssignmentMaxbet>{ };
 
@@ -75,7 +75,7 @@
         public void Get_Football_in_AssignmentModel_Contain_Football()
         {
             //Arrange
-            var assignment = GetAssignmentModel(Sport.FieldHockey);
+            var assignment = AssignmentModelMock(Sport.FieldHockey);
 
             var expect = new List<AssignmentMaxbet>{};
 
@@ -145,7 +145,7 @@
         public void Get_FieldHockey_in_AssignmentModel_Contain_FieldHockey()
         {
             //Arrange
-            var assignment = GetAssignmentModel(Sport.FieldHockey);
+            var assignment = AssignmentModelMock(Sport.FieldHockey);
 
             var expect = new List<AssignmentMaxbet> {new()
                 {
@@ -315,7 +315,7 @@
         public void Get_Darts_in_AssignmentModel_Contain_Darts()
         {
             //Arrange
-            var assignment = GetAssignmentModel(Sport.Darts);
+            var assignment = AssignmentModelMock(Sport.Darts);
 
             var expect = new List<AssignmentMaxbet> {
                 new()
@@ -353,7 +353,7 @@
             DeepAssert.Equal(expect, actual);
         }
 
-        private AssignmentModel AssignmentModelMock(string sport)
+        private static AssignmentModel AssignmentModelMock(string sport)
         {
             return new()
             {

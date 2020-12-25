@@ -31,10 +31,4 @@
   <ItemGroup>
     <ProjectReference Include="..\OWP\OWP.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Microsoft.AspNetCore.Cors">
-      <HintPath>..\..\..\..\..\Documents\Nuget-Packages\microsoft.aspnetcore.cors\2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Cors.dll</HintPath>
-    </Reference>
-  </ItemGroup>
 </Project>
