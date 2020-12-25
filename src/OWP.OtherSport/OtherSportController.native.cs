@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using OWP.Helpers;
+using OWP.OtherSport.Submit;
 using OWP.OtherSport.Validation;
 
 namespace OWP.OtherSport
@@ -50,9 +51,10 @@ namespace OWP.OtherSport
 
         [Route("submit")]
         [HttpPost]
-        public async Task<IActionResult> Submit()
+        public async Task<IActionResult> Submit(SubmitRequest request)
         {
-            return Ok();
+            var viewModel = await mediator.Send(request);
+            return new JsonResult(viewModel);
         }
     }
 }
