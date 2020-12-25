@@ -15,7 +15,7 @@
         public void MapBySport_Get_AssignmentMaxbet_in_AssignmentModel()
         {
             //Arrange
-            var assignment = GetAssignmentModel(Sport.Football);
+            var assignment = AssignmentModelMock(Sport.Football);
 
             var expect = new List<AssignmentMaxbet>
             {
@@ -35,7 +35,7 @@
         
         //MapBasketball
         [Fact]
-        public void MapBasketball_Get_Basketball_in_AssignmentModel_Contain_BasketBall()
+        public void Get_Basketball_in_AssignmentModel_Contain_BasketBall()
         {
             //Arrange
             var assignment = GetAssignmentModel(Sport.Basketball);
@@ -55,8 +55,9 @@
             //Assert
             DeepAssert.Equal(expect, actual);
         }
+        
         [Fact]
-        public void MapBasketball_Get_Basketball_in_AssignmentModel_not_Contain_BasketBall()
+        public void Get_Basketball_in_AssignmentModel_not_Contain_BasketBall()
         {
             //Arrange
             var assignment = GetAssignmentModel(Sport.Football);
@@ -71,7 +72,7 @@
 
         //MapFootball
         [Fact]
-        public void MapFootball_Get_Football_in_AssignmentModel_Contain_Football()
+        public void Get_Football_in_AssignmentModel_Contain_Football()
         {
             //Arrange
             var assignment = GetAssignmentModel(Sport.FieldHockey);
@@ -85,10 +86,10 @@
         }
         
         [Fact]
-        public void MapFootball_Get_Football_in_AssignmentModel_not_Contain_Football()
+        public void Get_Football_in_AssignmentModel_not_Contain_Football()
         {
             //Arrange
-            var assignment = GetAssignmentModel(Sport.Football);
+            var assignment = AssignmentModelMock(Sport.Football);
 
             var expect = new List<AssignmentMaxbet>{ new()
                 {
@@ -139,10 +140,9 @@
             DeepAssert.Equal(expect, actual);
         }
 
-
         //MapFieldHockey
         [Fact]
-        public void MapFieldHockey_Get_Football_in_AssignmentModel_Contain_FieldHockey()
+        public void Get_FieldHockey_in_AssignmentModel_Contain_FieldHockey()
         {
             //Arrange
             var assignment = GetAssignmentModel(Sport.FieldHockey);
@@ -197,10 +197,10 @@
         }   
         
         [Fact]
-        public void MapFieldHockey_Get_Football_in_AssignmentModel_not_Contain_FieldHockey()
+        public void Get_FieldHockey_in_AssignmentModel_not_Contain_FieldHockey()
         {
             //Arrange
-            var assignment = GetAssignmentModel(Sport.Darts);
+            var assignment = AssignmentModelMock(Sport.Darts);
 
             var expect = new List<AssignmentMaxbet> { };
 
@@ -210,8 +210,150 @@
             DeepAssert.Equal(expect, actual);
         }
 
+        //MapIceHockey
+        [Fact]
+        public void Get_IceHockey_in_AssignmentModel_Contain_IceHockey()
+        {
+            //Arrange
+            var assignment = AssignmentModelMock(Sport.IceHockey);
 
-        private AssignmentModel GetAssignmentModel(string sport)
+            var expect = new List<AssignmentMaxbet> {
+                new()
+                {
+                    Bettype = Bettype.FTHDP,
+                    TraderId = assignment.TraderFieldHockeyFTHDP,
+                    OtherTrader = assignment.OtherTraderFieldHockeyFTHDP,
+                    MaxBet = assignment.MaxBetFieldHockeyFTHDP
+                },
+                new()
+                {
+                    Bettype = Bettype.FTHDP,
+                    TraderId = assignment.TraderIceHockeyFTHDP,
+                    OtherTrader = assignment.OtherTraderFieldHockeyFTHDP,
+                    MaxBet = assignment.MaxBetIceHockeyFTHDP
+                },
+                new()
+                {
+                    Bettype = Bettype.First2ndPeriodsHDP,
+                    TraderId = assignment.TraderIceHockey1st2ndHDP,
+                    OtherTrader = assignment.OtherTraderIceHockey1st2ndPeriodsHDP,
+                    MaxBet = assignment.MaxBetIceHockey1st2ndPeriodsHDP,
+                },
+                new()
+                {
+                    Bettype = Bettype.FTOsU,
+                    TraderId = assignment.TraderIceHockeyFTOU,
+                    OtherTrader = assignment.OtherTraderIceHockeyFTOU,
+                    MaxBet = assignment.MaxBetIceHockeyFTOU
+                },
+                new()
+                {
+                    Bettype = Bettype.First2ndPeriodsOU,
+                    TraderId = assignment.TraderIceHockey1st2ndOU,
+                    OtherTrader = assignment.OtherTraderIceHockey1st2ndPeriodsOU,
+                    MaxBet = assignment.MaxBetIceHockey1st2ndPeriodsOU
+                }};
+
+            //Act
+            var actual = AssignmentMaxbetMapperImp.MapIceHockey(assignment);
+            //Assert
+            DeepAssert.Equal(expect, actual);
+        }   
+        
+        [Fact]
+        public void Get_IceHockey_in_AssignmentModel_not_Contain_IceHockey()
+        {
+            //Arrange
+            var assignment = AssignmentModelMock(Sport.Darts);
+
+            var expect = new List<AssignmentMaxbet> { };
+
+            //Act
+            var actual = AssignmentMaxbetMapperImp.MapIceHockey(assignment);
+            //Assert
+            DeepAssert.Equal(expect, actual);
+        }
+
+        //MapOtherSports
+        [Fact]
+        public void Get_OtherSports_in_AssignmentModel_Contain_OtherSports()
+        {
+            //Arrange
+            var assignment = AssignmentModelMock(Sport.OtherSports);
+
+            var expect = new List<AssignmentMaxbet> {
+                new ()
+                {
+                    Bettype = Bettype.MatchWinner,
+                    TraderId = assignment.TraderOtherSportsMatchWinner,
+                    OtherTrader = assignment.OtherTraderOtherSportsMatchWinner,
+                    MaxBet = assignment.MaxBetOtherSportsMatchWinner
+                }};
+
+            //Act
+            var actual = AssignmentMaxbetMapperImp.MapOtherSports(assignment);
+            //Assert
+            DeepAssert.Equal(expect, actual);
+        }   
+        
+        [Fact]
+        public void Get_OtherSports_in_AssignmentModel_not_Contain_OtherSports()
+        {
+            //Arrange
+            var assignment = AssignmentModelMock(Sport.Darts);
+
+            var expect = new List<AssignmentMaxbet> { };
+
+            //Act
+            var actual = AssignmentMaxbetMapperImp.MapOtherSports(assignment);
+            //Assert
+            DeepAssert.Equal(expect, actual);
+        }
+
+        //MapDarts
+        [Fact]
+        public void Get_Darts_in_AssignmentModel_Contain_Darts()
+        {
+            //Arrange
+            var assignment = GetAssignmentModel(Sport.Darts);
+
+            var expect = new List<AssignmentMaxbet> {
+                new()
+                {
+                    Bettype = Bettype.LegsHDP,
+                    TraderId = assignment.TraderDartsLegsHDP,
+                    OtherTrader = assignment.OtherTraderOtherSportsMatchWinner,
+                    MaxBet = assignment.MaxBetDartsLegsHDP
+                },
+                new()
+                {
+                    Bettype = Bettype.Most180sHDP,
+                    TraderId = assignment.TraderDartsMost180sHDP,
+                    OtherTrader = assignment.OtherTraderDartsMost180sHDP,
+                    MaxBet = assignment.MaxBetDartsMost180sHDP
+                }};
+
+            //Act
+            var actual = AssignmentMaxbetMapperImp.MapDarts(assignment);
+            //Assert
+            DeepAssert.Equal(expect, actual);
+        }   
+        
+        [Fact]
+        public void Get_Darts_in_AssignmentModel_not_Contain_Darts()
+        {
+            //Arrange
+            var assignment = AssignmentModelMock(Sport.Snooker);
+
+            var expect = new List<AssignmentMaxbet> { };
+
+            //Act
+            var actual = AssignmentMaxbetMapperImp.MapDarts(assignment);
+            //Assert
+            DeepAssert.Equal(expect, actual);
+        }
+
+        private AssignmentModel AssignmentModelMock(string sport)
         {
             return new()
             {
