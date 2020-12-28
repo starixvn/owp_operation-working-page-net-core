@@ -12,7 +12,6 @@ namespace OWP.OtherSport
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
     [EnableCors("AllowOrigin")]
     public class OtherSportController : ControllerBase
     {
