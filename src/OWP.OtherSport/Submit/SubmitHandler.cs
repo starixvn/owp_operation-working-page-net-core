@@ -10,12 +10,24 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    public class SubmitRequest: IRequest<string>
+    public class SubmitRequest: IRequest<SubmitResponse>
     {
         public string SessionId { get; set; }
     }
 
-    public class SubmitHandler: IRequestHandler<SubmitRequest, string>
+    public class SubmitResponse
+    {
+        public SubmitResponse()
+        {
+            Message = string.Empty;
+        }
+
+        public string Message { get; set; }
+
+        public bool IsSuccessful => string.IsNullOrEmpty(Message);
+    }
+
+    public class SubmitHandler: IRequestHandler<SubmitRequest, SubmitResponse>
     {
         private readonly CacheManipulator cacheManipulator;
         private readonly CommandRepository commandRepository;
@@ -31,20 +43,37 @@
             this.session = session;
         }
 
-        public async Task<string> Handle(SubmitRequest request, CancellationToken cancellationToken)
+        public async Task<SubmitResponse> Handle(SubmitRequest request, CancellationToken cancellationToken)
         {
             var newAssignments = await cacheManipulator.GetNewAssignments(request.SessionId);
             var eventDates = newAssignments.Select(a => a.DateTime).Distinct().ToList();
 
-            var userWhoIsUploadingAssignment = await cacheManipulator.GetUserWhoIsUploadingAssignment(eventDates);
-            if (!string.IsNullOrEmpty(userWhoIsUploadingAssignment))
+            var userWhoIsUploadingAssignment = await GetUserWhoIsUploadingAssignment(eventDates);
+            if (!userWhoIsUploadingAssignment.IsSuccessful)
             {
                 return userWhoIsUploadingAssignment;
             }
 
             await TryHandle(eventDates, newAssignments, request.SessionId);
 
-            return string.Empty;
+            return new SubmitResponse();
+        }
+
+        private async Task<SubmitResponse> GetUserWhoIsUploadingAssignment(List<DateTime> eventDates)
+        {
+            foreach (var eventDate in eventDates)
+            {
+                var userWhoIsUploadingAssignment = await cacheManipulator.GetUserWhoIsUploadingAssignment(eventDate);
+                if (!string.IsNullOrEmpty(userWhoIsUploadingAssignment))
+                {
+                    return new SubmitResponse
+                    {
+                        Message = $"User {userWhoIsUploadingAssignment} is uploading another assignment file for date {eventDate.ToShortDateString()}. Please try again later!"
+                    };
+                }
+            }
+
+            return new SubmitResponse();
         }
 
         private async Task TryHandle(List<DateTime> eventDates, List<AssignmentModel> assignments, string sessionId)

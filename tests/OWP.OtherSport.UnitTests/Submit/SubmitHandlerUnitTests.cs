@@ -11,6 +11,7 @@
     using OWP.OtherSport.Submit.Services;
     using OWP.OtherSport.Validation.Models;
     using Xunit;
+    using Xunit.Asserts.Compare;
 
     public class SubmitHandlerUnitTests
     {
@@ -36,9 +37,10 @@
             var request = new SubmitRequest { SessionId = sessionId };
 
             var emptyAssignments = new List<AssignmentModel>();
-            const string processingUser = "AnyUser";
+            const string processingUser = "anyUser";
+            var response = new SubmitResponse();
 
-            cacheManipulator.GetUserWhoIsUploadingAssignment(Arg.Compat.Any<List<DateTime>>()).Returns(processingUser);
+            cacheManipulator.GetUserWhoIsUploadingAssignment(Arg.Compat.Any<DateTime>()).Returns(processingUser);
             await handler.SaveAssignmentsToDatabase(emptyAssignments, string.Empty);
             cacheManipulator.GetNewAssignments(sessionId).Returns(emptyAssignments);
 
@@ -46,7 +48,7 @@
             var actual = await handler.Handle(request, new CancellationToken(false));
 
             // Assert
-            Assert.Equal(processingUser, actual);
+            DeepAssert.Equal(response, actual);
         }
 
         [Fact]
@@ -68,8 +70,9 @@
                 }
             };
             const string processingUser = "";
+            var response = new SubmitResponse { Message = processingUser };
 
-            cacheManipulator.GetUserWhoIsUploadingAssignment(Arg.Compat.Any<List<DateTime>>()).Returns(processingUser);
+            cacheManipulator.GetUserWhoIsUploadingAssignment(Arg.Compat.Any<DateTime>()).Returns(processingUser);
             await handler.SaveAssignmentsToDatabase(assignments, string.Empty);
             cacheManipulator.GetNewAssignments(sessionId).Returns(assignments);
             await cacheManipulator.SaveUserWhoIsUploadingAssignment(new List<DateTime>(), "sa");
@@ -79,7 +82,7 @@
             var actual = await handler.Handle(request, new CancellationToken(false));
 
             // Assert
-            Assert.Equal(string.Empty, actual);
+            DeepAssert.Equal(response, actual);
             await commandRepository.Received().Update(string.Empty, assignments);
             await cacheManipulator.Received().SaveOldAssignmentSnapshot(snapShot,sessionId);
         }

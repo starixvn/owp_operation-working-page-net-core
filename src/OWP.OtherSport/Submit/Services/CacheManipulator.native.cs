@@ -14,7 +14,7 @@
 
         Task SaveOldAssignmentSnapshot(AssignmentSnapshot assignmentSnapshot, string sessionId);
 
-        Task<string> GetUserWhoIsUploadingAssignment(List<DateTime> eventDates);
+        Task<string> GetUserWhoIsUploadingAssignment(DateTime eventDate);
 
         Task SaveUserWhoIsUploadingAssignment(List<DateTime> eventDates, string username);
 
@@ -55,17 +55,14 @@
             await cache.SetAsync(cacheKey, assignmentSnapshotInJson, cachePolicy);
         }
 
-        public async Task<string> GetUserWhoIsUploadingAssignment(List<DateTime> eventDates)
+        public async Task<string> GetUserWhoIsUploadingAssignment(DateTime eventDate)
         {
-            foreach (var eventDate in eventDates)
-            {
-                var cacheKey = $"{KEY_USER_WHO_IS_OS_UPLOADING_ASSIGNMENT}-{eventDate}";
-                var (_, value) = await cache.TryGetAsync<string>(cacheKey);
+            var cacheKey = $"{KEY_USER_WHO_IS_OS_UPLOADING_ASSIGNMENT}-{eventDate}";
+            var (_, value) = await cache.TryGetAsync<string>(cacheKey);
 
-                if (!string.IsNullOrEmpty(value))
-                {
-                    return value;
-                }
+            if (!string.IsNullOrEmpty(value))
+            {
+                return value;
             }
 
             return string.Empty;
