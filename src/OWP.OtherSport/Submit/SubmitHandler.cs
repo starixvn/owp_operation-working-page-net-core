@@ -20,11 +20,12 @@
         public SubmitResponse()
         {
             Message = string.Empty;
+            IsSuccessful = true;
         }
 
         public string Message { get; set; }
 
-        public bool IsSuccessful => string.IsNullOrEmpty(Message);
+        public bool IsSuccessful { get; set; }
     }
 
     public class SubmitHandler: IRequestHandler<SubmitRequest, SubmitResponse>
@@ -56,7 +57,11 @@
 
             await TryHandle(eventDates, newAssignments, request.SessionId);
 
-            return new SubmitResponse();
+            return new SubmitResponse
+            {
+                IsSuccessful = true,
+                Message = "Other sport assignment is successfully submitted!"
+            };
         }
 
         private async Task<SubmitResponse> GetUserWhoIsUploadingAssignment(List<DateTime> eventDates)
@@ -68,6 +73,7 @@
                 {
                     return new SubmitResponse
                     {
+                        IsSuccessful = false,
                         Message = $"User {userWhoIsUploadingAssignment} is uploading another assignment file for date {eventDate.ToShortDateString()}. Please try again later!"
                     };
                 }
