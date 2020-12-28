@@ -27,6 +27,7 @@
                     { EnumNoOfHdp.ThreePlusThreeLines, new NumberOfLines { CreditFt = 3 , CreditFirstHalf = 2, LicenseeFt = 3, LicenseeFirstHalf = 2 } },
                     { EnumNoOfHdp.ThreePlusFourLines, new NumberOfLines { CreditFt = 3 , CreditFirstHalf = 2, LicenseeFt = 4, LicenseeFirstHalf = 3 } },
                     { EnumNoOfHdp.FourPlusFourLines, new NumberOfLines { CreditFt = 4 , CreditFirstHalf = 3, LicenseeFt = 4, LicenseeFirstHalf = 3 } },
+                    { EnumNoOfHdp.OneLine, new NumberOfLines { CreditFt = 1 , CreditFirstHalf = 1, LicenseeFt = 0, LicenseeFirstHalf = 0 } },
                     { EnumNoOfHdp.Empty, new NumberOfLines { CreditFt = 2 , CreditFirstHalf = 2, LicenseeFt = 3, LicenseeFirstHalf = 2 } }
                 }
             );

@@ -12,5 +12,6 @@
         ThreePlusThreeLines = 7,
         ThreePlusFourLines = 8,
         FourPlusFourLines = 9,
+        OneLine = 10
     }
 }
