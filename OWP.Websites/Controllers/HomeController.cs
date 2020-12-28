@@ -1,5 +1,4 @@
-﻿using Fanex.Caching;
-using Fanex.NAP.Client.Helpers.Web;
+﻿using Fanex.NAP.Client.Helpers.Web;
 using Fanex.NAP.Client.Models.ParameterObject;
 using Fanex.NAP.Client.Services;
 using Microsoft.AspNetCore.Authentication;
@@ -18,32 +17,25 @@ namespace OWP.Websites.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ICache cache;
-
         private readonly INapSession session;
 
-        public HomeController(ICache cache, INapSession session)
+        public HomeController(INapSession session)
         {
-            this.cache = cache;
             this.session = session;
         }
 
         [AllowAnonymous]
         public IActionResult Index()
         {
+            ViewBag.IsSessionAvailable = HttpContext.Session.IsAvailable;
+            ViewBag.UserId = session.UserId;
+            ViewBag.Username = session.UserName;
             return View();
         }
 
-        [AllowAnonymous]
-        public IActionResult Privacy()
+        public IActionResult Test()
         {
-            return View();
-        }
-
-        public IActionResult Menu()
-        {
-            var menuItemList = session.MenuItemList;
-            return View(menuItemList);
+            return Content("Test");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

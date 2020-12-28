@@ -48,8 +48,8 @@ namespace OWP.Websites
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-            app.UseMiddleware<ErrorHandler>();
             app.UseSession();
+            app.UseMiddleware<ErrorHandler>();
             app.UseRouting();
             app.UseCors(allowOrigin);
             app.UseAuthentication();
