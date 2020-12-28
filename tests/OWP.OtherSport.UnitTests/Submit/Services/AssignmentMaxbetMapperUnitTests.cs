@@ -353,6 +353,562 @@
             DeepAssert.Equal(expect, actual);
         }
 
+        //MapPool
+        [Fact]
+        public void Get_Pool_in_AssignmentModel_Contain_Pool()
+        {
+            //Arrange
+            var assignment = AssignmentModelMock(Sport.Pool);
+
+            var expect = new List<AssignmentMaxbet> {
+                new()
+                {
+                    Bettype = Bettype.MatchWinnerHDP,
+                    TraderId = assignment.TraderPoolMatchWinnerHDP,
+                    OtherTrader = assignment.OtherTraderPoolMatchWinnerHDP,
+                    MaxBet = assignment.MaxBetPoolMatchWinnerHDP
+                },
+                new()
+                {
+                    Bettype = Bettype.RacksWinnerHDP,
+                    TraderId = assignment.TraderPoolRacksWinnerHDP,
+                    OtherTrader = assignment.OtherTraderPoolRacksWinnerHDP,
+                    MaxBet = assignment.MaxBetPoolRacksWinnerHDP
+                }};
+
+            //Act
+            var actual = AssignmentMaxbetMapperImp.MapPool(assignment);
+            //Assert
+            DeepAssert.Equal(expect, actual);
+        }   
+        
+        [Fact]
+        public void Get_Pool_in_AssignmentModel_not_Contain_Pool()
+        {
+            //Arrange
+            var assignment = AssignmentModelMock(Sport.Snooker);
+
+            var expect = new List<AssignmentMaxbet> { };
+
+            //Act
+            var actual = AssignmentMaxbetMapperImp.MapPool(assignment);
+            //Assert
+            DeepAssert.Equal(expect, actual);
+        }
+
+        //MapTableTennis
+        [Fact]
+        public void Get_TableTennis_in_AssignmentModel_Contain_TableTennis()
+        {
+            //Arrange
+            var assignment = AssignmentModelMock(Sport.TableTennis);
+
+            var expect = new List<AssignmentMaxbet> {
+                new()
+                {
+                    Bettype = Bettype.SetWinnerHDP,
+                    TraderId = assignment.TraderTableTennisSetWinnerHDP,
+                    OtherTrader = assignment.OtherTraderTableTennisSetWinnerHDP,
+                    MaxBet = assignment.MaxBetTableTennisSetWinnerHDP
+                },
+                new()
+                {
+                    Bettype = Bettype.SetXWinnerHDP,
+                    TraderId = assignment.TraderTableTennisSetXWinnerHDP,
+                    OtherTrader = assignment.OtherTraderTableTennisSetXWinnerHDP,
+                    MaxBet = assignment.MaxBetTableTennisSetXWinnerHDP
+                }};
+
+            //Act
+            var actual = AssignmentMaxbetMapperImp.MapTableTennis(assignment);
+            //Assert
+            DeepAssert.Equal(expect, actual);
+        }   
+        
+        [Fact]
+        public void Get_TableTennis_in_AssignmentModel_not_Contain_TableTennis()
+        {
+            //Arrange
+            var assignment = AssignmentModelMock(Sport.Snooker);
+
+            var expect = new List<AssignmentMaxbet> { };
+
+            //Act
+            var actual = AssignmentMaxbetMapperImp.MapTableTennis(assignment);
+            //Assert
+            DeepAssert.Equal(expect, actual);
+        }
+
+        //MapVolleyball
+        [Fact]
+        public void Get_Volleyball_in_AssignmentModel_Contain_Volleyball()
+        {
+            //Arrange
+            var assignment = AssignmentModelMock(Sport.Volleyball);
+
+            var expect = new List<AssignmentMaxbet> {
+                new()
+                {
+                    Bettype = Bettype.SetWinnerHDPOE,
+                    TraderId = assignment.TraderVolleyballSetWinnerHDPOE,
+                    OtherTrader = assignment.OtherTraderVolleyballSetWinnerHDPOU,
+                    MaxBet = assignment.MaxBetVolleyballSetWinnerHDPOU
+                },
+                new()
+                {
+                    Bettype = Bettype.SetsXPointWinnerHDP,
+                    TraderId = assignment.TraderVolleyballSetsXPointWinnerHDP,
+                    OtherTrader = assignment.OtherTraderVolleyballSetsXPointWinnerHDP,
+                    MaxBet = assignment.MaxBetVolleyballSetsXPointWinnerHDP
+                }};
+
+            //Act
+            var actual = AssignmentMaxbetMapperImp.MapVolleyball(assignment);
+            //Assert
+            DeepAssert.Equal(expect, actual);
+        }
+
+        [Fact]
+        public void Get_Volleyball_in_AssignmentModel_not_Contain_Volleyball()
+        {
+            //Arrange
+            var assignment = AssignmentModelMock(Sport.Snooker);
+
+            var expect = new List<AssignmentMaxbet> { };
+
+            //Act
+            var actual = AssignmentMaxbetMapperImp.MapVolleyball(assignment);
+            //Assert
+            DeepAssert.Equal(expect, actual);
+        }
+
+        //MapHandball
+        [Fact]
+        public void Get_Handball_in_AssignmentModel_Contain_Handball()
+        {
+            //Arrange
+            var assignment = AssignmentModelMock(Sport.Handball);
+
+            var expect = new List<AssignmentMaxbet> {
+                new()
+                {
+                    Bettype = Bettype.FTHDP,
+                    TraderId = assignment.TraderHandballFTHDP,
+                    OtherTrader = assignment.OtherTraderHandball1HHDP,
+                    MaxBet = assignment.MaxBetHandballFTHDP
+                },
+                new()
+                {
+                    Bettype = Bettype.FirstHHDP,
+                    TraderId = assignment.TraderHandball1HHDP,
+                    OtherTrader = assignment.OtherTraderHandball1HOU,
+                    MaxBet = assignment.MaxBetHandball1HHDP
+                },
+                new()
+                {
+                    Bettype = Bettype.FTOsU,
+                    TraderId = assignment.TraderHandballFTOU,
+                    OtherTrader = assignment.OtherTraderHandballFTHDP,
+                    MaxBet = assignment.MaxBetHandballFTOU
+                },
+                new()
+                {
+                    Bettype = Bettype.FirstHOsU,
+                    TraderId = assignment.TraderHandball1HOU,
+                    OtherTrader = assignment.OtherTraderHandballFTOU,
+                    MaxBet = assignment.MaxBetHandball1HOU
+                }};
+
+            //Act
+            var actual = AssignmentMaxbetMapperImp.MapHandball(assignment);
+            //Assert
+            DeepAssert.Equal(expect, actual);
+        }   
+        
+        [Fact]
+        public void Get_Handball_in_AssignmentModel_not_Contain_Handball()
+        {
+            //Arrange
+            var assignment = AssignmentModelMock(Sport.Snooker);
+
+            var expect = new List<AssignmentMaxbet> { };
+
+            //Act
+            var actual = AssignmentMaxbetMapperImp.MapHandball(assignment);
+            //Assert
+            DeepAssert.Equal(expect, actual);
+        }
+
+        //MapNetball
+        [Fact]
+        public void Get_Netball_in_AssignmentModel_Contain_Netball()
+        {
+            //Arrange
+            var assignment = AssignmentModelMock(Sport.Netball);
+
+            var expect = new List<AssignmentMaxbet> {
+                new()
+                {
+                    Bettype = Bettype.FTHDP,
+                    TraderId = assignment.TraderNetballFTHDP,
+                    OtherTrader = assignment.OtherTraderNetballFTHDP,
+                    MaxBet = assignment.MaxBetHandballFTHDP
+                },
+                new()
+                {
+                    Bettype = Bettype.FirstHHDP,
+                    TraderId = assignment.TraderNetball1HHDP,
+                    OtherTrader = assignment.OtherTraderNetball1HHDP,
+                    MaxBet = assignment.MaxBetHandball1HHDP
+                },
+                new()
+                {
+                    Bettype = Bettype.FirstQ3QHDP,
+                    TraderId = assignment.TraderNetball1Q3QHDP,
+                    OtherTrader = assignment.OtherTraderHandballFTHDP,
+                    MaxBet = assignment.MaxBetHandballFTOU
+                },
+                new()
+                {
+                    Bettype = Bettype.FTOUOE,
+                    TraderId = assignment.TraderNetballFTOUOE,
+                    OtherTrader = assignment.OtherTraderNetball1Q3QHDP,
+                    MaxBet = assignment.MaxBetHandball1HOU
+                },
+                new()
+                {
+                    Bettype = Bettype.FirstHOUOE,
+                    TraderId = assignment.TraderNetball1HOUOE,
+                    OtherTrader = assignment.OtherTraderNetball1HOUOE,
+                    MaxBet = assignment.MaxBetHandballFTOU
+                },
+                new()
+                {
+                    Bettype = Bettype.FirstQ3QOUOE,
+                    TraderId = assignment.TraderNetball1Q3QOUOE,
+                    OtherTrader = assignment.OtherTraderNetball1Q3QOUOE,
+                    MaxBet = assignment.MaxBetHandball1HOU
+                }};
+
+            //Act
+            var actual = AssignmentMaxbetMapperImp.MapNetball(assignment);
+            //Assert
+            DeepAssert.Equal(expect, actual);
+        }   
+        
+        [Fact]
+        public void Get_Netball_in_AssignmentModel_not_Contain_Netball()
+        {
+            //Arrange
+            var assignment = AssignmentModelMock(Sport.Snooker);
+
+            var expect = new List<AssignmentMaxbet> { };
+
+            //Act
+            var actual = AssignmentMaxbetMapperImp.MapNetball(assignment);
+            //Assert
+            DeepAssert.Equal(expect, actual);
+        }
+
+        //MapCricket
+        [Fact]
+        public void Get_Cricket_in_AssignmentModel_Contain_Cricket()
+        {
+            //Arrange
+            var assignment = AssignmentModelMock(Sport.Cricket);
+
+            var expect = new List<AssignmentMaxbet> {
+                new()
+                {
+                    Bettype = Bettype.MatchWinnerInningsOU,
+                    TraderId = assignment.TraderCricketMatchWinnerInningsOU,
+                    OtherTrader = assignment.OtherTraderCricketMatchWinnerInningsOU,
+                    MaxBet = assignment.MaxBetCricketMatchWinnerInningsOU
+                },
+                new()
+                {
+                    Bettype = Bettype.NextOverOUPlayerOU,
+                    TraderId = assignment.TraderCricketNextOverOUPlayerOU,
+                    OtherTrader = assignment.OtherTraderCricketNextOverOUPlayerOU,
+                    MaxBet = assignment.MaxBetCricketNextOverOUPlayerOU
+                },
+                new()
+                {
+                    Bettype = Bettype.FT1X2,
+                    TraderId = assignment.TraderCricketFT1X2,
+                    OtherTrader = assignment.OtherTraderCricketFT1X2,
+                    MaxBet = assignment.MaxBetCricketFT1X2
+                }};
+
+            //Act
+            var actual = AssignmentMaxbetMapperImp.MapCricket(assignment);
+            //Assert
+            DeepAssert.Equal(expect, actual);
+        }   
+        
+        [Fact]
+        public void Get_Cricket_in_AssignmentModel_not_Contain_Cricket()
+        {
+            //Arrange
+            var assignment = AssignmentModelMock(Sport.Snooker);
+
+            var expect = new List<AssignmentMaxbet> { };
+
+            //Act
+            var actual = AssignmentMaxbetMapperImp.MapCricket(assignment);
+            //Assert
+            DeepAssert.Equal(expect, actual);
+        }
+
+        //MapSnooker
+        [Fact]
+        public void Get_Snooker_in_AssignmentModel_Contain_Snooker()
+        {
+            //Arrange
+            var assignment = AssignmentModelMock(Sport.Snooker);
+
+            var expect = new List<AssignmentMaxbet> {
+                new()
+                {
+                    Bettype = Bettype.MatchWinnerHDPOU,
+                    TraderId = assignment.TraderSnookerMatchWinnerHDPOU,
+                    OtherTrader = assignment.OtherTraderSnookerMatchWinnerHDPOU,
+                    MaxBet = assignment.MaxBetSnookerMatchWinnerHDPOU
+                },
+                new()
+                {
+                    Bettype = Bettype.FramesWinnerHDPOUOE,
+                    TraderId = assignment.TraderSnookerFramesWinnerHDPOUOE,
+                    OtherTrader = assignment.OtherTraderSnookerFramesWinnerHDPOUOE,
+                    MaxBet = assignment.MaxBetSnookerFramesWinnerHDPOUOE
+                },
+                new()
+                {
+                    Bettype = Bettype.First5FramesHDP,
+                    TraderId = assignment.TraderSnookerFirst5FramesHDP,
+                    OtherTrader = assignment.OtherTraderSnookerFirst5FramesHDP,
+                    MaxBet = assignment.MaxBetSnookerFirst5FramesHDP
+                },
+                new()
+                {
+                    Bettype = Bettype.First8FramesHDP,
+                    TraderId = assignment.TraderSnookerFirst8FramesHDP,
+                    OtherTrader = assignment.OtherTraderSnookerFirst8FramesHDP,
+                    MaxBet = assignment.MaxBetSnookerFirst8FramesHDP
+                },
+                new()
+                {
+                    Bettype = Bettype.First9FramesHDP,
+                    TraderId = assignment.TraderSnookerFirst9FramesHDP,
+                    OtherTrader = assignment.OtherTraderSnookerFirst9FramesHDP,
+                    MaxBet = assignment.MaxBetSnookerFirst9FramesHDP
+                }};
+
+            //Act
+            var actual = AssignmentMaxbetMapperImp.MapSnooker(assignment);
+            //Assert
+            DeepAssert.Equal(expect, actual);
+        }   
+        
+        [Fact]
+        public void Get_Snooker_in_AssignmentModel_not_Contain_Snooker()
+        {
+            //Arrange
+            var assignment = AssignmentModelMock(Sport.OtherSports);
+
+            var expect = new List<AssignmentMaxbet> { };
+
+            //Act
+            var actual = AssignmentMaxbetMapperImp.MapSnooker(assignment);
+            //Assert
+            DeepAssert.Equal(expect, actual);
+        }
+
+        //MapBaseball
+        [Fact]
+        public void Get_Baseball_in_AssignmentModel_Contain_Baseball()
+        {
+            //Arrange
+            var assignment = AssignmentModelMock(Sport.Baseball);
+
+            var expect = new List<AssignmentMaxbet> {
+                new()
+                {
+                    Bettype = Bettype.FTRunLineHDP,
+                    TraderId = assignment.TraderBaseballFTRunLineHDP,
+                    OtherTrader = assignment.OtherTraderBaseballFTRunLineHDP,
+                    MaxBet = assignment.MaxBetBaseballFTRunLineHDP
+                },
+                new()
+                {
+                    Bettype = Bettype.FirstH1st5inningsHDP,
+                    TraderId = assignment.TraderBaseball1H1st5InningsHDP,
+                    OtherTrader = assignment.OtherTraderBaseball1H1st5inningsHDP,
+                    MaxBet = assignment.MaxBetBaseball1H1st5inningsHDP
+                },
+                new()
+                {
+                    Bettype = Bettype.FTTotalRunOU,
+                    TraderId = assignment.TraderBaseballFTTotalRunOU,
+                    OtherTrader = assignment.OtherTraderBaseballFTTotalRunOU,
+                    MaxBet = assignment.MaxBetBaseballFTTotalRunOU
+                },
+                new()
+                {
+                    Bettype = Bettype.FirstH1st5inningsOU,
+                    TraderId = assignment.TraderBaseball1H1st5InningsOU,
+                    OtherTrader = assignment.OtherTraderBaseball1H1st5inningsOU,
+                    MaxBet = assignment.MaxBetBaseball1H1st5inningsOU
+                },
+                new()
+                {
+                    Bettype = Bettype.InningHitsAndRuns,
+                    TraderId = assignment.TraderBaseballInningHitsRuns,
+                    OtherTrader = assignment.OtherTraderBaseballInningHitsRuns,
+                    MaxBet = assignment.MaxBetBaseballInningHitsRuns
+                }};
+
+            //Act
+            var actual = AssignmentMaxbetMapperImp.MapBaseball(assignment);
+            //Assert
+            DeepAssert.Equal(expect, actual);
+        }   
+        
+        [Fact]
+        public void Get_Baseball_in_AssignmentModel_not_Contain_Baseball()
+        {
+            //Arrange
+            var assignment = AssignmentModelMock(Sport.OtherSports);
+
+            var expect = new List<AssignmentMaxbet> { };
+
+            //Act
+            var actual = AssignmentMaxbetMapperImp.MapBaseball(assignment);
+            //Assert
+            DeepAssert.Equal(expect, actual);
+        }
+
+        //MapBadminton
+        [Fact]
+        public void Get_Badminton_in_AssignmentModel_Contain_Badminton()
+        {
+            //Arrange
+            var assignment = AssignmentModelMock(Sport.Badminton);
+
+            var expect = new List<AssignmentMaxbet> {
+                new()
+                {
+                    Bettype = Bettype.AllProductSetWinner,
+                    TraderId = assignment.TraderBadmintonAllProductSetWinner,
+                    OtherTrader = assignment.OtherTraderBadmintonAllProductSetWinner,
+                    MaxBet = assignment.MaxBetBadmintonAllProductSetWinner
+                },
+                new()
+                {
+                    Bettype = Bettype.AllProductPointWinner,
+                    TraderId = assignment.TraderBadmintonAllProductPointWinner,
+                    OtherTrader = assignment.OtherTraderBadmintonAllProductPointWinner,
+                    MaxBet = assignment.MaxBetBadmintonAllProductPointWinner
+                },
+                new()
+                {
+                    Bettype = Bettype.RacetoPoints7911,
+                    TraderId = assignment.TraderBadmintonRacetoPoints7911,
+                    OtherTrader = assignment.OtherTraderBadmintonRacetoPoints7911,
+                    MaxBet = assignment.MaxBetBadmintonRacetoPoints7911
+                },
+                new()
+                {
+                    Bettype = Bettype.NextPointWinner,
+                    TraderId = assignment.TraderBadmintonNextPointWinner,
+                    OtherTrader = assignment.OtherTraderBadmintonNextPointWinner,
+                    MaxBet = assignment.MaxBetBadmintonNextPointWinner
+                },
+                new()
+                {
+                    Bettype = Bettype.MatchHandicap,
+                    TraderId = assignment.TraderBadmintonMatchHandicap,
+                    OtherTrader = assignment.OtherTraderBadmintonMatchHandicap,
+                    MaxBet = assignment.MaxBetBadmintonMatchHandicap
+                }};
+
+            //Act
+            var actual = AssignmentMaxbetMapperImp.MapBadminton(assignment);
+            //Assert
+            DeepAssert.Equal(expect, actual);
+        }   
+        
+        [Fact]
+        public void Get_Badminton_in_AssignmentModel_not_Contain_Badminton()
+        {
+            //Arrange
+            var assignment = AssignmentModelMock(Sport.OtherSports);
+
+            var expect = new List<AssignmentMaxbet> { };
+
+            //Act
+            var actual = AssignmentMaxbetMapperImp.MapBadminton(assignment);
+            //Assert
+            DeepAssert.Equal(expect, actual);
+        }
+
+        //MapTennis
+        [Fact]
+        public void Get_Tennis_in_AssignmentModel_Contain_Tennis()
+        {
+            //Arrange
+            var assignment = AssignmentModelMock(Sport.Tennis);
+
+            var expect = new List<AssignmentMaxbet> {
+                new()
+                {
+                    Bettype = Bettype.AllProductLS,
+                    TraderId = assignment.TraderTennisAllProductLS,
+                    OtherTrader = assignment.OtherTraderTennisAllProductLS,
+                    MaxBet = assignment.MaxBetTennisAllProductLS
+                },
+                new()
+                {
+                    Bettype = Bettype.NextGame,
+                    TraderId = assignment.TraderTennisNextGame,
+                    OtherTrader = assignment.OtherTraderTennisNextGame,
+                    MaxBet = assignment.MaxBetTennisNextGame
+                },
+                new()
+                {
+                    Bettype = Bettype.MostAces,
+                    TraderId = assignment.TraderTennisMostAces,
+                    OtherTrader = assignment.OtherTraderTennisMostAces,
+                    MaxBet = assignment.MaxBetTennisMostAces
+                },
+                new()
+                {
+                    Bettype = Bettype.MostDoubleFaults,
+                    TraderId = assignment.TraderTennisMostDoubleFaults,
+                    OtherTrader = assignment.OtherTraderTennisMostDoubleFaults,
+                    MaxBet = assignment.MaxBetTennisMostDoubleFaults
+                }};
+
+            //Act
+            var actual = AssignmentMaxbetMapperImp.MapTennis(assignment);
+            //Assert
+            DeepAssert.Equal(expect, actual);
+        }   
+        
+        [Fact]
+        public void Get_Tennis_in_AssignmentModel_not_Contain_Tennis()
+        {
+            //Arrange
+            var assignment = AssignmentModelMock(Sport.OtherSports);
+
+            var expect = new List<AssignmentMaxbet> { };
+
+            //Act
+            var actual = AssignmentMaxbetMapperImp.MapTennis(assignment);
+            //Assert
+            DeepAssert.Equal(expect, actual);
+        }
+
         private static AssignmentModel AssignmentModelMock(string sport)
         {
             return new()
