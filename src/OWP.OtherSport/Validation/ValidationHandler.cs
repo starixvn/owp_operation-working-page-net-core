@@ -9,6 +9,7 @@
     using Fanex.NAP.Client.Helpers.Web;
     using MediatR;
     using Models;
+    using OWP.OtherSport.Validation.Exceptions;
     using OWP.OtherSport.Validation.Services;
 
     public class ValidationHandler
@@ -69,7 +70,19 @@
                 {
                     SessionId = request.SessionId
                 };
-                result.RecordCount = await ProcessAssignmentUploading(result.SessionId, request);
+                try
+                {
+                    result.RecordCount = await ProcessAssignmentUploading(result.SessionId, request);
+                }
+                catch (CriticalValidationException ex)
+                {
+                    result.Exception = ex.Message;
+                }
+                catch (InvalidAssignmentRowException ex)
+                {
+                    result.ValidationResults = ex.ValidationResults;
+                    result.Exception = ex.Message;
+                }
 
                 await LogExcelFile(request.SessionId, request.Stream);
 
@@ -87,8 +100,14 @@
 
             private async Task LogExcelFile(string sessionId, Stream file)
             {
-                const string folderPath = @"App_Data\Files";
-                var absolutedFolderPath = $"{AppDomain.CurrentDomain.BaseDirectory}\\{folderPath}";
+                var folderPath = @$"App_Data{Path.DirectorySeparatorChar}Files";
+                var absolutedFolderPath = $"{AppDomain.CurrentDomain.BaseDirectory}{Path.DirectorySeparatorChar}{folderPath}";
+
+                if (!Directory.Exists(absolutedFolderPath))
+                {
+                    Directory.CreateDirectory(absolutedFolderPath);
+                }
+
                 var fileName = $"{sessionId}-{session.UserName}-New.xlsx";
                 var fullPath = Path.Combine(absolutedFolderPath, fileName);
 
