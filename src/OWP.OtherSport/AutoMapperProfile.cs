@@ -20,7 +20,7 @@
         public static IMappingExpression<TSource, TDestination> IgnoreAllNonExisting<TSource, TDestination>
             (this IMappingExpression<TSource, TDestination> expression)
         {
-            var flags = BindingFlags.Public | BindingFlags.Instance;
+            const BindingFlags flags = BindingFlags.Public | BindingFlags.Instance;
             var destinationProperties = typeof(TDestination).GetProperties(flags);
 
             foreach (var property in destinationProperties)
