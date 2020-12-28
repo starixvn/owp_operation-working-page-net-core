@@ -76,6 +76,7 @@
             var newMatchIdsInString = string.Join(',', newMatchIds);
 
             var deletedMatchIdsInString = assignmentAnalyzer.DetectOldMatchIds(oldMatchIds, newMatchIds);
+            assignmentAnalyzer.ReassignOSMatchId(hashKeyMap, newAssignments);
             var assignmentMaxbets = mapper.MapBySport(newAssignments);
 
             await Task.WhenAll(
@@ -97,7 +98,7 @@
 
         public async Task InsertOrUpdateMatchAssignment(List<AssignmentModel> assignments, Dictionary<int, List<AssignmentMaxbet>> assignmentMaxbets, string newMatchIdsInString)
         {
-            var matchAssignment = assignments.Select(a => assignmentAnalyzer.GetAllAssignmentsOfMatch(a, assignmentMaxbets[a.OSMatchId]));
+            var matchAssignment = assignments.Select(a => assignmentAnalyzer.GetAllAssignmentsOfMatch(a, assignmentMaxbets[a.OSMatchId])).SelectMany(a => a);
             var command = new InsertOrUpdateMatchAssignmentsCommand
             {
                 MatchAssignments = XmlConverter.Serialize(matchAssignment),
@@ -109,7 +110,7 @@
 
         public async Task InsertOrUpdateMaxBet(List<AssignmentModel> assignments, Dictionary<int, List<AssignmentMaxbet>> assignmentMaxbets, string newMatchIdsInString)
         {
-            var maxBets = assignments.Select(a => assignmentAnalyzer.GetMaxBets(a, assignmentMaxbets[a.OSMatchId]));
+            var maxBets = assignments.Select(a => assignmentAnalyzer.GetMaxBets(a, assignmentMaxbets[a.OSMatchId])).SelectMany(a => a);
             var command = new InsertOrUpdateMaxBetCommand
             {
                 MaxBets = XmlConverter.Serialize(maxBets),
