@@ -18,7 +18,7 @@
         [Display(Name = "Date Time")]
         [StringLength(EventUploadingPropertyMaxLength.DateTime, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(
-        @"^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec
+        @"^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec|
         |JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)\ \d{2}\, \d{4}\ (1[0-2]|0?[1-9]):([0-5][0-9]) ([AP][M])$",
         ErrorMessage = "[Column: {0}] - Error: Invalid date time format")]
         public string DateTime { get; set; }
