@@ -89,6 +89,7 @@
             cacheManipulator.GetNewAssignments(sessionId).Returns(assignments);
             await cacheManipulator.SaveUserWhoIsUploadingAssignment(new List<DateTime>(), "sa");
             await cacheManipulator.SaveOldAssignmentSnapshot(snapShot, sessionId);
+            await cacheManipulator.DeleteUserWhoIsUploadingAssignment(new List<DateTime>());
 
             // Act
             var actual = await handler.Handle(request, new CancellationToken(false));
