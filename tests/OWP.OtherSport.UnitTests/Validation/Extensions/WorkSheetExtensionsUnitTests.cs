@@ -491,7 +491,7 @@
             worksheet.Cells[4, 14].Value = "Euro40";
             worksheet.Cells[4, 17].Value = "starix1";
             worksheet.Cells[4, 18].Value = "starix2";
-            worksheet.Cells[4, 149].Value = "50000";
+            worksheet.Cells[4, 149].Value = 50000;
 
             worksheet.Cells[4, 2].Value = "Basketball";
             worksheet.Cells[5, 2].Value = "Football";

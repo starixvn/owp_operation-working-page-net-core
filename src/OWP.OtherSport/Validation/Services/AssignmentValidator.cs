@@ -14,8 +14,6 @@
         void Validate(UploadingDataFromExcel rawDataFromExcel, List<Trader> traders);
 
         void ValidateTraders(AssignmentModelInExcel assignment, List<ValidationResult> results, List<Trader> traders);
-
-        List<ValidationResult> CustomValidateAssignment(AssignmentModelInExcel assignment, List<Trader> traders);
     }
 
     public class AssignmentValidatorImp : AssignmentValidator
@@ -27,7 +25,7 @@
             for (var i = 0; i < rawDataFromExcel.Assignments.Count; i++)
             {
                 var rowIndex = i;
-                var validationResultsOfAssignment = CustomValidateAssignment(rawDataFromExcel.Assignments[i], traders);
+                var validationResultsOfAssignment = CustomValidateAssignment(rawDataFromExcel.Assignments[i], rawDataFromExcel.Assignments, traders);
                 ValidationHelper.BuildValidationRowResult(
                    validationResultsOfAssignment,
                    validationResults,
@@ -42,11 +40,12 @@
             }
         }    
 
-        public List<ValidationResult> CustomValidateAssignment(AssignmentModelInExcel assignment, List<Trader> traders)
+        public List<ValidationResult> CustomValidateAssignment(AssignmentModelInExcel assignment, List<AssignmentModelInExcel> assigments, List<Trader> traders)
         {
             var results = new List<ValidationResult>();
             ValidateTraders(assignment, results, traders);
             ValidateDataAnotation(assignment, results);
+            ValidateDuplicatedMatch(assignment, assigments, results);
             return results;
         }
 
@@ -118,6 +117,25 @@
         {
             var context = new ValidationContext(assignment, null, null);
             Validator.TryValidateObject(assignment, context, results, true);
+        }
+
+        public static void ValidateDuplicatedMatch(AssignmentModelInExcel assignment, List<AssignmentModelInExcel> assignments, List<ValidationResult> results)
+        {
+            var isDuplicated = assignments.Any(x => IsEquals(x.DateTime, assignment.DateTime) &&
+                                                    IsEquals(x.League, assignment.League) &&
+                                                    IsEquals(x.Home, assignment.Home) &&
+                                                    IsEquals(x.Away, assignment.Away));
+
+            if (isDuplicated)
+            {
+                results.Add(new ValidationResult($"Duplicate Match: {assignment.League} | {assignment.Home} -vs- {assignment.Away}"));
+            }
+        }
+
+        private static bool IsEquals(string source, string? value)
+        {
+            return !string.IsNullOrWhiteSpace(source) &&
+                source.Equals(value, StringComparison.OrdinalIgnoreCase);
         }
     }
 }

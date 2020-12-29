@@ -18,15 +18,17 @@
 
         [Fact]
         public void Validate_ValidModel_NotThrowException()
-        {            
+        {
             var uploadingDataFromExcel = new UploadingDataFromExcel
-            {              
+            {
                 Assignments = new List<AssignmentModelInExcel>
                 {
                     new AssignmentModelInExcel
                     {
-                        Away = "GSW",
-                        Sport = "Basketball"
+                        Away = "OKC",
+                        Home = "Toronto Raptor",
+                        League = "NBA",
+                        Sport = "tennis"
                     }
                 }
             };
@@ -50,10 +52,13 @@
                 {
                     new AssignmentModelInExcel
                     {
-                        Away = "GSW",
+                        Away = "OKC",
+                        Home = "Toronto Raptor",
+                        League = "NBA",
                         Sport = "Basketball",
                         TraderBadmintonAllProductPointWinner = "starix3",
-                        OtherTraderBadmintonRacetoPoints7911 = "#starix3"
+                        OtherTraderBadmintonRacetoPoints7911 = "#starix3",
+                        DateTime = "12/02/2020 03:30 PM"
                     }
                 }
             };
@@ -76,7 +81,7 @@
                 new Trader { UserId = 0, Username = "Bill" }
             };
             var assignmentModelList = GetAssignmentModels();
-            
+
             assignmentValidator.ValidateTraders(assignmentModelList[0], actual, invalidTrader);
             Assert.Empty(actual);
         }
@@ -93,7 +98,7 @@
             var assignmentModelList = GetAssignmentModels();
             var expected = new List<ValidationResult>
             {
-                new ValidationResult("Invalid Trader Baseball FT Run Line (HDP): Esther; Other Trader Basketball 1H (OU/OE): Esther; Other Trader Badminton All Product (Set Winner): Lita")       
+                new ValidationResult("Invalid Trader Baseball FT Run Line (HDP): Esther; Other Trader Basketball 1H (OU/OE): Esther; Other Trader Badminton All Product (Set Winner): Lita")
             };
 
             assignmentValidator.ValidateTraders(assignmentModelList[0], actual, invalidTrader);
@@ -103,6 +108,19 @@
         [Fact]
         public void CustomValidateAssignment_ValidTrader_NotThrowsException()
         {
+            var uploadingDataFromExcel = new UploadingDataFromExcel
+            {
+                Assignments = new List<AssignmentModelInExcel>
+                {
+                    new AssignmentModelInExcel
+                    {
+                        Away = "GSW",
+                        Sport = "Basketball",
+                        DateTime = "2020-29-12"
+                    }
+                }
+            };
+
             var assignmentModelList = new AssignmentModelInExcel
             {
                 Away = "OKC",
@@ -119,14 +137,30 @@
                 new Trader{ UserId = 2, Username = "Lita"}
             };
             var expected = new List<ValidationResult>();
-        
-            var actual = assignmentValidator.CustomValidateAssignment(assignmentModelList, traders);
+
+            var actual = assignmentValidator.CustomValidateAssignment(assignmentModelList, uploadingDataFromExcel.Assignments, traders);
             DeepAssert.Equal(expected, actual);
         }
 
         [Fact]
         public void CustomValidateAssignment_InvalidTrader_NotThrowsInvalidAssignmentRowException()
         {
+            var uploadingDataFromExcel = new UploadingDataFromExcel
+            {
+                Assignments = new List<AssignmentModelInExcel>
+                {
+                    new AssignmentModelInExcel
+                    {
+                        Away = "OKC",
+                        Home = "Toronto Raptor",
+                        League = "NBA",
+                        Sport = "Basketball",
+                        TraderBadmintonAllProductPointWinner = "Curry",
+                        DateTime = "2020-29-12"
+                    }
+                }
+            };
+
             var assignmentModel = new AssignmentModelInExcel
             {
                 Away = "OKC",
@@ -144,10 +178,62 @@
             };
             var expected = new List<ValidationResult>
             {
-                new ValidationResult("Invalid Trader Badminton All Product (Point Winner): Curry")                
+                new ValidationResult("Invalid Trader Badminton All Product (Point Winner): Curry")
             };
 
-            var actual = assignmentValidator.CustomValidateAssignment(assignmentModel, traders);
+            var actual = assignmentValidator.CustomValidateAssignment(assignmentModel, uploadingDataFromExcel.Assignments, traders);
+            DeepAssert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void CustomValidateAssignment_DuplicateMatches_AddsDuplicateMatchToResult()
+        {
+            var uploadingDataFromExcel = new UploadingDataFromExcel
+            {
+                Assignments = new List<AssignmentModelInExcel>
+                {
+                    new AssignmentModelInExcel
+                    {
+                        Away = "OKC",
+                        Home = "Toronto Raptor",
+                        League = "NBA",
+                        Sport = "Basketball",
+                        TraderBadmintonAllProductPointWinner = "Esther",
+                        DateTime = "12/02/2020 03:30 PM"
+                    },
+                    new AssignmentModelInExcel
+                    {
+                        Away = "OKC",
+                        Home = "Toronto Raptor",
+                        League = "NBA",
+                        Sport = "Basketball",
+                        TraderBadmintonAllProductPointWinner = "Esther",
+                        DateTime = "12/02/2020 03:30 PM"
+                    }
+                }
+            };
+
+            var assignmentModel = new AssignmentModelInExcel
+            {
+                Away = "OKC",
+                Home = "Toronto Raptor",
+                League = "NBA",
+                Sport = "Basketball",
+                TraderBadmintonAllProductPointWinner = "Esther",
+                DateTime = "12/02/2020 03:30 PM"
+            };
+
+            var traders = new List<Trader>
+            {
+                new Trader{ UserId = 1, Username = "Esther"},
+                new Trader{ UserId = 10, Username = "Mira"}
+            };
+            var expected = new List<ValidationResult>
+            {
+                new ValidationResult("Duplicate Match: NBA | Toronto Raptor -vs- OKC")
+            };
+
+            var actual = assignmentValidator.CustomValidateAssignment(assignmentModel, uploadingDataFromExcel.Assignments, traders);
             DeepAssert.Equal(expected, actual);
         }
 

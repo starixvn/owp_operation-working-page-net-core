@@ -24,7 +24,7 @@
             {
                 new AssignmentValidationRowResult
                 {
-                    Row = 3,
+                    Row = 2,
                     Message = "Invalid Trader Baseball FT Run Line (HDP): Esther"
                 }
             };
