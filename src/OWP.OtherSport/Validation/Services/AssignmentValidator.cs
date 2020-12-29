@@ -25,7 +25,9 @@
             for (var i = 0; i < rawDataFromExcel.Assignments.Count; i++)
             {
                 var rowIndex = i;
-                var validationResultsOfAssignment = CustomValidateAssignment(rawDataFromExcel.Assignments[i], rawDataFromExcel.Assignments, traders);
+                var assignments = rawDataFromExcel.Assignments.ToList();
+                assignments.RemoveAt(i);
+                var validationResultsOfAssignment = CustomValidateAssignment(rawDataFromExcel.Assignments[i], assignments, traders);
                 ValidationHelper.BuildValidationRowResult(
                    validationResultsOfAssignment,
                    validationResults,
@@ -38,7 +40,7 @@
             {
                 throw new InvalidAssignmentRowException(validationResults);
             }
-        }    
+        }
 
         public List<ValidationResult> CustomValidateAssignment(AssignmentModelInExcel assignment, List<AssignmentModelInExcel> assigments, List<Trader> traders)
         {
@@ -104,7 +106,7 @@
         }
 
         public static void CheckOtherTrader(List<string> errorList, List<string> invalidTraders, string trader, string name)
-        {        
+        {
             var regex = new Regex(@"#(.*?)(\s|$)");
             var traderName = regex.Match(trader).Groups[1].Value;
             if (invalidTraders.Contains(traderName))

@@ -199,7 +199,7 @@
                         League = "NBA",
                         Sport = "Basketball",
                         TraderBadmintonAllProductPointWinner = "Esther",
-                        DateTime = "12/02/2020 03:30 PM"
+                        DateTime = "May 01, 2021 01:00 AM"
                     },
                     new AssignmentModelInExcel
                     {
@@ -208,7 +208,7 @@
                         League = "NBA",
                         Sport = "Basketball",
                         TraderBadmintonAllProductPointWinner = "Esther",
-                        DateTime = "12/02/2020 03:30 PM"
+                        DateTime = "May 01, 2021 01:00 AM"
                     }
                 }
             };
@@ -220,7 +220,7 @@
                 League = "NBA",
                 Sport = "Basketball",
                 TraderBadmintonAllProductPointWinner = "Esther",
-                DateTime = "12/02/2020 03:30 PM"
+                DateTime = "May 01, 2021 01:00 AM"
             };
 
             var traders = new List<Trader>

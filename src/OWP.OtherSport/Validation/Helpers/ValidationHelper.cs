@@ -15,7 +15,7 @@
             var validationResultsRow = validationResults
                    .Select(v => new AssignmentValidationRowResult
                    {
-                       Row = rowIndex,
+                       Row = rowIndex + 2,
                        Message = v.ErrorMessage
                    });
             validationRowResult.AddRange(validationResultsRow);

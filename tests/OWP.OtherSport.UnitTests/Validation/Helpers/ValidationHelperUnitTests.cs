@@ -13,7 +13,7 @@
 
        public void BuildValidationRowResult_ValidationResult_ReturnValidation()
         {
-            var assignmentValidationList = new List<AssignmentValidationRowResult>();          
+            var assignmentValidationList = new List<AssignmentValidationRowResult>();
 
             var validationResult = new List<ValidationResult>
             {
@@ -24,7 +24,7 @@
             {
                 new AssignmentValidationRowResult
                 {
-                    Row = 2,
+                    Row = 4,
                     Message = "Invalid Trader Baseball FT Run Line (HDP): Esther"
                 }
             };
@@ -41,7 +41,7 @@
 
             var validationResult = new List<ValidationResult>();
 
-            var expected = new List<AssignmentValidationRowResult>();           
+            var expected = new List<AssignmentValidationRowResult>();
 
             ValidationHelper.BuildValidationRowResult(validationResult, assignmentValidationList, 0);
 
