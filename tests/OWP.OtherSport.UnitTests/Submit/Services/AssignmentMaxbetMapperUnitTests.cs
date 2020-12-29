@@ -10,28 +10,44 @@
 
     public class AssignmentMaxbetMapperUnitTests
     {
-        
+
         private readonly AssignmentMaxbetMapperImp services;
-        
+
         public AssignmentMaxbetMapperUnitTests()
         {
             services = new AssignmentMaxbetMapperImp();
         }
-        
+
         //MapBySports
         [Fact]
         public void MapBySports()
         {
             //Arrange
-            var assignment = new List<AssignmentModel> ( );
-            var expect = new Dictionary<int, List<AssignmentMaxbet>>();           
+            var assignmentModels = new List<AssignmentModel>();
+            var item = AssignmentModelMock(Sport.OtherSports);
+            assignmentModels.Add(item);
+
+            var assignmentMaxbets = new List<AssignmentMaxbet>
+            {
+                new AssignmentMaxbet()
+                {
+                    Bettype = "Match Winner",
+                    TraderId = 23,
+                    OtherTrader = "OtherTraderOtherSportsMatchWinner",
+                    MaxBet = 1200
+                }
+            };
+            
+            var expect = new Dictionary<int, List<AssignmentMaxbet>>();
+            expect.Add(0, assignmentMaxbets);
+
             //Act
-            var actual = services.MapBySports(assignment);
-           
+            var actual = services.MapBySports(assignmentModels);
+
             //Assert
-            Assert.Equal(expect, actual);
-        } 
-        
+            DeepAssert.Equal(expect, actual);
+        }
+
         //MapBySport
         [Fact]
         public void MapBySport_Get_AssignmentMaxbet_in_AssignmentModel()
@@ -54,7 +70,7 @@
             //Assert
             DeepAssert.Equal(expect, actual);
         }
-        
+
         //MapBasketball
         [Fact]
         public void Get_Basketball_in_AssignmentModel_Contain_BasketBall()
@@ -77,14 +93,14 @@
             //Assert
             DeepAssert.Equal(expect, actual);
         }
-        
+
         [Fact]
         public void Get_Basketball_in_AssignmentModel_not_Contain_BasketBall()
         {
             //Arrange
             var assignment = AssignmentModelMock(Sport.Football);
 
-            var expect = new List<AssignmentMaxbet>{ };
+            var expect = new List<AssignmentMaxbet> { };
 
             //Act
             var actual = AssignmentMaxbetMapperImp.MapBasketball(assignment);
@@ -99,14 +115,14 @@
             //Arrange
             var assignment = AssignmentModelMock(Sport.FieldHockey);
 
-            var expect = new List<AssignmentMaxbet>{};
+            var expect = new List<AssignmentMaxbet> { };
 
             //Act
             var actual = AssignmentMaxbetMapperImp.MapFootball(assignment);
             //Assert
             DeepAssert.Equal(expect, actual);
         }
-        
+
         [Fact]
         public void Get_Football_in_AssignmentModel_not_Contain_Football()
         {
@@ -216,8 +232,8 @@
             var actual = AssignmentMaxbetMapperImp.MapFieldHockey(assignment);
             //Assert
             DeepAssert.Equal(expect, actual);
-        }   
-        
+        }
+
         [Fact]
         public void Get_FieldHockey_in_AssignmentModel_not_Contain_FieldHockey()
         {
@@ -280,8 +296,8 @@
             var actual = AssignmentMaxbetMapperImp.MapIceHockey(assignment);
             //Assert
             DeepAssert.Equal(expect, actual);
-        }   
-        
+        }
+
         [Fact]
         public void Get_IceHockey_in_AssignmentModel_not_Contain_IceHockey()
         {
@@ -316,8 +332,8 @@
             var actual = AssignmentMaxbetMapperImp.MapOtherSports(assignment);
             //Assert
             DeepAssert.Equal(expect, actual);
-        }   
-        
+        }
+
         [Fact]
         public void Get_OtherSports_in_AssignmentModel_not_Contain_OtherSports()
         {
@@ -359,8 +375,8 @@
             var actual = AssignmentMaxbetMapperImp.MapDarts(assignment);
             //Assert
             DeepAssert.Equal(expect, actual);
-        }   
-        
+        }
+
         [Fact]
         public void Get_Darts_in_AssignmentModel_not_Contain_Darts()
         {
@@ -402,8 +418,8 @@
             var actual = AssignmentMaxbetMapperImp.MapPool(assignment);
             //Assert
             DeepAssert.Equal(expect, actual);
-        }   
-        
+        }
+
         [Fact]
         public void Get_Pool_in_AssignmentModel_not_Contain_Pool()
         {
@@ -445,8 +461,8 @@
             var actual = AssignmentMaxbetMapperImp.MapTableTennis(assignment);
             //Assert
             DeepAssert.Equal(expect, actual);
-        }   
-        
+        }
+
         [Fact]
         public void Get_TableTennis_in_AssignmentModel_not_Contain_TableTennis()
         {
@@ -545,8 +561,8 @@
             var actual = AssignmentMaxbetMapperImp.MapHandball(assignment);
             //Assert
             DeepAssert.Equal(expect, actual);
-        }   
-        
+        }
+
         [Fact]
         public void Get_Handball_in_AssignmentModel_not_Contain_Handball()
         {
@@ -616,8 +632,8 @@
             var actual = AssignmentMaxbetMapperImp.MapNetball(assignment);
             //Assert
             DeepAssert.Equal(expect, actual);
-        }   
-        
+        }
+
         [Fact]
         public void Get_Netball_in_AssignmentModel_not_Contain_Netball()
         {
@@ -666,8 +682,8 @@
             var actual = AssignmentMaxbetMapperImp.MapCricket(assignment);
             //Assert
             DeepAssert.Equal(expect, actual);
-        }   
-        
+        }
+
         [Fact]
         public void Get_Cricket_in_AssignmentModel_not_Contain_Cricket()
         {
@@ -730,8 +746,8 @@
             var actual = AssignmentMaxbetMapperImp.MapSnooker(assignment);
             //Assert
             DeepAssert.Equal(expect, actual);
-        }   
-        
+        }
+
         [Fact]
         public void Get_Snooker_in_AssignmentModel_not_Contain_Snooker()
         {
@@ -794,8 +810,8 @@
             var actual = AssignmentMaxbetMapperImp.MapBaseball(assignment);
             //Assert
             DeepAssert.Equal(expect, actual);
-        }   
-        
+        }
+
         [Fact]
         public void Get_Baseball_in_AssignmentModel_not_Contain_Baseball()
         {
@@ -858,8 +874,8 @@
             var actual = AssignmentMaxbetMapperImp.MapBadminton(assignment);
             //Assert
             DeepAssert.Equal(expect, actual);
-        }   
-        
+        }
+
         [Fact]
         public void Get_Badminton_in_AssignmentModel_not_Contain_Badminton()
         {
@@ -915,8 +931,8 @@
             var actual = AssignmentMaxbetMapperImp.MapTennis(assignment);
             //Assert
             DeepAssert.Equal(expect, actual);
-        }   
-        
+        }
+
         [Fact]
         public void Get_Tennis_in_AssignmentModel_not_Contain_Tennis()
         {
