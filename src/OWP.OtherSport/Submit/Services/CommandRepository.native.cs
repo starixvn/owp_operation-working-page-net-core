@@ -77,7 +77,7 @@
 
             var deletedMatchIdsInString = assignmentAnalyzer.DetectOldMatchIds(oldMatchIds, newMatchIds);
             assignmentAnalyzer.ReassignOSMatchId(hashKeyMap, newAssignments);
-            var assignmentMaxbets = mapper.MapBySport(newAssignments);
+            var assignmentMaxbets = mapper.MapBySports(newAssignments);
 
             await Task.WhenAll(
                 InsertOrUpdateMatchAssignment(newAssignments, assignmentMaxbets, newMatchIdsInString),

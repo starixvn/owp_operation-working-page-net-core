@@ -9,12 +9,12 @@
 
     public interface AssignmentMaxbetMapper
     {
-        Dictionary<int, List<AssignmentMaxbet>> MapBySport(List<AssignmentModel> assignments);
+        Dictionary<int, List<AssignmentMaxbet>> MapBySports(List<AssignmentModel> assignments);
     }
 
     public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
     {
-        public Dictionary<int, List<AssignmentMaxbet>> MapBySport(List<AssignmentModel> assignments)
+        public Dictionary<int, List<AssignmentMaxbet>> MapBySports(List<AssignmentModel> assignments)
             => assignments.ToDictionary(a => a.OSMatchId, a => MapBySport(a));
 
         public static List<AssignmentMaxbet> MapBySport(AssignmentModel assignment)

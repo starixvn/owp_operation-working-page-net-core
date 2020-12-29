@@ -10,6 +10,28 @@
 
     public class AssignmentMaxbetMapperUnitTests
     {
+        
+        private readonly AssignmentMaxbetMapperImp services;
+        
+        public AssignmentMaxbetMapperUnitTests()
+        {
+            services = new AssignmentMaxbetMapperImp();
+        }
+        
+        //MapBySports
+        [Fact]
+        public void MapBySports()
+        {
+            //Arrange
+            var assignment = new List<AssignmentModel> ( );
+            var expect = new Dictionary<int, List<AssignmentMaxbet>>();           
+            //Act
+            var actual = services.MapBySports(assignment);
+           
+            //Assert
+            Assert.Equal(expect, actual);
+        } 
+        
         //MapBySport
         [Fact]
         public void MapBySport_Get_AssignmentMaxbet_in_AssignmentModel()
