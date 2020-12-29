@@ -6,6 +6,7 @@
     using OWP.OtherSport.Submit.Criteria;
     using OWP.OtherSport.Submit.Models;
     using OWP.OtherSport.Validation.Models;
+    using OWP.Services;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -29,16 +30,20 @@
 
         private readonly INapSession currentSession;
 
+        private readonly LogServiceWrapper logService;
+
         public CommandRepositoryImp(
             IDynamicRepository repository,
             AssignmentMaxbetMapper mapper,
             AssignmentAnalyzer assignmentAnalyzer,
-            INapSession currentSession)
+            INapSession currentSession,
+            LogServiceWrapper logServiceWrapper)
         {
             this.repository = repository;
             this.mapper = mapper;
             this.assignmentAnalyzer = assignmentAnalyzer;
             this.currentSession = currentSession;
+            this.logService = logServiceWrapper;
         }
 
         public async Task<AssignmentSnapshot> Query(string eventDates)
@@ -71,6 +76,7 @@
         public async Task Update(string eventDateInString, List<AssignmentModel> newAssignments)
         {
             var oldMatchIds = await GetOldMatchIds(eventDateInString);
+            await logService.Log("Update - Input parameters", oldMatchIds, newAssignments);
             var hashKeyMap = await InsertOrUpdateMatch(newAssignments);
             var newMatchIds = hashKeyMap.Select(h => h.OSMatchId).Distinct().ToList();
             var newMatchIdsInString = string.Join(',', newMatchIds);
@@ -78,6 +84,7 @@
             var deletedMatchIdsInString = assignmentAnalyzer.DetectOldMatchIds(oldMatchIds, newMatchIds);
             assignmentAnalyzer.ReassignOSMatchId(hashKeyMap, newAssignments);
             var assignmentMaxbets = mapper.MapBySports(newAssignments);
+            await logService.Log("UpdateMatchExtraInformation - Input parameters", hashKeyMap, newMatchIdsInString, deletedMatchIdsInString, newAssignments);
 
             await Task.WhenAll(
                 InsertOrUpdateMatchAssignment(newAssignments, assignmentMaxbets, newMatchIdsInString),

@@ -31,6 +31,7 @@ namespace OWP.Websites
     using ONEbook.UM.Transport;
     using OWP.Maxbet;
     using OWP.OtherSport;
+    using OWP.Services;
     using Sentry;
     using System;
     using System.Collections.Generic;
@@ -186,6 +187,7 @@ namespace OWP.Websites
         private static void ConfigureCore(IServiceCollection services)
         {
             services.AddScoped<IDynamicRepository, DynamicRepository>();
+            services.AddSingleton<LogServiceWrapper, LogServiceWrapperImp>();
         }
 
         private static void ConfigureMediator(IServiceCollection services)
