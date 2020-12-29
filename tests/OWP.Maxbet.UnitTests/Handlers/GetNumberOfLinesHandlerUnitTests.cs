@@ -95,6 +95,19 @@
             DeepAssert.Equals(expected, actual);
         }
 
+        [Fact]
+        public async Task Handler_MatchWithOneLineNoOfHDP_ReturnData()
+        {
+            Setup();
+            IEnumerable<MatchResource> oneLine = new List<MatchResource> { new MatchResource { ResourceId = (int)EnumNoOfHdp.OneLine } };
+            dynamicRepository.FetchAsync<MatchResource>(Arg.Compat.Any<MatchNoOfHdpGetCriteria>()).Returns(Task.FromResult(oneLine));
+            var expected = new NumberOfLines { CreditFt = 1, CreditFirstHalf = 1, LicenseeFt = 0, LicenseeFirstHalf = 0 };
+
+            var actual = await handler.Handle(new GetNumberOfLinesHandler.Request { OWPMatchId = 123 }, new CancellationToken(false));
+
+            DeepAssert.Equals(expected, actual);
+        }
+
         private void Setup()
         {
             dynamicRepository = Substitute.For<IDynamicRepository>();
