@@ -36,9 +36,17 @@
             const string sessionId = "sessionABC";
             var request = new SubmitRequest { SessionId = sessionId };
 
-            var emptyAssignments = new List<AssignmentModel>();
+            var emptyAssignments = new List<AssignmentModel>
+            {
+                new() { DateTime=new DateTime(2020,1,2) },
+                new() { DateTime=new DateTime(2020,1,3) }
+            };
             const string processingUser = "anyUser";
-            var response = new SubmitResponse();
+            var response = new SubmitResponse
+            {
+                IsSuccessful = false,
+                Message = $"User {processingUser} is uploading another assignment file for date 1/2/2020. Please try again later!"
+            };
 
             cacheManipulator.GetUserWhoIsUploadingAssignment(Arg.Compat.Any<DateTime>()).Returns(processingUser);
             await handler.SaveAssignmentsToDatabase(emptyAssignments, string.Empty);
@@ -60,7 +68,7 @@
 
             var assignments = new List<AssignmentModel>
             {
-                new AssignmentModel{ Home = "ABC"}
+                new AssignmentModel{ Home = "ABC", DateTime=new DateTime(2020,1,2) }
             };
             var snapShot = new AssignmentSnapshot
             {
@@ -70,7 +78,11 @@
                 }
             };
             const string processingUser = "";
-            var response = new SubmitResponse { Message = processingUser };
+            var response = new SubmitResponse
+            {
+                IsSuccessful = true,
+                Message = "Other sport assignment is successfully submitted!"
+            };
 
             cacheManipulator.GetUserWhoIsUploadingAssignment(Arg.Compat.Any<DateTime>()).Returns(processingUser);
             await handler.SaveAssignmentsToDatabase(assignments, string.Empty);
