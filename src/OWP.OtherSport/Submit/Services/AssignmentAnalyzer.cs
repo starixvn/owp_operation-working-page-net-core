@@ -40,7 +40,7 @@
                 matchMaxBets.Add(GetMaxBetByBettype(assignment.OSMatchId, assignmentMaxbet.Bettype, assignmentMaxbet.MaxBet));
             }
 
-            return matchMaxBets.Where(a => a.MaxBet != null).ToList();
+            return matchMaxBets.Where(a => a.MaxBet != null && a.MaxBet != 0).ToList();
         }
 
         public static MatchAssignment GetAssignmentByBettype(int matchId, string bettype, int userId)
