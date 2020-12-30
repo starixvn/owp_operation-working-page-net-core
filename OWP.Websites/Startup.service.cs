@@ -83,6 +83,8 @@ namespace OWP.Websites
                     builder =>
                     {
                         builder.WithOrigins("https://localhost:44380",
+                                            "https://localhost:64193",
+                                            "http://localhost:64193",
                                             "http://localhost:57420",
                                             "https://owp.nexdev.net",
                                             "https://owp-netcore-v1.nexdev.net",
