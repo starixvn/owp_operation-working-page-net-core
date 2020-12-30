@@ -108,7 +108,7 @@
                     Directory.CreateDirectory(absolutedFolderPath);
                 }
 
-                var fileName = $"{sessionId}-{session.UserName}-New.xlsx";
+                var fileName = $"{sessionId}-{session.UserName}-New-OS.xlsx";
                 var fullPath = Path.Combine(absolutedFolderPath, fileName);
 
                 using var stream = File.Create(fullPath);

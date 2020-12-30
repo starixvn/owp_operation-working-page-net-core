@@ -134,7 +134,7 @@
             }
         }
 
-        private static bool IsEquals(string source, string? value)
+        private static bool IsEquals(string source, string value)
         {
             return !string.IsNullOrWhiteSpace(source) &&
                 source.Equals(value, StringComparison.OrdinalIgnoreCase);
