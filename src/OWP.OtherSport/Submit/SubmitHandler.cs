@@ -74,7 +74,7 @@
                     return new SubmitResponse
                     {
                         IsSuccessful = false,
-                        Message = $"User {userWhoIsUploadingAssignment} is uploading another assignment file for date {eventDate.ToShortDateString()}. Please try again later!"
+                        Message = $"User {userWhoIsUploadingAssignment} is uploading another assignment file for date {eventDate.ToString("MMM dd, yyyy")}. Please try again later!"
                     };
                 }
             }

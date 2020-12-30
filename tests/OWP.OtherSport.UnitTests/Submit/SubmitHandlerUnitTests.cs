@@ -45,7 +45,7 @@
             var response = new SubmitResponse
             {
                 IsSuccessful = false,
-                Message = $"User {processingUser} is uploading another assignment file for date 1/2/2020. Please try again later!"
+                Message = $"User {processingUser} is uploading another assignment file for date Jan 02, 2020. Please try again later!"
             };
 
             cacheManipulator.GetUserWhoIsUploadingAssignment(Arg.Compat.Any<DateTime>()).Returns(processingUser);
