@@ -37,13 +37,13 @@
             AssignmentMaxbetMapper mapper,
             AssignmentAnalyzer assignmentAnalyzer,
             INapSession currentSession,
-            LogServiceWrapper logServiceWrapper)
+            LogServiceWrapper logService)
         {
             this.repository = repository;
             this.mapper = mapper;
             this.assignmentAnalyzer = assignmentAnalyzer;
             this.currentSession = currentSession;
-            this.logService = logServiceWrapper;
+            this.logService = logService;
         }
 
         public async Task<AssignmentSnapshot> Query(string eventDates)
@@ -53,13 +53,13 @@
                 EventDates = eventDates
             };
 
-            var tuple = await repository.FetchMultipleAsync<MatchInfo, MatchAssignment, MatchMaxBet>(criteria);
+            var (firstResultSet, secondResultSet, thirdResultSet) = await repository.FetchMultipleAsync<MatchInfo, MatchAssignment, MatchMaxBet>(criteria);
 
             return new AssignmentSnapshot
             {
-                Matches = tuple.Item1.ToDictionary(m => m.OSMatchId),
-                MatchAssignments = tuple.Item2.GroupBy(a => a.OSMatchId).ToDictionary(a => a.Key, a => a.ToList()),
-                MaxBet = tuple.Item3.GroupBy(a => a.OSMatchId).ToDictionary(a => a.Key, a => a.ToList())
+                Matches = firstResultSet.ToDictionary(m => m.OSMatchId),
+                MatchAssignments = secondResultSet.GroupBy(a => a.OSMatchId).ToDictionary(a => a.Key, a => a.ToList()),
+                MaxBet = thirdResultSet.GroupBy(a => a.OSMatchId).ToDictionary(a => a.Key, a => a.ToList())
             };
         }
 
