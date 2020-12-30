@@ -237,6 +237,7 @@
                 worksheet.Cells[2, 14].Value = "Euro40";
                 worksheet.Cells[2, 17].Value = "starix1";
                 worksheet.Cells[2, 18].Value = "starix2";
+                worksheet.Cells[2, 141].Value = "other note";
                 worksheet.Cells[2, 142].Value = "#starix14 other";
                 worksheet.Cells[2, 149].Value = "50000";
 
@@ -391,7 +392,7 @@
                         OtherTraderBadmintonMatchHandicap = string.Empty,
                         OtherTraderTennisAllProductLS = string.Empty,
                         OtherTraderTennisNextGame = string.Empty,
-                        OtherTraderTennisMostAces = string.Empty,
+                        OtherTraderTennisMostAces = "other note",
                         OtherTraderTennisMostDoubleFaults = "#starix14 other",
                         MaxBetBasketballFTHDP = null,
                         MaxBetBasketballFTOE = null,

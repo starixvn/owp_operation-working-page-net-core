@@ -237,6 +237,46 @@
             DeepAssert.Equal(expected, actual);
         }
 
+        [Fact]
+        public void CustomValidateAssignment_NotDuplicateMatches()
+        {
+            var uploadingDataFromExcel = new UploadingDataFromExcel
+            {
+                Assignments = new List<AssignmentModelInExcel>
+                {
+                    new AssignmentModelInExcel
+                    {
+                        Away = "OKC",
+                        Home = "Toronto Raptor",
+                        League = "NBA",
+                        Sport = "Basketball",
+                        TraderBadmintonAllProductPointWinner = "Esther",
+                        DateTime = "JAN 01,2020 03:30 PM"
+                    }
+                }
+            };
+
+            var assignmentModel = new AssignmentModelInExcel
+            {
+                Away = "OKC",
+                Home = "Toronto Raptor",
+                League = "NBA",
+                Sport = "Basketball",
+                TraderBadmintonAllProductPointWinner = "Esther",
+                DateTime = "DEC 01,2020 03:30 PM"
+            };
+
+            var traders = new List<Trader>
+            {
+                new Trader{ UserId = 1, Username = "Esther"},
+                new Trader{ UserId = 10, Username = "Mira"}
+            };
+            var expected = new List<ValidationResult>();
+          
+            var actual = assignmentValidator.CustomValidateAssignment(assignmentModel, uploadingDataFromExcel.Assignments, traders);
+            DeepAssert.Equal(expected, actual);
+        }
+
         private static List<AssignmentModelInExcel> GetAssignmentModels()
         {
             return new List<AssignmentModelInExcel>
