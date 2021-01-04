@@ -9,7 +9,7 @@
             MatchStatus = string.Empty;
             Home = string.Empty;
             Away = string.Empty;
-            League = string.Empty;       
+            League = string.Empty;
             AutoLink = string.Empty;
             OtherTraderBadmintonAllProductPointWinner = string.Empty;
             OtherTraderBadmintonAllProductSetWinner = string.Empty;
@@ -73,7 +73,7 @@
             OtherTraderTennisMostDoubleFaults = string.Empty;
             OtherTraderTennisNextGame = string.Empty;
             OtherTraderVolleyballSetsXPointWinnerHDP = string.Empty;
-            OtherTraderVolleyballSetWinnerHDPOU = string.Empty;
+            OtherTraderVolleyballSetWinnerHDPOE = string.Empty;
         }
         public int OSMatchId { get; set; }
 
@@ -153,11 +153,11 @@
         // Field Hockey
         public int TraderIceHockeyFTHDP { get; set; }
 
-        public int TraderIceHockey1st2ndHDP { get; set; }
+        public int TraderIceHockey1st2ndPeriodsHDP { get; set; }
 
         public int TraderIceHockeyFTOU { get; set; }
 
-        public int TraderIceHockey1st2ndOU { get; set; }
+        public int TraderIceHockey1st2ndPeriodsOU { get; set; }
 
         // Other sport
         public int TraderOtherSportsMatchWinner { get; set; }
@@ -221,11 +221,11 @@
 
         public int TraderBaseballFTRunLineHDP { get; set; }
 
-        public int TraderBaseball1H1st5InningsHDP { get; set; }
+        public int TraderBaseball1H1st5inningsHDP { get; set; }
 
         public int TraderBaseballFTTotalRunOU { get; set; }
 
-        public int TraderBaseball1H1st5InningsOU { get; set; }
+        public int TraderBaseball1H1st5inningsOU { get; set; }
 
         public int TraderBaseballInningHitsRuns { get; set; }
 
@@ -305,7 +305,7 @@
 
         public string OtherTraderTableTennisSetXWinnerHDP { get; set; }
 
-        public string OtherTraderVolleyballSetWinnerHDPOU { get; set; }
+        public string OtherTraderVolleyballSetWinnerHDPOE { get; set; }
 
         public string OtherTraderVolleyballSetsXPointWinnerHDP { get; set; }
 
@@ -375,7 +375,7 @@
 
         public decimal? MaxBetBasketballFTHDP { get; set; }
 
-        public decimal? MaxBetBasketballFTOE { get; set; }
+        public decimal? MaxBetBasketballFTOUOE { get; set; }
 
         public decimal? MaxBetFootballFTHDP { get; set; }
 
@@ -423,7 +423,7 @@
 
         public decimal? MaxBetTableTennisSetXWinnerHDP { get; set; }
 
-        public decimal? MaxBetVolleyballSetWinnerHDPOU { get; set; }
+        public decimal? MaxBetVolleyballSetWinnerHDPOE { get; set; }
 
         public decimal? MaxBetVolleyballSetsXPointWinnerHDP { get; set; }
 

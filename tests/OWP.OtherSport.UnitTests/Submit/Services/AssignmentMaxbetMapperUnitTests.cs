@@ -37,7 +37,7 @@
                     MaxBet = 1200
                 }
             };
-            
+
             var expect = new Dictionary<int, List<AssignmentMaxbet>>();
             expect.Add(0, assignmentMaxbets);
 
@@ -208,7 +208,7 @@
                 },
                 new()
                 {
-                    Bettype = Bettype.FTOU,
+                    Bettype = Bettype.FTOsU,
                     TraderId = assignment.TraderFieldHockeyFTOU,
                     OtherTrader = assignment.OtherTraderFieldHockeyFTOU,
                     MaxBet = assignment.MaxBetFieldHockeyFTOU
@@ -259,21 +259,14 @@
                 new()
                 {
                     Bettype = Bettype.FTHDP,
-                    TraderId = assignment.TraderFieldHockeyFTHDP,
-                    OtherTrader = assignment.OtherTraderFieldHockeyFTHDP,
-                    MaxBet = assignment.MaxBetFieldHockeyFTHDP
-                },
-                new()
-                {
-                    Bettype = Bettype.FTHDP,
                     TraderId = assignment.TraderIceHockeyFTHDP,
-                    OtherTrader = assignment.OtherTraderFieldHockeyFTHDP,
+                    OtherTrader = assignment.OtherTraderIceHockeyFTHDP,
                     MaxBet = assignment.MaxBetIceHockeyFTHDP
                 },
                 new()
                 {
                     Bettype = Bettype.First2ndPeriodsHDP,
-                    TraderId = assignment.TraderIceHockey1st2ndHDP,
+                    TraderId = assignment.TraderIceHockey1st2ndPeriodsHDP,
                     OtherTrader = assignment.OtherTraderIceHockey1st2ndPeriodsHDP,
                     MaxBet = assignment.MaxBetIceHockey1st2ndPeriodsHDP,
                 },
@@ -287,7 +280,7 @@
                 new()
                 {
                     Bettype = Bettype.First2ndPeriodsOU,
-                    TraderId = assignment.TraderIceHockey1st2ndOU,
+                    TraderId = assignment.TraderIceHockey1st2ndPeriodsOU,
                     OtherTrader = assignment.OtherTraderIceHockey1st2ndPeriodsOU,
                     MaxBet = assignment.MaxBetIceHockey1st2ndPeriodsOU
                 }};
@@ -360,7 +353,7 @@
                 {
                     Bettype = Bettype.LegsHDP,
                     TraderId = assignment.TraderDartsLegsHDP,
-                    OtherTrader = assignment.OtherTraderOtherSportsMatchWinner,
+                    OtherTrader = assignment.OtherTraderDartsLegsHDP,
                     MaxBet = assignment.MaxBetDartsLegsHDP
                 },
                 new()
@@ -489,8 +482,8 @@
                 {
                     Bettype = Bettype.SetWinnerHDPOE,
                     TraderId = assignment.TraderVolleyballSetWinnerHDPOE,
-                    OtherTrader = assignment.OtherTraderVolleyballSetWinnerHDPOU,
-                    MaxBet = assignment.MaxBetVolleyballSetWinnerHDPOU
+                    OtherTrader = assignment.OtherTraderVolleyballSetWinnerHDPOE,
+                    MaxBet = assignment.MaxBetVolleyballSetWinnerHDPOE
                 },
                 new()
                 {
@@ -532,28 +525,28 @@
                 {
                     Bettype = Bettype.FTHDP,
                     TraderId = assignment.TraderHandballFTHDP,
-                    OtherTrader = assignment.OtherTraderHandball1HHDP,
+                    OtherTrader = assignment.OtherTraderHandballFTHDP,
                     MaxBet = assignment.MaxBetHandballFTHDP
                 },
                 new()
                 {
                     Bettype = Bettype.FirstHHDP,
                     TraderId = assignment.TraderHandball1HHDP,
-                    OtherTrader = assignment.OtherTraderHandball1HOU,
+                    OtherTrader = assignment.OtherTraderHandball1HHDP,
                     MaxBet = assignment.MaxBetHandball1HHDP
                 },
                 new()
                 {
                     Bettype = Bettype.FTOsU,
                     TraderId = assignment.TraderHandballFTOU,
-                    OtherTrader = assignment.OtherTraderHandballFTHDP,
+                    OtherTrader = assignment.OtherTraderHandballFTOU,
                     MaxBet = assignment.MaxBetHandballFTOU
                 },
                 new()
                 {
                     Bettype = Bettype.FirstHOsU,
                     TraderId = assignment.TraderHandball1HOU,
-                    OtherTrader = assignment.OtherTraderHandballFTOU,
+                    OtherTrader = assignment.OtherTraderHandball1HOU,
                     MaxBet = assignment.MaxBetHandball1HOU
                 }};
 
@@ -590,42 +583,42 @@
                     Bettype = Bettype.FTHDP,
                     TraderId = assignment.TraderNetballFTHDP,
                     OtherTrader = assignment.OtherTraderNetballFTHDP,
-                    MaxBet = assignment.MaxBetHandballFTHDP
+                    MaxBet = assignment.MaxBetNetballFTHDP
                 },
                 new()
                 {
                     Bettype = Bettype.FirstHHDP,
                     TraderId = assignment.TraderNetball1HHDP,
                     OtherTrader = assignment.OtherTraderNetball1HHDP,
-                    MaxBet = assignment.MaxBetHandball1HHDP
+                    MaxBet = assignment.MaxBetNetball1HHDP
                 },
                 new()
                 {
                     Bettype = Bettype.FirstQ3QHDP,
                     TraderId = assignment.TraderNetball1Q3QHDP,
-                    OtherTrader = assignment.OtherTraderHandballFTHDP,
-                    MaxBet = assignment.MaxBetHandballFTOU
+                    OtherTrader = assignment.OtherTraderNetball1Q3QHDP,
+                    MaxBet = assignment.MaxBetNetball1Q3QHDP
                 },
                 new()
                 {
                     Bettype = Bettype.FTOUOE,
                     TraderId = assignment.TraderNetballFTOUOE,
-                    OtherTrader = assignment.OtherTraderNetball1Q3QHDP,
-                    MaxBet = assignment.MaxBetHandball1HOU
+                    OtherTrader = assignment.OtherTraderNetballFTOUOE,
+                    MaxBet = assignment.MaxBetNetballFTOUOE
                 },
                 new()
                 {
                     Bettype = Bettype.FirstHOUOE,
                     TraderId = assignment.TraderNetball1HOUOE,
                     OtherTrader = assignment.OtherTraderNetball1HOUOE,
-                    MaxBet = assignment.MaxBetHandballFTOU
+                    MaxBet = assignment.MaxBetNetball1HOUOE
                 },
                 new()
                 {
                     Bettype = Bettype.FirstQ3QOUOE,
                     TraderId = assignment.TraderNetball1Q3QOUOE,
                     OtherTrader = assignment.OtherTraderNetball1Q3QOUOE,
-                    MaxBet = assignment.MaxBetHandball1HOU
+                    MaxBet = assignment.MaxBetNetball1Q3QOUOE
                 }};
 
             //Act
@@ -660,22 +653,19 @@
                 {
                     Bettype = Bettype.MatchWinnerInningsOU,
                     TraderId = assignment.TraderCricketMatchWinnerInningsOU,
-                    OtherTrader = assignment.OtherTraderCricketMatchWinnerInningsOU,
-                    MaxBet = assignment.MaxBetCricketMatchWinnerInningsOU
+                    OtherTrader = assignment.OtherTraderCricketMatchWinnerInningsOU
                 },
                 new()
                 {
                     Bettype = Bettype.NextOverOUPlayerOU,
                     TraderId = assignment.TraderCricketNextOverOUPlayerOU,
-                    OtherTrader = assignment.OtherTraderCricketNextOverOUPlayerOU,
-                    MaxBet = assignment.MaxBetCricketNextOverOUPlayerOU
+                    OtherTrader = assignment.OtherTraderCricketNextOverOUPlayerOU
                 },
                 new()
                 {
                     Bettype = Bettype.FT1X2,
                     TraderId = assignment.TraderCricketFT1X2,
-                    OtherTrader = assignment.OtherTraderCricketFT1X2,
-                    MaxBet = assignment.MaxBetCricketFT1X2
+                    OtherTrader = assignment.OtherTraderCricketFT1X2
                 }};
 
             //Act
@@ -780,7 +770,7 @@
                 new()
                 {
                     Bettype = Bettype.FirstH1st5inningsHDP,
-                    TraderId = assignment.TraderBaseball1H1st5InningsHDP,
+                    TraderId = assignment.TraderBaseball1H1st5inningsHDP,
                     OtherTrader = assignment.OtherTraderBaseball1H1st5inningsHDP,
                     MaxBet = assignment.MaxBetBaseball1H1st5inningsHDP
                 },
@@ -794,7 +784,7 @@
                 new()
                 {
                     Bettype = Bettype.FirstH1st5inningsOU,
-                    TraderId = assignment.TraderBaseball1H1st5InningsOU,
+                    TraderId = assignment.TraderBaseball1H1st5inningsOU,
                     OtherTrader = assignment.OtherTraderBaseball1H1st5inningsOU,
                     MaxBet = assignment.MaxBetBaseball1H1st5inningsOU
                 },
@@ -838,36 +828,31 @@
                 {
                     Bettype = Bettype.AllProductSetWinner,
                     TraderId = assignment.TraderBadmintonAllProductSetWinner,
-                    OtherTrader = assignment.OtherTraderBadmintonAllProductSetWinner,
-                    MaxBet = assignment.MaxBetBadmintonAllProductSetWinner
+                    OtherTrader = assignment.OtherTraderBadmintonAllProductSetWinner
                 },
                 new()
                 {
                     Bettype = Bettype.AllProductPointWinner,
                     TraderId = assignment.TraderBadmintonAllProductPointWinner,
-                    OtherTrader = assignment.OtherTraderBadmintonAllProductPointWinner,
-                    MaxBet = assignment.MaxBetBadmintonAllProductPointWinner
+                    OtherTrader = assignment.OtherTraderBadmintonAllProductPointWinner
                 },
                 new()
                 {
                     Bettype = Bettype.RacetoPoints7911,
                     TraderId = assignment.TraderBadmintonRacetoPoints7911,
-                    OtherTrader = assignment.OtherTraderBadmintonRacetoPoints7911,
-                    MaxBet = assignment.MaxBetBadmintonRacetoPoints7911
+                    OtherTrader = assignment.OtherTraderBadmintonRacetoPoints7911
                 },
                 new()
                 {
                     Bettype = Bettype.NextPointWinner,
                     TraderId = assignment.TraderBadmintonNextPointWinner,
-                    OtherTrader = assignment.OtherTraderBadmintonNextPointWinner,
-                    MaxBet = assignment.MaxBetBadmintonNextPointWinner
+                    OtherTrader = assignment.OtherTraderBadmintonNextPointWinner
                 },
                 new()
                 {
                     Bettype = Bettype.MatchHandicap,
                     TraderId = assignment.TraderBadmintonMatchHandicap,
-                    OtherTrader = assignment.OtherTraderBadmintonMatchHandicap,
-                    MaxBet = assignment.MaxBetBadmintonMatchHandicap
+                    OtherTrader = assignment.OtherTraderBadmintonMatchHandicap
                 }};
 
             //Act
@@ -902,29 +887,25 @@
                 {
                     Bettype = Bettype.AllProductLS,
                     TraderId = assignment.TraderTennisAllProductLS,
-                    OtherTrader = assignment.OtherTraderTennisAllProductLS,
-                    MaxBet = assignment.MaxBetTennisAllProductLS
+                    OtherTrader = assignment.OtherTraderTennisAllProductLS
                 },
                 new()
                 {
                     Bettype = Bettype.NextGame,
                     TraderId = assignment.TraderTennisNextGame,
-                    OtherTrader = assignment.OtherTraderTennisNextGame,
-                    MaxBet = assignment.MaxBetTennisNextGame
+                    OtherTrader = assignment.OtherTraderTennisNextGame
                 },
                 new()
                 {
                     Bettype = Bettype.MostAces,
                     TraderId = assignment.TraderTennisMostAces,
-                    OtherTrader = assignment.OtherTraderTennisMostAces,
-                    MaxBet = assignment.MaxBetTennisMostAces
+                    OtherTrader = assignment.OtherTraderTennisMostAces
                 },
                 new()
                 {
                     Bettype = Bettype.MostDoubleFaults,
                     TraderId = assignment.TraderTennisMostDoubleFaults,
-                    OtherTrader = assignment.OtherTraderTennisMostDoubleFaults,
-                    MaxBet = assignment.MaxBetTennisMostDoubleFaults
+                    OtherTrader = assignment.OtherTraderTennisMostDoubleFaults
                 }};
 
             //Act
@@ -976,9 +957,9 @@
                 TraderFieldHockey1HOU = 17,
                 TraderFieldHockey1QOU = 18,
                 TraderIceHockeyFTHDP = 19,
-                TraderIceHockey1st2ndHDP = 20,
+                TraderIceHockey1st2ndPeriodsHDP = 20,
                 TraderIceHockeyFTOU = 21,
-                TraderIceHockey1st2ndOU = 22,
+                TraderIceHockey1st2ndPeriodsOU = 22,
                 TraderOtherSportsMatchWinner = 23,
                 TraderDartsLegsHDP = 24,
                 TraderDartsMost180sHDP = 25,
@@ -1007,9 +988,9 @@
                 TraderSnookerFirst8FramesHDP = 48,
                 TraderSnookerFirst9FramesHDP = 49,
                 TraderBaseballFTRunLineHDP = 50,
-                TraderBaseball1H1st5InningsHDP = 51,
+                TraderBaseball1H1st5inningsHDP = 51,
                 TraderBaseballFTTotalRunOU = 52,
-                TraderBaseball1H1st5InningsOU = 53,
+                TraderBaseball1H1st5inningsOU = 53,
                 TraderBaseballInningHitsRuns = 54,
                 TraderBadmintonAllProductSetWinner = 55,
                 TraderBadmintonAllProductPointWinner = 56,
@@ -1082,9 +1063,9 @@
                 OtherTraderTennisMostDoubleFaults = "OtherTraderTennisMostDoubleFaults",
                 OtherTraderTennisNextGame = "OtherTraderTennisNextGame",
                 OtherTraderVolleyballSetsXPointWinnerHDP = "OtherTraderVolleyballSetsXPointWinnerHDP",
-                OtherTraderVolleyballSetWinnerHDPOU = "OtherTraderVolleyballSetWinnerHDPOU",
+                OtherTraderVolleyballSetWinnerHDPOE = "OtherTraderVolleyballSetWinnerHDPOU",
                 MaxBetBasketballFTHDP = 1200,
-                MaxBetBasketballFTOE = 1200,
+                MaxBetBasketballFTOUOE = 1200,
                 MaxBetFootballFTHDP = 1200,
                 MaxBetFootball1HHDP = 1200,
                 MaxBetFootball1Q3QHDP = 1200,
@@ -1108,7 +1089,7 @@
                 MaxBetPoolRacksWinnerHDP = 1200,
                 MaxBetTableTennisSetWinnerHDP = 1200,
                 MaxBetTableTennisSetXWinnerHDP = 1200,
-                MaxBetVolleyballSetWinnerHDPOU = 1200,
+                MaxBetVolleyballSetWinnerHDPOE = 1200,
                 MaxBetVolleyballSetsXPointWinnerHDP = 1200,
                 MaxBetHandballFTHDP = 1200,
                 MaxBetHandball1HHDP = 1200,

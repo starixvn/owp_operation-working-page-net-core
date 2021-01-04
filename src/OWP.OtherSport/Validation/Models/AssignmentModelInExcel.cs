@@ -184,7 +184,7 @@
         [Display(Name = "Trader Ice Hockey 1st-2nd Periods (HDP)")]
         [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
-        public string TraderIceHockey1st2ndHDP { get; set; }
+        public string TraderIceHockey1st2ndPeriodsHDP { get; set; }
 
         [Display(Name = "Trader Ice Hockey FT (O/U)")]
         [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
@@ -194,7 +194,7 @@
         [Display(Name = "Trader Ice Hockey 1st-2nd Periods (OU)")]
         [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
-        public string TraderIceHockey1st2ndOU { get; set; }
+        public string TraderIceHockey1st2ndPeriodsOU { get; set; }
 
         // Other sport
         [Display(Name = "Trader Other Sports Match Winner")]
@@ -345,7 +345,7 @@
         [Display(Name = "Trader Baseball 1H 1st 5 innings (HDP)")]
         [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
-        public string TraderBaseball1H1st5InningsHDP { get; set; }
+        public string TraderBaseball1H1st5inningsHDP { get; set; }
 
         [Display(Name = "Trader Baseball FT Total Run (OU)")]
         [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
@@ -355,7 +355,7 @@
         [Display(Name = "Trader Baseball 1H 1st 5 innings (OU)")]
         [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
-        public string TraderBaseball1H1st5InningsOU { get; set; }
+        public string TraderBaseball1H1st5inningsOU { get; set; }
 
         [Display(Name = "Trader Baseball Inning Hits & Runs")]
         [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
@@ -495,7 +495,7 @@
         public string OtherTraderTableTennisSetXWinnerHDP { get; set; }
 
         [Display(Name = "Other Trader Volleyball Set Winner (HDP/OE)")]
-        public string OtherTraderVolleyballSetWinnerHDPOU { get; set; }
+        public string OtherTraderVolleyballSetWinnerHDPOE { get; set; }
 
         [Display(Name = "Other Trader Volleyball Sets x Point Winner (HDP)")]
         public string OtherTraderVolleyballSetsXPointWinnerHDP { get; set; }
@@ -599,8 +599,8 @@
         [Display(Name = "Max Bet Basketball FT (HDP)")]
         public decimal? MaxBetBasketballFTHDP { get; set; }
 
-        [Display(Name = "Max Bet Basketball FT (OE)")]
-        public decimal? MaxBetBasketballFTOE { get; set; }
+        [Display(Name = "Max Bet Basketball FT (OU/OE)")]
+        public decimal? MaxBetBasketballFTOUOE { get; set; }
 
         [Display(Name = "Max Bet Football FT (HDP)")]
         public decimal? MaxBetFootballFTHDP { get; set; }
@@ -672,7 +672,7 @@
         public decimal? MaxBetTableTennisSetXWinnerHDP { get; set; }
 
         [Display(Name = "Max Bet Volleyball Set Winner (HDP/OE)")]
-        public decimal? MaxBetVolleyballSetWinnerHDPOU { get; set; }
+        public decimal? MaxBetVolleyballSetWinnerHDPOE { get; set; }
 
         [Display(Name = "Max Bet Volleyball Sets x Point Winner (HDP)")]
         public decimal? MaxBetVolleyballSetsXPointWinnerHDP { get; set; }
