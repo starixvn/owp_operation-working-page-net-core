@@ -96,9 +96,7 @@
         }
 
         private static PropertyInfo GetProperty(AssignmentModelInExcel model, string propertyName)
-        {
-            return model.GetType().GetProperties().Single(p => p.Name == propertyName);
-        }
+            => model.GetType().GetProperties().Single(p => p.Name == propertyName);
 
         public static void CheckTrader(List<string> errorList, List<string> invalidTraders, string trader, string name)
         {

@@ -262,7 +262,7 @@
             worksheet.Cells[1, 141].Value = "Other Trader Tennis Most Aces";
             worksheet.Cells[1, 142].Value = "Other Trader Tennis Most Double Faults";
             worksheet.Cells[1, 143].Value = "Max Bet Basketball FT (HDP)";
-            worksheet.Cells[1, 144].Value = "Max Bet Basketball FT (OE)";
+            worksheet.Cells[1, 144].Value = "Max Bet Basketball FT (OU/OE)";
             worksheet.Cells[1, 145].Value = "Max Bet Football FT (HDP)";
             worksheet.Cells[1, 146].Value = "Max Bet Football 1H (HDP)";
             worksheet.Cells[1, 147].Value = "Max Bet Football 1Q & 3Q (HDP)";
