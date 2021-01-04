@@ -47,50 +47,40 @@
 
         private static List<string> GetMainTraders(List<AssignmentModelInExcel> assignments)
         {
-            return assignments.Select(a =>
-            {
-                var properties = typeof(AssignmentModelInExcel).GetProperties();
-                var result = new List<string>();
-
-                foreach (var prop in properties)
-                {
-                    if (prop.Name.StartsWith("Trader", StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        result.Add(prop.GetValue(a, null).ToString());
-                    }
-                }
-                return result;
-            })
-            .SelectMany(l => l)
-            .Where(b => !string.IsNullOrEmpty(b))
-            .Distinct()
-            .ToList();
+            return assignments.Select(a => GetTradersWithType(a, "Trader"))
+                                .SelectMany(l => l)
+                                .Where(b => !string.IsNullOrEmpty(b))
+                                .Distinct()
+                                .ToList();
         }
 
         private static List<string> GetOtherTraders(List<AssignmentModelInExcel> assignments)
         {
-            var otherTraderColumns = assignments.Select(a =>
-                {
-                    var properties = typeof(AssignmentModelInExcel).GetProperties();
-                    var result = new List<string>();
-
-                    foreach (var prop in properties)
-                    {
-                        if (prop.Name.StartsWith("OtherTrader", StringComparison.CurrentCultureIgnoreCase))
-                        {
-                            result.Add(prop.GetValue(a, null).ToString());
-                        }
-                    }
-                    return result;
-                })
-            .SelectMany(l => l)
-            .Where(b => !string.IsNullOrEmpty(b))
-            .ToArray();
+            var otherTraderColumns = assignments.Select(a => GetTradersWithType(a, "OtherTrader"))
+                                                .SelectMany(l => l)
+                                                .Where(b => !string.IsNullOrEmpty(b))
+                                                .ToArray();
 
             return otherTraderColumns
                 .Select(ExtractOtherTrader)
                 .Distinct()
                 .ToList();
+        }
+
+        private static List<string> GetTradersWithType(AssignmentModelInExcel assignment, string type)
+        {
+            var properties = typeof(AssignmentModelInExcel).GetProperties();
+            var result = new List<string>();
+
+            foreach (var prop in properties)
+            {
+                if (prop.Name.StartsWith(type, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    result.Add(prop.GetValue(assignment, null).ToString());
+                }
+            }
+
+            return result;
         }
 
         public static string ExtractOtherTrader(string text)

@@ -88,9 +88,7 @@
         }
 
         private static PropertyInfo GetProperty(AssignmentModel model, string propertyName)
-        {
-            return model.GetType().GetProperties().Single(p => p.Name == propertyName);
-        }
+            => model.GetType().GetProperties().Single(p => p.Name == propertyName);
 
         public string ExtractNote(string text)
         {
@@ -100,7 +98,9 @@
             {
                 return text;
             }
+
             var endIndex = text.IndexOf(' ', startIndex);
+
             if (endIndex == -1)
             {
                 return $"{text.Substring(0, startIndex).Trim()} #<user> {text[text.Length..].Trim()}";

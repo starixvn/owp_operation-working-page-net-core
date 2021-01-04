@@ -3,25 +3,26 @@
     using System;
     using System.Reflection;
     using AutoMapper;
+    using OWP.OtherSport.Validation.Models;
 
     public class AutoMapperProfile : Profile
     {
         public AutoMapperProfile()
         {
-            CreateMap<Validation.Models.AssignmentModelInExcel, Validation.Models.AssignmentModel>()
+            CreateMap<AssignmentModelInExcel, AssignmentModel>()
                 .ForMember(dest => dest.HashKey, opt => opt.MapFrom(src => Guid.NewGuid().ToString()))
                 .ForMember(dest => dest.DateTime, opt => opt.MapFrom(src => DateTime.Parse(src.DateTime)))
-                .IgnoreAllNonExisting();
+                .IgnoreTraders();
         }
     }
 
     public static class AutoMapperExtension
     {
-        public static IMappingExpression<TSource, TDestination> IgnoreAllNonExisting<TSource, TDestination>
-            (this IMappingExpression<TSource, TDestination> expression)
+        public static IMappingExpression<AssignmentModelInExcel, AssignmentModel> IgnoreTraders<AssignmentModelInExcel, AssignmentModel>
+            (this IMappingExpression<AssignmentModelInExcel, AssignmentModel> expression)
         {
             const BindingFlags flags = BindingFlags.Public | BindingFlags.Instance;
-            var destinationProperties = typeof(TDestination).GetProperties(flags);
+            var destinationProperties = typeof(AssignmentModel).GetProperties(flags);
 
             foreach (var property in destinationProperties)
             {

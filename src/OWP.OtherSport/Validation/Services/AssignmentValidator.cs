@@ -26,8 +26,10 @@
             {
                 var rowIndex = i;
                 var assignments = rawDataFromExcel.Assignments.ToList();
-                assignments.RemoveAt(i);
+                assignments.RemoveAt(i); //Remove match at i for duplicate matches validation
+
                 var validationResultsOfAssignment = CustomValidateAssignment(rawDataFromExcel.Assignments[i], assignments, traders);
+
                 ValidationHelper.BuildValidationRowResult(
                    validationResultsOfAssignment,
                    validationResults,
@@ -48,6 +50,7 @@
             ValidateTraders(assignment, results, traders);
             ValidateDataAnotation(assignment, results);
             ValidateDuplicatedMatch(assignment, assigments, results);
+
             return results;
         }
 
@@ -121,7 +124,7 @@
             Validator.TryValidateObject(assignment, context, results, true);
         }
 
-        public static void ValidateDuplicatedMatch(AssignmentModelInExcel assignment, List<AssignmentModelInExcel> assignments, List<ValidationResult> results)
+        private static void ValidateDuplicatedMatch(AssignmentModelInExcel assignment, List<AssignmentModelInExcel> assignments, List<ValidationResult> results)
         {
             var isDuplicated = assignments.Any(x => IsEquals(x.DateTime, assignment.DateTime) &&
                                                     IsEquals(x.League, assignment.League) &&
