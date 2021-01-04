@@ -48,7 +48,7 @@
             }
 
             await context.Response.WriteAsync(exception.Message);
-            await context.Response.WriteAsync("<br/>");
+            await context.Response.WriteAsync(Environment.NewLine);
             await context.Response.WriteAsync(exception.StackTrace);
         }
     }

@@ -26,11 +26,11 @@
             var handler = MockHandler(request, exception);
 
             // Act
-            var actual = await handler.Handle(request, new CancellationToken(false));
+            var actual = await Record.ExceptionAsync(() => handler.Handle(request, new CancellationToken(false)));
 
             // Assert
-            const string expect = "Invalid header, should be Match Status";
-            Assert.Equal(expect, actual.Exception);
+            const string expect = "Invalid headers, should be Match Status";
+            Assert.Equal(actual.Message, expect);
         }
 
         [Fact]

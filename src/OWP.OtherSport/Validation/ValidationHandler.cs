@@ -76,7 +76,7 @@
                 }
                 catch (CriticalValidationException ex)
                 {
-                    result.Exception = ex.Message;
+                    throw new CriticalValidationException(ex.Message);
                 }
                 catch (InvalidAssignmentRowException ex)
                 {

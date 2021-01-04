@@ -1,5 +1,6 @@
 ﻿namespace OWP.OtherSport.Validation.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -38,11 +39,12 @@
         {
             var headerMap = sheet.GetHeaderMap();
             var anyInvalidHeaderColumnIndex = headerMap.Any(i => i.Value <= 0);
-
+            
             if (anyInvalidHeaderColumnIndex)
             {
-                var validHeader = headerMap.FirstOrDefault(x => x.Value <= 0).Key;
-                throw new InvalidExcelFormatException(validHeader);
+                var validHeaders = headerMap.Where(x => x.Value <= 0).Select(x => x.Key);
+                var validHeadersInString = string.Join(", ", validHeaders);
+                throw new InvalidExcelFormatException(validHeadersInString);
             }
         }
 
