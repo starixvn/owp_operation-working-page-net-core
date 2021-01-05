@@ -7,7 +7,7 @@
     public class AssignmentModelInExcel
     {
         [Display(Name = "Match Status")]
-        [RegularExpression(@"(?i:^(?:Live|Canceled|Postponed)*$)",
+        [RegularExpression(@"(?i:^(Live|Canceled|Postponed)$)",
             ErrorMessage = "[Column: {0}] - The Match Status must be Live, Canceled or Postponed")]
         public string MatchStatus { get; set; }
 
