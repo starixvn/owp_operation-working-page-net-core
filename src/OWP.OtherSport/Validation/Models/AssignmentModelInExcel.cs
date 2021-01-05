@@ -69,7 +69,10 @@
         public string OtherProvider { get; set; }
 
         [Display(Name = "Service")]
-        [RegularExpression(@"^$|\b^(?:InPlay|Stadium|Latent)*$\b",
+        [StringLength(EventUploadingPropertyMaxLength.MatchStatus,
+            MinimumLength = 1,
+            ErrorMessage = "[Column: {0}] - The Service must be empty or InPlay, Stadium, Latent")]
+        [RegularExpression(@"(?i:^(InPlay|Stadium|Latent)*$)",
             ErrorMessage = "[Column: {0}] - The Service must be empty or InPlay, Stadium, Latent")]
         public string Service { get; set; }
 
