@@ -20,9 +20,9 @@
 
         int GetTraderId(string name);
 
-        List<AssignmentModel> Map(List<AssignmentModelInExcel> excelModels);
+        List<AssignmentModel> Map(List<AssignmentModelInExcel> excelModels, bool isMappingDateTime);
 
-        AssignmentModel Map(AssignmentModelInExcel excelModel);
+        AssignmentModel Map(AssignmentModelInExcel excelModel, bool isMappingDateTime);
 
         void MapOtherTraders(AssignmentModelInExcel excelModel, AssignmentModel model);
 
@@ -42,16 +42,23 @@
 
         public List<Trader> Traders { get; set; }
 
-        public List<AssignmentModel> Map(List<AssignmentModelInExcel> excelModels)
+        public List<AssignmentModel> Map(List<AssignmentModelInExcel> excelModels, bool isMappingDateTime)
         {
-            return excelModels.Select(m => Map(m)).ToList();
+            return excelModels.Select(m => Map(m, isMappingDateTime)).ToList();
         }
 
-        public AssignmentModel Map(AssignmentModelInExcel excelModel)
+        public AssignmentModel Map(AssignmentModelInExcel excelModel, bool isMappingDateTime)
         {
-            var model = mapper.Map<AssignmentModel>(excelModel);
+            AssignmentModel model;
+
+            model = isMappingDateTime 
+                ? mapper.Map<AssignmentModelInExcel, AssignmentModel>(excelModel, opt =>
+                       opt.AfterMap((src, dest) => dest.DateTime = DateTime.Parse(src.DateTime)))
+                : mapper.Map<AssignmentModel>(excelModel);
+
             MapTraders(excelModel, model);
             MapOtherTraders(excelModel, model);
+
             return model;
         }
 

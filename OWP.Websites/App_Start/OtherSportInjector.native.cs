@@ -22,6 +22,7 @@
             services.AddScoped<Validation.ExcelReader, Validation.ExcelReaderImp>();
             services.AddScoped<Validation.ExcelValidator, Validation.ExcelValidatorImp>();
             services.AddScoped<Validation.Repository, Validation.RepositoryImp>();
+            services.AddScoped<Validation.DateTimeValidator, Validation.DateTimeValidatorImp>();
         }
     }
 }

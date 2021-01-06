@@ -11,14 +11,16 @@
     using System.Text.RegularExpressions;
     public interface AssignmentValidator
     {
-        void Validate(UploadingDataFromExcel rawDataFromExcel, List<Trader> traders);
+        void Validate(UploadingDataFromExcel rawDataFromExcel,
+            List<Trader> traders, 
+            List<AssignmentValidationRowResult> dateTimeValidationResults);
 
         void ValidateTraders(AssignmentModelInExcel assignment, List<ValidationResult> results, List<Trader> traders);
     }
 
     public class AssignmentValidatorImp : AssignmentValidator
     {
-        public void Validate(UploadingDataFromExcel rawDataFromExcel, List<Trader> traders)
+        public void Validate(UploadingDataFromExcel rawDataFromExcel, List<Trader> traders, List<AssignmentValidationRowResult> dateTimeValidationResults)
         {
             var validationResults = new List<AssignmentValidationRowResult>();
 
@@ -35,6 +37,8 @@
                    validationResults,
                    rowIndex);
             }
+
+            validationResults.AddRange(dateTimeValidationResults);
 
             var hasError = validationResults.Any();
 
