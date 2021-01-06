@@ -39,8 +39,9 @@
                 new Trader{ UserId = 3, Username = "starix3" }
             };
 
-            //var exception = Record.Exception(() => assignmentValidator.Validate(uploadingDataFromExcel, traders));
-            //Assert.Null(exception);
+            var dateTimeValidationResult = new List<AssignmentValidationRowResult>();
+            var exception = Record.Exception(() => assignmentValidator.Validate(uploadingDataFromExcel, traders, dateTimeValidationResult));
+            Assert.Null(exception);
         }
 
         [Fact]
@@ -69,8 +70,10 @@
                 new Trader{ UserId = 0, Username = "starix3" }
             };
 
-            //var exception = Record.Exception(() => assignmentValidator.Validate(uploadingDataFromExcel, traders));
-           //Assert.NotNull(exception);
+            var dateTimeValidationResult = new List<AssignmentValidationRowResult>();
+            
+            var exception = Record.Exception(() => assignmentValidator.Validate(uploadingDataFromExcel, traders, dateTimeValidationResult));
+            Assert.NotNull(exception);
         }
 
         [Fact]

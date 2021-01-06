@@ -25,23 +25,24 @@
             assignmentBuilder = new AssignmentBuilderImp(assignmentMapper);         
         }
 
-        //[Fact]
-        //public void BuildAssignment_Always_ReturnAssignmentModels()
-        //{
-        //    var traders = new List<Trader>
-        //    {
-        //        new Trader{ UserId = 1, Username = "Esther"},
-        //        new Trader{ UserId = 10, Username = "Mira"},
-        //        new Trader{ UserId = 2, Username = "Lita"}
-        //    };
+        [Fact]
+        public void BuildAssignment_Always_ReturnAssignmentModels()
+        {
+            var traders = new List<Trader>
+            {
+                new Trader{ UserId = 1, Username = "Esther"},
+                new Trader{ UserId = 10, Username = "Mira"},
+                new Trader{ UserId = 2, Username = "Lita"}
+            };
          
-        //    var assignmentModelInExcels = GetAssignmentModelInExcels();
-           
-        //    var expected = GetAssignmentModels();
-        //    var actual = assignmentBuilder.BuildAssignment(traders, assignmentModelInExcels);
+            var assignmentModelInExcels = GetAssignmentModelInExcels();
+            var isMappingDateTime = true;
 
-        //    DeepAssert.Equal(expected, actual, "HashKey");
-        //}
+            var expected = GetAssignmentModels();
+            var actual = assignmentBuilder.BuildAssignment(traders, assignmentModelInExcels, isMappingDateTime);
+
+            DeepAssert.Equal(expected, actual, "HashKey");
+        }
 
         private static List<AssignmentModel> GetAssignmentModels()
         {

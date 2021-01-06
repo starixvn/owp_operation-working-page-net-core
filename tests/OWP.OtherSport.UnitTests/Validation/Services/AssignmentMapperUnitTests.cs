@@ -197,16 +197,27 @@
             Assert.Equal("0,Lita", model.OtherTraderBasketball1HHDP);
         }
 
-        //[Fact]
-        //public void Map_ValidModel_ReturnsUserModel()
-        //{
-        //    var excelModel = GetAssignmentModelInExcel();
-        //    var expected = ExpectedAssignment();
+        [Fact]
+        public void Map_ValidModel_WithIsMappingDateTimeIsTrue_ReturnsAssignmentModelMappingDateTime()
+        {
+            var excelModel = GetAssignmentModelInExcel();
+            var expected = ExpectedAssignment();
 
-        //    var actual = assignmentMapper.Map(excelModel);
+            var actual = assignmentMapper.Map(excelModel, true);
 
-        //    DeepAssert.Equal(expected, actual);
-        //}
+            DeepAssert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void Map_ValidModel_WithIsMappingDateTimeIsFalse_ReturnsAssignmentModelNotMappingDateTime()
+        {
+            var excelModel = GetAssignmentModelInExcel2();
+            var expected = ExpectedAssignment2();
+
+            var actual = assignmentMapper.Map(excelModel, false);
+
+            DeepAssert.Equal(expected, actual);
+        }
 
         private static AssignmentModelInExcel GetAssignmentModelInExcel()
         {
@@ -215,7 +226,22 @@
                 AutoLink = "Yes",
                 Away = "LA",
                 Home = "GSW",
-                DateTime = "12/10/2020 12:00:00 AM",
+                DateTime = "12/10/2020 12:00 AM",
+                Sport = "BasketBall",
+                League = "NBA",
+                MatchStatus = "Live"
+            };
+
+            return excelModel;
+        }
+
+        private static AssignmentModelInExcel GetAssignmentModelInExcel2()
+        {
+            var excelModel = new AssignmentModelInExcel
+            {
+                AutoLink = "Yes",
+                Away = "LA",
+                Home = "GSW",
                 Sport = "BasketBall",
                 League = "NBA",
                 MatchStatus = "Live"
@@ -232,6 +258,21 @@
                 Away = "LA",
                 Home = "GSW",
                 DateTime = DateTime.Parse("12/10/2020 12:00 AM"),
+                Sport = "BasketBall",
+                League = "NBA",
+                MatchStatus = "Live"
+            };
+
+            return model;
+        }
+
+        private static AssignmentModel ExpectedAssignment2()
+        {
+            var model = new AssignmentModel
+            {
+                AutoLink = "Yes",
+                Away = "LA",
+                Home = "GSW",             
                 Sport = "BasketBall",
                 League = "NBA",
                 MatchStatus = "Live"
