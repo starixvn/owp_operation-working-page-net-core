@@ -18,7 +18,7 @@
         [Sport(ErrorMessage = "[Column: {0}] - Invalid sport")]
         public string Sport { get; set; }
 
-        [Display(Name = "Date Time")]       
+        [Display(Name = "Date Time")]
         public string DateTime { get; set; }
 
         [Display(Name = "Home")]
@@ -66,9 +66,6 @@
         public string OtherProvider { get; set; }
 
         [Display(Name = "Service")]
-        [StringLength(EventUploadingPropertyMaxLength.MatchStatus,
-            MinimumLength = 1,
-            ErrorMessage = "[Column: {0}] - The Service must be InPlay, Stadium, Latent")]
         [RegularExpression(@"(?i:^(InPlay|Stadium|Latent)*$)",
             ErrorMessage = "[Column: {0}] - The Service must be InPlay, Stadium, Latent")]
         public string Service { get; set; }
