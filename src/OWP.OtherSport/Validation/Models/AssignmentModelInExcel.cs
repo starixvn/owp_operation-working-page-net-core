@@ -71,9 +71,9 @@
         [Display(Name = "Service")]
         [StringLength(EventUploadingPropertyMaxLength.MatchStatus,
             MinimumLength = 1,
-            ErrorMessage = "[Column: {0}] - The Service must be empty or InPlay, Stadium, Latent")]
+            ErrorMessage = "[Column: {0}] - The Service must be InPlay, Stadium, Latent")]
         [RegularExpression(@"(?i:^(InPlay|Stadium|Latent)*$)",
-            ErrorMessage = "[Column: {0}] - The Service must be empty or InPlay, Stadium, Latent")]
+            ErrorMessage = "[Column: {0}] - The Service must be InPlay, Stadium, Latent")]
         public string Service { get; set; }
 
         [Display(Name = "IPTV")]
