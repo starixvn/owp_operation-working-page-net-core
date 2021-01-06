@@ -197,16 +197,16 @@
             Assert.Equal("0,Lita", model.OtherTraderBasketball1HHDP);
         }
 
-        [Fact]
-        public void Map_ValidModel_ReturnsUserModel()
-        {
-            var excelModel = GetAssignmentModelInExcel();
-            var expected = ExpectedAssignment();
+        //[Fact]
+        //public void Map_ValidModel_ReturnsUserModel()
+        //{
+        //    var excelModel = GetAssignmentModelInExcel();
+        //    var expected = ExpectedAssignment();
 
-            var actual = assignmentMapper.Map(excelModel);
+        //    var actual = assignmentMapper.Map(excelModel);
 
-            DeepAssert.Equal(expected, actual);
-        }
+        //    DeepAssert.Equal(expected, actual);
+        //}
 
         private static AssignmentModelInExcel GetAssignmentModelInExcel()
         {

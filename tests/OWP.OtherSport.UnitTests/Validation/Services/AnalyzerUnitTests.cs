@@ -26,28 +26,28 @@
             assignmentValidator = Substitute.For<AssignmentValidator>();
         }
 
-        [Fact]
-        public async Task Analyzer_Always_ReturnAnalyzedResult()
-        {
-            var analyzer = new AnalyzerImp(excelReader, repository, assignmentBuilder, assignmentValidator);
+        //[Fact]
+        //public async Task Analyzer_Always_ReturnAnalyzedResult()
+        //{
+        //    var analyzer = new AnalyzerImp(excelReader, repository, assignmentBuilder, assignmentValidator);
 
-            var rawModelInExcel = GetRawDataFromExcel();
-            var traders = GetTraders();
-            var assignmentModels = GetAssignmentModels();
+        //    var rawModelInExcel = GetRawDataFromExcel();
+        //    var traders = GetTraders();
+        //    var assignmentModels = GetAssignmentModels();
 
-            excelReader.Read(Arg.Compat.Any<Stream>()).Returns(rawModelInExcel);
-            repository.GetTraders(Arg.Compat.Any<List<string>>()).Returns(traders);
-            assignmentBuilder.BuildAssignment(Arg.Compat.Any<List<Trader>>(),
-                Arg.Compat.Any<List<AssignmentModelInExcel>>())
-                .Returns(assignmentModels);
+        //    excelReader.Read(Arg.Compat.Any<Stream>()).Returns(rawModelInExcel);
+        //    repository.GetTraders(Arg.Compat.Any<List<string>>()).Returns(traders);
+        //    assignmentBuilder.BuildAssignment(Arg.Compat.Any<List<Trader>>(),
+        //        Arg.Compat.Any<List<AssignmentModelInExcel>>())
+        //        .Returns(assignmentModels);
 
-            var request = new ValidationHandler.Request();
-            var expected = GetAnalyzedResult();
+        //    var request = new ValidationHandler.Request();
+        //    var expected = GetAnalyzedResult();
 
-            var actual = await analyzer.Analyze(request);
+        //    var actual = await analyzer.Analyze(request);
 
-            DeepAssert.Equal(expected, actual);
-        }
+        //    DeepAssert.Equal(expected, actual);
+        //}
 
         public static UploadingDataFromExcel GetRawDataFromExcel()
         {

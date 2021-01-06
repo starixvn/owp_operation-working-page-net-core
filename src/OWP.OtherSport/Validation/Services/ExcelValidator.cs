@@ -42,9 +42,7 @@
             
             if (anyInvalidHeaderColumnIndex)
             {
-                var validHeaders = headerMap.Where(x => x.Value <= 0).Select(x => x.Key);
-                var validHeadersInString = string.Join(", ", validHeaders);
-                throw new InvalidExcelFormatException(validHeadersInString);
+                throw new InvalidExcelFormatException();
             }
         }
 

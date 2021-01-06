@@ -4,6 +4,7 @@
     using Fanex.Logging.Extensions;
     using Fanex.Logging.Extensions.Database;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.Extensions.Configuration;
     using System;
     using System.Threading.Tasks;
 
@@ -11,11 +12,13 @@
     {
         private readonly RequestDelegate next;
         private readonly ILogger logger;
+        public IConfiguration Configuration { get; }
 
-        public ErrorHandler(RequestDelegate next, ILogger logger)
+        public ErrorHandler(RequestDelegate next, ILogger logger, IConfiguration configuration)
         {
             this.next = next;
             this.logger = logger;
+            Configuration = configuration;
         }
 
         public async Task InvokeAsync(HttpContext context)
@@ -48,8 +51,15 @@
             }
 
             await context.Response.WriteAsync(exception.Message);
-            await context.Response.WriteAsync(Environment.NewLine);
-            await context.Response.WriteAsync(exception.StackTrace);
+
+            var env = Configuration.GetSection("Fanex.NAP.Client:Environment").Value;
+
+            if (env.Equals("LIVE", StringComparison.CurrentCultureIgnoreCase))
+            {
+                await context.Response.WriteAsync(Environment.NewLine);
+                await context.Response.WriteAsync(exception.StackTrace);
+            }
+            
         }
     }
 }

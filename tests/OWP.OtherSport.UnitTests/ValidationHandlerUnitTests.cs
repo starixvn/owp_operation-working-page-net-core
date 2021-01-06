@@ -22,14 +22,14 @@
         {
             // Arrange            
             var request = new ValidationHandler.Request { Stream = MockFileStream() };
-            var exception = new InvalidExcelFormatException("Match Status");
+            var exception = new InvalidExcelFormatException();
             var handler = MockHandler(request, exception);
 
             // Act
             var actual = await Record.ExceptionAsync(() => handler.Handle(request, new CancellationToken(false)));
 
             // Assert
-            const string expect = "Invalid headers, should be Match Status";
+            const string expect = "Incorrect template";
             Assert.Equal(actual.Message, expect);
         }
 
