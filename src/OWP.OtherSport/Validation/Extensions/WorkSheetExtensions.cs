@@ -52,10 +52,7 @@
 
                 var assignment = ReadAssignment(sheet, properties, i);
 
-                if (!IsEmptyAssignment(assignment))
-                {
-                    yield return assignment;
-                }
+                yield return assignment;
             }
         }
 
@@ -178,13 +175,6 @@
             }
 
             return true;
-        }
-
-        private static bool IsEmptyAssignment(AssignmentModelInExcel assignment)
-        {
-            return string.IsNullOrEmpty(assignment.League)
-                || string.IsNullOrEmpty(assignment.Home)
-                || string.IsNullOrEmpty(assignment.Away);
         }
     }
 }
