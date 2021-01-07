@@ -12,15 +12,14 @@
     public interface AssignmentValidator
     {
         void Validate(UploadingDataFromExcel rawDataFromExcel,
-            List<Trader> traders, 
-            List<AssignmentValidationRowResult> dateTimeValidationResults);
+            List<Trader> traders);
 
         void ValidateTraders(AssignmentModelInExcel assignment, List<ValidationResult> results, List<Trader> traders);
     }
 
     public class AssignmentValidatorImp : AssignmentValidator
     {
-        public void Validate(UploadingDataFromExcel rawDataFromExcel, List<Trader> traders, List<AssignmentValidationRowResult> dateTimeValidationResults)
+        public void Validate(UploadingDataFromExcel rawDataFromExcel, List<Trader> traders)
         {
             var validationResults = new List<AssignmentValidationRowResult>();
 
@@ -38,8 +37,6 @@
                    rowIndex);
             }
 
-            validationResults.AddRange(dateTimeValidationResults);
-
             var hasError = validationResults.Any();
 
             if (hasError)
@@ -54,6 +51,8 @@
             ValidateTraders(assignment, results, traders);
             ValidateDataAnotation(assignment, results);
             ValidateDuplicatedMatch(assignment, assigments, results);
+            ValidateDateTime(assignment, results);
+            ValidateMaxbetInString(assignment, results);
 
             return results;
         }
@@ -124,6 +123,51 @@
         {
             var context = new ValidationContext(assignment, null, null);
             Validator.TryValidateObject(assignment, context, results, true);
+        }
+
+        public static void ValidateDateTime(AssignmentModelInExcel assignment, List<ValidationResult> results)
+        {
+            const string regex = @"(?i:^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s*\d{2}\,\s*\d{4}\s*(1[0-2]|0?[1-9]):([0-5][0-9])\s*([AP][M])$)";
+            var match = Regex.Match(assignment.DateTime, regex, RegexOptions.IgnoreCase);
+
+            if (!match.Success)
+            {
+                results.Add(new ValidationResult("[Column: Date Time] - Error: Invalid date time format"));
+            }
+            else
+            {
+                try
+                {
+                    DateTime.Parse(assignment.DateTime);
+                }
+
+                catch (FormatException ex)
+                {
+                    results.Add(new ValidationResult($"[Column: Date Time] - Error: {ex.Message}"));
+                }
+            }
+        }
+
+        public static void ValidateMaxbetInString(AssignmentModelInExcel assignment, List<ValidationResult> results)
+        {
+            const string regex = @"^(?:|[0-9]\d{0,9}(\.\d{1,9})?%?)$";
+
+            const BindingFlags flags = BindingFlags.Public | BindingFlags.Instance;
+            var destinationProperties = typeof(AssignmentModelInExcel).GetProperties(flags);
+
+            foreach (var property in destinationProperties)
+            {
+                if (property.Name.StartsWith("MaxBet", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    var value = property.GetValue(assignment).ToString() ?? string.Empty;
+                    var match = Regex.Match(value, regex, RegexOptions.IgnoreCase);
+
+                    if (!match.Success)
+                    {
+                        results.Add(new ValidationResult($"[Column: {PropertyHelper.GetDisplayName(property)}] - Error: Invalid Maxbet format"));
+                    }
+                }
+            }
         }
 
         private static void ValidateDuplicatedMatch(AssignmentModelInExcel assignment, List<AssignmentModelInExcel> assignments, List<ValidationResult> results)

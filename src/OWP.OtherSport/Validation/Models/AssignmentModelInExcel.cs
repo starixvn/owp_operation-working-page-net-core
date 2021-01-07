@@ -597,180 +597,180 @@
         public string OtherTraderTennisMostDoubleFaults { get; set; }
 
         [Display(Name = "Max Bet Basketball FT (HDP)")]
-        public decimal? MaxBetBasketballFTHDP { get; set; }
+        public string MaxBetBasketballFTHDP { get; set; }
 
         [Display(Name = "Max Bet Basketball FT (OU/OE)")]
-        public decimal? MaxBetBasketballFTOUOE { get; set; }
+        public string MaxBetBasketballFTOUOE { get; set; }
 
         [Display(Name = "Max Bet Football FT (HDP)")]
-        public decimal? MaxBetFootballFTHDP { get; set; }
+        public string MaxBetFootballFTHDP { get; set; }
 
         [Display(Name = "Max Bet Football 1H (HDP)")]
-        public decimal? MaxBetFootball1HHDP { get; set; }
+        public string MaxBetFootball1HHDP { get; set; }
 
         [Display(Name = "Max Bet Football 1Q & 3Q (HDP)")]
-        public decimal? MaxBetFootball1Q3QHDP { get; set; }
+        public string MaxBetFootball1Q3QHDP { get; set; }
 
         [Display(Name = "Max Bet Football FT (OU)")]
-        public decimal? MaxBetFootballFTOU { get; set; }
+        public string MaxBetFootballFTOU { get; set; }
 
         [Display(Name = "Max Bet Football 1H (OU)")]
-        public decimal? MaxBetFootball1HOU { get; set; }
+        public string MaxBetFootball1HOU { get; set; }
 
         [Display(Name = "Max Bet Football 1Q & 3Q (OU)")]
-        public decimal? MaxBetFootball1Q3QOU { get; set; }
+        public string MaxBetFootball1Q3QOU { get; set; }
 
         [Display(Name = "Max Bet Field Hockey FT (HDP)")]
-        public decimal? MaxBetFieldHockeyFTHDP { get; set; }
+        public string MaxBetFieldHockeyFTHDP { get; set; }
 
         [Display(Name = "Max Bet Field Hockey 1H (HDP)")]
-        public decimal? MaxBetFieldHockey1HHDP { get; set; }
+        public string MaxBetFieldHockey1HHDP { get; set; }
 
         [Display(Name = "Max Bet Field Hockey 1Q (HDP)")]
-        public decimal? MaxBetFieldHockey1QHDP { get; set; }
+        public string MaxBetFieldHockey1QHDP { get; set; }
 
         [Display(Name = "Max Bet Field Hockey FT (O/U)")]
-        public decimal? MaxBetFieldHockeyFTOU { get; set; }
+        public string MaxBetFieldHockeyFTOU { get; set; }
 
         [Display(Name = "Max Bet Field Hockey 1H (O/U)")]
-        public decimal? MaxBetFieldHockey1HOU { get; set; }
+        public string MaxBetFieldHockey1HOU { get; set; }
 
         [Display(Name = "Max Bet Field Hockey 1Q (OU)")]
-        public decimal? MaxBetFieldHockey1QOU { get; set; }
+        public string MaxBetFieldHockey1QOU { get; set; }
 
         [Display(Name = "Max Bet Ice Hockey FT (HDP)")]
-        public decimal? MaxBetIceHockeyFTHDP { get; set; }
+        public string MaxBetIceHockeyFTHDP { get; set; }
 
         [Display(Name = "Max Bet Ice Hockey 1st-2nd Periods (HDP)")]
-        public decimal? MaxBetIceHockey1st2ndPeriodsHDP { get; set; }
+        public string MaxBetIceHockey1st2ndPeriodsHDP { get; set; }
 
         [Display(Name = "Max Bet Ice Hockey FT (O/U)")]
-        public decimal? MaxBetIceHockeyFTOU { get; set; }
+        public string MaxBetIceHockeyFTOU { get; set; }
 
         [Display(Name = "Max Bet Ice Hockey 1st-2nd Periods (OU)")]
-        public decimal? MaxBetIceHockey1st2ndPeriodsOU { get; set; }
+        public string MaxBetIceHockey1st2ndPeriodsOU { get; set; }
 
         [Display(Name = "Max Bet Other Sports Match Winner")]
-        public decimal? MaxBetOtherSportsMatchWinner { get; set; }
+        public string MaxBetOtherSportsMatchWinner { get; set; }
 
         [Display(Name = "Max Bet Darts Legs (HDP)")]
-        public decimal? MaxBetDartsLegsHDP { get; set; }
+        public string MaxBetDartsLegsHDP { get; set; }
 
         [Display(Name = "Max Bet Darts Most 180s (HDP)")]
-        public decimal? MaxBetDartsMost180sHDP { get; set; }
+        public string MaxBetDartsMost180sHDP { get; set; }
 
         [Display(Name = "Max Bet Pool Match Winner (HDP)")]
-        public decimal? MaxBetPoolMatchWinnerHDP { get; set; }
+        public string MaxBetPoolMatchWinnerHDP { get; set; }
 
         [Display(Name = "Max Bet Pool Racks Winner (HDP)")]
-        public decimal? MaxBetPoolRacksWinnerHDP { get; set; }
+        public string MaxBetPoolRacksWinnerHDP { get; set; }
 
         [Display(Name = "Max Bet Table Tennis Set Winner (HDP)")]
-        public decimal? MaxBetTableTennisSetWinnerHDP { get; set; }
+        public string MaxBetTableTennisSetWinnerHDP { get; set; }
 
         [Display(Name = "Max Bet Table Tennis Set x Winner (HDP)")]
-        public decimal? MaxBetTableTennisSetXWinnerHDP { get; set; }
+        public string MaxBetTableTennisSetXWinnerHDP { get; set; }
 
         [Display(Name = "Max Bet Volleyball Set Winner (HDP/OE)")]
-        public decimal? MaxBetVolleyballSetWinnerHDPOE { get; set; }
+        public string MaxBetVolleyballSetWinnerHDPOE { get; set; }
 
         [Display(Name = "Max Bet Volleyball Sets x Point Winner (HDP)")]
-        public decimal? MaxBetVolleyballSetsXPointWinnerHDP { get; set; }
+        public string MaxBetVolleyballSetsXPointWinnerHDP { get; set; }
 
         [Display(Name = "Max Bet Handball FT (HDP)")]
-        public decimal? MaxBetHandballFTHDP { get; set; }
+        public string MaxBetHandballFTHDP { get; set; }
 
         [Display(Name = "Max Bet Handball 1H (HDP)")]
-        public decimal? MaxBetHandball1HHDP { get; set; }
+        public string MaxBetHandball1HHDP { get; set; }
 
         [Display(Name = "Max Bet Handball FT (O/U)")]
-        public decimal? MaxBetHandballFTOU { get; set; }
+        public string MaxBetHandballFTOU { get; set; }
 
         [Display(Name = "Max Bet Handball 1H (O/U)")]
-        public decimal? MaxBetHandball1HOU { get; set; }
+        public string MaxBetHandball1HOU { get; set; }
 
         [Display(Name = "Max Bet Netball FT (HDP)")]
-        public decimal? MaxBetNetballFTHDP { get; set; }
+        public string MaxBetNetballFTHDP { get; set; }
 
         [Display(Name = "Max Bet Netball 1H (HDP)")]
-        public decimal? MaxBetNetball1HHDP { get; set; }
+        public string MaxBetNetball1HHDP { get; set; }
 
         [Display(Name = "Max Bet Netball 1Q & 3Q (HDP)")]
-        public decimal? MaxBetNetball1Q3QHDP { get; set; }
+        public string MaxBetNetball1Q3QHDP { get; set; }
 
         [Display(Name = "Max Bet Netball FT (OU/OE)")]
-        public decimal? MaxBetNetballFTOUOE { get; set; }
+        public string MaxBetNetballFTOUOE { get; set; }
 
         [Display(Name = "Max Bet Netball 1H (OU/OE)")]
-        public decimal? MaxBetNetball1HOUOE { get; set; }
+        public string MaxBetNetball1HOUOE { get; set; }
 
         [Display(Name = "Max Bet Netball 1Q & 3Q (OU/OE)")]
-        public decimal? MaxBetNetball1Q3QOUOE { get; set; }
+        public string MaxBetNetball1Q3QOUOE { get; set; }
 
         [Display(Name = "Max Bet Cricket Match Winner & Innings (OU)")]
-        public decimal? MaxBetCricketMatchWinnerInningsOU { get; set; }
+        public string MaxBetCricketMatchWinnerInningsOU { get; set; }
 
         [Display(Name = "Max Bet Cricket Next Over (OU) & Player (OU)")]
-        public decimal? MaxBetCricketNextOverOUPlayerOU { get; set; }
+        public string MaxBetCricketNextOverOUPlayerOU { get; set; }
 
         [Display(Name = "Max Bet Cricket FT 1X2")]
-        public decimal? MaxBetCricketFT1X2 { get; set; }
+        public string MaxBetCricketFT1X2 { get; set; }
 
         [Display(Name = "Max Bet Snooker Match Winner (HDP/OU)")]
-        public decimal? MaxBetSnookerMatchWinnerHDPOU { get; set; }
+        public string MaxBetSnookerMatchWinnerHDPOU { get; set; }
 
         [Display(Name = "Max Bet Snooker Frames Winner (HDP/OU/OE)")]
-        public decimal? MaxBetSnookerFramesWinnerHDPOUOE { get; set; }
+        public string MaxBetSnookerFramesWinnerHDPOUOE { get; set; }
 
         [Display(Name = "Max Bet Snooker First 5 Frames (HDP)")]
-        public decimal? MaxBetSnookerFirst5FramesHDP { get; set; }
+        public string MaxBetSnookerFirst5FramesHDP { get; set; }
 
         [Display(Name = "Max Bet Snooker First 8 Frames (HDP)")]
-        public decimal? MaxBetSnookerFirst8FramesHDP { get; set; }
+        public string MaxBetSnookerFirst8FramesHDP { get; set; }
 
         [Display(Name = "Max Bet Snooker First 9 Frames (HDP)")]
-        public decimal? MaxBetSnookerFirst9FramesHDP { get; set; }
+        public string MaxBetSnookerFirst9FramesHDP { get; set; }
 
         [Display(Name = "Max Bet Baseball FT Run Line (HDP)")]
-        public decimal? MaxBetBaseballFTRunLineHDP { get; set; }
+        public string MaxBetBaseballFTRunLineHDP { get; set; }
 
         [Display(Name = "Max Bet Baseball 1H 1st 5 innings (HDP)")]
-        public decimal? MaxBetBaseball1H1st5inningsHDP { get; set; }
+        public string MaxBetBaseball1H1st5inningsHDP { get; set; }
 
         [Display(Name = "Max Bet Baseball FT Total Run (OU)")]
-        public decimal? MaxBetBaseballFTTotalRunOU { get; set; }
+        public string MaxBetBaseballFTTotalRunOU { get; set; }
 
         [Display(Name = "Max Bet Baseball 1H 1st 5 innings (OU)")]
-        public decimal? MaxBetBaseball1H1st5inningsOU { get; set; }
+        public string MaxBetBaseball1H1st5inningsOU { get; set; }
 
         [Display(Name = "Max Bet Baseball Inning Hits & Runs")]
-        public decimal? MaxBetBaseballInningHitsRuns { get; set; }
+        public string MaxBetBaseballInningHitsRuns { get; set; }
 
         [Display(Name = "Max Bet Badminton All Product (Set Winner)")]
-        public decimal? MaxBetBadmintonAllProductSetWinner { get; set; }
+        public string MaxBetBadmintonAllProductSetWinner { get; set; }
 
         [Display(Name = "Max Bet Badminton All Product (Point Winner)")]
-        public decimal? MaxBetBadmintonAllProductPointWinner { get; set; }
+        public string MaxBetBadmintonAllProductPointWinner { get; set; }
 
         [Display(Name = "Max Bet Badminton Race to Points (7, 9, 11)")]
-        public decimal? MaxBetBadmintonRacetoPoints7911 { get; set; }
+        public string MaxBetBadmintonRacetoPoints7911 { get; set; }
 
         [Display(Name = "Max Bet Badminton Next Point Winner")]
-        public decimal? MaxBetBadmintonNextPointWinner { get; set; }
+        public string MaxBetBadmintonNextPointWinner { get; set; }
 
         [Display(Name = "Max Bet Badminton Match Handicap")]
-        public decimal? MaxBetBadmintonMatchHandicap { get; set; }
+        public string MaxBetBadmintonMatchHandicap { get; set; }
 
         [Display(Name = "Max Bet Tennis All Product (LS)")]
-        public decimal? MaxBetTennisAllProductLS { get; set; }
+        public string MaxBetTennisAllProductLS { get; set; }
 
         [Display(Name = "Max Bet Tennis Next Game")]
-        public decimal? MaxBetTennisNextGame { get; set; }
+        public string MaxBetTennisNextGame { get; set; }
 
         [Display(Name = "Max Bet Tennis Most Aces")]
-        public decimal? MaxBetTennisMostAces { get; set; }
+        public string MaxBetTennisMostAces { get; set; }
 
         [Display(Name = "Max Bet Tennis Most Double Faults")]
-        public decimal? MaxBetTennisMostDoubleFaults { get; set; }
+        public string MaxBetTennisMostDoubleFaults { get; set; }
     }
 }

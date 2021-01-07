@@ -7,8 +7,7 @@
     {
         List<AssignmentModel> BuildAssignment(
             List<Trader> traders,
-            List<AssignmentModelInExcel> assignmentInExcels,
-            bool isMappingDateTime);
+            List<AssignmentModelInExcel> assignmentInExcels);
     }
 
     public class AssignmentBuilderImp : AssignmentBuilder
@@ -21,11 +20,10 @@
 
         public List<AssignmentModel> BuildAssignment(
             List<Trader> traders, 
-            List<AssignmentModelInExcel> assignmentInExcels,
-            bool isMappingDateTime)
+            List<AssignmentModelInExcel> assignmentInExcels)
         {
             assignmentMapper.Traders = traders;
-            var assignmentModels = assignmentMapper.Map(assignmentInExcels, isMappingDateTime);          
+            var assignmentModels = assignmentMapper.Map(assignmentInExcels);          
 
             return assignmentModels;
         }
