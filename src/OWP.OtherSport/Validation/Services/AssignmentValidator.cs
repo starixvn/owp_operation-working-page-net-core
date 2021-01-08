@@ -129,7 +129,7 @@
             Validator.TryValidateObject(assignment, context, results, true);
         }
 
-        public static void ValidateDateTime(AssignmentModelInExcel assignment, List<ValidationResult> results)
+        public void ValidateDateTime(AssignmentModelInExcel assignment, List<ValidationResult> results)
         {
             const string regex = @"(?i:^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s*\d{2}\,\s*\d{4}\s*(1[0-2]|0?[1-9]):([0-5][0-9])\s*([AP][M])$)";
             var match = Regex.Match(assignment.DateTime, regex, RegexOptions.IgnoreCase);
@@ -152,7 +152,7 @@
             }
         }
 
-        public static void ValidateMaxbetInString(AssignmentModelInExcel assignment, List<ValidationResult> results)
+        public void ValidateMaxbetInString(AssignmentModelInExcel assignment, List<ValidationResult> results)
         {
             const string regex = @"^(?:|[0-9]\d{0,9}(\.\d{1,9})?%?)$";
 
