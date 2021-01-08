@@ -26,11 +26,10 @@
             var handler = MockHandler(request, exception);
 
             // Act
-            var actual = await Record.ExceptionAsync(() => handler.Handle(request, new CancellationToken(false)));
+            var actual = await handler.Handle(request, new CancellationToken(false));
 
             // Assert
-            const string expect = "Incorrect template";
-            Assert.Equal(actual.Message, expect);
+            Assert.Equal("Incorrect template", actual.Exception);
         }
 
         [Fact]

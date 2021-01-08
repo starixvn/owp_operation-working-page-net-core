@@ -54,7 +54,7 @@
 
             var env = Configuration.GetSection("Fanex.NAP.Client:Environment").Value;
 
-            if (env.Equals("LIVE", StringComparison.CurrentCultureIgnoreCase))
+            if (!env.Equals("LIVE", StringComparison.CurrentCultureIgnoreCase))
             {
                 await context.Response.WriteAsync(Environment.NewLine);
                 await context.Response.WriteAsync(exception.StackTrace);
