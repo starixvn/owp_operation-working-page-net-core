@@ -400,7 +400,7 @@
                         MaxBetFootball1HHDP = null,
                         MaxBetFootball1Q3QHDP = null,
                         MaxBetFootballFTOU = null,
-                        MaxBetFootball1HOU = 50000,
+                        MaxBetFootball1HOU = "50000",
                         MaxBetFootball1Q3QOU = null,
                         MaxBetFieldHockeyFTHDP = null,
                         MaxBetFieldHockey1HHDP = null,

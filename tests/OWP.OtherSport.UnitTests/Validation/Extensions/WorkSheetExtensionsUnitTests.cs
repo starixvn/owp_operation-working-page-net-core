@@ -491,7 +491,7 @@
             worksheet.Cells[4, 14].Value = "Euro40";
             worksheet.Cells[4, 17].Value = "starix1";
             worksheet.Cells[4, 18].Value = "starix2";
-            worksheet.Cells[4, 149].Value = 50000;
+            worksheet.Cells[4, 149].Value = "50000";
 
             worksheet.Cells[4, 2].Value = "Basketball";
             worksheet.Cells[5, 2].Value = "Football";
@@ -659,7 +659,7 @@
                 MaxBetFootball1HHDP = null,
                 MaxBetFootball1Q3QHDP = null,
                 MaxBetFootballFTOU = null,
-                MaxBetFootball1HOU = 50000,
+                MaxBetFootball1HOU = "50000",
                 MaxBetFootball1Q3QOU = null,
                 MaxBetFieldHockeyFTHDP = null,
                 MaxBetFieldHockey1HHDP = null,
