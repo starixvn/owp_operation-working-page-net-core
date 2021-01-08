@@ -17,7 +17,6 @@
         private readonly Repository repository;
         private readonly AssignmentBuilder assignmentBuilder;
         private readonly AssignmentValidator assignmentValidator;
-        private readonly DateTimeValidator dateTimeValidator;
 
         public AnalyzerUnitTests()
         {
@@ -25,25 +24,21 @@
             repository = Substitute.For<Repository>();
             assignmentBuilder = Substitute.For<AssignmentBuilder>();
             assignmentValidator = Substitute.For<AssignmentValidator>();
-            dateTimeValidator = Substitute.For<DateTimeValidator>();
         }
 
         [Fact]
         public async Task Analyzer_Always_ReturnAnalyzedResult()
         {
-            var analyzer = new AnalyzerImp(excelReader, repository, assignmentBuilder, assignmentValidator, dateTimeValidator);
+            var analyzer = new AnalyzerImp(excelReader, repository, assignmentBuilder, assignmentValidator);
 
             var rawModelInExcel = GetRawDataFromExcel();
             var traders = GetTraders();
             var assignmentModels = GetAssignmentModels();
 
             excelReader.Read(Arg.Compat.Any<Stream>()).Returns(rawModelInExcel);
-            repository.GetTraders(Arg.Compat.Any<List<string>>()).Returns(traders);
-            dateTimeValidator.Validate(Arg.Compat.Any<List<AssignmentModelInExcel>>())
-                .Returns(new List<AssignmentValidationRowResult>());
+            repository.GetTraders(Arg.Compat.Any<List<string>>()).Returns(traders);           
             assignmentBuilder.BuildAssignment(Arg.Compat.Any<List<Trader>>(),
-                Arg.Compat.Any<List<AssignmentModelInExcel>>(),
-                Arg.Compat.Any<bool>())
+                Arg.Compat.Any<List<AssignmentModelInExcel>>())
                 .Returns(assignmentModels);
 
             var request = new ValidationHandler.Request();

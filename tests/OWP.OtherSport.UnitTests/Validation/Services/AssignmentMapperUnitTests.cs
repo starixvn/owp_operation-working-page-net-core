@@ -198,26 +198,32 @@
         }
 
         [Fact]
-        public void Map_ValidModel_WithIsMappingDateTimeIsTrue_ReturnsAssignmentModelMappingDateTime()
+        public void MapMaxbets_ValidMaxbet_SuccessMapMaxbets()
+        {
+            var excelModel = new AssignmentModelInExcel
+            {
+                MaxBetBadmintonAllProductPointWinner = "1234.0125",
+                MaxBetBaseball1H1st5inningsOU = "1245.1234"
+            };
+
+            var model = new AssignmentModel();
+
+            AssignmentMapperImp.MapMaxbets(excelModel, model);
+
+            Assert.Equal(1234.0125m, model.MaxBetBadmintonAllProductPointWinner);
+            Assert.Equal(1245.1234m, model.MaxBetBaseball1H1st5inningsOU);
+        }
+
+        [Fact]
+        public void Map_ValidModel_ReturnsUserModel()
         {
             var excelModel = GetAssignmentModelInExcel();
             var expected = ExpectedAssignment();
 
-            var actual = assignmentMapper.Map(excelModel, true);
+            var actual = assignmentMapper.Map(excelModel);
 
             DeepAssert.Equal(expected, actual);
-        }
-
-        [Fact]
-        public void Map_ValidModel_WithIsMappingDateTimeIsFalse_ReturnsAssignmentModelNotMappingDateTime()
-        {
-            var excelModel = GetAssignmentModelInExcel2();
-            var expected = ExpectedAssignment2();
-
-            var actual = assignmentMapper.Map(excelModel, false);
-
-            DeepAssert.Equal(expected, actual);
-        }
+        }     
 
         private static AssignmentModelInExcel GetAssignmentModelInExcel()
         {
@@ -233,22 +239,7 @@
             };
 
             return excelModel;
-        }
-
-        private static AssignmentModelInExcel GetAssignmentModelInExcel2()
-        {
-            var excelModel = new AssignmentModelInExcel
-            {
-                AutoLink = "Yes",
-                Away = "LA",
-                Home = "GSW",
-                Sport = "BasketBall",
-                League = "NBA",
-                MatchStatus = "Live"
-            };
-
-            return excelModel;
-        }
+        }      
 
         private static AssignmentModel ExpectedAssignment()
         {
@@ -264,21 +255,6 @@
             };
 
             return model;
-        }
-
-        private static AssignmentModel ExpectedAssignment2()
-        {
-            var model = new AssignmentModel
-            {
-                AutoLink = "Yes",
-                Away = "LA",
-                Home = "GSW",             
-                Sport = "BasketBall",
-                League = "NBA",
-                MatchStatus = "Live"
-            };
-
-            return model;
-        }
+        }     
     }
 }

@@ -28,6 +28,8 @@
         void MapOtherTraders(AssignmentModelInExcel excelModel, AssignmentModel model);
 
         void MapTraders(AssignmentModelInExcel excelModel, AssignmentModel model);
+
+        void MapMaxbets(AssignmentModelInExcel excelModel, AssignmentModel model);
     }
 
     public class AssignmentMapperImp : AssignmentMapper

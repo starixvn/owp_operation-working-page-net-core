@@ -15,6 +15,10 @@
             List<Trader> traders);
 
         void ValidateTraders(AssignmentModelInExcel assignment, List<ValidationResult> results, List<Trader> traders);
+
+        void ValidateDateTime(AssignmentModelInExcel assignment, List<ValidationResult> results);
+
+        void ValidateMaxbetInString(AssignmentModelInExcel assignment, List<ValidationResult> results);
     }
 
     public class AssignmentValidatorImp : AssignmentValidator

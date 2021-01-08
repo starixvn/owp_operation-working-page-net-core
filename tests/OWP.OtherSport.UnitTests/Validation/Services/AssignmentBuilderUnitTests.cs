@@ -36,10 +36,9 @@
             };
          
             var assignmentModelInExcels = GetAssignmentModelInExcels();
-            var isMappingDateTime = true;
 
             var expected = GetAssignmentModels();
-            var actual = assignmentBuilder.BuildAssignment(traders, assignmentModelInExcels, isMappingDateTime);
+            var actual = assignmentBuilder.BuildAssignment(traders, assignmentModelInExcels);
 
             DeepAssert.Equal(expected, actual, "HashKey");
         }
