@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace OWP.Websites.Controllers
@@ -33,8 +34,10 @@ namespace OWP.Websites.Controllers
             return View();
         }
 
+        [AllowAnonymous]
         public IActionResult Test()
         {
+            Thread.Sleep(2 * 60 * 1000);
             return Content("Test");
         }
 
