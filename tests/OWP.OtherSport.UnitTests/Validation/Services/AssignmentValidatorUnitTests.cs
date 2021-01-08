@@ -17,6 +17,29 @@
         }
 
         [Fact]
+        public void Validate_InvValidModel_ThrowException()
+        {
+            var uploadingDataFromExcel = new UploadingDataFromExcel
+            {
+                Assignments = GetAssignmentModels()
+            };
+
+            var traders = new List<Trader>
+            {
+                new Trader{ UserId = 0, Username = "Esther"},
+                new Trader{ UserId = 10, Username = "Mira"},
+                new Trader{ UserId = 0, Username = "Curry"},
+                new Trader{ UserId = 11, Username = "Jack"},
+                new Trader{ UserId = 12, Username = "Tyler"},
+                new Trader{ UserId = 14, Username = "Carlos"},
+                new Trader{ UserId = 17, Username = "Jacob"}
+            };
+
+            var exception = Record.Exception(() => assignmentValidator.Validate(uploadingDataFromExcel, traders));
+            Assert.NotNull(exception);
+        }
+
+        [Fact]
         public void Validate_ValidModel_NotThrowException()
         {
             var uploadingDataFromExcel = new UploadingDataFromExcel
