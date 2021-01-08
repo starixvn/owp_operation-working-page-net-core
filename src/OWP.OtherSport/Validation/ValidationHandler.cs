@@ -76,7 +76,17 @@
                 }
                 catch (CriticalValidationException ex)
                 {
-                    throw new CriticalValidationException(ex.Message);
+                    var validationResults = new List<AssignmentValidationRowResult>
+                    {
+                        new AssignmentValidationRowResult
+                        {
+                            Row = 1,
+                            Message = ex.Message
+                        }
+                    };
+
+                    result.ValidationResults = validationResults;
+                    result.Exception = ex.Message;
                 }
                 catch (InvalidAssignmentRowException ex)
                 {

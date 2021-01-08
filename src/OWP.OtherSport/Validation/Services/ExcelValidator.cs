@@ -29,7 +29,7 @@
 
         private static void ValidateDataLength(ExcelWorksheet sheet)
         {
-            if (sheet.Dimension.End.Row > ExcelDataLength.MaximumDataLength)
+            if ((sheet.Dimension.End.Row  - 1) > ExcelDataLength.MaximumDataLength)
             {
                 throw new DataLengthExceedsMaximumException();
             }
