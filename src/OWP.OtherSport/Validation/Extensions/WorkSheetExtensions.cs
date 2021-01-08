@@ -145,23 +145,7 @@
                 return true;
             }
 
-            if (property.PropertyType == typeof(decimal?))
-            {
-                var cellValue = sheet.GetValue<string>(row, column);
-                var value = GetMaxbetValue(cellValue);
-                property.PropertyInfo.SetValue(model, value);
-                return true;
-            }
-
             return false;
-        }
-
-        private static decimal? GetMaxbetValue(string maxbet)
-        {
-            const NumberStyles style = NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands;
-            maxbet ??= string.Empty;
-
-            return decimal.TryParse(maxbet, style, CultureInfo.InvariantCulture, out decimal tmpValue) ? tmpValue : null;
         }
 
         private static bool IsEmptyRow(this ExcelWorksheet sheet, int row = 1)
