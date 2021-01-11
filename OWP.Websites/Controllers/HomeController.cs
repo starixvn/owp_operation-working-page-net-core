@@ -37,7 +37,8 @@ namespace OWP.Websites.Controllers
         [AllowAnonymous]
         public IActionResult Test()
         {
-            Thread.Sleep(2 * 60 * 1000);
+            const int sleepTime = 2 * 60 * 1000;
+            Thread.Sleep(sleepTime);
             return Content("Test");
         }
 
