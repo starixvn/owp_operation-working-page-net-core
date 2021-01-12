@@ -1,13 +1,15 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using OWP.Maxbet.Services;
+using System.Threading.Tasks;
 
 namespace OWP.Maxbet
 {
     [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
+    [EnableCors("AllowOrigin")]
     public class MaxbetController : ControllerBase
     {
         private readonly MaxbetService maxbetService;

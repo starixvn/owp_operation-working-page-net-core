@@ -5,16 +5,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <AdditionalFiles Include="..\.sonarlint\nap-owp\CSharp\SonarLint.xml" Link="SonarLint.xml" />
     <Content Include="App_Data\Fanex.Data\DBOWP.bodb_OWP.bodbOWPNet.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="10.0.0" />
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
     <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
-    <PackageReference Include="EPPlus" Version="5.2.0" />
+    <PackageReference Include="EPPlus" Version="5.4.2" />
     <PackageReference Include="Epplus.Mapper" Version="1.0.0.13" />
     <PackageReference Include="Fanex.Caching.AspNetCore" Version="2.2.2" />
     <PackageReference Include="Fanex.Caching.Redis.AspNetCore" Version="2.2.2" />
@@ -27,9 +28,10 @@
     <PackageReference Include="Fanex.Logging.Sentry.RavenClient" Version="1.0.1" />
     <PackageReference Include="Fanex.NAP.Client.AspNetCore" Version="1.0.0-beta5" />
     <PackageReference Include="Fanex.NAP.Client.Transport" Version="1.0.0-beta7" />
-    <PackageReference Include="Fanex.NAP.Signin.AspNetCore" Version="1.0.0-beta8" />
+    <PackageReference Include="Fanex.NAP.Signin.AspNetCore" Version="1.0.0.1-beta1" />
+    <PackageReference Include="MediatR" Version="9.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Analyzers" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Analyzers" Version="3.0.0-preview3-19153-02" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.0-preview.6.20312.15" />
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="5.0.0-preview.6.20306.1" />
     <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="5.0.0-preview.6.20312.15" />
@@ -40,13 +42,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\src\OWP.Maxbet\OWP.Maxbet.csproj" />
+    <ProjectReference Include="..\src\OWP.OtherSport\OWP.OtherSport.csproj" />
     <ProjectReference Include="..\src\OWP\OWP.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <CodeAnalysisRuleSet>OWP.Websites.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
