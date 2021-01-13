@@ -14,13 +14,7 @@
     }
 
     public class CommandRepositoryImp : CommandRepository
-    {
-        private readonly IDynamicRepository dynamicRepository;
-
-        public CommandRepositoryImp (IDynamicRepository dynamicRepository)
-        {
-            this.dynamicRepository = dynamicRepository;
-        }
+    {             
         public async Task<List<EventAssignmentModel>> Query(QueryModel queryModel)
         {
             var criteria = new GetEventAssignmentCriteria
@@ -29,24 +23,20 @@
                 ToDate = queryModel.ToDate
             };
 
-            using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
-            {
-                using (var reader = await db.QueryMultipleAsync(criteria))
-                {
-                    var matches = (await reader.ReadAsync<MatchInfo>()).ToList();
-                    var assignments = (await reader.ReadAsync<MatchAssignment>()).ToList();                 
-                    var maxbets = (await reader.ReadAsync<MatchMaxBet>()).ToList();                                    
+            using var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey());
+            using var reader = await db.QueryMultipleAsync(criteria);
+            var matches = (await reader.ReadAsync<MatchInfo>()).ToList();
+            var assignments = (await reader.ReadAsync<Assignment>()).ToList();
+            var maxbets = (await reader.ReadAsync<MatchMaxBet>()).ToList();
 
-                    var events = MappingInfoToEventAssignmentModel(matches, assignments, maxbets);
+            var events = MappingInfoToEventAssignmentModel(matches, assignments, maxbets);
 
-                    return events;
-                }
-            }
+            return events;
         }
 
         private static List<EventAssignmentModel> MappingInfoToEventAssignmentModel(
           List<MatchInfo> matches,
-          List<MatchAssignment> assignments,
+          List<Assignment> assignments,
           List<MatchMaxBet> maxbets)
         {
             var events = new List<EventAssignmentModel>();
