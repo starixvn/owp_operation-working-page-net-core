@@ -36,8 +36,10 @@ namespace OWP.OtherSport.EventAssignment
 
         public async Task<Response> Handle(QueryModel request, CancellationToken cancellationToken)
         {
-            var result = new Response();
-            result.EventAssignmentModels = await commandRepository.Query(request);
+            var result = new Response
+            {
+                EventAssignmentModels = await commandRepository.Query(request)
+            };
 
             return result;
         }
