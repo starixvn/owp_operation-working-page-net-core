@@ -1,9 +1,11 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using OWP.Helpers;
+using OWP.OtherSport.fake;
 using OWP.OtherSport.Submit;
 using OWP.OtherSport.Validation;
 
@@ -12,6 +14,7 @@ namespace OWP.OtherSport
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("AllowOrigin")]
+    [AllowAnonymous]
     public class OtherSportController : ControllerBase
     {
         private readonly IMediator mediator;
@@ -53,6 +56,14 @@ namespace OWP.OtherSport
         {
             var viewModel = await mediator.Send(request);
             return new JsonResult(viewModel);
+        }
+
+        [Route("get-trader-assignment")]
+        [HttpPost]
+        public async Task<IActionResult> GetTraderAssignment()
+        {
+            var response= FakeData.FakeAssignment();
+            return new JsonResult(response);
         }
     }
 }
