@@ -40,9 +40,7 @@
 
         public string Remark { get; set; }
 
-        public string Username { get; set; }
-
-        public List<MatchAssignment> Assignments { get; set; }
+        public List<Assignment> Assignments { get; set; }
 
         public List<MatchMaxBet> MaxBets { get; set; }
     }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using OWP.Helpers;
+using OWP.OtherSport.EventAssignment;
 using OWP.OtherSport.fake;
 using OWP.OtherSport.Submit;
 using OWP.OtherSport.Validation;
@@ -24,11 +25,13 @@ namespace OWP.OtherSport
             this.mediator = mediator;
         }
 
-        [Route("")]
+        [Route("test")]
         [HttpPost]      
         public async Task<IActionResult> Query(QueryModel request)
-        {
-           
+        {          
+            var result = await mediator.Send(request);
+
+            return new JsonResult(result);
         }
 
         [Route("validate")]
