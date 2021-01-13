@@ -24,6 +24,13 @@ namespace OWP.OtherSport
             this.mediator = mediator;
         }
 
+        [Route("")]
+        [HttpPost]      
+        public async Task<IActionResult> Query(QueryModel request)
+        {
+           
+        }
+
         [Route("validate")]
         [HttpPost]
         public async Task<IActionResult> Validate()
