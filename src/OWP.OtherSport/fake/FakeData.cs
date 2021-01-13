@@ -1,76 +1,79 @@
 ﻿using System;
 using System.Collections.Generic;
-using OWP.OtherSport.Models;
+using OWP.OtherSport.EventAssignment.Models;
+using OWP.OtherSport.Submit.Models;
 
 namespace OWP.OtherSport.fake
 {
     public static class FakeData
     {
-        public static Assignment FakeAssignment()
+        public static List<EventAssignmentModel> FakeAssignment()
         {
-            return new Assignment
+            return new List<EventAssignmentModel>
             {
-                No = 1,
-                LeagueId = 101,
-                PreMatchLeagueId = 17038,
-                LeagueName = "*SPAIN PRIMERA LALIGA",
-                Status = "Live",
-                KOTime = DateTime.Now.ToString(),
-                HomeName = "CD Universidad Catolica(V)",
-                AwayName = "AEK Athens (V)",
-                Remark = "TA ROBOT_Draw will PK",
-                Traders = new List<Trader>
-                {
-                    new Trader
-                    {
-                          Bettype= "FT HDP",
-                          Assignee= "SA",
-                          OtherAssignee= "starix14"
-                    },
-                     new Trader
-                    {
-                         Bettype= "1h HDP",
-                         Assignee= "SA2"
-                    },
-                      new Trader
-                    {
-                        Bettype= "1Q & 3Q HDP",
-                        Assignee= "SA3"
-                    },
-                       new Trader
-                    {
-                       Bettype= "FT OU/OE",
-                       Assignee= "SA4"
-                    },
-                        new Trader
-                    {
-                        Bettype= "1H OUOE",
-                        Assignee= "SA5"
-                    }
-                },
-                MaxBets= new List<Maxbet>
-                {
-                    new Maxbet
-                    {
-                        Bettype= "FT HDP",
-                        Value= "3200"
-                    },
-                     new Maxbet
-                    {
-                         Bettype= "1h HDP",
-                        Value= "1500"
-                    },
-                      new Maxbet
-                    {
-                        Bettype= "1Q & 3Q HDP",
-                        Value= "1500"
-                    },
-                       new Maxbet
-                    {
-                         Bettype= "1H OUOE",
-                        Value= "1300"
-                    }
-                }
+                 new EventAssignmentModel
+                 {
+                     OSMatchId= 123,
+                      League= "*SPAIN PRIMERA LALIGA",
+                      MatchStatus= "Live",
+                      DateTime= DateTime.Now,
+                      Home= "CD Universidad Catolica(V)_Home",
+                      Away= "AEK Athens (V)_Away",
+                      Remark= "TA ROBOT_Draw will PK",
+                      Assignments= new List<Assignment>
+                        {
+                          new Assignment
+                          {
+
+                          },
+                          new Assignment
+                          {
+
+                          }
+                        },
+                      MaxBets = new List<MatchMaxBet>
+                        {
+                              new MatchMaxBet
+                              {
+                                  OSMatchId= 123,
+                                  BetTypeName=  "FT HDP",
+                                  MaxBet= 3200000
+                              },
+                              new MatchMaxBet
+                              {
+                                  OSMatchId= 123,
+                                  BetTypeName=  "1h HDP",
+                                  MaxBet= 3200000
+                              },
+                              new MatchMaxBet
+                              {
+                                  OSMatchId= 123,
+                                  BetTypeName=  "1Q & 3Q HDP",
+                                  MaxBet= 3200000
+                              },
+                              new MatchMaxBet
+                              {
+                                  OSMatchId= 123,
+                                  BetTypeName=  "FT OU/OE",
+                                  MaxBet= 3200000
+                              },
+                               new MatchMaxBet
+                              {
+                                  OSMatchId= 123,
+                                  BetTypeName=  "1H OUOE",
+                                  MaxBet= 3200000
+                              }
+                      },
+                       IPTV= "ipTv aaaaa",
+                        WB= "Streaming bbbbbbb",
+                        Provider= "Provider JAck",
+                        AutoLink="Yes",
+                        Category="Category",
+                        NoHDP="NoHDP",
+                        MatchOffer="MatchOffer",
+                        OtherProvider="OtherProvider",
+                        Service="Medium"
+                 }
             };
         }
     }
