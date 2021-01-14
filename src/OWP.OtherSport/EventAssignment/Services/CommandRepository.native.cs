@@ -1,7 +1,6 @@
 ﻿namespace OWP.OtherSport.EventAssignment.Services
 {
     using Fanex.Data;
-    using Fanex.Data.Repository;
     using OWP.OtherSport.EventAssignment.Criteria;
     using OWP.OtherSport.EventAssignment.Models;
     using OWP.OtherSport.Submit.Models;
@@ -10,17 +9,17 @@
     using System.Threading.Tasks;
     public interface CommandRepository
     {
-        Task<List<EventAssignmentModel>> Query(QueryModel queryModel);
+        Task<IEnumerable<EventAssignmentModel>> Query(QueryEventAssignmentRequest request);
     }
 
     public class CommandRepositoryImp : CommandRepository
     {             
-        public async Task<List<EventAssignmentModel>> Query(QueryModel queryModel)
+        public async Task<IEnumerable<EventAssignmentModel>> Query(QueryEventAssignmentRequest request)
         {
             var criteria = new GetEventAssignmentCriteria
             {
-                FromDate = queryModel.FromDate,
-                ToDate = queryModel.ToDate
+                FromDate = request.FromDate,
+                ToDate = request.ToDate
             };
 
             using var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey());
@@ -34,10 +33,10 @@
             return events;
         }
 
-        private static List<EventAssignmentModel> MappingInfoToEventAssignmentModel(
-          List<MatchInfo> matches,
-          List<Assignment> assignments,
-          List<MatchMaxBet> maxbets)
+        private static IEnumerable<EventAssignmentModel> MappingInfoToEventAssignmentModel(
+          IEnumerable<MatchInfo> matches,
+          IEnumerable<Assignment> assignments,
+          IEnumerable<MatchMaxBet> maxbets)
         {
             var events = new List<EventAssignmentModel>();
 
