@@ -10,7 +10,6 @@
     using OWP.Helpers;
     using OWP.OtherSport.EventAssignment;
     using OWP.OtherSport.EventAssignment.Models;
-    using OWP.OtherSport.fake;
     using OWP.OtherSport.Submit;
     using OWP.OtherSport.Validation;
 
@@ -68,12 +67,12 @@
             return new JsonResult(viewModel);
         }
 
-        [Route("get-trader-assignment")]
-        [HttpPost]
-        public async Task<IActionResult> GetTraderAssignment()
-        {
-            var response= FakeData.FakeAssignment();
-            return new JsonResult(response);
-        }
+        //[Route("get-trader-assignment")]
+        //[HttpPost]
+        //public async Task<IActionResult> GetTraderAssignment()
+        //{
+        //    var response= FakeData.FakeAssignment();
+        //    return new JsonResult(response);
+        //}
     }
 }

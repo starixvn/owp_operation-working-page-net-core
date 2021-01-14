@@ -40,8 +40,6 @@
 
         public string Remark { get; set; }
 
-        public IList<Assignment> Assignments { get; set; } = new List<Assignment>();
-
-        public IList<MatchMaxBet> MaxBets { get; set; } = new List<MatchMaxBet>();
+        public IDictionary<string, List<TraderMatBex>> TraderMaxbetModels { get; set; } = new Dictionary<string, List<TraderMatBex>>();
     }
 }

@@ -3,6 +3,7 @@
     using Fanex.Data.Repository;
     using OWP.OtherSport.EventAssignment.Criteria;
     using OWP.OtherSport.EventAssignment.Models;
+    using OWP.OtherSport.Submit.Contants;
     using OWP.OtherSport.Submit.Models;
     using System.Collections.Generic;
     using System.Linq;
@@ -29,7 +30,7 @@
                 ToDate = request.ToDate
             };
 
-            var (matches, assignments, maxbets) = await dynamicRepository.FetchMultipleAsync<MatchInfo, Assignment, MatchMaxBet>(criteria);          
+            var (matches, assignments, maxbets) = await dynamicRepository.FetchMultipleAsync<MatchInfo, MatchAssignment, MatchMaxBet>(criteria);          
 
             var events = MappingInfoToEventAssignmentModel(matches, assignments, maxbets);
 
@@ -38,11 +39,11 @@
 
         private static IEnumerable<EventAssignmentModel> MappingInfoToEventAssignmentModel(
           IEnumerable<MatchInfo> matches,
-          IEnumerable<Assignment> assignments,
+          IEnumerable<MatchAssignment> assignments,
           IEnumerable<MatchMaxBet> maxbets)
         {
             var events = new List<EventAssignmentModel>();
-
+           
             foreach (var match in matches)
             {
                 var eventInstance = new EventAssignmentModel
@@ -64,14 +65,24 @@
                     WB = match.WB,
                     Provider = match.Provider,
                     Remark = match.Remark,
-                    MaxBets = maxbets.Where(x => x.OSMatchId == match.OSMatchId).ToList(),
-                    Assignments = assignments.Where(x => x.OSMatchId == match.OSMatchId).ToList()
+                    TraderMaxbetModels = GetTraderMaxbet(match.OSMatchId, assignments, maxbets)                    
                 };    
             
                 events.Add(eventInstance);
             }
 
             return events;
+        }
+
+        public static IDictionary<string, List<TraderMatBex>> GetTraderMaxbet(int osMatchId, IEnumerable<MatchAssignment> assignments,
+          IEnumerable<MatchMaxBet> maxbets)
+        {
+            var maxbetList = maxbets.Where(x => x.OSMatchId == osMatchId).ToList();
+            var assignmentList = assignments.Where(x => x.OSMatchId == osMatchId).ToList(); 
+            var allList = assignmentList.Cast<TraderMatBex>().Union(maxbetList);
+            var groups = allList.GroupBy(a => a.BetTypeName).ToDictionary(g => g.Key, g => g.ToList());        
+
+            return groups;
         }
     }
 }

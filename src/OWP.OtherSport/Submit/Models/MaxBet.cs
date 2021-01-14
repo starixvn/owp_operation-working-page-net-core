@@ -1,6 +1,8 @@
-﻿namespace OWP.OtherSport.Submit.Models
+﻿using OWP.OtherSport.EventAssignment.Models;
+
+namespace OWP.OtherSport.Submit.Models
 {
-    public class MatchMaxBet
+    public class MatchMaxBet: TraderMatBex
     {
         public int OSMatchId { get; set; }
 
