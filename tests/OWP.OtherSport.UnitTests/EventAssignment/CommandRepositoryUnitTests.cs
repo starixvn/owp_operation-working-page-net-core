@@ -1,6 +1,5 @@
 ﻿namespace OWP.OtherSport.UnitTests.EventAssignment
 {
-
     using Fanex.Data.Repository;
     using NSubstitute;
     using OWP.OtherSport.EventAssignment;
@@ -9,7 +8,6 @@
     using OWP.OtherSport.Submit.Models;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
     using Xunit;
     using Xunit.Asserts.Compare;
@@ -168,11 +166,11 @@
                     OtherProvider="OtherProvider",
                     Service="Medium",
                     Sport = "Football",
-                    TraderMaxbetModels = new Dictionary<string, List<TraderMatBex>>()
+                    TraderMaxbetModels = new Dictionary<string, List<TraderMaxBet>>()
                     {
                         {
                             "1Q & 3Q (OU/OE)",
-                            new List<TraderMatBex>
+                            new List<TraderMaxBet>
                             {
                                 new MatchAssignment
                                 {
@@ -196,7 +194,7 @@
                         },
                         {
                             "1H (OU/OE)",
-                            new List<TraderMatBex>
+                            new List<TraderMaxBet>
                             {
                                 new MatchMaxBet
                                 {
@@ -228,11 +226,11 @@
                     OtherProvider="OtherProvider",
                     Service="Medium",
                     Sport = "Basketball",
-                    TraderMaxbetModels = new Dictionary<string, List<TraderMatBex>>()
+                    TraderMaxbetModels = new Dictionary<string, List<TraderMaxBet>>()
                     {                       
                         {
                             "FT Run Line (HDP)",
-                            new List<TraderMatBex>
+                            new List<TraderMaxBet>
                             {
                                  new MatchMaxBet
                                  {
@@ -245,7 +243,7 @@
 
                         {
                             "1H 1st 5 innings (HDP)",
-                            new List<TraderMatBex>
+                            new List<TraderMaxBet>
                             {
                                  new MatchMaxBet
                                  {

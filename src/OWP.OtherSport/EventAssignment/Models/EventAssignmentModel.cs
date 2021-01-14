@@ -40,6 +40,6 @@
 
         public string Remark { get; set; }
 
-        public IDictionary<string, List<TraderMatBex>> TraderMaxbetModels { get; set; } = new Dictionary<string, List<TraderMatBex>>();
+        public IDictionary<string, List<TraderMaxBet>> TraderMaxbetModels { get; set; } = new Dictionary<string, List<TraderMaxBet>>();
     }
 }

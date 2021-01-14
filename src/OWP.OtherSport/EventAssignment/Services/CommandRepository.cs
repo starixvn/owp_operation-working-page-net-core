@@ -3,7 +3,6 @@
     using Fanex.Data.Repository;
     using OWP.OtherSport.EventAssignment.Criteria;
     using OWP.OtherSport.EventAssignment.Models;
-    using OWP.OtherSport.Submit.Contants;
     using OWP.OtherSport.Submit.Models;
     using System.Collections.Generic;
     using System.Linq;
@@ -74,12 +73,12 @@
             return events;
         }
 
-        public static IDictionary<string, List<TraderMatBex>> GetTraderMaxbet(int osMatchId, IEnumerable<MatchAssignment> assignments,
+        public static IDictionary<string, List<TraderMaxBet>> GetTraderMaxbet(int osMatchId, IEnumerable<MatchAssignment> assignments,
           IEnumerable<MatchMaxBet> maxbets)
         {
             var maxbetList = maxbets.Where(x => x.OSMatchId == osMatchId).ToList();
             var assignmentList = assignments.Where(x => x.OSMatchId == osMatchId).ToList(); 
-            var allList = assignmentList.Cast<TraderMatBex>().Union(maxbetList);
+            var allList = assignmentList.Cast<TraderMaxBet>().Union(maxbetList);
             var groups = allList.GroupBy(a => a.BetTypeName).ToDictionary(g => g.Key, g => g.ToList());        
 
             return groups;

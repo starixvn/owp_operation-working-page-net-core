@@ -2,7 +2,7 @@
 
 namespace OWP.OtherSport.Submit.Models
 {
-    public class MatchMaxBet: TraderMatBex
+    public class MatchMaxBet: TraderMaxBet
     {
         public int OSMatchId { get; set; }
 
