@@ -1,6 +1,6 @@
 ﻿namespace OWP.OtherSport.EventAssignment.Services
 {
-    using Fanex.Data;
+    using Fanex.Data.Repository;
     using OWP.OtherSport.EventAssignment.Criteria;
     using OWP.OtherSport.EventAssignment.Models;
     using OWP.OtherSport.Submit.Models;
@@ -13,7 +13,14 @@
     }
 
     public class CommandRepositoryImp : CommandRepository
-    {             
+    {
+        private readonly IDynamicRepository dynamicRepository;
+
+        public CommandRepositoryImp(IDynamicRepository dynamicRepository)
+        {
+            this.dynamicRepository = dynamicRepository;
+        }
+
         public async Task<IEnumerable<EventAssignmentModel>> Query(QueryEventAssignmentRequest request)
         {
             var criteria = new GetEventAssignmentCriteria
@@ -22,11 +29,7 @@
                 ToDate = request.ToDate
             };
 
-            using var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey());
-            using var reader = await db.QueryMultipleAsync(criteria);
-            var matches = (await reader.ReadAsync<MatchInfo>()).ToList();
-            var assignments = (await reader.ReadAsync<Assignment>()).ToList();
-            var maxbets = (await reader.ReadAsync<MatchMaxBet>()).ToList();
+            var (matches, assignments, maxbets) = await dynamicRepository.FetchMultipleAsync<MatchInfo, Assignment, MatchMaxBet>(criteria);          
 
             var events = MappingInfoToEventAssignmentModel(matches, assignments, maxbets);
 
@@ -57,8 +60,10 @@
                     AutoLink = match.AutoLink,
                     IPTV = match.IPTV,
                     Service = match.Service,
+                    OtherProvider = match.OtherProvider,
                     WB = match.WB,
                     Provider = match.Provider,
+                    Remark = match.Remark,
                     MaxBets = maxbets.Where(x => x.OSMatchId == match.OSMatchId).ToList(),
                     Assignments = assignments.Where(x => x.OSMatchId == match.OSMatchId).ToList()
                 };    
