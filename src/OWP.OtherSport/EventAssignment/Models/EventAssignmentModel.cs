@@ -40,8 +40,8 @@
 
         public string Remark { get; set; }
 
-        public List<Assignment> Assignments { get; set; }
+        public IList<Assignment> Assignments { get; set; } = new List<Assignment>();
 
-        public List<MatchMaxBet> MaxBets { get; set; }
+        public IList<MatchMaxBet> MaxBets { get; set; } = new List<MatchMaxBet>();
     }
 }
