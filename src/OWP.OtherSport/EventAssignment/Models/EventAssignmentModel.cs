@@ -1,10 +1,9 @@
 ﻿namespace OWP.OtherSport.EventAssignment.Models
 {
-    using OWP.OtherSport.Submit.Models;
-    using System.Collections.Generic;
     using System;
+    using System.Collections.Generic;
 
-    public class  EventAssignmentModel
+    public class EventAssignmentModel
     {
         public int OSMatchId { get; set; }
 
@@ -40,6 +39,6 @@
 
         public string Remark { get; set; }
 
-        public IDictionary<string, List<TraderMaxBet>> TraderMaxbetModels { get; set; } = new Dictionary<string, List<TraderMaxBet>>();
+        public IList<TraderMaxBetModel> TraderMaxbetModels { get; set; } = new List<TraderMaxBetModel>();
     }
 }

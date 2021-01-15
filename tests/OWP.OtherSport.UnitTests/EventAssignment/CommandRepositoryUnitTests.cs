@@ -42,7 +42,6 @@
                 .ReturnsForAnyArgs(queryResult);
 
             var expected = GetEventAssignmentModel();
-
             var actual = await commandRepository.Query(request);
 
             DeepAssert.Equal(expected, actual);
@@ -136,7 +135,7 @@
                 },
                 new MatchMaxBet
                 {
-                    BetTypeName = "1H (OU/OE)",
+                    BetTypeName = "1Q & 3Q (OU/OE)",
                     OSMatchId = 123,
                     MaxBet = 1018.00m
                 }
@@ -166,44 +165,19 @@
                     OtherProvider="OtherProvider",
                     Service="Medium",
                     Sport = "Football",
-                    TraderMaxbetModels = new Dictionary<string, List<TraderMaxBet>>()
+                    TraderMaxbetModels = new Dictionary<string, TraderMaxBetModel>()
                     {
                         {
                             "1Q & 3Q (OU/OE)",
-                            new List<TraderMaxBet>
-                            {
-                                new MatchAssignment
+                          
+                                new TraderMaxBetModel
                                 {
-                                AssignmentNote = null,
-                                AssignmentType =  1,
-                                BetTypeName = "1Q & 3Q (OU/OE)",
-                                OSMatchId  = 123,
-                                UserId = 8 ,
-                                Username  =  "sa"
-                                },
-                                new MatchAssignment
-                                {
-                                    AssignmentNote = "check other #<user>",
-                                    AssignmentType =  2,
-                                    BetTypeName = "1Q & 3Q (OU/OE)",
-                                    OSMatchId  = 123,
-                                    UserId = 8 ,
-                                    Username  =  "sa"
+                                    OtherAssignment = "check other sa",
+                                    BettypeName = "1Q & 3Q (OU/OE)",
+                                    Assignment  =  "sa",
+                                    MaxBet = null
                                 }
-                             }
-                        },
-                        {
-                            "1H (OU/OE)",
-                            new List<TraderMaxBet>
-                            {
-                                new MatchMaxBet
-                                {
-                                    BetTypeName = "1H (OU/OE)",
-                                    OSMatchId = 123,
-                                    MaxBet = 1018.00m
-                                }
-                             }
-                         }
+                        }   
                     }
                 },
 
@@ -226,31 +200,23 @@
                     OtherProvider="OtherProvider",
                     Service="Medium",
                     Sport = "Basketball",
-                    TraderMaxbetModels = new Dictionary<string, List<TraderMaxBet>>()
+                    TraderMaxbetModels = new Dictionary<string, TraderMaxBetModel>()
                     {                       
                         {
                             "FT Run Line (HDP)",
-                            new List<TraderMaxBet>
+                            new TraderMaxBetModel
                             {
-                                 new MatchMaxBet
-                                 {
-                                    BetTypeName = "FT Run Line (HDP)",
-                                    OSMatchId = 124,
-                                    MaxBet = 100000.00m
-                                 }
+                                 BettypeName = "FT Run Line (HDP)",
+                                 MaxBet = 100000.00m
                             }
                         },
 
                         {
                             "1H 1st 5 innings (HDP)",
-                            new List<TraderMaxBet>
+                            new TraderMaxBetModel
                             {
-                                 new MatchMaxBet
-                                 {
-                                    BetTypeName = "1H 1st 5 innings (HDP)",
-                                    OSMatchId = 124,
-                                    MaxBet = 1018.00m
-                                 }
+                                BettypeName = "1H 1st 5 innings (HDP)",
+                                MaxBet = 1018.00m                                
                             }
                         }
                     }

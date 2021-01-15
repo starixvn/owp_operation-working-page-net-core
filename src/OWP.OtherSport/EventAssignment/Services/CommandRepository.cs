@@ -3,13 +3,14 @@
     using Fanex.Data.Repository;
     using OWP.OtherSport.EventAssignment.Criteria;
     using OWP.OtherSport.EventAssignment.Models;
+    using OWP.OtherSport.Submit.Contants;
     using OWP.OtherSport.Submit.Models;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     public interface CommandRepository
     {
-        Task<IEnumerable<EventAssignmentModel>> Query(QueryEventAssignmentRequest request);
+        Task<IEnumerable<EventAssignmentModel>> Query(QueryEventAssignmentRequest request);        
     }
 
     public class CommandRepositoryImp : CommandRepository
@@ -42,7 +43,6 @@
           IEnumerable<MatchMaxBet> maxbets)
         {
             var events = new List<EventAssignmentModel>();
-           
             foreach (var match in matches)
             {
                 var eventInstance = new EventAssignmentModel
@@ -64,7 +64,7 @@
                     WB = match.WB,
                     Provider = match.Provider,
                     Remark = match.Remark,
-                    TraderMaxbetModels = GetTraderMaxbet(match.OSMatchId, assignments, maxbets)                    
+                    //TraderMaxbetModels = GetTraderMaxbet(match.OSMatchId, assignments, maxbets)
                 };    
             
                 events.Add(eventInstance);
@@ -73,15 +73,66 @@
             return events;
         }
 
-        public static IDictionary<string, List<TraderMaxBet>> GetTraderMaxbet(int osMatchId, IEnumerable<MatchAssignment> assignments,
-          IEnumerable<MatchMaxBet> maxbets)
-        {
-            var maxbetList = maxbets.Where(x => x.OSMatchId == osMatchId).ToList();
-            var assignmentList = assignments.Where(x => x.OSMatchId == osMatchId).ToList(); 
-            var allList = assignmentList.Cast<TraderMaxBet>().Union(maxbetList);
-            var groups = allList.GroupBy(a => a.BetTypeName).ToDictionary(g => g.Key, g => g.ToList());        
+        //public static IDictionary<string, TraderMaxBetModel> GetTraderMaxbet(int osMatchId, IEnumerable<MatchAssignment> assignments,
+        //  IEnumerable<MatchMaxBet> maxbets)
+        //{
+        //    var maxbetList = maxbets.Where(x => x.OSMatchId == osMatchId).ToDictionary(m=>m.BetTypeName);
+        //    var assignmentList = assignments.Where(x => x.OSMatchId == osMatchId).GroupBy(a => a.BetTypeName).ToDictionary(a=>a.Key, a=>a.ToList());
+        //    var traderMaxBetModels = MapTraderMaxBetModels(assignmentList, maxbetList).ToDictionary(m=>m.BettypeName);
+        //    return traderMaxBetModels;
+        //}
 
-            return groups;
+        public static List<TraderMaxBetModel> MapTraderMaxBetModels(IDictionary<string, List<MatchAssignment>> assignments,
+          Dictionary<string, MatchMaxBet> maxbets)
+        {        
+            var traderMaxBetList = new List<TraderMaxBetModel>();
+            var traderMaxBet = new TraderMaxBetModel();
+          
+            //foreach (var key in assignments.Keys)
+            //{
+            //    foreach(var assignment in assignments[key])
+            //    {
+            //        traderMaxBet.Assignment = assignment.Username;
+            //        if (Equals(assignment.AssignmentType, (int)AssignmentType.OtherAssignment))
+            //        {
+            //            traderMaxBet.OtherAssignment = DetectOtherAssignment(assignment);
+            //        }
+            //    }
+            //    traderMaxBet.BettypeName = key;
+            //    traderMaxBetList.Add(traderMaxBet);
+            //}
+
+            //foreach (var maxbet in maxbets.Values)
+            //{
+            //    var newTraderMaxbet = new TraderMaxBetModel();
+            //    foreach (var a in traderMaxBetList)
+            //    {
+            //        if (Equals(a.BettypeName, maxbet.BetTypeName))
+            //        {
+            //            a.MaxBet = maxbet.MaxBet;
+            //        }
+            //        else
+            //        {
+            //            newTraderMaxbet.MaxBet = maxbet.MaxBet;
+            //            newTraderMaxbet.BettypeName = maxbet.BetTypeName;
+            //            traderMaxBetList.Add(newTraderMaxbet);
+            //        }
+            //    }
+            //}         
+
+            return traderMaxBetList;
+        }
+    
+        public static string DetectOtherAssignment(MatchAssignment assignment)
+        {
+            if(assignment.AssignmentNote != null)
+            {
+                return assignment.AssignmentNote.Contains("#<user>") 
+                    ? assignment.AssignmentNote.Replace("#<user>", $"#{assignment.Username}") 
+                    : assignment.AssignmentNote;
+            }
+
+            return string.Empty;
         }
     }
 }
