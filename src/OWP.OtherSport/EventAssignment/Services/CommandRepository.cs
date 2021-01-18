@@ -30,13 +30,16 @@
         {
             var criteria = new GetEventAssignmentCriteria
             {
-                FromDate = request.FromDate,
-                ToDate = request.ToDate
+                FromDate = request.From,
+                ToDate = request.To,
+                Employee = request.Employee,
+                Sports = string.Join(",", request.Sports),
+                MatchStatuses = string.Join(",", request.MatchStatuses)
             };
 
             var (matches, assignments, maxbets) = await dynamicRepository.FetchMultipleAsync<MatchInfo, MatchAssignment, MatchMaxBet>(criteria);
 
-            GroupTraderMaxbet(assignments.ToList(),maxbets.ToList());
+            GroupTraderMaxbet(assignments.ToList(), maxbets.ToList());
 
             var matchs = MappingInfoToEventAssignmentModelIgnoreTraderMaxbet(matches.ToList());
 

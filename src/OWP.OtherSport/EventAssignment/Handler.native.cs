@@ -9,10 +9,16 @@
     using System.Threading.Tasks;
     public class QueryEventAssignmentRequest : IRequest<IEnumerable<EventAssignmentModel>>
     {
-        public DateTime FromDate { get; set; }
+        public DateTime From { get; set; }
 
-        public DateTime ToDate { get; set; }
-    }
+        public DateTime To { get; set; }
+
+        public string Employee { get; set; }
+
+        public IList<string> Sports { get; set; }
+
+        public IList<string> MatchStatuses { get; set; }
+}
    
     public class Handler : IRequestHandler<QueryEventAssignmentRequest, IEnumerable<EventAssignmentModel>>
     {

@@ -26,7 +26,7 @@
             this.mediator = mediator;
         }
 
-        [Route("test")]
+        [Route("get-assignment")]
         [HttpPost]      
         public async Task<IEnumerable<EventAssignmentModel>> QueryEventAssignment(QueryEventAssignmentRequest request)
         {          
@@ -66,13 +66,5 @@
             var viewModel = await mediator.Send(request);
             return new JsonResult(viewModel);
         }
-
-        //[Route("get-trader-assignment")]
-        //[HttpPost]
-        //public async Task<IActionResult> GetTraderAssignment()
-        //{
-        //    var response= FakeData.FakeAssignment();
-        //    return new JsonResult(response);
-        //}
     }
 }

@@ -20,7 +20,6 @@ namespace OWP.OtherSport.Helper
             });
         }
 
-
         public static void CreateAssignment(
             IList<MatchAssignment> matchAssignments,
             TraderAssignment asssignment)
