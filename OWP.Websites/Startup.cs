@@ -50,8 +50,8 @@ namespace OWP.Websites
             app.UseCookiePolicy();
             app.UseSession();
             app.UseMiddleware<ErrorHandler>();
-            app.UseRouting();
             app.UseCors(allowOrigin);
+            app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
 
@@ -60,6 +60,8 @@ namespace OWP.Websites
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                endpoints.MapHub<OtherSport.Models.NewDataUploadNotifyHub>("/hubs/otherSportNewDataUploadNotifyHub");
             });
 
             NapClientManager

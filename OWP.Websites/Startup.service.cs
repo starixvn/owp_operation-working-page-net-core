@@ -190,6 +190,7 @@ namespace OWP.Websites
         {
             services.AddScoped<IDynamicRepository, DynamicRepository>();
             services.AddSingleton<LogServiceWrapper, LogServiceWrapperImp>();
+            services.AddSignalR();
         }
 
         private static void ConfigureMediator(IServiceCollection services)
