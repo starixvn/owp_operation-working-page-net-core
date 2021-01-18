@@ -10,7 +10,6 @@
     using OWP.Helpers;
     using OWP.OtherSport.EventAssignment;
     using OWP.OtherSport.EventAssignment.Models;
-    using OWP.OtherSport.fake;
     using OWP.OtherSport.Submit;
     using OWP.OtherSport.Validation;
 
@@ -30,8 +29,8 @@
         [Route("test")]
         [HttpPost]      
         public async Task<IEnumerable<EventAssignmentModel>> QueryEventAssignment(QueryEventAssignmentRequest request)
-        {
-            return FakeData.FakeAssignment();
+        {          
+           return await mediator.Send(request);
         }
 
         [Route("validate")]
