@@ -43,14 +43,17 @@
 
             var matchs = MappingInfoToEventAssignmentModelIgnoreTraderMaxbet(matches.ToList());
 
-            BuildTraderMaxbet(matchs.ToList());
+            BuildTraderMaxbet(!string.IsNullOrWhiteSpace(request.Employee), matchs.ToList());
 
             return matchs;
         }
 
-        public void BuildTraderMaxbet(List<EventAssignmentModel> matchs)
+        public void BuildTraderMaxbet(
+            bool hasFilterEmployee,
+            List<EventAssignmentModel> matchs)
         {
             EventAssignmentInitBettype.InitBettype(
+                hasFilterEmployee,
                 matchs,
                 DicMatchAssignment,
                 DicMatchMaxBet);
