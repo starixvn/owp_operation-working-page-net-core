@@ -2,15 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Fanex.NAP.Client.Helpers.Web;
-    using NSubstitute;
-    using OWP.OtherSport.Helper;
-    using OWP.OtherSport.Submit;
     using OWP.OtherSport.Submit.Models;
-    using OWP.OtherSport.Submit.Services;
-    using OWP.OtherSport.Validation.Models;
     using Xunit;
     using Xunit.Asserts.Compare;
 

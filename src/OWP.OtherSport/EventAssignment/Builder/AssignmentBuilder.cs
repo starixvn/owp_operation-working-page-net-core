@@ -4,26 +4,28 @@ using System.Threading.Tasks;
 using OWP.OtherSport.EventAssignment.Models;
 using OWP.OtherSport.Submit.Models;
 
-namespace OWP.OtherSport.Helper
+namespace OWP.OtherSport.EventAssignment.Builder
 {
-    public static class EventAssignmentBuildAssignment
+    public interface AssignmentBuilder
     {
-        public static void BuildAssignment(List<EventAssignmentModel> matchs,
-            Dictionary<int, List<MatchAssignment>> dicMatchAssignment)
+        public void BuildAssignment(IList<TraderMaxBetModel> traderMaxBetModels,
+           IList<MatchAssignment> matchAssignments);
+    }
+
+    public class AssignmentBuilderImp : AssignmentBuilder
+    {
+        private IList<MatchAssignment> matchAssignments;
+        public void BuildAssignment(IList<TraderMaxBetModel> traderMaxBetModels,
+           IList<MatchAssignment> matchAssignments)
         {
-            matchs.ForEach(match =>
+            this.matchAssignments = matchAssignments;
+            foreach (var traderMaxBetModel in traderMaxBetModels)
             {
-                var assignments = DicHelper.GetValueFromDicBykey(dicMatchAssignment, match.OSMatchId);
-                Parallel.ForEach(match.TraderMaxbetModels, traderMaxBetModel =>
-                {
-                    CreateAssignment(assignments, traderMaxBetModel.TraderAssignment);
-                });
-            });
+                CreateAssignment(traderMaxBetModel.TraderAssignment);
+            }
         }
 
-        public static void CreateAssignment(
-            IList<MatchAssignment> matchAssignments,
-            TraderAssignment asssignment)
+        public void CreateAssignment(TraderAssignment asssignment)
         {
             var mainAssignment = matchAssignments.FirstOrDefault(match =>
                 string.Equals(match.BetTypeName, asssignment.BetTypeName) && !string.IsNullOrEmpty(match.Username));

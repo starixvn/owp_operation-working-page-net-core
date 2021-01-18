@@ -1,9 +1,10 @@
 ﻿namespace OWP.OtherSport.EventAssignment.Services
 {
     using Fanex.Data.Repository;
+    using OWP.OtherSport.EventAssignment.Builder;
     using OWP.OtherSport.EventAssignment.Criteria;
+    using OWP.OtherSport.EventAssignment.Helper;
     using OWP.OtherSport.EventAssignment.Models;
-    using OWP.OtherSport.Helper;
     using OWP.OtherSport.Submit.Models;
     using System.Collections.Generic;
     using System.Linq;
@@ -21,9 +22,18 @@
 
         private readonly IDynamicRepository dynamicRepository;
 
-        public CommandRepositoryImp(IDynamicRepository dynamicRepository)
+        private readonly AssignmentMaxbetBuilder assignmentMaxbetBuilder;
+
+        private readonly BettypeBuilder bettypeBuilder;
+
+        public CommandRepositoryImp(
+            IDynamicRepository dynamicRepository,
+            AssignmentMaxbetBuilder assignmentMaxbetBuilder,
+            BettypeBuilder bettypeBuilder)
         {
             this.dynamicRepository = dynamicRepository;
+            this.assignmentMaxbetBuilder = assignmentMaxbetBuilder;
+            this.bettypeBuilder = bettypeBuilder;
         }
 
         public async Task<IEnumerable<EventAssignmentModel>> Query(QueryEventAssignmentRequest request)
@@ -40,11 +50,8 @@
 
             GroupTraderMaxbet(assignments.ToList(), maxbets.ToList());
 
-            var matchsAssignment =  FilterHelper.FilterMatchByEmployee(
-                request.Employee,
-                matches.ToList(),
-                DicMatchAssignment
-                );
+            var matchsAssignment =  FilterHelper.FilterMatchByEmployee(request.Employee,matches.ToList(),DicMatchAssignment);
+               
 
             var matchs = TransformModelHelper.TransformToAssignmentModelIgnoreTraderMaxbet(matchsAssignment);
 
@@ -55,13 +62,12 @@
 
         public void BuildTraderMaxbet(string employee, List<EventAssignmentModel> assignments)
         {
-            EventAssignmentInitBettype.InitBettype(
+            bettypeBuilder.BuildBettype(
                 employee,
                 assignments,
                 DicMatchAssignment,
                 DicMatchMaxBet);
-            EventAssignmentBuildMaxbet.BuildMaxbet(assignments, DicMatchMaxBet);
-            EventAssignmentBuildAssignment.BuildAssignment(assignments, DicMatchAssignment);
+            assignmentMaxbetBuilder.Build(assignments, DicMatchMaxBet, DicMatchAssignment);
         }
 
 

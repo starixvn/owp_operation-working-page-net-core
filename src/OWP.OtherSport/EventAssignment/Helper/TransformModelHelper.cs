@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
 using OWP.OtherSport.EventAssignment.Models;
 using OWP.OtherSport.Submit.Models;
 
-namespace OWP.OtherSport.Helper
+namespace OWP.OtherSport.EventAssignment.Helper
 {
     public static class TransformModelHelper
     {
@@ -11,7 +10,7 @@ namespace OWP.OtherSport.Helper
          IList<MatchInfo> matches)
         {
             var events = new List<EventAssignmentModel>();
-            Parallel.ForEach(matches, match =>
+            foreach (var match in matches)
             {
                 var eventInstance = new EventAssignmentModel
                 {
@@ -35,7 +34,7 @@ namespace OWP.OtherSport.Helper
                 };
 
                 events.Add(eventInstance);
-            });
+            }
             return events;
         }
     }

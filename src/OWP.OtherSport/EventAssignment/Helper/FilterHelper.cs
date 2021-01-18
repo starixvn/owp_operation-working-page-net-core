@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using OWP.OtherSport.Submit.Models;
-
-namespace OWP.OtherSport.Helper
+﻿namespace OWP.OtherSport.EventAssignment.Helper
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using OWP.OtherSport.Submit.Models;
+
     public static class FilterHelper
     {
         public static IList<MatchInfo> FilterMatchByEmployee(string employee,
@@ -16,17 +15,17 @@ namespace OWP.OtherSport.Helper
                 return matchsAssignments;
             }
             var matchsResult = new List<MatchInfo>();
-            Parallel.ForEach(matchsAssignments, matchAssignment =>
+            foreach (var matchAssignment in matchsAssignments)
             {
                 var tradersAssignment = DicHelper.GetValueFromDicBykey(dicMatchAssignment, matchAssignment.OSMatchId);
                 var existsAssignment = tradersAssignment?.Any(t =>
-                 string.Equals(matchAssignment.OSMatchId, t.OSMatchId)
-                 && t.Username.Contains(employee));
+                    !string.IsNullOrWhiteSpace(t.Username) &&
+                    t.Username.Contains(employee));
                 if (existsAssignment.HasValue && existsAssignment.Value)
                 {
                     matchsResult.Add(matchAssignment);
                 }
-            });
+            }
             return matchsResult;
         }
     }

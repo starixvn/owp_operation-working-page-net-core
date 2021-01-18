@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace OWP.OtherSport.Helper
+namespace OWP.OtherSport.EventAssignment.Helper
 {
     public static class DicHelper
     {

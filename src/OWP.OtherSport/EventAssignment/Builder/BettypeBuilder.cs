@@ -1,13 +1,30 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using OWP.OtherSport.EventAssignment.Helper;
 using OWP.OtherSport.EventAssignment.Models;
 using OWP.OtherSport.Submit.Models;
 
-namespace OWP.OtherSport.Helper
+namespace OWP.OtherSport.EventAssignment.Builder
 {
-    public static class EventAssignmentInitBettype
+    public interface BettypeBuilder
     {
+        public void BuildBettype(
+           string employee,
+           List<EventAssignmentModel> matchsAssignments,
+           Dictionary<int, List<MatchAssignment>> dicMatchAssignment,
+           Dictionary<int, List<MatchMaxBet>> dicMatchMaxBet);
+
+        IList<string> BuildBettypeTrader(string sport);
+
+        IList<string> BuildBettypeForMatch(string employee, EventAssignmentModel matchsAssignment);
+    }
+
+    public class BettypeBuilderImp : BettypeBuilder
+    {
+        private IList<MatchAssignment> assignments;
+
+        private IList<MatchMaxBet> maxbets;
+
         private static Dictionary<string, List<string>> DicBettypesSpecificSport = new Dictionary<string, List<string>>
         {
             {"Tennis",new List<string>
@@ -36,24 +53,17 @@ namespace OWP.OtherSport.Helper
             }
         };
 
-        #region Init bettype
-
-        public static void InitBettype(
-            string employee,
-            List<EventAssignmentModel> matchsAssignments,
-            Dictionary<int, List<MatchAssignment>> dicMatchAssignment,
-            Dictionary<int, List<MatchMaxBet>> dicMatchMaxBet)
+        public void BuildBettype(string employee, List<EventAssignmentModel> matchsAssignments, Dictionary<int, List<MatchAssignment>> dicMatchAssignment, Dictionary<int, List<MatchMaxBet>> dicMatchMaxBet)
         {
-            Parallel.ForEach(matchsAssignments, matchAssignment =>
+            foreach (var matchAssignment in matchsAssignments)
             {
-                var tradersAssignment = DicHelper.GetValueFromDicBykey(dicMatchAssignment, matchAssignment.OSMatchId);
-                var maxbets = DicHelper.GetValueFromDicBykey(dicMatchMaxBet, matchAssignment.OSMatchId);
+                assignments = DicHelper.GetValueFromDicBykey(dicMatchAssignment, matchAssignment.OSMatchId);
+                maxbets = DicHelper.GetValueFromDicBykey(dicMatchMaxBet, matchAssignment.OSMatchId);
 
                 var bettypes = BuildBettypeForMatch(
                     employee,
-                    matchAssignment,
-                    tradersAssignment,
-                    maxbets);
+                    matchAssignment);
+
                 foreach (var bettype in bettypes)
                 {
                     matchAssignment.TraderMaxbetModels.Add(new TraderMaxBetModel
@@ -71,13 +81,31 @@ namespace OWP.OtherSport.Helper
                         }
                     });
                 }
-            });
+            }
         }
 
-        public static IList<string> BuildBettypeTrader(
-            string sport,
-            IList<MatchAssignment> matchsAssignment,
-            IList<MatchMaxBet> matchsMaxBet)
+        public IList<string> BuildBettypeForMatch(
+            string employee,
+            EventAssignmentModel matchsAssignment)
+        {
+
+            if (string.IsNullOrWhiteSpace(employee))
+            {
+                return BuildBettypeTrader(matchsAssignment.Sport);
+            }
+
+            var existsAssignment = assignments?.Any(match =>
+                !string.IsNullOrWhiteSpace(match.Username) &&
+                 match.Username.Contains(employee));
+
+            if (existsAssignment.HasValue && existsAssignment.Value)
+            {
+                return BuildBettypeTrader(matchsAssignment.Sport);
+            }
+            return new List<string>();
+        }
+
+        public IList<string> BuildBettypeTrader(string sport)
         {
             List<string> bettypes;
             DicBettypesSpecificSport.TryGetValue(sport, out bettypes);
@@ -86,8 +114,8 @@ namespace OWP.OtherSport.Helper
                 return bettypes;
             }
 
-            var bettypeAssignment = matchsAssignment.Select(a => a.BetTypeName).Distinct();
-            var bettypeMaxbet = matchsMaxBet.Select(m => m.BetTypeName).Distinct();
+            var bettypeAssignment = assignments.Select(a => a.BetTypeName).Distinct();
+            var bettypeMaxbet = maxbets.Select(m => m.BetTypeName).Distinct();
 
             var bettypeSelected = bettypeAssignment.Count() > bettypeMaxbet.Count()
                 ? bettypeAssignment
@@ -96,28 +124,5 @@ namespace OWP.OtherSport.Helper
                 ? new List<string>()
                 : bettypeSelected.ToList();
         }
-
-        public static IList<string> BuildBettypeForMatch(
-            string employee,
-            EventAssignmentModel matchsAssignment,
-            IList<MatchAssignment> assignments,
-            IList<MatchMaxBet> maxbets)
-        {
-           
-            if (string.IsNullOrWhiteSpace(employee))
-            {
-                return BuildBettypeTrader(matchsAssignment.Sport, assignments, maxbets);
-            }
-
-            var existsAssignment = assignments?.Any(match =>
-                 matchsAssignment.OSMatchId == match.OSMatchId &&
-                 match.Username.Contains(employee));
-            if(existsAssignment.HasValue && existsAssignment.Value)
-            {
-                return BuildBettypeTrader(matchsAssignment.Sport, assignments, maxbets);
-            }
-            return new List<string>();
-        }
-        #endregion Init bettype
     }
 }
