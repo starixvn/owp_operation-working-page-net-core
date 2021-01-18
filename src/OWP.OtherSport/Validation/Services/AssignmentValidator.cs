@@ -41,6 +41,8 @@
                    rowIndex);
             }
 
+            validationResults = GroupByDuplicateMatchMessage(validationResults);
+
             var hasError = validationResults.Any();
 
             if (hasError)
@@ -191,6 +193,29 @@
         {
             return !string.IsNullOrWhiteSpace(source) &&
                 source.Equals(value, StringComparison.OrdinalIgnoreCase);
+        }
+
+        public static List<AssignmentValidationRowResult> GroupByDuplicateMatchMessage(List<AssignmentValidationRowResult> validationResults)
+        {
+            var duplicateMatches = validationResults.Where(x => x.Message.StartsWith("Duplicate Match"))
+                                     .GroupBy(x => x.Message)
+                                     .Where(x => x.Count() > 1)
+                                     .ToList();
+            foreach (var duplicateMatch in duplicateMatches)
+            {
+                var duplicateRow = duplicateMatch.Select(x => x.Row).ToList();
+                var rowNumber = duplicateMatch.FirstOrDefault().Row;
+                duplicateRow.RemoveAt(0);
+                validationResults.Add(new ()
+                {
+                    Row = rowNumber,
+                    Message = $"{duplicateMatch.FirstOrDefault().Message} (with row {string.Join(',', duplicateRow)})"
+                });
+
+                validationResults.RemoveAll(x => duplicateMatch.Any(y => y.Message == x.Message));
+            }
+
+            return validationResults.OrderBy(x => x.Row).ToList();
         }
     }
 }
