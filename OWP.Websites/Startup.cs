@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using OWP.OtherSport.Hubs;
 using OWP.Websites.CrossCuttingConcern;
 
 namespace OWP.Websites
@@ -61,7 +62,7 @@ namespace OWP.Websites
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-                endpoints.MapHub<OtherSport.Hubs.NewDataUploadNotifyHubImp>("/otherSportNewDataUploadNotifyHub");
+                endpoints.MapHub<NewDataUploadNotifyHubImp>("/otherSportNewDataUploadNotifyHub");
             });
 
             NapClientManager

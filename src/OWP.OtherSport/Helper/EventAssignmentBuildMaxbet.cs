@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using OWP.OtherSport.EventAssignment.Models;
 using OWP.OtherSport.Submit.Models;
 
@@ -7,13 +8,13 @@ namespace OWP.OtherSport.Helper
 {
     public static class EventAssignmentBuildMaxbet
     {
-        public static void BuildMaxbet(List<EventAssignmentModel> matchs,
+        public static void BuildMaxbet(List<EventAssignmentModel> assignments,
             Dictionary<int, List<MatchMaxBet>> dicMatchMaxBet)
         {
-            matchs.ForEach(match =>
+            Parallel.ForEach(assignments, assignment =>
             {
-                var maxbets = DicHelper.GetValueFromDicBykey(dicMatchMaxBet, match.OSMatchId);
-                foreach (var traderMaxBetModel in match.TraderMaxbetModels)
+                var maxbets = DicHelper.GetValueFromDicBykey(dicMatchMaxBet, assignment.OSMatchId);
+                foreach (var traderMaxBetModel in assignment.TraderMaxbetModels)
                 {
                     CreateMaxbet(maxbets, traderMaxBetModel.Maxbet);
                 }

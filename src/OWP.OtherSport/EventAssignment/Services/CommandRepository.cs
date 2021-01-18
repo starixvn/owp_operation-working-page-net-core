@@ -32,7 +32,6 @@
             {
                 FromDate = request.From,
                 ToDate = request.To,
-                Employee = request.Employee,
                 Sports = string.Join(",", request.Sports),
                 MatchStatuses = string.Join(",", request.MatchStatuses)
             };
@@ -41,58 +40,30 @@
 
             GroupTraderMaxbet(assignments.ToList(), maxbets.ToList());
 
-            var matchs = MappingInfoToEventAssignmentModelIgnoreTraderMaxbet(matches.ToList());
+            var matchsAssignment =  FilterHelper.FilterMatchByEmployee(
+                request.Employee,
+                matches.ToList(),
+                DicMatchAssignment
+                );
 
-            BuildTraderMaxbet(!string.IsNullOrWhiteSpace(request.Employee), matchs.ToList());
+            var matchs = TransformModelHelper.TransformToAssignmentModelIgnoreTraderMaxbet(matchsAssignment);
+
+            BuildTraderMaxbet(request.Employee, matchs.ToList());
 
             return matchs;
         }
 
-        public void BuildTraderMaxbet(
-            bool hasFilterEmployee,
-            List<EventAssignmentModel> matchs)
+        public void BuildTraderMaxbet(string employee, List<EventAssignmentModel> assignments)
         {
             EventAssignmentInitBettype.InitBettype(
-                hasFilterEmployee,
-                matchs,
+                employee,
+                assignments,
                 DicMatchAssignment,
                 DicMatchMaxBet);
-            EventAssignmentBuildMaxbet.BuildMaxbet(matchs, DicMatchMaxBet);
-            EventAssignmentBuildAssignment.BuildAssignment(matchs, DicMatchAssignment);
+            EventAssignmentBuildMaxbet.BuildMaxbet(assignments, DicMatchMaxBet);
+            EventAssignmentBuildAssignment.BuildAssignment(assignments, DicMatchAssignment);
         }
 
-        private IEnumerable<EventAssignmentModel> MappingInfoToEventAssignmentModelIgnoreTraderMaxbet(
-          IList<MatchInfo> matches)
-        {
-            var events = new List<EventAssignmentModel>();
-            foreach (var match in matches)
-            {
-                var eventInstance = new EventAssignmentModel
-                {
-                    OSMatchId = match.OSMatchId,
-                    MatchStatus = match.MatchStatus,
-                    Sport = match.Sport,
-                    DateTime = match.DateTime,
-                    Home = match.Home,
-                    Away = match.Away,
-                    League = match.League,
-                    Category = match.Category,
-                    NoHDP = match.NoHDP,
-                    MatchOffer = match.MatchOffer,
-                    AutoLink = match.AutoLink,
-                    IPTV = match.IPTV,
-                    Service = match.Service,
-                    OtherProvider = match.OtherProvider,
-                    WB = match.WB,
-                    Provider = match.Provider,
-                    Remark = match.Remark,
-                };
-
-                events.Add(eventInstance);
-            }
-
-            return events;
-        }
 
         public void GroupTraderMaxbet(
              IList<MatchAssignment> assignments,

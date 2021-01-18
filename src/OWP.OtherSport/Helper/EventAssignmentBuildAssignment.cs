@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using OWP.OtherSport.EventAssignment.Models;
 using OWP.OtherSport.Submit.Models;
 
@@ -13,10 +14,10 @@ namespace OWP.OtherSport.Helper
             matchs.ForEach(match =>
             {
                 var assignments = DicHelper.GetValueFromDicBykey(dicMatchAssignment, match.OSMatchId);
-                foreach (var traderMaxBetModel in match.TraderMaxbetModels)
+                Parallel.ForEach(match.TraderMaxbetModels, traderMaxBetModel =>
                 {
                     CreateAssignment(assignments, traderMaxBetModel.TraderAssignment);
-                }
+                });
             });
         }
 

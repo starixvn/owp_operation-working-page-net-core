@@ -9,8 +9,6 @@
 
         public DateTime ToDate { get; set; }
 
-        public string Employee { get; set; }
-
         public string Sports { get; set; }
 
         public string MatchStatuses { get; set; }

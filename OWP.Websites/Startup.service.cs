@@ -31,6 +31,7 @@ namespace OWP.Websites
     using ONEbook.UM.Transport;
     using OWP.Maxbet;
     using OWP.OtherSport;
+    using OWP.OtherSport.Hubs;
     using OWP.Services;
     using Sentry;
     using System;
@@ -191,7 +192,7 @@ namespace OWP.Websites
             services.AddScoped<IDynamicRepository, DynamicRepository>();
             services.AddSingleton<LogServiceWrapper, LogServiceWrapperImp>();
             services.AddSignalR();
-            services.AddSingleton<OtherSport.Hubs.NewDataUploadNotifyHubImp>();
+            services.AddSingleton<NewDataUploadNotifyHubImp>();
         }
 
         private static void ConfigureMediator(IServiceCollection services)
