@@ -2,6 +2,8 @@
 {
     using Fanex.NAP.Client.Helpers.Web;
     using MediatR;
+    using Microsoft.AspNetCore.SignalR;
+    using OWP.OtherSport.Hubs;
     using OWP.OtherSport.Submit.Services;
     using OWP.OtherSport.Validation.Models;
     using System;
@@ -33,15 +35,18 @@
         private readonly CacheManipulator cacheManipulator;
         private readonly CommandRepository commandRepository;
         private readonly INapSession session;
+        private readonly IHubContext<NewDataUploadNotifyHubImp, NewDataUploadNotifyHub> notifyHub;
 
         public SubmitHandler(
             CacheManipulator cacheManipulator,
             CommandRepository commandRepository,
-            INapSession session)
+            INapSession session,
+            IHubContext<NewDataUploadNotifyHubImp, NewDataUploadNotifyHub> notifyHub)
         {
             this.cacheManipulator = cacheManipulator;
             this.commandRepository = commandRepository;
             this.session = session;
+            this.notifyHub = notifyHub;
         }
 
         public async Task<SubmitResponse> Handle(SubmitRequest request, CancellationToken cancellationToken)
@@ -56,6 +61,7 @@
             }
 
             await TryHandle(eventDates, newAssignments, request.SessionId);
+            await notifyHub.Clients.All.NotifyUploadedNewData();
 
             return new SubmitResponse
             {

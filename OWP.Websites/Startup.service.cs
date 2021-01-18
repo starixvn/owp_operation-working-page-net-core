@@ -191,6 +191,7 @@ namespace OWP.Websites
             services.AddScoped<IDynamicRepository, DynamicRepository>();
             services.AddSingleton<LogServiceWrapper, LogServiceWrapperImp>();
             services.AddSignalR();
+            services.AddSingleton<OtherSport.Hubs.NewDataUploadNotifyHubImp>();
         }
 
         private static void ConfigureMediator(IServiceCollection services)
