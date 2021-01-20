@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using OWP.OtherSport.EventAssignment.Models;
+﻿using OWP.OtherSport.EventAssignment.Models;
 using OWP.OtherSport.Submit.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace OWP.OtherSport.EventAssignment.Builder
 {
@@ -15,10 +14,13 @@ namespace OWP.OtherSport.EventAssignment.Builder
     public class AssignmentBuilderImp : AssignmentBuilder
     {
         private IList<MatchAssignment> matchAssignments;
-        public void BuildAssignment(IList<TraderMaxBetModel> traderMaxBetModels,
-           IList<MatchAssignment> matchAssignments)
+
+        public void BuildAssignment(
+            IList<TraderMaxBetModel> traderMaxBetModels,
+            IList<MatchAssignment> matchAssignments)
         {
             this.matchAssignments = matchAssignments;
+
             foreach (var traderMaxBetModel in traderMaxBetModels)
             {
                 CreateAssignment(traderMaxBetModel.TraderAssignment);
@@ -32,10 +34,12 @@ namespace OWP.OtherSport.EventAssignment.Builder
 
             var otherAssignment = matchAssignments.FirstOrDefault(match =>
                  string.Equals(match.BetTypeName, asssignment.BetTypeName) && !string.IsNullOrEmpty(match.AssignmentNote));
+
             if (mainAssignment != null)
             {
                 asssignment.MainTrader = mainAssignment.Username;
             }
+
             if (otherAssignment != null)
             {
                 asssignment.AssignmentNote = DetectOtherAssignment(otherAssignment);
@@ -44,10 +48,10 @@ namespace OWP.OtherSport.EventAssignment.Builder
 
         public static string DetectOtherAssignment(MatchAssignment assignment)
         {
-            if (assignment.AssignmentNote != null)
+            if (!string.IsNullOrEmpty(assignment.AssignmentNote))
             {
-                return assignment.UserId != 0 
-                    ? assignment.AssignmentNote.Replace("<user>", assignment.Username) 
+                return assignment.UserId != 0
+                    ? assignment.AssignmentNote.Replace("<user>", assignment.Username)
                     : assignment.AssignmentNote.Replace("#<user>", "");
             }
 

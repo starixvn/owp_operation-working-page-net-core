@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using OWP.Extensions;
     using OWP.OtherSport.Submit.Models;
 
     public static class FilterHelper
@@ -14,18 +15,20 @@
             {
                 return matchsAssignments;
             }
+
             var matchsResult = new List<MatchInfo>();
+
             foreach (var matchAssignment in matchsAssignments)
             {
                 var tradersAssignment = DicHelper.GetValueFromDicBykey(dicMatchAssignment, matchAssignment.OSMatchId);
-                var existsAssignment = tradersAssignment?.Any(t =>
-                    !string.IsNullOrWhiteSpace(t.Username) &&
-                    t.Username.Contains(employee));
+                var existsAssignment = tradersAssignment?.Any(t => t.Username.IsContains(employee));
+
                 if (existsAssignment.HasValue && existsAssignment.Value)
                 {
                     matchsResult.Add(matchAssignment);
                 }
             }
+
             return matchsResult;
         }
     }

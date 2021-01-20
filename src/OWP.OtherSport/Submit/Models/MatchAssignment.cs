@@ -1,12 +1,6 @@
 ﻿namespace OWP.OtherSport.Submit.Models
 {
-    public interface TraderMaxBet
-    {
-        public int OSMatchId { get; set; }
-
-        public string BetTypeName { get; set; }
-    }
-    public class MatchAssignment : TraderMaxBet
+    public class MatchAssignment
     {
         public int OSMatchId { get; set; }
 

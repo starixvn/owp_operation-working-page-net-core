@@ -9,8 +9,7 @@ namespace OWP.OtherSport.EventAssignment.Helper
              Dictionary<int, List<T>> dic,
              int osId)
         {
-            List<T> value;
-            dic.TryGetValue(osId, out value);
+            dic.TryGetValue(osId, out List<T> value);
             return value == null
                 ? new List<T>()
                 : value.ToList();

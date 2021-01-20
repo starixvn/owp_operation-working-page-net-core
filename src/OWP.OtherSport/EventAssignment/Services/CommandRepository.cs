@@ -9,6 +9,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+
     public interface CommandRepository
     {
         Task<IEnumerable<EventAssignmentModel>> Query(QueryEventAssignmentRequest request);
@@ -50,8 +51,7 @@
 
             GroupTraderMaxbet(assignments.ToList(), maxbets.ToList());
 
-            var matchsAssignment =  FilterHelper.FilterMatchByEmployee(request.Employee,matches.ToList(),DicMatchAssignment);
-               
+            var matchsAssignment = FilterHelper.FilterMatchByEmployee(request.Employee, matches.ToList(), DicMatchAssignment);
 
             var matchs = TransformModelHelper.TransformToAssignmentModelIgnoreTraderMaxbet(matchsAssignment);
 
@@ -70,10 +70,9 @@
             assignmentMaxbetBuilder.Build(assignments, DicMatchMaxBet, DicMatchAssignment);
         }
 
-
         public void GroupTraderMaxbet(
-             IList<MatchAssignment> assignments,
-          IList<MatchMaxBet> maxbets)
+            IList<MatchAssignment> assignments,
+            IList<MatchMaxBet> maxbets)
         {
             DicMatchAssignment = assignments.GroupBy(assignment => assignment.OSMatchId)
                .ToDictionary(group => group.Key, group => group.ToList());

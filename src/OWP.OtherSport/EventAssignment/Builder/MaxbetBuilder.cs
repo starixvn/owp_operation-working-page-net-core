@@ -19,6 +19,7 @@
             IList<MatchMaxBet> matchMaxBets)
         {
             this.matchMaxBets = matchMaxBets;
+
             foreach (var traderMaxBetModel in traderMaxBetModels)
             {
                 CreateMaxbet(traderMaxBetModel.Maxbet);
@@ -28,6 +29,7 @@
         public void CreateMaxbet(MatchMaxBet matchMaxBet)
         {
             var maxbet = matchMaxBets.FirstOrDefault(match => string.Equals(match.BetTypeName, matchMaxBet.BetTypeName));
+
             if (maxbet != null)
             {
                 matchMaxBet.MaxBet = maxbet.MaxBet;

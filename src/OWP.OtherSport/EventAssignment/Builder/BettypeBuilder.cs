@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using OWP.Extensions;
 using OWP.OtherSport.EventAssignment.Helper;
 using OWP.OtherSport.EventAssignment.Models;
 using OWP.OtherSport.Submit.Models;
@@ -53,7 +54,11 @@ namespace OWP.OtherSport.EventAssignment.Builder
             }
         };
 
-        public void BuildBettype(string employee, List<EventAssignmentModel> matchsAssignments, Dictionary<int, List<MatchAssignment>> dicMatchAssignment, Dictionary<int, List<MatchMaxBet>> dicMatchMaxBet)
+        public void BuildBettype(
+            string employee, 
+            List<EventAssignmentModel> matchsAssignments, 
+            Dictionary<int, List<MatchAssignment>> dicMatchAssignment, 
+            Dictionary<int, List<MatchMaxBet>> dicMatchMaxBet)
         {
             foreach (var matchAssignment in matchsAssignments)
             {
@@ -94,21 +99,20 @@ namespace OWP.OtherSport.EventAssignment.Builder
                 return BuildBettypeTrader(matchsAssignment.Sport);
             }
 
-            var existsAssignment = assignments?.Any(match =>
-                !string.IsNullOrWhiteSpace(match.Username) &&
-                 match.Username.Contains(employee));
+            var existsAssignment = assignments?.Any(match => match.Username.IsContains(employee));
 
             if (existsAssignment.HasValue && existsAssignment.Value)
             {
                 return BuildBettypeTrader(matchsAssignment.Sport);
             }
+
             return new List<string>();
         }
 
         public IList<string> BuildBettypeTrader(string sport)
         {
-            List<string> bettypes;
-            DicBettypesSpecificSport.TryGetValue(sport, out bettypes);
+            DicBettypesSpecificSport.TryGetValue(sport, out List<string> bettypes);
+
             if (bettypes != null)
             {
                 return bettypes;
@@ -120,6 +124,7 @@ namespace OWP.OtherSport.EventAssignment.Builder
             var bettypeSelected = bettypeAssignment.Count() > bettypeMaxbet.Count()
                 ? bettypeAssignment
                 : bettypeMaxbet;
+
             return bettypeSelected == null
                 ? new List<string>()
                 : bettypeSelected.ToList();
