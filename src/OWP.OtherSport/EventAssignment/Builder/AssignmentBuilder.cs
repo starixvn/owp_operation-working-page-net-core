@@ -9,25 +9,25 @@ namespace OWP.OtherSport.EventAssignment.Builder
     {
         public void BuildAssignment(IList<TraderMaxBetModel> traderMaxBetModels,
            IList<MatchAssignment> matchAssignments);
+
+        public void CreateAssignment(TraderAssignment asssignment, IList<MatchAssignment> matchAssignments);
+
+        string DetectOtherAssignment(MatchAssignment assignment);
     }
 
     public class AssignmentBuilderImp : AssignmentBuilder
     {
-        private IList<MatchAssignment> matchAssignments;
-
         public void BuildAssignment(
             IList<TraderMaxBetModel> traderMaxBetModels,
             IList<MatchAssignment> matchAssignments)
         {
-            this.matchAssignments = matchAssignments;
-
             foreach (var traderMaxBetModel in traderMaxBetModels)
             {
-                CreateAssignment(traderMaxBetModel.TraderAssignment);
+                CreateAssignment(traderMaxBetModel.TraderAssignment, matchAssignments);
             }
         }
 
-        public void CreateAssignment(TraderAssignment asssignment)
+        public void CreateAssignment(TraderAssignment asssignment, IList<MatchAssignment> matchAssignments)
         {
             var mainAssignment = matchAssignments.FirstOrDefault(match =>
                 string.Equals(match.BetTypeName, asssignment.BetTypeName) && !string.IsNullOrEmpty(match.Username));
@@ -46,7 +46,7 @@ namespace OWP.OtherSport.EventAssignment.Builder
             }
         }
 
-        public static string DetectOtherAssignment(MatchAssignment assignment)
+        public string DetectOtherAssignment(MatchAssignment assignment)
         {
             if (!string.IsNullOrEmpty(assignment.AssignmentNote))
             {

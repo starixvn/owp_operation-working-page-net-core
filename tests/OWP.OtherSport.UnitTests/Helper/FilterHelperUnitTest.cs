@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using OWP.OtherSport.EventAssignment.Helper;
 using OWP.OtherSport.Submit.Models;
 using Xunit;
 using Xunit.Asserts.Compare;
@@ -65,7 +66,7 @@ namespace OWP.OtherSport.UnitTests.Helper
         }
 
         [Fact]
-        public static void FilterMatchByEmployee_WhenEmployeeHasvalue_ReturnMatchsAssignmentsCorrect()
+        public static void FilterMatchByEmployee_WhenEmployeeHasvalue_MatchUsername_ReturnMatchsAssignmentsCorrect()
         {
             var employee = "s";
             var dicMatchAssignment = new Dictionary<int, List<MatchAssignment>>

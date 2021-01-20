@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using OWP.Extensions;
-using OWP.OtherSport.EventAssignment.Helper;
 using OWP.OtherSport.EventAssignment.Models;
 using OWP.OtherSport.Submit.Models;
 
@@ -10,7 +9,6 @@ namespace OWP.OtherSport.EventAssignment.Builder
     public interface BettypeBuilder
     {
         public void BuildBettype(
-           string employee,
            List<EventAssignmentModel> matchsAssignments,
            Dictionary<int, List<MatchAssignment>> dicMatchAssignment);
     }
@@ -18,7 +16,6 @@ namespace OWP.OtherSport.EventAssignment.Builder
     public class BettypeBuilderImp : BettypeBuilder
     {
         public void BuildBettype(
-            string employee,
             List<EventAssignmentModel> matchsAssignments,
             Dictionary<int, List<MatchAssignment>> dicMatchAssignment)
         {

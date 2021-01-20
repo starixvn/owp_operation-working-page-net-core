@@ -60,15 +60,14 @@
             
             var matchs = mapper.Map<IList<EventAssignmentModel>>(matchsAssignment);
 
-            BuildTraderMaxbet(request.Employee, matchs.ToList());
+            BuildTraderMaxbet(matchs.ToList());
 
             return matchs;
         }
 
-        public void BuildTraderMaxbet(string employee, List<EventAssignmentModel> assignments)
+        public void BuildTraderMaxbet(List<EventAssignmentModel> assignments)
         {
             bettypeBuilder.BuildBettype(
-                employee,
                 assignments,
                 DicMatchAssignment);
             assignmentMaxbetBuilder.Build(assignments, DicMatchMaxBet, DicMatchAssignment);

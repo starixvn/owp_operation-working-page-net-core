@@ -21,8 +21,4 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\OWP.OtherSport\OWP.OtherSport.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Builder\" />
-  </ItemGroup>
 </Project>
