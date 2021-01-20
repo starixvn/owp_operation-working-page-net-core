@@ -1,5 +1,6 @@
 ﻿namespace OWP.OtherSport.EventAssignment.Services
 {
+    using AutoMapper;
     using Fanex.Data.Repository;
     using OWP.OtherSport.EventAssignment.Builder;
     using OWP.OtherSport.EventAssignment.Criteria;
@@ -27,14 +28,18 @@
 
         private readonly BettypeBuilder bettypeBuilder;
 
+        private readonly IMapper mapper;
+
         public CommandRepositoryImp(
             IDynamicRepository dynamicRepository,
             AssignmentMaxbetBuilder assignmentMaxbetBuilder,
-            BettypeBuilder bettypeBuilder)
+            BettypeBuilder bettypeBuilder,
+            IMapper mapper)
         {
             this.dynamicRepository = dynamicRepository;
             this.assignmentMaxbetBuilder = assignmentMaxbetBuilder;
             this.bettypeBuilder = bettypeBuilder;
+            this.mapper = mapper;
         }
 
         public async Task<IEnumerable<EventAssignmentModel>> Query(QueryEventAssignmentRequest request)
@@ -52,8 +57,8 @@
             GroupTraderMaxbet(assignments.ToList(), maxbets.ToList());
 
             var matchsAssignment = FilterHelper.FilterMatchByEmployee(request.Employee, matches.ToList(), DicMatchAssignment);
-
-            var matchs = TransformModelHelper.TransformToAssignmentModelIgnoreTraderMaxbet(matchsAssignment);
+            
+            var matchs = mapper.Map<IList<EventAssignmentModel>>(matchsAssignment);
 
             BuildTraderMaxbet(request.Employee, matchs.ToList());
 

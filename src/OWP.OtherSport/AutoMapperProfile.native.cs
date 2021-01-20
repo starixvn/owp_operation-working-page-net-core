@@ -3,6 +3,8 @@
     using System;
     using System.Reflection;
     using AutoMapper;
+    using OWP.OtherSport.EventAssignment.Models;
+    using OWP.OtherSport.Submit.Models;
     using OWP.OtherSport.Validation.Models;
 
     public class AutoMapperProfile : Profile
@@ -14,6 +16,7 @@
                 .ForMember(dest => dest.DateTime, opt => opt.MapFrom(src => DateTime.Parse(src.DateTime)))
                 .IgnoreMaxbets()
                 .IgnoreTraders();
+            CreateMap<MatchInfo, EventAssignmentModel>();
         }
     }
 
