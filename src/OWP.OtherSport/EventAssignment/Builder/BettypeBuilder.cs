@@ -13,16 +13,10 @@ namespace OWP.OtherSport.EventAssignment.Builder
            string employee,
            List<EventAssignmentModel> matchsAssignments,
            Dictionary<int, List<MatchAssignment>> dicMatchAssignment);
-
-        IList<string> BuildBettypeTrader();
-
-        IList<string> BuildBettypeForMatch(string employee, EventAssignmentModel matchsAssignment);
     }
 
     public class BettypeBuilderImp : BettypeBuilder
     {
-        private IList<MatchAssignment> assignments;
-
         public void BuildBettype(
             string employee,
             List<EventAssignmentModel> matchsAssignments,
@@ -30,11 +24,12 @@ namespace OWP.OtherSport.EventAssignment.Builder
         {
             foreach (var matchAssignment in matchsAssignments)
             {
-                assignments = dicMatchAssignment.GetValue(matchAssignment.OSMatchId, new List<MatchAssignment>());
+                var assignments = dicMatchAssignment.GetValue(matchAssignment.OSMatchId, new List<MatchAssignment>());
 
-                var bettypes = BuildBettypeForMatch(
-                    employee,
-                    matchAssignment);
+                var bettypes = assignments
+                                .Select(a => a.BetTypeName)
+                                    .Distinct()
+                                        .ToList();
 
                 foreach (var bettype in bettypes)
                 {
@@ -55,27 +50,5 @@ namespace OWP.OtherSport.EventAssignment.Builder
                 }
             }
         }
-
-        public IList<string> BuildBettypeForMatch(
-            string employee,
-            EventAssignmentModel matchsAssignment)
-        {
-            var existsAssignment = assignments.Any(match =>
-              match.Username.IsContains(employee) ||
-              match.Nickname.IsContains(employee));
-
-            if (existsAssignment)
-            {
-                return BuildBettypeTrader();
-            }
-
-            return new List<string>();
-        }
-
-        public IList<string> BuildBettypeTrader()
-            => assignments
-                .Select(a => a.BetTypeName)
-                    .Distinct()
-                        .ToList();
     }
 }
