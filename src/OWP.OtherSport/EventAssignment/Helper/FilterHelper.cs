@@ -22,8 +22,8 @@
             {
                 var tradersAssignment = DicHelper.GetValueFromDicBykey(dicMatchAssignment, matchAssignment.OSMatchId);
                 var existsAssignment = tradersAssignment.Any(match =>
-                match.Username.Contain(employee) ||
-                match.Nickname.Contain(employee));
+                match.Username.IsContains(employee) ||
+                match.Nickname.IsContains(employee));
                 if (existsAssignment)
                 {
                     matchsResult.Add(matchAssignment);
@@ -32,9 +32,5 @@
 
             return matchsResult;
         }
-
-        public static bool Contain(this string source, string userNameOrNickname)
-            => !string.IsNullOrWhiteSpace(source) &&
-                    source.Contains(userNameOrNickname);
     }
 }

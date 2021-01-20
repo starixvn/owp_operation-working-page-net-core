@@ -61,8 +61,8 @@ namespace OWP.OtherSport.EventAssignment.Builder
             EventAssignmentModel matchsAssignment)
         {
             var existsAssignment = assignments.Any(match =>
-              match.Username.Contain(employee) ||
-              match.Nickname.Contain(employee));
+              match.Username.IsContains(employee) ||
+              match.Nickname.IsContains(employee));
 
             if (existsAssignment)
             {
