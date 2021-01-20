@@ -99,9 +99,11 @@ namespace OWP.OtherSport.EventAssignment.Builder
                 return BuildBettypeTrader(matchsAssignment.Sport);
             }
 
-            var existsAssignment = assignments?.Any(match => match.Username.IsContains(employee));
+            var existsAssignment = assignments.Any(match =>
+              match.Username.Contain(employee) ||
+              match.Nickname.Contain(employee));
 
-            if (existsAssignment.HasValue && existsAssignment.Value)
+            if (existsAssignment)
             {
                 return BuildBettypeTrader(matchsAssignment.Sport);
             }
