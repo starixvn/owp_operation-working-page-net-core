@@ -20,7 +20,7 @@
 
             foreach (var matchAssignment in matchsAssignments)
             {
-                var tradersAssignment = DicHelper.GetValueFromDicBykey(dicMatchAssignment, matchAssignment.OSMatchId);
+                var tradersAssignment = dicMatchAssignment.GetValue(matchAssignment.OSMatchId, new List<MatchAssignment>());
                 var existsAssignment = tradersAssignment.Any(match =>
                 match.Username.IsContains(employee) ||
                 match.Nickname.IsContains(employee));

@@ -30,7 +30,7 @@ namespace OWP.OtherSport.EventAssignment.Builder
         {
             foreach (var matchAssignment in matchsAssignments)
             {
-                assignments = DicHelper.GetValueFromDicBykey(dicMatchAssignment, matchAssignment.OSMatchId);
+                assignments = dicMatchAssignment.GetValue(matchAssignment.OSMatchId, new List<MatchAssignment>());
 
                 var bettypes = BuildBettypeForMatch(
                     employee,
