@@ -44,9 +44,9 @@ namespace OWP.OtherSport.Helper
         {
             if (assignment.AssignmentNote != null)
             {
-                return assignment.AssignmentNote.Contains("#<user>")
-                    ? assignment.AssignmentNote.Replace("#<user>", $"#{assignment.Username}")
-                    : assignment.AssignmentNote;
+                return assignment.UserId != 0 
+                    ? assignment.AssignmentNote.Replace("<user>", assignment.Username) 
+                    : assignment.AssignmentNote.Replace("#<user>", "");
             }
 
             return string.Empty;
