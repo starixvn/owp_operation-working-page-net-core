@@ -70,8 +70,7 @@
             bettypeBuilder.BuildBettype(
                 employee,
                 assignments,
-                DicMatchAssignment,
-                DicMatchMaxBet);
+                DicMatchAssignment);
             assignmentMaxbetBuilder.Build(assignments, DicMatchMaxBet, DicMatchAssignment);
         }
 
