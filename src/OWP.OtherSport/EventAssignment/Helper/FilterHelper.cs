@@ -10,23 +10,11 @@
     {
         public static List<MatchAssignment> RemoveAssignmentHasNoteInvalid(IList<MatchAssignment> assignments)
         {
-            var assignmentResult = new List<MatchAssignment>();
-            foreach (var assignment in assignments)
-            {
-                if (assignment.AssignmentType == (int)AssignmentType.Assignment)
-                {
-                    assignmentResult.Add(assignment);
-                }
-                else
-                {
-                    if (!string.Equals(assignment.AssignmentNote, "#<user>")
-                   && !string.IsNullOrWhiteSpace(assignment.Username))
-                    {
-                        assignmentResult.Add(assignment);
-                    }
-                }
-            }
-            return assignmentResult;
+            return assignments.Where(a => !(
+                string.Equals(a.AssignmentNote, "#<user>") &&
+                a.UserId == 0 &&
+                a.AssignmentType == (int)AssignmentType.OtherAssignment)
+            ).ToList();
         }
 
     public static IList<MatchInfo> FilterMatchByEmployee(string employee,
