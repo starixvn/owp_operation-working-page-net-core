@@ -17,30 +17,30 @@
             ).ToList();
         }
 
-    public static IList<MatchInfo> FilterMatchByEmployee(string employee,
-        List<MatchInfo> matchsAssignments,
-        Dictionary<int, List<MatchAssignment>> dicMatchAssignment)
-    {
-        if (string.IsNullOrWhiteSpace(employee))
+        public static IList<MatchInfo> FilterMatchByEmployee(string employee,
+            List<MatchInfo> matchsAssignments,
+            Dictionary<int, List<MatchAssignment>> dicMatchAssignment)
         {
-            return matchsAssignments;
-        }
-
-        var matchsResult = new List<MatchInfo>();
-
-        foreach (var matchAssignment in matchsAssignments)
-        {
-            var tradersAssignment = dicMatchAssignment.GetValue(matchAssignment.OSMatchId, new List<MatchAssignment>());
-            var existsAssignment = tradersAssignment.Any(match =>
-            match.Username.IsContains(employee) ||
-            match.Nickname.IsContains(employee));
-            if (existsAssignment)
+            if (string.IsNullOrWhiteSpace(employee))
             {
-                matchsResult.Add(matchAssignment);
+                return matchsAssignments;
             }
-        }
 
-        return matchsResult;
+            var matchsResult = new List<MatchInfo>();
+
+            foreach (var matchAssignment in matchsAssignments)
+            {
+                var tradersAssignment = dicMatchAssignment.GetValue(matchAssignment.OSMatchId, new List<MatchAssignment>());
+                var existsAssignment = tradersAssignment.Any(match =>
+                match.Username.IsContains(employee) ||
+                match.Nickname.IsContains(employee));
+                if (existsAssignment)
+                {
+                    matchsResult.Add(matchAssignment);
+                }
+            }
+
+            return matchsResult;
+        }
     }
-}
 }

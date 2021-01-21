@@ -23,10 +23,7 @@ namespace OWP.OtherSport.EventAssignment.Builder
             {
                 var assignments = dicMatchAssignment.GetValue(matchAssignment.OSMatchId, new List<MatchAssignment>());
 
-                var bettypes = assignments
-                                .Select(a => a.BetTypeName)
-                                    .Distinct()
-                                        .ToList();
+                var bettypes = assignments.Select(a => a.BetTypeName).Distinct().ToList();
 
                 foreach (var bettype in bettypes)
                 {
