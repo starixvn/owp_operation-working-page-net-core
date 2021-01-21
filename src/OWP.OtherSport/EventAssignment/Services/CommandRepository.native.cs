@@ -54,10 +54,11 @@
 
             var (matches, assignments, maxbets) = await dynamicRepository.FetchMultipleAsync<MatchInfo, MatchAssignment, MatchMaxBet>(criteria);
 
+            assignments = FilterHelper.RemoveAssignmentHasNoteInvalid(assignments.ToList());
             GroupTraderMaxbet(assignments.ToList(), maxbets.ToList());
 
             var matchsAssignment = FilterHelper.FilterMatchByEmployee(request.Employee, matches.ToList(), DicMatchAssignment);
-            
+
             var matchs = mapper.Map<IList<EventAssignmentModel>>(matchsAssignment);
 
             BuildTraderMaxbet(matchs.ToList());
