@@ -13,18 +13,23 @@
 
         public AssignmentBuilderUnitTest()
         {
-            this.assignmentBuilder = new AssignmentBuilderImp();
+            assignmentBuilder = new AssignmentBuilderImp();
         }
 
         [Fact]
-        public void CreateAssignment_WhenExistsUserName_BuilAssignmentHasMaintraderCorrect()
+        public void BuildAssignment_WhenExistsUserName_BuilAssignmentHasMaintraderCorrect()
         {
-            var asssignment = new TraderAssignment
+            var asssignment = new List<TraderMaxBetModel>
             {
-                AssignmentNote = "check other #<user>",
-                BetTypeName = "1Q & 3Q (OU/OE)",
-                OSMatchId = 123,
-                MainTrader = string.Empty
+                new TraderMaxBetModel()
+                {
+                    TraderAssignment = new TraderAssignment {
+                        AssignmentNote = "check other #<user>",
+                        BetTypeName = "1Q & 3Q (OU/OE)",
+                        OSMatchId = 123,
+                        MainTrader = string.Empty
+                    }
+                }
             };
 
             var matchAssignments = new List<MatchAssignment>
@@ -43,7 +48,7 @@
                     UserId=128,
                 }
             };
-            this.assignmentBuilder.CreateAssignment(asssignment, matchAssignments);
+            assignmentBuilder.BuildAssignment(asssignment, matchAssignments);
             var expected = new TraderAssignment
             {
                 AssignmentNote = "#starix15 acb123",
@@ -51,7 +56,7 @@
                 MainTrader = "sa",
                 OSMatchId = 123
             };
-            DeepAssert.Equal(expected, asssignment);
+            DeepAssert.Equal(expected, asssignment[0].TraderAssignment);
         }
 
         [Fact]
@@ -81,7 +86,7 @@
                     UserId=128,
                 }
             };
-            this.assignmentBuilder.CreateAssignment(asssignment, matchAssignments);
+            assignmentBuilder.CreateAssignment(asssignment, matchAssignments);
             var expected = new TraderAssignment
             {
                 AssignmentNote = "#starix15 acb",
