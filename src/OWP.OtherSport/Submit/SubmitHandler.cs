@@ -105,7 +105,7 @@
         {
             var eventDateInString = string.Join(',', eventDates);
 
-            await SaveOldAssignmentsToSnapshot(eventDateInString, sessionId);
+            //await SaveOldAssignmentsToSnapshot(eventDateInString, sessionId);
             await SaveAssignmentsToDatabase(assignments, eventDateInString);
         }
 
