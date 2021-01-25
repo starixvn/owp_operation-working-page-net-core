@@ -1,4 +1,5 @@
 ﻿using OWP.OtherSport.EventAssignment.Models;
+using OWP.OtherSport.Submit.Contants;
 using OWP.OtherSport.Submit.Models;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,10 +31,14 @@ namespace OWP.OtherSport.EventAssignment.Builder
         public void CreateAssignment(TraderAssignment asssignment, IList<MatchAssignment> matchAssignments)
         {
             var mainAssignment = matchAssignments.FirstOrDefault(match =>
-                string.Equals(match.BetTypeName, asssignment.BetTypeName) && !string.IsNullOrEmpty(match.Username));
+                string.Equals(match.BetTypeName, asssignment.BetTypeName)
+                && !string.IsNullOrEmpty(match.Username)
+                && match.AssignmentType == AssignmentType.Assignment);
 
             var otherAssignment = matchAssignments.FirstOrDefault(match =>
-                 string.Equals(match.BetTypeName, asssignment.BetTypeName) && !string.IsNullOrEmpty(match.AssignmentNote));
+                 string.Equals(match.BetTypeName, asssignment.BetTypeName)
+                 && !string.IsNullOrEmpty(match.AssignmentNote)
+                 && match.AssignmentType == AssignmentType.OtherAssignment);
 
             if (mainAssignment != null)
             {

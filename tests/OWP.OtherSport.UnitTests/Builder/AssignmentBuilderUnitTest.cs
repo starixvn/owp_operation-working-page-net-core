@@ -2,6 +2,7 @@
 {
     using OWP.OtherSport.EventAssignment.Builder;
     using OWP.OtherSport.EventAssignment.Models;
+    using OWP.OtherSport.Submit.Contants;
     using OWP.OtherSport.Submit.Models;
     using System.Collections.Generic;
     using Xunit;
@@ -38,6 +39,7 @@
                 {
                     BetTypeName = "1Q & 3Q (OU/OE)",
                     Username= "sa",
+                    AssignmentType = AssignmentType.Assignment,
                     UserId=8,
                 },
                  new MatchAssignment
@@ -45,6 +47,7 @@
                     AssignmentNote="#<user> acb123",
                     BetTypeName = "1Q & 3Q (OU/OE)",
                     Username= "starix15",
+                    AssignmentType = AssignmentType.OtherAssignment,
                     UserId=128,
                 }
             };
@@ -77,6 +80,7 @@
                     BetTypeName = "1Q & 3Q (OU/OE)",
                     Username= "sa",
                     UserId=8,
+                    AssignmentType = AssignmentType.Assignment
                 },
                  new MatchAssignment
                 {
@@ -84,6 +88,7 @@
                     BetTypeName = "1Q & 3Q (OU/OE)",
                     Username= "starix15",
                     UserId=128,
+                    AssignmentType = AssignmentType.OtherAssignment
                 }
             };
             assignmentBuilder.CreateAssignment(asssignment, matchAssignments);

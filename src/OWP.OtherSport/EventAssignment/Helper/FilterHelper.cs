@@ -13,7 +13,7 @@
             return assignments.Where(a => !(
                 string.Equals(a.AssignmentNote, "#<user>") &&
                 a.UserId == 0 &&
-                a.AssignmentType == (int)AssignmentType.OtherAssignment)
+                a.AssignmentType == AssignmentType.OtherAssignment)
             ).ToList();
         }
 

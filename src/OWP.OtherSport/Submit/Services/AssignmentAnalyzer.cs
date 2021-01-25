@@ -48,7 +48,7 @@
             return new MatchAssignment
             {
                 OSMatchId = matchId,
-                AssignmentType = (int)AssignmentType.Assignment,
+                AssignmentType = AssignmentType.Assignment,
                 BetTypeName = bettype,
                 UserId = userId
             };
@@ -60,7 +60,7 @@
             return new MatchAssignment
             {
                 OSMatchId = matchId,
-                AssignmentType = (int)AssignmentType.OtherAssignment,
+                AssignmentType = AssignmentType.OtherAssignment,
                 BetTypeName = bettype,
                 UserId = otherTrader.UserId,
                 AssignmentNote = otherTrader.AssignmentNote

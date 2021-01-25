@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using OWP.OtherSport.EventAssignment.Helper;
+using OWP.OtherSport.Submit.Contants;
 using OWP.OtherSport.Submit.Models;
 using Xunit;
 using Xunit.Asserts.Compare;
@@ -242,16 +243,16 @@ namespace OWP.OtherSport.UnitTests.Helper
         {
             var assignments = new List<MatchAssignment>
             {
-                new(){AssignmentType = 1, UserId = 1 },
-                new(){AssignmentType = 2, UserId = 123 },
-                new(){AssignmentType = 2, UserId = 0, AssignmentNote="#<user>" },
-                new(){AssignmentType = 2, UserId = 0, AssignmentNote="#<user> abc" },
+                new(){AssignmentType = AssignmentType.Assignment, UserId = 1 },
+                new(){AssignmentType = AssignmentType.OtherAssignment, UserId = 123 },
+                new(){AssignmentType = AssignmentType.OtherAssignment, UserId = 0, AssignmentNote="#<user>" },
+                new(){AssignmentType = AssignmentType.OtherAssignment, UserId = 0, AssignmentNote="#<user> abc" },
             };
             var expected = new List<MatchAssignment>
             {
-                new(){AssignmentType = 1, UserId = 1 },
-                new(){AssignmentType = 2, UserId = 123 },
-                new(){AssignmentType = 2, UserId = 0, AssignmentNote="#<user> abc" },
+                new(){AssignmentType = AssignmentType.Assignment, UserId = 1 },
+                new(){AssignmentType = AssignmentType.OtherAssignment, UserId = 123 },
+                new(){AssignmentType = AssignmentType.OtherAssignment, UserId = 0, AssignmentNote="#<user> abc" },
             };
 
             var actual = FilterHelper.RemoveAssignmentHasNoteInvalid(assignments);
