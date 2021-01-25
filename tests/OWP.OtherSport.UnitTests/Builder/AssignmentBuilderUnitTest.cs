@@ -39,7 +39,7 @@
                 {
                     BetTypeName = "1Q & 3Q (OU/OE)",
                     Username= "sa",
-                    AssignmentType = AssignmentType.Assignment,
+                    AssignmentType = (int)AssignmentType.Assignment,
                     UserId=8,
                 },
                  new MatchAssignment
@@ -47,7 +47,7 @@
                     AssignmentNote="#<user> acb123",
                     BetTypeName = "1Q & 3Q (OU/OE)",
                     Username= "starix15",
-                    AssignmentType = AssignmentType.OtherAssignment,
+                    AssignmentType = (int)AssignmentType.OtherAssignment,
                     UserId=128,
                 }
             };
@@ -80,7 +80,7 @@
                     BetTypeName = "1Q & 3Q (OU/OE)",
                     Username= "sa",
                     UserId=8,
-                    AssignmentType = AssignmentType.Assignment
+                    AssignmentType = (int)AssignmentType.Assignment
                 },
                  new MatchAssignment
                 {
@@ -88,7 +88,7 @@
                     BetTypeName = "1Q & 3Q (OU/OE)",
                     Username= "starix15",
                     UserId=128,
-                    AssignmentType = AssignmentType.OtherAssignment
+                    AssignmentType = (int)AssignmentType.OtherAssignment
                 }
             };
             assignmentBuilder.CreateAssignment(asssignment, matchAssignments);

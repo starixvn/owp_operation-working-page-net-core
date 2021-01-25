@@ -33,12 +33,12 @@ namespace OWP.OtherSport.EventAssignment.Builder
             var mainAssignment = matchAssignments.FirstOrDefault(match =>
                 string.Equals(match.BetTypeName, asssignment.BetTypeName)
                 && !string.IsNullOrEmpty(match.Username)
-                && match.AssignmentType == AssignmentType.Assignment);
+                && match.AssignmentType == (int)AssignmentType.Assignment);
 
             var otherAssignment = matchAssignments.FirstOrDefault(match =>
                  string.Equals(match.BetTypeName, asssignment.BetTypeName)
                  && !string.IsNullOrEmpty(match.AssignmentNote)
-                 && match.AssignmentType == AssignmentType.OtherAssignment);
+                 && match.AssignmentType == (int)AssignmentType.OtherAssignment);
 
             if (mainAssignment != null)
             {

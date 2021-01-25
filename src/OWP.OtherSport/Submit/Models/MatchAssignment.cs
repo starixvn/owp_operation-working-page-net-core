@@ -10,7 +10,7 @@
 
         public string BetTypeName { get; set; }
 
-        public AssignmentType AssignmentType { get; set; }
+        public int AssignmentType { get; set; }
 
         public int UserId { get; set; }
 
@@ -20,8 +20,8 @@
 
         public string AssignmentNote { get; set; }
 
-        public int Order {
-            get => BettypeOrder.GetValue(BetTypeName, 0);
+        public int Order { 
+            get => BettypeOrder.GetValue(BetTypeName, 0); 
         }
 
         private readonly Dictionary<string, int> BettypeOrder = new Dictionary<string, int>
