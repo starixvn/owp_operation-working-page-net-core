@@ -53,8 +53,7 @@
 
         [Display(Name = "Auto Link")]
         [StringLength(EventUploadingPropertyMaxLength.AutoLink,
-            MinimumLength = 1,
-            ErrorMessage = "[Column: {0}] - The item's value must be not empty and must not exceed {1} characters")]
+            ErrorMessage = "[Column: {0}] - The item's value must not exceed {1} characters")]
         public string AutoLink { get; set; }
 
         [Display(Name = "Provider")]
