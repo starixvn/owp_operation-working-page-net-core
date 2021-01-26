@@ -52,7 +52,7 @@
         public async Task<SubmitResponse> Handle(SubmitRequest request, CancellationToken cancellationToken)
         {
             var newAssignments = await cacheManipulator.GetNewAssignments(request.SessionId);
-            var eventDates = newAssignments.Select(a => a.DateTime).Distinct().ToList();
+            var eventDates = newAssignments.Select(a => a.DateTime.Date).Distinct().ToList();
 
             var userWhoIsUploadingAssignment = await GetUserWhoIsUploadingAssignment(eventDates);
             if (!userWhoIsUploadingAssignment.IsSuccessful)
@@ -105,7 +105,7 @@
         {
             var eventDateInString = string.Join(',', eventDates);
 
-            //await SaveOldAssignmentsToSnapshot(eventDateInString, sessionId);
+            await SaveOldAssignmentsToSnapshot(eventDateInString, sessionId);
             await SaveAssignmentsToDatabase(assignments, eventDateInString);
         }
 
