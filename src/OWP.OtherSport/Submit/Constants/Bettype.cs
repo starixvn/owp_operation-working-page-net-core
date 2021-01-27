@@ -48,7 +48,5 @@
         public const string NextGame = "Next Game";
         public const string MostAces = "Most Aces";
         public const string MostDoubleFaults = "Most Double Faults";
-
-
     }
 }

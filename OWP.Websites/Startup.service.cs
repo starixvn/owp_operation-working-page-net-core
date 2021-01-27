@@ -31,6 +31,7 @@ namespace OWP.Websites
     using ONEbook.UM.Transport;
     using OWP.Maxbet;
     using OWP.OtherSport;
+    using OWP.OtherSport.Hubs;
     using OWP.Services;
     using Sentry;
     using System;
@@ -96,7 +97,8 @@ namespace OWP.Websites
                                             "https://newowp3.starixuat.com",
                                             "https://owp.oneops.net",
                                             "https://newowp.oneops.net",
-                                            "http://localhost:3000"
+                                            "http://localhost:3000",
+                                            "https://owp.starixuat.com"
                                             )
                               .AllowAnyMethod()
                               .AllowAnyHeader()
@@ -190,6 +192,8 @@ namespace OWP.Websites
         {
             services.AddScoped<IDynamicRepository, DynamicRepository>();
             services.AddSingleton<LogServiceWrapper, LogServiceWrapperImp>();
+            services.AddSignalR();
+            services.AddSingleton<NewDataUploadNotifyHubImp>();
         }
 
         private static void ConfigureMediator(IServiceCollection services)

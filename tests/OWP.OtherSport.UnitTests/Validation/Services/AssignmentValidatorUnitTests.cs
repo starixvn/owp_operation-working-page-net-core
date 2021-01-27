@@ -225,7 +225,7 @@
 
             var expected = new List<ValidationResult>
             {
-                new ValidationResult("[Column: Max Bet Football FT (HDP)] - Error: Invalid Maxbet format")               
+                new ValidationResult("[Column: Max Bet Football FT (HDP)] - Error: Invalid Maxbet format")
             };
 
             assignmentValidator.ValidateMaxbetInString(assignmentModelList[0], actual);
@@ -371,6 +371,30 @@
             var expected = new List<ValidationResult>();
 
             var actual = assignmentValidator.CustomValidateAssignment(assignmentModel, uploadingDataFromExcel.Assignments, traders);
+            DeepAssert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void GroupDuplicateMessage()
+        {
+            var assignments = new List<AssignmentValidationRowResult>
+            {
+                new(){ Row = 2,  Message = "Duplicate Match ABC XYZ"},
+                new(){ Row = 10, Message = "Duplicate Match ABC XYZ"},
+                new(){ Row = 12, Message = "Duplicate Match ABC XYZ"},
+                new(){ Row = 15, Message = "Duplicate Match XYZ"},
+                new(){ Row = 15, Message = "invalid trader HDP"}
+            };
+
+            var expected = new List<AssignmentValidationRowResult>
+            {
+                new(){ Row = 2,  Message = "Duplicate Match ABC XYZ (with row 10,12)"},
+                new(){ Row = 15, Message = "Duplicate Match XYZ"},
+                new(){ Row = 15, Message = "invalid trader HDP"}
+            };
+
+            var actual = AssignmentValidatorImp.GroupByDuplicateMatchMessage(assignments);
+
             DeepAssert.Equal(expected, actual);
         }
 

@@ -5,7 +5,9 @@
     using System.Threading;
     using System.Threading.Tasks;
     using Fanex.NAP.Client.Helpers.Web;
+    using Microsoft.AspNetCore.SignalR;
     using NSubstitute;
+    using OWP.OtherSport.Hubs;
     using OWP.OtherSport.Submit;
     using OWP.OtherSport.Submit.Models;
     using OWP.OtherSport.Submit.Services;
@@ -19,14 +21,16 @@
         private readonly CacheManipulator cacheManipulator;
         private readonly INapSession currentSession;
         private readonly SubmitHandler handler;
+        private readonly IHubContext<NewDataUploadNotifyHubImp, NewDataUploadNotifyHub> notifyHub;
 
         public SubmitHandlerUnitTests()
         {
             commandRepository = Substitute.For<CommandRepository>();
             cacheManipulator = Substitute.For<CacheManipulator>();
             currentSession = Substitute.For<INapSession>();
+            notifyHub = Substitute.For<IHubContext<NewDataUploadNotifyHubImp, NewDataUploadNotifyHub>>();
 
-            handler = new SubmitHandler(cacheManipulator, commandRepository, currentSession);
+            handler = new SubmitHandler(cacheManipulator, commandRepository, currentSession, notifyHub);
         }
 
         [Fact]
@@ -96,6 +100,7 @@
 
             // Assert
             DeepAssert.Equal(response, actual);
+            await notifyHub.Received().Clients.All.NotifyUploadedNewData();
             await commandRepository.Received().Update(string.Empty, assignments);
             await cacheManipulator.Received().SaveOldAssignmentSnapshot(snapShot,sessionId);
         }

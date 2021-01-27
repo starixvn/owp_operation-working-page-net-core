@@ -1,17 +1,22 @@
-﻿using System.IO;
-using System.Threading.Tasks;
-using MediatR;
-using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Mvc;
-using OWP.Helpers;
-using OWP.OtherSport.Submit;
-using OWP.OtherSport.Validation;
-
-namespace OWP.OtherSport
+﻿namespace OWP.OtherSport
 {
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Threading.Tasks;
+    using MediatR;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Cors;
+    using Microsoft.AspNetCore.Mvc;
+    using OWP.Helpers;
+    using OWP.OtherSport.EventAssignment;
+    using OWP.OtherSport.EventAssignment.Models;
+    using OWP.OtherSport.Submit;
+    using OWP.OtherSport.Validation;
+
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("AllowOrigin")]
+    [Authorize]
     public class OtherSportController : ControllerBase
     {
         private readonly IMediator mediator;
@@ -19,6 +24,13 @@ namespace OWP.OtherSport
         public OtherSportController(IMediator mediator)
         {
             this.mediator = mediator;
+        }
+
+        [Route("get-assignment")]
+        [HttpPost]      
+        public async Task<IEnumerable<EventAssignmentModel>> QueryEventAssignment(QueryEventAssignmentRequest request)
+        {          
+           return await mediator.Send(request);
         }
 
         [Route("validate")]
