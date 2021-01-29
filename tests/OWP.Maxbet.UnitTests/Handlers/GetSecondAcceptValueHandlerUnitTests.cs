@@ -51,6 +51,20 @@
         }
 
         [Fact]
+        public async Task Handler_MatchWith8sAcceptMatchOffer_Return8()
+        {
+            Setup();
+            IEnumerable<MatchResource> matchOffer = new List<MatchResource> {
+                new MatchResource { ResourceId = (int)EnumMatchOffer.Accept8s }
+            };
+            dynamicRepository.FetchAsync<MatchResource>(Arg.Compat.Any<MatchOfferGetCriteria>()).Returns(Task.FromResult(matchOffer));
+
+            var actual = await handler.Handle(new GetSecondAcceptValueHandler.Request { OWPMatchId = 123 }, new CancellationToken(false));
+
+            Assert.Equal(8, actual);
+        }
+
+        [Fact]
         public async Task Handler_MatchWithNoMatchOffer_ReturnNull()
         {
             Setup();
