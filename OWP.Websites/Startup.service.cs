@@ -20,6 +20,7 @@ namespace OWP.Websites
     using MediatR;
     using Microsoft.AspNetCore.Authentication.Cookies;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.DataProtection;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc.Authorization;
     using Microsoft.Extensions.Configuration;
@@ -34,6 +35,7 @@ namespace OWP.Websites
     using OWP.OtherSport.Hubs;
     using OWP.Services;
     using Sentry;
+    using StackExchange.Redis;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -110,6 +112,11 @@ namespace OWP.Websites
         private void ConfigureRedis(IServiceCollection services)
         {
             var redisConfig = Configuration.GetSection("AuthSettings:RedisConfig").Value;
+            var redis = ConnectionMultiplexer.Connect(redisConfig);
+
+            services.AddDataProtection()
+                .PersistKeysToStackExchangeRedis(redis, "Fanex.OWP-ProtectionKeys");
+
             services.AddStackExchangeRedisCache(options =>
             {
                 options.Configuration = redisConfig;
