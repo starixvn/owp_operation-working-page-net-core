@@ -15,8 +15,6 @@ namespace OWP.Websites
     using Fanex.NAP.Client.Configuration;
     using Fanex.NAP.Client.Helpers.Web;
     using Fanex.NAP.Client.Services;
-    using Fanex.NAP.Client.Transport;
-    using Fanex.NAP.Client.Web;
     using MediatR;
     using Microsoft.AspNetCore.Authentication.Cookies;
     using Microsoft.AspNetCore.Authorization;
@@ -150,7 +148,6 @@ namespace OWP.Websites
 
             services.AddSingleton<INapSettings>(new NapSettings(Configuration));
             services.AddSingleton<INapSession, NapSession>();
-            services.AddSingleton<IRestClient, RestClient>();
 
             services.AddSingleton<IGroupService, GroupService>();
             services.AddSingleton<IUserService, UserService>();
