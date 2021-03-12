@@ -6,6 +6,9 @@
 
     public class AssignmentModelInExcel
     {
+        [Display(Name = "Match No")]
+        public double MatchNo { get; set; }
+
         [Display(Name = "Match Status")]
         [StringLength(EventUploadingPropertyMaxLength.MatchStatus,
             MinimumLength = 1,

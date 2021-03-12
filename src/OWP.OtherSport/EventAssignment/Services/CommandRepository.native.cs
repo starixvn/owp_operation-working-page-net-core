@@ -53,7 +53,7 @@
             };
 
             var (matches, assignments, maxbets) = await dynamicRepository.FetchMultipleAsync<MatchInfo, MatchAssignment, MatchMaxBet>(criteria);
-            matches = matches.OrderBy(m => m.DateTime);
+            matches = matches.OrderBy(m => m.MatchNo);
             assignments = FilterHelper.RemoveAssignmentHasNoteInvalid(assignments.ToList());
 
             assignments = assignments.OrderBy(x => x.Order);
