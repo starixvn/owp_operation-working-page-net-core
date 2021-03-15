@@ -14,6 +14,8 @@
         void Validate(UploadingDataFromExcel rawDataFromExcel,
             List<Trader> traders);
 
+        void ValidateMatchNo(AssignmentModelInExcel assignment, List<ValidationResult> results);
+
         void ValidateTraders(AssignmentModelInExcel assignment, List<ValidationResult> results, List<Trader> traders);
 
         void ValidateDateTime(AssignmentModelInExcel assignment, List<ValidationResult> results);
@@ -23,6 +25,7 @@
 
     public class AssignmentValidatorImp : AssignmentValidator
     {
+
         public void Validate(UploadingDataFromExcel rawDataFromExcel, List<Trader> traders)
         {
             var validationResults = new List<AssignmentValidationRowResult>();
@@ -54,6 +57,7 @@
         public List<ValidationResult> CustomValidateAssignment(AssignmentModelInExcel assignment, List<AssignmentModelInExcel> assigments, List<Trader> traders)
         {
             var results = new List<ValidationResult>();
+            ValidateMatchNo(assignment, results);
             ValidateTraders(assignment, results, traders);
             ValidateDataAnotation(assignment, results);
             ValidateDuplicatedMatch(assignment, assigments, results);
@@ -61,6 +65,14 @@
             ValidateMaxbetInString(assignment, results);
 
             return results;
+        }
+
+        public void ValidateMatchNo(AssignmentModelInExcel assignment, List<ValidationResult> results)
+        {
+            if(!double.TryParse(assignment.MatchNo, out double _))
+            {
+                results.Add(new ValidationResult("Match No must be number"));
+            }
         }
 
         public void ValidateTraders(AssignmentModelInExcel assignment, List<ValidationResult> results, List<Trader> traders)
@@ -206,7 +218,7 @@
                 var duplicateRow = duplicateMatch.Select(x => x.Row).ToList();
                 var rowNumber = duplicateMatch.FirstOrDefault().Row;
                 duplicateRow.RemoveAt(0);
-                validationResults.Add(new ()
+                validationResults.Add(new()
                 {
                     Row = rowNumber,
                     Message = $"{duplicateMatch.FirstOrDefault().Message} (with row {string.Join(',', duplicateRow)})"

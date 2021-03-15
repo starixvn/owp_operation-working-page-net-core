@@ -7,7 +7,8 @@
     public class AssignmentModelInExcel
     {
         [Display(Name = "Match No")]
-        public double MatchNo { get; set; }
+        [Required(ErrorMessage = "Match No is required")]
+        public string MatchNo { get; set; }
 
         [Display(Name = "Match Status")]
         [StringLength(EventUploadingPropertyMaxLength.MatchStatus,

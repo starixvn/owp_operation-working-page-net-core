@@ -93,6 +93,49 @@
         }
 
         [Fact]
+        public void ValidateMatchNo_ValidMatchNo_ResultIsEmpty()
+        {
+            var actual = new List<ValidationResult>();
+            var assignmentModelInExcel = new AssignmentModelInExcel
+            {
+                MatchNo= "123.456",
+                Away = "OKC",
+                Home = "Toronto Raptor",
+                League = "NBA",
+                Sport = "Basketball",
+                TraderBadmintonAllProductPointWinner = "starix3",
+                OtherTraderBadmintonRacetoPoints7911 = "#starix3",
+                DateTime = "12/02/2020 03:30 PM"
+            };
+            assignmentValidator.ValidateMatchNo(assignmentModelInExcel, actual);
+            Assert.Empty(actual);
+        }
+
+
+        [Fact]
+        public void ValidateMatchNo_InValidMatchNo_ErrorIsCatch()
+        {
+            var actual = new List<ValidationResult>();
+            var assignmentModelInExcel = new AssignmentModelInExcel
+            {
+                MatchNo = "123f.456",
+                Away = "OKC",
+                Home = "Toronto Raptor",
+                League = "NBA",
+                Sport = "Basketball",
+                TraderBadmintonAllProductPointWinner = "starix3",
+                OtherTraderBadmintonRacetoPoints7911 = "#starix3",
+                DateTime = "12/02/2020 03:30 PM"
+            };
+            var expected = new List<ValidationResult>
+            {
+                new ValidationResult("Match No must be number")
+            };
+            assignmentValidator.ValidateMatchNo(assignmentModelInExcel, actual);
+            DeepAssert.Equal(expected, actual);
+        }
+
+        [Fact]
         public void ValidateInvalidTraders_ValidTrader_ResulstIsEmpty()
         {
             var actual = new List<ValidationResult>();
