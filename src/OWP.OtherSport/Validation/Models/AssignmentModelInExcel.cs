@@ -10,6 +10,10 @@
         [Required(ErrorMessage = "Match No is required")]
         public string MatchNo { get; set; }
 
+        [Display(Name = "Reporter")]
+        [StringLength(EventUploadingPropertyMaxLength.Reporter, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        public string Reporter { get; set; }
+
         [Display(Name = "Match Status")]
         [StringLength(EventUploadingPropertyMaxLength.MatchStatus,
             MinimumLength = 1,

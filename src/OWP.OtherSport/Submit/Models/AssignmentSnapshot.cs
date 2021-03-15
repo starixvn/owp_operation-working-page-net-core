@@ -27,6 +27,8 @@
 
         public string MatchStatus { get; set; }
 
+        public string Reporter { get; set; }
+
         public string Sport { get; set; }
 
         public DateTime DateTime { get; set; }
