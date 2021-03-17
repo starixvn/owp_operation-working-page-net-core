@@ -13,7 +13,7 @@
         {
             CreateMap<AssignmentModelInExcel, AssignmentModel>()
                 .ForMember(dest => dest.HashKey, opt => opt.MapFrom(src => Guid.NewGuid().ToString()))
-                .ForMember(dest => dest.DateTime, opt => opt.MapFrom(src => DateTime.Parse(src.DateTime)))
+                .ForMember(dest => dest.DateTime, opt => opt.Ignore())
                 .IgnoreMaxbets()
                 .IgnoreTraders();
             CreateMap<MatchInfo, EventAssignmentModel>();

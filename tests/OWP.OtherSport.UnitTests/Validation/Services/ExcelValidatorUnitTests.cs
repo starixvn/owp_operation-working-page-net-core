@@ -28,7 +28,7 @@
             {
                 worksheet.Cells[i, 1].Value = "Live";
                 worksheet.Cells[i, 2].Value = "Soccer";
-                worksheet.Cells[i, 3].Value = "12/2/2020  3:30:00 PM";
+                worksheet.Cells[i, 3].Value = "44167.645833333336";
                 worksheet.Cells[i, 4].Value = "CHINA FOOTBALL SUPER LEAGUE (PLAY OFF)";
                 worksheet.Cells[i, 5].Value = "Dalian Pro FC (N)";
                 worksheet.Cells[i, 6].Value = "Guangzhou R&F";
@@ -91,7 +91,7 @@
 
             worksheet.Cells[2, 1].Value = "Live";
             worksheet.Cells[2, 2].Value = "Soccer";
-            worksheet.Cells[2, 3].Value = "12/2/2020  3:30:00 PM";
+            worksheet.Cells[2, 3].Value = "44167.645833333336";
             worksheet.Cells[2, 4].Value = "CHINA FOOTBALL SUPER LEAGUE (PLAY OFF)";
             worksheet.Cells[2, 5].Value = "Dalian Pro FC (N)";
             worksheet.Cells[2, 6].Value = "Guangzhou R&F";

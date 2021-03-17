@@ -6,6 +6,7 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.Globalization;
     using System.Linq;
     using System.Reflection;
     using System.Text.RegularExpressions;
@@ -145,24 +146,9 @@
 
         public void ValidateDateTime(AssignmentModelInExcel assignment, List<ValidationResult> results)
         {
-            const string regex = @"(?i:^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s*\d{2}\,\s*\d{4}\s*(1[0-2]|0?[1-9]):([0-5][0-9])\s*([AP][M])$)";
-            var match = Regex.Match(assignment.DateTime, regex, RegexOptions.IgnoreCase);
-
-            if (!match.Success)
+            if (!double.TryParse(assignment.DateTime, out _))
             {
                 results.Add(new ValidationResult("[Column: Date Time] - Error: Invalid date time format"));
-            }
-            else
-            {
-                try
-                {
-                    DateTime.Parse(assignment.DateTime);
-                }
-
-                catch (FormatException ex)
-                {
-                    results.Add(new ValidationResult($"[Column: Date Time] - Error: {ex.Message}"));
-                }
             }
         }
 

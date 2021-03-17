@@ -76,8 +76,7 @@
                         League = "NBA",
                         Sport = "Basketball",
                         TraderBadmintonAllProductPointWinner = "starix3",
-                        OtherTraderBadmintonRacetoPoints7911 = "#starix3",
-                        DateTime = "12/02/2020 03:30 PM"
+                        OtherTraderBadmintonRacetoPoints7911 = "#starix3"
                     }
                 }
             };
@@ -104,8 +103,7 @@
                 League = "NBA",
                 Sport = "Basketball",
                 TraderBadmintonAllProductPointWinner = "starix3",
-                OtherTraderBadmintonRacetoPoints7911 = "#starix3",
-                DateTime = "12/02/2020 03:30 PM"
+                OtherTraderBadmintonRacetoPoints7911 = "#starix3"
             };
             assignmentValidator.ValidateMatchNo(assignmentModelInExcel, actual);
             Assert.Empty(actual);
@@ -124,8 +122,7 @@
                 League = "NBA",
                 Sport = "Basketball",
                 TraderBadmintonAllProductPointWinner = "starix3",
-                OtherTraderBadmintonRacetoPoints7911 = "#starix3",
-                DateTime = "12/02/2020 03:30 PM"
+                OtherTraderBadmintonRacetoPoints7911 = "#starix3"
             };
             var expected = new List<ValidationResult>
             {
@@ -186,7 +183,7 @@
 
             var expected = new List<ValidationResult>
             {
-                new ValidationResult("[Column: Date Time] - Error: String 'Feb 32, 2020 02:00 PM' was not recognized as a valid DateTime.")
+                new ValidationResult("[Column: Date Time] - Error: Invalid date time format")
             };
 
             assignmentValidator.ValidateDateTime(assignmentModelList[0], actual);
@@ -232,7 +229,7 @@
                     League = "NBA",
                     Sport = "Basketball",
                     TraderBadmintonAllProductPointWinner = "Esther",
-                    DateTime = "Feb 22, 2020 02:00 PM"
+                    DateTime = "43883.583333333336"
                 }
             };
 
@@ -286,7 +283,7 @@
                     {
                         Away = "GSW",
                         Sport = "Basketball",
-                        DateTime = "Feb 20, 2020 02:00 PM"
+                        DateTime = "43881.583333333336"
                     }
                 }
             };
@@ -319,7 +316,7 @@
                         League = "NBA",
                         Sport = "Basketball",
                         TraderBadmintonAllProductSetWinner = "Curry",
-                        DateTime = "2020-29-12"
+                        DateTime = "43883"
                     }
                 }
             };
@@ -355,7 +352,7 @@
                         League = "NBA",
                         Sport = "Basketball",
                         TraderBadmintonAllProductPointWinner = "Esther",
-                        DateTime = "JAN 01,2020 03:30 PM"
+                        DateTime = "43831.645833333336"
                     },
                     new AssignmentModelInExcel
                     {
@@ -364,7 +361,7 @@
                         League = "NBA",
                         Sport = "Basketball",
                         TraderBadmintonAllProductPointWinner = "Esther",
-                        DateTime = "JAN 01,2020 03:30 PM"
+                        DateTime = "43831.645833333336"
                     }
                 }
             };
@@ -399,7 +396,7 @@
                         League = "NBA",
                         Sport = "Basketball",
                         TraderBadmintonAllProductPointWinner = "Esther",
-                        DateTime = "JAN 02,2020 03:30 PM"
+                        DateTime = "43832.645833333336"
                     }
                 }
             };
@@ -451,7 +448,7 @@
                     Home = "Toronto Raptor",
                     League = "NBA",
                     Sport = "tennis",
-                    DateTime = "Feb 20, 2021 12:00 AM",
+                    DateTime = "44247",
                     TraderBadmintonAllProductPointWinner = "Mira",
                     TraderBadmintonAllProductSetWinner = "Mira",
                     TraderBadmintonMatchHandicap = "Mira",
@@ -545,7 +542,7 @@
                 Home = "Toronto Raptor",
                 League = "NBA",
                 Sport = "Basketball",
-                DateTime = "JAN 01,2020 03:30 PM",
+                DateTime = "43831.645833333336",
                 TraderBadmintonAllProductPointWinner = "Esther",
                 TraderBadmintonAllProductSetWinner = "Curry",
                 TraderBadmintonMatchHandicap = "Mira",
