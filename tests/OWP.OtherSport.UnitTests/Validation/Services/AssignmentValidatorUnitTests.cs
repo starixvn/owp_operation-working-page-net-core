@@ -97,7 +97,7 @@
             var actual = new List<ValidationResult>();
             var assignmentModelInExcel = new AssignmentModelInExcel
             {
-                MatchNo= "123.456",
+                MatchNo = "123.456",
                 Away = "OKC",
                 Home = "Toronto Raptor",
                 League = "NBA",
@@ -444,6 +444,7 @@
             {
                 new AssignmentModelInExcel
                 {
+                    MatchNo="123",
                     Away = "OKC",
                     Home = "Toronto Raptor",
                     League = "NBA",
@@ -538,6 +539,7 @@
         {
             return new AssignmentModelInExcel
             {
+                MatchNo = "123",
                 Away = "OKC",
                 Home = "Toronto Raptor",
                 League = "NBA",

@@ -48,6 +48,7 @@
         {
             var model = new AssignmentModel
             {
+                Reporter= null,
                 Sport = "Basketball",
                 Home = "Golden State Warrior",
                 Away = "LA Laker",
@@ -59,6 +60,7 @@
 
             var model2 = new AssignmentModel
             {
+                Reporter = null,
                 Sport = "Ice Hookey",
                 Home = "Golden State Warrior",
                 Away = "LA Laker",

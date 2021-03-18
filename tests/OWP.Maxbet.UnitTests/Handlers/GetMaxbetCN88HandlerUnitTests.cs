@@ -80,7 +80,7 @@
             };
             dynamicRepository.FetchAsync<MaxbetModel>(Arg.Compat.Is<MaxbetGetCriteria>(x => x.IsCN88)).Returns(Task.FromResult(cn88Maxbet));
             dynamicRepository.FetchAsync<MaxbetModel>(Arg.Compat.Is<MaxbetGetCriteria>(x => !x.IsCN88)).Returns(Task.FromResult(novaMaxbet));
-            var expected = new MaxbetSpread { Handicap = 40000, OverUnder = 40000, FirstHalfHandicap = 18000, FirstHalfOverUnder = 18000 };
+            var expected = new MaxbetSpread { Handicap = 40000, OverUnder = 40000, FirstHalfHandicap = 25000, FirstHalfOverUnder = 25000 };
 
             var actual = await handler.Handle(new GetMaxbetCN88Handler.Request { OWPMatchId = 123 }, new CancellationToken(false));
 

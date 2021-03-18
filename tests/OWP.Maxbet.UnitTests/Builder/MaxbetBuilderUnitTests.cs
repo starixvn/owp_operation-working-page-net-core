@@ -147,8 +147,8 @@ namespace OWP.Maxbet.UnitTests.Builder
             var expected = new MaxbetSpread
             {
                 Handicap = 400000,
-                FirstHalfHandicap = 80000,
-                FirstHalfOverUnder = 80000
+                FirstHalfHandicap = 200000,
+                FirstHalfOverUnder = 200000
             };
             DeepAssert.Equal(expected, result);
         }
@@ -179,8 +179,8 @@ namespace OWP.Maxbet.UnitTests.Builder
             {
                 Handicap = 400000,
                 OverUnder = 400000,
-                FirstHalfHandicap = 80000,
-                FirstHalfOverUnder = 80000
+                FirstHalfHandicap = 200000,
+                FirstHalfOverUnder = 200000
             };
             DeepAssert.Equal(expected, result);
         }
@@ -209,7 +209,7 @@ namespace OWP.Maxbet.UnitTests.Builder
                 new MaxbetModel
                 {
                     BettypeId= (int)EnumBettype.FirstHalfHandicap,
-                    Value=80000
+                    Value=200000
                 }
             };
             DeepAssert.Equal(expected, maxbet);
@@ -268,7 +268,7 @@ namespace OWP.Maxbet.UnitTests.Builder
                 new MaxbetModel
                 {
                     BettypeId= (int)EnumBettype.FirstHalfOverUnder,
-                    Value=80000
+                    Value=200000
                 }
             };
             DeepAssert.Equal(expected, maxbet);
