@@ -5,6 +5,7 @@
     using Validation = OtherSport.Validation.Services;
     using EventAssignment = OtherSport.EventAssignment.Services;
     using OWP.OtherSport.EventAssignment.Builder;
+    using OWP.OtherSport.Download.Services;
 
     public static class OtherSportInjector
     {
@@ -24,12 +25,16 @@
             services.AddScoped<Validation.ExcelReader, Validation.ExcelReaderImp>();
             services.AddScoped<Validation.ExcelValidator, Validation.ExcelValidatorImp>();
             services.AddScoped<Validation.Repository, Validation.RepositoryImp>();
-            
+
             services.AddScoped<EventAssignment.CommandRepository, EventAssignment.CommandRepositoryImp>();
             services.AddScoped<AssignmentBuilder, AssignmentBuilderImp>();
             services.AddScoped<BettypeBuilder, BettypeBuilderImp>();
             services.AddScoped<MaxbetBuilder, MaxbetBuilderImp>();
             services.AddScoped<AssignmentMaxbetBuilder, AssignmentMaxbetBuilderImp>();
+
+            services.AddScoped<BuildExcelModelService, BuildExcelModelServiceImp>();
+            services.AddScoped<ExportExcelService, ExportExcelServiceImp>();
+            services.AddScoped<CommandRepository, CommandRepositoryImp>();
         }
     }
 }

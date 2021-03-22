@@ -18,10 +18,10 @@
 
         public string Nickname { get; set; }
 
-        public string AssignmentNote { get; set; }
+        public string AssignmentNote { get; set; } = string.Empty;
 
-        public int Order { 
-            get => BettypeOrder.GetValue(BetTypeName, 0); 
+        public int Order {
+            get => BettypeOrder.GetValue(BetTypeName, 0);
         }
 
         private readonly Dictionary<string, int> BettypeOrder = new Dictionary<string, int>

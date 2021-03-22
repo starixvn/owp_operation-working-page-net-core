@@ -7,7 +7,9 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Mvc;
+    using Olympus.WebApi.Results;
     using OWP.Helpers;
+    using OWP.OtherSport.Download;
     using OWP.OtherSport.EventAssignment;
     using OWP.OtherSport.EventAssignment.Models;
     using OWP.OtherSport.Submit;
@@ -28,9 +30,9 @@
         }
 
         [Route("get-assignment")]
-        [HttpPost]      
+        [HttpPost]
         public async Task<IEnumerable<EventAssignmentModel>> QueryEventAssignment(QueryEventAssignmentRequest request)
-        {          
+        {
            return await mediator.Send(request);
         }
 
@@ -66,6 +68,14 @@
         {
             var viewModel = await mediator.Send(request);
             return new JsonResult(viewModel);
+        }
+
+        [Route("download")]
+        [HttpPost]
+        public async Task<System.Web.Http.IHttpActionResult> Download(DownloadAssignmentRequest request)
+        {
+            var excelPackage = await mediator.Send(request);
+            return new EpplusExcelResult(excelPackage) { FileName = "OSAssignment.xlsx" };
         }
     }
 }

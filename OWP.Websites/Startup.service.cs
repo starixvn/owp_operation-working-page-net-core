@@ -21,8 +21,10 @@ namespace OWP.Websites
     using Microsoft.AspNetCore.DataProtection;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc.Authorization;
+    using Microsoft.AspNetCore.Mvc.Formatters;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Newtonsoft.Json;
     using ONEbook.UM.AspNetCore;
     using ONEbook.UM.Configurations;
     using ONEbook.UM.Helpers;
@@ -38,6 +40,8 @@ namespace OWP.Websites
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using System.Text.Json;
+    using System.Text.Json.Serialization;
     using System.Threading.Tasks;
 
     public partial class Startup
@@ -74,6 +78,12 @@ namespace OWP.Websites
                                  .Build();
                 config.Filters.Add(new AuthorizeFilter(policy));
             });
+            services.AddControllersWithViews()
+                .AddNewtonsoftJson(options =>
+                {
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                }
+            );
         }
 
         private static void ConfigureCORS(IServiceCollection services)
@@ -196,6 +206,7 @@ namespace OWP.Websites
         {
             services.AddScoped<IDynamicRepository, DynamicRepository>();
             services.AddSingleton<LogServiceWrapper, LogServiceWrapperImp>();
+            services.AddSingleton<ConfigurationService, ConfigurationServiceImp>();
             services.AddSignalR();
             services.AddSingleton<NewDataUploadNotifyHubImp>();
         }

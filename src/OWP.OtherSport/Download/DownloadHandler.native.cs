@@ -1,0 +1,38 @@
+﻿namespace OWP.OtherSport.Download
+{
+    using MediatR;
+    using OfficeOpenXml;
+    using OWP.OtherSport.Download.Services;
+    using System;
+    using System.Collections.Generic;
+    using System.Threading;
+    using System.Threading.Tasks;
+
+    public class DownloadAssignmentRequest : IRequest<ExcelPackage>
+    {
+        public DateTime From { get; set; }
+
+        public DateTime To { get; set; }
+
+        public string Employee { get; set; }
+
+        public List<string> Sports { get; set; }
+
+        public List<string> MatchStatuses { get; set; }
+    }
+
+    public class Handler: IRequestHandler<DownloadAssignmentRequest, ExcelPackage>
+    {
+        private readonly ExportExcelService exportExcelService;
+
+        public Handler(ExportExcelService exportExcelService)
+        {
+            this.exportExcelService = exportExcelService;
+        }
+
+        public async Task<ExcelPackage> Handle(DownloadAssignmentRequest request, CancellationToken cancellationToken)
+        {
+            return await exportExcelService.CreateExcelPackage(request);
+        }
+    }
+}
