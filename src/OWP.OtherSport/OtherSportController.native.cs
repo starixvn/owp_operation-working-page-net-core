@@ -1,5 +1,6 @@
 ﻿namespace OWP.OtherSport
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Threading.Tasks;
@@ -71,11 +72,25 @@
         }
 
         [Route("download")]
-        [HttpPost]
-        public async Task<System.Web.Http.IHttpActionResult> Download(DownloadAssignmentRequest request)
+        [HttpGet]
+        public async Task<IActionResult> Download(
+            [FromQuery] DateTime from,
+            [FromQuery] DateTime to,
+            [FromQuery] string employee,
+            [FromQuery] string sports,
+            [FromQuery] string matchStatuses)
         {
+            var request = new DownloadAssignmentRequest
+            {
+                From = from,
+                To = to,
+                Employee = employee,
+                Sports = sports,
+                MatchStatuses = matchStatuses
+            };
+
             var excelPackage = await mediator.Send(request);
-            return new EpplusExcelResult(excelPackage) { FileName = "OSAssignment.xlsx" };
+            return File(excelPackage.GetAsByteArray(), "application/octet-stream", "OSAssignment.xlsx");
         }
     }
 }

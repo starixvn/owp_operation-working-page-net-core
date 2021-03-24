@@ -54,7 +54,8 @@
         public async Task<ExcelAssignmentModel> BuildExcelAssignments(DownloadAssignmentRequest request)
         {
             var assignmentSnapshot = await commandRepository.Query(request);
-            // TO DO filter employee
+            assignmentSnapshot.Matches = FilterMatchesByEmployee(request.Employee, assignmentSnapshot);
+
             var matchAssignments = BuildTraders(assignmentSnapshot);
             var matchMaxbets = BuildMaxbets(assignmentSnapshot);
 
@@ -66,6 +67,24 @@
             };
         }
 
+        private static Dictionary<int, MatchInfo> FilterMatchesByEmployee(string employee, AssignmentSnapshot assignmentSnapshot)
+        {
+            var matches = new Dictionary<int, MatchInfo>();
+            foreach (var key in assignmentSnapshot.Matches.Keys)
+            {
+                var assignments = assignmentSnapshot.MatchAssignments.GetValue(key, new List<MatchAssignment>());
+                var existsAssignment = assignments.Any(match =>
+                    match.Username.IsContains(employee) ||
+                    match.Nickname.IsContains(employee));
+                if (existsAssignment)
+                {
+                    matches.Add(key, assignmentSnapshot.Matches[key]);
+                }
+            }
+
+            return matches;
+        }
+
         public Dictionary<int, List<ExcelMatchAssignment>> BuildTraders(AssignmentSnapshot assignmentSnapshot)
         {
             var matchAssignments = new Dictionary<int, List<ExcelMatchAssignment>>();
@@ -73,7 +92,7 @@
             foreach (var key in assignmentSnapshot.Matches.Keys)
             {
                 var sport = assignmentSnapshot.Matches[key].Sport;
-                var assignments = assignmentSnapshot.MatchAssignments[key];
+                var assignments = assignmentSnapshot.MatchAssignments.GetValue(key, new List<MatchAssignment>());
                 var excelAssignments = BuildTrader(sport, assignments);
 
                 matchAssignments.Add(key, excelAssignments.ToList());
@@ -111,7 +130,7 @@
             foreach (var key in assignmentSnapshot.Matches.Keys)
             {
                 var sport = assignmentSnapshot.Matches[key].Sport;
-                var maxbets = assignmentSnapshot.MaxBet[key];
+                var maxbets = assignmentSnapshot.MaxBet.GetValue(key, new List<MatchMaxBet>());
                 var excelAssignments = BuildMaxbet(sport, maxbets);
 
                 matchMaxbets.Add(key, excelAssignments.ToList());

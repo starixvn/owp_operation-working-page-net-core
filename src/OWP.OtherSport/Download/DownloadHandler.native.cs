@@ -16,9 +16,9 @@
 
         public string Employee { get; set; }
 
-        public List<string> Sports { get; set; }
+        public string Sports { get; set; }
 
-        public List<string> MatchStatuses { get; set; }
+        public string MatchStatuses { get; set; }
     }
 
     public class Handler: IRequestHandler<DownloadAssignmentRequest, ExcelPackage>

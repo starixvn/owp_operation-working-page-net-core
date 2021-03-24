@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Threading.Tasks;
+    using Epplus.Mapper.Extensions;
     using OfficeOpenXml;
     using OWP.OtherSport.Download.Constants;
     using OWP.OtherSport.Download.Models;
@@ -62,8 +63,8 @@
 
         public void BuildLAReportBody(ExcelModel model)
         {
-            //reportSheet.ApplyModel(model.HeaderInfo);
-            //BuildAssignments(model.ExcelAssignmentModels);
+            reportSheet.ApplyModel(model.HeaderInfo);
+            BuildAssignments(model.ExcelAssignmentModels);
         }
 
         public void ClearTemplate()
@@ -80,8 +81,8 @@
                 var maxbets = model.MaxBet[match.OSMatchId];
 
                 BuildMatchInfo(row, match);
-                //BuildTrader(row, assignments);
-                //BuildMaxbet(row, maxbets);
+                BuildTrader(row, assignments);
+                BuildMaxbet(row, maxbets);
             }
         }
 
@@ -111,7 +112,6 @@
         {
             foreach (var assignment in assignments)
             {
-
                 reportSheet.Cells[row, assignment.ColumnIndex].Value = assignment.Value;
             }
         }
