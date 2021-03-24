@@ -70,9 +70,16 @@
 
         public void ValidateMatchNo(AssignmentModelInExcel assignment, List<ValidationResult> results)
         {
-            if(!double.TryParse(assignment.MatchNo, out double _))
+            if (string.IsNullOrWhiteSpace(assignment.MatchNo))
             {
-                results.Add(new ValidationResult("Match No must be number"));
+                results.Add(new ValidationResult("Match No is required"));
+            }
+            else
+            {
+                if (!double.TryParse(assignment.MatchNo, out double _))
+                {
+                    results.Add(new ValidationResult("Match No must be number"));
+                }
             }
         }
 
