@@ -92,7 +92,7 @@
             reportSheet.Cells[row, MatchInfoConst.MatchNoColIndex].Value = assignment.MatchNo;
             reportSheet.Cells[row, MatchInfoConst.MatchStatusColIndex].Value = assignment.MatchStatus;
             reportSheet.Cells[row, MatchInfoConst.SportColIndex].Value = assignment.Sport;
-            reportSheet.Cells[row, MatchInfoConst.DateTimeColIndex].Value = assignment.DateTime.ToString("MMM dd, yyyy hh:mm tt");
+            reportSheet.Cells[row, MatchInfoConst.DateTimeColIndex].Value = assignment.DateTime;
             reportSheet.Cells[row, MatchInfoConst.LeagueColIndex].Value = assignment.League;
             reportSheet.Cells[row, MatchInfoConst.HomeColIndex].Value = assignment.Home;
             reportSheet.Cells[row, MatchInfoConst.AwayColIndex].Value = assignment.Away;
