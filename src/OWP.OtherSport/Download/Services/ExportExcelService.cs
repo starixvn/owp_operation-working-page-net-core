@@ -5,6 +5,7 @@
     using System.Threading.Tasks;
     using Epplus.Mapper.Extensions;
     using OfficeOpenXml;
+    using OWP.Extensions;
     using OWP.OtherSport.Download.Constants;
     using OWP.OtherSport.Download.Models;
     using OWP.OtherSport.Submit.Models;
@@ -77,8 +78,8 @@
             for (int i = 0, row = ExcelConst.StartRowIndex; i < model.Matches.Count; i++, row++)
             {
                 var match = model.Matches[i];
-                var assignments = model.MatchAssignments[match.OSMatchId];
-                var maxbets = model.MaxBet[match.OSMatchId];
+                var assignments = model.MatchAssignments.GetValue(match.OSMatchId, new List<ExcelMatchAssignment>());
+                var maxbets = model.MaxBet.GetValue(match.OSMatchId, new List<ExcelMatchMaxBet>());
 
                 BuildMatchInfo(row, match);
                 BuildTrader(row, assignments);
@@ -91,7 +92,7 @@
             reportSheet.Cells[row, MatchInfoConst.MatchNoColIndex].Value = assignment.MatchNo;
             reportSheet.Cells[row, MatchInfoConst.MatchStatusColIndex].Value = assignment.MatchStatus;
             reportSheet.Cells[row, MatchInfoConst.SportColIndex].Value = assignment.Sport;
-            reportSheet.Cells[row, MatchInfoConst.DateTimeColIndex].Value = assignment.DateTime;
+            reportSheet.Cells[row, MatchInfoConst.DateTimeColIndex].Value = assignment.DateTime.ToString("MMM dd, yyyy hh:mm tt");
             reportSheet.Cells[row, MatchInfoConst.LeagueColIndex].Value = assignment.League;
             reportSheet.Cells[row, MatchInfoConst.HomeColIndex].Value = assignment.Home;
             reportSheet.Cells[row, MatchInfoConst.AwayColIndex].Value = assignment.Away;

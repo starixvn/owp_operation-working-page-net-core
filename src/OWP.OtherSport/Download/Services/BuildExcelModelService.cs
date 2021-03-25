@@ -44,10 +44,11 @@
         {
             return new ExcelHeaderInfoModel
             {
-                FromDate = request.From,
-                ToDate = request.To,
-                Employee = request.Employee,
-                MatchStatus = string.Join(",", request.MatchStatuses)
+                FromDate = request.From.ToString("MMM dd, yyyy"),
+                ToDate = request.To.ToString("MMM dd, yyyy"),
+                Employee = string.IsNullOrEmpty(request.Employee) ? "All" : request.Employee,
+                Sports = request.Sports,
+                MatchStatus = request.MatchStatuses
             };
         }
 
@@ -155,6 +156,6 @@
             => ExcelConst.MaxbetColumn.GetValue(new Tuple<string, string>(sport, maxbet.BetTypeName), 100);
 
         private static string GetMaxbetValue(MatchMaxBet maxbet)
-            => maxbet.MaxBet.ToString();
+            => maxbet.MaxBet.ToString().TrimEnd('0').TrimEnd('.');
     }
 }
