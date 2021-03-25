@@ -116,8 +116,8 @@
 
         private static int GetTraderColumnIndex(MatchAssignment assignment, string sport)
             => assignment.AssignmentType == (int)AssignmentType.Assignment
-                ? ExcelConst.TraderColumn.GetValue(new Tuple<string, string>(sport, assignment.BetTypeName), 50)
-                : ExcelConst.OtherTraderColumn.GetValue(new Tuple<string, string>(sport, assignment.BetTypeName), 51);
+                ? ExcelConst.TraderColumn.GetValue(new Tuple<string, string>(sport, assignment.BetTypeName), 1)
+                : ExcelConst.OtherTraderColumn.GetValue(new Tuple<string, string>(sport, assignment.BetTypeName), 2);
 
         private static string GetTraderValue(MatchAssignment assignment)
             => assignment.AssignmentType == (int)AssignmentType.Assignment
@@ -153,7 +153,7 @@
         }
 
         private static int GetMaxBetColumnIndex(MatchMaxBet maxbet, string sport)
-            => ExcelConst.MaxbetColumn.GetValue(new Tuple<string, string>(sport, maxbet.BetTypeName), 100);
+            => ExcelConst.MaxbetColumn.GetValue(new Tuple<string, string>(sport, maxbet.BetTypeName), 3);
 
         private static string GetMaxbetValue(MatchMaxBet maxbet)
             => maxbet.MaxBet.ToString().TrimEnd('0').TrimEnd('.');

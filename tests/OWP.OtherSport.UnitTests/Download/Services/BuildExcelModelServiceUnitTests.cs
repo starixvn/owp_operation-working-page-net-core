@@ -33,7 +33,7 @@
         }
 
         [Fact]
-        public async Task BuildExcelAssignments()
+        public async Task BuildExcelModel()
         {
             var request = new DownloadAssignmentRequest
             {
@@ -46,7 +46,16 @@
             var assignmentSnapshot = GetAssignmentSnapshot();
             commandRepository.Query(request).Returns(assignmentSnapshot);
 
-            var expected = new ExcelAssignmentModel
+            var expectedHeader = new ExcelHeaderInfoModel
+            {
+                FromDate = "Mar 25, 2021",
+                ToDate = "Mar 25, 2021",
+                Employee = "sa",
+                Sports = "Basketball",
+                MatchStatus = "Live"
+            };
+
+            var expectedAssignments = new ExcelAssignmentModel
             {
                 Matches = new List<MatchInfo>
                 {
@@ -69,12 +78,14 @@
                 }
             };
 
-            var actual = await service.BuildExcelAssignments(request);
+            var actual = await service.BuildExcelModel(request);
 
-            Assert.Equal(expected.Matches.Count, actual.Matches.Count);
-            DeepAssert.Equal(expected.Matches, actual.Matches);
-            DeepAssert.Equal(expected.MatchAssignments, actual.MatchAssignments);
-            DeepAssert.Equal(expected.MaxBet, actual.MaxBet);
+            DeepAssert.Equal(expectedHeader, actual.HeaderInfo);
+
+            Assert.Equal(expectedAssignments.Matches.Count, actual.ExcelAssignmentModels.Matches.Count);
+            DeepAssert.Equal(expectedAssignments.Matches, actual.ExcelAssignmentModels.Matches);
+            DeepAssert.Equal(expectedAssignments.MatchAssignments, actual.ExcelAssignmentModels.MatchAssignments);
+            DeepAssert.Equal(expectedAssignments.MaxBet, actual.ExcelAssignmentModels.MaxBet);
         }
 
         public AssignmentSnapshot GetAssignmentSnapshot()
