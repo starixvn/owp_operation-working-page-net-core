@@ -31,13 +31,13 @@ namespace OWP.OtherSport.Download.Constants
             { new Tuple<string, string>(Sport.FieldHockey, Bettype.FTHDP), 31},
             { new Tuple<string, string>(Sport.FieldHockey, Bettype.FirstHHDP), 32},
             { new Tuple<string, string>(Sport.FieldHockey, Bettype.FirstQHDP), 33},
-            { new Tuple<string, string>(Sport.FieldHockey, Bettype.FTOU), 34},
-            { new Tuple<string, string>(Sport.FieldHockey, Bettype.FirstHOU), 35},
+            { new Tuple<string, string>(Sport.FieldHockey, Bettype.FTOsU), 34},
+            { new Tuple<string, string>(Sport.FieldHockey, Bettype.FirstHOsU), 35},
             { new Tuple<string, string>(Sport.FieldHockey, Bettype.FirstQOU), 36},
 
             { new Tuple<string, string>(Sport.IceHockey, Bettype.FTHDP), 37},
             { new Tuple<string, string>(Sport.IceHockey, Bettype.First2ndPeriodsHDP), 38},
-            { new Tuple<string, string>(Sport.IceHockey, Bettype.FTOU), 39},
+            { new Tuple<string, string>(Sport.IceHockey, Bettype.FTOsU), 39},
             { new Tuple<string, string>(Sport.IceHockey, Bettype.First2ndPeriodsOU), 40},
 
             { new Tuple<string, string>(Sport.OtherSports, Bettype.MatchWinner), 41},
@@ -56,8 +56,8 @@ namespace OWP.OtherSport.Download.Constants
 
             { new Tuple<string, string>(Sport.Handball, Bettype.FTHDP), 50},
             { new Tuple<string, string>(Sport.Handball, Bettype.FirstHHDP), 51},
-            { new Tuple<string, string>(Sport.Handball, Bettype.FTOU), 52},
-            { new Tuple<string, string>(Sport.Handball, Bettype.FirstHOU), 53},
+            { new Tuple<string, string>(Sport.Handball, Bettype.FTOsU), 52},
+            { new Tuple<string, string>(Sport.Handball, Bettype.FirstHOsU), 53},
 
             { new Tuple<string, string>(Sport.Netball, Bettype.FTHDP), 54},
             { new Tuple<string, string>(Sport.Netball, Bettype.FirstHHDP), 55},
@@ -91,7 +91,7 @@ namespace OWP.OtherSport.Download.Constants
             { new Tuple<string, string>(Sport.Tennis, Bettype.AllProductLS), 78},
             { new Tuple<string, string>(Sport.Tennis, Bettype.NextGame), 79},
             { new Tuple<string, string>(Sport.Tennis, Bettype.MostAces), 80},
-            { new Tuple<string, string>(Sport.Tennis, Bettype.MostDoubleFaults), 81},
+            { new Tuple<string, string>(Sport.Tennis, Bettype.MostDoubleFaults), 81}
         };
 
         public static readonly Dictionary<Tuple<string, string>, int> OtherTraderColumn = new Dictionary<Tuple<string, string>, int>
@@ -113,13 +113,13 @@ namespace OWP.OtherSport.Download.Constants
             { new Tuple<string, string>(Sport.FieldHockey, Bettype.FTHDP), 94},
             { new Tuple<string, string>(Sport.FieldHockey, Bettype.FirstHHDP), 95},
             { new Tuple<string, string>(Sport.FieldHockey, Bettype.FirstQHDP), 96},
-            { new Tuple<string, string>(Sport.FieldHockey, Bettype.FTOU), 97},
-            { new Tuple<string, string>(Sport.FieldHockey, Bettype.FirstHOU), 98},
+            { new Tuple<string, string>(Sport.FieldHockey, Bettype.FTOsU), 97},
+            { new Tuple<string, string>(Sport.FieldHockey, Bettype.FirstHOsU), 98},
             { new Tuple<string, string>(Sport.FieldHockey, Bettype.FirstQOU), 99},
 
             { new Tuple<string, string>(Sport.IceHockey, Bettype.FTHDP), 100},
             { new Tuple<string, string>(Sport.IceHockey, Bettype.First2ndPeriodsHDP), 101},
-            { new Tuple<string, string>(Sport.IceHockey, Bettype.FTOU), 102},
+            { new Tuple<string, string>(Sport.IceHockey, Bettype.FTOsU), 102},
             { new Tuple<string, string>(Sport.IceHockey, Bettype.First2ndPeriodsOU), 103},
 
             { new Tuple<string, string>(Sport.OtherSports, Bettype.MatchWinner), 104},
@@ -138,8 +138,8 @@ namespace OWP.OtherSport.Download.Constants
 
             { new Tuple<string, string>(Sport.Handball, Bettype.FTHDP), 113},
             { new Tuple<string, string>(Sport.Handball, Bettype.FirstHHDP), 114},
-            { new Tuple<string, string>(Sport.Handball, Bettype.FTOU), 115},
-            { new Tuple<string, string>(Sport.Handball, Bettype.FirstHOU), 116},
+            { new Tuple<string, string>(Sport.Handball, Bettype.FTOsU), 115},
+            { new Tuple<string, string>(Sport.Handball, Bettype.FirstHOsU), 116},
 
             { new Tuple<string, string>(Sport.Netball, Bettype.FTHDP), 117},
             { new Tuple<string, string>(Sport.Netball, Bettype.FirstHHDP), 118},
@@ -173,7 +173,7 @@ namespace OWP.OtherSport.Download.Constants
             { new Tuple<string, string>(Sport.Tennis, Bettype.AllProductLS), 141},
             { new Tuple<string, string>(Sport.Tennis, Bettype.NextGame), 142},
             { new Tuple<string, string>(Sport.Tennis, Bettype.MostAces), 143},
-            { new Tuple<string, string>(Sport.Tennis, Bettype.MostDoubleFaults), 144},
+            { new Tuple<string, string>(Sport.Tennis, Bettype.MostDoubleFaults), 144}
         };
 
         public static readonly Dictionary<Tuple<string, string>, int> MaxbetColumn = new Dictionary<Tuple<string, string>, int>
@@ -191,13 +191,13 @@ namespace OWP.OtherSport.Download.Constants
             { new Tuple<string, string>(Sport.FieldHockey, Bettype.FTHDP), 153},
             { new Tuple<string, string>(Sport.FieldHockey, Bettype.FirstHHDP), 154},
             { new Tuple<string, string>(Sport.FieldHockey, Bettype.FirstQHDP), 155},
-            { new Tuple<string, string>(Sport.FieldHockey, Bettype.FTOU), 156},
-            { new Tuple<string, string>(Sport.FieldHockey, Bettype.FirstHOU), 157},
+            { new Tuple<string, string>(Sport.FieldHockey, Bettype.FTOsU), 156},
+            { new Tuple<string, string>(Sport.FieldHockey, Bettype.FirstHOsU), 157},
             { new Tuple<string, string>(Sport.FieldHockey, Bettype.FirstQOU), 158},
 
             { new Tuple<string, string>(Sport.IceHockey, Bettype.FTHDP), 159},
             { new Tuple<string, string>(Sport.IceHockey, Bettype.First2ndPeriodsHDP), 160},
-            { new Tuple<string, string>(Sport.IceHockey, Bettype.FTOU), 161},
+            { new Tuple<string, string>(Sport.IceHockey, Bettype.FTOsU), 161},
             { new Tuple<string, string>(Sport.IceHockey, Bettype.First2ndPeriodsOU), 162},
 
             { new Tuple<string, string>(Sport.OtherSports, Bettype.MatchWinner), 163},
@@ -216,8 +216,8 @@ namespace OWP.OtherSport.Download.Constants
 
             { new Tuple<string, string>(Sport.Handball, Bettype.FTHDP), 172},
             { new Tuple<string, string>(Sport.Handball, Bettype.FirstHHDP), 173},
-            { new Tuple<string, string>(Sport.Handball, Bettype.FTOU), 174},
-            { new Tuple<string, string>(Sport.Handball, Bettype.FirstHOU), 175},
+            { new Tuple<string, string>(Sport.Handball, Bettype.FTOsU), 174},
+            { new Tuple<string, string>(Sport.Handball, Bettype.FirstHOsU), 175},
 
             { new Tuple<string, string>(Sport.Netball, Bettype.FTHDP), 176},
             { new Tuple<string, string>(Sport.Netball, Bettype.FirstHHDP), 177},
