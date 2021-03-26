@@ -25,6 +25,8 @@
 
         AssignmentModel Map(AssignmentModelInExcel excelModel);
 
+        void MapDateTime(AssignmentModelInExcel excelModel, AssignmentModel model);
+
         void MapOtherTraders(AssignmentModelInExcel excelModel, AssignmentModel model);
 
         void MapTraders(AssignmentModelInExcel excelModel, AssignmentModel model);
@@ -54,11 +56,18 @@
         {
             var model = mapper.Map<AssignmentModel>(excelModel);
 
+            MapDateTime(excelModel, model);
             MapTraders(excelModel, model);
             MapOtherTraders(excelModel, model);
             MapMaxbets(excelModel, model);
 
             return model;
+        }
+
+        public void MapDateTime(AssignmentModelInExcel excelModel, AssignmentModel model)
+        {
+            var doubleDatetime = double.Parse(excelModel.DateTime, CultureInfo.InvariantCulture);
+            model.DateTime = DateTime.FromOADate(doubleDatetime);
         }
 
         public void MapOtherTraders(AssignmentModelInExcel excelModel, AssignmentModel model)

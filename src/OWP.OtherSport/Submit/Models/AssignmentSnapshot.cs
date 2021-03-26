@@ -21,9 +21,13 @@
 
     public class MatchInfo
     {
+        public double MatchNo { get; set; }
+
         public int OSMatchId { get; set; }
 
         public string MatchStatus { get; set; }
+
+        public string Reporter { get; set; }
 
         public string Sport { get; set; }
 

@@ -13,6 +13,7 @@
         [Fact]
         public void GetHeaderMap_ExcelWithSomeHeaders_ReturnSomeHeaderWithIndexes()
         {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             using var excelPackage = new ExcelPackage();
             var worksheet = excelPackage.Workbook.Worksheets.Add("Sheet0");
 
@@ -24,6 +25,8 @@
 
             var expected = new Dictionary<string, int>
                 {
+                    {"Match No",0 },
+                    {"Reporter",0 },
                     {"Match Status", 1},
                     {"Sport", 2},
                     {"Date Time", 3},

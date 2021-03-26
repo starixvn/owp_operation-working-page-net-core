@@ -6,6 +6,7 @@
     {
         public AssignmentModel()
         {
+            Reporter = string.Empty;
             MatchStatus = string.Empty;
             Home = string.Empty;
             Away = string.Empty;
@@ -75,7 +76,11 @@
             OtherTraderVolleyballSetsXPointWinnerHDP = string.Empty;
             OtherTraderVolleyballSetWinnerHDPOE = string.Empty;
         }
+        public double MatchNo { get; set; }
+
         public int OSMatchId { get; set; }
+
+        public string Reporter { get; set; }
 
         public string MatchStatus { get; set; }
 

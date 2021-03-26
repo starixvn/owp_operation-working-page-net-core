@@ -3,6 +3,7 @@
     public static class EventUploadingPropertyMaxLength
     {
         public const int MatchStatus = 15;
+        public const int Reporter = 200;
         public const int Sport = 50;
         public const int DateTime = 50;
         public const int LeagueName = 500;

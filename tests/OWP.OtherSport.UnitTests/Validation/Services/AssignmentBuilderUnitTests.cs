@@ -17,12 +17,13 @@
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<AssignmentModelInExcel, AssignmentModel>();
+                cfg.CreateMap<AssignmentModelInExcel, AssignmentModel>()
+                   .ForMember(dest => dest.DateTime, opt => opt.Ignore());
             });
             var iMapper = config.CreateMapper();
 
             assignmentMapper = new AssignmentMapperImp(iMapper);
-            assignmentBuilder = new AssignmentBuilderImp(assignmentMapper);         
+            assignmentBuilder = new AssignmentBuilderImp(assignmentMapper);
         }
 
         [Fact]
@@ -34,7 +35,7 @@
                 new Trader{ UserId = 10, Username = "Mira"},
                 new Trader{ UserId = 2, Username = "Lita"}
             };
-         
+
             var assignmentModelInExcels = GetAssignmentModelInExcels();
 
             var expected = GetAssignmentModels();
@@ -47,6 +48,7 @@
         {
             var model = new AssignmentModel
             {
+                Reporter= null,
                 Sport = "Basketball",
                 Home = "Golden State Warrior",
                 Away = "LA Laker",
@@ -58,6 +60,7 @@
 
             var model2 = new AssignmentModel
             {
+                Reporter = null,
                 Sport = "Ice Hookey",
                 Home = "Golden State Warrior",
                 Away = "LA Laker",
@@ -83,7 +86,7 @@
                 Home = "Golden State Warrior",
                 Away = "LA Laker",
                 MatchStatus = "Completed",
-                DateTime = "12/10/2020 12:00 AM",
+                DateTime = "44175",
                 League = "NBA",
                 AutoLink = "YES"
             };
@@ -94,7 +97,7 @@
                 Home = "Golden State Warrior",
                 Away = "LA Laker",
                 MatchStatus = "Completed",
-                DateTime = "12/10/2020 12:00 AM",
+                DateTime = "44175",
                 League = "Hookey",
                 AutoLink = "YES"
             };

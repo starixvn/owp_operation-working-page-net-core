@@ -16,7 +16,8 @@
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<AssignmentModelInExcel, AssignmentModel>();
+                cfg.CreateMap<AssignmentModelInExcel, AssignmentModel>()
+                   .ForMember(dest => dest.DateTime, opt => opt.Ignore());
             });
             var iMapper = config.CreateMapper();
 
@@ -223,7 +224,7 @@
             var actual = assignmentMapper.Map(excelModel);
 
             DeepAssert.Equal(expected, actual);
-        }     
+        }
 
         private static AssignmentModelInExcel GetAssignmentModelInExcel()
         {
@@ -232,19 +233,20 @@
                 AutoLink = "Yes",
                 Away = "LA",
                 Home = "GSW",
-                DateTime = "12/10/2020 12:00 AM",
+                DateTime = "44175",
                 Sport = "BasketBall",
                 League = "NBA",
                 MatchStatus = "Live"
             };
 
             return excelModel;
-        }      
+        }
 
         private static AssignmentModel ExpectedAssignment()
         {
             var model = new AssignmentModel
             {
+                Reporter= null,
                 AutoLink = "Yes",
                 Away = "LA",
                 Home = "GSW",
@@ -255,6 +257,6 @@
             };
 
             return model;
-        }     
+        }
     }
 }

@@ -6,6 +6,7 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.Globalization;
     using System.Linq;
     using System.Reflection;
     using System.Text.RegularExpressions;
@@ -13,6 +14,8 @@
     {
         void Validate(UploadingDataFromExcel rawDataFromExcel,
             List<Trader> traders);
+
+        void ValidateMatchNo(AssignmentModelInExcel assignment, List<ValidationResult> results);
 
         void ValidateTraders(AssignmentModelInExcel assignment, List<ValidationResult> results, List<Trader> traders);
 
@@ -23,6 +26,7 @@
 
     public class AssignmentValidatorImp : AssignmentValidator
     {
+
         public void Validate(UploadingDataFromExcel rawDataFromExcel, List<Trader> traders)
         {
             var validationResults = new List<AssignmentValidationRowResult>();
@@ -54,6 +58,7 @@
         public List<ValidationResult> CustomValidateAssignment(AssignmentModelInExcel assignment, List<AssignmentModelInExcel> assigments, List<Trader> traders)
         {
             var results = new List<ValidationResult>();
+            ValidateMatchNo(assignment, results);
             ValidateTraders(assignment, results, traders);
             ValidateDataAnotation(assignment, results);
             ValidateDuplicatedMatch(assignment, assigments, results);
@@ -61,6 +66,21 @@
             ValidateMaxbetInString(assignment, results);
 
             return results;
+        }
+
+        public void ValidateMatchNo(AssignmentModelInExcel assignment, List<ValidationResult> results)
+        {
+            if (string.IsNullOrWhiteSpace(assignment.MatchNo))
+            {
+                results.Add(new ValidationResult("Match No is required"));
+            }
+            else
+            {
+                if (!double.TryParse(assignment.MatchNo, out double _))
+                {
+                    results.Add(new ValidationResult("Match No must be number"));
+                }
+            }
         }
 
         public void ValidateTraders(AssignmentModelInExcel assignment, List<ValidationResult> results, List<Trader> traders)
@@ -133,24 +153,9 @@
 
         public void ValidateDateTime(AssignmentModelInExcel assignment, List<ValidationResult> results)
         {
-            const string regex = @"(?i:^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s*\d{2}\,\s*\d{4}\s*(1[0-2]|0?[1-9]):([0-5][0-9])\s*([AP][M])$)";
-            var match = Regex.Match(assignment.DateTime, regex, RegexOptions.IgnoreCase);
-
-            if (!match.Success)
+            if (!double.TryParse(assignment.DateTime, out _))
             {
                 results.Add(new ValidationResult("[Column: Date Time] - Error: Invalid date time format"));
-            }
-            else
-            {
-                try
-                {
-                    DateTime.Parse(assignment.DateTime);
-                }
-
-                catch (FormatException ex)
-                {
-                    results.Add(new ValidationResult($"[Column: Date Time] - Error: {ex.Message}"));
-                }
             }
         }
 
@@ -206,7 +211,7 @@
                 var duplicateRow = duplicateMatch.Select(x => x.Row).ToList();
                 var rowNumber = duplicateMatch.FirstOrDefault().Row;
                 duplicateRow.RemoveAt(0);
-                validationResults.Add(new ()
+                validationResults.Add(new()
                 {
                     Row = rowNumber,
                     Message = $"{duplicateMatch.FirstOrDefault().Message} (with row {string.Join(',', duplicateRow)})"
