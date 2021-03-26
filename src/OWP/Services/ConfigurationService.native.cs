@@ -1,6 +1,6 @@
 ﻿namespace OWP.Services
 {
-    using System;
+    using System.IO;
 
     public interface ConfigurationService
     {
@@ -9,6 +9,6 @@
 
     public class ConfigurationServiceImp : ConfigurationService
     {
-        public string CurrentDirectory => AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+        public string CurrentDirectory => Directory.GetCurrentDirectory();
     }
 }

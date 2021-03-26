@@ -70,6 +70,11 @@
 
         private static Dictionary<int, MatchInfo> FilterMatchesByEmployee(string employee, AssignmentSnapshot assignmentSnapshot)
         {
+            if (string.IsNullOrEmpty(employee))
+            {
+                return assignmentSnapshot.Matches;
+            }
+
             var matches = new Dictionary<int, MatchInfo>();
             foreach (var key in assignmentSnapshot.Matches.Keys)
             {
