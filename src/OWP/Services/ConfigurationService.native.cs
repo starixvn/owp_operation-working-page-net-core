@@ -1,6 +1,6 @@
 ﻿namespace OWP.Services
 {
-    using System.IO;
+    using Microsoft.AspNetCore.Hosting;
 
     public interface ConfigurationService
     {
@@ -9,6 +9,13 @@
 
     public class ConfigurationServiceImp : ConfigurationService
     {
-        public string CurrentDirectory => Directory.GetCurrentDirectory();
+        private readonly IHostingEnvironment hostingEnvironment;
+
+        public ConfigurationServiceImp(IHostingEnvironment hostingEnvironment)
+        {
+            this.hostingEnvironment = hostingEnvironment;
+        }
+
+        public string CurrentDirectory => hostingEnvironment.ContentRootPath;
     }
 }
