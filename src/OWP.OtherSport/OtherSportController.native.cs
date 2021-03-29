@@ -19,7 +19,7 @@
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("AllowOrigin")]
-    //[Authorize]
+    [Authorize]
     [AllowAnonymous]
     public class OtherSportController : ControllerBase
     {
