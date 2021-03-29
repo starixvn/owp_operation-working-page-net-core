@@ -1,8 +1,8 @@
-﻿using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 using OWP.Maxbet.Builder;
 using OWP.Maxbet.Handlers;
 using OWP.Maxbet.Models;
+using System.Threading.Tasks;
 
 namespace OWP.Maxbet.Services
 {
@@ -50,7 +50,13 @@ namespace OWP.Maxbet.Services
 
             var maxbet = await maxbetBuilder.BuildMaxbet(owpMatchId);
 
-            var cn88Maxbet = await mediator.Send(new GetMaxbetCN88Handler.Request { OWPMatchId = owpMatchId });
+            var cn88Maxbet = new MaxbetSpread
+            {
+                FirstHalfHandicap = 0,
+                FirstHalfOverUnder = 0,
+                Handicap = 0,
+                OverUnder = 0
+            };
 
             var secondAcceptValue = await mediator.Send(new GetSecondAcceptValueHandler.Request { OWPMatchId = owpMatchId });
 
