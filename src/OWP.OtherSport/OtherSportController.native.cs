@@ -19,8 +19,8 @@
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("AllowOrigin")]
-    //[Authorize]
-    [AllowAnonymous]
+    [Authorize]
+    //[AllowAnonymous]
     public class OtherSportController : ControllerBase
     {
         private readonly IMediator mediator;
