@@ -42,7 +42,7 @@
         public async Task<ExcelPackage> CreateExcelPackage(DownloadAssignmentRequest request)
         {
             const string templatePath = @"App_Data\Templates\ExportOSAssignmentTemplate.xlsx";
-            var absolutedTemplatePath = $"{_hostingEnvironment.ContentRootPath}\\{templatePath}";
+            var absolutedTemplatePath = $"{configurationService.CurrentDirectory}\\{templatePath}";
 
             var model = await buildExcelModelService.BuildExcelModel(request);
 
