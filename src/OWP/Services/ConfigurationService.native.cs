@@ -11,12 +11,14 @@
     public class ConfigurationServiceImp : ConfigurationService
     {
         private readonly IConfiguration configuration;
+        private readonly IWebHostEnvironment env;
 
-        public ConfigurationServiceImp(IConfiguration configuration)
+        public ConfigurationServiceImp(IConfiguration configuration, IWebHostEnvironment env)
         {
             this.configuration = configuration;
+            this.env = env;
         }
 
-        public string CurrentDirectory => configuration.GetValue<string>(WebHostDefaults.ContentRootKey);
+        public string CurrentDirectory => env.ContentRootPath;
     }
 }
