@@ -15,7 +15,9 @@
     <Content Include="App_Data\Fanex.Data\DBOWP.bodb_OWP.bodbOWPNet.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="App_Data\Templates\ExportOSAssignmentTemplate.xlsx" />
+    <Content Include="App_Data\Templates\ExportOSAssignmentTemplate.xlsx">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

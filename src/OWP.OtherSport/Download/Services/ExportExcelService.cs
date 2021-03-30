@@ -4,7 +4,6 @@
     using System.IO;
     using System.Threading.Tasks;
     using Epplus.Mapper.Extensions;
-    using Microsoft.AspNetCore.Hosting;
     using OfficeOpenXml;
     using OWP.Extensions;
     using OWP.OtherSport.Download.Constants;
@@ -23,26 +22,22 @@
 
         private readonly BuildExcelModelService buildExcelModelService;
 
-        private readonly IWebHostEnvironment _hostingEnvironment;
-
         private ExcelPackage excelPackage { get; set; }
 
         private ExcelWorksheet reportSheet;
 
         public ExportExcelServiceImp(
-            IWebHostEnvironment hostingEnvironment,
             ConfigurationService configurationService,
             BuildExcelModelService buildExcelModelService)
         {
-            _hostingEnvironment = hostingEnvironment;
             this.configurationService = configurationService;
             this.buildExcelModelService = buildExcelModelService;
         }
 
         public async Task<ExcelPackage> CreateExcelPackage(DownloadAssignmentRequest request)
         {
-            const string templatePath = @"App_Data\Templates\ExportOSAssignmentTemplate.xlsx";
-            var absolutedTemplatePath = $"{_hostingEnvironment.ContentRootPath}\\{templatePath}";
+            var templatePath = @$"App_Data{Path.DirectorySeparatorChar}Templates{Path.DirectorySeparatorChar}ExportOSAssignmentTemplate.xlsx";
+            var absolutedTemplatePath = $"{configurationService.CurrentDirectory}{Path.DirectorySeparatorChar}{templatePath}";
 
             var model = await buildExcelModelService.BuildExcelModel(request);
 
