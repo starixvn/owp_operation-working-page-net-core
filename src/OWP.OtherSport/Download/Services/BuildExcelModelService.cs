@@ -62,7 +62,7 @@
 
             return new ExcelAssignmentModel
             {
-                Matches = assignmentSnapshot.Matches.Values.ToList(),
+                Matches = assignmentSnapshot.Matches.Values.OrderBy(m=>m.MatchNo).ToList(),
                 MatchAssignments = matchAssignments,
                 MaxBet = matchMaxbets
             };
