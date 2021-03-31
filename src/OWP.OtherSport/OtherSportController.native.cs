@@ -1,5 +1,6 @@
 ﻿namespace OWP.OtherSport
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Threading.Tasks;
@@ -7,7 +8,9 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Mvc;
+    using Olympus.WebApi.Results;
     using OWP.Helpers;
+    using OWP.OtherSport.Download;
     using OWP.OtherSport.EventAssignment;
     using OWP.OtherSport.EventAssignment.Models;
     using OWP.OtherSport.Submit;
@@ -28,9 +31,9 @@
         }
 
         [Route("get-assignment")]
-        [HttpPost]      
+        [HttpPost]
         public async Task<IEnumerable<EventAssignmentModel>> QueryEventAssignment(QueryEventAssignmentRequest request)
-        {          
+        {
            return await mediator.Send(request);
         }
 
@@ -66,6 +69,28 @@
         {
             var viewModel = await mediator.Send(request);
             return new JsonResult(viewModel);
+        }
+
+        [Route("download")]
+        [HttpGet]
+        public async Task<IActionResult> Download(
+            [FromQuery] DateTime from,
+            [FromQuery] DateTime to,
+            [FromQuery] string employee,
+            [FromQuery] string sports,
+            [FromQuery] string matchStatuses)
+        {
+            var request = new DownloadAssignmentRequest
+            {
+                From = from,
+                To = to,
+                Employee = employee,
+                Sports = sports,
+                MatchStatuses = matchStatuses
+            };
+
+            var excelPackage = await mediator.Send(request);
+            return File(excelPackage.GetAsByteArray(), "application/octet-stream", "OSAssignment.xlsx");
         }
     }
 }

@@ -3,6 +3,7 @@
     using System;
     using System.Reflection;
     using AutoMapper;
+    using OWP.OtherSport.Download.Models;
     using OWP.OtherSport.EventAssignment.Models;
     using OWP.OtherSport.Submit.Models;
     using OWP.OtherSport.Validation.Models;
@@ -17,6 +18,8 @@
                 .IgnoreMaxbets()
                 .IgnoreTraders();
             CreateMap<MatchInfo, EventAssignmentModel>();
+            CreateMap<MatchAssignment, ExcelMatchAssignment>();
+            CreateMap<MatchMaxBet, ExcelMatchMaxBet>();
         }
     }
 

@@ -85,7 +85,7 @@
         {
             var excelValidator = new ExcelValidatorImp();
             var stream = new MemoryStream();
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            //ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             using var excelPackage = new ExcelPackage(stream);
             var worksheet = GetValidHeaderWorksheet(excelPackage);
 
