@@ -5,7 +5,6 @@
     using System.Linq;
     using Constants;
     using Models;
-    using Validation.Constants;
 
     public interface ChangedMatchStatusGenerator
     {
@@ -43,27 +42,6 @@
 
                 changedValueList.AddRange(changedValues);
             }
-
-            var ignored = IsIgnoredMinorMatch(snapshot.NewMatch.MatchType);
-            if (!ignored && isMinorMatch)
-            {
-                var mainMatch = snapshot.NewSnapshot.Matches[snapshot.NewMatch.ParentMatchId];
-                var messages = existingAssignees.Select(a => new ChangedValue
-                {
-                    MessageTypeId = (int)MsgTemplateCode.MinorMatchStatus,
-                    OldValue = snapshot.OldMatch.MatchStatus,
-                    NewValue = snapshot.NewMatch.MatchStatus,
-                    MatchNo = mainMatch.MatchNo,
-                    League = mainMatch.LeagueName,
-                    BetTypeName = snapshot.NewMatch.MinorBettypeName,
-                    EventName = mainMatch.Home + EVENT_VS + mainMatch.Away,
-                    AssigneeId = a.AssigneeId,
-                    AssigneeName = a.AssigneeName
-                });
-
-                changedValueList.AddRange(messages);
-            }
-
             return changedValueList;
         }
 
@@ -72,20 +50,6 @@
             return matchStatus.IndexOf("CANCEL", StringComparison.CurrentCultureIgnoreCase) >= 0
               || matchStatus.IndexOf("SUSPENDED", StringComparison.CurrentCultureIgnoreCase) >= 0
               || matchStatus.IndexOf("POSTPONED", StringComparison.CurrentCultureIgnoreCase) >= 0;
-        }
-
-        public static bool IsIgnoredMinorMatch(int matchType)
-        {
-            var minorGenerateList = new List<int> {
-                (int)MinorBettype.Specific15Mins,
-                (int)MinorBettype.Specific10Mins,
-                (int)MinorBettype.FastMarket,
-                (int)MinorBettype.AllInOne,
-                (int)MinorBettype.Specific15MinsCorners,
-                (int)MinorBettype.Specific15MinsTotalBookings
-            };
-
-            return minorGenerateList.Contains(matchType);
         }
     }
 }

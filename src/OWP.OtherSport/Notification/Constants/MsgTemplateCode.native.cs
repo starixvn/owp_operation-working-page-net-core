@@ -30,7 +30,6 @@
         EditWebsite4 = 39,
         EditHomeName = 43,
         MatchStatus = 6,
-        MinorMatchStatus = 7,
         OtherAssignmentDelete = 9,
         OtherAssignmentInsert = 8,
         OtherAssignmentUpdate = 10
