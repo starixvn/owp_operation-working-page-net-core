@@ -4,6 +4,8 @@
     using System.Linq;
     using System.Reflection;
     using Models;
+    using OWP.OtherSport.Notification.Constants;
+    using OWP.OtherSport.Submit.Models;
 
     public interface ChangedMatchInfoGenerator
     {
@@ -40,12 +42,6 @@
 
         public List<ChangedValue> Create(GeneralMatch oldMatch, GeneralMatch newMatch, List<Assignee> existingAssignees)
         {
-            var ignored = IsIgnoredMinorMatch(newMatch.MatchType);
-            if (ignored)
-            {
-                return new List<ChangedValue>();
-            }
-
             var changedValueList = new List<ChangedValue>();
             var changedList = GetListValueChanged(oldMatch, newMatch);
             foreach (var changed in changedList)
@@ -111,20 +107,6 @@
         private static PropertyInfo GetProperty(GeneralMatch match, string propertyName)
         {
             return match.GetType().GetProperties().Single(p => p.Name == propertyName);
-        }
-
-        public static bool IsIgnoredMinorMatch(int matchType)
-        {
-            var minorGenerateList = new List<int> {
-                (int)MinorBettype.Specific15Mins,
-                (int)MinorBettype.Specific10Mins,
-                (int)MinorBettype.FastMarket,
-                (int)MinorBettype.AllInOne,
-                (int)MinorBettype.Specific15MinsCorners,
-                (int)MinorBettype.Specific15MinsTotalBookings
-            };
-
-            return minorGenerateList.Contains(matchType);
         }
     }
 }
