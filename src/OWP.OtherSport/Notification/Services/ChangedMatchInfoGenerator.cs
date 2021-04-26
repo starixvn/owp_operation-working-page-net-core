@@ -19,25 +19,17 @@
         private static readonly List<string> MatchInfoPropertyNames = new List<string>
         {
             "MatchNo",
-            "OtherTime",
-            "KickOffTime",
-            "Agent",
-            "Channel",
-            "Division",
+            "MatchStatus",
+            "Category",
             "MatchOffer",
-            "NoOfHDP",
-            "Phone",
-            "Provider",
+            "AutoLink",
             "OtherProvider",
+            "IPTV",
+            "Wb",
             "Remark",
-            "Round",
-            "TV",
-            "WB",
-            "Website1",
-            "Website2",
-            "Website3",
-            "Website4",
-            "Home"
+            "MaxBet",
+            "Reporter",
+            "Provider"
         };
 
         public List<ChangedValue> Create(GeneralMatch oldMatch, GeneralMatch newMatch, List<Assignee> existingAssignees)

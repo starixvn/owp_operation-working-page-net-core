@@ -6,6 +6,7 @@
     using EventAssignment = OtherSport.EventAssignment.Services;
     using OWP.OtherSport.EventAssignment.Builder;
     using OWP.OtherSport.Download.Services;
+    using OWP.OtherSport.Notification.Services;
 
     public static class OtherSportInjector
     {
@@ -35,6 +36,9 @@
             services.AddScoped<BuildExcelModelService, BuildExcelModelServiceImp>();
             services.AddScoped<ExportExcelService, ExportExcelServiceImp>();
             services.AddScoped<CommandRepository, CommandRepositoryImp>();
+
+            // Notification
+            services.AddScoped<MessageFactory, MessageFactoryImp>();
         }
     }
 }

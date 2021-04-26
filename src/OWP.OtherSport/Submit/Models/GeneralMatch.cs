@@ -19,15 +19,9 @@ namespace OWP.OtherSport.Submit.Models
         public string Agent { get; set; }
         public string Channel { get; set; }
         public string Division { get; set; }
-        public string MatchNo { get; set; }
-        public string MatchOffer { get; set; }
-        public string MatchStatus { get; set; }
         public string NoOfHDP { get; set; }
         public string Note { get; set; }
         public string Phone { get; set; }
-        public string Provider { get; set; }
-        public string OtherProvider { get; set; }
-        public string Remark { get; set; }
         public string Round { get; set; }
         public string TV { get; set; }
         public string WB { get; set; }
@@ -35,5 +29,30 @@ namespace OWP.OtherSport.Submit.Models
         public string Website2 { get; set; }
         public string Website3 { get; set; }
         public string Website4 { get; set; }
+
+        // New
+        public string MatchNo { get; set; }
+
+        public string MatchStatus { get; set; }
+
+        public string Category { get; set; }
+
+        public string MatchOffer { get; set; }
+
+        public string AutoLink { get; set; }
+
+        public string OtherProvider  { get; set; }
+
+        public string IPTV { get; set; }
+
+        public string Wb { get; set; }
+
+        public string Remark { get; set; }
+
+        public string MaxBet  { get; set; }
+
+        public string Reporter { get; set; }
+
+        public string Provider { get; set; }
     }
 }

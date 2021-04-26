@@ -1,0 +1,251 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using Fanex.NAP.Core.Web.Session;
+using OWP.OtherSport.Notification.Constants;
+using OWP.OtherSport.Notification.Models;
+
+namespace OWP.OtherSport.Notification.Services
+{
+    public interface MessageFactory
+    {
+        List<MessageModel> Transform(List<ChangedValue> changedValues);
+    }
+
+    public class MessageFactoryImp : MessageFactory
+    {
+        #region MessageTemplate
+        private static readonly ImmutableList<MessageTemplate> messageTemplates = ImmutableList<MessageTemplate>.Empty.AddRange(new[]
+        {
+            new MessageTemplate
+            {
+                MessageType = (int)MsgTemplateCode.EditMatchNo,
+                MessageContent = "Match No. Updated from [<old value>] to [<newvalue>] for <Match.No> - <League> - <Event> updated by <User>"
+            },
+             new ()
+            {
+                MessageType = (int)MsgTemplateCode.EditMatchStatus,
+                MessageContent = "Match Status Updated from [<old value>]> to [<newvalue>] for <Match.No> - <League> - <Event> updated by <User>",
+                IsImportant= true
+             },
+             new()
+             {
+                MessageType = (int)MsgTemplateCode.EditCategory,
+                MessageContent = "Category Updated from [<old value>] to [<newvalue>] for <Match.No> - <League> - <Event> updated by <User>",
+             },
+             new()
+             {
+                 MessageType=(int)MsgTemplateCode.EditNoOfHDP,
+                 MessageContent="No. HDP Updated from [<old value>] to [<newvalue>] for <Match.No> - <League> -  <Event> updated by <User>"
+             },
+             new()
+             {
+                  MessageType=(int)MsgTemplateCode.EditMatchOffer,
+                 MessageContent="Match Offer Updated from [<old value>] to [<newvalue>] for <Match.No> - <League> - <Event> updated by <User>"
+             },
+            new()
+            {
+                MessageType=(int)MsgTemplateCode.EditAutoLink,
+                 MessageContent="Auto Link Updated from [<old value>] to [ <newvalue>] for <Match.No> - <League> - <Event> updated by <User>"
+            },
+             new()
+            {
+                MessageType=(int)MsgTemplateCode.EditOtherProvider,
+                 MessageContent="Other Provider Updated from [<old value>] to [<newvalue>] for <Match.No> - <League> -  <Event> updated by <User>"
+            },
+              new()
+            {
+                MessageType=(int)MsgTemplateCode.EditIPTV,
+                 MessageContent="IPTV Updated from [<old value>] to [<newvalue>] for <Match.No> - <League> - <Event> updated by <User>"
+            },
+               new()
+            {
+                MessageType=(int)MsgTemplateCode.EditWB,
+                 MessageContent="Streaming Info (WB) Updated from <old value> to [<newvalue>] for <Match.No> - <League> - <Event> updated by <User>"
+            },
+                 new()
+            {
+                MessageType=(int)MsgTemplateCode.EditRemark,
+                 MessageContent="Remark Updated from [<old value>]> to [<newvalue>] for <Match.No> - <League> - <Event> updated by <User>"
+            },
+                 new()
+            {
+                MessageType=(int)MsgTemplateCode.EditMaxbet,
+                 MessageContent="Max Bet Updated from [<old value>] to [<newvalue>] for <Match.No> - <League> -  <Event> updated by <User>"
+            },
+                  new()
+            {
+                MessageType=(int)MsgTemplateCode.EditReporter,
+                 MessageContent="Reporter Updated from [<old value>] to[<newvalue>] for <Match.No> - <League> - <Event> updated by <User>"
+            },
+                    new()
+            {
+                MessageType=(int)MsgTemplateCode.EditProvider,
+                 MessageContent="Provider Updated from[<old value>] to [<newvalue>] for <Match.No> - <League> - <Event> updated by <User>"
+            }
+        });
+
+        #endregion
+
+        #region MessageGroup
+        private class MessageGroup : IEqualityComparer<MessageGroup>
+        {
+            public MessageGroup(ChangedValue value)
+            {
+                AssignmentNote = value.AssignmentNote;
+                BetTypeId = value.BetTypeId;
+                BetTypeName = value.BetTypeName;
+                MessageTypeId = value.MessageTypeId;
+                NewValue = value.NewValue;
+                OldValue = value.OldValue;
+                League = value.League;
+                EventName = value.EventName;
+                MatchNo = value.MatchNo;
+                IsWatcher = value.IsWatcher;
+            }
+
+            public string AssignmentNote { get; set; }
+            public int BetTypeId { get; set; }
+
+            public string BetTypeName { get; set; }
+
+            public int MessageTypeId { get; set; }
+
+            public string NewValue { get; set; }
+
+            public string OldValue { get; set; }
+
+            public string League { get; set; }
+
+            public string EventName { get; set; }
+
+            public string MatchNo { get; set; }
+
+            public bool IsWatcher { get; set; }
+
+            public bool Equals(MessageGroup x, MessageGroup y)
+            {
+#pragma warning disable S1067 // Expressions should not be too complex - ignored by Jacob
+                return x.AssignmentNote == y.AssignmentNote &&
+                   x.BetTypeId == y.BetTypeId &&
+                   x.BetTypeName == y.BetTypeName &&
+                   x.MessageTypeId == y.MessageTypeId &&
+                   x.NewValue == y.NewValue &&
+                   x.OldValue == y.OldValue &&
+                   x.League == y.League &&
+                   x.EventName == y.EventName &&
+                   x.MatchNo == y.MatchNo &&
+                   x.IsWatcher == y.IsWatcher;
+#pragma warning restore S1067 // Expressions should not be too complex
+            }
+
+            public int GetHashCode(MessageGroup obj)
+            {
+                var hash = 17;
+                hash = hash * 23 + obj.BetTypeId;
+                hash = hash * 31 + obj.MessageTypeId;
+                hash = hash * 47 + obj.League.GetHashCode();
+                hash = hash * 59 + obj.EventName.GetHashCode();
+
+                return hash;
+            }
+        }
+
+        #endregion
+
+        #region MessageModelRaw
+        private class MessageModelRaw
+        {
+            public string MessageContent { get; set; }
+
+            public bool IsImportant { get; set; }
+
+            public bool IsWatcher { get; set; }
+
+            public int MessageType { get; set; }
+
+            public List<Assignee> Assignees { get; set; }
+        }
+
+        #endregion
+
+        private static readonly Dictionary<int, MessageTemplate> messageTemplateMap = messageTemplates.ToDictionary(m => m.MessageType, m => m);
+
+        private readonly ICurrentSession currentSession;
+
+        public MessageFactoryImp(ICurrentSession currentSession)
+        {
+            this.currentSession = currentSession;
+        }
+
+        public List<MessageModel> Transform(List<ChangedValue> changedValues)
+        {
+            var messageModels = TransformChangedValueToMessageModel(changedValues);
+            return Reduce(messageModels);
+        }
+
+        private List<MessageModelRaw> TransformChangedValueToMessageModel(List<ChangedValue> changedValues)
+        {
+            return changedValues.GroupBy(v => new MessageGroup(v))
+                .Select(g =>
+                {
+                    var messageTemplate = messageTemplateMap[g.Key.MessageTypeId];
+                    var content = CreateMessageContent(g.Key);
+
+                    return new MessageModelRaw
+                    {
+                        IsImportant = messageTemplate.IsImportant,
+                        MessageContent = content,
+                        IsWatcher = g.Key.IsWatcher,
+                        MessageType = g.Key.MessageTypeId,
+                        Assignees = g.Select(i => new Assignee { AssigneeId = i.AssigneeId, AssigneeName = i.AssigneeName }).ToList()
+                    };
+                }).ToList();
+        }
+
+        private string CreateMessageContent(MessageGroup messageGroup)
+        {
+            var messageTemplate = messageTemplateMap[messageGroup.MessageTypeId];
+            var content = messageTemplate.MessageContent;
+
+            var assignmentNote = Regex.Replace(messageGroup.AssignmentNote, "#<user>", "", RegexOptions.IgnoreCase);
+            assignmentNote = Regex.Replace(assignmentNote, "same", "", RegexOptions.IgnoreCase);
+
+            content = content.Replace("<newvalue>", messageGroup.NewValue);
+            content = content.Replace("<old value>", messageGroup.OldValue);
+            content = content.Replace("<Match.No>", !string.IsNullOrEmpty(messageGroup.MatchNo) ? $"#{messageGroup.MatchNo}" : string.Empty);
+            content = content.Replace("<League>", messageGroup.League);
+            content = content.Replace("<Event>", messageGroup.EventName);
+            content = content.Replace("<User>", currentSession.Username);
+          
+            content = content.Replace("<Bettype>", messageGroup.BetTypeName);
+            content = content.Replace("<Note>", assignmentNote);
+
+            return content;
+        }
+
+        private static List<MessageModel> Reduce(List<MessageModelRaw> messageModels)
+        {
+            return messageModels.GroupBy(m => new { m.MessageContent, m.IsImportant, m.IsWatcher, m.MessageType })
+                .Select(m =>
+                {
+                    var assignees = m.SelectMany(x => x.Assignees).Distinct().ToArray();
+                    return new MessageModel
+                    {
+
+                        MessageType = m.Key.MessageType,
+                        MessageContent = m.Key.MessageContent,
+                        IsImportant = m.Key.IsImportant,
+                        IsWatcher = m.Key.IsWatcher,
+                        ReceivedUserIdList = string.Join(",", assignees.Select(a => a.AssigneeId)),
+                        ReceivedUserNameList = string.Join(",", assignees.Select(a => a.AssigneeName))
+                    };
+                })
+                .ToList();
+        }
+    }
+}
