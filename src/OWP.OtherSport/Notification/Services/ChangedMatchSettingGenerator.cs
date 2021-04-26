@@ -4,8 +4,8 @@
     using System.Collections.Generic;
     using System.Linq;
     using Constants;
-    using Extensions;
     using Models;
+    using OWP.OtherSport.Submit.Contants;
     using Submit.Constants;
     using Submit.Models;
     using Utils;
@@ -20,16 +20,16 @@
         private const string EVENT_VS = " -vs- ";
         public List<ChangedValue> Create(ChangedMatchSnapshot snapshot, int matchId, List<Assignee> existingAssignees)
         {
-            
-            var newMatchSettings = snapshot.NewSnapshot.MatchSettings.GetValue(matchId, new List<MatchSetting>());
-            var oldMatchSettings = snapshot.OldSnapshot.MatchSettings.GetValue(matchId, new List<MatchSetting>());
+
+            var newMatchSettings = snapshot.NewSnapshot.MaxBet.GetValue(matchId, new List<MatchMaxBet>());
+            var oldMatchSettings = snapshot.OldSnapshot.MaxBet.GetValue(matchId, new List<MatchMaxBet>());
             var changedList = GetListValueChangedWithDifferentBettype(oldMatchSettings, newMatchSettings);
 
             var changedValueList = new List<ChangedValue>();
 
             foreach (var changed in changedList)
             {
-                var mainMatch = snapshot.NewSnapshot.Matches.GetValue(snapshot.NewMatch.ParentMatchId, snapshot.NewMatch);
+                var mainMatch = snapshot.NewSnapshot.MaxBet.GetValue(snapshot.NewMatch.ParentMatchId, snapshot.NewMatch);
                 var bettypeName = BettypeNameExtensions.GetBettypeNameForMatchSetting(changed.BetTypeId, snapshot.NewMatch.MatchType, snapshot.NewMatch.MinorBettypeName);
                 var changedValues = existingAssignees.Select(a => new ChangedValue
                 {
@@ -50,25 +50,62 @@
             return changedValueList;
         }
 
-        public IEnumerable<ChangedValue> GetListValueChangedWithDifferentBettype(List<MatchSetting> oldMatchSettings, List<MatchSetting> newMatchSettings)
+        public static IEnumerable<ChangedValue> GetListValueChangedWithDifferentBettype(List<MatchMaxBet> oldMatchSettings, List<MatchMaxBet> newMatchSettings)
         {
-            var majorBettypeGenerateList = new List<int> {
-                (int)MajorBetType.Handicap,
-                (int)MajorBetType.Handicap1H,
-                (int)MajorBetType.FastMarket,
-                (int)MajorBetType.LA,
-                (int)MajorBetType.XMins,
-                (int)MajorBetType.OneXTwo,
-                (int)MajorBetType.OneXTwo1H,
-                (int)MajorBetType.OverUnder,
-                (int)MajorBetType.OverUnder1H
+            var bettypes = new List<string> {
+                 Bettype.FTHDP,
+                 Bettype.FirstHHDP,
+                 Bettype.FirstQ3QHDP ,
+                 Bettype.FTOUOE ,
+                 Bettype.FirstHOUOE ,
+                 Bettype.FirstHOU ,
+                 Bettype.FirstHOsU ,
+                 Bettype.FirstQ3QOUOE ,
+                 Bettype.FirstQ3QOU,
+                 Bettype.FirstQHDP ,
+                 Bettype.FirstQOU ,
+                 Bettype.FTOU ,
+                 Bettype.FTOsU ,
+                 Bettype.First2ndPeriodsHDP ,
+                 Bettype.First2ndPeriodsOU ,
+                 Bettype.MatchWinner ,
+                 Bettype.LegsHDP ,
+                 Bettype.Most180sHDP ,
+                 Bettype.MatchWinnerHDP ,
+                 Bettype.RacksWinnerHDP ,
+                 Bettype.SetWinnerHDP ,
+                 Bettype.SetXWinnerHDP ,
+                 Bettype.SetWinnerHDPOE ,
+                 Bettype.SetsXPointWinnerHDP ,
+                 Bettype.MatchWinnerInningsOU ,
+                 Bettype.NextOverOUPlayerOU ,
+                 Bettype.FT1X2 ,
+                 Bettype.MatchWinnerHDPOU ,
+                 Bettype.FramesWinnerHDPOUOE ,
+                 Bettype.First5FramesHDP ,
+                 Bettype.First8FramesHDP,
+                 Bettype.First9FramesHDP ,
+                 Bettype.FTRunLineHDP ,
+                 Bettype.FirstH1st5inningsHDP ,
+                 Bettype.FTTotalRunOU ,
+                 Bettype.FirstH1st5inningsOU ,
+                 Bettype.InningHitsAndRuns ,
+                 Bettype.AllProductSetWinner ,
+                 Bettype.AllProductPointWinner ,
+                 Bettype.RacetoPoints7911 ,
+                 Bettype.NextPointWinner ,
+                 Bettype.MatchHandicap ,
+                 Bettype.AllProductLS ,
+                 Bettype.NextGame ,
+                 Bettype.MostAces ,
+                 Bettype.MostDoubleFaults
             };
 
             var changedValues = new List<ChangedValue>();
-            foreach (var bettype in majorBettypeGenerateList)
+            foreach (var bettype in bettypes)
             {
-                var oldMatchWithBettype = oldMatchSettings.SingleOrDefault(a => a.BetType == bettype) ?? new MatchSetting();
-                var newMatchWithBettype = newMatchSettings.SingleOrDefault(a => a.BetType == bettype) ?? new MatchSetting();
+                var oldMatchWithBettype = oldMatchSettings.SingleOrDefault(a => string.Equals(a.BetTypeName, bettype)) ?? new MatchMaxBet();
+                var newMatchWithBettype = newMatchSettings.SingleOrDefault(a => string.Equals(a.BetTypeName, bettype)) ?? new MatchMaxBet();
                 var listMessage = GetListValueChangedOfMatchSetting(oldMatchWithBettype, newMatchWithBettype, bettype);
                 changedValues.AddRange(listMessage);
             }
@@ -76,7 +113,7 @@
             return changedValues;
         }
 
-        public IEnumerable<ChangedValue> GetListValueChangedOfMatchSetting(MatchSetting oldMatchSetting, MatchSetting newMatchSetting, int bettype)
+        public static IEnumerable<ChangedValue> GetListValueChangedOfMatchSetting(MatchMaxBet oldMatchSetting, MatchMaxBet newMatchSetting, string bettype)
         {
             if (!Equals(oldMatchSetting.MaxBet, newMatchSetting.MaxBet))
             {
@@ -84,49 +121,10 @@
                 {
                     OldValue = oldMatchSetting.MaxBet.ToOWPMaxBetFormat(),
                     NewValue = newMatchSetting.MaxBet.ToOWPMaxBetFormat(),
-                    BetTypeId = bettype,
+                    BetTypeName = bettype,
                     MessageTypeId = (int)MsgTemplateCode.EditMaxbet
                 };
             }
-
-            if (!Equals(oldMatchSetting.MaxBetCN88, newMatchSetting.MaxBetCN88))
-            {
-                yield return new ChangedValue
-                {
-                    OldValue = oldMatchSetting.MaxBetCN88.ToOWPMaxBetFormat(),
-                    NewValue = newMatchSetting.MaxBetCN88.ToOWPMaxBetFormat(),
-                    BetTypeId = bettype,
-                    MessageTypeId = (int)MsgTemplateCode.EditMaxbetCN88
-                };
-            }
-
-            if (!Equals(oldMatchSetting.Spread, newMatchSetting.Spread))
-            {
-                yield return new ChangedValue
-                {
-                    OldValue = ToSpreadFormat(oldMatchSetting.Spread),
-                    NewValue = ToSpreadFormat(newMatchSetting.Spread),
-                    BetTypeId = bettype,
-                    MessageTypeId = (int)MsgTemplateCode.EditSpread
-                };
-            }
-
-            if (!Equals(oldMatchSetting.SpreadCN88, newMatchSetting.SpreadCN88))
-            {
-                yield return new ChangedValue
-                {
-                    OldValue = ToSpreadFormat(oldMatchSetting.SpreadCN88),
-                    NewValue = ToSpreadFormat(newMatchSetting.SpreadCN88),
-                    BetTypeId = bettype,
-                    MessageTypeId = (int)MsgTemplateCode.EditSpreadCN88
-                };
-            }
-        }
-
-        private static string ToSpreadFormat(decimal? spread)
-        {
-            var spreadFormat = spread.ToOWPSpreadFormat();
-            return spreadFormat != string.Empty ? spreadFormat + "%" : spreadFormat;
         }
     }
 }

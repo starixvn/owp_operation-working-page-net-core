@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Fanex.NAP.Core.Web.Session;
 using OWP.OtherSport.Notification.Constants;
 using OWP.OtherSport.Notification.Models;
@@ -97,7 +95,6 @@ namespace OWP.OtherSport.Notification.Services
             public MessageGroup(ChangedValue value)
             {
                 AssignmentNote = value.AssignmentNote;
-                BetTypeId = value.BetTypeId;
                 BetTypeName = value.BetTypeName;
                 MessageTypeId = value.MessageTypeId;
                 NewValue = value.NewValue;
@@ -109,7 +106,6 @@ namespace OWP.OtherSport.Notification.Services
             }
 
             public string AssignmentNote { get; set; }
-            public int BetTypeId { get; set; }
 
             public string BetTypeName { get; set; }
 
@@ -131,7 +127,6 @@ namespace OWP.OtherSport.Notification.Services
             {
 #pragma warning disable S1067 // Expressions should not be too complex - ignored by Jacob
                 return x.AssignmentNote == y.AssignmentNote &&
-                   x.BetTypeId == y.BetTypeId &&
                    x.BetTypeName == y.BetTypeName &&
                    x.MessageTypeId == y.MessageTypeId &&
                    x.NewValue == y.NewValue &&
@@ -146,7 +141,6 @@ namespace OWP.OtherSport.Notification.Services
             public int GetHashCode(MessageGroup obj)
             {
                 var hash = 17;
-                hash = hash * 23 + obj.BetTypeId;
                 hash = hash * 31 + obj.MessageTypeId;
                 hash = hash * 47 + obj.League.GetHashCode();
                 hash = hash * 59 + obj.EventName.GetHashCode();

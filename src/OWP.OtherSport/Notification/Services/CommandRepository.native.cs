@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Fanex.Data.Repository;
+    using Fanex.NAP.Core.Web.Session;
     using Models;
     using Olympus.Xml;
 

@@ -19,7 +19,7 @@ namespace OWP.OtherSport.Notification.Services
         private readonly QueryRepository queryRepository;
         private readonly ChangedValueBySnapshot changedValueBySnapshot;
 
-        public Task<List<ChangedValue>> Create(string sessionId, DateTime eventDate)
+        public async Task<List<ChangedValue>> Create(string sessionId, DateTime eventDate)
         {
             var oldSnapshot = await cacheManipulator.GetAssignmentSnapshot(sessionId, eventDate);
             var newSnapshot = await queryRepository.Query(eventDate);
