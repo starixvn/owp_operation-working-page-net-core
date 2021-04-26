@@ -16,7 +16,7 @@
 	public class CacheManipulatorImp : CacheManipulator
 	{
 		private readonly ICache cache;
-		private const string KEY_ASSIGNMENT_SNAPSHOT = "OWP-ASSIGNMENT-SNAPSHOT";
+        private const string KEY_OLD_OS_ASSIGNMENT_SNAPSHOT = "OWP-Old-OS-Assignment";
 
 		public CacheManipulatorImp(ICache cache)
 		{
@@ -25,7 +25,7 @@
 
 		public async Task<AssignmentSnapshot> GetAssignmentSnapshot(string sessionId, DateTime eventDate)
 		{
-			var cacheKey = $"{KEY_ASSIGNMENT_SNAPSHOT}-{sessionId}-{eventDate}";
+			var cacheKey = $"{KEY_OLD_OS_ASSIGNMENT_SNAPSHOT}-{sessionId}-{eventDate}";
 			var cacheResult = await cache.TryGetAsync<string>(cacheKey);
 			var assignmentSnapshot = string.IsNullOrEmpty(cacheResult.Item2)
 				? new AssignmentSnapshot()
@@ -35,7 +35,7 @@
 
 		public async Task DeleteAssignmentSnapshot(string sessionId, DateTime eventDate)
 		{
-			var cacheKey = $"{KEY_ASSIGNMENT_SNAPSHOT}-{sessionId}-{eventDate}";
+			var cacheKey = $"{KEY_OLD_OS_ASSIGNMENT_SNAPSHOT}-{sessionId}-{eventDate}";
 			await cache.RemoveAsync(cacheKey);
 		}
 	}

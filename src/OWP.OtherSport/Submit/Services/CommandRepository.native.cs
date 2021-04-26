@@ -7,13 +7,14 @@
     using OWP.OtherSport.Submit.Models;
     using OWP.OtherSport.Validation.Models;
     using OWP.Services;
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
     public interface CommandRepository
     {
-        Task<AssignmentSnapshot> Query(string eventDates);
+        Task<AssignmentSnapshot> Query(DateTime eventDates);
 
         Task<List<int>> GetOldMatchIds(string eventDateInString);
 
@@ -46,7 +47,7 @@
             this.logService = logService;
         }
 
-        public async Task<AssignmentSnapshot> Query(string eventDates)
+        public async Task<AssignmentSnapshot> Query(DateTime eventDates)
         {
             var criteria = new GetAllMatchesByDateTimeListCriteria
             {

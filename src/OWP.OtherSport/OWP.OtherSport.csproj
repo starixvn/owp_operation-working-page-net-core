@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Notification\Services\CacheManipulator.native.cs" />
+    <Compile Remove="Notification\Criteria\InsertMessageCommand.native.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -16,7 +16,7 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Notification\Services\CacheManipulator.native.cs" />
+    <None Include="Notification\Criteria\InsertMessageCommand.native.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
