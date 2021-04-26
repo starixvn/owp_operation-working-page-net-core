@@ -20,11 +20,7 @@
         private const string EVENT_VS = " -vs- ";
         public List<ChangedValue> Create(ChangedMatchSnapshot snapshot, int matchId, List<Assignee> existingAssignees)
         {
-            if (IsSpecific10Mins(snapshot.NewMatch.MinorBettypeName))
-            {
-                return new List<ChangedValue>();
-            }
-
+            
             var newMatchSettings = snapshot.NewSnapshot.MatchSettings.GetValue(matchId, new List<MatchSetting>());
             var oldMatchSettings = snapshot.OldSnapshot.MatchSettings.GetValue(matchId, new List<MatchSetting>());
             var changedList = GetListValueChangedWithDifferentBettype(oldMatchSettings, newMatchSettings);
@@ -52,12 +48,6 @@
             }
 
             return changedValueList;
-        }
-
-        private static bool IsSpecific10Mins(string bettypeName)
-        {
-            return !string.IsNullOrEmpty(bettypeName)
-                && bettypeName.IndexOf("SPECIFIC 10 MINS", StringComparison.CurrentCultureIgnoreCase) >= 0;
         }
 
         public IEnumerable<ChangedValue> GetListValueChangedWithDifferentBettype(List<MatchSetting> oldMatchSettings, List<MatchSetting> newMatchSettings)

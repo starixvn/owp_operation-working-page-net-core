@@ -39,6 +39,9 @@
 
             // Notification
             services.AddScoped<MessageFactory, MessageFactoryImp>();
+            services.AddScoped<ChangedMatchInfoGenerator, ChangedMatchInfoGeneratorImp>();
+            services.AddScoped<ChangedMatchStatusGenerator, ChangedMatchStatusGeneratorImp>();
+            services.AddScoped<ChangedMatchSettingGenerator, ChangedMatchSettingGeneratorImp>();
         }
     }
 }
