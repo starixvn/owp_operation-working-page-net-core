@@ -42,6 +42,7 @@
             services.AddScoped<ChangedMatchInfoGenerator, ChangedMatchInfoGeneratorImp>();
             services.AddScoped<ChangedMatchStatusGenerator, ChangedMatchStatusGeneratorImp>();
             services.AddScoped<ChangedMatchSettingGenerator, ChangedMatchSettingGeneratorImp>();
+            services.AddScoped<NotifyServices, NotifyServicesImp>();
         }
     }
 }

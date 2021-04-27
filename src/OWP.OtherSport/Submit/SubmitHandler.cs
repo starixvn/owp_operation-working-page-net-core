@@ -36,17 +36,20 @@
         private readonly CommandRepository commandRepository;
         private readonly INapSession session;
         private readonly IHubContext<NewDataUploadNotifyHubImp, NewDataUploadNotifyHub> notifyHub;
+        private readonly Notification.Services.NotifyServices notifyServices;
 
         public SubmitHandler(
             CacheManipulator cacheManipulator,
             CommandRepository commandRepository,
             INapSession session,
-            IHubContext<NewDataUploadNotifyHubImp, NewDataUploadNotifyHub> notifyHub)
+            IHubContext<NewDataUploadNotifyHubImp, NewDataUploadNotifyHub> notifyHub,
+            Notification.Services.NotifyServices notifyServices)
         {
             this.cacheManipulator = cacheManipulator;
             this.commandRepository = commandRepository;
             this.session = session;
             this.notifyHub = notifyHub;
+            this.notifyServices = notifyServices;
         }
 
         public async Task<SubmitResponse> Handle(SubmitRequest request, CancellationToken cancellationToken)
@@ -62,6 +65,23 @@
 
             await TryHandle(eventDates, newAssignments, request.SessionId);
             await notifyHub.Clients.All.NotifyUploadedNewData();
+
+            var messages = new List<Notification.Models.Message>
+            {
+                new(){
+                    MessageType = 101,
+                    MessageContent = "You have NEW ASSIGNEMNT bettype in #555 - League - Event updated by #sa",
+                    IsImportant = true,
+                    ReceivedUserIdList = new List<string> { "8", "360418" }
+                },
+                new(){
+                    MessageType = 102,
+                    MessageContent = "You have been REMOVED <b>bettype</b> in #555 - League - Event updated by #sa",
+                    IsImportant = true,
+                    ReceivedUserIdList = new List<string> { "8", "360418" }
+                }
+            };
+            await notifyServices.Notify(messages);
 
             return new SubmitResponse
             {

@@ -20,7 +20,7 @@
     [ApiController]
     [EnableCors("AllowOrigin")]
     [Authorize]
-    //[AllowAnonymous]
+    [AllowAnonymous]
     public class OtherSportController : ControllerBase
     {
         private readonly IMediator mediator;
