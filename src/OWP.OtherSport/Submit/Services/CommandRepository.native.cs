@@ -14,7 +14,7 @@
 
     public interface CommandRepository
     {
-        Task<AssignmentSnapshot> Query(DateTime eventDates);
+        Task<AssignmentSnapshot> Query(string eventDates);
 
         Task<List<int>> GetOldMatchIds(string eventDateInString);
 
@@ -47,7 +47,7 @@
             this.logService = logService;
         }
 
-        public async Task<AssignmentSnapshot> Query(DateTime eventDates)
+        public async Task<AssignmentSnapshot> Query(string eventDates)
         {
             var criteria = new GetAllMatchesByDateTimeListCriteria
             {

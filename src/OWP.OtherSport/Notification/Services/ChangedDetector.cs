@@ -26,7 +26,7 @@
         {
             public bool Equals(MatchAssignment x, MatchAssignment y)
             {
-                var sameEvent = x.MatchId == y.MatchId && x.BetType == y.BetType;
+                var sameEvent = x.OSMatchId == y.OSMatchId && x.BetTypeName == y.BetTypeName;
                 var sameAssignment = x.AssignmentType == y.AssignmentType && x.UserId == y.UserId && x.AssignmentNote == y.AssignmentNote;
 
                 return sameEvent && sameAssignment;
@@ -34,7 +34,7 @@
 
             public int GetHashCode(MatchAssignment obj)
             {
-                return obj.MatchId.GetHashCode();
+                return obj.OSMatchId.GetHashCode();
             }
         }
 

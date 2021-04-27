@@ -26,7 +26,7 @@
         {
             foreach (var matchId in matcheIds)
             {
-                var assignments = snapshot.Assignments.GetValue(matchId, new List<MatchAssignment>())
+                var assignments = snapshot.MatchAssignments.GetValue(matchId, new List<MatchAssignment>())
                                           .Where(x => x.UserId != 0)
                                           .ToList();
                 var assignmentChangedValues = GetInsertedAssignmentChangedValues(snapshot.Matches, assignments).ToList();
@@ -34,12 +34,11 @@
             }
         }
 
-        public IEnumerable<ChangedValue> GetInsertedAssignmentChangedValues(Dictionary<int, GeneralMatch> allMatches, List<MatchAssignment> assignments)
+        public IEnumerable<ChangedValue> GetInsertedAssignmentChangedValues(Dictionary<int, MatchInfo> allMatches, List<MatchAssignment> assignments)
         {
             foreach (var assignment in assignments)
             {
-                var match = allMatches[assignment.MatchId];
-                var mainMatch = allMatches.GetValue(match.ParentMatchId, match);
+                var match = allMatches[assignment.OSMatchId];
                 var bettypeName = BettypeNameExtensions.GetBettypeNameForAssignment(assignment.BetType, match.MatchType, match.MinorBettypeName);
 
                 var messageTypeId = assignment.AssignmentType == 1

@@ -5,7 +5,7 @@
 
     public class GetAllMatchesByDateTimeListCriteria: CriteriaBase
     {
-        public DateTime EventDates { get; set; }
+        public string EventDates { get; set; }
 
         public override string GetSettingKey() => "OWP_OSAssignmentUpload_GetAllMatchesByDateList";
 
