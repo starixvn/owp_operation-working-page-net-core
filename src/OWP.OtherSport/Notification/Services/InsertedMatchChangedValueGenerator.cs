@@ -22,7 +22,7 @@
             return CreateEnumerable(matcheIds, snapshot).SelectMany(v => v).Distinct().ToList();
         }
 
-        public IEnumerable<List<ChangedValue>> CreateEnumerable(List<int> matcheIds, AssignmentSnapshot snapshot)
+        public static IEnumerable<List<ChangedValue>> CreateEnumerable(List<int> matcheIds, AssignmentSnapshot snapshot)
         {
             foreach (var matchId in matcheIds)
             {
@@ -34,7 +34,7 @@
             }
         }
 
-        public IEnumerable<ChangedValue> GetInsertedAssignmentChangedValues(Dictionary<int, MatchInfo> allMatches, List<MatchAssignment> assignments)
+        public static IEnumerable<ChangedValue> GetInsertedAssignmentChangedValues(Dictionary<int, MatchInfo> allMatches, List<MatchAssignment> assignments)
         {
             foreach (var assignment in assignments)
             {
@@ -51,7 +51,7 @@
                     OldValue = null,
                     NewValue = newValue,
                     BetTypeName = assignment.BetTypeName,
-                    MatchId = match.OSMatchId,
+                    OSMatchId = match.OSMatchId,
                     MatchNo = match.MatchNo.ToString(),
                     League = match.League,
                     EventName = match.Home + EVENT_VS + match.Away,

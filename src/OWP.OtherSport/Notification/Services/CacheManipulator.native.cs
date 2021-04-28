@@ -10,7 +10,7 @@
 	{
 		Task<AssignmentSnapshot> GetAssignmentSnapshot(string sessionId, string eventDate);
 
-		Task DeleteAssignmentSnapshot(string sessionId, DateTime eventDate);
+		Task DeleteAssignmentSnapshot(string sessionId, string eventDate);
 	}
 
 	public class CacheManipulatorImp : CacheManipulator
@@ -33,7 +33,7 @@
 			return assignmentSnapshot ?? new AssignmentSnapshot();
 		}
 
-		public async Task DeleteAssignmentSnapshot(string sessionId, DateTime eventDate)
+		public async Task DeleteAssignmentSnapshot(string sessionId, string eventDate)
 		{
 			var cacheKey = $"{KEY_OLD_OS_ASSIGNMENT_SNAPSHOT}-{sessionId}-{eventDate}";
 			await cache.RemoveAsync(cacheKey);

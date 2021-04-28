@@ -44,7 +44,7 @@
                 OldValue = oldValue,
                 NewValue = null,
                 BetTypeName = assignment.BetTypeName,
-                MatchId = match.OSMatchId,
+                OSMatchId = match.OSMatchId,
                 MatchNo = match.MatchNo.ToString(),
                 League = match.League,
                 EventName = match.Home + EVENT_VS + match.Away,

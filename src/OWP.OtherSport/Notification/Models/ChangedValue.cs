@@ -22,7 +22,7 @@
 
         public string EventName { get; set; }
 
-        public int MatchId { get; set; }
+        public int OSMatchId { get; set; }
 
         public string BetTypeName { get; set; }
 
@@ -31,10 +31,6 @@
         public int AssignmentType { get; set; }
 
         public bool IsWatcher { get; set; }
-
-        public bool IsIndirectChangedAssignment { get; set; }
-
-        public bool IsChangedToLiveMatchStatus { get; set; }
 
         public ChangedValue()
         {
@@ -46,8 +42,8 @@
     {
         public bool Equals(ChangedValue x, ChangedValue y)
         {
-            var condition1 = x.MatchId == y.MatchId && x.BetTypeName == y.BetTypeName && x.AssignmentType == y.AssignmentType;
-            var condition2 = x.MessageTypeId == y.MessageTypeId && x.AssigneeId == y.AssigneeId && x.IsIndirectChangedAssignment == y.IsIndirectChangedAssignment;
+            var condition1 = x.OSMatchId == y.OSMatchId && x.BetTypeName == y.BetTypeName && x.AssignmentType == y.AssignmentType;
+            var condition2 = x.MessageTypeId == y.MessageTypeId && x.AssigneeId == y.AssigneeId;
             var condition3 = x.OldValue == y.OldValue && x.NewValue == y.NewValue && x.AssignmentNote == y.AssignmentNote;
 
             return condition1 && condition2 && condition3;
@@ -55,7 +51,7 @@
 
         public int GetHashCode(ChangedValue obj)
         {
-            return obj.MatchId * 17 + obj.MessageTypeId * 29;
+            return obj.OSMatchId * 17 + obj.MessageTypeId * 29;
         }
     }
 }

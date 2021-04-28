@@ -111,7 +111,7 @@
         {
             var changedValuesGroupBy = changedValues.GroupBy(v => new AssignmentGroup
             {
-                MatchId = v.MatchId,
+                MatchId = v.OSMatchId,
                 BetTypeId = v.BetTypeId,
                 AssigneeId = v.AssigneeId,
                 IsWatcher = v.IsWatcher,

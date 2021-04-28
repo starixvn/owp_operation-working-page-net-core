@@ -1,7 +1,5 @@
-﻿
-namespace OWP.OtherSport.Notification.Services
+﻿namespace OWP.OtherSport.Notification.Services
 {
-    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using OWP.OtherSport.Notification.Models;
@@ -9,7 +7,7 @@ namespace OWP.OtherSport.Notification.Services
 
     public interface ChangedValueByCacheAndDatabase
     {
-        Task<List<ChangedValue>> Create(string sessionId, DateTime eventDate);
+        Task<List<ChangedValue>> Create(string sessionId, string eventDate);
     }
 
     public class ChangedValueCacheAndDatabaseImp : ChangedValueByCacheAndDatabase
@@ -17,6 +15,16 @@ namespace OWP.OtherSport.Notification.Services
         private readonly CacheManipulator cacheManipulator;
         private readonly QueryRepository queryRepository;
         private readonly ChangedValueBySnapshot changedValueBySnapshot;
+
+        public ChangedValueCacheAndDatabaseImp(
+            CacheManipulator cacheManipulator,
+            QueryRepository queryRepository,
+            ChangedValueBySnapshot changedValueBySnapshot)
+        {
+            this.cacheManipulator = cacheManipulator;
+            this.queryRepository = queryRepository;
+            this.changedValueBySnapshot = changedValueBySnapshot;
+        }
 
         public async Task<List<ChangedValue>> Create(string sessionId, string eventDate)
         {

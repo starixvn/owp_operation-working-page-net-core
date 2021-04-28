@@ -41,8 +41,8 @@
 
         public IEnumerable<ChangedValue> GetDeletedAssignmentChangedValues(ChangedMatchSnapshot snapshot)
         {
-            var oldAssignments = snapshot.OldSnapshot.MatchAssignments.GetValue(snapshot.OldMatch.MatchId, new List<MatchAssignment>());
-            var newAssignments = snapshot.NewSnapshot.MatchAssignments.GetValue(snapshot.NewMatch.MatchId, new List<MatchAssignment>());
+            var oldAssignments = snapshot.OldSnapshot.MatchAssignments.GetValue(snapshot.OldMatch.OSMatchId, new List<MatchAssignment>());
+            var newAssignments = snapshot.NewSnapshot.MatchAssignments.GetValue(snapshot.NewMatch.OSMatchId, new List<MatchAssignment>());
             var oldMatches = snapshot.OldSnapshot.Matches;
 
             var deletedAssignments = changeDetector.GetDeletedAssignments(oldAssignments, newAssignments);
@@ -55,6 +55,7 @@
                     ? (int)MsgTemplateCode.AssignmentDelete
                     : (int)MsgTemplateCode.OtherAssignmentDelete;
                 var oldValue = UpdatedValueHelper.GetValue(assignment.AssignmentType, assignment.Username, assignment.AssignmentNote);
+
                 yield return new ChangedValue
                 {
                     MessageTypeId = messageTypeId,
@@ -63,7 +64,7 @@
                     AssignmentType = assignment.AssignmentType,
                     NewValue = null,
                     BetTypeName = assignment.BetTypeName,
-                    MatchId = match.OSMatchId,
+                    OSMatchId = match.OSMatchId,
                     MatchNo = match.MatchNo.ToString(),
                     League = match.League,
                     EventName = match.Home + EVENT_VS + match.Away,
@@ -75,8 +76,8 @@
 
         public IEnumerable<ChangedValue> GetInsertedAssignmentChangedValues(ChangedMatchSnapshot snapshot)
         {
-            var oldAssignments = GetAssignmentsOfMatchWhichIsChangedToLive(snapshot);
-            var newAssignments = snapshot.NewSnapshot.MatchAssignments.GetValue(snapshot.NewMatch.MatchId, new List<MatchAssignment>());
+            //var oldAssignments = GetAssignmentsOfMatchWhichIsChangedToLive(snapshot);
+            var newAssignments = snapshot.NewSnapshot.MatchAssignments.GetValue(snapshot.NewMatch.OSMatchId, new List<MatchAssignment>());
             var oldMatches = snapshot.OldSnapshot.Matches;
 
             var insertedAssignments = changeDetector.GetInsertedAssignments(oldAssignments, newAssignments);
@@ -97,39 +98,14 @@
                     AssignmentNote = assignment.AssignmentNote,
                     AssignmentType = assignment.AssignmentType,
                     BetTypeName = assignment.BetTypeName,
-                    MatchId = match.OSMatchId,
+                    OSMatchId = match.OSMatchId,
                     MatchNo = match.MatchNo.ToString(),
                     League = match.League,
                     EventName = match.Home + EVENT_VS + match.Away,
                     AssigneeId = assignment.UserId,
-                    AssigneeName = assignment.Username,
-                    IsChangedToLiveMatchStatus = IsChangedToLiveMatchStatus(snapshot)
+                    AssigneeName = assignment.Username
                 };
             }
-        }
-
-        public static List<MatchAssignment> GetAssignmentsOfMatchWhichIsChangedToLive(ChangedMatchSnapshot snapshot)
-        {
-            return IsChangedToLiveMatchStatus(snapshot)
-                ? new List<MatchAssignment>()
-                : snapshot.OldSnapshot.MatchAssignments.GetValue(snapshot.OldMatch.MatchId, new List<MatchAssignment>());
-        }
-
-        private static bool IsChangedToLiveMatchStatus(ChangedMatchSnapshot snapshot)
-        {
-            return IsCancelSuspendedPostponedStatus(snapshot.OldMatch.MatchStatus) && IsLiveStatus(snapshot.NewMatch.MatchStatus);
-        }
-
-        private static bool IsCancelSuspendedPostponedStatus(string matchStatus)
-        {
-            return matchStatus.IndexOf("CANCEL", StringComparison.CurrentCultureIgnoreCase) >= 0
-              || matchStatus.IndexOf("SUSPENDED", StringComparison.CurrentCultureIgnoreCase) >= 0
-              || matchStatus.IndexOf("POSTPONED", StringComparison.CurrentCultureIgnoreCase) >= 0;
-        }
-
-        private static bool IsLiveStatus(string matchStatus)
-        {
-            return matchStatus.IndexOf("LIVE", StringComparison.CurrentCultureIgnoreCase) >= 0;
         }
 
         public static IEnumerable<ChangedValue> GetIndirectChangedValues(
@@ -138,8 +114,7 @@
             List<Assignee> existingAssignees)
         {
             return existingAssignees
-                .Select(t => allChangedValues.Where(x => !x.IsChangedToLiveMatchStatus)
-                                             .Select(a => GetIndirectChangedValue(a, t)))
+                .Select(t => allChangedValues.Select(a => GetIndirectChangedValue(a, t)))
                 .SelectMany(a => a);
         }
 
@@ -151,15 +126,14 @@
                 OldValue = changedValue.OldValue,
                 NewValue = changedValue.NewValue,
                 BetTypeName = changedValue.BetTypeName,
-                MatchId = changedValue.MatchId,
+                OSMatchId = changedValue.OSMatchId,
                 MatchNo = changedValue.MatchNo,
                 League = changedValue.League,
                 EventName = changedValue.EventName,
                 AssigneeId = assignee.AssigneeId,
                 AssigneeName = assignee.AssigneeName,
                 AssignmentType = changedValue.AssignmentType,
-                AssignmentNote = changedValue.AssignmentNote,
-                IsIndirectChangedAssignment = true
+                AssignmentNote = changedValue.AssignmentNote
             };
         }
     }

@@ -3,8 +3,8 @@
     using System.Collections.Generic;
     using System.Linq;
     using Models;
+    using OWP.Extensions;
     using Submit.Models;
-    using Utils;
 
     public interface ChangedMatchChangedValueGenerator
     {
@@ -71,76 +71,15 @@
 
         private static List<Assignee> GetAllAssigneesByMatchId(int matchId, AssignmentSnapshot snapshot)
         {
-            var assigneeOfMatch = GetAssignmentByMatchId(matchId, snapshot);
-            var assigneeOfMainMatch = GetAssignmentOfMainMatch(matchId, snapshot);
-            var assigneeOfMinorMatch = GetAssignmentOfMinorMatch(matchId, snapshot);
+            var assigneeOfMatch = snapshot.MatchAssignments.GetValue(matchId, new List<MatchAssignment>());
 
-            var allAssignment = assigneeOfMatch.Union(assigneeOfMainMatch)
-                                .Union(assigneeOfMinorMatch)
-                                .ToList();
-
-            return allAssignment.Select(a => new Assignee
+            return assigneeOfMatch.Select(a => new Assignee
             {
                 AssigneeId = a.UserId,
-                AssigneeName = a.UserName
+                AssigneeName = a.Username
             })
             .Distinct(new Assignee())
             .ToList();
-        }
-
-        private static List<MatchAssignment> GetAssignmentOfMainMatch(int matchId, AssignmentSnapshot snapshot)
-        {
-            var match = snapshot.Matches[matchId];
-            var parentMatchId = match.ParentMatchId;
-            var assignmentOfMainMatch = GetAssignmentByMatchId(parentMatchId, snapshot);
-            var assignmentOfSpecificMatch = GetAllAssignmentOfSpecificMatch(matchId, snapshot, parentMatchId);
-
-            return assignmentOfMainMatch.Union(assignmentOfSpecificMatch).ToList();
-        }
-
-        private static List<MatchAssignment> GetAllAssignmentOfSpecificMatch(int matchId, AssignmentSnapshot snapshot, int parentMatchId)
-        {
-            var specificMap = new Dictionary<int, int>
-            {
-                { (int)MinorBettype.NoOfCorner, (int)MinorBettype.Specific15MinsCorners },
-                { (int)MinorBettype.Specific15MinsCorners, (int)MinorBettype.NoOfCorner },
-                { (int)MinorBettype.TotalBooking, (int)MinorBettype.Specific15MinsTotalBookings },
-                { (int)MinorBettype.Specific15MinsTotalBookings, (int)MinorBettype.TotalBooking }
-            };
-
-            var bettypeId = snapshot.Matches[matchId].MatchType;
-            if (specificMap.ContainsKey(bettypeId))
-            {
-                var allMatches = snapshot.Matches.Values;
-                var minorMatchId = allMatches
-                                .Where(x => x.ParentMatchId == parentMatchId && x.MatchType == specificMap[bettypeId])
-                                .Select(x => x.MatchId)
-                                .FirstOrDefault();
-                return GetAssignmentByMatchId(minorMatchId, snapshot);
-            }
-
-            return new List<MatchAssignment>();
-        }
-
-        private static List<MatchAssignment> GetAssignmentOfMinorMatch(int matchId, AssignmentSnapshot snapshot)
-        {
-            var assignments = new List<MatchAssignment>();
-            var allMatches = snapshot.Matches.Values;
-            var minorMatchIds = allMatches
-                            .Where(x => x.ParentMatchId == matchId)
-                            .Select(a => a.MatchId)
-                            .ToList();
-            foreach (var minorMatchId in minorMatchIds)
-            {
-                assignments.AddRange(GetAssignmentByMatchId(minorMatchId, snapshot));
-            }
-
-            return assignments;
-        }
-
-        private static List<MatchAssignment> GetAssignmentByMatchId(int matchId, AssignmentSnapshot snapshot)
-        {
-            return snapshot.Assignments.GetValue(matchId, new List<MatchAssignment>());
         }
     }
 }

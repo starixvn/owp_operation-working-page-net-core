@@ -42,7 +42,7 @@
                 var notificationSettingId = NotificationSettingHelper.GetNotificationSettingIdForWatcher(changedValue.MessageTypeId, changedValue.BetTypeId);
 
                 var watchers = settings.GetValue($"{changedValue.AssigneeId}-{notificationSettingId}", new List<Assignee>());
-                var assignees = assigneesOfMatchs.GetValue(changedValue.MatchId, new List<Assignee>());
+                var assignees = assigneesOfMatchs.GetValue(changedValue.OSMatchId, new List<Assignee>());
                 var watchersIgnoredAssignees = watchers.Where(x => x.AssigneeId != changedValue.AssigneeId)
                                                        .Except(assignees, new Assignee())
                                                        .Distinct(new Assignee())

@@ -4,9 +4,9 @@
 
     public class ChangedMatchSnapshot
     {
-        public GeneralMatch OldMatch { get; set; }
+        public MatchInfo OldMatch { get; set; }
 
-        public GeneralMatch NewMatch { get; set; }
+        public MatchInfo NewMatch { get; set; }
 
         public AssignmentSnapshot OldSnapshot { get; set; }
 
