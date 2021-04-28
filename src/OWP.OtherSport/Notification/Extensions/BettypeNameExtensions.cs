@@ -26,20 +26,5 @@
                 ? minorBettypeName
                 : $"{minorBettypeName} ({MajorBettypeShortName.GetMajorBetTypeShortName(bettypeId)})";
         }
-
-        public static string GetBettypeNameForMatchSetting(int bettypeId, int minorBettypeId, string minorBettypeName)
-        {
-            switch (minorBettypeId)
-            {
-                case 0:
-                    return MajorBettypeShortName.GetMajorBetTypeShortName(bettypeId);
-                case (int)MinorBettype.Specific15Mins:
-                    return "X MIN";
-                case (int)MinorBettype.FastMarket:
-                    return "Fast Market";
-                default:
-                    return $"{minorBettypeName} ({MajorBettypeShortName.GetMajorBetTypeShortName(bettypeId)})";
-            }
-        }
     }
 }

@@ -5,6 +5,8 @@
     using System.Linq;
     using Constants;
     using Models;
+    using OWP.Extensions;
+    using OWP.OtherSport.Notification.Extensions;
     using OWP.OtherSport.Submit.Contants;
     using Submit.Constants;
     using Submit.Models;
@@ -29,17 +31,16 @@
 
             foreach (var changed in changedList)
             {
-                var mainMatch = snapshot.NewSnapshot.MaxBet.GetValue(snapshot.NewMatch.ParentMatchId, snapshot.NewMatch);
-                var bettypeName = BettypeNameExtensions.GetBettypeNameForMatchSetting(changed.BetTypeId, snapshot.NewMatch.MatchType, snapshot.NewMatch.MinorBettypeName);
+                var matchInfo = snapshot.NewSnapshot.Matches.GetValue(changed.MatchId, snapshot.NewMatch);
                 var changedValues = existingAssignees.Select(a => new ChangedValue
                 {
                     MessageTypeId = changed.MessageTypeId,
                     NewValue = changed.NewValue,
                     OldValue = changed.OldValue,
-                    BetTypeName = bettypeName,
-                    MatchNo = mainMatch.MatchNo,
-                    League = mainMatch.LeagueName,
-                    EventName = mainMatch.Home + EVENT_VS + mainMatch.Away,
+                    BetTypeName = changed.BetTypeName,
+                    MatchNo = matchInfo.MatchNo,
+                    League = matchInfo.LeagueName,
+                    EventName = matchInfo.Home + EVENT_VS + matchInfo.Away,
                     AssigneeId = a.AssigneeId,
                     AssigneeName = a.AssigneeName
                 });
