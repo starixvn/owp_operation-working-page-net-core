@@ -28,8 +28,8 @@
                MessageTypeId = (int)MsgTemplateCode.EditMatchStatus,
                OldValue = snapshot.OldMatch.MatchStatus,
                NewValue = snapshot.NewMatch.MatchStatus,
-               MatchNo = snapshot.NewMatch.MatchNo,
-               League = snapshot.NewMatch.LeagueName,
+               MatchNo = snapshot.NewMatch.MatchNo.ToString(),
+               League = snapshot.NewMatch.League,
                EventName = snapshot.NewMatch.Home + EVENT_VS + snapshot.NewMatch.Away,
                AssigneeId = a.AssigneeId,
                AssigneeName = a.AssigneeName

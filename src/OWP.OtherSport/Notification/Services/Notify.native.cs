@@ -3,7 +3,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using Models;
-    using OWP.Models;
     using OWP.Services;
     using Utils;
 
