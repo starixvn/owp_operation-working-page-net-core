@@ -35,7 +35,7 @@
 
             services.AddScoped<BuildExcelModelService, BuildExcelModelServiceImp>();
             services.AddScoped<ExportExcelService, ExportExcelServiceImp>();
-            services.AddScoped<CommandRepository, CommandRepositoryImp>();
+            services.AddScoped<Submit.CommandRepository, Submit.CommandRepositoryImp > ();
 
             // Notification
             services.AddScoped<MessageFactory, MessageFactoryImp>();

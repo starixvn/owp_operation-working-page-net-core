@@ -22,68 +22,68 @@ namespace OWP.OtherSport.Notification.Services
             new MessageTemplate
             {
                 MessageType = (int)MsgTemplateCode.EditMatchNo,
-                MessageContent = "Match No. Updated from [<old value>] to [<newvalue>] for <Match.No> - <League> - <Event> updated by <User>"
+                MessageContent = "<b>Match No.</b> Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
             },
              new ()
             {
                 MessageType = (int)MsgTemplateCode.EditMatchStatus,
-                MessageContent = "Match Status Updated from [<old value>]> to [<newvalue>] for <Match.No> - <League> - <Event> updated by <User>",
+                MessageContent = "<b>Match Status</b> Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>",
                 IsImportant= true
              },
              new()
              {
                 MessageType = (int)MsgTemplateCode.EditCategory,
-                MessageContent = "Category Updated from [<old value>] to [<newvalue>] for <Match.No> - <League> - <Event> updated by <User>",
+                MessageContent = "<b>Category</b> Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>",
              },
              new()
              {
                  MessageType=(int)MsgTemplateCode.EditNoOfHDP,
-                 MessageContent="No. HDP Updated from [<old value>] to [<newvalue>] for <Match.No> - <League> -  <Event> updated by <User>"
+                 MessageContent="<b>No. HDP</b> Updated from <old value> to <newvalue> for <Match.No> - <League> -  <Event> updated by <User>"
              },
              new()
              {
                   MessageType=(int)MsgTemplateCode.EditMatchOffer,
-                 MessageContent="Match Offer Updated from [<old value>] to [<newvalue>] for <Match.No> - <League> - <Event> updated by <User>"
+                 MessageContent="<b>Match Offer</b> Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
              },
             new()
             {
                 MessageType=(int)MsgTemplateCode.EditAutoLink,
-                 MessageContent="Auto Link Updated from [<old value>] to [ <newvalue>] for <Match.No> - <League> - <Event> updated by <User>"
+                 MessageContent="<b>Auto Link</b> Updated from <old value> to  <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
             },
              new()
             {
                 MessageType=(int)MsgTemplateCode.EditOtherProvider,
-                 MessageContent="Other Provider Updated from [<old value>] to [<newvalue>] for <Match.No> - <League> -  <Event> updated by <User>"
+                 MessageContent="<b>Other Provider</b> Updated from <old value> to <newvalue> for <Match.No> - <League> -  <Event> updated by <User>"
             },
               new()
             {
                 MessageType=(int)MsgTemplateCode.EditIPTV,
-                 MessageContent="IPTV Updated from [<old value>] to [<newvalue>] for <Match.No> - <League> - <Event> updated by <User>"
+                 MessageContent="<b>IPTV</b> Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
             },
                new()
             {
                 MessageType=(int)MsgTemplateCode.EditWB,
-                 MessageContent="Streaming Info (WB) Updated from <old value> to [<newvalue>] for <Match.No> - <League> - <Event> updated by <User>"
+                 MessageContent="<b>Streaming</b> Info (WB) Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
             },
                  new()
             {
                 MessageType=(int)MsgTemplateCode.EditRemark,
-                 MessageContent="Remark Updated from [<old value>]> to [<newvalue>] for <Match.No> - <League> - <Event> updated by <User>"
+                 MessageContent="<b>Remark</b> Updated from <old value>> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
             },
                  new()
             {
                 MessageType=(int)MsgTemplateCode.EditMaxbet,
-                 MessageContent="Max Bet Updated from [<old value>] to [<newvalue>] for <Match.No> - <League> -  <Event> updated by <User>"
+                 MessageContent="<b>Max Bet</b> Updated from <old value> to <newvalue> for <Match.No> - <League> -  <Event> updated by <User>"
             },
                   new()
             {
                 MessageType=(int)MsgTemplateCode.EditReporter,
-                 MessageContent="Reporter Updated from [<old value>] to[<newvalue>] for <Match.No> - <League> - <Event> updated by <User>"
+                 MessageContent="<b>Reporter</b> Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
             },
                     new()
             {
                 MessageType=(int)MsgTemplateCode.EditProvider,
-                 MessageContent="Provider Updated from[<old value>] to [<newvalue>] for <Match.No> - <League> - <Event> updated by <User>"
+                 MessageContent="<b>Provider</b> Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
             }
         });
 
@@ -209,6 +209,9 @@ namespace OWP.OtherSport.Notification.Services
             var assignmentNote = Regex.Replace(messageGroup.AssignmentNote, "#<user>", "", RegexOptions.IgnoreCase);
             assignmentNote = Regex.Replace(assignmentNote, "same", "", RegexOptions.IgnoreCase);
 
+            content = content.Replace("<newvalue>", "<b><newvalue></b>");
+            content = content.Replace("<bettype>", "<b><bettype></b>");
+
             content = content.Replace("<newvalue>", messageGroup.NewValue);
             content = content.Replace("<old value>", messageGroup.OldValue);
             content = content.Replace("<Match.No>", !string.IsNullOrEmpty(messageGroup.MatchNo) ? $"#{messageGroup.MatchNo}" : string.Empty);
@@ -216,7 +219,7 @@ namespace OWP.OtherSport.Notification.Services
             content = content.Replace("<Event>", messageGroup.EventName);
             content = content.Replace("<User>", currentSession.Username);
           
-            content = content.Replace("<Bettype>", messageGroup.BetTypeName);
+            content = content.Replace("<bettype>", messageGroup.BetTypeName);
             content = content.Replace("<Note>", assignmentNote);
 
             return content;
