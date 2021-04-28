@@ -9,7 +9,7 @@
 
     public interface ChangedMatchInfoGenerator
     {
-        List<ChangedValue> Create(GeneralMatch oldMatch, GeneralMatch newMatch, List<Assignee> existingAssignees);
+        List<ChangedValue> Create(MatchInfo oldMatch, MatchInfo newMatch, List<Assignee> existingAssignees);
     }
 
     public class ChangedMatchInfoGeneratorImp : ChangedMatchInfoGenerator
@@ -32,7 +32,7 @@
             "Provider"
         };
 
-        public List<ChangedValue> Create(GeneralMatch oldMatch, GeneralMatch newMatch, List<Assignee> existingAssignees)
+        public List<ChangedValue> Create(MatchInfo oldMatch, MatchInfo newMatch, List<Assignee> existingAssignees)
         {
             var changedValueList = new List<ChangedValue>();
             var changedList = GetListValueChanged(oldMatch, newMatch);
@@ -43,8 +43,8 @@
                     MessageTypeId = changed.MessageTypeId,
                     NewValue = GetNewValue(newMatch, changed),
                     OldValue = GetOldValue(oldMatch, changed),
-                    League = newMatch.LeagueName,
-                    MatchNo = newMatch.MatchNo,
+                    League = newMatch.League,
+                    MatchNo = newMatch.MatchNo.ToString(),
                     EventName = newMatch.Home + EVENT_VS + newMatch.Away,
                     AssigneeId = a.AssigneeId,
                     AssigneeName = a.AssigneeName
@@ -56,21 +56,21 @@
             return changedValueList;
         }
 
-        private static string GetNewValue(GeneralMatch newMatch, ChangedValue changed)
+        private static string GetNewValue(MatchInfo newMatch, ChangedValue changed)
         {
             return changed.MessageTypeId == MessageType.GetMessageTypeIdForChangedMatchInfo("Home")
                 ? changed.NewValue + EVENT_VS + newMatch.Away
                 : changed.NewValue;
         }
 
-        private static string GetOldValue(GeneralMatch newMatch, ChangedValue changed)
+        private static string GetOldValue(MatchInfo newMatch, ChangedValue changed)
         {
             return changed.MessageTypeId == MessageType.GetMessageTypeIdForChangedMatchInfo("Home")
                 ? changed.OldValue + EVENT_VS + newMatch.Away
                 : changed.OldValue;
         }
 
-        public List<ChangedValue> GetListValueChanged(GeneralMatch oldMatch, GeneralMatch newMatch)
+        public List<ChangedValue> GetListValueChanged(MatchInfo oldMatch, MatchInfo newMatch)
         {
             var changedValues = new List<ChangedValue>();
             foreach (var propertyName in MatchInfoPropertyNames)
@@ -96,7 +96,7 @@
             return changedValues.Where(a => a.MessageTypeId != 0).ToList();
         }
 
-        private static PropertyInfo GetProperty(GeneralMatch match, string propertyName)
+        private static PropertyInfo GetProperty(MatchInfo match, string propertyName)
         {
             return match.GetType().GetProperties().Single(p => p.Name == propertyName);
         }

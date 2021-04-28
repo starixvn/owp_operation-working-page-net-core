@@ -5,8 +5,8 @@
     using Constants;
     using Extensions;
     using Models;
+    using OWP.Extensions;
     using Submit.Models;
-    using Utils;
 
     public interface DeletedMatchChangedValueGenerator
     {
@@ -22,38 +22,34 @@
             foreach (var matchId in matcheIds)
             {
                 var match = snapshot.Matches.GetValue(matchId);
-                var mainMatch = snapshot.Matches.GetValue(match.ParentMatchId, match);
-                var assignments = snapshot.Assignments.GetValue(matchId, new List<MatchAssignment>())
+                var assignments = snapshot.MatchAssignments.GetValue(matchId, new List<MatchAssignment>())
                                           .Where(x => x.UserId != 0)
                                           .ToList();
                 foreach (var assignment in assignments)
                 {
-                    yield return GetDeletedAssignmentOfMatchChanged(assignment, match, mainMatch);
+                    yield return GetDeletedAssignmentOfMatchChanged(assignment, match);
                 }
-
             }
         }
 
-        public ChangedValue GetDeletedAssignmentOfMatchChanged(MatchAssignment assignment, GeneralMatch match, GeneralMatch mainMatch)
+        public ChangedValue GetDeletedAssignmentOfMatchChanged(MatchAssignment assignment, MatchInfo match)
         {
-            var bettypeName = BettypeNameExtensions.GetBettypeNameForAssignment(assignment.BetType, match.MatchType, match.MinorBettypeName);
             var messageTypeId = assignment.AssignmentType == 1
                 ? (int)MsgTemplateCode.AssignmentDelete
                 : (int)MsgTemplateCode.OtherAssignmentDelete;
-            var oldValue = UpdatedValueHelper.GetValue(assignment.AssignmentType, assignment.UserName, assignment.AssignmentNote);
+            var oldValue = UpdatedValueHelper.GetValue(assignment.AssignmentType, assignment.Username, assignment.AssignmentNote);
             return new ChangedValue
             {
                 MessageTypeId = messageTypeId,
-                BetTypeId = assignment.BetType,
                 OldValue = oldValue,
                 NewValue = null,
-                BetTypeName = bettypeName,
-                MatchId = match.MatchId,
-                MatchNo = mainMatch.MatchNo,
-                League = mainMatch.LeagueName,
-                EventName = mainMatch.Home + EVENT_VS + mainMatch.Away,
+                BetTypeName = assignment.BetTypeName,
+                MatchId = match.OSMatchId,
+                MatchNo = match.MatchNo.ToString(),
+                League = match.League,
+                EventName = match.Home + EVENT_VS + match.Away,
                 AssigneeId = assignment.UserId,
-                AssigneeName = assignment.UserName,
+                AssigneeName = assignment.Username,
                 AssignmentType = assignment.AssignmentType,
                 AssignmentNote = assignment.AssignmentNote
             };

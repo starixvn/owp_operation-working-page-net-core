@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OWP.OtherSport.Notification.Models;
-using OWP.OtherSport.Notification.Services;
-
+﻿
 namespace OWP.OtherSport.Notification.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using OWP.OtherSport.Notification.Models;
+    using QueryRepository = Submit.Services.CommandRepository;
+
     public interface ChangedValueByCacheAndDatabase
     {
         Task<List<ChangedValue>> Create(string sessionId, DateTime eventDate);
@@ -19,7 +18,7 @@ namespace OWP.OtherSport.Notification.Services
         private readonly QueryRepository queryRepository;
         private readonly ChangedValueBySnapshot changedValueBySnapshot;
 
-        public async Task<List<ChangedValue>> Create(string sessionId, DateTime eventDate)
+        public async Task<List<ChangedValue>> Create(string sessionId, string eventDate)
         {
             var oldSnapshot = await cacheManipulator.GetAssignmentSnapshot(sessionId, eventDate);
             var newSnapshot = await queryRepository.Query(eventDate);

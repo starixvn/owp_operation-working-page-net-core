@@ -14,6 +14,10 @@
         EditRemark,
         EditMaxbet,
         EditReporter,
-        EditProvider
+        EditProvider,
+        AssignmentInsert,
+        OtherAssignmentInsert,
+        AssignmentDelete,
+        OtherAssignmentDelete
     }
 }

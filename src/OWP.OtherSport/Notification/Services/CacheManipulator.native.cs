@@ -8,7 +8,7 @@
 
 	public interface CacheManipulator
 	{
-		Task<AssignmentSnapshot> GetAssignmentSnapshot(string sessionId, DateTime eventDate);
+		Task<AssignmentSnapshot> GetAssignmentSnapshot(string sessionId, string eventDate);
 
 		Task DeleteAssignmentSnapshot(string sessionId, DateTime eventDate);
 	}
@@ -23,7 +23,7 @@
 			this.cache = cache;
 		}
 
-		public async Task<AssignmentSnapshot> GetAssignmentSnapshot(string sessionId, DateTime eventDate)
+		public async Task<AssignmentSnapshot> GetAssignmentSnapshot(string sessionId, string eventDate)
 		{
 			var cacheKey = $"{KEY_OLD_OS_ASSIGNMENT_SNAPSHOT}-{sessionId}-{eventDate}";
 			var cacheResult = await cache.TryGetAsync<string>(cacheKey);

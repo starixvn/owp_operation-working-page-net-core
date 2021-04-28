@@ -5,8 +5,8 @@
     using Constants;
     using Extensions;
     using Models;
+    using OWP.Extensions;
     using Submit.Models;
-    using Utils;
 
     public interface InsertedMatchChangedValueGenerator
     {
@@ -39,25 +39,24 @@
             foreach (var assignment in assignments)
             {
                 var match = allMatches[assignment.OSMatchId];
-                var bettypeName = BettypeNameExtensions.GetBettypeNameForAssignment(assignment.BetType, match.MatchType, match.MinorBettypeName);
 
                 var messageTypeId = assignment.AssignmentType == 1
                     ? (int)MsgTemplateCode.AssignmentInsert
                     : (int)MsgTemplateCode.OtherAssignmentInsert;
-                var newValue = UpdatedValueHelper.GetValue(assignment.AssignmentType, assignment.UserName, assignment.AssignmentNote);
+                var newValue = UpdatedValueHelper.GetValue(assignment.AssignmentType, assignment.Username, assignment.AssignmentNote);
+
                 yield return new ChangedValue
                 {
                     MessageTypeId = messageTypeId,
-                    BetTypeId = assignment.BetType,
                     OldValue = null,
                     NewValue = newValue,
-                    BetTypeName = bettypeName,
-                    MatchId = match.MatchId,
-                    MatchNo = mainMatch.MatchNo,
-                    League = mainMatch.LeagueName,
-                    EventName = mainMatch.Home + EVENT_VS + mainMatch.Away,
+                    BetTypeName = assignment.BetTypeName,
+                    MatchId = match.OSMatchId,
+                    MatchNo = match.MatchNo.ToString(),
+                    League = match.League,
+                    EventName = match.Home + EVENT_VS + match.Away,
                     AssigneeId = assignment.UserId,
-                    AssigneeName = assignment.UserName,
+                    AssigneeName = assignment.Username,
                     AssignmentType = assignment.AssignmentType,
                     AssignmentNote = assignment.AssignmentNote
                 };

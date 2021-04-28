@@ -5,8 +5,9 @@
     using System.Linq;
     using Extensions;
     using Models;
+    using OWP.Extensions;
+    using OWP.OtherSport.Notification.Constants;
     using Submit.Models;
-    using Utils;
 
     public interface ChangedAssignmentGenerator
     {
@@ -40,37 +41,34 @@
 
         public IEnumerable<ChangedValue> GetDeletedAssignmentChangedValues(ChangedMatchSnapshot snapshot)
         {
-            var oldAssignments = snapshot.OldSnapshot.Assignments.GetValue(snapshot.OldMatch.MatchId, new List<MatchAssignment>());
-            var newAssignments = snapshot.NewSnapshot.Assignments.GetValue(snapshot.NewMatch.MatchId, new List<MatchAssignment>());
+            var oldAssignments = snapshot.OldSnapshot.MatchAssignments.GetValue(snapshot.OldMatch.MatchId, new List<MatchAssignment>());
+            var newAssignments = snapshot.NewSnapshot.MatchAssignments.GetValue(snapshot.NewMatch.MatchId, new List<MatchAssignment>());
             var oldMatches = snapshot.OldSnapshot.Matches;
 
             var deletedAssignments = changeDetector.GetDeletedAssignments(oldAssignments, newAssignments);
 
             foreach (var assignment in deletedAssignments)
             {
-                var match = oldMatches.GetValue(assignment.MatchId);
-                var mainMatch = oldMatches.GetValue(match.ParentMatchId, match);
-                var bettypeName = BettypeNameExtensions.GetBettypeNameForAssignment(assignment.BetType, match.MatchType, match.MinorBettypeName);
+                var match = oldMatches.GetValue(assignment.OSMatchId);
 
                 var messageTypeId = assignment.AssignmentType == 1
                     ? (int)MsgTemplateCode.AssignmentDelete
                     : (int)MsgTemplateCode.OtherAssignmentDelete;
-                var oldValue = UpdatedValueHelper.GetValue(assignment.AssignmentType, assignment.UserName, assignment.AssignmentNote);
+                var oldValue = UpdatedValueHelper.GetValue(assignment.AssignmentType, assignment.Username, assignment.AssignmentNote);
                 yield return new ChangedValue
                 {
                     MessageTypeId = messageTypeId,
-                    BetTypeId = assignment.BetType,
                     OldValue = oldValue,
                     AssignmentNote = assignment.AssignmentNote,
                     AssignmentType = assignment.AssignmentType,
                     NewValue = null,
-                    BetTypeName = bettypeName,
-                    MatchId = match.MatchId,
-                    MatchNo = mainMatch.MatchNo,
-                    League = mainMatch.LeagueName,
-                    EventName = mainMatch.Home + EVENT_VS + mainMatch.Away,
+                    BetTypeName = assignment.BetTypeName,
+                    MatchId = match.OSMatchId,
+                    MatchNo = match.MatchNo.ToString(),
+                    League = match.League,
+                    EventName = match.Home + EVENT_VS + match.Away,
                     AssigneeId = assignment.UserId,
-                    AssigneeName = assignment.UserName
+                    AssigneeName = assignment.Username
                 };
             }
         }
@@ -78,36 +76,33 @@
         public IEnumerable<ChangedValue> GetInsertedAssignmentChangedValues(ChangedMatchSnapshot snapshot)
         {
             var oldAssignments = GetAssignmentsOfMatchWhichIsChangedToLive(snapshot);
-            var newAssignments = snapshot.NewSnapshot.Assignments.GetValue(snapshot.NewMatch.MatchId, new List<MatchAssignment>());
+            var newAssignments = snapshot.NewSnapshot.MatchAssignments.GetValue(snapshot.NewMatch.MatchId, new List<MatchAssignment>());
             var oldMatches = snapshot.OldSnapshot.Matches;
 
             var insertedAssignments = changeDetector.GetInsertedAssignments(oldAssignments, newAssignments);
 
             foreach (var assignment in insertedAssignments)
             {
-                var match = oldMatches.GetValue(assignment.MatchId);
-                var mainMatch = oldMatches.GetValue(match.ParentMatchId, match);
-                var bettypeName = BettypeNameExtensions.GetBettypeNameForAssignment(assignment.BetType, match.MatchType, match.MinorBettypeName);
+                var match = oldMatches.GetValue(assignment.OSMatchId);
 
                 var messageTypeId = assignment.AssignmentType == 1
                     ? (int)MsgTemplateCode.AssignmentInsert
                     : (int)MsgTemplateCode.OtherAssignmentInsert;
-                var newValue = UpdatedValueHelper.GetValue(assignment.AssignmentType, assignment.UserName, assignment.AssignmentNote);
+                var newValue = UpdatedValueHelper.GetValue(assignment.AssignmentType, assignment.Username, assignment.AssignmentNote);
                 yield return new ChangedValue
                 {
                     MessageTypeId = messageTypeId,
-                    BetTypeId = assignment.BetType,
                     OldValue = null,
                     NewValue = newValue,
                     AssignmentNote = assignment.AssignmentNote,
                     AssignmentType = assignment.AssignmentType,
-                    BetTypeName = bettypeName,
-                    MatchId = match.MatchId,
-                    MatchNo = mainMatch.MatchNo,
-                    League = mainMatch.LeagueName,
-                    EventName = mainMatch.Home + EVENT_VS + mainMatch.Away,
+                    BetTypeName = assignment.BetTypeName,
+                    MatchId = match.OSMatchId,
+                    MatchNo = match.MatchNo.ToString(),
+                    League = match.League,
+                    EventName = match.Home + EVENT_VS + match.Away,
                     AssigneeId = assignment.UserId,
-                    AssigneeName = assignment.UserName,
+                    AssigneeName = assignment.Username,
                     IsChangedToLiveMatchStatus = IsChangedToLiveMatchStatus(snapshot)
                 };
             }
@@ -117,7 +112,7 @@
         {
             return IsChangedToLiveMatchStatus(snapshot)
                 ? new List<MatchAssignment>()
-                : snapshot.OldSnapshot.Assignments.GetValue(snapshot.OldMatch.MatchId, new List<MatchAssignment>());
+                : snapshot.OldSnapshot.MatchAssignments.GetValue(snapshot.OldMatch.MatchId, new List<MatchAssignment>());
         }
 
         private static bool IsChangedToLiveMatchStatus(ChangedMatchSnapshot snapshot)
@@ -153,7 +148,6 @@
             return new ChangedValue
             {
                 MessageTypeId = changedValue.MessageTypeId,
-                BetTypeId = changedValue.BetTypeId,
                 OldValue = changedValue.OldValue,
                 NewValue = changedValue.NewValue,
                 BetTypeName = changedValue.BetTypeName,
