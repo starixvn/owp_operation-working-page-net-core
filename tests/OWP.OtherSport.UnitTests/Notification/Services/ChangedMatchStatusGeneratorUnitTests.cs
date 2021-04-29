@@ -1,0 +1,67 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using OWP.OtherSport.Notification.Models;
+using OWP.OtherSport.Notification.Services;
+using OWP.OtherSport.Submit.Models;
+using Xunit;
+using Xunit.Asserts.Compare;
+
+namespace OWP.OtherSport.UnitTests.Notification.Services
+{
+    public class ChangedMatchStatusGeneratorUnitTests
+    {
+        [Fact]
+        public void BuildListMatchChangeMatchStatus_Snapshot_Has_NewMatch_OldMatch_Diff_MatchStatus()
+        {
+            var changedMatchStatusGeneratorImp = new ChangedMatchStatusGeneratorImp();
+            var snapshot = new ChangedMatchSnapshot
+            {
+                OldMatch = new MatchInfo
+                {
+                    MatchNo = 123,
+                    OSMatchId = 123,
+                    MatchStatus = "CANCEL",
+                    League = "Vleague",
+                    Home = "Binh Dinh",
+                    Away = "Ha Noi"
+                },
+                NewMatch = new MatchInfo
+                {
+                    MatchNo = 123,
+                    OSMatchId = 123,
+                    MatchStatus = "LIVE",
+                    League = "Vleague",
+                    Home = "Binh Dinh",
+                    Away = "Ha Noi"
+                },
+            };
+            var assignees = new List<Assignee>
+            {
+                new Assignee
+                {
+                    AssigneeId=8,
+                    AssigneeName="sa"
+                }
+            };
+            var actual = changedMatchStatusGeneratorImp.Create(snapshot, assignees);
+            var expected = new List<ChangedValue>
+            {
+                new ChangedValue
+                {
+                    AssigneeId=8,
+                    AssigneeName="sa",
+                    EventName="Binh Dinh -vs- Ha Noi",
+                    League="Vleague",
+                    MatchNo="1234",
+                    MessageTypeId=10,
+                    NewValue="LIVE",
+                    OldValue="CANCEL",
+                }
+            };
+            DeepAssert.Equals(expected, actual);
+        }
+    }
+}

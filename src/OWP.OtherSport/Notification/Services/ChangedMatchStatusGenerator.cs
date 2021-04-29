@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using Constants;
     using Models;
@@ -28,7 +29,7 @@
                MessageTypeId = (int)MsgTemplateCode.EditMatchStatus,
                OldValue = snapshot.OldMatch.MatchStatus,
                NewValue = snapshot.NewMatch.MatchStatus,
-               MatchNo = snapshot.NewMatch.MatchNo.ToString(),
+               MatchNo = snapshot.NewMatch.MatchNo.ToString(CultureInfo.InvariantCulture),
                League = snapshot.NewMatch.League,
                EventName = snapshot.NewMatch.Home + EVENT_VS + snapshot.NewMatch.Away,
                AssigneeId = a.AssigneeId,

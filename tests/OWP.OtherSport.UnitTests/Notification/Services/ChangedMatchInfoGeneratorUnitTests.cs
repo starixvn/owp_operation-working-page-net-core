@@ -1,0 +1,100 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using OWP.OtherSport.Notification.Constants;
+using OWP.OtherSport.Notification.Models;
+using OWP.OtherSport.Notification.Services;
+using OWP.OtherSport.Submit.Models;
+using Xunit;
+using Xunit.Asserts.Compare;
+
+namespace OWP.OtherSport.UnitTests.Notification.Services
+{
+    public class ChangedMatchInfoGeneratorUnitTests
+    {
+        [Fact]
+        public void BuildListMatchChanged_()
+        {
+            var changedMatchInfoGeneratorImp = new ChangedMatchInfoGeneratorImp();
+            var oldMatch = new MatchInfo
+            {
+                MatchNo = 123,
+                Category = "AB2",
+                MatchOffer = "offer",
+                AutoLink = "Yes",
+                OtherProvider = "Other1",
+                IPTV = "TV1",
+                WB = "Streaming1",
+                Remark = "remark1",
+                Reporter = "Reporter1",
+                Provider = "Provider1"
+            };
+            var newMatch = new MatchInfo
+            {
+                MatchNo = 123,
+                Category = "AB22",
+                MatchOffer = "offer1",
+                AutoLink = "No",
+                OtherProvider = "Other2",
+                IPTV = "TV2",
+                WB = "Streaming2",
+                Remark = "remark2",
+                Reporter = "Reporter2",
+                Provider = "Provider2"
+            };
+            var actual = changedMatchInfoGeneratorImp.GetListValueChanged(oldMatch, newMatch);
+            var expected = new List<ChangedValue>
+            {
+                new ChangedValue
+                {
+                    MessageTypeId=(int)MsgTemplateCode.EditCategory,
+                    NewValue="AB22",
+                    OldValue="AB2"
+                },new ChangedValue
+                {
+                    MessageTypeId=(int)MsgTemplateCode.EditMatchOffer,
+                    NewValue="offer1",
+                    OldValue="offer"
+                },new ChangedValue
+                {
+                    MessageTypeId=(int)MsgTemplateCode.EditAutoLink,
+                    NewValue="No",
+                    OldValue="Yes"
+                },new ChangedValue
+                {
+                    MessageTypeId=(int)MsgTemplateCode.EditOtherProvider,
+                    NewValue="Other2",
+                    OldValue="Other1"
+                },new ChangedValue
+                {
+                    MessageTypeId=(int)MsgTemplateCode.EditIPTV,
+                    NewValue="TV2",
+                    OldValue="TV1"
+                },new ChangedValue
+                {
+                    MessageTypeId=(int)MsgTemplateCode.EditWB,
+                    NewValue="Streaming2",
+                    OldValue="Streaming1"
+                },new ChangedValue
+                {
+                    MessageTypeId=(int)MsgTemplateCode.EditRemark,
+                    NewValue="remark2",
+                    OldValue="remark1"
+                },new ChangedValue
+                {
+                    MessageTypeId=(int)MsgTemplateCode.EditReporter,
+                    OldValue="Reporter1",
+                    NewValue="Reporter2"
+                },new ChangedValue
+                {
+                    MessageTypeId=(int)MsgTemplateCode.EditProvider,
+                    OldValue="Provider1",
+                    NewValue="Provider2"
+                },
+            };
+            DeepAssert.Equals(expected, actual);
+        }
+    }
+}

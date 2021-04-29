@@ -1,6 +1,7 @@
 ﻿namespace OWP.OtherSport.Notification.Services
 {
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Reflection;
     using Models;
@@ -19,15 +20,13 @@
         private static readonly List<string> MatchInfoPropertyNames = new List<string>
         {
             "MatchNo",
-            "MatchStatus",
             "Category",
             "MatchOffer",
             "AutoLink",
             "OtherProvider",
             "IPTV",
-            "Wb",
+            "WB",
             "Remark",
-            "MaxBet",
             "Reporter",
             "Provider"
         };
@@ -44,7 +43,7 @@
                     NewValue = GetNewValue(newMatch, changed),
                     OldValue = GetOldValue(oldMatch, changed),
                     League = newMatch.League,
-                    MatchNo = newMatch.MatchNo.ToString(),
+                    MatchNo = newMatch.MatchNo.ToString(CultureInfo.InvariantCulture),
                     EventName = newMatch.Home + EVENT_VS + newMatch.Away,
                     AssigneeId = a.AssigneeId,
                     AssigneeName = a.AssigneeName
@@ -56,14 +55,14 @@
             return changedValueList;
         }
 
-        private static string GetNewValue(MatchInfo newMatch, ChangedValue changed)
+        public static string GetNewValue(MatchInfo newMatch, ChangedValue changed)
         {
             return changed.MessageTypeId == MessageType.GetMessageTypeIdForChangedMatchInfo("Home")
                 ? changed.NewValue + EVENT_VS + newMatch.Away
                 : changed.NewValue;
         }
 
-        private static string GetOldValue(MatchInfo newMatch, ChangedValue changed)
+        public static string GetOldValue(MatchInfo newMatch, ChangedValue changed)
         {
             return changed.MessageTypeId == MessageType.GetMessageTypeIdForChangedMatchInfo("Home")
                 ? changed.OldValue + EVENT_VS + newMatch.Away
@@ -93,10 +92,10 @@
                 changedValues.Add(messageModel);
             }
 
-            return changedValues.Where(a => a.MessageTypeId != 0).ToList();
+            return changedValues.ToList();
         }
 
-        private static PropertyInfo GetProperty(MatchInfo match, string propertyName)
+        public static PropertyInfo GetProperty(MatchInfo match, string propertyName)
         {
             return match.GetType().GetProperties().Single(p => p.Name == propertyName);
         }

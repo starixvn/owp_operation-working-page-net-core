@@ -25,7 +25,7 @@
 
             var newMatchSettings = snapshot.NewSnapshot.MaxBet.GetValue(matchId, new List<MatchMaxBet>());
             var oldMatchSettings = snapshot.OldSnapshot.MaxBet.GetValue(matchId, new List<MatchMaxBet>());
-            var changedList = GetListValueChangedWithDifferentBettype(oldMatchSettings, newMatchSettings);
+            var changedList = GetListValueChangedWithDifferentBettype(oldMatchSettings, newMatchSettings, matchId);
 
             var changedValueList = new List<ChangedValue>();
 
@@ -42,7 +42,8 @@
                     League = matchInfo.League,
                     EventName = matchInfo.Home + EVENT_VS + matchInfo.Away,
                     AssigneeId = a.AssigneeId,
-                    AssigneeName = a.AssigneeName
+                    AssigneeName = a.AssigneeName,
+                    OSMatchId= matchId
                 });
 
                 changedValueList.AddRange(changedValues);
@@ -51,7 +52,7 @@
             return changedValueList;
         }
 
-        public static IEnumerable<ChangedValue> GetListValueChangedWithDifferentBettype(List<MatchMaxBet> oldMatchSettings, List<MatchMaxBet> newMatchSettings)
+        public static IEnumerable<ChangedValue> GetListValueChangedWithDifferentBettype(List<MatchMaxBet> oldMatchSettings, List<MatchMaxBet> newMatchSettings, int matchId)
         {
             var bettypes = new List<string> {
                  Bettype.FTHDP,
@@ -107,14 +108,14 @@
             {
                 var oldMatchWithBettype = oldMatchSettings.SingleOrDefault(a => string.Equals(a.BetTypeName, bettype)) ?? new MatchMaxBet();
                 var newMatchWithBettype = newMatchSettings.SingleOrDefault(a => string.Equals(a.BetTypeName, bettype)) ?? new MatchMaxBet();
-                var listMessage = GetListValueChangedOfMatchSetting(oldMatchWithBettype, newMatchWithBettype, bettype);
+                var listMessage = GetListValueChangedOfMatchSetting(oldMatchWithBettype, newMatchWithBettype, bettype, matchId);
                 changedValues.AddRange(listMessage);
             }
 
             return changedValues;
         }
 
-        public static IEnumerable<ChangedValue> GetListValueChangedOfMatchSetting(MatchMaxBet oldMatchSetting, MatchMaxBet newMatchSetting, string bettype)
+        public static IEnumerable<ChangedValue> GetListValueChangedOfMatchSetting(MatchMaxBet oldMatchSetting, MatchMaxBet newMatchSetting, string bettype, int matchId)
         {
             if (!Equals(oldMatchSetting.MaxBet, newMatchSetting.MaxBet))
             {
@@ -123,7 +124,8 @@
                     OldValue = oldMatchSetting.MaxBet.ToOWPMaxBetFormat(),
                     NewValue = newMatchSetting.MaxBet.ToOWPMaxBetFormat(),
                     BetTypeName = bettype,
-                    MessageTypeId = (int)MsgTemplateCode.EditMaxbet
+                    MessageTypeId = (int)MsgTemplateCode.EditMaxbet,
+                    OSMatchId = matchId
                 };
             }
         }

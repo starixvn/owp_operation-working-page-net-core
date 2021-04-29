@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using OWP.Extensions;
-using OWP.Utils;
 
 namespace OWP.OtherSport.Notification.Constants
 {
@@ -15,7 +14,7 @@ namespace OWP.OtherSport.Notification.Constants
             { "AutoLink", (int)MsgTemplateCode.EditAutoLink },
             { "OtherProvider", (int)MsgTemplateCode.EditOtherProvider },
             { "IPTV", (int)MsgTemplateCode.EditIPTV },
-            { "Wb", (int)MsgTemplateCode.EditWB },
+            { "WB", (int)MsgTemplateCode.EditWB },
             { "Remark", (int)MsgTemplateCode.EditRemark },
             { "MaxBet", (int)MsgTemplateCode.EditMaxbet },
             { "Reporter", (int)MsgTemplateCode.EditReporter },
@@ -23,8 +22,6 @@ namespace OWP.OtherSport.Notification.Constants
         };
 
         public static int GetMessageTypeIdForChangedMatchInfo(string property)
-        {
-            return MessageTypeMap.GetValue(property, 0);
-        }
+            => MessageTypeMap.GetValue(property, 0);
     }
 }
