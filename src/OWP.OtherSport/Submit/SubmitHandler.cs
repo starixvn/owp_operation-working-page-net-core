@@ -70,13 +70,19 @@
             {
                 new(){
                     MessageType = 101,
-                    MessageContent = "You have NEW ASSIGNEMNT bettype in #555 - League - Event updated by #sa",
+                    MessageContent = "You have NEW ASSIGNMENT bettype in #555 - League - Event updated by #sa",
                     IsImportant = true,
                     ReceivedUserIdList = new List<string> { "8", "360418" }
                 },
                 new(){
-                    MessageType = 102,
+                    MessageType = 103,
                     MessageContent = "You have been REMOVED <b>bettype</b> in #555 - League - Event updated by #sa",
+                    IsImportant = true,
+                    ReceivedUserIdList = new List<string> { "8", "360418" }
+                },
+                new(){
+                    MessageType = 108,
+                    MessageContent = "Match Status Updated from Postponed to Live",
                     IsImportant = true,
                     ReceivedUserIdList = new List<string> { "8", "360418" }
                 }
