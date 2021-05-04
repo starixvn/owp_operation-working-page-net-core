@@ -31,10 +31,8 @@
             var insertedAssignmentChangedValues = GetInsertedAssignmentChangedValues(snapshot).ToList();
 
             var allChangedValues = deletedAssignmentChangedValues.Union(insertedAssignmentChangedValues).ToList();
-            var indirectChangedValues = GetIndirectChangedValues(snapshot, allChangedValues, existingAssignees).ToList();
 
             return allChangedValues.Where(x => x.AssigneeId != 0)
-                .Union(indirectChangedValues)
                 .Distinct(new AssignmentChangedValueComparer())
                 .ToList();
         }
@@ -76,7 +74,7 @@
 
         public IEnumerable<ChangedValue> GetInsertedAssignmentChangedValues(ChangedMatchSnapshot snapshot)
         {
-            //var oldAssignments = GetAssignmentsOfMatchWhichIsChangedToLive(snapshot);
+            var oldAssignments = snapshot.OldSnapshot.MatchAssignments.GetValue(snapshot.OldMatch.OSMatchId, new List<MatchAssignment>());
             var newAssignments = snapshot.NewSnapshot.MatchAssignments.GetValue(snapshot.NewMatch.OSMatchId, new List<MatchAssignment>());
             var oldMatches = snapshot.OldSnapshot.Matches;
 
@@ -106,35 +104,6 @@
                     AssigneeName = assignment.Username
                 };
             }
-        }
-
-        public static IEnumerable<ChangedValue> GetIndirectChangedValues(
-            ChangedMatchSnapshot snapshot,
-            List<ChangedValue> allChangedValues,
-            List<Assignee> existingAssignees)
-        {
-            return existingAssignees
-                .Select(t => allChangedValues.Select(a => GetIndirectChangedValue(a, t)))
-                .SelectMany(a => a);
-        }
-
-        public static ChangedValue GetIndirectChangedValue(ChangedValue changedValue, Assignee assignee)
-        {
-            return new ChangedValue
-            {
-                MessageTypeId = changedValue.MessageTypeId,
-                OldValue = changedValue.OldValue,
-                NewValue = changedValue.NewValue,
-                BetTypeName = changedValue.BetTypeName,
-                OSMatchId = changedValue.OSMatchId,
-                MatchNo = changedValue.MatchNo,
-                League = changedValue.League,
-                EventName = changedValue.EventName,
-                AssigneeId = assignee.AssigneeId,
-                AssigneeName = assignee.AssigneeName,
-                AssignmentType = changedValue.AssignmentType,
-                AssignmentNote = changedValue.AssignmentNote
-            };
         }
     }
 }
