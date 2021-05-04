@@ -21,7 +21,7 @@
         private readonly ChangedValueAggregator changedValueAggregator;
         private readonly MessageFactory messageFactory;
         private readonly CommandRepository commandRepository;
-        private readonly Notify notify;
+        private readonly NotifyServices notify;
 
         public Handler(
             ChangedValueByCacheAndDatabase changedValueByCacheAndDatabase,
@@ -30,7 +30,7 @@
             ChangedValueAggregator changedValueAggregator,
             MessageFactory messageFactory,
             CommandRepository commandRepository,
-            Notify notify)
+            NotifyServices notify)
         {
             this.changedValueByCacheAndDatabase = changedValueByCacheAndDatabase;
             this.assigneeChangedValueFilter = assigneeChangedValueFilter;
@@ -53,7 +53,7 @@
 
             await commandRepository.InsertMessage(messageModels, request.SessionId);
 
-            //notify.NotifyMessagesToUser(messageModels);
+            notify.Notify(messageModels);
 
             return await Task.FromResult(true);
         }

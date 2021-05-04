@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -17,6 +16,7 @@ namespace OWP.OtherSport.Notification.Services
     public class MessageFactoryImp : MessageFactory
     {
         #region MessageTemplate
+
         private static readonly ImmutableList<MessageTemplate> messageTemplates = ImmutableList<MessageTemplate>.Empty.AddRange(new[]
         {
             new MessageTemplate
@@ -42,54 +42,80 @@ namespace OWP.OtherSport.Notification.Services
              },
              new()
              {
-                  MessageType=(int)MsgTemplateCode.EditMatchOffer,
+                 MessageType=(int)MsgTemplateCode.EditMatchOffer,
                  MessageContent="<b>Match Offer</b> Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
              },
             new()
             {
-                MessageType=(int)MsgTemplateCode.EditAutoLink,
+                 MessageType=(int)MsgTemplateCode.EditAutoLink,
                  MessageContent="<b>Auto Link</b> Updated from <old value> to  <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
             },
              new()
             {
-                MessageType=(int)MsgTemplateCode.EditOtherProvider,
+                 MessageType=(int)MsgTemplateCode.EditOtherProvider,
                  MessageContent="<b>Other Provider</b> Updated from <old value> to <newvalue> for <Match.No> - <League> -  <Event> updated by <User>"
             },
-              new()
+             new()
             {
-                MessageType=(int)MsgTemplateCode.EditIPTV,
+                 MessageType=(int)MsgTemplateCode.EditIPTV,
                  MessageContent="<b>IPTV</b> Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
             },
-               new()
+            new()
             {
-                MessageType=(int)MsgTemplateCode.EditWB,
+                 MessageType=(int)MsgTemplateCode.EditWB,
                  MessageContent="<b>Streaming</b> Info (WB) Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
             },
-                 new()
+            new()
             {
-                MessageType=(int)MsgTemplateCode.EditRemark,
+                 MessageType=(int)MsgTemplateCode.EditRemark,
                  MessageContent="<b>Remark</b> Updated from <old value>> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
             },
-                 new()
+            new()
             {
-                MessageType=(int)MsgTemplateCode.EditMaxbet,
+                 MessageType=(int)MsgTemplateCode.EditMaxbet,
                  MessageContent="<b>Max Bet</b> Updated from <old value> to <newvalue> for <Match.No> - <League> -  <Event> updated by <User>"
             },
-                  new()
+            new()
             {
-                MessageType=(int)MsgTemplateCode.EditReporter,
+                 MessageType=(int)MsgTemplateCode.EditReporter,
                  MessageContent="<b>Reporter</b> Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
             },
-                    new()
+            new()
             {
-                MessageType=(int)MsgTemplateCode.EditProvider,
-                 MessageContent="<b>Provider</b> Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
+                 MessageType=(int)MsgTemplateCode.AssignmentInsert,
+                 MessageContent="You have NEW ASSIGNEMNT <bettype> in <Match.No> - <League> -  <Event> updated by <User>"
+            },
+            new()
+            {
+                 MessageType=(int)MsgTemplateCode.OtherAssignmentInsert,
+                 MessageContent="You have NEW ASSIGNEMNT <bettype> in <Match.No> - <League> -  <Event> updated by <User>"
+            },
+            new()
+            {
+                 MessageType=(int)MsgTemplateCode.AssignmentUpdate,
+                 MessageContent="UPDATED ASSIGNEE of <bettype> from <old value> change to <newvalue> for <Match No.> - <League> - <Event> Updated by <User> "
+            },
+            new()
+            {
+                 MessageType=(int)MsgTemplateCode.OtherAssignmentUpdate,
+                 MessageContent="UPDATED ASSIGNEE of <bettype> from <old value> change to <newvalue> for <Match No.> - <League> - <Event> Updated by <User> "
+            },
+            new()
+            {
+                 MessageType=(int)MsgTemplateCode.AssignmentDelete,
+                 MessageContent="You have been REMOVED from <Match.No> - <League> -  <Event> updated by <User>"
+            },
+            new()
+            {
+                 MessageType=(int)MsgTemplateCode.OtherAssignmentDelete,
+                 MessageContent="You have been REMOVED from <Match.No> - <League> -  <Event> updated by <User>"
             }
         });
 
-        #endregion
+        #endregion MessageTemplate
 
         #region MessageGroup
+
         private class MessageGroup : IEqualityComparer<MessageGroup>
         {
             public MessageGroup(ChangedValue value)
@@ -149,9 +175,10 @@ namespace OWP.OtherSport.Notification.Services
             }
         }
 
-        #endregion
+        #endregion MessageGroup
 
         #region MessageModelRaw
+
         private class MessageModelRaw
         {
             public string MessageContent { get; set; }
@@ -165,7 +192,7 @@ namespace OWP.OtherSport.Notification.Services
             public List<Assignee> Assignees { get; set; }
         }
 
-        #endregion
+        #endregion MessageModelRaw
 
         private static readonly Dictionary<int, MessageTemplate> messageTemplateMap = messageTemplates.ToDictionary(m => m.MessageType, m => m);
 
@@ -218,7 +245,7 @@ namespace OWP.OtherSport.Notification.Services
             content = content.Replace("<League>", messageGroup.League);
             content = content.Replace("<Event>", messageGroup.EventName);
             content = content.Replace("<User>", currentSession.Username);
-          
+
             content = content.Replace("<bettype>", messageGroup.BetTypeName);
             content = content.Replace("<Note>", assignmentNote);
 
@@ -233,7 +260,6 @@ namespace OWP.OtherSport.Notification.Services
                     var assignees = m.SelectMany(x => x.Assignees).Distinct().ToArray();
                     return new MessageModel
                     {
-
                         MessageType = m.Key.MessageType,
                         MessageContent = m.Key.MessageContent,
                         IsImportant = m.Key.IsImportant,
