@@ -56,18 +56,14 @@
         }
 
         public static string GetNewValue(MatchInfo newMatch, ChangedValue changed)
-        {
-            return changed.MessageTypeId == MessageType.GetMessageTypeIdForChangedMatchInfo("Home")
+            => changed.MessageTypeId == MessageType.GetMessageTypeIdForChangedMatchInfo("Home")
                 ? changed.NewValue + EVENT_VS + newMatch.Away
                 : changed.NewValue;
-        }
 
         public static string GetOldValue(MatchInfo newMatch, ChangedValue changed)
-        {
-            return changed.MessageTypeId == MessageType.GetMessageTypeIdForChangedMatchInfo("Home")
+        => changed.MessageTypeId == MessageType.GetMessageTypeIdForChangedMatchInfo("Home")
                 ? changed.OldValue + EVENT_VS + newMatch.Away
                 : changed.OldValue;
-        }
 
         public List<ChangedValue> GetListValueChanged(MatchInfo oldMatch, MatchInfo newMatch)
         {
