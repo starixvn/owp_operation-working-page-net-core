@@ -9,7 +9,7 @@
 
     public interface CommandRepository
     {
-        Task InsertMessage(List<MessageModel> messages, string sessionId);
+        Task InsertMessage(List<Message> messages, string sessionId);
     }
 
     public class CommandRepositoryImp : CommandRepository
@@ -25,7 +25,7 @@
             this.repository = repository;
         }
 
-        public async Task InsertMessage(List<MessageModel> messages, string sessionId)
+        public async Task InsertMessage(List<Message> messages, string sessionId)
         {
             var criteria = new InsertMessageCommand
             {

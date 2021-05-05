@@ -10,7 +10,7 @@ namespace OWP.OtherSport.Notification.Services
 {
     public interface MessageFactory
     {
-        List<MessageModel> Transform(List<ChangedValue> changedValues);
+        List<Message> Transform(List<ChangedValue> changedValues);
     }
 
     public class MessageFactoryImp : MessageFactory
@@ -203,7 +203,7 @@ namespace OWP.OtherSport.Notification.Services
             this.currentSession = currentSession;
         }
 
-        public List<MessageModel> Transform(List<ChangedValue> changedValues)
+        public List<Message> Transform(List<ChangedValue> changedValues)
         {
             var messageModels = TransformChangedValueToMessageModel(changedValues);
             return Reduce(messageModels);
@@ -252,20 +252,19 @@ namespace OWP.OtherSport.Notification.Services
             return content;
         }
 
-        private static List<MessageModel> Reduce(List<MessageModelRaw> messageModels)
+        private static List<Message> Reduce(List<MessageModelRaw> messageModels)
         {
             return messageModels.GroupBy(m => new { m.MessageContent, m.IsImportant, m.IsWatcher, m.MessageType })
                 .Select(m =>
                 {
                     var assignees = m.SelectMany(x => x.Assignees).Distinct().ToArray();
-                    return new MessageModel
+                    return new Message
                     {
                         MessageType = m.Key.MessageType,
                         MessageContent = m.Key.MessageContent,
                         IsImportant = m.Key.IsImportant,
                         IsWatcher = m.Key.IsWatcher,
-                        ReceivedUserIdList = string.Join(",", assignees.Select(a => a.AssigneeId)),
-                        ReceivedUserNameList = string.Join(",", assignees.Select(a => a.AssigneeName))
+                        ReceivedUserIdList = assignees.Select(a => a.AssigneeId.ToString())
                     };
                 })
                 .ToList();

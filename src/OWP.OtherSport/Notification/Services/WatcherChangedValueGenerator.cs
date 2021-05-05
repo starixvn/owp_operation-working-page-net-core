@@ -6,6 +6,7 @@
     using AutoMapper;
     using Extensions;
     using Models;
+    using OWP.Extensions;
     using Utils;
 
     public interface WatcherChangedValueGenerator
