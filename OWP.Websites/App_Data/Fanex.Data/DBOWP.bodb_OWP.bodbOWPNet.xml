@@ -259,4 +259,7 @@
     <Setting Key="OWP_OSLiveGameAssignment_Query" SpName="OWP_OSLiveGameAssignment_Query" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_AssignmentUpload_MessageInsert" SpName="OWP_AssignmentUpload_MessageInsert" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
   </Function>
+  <Function Name="OtherSport">
+    <Setting Key="OWP_ProductAssignment_GetUserBy_Name_Role_Section" SpName="OWP_ProductAssignment_GetUserBy_Name_Role_Section" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+  </Function>
 </Functions>
