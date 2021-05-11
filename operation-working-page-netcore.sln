@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OWP.Maxbet.UnitTests", "tes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OWP.OtherSport.UnitTests", "tests\OWP.OtherSport.UnitTests\OWP.OtherSport.UnitTests.csproj", "{8D783B50-E36C-4FE9-9B4E-3AA3993F3431}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OWP.ProductAssignmentReference", "src\OWP.ProductAssignmentReference\OWP.ProductAssignmentReference.csproj", "{55A8C068-90B4-4F6E-9A56-7462439AA1D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OWP.ProductAssignmentReference", "src\OWP.ProductAssignmentReference\OWP.ProductAssignmentReference.csproj", "{55A8C068-90B4-4F6E-9A56-7462439AA1D3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

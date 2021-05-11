@@ -1,11 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.Extensions.DependencyInjection;
+using OWP.ProductAssignmentReference;
+using OWP.ProductAssignmentReference.Services;
 
 namespace OWP.Websites.App_Start
 {
-    public class ProductAssignmentInjector
+    public static class ProductAssignmentInjector
     {
+        public static void InjectProductAssignment(this IServiceCollection services)
+        {
+            services.AddScoped<ProductAssignmentRepository, ProductAssignmentRepositoryImp>();
+            services.AddScoped<ProductAssignmentService, ProductAssignmentServiceImp>();
+        }
     }
 }

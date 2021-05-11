@@ -1,6 +1,6 @@
-﻿namespace OWP.ProductAssignmentReference.models
+﻿namespace OWP.ProductAssignmentReference.Models
 {
-    public class ProductAssignment
+    public class UserInfo
     {
         public string Usename { get; set; }
 

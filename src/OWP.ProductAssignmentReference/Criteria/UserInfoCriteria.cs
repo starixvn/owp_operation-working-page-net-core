@@ -6,12 +6,12 @@ namespace OWP.ProductAssignmentReference.Criteria
     {
         public string Section { get; set; }
 
-        public string UserName { get; set; }
+        public string User { get; set; }
 
-        public string Role { get; set; }
+        public int? RoleId { get; set; }
 
         public override string GetSettingKey()
-            => "OWP_ProductAssignment_GetUserBy_Name_Role_Section";
+            => "OWP_ProductAssignment_GetUserBy_User_Role_Section";
 
         public override bool IsValid()
         => true;

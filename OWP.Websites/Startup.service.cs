@@ -38,6 +38,7 @@ namespace OWP.Websites
     using OWP.OtherSport;
     using OWP.OtherSport.Hubs;
     using OWP.Services;
+    using OWP.Websites.App_Start;
     using Sentry;
     using StackExchange.Redis;
 
@@ -145,6 +146,7 @@ namespace OWP.Websites
         {
             services.InjectSyncMaxbetService();
             services.InjectOtherSportService();
+            services.InjectProductAssignment();
         }
 
         private void ConfigureNapServices(IServiceCollection services)
