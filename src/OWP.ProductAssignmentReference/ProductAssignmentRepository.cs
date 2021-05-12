@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Fanex.Data.Repository;
+using Fanex.NAP.Client.AspNetCore.Configuration;
+using Fanex.NAP.Client.Configuration;
 using OWP.ProductAssignmentReference.Criteria;
 using OWP.ProductAssignmentReference.Models;
 
@@ -21,10 +23,12 @@ namespace OWP.ProductAssignmentReference
     public class ProductAssignmentRepositoryImp : ProductAssignmentRepository
     {
         private readonly IDynamicRepository dynamicRepository;
+        private readonly INapSettings napSettings;
 
-        public ProductAssignmentRepositoryImp(IDynamicRepository dynamicRepository)
+        public ProductAssignmentRepositoryImp(IDynamicRepository dynamicRepository, INapSettings napSettings)
         {
             this.dynamicRepository = dynamicRepository;
+            this.napSettings = napSettings;
         }
 
         public async Task<IList<UserInfo>> QueryUser(QueryUserInfo queryInfo)
@@ -33,7 +37,8 @@ namespace OWP.ProductAssignmentReference
             {
                 RoleId = queryInfo.RoleId,
                 User = queryInfo.User,
-                Section = queryInfo.Section
+                Section = queryInfo.Section,
+                SiteId = napSettings.SiteId
             };
             return (await dynamicRepository.FetchAsync<UserInfo>(criteria)).ToList();
         }
