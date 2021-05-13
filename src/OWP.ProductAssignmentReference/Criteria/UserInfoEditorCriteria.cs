@@ -4,6 +4,10 @@ namespace OWP.ProductAssignmentReference.Criteria
 {
     public class UserInfoEditorCriteria : NonQueryCommand
     {
+        public int ActorId { get; set; }
+
+        public string Username { get; set; }
+
         public int UserId { get; set; }
 
         public string Label { get; set; }

@@ -13,8 +13,7 @@ namespace OWP.ProductAssignmentReference
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("AllowOrigin")]
-    //[Authorize]
-    [AllowAnonymous]
+    [Authorize]
     public class ProductAssignmentController : ControllerBase
     {
         private readonly ProductAssignmentService service;
@@ -36,7 +35,11 @@ namespace OWP.ProductAssignmentReference
         }
 
         [HttpGet]
-        public async Task<IEnumerable<UserInfo>> Get([FromQuery] QueryUserInfo userInfo)
-            => await service.QueryUser(userInfo);
+        public async Task<IEnumerable<UserInfo>> Get([FromQuery] QueryUserInfo queryInfo)
+            => await service.QueryUser(queryInfo);
+
+        [HttpPost]
+        public async Task Post(UserInfoEditor info)
+            => await service.UpdateUserInfo(info);
     }
 }

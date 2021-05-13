@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Fanex.Data.Repository;
-using Fanex.NAP.Client.AspNetCore.Configuration;
 using Fanex.NAP.Client.Configuration;
+using Fanex.NAP.Client.Helpers.Web;
 using OWP.ProductAssignmentReference.Criteria;
 using OWP.ProductAssignmentReference.Models;
 
@@ -24,11 +22,16 @@ namespace OWP.ProductAssignmentReference
     {
         private readonly IDynamicRepository dynamicRepository;
         private readonly INapSettings napSettings;
+        private readonly INapSession napSession;
 
-        public ProductAssignmentRepositoryImp(IDynamicRepository dynamicRepository, INapSettings napSettings)
+        public ProductAssignmentRepositoryImp(
+            IDynamicRepository dynamicRepository,
+            INapSettings napSettings,
+            INapSession napSession)
         {
             this.dynamicRepository = dynamicRepository;
             this.napSettings = napSettings;
+            this.napSession = napSession;
         }
 
         public async Task<IList<UserInfo>> QueryUser(QueryUserInfo queryInfo)
@@ -47,6 +50,8 @@ namespace OWP.ProductAssignmentReference
         {
             var userInfoEditorCriteria = new UserInfoEditorCriteria
             {
+                ActorId = napSession.UserId,
+                Username = info.Username,
                 UserId = info.UserId,
                 Label = info.Label,
                 Value = info.Value
