@@ -4,18 +4,16 @@
     {
         public string Username { get; set; }
 
-        public string UserId { get; set; }
+        public int UserId { get; set; }
 
-        public string Level { get; set; }
+        public int LevelId { get; set; }
 
-        public string Role { get; set; }
+        public int RoleId { get; set; }
 
-        public string BetTypePreferences { get; set; }
+        public int BetTypePreferencesId { get; set; }
 
-        public string MultipleGames { get; set; }
+        public int MultipleGamesId { get; set; }
 
         public string AssignmentRemark { get; set; }
-
-        public string Remark { get; set; }
     }
 }

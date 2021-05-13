@@ -28,17 +28,6 @@ namespace OWP.ProductAssignmentReference
         public async Task<IEnumerable<object>> GetRefResourceByName(string name)
         {
             var resourceInfo = (await service.GetResourceByName(name)).ToList();
-            resourceInfo.Add(new ReferenceResource
-            {
-                ResourceId = 0,
-                Value = ""
-            });
-            resourceInfo.Insert(0, new ReferenceResource
-            {
-                ResourceId= -1,
-                Value= "All"
-            });
-           
             return resourceInfo.Select(r => new
             {
                 r.ResourceId,
