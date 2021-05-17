@@ -2,6 +2,7 @@
 {
     using Microsoft.Extensions.DependencyInjection;
     using Submit = OtherSport.Submit.Services;
+    using Download = OtherSport.Download.Services;
     using Validation = OtherSport.Validation.Services;
     using EventAssignment = OtherSport.EventAssignment.Services;
     using OWP.OtherSport.EventAssignment.Builder;
@@ -36,7 +37,7 @@
 
             services.AddScoped<BuildExcelModelService, BuildExcelModelServiceImp>();
             services.AddScoped<ExportExcelService, ExportExcelServiceImp>();
-            services.AddScoped<Submit.CommandRepository, Submit.CommandRepositoryImp > ();
+            services.AddScoped<Download.CommandRepository, Download.CommandRepositoryImp > ();
 
             // Notification
             services.AddScoped<MessageFactory, MessageFactoryImp>();
