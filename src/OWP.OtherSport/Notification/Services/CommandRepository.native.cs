@@ -4,8 +4,10 @@
     using System.Threading.Tasks;
     using Fanex.Data.Repository;
     using Fanex.NAP.Core.Web.Session;
+    using Criteria;
     using Models;
     using Olympus.Xml;
+    using Fanex.NAP.Client.Helpers.Web;
 
     public interface CommandRepository
     {
@@ -15,10 +17,10 @@
     public class CommandRepositoryImp : CommandRepository
     {
         private readonly IDynamicRepository repository;
-        private readonly ICurrentSession currentSession;
+        private readonly INapSession currentSession;
 
         public CommandRepositoryImp(
-            ICurrentSession currentSession,
+            INapSession currentSession,
             IDynamicRepository repository)
         {
             this.currentSession = currentSession;

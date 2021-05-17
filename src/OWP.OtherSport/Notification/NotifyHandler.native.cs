@@ -1,6 +1,5 @@
 ﻿namespace OWP.OtherSport.Notification
 {
-    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using MediatR;
@@ -10,23 +9,21 @@
     {
         public string SessionId { get; set; }
 
-        public string EventDate { get; set; }
+        public string EventDate { get; internal set; }
     }
 
-    public class Handler : IRequestHandler<NotifyRequest, bool>
+    public class NotifyHandler : IRequestHandler<NotifyRequest, bool>
     {
         private readonly ChangedValueByCacheAndDatabase changedValueByCacheAndDatabase;
         private readonly AssigneeChangedValueFilter assigneeChangedValueFilter;
-        private readonly WatcherChangedValueGenerator watcherChangedValueGenerator;
         private readonly ChangedValueAggregator changedValueAggregator;
         private readonly MessageFactory messageFactory;
         private readonly CommandRepository commandRepository;
         private readonly NotifyServices notify;
 
-        public Handler(
+        public NotifyHandler(
             ChangedValueByCacheAndDatabase changedValueByCacheAndDatabase,
             AssigneeChangedValueFilter assigneeChangedValueFilter,
-            WatcherChangedValueGenerator watcherChangedValueGenerator,
             ChangedValueAggregator changedValueAggregator,
             MessageFactory messageFactory,
             CommandRepository commandRepository,
@@ -34,7 +31,6 @@
         {
             this.changedValueByCacheAndDatabase = changedValueByCacheAndDatabase;
             this.assigneeChangedValueFilter = assigneeChangedValueFilter;
-            this.watcherChangedValueGenerator = watcherChangedValueGenerator;
             this.changedValueAggregator = changedValueAggregator;
             this.messageFactory = messageFactory;
             this.commandRepository = commandRepository;
@@ -45,15 +41,13 @@
         {
             var messages = await changedValueByCacheAndDatabase.Create(request.SessionId, request.EventDate);
             var assigneeChangedValues = await assigneeChangedValueFilter.Filter(messages);
-            var watcherChangedValues = await watcherChangedValueGenerator.Create(messages, assigneeChangedValues);
-            var allChangedValues = assigneeChangedValues.Union(watcherChangedValues).ToList();
 
-            var aggregatedChangedValues = changedValueAggregator.Aggregate(allChangedValues);
+            var aggregatedChangedValues = changedValueAggregator.Aggregate(assigneeChangedValues);
             var messageModels = messageFactory.Transform(aggregatedChangedValues);
 
             await commandRepository.InsertMessage(messageModels, request.SessionId);
 
-            notify.Notify(messageModels);
+            await notify.Notify(messageModels);
 
             return await Task.FromResult(true);
         }

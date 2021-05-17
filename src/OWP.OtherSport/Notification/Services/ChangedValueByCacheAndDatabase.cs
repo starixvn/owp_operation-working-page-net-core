@@ -10,13 +10,13 @@
         Task<List<ChangedValue>> Create(string sessionId, string eventDate);
     }
 
-    public class ChangedValueCacheAndDatabaseImp : ChangedValueByCacheAndDatabase
+    public class ChangedValueByCacheAndDatabaseImp : ChangedValueByCacheAndDatabase
     {
         private readonly CacheManipulator cacheManipulator;
         private readonly QueryRepository queryRepository;
         private readonly ChangedValueBySnapshot changedValueBySnapshot;
 
-        public ChangedValueCacheAndDatabaseImp(
+        public ChangedValueByCacheAndDatabaseImp(
             CacheManipulator cacheManipulator,
             QueryRepository queryRepository,
             ChangedValueBySnapshot changedValueBySnapshot)

@@ -45,8 +45,8 @@
                     League = newMatch.League,
                     MatchNo = newMatch.MatchNo.ToString(CultureInfo.InvariantCulture),
                     EventName = newMatch.Home + EVENT_VS + newMatch.Away,
-                    AssigneeId = a.AssigneeId,
-                    AssigneeName = a.AssigneeName
+                    UserId = a.AssigneeId,
+                    Username = a.AssigneeName
                 });
 
                 changedValueList.AddRange(changedValues);

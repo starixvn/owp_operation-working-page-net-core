@@ -4,9 +4,9 @@
 
     public class ChangedValue
     {
-        public int AssigneeId { get; set; }
+        public int UserId { get; set; }
 
-        public string AssigneeName { get; set; }
+        public string Username { get; set; }
 
         public int MessageTypeId { get; set; }
 
@@ -30,7 +30,7 @@
 
         public int AssignmentType { get; set; }
 
-        public bool IsWatcher { get; set; }
+        public bool IsIndirectChangedAssignment { get; set; }
 
         public ChangedValue()
         {
@@ -43,7 +43,7 @@
         public bool Equals(ChangedValue x, ChangedValue y)
         {
             var condition1 = x.OSMatchId == y.OSMatchId && x.BetTypeName == y.BetTypeName && x.AssignmentType == y.AssignmentType;
-            var condition2 = x.MessageTypeId == y.MessageTypeId && x.AssigneeId == y.AssigneeId;
+            var condition2 = x.MessageTypeId == y.MessageTypeId && x.UserId == y.UserId && x.IsIndirectChangedAssignment == y.IsIndirectChangedAssignment;
             var condition3 = x.OldValue == y.OldValue && x.NewValue == y.NewValue && x.AssignmentNote == y.AssignmentNote;
 
             return condition1 && condition2 && condition3;

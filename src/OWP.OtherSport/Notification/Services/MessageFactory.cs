@@ -2,6 +2,7 @@
 using System.Collections.Immutable;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Fanex.NAP.Client.Helpers.Web;
 using Fanex.NAP.Core.Web.Session;
 using OWP.OtherSport.Notification.Constants;
 using OWP.OtherSport.Notification.Models;
@@ -38,7 +39,7 @@ namespace OWP.OtherSport.Notification.Services
              new()
              {
                  MessageType=(int)MsgTemplateCode.EditNoOfHDP,
-                 MessageContent="<b>No. HDP</b> Updated from <old value> to <newvalue> for <Match.No> - <League> -  <Event> updated by <User>"
+                 MessageContent="<b>No. HDP</b> Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
              },
              new()
              {
@@ -53,7 +54,7 @@ namespace OWP.OtherSport.Notification.Services
              new()
             {
                  MessageType=(int)MsgTemplateCode.EditOtherProvider,
-                 MessageContent="<b>Other Provider</b> Updated from <old value> to <newvalue> for <Match.No> - <League> -  <Event> updated by <User>"
+                 MessageContent="<b>Other Provider</b> Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
             },
              new()
             {
@@ -73,7 +74,7 @@ namespace OWP.OtherSport.Notification.Services
             new()
             {
                  MessageType=(int)MsgTemplateCode.EditMaxbet,
-                 MessageContent="<b>Max Bet</b> Updated from <old value> to <newvalue> for <Match.No> - <League> -  <Event> updated by <User>"
+                 MessageContent="<b>Max Bet</b> Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
             },
             new()
             {
@@ -83,32 +84,38 @@ namespace OWP.OtherSport.Notification.Services
             new()
             {
                  MessageType=(int)MsgTemplateCode.AssignmentInsert,
-                 MessageContent="You have NEW ASSIGNEMNT <bettype> in <Match.No> - <League> -  <Event> updated by <User>"
+                 MessageContent="You have NEW ASSIGNEMNT <bettype> in <Match.No> - <League> - <Event> updated by <User>",
+                 IsImportant = true
             },
             new()
             {
                  MessageType=(int)MsgTemplateCode.OtherAssignmentInsert,
-                 MessageContent="You have NEW ASSIGNEMNT <bettype> in <Match.No> - <League> -  <Event> updated by <User>"
+                 MessageContent="You have NEW ASSIGNEMNT <bettype> in <Match.No> - <League> - <Event> updated by <User>",
+                 IsImportant = true
             },
             new()
             {
                  MessageType=(int)MsgTemplateCode.AssignmentUpdate,
-                 MessageContent="UPDATED ASSIGNEE of <bettype> from <old value> change to <newvalue> for <Match No.> - <League> - <Event> Updated by <User> "
+                 MessageContent="UPDATED ASSIGNEE of <bettype> from <old value> change to <newvalue> for <Match No.> - <League> - <Event> Updated by <User> ",
+                 IsImportant = true
             },
             new()
             {
                  MessageType=(int)MsgTemplateCode.OtherAssignmentUpdate,
-                 MessageContent="UPDATED ASSIGNEE of <bettype> from <old value> change to <newvalue> for <Match No.> - <League> - <Event> Updated by <User> "
+                 MessageContent="UPDATED ASSIGNEE of <bettype> from <old value> change to <newvalue> for <Match No.> - <League> - <Event> Updated by <User> ",
+                 IsImportant = true
             },
             new()
             {
                  MessageType=(int)MsgTemplateCode.AssignmentDelete,
-                 MessageContent="You have been REMOVED from <Match.No> - <League> -  <Event> updated by <User>"
+                 MessageContent="You have been REMOVED from <Match.No> - <League> - <Event> updated by <User>",
+                 IsImportant = true
             },
             new()
             {
                  MessageType=(int)MsgTemplateCode.OtherAssignmentDelete,
-                 MessageContent="You have been REMOVED from <Match.No> - <League> -  <Event> updated by <User>"
+                 MessageContent="You have been REMOVED from <Match.No> - <League> - <Event> updated by <User>",
+                 IsImportant = true
             }
         });
 
@@ -128,7 +135,6 @@ namespace OWP.OtherSport.Notification.Services
                 League = value.League;
                 EventName = value.EventName;
                 MatchNo = value.MatchNo;
-                IsWatcher = value.IsWatcher;
             }
 
             public string AssignmentNote { get; set; }
@@ -147,8 +153,6 @@ namespace OWP.OtherSport.Notification.Services
 
             public string MatchNo { get; set; }
 
-            public bool IsWatcher { get; set; }
-
             public bool Equals(MessageGroup x, MessageGroup y)
             {
 #pragma warning disable S1067 // Expressions should not be too complex - ignored by Jacob
@@ -159,8 +163,7 @@ namespace OWP.OtherSport.Notification.Services
                    x.OldValue == y.OldValue &&
                    x.League == y.League &&
                    x.EventName == y.EventName &&
-                   x.MatchNo == y.MatchNo &&
-                   x.IsWatcher == y.IsWatcher;
+                   x.MatchNo == y.MatchNo;
 #pragma warning restore S1067 // Expressions should not be too complex
             }
 
@@ -185,8 +188,6 @@ namespace OWP.OtherSport.Notification.Services
 
             public bool IsImportant { get; set; }
 
-            public bool IsWatcher { get; set; }
-
             public int MessageType { get; set; }
 
             public List<Assignee> Assignees { get; set; }
@@ -196,9 +197,9 @@ namespace OWP.OtherSport.Notification.Services
 
         private static readonly Dictionary<int, MessageTemplate> messageTemplateMap = messageTemplates.ToDictionary(m => m.MessageType, m => m);
 
-        private readonly ICurrentSession currentSession;
+        private readonly INapSession currentSession;
 
-        public MessageFactoryImp(ICurrentSession currentSession)
+        public MessageFactoryImp(INapSession currentSession)
         {
             this.currentSession = currentSession;
         }
@@ -221,9 +222,8 @@ namespace OWP.OtherSport.Notification.Services
                     {
                         IsImportant = messageTemplate.IsImportant,
                         MessageContent = content,
-                        IsWatcher = g.Key.IsWatcher,
                         MessageType = g.Key.MessageTypeId,
-                        Assignees = g.Select(i => new Assignee { AssigneeId = i.AssigneeId, AssigneeName = i.AssigneeName }).ToList()
+                        Assignees = g.Select(i => new Assignee { AssigneeId = i.UserId, AssigneeName = i.Username }).ToList()
                     };
                 }).ToList();
         }
@@ -244,7 +244,7 @@ namespace OWP.OtherSport.Notification.Services
             content = content.Replace("<Match.No>", !string.IsNullOrEmpty(messageGroup.MatchNo) ? $"#{messageGroup.MatchNo}" : string.Empty);
             content = content.Replace("<League>", messageGroup.League);
             content = content.Replace("<Event>", messageGroup.EventName);
-            content = content.Replace("<User>", currentSession.Username);
+            content = content.Replace("<User>", currentSession.UserName);
 
             content = content.Replace("<bettype>", messageGroup.BetTypeName);
             content = content.Replace("<Note>", assignmentNote);
@@ -254,7 +254,7 @@ namespace OWP.OtherSport.Notification.Services
 
         private static List<Message> Reduce(List<MessageModelRaw> messageModels)
         {
-            return messageModels.GroupBy(m => new { m.MessageContent, m.IsImportant, m.IsWatcher, m.MessageType })
+            return messageModels.GroupBy(m => new { m.MessageContent, m.IsImportant, m.MessageType })
                 .Select(m =>
                 {
                     var assignees = m.SelectMany(x => x.Assignees).Distinct().ToArray();
@@ -263,8 +263,7 @@ namespace OWP.OtherSport.Notification.Services
                         MessageType = m.Key.MessageType,
                         MessageContent = m.Key.MessageContent,
                         IsImportant = m.Key.IsImportant,
-                        IsWatcher = m.Key.IsWatcher,
-                        ReceivedUserIdList = assignees.Select(a => a.AssigneeId.ToString())
+                        ReceivedUserIdList = assignees.Select(a => a.AssigneeId.ToString()).ToList()
                     };
                 })
                 .ToList();

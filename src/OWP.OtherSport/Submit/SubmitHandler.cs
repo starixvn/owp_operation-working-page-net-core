@@ -12,7 +12,7 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    public class SubmitRequest: IRequest<SubmitResponse>
+    public class SubmitRequest : IRequest<SubmitResponse>
     {
         public string SessionId { get; set; }
     }
@@ -23,33 +23,33 @@
         {
             Message = string.Empty;
             IsSuccessful = true;
+            EventDates = string.Empty;
         }
 
         public string Message { get; set; }
 
         public bool IsSuccessful { get; set; }
+
+        public string EventDates { get; set; }
     }
 
-    public class SubmitHandler: IRequestHandler<SubmitRequest, SubmitResponse>
+    public class SubmitHandler : IRequestHandler<SubmitRequest, SubmitResponse>
     {
         private readonly CacheManipulator cacheManipulator;
         private readonly CommandRepository commandRepository;
         private readonly INapSession session;
         private readonly IHubContext<NewDataUploadNotifyHubImp, NewDataUploadNotifyHub> notifyHub;
-        private readonly Notification.Services.NotifyServices notifyServices;
 
         public SubmitHandler(
             CacheManipulator cacheManipulator,
             CommandRepository commandRepository,
             INapSession session,
-            IHubContext<NewDataUploadNotifyHubImp, NewDataUploadNotifyHub> notifyHub,
-            Notification.Services.NotifyServices notifyServices)
+            IHubContext<NewDataUploadNotifyHubImp, NewDataUploadNotifyHub> notifyHub)
         {
             this.cacheManipulator = cacheManipulator;
             this.commandRepository = commandRepository;
             this.session = session;
             this.notifyHub = notifyHub;
-            this.notifyServices = notifyServices;
         }
 
         public async Task<SubmitResponse> Handle(SubmitRequest request, CancellationToken cancellationToken)
@@ -66,34 +66,12 @@
             await TryHandle(eventDates, newAssignments, request.SessionId);
             await notifyHub.Clients.All.NotifyUploadedNewData();
 
-            var messages = new List<Notification.Models.Message>
-            {
-                new(){
-                    MessageType = 101,
-                    MessageContent = "You have NEW ASSIGNMENT bettype in #555 - League - Event updated by #sa",
-                    IsImportant = true,
-                    ReceivedUserIdList = new List<string> { "8", "360418" }
-                },
-                new(){
-                    MessageType = 103,
-                    MessageContent = "You have been REMOVED <b>bettype</b> in #555 - League - Event updated by #sa",
-                    IsImportant = true,
-                    ReceivedUserIdList = new List<string> { "8", "360418" }
-                },
-                new(){
-                    MessageType = 108,
-                    MessageContent = "Match Status Updated from Postponed to Live",
-                    IsImportant = true,
-                    ReceivedUserIdList = new List<string> { "8", "360418" }
-                }
-            };
-            await notifyServices.Notify(messages);
-
             return new SubmitResponse
             {
                 IsSuccessful = true,
-                Message = "Other sport assignment is successfully submitted!"
-            };
+                Message = "Other sport assignment is successfully submitted!",
+                EventDates = string.Join(",", eventDates)
+        };
         }
 
         private async Task<SubmitResponse> GetUserWhoIsUploadingAssignment(List<DateTime> eventDates)

@@ -23,11 +23,9 @@
         {
             public int MatchId { get; set; }
 
-            public int BetTypeId { get; set; }
+            public string BetTypeName { get; set; }
 
             public int AssigneeId { get; set; }
-
-            public bool IsWatcher { get; set; }
 
             public bool IsIndirectChanged { get; set; }
 
@@ -35,20 +33,17 @@
             {
                 var other = obj as AssignmentGroup;
 
-                var condition1 = MatchId == other.MatchId && BetTypeId == other.BetTypeId && AssigneeId == other.AssigneeId;
-                var condition2 = IsIndirectChanged == other.IsIndirectChanged && IsWatcher == other.IsWatcher;
+                var condition1 = MatchId == other.MatchId && BetTypeName == other.BetTypeName && AssigneeId == other.AssigneeId;
+                var condition2 = IsIndirectChanged == other.IsIndirectChanged;
 
                 return condition1 && condition2;
             }
 
             public override int GetHashCode()
-            {
-                return MatchId * 17
-                    + BetTypeId * 19
+                => MatchId * 17
+                    + BetTypeName.GetHashCode() * 19
                     + AssigneeId * 29
-                    + (IsWatcher ? 31 : 0)
                     + (IsIndirectChanged ? 37 : 0);
-            }
         }
 
         private readonly IMapper mapper;
@@ -76,11 +71,10 @@
         {
             return changedValues.Where(m =>
             {
-                var isDirectChanged = !m.IsIndirectChangedAssignment && !m.IsWatcher;
                 var isMainAssignment = m.MessageTypeId == (int)MsgTemplateCode.AssignmentDelete || m.MessageTypeId == (int)MsgTemplateCode.AssignmentInsert;
                 var isOtherAssignment = m.MessageTypeId == (int)MsgTemplateCode.OtherAssignmentDelete || m.MessageTypeId == (int)MsgTemplateCode.OtherAssignmentInsert;
 
-                return isDirectChanged || !isMainAssignment && !isOtherAssignment;
+                return !m.IsIndirectChangedAssignment || !isMainAssignment && !isOtherAssignment;
             });
         }
 
@@ -88,11 +82,10 @@
         {
             return changedValues.Where(m =>
             {
-                var isIndirectChangedAssignment = m.IsIndirectChangedAssignment || m.IsWatcher;
                 var isOtherAssignment = m.MessageTypeId == (int)MsgTemplateCode.OtherAssignmentDelete ||
                                         m.MessageTypeId == (int)MsgTemplateCode.OtherAssignmentInsert;
 
-                return isIndirectChangedAssignment && isOtherAssignment;
+                return m.IsIndirectChangedAssignment && isOtherAssignment;
             });
         }
 
@@ -100,10 +93,9 @@
         {
             return changedValues.Where(m =>
             {
-                var isIndirectChangedAssignment = m.IsIndirectChangedAssignment || m.IsWatcher;
                 var isMainAssignment = m.MessageTypeId == (int)MsgTemplateCode.AssignmentDelete || m.MessageTypeId == (int)MsgTemplateCode.AssignmentInsert;
 
-                return isIndirectChangedAssignment && isMainAssignment;
+                return m.IsIndirectChangedAssignment && isMainAssignment;
             });
         }
 
@@ -112,9 +104,8 @@
             var changedValuesGroupBy = changedValues.GroupBy(v => new AssignmentGroup
             {
                 MatchId = v.OSMatchId,
-                BetTypeId = v.BetTypeId,
-                AssigneeId = v.AssigneeId,
-                IsWatcher = v.IsWatcher,
+                BetTypeName = v.BetTypeName,
+                AssigneeId = v.UserId,
                 IsIndirectChanged = v.IsIndirectChangedAssignment
             });
 
@@ -144,7 +135,7 @@
         {
             var aggregatedChangedValue = mapper.Map<ChangedValue>(deletingAssignment);
 
-            aggregatedChangedValue.MessageTypeId = (int)MsgTemplateCode.ChangeOfAssignment;
+            aggregatedChangedValue.MessageTypeId = (int)MsgTemplateCode.AssignmentUpdate;
             aggregatedChangedValue.OldValue = deletingAssignment.OldValue;
             aggregatedChangedValue.NewValue = insertingChangedValue.NewValue;
 
@@ -154,7 +145,7 @@
         private ChangedValue GetAggregatedValueForSingleAssignment(ChangedValue changedValue)
         {
             var aggregatedChangedValue = mapper.Map<ChangedValue>(changedValue);
-            aggregatedChangedValue.MessageTypeId = (int)MsgTemplateCode.ChangeOfAssignment;
+            aggregatedChangedValue.MessageTypeId = (int)MsgTemplateCode.AssignmentUpdate;
             return aggregatedChangedValue;
         }
 
@@ -162,7 +153,7 @@
         {
             foreach (var value in changedValues)
             {
-                value.MessageTypeId = (int)MsgTemplateCode.ChangeOfAssignment;
+                value.MessageTypeId = (int)MsgTemplateCode.AssignmentUpdate;
             }
 
             return changedValues;

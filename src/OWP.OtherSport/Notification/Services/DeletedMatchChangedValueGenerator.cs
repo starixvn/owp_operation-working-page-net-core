@@ -38,6 +38,7 @@
                 ? (int)MsgTemplateCode.AssignmentDelete
                 : (int)MsgTemplateCode.OtherAssignmentDelete;
             var oldValue = UpdatedValueHelper.GetValue(assignment.AssignmentType, assignment.Username, assignment.AssignmentNote);
+
             return new ChangedValue
             {
                 MessageTypeId = messageTypeId,
@@ -48,8 +49,8 @@
                 MatchNo = match.MatchNo.ToString(),
                 League = match.League,
                 EventName = match.Home + EVENT_VS + match.Away,
-                AssigneeId = assignment.UserId,
-                AssigneeName = assignment.Username,
+                UserId = assignment.UserId,
+                Username = assignment.Username,
                 AssignmentType = assignment.AssignmentType,
                 AssignmentNote = assignment.AssignmentNote
             };

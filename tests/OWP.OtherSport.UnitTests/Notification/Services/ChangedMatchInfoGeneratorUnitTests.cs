@@ -151,8 +151,8 @@ namespace OWP.OtherSport.UnitTests.Notification.Services
                     MessageTypeId=(int)MsgTemplateCode.EditCategory,
                     NewValue="AB22",
                     OldValue="AB2",
-                    AssigneeId=8,
-                    AssigneeName="sa",
+                    UserId=8,
+                    Username="sa",
                     League="VLeague",
                     EventName= "Binh Dinh -vs- Tphcm"
                 },new ChangedValue
@@ -161,8 +161,8 @@ namespace OWP.OtherSport.UnitTests.Notification.Services
                     MessageTypeId=(int)MsgTemplateCode.EditMatchOffer,
                     NewValue="offer1",
                     OldValue="offer",
-                    AssigneeId=8,
-                    AssigneeName="sa",
+                    UserId=8,
+                    Username="sa",
                     League="VLeague",
                     EventName= "Binh Dinh -vs- Tphcm"
                 },new ChangedValue
@@ -171,8 +171,8 @@ namespace OWP.OtherSport.UnitTests.Notification.Services
                     MessageTypeId=(int)MsgTemplateCode.EditAutoLink,
                     NewValue="No",
                     OldValue="Yes",
-                    AssigneeId=8,
-                    AssigneeName="sa",
+                    UserId=8,
+                    Username="sa",
                     League="VLeague",
                     EventName= "Binh Dinh -vs- Tphcm"
                 },new ChangedValue
@@ -181,8 +181,8 @@ namespace OWP.OtherSport.UnitTests.Notification.Services
                     MessageTypeId=(int)MsgTemplateCode.EditOtherProvider,
                     NewValue="Other2",
                     OldValue="Other1",
-                    AssigneeId=8,
-                    AssigneeName="sa",
+                    UserId=8,
+                    Username="sa",
                     League="VLeague",
                     EventName= "Binh Dinh -vs- Tphcm"
                 },new ChangedValue
@@ -191,8 +191,8 @@ namespace OWP.OtherSport.UnitTests.Notification.Services
                     MessageTypeId=(int)MsgTemplateCode.EditIPTV,
                     NewValue="TV2",
                     OldValue="TV1",
-                    AssigneeId=8,
-                    AssigneeName="sa",
+                    UserId=8,
+                    Username="sa",
                     League="VLeague",
                     EventName= "Binh Dinh -vs- Tphcm"
                 },new ChangedValue
@@ -201,8 +201,8 @@ namespace OWP.OtherSport.UnitTests.Notification.Services
                     MessageTypeId=(int)MsgTemplateCode.EditWB,
                     NewValue="Streaming2",
                     OldValue="Streaming1",
-                    AssigneeId=8,
-                    AssigneeName="sa",
+                    UserId=8,
+                    Username="sa",
                     League="VLeague",
                     EventName= "Binh Dinh -vs- Tphcm"
                 },new ChangedValue
@@ -211,8 +211,8 @@ namespace OWP.OtherSport.UnitTests.Notification.Services
                     MessageTypeId=(int)MsgTemplateCode.EditRemark,
                     NewValue="remark2",
                     OldValue="remark1",
-                    AssigneeId=8,
-                    AssigneeName="sa",
+                    UserId=8,
+                    Username="sa",
                     League="VLeague",
                     EventName= "Binh Dinh -vs- Tphcm"
                 },new ChangedValue
@@ -221,8 +221,8 @@ namespace OWP.OtherSport.UnitTests.Notification.Services
                     MessageTypeId=(int)MsgTemplateCode.EditReporter,
                     OldValue="Reporter1",
                     NewValue="Reporter2",
-                    AssigneeId=8,
-                    AssigneeName="sa",
+                    UserId=8,
+                    Username="sa",
                     League="VLeague",
                     EventName= "Binh Dinh -vs- Tphcm"
                 },new ChangedValue
@@ -231,8 +231,8 @@ namespace OWP.OtherSport.UnitTests.Notification.Services
                     MessageTypeId=(int)MsgTemplateCode.EditProvider,
                     OldValue="Provider1",
                     NewValue="Provider2",
-                    AssigneeId=8,
-                    AssigneeName="sa",
+                    UserId=8,
+                    Username="sa",
                     League="VLeague",
                     EventName= "Binh Dinh -vs- Tphcm"
                 },

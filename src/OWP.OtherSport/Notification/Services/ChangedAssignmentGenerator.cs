@@ -1,6 +1,5 @@
 ﻿namespace OWP.OtherSport.Notification.Services
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Extensions;
@@ -31,8 +30,10 @@
             var insertedAssignmentChangedValues = GetInsertedAssignmentChangedValues(snapshot).ToList();
 
             var allChangedValues = deletedAssignmentChangedValues.Union(insertedAssignmentChangedValues).ToList();
+            var indirectChangedValues = GetIndirectChangedValues(allChangedValues, existingAssignees).ToList();
 
-            return allChangedValues.Where(x => x.AssigneeId != 0)
+            return allChangedValues.Where(x => x.UserId != 0)
+                .Union(indirectChangedValues)
                 .Distinct(new AssignmentChangedValueComparer())
                 .ToList();
         }
@@ -66,8 +67,8 @@
                     MatchNo = match.MatchNo.ToString(),
                     League = match.League,
                     EventName = match.Home + EVENT_VS + match.Away,
-                    AssigneeId = assignment.UserId,
-                    AssigneeName = assignment.Username
+                    UserId = assignment.UserId,
+                    Username = assignment.Username
                 };
             }
         }
@@ -88,6 +89,7 @@
                     ? (int)MsgTemplateCode.AssignmentInsert
                     : (int)MsgTemplateCode.OtherAssignmentInsert;
                 var newValue = UpdatedValueHelper.GetValue(assignment.AssignmentType, assignment.Username, assignment.AssignmentNote);
+
                 yield return new ChangedValue
                 {
                     MessageTypeId = messageTypeId,
@@ -100,10 +102,39 @@
                     MatchNo = match.MatchNo.ToString(),
                     League = match.League,
                     EventName = match.Home + EVENT_VS + match.Away,
-                    AssigneeId = assignment.UserId,
-                    AssigneeName = assignment.Username
+                    UserId = assignment.UserId,
+                    Username = assignment.Username
                 };
             }
+        }
+
+        public static IEnumerable<ChangedValue> GetIndirectChangedValues(
+            List<ChangedValue> allChangedValues,
+            List<Assignee> existingAssignees)
+        {
+            return existingAssignees
+                .Select(t => allChangedValues.Select(a => GetIndirectChangedValue(a, t)))
+                .SelectMany(a => a);
+        }
+
+        public static ChangedValue GetIndirectChangedValue(ChangedValue changedValue, Assignee assignee)
+        {
+            return new ChangedValue
+            {
+                MessageTypeId = changedValue.MessageTypeId,
+                OldValue = changedValue.OldValue,
+                NewValue = changedValue.NewValue,
+                BetTypeName = changedValue.BetTypeName,
+                OSMatchId = changedValue.OSMatchId,
+                MatchNo = changedValue.MatchNo,
+                League = changedValue.League,
+                EventName = changedValue.EventName,
+                UserId = assignee.AssigneeId,
+                Username = assignee.AssigneeName,
+                AssignmentType = changedValue.AssignmentType,
+                AssignmentNote = changedValue.AssignmentNote,
+                IsIndirectChangedAssignment = true
+            };
         }
     }
 }

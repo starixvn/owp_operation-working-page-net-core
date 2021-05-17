@@ -134,8 +134,8 @@ namespace OWP.OtherSport.UnitTests.Notification.Services
             {
                 new ChangedValue
                 {
-                    AssigneeId=8,
-                    AssigneeName="sa",
+                    UserId=8,
+                    Username="sa",
                     BetTypeName="FT (HDP)",
                     EventName="Binh Dinh -vs- Ha Noi",
                     League="Vleague",

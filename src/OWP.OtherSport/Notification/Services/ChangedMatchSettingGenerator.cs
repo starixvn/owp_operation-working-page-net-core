@@ -41,8 +41,8 @@
                     MatchNo = matchInfo.MatchNo.ToString(CultureInfo.InvariantCulture),
                     League = matchInfo.League,
                     EventName = matchInfo.Home + EVENT_VS + matchInfo.Away,
-                    AssigneeId = a.AssigneeId,
-                    AssigneeName = a.AssigneeName,
+                    UserId = a.AssigneeId,
+                    Username = a.AssigneeName,
                     OSMatchId= matchId
                 });
 

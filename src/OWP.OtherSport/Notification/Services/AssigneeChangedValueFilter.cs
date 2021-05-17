@@ -1,11 +1,10 @@
 ﻿namespace OWP.OtherSport.Notification.Services
 {
-    using System;
-    using System.Linq;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
-    using OWP.OtherSport.Notification.Models;
     using OWP.OtherSport.Notification.Extensions;
+    using OWP.OtherSport.Notification.Models;
 
     public interface AssigneeChangedValueFilter
     {
@@ -26,7 +25,7 @@
             changedValues.ForEach(c => c.NotificationSettingId = NotificationSettingHelper.GetNotificationSettingIdForAssignee(c.MessageTypeId, c.IsIndirectChangedAssignment));
 
             var unsubcribeSettings = await repository.GetUnsubscribeSettings();
-            return changedValues.Where(m => !unsubcribeSettings.Contains($"{m.AssigneeId}-{m.NotificationSettingId}")).ToList();
+            return changedValues.Where(m => !unsubcribeSettings.Contains($"{m.UserId}-{m.NotificationSettingId}")).ToList();
         }
     }
 }

@@ -32,8 +32,8 @@
                MatchNo = snapshot.NewMatch.MatchNo.ToString(CultureInfo.InvariantCulture),
                League = snapshot.NewMatch.League,
                EventName = snapshot.NewMatch.Home + EVENT_VS + snapshot.NewMatch.Away,
-               AssigneeId = a.AssigneeId,
-               AssigneeName = a.AssigneeName
+               UserId = a.AssigneeId,
+               Username = a.AssigneeName
            }).ToList();
         }
     }

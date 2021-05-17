@@ -6,28 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Notification\Services\**" />
-    <EmbeddedResource Remove="Notification\Services\**" />
-    <None Remove="Notification\Services\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="Notification\Criteria\InsertMessageCommand.native.cs" />
-    <Compile Remove="Notification\Handler.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <AdditionalFiles Include="..\..\.sonarlint\nap-owp\CSharp\SonarLint.xml" Link="SonarLint.xml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="Notification\Services\NotifyServices.cs" />
   </ItemGroup>
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Notification\Criteria\InsertMessageCommand.native.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
