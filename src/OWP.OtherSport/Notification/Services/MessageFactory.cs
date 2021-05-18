@@ -84,13 +84,13 @@ namespace OWP.OtherSport.Notification.Services
             new()
             {
                  MessageType=(int)MsgTemplateCode.AssignmentInsert,
-                 MessageContent="You have NEW ASSIGNEMNT <bettype> in <Match.No> - <League> - <Event> updated by <User>",
+                 MessageContent="You have NEW ASSIGNMENT <bettype> in <Match.No> - <League> - <Event> updated by <User>",
                  IsImportant = true
             },
             new()
             {
                  MessageType=(int)MsgTemplateCode.OtherAssignmentInsert,
-                 MessageContent="You have NEW ASSIGNEMNT <bettype> in <Match.No> - <League> - <Event> updated by <User>",
+                 MessageContent="You have NEW ASSIGNMENT <bettype> in <Match.No> - <League> - <Event> updated by <User>",
                  IsImportant = true
             },
             new()
