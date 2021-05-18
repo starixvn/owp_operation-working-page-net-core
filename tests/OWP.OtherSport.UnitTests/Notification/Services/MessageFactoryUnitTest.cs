@@ -28,22 +28,22 @@
             var changedValueList = GetListChangedValue();
             currentSession.UserName = "sa";
 
-            var expected = new List<Message>
+            var expected = new List<MessageModel>
             {
-                new Message
+                new MessageModel
                 {
                    IsImportant = false,
                    MessageContent = "<b>Match No.</b> Updated from 1234 to <b>20000</b> for #20000 - A-Coners - LiverPool-Coners -vs- Arsenal-Coners updated by sa",
                    MessageType = (int)MsgTemplateCode.EditMatchNo,
-                   ReceivedUserIdList = new List<string> { "6789" }
+                   ReceivedUserIds = new List<string> { "6789" }
                 },
 
-                new Message
+                new MessageModel
                 {
                    IsImportant = false,
                    MessageContent = "<b>Max Bet</b> Updated from 400K to <b>300K</b> for #50000 - PremierLeague - LiverPool -vs- Arsenal updated by sa",
                    MessageType = (int)MsgTemplateCode.EditMaxbet,
-                   ReceivedUserIdList = new List<string> { "6789" }
+                   ReceivedUserIds = new List<string> { "6789" }
                 }
             };
 
@@ -57,22 +57,22 @@
             var changedValueList = GetListAssignmentChanged();
             currentSession.UserName = "sa";
 
-            var expected = new List<Message>
+            var expected = new List<MessageModel>
             {
-                new Message
+                new MessageModel
                 {
                    IsImportant = true,
                    MessageContent = "You have been REMOVED from #1324 - Jo - Spur -vs- MC updated by sa",
                    MessageType = (int)MsgTemplateCode.OtherAssignmentDelete,
-                   ReceivedUserIdList = new List<string> { "2542" }
+                   ReceivedUserIds = new List<string> { "2542" }
                 },
 
-                new Message
+                new MessageModel
                 {
                    IsImportant = true,
                    MessageContent = "You have NEW ASSIGNMENT <b>1H (HDP)</b> in #5000 - Jo - Spur -vs- MC updated by sa",
                    MessageType = (int)MsgTemplateCode.OtherAssignmentInsert,
-                   ReceivedUserIdList = new List<string> { "2542" }
+                   ReceivedUserIds = new List<string> { "2542" }
                 }
             };
 

@@ -11,7 +11,7 @@
 
     public interface CommandRepository
     {
-        Task InsertMessage(List<Message> messages, string sessionId);
+        Task InsertMessage(List<MessageModel> messages, string sessionId);
     }
 
     public class CommandRepositoryImp : CommandRepository
@@ -27,8 +27,10 @@
             this.repository = repository;
         }
 
-        public async Task InsertMessage(List<Message> messages, string sessionId)
+        public async Task InsertMessage(List<MessageModel> messages, string sessionId)
         {
+            messages.ForEach(x => x.ReceivedUserIdList = string.Join(",", x.ReceivedUserIds));
+
             var criteria = new InsertMessageCommand
             {
                 Messages = XmlConverter.Serialize(messages),

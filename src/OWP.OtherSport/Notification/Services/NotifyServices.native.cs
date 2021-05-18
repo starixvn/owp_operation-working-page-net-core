@@ -9,7 +9,7 @@
 
     public interface NotifyServices
     {
-        Task Notify(List<Message> messages);
+        Task Notify(List<MessageModel> messages);
     }
 
     public class NotifyServicesImp: NotifyServices
@@ -21,7 +21,7 @@
             this.notifyChangedHub = notifyChangedHub;
         }
 
-        public async Task Notify(List<Message> messages)
+        public async Task Notify(List<MessageModel> messages)
         {
             foreach (var message in messages)
             {
@@ -32,7 +32,7 @@
                 };
 
                 await notifyChangedHub.Clients
-                    .Users(message.ReceivedUserIdList)
+                    .Users(message.ReceivedUserIds)
                     .notifyChangedInfomationData(result);
             }
         }
