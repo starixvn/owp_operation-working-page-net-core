@@ -31,7 +31,7 @@ namespace OWP.OtherSport.UnitTests.Notification.Services
                 BetTypeName = "FT (HDP)",
                 OldValue = "120K",
                 NewValue = "110K",
-                MessageTypeId = 10,
+                MessageTypeId = (int)MsgTemplateCode.EditMaxbet,
                 OSMatchId=123
             };
             DeepAssert.Equal(expected, actual);
@@ -140,7 +140,7 @@ namespace OWP.OtherSport.UnitTests.Notification.Services
                     EventName="Binh Dinh -vs- Ha Noi",
                     League="Vleague",
                     MatchNo="1234",
-                    MessageTypeId=10,
+                    MessageTypeId=(int)MsgTemplateCode.EditMaxbet,
                     NewValue="11K",
                     OldValue="12K",
                     OSMatchId=123

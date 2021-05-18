@@ -70,7 +70,7 @@
                 new Message
                 {
                    IsImportant = true,
-                   MessageContent = "You have NEW ASSIGNEMNT <b>1H (HDP)</b> in #5000 - Jo - Spur -vs- MC updated by sa",
+                   MessageContent = "You have NEW ASSIGNMENT <b>1H (HDP)</b> in #5000 - Jo - Spur -vs- MC updated by sa",
                    MessageType = (int)MsgTemplateCode.OtherAssignmentInsert,
                    ReceivedUserIdList = new List<string> { "2542" }
                 }
