@@ -13,5 +13,7 @@ namespace OWP.OtherSport.Notification.Models
         public List<string> ReceivedUserIds { get; set; }
 
         public string ReceivedUserIdList { get; set; }
+
+        public bool IsWatcher { get; set; }
     }
 }
