@@ -3,7 +3,6 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Fanex.NAP.Client.Helpers.Web;
-using Fanex.NAP.Core.Web.Session;
 using OWP.OtherSport.Notification.Constants;
 using OWP.OtherSport.Notification.Models;
 
@@ -25,98 +24,98 @@ namespace OWP.OtherSport.Notification.Services
                 MessageType = (int)MsgTemplateCode.EditMatchNo,
                 MessageContent = "<b>Match No.</b> Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
             },
-             new ()
+            new MessageTemplate
             {
                 MessageType = (int)MsgTemplateCode.EditMatchStatus,
                 MessageContent = "<b>Match Status</b> Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>",
                 IsImportant= true
-             },
-             new()
-             {
+            },
+            new MessageTemplate
+            {
                 MessageType = (int)MsgTemplateCode.EditCategory,
                 MessageContent = "<b>Category</b> Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>",
-             },
-             new()
-             {
+            },
+            new MessageTemplate
+            {
                  MessageType=(int)MsgTemplateCode.EditNoOfHDP,
                  MessageContent="<b>No. HDP</b> Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
-             },
-             new()
-             {
+            },
+            new MessageTemplate
+            {
                  MessageType=(int)MsgTemplateCode.EditMatchOffer,
                  MessageContent="<b>Match Offer</b> Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
-             },
-            new()
+            },
+            new MessageTemplate
             {
                  MessageType=(int)MsgTemplateCode.EditAutoLink,
                  MessageContent="<b>Auto Link</b> Updated from <old value> to  <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
             },
-            new()
+            new MessageTemplate
             {
                  MessageType=(int)MsgTemplateCode.EditProvider,
                  MessageContent="<b>Provider</b> Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
             },
-            new()
+            new MessageTemplate
             {
                  MessageType=(int)MsgTemplateCode.EditOtherProvider,
                  MessageContent="<b>Other Provider</b> Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
             },
-             new()
+             new MessageTemplate
             {
                  MessageType=(int)MsgTemplateCode.EditIPTV,
                  MessageContent="<b>IPTV</b> Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
             },
-            new()
+            new MessageTemplate
             {
                  MessageType=(int)MsgTemplateCode.EditWB,
                  MessageContent="<b>Streaming</b> Info (WB) Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
             },
-            new()
+            new MessageTemplate
             {
                  MessageType=(int)MsgTemplateCode.EditRemark,
                  MessageContent="<b>Remark</b> Updated from <old value>> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
             },
-            new()
+            new MessageTemplate
             {
                  MessageType=(int)MsgTemplateCode.EditMaxbet,
                  MessageContent="<b>Max Bet</b> Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
             },
-            new()
+            new MessageTemplate
             {
                  MessageType=(int)MsgTemplateCode.EditReporter,
                  MessageContent="<b>Reporter</b> Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
             },
-            new()
+            new MessageTemplate
             {
                  MessageType=(int)MsgTemplateCode.AssignmentInsert,
                  MessageContent="You have NEW ASSIGNMENT <bettype> in <Match.No> - <League> - <Event> updated by <User>",
                  IsImportant = true
             },
-            new()
+            new MessageTemplate
             {
                  MessageType=(int)MsgTemplateCode.OtherAssignmentInsert,
                  MessageContent="You have NEW ASSIGNMENT <bettype> in <Match.No> - <League> - <Event> updated by <User>",
                  IsImportant = true
             },
-            new()
+            new MessageTemplate
             {
                  MessageType=(int)MsgTemplateCode.AssignmentUpdate,
                  MessageContent="UPDATED ASSIGNEE of <bettype> from <old value> change to <newvalue> for <Match No.> - <League> - <Event> Updated by <User> ",
                  IsImportant = true
             },
-            new()
+            new MessageTemplate
             {
                  MessageType=(int)MsgTemplateCode.OtherAssignmentUpdate,
                  MessageContent="UPDATED ASSIGNEE of <bettype> from <old value> change to <newvalue> for <Match No.> - <League> - <Event> Updated by <User> ",
                  IsImportant = true
             },
-            new()
+            new MessageTemplate
             {
                  MessageType=(int)MsgTemplateCode.AssignmentDelete,
                  MessageContent="You have been REMOVED from <Match.No> - <League> - <Event> updated by <User>",
                  IsImportant = true
             },
-            new()
+            new MessageTemplate
             {
                  MessageType=(int)MsgTemplateCode.OtherAssignmentDelete,
                  MessageContent="You have been REMOVED from <Match.No> - <League> - <Event> updated by <User>",
@@ -140,6 +139,7 @@ namespace OWP.OtherSport.Notification.Services
                 League = value.League;
                 EventName = value.EventName;
                 MatchNo = value.MatchNo;
+                IsWatcher = value.IsWatcher;
             }
 
             public string AssignmentNote { get; set; }
@@ -157,6 +157,8 @@ namespace OWP.OtherSport.Notification.Services
             public string EventName { get; set; }
 
             public string MatchNo { get; set; }
+
+            public bool IsWatcher { get; set; }
 
             public bool Equals(MessageGroup x, MessageGroup y)
             {

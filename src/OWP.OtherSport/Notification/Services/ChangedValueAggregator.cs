@@ -29,6 +29,8 @@
 
             public bool IsIndirectChanged { get; set; }
 
+            public bool IsWatcher { get; set; }
+
             public override bool Equals(object obj)
             {
                 var other = obj as AssignmentGroup;

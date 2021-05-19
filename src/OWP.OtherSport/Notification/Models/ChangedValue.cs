@@ -32,6 +32,8 @@
 
         public bool IsIndirectChangedAssignment { get; set; }
 
+        public bool IsWatcher { get; set; }
+
         public ChangedValue()
         {
             AssignmentNote = string.Empty;
