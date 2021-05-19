@@ -51,7 +51,12 @@ namespace OWP.OtherSport.Notification.Services
                  MessageType=(int)MsgTemplateCode.EditAutoLink,
                  MessageContent="<b>Auto Link</b> Updated from <old value> to  <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
             },
-             new()
+            new()
+            {
+                 MessageType=(int)MsgTemplateCode.EditProvider,
+                 MessageContent="<b>Provider</b> Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
+            },
+            new()
             {
                  MessageType=(int)MsgTemplateCode.EditOtherProvider,
                  MessageContent="<b>Other Provider</b> Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
