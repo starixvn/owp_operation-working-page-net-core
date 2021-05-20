@@ -11,6 +11,7 @@ namespace OWP.OtherSport.Notification.Constants
             { "MatchStatus", (int)MsgTemplateCode.EditMatchStatus },
             { "Category", (int)MsgTemplateCode.EditCategory },
             { "MatchOffer", (int)MsgTemplateCode.EditMatchOffer },
+            {"NoHDP",  (int)MsgTemplateCode.EditNoOfHDP},
             { "AutoLink", (int)MsgTemplateCode.EditAutoLink },
             { "OtherProvider", (int)MsgTemplateCode.EditOtherProvider },
             { "IPTV", (int)MsgTemplateCode.EditIPTV },

@@ -78,7 +78,7 @@ namespace OWP.OtherSport.Notification.Services
             new MessageTemplate
             {
                  MessageType=(int)MsgTemplateCode.EditMaxbet,
-                 MessageContent="<b>Max Bet</b> Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
+                 MessageContent="<b>Max Bet</b> of <bettype> Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
             },
             new MessageTemplate
             {

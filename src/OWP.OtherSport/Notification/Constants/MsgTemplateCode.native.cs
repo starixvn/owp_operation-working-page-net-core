@@ -20,6 +20,6 @@
         EditRemark = 116,
         EditMaxbet = 117,
         EditReporter = 118,
-        EditProvider = 119
+        EditProvider = 119,
     };
 }

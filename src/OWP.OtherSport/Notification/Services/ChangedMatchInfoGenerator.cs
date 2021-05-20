@@ -22,6 +22,7 @@
             "MatchNo",
             "Category",
             "MatchOffer",
+            "NoHDP",
             "AutoLink",
             "OtherProvider",
             "IPTV",
