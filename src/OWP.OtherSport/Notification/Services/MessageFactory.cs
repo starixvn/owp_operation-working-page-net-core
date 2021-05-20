@@ -73,7 +73,7 @@ namespace OWP.OtherSport.Notification.Services
             new MessageTemplate
             {
                  MessageType=(int)MsgTemplateCode.EditRemark,
-                 MessageContent="<b>Remark</b> Updated from <old value>> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
+                 MessageContent="<b>Remark</b> Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
             },
             new MessageTemplate
             {
@@ -246,8 +246,8 @@ namespace OWP.OtherSport.Notification.Services
             content = content.Replace("<newvalue>", "<b><newvalue></b>");
             content = content.Replace("<bettype>", "<b><bettype></b>");
 
-            content = content.Replace("<newvalue>", messageGroup.NewValue ?? "[]");
-            content = content.Replace("<old value>", messageGroup.OldValue ?? "[]");
+            content = content.Replace("<newvalue>", string.IsNullOrWhiteSpace(messageGroup.NewValue)?"[]": messageGroup.NewValue);
+            content = content.Replace("<old value>", string.IsNullOrWhiteSpace(messageGroup.OldValue) ? "[]" : messageGroup.OldValue);
             content = content.Replace("<Match.No>", !string.IsNullOrEmpty(messageGroup.MatchNo) ? $"#{messageGroup.MatchNo}" : string.Empty);
             content = content.Replace("<League>", messageGroup.League);
             content = content.Replace("<Event>", messageGroup.EventName);

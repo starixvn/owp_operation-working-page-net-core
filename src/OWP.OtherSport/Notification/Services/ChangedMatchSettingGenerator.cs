@@ -20,6 +20,7 @@
     public class ChangedMatchSettingGeneratorImp : ChangedMatchSettingGenerator
     {
         private const string EVENT_VS = " -vs- ";
+        private const int UNIT_CONVERT_K_TO_THOUSAND = 1000;
         public List<ChangedValue> Create(ChangedMatchSnapshot snapshot, int matchId, List<Assignee> existingAssignees)
         {
 
@@ -31,25 +32,41 @@
 
             foreach (var changed in changedList)
             {
+                var oldValue = ConvertStringFormatKToNumber(changed.OldValue);
+                var newValue = ConvertStringFormatKToNumber(changed.NewValue);
                 var matchInfo = snapshot.NewSnapshot.Matches.GetValue(changed.OSMatchId, snapshot.NewMatch);
                 var changedValues = existingAssignees.Select(a => new ChangedValue
                 {
                     MessageTypeId = changed.MessageTypeId,
-                    NewValue = changed.NewValue,
-                    OldValue = changed.OldValue,
+                    NewValue = newValue?.ToString(),
+                    OldValue = oldValue?.ToString(),
                     BetTypeName = changed.BetTypeName,
                     MatchNo = matchInfo.MatchNo.ToString(CultureInfo.InvariantCulture),
                     League = matchInfo.League,
                     EventName = matchInfo.Home + EVENT_VS + matchInfo.Away,
                     UserId = a.AssigneeId,
                     Username = a.AssigneeName,
-                    OSMatchId= matchId
+                    OSMatchId = matchId
                 });
 
                 changedValueList.AddRange(changedValues);
             }
 
             return changedValueList;
+        }
+
+        private static double? ConvertStringFormatKToNumber(string source)
+        {
+            if (string.IsNullOrWhiteSpace(source))
+            {
+                return null;
+            }
+            source = source.Replace("K", string.Empty);
+            double result;
+            var resultConvert = double.TryParse(source, out result);
+            return resultConvert
+                ? result * UNIT_CONVERT_K_TO_THOUSAND
+                : null;
         }
 
         public static IEnumerable<ChangedValue> GetListValueChangedWithDifferentBettype(List<MatchMaxBet> oldMatchSettings, List<MatchMaxBet> newMatchSettings, int matchId)
