@@ -100,13 +100,13 @@ namespace OWP.OtherSport.Notification.Services
             new MessageTemplate
             {
                  MessageType=(int)MsgTemplateCode.AssignmentUpdate,
-                 MessageContent="UPDATED ASSIGNEE of <bettype> from <old value> change to <newvalue> for <Match No.> - <League> - <Event> Updated by <User> ",
+                 MessageContent="UPDATED ASSIGNEE of <bettype> from <old value> change to <newvalue> for <Match.No> - <League> - <Event> Updated by <User> ",
                  IsImportant = true
             },
             new MessageTemplate
             {
                  MessageType=(int)MsgTemplateCode.OtherAssignmentUpdate,
-                 MessageContent="UPDATED ASSIGNEE of <bettype> from <old value> change to <newvalue> for <Match No.> - <League> - <Event> Updated by <User> ",
+                 MessageContent="UPDATED ASSIGNEE of <bettype> from <old value> change to <newvalue> for <Match.No> - <League> - <Event> Updated by <User> ",
                  IsImportant = true
             },
             new MessageTemplate
@@ -246,8 +246,8 @@ namespace OWP.OtherSport.Notification.Services
             content = content.Replace("<newvalue>", "<b><newvalue></b>");
             content = content.Replace("<bettype>", "<b><bettype></b>");
 
-            content = content.Replace("<newvalue>", messageGroup.NewValue);
-            content = content.Replace("<old value>", messageGroup.OldValue);
+            content = content.Replace("<newvalue>", messageGroup.NewValue ?? "[]");
+            content = content.Replace("<old value>", messageGroup.OldValue ?? "[]");
             content = content.Replace("<Match.No>", !string.IsNullOrEmpty(messageGroup.MatchNo) ? $"#{messageGroup.MatchNo}" : string.Empty);
             content = content.Replace("<League>", messageGroup.League);
             content = content.Replace("<Event>", messageGroup.EventName);
