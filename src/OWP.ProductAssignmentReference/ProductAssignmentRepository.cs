@@ -50,7 +50,7 @@ namespace OWP.ProductAssignmentReference
         {
             var userInfoEditorCriteria = new UserInfoEditorCriteria
             {
-                ActorId = napSession.UserId,
+                ActorId = info.ActorId,
                 Username = info.Username,
                 UserId = info.UserId,
                 Label = info.Label,
@@ -65,5 +65,6 @@ namespace OWP.ProductAssignmentReference
                 {
                     RefName = name
                 });
+
     }
 }

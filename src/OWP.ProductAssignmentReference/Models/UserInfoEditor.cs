@@ -9,5 +9,9 @@
         public string Label { get; set; }
 
         public string Value { get; set; }
+
+        public int ActorId { get;  set; }
+
+        public string ActorName { get; set; }
     }
 }

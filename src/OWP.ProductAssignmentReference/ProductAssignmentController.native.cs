@@ -34,6 +34,10 @@ namespace OWP.ProductAssignmentReference
             });
         }
 
+        [HttpGet("last-update")]
+        public async Task<object> GetLastUpdate()
+            => await service.GetLastUpdate();
+
         [HttpGet]
         public async Task<IEnumerable<UserInfo>> Get([FromQuery] QueryUserInfo queryInfo)
             => await service.QueryUser(queryInfo);
