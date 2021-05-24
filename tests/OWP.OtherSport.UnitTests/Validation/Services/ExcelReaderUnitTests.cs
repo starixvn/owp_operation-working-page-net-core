@@ -235,8 +235,8 @@
                 worksheet.Cells[2, 12].Value = "BGtv/RB2tv/BETtv/";
                 worksheet.Cells[2, 13].Value = "InPlay";
                 worksheet.Cells[2, 14].Value = "Euro40";
-                worksheet.Cells[2, 17].Value = "starix1";
-                worksheet.Cells[2, 18].Value = "starix2";
+                worksheet.Cells[2, 17].Value = "#starix1 note";
+                worksheet.Cells[2, 18].Value = "#starix2 mynote";
                 worksheet.Cells[2, 141].Value = "other note";
                 worksheet.Cells[2, 142].Value = "#starix14 other";
                 worksheet.Cells[2, 149].Value = "50000";
@@ -268,8 +268,8 @@
                         IPTV = "Euro40",
                         WB = string.Empty,
                         Remark = string.Empty,
-                        TraderBasketballFTHDP = "starix1",
-                        TraderBasketball1HHDP = "starix2",
+                        TraderBasketballFTHDP = "#starix1 note",
+                        TraderBasketball1HHDP = "#starix2 mynote",
                         TraderBasketball1Q3QHDP = string.Empty,
                         TraderBasketballFTOUOE = string.Empty,
                         TraderBasketball1HOUOE = string.Empty,
