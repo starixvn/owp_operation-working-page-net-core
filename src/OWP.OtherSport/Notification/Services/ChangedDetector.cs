@@ -27,7 +27,7 @@
             public bool Equals(MatchAssignment x, MatchAssignment y)
             {
                 var sameEvent = x.OSMatchId == y.OSMatchId && x.BetTypeName == y.BetTypeName;
-                var sameAssignment = x.AssignmentType == y.AssignmentType && x.UserId == y.UserId && x.AssignmentNote == y.AssignmentNote;
+                var sameAssignment = x.AssignmentType == y.AssignmentType && x.UserId == y.UserId;
 
                 return sameEvent && sameAssignment;
             }
