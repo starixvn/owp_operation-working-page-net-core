@@ -4,8 +4,10 @@
     using MediatR;
     using Microsoft.AspNetCore.SignalR;
     using OWP.OtherSport.Hubs;
+    using OWP.OtherSport.Submit.Models;
     using OWP.OtherSport.Submit.Services;
     using OWP.OtherSport.Validation.Models;
+    using OWP.Utils;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -98,6 +100,12 @@
             {
                 await cacheManipulator.SaveUserWhoIsUploadingAssignment(eventDates, session.UserName);
                 await SaveDataAndCleanupCache(eventDates, assignments, sessionId);
+                await cacheManipulator.SaveLastUpdate(
+                    new LastUpdateInfo
+                    {
+                        Username = session.UserName,
+                        Date = DateTimeExtensions.ToGmt7(DateTime.Now)
+                    });
             }
             finally
             {

@@ -19,6 +19,10 @@
         Task SaveUserWhoIsUploadingAssignment(List<DateTime> eventDates, string username);
 
         Task DeleteUserWhoIsUploadingAssignment(List<DateTime> eventDates);
+
+        Task SaveLastUpdate(LastUpdateInfo info);
+
+        Task<LastUpdateInfo> GetLastUpdate();
     }
 
     public class CacheManipulatorImp : CacheManipulator
@@ -29,6 +33,7 @@
         private const int CACHE_EXPIRED_IN_DAYS = 1;
         private const int CACHE_USER_WHO_IS_ULOADING_ASSIGNMENT_EXPIRED_IN_MINUTE = 30;
         private readonly ICache cache;
+        private const string KEY_OS_UPLOAD_LAST_UPDATED = "OWP-assignment-configuration";
 
         public CacheManipulatorImp(ICache cache)
         {
@@ -66,6 +71,24 @@
             }
 
             return string.Empty;
+        }
+
+        public async Task SaveLastUpdate(LastUpdateInfo info)
+        {
+            var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromDays(CACHE_EXPIRED_IN_DAYS));
+            var assignmentSnapshotInJson = JsonConvert.SerializeObject(info);
+            await cache.SetAsync(KEY_OS_UPLOAD_LAST_UPDATED, assignmentSnapshotInJson, cachePolicy);
+        }
+
+        public async Task<LastUpdateInfo> GetLastUpdate()
+        {
+            var (_, value) = await cache.TryGetAsync<string>(KEY_OS_UPLOAD_LAST_UPDATED);
+
+            var lastUpdated = string.IsNullOrEmpty(value)
+                ? new LastUpdateInfo()
+                : JsonConvert.DeserializeObject<LastUpdateInfo>(value);
+
+            return lastUpdated;
         }
 
         public async Task SaveUserWhoIsUploadingAssignment(List<DateTime> eventDates, string username)

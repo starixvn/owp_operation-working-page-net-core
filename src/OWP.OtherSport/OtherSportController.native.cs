@@ -14,6 +14,7 @@
     using OWP.OtherSport.EventAssignment.Models;
     using OWP.OtherSport.Notification;
     using OWP.OtherSport.Submit;
+    using OWP.OtherSport.Submit.Models;
     using OWP.OtherSport.Validation;
 
     [Route("api/[controller]")]
@@ -29,6 +30,10 @@
         {
             this.mediator = mediator;
         }
+
+        [HttpGet("last-update")]
+        public async Task<LastUpdateInfo> QueryEventAssignment()
+            => await mediator.Send(new QueryLastUpdate());
 
         [Route("get-assignment")]
         [HttpPost]
