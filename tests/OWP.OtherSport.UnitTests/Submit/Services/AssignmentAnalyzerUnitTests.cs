@@ -90,10 +90,10 @@
             };
             var assignmentMaxbet = new List<AssignmentMaxbet>
             {
-                new AssignmentMaxbet { Bettype = Bettype.First5FramesHDP, TraderId=100, OtherTrader="122,#<user> my note" },
-                new AssignmentMaxbet { Bettype = Bettype.FirstHOU, TraderId=200, OtherTrader="0,my note"},
-                new AssignmentMaxbet { Bettype = Bettype.FirstHOU, TraderId=0, OtherTrader=""},
-                new AssignmentMaxbet { Bettype = Bettype.SetXWinnerHDP, TraderId=555, OtherTrader=""},
+                new AssignmentMaxbet { Bettype = Bettype.First5FramesHDP, Trader=100, OtherTrader="122,#<user> my note" },
+                new AssignmentMaxbet { Bettype = Bettype.FirstHOU, Trader=200, OtherTrader="0,my note"},
+                new AssignmentMaxbet { Bettype = Bettype.FirstHOU, Trader=0, OtherTrader=""},
+                new AssignmentMaxbet { Bettype = Bettype.SetXWinnerHDP, Trader=555, OtherTrader=""},
             };
             var expected = new List<MatchAssignment>
             {

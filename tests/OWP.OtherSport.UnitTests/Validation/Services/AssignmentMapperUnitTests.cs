@@ -190,7 +190,7 @@
 
             var model = new AssignmentModel();
 
-            assignmentMapper.MapOtherTraders(excelModel, model);
+            assignmentMapper.MapTradersWithNote(excelModel, model);
 
             Assert.Equal("10, #<user> ", model.OtherTraderBadmintonAllProductPointWinner);
             Assert.Equal("1, #<user> ", model.OtherTraderBadmintonNextPointWinner);

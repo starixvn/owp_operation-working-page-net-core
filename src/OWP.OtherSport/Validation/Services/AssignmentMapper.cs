@@ -27,9 +27,7 @@
 
         void MapDateTime(AssignmentModelInExcel excelModel, AssignmentModel model);
 
-        void MapOtherTraders(AssignmentModelInExcel excelModel, AssignmentModel model);
-
-        void MapTraders(AssignmentModelInExcel excelModel, AssignmentModel model);
+        void MapTradersWithNote(AssignmentModelInExcel excelModel, AssignmentModel model);
 
         void MapMaxbets(AssignmentModelInExcel excelModel, AssignmentModel model);
 
@@ -59,8 +57,7 @@
             var model = mapper.Map<AssignmentModel>(excelModel);
 
             MapDateTime(excelModel, model);
-            MapTraders(excelModel, model);
-            MapOtherTraders(excelModel, model);
+            MapTradersWithNote(excelModel, model);
             MapMaxbets(excelModel, model);
             MapStatus(excelModel, model);
 
@@ -73,33 +70,18 @@
             model.DateTime = DateTime.FromOADate(doubleDatetime);
         }
 
-        public void MapOtherTraders(AssignmentModelInExcel excelModel, AssignmentModel model)
+        public void MapTradersWithNote(AssignmentModelInExcel excelModel, AssignmentModel model)
         {
             var properties = typeof(AssignmentModelInExcel).GetProperties();
 
             foreach (var prop in properties)
             {
-                if (prop.Name.StartsWith("OtherTrader", StringComparison.CurrentCultureIgnoreCase))
+                if (prop.Name.StartsWith("Trader", StringComparison.CurrentCultureIgnoreCase) ||
+                    prop.Name.StartsWith("OtherTrader", StringComparison.CurrentCultureIgnoreCase))
                 {
                     var property = GetProperty(model, prop.Name);
                     var traderValueInExcel = prop.GetValue(excelModel)?.ToString() ?? string.Empty;
                     var excelTrader = ParseOtherTrader(traderValueInExcel);
-                    property.SetValue(model, excelTrader);
-                }
-            }
-        }
-
-        public void MapTraders(AssignmentModelInExcel excelModel, AssignmentModel model)
-        {
-            var properties = typeof(AssignmentModelInExcel).GetProperties();
-
-            foreach (var prop in properties)
-            {
-                if (prop.Name.StartsWith("Trader", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    var property = GetProperty(model, prop.Name);
-                    var traderValueInExcel = prop.GetValue(excelModel)?.ToString() ?? string.Empty;
-                    var excelTrader = GetTraderId(traderValueInExcel);
                     property.SetValue(model, excelTrader);
                 }
             }
