@@ -141,8 +141,8 @@ namespace OWP.OtherSport.UnitTests.Notification.Services
                     League="Vleague",
                     MatchNo="1234",
                     MessageTypeId=(int)MsgTemplateCode.EditMaxbet,
-                    NewValue="11K",
-                    OldValue="12K",
+                    NewValue="11000",
+                    OldValue="12000",
                     OSMatchId=123
                 }
             };

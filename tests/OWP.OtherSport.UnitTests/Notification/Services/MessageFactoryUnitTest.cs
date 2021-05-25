@@ -41,7 +41,7 @@
                 new MessageModel
                 {
                    IsImportant = false,
-                   MessageContent = "<b>Max Bet</b> Updated from 400K to <b>300K</b> for #50000 - PremierLeague - LiverPool -vs- Arsenal updated by sa",
+                   MessageContent = "<b>Max Bet</b> of <b>Next of Corners (HDP)</b> Updated from 400K to <b>300K</b> for #50000 - PremierLeague - LiverPool -vs- Arsenal updated by sa",
                    MessageType = (int)MsgTemplateCode.EditMaxbet,
                    ReceivedUserIds = new List<string> { "6789" }
                 }
@@ -140,7 +140,7 @@
             {
                 OldValue = "400K",
                 NewValue = "300K",
-                BetTypeName = "Next of Coners (HDP)",
+                BetTypeName = "Next of Corners (HDP)",
                 MatchNo = "50000",
                 League = "PremierLeague",
                 EventName = "LiverPool -vs- Arsenal",
