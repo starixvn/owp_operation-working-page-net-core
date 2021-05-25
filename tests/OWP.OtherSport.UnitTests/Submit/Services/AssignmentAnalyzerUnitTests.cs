@@ -90,18 +90,18 @@
             };
             var assignmentMaxbet = new List<AssignmentMaxbet>
             {
-                new AssignmentMaxbet { Bettype = Bettype.First5FramesHDP, Trader=100, OtherTrader="122,#<user> my note" },
-                new AssignmentMaxbet { Bettype = Bettype.FirstHOU, Trader=200, OtherTrader="0,my note"},
-                new AssignmentMaxbet { Bettype = Bettype.FirstHOU, Trader=0, OtherTrader=""},
-                new AssignmentMaxbet { Bettype = Bettype.SetXWinnerHDP, Trader=555, OtherTrader=""},
+                new AssignmentMaxbet { Bettype = Bettype.First5FramesHDP, Trader="100,#<user>", OtherTrader="122,#<user> my note" },
+                new AssignmentMaxbet { Bettype = Bettype.FirstHOU, Trader="200,(01) #<user>", OtherTrader="0,my note"},
+                new AssignmentMaxbet { Bettype = Bettype.FirstHOU, Trader="", OtherTrader=""},
+                new AssignmentMaxbet { Bettype = Bettype.SetXWinnerHDP, Trader="0,note", OtherTrader=""},
             };
             var expected = new List<MatchAssignment>
             {
-                new MatchAssignment{ OSMatchId = 123, AssignmentType=1, BetTypeName = Bettype.First5FramesHDP, UserId = 100, AssignmentNote=string.Empty},
+                new MatchAssignment{ OSMatchId = 123, AssignmentType=1, BetTypeName = Bettype.First5FramesHDP, UserId = 100, AssignmentNote="#<user>"},
                 new MatchAssignment{ OSMatchId = 123, AssignmentType=2, BetTypeName = Bettype.First5FramesHDP, AssignmentNote="#<user> my note", UserId=122},
-                new MatchAssignment{ OSMatchId = 123, AssignmentType=1, BetTypeName = Bettype.FirstHOU, UserId= 200, AssignmentNote=string.Empty},
+                new MatchAssignment{ OSMatchId = 123, AssignmentType=1, BetTypeName = Bettype.FirstHOU, UserId= 200, AssignmentNote="(01) #<user>"},
                 new MatchAssignment{ OSMatchId = 123, AssignmentType=2, BetTypeName = Bettype.FirstHOU, AssignmentNote="my note", UserId=0},
-                new MatchAssignment{ OSMatchId = 123, AssignmentType=1, BetTypeName = Bettype.SetXWinnerHDP, UserId= 555, AssignmentNote=string.Empty}
+                new MatchAssignment{ OSMatchId = 123, AssignmentType=1, BetTypeName = Bettype.SetXWinnerHDP, UserId=0, AssignmentNote="note"}
             };
 
             var actual = services.GetAllAssignmentsOfMatch(assignment, assignmentMaxbet).ToList();
