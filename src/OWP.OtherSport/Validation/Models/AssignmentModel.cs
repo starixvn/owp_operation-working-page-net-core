@@ -60,6 +60,10 @@
             TraderNetballFTHDP = string.Empty;
             TraderNetballFTOUOE = string.Empty;
             TraderOtherSportsMatchWinner = string.Empty;
+            TraderOtherSportsFTHDP = string.Empty;
+            TraderOtherSports1HHDP = string.Empty;
+            TraderOtherSportsFTOU = string.Empty;
+            TraderOtherSports1HOU = string.Empty;
             TraderPoolMatchWinnerHDP = string.Empty;
             TraderPoolRacksWinnerHDP = string.Empty;
             TraderSnookerFirst5FramesHDP = string.Empty;
@@ -123,6 +127,10 @@
             OtherTraderNetballFTHDP = string.Empty;
             OtherTraderNetballFTOUOE = string.Empty;
             OtherTraderOtherSportsMatchWinner = string.Empty;
+            OtherTraderOtherSportsFTHDP = string.Empty;
+            OtherTraderOtherSports1HHDP = string.Empty;
+            OtherTraderOtherSportsFTOU = string.Empty;
+            OtherTraderOtherSports1HOU = string.Empty;
             OtherTraderPoolMatchWinnerHDP = string.Empty;
             OtherTraderPoolRacksWinnerHDP = string.Empty;
             OtherTraderSnookerFirst5FramesHDP = string.Empty;
@@ -229,6 +237,14 @@
 
         // Other sport
         public string TraderOtherSportsMatchWinner { get; set; }
+
+        public string TraderOtherSportsFTHDP { get; set; }
+
+        public string TraderOtherSports1HHDP { get; set; }
+
+        public string TraderOtherSportsFTOU { get; set; }
+
+        public string TraderOtherSports1HOU { get; set; }
 
         // Darts Legs
         public string TraderDartsLegsHDP { get; set; }
@@ -361,6 +377,14 @@
 
         public string OtherTraderOtherSportsMatchWinner { get; set; }
 
+        public string OtherTraderOtherSportsFTHDP { get; set; }
+
+        public string OtherTraderOtherSports1HHDP { get; set; }
+
+        public string OtherTraderOtherSportsFTOU { get; set; }
+
+        public string OtherTraderOtherSports1HOU { get; set; }
+
         public string OtherTraderDartsLegsHDP { get; set; }
 
         public string OtherTraderDartsMost180sHDP { get; set; }
@@ -478,6 +502,14 @@
         public decimal? MaxBetIceHockey1st2ndPeriodsOU { get; set; }
 
         public decimal? MaxBetOtherSportsMatchWinner { get; set; }
+
+        public decimal? MaxBetOtherSportsFTHDP { get; set; }
+
+        public decimal? MaxBetOtherSports1HHDP { get; set; }
+
+        public decimal? MaxBetOtherSportsFTOU { get; set; }
+
+        public decimal? MaxBetOtherSports1HOU { get; set; }
 
         public decimal? MaxBetDartsLegsHDP { get; set; }
 

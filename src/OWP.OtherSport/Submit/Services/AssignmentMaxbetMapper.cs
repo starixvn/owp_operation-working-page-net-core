@@ -253,6 +253,34 @@
                     Trader = assignment.TraderOtherSportsMatchWinner,
                     OtherTrader = assignment.OtherTraderOtherSportsMatchWinner,
                     MaxBet = assignment.MaxBetOtherSportsMatchWinner
+                },
+                new ()
+                {
+                    Bettype = Bettype.FTHDP,
+                    Trader = assignment.TraderOtherSportsFTHDP,
+                    OtherTrader = assignment.OtherTraderOtherSportsFTHDP,
+                    MaxBet = assignment.MaxBetOtherSportsFTHDP
+                },
+                new ()
+                {
+                    Bettype = Bettype.FirstHHDP,
+                    Trader = assignment.TraderOtherSports1HHDP,
+                    OtherTrader = assignment.OtherTraderOtherSports1HHDP,
+                    MaxBet = assignment.MaxBetOtherSports1HHDP
+                },
+                new ()
+                {
+                    Bettype = Bettype.FTOsU,
+                    Trader = assignment.TraderOtherSportsFTOU,
+                    OtherTrader = assignment.OtherTraderOtherSportsFTOU,
+                    MaxBet = assignment.MaxBetOtherSportsFTOU
+                },
+                new ()
+                {
+                    Bettype = Bettype.FirstHOsU,
+                    Trader = assignment.TraderOtherSports1HOU,
+                    OtherTrader = assignment.OtherTraderOtherSports1HOU,
+                    MaxBet = assignment.MaxBetOtherSports1HOU
                 }
             };
         }

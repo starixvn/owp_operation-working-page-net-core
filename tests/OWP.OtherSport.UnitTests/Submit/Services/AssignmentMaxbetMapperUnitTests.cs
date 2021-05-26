@@ -35,6 +35,34 @@
                     Trader = "TraderOtherSportsMatchWinner",
                     OtherTrader = "OtherTraderOtherSportsMatchWinner",
                     MaxBet = 1200
+                },
+                new AssignmentMaxbet()
+                {
+                    Bettype = "FT (HDP)",
+                    Trader = "TraderOtherSportsFTHDP",
+                    OtherTrader = "OtherTraderOtherSportsFTHDP",
+                    MaxBet = 1200
+                },
+                new AssignmentMaxbet()
+                {
+                    Bettype = "1H (HDP)",
+                    Trader = "TraderOtherSports1HHDP",
+                    OtherTrader = "OtherTraderOtherSports1HHDP",
+                    MaxBet = 1200
+                },
+                new AssignmentMaxbet()
+                {
+                    Bettype = "FT (O/U)",
+                    Trader = "TraderOtherSportsFTOU",
+                    OtherTrader = "OtherTraderOtherSportsFTOU",
+                    MaxBet = 1200
+                },
+                new AssignmentMaxbet()
+                {
+                    Bettype = "1H (O/U)",
+                    Trader = "TraderOtherSports1HOU",
+                    OtherTrader = "OtherTraderOtherSports1HOU",
+                    MaxBet = 1200
                 }
             };
 
@@ -319,7 +347,36 @@
                     Trader = assignment.TraderOtherSportsMatchWinner,
                     OtherTrader = assignment.OtherTraderOtherSportsMatchWinner,
                     MaxBet = assignment.MaxBetOtherSportsMatchWinner
-                }};
+                },
+                new ()
+                {
+                    Bettype = Bettype.FTHDP,
+                    Trader = assignment.TraderOtherSportsFTHDP,
+                    OtherTrader = assignment.OtherTraderOtherSportsFTHDP,
+                    MaxBet = assignment.MaxBetOtherSportsFTHDP
+                },
+                new ()
+                {
+                    Bettype = Bettype.FirstHHDP,
+                    Trader = assignment.TraderOtherSports1HHDP,
+                    OtherTrader = assignment.OtherTraderOtherSports1HHDP,
+                    MaxBet = assignment.MaxBetOtherSports1HHDP
+                },
+                new ()
+                {
+                    Bettype = Bettype.FTOsU,
+                    Trader = assignment.TraderOtherSportsFTOU,
+                    OtherTrader = assignment.OtherTraderOtherSportsFTOU,
+                    MaxBet = assignment.MaxBetOtherSportsFTOU
+                },
+                new ()
+                {
+                    Bettype = Bettype.FirstHOsU,
+                    Trader = assignment.TraderOtherSports1HOU,
+                    OtherTrader = assignment.OtherTraderOtherSports1HOU,
+                    MaxBet = assignment.MaxBetOtherSports1HOU
+                }
+            };
 
             //Act
             var actual = AssignmentMaxbetMapperImp.MapOtherSports(assignment);
@@ -961,6 +1018,10 @@
                 TraderIceHockeyFTOU = "TraderIceHockeyFTOU",
                 TraderIceHockey1st2ndPeriodsOU = "TraderIceHockey1st2ndPeriodsOU",
                 TraderOtherSportsMatchWinner = "TraderOtherSportsMatchWinner",
+                TraderOtherSportsFTHDP = "TraderOtherSportsFTHDP",
+                TraderOtherSports1HHDP = "TraderOtherSports1HHDP",
+                TraderOtherSportsFTOU = "TraderOtherSportsFTOU",
+                TraderOtherSports1HOU = "TraderOtherSports1HOU",
                 TraderDartsLegsHDP = "TraderDartsLegsHDP",
                 TraderDartsMost180sHDP = "TraderDartsMost180sHDP",
                 TraderPoolMatchWinnerHDP = "TraderPoolMatchWinnerHDP",
@@ -1049,6 +1110,10 @@
                 OtherTraderNetballFTHDP = "OtherTraderNetballFTHDP",
                 OtherTraderNetballFTOUOE = "OtherTraderNetballFTOUOE",
                 OtherTraderOtherSportsMatchWinner = "OtherTraderOtherSportsMatchWinner",
+                OtherTraderOtherSportsFTHDP = "OtherTraderOtherSportsFTHDP",
+                OtherTraderOtherSports1HHDP = "OtherTraderOtherSports1HHDP",
+                OtherTraderOtherSportsFTOU = "OtherTraderOtherSportsFTOU",
+                OtherTraderOtherSports1HOU = "OtherTraderOtherSports1HOU",
                 OtherTraderPoolMatchWinnerHDP = "OtherTraderPoolMatchWinnerHDP",
                 OtherTraderPoolRacksWinnerHDP = "OtherTraderPoolRacksWinnerHDP",
                 OtherTraderSnookerFirst5FramesHDP = "OtherTraderSnookerFirst5FramesHDP",
@@ -1083,6 +1148,10 @@
                 MaxBetIceHockeyFTOU = 1200,
                 MaxBetIceHockey1st2ndPeriodsOU = 1200,
                 MaxBetOtherSportsMatchWinner = 1200,
+                MaxBetOtherSportsFTHDP = 1200,
+                MaxBetOtherSports1HHDP = 1200,
+                MaxBetOtherSportsFTOU = 1200,
+                MaxBetOtherSports1HOU = 1200,
                 MaxBetDartsLegsHDP = 1200,
                 MaxBetDartsMost180sHDP = 1200,
                 MaxBetPoolMatchWinnerHDP = 1200,

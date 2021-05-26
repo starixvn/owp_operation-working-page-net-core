@@ -65,15 +65,15 @@
                 {
                     { 111, new List<ExcelMatchAssignment> {
                         new ExcelMatchAssignment { ColumnIndex=19,Value="sa", AssignmentType = 1, BetTypeName = Bettype.FTHDP, UserId = 8, Username="sa" },
-                        new ExcelMatchAssignment { ColumnIndex=83,Value="#starix15 mynote", AssignmentType = 2, BetTypeName = Bettype.FirstHHDP,
+                        new ExcelMatchAssignment { ColumnIndex=87,Value="#starix15 mynote", AssignmentType = 2, BetTypeName = Bettype.FirstHHDP,
                             UserId = 123, Username="starix15", AssignmentNote = "#<user> mynote" }
                     } }
                 },
                 MaxBet = new Dictionary<int, List<ExcelMatchMaxBet>>
                 {
                     { 111, new List<ExcelMatchMaxBet> {
-                        new ExcelMatchMaxBet { ColumnIndex=145,Value="1234", BetTypeName = Bettype.FTHDP, MaxBet = 1234 },
-                        new ExcelMatchMaxBet { ColumnIndex=146,Value="222.05", BetTypeName = Bettype.FTOUOE, MaxBet = 222.05m }
+                        new ExcelMatchMaxBet { ColumnIndex=153,Value="1234", BetTypeName = Bettype.FTHDP, MaxBet = 1234 },
+                        new ExcelMatchMaxBet { ColumnIndex=154,Value="222.05", BetTypeName = Bettype.FTOUOE, MaxBet = 222.05m }
                     } }
                 }
             };
