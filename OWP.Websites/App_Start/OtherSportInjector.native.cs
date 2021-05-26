@@ -2,10 +2,13 @@
 {
     using Microsoft.Extensions.DependencyInjection;
     using Submit = OtherSport.Submit.Services;
+    using Download = OtherSport.Download.Services;
     using Validation = OtherSport.Validation.Services;
     using EventAssignment = OtherSport.EventAssignment.Services;
     using OWP.OtherSport.EventAssignment.Builder;
     using OWP.OtherSport.Download.Services;
+    using OWP.OtherSport.Notification.Services;
+    using OWP.OtherSport.Notification;
 
     public static class OtherSportInjector
     {
@@ -34,7 +37,27 @@
 
             services.AddScoped<BuildExcelModelService, BuildExcelModelServiceImp>();
             services.AddScoped<ExportExcelService, ExportExcelServiceImp>();
-            services.AddScoped<CommandRepository, CommandRepositoryImp>();
+            services.AddScoped<Download.CommandRepository, Download.CommandRepositoryImp > ();
+
+            // Notification
+            services.AddScoped<MessageFactory, MessageFactoryImp>();
+            services.AddScoped<ChangedMatchInfoGenerator, ChangedMatchInfoGeneratorImp>();
+            services.AddScoped<ChangedMatchStatusGenerator, ChangedMatchStatusGeneratorImp>();
+            services.AddScoped<ChangedMatchSettingGenerator, ChangedMatchSettingGeneratorImp>();
+            services.AddScoped<NotifyServices, NotifyServicesImp>();
+
+            services.AddScoped<AssigneeChangedValueFilter, AssigneeMessageFilterImp>();
+            services.AddScoped<CacheManipulator, CacheManipulatorImp>();
+            services.AddScoped<ChangedAssignmentGenerator, ChangedAssignmentGeneratorImp>();
+            services.AddScoped<ChangedDetector, ChangedDetectorImp>();
+            services.AddScoped<ChangedMatchChangedValueGenerator, ChangedMatchChangedValueGeneratorImp>();
+            services.AddScoped<ChangedValueAggregator, ChangedValueAggregatorImp>();
+            services.AddScoped<ChangedValueBySnapshot, ChangedValueBySnapshotImp>();
+            services.AddScoped<ChangedValueByCacheAndDatabase, ChangedValueByCacheAndDatabaseImp>();
+            services.AddScoped<DeletedMatchChangedValueGenerator, DeletedMatchChangedValueGeneratorImp>();
+            services.AddScoped<InsertedMatchChangedValueGenerator, InsertedMatchChangedValueGeneratorImp>();
+            services.AddScoped<OtherSport.Notification.Services.CommandRepository, OtherSport.Notification.Services.CommandRepositoryImp>();
+            services.AddScoped<NotificationSettingQueryRepository, NotificationSettingQueryRepositoryImp>();
         }
     }
 }

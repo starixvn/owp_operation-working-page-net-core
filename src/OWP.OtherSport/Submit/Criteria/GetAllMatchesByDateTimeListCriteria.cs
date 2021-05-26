@@ -2,7 +2,7 @@
 {
     using Fanex.Data.Repository;
 
-    public class GetAllMatchesByDateTimeListCriteria: CriteriaBase
+    public class GetAllMatchesByDateTimeListCriteria : CriteriaBase
     {
         public string EventDates { get; set; }
 

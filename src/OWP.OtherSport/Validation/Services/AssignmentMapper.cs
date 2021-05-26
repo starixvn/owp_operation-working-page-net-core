@@ -32,6 +32,8 @@
         void MapTraders(AssignmentModelInExcel excelModel, AssignmentModel model);
 
         void MapMaxbets(AssignmentModelInExcel excelModel, AssignmentModel model);
+
+        void MapStatus(AssignmentModelInExcel excelModel, AssignmentModel model);
     }
 
     public class AssignmentMapperImp : AssignmentMapper
@@ -60,6 +62,7 @@
             MapTraders(excelModel, model);
             MapOtherTraders(excelModel, model);
             MapMaxbets(excelModel, model);
+            MapStatus(excelModel, model);
 
             return model;
         }
@@ -116,6 +119,15 @@
                     property.SetValue(model, excelMaxbet);
                 }
             }
+        }
+
+        public void MapStatus(AssignmentModelInExcel excelModel, AssignmentModel model)
+        {
+            var textInfo = CultureInfo.CurrentCulture.TextInfo;
+            var lowerCase = textInfo.ToLower(excelModel.MatchStatus);
+            var titleCase = textInfo.ToTitleCase(lowerCase);
+
+            model.MatchStatus = titleCase;
         }
 
         private static decimal? ParseStringToDecimal(string value)

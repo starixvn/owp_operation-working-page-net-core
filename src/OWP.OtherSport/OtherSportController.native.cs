@@ -8,11 +8,11 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Mvc;
-    using Olympus.WebApi.Results;
     using OWP.Helpers;
     using OWP.OtherSport.Download;
     using OWP.OtherSport.EventAssignment;
     using OWP.OtherSport.EventAssignment.Models;
+    using OWP.OtherSport.Notification;
     using OWP.OtherSport.Submit;
     using OWP.OtherSport.Validation;
 
@@ -20,7 +20,7 @@
     [ApiController]
     [EnableCors("AllowOrigin")]
     [Authorize]
-    //[AllowAnonymous]
+    [AllowAnonymous]
     public class OtherSportController : ControllerBase
     {
         private readonly IMediator mediator;
@@ -34,7 +34,7 @@
         [HttpPost]
         public async Task<IEnumerable<EventAssignmentModel>> QueryEventAssignment(QueryEventAssignmentRequest request)
         {
-           return await mediator.Send(request);
+            return await mediator.Send(request);
         }
 
         [Route("validate")]
@@ -68,6 +68,15 @@
         public async Task<IActionResult> Submit(SubmitRequest request)
         {
             var viewModel = await mediator.Send(request);
+
+            var requestNotify = new NotifyRequest
+            {
+                SessionId = request.SessionId,
+                EventDate = viewModel.EventDates
+            };
+
+            await mediator.Send(requestNotify);
+
             return new JsonResult(viewModel);
         }
 

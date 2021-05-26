@@ -1,5 +1,10 @@
 namespace OWP.Websites
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
+    using System.Threading.Tasks;
     using AutoMapper;
     using Fanex.Caching.Redis;
     using Fanex.Data;
@@ -35,11 +40,6 @@ namespace OWP.Websites
     using OWP.Services;
     using Sentry;
     using StackExchange.Redis;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
-    using System.Threading.Tasks;
 
     public partial class Startup
     {

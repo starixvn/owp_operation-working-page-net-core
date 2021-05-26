@@ -62,6 +62,7 @@ namespace OWP.Websites
                     pattern: "{controller=Home}/{action=Index}/{id?}");
 
                 endpoints.MapHub<NewDataUploadNotifyHubImp>("/otherSportNewDataUploadNotifyHub");
+                endpoints.MapHub<ChangedInfoNotifyHubImp>("/OSChangedInfoNotifyHub");
             });
 
             NapClientManager

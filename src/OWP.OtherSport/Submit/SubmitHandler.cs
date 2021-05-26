@@ -12,7 +12,7 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    public class SubmitRequest: IRequest<SubmitResponse>
+    public class SubmitRequest : IRequest<SubmitResponse>
     {
         public string SessionId { get; set; }
     }
@@ -23,14 +23,17 @@
         {
             Message = string.Empty;
             IsSuccessful = true;
+            EventDates = string.Empty;
         }
 
         public string Message { get; set; }
 
         public bool IsSuccessful { get; set; }
+
+        public string EventDates { get; set; }
     }
 
-    public class SubmitHandler: IRequestHandler<SubmitRequest, SubmitResponse>
+    public class SubmitHandler : IRequestHandler<SubmitRequest, SubmitResponse>
     {
         private readonly CacheManipulator cacheManipulator;
         private readonly CommandRepository commandRepository;
@@ -66,8 +69,9 @@
             return new SubmitResponse
             {
                 IsSuccessful = true,
-                Message = "Other sport assignment is successfully submitted!"
-            };
+                Message = "Other sport assignment is successfully submitted!",
+                EventDates = string.Join(",", eventDates)
+        };
         }
 
         private async Task<SubmitResponse> GetUserWhoIsUploadingAssignment(List<DateTime> eventDates)
