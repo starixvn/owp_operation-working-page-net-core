@@ -104,7 +104,8 @@
             };
 
             var excelPackage = await mediator.Send(request);
-            return File(excelPackage.GetAsByteArray(), "application/octet-stream", "OSAssignment.xlsx");
+            var fileName = $"OSAssignment-{DateTime.Now.ToString("MMddyyyy")}.xlsx";
+            return File(excelPackage.GetAsByteArray(), "application/octet-stream", fileName);
         }
     }
 }

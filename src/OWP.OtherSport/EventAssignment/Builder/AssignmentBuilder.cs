@@ -1,6 +1,7 @@
 ﻿using OWP.OtherSport.EventAssignment.Models;
 using OWP.OtherSport.Submit.Contants;
 using OWP.OtherSport.Submit.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -30,15 +31,16 @@ namespace OWP.OtherSport.EventAssignment.Builder
 
         public void CreateAssignment(TraderAssignment asssignment, IList<MatchAssignment> matchAssignments)
         {
-            var mainAssignment = matchAssignments.FirstOrDefault(match =>
-                string.Equals(match.BetTypeName, asssignment.BetTypeName)
-                && !string.IsNullOrEmpty(match.AssignmentNote)
-                && match.AssignmentType == (int)AssignmentType.Assignment);
+            var mainAssignment = DetectMainOrOrderAssignment(asssignment, matchAssignments, assignmentType =>
+              {
+              return assignmentType == (int)AssignmentType.Assignment;
+              });
+           
 
-            var otherAssignment = matchAssignments.FirstOrDefault(match =>
-                 string.Equals(match.BetTypeName, asssignment.BetTypeName)
-                 && !string.IsNullOrEmpty(match.AssignmentNote)
-                 && match.AssignmentType == (int)AssignmentType.OtherAssignment);
+            var otherAssignment = DetectMainOrOrderAssignment(asssignment, matchAssignments, assignmentType =>
+            {
+                return assignmentType == (int)AssignmentType.OtherAssignment;
+            });
 
             if (mainAssignment != null)
             {
@@ -61,6 +63,17 @@ namespace OWP.OtherSport.EventAssignment.Builder
             }
 
             return string.Empty;
+        }
+
+        public static MatchAssignment DetectMainOrOrderAssignment(
+            TraderAssignment asssignment,
+            IList<MatchAssignment> matchAssignments,
+            Func<int,bool> detectAssignmentTypeIsMainOrOrder)
+        {
+            return matchAssignments.FirstOrDefault(match =>
+                string.Equals(match.BetTypeName, asssignment.BetTypeName)
+                && !string.IsNullOrEmpty(match.AssignmentNote)
+                && detectAssignmentTypeIsMainOrOrder(match.AssignmentType));
         }
     }
 }
