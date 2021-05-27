@@ -41,6 +41,7 @@
                     Username= "sa",
                     AssignmentType = (int)AssignmentType.Assignment,
                     UserId=8,
+                    AssignmentNote = "#<user>"
                 },
                  new MatchAssignment
                 {
@@ -56,7 +57,7 @@
             {
                 AssignmentNote = "#starix15 acb123",
                 BetTypeName = "1Q & 3Q (OU/OE)",
-                MainTrader = "sa",
+                MainTrader = "#sa",
                 OSMatchId = 123
             };
             DeepAssert.Equal(expected, asssignment[0].TraderAssignment);
@@ -80,7 +81,8 @@
                     BetTypeName = "1Q & 3Q (OU/OE)",
                     Username= "sa",
                     UserId=8,
-                    AssignmentType = (int)AssignmentType.Assignment
+                    AssignmentType = (int)AssignmentType.Assignment,
+                    AssignmentNote = "#<user>"
                 },
                  new MatchAssignment
                 {
@@ -96,7 +98,7 @@
             {
                 AssignmentNote = "#starix15 acb",
                 BetTypeName = "1Q & 3Q (OU/OE)",
-                MainTrader = "sa",
+                MainTrader = "#sa",
                 OSMatchId = 123
             };
             DeepAssert.Equal(expected, asssignment);
@@ -109,7 +111,7 @@
             {
                 AssignmentNote = ""
             };
-            var assignmentNote = assignmentBuilder.DetectOtherAssignment(assignment);
+            var assignmentNote = assignmentBuilder.DetectAssignment(assignment);
             DeepAssert.Equal(string.Empty, assignmentNote);
         }
 
@@ -123,7 +125,7 @@
                 Username = "sa",
                 OSMatchId = 123
             };
-            var assignmentNote = assignmentBuilder.DetectOtherAssignment(assignment);
+            var assignmentNote = assignmentBuilder.DetectAssignment(assignment);
             DeepAssert.Equal("#starix15 acb", assignmentNote);
         }
     }

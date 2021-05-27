@@ -13,7 +13,7 @@ namespace OWP.OtherSport.EventAssignment.Builder
 
         public void CreateAssignment(TraderAssignment asssignment, IList<MatchAssignment> matchAssignments);
 
-        string DetectOtherAssignment(MatchAssignment assignment);
+        string DetectAssignment(MatchAssignment assignment);
     }
 
     public class AssignmentBuilderImp : AssignmentBuilder
@@ -32,7 +32,7 @@ namespace OWP.OtherSport.EventAssignment.Builder
         {
             var mainAssignment = matchAssignments.FirstOrDefault(match =>
                 string.Equals(match.BetTypeName, asssignment.BetTypeName)
-                && !string.IsNullOrEmpty(match.Username)
+                && !string.IsNullOrEmpty(match.AssignmentNote)
                 && match.AssignmentType == (int)AssignmentType.Assignment);
 
             var otherAssignment = matchAssignments.FirstOrDefault(match =>
@@ -42,16 +42,16 @@ namespace OWP.OtherSport.EventAssignment.Builder
 
             if (mainAssignment != null)
             {
-                asssignment.MainTrader = mainAssignment.Username;
+                asssignment.MainTrader = DetectAssignment(mainAssignment);
             }
 
             if (otherAssignment != null)
             {
-                asssignment.AssignmentNote = DetectOtherAssignment(otherAssignment);
+                asssignment.AssignmentNote = DetectAssignment(otherAssignment);
             }
         }
 
-        public string DetectOtherAssignment(MatchAssignment assignment)
+        public string DetectAssignment(MatchAssignment assignment)
         {
             if (!string.IsNullOrEmpty(assignment.AssignmentNote))
             {
