@@ -64,7 +64,7 @@
                 MatchAssignments = new Dictionary<int, List<ExcelMatchAssignment>>
                 {
                     { 111, new List<ExcelMatchAssignment> {
-                        new ExcelMatchAssignment { ColumnIndex=19,Value="sa", AssignmentType = 1, BetTypeName = Bettype.FTHDP, UserId = 8, Username="sa" },
+                        new ExcelMatchAssignment { ColumnIndex=19,Value="", AssignmentType = 1, BetTypeName = Bettype.FTHDP, UserId = 8, Username="sa" },
                         new ExcelMatchAssignment { ColumnIndex=87,Value="#starix15 mynote", AssignmentType = 2, BetTypeName = Bettype.FirstHHDP,
                             UserId = 123, Username="starix15", AssignmentNote = "#<user> mynote" }
                     } }

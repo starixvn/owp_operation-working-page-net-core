@@ -8,6 +8,7 @@ using OWP.OtherSport.Submit.Models;
 using OWP.Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,7 +44,7 @@ namespace OWP.OtherSport.UnitTests.Download.Services
             };
             var excelModel = GetExcelModel();
             buildExcelModelService.BuildExcelModel(request).Returns(excelModel);
-            configurationService.CurrentDirectory.Returns("D:\\OWP\\operation-working-page-net-core\\OWP.Websites");
+            configurationService.CurrentDirectory.Returns("D:\\My folder\\OWP\\operation-working-page(Netcore)\\OWP.Websites");
 
             var actual = await services.CreateExcelPackage(request);
             var reportSheet = actual.Workbook.Worksheets[ExcelConst.SheetName];
