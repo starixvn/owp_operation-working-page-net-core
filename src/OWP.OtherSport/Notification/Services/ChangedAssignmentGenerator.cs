@@ -53,7 +53,7 @@
                 var messageTypeId = assignment.AssignmentType == 1
                     ? (int)MsgTemplateCode.AssignmentDelete
                     : (int)MsgTemplateCode.OtherAssignmentDelete;
-                var oldValue = UpdatedValueHelper.GetValue(assignment.AssignmentType, assignment.Username, assignment.AssignmentNote);
+                var oldValue = UpdatedValueHelper.GetValue(assignment.Username, assignment.AssignmentNote);
 
                 yield return new ChangedValue
                 {
@@ -88,7 +88,7 @@
                 var messageTypeId = assignment.AssignmentType == 1
                     ? (int)MsgTemplateCode.AssignmentInsert
                     : (int)MsgTemplateCode.OtherAssignmentInsert;
-                var newValue = UpdatedValueHelper.GetValue(assignment.AssignmentType, assignment.Username, assignment.AssignmentNote);
+                var newValue = UpdatedValueHelper.GetValue(assignment.Username, assignment.AssignmentNote);
 
                 yield return new ChangedValue
                 {

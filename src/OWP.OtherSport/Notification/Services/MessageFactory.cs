@@ -120,6 +120,11 @@ namespace OWP.OtherSport.Notification.Services
                  MessageType=(int)MsgTemplateCode.OtherAssignmentDelete,
                  MessageContent="You have been REMOVED from <Match.No> - <League> - <Event> updated by <User>",
                  IsImportant = true
+            },
+            new MessageTemplate
+            {
+                 MessageType=(int)MsgTemplateCode.EditAssignmentNote,
+                 MessageContent="<b>Your Assignment Note</b> Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
             }
         });
 
@@ -241,7 +246,6 @@ namespace OWP.OtherSport.Notification.Services
             var content = messageTemplate.MessageContent;
 
             var assignmentNote = Regex.Replace(messageGroup.AssignmentNote, "#<user>", "", RegexOptions.IgnoreCase);
-            assignmentNote = Regex.Replace(assignmentNote, "same", "", RegexOptions.IgnoreCase);
 
             content = content.Replace("<newvalue>", "<b><newvalue></b>");
             content = content.Replace("<bettype>", "<b><bettype></b>");
@@ -252,9 +256,7 @@ namespace OWP.OtherSport.Notification.Services
             content = content.Replace("<League>", messageGroup.League);
             content = content.Replace("<Event>", messageGroup.EventName);
             content = content.Replace("<User>", currentSession.UserName);
-
             content = content.Replace("<bettype>", messageGroup.BetTypeName);
-            content = content.Replace("<Note>", assignmentNote);
 
             return content;
         }

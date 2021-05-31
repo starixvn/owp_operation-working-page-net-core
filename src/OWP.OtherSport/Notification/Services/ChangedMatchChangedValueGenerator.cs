@@ -17,17 +17,20 @@
         private readonly ChangedMatchInfoGenerator changedMatchInfoGenerator;
         private readonly ChangedAssignmentGenerator changedAssignmentGenerator;
         private readonly ChangedMatchSettingGenerator changedMatchSettingGenerator;
+        private readonly ChangedAssignmentNoteGenerator changedAssignmentNoteGenerator;
 
         public ChangedMatchChangedValueGeneratorImp(
             ChangedMatchInfoGenerator changedMatchInfoGenerator,
             ChangedAssignmentGenerator changedAssignmentGenerator,
             ChangedMatchSettingGenerator changedMatchSettingGenerator,
-            ChangedMatchStatusGenerator changedMatchStatusGenerator)
+            ChangedMatchStatusGenerator changedMatchStatusGenerator,
+            ChangedAssignmentNoteGenerator changedAssignmentNoteGenerator)
         {
             this.changedMatchStatusGenerator = changedMatchStatusGenerator;
             this.changedMatchInfoGenerator = changedMatchInfoGenerator;
             this.changedAssignmentGenerator = changedAssignmentGenerator;
             this.changedMatchSettingGenerator = changedMatchSettingGenerator;
+            this.changedAssignmentNoteGenerator = changedAssignmentNoteGenerator;
         }
 
         public List<ChangedValue> Create(List<int> matcheIds, AssignmentSnapshot oldSnapshot, AssignmentSnapshot newSnapshot)
@@ -55,6 +58,7 @@
                 yield return changedMatchInfoGenerator.Create(oldSnapshot.Matches[matchId], newSnapshot.Matches[matchId], existingAssignees);
                 yield return changedMatchSettingGenerator.Create(changedMatchSnapshot, matchId, existingAssignees);
                 yield return changedAssignmentGenerator.Create(changedMatchSnapshot, existingAssignees);
+                yield return changedAssignmentNoteGenerator.Create(changedMatchSnapshot, existingAssignees);
             }
         }
 
