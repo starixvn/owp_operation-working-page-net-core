@@ -4,11 +4,9 @@ namespace OWP.Utils
 {
     public static class DateTimeExtensions
     {
-        private const int TIME_ZONE_GMT7 = 8;
+        private const int TIME_ZONE_GMT8 = 8;
 
-        public static DateTime ToGmt7(this DateTime dateTime)
-        {
-            return dateTime.ToUniversalTime().AddHours(TIME_ZONE_GMT7);
-        }
+        public static DateTime ToGmt8(this DateTime dateTime)
+            => dateTime.ToUniversalTime().AddHours(TIME_ZONE_GMT8);
     }
 }

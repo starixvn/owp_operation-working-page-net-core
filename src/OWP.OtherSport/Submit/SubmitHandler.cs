@@ -104,7 +104,7 @@
                     new LastUpdateInfo
                     {
                         Username = session.UserName,
-                        Date = DateTimeExtensions.ToGmt7(DateTime.Now)
+                        Date = DateTimeExtensions.ToGmt8(DateTime.Now)
                     });
             }
             finally
