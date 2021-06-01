@@ -53,7 +53,9 @@
                 var messageTypeId = assignment.AssignmentType == 1
                     ? (int)MsgTemplateCode.AssignmentDelete
                     : (int)MsgTemplateCode.OtherAssignmentDelete;
+                var newAssignment = newAssignments.FirstOrDefault(x => IsSameAssignment(x, assignment));
                 var oldValue = UpdatedValueHelper.GetValue(assignment.Username, assignment.AssignmentNote);
+                var newValue = UpdatedValueHelper.GetValue(newAssignment.Username, newAssignment.AssignmentNote);
 
                 yield return new ChangedValue
                 {
@@ -61,7 +63,7 @@
                     OldValue = oldValue,
                     AssignmentNote = assignment.AssignmentNote,
                     AssignmentType = assignment.AssignmentType,
-                    NewValue = null,
+                    NewValue = newValue,
                     BetTypeName = assignment.BetTypeName,
                     OSMatchId = match.OSMatchId,
                     MatchNo = match.MatchNo.ToString(),
@@ -89,11 +91,13 @@
                     ? (int)MsgTemplateCode.AssignmentInsert
                     : (int)MsgTemplateCode.OtherAssignmentInsert;
                 var newValue = UpdatedValueHelper.GetValue(assignment.Username, assignment.AssignmentNote);
+                var oldAssignment = oldAssignments.FirstOrDefault(x => IsSameAssignment(x, assignment));
+                var oldValue = UpdatedValueHelper.GetValue(oldAssignment.Username, oldAssignment.AssignmentNote);
 
                 yield return new ChangedValue
                 {
                     MessageTypeId = messageTypeId,
-                    OldValue = null,
+                    OldValue = oldValue,
                     NewValue = newValue,
                     AssignmentNote = assignment.AssignmentNote,
                     AssignmentType = assignment.AssignmentType,
@@ -136,5 +140,8 @@
                 IsIndirectChangedAssignment = true
             };
         }
+
+        private static bool IsSameAssignment(MatchAssignment x, MatchAssignment y)
+            => x.OSMatchId == y.OSMatchId && x.BetTypeName == y.BetTypeName && x.AssignmentType == y.AssignmentType;
     }
 }
