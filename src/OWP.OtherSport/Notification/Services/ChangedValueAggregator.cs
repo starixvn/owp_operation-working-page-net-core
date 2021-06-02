@@ -66,6 +66,7 @@
 
             return nonAggregatedChangedValues.Union(aggregatedValueForIndirectMainAssignments)
                                             .Union(aggreatedValueForIndirectOtherAssignments)
+                                            .Distinct(new AssignmentChangedValueComparer())
                                             .ToList();
         }
 

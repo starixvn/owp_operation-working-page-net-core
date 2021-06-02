@@ -117,7 +117,7 @@
             List<Assignee> existingAssignees)
         {
             return existingAssignees
-                .Select(t => allChangedValues.Select(a => GetIndirectChangedValue(a, t)))
+                .Select(t => allChangedValues.Where(a => a.UserId != t.AssigneeId).Select(a => GetIndirectChangedValue(a, t)))
                 .SelectMany(a => a);
         }
 
