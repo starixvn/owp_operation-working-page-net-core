@@ -55,7 +55,7 @@
                     : (int)MsgTemplateCode.OtherAssignmentDelete;
                 var newAssignment = newAssignments.FirstOrDefault(x => IsSameAssignment(x, assignment));
                 var oldValue = UpdatedValueHelper.GetValue(assignment.Username, assignment.AssignmentNote);
-                var newValue = UpdatedValueHelper.GetValue(newAssignment.Username, newAssignment.AssignmentNote);
+                var newValue = newAssignment != null ? UpdatedValueHelper.GetValue(newAssignment.Username, newAssignment.AssignmentNote) : string.Empty;
 
                 yield return new ChangedValue
                 {
@@ -92,7 +92,7 @@
                     : (int)MsgTemplateCode.OtherAssignmentInsert;
                 var newValue = UpdatedValueHelper.GetValue(assignment.Username, assignment.AssignmentNote);
                 var oldAssignment = oldAssignments.FirstOrDefault(x => IsSameAssignment(x, assignment));
-                var oldValue = UpdatedValueHelper.GetValue(oldAssignment.Username, oldAssignment.AssignmentNote);
+                var oldValue = oldAssignment != null ? UpdatedValueHelper.GetValue(oldAssignment.Username, oldAssignment.AssignmentNote) : string.Empty;
 
                 yield return new ChangedValue
                 {
