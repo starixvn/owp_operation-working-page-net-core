@@ -262,6 +262,8 @@
   <Function Name="OtherSport">
     <Setting Key="OWP_ProductAssignment_GetUserBy_User_Role_Section" SpName="OWP_ProductAssignment_GetUserBy_User_Role_Section" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_ProductAssignment_UserInfo_Update" SpName="OWP_ProductAssignment_UserInfo_Update" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-   
+  </Function>
+  <Function Name="APISyncWorkingShift">
+    <Setting Key="OWP_API_SyncEmployeeWorkingShift_GetWorkingShift" SpName="OWP_API_SyncEmployeeWorkingShift_GetWorkingShift" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
   </Function>
 </Functions>

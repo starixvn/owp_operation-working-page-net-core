@@ -34,6 +34,7 @@ namespace OWP.Websites
     using ONEbook.UM.Helpers;
     using ONEbook.UM.Services;
     using ONEbook.UM.Transport;
+    using OWP.ApiSyncWorkingShift;
     using OWP.Maxbet;
     using OWP.OtherSport;
     using OWP.OtherSport.Hubs;
@@ -148,6 +149,7 @@ namespace OWP.Websites
             services.InjectSyncMaxbetService();
             services.InjectOtherSportService();
             services.InjectProductAssignment();
+            services.InjectSyncWorkingShift();
         }
 
         private void ConfigureNapServices(IServiceCollection services)
@@ -221,6 +223,7 @@ namespace OWP.Websites
         {
             services.AddMediatR(typeof(MaxbetController).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(OtherSportController).GetTypeInfo().Assembly);
+            services.AddMediatR(typeof(SyncWorkingShiftController).GetTypeInfo().Assembly);
         }
 
         private static void ConfigureAutoMapper(IServiceCollection services)

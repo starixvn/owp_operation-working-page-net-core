@@ -49,6 +49,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\src\OWP.ApiSyncWorkingShift\OWP.ApiSyncWorkingShift.csproj" />
     <ProjectReference Include="..\src\OWP.Maxbet\OWP.Maxbet.csproj" />
     <ProjectReference Include="..\src\OWP.OtherSport\OWP.OtherSport.csproj" />
     <ProjectReference Include="..\src\OWP.ProductAssignmentReference\OWP.ProductAssignmentReference.csproj" />
