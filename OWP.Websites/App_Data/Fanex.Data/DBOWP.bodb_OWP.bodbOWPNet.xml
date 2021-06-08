@@ -51,7 +51,6 @@
     <Setting Key="OWP_LiveDetail_MatchSetting_Update" SpName="OWP_LiveDetail_MatchSetting_Update" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_LiveDetail_MatchSetting_Delete" SpName="OWP_LiveDetail_MatchSetting_Delete" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_LiveDetail_Update_MatchInfo" SpName="OWP_LiveDetail_Update_MatchInfo" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-
     <Setting Key="OWP_Agent_GetSuggestion" SpName="OWP_Agent_GetSuggestion" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_Provider_GetSuggestion" SpName="OWP_Provider_GetSuggestion" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_Television_GetSuggestion" SpName="OWP_Television_GetSuggestion" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
@@ -117,7 +116,6 @@
     <Setting Key="OWP_LeagueOption_Insert" SpName="OWP_LeagueOption_Insert" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_LeagueSetting_DeleteByOptionId" SpName="OWP_LeagueSetting_DeleteByOptionId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_LeagueSetting_InsertOrUpdate" SpName="OWP_LeagueSetting_InsertOrUpdate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-
     <Setting Key="OWP_LeagueSetting_CopySetting" SpName="OWP_LeagueSetting_CopySetting" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_MinorSettingDetail_GetAll" SpName="OWP_MinorSettingDetail_GetAll" DbName="DBOWP.bodb_OWP.bodbOWPNet">
       <Mapping DataField="MinorSettingId" ObjectProperty="Id" Class="MaxBetRange"></Mapping>
@@ -241,7 +239,7 @@
   </Function>
 
   <Function Name="SyncMaxbet">
-	<Setting Key="OWP_API_SyncMaxbet_GetMatchIdByAdminsiteId" SpName="OWP_API_SyncMaxbet_GetMatchIdByAdminsiteId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+	  <Setting Key="OWP_API_SyncMaxbet_GetMatchIdByAdminsiteId" SpName="OWP_API_SyncMaxbet_GetMatchIdByAdminsiteId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_API_SyncMaxbet_GetTrader" SpName="OWP_API_SyncMaxbet_GetTrader" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_API_SyncMaxbet_GetMatchOffer" SpName="OWP_API_SyncMaxbet_GetMatchOffer" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_API_SyncMaxbet_GetMatchNoHDP" SpName="OWP_API_SyncMaxbet_GetMatchNoHDP" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
@@ -265,5 +263,8 @@
   </Function>
   <Function Name="APISyncWorkingShift">
     <Setting Key="OWP_API_SyncEmployeeWorkingShift_GetWorkingShift" SpName="OWP_API_SyncEmployeeWorkingShift_GetWorkingShift" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+  </Function>
+  <Function Name="PreMatchNotification">
+    <Setting Key="OWP_InfoSiteMatch_GetInfoSiteMatchesByDateRange" SpName="OWP_InfoSiteMatch_GetInfoSiteMatchesByDateRange" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
   </Function>
 </Functions>

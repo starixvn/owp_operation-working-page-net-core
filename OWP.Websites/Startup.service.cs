@@ -150,6 +150,7 @@ namespace OWP.Websites
             services.InjectOtherSportService();
             services.InjectProductAssignment();
             services.InjectSyncWorkingShift();
+            services.InjectPreMatchNotification();
         }
 
         private void ConfigureNapServices(IServiceCollection services)
