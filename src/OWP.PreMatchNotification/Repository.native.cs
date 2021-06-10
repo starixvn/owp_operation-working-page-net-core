@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using Fanex.Data.Repository;
     using OWP.PreMatchNotification.Criteria;
@@ -9,7 +10,9 @@
 
     public interface Repository
     {
-        Task<IEnumerable<InfoSiteMatch>> GetNewSnapshot(DateTime fromDate, DateTime toDate);
+        Task<IList<InfoSiteMatch>> GetInfoSiteMatchNewSnapshot(DateTime fromDate, DateTime toDate);
+
+        Task<IList<PreMatchLeague>> GetPreMatchLeagueNewSnapshot(DateTime fromDate, DateTime toDate);
     }
 
     public class RepositoryImp : Repository
@@ -21,15 +24,28 @@
             this.dynamicRepository = dynamicRepository;
         }
 
-        public async Task<IEnumerable<InfoSiteMatch>> GetNewSnapshot(DateTime fromDate, DateTime toDate)
+        public async Task<IList<InfoSiteMatch>> GetInfoSiteMatchNewSnapshot(DateTime fromDate, DateTime toDate)
         {
             var criteria = new GetInfoSiteMatchesByDateRangeCriteria
             {
                 FromDate = fromDate.Date.AddHours(12),
                 ToDate = toDate.Date.AddDays(1).AddHours(11).AddMinutes(59)
             };
+            var result = await dynamicRepository.FetchAsync<InfoSiteMatch>(criteria);
 
-            return await dynamicRepository.FetchAsync<InfoSiteMatch>(criteria);
+            return result.ToList();
+        }
+
+        public async Task<IList<PreMatchLeague>> GetPreMatchLeagueNewSnapshot(DateTime fromDate, DateTime toDate)
+        {
+            var criteria = new GetPreMatchLeaguesCriteria
+            {
+                FromDate = fromDate,
+                ToDate = toDate
+            };
+            var result = await dynamicRepository.FetchAsync<PreMatchLeague>(criteria).ConfigureAwait(false);
+
+            return result.ToList();
         }
     }
 }

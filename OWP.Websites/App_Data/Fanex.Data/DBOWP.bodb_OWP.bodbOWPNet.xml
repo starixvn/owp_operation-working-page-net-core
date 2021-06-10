@@ -266,5 +266,6 @@
   </Function>
   <Function Name="PreMatchNotification">
     <Setting Key="OWP_InfoSiteMatch_GetInfoSiteMatchesByDateRange" SpName="OWP_InfoSiteMatch_GetInfoSiteMatchesByDateRange" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+    <Setting Key="OWP_PreMatchNotification_QueryLeague" SpName="OWP_PreMatchNotification_QueryLeague" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
   </Function>
 </Functions>

@@ -6,6 +6,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Mvc;
+    using OWP.PreMatchNotification.Handlers;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -20,11 +21,17 @@
             this.mediator = mediator;
         }
 
-        [Route("notify")]
+        [Route("notify-match-info")]
         [HttpGet]
-        public async Task Notify(string sessionId, DateTime fromDate, DateTime toDate)
+        public async Task NotifyMatchInfo(string sessionId, DateTime fromDate, DateTime toDate)
         {
-            await mediator.Send(new NotifyRequest { SessionId = sessionId, FromDate = fromDate, ToDate = toDate });
+            await mediator.Send(new MatchInfoNotifyRequest { SessionId = sessionId, FromDate = fromDate, ToDate = toDate });
+        }
+
+        [Route("notify-new-league")]
+        [HttpGet]
+        public async Task NotifyNewLeague(string sessionId, DateTime fromDate, DateTime toDate)
+        {
         }
     }
 }

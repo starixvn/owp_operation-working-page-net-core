@@ -31,6 +31,8 @@
         public bool IsIndirectChangedAssignment { get; set; }
 
         public bool IsWatcher { get; set; }
+
+        public bool IsBlinking { get; set; }
     }
 
     public class AssignmentChangedValueComparer : ChangedValue, IEqualityComparer<ChangedValue>
