@@ -19,12 +19,12 @@
     {
         private readonly CacheManipulator cacheManipulator;
         private readonly Repository queryRepository;
-        private readonly ChangedValueBySnapshot changedValueBySnapshot;
+        private readonly ChangedMatchChangedValueGenerator changedValueBySnapshot;
 
         public MatchInfoNotifyHandler(
             CacheManipulator cacheManipulator,
             Repository queryRepository,
-            ChangedValueBySnapshot changedValueBySnapshot)
+            ChangedMatchChangedValueGenerator changedValueBySnapshot)
         {
             this.cacheManipulator = cacheManipulator;
             this.queryRepository = queryRepository;
@@ -34,10 +34,10 @@
         public async Task<Unit> Handle(MatchInfoNotifyRequest request, CancellationToken cancellationToken)
         {
             var oldSnapshot = await cacheManipulator.GetOldInfoSiteMatchSnapshot(request.SessionId);
-            var newSnapshot = await queryRepository.GetNewSnapshot(request.FromDate, request.ToDate);
+            var newSnapshot = await queryRepository.GetInfoSiteMatchNewSnapshot(request.FromDate, request.ToDate);
             var messages = changedValueBySnapshot.Create(oldSnapshot, newSnapshot);
 
-            await cacheManipulator.DeleteAssignmentSnapshot(request.SessionId);
+            await cacheManipulator.DeleteOldInfoSiteMatchSnapshot(request.SessionId);
 
             return await Task.FromResult(Unit.Value);
         }
