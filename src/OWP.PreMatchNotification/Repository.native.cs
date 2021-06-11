@@ -13,6 +13,8 @@
         Task<IList<InfoSiteMatch>> GetInfoSiteMatchNewSnapshot(DateTime fromDate, DateTime toDate);
 
         Task<IList<PreMatchLeague>> GetPreMatchLeagueNewSnapshot(DateTime fromDate, DateTime toDate);
+        
+        Task<IEnumerable<InfoSiteMatch>> GetNewOWPMatchFromDB(DateTime eventDate);
     }
 
     public class RepositoryImp : Repository
@@ -46,6 +48,18 @@
             var result = await dynamicRepository.FetchAsync<PreMatchLeague>(criteria).ConfigureAwait(false);
 
             return result.ToList();
+        }
+        
+        public async Task<IEnumerable<InfoSiteMatch>> GetNewOWPMatchFromDB(DateTime eventDate)
+        {
+            //var criteria = new GetInfoSiteMatchesByDateRangeCriteria
+            //{
+            //    FromDate = fromDate.Date.AddHours(12),
+            //    ToDate = toDate.Date.AddDays(1).AddHours(11).AddMinutes(59)
+            //};
+
+            //return await dynamicRepository.FetchAsync<InfoSiteMatch>(criteria);
+            return new List<InfoSiteMatch>();
         }
     }
 }

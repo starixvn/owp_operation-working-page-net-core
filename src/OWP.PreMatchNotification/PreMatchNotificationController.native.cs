@@ -33,5 +33,12 @@
         public async Task NotifyNewLeague(string sessionId, DateTime fromDate, DateTime toDate)
         {
         }
+
+        [Route("notify-linked-lga-match")]
+        [HttpGet]
+        public async Task NotifyForLinkedLGAMatch(string sessionId, DateTime eventDate)
+        {
+
+        }
     }
 }
