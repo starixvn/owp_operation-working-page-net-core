@@ -1,10 +1,10 @@
-﻿namespace OWP.PreMatchNotification.Handlers
+﻿namespace OWP.PreMatchNotification.InfoSiteMatchInfo.Handlers
 {
     using System.Threading;
     using System.Threading.Tasks;
     using MediatR;
-    using OWP.PreMatchNotification.Services;
     using System;
+    using OWP.PreMatchNotification.InfoSiteMatchInfo.Services;
 
     public class MatchInfoNotifyRequest : IRequest<Unit>
     {

@@ -1,4 +1,4 @@
-﻿namespace OWP.PreMatchNotification.Criteria
+﻿namespace OWP.PreMatchNotification.InfoSiteMatchInfo.Criteria
 {
     using System;
     using Fanex.Data.Repository;

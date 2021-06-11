@@ -1,7 +1,8 @@
-﻿namespace OWP.PreMatchNotification.Services
+﻿namespace OWP.PreMatchNotification.InfoSiteMatchInfo.Services
 {
     using System.Collections.Generic;
-    using Models;
+    using OWP.PreMatchNotification.InfoSiteMatchInfo.Models;
+    using OWP.PreMatchNotification.Models;
 
     public interface ChangedMatchChangedValueGenerator
     {

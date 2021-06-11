@@ -1,4 +1,4 @@
-﻿namespace OWP.PreMatchNotification.Models
+﻿namespace OWP.PreMatchNotification.InfoSiteMatchInfo.Models
 {
     using System;
 
