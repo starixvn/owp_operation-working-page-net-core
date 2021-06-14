@@ -17,29 +17,6 @@
         }
 
         [Fact]
-        public void Validate_InvValidModel_ThrowException()
-        {
-            var uploadingDataFromExcel = new UploadingDataFromExcel
-            {
-                Assignments = GetAssignmentModels()
-            };
-
-            var traders = new List<Trader>
-            {
-                new Trader{ UserId = 0, Username = "Esther"},
-                new Trader{ UserId = 10, Username = "Mira"},
-                new Trader{ UserId = 0, Username = "Curry"},
-                new Trader{ UserId = 11, Username = "Jack"},
-                new Trader{ UserId = 12, Username = "Tyler"},
-                new Trader{ UserId = 14, Username = "Carlos"},
-                new Trader{ UserId = 17, Username = "Jacob"}
-            };
-
-            var exception = Record.Exception(() => assignmentValidator.Validate(uploadingDataFromExcel, traders));
-            Assert.NotNull(exception);
-        }
-
-        [Fact]
         public void Validate_ValidModel_NotThrowException()
         {
             var uploadingDataFromExcel = new UploadingDataFromExcel
@@ -455,7 +432,7 @@
                     TraderBadmintonMatchHandicap = "Mira",
                     TraderBadmintonNextPointWinner = "Mira",
                     TraderBaseball1H1st5inningsHDP = "Carlos",
-                    TraderBaseballFTRunLineHDP = "Esther",
+                    TraderBaseballFTRunLineHDP = "#Esther",
                     TraderBasketball1HHDP = "Carlos",
                     TraderBaseball1H1st5inningsOU = "Carlos",
                     TraderBaseballInningHitsRuns = "Jacob",
@@ -516,6 +493,10 @@
                     MaxBetNetballFTHDP = "",
                     MaxBetNetballFTOUOE = "",
                     MaxBetOtherSportsMatchWinner = "",
+                    MaxBetOtherSportsFTHDP = "",
+                    MaxBetOtherSports1HHDP = "",
+                    MaxBetOtherSportsFTOU = "",
+                    MaxBetOtherSports1HOU = "",
                     MaxBetPoolMatchWinnerHDP = "",
                     MaxBetPoolRacksWinnerHDP = "",
                     MaxBetSnookerFirst5FramesHDP = "",
@@ -546,7 +527,7 @@
                 Sport = "Basketball",
                 DateTime = "43831.645833333336",
                 TraderBadmintonAllProductPointWinner = "Esther",
-                TraderBadmintonAllProductSetWinner = "Curry",
+                TraderBadmintonAllProductSetWinner = "#Curry abc",
                 TraderBadmintonMatchHandicap = "Mira",
                 TraderBadmintonNextPointWinner = "Mira",
                 TraderBaseball1H1st5inningsHDP = "Carlos",
@@ -611,6 +592,10 @@
                 MaxBetNetballFTHDP = "",
                 MaxBetNetballFTOUOE = "",
                 MaxBetOtherSportsMatchWinner = "",
+                MaxBetOtherSportsFTHDP = "",
+                MaxBetOtherSports1HHDP = "",
+                MaxBetOtherSports1HOU = "",
+                MaxBetOtherSportsFTOU = "",
                 MaxBetPoolMatchWinnerHDP = "",
                 MaxBetPoolRacksWinnerHDP = "",
                 MaxBetSnookerFirst5FramesHDP = "",

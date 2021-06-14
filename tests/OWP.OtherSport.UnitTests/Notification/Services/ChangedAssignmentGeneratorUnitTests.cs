@@ -117,7 +117,7 @@
                     OSMatchId = 1,
                     BetTypeName = "a",
                     AssignmentType = 1,
-                    AssignmentNote = null,
+                    AssignmentNote = "#<user>",
                     UserId = 15,
                     Username = "starix15"
                 },
@@ -125,7 +125,7 @@
                     OSMatchId = 1,
                     BetTypeName = "b",
                     AssignmentType = 1,
-                    AssignmentNote = null,
+                    AssignmentNote = "#<user>",
                     UserId = userId,
                     Username = userName
                 },
@@ -133,7 +133,7 @@
                     OSMatchId = 1,
                     BetTypeName = "c",
                     AssignmentType = 1,
-                    AssignmentNote = null,
+                    AssignmentNote = "#<user>",
                     UserId = 3,
                     Username = "starix3"
                 }
@@ -143,7 +143,7 @@
                     OSMatchId = 10,
                     BetTypeName = "d",
                     AssignmentType = 1,
-                    AssignmentNote = null,
+                    AssignmentNote = "#<user>",
                     UserId = 4,
                     Username = "starix4"
                 }

@@ -208,6 +208,26 @@
         [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
         public string TraderOtherSportsMatchWinner { get; set; }
 
+        [Display(Name = "Trader Other Sports FT (HDP)")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
+        public string TraderOtherSportsFTHDP { get; set; }
+
+        [Display(Name = "Trader Other Sports 1H (HDP)")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
+        public string TraderOtherSports1HHDP { get; set; }
+
+        [Display(Name = "Trader Other Sports FT (O/U)")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
+        public string TraderOtherSportsFTOU { get; set; }
+
+        [Display(Name = "Trader Other Sports 1H (O/U)")]
+        [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+        [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
+        public string TraderOtherSports1HOU { get; set; }
+
         // Darts Legs
         [Display(Name = "Trader Darts Legs (HDP)")]
         [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
@@ -482,6 +502,18 @@
         [Display(Name = "Other Trader Other Sports Match Winner")]
         public string OtherTraderOtherSportsMatchWinner { get; set; }
 
+        [Display(Name = "Other Trader Other Sports FT (HDP)")]
+        public string OtherTraderOtherSportsFTHDP { get; set; }
+
+        [Display(Name = "Other Trader Other Sports 1H (HDP)")]
+        public string OtherTraderOtherSports1HHDP { get; set; }
+
+        [Display(Name = "Other Trader Other Sports FT (O/U)")]
+        public string OtherTraderOtherSportsFTOU { get; set; }
+
+        [Display(Name = "Other Trader Other Sports 1H (O/U)")]
+        public string OtherTraderOtherSports1HOU { get; set; }
+
         [Display(Name = "Other Trader Darts Legs (HDP)")]
         public string OtherTraderDartsLegsHDP { get; set; }
 
@@ -658,6 +690,18 @@
 
         [Display(Name = "Max Bet Other Sports Match Winner")]
         public string MaxBetOtherSportsMatchWinner { get; set; }
+
+        [Display(Name = "Max Bet Other Sports FT (HDP)")]
+        public string MaxBetOtherSportsFTHDP { get; set; }
+
+        [Display(Name = "Max Bet Other Sports 1H (HDP)")]
+        public string MaxBetOtherSports1HHDP { get; set; }
+
+        [Display(Name = "Max Bet Other Sports FT (O/U)")]
+        public string MaxBetOtherSportsFTOU { get; set; }
+
+        [Display(Name = "Max Bet Other Sports 1H (O/U)")]
+        public string MaxBetOtherSports1HOU { get; set; }
 
         [Display(Name = "Max Bet Darts Legs (HDP)")]
         public string MaxBetDartsLegsHDP { get; set; }

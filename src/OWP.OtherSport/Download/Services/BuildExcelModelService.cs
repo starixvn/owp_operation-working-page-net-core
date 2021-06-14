@@ -125,9 +125,9 @@
                 : ExcelConst.OtherTraderColumn.GetValue(new Tuple<string, string>(sport, assignment.BetTypeName), 2);
 
         private static string GetTraderValue(MatchAssignment assignment)
-            => assignment.AssignmentType == (int)AssignmentType.Assignment
-                ? assignment.Username
-                : assignment.AssignmentNote.Replace("<user>", assignment.Username);
+            => assignment.UserId != 0
+                    ? assignment.AssignmentNote?.Replace("<user>", assignment.Username)
+                    : assignment.AssignmentNote?.Replace("#<user>", "");
 
         public Dictionary<int, List<ExcelMatchMaxBet>> BuildMaxbets(AssignmentSnapshot assignmentSnapshot)
         {

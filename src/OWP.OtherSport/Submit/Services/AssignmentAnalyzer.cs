@@ -25,8 +25,8 @@
             var matchAssignments = new List<MatchAssignment>();
             foreach (var assignmentMaxbet in assignmentMaxbets)
             {
-                matchAssignments.Add(GetAssignmentByBettype(matchId, assignmentMaxbet.Bettype, assignmentMaxbet.TraderId));
-                matchAssignments.Add(GetOtherAssignmentByBettype(matchId, assignmentMaxbet.Bettype, assignmentMaxbet.OtherTrader));
+                matchAssignments.Add(GetAssignmentByBettype(matchId, assignmentMaxbet));
+                matchAssignments.Add(GetOtherAssignmentByBettype(matchId, assignmentMaxbet));
             }
 
             return matchAssignments.Where(a => a.UserId > 0 || !string.IsNullOrWhiteSpace(a.AssignmentNote)).ToList();
@@ -43,24 +43,27 @@
             return matchMaxBets.Where(a => a.MaxBet != null && a.MaxBet != 0).ToList();
         }
 
-        public static MatchAssignment GetAssignmentByBettype(int matchId, string bettype, int userId)
-        {
-            return new MatchAssignment
-            {
-                OSMatchId = matchId,
-                AssignmentType = (int)AssignmentType.Assignment,
-                BetTypeName = bettype,
-                UserId = userId
-            };
-        }
+        public static MatchAssignment GetAssignmentByBettype(int matchId, AssignmentMaxbet assignmentMaxbet)
+            => GetAssignmentWithNoteByBettype(
+                matchId,
+                assignmentMaxbet.Bettype,
+                assignmentMaxbet.Trader,
+                (int)AssignmentType.Assignment);
 
-        public static MatchAssignment GetOtherAssignmentByBettype(int matchId, string bettype, string otherTraderNote)
+        public static MatchAssignment GetOtherAssignmentByBettype(int matchId, AssignmentMaxbet assignmentMaxbet)
+            => GetAssignmentWithNoteByBettype(
+                matchId,
+                assignmentMaxbet.Bettype,
+                assignmentMaxbet.OtherTrader,
+                (int)AssignmentType.OtherAssignment);
+
+        public static MatchAssignment GetAssignmentWithNoteByBettype(int matchId, string bettype, string traderNote, int assignmentType)
         {
-            var otherTrader = MapOtherTrader(otherTraderNote);
+            var otherTrader = MapOtherTrader(traderNote);
             return new MatchAssignment
             {
                 OSMatchId = matchId,
-                AssignmentType = (int)AssignmentType.OtherAssignment,
+                AssignmentType = assignmentType,
                 BetTypeName = bettype,
                 UserId = otherTrader.UserId,
                 AssignmentNote = otherTrader.AssignmentNote

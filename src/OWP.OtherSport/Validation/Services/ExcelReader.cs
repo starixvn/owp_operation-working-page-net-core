@@ -37,26 +37,17 @@
 
         public static List<string> GetTraders(List<AssignmentModelInExcel> assignments)
         {
-            var mainTraders = GetMainTraders(assignments);
-            var otherTraders = GetOtherTraders(assignments);
+            var mainTraders = GetTraderWithNote(assignments, "Trader");
+            var otherTraders = GetTraderWithNote(assignments, "OtherTrader");
             return mainTraders.Union(otherTraders)
                 .Where(t => !string.IsNullOrEmpty(t))
                 .Distinct()
                 .ToList();
         }
 
-        private static List<string> GetMainTraders(List<AssignmentModelInExcel> assignments)
+        private static List<string> GetTraderWithNote(List<AssignmentModelInExcel> assignments, string type)
         {
-            return assignments.Select(a => GetTradersWithType(a, "Trader"))
-                                .SelectMany(l => l)
-                                .Where(b => !string.IsNullOrEmpty(b))
-                                .Distinct()
-                                .ToList();
-        }
-
-        private static List<string> GetOtherTraders(List<AssignmentModelInExcel> assignments)
-        {
-            var otherTraderColumns = assignments.Select(a => GetTradersWithType(a, "OtherTrader"))
+            var otherTraderColumns = assignments.Select(a => GetTradersWithType(a, type))
                                                 .SelectMany(l => l)
                                                 .Where(b => !string.IsNullOrEmpty(b))
                                                 .ToArray();

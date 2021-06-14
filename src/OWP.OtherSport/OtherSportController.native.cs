@@ -14,13 +14,13 @@
     using OWP.OtherSport.EventAssignment.Models;
     using OWP.OtherSport.Notification;
     using OWP.OtherSport.Submit;
+    using OWP.OtherSport.Submit.Models;
     using OWP.OtherSport.Validation;
 
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("AllowOrigin")]
     [Authorize]
-    [AllowAnonymous]
     public class OtherSportController : ControllerBase
     {
         private readonly IMediator mediator;
@@ -29,6 +29,10 @@
         {
             this.mediator = mediator;
         }
+
+        [HttpGet("last-update")]
+        public async Task<LastUpdateInfo> QueryEventAssignment()
+            => await mediator.Send(new QueryLastUpdate());
 
         [Route("get-assignment")]
         [HttpPost]
@@ -99,7 +103,8 @@
             };
 
             var excelPackage = await mediator.Send(request);
-            return File(excelPackage.GetAsByteArray(), "application/octet-stream", "OSAssignment.xlsx");
+            var fileName = $"OS Live Game Assignment {from.ToString("MMddyyyy")} - {to.ToString("MMddyyyy")}.xlsx";
+            return File(excelPackage.GetAsByteArray(), "application/octet-stream", fileName);
         }
     }
 }

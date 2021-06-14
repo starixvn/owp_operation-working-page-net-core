@@ -26,6 +26,7 @@
 
         private readonly Dictionary<string, int> BettypeOrder = new Dictionary<string, int>
         {
+            { Bettype.MatchWinner, -1 },
             { Bettype.FTHDP, 1 },
             { Bettype.FirstHHDP, 2 },
             { Bettype.FirstQHDP, 3 },
@@ -70,8 +71,7 @@
             { Bettype.AllProductLS, 42 },
             { Bettype.NextGame, 43 },
             { Bettype.MostAces, 44 },
-            { Bettype.MostDoubleFaults, 45 },
-            { Bettype.MatchWinner, 46 }
+            { Bettype.MostDoubleFaults, 45 }
         };
     }
 }

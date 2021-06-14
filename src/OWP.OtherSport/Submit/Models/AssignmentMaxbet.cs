@@ -4,7 +4,7 @@
     {
         public string Bettype { get; set; }
 
-        public int TraderId { get; set; }
+        public string Trader { get; set; }
 
         public string OtherTrader { get; set; }
 

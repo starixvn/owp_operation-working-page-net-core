@@ -53,7 +53,9 @@
                 var messageTypeId = assignment.AssignmentType == 1
                     ? (int)MsgTemplateCode.AssignmentDelete
                     : (int)MsgTemplateCode.OtherAssignmentDelete;
-                var oldValue = UpdatedValueHelper.GetValue(assignment.AssignmentType, assignment.Username, assignment.AssignmentNote);
+                var newAssignment = newAssignments.FirstOrDefault(x => IsSameAssignment(x, assignment));
+                var oldValue = UpdatedValueHelper.GetValue(assignment.Username, assignment.AssignmentNote);
+                var newValue = newAssignment != null ? UpdatedValueHelper.GetValue(newAssignment.Username, newAssignment.AssignmentNote) : string.Empty;
 
                 yield return new ChangedValue
                 {
@@ -61,7 +63,7 @@
                     OldValue = oldValue,
                     AssignmentNote = assignment.AssignmentNote,
                     AssignmentType = assignment.AssignmentType,
-                    NewValue = null,
+                    NewValue = newValue,
                     BetTypeName = assignment.BetTypeName,
                     OSMatchId = match.OSMatchId,
                     MatchNo = match.MatchNo.ToString(),
@@ -88,12 +90,14 @@
                 var messageTypeId = assignment.AssignmentType == 1
                     ? (int)MsgTemplateCode.AssignmentInsert
                     : (int)MsgTemplateCode.OtherAssignmentInsert;
-                var newValue = UpdatedValueHelper.GetValue(assignment.AssignmentType, assignment.Username, assignment.AssignmentNote);
+                var newValue = UpdatedValueHelper.GetValue(assignment.Username, assignment.AssignmentNote);
+                var oldAssignment = oldAssignments.FirstOrDefault(x => IsSameAssignment(x, assignment));
+                var oldValue = oldAssignment != null ? UpdatedValueHelper.GetValue(oldAssignment.Username, oldAssignment.AssignmentNote) : string.Empty;
 
                 yield return new ChangedValue
                 {
                     MessageTypeId = messageTypeId,
-                    OldValue = null,
+                    OldValue = oldValue,
                     NewValue = newValue,
                     AssignmentNote = assignment.AssignmentNote,
                     AssignmentType = assignment.AssignmentType,
@@ -113,7 +117,7 @@
             List<Assignee> existingAssignees)
         {
             return existingAssignees
-                .Select(t => allChangedValues.Select(a => GetIndirectChangedValue(a, t)))
+                .Select(t => allChangedValues.Where(a => a.UserId != t.AssigneeId).Select(a => GetIndirectChangedValue(a, t)))
                 .SelectMany(a => a);
         }
 
@@ -136,5 +140,8 @@
                 IsIndirectChangedAssignment = true
             };
         }
+
+        private static bool IsSameAssignment(MatchAssignment x, MatchAssignment y)
+            => x.OSMatchId == y.OSMatchId && x.BetTypeName == y.BetTypeName && x.AssignmentType == y.AssignmentType;
     }
 }

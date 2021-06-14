@@ -12,6 +12,73 @@
             Away = string.Empty;
             League = string.Empty;
             AutoLink = string.Empty;
+            TraderBadmintonAllProductPointWinner = string.Empty;
+            TraderBadmintonAllProductSetWinner = string.Empty;
+            TraderBadmintonMatchHandicap = string.Empty;
+            TraderBadmintonNextPointWinner = string.Empty;
+            TraderBadmintonRacetoPoints7911 = string.Empty;
+            TraderBaseball1H1st5inningsHDP = string.Empty;
+            TraderBaseball1H1st5inningsOU = string.Empty;
+            TraderBaseballFTRunLineHDP = string.Empty;
+            TraderBaseballFTTotalRunOU = string.Empty;
+            TraderBaseballInningHitsRuns = string.Empty;
+            TraderBasketball1HHDP = string.Empty;
+            TraderBasketball1HOUOE = string.Empty;
+            TraderBasketball1Q3QHDP = string.Empty;
+            TraderBasketball1Q3QOUOE = string.Empty;
+            TraderBasketballFTHDP = string.Empty;
+            TraderBasketballFTOUOE = string.Empty;
+            TraderCricketFT1X2 = string.Empty;
+            TraderCricketMatchWinnerInningsOU = string.Empty;
+            TraderCricketNextOverOUPlayerOU = string.Empty;
+            TraderDartsLegsHDP = string.Empty;
+            TraderDartsMost180sHDP = string.Empty;
+            TraderFieldHockey1HHDP = string.Empty;
+            TraderFieldHockey1HOU = string.Empty;
+            TraderFieldHockey1QHDP = string.Empty;
+            TraderFieldHockey1QOU = string.Empty;
+            TraderFieldHockeyFTHDP = string.Empty;
+            TraderFieldHockeyFTOU = string.Empty;
+            TraderFootball1HHDP = string.Empty;
+            TraderFootball1HOU = string.Empty;
+            TraderFootball1Q3QHDP = string.Empty;
+            TraderFootball1Q3QOU = string.Empty;
+            TraderFootballFTHDP = string.Empty;
+            TraderFootballFTOU = string.Empty;
+            TraderHandball1HHDP = string.Empty;
+            TraderHandball1HOU = string.Empty;
+            TraderHandballFTHDP = string.Empty;
+            TraderHandballFTOU = string.Empty;
+            TraderIceHockey1st2ndPeriodsHDP = string.Empty;
+            TraderIceHockey1st2ndPeriodsOU = string.Empty;
+            TraderIceHockeyFTHDP = string.Empty;
+            TraderIceHockeyFTOU = string.Empty;
+            TraderNetball1HHDP = string.Empty;
+            TraderNetball1HOUOE = string.Empty;
+            TraderNetball1Q3QHDP = string.Empty;
+            TraderNetball1Q3QOUOE = string.Empty;
+            TraderNetballFTHDP = string.Empty;
+            TraderNetballFTOUOE = string.Empty;
+            TraderOtherSportsMatchWinner = string.Empty;
+            TraderOtherSportsFTHDP = string.Empty;
+            TraderOtherSports1HHDP = string.Empty;
+            TraderOtherSportsFTOU = string.Empty;
+            TraderOtherSports1HOU = string.Empty;
+            TraderPoolMatchWinnerHDP = string.Empty;
+            TraderPoolRacksWinnerHDP = string.Empty;
+            TraderSnookerFirst5FramesHDP = string.Empty;
+            TraderSnookerFirst8FramesHDP = string.Empty;
+            TraderSnookerFirst9FramesHDP = string.Empty;
+            TraderSnookerFramesWinnerHDPOUOE = string.Empty;
+            TraderSnookerMatchWinnerHDPOU = string.Empty;
+            TraderTableTennisSetWinnerHDP = string.Empty;
+            TraderTableTennisSetXWinnerHDP = string.Empty;
+            TraderTennisAllProductLS = string.Empty;
+            TraderTennisMostAces = string.Empty;
+            TraderTennisMostDoubleFaults = string.Empty;
+            TraderTennisNextGame = string.Empty;
+            TraderVolleyballSetsXPointWinnerHDP = string.Empty;
+            TraderVolleyballSetWinnerHDPOE = string.Empty;
             OtherTraderBadmintonAllProductPointWinner = string.Empty;
             OtherTraderBadmintonAllProductSetWinner = string.Empty;
             OtherTraderBadmintonMatchHandicap = string.Empty;
@@ -60,6 +127,10 @@
             OtherTraderNetballFTHDP = string.Empty;
             OtherTraderNetballFTOUOE = string.Empty;
             OtherTraderOtherSportsMatchWinner = string.Empty;
+            OtherTraderOtherSportsFTHDP = string.Empty;
+            OtherTraderOtherSports1HHDP = string.Empty;
+            OtherTraderOtherSportsFTOU = string.Empty;
+            OtherTraderOtherSports1HOU = string.Empty;
             OtherTraderPoolMatchWinnerHDP = string.Empty;
             OtherTraderPoolRacksWinnerHDP = string.Empty;
             OtherTraderSnookerFirst5FramesHDP = string.Empty;
@@ -117,140 +188,148 @@
         public string HashKey { get; set; }
 
         // Basketball
-        public int TraderBasketballFTHDP { get; set; }
+        public string TraderBasketballFTHDP { get; set; }
 
-        public int TraderBasketball1HHDP { get; set; }
+        public string TraderBasketball1HHDP { get; set; }
 
-        public int TraderBasketball1Q3QHDP { get; set; }
+        public string TraderBasketball1Q3QHDP { get; set; }
 
-        public int TraderBasketballFTOUOE { get; set; }
+        public string TraderBasketballFTOUOE { get; set; }
 
-        public int TraderBasketball1HOUOE { get; set; }
+        public string TraderBasketball1HOUOE { get; set; }
 
-        public int TraderBasketball1Q3QOUOE { get; set; }
+        public string TraderBasketball1Q3QOUOE { get; set; }
 
         // Football
-        public int TraderFootballFTHDP { get; set; }
+        public string TraderFootballFTHDP { get; set; }
 
-        public int TraderFootball1HHDP { get; set; }
+        public string TraderFootball1HHDP { get; set; }
 
-        public int TraderFootball1Q3QHDP { get; set; }
+        public string TraderFootball1Q3QHDP { get; set; }
 
-        public int TraderFootballFTOU { get; set; }
+        public string TraderFootballFTOU { get; set; }
 
-        public int TraderFootball1HOU { get; set; }
+        public string TraderFootball1HOU { get; set; }
 
-        public int TraderFootball1Q3QOU { get; set; }
-
-        // Field Hockey
-        public int TraderFieldHockeyFTHDP { get; set; }
-
-        public int TraderFieldHockey1HHDP { get; set; }
-
-        public int TraderFieldHockey1QHDP { get; set; }
-
-        public int TraderFieldHockeyFTOU { get; set; }
-
-        public int TraderFieldHockey1HOU { get; set; }
-
-        public int TraderFieldHockey1QOU { get; set; }
+        public string TraderFootball1Q3QOU { get; set; }
 
         // Field Hockey
-        public int TraderIceHockeyFTHDP { get; set; }
+        public string TraderFieldHockeyFTHDP { get; set; }
 
-        public int TraderIceHockey1st2ndPeriodsHDP { get; set; }
+        public string TraderFieldHockey1HHDP { get; set; }
 
-        public int TraderIceHockeyFTOU { get; set; }
+        public string TraderFieldHockey1QHDP { get; set; }
 
-        public int TraderIceHockey1st2ndPeriodsOU { get; set; }
+        public string TraderFieldHockeyFTOU { get; set; }
+
+        public string TraderFieldHockey1HOU { get; set; }
+
+        public string TraderFieldHockey1QOU { get; set; }
+
+        // Field Hockey
+        public string TraderIceHockeyFTHDP { get; set; }
+
+        public string TraderIceHockey1st2ndPeriodsHDP { get; set; }
+
+        public string TraderIceHockeyFTOU { get; set; }
+
+        public string TraderIceHockey1st2ndPeriodsOU { get; set; }
 
         // Other sport
-        public int TraderOtherSportsMatchWinner { get; set; }
+        public string TraderOtherSportsMatchWinner { get; set; }
+
+        public string TraderOtherSportsFTHDP { get; set; }
+
+        public string TraderOtherSports1HHDP { get; set; }
+
+        public string TraderOtherSportsFTOU { get; set; }
+
+        public string TraderOtherSports1HOU { get; set; }
 
         // Darts Legs
-        public int TraderDartsLegsHDP { get; set; }
+        public string TraderDartsLegsHDP { get; set; }
 
-        public int TraderDartsMost180sHDP { get; set; }
+        public string TraderDartsMost180sHDP { get; set; }
 
         // Pool Match
-        public int TraderPoolMatchWinnerHDP { get; set; }
+        public string TraderPoolMatchWinnerHDP { get; set; }
 
-        public int TraderPoolRacksWinnerHDP { get; set; }
+        public string TraderPoolRacksWinnerHDP { get; set; }
 
         // Table Tennis
-        public int TraderTableTennisSetWinnerHDP { get; set; }
+        public string TraderTableTennisSetWinnerHDP { get; set; }
 
-        public int TraderTableTennisSetXWinnerHDP { get; set; }
+        public string TraderTableTennisSetXWinnerHDP { get; set; }
 
         // Volleyball
-        public int TraderVolleyballSetWinnerHDPOE { get; set; }
+        public string TraderVolleyballSetWinnerHDPOE { get; set; }
 
-        public int TraderVolleyballSetsXPointWinnerHDP { get; set; }
+        public string TraderVolleyballSetsXPointWinnerHDP { get; set; }
 
         // Handball
-        public int TraderHandballFTHDP { get; set; }
+        public string TraderHandballFTHDP { get; set; }
 
-        public int TraderHandball1HHDP { get; set; }
+        public string TraderHandball1HHDP { get; set; }
 
-        public int TraderHandballFTOU { get; set; }
+        public string TraderHandballFTOU { get; set; }
 
-        public int TraderHandball1HOU { get; set; }
+        public string TraderHandball1HOU { get; set; }
 
-        public int TraderNetballFTHDP { get; set; }
+        public string TraderNetballFTHDP { get; set; }
 
-        public int TraderNetball1HHDP { get; set; }
+        public string TraderNetball1HHDP { get; set; }
 
-        public int TraderNetball1Q3QHDP { get; set; }
+        public string TraderNetball1Q3QHDP { get; set; }
 
-        public int TraderNetballFTOUOE { get; set; }
+        public string TraderNetballFTOUOE { get; set; }
 
-        public int TraderNetball1HOUOE { get; set; }
+        public string TraderNetball1HOUOE { get; set; }
 
-        public int TraderNetball1Q3QOUOE { get; set; }
+        public string TraderNetball1Q3QOUOE { get; set; }
 
-        public int TraderCricketMatchWinnerInningsOU { get; set; }
+        public string TraderCricketMatchWinnerInningsOU { get; set; }
 
-        public int TraderCricketNextOverOUPlayerOU { get; set; }
+        public string TraderCricketNextOverOUPlayerOU { get; set; }
 
-        public int TraderCricketFT1X2 { get; set; }
+        public string TraderCricketFT1X2 { get; set; }
 
-        public int TraderSnookerMatchWinnerHDPOU { get; set; }
+        public string TraderSnookerMatchWinnerHDPOU { get; set; }
 
-        public int TraderSnookerFramesWinnerHDPOUOE { get; set; }
+        public string TraderSnookerFramesWinnerHDPOUOE { get; set; }
 
-        public int TraderSnookerFirst5FramesHDP { get; set; }
+        public string TraderSnookerFirst5FramesHDP { get; set; }
 
-        public int TraderSnookerFirst8FramesHDP { get; set; }
+        public string TraderSnookerFirst8FramesHDP { get; set; }
 
-        public int TraderSnookerFirst9FramesHDP { get; set; }
+        public string TraderSnookerFirst9FramesHDP { get; set; }
 
-        public int TraderBaseballFTRunLineHDP { get; set; }
+        public string TraderBaseballFTRunLineHDP { get; set; }
 
-        public int TraderBaseball1H1st5inningsHDP { get; set; }
+        public string TraderBaseball1H1st5inningsHDP { get; set; }
 
-        public int TraderBaseballFTTotalRunOU { get; set; }
+        public string TraderBaseballFTTotalRunOU { get; set; }
 
-        public int TraderBaseball1H1st5inningsOU { get; set; }
+        public string TraderBaseball1H1st5inningsOU { get; set; }
 
-        public int TraderBaseballInningHitsRuns { get; set; }
+        public string TraderBaseballInningHitsRuns { get; set; }
 
-        public int TraderBadmintonAllProductSetWinner { get; set; }
+        public string TraderBadmintonAllProductSetWinner { get; set; }
 
-        public int TraderBadmintonAllProductPointWinner { get; set; }
+        public string TraderBadmintonAllProductPointWinner { get; set; }
 
-        public int TraderBadmintonRacetoPoints7911 { get; set; }
+        public string TraderBadmintonRacetoPoints7911 { get; set; }
 
-        public int TraderBadmintonNextPointWinner { get; set; }
+        public string TraderBadmintonNextPointWinner { get; set; }
 
-        public int TraderBadmintonMatchHandicap { get; set; }
+        public string TraderBadmintonMatchHandicap { get; set; }
 
-        public int TraderTennisAllProductLS { get; set; }
+        public string TraderTennisAllProductLS { get; set; }
 
-        public int TraderTennisNextGame { get; set; }
+        public string TraderTennisNextGame { get; set; }
 
-        public int TraderTennisMostAces { get; set; }
+        public string TraderTennisMostAces { get; set; }
 
-        public int TraderTennisMostDoubleFaults { get; set; }
+        public string TraderTennisMostDoubleFaults { get; set; }
 
         public string OtherTraderBasketballFTHDP { get; set; }
 
@@ -297,6 +376,14 @@
         public string OtherTraderIceHockey1st2ndPeriodsOU { get; set; }
 
         public string OtherTraderOtherSportsMatchWinner { get; set; }
+
+        public string OtherTraderOtherSportsFTHDP { get; set; }
+
+        public string OtherTraderOtherSports1HHDP { get; set; }
+
+        public string OtherTraderOtherSportsFTOU { get; set; }
+
+        public string OtherTraderOtherSports1HOU { get; set; }
 
         public string OtherTraderDartsLegsHDP { get; set; }
 
@@ -415,6 +502,14 @@
         public decimal? MaxBetIceHockey1st2ndPeriodsOU { get; set; }
 
         public decimal? MaxBetOtherSportsMatchWinner { get; set; }
+
+        public decimal? MaxBetOtherSportsFTHDP { get; set; }
+
+        public decimal? MaxBetOtherSports1HHDP { get; set; }
+
+        public decimal? MaxBetOtherSportsFTOU { get; set; }
+
+        public decimal? MaxBetOtherSports1HOU { get; set; }
 
         public decimal? MaxBetDartsLegsHDP { get; set; }
 

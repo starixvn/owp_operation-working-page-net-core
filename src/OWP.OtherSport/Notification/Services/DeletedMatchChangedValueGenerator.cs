@@ -37,7 +37,7 @@
             var messageTypeId = assignment.AssignmentType == 1
                 ? (int)MsgTemplateCode.AssignmentDelete
                 : (int)MsgTemplateCode.OtherAssignmentDelete;
-            var oldValue = UpdatedValueHelper.GetValue(assignment.AssignmentType, assignment.Username, assignment.AssignmentNote);
+            var oldValue = UpdatedValueHelper.GetValue(assignment.Username, assignment.AssignmentNote);
 
             return new ChangedValue
             {

@@ -6,12 +6,7 @@
     {
         private const string USER = "#<user>";
 
-        public static string GetValue(int assignmentType, string userName, string assignmentNote)
-        {
-            return assignmentType == 1 ? $"#{userName}" : GetAssignmentNote(assignmentNote, userName);
-        }
-
-        private static string GetAssignmentNote(string assignmentNote, string userName)
+        public static string GetValue(string userName, string assignmentNote)
         {
             var newValue = string.IsNullOrEmpty(userName)
                             ? Regex.Replace(assignmentNote, USER, "", RegexOptions.IgnoreCase)

@@ -54,6 +54,7 @@
             services.AddScoped<ChangedValueAggregator, ChangedValueAggregatorImp>();
             services.AddScoped<ChangedValueBySnapshot, ChangedValueBySnapshotImp>();
             services.AddScoped<ChangedValueByCacheAndDatabase, ChangedValueByCacheAndDatabaseImp>();
+            services.AddScoped<ChangedAssignmentNoteGenerator, ChangedAssignmentNoteGeneratorImp>();
             services.AddScoped<DeletedMatchChangedValueGenerator, DeletedMatchChangedValueGeneratorImp>();
             services.AddScoped<InsertedMatchChangedValueGenerator, InsertedMatchChangedValueGeneratorImp>();
             services.AddScoped<OtherSport.Notification.Services.CommandRepository, OtherSport.Notification.Services.CommandRepositoryImp>();

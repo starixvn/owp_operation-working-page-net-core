@@ -161,20 +161,20 @@
         {
             var excelModel = new AssignmentModelInExcel
             {
-                TraderBadmintonAllProductPointWinner = "Mira",
-                TraderBadmintonMatchHandicap = "Esther",
+                TraderBadmintonAllProductPointWinner = "#Mira",
+                TraderBadmintonMatchHandicap = "#Esther",
                 TraderBasketball1HHDP = "",
                 TraderBaseballFTTotalRunOU = "Lita"
             };
 
             var model = new AssignmentModel();
 
-            assignmentMapper.MapTraders(excelModel, model);
+            assignmentMapper.MapTradersWithNote(excelModel, model);
 
-            Assert.Equal(10, model.TraderBadmintonAllProductPointWinner);
-            Assert.Equal(1, model.TraderBadmintonMatchHandicap);
-            Assert.Equal(0, model.TraderBasketball1HHDP);
-            Assert.Equal(2, model.TraderBaseballFTTotalRunOU);
+            Assert.Equal("10, #<user> ", model.TraderBadmintonAllProductPointWinner);
+            Assert.Equal("1, #<user> ", model.TraderBadmintonMatchHandicap);
+            Assert.Equal("", model.TraderBasketball1HHDP);
+            Assert.Equal("0,Lita", model.TraderBaseballFTTotalRunOU);
         }
 
         [Fact]
@@ -190,7 +190,7 @@
 
             var model = new AssignmentModel();
 
-            assignmentMapper.MapOtherTraders(excelModel, model);
+            assignmentMapper.MapTradersWithNote(excelModel, model);
 
             Assert.Equal("10, #<user> ", model.OtherTraderBadmintonAllProductPointWinner);
             Assert.Equal("1, #<user> ", model.OtherTraderBadmintonNextPointWinner);

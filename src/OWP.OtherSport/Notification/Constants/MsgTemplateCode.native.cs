@@ -21,5 +21,6 @@
         EditMaxbet = 117,
         EditReporter = 118,
         EditProvider = 119,
+        EditAssignmentNote = 120
     };
 }

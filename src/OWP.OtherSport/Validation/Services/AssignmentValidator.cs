@@ -106,18 +106,12 @@
 
             foreach (var prop in properties)
             {
-                if (prop.Name.StartsWith("Trader", StringComparison.CurrentCultureIgnoreCase))
+                if (prop.Name.StartsWith("Trader", StringComparison.CurrentCultureIgnoreCase) ||
+                    prop.Name.StartsWith("OtherTrader", StringComparison.CurrentCultureIgnoreCase))
                 {
                     var property = GetProperty(assignment, prop.Name);
                     var trader = property.GetValue(assignment)?.ToString() ?? string.Empty;
-                    CheckTrader(errorList, invalidTraders, trader, PropertyHelper.GetDisplayName(prop));
-                }
-
-                if (prop.Name.StartsWith("OtherTrader", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    var property = GetProperty(assignment, prop.Name);
-                    var trader = property.GetValue(assignment)?.ToString() ?? string.Empty;
-                    CheckOtherTrader(errorList, invalidTraders, trader, PropertyHelper.GetDisplayName(prop));
+                    CheckTraderIgnoreNote(errorList, invalidTraders, trader, PropertyHelper.GetDisplayName(prop));
                 }
             }
 
@@ -127,15 +121,7 @@
         private static PropertyInfo GetProperty(AssignmentModelInExcel model, string propertyName)
             => model.GetType().GetProperties().Single(p => p.Name == propertyName);
 
-        public static void CheckTrader(List<string> errorList, List<string> invalidTraders, string trader, string name)
-        {
-            if (invalidTraders.Contains(trader))
-            {
-                errorList.Add($"{name}: {trader}");
-            }
-        }
-
-        public static void CheckOtherTrader(List<string> errorList, List<string> invalidTraders, string trader, string name)
+        public static void CheckTraderIgnoreNote(List<string> errorList, List<string> invalidTraders, string trader, string name)
         {
             var regex = new Regex(@"#(.*?)(\s|$)");
             var traderName = regex.Match(trader).Groups[1].Value;
