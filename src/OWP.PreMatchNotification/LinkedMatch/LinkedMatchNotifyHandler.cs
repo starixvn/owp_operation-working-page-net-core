@@ -1,10 +1,11 @@
-﻿namespace OWP.PreMatchNotification.LinkedMatch.Handlers
+﻿namespace OWP.PreMatchNotification.LinkedMatch
 {
     using System.Threading;
     using System.Threading.Tasks;
     using MediatR;
     using Services;
     using System;
+    using System.Linq;
 
     public class LinkedMatchNotifyRequest : IRequest<Unit>
     {
@@ -17,12 +18,12 @@
     {
         private readonly CacheManipulator cacheManipulator;
         private readonly Repository queryRepository;
-        private readonly ChangedMatchChangedValueGenerator changedValueBySnapshot;
+        private readonly ChangedLinkedMatchDetector changedValueBySnapshot;
 
         public LinkedMatchNotifyHandler(
             CacheManipulator cacheManipulator,
             Repository queryRepository,
-            ChangedMatchChangedValueGenerator changedValueBySnapshot)
+            ChangedLinkedMatchDetector changedValueBySnapshot)
         {
             this.cacheManipulator = cacheManipulator;
             this.queryRepository = queryRepository;
@@ -31,11 +32,13 @@
 
         public async Task<Unit> Handle(LinkedMatchNotifyRequest request, CancellationToken cancellationToken)
         {
-            var oldSnapshot = await cacheManipulator.GetOldLGAMatchSnapshot(request.SessionId, request.EventDate);
-            var newSnapshot = await queryRepository.GetInfoSiteMatchNewSnapshot(request.FromDate, request.ToDate);
-            var messages = changedValueBySnapshot.Create(oldSnapshot, newSnapshot);
+            var oldMatches = await cacheManipulator.GetOldLGAMatchSnapshot(request.SessionId, request.EventDate);
+            var newMatches = await queryRepository.GetLGAMatchNewSnapshot(request.EventDate);
+            var prematchLeagues = await queryRepository.GetInfositePrematch(request.EventDate);
+            
+            var messages = changedValueBySnapshot.Create(oldMatches, newMatches, prematchLeagues);
 
-            await cacheManipulator.DeleteOldInfoSiteMatchSnapshot(request.SessionId);
+            await cacheManipulator.DeleteAssignmentSnapshot(request.SessionId, request.EventDate);
 
             return await Task.FromResult(Unit.Value);
         }

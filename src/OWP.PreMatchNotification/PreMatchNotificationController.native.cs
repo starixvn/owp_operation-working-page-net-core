@@ -6,7 +6,6 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Mvc;
-    using OWP.PreMatchNotification.Handlers;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -36,9 +35,9 @@
 
         [Route("notify-linked-lga-match")]
         [HttpGet]
-        public async Task NotifyForLinkedLGAMatch(string sessionId, DateTime eventDate)
+        public async Task NotifyLinkedLGAMatch(string sessionId, DateTime eventDate)
         {
-
+            
         }
     }
 }

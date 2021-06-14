@@ -4,11 +4,15 @@
     using Models;
     using Newtonsoft.Json;
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     public interface CacheManipulator
     {
-        Task<AssignmentSnapshot> GetOldLGAMatchSnapshot(string sessionId, DateTime eventDate);
+        Task<List<GeneralMatch>> GetOldLGAMatchSnapshot(string sessionId, DateTime eventDate);
+
+        Task DeleteAssignmentSnapshot(string sessionId, DateTime eventDate);
     }
 
     public class CacheManipulatorImp : CacheManipulator
@@ -21,7 +25,7 @@
             this.cache = cache;
         }
 
-        public async Task<AssignmentSnapshot> GetOldLGAMatchSnapshot(string sessionId, DateTime eventDate)
+        public async Task<List<GeneralMatch>> GetOldLGAMatchSnapshot(string sessionId, DateTime eventDate)
         {
             var cacheKey = $"{OLD_LGAMATCHES_SNAPSHOT_KEY}-{sessionId}-{eventDate}";
             var cacheResult = await cache.TryGetAsync<string>(cacheKey);
@@ -29,7 +33,15 @@
                 ? new AssignmentSnapshot()
                 : JsonConvert.DeserializeObject<AssignmentSnapshot>(cacheResult.Item2);
 
-            return assignmentSnapshot ?? new AssignmentSnapshot();
+            return assignmentSnapshot == null
+                ? new List<GeneralMatch>()
+                : assignmentSnapshot.Matches.Values.ToList();
+        }
+
+        public async Task DeleteAssignmentSnapshot(string sessionId, DateTime eventDate)
+        {
+            var cacheKey = $"{OLD_LGAMATCHES_SNAPSHOT_KEY}-{sessionId}-{eventDate}";
+            await cache.RemoveAsync(cacheKey);
         }
     }
 }
