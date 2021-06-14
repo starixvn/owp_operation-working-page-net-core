@@ -1,10 +1,13 @@
 ﻿namespace OWP.PreMatchNotification.NewLeague.Handlers
 {
     using System;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using MediatR;
+    using OWP.PreMatchNotification.Extensions;
     using OWP.PreMatchNotification.NewLeague.Services;
+    using OWP.PreMatchNotification.Services;
 
     public class NewLeagueNotifyRequest : IRequest<Unit>
     {
@@ -18,14 +21,23 @@
     public class NewLeagueNotifyHandler : IRequestHandler<NewLeagueNotifyRequest, Unit>
     {
         private readonly CacheManipulator cacheManipulator;
+
         private readonly Repository queryRepository;
+
         private readonly NewLeagueValueGenerator newLeagueGenerator;
+
+        private readonly ChangedValueAggregator changedValueAggregator;
+
+        private readonly MessageFactory messageFactory;
+
+        private readonly CommandRepository commandRepository;
+
+        private readonly NotifyServices notify;
 
         public NewLeagueNotifyHandler(
             CacheManipulator cacheManipulator,
             Repository queryRepository,
             NewLeagueValueGenerator newLeagueGenerator,
-            AssigneeChangedValueFilter assigneeChangedValueFilter,
             ChangedValueAggregator changedValueAggregator,
             MessageFactory messageFactory,
             CommandRepository commandRepository,
@@ -34,9 +46,9 @@
             this.cacheManipulator = cacheManipulator;
             this.queryRepository = queryRepository;
             this.newLeagueGenerator = newLeagueGenerator;
-            this.assigneeChangedValueFilter = assigneeChangedValueFilter;
             this.changedValueAggregator = changedValueAggregator;
             this.messageFactory = messageFactory;
+            this.commandRepository = commandRepository;
             this.notify = notify;
         }
 
@@ -48,7 +60,7 @@
 
             await cacheManipulator.DeleteOldPreMatchLeagueSnapshot(request.SessionId);
 
-            var assigneeChangedValues = await assigneeChangedValueFilter.Filter(messages);
+            var assigneeChangedValues = AssigneeMessageFilter.Filter(messages.ToList());
 
             var aggregatedChangedValues = changedValueAggregator.Aggregate(assigneeChangedValues);
             var messageModels = messageFactory.Transform(aggregatedChangedValues);

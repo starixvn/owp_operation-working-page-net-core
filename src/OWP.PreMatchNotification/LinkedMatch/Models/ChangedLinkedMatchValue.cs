@@ -2,39 +2,6 @@
 {
     using System.Collections.Generic;
 
-    public class ChangedValue
-    {
-        public int UserId { get; set; }
-
-        public string Username { get; set; }
-
-        public int MessageTypeId { get; set; }
-
-        public int NotificationSettingId { get; set; }
-
-        public string NewValue { get; set; }
-
-        public string OldValue { get; set; }
-
-        public string MatchNo { get; set; }
-
-        public string League { get; set; }
-
-        public string EventName { get; set; }
-
-        public int InfoSiteMatchId { get; set; }
-
-        public int BetType { get; set; }
-
-        public string BetTypeName { get; set; }
-
-        public bool IsIndirectChangedAssignment { get; set; }
-
-        public bool IsWatcher { get; set; }
-
-        public bool IsBlinking { get; set; }
-    }
-
     public class AssignmentChangedValueComparer : ChangedValue, IEqualityComparer<ChangedValue>
     {
         public bool Equals(ChangedValue x, ChangedValue y)

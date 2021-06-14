@@ -1,4 +1,4 @@
-﻿namespace OWP.OtherSport.Notification.Services
+﻿namespace OWP.PreMatchNotification.Services
 {
     using Microsoft.AspNetCore.SignalR;
     using OWP.PreMatchNotification.Models;
