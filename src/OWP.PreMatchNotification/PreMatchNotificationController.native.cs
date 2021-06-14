@@ -25,7 +25,7 @@
         [HttpGet]
         public async Task NotifyMatchInfo(string sessionId, DateTime fromDate, DateTime toDate)
         {
-            await mediator.Send(new MatchInfoNotifyRequest { SessionId = sessionId, FromDate = fromDate, ToDate = toDate });
+            //await mediator.Send(new MatchInfoNotifyRequest { SessionId = sessionId, FromDate = fromDate, ToDate = toDate });
         }
 
         [Route("notify-new-league")]
