@@ -105,6 +105,7 @@ namespace OWP.Websites
                                             "https://newowp3.starixuat.com",
                                             "https://owp.oneops.net",
                                             "https://newowp.oneops.net",
+                                            "https://owp1.oneops.net",
                                             "http://localhost:3000",
                                             "https://owp.starixuat.com"
                                             )
