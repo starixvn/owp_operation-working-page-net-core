@@ -10,13 +10,9 @@
 
         public int MessageTypeId { get; set; }
 
-        public int NotificationSettingId { get; set; }
-
         public string NewValue { get; set; }
 
         public string OldValue { get; set; }
-
-        public string MatchNo { get; set; }
 
         public string League { get; set; }
 
@@ -29,8 +25,6 @@
         public string BetTypeName { get; set; }
 
         public bool IsIndirectChangedAssignment { get; set; }
-
-        public bool IsWatcher { get; set; }
 
         public bool IsBlinking { get; set; }
     }

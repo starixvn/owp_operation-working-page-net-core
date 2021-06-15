@@ -21,71 +21,10 @@
         {
             new MessageTemplate
             {
-                MessageType = (int)MsgTemplateCode.EditMatchNo,
-                MessageContent = "<b>Match No.</b> Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
+                MessageType = (int)MsgTemplateCode.NewLeague,
+                MessageContent = "<b>New Add</b> <League>"
             },
-            new MessageTemplate
-            {
-                MessageType = (int)MsgTemplateCode.EditMatchStatus,
-                MessageContent = "<b>Match Status</b> Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>",
-                IsImportant= true
-            },
-            new MessageTemplate
-            {
-                MessageType = (int)MsgTemplateCode.EditCategory,
-                MessageContent = "<b>Category</b> Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>",
-            },
-            new MessageTemplate
-            {
-                 MessageType=(int)MsgTemplateCode.EditNoOfHDP,
-                 MessageContent="<b>No. HDP</b> Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
-            },
-            new MessageTemplate
-            {
-                 MessageType=(int)MsgTemplateCode.EditMatchOffer,
-                 MessageContent="<b>Match Offer</b> Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
-            },
-            new MessageTemplate
-            {
-                 MessageType=(int)MsgTemplateCode.EditAutoLink,
-                 MessageContent="<b>Auto Link</b> Updated from <old value> to  <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
-            },
-            new MessageTemplate
-            {
-                 MessageType=(int)MsgTemplateCode.EditProvider,
-                 MessageContent="<b>Provider</b> Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
-            },
-            new MessageTemplate
-            {
-                 MessageType=(int)MsgTemplateCode.EditOtherProvider,
-                 MessageContent="<b>Other Provider</b> Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
-            },
-             new MessageTemplate
-            {
-                 MessageType=(int)MsgTemplateCode.EditIPTV,
-                 MessageContent="<b>IPTV</b> Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
-            },
-            new MessageTemplate
-            {
-                 MessageType=(int)MsgTemplateCode.EditWB,
-                 MessageContent="<b>Streaming</b> Info (WB) Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
-            },
-            new MessageTemplate
-            {
-                 MessageType=(int)MsgTemplateCode.EditRemark,
-                 MessageContent="<b>Remark</b> Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
-            },
-            new MessageTemplate
-            {
-                 MessageType=(int)MsgTemplateCode.EditMaxbet,
-                 MessageContent="<b>Max Bet</b> of <bettype> Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
-            },
-            new MessageTemplate
-            {
-                 MessageType=(int)MsgTemplateCode.EditReporter,
-                 MessageContent="<b>Reporter</b> Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
-            },
-            new MessageTemplate
+new MessageTemplate
             {
                  MessageType=(int)MsgTemplateCode.DayShiftAssignmentInsert,
                  MessageContent="[DayShift] You have NEW ASSIGNMENT <bettype> in <League>",
@@ -120,11 +59,6 @@
                  MessageType=(int)MsgTemplateCode.NightShiftOtherAssignmentUpdate,
                  MessageContent="[NightShift] <bettype>'s Assignee has been updated from <old value> to <newvalue> in your assignment <League>",
                  IsImportant = true
-            },
-            new MessageTemplate
-            {
-                 MessageType=(int)MsgTemplateCode.EditAssignmentNote,
-                 MessageContent="<b>Your Assignment Note</b> Updated from <old value> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
             }
         });
 
@@ -142,9 +76,11 @@
                 OldValue = value.OldValue;
                 League = value.League;
                 EventName = value.EventName;
-                MatchNo = value.MatchNo;
-                IsWatcher = value.IsWatcher;
+                InfoSiteMatchId = value.InfoSiteMatchId;
+                IsBlinking = value.IsBlinking;
             }
+
+            public int InfoSiteMatchId { get; set; }
 
             public string AssignmentNote { get; set; }
 
@@ -160,9 +96,7 @@
 
             public string EventName { get; set; }
 
-            public string MatchNo { get; set; }
-
-            public bool IsWatcher { get; set; }
+            public bool IsBlinking { get; set; }
 
             public bool Equals(MessageGroup x, MessageGroup y)
             {
@@ -174,7 +108,7 @@
                    x.OldValue == y.OldValue &&
                    x.League == y.League &&
                    x.EventName == y.EventName &&
-                   x.MatchNo == y.MatchNo;
+                   x.InfoSiteMatchId == y.InfoSiteMatchId;
 #pragma warning restore S1067 // Expressions should not be too complex
             }
 
@@ -200,6 +134,8 @@
             public bool IsImportant { get; set; }
 
             public int MessageType { get; set; }
+
+            public bool IsBlinking { get; set; }
 
             public List<Assignee> Assignees { get; set; }
         }
@@ -234,7 +170,8 @@
                         IsImportant = messageTemplate.IsImportant,
                         MessageContent = content,
                         MessageType = g.Key.MessageTypeId,
-                        Assignees = g.Select(i => new Assignee { AssigneeId = i.UserId, AssigneeName = i.Username }).ToList()
+                        Assignees = g.Select(i => new Assignee { AssigneeId = i.UserId, AssigneeName = i.Username }).ToList(),
+                        IsBlinking = g.Key.IsBlinking
                     };
                 }).ToList();
         }
@@ -244,13 +181,11 @@
             var messageTemplate = messageTemplateMap[messageGroup.MessageTypeId];
             var content = messageTemplate.MessageContent;
 
-
             content = content.Replace("<newvalue>", "<b><newvalue></b>");
             content = content.Replace("<bettype>", "<b><bettype></b>");
 
             content = content.Replace("<newvalue>", string.IsNullOrWhiteSpace(messageGroup.NewValue)?"[]": messageGroup.NewValue);
             content = content.Replace("<old value>", string.IsNullOrWhiteSpace(messageGroup.OldValue) ? "[]" : messageGroup.OldValue);
-            content = content.Replace("<Match.No>", !string.IsNullOrEmpty(messageGroup.MatchNo) ? $"#{messageGroup.MatchNo}" : string.Empty);
             content = content.Replace("<League>", messageGroup.League);
             content = content.Replace("<Event>", messageGroup.EventName);
             content = content.Replace("<User>", currentSession.UserName);
@@ -261,7 +196,7 @@
 
         private static List<MessageModel> Reduce(List<MessageModelRaw> messageModels)
         {
-            return messageModels.GroupBy(m => new { m.MessageContent, m.IsImportant, m.MessageType })
+            return messageModels.GroupBy(m => new { m.MessageContent, m.IsImportant, m.MessageType, m.IsBlinking })
                 .Select(m =>
                 {
                     var assignees = m.SelectMany(x => x.Assignees).Distinct().ToArray();
@@ -270,7 +205,8 @@
                         MessageType = m.Key.MessageType,
                         MessageContent = m.Key.MessageContent,
                         IsImportant = m.Key.IsImportant,
-                        ReceivedUserIds = assignees.Select(a => a.AssigneeId.ToString()).ToList()
+                        ReceivedUserIds = assignees.Select(a => a.AssigneeId.ToString()).ToList(),
+                        IsBlinking = m.Key.IsBlinking
                     };
                 })
                 .ToList();

@@ -7,26 +7,33 @@
 
     public interface NewLeagueValueGenerator
     {
-        IEnumerable<ChangedValue> Create(IList<PreMatchLeague> oldSnapshot, IList<PreMatchLeague> newSnapshot);
+        IEnumerable<ChangedValue> Create(IList<PreMatchLeague> oldSnapshot, IList<PreMatchLeague> newSnapshot, IList<Assignee> assignees);
     }
 
     public class NewLeagueValueGeneratorImp : NewLeagueValueGenerator
     {
-        public IEnumerable<ChangedValue> Create(IList<PreMatchLeague> oldSnapshot, IList<PreMatchLeague> newSnapshot)
+        public IEnumerable<ChangedValue> Create(IList<PreMatchLeague> oldSnapshot, IList<PreMatchLeague> newSnapshot, IList<Assignee> assignees)
         {
             var newLeagues = GetNewPreMatchLeagues(oldSnapshot, newSnapshot);
 
             foreach(var league in newLeagues)
             {
-                yield return new ChangedValue
+                var leagueAssignees = assignees.Where(x => x.PreMatchLeagueId == league.PreMatchLeagueId);
+
+                foreach(var assignee in assignees)
                 {
-                    IsBlinking = true,
-                    League = league.OWPLeagueName
-                };
+                    yield return new ChangedValue
+                    {
+                        IsBlinking = true,
+                        League = league.OWPLeagueName,
+                        UserId = assignee.AssigneeId,
+                        Username = assignee.AssigneeName
+                    };
+                }
             }
         }
 
-        private IEnumerable<PreMatchLeague> GetNewPreMatchLeagues(IList<PreMatchLeague> oldSnapshot, IList<PreMatchLeague> newSnapshot)
-            => newSnapshot.Except(oldSnapshot, new PreMatchLeague()).Distinct(new PreMatchLeague());
+        private List<PreMatchLeague> GetNewPreMatchLeagues(IList<PreMatchLeague> oldSnapshot, IList<PreMatchLeague> newSnapshot)
+            => newSnapshot.Except(oldSnapshot, new PreMatchLeague()).Distinct(new PreMatchLeague()).ToList();
     }
 }

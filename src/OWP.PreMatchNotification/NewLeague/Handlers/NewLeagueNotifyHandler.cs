@@ -1,11 +1,12 @@
 ﻿namespace OWP.PreMatchNotification.NewLeague.Handlers
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using MediatR;
-    using OWP.PreMatchNotification.Extensions;
+    using OWP.PreMatchNotification.Models;
     using OWP.PreMatchNotification.NewLeague.Services;
     using OWP.PreMatchNotification.Services;
 
@@ -54,15 +55,8 @@
 
         public async Task<Unit> Handle(NewLeagueNotifyRequest request, CancellationToken cancellationToken)
         {
-            var oldSnapshot = await cacheManipulator.GetOldPreMatchLeagueSnapshot(request.SessionId);
-            var newSnapshot = await queryRepository.GetPreMatchLeagueNewSnapshot(request.FromDate, request.ToDate);
-            var messages = newLeagueGenerator.Create(oldSnapshot, newSnapshot);
-
-            await cacheManipulator.DeleteOldPreMatchLeagueSnapshot(request.SessionId);
-
-            var assigneeChangedValues = AssigneeMessageFilter.Filter(messages.ToList());
-
-            var aggregatedChangedValues = changedValueAggregator.Aggregate(assigneeChangedValues);
+            var messages = await GenerateMessages(request);
+            var aggregatedChangedValues = changedValueAggregator.Aggregate(messages);
             var messageModels = messageFactory.Transform(aggregatedChangedValues);
 
             await commandRepository.InsertMessage(messageModels, request.SessionId);
@@ -70,6 +64,18 @@
             await notify.Notify(messageModels);
 
             return await Task.FromResult(Unit.Value);
+        }
+
+        private async Task<IList<ChangedValue>> GenerateMessages(NewLeagueNotifyRequest request)
+        {
+            var oldSnapshot = await cacheManipulator.GetOldPreMatchLeagueSnapshot(request.SessionId);
+            var newSnapshot = await queryRepository.GetPreMatchLeagueNewSnapshot(request.FromDate, request.ToDate);
+            var preMatchAssignees = await queryRepository.GetPreMatchAssignee();
+            var messages = newLeagueGenerator.Create(oldSnapshot, newSnapshot, preMatchAssignees);
+
+            await cacheManipulator.DeleteOldPreMatchLeagueSnapshot(request.SessionId);
+
+            return messages.ToList();
         }
     }
 }

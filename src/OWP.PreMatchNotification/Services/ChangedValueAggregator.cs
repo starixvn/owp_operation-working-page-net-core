@@ -8,7 +8,7 @@
 
     public interface ChangedValueAggregator
     {
-        List<ChangedValue> Aggregate(List<ChangedValue> changedValues);
+        List<ChangedValue> Aggregate(IList<ChangedValue> changedValues);
 
         IEnumerable<ChangedValue> GetAggreatedValueForIndirectOtherAssignments(IEnumerable<ChangedValue> changedValues);
 
@@ -16,9 +16,9 @@
 
         IEnumerable<ChangedValue> GetAggregatedValueForIndirectMainAssignments(IEnumerable<ChangedValue> changedValues);
 
-        IEnumerable<ChangedValue> GetIndirectMainAssignmentChangedValues(List<ChangedValue> changedValues);
+        IEnumerable<ChangedValue> GetIndirectMainAssignmentChangedValues(IList<ChangedValue> changedValues);
 
-        IEnumerable<ChangedValue> GetNonAggregatedChangedValues(List<ChangedValue> changedValues);
+        IEnumerable<ChangedValue> GetNonAggregatedChangedValues(IList<ChangedValue> changedValues);
     }
 
     public class ChangedValueAggregatorImp : ChangedValueAggregator
@@ -61,7 +61,7 @@
             this.mapper = mapper;
         }
 
-        public List<ChangedValue> Aggregate(List<ChangedValue> changedValues)
+        public List<ChangedValue> Aggregate(IList<ChangedValue> changedValues)
         {
             var nonAggregatedChangedValues = GetNonAggregatedChangedValues(changedValues);
             var indirectMainAssignmentChangedValues = GetIndirectMainAssignmentChangedValues(changedValues);
@@ -72,7 +72,7 @@
                                             .ToList();
         }
 
-        public IEnumerable<ChangedValue> GetNonAggregatedChangedValues(List<ChangedValue> changedValues)
+        public IEnumerable<ChangedValue> GetNonAggregatedChangedValues(IList<ChangedValue> changedValues)
         {
             return changedValues.Where(m =>
             {
@@ -81,7 +81,7 @@
             });
         }
 
-        public IEnumerable<ChangedValue> GetIndirectMainAssignmentChangedValues(List<ChangedValue> changedValues)
+        public IEnumerable<ChangedValue> GetIndirectMainAssignmentChangedValues(IList<ChangedValue> changedValues)
         {
             return changedValues.Where(m =>
             {
