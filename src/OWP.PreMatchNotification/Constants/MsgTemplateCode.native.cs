@@ -2,9 +2,12 @@
 {
     public enum MsgTemplateCode
     {
-        AssignmentInsert = 201,
-        AssignmentDelete = 202,
-        AssignmentUpdate = 203,
-        NewLeague = 204
+        DayShiftAssignmentInsert = 201,
+        DayShiftAssignmentDelete = 202,
+        DayShiftOtherAssignmentUpdate = 206,
+        NightShiftAssignmentInsert = 201,
+        NightShiftAssignmentDelete = 202,
+        NightShiftOtherAssignmentUpdate = 206,
+        NewLeague = 207,
     };
 }

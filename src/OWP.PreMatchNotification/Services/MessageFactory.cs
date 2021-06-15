@@ -87,38 +87,38 @@
             },
             new MessageTemplate
             {
-                 MessageType=(int)MsgTemplateCode.AssignmentInsert,
-                 MessageContent="You have NEW ASSIGNMENT <bettype> in <Match.No> - <League> - <Event> updated by <User>",
+                 MessageType=(int)MsgTemplateCode.DayShiftAssignmentInsert,
+                 MessageContent="[DayShift] You have NEW ASSIGNMENT <bettype> in <League>",
                  IsImportant = true
             },
             new MessageTemplate
             {
-                 MessageType=(int)MsgTemplateCode.OtherAssignmentInsert,
-                 MessageContent="You have NEW ASSIGNMENT <bettype> in <Match.No> - <League> - <Event> updated by <User>",
+                 MessageType=(int)MsgTemplateCode.DayShiftAssignmentDelete,
+                 MessageContent="[DayShift] You have been REMOVED from <bettype> in <League>",
                  IsImportant = true
             },
             new MessageTemplate
             {
-                 MessageType=(int)MsgTemplateCode.AssignmentUpdate,
-                 MessageContent="UPDATED ASSIGNEE of <bettype> from <old value> change to <newvalue> for <Match.No> - <League> - <Event> Updated by <User> ",
+                 MessageType=(int)MsgTemplateCode.DayShiftOtherAssignmentUpdate,
+                 MessageContent="[DayShift] <bettype>'s Assignee has been updated from <old value> to <newvalue> in your assignment <League>",
                  IsImportant = true
             },
             new MessageTemplate
             {
-                 MessageType=(int)MsgTemplateCode.OtherAssignmentUpdate,
-                 MessageContent="UPDATED ASSIGNEE of <bettype> from <old value> change to <newvalue> for <Match.No> - <League> - <Event> Updated by <User> ",
+                 MessageType=(int)MsgTemplateCode.NightShiftAssignmentInsert,
+                 MessageContent="[NightShift] You have NEW ASSIGNMENT <bettype> in <League>",
                  IsImportant = true
             },
             new MessageTemplate
             {
-                 MessageType=(int)MsgTemplateCode.AssignmentDelete,
-                 MessageContent="You have been REMOVED from <Match.No> - <League> - <Event> updated by <User>",
+                 MessageType=(int)MsgTemplateCode.NightShiftAssignmentDelete,
+                 MessageContent="[NightShift] You have been REMOVED from <bettype> in <League>",
                  IsImportant = true
             },
             new MessageTemplate
             {
-                 MessageType=(int)MsgTemplateCode.OtherAssignmentDelete,
-                 MessageContent="You have been REMOVED from <Match.No> - <League> - <Event> updated by <User>",
+                 MessageType=(int)MsgTemplateCode.NightShiftOtherAssignmentUpdate,
+                 MessageContent="[NightShift] <bettype>'s Assignee has been updated from <old value> to <newvalue> in your assignment <League>",
                  IsImportant = true
             },
             new MessageTemplate
@@ -244,7 +244,6 @@
             var messageTemplate = messageTemplateMap[messageGroup.MessageTypeId];
             var content = messageTemplate.MessageContent;
 
-            var assignmentNote = Regex.Replace(messageGroup.AssignmentNote, "#<user>", "", RegexOptions.IgnoreCase);
 
             content = content.Replace("<newvalue>", "<b><newvalue></b>");
             content = content.Replace("<bettype>", "<b><bettype></b>");
