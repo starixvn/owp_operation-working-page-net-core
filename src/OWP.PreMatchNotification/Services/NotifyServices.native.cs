@@ -1,6 +1,7 @@
 ﻿namespace OWP.PreMatchNotification.Services
 {
     using Microsoft.AspNetCore.SignalR;
+    using OWP.PreMatchNotification.Hubs;
     using OWP.PreMatchNotification.Models;
     using System;
     using System.Collections.Generic;
@@ -13,9 +14,9 @@
 
     public class NotifyServicesImp: NotifyServices
     {
-        private readonly IHubContext<ChangedInfoNotifyHubImp, ChangedInfoNotifyHub> notifyChangedHub;
+        private readonly IHubContext<PreMatchInfoNotifyHubImp, PreMatchInfoNotifyHub> notifyChangedHub;
 
-        public NotifyServicesImp(IHubContext<ChangedInfoNotifyHubImp, ChangedInfoNotifyHub> notifyChangedHub)
+        public NotifyServicesImp(IHubContext<PreMatchInfoNotifyHubImp, PreMatchInfoNotifyHub> notifyChangedHub)
         {
             this.notifyChangedHub = notifyChangedHub;
         }

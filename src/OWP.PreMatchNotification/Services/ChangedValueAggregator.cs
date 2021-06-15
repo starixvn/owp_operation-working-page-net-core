@@ -18,8 +18,6 @@
 
         IEnumerable<ChangedValue> GetIndirectMainAssignmentChangedValues(List<ChangedValue> changedValues);
 
-        IEnumerable<ChangedValue> GetIndirectOtherAssignmentChangedValues(List<ChangedValue> changedValues);
-
         IEnumerable<ChangedValue> GetNonAggregatedChangedValues(List<ChangedValue> changedValues);
     }
 
@@ -67,13 +65,9 @@
         {
             var nonAggregatedChangedValues = GetNonAggregatedChangedValues(changedValues);
             var indirectMainAssignmentChangedValues = GetIndirectMainAssignmentChangedValues(changedValues);
-            var indirectOtherAssignmentChangedValues = GetIndirectOtherAssignmentChangedValues(changedValues);
-
             var aggregatedValueForIndirectMainAssignments = GetAggregatedValueForIndirectMainAssignments(indirectMainAssignmentChangedValues);
-            var aggreatedValueForIndirectOtherAssignments = GetAggreatedValueForIndirectOtherAssignments(indirectOtherAssignmentChangedValues);
 
             return nonAggregatedChangedValues.Union(aggregatedValueForIndirectMainAssignments)
-                                            .Union(aggreatedValueForIndirectOtherAssignments)
                                             .Distinct(new AssignmentChangedValueComparer())
                                             .ToList();
         }
@@ -83,20 +77,7 @@
             return changedValues.Where(m =>
             {
                 var isMainAssignment = m.MessageTypeId == (int)MsgTemplateCode.AssignmentDelete || m.MessageTypeId == (int)MsgTemplateCode.AssignmentInsert;
-                var isOtherAssignment = m.MessageTypeId == (int)MsgTemplateCode.OtherAssignmentDelete || m.MessageTypeId == (int)MsgTemplateCode.OtherAssignmentInsert;
-
-                return !m.IsIndirectChangedAssignment || !isMainAssignment && !isOtherAssignment;
-            });
-        }
-
-        public IEnumerable<ChangedValue> GetIndirectOtherAssignmentChangedValues(List<ChangedValue> changedValues)
-        {
-            return changedValues.Where(m =>
-            {
-                var isOtherAssignment = m.MessageTypeId == (int)MsgTemplateCode.OtherAssignmentDelete ||
-                                        m.MessageTypeId == (int)MsgTemplateCode.OtherAssignmentInsert;
-
-                return m.IsIndirectChangedAssignment && isOtherAssignment;
+                return !m.IsIndirectChangedAssignment || !isMainAssignment;
             });
         }
 
@@ -115,7 +96,7 @@
             var changedValuesGroupBy = changedValues.GroupBy(v => new AssignmentGroup
             {
                 InfoSiteMatchId = v.InfoSiteMatchId,
-                BetTypeName = v.BetTypeName,
+                BetType = v.BetType,
                 AssigneeId = v.UserId,
                 IsIndirectChanged = v.IsIndirectChangedAssignment
             });
