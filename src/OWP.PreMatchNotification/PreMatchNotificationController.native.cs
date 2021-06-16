@@ -39,5 +39,12 @@
         {
             
         }
+
+        [Route("notify-assignment")]
+        [HttpGet]
+        public async Task NotifyLinkedLGAMatch(string redisKey)
+        {
+
+        }
     }
 }
