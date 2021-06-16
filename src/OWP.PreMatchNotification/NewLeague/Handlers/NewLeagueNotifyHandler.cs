@@ -5,8 +5,12 @@
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using Fanex.Data.Repository;
     using MediatR;
+    using OWP.PreMatchNotification.Constants;
     using OWP.PreMatchNotification.Models;
+    using OWP.PreMatchNotification.NewLeague.Criteria;
+    using OWP.PreMatchNotification.NewLeague.Models;
     using OWP.PreMatchNotification.NewLeague.Services;
     using OWP.PreMatchNotification.Services;
 
@@ -23,7 +27,7 @@
     {
         private readonly CacheManipulator cacheManipulator;
 
-        private readonly Repository queryRepository;
+        private readonly DynamicRepository dynamicRepository;
 
         private readonly NewLeagueValueGenerator newLeagueGenerator;
 
@@ -37,7 +41,7 @@
 
         public NewLeagueNotifyHandler(
             CacheManipulator cacheManipulator,
-            Repository queryRepository,
+            DynamicRepository dynamicRepository,
             NewLeagueValueGenerator newLeagueGenerator,
             ChangedValueAggregator changedValueAggregator,
             MessageFactory messageFactory,
@@ -45,7 +49,7 @@
             NotifyServices notify)
         {
             this.cacheManipulator = cacheManipulator;
-            this.queryRepository = queryRepository;
+            this.dynamicRepository = dynamicRepository;
             this.newLeagueGenerator = newLeagueGenerator;
             this.changedValueAggregator = changedValueAggregator;
             this.messageFactory = messageFactory;
@@ -69,13 +73,25 @@
         private async Task<IList<ChangedValue>> GenerateMessages(NewLeagueNotifyRequest request)
         {
             var oldSnapshot = await cacheManipulator.GetOldPreMatchLeagueSnapshot(request.SessionId);
-            var newSnapshot = await queryRepository.GetPreMatchLeagueNewSnapshot(request.FromDate, request.ToDate);
-            var preMatchAssignees = await queryRepository.GetPreMatchAssignee();
+            var newSnapshot = await GetPreMatchLeagueNewSnapshot(request.FromDate, request.ToDate);
+            var preMatchAssignees = await commandRepository.GetEmployeesBySection(Section.PreMatch);
             var messages = newLeagueGenerator.Create(oldSnapshot, newSnapshot, preMatchAssignees);
 
             await cacheManipulator.DeleteOldPreMatchLeagueSnapshot(request.SessionId);
 
             return messages.ToList();
+        }
+
+        private async Task<IList<PreMatchLeague>> GetPreMatchLeagueNewSnapshot(DateTime fromDate, DateTime toDate)
+        {
+            var criteria = new GetPreMatchLeaguesCriteria
+            {
+                FromDate = fromDate,
+                ToDate = toDate
+            };
+            var result = await dynamicRepository.FetchAsync<PreMatchLeague>(criteria).ConfigureAwait(false);
+
+            return result.ToList();
         }
     }
 }

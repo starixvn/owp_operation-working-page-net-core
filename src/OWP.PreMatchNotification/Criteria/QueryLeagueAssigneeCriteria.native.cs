@@ -4,7 +4,7 @@
 
     public class QueryLeagueAssigneeCriteria : CriteriaBase
     {
-        public int PreMatchLeagueId { get; set; }
+        public string PreMatchLeagueIds { get; set; }
 
         public override string GetSettingKey() => "OWP_PreMatchNotification_QueryLeagueAssignee";
 
