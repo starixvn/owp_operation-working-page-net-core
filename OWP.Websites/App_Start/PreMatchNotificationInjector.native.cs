@@ -1,16 +1,31 @@
 ﻿namespace OWP.Websites.App_Start
 {
     using Microsoft.Extensions.DependencyInjection;
-    using PreMatchNotification;
-    using PreMatchNotification.Services;
+    using PreMatchNotification = PreMatchNotification.Services;
+    using LinkedMatch = PreMatchNotification.LinkedMatch.Services;
+    using InfoSiteMatchInfo = PreMatchNotification.InfoSiteMatchInfo.Services;
+    using NewLeague = PreMatchNotification.NewLeague.Services;
 
     public static class PreMatchNotificationInjector
     {
         public static void InjectPreMatchNotification(this IServiceCollection services)
         {
-            services.AddScoped<Repository, RepositoryImp>();
-            services.AddScoped<CacheManipulator, CacheManipulatorImp>();
-            services.AddScoped<ChangedValueByCacheAndDatabase, ChangedValueByCacheAndDatabaseImp>();
+            services.AddScoped<PreMatchNotification.ChangedValueAggregator, PreMatchNotification.ChangedValueAggregatorImp>();
+            services.AddScoped<PreMatchNotification.CommandRepository, PreMatchNotification.CommandRepositoryImp>();
+            services.AddScoped<PreMatchNotification.MessageFactory, PreMatchNotification.MessageFactoryImp>();
+            services.AddScoped<PreMatchNotification.NotifyServices, PreMatchNotification.NotifyServicesImp>();
+
+            // LinkedMatch
+            services.AddScoped<LinkedMatch.CacheManipulator, LinkedMatch.CacheManipulatorImp>();
+            services.AddScoped<LinkedMatch.ChangedLinkedMatchDetector, LinkedMatch.ChangedLinkedMatchDetectorImp>();
+            services.AddScoped<LinkedMatch.ChangedLiveMatchGenerator, LinkedMatch.ChangedLiveMatchGeneratorImp>();
+            services.AddScoped<LinkedMatch.ChangedMatchStatusGenerator, LinkedMatch.ChangedMatchStatusGeneratorImp>();
+            services.AddScoped<LinkedMatch.Repository, LinkedMatch.RepositoryImp>();
+
+            // InfoSiteMatchInfo
+
+            // NewLeague
+
         }
     }
 }
