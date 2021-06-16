@@ -207,10 +207,16 @@ namespace OWP.Websites
             services.AddScoped<IDynamicRepository, DynamicRepository>();
             services.AddSingleton<LogServiceWrapper, LogServiceWrapperImp>();
             services.AddSingleton<ConfigurationService, ConfigurationServiceImp>();
-            services.AddSignalR();
-            services.AddSingleton<NewDataUploadNotifyHubImp>();
         }
 
+        private void ConfigureSignalR(IServiceCollection services)
+        {
+            var redisConfig = Configuration.GetSection("AuthSettings:RedisConfig").Value;
+            services.AddSignalR().AddStackExchangeRedis(redisConfig, options => {
+                options.Configuration.ChannelPrefix = "OWPNetCore";
+            });
+            services.AddSingleton<NewDataUploadNotifyHubImp>();
+        }
         private static void ConfigureMediator(IServiceCollection services)
         {
             services.AddMediatR(typeof(MaxbetController).GetTypeInfo().Assembly);
