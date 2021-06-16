@@ -269,6 +269,7 @@
     <Setting Key="OWP_PreMatchNotification_QueryLeague" SpName="OWP_PreMatchNotification_QueryLeague" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_PreMatchNotification_QueryEmployeeBySection" SpName="OWP_PreMatchNotification_QueryEmployeeBySection" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_PreMatchNotification_QueryLeagueAssignee" SpName="OWP_PreMatchNotification_QueryLeagueAssignee" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_PreMatchNotification_QueryInfoSiteMatchesByDate" SpName="OWP_PreMatchNotification_QueryInfoSiteMatchesByDate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />  
+    <Setting Key="OWP_PreMatchNotification_QueryInfoSiteMatchesByDate" SpName="OWP_PreMatchNotification_QueryInfoSiteMatchesByDate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+    <Setting Key="OWP_PreMatchNotification_QueryLeagueAssigneeByOWPLeagueIds" SpName="OWP_PreMatchNotification_QueryLeagueAssigneeByOWPLeagueIds" DbName="DBOWP.bodb_OWP.bodbOWPNet" />  
   </Function>
 </Functions>

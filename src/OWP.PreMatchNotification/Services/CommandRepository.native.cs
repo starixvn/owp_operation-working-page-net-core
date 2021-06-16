@@ -16,6 +16,8 @@
         Task<IList<Assignee>> GetEmployeesBySection(string section);
 
         Task<IList<Assignee>> GetPreMatchLeagueAssignees(IList<int> preMatchLeagueIds);
+
+        Task<IList<Assignee>> GetPreMatchLeagueAssigneesByOWPLeagueIds(IList<int> owpLeagueIds);
     }
 
     public class CommandRepositoryImp : CommandRepository
@@ -62,6 +64,17 @@
             var criteria = new QueryLeagueAssigneeCriteria
             {
                 PreMatchLeagueIds = string.Join(',', preMatchLeagueIds)
+            };
+            var result = await dynamicRepository.FetchAsync<Assignee>(criteria).ConfigureAwait(false);
+
+            return result.ToList();
+        }
+
+        public async Task<IList<Assignee>> GetPreMatchLeagueAssigneesByOWPLeagueIds(IList<int> owpLeagueIds)
+        {
+            var criteria = new QueryLeagueAssigneeCriteriaByOWPLeagueIds
+            {
+                OWPLeagueIds = string.Join(',', owpLeagueIds)
             };
             var result = await dynamicRepository.FetchAsync<Assignee>(criteria).ConfigureAwait(false);
 

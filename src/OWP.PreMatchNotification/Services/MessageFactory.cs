@@ -10,7 +10,7 @@
 
     public interface MessageFactory
     {
-        List<MessageModel> Transform(List<ChangedValue> changedValues);
+        List<MessageModel> Transform(IList<ChangedValue> changedValues);
     }
 
     public class MessageFactoryImp : MessageFactory
@@ -137,7 +137,7 @@ new MessageTemplate
 
             public bool IsBlinking { get; set; }
 
-            public List<Assignee> Assignees { get; set; }
+            public List<int> Assignees { get; set; }
         }
 
         #endregion MessageModelRaw
@@ -151,45 +151,45 @@ new MessageTemplate
             this.currentSession = currentSession;
         }
 
-        public List<MessageModel> Transform(List<ChangedValue> changedValues)
+        public List<MessageModel> Transform(IList<ChangedValue> changedValues)
         {
             var messageModels = TransformChangedValueToMessageModel(changedValues);
             return Reduce(messageModels);
         }
 
-        private List<MessageModelRaw> TransformChangedValueToMessageModel(List<ChangedValue> changedValues)
+        private List<MessageModelRaw> TransformChangedValueToMessageModel(IList<ChangedValue> changedValues)
         {
-            return changedValues.GroupBy(v => new MessageGroup(v))
+            return changedValues
                 .Select(g =>
                 {
-                    var messageTemplate = messageTemplateMap[g.Key.MessageTypeId];
-                    var content = CreateMessageContent(g.Key);
+                    var messageTemplate = messageTemplateMap[g.MessageTypeId];
+                    var content = CreateMessageContent(g);
 
                     return new MessageModelRaw
                     {
                         IsImportant = messageTemplate.IsImportant,
                         MessageContent = content,
-                        MessageType = g.Key.MessageTypeId,
-                        Assignees = g.Select(i => new Assignee { AssigneeId = i.UserId, AssigneeName = i.Username }).ToList(),
-                        IsBlinking = g.Key.IsBlinking
+                        MessageType = g.MessageTypeId,
+                        Assignees = g.ReceivedUserIds,
+                        IsBlinking = g.IsBlinking
                     };
                 }).ToList();
         }
 
-        private string CreateMessageContent(MessageGroup messageGroup)
+        private string CreateMessageContent(ChangedValue value)
         {
-            var messageTemplate = messageTemplateMap[messageGroup.MessageTypeId];
+            var messageTemplate = messageTemplateMap[value.MessageTypeId];
             var content = messageTemplate.MessageContent;
 
             content = content.Replace("<newvalue>", "<b><newvalue></b>");
             content = content.Replace("<bettype>", "<b><bettype></b>");
 
-            content = content.Replace("<newvalue>", string.IsNullOrWhiteSpace(messageGroup.NewValue)?"[]": messageGroup.NewValue);
-            content = content.Replace("<old value>", string.IsNullOrWhiteSpace(messageGroup.OldValue) ? "[]" : messageGroup.OldValue);
-            content = content.Replace("<League>", messageGroup.League);
-            content = content.Replace("<Event>", messageGroup.EventName);
+            content = content.Replace("<newvalue>", string.IsNullOrWhiteSpace(value.NewValue)?"[]": value.NewValue);
+            content = content.Replace("<old value>", string.IsNullOrWhiteSpace(value.OldValue) ? "[]" : value.OldValue);
+            content = content.Replace("<League>", value.League);
+            content = content.Replace("<Event>", value.EventName);
             content = content.Replace("<User>", currentSession.UserName);
-            content = content.Replace("<bettype>", messageGroup.BetTypeName);
+            content = content.Replace("<bettype>", value.BetTypeName);
 
             return content;
         }
@@ -205,7 +205,7 @@ new MessageTemplate
                         MessageType = m.Key.MessageType,
                         MessageContent = m.Key.MessageContent,
                         IsImportant = m.Key.IsImportant,
-                        ReceivedUserIds = assignees.Select(a => a.AssigneeId.ToString()).ToList(),
+                        ReceivedUserIds = assignees.Select(a => a.ToString()).ToList(),
                         IsBlinking = m.Key.IsBlinking
                     };
                 })

@@ -31,8 +31,6 @@
 
         private readonly NewLeagueValueGenerator newLeagueGenerator;
 
-        private readonly ChangedValueAggregator changedValueAggregator;
-
         private readonly MessageFactory messageFactory;
 
         private readonly CommandRepository commandRepository;
@@ -43,7 +41,6 @@
             CacheManipulator cacheManipulator,
             DynamicRepository dynamicRepository,
             NewLeagueValueGenerator newLeagueGenerator,
-            ChangedValueAggregator changedValueAggregator,
             MessageFactory messageFactory,
             CommandRepository commandRepository,
             NotifyServices notify)
@@ -51,7 +48,6 @@
             this.cacheManipulator = cacheManipulator;
             this.dynamicRepository = dynamicRepository;
             this.newLeagueGenerator = newLeagueGenerator;
-            this.changedValueAggregator = changedValueAggregator;
             this.messageFactory = messageFactory;
             this.commandRepository = commandRepository;
             this.notify = notify;
@@ -60,8 +56,7 @@
         public async Task<Unit> Handle(NewLeagueNotifyRequest request, CancellationToken cancellationToken)
         {
             var messages = await GenerateMessages(request);
-            var aggregatedChangedValues = changedValueAggregator.Aggregate(messages);
-            var messageModels = messageFactory.Transform(aggregatedChangedValues);
+            var messageModels = messageFactory.Transform(messages);
 
             await commandRepository.InsertMessage(messageModels, request.SessionId);
 

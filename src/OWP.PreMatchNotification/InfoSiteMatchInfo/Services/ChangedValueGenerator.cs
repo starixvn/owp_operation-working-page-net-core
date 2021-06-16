@@ -6,12 +6,19 @@
 
     public interface ChangedValueGenerator
     {
-        IList<ChangedValue> Create(IList<InfoSiteMatch> oldSnapshot, IList<InfoSiteMatch> newSnapshot);
+        IList<ChangedValue> CreateAssigneeMessages(IList<InfoSiteMatch> oldSnapshot, IList<InfoSiteMatch> newSnapshot, IList<Assignee> preMatchAssignees);
+
+        IList<ChangedValue> CreateLSTMessages(IList<ChangedValue> changedValues, IList<Assignee> preMatchAssignees);
     }
 
     public class ChangedValueGeneratorImp : ChangedValueGenerator
     {
-        public IList<ChangedValue> Create(IList<InfoSiteMatch> oldSnapshot, IList<InfoSiteMatch> newSnapshot)
+        public IList<ChangedValue> CreateAssigneeMessages(IList<InfoSiteMatch> oldSnapshot, IList<InfoSiteMatch> newSnapshot, IList<Assignee> preMatchAssignees)
+        {
+            return new List<ChangedValue>();
+        }
+
+        public IList<ChangedValue> CreateLSTMessages(IList<ChangedValue> changedValues, IList<Assignee> preMatchAssignees)
         {
             return new List<ChangedValue>();
         }

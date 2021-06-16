@@ -18,18 +18,12 @@
 
             foreach(var league in newLeagues)
             {
-                var leagueAssignees = assignees.Where(x => x.PreMatchLeagueId == league.PreMatchLeagueId);
-
-                foreach(var assignee in assignees)
+                yield return new ChangedValue
                 {
-                    yield return new ChangedValue
-                    {
-                        IsBlinking = true,
-                        League = league.OWPLeagueName,
-                        UserId = assignee.AssigneeId,
-                        Username = assignee.AssigneeName
-                    };
-                }
+                    IsBlinking = true,
+                    League = league.OWPLeagueName,
+                    ReceivedUserIds = assignees.Where(x => x.PreMatchLeagueId == league.PreMatchLeagueId).Select(x => x.AssigneeId).ToList()
+                };
             }
         }
 
