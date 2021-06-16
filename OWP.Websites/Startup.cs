@@ -26,6 +26,7 @@ namespace OWP.Websites
             ConfigureAuthorization(services);
             ConfigureAuthentication(services);
             ConfigureRedis(services);
+            ConfigureSignalR(services);
             ConfigureSession(services);
 
             ConfigureNapServices(services);
