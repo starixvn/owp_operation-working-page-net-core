@@ -22,7 +22,7 @@
                 {
                     IsBlinking = true,
                     League = league.OWPLeagueName,
-                    ReceivedUserIds = assignees.Where(x => x.PreMatchLeagueId == league.PreMatchLeagueId).Select(x => x.AssigneeId).ToList()
+                    ReceivedUserIds = assignees.Select(x => x.AssigneeId).ToList()
                 };
             }
         }

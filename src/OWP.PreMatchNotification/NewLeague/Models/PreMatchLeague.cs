@@ -16,7 +16,7 @@
         public string OWPLeagueName { get; set; }
 
         public bool Equals(PreMatchLeague x, PreMatchLeague y)
-            => x.OWPLeagueId == y.OWPLeagueId && x.EventDate == y.EventDate;
+            => x.OWPLeagueId == y.OWPLeagueId;
 
         public int GetHashCode(PreMatchLeague obj)
             => PreMatchLeagueId * 13 + OWPLeagueId * 17;
