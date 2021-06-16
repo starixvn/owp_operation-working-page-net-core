@@ -4,9 +4,7 @@
 
     public class ChangedValue
     {
-        public int UserId { get; set; }
-
-        public string Username { get; set; }
+        public List<int> ReceivedUserIds { get; set; }
 
         public int MessageTypeId { get; set; }
 

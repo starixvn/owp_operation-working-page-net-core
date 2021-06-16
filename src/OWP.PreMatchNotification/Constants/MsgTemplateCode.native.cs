@@ -9,5 +9,8 @@
         NightShiftAssignmentDelete = 202,
         NightShiftOtherAssignmentUpdate = 206,
         NewLeague = 207,
+        LGAAddLiveMatch = 208,
+        LGACancelLiveMatch = 209,
+        LGAChangeMatchStatus = 210
     };
 }

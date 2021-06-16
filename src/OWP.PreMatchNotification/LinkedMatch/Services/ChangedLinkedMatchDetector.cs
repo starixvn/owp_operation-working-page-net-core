@@ -27,6 +27,16 @@
 
         public async Task<List<ChangedValue>> Create(List<GeneralMatch> oldMatches, List<GeneralMatch> newMatches, List<PrematchLeague> prematchLeagues)
         {
+            var changedSnapshot = GetChangedSnapshot(oldMatches, newMatches, prematchLeagues);
+
+            var liveMatchMessage = await changedLiveMatchGenerator.Create(changedSnapshot);
+            var matchStatusMessage = await changedLiveMatchGenerator.Create(changedSnapshot);
+
+            return new List<ChangedValue>();
+        }
+
+        public ChangedSnapshot GetChangedSnapshot(List<GeneralMatch> oldMatches, List<GeneralMatch> newMatches, List<PrematchLeague> prematchLeagues)
+        {
             var filteredOldMatches = FilterExistPrematches(oldMatches, prematchLeagues);
             var filteredNewMatches = FilterExistPrematches(newMatches, prematchLeagues);
 
@@ -34,10 +44,15 @@
             var insertedMatches = GetInsertedLinkedMatches(filteredOldMatches, filteredNewMatches);
             var changedMatches = GetChangedLinkedMatches(filteredOldMatches, filteredNewMatches);
 
-            //var liveMatchMessage = await changedLiveMatchGenerator.Create();
-            //var liveMatchMessage = await changedLiveMatchGenerator.Create();
-
-            return new List<ChangedValue>();
+            return new ChangedSnapshot
+            {
+                DeletedMatches = deletedMatches,
+                InsertedMatches = insertedMatches,
+                ChangedMatches = changedMatches,
+                OldSnapshot = oldMatches,
+                NewSnapshot = newMatches,
+                PrematchLeagues = prematchLeagues
+            };
         }
 
         public IEnumerable<GeneralMatch> FilterExistPrematches(List<GeneralMatch> matches, List<PrematchLeague> prematchLeagues)
