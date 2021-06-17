@@ -7,7 +7,9 @@ namespace OWP.PreMatchNotification.Services
 {
     public interface CacheManipulatorCommon
     {
-        Task<IList<T>> GetData<T>(string key);
+        Task<IList<T>> GetMultipleData<T>(string key);
+
+        Task<T> GetSingleData<T>(string key, T defaultValue);
 
         Task RemoveData(string key);
     }
@@ -21,7 +23,7 @@ namespace OWP.PreMatchNotification.Services
             this.cache = cache;
         }
 
-        public async Task<IList<T>> GetData<T>(string key)
+        public async Task<IList<T>> GetMultipleData<T>(string key)
         {
             (_, var value) = await cache.TryGetAsync<string>(key);
             var assignmentSnapshot = string.IsNullOrEmpty(value)
@@ -29,6 +31,16 @@ namespace OWP.PreMatchNotification.Services
                 : JsonConvert.DeserializeObject<List<T>>(value);
 
             return assignmentSnapshot ?? new List<T>();
+        }
+
+        public async Task<T> GetSingleData<T>(string key, T defaultValue)
+        {
+            (_, var value) = await cache.TryGetAsync<string>(key);
+            var assignmentSnapshot = string.IsNullOrEmpty(value)
+                ? defaultValue
+                : JsonConvert.DeserializeObject<T>(value);
+
+            return assignmentSnapshot ?? defaultValue;
         }
 
         public async Task RemoveData(string key)

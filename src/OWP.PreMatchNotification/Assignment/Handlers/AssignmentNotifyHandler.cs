@@ -1,12 +1,88 @@
-﻿using System;
+﻿using MediatR;
+using OWP.PreMatchNotification.Assignment.Criteria;
+using OWP.PreMatchNotification.Assignment.Models;
+using OWP.PreMatchNotification.Models;
+using OWP.PreMatchNotification.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace OWP.PreMatchNotification.Assignment.Handlers
 {
-    class AssignmentNotifyHandler
+    public class AssignmentNotifyRequest : IRequest<Unit>
     {
+        public string redisKey { get; set; }
+
+        public string SessionId { get; set; }
+    }
+
+    public class NewLeagueNotifyHandler : IRequestHandler<AssignmentNotifyRequest, Unit>
+    {
+        private readonly CacheManipulatorCommon cacheManipulator;
+
+        private readonly DynamicRepository dynamicRepository;
+
+        private readonly NewLeagueValueGenerator newLeagueGenerator;
+
+        private readonly MessageFactory messageFactory;
+
+        private readonly CommandRepository commandRepository;
+
+        private readonly NotifyServices notify;
+
+        public NewLeagueNotifyHandler(
+            CacheManipulator cacheManipulator,
+            DynamicRepository dynamicRepository,
+            NewLeagueValueGenerator newLeagueGenerator,
+            MessageFactory messageFactory,
+            CommandRepository commandRepository,
+            NotifyServices notify)
+        {
+            this.cacheManipulator = cacheManipulator;
+            this.dynamicRepository = dynamicRepository;
+            this.newLeagueGenerator = newLeagueGenerator;
+            this.messageFactory = messageFactory;
+            this.commandRepository = commandRepository;
+            this.notify = notify;
+        }
+
+        public async Task<Unit> Handle(AssignmentNotifyRequest request, CancellationToken cancellationToken)
+        {
+            var messages = await GenerateMessages(request);
+            var messageModels = messageFactory.Transform(messages);
+
+            await commandRepository.InsertMessage(messageModels, request.SessionId);
+
+            await notify.Notify(messageModels);
+
+            return await Task.FromResult(Unit.Value);
+        }
+
+        private async Task<IList<ChangedValue>> GenerateMessages(AssignmentNotifyRequest request)
+        {
+            var oldSnapshot = await cacheManipulator.GetMultipleData<AssignmentSnapshot>(request.redisKey);
+            var preMatchLeagueIdUpdated = oldSnapshot.Select(item => item.PreMatchLeagueId).ToList();
+            var newSnapshot = await GetAssignmentNewSnapshot(preMatchLeagueIdUpdated);
+            var preMatchAssignees = await commandRepository.GetEmployeesBySection(Section.PreMatch);
+            var messages = newLeagueGenerator.Create(oldSnapshot, newSnapshot, preMatchAssignees);
+            return messages.ToList();
+        }
+
+        private async Task<IList<AssignmentSnapshot>> GetAssignmentNewSnapshot(IList<int> prematchIds)
+        {
+            var assignmentOldValue = new List<AssignmentSnapshot>();
+            foreach (var id in prematchIds)
+            {
+                var assignmentResult = await dynamicRepository.FetchAsync<AssignmentSnapshot>(new QueryAssignmentByPrematchLeagueIdCriteria
+                {
+                    PreMatchLeagueId = id
+                });
+                assignmentOldValue.Add(assignmentResult.FirstOrDefault());
+            }
+            return assignmentOldValue;
+        }
     }
 }

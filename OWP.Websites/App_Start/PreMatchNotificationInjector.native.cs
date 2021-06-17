@@ -13,6 +13,7 @@
             services.AddScoped<PreMatchNotification.CommandRepository, PreMatchNotification.CommandRepositoryImp>();
             services.AddScoped<PreMatchNotification.MessageFactory, PreMatchNotification.MessageFactoryImp>();
             services.AddScoped<PreMatchNotification.NotifyServices, PreMatchNotification.NotifyServicesImp>();
+            services.AddScoped<PreMatchNotification.CacheManipulatorCommon, PreMatchNotification.CacheManipulatorCommonImp>();
 
             // LinkedMatch
             services.AddScoped<LinkedMatch.CacheManipulator, LinkedMatch.CacheManipulatorImp>();
