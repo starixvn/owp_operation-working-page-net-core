@@ -20,7 +20,6 @@
             {
                 yield return new ChangedValue
                 {
-                    IsBlinking = true,
                     League = league.OWPLeagueName,
                     ReceivedUserIds = assignees.Select(x => x.AssigneeId).ToList()
                 };

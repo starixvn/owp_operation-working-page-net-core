@@ -22,9 +22,11 @@
             new MessageTemplate
             {
                 MessageType = (int)MsgTemplateCode.NewLeague,
-                MessageContent = "<b>New Add</b> <League>"
+                MessageContent = "<b>New Add</b> <League>",
+                IsImportant = true,
+                IsBlinking = true
             },
-new MessageTemplate
+            new MessageTemplate
             {
                  MessageType=(int)MsgTemplateCode.DayShiftAssignmentInsert,
                  MessageContent="[DayShift] You have NEW ASSIGNMENT <bettype> in <League>",
@@ -59,7 +61,28 @@ new MessageTemplate
                  MessageType=(int)MsgTemplateCode.NightShiftOtherAssignmentUpdate,
                  MessageContent="[NightShift] <bettype>'s Assignee has been updated from <old value> to <newvalue> in your assignment <League>",
                  IsImportant = true
-            }
+            },
+            new MessageTemplate
+            {
+                 MessageType=(int)MsgTemplateCode.LGAAddLiveMatch,
+                 MessageContent="ADD LIVE for <K.O Time> <League> - <Event>",
+                 IsImportant = true,
+                 IsBlinking = true
+            },
+            new MessageTemplate
+            {
+                 MessageType=(int)MsgTemplateCode.LGACancelLiveMatch,
+                 MessageContent="CANCEL LIVE for <K.O Time> <League> - <Event>",
+                 IsImportant = true,
+                 IsBlinking = true
+            },
+            new MessageTemplate
+            {
+                 MessageType=(int)MsgTemplateCode.LGAChangeMatchStatus,
+                 MessageContent="Has been <newvalue> for match: <League> <Event>; Previous <old value>",
+                 IsImportant = true,
+                 IsBlinking = true
+            },
         });
 
         #endregion MessageTemplate
@@ -77,7 +100,6 @@ new MessageTemplate
                 League = value.League;
                 EventName = value.EventName;
                 InfoSiteMatchId = value.InfoSiteMatchId;
-                IsBlinking = value.IsBlinking;
             }
 
             public int InfoSiteMatchId { get; set; }
@@ -171,7 +193,7 @@ new MessageTemplate
                         MessageContent = content,
                         MessageType = g.MessageTypeId,
                         Assignees = g.ReceivedUserIds,
-                        IsBlinking = g.IsBlinking
+                        IsBlinking = messageTemplate.IsBlinking
                     };
                 }).ToList();
         }
@@ -190,6 +212,7 @@ new MessageTemplate
             content = content.Replace("<Event>", value.EventName);
             content = content.Replace("<User>", currentSession.UserName);
             content = content.Replace("<bettype>", value.BetTypeName);
+            content = content.Replace("<K.O Time>", value.KOTime);
 
             return content;
         }

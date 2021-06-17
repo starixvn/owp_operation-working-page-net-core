@@ -22,9 +22,9 @@
 
         public string BetTypeName { get; set; }
 
-        public bool IsIndirectChangedAssignment { get; set; }
+        public string KOTime { get; set; }
 
-        public bool IsBlinking { get; set; }
+        public bool IsIndirectChangedAssignment { get; set; }
     }
 
     public class AssignmentChangedValueComparer : ChangedValue, IEqualityComparer<ChangedValue>

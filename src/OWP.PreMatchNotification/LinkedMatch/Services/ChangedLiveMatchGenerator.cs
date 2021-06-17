@@ -44,10 +44,10 @@
 
                 yield return new ChangedValue
                 {
-                    IsBlinking = true,
                     MessageTypeId = messageTypeId,
                     League = match.LeagueName,
                     EventName = match.Home + EVENT_VS + match.Away,
+                    KOTime = match.KickOffTime.ToString("hh:mm tt"),
                     ReceivedUserIds = prematchAssigneeIds.Count() == 0
                         ? employees.AllPrematchEmployees.Union(employees.AllLSTEmployees).Select(x => x.AssigneeId).ToList()
                         : prematchAssigneeIds.Union(employees.AllLSTEmployees.Select(x => x.AssigneeId)).ToList()

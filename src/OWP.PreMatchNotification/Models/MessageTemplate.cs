@@ -7,5 +7,7 @@
         public string MessageContent { get; set; }
 
         public bool IsImportant { get; set; }
+
+        public bool IsBlinking { get; set; }
     }
 }

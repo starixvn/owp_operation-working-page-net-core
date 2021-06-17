@@ -64,7 +64,7 @@
                 var newMatches = await queryRepository.GetLGAMatchNewSnapshot(request.EventDate);
                 var employees = await GetEmployees(request.EventDate);
 
-                var messages = await changedValueBySnapshot.Create(oldMatches, newMatches, employees);
+                var messages = changedValueBySnapshot.Create(oldMatches, newMatches, employees);
 
                 await cacheManipulator.DeleteAssignmentSnapshot(request.SessionId, request.EventDate);
 

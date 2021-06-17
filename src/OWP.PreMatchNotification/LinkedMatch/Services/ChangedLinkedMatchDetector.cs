@@ -11,7 +11,7 @@
 
     public interface ChangedLinkedMatchDetector
     {
-        Task<List<ChangedValue>> Create(List<GeneralMatch> oldMatches, List<GeneralMatch> newMatches, Employee employees);
+        List<ChangedValue> Create(List<GeneralMatch> oldMatches, List<GeneralMatch> newMatches, Employee employees);
     }
 
     public class ChangedLinkedMatchDetectorImp : ChangedLinkedMatchDetector
@@ -30,7 +30,7 @@
             this.commandRepository = commandRepository;
         }
 
-        public async Task<List<ChangedValue>> Create(List<GeneralMatch> oldMatches, List<GeneralMatch> newMatches, Employee employees)
+        public List<ChangedValue> Create(List<GeneralMatch> oldMatches, List<GeneralMatch> newMatches, Employee employees)
         {
             var changedSnapshot = GetChangedSnapshot(oldMatches, newMatches, employees);
 
