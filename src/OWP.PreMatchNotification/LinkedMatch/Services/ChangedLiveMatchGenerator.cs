@@ -1,55 +1,59 @@
 ﻿namespace OWP.PreMatchNotification.LinkedMatch.Services
 {
+    using OWP.Extensions;
     using OWP.PreMatchNotification.Constants;
     using OWP.PreMatchNotification.LinkedMatch.Models;
     using OWP.PreMatchNotification.Models;
-    using OWP.PreMatchNotification.Services;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
 
     public interface ChangedLiveMatchGenerator
     {
-        Task<List<ChangedValue>> Create(ChangedSnapshot changedSnapshot);
+        List<ChangedValue> Create(ChangedSnapshot changedSnapshot, IList<Assignee> allPrematchEmployees, List<Assignee> prematchAssignees);
     }
 
     public class ChangedLiveMatchGeneratorImp : ChangedLiveMatchGenerator
     {
-        private readonly CommandRepository commandRepository;
         private const string EVENT_VS = " -vs- ";
 
-        public ChangedLiveMatchGeneratorImp(CommandRepository commandRepository)
+        public List<ChangedValue> Create(ChangedSnapshot changedSnapshot, IList<Assignee> allPrematchEmployees, List<Assignee> prematchAssignees)
         {
-            this.commandRepository = commandRepository;
+            var cancelLiveMatchesChangedValue = CreateDeletedMatchesChangedValue(changedSnapshot, allPrematchEmployees, prematchAssignees);
+            var addLiveMatchesChangedValue = CreateDeletedMatchesChangedValue(changedSnapshot, allPrematchEmployees, prematchAssignees);
+
+            return cancelLiveMatchesChangedValue.Union(addLiveMatchesChangedValue).ToList();
         }
 
-        public async Task<List<ChangedValue>> Create(ChangedSnapshot changedSnapshot)
+        public IEnumerable<ChangedValue> CreateDeletedMatchesChangedValue(ChangedSnapshot changedSnapshot, IList<Assignee> allPrematchEmployees, List<Assignee> prematchAssignees)
+            => CreateMatchesChangedValue(true, changedSnapshot, allPrematchEmployees, prematchAssignees);
+
+        public IEnumerable<ChangedValue> CreateInsertedMatchesChangedValue(ChangedSnapshot changedSnapshot, IList<Assignee> allPrematchEmployees, List<Assignee> prematchAssignees)
+            => CreateMatchesChangedValue(false, changedSnapshot, allPrematchEmployees, prematchAssignees);
+
+        public IEnumerable<ChangedValue> CreateMatchesChangedValue(
+            bool isDeletedMatches, ChangedSnapshot changedSnapshot, 
+            IList<Assignee> allPrematchEmployees, List<Assignee> prematchAssignees)
         {
+            var matches = isDeletedMatches ? changedSnapshot.DeletedMatches : changedSnapshot.InsertedMatches;
+            var messageTypeId = isDeletedMatches
+                ? (int)MsgTemplateCode.LGACancelLiveMatch
+                : (int)MsgTemplateCode.LGAAddLiveMatch;
 
-            return new List<ChangedValue>();
-        }
-
-        public async Task<List<ChangedValue>> CreateChangedValueDeletedMatches(ChangedSnapshot changedSnapshot)
-        {
-            var deletedMatches = changedSnapshot.DeletedMatches;
-            var prematchLeagueIds = changedSnapshot.PrematchLeagues.Select(x => x.PreMatchLeagueId).ToList();
-            var prematchAssignees = await commandRepository.GetPreMatchLeagueAssignees(prematchLeagueIds);
-            var result = new List<ChangedValue>();
-
-            foreach (var match in deletedMatches)
+            foreach (var match in matches)
             {
-                var prematchLeague = changedSnapshot.PrematchLeagues.FirstOrDefault(x => x.InfoSiteMatchId == match.InfoSiteMatchId);
+                var prematchLeague = changedSnapshot.PrematchLeagues.GetValue(match.InfoSiteMatchId, new PrematchLeague());
                 var prematchAssigneesByInfosite = prematchAssignees.Where(x => x.PreMatchLeagueId == prematchLeague.PreMatchLeagueId);
-                
-                result.Add(new ChangedValue
-                {
-                    MessageTypeId = (int)MsgTemplateCode.LGACancelLiveMatch,
-                    League = match.LeagueName,
-                    EventName = match.Home + EVENT_VS + match.Away
-                });
-            }
 
-            return result;
+                yield return new ChangedValue
+                {
+                    MessageTypeId = messageTypeId,
+                    League = match.LeagueName,
+                    EventName = match.Home + EVENT_VS + match.Away,
+                    ReceivedUserIds = prematchAssigneesByInfosite.Count() == 0
+                        ? allPrematchEmployees.Select(x => x.AssigneeId).ToList()
+                        : prematchAssigneesByInfosite.Select(x => x.AssigneeId).ToList()
+                };
+            }
         }
     }
 }

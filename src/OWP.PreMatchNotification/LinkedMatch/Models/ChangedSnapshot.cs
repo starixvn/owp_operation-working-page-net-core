@@ -14,6 +14,6 @@
 
         public List<GeneralMatch> NewSnapshot { get; set; }
 
-        public List<PrematchLeague> PrematchLeagues { get; set; }
+        public Dictionary<int, PrematchLeague> PrematchLeagues { get; set; }
     }
 }

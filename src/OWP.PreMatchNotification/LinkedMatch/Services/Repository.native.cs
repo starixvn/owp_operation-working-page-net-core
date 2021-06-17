@@ -7,13 +7,12 @@
     using Fanex.Data.Repository;
     using Criteria;
     using Models;
-    using Fanex.NAP.Client.Helpers.Web;
 
     public interface Repository
     {
         Task<List<GeneralMatch>> GetLGAMatchNewSnapshot(DateTime eventDate);
 
-        Task<List<PrematchLeague>> GetInfositePrematch(DateTime eventDate);
+        Task<Dictionary<int, PrematchLeague>> GetInfositePrematch(DateTime eventDate);
     }
 
     public class RepositoryImp : Repository
@@ -36,7 +35,7 @@
             return result.ToList();
         }
 
-        public async Task<List<PrematchLeague>> GetInfositePrematch(DateTime eventDate)
+        public async Task<Dictionary<int, PrematchLeague>> GetInfositePrematch(DateTime eventDate)
         {
             var criteria = new GetInfositePrematchCriteria
             {
@@ -44,7 +43,9 @@
                 EventFromDateTime = eventDate.AddHours(12)
             };
 
-            return (await dynamicRepository.FetchAsync<PrematchLeague>(criteria)).ToList();
+            var result = await dynamicRepository.FetchAsync<PrematchLeague>(criteria);
+
+            return result.ToDictionary(x => x.InfoSiteMatchId);
         }
     }
 }

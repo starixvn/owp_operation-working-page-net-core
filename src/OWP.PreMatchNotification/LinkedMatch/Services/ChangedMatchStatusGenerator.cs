@@ -8,13 +8,13 @@
 
     public interface ChangedMatchStatusGenerator
     {
-        Task<List<ChangedValue>> Create(ChangedSnapshot changedSnapshot);
+        List<ChangedValue> Create(ChangedSnapshot changedSnapshot, List<Assignee> prematchAssignees);
     }
 
     public class ChangedMatchStatusGeneratorImp : ChangedMatchStatusGenerator
     {       
 
-        public async Task<List<ChangedValue>> Create(ChangedSnapshot changedSnapshot)
+        public List<ChangedValue> Create(ChangedSnapshot changedSnapshot, List<Assignee> prematchAssignees)
         {
             
             return new List<ChangedValue>();

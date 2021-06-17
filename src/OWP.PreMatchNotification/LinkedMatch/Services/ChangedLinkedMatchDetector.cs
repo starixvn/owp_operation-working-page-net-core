@@ -1,7 +1,9 @@
 ﻿namespace OWP.PreMatchNotification.LinkedMatch.Services
 {
     using Models;
+    using OWP.PreMatchNotification.Constants;
     using OWP.PreMatchNotification.Models;
+    using OWP.PreMatchNotification.Services;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -9,36 +11,42 @@
 
     public interface ChangedLinkedMatchDetector
     {
-        Task<List<ChangedValue>> Create(List<GeneralMatch> oldMatches, List<GeneralMatch> newMatches, List<PrematchLeague> prematchLeagues);
+        Task<List<ChangedValue>> Create(List<GeneralMatch> oldMatches, List<GeneralMatch> newMatches, Dictionary<int, PrematchLeague> prematchLeagues);
     }
 
     public class ChangedLinkedMatchDetectorImp : ChangedLinkedMatchDetector
     {
         private readonly ChangedLiveMatchGenerator changedLiveMatchGenerator;
         private readonly ChangedMatchStatusGenerator changedMatchStatusGenerator;
+        private readonly CommandRepository commandRepository;
 
         public ChangedLinkedMatchDetectorImp(
             ChangedLiveMatchGenerator changedLiveMatchGenerator,
-            ChangedMatchStatusGenerator changedMatchStatusGenerator)
+            ChangedMatchStatusGenerator changedMatchStatusGenerator,
+            CommandRepository commandRepository)
         {
             this.changedLiveMatchGenerator = changedLiveMatchGenerator;
             this.changedMatchStatusGenerator = changedMatchStatusGenerator;
+            this.commandRepository = commandRepository;
         }
 
-        public async Task<List<ChangedValue>> Create(List<GeneralMatch> oldMatches, List<GeneralMatch> newMatches, List<PrematchLeague> prematchLeagues)
+        public async Task<List<ChangedValue>> Create(List<GeneralMatch> oldMatches, List<GeneralMatch> newMatches, Dictionary<int, PrematchLeague> prematchLeagues)
         {
             var changedSnapshot = GetChangedSnapshot(oldMatches, newMatches, prematchLeagues);
+            var prematchAssignees = await GetPrematchAssigneeIds(prematchLeagues);
+            var allPrematchEmployees = await commandRepository.GetEmployeesBySection(Section.PreMatch);
 
-            var liveMatchMessage = await changedLiveMatchGenerator.Create(changedSnapshot);
-            var matchStatusMessage = await changedLiveMatchGenerator.Create(changedSnapshot);
+            var liveMatchMessage = changedLiveMatchGenerator.Create(changedSnapshot, allPrematchEmployees, prematchAssignees);
+            var matchStatusMessage = changedMatchStatusGenerator.Create(changedSnapshot, prematchAssignees);
 
-            return new List<ChangedValue>();
+            return liveMatchMessage.Union(matchStatusMessage).ToList();
         }
 
-        public ChangedSnapshot GetChangedSnapshot(List<GeneralMatch> oldMatches, List<GeneralMatch> newMatches, List<PrematchLeague> prematchLeagues)
+        public ChangedSnapshot GetChangedSnapshot(List<GeneralMatch> oldMatches, List<GeneralMatch> newMatches, Dictionary<int, PrematchLeague> prematchLeagues)
         {
-            var filteredOldMatches = FilterExistPrematches(oldMatches, prematchLeagues);
-            var filteredNewMatches = FilterExistPrematches(newMatches, prematchLeagues);
+            var prematchLeagueList = prematchLeagues.Values.ToList();
+            var filteredOldMatches = FilterExistPrematches(oldMatches, prematchLeagueList);
+            var filteredNewMatches = FilterExistPrematches(newMatches, prematchLeagueList);
 
             var deletedMatches = GetDeletedLinkedMatches(filteredOldMatches, filteredNewMatches);
             var insertedMatches = GetInsertedLinkedMatches(filteredOldMatches, filteredNewMatches);
@@ -53,6 +61,13 @@
                 NewSnapshot = newMatches,
                 PrematchLeagues = prematchLeagues
             };
+        }
+
+        public async Task<List<Assignee>> GetPrematchAssigneeIds(Dictionary<int, PrematchLeague> prematchLeagues)
+        {
+            var prematchLeagueIds = prematchLeagues.Values.Select(x => x.PreMatchLeagueId).Distinct().ToList();
+            var prematchAssignees = await commandRepository.GetPreMatchLeagueAssignees(prematchLeagueIds);
+            return prematchAssignees.ToList();
         }
 
         public IEnumerable<GeneralMatch> FilterExistPrematches(List<GeneralMatch> matches, List<PrematchLeague> prematchLeagues)
