@@ -2,13 +2,12 @@
 using MediatR;
 using OWP.PreMatchNotification.Assignment.Criteria;
 using OWP.PreMatchNotification.Assignment.Models;
+using OWP.PreMatchNotification.Assignment.Services;
+using OWP.PreMatchNotification.Constants;
 using OWP.PreMatchNotification.Models;
-using OWP.PreMatchNotification.NewLeague.Services;
 using OWP.PreMatchNotification.Services;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -21,13 +20,13 @@ namespace OWP.PreMatchNotification.Assignment.Handlers
         public string SessionId { get; set; }
     }
 
-    public class NewLeagueNotifyHandler : IRequestHandler<AssignmentNotifyRequest, Unit>
+    public class AssignmentNotifyHandler : IRequestHandler<AssignmentNotifyRequest, Unit>
     {
         private readonly CacheManipulatorCommon cacheManipulator;
 
         private readonly DynamicRepository dynamicRepository;
 
-        private readonly NewLeagueValueGenerator newLeagueGenerator;
+        private readonly AssignmentValueGenerator assignmentValueGenerator;
 
         private readonly MessageFactory messageFactory;
 
@@ -35,17 +34,17 @@ namespace OWP.PreMatchNotification.Assignment.Handlers
 
         private readonly NotifyServices notify;
 
-        public NewLeagueNotifyHandler(
-            CacheManipulator cacheManipulator,
+        public AssignmentNotifyHandler(
+            CacheManipulatorCommon cacheManipulator,
             DynamicRepository dynamicRepository,
-            NewLeagueValueGenerator newLeagueGenerator,
+            AssignmentValueGenerator assignmentValueGenerator,
             MessageFactory messageFactory,
             CommandRepository commandRepository,
             NotifyServices notify)
         {
             this.cacheManipulator = cacheManipulator;
             this.dynamicRepository = dynamicRepository;
-            this.newLeagueGenerator = newLeagueGenerator;
+            this.assignmentValueGenerator = assignmentValueGenerator;
             this.messageFactory = messageFactory;
             this.commandRepository = commandRepository;
             this.notify = notify;
@@ -69,7 +68,7 @@ namespace OWP.PreMatchNotification.Assignment.Handlers
             var preMatchLeagueIdUpdated = oldSnapshot.Select(item => item.PreMatchLeagueId).ToList();
             var newSnapshot = await GetAssignmentNewSnapshot(preMatchLeagueIdUpdated);
             var preMatchAssignees = await commandRepository.GetEmployeesBySection(Section.PreMatch);
-            var messages = newLeagueGenerator.Create(oldSnapshot, newSnapshot, preMatchAssignees);
+            var messages = assignmentValueGenerator.Create(oldSnapshot, newSnapshot, preMatchAssignees);
             return messages.ToList();
         }
 

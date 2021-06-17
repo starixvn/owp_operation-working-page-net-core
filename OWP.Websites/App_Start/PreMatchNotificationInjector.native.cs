@@ -3,6 +3,7 @@
     using Microsoft.Extensions.DependencyInjection;
     using PreMatchNotification = PreMatchNotification.Services;
     using LinkedMatch = PreMatchNotification.LinkedMatch.Services;
+    using Assignment = PreMatchNotification.Assignment.Services;
     using InfoSiteMatchInfo = PreMatchNotification.InfoSiteMatchInfo.Services;
     using NewLeague = PreMatchNotification.NewLeague.Services;
 
@@ -15,6 +16,9 @@
             services.AddScoped<PreMatchNotification.NotifyServices, PreMatchNotification.NotifyServicesImp>();
             services.AddScoped<PreMatchNotification.CacheManipulatorCommon, PreMatchNotification.CacheManipulatorCommonImp>();
 
+            
+            services.AddScoped<Assignment.AssignmentValueGenerator, Assignment.AssignmentValueGeneratorImp>();
+          
             // LinkedMatch
             services.AddScoped<LinkedMatch.CacheManipulator, LinkedMatch.CacheManipulatorImp>();
             services.AddScoped<LinkedMatch.ChangedLinkedMatchDetector, LinkedMatch.ChangedLinkedMatchDetectorImp>();
