@@ -15,7 +15,7 @@ RUN dotnet restore -v diag
 
 COPY ./OWP.Websites .
 
-RUN dotnet publish -r linux-x64 --self-contained false -o /app 
+RUN dotnet publish -r linux-x64 --self-contained false -c Release -o /app 
 
 FROM registry.nexdev.net:5050/docker/dotnet/core/aspnet:5.0-buster-slim AS base
 RUN sed -i 's/DEFAULT@SECLEVEL=2/DEFAULT@SECLEVEL=1/g' /etc/ssl/openssl.cnf
