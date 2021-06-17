@@ -12,7 +12,7 @@
     {
         Task<List<GeneralMatch>> GetLGAMatchNewSnapshot(DateTime eventDate);
 
-        Task<Dictionary<int, PrematchLeague>> GetInfositePrematch(DateTime eventDate);
+        Task<List<InfositePrematchLeague>> GetInfositePrematch(DateTime eventDate);
     }
 
     public class RepositoryImp : Repository
@@ -35,7 +35,7 @@
             return result.ToList();
         }
 
-        public async Task<Dictionary<int, PrematchLeague>> GetInfositePrematch(DateTime eventDate)
+        public async Task<List<InfositePrematchLeague>> GetInfositePrematch(DateTime eventDate)
         {
             var criteria = new GetInfositePrematchCriteria
             {
@@ -43,9 +43,9 @@
                 EventFromDateTime = eventDate.AddHours(12)
             };
 
-            var result = await dynamicRepository.FetchAsync<PrematchLeague>(criteria);
+            var result = await dynamicRepository.FetchAsync<InfositePrematchLeague>(criteria);
 
-            return result.ToDictionary(x => x.InfoSiteMatchId);
+            return result.ToList();
         }
     }
 }

@@ -6,6 +6,12 @@
     using Services;
     using System;
     using System.Linq;
+    using OWP.PreMatchNotification.Services;
+    using OWP.PreMatchNotification.Models;
+    using System.Collections.Generic;
+    using OWP.PreMatchNotification.LinkedMatch.Models;
+    using OWP.PreMatchNotification.Constants;
+    using OWP.Extensions;
 
     public class LinkedMatchNotifyRequest : IRequest<Unit>
     {
@@ -19,28 +25,83 @@
         private readonly CacheManipulator cacheManipulator;
         private readonly Repository queryRepository;
         private readonly ChangedLinkedMatchDetector changedValueBySnapshot;
+        private readonly MessageFactory messageFactory;
+        private readonly CommandRepository commandRepository;
+        private readonly NotifyServices notify;
 
         public LinkedMatchNotifyHandler(
             CacheManipulator cacheManipulator,
             Repository queryRepository,
-            ChangedLinkedMatchDetector changedValueBySnapshot)
+            ChangedLinkedMatchDetector changedValueBySnapshot,
+            MessageFactory messageFactory,
+            CommandRepository commandRepository,
+            NotifyServices notify)
         {
             this.cacheManipulator = cacheManipulator;
             this.queryRepository = queryRepository;
             this.changedValueBySnapshot = changedValueBySnapshot;
+            this.messageFactory = messageFactory;
+            this.commandRepository = commandRepository;
+            this.notify = notify;
         }
 
         public async Task<Unit> Handle(LinkedMatchNotifyRequest request, CancellationToken cancellationToken)
         {
-            var oldMatches = await cacheManipulator.GetOldLGAMatchSnapshot(request.SessionId, request.EventDate);
-            var newMatches = await queryRepository.GetLGAMatchNewSnapshot(request.EventDate);
-            var prematchLeagues = await queryRepository.GetInfositePrematch(request.EventDate);
-            
-            var messages = changedValueBySnapshot.Create(oldMatches, newMatches, prematchLeagues);
+            var messages = await GenerateMessages(request);
+            var messageModels = messageFactory.Transform(messages);
 
-            await cacheManipulator.DeleteAssignmentSnapshot(request.SessionId, request.EventDate);
+            await commandRepository.InsertMessage(messageModels, request.SessionId);
+            await notify.Notify(messageModels);
 
             return await Task.FromResult(Unit.Value);
+        }
+
+        public async Task<List<ChangedValue>> GenerateMessages(LinkedMatchNotifyRequest request)
+        {
+            var oldMatches = await cacheManipulator.GetOldLGAMatchSnapshot(request.SessionId, request.EventDate);
+            if (oldMatches.Count > 0)
+            {
+                var newMatches = await queryRepository.GetLGAMatchNewSnapshot(request.EventDate);
+                var employees = await GetEmployees(request.EventDate);
+
+                var messages = await changedValueBySnapshot.Create(oldMatches, newMatches, employees);
+
+                await cacheManipulator.DeleteAssignmentSnapshot(request.SessionId, request.EventDate);
+
+                return messages;
+            }
+
+            return new List<ChangedValue>();
+        }
+
+        public async Task<Employee> GetEmployees(DateTime eventDate)
+        {
+            var prematchLeagues = await queryRepository.GetInfositePrematch(eventDate);
+            var prematchAssignees = await GetPrematchAssigneeIds(prematchLeagues);
+            MapAssignmentWithInfositeId(prematchLeagues, prematchAssignees);
+
+            return new Employee
+            {
+                PrematchInfosites = prematchLeagues.ToDictionary(x => x.InfoSiteMatchId),
+                AllPrematchEmployees = await commandRepository.GetEmployeesBySection(Section.PreMatch),
+                AllLSTEmployees = await commandRepository.GetEmployeesBySection(Section.LST)
+            };
+        }
+
+        public void MapAssignmentWithInfositeId(List<InfositePrematchLeague> prematchLeagues, List<Assignee> prematchAssignees)
+        {
+            foreach (var prematchLeague in prematchLeagues)
+            {
+                var assignments = prematchAssignees.Where(x => x.PreMatchLeagueId == prematchLeague.PreMatchLeagueId);
+                prematchLeague.PrematchAssigneeIds.AddRange(assignments.Select(x => x.AssigneeId));
+            }
+        }
+
+        public async Task<List<Assignee>> GetPrematchAssigneeIds(List<InfositePrematchLeague> prematchLeagues)
+        {
+            var prematchLeagueIds = prematchLeagues.Select(x => x.PreMatchLeagueId).Distinct().ToList();
+            var prematchAssignees = await commandRepository.GetPreMatchLeagueAssignees(prematchLeagueIds);
+            return prematchAssignees.ToList();
         }
     }
 }

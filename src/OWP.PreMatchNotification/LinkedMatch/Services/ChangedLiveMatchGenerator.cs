@@ -9,30 +9,28 @@
 
     public interface ChangedLiveMatchGenerator
     {
-        List<ChangedValue> Create(ChangedSnapshot changedSnapshot, IList<Assignee> allPrematchEmployees, List<Assignee> prematchAssignees);
+        List<ChangedValue> Create(ChangedSnapshot changedSnapshot, Employee employees);
     }
 
     public class ChangedLiveMatchGeneratorImp : ChangedLiveMatchGenerator
     {
         private const string EVENT_VS = " -vs- ";
 
-        public List<ChangedValue> Create(ChangedSnapshot changedSnapshot, IList<Assignee> allPrematchEmployees, List<Assignee> prematchAssignees)
+        public List<ChangedValue> Create(ChangedSnapshot changedSnapshot, Employee employees)
         {
-            var cancelLiveMatchesChangedValue = CreateDeletedMatchesChangedValue(changedSnapshot, allPrematchEmployees, prematchAssignees);
-            var addLiveMatchesChangedValue = CreateDeletedMatchesChangedValue(changedSnapshot, allPrematchEmployees, prematchAssignees);
+            var cancelLiveMatchesChangedValue = CreateDeletedMatchesChangedValue(changedSnapshot, employees);
+            var addLiveMatchesChangedValue = CreateDeletedMatchesChangedValue(changedSnapshot, employees);
 
             return cancelLiveMatchesChangedValue.Union(addLiveMatchesChangedValue).ToList();
         }
 
-        public IEnumerable<ChangedValue> CreateDeletedMatchesChangedValue(ChangedSnapshot changedSnapshot, IList<Assignee> allPrematchEmployees, List<Assignee> prematchAssignees)
-            => CreateMatchesChangedValue(true, changedSnapshot, allPrematchEmployees, prematchAssignees);
+        public IEnumerable<ChangedValue> CreateDeletedMatchesChangedValue(ChangedSnapshot changedSnapshot, Employee employees)
+            => CreateMatchesChangedValue(true, changedSnapshot, employees);
 
-        public IEnumerable<ChangedValue> CreateInsertedMatchesChangedValue(ChangedSnapshot changedSnapshot, IList<Assignee> allPrematchEmployees, List<Assignee> prematchAssignees)
-            => CreateMatchesChangedValue(false, changedSnapshot, allPrematchEmployees, prematchAssignees);
+        public IEnumerable<ChangedValue> CreateInsertedMatchesChangedValue(ChangedSnapshot changedSnapshot, Employee employees)
+            => CreateMatchesChangedValue(false, changedSnapshot, employees);
 
-        public IEnumerable<ChangedValue> CreateMatchesChangedValue(
-            bool isDeletedMatches, ChangedSnapshot changedSnapshot, 
-            IList<Assignee> allPrematchEmployees, List<Assignee> prematchAssignees)
+        public IEnumerable<ChangedValue> CreateMatchesChangedValue(bool isDeletedMatches, ChangedSnapshot changedSnapshot, Employee employees)
         {
             var matches = isDeletedMatches ? changedSnapshot.DeletedMatches : changedSnapshot.InsertedMatches;
             var messageTypeId = isDeletedMatches
@@ -41,17 +39,18 @@
 
             foreach (var match in matches)
             {
-                var prematchLeague = changedSnapshot.PrematchLeagues.GetValue(match.InfoSiteMatchId, new PrematchLeague());
-                var prematchAssigneesByInfosite = prematchAssignees.Where(x => x.PreMatchLeagueId == prematchLeague.PreMatchLeagueId);
+                var prematchInfosite = employees.PrematchInfosites.GetValue(match.InfoSiteMatchId);
+                var prematchAssigneeIds = prematchInfosite.PrematchAssigneeIds;
 
                 yield return new ChangedValue
                 {
+                    IsBlinking = true,
                     MessageTypeId = messageTypeId,
                     League = match.LeagueName,
                     EventName = match.Home + EVENT_VS + match.Away,
-                    ReceivedUserIds = prematchAssigneesByInfosite.Count() == 0
-                        ? allPrematchEmployees.Select(x => x.AssigneeId).ToList()
-                        : prematchAssigneesByInfosite.Select(x => x.AssigneeId).ToList()
+                    ReceivedUserIds = prematchAssigneeIds.Count() == 0
+                        ? employees.AllPrematchEmployees.Union(employees.AllLSTEmployees).Select(x => x.AssigneeId).ToList()
+                        : prematchAssigneeIds.Union(employees.AllLSTEmployees.Select(x => x.AssigneeId)).ToList()
                 };
             }
         }

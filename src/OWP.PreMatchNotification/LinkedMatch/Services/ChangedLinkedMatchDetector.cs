@@ -11,7 +11,7 @@
 
     public interface ChangedLinkedMatchDetector
     {
-        Task<List<ChangedValue>> Create(List<GeneralMatch> oldMatches, List<GeneralMatch> newMatches, Dictionary<int, PrematchLeague> prematchLeagues);
+        Task<List<ChangedValue>> Create(List<GeneralMatch> oldMatches, List<GeneralMatch> newMatches, Employee employees);
     }
 
     public class ChangedLinkedMatchDetectorImp : ChangedLinkedMatchDetector
@@ -30,23 +30,20 @@
             this.commandRepository = commandRepository;
         }
 
-        public async Task<List<ChangedValue>> Create(List<GeneralMatch> oldMatches, List<GeneralMatch> newMatches, Dictionary<int, PrematchLeague> prematchLeagues)
+        public async Task<List<ChangedValue>> Create(List<GeneralMatch> oldMatches, List<GeneralMatch> newMatches, Employee employees)
         {
-            var changedSnapshot = GetChangedSnapshot(oldMatches, newMatches, prematchLeagues);
-            var prematchAssignees = await GetPrematchAssigneeIds(prematchLeagues);
-            var allPrematchEmployees = await commandRepository.GetEmployeesBySection(Section.PreMatch);
+            var changedSnapshot = GetChangedSnapshot(oldMatches, newMatches, employees);
 
-            var liveMatchMessage = changedLiveMatchGenerator.Create(changedSnapshot, allPrematchEmployees, prematchAssignees);
-            var matchStatusMessage = changedMatchStatusGenerator.Create(changedSnapshot, prematchAssignees);
+            var liveMatchMessage = changedLiveMatchGenerator.Create(changedSnapshot, employees);
+            var matchStatusMessage = changedMatchStatusGenerator.Create(changedSnapshot, employees);
 
             return liveMatchMessage.Union(matchStatusMessage).ToList();
         }
 
-        public ChangedSnapshot GetChangedSnapshot(List<GeneralMatch> oldMatches, List<GeneralMatch> newMatches, Dictionary<int, PrematchLeague> prematchLeagues)
+        public ChangedSnapshot GetChangedSnapshot(List<GeneralMatch> oldMatches, List<GeneralMatch> newMatches, Employee employees)
         {
-            var prematchLeagueList = prematchLeagues.Values.ToList();
-            var filteredOldMatches = FilterExistPrematches(oldMatches, prematchLeagueList);
-            var filteredNewMatches = FilterExistPrematches(newMatches, prematchLeagueList);
+            var filteredOldMatches = FilterExistPrematches(oldMatches, employees.PrematchInfosites);
+            var filteredNewMatches = FilterExistPrematches(newMatches, employees.PrematchInfosites);
 
             var deletedMatches = GetDeletedLinkedMatches(filteredOldMatches, filteredNewMatches);
             var insertedMatches = GetInsertedLinkedMatches(filteredOldMatches, filteredNewMatches);
@@ -58,22 +55,14 @@
                 InsertedMatches = insertedMatches,
                 ChangedMatches = changedMatches,
                 OldSnapshot = oldMatches,
-                NewSnapshot = newMatches,
-                PrematchLeagues = prematchLeagues
+                NewSnapshot = newMatches
             };
         }
-
-        public async Task<List<Assignee>> GetPrematchAssigneeIds(Dictionary<int, PrematchLeague> prematchLeagues)
+               
+        public IEnumerable<GeneralMatch> FilterExistPrematches(List<GeneralMatch> matches, Dictionary<int, InfositePrematchLeague> prematchLeagues)
         {
-            var prematchLeagueIds = prematchLeagues.Values.Select(x => x.PreMatchLeagueId).Distinct().ToList();
-            var prematchAssignees = await commandRepository.GetPreMatchLeagueAssignees(prematchLeagueIds);
-            return prematchAssignees.ToList();
-        }
-
-        public IEnumerable<GeneralMatch> FilterExistPrematches(List<GeneralMatch> matches, List<PrematchLeague> prematchLeagues)
-        {
-            var existPrematchInfosite = prematchLeagues.Select(x => x.InfoSiteMatchId).Distinct();
-            return matches.Where(x => existPrematchInfosite.Contains(x.InfoSiteMatchId));
+            var existInfositePrematch = prematchLeagues.Keys.Distinct();
+            return matches.Where(x => existInfositePrematch.Contains(x.InfoSiteMatchId));
         }
 
         public List<GeneralMatch> GetDeletedLinkedMatches(IEnumerable<GeneralMatch> oldMatches, IEnumerable<GeneralMatch> newMatches)

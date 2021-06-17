@@ -8,13 +8,13 @@
 
     public interface ChangedMatchStatusGenerator
     {
-        List<ChangedValue> Create(ChangedSnapshot changedSnapshot, List<Assignee> prematchAssignees);
+        List<ChangedValue> Create(ChangedSnapshot changedSnapshot, Employee employees);
     }
 
     public class ChangedMatchStatusGeneratorImp : ChangedMatchStatusGenerator
-    {       
+    {
 
-        public List<ChangedValue> Create(ChangedSnapshot changedSnapshot, List<Assignee> prematchAssignees)
+        public List<ChangedValue> Create(ChangedSnapshot changedSnapshot, Employee employees)
         {
             
             return new List<ChangedValue>();
