@@ -1,7 +1,9 @@
-﻿using MediatR;
+﻿using Fanex.Data.Repository;
+using MediatR;
 using OWP.PreMatchNotification.Assignment.Criteria;
 using OWP.PreMatchNotification.Assignment.Models;
 using OWP.PreMatchNotification.Models;
+using OWP.PreMatchNotification.NewLeague.Services;
 using OWP.PreMatchNotification.Services;
 using System;
 using System.Collections.Generic;
