@@ -67,15 +67,16 @@
             var oldSnapshot = await cacheManipulator.GetOldInfoSiteMatchSnapshot(request.SessionId);
             var newSnapshot = await queryRepository.GetInfoSiteMatchNewSnapshot(request.FromDate, request.ToDate);
 
-            var owpLeagueIds = newSnapshot.Select(x => x.OWPLeagueId).ToList(); 
+            var owpLeagueIds = newSnapshot.Select(x => x.OWPLeagueId).ToList();
             var preMatchAssignees = await commandRepository.GetPreMatchLeagueAssigneesByOWPLeagueIds(owpLeagueIds);
             var lst = await commandRepository.GetEmployeesBySection(Section.LST);
 
             var assigneeMessages = changedValueGenerator.CreateAssigneeMessages(oldSnapshot, newSnapshot, preMatchAssignees);
             var infoSiteMatchIds = assigneeMessages.Select(x => x.InfoSiteMatchId).Distinct().ToList();
             var linkedMatches = await queryRepository.GetLGALinkedInfoSiteMatch(infoSiteMatchIds);
-            var allMessages = changedValueGenerator.CreateLSTMessages(assigneeMessages, preMatchAssignees, linkedMatches);
+            var lstMessages = changedValueGenerator.CreateLSTMessages(assigneeMessages, lst, linkedMatches);
 
+            var allMessages = assigneeMessages.Union(lstMessages);
             await cacheManipulator.DeleteOldInfoSiteMatchSnapshot(request.SessionId);
 
             return allMessages.ToList();

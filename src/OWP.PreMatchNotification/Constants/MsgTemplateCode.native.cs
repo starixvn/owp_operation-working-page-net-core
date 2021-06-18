@@ -11,6 +11,9 @@
         NewLeague = 207,
         LGAAddLiveMatch = 208,
         LGACancelLiveMatch = 209,
-        LGAChangeMatchStatus = 210
+        LGAChangeMatchStatus = 210,
+        UpdateHome = 211,
+        UpdateAway = 212,
+        UpdateKOTime = 213
     };
 }

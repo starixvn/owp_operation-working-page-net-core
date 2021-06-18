@@ -14,7 +14,9 @@
 
         public string League { get; set; }
 
-        public string EventName { get; set; }
+        public string Home { get; set; }
+
+        public string Away { get; set; }
 
         public int InfoSiteMatchId { get; set; }
 

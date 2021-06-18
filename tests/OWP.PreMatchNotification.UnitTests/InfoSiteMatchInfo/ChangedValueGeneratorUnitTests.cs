@@ -2,10 +2,12 @@
 {
     using System;
     using System.Collections.Generic;
+    using OWP.PreMatchNotification.Constants;
     using OWP.PreMatchNotification.InfoSiteMatchInfo.Models;
     using OWP.PreMatchNotification.InfoSiteMatchInfo.Services;
     using OWP.PreMatchNotification.Models;
     using Xunit;
+    using Xunit.Asserts.Compare;
 
     public class ChangedValueGeneratorUnitTests
     {
@@ -13,21 +15,151 @@
         public void CreateAssigneeMessages_WithChangedSnapshot_ReturnChangedValue()
         {
             var service = new ChangedValueGeneratorImp();
-            var expected = CreateExpected();
+            var expected = CreateExpectedChangedValueForAssignees();
 
+            var actual = service.CreateAssigneeMessages(MockOldSnapshot(), MockNewSnapshot(), MockPreMatchAssignees());
+
+            DeepAssert.Equal(expected, actual);
         }
 
-        private List<ChangedValue> CreateExpected()
+        [Fact]
+        public void CreateLSTMessages_WithChangedSnapshot_ReturnChangedValue()
+        {
+            var service = new ChangedValueGeneratorImp();
+            var expected = CreateExpectedChangedValueForLST();
+
+            var actual = service.CreateLSTMessages(CreateExpectedChangedValueForAssignees(), MockLST(), MockLinkedLGAMatches());
+
+            DeepAssert.Equal(expected, actual);
+        }
+
+        private List<ChangedValue> CreateExpectedChangedValueForAssignees()
             => new List<ChangedValue> {
                 new ChangedValue
                 {
-                    EventName = "b  -vs- c",
-                    InfoSiteMatchId = 1,
-                    League = "league1"
+                    InfoSiteMatchId = 2,
+                    League = "league1",
+                    Home = "c",
+                    Away = "b",
+                    OldValue = "b",
+                    NewValue = "b-new",
+                    ReceivedUserIds = new List<int> { 1 },
+                    MessageTypeId = (int)MsgTemplateCode.UpdateAway
+                },
+                new ChangedValue
+                {
+                    InfoSiteMatchId = 4,
+                    League = "league2",
+                    Home = "f",
+                    Away = "e",
+                    OldValue = new DateTime(2021, 06, 17, 07, 00, 00).ToString(),
+                    NewValue = new DateTime(2021, 06, 17, 10, 00, 00).ToString(),
+                    ReceivedUserIds = new List<int> { 2, 3 },
+                    MessageTypeId = (int)MsgTemplateCode.UpdateKOTime
+                },
+                new ChangedValue
+                {
+                    InfoSiteMatchId = 4,
+                    League = "league2",
+                    Home = "f",
+                    Away = "e",
+                    OldValue = "f",
+                    NewValue = "f-new",
+                    ReceivedUserIds = new List<int> { 2, 3 },
+                    MessageTypeId = (int)MsgTemplateCode.UpdateHome
+                },
+                new ChangedValue
+                {
+                    InfoSiteMatchId = 4,
+                    League = "league2",
+                    Home = "f",
+                    Away = "e",
+                    OldValue = "e",
+                    NewValue = "e-new",
+                    ReceivedUserIds = new List<int> { 2, 3 },
+                    MessageTypeId = (int)MsgTemplateCode.UpdateAway
+                },
+                new ChangedValue
+                {
+                    InfoSiteMatchId = 6,
+                    League = "league3",
+                    Home = "d",
+                    Away = "a",
+                    OldValue = "a",
+                    NewValue = "a-new",
+                    ReceivedUserIds = new List<int> { 4 },
+                    MessageTypeId = (int)MsgTemplateCode.UpdateAway
                 }
             };
 
-        private List<Assignee> MockAssignees()
+        private List<ChangedValue> CreateExpectedChangedValueForLST()
+            => new List<ChangedValue> {
+                new ChangedValue
+                {
+                    InfoSiteMatchId = 4,
+                    League = "league2",
+                    Home = "f",
+                    Away = "e",
+                    OldValue = new DateTime(2021, 06, 17, 07, 00, 00).ToString(),
+                    NewValue = new DateTime(2021, 06, 17, 10, 00, 00).ToString(),
+                    ReceivedUserIds = new List<int> { 10, 11, 12 },
+                    MessageTypeId = (int)MsgTemplateCode.UpdateKOTime
+                },
+                new ChangedValue
+                {
+                    InfoSiteMatchId = 4,
+                    League = "league2",
+                    Home = "f",
+                    Away = "e",
+                    OldValue = "f",
+                    NewValue = "f-new",
+                    ReceivedUserIds = new List<int> { 10, 11, 12 },
+                    MessageTypeId = (int)MsgTemplateCode.UpdateHome
+                },
+                new ChangedValue
+                {
+                    InfoSiteMatchId = 4,
+                    League = "league2",
+                    Home = "f",
+                    Away = "e",
+                    OldValue = "e",
+                    NewValue = "e-new",
+                    ReceivedUserIds = new List<int> { 10, 11, 12 },
+                    MessageTypeId = (int)MsgTemplateCode.UpdateAway
+                },
+                new ChangedValue
+                {
+                    InfoSiteMatchId = 6,
+                    League = "league3",
+                    Home = "d",
+                    Away = "a",
+                    OldValue = "a",
+                    NewValue = "a-new",
+                    ReceivedUserIds = new List<int> { 10, 11, 12 },
+                    MessageTypeId = (int)MsgTemplateCode.UpdateAway
+                }
+            };
+
+        private List<Assignee> MockLST()
+            => new List<Assignee> {
+                new Assignee
+                {
+                    AssigneeId = 10,
+                    AssigneeName = "sa"
+                },
+                new Assignee
+                {
+                    AssigneeId = 11,
+                    AssigneeName = "starix1"
+                },
+                new Assignee
+                {
+                    AssigneeId = 12,
+                    AssigneeName = "starix2"
+                }
+            };
+
+        private List<Assignee> MockPreMatchAssignees()
             => new List<Assignee> {
                 new Assignee
                 {
@@ -51,7 +183,7 @@
                 {
                     AssigneeId = 4,
                     AssigneeName = "tyler",
-                    OWPLeagueId = 2
+                    OWPLeagueId = 3
                 }
             };
 
@@ -111,24 +243,6 @@
                     LeagueName = "league3",
                     EventDateTime = new DateTime(2021, 06, 17, 07, 30, 00),
                     OWPLeagueId = 3
-                },
-                new InfoSiteMatch
-                {
-                    InfoSiteMatchId = 7,
-                    AwayName = "a",
-                    HomeName = "e",
-                    LeagueName = "league3",
-                    EventDateTime = new DateTime(2021, 06, 18, 07, 30, 00),
-                    OWPLeagueId = 3
-                },
-                new InfoSiteMatch
-                {
-                    InfoSiteMatchId = 8,
-                    AwayName = "b",
-                    HomeName = "c",
-                    LeagueName = "league4",
-                    EventDateTime = new DateTime(2021, 06, 18, 07, 30, 00),
-                    OWPLeagueId = 4
                 }
             };
 
@@ -183,29 +297,11 @@
                 new InfoSiteMatch
                 {
                     InfoSiteMatchId = 6,
-                    AwayName = "a",
+                    AwayName = "a-new",
                     HomeName = "d",
                     LeagueName = "league3",
                     EventDateTime = new DateTime(2021, 06, 17, 07, 30, 00),
                     OWPLeagueId = 3
-                },
-                new InfoSiteMatch
-                {
-                    InfoSiteMatchId = 7,
-                    AwayName = "a",
-                    HomeName = "e-new",
-                    LeagueName = "league3",
-                    EventDateTime = new DateTime(2021, 06, 18, 07, 30, 00),
-                    OWPLeagueId = 3
-                },
-                new InfoSiteMatch
-                {
-                    InfoSiteMatchId = 8,
-                    AwayName = "b",
-                    HomeName = "c-new",
-                    LeagueName = "league4",
-                    EventDateTime = new DateTime(2021, 06, 18, 07, 30, 00),
-                    OWPLeagueId = 4
                 },
                 new InfoSiteMatch
                 {
@@ -215,6 +311,19 @@
                     LeagueName = "league4",
                     EventDateTime = new DateTime(2021, 06, 18, 07, 30, 00),
                     OWPLeagueId = 4
+                }
+            };
+
+        private List<InfoSiteMatch> MockLinkedLGAMatches()
+            => new List<InfoSiteMatch>
+            {
+                new InfoSiteMatch
+                {
+                    InfoSiteMatchId = 4
+                },
+                new InfoSiteMatch
+                {
+                    InfoSiteMatchId = 6
                 }
             };
     }
