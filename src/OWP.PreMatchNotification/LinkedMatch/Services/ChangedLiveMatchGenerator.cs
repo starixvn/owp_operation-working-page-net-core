@@ -46,7 +46,6 @@
                 {
                     MessageTypeId = messageTypeId,
                     League = match.LeagueName,
-                    EventName = match.Home + EVENT_VS + match.Away,
                     KOTime = match.EventDateTime.ToString("hh:mm tt"),
                     ReceivedUserIds = prematchAssigneeIds.Count() == 0
                         ? employees.AllLSTEmployees.Union(employees.AllPrematchEmployees).ToList()

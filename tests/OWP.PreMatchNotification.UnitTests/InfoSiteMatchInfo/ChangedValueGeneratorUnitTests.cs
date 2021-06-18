@@ -52,8 +52,8 @@
                     League = "league2",
                     Home = "f",
                     Away = "e",
-                    OldValue = new DateTime(2021, 06, 17, 07, 00, 00).ToString(),
-                    NewValue = new DateTime(2021, 06, 17, 10, 00, 00).ToString(),
+                    OldValue = new DateTime(2021, 06, 17, 07, 00, 00).ToString("MM/dd/yyyy hh:mm tt"),
+                    NewValue = new DateTime(2021, 06, 17, 10, 00, 00).ToString("MM/dd/yyyy hh:mm tt"),
                     ReceivedUserIds = new List<int> { 2, 3 },
                     MessageTypeId = (int)MsgTemplateCode.UpdateKOTime
                 },
@@ -100,8 +100,8 @@
                     League = "league2",
                     Home = "f",
                     Away = "e",
-                    OldValue = new DateTime(2021, 06, 17, 07, 00, 00).ToString(),
-                    NewValue = new DateTime(2021, 06, 17, 10, 00, 00).ToString(),
+                    OldValue = new DateTime(2021, 06, 17, 07, 00, 00).ToString("MM/dd/yyyy hh:mm tt"),
+                    NewValue = new DateTime(2021, 06, 17, 10, 00, 00).ToString("MM/dd/yyyy hh:mm tt"),
                     ReceivedUserIds = new List<int> { 10, 11, 12 },
                     MessageTypeId = (int)MsgTemplateCode.UpdateKOTime
                 },

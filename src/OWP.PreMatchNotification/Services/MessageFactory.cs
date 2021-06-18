@@ -98,7 +98,6 @@
                 NewValue = value.NewValue;
                 OldValue = value.OldValue;
                 League = value.League;
-                EventName = value.EventName;
                 InfoSiteMatchId = value.InfoSiteMatchId;
             }
 
@@ -206,10 +205,9 @@
             content = content.Replace("<newvalue>", "<b><newvalue></b>");
             content = content.Replace("<bettype>", "<b><bettype></b>");
 
-            content = content.Replace("<newvalue>", string.IsNullOrWhiteSpace(value.NewValue)?"[]": value.NewValue);
+            content = content.Replace("<newvalue>", string.IsNullOrWhiteSpace(value.NewValue) ? "[]" : value.NewValue);
             content = content.Replace("<old value>", string.IsNullOrWhiteSpace(value.OldValue) ? "[]" : value.OldValue);
             content = content.Replace("<League>", value.League);
-            content = content.Replace("<Event>", value.EventName);
             content = content.Replace("<User>", currentSession.UserName);
             content = content.Replace("<bettype>", value.BetTypeName);
             content = content.Replace("<K.O Time>", value.KOTime);
