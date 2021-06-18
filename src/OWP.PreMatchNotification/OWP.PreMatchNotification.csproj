@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Assignment\**" />
+    <EmbeddedResource Remove="Assignment\**" />
+    <None Remove="Assignment\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="Fanex.Caching" Version="2.2.2" />
     <PackageReference Include="Fanex.Data.Repository" Version="4.2.2" />
