@@ -3,7 +3,8 @@
     using Microsoft.Extensions.DependencyInjection;
     using PreMatchNotification = PreMatchNotification.Services;
     using LinkedMatch = PreMatchNotification.LinkedMatch.Services;
-    using Assignment = PreMatchNotification.Assignment.Services;
+    using MyAssignment = PreMatchNotification.Assignment.Services.MyAssignment;
+    using OtherAssignment = PreMatchNotification.Assignment.Services.OtherAssignment;
     using InfoSiteMatchInfo = PreMatchNotification.InfoSiteMatchInfo.Services;
     using NewLeague = PreMatchNotification.NewLeague.Services;
 
@@ -16,9 +17,19 @@
             services.AddScoped<PreMatchNotification.NotifyServices, PreMatchNotification.NotifyServicesImp>();
             services.AddScoped<PreMatchNotification.CacheManipulatorCommon, PreMatchNotification.CacheManipulatorCommonImp>();
             
-            services.AddScoped<Assignment.MyAssignmentGenerator, Assignment.MyAssignmentGeneratorImp>();
-            services.AddScoped<Assignment.MyAssignmentDetector, Assignment.MyAssignmentDetectorImp>();
-          
+            services.AddScoped<MyAssignment.MyAssignmentGenerator, MyAssignment.MyAssignmentGeneratorImp>();
+            services.AddScoped<MyAssignment.MyAssignmentDetector, MyAssignment.MyAssignmentDetectorImp>();
+            services.AddScoped<OtherAssignment.OtherAssignmentGenerator, OtherAssignment.OtherAssignmentGeneratorImp>();
+            services.AddScoped<OtherAssignment.OtherAssignmentDetector, OtherAssignment.OtherAssignmentDetectoImp>();
+            services.AddScoped<OtherAssignment.ChangedValueHdpDetector, OtherAssignment.ChangedValueHdpDetectorImp>();
+            services.AddScoped<OtherAssignment.ChangedValueOuDetector, OtherAssignment.ChangedValueOuDetectorImp>();
+            services.AddScoped<OtherAssignment.ChangedValueHdpTakeOverDetector, OtherAssignment.ChangedValueHdpTakeOverDetectorImp>();
+            services.AddScoped<OtherAssignment.ChangedValueOuTakeOverDetector, OtherAssignment.ChangedValueOuTakeOverDetectorImp>();
+            services.AddScoped<OtherAssignment.ChangedValueOtherHdpDetector, OtherAssignment.ChangedValueOtherHdpDetectorImp>();
+            services.AddScoped<OtherAssignment.ChangedValueOtherOuDetector, OtherAssignment.ChangedValueOtherOuDetectorImp>();
+            services.AddScoped<OtherAssignment.ChangedValueOtherHdpTakeOverDetector, OtherAssignment.ChangedValueOtherHdpTakeOverDetectorImp>();
+            services.AddScoped<OtherAssignment.ChangedValueOtherOuTakeOverDetector, OtherAssignment.ChangedValueOtherOuTakeOverDetectorImp>();
+
             // LinkedMatch
             services.AddScoped<LinkedMatch.CacheManipulator, LinkedMatch.CacheManipulatorImp>();
             services.AddScoped<LinkedMatch.ChangedLinkedMatchDetector, LinkedMatch.ChangedLinkedMatchDetectorImp>();

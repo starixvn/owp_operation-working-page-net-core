@@ -3,7 +3,7 @@ using OWP.PreMatchNotification.Models;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace OWP.PreMatchNotification.Assignment.Services
+namespace OWP.PreMatchNotification.Assignment.Services.MyAssignment
 {
     public interface MyAssignmentGenerator
     {

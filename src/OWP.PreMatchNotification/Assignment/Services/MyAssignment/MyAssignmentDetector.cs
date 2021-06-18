@@ -1,10 +1,11 @@
 ﻿using OWP.PreMatchNotification.Assignment.Constant;
 using OWP.PreMatchNotification.Assignment.Helper;
 using OWP.PreMatchNotification.Assignment.Models;
+using OWP.PreMatchNotification.Constants;
 using OWP.PreMatchNotification.Models;
 using System.Collections.Generic;
 
-namespace OWP.PreMatchNotification.Assignment.Services
+namespace OWP.PreMatchNotification.Assignment.Services.MyAssignment
 {
     public interface MyAssignmentDetector
     {
@@ -28,7 +29,7 @@ namespace OWP.PreMatchNotification.Assignment.Services
     public class MyAssignmentDetectorImp: MyAssignmentDetector
     {
         public IList<ChangedValue> DetectChangeAssignmentHdp(AssignmentSnapshot oldSnapshot, AssignmentSnapshot newSnapshot)
-           => AssignmentHelper.GenerateChangedValue(new MyAssignmentDetectorModel
+           => DetectChangedValue(new MyAssignmentDetectorModel
            {
                LeagueName= oldSnapshot.LeagueName,
                IsDay= oldSnapshot.IsDay,
@@ -40,7 +41,7 @@ namespace OWP.PreMatchNotification.Assignment.Services
            });
 
         public IList<ChangedValue> DetectChangeAssignmentOu(AssignmentSnapshot oldSnapshot, AssignmentSnapshot newSnapshot)
-           => AssignmentHelper.GenerateChangedValue(new MyAssignmentDetectorModel
+           => DetectChangedValue(new MyAssignmentDetectorModel
            {
                LeagueName = oldSnapshot.LeagueName,
                IsDay = oldSnapshot.IsDay,
@@ -52,7 +53,7 @@ namespace OWP.PreMatchNotification.Assignment.Services
            });
 
         public IList<ChangedValue> DetectChangeAssignmentHdpTOver(AssignmentSnapshot oldSnapshot, AssignmentSnapshot newSnapshot)
-          => AssignmentHelper.GenerateChangedValue(new MyAssignmentDetectorModel
+          => DetectChangedValue(new MyAssignmentDetectorModel
           {
               LeagueName = oldSnapshot.LeagueName,
               IsDay = oldSnapshot.IsDay,
@@ -64,7 +65,7 @@ namespace OWP.PreMatchNotification.Assignment.Services
           });
 
         public IList<ChangedValue> DetectChangeAssignmentOuTOver(AssignmentSnapshot oldSnapshot, AssignmentSnapshot newSnapshot)
-          => AssignmentHelper.GenerateChangedValue(new MyAssignmentDetectorModel
+          => DetectChangedValue(new MyAssignmentDetectorModel
           {
               LeagueName = oldSnapshot.LeagueName,
               IsDay = oldSnapshot.IsDay,
@@ -76,7 +77,7 @@ namespace OWP.PreMatchNotification.Assignment.Services
           });
 
         public IList<ChangedValue> DetectChangeAssignmentOtherHdp(AssignmentSnapshot oldSnapshot, AssignmentSnapshot newSnapshot)
-          => AssignmentHelper.GenerateChangedValue(new MyAssignmentDetectorModel
+          => DetectChangedValue(new MyAssignmentDetectorModel
           {
               LeagueName = oldSnapshot.LeagueName,
               IsDay = oldSnapshot.IsDay,
@@ -88,7 +89,7 @@ namespace OWP.PreMatchNotification.Assignment.Services
           });
 
         public IList<ChangedValue> DetectChangeAssignmentOtherOu(AssignmentSnapshot oldSnapshot, AssignmentSnapshot newSnapshot)
-          => AssignmentHelper.GenerateChangedValue(new MyAssignmentDetectorModel
+          => DetectChangedValue(new MyAssignmentDetectorModel
           {
               LeagueName = oldSnapshot.LeagueName,
               IsDay = oldSnapshot.IsDay,
@@ -100,27 +101,70 @@ namespace OWP.PreMatchNotification.Assignment.Services
           });
 
         public IList<ChangedValue> DetectChangeAssignmentOtherHdpTOver(AssignmentSnapshot oldSnapshot, AssignmentSnapshot newSnapshot)
-          => AssignmentHelper.GenerateChangedValue(new MyAssignmentDetectorModel
+          => DetectChangedValue(new MyAssignmentDetectorModel
           {
               LeagueName = oldSnapshot.LeagueName,
               IsDay = oldSnapshot.IsDay,
               oldAssignment = oldSnapshot.OtherHdpTakeOver,
-              newAssignment = newSnapshot.Ou,
-              BettypeName = Bettype.OU,
+              newAssignment = newSnapshot.OtherHdpTakeOver,
+              BettypeName = Bettype.HDP_TAKEOVER,
               UserIdNewAssign = newSnapshot.OtherHdpTakeOverUserId.Value,
               UserIdRemoved = oldSnapshot.OtherHdpTakeOverUserId.Value
           });
 
         public IList<ChangedValue> DetectChangeAssignmentOtherOuTOver(AssignmentSnapshot oldSnapshot, AssignmentSnapshot newSnapshot)
-          => AssignmentHelper.GenerateChangedValue(new MyAssignmentDetectorModel
+          => DetectChangedValue(new MyAssignmentDetectorModel
           {
               LeagueName = oldSnapshot.LeagueName,
               IsDay = oldSnapshot.IsDay,
               oldAssignment = oldSnapshot.OtherOuTakeOver,
-              newAssignment = newSnapshot.Ou,
-              BettypeName = Bettype.OU,
+              newAssignment = newSnapshot.OtherOuTakeOver,
+              BettypeName = Bettype.OU_TAKEOVER,
               UserIdNewAssign = newSnapshot.OtherOuTakeOverUserId.Value,
               UserIdRemoved = oldSnapshot.OtherOuTakeOverUserId.Value
           });
+
+        private static IList<ChangedValue> DetectChangedValue(MyAssignmentDetectorModel model)
+        {
+            var changedValueMyAssignment = new List<ChangedValue>();
+            DetectChangedValueNewAssignment(model, changedValueMyAssignment);
+            DetectChangedValueDeleteAssignment(model, changedValueMyAssignment);
+            return changedValueMyAssignment;
+        }
+
+        private static void DetectChangedValueNewAssignment(MyAssignmentDetectorModel model, List<ChangedValue> changedValues)
+        {
+            if (!string.Equals(model.oldAssignment, model.newAssignment) &&
+                !string.IsNullOrWhiteSpace(model.newAssignment))
+            {
+                changedValues.Add(new ChangedValue
+                {
+                    League = model.LeagueName,
+                    BetTypeName = model.BettypeName,
+                    ReceivedUserIds = new List<int>(model.UserIdNewAssign),
+                    MessageTypeId = model.IsDay.Value
+                    ? (int)MsgTemplateCode.DayShiftAssignmentInsert
+                    : (int)MsgTemplateCode.NightShiftAssignmentInsert
+                });
+            }
+        }
+
+        private static void DetectChangedValueDeleteAssignment(MyAssignmentDetectorModel model, List<ChangedValue> changedValues)
+        {
+            if (!string.Equals(model.oldAssignment, model.newAssignment) &&
+                !string.IsNullOrWhiteSpace(model.oldAssignment))
+            {
+                changedValues.Add(new ChangedValue
+                {
+                    League = model.LeagueName,
+                    BetTypeName = model.BettypeName,
+                    ReceivedUserIds = new List<int>(model.UserIdRemoved),
+                    MessageTypeId = model.IsDay.Value
+                    ? (int)MsgTemplateCode.DayShiftAssignmentDelete
+                    : (int)MsgTemplateCode.NightShiftAssignmentDelete
+                });
+            }
+        }
+
     }
 }

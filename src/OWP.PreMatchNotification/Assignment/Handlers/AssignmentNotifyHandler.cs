@@ -3,6 +3,7 @@ using MediatR;
 using OWP.PreMatchNotification.Assignment.Criteria;
 using OWP.PreMatchNotification.Assignment.Models;
 using OWP.PreMatchNotification.Assignment.Services;
+using OWP.PreMatchNotification.Assignment.Services.MyAssignment;
 using OWP.PreMatchNotification.Constants;
 using OWP.PreMatchNotification.Models;
 using OWP.PreMatchNotification.Services;
@@ -75,6 +76,7 @@ namespace OWP.PreMatchNotification.Assignment.Handlers
                 var oldAssignment = oldSnapshot.First(snap => snap.PreMatchLeagueId == prematchId);
                 var newAssignment = newSnapshot.First(snap => snap.PreMatchLeagueId == prematchId);
                 var changedValues = myAssignmentGenerator.Create(oldAssignment, newAssignment);
+
                 changedValuesResult.AddRange(changedValues);
             }
 

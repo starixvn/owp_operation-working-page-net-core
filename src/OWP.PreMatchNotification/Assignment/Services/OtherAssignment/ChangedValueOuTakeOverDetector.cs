@@ -1,0 +1,35 @@
+﻿using OWP.PreMatchNotification.Assignment.Constant;
+using OWP.PreMatchNotification.Assignment.Helper;
+using OWP.PreMatchNotification.Assignment.Models;
+using OWP.PreMatchNotification.Models;
+using System.Collections.Generic;
+
+namespace OWP.PreMatchNotification.Assignment.Services.OtherAssignment
+{
+    public interface ChangedValueOuTakeOverDetector
+    {
+        void Detect(
+          AssignmentSnapshot oldSnapshot,
+          AssignmentSnapshot newSnapshot,
+          IList<ChangedValue> changedValues,
+          int receivedUserId);
+    }
+
+    public class ChangedValueOuTakeOverDetectorImp : ChangedValueOuTakeOverDetector
+    {
+        public void Detect(AssignmentSnapshot oldSnapshot, AssignmentSnapshot newSnapshot, IList<ChangedValue> changedValues, int receivedUserId)
+        {
+            if (!string.Equals(oldSnapshot.OuTakeOver, newSnapshot.OuTakeOver))
+            {
+                changedValues.Add(new ChangedValue
+                {
+                    ReceivedUserIds = new List<int>(receivedUserId),
+                    BetTypeName = Bettype.OU_TAKEOVER,
+                    OldValue = oldSnapshot.OuTakeOver,
+                    NewValue = newSnapshot.OuTakeOver,
+                    MessageTypeId = AssignmentHelper.DetectMessageType(newSnapshot.IsDay.Value)
+                });
+            }
+        }
+    }
+}
