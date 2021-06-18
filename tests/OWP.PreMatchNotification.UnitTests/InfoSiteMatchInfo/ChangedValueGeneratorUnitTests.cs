@@ -21,7 +21,37 @@
             => new List<ChangedValue> {
                 new ChangedValue
                 {
-                    
+                    EventName = "b  -vs- c",
+                    InfoSiteMatchId = 1,
+                    League = "league1"
+                }
+            };
+
+        private List<Assignee> MockAssignees()
+            => new List<Assignee> {
+                new Assignee
+                {
+                    AssigneeId = 1,
+                    AssigneeName = "sa",
+                    OWPLeagueId = 1
+                },
+                new Assignee
+                {
+                    AssigneeId = 2,
+                    AssigneeName = "starix1",
+                    OWPLeagueId = 2
+                },
+                new Assignee
+                {
+                    AssigneeId = 3,
+                    AssigneeName = "starix2",
+                    OWPLeagueId = 2
+                },
+                new Assignee
+                {
+                    AssigneeId = 4,
+                    AssigneeName = "tyler",
+                    OWPLeagueId = 2
                 }
             };
 
