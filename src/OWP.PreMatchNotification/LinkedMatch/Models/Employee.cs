@@ -7,15 +7,15 @@ namespace OWP.PreMatchNotification.LinkedMatch.Models
     {
         public Dictionary<int, InfositePrematchLeague> PrematchInfosites { get; set; }
 
-        public IList<Assignee> AllPrematchEmployees { get; set; }
+        public List<int> AllPrematchEmployees { get; set; }
 
-        public IList<Assignee> AllLSTEmployees { get; set; }
+        public List<int> AllLSTEmployees { get; set; }
 
         public Employee()
         {
             PrematchInfosites = new Dictionary<int, InfositePrematchLeague>();
-            AllLSTEmployees = new List<Assignee>();
-            AllPrematchEmployees = new List<Assignee>();
+            AllLSTEmployees = new List<int>();
+            AllPrematchEmployees = new List<int>();
         }
     }
 }

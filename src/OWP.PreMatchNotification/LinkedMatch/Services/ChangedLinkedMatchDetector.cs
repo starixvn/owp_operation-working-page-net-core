@@ -1,13 +1,10 @@
 ﻿namespace OWP.PreMatchNotification.LinkedMatch.Services
 {
     using Models;
-    using OWP.PreMatchNotification.Constants;
     using OWP.PreMatchNotification.Models;
-    using OWP.PreMatchNotification.Services;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
 
     public interface ChangedLinkedMatchDetector
     {
@@ -18,26 +15,23 @@
     {
         private readonly ChangedLiveMatchGenerator changedLiveMatchGenerator;
         private readonly ChangedMatchStatusGenerator changedMatchStatusGenerator;
-        private readonly CommandRepository commandRepository;
 
         public ChangedLinkedMatchDetectorImp(
             ChangedLiveMatchGenerator changedLiveMatchGenerator,
-            ChangedMatchStatusGenerator changedMatchStatusGenerator,
-            CommandRepository commandRepository)
+            ChangedMatchStatusGenerator changedMatchStatusGenerator)
         {
             this.changedLiveMatchGenerator = changedLiveMatchGenerator;
             this.changedMatchStatusGenerator = changedMatchStatusGenerator;
-            this.commandRepository = commandRepository;
         }
 
         public List<ChangedValue> Create(List<GeneralMatch> oldMatches, List<GeneralMatch> newMatches, Employee employees)
         {
             var changedSnapshot = GetChangedSnapshot(oldMatches, newMatches, employees);
 
-            var liveMatchMessage = changedLiveMatchGenerator.Create(changedSnapshot, employees);
-            var matchStatusMessage = changedMatchStatusGenerator.Create(changedSnapshot, employees);
+            var liveMatchChangedValue = changedLiveMatchGenerator.Create(changedSnapshot, employees);
+            var matchStatusChangedValue = changedMatchStatusGenerator.Create(changedSnapshot, employees);
 
-            return liveMatchMessage.Union(matchStatusMessage).ToList();
+            return liveMatchChangedValue.Union(matchStatusChangedValue).ToList();
         }
 
         public ChangedSnapshot GetChangedSnapshot(List<GeneralMatch> oldMatches, List<GeneralMatch> newMatches, Employee employees)
@@ -62,7 +56,7 @@
         public IEnumerable<GeneralMatch> FilterExistPrematches(List<GeneralMatch> matches, Dictionary<int, InfositePrematchLeague> prematchLeagues)
         {
             var existInfositePrematch = prematchLeagues.Keys.Distinct();
-            return matches.Where(x => existInfositePrematch.Contains(x.InfoSiteMatchId));
+            return matches.Where(x => x.InfoSiteMatchId != 0 && existInfositePrematch.Contains(x.InfoSiteMatchId));
         }
 
         public List<GeneralMatch> GetDeletedLinkedMatches(IEnumerable<GeneralMatch> oldMatches, IEnumerable<GeneralMatch> newMatches)

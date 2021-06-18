@@ -8,6 +8,6 @@ namespace OWP.PreMatchNotification.LinkedMatch.Models
 
         public int PreMatchLeagueId { get; set; }
 
-        public List<int> PrematchAssigneeIds { get; set; }
+        public List<int> PrematchAssigneeIds { get; set; } = new List<int>();
     }
 }

@@ -66,10 +66,9 @@
 
                 var messages = changedValueBySnapshot.Create(oldMatches, newMatches, employees);
 
-                await cacheManipulator.DeleteAssignmentSnapshot(request.SessionId, request.EventDate);
-
                 return messages;
             }
+            await cacheManipulator.DeleteAssignmentSnapshot(request.SessionId, request.EventDate);
 
             return new List<ChangedValue>();
         }
@@ -77,14 +76,17 @@
         public async Task<Employee> GetEmployees(DateTime eventDate)
         {
             var prematchLeagues = await queryRepository.GetInfositePrematch(eventDate);
+            var allPrematchEmployees = await commandRepository.GetEmployeesBySection(Section.PreMatch);
+            var allLSTEmployees = await commandRepository.GetEmployeesBySection(Section.LST);
+
             var prematchAssignees = await GetPrematchAssigneeIds(prematchLeagues);
             MapAssignmentWithInfositeId(prematchLeagues, prematchAssignees);
 
             return new Employee
             {
                 PrematchInfosites = prematchLeagues.ToDictionary(x => x.InfoSiteMatchId),
-                AllPrematchEmployees = await commandRepository.GetEmployeesBySection(Section.PreMatch),
-                AllLSTEmployees = await commandRepository.GetEmployeesBySection(Section.LST)
+                AllPrematchEmployees = allPrematchEmployees.Select(x => x.AssigneeId).ToList(),
+                AllLSTEmployees = allLSTEmployees.Select(x => x.AssigneeId).ToList()
             };
         }
 

@@ -47,10 +47,10 @@
                     MessageTypeId = messageTypeId,
                     League = match.LeagueName,
                     EventName = match.Home + EVENT_VS + match.Away,
-                    KOTime = match.KickOffTime.ToString("hh:mm tt"),
+                    KOTime = match.EventDateTime.ToString("hh:mm tt"),
                     ReceivedUserIds = prematchAssigneeIds.Count() == 0
-                        ? employees.AllPrematchEmployees.Union(employees.AllLSTEmployees).Select(x => x.AssigneeId).ToList()
-                        : prematchAssigneeIds.Union(employees.AllLSTEmployees.Select(x => x.AssigneeId)).ToList()
+                        ? employees.AllPrematchEmployees.Union(employees.AllLSTEmployees).ToList()
+                        : prematchAssigneeIds.Union(employees.AllLSTEmployees).ToList()
                 };
             }
         }
