@@ -20,13 +20,11 @@
                 new ChangedValue
                 {
                     League = "D",
-                    IsBlinking = true,
                     ReceivedUserIds = receivedUserIds
                 },
                 new ChangedValue
                 {
                     League = "E",
-                    IsBlinking = true,
                     ReceivedUserIds = receivedUserIds
                 }
             };

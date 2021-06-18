@@ -15,9 +15,9 @@
             services.AddScoped<PreMatchNotification.MessageFactory, PreMatchNotification.MessageFactoryImp>();
             services.AddScoped<PreMatchNotification.NotifyServices, PreMatchNotification.NotifyServicesImp>();
             services.AddScoped<PreMatchNotification.CacheManipulatorCommon, PreMatchNotification.CacheManipulatorCommonImp>();
-
             
-            services.AddScoped<Assignment.AssignmentValueGenerator, Assignment.AssignmentValueGeneratorImp>();
+            services.AddScoped<Assignment.MyAssignmentGenerator, Assignment.MyAssignmentGeneratorImp>();
+            services.AddScoped<Assignment.MyAssignmentDetector, Assignment.MyAssignmentDetectorImp>();
           
             // LinkedMatch
             services.AddScoped<LinkedMatch.CacheManipulator, LinkedMatch.CacheManipulatorImp>();

@@ -26,7 +26,7 @@ namespace OWP.PreMatchNotification.Assignment.Handlers
 
         private readonly DynamicRepository dynamicRepository;
 
-        private readonly AssignmentValueGenerator assignmentValueGenerator;
+        private readonly MyAssignmentGenerator myAssignmentGenerator;
 
         private readonly MessageFactory messageFactory;
 
@@ -37,14 +37,14 @@ namespace OWP.PreMatchNotification.Assignment.Handlers
         public AssignmentNotifyHandler(
             CacheManipulatorCommon cacheManipulator,
             DynamicRepository dynamicRepository,
-            AssignmentValueGenerator assignmentValueGenerator,
+            MyAssignmentGenerator myAssignmentGenerator,
             MessageFactory messageFactory,
             CommandRepository commandRepository,
             NotifyServices notify)
         {
             this.cacheManipulator = cacheManipulator;
             this.dynamicRepository = dynamicRepository;
-            this.assignmentValueGenerator = assignmentValueGenerator;
+            this.myAssignmentGenerator = myAssignmentGenerator;
             this.messageFactory = messageFactory;
             this.commandRepository = commandRepository;
             this.notify = notify;
@@ -64,12 +64,21 @@ namespace OWP.PreMatchNotification.Assignment.Handlers
 
         private async Task<IList<ChangedValue>> GenerateMessages(AssignmentNotifyRequest request)
         {
+            var changedValuesResult = new List<ChangedValue>();
             var oldSnapshot = await cacheManipulator.GetMultipleData<AssignmentSnapshot>(request.redisKey);
             var preMatchLeagueIdUpdated = oldSnapshot.Select(item => item.PreMatchLeagueId).ToList();
             var newSnapshot = await GetAssignmentNewSnapshot(preMatchLeagueIdUpdated);
-            var preMatchAssignees = await commandRepository.GetEmployeesBySection(Section.PreMatch);
-            var messages = assignmentValueGenerator.Create(oldSnapshot, newSnapshot, preMatchAssignees);
-            return messages.ToList();
+            var prematchIdUpdated = newSnapshot.Select(p => p.PreMatchLeagueId);
+
+            foreach (var prematchId in prematchIdUpdated)
+            {
+                var oldAssignment = oldSnapshot.First(snap => snap.PreMatchLeagueId == prematchId);
+                var newAssignment = newSnapshot.First(snap => snap.PreMatchLeagueId == prematchId);
+                var changedValues = myAssignmentGenerator.Create(oldAssignment, newAssignment);
+                changedValuesResult.AddRange(changedValues);
+            }
+
+            return changedValuesResult;
         }
 
         private async Task<IList<AssignmentSnapshot>> GetAssignmentNewSnapshot(IList<int> prematchIds)
