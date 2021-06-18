@@ -65,21 +65,21 @@
             new MessageTemplate
             {
                  MessageType=(int)MsgTemplateCode.LGAAddLiveMatch,
-                 MessageContent="ADD LIVE for <K.O Time> <League> - <Event>",
+                 MessageContent="ADD LIVE for <K.O Time> <League> - <Home> -vs- <Away>",
                  IsImportant = true,
                  IsBlinking = true
             },
             new MessageTemplate
             {
                  MessageType=(int)MsgTemplateCode.LGACancelLiveMatch,
-                 MessageContent="CANCEL LIVE for <K.O Time> <League> - <Event>",
+                 MessageContent="CANCEL LIVE for <K.O Time> <League> - <Home> -vs- <Away>",
                  IsImportant = true,
                  IsBlinking = true
             },
             new MessageTemplate
             {
                  MessageType=(int)MsgTemplateCode.LGAChangeMatchStatus,
-                 MessageContent="Has been <newvalue> for match: <League> <Event>; Previous <old value>",
+                 MessageContent="Has been <newvalue> for match: <League> <Home> -vs- <Away>; Previous <old value>",
                  IsImportant = true,
                  IsBlinking = true
             },
@@ -208,6 +208,8 @@
             content = content.Replace("<newvalue>", string.IsNullOrWhiteSpace(value.NewValue) ? "[]" : value.NewValue);
             content = content.Replace("<old value>", string.IsNullOrWhiteSpace(value.OldValue) ? "[]" : value.OldValue);
             content = content.Replace("<League>", value.League);
+            content = content.Replace("<Home>", value.Home);
+            content = content.Replace("<Away>", value.Away);
             content = content.Replace("<User>", currentSession.UserName);
             content = content.Replace("<bettype>", value.BetTypeName);
             content = content.Replace("<K.O Time>", value.KOTime);

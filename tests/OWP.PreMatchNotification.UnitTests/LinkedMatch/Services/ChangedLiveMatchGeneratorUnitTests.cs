@@ -53,18 +53,24 @@ namespace OWP.PreMatchNotification.UnitTests.LinkedMatch.Services
                 new(){
                     MessageTypeId=(int)MsgTemplateCode.LGACancelLiveMatch,
                     League="LeagueA",
+                    Home="HomeA",
+                    Away="AwayA",
                     KOTime = "02:12 PM",
                     ReceivedUserIds=new List<int>{1,2,3,8,9}
                 },
                 new(){
                     MessageTypeId=(int)MsgTemplateCode.LGACancelLiveMatch,
                     League="LeagueB",
+                    Home="HomeB",
+                    Away="AwayB",
                     KOTime = "02:10 AM",
                     ReceivedUserIds=new List<int>{1,2,3,4,5,6}
                 },
                 new(){
                     MessageTypeId=(int)MsgTemplateCode.LGAAddLiveMatch,
                     League="LeagueC",
+                    Home="HomeC",
+                    Away="AwayC",
                     KOTime = "05:12 AM",
                     ReceivedUserIds=new List<int>{1,2,3,10,11}
                 }
