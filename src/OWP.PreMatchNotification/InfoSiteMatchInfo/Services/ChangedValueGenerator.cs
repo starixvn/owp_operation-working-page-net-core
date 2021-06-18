@@ -11,7 +11,7 @@
     {
         IList<ChangedValue> CreateAssigneeMessages(IList<InfoSiteMatch> oldSnapshot, IList<InfoSiteMatch> newSnapshot, IList<Assignee> preMatchAssignees);
 
-        IList<ChangedValue> CreateLSTMessages(IList<ChangedValue> changedValues, IList<Assignee> preMatchAssignees);
+        IList<ChangedValue> CreateLSTMessages(IList<ChangedValue> changedValues, IList<Assignee> preMatchAssignees, IList<InfoSiteMatch> linkedMatches);
     }
 
     public class ChangedValueGeneratorImp : ChangedValueGenerator
@@ -39,7 +39,7 @@
             return changedValueList;    
         }
 
-        public IList<ChangedValue> CreateLSTMessages(IList<ChangedValue> changedValues, IList<Assignee> preMatchAssignees)
+        public IList<ChangedValue> CreateLSTMessages(IList<ChangedValue> changedValues, IList<Assignee> preMatchAssignees, IList<InfoSiteMatch> linkedMatches)
         {
             return new List<ChangedValue>();
         }

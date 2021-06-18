@@ -72,7 +72,9 @@
             var lst = await commandRepository.GetEmployeesBySection(Section.LST);
 
             var assigneeMessages = changedValueGenerator.CreateAssigneeMessages(oldSnapshot, newSnapshot, preMatchAssignees);
-            var allMessages = changedValueGenerator.CreateLSTMessages(assigneeMessages, preMatchAssignees);
+            var infoSiteMatchIds = assigneeMessages.Select(x => x.InfoSiteMatchId).Distinct().ToList();
+            var linkedMatches = await queryRepository.GetLGALinkedInfoSiteMatch(infoSiteMatchIds);
+            var allMessages = changedValueGenerator.CreateLSTMessages(assigneeMessages, preMatchAssignees, linkedMatches);
 
             await cacheManipulator.DeleteOldInfoSiteMatchSnapshot(request.SessionId);
 

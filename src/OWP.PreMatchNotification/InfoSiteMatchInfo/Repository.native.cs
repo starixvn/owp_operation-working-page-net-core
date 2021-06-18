@@ -11,6 +11,8 @@
     public interface Repository
     {
         Task<IList<InfoSiteMatch>> GetInfoSiteMatchNewSnapshot(DateTime fromDate, DateTime toDate);
+
+        Task<IList<InfoSiteMatch>> GetLGALinkedInfoSiteMatch(List<int> infoSiteMatchIds);
     }
 
     public class RepositoryImp : Repository
@@ -26,8 +28,19 @@
         {
             var criteria = new GetInfoSiteMatchesByDateRangeCriteria
             {
-                FromDate = fromDate.Date.AddHours(12),
-                ToDate = toDate.Date.AddDays(1).AddHours(11).AddMinutes(59)
+                EventFromDateTime = fromDate.Date.AddHours(12),
+                EventToDateTime = toDate.Date.AddDays(1).AddHours(11).AddMinutes(59)
+            };
+            var result = await dynamicRepository.FetchAsync<InfoSiteMatch>(criteria);
+
+            return result.ToList();
+        }
+
+        public async Task<IList<InfoSiteMatch>> GetLGALinkedInfoSiteMatch(List<int> infoSiteMatchIds)
+        {
+            var criteria = new GetLinkedOWPMatchCriteria
+            {
+                InfositeMatchIds = string.Join(',', infoSiteMatchIds)
             };
             var result = await dynamicRepository.FetchAsync<InfoSiteMatch>(criteria);
 
