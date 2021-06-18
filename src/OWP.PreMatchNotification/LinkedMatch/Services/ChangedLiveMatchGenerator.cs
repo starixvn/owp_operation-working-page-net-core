@@ -19,7 +19,7 @@
         public List<ChangedValue> Create(ChangedSnapshot changedSnapshot, Employee employees)
         {
             var cancelLiveMatchesChangedValue = CreateDeletedMatchesChangedValue(changedSnapshot, employees);
-            var addLiveMatchesChangedValue = CreateDeletedMatchesChangedValue(changedSnapshot, employees);
+            var addLiveMatchesChangedValue = CreateInsertedMatchesChangedValue(changedSnapshot, employees);
 
             return cancelLiveMatchesChangedValue.Union(addLiveMatchesChangedValue).ToList();
         }
