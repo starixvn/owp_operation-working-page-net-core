@@ -10,6 +10,8 @@
 
         public int PreMatchLeagueId { get; set; }
 
+        public int OWPLeagueId { get; set; }
+
         public bool Equals(Assignee x, Assignee y)
         {
             return x.AssigneeId == y.AssigneeId && x.AssigneeName == y.AssigneeName;
