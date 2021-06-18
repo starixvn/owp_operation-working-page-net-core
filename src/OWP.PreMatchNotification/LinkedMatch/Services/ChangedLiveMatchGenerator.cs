@@ -49,8 +49,8 @@
                     EventName = match.Home + EVENT_VS + match.Away,
                     KOTime = match.EventDateTime.ToString("hh:mm tt"),
                     ReceivedUserIds = prematchAssigneeIds.Count() == 0
-                        ? employees.AllPrematchEmployees.Union(employees.AllLSTEmployees).ToList()
-                        : prematchAssigneeIds.Union(employees.AllLSTEmployees).ToList()
+                        ? employees.AllLSTEmployees.Union(employees.AllPrematchEmployees).ToList()
+                        : employees.AllLSTEmployees.Union(prematchAssigneeIds).ToList()
                 };
             }
         }
