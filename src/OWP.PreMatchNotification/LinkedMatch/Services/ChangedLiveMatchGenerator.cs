@@ -48,7 +48,7 @@
                     League = match.LeagueName,
                     Home = match.Home,
                     Away = match.Away,
-                    KOTime = match.EventDateTime.ToString("hh:mm tt"),
+                    KoTime = match.EventDateTime.ToString("hh:mm tt"),
                     ReceivedUserIds = prematchAssigneeIds.Count() == 0
                         ? employees.AllLSTEmployees.Union(employees.AllPrematchEmployees).ToList()
                         : employees.AllLSTEmployees.Union(prematchAssigneeIds).ToList()

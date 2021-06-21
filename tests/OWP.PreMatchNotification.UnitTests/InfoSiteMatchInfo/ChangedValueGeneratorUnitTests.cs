@@ -2,10 +2,10 @@
 {
     using System;
     using System.Collections.Generic;
-    using OWP.PreMatchNotification.Constants;
+    using Constants;
     using OWP.PreMatchNotification.InfoSiteMatchInfo.Models;
     using OWP.PreMatchNotification.InfoSiteMatchInfo.Services;
-    using OWP.PreMatchNotification.Models;
+    using Models;
     using Xunit;
     using Xunit.Asserts.Compare;
 

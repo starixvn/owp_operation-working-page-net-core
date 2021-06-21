@@ -1,5 +1,6 @@
 ﻿namespace OWP.PreMatchNotification.NewLeague.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using OWP.PreMatchNotification.Models;
@@ -7,16 +8,28 @@
 
     public interface NewLeagueValueGenerator
     {
-        IEnumerable<ChangedValue> Create(IList<PreMatchLeague> oldSnapshot, IList<PreMatchLeague> newSnapshot, IList<Assignee> assignees);
+        IEnumerable<ChangedValue> Create(IList<PreMatchLeague> oldSnapshot,
+            IList<PreMatchLeague> newSnapshot, IList<Assignee> assignees,
+            IList<InfoSiteMatch> infoSiteMatches);
     }
 
     public class NewLeagueValueGeneratorImp : NewLeagueValueGenerator
     {
-        public IEnumerable<ChangedValue> Create(IList<PreMatchLeague> oldSnapshot, IList<PreMatchLeague> newSnapshot, IList<Assignee> assignees)
-        {
-            var newLeagues = GetNewPreMatchLeagues(oldSnapshot, newSnapshot);
+        private readonly DateTimeHelper dateTimeHelper;
 
-            foreach(var league in newLeagues)
+        public NewLeagueValueGeneratorImp(DateTimeHelper dateTimeHelper)
+        {
+            this.dateTimeHelper = dateTimeHelper;
+        }
+
+        public IEnumerable<ChangedValue> Create(IList<PreMatchLeague> oldSnapshot,
+            IList<PreMatchLeague> newSnapshot,
+            IList<Assignee> assignees,
+            IList<InfoSiteMatch> infoSiteMatches)
+        {
+            var newLeagues = GetNewPreMatchLeagues(oldSnapshot, newSnapshot, infoSiteMatches);
+
+            foreach (var league in newLeagues)
             {
                 yield return new ChangedValue
                 {
@@ -26,7 +39,26 @@
             }
         }
 
-        private List<PreMatchLeague> GetNewPreMatchLeagues(IList<PreMatchLeague> oldSnapshot, IList<PreMatchLeague> newSnapshot)
-            => newSnapshot.Except(oldSnapshot, new PreMatchLeague()).Distinct(new PreMatchLeague()).ToList();
+        private IEnumerable<PreMatchLeague> GetNewPreMatchLeagues(IList<PreMatchLeague> oldSnapshot,
+            IList<PreMatchLeague> newSnapshot, IList<InfoSiteMatch> infoSiteMatches)
+        {
+            var newLeagues = newSnapshot.Except(oldSnapshot, new PreMatchLeague()).Distinct(new PreMatchLeague()).ToList();
+            var currentDate = dateTimeHelper.GetCurrentDate();
+            var fromDate = currentDate.AddHours(12);
+            var toDate = currentDate.AddDays(1).AddHours(11).AddMinutes(59);
+
+            foreach (var league in newLeagues)
+            {
+                var matches = infoSiteMatches.Where(x =>
+                    x.OWPLeagueId == league.OWPLeagueId &&
+                    x.EventDateTime.AddHours(8) >= fromDate &&
+                    x.EventDateTime.AddHours(8) <= toDate);
+
+                if (matches.Any())
+                {
+                    yield return league;
+                }
+            }
+        }
     }
 }

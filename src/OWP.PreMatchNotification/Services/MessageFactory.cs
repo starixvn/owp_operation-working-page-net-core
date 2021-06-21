@@ -212,7 +212,7 @@
             content = content.Replace("<Away>", value.Away);
             content = content.Replace("<User>", currentSession.UserName);
             content = content.Replace("<bettype>", value.BetTypeName);
-            content = content.Replace("<K.O Time>", value.KOTime);
+            content = content.Replace("<K.O Time>", value.KoTime);
 
             return content;
         }

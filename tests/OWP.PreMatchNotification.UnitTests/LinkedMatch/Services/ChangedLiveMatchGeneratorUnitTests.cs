@@ -55,7 +55,7 @@ namespace OWP.PreMatchNotification.UnitTests.LinkedMatch.Services
                     League="LeagueA",
                     Home="HomeA",
                     Away="AwayA",
-                    KOTime = "02:12 PM",
+                    KoTime = "02:12 PM",
                     ReceivedUserIds=new List<int>{1,2,3,8,9}
                 },
                 new(){
@@ -63,7 +63,7 @@ namespace OWP.PreMatchNotification.UnitTests.LinkedMatch.Services
                     League="LeagueB",
                     Home="HomeB",
                     Away="AwayB",
-                    KOTime = "02:10 AM",
+                    KoTime = "02:10 AM",
                     ReceivedUserIds=new List<int>{1,2,3,4,5,6}
                 },
                 new(){
@@ -71,7 +71,7 @@ namespace OWP.PreMatchNotification.UnitTests.LinkedMatch.Services
                     League="LeagueC",
                     Home="HomeC",
                     Away="AwayC",
-                    KOTime = "05:12 AM",
+                    KoTime = "05:12 AM",
                     ReceivedUserIds=new List<int>{1,2,3,10,11}
                 }
             };

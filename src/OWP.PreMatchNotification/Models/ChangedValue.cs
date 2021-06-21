@@ -22,7 +22,7 @@
 
         public string BetTypeName { get; set; }
 
-        public string KOTime { get; set; }
+        public string KoTime { get; set; }
 
         public bool IsIndirectChangedAssignment { get; set; }
     }

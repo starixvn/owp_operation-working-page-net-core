@@ -1,10 +1,12 @@
 ﻿namespace OWP.PreMatchNotification.UnitTests.NewLeague
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using OWP.PreMatchNotification.Models;
     using OWP.PreMatchNotification.NewLeague.Models;
     using OWP.PreMatchNotification.NewLeague.Services;
+    using NSubstitute;
     using Xunit;
     using Xunit.Asserts.Compare;
 
@@ -13,7 +15,9 @@
         [Fact]
         public void Create_ReturnNewLeagueMessages()
         {
-            var service = new NewLeagueValueGeneratorImp();
+            var dateTimeHelper = Substitute.For<DateTimeHelper>();
+            dateTimeHelper.GetCurrentDate().Returns(new DateTime(2021, 06, 21));
+            var service = new NewLeagueValueGeneratorImp(dateTimeHelper);
             var receivedUserIds = MockAssignees().Select(x => x.AssigneeId).ToList();
             var expected = new List<ChangedValue>
             {
@@ -29,10 +33,36 @@
                 }
             };
 
-            var actual = service.Create(MockOldSnapshot(), MockNewSnapshot(), MockAssignees());
+            var actual = service.Create(MockOldSnapshot(), MockNewSnapshot(), MockAssignees(), MockInfoSiteMatches());
 
             DeepAssert.Equal(expected, actual.ToList());
         }
+
+        private IList<InfoSiteMatch> MockInfoSiteMatches()
+            => new List<InfoSiteMatch>
+            {
+                new InfoSiteMatch
+                {
+                    EventDateTime = new DateTime(2021, 06, 21, 02, 00, 00),
+                    OWPLeagueId = 1
+                },
+                new InfoSiteMatch
+                {
+                    EventDateTime = new DateTime(2021, 06, 21, 03, 00, 00),
+                    OWPLeagueId = 4
+                },
+                new InfoSiteMatch
+                {
+                    EventDateTime = new DateTime(2021, 06, 21, 08, 30, 00),
+                    OWPLeagueId = 4
+                }
+                ,
+                new InfoSiteMatch
+                {
+                    EventDateTime = new DateTime(2021, 06, 21, 21, 30, 00),
+                    OWPLeagueId = 5
+                }
+            };
 
         private IList<Assignee> MockAssignees()
             => new List<Assignee>

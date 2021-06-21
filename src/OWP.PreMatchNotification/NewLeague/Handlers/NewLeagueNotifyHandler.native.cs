@@ -1,4 +1,6 @@
-﻿namespace OWP.PreMatchNotification.NewLeague.Handlers
+﻿using OWP.PreMatchNotification.Criteria;
+
+namespace OWP.PreMatchNotification.NewLeague.Handlers
 {
     using System;
     using System.Collections.Generic;
@@ -7,11 +9,11 @@
     using System.Threading.Tasks;
     using Fanex.Data.Repository;
     using MediatR;
-    using OWP.PreMatchNotification.Constants;
+    using Constants;
     using OWP.PreMatchNotification.Models;
-    using OWP.PreMatchNotification.NewLeague.Criteria;
-    using OWP.PreMatchNotification.NewLeague.Models;
-    using OWP.PreMatchNotification.NewLeague.Services;
+    using Criteria;
+    using Models;
+    using Services;
     using OWP.PreMatchNotification.Services;
 
     public class NewLeagueNotifyRequest : IRequest<Unit>
@@ -70,7 +72,9 @@
             var oldSnapshot = await cacheManipulator.GetOldPreMatchLeagueSnapshot(request.SessionId);
             var newSnapshot = await GetPreMatchLeagueNewSnapshot(request.FromDate, request.ToDate);
             var preMatchAssignees = await commandRepository.GetEmployeesBySection(Section.PreMatch);
-            var messages = newLeagueGenerator.Create(oldSnapshot, newSnapshot, preMatchAssignees);
+            var infoSiteMatches = await GetInfoSiteMatch(newSnapshot.Select(x => x.OWPLeagueId).ToList());
+
+            var messages = newLeagueGenerator.Create(oldSnapshot, newSnapshot, preMatchAssignees, infoSiteMatches);
 
             await cacheManipulator.DeleteOldPreMatchLeagueSnapshot(request.SessionId);
 
@@ -85,6 +89,17 @@
                 ToDate = toDate
             };
             var result = await dynamicRepository.FetchAsync<PreMatchLeague>(criteria).ConfigureAwait(false);
+
+            return result.ToList();
+        }
+
+        private async Task<IList<InfoSiteMatch>> GetInfoSiteMatch(List<int> owpLeagueIds)
+        {
+            var criteria = new QueryInfoSiteMatchByOWPLeagueIdsCriteria
+            {
+                OWPLeagueIds = string.Join(',', owpLeagueIds)
+            };
+            var result = await dynamicRepository.FetchAsync<InfoSiteMatch>(criteria).ConfigureAwait(false);
 
             return result.ToList();
         }
