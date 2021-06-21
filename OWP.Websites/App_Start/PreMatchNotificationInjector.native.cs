@@ -1,6 +1,7 @@
 ﻿namespace OWP.Websites.App_Start
 {
     using Microsoft.Extensions.DependencyInjection;
+    using Fanex.Data.Repository;
     using PreMatchNotification = PreMatchNotification.Services;
     using LinkedMatch = PreMatchNotification.LinkedMatch.Services;
     using MyAssignment = PreMatchNotification.Assignment.Services.MyAssignment;
@@ -16,7 +17,8 @@
             services.AddScoped<PreMatchNotification.MessageFactory, PreMatchNotification.MessageFactoryImp>();
             services.AddScoped<PreMatchNotification.NotifyServices, PreMatchNotification.NotifyServicesImp>();
             services.AddScoped<PreMatchNotification.CacheManipulatorCommon, PreMatchNotification.CacheManipulatorCommonImp>();
-            
+            services.AddScoped<PreMatchNotification.DateTimeHelper, PreMatchNotification.DateTimeHelperImp>();
+
             services.AddScoped<MyAssignment.MyAssignmentGenerator, MyAssignment.MyAssignmentGeneratorImp>();
             services.AddScoped<MyAssignment.MyAssignmentDetector, MyAssignment.MyAssignmentDetectorImp>();
             services.AddScoped<MyAssignment.ChangedValueHdpDetector, MyAssignment.ChangedValueHdpDetectorImp>();
@@ -39,9 +41,11 @@
             services.AddScoped<LinkedMatch.Repository, LinkedMatch.RepositoryImp>();
 
             // InfoSiteMatchInfo
+            services.AddScoped<InfoSiteMatchInfo.Repository, InfoSiteMatchInfo.RepositoryImp>();
+            services.AddScoped<InfoSiteMatchInfo.ChangedValueGenerator, InfoSiteMatchInfo.ChangedValueGeneratorImp>();
 
             // NewLeague
-
+            services.AddScoped<NewLeague.NewLeagueValueGenerator, NewLeague.NewLeagueValueGeneratorImp>();
         }
     }
 }

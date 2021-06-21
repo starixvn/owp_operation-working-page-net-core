@@ -27,9 +27,9 @@ namespace OWP.PreMatchNotification.NewLeague.Handlers
 
     public class NewLeagueNotifyHandler : IRequestHandler<NewLeagueNotifyRequest, Unit>
     {
-        private readonly CacheManipulator cacheManipulator;
+        private readonly CacheManipulatorCommon cacheManipulator;
 
-        private readonly DynamicRepository dynamicRepository;
+        private readonly IDynamicRepository dynamicRepository;
 
         private readonly NewLeagueValueGenerator newLeagueGenerator;
 
@@ -39,9 +39,11 @@ namespace OWP.PreMatchNotification.NewLeague.Handlers
 
         private readonly NotifyServices notify;
 
+        private const string OLD_PREMATCHLEAGUES_SNAPSHOT_KEY = "OWP-Old-PreMatchLeagues";
+
         public NewLeagueNotifyHandler(
-            CacheManipulator cacheManipulator,
-            DynamicRepository dynamicRepository,
+            CacheManipulatorCommon cacheManipulator,
+            IDynamicRepository dynamicRepository,
             NewLeagueValueGenerator newLeagueGenerator,
             MessageFactory messageFactory,
             CommandRepository commandRepository,
@@ -69,14 +71,14 @@ namespace OWP.PreMatchNotification.NewLeague.Handlers
 
         private async Task<IList<ChangedValue>> GenerateMessages(NewLeagueNotifyRequest request)
         {
-            var oldSnapshot = await cacheManipulator.GetOldPreMatchLeagueSnapshot(request.SessionId);
+            var oldSnapshot = await cacheManipulator.GetMultipleData<PreMatchLeague>($"{OLD_PREMATCHLEAGUES_SNAPSHOT_KEY}-{request.SessionId}");
             var newSnapshot = await GetPreMatchLeagueNewSnapshot(request.FromDate, request.ToDate);
             var preMatchAssignees = await commandRepository.GetEmployeesBySection(Section.PreMatch);
             var infoSiteMatches = await GetInfoSiteMatch(newSnapshot.Select(x => x.OWPLeagueId).ToList());
 
             var messages = newLeagueGenerator.Create(oldSnapshot, newSnapshot, preMatchAssignees, infoSiteMatches);
 
-            await cacheManipulator.DeleteOldPreMatchLeagueSnapshot(request.SessionId);
+            await cacheManipulator.RemoveData($"{OLD_PREMATCHLEAGUES_SNAPSHOT_KEY}-{request.SessionId}");
 
             return messages.ToList();
         }

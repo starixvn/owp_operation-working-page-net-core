@@ -10,6 +10,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using OWP.PreMatchNotification.Constants;
+    using OWP.PreMatchNotification.InfoSiteMatchInfo.Models;
 
     public class MatchInfoNotifyRequest : IRequest<Unit>
     {
@@ -22,7 +23,7 @@
 
     public class MatchInfoNotifyHandler : IRequestHandler<MatchInfoNotifyRequest, Unit>
     {
-        private readonly CacheManipulator cacheManipulator;
+        private readonly CacheManipulatorCommon cacheManipulator;
 
         private readonly Repository queryRepository;
 
@@ -34,8 +35,10 @@
 
         private readonly NotifyServices notify;
 
+        private const string OLD_INFOSITEMATCHES_SNAPSHOT_KEY = "OWP-Old-InfoSiteMatches";
+
         public MatchInfoNotifyHandler(
-            CacheManipulator cacheManipulator,
+            CacheManipulatorCommon cacheManipulator,
             Repository queryRepository,
             ChangedValueGenerator changedValueGenerator,
             MessageFactory messageFactory,
@@ -64,7 +67,7 @@
 
         private async Task<IList<ChangedValue>> GenerateMessages(MatchInfoNotifyRequest request)
         {
-            var oldSnapshot = await cacheManipulator.GetOldInfoSiteMatchSnapshot(request.SessionId);
+            var oldSnapshot = await cacheManipulator.GetMultipleData<InfoSiteMatch>($"{OLD_INFOSITEMATCHES_SNAPSHOT_KEY}-{request.SessionId}");
             var newSnapshot = await queryRepository.GetInfoSiteMatchNewSnapshot(request.FromDate, request.ToDate);
 
             var owpLeagueIds = newSnapshot.Select(x => x.OWPLeagueId).ToList();
@@ -77,7 +80,7 @@
             var lstMessages = changedValueGenerator.CreateLSTMessages(assigneeMessages, lst, linkedMatches);
 
             var allMessages = assigneeMessages.Union(lstMessages);
-            await cacheManipulator.DeleteOldInfoSiteMatchSnapshot(request.SessionId);
+            await cacheManipulator.RemoveData($"{OLD_INFOSITEMATCHES_SNAPSHOT_KEY}-{request.SessionId}");
 
             return allMessages.ToList();
         }

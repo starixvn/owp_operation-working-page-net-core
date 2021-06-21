@@ -1,4 +1,4 @@
-﻿namespace OWP.PreMatchNotification.InfoSiteMatchInfo
+﻿namespace OWP.PreMatchNotification.InfoSiteMatchInfo.Services
 {
     using System;
     using System.Collections.Generic;
@@ -17,9 +17,9 @@
 
     public class RepositoryImp : Repository
     {
-        private readonly DynamicRepository dynamicRepository;
+        private readonly IDynamicRepository dynamicRepository;
 
-        public RepositoryImp(DynamicRepository dynamicRepository)
+        public RepositoryImp(IDynamicRepository dynamicRepository)
         {
             this.dynamicRepository = dynamicRepository;
         }
