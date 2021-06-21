@@ -8,16 +8,22 @@ namespace OWP.PreMatchNotification.Assignment.Services.OtherAssignment
 {
     public interface ChangedValueHdpDetector
     {
-        void Detect(
+        void DetectMain(
           AssignmentSnapshot oldSnapshot,
           AssignmentSnapshot newSnapshot,
           IList<ChangedValue> changedValues,
           int receivedUserId);
+
+        void DetectOther(
+            AssignmentSnapshot oldSnapshot,
+            AssignmentSnapshot newSnapshot,
+            IList<ChangedValue> changedValues,
+            int receivedUserId);
     }
 
     public class ChangedValueHdpDetectorImp : ChangedValueHdpDetector
     {
-        public void Detect(AssignmentSnapshot oldSnapshot, AssignmentSnapshot newSnapshot, IList<ChangedValue> changedValues, int receivedUserId)
+        public void DetectMain(AssignmentSnapshot oldSnapshot, AssignmentSnapshot newSnapshot, IList<ChangedValue> changedValues, int receivedUserId)
         {
             if (!string.Equals(oldSnapshot.Hdp, newSnapshot.Hdp))
             {
@@ -27,6 +33,22 @@ namespace OWP.PreMatchNotification.Assignment.Services.OtherAssignment
                     BetTypeName = Bettype.HDP,
                     OldValue = oldSnapshot.Hdp,
                     NewValue = newSnapshot.Hdp,
+                    MessageTypeId = AssignmentHelper.DetectMessageType(newSnapshot.IsDay.Value)
+                });
+            }
+        }
+
+        public void DetectOther(AssignmentSnapshot oldSnapshot, AssignmentSnapshot newSnapshot, IList<ChangedValue> changedValues,
+            int receivedUserId)
+        {
+            if (!string.Equals(oldSnapshot.OtherHdp, newSnapshot.OtherHdp))
+            {
+                changedValues.Add(new ChangedValue
+                {
+                    ReceivedUserIds = new List<int>(receivedUserId),
+                    BetTypeName = Bettype.HDP,
+                    OldValue = oldSnapshot.OtherHdp,
+                    NewValue = newSnapshot.OtherHdp,
                     MessageTypeId = AssignmentHelper.DetectMessageType(newSnapshot.IsDay.Value)
                 });
             }

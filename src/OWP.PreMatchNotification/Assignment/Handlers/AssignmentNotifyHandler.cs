@@ -2,21 +2,20 @@
 using MediatR;
 using OWP.PreMatchNotification.Assignment.Criteria;
 using OWP.PreMatchNotification.Assignment.Models;
-using OWP.PreMatchNotification.Assignment.Services;
 using OWP.PreMatchNotification.Assignment.Services.MyAssignment;
-using OWP.PreMatchNotification.Constants;
 using OWP.PreMatchNotification.Models;
 using OWP.PreMatchNotification.Services;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using OWP.PreMatchNotification.Assignment.Services.OtherAssignment;
 
 namespace OWP.PreMatchNotification.Assignment.Handlers
 {
     public class AssignmentNotifyRequest : IRequest<Unit>
     {
-        public string redisKey { get; set; }
+        public string RedisKey { get; set; }
 
         public string SessionId { get; set; }
     }
@@ -28,6 +27,8 @@ namespace OWP.PreMatchNotification.Assignment.Handlers
         private readonly DynamicRepository dynamicRepository;
 
         private readonly MyAssignmentGenerator myAssignmentGenerator;
+
+        private readonly OtherAssignmentGenerator otherAssignmentGenerator;
 
         private readonly MessageFactory messageFactory;
 
@@ -41,7 +42,8 @@ namespace OWP.PreMatchNotification.Assignment.Handlers
             MyAssignmentGenerator myAssignmentGenerator,
             MessageFactory messageFactory,
             CommandRepository commandRepository,
-            NotifyServices notify)
+            NotifyServices notify,
+            OtherAssignmentGenerator otherAssignmentGenerator)
         {
             this.cacheManipulator = cacheManipulator;
             this.dynamicRepository = dynamicRepository;
@@ -49,6 +51,7 @@ namespace OWP.PreMatchNotification.Assignment.Handlers
             this.messageFactory = messageFactory;
             this.commandRepository = commandRepository;
             this.notify = notify;
+            this.otherAssignmentGenerator = otherAssignmentGenerator;
         }
 
         public async Task<Unit> Handle(AssignmentNotifyRequest request, CancellationToken cancellationToken)
@@ -66,7 +69,7 @@ namespace OWP.PreMatchNotification.Assignment.Handlers
         private async Task<IList<ChangedValue>> GenerateMessages(AssignmentNotifyRequest request)
         {
             var changedValuesResult = new List<ChangedValue>();
-            var oldSnapshot = await cacheManipulator.GetMultipleData<AssignmentSnapshot>(request.redisKey);
+            var oldSnapshot = await cacheManipulator.GetMultipleData<AssignmentSnapshot>(request.RedisKey);
             var preMatchLeagueIdUpdated = oldSnapshot.Select(item => item.PreMatchLeagueId).ToList();
             var newSnapshot = await GetAssignmentNewSnapshot(preMatchLeagueIdUpdated);
             var prematchIdUpdated = newSnapshot.Select(p => p.PreMatchLeagueId);
@@ -75,9 +78,11 @@ namespace OWP.PreMatchNotification.Assignment.Handlers
             {
                 var oldAssignment = oldSnapshot.First(snap => snap.PreMatchLeagueId == prematchId);
                 var newAssignment = newSnapshot.First(snap => snap.PreMatchLeagueId == prematchId);
-                var changedValues = myAssignmentGenerator.Create(oldAssignment, newAssignment);
+                var myAssignmentChangedValues = myAssignmentGenerator.Create(oldAssignment, newAssignment);
+                var otherAssignmentChangedValues = otherAssignmentGenerator.Create(oldAssignment, newAssignment);
 
-                changedValuesResult.AddRange(changedValues);
+                changedValuesResult.AddRange(myAssignmentChangedValues);
+                changedValuesResult.AddRange(otherAssignmentChangedValues);
             }
 
             return changedValuesResult;

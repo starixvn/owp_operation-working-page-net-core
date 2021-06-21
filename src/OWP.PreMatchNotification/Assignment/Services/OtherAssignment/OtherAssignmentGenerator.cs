@@ -1,10 +1,6 @@
 ﻿using OWP.PreMatchNotification.Assignment.Models;
 using OWP.PreMatchNotification.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OWP.PreMatchNotification.Assignment.Services.OtherAssignment
 {
@@ -15,9 +11,25 @@ namespace OWP.PreMatchNotification.Assignment.Services.OtherAssignment
 
     public class OtherAssignmentGeneratorImp : OtherAssignmentGenerator
     {
+        private readonly OtherAssignmentDetector otherAssignmentDetector;
+
+        public OtherAssignmentGeneratorImp(OtherAssignmentDetector otherAssignmentDetector)
+        {
+            this.otherAssignmentDetector = otherAssignmentDetector;
+        }
         public IEnumerable<ChangedValue> Create(AssignmentSnapshot oldSnapshot, AssignmentSnapshot newSnapshot)
         {
-            throw new NotImplementedException();
+            var changedValues = new List<ChangedValue>();
+            otherAssignmentDetector.DetectChangeOtherAssignmentExceptHdp(oldSnapshot, newSnapshot, changedValues);
+            otherAssignmentDetector.DetectChangeAssignmentExceptOu(oldSnapshot, newSnapshot, changedValues);
+            otherAssignmentDetector.DetectChangeAssignmentExceptHdpTOver(oldSnapshot, newSnapshot, changedValues);
+            otherAssignmentDetector.DetectChangeAssignmentExceptOuTOver(oldSnapshot, newSnapshot, changedValues);
+
+            otherAssignmentDetector.DetectChangeAssignmentExceptOtherHdp(oldSnapshot, newSnapshot, changedValues);
+            otherAssignmentDetector.DetectChangeAssignmentExceptOtherOu(oldSnapshot, newSnapshot, changedValues);
+            otherAssignmentDetector.DetectChangeAssignmentExceptOtherHdpTOver(oldSnapshot, newSnapshot, changedValues);
+            otherAssignmentDetector.DetectChangeAssignmentExceptOtherOuTOver(oldSnapshot, newSnapshot, changedValues);
+            return changedValues;
         }
     }
 }

@@ -19,16 +19,17 @@
             
             services.AddScoped<MyAssignment.MyAssignmentGenerator, MyAssignment.MyAssignmentGeneratorImp>();
             services.AddScoped<MyAssignment.MyAssignmentDetector, MyAssignment.MyAssignmentDetectorImp>();
+            services.AddScoped<MyAssignment.ChangedValueHdpDetector, MyAssignment.ChangedValueHdpDetectorImp>();
+            services.AddScoped<MyAssignment.ChangedValueOuDetector, MyAssignment.ChangedValueOuDetectorImp>();
+            services.AddScoped<MyAssignment.ChangedValueHdpTakeOverDetector, MyAssignment.ChangedValueHdpTakeOverDetectorImp>();
+            services.AddScoped<MyAssignment.ChangedValueOuTakeOverDetector, MyAssignment.ChangedValueOuTakeOverDetectorImp>();
+
             services.AddScoped<OtherAssignment.OtherAssignmentGenerator, OtherAssignment.OtherAssignmentGeneratorImp>();
-            services.AddScoped<OtherAssignment.OtherAssignmentDetector, OtherAssignment.OtherAssignmentDetectoImp>();
+            services.AddScoped<OtherAssignment.OtherAssignmentDetector, OtherAssignment.OtherAssignmentDetectorImp>();
             services.AddScoped<OtherAssignment.ChangedValueHdpDetector, OtherAssignment.ChangedValueHdpDetectorImp>();
             services.AddScoped<OtherAssignment.ChangedValueOuDetector, OtherAssignment.ChangedValueOuDetectorImp>();
             services.AddScoped<OtherAssignment.ChangedValueHdpTakeOverDetector, OtherAssignment.ChangedValueHdpTakeOverDetectorImp>();
             services.AddScoped<OtherAssignment.ChangedValueOuTakeOverDetector, OtherAssignment.ChangedValueOuTakeOverDetectorImp>();
-            services.AddScoped<OtherAssignment.ChangedValueOtherHdpDetector, OtherAssignment.ChangedValueOtherHdpDetectorImp>();
-            services.AddScoped<OtherAssignment.ChangedValueOtherOuDetector, OtherAssignment.ChangedValueOtherOuDetectorImp>();
-            services.AddScoped<OtherAssignment.ChangedValueOtherHdpTakeOverDetector, OtherAssignment.ChangedValueOtherHdpTakeOverDetectorImp>();
-            services.AddScoped<OtherAssignment.ChangedValueOtherOuTakeOverDetector, OtherAssignment.ChangedValueOtherOuTakeOverDetectorImp>();
 
             // LinkedMatch
             services.AddScoped<LinkedMatch.CacheManipulator, LinkedMatch.CacheManipulatorImp>();
