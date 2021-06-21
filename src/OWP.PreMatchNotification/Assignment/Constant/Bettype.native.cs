@@ -6,8 +6,8 @@
 
         public const string OU = "O/U";
 
-        public const string HDP_TAKEOVER = "HDP";
+        public const string HDP_TAKEOVER = "HDP T.OVER";
 
-        public const string OU_TAKEOVER = "HDP";
+        public const string OU_TAKEOVER = "O/U T.OVER";
     }
 }

@@ -16,26 +16,24 @@ namespace OWP.PreMatchNotification.Assignment.Services.MyAssignment
     public class ChangedValueHdpDetectorImp : ChangedValueHdpDetector
     {
         public void DetectMain(AssignmentSnapshot oldSnapshot, AssignmentSnapshot newSnapshot, List<ChangedValue> changedValues)
-        {
-            AssignmentHelper.DetectChangedValue(new MyAssignmentDetectorModel
+            => AssignmentHelper.DetectChangedValue(new MyAssignmentDetectorModel
             {
                 LeagueName = oldSnapshot.LeagueName,
                 IsDay = oldSnapshot.IsDay,
-                oldAssignment = oldSnapshot.Hdp,
-                newAssignment = newSnapshot.Hdp,
+                OldAssignment = oldSnapshot.Hdp,
+                NewAssignment = newSnapshot.Hdp,
                 BettypeName = Bettype.HDP,
                 UserIdNewAssign = newSnapshot.HdpUserId.Value,
                 UserIdRemoved = oldSnapshot.HdpUserId.Value
             }, changedValues);
-        }
 
         public void DetectOther(AssignmentSnapshot oldSnapshot, AssignmentSnapshot newSnapshot, List<ChangedValue> changedValues)
             => AssignmentHelper.DetectChangedValue(new MyAssignmentDetectorModel
             {
                 LeagueName = oldSnapshot.LeagueName,
                 IsDay = oldSnapshot.IsDay,
-                oldAssignment = oldSnapshot.OtherHdp,
-                newAssignment = newSnapshot.OtherHdp,
+                OldAssignment = oldSnapshot.OtherHdp,
+                NewAssignment = newSnapshot.OtherHdp,
                 BettypeName = Bettype.HDP,
                 UserIdNewAssign = newSnapshot.OtherHdpUserId.Value,
                 UserIdRemoved = oldSnapshot.OtherHdpUserId.Value

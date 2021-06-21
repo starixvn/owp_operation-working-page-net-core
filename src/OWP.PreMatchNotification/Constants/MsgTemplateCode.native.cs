@@ -4,9 +4,9 @@
     {
         DayShiftAssignmentInsert = 201,
         DayShiftAssignmentDelete = 202,
-        DayShiftOtherAssignmentUpdate = 206,
-        NightShiftAssignmentInsert = 201,
-        NightShiftAssignmentDelete = 202,
+        DayShiftOtherAssignmentUpdate = 203,
+        NightShiftAssignmentInsert = 204,
+        NightShiftAssignmentDelete = 205,
         NightShiftOtherAssignmentUpdate = 206,
         NewLeague = 207,
         LGAAddLiveMatch = 208,

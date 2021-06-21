@@ -21,8 +21,8 @@ namespace OWP.PreMatchNotification.Assignment.Helper
 
         public static void DetectChangedValueNewAssignment(MyAssignmentDetectorModel model, List<ChangedValue> changedValues)
         {
-            if (!string.Equals(model.oldAssignment, model.newAssignment) &&
-                !string.IsNullOrWhiteSpace(model.newAssignment))
+            if (!string.Equals(model.OldAssignment, model.NewAssignment) &&
+                !string.IsNullOrWhiteSpace(model.NewAssignment))
             {
                 changedValues.Add(new ChangedValue
                 {
@@ -38,8 +38,8 @@ namespace OWP.PreMatchNotification.Assignment.Helper
 
         public static void DetectChangedValueDeleteAssignment(MyAssignmentDetectorModel model, List<ChangedValue> changedValues)
         {
-            if (!string.Equals(model.oldAssignment, model.newAssignment) &&
-                !string.IsNullOrWhiteSpace(model.oldAssignment))
+            if (!string.Equals(model.OldAssignment, model.NewAssignment) &&
+                !string.IsNullOrWhiteSpace(model.OldAssignment))
             {
                 changedValues.Add(new ChangedValue
                 {

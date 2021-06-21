@@ -22,8 +22,8 @@ namespace OWP.PreMatchNotification.Assignment.Services.MyAssignment
             {
                 LeagueName = oldSnapshot.LeagueName,
                 IsDay = oldSnapshot.IsDay,
-                oldAssignment = oldSnapshot.OuTakeOver,
-                newAssignment = newSnapshot.OuTakeOver,
+                OldAssignment = oldSnapshot.OuTakeOver,
+                NewAssignment = newSnapshot.OuTakeOver,
                 BettypeName = Bettype.OU_TAKEOVER,
                 UserIdNewAssign = newSnapshot.OuTakeOverUserId.Value,
                 UserIdRemoved = oldSnapshot.OuTakeOverUserId.Value
@@ -34,8 +34,8 @@ namespace OWP.PreMatchNotification.Assignment.Services.MyAssignment
             {
                 LeagueName = oldSnapshot.LeagueName,
                 IsDay = oldSnapshot.IsDay,
-                oldAssignment = oldSnapshot.OtherOuTakeOver,
-                newAssignment = newSnapshot.OtherOuTakeOver,
+                OldAssignment = oldSnapshot.OtherOuTakeOver,
+                NewAssignment = newSnapshot.OtherOuTakeOver,
                 BettypeName = Bettype.OU_TAKEOVER,
                 UserIdNewAssign = newSnapshot.OtherOuTakeOverUserId.Value,
                 UserIdRemoved = oldSnapshot.OtherOuTakeOverUserId.Value

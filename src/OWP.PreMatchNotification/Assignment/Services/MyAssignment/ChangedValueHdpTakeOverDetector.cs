@@ -20,8 +20,8 @@ namespace OWP.PreMatchNotification.Assignment.Services.MyAssignment
             {
                 LeagueName = oldSnapshot.LeagueName,
                 IsDay = oldSnapshot.IsDay,
-                oldAssignment = oldSnapshot.HdpTakeOver,
-                newAssignment = newSnapshot.HdpTakeOver,
+                OldAssignment = oldSnapshot.HdpTakeOver,
+                NewAssignment = newSnapshot.HdpTakeOver,
                 BettypeName = Bettype.HDP_TAKEOVER,
                 UserIdNewAssign = newSnapshot.HdpTakeOverUserId.Value,
                 UserIdRemoved = oldSnapshot.HdpTakeOverUserId.Value
@@ -32,8 +32,8 @@ namespace OWP.PreMatchNotification.Assignment.Services.MyAssignment
             {
                 LeagueName = oldSnapshot.LeagueName,
                 IsDay = oldSnapshot.IsDay,
-                oldAssignment = oldSnapshot.OtherHdpTakeOver,
-                newAssignment = newSnapshot.OtherHdpTakeOver,
+                OldAssignment = oldSnapshot.OtherHdpTakeOver,
+                NewAssignment = newSnapshot.OtherHdpTakeOver,
                 BettypeName = Bettype.HDP_TAKEOVER,
                 UserIdNewAssign = newSnapshot.OtherHdpTakeOverUserId.Value,
                 UserIdRemoved = oldSnapshot.OtherHdpTakeOverUserId.Value

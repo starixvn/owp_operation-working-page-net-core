@@ -4,9 +4,9 @@
     {
         public string LeagueName { get; set; }
 
-        public string oldAssignment { get; set; }
+        public string OldAssignment { get; set; }
 
-        public string newAssignment { get; set; }
+        public string NewAssignment { get; set; }
 
         public string BettypeName { get; set; }
 
