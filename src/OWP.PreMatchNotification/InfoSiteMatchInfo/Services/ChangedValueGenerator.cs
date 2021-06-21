@@ -52,7 +52,7 @@
             var changedValueList = new List<ChangedValue>();
             var detectListChanged = newSnapshot.Except(oldSnapshot, new InfoSiteMatchComparer()).ToList();
 
-            foreach (var item in newSnapshot)
+            foreach (var item in detectListChanged)
             {
                 var oldInfositeMatch = oldSnapshot.FirstOrDefault(x => x.InfoSiteMatchId == item.InfoSiteMatchId);
 
@@ -95,7 +95,6 @@
             foreach (var propertyName in infoSiteMatchPropertyNames)
             {
                 var property = GetProperty(oldMatch, propertyName);
-
                 var oldValue = GetValueByProperty(property, oldMatch);
                 var newValue = GetValueByProperty(property, newMatch);
 
