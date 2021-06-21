@@ -1,10 +1,10 @@
 ﻿namespace OWP.PreMatchNotification.NewLeague.Services
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using OWP.PreMatchNotification.Models;
     using OWP.PreMatchNotification.NewLeague.Models;
+    using OWP.PreMatchNotification.Services;
 
     public interface NewLeagueValueGenerator
     {

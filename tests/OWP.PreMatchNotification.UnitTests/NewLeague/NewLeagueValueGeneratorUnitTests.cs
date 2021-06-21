@@ -9,6 +9,7 @@
     using NSubstitute;
     using Xunit;
     using Xunit.Asserts.Compare;
+    using OWP.PreMatchNotification.Services;
 
     public class NewLeagueValueGeneratorUnitTests
     {

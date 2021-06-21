@@ -6,15 +6,17 @@
     using OWP.PreMatchNotification.InfoSiteMatchInfo.Models;
     using OWP.PreMatchNotification.InfoSiteMatchInfo.Services;
     using Models;
+    using NSubstitute;
     using Xunit;
     using Xunit.Asserts.Compare;
+    using OWP.PreMatchNotification.Services;
 
     public class ChangedValueGeneratorUnitTests
     {
         [Fact]
         public void CreateAssigneeMessages_WithChangedSnapshot_ReturnChangedValue()
         {
-            var service = new ChangedValueGeneratorImp();
+            var service = MockService();
             var expected = CreateExpectedChangedValueForAssignees();
 
             var actual = service.CreateAssigneeMessages(MockOldSnapshot(), MockNewSnapshot(), MockPreMatchAssignees());
@@ -25,12 +27,20 @@
         [Fact]
         public void CreateLSTMessages_WithChangedSnapshot_ReturnChangedValue()
         {
-            var service = new ChangedValueGeneratorImp();
+            var service = MockService();
             var expected = CreateExpectedChangedValueForLST();
 
             var actual = service.CreateLSTMessages(CreateExpectedChangedValueForAssignees(), MockLST(), MockLinkedLGAMatches());
 
             DeepAssert.Equal(expected, actual);
+        }
+
+        private ChangedValueGenerator MockService()
+        {
+            var dateTimeHelper = Substitute.For<DateTimeHelper>();
+            dateTimeHelper.GetCurrentDate().Returns(new DateTime(2021, 06, 17));
+
+            return new ChangedValueGeneratorImp(dateTimeHelper);
         }
 
         private List<ChangedValue> CreateExpectedChangedValueForAssignees()
@@ -53,7 +63,7 @@
                     Home = "f",
                     Away = "e",
                     OldValue = new DateTime(2021, 06, 17, 07, 00, 00).ToString("MM/dd/yyyy hh:mm tt"),
-                    NewValue = new DateTime(2021, 06, 17, 10, 00, 00).ToString("MM/dd/yyyy hh:mm tt"),
+                    NewValue = new DateTime(2021, 06, 19, 10, 00, 00).ToString("MM/dd/yyyy hh:mm tt"),
                     ReceivedUserIds = new List<int> { 2, 3 },
                     MessageTypeId = (int)MsgTemplateCode.UpdateKOTime
                 },
@@ -196,7 +206,7 @@
                     AwayName = "a",
                     HomeName = "b",
                     LeagueName = "league1",
-                    EventDateTime = new DateTime(2021, 06, 17, 05, 00, 00),
+                    EventDateTime = new DateTime(2021, 06, 17, 01, 00, 00),
                     OWPLeagueId = 1
                 },
                 new InfoSiteMatch
@@ -241,7 +251,7 @@
                     AwayName = "a",
                     HomeName = "d",
                     LeagueName = "league3",
-                    EventDateTime = new DateTime(2021, 06, 17, 07, 30, 00),
+                    EventDateTime = new DateTime(2021, 06, 18, 02, 30, 00),
                     OWPLeagueId = 3
                 }
             };
@@ -252,10 +262,10 @@
                 new InfoSiteMatch
                 {
                     InfoSiteMatchId = 1,
-                    AwayName = "a",
+                    AwayName = "a-new",
                     HomeName = "b",
                     LeagueName = "league1",
-                    EventDateTime = new DateTime(2021, 06, 17, 05, 00, 00),
+                    EventDateTime = new DateTime(2021, 06, 17, 01, 00, 00),
                     OWPLeagueId = 1
                 },
                 new InfoSiteMatch
@@ -282,7 +292,7 @@
                     AwayName = "e-new",
                     HomeName = "f-new",
                     LeagueName = "league2",
-                    EventDateTime = new DateTime(2021, 06, 17, 10, 00, 00),
+                    EventDateTime = new DateTime(2021, 06, 19, 10, 00, 00),
                     OWPLeagueId = 2
                 },
                 new InfoSiteMatch
@@ -300,7 +310,7 @@
                     AwayName = "a-new",
                     HomeName = "d",
                     LeagueName = "league3",
-                    EventDateTime = new DateTime(2021, 06, 17, 07, 30, 00),
+                    EventDateTime = new DateTime(2021, 06, 18, 02, 30, 00),
                     OWPLeagueId = 3
                 },
                 new InfoSiteMatch

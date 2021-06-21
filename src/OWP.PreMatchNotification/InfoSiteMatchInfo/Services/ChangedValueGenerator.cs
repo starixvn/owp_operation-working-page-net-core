@@ -1,13 +1,14 @@
 ﻿namespace OWP.PreMatchNotification.InfoSiteMatchInfo.Services
 {
-    using OWP.Extensions;
-    using OWP.PreMatchNotification.Constants;
-    using OWP.PreMatchNotification.InfoSiteMatchInfo.Models;
-    using OWP.PreMatchNotification.Models;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using Constants;
+    using InfoSiteMatchInfo.Models;
+    using OWP.Extensions;
+    using OWP.PreMatchNotification.Models;
+    using OWP.PreMatchNotification.Services;
 
     public interface ChangedValueGenerator
     {
@@ -16,23 +17,24 @@
         IList<ChangedValue> CreateLSTMessages(IList<ChangedValue> changedValues, IList<Assignee> lst, IList<InfoSiteMatch> linkedMatches);
     }
 
-    internal class InfoSiteMatchComparer : IEqualityComparer<InfoSiteMatch>
-    {
-        public bool Equals(InfoSiteMatch x, InfoSiteMatch y)
-        {
-            var isSameId = x.InfoSiteMatchId == y.InfoSiteMatchId;
-            var isSameValue = x.LeagueName == y.LeagueName && x.EventDateTime == y.EventDateTime && x.HomeName == y.HomeName && x.AwayName == y.AwayName;
-            return isSameId && isSameValue;
-        }
-
-        public int GetHashCode(InfoSiteMatch obj)
-        {
-            return obj.InfoSiteMatchId.GetHashCode();
-        }
-    }
-
     public class ChangedValueGeneratorImp : ChangedValueGenerator
     {
+        internal class InfoSiteMatchComparer : IEqualityComparer<InfoSiteMatch>
+        {
+            public bool Equals(InfoSiteMatch x, InfoSiteMatch y)
+            {
+                var isSameId = x.InfoSiteMatchId == y.InfoSiteMatchId;
+                var isSameValue = x.LeagueName == y.LeagueName && x.EventDateTime == y.EventDateTime && x.HomeName == y.HomeName && x.AwayName == y.AwayName;
+
+                return isSameId && isSameValue;
+            }
+
+            public int GetHashCode(InfoSiteMatch obj)
+            {
+                return obj.InfoSiteMatchId.GetHashCode();
+            }
+        }
+
         private static readonly List<string> infoSiteMatchPropertyNames = new List<string>
         {
             "EventDateTime",
@@ -47,12 +49,19 @@
             { "AwayName" , (int)MsgTemplateCode.UpdateAway }
         };
 
+        private readonly DateTimeHelper dateTimeHelper;
+
+        public ChangedValueGeneratorImp(DateTimeHelper dateTimeHelper)
+        {
+            this.dateTimeHelper = dateTimeHelper;
+        }
+
         public IList<ChangedValue> CreateAssigneeMessages(IList<InfoSiteMatch> oldSnapshot, IList<InfoSiteMatch> newSnapshot, IList<Assignee> preMatchAssignees)
         {
             var changedValueList = new List<ChangedValue>();
-            var detectListChanged = newSnapshot.Except(oldSnapshot, new InfoSiteMatchComparer()).ToList();
+            var changedMatches = newSnapshot.Except(oldSnapshot, new InfoSiteMatchComparer()).ToList();
 
-            foreach (var item in detectListChanged)
+            foreach (var item in changedMatches)
             {
                 var oldInfositeMatch = oldSnapshot.FirstOrDefault(x => x.InfoSiteMatchId == item.InfoSiteMatchId);
 
@@ -69,10 +78,10 @@
         public IList<ChangedValue> CreateLSTMessages(IList<ChangedValue> changedValues, IList<Assignee> lst, IList<InfoSiteMatch> linkedMatches)
         {
             var changedValueLSTList = new List<ChangedValue>();
+            var lstIds = lst.Select(x => x.AssigneeId).ToList();
 
             foreach (var item in linkedMatches)
             {
-                var assigneeLSTIds = lst.Where(i => i.OWPLeagueId == item.OWPLeagueId).Select(x => x.AssigneeId).ToList();
                 var changeValues = changedValues.Where(i => i.InfoSiteMatchId == item.InfoSiteMatchId).Select(x => new ChangedValue
                 {
                     OldValue = x.OldValue,
@@ -81,7 +90,7 @@
                     Home = x.Home,
                     Away = x.Away,
                     League = x.League,
-                    ReceivedUserIds = assigneeLSTIds,
+                    ReceivedUserIds = lstIds,
                     MessageTypeId = x.MessageTypeId
                 });
                 changedValueLSTList.AddRange(changeValues);
@@ -119,8 +128,9 @@
 
         private static string GetValueByProperty(PropertyInfo property, InfoSiteMatch match)
         {
-            return property.PropertyType == typeof(DateTime) ? ((DateTime)property.GetValue(match)).ToString("MM/dd/yyyy hh:mm tt") ?? string.Empty
-                    : property.GetValue(match)?.ToString() ?? string.Empty;
+            return property.PropertyType == typeof(DateTime) ?
+                ((DateTime)property.GetValue(match)).ToString("MM/dd/yyyy hh:mm tt") :
+                property.GetValue(match).ToString();
         }
 
         private static PropertyInfo GetProperty(InfoSiteMatch match, string propertyName)
