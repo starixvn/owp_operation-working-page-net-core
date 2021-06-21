@@ -17,9 +17,9 @@
 
     public class RepositoryImp : Repository
     {
-        private readonly DynamicRepository dynamicRepository;
+        private readonly IDynamicRepository dynamicRepository;
 
-        public RepositoryImp(DynamicRepository dynamicRepository)
+        public RepositoryImp(IDynamicRepository dynamicRepository)
         {
             this.dynamicRepository = dynamicRepository;
         }

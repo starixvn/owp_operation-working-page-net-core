@@ -6,6 +6,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Mvc;
+    using OWP.PreMatchNotification.LinkedMatch;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -37,7 +38,13 @@
         [HttpGet]
         public async Task NotifyLinkedLGAMatch(string sessionId, DateTime eventDate)
         {
-            
+            var request = new LinkedMatchNotifyRequest
+            {
+                SessionId = sessionId,
+                EventDate = eventDate
+            };
+
+            await mediator.Send(request);
         }
 
         [Route("notify-assignment")]
