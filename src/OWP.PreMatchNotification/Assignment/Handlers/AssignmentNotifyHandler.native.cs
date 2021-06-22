@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using OWP.PreMatchNotification.Assignment.Services.OtherAssignment;
+using System;
 
 namespace OWP.PreMatchNotification.Assignment.Handlers
 {
@@ -56,13 +57,16 @@ namespace OWP.PreMatchNotification.Assignment.Handlers
 
         public async Task<Unit> Handle(AssignmentNotifyRequest request, CancellationToken cancellationToken)
         {
-            var messages = await GenerateMessages(request);
-            var messageModels = messageFactory.Transform(messages);
+            var gmt8 = DateTime.Now.AddHours(12);
+            if (gmt8.Date > gmt8.Date.AddHours(12))
+            {
+                var messages = await GenerateMessages(request);
+                var messageModels = messageFactory.Transform(messages);
 
-            await commandRepository.InsertMessage(messageModels, request.SessionId);
+                await commandRepository.InsertMessage(messageModels, request.SessionId);
 
-            await notify.Notify(messageModels);
-
+                await notify.Notify(messageModels);
+            }
             return await Task.FromResult(Unit.Value);
         }
 
