@@ -1,15 +1,15 @@
 ﻿namespace OWP.PreMatchNotification.UnitTests.InfoSiteMatchInfo
 {
-    using System;
-    using System.Collections.Generic;
     using Constants;
-    using OWP.PreMatchNotification.InfoSiteMatchInfo.Models;
-    using OWP.PreMatchNotification.InfoSiteMatchInfo.Services;
     using Models;
     using NSubstitute;
+    using OWP.PreMatchNotification.InfoSiteMatchInfo.Models;
+    using OWP.PreMatchNotification.InfoSiteMatchInfo.Services;
+    using OWP.PreMatchNotification.Services;
+    using System;
+    using System.Collections.Generic;
     using Xunit;
     using Xunit.Asserts.Compare;
-    using OWP.PreMatchNotification.Services;
 
     public class ChangedValueGeneratorUnitTests
     {
@@ -111,7 +111,7 @@
                     Home = "f",
                     Away = "e",
                     OldValue = new DateTime(2021, 06, 17, 07, 00, 00).ToString("MM/dd/yyyy hh:mm tt"),
-                    NewValue = new DateTime(2021, 06, 17, 10, 00, 00).ToString("MM/dd/yyyy hh:mm tt"),
+                    NewValue = new DateTime(2021, 06, 19, 10, 00, 00).ToString("MM/dd/yyyy hh:mm tt"),
                     ReceivedUserIds = new List<int> { 10, 11, 12 },
                     MessageTypeId = (int)MsgTemplateCode.UpdateKOTime
                 },

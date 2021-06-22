@@ -1,14 +1,14 @@
 ﻿namespace OWP.PreMatchNotification.InfoSiteMatchInfo.Services
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
     using Constants;
     using InfoSiteMatchInfo.Models;
     using OWP.Extensions;
     using OWP.PreMatchNotification.Models;
     using OWP.PreMatchNotification.Services;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
 
     public interface ChangedValueGenerator
     {
@@ -60,10 +60,11 @@
         {
             var changedValueList = new List<ChangedValue>();
             var changedMatches = newSnapshot.Except(oldSnapshot, new InfoSiteMatchComparer()).ToList();
+            var oldSnapshotTimeRange = GetOldSnapshotTimeRange(oldSnapshot);
 
             foreach (var item in changedMatches)
             {
-                var oldInfositeMatch = oldSnapshot.FirstOrDefault(x => x.InfoSiteMatchId == item.InfoSiteMatchId);
+                var oldInfositeMatch = oldSnapshotTimeRange.FirstOrDefault(x => x.InfoSiteMatchId == item.InfoSiteMatchId);
 
                 if (oldInfositeMatch != null)
                 {
@@ -136,6 +137,14 @@
         private static PropertyInfo GetProperty(InfoSiteMatch match, string propertyName)
         {
             return match.GetType().GetProperties().Single(p => p.Name == propertyName);
+        }
+
+        private IList<InfoSiteMatch> GetOldSnapshotTimeRange(IList<InfoSiteMatch> oldSnapshot)
+        {
+            var currentDate = dateTimeHelper.GetCurrentDate();
+            var fromDate = currentDate.AddHours(12);
+            var toDate = currentDate.AddDays(1).AddHours(11).AddMinutes(59);
+            return oldSnapshot.Where(x => x.EventDateTime.AddHours(8) >= fromDate && x.EventDateTime.AddHours(8) <= toDate).ToList();
         }
     }
 }
