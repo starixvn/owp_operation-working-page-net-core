@@ -14,8 +14,6 @@
 
     public class ChangedLiveMatchGeneratorImp : ChangedLiveMatchGenerator
     {
-        private const string EVENT_VS = " -vs- ";
-
         public List<ChangedValue> Create(ChangedSnapshot changedSnapshot, Employee employees)
         {
             var cancelLiveMatchesChangedValue = CreateDeletedMatchesChangedValue(changedSnapshot, employees);

@@ -1,10 +1,11 @@
 ﻿namespace OWP.PreMatchNotification.LinkedMatch.Services
 {
+    using OWP.Extensions;
+    using OWP.PreMatchNotification.Constants;
     using OWP.PreMatchNotification.LinkedMatch.Models;
     using OWP.PreMatchNotification.Models;
-    using OWP.PreMatchNotification.Services;
     using System.Collections.Generic;
-    using System.Threading.Tasks;
+    using System.Linq;
 
     public interface ChangedMatchStatusGenerator
     {
@@ -13,11 +14,34 @@
 
     public class ChangedMatchStatusGeneratorImp : ChangedMatchStatusGenerator
     {
-
         public List<ChangedValue> Create(ChangedSnapshot changedSnapshot, Employee employees)
         {
-            
-            return new List<ChangedValue>();
+            return changedSnapshot.ChangedMatches.Select(x => CreateMatchStatusChangedValue(x, changedSnapshot, employees)).Where(s => s != null).ToList();
+        }
+
+        public ChangedValue CreateMatchStatusChangedValue(GeneralMatch changedMatch, ChangedSnapshot changedSnapshot, Employee employees)
+        {
+            var oldMatch = changedSnapshot.OldSnapshot.FirstOrDefault(x => x.MatchId == changedMatch.MatchId);
+            var newMatch = changedSnapshot.NewSnapshot.FirstOrDefault(x => x.MatchId == changedMatch.MatchId);
+
+            if (oldMatch.MatchStatus != newMatch.MatchStatus)
+            {
+                var prematchInfosite = employees.PrematchInfosites.GetValue(newMatch.InfoSiteMatchId);
+                var prematchAssigneeIds = prematchInfosite.PrematchAssigneeIds;
+
+                return new ChangedValue
+                {
+                    MessageTypeId = (int)MsgTemplateCode.LGAChangeMatchStatus,
+                    League = newMatch.LeagueName,
+                    Home = newMatch.Home,
+                    Away = newMatch.Away,
+                    OldValue = oldMatch.MatchStatus,
+                    NewValue = newMatch.MatchStatus,
+                    ReceivedUserIds = employees.AllLSTEmployees.Union(prematchAssigneeIds).ToList()
+                };
+            }
+
+            return null;
         }
     }
 }

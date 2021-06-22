@@ -11,7 +11,6 @@
     using System.Threading.Tasks;
     using Xunit;
     using Xunit.Asserts.Compare;
-    using static System.Collections.Specialized.BitVector32;
 
     public class LinkedMatchNotifyHandlerUnitTests
     {
