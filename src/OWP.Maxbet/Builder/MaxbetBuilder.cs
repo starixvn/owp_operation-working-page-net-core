@@ -20,8 +20,8 @@ namespace OWP.Maxbet.Builder
 
         private readonly Dictionary<int, int> maxbetMapper = new Dictionary<int, int>
             {
-                {500_000,100_000 },
-                {400_000,100_000 },
+                {500_000,120_000 },
+                {400_000,120_000 },
                 {350_000,100_000 },
                 {300_000,100_000 },
                 {200_000,100_000 },
