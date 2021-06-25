@@ -25,7 +25,7 @@ namespace OWP.PreMatchNotification.Assignment.Handlers
     {
         private readonly CacheManipulatorCommon cacheManipulator;
 
-        private readonly DynamicRepository dynamicRepository;
+        private readonly IDynamicRepository dynamicRepository;
 
         private readonly MyAssignmentGenerator myAssignmentGenerator;
 
@@ -39,7 +39,7 @@ namespace OWP.PreMatchNotification.Assignment.Handlers
 
         public AssignmentNotifyHandler(
             CacheManipulatorCommon cacheManipulator,
-            DynamicRepository dynamicRepository,
+            IDynamicRepository dynamicRepository,
             MyAssignmentGenerator myAssignmentGenerator,
             MessageFactory messageFactory,
             CommandRepository commandRepository,
