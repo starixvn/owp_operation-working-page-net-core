@@ -1,4 +1,4 @@
-﻿namespace OWP.OtherSport.Hubs
+﻿namespace OWP.Hubs
 {
     using Microsoft.AspNetCore.SignalR;
     using System.Threading.Tasks;

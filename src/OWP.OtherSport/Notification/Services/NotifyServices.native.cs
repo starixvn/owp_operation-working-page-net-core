@@ -1,6 +1,7 @@
 ﻿namespace OWP.OtherSport.Notification.Services
 {
     using Microsoft.AspNetCore.SignalR;
+    using OWP.Hubs;
     using OWP.OtherSport.Hubs;
     using OWP.OtherSport.Notification.Models;
     using System;
