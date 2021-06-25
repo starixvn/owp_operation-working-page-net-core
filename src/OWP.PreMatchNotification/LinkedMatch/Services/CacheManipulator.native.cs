@@ -17,7 +17,7 @@
     public class CacheManipulatorImp : CacheManipulator
     {
         private readonly CacheManipulatorCommon cacheManipulator;
-        private const string OLD_LGAMATCHES_SNAPSHOT_KEY = "OWP-Old-LGAMatches";
+        private const string OLD_LGAMATCHES_SNAPSHOT_KEY = "OWP-ASSIGNMENT-SNAPSHOT";
 
         public CacheManipulatorImp(CacheManipulatorCommon cacheManipulator)
         {

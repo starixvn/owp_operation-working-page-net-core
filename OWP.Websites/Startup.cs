@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OWP.OtherSport.Hubs;
+using OWP.PreMatchNotification.Hubs;
 using OWP.Websites.CrossCuttingConcern;
 
 namespace OWP.Websites
@@ -64,6 +65,7 @@ namespace OWP.Websites
 
                 endpoints.MapHub<NewDataUploadNotifyHubImp>("/otherSportNewDataUploadNotifyHub");
                 endpoints.MapHub<ChangedInfoNotifyHubImp>("/OSChangedInfoNotifyHub");
+                endpoints.MapHub<PreMatchInfoNotifyHubImp>("/PrematchChangedInfoNotifyHub");
             });
 
             NapClientManager
