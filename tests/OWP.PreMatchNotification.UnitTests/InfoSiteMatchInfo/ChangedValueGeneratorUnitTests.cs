@@ -167,7 +167,6 @@ namespace OWP.PreMatchNotification.UnitTests.InfoSiteMatchInfo
         }
 
         private IList<InfoSiteMatch> MockNewSnapshot()
-
         {
             return new List<InfoSiteMatch>
 
@@ -229,7 +228,6 @@ namespace OWP.PreMatchNotification.UnitTests.InfoSiteMatchInfo
         }
 
         private IList<Assignee> MockPreMatchAssignees()
-
         {
             return new List<Assignee>
             {
@@ -262,7 +260,6 @@ namespace OWP.PreMatchNotification.UnitTests.InfoSiteMatchInfo
         }
 
         private IList<ChangedValue> GetExpectedLSTMessages()
-
         {
             return new List<ChangedValue>
             {
