@@ -6,7 +6,9 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Mvc;
+    using OWP.PreMatchNotification.InfoSiteMatchInfo.Handlers;
     using OWP.PreMatchNotification.LinkedMatch;
+    using OWP.PreMatchNotification.NewLeague.Handlers;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -24,15 +26,12 @@
         [Route("notify-match-info")]
         [HttpGet]
         public async Task NotifyMatchInfo(string sessionId, DateTime fromDate, DateTime toDate)
-        {
-            //await mediator.Send(new MatchInfoNotifyRequest { SessionId = sessionId, FromDate = fromDate, ToDate = toDate });
-        }
+            => await mediator.Send(new MatchInfoNotifyRequest { SessionId = sessionId, FromDate = fromDate, ToDate = toDate });
 
         [Route("notify-new-league")]
         [HttpGet]
         public async Task NotifyNewLeague(string sessionId, DateTime fromDate, DateTime toDate)
-        {
-        }
+            => await mediator.Send(new NewLeagueNotifyRequest { SessionId = sessionId, FromDate = fromDate, ToDate = toDate });
 
         [Route("notify-linked-lga-match")]
         [HttpGet]
@@ -51,7 +50,6 @@
         [HttpGet]
         public async Task NotifyLinkedLGAMatch(string redisKey)
         {
-
         }
     }
 }

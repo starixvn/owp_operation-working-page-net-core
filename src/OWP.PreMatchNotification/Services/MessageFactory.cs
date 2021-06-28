@@ -33,7 +33,7 @@
             new ()
             {
                  MessageType=(int)MsgTemplateCode.DayShiftOtherAssignmentUpdate,
-                 MessageContent="[DayShift] <bettype>'s Assignee has been updated from <old value> to <newvalue> in your assignment <League>",
+                 MessageContent="[DayShift] <bettype>'s Assignee has been updated from <oldvalue> to <newvalue> in your assignment <League>",
                  IsImportant = true
             },
             new ()
@@ -51,7 +51,7 @@
             new ()
             {
                  MessageType=(int)MsgTemplateCode.NightShiftOtherAssignmentUpdate,
-                 MessageContent="[NightShift] <bettype>'s Assignee has been updated from <old value> to <newvalue> in your assignment <League>",
+                 MessageContent="[NightShift] <bettype>'s Assignee has been updated from <oldvalue> to <newvalue> in your assignment <League>",
                  IsImportant = true
             },
             new ()
@@ -78,26 +78,26 @@
             new ()
             {
                  MessageType=(int)MsgTemplateCode.LGAChangeMatchStatus,
-                 MessageContent="Has been <newvalue> for match: <League> <Home> -vs- <Away>; Previous <old value>",
+                 MessageContent="Has been <newvalue> for match: <League> <Home> -vs- <Away>; Previous <oldvalue>",
                  IsImportant = true,
                  IsBlinking = true
             },
             new MessageTemplate
             {
                  MessageType=(int)MsgTemplateCode.UpdateHome,
-                 MessageContent="Home Team Update from <League> - <old value> -vs- <Away> to <League> - <newvalue> -vs- <Away>",
+                 MessageContent="Home Team Update from <League> - <oldvalue> -vs- <Away> to <League> - <newvalue> -vs- <Away>",
                  IsImportant = true,
             },
             new MessageTemplate
             {
                  MessageType=(int)MsgTemplateCode.UpdateAway,
-                 MessageContent="Away Team Update from <League> - <Home> -vs- <old value> to <League> - <Home> -vs- <newvalue>",
+                 MessageContent="Away Team Update from <League> - <Home> -vs- <oldvalue> to <League> - <Home> -vs- <newvalue>",
                  IsImportant = true,
             },
             new MessageTemplate
             {
                  MessageType=(int)MsgTemplateCode.UpdateKOTime,
-                 MessageContent="K.O time Update from <old value> to <newvalue> for <League> - <Home> -vs- <Away>",
+                 MessageContent="K.O time Update from <oldvalue> to <newvalue> for <League> - <Home> -vs- <Away>",
                  IsImportant = true,
             },
         });
@@ -164,7 +164,7 @@
             content = content.Replace("<bettype>", "<b><bettype></b>");
 
             content = content.Replace("<newvalue>", string.IsNullOrWhiteSpace(value.NewValue) ? "[]" : value.NewValue);
-            content = content.Replace("<old value>", string.IsNullOrWhiteSpace(value.OldValue) ? "[]" : value.OldValue);
+            content = content.Replace("<oldvalue>", string.IsNullOrWhiteSpace(value.OldValue) ? "[]" : value.OldValue);
             content = content.Replace("<League>", value.League);
             content = content.Replace("<Home>", value.Home);
             content = content.Replace("<Away>", value.Away);
