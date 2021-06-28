@@ -5,7 +5,7 @@
 
     public interface ChangedInfoNotifyHub
     {
-        Task notifyChangedInfomationData(object messageInfo);
+        Task notifyChangedInformationData(object messageInfo);
     }
 
     public class ChangedInfoNotifyHubImp : Hub<ChangedInfoNotifyHub> { }
