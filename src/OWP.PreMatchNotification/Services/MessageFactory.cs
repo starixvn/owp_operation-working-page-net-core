@@ -3,7 +3,6 @@
     using System.Collections.Generic;
     using System.Collections.Immutable;
     using System.Linq;
-    using System.Text.RegularExpressions;
     using Fanex.NAP.Client.Helpers.Web;
     using OWP.PreMatchNotification.Constants;
     using OWP.PreMatchNotification.Models;
@@ -83,68 +82,27 @@
                  IsImportant = true,
                  IsBlinking = true
             },
+            new MessageTemplate
+            {
+                 MessageType=(int)MsgTemplateCode.UpdateHome,
+                 MessageContent="Home Team Update from <League> - <old value> -vs- <Away> to <League> - <newvalue> -vs- <Away>",
+                 IsImportant = true,
+            },
+            new MessageTemplate
+            {
+                 MessageType=(int)MsgTemplateCode.UpdateAway,
+                 MessageContent="Away Team Update from <League> - <Home> -vs- <old value> to <League> - <Home> -vs- <newvalue>",
+                 IsImportant = true,
+            },
+            new MessageTemplate
+            {
+                 MessageType=(int)MsgTemplateCode.UpdateKOTime,
+                 MessageContent="K.O time Update from <old value> to <newvalue> for <League> - <Home> -vs- <Away>",
+                 IsImportant = true,
+            },
         });
 
         #endregion MessageTemplate
-
-        #region MessageGroup
-
-        private class MessageGroup : IEqualityComparer<MessageGroup>
-        {
-            public MessageGroup(ChangedValue value)
-            {
-                BetTypeName = value.BetTypeName;
-                MessageTypeId = value.MessageTypeId;
-                NewValue = value.NewValue;
-                OldValue = value.OldValue;
-                League = value.League;
-                InfoSiteMatchId = value.InfoSiteMatchId;
-            }
-
-            public int InfoSiteMatchId { get; set; }
-
-            public string AssignmentNote { get; set; }
-
-            public string BetTypeName { get; set; }
-
-            public int MessageTypeId { get; set; }
-
-            public string NewValue { get; set; }
-
-            public string OldValue { get; set; }
-
-            public string League { get; set; }
-
-            public string EventName { get; set; }
-
-            public bool IsBlinking { get; set; }
-
-            public bool Equals(MessageGroup x, MessageGroup y)
-            {
-#pragma warning disable S1067 // Expressions should not be too complex - ignored by Jacob
-                return x.AssignmentNote == y.AssignmentNote &&
-                   x.BetTypeName == y.BetTypeName &&
-                   x.MessageTypeId == y.MessageTypeId &&
-                   x.NewValue == y.NewValue &&
-                   x.OldValue == y.OldValue &&
-                   x.League == y.League &&
-                   x.EventName == y.EventName &&
-                   x.InfoSiteMatchId == y.InfoSiteMatchId;
-#pragma warning restore S1067 // Expressions should not be too complex
-            }
-
-            public int GetHashCode(MessageGroup obj)
-            {
-                var hash = 17;
-                hash = hash * 31 + obj.MessageTypeId;
-                hash = hash * 47 + obj.League.GetHashCode();
-                hash = hash * 59 + obj.EventName.GetHashCode();
-
-                return hash;
-            }
-        }
-
-        #endregion MessageGroup
 
         #region MessageModelRaw
 
