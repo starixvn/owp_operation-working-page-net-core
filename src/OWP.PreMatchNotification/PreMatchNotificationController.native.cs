@@ -37,15 +37,7 @@
         [Route("notify-linked-lga-match")]
         [HttpGet]
         public async Task NotifyLinkedLGAMatch(string sessionId, DateTime eventDate)
-        {
-            var request = new LinkedMatchNotifyRequest
-            {
-                SessionId = sessionId,
-                EventDate = eventDate
-            };
-
-            await mediator.Send(request);
-        }
+            => await mediator.Send(new LinkedMatchNotifyRequest { SessionId = sessionId, EventDate = eventDate });
 
         [Route("notify-assignment")]
         [HttpGet]
