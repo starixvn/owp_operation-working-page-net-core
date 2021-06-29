@@ -13,7 +13,7 @@
         Task Notify(List<MessageModel> messages);
     }
 
-    public class NotifyServicesImp: NotifyServices
+    public class NotifyServicesImp : NotifyServices
     {
         private readonly IHubContext<ChangedInfoNotifyHubImp, ChangedInfoNotifyHub> notifyChangedHub;
 
@@ -34,7 +34,7 @@
 
                 await notifyChangedHub.Clients
                     .Users(message.ReceivedUserIds)
-                    .notifyChangedInfomationData(result);
+                    .notifyChangedInformationData(result);
             }
         }
     }
