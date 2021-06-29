@@ -27,7 +27,7 @@
             if (oldMatch.MatchStatus != newMatch.MatchStatus)
             {
                 var prematchInfosite = employees.PrematchInfosites.GetValue(newMatch.InfoSiteMatchId);
-                var prematchAssigneeIds = prematchInfosite.PrematchAssigneeIds;
+                var prematchAssigneeIds = prematchInfosite.SelectMany(x => x.PrematchAssigneeIds);
 
                 return new ChangedValue
                 {
@@ -37,7 +37,7 @@
                     Away = newMatch.Away,
                     OldValue = oldMatch.MatchStatus,
                     NewValue = newMatch.MatchStatus,
-                    ReceivedUserIds = employees.AllLSTEmployees.Union(prematchAssigneeIds).ToList()
+                    ReceivedUserIds = employees.AllLSTEmployees.Union(prematchAssigneeIds).Distinct().ToList()
                 };
             }
 

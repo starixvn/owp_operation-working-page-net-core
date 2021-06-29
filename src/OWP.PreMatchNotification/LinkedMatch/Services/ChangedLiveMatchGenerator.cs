@@ -38,7 +38,7 @@
             foreach (var match in matches)
             {
                 var prematchInfosite = employees.PrematchInfosites.GetValue(match.InfoSiteMatchId);
-                var prematchAssigneeIds = prematchInfosite.PrematchAssigneeIds;
+                var prematchAssigneeIds = prematchInfosite.SelectMany(x => x.PrematchAssigneeIds);
 
                 yield return new ChangedValue
                 {
@@ -48,8 +48,8 @@
                     Away = match.Away,
                     KoTime = match.EventDateTime.ToString("hh:mm tt"),
                     ReceivedUserIds = prematchAssigneeIds.Count() == 0
-                        ? employees.AllLSTEmployees.Union(employees.AllPrematchEmployees).ToList()
-                        : employees.AllLSTEmployees.Union(prematchAssigneeIds).ToList()
+                        ? employees.AllLSTEmployees.Union(employees.AllPrematchEmployees).Distinct().ToList()
+                        : employees.AllLSTEmployees.Union(prematchAssigneeIds).Distinct().ToList()
                 };
             }
         }

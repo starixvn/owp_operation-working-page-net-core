@@ -38,11 +38,12 @@ namespace OWP.PreMatchNotification.UnitTests.LinkedMatch.Services
             };
             var employees = new Employee
             {
-                PrematchInfosites = new Dictionary<int, InfositePrematchLeague>
+                PrematchInfosites = new Dictionary<int, List<InfositePrematchLeague>>
                 {
-                    {111, new(){ PreMatchLeagueId=100, InfoSiteMatchId=111, PrematchAssigneeIds=new List<int>{8,9} } },
-                    {222, new(){ PreMatchLeagueId=200, InfoSiteMatchId=222, PrematchAssigneeIds=new List<int>{} } },
-                    {333, new(){ PreMatchLeagueId=300, InfoSiteMatchId=222, PrematchAssigneeIds=new List<int>{10,11} } },
+                    {111, new(){ new(){ PreMatchLeagueId=100, InfoSiteMatchId=111, PrematchAssigneeIds=new List<int>{8,9} },
+                                 new(){ PreMatchLeagueId=100, InfoSiteMatchId=111, PrematchAssigneeIds=new List<int>{12,13,9} } } },
+                    {222, new(){ new(){ PreMatchLeagueId=200, InfoSiteMatchId=222, PrematchAssigneeIds=new List<int>{} } } },
+                    {333, new(){ new(){ PreMatchLeagueId=300, InfoSiteMatchId=222, PrematchAssigneeIds=new List<int>{10,11} } } },
                 },
                 AllLSTEmployees = new List<int> { 1, 2, 3 },
                 AllPrematchEmployees = new List<int> { 4, 5, 6 }
@@ -56,7 +57,7 @@ namespace OWP.PreMatchNotification.UnitTests.LinkedMatch.Services
                     Home="HomeA",
                     Away="AwayA",
                     KoTime = "02:12 PM",
-                    ReceivedUserIds=new List<int>{1,2,3,8,9}
+                    ReceivedUserIds=new List<int>{1,2,3,8,9,12,13}
                 },
                 new(){
                     MessageTypeId=(int)MsgTemplateCode.LGACancelLiveMatch,

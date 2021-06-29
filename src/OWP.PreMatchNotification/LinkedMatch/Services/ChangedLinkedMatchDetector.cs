@@ -53,7 +53,7 @@
             };
         }
                
-        public IEnumerable<GeneralMatch> FilterExistPrematches(List<GeneralMatch> matches, Dictionary<int, InfositePrematchLeague> prematchLeagues)
+        public IEnumerable<GeneralMatch> FilterExistPrematches(List<GeneralMatch> matches, Dictionary<int, List<InfositePrematchLeague>> prematchLeagues)
         {
             var existInfositePrematch = prematchLeagues.Keys.Distinct();
             return matches.Where(x => x.InfoSiteMatchId != 0 && existInfositePrematch.Contains(x.InfoSiteMatchId));

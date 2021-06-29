@@ -40,10 +40,11 @@
             };
             var employees = new Employee
             {
-                PrematchInfosites = new Dictionary<int, InfositePrematchLeague>
+                PrematchInfosites = new Dictionary<int, List<InfositePrematchLeague>>
                 {
-                    {111, new(){ PreMatchLeagueId=100, InfoSiteMatchId=111, PrematchAssigneeIds=new List<int>{8,9} } },
-                    {222, new(){ PreMatchLeagueId=200, InfoSiteMatchId=222, PrematchAssigneeIds=new List<int>{} } },
+                    {111, new(){ new(){ PreMatchLeagueId=100, InfoSiteMatchId=111, PrematchAssigneeIds=new List<int>{8,9} },
+                                 new(){ PreMatchLeagueId=333, InfoSiteMatchId=111, PrematchAssigneeIds=new List<int>{10,11,8} }} },
+                    {222, new(){ new(){ PreMatchLeagueId=200, InfoSiteMatchId=222, PrematchAssigneeIds=new List<int>{} } } },
                 },
                 AllLSTEmployees = new List<int> { 1, 2, 3 }
             };
@@ -56,7 +57,7 @@
                     Away="AwayA",
                     OldValue = "Postponed",
                     NewValue = "Live",
-                    ReceivedUserIds=new List<int>{1,2,3,8,9}
+                    ReceivedUserIds=new List<int>{1,2,3,8,9,10,11}
                 }
             };
             var actual = service.Create(changedSnapshot, employees);

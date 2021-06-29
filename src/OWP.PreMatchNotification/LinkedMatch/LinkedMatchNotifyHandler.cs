@@ -84,7 +84,7 @@
 
             return new Employee
             {
-                PrematchInfosites = prematchLeagues.ToDictionary(x => x.InfoSiteMatchId),
+                PrematchInfosites = prematchLeagues.GroupBy(x => x.InfoSiteMatchId).ToDictionary(x => x.Key, x => x.ToList()),
                 AllPrematchEmployees = allPrematchEmployees.Select(x => x.AssigneeId).ToList(),
                 AllLSTEmployees = allLSTEmployees.Select(x => x.AssigneeId).ToList()
             };
