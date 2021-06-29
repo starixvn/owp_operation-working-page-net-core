@@ -33,7 +33,7 @@
         private const int CACHE_EXPIRED_IN_DAYS = 1;
         private const int CACHE_USER_WHO_IS_ULOADING_ASSIGNMENT_EXPIRED_IN_MINUTE = 30;
         private readonly ICache cache;
-        private const string KEY_OS_UPLOAD_LAST_UPDATED = "OWP-assignment-configuration";
+        private const string KEY_OS_UPLOAD_LAST_UPDATED = "OWP-OS-AssignmentUpload-Last-Updated";
 
         public CacheManipulatorImp(ICache cache)
         {

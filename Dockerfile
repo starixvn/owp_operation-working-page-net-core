@@ -5,6 +5,7 @@ ENV TZ="America/New_York"
 COPY ./.sonarlint/. ./.sonarlint
 COPY ./src/OWP/. ./src/OWP
 COPY ./src/OWP.OtherSport/. ./src/OWP.OtherSport
+COPY ./src/OWP.ApiSyncWorkingShift/. ./src/OWP.ApiSyncWorkingShift
 COPY ./src/OWP.Maxbet/. ./src/OWP.Maxbet
 COPY ./src/OWP.ProductAssignmentReference/. ./src/OWP.ProductAssignmentReference
 COPY ./OWP.Websites/OWP.Websites.csproj ./OWP.Websites/OWP.Websites.csproj
