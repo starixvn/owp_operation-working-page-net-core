@@ -27,8 +27,8 @@ namespace OWP.PreMatchNotification.Assignment.Services.MyAssignment
                 OldAssignment = oldSnapshot.Ou,
                 NewAssignment = newSnapshot.Ou,
                 BettypeName = Bettype.OU,
-                UserIdNewAssign = newSnapshot.OuUserId.Value,
-                UserIdRemoved = oldSnapshot.OuUserId.Value
+                UserIdNewAssign = newSnapshot.OuUserId,
+                UserIdRemoved = oldSnapshot.OuUserId
             }, changedValues);
         }
 
@@ -40,8 +40,8 @@ namespace OWP.PreMatchNotification.Assignment.Services.MyAssignment
                 OldAssignment = oldSnapshot.OtherOu,
                 NewAssignment = newSnapshot.OtherOu,
                 BettypeName = Bettype.OU,
-                UserIdNewAssign = newSnapshot.OtherOuUserId.Value,
-                UserIdRemoved = oldSnapshot.OtherOuUserId.Value
+                UserIdNewAssign = newSnapshot.OtherOuUserId,
+                UserIdRemoved = oldSnapshot.OtherOuUserId
             }, changedValues);
     }
 }

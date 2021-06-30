@@ -30,7 +30,7 @@ namespace OWP.PreMatchNotification.Assignment.Services.OtherAssignment
                 changedValues.Add(new ChangedValue
                 {
                     League = newSnapshot.LeagueName,
-                    ReceivedUserIds = new List<int>(receivedUserId),
+                    ReceivedUserIds = new List<int> { receivedUserId },
                     BetTypeName = Bettype.HDP_TAKEOVER,
                     OldValue = oldSnapshot.HdpTakeOver,
                     NewValue = newSnapshot.HdpTakeOver,
@@ -47,7 +47,7 @@ namespace OWP.PreMatchNotification.Assignment.Services.OtherAssignment
                 changedValues.Add(new ChangedValue
                 {
                     League = newSnapshot.LeagueName,
-                    ReceivedUserIds = new List<int>(receivedUserId),
+                    ReceivedUserIds = new List<int> { receivedUserId },
                     BetTypeName = Bettype.HDP_TAKEOVER,
                     OldValue = oldSnapshot.OtherHdpTakeOver,
                     NewValue = newSnapshot.OtherHdpTakeOver,

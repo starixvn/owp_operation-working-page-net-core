@@ -6,6 +6,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Mvc;
+    using OWP.PreMatchNotification.Assignment.Handlers;
     using OWP.PreMatchNotification.InfoSiteMatchInfo.Handlers;
     using OWP.PreMatchNotification.LinkedMatch;
     using OWP.PreMatchNotification.NewLeague.Handlers;
@@ -48,8 +49,10 @@
 
         [Route("notify-assignment")]
         [HttpGet]
-        public async Task NotifyLinkedLGAMatch(string redisKey)
-        {
-        }
+        public async Task NotifyAssignment(string redisKey)
+            => await mediator.Send(new AssignmentNotifyRequest
+            {
+                RedisKey = redisKey
+            });
     }
 }

@@ -10,9 +10,9 @@
 
         public string BettypeName { get; set; }
 
-        public int UserIdRemoved { get; set; }
+        public int? UserIdRemoved { get; set; }
 
-        public int UserIdNewAssign { get; set; }
+        public int? UserIdNewAssign { get; set; }
 
         public bool? IsDay { get; set; }
     }

@@ -25,8 +25,8 @@ namespace OWP.PreMatchNotification.Assignment.Services.MyAssignment
                 OldAssignment = oldSnapshot.OuTakeOver,
                 NewAssignment = newSnapshot.OuTakeOver,
                 BettypeName = Bettype.OU_TAKEOVER,
-                UserIdNewAssign = newSnapshot.OuTakeOverUserId.Value,
-                UserIdRemoved = oldSnapshot.OuTakeOverUserId.Value
+                UserIdNewAssign = newSnapshot.OuTakeOverUserId,
+                UserIdRemoved = oldSnapshot.OuTakeOverUserId
             }, changedValues);
 
         public void DetectOther(AssignmentSnapshot oldSnapshot, AssignmentSnapshot newSnapshot, List<ChangedValue> changedValues)
@@ -37,8 +37,8 @@ namespace OWP.PreMatchNotification.Assignment.Services.MyAssignment
                 OldAssignment = oldSnapshot.OtherOuTakeOver,
                 NewAssignment = newSnapshot.OtherOuTakeOver,
                 BettypeName = Bettype.OU_TAKEOVER,
-                UserIdNewAssign = newSnapshot.OtherOuTakeOverUserId.Value,
-                UserIdRemoved = oldSnapshot.OtherOuTakeOverUserId.Value
+                UserIdNewAssign = newSnapshot.OtherOuTakeOverUserId,
+                UserIdRemoved = oldSnapshot.OtherOuTakeOverUserId
             }, changedValues);
     }
 }

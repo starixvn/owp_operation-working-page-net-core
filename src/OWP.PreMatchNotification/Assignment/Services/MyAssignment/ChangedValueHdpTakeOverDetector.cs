@@ -23,8 +23,8 @@ namespace OWP.PreMatchNotification.Assignment.Services.MyAssignment
                 OldAssignment = oldSnapshot.HdpTakeOver,
                 NewAssignment = newSnapshot.HdpTakeOver,
                 BettypeName = Bettype.HDP_TAKEOVER,
-                UserIdNewAssign = newSnapshot.HdpTakeOverUserId.Value,
-                UserIdRemoved = oldSnapshot.HdpTakeOverUserId.Value
+                UserIdNewAssign = newSnapshot.HdpTakeOverUserId,
+                UserIdRemoved = oldSnapshot.HdpTakeOverUserId
             }, changedValues);
 
         public void DetectOther(AssignmentSnapshot oldSnapshot, AssignmentSnapshot newSnapshot, List<ChangedValue> changedValues)
@@ -35,8 +35,8 @@ namespace OWP.PreMatchNotification.Assignment.Services.MyAssignment
                 OldAssignment = oldSnapshot.OtherHdpTakeOver,
                 NewAssignment = newSnapshot.OtherHdpTakeOver,
                 BettypeName = Bettype.HDP_TAKEOVER,
-                UserIdNewAssign = newSnapshot.OtherHdpTakeOverUserId.Value,
-                UserIdRemoved = oldSnapshot.OtherHdpTakeOverUserId.Value
+                UserIdNewAssign = newSnapshot.OtherHdpTakeOverUserId,
+                UserIdRemoved = oldSnapshot.OtherHdpTakeOverUserId
             }, changedValues);
     }
 }

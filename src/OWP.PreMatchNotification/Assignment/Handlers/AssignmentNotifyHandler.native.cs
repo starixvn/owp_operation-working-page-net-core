@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using OWP.PreMatchNotification.Assignment.Services.OtherAssignment;
 using System;
+using System.Globalization;
 
 namespace OWP.PreMatchNotification.Assignment.Handlers
 {
@@ -18,7 +19,7 @@ namespace OWP.PreMatchNotification.Assignment.Handlers
     {
         public string RedisKey { get; set; }
 
-        public string SessionId { get; set; }
+        public string SessionId => Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture);
     }
 
     public class AssignmentNotifyHandler : IRequestHandler<AssignmentNotifyRequest, Unit>
@@ -57,16 +58,12 @@ namespace OWP.PreMatchNotification.Assignment.Handlers
 
         public async Task<Unit> Handle(AssignmentNotifyRequest request, CancellationToken cancellationToken)
         {
-            var gmt8 = DateTime.Now.AddHours(12);
-            if (gmt8.Date > gmt8.Date.AddHours(12))
-            {
-                var messages = await GenerateMessages(request);
-                var messageModels = messageFactory.Transform(messages);
+            var messages = await GenerateMessages(request);
+            var messageModels = messageFactory.Transform(messages);
 
-                await commandRepository.InsertMessage(messageModels, request.SessionId);
+            await commandRepository.InsertMessage(messageModels, request.SessionId);
 
-                await notify.Notify(messageModels);
-            }
+            await notify.Notify(messageModels);
             return await Task.FromResult(Unit.Value);
         }
 
