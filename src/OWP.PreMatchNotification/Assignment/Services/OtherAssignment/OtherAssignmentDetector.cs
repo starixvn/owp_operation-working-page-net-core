@@ -52,25 +52,23 @@ namespace OWP.PreMatchNotification.Assignment.Services.OtherAssignment
 
         public void DetectChangeOtherAssignmentExceptHdp(AssignmentSnapshot oldSnapshot, AssignmentSnapshot newSnapshot, List<ChangedValue> changedValues)
         {
-            var changedValue = new List<ChangedValue>();
             if (!string.Equals(oldSnapshot.Hdp, newSnapshot.Hdp) || string.IsNullOrWhiteSpace(newSnapshot.Hdp))
             {
                 return;
             }
 
             var userId = newSnapshot.HdpUserId.Value;
-            changedValueHdpTakeOverDetector.DetectMain(oldSnapshot, newSnapshot, changedValue, userId);
-            changedValueHdpTakeOverDetector.DetectOther(oldSnapshot, newSnapshot, changedValue, userId); ;
-            changedValueOuDetector.DetectOther(oldSnapshot, newSnapshot, changedValue, userId); ;
-            changedValueOuTakeOverDetector.DetectOther(oldSnapshot, newSnapshot, changedValue, userId); ;
-            changedValueHdpDetector.DetectOther(oldSnapshot, newSnapshot, changedValue, userId); ;
-            changedValueOuDetector.DetectMain(oldSnapshot, newSnapshot, changedValue, userId); ;
-            changedValueOuTakeOverDetector.DetectMain(oldSnapshot, newSnapshot, changedValue, userId); ;
+            changedValueHdpTakeOverDetector.DetectMain(oldSnapshot, newSnapshot, changedValues, userId);
+            changedValueHdpTakeOverDetector.DetectOther(oldSnapshot, newSnapshot, changedValues, userId);
+            changedValueOuDetector.DetectOther(oldSnapshot, newSnapshot, changedValues, userId);
+            changedValueOuTakeOverDetector.DetectOther(oldSnapshot, newSnapshot, changedValues, userId);
+            changedValueHdpDetector.DetectOther(oldSnapshot, newSnapshot, changedValues, userId);
+            changedValueOuDetector.DetectMain(oldSnapshot, newSnapshot, changedValues, userId);
+            changedValueOuTakeOverDetector.DetectMain(oldSnapshot, newSnapshot, changedValues, userId);
         }
 
         public void DetectChangeAssignmentExceptHdpTOver(AssignmentSnapshot oldSnapshot, AssignmentSnapshot newSnapshot, List<ChangedValue> changedValues)
         {
-            var changedValue = new List<ChangedValue>();
             if (!string.Equals(oldSnapshot.HdpTakeOver, newSnapshot.HdpTakeOver) ||
                 string.IsNullOrWhiteSpace(newSnapshot.HdpTakeOver))
             {
@@ -78,18 +76,17 @@ namespace OWP.PreMatchNotification.Assignment.Services.OtherAssignment
             }
 
             var userId = newSnapshot.HdpTakeOverUserId.Value;
-            changedValueHdpDetector.DetectMain(oldSnapshot, newSnapshot, changedValue, userId);
-            changedValueHdpDetector.DetectOther(oldSnapshot, newSnapshot, changedValue, userId); ;
-            changedValueOuDetector.DetectOther(oldSnapshot, newSnapshot, changedValue, userId); ;
-            changedValueOuTakeOverDetector.DetectOther(oldSnapshot, newSnapshot, changedValue, userId); ;
-            changedValueHdpTakeOverDetector.DetectOther(oldSnapshot, newSnapshot, changedValue, userId); ;
-            changedValueOuDetector.DetectMain(oldSnapshot, newSnapshot, changedValue, userId); ;
-            changedValueOuTakeOverDetector.DetectMain(oldSnapshot, newSnapshot, changedValue, userId);
+            changedValueHdpDetector.DetectMain(oldSnapshot, newSnapshot, changedValues, userId);
+            changedValueHdpDetector.DetectOther(oldSnapshot, newSnapshot, changedValues, userId);
+            changedValueOuDetector.DetectOther(oldSnapshot, newSnapshot, changedValues, userId);
+            changedValueOuTakeOverDetector.DetectOther(oldSnapshot, newSnapshot, changedValues, userId);
+            changedValueHdpTakeOverDetector.DetectOther(oldSnapshot, newSnapshot, changedValues, userId);
+            changedValueOuDetector.DetectMain(oldSnapshot, newSnapshot, changedValues, userId);
+            changedValueOuTakeOverDetector.DetectMain(oldSnapshot, newSnapshot, changedValues, userId);
         }
 
         public void DetectChangeAssignmentExceptOtherHdp(AssignmentSnapshot oldSnapshot, AssignmentSnapshot newSnapshot, List<ChangedValue> changedValues)
         {
-            var changedValue = new List<ChangedValue>();
             if (!string.Equals(oldSnapshot.OtherHdp, newSnapshot.OtherHdp) ||
                 string.IsNullOrWhiteSpace(newSnapshot.OtherHdp))
             {
@@ -97,18 +94,17 @@ namespace OWP.PreMatchNotification.Assignment.Services.OtherAssignment
             }
 
             var userId = newSnapshot.OtherHdpUserId.Value;
-            changedValueHdpDetector.DetectMain(oldSnapshot, newSnapshot, changedValue, userId);
-            changedValueHdpTakeOverDetector.DetectMain(oldSnapshot, newSnapshot, changedValue, userId); ;
-            changedValueHdpTakeOverDetector.DetectOther(oldSnapshot, newSnapshot, changedValue, userId); ;
-            changedValueOuDetector.DetectOther(oldSnapshot, newSnapshot, changedValue, userId); ;
-            changedValueOuTakeOverDetector.DetectOther(oldSnapshot, newSnapshot, changedValue, userId); ;
-            changedValueOuDetector.DetectMain(oldSnapshot, newSnapshot, changedValue, userId); ;
-            changedValueOuTakeOverDetector.DetectMain(oldSnapshot, newSnapshot, changedValue, userId);
+            changedValueHdpDetector.DetectMain(oldSnapshot, newSnapshot, changedValues, userId);
+            changedValueHdpTakeOverDetector.DetectMain(oldSnapshot, newSnapshot, changedValues, userId);
+            changedValueHdpTakeOverDetector.DetectOther(oldSnapshot, newSnapshot, changedValues, userId);
+            changedValueOuDetector.DetectOther(oldSnapshot, newSnapshot, changedValues, userId);
+            changedValueOuTakeOverDetector.DetectOther(oldSnapshot, newSnapshot, changedValues, userId);
+            changedValueOuDetector.DetectMain(oldSnapshot, newSnapshot, changedValues, userId);
+            changedValueOuTakeOverDetector.DetectMain(oldSnapshot, newSnapshot, changedValues, userId);
         }
 
         public void DetectChangeAssignmentExceptOtherHdpTOver(AssignmentSnapshot oldSnapshot, AssignmentSnapshot newSnapshot, List<ChangedValue> changedValues)
         {
-            var changedValue = new List<ChangedValue>();
             if (!string.Equals(oldSnapshot.OtherHdpTakeOver, newSnapshot.OtherHdpTakeOver) ||
                 string.IsNullOrWhiteSpace(newSnapshot.OtherHdpTakeOver))
             {
@@ -116,18 +112,17 @@ namespace OWP.PreMatchNotification.Assignment.Services.OtherAssignment
             }
 
             var userId = newSnapshot.OtherHdpTakeOverUserId.Value;
-            changedValueHdpDetector.DetectMain(oldSnapshot, newSnapshot, changedValue, userId);
-            changedValueHdpDetector.DetectOther(oldSnapshot, newSnapshot, changedValue, userId); ;
-            changedValueHdpTakeOverDetector.DetectMain(oldSnapshot, newSnapshot, changedValue, userId);
-            changedValueOuDetector.DetectOther(oldSnapshot, newSnapshot, changedValue, userId);
-            changedValueOuTakeOverDetector.DetectOther(oldSnapshot, newSnapshot, changedValue, userId);
-            changedValueOuDetector.DetectMain(oldSnapshot, newSnapshot, changedValue, userId);
-            changedValueOuTakeOverDetector.DetectMain(oldSnapshot, newSnapshot, changedValue, userId);
+            changedValueHdpDetector.DetectMain(oldSnapshot, newSnapshot, changedValues, userId);
+            changedValueHdpDetector.DetectOther(oldSnapshot, newSnapshot, changedValues, userId);
+            changedValueHdpTakeOverDetector.DetectMain(oldSnapshot, newSnapshot, changedValues, userId);
+            changedValueOuDetector.DetectOther(oldSnapshot, newSnapshot, changedValues, userId);
+            changedValueOuTakeOverDetector.DetectOther(oldSnapshot, newSnapshot, changedValues, userId);
+            changedValueOuDetector.DetectMain(oldSnapshot, newSnapshot, changedValues, userId);
+            changedValueOuTakeOverDetector.DetectMain(oldSnapshot, newSnapshot, changedValues, userId);
         }
 
         public void DetectChangeAssignmentExceptOtherOu(AssignmentSnapshot oldSnapshot, AssignmentSnapshot newSnapshot, List<ChangedValue> changedValues)
         {
-            var changedValue = new List<ChangedValue>();
             if (!string.Equals(oldSnapshot.OtherOu, newSnapshot.OtherOu) ||
                 string.IsNullOrWhiteSpace(newSnapshot.OtherOu))
             {
@@ -135,18 +130,17 @@ namespace OWP.PreMatchNotification.Assignment.Services.OtherAssignment
             }
 
             var userId = newSnapshot.OtherOuUserId.Value;
-            changedValueHdpDetector.DetectMain(oldSnapshot, newSnapshot, changedValue, userId);
-            changedValueHdpTakeOverDetector.DetectMain(oldSnapshot, newSnapshot, changedValue, userId); ;
-            changedValueHdpDetector.DetectOther(oldSnapshot, newSnapshot, changedValue, userId);
-            changedValueHdpTakeOverDetector.DetectOther(oldSnapshot, newSnapshot, changedValue, userId);
-            changedValueOuTakeOverDetector.DetectOther(oldSnapshot, newSnapshot, changedValue, userId);
-            changedValueOuDetector.DetectMain(oldSnapshot, newSnapshot, changedValue, userId);
-            changedValueOuTakeOverDetector.DetectMain(oldSnapshot, newSnapshot, changedValue, userId);
+            changedValueHdpDetector.DetectMain(oldSnapshot, newSnapshot, changedValues, userId);
+            changedValueHdpTakeOverDetector.DetectMain(oldSnapshot, newSnapshot, changedValues, userId);
+            changedValueHdpDetector.DetectOther(oldSnapshot, newSnapshot, changedValues, userId);
+            changedValueHdpTakeOverDetector.DetectOther(oldSnapshot, newSnapshot, changedValues, userId);
+            changedValueOuTakeOverDetector.DetectOther(oldSnapshot, newSnapshot, changedValues, userId);
+            changedValueOuDetector.DetectMain(oldSnapshot, newSnapshot, changedValues, userId);
+            changedValueOuTakeOverDetector.DetectMain(oldSnapshot, newSnapshot, changedValues, userId);
         }
 
         public void DetectChangeAssignmentExceptOtherOuTOver(AssignmentSnapshot oldSnapshot, AssignmentSnapshot newSnapshot, List<ChangedValue> changedValues)
         {
-            var changedValue = new List<ChangedValue>();
             if (!string.Equals(oldSnapshot.OtherOuTakeOver, newSnapshot.OtherOuTakeOver) ||
                 string.IsNullOrWhiteSpace(newSnapshot.OtherOuTakeOver))
             {
@@ -154,30 +148,29 @@ namespace OWP.PreMatchNotification.Assignment.Services.OtherAssignment
             }
 
             var userId = newSnapshot.OtherOuTakeOverUserId.Value;
-            changedValueHdpDetector.DetectMain(oldSnapshot, newSnapshot, changedValue, userId);
-            changedValueHdpTakeOverDetector.DetectMain(oldSnapshot, newSnapshot, changedValue, userId); ;
-            changedValueHdpDetector.DetectOther(oldSnapshot, newSnapshot, changedValue, userId);
-            changedValueHdpTakeOverDetector.DetectOther(oldSnapshot, newSnapshot, changedValue, userId);
-            changedValueOuDetector.DetectOther(oldSnapshot, newSnapshot, changedValue, userId);
-            changedValueOuDetector.DetectMain(oldSnapshot, newSnapshot, changedValue, userId);
-            changedValueOuTakeOverDetector.DetectMain(oldSnapshot, newSnapshot, changedValue, userId);
+            changedValueHdpDetector.DetectMain(oldSnapshot, newSnapshot, changedValues, userId);
+            changedValueHdpTakeOverDetector.DetectMain(oldSnapshot, newSnapshot, changedValues, userId);
+            changedValueHdpDetector.DetectOther(oldSnapshot, newSnapshot, changedValues, userId);
+            changedValueHdpTakeOverDetector.DetectOther(oldSnapshot, newSnapshot, changedValues, userId);
+            changedValueOuDetector.DetectOther(oldSnapshot, newSnapshot, changedValues, userId);
+            changedValueOuDetector.DetectMain(oldSnapshot, newSnapshot, changedValues, userId);
+            changedValueOuTakeOverDetector.DetectMain(oldSnapshot, newSnapshot, changedValues, userId);
         }
 
         public void DetectChangeAssignmentExceptOu(AssignmentSnapshot oldSnapshot, AssignmentSnapshot newSnapshot, List<ChangedValue> changedValues)
         {
-            var changedValue = new List<ChangedValue>();
             if (!string.Equals(oldSnapshot.Ou, newSnapshot.Ou) || string.IsNullOrWhiteSpace(newSnapshot.Ou))
             {
                 return;
             }
             var userId = newSnapshot.OuUserId.Value;
-            changedValueHdpDetector.DetectMain(oldSnapshot, newSnapshot, changedValue, userId);
-            changedValueHdpTakeOverDetector.DetectMain(oldSnapshot, newSnapshot, changedValue, userId); ;
-            changedValueHdpDetector.DetectOther(oldSnapshot, newSnapshot, changedValue, userId);
-            changedValueHdpTakeOverDetector.DetectOther(oldSnapshot, newSnapshot, changedValue, userId);
-            changedValueOuDetector.DetectOther(oldSnapshot, newSnapshot, changedValue, userId);
-            changedValueOuTakeOverDetector.DetectOther(oldSnapshot, newSnapshot, changedValue, userId);
-            changedValueOuTakeOverDetector.DetectMain(oldSnapshot, newSnapshot, changedValue, userId);
+            changedValueHdpDetector.DetectMain(oldSnapshot, newSnapshot, changedValues, userId);
+            changedValueHdpTakeOverDetector.DetectMain(oldSnapshot, newSnapshot, changedValues, userId);
+            changedValueHdpDetector.DetectOther(oldSnapshot, newSnapshot, changedValues, userId);
+            changedValueHdpTakeOverDetector.DetectOther(oldSnapshot, newSnapshot, changedValues, userId);
+            changedValueOuDetector.DetectOther(oldSnapshot, newSnapshot, changedValues, userId);
+            changedValueOuTakeOverDetector.DetectOther(oldSnapshot, newSnapshot, changedValues, userId);
+            changedValueOuTakeOverDetector.DetectMain(oldSnapshot, newSnapshot, changedValues, userId);
         }
 
         public void DetectChangeAssignmentExceptOuTOver(AssignmentSnapshot oldSnapshot, AssignmentSnapshot newSnapshot, List<ChangedValue> changedValues)
@@ -190,7 +183,7 @@ namespace OWP.PreMatchNotification.Assignment.Services.OtherAssignment
 
             var userId = newSnapshot.OuTakeOverUserId.Value;
             changedValueHdpDetector.DetectMain(oldSnapshot, newSnapshot, changedValues, userId);
-            changedValueHdpTakeOverDetector.DetectMain(oldSnapshot, newSnapshot, changedValues, userId); ;
+            changedValueHdpTakeOverDetector.DetectMain(oldSnapshot, newSnapshot, changedValues, userId);
             changedValueHdpDetector.DetectOther(oldSnapshot, newSnapshot, changedValues, userId);
             changedValueHdpTakeOverDetector.DetectOther(oldSnapshot, newSnapshot, changedValues, userId);
             changedValueOuTakeOverDetector.DetectOther(oldSnapshot, newSnapshot, changedValues, userId);
