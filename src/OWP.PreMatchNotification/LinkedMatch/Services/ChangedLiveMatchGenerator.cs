@@ -39,14 +39,15 @@
             {
                 var prematchInfosite = employees.PrematchInfosites.GetValue(match.InfoSiteMatchId);
                 var prematchAssigneeIds = prematchInfosite.SelectMany(x => x.PrematchAssigneeIds);
+                var infositeInfo = prematchInfosite[0];
 
                 yield return new ChangedValue
                 {
                     MessageTypeId = messageTypeId,
-                    League = match.LeagueName,
-                    Home = match.Home,
-                    Away = match.Away,
-                    KoTime = match.EventDateTime.ToString("hh:mm tt"),
+                    League = infositeInfo.LeagueName,
+                    Home = infositeInfo.HomeName,
+                    Away = infositeInfo.AwayName,
+                    KoTime = infositeInfo.EventDateTime.ToString("hh:mm tt"),
                     ReceivedUserIds = prematchAssigneeIds.Count() == 0
                         ? employees.AllLSTEmployees.Union(employees.AllPrematchEmployees).Distinct().ToList()
                         : employees.AllLSTEmployees.Union(prematchAssigneeIds).Distinct().ToList()

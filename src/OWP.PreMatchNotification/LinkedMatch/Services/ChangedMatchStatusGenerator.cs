@@ -28,13 +28,14 @@
             {
                 var prematchInfosite = employees.PrematchInfosites.GetValue(newMatch.InfoSiteMatchId);
                 var prematchAssigneeIds = prematchInfosite.SelectMany(x => x.PrematchAssigneeIds);
+                var infositeInfo = prematchInfosite[0];
 
                 return new ChangedValue
                 {
                     MessageTypeId = (int)MsgTemplateCode.LGAChangeMatchStatus,
-                    League = newMatch.LeagueName,
-                    Home = newMatch.Home,
-                    Away = newMatch.Away,
+                    League = infositeInfo.LeagueName,
+                    Home = infositeInfo.HomeName,
+                    Away = infositeInfo.AwayName,
                     OldValue = oldMatch.MatchStatus,
                     NewValue = newMatch.MatchStatus,
                     ReceivedUserIds = employees.AllLSTEmployees.Union(prematchAssigneeIds).Distinct().ToList()
