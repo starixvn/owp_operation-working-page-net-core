@@ -39,7 +39,7 @@ namespace OWP.PreMatchNotification.UnitTests.Assignment.Helper
                     MessageTypeId = 201,
                     BetTypeName = "Hdp",
                     League = "VLeague",
-                    ReceivedUserIds = new List<int>(123)
+                    ReceivedUserIds = new List<int>{123}
                 }
             };
             DeepAssert.Equal(changedValuesExpected, changedValues);
@@ -62,7 +62,7 @@ namespace OWP.PreMatchNotification.UnitTests.Assignment.Helper
                     MessageTypeId = 204,
                     BetTypeName = "Hdp",
                     League = "VLeague",
-                    ReceivedUserIds = new List<int>(123)
+                    ReceivedUserIds = new List<int>{123}
                 }
             };
             DeepAssert.Equal(changedValuesExpected, changedValues);
@@ -94,7 +94,7 @@ namespace OWP.PreMatchNotification.UnitTests.Assignment.Helper
                     MessageTypeId = 202,
                     BetTypeName = "Hdp",
                     League = "VLeague",
-                    ReceivedUserIds = new List<int>(123)
+                    ReceivedUserIds = new List<int>{123}
                 }
             };
             DeepAssert.Equal(changedValuesExpected, changedValues);
@@ -117,7 +117,7 @@ namespace OWP.PreMatchNotification.UnitTests.Assignment.Helper
                     MessageTypeId = 205,
                     BetTypeName = "Hdp",
                     League = "VLeague",
-                    ReceivedUserIds = new List<int>(123)
+                    ReceivedUserIds = new List<int>{123}
                 }
             };
             DeepAssert.Equal(changedValuesExpected, changedValues);

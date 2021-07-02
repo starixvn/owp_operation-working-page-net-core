@@ -39,14 +39,14 @@ namespace OWP.PreMatchNotification.UnitTests.Assignment.MyAssignment
                     BetTypeName = "HDP",
                     League = "VLeague",
                     MessageTypeId = 201,
-                    ReceivedUserIds = new List<int>(121)
+                    ReceivedUserIds = new List<int>{121}
                 },
                 new ()
                 {
                     BetTypeName = "HDP",
                     League = "VLeague",
                     MessageTypeId = 202,
-                    ReceivedUserIds = new List<int>(8)
+                    ReceivedUserIds = new List<int>{8}
                 }
             };
             hdpDetector.DetectMain(oldSnapshot, newSnapshot, actual);
@@ -79,14 +79,14 @@ namespace OWP.PreMatchNotification.UnitTests.Assignment.MyAssignment
                     BetTypeName = "HDP",
                     League = "VLeague",
                     MessageTypeId = 201,
-                    ReceivedUserIds = new List<int>(121)
+                    ReceivedUserIds = new List<int>{121}
                 },
                 new ()
                 {
                     BetTypeName = "HDP",
                     League = "VLeague",
                     MessageTypeId = 202,
-                    ReceivedUserIds = new List<int>(8)
+                    ReceivedUserIds = new List<int>{8}
                 }
             };
             hdpDetector.DetectOther(oldSnapshot, newSnapshot, actual);

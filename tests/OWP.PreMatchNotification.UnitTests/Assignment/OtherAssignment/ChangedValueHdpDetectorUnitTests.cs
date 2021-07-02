@@ -42,7 +42,7 @@ namespace OWP.PreMatchNotification.UnitTests.Assignment.OtherAssignment
                     BetTypeName = "HDP",
                     OldValue = "Sa",
                     NewValue = "Starix15",
-                    ReceivedUserIds = new List<int>(121),
+                    ReceivedUserIds = new List<int>{121 },
                     MessageTypeId = 203
                 }
             };
@@ -79,7 +79,7 @@ namespace OWP.PreMatchNotification.UnitTests.Assignment.OtherAssignment
                     BetTypeName = "HDP",
                     OldValue = "Sa",
                     NewValue = "Starix15",
-                    ReceivedUserIds = new List<int>(121),
+                    ReceivedUserIds = new List<int>{121 },
                     MessageTypeId = 203
                 }
             };

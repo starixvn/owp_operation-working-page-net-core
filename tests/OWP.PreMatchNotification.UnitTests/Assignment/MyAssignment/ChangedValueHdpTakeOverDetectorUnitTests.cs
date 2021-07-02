@@ -39,14 +39,14 @@ namespace OWP.PreMatchNotification.UnitTests.Assignment.MyAssignment
                     BetTypeName = "HDP T.OVER",
                     League = "VLeague",
                     MessageTypeId = 201,
-                    ReceivedUserIds = new List<int>(121)
+                    ReceivedUserIds = new List<int>{121}
                 },
                 new ()
                 {
                     BetTypeName = "HDP T.OVER",
                     League = "VLeague",
                     MessageTypeId = 202,
-                    ReceivedUserIds = new List<int>(8)
+                    ReceivedUserIds = new List<int>{8}
                 }
             };
             hdpTakeOverDetector.DetectMain(oldSnapshot, newSnapshot, actual);
@@ -79,14 +79,14 @@ namespace OWP.PreMatchNotification.UnitTests.Assignment.MyAssignment
                     BetTypeName = "HDP T.OVER",
                     League = "VLeague",
                     MessageTypeId = 201,
-                    ReceivedUserIds = new List<int>(121)
+                    ReceivedUserIds = new List<int>{121}
                 },
                 new ()
                 {
                     BetTypeName = "HDP T.OVER",
                     League = "VLeague",
                     MessageTypeId = 202,
-                    ReceivedUserIds = new List<int>(8)
+                    ReceivedUserIds = new List<int>{8}
                 }
             };
             hdpTakeOverDetector.DetectOther(oldSnapshot, newSnapshot, actual);
