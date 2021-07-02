@@ -13,8 +13,8 @@
 
     [Route("api/[controller]")]
     [ApiController]
-    [EnableCors("AllowOrigin")]
     [AllowAnonymous]
+    [EnableCors("AllowOrigin")]
     public class PreMatchNotificationController
     {
         private readonly IMediator mediator;
