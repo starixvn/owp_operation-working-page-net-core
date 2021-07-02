@@ -58,10 +58,11 @@ namespace OWP.PreMatchNotification.Assignment.Handlers
 
         public async Task<Unit> Handle(AssignmentNotifyRequest request, CancellationToken cancellationToken)
         {
+            await commandRepository.Test(request.SessionId);
             var messages = await GenerateMessages(request);
             var messageModels = messageFactory.Transform(messages);
-
-            await commandRepository.InsertMessage(messageModels, request.SessionId);
+           
+            //await commandRepository.InsertMessage(messageModels, request.SessionId);
 
             await notify.Notify(messageModels);
             return await Task.FromResult(Unit.Value);

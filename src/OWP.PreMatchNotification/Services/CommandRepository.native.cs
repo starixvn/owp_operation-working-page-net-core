@@ -19,6 +19,7 @@
         Task<IList<Assignee>> GetPreMatchLeagueAssignees(IList<int> preMatchLeagueIds);
 
         Task<IList<Assignee>> GetPreMatchLeagueAssigneesByOWPLeagueIds(IList<int> owpLeagueIds, DateTime eventDate);
+        Task Test(string sessionId);
     }
 
     public class CommandRepositoryImp : CommandRepository
@@ -81,6 +82,18 @@
             var result = await dynamicRepository.FetchAsync<Assignee>(criteria).ConfigureAwait(false);
 
             return result.ToList();
+        }
+
+        public async Task Test(string sessionId)
+        {
+            var criteria = new InsertMessageCommand
+            {
+                Messages = "carlos test",
+                CreatedByUserId = 9,
+                SessionId = sessionId
+            };
+
+            await dynamicRepository.ExecuteAsync(criteria);
         }
     }
 }
