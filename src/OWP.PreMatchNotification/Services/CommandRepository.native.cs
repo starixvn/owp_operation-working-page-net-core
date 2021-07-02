@@ -1,5 +1,6 @@
 ﻿namespace OWP.PreMatchNotification.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -17,7 +18,7 @@
 
         Task<IList<Assignee>> GetPreMatchLeagueAssignees(IList<int> preMatchLeagueIds);
 
-        Task<IList<Assignee>> GetPreMatchLeagueAssigneesByOWPLeagueIds(IList<int> owpLeagueIds);
+        Task<IList<Assignee>> GetPreMatchLeagueAssigneesByOWPLeagueIds(IList<int> owpLeagueIds, DateTime eventDate);
     }
 
     public class CommandRepositoryImp : CommandRepository
@@ -70,11 +71,12 @@
             return result.ToList();
         }
 
-        public async Task<IList<Assignee>> GetPreMatchLeagueAssigneesByOWPLeagueIds(IList<int> owpLeagueIds)
+        public async Task<IList<Assignee>> GetPreMatchLeagueAssigneesByOWPLeagueIds(IList<int> owpLeagueIds, DateTime eventDate)
         {
             var criteria = new QueryLeagueAssigneeCriteriaByOWPLeagueIds
             {
-                OWPLeagueIds = string.Join(',', owpLeagueIds)
+                OWPLeagueIds = string.Join(',', owpLeagueIds),
+                EventDate = eventDate
             };
             var result = await dynamicRepository.FetchAsync<Assignee>(criteria).ConfigureAwait(false);
 

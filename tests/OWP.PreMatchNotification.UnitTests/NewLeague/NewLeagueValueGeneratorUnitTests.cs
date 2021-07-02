@@ -10,6 +10,7 @@
     using Xunit;
     using Xunit.Asserts.Compare;
     using OWP.PreMatchNotification.Services;
+    using OWP.PreMatchNotification.Constants;
 
     public class NewLeagueValueGeneratorUnitTests
     {
@@ -25,12 +26,14 @@
                 new ChangedValue
                 {
                     League = "D",
-                    ReceivedUserIds = receivedUserIds
+                    ReceivedUserIds = receivedUserIds,
+                    MessageTypeId = (int)MsgTemplateCode.NewLeague
                 },
                 new ChangedValue
                 {
                     League = "E",
-                    ReceivedUserIds = receivedUserIds
+                    ReceivedUserIds = receivedUserIds,
+                    MessageTypeId = (int)MsgTemplateCode.NewLeague
                 }
             };
 

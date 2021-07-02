@@ -74,7 +74,7 @@ namespace OWP.PreMatchNotification.NewLeague.Handlers
             var oldSnapshot = await cacheManipulator.GetMultipleData<PreMatchLeague>($"{OLD_PREMATCHLEAGUES_SNAPSHOT_KEY}-{request.SessionId}");
             var newSnapshot = await GetPreMatchLeagueNewSnapshot(request.FromDate, request.ToDate);
             var preMatchAssignees = await commandRepository.GetEmployeesBySection(Section.PreMatch);
-            var infoSiteMatches = await GetInfoSiteMatch(newSnapshot.Select(x => x.OWPLeagueId).ToList());
+            var infoSiteMatches = await GetInfoSiteMatch(newSnapshot.Select(x => x.OWPLeagueId).ToList(), request.FromDate, request.ToDate);
 
             var messages = newLeagueGenerator.Create(oldSnapshot, newSnapshot, preMatchAssignees, infoSiteMatches);
 
@@ -95,11 +95,13 @@ namespace OWP.PreMatchNotification.NewLeague.Handlers
             return result.ToList();
         }
 
-        private async Task<IList<InfoSiteMatch>> GetInfoSiteMatch(List<int> owpLeagueIds)
+        private async Task<IList<InfoSiteMatch>> GetInfoSiteMatch(List<int> owpLeagueIds, DateTime fromDate, DateTime toDate)
         {
             var criteria = new QueryInfoSiteMatchByOWPLeagueIdsCriteria
             {
-                OWPLeagueIds = string.Join(',', owpLeagueIds)
+                OWPLeagueIds = string.Join(',', owpLeagueIds),
+                FromDate = fromDate.AddDays(-1),
+                ToDate = toDate.AddDays(1)
             };
             var result = await dynamicRepository.FetchAsync<InfoSiteMatch>(criteria).ConfigureAwait(false);
 

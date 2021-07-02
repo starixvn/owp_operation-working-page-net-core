@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using OWP.PreMatchNotification.Constants;
     using OWP.PreMatchNotification.Models;
     using OWP.PreMatchNotification.NewLeague.Models;
     using OWP.PreMatchNotification.Services;
@@ -34,7 +35,8 @@
                 yield return new ChangedValue
                 {
                     League = league.OWPLeagueName,
-                    ReceivedUserIds = assignees.Select(x => x.AssigneeId).ToList()
+                    ReceivedUserIds = assignees.Select(x => x.AssigneeId).ToList(),
+                    MessageTypeId = (int)MsgTemplateCode.NewLeague
                 };
             }
         }

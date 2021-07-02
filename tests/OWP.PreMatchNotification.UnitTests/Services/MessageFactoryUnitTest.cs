@@ -31,7 +31,7 @@ namespace OWP.PreMatchNotification.UnitTests.Services
                 {
                    IsBlinking=true,
                    IsImportant = true,
-                   MessageContent = "<b>New Add</b> VLeague",
+                   MessageContent = "New Add VLeague",
                    MessageType = (int)MsgTemplateCode.NewLeague,
                    ReceivedUserIds = new List<string> { "2","3","5"}
                 }

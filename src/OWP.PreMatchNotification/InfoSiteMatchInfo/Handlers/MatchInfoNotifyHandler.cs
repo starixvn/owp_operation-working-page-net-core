@@ -71,7 +71,7 @@
             var newSnapshot = await queryRepository.GetInfoSiteMatchNewSnapshot(request.FromDate, request.ToDate);
 
             var owpLeagueIds = newSnapshot.Select(x => x.OWPLeagueId).ToList();
-            var preMatchAssignees = await commandRepository.GetPreMatchLeagueAssigneesByOWPLeagueIds(owpLeagueIds);
+            var preMatchAssignees = await commandRepository.GetPreMatchLeagueAssigneesByOWPLeagueIds(owpLeagueIds, request.FromDate);
             var lst = await commandRepository.GetEmployeesBySection(Section.LST);
 
             var assigneeMessages = changedValueGenerator.CreateAssigneeMessages(oldSnapshot, newSnapshot, preMatchAssignees);

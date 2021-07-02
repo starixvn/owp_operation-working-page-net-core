@@ -57,7 +57,7 @@
             new ()
             {
                 MessageType = (int)MsgTemplateCode.NewLeague,
-                MessageContent = "<b>New Add</b> <League>",
+                MessageContent = "New Add <League>",
                 IsImportant = true,
                 IsBlinking = true
             },
