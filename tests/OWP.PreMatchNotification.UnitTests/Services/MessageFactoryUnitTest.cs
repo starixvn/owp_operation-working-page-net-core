@@ -52,7 +52,7 @@ namespace OWP.PreMatchNotification.UnitTests.Services
                 new MessageModel
                 {
                    IsImportant = true,
-                   MessageContent = "[DayShift] You have NEW ASSIGNMENT <b>O/U</b> in VLeague",
+                   MessageContent = "[DayShift] You have NEW ASSIGNMENT <b>O/U</b> in <b>VLeague</b>",
                    MessageType = (int)MsgTemplateCode.DayShiftAssignmentInsert,
                    ReceivedUserIds = new List<string> { "12","1"}
                 },
@@ -66,8 +66,29 @@ namespace OWP.PreMatchNotification.UnitTests.Services
                 new MessageModel
                 {
                    IsImportant = true,
-                   MessageContent = "[DayShift] <b>O/U</b>'s Assignee has been updated from Sa to <b>Starix15</b> in your assignment VLeague",
+                   MessageContent = "[DayShift] O/U's Assignee has been updated from <b>Sa</b> to <b>Starix15</b> in your assignment <b>VLeague</b>",
                    MessageType = (int)MsgTemplateCode.DayShiftOtherAssignmentUpdate,
+                   ReceivedUserIds = new List<string> { "13"}
+                },
+                new MessageModel
+                {
+                   IsImportant = true,
+                   MessageContent = "[NightShift] You have NEW ASSIGNMENT <b>O/U</b> in <b>ThaidLeague</b>",
+                   MessageType = (int)MsgTemplateCode.NightShiftAssignmentInsert,
+                   ReceivedUserIds = new List<string> {"1"}
+                },
+                new MessageModel
+                {
+                   IsImportant = true,
+                   MessageContent = "[NightShift] You have been REMOVED from <b>O/U</b> in ThaidLeague",
+                   MessageType = (int)MsgTemplateCode.NightShiftAssignmentDelete,
+                   ReceivedUserIds = new List<string> { "12"}
+                },
+                new MessageModel
+                {
+                   IsImportant = true,
+                   MessageContent = "[NightShift] O/U's Assignee has been updated from <b>Sa</b> to <b>Starix15</b> in your assignment <b>ThaidLeague</b>",
+                   MessageType = (int)MsgTemplateCode.NightShiftOtherAssignmentUpdate,
                    ReceivedUserIds = new List<string> { "13"}
                 },
             };
@@ -88,7 +109,7 @@ namespace OWP.PreMatchNotification.UnitTests.Services
                 {
                    IsBlinking=true,
                    IsImportant = true,
-                   MessageContent = "Has been <b>Live</b> for match: LeagueA HomeA -vs- AwayA; Previous Postponed",
+                   MessageContent = "Has been <b>Live</b> for match: LeagueA - HomeA -vs- AwayA; Previous Postponed",
                    MessageType = (int)MsgTemplateCode.LGAChangeMatchStatus,
                    ReceivedUserIds = new List<string> { "1","3","8"}
                 },
@@ -96,7 +117,7 @@ namespace OWP.PreMatchNotification.UnitTests.Services
                 {
                    IsBlinking=true,
                    IsImportant = true,
-                   MessageContent = "ADD LIVE for 05:12 AM LeagueC - HomeA -vs- AwayA",
+                   MessageContent = "ADD LIVE for 05:12 AM - LeagueC - HomeA -vs- AwayA",
                    MessageType = (int)MsgTemplateCode.LGAAddLiveMatch,
                    ReceivedUserIds = new List<string> { "1","2","3"}
                 },
@@ -104,7 +125,7 @@ namespace OWP.PreMatchNotification.UnitTests.Services
                 {
                    IsBlinking=true,
                    IsImportant = true,
-                   MessageContent = "CANCEL LIVE for 04:02 AM VLeague - HomeA -vs- AwayA",
+                   MessageContent = "CANCEL LIVE for 04:02 AM - VLeague - HomeA -vs- AwayA",
                    MessageType = (int)MsgTemplateCode.LGACancelLiveMatch,
                    ReceivedUserIds = new List<string> { "1","2"}
                 },
@@ -195,6 +216,29 @@ namespace OWP.PreMatchNotification.UnitTests.Services
                     NewValue = "Starix15",
                     ReceivedUserIds = new List<int>{13},
                     MessageTypeId = (int)MsgTemplateCode.DayShiftOtherAssignmentUpdate
+                },
+                new ChangedValue
+                {
+                    BetTypeName = "O/U",
+                    League = "ThaidLeague",
+                    MessageTypeId = (int)MsgTemplateCode.NightShiftAssignmentInsert,
+                    ReceivedUserIds = new List<int>{1}
+                },
+                new ChangedValue
+                {
+                    BetTypeName = "O/U",
+                    League = "ThaidLeague",
+                    MessageTypeId = (int)MsgTemplateCode.NightShiftAssignmentDelete,
+                    ReceivedUserIds = new List<int>{12}
+                },
+                new ChangedValue
+                {
+                    League = "ThaidLeague",
+                    BetTypeName = "O/U",
+                    OldValue = "Sa",
+                    NewValue = "Starix15",
+                    ReceivedUserIds = new List<int>{13},
+                    MessageTypeId = (int)MsgTemplateCode.NightShiftOtherAssignmentUpdate
                 },
             };
         }
