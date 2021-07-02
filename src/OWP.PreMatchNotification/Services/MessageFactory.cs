@@ -64,21 +64,21 @@
             new ()
             {
                  MessageType=(int)MsgTemplateCode.LGAAddLiveMatch,
-                 MessageContent="ADD LIVE for <K.O Time> <League> - <Home> -vs- <Away>",
+                 MessageContent="ADD LIVE for <K.O Time> - <League> - <Home> -vs- <Away>",
                  IsImportant = true,
                  IsBlinking = true
             },
             new ()
             {
                  MessageType=(int)MsgTemplateCode.LGACancelLiveMatch,
-                 MessageContent="CANCEL LIVE for <K.O Time> <League> - <Home> -vs- <Away>",
+                 MessageContent="CANCEL LIVE for <K.O Time> - <League> - <Home> -vs- <Away>",
                  IsImportant = true,
                  IsBlinking = true
             },
             new ()
             {
                  MessageType=(int)MsgTemplateCode.LGAChangeMatchStatus,
-                 MessageContent="Has been <newvalue> for match: <League> <Home> -vs- <Away>; Previous <oldvalue>",
+                 MessageContent="Has been <newvalue> for match: <League> - <Home> -vs- <Away>; Previous <oldvalue>",
                  IsImportant = true,
                  IsBlinking = true
             },
