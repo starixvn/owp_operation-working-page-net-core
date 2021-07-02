@@ -12,7 +12,7 @@
     using OWP.PreMatchNotification.Constants;
     using OWP.PreMatchNotification.InfoSiteMatchInfo.Models;
 
-    public class MatchInfoNotifyRequest : IRequest<Unit>
+    public class MatchInfoNotifyRequest : IRequest<MatchInfoNotifyResponse>
     {
         public string SessionId { get; set; }
 
@@ -21,7 +21,12 @@
         public DateTime ToDate { get; set; }
     }
 
-    public class MatchInfoNotifyHandler : IRequestHandler<MatchInfoNotifyRequest, Unit>
+    public class MatchInfoNotifyResponse
+    {
+        public IList<MessageModel> MessageModels { get; set; }
+    }
+
+    public class MatchInfoNotifyHandler : IRequestHandler<MatchInfoNotifyRequest, MatchInfoNotifyResponse>
     {
         private readonly CacheManipulatorCommon cacheManipulator;
 
@@ -53,7 +58,7 @@
             this.notify = notify;
         }
 
-        public async Task<Unit> Handle(MatchInfoNotifyRequest request, CancellationToken cancellationToken)
+        public async Task<MatchInfoNotifyResponse> Handle(MatchInfoNotifyRequest request, CancellationToken cancellationToken)
         {
             var messages = await GenerateMessages(request);
             var messageModels = messageFactory.Transform(messages);
@@ -62,7 +67,7 @@
 
             await notify.Notify(messageModels);
 
-            return await Task.FromResult(Unit.Value);
+            return new MatchInfoNotifyResponse { MessageModels = messageModels };
         }
 
         private async Task<IList<ChangedValue>> GenerateMessages(MatchInfoNotifyRequest request)
