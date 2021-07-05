@@ -15,7 +15,7 @@
     [ApiController]
     [AllowAnonymous]
     [EnableCors("AllowOrigin")]
-    public class PreMatchNotificationController
+    public class PreMatchNotificationController : ControllerBase
     {
         private readonly IMediator mediator;
 
@@ -26,8 +26,12 @@
 
         [Route("notify-match-info")]
         [HttpGet]
-        public async Task NotifyMatchInfo(string sessionId, DateTime fromDate, DateTime toDate)
-            => await mediator.Send(new MatchInfoNotifyRequest { SessionId = sessionId, FromDate = fromDate, ToDate = toDate });
+        public async Task<IActionResult> NotifyMatchInfo(string sessionId, DateTime fromDate, DateTime toDate)
+        {
+            var result = await mediator.Send(new MatchInfoNotifyRequest { SessionId = sessionId, FromDate = fromDate, ToDate = toDate });
+
+            return Ok(result);
+        }
 
         [Route("notify-new-league")]
         [HttpGet]
