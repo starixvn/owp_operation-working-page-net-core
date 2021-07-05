@@ -35,8 +35,8 @@
     <PackageReference Include="Fanex.Logging.Extensions.Database" Version="1.0.8" />
     <PackageReference Include="Fanex.Logging.Sentry" Version="1.0.6" />
     <PackageReference Include="Fanex.Logging.Sentry.RavenClient" Version="1.0.1" />
-    <PackageReference Include="Fanex.NAP.Client.AspNetCore" Version="1.0.0.7" />
-    <PackageReference Include="Fanex.NAP.Signin.AspNetCore" Version="1.0.0.3-beta1" />
+    <PackageReference Include="Fanex.NAP.Client.AspNetCore" Version="1.0.0.8" />
+    <PackageReference Include="Fanex.NAP.Signin.AspNetCore" Version="1.0.0.8" />
     <PackageReference Include="MediatR" Version="9.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="5.0.3" />
@@ -45,7 +45,7 @@
     <PackageReference Include="Microsoft.AspNetCore.SignalR.StackExchangeRedis" Version="3.1.16" />
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="5.0.1" />
     <PackageReference Include="ONEbook.UM.AspNetCore" Version="3.1.0-beta02" />
-    <PackageReference Include="ONEbook.UM.Transport" Version="3.1.0-beta02" />
+    <PackageReference Include="ONEbook.UM.Transport" Version="3.1.1" />
   </ItemGroup>
 
   <ItemGroup>
