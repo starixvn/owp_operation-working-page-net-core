@@ -12,6 +12,7 @@
     using OWP.PreMatchNotification.LinkedMatch.Models;
     using OWP.PreMatchNotification.Constants;
     using OWP.Extensions;
+    using OWP.Services;
 
     public class LinkedMatchNotifyRequest : IRequest<Unit>
     {
@@ -28,6 +29,7 @@
         private readonly MessageFactory messageFactory;
         private readonly CommandRepository commandRepository;
         private readonly NotifyServices notify;
+        private readonly LogServiceWrapper logService;
 
         public LinkedMatchNotifyHandler(
             CacheManipulator cacheManipulator,
@@ -35,7 +37,8 @@
             ChangedLinkedMatchDetector changedValueBySnapshot,
             MessageFactory messageFactory,
             CommandRepository commandRepository,
-            NotifyServices notify)
+            NotifyServices notify,
+            LogServiceWrapper logService)
         {
             this.cacheManipulator = cacheManipulator;
             this.queryRepository = queryRepository;
@@ -43,12 +46,14 @@
             this.messageFactory = messageFactory;
             this.commandRepository = commandRepository;
             this.notify = notify;
+            this.logService = logService;
         }
 
         public async Task<Unit> Handle(LinkedMatchNotifyRequest request, CancellationToken cancellationToken)
         {
             var messages = await GenerateMessages(request);
             var messageModels = messageFactory.Transform(messages);
+            await logService.Log($"Linked-match-message-{request.SessionId}", messageModels);
 
             await commandRepository.InsertMessage(messageModels, request.SessionId);
             await notify.Notify(messageModels);
@@ -59,9 +64,13 @@
         public async Task<List<ChangedValue>> GenerateMessages(LinkedMatchNotifyRequest request)
         {
             var oldMatches = await cacheManipulator.GetOldLGAMatchSnapshot(request.SessionId, request.EventDate);
+            await logService.Log("Linked-match-Old-" + request.SessionId, oldMatches, request.SessionId);
+
             if (oldMatches.Count > 0)
             {
                 var newMatches = await queryRepository.GetLGAMatchNewSnapshot(request.EventDate);
+                await logService.Log($"Linked-match-New-{request.SessionId}", oldMatches);
+
                 var employees = await GetEmployees(request.EventDate);
 
                 var messages = changedValueBySnapshot.Create(oldMatches, newMatches, employees);
