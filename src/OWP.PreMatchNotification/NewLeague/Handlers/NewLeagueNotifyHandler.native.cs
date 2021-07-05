@@ -21,8 +21,6 @@ namespace OWP.PreMatchNotification.NewLeague.Handlers
         public string SessionId { get; set; }
 
         public DateTime FromDate { get; set; }
-
-        public DateTime ToDate { get; set; }
     }
 
     public class NewLeagueNotifyHandler : IRequestHandler<NewLeagueNotifyRequest, Unit>
@@ -72,9 +70,9 @@ namespace OWP.PreMatchNotification.NewLeague.Handlers
         private async Task<IList<ChangedValue>> GenerateMessages(NewLeagueNotifyRequest request)
         {
             var oldSnapshot = await cacheManipulator.GetMultipleData<PreMatchLeague>($"{OLD_PREMATCHLEAGUES_SNAPSHOT_KEY}-{request.SessionId}");
-            var newSnapshot = await GetPreMatchLeagueNewSnapshot(request.FromDate, request.ToDate);
+            var newSnapshot = await GetPreMatchLeagueNewSnapshot(request.FromDate);
             var preMatchAssignees = await commandRepository.GetEmployeesBySection(Section.PreMatch);
-            var infoSiteMatches = await GetInfoSiteMatch(newSnapshot.Select(x => x.OWPLeagueId).ToList(), request.FromDate, request.ToDate);
+            var infoSiteMatches = await GetInfoSiteMatch(newSnapshot.Select(x => x.OWPLeagueId).ToList(), request.FromDate);
 
             var messages = newLeagueGenerator.Create(oldSnapshot, newSnapshot, preMatchAssignees, infoSiteMatches);
 
@@ -83,25 +81,24 @@ namespace OWP.PreMatchNotification.NewLeague.Handlers
             return messages.ToList();
         }
 
-        private async Task<IList<PreMatchLeague>> GetPreMatchLeagueNewSnapshot(DateTime fromDate, DateTime toDate)
+        private async Task<IList<PreMatchLeague>> GetPreMatchLeagueNewSnapshot(DateTime fromDate)
         {
             var criteria = new GetPreMatchLeaguesCriteria
             {
-                FromDate = fromDate,
-                ToDate = toDate
+                FromDate = fromDate
             };
             var result = await dynamicRepository.FetchAsync<PreMatchLeague>(criteria).ConfigureAwait(false);
 
             return result.ToList();
         }
 
-        private async Task<IList<InfoSiteMatch>> GetInfoSiteMatch(List<int> owpLeagueIds, DateTime fromDate, DateTime toDate)
+        private async Task<IList<InfoSiteMatch>> GetInfoSiteMatch(List<int> owpLeagueIds, DateTime fromDate)
         {
             var criteria = new QueryInfoSiteMatchByOWPLeagueIdsCriteria
             {
                 OWPLeagueIds = string.Join(',', owpLeagueIds),
-                FromDate = fromDate.AddDays(-1),
-                ToDate = toDate.AddDays(1)
+                FromDate = fromDate.AddHours(12),
+                ToDate = fromDate.AddDays(1).AddHours(11).AddMinutes(59)
             };
             var result = await dynamicRepository.FetchAsync<InfoSiteMatch>(criteria).ConfigureAwait(false);
 

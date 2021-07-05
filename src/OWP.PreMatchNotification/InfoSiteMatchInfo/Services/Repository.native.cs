@@ -28,8 +28,8 @@
         {
             var criteria = new GetInfoSiteMatchesByDateRangeCriteria
             {
-                FromDate = fromDate.Date,
-                ToDate = toDate.Date.AddDays(1)
+                FromDate = fromDate.Date.AddHours(12),
+                ToDate = toDate.AddHours(11).AddMinutes(59)
             };
             var result = await dynamicRepository.FetchAsync<InfoSiteMatch>(criteria);
 
