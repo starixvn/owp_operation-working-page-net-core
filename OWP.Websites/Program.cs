@@ -16,15 +16,17 @@ namespace OWP.Websites
             var webHostBuilder = Host.CreateDefaultBuilder(args)
                   .ConfigureWebHostDefaults(webBuilder =>
                   {
-                      webBuilder.UseUrls($"http://*:5000;https://*:5001");
+#if DEBUG
+                      webBuilder.UseUrls("https://*:5001");
+#else
+                      webBuilder.UseUrls("http://*:5000");
+#endif
                       webBuilder.ConfigureAppConfiguration((builderContext, config) =>
                       {
                           var env = builderContext.HostingEnvironment;
 
                           config.SetBasePath(env.ContentRootPath);
                           config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-                          config.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true,
-                              reloadOnChange: true);
 
                           config.AddEnvironmentVariables();
                       });
