@@ -1,9 +1,7 @@
 ﻿namespace OWP.PreMatchNotification.LinkedMatch.Services
 {
-    using Fanex.Caching;
     using Models;
-    using Newtonsoft.Json;
-    using OWP.Services;
+    using OWP.PreMatchNotification.Services;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -11,51 +9,33 @@
 
     public interface CacheManipulator
     {
-        Task<List<GeneralMatch>> GetOldLGAMatchSnapshot(string sessionId, DateTime eventDate);
+        Task<List<GeneralMatch>> GetOldLGAMatchSnapshot(string sessionId);
 
-        Task DeleteAssignmentSnapshot(string sessionId, DateTime eventDate);
-
-        Task<bool> CheckContainKey(string sessionId, DateTime eventDate);
+        Task DeleteAssignmentSnapshot(string sessionId);
     }
 
     public class CacheManipulatorImp : CacheManipulator
     {
-        private readonly ICache cache;
+        private readonly CacheManipulatorCommon cacheManipulator;
         private const string OLD_LGAMATCHES_SNAPSHOT_KEY = "OWP-ASSIGNMENT-SNAPSHOT";
-        private readonly LogServiceWrapper logService;
 
-        public CacheManipulatorImp(ICache cache,
-            LogServiceWrapper logService)
+        public CacheManipulatorImp(CacheManipulatorCommon cacheManipulator)
         {
-            this.cache = cache;
-            this.logService = logService;
+            this.cacheManipulator = cacheManipulator;
         }
 
-        public async Task<bool> CheckContainKey(string sessionId, DateTime eventDate)
+        public async Task<List<GeneralMatch>> GetOldLGAMatchSnapshot(string sessionId)
         {
-            var cacheKey = $"{OLD_LGAMATCHES_SNAPSHOT_KEY}-{sessionId}-{eventDate}";
-            return await cache.ContainAsync(cacheKey);
+            var cacheKey = $"{OLD_LGAMATCHES_SNAPSHOT_KEY}-{sessionId}";
+            var assignmentSnapshot = await cacheManipulator.GetSingleData(cacheKey, new AssignmentSnapshot());
+
+            return assignmentSnapshot.Matches.Values.ToList();
         }
 
-        public async Task<List<GeneralMatch>> GetOldLGAMatchSnapshot(string sessionId, DateTime eventDate)
+        public async Task DeleteAssignmentSnapshot(string sessionId)
         {
-            var cacheKey = $"{OLD_LGAMATCHES_SNAPSHOT_KEY}-{sessionId}-{eventDate}";
-            await logService.Log($"Linked-match-KEY-NETCORE-{sessionId}", cacheKey);
-
-            var cacheResult = await cache.TryGetAsync<string>(cacheKey);
-            var assignmentSnapshot = string.IsNullOrEmpty(cacheResult.Item2)
-                ? new AssignmentSnapshot()
-                : JsonConvert.DeserializeObject<AssignmentSnapshot>(cacheResult.Item2);
-
-            return assignmentSnapshot == null
-                ? new List<GeneralMatch>()
-                : assignmentSnapshot.Matches.Values.ToList();
-        }
-
-        public async Task DeleteAssignmentSnapshot(string sessionId, DateTime eventDate)
-        {
-            var cacheKey = $"{OLD_LGAMATCHES_SNAPSHOT_KEY}-{sessionId}-{eventDate}";
-            await cache.RemoveAsync(cacheKey);
+            var cacheKey = $"{OLD_LGAMATCHES_SNAPSHOT_KEY}-{sessionId}";
+            await cacheManipulator.RemoveData(cacheKey);
         }
     }
 }
