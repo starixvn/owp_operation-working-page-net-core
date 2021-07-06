@@ -1,7 +1,8 @@
 ﻿namespace OWP.PreMatchNotification.LinkedMatch.Services
 {
+    using Fanex.Caching;
     using Models;
-    using OWP.PreMatchNotification.Services;
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -16,26 +17,31 @@
 
     public class CacheManipulatorImp : CacheManipulator
     {
-        private readonly CacheManipulatorCommon cacheManipulator;
+        private readonly ICache cache;
         private const string OLD_LGAMATCHES_SNAPSHOT_KEY = "OWP-ASSIGNMENT-SNAPSHOT";
 
-        public CacheManipulatorImp(CacheManipulatorCommon cacheManipulator)
+        public CacheManipulatorImp(ICache cache)
         {
-            this.cacheManipulator = cacheManipulator;
+            this.cache = cache;
         }
 
         public async Task<List<GeneralMatch>> GetOldLGAMatchSnapshot(string sessionId, DateTime eventDate)
         {
             var cacheKey = $"{OLD_LGAMATCHES_SNAPSHOT_KEY}-{sessionId}-{eventDate}";
-            var assignmentSnapshot = await cacheManipulator.GetSingleData(cacheKey, new AssignmentSnapshot());
+            var cacheResult = await cache.TryGetAsync<string>(cacheKey);
+            var assignmentSnapshot = string.IsNullOrEmpty(cacheResult.Item2)
+                ? new AssignmentSnapshot()
+                : JsonConvert.DeserializeObject<AssignmentSnapshot>(cacheResult.Item2);
 
-            return assignmentSnapshot.Matches.Values.ToList();
+            return assignmentSnapshot == null
+                ? new List<GeneralMatch>()
+                : assignmentSnapshot.Matches.Values.ToList();
         }
 
         public async Task DeleteAssignmentSnapshot(string sessionId, DateTime eventDate)
         {
             var cacheKey = $"{OLD_LGAMATCHES_SNAPSHOT_KEY}-{sessionId}-{eventDate}";
-            await cacheManipulator.RemoveData(cacheKey);
+            await cache.RemoveAsync(cacheKey);
         }
     }
 }

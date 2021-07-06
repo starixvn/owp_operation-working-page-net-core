@@ -1,0 +1,39 @@
+﻿@{
+    Layout = null;
+}
+<html>
+<head>
+    <style>
+        td {
+            border: 1px solid #808080;
+        }
+    </style>
+</head>
+<body>
+
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <td>
+                        Cache Key
+                    </td>
+                    <td>Action</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var key in ViewBag.CacheKeys)
+                {
+                    <tr>
+                        <td>@key</td>
+                        <td>@Html.ActionLink("Delete", "DeleteCache", new { cacheKey = key }) - @Html.ActionLink("View", "CacheContent", new { cacheKey = key })</td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+
+    </div>
+
+</body>
+</html>

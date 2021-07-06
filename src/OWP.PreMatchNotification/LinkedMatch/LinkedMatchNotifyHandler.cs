@@ -77,7 +77,8 @@
 
                 return messages;
             }
-            await cacheManipulator.DeleteAssignmentSnapshot(request.SessionId, request.EventDate);
+
+            //await cacheManipulator.DeleteAssignmentSnapshot(request.SessionId, request.EventDate);
 
             return new List<ChangedValue>();
         }
