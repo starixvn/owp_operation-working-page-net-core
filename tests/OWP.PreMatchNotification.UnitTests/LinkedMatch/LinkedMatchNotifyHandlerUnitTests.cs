@@ -71,7 +71,7 @@
         public async Task GenerateMessages_OldMatchesIsNull_ReturnEmpty()
         {
             var request = new LinkedMatchNotifyRequest { EventDate = new DateTime(2021, 6, 18), SessionId = "abc" };
-            cacheManipulator.GetOldLGAMatchSnapshot(request.SessionId, request.EventDate).Returns(new List<GeneralMatch>());
+            cacheManipulator.GetOldLGAMatchSnapshot(request.SessionId).Returns(new List<GeneralMatch>());
 
             var actual = await service.GenerateMessages(request);
             Assert.Empty(actual);
@@ -81,7 +81,7 @@
         public async Task GenerateMessages_OldMatchesHasValue_ReturnListChangeValue()
         {
             var request = new LinkedMatchNotifyRequest { EventDate = new DateTime(2021, 6, 18), SessionId = "abc" };
-            cacheManipulator.GetOldLGAMatchSnapshot(request.SessionId, request.EventDate)
+            cacheManipulator.GetOldLGAMatchSnapshot(request.SessionId)
                 .Returns(new List<GeneralMatch> { new() { MatchId = 123 } });
             queryRepository.GetLGAMatchNewSnapshot(request.EventDate).Returns(new List<GeneralMatch> { new() { MatchId = 456 } });
             queryRepository.GetInfositePrematch(request.EventDate).Returns(new List<InfositePrematchLeague>());
