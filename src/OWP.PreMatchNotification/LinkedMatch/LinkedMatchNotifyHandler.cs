@@ -63,8 +63,9 @@
 
         public async Task<List<ChangedValue>> GenerateMessages(LinkedMatchNotifyRequest request)
         {
+            var hasKey = await cacheManipulator.CheckContainKey(request.SessionId, request.EventDate);
             var oldMatches = await cacheManipulator.GetOldLGAMatchSnapshot(request.SessionId, request.EventDate);
-            await logService.Log("Linked-match-Old-" + request.SessionId, oldMatches, request.SessionId);
+            await logService.Log($"Linked-match-Old-{request.SessionId}", request.SessionId, request.EventDate, hasKey, oldMatches);
 
             if (oldMatches.Count > 0)
             {

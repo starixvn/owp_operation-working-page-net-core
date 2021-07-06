@@ -13,6 +13,8 @@
         Task<List<GeneralMatch>> GetOldLGAMatchSnapshot(string sessionId, DateTime eventDate);
 
         Task DeleteAssignmentSnapshot(string sessionId, DateTime eventDate);
+
+        Task<bool> CheckContainKey(string sessionId, DateTime eventDate);
     }
 
     public class CacheManipulatorImp : CacheManipulator
@@ -23,6 +25,12 @@
         public CacheManipulatorImp(ICache cache)
         {
             this.cache = cache;
+        }
+
+        public async Task<bool> CheckContainKey(string sessionId, DateTime eventDate)
+        {
+            var cacheKey = $"{OLD_LGAMATCHES_SNAPSHOT_KEY}-{sessionId}-{eventDate}";
+            return await cache.ContainAsync(cacheKey);
         }
 
         public async Task<List<GeneralMatch>> GetOldLGAMatchSnapshot(string sessionId, DateTime eventDate)
