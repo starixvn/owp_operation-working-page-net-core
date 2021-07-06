@@ -85,19 +85,19 @@
             new MessageTemplate
             {
                  MessageType=(int)MsgTemplateCode.UpdateHome,
-                 MessageContent="Home Team Update from <League> - <oldvalue> -vs- <Away> to <League> - <newvalue> -vs- <Away>",
+                 MessageContent="<b>Home Team</b> Update from <League> - <oldvalue> -vs- <Away> to <League> - <newvalue> -vs- <Away>",
                  IsImportant = true,
             },
             new MessageTemplate
             {
                  MessageType=(int)MsgTemplateCode.UpdateAway,
-                 MessageContent="Away Team Update from <League> - <Home> -vs- <oldvalue> to <League> - <Home> -vs- <newvalue>",
+                 MessageContent="<b>Away Team</b> Update from <League> - <Home> -vs- <oldvalue> to <League> - <Home> -vs- <newvalue>",
                  IsImportant = true,
             },
             new MessageTemplate
             {
                  MessageType=(int)MsgTemplateCode.UpdateKOTime,
-                 MessageContent="K.O time Update from <oldvalue> to <newvalue> for <League> - <Home> -vs- <Away>",
+                 MessageContent="<b>K.O time</b> Update from <oldvalue> to <newvalue> for <League> - <Home> -vs- <Away>",
                  IsImportant = true,
             },
         });
@@ -161,6 +161,13 @@
             var content = messageTemplate.MessageContent;
 
             content = content.Replace("<newvalue>", "<b><newvalue></b>");
+
+            if (value.MessageTypeId == (int)MsgTemplateCode.UpdateHome ||
+                value.MessageTypeId == (int)MsgTemplateCode.UpdateAway ||
+                value.MessageTypeId == (int)MsgTemplateCode.UpdateKOTime)
+            {
+                content = content.Replace("<oldvalue>", "<b><oldvalue></b>");
+            }
 
             content = content.Replace("<newvalue>", string.IsNullOrWhiteSpace(value.NewValue) ? "[]" : value.NewValue);
             content = content.Replace("<oldvalue>", string.IsNullOrWhiteSpace(value.OldValue) ? "[]" : value.OldValue);
