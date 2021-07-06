@@ -3,6 +3,7 @@
     using Fanex.Caching;
     using Models;
     using Newtonsoft.Json;
+    using OWP.Services;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -21,10 +22,13 @@
     {
         private readonly ICache cache;
         private const string OLD_LGAMATCHES_SNAPSHOT_KEY = "OWP-ASSIGNMENT-SNAPSHOT";
+        private readonly LogServiceWrapper logService;
 
-        public CacheManipulatorImp(ICache cache)
+        public CacheManipulatorImp(ICache cache,
+            LogServiceWrapper logService)
         {
             this.cache = cache;
+            this.logService = logService;
         }
 
         public async Task<bool> CheckContainKey(string sessionId, DateTime eventDate)
@@ -36,6 +40,8 @@
         public async Task<List<GeneralMatch>> GetOldLGAMatchSnapshot(string sessionId, DateTime eventDate)
         {
             var cacheKey = $"{OLD_LGAMATCHES_SNAPSHOT_KEY}-{sessionId}-{eventDate}";
+            await logService.Log($"Linked-match-KEY-NETCORE-{sessionId}", cacheKey);
+
             var cacheResult = await cache.TryGetAsync<string>(cacheKey);
             var assignmentSnapshot = string.IsNullOrEmpty(cacheResult.Item2)
                 ? new AssignmentSnapshot()
