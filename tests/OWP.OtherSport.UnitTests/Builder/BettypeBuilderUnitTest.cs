@@ -82,7 +82,6 @@
                     {
                         new TraderMaxBetModel
                         {
-                            BetTypeName="1Q & 3Q (OU/OE)",
                             TraderAssignment = new TraderAssignment
                             {
                                 OSMatchId= 123,

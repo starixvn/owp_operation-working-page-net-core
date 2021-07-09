@@ -29,7 +29,6 @@ namespace OWP.OtherSport.EventAssignment.Builder
                 {
                     matchAssignment.TraderMaxbetModels.Add(new TraderMaxBetModel
                     {
-                        BetTypeName = bettype,
                         TraderAssignment = new TraderAssignment
                         {
                             OSMatchId = matchAssignment.OSMatchId,
