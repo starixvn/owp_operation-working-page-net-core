@@ -27,7 +27,7 @@
             new ()
             {
                  MessageType=(int)MsgTemplateCode.DayShiftAssignmentDelete,
-                 MessageContent="[DayShift] You have been REMOVED from <b><bettype></b> in <League>",
+                 MessageContent="[DayShift] You have been REMOVED from <b><bettype></b> in <b><League></b>",
                  IsImportant = true
             },
             new ()
@@ -45,7 +45,7 @@
             new ()
             {
                  MessageType=(int)MsgTemplateCode.NightShiftAssignmentDelete,
-                 MessageContent="[NightShift] You have been REMOVED from <b><bettype></b> in <League>",
+                 MessageContent="[NightShift] You have been REMOVED from <b><bettype></b> in <b><League></b>",
                  IsImportant = true
             },
             new ()
