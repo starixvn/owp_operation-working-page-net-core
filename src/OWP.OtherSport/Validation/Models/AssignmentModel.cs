@@ -187,7 +187,7 @@
 
         public string HashKey { get; set; }
 
-        // Basketball
+        //Basketball
         public string TraderBasketballFTHDP { get; set; }
 
         public string TraderBasketball1HHDP { get; set; }
@@ -251,7 +251,7 @@
 
         public string TraderDartsMost180sHDP { get; set; }
 
-        // Pool Match
+        //  Pool Match
         public string TraderPoolMatchWinnerHDP { get; set; }
 
         public string TraderPoolRacksWinnerHDP { get; set; }
@@ -261,7 +261,7 @@
 
         public string TraderTableTennisSetXWinnerHDP { get; set; }
 
-        // Volleyball
+        //Volleyball
         public string TraderVolleyballSetWinnerHDPOE { get; set; }
 
         public string TraderVolleyballSetsXPointWinnerHDP { get; set; }
@@ -469,6 +469,8 @@
 
         public decimal? MaxBetBasketballFTOUOE { get; set; }
 
+        public decimal? MaxBetBasketballFTOE { get; set; }
+
         public decimal? MaxBetFootballFTHDP { get; set; }
 
         public decimal? MaxBetFootball1HHDP { get; set; }
@@ -525,6 +527,8 @@
 
         public decimal? MaxBetVolleyballSetWinnerHDPOE { get; set; }
 
+        public decimal? MaxBetVolleyballSetWinnerOE { get; set; }
+
         public decimal? MaxBetVolleyballSetsXPointWinnerHDP { get; set; }
 
         public decimal? MaxBetHandballFTHDP { get; set; }
@@ -543,9 +547,15 @@
 
         public decimal? MaxBetNetballFTOUOE { get; set; }
 
+        public decimal? MaxBetNetballFTOE { get; set; }
+
         public decimal? MaxBetNetball1HOUOE { get; set; }
 
+        public decimal? MaxBetNetball1HOE { get; set; }
+
         public decimal? MaxBetNetball1Q3QOUOE { get; set; }
+
+        public decimal? MaxBetNetball1Q3QOE { get; set; }
 
         public decimal? MaxBetCricketMatchWinnerInningsOU { get; set; }
 
@@ -555,7 +565,14 @@
 
         public decimal? MaxBetSnookerMatchWinnerHDPOU { get; set; }
 
+        public decimal? MaxBetSnookerMatchWinnerOU { get; set; }
+
         public decimal? MaxBetSnookerFramesWinnerHDPOUOE { get; set; }
+
+
+        public decimal? MaxBetSnookerFramesWinnerOU { get; set; }
+
+        public decimal? MaxBetSnookerFramesWinnerOE { get; set; }
 
         public decimal? MaxBetSnookerFirst5FramesHDP { get; set; }
 
@@ -590,5 +607,147 @@
         public decimal? MaxBetTennisMostAces { get; set; }
 
         public decimal? MaxBetTennisMostDoubleFaults { get; set; }
+
+        public decimal? SpreadBasketballFTHDP { get; set; }
+
+        public decimal? SpreadBasketballFTOUOE { get; set; }
+
+        public decimal? SpreadBasketballFTOE { get; set; }
+
+        public decimal? SpreadFootballFTHDP { get; set; }
+
+        public decimal? SpreadFootball1HHDP { get; set; }
+
+        public decimal? SpreadFootball1Q3QHDP { get; set; }
+
+        public decimal? SpreadFootballFTOU { get; set; }
+
+        public decimal? SpreadFootball1HOU { get; set; }
+
+        public decimal? SpreadFootball1Q3QOU { get; set; }
+
+        public decimal? SpreadFieldHockeyFTHDP { get; set; }
+
+        public decimal? SpreadFieldHockey1HHDP { get; set; }
+
+        public decimal? SpreadFieldHockey1QHDP { get; set; }
+
+        public decimal? SpreadFieldHockeyFTOU { get; set; }
+
+        public decimal? SpreadFieldHockey1HOU { get; set; }
+
+        public decimal? SpreadFieldHockey1QOU { get; set; }
+
+        public decimal? SpreadIceHockeyFTHDP { get; set; }
+
+        public decimal? SpreadIceHockey1st2ndPeriodsHDP { get; set; }
+
+        public decimal? SpreadIceHockeyFTOU { get; set; }
+
+        public decimal? SpreadIceHockey1st2ndPeriodsOU { get; set; }
+
+        public decimal? SpreadOtherSportsMatchWinner { get; set; }
+
+        public decimal? SpreadOtherSportsFTHDP { get; set; }
+
+        public decimal? SpreadOtherSports1HHDP { get; set; }
+
+        public decimal? SpreadOtherSportsFTOU { get; set; }
+
+        public decimal? SpreadOtherSports1HOU { get; set; }
+
+        public decimal? SpreadDartsLegsHDP { get; set; }
+
+        public decimal? SpreadDartsMost180sHDP { get; set; }
+
+        public decimal? SpreadPoolMatchWinnerHDP { get; set; }
+
+        public decimal? SpreadPoolRacksWinnerHDP { get; set; }
+
+        public decimal? SpreadTableTennisSetWinnerHDP { get; set; }
+
+        public decimal? SpreadTableTennisSetXWinnerHDP { get; set; }
+
+        public decimal? SpreadVolleyballSetWinnerHDPOE { get; set; }
+
+        public decimal? SpreadVolleyballSetWinnerOE { get; set; }
+
+        public decimal? SpreadVolleyballSetsXPointWinnerHDP { get; set; }
+
+        public decimal? SpreadHandballFTHDP { get; set; }
+
+        public decimal? SpreadHandball1HHDP { get; set; }
+
+        public decimal? SpreadHandballFTOU { get; set; }
+
+        public decimal? SpreadHandball1HOU { get; set; }
+
+        public decimal? SpreadNetballFTHDP { get; set; }
+
+        public decimal? SpreadNetball1HHDP { get; set; }
+
+        public decimal? SpreadNetball1Q3QHDP { get; set; }
+
+        public decimal? SpreadNetballFTOUOE { get; set; }
+
+        public decimal? SpreadNetballFTOE { get; set; }
+
+        public decimal? SpreadNetball1HOUOE { get; set; }
+
+        public decimal? SpreadNetball1HOE { get; set; }
+
+        public decimal? SpreadNetball1Q3QOUOE { get; set; }
+
+        public decimal? SpreadNetball1Q3QOE { get; set; }
+
+        public decimal? SpreadCricketMatchWinnerInningsOU { get; set; }
+
+        public decimal? SpreadCricketNextOverOUPlayerOU { get; set; }
+
+        public decimal? SpreadCricketFT1X2 { get; set; }
+
+        public decimal? SpreadSnookerMatchWinnerHDPOU { get; set; }
+
+        public decimal? SpreadSnookerMatchWinnerOU { get; set; }
+
+        public decimal? SpreadSnookerFramesWinnerHDPOUOE { get; set; }
+
+        public decimal? SpreadSnookerFramesWinnerOU { get; set; }
+
+        public decimal? SpreadSnookerFramesWinnerOE { get; set; }
+
+        public decimal? SpreadSnookerFirst5FramesHDP { get; set; }
+
+        public decimal? SpreadSnookerFirst8FramesHDP { get; set; }
+
+        public decimal? SpreadSnookerFirst9FramesHDP { get; set; }
+
+        public decimal? SpreadBaseballFTRunLineHDP { get; set; }
+
+        public decimal? SpreadBaseball1H1st5inningsHDP { get; set; }
+
+        public decimal? SpreadBaseballFTTotalRunOU { get; set; }
+
+        public decimal? SpreadBaseball1H1st5inningsOU { get; set; }
+
+        public decimal? SpreadBaseballInningHitsRuns { get; set; }
+
+        public decimal? SpreadBadmintonAllProductSetWinner { get; set; }
+
+        public decimal? SpreadBadmintonAllProductPointWinner { get; set; }
+
+        public decimal? SpreadBadmintonRacetoPoints7911 { get; set; }
+
+        public decimal? SpreadBadmintonNextPointWinner { get; set; }
+
+        public decimal? SpreadBadmintonMatchHandicap { get; set; }
+
+        public decimal? SpreadTennisAllProductLS { get; set; }
+
+        public decimal? SpreadTennisNextGame { get; set; }
+
+        public decimal? SpreadTennisMostAces { get; set; }
+
+        public decimal? SpreadTennisMostDoubleFaults { get; set; }
     }
 }

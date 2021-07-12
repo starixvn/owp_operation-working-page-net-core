@@ -9,5 +9,7 @@
         public string OtherTrader { get; set; }
 
         public decimal? MaxBet { get; set; }
+
+        public decimal? Spread { get; set; }
     }
 }

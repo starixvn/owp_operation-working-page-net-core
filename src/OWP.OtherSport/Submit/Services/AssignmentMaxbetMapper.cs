@@ -54,7 +54,8 @@
                     Bettype = Bettype.FTHDP,
                     Trader = assignment.TraderBasketballFTHDP,
                     OtherTrader = assignment.OtherTraderBasketballFTHDP,
-                    MaxBet = assignment.MaxBetBasketballFTHDP
+                    MaxBet = assignment.MaxBetBasketballFTHDP,
+                    Spread = assignment.SpreadBasketballFTHDP
                 },
                 new()
                 {
@@ -70,10 +71,17 @@
                 },
                 new()
                 {
-                    Bettype = Bettype.FTOUOE,
+                    Bettype = ChildBettype.BasketballFTOUOE,
+                    MaxBet = assignment.MaxBetBasketballFTOUOE,
+                    Spread = assignment.SpreadBasketballFTOUOE
+                },
+                new()
+                {
+                    Bettype = ChildBettype.BasketballFTOE,
                     Trader = assignment.TraderBasketballFTOUOE,
                     OtherTrader = assignment.OtherTraderBasketballFTOUOE,
-                    MaxBet = assignment.MaxBetBasketballFTOUOE
+                    MaxBet = assignment.MaxBetBasketballFTOE,
+                    Spread = assignment.SpreadBasketballFTOE
                 },
                 new()
                 {
@@ -104,42 +112,48 @@
                     Bettype = Bettype.FTHDP,
                     Trader = assignment.TraderFootballFTHDP,
                     OtherTrader = assignment.OtherTraderFootballFTHDP,
-                    MaxBet = assignment.MaxBetFootballFTHDP
+                    MaxBet = assignment.MaxBetFootballFTHDP,
+                    Spread = assignment.SpreadFootballFTHDP
                 },
                 new()
                 {
                     Bettype = Bettype.FirstHHDP,
                     Trader = assignment.TraderFootball1HHDP,
                     OtherTrader = assignment.OtherTraderFootball1HHDP,
-                    MaxBet = assignment.MaxBetFootball1HHDP
+                    MaxBet = assignment.MaxBetFootball1HHDP,
+                    Spread = assignment.SpreadFootball1HHDP
                 },
                 new()
                 {
                     Bettype = Bettype.FirstQ3QHDP,
                     Trader = assignment.TraderFootball1Q3QHDP,
                     OtherTrader = assignment.OtherTraderFootball1Q3QHDP,
-                    MaxBet = assignment.MaxBetFootball1Q3QHDP
+                    MaxBet = assignment.MaxBetFootball1Q3QHDP,
+                    Spread = assignment.SpreadFootball1Q3QHDP
                 },
                 new()
                 {
                     Bettype = Bettype.FTOU,
                     Trader = assignment.TraderFootballFTOU,
                     OtherTrader = assignment.OtherTraderFootballFTOU,
-                    MaxBet = assignment.MaxBetFootballFTOU
+                    MaxBet = assignment.MaxBetFootballFTOU,
+                    Spread = assignment.SpreadFootballFTOU
                 },
                 new()
                 {
                     Bettype = Bettype.FirstHOU,
                     Trader = assignment.TraderFootball1HOU,
                     OtherTrader = assignment.OtherTraderFootball1HOU,
-                    MaxBet = assignment.MaxBetFootball1HOU
+                    MaxBet = assignment.MaxBetFootball1HOU,
+                    Spread = assignment.SpreadFootball1HOU
                 },
                 new()
                 {
                     Bettype = Bettype.FirstQ3QOU,
                     Trader = assignment.TraderFootball1Q3QOU,
                     OtherTrader = assignment.OtherTraderFootball1Q3QOU,
-                    MaxBet = assignment.MaxBetFootball1Q3QOU
+                    MaxBet = assignment.MaxBetFootball1Q3QOU,
+                    Spread = assignment.SpreadFootball1Q3QOU
                 }
             };
         }
@@ -158,42 +172,48 @@
                     Bettype = Bettype.FTHDP,
                     Trader = assignment.TraderFieldHockeyFTHDP,
                     OtherTrader = assignment.OtherTraderFieldHockeyFTHDP,
-                    MaxBet = assignment.MaxBetFieldHockeyFTHDP
+                    MaxBet = assignment.MaxBetFieldHockeyFTHDP,
+                    Spread = assignment.SpreadFieldHockeyFTHDP
                 },
                 new()
                 {
                     Bettype = Bettype.FirstHHDP,
                     Trader = assignment.TraderFieldHockey1HHDP,
                     OtherTrader = assignment.OtherTraderFieldHockey1HHDP,
-                    MaxBet = assignment.MaxBetFieldHockey1HHDP
+                    MaxBet = assignment.MaxBetFieldHockey1HHDP,
+                    Spread = assignment.SpreadFieldHockey1HHDP
                 },
                 new()
                 {
                     Bettype = Bettype.FirstQHDP,
                     Trader = assignment.TraderFieldHockey1QHDP,
                     OtherTrader = assignment.OtherTraderFieldHockey1QHDP,
-                    MaxBet = assignment.MaxBetFieldHockey1QHDP
+                    MaxBet = assignment.MaxBetFieldHockey1QHDP,
+                    Spread = assignment.SpreadFieldHockey1QHDP
                 },
                 new()
                 {
                     Bettype = Bettype.FTOsU,
                     Trader = assignment.TraderFieldHockeyFTOU,
                     OtherTrader = assignment.OtherTraderFieldHockeyFTOU,
-                    MaxBet = assignment.MaxBetFieldHockeyFTOU
+                    MaxBet = assignment.MaxBetFieldHockeyFTOU,
+                    Spread = assignment.SpreadFieldHockeyFTOU
                 },
                 new()
                 {
                     Bettype = Bettype.FirstHOsU,
                     Trader = assignment.TraderFieldHockey1HOU,
                     OtherTrader = assignment.OtherTraderFieldHockey1HOU,
-                    MaxBet = assignment.MaxBetFieldHockey1HOU
+                    MaxBet = assignment.MaxBetFieldHockey1HOU,
+                    Spread = assignment.SpreadFieldHockey1HOU
                 },
                 new()
                 {
                     Bettype = Bettype.FirstQOU,
                     Trader = assignment.TraderFieldHockey1QOU,
                     OtherTrader = assignment.OtherTraderFieldHockey1QOU,
-                    MaxBet = assignment.MaxBetFieldHockey1QOU
+                    MaxBet = assignment.MaxBetFieldHockey1QOU,
+                    Spread = assignment.SpreadFieldHockey1QOU
                 }
             };
         }
@@ -212,7 +232,8 @@
                     Bettype = Bettype.FTHDP,
                     Trader = assignment.TraderIceHockeyFTHDP,
                     OtherTrader = assignment.OtherTraderIceHockeyFTHDP,
-                    MaxBet = assignment.MaxBetIceHockeyFTHDP
+                    MaxBet = assignment.MaxBetIceHockeyFTHDP,
+                    Spread = assignment.SpreadIceHockeyFTHDP
                 },
                 new()
                 {
@@ -220,20 +241,23 @@
                     Trader = assignment.TraderIceHockey1st2ndPeriodsHDP,
                     OtherTrader = assignment.OtherTraderIceHockey1st2ndPeriodsHDP,
                     MaxBet = assignment.MaxBetIceHockey1st2ndPeriodsHDP,
+                    Spread = assignment.SpreadIceHockey1st2ndPeriodsHDP
                 },
                 new()
                 {
                     Bettype = Bettype.FTOsU,
                     Trader = assignment.TraderIceHockeyFTOU,
                     OtherTrader = assignment.OtherTraderIceHockeyFTOU,
-                    MaxBet = assignment.MaxBetIceHockeyFTOU
+                    MaxBet = assignment.MaxBetIceHockeyFTOU,
+                    Spread = assignment.SpreadIceHockeyFTOU
                 },
                 new()
                 {
                     Bettype = Bettype.First2ndPeriodsOU,
                     Trader = assignment.TraderIceHockey1st2ndPeriodsOU,
                     OtherTrader = assignment.OtherTraderIceHockey1st2ndPeriodsOU,
-                    MaxBet = assignment.MaxBetIceHockey1st2ndPeriodsOU
+                    MaxBet = assignment.MaxBetIceHockey1st2ndPeriodsOU,
+                    Spread = assignment.SpreadIceHockey1st2ndPeriodsOU
                 }
             };
         }
@@ -252,35 +276,40 @@
                     Bettype = Bettype.MatchWinner,
                     Trader = assignment.TraderOtherSportsMatchWinner,
                     OtherTrader = assignment.OtherTraderOtherSportsMatchWinner,
-                    MaxBet = assignment.MaxBetOtherSportsMatchWinner
+                    MaxBet = assignment.MaxBetOtherSportsMatchWinner,
+                    Spread = assignment.SpreadOtherSportsMatchWinner
                 },
                 new ()
                 {
                     Bettype = Bettype.FTHDP,
                     Trader = assignment.TraderOtherSportsFTHDP,
                     OtherTrader = assignment.OtherTraderOtherSportsFTHDP,
-                    MaxBet = assignment.MaxBetOtherSportsFTHDP
+                    MaxBet = assignment.MaxBetOtherSportsFTHDP,
+                    Spread = assignment.SpreadOtherSportsFTHDP
                 },
                 new ()
                 {
                     Bettype = Bettype.FirstHHDP,
                     Trader = assignment.TraderOtherSports1HHDP,
                     OtherTrader = assignment.OtherTraderOtherSports1HHDP,
-                    MaxBet = assignment.MaxBetOtherSports1HHDP
+                    MaxBet = assignment.MaxBetOtherSports1HHDP,
+                    Spread = assignment.SpreadOtherSports1HHDP
                 },
                 new ()
                 {
                     Bettype = Bettype.FTOsU,
                     Trader = assignment.TraderOtherSportsFTOU,
                     OtherTrader = assignment.OtherTraderOtherSportsFTOU,
-                    MaxBet = assignment.MaxBetOtherSportsFTOU
+                    MaxBet = assignment.MaxBetOtherSportsFTOU,
+                    Spread = assignment.SpreadOtherSportsFTOU
                 },
                 new ()
                 {
                     Bettype = Bettype.FirstHOsU,
                     Trader = assignment.TraderOtherSports1HOU,
                     OtherTrader = assignment.OtherTraderOtherSports1HOU,
-                    MaxBet = assignment.MaxBetOtherSports1HOU
+                    MaxBet = assignment.MaxBetOtherSports1HOU,
+                    Spread = assignment.SpreadOtherSports1HOU
                 }
             };
         }
@@ -298,14 +327,16 @@
                     Bettype = Bettype.LegsHDP,
                     Trader = assignment.TraderDartsLegsHDP,
                     OtherTrader = assignment.OtherTraderDartsLegsHDP,
-                    MaxBet = assignment.MaxBetDartsLegsHDP
+                    MaxBet = assignment.MaxBetDartsLegsHDP,
+                    Spread = assignment.SpreadDartsLegsHDP
                 },
                 new()
                 {
                     Bettype = Bettype.Most180sHDP,
                     Trader = assignment.TraderDartsMost180sHDP,
                     OtherTrader = assignment.OtherTraderDartsMost180sHDP,
-                    MaxBet = assignment.MaxBetDartsMost180sHDP
+                    MaxBet = assignment.MaxBetDartsMost180sHDP,
+                    Spread = assignment.SpreadDartsMost180sHDP
                 }
             };
         }
@@ -323,14 +354,16 @@
                     Bettype = Bettype.MatchWinnerHDP,
                     Trader = assignment.TraderPoolMatchWinnerHDP,
                     OtherTrader = assignment.OtherTraderPoolMatchWinnerHDP,
-                    MaxBet = assignment.MaxBetPoolMatchWinnerHDP
+                    MaxBet = assignment.MaxBetPoolMatchWinnerHDP,
+                    Spread = assignment.SpreadPoolMatchWinnerHDP
                 },
                 new()
                 {
                     Bettype = Bettype.RacksWinnerHDP,
                     Trader = assignment.TraderPoolRacksWinnerHDP,
                     OtherTrader = assignment.OtherTraderPoolRacksWinnerHDP,
-                    MaxBet = assignment.MaxBetPoolRacksWinnerHDP
+                    MaxBet = assignment.MaxBetPoolRacksWinnerHDP,
+                    Spread = assignment.SpreadPoolRacksWinnerHDP
                 }
             };
         }
@@ -348,14 +381,16 @@
                     Bettype = Bettype.SetWinnerHDP,
                     Trader = assignment.TraderTableTennisSetWinnerHDP,
                     OtherTrader = assignment.OtherTraderTableTennisSetWinnerHDP,
-                    MaxBet = assignment.MaxBetTableTennisSetWinnerHDP
+                    MaxBet = assignment.MaxBetTableTennisSetWinnerHDP,
+                    Spread = assignment.SpreadTableTennisSetWinnerHDP
                 },
                 new()
                 {
                     Bettype = Bettype.SetXWinnerHDP,
                     Trader = assignment.TraderTableTennisSetXWinnerHDP,
                     OtherTrader = assignment.OtherTraderTableTennisSetXWinnerHDP,
-                    MaxBet = assignment.MaxBetTableTennisSetXWinnerHDP
+                    MaxBet = assignment.MaxBetTableTennisSetXWinnerHDP,
+                    Spread = assignment.SpreadTableTennisSetXWinnerHDP
                 }
             };
         }
@@ -373,14 +408,28 @@
                     Bettype = Bettype.SetWinnerHDPOE,
                     Trader = assignment.TraderVolleyballSetWinnerHDPOE,
                     OtherTrader = assignment.OtherTraderVolleyballSetWinnerHDPOE,
-                    MaxBet = assignment.MaxBetVolleyballSetWinnerHDPOE
+                },
+                new()
+                {
+                    Bettype = ChildBettype.VolleyballSetWinnerHDPOE,
+                    MaxBet = assignment.MaxBetVolleyballSetWinnerHDPOE,
+                    Spread = assignment.SpreadVolleyballSetWinnerHDPOE
+                },
+                 new()
+                {
+                    Bettype = ChildBettype.VolleyballSetWinnerOE,
+                    Trader = assignment.TraderVolleyballSetWinnerHDPOE,
+                    OtherTrader = assignment.OtherTraderVolleyballSetWinnerHDPOE,
+                    MaxBet = assignment.MaxBetVolleyballSetWinnerOE,
+                    Spread = assignment.SpreadVolleyballSetWinnerOE
                 },
                 new()
                 {
                     Bettype = Bettype.SetsXPointWinnerHDP,
                     Trader = assignment.TraderVolleyballSetsXPointWinnerHDP,
                     OtherTrader = assignment.OtherTraderVolleyballSetsXPointWinnerHDP,
-                    MaxBet = assignment.MaxBetVolleyballSetsXPointWinnerHDP
+                    MaxBet = assignment.MaxBetVolleyballSetsXPointWinnerHDP,
+                    Spread = assignment.SpreadVolleyballSetsXPointWinnerHDP
                 }
             };
         }
@@ -399,28 +448,32 @@
                     Bettype = Bettype.FTHDP,
                     Trader = assignment.TraderHandballFTHDP,
                     OtherTrader = assignment.OtherTraderHandballFTHDP,
-                    MaxBet = assignment.MaxBetHandballFTHDP
+                    MaxBet = assignment.MaxBetHandballFTHDP,
+                    Spread = assignment.SpreadHandballFTHDP
                 },
                 new()
                 {
                     Bettype = Bettype.FirstHHDP,
                     Trader = assignment.TraderHandball1HHDP,
                     OtherTrader = assignment.OtherTraderHandball1HHDP,
-                    MaxBet = assignment.MaxBetHandball1HHDP
+                    MaxBet = assignment.MaxBetHandball1HHDP,
+                    Spread = assignment.SpreadHandball1HHDP
                 },
                 new()
                 {
                     Bettype = Bettype.FTOsU,
                     Trader = assignment.TraderHandballFTOU,
                     OtherTrader = assignment.OtherTraderHandballFTOU,
-                    MaxBet = assignment.MaxBetHandballFTOU
+                    MaxBet = assignment.MaxBetHandballFTOU,
+                    Spread = assignment.SpreadHandballFTOU
                 },
                 new()
                 {
                     Bettype = Bettype.FirstHOsU,
                     Trader = assignment.TraderHandball1HOU,
                     OtherTrader = assignment.OtherTraderHandball1HOU,
-                    MaxBet = assignment.MaxBetHandball1HOU
+                    MaxBet = assignment.MaxBetHandball1HOU,
+                    Spread = assignment.SpreadHandball1HOU
                 }
             };
         }
@@ -439,42 +492,92 @@
                     Bettype = Bettype.FTHDP,
                     Trader = assignment.TraderNetballFTHDP,
                     OtherTrader = assignment.OtherTraderNetballFTHDP,
-                    MaxBet = assignment.MaxBetNetballFTHDP
+                    MaxBet = assignment.MaxBetNetballFTHDP,
+                    Spread = assignment.SpreadNetballFTHDP
                 },
                 new()
                 {
                     Bettype = Bettype.FirstHHDP,
                     Trader = assignment.TraderNetball1HHDP,
                     OtherTrader = assignment.OtherTraderNetball1HHDP,
-                    MaxBet = assignment.MaxBetNetball1HHDP
+                    MaxBet = assignment.MaxBetNetball1HHDP,
+                     Spread = assignment.SpreadNetball1HHDP
                 },
                 new()
                 {
                     Bettype = Bettype.FirstQ3QHDP,
                     Trader = assignment.TraderNetball1Q3QHDP,
                     OtherTrader = assignment.OtherTraderNetball1Q3QHDP,
-                    MaxBet = assignment.MaxBetNetball1Q3QHDP
+                    MaxBet = assignment.MaxBetNetball1Q3QHDP,
+                    Spread = assignment.SpreadNetball1Q3QHDP
                 },
                 new()
                 {
                     Bettype = Bettype.FTOUOE,
                     Trader = assignment.TraderNetballFTOUOE,
                     OtherTrader = assignment.OtherTraderNetballFTOUOE,
-                    MaxBet = assignment.MaxBetNetballFTOUOE
+                },
+                new()
+                {
+                    Bettype = ChildBettype.NetballFTOUOE,
+                    Trader = assignment.TraderNetballFTOUOE,
+                    OtherTrader = assignment.OtherTraderNetballFTOUOE,
+                    MaxBet = assignment.MaxBetNetballFTOUOE,
+                    Spread = assignment.SpreadNetballFTOUOE
+                },
+                new()
+                {
+                    Bettype = ChildBettype.NetballFTOE,
+                    Trader = assignment.TraderNetballFTOUOE,
+                    OtherTrader = assignment.OtherTraderNetballFTOUOE,
+                    MaxBet = assignment.MaxBetNetballFTOE,
+                    Spread = assignment.SpreadNetballFTOE
                 },
                 new()
                 {
                     Bettype = Bettype.FirstHOUOE,
                     Trader = assignment.TraderNetball1HOUOE,
                     OtherTrader = assignment.OtherTraderNetball1HOUOE,
-                    MaxBet = assignment.MaxBetNetball1HOUOE
+                },
+                new()
+                {
+                    Bettype = ChildBettype.Netball1HOUOE,
+                    Trader = assignment.TraderNetball1HOUOE,
+                    OtherTrader = assignment.OtherTraderNetball1HOUOE,
+                    MaxBet = assignment.MaxBetNetball1HOUOE,
+                    Spread = assignment.SpreadNetball1HOUOE
+                },
+                new()
+                {
+                    Bettype = ChildBettype.Netball1HOE,
+                    Trader = assignment.TraderNetball1HOUOE,
+                    OtherTrader = assignment.OtherTraderNetball1HOUOE,
+                    MaxBet = assignment.MaxBetNetball1HOE,
+                    Spread = assignment.SpreadNetball1HOE
                 },
                 new()
                 {
                     Bettype = Bettype.FirstQ3QOUOE,
                     Trader = assignment.TraderNetball1Q3QOUOE,
                     OtherTrader = assignment.OtherTraderNetball1Q3QOUOE,
-                    MaxBet = assignment.MaxBetNetball1Q3QOUOE
+                    MaxBet = assignment.MaxBetNetball1Q3QOUOE,
+                    Spread = assignment.SpreadNetball1Q3QOUOE
+                },
+                new()
+                {
+                    Bettype = ChildBettype.Netball1Q3QOUOE,
+                    Trader = assignment.TraderNetball1Q3QOUOE,
+                    OtherTrader = assignment.OtherTraderNetball1Q3QOUOE,
+                    MaxBet = assignment.MaxBetNetball1Q3QOUOE,
+                    Spread = assignment.SpreadNetball1Q3QOUOE
+                },
+                new()
+                {
+                    Bettype = ChildBettype.Netball1Q3QOE,
+                    Trader = assignment.TraderNetball1Q3QOUOE,
+                    OtherTrader = assignment.OtherTraderNetball1Q3QOUOE,
+                    MaxBet = assignment.MaxBetNetball1Q3QOE,
+                    Spread = assignment.SpreadNetball1Q3QOE
                 }
             };
         }
@@ -492,19 +595,22 @@
                 {
                     Bettype = Bettype.MatchWinnerInningsOU,
                     Trader = assignment.TraderCricketMatchWinnerInningsOU,
-                    OtherTrader = assignment.OtherTraderCricketMatchWinnerInningsOU
+                    OtherTrader = assignment.OtherTraderCricketMatchWinnerInningsOU,
+                    Spread = assignment.SpreadCricketMatchWinnerInningsOU
                 },
                 new()
                 {
                     Bettype = Bettype.NextOverOUPlayerOU,
                     Trader = assignment.TraderCricketNextOverOUPlayerOU,
-                    OtherTrader = assignment.OtherTraderCricketNextOverOUPlayerOU
+                    OtherTrader = assignment.OtherTraderCricketNextOverOUPlayerOU,
+                    Spread = assignment.SpreadCricketNextOverOUPlayerOU
                 },
                 new()
                 {
                     Bettype = Bettype.FT1X2,
                     Trader = assignment.TraderCricketFT1X2,
-                    OtherTrader = assignment.OtherTraderCricketFT1X2
+                    OtherTrader = assignment.OtherTraderCricketFT1X2,
+                    Spread = assignment.SpreadCricketFT1X2
                 }
             };
         }
@@ -523,35 +629,79 @@
                     Bettype = Bettype.MatchWinnerHDPOU,
                     Trader = assignment.TraderSnookerMatchWinnerHDPOU,
                     OtherTrader = assignment.OtherTraderSnookerMatchWinnerHDPOU,
-                    MaxBet = assignment.MaxBetSnookerMatchWinnerHDPOU
+                },
+                new()
+                {
+                    Bettype = ChildBettype.SnookerMatchWinnerHDPOU,
+                    Trader = assignment.TraderSnookerMatchWinnerHDPOU,
+                    OtherTrader = assignment.OtherTraderSnookerMatchWinnerHDPOU,
+                    MaxBet = assignment.MaxBetSnookerMatchWinnerHDPOU,
+                    Spread = assignment.SpreadSnookerMatchWinnerHDPOU
+                },
+                new()
+                {
+                    Bettype = ChildBettype.SnookerMatchWinnerOU,
+                    Trader = assignment.TraderSnookerMatchWinnerHDPOU,
+                    OtherTrader = assignment.OtherTraderSnookerMatchWinnerHDPOU,
+                    MaxBet = assignment.MaxBetSnookerMatchWinnerOU,
+                    Spread = assignment.SpreadSnookerMatchWinnerOU
                 },
                 new()
                 {
                     Bettype = Bettype.FramesWinnerHDPOUOE,
                     Trader = assignment.TraderSnookerFramesWinnerHDPOUOE,
                     OtherTrader = assignment.OtherTraderSnookerFramesWinnerHDPOUOE,
-                    MaxBet = assignment.MaxBetSnookerFramesWinnerHDPOUOE
+                },
+                 new()
+                {
+                    Bettype = ChildBettype.SnookerFramesWinnerHDPOUOE,
+                    Trader = assignment.TraderSnookerFramesWinnerHDPOUOE,
+                    OtherTrader = assignment.OtherTraderSnookerFramesWinnerHDPOUOE,
+                    MaxBet = assignment.MaxBetSnookerFramesWinnerHDPOUOE,
+                    Spread = assignment.SpreadSnookerFramesWinnerHDPOUOE
+
+                },
+                new()
+                {
+                    Bettype = ChildBettype.SnookerFramesWinnerOU,
+                    Trader = assignment.TraderSnookerFramesWinnerHDPOUOE,
+                    OtherTrader = assignment.OtherTraderSnookerFramesWinnerHDPOUOE,
+                    MaxBet = assignment.MaxBetSnookerFramesWinnerOU,
+                    Spread = assignment.SpreadSnookerFramesWinnerOU
+
+                },
+                new()
+                {
+                    Bettype = ChildBettype.SnookerFramesWinnerOE,
+                    Trader = assignment.TraderSnookerFramesWinnerHDPOUOE,
+                    OtherTrader = assignment.OtherTraderSnookerFramesWinnerHDPOUOE,
+                    MaxBet = assignment.MaxBetSnookerFramesWinnerOE,
+                    Spread = assignment.SpreadSnookerFramesWinnerOE
+
                 },
                 new()
                 {
                     Bettype = Bettype.First5FramesHDP,
                     Trader = assignment.TraderSnookerFirst5FramesHDP,
                     OtherTrader = assignment.OtherTraderSnookerFirst5FramesHDP,
-                    MaxBet = assignment.MaxBetSnookerFirst5FramesHDP
+                    MaxBet = assignment.MaxBetSnookerFirst5FramesHDP,
+                    Spread = assignment.SpreadSnookerFirst5FramesHDP
                 },
                 new()
                 {
                     Bettype = Bettype.First8FramesHDP,
                     Trader = assignment.TraderSnookerFirst8FramesHDP,
                     OtherTrader = assignment.OtherTraderSnookerFirst8FramesHDP,
-                    MaxBet = assignment.MaxBetSnookerFirst8FramesHDP
+                    MaxBet = assignment.MaxBetSnookerFirst8FramesHDP,
+                    Spread = assignment.SpreadSnookerFirst8FramesHDP
                 },
                 new()
                 {
                     Bettype = Bettype.First9FramesHDP,
                     Trader = assignment.TraderSnookerFirst9FramesHDP,
                     OtherTrader = assignment.OtherTraderSnookerFirst9FramesHDP,
-                    MaxBet = assignment.MaxBetSnookerFirst9FramesHDP
+                    MaxBet = assignment.MaxBetSnookerFirst9FramesHDP,
+                    Spread = assignment.SpreadSnookerFirst9FramesHDP
                 }
             };
         }
@@ -570,35 +720,40 @@
                     Bettype = Bettype.FTRunLineHDP,
                     Trader = assignment.TraderBaseballFTRunLineHDP,
                     OtherTrader = assignment.OtherTraderBaseballFTRunLineHDP,
-                    MaxBet = assignment.MaxBetBaseballFTRunLineHDP
+                    MaxBet = assignment.MaxBetBaseballFTRunLineHDP,
+                    Spread = assignment.SpreadBaseballFTRunLineHDP
                 },
                 new()
                 {
                     Bettype = Bettype.FirstH1st5inningsHDP,
                     Trader = assignment.TraderBaseball1H1st5inningsHDP,
                     OtherTrader = assignment.OtherTraderBaseball1H1st5inningsHDP,
-                    MaxBet = assignment.MaxBetBaseball1H1st5inningsHDP
+                    MaxBet = assignment.MaxBetBaseball1H1st5inningsHDP,
+                    Spread = assignment.SpreadBaseball1H1st5inningsHDP
                 },
                 new()
                 {
                     Bettype = Bettype.FTTotalRunOU,
                     Trader = assignment.TraderBaseballFTTotalRunOU,
                     OtherTrader = assignment.OtherTraderBaseballFTTotalRunOU,
-                    MaxBet = assignment.MaxBetBaseballFTTotalRunOU
+                    MaxBet = assignment.MaxBetBaseballFTTotalRunOU,
+                    Spread = assignment.SpreadBaseballFTTotalRunOU
                 },
                 new()
                 {
                     Bettype = Bettype.FirstH1st5inningsOU,
                     Trader = assignment.TraderBaseball1H1st5inningsOU,
                     OtherTrader = assignment.OtherTraderBaseball1H1st5inningsOU,
-                    MaxBet = assignment.MaxBetBaseball1H1st5inningsOU
+                    MaxBet = assignment.MaxBetBaseball1H1st5inningsOU,
+                    Spread = assignment.SpreadBaseball1H1st5inningsOU
                 },
                 new()
                 {
                     Bettype = Bettype.InningHitsAndRuns,
                     Trader = assignment.TraderBaseballInningHitsRuns,
                     OtherTrader = assignment.OtherTraderBaseballInningHitsRuns,
-                    MaxBet = assignment.MaxBetBaseballInningHitsRuns
+                    MaxBet = assignment.MaxBetBaseballInningHitsRuns,
+                    Spread = assignment.SpreadBaseballInningHitsRuns
                 }
             };
         }
@@ -616,31 +771,36 @@
                 {
                     Bettype = Bettype.AllProductSetWinner,
                     Trader = assignment.TraderBadmintonAllProductSetWinner,
-                    OtherTrader = assignment.OtherTraderBadmintonAllProductSetWinner
+                    OtherTrader = assignment.OtherTraderBadmintonAllProductSetWinner,
+                    Spread = assignment.SpreadBadmintonAllProductSetWinner
                 },
                 new()
                 {
                     Bettype = Bettype.AllProductPointWinner,
                     Trader = assignment.TraderBadmintonAllProductPointWinner,
-                    OtherTrader = assignment.OtherTraderBadmintonAllProductPointWinner
+                    OtherTrader = assignment.OtherTraderBadmintonAllProductPointWinner,
+                    Spread = assignment.SpreadBadmintonAllProductPointWinner
                 },
                 new()
                 {
                     Bettype = Bettype.RacetoPoints7911,
                     Trader = assignment.TraderBadmintonRacetoPoints7911,
-                    OtherTrader = assignment.OtherTraderBadmintonRacetoPoints7911
+                    OtherTrader = assignment.OtherTraderBadmintonRacetoPoints7911,
+                    Spread = assignment.SpreadBadmintonRacetoPoints7911
                 },
                 new()
                 {
                     Bettype = Bettype.NextPointWinner,
                     Trader = assignment.TraderBadmintonNextPointWinner,
-                    OtherTrader = assignment.OtherTraderBadmintonNextPointWinner
+                    OtherTrader = assignment.OtherTraderBadmintonNextPointWinner,
+                    Spread = assignment.SpreadBadmintonNextPointWinner
                 },
                 new()
                 {
                     Bettype = Bettype.MatchHandicap,
                     Trader = assignment.TraderBadmintonMatchHandicap,
-                    OtherTrader = assignment.OtherTraderBadmintonMatchHandicap
+                    OtherTrader = assignment.OtherTraderBadmintonMatchHandicap,
+                    Spread = assignment.SpreadBadmintonMatchHandicap
                 }
             };
         }
@@ -658,25 +818,29 @@
                 {
                     Bettype = Bettype.AllProductLS,
                     Trader = assignment.TraderTennisAllProductLS,
-                    OtherTrader = assignment.OtherTraderTennisAllProductLS
+                    OtherTrader = assignment.OtherTraderTennisAllProductLS,
+                    Spread = assignment.SpreadTennisAllProductLS
                 },
                 new()
                 {
                     Bettype = Bettype.NextGame,
                     Trader = assignment.TraderTennisNextGame,
-                    OtherTrader = assignment.OtherTraderTennisNextGame
+                    OtherTrader = assignment.OtherTraderTennisNextGame,
+                    Spread = assignment.SpreadTennisNextGame
                 },
                 new()
                 {
                     Bettype = Bettype.MostAces,
                     Trader = assignment.TraderTennisMostAces,
-                    OtherTrader = assignment.OtherTraderTennisMostAces
+                    OtherTrader = assignment.OtherTraderTennisMostAces,
+                    Spread = assignment.SpreadTennisMostAces
                 },
                 new()
                 {
                     Bettype = Bettype.MostDoubleFaults,
                     Trader = assignment.TraderTennisMostDoubleFaults,
-                    OtherTrader = assignment.OtherTraderTennisMostDoubleFaults
+                    OtherTrader = assignment.OtherTraderTennisMostDoubleFaults,
+                    Spread = assignment.SpreadTennisMostDoubleFaults
                 }
             };
         }
