@@ -64,6 +64,8 @@ namespace OWP.PreMatchNotification.NewLeague.Handlers
 
             await notify.Notify(messageModels);
 
+            await cacheManipulator.RemoveData($"{OLD_PREMATCHLEAGUES_SNAPSHOT_KEY}-{request.SessionId}");
+
             return await Task.FromResult(Unit.Value);
         }
 
@@ -75,8 +77,6 @@ namespace OWP.PreMatchNotification.NewLeague.Handlers
             var infoSiteMatches = await GetInfoSiteMatch(newSnapshot.Select(x => x.OWPLeagueId).ToList(), request.FromDate);
 
             var messages = newLeagueGenerator.Create(oldSnapshot, newSnapshot, preMatchAssignees, infoSiteMatches);
-
-            await cacheManipulator.RemoveData($"{OLD_PREMATCHLEAGUES_SNAPSHOT_KEY}-{request.SessionId}");
 
             return messages.ToList();
         }

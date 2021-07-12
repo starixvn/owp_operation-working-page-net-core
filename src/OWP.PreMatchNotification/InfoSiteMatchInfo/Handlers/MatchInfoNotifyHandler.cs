@@ -12,7 +12,7 @@
     using OWP.PreMatchNotification.Constants;
     using OWP.PreMatchNotification.InfoSiteMatchInfo.Models;
 
-    public class MatchInfoNotifyRequest : IRequest<MatchInfoNotifyResponse>
+    public class MatchInfoNotifyRequest : IRequest<Unit>
     {
         public string SessionId { get; set; }
 
@@ -21,12 +21,7 @@
         public DateTime ToDate { get; set; }
     }
 
-    public class MatchInfoNotifyResponse
-    {
-        public IList<MessageModel> MessageModels { get; set; }
-    }
-
-    public class MatchInfoNotifyHandler : IRequestHandler<MatchInfoNotifyRequest, MatchInfoNotifyResponse>
+    public class MatchInfoNotifyHandler : IRequestHandler<MatchInfoNotifyRequest, Unit>
     {
         private readonly CacheManipulatorCommon cacheManipulator;
 
@@ -58,7 +53,7 @@
             this.notify = notify;
         }
 
-        public async Task<MatchInfoNotifyResponse> Handle(MatchInfoNotifyRequest request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(MatchInfoNotifyRequest request, CancellationToken cancellationToken)
         {
             var messages = await GenerateMessages(request);
             var messageModels = messageFactory.Transform(messages);
@@ -67,7 +62,9 @@
 
             await notify.Notify(messageModels);
 
-            return new MatchInfoNotifyResponse { MessageModels = messageModels };
+            await cacheManipulator.RemoveData($"{OLD_INFOSITEMATCHES_SNAPSHOT_KEY}-{request.SessionId}");
+
+            return await Task.FromResult(Unit.Value);
         }
 
         private async Task<IList<ChangedValue>> GenerateMessages(MatchInfoNotifyRequest request)
@@ -84,10 +81,7 @@
             var linkedMatches = await queryRepository.GetLGALinkedInfoSiteMatch(infoSiteMatchIds);
             var lstMessages = changedValueGenerator.CreateLSTMessages(assigneeMessages, lst, linkedMatches);
 
-            var allMessages = assigneeMessages.Union(lstMessages);
-            await cacheManipulator.RemoveData($"{OLD_INFOSITEMATCHES_SNAPSHOT_KEY}-{request.SessionId}");
-
-            return allMessages.ToList();
+            return assigneeMessages.Union(lstMessages).ToList();
         }
     }
 }
