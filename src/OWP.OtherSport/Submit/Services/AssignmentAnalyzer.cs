@@ -37,10 +37,11 @@
             var matchMaxBets = new List<MatchMaxBet>();
             foreach (var assignmentMaxbet in assignmentMaxbets)
             {
-                matchMaxBets.Add(GetMaxBetByBettype(assignment.OSMatchId, assignmentMaxbet.Bettype, assignmentMaxbet.MaxBet));
+                matchMaxBets.Add(GetMaxBetByBettype(assignment.OSMatchId, assignmentMaxbet));
             }
 
-            return matchMaxBets.Where(a => a.MaxBet != null && a.MaxBet != 0).ToList();
+            return matchMaxBets.Where(a => (a.MaxBet != null && a.MaxBet != 0) ||
+                                           (a.Spread.HasValue && a.Spread.Value != 0)).ToList();
         }
 
         public static MatchAssignment GetAssignmentByBettype(int matchId, AssignmentMaxbet assignmentMaxbet)
@@ -87,13 +88,14 @@
             };
         }
 
-        public static MatchMaxBet GetMaxBetByBettype(int matchId, string bettype, decimal? maxbet)
+        public static MatchMaxBet GetMaxBetByBettype(int matchId, AssignmentMaxbet assignmentMaxbet)
         {
             return new MatchMaxBet
             {
                 OSMatchId = matchId,
-                BetTypeName = bettype,
-                MaxBet = maxbet
+                BetTypeName = assignmentMaxbet.Bettype,
+                MaxBet = assignmentMaxbet.MaxBet,
+                Spread = assignmentMaxbet.Spread
             };
         }
 
