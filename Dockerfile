@@ -1,6 +1,6 @@
 FROM registry.nexdev.net:5050/docker/dotnet/core/sdk:5.0.102-ca-patch-buster-slim AS builder
 WORKDIR /src
-ENV TZ="America/La_Paz" 
+ENV TZ="Europe/London" 
 
 COPY ./.sonarlint/. ./.sonarlint
 COPY ./src/OWP/. ./src/OWP
