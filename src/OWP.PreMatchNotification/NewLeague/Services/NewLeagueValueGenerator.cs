@@ -44,7 +44,7 @@
         private IEnumerable<PreMatchLeague> GetNewPreMatchLeagues(IList<PreMatchLeague> oldSnapshot,
             IList<PreMatchLeague> newSnapshot, IList<InfoSiteMatch> infoSiteMatches)
         {
-            var newLeagues = newSnapshot.Except(oldSnapshot, new PreMatchLeague()).Distinct(new PreMatchLeague()).ToList();
+            var newLeagues = newSnapshot.Except(oldSnapshot, new PreMatchLeague()).ToList();
             var currentDate = dateTimeHelper.GetCurrentDate();
             var fromDate = currentDate.AddHours(12);
             var toDate = currentDate.AddDays(1).AddHours(11).AddMinutes(59);
@@ -53,8 +53,8 @@
             {
                 var matches = infoSiteMatches.Where(x =>
                     x.OWPLeagueId == league.OWPLeagueId &&
-                    x.EventDateTime.AddHours(8) >= fromDate &&
-                    x.EventDateTime.AddHours(8) <= toDate);
+                    x.EventDateTime >= fromDate &&
+                    x.EventDateTime <= toDate);
 
                 if (matches.Any())
                 {
