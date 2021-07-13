@@ -29,7 +29,6 @@
         private readonly MessageFactory messageFactory;
         private readonly CommandRepository commandRepository;
         private readonly NotifyServices notify;
-        private readonly LogServiceWrapper logService;
 
         public LinkedMatchNotifyHandler(
             CacheManipulator cacheManipulator,
@@ -37,8 +36,7 @@
             ChangedLinkedMatchDetector changedValueBySnapshot,
             MessageFactory messageFactory,
             CommandRepository commandRepository,
-            NotifyServices notify,
-            LogServiceWrapper logService)
+            NotifyServices notify)
         {
             this.cacheManipulator = cacheManipulator;
             this.queryRepository = queryRepository;
@@ -46,17 +44,17 @@
             this.messageFactory = messageFactory;
             this.commandRepository = commandRepository;
             this.notify = notify;
-            this.logService = logService;
         }
 
         public async Task<Unit> Handle(LinkedMatchNotifyRequest request, CancellationToken cancellationToken)
         {
             var messages = await GenerateMessages(request);
             var messageModels = messageFactory.Transform(messages);
-            await logService.Log($"Linked-match-message-{request.SessionId}", messageModels);
 
             await commandRepository.InsertMessage(messageModels, request.SessionId);
             await notify.Notify(messageModels);
+
+            await cacheManipulator.DeleteAssignmentSnapshot(request.SessionId);
 
             return await Task.FromResult(Unit.Value);
         }
@@ -64,21 +62,17 @@
         public async Task<List<ChangedValue>> GenerateMessages(LinkedMatchNotifyRequest request)
         {
             var oldMatches = await cacheManipulator.GetOldLGAMatchSnapshot(request.SessionId);
-            await logService.Log($"Linked-match-Old-{request.SessionId}", request.SessionId, oldMatches);
 
             if (oldMatches.Count > 0)
             {
                 var newMatches = await queryRepository.GetLGAMatchNewSnapshot(request.EventDate);
-                await logService.Log($"Linked-match-New-{request.SessionId}", oldMatches);
 
                 var employees = await GetEmployees(request.EventDate);
 
                 var messages = changedValueBySnapshot.Create(oldMatches, newMatches, employees);
 
                 return messages;
-            }
-
-            await cacheManipulator.DeleteAssignmentSnapshot(request.SessionId);
+            }            
 
             return new List<ChangedValue>();
         }

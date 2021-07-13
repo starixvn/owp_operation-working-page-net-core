@@ -20,12 +20,9 @@
     {
         private readonly IDynamicRepository dynamicRepository;
 
-        private readonly LogServiceWrapper logService;
-
-        public RepositoryImp(IDynamicRepository dynamicRepository, LogServiceWrapper logService)
+        public RepositoryImp(IDynamicRepository dynamicRepository)
         {
             this.dynamicRepository = dynamicRepository;
-            this.logService = logService;
         }
 
         public async Task<List<GeneralMatch>> GetLGAMatchNewSnapshot(DateTime eventDate)
@@ -46,8 +43,6 @@
                 EventToDateTime = eventDate.AddDays(1).AddHours(11).AddMinutes(59).AddSeconds(59),
                 EventFromDateTime = eventDate.AddHours(12)
             };
-
-            await logService.Log("GetInfositePrematchCriteria-Param", criteria);
 
             var result = await dynamicRepository.FetchAsync<InfositePrematchLeague>(criteria);
 
