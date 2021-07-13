@@ -17,11 +17,11 @@ namespace OWP.OtherSport.UnitTests.Notification.Services
         [Fact]
         public void GetListValueChangedOfMatchSetting_OldvalueHasMaxbetChange_NewvalueHasMaxbetChange()
         {
-            var oldMatchSetting = new MatchMaxBet
+            var oldMatchSetting = new MatchSetting
             {
                 MaxBet = 120000,
             };
-            var newMatchSetting = new MatchMaxBet
+            var newMatchSetting = new MatchSetting
             {
                 MaxBet = 110000,
             };
@@ -40,9 +40,9 @@ namespace OWP.OtherSport.UnitTests.Notification.Services
         [Fact]
         public void GetListMatchChangeMaxBet_WithBettypeFTHDP_ReturnListMatch_Has_MatxbetChanged()
         {
-            var oldMatchSettings = new List<MatchMaxBet>
+            var oldMatchSettings = new List<MatchSetting>
             {
-                new MatchMaxBet
+                new MatchSetting
                 {
                     OSMatchId=123,
                     MaxBet=12000,
@@ -50,9 +50,9 @@ namespace OWP.OtherSport.UnitTests.Notification.Services
                 }
             };
 
-            var newMatchSettings = new List<MatchMaxBet>
+            var newMatchSettings = new List<MatchSetting>
             {
-                new MatchMaxBet
+                new MatchSetting
                 {
                     OSMatchId=123,
                     MaxBet=11000,
@@ -82,11 +82,11 @@ namespace OWP.OtherSport.UnitTests.Notification.Services
             {
                 OldSnapshot = new AssignmentSnapshot
                 {
-                    MaxBet = new Dictionary<int, List<MatchMaxBet>>
+                    MatchSettings = new Dictionary<int, List<MatchSetting>>
                     {
-                        {123, new List<MatchMaxBet>
+                        {123, new List<MatchSetting>
                         {
-                            new MatchMaxBet
+                            new MatchSetting
                             {
                                 OSMatchId=123,
                                 BetTypeName= "FT (HDP)",
@@ -97,11 +97,11 @@ namespace OWP.OtherSport.UnitTests.Notification.Services
                 },
                 NewSnapshot = new AssignmentSnapshot
                 {
-                    MaxBet = new Dictionary<int, List<MatchMaxBet>>
+                    MatchSettings = new Dictionary<int, List<MatchSetting>>
                     {
-                        {123, new List<MatchMaxBet>
+                        {123, new List<MatchSetting>
                         {
-                            new MatchMaxBet
+                            new MatchSetting
                             {
                                 OSMatchId=123,
                                 BetTypeName= "FT (HDP)",

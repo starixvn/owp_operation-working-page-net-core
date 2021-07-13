@@ -24,7 +24,7 @@
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<MatchAssignment, ExcelMatchAssignment>();
-                cfg.CreateMap<MatchMaxBet, ExcelMatchMaxBet>();
+                cfg.CreateMap<MatchSetting, ExcelMatchMaxBet>();
             });
             var iMapper = config.CreateMapper();
             commandRepository = Substitute.For<CommandRepository>();
@@ -109,11 +109,11 @@
                         new MatchAssignment { AssignmentType = 1, BetTypeName = Bettype.FTHDP, UserId = 2228, Username="tr", Nickname="abc" },
                     } }
                 },
-                MaxBet = new Dictionary<int, List<MatchMaxBet>>
+                MatchSettings = new Dictionary<int, List<MatchSetting>>
                 {
-                    { 111, new List<MatchMaxBet> {
-                        new MatchMaxBet { BetTypeName = Bettype.FTHDP, MaxBet = 1234 },
-                        new MatchMaxBet { BetTypeName = Bettype.FTOUOE, MaxBet = 222.05m }
+                    { 111, new List<MatchSetting> {
+                        new MatchSetting { BetTypeName = Bettype.FTHDP, MaxBet = 1234 },
+                        new MatchSetting { BetTypeName = Bettype.FTOUOE, MaxBet = 222.05m }
                     } }
                 }
             };

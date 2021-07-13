@@ -1,6 +1,6 @@
 ﻿namespace OWP.OtherSport.Submit.Models
 {
-    public class MatchMaxBet
+    public class MatchSetting
     {
         public int OSMatchId { get; set; }
 

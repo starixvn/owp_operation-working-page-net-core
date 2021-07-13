@@ -27,7 +27,7 @@ namespace OWP.OtherSport.Download.Models
         }
     }
 
-    public class ExcelMatchMaxBet: MatchMaxBet
+    public class ExcelMatchMaxBet: MatchSetting
     {
         public int ColumnIndex { get; set; }
 

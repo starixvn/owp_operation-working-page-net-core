@@ -24,8 +24,8 @@
         public List<ChangedValue> Create(ChangedMatchSnapshot snapshot, int matchId, List<Assignee> existingAssignees)
         {
 
-            var newMatchSettings = snapshot.NewSnapshot.MaxBet.GetValue(matchId, new List<MatchMaxBet>());
-            var oldMatchSettings = snapshot.OldSnapshot.MaxBet.GetValue(matchId, new List<MatchMaxBet>());
+            var newMatchSettings = snapshot.NewSnapshot.MatchSettings.GetValue(matchId, new List<MatchSetting>());
+            var oldMatchSettings = snapshot.OldSnapshot.MatchSettings.GetValue(matchId, new List<MatchSetting>());
             var changedList = GetListValueChangedWithDifferentBettype(oldMatchSettings, newMatchSettings, matchId);
 
             var changedValueList = new List<ChangedValue>();
@@ -69,7 +69,7 @@
                 : null;
         }
 
-        public static IEnumerable<ChangedValue> GetListValueChangedWithDifferentBettype(List<MatchMaxBet> oldMatchSettings, List<MatchMaxBet> newMatchSettings, int matchId)
+        public static IEnumerable<ChangedValue> GetListValueChangedWithDifferentBettype(List<MatchSetting> oldMatchSettings, List<MatchSetting> newMatchSettings, int matchId)
         {
             var bettypes = new List<string> {
                  Bettype.FTHDP,
@@ -123,8 +123,8 @@
             var changedValues = new List<ChangedValue>();
             foreach (var bettype in bettypes)
             {
-                var oldMatchWithBettype = oldMatchSettings.SingleOrDefault(a => string.Equals(a.BetTypeName, bettype)) ?? new MatchMaxBet();
-                var newMatchWithBettype = newMatchSettings.SingleOrDefault(a => string.Equals(a.BetTypeName, bettype)) ?? new MatchMaxBet();
+                var oldMatchWithBettype = oldMatchSettings.SingleOrDefault(a => string.Equals(a.BetTypeName, bettype)) ?? new MatchSetting();
+                var newMatchWithBettype = newMatchSettings.SingleOrDefault(a => string.Equals(a.BetTypeName, bettype)) ?? new MatchSetting();
                 var listMessage = GetListValueChangedOfMatchSetting(oldMatchWithBettype, newMatchWithBettype, bettype, matchId);
                 changedValues.AddRange(listMessage);
             }
@@ -132,7 +132,7 @@
             return changedValues;
         }
 
-        public static IEnumerable<ChangedValue> GetListValueChangedOfMatchSetting(MatchMaxBet oldMatchSetting, MatchMaxBet newMatchSetting, string bettype, int matchId)
+        public static IEnumerable<ChangedValue> GetListValueChangedOfMatchSetting(MatchSetting oldMatchSetting, MatchSetting newMatchSetting, string bettype, int matchId)
         {
             if (!Equals(oldMatchSetting.MaxBet, newMatchSetting.MaxBet))
             {

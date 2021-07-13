@@ -136,7 +136,7 @@
             foreach (var key in assignmentSnapshot.Matches.Keys)
             {
                 var sport = assignmentSnapshot.Matches[key].Sport;
-                var maxbets = assignmentSnapshot.MaxBet.GetValue(key, new List<MatchMaxBet>());
+                var maxbets = assignmentSnapshot.MatchSettings.GetValue(key, new List<MatchSetting>());
                 var excelAssignments = BuildMaxbet(sport, maxbets);
 
                 matchMaxbets.Add(key, excelAssignments.ToList());
@@ -145,7 +145,7 @@
             return matchMaxbets;
         }
 
-        private IEnumerable<ExcelMatchMaxBet> BuildMaxbet(string sport, List<MatchMaxBet> maxbets)
+        private IEnumerable<ExcelMatchMaxBet> BuildMaxbet(string sport, List<MatchSetting> maxbets)
         {
             foreach (var maxbet in maxbets)
             {
@@ -157,10 +157,10 @@
             }
         }
 
-        private static int GetMaxBetColumnIndex(MatchMaxBet maxbet, string sport)
+        private static int GetMaxBetColumnIndex(MatchSetting maxbet, string sport)
             => ExcelConst.MaxbetColumn.GetValue(new Tuple<string, string>(sport, maxbet.BetTypeName), 3);
 
-        private static string GetMaxbetValue(MatchMaxBet maxbet)
+        private static string GetMaxbetValue(MatchSetting maxbet)
             => maxbet.MaxBet.ToString().TrimEnd('0').TrimEnd('.');
     }
 }

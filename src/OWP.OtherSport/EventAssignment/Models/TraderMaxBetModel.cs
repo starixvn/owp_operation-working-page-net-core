@@ -1,11 +1,14 @@
 ﻿using OWP.OtherSport.Submit.Models;
+using System.Collections.Generic;
 
 namespace OWP.OtherSport.EventAssignment.Models
 {
-    public class TraderMaxBetModel
-    {
-        public TraderAssignment TraderAssignment { get; set; } = new TraderAssignment();
+	public class TraderMaxBetModel
+	{
+		public string BetTypeName { get; set; }
 
-        public MatchMaxBet Maxbet { get; set; } = new MatchMaxBet();
-    }
+		public TraderAssignment TraderAssignment { get; set; } = new TraderAssignment();
+
+		public MatchSetting Maxbet { get; set; } = new MatchSetting();
+	}
 }

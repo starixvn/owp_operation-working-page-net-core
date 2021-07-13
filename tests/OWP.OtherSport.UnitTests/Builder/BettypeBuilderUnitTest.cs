@@ -87,7 +87,7 @@
                                 OSMatchId= 123,
                                 BetTypeName= "1Q & 3Q (OU/OE)"
                             },
-                            Maxbet= new MatchMaxBet
+                            Maxbet= new MatchSetting
                             {
                                 OSMatchId= 123,
                                 BetTypeName= "1Q & 3Q (OU/OE)"

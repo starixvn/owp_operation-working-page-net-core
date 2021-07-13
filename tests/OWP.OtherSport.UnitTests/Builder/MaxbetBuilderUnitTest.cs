@@ -23,16 +23,16 @@
             {
                 new TraderMaxBetModel
                 {
-                    Maxbet= new MatchMaxBet
+                    Maxbet= new MatchSetting
                     {
                         BetTypeName= "1Q & 3Q (OU/OE)"
                     }
                 }
             };
 
-            var matchMaxBets = new List<MatchMaxBet>
+            var matchMaxBets = new List<MatchSetting>
             {
-                new MatchMaxBet
+                new MatchSetting
                 {
                     MaxBet= 10m,
                     BetTypeName= "1Q & 3Q (OU/OE)"
@@ -45,7 +45,7 @@
             {
                 new TraderMaxBetModel
                 {
-                    Maxbet= new MatchMaxBet
+                    Maxbet= new MatchSetting
                     {
                         MaxBet= 10m,
                         BetTypeName= "1Q & 3Q (OU/OE)"

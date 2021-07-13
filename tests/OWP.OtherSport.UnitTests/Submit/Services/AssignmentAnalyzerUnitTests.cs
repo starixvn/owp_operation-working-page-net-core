@@ -70,10 +70,10 @@
                 new AssignmentMaxbet { MaxBet = null, Bettype = Bettype.AllProductLS },
                 new AssignmentMaxbet { Bettype = Bettype.SetXWinnerHDP },
             };
-            var expected = new List<MatchMaxBet>
+            var expected = new List<MatchSetting>
             {
-                new MatchMaxBet{ OSMatchId = 123, BetTypeName = Bettype.First5FramesHDP,MaxBet = 1200 },
-                new MatchMaxBet{ OSMatchId = 123, BetTypeName = Bettype.FirstHOU,MaxBet = 30000 }
+                new MatchSetting{ OSMatchId = 123, BetTypeName = Bettype.First5FramesHDP,MaxBet = 1200 },
+                new MatchSetting{ OSMatchId = 123, BetTypeName = Bettype.FirstHOU,MaxBet = 30000 }
             };
 
             var actual = services.GetMaxBets(assignment, assignmentMaxbet).ToList();

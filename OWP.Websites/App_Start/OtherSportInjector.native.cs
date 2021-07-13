@@ -5,10 +5,7 @@
     using Download = OtherSport.Download.Services;
     using Validation = OtherSport.Validation.Services;
     using EventAssignment = OtherSport.EventAssignment.Services;
-    using OWP.OtherSport.EventAssignment.Builder;
-    using OWP.OtherSport.Download.Services;
     using OWP.OtherSport.Notification.Services;
-    using OWP.OtherSport.Notification;
 
     public static class OtherSportInjector
     {
@@ -30,13 +27,12 @@
             services.AddScoped<Validation.Repository, Validation.RepositoryImp>();
 
             services.AddScoped<EventAssignment.CommandRepository, EventAssignment.CommandRepositoryImp>();
-            services.AddScoped<AssignmentBuilder, AssignmentBuilderImp>();
-            services.AddScoped<BettypeBuilder, BettypeBuilderImp>();
-            services.AddScoped<MaxbetBuilder, MaxbetBuilderImp>();
-            services.AddScoped<AssignmentMaxbetBuilder, AssignmentMaxbetBuilderImp>();
+            services.AddScoped<EventAssignment.AssignmentBuilder, EventAssignment.AssignmentBuilderImp>();
+            services.AddScoped<EventAssignment.MatchSettingBuilder, EventAssignment.MatchSettingBuilderImp>();
+            services.AddScoped<EventAssignment.EventAssignmentBuilder, EventAssignment.EventAssignmentBuilderImp>();
 
-            services.AddScoped<BuildExcelModelService, BuildExcelModelServiceImp>();
-            services.AddScoped<ExportExcelService, ExportExcelServiceImp>();
+            services.AddScoped<Download.BuildExcelModelService, Download.BuildExcelModelServiceImp>();
+            services.AddScoped<Download.ExportExcelService, Download.ExportExcelServiceImp>();
             services.AddScoped<Download.CommandRepository, Download.CommandRepositoryImp > ();
 
             // Notification

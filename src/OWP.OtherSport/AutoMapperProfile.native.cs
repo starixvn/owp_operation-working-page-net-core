@@ -19,7 +19,7 @@
                 .IgnoreTraders();
             CreateMap<MatchInfo, EventAssignmentModel>();
             CreateMap<MatchAssignment, ExcelMatchAssignment>();
-            CreateMap<MatchMaxBet, ExcelMatchMaxBet>();
+            CreateMap<MatchSetting, ExcelMatchMaxBet>();
         }
     }
 
