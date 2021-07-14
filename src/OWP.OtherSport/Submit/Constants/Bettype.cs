@@ -56,4 +56,11 @@
         public const string MostAces = "Most Aces";
         public const string MostDoubleFaults = "Most Double Faults";
     }
+
+    public static class MinorBettype
+    {
+        public const string OE = "OE";
+        public const string OU = "OU";
+        public const string HDP = "HDP";
+    }
 }

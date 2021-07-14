@@ -9,6 +9,6 @@ namespace OWP.OtherSport.EventAssignment.Models
 
 		public TraderAssignment TraderAssignment { get; set; } = new TraderAssignment();
 
-		public MatchSetting Maxbet { get; set; } = new MatchSetting();
+		public List<MatchSettingModel> MatchSettings { get; set; } = new List<MatchSettingModel>();
 	}
 }
