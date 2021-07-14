@@ -81,11 +81,11 @@ namespace OWP.OtherSport.UnitTests.Download.Services
                                 UserId = 123, Username="starix15", AssignmentNote = "#<user> mynote" }
                         } }
                     },
-                    MaxBet = new Dictionary<int, List<ExcelMatchMaxBet>>
+                    MaxBetSpread = new Dictionary<int, List<ExcelMatchMaxBetSpread>>
                     {
-                        { 111, new List<ExcelMatchMaxBet> {
-                            new ExcelMatchMaxBet { ColumnIndex=145,Value="1234", BetTypeName = Bettype.FTHDP, MaxBet = 1234 },
-                            new ExcelMatchMaxBet { ColumnIndex=146,Value="222.05", BetTypeName = Bettype.FTOUOE, MaxBet = 222.05m }
+                        { 111, new List<ExcelMatchMaxBetSpread> {
+                            new ExcelMatchMaxBetSpread { ColumnIndexMaxbet=145,ValueMaxbet="1234", BetTypeName = Bettype.FTHDP, MaxBet = 1234 },
+                            new ExcelMatchMaxBetSpread { ColumnIndexMaxbet=146,ValueMaxbet="222.05", BetTypeName = Bettype.FTOUOE, MaxBet = 222.05m }
                         } }
                     }
                 }
