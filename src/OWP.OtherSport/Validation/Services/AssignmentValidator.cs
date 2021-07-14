@@ -10,6 +10,7 @@
     using System.Linq;
     using System.Reflection;
     using System.Text.RegularExpressions;
+
     public interface AssignmentValidator
     {
         void Validate(UploadingDataFromExcel rawDataFromExcel,
@@ -21,12 +22,11 @@
 
         void ValidateDateTime(AssignmentModelInExcel assignment, List<ValidationResult> results);
 
-        void ValidateMaxbetInString(AssignmentModelInExcel assignment, List<ValidationResult> results);
+        void ValidateMaxbetAndSpreadInString(AssignmentModelInExcel assignment, List<ValidationResult> results);
     }
 
     public class AssignmentValidatorImp : AssignmentValidator
     {
-
         public void Validate(UploadingDataFromExcel rawDataFromExcel, List<Trader> traders)
         {
             var validationResults = new List<AssignmentValidationRowResult>();
@@ -63,7 +63,7 @@
             ValidateDataAnotation(assignment, results);
             ValidateDuplicatedMatch(assignment, assigments, results);
             ValidateDateTime(assignment, results);
-            ValidateMaxbetInString(assignment, results);
+            ValidateMaxbetAndSpreadInString(assignment, results);
 
             return results;
         }
@@ -145,7 +145,7 @@
             }
         }
 
-        public void ValidateMaxbetInString(AssignmentModelInExcel assignment, List<ValidationResult> results)
+        public void ValidateMaxbetAndSpreadInString(AssignmentModelInExcel assignment, List<ValidationResult> results)
         {
             const string regex = @"^(?:|[0-9]\d{0,9}(\.\d{1,9})?%?)$";
 
@@ -154,7 +154,8 @@
 
             foreach (var property in destinationProperties)
             {
-                if (property.Name.StartsWith("MaxBet", StringComparison.CurrentCultureIgnoreCase))
+                if (property.Name.StartsWith("MaxBet", StringComparison.CurrentCultureIgnoreCase) ||
+                    property.Name.StartsWith("Spread", StringComparison.CurrentCultureIgnoreCase))
                 {
                     var value = property.GetValue(assignment).ToString() ?? string.Empty;
                     var match = Regex.Match(value, regex, RegexOptions.IgnoreCase);
@@ -210,4 +211,3 @@
         }
     }
 }
-
