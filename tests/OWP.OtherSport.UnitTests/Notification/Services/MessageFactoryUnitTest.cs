@@ -22,7 +22,6 @@
         }
 
         [Fact]
-
         public void Transform_Always_ReturnMessageList()
         {
             var changedValueList = GetListChangedValue();
@@ -37,7 +36,6 @@
                    MessageType = (int)MsgTemplateCode.EditMatchNo,
                    ReceivedUserIds = new List<string> { "6789" }
                 },
-
                 new MessageModel
                 {
                    IsImportant = false,
@@ -48,6 +46,7 @@
             };
 
             var actual = messageFactory.Transform(changedValueList);
+
             DeepAssert.Equal(expected, actual);
         }
 
@@ -66,7 +65,6 @@
                    MessageType = (int)MsgTemplateCode.OtherAssignmentDelete,
                    ReceivedUserIds = new List<string> { "2542" }
                 },
-
                 new MessageModel
                 {
                    IsImportant = true,
@@ -77,6 +75,33 @@
             };
 
             var actual = messageFactory.Transform(changedValueList);
+
+            DeepAssert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void Transform_MatchSettingChanged_ReturnMessageList()
+        {
+            var changedValueList = GetListMatchSettingChanged();
+            currentSession.UserName = "sa";
+            var expected = new List<MessageModel>
+            {
+                new MessageModel
+                {
+                   MessageContent = "<b>Max Bet</b> of <b>FT (HDP)</b> Updated from 12000 to <b>11000</b> for #1234 - Vleague - Binh Dinh -vs- Ha Noi updated by sa",
+                   MessageType = (int)MsgTemplateCode.EditMaxbet,
+                   ReceivedUserIds = new List<string> { "8","11" }
+                },
+                new MessageModel
+                {
+                   MessageContent = "<b>Spread</b> of <b>FT (HDP)</b> Updated from 12% to <b>11%</b> for #1234 - Vleague - Binh Dinh -vs- Ha Noi updated by sa",
+                   MessageType = (int)MsgTemplateCode.EditSpread,
+                   ReceivedUserIds = new List<string> { "8" }
+                },
+            };
+
+            var actual = messageFactory.Transform(changedValueList);
+
             DeepAssert.Equal(expected, actual);
         }
 
@@ -122,6 +147,7 @@
 
             return changedValueList;
         }
+
         private List<ChangedValue> GetListChangedValue()
         {
             var valueChanged = new ChangedValue
@@ -135,7 +161,6 @@
                 UserId = 6789,
                 Username = "esther"
             };
-
             var valueChanged2 = new ChangedValue
             {
                 OldValue = "400K",
@@ -157,5 +182,46 @@
 
             return changedValueList;
         }
+
+        private List<ChangedValue> GetListMatchSettingChanged()
+        => new List<ChangedValue>
+            {
+                new ChangedValue
+                {
+                    UserId = 8,
+                    Username = "Liam",
+                    BetTypeName = "FT (HDP)",
+                    EventName = "Binh Dinh -vs- Ha Noi",
+                    League = "Vleague",
+                    MatchNo = "1234",
+                    MessageTypeId = (int)MsgTemplateCode.EditMaxbet,
+                    NewValue = "11000",
+                    OldValue = "12000",
+                },
+                new ChangedValue
+                {
+                    UserId = 11,
+                    Username = "Starix1",
+                    BetTypeName = "FT (HDP)",
+                    EventName = "Binh Dinh -vs- Ha Noi",
+                    League = "Vleague",
+                    MatchNo = "1234",
+                    MessageTypeId = (int)MsgTemplateCode.EditMaxbet,
+                    NewValue = "11000",
+                    OldValue = "12000",
+                },
+                new ChangedValue
+                {
+                    UserId = 8,
+                    Username = "Liam",
+                    BetTypeName = "FT (HDP)",
+                    EventName = "Binh Dinh -vs- Ha Noi",
+                    League = "Vleague",
+                    MatchNo = "1234",
+                    MessageTypeId = (int)MsgTemplateCode.EditSpread,
+                    NewValue = "11%",
+                    OldValue = "12%",
+                },
+            };
     }
 }
