@@ -145,18 +145,6 @@
             return matchMaxbets;
         }
 
-        private IEnumerable<ExcelMatchMaxBetSpread> BuildSpread(string sport, List<MatchSetting> matchSettings)
-        {
-            foreach (var matchSetting in matchSettings)
-            {
-                var excelSpreads = mapper.Map<ExcelMatchMaxBetSpread>(matchSetting);
-                excelSpreads.ColumnIndexMaxbet = GetColumnIndex(ExcelConst.MaxbetColumn, matchSetting, sport);
-                excelSpreads.ValueMaxbet = GetMaxbetValue(matchSetting);
-
-                yield return excelSpreads;
-            }
-        }
-
         private IEnumerable<ExcelMatchMaxBetSpread> BuildMatchSetting(string sport, List<MatchSetting> matchSettings)
         {
             foreach (var matchSetting in matchSettings)
@@ -165,7 +153,7 @@
                 excelMatchSettings.ColumnIndexMaxbet = GetColumnIndex(ExcelConst.MaxbetColumn, matchSetting, sport);
                 excelMatchSettings.ValueMaxbet = GetMaxbetValue(matchSetting);
                 excelMatchSettings.ColumnIndexSpread = GetColumnIndex(ExcelConst.SpreadColumn, matchSetting, sport);
-                excelMatchSettings.ValueSpread = GetMaxbetValue(matchSetting);
+                excelMatchSettings.ValueSpread = matchSetting.Spread?.ToString();
                 yield return excelMatchSettings;
             }
         }
@@ -175,7 +163,7 @@
 
         private static string GetMaxbetValue(MatchSetting matchSetting)
             => matchSetting
-                .MaxBet
+                .MaxBet?
                     .ToString()
                         .TrimEnd('0')
                             .TrimEnd('.');

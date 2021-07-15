@@ -65,15 +65,15 @@
             };
             var assignmentMaxbet = new List<AssignmentMaxbet>
             {
-                new AssignmentMaxbet { MaxBet = 1200, Bettype = Bettype.First5FramesHDP },
-                new AssignmentMaxbet { MaxBet = 30000, Bettype = Bettype.FirstHOU },
-                new AssignmentMaxbet { MaxBet = null, Bettype = Bettype.AllProductLS },
+                new AssignmentMaxbet { MaxBet = 1200, Spread= 10, Bettype = Bettype.First5FramesHDP },
+                new AssignmentMaxbet { MaxBet = 30000, Spread= 10,Bettype = Bettype.FirstHOU },
+                new AssignmentMaxbet { MaxBet = null, Spread= null, Bettype = Bettype.AllProductLS },
                 new AssignmentMaxbet { Bettype = Bettype.SetXWinnerHDP },
             };
             var expected = new List<MatchSetting>
             {
-                new MatchSetting{ OSMatchId = 123, BetTypeName = Bettype.First5FramesHDP,MaxBet = 1200 },
-                new MatchSetting{ OSMatchId = 123, BetTypeName = Bettype.FirstHOU,MaxBet = 30000 }
+                new MatchSetting{ OSMatchId = 123, BetTypeName = Bettype.First5FramesHDP,MaxBet = 1200, Spread = 10 },
+                new MatchSetting{ OSMatchId = 123, BetTypeName = Bettype.FirstHOU,MaxBet = 30000, Spread = 10}
             };
 
             var actual = services.GetMaxBets(assignment, assignmentMaxbet).ToList();

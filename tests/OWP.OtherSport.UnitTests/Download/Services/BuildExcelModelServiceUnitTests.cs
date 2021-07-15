@@ -37,7 +37,7 @@
         {
             var request = new DownloadAssignmentRequest
             {
-                From = new DateTime(2021,03,25),
+                From = new DateTime(2021, 03, 25),
                 To = new DateTime(2021, 03, 25),
                 Employee = "sa",
                 Sports = "Basketball",
@@ -72,8 +72,24 @@
                 MaxBetSpread = new Dictionary<int, List<ExcelMatchMaxBetSpread>>
                 {
                     { 111, new List<ExcelMatchMaxBetSpread> {
-                        new ExcelMatchMaxBetSpread { ColumnIndexMaxbet=153,ValueMaxbet="1234", BetTypeName = Bettype.FTHDP, MaxBet = 1234 },
-                        new ExcelMatchMaxBetSpread { ColumnIndexMaxbet=154,ValueMaxbet="222.05", BetTypeName = Bettype.FTOUOE, MaxBet = 222.05m }
+                        new ExcelMatchMaxBetSpread {
+                            ColumnIndexMaxbet=153,
+                            ValueMaxbet="1234",
+                            BetTypeName = Bettype.FTHDP,
+                            MaxBet = 1234,
+                            Spread =10,
+                            ColumnIndexSpread = 224,
+                            ValueSpread = "10"
+                        },
+                        new ExcelMatchMaxBetSpread {
+                            ColumnIndexMaxbet=154,
+                            ValueMaxbet="222.05",
+                            BetTypeName = Bettype.FTOUOE,
+                            MaxBet = 222.05m,
+                            Spread = 40,
+                            ColumnIndexSpread = 225,
+                            ValueSpread = "40"
+                        }
                     } }
                 }
             };
@@ -112,8 +128,8 @@
                 MatchSettings = new Dictionary<int, List<MatchSetting>>
                 {
                     { 111, new List<MatchSetting> {
-                        new MatchSetting { BetTypeName = Bettype.FTHDP, MaxBet = 1234 },
-                        new MatchSetting { BetTypeName = Bettype.FTOUOE, MaxBet = 222.05m }
+                        new MatchSetting { BetTypeName = Bettype.FTHDP, MaxBet = 1234, Spread = 10 },
+                        new MatchSetting { BetTypeName = Bettype.FTOUOE, MaxBet = 222.05m, Spread = 40 }
                     } }
                 }
             };
