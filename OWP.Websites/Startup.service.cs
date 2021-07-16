@@ -38,6 +38,7 @@ namespace OWP.Websites
     using OWP.Maxbet;
     using OWP.OtherSport;
     using OWP.OtherSport.Hubs;
+    using OWP.PreMatchNotification;
     using OWP.Services;
     using OWP.Websites.App_Start;
     using Sentry;
@@ -150,6 +151,7 @@ namespace OWP.Websites
             services.InjectOtherSportService();
             services.InjectProductAssignment();
             services.InjectSyncWorkingShift();
+            services.InjectPreMatchNotification();
         }
 
         private void ConfigureNapServices(IServiceCollection services)
@@ -224,6 +226,7 @@ namespace OWP.Websites
             services.AddMediatR(typeof(MaxbetController).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(OtherSportController).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(SyncWorkingShiftController).GetTypeInfo().Assembly);
+            services.AddMediatR(typeof(PreMatchNotificationController).GetTypeInfo().Assembly);
         }
 
         private static void ConfigureAutoMapper(IServiceCollection services)

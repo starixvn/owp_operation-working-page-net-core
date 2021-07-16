@@ -1,11 +1,11 @@
-﻿namespace OWP.OtherSport.Hubs
+﻿namespace OWP.Hubs
 {
     using Microsoft.AspNetCore.SignalR;
     using System.Threading.Tasks;
 
     public interface ChangedInfoNotifyHub
     {
-        Task notifyChangedInfomationData(object messageInfo);
+        Task notifyChangedInformationData(object messageInfo);
     }
 
     public class ChangedInfoNotifyHubImp : Hub<ChangedInfoNotifyHub> { }

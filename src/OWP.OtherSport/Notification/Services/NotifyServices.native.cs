@@ -1,6 +1,7 @@
 ﻿namespace OWP.OtherSport.Notification.Services
 {
     using Microsoft.AspNetCore.SignalR;
+    using OWP.Hubs;
     using OWP.OtherSport.Hubs;
     using OWP.OtherSport.Notification.Models;
     using System;
@@ -12,7 +13,7 @@
         Task Notify(List<MessageModel> messages);
     }
 
-    public class NotifyServicesImp: NotifyServices
+    public class NotifyServicesImp : NotifyServices
     {
         private readonly IHubContext<ChangedInfoNotifyHubImp, ChangedInfoNotifyHub> notifyChangedHub;
 
@@ -33,7 +34,7 @@
 
                 await notifyChangedHub.Clients
                     .Users(message.ReceivedUserIds)
-                    .notifyChangedInfomationData(result);
+                    .notifyChangedInformationData(result);
             }
         }
     }

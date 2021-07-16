@@ -1,11 +1,11 @@
 FROM registry.nexdev.net:5050/docker/dotnet/core/sdk:5.0.102-ca-patch-buster-slim AS builder
 WORKDIR /src
-ENV TZ="America/New_York"
 
 COPY ./.sonarlint/. ./.sonarlint
 COPY ./src/OWP/. ./src/OWP
 COPY ./src/OWP.OtherSport/. ./src/OWP.OtherSport
 COPY ./src/OWP.ApiSyncWorkingShift/. ./src/OWP.ApiSyncWorkingShift
+COPY ./src/OWP.PreMatchNotification/. ./src/OWP.PreMatchNotification
 COPY ./src/OWP.Maxbet/. ./src/OWP.Maxbet
 COPY ./src/OWP.ProductAssignmentReference/. ./src/OWP.ProductAssignmentReference
 COPY ./OWP.Websites/OWP.Websites.csproj ./OWP.Websites/OWP.Websites.csproj
@@ -26,5 +26,7 @@ RUN sed -i 's/MinProtocol = TLSv1.2/MinProtocol = TLSv1/g' /usr/lib/ssl/openssl.
 
 WORKDIR /app
 COPY --from=builder /app .
+
+ENV TZ="America/La_Paz" 
 
 ENTRYPOINT ["dotnet", "OWP.Websites.dll"]
