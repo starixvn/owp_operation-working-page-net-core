@@ -15,7 +15,7 @@
             CreateMap<AssignmentModelInExcel, AssignmentModel>()
                 .ForMember(dest => dest.HashKey, opt => opt.MapFrom(src => Guid.NewGuid().ToString()))
                 .ForMember(dest => dest.DateTime, opt => opt.Ignore())
-                .IgnoreMaxbets()
+                .IgnoreMaxbetsAndSpreads()
                 .IgnoreTraders();
             CreateMap<MatchInfo, EventAssignmentModel>();
             CreateMap<MatchAssignment, ExcelMatchAssignment>();
@@ -42,7 +42,7 @@
             return expression;
         }
 
-        public static IMappingExpression<AssignmentModelInExcel, AssignmentModel> IgnoreMaxbets<AssignmentModelInExcel, AssignmentModel>
+        public static IMappingExpression<AssignmentModelInExcel, AssignmentModel> IgnoreMaxbetsAndSpreads<AssignmentModelInExcel, AssignmentModel>
             (this IMappingExpression<AssignmentModelInExcel, AssignmentModel> expression)
         {
             const BindingFlags flags = BindingFlags.Public | BindingFlags.Instance;
@@ -50,7 +50,8 @@
 
             foreach (var property in destinationProperties)
             {
-                if (property.Name.StartsWith("Maxbet", StringComparison.CurrentCultureIgnoreCase))
+                if (property.Name.StartsWith("Maxbet", StringComparison.CurrentCultureIgnoreCase) ||
+                    property.Name.StartsWith("Spread", StringComparison.CurrentCultureIgnoreCase))
                 {
                     expression.ForMember(property.Name, opt => opt.Ignore());
                 }
