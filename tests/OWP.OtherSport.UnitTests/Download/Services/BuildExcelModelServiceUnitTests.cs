@@ -77,18 +77,18 @@
                             ValueMaxbet="1234",
                             BetTypeName = Bettype.FTHDP,
                             MaxBet = 1234,
-                            Spread =10,
+                            Spread =12,
                             ColumnIndexSpread = 224,
-                            ValueSpread = "10"
+                            ValueSpread = "12"
                         },
                         new ExcelMatchMaxBetSpread {
                             ColumnIndexMaxbet=154,
                             ValueMaxbet="222.05",
                             BetTypeName = Bettype.FTOUOE,
                             MaxBet = 222.05m,
-                            Spread = 40,
+                            Spread = 13,
                             ColumnIndexSpread = 225,
-                            ValueSpread = "40"
+                            ValueSpread = "13"
                         }
                     } }
                 }
@@ -128,8 +128,8 @@
                 MatchSettings = new Dictionary<int, List<MatchSetting>>
                 {
                     { 111, new List<MatchSetting> {
-                        new MatchSetting { BetTypeName = Bettype.FTHDP, MaxBet = 1234, Spread = 10 },
-                        new MatchSetting { BetTypeName = Bettype.FTOUOE, MaxBet = 222.05m, Spread = 40 }
+                        new MatchSetting { BetTypeName = Bettype.FTHDP, MaxBet = 1234, Spread = 12 },
+                        new MatchSetting { BetTypeName = Bettype.FTOUOE, MaxBet = 222.05m, Spread = 13 }
                     } }
                 }
             };

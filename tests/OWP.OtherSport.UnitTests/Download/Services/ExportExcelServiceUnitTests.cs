@@ -84,8 +84,8 @@ namespace OWP.OtherSport.UnitTests.Download.Services
                     MaxBetSpread = new Dictionary<int, List<ExcelMatchMaxBetSpread>>
                     {
                         { 111, new List<ExcelMatchMaxBetSpread> {
-                            new ExcelMatchMaxBetSpread { ColumnIndexMaxbet=145,ValueMaxbet="1234", BetTypeName = Bettype.FTHDP, MaxBet = 1234 },
-                            new ExcelMatchMaxBetSpread { ColumnIndexMaxbet=146,ValueMaxbet="222.05", BetTypeName = Bettype.FTOUOE, MaxBet = 222.05m }
+                            new ExcelMatchMaxBetSpread { ColumnIndexMaxbet=145,ValueMaxbet="1234", BetTypeName = Bettype.FTHDP, MaxBet = 1234, ValueSpread="13", Spread=13 },
+                            new ExcelMatchMaxBetSpread { ColumnIndexMaxbet=146,ValueMaxbet="222.05", BetTypeName = Bettype.FTOUOE, MaxBet = 222.05m, ValueSpread="14", Spread=14 }
                         } }
                     }
                 }
