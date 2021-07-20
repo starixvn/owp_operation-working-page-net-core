@@ -151,9 +151,9 @@
             {
                 var excelMatchSettings = mapper.Map<ExcelMatchMaxBetSpread>(matchSetting);
                 excelMatchSettings.ColumnIndexMaxbet = GetColumnIndex(ExcelConst.MaxbetColumn, matchSetting, sport);
-                excelMatchSettings.ValueMaxbet = GetMaxbetValue(matchSetting);
+                excelMatchSettings.ValueMaxbet = GetMaxbetSpreadValue(matchSetting.MaxBet);
                 excelMatchSettings.ColumnIndexSpread = GetColumnIndex(ExcelConst.SpreadColumn, matchSetting, sport);
-                excelMatchSettings.ValueSpread = matchSetting.Spread?.ToString();
+                excelMatchSettings.ValueSpread = GetMaxbetSpreadValue(matchSetting.Spread);
                 yield return excelMatchSettings;
             }
         }
@@ -161,9 +161,8 @@
         private static int GetColumnIndex<T>(T excelColumn, MatchSetting matchSetting, string sport) where T : Dictionary<Tuple<string, string>, int>
             => excelColumn.GetValue(new Tuple<string, string>(sport, matchSetting.BetTypeName), 3);
 
-        private static string GetMaxbetValue(MatchSetting matchSetting)
-            => matchSetting
-                .MaxBet?
+        private static string GetMaxbetSpreadValue(decimal? value)
+            => value?
                     .ToString()
                         .TrimEnd('0')
                             .TrimEnd('.');
