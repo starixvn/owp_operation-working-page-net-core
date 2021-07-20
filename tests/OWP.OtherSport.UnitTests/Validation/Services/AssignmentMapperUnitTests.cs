@@ -209,7 +209,7 @@
 
             var model = new AssignmentModel();
 
-            assignmentMapper.MapMaxbets(excelModel, model);
+            assignmentMapper.MapMaxbetsAndSpreads(excelModel, model);
 
             Assert.Equal(1234.0125m, model.MaxBetBadmintonAllProductPointWinner);
             Assert.Equal(1245.1234m, model.MaxBetBaseball1H1st5inningsOU);
