@@ -37,14 +37,14 @@ namespace OWP.OtherSport.EventAssignment.Services
 
             var filterdMatches = FilterMatchesByEmployee(employee, assignmentSnapshot);
             var eventAssignments = mapper.Map<List<EventAssignmentModel>>(filterdMatches.Values);
-                       
+
             assignmentBuilder.Build(eventAssignments, assignmentSnapshot.MatchAssignments);
             matchSettingBuilder.Build(eventAssignments, assignmentSnapshot.MatchSettings);
 
             return eventAssignments;
         }
 
-        private static Dictionary<int, MatchInfo> FilterMatchesByEmployee(string employee, AssignmentSnapshot assignmentSnapshot)
+        public static Dictionary<int, MatchInfo> FilterMatchesByEmployee(string employee, AssignmentSnapshot assignmentSnapshot)
         {
             if (string.IsNullOrEmpty(employee))
             {
@@ -69,7 +69,7 @@ namespace OWP.OtherSport.EventAssignment.Services
 
         public static void RemoveInvalidNote(Dictionary<int, List<MatchAssignment>> assignments)
         {
-            foreach(var key in assignments.Keys)
+            foreach (var key in assignments.Keys)
             {
                 var assignmentList = assignments[key];
 
