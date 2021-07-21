@@ -134,7 +134,7 @@
 
             var assignmentNote = assignmentBuilder.DetectAssignment(assignment);
 
-            DeepAssert.Equal(string.Empty, assignmentNote);
+            Assert.Equal(string.Empty, assignmentNote);
         }
 
         [Fact]
@@ -147,7 +147,7 @@
 
             var assignmentNote = assignmentBuilder.DetectAssignment(assignment);
 
-            DeepAssert.Equal("#starix15 acb", assignmentNote);
+            Assert.Equal("#starix15 acb", assignmentNote);
         }
     }
 }
