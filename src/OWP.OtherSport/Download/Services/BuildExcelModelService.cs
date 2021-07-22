@@ -153,7 +153,7 @@
                 excelMatchSettings.ColumnIndexMaxbet = GetColumnIndex(ExcelConst.MaxbetColumn, matchSetting, sport);
                 excelMatchSettings.ValueMaxbet = GetMaxbetSpreadValue(matchSetting.MaxBet);
                 excelMatchSettings.ColumnIndexSpread = GetColumnIndex(ExcelConst.SpreadColumn, matchSetting, sport);
-                excelMatchSettings.ValueSpread = GetMaxbetSpreadValue(matchSetting.Spread);
+                excelMatchSettings.ValueSpread = GetMaxbetSpreadValue(matchSetting.Spread * 100);
                 yield return excelMatchSettings;
             }
         }
