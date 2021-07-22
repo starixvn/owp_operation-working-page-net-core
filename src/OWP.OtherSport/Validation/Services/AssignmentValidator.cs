@@ -162,7 +162,8 @@
 
                     if (!match.Success)
                     {
-                        results.Add(new ValidationResult($"[Column: {PropertyHelper.GetDisplayName(property)}] - Error: Invalid Maxbet format"));
+                        var colName = property.Name.Substring(0, 6);
+                        results.Add(new ValidationResult($"[Column: {PropertyHelper.GetDisplayName(property)}] - Error: Invalid {colName} format"));
                     }
                 }
             }

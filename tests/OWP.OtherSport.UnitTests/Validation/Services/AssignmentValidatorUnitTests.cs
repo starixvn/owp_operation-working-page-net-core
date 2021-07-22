@@ -231,7 +231,7 @@
         }
 
         [Fact]
-        public void ValidateMaxbet_InValidMaxbet_ResulstIsEmpt()
+        public void ValidateMaxbet_InValidMaxbetAndSpread_ResulstIsEmpt()
         {
             var actual = new List<ValidationResult>();
             var assignmentModelList = new List<AssignmentModelInExcel>
@@ -241,7 +241,8 @@
 
             var expected = new List<ValidationResult>
             {
-                new ValidationResult("[Column: Max Bet Football FT (HDP)] - Error: Invalid Maxbet format")
+                new ValidationResult("[Column: Max Bet Football FT (HDP)] - Error: Invalid MaxBet format"),
+                new ValidationResult("[Column: Spread Basketball FT (HDP)] - Error: Invalid Spread format")
             };
 
             assignmentValidator.ValidateMaxbetAndSpreadInString(assignmentModelList[0], actual);
@@ -697,7 +698,7 @@
                 MaxBetTennisNextGame = "",
                 MaxBetTennisMostAces = "",
                 MaxBetTennisMostDoubleFaults = "",
-                SpreadBasketballFTHDP = "",
+                SpreadBasketballFTHDP = maxbet,
                 SpreadBasketballFTOUOE = "",
                 SpreadBasketballFTOE = "",
                 SpreadFootballFTHDP = "",
