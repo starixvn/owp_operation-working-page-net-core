@@ -19,12 +19,12 @@ namespace OWP.OtherSport.UnitTests.Notification.Services
         {
             var oldMatchSetting = new MatchSetting
             {
-                MaxBet = 120,
+                MaxBet = Convert.ToDecimal("120.00"),
                 Spread = Convert.ToDecimal(0.32),
             };
             var newMatchSetting = new MatchSetting
             {
-                MaxBet = 11000,
+                MaxBet = Convert.ToDecimal("11000.00"),
                 Spread = Convert.ToDecimal(0.31),
             };
             var expected = new List<ChangedValue>
@@ -58,7 +58,7 @@ namespace OWP.OtherSport.UnitTests.Notification.Services
                 new MatchSetting
                 {
                     OSMatchId=123,
-                    MaxBet=12000,
+                    MaxBet=Convert.ToDecimal("11000.00"),
                     Spread= Convert.ToDecimal(0.02),
                     BetTypeName= "FT (HDP)"
                 }
@@ -68,7 +68,7 @@ namespace OWP.OtherSport.UnitTests.Notification.Services
                 new MatchSetting
                 {
                     OSMatchId=123,
-                    MaxBet=11000,
+                    MaxBet=Convert.ToDecimal("12000.00"),
                     Spread= Convert.ToDecimal(0.021),
                     BetTypeName= "FT (HDP)"
                 }
@@ -79,8 +79,8 @@ namespace OWP.OtherSport.UnitTests.Notification.Services
                 {
                     MessageTypeId=(int)MsgTemplateCode.EditMaxbet,
                     BetTypeName="FT (HDP)",
-                    OldValue="12000",
-                    NewValue="11000",
+                    OldValue="11000",
+                    NewValue="12000",
                     OSMatchId=123
                 },
                 new ChangedValue
@@ -131,14 +131,14 @@ namespace OWP.OtherSport.UnitTests.Notification.Services
                             {
                                 OSMatchId=123,
                                 BetTypeName= "FT (HDP)",
-                                MaxBet=12000,
+                                MaxBet=Convert.ToDecimal("12000.00"),
                                 Spread=Convert.ToDecimal(0.21),
                             },
                             new MatchSetting
                             {
                                 OSMatchId=123,
                                 BetTypeName= "FT (OE)",
-                                MaxBet=17000,
+                                MaxBet=Convert.ToDecimal("17000.00"),
                                 Spread=Convert.ToDecimal(0.01),
                             }
                         } }
@@ -154,14 +154,14 @@ namespace OWP.OtherSport.UnitTests.Notification.Services
                             {
                                 OSMatchId=123,
                                 BetTypeName= "FT (HDP)",
-                                MaxBet=11000,
+                                MaxBet= Convert.ToDecimal("11000.00"),
                                 Spread=Convert.ToDecimal(0.22)
                             },
                             new MatchSetting
                             {
                                 OSMatchId=123,
                                 BetTypeName= "FT (OE)",
-                                MaxBet=19000,
+                                MaxBet=Convert.ToDecimal( "19000.00"),
                                 Spread=Convert.ToDecimal(0.02),
                             }
                         } }

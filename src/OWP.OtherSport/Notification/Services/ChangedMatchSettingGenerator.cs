@@ -20,7 +20,6 @@
     public class ChangedMatchSettingGeneratorImp : ChangedMatchSettingGenerator
     {
         private const string EVENT_VS = " -vs- ";
-        private const int UNIT_CONVERT_K_TO_THOUSAND = 1000;
 
         public List<ChangedValue> Create(ChangedMatchSnapshot snapshot, int matchId, List<Assignee> existingAssignees)
         {
@@ -51,20 +50,6 @@
             }
 
             return changedValueList;
-        }
-
-        private static double? ConvertStringFormatKToNumber(string source)
-        {
-            if (string.IsNullOrWhiteSpace(source))
-            {
-                return null;
-            }
-            source = source.Replace("K", string.Empty);
-            double result;
-            var resultConvert = double.TryParse(source, out result);
-            return resultConvert
-                ? result * UNIT_CONVERT_K_TO_THOUSAND
-                : null;
         }
 
         public static IEnumerable<ChangedValue> GetListValueChangedWithDifferentBettype(List<MatchSetting> oldMatchSettings, List<MatchSetting> newMatchSettings, int matchId)
@@ -144,8 +129,8 @@
             {
                 changedValueList.Add(new ChangedValue
                 {
-                    OldValue = ConvertStringFormatKToNumber(oldMatchSetting.MaxBet.ToOWPMaxBetFormat())?.ToString(),
-                    NewValue = ConvertStringFormatKToNumber(newMatchSetting.MaxBet.ToOWPMaxBetFormat())?.ToString(),
+                    OldValue = GetMaxbetSpreadValue(oldMatchSetting.MaxBet),
+                    NewValue = GetMaxbetSpreadValue(newMatchSetting.MaxBet),
                     BetTypeName = bettype,
                     MessageTypeId = (int)MsgTemplateCode.EditMaxbet,
                     OSMatchId = matchId
@@ -164,5 +149,11 @@
             }
             return changedValueList;
         }
+
+        private static string GetMaxbetSpreadValue(decimal? value)
+        => value?
+                .ToString()
+                    .TrimEnd('0')
+                        .TrimEnd('.');
     }
 }
