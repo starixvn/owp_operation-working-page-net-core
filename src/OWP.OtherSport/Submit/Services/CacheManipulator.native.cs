@@ -77,6 +77,7 @@
         {
             var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromDays(CACHE_EXPIRED_IN_DAYS));
             var assignmentSnapshotInJson = JsonConvert.SerializeObject(info);
+            await cache.RemoveAsync(KEY_OS_UPLOAD_LAST_UPDATED);
             await cache.SetAsync(KEY_OS_UPLOAD_LAST_UPDATED, assignmentSnapshotInJson, cachePolicy);
         }
 
