@@ -54,7 +54,7 @@
 
         public async Task SaveOldAssignmentSnapshot(AssignmentSnapshot assignmentSnapshot, string sessionId)
         {
-            var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromDays(CACHE_EXPIRED_IN_DAYS));
+            var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromDays(365));
             var assignmentSnapshotInJson = JsonConvert.SerializeObject(assignmentSnapshot);
             var cacheKey = $"{KEY_OLD_OS_ASSIGNMENT_SNAPSHOT}-{sessionId}";
             await cache.SetAsync(cacheKey, assignmentSnapshotInJson, cachePolicy);
