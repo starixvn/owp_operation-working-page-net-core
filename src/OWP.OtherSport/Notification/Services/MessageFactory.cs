@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -93,37 +94,37 @@ namespace OWP.OtherSport.Notification.Services
             new MessageTemplate
             {
                  MessageType=(int)MsgTemplateCode.AssignmentInsert,
-                 MessageContent="You have NEW ASSIGNMENT <bettype> in <Match.No> - <League> - <Event> updated by <User>",
+                 MessageContent="You have NEW ASSIGNMENT <bettype> in <Match.No> - <League> - <Event> - <KOTime> updated by <User>",
                  IsImportant = true
             },
             new MessageTemplate
             {
                  MessageType=(int)MsgTemplateCode.OtherAssignmentInsert,
-                 MessageContent="You have NEW ASSIGNMENT <bettype> in <Match.No> - <League> - <Event> updated by <User>",
+                 MessageContent="You have NEW ASSIGNMENT <bettype> in <Match.No> - <League> - <Event> - <KOTime> updated by <User>",
                  IsImportant = true
             },
             new MessageTemplate
             {
                  MessageType=(int)MsgTemplateCode.AssignmentUpdate,
-                 MessageContent="UPDATED ASSIGNEE of <bettype> from <oldvalue> change to <newvalue> for <Match.No> - <League> - <Event> Updated by <User> ",
+                 MessageContent="UPDATED ASSIGNEE of <bettype> from <oldvalue> change to <newvalue> for <Match.No> - <League> - <Event> - <KOTime> Updated by <User> ",
                  IsImportant = true
             },
             new MessageTemplate
             {
                  MessageType=(int)MsgTemplateCode.OtherAssignmentUpdate,
-                 MessageContent="UPDATED ASSIGNEE of <bettype> from <oldvalue> change to <newvalue> for <Match.No> - <League> - <Event> Updated by <User> ",
+                 MessageContent="UPDATED ASSIGNEE of <bettype> from <oldvalue> change to <newvalue> for <Match.No> - <League> - <Event> - <KOTime> Updated by <User> ",
                  IsImportant = true
             },
             new MessageTemplate
             {
                  MessageType=(int)MsgTemplateCode.AssignmentDelete,
-                 MessageContent="You have been REMOVED from <Match.No> - <League> - <Event> updated by <User>",
+                 MessageContent="You have been REMOVED from <bettype> in <Match.No> - <League> - <Event> - <KOTime> updated by <User>",
                  IsImportant = true
             },
             new MessageTemplate
             {
                  MessageType=(int)MsgTemplateCode.OtherAssignmentDelete,
-                 MessageContent="You have been REMOVED from <Match.No> - <League> - <Event> updated by <User>",
+                 MessageContent="You have been REMOVED from <bettype> in <Match.No> - <League> - <Event> - <KOTime> updated by <User>",
                  IsImportant = true
             },
             new MessageTemplate
@@ -150,6 +151,7 @@ namespace OWP.OtherSport.Notification.Services
                 EventName = value.EventName;
                 MatchNo = value.MatchNo;
                 IsWatcher = value.IsWatcher;
+                EventDateTime = value.EventDateTime;
             }
 
             public string AssignmentNote { get; set; }
@@ -170,6 +172,8 @@ namespace OWP.OtherSport.Notification.Services
 
             public bool IsWatcher { get; set; }
 
+            public DateTime EventDateTime { get; set; }
+
             public bool Equals(MessageGroup x, MessageGroup y)
             {
 #pragma warning disable S1067 // Expressions should not be too complex - ignored by Jacob
@@ -180,7 +184,8 @@ namespace OWP.OtherSport.Notification.Services
                    x.OldValue == y.OldValue &&
                    x.League == y.League &&
                    x.EventName == y.EventName &&
-                   x.MatchNo == y.MatchNo;
+                   x.MatchNo == y.MatchNo &&
+                   x.EventDateTime == y.EventDateTime;
 #pragma warning restore S1067 // Expressions should not be too complex
             }
 
@@ -262,6 +267,7 @@ namespace OWP.OtherSport.Notification.Services
             content = content.Replace("<Event>", messageGroup.EventName);
             content = content.Replace("<User>", currentSession.UserName);
             content = content.Replace("<bettype>", messageGroup.BetTypeName);
+            content = content.Replace("<KOTime>", messageGroup.EventDateTime.ToString("MM/dd/yyyy hh:mm tt"));
 
             return content;
         }
