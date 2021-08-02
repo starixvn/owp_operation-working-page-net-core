@@ -1,5 +1,6 @@
 ﻿namespace OWP.OtherSport.Notification.Models
 {
+    using System;
     using System.Collections.Generic;
 
     public class ChangedValue
@@ -21,6 +22,8 @@
         public string League { get; set; }
 
         public string EventName { get; set; }
+
+        public DateTime EventDateTime { get; set; }
 
         public int OSMatchId { get; set; }
 

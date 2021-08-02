@@ -9,8 +9,12 @@
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
     <p>
         Session Is Available: @ViewBag.IsSessionAvailable. <br />
-        User Id: @ViewBag.UserId. <br />
-        Username: @ViewBag.Username. <br />
+        User Id: @ViewBag.UserId <br />
+        Username: @ViewBag.Username <br />
+        IP: @ViewBag.Ip <br />
     </p>
-    <p><a asp-area="" asp-controller="Home" asp-action="FakeLogin">Fake Login</a></p>
+    @if ((bool)ViewBag.FakeLoginEnabled)
+    {
+        <p><a asp-area="" asp-controller="Home" asp-action="FakeLogin">Fake Login</a></p>
+    }
 </div>

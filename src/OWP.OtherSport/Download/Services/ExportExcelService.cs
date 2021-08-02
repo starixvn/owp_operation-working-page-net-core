@@ -78,11 +78,11 @@
             {
                 var match = model.Matches[i];
                 var assignments = model.MatchAssignments.GetValue(match.OSMatchId, new List<ExcelMatchAssignment>());
-                var maxbets = model.MaxBet.GetValue(match.OSMatchId, new List<ExcelMatchMaxBet>());
+                var maxbetSpreads = model.MaxBetSpread.GetValue(match.OSMatchId, new List<ExcelMatchMaxBetSpread>());
 
                 BuildMatchInfo(row, match);
                 BuildTrader(row, assignments);
-                BuildMaxbet(row, maxbets);
+                BuildMatchSettings(row, maxbetSpreads);
             }
         }
 
@@ -116,11 +116,12 @@
             }
         }
 
-        private void BuildMaxbet(int row, List<ExcelMatchMaxBet> maxbets)
+        private void BuildMatchSettings(int row, List<ExcelMatchMaxBetSpread> matchSettings)
         {
-            foreach (var maxbet in maxbets)
+            foreach (var matchSetting in matchSettings)
             {
-                reportSheet.Cells[row, maxbet.ColumnIndex].Value = maxbet.Value;
+                reportSheet.Cells[row, matchSetting.ColumnIndexMaxbet].Value = matchSetting.ValueMaxbet;
+                reportSheet.Cells[row, matchSetting.ColumnIndexSpread].Value = matchSetting.ValueSpread;
             }
         }
     }

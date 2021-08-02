@@ -640,6 +640,9 @@
         [Display(Name = "Max Bet Basketball FT (OU/OE)")]
         public string MaxBetBasketballFTOUOE { get; set; }
 
+        [Display(Name = "Max Bet Basketball FT (OE)")]
+        public string MaxBetBasketballFTOE { get; set; }
+
         [Display(Name = "Max Bet Football FT (HDP)")]
         public string MaxBetFootballFTHDP { get; set; }
 
@@ -724,6 +727,9 @@
         [Display(Name = "Max Bet Volleyball Set Winner (HDP/OE)")]
         public string MaxBetVolleyballSetWinnerHDPOE { get; set; }
 
+        [Display(Name = "Max Bet Volleyball Set Winner (OE)")]
+        public string MaxBetVolleyballSetWinnerOE { get; set; }
+
         [Display(Name = "Max Bet Volleyball Sets x Point Winner (HDP)")]
         public string MaxBetVolleyballSetsXPointWinnerHDP { get; set; }
 
@@ -751,11 +757,20 @@
         [Display(Name = "Max Bet Netball FT (OU/OE)")]
         public string MaxBetNetballFTOUOE { get; set; }
 
+        [Display(Name = "Max Bet Netball FT (OE)")]
+        public string MaxBetNetballFTOE { get; set; }
+
         [Display(Name = "Max Bet Netball 1H (OU/OE)")]
         public string MaxBetNetball1HOUOE { get; set; }
 
+        [Display(Name = "Max Bet Netball 1H (OE)")]
+        public string MaxBetNetball1HOE { get; set; }
+
         [Display(Name = "Max Bet Netball 1Q & 3Q (OU/OE)")]
         public string MaxBetNetball1Q3QOUOE { get; set; }
+
+        [Display(Name = "Max Bet Netball 1Q & 3Q (OE)")]
+        public string MaxBetNetball1Q3QOE { get; set; }
 
         [Display(Name = "Max Bet Cricket Match Winner & Innings (OU)")]
         public string MaxBetCricketMatchWinnerInningsOU { get; set; }
@@ -769,8 +784,17 @@
         [Display(Name = "Max Bet Snooker Match Winner (HDP/OU)")]
         public string MaxBetSnookerMatchWinnerHDPOU { get; set; }
 
+        [Display(Name = "Max Bet Snooker Match Winner (OU)")]
+        public string MaxBetSnookerMatchWinnerOU { get; set; }
+
         [Display(Name = "Max Bet Snooker Frames Winner (HDP/OU/OE)")]
         public string MaxBetSnookerFramesWinnerHDPOUOE { get; set; }
+
+        [Display(Name = "Max Bet Snooker Frames Winner (OU)")]
+        public string MaxBetSnookerFramesWinnerOU { get; set; }
+
+        [Display(Name = "Max Bet Snooker Frames Winner (OE)")]
+        public string MaxBetSnookerFramesWinnerOE { get; set; }
 
         [Display(Name = "Max Bet Snooker First 5 Frames (HDP)")]
         public string MaxBetSnookerFirst5FramesHDP { get; set; }
@@ -822,5 +846,218 @@
 
         [Display(Name = "Max Bet Tennis Most Double Faults")]
         public string MaxBetTennisMostDoubleFaults { get; set; }
+
+        [Display(Name = "Spread Basketball FT (HDP)")]
+        public string SpreadBasketballFTHDP { get; set; }
+
+        [Display(Name = "Spread Basketball FT (OU/OE)")]
+        public string SpreadBasketballFTOUOE { get; set; }
+
+        [Display(Name = "Spread Basketball FT (OE)")]
+        public string SpreadBasketballFTOE { get; set; }
+
+        [Display(Name = "Spread Football FT (HDP)")]
+        public string SpreadFootballFTHDP { get; set; }
+
+        [Display(Name = "Spread Football 1H (HDP)")]
+        public string SpreadFootball1HHDP { get; set; }
+
+        [Display(Name = "Spread Football 1Q & 3Q (HDP)")]
+        public string SpreadFootball1Q3QHDP { get; set; }
+
+        [Display(Name = "Spread Football FT (OU)")]
+        public string SpreadFootballFTOU { get; set; }
+
+        [Display(Name = "Spread Football 1H (OU)")]
+        public string SpreadFootball1HOU { get; set; }
+
+        [Display(Name = "Spread Football 1Q & 3Q (OU)")]
+        public string SpreadFootball1Q3QOU { get; set; }
+
+        [Display(Name = "Spread Field Hockey FT (HDP)")]
+        public string SpreadFieldHockeyFTHDP { get; set; }
+
+        [Display(Name = "Spread Field Hockey 1H (HDP)")]
+        public string SpreadFieldHockey1HHDP { get; set; }
+
+        [Display(Name = "Spread Field Hockey 1Q (HDP)")]
+        public string SpreadFieldHockey1QHDP { get; set; }
+
+        [Display(Name = "Spread Field Hockey FT (O/U)")]
+        public string SpreadFieldHockeyFTOU { get; set; }
+
+        [Display(Name = "Spread Field Hockey 1H (O/U)")]
+        public string SpreadFieldHockey1HOU { get; set; }
+
+        [Display(Name = "Spread Field Hockey 1Q (OU)")]
+        public string SpreadFieldHockey1QOU { get; set; }
+
+        [Display(Name = "Spread Ice Hockey FT (HDP)")]
+        public string SpreadIceHockeyFTHDP { get; set; }
+
+        [Display(Name = "Spread Ice Hockey 1st-2nd Periods (HDP)")]
+        public string SpreadIceHockey1st2ndPeriodsHDP { get; set; }
+
+        [Display(Name = "Spread Ice Hockey FT (O/U)")]
+        public string SpreadIceHockeyFTOU { get; set; }
+
+        [Display(Name = "Spread Ice Hockey 1st-2nd Periods (OU)")]
+        public string SpreadIceHockey1st2ndPeriodsOU { get; set; }
+
+        [Display(Name = "Spread Other Sports Match Winner")]
+        public string SpreadOtherSportsMatchWinner { get; set; }
+
+        [Display(Name = "Spread Other Sports FT (HDP)")]
+        public string SpreadOtherSportsFTHDP { get; set; }
+
+        [Display(Name = "Spread Other Sports 1H (HDP)")]
+        public string SpreadOtherSports1HHDP { get; set; }
+
+        [Display(Name = "Spread Other Sports FT (O/U)")]
+        public string SpreadOtherSportsFTOU { get; set; }
+
+        [Display(Name = "Spread Other Sports 1H (O/U)")]
+        public string SpreadOtherSports1HOU { get; set; }
+
+        [Display(Name = "Spread Darts Legs (HDP)")]
+        public string SpreadDartsLegsHDP { get; set; }
+
+        [Display(Name = "Spread Darts Most 180s (HDP)")]
+        public string SpreadDartsMost180sHDP { get; set; }
+
+        [Display(Name = "Spread Pool Match Winner (HDP)")]
+        public string SpreadPoolMatchWinnerHDP { get; set; }
+
+        [Display(Name = "Spread Pool Racks Winner (HDP)")]
+        public string SpreadPoolRacksWinnerHDP { get; set; }
+
+        [Display(Name = "Spread Table Tennis Set Winner (HDP)")]
+        public string SpreadTableTennisSetWinnerHDP { get; set; }
+
+        [Display(Name = "Spread Table Tennis Set x Winner (HDP)")]
+        public string SpreadTableTennisSetXWinnerHDP { get; set; }
+
+        [Display(Name = "Spread Volleyball Set Winner (HDP/OE)")]
+        public string SpreadVolleyballSetWinnerHDPOE { get; set; }
+
+        [Display(Name = "Spread Volleyball Set Winner (OE)")]
+        public string SpreadVolleyballSetWinnerOE { get; set; }
+
+        [Display(Name = "Spread Volleyball Sets x Point Winner (HDP)")]
+        public string SpreadVolleyballSetsXPointWinnerHDP { get; set; }
+
+        [Display(Name = "Spread Handball FT (HDP)")]
+        public string SpreadHandballFTHDP { get; set; }
+
+        [Display(Name = "Spread Handball 1H (HDP)")]
+        public string SpreadHandball1HHDP { get; set; }
+
+        [Display(Name = "Spread Handball FT (O/U)")]
+        public string SpreadHandballFTOU { get; set; }
+
+        [Display(Name = "Spread Handball 1H (O/U)")]
+        public string SpreadHandball1HOU { get; set; }
+
+        [Display(Name = "Spread Netball FT (HDP)")]
+        public string SpreadNetballFTHDP { get; set; }
+
+        [Display(Name = "Spread Netball 1H (HDP)")]
+        public string SpreadNetball1HHDP { get; set; }
+
+        [Display(Name = "Spread Netball 1Q & 3Q (HDP)")]
+        public string SpreadNetball1Q3QHDP { get; set; }
+
+        [Display(Name = "Spread Netball FT (OU/OE)")]
+        public string SpreadNetballFTOUOE { get; set; }
+
+        [Display(Name = "Spread Netball FT (OE)")]
+        public string SpreadNetballFTOE { get; set; }
+
+        [Display(Name = "Spread Netball 1H (OU/OE)")]
+        public string SpreadNetball1HOUOE { get; set; }
+
+        [Display(Name = "Spread Netball 1H (OE)")]
+        public string SpreadNetball1HOE { get; set; }
+
+        [Display(Name = "Spread Netball 1Q & 3Q (OU/OE)")]
+        public string SpreadNetball1Q3QOUOE { get; set; }
+
+        [Display(Name = "Spread Netball 1Q & 3Q (OE)")]
+        public string SpreadNetball1Q3QOE { get; set; }
+
+        [Display(Name = "Spread Cricket Match Winner & Innings (OU)")]
+        public string SpreadCricketMatchWinnerInningsOU { get; set; }
+
+        [Display(Name = "Spread Cricket Next Over (OU) & Player (OU)")]
+        public string SpreadCricketNextOverOUPlayerOU { get; set; }
+
+        [Display(Name = "Spread Cricket FT 1X2")]
+        public string SpreadCricketFT1X2 { get; set; }
+
+        [Display(Name = "Spread Snooker Match Winner (HDP/OU)")]
+        public string SpreadSnookerMatchWinnerHDPOU { get; set; }
+
+        [Display(Name = "Spread Snooker Match Winner (OU)")]
+        public string SpreadSnookerMatchWinnerOU { get; set; }
+
+        [Display(Name = "Spread Snooker Frames Winner (HDP/OU/OE)")]
+        public string SpreadSnookerFramesWinnerHDPOUOE { get; set; }
+
+        [Display(Name = "Spread Snooker Frames Winner (OU)")]
+        public string SpreadSnookerFramesWinnerOU { get; set; }
+
+        [Display(Name = "Spread Snooker Frames Winner (OE)")]
+        public string SpreadSnookerFramesWinnerOE { get; set; }
+
+        [Display(Name = "Spread Snooker First 5 Frames (HDP)")]
+        public string SpreadSnookerFirst5FramesHDP { get; set; }
+
+        [Display(Name = "Spread Snooker First 8 Frames (HDP)")]
+        public string SpreadSnookerFirst8FramesHDP { get; set; }
+
+        [Display(Name = "Spread Snooker First 9 Frames (HDP)")]
+        public string SpreadSnookerFirst9FramesHDP { get; set; }
+
+        [Display(Name = "Spread Baseball FT Run Line (HDP)")]
+        public string SpreadBaseballFTRunLineHDP { get; set; }
+
+        [Display(Name = "Spread Baseball 1H 1st 5 innings (HDP)")]
+        public string SpreadBaseball1H1st5inningsHDP { get; set; }
+
+        [Display(Name = "Spread Baseball FT Total Run (OU)")]
+        public string SpreadBaseballFTTotalRunOU { get; set; }
+
+        [Display(Name = "Spread Baseball 1H 1st 5 innings (OU)")]
+        public string SpreadBaseball1H1st5inningsOU { get; set; }
+
+        [Display(Name = "Spread Baseball Inning Hits & Runs")]
+        public string SpreadBaseballInningHitsRuns { get; set; }
+
+        [Display(Name = "Spread Badminton All Product (Set Winner)")]
+        public string SpreadBadmintonAllProductSetWinner { get; set; }
+
+        [Display(Name = "Spread Badminton All Product (Point Winner)")]
+        public string SpreadBadmintonAllProductPointWinner { get; set; }
+
+        [Display(Name = "Spread Badminton Race to Points (7, 9, 11)")]
+        public string SpreadBadmintonRacetoPoints7911 { get; set; }
+
+        [Display(Name = "Spread Badminton Next Point Winner")]
+        public string SpreadBadmintonNextPointWinner { get; set; }
+
+        [Display(Name = "Spread Badminton Match Handicap")]
+        public string SpreadBadmintonMatchHandicap { get; set; }
+
+        [Display(Name = "Spread Tennis All Product (LS)")]
+        public string SpreadTennisAllProductLS { get; set; }
+
+        [Display(Name = "Spread Tennis Next Game")]
+        public string SpreadTennisNextGame { get; set; }
+
+        [Display(Name = "Spread Tennis Most Aces")]
+        public string SpreadTennisMostAces { get; set; }
+
+        [Display(Name = "Spread Tennis Most Double Faults")]
+        public string SpreadTennisMostDoubleFaults { get; set; }
     }
 }

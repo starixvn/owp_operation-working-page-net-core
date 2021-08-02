@@ -54,13 +54,13 @@
                 EventDates = eventDates
             };
 
-            var (firstResultSet, secondResultSet, thirdResultSet) = await repository.FetchMultipleAsync<MatchInfo, MatchAssignment, MatchMaxBet>(criteria);
+            var (firstResultSet, secondResultSet, thirdResultSet) = await repository.FetchMultipleAsync<MatchInfo, MatchAssignment, MatchSetting>(criteria);
 
             return new AssignmentSnapshot
             {
                 Matches = firstResultSet.ToDictionary(m => m.OSMatchId),
                 MatchAssignments = secondResultSet.GroupBy(a => a.OSMatchId).ToDictionary(a => a.Key, a => a.ToList()),
-                MaxBet = thirdResultSet.GroupBy(a => a.OSMatchId).ToDictionary(a => a.Key, a => a.ToList())
+                MatchSettings = thirdResultSet.GroupBy(a => a.OSMatchId).ToDictionary(a => a.Key, a => a.ToList())
             };
         }
 
@@ -89,7 +89,7 @@
 
             await Task.WhenAll(
                 InsertOrUpdateMatchAssignment(newAssignments, assignmentMaxbets, newMatchIdsInString),
-                InsertOrUpdateMaxBet(newAssignments, assignmentMaxbets, newMatchIdsInString),
+                InsertOrUpdateMaxBetSpread(newAssignments, assignmentMaxbets, newMatchIdsInString),
                 DeleteOldMatches(deletedMatchIdsInString));
         }
 
@@ -116,12 +116,12 @@
             await repository.ExecuteAsync(command);
         }
 
-        public async Task InsertOrUpdateMaxBet(List<AssignmentModel> assignments, Dictionary<int, List<AssignmentMaxbet>> assignmentMaxbets, string newMatchIdsInString)
+        public async Task InsertOrUpdateMaxBetSpread(List<AssignmentModel> assignments, Dictionary<int, List<AssignmentMaxbet>> assignmentMaxbets, string newMatchIdsInString)
         {
-            var maxBets = assignments.Select(a => assignmentAnalyzer.GetMaxBets(a, assignmentMaxbets[a.OSMatchId])).SelectMany(a => a);
+            var maxBetSpreads = assignments.Select(a => assignmentAnalyzer.GetMaxBets(a, assignmentMaxbets[a.OSMatchId])).SelectMany(a => a);
             var command = new InsertOrUpdateMaxBetCommand
             {
-                MaxBets = XmlConverter.Serialize(maxBets),
+                MaxBets = XmlConverter.Serialize(maxBetSpreads),
                 MatchIds = newMatchIdsInString
             };
 

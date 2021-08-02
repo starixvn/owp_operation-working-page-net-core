@@ -52,7 +52,8 @@
                 UserId = assignment.UserId,
                 Username = assignment.Username,
                 AssignmentType = assignment.AssignmentType,
-                AssignmentNote = assignment.AssignmentNote
+                AssignmentNote = assignment.AssignmentNote,
+                EventDateTime = match.DateTime
             };
         }
     }

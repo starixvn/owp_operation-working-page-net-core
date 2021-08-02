@@ -10,7 +10,7 @@
     {
         List<MatchAssignment> GetAllAssignmentsOfMatch(AssignmentModel assignment, List<AssignmentMaxbet> assignmentMaxbets);
 
-        List<MatchMaxBet> GetMaxBets(AssignmentModel assignment, List<AssignmentMaxbet> assignmentMaxbets);
+        List<MatchSetting> GetMaxBets(AssignmentModel assignment, List<AssignmentMaxbet> assignmentMaxbets);
 
         string DetectOldMatchIds(List<int> oldMatchIds, List<int> newMatchIds);
 
@@ -32,15 +32,16 @@
             return matchAssignments.Where(a => a.UserId > 0 || !string.IsNullOrWhiteSpace(a.AssignmentNote)).ToList();
         }
 
-        public List<MatchMaxBet> GetMaxBets(AssignmentModel assignment, List<AssignmentMaxbet> assignmentMaxbets)
+        public List<MatchSetting> GetMaxBets(AssignmentModel assignment, List<AssignmentMaxbet> assignmentMaxbets)
         {
-            var matchMaxBets = new List<MatchMaxBet>();
+            var matchMaxBets = new List<MatchSetting>();
             foreach (var assignmentMaxbet in assignmentMaxbets)
             {
-                matchMaxBets.Add(GetMaxBetByBettype(assignment.OSMatchId, assignmentMaxbet.Bettype, assignmentMaxbet.MaxBet));
+                matchMaxBets.Add(GetMaxBetByBettype(assignment.OSMatchId, assignmentMaxbet));
             }
 
-            return matchMaxBets.Where(a => a.MaxBet != null && a.MaxBet != 0).ToList();
+            return matchMaxBets.Where(a => (a.MaxBet != null && a.MaxBet != 0) ||
+                                           (a.Spread.HasValue && a.Spread.Value != 0)).ToList();
         }
 
         public static MatchAssignment GetAssignmentByBettype(int matchId, AssignmentMaxbet assignmentMaxbet)
@@ -87,13 +88,14 @@
             };
         }
 
-        public static MatchMaxBet GetMaxBetByBettype(int matchId, string bettype, decimal? maxbet)
+        public static MatchSetting GetMaxBetByBettype(int matchId, AssignmentMaxbet assignmentMaxbet)
         {
-            return new MatchMaxBet
+            return new MatchSetting
             {
                 OSMatchId = matchId,
-                BetTypeName = bettype,
-                MaxBet = maxbet
+                BetTypeName = assignmentMaxbet.Bettype,
+                MaxBet = assignmentMaxbet.MaxBet,
+                Spread = assignmentMaxbet.Spread
             };
         }
 

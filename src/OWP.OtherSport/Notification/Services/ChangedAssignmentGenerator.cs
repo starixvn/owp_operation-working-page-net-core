@@ -70,7 +70,8 @@
                     League = match.League,
                     EventName = match.Home + EVENT_VS + match.Away,
                     UserId = assignment.UserId,
-                    Username = assignment.Username
+                    Username = assignment.Username,
+                    EventDateTime = match.DateTime
                 };
             }
         }
@@ -107,7 +108,8 @@
                     League = match.League,
                     EventName = match.Home + EVENT_VS + match.Away,
                     UserId = assignment.UserId,
-                    Username = assignment.Username
+                    Username = assignment.Username,
+                    EventDateTime = match.DateTime
                 };
             }
         }
@@ -137,7 +139,8 @@
                 Username = assignee.AssigneeName,
                 AssignmentType = changedValue.AssignmentType,
                 AssignmentNote = changedValue.AssignmentNote,
-                IsIndirectChangedAssignment = true
+                IsIndirectChangedAssignment = true,
+                EventDateTime = changedValue.EventDateTime
             };
         }
 

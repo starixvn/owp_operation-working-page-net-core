@@ -25,14 +25,18 @@
     {
         private readonly CommandRepository commandRepository;
 
-        public Handler(CommandRepository commandRepository)
+        private readonly EventAssignmentBuilder eventAssignmentBuilder;
+
+        public Handler(CommandRepository commandRepository, EventAssignmentBuilder assignmentBuilder)
         {
             this.commandRepository = commandRepository;
+            this.eventAssignmentBuilder = assignmentBuilder;
         }
 
         public async Task<IEnumerable<EventAssignmentModel>> Handle(QueryEventAssignmentRequest request, CancellationToken cancellationToken)
         {
-            return await commandRepository.Query(request);
+            var assignmentSnapshot = await commandRepository.Query(request);
+            return eventAssignmentBuilder.Build(assignmentSnapshot, request.Employee);
         }
     }
 }

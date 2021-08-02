@@ -58,13 +58,13 @@
             assignmentSnapshot.Matches = FilterMatchesByEmployee(request.Employee, assignmentSnapshot);
 
             var matchAssignments = BuildTraders(assignmentSnapshot);
-            var matchMaxbets = BuildMaxbets(assignmentSnapshot);
+            var matchMaxbets = BuildMatchSettings(assignmentSnapshot);
 
             return new ExcelAssignmentModel
             {
-                Matches = assignmentSnapshot.Matches.Values.OrderBy(m=>m.MatchNo).ToList(),
+                Matches = assignmentSnapshot.Matches.Values.OrderBy(m => m.MatchNo).ToList(),
                 MatchAssignments = matchAssignments,
-                MaxBet = matchMaxbets
+                MaxBetSpread = matchMaxbets
             };
         }
 
@@ -129,15 +129,15 @@
                     ? assignment.AssignmentNote?.Replace("<user>", assignment.Username)
                     : assignment.AssignmentNote?.Replace("#<user>", "");
 
-        public Dictionary<int, List<ExcelMatchMaxBet>> BuildMaxbets(AssignmentSnapshot assignmentSnapshot)
+        public Dictionary<int, List<ExcelMatchMaxBetSpread>> BuildMatchSettings(AssignmentSnapshot assignmentSnapshot)
         {
-            var matchMaxbets = new Dictionary<int, List<ExcelMatchMaxBet>>();
+            var matchMaxbets = new Dictionary<int, List<ExcelMatchMaxBetSpread>>();
 
             foreach (var key in assignmentSnapshot.Matches.Keys)
             {
                 var sport = assignmentSnapshot.Matches[key].Sport;
-                var maxbets = assignmentSnapshot.MaxBet.GetValue(key, new List<MatchMaxBet>());
-                var excelAssignments = BuildMaxbet(sport, maxbets);
+                var maxbets = assignmentSnapshot.MatchSettings.GetValue(key, new List<MatchSetting>());
+                var excelAssignments = BuildMatchSetting(sport, maxbets);
 
                 matchMaxbets.Add(key, excelAssignments.ToList());
             }
@@ -145,22 +145,26 @@
             return matchMaxbets;
         }
 
-        private IEnumerable<ExcelMatchMaxBet> BuildMaxbet(string sport, List<MatchMaxBet> maxbets)
+        private IEnumerable<ExcelMatchMaxBetSpread> BuildMatchSetting(string sport, List<MatchSetting> matchSettings)
         {
-            foreach (var maxbet in maxbets)
+            foreach (var matchSetting in matchSettings)
             {
-                var excelMaxbets = mapper.Map<ExcelMatchMaxBet>(maxbet);
-                excelMaxbets.ColumnIndex = GetMaxBetColumnIndex(maxbet, sport);
-                excelMaxbets.Value = GetMaxbetValue(maxbet);
-
-                yield return excelMaxbets;
+                var excelMatchSettings = mapper.Map<ExcelMatchMaxBetSpread>(matchSetting);
+                excelMatchSettings.ColumnIndexMaxbet = GetColumnIndex(ExcelConst.MaxbetColumn, matchSetting, sport);
+                excelMatchSettings.ValueMaxbet = GetMaxbetSpreadValue(matchSetting.MaxBet);
+                excelMatchSettings.ColumnIndexSpread = GetColumnIndex(ExcelConst.SpreadColumn, matchSetting, sport);
+                excelMatchSettings.ValueSpread = GetMaxbetSpreadValue(matchSetting.Spread * 100);
+                yield return excelMatchSettings;
             }
         }
 
-        private static int GetMaxBetColumnIndex(MatchMaxBet maxbet, string sport)
-            => ExcelConst.MaxbetColumn.GetValue(new Tuple<string, string>(sport, maxbet.BetTypeName), 3);
+        private static int GetColumnIndex<T>(T excelColumn, MatchSetting matchSetting, string sport) where T : Dictionary<Tuple<string, string>, int>
+            => excelColumn.GetValue(new Tuple<string, string>(sport, matchSetting.BetTypeName), 3);
 
-        private static string GetMaxbetValue(MatchMaxBet maxbet)
-            => maxbet.MaxBet.ToString().TrimEnd('0').TrimEnd('.');
+        private static string GetMaxbetSpreadValue(decimal? value)
+            => value?
+                    .ToString()
+                        .TrimEnd('0')
+                            .TrimEnd('.');
     }
 }

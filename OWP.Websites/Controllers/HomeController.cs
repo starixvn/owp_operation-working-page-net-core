@@ -1,4 +1,11 @@
-﻿using Fanex.NAP.Client.Helpers.Web;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net;
+using System.Net.Sockets;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using Fanex.NAP.Client.Helpers.Web;
 using Fanex.NAP.Client.Models.ParameterObject;
 using Fanex.NAP.Client.Services;
 using Microsoft.AspNetCore.Authentication;
@@ -7,11 +14,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OWP.Websites.Models;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace OWP.Websites.Controllers
 {
@@ -30,7 +32,45 @@ namespace OWP.Websites.Controllers
             ViewBag.IsSessionAvailable = HttpContext.Session.IsAvailable;
             ViewBag.UserId = session.UserId;
             ViewBag.Username = session.UserName;
+            ViewBag.Ip = GetIp();
+            ViewBag.FakeLoginEnabled = false;
+#if DEBUG
+            ViewBag.FakeLoginEnabled = true;
+#endif
             return View();
+        }
+
+        private string GetIp()
+        {
+            var hostname = Dns.GetHostName();
+            var log = $"Hostname: {hostname}. ";
+            IPHostEntry hostEntry = null;
+            try
+            {
+                hostEntry = Dns.GetHostEntry(hostname);
+            }
+            catch (Exception e)
+            {
+                log += $"Error when get host entry: {e.Message}. ";
+            }
+
+            var ip = GetMachineIp(hostEntry);
+            log += $"IP:{ip}. ";
+
+            return log;
+        }
+
+        private static string GetMachineIp(IPHostEntry hostEntry)
+        {
+            foreach (var ip in hostEntry.AddressList)
+            {
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    return ip.ToString();
+                }
+            }
+
+            return "1.1.1.1";
         }
 
         [AllowAnonymous]

@@ -15,23 +15,27 @@ namespace OWP.OtherSport.Download.Models
     {
         public List<MatchInfo> Matches { get; set; }
 
-        public Dictionary<int, List<ExcelMatchMaxBet>> MaxBet { get; set; }
+        public Dictionary<int, List<ExcelMatchMaxBetSpread>> MaxBetSpread { get; set; }
 
         public Dictionary<int, List<ExcelMatchAssignment>> MatchAssignments { get; set; }
 
         public ExcelAssignmentModel()
         {
             Matches = new List<MatchInfo>();
-            MaxBet = new Dictionary<int, List<ExcelMatchMaxBet>>();
+            MaxBetSpread = new Dictionary<int, List<ExcelMatchMaxBetSpread>>();
             MatchAssignments = new Dictionary<int, List<ExcelMatchAssignment>>();
         }
     }
 
-    public class ExcelMatchMaxBet: MatchMaxBet
+    public class ExcelMatchMaxBetSpread: MatchSetting
     {
-        public int ColumnIndex { get; set; }
+        public int ColumnIndexMaxbet { get; set; }
 
-        public string Value { get; set; }
+        public string ValueMaxbet { get; set; }
+
+        public int ColumnIndexSpread { get; set; }
+
+        public string ValueSpread { get; set; }
     }
 
     public class ExcelMatchAssignment : MatchAssignment

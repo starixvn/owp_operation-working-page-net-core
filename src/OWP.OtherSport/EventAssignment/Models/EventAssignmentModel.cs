@@ -43,6 +43,6 @@
 
         public string Remark { get; set; }
 
-        public IList<TraderMaxBetModel> TraderMaxbetModels { get; set; } = new List<TraderMaxBetModel>();
+        public List<TraderMaxBetModel> TraderMaxbetModels { get; set; } = new List<TraderMaxBetModel>();
     }
 }

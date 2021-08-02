@@ -29,7 +29,7 @@
 
         private static void ValidateDataLength(ExcelWorksheet sheet)
         {
-            if ((sheet.Dimension.End.Row  - 1) > ExcelDataLength.MaximumDataLength)
+            if ((sheet.Dimension.End.Row - 1) > ExcelDataLength.MaximumDataLength)
             {
                 throw new DataLengthExceedsMaximumException();
             }
@@ -38,9 +38,8 @@
         private static void ValidateHeaders(ExcelWorksheet sheet)
         {
             var headerMap = sheet.GetHeaderMap();
-            var anyInvalidHeaderColumnIndex = headerMap.Any(i => i.Value <= 0);
-            
-            if (anyInvalidHeaderColumnIndex)
+            var res = headerMap.Where(x => x.Value <= 0).ToList();
+            if (headerMap.Any(i => i.Value <= 0))
             {
                 throw new InvalidExcelFormatException();
             }

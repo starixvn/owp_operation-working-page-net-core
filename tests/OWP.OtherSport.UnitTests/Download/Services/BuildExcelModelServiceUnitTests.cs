@@ -24,7 +24,7 @@
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<MatchAssignment, ExcelMatchAssignment>();
-                cfg.CreateMap<MatchMaxBet, ExcelMatchMaxBet>();
+                cfg.CreateMap<MatchSetting, ExcelMatchMaxBetSpread>();
             });
             var iMapper = config.CreateMapper();
             commandRepository = Substitute.For<CommandRepository>();
@@ -37,7 +37,7 @@
         {
             var request = new DownloadAssignmentRequest
             {
-                From = new DateTime(2021,03,25),
+                From = new DateTime(2021, 03, 25),
                 To = new DateTime(2021, 03, 25),
                 Employee = "sa",
                 Sports = "Basketball",
@@ -69,11 +69,27 @@
                             UserId = 123, Username="starix15", AssignmentNote = "#<user> mynote" }
                     } }
                 },
-                MaxBet = new Dictionary<int, List<ExcelMatchMaxBet>>
+                MaxBetSpread = new Dictionary<int, List<ExcelMatchMaxBetSpread>>
                 {
-                    { 111, new List<ExcelMatchMaxBet> {
-                        new ExcelMatchMaxBet { ColumnIndex=153,Value="1234", BetTypeName = Bettype.FTHDP, MaxBet = 1234 },
-                        new ExcelMatchMaxBet { ColumnIndex=154,Value="222.05", BetTypeName = Bettype.FTOUOE, MaxBet = 222.05m }
+                    { 111, new List<ExcelMatchMaxBetSpread> {
+                        new ExcelMatchMaxBetSpread {
+                            ColumnIndexMaxbet=153,
+                            ValueMaxbet="1234",
+                            BetTypeName = Bettype.FTHDP,
+                            MaxBet = 1234,
+                            Spread =12,
+                            ColumnIndexSpread = 224,
+                            ValueSpread = "12"
+                        },
+                        new ExcelMatchMaxBetSpread {
+                            ColumnIndexMaxbet=154,
+                            ValueMaxbet="222.05",
+                            BetTypeName = Bettype.FTOUOE,
+                            MaxBet = 222.05m,
+                            Spread = 13,
+                            ColumnIndexSpread = 225,
+                            ValueSpread = "13"
+                        }
                     } }
                 }
             };
@@ -85,7 +101,7 @@
             Assert.Equal(expectedAssignments.Matches.Count, actual.ExcelAssignmentModels.Matches.Count);
             DeepAssert.Equal(expectedAssignments.Matches, actual.ExcelAssignmentModels.Matches);
             DeepAssert.Equal(expectedAssignments.MatchAssignments, actual.ExcelAssignmentModels.MatchAssignments);
-            DeepAssert.Equal(expectedAssignments.MaxBet, actual.ExcelAssignmentModels.MaxBet);
+            DeepAssert.Equal(expectedAssignments.MaxBetSpread, actual.ExcelAssignmentModels.MaxBetSpread);
         }
 
         public AssignmentSnapshot GetAssignmentSnapshot()
@@ -109,11 +125,11 @@
                         new MatchAssignment { AssignmentType = 1, BetTypeName = Bettype.FTHDP, UserId = 2228, Username="tr", Nickname="abc" },
                     } }
                 },
-                MaxBet = new Dictionary<int, List<MatchMaxBet>>
+                MatchSettings = new Dictionary<int, List<MatchSetting>>
                 {
-                    { 111, new List<MatchMaxBet> {
-                        new MatchMaxBet { BetTypeName = Bettype.FTHDP, MaxBet = 1234 },
-                        new MatchMaxBet { BetTypeName = Bettype.FTOUOE, MaxBet = 222.05m }
+                    { 111, new List<MatchSetting> {
+                        new MatchSetting { BetTypeName = Bettype.FTHDP, MaxBet = 1234, Spread = 12 },
+                        new MatchSetting { BetTypeName = Bettype.FTOUOE, MaxBet = 222.05m, Spread = 13 }
                     } }
                 }
             };

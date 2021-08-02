@@ -29,7 +29,7 @@
 
         void MapTradersWithNote(AssignmentModelInExcel excelModel, AssignmentModel model);
 
-        void MapMaxbets(AssignmentModelInExcel excelModel, AssignmentModel model);
+        void MapMaxbetsAndSpreads(AssignmentModelInExcel excelModel, AssignmentModel model);
 
         void MapStatus(AssignmentModelInExcel excelModel, AssignmentModel model);
     }
@@ -58,7 +58,7 @@
 
             MapDateTime(excelModel, model);
             MapTradersWithNote(excelModel, model);
-            MapMaxbets(excelModel, model);
+            MapMaxbetsAndSpreads(excelModel, model);
             MapStatus(excelModel, model);
 
             return model;
@@ -87,13 +87,14 @@
             }
         }
 
-        public void MapMaxbets(AssignmentModelInExcel excelModel, AssignmentModel model)
+        public void MapMaxbetsAndSpreads(AssignmentModelInExcel excelModel, AssignmentModel model)
         {
             var properties = typeof(AssignmentModelInExcel).GetProperties();
 
             foreach (var prop in properties)
             {
-                if (prop.Name.StartsWith("MaxBet", StringComparison.CurrentCultureIgnoreCase))
+                if (prop.Name.StartsWith("MaxBet", StringComparison.CurrentCultureIgnoreCase) ||
+                    prop.Name.StartsWith("Spread", StringComparison.CurrentCultureIgnoreCase))
                 {
                     var property = GetProperty(model, prop.Name);
                     var maxbetValueInExcel = prop.GetValue(excelModel)?.ToString() ?? string.Empty;
