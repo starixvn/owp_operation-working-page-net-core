@@ -35,5 +35,13 @@ namespace OWP.Maxbet
 
             return Ok(maxbetInfo);
         }
+
+        [HttpGet]
+        [Route("{matchId}/{subType}")]
+        [Produces("application/json")]
+        public async Task<IActionResult> GetSpacialProduct(int matchId, int subType)
+        {
+            return Ok();
+        }
     }
 }
