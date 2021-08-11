@@ -1,16 +1,22 @@
 ﻿using MediatR;
+using Olympus.OWP.Constants;
 using OWP.Maxbet.Builder;
 using OWP.Maxbet.Handlers;
 using OWP.Maxbet.Models;
+using OWP.Maxbet.Selector;
 using System.Threading.Tasks;
 
 namespace OWP.Maxbet.Services
 {
     public interface MaxbetService
     {
+        public Task<MaxbetInfo> GetSpecialProductInfo(int owpMatchId, int adminsiteId, int bettypeId);
+
         public Task<MaxbetInfo> GetMaxbetInfo(int owpMatchId, int adminsiteId);
 
         public Task<int> GetMatchIdByAdminSiteId(int adminsiteId);
+
+        public Task<int> GetMatchIdByAdminSiteId(int adminsiteId, int bettypeId);
     }
 
     public class MaxbetServiceImp : MaxbetService
@@ -25,22 +31,52 @@ namespace OWP.Maxbet.Services
 
         private readonly IMediator mediator;
 
+        private readonly SpecialProductSelector specialProductSelector;
+
         public MaxbetServiceImp(
             MaxbetReposiory syncMaxbetReposiory,
             TraderAssignmentBuilder traderAssignmentBuilder,
             SpreadBuilder spreadBuilder,
             MaxbetBuilder maxbetBuilder,
-            IMediator mediator)
+            IMediator mediator,
+            SpecialProductSelector specialProductSelector)
         {
             this.syncMaxbetReposiory = syncMaxbetReposiory;
             this.traderAssignmentBuilder = traderAssignmentBuilder;
             this.spreadBuilder = spreadBuilder;
             this.maxbetBuilder = maxbetBuilder;
             this.mediator = mediator;
+            this.specialProductSelector = specialProductSelector;
         }
 
         public async Task<int> GetMatchIdByAdminSiteId(int adminsiteId)
             => await syncMaxbetReposiory.GetMatchIdByAdminSiteId(adminsiteId);
+
+        public async Task<int> GetMatchIdByAdminSiteId(int adminsiteId, int bettypeId)
+            => await syncMaxbetReposiory.GetMatchIdByAdminSiteId(adminsiteId, bettypeId);
+
+        public async Task<MaxbetInfo> GetSpecialProductInfo(int owpMatchId, int adminsiteId, int bettypeId)
+        {
+            var traders = await specialProductSelector.SelectTrader(owpMatchId, bettypeId);
+            var spread = await specialProductSelector.SelectSpread(owpMatchId, bettypeId);
+            var maxbet = await specialProductSelector.SelectMaxbet(owpMatchId, bettypeId);
+            var maxbetCN88 = new MaxbetSpread
+            {
+                FirstHalfHandicap = 0,
+                FirstHalfOverUnder = 0,
+                Handicap = 0,
+                OverUnder = 0
+            };
+
+            return new MaxbetInfo
+            {
+                AdminsiteID = adminsiteId,
+                Traders = traders,
+                Spread = spread,
+                Maxbet = maxbet,
+                MaxbetCN88 = maxbetCN88,
+            };
+        }
 
         public async Task<MaxbetInfo> GetMaxbetInfo(int owpMatchId, int adminsiteId)
         {

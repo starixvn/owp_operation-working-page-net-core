@@ -19,6 +19,8 @@ namespace OWP.Maxbet.Builder
             this.syncMaxbetReposiory = syncMaxbetReposiory;
         }
 
+
+
         public async Task<TraderAssignmentSender> BuildTraderAssignmentSender(int owpMatchId)
         {
             var traderAssignments = await syncMaxbetReposiory.GetTradersByOwpMatchId(owpMatchId);

@@ -284,7 +284,7 @@ namespace OWP.Maxbet.UnitTests.Builder
                 }
             };
 
-            var result = SpreadBuilderImp.BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
+            var result = SpreadBuilderImp.BuildSpreadSenderForLeagueGroupNotMJ(spread);
 
             var expected = new MaxbetSpread
             {
@@ -310,7 +310,7 @@ namespace OWP.Maxbet.UnitTests.Builder
                 }
             };
 
-            var result = SpreadBuilderImp.BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
+            var result = SpreadBuilderImp.BuildSpreadSenderForLeagueGroupNotMJ(spread);
 
             var expected = new MaxbetSpread
             {
@@ -334,7 +334,7 @@ namespace OWP.Maxbet.UnitTests.Builder
                 }
             };
 
-            var result = SpreadBuilderImp.BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
+            var result = SpreadBuilderImp.BuildSpreadSenderForLeagueGroupNotMJ(spread);
 
             var expected = new MaxbetSpread
             {
@@ -372,7 +372,7 @@ namespace OWP.Maxbet.UnitTests.Builder
                 }
             };
 
-            var result = SpreadBuilderImp.BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
+            var result = SpreadBuilderImp.BuildSpreadSenderForLeagueGroupNotMJ(spread);
 
             var expected = new MaxbetSpread
             {
@@ -398,7 +398,7 @@ namespace OWP.Maxbet.UnitTests.Builder
                 }
             };
 
-            var result = SpreadBuilderImp.BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
+            var result = SpreadBuilderImp.BuildSpreadSenderForLeagueGroupNotMJ(spread);
 
             var expected = new MaxbetSpread
             {
@@ -422,7 +422,7 @@ namespace OWP.Maxbet.UnitTests.Builder
                 }
             };
 
-            var result = SpreadBuilderImp.BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
+            var result = SpreadBuilderImp.BuildSpreadSenderForLeagueGroupNotMJ(spread);
 
             var expected = new MaxbetSpread
             {
@@ -450,7 +450,7 @@ namespace OWP.Maxbet.UnitTests.Builder
                 }
             };
 
-            var result = SpreadBuilderImp.BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
+            var result = SpreadBuilderImp.BuildSpreadSenderForLeagueGroupNotMJ(spread);
             var expected = new MaxbetSpread
             {
                 Handicap = (decimal)0.2,
@@ -472,7 +472,7 @@ namespace OWP.Maxbet.UnitTests.Builder
                 }
             };
 
-            var result = SpreadBuilderImp.BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
+            var result = SpreadBuilderImp.BuildSpreadSenderForLeagueGroupNotMJ(spread);
             var expected = new MaxbetSpread
             {
                 Handicap = (decimal)0.2,
@@ -499,7 +499,7 @@ namespace OWP.Maxbet.UnitTests.Builder
                 }
             };
 
-            var result = SpreadBuilderImp.BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
+            var result = SpreadBuilderImp.BuildSpreadSenderForLeagueGroupNotMJ(spread);
             var expected = new MaxbetSpread
             {
                 OverUnder = (decimal)0.2,
@@ -521,7 +521,7 @@ namespace OWP.Maxbet.UnitTests.Builder
                 }
             };
 
-            var result = SpreadBuilderImp.BuildSpreadSenderForLeagueGroupNotAllowMJ(spread);
+            var result = SpreadBuilderImp.BuildSpreadSenderForLeagueGroupNotMJ(spread);
             var expected = new MaxbetSpread
             {
                 OverUnder = (decimal)0.2,

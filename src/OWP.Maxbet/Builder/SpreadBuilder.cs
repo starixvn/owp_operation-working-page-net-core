@@ -36,10 +36,10 @@ namespace OWP.Maxbet.Builder
 
             return leagueGroupId == leagueGroupMJ
                 ? BuildSpreadSenderForLeagueGroupMJ(spreadList)
-                : BuildSpreadSenderForLeagueGroupNotAllowMJ(spreadList);
+                : BuildSpreadSenderForLeagueGroupNotMJ(spreadList);
         }
 
-        public static MaxbetSpread BuildSpreadSenderForLeagueGroupNotAllowMJ(List<SpreadModel> spread)
+        public static MaxbetSpread BuildSpreadSenderForLeagueGroupNotMJ(List<SpreadModel> spread)
         {
             var hasExistsFirstHalfHdp = spread.Any(s => s.Bettype == (int)EnumBettype.FirstHalfHandicap);
             var hasExistsFirstHalfOu = spread.Any(s => s.Bettype == (int)EnumBettype.FirstHalfOverUnder);
