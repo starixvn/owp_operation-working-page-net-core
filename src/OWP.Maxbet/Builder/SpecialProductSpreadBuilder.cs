@@ -7,7 +7,6 @@ namespace OWP.Maxbet.Builder
     public interface SpecialProductSpreadBuilder
     {
         Task<MaxbetSpread> BuildSpreadXMins(int owpMatchId);
-
     }
 
     public class SpecialProductSpreadBuilderImp : SpecialProductSpreadBuilder

@@ -20,7 +20,7 @@ namespace OWP.Maxbet
 
         public Task<IEnumerable<MaxbetModel>> GetMaxbetByOwpMatchId(int matchId);
 
-        public Task<IEnumerable<int>> GetTraderXMins(int specialProductId);
+        public Task<IEnumerable<int?>> GetTraderXMins(int specialProductId);
 
         public Task<IEnumerable<decimal?>> GetSpreadXMins(int owpMatchId);
 
@@ -89,8 +89,8 @@ namespace OWP.Maxbet
             return matchId;
         }
 
-        public async Task<IEnumerable<int>> GetTraderXMins(int specialProductId)
-            => await dynamicRepository.FetchAsync<int>(new SpecialProductTraderXMinsGetCriteria
+        public async Task<IEnumerable<int?>> GetTraderXMins(int specialProductId)
+            => await dynamicRepository.FetchAsync<int?>(new SpecialProductTraderXMinsGetCriteria
             {
                 OwpMatchId = specialProductId
             });
