@@ -60,6 +60,9 @@ namespace OWP.Maxbet.Services
             var traders = await specialProductSelector.SelectTrader(owpMatchId, bettypeId);
             var spread = await specialProductSelector.SelectSpread(owpMatchId, bettypeId);
             var maxbet = await specialProductSelector.SelectMaxbet(owpMatchId, bettypeId);
+            var secondAcceptValue = await specialProductSelector.SelectSecondAcceptedValues(owpMatchId, bettypeId);
+            var numberOfLines = await specialProductSelector.SelectNumberOfLines(owpMatchId, bettypeId);
+
             var maxbetCN88 = new MaxbetSpread
             {
                 FirstHalfHandicap = 0,
@@ -75,6 +78,8 @@ namespace OWP.Maxbet.Services
                 Spread = spread,
                 Maxbet = maxbet,
                 MaxbetCN88 = maxbetCN88,
+                SecondAcceptValue = secondAcceptValue,
+                NumberOfLines = numberOfLines
             };
         }
 

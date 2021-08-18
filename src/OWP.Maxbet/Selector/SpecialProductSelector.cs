@@ -1,4 +1,6 @@
-﻿using OWP.Maxbet.Builder;
+﻿using MediatR;
+using OWP.Maxbet.Builder;
+using OWP.Maxbet.Handlers;
 using OWP.Maxbet.Models;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,6 +14,10 @@ namespace OWP.Maxbet.Selector
         public Task<MaxbetSpread> SelectSpread(int specialProductId, int bettypeId);
 
         public Task<MaxbetSpread> SelectMaxbet(int specialProductId, int bettypeId);
+
+        public Task<int?> SelectSecondAcceptedValues(int owpMatchId, int bettypeId);
+
+        public Task<NumberOfLines> SelectNumberOfLines(int owpMatchId, int bettypeId);
     }
 
     public class SpecialProductSelectorImp : SpecialProductSelector
@@ -21,6 +27,7 @@ namespace OWP.Maxbet.Selector
         private readonly SpreadBuilder spreadBuilder;
         private readonly SpecialProductSpreadBuilder specialProductSpreadBuilder;
         private readonly SpecialProductMaxbetBuilder specialProductMaxbetBuilder;
+        private readonly IMediator mediator;
 
         private const int BETTYPE_ID_SPECIFIC10MINS = -1;
         private const int BETTYPE_ID_SPECIFIC15MINS = -2;
@@ -35,6 +42,7 @@ namespace OWP.Maxbet.Selector
          };
 
         public SpecialProductSelectorImp(
+            IMediator mediator,
             TraderAssignmentBuilder traderAssignmentBuilder,
             SpecialProductTraderBuilder specialProductTraderBuilder,
             SpreadBuilder spreadBuilder,
@@ -47,6 +55,7 @@ namespace OWP.Maxbet.Selector
             this.spreadBuilder = spreadBuilder;
             this.specialProductSpreadBuilder = specialProductSpreadBuilder;
             this.specialProductMaxbetBuilder = specialProductMaxbetBuilder;
+            this.mediator = mediator;
         }
 
         public async Task<TraderAssignmentSender> SelectTrader(int specialProductId, int bettypeId)
@@ -64,5 +73,17 @@ namespace OWP.Maxbet.Selector
             ? await specialProductMaxbetBuilder.BuildMaxbetXMins(specialProductId)
             : await specialProductMaxbetBuilder.BuildMaxbet(specialProductId);
 
+        public async Task<int?> SelectSecondAcceptedValues(int owpMatchId, int bettypeId)
+            => BettypeIdSpecificXMins.Any(id => id == bettypeId)
+            ? null
+            : await mediator.Send(new GetSecondAcceptValueHandler.Request { OWPMatchId = owpMatchId });
+
+        public async Task<NumberOfLines> SelectNumberOfLines(int owpMatchId, int bettypeId)
+            => BettypeIdSpecificXMins.Any(id => id == bettypeId)
+            ? null
+            : await mediator.Send(new GetNumberOfLinesHandler.Request
+            {
+                OWPMatchId = owpMatchId
+            });
     }
 }
