@@ -9,7 +9,10 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <CodeAnalysisRuleSet>OWP.Websites.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-
+  <PropertyGroup>
+    <!-- Exclude the project from analysis -->
+    <SonarQubeExclude>True</SonarQubeExclude>
+  </PropertyGroup>
   <ItemGroup>
     <AdditionalFiles Include="..\.sonarlint\nap-owp\CSharp\SonarLint.xml" Link="SonarLint.xml" />
     <Content Include="App_Data\Fanex.Data\DBOWP.bodb_OWP.bodbOWPNet.xml">
