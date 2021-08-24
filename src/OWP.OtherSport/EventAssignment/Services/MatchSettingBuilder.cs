@@ -64,7 +64,7 @@
             }
         }
 
-        private Dictionary<Tuple<string, string>, int> MainBettypeHasMinorBettypes = new Dictionary<Tuple<string, string>, int>
+        private readonly Dictionary<Tuple<string, string>, int> MainBettypeHasMinorBettypes = new Dictionary<Tuple<string, string>, int>
         {
             { new Tuple<string, string>(Bettype.FTOUOE, Sport.Basketball), 0 },
             { new Tuple<string, string>(Bettype.FTOUOE, Sport.Netball), 0 },
@@ -75,7 +75,7 @@
             { new Tuple<string, string>(Bettype.FramesWinnerHDPOUOE, Sport.Snooker), 0 }
         };
 
-        private Dictionary<string, string> MinorBettypesRelationships = new Dictionary<string, string>
+        private readonly Dictionary<string, string> MinorBettypesRelationships = new Dictionary<string, string>
         {
             { Bettype.FTOE, Bettype.FTOUOE },
             { Bettype.SetWinnerOE, Bettype.SetWinnerHDPOE },
@@ -86,7 +86,7 @@
             { Bettype.FramesWinnerOE, Bettype.FramesWinnerHDPOUOE },
         };
 
-        private Dictionary<string, string> DisplayBettypes = new Dictionary<string, string>
+        private readonly Dictionary<string, string> DisplayBettypes = new Dictionary<string, string>
         {
             { Bettype.FTOE, MinorBettype.OE },
             { Bettype.SetWinnerOE, MinorBettype.OE },

@@ -52,7 +52,7 @@
                 NewSnapshot = newMatches
             };
         }
-               
+
         public IEnumerable<GeneralMatch> FilterExistPrematches(List<GeneralMatch> matches, Dictionary<int, List<InfositePrematchLeague>> prematchLeagues)
         {
             var existInfositePrematch = prematchLeagues.Keys.Distinct();

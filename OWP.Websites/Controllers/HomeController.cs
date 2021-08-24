@@ -40,7 +40,7 @@ namespace OWP.Websites.Controllers
             return View();
         }
 
-        private string GetIp()
+        private static string GetIp()
         {
             var hostname = Dns.GetHostName();
             var log = $"Hostname: {hostname}. ";

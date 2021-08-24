@@ -28,7 +28,7 @@ namespace OWP.PreMatchNotification.Assignment.Helper
                 {
                     League = model.LeagueName,
                     BetTypeName = model.BettypeName,
-                    ReceivedUserIds = new List<int>() { model.UserIdNewAssign.Value },
+                    ReceivedUserIds = new List<int> { model.UserIdNewAssign.Value },
                     MessageTypeId = model.IsDay.Value
                     ? (int)MsgTemplateCode.DayShiftAssignmentInsert
                     : (int)MsgTemplateCode.NightShiftAssignmentInsert
@@ -45,7 +45,7 @@ namespace OWP.PreMatchNotification.Assignment.Helper
                 {
                     League = model.LeagueName,
                     BetTypeName = model.BettypeName,
-                    ReceivedUserIds = new List<int>(){model.UserIdRemoved.Value },
+                    ReceivedUserIds = new List<int> { model.UserIdRemoved.Value },
                     MessageTypeId = model.IsDay.Value
                     ? (int)MsgTemplateCode.DayShiftAssignmentDelete
                     : (int)MsgTemplateCode.NightShiftAssignmentDelete
@@ -53,5 +53,4 @@ namespace OWP.PreMatchNotification.Assignment.Helper
             }
         }
     }
-
 }
