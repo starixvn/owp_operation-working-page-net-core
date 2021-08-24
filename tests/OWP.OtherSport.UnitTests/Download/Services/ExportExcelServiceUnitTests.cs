@@ -1,4 +1,7 @@
-﻿using NSubstitute;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using NSubstitute;
 using OWP.OtherSport.Download;
 using OWP.OtherSport.Download.Constants;
 using OWP.OtherSport.Download.Models;
@@ -6,12 +9,6 @@ using OWP.OtherSport.Download.Services;
 using OWP.OtherSport.Submit.Contants;
 using OWP.OtherSport.Submit.Models;
 using OWP.Services;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 using Xunit.Asserts.Compare;
 
@@ -44,7 +41,7 @@ namespace OWP.OtherSport.UnitTests.Download.Services
             };
             var excelModel = GetExcelModel();
             buildExcelModelService.BuildExcelModel(request).Returns(excelModel);
-            configurationService.CurrentDirectory.Returns("D:\\My folder\\OWP\\operation-working-page(Netcore)\\OWP.Websites");
+            configurationService.CurrentDirectory.Returns(AppDomain.CurrentDomain.BaseDirectory);
 
             var actual = await services.CreateExcelPackage(request);
             var reportSheet = actual.Workbook.Worksheets[ExcelConst.SheetName];
