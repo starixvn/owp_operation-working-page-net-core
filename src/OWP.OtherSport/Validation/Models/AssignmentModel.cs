@@ -4,154 +4,11 @@
 
     public class AssignmentModel
     {
-        public AssignmentModel()
-        {
-            Reporter = string.Empty;
-            MatchStatus = string.Empty;
-            Home = string.Empty;
-            Away = string.Empty;
-            League = string.Empty;
-            AutoLink = string.Empty;
-            TraderBadmintonAllProductPointWinner = string.Empty;
-            TraderBadmintonAllProductSetWinner = string.Empty;
-            TraderBadmintonMatchHandicap = string.Empty;
-            TraderBadmintonNextPointWinner = string.Empty;
-            TraderBadmintonRacetoPoints7911 = string.Empty;
-            TraderBaseball1H1st5inningsHDP = string.Empty;
-            TraderBaseball1H1st5inningsOU = string.Empty;
-            TraderBaseballFTRunLineHDP = string.Empty;
-            TraderBaseballFTTotalRunOU = string.Empty;
-            TraderBaseballInningHitsRuns = string.Empty;
-            TraderBasketball1HHDP = string.Empty;
-            TraderBasketball1HOUOE = string.Empty;
-            TraderBasketball1Q3QHDP = string.Empty;
-            TraderBasketball1Q3QOUOE = string.Empty;
-            TraderBasketballFTHDP = string.Empty;
-            TraderBasketballFTOUOE = string.Empty;
-            TraderCricketFT1X2 = string.Empty;
-            TraderCricketMatchWinnerInningsOU = string.Empty;
-            TraderCricketNextOverOUPlayerOU = string.Empty;
-            TraderDartsLegsHDP = string.Empty;
-            TraderDartsMost180sHDP = string.Empty;
-            TraderFieldHockey1HHDP = string.Empty;
-            TraderFieldHockey1HOU = string.Empty;
-            TraderFieldHockey1QHDP = string.Empty;
-            TraderFieldHockey1QOU = string.Empty;
-            TraderFieldHockeyFTHDP = string.Empty;
-            TraderFieldHockeyFTOU = string.Empty;
-            TraderFootball1HHDP = string.Empty;
-            TraderFootball1HOU = string.Empty;
-            TraderFootball1Q3QHDP = string.Empty;
-            TraderFootball1Q3QOU = string.Empty;
-            TraderFootballFTHDP = string.Empty;
-            TraderFootballFTOU = string.Empty;
-            TraderHandball1HHDP = string.Empty;
-            TraderHandball1HOU = string.Empty;
-            TraderHandballFTHDP = string.Empty;
-            TraderHandballFTOU = string.Empty;
-            TraderIceHockey1st2ndPeriodsHDP = string.Empty;
-            TraderIceHockey1st2ndPeriodsOU = string.Empty;
-            TraderIceHockeyFTHDP = string.Empty;
-            TraderIceHockeyFTOU = string.Empty;
-            TraderNetball1HHDP = string.Empty;
-            TraderNetball1HOUOE = string.Empty;
-            TraderNetball1Q3QHDP = string.Empty;
-            TraderNetball1Q3QOUOE = string.Empty;
-            TraderNetballFTHDP = string.Empty;
-            TraderNetballFTOUOE = string.Empty;
-            TraderOtherSportsMatchWinner = string.Empty;
-            TraderOtherSportsFTHDP = string.Empty;
-            TraderOtherSports1HHDP = string.Empty;
-            TraderOtherSportsFTOU = string.Empty;
-            TraderOtherSports1HOU = string.Empty;
-            TraderPoolMatchWinnerHDP = string.Empty;
-            TraderPoolRacksWinnerHDP = string.Empty;
-            TraderSnookerFirst5FramesHDP = string.Empty;
-            TraderSnookerFirst8FramesHDP = string.Empty;
-            TraderSnookerFirst9FramesHDP = string.Empty;
-            TraderSnookerFramesWinnerHDPOUOE = string.Empty;
-            TraderSnookerMatchWinnerHDPOU = string.Empty;
-            TraderTableTennisSetWinnerHDP = string.Empty;
-            TraderTableTennisSetXWinnerHDP = string.Empty;
-            TraderTennisAllProductLS = string.Empty;
-            TraderTennisMostAces = string.Empty;
-            TraderTennisMostDoubleFaults = string.Empty;
-            TraderTennisNextGame = string.Empty;
-            TraderVolleyballSetsXPointWinnerHDP = string.Empty;
-            TraderVolleyballSetWinnerHDPOE = string.Empty;
-            OtherTraderBadmintonAllProductPointWinner = string.Empty;
-            OtherTraderBadmintonAllProductSetWinner = string.Empty;
-            OtherTraderBadmintonMatchHandicap = string.Empty;
-            OtherTraderBadmintonNextPointWinner = string.Empty;
-            OtherTraderBadmintonRacetoPoints7911 = string.Empty;
-            OtherTraderBaseball1H1st5inningsHDP = string.Empty;
-            OtherTraderBaseball1H1st5inningsOU = string.Empty;
-            OtherTraderBaseballFTRunLineHDP = string.Empty;
-            OtherTraderBaseballFTTotalRunOU = string.Empty;
-            OtherTraderBaseballInningHitsRuns = string.Empty;
-            OtherTraderBasketball1HHDP = string.Empty;
-            OtherTraderBasketball1HOUOE = string.Empty;
-            OtherTraderBasketball1Q3QHDP = string.Empty;
-            OtherTraderBasketball1Q3QOUOE = string.Empty;
-            OtherTraderBasketballFTHDP = string.Empty;
-            OtherTraderBasketballFTOUOE = string.Empty;
-            OtherTraderCricketFT1X2 = string.Empty;
-            OtherTraderCricketMatchWinnerInningsOU = string.Empty;
-            OtherTraderCricketNextOverOUPlayerOU = string.Empty;
-            OtherTraderDartsLegsHDP = string.Empty;
-            OtherTraderDartsMost180sHDP = string.Empty;
-            OtherTraderFieldHockey1HHDP = string.Empty;
-            OtherTraderFieldHockey1HOU = string.Empty;
-            OtherTraderFieldHockey1QHDP = string.Empty;
-            OtherTraderFieldHockey1QOU = string.Empty;
-            OtherTraderFieldHockeyFTHDP = string.Empty;
-            OtherTraderFieldHockeyFTOU = string.Empty;
-            OtherTraderFootball1HHDP = string.Empty;
-            OtherTraderFootball1HOU = string.Empty;
-            OtherTraderFootball1Q3QHDP = string.Empty;
-            OtherTraderFootball1Q3QOU = string.Empty;
-            OtherTraderFootballFTHDP = string.Empty;
-            OtherTraderFootballFTOU = string.Empty;
-            OtherTraderHandball1HHDP = string.Empty;
-            OtherTraderHandball1HOU = string.Empty;
-            OtherTraderHandballFTHDP = string.Empty;
-            OtherTraderHandballFTOU = string.Empty;
-            OtherTraderIceHockey1st2ndPeriodsHDP = string.Empty;
-            OtherTraderIceHockey1st2ndPeriodsOU = string.Empty;
-            OtherTraderIceHockeyFTHDP = string.Empty;
-            OtherTraderIceHockeyFTOU = string.Empty;
-            OtherTraderNetball1HHDP = string.Empty;
-            OtherTraderNetball1HOUOE = string.Empty;
-            OtherTraderNetball1Q3QHDP = string.Empty;
-            OtherTraderNetball1Q3QOUOE = string.Empty;
-            OtherTraderNetballFTHDP = string.Empty;
-            OtherTraderNetballFTOUOE = string.Empty;
-            OtherTraderOtherSportsMatchWinner = string.Empty;
-            OtherTraderOtherSportsFTHDP = string.Empty;
-            OtherTraderOtherSports1HHDP = string.Empty;
-            OtherTraderOtherSportsFTOU = string.Empty;
-            OtherTraderOtherSports1HOU = string.Empty;
-            OtherTraderPoolMatchWinnerHDP = string.Empty;
-            OtherTraderPoolRacksWinnerHDP = string.Empty;
-            OtherTraderSnookerFirst5FramesHDP = string.Empty;
-            OtherTraderSnookerFirst8FramesHDP = string.Empty;
-            OtherTraderSnookerFirst9FramesHDP = string.Empty;
-            OtherTraderSnookerFramesWinnerHDPOUOE = string.Empty;
-            OtherTraderSnookerMatchWinnerHDPOU = string.Empty;
-            OtherTraderTableTennisSetWinnerHDP = string.Empty;
-            OtherTraderTableTennisSetXWinnerHDP = string.Empty;
-            OtherTraderTennisAllProductLS = string.Empty;
-            OtherTraderTennisMostAces = string.Empty;
-            OtherTraderTennisMostDoubleFaults = string.Empty;
-            OtherTraderTennisNextGame = string.Empty;
-            OtherTraderVolleyballSetsXPointWinnerHDP = string.Empty;
-            OtherTraderVolleyballSetWinnerHDPOE = string.Empty;
-        }
         public double MatchNo { get; set; }
 
         public int OSMatchId { get; set; }
 
-        public string Reporter { get; set; }
+        public string Reporter { get; set; } = string.Empty;
 
         public string MatchStatus { get; set; }
 
@@ -568,7 +425,6 @@
         public decimal? MaxBetSnookerMatchWinnerOU { get; set; }
 
         public decimal? MaxBetSnookerFramesWinnerHDPOUOE { get; set; }
-
 
         public decimal? MaxBetSnookerFramesWinnerOU { get; set; }
 
