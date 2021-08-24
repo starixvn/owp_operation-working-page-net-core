@@ -34,7 +34,7 @@ namespace OWP.Maxbet.Selector
         private const int BETTYPE_ID_SPECIFIC15MINS_NUMBER_OF_CORNERS = -5;
         private const int BETTYPE_ID_SPECIFIC15MINS_TOTAL_BOOKINGS = -8;
 
-        private readonly int[] BettypeIdSpecificXMins = new int[4]{
+        private readonly int[] BettypeIdSpecificXMins = new int[]{
             BETTYPE_ID_SPECIFIC10MINS,
             BETTYPE_ID_SPECIFIC15MINS,
             BETTYPE_ID_SPECIFIC15MINS_NUMBER_OF_CORNERS,

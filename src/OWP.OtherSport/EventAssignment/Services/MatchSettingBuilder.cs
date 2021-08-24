@@ -95,7 +95,6 @@
             { Bettype.MatchWinnerOU, MinorBettype.OU },
             { Bettype.FramesWinnerOU, MinorBettype.OU },
             { Bettype.FramesWinnerOE, MinorBettype.OE },
-            // main bettype
             { Bettype.FTOUOE, MinorBettype.OU },
             { Bettype.SetWinnerHDPOE, MinorBettype.HDP },
             { Bettype.FirstHOUOE, MinorBettype.OU },

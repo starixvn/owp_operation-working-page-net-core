@@ -48,7 +48,7 @@
                     Home = infositeInfo.HomeName,
                     Away = infositeInfo.AwayName,
                     KoTime = infositeInfo.EventDateTime.ToString("hh:mm tt"),
-                    ReceivedUserIds = prematchAssigneeIds.Count() == 0
+                    ReceivedUserIds = !prematchAssigneeIds.Any()
                         ? employees.AllLSTEmployees.Union(employees.AllPrematchEmployees).Distinct().ToList()
                         : employees.AllLSTEmployees.Union(prematchAssigneeIds).Distinct().ToList()
                 };
