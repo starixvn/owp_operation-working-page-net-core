@@ -35,7 +35,7 @@ namespace OWP.Maxbet.UnitTests.Builder
                 .GetSpreadByOwpmatchId(123)
                 .ReturnsForAnyArgs(Task.FromResult(spreadTupple));
 
-            var expectedResult = await spreadBuilder.BuildSpread(123);
+            var expectedResult = await spreadBuilder.BuildSpreadMainMatch(123);
 
             DeepAssert.Equal(expectedResult, new MaxbetSpread());
         }
@@ -81,7 +81,7 @@ namespace OWP.Maxbet.UnitTests.Builder
                 .GetSpreadByOwpmatchId(123)
                 .ReturnsForAnyArgs(Task.FromResult(spreadTupple));
 
-            var result = await spreadBuilder.BuildSpread(123);
+            var result = await spreadBuilder.BuildSpreadMainMatch(123);
 
             var expected = new MaxbetSpread
             {
@@ -124,7 +124,7 @@ namespace OWP.Maxbet.UnitTests.Builder
                 .GetSpreadByOwpmatchId(123)
                 .ReturnsForAnyArgs(Task.FromResult(spreadTupple));
 
-            var result = await spreadBuilder.BuildSpread(123);
+            var result = await spreadBuilder.BuildSpreadMainMatch(123);
             var expected = new MaxbetSpread
             {
                 Handicap = (decimal)0.1,
@@ -166,7 +166,7 @@ namespace OWP.Maxbet.UnitTests.Builder
                 .GetSpreadByOwpmatchId(123)
                 .ReturnsForAnyArgs(Task.FromResult(spreadTupple));
 
-            var result = await spreadBuilder.BuildSpread(123);
+            var result = await spreadBuilder.BuildSpreadMainMatch(123);
             var expected = new MaxbetSpread
             {
                 Handicap = (decimal)0.1,

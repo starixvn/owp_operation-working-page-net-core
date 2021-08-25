@@ -66,7 +66,7 @@ namespace OWP.Maxbet.Selector
         public async Task<MaxbetSpread> SelectSpread(int specialProductId, int bettypeId)
         => BettypeIdSpecificXMins.Any(id => id == bettypeId)
             ? await specialProductSpreadBuilder.BuildSpreadXMins(specialProductId)
-            : await spreadBuilder.BuildSpread(specialProductId);
+            : await spreadBuilder.BuildSpreadSpecialProduct(specialProductId);
 
         public async Task<MaxbetSpread> SelectMaxbet(int specialProductId, int bettypeId)
         => BettypeIdSpecificXMins.Any(id => id == bettypeId)

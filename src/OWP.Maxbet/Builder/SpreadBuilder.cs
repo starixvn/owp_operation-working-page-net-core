@@ -9,7 +9,9 @@ namespace OWP.Maxbet.Builder
 {
     public interface SpreadBuilder
     {
-        Task<MaxbetSpread> BuildSpread(int owpMatchId);
+        Task<MaxbetSpread> BuildSpreadMainMatch(int owpMatchId);
+
+        Task<MaxbetSpread> BuildSpreadSpecialProduct(int specialProductId);
     }
 
     public class SpreadBuilderImp : SpreadBuilder
@@ -25,11 +27,22 @@ namespace OWP.Maxbet.Builder
             this.syncMaxbetReposiory = syncMaxbetReposiory;
         }
 
-        public async Task<MaxbetSpread> BuildSpread(int owpMatchId)
+        public async Task<MaxbetSpread> BuildSpreadSpecialProduct(int specialProductId)
+        {
+            var (spreads, leagueGroups) = await syncMaxbetReposiory.GetSpreadSpecialProductById(specialProductId);
+            var leagueGroupId = leagueGroups.FirstOrDefault()?.LeagueGroupId;
+            return BuildSpread(spreads, leagueGroupId);
+        }
+
+        public async Task<MaxbetSpread> BuildSpreadMainMatch(int owpMatchId)
         {
             var (spreads, leagueGroups) = await syncMaxbetReposiory.GetSpreadByOwpmatchId(owpMatchId);
             var leagueGroupId = leagueGroups.FirstOrDefault()?.LeagueGroupId;
+            return BuildSpread(spreads, leagueGroupId);
+        }
 
+        public static MaxbetSpread BuildSpread(IEnumerable<SpreadModel> spreads, int? leagueGroupId)
+        {
             spreads = spreads.Where(s => s.Spread != null);
 
             var spreadList = spreads.ToList();

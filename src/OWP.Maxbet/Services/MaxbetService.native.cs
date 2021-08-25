@@ -87,7 +87,7 @@ namespace OWP.Maxbet.Services
         {
             var traderAssignmentsSender = await traderAssignmentBuilder.BuildTraderAssignmentSender(owpMatchId);
 
-            var spread = await spreadBuilder.BuildSpread(owpMatchId);
+            var spread = await spreadBuilder.BuildSpreadMainMatch(owpMatchId);
 
             var maxbet = await maxbetBuilder.BuildMaxbet(owpMatchId);
 
