@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using NSubstitute;
+﻿using NSubstitute;
 using OWP.OtherSport.Download;
 using OWP.OtherSport.Download.Constants;
 using OWP.OtherSport.Download.Models;
@@ -9,6 +6,9 @@ using OWP.OtherSport.Download.Services;
 using OWP.OtherSport.Submit.Contants;
 using OWP.OtherSport.Submit.Models;
 using OWP.Services;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Asserts.Compare;
 
@@ -81,8 +81,8 @@ namespace OWP.OtherSport.UnitTests.Download.Services
                     MaxBetSpread = new Dictionary<int, List<ExcelMatchMaxBetSpread>>
                     {
                         { 111, new List<ExcelMatchMaxBetSpread> {
-                            new ExcelMatchMaxBetSpread { ColumnIndexMaxbet=145,ValueMaxbet="1234", BetTypeName = Bettype.FTHDP, MaxBet = 1234, ValueSpread="13", Spread=13 },
-                            new ExcelMatchMaxBetSpread { ColumnIndexMaxbet=146,ValueMaxbet="222.05", BetTypeName = Bettype.FTOUOE, MaxBet = 222.05m, ValueSpread="14", Spread=14 }
+                            new ExcelMatchMaxBetSpread { ColumnIndexMaxbet=145,ValueMaxbet="1234", BetTypeName = Bettype.FTHDP, MaxBet = 1234,ColumnIndexSpread = 190, ValueSpread="13", Spread=13 },
+                            new ExcelMatchMaxBetSpread { ColumnIndexMaxbet=146,ValueMaxbet="222.05", BetTypeName = Bettype.FTOUOE, MaxBet = 222.05m,ColumnIndexSpread = 191, ValueSpread="14", Spread=14 }
                         } }
                     }
                 }
