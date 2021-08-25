@@ -6,12 +6,23 @@
     {
         public AssignmentModel()
         {
+            MatchInfoConstructor();
+            TraderConstructor();
+            OtherTraderConstructor();
+        }
+
+        public void MatchInfoConstructor()
+        {
             Reporter = string.Empty;
             MatchStatus = string.Empty;
             Home = string.Empty;
             Away = string.Empty;
             League = string.Empty;
             AutoLink = string.Empty;
+        }
+
+        public void TraderConstructor()
+        {
             TraderBadmintonAllProductPointWinner = string.Empty;
             TraderBadmintonAllProductSetWinner = string.Empty;
             TraderBadmintonMatchHandicap = string.Empty;
@@ -79,6 +90,10 @@
             TraderTennisNextGame = string.Empty;
             TraderVolleyballSetsXPointWinnerHDP = string.Empty;
             TraderVolleyballSetWinnerHDPOE = string.Empty;
+        }
+
+        public void OtherTraderConstructor()
+        {
             OtherTraderBadmintonAllProductPointWinner = string.Empty;
             OtherTraderBadmintonAllProductSetWinner = string.Empty;
             OtherTraderBadmintonMatchHandicap = string.Empty;
@@ -147,6 +162,8 @@
             OtherTraderVolleyballSetsXPointWinnerHDP = string.Empty;
             OtherTraderVolleyballSetWinnerHDPOE = string.Empty;
         }
+
+
         public double MatchNo { get; set; }
 
         public int OSMatchId { get; set; }
