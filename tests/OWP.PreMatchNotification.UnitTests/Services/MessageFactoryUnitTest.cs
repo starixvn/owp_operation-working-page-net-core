@@ -59,7 +59,7 @@ namespace OWP.PreMatchNotification.UnitTests.Services
                 new MessageModel
                 {
                    IsImportant = true,
-                   MessageContent = "[DayShift] You have been REMOVED from <b>O/U</b> in VLeague",
+                   MessageContent = "[DayShift] You have been REMOVED from <b>O/U</b> in <b>VLeague</b>",
                    MessageType = (int)MsgTemplateCode.DayShiftAssignmentDelete,
                    ReceivedUserIds = new List<string> { "2"}
                 },
@@ -80,7 +80,7 @@ namespace OWP.PreMatchNotification.UnitTests.Services
                 new MessageModel
                 {
                    IsImportant = true,
-                   MessageContent = "[NightShift] You have been REMOVED from <b>O/U</b> in ThaidLeague",
+                   MessageContent = "[NightShift] You have been REMOVED from <b>O/U</b> in <b>ThaidLeague</b>",
                    MessageType = (int)MsgTemplateCode.NightShiftAssignmentDelete,
                    ReceivedUserIds = new List<string> { "12"}
                 },
@@ -145,24 +145,24 @@ namespace OWP.PreMatchNotification.UnitTests.Services
             {
                 new MessageModel
                 {
-                   IsImportant = true,
-                   MessageContent = "Home Team Update from Premier League - MC -vs- MU to Premier League - <b>MC changed</b> -vs- MU",
-                   MessageType = (int)MsgTemplateCode.UpdateHome,
-                   ReceivedUserIds = new List<string> { "2","3","4","5","6","7","8"}
+                    IsImportant = true,
+                    MessageContent = "<b>Home Team</b> Update from Premier League - <b>MC</b> -vs- MU to Premier League - <b>MC changed</b> -vs- MU",
+                    MessageType = (int)MsgTemplateCode.UpdateHome,
+                    ReceivedUserIds = new List<string> { "2","3","4","5","6","7","8"}
                 },
                 new MessageModel
                 {
-                   IsImportant = true,
-                   MessageContent = "Away Team Update from Premier League - Liv -vs- MC to Premier League - Liv -vs- <b>MC changed</b>",
-                   MessageType = (int)MsgTemplateCode.UpdateAway,
-                   ReceivedUserIds = new List<string> { "2","3","4","5","6"}
+                    IsImportant = true,
+                    MessageContent = "<b>Away Team</b> Update from Premier League - Liv -vs- <b>MC</b> to Premier League - Liv -vs- <b>MC changed</b>",
+                    MessageType = (int)MsgTemplateCode.UpdateAway,
+                    ReceivedUserIds = new List<string> { "2","3","4","5","6"}
                 },
                 new MessageModel
                 {
-                   IsImportant = true,
-                   MessageContent = "K.O time Update from 06/23/2021 03:00 PM to <b>09/03/2022 03:00 PM</b> for Premier League - Liv -vs- MC",
-                   MessageType = (int)MsgTemplateCode.UpdateKOTime,
-                   ReceivedUserIds = new List<string> { "2","3"}
+                    IsImportant = true,
+                    MessageContent = "<b>K.O time</b> Update from <b>06/23/2021 03:00 PM</b> to <b>09/03/2022 03:00 PM</b> for Premier League - Liv -vs- MC",
+                    MessageType = (int)MsgTemplateCode.UpdateKOTime,
+                    ReceivedUserIds = new List<string> { "2","3"}
                 },
             };
 

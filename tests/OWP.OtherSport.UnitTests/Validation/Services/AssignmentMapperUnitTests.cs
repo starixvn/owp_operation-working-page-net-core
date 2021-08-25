@@ -246,7 +246,7 @@
         {
             var model = new AssignmentModel
             {
-                Reporter= null,
+                Reporter = null,
                 AutoLink = "Yes",
                 Away = "LA",
                 Home = "GSW",

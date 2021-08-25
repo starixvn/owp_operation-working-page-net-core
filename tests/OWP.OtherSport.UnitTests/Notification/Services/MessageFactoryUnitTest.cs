@@ -1,5 +1,6 @@
 ﻿namespace OWP.OtherSport.UnitTests.Notification.Services
 {
+    using System;
     using System.Collections.Generic;
     using OtherSport.Notification.Models;
     using OtherSport.Notification.Services;
@@ -60,17 +61,17 @@
             {
                 new MessageModel
                 {
-                   IsImportant = true,
-                   MessageContent = "You have been REMOVED from #1324 - Jo - Spur -vs- MC updated by sa",
-                   MessageType = (int)MsgTemplateCode.OtherAssignmentDelete,
-                   ReceivedUserIds = new List<string> { "2542" }
+                    IsImportant = true,
+                    MessageContent = "You have been REMOVED from <b>1H (HDP)</b> in #1324 - Jo - Spur -vs- MC - 08/08/2021 12:00 AM updated by sa",
+                    MessageType = (int)MsgTemplateCode.OtherAssignmentDelete,
+                    ReceivedUserIds = new List<string> { "2542" }
                 },
                 new MessageModel
                 {
-                   IsImportant = true,
-                   MessageContent = "You have NEW ASSIGNMENT <b>1H (HDP)</b> in #5000 - Jo - Spur -vs- MC updated by sa",
-                   MessageType = (int)MsgTemplateCode.OtherAssignmentInsert,
-                   ReceivedUserIds = new List<string> { "2542" }
+                    IsImportant = true,
+                    MessageContent = "You have NEW ASSIGNMENT <b>1H (HDP)</b> in #5000 - Jo - Spur -vs- MC - 07/08/2021 12:00 AM updated by sa",
+                    MessageType = (int)MsgTemplateCode.OtherAssignmentInsert,
+                    ReceivedUserIds = new List<string> { "2542" }
                 }
             };
 
@@ -120,7 +121,8 @@
                 League = "Jo",
                 EventName = "Spur -vs- MC",
                 UserId = 2542,
-                Username = "esther"
+                Username = "esther",
+                EventDateTime = DateTime.Parse("08/08/2021 12:00 AM"),
             };
 
             var valueChanged2 = new ChangedValue
@@ -136,7 +138,8 @@
                 League = "Jo",
                 EventName = "Spur -vs- MC",
                 UserId = 2542,
-                Username = "esther"
+                Username = "esther",
+                EventDateTime = DateTime.Parse("07/08/2021 12:00 AM"),
             };
 
             var changedValueList = new List<ChangedValue>
