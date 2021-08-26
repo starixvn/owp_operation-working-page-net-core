@@ -11,8 +11,8 @@
                 return false;
             }
 
-            var notNullsearchString = searchString ?? string.Empty;
-            return toBeSearchedString.Contains(notNullsearchString, StringComparison.OrdinalIgnoreCase);
+            var notNullSearchString = searchString ?? string.Empty;
+            return toBeSearchedString.Contains(notNullSearchString, StringComparison.OrdinalIgnoreCase);
         }
     }
 }
