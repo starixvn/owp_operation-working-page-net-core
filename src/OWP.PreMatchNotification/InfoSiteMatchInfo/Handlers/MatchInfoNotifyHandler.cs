@@ -67,7 +67,7 @@
             return await Task.FromResult(Unit.Value);
         }
 
-        private async Task<IList<ChangedValue>> GenerateMessages(MatchInfoNotifyRequest request)
+        public async Task<IList<ChangedValue>> GenerateMessages(MatchInfoNotifyRequest request)
         {
             var oldSnapshot = await cacheManipulator.GetMultipleData<InfoSiteMatch>($"{OLD_INFOSITEMATCHES_SNAPSHOT_KEY}-{request.SessionId}");
             var newSnapshot = await queryRepository.GetInfoSiteMatchNewSnapshot(request.FromDate, request.ToDate);
