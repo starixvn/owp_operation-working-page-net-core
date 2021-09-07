@@ -34,7 +34,7 @@
                 item.OSMatchId == 1 &
                 item.MessageTypeId == (int)MsgTemplateCode.AssignmentDelete &
                 item.OldValue == "#starix15" &
-                item.NewValue == null &
+                item.NewValue == "#starix1" &
                 item.UserId == 15
             );
         }
@@ -53,7 +53,7 @@
             Assert.Contains(actual, item =>
                 item.OSMatchId == 1 &
                 item.MessageTypeId == (int)MsgTemplateCode.AssignmentInsert &
-                item.OldValue == null &
+                item.OldValue == "#starix15" &
                 item.NewValue == "#starix1" &
                 item.UserId == 1
             );
@@ -75,11 +75,11 @@
             var actual = services.Create(matchSnapshot, existingAssignees);
 
             // Assert
-            Assert.Equal(8, actual.Count);
+            Assert.Equal(7, actual.Count);
             Assert.Equal(1, actual.Count(c => c.MessageTypeId == (int)MsgTemplateCode.AssignmentInsert & !c.IsIndirectChangedAssignment));
             Assert.Equal(1, actual.Count(c => c.MessageTypeId == (int)MsgTemplateCode.AssignmentDelete & !c.IsIndirectChangedAssignment));
             Assert.Equal(3, actual.Count(c => c.MessageTypeId == (int)MsgTemplateCode.AssignmentInsert & c.IsIndirectChangedAssignment));
-            Assert.Equal(3, actual.Count(c => c.MessageTypeId == (int)MsgTemplateCode.AssignmentDelete & c.IsIndirectChangedAssignment));
+            Assert.Equal(2, actual.Count(c => c.MessageTypeId == (int)MsgTemplateCode.AssignmentDelete & c.IsIndirectChangedAssignment));
             Assert.Contains(actual, item => item.Username == "starix4" & item.MessageTypeId == (int)MsgTemplateCode.AssignmentInsert);
         }
 

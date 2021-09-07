@@ -1,4 +1,5 @@
-﻿
+﻿using System.Globalization;
+
 namespace OWP.OtherSport.Notification.Services
 {
     using System.Collections.Generic;
@@ -59,7 +60,7 @@ namespace OWP.OtherSport.Notification.Services
                     AssignmentType = assignment.AssignmentType,
                     BetTypeName = assignment.BetTypeName,
                     OSMatchId = match.OSMatchId,
-                    MatchNo = match.MatchNo.ToString(),
+                    MatchNo = match.MatchNo.ToString(CultureInfo.CurrentCulture),
                     League = match.League,
                     EventName = match.Home + EVENT_VS + match.Away,
                     UserId = assignment.UserId,

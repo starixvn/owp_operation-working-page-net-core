@@ -30,7 +30,7 @@
         private const string KEY_OS_ASSIGNMENT = "OWP-OS-AssignmentUpload";
         private const string KEY_OLD_OS_ASSIGNMENT_SNAPSHOT = "OWP-Old-OS-Assignment";
         private const string KEY_USER_WHO_IS_OS_UPLOADING_ASSIGNMENT = "OWP-User-Who-Is-OS-Uploading-Assignemnt";
-        private const int CACHE_EXPIRED_IN_DAYS = 1;
+        private const int CACHE_EXPIRED_IN_DAYS = 36500;
         private const int CACHE_USER_WHO_IS_ULOADING_ASSIGNMENT_EXPIRED_IN_MINUTE = 30;
         private readonly ICache cache;
         private const string KEY_OS_UPLOAD_LAST_UPDATED = "OWP-OS-AssignmentUpload-Last-Updated";

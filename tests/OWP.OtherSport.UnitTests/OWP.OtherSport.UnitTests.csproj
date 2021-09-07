@@ -12,6 +12,18 @@
     <None Remove="Builder\**" />
     <None Remove="Helper\**" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="appsettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
@@ -30,5 +42,15 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\OWP.OtherSport\OWP.OtherSport.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="App_Data\Templates\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\..\OWP.Websites\App_Data\Templates\ExportOSAssignmentTemplate.xlsx" Link="App_Data\Templates\ExportOSAssignmentTemplate.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 </Project>

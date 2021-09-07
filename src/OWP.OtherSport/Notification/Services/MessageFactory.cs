@@ -255,8 +255,6 @@ namespace OWP.OtherSport.Notification.Services
             var messageTemplate = messageTemplateMap[messageGroup.MessageTypeId];
             var content = messageTemplate.MessageContent;
 
-            var assignmentNote = Regex.Replace(messageGroup.AssignmentNote, "#<user>", "", RegexOptions.IgnoreCase);
-
             content = content.Replace("<newvalue>", "<b><newvalue></b>");
             content = content.Replace("<bettype>", "<b><bettype></b>");
 

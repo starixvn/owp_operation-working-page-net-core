@@ -21,7 +21,7 @@ namespace OWP.ProductAssignmentReference.Services
     public class ProductAssignmentServiceImp : ProductAssignmentService
     {
         private const string KEY_ASSIGNMENT_CONFIGURATION = "OWP-assignment-configuration";
-        private const int CACHE_EXPIRED_IN_DAYS = 1;
+        private const int CACHE_EXPIRED_IN_DAYS = 36500;
         private readonly ICache cache;
         private readonly ProductAssignmentRepository repository;
 

@@ -8,9 +8,6 @@ using OWP.OtherSport.Submit.Models;
 using OWP.Services;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Asserts.Compare;
@@ -44,7 +41,7 @@ namespace OWP.OtherSport.UnitTests.Download.Services
             };
             var excelModel = GetExcelModel();
             buildExcelModelService.BuildExcelModel(request).Returns(excelModel);
-            configurationService.CurrentDirectory.Returns("D:\\My folder\\OWP\\operation-working-page(Netcore)\\OWP.Websites");
+            configurationService.CurrentDirectory.Returns(AppDomain.CurrentDomain.BaseDirectory);
 
             var actual = await services.CreateExcelPackage(request);
             var reportSheet = actual.Workbook.Worksheets[ExcelConst.SheetName];
@@ -84,8 +81,8 @@ namespace OWP.OtherSport.UnitTests.Download.Services
                     MaxBetSpread = new Dictionary<int, List<ExcelMatchMaxBetSpread>>
                     {
                         { 111, new List<ExcelMatchMaxBetSpread> {
-                            new ExcelMatchMaxBetSpread { ColumnIndexMaxbet=145,ValueMaxbet="1234", BetTypeName = Bettype.FTHDP, MaxBet = 1234, ValueSpread="13", Spread=13 },
-                            new ExcelMatchMaxBetSpread { ColumnIndexMaxbet=146,ValueMaxbet="222.05", BetTypeName = Bettype.FTOUOE, MaxBet = 222.05m, ValueSpread="14", Spread=14 }
+                            new ExcelMatchMaxBetSpread { ColumnIndexMaxbet=145,ValueMaxbet="1234", BetTypeName = Bettype.FTHDP, MaxBet = 1234,ColumnIndexSpread = 190, ValueSpread="13", Spread=13 },
+                            new ExcelMatchMaxBetSpread { ColumnIndexMaxbet=146,ValueMaxbet="222.05", BetTypeName = Bettype.FTOUOE, MaxBet = 222.05m,ColumnIndexSpread = 191, ValueSpread="14", Spread=14 }
                         } }
                     }
                 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Olympus.OWP.Constants;
 using OWP.Maxbet.Services;
 using System.Threading.Tasks;
 
@@ -32,6 +33,25 @@ namespace OWP.Maxbet
             }
 
             var maxbetInfo = await maxbetService.GetMaxbetInfo(owpMatchId, matchId);
+
+            return Ok(maxbetInfo);
+        }
+
+        [HttpGet]
+        [Route("{matchId}/{subType}")]
+        [Produces("application/json")]
+        public async Task<IActionResult> GetSpecialProduct(int matchId, int subType)
+        {
+            var bettypeId = MinorBettype.GetMinorBettypeIdBySubtype(subType);
+            var owpMatchId = await maxbetService.GetMatchIdByAdminSiteId(matchId, bettypeId);
+
+
+            if (owpMatchId == 0)
+            {
+                return NotFound();
+            }
+
+            var maxbetInfo = await maxbetService.GetSpecialProductInfo(owpMatchId, matchId, bettypeId);
 
             return Ok(maxbetInfo);
         }

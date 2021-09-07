@@ -25,12 +25,6 @@
             {
                 new ChangedValue
                 {
-                    League = "D",
-                    ReceivedUserIds = receivedUserIds,
-                    MessageTypeId = (int)MsgTemplateCode.NewLeague
-                },
-                new ChangedValue
-                {
                     League = "E",
                     ReceivedUserIds = receivedUserIds,
                     MessageTypeId = (int)MsgTemplateCode.NewLeague

@@ -1,11 +1,13 @@
-﻿namespace OWP.OtherSport.Download.Services
+﻿using OWP.OtherSport.Shared.Helper;
+
+namespace OWP.OtherSport.Download.Services
 {
     using AutoMapper;
+    using Constants;
+    using Models;
     using OWP.Extensions;
-    using OWP.OtherSport.Download.Constants;
-    using OWP.OtherSport.Download.Models;
-    using OWP.OtherSport.Submit.Contants;
     using OWP.OtherSport.Submit.Models;
+    using Submit.Contants;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -21,6 +23,7 @@
         private readonly CommandRepository commandRepository;
 
         private readonly IMapper mapper;
+
 
         public BuildExcelModelServiceImp(
             CommandRepository commandRepository,
@@ -55,7 +58,7 @@
         public async Task<ExcelAssignmentModel> BuildExcelAssignments(DownloadAssignmentRequest request)
         {
             var assignmentSnapshot = await commandRepository.Query(request);
-            assignmentSnapshot.Matches = FilterMatchesByEmployee(request.Employee, assignmentSnapshot);
+            assignmentSnapshot.Matches = FilterHelper.FilterMatchesByEmployee(request.Employee, assignmentSnapshot);
 
             var matchAssignments = BuildTraders(assignmentSnapshot);
             var matchMaxbets = BuildMatchSettings(assignmentSnapshot);
@@ -66,29 +69,6 @@
                 MatchAssignments = matchAssignments,
                 MaxBetSpread = matchMaxbets
             };
-        }
-
-        private static Dictionary<int, MatchInfo> FilterMatchesByEmployee(string employee, AssignmentSnapshot assignmentSnapshot)
-        {
-            if (string.IsNullOrEmpty(employee))
-            {
-                return assignmentSnapshot.Matches;
-            }
-
-            var matches = new Dictionary<int, MatchInfo>();
-            foreach (var key in assignmentSnapshot.Matches.Keys)
-            {
-                var assignments = assignmentSnapshot.MatchAssignments.GetValue(key, new List<MatchAssignment>());
-                var existsAssignment = assignments.Any(match =>
-                    match.Username.IsContains(employee) ||
-                    match.Nickname.IsContains(employee));
-                if (existsAssignment)
-                {
-                    matches.Add(key, assignmentSnapshot.Matches[key]);
-                }
-            }
-
-            return matches;
         }
 
         public Dictionary<int, List<ExcelMatchAssignment>> BuildTraders(AssignmentSnapshot assignmentSnapshot)

@@ -38,7 +38,7 @@
         private static void ValidateHeaders(ExcelWorksheet sheet)
         {
             var headerMap = sheet.GetHeaderMap();
-            var res = headerMap.Where(x => x.Value <= 0).ToList();
+
             if (headerMap.Any(i => i.Value <= 0))
             {
                 throw new InvalidExcelFormatException();
