@@ -58,6 +58,7 @@
     <ProjectReference Include="..\src\OWP.OtherSport\OWP.OtherSport.csproj" />
     <ProjectReference Include="..\src\OWP.PreMatchNotification\OWP.PreMatchNotification.csproj" />
     <ProjectReference Include="..\src\OWP.ProductAssignmentReference\OWP.ProductAssignmentReference.csproj" />
+    <ProjectReference Include="..\src\OWP.RecipientGroup\OWP.RecipientGroup.csproj" />
     <ProjectReference Include="..\src\OWP.SimpleDataApi\OWP.SimpleDataApi.csproj" />
   </ItemGroup>
 </Project>
