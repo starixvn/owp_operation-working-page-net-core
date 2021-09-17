@@ -13,7 +13,7 @@ namespace OWP.ProductAssignmentReference
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("AllowOrigin")]
-    [Authorize]
+    [AllowAnonymous]
     public class ProductAssignmentController : ControllerBase
     {
         private readonly ProductAssignmentService service;

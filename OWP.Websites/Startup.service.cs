@@ -29,6 +29,7 @@ namespace OWP.Websites
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Newtonsoft.Json;
+    using Olympus.SimpleDataApi;
     using ONEbook.UM.AspNetCore;
     using ONEbook.UM.Configurations;
     using ONEbook.UM.Helpers;
@@ -40,6 +41,7 @@ namespace OWP.Websites
     using OWP.OtherSport.Hubs;
     using OWP.PreMatchNotification;
     using OWP.Services;
+    using OWP.SimpleDataApi;
     using OWP.Websites.App_Start;
     using Sentry;
     using StackExchange.Redis;
@@ -227,6 +229,13 @@ namespace OWP.Websites
             services.AddMediatR(typeof(OtherSportController).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(SyncWorkingShiftController).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(PreMatchNotificationController).GetTypeInfo().Assembly);
+        }
+
+        private static void InitializeSimpleDataApiModule(IServiceCollection services)
+        {
+            services.AddTransient<SimpleCriteriaFactory, SimpleCriteriaFactoryImp>();
+            services.AddTransient<SimpleFunctionPermissionFactory, SimpleFunctionPermissionFactoryImp>();
+            services.AddTransient<SimpleMapperFactory, SimpleMapperFactoryImp>();
         }
 
         private static void ConfigureAutoMapper(IServiceCollection services)

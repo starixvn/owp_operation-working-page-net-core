@@ -23,13 +23,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OWP.OtherSport.UnitTests", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OWP.ProductAssignmentReference", "src\OWP.ProductAssignmentReference\OWP.ProductAssignmentReference.csproj", "{55A8C068-90B4-4F6E-9A56-7462439AA1D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OWP.ApiSyncWorkingShift", "src\OWP.ApiSyncWorkingShift\OWP.ApiSyncWorkingShift.csproj", "{C2DD22FB-CA23-4B53-A8B1-40E402CD87DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OWP.ApiSyncWorkingShift", "src\OWP.ApiSyncWorkingShift\OWP.ApiSyncWorkingShift.csproj", "{C2DD22FB-CA23-4B53-A8B1-40E402CD87DF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OWP.PreMatchNotification", "src\OWP.PreMatchNotification\OWP.PreMatchNotification.csproj", "{0DB7DC2F-76C3-41B8-8386-91B58D9669DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OWP.PreMatchNotification.UnitTests", "tests\OWP.PreMatchNotification.UnitTests\OWP.PreMatchNotification.UnitTests.csproj", "{265C8214-70E8-4A5A-92D8-9B026B27168C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OWP.PreMatchNotification.UnitTests", "tests\OWP.PreMatchNotification.UnitTests\OWP.PreMatchNotification.UnitTests.csproj", "{265C8214-70E8-4A5A-92D8-9B026B27168C}"
 EndProject
-
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OWP.SimpleDataApi", "src\OWP.SimpleDataApi\OWP.SimpleDataApi.csproj", "{6ED4C308-12FE-49E6-812B-0E5FDA2D381F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -160,6 +161,18 @@ Global
 		{265C8214-70E8-4A5A-92D8-9B026B27168C}.Release|x64.Build.0 = Release|Any CPU
 		{265C8214-70E8-4A5A-92D8-9B026B27168C}.Release|x86.ActiveCfg = Release|Any CPU
 		{265C8214-70E8-4A5A-92D8-9B026B27168C}.Release|x86.Build.0 = Release|Any CPU
+		{6ED4C308-12FE-49E6-812B-0E5FDA2D381F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6ED4C308-12FE-49E6-812B-0E5FDA2D381F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6ED4C308-12FE-49E6-812B-0E5FDA2D381F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6ED4C308-12FE-49E6-812B-0E5FDA2D381F}.Debug|x64.Build.0 = Debug|Any CPU
+		{6ED4C308-12FE-49E6-812B-0E5FDA2D381F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6ED4C308-12FE-49E6-812B-0E5FDA2D381F}.Debug|x86.Build.0 = Debug|Any CPU
+		{6ED4C308-12FE-49E6-812B-0E5FDA2D381F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6ED4C308-12FE-49E6-812B-0E5FDA2D381F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6ED4C308-12FE-49E6-812B-0E5FDA2D381F}.Release|x64.ActiveCfg = Release|Any CPU
+		{6ED4C308-12FE-49E6-812B-0E5FDA2D381F}.Release|x64.Build.0 = Release|Any CPU
+		{6ED4C308-12FE-49E6-812B-0E5FDA2D381F}.Release|x86.ActiveCfg = Release|Any CPU
+		{6ED4C308-12FE-49E6-812B-0E5FDA2D381F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -174,6 +187,7 @@ Global
 		{C2DD22FB-CA23-4B53-A8B1-40E402CD87DF} = {FE978AE1-F997-41E2-87FD-0FB2639C45B9}
 		{0DB7DC2F-76C3-41B8-8386-91B58D9669DE} = {FE978AE1-F997-41E2-87FD-0FB2639C45B9}
 		{265C8214-70E8-4A5A-92D8-9B026B27168C} = {DE6B2701-004C-4EF0-B4AA-A940FAA3C48F}
+		{6ED4C308-12FE-49E6-812B-0E5FDA2D381F} = {FE978AE1-F997-41E2-87FD-0FB2639C45B9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {30A98F70-B5EC-4D12-870E-5B2223D6612A}
