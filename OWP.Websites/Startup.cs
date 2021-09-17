@@ -29,7 +29,7 @@ namespace OWP.Websites
             ConfigureRedis(services);
             ConfigureSignalR(services);
             ConfigureSession(services);
-
+            InitializeSimpleDataApiModule(services);
             ConfigureNapServices(services);
             ConfigureFanex();
             ConfigureCore(services);
@@ -40,6 +40,8 @@ namespace OWP.Websites
 
             services.AddRazorPages();
             services.AddControllersWithViews();
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,0 +1,18 @@
+﻿using Olympus.SimpleDataApi;
+using OWP.SimpleDataApi.Criteria.TicketCenter;
+
+namespace OWP.SimpleDataApi
+{
+    public class SimpleCriteriaFactoryImp : SimpleCriteriaFactoryBase
+    {
+        static SimpleCriteriaFactoryImp()
+        {
+            RegisterTicketCenter();
+        }
+
+        private static void RegisterTicketCenter()
+        {
+            CriteriaTypes.Add(ConstantApiKey.TicketCenterGetRecipient, typeof(GetRecipientCriteria));
+        }
+    }
+}
