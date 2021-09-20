@@ -25,9 +25,10 @@
 
         [Route("get-recipient-group")]
         [HttpGet]
-        public async Task<IEnumerable<RecipientGroup>> GetWorkingShift()
+        public async Task<IEnumerable<TicketGroup>> GetWorkingShift()
         {
-            return await mediator.Send(new QueryRecipientGroupRequest());
+            var result = await mediator.Send(new QueryRecipientGroupRequest());
+            return result;
         }
     }
 }

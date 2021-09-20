@@ -281,7 +281,7 @@
     <Setting Key="OWP_PreMatchNotification_QueryInfoSiteMatchByOWPLeagueIds" SpName="OWP_PreMatchNotification_QueryInfoSiteMatchByOWPLeagueIds" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_PreMatchNotification_QueryInfoSiteMatchesByDateRange" SpName="OWP_PreMatchNotification_QueryInfoSiteMatchesByDateRange" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
   </Function>
-  <Function Name="TicketCenter">
-    <Setting Key="OWP_TicketCenter_GetRecipient" SpName="OWP_TicketCenter_GetRecipient" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+  <Function Name="RecipientGroup">
+    <Setting Key="OWP_RecipientGroup_GetRecipientGroup" SpName="OWP_RecipientGroup_GetRecipientGroup" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
   </Function>
 </Functions>

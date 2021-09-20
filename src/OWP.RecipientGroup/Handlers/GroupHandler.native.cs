@@ -1,4 +1,6 @@
-﻿namespace OWP.RecipientGroup.Handlers
+﻿using OWP.RecipientGroup.Services;
+
+namespace OWP.RecipientGroup.Handlers
 {
     using MediatR;
     using Models;
@@ -6,24 +8,20 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    public class QueryRecipientGroupRequest : IRequest<IEnumerable<RecipientGroup>> { }
+    public class QueryRecipientGroupRequest : IRequest<IEnumerable<TicketGroup>> { }
 
-    public class GroupHandler : IRequestHandler<QueryRecipientGroupRequest, IEnumerable<RecipientGroup>>
+    public class GroupHandler : IRequestHandler<QueryRecipientGroupRequest, IEnumerable<TicketGroup>>
     {
-        public async Task<IEnumerable<RecipientGroup>> Handle(QueryRecipientGroupRequest request, CancellationToken cancellationToken)
+        private readonly CommandRepository commandRepository;
+
+        public GroupHandler(CommandRepository commandRepository)
         {
-            return new List<RecipientGroup>
-            {
-                new () { GroupId = 1, GroupName = "LA", Recipients = new List<User>{
-                    new () { UserId = 111, Username="Mangooooo"},
-                    new () { UserId = 222, Username="Candy"},
-                } },
-                new () { GroupId = 2, GroupName = "EST", Recipients = new List<User>{
-                    new () { UserId = 100, Username="Mangooooo"},
-                    new () { UserId = 200, Username="Candy"},
-                    new () { UserId = 300, Username="Candy"},
-                } }
-            };
+            this.commandRepository = commandRepository;
+        }
+
+        public async Task<IEnumerable<TicketGroup>> Handle(QueryRecipientGroupRequest request, CancellationToken cancellationToken)
+        {
+            return await commandRepository.GetRecipientGroup();
         }
     }
 }

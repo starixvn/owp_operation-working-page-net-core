@@ -6,14 +6,12 @@
 
   <ItemGroup>
     <Compile Remove="Constants\**" />
-    <Compile Remove="Services\**" />
     <EmbeddedResource Remove="Constants\**" />
-    <EmbeddedResource Remove="Services\**" />
     <None Remove="Constants\**" />
-    <None Remove="Services\**" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Fanex.Data.Repository" Version="4.2.2" />
     <PackageReference Include="MediatR" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.WebApiCompatShim" Version="2.2.0" />
