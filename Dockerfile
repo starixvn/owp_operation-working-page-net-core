@@ -8,6 +8,7 @@ COPY ./src/OWP.ApiSyncWorkingShift/. ./src/OWP.ApiSyncWorkingShift
 COPY ./src/OWP.PreMatchNotification/. ./src/OWP.PreMatchNotification
 COPY ./src/OWP.Maxbet/. ./src/OWP.Maxbet
 COPY ./src/OWP.ProductAssignmentReference/. ./src/OWP.ProductAssignmentReference
+COPY ./src/OWP.SimpleDataApi/. ./src/OWP.SimpleDataApi
 COPY ./OWP.Websites/OWP.Websites.csproj ./OWP.Websites/OWP.Websites.csproj
 
 WORKDIR /src/OWP.Websites
