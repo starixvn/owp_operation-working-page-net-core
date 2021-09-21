@@ -284,4 +284,7 @@
   <Function Name="RecipientGroup">
     <Setting Key="OWP_RecipientGroup_GetRecipientGroup" SpName="OWP_RecipientGroup_GetRecipientGroup" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
   </Function>
+	<Function Name="TicketTypeRecipient">
+		<Setting Key="OWP_TicketTypeRecipient_GetTicketTypeRecipient" SpName="OWP_TicketTypeRecipient_GetTicketTypeRecipient" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+	</Function>
 </Functions>

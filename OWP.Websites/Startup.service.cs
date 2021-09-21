@@ -39,6 +39,7 @@ namespace OWP.Websites
     using OWP.PreMatchNotification;
     using OWP.Services;
     using OWP.SimpleDataApi;
+    using OWP.TicketTypeRecipient;
     using OWP.Websites.App_Start;
     using Sentry;
     using StackExchange.Redis;
@@ -234,6 +235,7 @@ namespace OWP.Websites
             services.AddMediatR(typeof(SyncWorkingShiftController).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(PreMatchNotificationController).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(RecipientGroupController).GetTypeInfo().Assembly);
+            services.AddMediatR(typeof(TicketTypeRecipientController).GetTypeInfo().Assembly);
         }
 
         private static void InitializeSimpleDataApiModule(IServiceCollection services)
