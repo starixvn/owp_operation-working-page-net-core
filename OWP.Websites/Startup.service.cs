@@ -1,4 +1,5 @@
 using OWP.RecipientGroup;
+using OWP.TicketCenter;
 
 namespace OWP.Websites
 {
@@ -158,6 +159,7 @@ namespace OWP.Websites
             services.InjectSyncWorkingShift();
             services.InjectPreMatchNotification();
             services.InjectRecipientGroup();
+            services.InjectTicketCenterService();
         }
 
         private void ConfigureNapServices(IServiceCollection services)
@@ -235,6 +237,8 @@ namespace OWP.Websites
             services.AddMediatR(typeof(SyncWorkingShiftController).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(PreMatchNotificationController).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(RecipientGroupController).GetTypeInfo().Assembly);
+             services.AddMediatR(typeof(TicketCenterController).GetTypeInfo().Assembly);
+
             services.AddMediatR(typeof(TicketTypeRecipientController).GetTypeInfo().Assembly);
         }
 

@@ -294,5 +294,6 @@
 	</Function>
 	<Function Name="TicketCenter">
 		<Setting Key="OWP_TicketCenter_GetRecipient" SpName="OWP_TicketCenter_GetRecipient" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+    <Setting Key="OWP_TicketCenter_NewTicket_GetEvent" SpName="OWP_TicketCenter_NewTicket_GetEvent" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 	</Function>
 </Functions>

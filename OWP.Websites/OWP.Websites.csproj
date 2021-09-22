@@ -61,5 +61,7 @@
     <ProjectReference Include="..\src\OWP.RecipientGroup\OWP.RecipientGroup.csproj" />
     <ProjectReference Include="..\src\OWP.SimpleDataApi\OWP.SimpleDataApi.csproj" />
     <ProjectReference Include="..\src\OWP.TicketTypeRecipient\OWP.TicketTypeRecipient.csproj" />
+    <ProjectReference Include="..\src\OWP.TicketCenter\OWP.TicketCenter.csproj" />
+
   </ItemGroup>
 </Project>
