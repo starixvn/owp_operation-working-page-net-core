@@ -24,7 +24,7 @@ namespace OWP.TicketCenter
         [Produces("application/json")]
         public async Task<IActionResult> GetEventInfo(string keyword)
         {
-            var eventSender= await mediator.Send(new NewTicketRequest
+            var eventSender = await mediator.Send(new NewTicketRequest
             {
                 Keyword = keyword
             });

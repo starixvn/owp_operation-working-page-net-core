@@ -40,8 +40,6 @@ namespace OWP.Websites
 
             services.AddRazorPages();
             services.AddControllersWithViews();
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,7 +48,7 @@ namespace OWP.Websites
             app.UseDeveloperExceptionPage();
 
 #if !DEBUG
-            app.UseHttpsRedirection();
+              app.UseHttpsRedirection();
 #endif
             app.UseStaticFiles();
             app.UseCookiePolicy();
