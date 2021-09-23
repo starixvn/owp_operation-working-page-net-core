@@ -22,11 +22,19 @@ namespace OWP.TicketCenter
             this.mediator = mediator;
         }
 
+        [HttpPost("new-ticket/get-event")]
+
+        public async Task<IActionResult> NewTicketIssueEvent(NewTicketIssueEventRequest request)
+        {
+            await mediator.Send(request);
+            return Ok();
+        }
+
         [HttpGet("new-ticket/get-event")]
         [Produces("application/json")]
         public async Task<IActionResult> GetEventInfo(string keyword)
         {
-            var eventSender = await mediator.Send(new NewTicketRequest
+            var eventSender = await mediator.Send(new GetTicketEventOptionRequest
             {
                 Keyword = keyword
             });

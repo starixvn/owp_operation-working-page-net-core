@@ -36,6 +36,7 @@ namespace OWP.Websites
     using OWP.ApiSyncWorkingShift;
     using OWP.Maxbet;
     using OWP.OtherSport;
+    using TicketCenter= OWP.TicketCenter;
     using OWP.OtherSport.Hubs;
     using OWP.PreMatchNotification;
     using OWP.Services;
@@ -254,6 +255,7 @@ namespace OWP.Websites
             var mapperConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new OtherSport.AutoMapperProfile());
+                mc.AddProfile(new TicketCenter.AutoMapperProfile());
             });
 
             IMapper mapper = mapperConfig.CreateMapper();

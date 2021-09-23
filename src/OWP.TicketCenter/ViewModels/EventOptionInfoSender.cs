@@ -2,7 +2,7 @@
 
 namespace OWP.TicketCenter.ViewModels
 {
-   public  class EventInfoSender
+   public  class EventOptionInfoSender
     {
         public IList<EventInfoViewModel> EventInfoViewModel { get; set; }
 

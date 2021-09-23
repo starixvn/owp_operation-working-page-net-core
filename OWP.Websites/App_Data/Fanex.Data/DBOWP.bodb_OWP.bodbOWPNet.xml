@@ -294,7 +294,11 @@
 	</Function>
 	<Function Name="TicketCenter">
 		<Setting Key="OWP_TicketCenter_GetRecipient" SpName="OWP_TicketCenter_GetRecipient" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+    <Setting Key="OWP_TicketIssueEvent_Create" SpName="OWP_TicketIssueEvent_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_TicketCenter_NewTicket_GetEvent" SpName="OWP_TicketCenter_NewTicket_GetEvent" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key=" OWP_TicketCenter_GetTicketType" SpName=" OWP_TicketCenter_GetTicketType" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+    <Setting Key="OWP_TicketIssueOther_Create" SpName="OWP_TicketIssueOther_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+    <Setting Key="OWP_TicketIssue_Create" SpName="OWP_TicketIssue_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+    <Setting Key="OWP_TicketIssueMessage_Create" SpName="OWP_TicketIssueMessage_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 	</Function>
 </Functions>
