@@ -1,6 +1,7 @@
 ﻿using OWP.TicketCenter.Criteria.NewTicket;
 using OWP.TicketCenter.Handlers;
 using AutoMapper;
+using OWP.TicketCenter.Models;
 
 namespace OWP.TicketCenter
 {
@@ -9,7 +10,8 @@ namespace OWP.TicketCenter
         public AutoMapperProfile()
         {
             CreateMap<NewTicketIssueEventRequest,AddNewTicketIssueEventCriteria>();
-            
+            CreateMap<NewTicketIssueOtherRequest, AddNewTicketIssueOtherCriteria>();
+            CreateMap<MessageModel, AddNewTicketIssueMessageCriteria>();
         }
     }
 }

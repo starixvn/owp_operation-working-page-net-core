@@ -10,6 +10,6 @@ namespace OWP.TicketCenter.Criteria.NewTicket
             => "OWP_TicketCenter_NewTicket_GetEvent";
 
         public override bool IsValid()
-            => true;
+            => Keyword.Length > 1;
     }
 }

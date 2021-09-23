@@ -300,5 +300,6 @@
     <Setting Key="OWP_TicketIssueOther_Create" SpName="OWP_TicketIssueOther_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_TicketIssue_Create" SpName="OWP_TicketIssue_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_TicketIssueMessage_Create" SpName="OWP_TicketIssueMessage_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-	</Function>
+    <Setting Key="OWP_TicketIssue_AddRecipient" SpName="OWP_TicketIssue_AddRecipient" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+  </Function>
 </Functions>
