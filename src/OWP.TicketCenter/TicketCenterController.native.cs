@@ -1,9 +1,11 @@
-﻿using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using OWP.TicketCenter.Handlers;
+using OWP.TicketCenter.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace OWP.TicketCenter
 {
@@ -30,5 +32,9 @@ namespace OWP.TicketCenter
             });
             return Ok(eventSender);
         }
+
+        [HttpGet("gettickettype")]
+        public async Task<IEnumerable<TicketType>> GetTicketTye()
+            => await mediator.Send(new TicketTypeRequest());
     }
 }
