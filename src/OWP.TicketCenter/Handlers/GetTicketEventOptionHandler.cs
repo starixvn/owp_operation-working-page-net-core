@@ -42,7 +42,7 @@ namespace OWP.TicketCenter.Handlers
                     })?.DistinctBy(x=>new {x.UserId, x.Username});
 
                 var leagueViewModel = eventInfoDic[key]
-                    .Select(i => new EventInfoViewModel
+                    .Select(i => new EventOptionInfoViewModel
                     {
                         OwpLeagueId = i.OwpLeagueId,
                         LeagueName = key.LeagueName,

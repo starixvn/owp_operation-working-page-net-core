@@ -14,7 +14,7 @@ namespace OWP.TicketCenter
 
     public interface Repository
     {
-        Task<IList<EventoptionInfo>> GetEventOptionInfo(string keyword);
+        Task<IList<EventOptionInfo>> GetEventOptionInfo(string keyword);
 
         Task<IList<TicketType>> GetTicketTypes();
 
@@ -41,14 +41,14 @@ namespace OWP.TicketCenter
             this.mapper = mapper;
         }
 
-        public async Task<IList<EventoptionInfo>> GetEventOptionInfo(string keyword)
+        public async Task<IList<EventOptionInfo>> GetEventOptionInfo(string keyword)
         {
             var criteria = new GetEventCriteria()
             {
                 Keyword = keyword
             };
             criteria.ThrowExceptionIfInvalid();
-            return (await dynamicRepository.FetchAsync<EventoptionInfo>(new GetEventCriteria
+            return (await dynamicRepository.FetchAsync<EventOptionInfo>(new GetEventCriteria
             {
                 Keyword = keyword
             })).ToList();

@@ -2,7 +2,7 @@
 
 namespace OWP.TicketCenter.Models
 {
-    public class EventoptionInfo
+    public class EventOptionInfo
     {
         public int OwpLeagueId { get; set; }
 
