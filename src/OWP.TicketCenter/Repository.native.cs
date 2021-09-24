@@ -86,7 +86,7 @@ namespace OWP.TicketCenter
             {
                 TicketId = ticketId,
                 UserId = userId,
-                Message = message
+                Message = message ?? "Please add"
             };
             criteria.ThrowExceptionIfInvalid();
             await dynamicRepository.ExecuteAsync(criteria);
