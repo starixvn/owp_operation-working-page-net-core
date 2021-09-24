@@ -3,14 +3,15 @@ using Fanex.Data.Repository;
 using OWP.TicketCenter.Criteria.NewTicket;
 using OWP.TicketCenter.Handlers;
 using OWP.TicketCenter.Models;
+using OWP.Utils;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using OWP.Utils;
 
 namespace OWP.TicketCenter
 {
     using Criteria;
+    using System;
 
     public interface Repository
     {
@@ -27,7 +28,10 @@ namespace OWP.TicketCenter
         Task AddNewMessage(int ticketId, int userId, string message);
 
         Task AddNewRecipients(int ticketId, string recipients, int recipientType);
+
         Task AddNewTicketIssueLeague(NewTicketIssueLeagueRequest request);
+
+        Task GetEventTicketOther(String Subject);
     }
 
     public class RepositoryImp : Repository
@@ -64,7 +68,6 @@ namespace OWP.TicketCenter
             {
                 TicketType = ticketType
             })).FirstOrDefault();
-
 
         public async Task AddNewTicketIssueEvent(NewTicketIssueEventRequest request)
         {
@@ -107,6 +110,40 @@ namespace OWP.TicketCenter
         public async Task AddNewTicketIssueLeague(NewTicketIssueLeagueRequest request)
         {
             var criteria = mapper.Map<AddNewTicketIssueLeagueCriteria>(request);
+            criteria.ThrowExceptionIfInvalid();
+            await dynamicRepository.ExecuteAsync(criteria);
+        }
+
+        public async Task GetEventTicketOther(string subject)
+        {
+            var criteria = new GetEventTicketOtherCriteria
+            {
+                ActorId = 8, // hard code
+                SubjectKeyword = subject,
+            };
+            criteria.ThrowExceptionIfInvalid();
+            await dynamicRepository.ExecuteAsync(criteria);
+        }
+
+        public async Task GetEventTicketMatch(string leagueKey, string matchKey)
+        {
+            var criteria = new GetEventTicketMatchCriteria
+            {
+                ActorId = 8, // hard code
+                LeagueKeyword = leagueKey,
+                MatchKeyword = matchKey,
+            };
+            criteria.ThrowExceptionIfInvalid();
+            await dynamicRepository.ExecuteAsync(criteria);
+        }
+
+        public async Task GetEventTicketLeague(string leagueKey)
+        {
+            var criteria = new GetEventTicketLeagueCriteria
+            {
+                ActorId = 8, // hard code
+                LeagueKeyword = leagueKey,
+            };
             criteria.ThrowExceptionIfInvalid();
             await dynamicRepository.ExecuteAsync(criteria);
         }

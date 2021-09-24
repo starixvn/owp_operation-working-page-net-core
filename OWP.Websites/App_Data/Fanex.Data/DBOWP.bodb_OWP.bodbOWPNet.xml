@@ -294,18 +294,20 @@
 	</Function>
 	<Function Name="TicketCenter">
 		<Setting Key="OWP_TicketCenter_GetRecipient" SpName="OWP_TicketCenter_GetRecipient" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketIssueEvent_Create" SpName="OWP_TicketIssueEvent_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketIssueEvent_Create" SpName="OWP_TicketIssueEvent_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_TicketCenter_NewTicket_GetEvent" SpName="OWP_TicketCenter_NewTicket_GetEvent" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_TicketCenter_GetTicketType" SpName="OWP_TicketCenter_GetTicketType" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketIssueOther_Create" SpName="OWP_TicketIssueOther_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketIssue_Create" SpName="OWP_TicketIssue_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketIssueMessage_Create" SpName="OWP_TicketIssueMessage_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketIssue_AddRecipient" SpName="OWP_TicketIssue_AddRecipient" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketIssueLeague_Create" SpName="OWP_TicketIssueLeague_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-  </Function>
-  <Function Name="FileUpload">
-    <Setting Key="OWP_FileUpload_Upload" SpName="OWP_FileUpload_Upload" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_FileUpload_QueryById" SpName="OWP_FileUpload_QueryById" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    
-  </Function>
+		<Setting Key="OWP_TicketIssueOther_Create" SpName="OWP_TicketIssueOther_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketIssue_Create" SpName="OWP_TicketIssue_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketIssueMessage_Create" SpName="OWP_TicketIssueMessage_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketIssue_AddRecipient" SpName="OWP_TicketIssue_AddRecipient" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketIssueLeague_Create" SpName="OWP_TicketIssueLeague_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenterOther_Get" SpName="OWP_TicketCenterOther_Get" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenterLeague_Get" SpName="OWP_TicketCenterLeague_Get" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenterEvent_Get" SpName="OWP_TicketCenterEvent_Get" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+	</Function>
+	<Function Name="FileUpload">
+		<Setting Key="OWP_FileUpload_Upload" SpName="OWP_FileUpload_Upload" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_FileUpload_QueryById" SpName="OWP_FileUpload_QueryById" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+	</Function>
 </Functions>

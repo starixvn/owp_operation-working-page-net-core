@@ -22,10 +22,7 @@ namespace OWP.TicketCenter
             this.mediator = mediator;
         }
 
-
-
         [HttpPost("new-ticket-issue-event")]
-
         public async Task<int> NewTicketIssueEvent(NewTicketIssueEventRequest request)
         {
             var ticketId = await mediator.Send(request);
@@ -38,7 +35,6 @@ namespace OWP.TicketCenter
         }
 
         [HttpPost("new-ticket-issue-other")]
-
         public async Task<int> NewTicketIssueOther(NewTicketIssueOtherRequest request)
         {
             var ticketId = await mediator.Send(request);
@@ -51,7 +47,6 @@ namespace OWP.TicketCenter
         }
 
         [HttpPost("new-ticket-issue-league")]
-
         public async Task<int> NewTicketIssueLeague(NewTicketIssueLeagueRequest request)
         {
             var ticketId = await mediator.Send(request);
