@@ -50,6 +50,19 @@ namespace OWP.TicketCenter
             return ticketId;
         }
 
+        [HttpPost("new-ticket-issue-league")]
+
+        public async Task<int> NewTicketIssueLeague(NewTicketIssueLeagueRequest request)
+        {
+            var ticketId = await mediator.Send(request);
+            await mediator.Send(new NewTicketRecipientRequest
+            {
+                TicketId = ticketId,
+                Recipient = request.Recipients
+            });
+            return ticketId;
+        }
+
         [HttpGet("new-ticket/get-event")]
         [Produces("application/json")]
         public async Task<IActionResult> GetEventInfo(string keyword)

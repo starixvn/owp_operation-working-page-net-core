@@ -11,7 +11,7 @@ namespace OWP.TicketCenter
         {
             CreateMap<NewTicketIssueEventRequest,AddNewTicketIssueEventCriteria>();
             CreateMap<NewTicketIssueOtherRequest, AddNewTicketIssueOtherCriteria>();
-            CreateMap<MessageModel, AddNewTicketIssueMessageCriteria>();
+            CreateMap<NewTicketIssueLeagueRequest, AddNewTicketIssueLeagueCriteria>();
         }
     }
 }

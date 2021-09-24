@@ -9,18 +9,20 @@ namespace OWP.TicketCenter.Criteria.NewTicket
 
         public int OwpLeagueId { get; set; }
 
-        public int? OwpHomeId { get; set; }
+        public int OwpHomeId { get; set; }
 
         public bool IsLeague { get; set; }
 
-        public int? OwpAwayId { get; set; }
+        public int OwpAwayId { get; set; }
 
         public override string GetSettingKey()
             => "OWP_TicketIssueEvent_Create";
 
         public override bool IsValid()
             => TicketId > 0 &&
-               OwpLeagueId > 0;
+               OwpLeagueId > 0 &&
+               OwpHomeId > 0 &&
+               OwpAwayId > 0;
 
     }
 }

@@ -27,6 +27,7 @@ namespace OWP.TicketCenter
         Task AddNewMessage(int ticketId, int userId, string message);
 
         Task AddNewRecipients(int ticketId, string recipients, int recipientType);
+        Task AddNewTicketIssueLeague(NewTicketIssueLeagueRequest request);
     }
 
     public class RepositoryImp : Repository
@@ -99,6 +100,13 @@ namespace OWP.TicketCenter
                 RecipientIds = recipients,
                 RecipientType = recipientType
             };
+            criteria.ThrowExceptionIfInvalid();
+            await dynamicRepository.ExecuteAsync(criteria);
+        }
+
+        public async Task AddNewTicketIssueLeague(NewTicketIssueLeagueRequest request)
+        {
+            var criteria = mapper.Map<AddNewTicketIssueLeagueCriteria>(request);
             criteria.ThrowExceptionIfInvalid();
             await dynamicRepository.ExecuteAsync(criteria);
         }

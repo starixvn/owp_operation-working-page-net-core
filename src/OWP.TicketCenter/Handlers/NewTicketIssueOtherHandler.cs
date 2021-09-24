@@ -2,15 +2,12 @@
 using System.Threading;
 using System.Threading.Tasks;
 using OWP.TicketCenter.Models;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace OWP.TicketCenter.Handlers
 {
 
     public class NewTicketIssueOtherRequest : NewTicketModelBase, IRequest<int>
     {
-        public int TicketType { get; set; }
 
         public string Subject { get; set; }
     }
@@ -28,7 +25,7 @@ namespace OWP.TicketCenter.Handlers
             var ticketId = await repository.BuildTicketId(request.TicketType);
             request.TicketId = ticketId;
             await repository.AddNewTicketIssueOther(request);
-            await repository.AddNewMessage(ticketId, request.UserId, request.Message);
+            await repository.AddNewMessage(ticketId, request.CreatorId, request.Message);
             return ticketId;
         }
     }

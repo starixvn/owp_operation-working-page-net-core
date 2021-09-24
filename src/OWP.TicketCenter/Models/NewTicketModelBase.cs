@@ -7,9 +7,11 @@ namespace OWP.TicketCenter.Models
         // FE do not care this property
         public int TicketId { get; set; }
 
+        public int TicketType { get; set; }
+
         public string Message { get; set; }
 
-        public int UserId { get; set; }
+        public int CreatorId { get; set; }
 
         public IList<Recipient> Recipients { get; set; }
     }
