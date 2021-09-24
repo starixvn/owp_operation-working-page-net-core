@@ -32,6 +32,10 @@ namespace OWP.TicketCenter
         Task AddNewTicketIssueLeague(NewTicketIssueLeagueRequest request);
 
         Task GetEventTicketOther(String Subject);
+
+        Task GetEventTicketLeague(string leagueKey);
+
+        Task GetEventTicketMatch(string leagueKey, string matchKey);
     }
 
     public class RepositoryImp : Repository

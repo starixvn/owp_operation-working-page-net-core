@@ -69,6 +69,13 @@ namespace OWP.TicketCenter
             return Ok(eventSender);
         }
 
+        [HttpPost("get-event-ticket")]
+        public async Task<IActionResult> GetEventTicket(QueryEventTicketsRequest request)
+        {
+            var result = await mediator.Send(request);
+            return Ok(result);
+        }
+
         [HttpGet("gettickettype")]
         public async Task<IEnumerable<TicketType>> GetTicketTye()
             => await mediator.Send(new TicketTypeRequest());

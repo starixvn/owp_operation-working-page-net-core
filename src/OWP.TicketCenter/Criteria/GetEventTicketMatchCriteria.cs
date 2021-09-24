@@ -2,7 +2,7 @@
 {
     using Fanex.Data.Repository;
 
-    public class GetEventTicketMatchCriteria : CriteriaBase
+    public class GetEventTicketMatchCriteria : NonQueryCommand
     {
         public int ActorId { get; set; }
 
