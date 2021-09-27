@@ -7,7 +7,6 @@ namespace OWP.SimpleDataApi
     {
         static SimpleFunctionPermissionFactoryImp()
         {
-            AddFunctionPermission(ConstantApiKey.TicketCenterGetRecipient, FunctionKeys.TicketCenter, Constant.Policy.Read);
         }
     }
 }

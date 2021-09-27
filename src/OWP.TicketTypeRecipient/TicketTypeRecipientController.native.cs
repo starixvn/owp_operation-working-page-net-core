@@ -10,7 +10,6 @@
 
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
     public class TicketTypeRecipientController : ControllerBase
     {
         private readonly IMediator mediator;

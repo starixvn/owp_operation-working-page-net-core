@@ -287,4 +287,7 @@
 	<Function Name="TicketTypeRecipient">
 		<Setting Key="OWP_TicketTypeRecipient_GetTicketTypeRecipient" SpName="OWP_TicketTypeRecipient_GetTicketTypeRecipient" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 	</Function>
+	<Function Name="TicketCenter">
+		<Setting Key="OWP_TicketCenter_GetRecipient" SpName="OWP_TicketCenter_GetRecipient" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+	</Function>
 </Functions>
