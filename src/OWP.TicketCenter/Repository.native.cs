@@ -31,11 +31,11 @@ namespace OWP.TicketCenter
 
         Task AddNewTicketIssueLeague(NewTicketIssueLeagueRequest request);
 
-        Task GetEventTicketOther(String Subject);
+        Task<IEnumerable<EventTicketOther>> GetEventTicketOther(QueryEventTicketsRequest request);
 
-        Task GetEventTicketLeague(string leagueKey);
+        Task<IEnumerable<EventTicketLeague>> GetEventTicketLeague(QueryEventTicketsRequest request);
 
-        Task GetEventTicketMatch(string leagueKey, string matchKey);
+        Task<IEnumerable<EventTicketMatch>> GetEventTicketMatch(QueryEventTicketsRequest request);
     }
 
     public class RepositoryImp : Repository
@@ -118,38 +118,25 @@ namespace OWP.TicketCenter
             await dynamicRepository.ExecuteAsync(criteria);
         }
 
-        public async Task GetEventTicketOther(string subject)
+        public async Task<IEnumerable<EventTicketOther>> GetEventTicketOther(QueryEventTicketsRequest request)
         {
-            var criteria = new GetEventTicketOtherCriteria
-            {
-                ActorId = 8, // hard code
-                SubjectKeyword = subject,
-            };
+            var criteria = mapper.Map<GetEventTicketOtherCriteria>(request);
             criteria.ThrowExceptionIfInvalid();
-            await dynamicRepository.ExecuteAsync(criteria);
+            return await dynamicRepository.FetchAsync<EventTicketOther>(criteria);
         }
 
-        public async Task GetEventTicketMatch(string leagueKey, string matchKey)
+        public async Task<IEnumerable<EventTicketMatch>> GetEventTicketMatch(QueryEventTicketsRequest request)
         {
-            var criteria = new GetEventTicketMatchCriteria
-            {
-                ActorId = 8, // hard code
-                LeagueKeyword = leagueKey,
-                MatchKeyword = matchKey,
-            };
+            var criteria = mapper.Map<GetEventTicketMatchCriteria>(request);
             criteria.ThrowExceptionIfInvalid();
-            await dynamicRepository.ExecuteAsync(criteria);
+            return await dynamicRepository.FetchAsync<EventTicketMatch>(criteria);
         }
 
-        public async Task GetEventTicketLeague(string leagueKey)
+        public async Task<IEnumerable<EventTicketLeague>> GetEventTicketLeague(QueryEventTicketsRequest request)
         {
-            var criteria = new GetEventTicketLeagueCriteria
-            {
-                ActorId = 8, // hard code
-                LeagueKeyword = leagueKey,
-            };
+            var criteria = mapper.Map<GetEventTicketLeagueCriteria>(request);
             criteria.ThrowExceptionIfInvalid();
-            await dynamicRepository.ExecuteAsync(criteria);
+            return await dynamicRepository.FetchAsync<EventTicketLeague>(criteria);
         }
     }
 }
