@@ -2,14 +2,8 @@
 
 namespace OWP.TicketCenter.Criteria.NewTicket
 {
-    public class AddRecipientCriteria : NonQueryCommand
+    public class AddRecipientCriteria : RecipientBaseCriteria
     {
-        public int TicketId { get; set; }
-
-        public int RecipientType { get; set; }
-
-        public string RecipientIds { get; set; }
-
         public override string GetSettingKey()
             => "OWP_TicketIssue_AddRecipient";
 

@@ -6,6 +6,7 @@ using OWP.TicketCenter.Handlers;
 using OWP.TicketCenter.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using OWP.TicketCenter.ViewModels;
 
 namespace OWP.TicketCenter
 {
@@ -22,6 +23,27 @@ namespace OWP.TicketCenter
             this.mediator = mediator;
         }
 
+        [HttpPost("query-event-tickets")]
+        public async Task<EventTicketViewModel> QueryEventCheckingTickets(QueryEventTicketsRequest request)
+        => await mediator.Send(request);
+
+        [HttpPost("new-message")]
+        public async Task<int> NewMessage(NewMessageRequest request)
+        {
+            var messageId=await mediator.Send(request);
+            await mediator.Send(new NewTicketRecipientRequest
+            {
+                TicketId = request.TicketId,
+                Recipients = request.NewRecipients
+            });
+            await mediator.Send(new DeleteRecipientRequest
+            {
+                TicketId = request.TicketId,
+                Recipients = request.DeletedRecipients
+            });
+            return messageId;
+        }
+
         [HttpPost("new-ticket-issue-event")]
         public async Task<int> NewTicketIssueEvent(NewTicketIssueEventRequest request)
         {
@@ -29,7 +51,7 @@ namespace OWP.TicketCenter
             await mediator.Send(new NewTicketRecipientRequest
             {
                 TicketId = ticketId,
-                Recipient = request.Recipients
+                Recipients = request.Recipients
             });
             return ticketId;
         }
@@ -41,7 +63,7 @@ namespace OWP.TicketCenter
             await mediator.Send(new NewTicketRecipientRequest
             {
                 TicketId = ticketId,
-                Recipient = request.Recipients
+                Recipients = request.Recipients
             });
             return ticketId;
         }
@@ -53,7 +75,7 @@ namespace OWP.TicketCenter
             await mediator.Send(new NewTicketRecipientRequest
             {
                 TicketId = ticketId,
-                Recipient = request.Recipients
+                Recipients = request.Recipients
             });
             return ticketId;
         }

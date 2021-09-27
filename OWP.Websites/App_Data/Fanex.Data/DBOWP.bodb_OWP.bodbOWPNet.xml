@@ -305,6 +305,7 @@
 		<Setting Key="OWP_TicketCenterOther_Get" SpName="OWP_TicketCenterOther_Get" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_TicketCenterLeague_Get" SpName="OWP_TicketCenterLeague_Get" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_TicketCenterEvent_Get" SpName="OWP_TicketCenterEvent_Get" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketIssue_DeleteRecipient" SpName="OWP_TicketIssue_DeleteRecipient" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 	</Function>
 	<Function Name="FileUpload">
 		<Setting Key="OWP_FileUpload_Upload" SpName="OWP_FileUpload_Upload" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
