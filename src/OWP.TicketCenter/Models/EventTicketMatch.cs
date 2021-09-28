@@ -2,9 +2,9 @@
 {
     public class EventTicketMatch : EventTicketBase
     {
-        public int OWPLeagueId { get; set; }
+        public int OwpLeagueId { get; set; }
 
-        public string OWPLeagueName { get; set; }
+        public string OwpLeagueName { get; set; }
 
         public int OwpHomeId { get; set; }
 

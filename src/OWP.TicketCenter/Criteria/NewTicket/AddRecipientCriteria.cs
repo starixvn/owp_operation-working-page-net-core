@@ -2,7 +2,7 @@
 
 namespace OWP.TicketCenter.Criteria.NewTicket
 {
-    public class AddRecipientCriteria : RecipientBaseCriteria
+    public class AddRecipientCriteria : RecipientCriteriaBase
     {
         public override string GetSettingKey()
             => "OWP_TicketIssue_AddRecipient";

@@ -2,7 +2,7 @@
 
 namespace OWP.TicketCenter.Criteria
 {
-    public abstract class RecipientBaseCriteria : NonQueryCommand
+    public abstract class RecipientCriteriaBase : NonQueryCommand
     {
         public int TicketId { get; set; }
 

@@ -34,10 +34,16 @@ namespace OWP.TicketCenter
         Task<IEnumerable<EventTicketOtherRaw>> GetEventTicketOther(QueryEventTicketsRequest request);
 
         Task<IEnumerable<EventTicketLeagueRaw>> GetEventTicketLeague(QueryEventTicketsRequest request);
-         
+
         Task<IEnumerable<EventTicketMatchRaw>> GetEventTicketMatch(QueryEventTicketsRequest request);
 
         Task DeleteRecipients(int ticketId, string recipientIds, int recipientRecipientType);
+
+        Task<IEnumerable<EventTicketMatch>> GetTicketMatchDetail(int ticketId);
+
+        Task<IEnumerable<EventTicketLeague>> GetTicketLeagueDetail(int ticketId);
+
+        Task<IEnumerable<EventTicketOther>> GetTicketOtherDetail(int ticketId);
     }
 
     public class RepositoryImp : Repository
@@ -145,6 +151,36 @@ namespace OWP.TicketCenter
             };
             criteria.ThrowExceptionIfInvalid();
             await dynamicRepository.ExecuteAsync(criteria);
+        }
+
+        public async Task<IEnumerable<EventTicketMatch>> GetTicketMatchDetail(int ticketId)
+        {
+            var criteria = new TicketDetailLeagueCriteria
+            {
+                TicketId = ticketId
+            };
+            criteria.ThrowExceptionIfInvalid();
+            return await dynamicRepository.FetchAsync<EventTicketMatch>(criteria);
+        }
+
+        public async Task<IEnumerable<EventTicketLeague>> GetTicketLeagueDetail(int ticketId)
+        {
+            var criteria = new TicketDetailLeagueCriteria
+            {
+                TicketId = ticketId
+            };
+            criteria.ThrowExceptionIfInvalid();
+            return await dynamicRepository.FetchAsync<EventTicketLeague>(criteria);
+        }
+
+        public async Task<IEnumerable<EventTicketOther>> GetTicketOtherDetail(int ticketId)
+        {
+            var criteria = new TicketDetailLeagueCriteria
+            {
+                TicketId = ticketId
+            };
+            criteria.ThrowExceptionIfInvalid();
+            return await dynamicRepository.FetchAsync<EventTicketOther>(criteria);
         }
 
         public async Task<IEnumerable<EventTicketLeagueRaw>> GetEventTicketLeague(QueryEventTicketsRequest request)

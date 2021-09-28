@@ -2,7 +2,7 @@
 
 namespace OWP.TicketCenter.Criteria
 {
-    public abstract class GetEventTicketBaseCriteria : CriteriaBase
+    public abstract class GetEventTicketCriteriaBase : CriteriaBase
     {
         public int ActorId { get; set; }
 
