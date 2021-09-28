@@ -3,9 +3,11 @@ using OWP.TicketCenter.ViewModels;
 
 namespace OWP.TicketCenter.Handlers
 {
+    using System.Collections.Generic;
     using MediatR;
     using System.Threading;
     using System.Threading.Tasks;
+    using Models;
 
     public class QueryEventTicketsRequest : IRequest<EventTicketViewModel>
     {
@@ -41,5 +43,13 @@ namespace OWP.TicketCenter.Handlers
                 EventTicketOthers = ticketOther.ToList()
             };
         }
+
+        //public List<EventTicketBase> reduce(List<EventTicketBaseRaw> ticketRaws)
+        //{
+        //    var tickets = mapper.Map<List<EventTicketBase>>(ticketRaws);
+        //    return tickets.GroupBy(p => p.TicketId)
+        //        .Select(g => g.First())
+        //        .ToList();
+        //}
     }
 }

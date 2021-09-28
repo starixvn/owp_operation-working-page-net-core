@@ -31,11 +31,11 @@ namespace OWP.TicketCenter
 
         Task AddNewTicketIssueLeague(NewTicketIssueLeagueRequest request);
 
-        Task<IEnumerable<EventTicketOther>> GetEventTicketOther(QueryEventTicketsRequest request);
+        Task<IEnumerable<EventTicketOtherRaw>> GetEventTicketOther(QueryEventTicketsRequest request);
 
-        Task<IEnumerable<EventTicketLeague>> GetEventTicketLeague(QueryEventTicketsRequest request);
+        Task<IEnumerable<EventTicketLeagueRaw>> GetEventTicketLeague(QueryEventTicketsRequest request);
          
-        Task<IEnumerable<EventTicketMatch>> GetEventTicketMatch(QueryEventTicketsRequest request);
+        Task<IEnumerable<EventTicketMatchRaw>> GetEventTicketMatch(QueryEventTicketsRequest request);
 
         Task DeleteRecipients(int ticketId, string recipientIds, int recipientRecipientType);
     }
@@ -121,18 +121,18 @@ namespace OWP.TicketCenter
             await dynamicRepository.ExecuteAsync(criteria);
         }
 
-        public async Task<IEnumerable<EventTicketOther>> GetEventTicketOther(QueryEventTicketsRequest request)
+        public async Task<IEnumerable<EventTicketOtherRaw>> GetEventTicketOther(QueryEventTicketsRequest request)
         {
             var criteria = mapper.Map<GetEventTicketOtherCriteria>(request);
             criteria.ThrowExceptionIfInvalid();
-            return await dynamicRepository.FetchAsync<EventTicketOther>(criteria);
+            return await dynamicRepository.FetchAsync<EventTicketOtherRaw>(criteria);
         }
 
-        public async Task<IEnumerable<EventTicketMatch>> GetEventTicketMatch(QueryEventTicketsRequest request)
+        public async Task<IEnumerable<EventTicketMatchRaw>> GetEventTicketMatch(QueryEventTicketsRequest request)
         {
             var criteria = mapper.Map<GetEventTicketMatchCriteria>(request);
             criteria.ThrowExceptionIfInvalid();
-            return await dynamicRepository.FetchAsync<EventTicketMatch>(criteria);
+            return await dynamicRepository.FetchAsync<EventTicketMatchRaw>(criteria);
         }
 
         public async Task DeleteRecipients(int ticketId, string recipientIds, int recipientType)
@@ -147,11 +147,11 @@ namespace OWP.TicketCenter
             await dynamicRepository.ExecuteAsync(criteria);
         }
 
-        public async Task<IEnumerable<EventTicketLeague>> GetEventTicketLeague(QueryEventTicketsRequest request)
+        public async Task<IEnumerable<EventTicketLeagueRaw>> GetEventTicketLeague(QueryEventTicketsRequest request)
         {
             var criteria = mapper.Map<GetEventTicketLeagueCriteria>(request);
             criteria.ThrowExceptionIfInvalid();
-            return await dynamicRepository.FetchAsync<EventTicketLeague>(criteria);
+            return await dynamicRepository.FetchAsync<EventTicketLeagueRaw>(criteria);
         }
     }
 }

@@ -1,8 +1,8 @@
-﻿using System;
-
-namespace OWP.TicketCenter.Models
+﻿namespace OWP.TicketCenter.Models
 {
-    public class EventTicketBase
+    using System.Collections.Generic;
+
+    public abstract class EventTicketBase
     {
         public int TicketId { get; set; }
 
@@ -10,10 +10,6 @@ namespace OWP.TicketCenter.Models
 
         public string TypeName { get; set; }
 
-        public int UserId { get; set; }
-
-        public DateTime CreatedDate { get; set; }
-
-        public string Message { get; set; }
+        public List<Comment> Comments { get; set; }
     }
 }
