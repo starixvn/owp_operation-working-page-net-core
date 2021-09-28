@@ -4,12 +4,14 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using OWP.TicketCenter.Handlers;
 using OWP.TicketCenter.Models;
+using OWP.TicketCenter.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using OWP.TicketCenter.ViewModels;
 
 namespace OWP.TicketCenter
 {
+    using Newtonsoft.Json;
+
     [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
@@ -30,7 +32,7 @@ namespace OWP.TicketCenter
         [HttpPost("new-message")]
         public async Task<int> NewMessage(NewMessageRequest request)
         {
-            var messageId=await mediator.Send(request);
+            var messageId = await mediator.Send(request);
             await mediator.Send(new NewTicketRecipientRequest
             {
                 TicketId = request.TicketId,
@@ -95,7 +97,7 @@ namespace OWP.TicketCenter
         public async Task<IActionResult> GetEventTicket(QueryEventTicketsRequest request)
         {
             var result = await mediator.Send(request);
-            return Ok(result);
+            return Ok(JsonConvert.SerializeObject(result));
         }
 
         [HttpGet("get-ticket-type")]
