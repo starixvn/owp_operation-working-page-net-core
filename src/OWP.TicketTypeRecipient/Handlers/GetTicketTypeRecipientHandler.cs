@@ -8,11 +8,11 @@
     using MediatR;
     using Models;
 
-    public class GetTicketTypeRecipientRequest : IRequest<IList<TicketTypeRecipient>>
+    public class GetTicketTypeRecipientRequest : IRequest<IEnumerable<TicketTypeRecipient>>
     {
     }
 
-    public class GetTicketTypeRecipientHandler : IRequestHandler<GetTicketTypeRecipientRequest, IList<TicketTypeRecipient>>
+    public class GetTicketTypeRecipientHandler : IRequestHandler<GetTicketTypeRecipientRequest, IEnumerable<TicketTypeRecipient>>
     {
         private readonly IDynamicRepository repository;
 
@@ -21,32 +21,30 @@
             repository = dynamicRepository;
         }
 
-        public async Task<IList<TicketTypeRecipient>> Handle(GetTicketTypeRecipientRequest request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<TicketTypeRecipient>> Handle(GetTicketTypeRecipientRequest request, CancellationToken cancellationToken)
         {
-            var recipientData = await repository.FetchAsync<RecipientData>(new GetRecipientDataCriteria());
+            var (ticketTypes, recipients) = await repository.FetchMultipleAsync<TicketType, RecipientData>(new GetRecipientDataCriteria());
 
-            var result = recipientData.GroupBy(x => new TicketType { TypeId = x.TypeId, TypeName = x.TypeName },
-                x => new
+            return GetResult(ticketTypes, recipients);
+        }
+
+        private static IEnumerable<TicketTypeRecipient> GetResult(IEnumerable<TicketType> ticketTypes, IEnumerable<RecipientData> recipients)
+        {
+            foreach (var type in ticketTypes)
+            {
+                yield return new TicketTypeRecipient
                 {
-                    x.RecipientId,
-                    x.RecipientName,
-                    x.RecipientType,
-                    x.TicketTypeRecipientId
-                },
-                (key, values) => new TicketTypeRecipient
-                {
-                    TicketType = key,
-                    Recipients = values.Select(y => new Recipient
+                    TicketType = type,
+                    Recipients = recipients.Where(x => x.TypeId == type.TypeId)
+                    .Select(y => new Recipient
                     {
                         RecipientId = y.RecipientId,
                         RecipientName = y.RecipientName,
                         RecipientType = y.RecipientType,
                         TicketTypeRecipientId = y.TicketTypeRecipientId
                     }).ToList()
-                },
-                new TicketType()).ToList();
-
-            return result;
+                };
+            }
         }
 
         public class GetRecipientDataCriteria : CriteriaBase
@@ -59,8 +57,6 @@
         public class RecipientData
         {
             public int TypeId { get; set; }
-
-            public string TypeName { get; set; }
 
             public int TicketTypeRecipientId { get; set; }
 

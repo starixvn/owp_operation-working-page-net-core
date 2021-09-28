@@ -2,7 +2,7 @@
 {
     public class Recipient
     {
-        public int TicketTypeRecipientId { get; set; }
+        public int? TicketTypeRecipientId { get; set; }
 
         public int RecipientId { get; set; }
 

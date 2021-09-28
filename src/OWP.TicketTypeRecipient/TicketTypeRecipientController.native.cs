@@ -6,7 +6,6 @@
     using MediatR;
     using Models;
     using OWP.TicketTypeRecipient.Handlers;
-    using Microsoft.AspNetCore.Authorization;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -21,9 +20,16 @@
 
         [Route("get-ticket-recipients")]
         [HttpGet]
-        public async Task<IList<TicketTypeRecipient>> GetTicketTypeRecipients()
+        public async Task<IEnumerable<TicketTypeRecipient>> GetTicketTypeRecipients()
         {
             return await mediator.Send(new GetTicketTypeRecipientRequest());
+        }
+
+        [Route("save-ticket-recipients")]
+        [HttpPost]
+        public async Task SaveTicketTypeRecipients(SaveTicketTypeRecipientsCommand command)
+        {
+            await mediator.Send(command);
         }
     }
 }
