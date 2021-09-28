@@ -2,7 +2,7 @@
 
 namespace OWP.TicketCenter.Models
 {
-    public class EventTicketBaseRaw
+    public abstract class EventTicketModelBase
     {
         public int TicketId { get; set; }
 
@@ -14,8 +14,10 @@ namespace OWP.TicketCenter.Models
 
         public string Username { get; set; }
 
-        public DateTime CreatedDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
 
         public string Message { get; set; }
+
+        public int MessageId { get; set; }
     }
 }

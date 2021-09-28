@@ -24,7 +24,8 @@ namespace OWP.TicketCenter.Services
         {
             var message = ticketSource
                 .Select(t => mapper.Map<MessageDetail>(t))
-                .DistinctBy(m => new { m.UserId, m.Username, m.CreatedDate, m.MessageId, m.Message });
+                .DistinctBy(m => new { m.UserId, m.Username, m.CreatedDate, m.MessageId, m.Message })
+                .OrderBy(m=>m.CreatedDate);
             return message.ToList();
         }
     }

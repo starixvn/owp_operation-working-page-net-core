@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace OWP.TicketCenter.Handlers
 {
-    public class TicketTypeRequest : IRequest<IList<TicketType>>
+    public class TicketTypeRequest : IRequest<IList<TicketTypeModel>>
     {
     }
 
-    public class TicketTypeHandler : IRequestHandler<TicketTypeRequest, IList<TicketType>>
+    public class TicketTypeHandler : IRequestHandler<TicketTypeRequest, IList<TicketTypeModel>>
     {
         private readonly Repository repository;
 
@@ -19,7 +19,7 @@ namespace OWP.TicketCenter.Handlers
             this.repository = repository;
         }
 
-        public async Task<IList<TicketType>> Handle(TicketTypeRequest request, CancellationToken cancellationToken)
+        public async Task<IList<TicketTypeModel>> Handle(TicketTypeRequest request, CancellationToken cancellationToken)
             => await repository.GetTicketTypes();
     }
 }

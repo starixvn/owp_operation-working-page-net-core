@@ -7,7 +7,7 @@ using OWP.TicketCenter.Services;
 
 namespace OWP.TicketCenter.Handlers
 {
-    public class NewTicketRecipientRequest : RecipientRequestBase
+    public class NewTicketRecipientRequest : RecipientRequestModelBase
     {
     }
 

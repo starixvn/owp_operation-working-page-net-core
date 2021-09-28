@@ -1,6 +1,6 @@
 ﻿namespace OWP.TicketCenter.Models
 {
-    public class EventTicketOther : EventTicketBase
+    public class EventTicketOtherModel : EventTicketModelBase
     {
         public string Subject { get; set; }
     }

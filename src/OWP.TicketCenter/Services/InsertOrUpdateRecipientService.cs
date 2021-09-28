@@ -11,7 +11,7 @@ namespace OWP.TicketCenter.Services
     public interface InsertOrUpdateRecipientService
     {
         Task<bool> Execute(
-            IList<Recipient> recipients,
+            IList<RecipientModel> recipients,
             int ticketId,
             RecipientAction action);
     }
@@ -25,7 +25,7 @@ namespace OWP.TicketCenter.Services
         }
 
         public async Task<bool> Execute(
-            IList<Recipient> recipients,
+            IList<RecipientModel> recipients,
             int ticketId,
             RecipientAction action)
         {

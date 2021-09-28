@@ -4,6 +4,6 @@
     {
         public int OwpLeagueId { get; set; }
 
-        public  string LeagueName { get; set; }
+        public  string OwpLeagueName { get; set; }
     }
 }

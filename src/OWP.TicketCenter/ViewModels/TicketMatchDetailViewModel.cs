@@ -16,6 +16,6 @@ namespace OWP.TicketCenter.ViewModels
 
         public string AwayName { get; set; }
 
-        public DateTime KOTime { get; set; }
+        public DateTime? KOTime { get; set; }
     }
 }

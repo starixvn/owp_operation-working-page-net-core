@@ -10,6 +10,13 @@ namespace OWP.Websites.App_Start
         {
             services.AddScoped<Repository, RepositoryImp>();
             services.AddScoped<InsertOrUpdateRecipientService, InsertOrUpdateRecipientServiceImp>();
+            services.AddScoped<TicketDetailService, TicketDetailServiceImp>();
+            services.AddScoped<TicketLeagueDetailService, TicketLeagueDetailServiceImp>();
+            services.AddScoped<TicketMatchDetailService, TicketMatchDetailServiceImp>();
+            services.AddScoped<TicketOtherDetailService, TicketOtherDetailServiceImp>();
+            services.AddScoped<EventTicketMatchService, EventTicketMatchServiceImp>();
+            services.AddScoped<EventTicketOtherService, EventTicketOtherServiceImp>();
+            services.AddScoped<EventTicketLeagueService, EventTicketLeagueServiceImp>();
         }
     }
 }

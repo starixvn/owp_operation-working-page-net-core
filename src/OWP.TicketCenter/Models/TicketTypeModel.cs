@@ -1,6 +1,6 @@
 ﻿namespace OWP.TicketCenter.Models
 {
-    public class TicketType
+    public class TicketTypeModel
     {
         public int Id { get; set; }
 

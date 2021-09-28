@@ -13,6 +13,6 @@ namespace OWP.TicketCenter.Models
 
         public int CreatorId { get; set; }
 
-        public IList<Recipient> Recipients { get; set; }
+        public IList<RecipientModel> Recipients { get; set; }
     }
 }

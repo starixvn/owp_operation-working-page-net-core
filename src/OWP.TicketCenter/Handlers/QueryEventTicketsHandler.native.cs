@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using OWP.TicketCenter.Services;
 using OWP.TicketCenter.ViewModels;
 
 namespace OWP.TicketCenter.Handlers
@@ -24,32 +25,33 @@ namespace OWP.TicketCenter.Handlers
 
     public class QueryEventTicketsHandler : IRequestHandler<QueryEventTicketsRequest, EventTicketViewModel>
     {
-        private readonly Repository repository;
+        private readonly EventTicketLeagueService leagueService;
 
-        public QueryEventTicketsHandler(Repository repository)
+        private readonly EventTicketMatchService matchService;
+
+        private readonly EventTicketOtherService otherService;
+
+        public QueryEventTicketsHandler(EventTicketLeagueService leagueService,
+            EventTicketMatchService matchService,
+            EventTicketOtherService otherService)
         {
-            this.repository = repository;
+            this.leagueService = leagueService;
+            this.matchService = matchService;
+            this.otherService = otherService;
         }
 
         public async Task<EventTicketViewModel> Handle(QueryEventTicketsRequest request, CancellationToken cancellationToken)
         {
-            var ticketLeague = await repository.GetEventTicketLeague(request);
-            var ticketMatch = await repository.GetEventTicketMatch(request);
-            var ticketOther = await repository.GetEventTicketOther(request);
+
+            var ticketLeague = await leagueService.GetAllLeague(request);
+            var ticketMatch = await matchService.GetAllMatch(request);
+            var ticketOthers = await otherService.GetAllTicketOther(request);
             return new EventTicketViewModel
             {
                 EventTicketLeagues = ticketLeague.ToList(),
                 EventTicketMatch = ticketMatch.ToList(),
-                EventTicketOthers = ticketOther.ToList()
+                EventTicketOthers = ticketOthers.ToList()
             };
         }
-
-        //public List<EventTicketBase> reduce(List<EventTicketBaseRaw> ticketRaws)
-        //{
-        //    var tickets = mapper.Map<List<EventTicketBase>>(ticketRaws);
-        //    return tickets.GroupBy(p => p.TicketId)
-        //        .Select(g => g.First())
-        //        .ToList();
-        //}
     }
 }

@@ -3,10 +3,10 @@ using MediatR;
 
 namespace OWP.TicketCenter.Models
 {
-    public class RecipientRequestBase: IRequest<bool>
+    public class RecipientRequestModelBase: IRequest<bool>
     {
         public int TicketId { get; set; }
 
-        public IList<Recipient> Recipients { get; set; }
+        public IList<RecipientModel> Recipients { get; set; }
     }
 }

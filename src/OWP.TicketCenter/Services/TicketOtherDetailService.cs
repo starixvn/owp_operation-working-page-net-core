@@ -8,7 +8,7 @@ namespace OWP.TicketCenter.Services
     
     public interface TicketOtherDetailService
     {
-        Task<TicketOtherDetailViewModel> GetTicketMatchDetail(int ticketId);
+        Task<TicketOtherDetailViewModel> GetTicketOtherDetail(int ticketId);
     }
 
     public class TicketOtherDetailServiceImp : TicketOtherDetailService
@@ -26,7 +26,7 @@ namespace OWP.TicketCenter.Services
             this.mapper = mapper;
         }
 
-        public async Task<TicketOtherDetailViewModel> GetTicketMatchDetail(int ticketId)
+        public async Task<TicketOtherDetailViewModel> GetTicketOtherDetail(int ticketId)
         {
             var ticketOther = await repository.GetTicketOtherDetail(ticketId);
             var ticketFirst = ticketOther.First();

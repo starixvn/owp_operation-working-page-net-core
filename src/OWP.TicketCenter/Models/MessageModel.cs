@@ -2,14 +2,16 @@
 
 namespace OWP.TicketCenter.Models
 {
-    public class Comment
+    public class MessageModel
     {
         public int UserId { get; set; }
 
         public string Username { get; set; }
 
-        public DateTime CreatedDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
 
         public string Message { get; set; }
+
+        public int MessageId { get; set; }
     }
 }

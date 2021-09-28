@@ -15,9 +15,9 @@ namespace OWP.TicketCenter
 
     public interface Repository
     {
-        Task<IList<EventOptionInfo>> GetEventOptionInfo(string keyword);
+        Task<IList<EventOptionInfoModel>> GetEventOptionInfo(string keyword);
 
-        Task<IList<TicketType>> GetTicketTypes();
+        Task<IList<TicketTypeModel>> GetTicketTypes();
 
         Task<int> BuildTicketId(int ticketType);
 
@@ -31,19 +31,19 @@ namespace OWP.TicketCenter
 
         Task AddNewTicketIssueLeague(NewTicketIssueLeagueRequest request);
 
-        Task<IEnumerable<EventTicketOtherRaw>> GetEventTicketOther(QueryEventTicketsRequest request);
+        Task<IEnumerable<EventTicketOtherModel>> GetEventTicketOther(QueryEventTicketsRequest request);
 
-        Task<IEnumerable<EventTicketLeagueRaw>> GetEventTicketLeague(QueryEventTicketsRequest request);
+        Task<IEnumerable<EventTicketLeagueModel>> GetEventTicketLeague(QueryEventTicketsRequest request);
 
-        Task<IEnumerable<EventTicketMatchRaw>> GetEventTicketMatch(QueryEventTicketsRequest request);
+        Task<IEnumerable<EventTicketMatchModel>> GetEventTicketMatch(QueryEventTicketsRequest request);
 
         Task DeleteRecipients(int ticketId, string recipientIds, int recipientRecipientType);
 
-        Task<IEnumerable<EventTicketMatch>> GetTicketMatchDetail(int ticketId);
+        Task<IEnumerable<EventTicketMatchModel>> GetTicketMatchDetail(int ticketId);
 
-        Task<IEnumerable<EventTicketLeague>> GetTicketLeagueDetail(int ticketId);
+        Task<IEnumerable<EventTicketLeagueModel>> GetTicketLeagueDetail(int ticketId);
 
-        Task<IEnumerable<EventTicketOther>> GetTicketOtherDetail(int ticketId);
+        Task<IEnumerable<EventTicketOtherModel>> GetTicketOtherDetail(int ticketId);
     }
 
     public class RepositoryImp : Repository
@@ -58,21 +58,21 @@ namespace OWP.TicketCenter
             this.mapper = mapper;
         }
 
-        public async Task<IList<EventOptionInfo>> GetEventOptionInfo(string keyword)
+        public async Task<IList<EventOptionInfoModel>> GetEventOptionInfo(string keyword)
         {
             var criteria = new GetEventCriteria()
             {
                 Keyword = keyword
             };
             criteria.ThrowExceptionIfInvalid();
-            return (await dynamicRepository.FetchAsync<EventOptionInfo>(new GetEventCriteria
+            return (await dynamicRepository.FetchAsync<EventOptionInfoModel>(new GetEventCriteria
             {
                 Keyword = keyword
             })).ToList();
         }
 
-        public async Task<IList<TicketType>> GetTicketTypes()
-                   => (await dynamicRepository.FetchAsync<TicketType>(new GetTicketTypeCriteria()))
+        public async Task<IList<TicketTypeModel>> GetTicketTypes()
+                   => (await dynamicRepository.FetchAsync<TicketTypeModel>(new GetTicketTypeCriteria()))
                        .ToList();
 
         public async Task<int> BuildTicketId(int ticketType)
@@ -127,20 +127,6 @@ namespace OWP.TicketCenter
             await dynamicRepository.ExecuteAsync(criteria);
         }
 
-        public async Task<IEnumerable<EventTicketOtherRaw>> GetEventTicketOther(QueryEventTicketsRequest request)
-        {
-            var criteria = mapper.Map<GetEventTicketOtherCriteria>(request);
-            criteria.ThrowExceptionIfInvalid();
-            return await dynamicRepository.FetchAsync<EventTicketOtherRaw>(criteria);
-        }
-
-        public async Task<IEnumerable<EventTicketMatchRaw>> GetEventTicketMatch(QueryEventTicketsRequest request)
-        {
-            var criteria = mapper.Map<GetEventTicketMatchCriteria>(request);
-            criteria.ThrowExceptionIfInvalid();
-            return await dynamicRepository.FetchAsync<EventTicketMatchRaw>(criteria);
-        }
-
         public async Task DeleteRecipients(int ticketId, string recipientIds, int recipientType)
         {
             var criteria = new DeleteRecipientCriteria
@@ -153,41 +139,55 @@ namespace OWP.TicketCenter
             await dynamicRepository.ExecuteAsync(criteria);
         }
 
-        public async Task<IEnumerable<EventTicketMatch>> GetTicketMatchDetail(int ticketId)
+        public async Task<IEnumerable<EventTicketOtherModel>> GetEventTicketOther(QueryEventTicketsRequest request)
+        {
+            var criteria = mapper.Map<GetEventTicketOtherCriteria>(request);
+            criteria.ThrowExceptionIfInvalid();
+            return await dynamicRepository.FetchAsync<EventTicketOtherModel>(criteria);
+        }
+
+        public async Task<IEnumerable<EventTicketMatchModel>> GetEventTicketMatch(QueryEventTicketsRequest request)
+        {
+            var criteria = mapper.Map<GetEventTicketMatchCriteria>(request);
+            criteria.ThrowExceptionIfInvalid();
+            return await dynamicRepository.FetchAsync<EventTicketMatchModel>(criteria);
+        }
+
+        public async Task<IEnumerable<EventTicketMatchModel>> GetTicketMatchDetail(int ticketId)
+        {
+            var criteria = new TicketDetailMatchCriteria
+            {
+                TicketId = ticketId
+            };
+            criteria.ThrowExceptionIfInvalid();
+            return await dynamicRepository.FetchAsync<EventTicketMatchModel>(criteria);
+        }
+
+        public async Task<IEnumerable<EventTicketLeagueModel>> GetTicketLeagueDetail(int ticketId)
         {
             var criteria = new TicketDetailLeagueCriteria
             {
                 TicketId = ticketId
             };
             criteria.ThrowExceptionIfInvalid();
-            return await dynamicRepository.FetchAsync<EventTicketMatch>(criteria);
+            return await dynamicRepository.FetchAsync<EventTicketLeagueModel>(criteria);
         }
 
-        public async Task<IEnumerable<EventTicketLeague>> GetTicketLeagueDetail(int ticketId)
+        public async Task<IEnumerable<EventTicketOtherModel>> GetTicketOtherDetail(int ticketId)
         {
-            var criteria = new TicketDetailLeagueCriteria
+            var criteria = new TicketDetailOtherCriteria
             {
                 TicketId = ticketId
             };
             criteria.ThrowExceptionIfInvalid();
-            return await dynamicRepository.FetchAsync<EventTicketLeague>(criteria);
+            return await dynamicRepository.FetchAsync<EventTicketOtherModel>(criteria);
         }
 
-        public async Task<IEnumerable<EventTicketOther>> GetTicketOtherDetail(int ticketId)
-        {
-            var criteria = new TicketDetailLeagueCriteria
-            {
-                TicketId = ticketId
-            };
-            criteria.ThrowExceptionIfInvalid();
-            return await dynamicRepository.FetchAsync<EventTicketOther>(criteria);
-        }
-
-        public async Task<IEnumerable<EventTicketLeagueRaw>> GetEventTicketLeague(QueryEventTicketsRequest request)
+        public async Task<IEnumerable<EventTicketLeagueModel>> GetEventTicketLeague(QueryEventTicketsRequest request)
         {
             var criteria = mapper.Map<GetEventTicketLeagueCriteria>(request);
             criteria.ThrowExceptionIfInvalid();
-            return await dynamicRepository.FetchAsync<EventTicketLeagueRaw>(criteria);
+            return await dynamicRepository.FetchAsync<EventTicketLeagueModel>(criteria);
         }
     }
 }

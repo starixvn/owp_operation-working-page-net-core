@@ -1,6 +1,6 @@
 ﻿namespace OWP.TicketCenter.Models
 {
-    public class EventTicketLeagueRaw : EventTicketBaseRaw
+    public class EventTicketLeagueModel : EventTicketModelBase
     {
         public int OwpLeagueId { get; set; }
 

@@ -5,12 +5,12 @@ using OWP.TicketCenter.ViewModels;
 
 namespace OWP.TicketCenter.Services
 {
-    public interface TicketMatchDetail
+    public interface TicketMatchDetailService
     {
         Task<TicketMatchDetailViewModel> GetTicketMatchDetail(int ticketId);
     }
 
-    public class TicketMatchDetailImp : TicketMatchDetail
+    public class TicketMatchDetailServiceImp : TicketMatchDetailService
     {
         private readonly Repository repository;
 
@@ -18,7 +18,7 @@ namespace OWP.TicketCenter.Services
 
         private readonly IMapper mapper;
 
-        public TicketMatchDetailImp(Repository repository, TicketDetailService ticketDetailService, IMapper mapper)
+        public TicketMatchDetailServiceImp(Repository repository, TicketDetailService ticketDetailService, IMapper mapper)
         {
             this.repository = repository;
             this.ticketDetailService = ticketDetailService;

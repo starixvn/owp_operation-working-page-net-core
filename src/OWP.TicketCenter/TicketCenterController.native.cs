@@ -101,7 +101,19 @@ namespace OWP.TicketCenter
         }
 
         [HttpGet("get-ticket-type")]
-        public async Task<IEnumerable<TicketType>> GetTicketTye()
+        public async Task<IEnumerable<TicketTypeModel>> GetTicketTye()
             => await mediator.Send(new TicketTypeRequest());
+
+        [HttpPost("ticket-detail/get-league")]
+        public async Task<TicketLeagueDetailViewModel> GetTicketLeagueDetail(TicketLeagueDetailRequest request)
+            => await mediator.Send(request);
+
+        [HttpPost("ticket-detail/get-match")]
+        public async Task<TicketMatchDetailViewModel> GetTicketMatchDetail(TicketMatchDetailRequest request)
+            => await mediator.Send(request);
+
+        [HttpPost("ticket-detail/get-other")]
+        public async Task<TicketOtherDetailViewModel> GetTicketOtherDetail(TicketOtherDetailRequest request)
+            => await mediator.Send(request);
     }
 }

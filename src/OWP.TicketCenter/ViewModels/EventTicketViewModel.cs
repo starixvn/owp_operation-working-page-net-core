@@ -5,23 +5,22 @@ namespace OWP.TicketCenter.ViewModels
 {
     public class EventTicketViewModel
     {
-        public IList<EventTicketLeagueRaw> EventTicketLeagues
+        public IList<TicketLeagueDetailViewModel> EventTicketLeagues
         {
             get;
             set;
         }
 
-        public IList<EventTicketMatchRaw> EventTicketMatch
+        public IList<TicketMatchDetailViewModel> EventTicketMatch
         {
             get;
             set;
         }
 
-        public IList<EventTicketOtherRaw> EventTicketOthers
+        public IList<TicketOtherDetailViewModel> EventTicketOthers
         {
             get;
             set;
         }
-        ///
     }
 }

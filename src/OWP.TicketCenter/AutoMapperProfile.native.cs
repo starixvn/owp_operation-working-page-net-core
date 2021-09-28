@@ -2,6 +2,7 @@
 using OWP.TicketCenter.Criteria;
 using OWP.TicketCenter.Criteria.NewTicket;
 using OWP.TicketCenter.Handlers;
+using OWP.TicketCenter.ViewModels;
 
 namespace OWP.TicketCenter
 {
@@ -17,9 +18,15 @@ namespace OWP.TicketCenter
             CreateMap<QueryEventTicketsRequest, GetEventTicketLeagueCriteria>();
             CreateMap<QueryEventTicketsRequest, GetEventTicketMatchCriteria>();
             CreateMap<QueryEventTicketsRequest, GetEventTicketOtherCriteria>();
-            CreateMap<EventTicketLeagueRaw, EventTicketLeague>();
-            CreateMap<EventTicketMatchRaw, EventTicketMatch>();
-            CreateMap<EventTicketOtherRaw, EventTicketOther>();
+            CreateMap<EventTicketLeagueModel, TicketLeagueDetailViewModel>().ForMember(
+                m => m.Messages,
+                opt => opt.Ignore());
+            CreateMap<EventTicketMatchModel, TicketMatchDetailViewModel>().ForMember(
+                m => m.Messages,
+                opt => opt.Ignore()); ;
+            CreateMap<EventTicketOtherModel, TicketOtherDetailViewModel>().ForMember(
+                m => m.Messages,
+                opt => opt.Ignore()); ;
         }
     }
 }
