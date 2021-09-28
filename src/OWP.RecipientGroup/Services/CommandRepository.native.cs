@@ -2,15 +2,17 @@
 {
     using Criteria;
     using Fanex.Data.Repository;
+    using Handlers;
     using Models;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
-
     public interface CommandRepository
     {
-        Task<IEnumerable<TicketGroup>> GetRecipientGroup();
+        Task<IEnumerable<RecipientGroupModel>> GetRecipientGroup();
+
+        Task SaveRecipientGroup(SaveRecipientGroupRequest model);
     }
 
     public class CommandRepositoryImp : CommandRepository
@@ -22,20 +24,23 @@
             this.repository = repository;
         }
 
-        public async Task<IEnumerable<TicketGroup>> GetRecipientGroup()
+        public async Task<IEnumerable<RecipientGroupModel>> GetRecipientGroup()
         {
             var criteria = new GetRecipientGroupCriteria();
 
-            var result = await repository.FetchAsync<RecipientGroup>(criteria);
+            return await repository.FetchAsync<RecipientGroupModel>(criteria);
+        }
 
-            return result.GroupBy(x => new { x.GroupId, x.GroupName }, (key, value) =>
-                new TicketGroup
-                {
-                    GroupId = key.GroupId,
-                    GroupName = key.GroupName,
-                    Recipients = value.ToList()
-                }
-            );
+        public async Task SaveRecipientGroup(SaveRecipientGroupRequest model)
+        {
+            var criteria = new SaveRecipientGroupCommand
+            {
+                GroupId = model.GroupId,
+                GroupName = model.GroupName,
+                Recipients = string.Join(',', model.Recipients.Select(x => x.UserId))
+            };
+
+            await repository.ExecuteAsync(criteria);
         }
     }
 }

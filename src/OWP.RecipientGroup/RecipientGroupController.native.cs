@@ -25,10 +25,17 @@
 
         [Route("get-recipient-group")]
         [HttpGet]
-        public async Task<IEnumerable<TicketGroup>> GetWorkingShift()
+        public async Task<IEnumerable<TicketGroup>> GetRecipientGroup()
         {
-            var result = await mediator.Send(new QueryRecipientGroupRequest());
-            return result;
+            return await mediator.Send(new QueryRecipientGroupRequest());
+        }
+
+        [Route("save-recipient-group")]
+        [HttpPost]
+        public async Task<IActionResult> SaveRecipientGroup(SaveRecipientGroupRequest model)
+        {
+            await mediator.Send(model);
+            return Ok();
         }
     }
 }
