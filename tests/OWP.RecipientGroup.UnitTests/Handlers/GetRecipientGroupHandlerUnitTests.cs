@@ -42,9 +42,9 @@
                     GroupName = "LST",
                     Recipients = new List<RecipientGroup>
                     {
-                        new() { RecipientGroupId = 1, UserId = 111, Username = "sa" },
-                        new() { RecipientGroupId = 2, UserId = 222, Username = "carlos" },
-                        new() { RecipientGroupId = 3, UserId = 333, Username = "tyler" }
+                        new() { RecipientGroupId = 1, RecipientId = 111, RecipientName = "sa" },
+                        new() { RecipientGroupId = 2, RecipientId = 222, RecipientName = "carlos" },
+                        new() { RecipientGroupId = 3, RecipientId = 333, RecipientName = "tyler" }
                     }
                 },
                 new()
@@ -53,8 +53,8 @@
                     GroupName = "Candy",
                     Recipients = new List<RecipientGroup>
                     {
-                        new() { RecipientGroupId = 4, UserId = 444, Username = "mira" },
-                        new() { RecipientGroupId = 5, UserId = 555, Username = "luca" }
+                        new() { RecipientGroupId = 4, RecipientId = 444, RecipientName = "mira" },
+                        new() { RecipientGroupId = 5, RecipientId = 555, RecipientName = "luca" }
                     }
                 },
                 new()
@@ -63,7 +63,7 @@
                     GroupName = "Test",
                     Recipients = new List<RecipientGroup>
                     {
-                        new() { RecipientGroupId = 6, UserId = 666, Username = "liam" }
+                        new() { RecipientGroupId = 6, RecipientId = 666, RecipientName = "liam" }
                     }
                 }
             };

@@ -32,8 +32,8 @@
                     Recipients = values.Select(x => new RecipientGroup
                     {
                         RecipientGroupId = x.RecipientGroupId,
-                        UserId = x.UserId,
-                        Username = x.Username
+                        RecipientId = x.UserId,
+                        RecipientName = x.Username
                     }).ToList()
                 }
             );

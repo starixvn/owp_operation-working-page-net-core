@@ -37,7 +37,7 @@
             {
                 GroupId = model.GroupId,
                 GroupName = model.GroupName,
-                Recipients = string.Join(',', model.Recipients.Select(x => x.UserId))
+                Recipients = string.Join(',', model.Recipients.Select(x => x.RecipientId))
             };
 
             await repository.ExecuteAsync(criteria);

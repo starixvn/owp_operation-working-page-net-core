@@ -28,8 +28,8 @@ namespace OWP.RecipientGroup.Models
     {
         public int RecipientGroupId { get; set; }
 
-        public int UserId { get; set; }
+        public int RecipientId { get; set; }
 
-        public string Username { get; set; }
+        public string RecipientName { get; set; }
     }
 }
