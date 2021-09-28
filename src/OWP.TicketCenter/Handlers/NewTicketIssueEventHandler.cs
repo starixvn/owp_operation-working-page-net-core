@@ -12,8 +12,6 @@ namespace OWP.TicketCenter.Handlers
 
         public int? OwpHomeId { get; set; }
 
-        public bool IsLeague { get; set; }
-
         public int? OwpAwayId { get; set; }
     }
 

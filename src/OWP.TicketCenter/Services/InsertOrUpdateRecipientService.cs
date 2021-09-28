@@ -8,7 +8,7 @@ using OWP.TicketCenter.Models;
 
 namespace OWP.TicketCenter.Services
 {
-    public interface InsertOrUpdateRecipient
+    public interface InsertOrUpdateRecipientService
     {
         Task<bool> Execute(
             IList<Recipient> recipients,
@@ -16,10 +16,10 @@ namespace OWP.TicketCenter.Services
             RecipientAction action);
     }
 
-    public class InsertOrUpdateRecipientImp : InsertOrUpdateRecipient
+    public class InsertOrUpdateRecipientServiceImp : InsertOrUpdateRecipientService
     {
         private readonly Repository repository;
-        public InsertOrUpdateRecipientImp(Repository repository)
+        public InsertOrUpdateRecipientServiceImp(Repository repository)
         {
             this.repository = repository;
         }

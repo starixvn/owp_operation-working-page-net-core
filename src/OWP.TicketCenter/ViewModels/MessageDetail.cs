@@ -6,7 +6,7 @@ namespace OWP.TicketCenter.ViewModels
     {
         public int MessageId { get; set; }
 
-        public int MessageContent { get; set; }
+        public int Message { get; set; }
 
         public int UserId { get; set; }
 

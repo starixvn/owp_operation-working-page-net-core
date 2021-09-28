@@ -2,8 +2,8 @@
 {
     public class EventTicketLeagueRaw : EventTicketBaseRaw
     {
-        public int OWPLeagueId { get; set; }
+        public int OwpLeagueId { get; set; }
 
-        public string OWPLeagueName { get; set; }
+        public string OwpLeagueName { get; set; }
     }
 }

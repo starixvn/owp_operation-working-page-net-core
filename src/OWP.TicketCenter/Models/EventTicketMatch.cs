@@ -1,4 +1,6 @@
-﻿namespace OWP.TicketCenter.Models
+﻿using System;
+
+namespace OWP.TicketCenter.Models
 {
     public class EventTicketMatch : EventTicketBase
     {
@@ -13,5 +15,7 @@
         public string HomeName { get; set; }
 
         public string AwayName { get; set; }
+
+        public DateTime KOTime { get; set; }
     }
 }

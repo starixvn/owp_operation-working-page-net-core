@@ -11,8 +11,6 @@ namespace OWP.TicketCenter.Criteria.NewTicket
 
         public int OwpHomeId { get; set; }
 
-        public bool IsLeague { get; set; }
-
         public int OwpAwayId { get; set; }
 
         public override string GetSettingKey()

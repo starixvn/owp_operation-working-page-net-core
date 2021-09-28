@@ -14,9 +14,9 @@ namespace OWP.TicketCenter.Handlers
 
     public class DeleteRecipientHandler: IRequestHandler<DeleteRecipientRequest, bool>
     {
-        private readonly InsertOrUpdateRecipient recipientService;
+        private readonly InsertOrUpdateRecipientService recipientService;
 
-        public DeleteRecipientHandler(InsertOrUpdateRecipient recipientService)
+        public DeleteRecipientHandler(InsertOrUpdateRecipientService recipientService)
         {
             this.recipientService = recipientService;
         }

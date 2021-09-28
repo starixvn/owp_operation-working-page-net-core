@@ -13,9 +13,9 @@ namespace OWP.TicketCenter.Handlers
 
     public class NewTicketRecipientHandler : IRequestHandler<NewTicketRecipientRequest, bool>
     {
-        private readonly InsertOrUpdateRecipient recipientService;
+        private readonly InsertOrUpdateRecipientService recipientService;
 
-        public NewTicketRecipientHandler(InsertOrUpdateRecipient recipientService)
+        public NewTicketRecipientHandler(InsertOrUpdateRecipientService recipientService)
         {
             this.recipientService = recipientService;
         }
