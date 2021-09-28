@@ -98,7 +98,7 @@ namespace OWP.TicketCenter
             return Ok(result);
         }
 
-        [HttpGet("gettickettype")]
+        [HttpGet("get-ticket-type")]
         public async Task<IEnumerable<TicketType>> GetTicketTye()
             => await mediator.Send(new TicketTypeRequest());
     }

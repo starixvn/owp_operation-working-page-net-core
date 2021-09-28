@@ -1,4 +1,4 @@
-﻿B<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>net5.0</TargetFramework>
@@ -14,10 +14,5 @@
 		<ProjectReference Include="..\OWP\OWP.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<Folder Include="NewFolder1\" />
-		<Folder Include="NewFolder\" />
-		<Folder Include="Builder\" />
-	</ItemGroup>
 
 </Project>
