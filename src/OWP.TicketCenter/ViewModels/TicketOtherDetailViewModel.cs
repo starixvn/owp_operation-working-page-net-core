@@ -1,6 +1,6 @@
 ﻿namespace OWP.TicketCenter.ViewModels
 {
-    public class TicketOtherDetailViewModel : TicketDetailBase
+    public class TicketOtherDetailViewModel : TicketDetailBaseViewModel
     {
         public string Subject { get; set; }
     }

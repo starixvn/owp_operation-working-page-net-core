@@ -8,7 +8,7 @@ namespace OWP.TicketCenter.Services
 {
     public interface TicketDetailService
     {
-        IList<MessageDetail> BuildMessage<T>(IList<T> ticketSource);
+        IEnumerable<MessageDetailViewModel> BuildMessage<T>(IList<T> ticketSource);
     }
 
     public class TicketDetailServiceImp : TicketDetailService
@@ -20,13 +20,13 @@ namespace OWP.TicketCenter.Services
             this.mapper = mapper;
         }
 
-        public IList<MessageDetail> BuildMessage<T>(IList<T> ticketSource)
+        public IEnumerable<MessageDetailViewModel> BuildMessage<T>(IList<T> ticketSource)
         {
-            var message = ticketSource
-                .Select(t => mapper.Map<MessageDetail>(t))
+            var messages = ticketSource
+                .Select(t => mapper.Map<MessageDetailViewModel>(t))
                 .DistinctBy(m => new { m.UserId, m.Username, m.CreatedDate, m.MessageId, m.Message })
-                .OrderBy(m=>m.CreatedDate);
-            return message.ToList();
+                .OrderBy(m => m.CreatedDate);
+            return messages;
         }
     }
 }

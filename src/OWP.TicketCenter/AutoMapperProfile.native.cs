@@ -20,17 +20,27 @@ namespace OWP.TicketCenter
             CreateMap<QueryEventTicketsRequest, GetEventTicketOtherCriteria>();
             CreateMap<EventTicketLeagueModel, TicketLeagueDetailViewModel>().ForMember(
                 m => m.Messages,
-                opt => opt.Ignore());
+                opt => opt.Ignore())
+                .ForMember(
+                m=>m.Recipients, opt=>opt.Ignore());
             CreateMap<EventTicketMatchModel, TicketMatchDetailViewModel>().ForMember(
                 m => m.Messages,
-                opt => opt.Ignore());
+                opt => opt.Ignore())
+                .ForMember(
+                    m => m.Recipients, opt => opt.Ignore()); ;
             CreateMap<EventTicketOtherModel, TicketOtherDetailViewModel>().ForMember(
                 m => m.Messages,
-                opt => opt.Ignore());
+                opt => opt.Ignore())
+                .ForMember(
+                    m => m.Recipients, opt => opt.Ignore()); ;
 
-            CreateMap<EventTicketLeagueModel, MessageDetail>();
-            CreateMap<EventTicketMatchModel, MessageDetail>();
-            CreateMap<EventTicketOtherModel, MessageDetail>();
+            CreateMap<EventTicketLeagueModel, MessageDetailViewModel>();
+            CreateMap<EventTicketMatchModel, MessageDetailViewModel>();
+            CreateMap<EventTicketOtherModel, MessageDetailViewModel>();
+
+            CreateMap<EventTicketLeagueModel, MessageModel>();
+            CreateMap<EventTicketMatchModel, MessageModel>();
+            CreateMap<EventTicketOtherModel, MessageModel>();
         }
     }
 }

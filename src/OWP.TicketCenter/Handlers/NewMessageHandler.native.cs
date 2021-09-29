@@ -10,9 +10,9 @@ namespace OWP.TicketCenter.Handlers
     {
         public int TicketId { get; set; }
 
-        public IList<RecipientModel> NewRecipients { get; set; }
+        public IList<AddNewRecipientModel> NewRecipients { get; set; }
 
-        public IList<RecipientModel> DeletedRecipients { get; set; }
+        public IList<AddNewRecipientModel> DeletedRecipients { get; set; }
 
         public string Message { get; set; }
 

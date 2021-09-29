@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using OWP.TicketCenter.Models;
 using OWP.TicketCenter.ViewModels;
 
 namespace OWP.TicketCenter.Services
@@ -10,7 +11,7 @@ namespace OWP.TicketCenter.Services
         Task<TicketLeagueDetailViewModel> GetTicketLeagueDetail(int ticketId);
     }
 
-    public class TicketLeagueDetailServiceImp: TicketLeagueDetailService
+    public class TicketLeagueDetailServiceImp : TicketLeagueDetailService
     {
         private readonly Repository repository;
 
@@ -27,12 +28,20 @@ namespace OWP.TicketCenter.Services
 
         public async Task<TicketLeagueDetailViewModel> GetTicketLeagueDetail(int ticketId)
         {
-            var ticketLeague= await repository.GetTicketLeagueDetail(ticketId);
-            var ticketFirst = ticketLeague.First();
+            var ticketLeague = await repository.GetTicketLeagueDetail(ticketId);
+            var ticketFirst = ticketLeague.Any()
+                ? ticketLeague.First()
+                : new EventTicketLeagueModel();
+
             var ticketLeagueViewModel = mapper.Map<TicketLeagueDetailViewModel>(ticketFirst);
-            var message = ticketDetailService.BuildMessage(ticketLeague.ToList());
-            ticketLeagueViewModel.Messages = message.ToList();
-           return ticketLeagueViewModel;
+            var messages = ticketDetailService.BuildMessage(ticketLeague?.ToList());
+
+            var recipients = await repository.GetRecipientByTicketId(ticketId);
+
+            ticketLeagueViewModel.Messages = messages?.ToList();
+            ticketLeagueViewModel.Recipients = recipients?.ToList();
+
+            return ticketLeagueViewModel;
         }
     }
 }

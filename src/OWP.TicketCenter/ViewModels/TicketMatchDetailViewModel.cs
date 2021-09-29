@@ -2,7 +2,7 @@
 
 namespace OWP.TicketCenter.ViewModels
 {
-    public class TicketMatchDetailViewModel: TicketDetailBase
+    public class TicketMatchDetailViewModel: TicketDetailBaseViewModel
     {
         public int OwpLeagueId { get; set; }
 

@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using OWP.TicketCenter.Models;
 using OWP.TicketCenter.ViewModels;
 
 namespace OWP.TicketCenter.Services
@@ -29,10 +31,18 @@ namespace OWP.TicketCenter.Services
         public async Task<TicketOtherDetailViewModel> GetTicketOtherDetail(int ticketId)
         {
             var ticketOther = await repository.GetTicketOtherDetail(ticketId);
-            var ticketFirst = ticketOther.First();
+            var ticketFirst = ticketOther.Any()
+                ? ticketOther.First()
+                : new EventTicketOtherModel();
+
             var ticketOtherViewModel = mapper.Map<TicketOtherDetailViewModel>(ticketFirst);
-            var message = ticketDetailService.BuildMessage(ticketOther.ToList());
-            ticketOtherViewModel.Messages = message.ToList();
+            var messages = ticketDetailService.BuildMessage(ticketOther.ToList());
+            
+            var recipients = await repository.GetRecipientByTicketId(ticketId);
+
+            ticketOtherViewModel.Recipients = recipients?.ToList();
+            ticketOtherViewModel.Messages = messages?.ToList();
+
             return ticketOtherViewModel;
         }
     }

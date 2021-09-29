@@ -45,21 +45,16 @@ namespace OWP.TicketCenter.Services
 
                 var messageModel = BuildMessageModels(leagueDic[key]);
                 var messageDetail = TwoLastCommentBuilder.GetTwoLastComment(messageModel.ToList());
-                
+
                 leagueViewModel.Messages = messageDetail;
                 leaguesViewModel.Add(leagueViewModel);
             }
             return leaguesViewModel;
         }
 
-        private static IEnumerable<MessageModel> BuildMessageModels(IEnumerable<EventTicketLeagueModel> models)
-        => models.Select(x => new MessageModel
-        {
-            UserId = x.UserId,
-            Username = x.Username,
-            CreatedDate = x.CreatedDate,
-            Message = x.Message,
-            MessageId = x.MessageId
-        }).ToList();
+        private IEnumerable<MessageModel> BuildMessageModels(IEnumerable<EventTicketLeagueModel> models)
+        => models
+            .Select(x => mapper.Map<MessageModel>(x))
+            .ToList();
     }
 }

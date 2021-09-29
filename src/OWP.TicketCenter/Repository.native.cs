@@ -44,6 +44,8 @@ namespace OWP.TicketCenter
         Task<IEnumerable<EventTicketLeagueModel>> GetTicketLeagueDetail(int ticketId);
 
         Task<IEnumerable<EventTicketOtherModel>> GetTicketOtherDetail(int ticketId);
+
+        Task<IEnumerable<RecipientResponseModel>> GetRecipientByTicketId(int ticketId);
     }
 
     public class RepositoryImp : Repository
@@ -181,6 +183,16 @@ namespace OWP.TicketCenter
             };
             criteria.ThrowExceptionIfInvalid();
             return await dynamicRepository.FetchAsync<EventTicketOtherModel>(criteria);
+        }
+
+        public async Task<IEnumerable<RecipientResponseModel>> GetRecipientByTicketId(int ticketId)
+        {
+            var criteria = new GetRecipientByTicketIdCriteria
+            {
+                TicketId = ticketId
+            };
+            criteria.ThrowExceptionIfInvalid();
+            return await dynamicRepository.FetchAsync<RecipientResponseModel>(criteria);
         }
 
         public async Task<IEnumerable<EventTicketLeagueModel>> GetEventTicketLeague(QueryEventTicketsRequest request)

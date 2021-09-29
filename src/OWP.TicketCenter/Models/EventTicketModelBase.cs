@@ -10,6 +10,7 @@ namespace OWP.TicketCenter.Models
 
         public string TypeName { get; set; }
 
+        #region message
         public int UserId { get; set; }
 
         public string Username { get; set; }
@@ -19,5 +20,7 @@ namespace OWP.TicketCenter.Models
         public string Message { get; set; }
 
         public int MessageId { get; set; }
+
+        #endregion message
     }
 }

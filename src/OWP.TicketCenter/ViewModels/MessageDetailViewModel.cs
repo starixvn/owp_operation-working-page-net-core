@@ -2,7 +2,7 @@
 
 namespace OWP.TicketCenter.ViewModels
 {
-    public class MessageDetail
+    public class MessageDetailViewModel
     {
         public int MessageId { get; set; }
 
