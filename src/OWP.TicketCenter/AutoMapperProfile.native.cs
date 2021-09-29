@@ -23,10 +23,14 @@ namespace OWP.TicketCenter
                 opt => opt.Ignore());
             CreateMap<EventTicketMatchModel, TicketMatchDetailViewModel>().ForMember(
                 m => m.Messages,
-                opt => opt.Ignore()); ;
+                opt => opt.Ignore());
             CreateMap<EventTicketOtherModel, TicketOtherDetailViewModel>().ForMember(
                 m => m.Messages,
-                opt => opt.Ignore()); ;
+                opt => opt.Ignore());
+
+            CreateMap<EventTicketLeagueModel, MessageDetail>();
+            CreateMap<EventTicketMatchModel, MessageDetail>();
+            CreateMap<EventTicketOtherModel, MessageDetail>();
         }
     }
 }
