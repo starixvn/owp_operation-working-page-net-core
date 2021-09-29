@@ -1,4 +1,6 @@
-﻿namespace OWP.RecipientGroup.Handlers
+﻿using OWP.Enums;
+
+namespace OWP.RecipientGroup.Handlers
 {
     using MediatR;
     using Models;
@@ -29,11 +31,12 @@
                 {
                     GroupId = key.GroupId,
                     GroupName = key.GroupName,
-                    Recipients = values.Select(x => new RecipientGroup
+                    Recipients = values.Select(x => new Recipient
                     {
                         RecipientGroupId = x.RecipientGroupId,
                         RecipientId = x.UserId,
-                        RecipientName = x.Username
+                        RecipientName = x.Username,
+                        RecipientType = (int)TicketRecipientEnum.USER
                     }).ToList()
                 }
             );

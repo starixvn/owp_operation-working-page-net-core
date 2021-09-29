@@ -8,7 +8,7 @@ namespace OWP.RecipientGroup.Models
 
         public string GroupName { get; set; }
 
-        public List<RecipientGroup> Recipients { get; set; }
+        public List<Recipient> Recipients { get; set; }
     }
 
     public class RecipientGroupModel
@@ -22,14 +22,5 @@ namespace OWP.RecipientGroup.Models
         public int UserId { get; set; }
 
         public string Username { get; set; }
-    }
-
-    public class RecipientGroup
-    {
-        public int RecipientGroupId { get; set; }
-
-        public int RecipientId { get; set; }
-
-        public string RecipientName { get; set; }
     }
 }

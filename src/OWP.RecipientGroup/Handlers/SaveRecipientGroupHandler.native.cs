@@ -13,7 +13,7 @@
 
         public string GroupName { get; set; }
 
-        public IEnumerable<RecipientGroup> Recipients { get; set; }
+        public IEnumerable<Recipient> Recipients { get; set; }
     }
 
     public class SaveRecipientGroupHandler : IRequestHandler<SaveRecipientGroupRequest, string>
