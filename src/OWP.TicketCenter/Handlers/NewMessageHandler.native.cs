@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using MediatR;
 using OWP.TicketCenter.Models;
 
 namespace OWP.TicketCenter.Handlers
 {
-    public class NewMessageRequest:IRequest<int>
+    public class NewMessageRequest : IRequest<IList<int>>
     {
         public int TicketId { get; set; }
 
@@ -17,9 +18,11 @@ namespace OWP.TicketCenter.Handlers
         public string Message { get; set; }
 
         public int CreatorId { get; set; }
+
+        public int? FileId { get; set; }
     }
 
-    public class NewMessageHandler : IRequestHandler<NewMessageRequest, int>
+    public class NewMessageHandler : IRequestHandler<NewMessageRequest, IList<int>>
     {
         private readonly Repository repository;
 
@@ -28,10 +31,29 @@ namespace OWP.TicketCenter.Handlers
             this.repository = repository;
         }
 
-        public async Task<int> Handle(NewMessageRequest request, CancellationToken cancellationToken)
+        public async Task<IList<int>> Handle(NewMessageRequest request, CancellationToken cancellationToken)
         {
-            var messageId = await repository.AddNewMessage(request.TicketId, request.CreatorId, request.Message);
-            return messageId;
+            var messageIdsResponse = new List<int>();
+            var message = new NewMessageRequestModel
+            {
+                TicketId = request.TicketId,
+                Message = request.Message,
+                CreatorId = request.CreatorId
+            };
+            var messageId = await repository.AddNewMessage(message);
+            messageIdsResponse.Add(messageId);
+            if (request.FileId.HasValue)
+            {
+                message.Files.Add(new()
+                {
+                    FileId = request.FileId,
+                    Title = request.Message
+                });
+                var mesageIds=await repository.AddFileInfo(message);
+                messageIdsResponse.AddRange(messageIdsResponse);
+            }
+
+            return messageIdsResponse;
         }
     }
 }

@@ -25,7 +25,7 @@ namespace OWP.TicketCenter
 
         Task AddNewTicketIssueOther(NewTicketIssueOtherRequest request);
 
-        Task<int> AddNewMessage(int ticketId, int userId, string message);
+        Task<int> AddNewMessage(NewMessageRequestModel message);
 
         Task AddNewRecipients(int ticketId, string recipientIds, int recipientType);
 
@@ -46,6 +46,8 @@ namespace OWP.TicketCenter
         Task<IEnumerable<EventTicketOtherModel>> GetTicketOtherDetail(int ticketId);
 
         Task<IEnumerable<RecipientResponseModel>> GetRecipientByTicketId(int ticketId);
+
+        Task<IList<int>> AddFileInfo(NewMessageRequestModel message);
     }
 
     public class RepositoryImp : Repository
@@ -97,16 +99,39 @@ namespace OWP.TicketCenter
             await dynamicRepository.ExecuteAsync(criteria);
         }
 
-        public async Task<int> AddNewMessage(int ticketId, int userId, string message)
+        public async Task<IList<int>> AddFileInfo(NewMessageRequestModel message)
+        {
+            var messageIds = new List<int>();
+            foreach (var file in message.Files)
+            {
+                var criteria = new AddNewTicketIssueMessageCriteria()
+                {
+                    TicketId = message.TicketId,
+                    UserId = message.CreatorId,
+                    Message = file.Title,
+                    FileId = file.FileId
+                };
+                criteria.ThrowExceptionIfInvalid();
+                var messageId = (await dynamicRepository.FetchAsync<int>(criteria));
+                messageIds.AddRange(messageId);
+            }
+
+            return messageIds;
+
+        }
+        public async Task<int> AddNewMessage(NewMessageRequestModel message)
         {
             var criteria = new AddNewTicketIssueMessageCriteria()
             {
-                TicketId = ticketId,
-                UserId = userId,
-                Message = message ?? "Please add"
+                TicketId = message.TicketId,
+                UserId = message.CreatorId,
+                Message = message.Message ?? "Please add"
             };
-            criteria.ThrowExceptionIfInvalid();
+             criteria.ThrowExceptionIfInvalid();
             var messageId = (await dynamicRepository.FetchAsync<int>(criteria)).FirstOrDefault();
+            
+
+           
             return messageId;
         }
 

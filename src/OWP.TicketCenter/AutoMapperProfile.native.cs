@@ -15,6 +15,11 @@ namespace OWP.TicketCenter
             CreateMap<NewTicketIssueEventRequest, AddNewTicketIssueEventCriteria>();
             CreateMap<NewTicketIssueOtherRequest, AddNewTicketIssueOtherCriteria>();
             CreateMap<NewTicketIssueLeagueRequest, AddNewTicketIssueLeagueCriteria>();
+
+            CreateMap<NewTicketIssueEventRequest, NewMessageRequestModel>();
+            CreateMap<NewTicketIssueOtherRequest, NewMessageRequestModel>();
+            CreateMap<NewTicketIssueLeagueRequest, NewMessageRequestModel>();
+
             CreateMap<QueryEventTicketsRequest, GetEventTicketLeagueCriteria>();
             CreateMap<QueryEventTicketsRequest, GetEventTicketMatchCriteria>();
             CreateMap<QueryEventTicketsRequest, GetEventTicketOtherCriteria>();
@@ -38,9 +43,9 @@ namespace OWP.TicketCenter
             CreateMap<EventTicketMatchModel, MessageDetailViewModel>();
             CreateMap<EventTicketOtherModel, MessageDetailViewModel>();
 
-            CreateMap<EventTicketLeagueModel, MessageModel>();
-            CreateMap<EventTicketMatchModel, MessageModel>();
-            CreateMap<EventTicketOtherModel, MessageModel>();
+            CreateMap<EventTicketLeagueModel, MessageResponseModel>();
+            CreateMap<EventTicketMatchModel, MessageResponseModel>();
+            CreateMap<EventTicketOtherModel, MessageResponseModel>();
         }
     }
 }

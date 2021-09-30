@@ -1,6 +1,4 @@
-﻿
-
-namespace OWP.FileUpload
+﻿namespace OWP.FileUpload
 {
     using System.Linq;
     using System.Net;
@@ -29,7 +27,7 @@ namespace OWP.FileUpload
             this.mediator = mediator;
         }
 
-        [Route("upload/{fileName}")]
+        [Route("upload")]
         [HttpPost]
         public async Task<int> Upload(IFormFile file)
         {

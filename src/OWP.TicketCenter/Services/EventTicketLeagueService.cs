@@ -52,9 +52,9 @@ namespace OWP.TicketCenter.Services
             return leaguesViewModel;
         }
 
-        private IEnumerable<MessageModel> BuildMessageModels(IEnumerable<EventTicketLeagueModel> models)
+        private IEnumerable<MessageResponseModel> BuildMessageModels(IEnumerable<EventTicketLeagueModel> models)
         => models
-            .Select(x => mapper.Map<MessageModel>(x))
+            .Select(x => mapper.Map<MessageResponseModel>(x))
             .ToList();
     }
 }

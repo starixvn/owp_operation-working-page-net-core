@@ -7,7 +7,7 @@
 
     public static class TwoLastCommentBuilder
     {
-        public static IList<MessageDetailViewModel> GetTwoLastComment(IList<MessageModel> message)
+        public static IList<MessageDetailViewModel> GetTwoLastComment(IList<MessageResponseModel> message)
         {
             return message.OrderByDescending(v => v.CreatedDate)
                 .Take(2)

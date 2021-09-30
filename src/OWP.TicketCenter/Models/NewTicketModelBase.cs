@@ -7,12 +7,20 @@ namespace OWP.TicketCenter.Models
         // FE do not care this property
         public int TicketId { get; set; }
 
+        public int? FileId { get; set; }
+
         public int TicketType { get; set; }
+
+        #region message
 
         public string Message { get; set; }
 
         public int CreatorId { get; set; }
 
+        #endregion
+
         public IList<AddNewRecipientModel> Recipients { get; set; }
+
+        public IList<FileModel> Files { get; set; } = new List<FileModel>();
     }
 }

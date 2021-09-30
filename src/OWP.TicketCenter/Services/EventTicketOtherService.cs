@@ -52,9 +52,9 @@ namespace OWP.TicketCenter.Services
             return ticketOthersViewModel;
         }
 
-        private IEnumerable<MessageModel> BuildMessageModels(IEnumerable<EventTicketOtherModel> models)
+        private IEnumerable<MessageResponseModel> BuildMessageModels(IEnumerable<EventTicketOtherModel> models)
         => models
-            .Select(x => mapper.Map<MessageModel>(x))
+            .Select(x => mapper.Map<MessageResponseModel>(x))
             .ToList();
     }
 }

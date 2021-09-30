@@ -30,19 +30,19 @@ namespace OWP.TicketCenter
         => await mediator.Send(request);
 
         [HttpPost("new-message")]
-        public async Task<int> NewMessage(NewMessageRequest request)
+        public async Task<IList<int>> NewMessage(NewMessageRequest request)
         {
             var messageId = await mediator.Send(request);
-            await mediator.Send(new NewTicketRecipientRequest
-            {
-                TicketId = request.TicketId,
-                Recipients = request.NewRecipients
-            });
-            await mediator.Send(new DeleteRecipientRequest
-            {
-                TicketId = request.TicketId,
-                Recipients = request.DeletedRecipients
-            });
+            //await mediator.Send(new NewTicketRecipientRequest
+            //{
+            //    TicketId = request.TicketId,
+            //    Recipients = request.NewRecipients
+            //});
+            //await mediator.Send(new DeleteRecipientRequest
+            //{
+            //    TicketId = request.TicketId,
+            //    Recipients = request.DeletedRecipients
+            //});
             return messageId;
         }
 

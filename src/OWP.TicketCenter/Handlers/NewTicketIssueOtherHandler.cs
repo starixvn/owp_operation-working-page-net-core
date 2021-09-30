@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using OWP.TicketCenter.Models;
 
 namespace OWP.TicketCenter.Handlers
@@ -15,9 +16,13 @@ namespace OWP.TicketCenter.Handlers
     public class NewTicketIssueOtherHandler : IRequestHandler<NewTicketIssueOtherRequest, int>
     {
         private readonly Repository repository;
-        public NewTicketIssueOtherHandler(Repository repository)
+
+        private readonly IMapper mapper;
+
+        public NewTicketIssueOtherHandler(Repository repository, IMapper mapper)
         {
             this.repository = repository;
+            this.mapper = mapper;
         }
 
         public async Task<int> Handle(NewTicketIssueOtherRequest request, CancellationToken cancellationToken)
@@ -25,7 +30,9 @@ namespace OWP.TicketCenter.Handlers
             var ticketId = await repository.BuildTicketId(request.TicketType);
             request.TicketId = ticketId;
             await repository.AddNewTicketIssueOther(request);
-            await repository.AddNewMessage(ticketId, request.CreatorId, request.Message);
+            var newMessage = mapper.Map<NewMessageRequestModel>(request);
+            await repository.AddNewMessage(newMessage);
+            await repository.AddFileInfo(newMessage);
             return ticketId;
         }
     }

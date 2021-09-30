@@ -2,7 +2,7 @@
 
 namespace OWP.TicketCenter.Models
 {
-    public class MessageModel
+    public class MessageResponseModel
     {
         public int UserId { get; set; }
 
