@@ -17,7 +17,8 @@
                     Message = i.Message,
                     CreatedDate = i.CreatedDate,
                     UserId = i.UserId,
-                    Username = i.Username
+                    Username = i.Username,
+                    FileId = i.FileId
                 })
 
                 .ToList();

@@ -1,5 +1,6 @@
 using OWP.RecipientGroup;
 using OWP.TicketCenter;
+using OWP.FileUpload;
 
 namespace OWP.Websites
 {
@@ -239,7 +240,7 @@ namespace OWP.Websites
             services.AddMediatR(typeof(PreMatchNotificationController).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(RecipientGroupController).GetTypeInfo().Assembly);
              services.AddMediatR(typeof(TicketCenterController).GetTypeInfo().Assembly);
-
+            services.AddMediatR(typeof(FileUploadController).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(TicketTypeRecipientController).GetTypeInfo().Assembly);
         }
 

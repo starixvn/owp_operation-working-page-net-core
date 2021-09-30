@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Fanex.Data.Repository;
 using MediatR;
-using OWP.FileUpload.Criterias;
+using OWP.FileUpload.Criteria;
 using OWP.FileUpload.Models;
 
 namespace OWP.FileUpload.Handlers

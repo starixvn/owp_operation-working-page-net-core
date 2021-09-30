@@ -21,6 +21,8 @@ namespace OWP.TicketCenter.Models
 
         public int MessageId { get; set; }
 
+        public int? FileId { get; set; }
+
         #endregion message
     }
 }
