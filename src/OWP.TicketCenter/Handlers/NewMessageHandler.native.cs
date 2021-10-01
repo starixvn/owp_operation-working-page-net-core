@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
 using MediatR;
 using OWP.TicketCenter.Models;
 
@@ -10,10 +9,6 @@ namespace OWP.TicketCenter.Handlers
     public class NewMessageRequest : IRequest<IList<int>>
     {
         public int TicketId { get; set; }
-
-        public IList<AddNewRecipientModel> NewRecipients { get; set; }
-
-        public IList<AddNewRecipientModel> DeletedRecipients { get; set; }
 
         public string Message { get; set; }
 
@@ -49,8 +44,8 @@ namespace OWP.TicketCenter.Handlers
                     FileId = request.FileId,
                     Title = request.Message
                 });
-                var mesageIds=await repository.AddFileInfo(message);
-                messageIdsResponse.AddRange(messageIdsResponse);
+                var messageIds=await repository.AddFileInfo(message);
+                messageIdsResponse.AddRange(messageIds);
             }
 
             return messageIdsResponse;

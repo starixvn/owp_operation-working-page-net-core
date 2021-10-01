@@ -10,8 +10,8 @@ namespace OWP.TicketCenter.Services
 {
     public interface InsertOrUpdateRecipientService
     {
-        Task<bool> Execute(
-            IList<AddNewRecipientModel> recipients,
+        Task<bool> InsertManyRecipient(
+            IList<InsertManyRecipientModel> recipients,
             int ticketId,
             RecipientAction action);
     }
@@ -24,8 +24,8 @@ namespace OWP.TicketCenter.Services
             this.repository = repository;
         }
 
-        public async Task<bool> Execute(
-            IList<AddNewRecipientModel> recipients,
+        public async Task<bool> InsertManyRecipient(
+            IList<InsertManyRecipientModel> recipients,
             int ticketId,
             RecipientAction action)
         {
@@ -34,17 +34,7 @@ namespace OWP.TicketCenter.Services
                 var recipientIds = recipient.RecipientIds
                     .Select(r => r);
                 var recipientIdsString = string.Join(',', recipientIds);
-                switch (action)
-                {
-                    case RecipientAction.Add:
-                        await repository.AddNewRecipients(ticketId, recipientIdsString, recipient.RecipientType);
-                        break;
-                    case RecipientAction.Delete:
-                        await repository.DeleteRecipients(ticketId, recipientIdsString, recipient.RecipientType);
-                        break;
-                    default:
-                        break;
-                }
+                await repository.AddManyRecipients(ticketId, recipientIdsString, recipient.RecipientType);
 
             }
             return await Task.FromResult(true);

@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using OWP.TicketCenter.Criteria;
-using OWP.TicketCenter.Criteria.NewTicket;
 using OWP.TicketCenter.Handlers;
 using OWP.TicketCenter.ViewModels;
 
@@ -46,6 +45,9 @@ namespace OWP.TicketCenter
             CreateMap<EventTicketLeagueModel, MessageResponseModel>();
             CreateMap<EventTicketMatchModel, MessageResponseModel>();
             CreateMap<EventTicketOtherModel, MessageResponseModel>();
+
+            CreateMap<InsertSingleRecipientRequest, AddSingleRecipientCriteria>();
+            CreateMap<RemoveSingleRecipientRequest, RemoveSingleRecipientCriteria>();
         }
     }
 }

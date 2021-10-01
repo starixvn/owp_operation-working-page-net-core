@@ -2,7 +2,7 @@
 
 namespace OWP.TicketCenter.Models
 {
-    public class AddNewRecipientModel
+    public class InsertManyRecipientModel
     {
         public IList<int> RecipientIds { get; set; } = new List<int>();
 

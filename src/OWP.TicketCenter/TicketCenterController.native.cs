@@ -33,16 +33,7 @@ namespace OWP.TicketCenter
         public async Task<IList<int>> NewMessage(NewMessageRequest request)
         {
             var messageId = await mediator.Send(request);
-            //await mediator.Send(new NewTicketRecipientRequest
-            //{
-            //    TicketId = request.TicketId,
-            //    Recipients = request.NewRecipients
-            //});
-            //await mediator.Send(new DeleteRecipientRequest
-            //{
-            //    TicketId = request.TicketId,
-            //    Recipients = request.DeletedRecipients
-            //});
+            
             return messageId;
         }
 
@@ -115,5 +106,14 @@ namespace OWP.TicketCenter
         [HttpPost("ticket-detail/get-other")]
         public async Task<TicketOtherDetailViewModel> GetTicketOtherDetail(TicketOtherDetailRequest request)
             => await mediator.Send(request);
+
+        [HttpPost("ticket-detail/insert-single-recipient")]
+        public async Task<int> AddSingleRecipient(InsertSingleRecipientRequest request)
+            => await mediator.Send(request);
+
+        [HttpPost("ticket-detail/remove-single-recipient")]
+        public async Task<int> RemoveSingleRecipient(InsertSingleRecipientRequest request)
+            => await mediator.Send(request);
+
     }
 }

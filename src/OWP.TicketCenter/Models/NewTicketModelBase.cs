@@ -19,7 +19,7 @@ namespace OWP.TicketCenter.Models
 
         #endregion
 
-        public IList<AddNewRecipientModel> Recipients { get; set; }
+        public IList<InsertManyRecipientModel> Recipients { get; set; }
 
         public IList<FileModel> Files { get; set; } = new List<FileModel>();
     }

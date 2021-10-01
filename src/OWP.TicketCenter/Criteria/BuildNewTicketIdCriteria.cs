@@ -1,6 +1,6 @@
 ﻿using Fanex.Data.Repository;
 
-namespace OWP.TicketCenter.Criteria.NewTicket
+namespace OWP.TicketCenter.Criteria
 {
     public class BuildNewTicketIdCriteria : CriteriaBase
     {

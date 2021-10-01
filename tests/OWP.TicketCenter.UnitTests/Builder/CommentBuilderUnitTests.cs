@@ -24,7 +24,7 @@ namespace OWP.TicketCenter.UnitTests.Builder
 
             var createdDateMessage3 = DateTime.Now.AddMinutes(15);
 
-            var messageModel = new List<MessageModel>
+            var messageModel = new List<MessageResponseModel>
             {
                 new()
                 {

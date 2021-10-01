@@ -21,7 +21,7 @@ namespace OWP.TicketCenter.Handlers
         }
 
         public async Task<bool> Handle(NewTicketRecipientRequest request, CancellationToken cancellationToken)
-            => await recipientService.Execute(request.Recipients, request.TicketId, RecipientAction.Add);
+            => await recipientService.InsertManyRecipient(request.Recipients, request.TicketId, RecipientAction.Add);
 
     }
 }
