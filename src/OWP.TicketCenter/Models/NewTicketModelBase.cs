@@ -7,8 +7,6 @@ namespace OWP.TicketCenter.Models
         // FE do not care this property
         public int TicketId { get; set; }
 
-        public int? FileId { get; set; }
-
         public int TicketType { get; set; }
 
         #region message

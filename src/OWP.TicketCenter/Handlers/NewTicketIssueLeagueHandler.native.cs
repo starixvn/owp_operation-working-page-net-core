@@ -10,7 +10,7 @@ namespace OWP.TicketCenter.Handlers
     public class NewTicketIssueLeagueRequest : NewTicketModelBase, IRequest<int>
     {
         public int OwpLeagueId { get; set; }
-       
+
     }
 
     public class NewTicketIssueLeagueHandler : IRequestHandler<NewTicketIssueLeagueRequest, int>
@@ -30,9 +30,25 @@ namespace OWP.TicketCenter.Handlers
             request.TicketId = ticketId;
             await repository.AddNewTicketIssueLeague(request);
             await repository.InsertIssueCreator(ticketId, request.CreatorId);
+
+            var messages = new List<NewMessageRequestModel>();
+            foreach (var file in request.Files)
+            {
+                messages.Add(new NewMessageRequestModel()
+                {
+                    TicketId = ticketId,
+                    CreatorId = request.CreatorId,
+                    Message = file.Title,
+                    FileId = file.FileId
+                });
+            }
             var newMessage = mapper.Map<NewMessageRequestModel>(request);
-            await repository.AddNewMessage(newMessage);
-            await repository.AddFileInfo(newMessage);
+            messages.Add(newMessage);
+
+            foreach (var message in messages)
+            {
+                await repository.AddNewMessage(message);
+            }
             return ticketId;
         }
     }

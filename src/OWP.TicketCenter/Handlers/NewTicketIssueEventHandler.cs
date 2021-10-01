@@ -29,12 +29,29 @@ namespace OWP.TicketCenter.Handlers
         }
         public async Task<int> Handle(NewTicketIssueEventRequest request, CancellationToken cancellationToken)
         {
+           
             var ticketId = await repository.BuildTicketId(request.TicketType);
             request.TicketId = ticketId;
             await repository.AddNewTicketIssueEvent(request);
+
+            var messages = new List<NewMessageRequestModel>();
+            foreach (var file in request.Files)
+            {
+                messages.Add(new NewMessageRequestModel()
+                {
+                    TicketId = ticketId,
+                    CreatorId = request.CreatorId,
+                    Message = file.Title,
+                    FileId = file.FileId
+                });
+            }
             var newMessage = mapper.Map<NewMessageRequestModel>(request);
-            await repository.AddNewMessage(newMessage);
-            await repository.AddFileInfo(newMessage);
+            messages.Add(newMessage);
+
+            foreach (var message in messages)
+            {
+                await repository.AddNewMessage(message);
+            }
             await repository.InsertIssueCreator(ticketId, request.CreatorId);
             return ticketId;
         }

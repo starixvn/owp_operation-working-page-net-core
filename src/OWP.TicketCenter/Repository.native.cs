@@ -22,7 +22,7 @@
 
         Task AddNewTicketIssueOther(NewTicketIssueOtherRequest request);
 
-        Task<int> AddNewMessage(NewMessageRequestModel message);
+        Task<InsertMessageResultModel> AddNewMessage(NewMessageRequestModel message);
 
         Task AddManyRecipients(int ticketId, string recipientIds, int recipientType);
 
@@ -41,8 +41,6 @@
         Task<IEnumerable<EventTicketOtherModel>> GetTicketOtherDetail(int ticketId);
 
         Task<IEnumerable<RecipientResponseModel>> GetRecipientByTicketId(int ticketId);
-
-        Task<IList<int>> AddFileInfo(NewMessageRequestModel message);
 
         Task<int> AddSingleRecipient(InsertSingleRecipientRequest request);
 
@@ -109,27 +107,6 @@
             await dynamicRepository.ExecuteAsync(criteria);
         }
 
-        public async Task<IList<int>> AddFileInfo(NewMessageRequestModel message)
-        {
-            var messageIds = new List<int>();
-            foreach (var file in message.Files)
-            {
-                var criteria = new AddNewTicketIssueMessageCriteria()
-                {
-                    TicketId = message.TicketId,
-                    UserId = message.CreatorId,
-                    Message = file.Title,
-                    FileId = file.FileId
-                };
-                criteria.ThrowExceptionIfInvalid();
-                var messageId = (await dynamicRepository.FetchAsync<int>(criteria));
-                messageIds.AddRange(messageId);
-            }
-
-            return messageIds;
-
-        }
-
         public async Task AddManyRecipients(int ticketId, string recipientIds, int recipientType)
         {
             var criteria = new AddManyRecipientCriteria
@@ -156,7 +133,7 @@
             return (await dynamicRepository.FetchAsync<int>(criteria)).FirstOrDefault();
         }
 
-        public async Task<int> AddNewMessage(NewMessageRequestModel message)
+        public async Task<InsertMessageResultModel> AddNewMessage(NewMessageRequestModel message)
         {
             var criteria = new AddNewTicketIssueMessageCriteria()
             {
@@ -165,9 +142,9 @@
                 Message = message.Message ?? "Please add"
             };
             criteria.ThrowExceptionIfInvalid();
-            var messageId = (await dynamicRepository.FetchAsync<int>(criteria)).FirstOrDefault();
+            var result = (await dynamicRepository.FetchAsync<InsertMessageResultModel>(criteria)).FirstOrDefault();
 
-            return messageId;
+            return result;
         }
 
         public async Task<IEnumerable<EventTicketMatchModel>> GetEventTicketMatch(QueryEventTicketsRequest request)

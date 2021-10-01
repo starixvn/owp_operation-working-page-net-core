@@ -10,6 +10,6 @@ namespace OWP.TicketCenter.Models
 
         public string Message { get; set; }
 
-        public IList<FileModel> Files { get; set; }
+        public int? FileId { get; set; }
     }
 }

@@ -6,7 +6,7 @@ using OWP.TicketCenter.Models;
 
 namespace OWP.TicketCenter.Handlers
 {
-    public class NewMessageRequest : IRequest<IList<int>>
+    public class NewMessageRequest : IRequest<InsertMessageResultModel>
     {
         public int TicketId { get; set; }
 
@@ -17,7 +17,7 @@ namespace OWP.TicketCenter.Handlers
         public int? FileId { get; set; }
     }
 
-    public class NewMessageHandler : IRequestHandler<NewMessageRequest, IList<int>>
+    public class NewMessageHandler : IRequestHandler<NewMessageRequest, InsertMessageResultModel>
     {
         private readonly Repository repository;
 
@@ -26,29 +26,17 @@ namespace OWP.TicketCenter.Handlers
             this.repository = repository;
         }
 
-        public async Task<IList<int>> Handle(NewMessageRequest request, CancellationToken cancellationToken)
+        public async Task<InsertMessageResultModel> Handle(NewMessageRequest request, CancellationToken cancellationToken)
         {
-            var messageIdsResponse = new List<int>();
+            
             var message = new NewMessageRequestModel
             {
                 TicketId = request.TicketId,
                 Message = request.Message,
-                CreatorId = request.CreatorId
+                CreatorId = request.CreatorId,
+                FileId = request.FileId
             };
-            var messageId = await repository.AddNewMessage(message);
-            messageIdsResponse.Add(messageId);
-            if (request.FileId.HasValue)
-            {
-                message.Files.Add(new()
-                {
-                    FileId = request.FileId,
-                    Title = request.Message
-                });
-                var messageIds=await repository.AddFileInfo(message);
-                messageIdsResponse.AddRange(messageIds);
-            }
-
-            return messageIdsResponse;
+            return await repository.AddNewMessage(message);
         }
     }
 }

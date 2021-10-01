@@ -15,9 +15,15 @@ namespace OWP.TicketCenter
             CreateMap<NewTicketIssueOtherRequest, AddNewTicketIssueOtherCriteria>();
             CreateMap<NewTicketIssueLeagueRequest, AddNewTicketIssueLeagueCriteria>();
 
-            CreateMap<NewTicketIssueEventRequest, NewMessageRequestModel>();
-            CreateMap<NewTicketIssueOtherRequest, NewMessageRequestModel>();
-            CreateMap<NewTicketIssueLeagueRequest, NewMessageRequestModel>();
+            CreateMap<NewTicketIssueEventRequest, NewMessageRequestModel>().ForMember(
+                m => m.FileId,
+                opt => opt.Ignore());
+            CreateMap<NewTicketIssueOtherRequest, NewMessageRequestModel>().ForMember(
+                m => m.FileId,
+                opt => opt.Ignore()); ;
+            CreateMap<NewTicketIssueLeagueRequest, NewMessageRequestModel>().ForMember(
+                m => m.FileId,
+                opt => opt.Ignore()); ;
 
             CreateMap<QueryEventTicketsRequest, GetEventTicketLeagueCriteria>();
             CreateMap<QueryEventTicketsRequest, GetEventTicketMatchCriteria>();
@@ -26,7 +32,7 @@ namespace OWP.TicketCenter
                 m => m.Messages,
                 opt => opt.Ignore())
                 .ForMember(
-                m=>m.Recipients, opt=>opt.Ignore());
+                m => m.Recipients, opt => opt.Ignore());
             CreateMap<EventTicketMatchModel, TicketMatchDetailViewModel>().ForMember(
                 m => m.Messages,
                 opt => opt.Ignore())

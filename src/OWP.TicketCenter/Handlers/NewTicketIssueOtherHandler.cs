@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using System.Collections.Generic;
+using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -9,7 +10,6 @@ namespace OWP.TicketCenter.Handlers
 
     public class NewTicketIssueOtherRequest : NewTicketModelBase, IRequest<int>
     {
-
         public string Subject { get; set; }
     }
 
@@ -31,9 +31,25 @@ namespace OWP.TicketCenter.Handlers
             request.TicketId = ticketId;
             await repository.AddNewTicketIssueOther(request);
             await repository.InsertIssueCreator(ticketId, request.CreatorId);
+
+            var messages = new List<NewMessageRequestModel>();
+            foreach (var file in request.Files)
+            {
+                messages.Add(new NewMessageRequestModel()
+                {
+                    TicketId = ticketId,
+                    CreatorId = request.CreatorId,
+                    Message = file.Title,
+                    FileId = file.FileId
+                });
+            }
             var newMessage = mapper.Map<NewMessageRequestModel>(request);
-            await repository.AddNewMessage(newMessage);
-            await repository.AddFileInfo(newMessage);
+            messages.Add(newMessage);
+
+            foreach (var message in messages)
+            {
+                await repository.AddNewMessage(message);
+            }
             return ticketId;
         }
     }
