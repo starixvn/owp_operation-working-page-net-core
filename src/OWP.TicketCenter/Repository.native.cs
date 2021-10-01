@@ -47,6 +47,10 @@
         Task<int> AddSingleRecipient(InsertSingleRecipientRequest request);
 
         Task<int> RemoveSingleRecipient(RemoveSingleRecipientRequest request);
+
+        Task InsertIssueCreator(int ticketId, int creatorId);
+
+        Task<IssueCreatorModel> GetIssueCreator(int ticketId);
     }
 
     public class RepositoryImp : Repository
@@ -228,5 +232,23 @@
             return await dynamicRepository.FetchAsync<RecipientResponseModel>(criteria);
         }
 
+        public async Task InsertIssueCreator(int ticketId, int creatorId)
+        {
+            var creator = new InsertIssueCreatorCriteria()
+            {
+                TicketId = ticketId,
+                CreatorId = creatorId
+            };
+            await dynamicRepository.ExecuteAsync(creator);
+        }
+
+        public async Task<IssueCreatorModel> GetIssueCreator(int ticketId)
+        {
+            var creator = new QueryIssueCreatorCriteria()
+            {
+                TicketId = ticketId
+            };
+            return (await dynamicRepository.FetchAsync<IssueCreatorModel>(creator))?.FirstOrDefault();
+        }
     }
 }

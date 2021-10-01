@@ -37,7 +37,9 @@ namespace OWP.TicketCenter.Services
             var messages = ticketDetailService.BuildMessage(ticketLeague?.ToList());
 
             var recipients = await repository.GetRecipientByTicketId(ticketId);
+            var issueCreator = await repository.GetIssueCreator(ticketId);
 
+            ticketLeagueViewModel.CreatorInfo = issueCreator;
             ticketLeagueViewModel.Messages = messages?.ToList();
             ticketLeagueViewModel.Recipients = recipients?.ToList();
 

@@ -35,6 +35,7 @@ namespace OWP.TicketCenter.Handlers
             var newMessage = mapper.Map<NewMessageRequestModel>(request);
             await repository.AddNewMessage(newMessage);
             await repository.AddFileInfo(newMessage);
+            await repository.InsertIssueCreator(ticketId, request.CreatorId);
             return ticketId;
         }
     }

@@ -30,6 +30,7 @@ namespace OWP.TicketCenter.Handlers
             var ticketId = await repository.BuildTicketId(request.TicketType);
             request.TicketId = ticketId;
             await repository.AddNewTicketIssueOther(request);
+            await repository.InsertIssueCreator(ticketId, request.CreatorId);
             var newMessage = mapper.Map<NewMessageRequestModel>(request);
             await repository.AddNewMessage(newMessage);
             await repository.AddFileInfo(newMessage);

@@ -14,5 +14,11 @@ namespace OWP.TicketCenter.ViewModels
         public IList<RecipientResponseModel> Recipients { get; set; }
 
         public IList<MessageDetailViewModel> Messages { get; set; }
+
+        public IssueCreatorModel CreatorInfo
+        {
+            get;
+            set;
+        }
     }
 }

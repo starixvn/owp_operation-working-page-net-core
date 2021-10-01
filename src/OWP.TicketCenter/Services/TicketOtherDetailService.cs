@@ -40,6 +40,9 @@ namespace OWP.TicketCenter.Services
             
             var recipients = await repository.GetRecipientByTicketId(ticketId);
 
+            var issueCreator = await repository.GetIssueCreator(ticketId);
+
+            ticketOtherViewModel.CreatorInfo = issueCreator;
             ticketOtherViewModel.Recipients = recipients?.ToList();
             ticketOtherViewModel.Messages = messages?.ToList();
 

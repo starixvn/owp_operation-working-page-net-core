@@ -313,6 +313,8 @@
 		<Setting Key="OWP_TicketMatchDetail_Get" SpName="OWP_TicketMatchDetail_Get" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_TicketOtherDetail_Get" SpName="OWP_TicketOtherDetail_Get" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_TicketCenter_GetRecipientByTicketId" SpName="OWP_TicketCenter_GetRecipientByTicketId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCreatorDetail_Get" SpName="OWP_TicketCreatorDetail_Get" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketIssueCreator_Create" SpName="OWP_TicketIssueCreator_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 	</Function>
 	<Function Name="FileUpload">
 		<Setting Key="OWP_FileUpload_Upload" SpName="OWP_FileUpload_Upload" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
