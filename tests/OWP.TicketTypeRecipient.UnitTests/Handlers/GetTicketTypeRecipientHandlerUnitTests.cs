@@ -33,28 +33,28 @@ namespace OWP.TicketTypeRecipient.UnitTests.Handlers
                             TicketTypeRecipientId = 1,
                             RecipientId = 1070340,
                             RecipientName = "starix1",
-                            RecipientType = (int)TicketRecipientEnum.USER
+                            RecipientType = (int)TicketRecipient.USER
                         },
                         new Recipient
                         {
                             TicketTypeRecipientId = 2,
                             RecipientId = 1,
                             RecipientName = "LA",
-                            RecipientType = (int)TicketRecipientEnum.GROUP
+                            RecipientType = (int)TicketRecipient.GROUP
                         },
                         new Recipient
                         {
                             TicketTypeRecipientId = 3,
                             RecipientId = 15469717,
                             RecipientName = "starix2",
-                            RecipientType = (int)TicketRecipientEnum.USER
+                            RecipientType = (int)TicketRecipient.USER
                         },
                         new Recipient
                         {
                             TicketTypeRecipientId = 4,
                             RecipientId = 2,
                             RecipientName = "CSD",
-                            RecipientType = (int)TicketRecipientEnum.GROUP
+                            RecipientType = (int)TicketRecipient.GROUP
                         }
                     }
                 },
@@ -72,7 +72,7 @@ namespace OWP.TicketTypeRecipient.UnitTests.Handlers
                             TicketTypeRecipientId = 5,
                             RecipientId = 2,
                             RecipientName = "CSD",
-                            RecipientType = (int)TicketRecipientEnum.GROUP
+                            RecipientType = (int)TicketRecipient.GROUP
                         }
                     }
                 },
@@ -121,7 +121,7 @@ namespace OWP.TicketTypeRecipient.UnitTests.Handlers
                     TicketTypeRecipientId = 1,
                     RecipientId = 1070340,
                     RecipientName = "starix1",
-                    RecipientType = (int)TicketRecipientEnum.USER,
+                    RecipientType = (int)TicketRecipient.USER,
                 },
                 new GetTicketTypeRecipientHandler.RecipientData
                 {
@@ -129,7 +129,7 @@ namespace OWP.TicketTypeRecipient.UnitTests.Handlers
                     TicketTypeRecipientId = 2,
                     RecipientId = 1,
                     RecipientName = "LA",
-                    RecipientType = (int)TicketRecipientEnum.GROUP,
+                    RecipientType = (int)TicketRecipient.GROUP,
                 },
                 new GetTicketTypeRecipientHandler.RecipientData
                 {
@@ -137,7 +137,7 @@ namespace OWP.TicketTypeRecipient.UnitTests.Handlers
                     TicketTypeRecipientId = 3,
                     RecipientId = 15469717,
                     RecipientName = "starix2",
-                    RecipientType = (int)TicketRecipientEnum.USER,
+                    RecipientType = (int)TicketRecipient.USER,
                 },
                 new GetTicketTypeRecipientHandler.RecipientData
                 {
@@ -145,7 +145,7 @@ namespace OWP.TicketTypeRecipient.UnitTests.Handlers
                     TicketTypeRecipientId = 4,
                     RecipientId = 2,
                     RecipientName = "CSD",
-                    RecipientType = (int)TicketRecipientEnum.GROUP,
+                    RecipientType = (int)TicketRecipient.GROUP,
                 },
                 new GetTicketTypeRecipientHandler.RecipientData
                 {
@@ -153,7 +153,7 @@ namespace OWP.TicketTypeRecipient.UnitTests.Handlers
                     TicketTypeRecipientId = 5,
                     RecipientId = 2,
                     RecipientName = "CSD",
-                    RecipientType = (int)TicketRecipientEnum.GROUP,
+                    RecipientType = (int)TicketRecipient.GROUP,
                 }
             };
 

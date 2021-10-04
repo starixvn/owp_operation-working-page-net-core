@@ -36,7 +36,7 @@ namespace OWP.RecipientGroup.Handlers
                         RecipientGroupId = x.RecipientGroupId,
                         RecipientId = x.UserId,
                         RecipientName = x.Username,
-                        RecipientType = (int)TicketRecipientEnum.USER
+                        RecipientType = (int)TicketRecipient.USER
                     }).ToList()
                 }
             );
