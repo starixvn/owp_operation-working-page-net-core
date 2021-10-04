@@ -4,8 +4,8 @@
     {
         public int UserId { get; set; }
 
-        public int UserName { get; set; }
+        public string UserName { get; set; }
 
-        public int NickName { get; set; }
+        public string NickName { get; set; }
     }
 }

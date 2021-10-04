@@ -139,6 +139,7 @@
             {
                 TicketId = message.TicketId,
                 UserId = message.CreatorId,
+                FileId = message.FileId,
                 Message = message.Message ?? "Please add"
             };
             criteria.ThrowExceptionIfInvalid();

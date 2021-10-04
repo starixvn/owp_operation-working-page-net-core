@@ -19,6 +19,6 @@ namespace OWP.TicketCenter.Models
 
         public IList<InsertManyRecipientModel> Recipients { get; set; }
 
-        public IList<FileModel> Files { get; set; } = new List<FileModel>();
+        public IList<FileModel> Files { get; set; }
     }
 }
