@@ -37,6 +37,7 @@ namespace OWP.TicketCenter.Handlers
                 CreatorId = request.CreatorId,
                 FileId = request.FileId
             };
+            await repository.UpdateRecipientReader(request.TicketId, false);
             return await repository.AddNewMessage(message);
         }
     }

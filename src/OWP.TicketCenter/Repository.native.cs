@@ -46,6 +46,8 @@ namespace OWP.TicketCenter
 
         Task<int> AddSingleRecipient(InsertSingleRecipientRequest request);
 
+        Task RemoveManyRecipientReader(string recipientIds, int ticketId);
+
         Task<int> RemoveSingleRecipient(RemoveSingleRecipientRequest request);
 
         Task InsertIssueCreator(int ticketId, int creatorId);
@@ -55,6 +57,8 @@ namespace OWP.TicketCenter
         Task<IEnumerable<int>> GetRecipientIdInManyGroup(string groupIds);
 
         Task InsertManyRecipientReader(string recipientIds, int ticketId, bool isRead);
+
+        Task UpdateRecipientReader(int ticketId, bool isRead);
     }
 
     public class RepositoryImp : Repository
@@ -130,6 +134,16 @@ namespace OWP.TicketCenter
             var criteria = mapper.Map<AddSingleRecipientCriteria>(request);
             criteria.ThrowExceptionIfInvalid();
             return (await dynamicRepository.FetchAsync<int>(criteria)).FirstOrDefault();
+        }
+
+        public async Task RemoveManyRecipientReader(string recipientIds, int ticketId)
+        {
+            var criteria = new RemoveManyRecipientReaderCriteria
+            {
+                RecipientIds = recipientIds,
+                TicketId = ticketId
+            };
+            await dynamicRepository.ExecuteAsync(criteria);
         }
 
         public async Task<int> RemoveSingleRecipient(RemoveSingleRecipientRequest request)
@@ -249,6 +263,16 @@ namespace OWP.TicketCenter
             var criteria = new InsertManyRecipientReaderCriteria
             {
                 RecipientIds = recipientIds,
+                IsRead = isRead,
+                TicketId = ticketId
+            };
+            await dynamicRepository.ExecuteAsync(criteria);
+        }
+
+        public async Task UpdateRecipientReader(int ticketId, bool isRead)
+        {
+            var criteria = new UpdateRecipientReaderCriteria
+            {
                 IsRead = isRead,
                 TicketId = ticketId
             };

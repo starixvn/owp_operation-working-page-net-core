@@ -99,7 +99,7 @@ namespace OWP.TicketCenter
             => await mediator.Send(request);
 
         [HttpPost("ticket-detail/remove-single-recipient")]
-        public async Task<int> RemoveSingleRecipient(InsertSingleRecipientRequest request)
+        public async Task<int> RemoveSingleRecipient(RemoveSingleRecipientRequest request)
             => await mediator.Send(request);
     }
 }

@@ -7,6 +7,6 @@ namespace OWP.TicketCenter.Models
     {
         public int TicketId { get; set; }
 
-        public IList<InsertManyRecipientModel> Recipients { get; set; }
+        public IList<InsertOrRemoveManyRecipientModel> Recipients { get; set; }
     }
 }

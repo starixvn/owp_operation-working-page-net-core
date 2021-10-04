@@ -6,6 +6,6 @@
 
         public int RecipientId { get; set; }
 
-        public string RecipientType { get; set; }
+        public int RecipientType { get; set; }
     }
 }
