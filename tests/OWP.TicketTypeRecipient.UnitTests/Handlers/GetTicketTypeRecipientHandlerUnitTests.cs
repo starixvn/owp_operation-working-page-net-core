@@ -1,15 +1,15 @@
 namespace OWP.TicketTypeRecipient.UnitTests.Handlers
 {
-    using System.Collections.Generic;
-    using Xunit;
     using Fanex.Data.Repository;
     using NSubstitute;
-    using OWP.TicketTypeRecipient.Handlers;
     using OWP.Enums;
+    using OWP.TicketTypeRecipient.Handlers;
     using OWP.TicketTypeRecipient.Models;
-    using System.Threading.Tasks;
-    using Xunit.Asserts.Compare;
+    using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
+    using Xunit;
+    using Xunit.Asserts.Compare;
 
     public class GetTicketTypeRecipientHandlerUnitTests
     {
@@ -30,10 +30,10 @@ namespace OWP.TicketTypeRecipient.UnitTests.Handlers
                     {
                         new Recipient
                         {
-                            TicketTypeRecipientId = 1,
-                            RecipientId = 1070340,
-                            RecipientName = "starix1",
-                            RecipientType = (int)TicketRecipient.USER
+                            TicketTypeRecipientId = 4,
+                            RecipientId = 2,
+                            RecipientName = "CSD",
+                            RecipientType = (int)TicketRecipient.GROUP
                         },
                         new Recipient
                         {
@@ -44,17 +44,17 @@ namespace OWP.TicketTypeRecipient.UnitTests.Handlers
                         },
                         new Recipient
                         {
-                            TicketTypeRecipientId = 3,
-                            RecipientId = 15469717,
-                            RecipientName = "starix2",
+                            TicketTypeRecipientId = 1,
+                            RecipientId = 1070340,
+                            RecipientName = "starix1",
                             RecipientType = (int)TicketRecipient.USER
                         },
                         new Recipient
                         {
-                            TicketTypeRecipientId = 4,
-                            RecipientId = 2,
-                            RecipientName = "CSD",
-                            RecipientType = (int)TicketRecipient.GROUP
+                            TicketTypeRecipientId = 3,
+                            RecipientId = 15469717,
+                            RecipientName = "starix2",
+                            RecipientType = (int)TicketRecipient.USER
                         }
                     }
                 },

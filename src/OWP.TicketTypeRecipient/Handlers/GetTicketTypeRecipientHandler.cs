@@ -1,12 +1,12 @@
 ﻿namespace OWP.TicketTypeRecipient.Handlers
 {
+    using Fanex.Data.Repository;
+    using MediatR;
+    using Models;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
-    using Fanex.Data.Repository;
-    using MediatR;
-    using Models;
 
     public class GetTicketTypeRecipientRequest : IRequest<IEnumerable<TicketTypeRecipient>>
     {
@@ -30,7 +30,9 @@
 
         private static IEnumerable<TicketTypeRecipient> GetResult(IEnumerable<TicketType> ticketTypes, IEnumerable<RecipientData> recipients)
         {
-            foreach (var type in ticketTypes)
+            var sortedTicketTypes = ticketTypes.OrderBy(x => x.TypeName);
+
+            foreach (var type in sortedTicketTypes)
             {
                 yield return new TicketTypeRecipient
                 {
@@ -42,7 +44,9 @@
                         RecipientName = y.RecipientName,
                         RecipientType = y.RecipientType,
                         TicketTypeRecipientId = y.TicketTypeRecipientId
-                    }).ToList()
+                    })
+                    .OrderBy(x => x.RecipientName)
+                    .ToList()
                 };
             }
         }

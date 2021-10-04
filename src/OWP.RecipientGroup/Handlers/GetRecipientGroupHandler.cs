@@ -1,7 +1,6 @@
-﻿using OWP.Enums;
-
-namespace OWP.RecipientGroup.Handlers
+﻿namespace OWP.RecipientGroup.Handlers
 {
+    using Enums;
     using MediatR;
     using Models;
     using Services;
@@ -9,7 +8,6 @@ namespace OWP.RecipientGroup.Handlers
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
-
 
     public class QueryRecipientGroupRequest : IRequest<IEnumerable<TicketGroup>> { }
 
@@ -37,9 +35,11 @@ namespace OWP.RecipientGroup.Handlers
                         RecipientId = x.UserId,
                         RecipientName = x.Username,
                         RecipientType = (int)TicketRecipient.USER
-                    }).ToList()
+                    })
+                    .OrderBy(x => x.RecipientName)
+                    .ToList()
                 }
-            );
+            ).OrderBy(x => x.GroupName);
         }
     }
 }

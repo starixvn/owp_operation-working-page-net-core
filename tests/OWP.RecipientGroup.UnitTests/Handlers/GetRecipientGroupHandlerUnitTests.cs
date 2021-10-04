@@ -38,23 +38,23 @@
             {
                 new()
                 {
-                    GroupId = 1,
-                    GroupName = "LST",
-                    Recipients = new List<Recipient>
-                    {
-                        new() { RecipientGroupId = 1, RecipientId = 111, RecipientType = 1, RecipientName = "sa" },
-                        new() { RecipientGroupId = 2, RecipientId = 222, RecipientType = 1, RecipientName = "carlos" },
-                        new() { RecipientGroupId = 3, RecipientId = 333, RecipientType = 1, RecipientName = "tyler" }
-                    }
-                },
-                new()
-                {
                     GroupId = 3,
                     GroupName = "Candy",
                     Recipients = new List<Recipient>
                     {
-                        new() { RecipientGroupId = 4, RecipientId = 444, RecipientType = 1, RecipientName = "mira" },
-                        new() { RecipientGroupId = 5, RecipientId = 555, RecipientType = 1, RecipientName = "luca" }
+                        new() { RecipientGroupId = 5, RecipientId = 555, RecipientType = 1, RecipientName = "luca" },
+                        new() { RecipientGroupId = 4, RecipientId = 444, RecipientType = 1, RecipientName = "mira" }
+                    }
+                },
+                new()
+                {
+                    GroupId = 1,
+                    GroupName = "LST",
+                    Recipients = new List<Recipient>
+                    {
+                        new() { RecipientGroupId = 2, RecipientId = 222, RecipientType = 1, RecipientName = "carlos" },
+                        new() { RecipientGroupId = 1, RecipientId = 111, RecipientType = 1, RecipientName = "sa" },
+                        new() { RecipientGroupId = 3, RecipientId = 333, RecipientType = 1, RecipientName = "tyler" }
                     }
                 },
                 new()
