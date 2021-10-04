@@ -23,7 +23,7 @@
             var configuration = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<EventTicketOtherModel, TicketOtherDetailViewModel>();
-                cfg.CreateMap<EventTicketOtherModel, MessageModel>();
+                cfg.CreateMap<EventTicketOtherModel, MessageResponseModel>();
             });
 
             mapper = configuration.CreateMapper();

@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using OWP.TicketCenter.Builder;
 using OWP.TicketCenter.Handlers;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.ViewModels;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace OWP.TicketCenter.Services
 {
@@ -28,7 +26,6 @@ namespace OWP.TicketCenter.Services
             this.mapper = mapper;
         }
 
-
         public async Task<IList<TicketOtherDetailViewModel>> GetAllTicketOther(QueryEventTicketsRequest request)
         {
             var ticketOthers = await repository.GetEventTicketOther(request);
@@ -47,6 +44,7 @@ namespace OWP.TicketCenter.Services
                 var messageDetail = TwoLastCommentBuilder.GetTwoLastComment(messageModel.ToList());
 
                 viewModel.Messages = messageDetail;
+                viewModel.CommentLatestDate = messageDetail.First().CreatedDate;
                 ticketOthersViewModel.Add(viewModel);
             }
             return ticketOthersViewModel;

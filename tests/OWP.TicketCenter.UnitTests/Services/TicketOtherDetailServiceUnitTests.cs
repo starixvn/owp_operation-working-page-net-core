@@ -49,12 +49,12 @@
                     new()
                     {
                         RecipientId = 11,
-                        Username = "Liam",
+                        UserName = "Liam",
                     },
                     new()
                     {
                         RecipientId = 12,
-                        Username = "Luca",
+                        UserName = "Luca",
                     },
                 },
                 Messages = new List<MessageDetailViewModel>
@@ -102,12 +102,12 @@
                 new()
                 {
                     RecipientId = 11,
-                    Username = "Liam",
+                    UserName = "Liam",
                 },
                 new()
                 {
                     RecipientId = 12,
-                    Username = "Luca",
+                    UserName = "Luca",
                 },
             };
     }

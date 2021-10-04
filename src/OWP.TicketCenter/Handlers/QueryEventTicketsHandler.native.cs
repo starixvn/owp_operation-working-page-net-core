@@ -1,16 +1,15 @@
-﻿using System.Linq;
-using OWP.TicketCenter.Services;
+﻿using OWP.TicketCenter.Services;
 using OWP.TicketCenter.ViewModels;
+using System.Linq;
 
 namespace OWP.TicketCenter.Handlers
 {
-    using System.Collections.Generic;
     using MediatR;
+    using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
-    using Models;
 
-    public class QueryEventTicketsRequest : IRequest<EventTicketViewModel>
+    public class QueryEventTicketsRequest : IRequest<List<TicketDetailBaseViewModel>>
     {
         public int ActorId { get; set; }
 
@@ -23,7 +22,7 @@ namespace OWP.TicketCenter.Handlers
         public int MarketKey { get; set; }
     }
 
-    public class QueryEventTicketsHandler : IRequestHandler<QueryEventTicketsRequest, EventTicketViewModel>
+    public class QueryEventTicketsHandler : IRequestHandler<QueryEventTicketsRequest, List<TicketDetailBaseViewModel>>
     {
         private readonly EventTicketLeagueService leagueService;
 
@@ -40,18 +39,21 @@ namespace OWP.TicketCenter.Handlers
             this.otherService = otherService;
         }
 
-        public async Task<EventTicketViewModel> Handle(QueryEventTicketsRequest request, CancellationToken cancellationToken)
+        public async Task<List<TicketDetailBaseViewModel>> Handle(QueryEventTicketsRequest request, CancellationToken cancellationToken)
         {
-
             var ticketLeague = await leagueService.GetAllLeague(request);
             var ticketMatch = await matchService.GetAllMatch(request);
             var ticketOthers = await otherService.GetAllTicketOther(request);
-            return new EventTicketViewModel
-            {
-                EventTicketLeagues = ticketLeague.ToList(),
-                EventTicketMatch = ticketMatch.ToList(),
-                EventTicketOthers = ticketOthers.ToList()
-            };
+            var eventTickets = new List<TicketDetailBaseViewModel>();
+            eventTickets.AddRange(ticketLeague);
+            eventTickets.AddRange(ticketMatch);
+            eventTickets.AddRange(ticketOthers);
+
+            return SortEventTicketByCommentLatestDate(eventTickets);
         }
+
+        private List<TicketDetailBaseViewModel> SortEventTicketByCommentLatestDate(
+            List<TicketDetailBaseViewModel> tickets)
+            => tickets.OrderByDescending(x => x.CommentLatestDate).ToList();
     }
 }

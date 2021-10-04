@@ -28,21 +28,30 @@ namespace OWP.TicketCenter
             CreateMap<QueryEventTicketsRequest, GetEventTicketLeagueCriteria>();
             CreateMap<QueryEventTicketsRequest, GetEventTicketMatchCriteria>();
             CreateMap<QueryEventTicketsRequest, GetEventTicketOtherCriteria>();
-            CreateMap<EventTicketLeagueModel, TicketLeagueDetailViewModel>().ForMember(
+            CreateMap<EventTicketLeagueModel, TicketLeagueDetailViewModel>()
+                .ForMember(
                 m => m.Messages,
                 opt => opt.Ignore())
                 .ForMember(
-                m => m.Recipients, opt => opt.Ignore());
-            CreateMap<EventTicketMatchModel, TicketMatchDetailViewModel>().ForMember(
+                m => m.Recipients, opt => opt.Ignore())
+                .ForMember(
+                m => m.CommentLatestDate, opt => opt.Ignore());
+            CreateMap<EventTicketMatchModel, TicketMatchDetailViewModel>()
+                .ForMember(
                 m => m.Messages,
                 opt => opt.Ignore())
                 .ForMember(
-                    m => m.Recipients, opt => opt.Ignore()); ;
-            CreateMap<EventTicketOtherModel, TicketOtherDetailViewModel>().ForMember(
+                    m => m.Recipients, opt => opt.Ignore())
+                .ForMember(
+                    m => m.CommentLatestDate, opt => opt.Ignore());
+            CreateMap<EventTicketOtherModel, TicketOtherDetailViewModel>()
+                .ForMember(
                 m => m.Messages,
                 opt => opt.Ignore())
                 .ForMember(
-                    m => m.Recipients, opt => opt.Ignore()); ;
+                    m => m.Recipients, opt => opt.Ignore())
+                .ForMember(
+                    m => m.CommentLatestDate, opt => opt.Ignore());
 
             CreateMap<EventTicketLeagueModel, MessageDetailViewModel>();
             CreateMap<EventTicketMatchModel, MessageDetailViewModel>();

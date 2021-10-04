@@ -50,7 +50,7 @@
                     new()
                     {
                         RecipientId = 10,
-                        Username = "sa",
+                        UserName = "sa",
                     },
                 },
                 Messages = new List<MessageDetailViewModel>
@@ -100,7 +100,7 @@
                 new()
                 {
                     RecipientId = 10,
-                    Username = "sa",
+                    UserName = "sa",
                 },
             };
     }

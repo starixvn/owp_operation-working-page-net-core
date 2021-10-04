@@ -25,28 +25,15 @@
             var ticketId = 12;
             var action = RecipientAction.Add;
 
-            await service.Execute(recipients, ticketId, action);
+            await service.InsertManyRecipient(recipients, ticketId, action);
 
-            await repository.Received().AddNewRecipients(ticketId, Arg.Compat.Any<string>(), 1);
-            await repository.Received().AddNewRecipients(ticketId, Arg.Compat.Any<string>(), 2);
+            await repository.Received().AddManyRecipients(ticketId, Arg.Compat.Any<string>(), 1);
+            await repository.Received().AddManyRecipients(ticketId, Arg.Compat.Any<string>(), 2);
         }
 
         [Fact]
-        public async Task Execute_DeleteRecipients_CallDeleteRecipients()
-        {
-            var service = new InsertOrUpdateRecipientServiceImp(repository);
-            var recipients = MockListRecipients();
-            var ticketId = 12;
-            var action = RecipientAction.Delete;
-
-            await service.Execute(recipients, ticketId, action);
-
-            await repository.Received().DeleteRecipients(ticketId, Arg.Compat.Any<string>(), 1);
-            await repository.Received().DeleteRecipients(ticketId, Arg.Compat.Any<string>(), 2);
-        }
-
-        public List<AddNewRecipientModel> MockListRecipients()
-            => new List<AddNewRecipientModel>
+        public List<InsertManyRecipientModel> MockListRecipients()
+            => new List<InsertManyRecipientModel>
             {
                 new()
                 {

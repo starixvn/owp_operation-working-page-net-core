@@ -10,8 +10,6 @@ using System.Threading.Tasks;
 
 namespace OWP.TicketCenter
 {
-    using Newtonsoft.Json;
-
     [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
@@ -25,14 +23,9 @@ namespace OWP.TicketCenter
             this.mediator = mediator;
         }
 
-        [HttpPost("query-event-tickets")]
-        public async Task<EventTicketViewModel> QueryEventCheckingTickets(QueryEventTicketsRequest request)
-        => await mediator.Send(request);
-
         [HttpPost("new-message")]
         public async Task<InsertMessageResultModel> NewMessage(NewMessageRequest request)
         => await mediator.Send(request);
-
 
         [HttpPost("new-ticket-issue-event")]
         public async Task<int> NewTicketIssueEvent(NewTicketIssueEventRequest request)
@@ -82,11 +75,8 @@ namespace OWP.TicketCenter
         }
 
         [HttpPost("get-event-ticket")]
-        public async Task<IActionResult> GetEventTicket(QueryEventTicketsRequest request)
-        {
-            var result = await mediator.Send(request);
-            return Ok(JsonConvert.SerializeObject(result));
-        }
+        public async Task<List<TicketDetailBaseViewModel>> GetEventTicket(QueryEventTicketsRequest request)
+            => await mediator.Send(request);
 
         [HttpGet("get-ticket-type")]
         public async Task<IEnumerable<TicketTypeModel>> GetTicketTye()
@@ -111,6 +101,5 @@ namespace OWP.TicketCenter
         [HttpPost("ticket-detail/remove-single-recipient")]
         public async Task<int> RemoveSingleRecipient(InsertSingleRecipientRequest request)
             => await mediator.Send(request);
-
     }
 }
