@@ -51,6 +51,10 @@ namespace OWP.TicketCenter
         Task InsertIssueCreator(int ticketId, int creatorId);
 
         Task<IssueCreatorModel> GetIssueCreator(int ticketId);
+
+        Task<IEnumerable<int>> GetRecipientIdInManyGroup(string groupIds);
+
+        Task InsertManyRecipientReader(string recipientIds, int ticketId, bool isRead);
     }
 
     public class RepositoryImp : Repository
@@ -229,6 +233,26 @@ namespace OWP.TicketCenter
                 TicketId = ticketId
             };
             return (await dynamicRepository.FetchAsync<IssueCreatorModel>(creator))?.FirstOrDefault();
+        }
+
+        public async Task<IEnumerable<int>> GetRecipientIdInManyGroup(string groupIds)
+        {
+            var creator = new GetRecipientIdInManyGroupCriteria()
+            {
+                GroupIds = groupIds
+            };
+            return (await dynamicRepository.FetchAsync<int>(creator));
+        }
+
+        public async Task InsertManyRecipientReader(string recipientIds, int ticketId, bool isRead)
+        {
+            var criteria = new InsertManyRecipientReaderCriteria
+            {
+                RecipientIds = recipientIds,
+                IsRead = isRead,
+                TicketId = ticketId
+            };
+            await dynamicRepository.ExecuteAsync(criteria);
         }
     }
 }

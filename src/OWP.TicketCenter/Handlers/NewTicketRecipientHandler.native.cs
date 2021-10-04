@@ -13,15 +13,21 @@ namespace OWP.TicketCenter.Handlers
 
     public class NewTicketRecipientHandler : IRequestHandler<NewTicketRecipientRequest, bool>
     {
-        private readonly InsertOrUpdateRecipientService recipientService;
+        private readonly RecipientService recipientService;
 
-        public NewTicketRecipientHandler(InsertOrUpdateRecipientService recipientService)
+        public NewTicketRecipientHandler(RecipientService recipientService)
         {
             this.recipientService = recipientService;
         }
 
         public async Task<bool> Handle(NewTicketRecipientRequest request, CancellationToken cancellationToken)
-            => await recipientService.InsertManyRecipient(request.Recipients, request.TicketId, RecipientAction.Add);
+        {
+            await recipientService.InsertManyRecipient(request.Recipients, request.TicketId);
+
+            await recipientService.InsertManyRecipientReader(request.Recipients, request.TicketId);
+
+            return await Task.FromResult(true);
+        }
 
     }
 }

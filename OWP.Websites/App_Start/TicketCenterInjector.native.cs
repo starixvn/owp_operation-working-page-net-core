@@ -9,7 +9,7 @@ namespace OWP.Websites.App_Start
         public static void InjectTicketCenterService(this IServiceCollection services)
         {
             services.AddScoped<Repository, RepositoryImp>();
-            services.AddScoped<InsertOrUpdateRecipientService, InsertOrUpdateRecipientServiceImp>();
+            services.AddScoped<RecipientService, RecipientServiceImp>();
             services.AddScoped<TicketDetailService, TicketDetailServiceImp>();
             services.AddScoped<TicketLeagueDetailService, TicketLeagueDetailServiceImp>();
             services.AddScoped<TicketMatchDetailService, TicketMatchDetailServiceImp>();
