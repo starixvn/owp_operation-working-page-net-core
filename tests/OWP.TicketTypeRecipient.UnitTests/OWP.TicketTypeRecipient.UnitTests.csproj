@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\OWP.TicketTypeRecipient\OWP.TicketTypeRecipient.csproj" />
+    <ProjectReference Include="..\..\src\OWP\OWP.csproj" />
   </ItemGroup>
 
 </Project>

@@ -5,10 +5,11 @@ namespace OWP.TicketTypeRecipient.UnitTests.Handlers
     using Fanex.Data.Repository;
     using NSubstitute;
     using OWP.TicketTypeRecipient.Handlers;
-    using OWP.TicketTypeRecipient.Enums;
+    using OWP.Enums;
     using OWP.TicketTypeRecipient.Models;
     using System.Threading.Tasks;
     using Xunit.Asserts.Compare;
+    using System.Linq;
 
     public class GetTicketTypeRecipientHandlerUnitTests
     {
@@ -23,7 +24,7 @@ namespace OWP.TicketTypeRecipient.UnitTests.Handlers
                     TicketType = new TicketType
                     {
                         TypeId = 1,
-                        TypeName = "Event"
+                        TypeName = "type1"
                     },
                     Recipients = new List<Recipient>
                     {
@@ -32,28 +33,28 @@ namespace OWP.TicketTypeRecipient.UnitTests.Handlers
                             TicketTypeRecipientId = 1,
                             RecipientId = 1070340,
                             RecipientName = "starix1",
-                            RecipientType = (int)RecipientEnum.USER
+                            RecipientType = (int)TicketRecipientEnum.USER
                         },
                         new Recipient
                         {
                             TicketTypeRecipientId = 2,
                             RecipientId = 1,
                             RecipientName = "LA",
-                            RecipientType = (int)RecipientEnum.GROUP
+                            RecipientType = (int)TicketRecipientEnum.GROUP
                         },
                         new Recipient
                         {
                             TicketTypeRecipientId = 3,
                             RecipientId = 15469717,
                             RecipientName = "starix2",
-                            RecipientType = (int)RecipientEnum.USER
+                            RecipientType = (int)TicketRecipientEnum.USER
                         },
                         new Recipient
                         {
                             TicketTypeRecipientId = 4,
                             RecipientId = 2,
                             RecipientName = "CSD",
-                            RecipientType = (int)RecipientEnum.GROUP
+                            RecipientType = (int)TicketRecipientEnum.GROUP
                         }
                     }
                 },
@@ -62,7 +63,7 @@ namespace OWP.TicketTypeRecipient.UnitTests.Handlers
                     TicketType = new TicketType
                     {
                         TypeId = 2,
-                        TypeName = "Event2"
+                        TypeName = "type2"
                     },
                     Recipients = new List<Recipient>
                     {
@@ -71,70 +72,94 @@ namespace OWP.TicketTypeRecipient.UnitTests.Handlers
                             TicketTypeRecipientId = 5,
                             RecipientId = 2,
                             RecipientName = "CSD",
-                            RecipientType = (int)RecipientEnum.GROUP
+                            RecipientType = (int)TicketRecipientEnum.GROUP
                         }
                     }
+                },
+                new TicketTypeRecipient
+                {
+                    TicketType = new TicketType
+                    {
+                        TypeId = 3,
+                        TypeName = "type3"
+                    },
+                    Recipients = new List<Recipient>()
                 }
             };
 
             var actual = await handler.Handle(new GetTicketTypeRecipientRequest(), new System.Threading.CancellationToken(false));
 
-            DeepAssert.Equal(expected, actual);
+            DeepAssert.Equal(expected, actual.ToList());
         }
 
         private GetTicketTypeRecipientHandler MockHander()
         {
-            var mockData = new List<GetTicketTypeRecipientHandler.RecipientData>
+            var mockTicketTypes = new List<TicketType>
+            {
+                new TicketType
+                {
+                    TypeId = 1,
+                    TypeName = "type1"
+                },
+                new TicketType
+                {
+                    TypeId = 2,
+                    TypeName = "type2"
+                },
+                new TicketType
+                {
+                    TypeId = 3,
+                    TypeName = "type3"
+                }
+            };
+
+            var mockRecipients = new List<GetTicketTypeRecipientHandler.RecipientData>
             {
                 new GetTicketTypeRecipientHandler.RecipientData
                 {
                     TypeId = 1,
-                    TypeName = "Event",
                     TicketTypeRecipientId = 1,
                     RecipientId = 1070340,
                     RecipientName = "starix1",
-                    RecipientType = (int)RecipientEnum.USER,
+                    RecipientType = (int)TicketRecipientEnum.USER,
                 },
                 new GetTicketTypeRecipientHandler.RecipientData
                 {
                     TypeId = 1,
-                    TypeName = "Event",
                     TicketTypeRecipientId = 2,
                     RecipientId = 1,
                     RecipientName = "LA",
-                    RecipientType = (int)RecipientEnum.GROUP,
+                    RecipientType = (int)TicketRecipientEnum.GROUP,
                 },
                 new GetTicketTypeRecipientHandler.RecipientData
                 {
                     TypeId = 1,
-                    TypeName = "Event",
                     TicketTypeRecipientId = 3,
                     RecipientId = 15469717,
                     RecipientName = "starix2",
-                    RecipientType = (int)RecipientEnum.USER,
+                    RecipientType = (int)TicketRecipientEnum.USER,
                 },
                 new GetTicketTypeRecipientHandler.RecipientData
                 {
                     TypeId = 1,
-                    TypeName = "Event",
                     TicketTypeRecipientId = 4,
                     RecipientId = 2,
                     RecipientName = "CSD",
-                    RecipientType = (int)RecipientEnum.GROUP,
+                    RecipientType = (int)TicketRecipientEnum.GROUP,
                 },
                 new GetTicketTypeRecipientHandler.RecipientData
                 {
                     TypeId = 2,
-                    TypeName = "Event2",
                     TicketTypeRecipientId = 5,
                     RecipientId = 2,
                     RecipientName = "CSD",
-                    RecipientType = (int)RecipientEnum.GROUP,
+                    RecipientType = (int)TicketRecipientEnum.GROUP,
                 }
             };
+
             var dynamicRepo = Substitute.For<IDynamicRepository>();
-            dynamicRepo.FetchAsync<GetTicketTypeRecipientHandler.RecipientData>(Arg.Any<GetTicketTypeRecipientHandler.GetRecipientDataCriteria>())
-                .Returns(mockData);
+            dynamicRepo.FetchMultipleAsync<TicketType, GetTicketTypeRecipientHandler.RecipientData>(Arg.Any<GetTicketTypeRecipientHandler.GetRecipientDataCriteria>())
+                .Returns((mockTicketTypes, mockRecipients));
 
             return new GetTicketTypeRecipientHandler(dynamicRepo);
         }
