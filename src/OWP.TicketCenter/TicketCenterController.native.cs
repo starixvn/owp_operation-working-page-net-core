@@ -24,7 +24,7 @@ namespace OWP.TicketCenter
         }
 
         [HttpPost("new-message")]
-        public async Task<InsertMessageResultModel> NewMessage(NewMessageRequest request)
+        public async Task<MessageDetailViewModel> NewMessage(NewMessageRequest request)
         => await mediator.Send(request);
 
         [HttpPost("new-ticket-issue-event")]

@@ -15,11 +15,11 @@ namespace OWP.TicketCenter.Handlers
         public string Keyword { get; set; }
     }
 
-    public class GetTicketEventOptionHandler : IRequestHandler<GetTicketEventOptionRequest, IList<EventOptionInfoSender>>
+    public class GetEventOptionHandler : IRequestHandler<GetTicketEventOptionRequest, IList<EventOptionInfoSender>>
     {
         private readonly Repository repository;
 
-        public GetTicketEventOptionHandler(Repository repository)
+        public GetEventOptionHandler(Repository repository)
         {
             this.repository = repository;
         }
@@ -41,7 +41,7 @@ namespace OWP.TicketCenter.Handlers
                         Username = x.Username
                     })?.DistinctBy(x=>new {x.UserId, x.Username});
 
-                var leagueViewModel = eventInfoDic[key]
+                var eventViewModel = eventInfoDic[key]
                     .Select(i => new EventOptionInfoViewModel
                     {
                         OwpLeagueId = i.OwpLeagueId,
@@ -67,7 +67,7 @@ namespace OWP.TicketCenter.Handlers
 
                 eventInfoSender.Add(new EventOptionInfoSender
                 {
-                    EventInfoViewModel = leagueViewModel.ToList(),
+                    EventInfoViewModel = eventViewModel.ToList(),
                     UserViewModel = userViewModel.ToList()
                 });
             }

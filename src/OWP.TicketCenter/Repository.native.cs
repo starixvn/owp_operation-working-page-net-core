@@ -1,4 +1,6 @@
-﻿namespace OWP.TicketCenter
+﻿using OWP.TicketCenter.ViewModels;
+
+namespace OWP.TicketCenter
 {
     using AutoMapper;
     using Fanex.Data.Repository;
@@ -22,7 +24,7 @@
 
         Task AddNewTicketIssueOther(NewTicketIssueOtherRequest request);
 
-        Task<InsertMessageResultModel> AddNewMessage(NewMessageRequestModel message);
+        Task<MessageDetailViewModel> AddNewMessage(NewMessageRequestModel message);
 
         Task AddManyRecipients(int ticketId, string recipientIds, int recipientType);
 
@@ -133,7 +135,7 @@
             return (await dynamicRepository.FetchAsync<int>(criteria)).FirstOrDefault();
         }
 
-        public async Task<InsertMessageResultModel> AddNewMessage(NewMessageRequestModel message)
+        public async Task<MessageDetailViewModel> AddNewMessage(NewMessageRequestModel message)
         {
             var criteria = new AddNewTicketIssueMessageCriteria()
             {
@@ -143,7 +145,7 @@
                 Message = message.Message ?? "Please add"
             };
             criteria.ThrowExceptionIfInvalid();
-            var result = (await dynamicRepository.FetchAsync<InsertMessageResultModel>(criteria)).FirstOrDefault();
+            var result = (await dynamicRepository.FetchAsync<MessageDetailViewModel>(criteria)).FirstOrDefault();
 
             return result;
         }

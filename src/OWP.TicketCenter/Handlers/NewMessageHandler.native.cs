@@ -3,10 +3,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using OWP.TicketCenter.Models;
+using OWP.TicketCenter.ViewModels;
 
 namespace OWP.TicketCenter.Handlers
 {
-    public class NewMessageRequest : IRequest<InsertMessageResultModel>
+    public class NewMessageRequest : IRequest<MessageDetailViewModel>
     {
         public int TicketId { get; set; }
 
@@ -17,7 +18,7 @@ namespace OWP.TicketCenter.Handlers
         public int? FileId { get; set; }
     }
 
-    public class NewMessageHandler : IRequestHandler<NewMessageRequest, InsertMessageResultModel>
+    public class NewMessageHandler : IRequestHandler<NewMessageRequest, MessageDetailViewModel>
     {
         private readonly Repository repository;
 
@@ -26,7 +27,7 @@ namespace OWP.TicketCenter.Handlers
             this.repository = repository;
         }
 
-        public async Task<InsertMessageResultModel> Handle(NewMessageRequest request, CancellationToken cancellationToken)
+        public async Task<MessageDetailViewModel> Handle(NewMessageRequest request, CancellationToken cancellationToken)
         {
             
             var message = new NewMessageRequestModel
