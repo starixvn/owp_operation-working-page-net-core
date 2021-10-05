@@ -6,6 +6,7 @@
     using Validation = OtherSport.Validation.Services;
     using EventAssignment = OtherSport.EventAssignment.Services;
     using OWP.OtherSport.Notification.Services;
+    using TicketCenterNotification= OWP.TicketCenter.Notification;
 
     public static class OtherSportInjector
     {
@@ -41,6 +42,7 @@
             services.AddScoped<ChangedMatchStatusGenerator, ChangedMatchStatusGeneratorImp>();
             services.AddScoped<ChangedMatchSettingGenerator, ChangedMatchSettingGeneratorImp>();
             services.AddScoped<NotifyServices, NotifyServicesImp>();
+            services.AddScoped<TicketCenterNotification.Services.NotifyServices, TicketCenterNotification.Services.NotifyServicesImp>();
 
             services.AddScoped<AssigneeChangedValueFilter, AssigneeMessageFilterImp>();
             services.AddScoped<CacheManipulator, CacheManipulatorImp>();

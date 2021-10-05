@@ -44,6 +44,8 @@ namespace OWP.TicketCenter
 
         Task<IEnumerable<RecipientResponseModel>> GetRecipientByTicketId(int ticketId);
 
+        Task<IEnumerable<int>> GetUserIdsByTicketId(int ticketId);
+
         Task<int> AddSingleRecipient(InsertSingleRecipientRequest request);
 
         Task RemoveManyRecipientReader(string recipientIds, int ticketId);
@@ -129,6 +131,16 @@ namespace OWP.TicketCenter
             };
             criteria.ThrowExceptionIfInvalid();
             await dynamicRepository.ExecuteAsync(criteria);
+        }
+
+        public async Task<IEnumerable<int>> GetUserIdsByTicketId(int ticketId)
+        {
+            var criteria = new GetUserIdsByTicketIdCriteria
+            {
+                TicketId= ticketId
+            };
+            criteria.ThrowExceptionIfInvalid();
+            return await dynamicRepository.FetchAsync<int>(criteria);
         }
 
         public async Task<int> AddSingleRecipient(InsertSingleRecipientRequest request)

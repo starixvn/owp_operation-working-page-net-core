@@ -1,6 +1,7 @@
 using OWP.RecipientGroup;
 using OWP.TicketCenter;
 using OWP.FileUpload;
+using OWP.TicketCenter.Hubs;
 
 namespace OWP.Websites
 {
@@ -231,6 +232,7 @@ namespace OWP.Websites
                 options.Configuration.ChannelPrefix = "OWPNetCore";
             });
             services.AddSingleton<NewDataUploadNotifyHubImp>();
+            services.AddSingleton<NewMessageIncomeNotifyHubImp>();
         }
         private static void ConfigureMediator(IServiceCollection services)
         {
