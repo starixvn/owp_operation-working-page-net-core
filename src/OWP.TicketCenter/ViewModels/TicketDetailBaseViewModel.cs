@@ -24,5 +24,7 @@ namespace OWP.TicketCenter.ViewModels
             get;
             set;
         }
+
+        public bool IsRead { get; set; }
     }
 }

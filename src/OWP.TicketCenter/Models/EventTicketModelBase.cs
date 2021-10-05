@@ -24,5 +24,7 @@ namespace OWP.TicketCenter.Models
         public int? FileId { get; set; }
 
         #endregion message
+
+        public bool IsRead { get; set; }
     }
 }

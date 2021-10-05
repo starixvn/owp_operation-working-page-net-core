@@ -44,7 +44,9 @@ namespace OWP.TicketCenter.Handlers
             var ticketLeague = await leagueService.GetAllLeague(request);
             var ticketMatch = await matchService.GetAllMatch(request);
             var ticketOthers = await otherService.GetAllTicketOther(request);
+            
             var eventTickets = new List<TicketDetailBaseViewModel>();
+
             eventTickets.AddRange(ticketLeague);
             eventTickets.AddRange(ticketMatch);
             eventTickets.AddRange(ticketOthers);
