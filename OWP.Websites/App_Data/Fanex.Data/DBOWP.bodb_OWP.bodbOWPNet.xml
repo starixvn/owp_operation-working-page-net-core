@@ -317,7 +317,8 @@
 		<Setting Key="OWP_TicketIssueCreator_Create" SpName="OWP_TicketIssueCreator_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_TicketCenter_GetRecipientIdInManyGroup" SpName="OWP_TicketCenter_GetRecipientIdInManyGroup" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_TicketCenter_InsertManyReader" SpName="OWP_TicketCenter_InsertManyReader" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-		<Setting Key="OWP_TicketCenter_UpdateRecipientReader" SpName="OWP_TicketCenter_UpdateRecipientReader" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenter_UpdateManyRecipientReader" SpName="OWP_TicketCenter_UpdateManyRecipientReader" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenter_UpdateSingleRecipientReader" SpName="OWP_TicketCenter_UpdateSingleRecipientReader" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_TicketCenter_RemoveManyRecipientReader" SpName="OWP_TicketCenter_RemoveManyRecipientReader" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 	</Function>
 	<Function Name="FileUpload">

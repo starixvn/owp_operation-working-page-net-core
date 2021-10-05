@@ -58,7 +58,9 @@ namespace OWP.TicketCenter
 
         Task InsertManyRecipientReader(string recipientIds, int ticketId, bool isRead);
 
-        Task UpdateRecipientReader(int ticketId, bool isRead);
+        Task UpdateManyRecipientReader(int ticketId, bool isRead);
+
+        Task UpdateSingleRecipientReader(int ticketId, bool isRead, int recipientId);
     }
 
     public class RepositoryImp : Repository
@@ -269,14 +271,26 @@ namespace OWP.TicketCenter
             await dynamicRepository.ExecuteAsync(criteria);
         }
 
-        public async Task UpdateRecipientReader(int ticketId, bool isRead)
+        public async Task UpdateManyRecipientReader(int ticketId, bool isRead)
         {
-            var criteria = new UpdateRecipientReaderCriteria
+            var criteria = new UpdateManyRecipientReaderCriteria
             {
                 IsRead = isRead,
                 TicketId = ticketId
             };
             await dynamicRepository.ExecuteAsync(criteria);
         }
+
+        public async Task UpdateSingleRecipientReader(int ticketId, bool isRead, int recipientId)
+        {
+            var criteria = new UpdateSingleRecipientReaderCriteria
+            {
+                IsRead = isRead,
+                TicketId = ticketId,
+                RecipientId = recipientId
+            };
+            await dynamicRepository.ExecuteAsync(criteria);
+        }
+        
     }
 }

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using OWP.TicketCenter.Handlers;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.ViewModels;
 
@@ -10,7 +11,7 @@ namespace OWP.TicketCenter.Services
     
     public interface TicketOtherDetailService
     {
-        Task<TicketOtherDetailViewModel> GetTicketOtherDetail(int ticketId);
+        Task<TicketOtherDetailViewModel> GetTicketOtherDetail(TicketOtherDetailRequest request);
     }
 
     public class TicketOtherDetailServiceImp : TicketOtherDetailService
@@ -28,8 +29,11 @@ namespace OWP.TicketCenter.Services
             this.mapper = mapper;
         }
 
-        public async Task<TicketOtherDetailViewModel> GetTicketOtherDetail(int ticketId)
+        public async Task<TicketOtherDetailViewModel> GetTicketOtherDetail(TicketOtherDetailRequest request)
         {
+            var ticketId = request.TicketId;
+            var actorId = request.ActorId;
+
             var ticketOther = await repository.GetTicketOtherDetail(ticketId);
             var ticketFirst = ticketOther.Any()
                 ? ticketOther.First()
@@ -37,7 +41,9 @@ namespace OWP.TicketCenter.Services
 
             var ticketOtherViewModel = mapper.Map<TicketOtherDetailViewModel>(ticketFirst);
             var messages = ticketDetailService.BuildMessage(ticketOther.ToList());
-            
+
+            await repository.UpdateSingleRecipientReader(ticketId, true, actorId);
+
             var recipients = await repository.GetRecipientByTicketId(ticketId);
 
             var issueCreator = await repository.GetIssueCreator(ticketId);

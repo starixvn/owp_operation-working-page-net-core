@@ -1,14 +1,15 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Services;
 using OWP.TicketCenter.ViewModels;
 
 namespace OWP.TicketCenter.Handlers
 {
-    public class TicketLeagueDetailRequest : IRequest<TicketLeagueDetailViewModel>
+    public class TicketLeagueDetailRequest : TicketDetailBaseModel, IRequest<TicketLeagueDetailViewModel>
     {
-        public int TicketId { get; set; }
+      
     }
 
     public class TicketLeagueDetailHandler : IRequestHandler<TicketLeagueDetailRequest, TicketLeagueDetailViewModel>
@@ -22,6 +23,6 @@ namespace OWP.TicketCenter.Handlers
 
         public async Task<TicketLeagueDetailViewModel> Handle(TicketLeagueDetailRequest request,
             CancellationToken cancellationToken)
-            => await service.GetTicketLeagueDetail(request.TicketId);
+            => await service.GetTicketLeagueDetail(request);
     }
 }
