@@ -2,7 +2,7 @@
 
 namespace OWP.TicketCenter.ViewModels
 {
-    public class TicketMatchDetailViewModel: TicketDetailBaseViewModel
+    public class TicketMatchDetailViewModel : TicketDetailBaseViewModel
     {
         public int OwpLeagueId { get; set; }
 
@@ -17,5 +17,7 @@ namespace OWP.TicketCenter.ViewModels
         public string AwayName { get; set; }
 
         public DateTime? KOTime { get; set; }
+
+        public string EventName => OwpLeagueName;
     }
 }

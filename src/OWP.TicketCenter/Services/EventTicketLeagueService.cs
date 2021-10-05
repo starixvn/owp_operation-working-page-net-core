@@ -45,7 +45,6 @@ namespace OWP.TicketCenter.Services
 
                 leagueViewModel.Messages = messageDetail;
                 leagueViewModel.IsRead = leagueDic[key].All(l => l.IsRead);
-                leagueViewModel.CommentLatestDate = messageDetail.FirstOrDefault()?.CreatedDate;
 
                 leaguesViewModel.Add(leagueViewModel);
             }

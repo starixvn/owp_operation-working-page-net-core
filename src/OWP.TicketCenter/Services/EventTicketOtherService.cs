@@ -45,7 +45,6 @@ namespace OWP.TicketCenter.Services
 
                 viewModel.Messages = messageDetail;
                 viewModel.IsRead = ticketOthersDic[key].All(l => l.IsRead);
-                viewModel.CommentLatestDate = messageDetail.First().CreatedDate;
                 ticketOthersViewModel.Add(viewModel);
             }
             return ticketOthersViewModel;
