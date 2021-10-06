@@ -80,33 +80,13 @@
             };
 
             var file = await mediator.Send(request);
-
-            var result = new HttpResponseMessage(HttpStatusCode.OK)
-            {
-                Content = new ByteArrayContent(file.FileContent)
-            };
+           
 
             var fileExtension = file.Title.Substring(file.Title.LastIndexOf('.') + 1).ToLowerInvariant().Trim();
             var isImage = IsImage(fileExtension);
-            var dispositionType = GetDispositionType(isImage);
             var mediaType = GetMediaType(isImage, fileExtension);
 
-            result.Content.Headers.ContentDisposition =
-                new ContentDispositionHeaderValue(dispositionType)
-                {
-                    FileName = file.Title
-                };
-
-            result.Content.Headers.ContentType = new MediaTypeHeaderValue(mediaType);
-
-            return Ok(result);
-        }
-
-        private static string GetDispositionType(bool isImage)
-        {
-            return isImage
-                ? System.Net.Mime.DispositionTypeNames.Inline
-                : System.Net.Mime.DispositionTypeNames.Attachment;
+            return File(new MemoryStream(file.FileContent), mediaType, file.Title); ;
         }
 
         private static string GetMediaType(bool isImage, string fileExtension)
