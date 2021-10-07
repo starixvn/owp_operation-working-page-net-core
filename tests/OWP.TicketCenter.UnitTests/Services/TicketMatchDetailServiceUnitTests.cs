@@ -67,7 +67,7 @@
         }
 
         public List<EventTicketMatchModel> MockTicketMatchSource()
-            => new List<EventTicketMatchModel>
+            => new ()
             {
                 new()
                 {

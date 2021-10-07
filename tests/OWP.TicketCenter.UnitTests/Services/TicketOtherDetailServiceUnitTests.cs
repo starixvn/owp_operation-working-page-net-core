@@ -34,7 +34,7 @@
         }
 
         [Fact]
-        public async Task GetTicketOtherDetaill_Always_ReturnTicketMatchDetailViewModel()
+        public async Task GetTicketOtherDetail_Always_ReturnTicketMatchDetailViewModel()
         {
             var request = new TicketOtherDetailRequest() { ActorId = 1, TicketId = 10 };
             repository.GetTicketOtherDetail(request.TicketId).Returns(MockTicketOtherSource());
@@ -71,7 +71,7 @@
         }
 
         public List<EventTicketOtherModel> MockTicketOtherSource()
-            => new List<EventTicketOtherModel>
+            => new ()
             {
                 new()
                 {
