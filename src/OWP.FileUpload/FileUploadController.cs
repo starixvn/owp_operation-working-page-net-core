@@ -52,7 +52,7 @@
         {
             var result = new List<File>();
             var memoryStream = new MemoryStream();
-           
+
             foreach (var file in files)
             {
                 await file.CopyToAsync(memoryStream);
@@ -80,13 +80,14 @@
             };
 
             var file = await mediator.Send(request);
-           
+
 
             var fileExtension = file.Title.Substring(file.Title.LastIndexOf('.') + 1).ToLowerInvariant().Trim();
             var isImage = IsImage(fileExtension);
             var mediaType = GetMediaType(isImage, fileExtension);
 
-            return File(new MemoryStream(file.FileContent), mediaType, file.Title); ;
+            var stream = new MemoryStream(file.FileContent);
+            return File(stream, mediaType, file.Title);
         }
 
         private static string GetMediaType(bool isImage, string fileExtension)

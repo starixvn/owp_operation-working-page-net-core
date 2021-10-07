@@ -34,7 +34,7 @@ namespace OWP.TicketCenter.Handlers
             var messages = new List<NewMessageRequestModel>();
             foreach (var file in request.Files)
             {
-                messages.Add(new NewMessageRequestModel()
+                messages.Add(new ()
                 {
                     TicketId = ticketId,
                     CreatorId = request.CreatorId,

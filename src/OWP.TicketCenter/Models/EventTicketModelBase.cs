@@ -2,7 +2,7 @@
 
 namespace OWP.TicketCenter.Models
 {
-    public abstract class EventTicketModelBase
+    public class EventTicketModelBase
     {
         public int TicketId { get; set; }
 

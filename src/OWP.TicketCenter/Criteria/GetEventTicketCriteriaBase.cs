@@ -10,7 +10,7 @@ namespace OWP.TicketCenter.Criteria
 
         public string TicketId { get; set; }
 
-        public int TicketTypeId { get; set; } = 0;
+        public int TicketTypeId { get; set; }
 
         public int MarketKey { get; set; } = 1;
 

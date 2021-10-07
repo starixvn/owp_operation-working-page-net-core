@@ -24,9 +24,9 @@ namespace OWP.TicketCenter.Handlers
             this.repository = repository;
         }
 
-        public async Task<IList<EventOptionInfoSender>> Handle(GetTicketEventOptionRequest eventOptionRequest, CancellationToken cancellationToken)
+        public async Task<IList<EventOptionInfoSender>> Handle(GetTicketEventOptionRequest request, CancellationToken cancellationToken)
         {
-            var eventInfo = await repository.GetEventOptionInfo((eventOptionRequest.Keyword));
+            var eventInfo = await repository.GetEventOptionInfo((request.Keyword));
             var eventInfoDic = eventInfo
                 .GroupBy(e => new { e.LeagueName })
                 .ToDictionary(x => x.Key, x => x.ToList());
