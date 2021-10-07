@@ -87,7 +87,9 @@
             var mediaType = GetMediaType(isImage, fileExtension);
 
             var stream = new MemoryStream(file.FileContent);
-            return File(stream, mediaType, file.Title);
+            return isImage 
+                ? File(stream, mediaType)
+                : File(stream, mediaType, file.Title);
         }
 
         private static string GetMediaType(bool isImage, string fileExtension)
