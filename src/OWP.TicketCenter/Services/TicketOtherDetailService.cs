@@ -8,7 +8,6 @@ using OWP.TicketCenter.ViewModels;
 
 namespace OWP.TicketCenter.Services
 {
-    
     public interface TicketOtherDetailService
     {
         Task<TicketOtherDetailViewModel> GetTicketOtherDetail(TicketOtherDetailRequest request);

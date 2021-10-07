@@ -6,6 +6,7 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Handlers;
     using TicketCenter.Services;
     using ViewModels;
     using Xunit;
@@ -33,11 +34,11 @@
         }
 
         [Fact]
-        public async Task GetTicketMatchDetail_Always_ReturnTicketMatchDetailViewModel()
+        public async Task GetTicketOtherDetaill_Always_ReturnTicketMatchDetailViewModel()
         {
-            var ticketId = 146;
-            repository.GetTicketOtherDetail(ticketId).Returns(MockTicketOtherSource());
-            repository.GetRecipientByTicketId(ticketId).Returns(MockRecipientResponse());
+            var request = new TicketOtherDetailRequest() { ActorId = 1, TicketId = 10 };
+            repository.GetTicketOtherDetail(request.TicketId).Returns(MockTicketOtherSource());
+            repository.GetRecipientByTicketId(request.TicketId).Returns(MockRecipientResponse());
             var service = new TicketOtherDetailServiceImp(repository, ticketDetailService, mapper);
             var expected = new TicketOtherDetailViewModel()
             {
@@ -64,7 +65,7 @@
                 }
             };
 
-            var actual = await service.GetTicketOtherDetail(ticketId);
+            var actual = await service.GetTicketOtherDetail(request);
 
             DeepAssert.Equal(expected, actual);
         }

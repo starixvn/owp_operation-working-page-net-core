@@ -86,7 +86,6 @@
                     TicketId = 1,
                     OwpLeagueId=17,
                     OwpLeagueName="NHA",
-                    CommentLatestDate = new DateTime(2021,10,9),
                     Messages = new List<MessageDetailViewModel>
                     {
                         new() { MessageId = 14, UserId = 9,Message = "hi, Im Liam",CreatedDate = new DateTime(2021,10,9)},
@@ -98,7 +97,6 @@
                     TicketId = 2,
                     OwpLeagueId=19,
                     OwpLeagueName="V-league",
-                    CommentLatestDate = new DateTime(2021,10,10),
                     Messages = new List<MessageDetailViewModel>
                     {
                         new() { MessageId = 18, UserId = 12,Message ="hehe",CreatedDate = new DateTime(2021,10,10) }

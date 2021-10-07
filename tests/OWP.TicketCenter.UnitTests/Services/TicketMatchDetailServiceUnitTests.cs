@@ -1,6 +1,7 @@
 ﻿namespace OWP.TicketCenter.UnitTests.Services
 {
     using AutoMapper;
+    using Handlers;
     using Models;
     using NSubstitute;
     using System;
@@ -35,9 +36,9 @@
         [Fact]
         public async Task GetTicketMatchDetail_Always_ReturnTicketMatchDetailViewModel()
         {
-            var ticketId = 145;
-            repository.GetTicketMatchDetail(ticketId).Returns(MockTicketMatchSource());
-            repository.GetRecipientByTicketId(ticketId).Returns(MockRecipientResponse());
+            var request = new TicketMatchDetailRequest() { ActorId = 1, TicketId = 10 };
+            repository.GetTicketMatchDetail(request.TicketId).Returns(MockTicketMatchSource());
+            repository.GetRecipientByTicketId(request.TicketId).Returns(MockRecipientResponse());
             var service = new TicketMatchDetailServiceImp(repository, ticketDetailService, mapper);
             var expected = new TicketMatchDetailViewModel()
             {
@@ -60,7 +61,7 @@
                 }
             };
 
-            var actual = await service.GetTicketMatchDetail(ticketId);
+            var actual = await service.GetTicketMatchDetail(request);
 
             DeepAssert.Equal(expected, actual);
         }
