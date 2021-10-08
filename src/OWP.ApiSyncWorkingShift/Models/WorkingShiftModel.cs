@@ -8,7 +8,7 @@ namespace OWP.ApiSyncWorkingShift.Models
     [Serializable]
     public class WorkingShiftModel
     {
-        public int EmployeeID { get; set; }
+        public string EmployeeID { get; set; }
 
         public DateTime? ShiftDate { get; set; }
 
