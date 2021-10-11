@@ -16,7 +16,7 @@
 
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
+    [Authorize]
     [EnableCors("AllowOrigin")]
     public class FileUploadController : ControllerBase
     {
