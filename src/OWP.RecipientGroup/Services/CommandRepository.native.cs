@@ -1,0 +1,46 @@
+﻿namespace OWP.RecipientGroup.Services
+{
+    using Criteria;
+    using Fanex.Data.Repository;
+    using Handlers;
+    using Models;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    public interface CommandRepository
+    {
+        Task<IEnumerable<RecipientGroupModel>> GetRecipientGroup();
+
+        Task SaveRecipientGroup(SaveRecipientGroupRequest model);
+    }
+
+    public class CommandRepositoryImp : CommandRepository
+    {
+        private readonly IDynamicRepository repository;
+
+        public CommandRepositoryImp(IDynamicRepository repository)
+        {
+            this.repository = repository;
+        }
+
+        public async Task<IEnumerable<RecipientGroupModel>> GetRecipientGroup()
+        {
+            var criteria = new GetRecipientGroupCriteria();
+
+            return await repository.FetchAsync<RecipientGroupModel>(criteria);
+        }
+
+        public async Task SaveRecipientGroup(SaveRecipientGroupRequest model)
+        {
+            var criteria = new SaveRecipientGroupCommand
+            {
+                GroupId = model.GroupId,
+                GroupName = model.GroupName,
+                Recipients = string.Join(',', model.Recipients.Select(x => x.RecipientId))
+            };
+
+            await repository.ExecuteAsync(criteria);
+        }
+    }
+}

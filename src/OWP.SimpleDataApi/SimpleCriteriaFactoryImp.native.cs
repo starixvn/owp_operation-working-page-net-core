@@ -13,6 +13,7 @@ namespace OWP.SimpleDataApi
         private static void RegisterTicketCenter()
         {
             CriteriaTypes.Add(ConstantApiKey.TicketCenterGetRecipient, typeof(GetRecipientCriteria));
+            CriteriaTypes.Add(ConstantApiKey.TicketSettingGetAllRecipients, typeof(GetAllRecipientCriteria));
         }
     }
 }

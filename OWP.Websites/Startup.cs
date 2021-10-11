@@ -49,7 +49,9 @@ namespace OWP.Websites
         {
             app.UseDeveloperExceptionPage();
 
+#if !DEBUG
             app.UseHttpsRedirection();
+#endif
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseSession();

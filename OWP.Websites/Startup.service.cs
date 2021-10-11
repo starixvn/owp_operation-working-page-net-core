@@ -1,10 +1,7 @@
+using OWP.RecipientGroup;
+
 namespace OWP.Websites
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
-    using System.Threading.Tasks;
     using AutoMapper;
     using Fanex.Caching.Redis;
     using Fanex.Data;
@@ -42,9 +39,15 @@ namespace OWP.Websites
     using OWP.PreMatchNotification;
     using OWP.Services;
     using OWP.SimpleDataApi;
+    using OWP.TicketTypeRecipient;
     using OWP.Websites.App_Start;
     using Sentry;
     using StackExchange.Redis;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
+    using System.Threading.Tasks;
 
     public partial class Startup
     {
@@ -154,6 +157,7 @@ namespace OWP.Websites
             services.InjectProductAssignment();
             services.InjectSyncWorkingShift();
             services.InjectPreMatchNotification();
+            services.InjectRecipientGroup();
         }
 
         private void ConfigureNapServices(IServiceCollection services)
@@ -218,7 +222,8 @@ namespace OWP.Websites
         private void ConfigureSignalR(IServiceCollection services)
         {
             var redisConfig = Configuration.GetSection("AuthSettings:RedisConfig").Value;
-            services.AddSignalR().AddStackExchangeRedis(redisConfig, options => {
+            services.AddSignalR().AddStackExchangeRedis(redisConfig, options =>
+            {
                 options.Configuration.ChannelPrefix = "OWPNetCore";
             });
             services.AddSingleton<NewDataUploadNotifyHubImp>();
@@ -229,6 +234,8 @@ namespace OWP.Websites
             services.AddMediatR(typeof(OtherSportController).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(SyncWorkingShiftController).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(PreMatchNotificationController).GetTypeInfo().Assembly);
+            services.AddMediatR(typeof(RecipientGroupController).GetTypeInfo().Assembly);
+            services.AddMediatR(typeof(TicketTypeRecipientController).GetTypeInfo().Assembly);
         }
 
         private static void InitializeSimpleDataApiModule(IServiceCollection services)

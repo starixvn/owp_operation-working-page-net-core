@@ -281,7 +281,18 @@
     <Setting Key="OWP_PreMatchNotification_QueryInfoSiteMatchByOWPLeagueIds" SpName="OWP_PreMatchNotification_QueryInfoSiteMatchByOWPLeagueIds" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_PreMatchNotification_QueryInfoSiteMatchesByDateRange" SpName="OWP_PreMatchNotification_QueryInfoSiteMatchesByDateRange" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
   </Function>
-  <Function Name="TicketCenter">
-    <Setting Key="OWP_TicketCenter_GetRecipient" SpName="OWP_TicketCenter_GetRecipient" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+  <Function Name="TicketSetting">
+	<Setting Key="OWP_TicketSetting_GetAllRecipients" SpName="OWP_TicketSetting_GetAllRecipients" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
   </Function>
+  <Function Name="RecipientGroup">
+    <Setting Key="OWP_RecipientGroup_GetRecipientGroup" SpName="OWP_RecipientGroup_GetRecipientGroup" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+    <Setting Key="OWP_RecipientGroup_SaveRecipientGroup" SpName="OWP_RecipientGroup_SaveRecipientGroup" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+  </Function>
+	<Function Name="TicketTypeRecipient">
+		<Setting Key="OWP_TicketTypeRecipient_SaveTicketTypeRecipient" SpName="OWP_TicketTypeRecipient_SaveTicketTypeRecipient" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketTypeRecipient_GetTicketTypeRecipient" SpName="OWP_TicketTypeRecipient_GetTicketTypeRecipient" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+	</Function>
+	<Function Name="TicketCenter">
+		<Setting Key="OWP_TicketCenter_GetRecipient" SpName="OWP_TicketCenter_GetRecipient" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+	</Function>
 </Functions>
