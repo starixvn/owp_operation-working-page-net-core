@@ -20,8 +20,10 @@ namespace OWP.TicketCenter.Models
 
         public bool IsLeague { get; set; }
 
-        public int? UserId { get; set; }
+        public int? RecipientId { get; set; }
 
-        public string Username { get; set; }
+        public string UserName { get; set; }
+
+        public string NickName { get; set; }
     }
 }

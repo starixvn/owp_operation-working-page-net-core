@@ -37,9 +37,10 @@ namespace OWP.TicketCenter.Handlers
                 var userViewModel = eventInfoDic[key]
                     .Select(x => new UserViewModel
                     {
-                        UserId = x.UserId,
-                        Username = x.Username
-                    })?.DistinctBy(x=>new {x.UserId, x.Username});
+                        RecipientId = x.RecipientId,
+                        UserName = x.UserName,
+                        NickName = x.NickName
+                    })?.DistinctBy(x => new { x.RecipientId, x.UserName, x.NickName });
 
                 var eventViewModel = eventInfoDic[key]
                     .Select(i => new EventOptionInfoViewModel

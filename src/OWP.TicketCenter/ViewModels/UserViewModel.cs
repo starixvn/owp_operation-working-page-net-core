@@ -2,8 +2,15 @@
 {
     public class UserViewModel
     {
-        public int? UserId { get; set; }
+        public string NickName
+        { get; set; }
 
-        public string Username { get; set; }
+        public int? RecipientId
+        { get; set; }
+
+        public int RecipientType => (int)Enum.RecipientType.Individual;
+
+        public string UserName
+        { get; set; }
     }
 }
