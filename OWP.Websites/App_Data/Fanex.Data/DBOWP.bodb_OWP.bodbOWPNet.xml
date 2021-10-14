@@ -327,4 +327,8 @@
 		<Setting Key="OWP_FileUpload_Upload" SpName="OWP_FileUpload_Upload" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_FileUpload_QueryById" SpName="OWP_FileUpload_QueryById" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 	</Function>
+  <Function Name="OvertimeReport">
+    <Setting Key="OWP_OvertimeReport_GetReportByMonth" SpName="OWP_OvertimeReport_GetReportByMonth" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+    <Setting Key="OWP_OvertimeReport_GetReportByYear" SpName="OWP_OvertimeReport_GetReportByYear" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+  </Function>
 </Functions>

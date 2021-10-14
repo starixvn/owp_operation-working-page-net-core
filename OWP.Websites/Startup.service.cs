@@ -1,8 +1,6 @@
-using OWP.RecipientGroup;
 using OWP.TicketCenter;
 using OWP.FileUpload;
 using OWP.TicketCenter.Hubs;
-
 namespace OWP.Websites
 {
     using AutoMapper;
@@ -40,7 +38,9 @@ namespace OWP.Websites
     using OWP.OtherSport;
     using TicketCenter= OWP.TicketCenter;
     using OWP.OtherSport.Hubs;
+    using OWP.OvertimeReport;
     using OWP.PreMatchNotification;
+    using OWP.RecipientGroup;
     using OWP.Services;
     using OWP.SimpleDataApi;
     using OWP.TicketTypeRecipient;
@@ -163,6 +163,7 @@ namespace OWP.Websites
             services.InjectPreMatchNotification();
             services.InjectRecipientGroup();
             services.InjectTicketCenterService();
+            services.InjectOvertimeReport();
         }
 
         private void ConfigureNapServices(IServiceCollection services)
@@ -244,6 +245,7 @@ namespace OWP.Websites
              services.AddMediatR(typeof(TicketCenterController).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(FileUploadController).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(TicketTypeRecipientController).GetTypeInfo().Assembly);
+            services.AddMediatR(typeof(OvertimeReportController).GetTypeInfo().Assembly);
         }
 
         private static void InitializeSimpleDataApiModule(IServiceCollection services)

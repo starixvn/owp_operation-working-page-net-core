@@ -12,6 +12,7 @@ COPY ./src/OWP.SimpleDataApi/. ./src/OWP.SimpleDataApi
 COPY ./src/OWP.TicketTypeRecipient/. ./src/OWP.TicketTypeRecipient
 COPY ./src/OWP.RecipientGroup/. ./src/OWP.RecipientGroup
 COPY ./src/OWP.TicketCenter/. ./src/OWP.TicketCenter
+COPY ./src/OWP.OvertimeReport/. ./src/OWP.OvertimeReport
 COPY ./src/OWP.FileUpload/. ./src/OWP.FileUpload
 COPY ./OWP.Websites/OWP.Websites.csproj ./OWP.Websites/OWP.Websites.csproj
 
