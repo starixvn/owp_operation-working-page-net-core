@@ -1,14 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using AutoMapper;
 using MediatR;
+using OWP.TicketCenter.Models;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
-using OWP.TicketCenter.Models;
 
 namespace OWP.TicketCenter.Handlers
 {
     public class NewTicketIssueEventRequest : NewTicketModelBase, IRequest<int>
     {
+        public int InfoSiteMatchId { get; set; }
+
         public int OwpLeagueId { get; set; }
 
         public int? OwpHomeId { get; set; }
@@ -27,9 +29,9 @@ namespace OWP.TicketCenter.Handlers
             this.repository = repository;
             this.mapper = mapper;
         }
+
         public async Task<int> Handle(NewTicketIssueEventRequest request, CancellationToken cancellationToken)
         {
-           
             var ticketId = await repository.BuildTicketId(request.TicketType);
             request.TicketId = ticketId;
             await repository.AddNewTicketIssueEvent(request);
@@ -37,7 +39,7 @@ namespace OWP.TicketCenter.Handlers
             var messages = new List<NewMessageRequestModel>();
             foreach (var file in request.Files)
             {
-                messages.Add(new ()
+                messages.Add(new()
                 {
                     TicketId = ticketId,
                     CreatorId = request.CreatorId,

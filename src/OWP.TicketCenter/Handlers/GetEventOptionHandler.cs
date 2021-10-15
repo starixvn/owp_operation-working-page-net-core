@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 using OWP.TicketCenter.ViewModels;
 using OWP.Utils;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace OWP.TicketCenter.Handlers
 {
@@ -45,6 +43,7 @@ namespace OWP.TicketCenter.Handlers
                 var eventViewModel = eventInfoDic[key]
                     .Select(i => new EventOptionInfoViewModel
                     {
+                        InfoSiteMatchId = i.InfoSiteMatchId,
                         OwpLeagueId = i.OwpLeagueId,
                         LeagueName = key.LeagueName,
                         HomeName = i.HomeName,
@@ -56,6 +55,7 @@ namespace OWP.TicketCenter.Handlers
                     })
                     .DistinctBy(l => new
                     {
+                        l.InfoSiteMatchId,
                         l.OwpLeagueId,
                         l.LeagueName,
                         l.HomeId,
@@ -77,4 +77,3 @@ namespace OWP.TicketCenter.Handlers
         }
     }
 }
-

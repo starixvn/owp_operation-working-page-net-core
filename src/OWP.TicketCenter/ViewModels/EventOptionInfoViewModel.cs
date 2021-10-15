@@ -6,6 +6,8 @@ namespace OWP.TicketCenter.ViewModels
     {
         public int OwpLeagueId { get; set; }
 
+        public int InfoSiteMatchId { get; set; }
+
         public string LeagueName { get; set; }
 
         public int? HomeId { get; set; }

@@ -7,6 +7,8 @@ namespace OWP.TicketCenter.Criteria
         // System auto set, FE do not care
         public int TicketId { get; set; }
 
+        public int InfoSiteMatchId { get; set; }
+
         public int OwpLeagueId { get; set; }
 
         public int OwpHomeId { get; set; }
@@ -18,9 +20,9 @@ namespace OWP.TicketCenter.Criteria
 
         public override bool IsValid()
             => TicketId > 0 &&
+               InfoSiteMatchId > 0 &&
                OwpLeagueId > 0 &&
                OwpHomeId > 0 &&
                OwpAwayId > 0;
-
     }
 }

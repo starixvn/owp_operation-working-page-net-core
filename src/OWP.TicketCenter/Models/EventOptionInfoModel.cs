@@ -4,6 +4,8 @@ namespace OWP.TicketCenter.Models
 {
     public class EventOptionInfoModel
     {
+        public int InfoSiteMatchId { get; set; }
+
         public int OwpLeagueId { get; set; }
 
         public string LeagueName { get; set; }
