@@ -2,13 +2,15 @@
 {
     using Criteria;
     using Fanex.Data.Repository;
+    using Handlers;
     using Models;
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
     public interface CommandRepository
     {
-        Task<IEnumerable<OvertimeByMonthData>> GetReportByMonth();
+        Task<IEnumerable<OvertimeData>> GetReportByMonth(QueryReportByMonthRequest request);
     }
 
     public class CommandRepositoryImp : CommandRepository
@@ -20,11 +22,17 @@
             this.repository = repository;
         }
 
-        public async Task<IEnumerable<OvertimeByMonthData>> GetReportByMonth()
+        public async Task<IEnumerable<OvertimeData>> GetReportByMonth(QueryReportByMonthRequest request)
         {
-            var criteria = new GetReportByMonthCriteria();
+            var criteria = new GetReportByDateRangeCriteria
+            {
+                TraderName = request.Trader,
+                Location = request.Location,
+                FromDate = new DateTime(request.Year, request.Month, 1),
+                ToDate = new DateTime(request.Year, request.Month + 1, 1)
+            };
 
-            return await repository.FetchAsync<OvertimeByMonthData>(criteria);
+            return await repository.FetchAsync<OvertimeData>(criteria);
         }
     }
 }

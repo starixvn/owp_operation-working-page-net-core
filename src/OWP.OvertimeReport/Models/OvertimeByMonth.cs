@@ -25,11 +25,4 @@ namespace OWP.OvertimeReport.Models
 
         public bool IsOffday { get; set; }
     }
-
-    public class OvertimeByMonthData : OverTimeInfo
-    {
-        public string Location { get; set; }
-
-        public string Trader { get; set; }
-    }
 }

@@ -4,7 +4,6 @@
     using Models;
     using Services;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -30,27 +29,7 @@
 
         public async Task<IEnumerable<OvertimeByMonth>> Handle(QueryReportByMonthRequest request, CancellationToken cancellationToken)
         {
-            var result = await commandRepository.GetReportByMonth();
-
-            return result.GroupBy(x => new { x.Location, x.Trader }, (key, values) =>
-                new OvertimeByMonth
-                {
-                    Location = key.Location,
-                    Trader = key.Trader,
-                    Overtime = values.Select(x => new OverTimeInfo
-                    {
-                        Date = x.Date,
-                        IsOffday = x.IsOffday,
-                        IsWeekend = x.IsWeekend,
-                        DayOfWeek = x.DayOfWeek,
-                        Hour = x.Hour
-                    })
-                    .OrderBy(x => x.Date)
-                    .ToList()
-                }
-            )
-            .OrderBy(x => x.Location)
-            .ThenBy(x => x.Trader);
+            return new List<OvertimeByMonth>();
         }
     }
 }

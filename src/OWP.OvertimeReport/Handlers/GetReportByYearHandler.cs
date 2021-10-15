@@ -4,7 +4,6 @@
     using Models;
     using Services;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -28,14 +27,7 @@
 
         public async Task<IEnumerable<OvertimeByYear>> Handle(QueryReportByYearRequest request, CancellationToken cancellationToken)
         {
-            var result = await commandRepository.GetReportByMonth();
-
-            return result.GroupBy(x => new { x.Location, x.Trader }, (key, values) =>
-                new OvertimeByYear
-                {
-
-                }
-            );
+            return new List<OvertimeByYear>();
         }
     }
 }
