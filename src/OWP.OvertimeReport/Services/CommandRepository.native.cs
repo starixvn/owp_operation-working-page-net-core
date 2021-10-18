@@ -2,7 +2,6 @@
 {
     using Criteria;
     using Fanex.Data.Repository;
-    using Handlers;
     using Models;
     using System;
     using System.Collections.Generic;
@@ -10,7 +9,7 @@
 
     public interface CommandRepository
     {
-        Task<IEnumerable<OvertimeData>> GetReportByMonth(QueryReportByMonthRequest request);
+        Task<IEnumerable<OvertimeData>> GetReportByMonth(OverTimeByMonthRequest request);
     }
 
     public class CommandRepositoryImp : CommandRepository
@@ -22,7 +21,7 @@
             this.repository = repository;
         }
 
-        public async Task<IEnumerable<OvertimeData>> GetReportByMonth(QueryReportByMonthRequest request)
+        public async Task<IEnumerable<OvertimeData>> GetReportByMonth(OverTimeByMonthRequest request)
         {
             var criteria = new GetReportByDateRangeCriteria
             {

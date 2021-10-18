@@ -24,16 +24,16 @@
 
         [Route("get-report-by-month")]
         [HttpPost]
-        public async Task<IEnumerable<OvertimeByMonth>> GetReportByMonth(QueryReportByMonthRequest request)
+        public async Task<OvertimeByMonth> GetReportByMonth(QueryReportByMonthRequest request)
         {
-            return await mediator.Send(new QueryReportByMonthRequest());
+            return await mediator.Send(request);
         }
 
         [Route("get-report-by-year")]
         [HttpPost]
         public async Task<IEnumerable<OvertimeByYear>> GetReportByYear(QueryReportByYearRequest request)
         {
-            return await mediator.Send(new QueryReportByYearRequest());
+            return await mediator.Send(request);
         }
     }
 }

@@ -8,6 +8,7 @@
         public static void InjectOvertimeReport(this IServiceCollection services)
         {
             services.AddScoped<CommandRepository, CommandRepositoryImp>();
+            services.AddScoped<ReportByMonthServices, ReportByMonthServicesImp>();
         }
     }
 }

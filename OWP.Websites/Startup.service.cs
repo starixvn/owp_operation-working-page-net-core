@@ -3,6 +3,8 @@ using OWP.FileUpload;
 using OWP.TicketCenter.Hubs;
 namespace OWP.Websites
 {
+    using ApiSyncWorkingShift;
+    using App_Start;
     using AutoMapper;
     using Fanex.Caching.Redis;
     using Fanex.Data;
@@ -18,6 +20,7 @@ namespace OWP.Websites
     using Fanex.NAP.Client.Configuration;
     using Fanex.NAP.Client.Helpers.Web;
     using Fanex.NAP.Client.Services;
+    using Maxbet;
     using MediatR;
     using Microsoft.AspNetCore.Authentication.Cookies;
     using Microsoft.AspNetCore.Authorization;
@@ -33,25 +36,22 @@ namespace OWP.Websites
     using ONEbook.UM.Helpers;
     using ONEbook.UM.Services;
     using ONEbook.UM.Transport;
-    using OWP.ApiSyncWorkingShift;
-    using OWP.Maxbet;
-    using OWP.OtherSport;
+    using OtherSport;
+    using OvertimeReport;
     using TicketCenter= OWP.TicketCenter;
     using OWP.OtherSport.Hubs;
-    using OWP.OvertimeReport;
-    using OWP.PreMatchNotification;
-    using OWP.RecipientGroup;
-    using OWP.Services;
-    using OWP.SimpleDataApi;
-    using OWP.TicketTypeRecipient;
-    using OWP.Websites.App_Start;
+    using PreMatchNotification;
+    using RecipientGroup;
     using Sentry;
+    using Services;
+    using SimpleDataApi;
     using StackExchange.Redis;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
     using System.Threading.Tasks;
+    using TicketTypeRecipient;
 
     public partial class Startup
     {
@@ -261,6 +261,7 @@ namespace OWP.Websites
             {
                 mc.AddProfile(new OtherSport.AutoMapperProfile());
                 mc.AddProfile(new TicketCenter.AutoMapperProfile());
+                mc.AddProfile(new OvertimeReport.AutoMapperProfile());
             });
 
             IMapper mapper = mapperConfig.CreateMapper();
