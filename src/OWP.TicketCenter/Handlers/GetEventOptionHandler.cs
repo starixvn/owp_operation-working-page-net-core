@@ -33,6 +33,7 @@ namespace OWP.TicketCenter.Handlers
             foreach (var key in eventInfoDic.Keys)
             {
                 var userViewModel = eventInfoDic[key]
+                    .Where(x=>x.HasAssignee)
                     .Select(x => new UserViewModel
                     {
                         RecipientId = x.RecipientId,
