@@ -5,11 +5,13 @@ namespace OWP.OvertimeReport.Models
 {
     public class OvertimeByMonth
     {
+        public IEnumerable<DateColumnInfo> DateColumns { get; set; }
+
         public List<TraderOvertime> TraderOvertime { get; set; }
 
         public decimal TotalHours
         {
-            get => TraderOvertime.Sum(x => x.TotalHours);
+            get => TraderOvertime.Sum(x => x.Total);
         }
     }
 
@@ -19,7 +21,7 @@ namespace OWP.OvertimeReport.Models
 
         public string Trader { get; set; }
 
-        public decimal TotalHours { get; set; }
+        public decimal Total { get; set; }
 
         public Dictionary<string, OverTimeInfo> Overtime { get; set; }
     }
@@ -27,10 +29,6 @@ namespace OWP.OvertimeReport.Models
     public class OverTimeInfo
     {
         public decimal Hour { get; set; }
-
-        public string DayOfWeek { get; set; }
-
-        public bool IsWeekend { get; set; }
 
         public bool IsOffDay { get; set; }
     }
@@ -44,5 +42,14 @@ namespace OWP.OvertimeReport.Models
         public int Month { get; set; }
 
         public int Year { get; set; }
+    }
+
+    public class DateColumnInfo
+    {
+        public string Date { get; set; }
+
+        public bool IsWeekend { get; set; }
+
+        public string DayOfWeek { get; set; }
     }
 }

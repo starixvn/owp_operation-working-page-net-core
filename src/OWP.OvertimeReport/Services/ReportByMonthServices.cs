@@ -26,12 +26,13 @@
 
             return new OvertimeByMonth
             {
+                DateColumns = BuildDateColumnInfos(request.Month, request.Year),
                 TraderOvertime = new List<TraderOvertime>(result.GroupBy(x => new { x.Location, x.Username }, (key, values) =>
                     new TraderOvertime
                     {
                         Location = key.Location,
                         Trader = key.Username,
-                        TotalHours = values.Sum(x => x.Hour),
+                        Total = values.Sum(x => x.Hour),
                         Overtime = BuildOvertimeInfo(values)
                     })
                 .OrderBy(x => x.Location)
@@ -46,8 +47,6 @@
                 value => new OverTimeInfo
                 {
                     IsOffDay = value.IsOffDay,
-                    IsWeekend = IsWeekend(value.ReportDate),
-                    DayOfWeek = value.ReportDate.ToString("ddd"),
                     Hour = value.Hour
                 }).ToList()
             .OrderBy(x => x.Key));
@@ -56,6 +55,22 @@
         private static bool IsWeekend(DateTime date)
         {
             return date.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday;
+        }
+
+        public IEnumerable<DateColumnInfo> BuildDateColumnInfos(int month, int year)
+        {
+            var daysInMonth = DateTime.DaysInMonth(2021, 10);
+
+            for (var i = 1; i <= daysInMonth; i++)
+            {
+                var date = new DateTime(year, month, i);
+                yield return new DateColumnInfo
+                {
+                    Date = date.ToString("dd-MMM"),
+                    IsWeekend = IsWeekend(date),
+                    DayOfWeek = date.ToString("ddd"),
+                };
+            }
         }
     }
 }
