@@ -4,13 +4,9 @@
 
     public class OvertimeData
     {
-        public string UserId { get; set; }
-
-        public string Username { get; set; }
+        public int UserId { get; set; }
 
         public DateTime ReportDate { get; set; }
-
-        public string Location { get; set; }
 
         public decimal Hour { get; set; }
 
