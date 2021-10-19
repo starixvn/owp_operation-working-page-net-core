@@ -35,5 +35,12 @@
         {
             return await mediator.Send(request);
         }
+
+        [Route("get-locations")]
+        [HttpGet]
+        public async Task<IEnumerable<Location>> GetLocations()
+        {
+            return await mediator.Send(new GetLocationsRequest());
+        }
     }
 }

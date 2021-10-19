@@ -221,6 +221,7 @@ namespace OWP.Websites
         private static void ConfigureCore(IServiceCollection services)
         {
             services.AddScoped<IDynamicRepository, DynamicRepository>();
+            services.AddScoped<RefResourceService, RefResourceServiceImp>();
             services.AddSingleton<LogServiceWrapper, LogServiceWrapperImp>();
             services.AddSingleton<ConfigurationService, ConfigurationServiceImp>();
         }
