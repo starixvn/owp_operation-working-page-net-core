@@ -2,10 +2,10 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using Fanex.Data.Repository;
-    using System.Linq;
     using MediatR;
     using Models;
     using OWP.OvertimeReport.Criteria;
@@ -31,25 +31,55 @@
         public async Task<IEnumerable<OvertimeByYear>> Handle(QueryReportByYearRequest request, CancellationToken cancellationToken)
         {
             var (users, overtimeData) = await GetReportByYear(request);
-            var dataGroupedByTrader = overtimeData.GroupBy(x => x.Username, (key, g) => new { Username = key, Data = g.ToList()});
+            var dataGroupedByTrader = overtimeData.GroupBy(x => x.UserId, (key, g) => new GroupedData { UserId = key, Data = g.ToList() });
 
-            foreach (var traderData in dataGroupedByTrader)
-            {
-                var traderOvertimeData = CalculateMonthlyReport(traderData.Data);
+            var res = CalculateMonthlyReport(dataGroupedByTrader, users);
 
-                yield return new OvertimeByYear
-                {
-                    Trader = traderData.Username,
-                    OvertimeData = traderOvertimeData,
-                    Total = traderOvertimeData.Sum(),
-                    Location = string.Empty
-                };
-            }
+            return res;
         }
 
-        private List<decimal?> CalculateMonthlyReport(IEnumerable<OvertimeData> data)
+        private IEnumerable<OvertimeByYear> CalculateMonthlyReport(IEnumerable<GroupedData> dataGroupedByTrader, IEnumerable<User> users)
         {
-            
+            var result = new List<OvertimeByYear>();
+
+            foreach (var trader in users)
+            {
+                var traderData = dataGroupedByTrader.FirstOrDefault(x => x.UserId == trader.UserId);
+
+                if (traderData != null)
+                {
+                    var traderOvertimeData = CalculateTraderMonthlyHours(traderData.Data);
+                    var user = users.FirstOrDefault(x => x.UserId == traderData.UserId);
+
+                    result.Add(new OvertimeByYear
+                    {
+                        Trader = user?.Username,
+                        OvertimeData = traderOvertimeData.ToList(),
+                        Total = traderOvertimeData.Sum(),
+                        Location = user?.Location
+                    });
+                }
+                else
+                {
+                    result.Add(new OvertimeByYear
+                    {
+                        Location = trader.Location,
+                        OvertimeData = new List<decimal?> { null, null, null, null, null, null, null, null, null, null, null, null },
+                        Total = null,
+                        Trader = trader.Username
+                    });
+                }
+            }
+
+            return result;
+        }
+
+        private IEnumerable<decimal?> CalculateTraderMonthlyHours(IEnumerable<OvertimeData> data)
+        {
+            for (var i = 1; i <= 12; i++)
+            {
+                yield return data.Any(x => x.ReportDate.Month == i) ? data.Where(x => x.ReportDate.Month == i).Sum(x => x.Hour) : null;
+            }
         }
 
         private async Task<(IEnumerable<User>, IEnumerable<OvertimeData>)> GetReportByYear(QueryReportByYearRequest request)
@@ -65,6 +95,13 @@
             };
 
             return await repository.FetchMultipleAsync<User, OvertimeData>(criteria);
+        }
+
+        private class GroupedData
+        {
+            public int UserId { get; set; }
+
+            public List<OvertimeData> Data { get; set; }
         }
     }
 }

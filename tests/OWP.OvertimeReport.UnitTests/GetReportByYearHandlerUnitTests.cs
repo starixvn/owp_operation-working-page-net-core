@@ -1,0 +1,139 @@
+namespace OWP.OvertimeReport.UnitTests.Handlers
+{
+    using System;
+    using System.Threading;
+    using System.Collections.Generic;
+    using Xunit;
+    using NSubstitute;
+    using Fanex.Data.Repository;
+    using OvertimeReport.Models;
+    using OWP.OvertimeReport.Criteria;
+    using OWP.OvertimeReport.Handlers;
+    using Xunit.Asserts.Compare;
+    using System.Threading.Tasks;
+    using System.Linq;
+
+    public class GetReportByYearHandlerUnitTests
+    {
+        [Fact]
+        public async Task Handle_WithCorrectReuestModel_ReturnData()
+        {
+            var repository = Substitute.For<IDynamicRepository>();
+            repository.FetchMultipleAsync<User, OvertimeData>(Arg.Any<GetReportByDateRangeCriteria>()).Returns((MockUsers(), MockData()));
+            var services = new GetReportByYearHandler(repository);
+
+            var actual = await services.Handle(new QueryReportByYearRequest { Location = string.Empty, Trader = string.Empty, Year = 2021 }, new CancellationToken(false));
+
+            DeepAssert.Equal(MockExpected(), actual);
+        }
+
+        private IEnumerable<User> MockUsers()
+            => new List<User>
+            {
+                new User
+                {
+                    UserId = 1,
+                    Username = "sa",
+                    Location = "SMS"
+                },
+                new User
+                {
+                    UserId = 2,
+                    Username = "sa2",
+                    Location = "SMS"
+                },
+                new User
+                {
+                    UserId = 3,
+                    Username = "sa3",
+                    Location = "SMS"
+                },
+                new User
+                {
+                    UserId = 4,
+                    Username = "sa5",
+                    Location = "Phil"
+                }
+            };
+
+        private IEnumerable<OvertimeData> MockData()
+            => new List<OvertimeData>
+            {
+                new OvertimeData
+                {
+                    UserId = 1,
+                    Hour = 2,
+                    IsOffDay = true,
+                    ReportDate = new DateTime(2021, 10, 2)
+                },
+                new OvertimeData
+                {
+                    UserId = 1,
+                    Hour = 10,
+                    IsOffDay = false,
+                    ReportDate = new DateTime(2021, 10, 10)
+                },
+                new OvertimeData
+                {
+                    UserId = 1,
+                    Hour = 1,
+                    IsOffDay = true,
+                    ReportDate = new DateTime(2021, 11, 20)
+                },
+                new OvertimeData
+                {
+                    UserId = 1,
+                    Hour = 1,
+                    IsOffDay = true,
+                    ReportDate = new DateTime(2021, 12, 20)
+                },
+                new OvertimeData
+                {
+                    UserId = 3,
+                    Hour = 1,
+                    IsOffDay = true,
+                    ReportDate = new DateTime(2021, 12, 20)
+                },
+                new OvertimeData
+                {
+                    UserId = 3,
+                    Hour = 1,
+                    IsOffDay = true,
+                    ReportDate = new DateTime(2021, 12, 21)
+                }
+            };
+
+        private IEnumerable<OvertimeByYear> MockExpected()
+            => new List<OvertimeByYear>
+            {
+                new OvertimeByYear
+                {
+                    Trader = "sa",
+                    Location = "SMS",
+                    OvertimeData = new List<decimal?> { null, null, null, null, null, null, null, null, null, 12, 1, 1 },
+                    Total = 14
+                },
+                new OvertimeByYear
+                {
+                    Trader = "sa2",
+                    Location = "SMS",
+                    OvertimeData = new List<decimal?> { null, null, null, null, null, null, null, null, null, null, null, null },
+                    Total = null
+                },
+                new OvertimeByYear
+                {
+                    Trader = "sa3",
+                    Location = "SMS",
+                    OvertimeData = new List<decimal?> { null, null, null, null, null, null, null, null, null, null, null, 2 },
+                    Total = 2
+                },
+                new OvertimeByYear
+                {
+                    Trader = "sa5",
+                    Location = "Phil",
+                    OvertimeData = new List<decimal?> { null, null, null, null, null, null, null, null, null, null, null, null },
+                    Total = null
+                }
+            };
+    }
+}
