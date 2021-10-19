@@ -7,7 +7,7 @@ namespace OWP.OvertimeReport.Models
     {
         public IEnumerable<DateColumnInfo> DateColumns { get; set; }
 
-        public List<TraderOvertime> TraderOvertime { get; set; }
+        public IEnumerable<TraderOvertime> TraderOvertime { get; set; }
 
         public decimal TotalHours
         {

@@ -9,7 +9,7 @@
 
     public interface CommandRepository
     {
-        Task<IEnumerable<OvertimeData>> GetReportByMonth(OverTimeByMonthRequest request);
+        Task<(IEnumerable<User>, IEnumerable<OvertimeData>)> GetReportByMonth(OverTimeByMonthRequest request);
     }
 
     public class CommandRepositoryImp : CommandRepository
@@ -21,17 +21,18 @@
             this.repository = repository;
         }
 
-        public async Task<IEnumerable<OvertimeData>> GetReportByMonth(OverTimeByMonthRequest request)
+        public async Task<(IEnumerable<User>, IEnumerable<OvertimeData>)> GetReportByMonth(OverTimeByMonthRequest request)
         {
+            var endMonthDay = DateTime.DaysInMonth(request.Year, request.Month);
             var criteria = new GetReportByDateRangeCriteria
             {
                 TraderName = request.Trader,
                 Location = request.Location,
                 FromDate = new DateTime(request.Year, request.Month, 1),
-                ToDate = new DateTime(request.Year, request.Month + 1, 1)
+                ToDate = new DateTime(request.Year, request.Month, endMonthDay)
             };
 
-            return await repository.FetchAsync<OvertimeData>(criteria);
+            return await repository.FetchMultipleAsync<User, OvertimeData>(criteria);
         }
     }
 }

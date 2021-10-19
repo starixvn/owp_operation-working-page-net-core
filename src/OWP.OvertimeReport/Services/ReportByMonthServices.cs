@@ -1,5 +1,6 @@
 ﻿namespace OWP.OvertimeReport.Services
 {
+    using Extensions;
     using Models;
     using System;
     using System.Collections.Generic;
@@ -22,27 +23,32 @@
 
         public async Task<OvertimeByMonth> GetReportByMonth(OverTimeByMonthRequest request)
         {
-            var result = await commandRepository.GetReportByMonth(request);
+            var (users, overtimeData) = await commandRepository.GetReportByMonth(request);
+            var dataGroupedByUserId = overtimeData.GroupBy(x => x.UserId)
+                .ToDictionary(x => x.Key, value => value.ToList());
 
             return new OvertimeByMonth
             {
                 DateColumns = BuildDateColumnInfos(request.Month, request.Year),
-                TraderOvertime = new List<TraderOvertime>(result.GroupBy(x => new { x.Location, x.Username }, (key, values) =>
-                    new TraderOvertime
+                TraderOvertime = users.Select(user =>
+                {
+                    var overtimeByUserId = GetOvertimeByUserId(dataGroupedByUserId, user.UserId);
+                    return new TraderOvertime
                     {
-                        Location = key.Location,
-                        Trader = key.Username,
-                        Total = values.Sum(x => x.Hour),
-                        Overtime = BuildOvertimeInfo(values)
-                    })
+                        Location = user.Location,
+                        Trader = user.Username,
+                        Total = overtimeByUserId.Sum(x => x.Hour),
+                        Overtime = BuildOvertimeInfo(overtimeByUserId)
+                    };
+                })
                 .OrderBy(x => x.Location)
-                .ThenBy(x => x.Trader))
+                .ThenBy(x => x.Trader)
             };
         }
 
-        public static Dictionary<string, OverTimeInfo> BuildOvertimeInfo(IEnumerable<OvertimeData> values)
+        public static Dictionary<string, OverTimeInfo> BuildOvertimeInfo(List<OvertimeData> overtimeData)
         {
-            return new Dictionary<string, OverTimeInfo>(values.ToDictionary(
+            return new Dictionary<string, OverTimeInfo>(overtimeData.ToDictionary(
                 key => key.ReportDate.ToString("dd-MMM"),
                 value => new OverTimeInfo
                 {
@@ -52,10 +58,6 @@
             .OrderBy(x => x.Key));
         }
 
-        private static bool IsWeekend(DateTime date)
-        {
-            return date.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday;
-        }
 
         public IEnumerable<DateColumnInfo> BuildDateColumnInfos(int month, int year)
         {
@@ -71,6 +73,14 @@
                     DayOfWeek = date.ToString("ddd"),
                 };
             }
+        }
+
+        private static List<OvertimeData> GetOvertimeByUserId(Dictionary<int, List<OvertimeData>> dataGroup, int userId)
+            => dataGroup.GetValue(userId, new List<OvertimeData>());
+
+        private static bool IsWeekend(DateTime date)
+        {
+            return date.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday;
         }
     }
 }
