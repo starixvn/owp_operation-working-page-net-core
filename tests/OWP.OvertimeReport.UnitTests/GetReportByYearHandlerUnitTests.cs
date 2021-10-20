@@ -1,17 +1,16 @@
 namespace OWP.OvertimeReport.UnitTests.Handlers
 {
     using System;
-    using System.Threading;
     using System.Collections.Generic;
-    using Xunit;
-    using NSubstitute;
+    using System.Threading;
+    using System.Threading.Tasks;
     using Fanex.Data.Repository;
+    using NSubstitute;
     using OvertimeReport.Models;
     using OWP.OvertimeReport.Criteria;
     using OWP.OvertimeReport.Handlers;
+    using Xunit;
     using Xunit.Asserts.Compare;
-    using System.Threading.Tasks;
-    using System.Linq;
 
     public class GetReportByYearHandlerUnitTests
     {
@@ -108,6 +107,13 @@ namespace OWP.OvertimeReport.UnitTests.Handlers
             {
                 new OvertimeByYear
                 {
+                    Trader = "sa5",
+                    Location = "Phil",
+                    OvertimeData = new List<decimal?> { null, null, null, null, null, null, null, null, null, null, null, null },
+                    Total = null
+                },
+                new OvertimeByYear
+                {
                     Trader = "sa",
                     Location = "SMS",
                     OvertimeData = new List<decimal?> { null, null, null, null, null, null, null, null, null, 12, 1, 1 },
@@ -126,13 +132,6 @@ namespace OWP.OvertimeReport.UnitTests.Handlers
                     Location = "SMS",
                     OvertimeData = new List<decimal?> { null, null, null, null, null, null, null, null, null, null, null, 2 },
                     Total = 2
-                },
-                new OvertimeByYear
-                {
-                    Trader = "sa5",
-                    Location = "Phil",
-                    OvertimeData = new List<decimal?> { null, null, null, null, null, null, null, null, null, null, null, null },
-                    Total = null
                 }
             };
     }

@@ -71,7 +71,7 @@
                 }
             }
 
-            return result;
+            return result.OrderBy(x => x.Location).ThenBy(x => x.Trader).ToList();
         }
 
         private IEnumerable<decimal?> CalculateTraderMonthlyHours(IEnumerable<OvertimeData> data)
