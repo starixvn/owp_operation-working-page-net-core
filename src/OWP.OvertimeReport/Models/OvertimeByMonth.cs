@@ -9,6 +9,8 @@ namespace OWP.OvertimeReport.Models
 
         public IEnumerable<TraderOvertime> TraderOvertime { get; set; }
 
+        public IEnumerable<decimal> TotalHoursByDate { get; set; }
+
         public decimal TotalHours
         {
             get => TraderOvertime.Sum(x => x.Total);

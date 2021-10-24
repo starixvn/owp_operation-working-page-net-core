@@ -26,10 +26,11 @@
             var (users, overtimeData) = await commandRepository.GetReportByMonth(request);
             var dataGroupedByUserId = overtimeData.GroupBy(x => x.UserId)
                 .ToDictionary(x => x.Key, value => value.ToList());
+            var daysInMonth = DateTime.DaysInMonth(2021, 10);
 
             return new OvertimeByMonth
             {
-                DateColumns = BuildDateColumnInfos(request.Month, request.Year),
+                DateColumns = BuildDateColumnInfos(request.Month, request.Year, daysInMonth),
                 TraderOvertime = users.Select(user =>
                 {
                     var overtimeByUserId = GetOvertimeByUserId(dataGroupedByUserId, user.UserId);
@@ -42,7 +43,8 @@
                     };
                 })
                 .OrderBy(x => x.Location)
-                .ThenBy(x => x.Trader)
+                .ThenBy(x => x.Trader),
+                TotalHoursByDate = CalculateHoursByDate(overtimeData, daysInMonth)
             };
         }
 
@@ -54,15 +56,22 @@
                 {
                     IsOffDay = value.IsOffDay,
                     Hour = value.Hour
-                }).ToList()
+                })
             .OrderBy(x => x.Key));
         }
 
-
-        public IEnumerable<DateColumnInfo> BuildDateColumnInfos(int month, int year)
+        public IEnumerable<decimal> CalculateHoursByDate(IEnumerable<OvertimeData> overtimeData, int daysInMonth)
         {
-            var daysInMonth = DateTime.DaysInMonth(2021, 10);
+            for (var i = 1; i <= daysInMonth; i++)
+            {
+                var overtimeByDate = overtimeData.Where(x => x.ReportDate.Day == i);
+                yield return overtimeByDate.Sum(x => x.Hour);
+            }
+        }
 
+
+        public IEnumerable<DateColumnInfo> BuildDateColumnInfos(int month, int year, int daysInMonth)
+        {
             for (var i = 1; i <= daysInMonth; i++)
             {
                 var date = new DateTime(year, month, i);

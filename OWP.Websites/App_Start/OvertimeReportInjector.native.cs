@@ -9,6 +9,7 @@
         {
             services.AddScoped<CommandRepository, CommandRepositoryImp>();
             services.AddScoped<ReportByMonthServices, ReportByMonthServicesImp>();
+            services.AddScoped<ExportReportByMonthServices, ExportReportByMonthServicesImp>();
         }
     }
 }

@@ -9,6 +9,7 @@ namespace OWP.OvertimeReport
         public AutoMapperProfile()
         {
             CreateMap<QueryReportByMonthRequest, OverTimeByMonthRequest>();
+            CreateMap<ExportReportByMonthRequest, OverTimeByMonthRequest>();
         }
     }
 }

@@ -6,6 +6,7 @@
     using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Mvc;
     using Models;
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
@@ -41,6 +42,28 @@
         public async Task<IEnumerable<Location>> GetLocations()
         {
             return await mediator.Send(new GetLocationsRequest());
+        }
+
+        [Route("export-report-by-month")]
+        [HttpGet]
+        public async Task<IActionResult> ExportReportByMonth(
+            [FromQuery] string location,
+            [FromQuery] string trader,
+            [FromQuery] int month,
+            [FromQuery] int year)
+        {
+            var request = new ExportReportByMonthRequest
+            {
+                Location = location ?? string.Empty,
+                Trader = trader ?? string.Empty,
+                Month = month,
+                Year = year
+            };
+            var excelPackage = await mediator.Send(request);
+            var monthYearInString = new DateTime(request.Year, request.Month, 1).ToString("MMM yyyy");
+            var fileName = $"Monthly Overtime Report - {monthYearInString}.xlsx";
+
+            return File(excelPackage.GetAsByteArray(), "application/octet-stream", fileName);
         }
     }
 }
