@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OWP.Hubs;
 using OWP.OtherSport.Hubs;
+using OWP.TicketCenter.Hubs;
 using OWP.Websites.CrossCuttingConcern;
 
 namespace OWP.Websites
@@ -40,8 +41,6 @@ namespace OWP.Websites
 
             services.AddRazorPages();
             services.AddControllersWithViews();
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,7 +49,7 @@ namespace OWP.Websites
             app.UseDeveloperExceptionPage();
 
 #if !DEBUG
-            app.UseHttpsRedirection();
+              app.UseHttpsRedirection();
 #endif
             app.UseStaticFiles();
             app.UseCookiePolicy();
@@ -69,6 +68,7 @@ namespace OWP.Websites
 
                 endpoints.MapHub<NewDataUploadNotifyHubImp>("/otherSportNewDataUploadNotifyHub");
                 endpoints.MapHub<ChangedInfoNotifyHubImp>("/changedInfoNotifyHub");
+                endpoints.MapHub<NewMessageIncomeNotifyHubImp>("/newMessageIncomeNotifyHub");
             });
 
             NapClientManager

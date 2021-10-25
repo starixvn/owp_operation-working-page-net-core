@@ -8,7 +8,7 @@
     using Newtonsoft.Json;
     using StackExchange.Redis;
 
-    [Authorize(Users = "sa,starix58,starix1,starix2,starix3")]
+    [AllowAnonymous]
     public class AdministratorController : Controller
     {
         private readonly ICache cache;

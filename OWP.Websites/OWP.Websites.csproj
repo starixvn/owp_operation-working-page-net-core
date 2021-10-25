@@ -52,6 +52,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\src\OWP.FileUpload\OWP.FileUpload.csproj" />
     <ProjectReference Include="..\src\OWP\OWP.csproj" />
     <ProjectReference Include="..\src\OWP.ApiSyncWorkingShift\OWP.ApiSyncWorkingShift.csproj" />
     <ProjectReference Include="..\src\OWP.Maxbet\OWP.Maxbet.csproj" />
@@ -61,5 +62,7 @@
     <ProjectReference Include="..\src\OWP.RecipientGroup\OWP.RecipientGroup.csproj" />
     <ProjectReference Include="..\src\OWP.SimpleDataApi\OWP.SimpleDataApi.csproj" />
     <ProjectReference Include="..\src\OWP.TicketTypeRecipient\OWP.TicketTypeRecipient.csproj" />
+    <ProjectReference Include="..\src\OWP.TicketCenter\OWP.TicketCenter.csproj" />
+
   </ItemGroup>
 </Project>

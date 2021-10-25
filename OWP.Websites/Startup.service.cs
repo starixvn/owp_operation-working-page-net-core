@@ -1,4 +1,7 @@
 using OWP.RecipientGroup;
+using OWP.TicketCenter;
+using OWP.FileUpload;
+using OWP.TicketCenter.Hubs;
 
 namespace OWP.Websites
 {
@@ -35,6 +38,7 @@ namespace OWP.Websites
     using OWP.ApiSyncWorkingShift;
     using OWP.Maxbet;
     using OWP.OtherSport;
+    using TicketCenter= OWP.TicketCenter;
     using OWP.OtherSport.Hubs;
     using OWP.PreMatchNotification;
     using OWP.Services;
@@ -158,6 +162,7 @@ namespace OWP.Websites
             services.InjectSyncWorkingShift();
             services.InjectPreMatchNotification();
             services.InjectRecipientGroup();
+            services.InjectTicketCenterService();
         }
 
         private void ConfigureNapServices(IServiceCollection services)
@@ -227,6 +232,7 @@ namespace OWP.Websites
                 options.Configuration.ChannelPrefix = "OWPNetCore";
             });
             services.AddSingleton<NewDataUploadNotifyHubImp>();
+            services.AddSingleton<NewMessageIncomeNotifyHubImp>();
         }
         private static void ConfigureMediator(IServiceCollection services)
         {
@@ -235,6 +241,8 @@ namespace OWP.Websites
             services.AddMediatR(typeof(SyncWorkingShiftController).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(PreMatchNotificationController).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(RecipientGroupController).GetTypeInfo().Assembly);
+             services.AddMediatR(typeof(TicketCenterController).GetTypeInfo().Assembly);
+            services.AddMediatR(typeof(FileUploadController).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(TicketTypeRecipientController).GetTypeInfo().Assembly);
         }
 
@@ -250,6 +258,7 @@ namespace OWP.Websites
             var mapperConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new OtherSport.AutoMapperProfile());
+                mc.AddProfile(new TicketCenter.AutoMapperProfile());
             });
 
             IMapper mapper = mapperConfig.CreateMapper();
