@@ -117,7 +117,7 @@ namespace OWP.TicketCenter
 
         private async Task NotifyNewMessageIncome(int ticketId)
         {
-            await mediator.Send(new NotifyRequest
+            await mediator.Send(new NewMessageIncomeRequest
             {
                 TicketId = ticketId
             });

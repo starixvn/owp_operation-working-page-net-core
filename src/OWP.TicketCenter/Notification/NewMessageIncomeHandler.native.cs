@@ -7,19 +7,19 @@ namespace OWP.TicketCenter.Notification
     using System.Threading.Tasks;
     using MediatR;
 
-    public class NotifyRequest : IRequest<bool>
+    public class NewMessageIncomeRequest : IRequest<bool>
     {
 
         public int TicketId { get; set; }
     }
 
-    public class NotifyHandler : IRequestHandler<NotifyRequest, bool>
+    public class NewMessageIncomeHandler : IRequestHandler<NewMessageIncomeRequest, bool>
     {
         private readonly Repository repository;
 
         private readonly NotifyServices notify;
 
-        public NotifyHandler(
+        public NewMessageIncomeHandler(
             Repository repository,
             NotifyServices notify)
         {
@@ -27,7 +27,7 @@ namespace OWP.TicketCenter.Notification
             this.notify = notify;
         }
 
-        public async Task<bool> Handle(NotifyRequest request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(NewMessageIncomeRequest request, CancellationToken cancellationToken)
         {
             var userIds = await repository.GetUserIdsByTicketId(request.TicketId);
             var userIdsString = userIds.Select(u => u.ToString());
