@@ -3,6 +3,7 @@
 namespace OWP.TicketCenter
 {
     using AutoMapper;
+    using Criteria;
     using Fanex.Data.Repository;
     using OWP.TicketCenter.Handlers;
     using OWP.TicketCenter.Models;
@@ -10,7 +11,6 @@ namespace OWP.TicketCenter
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Criteria;
 
     public interface Repository
     {
@@ -45,6 +45,8 @@ namespace OWP.TicketCenter
         Task<IEnumerable<RecipientResponseModel>> GetRecipientByTicketId(int ticketId);
 
         Task<IEnumerable<int>> GetUserIdsByTicketId(int ticketId);
+
+        Task<IEnumerable<int>> GetUserIdsIgnoredCreatorId(int ticketId, int creatorId);
 
         Task<int> AddSingleRecipient(InsertSingleRecipientRequest request);
 
@@ -137,10 +139,21 @@ namespace OWP.TicketCenter
         {
             var criteria = new GetUserIdsByTicketIdCriteria
             {
-                TicketId= ticketId
+                TicketId = ticketId
             };
             criteria.ThrowExceptionIfInvalid();
             return await dynamicRepository.FetchAsync<int>(criteria);
+        }
+
+        public async Task<IEnumerable<int>> GetUserIdsIgnoredCreatorId(int ticketId, int creatorId)
+        {
+            var criteria = new GetUserIdsByTicketIdCriteria
+            {
+                TicketId = ticketId
+            };
+            criteria.ThrowExceptionIfInvalid();
+            var userIds = await dynamicRepository.FetchAsync<int>(criteria);
+            return userIds.Where(id => id != creatorId);
         }
 
         public async Task<int> AddSingleRecipient(InsertSingleRecipientRequest request)
@@ -233,7 +246,6 @@ namespace OWP.TicketCenter
             return await dynamicRepository.FetchAsync<EventTicketOtherModel>(criteria);
         }
 
-
         public async Task<IEnumerable<RecipientResponseModel>> GetRecipientByTicketId(int ticketId)
         {
             var criteria = new GetRecipientByTicketIdCriteria
@@ -303,6 +315,5 @@ namespace OWP.TicketCenter
             };
             await dynamicRepository.ExecuteAsync(criteria);
         }
-        
     }
 }
