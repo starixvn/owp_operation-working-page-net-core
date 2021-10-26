@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using OWP.TicketCenter;
+using OWP.TicketCenter.Notification.Services;
 using OWP.TicketCenter.Services;
 
 namespace OWP.Websites.App_Start
@@ -17,6 +18,9 @@ namespace OWP.Websites.App_Start
             services.AddScoped<EventTicketMatchService, EventTicketMatchServiceImp>();
             services.AddScoped<EventTicketOtherService, EventTicketOtherServiceImp>();
             services.AddScoped<EventTicketLeagueService, EventTicketLeagueServiceImp>();
+            services.AddScoped<NewTicketLeagueMessageDBWriter, NewTicketLeagueMessageDBWriterImp>();
+            services.AddScoped<NewTicketMatchMessageDBWriter, NewTicketMatchMessageDBWriterImp>();
+            services.AddScoped<NewTicketOtherMessageDBWriter, NewTicketOtherMessageDBWriterImp>();
         }
     }
 }

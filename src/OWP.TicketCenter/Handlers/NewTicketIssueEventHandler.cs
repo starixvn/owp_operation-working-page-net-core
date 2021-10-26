@@ -4,6 +4,9 @@ using OWP.TicketCenter.Models;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using OWP.TicketCenter.Notification.Const;
+using OWP.TicketCenter.Notification.Models;
+using OWP.TicketCenter.Notification.Services;
 
 namespace OWP.TicketCenter.Handlers
 {
@@ -24,10 +27,14 @@ namespace OWP.TicketCenter.Handlers
 
         private readonly IMapper mapper;
 
-        public NewTicketIssueEventHandler(Repository repository, IMapper mapper)
+        private readonly NewTicketMatchMessageDBWriter writer;
+
+
+        public NewTicketIssueEventHandler(Repository repository, IMapper mapper, NewTicketMatchMessageDBWriter writer)
         {
             this.repository = repository;
             this.mapper = mapper;
+            this.writer = writer;
         }
 
         public async Task<int> Handle(NewTicketIssueEventRequest request, CancellationToken cancellationToken)
@@ -55,6 +62,15 @@ namespace OWP.TicketCenter.Handlers
                 await repository.AddNewMessage(message);
             }
             await repository.InsertIssueCreator(ticketId, request.CreatorId);
+            var notificationMessage = new Message
+            {
+                TicketId = ticketId,
+                Comment = newMessage.Message,
+                ActorId = request.CreatorId
+            };
+            var sessionId = await writer.Execute(
+                notificationMessage,
+                NotificationTemplateCode.NewTicket);
             return ticketId;
         }
     }

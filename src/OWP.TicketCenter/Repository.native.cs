@@ -66,7 +66,11 @@ namespace OWP.TicketCenter
 
         Task UpdateSingleRecipientReader(int ticketId, bool isRead, int recipientId);
 
-        Task InsertNewMessage(InsertNotificationMessageCriteria criteria);
+        Task InsertNewTicketLeagueNotification(InsertNewTicketLeagueNotificationCriteria criteria);
+
+        Task InsertNewTicketMatchNotification(InsertNewTicketMatchNotificationCriteria criteria);
+
+        Task InsertNewTicketOtherNotification(InsertNewTicketOtherNotificationCriteria criteria);
     }
 
     public class RepositoryImp : Repository
@@ -317,7 +321,13 @@ namespace OWP.TicketCenter
             };
             await dynamicRepository.ExecuteAsync(criteria);
         }
-        public async Task InsertNewMessage(InsertNotificationMessageCriteria criteria)
+        public async Task InsertNewTicketLeagueNotification(InsertNewTicketLeagueNotificationCriteria criteria)
         => await dynamicRepository.ExecuteAsync(criteria);
+
+        public async Task InsertNewTicketMatchNotification(InsertNewTicketMatchNotificationCriteria criteria)
+            => await dynamicRepository.ExecuteAsync(criteria);
+
+        public async Task InsertNewTicketOtherNotification(InsertNewTicketOtherNotificationCriteria criteria)
+            => await dynamicRepository.ExecuteAsync(criteria);
     }
 }

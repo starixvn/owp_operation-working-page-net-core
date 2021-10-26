@@ -2,7 +2,7 @@
 {
     public class Message
     {
-        public int PreMatchIssueId { get; set; }
+        public int ActorId { get; set; }
 
         public int TicketId { get; set; }
 

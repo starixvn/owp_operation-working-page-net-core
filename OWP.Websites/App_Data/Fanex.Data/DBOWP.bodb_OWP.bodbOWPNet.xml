@@ -322,6 +322,9 @@
 		<Setting Key="OWP_TicketCenter_RemoveManyRecipientReader" SpName="OWP_TicketCenter_RemoveManyRecipientReader" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_TicketCenterEvent_GetUserIdsByTicketId" SpName="OWP_TicketCenterEvent_GetUserIdsByTicketId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_TicketCenter_GetDefaultRecipientByTicketTypeId" SpName="OWP_TicketCenter_GetDefaultRecipientByTicketTypeId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenter_InsertNewTicketLeagueNotification" SpName="OWP_TicketCenter_InsertNewTicketLeagueNotification" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenter_InsertNewTicketMatchNotification" SpName="OWP_TicketCenter_InsertNewTicketMatchNotification" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenter_InsertNewTicketOtherNotification" SpName="OWP_TicketCenter_InsertNewTicketOtherNotification" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 	</Function>
 	<Function Name="FileUpload">
 		<Setting Key="OWP_FileUpload_Upload" SpName="OWP_FileUpload_Upload" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
