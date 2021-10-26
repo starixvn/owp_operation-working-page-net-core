@@ -7,7 +7,7 @@ namespace OWP.TicketCenter.Notification.Services
 {
     public interface NewTicketLeagueMessageDBWriter
     {
-        public Task<string> Execute(Message message, NotificationTemplateCode code);
+        public Task<string> Execute(MessageTransform message, NotificationTemplateCode code);
     }
 
     public class NewTicketLeagueMessageDBWriterImp: NewTicketLeagueMessageDBWriter
@@ -19,7 +19,7 @@ namespace OWP.TicketCenter.Notification.Services
             this.repository = repository;
         }
 
-        public async Task<string> Execute(Message message, NotificationTemplateCode code)
+        public async Task<string> Execute(MessageTransform message, NotificationTemplateCode code)
         {
             var template = MessageTemplate.NotificationTemplateMap[(int)code];
             var criteria = new InsertNewTicketLeagueNotificationCriteria()

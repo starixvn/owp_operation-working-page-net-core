@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
@@ -24,12 +25,22 @@ namespace OWP.TicketCenter.Handlers
 
         private readonly NewTicketLeagueMessageDBWriter writer;
 
+        private readonly NotificationService notificationService;
 
-        public NewTicketIssueLeagueHandler(Repository repository, IMapper mapper, NewTicketLeagueMessageDBWriter writer)
+        private readonly IMediator mediator;
+
+        public NewTicketIssueLeagueHandler(
+            Repository repository, 
+            IMapper mapper, 
+            NewTicketLeagueMessageDBWriter writer,
+            NotificationService notificationService,
+            IMediator mediator)
         {
             this.repository = repository;
             this.mapper = mapper;
             this.writer = writer;
+            this.notificationService = notificationService;
+            this.mediator = mediator;
         }
 
         public async Task<int> Handle(NewTicketIssueLeagueRequest request, CancellationToken cancellationToken)
@@ -58,7 +69,13 @@ namespace OWP.TicketCenter.Handlers
                 await repository.AddNewMessage(message);
             }
 
-            var notificationMessage = new Message
+            await mediator.Send(new NewTicketRecipientRequest
+            {
+                TicketId = ticketId,
+                Recipients = request.Recipients
+            }, cancellationToken);
+
+            var notificationMessage = new MessageTransform
             {
                 TicketId = ticketId,
                 Comment = newMessage.Message,
@@ -67,6 +84,10 @@ namespace OWP.TicketCenter.Handlers
             var sessionId = await writer.Execute(
                 notificationMessage,
                 NotificationTemplateCode.NewTicket);
+
+            await notificationService.NotifyNewMessageIncome(ticketId, request.CreatorId);
+
+            await notificationService.Notify(sessionId, ticketId);
             return ticketId;
         }
     }

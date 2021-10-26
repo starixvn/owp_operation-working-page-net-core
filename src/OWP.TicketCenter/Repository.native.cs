@@ -1,4 +1,6 @@
-﻿using OWP.TicketCenter.ViewModels;
+﻿using System;
+using OWP.Models;
+using OWP.TicketCenter.ViewModels;
 
 namespace OWP.TicketCenter
 {
@@ -71,6 +73,8 @@ namespace OWP.TicketCenter
         Task InsertNewTicketMatchNotification(InsertNewTicketMatchNotificationCriteria criteria);
 
         Task InsertNewTicketOtherNotification(InsertNewTicketOtherNotificationCriteria criteria);
+
+        Task <ValueTuple<IList<User>, IList<Message>>> QueryBySession(GetMessageBySessionCriteria criteria);
     }
 
     public class RepositoryImp : Repository
@@ -329,5 +333,11 @@ namespace OWP.TicketCenter
 
         public async Task InsertNewTicketOtherNotification(InsertNewTicketOtherNotificationCriteria criteria)
             => await dynamicRepository.ExecuteAsync(criteria);
+
+        public async Task<ValueTuple<IList<User>, IList<Message>>> QueryBySession(GetMessageBySessionCriteria criteria)
+        {
+            var result= await dynamicRepository.FetchMultipleAsync<User, Message>(criteria);
+            return new ValueTuple<IList<User>, IList<Message>>(result.Item1.ToList(), result.Item2.ToList());
+        }
     }
 }

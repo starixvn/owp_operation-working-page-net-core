@@ -30,11 +30,22 @@ namespace OWP.TicketCenter.Handlers
         private readonly NewTicketMatchMessageDBWriter writer;
 
 
-        public NewTicketIssueEventHandler(Repository repository, IMapper mapper, NewTicketMatchMessageDBWriter writer)
+        private readonly NotificationService notificationService;
+
+        private readonly IMediator mediator;
+
+        public NewTicketIssueEventHandler(
+            Repository repository,
+            IMapper mapper,
+            NewTicketMatchMessageDBWriter writer,
+            NotificationService notificationService,
+            IMediator mediator)
         {
             this.repository = repository;
             this.mapper = mapper;
             this.writer = writer;
+            this.notificationService = notificationService;
+            this.mediator = mediator;
         }
 
         public async Task<int> Handle(NewTicketIssueEventRequest request, CancellationToken cancellationToken)
@@ -62,15 +73,26 @@ namespace OWP.TicketCenter.Handlers
                 await repository.AddNewMessage(message);
             }
             await repository.InsertIssueCreator(ticketId, request.CreatorId);
-            var notificationMessage = new Message
+            var notificationMessage = new MessageTransform
             {
                 TicketId = ticketId,
                 Comment = newMessage.Message,
                 ActorId = request.CreatorId
             };
+
             var sessionId = await writer.Execute(
                 notificationMessage,
                 NotificationTemplateCode.NewTicket);
+
+            await mediator.Send(new NewTicketRecipientRequest
+            {
+                TicketId = ticketId,
+                Recipients = request.Recipients
+            }, cancellationToken);
+
+            await notificationService.Notify(sessionId, ticketId);
+
+            await notificationService.NotifyNewMessageIncome(ticketId, request.CreatorId);
             return ticketId;
         }
     }

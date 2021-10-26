@@ -1,6 +1,6 @@
 ﻿namespace OWP.TicketCenter.Notification.Models
 {
-    public class Message
+    public class MessageTransform
     {
         public int ActorId { get; set; }
 

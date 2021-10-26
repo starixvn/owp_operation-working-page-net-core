@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using OWP.TicketCenter.Models;
+using OWP.TicketCenter.Notification.Services;
 using OWP.TicketCenter.ViewModels;
 
 namespace OWP.TicketCenter.Handlers
@@ -22,9 +23,12 @@ namespace OWP.TicketCenter.Handlers
     {
         private readonly Repository repository;
 
-        public NewMessageHandler(Repository repository)
+        private readonly NotificationService notification;
+
+        public NewMessageHandler(Repository repository, NotificationService notification)
         {
             this.repository = repository;
+            this.notification = notification;
         }
 
         public async Task<MessageDetailViewModel> Handle(NewMessageRequest request, CancellationToken cancellationToken)
@@ -38,6 +42,9 @@ namespace OWP.TicketCenter.Handlers
                 FileId = request.FileId
             };
             await repository.UpdateManyRecipientReader(request.TicketId, false);
+
+            await notification.NotifyNewMessageIncome(request.TicketId, request.CreatorId);
+
             return await repository.AddNewMessage(message);
         }
     }

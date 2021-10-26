@@ -8,6 +8,7 @@ using OWP.TicketCenter.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using OWP.TicketCenter.Notification;
+using OWP.TicketCenter.Notification.Services;
 
 namespace OWP.TicketCenter
 {
@@ -19,6 +20,7 @@ namespace OWP.TicketCenter
     {
         private readonly IMediator mediator;
 
+
         public TicketCenterController(IMediator mediator)
         {
             this.mediator = mediator;
@@ -26,43 +28,22 @@ namespace OWP.TicketCenter
 
         [HttpPost("new-message")]
         public async Task<MessageDetailViewModel> NewMessage(NewMessageRequest request)
-        {
-            var messageDetailResponse = await mediator.Send(request);
-            await NotifyNewMessageIncome(request.TicketId);
-            return messageDetailResponse;
-        }
+        => await mediator.Send(request);
 
         #region new ticket
 
         [HttpPost("new-ticket-issue-event")]
         public async Task<int> NewTicketIssueEvent(NewTicketIssueEventRequest request)
-        {
-            var ticketId = await mediator.Send(request);
-            await InsertRecipients(ticketId, request.Recipients);
-
-            await NotifyNewMessageIncome(ticketId);
-            return ticketId;
-        }
+            => await mediator.Send(request);
 
         [HttpPost("new-ticket-issue-other")]
         public async Task<int> NewTicketIssueOther(NewTicketIssueOtherRequest request)
-        {
-            var ticketId = await mediator.Send(request);
-            await InsertRecipients(ticketId, request.Recipients);
-
-            await NotifyNewMessageIncome(ticketId);
-            return ticketId;
-        }
+            => await mediator.Send(request);
 
         [HttpPost("new-ticket-issue-league")]
         public async Task<int> NewTicketIssueLeague(NewTicketIssueLeagueRequest request)
-        {
-            var ticketId = await mediator.Send(request);
-            await InsertRecipients(ticketId, request.Recipients);
-
-            await NotifyNewMessageIncome(ticketId);
-            return ticketId;
-        }
+        => await mediator.Send(request);
+       
 
         #endregion
 
@@ -108,19 +89,11 @@ namespace OWP.TicketCenter
         public async Task<int> RemoveSingleRecipient(RemoveSingleRecipientRequest request)
             => await mediator.Send(request);
 
-        private async Task InsertRecipients(int ticketId, IList<InsertOrRemoveManyRecipientModel> recipients)
-            => await mediator.Send(new NewTicketRecipientRequest
-            {
-                TicketId = ticketId,
-                Recipients = recipients
-            });
-
-        private async Task NotifyNewMessageIncome(int ticketId)
-        {
-            await mediator.Send(new NewMessageIncomeRequest
-            {
-                TicketId = ticketId
-            });
-        }
+        //private async Task InsertRecipients(int ticketId, IList<InsertOrRemoveManyRecipientModel> recipients)
+        //    => await mediator.Send(new NewTicketRecipientRequest
+        //    {
+        //        TicketId = ticketId,
+        //        Recipients = recipients
+        //    });
     }
 }
