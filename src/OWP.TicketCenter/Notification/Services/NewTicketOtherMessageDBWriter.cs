@@ -22,7 +22,7 @@ namespace OWP.TicketCenter.Notification.Services
         public async Task<string> Execute(MessageTransform message, NotificationTemplateCode code)
         {
             var template = MessageTemplate.NotificationTemplateMap[(int)code];
-            var criteria = new InsertNewTicketOtherNotificationCriteria()
+            var criteria = new InsertNewTicketOtherNotificationCriteria
             {
                 ActorId = message.ActorId,
                 IsImportant = template.IsImportant,

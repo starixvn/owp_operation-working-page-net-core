@@ -18,7 +18,7 @@ namespace OWP.TicketCenter.Criteria
             => "OWP_TicketIssueEvent_Create";
 
         public override bool IsValid()
-            => TicketId > 0 &&
+            => TicketId>0 &&
                InfoSiteMatchId > 0 &&
                IsValidEvent();
 
