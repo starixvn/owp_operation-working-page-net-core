@@ -46,22 +46,21 @@
 
         [Route("export-report-by-month")]
         [HttpGet]
-        public async Task<IActionResult> ExportReportByMonth(
-            [FromQuery] string location,
-            [FromQuery] string trader,
-            [FromQuery] int month,
-            [FromQuery] int year)
+        public async Task<IActionResult> ExportReportByMonth([FromQuery] ExportReportByMonthRequest request)
         {
-            var request = new ExportReportByMonthRequest
-            {
-                Location = location ?? string.Empty,
-                Trader = trader ?? string.Empty,
-                Month = month,
-                Year = year
-            };
             var excelPackage = await mediator.Send(request);
             var monthYearInString = new DateTime(request.Year, request.Month, 1).ToString("MMM yyyy");
             var fileName = $"Monthly Overtime Report - {monthYearInString}.xlsx";
+
+            return File(excelPackage.GetAsByteArray(), "application/octet-stream", fileName);
+        }
+
+        [Route("export-report-by-year")]
+        [HttpGet]
+        public async Task<IActionResult> ExportReportByYear([FromQuery] ExportReportByYearRequest request)
+        {
+            var excelPackage = await mediator.Send(request);
+            var fileName = $"Annual Overtime Report - {request.Year}.xlsx";
 
             return File(excelPackage.GetAsByteArray(), "application/octet-stream", fileName);
         }

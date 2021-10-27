@@ -26,8 +26,8 @@
             var endMonthDay = DateTime.DaysInMonth(request.Year, request.Month);
             var criteria = new GetReportByDateRangeCriteria
             {
-                TraderName = request.Trader,
-                Location = request.Location,
+                TraderName = request.Trader ?? string.Empty,
+                Location = request.Location ?? string.Empty,
                 FromDate = new DateTime(request.Year, request.Month, 1),
                 ToDate = new DateTime(request.Year, request.Month, endMonthDay)
             };

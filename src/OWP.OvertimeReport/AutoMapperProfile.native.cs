@@ -10,6 +10,7 @@ namespace OWP.OvertimeReport
         {
             CreateMap<QueryReportByMonthRequest, OverTimeByMonthRequest>();
             CreateMap<ExportReportByMonthRequest, OverTimeByMonthRequest>();
+            CreateMap<ExportReportByYearRequest, QueryReportByYearRequest>();
         }
     }
 }

@@ -1,14 +1,14 @@
 ﻿namespace OWP.OvertimeReport.Handlers
 {
+    using Fanex.Data.Repository;
+    using MediatR;
+    using Models;
+    using OWP.OvertimeReport.Criteria;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
-    using Fanex.Data.Repository;
-    using MediatR;
-    using Models;
-    using OWP.OvertimeReport.Criteria;
 
     public class QueryReportByYearRequest : IRequest<IEnumerable<OvertimeByYear>>
     {
@@ -88,8 +88,8 @@
             var maxDate = new DateTime(request.Year, 12, 31);
             var criteria = new GetReportByDateRangeCriteria
             {
-                TraderName = request.Trader,
-                Location = request.Location,
+                TraderName = request.Trader ?? string.Empty,
+                Location = request.Location ?? string.Empty,
                 FromDate = minDate,
                 ToDate = maxDate
             };

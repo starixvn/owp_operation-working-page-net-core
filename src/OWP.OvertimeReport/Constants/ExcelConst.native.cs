@@ -8,6 +8,8 @@ namespace OWP.OvertimeReport.Constants
         public const int HeaderRowIndex = 2;
         public const int StartDataRowIndex = 3;
         public const int StartDataColIndex = 4;
+        public const string YearSheetName = "Summary";
+        public const string YearTemplateSheetName = "Template";
     }
 
     public static class UserColConst
@@ -29,5 +31,11 @@ namespace OWP.OvertimeReport.Constants
         public static Color OffDay = Color.LightPink;
         public static Color HeaderBorder = Color.Gray;
         public static Color TotalText = Color.DarkRed;
+    }
+
+    public static class YearConst
+    {
+        public const int StartDataRowIndex = 2;
+        public const int TotalColIndex = 16;
     }
 }

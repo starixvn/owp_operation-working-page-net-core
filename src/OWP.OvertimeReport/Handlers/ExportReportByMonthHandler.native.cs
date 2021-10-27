@@ -10,9 +10,9 @@
 
     public class ExportReportByMonthRequest : IRequest<ExcelPackage>
     {
-        public string Location { get; set; }
+        public string Location { get; set; } = string.Empty;
 
-        public string Trader { get; set; }
+        public string Trader { get; set; } = string.Empty;
 
         public int Month { get; set; }
 
