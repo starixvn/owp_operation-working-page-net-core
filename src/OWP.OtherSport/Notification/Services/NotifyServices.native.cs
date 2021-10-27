@@ -33,8 +33,8 @@
                 };
 
                 await notifyChangedHub.Clients
-                    .Users(message.ReceivedUserIds)
-                    .notifyChangedInformationData(result);
+                   .Users(message.ReceivedUserIds)
+                   .notifyChangedInformationData(result);
             }
         }
     }

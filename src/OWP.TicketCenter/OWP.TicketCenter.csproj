@@ -11,6 +11,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\OWP.OtherSport\OWP.OtherSport.csproj" />
 		<ProjectReference Include="..\OWP\OWP.csproj" />
 	</ItemGroup>
 
