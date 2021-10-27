@@ -29,7 +29,7 @@ namespace OWP.TicketCenter.UnitTests.Handlers
 
         private readonly NotificationService notificationService;
 
-        private readonly NewTicketRecipientService recipientService;
+        private readonly RecipientService recipientService;
 
         private readonly NewTicketIssueEventHandler handler;
 
@@ -39,7 +39,7 @@ namespace OWP.TicketCenter.UnitTests.Handlers
             mapper = Substitute.For<IMapper>();
             writer = Substitute.For<NewTicketMatchMessageDBWriter>();
             notificationService = Substitute.For<NotificationService>();
-            recipientService = Substitute.For<NewTicketRecipientService>();
+            recipientService = Substitute.For<RecipientService>();
 
             handler = new NewTicketIssueEventHandler(
                 repository,
@@ -51,7 +51,7 @@ namespace OWP.TicketCenter.UnitTests.Handlers
         }
 
         [Fact]
-        public async void InsertSingleRecipient_RecipientInfo_ReturnIdFromDB()
+        public async void InsertNewEventIssue_IssueInfo_ReturnTicketId()
         {
             // Arrange
             var request = new NewTicketIssueEventRequest();
@@ -67,7 +67,15 @@ namespace OWP.TicketCenter.UnitTests.Handlers
 
             await repository.InsertIssueCreator(Arg.Compat.Any<int>(), Arg.Compat.Any<int>());
 
-            await recipientService.InsertRecipient(Arg.Compat.Any<RecipientRequestMode>());
+            recipientService.InsertManyRecipient(
+                Arg.Compat.Any<IList<InsertOrRemoveManyRecipientModel>>(),
+                Arg.Compat.Any<int>())
+                .ReturnsForAnyArgs(Task.FromResult(true));
+
+            recipientService.InsertManyRecipientReader(
+                    Arg.Compat.Any<IList<InsertOrRemoveManyRecipientModel>>(),
+                    Arg.Compat.Any<int>())
+                .ReturnsForAnyArgs(Task.FromResult(true));
 
             mapper
                 .Map<NewMessageRequestModel>(request)

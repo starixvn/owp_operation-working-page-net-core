@@ -34,14 +34,14 @@ namespace OWP.TicketCenter.Handlers
 
         private readonly NotificationService notificationService;
 
-        private readonly NewTicketRecipientService recipientService;
+        private readonly RecipientService recipientService;
 
         public NewTicketIssueEventHandler(
             Repository repository,
             IMapper mapper,
             NewTicketMatchMessageDBWriter writer,
             NotificationService notificationService,
-            NewTicketRecipientService recipientService)
+            RecipientService recipientService)
         {
             this.repository = repository;
             this.mapper = mapper;
@@ -76,11 +76,10 @@ namespace OWP.TicketCenter.Handlers
             }
             await repository.InsertIssueCreator(ticketId, request.CreatorId);
 
-            await recipientService.InsertRecipient(new RecipientRequestMode
-            {
-                TicketId = ticketId,
-                Recipients = request.Recipients
-            });
+            await recipientService.InsertManyRecipient(request.Recipients, request.TicketId);
+
+            await recipientService.InsertManyRecipientReader(request.Recipients, request.TicketId);
+
 
             var notificationMessage = new MessageTransform
             {

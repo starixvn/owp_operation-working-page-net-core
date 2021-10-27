@@ -224,7 +224,7 @@ namespace OWP.Websites
             services.AddScoped<RefResourceService, RefResourceServiceImp>();
             services.AddSingleton<LogServiceWrapper, LogServiceWrapperImp>();
             services.AddSingleton<ConfigurationService, ConfigurationServiceImp>();
-            services.AddSingleton<NotifyEngine, NotifyEngineImp>();
+            services.AddScoped<NotifyEngine, NotifyEngineImp>();
         }
 
         private void ConfigureSignalR(IServiceCollection services)
