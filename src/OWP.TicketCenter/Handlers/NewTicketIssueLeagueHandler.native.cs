@@ -9,6 +9,7 @@ using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Notification.Const;
 using OWP.TicketCenter.Notification.Models;
 using OWP.TicketCenter.Notification.Services;
+using OWP.TicketCenter.Services;
 
 namespace OWP.TicketCenter.Handlers
 {
@@ -28,20 +29,20 @@ namespace OWP.TicketCenter.Handlers
 
         private readonly NotificationService notificationService;
 
-        private readonly IMediator mediator;
+        private readonly NewTicketRecipientService recipientService;
 
         public NewTicketIssueLeagueHandler(
             Repository repository, 
             IMapper mapper, 
             NewTicketLeagueMessageDBWriter writer,
             NotificationService notificationService,
-            IMediator mediator)
+            NewTicketRecipientService recipientService)
         {
             this.repository = repository;
             this.mapper = mapper;
             this.writer = writer;
             this.notificationService = notificationService;
-            this.mediator = mediator;
+            this.recipientService = recipientService;
         }
 
         public async Task<int> Handle(NewTicketIssueLeagueRequest request, CancellationToken cancellationToken)
@@ -70,11 +71,11 @@ namespace OWP.TicketCenter.Handlers
                 await repository.AddNewMessage(message);
             }
 
-            await mediator.Send(new NewTicketRecipientRequest
+            await recipientService.InsertRecipient(new RecipientRequestMode
             {
                 TicketId = ticketId,
                 Recipients = request.Recipients
-            }, cancellationToken);
+            });
 
             var notificationMessage = new MessageTransform
             {

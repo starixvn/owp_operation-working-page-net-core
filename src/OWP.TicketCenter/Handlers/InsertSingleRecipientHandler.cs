@@ -43,7 +43,9 @@ namespace OWP.TicketCenter.Handlers
             };
 
             await recipientService.InsertManyRecipientReader(recipients, request.TicketId);
+
             var result = await repository.AddSingleRecipient(request);
+
             await notifyServices.Notify(CreateNotifyContent(request));
             return result;
         }

@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using MediatR;
 
 namespace OWP.TicketCenter.Models
 {
-    public class RecipientRequestModelBase: IRequest<bool>
+    public class RecipientRequestMode
     {
         public int TicketId { get; set; }
 
