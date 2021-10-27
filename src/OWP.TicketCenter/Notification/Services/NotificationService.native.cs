@@ -1,24 +1,20 @@
-﻿using Microsoft.AspNetCore.SignalR;
-using OWP.Models;
-using OWP.Services;
-using OWP.TicketCenter.Criteria;
-using OWP.TicketCenter.Hubs;
+﻿
+
+using OWP.TicketCenter.Enum;
 
 namespace OWP.TicketCenter.Notification.Services
 {
-    using System;
-    using System.Collections.Generic;
+    using Microsoft.AspNetCore.SignalR;
+    using OWP.Services;
+    using OWP.TicketCenter.Hubs;
     using System.Linq;
     using System.Threading.Tasks;
-    using Fanex.Data.Repository;
     using Models;
-    using Utils;
 
     public interface NotificationService
     {
-        Task Notify(string sessionId);
 
-        Task Notify(string sessionId, int ticketId);
+        Task Notify(string sessionId, int ticketId, EventType eventType);
 
         Task<bool> NotifyNewMessageIncome(int ticketId, int creatorId);
 
@@ -26,63 +22,34 @@ namespace OWP.TicketCenter.Notification.Services
 
     public class NotificationServiceImp : NotificationService
     {
-        private readonly Repository repository;
+        private readonly NotifyEngine notifyEngine;
 
         private readonly IHubContext<NewMessageIncomeNotifyHubImp, NewMessageIncomeNotifyHub> newMessageIncomeNotify;
 
+        private readonly Repository repository;
+
         public NotificationServiceImp(
+            NotifyEngine notifyEngine,
             Repository repository,
             IHubContext<NewMessageIncomeNotifyHubImp, NewMessageIncomeNotifyHub> newMessageIncomeNotify)
         {
-            this.repository = repository;
+            this.notifyEngine = notifyEngine;
             this.newMessageIncomeNotify = newMessageIncomeNotify;
+            this.repository = repository;
         }
 
-        public async Task Notify(string sessionId)
+        public async Task Notify(string sessionId, int ticketId, EventType eventType)
         {
-            await NotifyInternal(sessionId);
-        }
-
-        public async Task Notify(string sessionId, int ticketId)
-        {
-            await NotifyInternal(sessionId, ticketId);
-        }
-
-        private async Task NotifyInternal(string sessionId, int ticketId = 0)
-        {
-            var tuple = await QueryBySession(sessionId);
-            tuple.Item1.Select(user =>
-            {
-                var messages = tuple.Item2
-                    .Where(x => x.UserId == user.UserId)
-                    .Select(x => new NotificationModel()
+            await notifyEngine.Notify(sessionId, messageTuple =>
+                messageTuple.Item2.Select(x => new NotificationModel
                 {
                     UserId = x.UserId,
                     IsImportant = x.IsImportant,
                     MessageType = x.MessageType,
                     MessageContent = x.MessageContent,
-                    TicketId = ticketId
-                    }).ToList();
-
-                return new NotificationEventArgs
-                {
-                    UserId = user.UserName,
-                    Messages = messages.ConvertAll(x => (Message)x)
-                };
-            }).ToList().ForEach(arg =>
-            {
-                NotificationEngine.Singleton.Notify(arg);
-            });
-        }
-
-        private async Task<ValueTuple<IList<User>, IList<Message>>> QueryBySession(string sessionId)
-        {
-            var criteria = new GetMessageBySessionCriteria
-            {
-                SessionId = sessionId
-            };
-            criteria.ThrowExceptionIfInvalid();
-            return await repository.QueryBySession(criteria);
+                    TicketId = ticketId,
+                    EventType = (int)eventType
+                }).ToList());
         }
 
         public async Task<bool> NotifyNewMessageIncome(int ticketId, int creatorId)
@@ -94,6 +61,6 @@ namespace OWP.TicketCenter.Notification.Services
                 .notifyNewMessageIncome();
             return await Task.FromResult(true);
         }
-            
+
     }
 }

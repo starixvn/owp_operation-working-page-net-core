@@ -4,6 +4,7 @@ using OWP.TicketCenter.Models;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using OWP.TicketCenter.Enum;
 using OWP.TicketCenter.Notification.Const;
 using OWP.TicketCenter.Notification.Models;
 using OWP.TicketCenter.Notification.Services;
@@ -73,6 +74,13 @@ namespace OWP.TicketCenter.Handlers
                 await repository.AddNewMessage(message);
             }
             await repository.InsertIssueCreator(ticketId, request.CreatorId);
+
+            await mediator.Send(new NewTicketRecipientRequest
+            {
+                TicketId = ticketId,
+                Recipients = request.Recipients
+            }, cancellationToken);
+
             var notificationMessage = new MessageTransform
             {
                 TicketId = ticketId,
@@ -84,13 +92,9 @@ namespace OWP.TicketCenter.Handlers
                 notificationMessage,
                 NotificationTemplateCode.NewTicket);
 
-            await mediator.Send(new NewTicketRecipientRequest
-            {
-                TicketId = ticketId,
-                Recipients = request.Recipients
-            }, cancellationToken);
+            
 
-            await notificationService.Notify(sessionId, ticketId);
+            await notificationService.Notify(sessionId, ticketId, EventType.Match);
 
             await notificationService.NotifyNewMessageIncome(ticketId, request.CreatorId);
             return ticketId;

@@ -1,6 +1,6 @@
 ﻿namespace OWP.Models
 {
-    public class Message
+    public class MessageModel
     {
         public int UserId { get; set; }
 

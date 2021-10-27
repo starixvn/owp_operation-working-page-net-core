@@ -89,11 +89,5 @@ namespace OWP.TicketCenter
         public async Task<int> RemoveSingleRecipient(RemoveSingleRecipientRequest request)
             => await mediator.Send(request);
 
-        //private async Task InsertRecipients(int ticketId, IList<InsertOrRemoveManyRecipientModel> recipients)
-        //    => await mediator.Send(new NewTicketRecipientRequest
-        //    {
-        //        TicketId = ticketId,
-        //        Recipients = recipients
-        //    });
     }
 }

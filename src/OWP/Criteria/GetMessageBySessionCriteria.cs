@@ -1,6 +1,6 @@
 ﻿using Fanex.Data.Repository;
 
-namespace OWP.TicketCenter.Criteria
+namespace OWP.Criteria
 {
     public class GetMessageBySessionCriteria : CriteriaBase
     {

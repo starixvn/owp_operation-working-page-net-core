@@ -3,6 +3,7 @@ using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using OWP.TicketCenter.Enum;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Notification.Const;
 using OWP.TicketCenter.Notification.Models;
@@ -87,7 +88,7 @@ namespace OWP.TicketCenter.Handlers
 
             await notificationService.NotifyNewMessageIncome(ticketId, request.CreatorId);
 
-            await notificationService.Notify(sessionId, ticketId);
+            await notificationService.Notify(sessionId, ticketId, EventType.Other);
 
             return ticketId;
         }
