@@ -4,11 +4,10 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using OWP.TicketCenter.Handlers;
 using OWP.TicketCenter.Models;
+using OWP.TicketCenter.Services;
 using OWP.TicketCenter.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using OWP.TicketCenter.Notification;
-using OWP.TicketCenter.Notification.Services;
 
 namespace OWP.TicketCenter
 {
@@ -19,16 +18,25 @@ namespace OWP.TicketCenter
     public class TicketCenterController : ControllerBase
     {
         private readonly IMediator mediator;
+        private readonly PermissionService permissionService;
 
-
-        public TicketCenterController(IMediator mediator)
+        public TicketCenterController(IMediator mediator, PermissionService permissionService)
         {
             this.mediator = mediator;
+            this.permissionService = permissionService;
         }
 
         [HttpPost("new-message")]
-        public async Task<MessageDetailViewModel> NewMessage(NewMessageRequest request)
-        => await mediator.Send(request);
+        public async Task<IActionResult> NewMessage(NewMessageRequest request)
+        {
+            var hadPermission = await permissionService.CheckPermission(request.TicketId, request.CreatorId);
+            if (!hadPermission)
+            {
+                return StatusCode(203);
+            }
+            var result = await mediator.Send(request);
+            return Ok(result);
+        }
 
         #region new ticket
 
@@ -43,9 +51,8 @@ namespace OWP.TicketCenter
         [HttpPost("new-ticket-issue-league")]
         public async Task<int> NewTicketIssueLeague(NewTicketIssueLeagueRequest request)
         => await mediator.Send(request);
-       
 
-        #endregion
+        #endregion new ticket
 
         [HttpGet("new-ticket/get-event")]
         [Produces("application/json")]
@@ -67,19 +74,44 @@ namespace OWP.TicketCenter
             => await mediator.Send(new TicketTypeRequest());
 
         #region get detail
+
         [HttpPost("ticket-detail/get-league")]
-        public async Task<TicketLeagueDetailViewModel> GetTicketLeagueDetail(TicketLeagueDetailRequest request)
-            => await mediator.Send(request);
+        public async Task<IActionResult> GetTicketLeagueDetail(TicketLeagueDetailRequest request)
+        {
+            var hadPermission = await permissionService.CheckPermission(request.TicketId, request.ActorId);
+            if (!hadPermission)
+            {
+                return StatusCode(203);
+            }
+            var result = await mediator.Send(request);
+            return Ok(result);
+        }
 
         [HttpPost("ticket-detail/get-match")]
-        public async Task<TicketMatchDetailViewModel> GetTicketMatchDetail(TicketMatchDetailRequest request)
-            => await mediator.Send(request);
+        public async Task<IActionResult> GetTicketMatchDetail(TicketMatchDetailRequest request)
+        {
+            var hadPermission = await permissionService.CheckPermission(request.TicketId, request.ActorId);
+            if (!hadPermission)
+            {
+                return StatusCode(203);
+            }
+            var result = await mediator.Send(request);
+            return Ok(result);
+        }
 
         [HttpPost("ticket-detail/get-other")]
-        public async Task<TicketOtherDetailViewModel> GetTicketOtherDetail(TicketOtherDetailRequest request)
-            => await mediator.Send(request);
+        public async Task<IActionResult> GetTicketOtherDetail(TicketOtherDetailRequest request)
+        {
+            var hadPermission = await permissionService.CheckPermission(request.TicketId, request.ActorId);
+            if (!hadPermission)
+            {
+                return StatusCode(203);
+            }
+            var result = await mediator.Send(request);
+            return Ok(result);
+        }
 
-        #endregion
+        #endregion get detail
 
         [HttpPost("ticket-detail/insert-single-recipient")]
         public async Task<int> AddSingleRecipient(InsertSingleRecipientRequest request)
@@ -88,6 +120,5 @@ namespace OWP.TicketCenter
         [HttpPost("ticket-detail/remove-single-recipient")]
         public async Task<int> RemoveSingleRecipient(RemoveSingleRecipientRequest request)
             => await mediator.Send(request);
-
     }
 }
