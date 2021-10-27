@@ -1,4 +1,6 @@
-﻿namespace OWP.TicketCenter.UnitTests.Services
+﻿using OWP.TicketCenter.Handlers;
+
+namespace OWP.TicketCenter.UnitTests.Services
 {
     using AutoMapper;
     using Handlers;
