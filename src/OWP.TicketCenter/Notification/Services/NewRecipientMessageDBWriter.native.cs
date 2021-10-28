@@ -29,7 +29,9 @@ namespace OWP.TicketCenter.Notification.Services
             var template = MessageTemplate.NotificationTemplateMap[(int)NotificationTemplateCode.AddRecipient];
             var criteria = new InsertNewRecipientNotificationCriteria()
             {
-                ActorId = recipientRequest.RecipientId,
+                ActorId = recipientRequest.ActorId,
+                IsImportant = template.IsImportant,
+                IsWatcher = template.IsWatcher,
                 ReceivedUserId = recipientRequest.RecipientId,
                 NotificationContent = template.NotificationContent
                     .Replace("<ticketId>", $"{recipientRequest.TicketId}")

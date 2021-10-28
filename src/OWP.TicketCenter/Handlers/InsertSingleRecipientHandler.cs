@@ -50,7 +50,7 @@ namespace OWP.TicketCenter.Handlers
             var result = await repository.AddSingleRecipient(request);
             var sessionId = await writer.Execute(request);
 
-            await notificationService.Notify(sessionId, request.TicketId, (EventType)request.TicketEventType);
+            await notificationService.Notify(sessionId, request.TicketId, request.TicketEventType);
 
             return result;
         }
