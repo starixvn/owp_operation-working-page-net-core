@@ -1,20 +1,15 @@
-﻿
-
-using OWP.TicketCenter.Enum;
-
-namespace OWP.TicketCenter.Notification.Services
+﻿namespace OWP.TicketCenter.Notification.Services
 {
     using Microsoft.AspNetCore.SignalR;
     using OWP.Services;
-    using OWP.TicketCenter.Hubs;
+    using Hubs;
     using System.Linq;
     using System.Threading.Tasks;
     using Models;
 
     public interface NotificationService
     {
-
-        Task Notify(string sessionId, int ticketId, EventType eventType);
+        Task Notify(string sessionId, int ticketId, int eventType);
 
         Task<bool> NotifyNewMessageIncome(int ticketId, int creatorId);
 
@@ -38,7 +33,7 @@ namespace OWP.TicketCenter.Notification.Services
             this.repository = repository;
         }
 
-        public async Task Notify(string sessionId, int ticketId, EventType eventType)
+        public async Task Notify(string sessionId, int ticketId, int eventType)
         {
             await notifyEngine.Notify(sessionId, messageTuple =>
                 messageTuple.Item2.Select(x => new NotificationModel
@@ -48,7 +43,7 @@ namespace OWP.TicketCenter.Notification.Services
                     MessageType = x.MessageType,
                     MessageContent = x.MessageContent,
                     TicketId = ticketId,
-                    EventType = (int)eventType
+                    EventType = eventType
                 }).ToList());
         }
 

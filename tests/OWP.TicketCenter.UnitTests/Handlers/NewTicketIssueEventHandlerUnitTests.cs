@@ -90,7 +90,7 @@ namespace OWP.TicketCenter.UnitTests.Handlers
             await notificationService.Notify(
                 Arg.Compat.Any<string>(),
                 Arg.Compat.Any<int>(),
-                Arg.Compat.Any<EventType>());
+                Arg.Compat.Any<int>());
 
             await notificationService.NotifyNewMessageIncome(
                 Arg.Compat.Any<int>(),
