@@ -1,9 +1,9 @@
-﻿namespace OWP.TicketCenter.Models
-{
-    public class InsertOrRemoveSingleRecipientModel
-    {
-        public int TicketId { get; set; }
+﻿using OWP.TicketCenter.Middleware.Models;
 
+namespace OWP.TicketCenter.Models
+{
+    public class InsertOrRemoveSingleRecipientModel: PermissionCheckedModel
+    {
         public string TicketTitle { get; set; }
 
         public string ActorUsername { get; set; }

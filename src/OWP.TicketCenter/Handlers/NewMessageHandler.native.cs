@@ -1,20 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using OWP.TicketCenter.Middleware.Models;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Notification.Services;
 using OWP.TicketCenter.ViewModels;
 
 namespace OWP.TicketCenter.Handlers
 {
-    public class NewMessageRequest : IRequest<MessageDetailViewModel>
+    public class NewMessageRequest : PermissionCheckedModel, IRequest<MessageDetailViewModel>
     {
-        public int TicketId { get; set; }
-
         public string Message { get; set; }
-
-        public int CreatorId { get; set; }
 
         public int? FileId { get; set; }
     }
@@ -38,12 +34,12 @@ namespace OWP.TicketCenter.Handlers
             {
                 TicketId = request.TicketId,
                 Message = request.Message,
-                CreatorId = request.CreatorId,
+                CreatorId = request.ActorId,
                 FileId = request.FileId
             };
             await repository.UpdateManyRecipientReader(request.TicketId, false);
 
-            await notification.NotifyNewMessageIncome(request.TicketId, request.CreatorId);
+            await notification.NotifyNewMessageIncome(request.TicketId, request.ActorId);
 
             return await repository.AddNewMessage(message);
         }

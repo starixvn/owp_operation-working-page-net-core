@@ -1,13 +1,13 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using OWP.TicketCenter.Models;
+using OWP.TicketCenter.Middleware.Models;
 using OWP.TicketCenter.Services;
 using OWP.TicketCenter.ViewModels;
 
 namespace OWP.TicketCenter.Handlers
 {
-    public class TicketOtherDetailRequest : TicketDetailBaseModel, IRequest<TicketOtherDetailViewModel>
+    public class TicketOtherDetailRequest : PermissionCheckedModel, IRequest<TicketOtherDetailViewModel>
     {
       
     }

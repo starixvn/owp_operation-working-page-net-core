@@ -8,6 +8,7 @@ using OWP.TicketCenter.Services;
 using OWP.TicketCenter.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using OWP.TicketCenter.Middleware;
 
 namespace OWP.TicketCenter
 {
@@ -27,13 +28,9 @@ namespace OWP.TicketCenter
         }
 
         [HttpPost("new-message")]
+        [ServiceFilter(typeof(PermissionFilter))]
         public async Task<IActionResult> NewMessage(NewMessageRequest request)
         {
-            var hadPermission = await permissionService.CheckPermission(request.TicketId, request.CreatorId);
-            if (!hadPermission)
-            {
-                return StatusCode(203);
-            }
             var result = await mediator.Send(request);
             return Ok(result);
         }
@@ -76,37 +73,25 @@ namespace OWP.TicketCenter
         #region get detail
 
         [HttpPost("ticket-detail/get-league")]
+        [ServiceFilter(typeof(PermissionFilter))]
         public async Task<IActionResult> GetTicketLeagueDetail(TicketLeagueDetailRequest request)
         {
-            var hadPermission = await permissionService.CheckPermission(request.TicketId, request.ActorId);
-            if (!hadPermission)
-            {
-                return StatusCode(203);
-            }
             var result = await mediator.Send(request);
             return Ok(result);
         }
 
         [HttpPost("ticket-detail/get-match")]
+        [ServiceFilter(typeof(PermissionFilter))]
         public async Task<IActionResult> GetTicketMatchDetail(TicketMatchDetailRequest request)
         {
-            var hadPermission = await permissionService.CheckPermission(request.TicketId, request.ActorId);
-            if (!hadPermission)
-            {
-                return StatusCode(203);
-            }
             var result = await mediator.Send(request);
             return Ok(result);
         }
 
         [HttpPost("ticket-detail/get-other")]
+        [ServiceFilter(typeof(PermissionFilter))]
         public async Task<IActionResult> GetTicketOtherDetail(TicketOtherDetailRequest request)
         {
-            var hadPermission = await permissionService.CheckPermission(request.TicketId, request.ActorId);
-            if (!hadPermission)
-            {
-                return StatusCode(203);
-            }
             var result = await mediator.Send(request);
             return Ok(result);
         }
@@ -114,10 +99,12 @@ namespace OWP.TicketCenter
         #endregion get detail
 
         [HttpPost("ticket-detail/insert-single-recipient")]
+        [ServiceFilter(typeof(PermissionFilter))]
         public async Task<int> AddSingleRecipient(InsertSingleRecipientRequest request)
             => await mediator.Send(request);
 
         [HttpPost("ticket-detail/remove-single-recipient")]
+        [ServiceFilter(typeof(PermissionFilter))]
         public async Task<int> RemoveSingleRecipient(RemoveSingleRecipientRequest request)
             => await mediator.Send(request);
     }
