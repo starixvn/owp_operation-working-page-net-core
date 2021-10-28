@@ -2,10 +2,10 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using OWP.OtherSport.Notification.Models;
-using OWP.OtherSport.Notification.Services;
+using OWP.TicketCenter.Enum;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Notification.Const;
+using OWP.TicketCenter.Notification.Services;
 using OWP.TicketCenter.Services;
 using MessageTemplate = OWP.TicketCenter.Notification.Const.MessageTemplate;
 
@@ -19,13 +19,19 @@ namespace OWP.TicketCenter.Handlers
     {
         private readonly Repository repository;
         private readonly RecipientService recipientService;
-        private readonly NotifyServices notifyServices;
+        private readonly NotificationService notificationService;
+        private readonly NewRecipientMessageDBWriter writer;
 
-        public InsertRecipientHandler(Repository repository, RecipientService recipientService, NotifyServices notifyServices)
+        public InsertRecipientHandler(
+            Repository repository,
+            RecipientService recipientService,
+            NotificationService notificationService,
+            NewRecipientMessageDBWriter writer)
         {
             this.repository = repository;
             this.recipientService = recipientService;
-            this.notifyServices = notifyServices;
+            this.notificationService = notificationService;
+            this.writer = writer;
         }
 
         public async Task<int> Handle(InsertSingleRecipientRequest request, CancellationToken cancellationToken)
@@ -42,27 +48,11 @@ namespace OWP.TicketCenter.Handlers
             await recipientService.InsertManyRecipientReader(recipients, request.TicketId);
 
             var result = await repository.AddSingleRecipient(request);
+            var sessionId = await writer.Execute(request);
 
-            await notifyServices.Notify(CreateNotifyContent(request));
+            await notificationService.Notify(sessionId, request.TicketId, (EventType)request.TicketEventType);
+
             return result;
-        }
-
-        private List<MessageModel> CreateNotifyContent(InsertSingleRecipientRequest request)
-        {
-            var notifyTemplate = MessageTemplate.NotificationTemplateMap[(int)NotificationTemplateCode.AddRecipient];
-
-            return new List<MessageModel>
-            {
-                new MessageModel
-                {
-                    MessageContent = notifyTemplate.NotificationContent
-                        .Replace("<ticketId>",$"{request.TicketId}")
-                        .Replace("<Event>",request.TicketTitle)
-                        .Replace("<username>",request.ActorUsername),
-                    IsImportant = notifyTemplate.IsImportant,
-                    ReceivedUserIds = new List<string>(){$"{request.RecipientId}"}
-                }
-            };
         }
     }
 }
