@@ -47,12 +47,11 @@ namespace OWP.TicketCenter.Handlers
 
             await recipientService.InsertManyRecipientReader(recipients, request.TicketId);
 
-            var result = await repository.AddSingleRecipient(request);
             var sessionId = await writer.Execute(request);
 
             await notificationService.Notify(sessionId, request.TicketId, request.TicketEventType);
 
-            return result;
+            return await repository.AddSingleRecipient(request);
         }
     }
 }

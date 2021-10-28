@@ -16,7 +16,7 @@ namespace OWP.TicketCenter.Criteria
         public bool IsImportant { get; set; }
 
         public bool IsWatcher { get; set; }
-        public string SessionId => Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture);
+        public string SessionId { get; set; }
 
         public override string GetSettingKey() => "OWP_TicketCenter_InsertNewRecipientNotification";
 

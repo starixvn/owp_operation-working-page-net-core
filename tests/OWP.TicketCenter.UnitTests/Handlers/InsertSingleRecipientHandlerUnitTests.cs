@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using NSubstitute;
-using OWP.OtherSport.Notification.Services;
 using OWP.TicketCenter.Handlers;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Services;
@@ -21,15 +20,10 @@ namespace OWP.TicketCenter.UnitTests.Handlers
 
         private readonly RecipientService recipientService;
 
-        private readonly NotifyServices notifyServices;
-
         public InsertSingleRecipientHandlerUnitTests()
         {
             repository = Substitute.For<Repository>();
             recipientService = Substitute.For<RecipientService>();
-            notifyServices = Substitute.For<NotifyServices>();
-
-            handler = new InsertRecipientHandler(repository, recipientService, notifyServices);
         }
 
         [Fact]
@@ -48,12 +42,11 @@ namespace OWP.TicketCenter.UnitTests.Handlers
                 .AddSingleRecipient(request)
                 .ReturnsForAnyArgs(x => 1);
 
-            
-            var actual=await handler.Handle(request, CancellationToken.None);
+            var actual = await handler.Handle(request, CancellationToken.None);
 
             //Assert
             var expected = 1;
-            Assert.Equal(actual,expected);
+            Assert.Equal(actual, expected);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,6 +38,7 @@ namespace OWP.TicketCenter.Notification.Services
                     .Replace("<ticketId>", $"{recipientRequest.TicketId}")
                     .Replace("<Event>", recipientRequest.TicketTitle)
                     .Replace("<username>", recipientRequest.ActorUsername),
+                SessionId = Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture)
             };
 
             await repository.InsertNewRecipientNotification(criteria);

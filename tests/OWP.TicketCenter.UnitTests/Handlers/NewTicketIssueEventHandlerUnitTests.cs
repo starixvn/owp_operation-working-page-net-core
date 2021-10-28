@@ -6,7 +6,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using NSubstitute;
-using OWP.OtherSport.Notification.Services;
 using OWP.TicketCenter.Enum;
 using OWP.TicketCenter.Handlers;
 using OWP.TicketCenter.Models;
@@ -25,7 +24,6 @@ namespace OWP.TicketCenter.UnitTests.Handlers
         private readonly IMapper mapper;
 
         private readonly NewTicketMatchMessageDBWriter writer;
-
 
         private readonly NotificationService notificationService;
 
@@ -80,9 +78,9 @@ namespace OWP.TicketCenter.UnitTests.Handlers
             mapper
                 .Map<NewMessageRequestModel>(request)
                 .Returns(x => new NewMessageRequestModel
-                    {
+                {
                     Message = "abc"
-                    }
+                }
                 );
 
             await writer.Execute(Arg.Compat.Any<MessageTransform>(), Arg.Compat.Any<NotificationTemplateCode>());
