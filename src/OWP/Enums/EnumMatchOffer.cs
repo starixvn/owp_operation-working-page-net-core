@@ -9,6 +9,7 @@
         Accept20s = 5,
         Accept30s = 6,
         Accept5s = 7,
-        Accept8s = 8
+        Accept8s = 8,
+        Accept12s = 9,
     }
 }
