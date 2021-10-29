@@ -21,15 +21,17 @@ namespace OWP.TicketCenter.Handlers
 
         private readonly NotificationService notification;
 
-        public NewMessageHandler(Repository repository, NotificationService notification)
+        private readonly NewMessageDBWriter writer;
+
+        public NewMessageHandler(Repository repository, NotificationService notification, NewMessageDBWriter writer)
         {
             this.repository = repository;
             this.notification = notification;
+            this.writer = writer;
         }
 
         public async Task<MessageDetailViewModel> Handle(NewMessageRequest request, CancellationToken cancellationToken)
         {
-            
             var message = new NewMessageRequestModel
             {
                 TicketId = request.TicketId,
@@ -38,6 +40,10 @@ namespace OWP.TicketCenter.Handlers
                 FileId = request.FileId
             };
             await repository.UpdateManyRecipientReader(request.TicketId, false);
+
+            var sessionId = await writer.Execute(request);
+
+            await notification.Notify(sessionId, request.TicketId, request.TicketEventType);
 
             await notification.NotifyNewMessageIncome(request.TicketId, request.ActorId);
 

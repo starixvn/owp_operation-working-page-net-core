@@ -75,6 +75,8 @@ namespace OWP.TicketCenter
         Task InsertNewTicketOtherNotification(InsertNewTicketOtherNotificationCriteria criteria);
 
         Task InsertNewRecipientNotification(InsertNewRecipientNotificationCriteria criteria);
+
+        Task InsertNewMessageNotification(InsertNewMessageNotificationCriteria criteria);
     }
 
     public class RepositoryImp : Repository
@@ -336,6 +338,9 @@ namespace OWP.TicketCenter
             => await dynamicRepository.ExecuteAsync(criteria);
 
         public async Task InsertNewRecipientNotification(InsertNewRecipientNotificationCriteria criteria)
+            => await dynamicRepository.ExecuteAsync(criteria);
+
+        public async Task InsertNewMessageNotification(InsertNewMessageNotificationCriteria criteria)
             => await dynamicRepository.ExecuteAsync(criteria);
     }
 }

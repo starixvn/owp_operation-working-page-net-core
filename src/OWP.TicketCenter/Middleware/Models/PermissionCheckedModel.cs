@@ -4,6 +4,8 @@
     {
         public int TicketId { get; set; }
 
-        public int  ActorId { get; set; }
+        public int ActorId { get; set; }
+
+        public int TicketEventType { get; set; }
     }
 }

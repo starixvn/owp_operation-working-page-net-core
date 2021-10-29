@@ -27,6 +27,7 @@ namespace OWP.Websites.App_Start
             services.AddScoped<NotificationService, NotificationServiceImp>();
             services.AddScoped<PermissionService, PermissionServiceImp>();
             services.AddScoped<NewRecipientMessageDBWriter, NewRecipientMessageDBWriterImp>();
+            services.AddScoped<NewMessageDBWriter, NewMessageDBWriterImp>();
         }
     }
 }
