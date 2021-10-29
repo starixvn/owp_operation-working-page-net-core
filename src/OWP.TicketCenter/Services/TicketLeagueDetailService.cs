@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using OWP.TicketCenter.Enum;
 using OWP.TicketCenter.Handlers;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.ViewModels;
@@ -37,7 +38,7 @@ namespace OWP.TicketCenter.Services
                 ? ticketLeague.First()
                 : new EventTicketLeagueModel();
 
-            var ticketLeagueViewModel = mapper.Map<TicketLeagueDetailViewModel>(ticketFirst);
+            var viewModel = mapper.Map<TicketLeagueDetailViewModel>(ticketFirst);
             var messages = ticketDetailService.BuildMessage(ticketLeague?.ToList());
 
             await repository.UpdateSingleRecipientReader(ticketId, true, actorId);
@@ -45,11 +46,12 @@ namespace OWP.TicketCenter.Services
             var recipients = await repository.GetRecipientByTicketId(ticketId);
             var issueCreator = await repository.GetIssueCreator(ticketId);
 
-            ticketLeagueViewModel.CreatorInfo = issueCreator;
-            ticketLeagueViewModel.Messages = messages?.ToList();
-            ticketLeagueViewModel.Recipients = recipients?.ToList();
+            viewModel.CreatorInfo = issueCreator;
+            viewModel.Messages = messages?.ToList();
+            viewModel.Recipients = recipients?.ToList();
+            viewModel.EventType = (int)EventType.League;
 
-            return ticketLeagueViewModel;
+            return viewModel;
         }
     }
 }

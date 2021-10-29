@@ -6,6 +6,7 @@ using OWP.TicketCenter.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using OWP.TicketCenter.Enum;
 
 namespace OWP.TicketCenter.Services
 {
@@ -47,6 +48,7 @@ namespace OWP.TicketCenter.Services
                 leagueViewModel.IsRead = leagueDic[key].All(l => l.IsRead);
 
                 leaguesViewModel.Add(leagueViewModel);
+                leagueViewModel.EventType = (int)EventType.League;
             }
             return leaguesViewModel;
         }
