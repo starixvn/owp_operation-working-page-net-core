@@ -11,6 +11,7 @@ namespace OWP.Websites.App_Start
         public static void InjectTicketCenterService(this IServiceCollection services)
         {
             services.AddScoped<PermissionFilter>();
+            services.AddScoped<PermissionRemoveLastRecipient>();
             services.AddScoped<Repository, RepositoryImp>();
             services.AddScoped<RecipientService, RecipientServiceImp>();
             services.AddScoped<TicketDetailService, TicketDetailServiceImp>();

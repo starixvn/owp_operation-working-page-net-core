@@ -107,7 +107,8 @@ namespace OWP.TicketCenter
         }
 
         [HttpPost("ticket-detail/remove-single-recipient")]
-        [ServiceFilter(typeof(PermissionFilter))]
+        [ServiceFilter(typeof(PermissionFilter), Order = 0)]
+        [ServiceFilter(typeof(PermissionRemoveLastRecipient), Order = 1)]
         public async Task<IActionResult> RemoveSingleRecipient(RemoveSingleRecipientRequest request)
         {
             var result = await mediator.Send(request);
