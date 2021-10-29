@@ -5,7 +5,7 @@ namespace OWP.TicketCenter.Services
 {
     public interface PermissionService
     {
-        Task<bool> HasPermission(int ticketId, int Creator);
+        Task<bool> HasPermission(int ticketId, int creatorId);
     }
 
     public class PermissionServiceImp : PermissionService
@@ -17,10 +17,10 @@ namespace OWP.TicketCenter.Services
             this.repository = repository;
         }
 
-        public async Task<bool> HasPermission(int ticketId, int CreatorId)
+        public async Task<bool> HasPermission(int ticketId, int creatorId)
         {
             var recipientsId = await repository.GetUserIdsByTicketId(ticketId);
-            return recipientsId.Any(i => i == CreatorId);
+            return recipientsId.Any(i => i == creatorId);
         }
     }
 }

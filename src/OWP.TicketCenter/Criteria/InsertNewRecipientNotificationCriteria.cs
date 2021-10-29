@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Fanex.Data.Repository;
-
-namespace OWP.TicketCenter.Criteria
+﻿namespace OWP.TicketCenter.Criteria
 {
     public class InsertNewRecipientNotificationCriteria : InsertNotificationMessageCriteria
     {

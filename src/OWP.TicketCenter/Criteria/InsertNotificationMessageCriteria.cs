@@ -16,7 +16,7 @@
 
         public int ActorId { get; set; }
 
-        public string SessionId { get; set; }
-            = Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture);
+        public string SessionId =>
+             Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture);
     }
 }

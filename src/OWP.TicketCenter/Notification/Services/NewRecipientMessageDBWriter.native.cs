@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OWP.TicketCenter.Criteria;
+﻿using OWP.TicketCenter.Criteria;
 using OWP.TicketCenter.Handlers;
-using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Notification.Const;
+using System.Threading.Tasks;
 
 namespace OWP.TicketCenter.Notification.Services
 {
@@ -28,7 +22,7 @@ namespace OWP.TicketCenter.Notification.Services
         public async Task<string> Execute(InsertSingleRecipientRequest recipientRequest)
         {
             var template = MessageTemplate.NotificationTemplateMap[(int)NotificationTemplateCode.AddRecipient];
-            var criteria = new InsertNewRecipientNotificationCriteria()
+            var criteria = new InsertNewRecipientNotificationCriteria
             {
                 ActorId = recipientRequest.ActorId,
                 IsImportant = template.IsImportant,

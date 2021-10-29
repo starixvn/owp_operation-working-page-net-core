@@ -1,13 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
-using OWP.TicketCenter.Enum;
+﻿using MediatR;
 using OWP.TicketCenter.Models;
-using OWP.TicketCenter.Notification.Const;
 using OWP.TicketCenter.Notification.Services;
 using OWP.TicketCenter.Services;
-using MessageTemplate = OWP.TicketCenter.Notification.Const.MessageTemplate;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace OWP.TicketCenter.Handlers
 {
@@ -40,7 +37,7 @@ namespace OWP.TicketCenter.Handlers
             {
                 new ()
                 {
-                   RecipientIds = new List<int>(){request.RecipientId},
+                   RecipientIds = new List<int>{request.RecipientId},
                    RecipientType = request.RecipientType
                 }
             };
