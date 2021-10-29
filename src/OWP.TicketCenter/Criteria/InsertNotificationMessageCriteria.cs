@@ -14,14 +14,9 @@
 
         public int NotificationType { get; set; }
 
-        public int TicketId { get; set; }
-
         public int ActorId { get; set; }
 
-        public string SessionId => Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture);
-
-        public override bool IsValid()
-            => NotificationContent.Length > 0 &&
-               TicketId > 0;
+        public string SessionId { get; set; }
+            = Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture);
     }
 }

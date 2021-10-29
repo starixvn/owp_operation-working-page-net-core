@@ -38,7 +38,7 @@ namespace OWP.TicketCenter.Notification.Services
                     .Replace("<ticketId>", $"{recipientRequest.TicketId}")
                     .Replace("<Event>", recipientRequest.TicketTitle)
                     .Replace("<username>", recipientRequest.ActorUsername),
-                SessionId = Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture)
+                NotificationType = template.NotificationType,
             };
 
             await repository.InsertNewRecipientNotification(criteria);
