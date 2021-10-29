@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using OWP.TicketCenter.Handlers;
+using OWP.TicketCenter.Middleware;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Services;
 using OWP.TicketCenter.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using OWP.TicketCenter.Middleware;
 
 namespace OWP.TicketCenter
 {
@@ -100,12 +100,18 @@ namespace OWP.TicketCenter
 
         [HttpPost("ticket-detail/insert-single-recipient")]
         [ServiceFilter(typeof(PermissionFilter))]
-        public async Task<int> AddSingleRecipient(InsertSingleRecipientRequest request)
-            => await mediator.Send(request);
+        public async Task<IActionResult> AddSingleRecipient(InsertSingleRecipientRequest request)
+        {
+            var result = await mediator.Send(request);
+            return Ok(result);
+        }
 
         [HttpPost("ticket-detail/remove-single-recipient")]
         [ServiceFilter(typeof(PermissionFilter))]
-        public async Task<int> RemoveSingleRecipient(RemoveSingleRecipientRequest request)
-            => await mediator.Send(request);
+        public async Task<IActionResult> RemoveSingleRecipient(RemoveSingleRecipientRequest request)
+        {
+            var result = await mediator.Send(request);
+            return Ok(result);
+        }
     }
 }

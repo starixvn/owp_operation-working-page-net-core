@@ -1,10 +1,9 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using OWP.TicketCenter.Middleware.Models;
-using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Services;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace OWP.TicketCenter.Middleware
 {
@@ -40,7 +39,7 @@ namespace OWP.TicketCenter.Middleware
                     context.HttpContext.Response.StatusCode = 203;
                     context.Result = new ContentResult()
                     {
-                        Content = "Non-Authoritative Information"
+                        Content = "You have been removed from the recipient list, and cannot view this ticket any more"
                     };
                 }
                 return;
