@@ -1,15 +1,15 @@
 ﻿namespace OWP.Maxbet.Handlers
 {
+    using Fanex.Data.Repository;
+    using MediatR;
+    using OWP.Enums;
+    using OWP.Maxbet.Criteria;
+    using OWP.Maxbet.Models;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
-    using Fanex.Data.Repository;
-    using MediatR;
-    using OWP.Maxbet.Criteria;
-    using OWP.Maxbet.Models;
-    using OWP.Enums;
 
     public class GetSecondAcceptValueHandler
     {
@@ -28,7 +28,8 @@
                     { EnumMatchOffer.Accept20s, 20 },
                     { EnumMatchOffer.Accept30s, 30 },
                     { EnumMatchOffer.Accept5s, 5 },
-                    { EnumMatchOffer.Accept8s, 8 }
+                    { EnumMatchOffer.Accept8s, 8 },
+                    { EnumMatchOffer.Accept12s, 12 }
                 }
             );
 
