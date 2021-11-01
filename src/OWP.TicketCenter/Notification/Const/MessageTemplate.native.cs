@@ -27,7 +27,7 @@ namespace OWP.TicketCenter.Notification.Const
             new NotificationTemplate
             {
                 NotificationType = (int)NotificationTemplateCode.NewMessage,
-                NotificationContent = "New message from ticket <b>#<ticketId></b> <Event>: \"\"<comment>\"\" by <username>",
+                NotificationContent = "New message from ticket <b>#<ticketId></b> <Event>: \"<comment>\" by <username>",
                 IsImportant = true
             },
             new NotificationTemplate
