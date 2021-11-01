@@ -235,7 +235,7 @@ namespace OWP.Websites
                 options.Configuration.ChannelPrefix = "OWPNetCore";
             });
             services.AddSingleton<NewDataUploadNotifyHubImp>();
-            services.AddSingleton<NewMessageIncomeNotifyHubImp>();
+            services.AddSingleton<TicketCenterNotifyHubImp>();
         }
         private static void ConfigureMediator(IServiceCollection services)
         {

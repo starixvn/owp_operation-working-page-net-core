@@ -19,17 +19,17 @@
     {
         private readonly NotifyEngine notifyEngine;
 
-        private readonly IHubContext<NewMessageIncomeNotifyHubImp, NewMessageIncomeNotifyHub> newMessageIncomeNotify;
+        private readonly IHubContext<TicketCenterNotifyHubImp, TicketCenterNotifyHub> notify;
 
         private readonly Repository repository;
 
         public NotificationServiceImp(
             NotifyEngine notifyEngine,
             Repository repository,
-            IHubContext<NewMessageIncomeNotifyHubImp, NewMessageIncomeNotifyHub> newMessageIncomeNotify)
+            IHubContext<TicketCenterNotifyHubImp, TicketCenterNotifyHub> notify)
         {
             this.notifyEngine = notifyEngine;
-            this.newMessageIncomeNotify = newMessageIncomeNotify;
+            this.notify = notify;
             this.repository = repository;
         }
 
@@ -51,9 +51,9 @@
         {
             var userIds = await repository.GetUserIdsIgnoredCreatorId(ticketId, creatorId);
             var userIdsString = userIds.Select(u => u.ToString());
-            await newMessageIncomeNotify.Clients
+            await notify.Clients
                 .Users(userIdsString)
-                .notifyNewMessageIncome();
+                .NotifyNewMessageIncome();
             return await Task.FromResult(true);
         }
 
