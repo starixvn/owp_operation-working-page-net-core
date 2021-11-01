@@ -27,13 +27,13 @@ namespace OWP.TicketCenter.Notification.Const
             new NotificationTemplate
             {
                 NotificationType = (int)NotificationTemplateCode.NewMessage,
-                NotificationContent = "New message from ticket <b>#<ticketId></b>: \"\"<comment>\"\" by <username>",
+                NotificationContent = "New message from ticket <b>#<ticketId></b> <Event>: \"\"<comment>\"\" by <username>",
                 IsImportant = true
             },
             new NotificationTemplate
             {
                 NotificationType = (int)NotificationTemplateCode.NewAttachment,
-                NotificationContent = "New attachment from ticket <b>#<ticketId></b> by <username>",
+                NotificationContent = "New attachment from ticket <b>#<ticketId></b> <Event> by <username>",
                 IsImportant = true
             }
         });

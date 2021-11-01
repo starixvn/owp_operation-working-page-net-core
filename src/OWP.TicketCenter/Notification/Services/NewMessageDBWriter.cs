@@ -34,6 +34,7 @@ namespace OWP.TicketCenter.Notification.Services
             {
                 NotificationContent = template.NotificationContent
                     .Replace("<ticketId>", $"{newMessageRequest.TicketId}")
+                    .Replace("<Event>", newMessageRequest.TicketTitle)
                     .Replace("<comment>", newMessageRequest.Message),
                 NotificationType = template.NotificationType,
                 IsImportant = template.IsImportant,
