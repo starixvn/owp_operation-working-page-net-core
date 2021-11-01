@@ -13,6 +13,10 @@ namespace OWP.TicketCenter.Handlers
         public string Message { get; set; }
 
         public int? FileId { get; set; }
+
+        public int TicketEventType { get; set; }
+
+        public string TicketTitle { get; set; }
     }
 
     public class NewMessageHandler : IRequestHandler<NewMessageRequest, MessageDetailViewModel>

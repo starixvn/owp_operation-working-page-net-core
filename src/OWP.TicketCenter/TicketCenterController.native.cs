@@ -35,6 +35,13 @@ namespace OWP.TicketCenter
             return Ok(result);
         }
 
+        [Route("on-click-issue-notification")]
+        [HttpPost]
+        public async Task OpenChatBoard(OnClickIssueNotificationRequest request)
+        {
+            await mediator.Send(request);
+        }
+
         #region new ticket
 
         [HttpPost("new-ticket-issue-event")]
