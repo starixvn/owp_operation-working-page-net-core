@@ -68,7 +68,7 @@
             DeepAssert.Equal(reportSheet.Cells[1, 14].Value, "NOV");
             DeepAssert.Equal(reportSheet.Cells[1, 15].Value, "DEC");
             DeepAssert.Equal(reportSheet.Cells[1, 16].Value, "Total");
-            DeepAssert.Equal(reportSheet.Cells[2, 1].Value, 0);
+            DeepAssert.Equal(reportSheet.Cells[2, 1].Value, 1);
             DeepAssert.Equal(reportSheet.Cells[2, 2].Value, "Phil");
             DeepAssert.Equal(reportSheet.Cells[2, 3].Value, "sa5");
             DeepAssert.Equal(reportSheet.Cells[2, 4].Value, "2.00");
@@ -84,7 +84,7 @@
             DeepAssert.Equal(reportSheet.Cells[2, 14].Value, "-");
             DeepAssert.Equal(reportSheet.Cells[2, 15].Value, "-");
             DeepAssert.Equal(reportSheet.Cells[2, 16].Value, "-");
-            DeepAssert.Equal(reportSheet.Cells[3, 1].Value, 1);
+            DeepAssert.Equal(reportSheet.Cells[3, 1].Value, 2);
             DeepAssert.Equal(reportSheet.Cells[3, 2].Value, "SMS");
             DeepAssert.Equal(reportSheet.Cells[3, 3].Value, "sa");
             DeepAssert.Equal(reportSheet.Cells[3, 4].Value, "-");

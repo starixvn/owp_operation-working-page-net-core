@@ -86,8 +86,8 @@
         {
             return traderOvertimes.Select((trader, i) => new ExcelYearData
             {
-                No = i,
-                Location = trader.Location,
+                No = i + 1,
+                Location = trader.Location ?? "-",
                 Trader = trader.Trader,
                 Jan = FormatHour(trader.OvertimeData[0]),
                 Feb = FormatHour(trader.OvertimeData[1]),

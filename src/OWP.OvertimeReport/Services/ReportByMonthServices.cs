@@ -26,7 +26,7 @@
             var (users, overtimeData) = await commandRepository.GetReportByMonth(request);
             var dataGroupedByUserId = overtimeData.GroupBy(x => x.UserId)
                 .ToDictionary(x => x.Key, value => value.ToList());
-            var daysInMonth = DateTime.DaysInMonth(2021, 10);
+            var daysInMonth = DateTime.DaysInMonth(request.Year, request.Month);
 
             return new OvertimeByMonth
             {

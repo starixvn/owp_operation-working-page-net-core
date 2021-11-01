@@ -101,7 +101,7 @@
         public void BuildUserInfo(TraderOvertime traderOvertime, int rowIndex, int i)
         {
             ReportSheet.Cells[rowIndex, UserColConst.NoColIndex].Value = i + 1;
-            ReportSheet.Cells[rowIndex, UserColConst.LocationColIndex].Value = traderOvertime.Location;
+            ReportSheet.Cells[rowIndex, UserColConst.LocationColIndex].Value = traderOvertime.Location ?? "-";
             ReportSheet.Cells[rowIndex, UserColConst.TraderColIndex].Value = traderOvertime.Trader;
             ReportSheet.Cells[rowIndex, TotalColIndex].Value = FormatHour(traderOvertime.Total);
             SetTotalStyle(rowIndex, TotalColIndex);
