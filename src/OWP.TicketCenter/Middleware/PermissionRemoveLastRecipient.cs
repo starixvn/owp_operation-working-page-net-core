@@ -37,7 +37,7 @@ namespace OWP.TicketCenter.Middleware
                     context.HttpContext.Response.StatusCode = 400;
                     context.Result = new ContentResult
                     {
-                        Content = "Can not delete last recipient"
+                        Content = "You can not delete last recipient"
                     };
                 }
                 return;

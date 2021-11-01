@@ -1,7 +1,6 @@
-﻿using Fanex.NAP.Client.Helpers.Web;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using OWP.TicketCenter.Handlers;
+using OWP.TicketCenter.Middleware.Models;
 using OWP.TicketCenter.Services;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,25 +11,24 @@ namespace OWP.TicketCenter.Middleware
     {
         private readonly PermissionService permissionService;
 
-        private readonly INapSession currentSession;
-
-        public PermissionOnOpenTicketDetail(PermissionService permissionService, INapSession currentSession)
+        public PermissionOnOpenTicketDetail(PermissionService permissionService)
         {
             this.permissionService = permissionService;
-            this.currentSession = currentSession;
         }
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             var param = context
                 .ActionArguments
-                .SingleOrDefault(p => p.Value is OnClickIssueNotificationRequest)
+                .SingleOrDefault(p => p.Value is PermissionCheckedModel)
                 .Value;
 
-            if (param is OnClickIssueNotificationRequest model)
+            if (param is PermissionCheckedModel model)
             {
                 var hasPermission =
-                    await permissionService.HasPermission(model.TicketId, currentSession.UserId);
+                    await permissionService.HasPermission(
+                        model.TicketId,
+                        model.ActorId);
 
                 if (hasPermission)
                 {
@@ -38,10 +36,10 @@ namespace OWP.TicketCenter.Middleware
                 }
                 else
                 {
-                    context.HttpContext.Response.StatusCode = 400;
+                    context.HttpContext.Response.StatusCode = 203;
                     context.Result = new ContentResult
                     {
-                        Content = "Can not delete last recipient"
+                        Content = "You have been removed from the recipient list, and cannot view this ticket any more"
                     };
                 }
                 return;

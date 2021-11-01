@@ -47,11 +47,13 @@ namespace OWP.TicketCenter.Handlers
 
             var sessionId = await writer.Execute(request);
 
+            var result= await repository.AddNewMessage(message);
+
             await notification.Notify(sessionId, request.TicketId, request.TicketEventType);
 
             await notification.NotifyNewMessageIncome(request.TicketId, request.ActorId);
 
-            return await repository.AddNewMessage(message);
+            return result;
         }
     }
 }
