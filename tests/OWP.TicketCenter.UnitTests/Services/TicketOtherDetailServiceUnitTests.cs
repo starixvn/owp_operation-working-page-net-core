@@ -1,4 +1,5 @@
 ﻿using OWP.TicketCenter.Handlers;
+using OWP.TicketCenter.UnitTests.Enum;
 
 namespace OWP.TicketCenter.UnitTests.Services
 {
@@ -38,21 +39,26 @@ namespace OWP.TicketCenter.UnitTests.Services
         [Fact]
         public async Task GetTicketOtherDetail_Always_ReturnTicketMatchDetailViewModel()
         {
+            // Arrange
             var request = new TicketOtherDetailRequest() { ActorId = 1, TicketId = 10 };
+            
+            // Act
             repository.GetTicketOtherDetail(request.TicketId).Returns(MockTicketOtherSource());
             repository.GetRecipientByTicketId(request.TicketId).Returns(MockRecipientResponse());
+            
             var service = new TicketOtherDetailServiceImp(repository, ticketDetailService, mapper);
             var expected = new TicketOtherDetailViewModel()
             {
                 TicketId = 146,
                 Subject = "champions league",
                 TypeName = "Other",
+                EventType = (int)EventType.Other,
                 Recipients = new List<RecipientResponseModel>
                 {
                     new()
                     {
                         RecipientId = 11,
-                        UserName = "Liam",
+                        UserName = "Liam"
                     },
                     new()
                     {
@@ -69,6 +75,7 @@ namespace OWP.TicketCenter.UnitTests.Services
 
             var actual = await service.GetTicketOtherDetail(request);
 
+            // Assert
             DeepAssert.Equal(expected, actual);
         }
 

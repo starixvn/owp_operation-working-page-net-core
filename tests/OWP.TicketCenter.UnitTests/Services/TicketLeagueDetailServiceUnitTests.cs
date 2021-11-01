@@ -1,4 +1,5 @@
 ﻿using OWP.TicketCenter.Handlers;
+using OWP.TicketCenter.UnitTests.Enum;
 
 namespace OWP.TicketCenter.UnitTests.Services
 {
@@ -48,6 +49,7 @@ namespace OWP.TicketCenter.UnitTests.Services
                 OwpLeagueId = 17,
                 OwpLeagueName = "NHA",
                 TypeName = "Other",
+                EventType = (int)EventType.League,
                 Recipients = new List<RecipientResponseModel>
                 {
                     new()

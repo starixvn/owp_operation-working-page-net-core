@@ -1,4 +1,5 @@
 ﻿using OWP.TicketCenter.Handlers;
+using OWP.TicketCenter.UnitTests.Enum;
 
 namespace OWP.TicketCenter.UnitTests.Services
 {
@@ -56,7 +57,7 @@ namespace OWP.TicketCenter.UnitTests.Services
                     OwpLeagueName="NHA",
                     Message ="hello",
                     UserId = 8,
-                    CreatedDate = new DateTime(2021,10,8)
+                    CreatedDate = new DateTime(2021,10,8),
                 },
                 new()
                 {
@@ -92,7 +93,8 @@ namespace OWP.TicketCenter.UnitTests.Services
                     {
                         new() { MessageId = 14, UserId = 9,Message = "hi, Im Liam",CreatedDate = new DateTime(2021,10,9)},
                         new() { MessageId = 12, UserId = 8,Message = "hello",  CreatedDate = new DateTime(2021,10,8)},
-                    }
+                    },
+                    EventType = (int)EventType.League
                 },
                 new()
                 {
@@ -102,7 +104,8 @@ namespace OWP.TicketCenter.UnitTests.Services
                     Messages = new List<MessageDetailViewModel>
                     {
                         new() { MessageId = 18, UserId = 12,Message ="hehe",CreatedDate = new DateTime(2021,10,10) }
-                    }
+                    },
+                    EventType = (int)EventType.League
                 }
             };
     }

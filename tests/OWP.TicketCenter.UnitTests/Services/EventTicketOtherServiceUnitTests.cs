@@ -1,4 +1,5 @@
 ﻿using OWP.TicketCenter.Handlers;
+using OWP.TicketCenter.UnitTests.Enum;
 
 namespace OWP.TicketCenter.UnitTests.Services
 {
@@ -83,6 +84,7 @@ namespace OWP.TicketCenter.UnitTests.Services
                     TicketId = 10,
                     Subject = "Covid-19",
                     TypeName="Other",
+                    EventType = (int)EventType.Other,
                     Messages = new List<MessageDetailViewModel>
                     {
                         new() { MessageId = 12, UserId = 8,Message = "hello,test Match"},
@@ -94,6 +96,7 @@ namespace OWP.TicketCenter.UnitTests.Services
                     TicketId = 20,
                     Subject = "vaccine",
                     TypeName="Other",
+                    EventType = (int)EventType.Other,
                     Messages = new List<MessageDetailViewModel>
                     {
                         new() { MessageId = 18, UserId = 12,Message ="hehe"}
