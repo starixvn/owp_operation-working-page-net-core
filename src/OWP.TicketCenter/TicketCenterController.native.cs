@@ -37,10 +37,9 @@ namespace OWP.TicketCenter
 
         [Route("on-click-issue-notification")]
         [HttpPost]
+        [ServiceFilter(typeof(PermissionOnOpenTicketDetail))]
         public async Task OpenChatBoard(OnClickIssueNotificationRequest request)
-        {
-            await mediator.Send(request);
-        }
+            => await mediator.Send(request);
 
         #region new ticket
 

@@ -8,6 +8,8 @@ namespace OWP.TicketCenter.Hubs
         Task NotifyNewMessageIncome();
 
         Task NotifyNewAddRecipient();
+
+        Task NotifyUserOnClickToast(int ticketId, int eventType);
     }
 
     public class TicketCenterNotifyHubImp: Hub<TicketCenterNotifyHub>

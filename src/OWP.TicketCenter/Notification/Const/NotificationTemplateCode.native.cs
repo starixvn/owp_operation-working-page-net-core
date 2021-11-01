@@ -2,9 +2,9 @@
 {
     public enum NotificationTemplateCode
     {
-        NewTicket=50,
-        AddRecipient=51,
-        NewMessage=52,
-        NewAttachment=54
+        NewTicket = 50,
+        AddRecipient = 51,
+        NewMessage = 52,
+        NewAttachment = 54
     }
 }

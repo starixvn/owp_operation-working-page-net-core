@@ -13,6 +13,8 @@
 
         Task<bool> NotifyNewMessageIncome(int ticketId, int creatorId);
 
+        Task<bool> NotifyUserClickOnToast(int userId, int ticketId, int eventType);
+
     }
 
     public class NotificationServiceImp : NotificationService
@@ -54,6 +56,14 @@
             await notify.Clients
                 .Users(userIdsString)
                 .NotifyNewMessageIncome();
+            return await Task.FromResult(true);
+        }
+
+        public async Task<bool> NotifyUserClickOnToast(int userId, int ticketId, int eventType)
+        {
+            await notify.Clients
+                .User(userId.ToString())
+                .NotifyUserOnClickToast(ticketId, eventType);
             return await Task.FromResult(true);
         }
 
