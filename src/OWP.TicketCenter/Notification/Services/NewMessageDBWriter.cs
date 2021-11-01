@@ -30,7 +30,7 @@ namespace OWP.TicketCenter.Notification.Services
                 : NotificationTemplateCode.NewMessage;
             var template = MessageTemplate.NotificationTemplateMap[(int)templateCode];
 
-            var criteria = new InsertNewMessageNotificationCriteria()
+            var criteria = new InsertNewMessageNotificationCriteria
             {
                 NotificationContent = template.NotificationContent
                     .Replace("<ticketId>", $"{newMessageRequest.TicketId}")

@@ -33,7 +33,7 @@ namespace OWP.TicketCenter.Handlers
 
         public async Task<int> Handle(InsertSingleRecipientRequest request, CancellationToken cancellationToken)
         {
-            var recipients = new List<InsertOrRemoveManyRecipientModel>()
+            var recipients = new List<InsertOrRemoveManyRecipientModel>
             {
                 new ()
                 {

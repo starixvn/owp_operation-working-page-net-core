@@ -37,7 +37,7 @@ namespace OWP.TicketCenter.Middleware
                 else
                 {
                     context.HttpContext.Response.StatusCode = 203;
-                    context.Result = new ContentResult()
+                    context.Result = new ContentResult
                     {
                         Content = "You have been removed from the recipient list, and cannot view this ticket any more"
                     };

@@ -244,7 +244,7 @@ namespace OWP.Websites
             services.AddMediatR(typeof(SyncWorkingShiftController).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(PreMatchNotificationController).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(RecipientGroupController).GetTypeInfo().Assembly);
-             services.AddMediatR(typeof(TicketCenterController).GetTypeInfo().Assembly);
+            services.AddMediatR(typeof(TicketCenterController).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(FileUploadController).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(TicketTypeRecipientController).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(OvertimeReportController).GetTypeInfo().Assembly);
