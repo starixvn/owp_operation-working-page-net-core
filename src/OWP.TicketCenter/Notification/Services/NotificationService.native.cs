@@ -13,8 +13,9 @@
 
         Task<bool> NotifyNewMessageIncome(int ticketId, int creatorId);
 
-        Task<bool> NotifyUserClickOnToast(int userId, int ticketId, int eventType);
+        Task<bool> NotifyNewAddRecipient(int ticketId, int creatorId);
 
+        Task<bool> NotifyUserClickOnToast(int userId, int ticketId, int eventType);
     }
 
     public class NotificationServiceImp : NotificationService
@@ -59,6 +60,16 @@
             return await Task.FromResult(true);
         }
 
+        public async Task<bool> NotifyNewAddRecipient(int ticketId, int creatorId)
+        {
+            var userIds = await repository.GetUserIdsIgnoredCreatorId(ticketId, creatorId);
+            var userIdsString = userIds.Select(u => u.ToString());
+            await notify.Clients
+                .Users(userIdsString)
+                .NotifyNewAddRecipient();
+            return await Task.FromResult(true);
+        }
+
         public async Task<bool> NotifyUserClickOnToast(int userId, int ticketId, int eventType)
         {
             await notify.Clients
@@ -66,6 +77,5 @@
                 .NotifyUserOnClickToast(ticketId, eventType);
             return await Task.FromResult(true);
         }
-
     }
 }

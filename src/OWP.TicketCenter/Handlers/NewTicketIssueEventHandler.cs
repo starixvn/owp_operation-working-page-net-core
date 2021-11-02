@@ -31,7 +31,6 @@ namespace OWP.TicketCenter.Handlers
 
         private readonly NewTicketMatchMessageDBWriter writer;
 
-
         private readonly NotificationService notificationService;
 
         private readonly RecipientService recipientService;
@@ -80,7 +79,6 @@ namespace OWP.TicketCenter.Handlers
 
             await recipientService.InsertManyRecipientReader(request.Recipients, request.TicketId);
 
-
             var notificationMessage = new MessageTransform
             {
                 TicketId = ticketId,
@@ -95,6 +93,9 @@ namespace OWP.TicketCenter.Handlers
             await notificationService.Notify(sessionId, ticketId, (int)EventType.Match);
 
             await notificationService.NotifyNewMessageIncome(ticketId, request.CreatorId);
+
+            await notificationService.NotifyNewAddRecipient(ticketId, request.CreatorId);
+
             return ticketId;
         }
     }

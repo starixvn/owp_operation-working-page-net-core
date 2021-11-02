@@ -12,7 +12,6 @@ using OWP.TicketCenter.Services;
 
 namespace OWP.TicketCenter.Handlers
 {
-
     public class NewTicketIssueOtherRequest : NewTicketModelBase, IRequest<int>
     {
         public string Subject { get; set; }
@@ -26,11 +25,9 @@ namespace OWP.TicketCenter.Handlers
 
         private readonly NewTicketOtherMessageDBWriter writer;
 
-
         private readonly NotificationService notificationService;
 
         private readonly RecipientService recipientService;
-
 
         public NewTicketIssueOtherHandler(
             Repository repository,
@@ -56,7 +53,7 @@ namespace OWP.TicketCenter.Handlers
             var messages = new List<NewMessageRequestModel>();
             foreach (var file in request.Files)
             {
-                messages.Add(new ()
+                messages.Add(new()
                 {
                     TicketId = ticketId,
                     CreatorId = request.CreatorId,
@@ -76,7 +73,6 @@ namespace OWP.TicketCenter.Handlers
 
             await recipientService.InsertManyRecipientReader(request.Recipients, request.TicketId);
 
-
             var notificationMessage = new MessageTransform
             {
                 TicketId = ticketId,
@@ -88,6 +84,8 @@ namespace OWP.TicketCenter.Handlers
                 NotificationTemplateCode.NewTicket);
 
             await notificationService.NotifyNewMessageIncome(ticketId, request.CreatorId);
+
+            await notificationService.NotifyNewAddRecipient(ticketId, request.CreatorId);
 
             await notificationService.Notify(sessionId, ticketId, (int)EventType.Other);
 

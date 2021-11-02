@@ -24,7 +24,6 @@
 
         private readonly IDynamicRepository repository;
 
-
         public NotifyEngineImp(
             IHubContext<ChangedInfoNotifyHubImp, ChangedInfoNotifyHub> notifyChangedHub,
             IDynamicRepository repository)
@@ -33,7 +32,7 @@
             this.repository = repository;
         }
 
-        public async Task Notify<T>(IList<T> messages, IList<string> receivedUserIds) where T: MessageModel
+        public async Task Notify<T>(IList<T> messages, IList<string> receivedUserIds) where T : MessageModel
         {
             foreach (var message in messages)
             {

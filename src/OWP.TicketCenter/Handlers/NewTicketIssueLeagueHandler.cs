@@ -16,7 +16,6 @@ namespace OWP.TicketCenter.Handlers
     public class NewTicketIssueLeagueRequest : NewTicketModelBase, IRequest<int>
     {
         public int OwpLeagueId { get; set; }
-
     }
 
     public class NewTicketIssueLeagueHandler : IRequestHandler<NewTicketIssueLeagueRequest, int>
@@ -32,8 +31,8 @@ namespace OWP.TicketCenter.Handlers
         private readonly RecipientService recipientService;
 
         public NewTicketIssueLeagueHandler(
-            Repository repository, 
-            IMapper mapper, 
+            Repository repository,
+            IMapper mapper,
             NewTicketLeagueMessageDBWriter writer,
             NotificationService notificationService,
             RecipientService recipientService)
@@ -55,7 +54,7 @@ namespace OWP.TicketCenter.Handlers
             var messages = new List<NewMessageRequestModel>();
             foreach (var file in request.Files)
             {
-                messages.Add(new ()
+                messages.Add(new()
                 {
                     TicketId = ticketId,
                     CreatorId = request.CreatorId,
@@ -86,6 +85,8 @@ namespace OWP.TicketCenter.Handlers
                 NotificationTemplateCode.NewTicket);
 
             await notificationService.NotifyNewMessageIncome(ticketId, request.CreatorId);
+
+            await notificationService.NotifyNewAddRecipient(ticketId, request.CreatorId);
 
             await notificationService.Notify(sessionId, ticketId, (int)EventType.League);
             return ticketId;
