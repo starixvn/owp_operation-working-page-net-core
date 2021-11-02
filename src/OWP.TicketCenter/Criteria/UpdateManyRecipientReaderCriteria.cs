@@ -8,11 +8,12 @@ namespace OWP.TicketCenter.Criteria
 
         public bool IsRead { get; set; }
 
+        public int ActorId { get; set; }
+
         public override string GetSettingKey()
             => "OWP_TicketCenter_UpdateManyRecipientReader";
 
-
         public override bool IsValid()
-            => TicketId > 0;
+            => TicketId > 0 && ActorId > 0;
     }
 }

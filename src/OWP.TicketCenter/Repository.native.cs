@@ -1,6 +1,4 @@
-﻿using System;
-using OWP.Models;
-using OWP.TicketCenter.ViewModels;
+﻿using OWP.TicketCenter.ViewModels;
 
 namespace OWP.TicketCenter
 {
@@ -64,7 +62,7 @@ namespace OWP.TicketCenter
 
         Task InsertManyRecipientReader(string recipientIds, int ticketId, bool isRead);
 
-        Task UpdateManyRecipientReader(int ticketId, bool isRead);
+        Task UpdateManyRecipientReader(int ticketId, bool isRead, int actorId);
 
         Task UpdateSingleRecipientReader(int ticketId, bool isRead, int recipientId);
 
@@ -307,12 +305,13 @@ namespace OWP.TicketCenter
             await dynamicRepository.ExecuteAsync(criteria);
         }
 
-        public async Task UpdateManyRecipientReader(int ticketId, bool isRead)
+        public async Task UpdateManyRecipientReader(int ticketId, bool isRead, int actorId)
         {
             var criteria = new UpdateManyRecipientReaderCriteria
             {
                 IsRead = isRead,
-                TicketId = ticketId
+                TicketId = ticketId,
+                ActorId = actorId
             };
             await dynamicRepository.ExecuteAsync(criteria);
         }

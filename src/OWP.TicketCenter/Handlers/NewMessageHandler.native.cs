@@ -1,10 +1,10 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 using OWP.TicketCenter.Middleware.Models;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Notification.Services;
 using OWP.TicketCenter.ViewModels;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace OWP.TicketCenter.Handlers
 {
@@ -43,11 +43,11 @@ namespace OWP.TicketCenter.Handlers
                 CreatorId = request.ActorId,
                 FileId = request.FileId
             };
-            await repository.UpdateManyRecipientReader(request.TicketId, false);
+            await repository.UpdateManyRecipientReader(request.TicketId, false, request.ActorId);
 
             var sessionId = await writer.Execute(request);
 
-            var result= await repository.AddNewMessage(message);
+            var result = await repository.AddNewMessage(message);
 
             await notification.Notify(sessionId, request.TicketId, request.TicketEventType);
 
