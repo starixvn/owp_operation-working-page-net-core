@@ -1,11 +1,11 @@
 ﻿namespace OWP.TicketCenter.Notification.Services
 {
-    using Microsoft.AspNetCore.SignalR;
-    using OWP.Services;
     using Hubs;
+    using Microsoft.AspNetCore.SignalR;
+    using Models;
+    using OWP.Services;
     using System.Linq;
     using System.Threading.Tasks;
-    using Models;
 
     public interface NotificationService
     {
@@ -52,7 +52,7 @@
 
         public async Task<bool> NotifyNewMessageIncome(int ticketId, int creatorId)
         {
-            var userIds = await repository.GetUserIdsIgnoredCreatorId(ticketId, creatorId);
+            var userIds = await repository.GetUserIdsByTicketId(ticketId);
             var userIdsString = userIds.Select(u => u.ToString());
             await notify.Clients
                 .Users(userIdsString)
