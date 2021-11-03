@@ -28,7 +28,7 @@ namespace OWP.OvertimeReport.Constants
         public static Color Weekend = Color.LightBlue;
         public static Color Header = Color.DarkGray;
         public static Color TotalBackground = Color.NavajoWhite;
-        public static Color OffDay = Color.LightPink;
+        public static Color OffDay = Color.LimeGreen;
         public static Color HeaderBorder = Color.Gray;
         public static Color TotalText = Color.DarkRed;
     }

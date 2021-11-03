@@ -118,7 +118,7 @@
 
                 if (overtime.IsOffDay)
                 {
-                    SetBackgroundColor(rowIndex, colIndex, ColorConst.OffDay);
+                    ReportSheet.Cells[rowIndex, colIndex].Style.Font.Color.SetColor(ColorConst.OffDay);
                 }
             }
         }
