@@ -11,7 +11,7 @@
     {
         Task Notify(string sessionId, int ticketId, int eventType);
 
-        Task<bool> NotifyNewMessageIncome(int ticketId, int creatorId);
+        Task<bool> NotifyNewMessageIncome(int ticketId);
 
         Task<bool> NotifyNewAddRecipient(int ticketId, int creatorId);
 
@@ -50,7 +50,7 @@
                 }).ToList());
         }
 
-        public async Task<bool> NotifyNewMessageIncome(int ticketId, int creatorId)
+        public async Task<bool> NotifyNewMessageIncome(int ticketId)
         {
             var userIds = await repository.GetUserIdsByTicketId(ticketId);
             var userIdsString = userIds.Select(u => u.ToString());

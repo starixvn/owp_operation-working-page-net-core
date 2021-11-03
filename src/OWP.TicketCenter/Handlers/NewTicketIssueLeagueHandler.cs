@@ -1,15 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Runtime.CompilerServices;
+﻿using AutoMapper;
 using MediatR;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
 using OWP.TicketCenter.Enum;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Notification.Const;
 using OWP.TicketCenter.Notification.Models;
 using OWP.TicketCenter.Notification.Services;
 using OWP.TicketCenter.Services;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace OWP.TicketCenter.Handlers
 {
@@ -84,7 +83,7 @@ namespace OWP.TicketCenter.Handlers
                 notificationMessage,
                 NotificationTemplateCode.NewTicket);
 
-            await notificationService.NotifyNewMessageIncome(ticketId, request.CreatorId);
+            await notificationService.NotifyNewMessageIncome(ticketId);
 
             await notificationService.NotifyNewAddRecipient(ticketId, request.CreatorId);
 

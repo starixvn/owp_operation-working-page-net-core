@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using NSubstitute;
-using OWP.TicketCenter.Enum;
 using OWP.TicketCenter.Handlers;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Notification.Const;
 using OWP.TicketCenter.Notification.Models;
 using OWP.TicketCenter.Notification.Services;
 using OWP.TicketCenter.Services;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace OWP.TicketCenter.UnitTests.Handlers
@@ -90,9 +86,7 @@ namespace OWP.TicketCenter.UnitTests.Handlers
                 Arg.Compat.Any<int>(),
                 Arg.Compat.Any<int>());
 
-            await notificationService.NotifyNewMessageIncome(
-                Arg.Compat.Any<int>(),
-                Arg.Compat.Any<int>());
+            await notificationService.NotifyNewMessageIncome(Arg.Compat.Any<int>());
 
             var actual = await handler.Handle(request, CancellationToken.None);
 

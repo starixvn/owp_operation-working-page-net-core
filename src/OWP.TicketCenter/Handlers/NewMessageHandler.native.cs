@@ -51,7 +51,7 @@ namespace OWP.TicketCenter.Handlers
 
             await notification.Notify(sessionId, request.TicketId, request.TicketEventType);
 
-            await notification.NotifyNewMessageIncome(request.TicketId, request.ActorId);
+            await notification.NotifyNewMessageIncome(request.TicketId);
 
             return result;
         }
