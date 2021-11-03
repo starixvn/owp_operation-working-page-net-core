@@ -1,9 +1,9 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using OWP.TicketCenter.Middleware.Models;
 using OWP.TicketCenter.Services;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace OWP.TicketCenter.Middleware
 {
@@ -37,7 +37,7 @@ namespace OWP.TicketCenter.Middleware
                     context.HttpContext.Response.StatusCode = 400;
                     context.Result = new ContentResult
                     {
-                        Content = "You can not delete last recipient"
+                        Content = "Please select at least one recipient"
                     };
                 }
                 return;
