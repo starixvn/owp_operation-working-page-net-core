@@ -6,7 +6,9 @@ namespace OWP.TicketCenter.Criteria
     {
         public int TicketId { get; set; }
 
-        public string RecipientIds { get; set; }
+        public string GroupIds { get; set; }
+
+        public string IndividualIds { get; set; }
 
         public bool IsRead { get; set; }
 
@@ -15,6 +17,6 @@ namespace OWP.TicketCenter.Criteria
 
 
         public override bool IsValid()
-            => TicketId > 0 && RecipientIds.Length > 0;
+            => TicketId > 0;
     }
 }

@@ -2,6 +2,7 @@
 {
     using Models;
     using NSubstitute;
+    using OWP.TicketCenter.Criteria;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using TicketCenter.Services;
@@ -32,27 +33,25 @@
         [Fact]
         public async Task RemoveManyRecipientReader_Always_CallRemoveManyRecipientReader()
         {
-            repository.GetRecipientIdInManyGroup("4,5,6").Returns(new List<int>() { 2, 3, 4, 5, 6 });
             var service = new RecipientServiceImp(repository);
             var recipients = MockListRecipients();
             var ticketId = 12;
 
             await service.RemoveManyRecipientReader(recipients, ticketId);
 
-            await repository.Received().RemoveManyRecipientReader(Arg.Is<string>(x => x.Equals("2,3,4,5,6,1")), ticketId);
+            await repository.Received().RemoveManyRecipientReader(Arg.Is<RemoveManyRecipientReaderCriteria>(x => x.Equals("2,3,4,5,6,1")));
         }
 
         [Fact]
         public async Task InsertManyRecipientReader_Always_CallInsertManyRecipientReader()
         {
-            repository.GetRecipientIdInManyGroup("4,5,6").Returns(new List<int>() { 3, 4, 5, 6 });
             var service = new RecipientServiceImp(repository);
             var recipients = MockListRecipients();
             var ticketId = 10;
 
             await service.InsertManyRecipientReader(recipients, ticketId);
 
-            await repository.Received().InsertManyRecipientReader(Arg.Is<string>(x => x.Equals("3,4,5,6,1")), ticketId, false);
+            await repository.Received().InsertManyRecipientReader(Arg.Is<InsertManyRecipientReaderCriteria>(x => x.Equals("3,4,5,6,1")));
         }
 
         [Fact]

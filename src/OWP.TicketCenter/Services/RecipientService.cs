@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OWP.TicketCenter.Criteria;
 using OWP.TicketCenter.Enum;
 using OWP.TicketCenter.Models;
 
@@ -48,9 +49,17 @@ namespace OWP.TicketCenter.Services
         public async Task<bool> RemoveManyRecipientReader(IList<InsertOrRemoveManyRecipientModel> recipients,
             int ticketId)
         {
-            var recipientIds = $"{await BuildRecipientIdsFromGroup(recipients)},{BuildRecipientIdsIndividual(recipients)}";
+            var recipientGroupIds = BuildRecipientIdsByType(recipients, RecipientType.Group);
+            var recipientIndividualIds = BuildRecipientIdsByType(recipients, RecipientType.Individual);
 
-            await repository.RemoveManyRecipientReader(recipientIds, ticketId);
+            var criteria = new RemoveManyRecipientReaderCriteria
+            {
+                TicketId = ticketId,
+                GroupIds = recipientGroupIds,
+                IndividualIds = recipientIndividualIds
+            };
+
+            await repository.RemoveManyRecipientReader(criteria);
 
             return await Task.FromResult(true);
         }
@@ -58,35 +67,30 @@ namespace OWP.TicketCenter.Services
         public async Task<bool> InsertManyRecipientReader(IList<InsertOrRemoveManyRecipientModel> recipients,
             int ticketId)
         {
-            var recipientIds = $"{await BuildRecipientIdsFromGroup(recipients)},{BuildRecipientIdsIndividual(recipients)}";
-            
-            await repository.InsertManyRecipientReader(recipientIds, ticketId, false);
+            var recipientGroupIds = BuildRecipientIdsByType(recipients, RecipientType.Group);
+            var recipientIndividualIds = BuildRecipientIdsByType(recipients, RecipientType.Individual);
+
+            var criteria = new InsertManyRecipientReaderCriteria
+            {
+                TicketId = ticketId,
+                GroupIds = recipientGroupIds,
+                IndividualIds = recipientIndividualIds
+            };
+
+            await repository.InsertManyRecipientReader(criteria);
 
             return await Task.FromResult(true);
         }
 
-        private async Task<string> BuildRecipientIdsFromGroup(IList<InsertOrRemoveManyRecipientModel> recipients)
+
+        private string BuildRecipientIdsByType(IList<InsertOrRemoveManyRecipientModel> recipients, RecipientType recipientType)
         {
-            var group = recipients
-                .FirstOrDefault(r => r.RecipientType == (int)RecipientType.Group);
-
-            var groupIdString = group != null
-                ? string.Join(",", group.RecipientIds)
-                : string.Empty;
-
-            var recipientIdInGroup = await repository.GetRecipientIdInManyGroup(groupIdString);
-
-            return string.Join(",", recipientIdInGroup);
-        }
-
-        private string BuildRecipientIdsIndividual(IList<InsertOrRemoveManyRecipientModel> recipients)
-        {
-            var recipientIndividual = recipients
-                .FirstOrDefault(r => r.RecipientType == (int) RecipientType.Individual);
-            return recipientIndividual != null
-                ? string.Join(",", recipientIndividual.RecipientIds)
+            var recipientsResult = recipients
+                .FirstOrDefault(r => r.RecipientType == (int)recipientType);
+            return recipientsResult != null
+                ? string.Join(",", recipientsResult.RecipientIds)
                 : string.Empty;
         }
-       
+
     }
 }
