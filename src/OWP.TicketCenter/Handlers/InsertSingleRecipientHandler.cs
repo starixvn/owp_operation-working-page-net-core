@@ -48,7 +48,7 @@ namespace OWP.TicketCenter.Handlers
 
             await notificationService.Notify(sessionId, request.TicketId, request.TicketEventType);
 
-            await notificationService.NotifyNewAddRecipient(request.TicketId, request.ActorId);
+            await notificationService.NotifyNewAddRecipient(request.TicketId);
 
             return await repository.AddSingleRecipient(request);
         }

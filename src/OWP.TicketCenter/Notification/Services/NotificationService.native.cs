@@ -13,7 +13,7 @@
 
         Task<bool> NotifyNewMessageIncome(int ticketId);
 
-        Task<bool> NotifyNewAddRecipient(int ticketId, int creatorId);
+        Task<bool> NotifyNewAddRecipient(int ticketId);
 
         Task<bool> NotifyUserClickOnToast(int userId, int ticketId, int eventType);
     }
@@ -60,9 +60,9 @@
             return await Task.FromResult(true);
         }
 
-        public async Task<bool> NotifyNewAddRecipient(int ticketId, int creatorId)
+        public async Task<bool> NotifyNewAddRecipient(int ticketId)
         {
-            var userIds = await repository.GetUserIdsIgnoredCreatorId(ticketId, creatorId);
+            var userIds = await repository.GetUserIdsByTicketId(ticketId);
             var userIdsString = userIds.Select(u => u.ToString());
             await notify.Clients
                 .Users(userIdsString)
