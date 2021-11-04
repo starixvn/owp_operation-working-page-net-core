@@ -1,10 +1,9 @@
 ﻿namespace OWP.OvertimeReport.Handlers
 {
-    using Fanex.Data.Repository;
+    using AutoMapper;
     using MediatR;
     using Models;
-    using OWP.OvertimeReport.Criteria;
-    using System;
+    using Services;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
@@ -21,17 +20,22 @@
 
     public class GetReportByYearHandler : IRequestHandler<QueryReportByYearRequest, IEnumerable<OvertimeByYear>>
     {
-        private readonly IDynamicRepository repository;
+        private readonly CommandRepository commandRepository;
 
-        public GetReportByYearHandler(IDynamicRepository repository)
+        private readonly IMapper mapper;
+
+        public GetReportByYearHandler(CommandRepository commandRepository, IMapper mapper)
         {
-            this.repository = repository;
+            this.commandRepository = commandRepository;
+            this.mapper = mapper;
         }
 
         public async Task<IEnumerable<OvertimeByYear>> Handle(QueryReportByYearRequest request, CancellationToken cancellationToken)
         {
-            var (users, overtimeData) = await GetReportByYear(request);
-            var dataGroupedByTrader = overtimeData.GroupBy(x => x.UserId, (key, g) => new GroupedData { UserId = key, Data = g.ToList() });
+            var getRequest = mapper.Map<OverTimeRequest>(request);
+            var (users, overtimeData) = await commandRepository.GetReportByYear(getRequest);
+            var dataGroupedByTrader = overtimeData.GroupBy(x => x.UserId, (key, g) =>
+                new GroupedData { UserId = key, Data = g.ToList() });
 
             var res = CalculateMonthlyReport(dataGroupedByTrader, users);
 
@@ -80,21 +84,6 @@
             {
                 yield return data.Any(x => x.ReportDate.Month == i) ? data.Where(x => x.ReportDate.Month == i).Sum(x => x.Hour) : null;
             }
-        }
-
-        private async Task<(IEnumerable<User>, IEnumerable<OvertimeData>)> GetReportByYear(QueryReportByYearRequest request)
-        {
-            var minDate = new DateTime(request.Year, 1, 1);
-            var maxDate = new DateTime(request.Year, 12, 31);
-            var criteria = new GetReportByDateRangeCriteria
-            {
-                TraderName = request.Trader ?? string.Empty,
-                Location = request.Location ?? string.Empty,
-                FromDate = minDate,
-                ToDate = maxDate
-            };
-
-            return await repository.FetchMultipleAsync<User, OvertimeData>(criteria);
         }
 
         private class GroupedData

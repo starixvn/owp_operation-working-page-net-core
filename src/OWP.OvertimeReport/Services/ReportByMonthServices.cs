@@ -9,7 +9,7 @@
 
     public interface ReportByMonthServices
     {
-        Task<OvertimeByMonth> GetReportByMonth(OverTimeByMonthRequest request);
+        Task<OvertimeByMonth> GetReportByMonth(OverTimeRequest request);
     }
 
     public class ReportByMonthServicesImp : ReportByMonthServices
@@ -21,7 +21,7 @@
             this.commandRepository = commandRepository;
         }
 
-        public async Task<OvertimeByMonth> GetReportByMonth(OverTimeByMonthRequest request)
+        public async Task<OvertimeByMonth> GetReportByMonth(OverTimeRequest request)
         {
             var (users, overtimeData) = await commandRepository.GetReportByMonth(request);
             var dataGroupedByUserId = overtimeData.GroupBy(x => x.UserId)

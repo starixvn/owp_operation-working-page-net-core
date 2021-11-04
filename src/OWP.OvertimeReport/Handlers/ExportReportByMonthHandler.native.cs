@@ -34,7 +34,7 @@
 
         public async Task<ExcelPackage> Handle(ExportReportByMonthRequest request, CancellationToken cancellationToken)
         {
-            var exportRequest = mapper.Map<OverTimeByMonthRequest>(request);
+            var exportRequest = mapper.Map<OverTimeRequest>(request);
 
             return await reportService.ExportReportByMonth(exportRequest);
         }

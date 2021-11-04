@@ -33,7 +33,7 @@
 
         public async Task<OvertimeByMonth> Handle(QueryReportByMonthRequest request, CancellationToken cancellationToken)
         {
-            var getRequest = mapper.Map<OverTimeByMonthRequest>(request);
+            var getRequest = mapper.Map<OverTimeRequest>(request);
 
             return await reportService.GetReportByMonth(getRequest);
         }

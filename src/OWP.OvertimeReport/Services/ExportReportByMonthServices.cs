@@ -15,7 +15,7 @@
 
     public interface ExportReportByMonthServices
     {
-        Task<ExcelPackage> ExportReportByMonth(OverTimeByMonthRequest request);
+        Task<ExcelPackage> ExportReportByMonth(OverTimeRequest request);
     }
 
     public class ExportReportByMonthServicesImp : ExportReportByMonthServices
@@ -35,7 +35,7 @@
             this.reportService = reportService;
         }
 
-        public async Task<ExcelPackage> ExportReportByMonth(OverTimeByMonthRequest request)
+        public async Task<ExcelPackage> ExportReportByMonth(OverTimeRequest request)
         {
             var model = await reportService.GetReportByMonth(request);
 
@@ -46,7 +46,7 @@
             return ExcelPackage;
         }
 
-        public void BuildTemplate(OverTimeByMonthRequest request)
+        public void BuildTemplate(OverTimeRequest request)
         {
             var monthYearInString = new DateTime(request.Year, request.Month, 1).ToString("MMM-yyyy");
             ExcelPackage = new ExcelPackage();

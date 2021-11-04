@@ -13,6 +13,8 @@
 
         public DateTime ToDate { get; set; }
 
+        public int SiteId { get; set; }
+
         public override string GetSettingKey() => "OWP_OvertimeReport_GetReportByDateRange";
 
         public override bool IsValid() => true;

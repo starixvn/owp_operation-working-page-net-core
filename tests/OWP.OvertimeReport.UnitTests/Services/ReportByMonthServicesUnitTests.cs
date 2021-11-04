@@ -25,9 +25,9 @@
         [Fact]
         public async Task Handle_WithCorrectRequestModel_ReturnData()
         {
-            commandRepository.GetReportByMonth(Arg.Any<OverTimeByMonthRequest>())
+            commandRepository.GetReportByDateRange(Arg.Any<OverTimeRequest>())
                 .Returns((MockUsers(), MockData()));
-            var request = new OverTimeByMonthRequest
+            var request = new OverTimeRequest
             {
                 Location = string.Empty,
                 Trader = string.Empty,

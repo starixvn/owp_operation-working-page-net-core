@@ -24,11 +24,11 @@
         [Fact]
         public async Task ExportReportByMonth_WithCorrectModel_ReturnExcelPackageData()
         {
-            reportService.GetReportByMonth(Arg.Any<OverTimeByMonthRequest>())
+            reportService.GetReportByMonth(Arg.Any<OverTimeRequest>())
                 .Returns(MockReportByMonthData());
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
-            var request = new OverTimeByMonthRequest
+            var request = new OverTimeRequest
             {
                 Location = string.Empty,
                 Trader = string.Empty,
