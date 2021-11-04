@@ -39,7 +39,13 @@
 
             await service.RemoveManyRecipientReader(recipients, ticketId);
 
-            await repository.Received().RemoveManyRecipientReader(Arg.Is<RemoveManyRecipientReaderCriteria>(x => x.Equals("2,3,4,5,6,1")));
+            await repository.Received().RemoveManyRecipientReader(
+                Arg.Is<RemoveManyRecipientReaderCriteria>(x => CompareHelper.Compare(x, new RemoveManyRecipientReaderCriteria
+                {
+                    GroupIds = "4,5,6",
+                    IndividualIds = "1",
+                    TicketId = 12
+                })));
         }
 
         [Fact]
@@ -51,7 +57,13 @@
 
             await service.InsertManyRecipientReader(recipients, ticketId);
 
-            await repository.Received().InsertManyRecipientReader(Arg.Is<InsertManyRecipientReaderCriteria>(x => x.Equals("3,4,5,6,1")));
+            await repository.Received().InsertManyRecipientReader(
+                Arg.Is<InsertManyRecipientReaderCriteria>(x => CompareHelper.Compare(x, new InsertManyRecipientReaderCriteria
+                {
+                    GroupIds = "4,5,6",
+                    IndividualIds = "1",
+                    TicketId = 10
+                })));
         }
 
         [Fact]
