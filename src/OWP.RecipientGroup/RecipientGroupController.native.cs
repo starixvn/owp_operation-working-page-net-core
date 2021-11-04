@@ -12,7 +12,7 @@
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("AllowOrigin")]
-    [Authorize]
+    [AllowAnonymous]
     public class RecipientGroupController : ControllerBase
     {
         private readonly IMediator mediator;

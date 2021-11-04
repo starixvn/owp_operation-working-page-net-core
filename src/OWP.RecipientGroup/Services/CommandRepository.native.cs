@@ -13,6 +13,8 @@
         Task<IEnumerable<RecipientGroupModel>> GetRecipientGroup();
 
         Task SaveRecipientGroup(SaveRecipientGroupRequest model);
+
+        Task InsertRecipientToMessageReader(InsertMessageReaderCriteria criteria);
     }
 
     public class CommandRepositoryImp : CommandRepository
@@ -31,6 +33,9 @@
             return await repository.FetchAsync<RecipientGroupModel>(criteria);
         }
 
+        public async Task InsertRecipientToMessageReader(InsertMessageReaderCriteria criteria)
+            => await repository.ExecuteAsync(criteria);
+
         public async Task SaveRecipientGroup(SaveRecipientGroupRequest model)
         {
             var criteria = new SaveRecipientGroupCommand
@@ -39,6 +44,7 @@
                 GroupName = model.GroupName,
                 Recipients = string.Join(',', model.Recipients.Select(x => x.RecipientId))
             };
+
 
             await repository.ExecuteAsync(criteria);
         }
