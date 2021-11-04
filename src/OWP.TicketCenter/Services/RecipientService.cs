@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OWP.TicketCenter.Criteria;
+﻿using OWP.TicketCenter.Criteria;
 using OWP.TicketCenter.Enum;
 using OWP.TicketCenter.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace OWP.TicketCenter.Services
 {
@@ -16,7 +14,7 @@ namespace OWP.TicketCenter.Services
             int ticketId);
 
         Task<bool> InsertManyRecipientReader(IList<InsertOrRemoveManyRecipientModel> recipients,
-            int ticketId);
+            int ticketId, int creatorId);
 
         Task<bool> RemoveManyRecipientReader(IList<InsertOrRemoveManyRecipientModel> recipients,
             int ticketId);
@@ -25,6 +23,7 @@ namespace OWP.TicketCenter.Services
     public class RecipientServiceImp : RecipientService
     {
         private readonly Repository repository;
+
         public RecipientServiceImp(Repository repository)
         {
             this.repository = repository;
@@ -47,11 +46,9 @@ namespace OWP.TicketCenter.Services
                     RecipientType = recipient.RecipientType
                 };
                 await repository.AddManyRecipients(criteria);
-
             }
             return await Task.FromResult(true);
         }
-
 
         public async Task<bool> RemoveManyRecipientReader(IList<InsertOrRemoveManyRecipientModel> recipients,
             int ticketId)
@@ -63,7 +60,7 @@ namespace OWP.TicketCenter.Services
             {
                 TicketId = ticketId,
                 GroupIds = recipientGroupIds,
-                IndividualIds = recipientIndividualIds
+                IndividualIds = recipientIndividualIds,
             };
 
             await repository.RemoveManyRecipientReader(criteria);
@@ -72,7 +69,7 @@ namespace OWP.TicketCenter.Services
         }
 
         public async Task<bool> InsertManyRecipientReader(IList<InsertOrRemoveManyRecipientModel> recipients,
-            int ticketId)
+            int ticketId, int creatorId)
         {
             var recipientGroupIds = BuildRecipientIdsByType(recipients, RecipientType.Group);
             var recipientIndividualIds = BuildRecipientIdsByType(recipients, RecipientType.Individual);
@@ -81,14 +78,14 @@ namespace OWP.TicketCenter.Services
             {
                 TicketId = ticketId,
                 GroupIds = recipientGroupIds,
-                IndividualIds = recipientIndividualIds
+                IndividualIds = recipientIndividualIds,
+                CreatorId = creatorId
             };
 
             await repository.InsertManyRecipientReader(criteria);
 
             return await Task.FromResult(true);
         }
-
 
         private string BuildRecipientIdsByType(IList<InsertOrRemoveManyRecipientModel> recipients, RecipientType recipientType)
         {
@@ -98,6 +95,5 @@ namespace OWP.TicketCenter.Services
                 ? string.Join(",", recipientsResult.RecipientIds)
                 : string.Empty;
         }
-
     }
 }

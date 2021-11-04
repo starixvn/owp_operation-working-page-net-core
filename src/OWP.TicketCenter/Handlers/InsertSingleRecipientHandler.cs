@@ -42,7 +42,7 @@ namespace OWP.TicketCenter.Handlers
                 }
             };
 
-            await recipientService.InsertManyRecipientReader(recipients, request.TicketId);
+            await recipientService.InsertManyRecipientReader(recipients, request.TicketId, request.ActorId);
 
             var sessionId = await writer.Execute(request);
 

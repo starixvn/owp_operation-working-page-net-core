@@ -40,7 +40,7 @@ namespace OWP.TicketCenter.UnitTests.Handlers
             var recipients = new List<InsertOrRemoveManyRecipientModel>();
 
             recipientService
-                .InsertManyRecipientReader(recipients, 1)
+                .InsertManyRecipientReader(recipients, 1, 3)
                 .Returns(x => true);
 
             repository

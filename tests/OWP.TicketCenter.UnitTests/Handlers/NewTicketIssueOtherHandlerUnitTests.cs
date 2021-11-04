@@ -69,6 +69,7 @@ namespace OWP.TicketCenter.UnitTests.Handlers
 
             recipientService.InsertManyRecipientReader(
                     Arg.Compat.Any<IList<InsertOrRemoveManyRecipientModel>>(),
+                    Arg.Compat.Any<int>(),
                     Arg.Compat.Any<int>())
                 .ReturnsForAnyArgs(Task.FromResult(true));
 

@@ -85,7 +85,7 @@ namespace OWP.TicketCenter.Handlers
 
             await recipientService.InsertManyRecipient(request.Recipients, request.TicketId);
 
-            await recipientService.InsertManyRecipientReader(request.Recipients, request.TicketId);
+            await recipientService.InsertManyRecipientReader(request.Recipients, request.TicketId, request.CreatorId);
 
             var notificationMessage = new MessageTransform
             {

@@ -54,8 +54,9 @@
             var service = new RecipientServiceImp(repository);
             var recipients = MockListRecipients();
             var ticketId = 10;
+            var creatorId = 8;
 
-            await service.InsertManyRecipientReader(recipients, ticketId);
+            await service.InsertManyRecipientReader(recipients, ticketId, creatorId);
 
             await repository.Received().InsertManyRecipientReader(
                 Arg.Is<InsertManyRecipientReaderCriteria>(x => CompareHelper.Compare(x, new InsertManyRecipientReaderCriteria
