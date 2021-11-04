@@ -39,7 +39,14 @@ namespace OWP.TicketCenter.Services
                 var recipientIds = recipient.RecipientIds
                     .Select(r => r);
                 var recipientIdsString = string.Join(',', recipientIds);
-                await repository.AddManyRecipients(ticketId, recipientIdsString, recipient.RecipientType);
+
+                var criteria = new AddManyRecipientCriteria
+                {
+                    TicketId = ticketId,
+                    RecipientIds = recipientIdsString,
+                    RecipientType = recipient.RecipientType
+                };
+                await repository.AddManyRecipients(criteria);
 
             }
             return await Task.FromResult(true);

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using NSubstitute;
+using OWP.TicketCenter.Criteria;
 using OWP.TicketCenter.Handlers;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Notification.Const;
@@ -59,7 +60,7 @@ namespace OWP.TicketCenter.UnitTests.Handlers
 
             await repository.AddNewMessage(Arg.Compat.Any<NewMessageRequestModel>());
 
-            await repository.InsertIssueCreator(Arg.Compat.Any<int>(), Arg.Compat.Any<int>());
+            await repository.InsertIssueCreator(Arg.Compat.Any<InsertIssueCreatorCriteria>());
 
             recipientService.InsertManyRecipient(
                 Arg.Compat.Any<IList<InsertOrRemoveManyRecipientModel>>(),

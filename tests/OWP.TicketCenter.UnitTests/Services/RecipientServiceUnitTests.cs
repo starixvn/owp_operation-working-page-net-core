@@ -26,8 +26,8 @@
 
             await service.InsertManyRecipient(recipients, ticketId);
 
-            await repository.Received().AddManyRecipients(ticketId, Arg.Compat.Any<string>(), 1);
-            await repository.Received().AddManyRecipients(ticketId, Arg.Compat.Any<string>(), 2);
+            await repository.Received().AddManyRecipients(Arg.Compat.Any<AddManyRecipientCriteria>());
+            await repository.Received().AddManyRecipients(Arg.Compat.Any<AddManyRecipientCriteria>());
         }
 
         [Fact]

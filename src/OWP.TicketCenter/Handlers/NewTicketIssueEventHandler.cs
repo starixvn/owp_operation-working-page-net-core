@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using OWP.TicketCenter.Criteria;
 using OWP.TicketCenter.Enum;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Notification.Const;
@@ -73,7 +74,14 @@ namespace OWP.TicketCenter.Handlers
             {
                 await repository.AddNewMessage(message);
             }
-            await repository.InsertIssueCreator(ticketId, request.CreatorId);
+
+            var criteria = new InsertIssueCreatorCriteria
+            {
+                TicketId= ticketId,
+                CreatorId= request.CreatorId
+            };
+
+            await repository.InsertIssueCreator(criteria);
 
             await recipientService.InsertManyRecipient(request.Recipients, request.TicketId);
 

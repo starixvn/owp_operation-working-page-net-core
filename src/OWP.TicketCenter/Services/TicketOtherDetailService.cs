@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using OWP.TicketCenter.Criteria;
 using OWP.TicketCenter.Enum;
 using OWP.TicketCenter.Handlers;
 using OWP.TicketCenter.Models;
@@ -43,7 +44,14 @@ namespace OWP.TicketCenter.Services
                 = mapper.Map<TicketOtherDetailViewModel>(ticketFirst);
             var messages = ticketDetailService.BuildMessage(ticketOther.ToList());
 
-            await repository.UpdateSingleRecipientReader(ticketId, true, actorId);
+            var criteria = new UpdateSingleRecipientReaderCriteria
+            {
+                TicketId=ticketId,
+                IsRead=true,
+                RecipientId=actorId
+            };
+
+            await repository.UpdateSingleRecipientReader(criteria);
 
             var recipients = await repository.GetRecipientByTicketId(ticketId);
 

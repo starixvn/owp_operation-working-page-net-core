@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using OWP.TicketCenter.Criteria;
 using OWP.TicketCenter.Middleware.Models;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Notification.Services;
@@ -43,7 +44,15 @@ namespace OWP.TicketCenter.Handlers
                 CreatorId = request.ActorId,
                 FileId = request.FileId
             };
-            await repository.UpdateManyRecipientReader(request.TicketId, false, request.ActorId);
+
+            var criteria = new UpdateManyRecipientReaderCriteria
+            {
+                TicketId=request.TicketId,
+                IsRead=false,
+                ActorId=request.ActorId
+            };
+
+            await repository.UpdateManyRecipientReader(criteria);
 
             var sessionId = await writer.Execute(request);
 

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using OWP.TicketCenter.Criteria;
 using OWP.TicketCenter.Enum;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Notification.Const;
@@ -47,8 +48,16 @@ namespace OWP.TicketCenter.Handlers
         {
             var ticketId = await repository.BuildTicketId(request.TicketType);
             request.TicketId = ticketId;
+
             await repository.AddNewTicketIssueOther(request);
-            await repository.InsertIssueCreator(ticketId, request.CreatorId);
+
+            var criteria = new InsertIssueCreatorCriteria
+            {
+                TicketId=ticketId,
+                CreatorId=request.CreatorId
+            };
+
+            await repository.InsertIssueCreator(criteria);
 
             var messages = new List<NewMessageRequestModel>();
             foreach (var file in request.Files)
