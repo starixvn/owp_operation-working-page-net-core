@@ -2,8 +2,11 @@
 {
     using MediatR;
     using Models;
+    using OWP.RecipientGroup.Const;
+    using OWP.RecipientGroup.Criteria;
     using Services;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -28,7 +31,26 @@
         public async Task<string> Handle(SaveRecipientGroupRequest request, CancellationToken cancellationToken)
         {
             await commandRepository.SaveRecipientGroup(request);
+            await InsertRecipientToMessageReader(request);
             return string.Empty;
+        }
+
+        public async Task InsertRecipientToMessageReader(SaveRecipientGroupRequest request)
+        {
+            var userId = request.Recipients
+                .Where(r => r.RecipientGroupId == GroupConst.DefaultGroupIdForNewRecipientIndividual)
+                .Select(x => x.RecipientId);
+
+            if (userId.Any())
+            {
+                var criteria = new InsertMessageReaderCriteria
+                {
+                    GroupId = request.GroupId,
+                    UserIds = string.Join(",", userId)
+                };
+
+                await commandRepository.InsertRecipientToMessageReader(criteria);
+            }
         }
     }
 }
