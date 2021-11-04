@@ -32,6 +32,7 @@
         {
             await commandRepository.SaveRecipientGroup(request);
             await InsertRecipientToMessageReader(request);
+            await RemoveToMessageReader(request);
             return string.Empty;
         }
 
@@ -51,6 +52,19 @@
 
                 await commandRepository.InsertRecipientToMessageReader(criteria);
             }
+        }
+
+        public async Task RemoveToMessageReader(SaveRecipientGroupRequest request)
+        {
+            var userId = request.Recipients.Select(x => x.RecipientId);
+
+            var criteria = new RemoveMessageReaderCriteria()
+            {
+                GroupId = request.GroupId,
+                UserIds = string.Join(",", userId)
+            };
+
+            await commandRepository.RemoveRecipientToMessageReader(criteria);
         }
     }
 }

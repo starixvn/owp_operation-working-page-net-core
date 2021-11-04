@@ -287,8 +287,9 @@
 	<Function Name="RecipientGroup">
 		<Setting Key="OWP_RecipientGroup_GetRecipientGroup" SpName="OWP_RecipientGroup_GetRecipientGroup" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_RecipientGroup_SaveRecipientGroup" SpName="OWP_RecipientGroup_SaveRecipientGroup" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_RecipientGroup_InsertMessageReader" SpName="OWP_RecipientGroup_InsertMessageReader" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-  </Function>
+		<Setting Key="OWP_RecipientGroup_InsertMessageReader" SpName="OWP_RecipientGroup_InsertMessageReader" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_RecipientGroup_RemoveMessageReader" SpName="OWP_RecipientGroup_RemoveMessageReader" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+	</Function>
 	<Function Name="TicketTypeRecipient">
 		<Setting Key="OWP_TicketTypeRecipient_SaveTicketTypeRecipient" SpName="OWP_TicketTypeRecipient_SaveTicketTypeRecipient" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_TicketTypeRecipient_GetTicketTypeRecipient" SpName="OWP_TicketTypeRecipient_GetTicketTypeRecipient" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
@@ -327,7 +328,7 @@
 		<Setting Key="OWP_TicketCenter_InsertNewTicketOtherNotification" SpName="OWP_TicketCenter_InsertNewTicketOtherNotification" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_TicketCenter_InsertNewRecipientNotification" SpName="OWP_TicketCenter_InsertNewRecipientNotification" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_TicketCenter_InsertNewMessageNotification" SpName="OWP_TicketCenter_InsertNewMessageNotification" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-		</Function>
+	</Function>
 	<Function Name="FileUpload">
 		<Setting Key="OWP_FileUpload_Upload" SpName="OWP_FileUpload_Upload" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_FileUpload_QueryById" SpName="OWP_FileUpload_QueryById" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
