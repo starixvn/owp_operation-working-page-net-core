@@ -4,6 +4,8 @@
     {
         public int ReceivedUserId { get; set; }
 
+        public int ReceivedUserType { get; set; }
+
         public override string GetSettingKey() => "OWP_TicketCenter_InsertNewRecipientNotification";
 
         public override bool IsValid()

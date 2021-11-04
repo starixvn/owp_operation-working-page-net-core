@@ -28,10 +28,10 @@ namespace OWP.TicketCenter.Notification.Services
                 IsImportant = template.IsImportant,
                 IsWatcher = template.IsWatcher,
                 ReceivedUserId = recipientRequest.RecipientId,
+                ReceivedUserType = recipientRequest.RecipientType,
                 NotificationContent = template.NotificationContent
                     .Replace("<ticketId>", $"{recipientRequest.TicketId}")
-                    .Replace("<Event>", recipientRequest.TicketTitle)
-                    .Replace("<username>", recipientRequest.ActorUsername),
+                    .Replace("<Event>", recipientRequest.TicketTitle),
                 NotificationType = template.NotificationType,
             };
 
