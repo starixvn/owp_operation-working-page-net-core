@@ -25,7 +25,7 @@
         [Fact]
         public async Task Handle_WithCorrectRequestModel_ReturnData()
         {
-            commandRepository.GetReportByDateRange(Arg.Any<OverTimeRequest>())
+            commandRepository.GetReportByMonth(Arg.Any<OverTimeRequest>())
                 .Returns((MockUsers(), MockData()));
             var request = new OverTimeRequest
             {
@@ -40,6 +40,7 @@
             DeepAssert.Equal(MockExpectDateColumnInfos(), actual.DateColumns.ToList());
             DeepAssert.Equal(16, actual.TotalHours);
             DeepAssert.Equal(MockTraderExpected(), actual.TraderOvertime.ToList());
+            DeepAssert.Equal(MockTotalHoursByDate(), actual.TotalHoursByDate.ToList());
         }
 
         private IEnumerable<User> MockUsers()
@@ -196,5 +197,8 @@
                     Total = 2
                 }
             };
+
+        private List<decimal> MockTotalHoursByDate()
+            => new List<decimal> { 0, 2, 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
     }
 }

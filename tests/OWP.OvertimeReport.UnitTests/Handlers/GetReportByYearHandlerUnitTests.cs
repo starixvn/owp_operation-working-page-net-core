@@ -1,25 +1,33 @@
 namespace OWP.OvertimeReport.UnitTests.Handlers
 {
+    using AutoMapper;
+    using NSubstitute;
+    using OvertimeReport.Models;
+    using OWP.OvertimeReport.Handlers;
+    using OWP.OvertimeReport.Services;
     using System;
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
-    using Fanex.Data.Repository;
-    using NSubstitute;
-    using OvertimeReport.Models;
-    using OWP.OvertimeReport.Criteria;
-    using OWP.OvertimeReport.Handlers;
     using Xunit;
     using Xunit.Asserts.Compare;
 
     public class GetReportByYearHandlerUnitTests
     {
+
         [Fact]
         public async Task Handle_WithCorrectReuestModel_ReturnData()
         {
-            var repository = Substitute.For<IDynamicRepository>();
-            repository.FetchMultipleAsync<User, OvertimeData>(Arg.Any<GetReportByDateRangeCriteria>()).Returns((MockUsers(), MockData()));
-            var services = new GetReportByYearHandler(repository);
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<QueryReportByYearRequest, OverTimeRequest>();
+            });
+            var iMapper = config.CreateMapper();
+            var commandRepository = Substitute.For<CommandRepository>();
+
+            commandRepository.GetReportByYear(Arg.Any<OverTimeRequest>())
+                .Returns((MockUsers(), MockData()));
+            var services = new GetReportByYearHandler(commandRepository, iMapper);
 
             var actual = await services.Handle(new QueryReportByYearRequest { Location = string.Empty, Trader = string.Empty, Year = 2021 }, new CancellationToken(false));
 
