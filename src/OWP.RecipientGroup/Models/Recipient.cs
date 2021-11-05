@@ -1,10 +1,8 @@
-﻿using OWP.RecipientGroup.Const;
-
-namespace OWP.RecipientGroup.Models
+﻿namespace OWP.RecipientGroup.Models
 {
     public class Recipient
     {
-        public int RecipientGroupId { get; set; } = GroupConst.DefaultGroupIdForNewRecipientIndividual;
+        public int RecipientGroupId { get; set; }
 
         public int RecipientId { get; set; }
 

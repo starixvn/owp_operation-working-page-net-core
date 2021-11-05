@@ -2,7 +2,6 @@
 {
     using MediatR;
     using Models;
-    using OWP.RecipientGroup.Const;
     using OWP.RecipientGroup.Criteria;
     using Services;
     using System.Collections.Generic;
@@ -30,24 +29,39 @@
 
         public async Task<string> Handle(SaveRecipientGroupRequest request, CancellationToken cancellationToken)
         {
+            var recipientOldIds = await GetRecipientIdOldInGroup(request.GroupId);
+            var recipientNewIds = request.Recipients.Select(r => r.RecipientId);
+
+            var recipientDiff = DetectNewRecipient(recipientNewIds.ToList(), recipientOldIds);
+
+            await InsertRecipientToMessageReader(recipientDiff, request.GroupId);
+
             await commandRepository.SaveRecipientGroup(request);
-            await InsertRecipientToMessageReader(request);
+
             await RemoveToMessageReader(request);
             return string.Empty;
         }
 
-        public async Task InsertRecipientToMessageReader(SaveRecipientGroupRequest request)
+        private async Task<IList<int>> GetRecipientIdOldInGroup(int groupId)
         {
-            var userId = request.Recipients
-                .Where(r => r.RecipientGroupId == GroupConst.DefaultGroupIdForNewRecipientIndividual)
-                .Select(x => x.RecipientId);
+            var allGroup = await commandRepository.GetRecipientGroup();
+            var group = allGroup.Where(g => g.GroupId == groupId);
+            return group != null
+                ? group.Select(g => g.UserId).ToList()
+                : new List<int>();
+        }
 
-            if (userId.Any())
+        private IList<int> DetectNewRecipient(IList<int> recipientIdSource, IList<int> recipientIdDest)
+            => recipientIdSource.Except(recipientIdDest).ToList();
+
+        public async Task InsertRecipientToMessageReader(IList<int> userIds, int groupId)
+        {
+            if (userIds.Any())
             {
                 var criteria = new InsertMessageReaderCriteria
                 {
-                    GroupId = request.GroupId,
-                    UserIds = string.Join(",", userId)
+                    GroupId = groupId,
+                    UserIds = string.Join(",", userIds)
                 };
 
                 await commandRepository.InsertRecipientToMessageReader(criteria);
