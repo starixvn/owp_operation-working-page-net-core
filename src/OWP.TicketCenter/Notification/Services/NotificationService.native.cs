@@ -4,6 +4,7 @@
     using Microsoft.AspNetCore.SignalR;
     using Models;
     using OWP.Services;
+    using OWP.Utils;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -47,6 +48,15 @@
                     MessageContent = x.MessageContent,
                     TicketId = ticketId,
                     EventType = eventType
+                })
+                .DistinctBy(x => new
+                {
+                    x.UserId,
+                    x.IsImportant,
+                    x.MessageType,
+                    x.MessageContent,
+                    x.TicketId,
+                    x.EventType
                 }).ToList());
         }
 
