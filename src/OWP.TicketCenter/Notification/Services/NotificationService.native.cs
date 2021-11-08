@@ -51,7 +51,14 @@ namespace OWP.TicketCenter.Notification.Services
                     MessageContent = x.MessageContent,
                     TicketId = ticketId,
                     EventType = eventType
-                }).ToList().GetRange(0, 1);
+                }).DistinctBy(x => new
+                {
+                    x.IsImportant,
+                    x.MessageType,
+                    x.MessageContent,
+                    x.TicketId,
+                    x.EventType
+                }).ToList();
             });
         }
 
