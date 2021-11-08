@@ -63,7 +63,8 @@
                 {
                     GroupIds = "4,5,6",
                     IndividualIds = "1",
-                    TicketId = 10
+                    TicketId = 10,
+                    CreatorId = 8
                 })));
         }
 
