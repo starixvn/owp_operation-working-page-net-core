@@ -53,6 +53,7 @@
             var userTuple = await QueryBySession(sessionId);
 
             var messageModel = messageModelFunc(userTuple);
+
             var receivedUserIds = userTuple
                 .Item1
                 .Select(u => u.UserId.ToString())

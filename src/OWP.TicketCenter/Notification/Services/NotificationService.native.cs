@@ -1,4 +1,7 @@
-﻿namespace OWP.TicketCenter.Notification.Services
+﻿using System.Collections.Generic;
+using OWP.Models;
+
+namespace OWP.TicketCenter.Notification.Services
 {
     using Hubs;
     using Microsoft.AspNetCore.SignalR;
@@ -40,24 +43,16 @@
         public async Task Notify(string sessionId, int ticketId, int eventType)
         {
             await notifyEngine.Notify(sessionId, messageTuple =>
-                messageTuple.Item2.Select(x => new NotificationModel
+            {
+                return messageTuple.Item2.Select(x => new NotificationModel
                 {
-                    UserId = x.UserId,
                     IsImportant = x.IsImportant,
                     MessageType = x.MessageType,
                     MessageContent = x.MessageContent,
                     TicketId = ticketId,
                     EventType = eventType
-                })
-                .DistinctBy(x => new
-                {
-                    x.UserId,
-                    x.IsImportant,
-                    x.MessageType,
-                    x.MessageContent,
-                    x.TicketId,
-                    x.EventType
-                }).ToList());
+                }).ToList().GetRange(0, 1);
+            });
         }
 
         public async Task<bool> NotifyNewMessageIncome(int ticketId)
