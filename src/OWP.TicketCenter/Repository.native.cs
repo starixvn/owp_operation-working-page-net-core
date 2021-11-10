@@ -3,6 +3,7 @@
 namespace OWP.TicketCenter
 {
     using AutoMapper;
+    using Criteria;
     using Fanex.Data.Repository;
     using OWP.TicketCenter.Handlers;
     using OWP.TicketCenter.Models;
@@ -10,7 +11,6 @@ namespace OWP.TicketCenter
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Criteria;
 
     public interface Repository
     {
@@ -26,7 +26,7 @@ namespace OWP.TicketCenter
 
         Task<MessageDetailViewModel> AddNewMessage(NewMessageRequestModel message);
 
-        Task AddManyRecipients(int ticketId, string recipientIds, int recipientType);
+        Task AddManyRecipients(AddManyRecipientCriteria criteria);
 
         Task AddNewTicketIssueLeague(NewTicketIssueLeagueRequest request);
 
@@ -46,23 +46,34 @@ namespace OWP.TicketCenter
 
         Task<IEnumerable<int>> GetUserIdsByTicketId(int ticketId);
 
+        Task<IEnumerable<int>> GetUserIdsIgnoredCreatorId(int ticketId, int creatorId);
+
         Task<int> AddSingleRecipient(InsertSingleRecipientRequest request);
 
-        Task RemoveManyRecipientReader(string recipientIds, int ticketId);
+        Task RemoveManyRecipientReader(RemoveManyRecipientReaderCriteria criteria);
 
         Task<int> RemoveSingleRecipient(RemoveSingleRecipientRequest request);
 
-        Task InsertIssueCreator(int ticketId, int creatorId);
+        Task InsertIssueCreator(InsertIssueCreatorCriteria criteria);
 
         Task<IssueCreatorModel> GetIssueCreator(int ticketId);
 
-        Task<IEnumerable<int>> GetRecipientIdInManyGroup(string groupIds);
+        Task InsertManyRecipientReader(InsertManyRecipientReaderCriteria criteria);
 
-        Task InsertManyRecipientReader(string recipientIds, int ticketId, bool isRead);
 
-        Task UpdateManyRecipientReader(int ticketId, bool isRead);
+        Task UpdateManyRecipientReader(UpdateManyRecipientReaderCriteria criteria);
 
-        Task UpdateSingleRecipientReader(int ticketId, bool isRead, int recipientId);
+        Task UpdateSingleRecipientReader(UpdateSingleRecipientReaderCriteria criteria);
+
+        Task InsertNewTicketLeagueNotification(InsertNewTicketLeagueNotificationCriteria criteria);
+
+        Task InsertNewTicketMatchNotification(InsertNewTicketMatchNotificationCriteria criteria);
+
+        Task InsertNewTicketOtherNotification(InsertNewTicketOtherNotificationCriteria criteria);
+
+        Task InsertNewRecipientNotification(InsertNewRecipientNotificationCriteria criteria);
+
+        Task InsertNewMessageNotification(InsertNewMessageNotificationCriteria criteria);
     }
 
     public class RepositoryImp : Repository
@@ -121,14 +132,8 @@ namespace OWP.TicketCenter
             await dynamicRepository.ExecuteAsync(criteria);
         }
 
-        public async Task AddManyRecipients(int ticketId, string recipientIds, int recipientType)
+        public async Task AddManyRecipients(AddManyRecipientCriteria criteria)
         {
-            var criteria = new AddManyRecipientCriteria
-            {
-                TicketId = ticketId,
-                RecipientIds = recipientIds,
-                RecipientType = recipientType
-            };
             criteria.ThrowExceptionIfInvalid();
             await dynamicRepository.ExecuteAsync(criteria);
         }
@@ -137,10 +142,21 @@ namespace OWP.TicketCenter
         {
             var criteria = new GetUserIdsByTicketIdCriteria
             {
-                TicketId= ticketId
+                TicketId = ticketId
             };
             criteria.ThrowExceptionIfInvalid();
             return await dynamicRepository.FetchAsync<int>(criteria);
+        }
+
+        public async Task<IEnumerable<int>> GetUserIdsIgnoredCreatorId(int ticketId, int creatorId)
+        {
+            var criteria = new GetUserIdsByTicketIdCriteria
+            {
+                TicketId = ticketId
+            };
+            criteria.ThrowExceptionIfInvalid();
+            var userIds = await dynamicRepository.FetchAsync<int>(criteria);
+            return userIds.Where(id => id != creatorId);
         }
 
         public async Task<int> AddSingleRecipient(InsertSingleRecipientRequest request)
@@ -150,15 +166,9 @@ namespace OWP.TicketCenter
             return (await dynamicRepository.FetchAsync<int>(criteria)).FirstOrDefault();
         }
 
-        public async Task RemoveManyRecipientReader(string recipientIds, int ticketId)
-        {
-            var criteria = new RemoveManyRecipientReaderCriteria
-            {
-                RecipientIds = recipientIds,
-                TicketId = ticketId
-            };
-            await dynamicRepository.ExecuteAsync(criteria);
-        }
+        public async Task RemoveManyRecipientReader(RemoveManyRecipientReaderCriteria criteria)
+            => await dynamicRepository.ExecuteAsync(criteria);
+       
 
         public async Task<int> RemoveSingleRecipient(RemoveSingleRecipientRequest request)
         {
@@ -233,7 +243,6 @@ namespace OWP.TicketCenter
             return await dynamicRepository.FetchAsync<EventTicketOtherModel>(criteria);
         }
 
-
         public async Task<IEnumerable<RecipientResponseModel>> GetRecipientByTicketId(int ticketId)
         {
             var criteria = new GetRecipientByTicketIdCriteria
@@ -244,14 +253,9 @@ namespace OWP.TicketCenter
             return await dynamicRepository.FetchAsync<RecipientResponseModel>(criteria);
         }
 
-        public async Task InsertIssueCreator(int ticketId, int creatorId)
+        public async Task InsertIssueCreator(InsertIssueCreatorCriteria criteria)
         {
-            var creator = new InsertIssueCreatorCriteria()
-            {
-                TicketId = ticketId,
-                CreatorId = creatorId
-            };
-            await dynamicRepository.ExecuteAsync(creator);
+            await dynamicRepository.ExecuteAsync(criteria);
         }
 
         public async Task<IssueCreatorModel> GetIssueCreator(int ticketId)
@@ -263,46 +267,31 @@ namespace OWP.TicketCenter
             return (await dynamicRepository.FetchAsync<IssueCreatorModel>(creator))?.FirstOrDefault();
         }
 
-        public async Task<IEnumerable<int>> GetRecipientIdInManyGroup(string groupIds)
-        {
-            var creator = new GetRecipientIdInManyGroupCriteria()
-            {
-                GroupIds = groupIds
-            };
-            return (await dynamicRepository.FetchAsync<int>(creator));
-        }
+        public async Task InsertManyRecipientReader(InsertManyRecipientReaderCriteria criteria)
+            => await dynamicRepository.ExecuteAsync(criteria);
 
-        public async Task InsertManyRecipientReader(string recipientIds, int ticketId, bool isRead)
+        public async Task UpdateManyRecipientReader(UpdateManyRecipientReaderCriteria criteria)
+            => await dynamicRepository.ExecuteAsync(criteria);
+       
+
+        public async Task UpdateSingleRecipientReader(UpdateSingleRecipientReaderCriteria criteria)
         {
-            var criteria = new InsertManyRecipientReaderCriteria
-            {
-                RecipientIds = recipientIds,
-                IsRead = isRead,
-                TicketId = ticketId
-            };
             await dynamicRepository.ExecuteAsync(criteria);
         }
 
-        public async Task UpdateManyRecipientReader(int ticketId, bool isRead)
-        {
-            var criteria = new UpdateManyRecipientReaderCriteria
-            {
-                IsRead = isRead,
-                TicketId = ticketId
-            };
-            await dynamicRepository.ExecuteAsync(criteria);
-        }
+        public async Task InsertNewTicketLeagueNotification(InsertNewTicketLeagueNotificationCriteria criteria)
+        => await dynamicRepository.ExecuteAsync(criteria);
 
-        public async Task UpdateSingleRecipientReader(int ticketId, bool isRead, int recipientId)
-        {
-            var criteria = new UpdateSingleRecipientReaderCriteria
-            {
-                IsRead = isRead,
-                TicketId = ticketId,
-                RecipientId = recipientId
-            };
-            await dynamicRepository.ExecuteAsync(criteria);
-        }
-        
+        public async Task InsertNewTicketMatchNotification(InsertNewTicketMatchNotificationCriteria criteria)
+            => await dynamicRepository.ExecuteAsync(criteria);
+
+        public async Task InsertNewTicketOtherNotification(InsertNewTicketOtherNotificationCriteria criteria)
+            => await dynamicRepository.ExecuteAsync(criteria);
+
+        public async Task InsertNewRecipientNotification(InsertNewRecipientNotificationCriteria criteria)
+            => await dynamicRepository.ExecuteAsync(criteria);
+
+        public async Task InsertNewMessageNotification(InsertNewMessageNotificationCriteria criteria)
+            => await dynamicRepository.ExecuteAsync(criteria);
     }
 }

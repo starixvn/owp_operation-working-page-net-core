@@ -17,8 +17,9 @@ namespace OWP.TicketCenter.Models
 
         #endregion
 
-        public IList<InsertOrRemoveManyRecipientModel> Recipients { get; set; }
+        public IList<InsertOrRemoveManyRecipientModel> Recipients { get; set; } =
+            new List<InsertOrRemoveManyRecipientModel>();
 
-        public IList<FileModel> Files { get; set; }
+        public IList<FileModel> Files { get; set; } = new List<FileModel>();
     }
 }

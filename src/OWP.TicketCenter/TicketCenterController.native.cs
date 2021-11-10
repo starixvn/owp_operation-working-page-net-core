@@ -3,11 +3,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using OWP.TicketCenter.Handlers;
+using OWP.TicketCenter.Middleware;
 using OWP.TicketCenter.Models;
+using OWP.TicketCenter.Services;
 using OWP.TicketCenter.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using OWP.TicketCenter.Notification;
 
 namespace OWP.TicketCenter
 {
@@ -18,53 +19,43 @@ namespace OWP.TicketCenter
     public class TicketCenterController : ControllerBase
     {
         private readonly IMediator mediator;
+        private readonly PermissionService permissionService;
 
-        public TicketCenterController(IMediator mediator)
+        public TicketCenterController(IMediator mediator, PermissionService permissionService)
         {
             this.mediator = mediator;
+            this.permissionService = permissionService;
         }
 
         [HttpPost("new-message")]
-        public async Task<MessageDetailViewModel> NewMessage(NewMessageRequest request)
+        [ServiceFilter(typeof(PermissionFilter))]
+        public async Task<IActionResult> NewMessage(NewMessageRequest request)
         {
-            var messageDetailResponse = await mediator.Send(request);
-            await NotifyNewMessageIncome(request.TicketId);
-            return messageDetailResponse;
+            var result = await mediator.Send(request);
+            return Ok(result);
         }
+
+        [Route("on-click-issue-notification")]
+        [HttpPost]
+        [ServiceFilter(typeof(PermissionOnOpenTicketDetail))]
+        public async Task OpenChatBoard(OnClickIssueNotificationRequest request)
+            => await mediator.Send(request);
 
         #region new ticket
 
         [HttpPost("new-ticket-issue-event")]
         public async Task<int> NewTicketIssueEvent(NewTicketIssueEventRequest request)
-        {
-            var ticketId = await mediator.Send(request);
-            await InsertRecipients(ticketId, request.Recipients);
-
-            await NotifyNewMessageIncome(ticketId);
-            return ticketId;
-        }
+            => await mediator.Send(request);
 
         [HttpPost("new-ticket-issue-other")]
         public async Task<int> NewTicketIssueOther(NewTicketIssueOtherRequest request)
-        {
-            var ticketId = await mediator.Send(request);
-            await InsertRecipients(ticketId, request.Recipients);
-
-            await NotifyNewMessageIncome(ticketId);
-            return ticketId;
-        }
+            => await mediator.Send(request);
 
         [HttpPost("new-ticket-issue-league")]
         public async Task<int> NewTicketIssueLeague(NewTicketIssueLeagueRequest request)
-        {
-            var ticketId = await mediator.Send(request);
-            await InsertRecipients(ticketId, request.Recipients);
+        => await mediator.Send(request);
 
-            await NotifyNewMessageIncome(ticketId);
-            return ticketId;
-        }
-
-        #endregion
+        #endregion new ticket
 
         [HttpGet("new-ticket/get-event")]
         [Produces("application/json")]
@@ -86,41 +77,48 @@ namespace OWP.TicketCenter
             => await mediator.Send(new TicketTypeRequest());
 
         #region get detail
+
         [HttpPost("ticket-detail/get-league")]
-        public async Task<TicketLeagueDetailViewModel> GetTicketLeagueDetail(TicketLeagueDetailRequest request)
-            => await mediator.Send(request);
+        [ServiceFilter(typeof(PermissionFilter))]
+        public async Task<IActionResult> GetTicketLeagueDetail(TicketLeagueDetailRequest request)
+        {
+            var result = await mediator.Send(request);
+            return Ok(result);
+        }
 
         [HttpPost("ticket-detail/get-match")]
-        public async Task<TicketMatchDetailViewModel> GetTicketMatchDetail(TicketMatchDetailRequest request)
-            => await mediator.Send(request);
+        [ServiceFilter(typeof(PermissionFilter))]
+        public async Task<IActionResult> GetTicketMatchDetail(TicketMatchDetailRequest request)
+        {
+            var result = await mediator.Send(request);
+            return Ok(result);
+        }
 
         [HttpPost("ticket-detail/get-other")]
-        public async Task<TicketOtherDetailViewModel> GetTicketOtherDetail(TicketOtherDetailRequest request)
-            => await mediator.Send(request);
+        [ServiceFilter(typeof(PermissionFilter))]
+        public async Task<IActionResult> GetTicketOtherDetail(TicketOtherDetailRequest request)
+        {
+            var result = await mediator.Send(request);
+            return Ok(result);
+        }
 
-        #endregion
+        #endregion get detail
 
         [HttpPost("ticket-detail/insert-single-recipient")]
-        public async Task<int> AddSingleRecipient(InsertSingleRecipientRequest request)
-            => await mediator.Send(request);
+        [ServiceFilter(typeof(PermissionFilter))]
+        public async Task<IActionResult> AddSingleRecipient(InsertSingleRecipientRequest request)
+        {
+            var result = await mediator.Send(request);
+            return Ok(result);
+        }
 
         [HttpPost("ticket-detail/remove-single-recipient")]
-        public async Task<int> RemoveSingleRecipient(RemoveSingleRecipientRequest request)
-            => await mediator.Send(request);
-
-        private async Task InsertRecipients(int ticketId, IList<InsertOrRemoveManyRecipientModel> recipients)
-            => await mediator.Send(new NewTicketRecipientRequest
-            {
-                TicketId = ticketId,
-                Recipients = recipients
-            });
-
-        private async Task NotifyNewMessageIncome(int ticketId)
+        [ServiceFilter(typeof(PermissionFilter), Order = 0)]
+        [ServiceFilter(typeof(PermissionRemoveLastRecipient), Order = 1)]
+        public async Task<IActionResult> RemoveSingleRecipient(RemoveSingleRecipientRequest request)
         {
-            await mediator.Send(new NotifyRequest
-            {
-                TicketId = ticketId
-            });
+            var result = await mediator.Send(request);
+            return Ok(result);
         }
     }
 }

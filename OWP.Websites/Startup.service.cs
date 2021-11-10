@@ -224,6 +224,7 @@ namespace OWP.Websites
             services.AddScoped<RefResourceService, RefResourceServiceImp>();
             services.AddSingleton<LogServiceWrapper, LogServiceWrapperImp>();
             services.AddSingleton<ConfigurationService, ConfigurationServiceImp>();
+            services.AddScoped<NotifyEngine, NotifyEngineImp>();
         }
 
         private void ConfigureSignalR(IServiceCollection services)
@@ -234,7 +235,7 @@ namespace OWP.Websites
                 options.Configuration.ChannelPrefix = "OWPNetCore";
             });
             services.AddSingleton<NewDataUploadNotifyHubImp>();
-            services.AddSingleton<NewMessageIncomeNotifyHubImp>();
+            services.AddSingleton<TicketCenterNotifyHubImp>();
         }
         private static void ConfigureMediator(IServiceCollection services)
         {
@@ -243,7 +244,7 @@ namespace OWP.Websites
             services.AddMediatR(typeof(SyncWorkingShiftController).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(PreMatchNotificationController).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(RecipientGroupController).GetTypeInfo().Assembly);
-             services.AddMediatR(typeof(TicketCenterController).GetTypeInfo().Assembly);
+            services.AddMediatR(typeof(TicketCenterController).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(FileUploadController).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(TicketTypeRecipientController).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(OvertimeReportController).GetTypeInfo().Assembly);

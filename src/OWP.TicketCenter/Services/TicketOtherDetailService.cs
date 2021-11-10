@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using OWP.TicketCenter.Criteria;
+using OWP.TicketCenter.Enum;
 using OWP.TicketCenter.Handlers;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.ViewModels;
@@ -38,20 +40,29 @@ namespace OWP.TicketCenter.Services
                 ? ticketOther.First()
                 : new EventTicketOtherModel();
 
-            var ticketOtherViewModel = mapper.Map<TicketOtherDetailViewModel>(ticketFirst);
+            var viewModel
+                = mapper.Map<TicketOtherDetailViewModel>(ticketFirst);
             var messages = ticketDetailService.BuildMessage(ticketOther.ToList());
 
-            await repository.UpdateSingleRecipientReader(ticketId, true, actorId);
+            var criteria = new UpdateSingleRecipientReaderCriteria
+            {
+                TicketId=ticketId,
+                IsRead=true,
+                RecipientId=actorId
+            };
+
+            await repository.UpdateSingleRecipientReader(criteria);
 
             var recipients = await repository.GetRecipientByTicketId(ticketId);
 
             var issueCreator = await repository.GetIssueCreator(ticketId);
 
-            ticketOtherViewModel.CreatorInfo = issueCreator;
-            ticketOtherViewModel.Recipients = recipients?.ToList();
-            ticketOtherViewModel.Messages = messages?.ToList();
+            viewModel.CreatorInfo = issueCreator;
+            viewModel.Recipients = recipients?.ToList();
+            viewModel.Messages = messages?.ToList();
+            viewModel.EventType = (int)EventType.Other;
 
-            return ticketOtherViewModel;
+            return viewModel;
         }
     }
 }

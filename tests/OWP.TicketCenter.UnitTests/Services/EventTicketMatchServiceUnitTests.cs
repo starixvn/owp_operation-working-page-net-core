@@ -1,4 +1,7 @@
-﻿namespace OWP.TicketCenter.UnitTests.Services
+﻿using OWP.TicketCenter.Handlers;
+using OWP.TicketCenter.UnitTests.Enum;
+
+namespace OWP.TicketCenter.UnitTests.Services
 {
     using AutoMapper;
     using Handlers;
@@ -90,6 +93,7 @@
                     OwpLeagueName="NHA",
                     HomeName = "MU",
                     AwayName = "MC",
+                    EventType = (int)EventType.Match,
                     Messages = new List<MessageDetailViewModel>
                     {
                         new() { MessageId = 12, UserId = 8,Message = "hello,test Match"},
@@ -103,6 +107,7 @@
                     OwpLeagueName="V-league",
                     HomeName = "HAGL",
                     AwayName = "SHB Da Nang",
+                    EventType = (int)EventType.Match,
                     Messages = new List<MessageDetailViewModel>
                     {
                         new() { MessageId = 18, UserId = 12,Message ="hehe"}

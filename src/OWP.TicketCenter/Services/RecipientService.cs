@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OWP.TicketCenter.Criteria;
 using OWP.TicketCenter.Enum;
 using OWP.TicketCenter.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace OWP.TicketCenter.Services
 {
@@ -15,7 +14,7 @@ namespace OWP.TicketCenter.Services
             int ticketId);
 
         Task<bool> InsertManyRecipientReader(IList<InsertOrRemoveManyRecipientModel> recipients,
-            int ticketId);
+            int ticketId, int creatorId);
 
         Task<bool> RemoveManyRecipientReader(IList<InsertOrRemoveManyRecipientModel> recipients,
             int ticketId);
@@ -24,6 +23,7 @@ namespace OWP.TicketCenter.Services
     public class RecipientServiceImp : RecipientService
     {
         private readonly Repository repository;
+
         public RecipientServiceImp(Repository repository)
         {
             this.repository = repository;
@@ -38,55 +38,62 @@ namespace OWP.TicketCenter.Services
                 var recipientIds = recipient.RecipientIds
                     .Select(r => r);
                 var recipientIdsString = string.Join(',', recipientIds);
-                await repository.AddManyRecipients(ticketId, recipientIdsString, recipient.RecipientType);
 
+                var criteria = new AddManyRecipientCriteria
+                {
+                    TicketId = ticketId,
+                    RecipientIds = recipientIdsString,
+                    RecipientType = recipient.RecipientType
+                };
+                await repository.AddManyRecipients(criteria);
             }
             return await Task.FromResult(true);
         }
 
-
         public async Task<bool> RemoveManyRecipientReader(IList<InsertOrRemoveManyRecipientModel> recipients,
             int ticketId)
         {
-            var recipientIds = $"{await BuildRecipientIdsFromGroup(recipients)},{BuildRecipientIdsIndividual(recipients)}";
+            var recipientGroupIds = BuildRecipientIdsByType(recipients, RecipientType.Group);
+            var recipientIndividualIds = BuildRecipientIdsByType(recipients, RecipientType.Individual);
 
-            await repository.RemoveManyRecipientReader(recipientIds, ticketId);
+            var criteria = new RemoveManyRecipientReaderCriteria
+            {
+                TicketId = ticketId,
+                GroupIds = recipientGroupIds,
+                IndividualIds = recipientIndividualIds,
+            };
+
+            await repository.RemoveManyRecipientReader(criteria);
 
             return await Task.FromResult(true);
         }
 
         public async Task<bool> InsertManyRecipientReader(IList<InsertOrRemoveManyRecipientModel> recipients,
-            int ticketId)
+            int ticketId, int creatorId)
         {
-            var recipientIds = $"{await BuildRecipientIdsFromGroup(recipients)},{BuildRecipientIdsIndividual(recipients)}";
-            
-            await repository.InsertManyRecipientReader(recipientIds, ticketId, false);
+            var recipientGroupIds = BuildRecipientIdsByType(recipients, RecipientType.Group);
+            var recipientIndividualIds = BuildRecipientIdsByType(recipients, RecipientType.Individual);
+
+            var criteria = new InsertManyRecipientReaderCriteria
+            {
+                TicketId = ticketId,
+                GroupIds = recipientGroupIds,
+                IndividualIds = recipientIndividualIds,
+                CreatorId = creatorId
+            };
+
+            await repository.InsertManyRecipientReader(criteria);
 
             return await Task.FromResult(true);
         }
 
-        private async Task<string> BuildRecipientIdsFromGroup(IList<InsertOrRemoveManyRecipientModel> recipients)
+        private string BuildRecipientIdsByType(IList<InsertOrRemoveManyRecipientModel> recipients, RecipientType recipientType)
         {
-            var group = recipients
-                .FirstOrDefault(r => r.RecipientType == (int)RecipientType.Group);
-
-            var groupIdString = group != null
-                ? string.Join(",", group.RecipientIds)
-                : string.Empty;
-
-            var recipientIdInGroup = await repository.GetRecipientIdInManyGroup(groupIdString);
-
-            return string.Join(",", recipientIdInGroup);
-        }
-
-        private string BuildRecipientIdsIndividual(IList<InsertOrRemoveManyRecipientModel> recipients)
-        {
-            var recipientIndividual = recipients
-                .FirstOrDefault(r => r.RecipientType == (int) RecipientType.Individual);
-            return recipientIndividual != null
-                ? string.Join(",", recipientIndividual.RecipientIds)
+            var recipientsResult = recipients
+                .FirstOrDefault(r => r.RecipientType == (int)recipientType);
+            return recipientsResult != null
+                ? string.Join(",", recipientsResult.RecipientIds)
                 : string.Empty;
         }
-       
     }
 }

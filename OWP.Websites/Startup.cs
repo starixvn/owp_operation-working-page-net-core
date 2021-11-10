@@ -68,7 +68,7 @@ namespace OWP.Websites
 
                 endpoints.MapHub<NewDataUploadNotifyHubImp>("/otherSportNewDataUploadNotifyHub");
                 endpoints.MapHub<ChangedInfoNotifyHubImp>("/changedInfoNotifyHub");
-                endpoints.MapHub<NewMessageIncomeNotifyHubImp>("/newMessageIncomeNotifyHub");
+                endpoints.MapHub<TicketCenterNotifyHubImp>("/ticketCenterNotifyHub");
             });
 
             NapClientManager

@@ -23,5 +23,11 @@ namespace OWP.TicketCenter.ViewModels
         public IssueCreatorModel CreatorInfo { get; set; }
 
         public bool IsRead { get; set; }
+
+        public int EventType
+        {
+            get;
+            set;
+        }
     }
 }

@@ -1,9 +1,9 @@
 ﻿namespace OWP.TicketCenter.Models
 {
-    public class TicketDetailBaseModel
+    public class InsertNewTicketResult
     {
         public int TicketId { get; set; }
 
-        public int ActorId { get; set; }
+        public string SectionId { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 {
     using Models;
     using NSubstitute;
+    using OWP.TicketCenter.Criteria;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using TicketCenter.Services;
@@ -25,34 +26,46 @@
 
             await service.InsertManyRecipient(recipients, ticketId);
 
-            await repository.Received().AddManyRecipients(ticketId, Arg.Compat.Any<string>(), 1);
-            await repository.Received().AddManyRecipients(ticketId, Arg.Compat.Any<string>(), 2);
+            await repository.Received().AddManyRecipients(Arg.Compat.Any<AddManyRecipientCriteria>());
+            await repository.Received().AddManyRecipients(Arg.Compat.Any<AddManyRecipientCriteria>());
         }
 
         [Fact]
         public async Task RemoveManyRecipientReader_Always_CallRemoveManyRecipientReader()
         {
-            repository.GetRecipientIdInManyGroup("4,5,6").Returns(new List<int>() { 2, 3, 4, 5, 6 });
             var service = new RecipientServiceImp(repository);
             var recipients = MockListRecipients();
             var ticketId = 12;
 
             await service.RemoveManyRecipientReader(recipients, ticketId);
 
-            await repository.Received().RemoveManyRecipientReader(Arg.Is<string>(x => x.Equals("2,3,4,5,6,1")), ticketId);
+            await repository.Received().RemoveManyRecipientReader(
+                Arg.Is<RemoveManyRecipientReaderCriteria>(x => CompareHelper.Compare(x, new RemoveManyRecipientReaderCriteria
+                {
+                    GroupIds = "4,5,6",
+                    IndividualIds = "1",
+                    TicketId = 12
+                })));
         }
 
         [Fact]
         public async Task InsertManyRecipientReader_Always_CallInsertManyRecipientReader()
         {
-            repository.GetRecipientIdInManyGroup("4,5,6").Returns(new List<int>() { 3, 4, 5, 6 });
             var service = new RecipientServiceImp(repository);
             var recipients = MockListRecipients();
             var ticketId = 10;
+            var creatorId = 8;
 
-            await service.InsertManyRecipientReader(recipients, ticketId);
+            await service.InsertManyRecipientReader(recipients, ticketId, creatorId);
 
-            await repository.Received().InsertManyRecipientReader(Arg.Is<string>(x => x.Equals("3,4,5,6,1")), ticketId, false);
+            await repository.Received().InsertManyRecipientReader(
+                Arg.Is<InsertManyRecipientReaderCriteria>(x => CompareHelper.Compare(x, new InsertManyRecipientReaderCriteria
+                {
+                    GroupIds = "4,5,6",
+                    IndividualIds = "1",
+                    TicketId = 10,
+                    CreatorId = 8
+                })));
         }
 
         [Fact]

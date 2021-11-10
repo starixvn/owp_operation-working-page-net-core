@@ -2,8 +2,10 @@
 {
     using MediatR;
     using Models;
+    using OWP.RecipientGroup.Criteria;
     using Services;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -27,8 +29,56 @@
 
         public async Task<string> Handle(SaveRecipientGroupRequest request, CancellationToken cancellationToken)
         {
+            var recipientOldIds = await GetRecipientIdOldInGroup(request.GroupId);
+            var recipientNewIds = request.Recipients.Select(r => r.RecipientId);
+
+            var recipientDiff = DetectNewRecipient(recipientNewIds.ToList(), recipientOldIds);
+
+            await InsertRecipientToMessageReader(recipientDiff, request.GroupId);
+
             await commandRepository.SaveRecipientGroup(request);
+
+            await RemoveToMessageReader(request);
             return string.Empty;
+        }
+
+        private async Task<IList<int>> GetRecipientIdOldInGroup(int groupId)
+        {
+            var allGroup = await commandRepository.GetRecipientGroup();
+            var group = allGroup.Where(g => g.GroupId == groupId);
+            return group != null
+                ? group.Select(g => g.UserId).ToList()
+                : new List<int>();
+        }
+
+        private IList<int> DetectNewRecipient(IList<int> recipientIdSource, IList<int> recipientIdDest)
+            => recipientIdSource.Except(recipientIdDest).ToList();
+
+        public async Task InsertRecipientToMessageReader(IList<int> userIds, int groupId)
+        {
+            if (userIds.Any())
+            {
+                var criteria = new InsertMessageReaderCriteria
+                {
+                    GroupId = groupId,
+                    UserIds = string.Join(",", userIds)
+                };
+
+                await commandRepository.InsertRecipientToMessageReader(criteria);
+            }
+        }
+
+        public async Task RemoveToMessageReader(SaveRecipientGroupRequest request)
+        {
+            var userId = request.Recipients.Select(x => x.RecipientId);
+
+            var criteria = new RemoveMessageReaderCriteria()
+            {
+                GroupId = request.GroupId,
+                UserIds = string.Join(",", userId)
+            };
+
+            await commandRepository.RemoveRecipientToMessageReader(criteria);
         }
     }
 }

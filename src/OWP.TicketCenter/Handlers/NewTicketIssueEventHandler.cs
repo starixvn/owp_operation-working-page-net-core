@@ -1,6 +1,12 @@
 ﻿using AutoMapper;
 using MediatR;
+using OWP.TicketCenter.Criteria;
+using OWP.TicketCenter.Enum;
 using OWP.TicketCenter.Models;
+using OWP.TicketCenter.Notification.Const;
+using OWP.TicketCenter.Notification.Models;
+using OWP.TicketCenter.Notification.Services;
+using OWP.TicketCenter.Services;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -24,10 +30,24 @@ namespace OWP.TicketCenter.Handlers
 
         private readonly IMapper mapper;
 
-        public NewTicketIssueEventHandler(Repository repository, IMapper mapper)
+        private readonly NewTicketMatchMessageDBWriter writer;
+
+        private readonly NotificationService notificationService;
+
+        private readonly RecipientService recipientService;
+
+        public NewTicketIssueEventHandler(
+            Repository repository,
+            IMapper mapper,
+            NewTicketMatchMessageDBWriter writer,
+            NotificationService notificationService,
+            RecipientService recipientService)
         {
             this.repository = repository;
             this.mapper = mapper;
+            this.writer = writer;
+            this.notificationService = notificationService;
+            this.recipientService = recipientService;
         }
 
         public async Task<int> Handle(NewTicketIssueEventRequest request, CancellationToken cancellationToken)
@@ -54,7 +74,36 @@ namespace OWP.TicketCenter.Handlers
             {
                 await repository.AddNewMessage(message);
             }
-            await repository.InsertIssueCreator(ticketId, request.CreatorId);
+
+            var criteria = new InsertIssueCreatorCriteria
+            {
+                TicketId= ticketId,
+                CreatorId= request.CreatorId
+            };
+
+            await repository.InsertIssueCreator(criteria);
+
+            await recipientService.InsertManyRecipient(request.Recipients, request.TicketId);
+
+            await recipientService.InsertManyRecipientReader(request.Recipients, request.TicketId, request.CreatorId);
+
+            var notificationMessage = new MessageTransform
+            {
+                TicketId = ticketId,
+                Comment = newMessage.Message,
+                ActorId = request.CreatorId
+            };
+
+            var sessionId = await writer.Execute(
+                notificationMessage,
+                NotificationTemplateCode.NewTicket);
+
+            await notificationService.Notify(sessionId, ticketId, (int)EventType.Match);
+
+            await notificationService.NotifyNewMessageIncome(ticketId);
+
+            await notificationService.NotifyNewAddRecipient(ticketId);
+
             return ticketId;
         }
     }
