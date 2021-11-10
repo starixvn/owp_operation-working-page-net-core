@@ -4,7 +4,6 @@ namespace OWP.TicketCenter.Criteria
 {
     public class AddNewTicketIssueEventCriteria : NonQueryCommand
     {
-        // System auto set, FE do not care
         public int TicketId { get; set; }
 
         public int InfoSiteMatchId { get; set; }
@@ -21,8 +20,10 @@ namespace OWP.TicketCenter.Criteria
         public override bool IsValid()
             => TicketId > 0 &&
                InfoSiteMatchId > 0 &&
-               OwpLeagueId > 0 &&
-               OwpHomeId > 0 &&
-               OwpAwayId > 0;
+               IsValidEvent();
+
+        public bool IsValidEvent() => OwpLeagueId > 0 &&
+                                      OwpHomeId > 0 &&
+                                      OwpAwayId > 0;
     }
 }

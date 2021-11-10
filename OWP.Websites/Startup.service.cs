@@ -1,10 +1,10 @@
-using OWP.RecipientGroup;
 using OWP.TicketCenter;
 using OWP.FileUpload;
 using OWP.TicketCenter.Hubs;
-
 namespace OWP.Websites
 {
+    using ApiSyncWorkingShift;
+    using App_Start;
     using AutoMapper;
     using Fanex.Caching.Redis;
     using Fanex.Data;
@@ -20,6 +20,7 @@ namespace OWP.Websites
     using Fanex.NAP.Client.Configuration;
     using Fanex.NAP.Client.Helpers.Web;
     using Fanex.NAP.Client.Services;
+    using Maxbet;
     using MediatR;
     using Microsoft.AspNetCore.Authentication.Cookies;
     using Microsoft.AspNetCore.Authorization;
@@ -35,23 +36,22 @@ namespace OWP.Websites
     using ONEbook.UM.Helpers;
     using ONEbook.UM.Services;
     using ONEbook.UM.Transport;
-    using OWP.ApiSyncWorkingShift;
-    using OWP.Maxbet;
-    using OWP.OtherSport;
+    using OtherSport;
+    using OvertimeReport;
     using TicketCenter= OWP.TicketCenter;
     using OWP.OtherSport.Hubs;
-    using OWP.PreMatchNotification;
-    using OWP.Services;
-    using OWP.SimpleDataApi;
-    using OWP.TicketTypeRecipient;
-    using OWP.Websites.App_Start;
+    using PreMatchNotification;
+    using RecipientGroup;
     using Sentry;
+    using Services;
+    using SimpleDataApi;
     using StackExchange.Redis;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
     using System.Threading.Tasks;
+    using TicketTypeRecipient;
 
     public partial class Startup
     {
@@ -163,6 +163,7 @@ namespace OWP.Websites
             services.InjectPreMatchNotification();
             services.InjectRecipientGroup();
             services.InjectTicketCenterService();
+            services.InjectOvertimeReport();
         }
 
         private void ConfigureNapServices(IServiceCollection services)
@@ -220,6 +221,7 @@ namespace OWP.Websites
         private static void ConfigureCore(IServiceCollection services)
         {
             services.AddScoped<IDynamicRepository, DynamicRepository>();
+            services.AddScoped<RefResourceService, RefResourceServiceImp>();
             services.AddSingleton<LogServiceWrapper, LogServiceWrapperImp>();
             services.AddSingleton<ConfigurationService, ConfigurationServiceImp>();
         }
@@ -244,6 +246,7 @@ namespace OWP.Websites
              services.AddMediatR(typeof(TicketCenterController).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(FileUploadController).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(TicketTypeRecipientController).GetTypeInfo().Assembly);
+            services.AddMediatR(typeof(OvertimeReportController).GetTypeInfo().Assembly);
         }
 
         private static void InitializeSimpleDataApiModule(IServiceCollection services)
@@ -259,6 +262,7 @@ namespace OWP.Websites
             {
                 mc.AddProfile(new OtherSport.AutoMapperProfile());
                 mc.AddProfile(new TicketCenter.AutoMapperProfile());
+                mc.AddProfile(new OvertimeReport.AutoMapperProfile());
             });
 
             IMapper mapper = mapperConfig.CreateMapper();

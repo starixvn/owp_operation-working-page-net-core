@@ -14,8 +14,14 @@
     <SonarQubeExclude>True</SonarQubeExclude>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="App_Data\Templates\AnnualOvertimeReportTemplate.xlsx" />
+  </ItemGroup>
+  <ItemGroup>
     <AdditionalFiles Include="..\.sonarlint\nap-owp\CSharp\SonarLint.xml" Link="SonarLint.xml" />
     <Content Include="App_Data\Fanex.Data\DBOWP.bodb_OWP.bodbOWPNet.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\Templates\AnnualOvertimeReportTemplate.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="App_Data\Templates\ExportOSAssignmentTemplate.xlsx">
@@ -53,6 +59,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\src\OWP.FileUpload\OWP.FileUpload.csproj" />
+    <ProjectReference Include="..\src\OWP.OvertimeReport\OWP.OvertimeReport.csproj" />
     <ProjectReference Include="..\src\OWP\OWP.csproj" />
     <ProjectReference Include="..\src\OWP.ApiSyncWorkingShift\OWP.ApiSyncWorkingShift.csproj" />
     <ProjectReference Include="..\src\OWP.Maxbet\OWP.Maxbet.csproj" />
