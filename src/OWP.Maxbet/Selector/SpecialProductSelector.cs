@@ -81,7 +81,7 @@ namespace OWP.Maxbet.Selector
         public async Task<NumberOfLines> SelectNumberOfLines(int owpMatchId, int bettypeId)
             => BettypeIdSpecificXMins.Any(id => id == bettypeId)
             ? null
-            : await mediator.Send(new GetNumberOfLinesHandler.Request
+            : await mediator.Send(new GetNumberOfLinesSpecialProductHandler.Request
             {
                 OWPMatchId = owpMatchId
             });
