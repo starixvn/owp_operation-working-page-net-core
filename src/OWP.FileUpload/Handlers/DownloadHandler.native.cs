@@ -10,12 +10,12 @@ namespace OWP.FileUpload.Handlers
 {
     public class DownloadHandler
     {
-        public class DownloadRequest : IRequest<File>
+        public class DownloadRequest : IRequest<FileModel>
         {
             public int FileId { get; set; }
         }
 
-        public class Handler : IRequestHandler<DownloadRequest, File>
+        public class Handler : IRequestHandler<DownloadRequest, FileModel>
         {
 
             private readonly IDynamicRepository dynamicRepo;
@@ -25,14 +25,14 @@ namespace OWP.FileUpload.Handlers
                 this.dynamicRepo = dynamicRepo;
             }
 
-            public async Task<File> Handle(DownloadRequest request, CancellationToken cancellationToken)
+            public async Task<FileModel> Handle(DownloadRequest request, CancellationToken cancellationToken)
             {
                 var criteria = new DownloadCriteria
                 {
                     FileId = request.FileId
                 };
 
-                var data = await dynamicRepo.FetchAsync<File>(criteria);
+                var data = await dynamicRepo.FetchAsync<FileModel>(criteria);
                 return data.FirstOrDefault();
             }
         }

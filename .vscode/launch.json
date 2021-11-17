@@ -9,7 +9,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/OWP.Websites/bin/Debug/net5.0/OWP.Websites.dll",
+            "program": "${workspaceFolder}/OWP.Websites/bin/Debug/net6.0/OWP.Websites.dll",
             "args": [],
             "cwd": "${workspaceFolder}/OWP.Websites",
             "console": "internalConsole",
