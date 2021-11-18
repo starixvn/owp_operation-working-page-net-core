@@ -12,7 +12,7 @@ namespace OWP.Maxbet
     {
         public Task<int> GetMatchIdByAdminSiteId(int adminSiteId);
 
-        public Task<int> GetMatchIdByAdminSiteId(int adminSiteId, int bettypeId);
+        public Task<MinorMatchInfo> GetMatchIdByAdminSiteId(int adminSiteId, int bettypeId);
 
         public Task<List<TraderAssignment>> GetTradersByOwpMatchId(int owpMatchId);
 
@@ -79,7 +79,7 @@ namespace OWP.Maxbet
                     OWPMatchId = matchId,
                 });
 
-        public async Task<int> GetMatchIdByAdminSiteId(int adminSiteId, int bettypeId)
+        public async Task<MinorMatchInfo> GetMatchIdByAdminSiteId(int adminSiteId, int bettypeId)
         {
             var criteria = new SpecialProductIdCriteria
             {
@@ -87,7 +87,7 @@ namespace OWP.Maxbet
                 BettypeId = bettypeId
             };
 
-            var matchId = (await dynamicRepository.FetchAsync<int>(criteria)).FirstOrDefault();
+            var matchId = (await dynamicRepository.FetchAsync<MinorMatchInfo>(criteria)).FirstOrDefault();
             return matchId;
         }
 

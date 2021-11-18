@@ -1,5 +1,6 @@
 ﻿using OWP.Maxbet.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,15 +11,21 @@ namespace OWP.Maxbet.Builder
         Task<MaxbetSpread> BuildMaxbet(int owpMatchId);
 
         Task<MaxbetSpread> BuildMaxbetXMins(int owpMatchId);
+
+        Task<MaxbetSpread> BuildMaxbetSpecialProduct(MinorMatchInfo specialProduct, int bettypeId);
     }
 
     public class SpecialProductMaxbetBuilderImp : SpecialProductMaxbetBuilder
     {
         private readonly MaxbetReposiory syncMaxbetReposiory;
+        private readonly MaxbetBuilder maxbetBuilder;
 
-        public SpecialProductMaxbetBuilderImp(MaxbetReposiory syncMaxbetReposiory)
+        private readonly Dictionary<int, Tuple<int, int, int>> maxbetSpecialMapper = new Dictionary<int, Tuple<int, int, int>>();
+
+        public SpecialProductMaxbetBuilderImp(MaxbetReposiory syncMaxbetReposiory, MaxbetBuilder maxbetBuilder)
         {
             this.syncMaxbetReposiory = syncMaxbetReposiory;
+            this.maxbetBuilder = maxbetBuilder;
         }
 
         public async Task<MaxbetSpread> BuildMaxbet(int owpMatchId)
@@ -27,6 +34,11 @@ namespace OWP.Maxbet.Builder
             return !maxbet.Any()
                 ? new()
                 : MaxbetBuilderImp.BuildMaxbetSender(maxbet.ToList());
+        }
+
+        public async Task<MaxbetSpread> BuildMaxbetSpecialProduct(MinorMatchInfo specialProduct, int bettypeId)
+        {
+            return await maxbetBuilder.BuidlMaxbetSpecialProduct(specialProduct, bettypeId);
         }
 
         public async Task<MaxbetSpread> BuildMaxbetXMins(int owpMatchId)

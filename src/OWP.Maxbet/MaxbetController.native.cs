@@ -43,15 +43,14 @@ namespace OWP.Maxbet
         public async Task<IActionResult> GetSpecialProduct(int matchId, int subType)
         {
             var bettypeId = MinorBettype.GetMinorBettypeIdBySubtype(subType);
-            var owpMatchId = await maxbetService.GetMatchIdByAdminSiteId(matchId, bettypeId);
+            var owpMatch = await maxbetService.GetMatchIdByAdminSiteId(matchId, bettypeId);
 
-
-            if (owpMatchId == 0)
+            if (owpMatch.MinorMatchId == 0)
             {
                 return NotFound();
             }
 
-            var maxbetInfo = await maxbetService.GetSpecialProductInfo(owpMatchId, matchId, bettypeId);
+            var maxbetInfo = await maxbetService.GetSpecialProductInfo(owpMatch, matchId, bettypeId);
 
             return Ok(maxbetInfo);
         }

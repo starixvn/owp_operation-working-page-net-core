@@ -10,13 +10,13 @@ namespace OWP.Maxbet.Services
 {
     public interface MaxbetService
     {
-        public Task<MaxbetInfo> GetSpecialProductInfo(int owpMatchId, int adminsiteId, int bettypeId);
+        public Task<MaxbetInfo> GetSpecialProductInfo(MinorMatchInfo owpMatch, int adminsiteId, int bettypeId);
 
         public Task<MaxbetInfo> GetMaxbetInfo(int owpMatchId, int adminsiteId);
 
         public Task<int> GetMatchIdByAdminSiteId(int adminsiteId);
 
-        public Task<int> GetMatchIdByAdminSiteId(int adminsiteId, int bettypeId);
+        public Task<MinorMatchInfo> GetMatchIdByAdminSiteId(int adminsiteId, int bettypeId);
     }
 
     public class MaxbetServiceImp : MaxbetService
@@ -52,16 +52,16 @@ namespace OWP.Maxbet.Services
         public async Task<int> GetMatchIdByAdminSiteId(int adminsiteId)
             => await syncMaxbetReposiory.GetMatchIdByAdminSiteId(adminsiteId);
 
-        public async Task<int> GetMatchIdByAdminSiteId(int adminsiteId, int bettypeId)
+        public async Task<MinorMatchInfo> GetMatchIdByAdminSiteId(int adminsiteId, int bettypeId)
             => await syncMaxbetReposiory.GetMatchIdByAdminSiteId(adminsiteId, bettypeId);
 
-        public async Task<MaxbetInfo> GetSpecialProductInfo(int owpMatchId, int adminsiteId, int bettypeId)
+        public async Task<MaxbetInfo> GetSpecialProductInfo(MinorMatchInfo owpMatch, int adminsiteId, int bettypeId)
         {
-            var traders = await specialProductSelector.SelectTrader(owpMatchId, bettypeId);
-            var spread = await specialProductSelector.SelectSpread(owpMatchId, bettypeId);
-            var maxbet = await specialProductSelector.SelectMaxbet(owpMatchId, bettypeId);
-            var secondAcceptValue = await specialProductSelector.SelectSecondAcceptedValues(owpMatchId, bettypeId);
-            var numberOfLines = await specialProductSelector.SelectNumberOfLines(owpMatchId, bettypeId);
+            var traders = await specialProductSelector.SelectTrader(owpMatch.MinorMatchId, bettypeId);
+            var spread = await specialProductSelector.SelectSpread(owpMatch.MinorMatchId, bettypeId);
+            var maxbet = await specialProductSelector.SelectMaxbet(owpMatch, bettypeId);
+            var secondAcceptValue = await specialProductSelector.SelectSecondAcceptedValues(owpMatch.MinorMatchId, bettypeId);
+            var numberOfLines = await specialProductSelector.SelectNumberOfLines(owpMatch.MinorMatchId, bettypeId);
 
             var maxbetCN88 = new MaxbetSpread
             {

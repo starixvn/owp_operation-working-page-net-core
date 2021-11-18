@@ -13,7 +13,7 @@ namespace OWP.Maxbet.Selector
 
         public Task<MaxbetSpread> SelectSpread(int specialProductId, int bettypeId);
 
-        public Task<MaxbetSpread> SelectMaxbet(int specialProductId, int bettypeId);
+        public Task<MaxbetSpread> SelectMaxbet(MinorMatchInfo specialProduct, int bettypeId);
 
         public Task<int?> SelectSecondAcceptedValues(int owpMatchId, int bettypeId);
 
@@ -40,6 +40,18 @@ namespace OWP.Maxbet.Selector
             BETTYPE_ID_SPECIFIC15MINS_NUMBER_OF_CORNERS,
             BETTYPE_ID_SPECIFIC15MINS_TOTAL_BOOKINGS
          };
+
+        private const int BETTYPE_ID_NO_OF_CORNERS = -3;
+        private const int BETTYPE_ID_NEXT_CORNERS = -4;
+        private const int BETTYPE_ID_TOTAL_BOOKINGS = -6;
+        private const int BETTYPE_ID_NEXT_BOOKINGS = -7;
+
+        private readonly int[] BettypeIdSpecialProducts = new[]{
+            BETTYPE_ID_NO_OF_CORNERS,
+            BETTYPE_ID_NEXT_CORNERS,
+            BETTYPE_ID_TOTAL_BOOKINGS,
+            BETTYPE_ID_NEXT_BOOKINGS
+        };
 
         public SpecialProductSelectorImp(
             IMediator mediator,
@@ -68,10 +80,19 @@ namespace OWP.Maxbet.Selector
             ? await specialProductSpreadBuilder.BuildSpreadXMins(specialProductId)
             : await spreadBuilder.BuildSpreadSpecialProduct(specialProductId);
 
-        public async Task<MaxbetSpread> SelectMaxbet(int specialProductId, int bettypeId)
-        => BettypeIdSpecificXMins.Any(id => id == bettypeId)
-            ? await specialProductMaxbetBuilder.BuildMaxbetXMins(specialProductId)
-            : await specialProductMaxbetBuilder.BuildMaxbet(specialProductId);
+        public async Task<MaxbetSpread> SelectMaxbet(MinorMatchInfo specialProduct, int bettypeId)
+        {
+            if (BettypeIdSpecificXMins.Any(id => id == bettypeId))
+            {
+                return await specialProductMaxbetBuilder.BuildMaxbetXMins(specialProduct.MinorMatchId);
+            }
+            else if (BettypeIdSpecialProducts.Any(id => id == bettypeId))
+            {
+                return await specialProductMaxbetBuilder.BuildMaxbetSpecialProduct(specialProduct, bettypeId);
+            }
+
+            return await specialProductMaxbetBuilder.BuildMaxbet(specialProduct.MinorMatchId);
+        }
 
         public async Task<int?> SelectSecondAcceptedValues(int owpMatchId, int bettypeId)
             => BettypeIdSpecificXMins.Any(id => id == bettypeId)
