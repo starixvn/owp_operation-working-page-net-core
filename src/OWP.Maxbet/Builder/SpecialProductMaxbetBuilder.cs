@@ -20,8 +20,6 @@ namespace OWP.Maxbet.Builder
         private readonly MaxbetReposiory syncMaxbetReposiory;
         private readonly MaxbetBuilder maxbetBuilder;
 
-        private readonly Dictionary<int, Tuple<int, int, int>> maxbetSpecialMapper = new Dictionary<int, Tuple<int, int, int>>();
-
         public SpecialProductMaxbetBuilderImp(MaxbetReposiory syncMaxbetReposiory, MaxbetBuilder maxbetBuilder)
         {
             this.syncMaxbetReposiory = syncMaxbetReposiory;

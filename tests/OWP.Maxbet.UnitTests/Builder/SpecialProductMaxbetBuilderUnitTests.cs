@@ -16,10 +16,14 @@ namespace OWP.Maxbet.UnitTests.Builder
         private readonly SpecialProductMaxbetBuilder specialProductMaxbetBuilder;
 
         private readonly MaxbetReposiory syncMaxbetReposiory;
+
+        private readonly MaxbetBuilder maxbetBuilder;
+
         public SpecialProductMaxbetBuilderUnitTests()
         {
             syncMaxbetReposiory = Substitute.For<MaxbetReposiory>();
-            specialProductMaxbetBuilder = new SpecialProductMaxbetBuilderImp(syncMaxbetReposiory);
+            maxbetBuilder = Substitute.For<MaxbetBuilder>();
+            specialProductMaxbetBuilder = new SpecialProductMaxbetBuilderImp(syncMaxbetReposiory, maxbetBuilder);
         }
 
         [Fact]
