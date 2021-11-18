@@ -134,223 +134,245 @@ namespace OWP.Maxbet.Builder
             switch (bettypeId)
             {
                 case -3:
-                    return await BuildMaxbetNoOfCorner(maxbet, maxbetMainMatch);
+                    return BuildMaxbetNoOfCorner(maxbet, maxbetMainMatch);
 
                 case -4:
-                    return await BuildMaxbetTotalBooking(maxbet, maxbetMainMatch);
+                    return BuildMaxbetNextCorner(maxbet, maxbetMainMatch);
 
                 case -6:
-                    return await BuildMaxbetNextCorner(maxbet, maxbetMainMatch);
+                    return BuildMaxbetTotalBooking(maxbet, maxbetMainMatch);
 
                 case -7:
-                    return await BuildMaxbetNextBooking(maxbet, maxbetMainMatch);
+                    return BuildMaxbetNextBooking(maxbet, maxbetMainMatch);
 
                 default:
                     return BuildMaxbetSender(maxbet);
             }
         }
 
-        private async Task<MaxbetSpread> BuildMaxbetNoOfCorner(List<MaxbetModel> maxbet, List<MaxbetModel> maxbetMainMatch)
+        private MaxbetSpread BuildMaxbetNoOfCorner(List<MaxbetModel> maxbet, List<MaxbetModel> maxbetMainMatch)
         {
             var handicapMainMatch = maxbetMainMatch.FirstOrDefault(m => m.BettypeId.Equals((int)EnumBettype.Handicap));
 
-            //No.Of Corner //Next Corner
             var hasExistsHdp = maxbet.Any(s => s.BettypeId.Equals((int)EnumBettype.Handicap));
             if (!hasExistsHdp)
             {
-                var existsValueHandicap = maxbetSpecialMapper.TryGetValue((int)handicapMainMatch.Value,
-                    out Tuple<int, int, int?, int?> valueHandicap);
-
-                maxbet.Add(existsValueHandicap ? new MaxbetModel
-                {
-                    BettypeId = (int)EnumBettype.Handicap,
-                    Value = valueHandicap.Item1
-                } : new MaxbetModel
-                {
-                    BettypeId = (int)EnumBettype.Handicap,
-                    Value = handicapMainMatch.Value
-                });
+                BuildMaxbetCornerHandicap(maxbet, maxbetMainMatch);
             }
 
             var hasExistsOu = maxbet.Any(s => s.BettypeId.Equals((int)EnumBettype.OverUnder));
             if (!hasExistsOu)
             {
-                var existsValueOverunder = maxbetSpecialMapper.TryGetValue((int)handicapMainMatch.Value,
-                    out Tuple<int, int, int?, int?> valueHandicap);
-
-                maxbet.Add(existsValueOverunder ? new MaxbetModel
-                {
-                    BettypeId = (int)EnumBettype.OverUnder,
-                    Value = valueHandicap.Item1
-                } : new MaxbetModel
-                {
-                    BettypeId = (int)EnumBettype.OverUnder,
-                    Value = handicapMainMatch.Value
-                });
+                BuildMaxbetNoOfCornerOverUnder(maxbet, maxbetMainMatch);
             }
 
             var hasExistsFirstHalfHdp = maxbet.Any(s => s.BettypeId.Equals((int)EnumBettype.FirstHalfHandicap));
             if (!hasExistsFirstHalfHdp)
             {
-                var handicap = maxbet.FirstOrDefault(m => m.BettypeId.Equals((int)EnumBettype.Handicap));
-                var existsValueFirstHalfHdp = maxbetSpecialMapper.TryGetValue((int)handicapMainMatch.Value,
-                    out Tuple<int, int, int?, int?> valueHandicap);
-
-                maxbet.Add(existsValueFirstHalfHdp ? new MaxbetModel
-                {
-                    BettypeId = (int)EnumBettype.FirstHalfHandicap,
-                    Value = valueHandicap.Item2
-                } : new MaxbetModel
-                {
-                    BettypeId = (int)EnumBettype.FirstHalfHandicap,
-                    Value = handicap.Value
-                });
+                BuildMaxbetNoOfCornerFistHalfHandicap(maxbet, maxbetMainMatch);
             }
 
             var hasExistsFirstHalfOu = maxbet.Any(s => s.BettypeId.Equals((int)EnumBettype.FirstHalfOverUnder));
             if (!hasExistsFirstHalfOu)
             {
-                var overUnder = maxbet.FirstOrDefault(m => m.BettypeId.Equals((int)EnumBettype.OverUnder));
-                var existsValueFirstHalfHdp = maxbetSpecialMapper.TryGetValue((int)handicapMainMatch.Value,
-                    out Tuple<int, int, int?, int?> valueHandicap);
-
-                maxbet.Add(existsValueFirstHalfHdp ? new MaxbetModel
-                {
-                    BettypeId = (int)EnumBettype.FirstHalfOverUnder,
-                    Value = valueHandicap.Item2
-                } : new MaxbetModel
-                {
-                    BettypeId = (int)EnumBettype.FirstHalfOverUnder,
-                    Value = overUnder.Value
-                });
+                BuildMaxbetNoOfCornerFistHalfOverUnder(maxbet, maxbetMainMatch);
             }
 
             return BuildMaxbetSender(maxbet);
         }
 
-        private async Task<MaxbetSpread> BuildMaxbetTotalBooking(List<MaxbetModel> maxbet, List<MaxbetModel> maxbetMainMatch)
+        private void BuildMaxbetCornerHandicap(List<MaxbetModel> maxbet, List<MaxbetModel> maxbetMainMatch)
+        {
+            var handicapMainMatch = maxbetMainMatch.FirstOrDefault(m => m.BettypeId.Equals((int)EnumBettype.Handicap));
+            var existsValueHandicap = maxbetSpecialMapper.TryGetValue((int)handicapMainMatch.Value,
+                out Tuple<int, int, int?, int?> valueHandicap);
+
+            maxbet.Add(existsValueHandicap ? new MaxbetModel
+            {
+                BettypeId = (int)EnumBettype.Handicap,
+                Value = valueHandicap.Item1
+            } : new MaxbetModel
+            {
+                BettypeId = (int)EnumBettype.Handicap,
+                Value = handicapMainMatch.Value
+            });
+        }
+
+        private void BuildMaxbetNoOfCornerOverUnder(List<MaxbetModel> maxbet, List<MaxbetModel> maxbetMainMatch)
+        {
+            var handicapMainMatch = maxbetMainMatch.FirstOrDefault(m => m.BettypeId.Equals((int)EnumBettype.Handicap));
+
+            var existsValueOverunder = maxbetSpecialMapper.TryGetValue((int)handicapMainMatch.Value,
+                    out Tuple<int, int, int?, int?> valueHandicap);
+
+            maxbet.Add(existsValueOverunder ? new MaxbetModel
+            {
+                BettypeId = (int)EnumBettype.OverUnder,
+                Value = valueHandicap.Item1
+            } : new MaxbetModel
+            {
+                BettypeId = (int)EnumBettype.OverUnder,
+                Value = handicapMainMatch.Value
+            });
+        }
+
+        private void BuildMaxbetNoOfCornerFistHalfHandicap(List<MaxbetModel> maxbet, List<MaxbetModel> maxbetMainMatch)
+        {
+            var handicapMainMatch = maxbetMainMatch.FirstOrDefault(m => m.BettypeId.Equals((int)EnumBettype.Handicap));
+            var handicap = maxbet.FirstOrDefault(m => m.BettypeId.Equals((int)EnumBettype.Handicap));
+
+            var existsValueFirstHalfHdp = maxbetSpecialMapper.TryGetValue((int)handicapMainMatch.Value,
+                out Tuple<int, int, int?, int?> valueHandicap);
+
+            maxbet.Add(existsValueFirstHalfHdp ? new MaxbetModel
+            {
+                BettypeId = (int)EnumBettype.FirstHalfHandicap,
+                Value = valueHandicap.Item2
+            } : new MaxbetModel
+            {
+                BettypeId = (int)EnumBettype.FirstHalfHandicap,
+                Value = handicap.Value
+            });
+        }
+
+        private void BuildMaxbetNoOfCornerFistHalfOverUnder(List<MaxbetModel> maxbet, List<MaxbetModel> maxbetMainMatch)
+        {
+            var handicapMainMatch = maxbetMainMatch.FirstOrDefault(m => m.BettypeId.Equals((int)EnumBettype.Handicap));
+            var overUnder = maxbet.FirstOrDefault(m => m.BettypeId.Equals((int)EnumBettype.OverUnder));
+            var existsValueFirstHalfHdp = maxbetSpecialMapper.TryGetValue((int)handicapMainMatch.Value,
+                out Tuple<int, int, int?, int?> valueHandicap);
+
+            maxbet.Add(existsValueFirstHalfHdp ? new MaxbetModel
+            {
+                BettypeId = (int)EnumBettype.FirstHalfOverUnder,
+                Value = valueHandicap.Item2
+            } : new MaxbetModel
+            {
+                BettypeId = (int)EnumBettype.FirstHalfOverUnder,
+                Value = overUnder.Value
+            });
+        }
+
+        private MaxbetSpread BuildMaxbetTotalBooking(List<MaxbetModel> maxbet, List<MaxbetModel> maxbetMainMatch)
         {
             var handicapMainMatch = maxbetMainMatch.FirstOrDefault(m => m.BettypeId.Equals((int)EnumBettype.Handicap));
 
             var hasExistsHdp = maxbet.Any(s => s.BettypeId.Equals((int)EnumBettype.Handicap));
             if (!hasExistsHdp)
             {
-                var existsValueHandicap = maxbetSpecialMapper.TryGetValue((int)handicapMainMatch.Value,
-                    out Tuple<int, int, int?, int?> valueHandicap);
-
-                maxbet.Add((existsValueHandicap && valueHandicap.Item3.HasValue) ? new MaxbetModel
-                {
-                    BettypeId = (int)EnumBettype.Handicap,
-                    Value = valueHandicap.Item3.Value
-                } : new MaxbetModel
-                {
-                    BettypeId = (int)EnumBettype.Handicap,
-                    Value = handicapMainMatch.Value
-                });
+                BuildMaxbetBookingHandicap(maxbet, maxbetMainMatch);
             }
 
             var hasExistsOu = maxbet.Any(s => s.BettypeId.Equals((int)EnumBettype.OverUnder));
             if (!hasExistsOu)
             {
-                var existsValueOverunder = maxbetSpecialMapper.TryGetValue((int)handicapMainMatch.Value,
-                    out Tuple<int, int, int?, int?> valueHandicap);
-
-                maxbet.Add((existsValueOverunder && valueHandicap.Item3.HasValue) ? new MaxbetModel
-                {
-                    BettypeId = (int)EnumBettype.OverUnder,
-                    Value = valueHandicap.Item3.Value
-                } : new MaxbetModel
-                {
-                    BettypeId = (int)EnumBettype.OverUnder,
-                    Value = handicapMainMatch.Value
-                });
+                BuildMaxbetTotalBookingOverUnder(maxbet, maxbetMainMatch);
             }
 
             var hasExistsFirstHalfHdp = maxbet.Any(s => s.BettypeId.Equals((int)EnumBettype.FirstHalfHandicap));
             if (!hasExistsFirstHalfHdp)
             {
-                var handicap = maxbet.FirstOrDefault(m => m.BettypeId.Equals((int)EnumBettype.Handicap));
-                var existsValueFirstHalfHdp = maxbetSpecialMapper.TryGetValue((int)handicapMainMatch.Value,
-                    out Tuple<int, int, int?, int?> valueHandicap);
-
-                maxbet.Add((existsValueFirstHalfHdp && valueHandicap.Item4.HasValue) ? new MaxbetModel
-                {
-                    BettypeId = (int)EnumBettype.FirstHalfHandicap,
-                    Value = valueHandicap.Item4.Value
-                } : new MaxbetModel
-                {
-                    BettypeId = (int)EnumBettype.FirstHalfHandicap,
-                    Value = handicap.Value
-                });
+                BuildMaxbetTotalBookingFistHalfHandicap(maxbet, maxbetMainMatch);
             }
 
             var hasExistsFirstHalfOu = maxbet.Any(s => s.BettypeId.Equals((int)EnumBettype.FirstHalfOverUnder));
             if (!hasExistsFirstHalfOu)
             {
-                var overUnder = maxbet.FirstOrDefault(m => m.BettypeId.Equals((int)EnumBettype.OverUnder));
-                var existsValueFirstHalfHdp = maxbetSpecialMapper.TryGetValue((int)handicapMainMatch.Value,
-                    out Tuple<int, int, int?, int?> valueHandicap);
-
-                maxbet.Add((hasExistsFirstHalfOu && valueHandicap.Item4.HasValue) ? new MaxbetModel
-                {
-                    BettypeId = (int)EnumBettype.FirstHalfOverUnder,
-                    Value = valueHandicap.Item4.Value
-                } : new MaxbetModel
-                {
-                    BettypeId = (int)EnumBettype.FirstHalfOverUnder,
-                    Value = overUnder.Value
-                });
+                BuildMaxbetTotalBookingFistHalfOverUnder(maxbet, maxbetMainMatch);
             }
 
             return BuildMaxbetSender(maxbet);
         }
 
-        private async Task<MaxbetSpread> BuildMaxbetNextCorner(List<MaxbetModel> maxbet, List<MaxbetModel> maxbetMainMatch)
+        private void BuildMaxbetTotalBookingOverUnder(List<MaxbetModel> maxbet, List<MaxbetModel> maxbetMainMatch)
         {
             var handicapMainMatch = maxbetMainMatch.FirstOrDefault(m => m.BettypeId.Equals((int)EnumBettype.Handicap));
+            var existsValueOverunder = maxbetSpecialMapper.TryGetValue((int)handicapMainMatch.Value,
+                                out Tuple<int, int, int?, int?> valueHandicap);
+            maxbet.Add((existsValueOverunder && valueHandicap.Item3.HasValue) ? new MaxbetModel
+            {
+                BettypeId = (int)EnumBettype.OverUnder,
+                Value = valueHandicap.Item3.Value
+            } : new MaxbetModel
+            {
+                BettypeId = (int)EnumBettype.OverUnder,
+                Value = handicapMainMatch.Value
+            });
+        }
 
+        private void BuildMaxbetTotalBookingFistHalfHandicap(List<MaxbetModel> maxbet, List<MaxbetModel> maxbetMainMatch)
+        {
+            var handicapMainMatch = maxbetMainMatch.FirstOrDefault(m => m.BettypeId.Equals((int)EnumBettype.Handicap));
+            var handicap = maxbet.FirstOrDefault(m => m.BettypeId.Equals((int)EnumBettype.Handicap));
+
+            var existsValueFirstHalfHdp = maxbetSpecialMapper.TryGetValue((int)handicapMainMatch.Value,
+                out Tuple<int, int, int?, int?> valueHandicap);
+
+            maxbet.Add((existsValueFirstHalfHdp && valueHandicap.Item4.HasValue) ? new MaxbetModel
+            {
+                BettypeId = (int)EnumBettype.FirstHalfHandicap,
+                Value = valueHandicap.Item4.Value
+            } : new MaxbetModel
+            {
+                BettypeId = (int)EnumBettype.FirstHalfHandicap,
+                Value = handicap.Value
+            });
+        }
+
+        private void BuildMaxbetTotalBookingFistHalfOverUnder(List<MaxbetModel> maxbet, List<MaxbetModel> maxbetMainMatch)
+        {
+            var handicapMainMatch = maxbetMainMatch.FirstOrDefault(m => m.BettypeId.Equals((int)EnumBettype.Handicap));
+            var overUnder = maxbet.FirstOrDefault(m => m.BettypeId.Equals((int)EnumBettype.OverUnder));
+            var existsValueFirstHalfHdp = maxbetSpecialMapper.TryGetValue((int)handicapMainMatch.Value,
+                out Tuple<int, int, int?, int?> valueHandicap);
+
+            maxbet.Add(existsValueFirstHalfHdp ? new MaxbetModel
+            {
+                BettypeId = (int)EnumBettype.FirstHalfOverUnder,
+                Value = valueHandicap.Item2
+            } : new MaxbetModel
+            {
+                BettypeId = (int)EnumBettype.FirstHalfOverUnder,
+                Value = overUnder.Value
+            });
+        }
+
+        private MaxbetSpread BuildMaxbetNextCorner(List<MaxbetModel> maxbet, List<MaxbetModel> maxbetMainMatch)
+        {
             var hasExistsHdp = maxbet.Any(s => s.BettypeId.Equals((int)EnumBettype.Handicap));
             if (!hasExistsHdp)
             {
-                var existsValueHandicap = maxbetSpecialMapper.TryGetValue((int)handicapMainMatch.Value,
-                    out Tuple<int, int, int?, int?> valueHandicap);
+                BuildMaxbetCornerHandicap(maxbet, maxbetMainMatch);
+            }
+            return BuildMaxbetSender(maxbet);
+        }
 
-                maxbet.Add(existsValueHandicap ? new MaxbetModel
-                {
-                    BettypeId = (int)EnumBettype.Handicap,
-                    Value = valueHandicap.Item1
-                } : new MaxbetModel
-                {
-                    BettypeId = (int)EnumBettype.Handicap,
-                    Value = handicapMainMatch.Value
-                });
+        private MaxbetSpread BuildMaxbetNextBooking(List<MaxbetModel> maxbet, List<MaxbetModel> maxbetMainMatch)
+        {
+            var hasExistsHdp = maxbet.Any(s => s.BettypeId.Equals((int)EnumBettype.Handicap));
+            if (!hasExistsHdp)
+            {
+                BuildMaxbetBookingHandicap(maxbet, maxbetMainMatch);
             }
 
             return BuildMaxbetSender(maxbet);
         }
 
-        private async Task<MaxbetSpread> BuildMaxbetNextBooking(List<MaxbetModel> maxbet, List<MaxbetModel> maxbetMainMatch)
+        private void BuildMaxbetBookingHandicap(List<MaxbetModel> maxbet, List<MaxbetModel> maxbetMainMatch)
         {
             var handicapMainMatch = maxbetMainMatch.FirstOrDefault(m => m.BettypeId.Equals((int)EnumBettype.Handicap));
+            var existsValueHandicap = maxbetSpecialMapper.TryGetValue((int)handicapMainMatch.Value,
+                out Tuple<int, int, int?, int?> valueHandicap);
 
-            var hasExistsHdp = maxbet.Any(s => s.BettypeId.Equals((int)EnumBettype.Handicap));
-            if (!hasExistsHdp)
+            maxbet.Add((existsValueHandicap && valueHandicap.Item3.HasValue) ? new MaxbetModel
             {
-                var existsValueHandicap = maxbetSpecialMapper.TryGetValue((int)handicapMainMatch.Value,
-                    out Tuple<int, int, int?, int?> valueHandicap);
-
-                maxbet.Add((existsValueHandicap && valueHandicap.Item3.HasValue) ? new MaxbetModel
-                {
-                    BettypeId = (int)EnumBettype.Handicap,
-                    Value = valueHandicap.Item3.Value
-                } : new MaxbetModel
-                {
-                    BettypeId = (int)EnumBettype.Handicap,
-                    Value = handicapMainMatch.Value
-                });
-            }
-
-            return BuildMaxbetSender(maxbet);
+                BettypeId = (int)EnumBettype.Handicap,
+                Value = valueHandicap.Item3.Value
+            } : new MaxbetModel
+            {
+                BettypeId = (int)EnumBettype.Handicap,
+                Value = handicapMainMatch.Value
+            });
         }
 
         public void BuildMaxbetFirstHalfOverUnder(List<MaxbetModel> maxbet)
