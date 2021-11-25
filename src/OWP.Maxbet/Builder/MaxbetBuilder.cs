@@ -182,16 +182,6 @@ namespace OWP.Maxbet.Builder
         {
             var maxbet = (await syncMaxbetReposiory.GetMaxbetByOwpMatchId(specialProduct.MinorMatchId)).ToList();
             var maxbetMainMatch = (await syncMaxbetReposiory.GetMaxbetByOwpMatchId(specialProduct.MainMatchId)).ToList();
-            maxbetMainMatch = new List<MaxbetModel>
-            {
-                new MaxbetModel
-                {
-                    BettypeId = 1,
-                    Value = 130_000,
-                }
-            };
-
-            bettypeId = -4;
 
             switch (bettypeId)
             {
