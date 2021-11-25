@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using OWP.Maxbet.Builder;
-using OWP.Maxbet.Handlers;
 using OWP.Maxbet.Constants;
+using OWP.Maxbet.Handlers;
 using OWP.Maxbet.Models;
 using System.Linq;
 using System.Threading.Tasks;
