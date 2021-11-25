@@ -45,7 +45,7 @@ namespace OWP.Maxbet
             var bettypeId = MinorBettype.GetMinorBettypeIdBySubtype(subType);
             var owpMatch = await maxbetService.GetMatchIdByAdminSiteId(matchId, bettypeId);
 
-            if (owpMatch.MinorMatchId == 0)
+            if (owpMatch is null)
             {
                 return NotFound();
             }
