@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Olympus.OWP.Constants;
 using OWP.Maxbet.Builder;
 using OWP.Maxbet.Handlers;
 using OWP.Maxbet.Models;

@@ -1,10 +1,10 @@
-﻿using System;
+﻿using OWP.Enums;
+using OWP.Helpers;
+using OWP.Maxbet.Helpers;
+using OWP.Maxbet.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using OWP.Enums;
-using OWP.Helpers;
-using OWP.Maxbet.Models;
 
 namespace OWP.Maxbet.Builder
 {
@@ -17,12 +17,6 @@ namespace OWP.Maxbet.Builder
 
     public class MaxbetBuilderImp : MaxbetBuilder
     {
-        private const int numberFullyBettype = 4;
-        private const int noOfCorners = -3;
-        private const int nextCorners = -4;
-        private const int totalBooking = -6;
-        private const int nextBooking = -7;
-
         private readonly MaxbetReposiory syncMaxbetReposiory;
 
         private readonly Dictionary<int, int> maxbetMapper = new Dictionary<int, int>
@@ -93,7 +87,7 @@ namespace OWP.Maxbet.Builder
                 return new MaxbetSpread();
             }
 
-            if (maxbet.Count == numberFullyBettype)
+            if (maxbet.Count == SpecialBettypeHelper.NUMBER_FULL_BETTYPE)
             {
                 return BuildMaxbetSender(maxbet);
             }
@@ -119,14 +113,14 @@ namespace OWP.Maxbet.Builder
 
             switch (bettypeId)
             {
-                case noOfCorners:
+                case SpecialBettypeHelper.BETTYPE_ID_NO_OF_CORNERS:
                     return BuildMaxbetNoOfCornerOrTotalBooking(maxbet, maxbetMainMatch, maxbetCornerMapper);
 
-                case nextCorners:
-                case nextBooking:
+                case SpecialBettypeHelper.BETTYPE_ID_NEXT_CORNERS:
+                case SpecialBettypeHelper.BETTYPE_ID_NEXT_BOOKINGS:
                     return BuildMaxbetNextCornerOrBooking(maxbet, maxbetMainMatch);
 
-                case totalBooking:
+                case SpecialBettypeHelper.BETTYPE_ID_TOTAL_BOOKINGS:
                     return BuildMaxbetNoOfCornerOrTotalBooking(maxbet, maxbetMainMatch, maxbetBookingMapper);
 
                 default:
@@ -239,6 +233,7 @@ namespace OWP.Maxbet.Builder
             var overunder = MaxbetHelper.FindMaxbetByBettype(maxbet, (int)EnumBettype.OverUnder) ?? new MaxbetModel();
             var firstHalfHandicap = MaxbetHelper.FindMaxbetByBettype(maxbet, (int)EnumBettype.FirstHalfHandicap) ?? new MaxbetModel();
             var firstHalfOverUnder = MaxbetHelper.FindMaxbetByBettype(maxbet, (int)EnumBettype.FirstHalfOverUnder) ?? new MaxbetModel();
+
             return new MaxbetSpread
             {
                 Handicap = handicap.Value,

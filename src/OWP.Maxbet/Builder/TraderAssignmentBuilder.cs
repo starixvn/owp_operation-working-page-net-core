@@ -1,7 +1,7 @@
-﻿using System.Threading.Tasks;
-using OWP.Maxbet.Models;
-using OWP.Enums;
+﻿using OWP.Enums;
 using OWP.Helpers;
+using OWP.Maxbet.Models;
+using System.Threading.Tasks;
 
 namespace OWP.Maxbet.Builder
 {
@@ -18,8 +18,6 @@ namespace OWP.Maxbet.Builder
         {
             this.syncMaxbetReposiory = syncMaxbetReposiory;
         }
-
-
 
         public async Task<TraderAssignmentSender> BuildTraderAssignmentSender(int owpMatchId)
         {

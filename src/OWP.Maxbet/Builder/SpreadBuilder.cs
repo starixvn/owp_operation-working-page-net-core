@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using OWP.Enums;
+using OWP.Helpers;
+using OWP.Maxbet.Models;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using OWP.Maxbet.Models;
-using OWP.Enums;
-using OWP.Helpers;
 
 namespace OWP.Maxbet.Builder
 {
