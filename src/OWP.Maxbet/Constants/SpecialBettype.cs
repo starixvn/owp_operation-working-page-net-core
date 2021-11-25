@@ -1,6 +1,6 @@
-﻿namespace OWP.Maxbet.Helpers
+﻿namespace OWP.Maxbet.Constants
 {
-    public class SpecialBettypeHelper
+    public class SpecialBettype
     {
         public const int BETTYPE_ID_SPECIFIC10MINS = -1;
         public const int BETTYPE_ID_SPECIFIC15MINS = -2;

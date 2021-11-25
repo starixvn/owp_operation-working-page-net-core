@@ -1,6 +1,6 @@
 ﻿using OWP.Enums;
 using OWP.Helpers;
-using OWP.Maxbet.Helpers;
+using OWP.Maxbet.Constants;
 using OWP.Maxbet.Models;
 using System.Collections.Generic;
 using System.Linq;
@@ -87,7 +87,7 @@ namespace OWP.Maxbet.Builder
                 return new MaxbetSpread();
             }
 
-            if (maxbet.Count == SpecialBettypeHelper.NUMBER_FULL_BETTYPE)
+            if (maxbet.Count == SpecialBettype.NUMBER_FULL_BETTYPE)
             {
                 return BuildMaxbetSender(maxbet);
             }
@@ -113,14 +113,14 @@ namespace OWP.Maxbet.Builder
 
             switch (bettypeId)
             {
-                case SpecialBettypeHelper.BETTYPE_ID_NO_OF_CORNERS:
+                case SpecialBettype.BETTYPE_ID_NO_OF_CORNERS:
                     return BuildMaxbetNoOfCornerOrTotalBooking(maxbet, maxbetMainMatch, maxbetCornerMapper);
 
-                case SpecialBettypeHelper.BETTYPE_ID_NEXT_CORNERS:
-                case SpecialBettypeHelper.BETTYPE_ID_NEXT_BOOKINGS:
+                case SpecialBettype.BETTYPE_ID_NEXT_CORNERS:
+                case SpecialBettype.BETTYPE_ID_NEXT_BOOKINGS:
                     return BuildMaxbetNextCornerOrBooking(maxbet, maxbetMainMatch);
 
-                case SpecialBettypeHelper.BETTYPE_ID_TOTAL_BOOKINGS:
+                case SpecialBettype.BETTYPE_ID_TOTAL_BOOKINGS:
                     return BuildMaxbetNoOfCornerOrTotalBooking(maxbet, maxbetMainMatch, maxbetBookingMapper);
 
                 default:
