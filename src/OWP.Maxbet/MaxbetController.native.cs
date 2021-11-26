@@ -47,12 +47,7 @@ namespace OWP.Maxbet
 
             if (owpMatch is null)
             {
-                // return NotFound();
-                owpMatch = new Models.MinorMatchInfo()
-                {
-                    MainMatchId = 1,
-                    MinorMatchId = 2
-                };
+                return NotFound();
             }
 
             var maxbetInfo = await maxbetService.GetSpecialProductInfo(owpMatch, matchId, bettypeId);
