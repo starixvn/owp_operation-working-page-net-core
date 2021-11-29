@@ -36,8 +36,8 @@ namespace OWP.AutoAssignment
         Task<IEnumerable<int>> GetCustInfoFromDB02();
 
         Task<string> GetRequestIsWaiting(DateTime eventDate);
-        
-        Task<int> GetSabaMaxbet(string matchIds);
+
+        Task<IEnumerable<SabaMaxbetInfo>> GetSabaMaxbet(IList<int> matchIds);
     }
 
     public class RepositoryImp : Repository
@@ -150,10 +150,8 @@ namespace OWP.AutoAssignment
         public async Task CreateRequest(CreateRequestCriteria criteria)
             => await dynamicRepository.ExecuteAsync(criteria);
 
-        public async Task<int> GetSabaMaxbet(string matchIds)
-        {
-            await dynamicRepository.FetchAsync<int>(new GetSabaMaxbetCriteria { MatchIds = matchIds });
-            return 0;
-        }
+        public async Task<IEnumerable<SabaMaxbetInfo>> GetSabaMaxbet(IList<int> matchIds)
+            => await dynamicRepository.FetchAsync<SabaMaxbetInfo>(
+                new GetSabaMaxbetCriteria { MatchIds = string.Join(',', matchIds) });
     }
 }

@@ -11,12 +11,15 @@ namespace OWP.AutoAssignment.Services.PublicApi
         Task<IList<SchedulingMatch>> GetMatchesInfo(DateTime eventDate);
     }
 
-    public class SchedulingMatchBuilderServiceImp: SchedulingMatchBuilderService
+    public class SchedulingMatchBuilderServiceImp : SchedulingMatchBuilderService
     {
         private readonly Repository repository;
 
-        public SchedulingMatchBuilderServiceImp(Repository repository)
+        private readonly SabaMatchService sabaMatchService;
+
+        public SchedulingMatchBuilderServiceImp(Repository repository, SabaMatchService sabaMatchService)
         {
+            this.sabaMatchService = sabaMatchService;
             this.repository = repository;
         }
 
@@ -27,7 +30,7 @@ namespace OWP.AutoAssignment.Services.PublicApi
             var realMatchIds = SelectMatchIds(matchQueried.ToList(), false);
             var sabaMatchIds = SelectMatchIds(matchQueried.ToList(), true);
 
-          
+            var sabaMaxbets = await sabaMatchService.GetSabaMaxbet(sabaMatchIds);
 
             return new List<SchedulingMatch>();
         }
@@ -42,6 +45,5 @@ namespace OWP.AutoAssignment.Services.PublicApi
               .Where(m => m.IsSaba == isSaba)
               .Select(x => x.InfositeMatchId)
               .ToList();
-
     }
 }

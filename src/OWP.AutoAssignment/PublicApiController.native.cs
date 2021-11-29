@@ -13,7 +13,7 @@ namespace OWP.AutoAssignment
     [ApiController]
     [Authorize]
     [EnableCors("AllowOrigin")]
-    public class PublicApiController: ControllerBase
+    public class PublicApiController : ControllerBase
     {
         private readonly GetRequestService getRequestService;
         private readonly SaveRequestService saveRequestService;

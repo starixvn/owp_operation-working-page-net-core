@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OWP.AutoAssignment.Models.PublicApi;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,10 +9,10 @@ namespace OWP.AutoAssignment.Services.PublicApi
 {
     public interface SabaMatchService
     {
-        Task<int> GetSabaMaxbet(IList<int> matchIds);
+        Task<IEnumerable<SabaMaxbetInfo>> GetSabaMaxbet(IList<int> matchIds);
     }
 
-    internal class SabaMatchServiceIpm : SabaMatchService
+    public class SabaMatchServiceIpm : SabaMatchService
     {
         private readonly Repository repository;
 
@@ -20,9 +21,7 @@ namespace OWP.AutoAssignment.Services.PublicApi
             this.repository = repository;
         }
 
-        public async Task<int> GetSabaMaxbet(IList<int> matchIds)
-        {
-            return await repository.GetSabaMaxbet(string.Join(',', matchIds));
-        }
+        public async Task<IEnumerable<SabaMaxbetInfo>> GetSabaMaxbet(IList<int> matchIds)
+            => await repository.GetSabaMaxbet(matchIds);
     }
 }

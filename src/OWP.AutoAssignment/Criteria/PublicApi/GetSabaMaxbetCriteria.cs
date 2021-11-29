@@ -13,6 +13,6 @@ namespace OWP.AutoAssignment.Criteria.PublicApi
 
         public override string GetSettingKey() => "OWP_AutoAssignment_GetSabaMaxbet";
 
-        public override bool IsValid() => true;
+        public override bool IsValid() => !string.IsNullOrEmpty(MatchIds);
     }
 }

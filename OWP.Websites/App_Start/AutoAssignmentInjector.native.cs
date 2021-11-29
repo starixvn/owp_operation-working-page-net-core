@@ -16,7 +16,7 @@ namespace OWP.Websites.App_Start
             services.AddScoped<RequestBuilder, RequestBuilderImp>();
             services.AddScoped<SaveRequestService, SaveRequestServiceImp>();
             services.AddScoped<SchedulingMatchBuilderService, SchedulingMatchBuilderServiceImp>();
-
+            services.AddScoped<SabaMatchService, SabaMatchServiceIpm>();
             services.AddScoped<LAUserService, LAUserServiceImp>();
             services.AddScoped<TraderUserService, TraderUserServiceImp>();
             services.AddScoped<Repository, RepositoryImp>();
