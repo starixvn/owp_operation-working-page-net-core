@@ -8,7 +8,7 @@ namespace OWP.AutoAssignment.Services.PublicApi
 {
     public interface SchedulingMatchBuilderService
     {
-        Task<IEnumerable<SchedulingMatch>> GetMatchesInfo(DateTime eventDate);
+        Task<IList<SchedulingMatch>> GetMatchesInfo(DateTime eventDate);
     }
 
     public class SchedulingMatchBuilderServiceImp: SchedulingMatchBuilderService
@@ -20,7 +20,7 @@ namespace OWP.AutoAssignment.Services.PublicApi
             this.repository = repository;
         }
 
-        public async Task<IEnumerable<SchedulingMatch>> GetMatchesInfo(DateTime eventDate)
+        public async Task<IList<SchedulingMatch>> GetMatchesInfo(DateTime eventDate)
         {
             var matchQueried = await repository.GetMatchByDate(eventDate);
 

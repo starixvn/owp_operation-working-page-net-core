@@ -15,22 +15,25 @@ namespace OWP.AutoAssignment.Services.PublicApi
     public class RequestBuilderImp : RequestBuilder
     {
         private readonly IList<RequestSender> sender = new List<RequestSender>();
-        private IEnumerable<SchedulingMatch> schedulingMatch = new List<SchedulingMatch>();
-        private IEnumerable<SchedulingLAUser> schedulingLAUser = new List<SchedulingLAUser>();
-        private IEnumerable<TraderInfo> traderInfos = new List<TraderInfo>();
+        private IList<SchedulingMatch> schedulingMatch = new List<SchedulingMatch>();
+        private IList<SchedulingLAUser> schedulingLAUser = new List<SchedulingLAUser>();
+        private IList<TraderInfo> traderInfos = new List<TraderInfo>();
 
         private readonly Repository repository;
         private readonly SchedulingMatchBuilderService matchService;
-        private readonly SchedulingUserBuilderService userService;
+        private readonly LAUserService laService;
+        private readonly TraderUserService traderService;
 
         public RequestBuilderImp(
            Repository repository,
            SchedulingMatchBuilderService matchService,
-           SchedulingUserBuilderService userService)
+           LAUserService laService,
+           TraderUserService traderService)
         {
             this.repository = repository;
             this.matchService = matchService;
-            this.userService = userService;
+            this.laService = laService;
+            this.traderService = traderService;
         }
 
         public async Task<IEnumerable<RequestSender>> BuildRequestSenderModel(IEnumerable<RequestModel> request)
@@ -38,8 +41,8 @@ namespace OWP.AutoAssignment.Services.PublicApi
             foreach (var req in request)
             {
                 schedulingMatch = await matchService.GetMatchesInfo(req.EventDate);
-                schedulingLAUser = await userService.GetLAUsersInfo(req.EventDate);
-                traderInfos = await userService.GetTradersInfo(req.EventDate);
+                schedulingLAUser = await laService.GetLAUsersInfo(req.EventDate);
+                traderInfos = await traderService.GetTradersInfo(req.EventDate);
 
                 if (schedulingMatch.Any() && (schedulingLAUser.Any() || traderInfos.Any()))
                 {
