@@ -24,7 +24,7 @@ namespace OWP.AutoAssignment.Services.PublicApi
 
         public async Task<IEnumerable<RequestSender>> GetRequest()
         {
-            var request = await repository.GetRequests();
+            var request = await repository.GetPublicRequests();
             return await requestBuilder.BuildRequestSenderModel(request);
         }
     }

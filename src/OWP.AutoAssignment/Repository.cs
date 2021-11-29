@@ -1,16 +1,23 @@
 ﻿using Fanex.Data.Repository;
+using OWP.AutoAssignment.Criteria.InternalApi;
 using OWP.AutoAssignment.Criteria.PublicApi;
+using OWP.AutoAssignment.Models.InternalApi;
 using OWP.AutoAssignment.Models.PublicApi;
 using OWP.Utils;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace OWP.AutoAssignment
 {
     public interface Repository
     {
-        Task<IEnumerable<RequestModel>> GetRequests();
+        Task<IEnumerable<SchedulingRequest>> GetRequestsInternal();
+
+        Task<IEnumerable<RequestModel>> GetPublicRequests();
+
+        Task CreateRequest(CreateRequestCriteria criteria);
 
         Task<IEnumerable<RealMatchCommonInfo>> GetRealMatchCommonInfoByIds(IList<int> ids);
 
@@ -27,6 +34,8 @@ namespace OWP.AutoAssignment
         Task<IEnumerable<int>> GetUserInfoFromNAPUserControl();
 
         Task<IEnumerable<int>> GetCustInfoFromDB02();
+
+        Task<string> GetRequestIsWaiting(DateTime eventDate);
     }
 
     public class RepositoryImp : Repository
@@ -36,6 +45,15 @@ namespace OWP.AutoAssignment
         public RepositoryImp(IDynamicRepository dynamicRepository)
         {
             this.dynamicRepository = dynamicRepository;
+        }
+
+        public async Task<IEnumerable<SchedulingRequest>> GetRequestsInternal()
+        {
+            var criteria = new GetRequestsCriteria();
+            var allRequest = await dynamicRepository.FetchAsync<SchedulingRequest>(criteria);
+            return allRequest.Any()
+                ? allRequest.OrderByDescending(r => r.CreatedDate).ToList()
+                : new List<SchedulingRequest>();
         }
 
         public async Task<IEnumerable<RealMatchCommonInfo>> GetRealMatchCommonInfoByIds(IList<int> ids)
@@ -48,7 +66,7 @@ namespace OWP.AutoAssignment
             return await dynamicRepository.FetchAsync<RealMatchCommonInfo>(criteria);
         }
 
-        public async Task<IEnumerable<RequestModel>> GetRequests()
+        public async Task<IEnumerable<RequestModel>> GetPublicRequests()
         {
             var criteria = new NewRequestCriteria();
             return await dynamicRepository.FetchAsync<RequestModel>(criteria);
@@ -114,5 +132,20 @@ namespace OWP.AutoAssignment
 
         public async Task<IEnumerable<int>> GetUserInfoFromNAPUserControl()
             => await dynamicRepository.FetchAsync<int>(new GetUserInfoFromNAPUserControlCriteria { SiteId = 99 });
-}
+
+        public async Task<string> GetRequestIsWaiting(DateTime eventDate)
+        {
+            var criteria = new GetRequestIsWaitingCriteria
+            {
+                EventDate = eventDate
+            };
+            var result = await dynamicRepository.FetchAsync<RequestIsWaitingModel>(criteria);
+            return result.Any()
+                ? string.Join(",", result.Select(req => req.RequestId))
+                : string.Empty;
+        }
+
+        public async Task CreateRequest(CreateRequestCriteria criteria)
+        => await dynamicRepository.ExecuteAsync(criteria);
+    }
 }
