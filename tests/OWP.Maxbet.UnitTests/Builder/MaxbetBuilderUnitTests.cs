@@ -18,42 +18,6 @@ namespace OWP.Maxbet.UnitTests.Builder
 
         private readonly MaxbetBuilderImp maxbetBuilder;
 
-        private readonly Dictionary<int, int> maxbetMapper = new Dictionary<int, int>
-            {
-                {500_000,120_000 },
-                {400_000,120_000 },
-                {350_000,100_000 },
-                {300_000,100_000 },
-                {200_000,100_000 },
-                {180_000,50_000 },
-                {150_000,40_000 },
-                {130_000,40_000 },
-                {120_000,40_000 },
-                {110_000,40_000 },
-                {100_000,40_000 },
-                {90_000,40_000 },
-                {80_000,30_000 },
-                {70_000,30_000 },
-                {60_000,25_000 },
-                {50_000,25_000 },
-                {40_000,20_000 },
-                {35_000,18_000 },
-                {30_000,15_000 },
-                {25_000,12_000 },
-                {20_000,10_000 },
-                {18_000,10_000 },
-                {15_000,8_000 },
-                {12_000,6_000 },
-                {10_000,5_000 },
-                {8_000,4_000 },
-                {7_000,4_000 },
-                {6_000,3_000 },
-                {5_000,3_000 },
-                {4_000,2_000 },
-                {3_000,2_000 },
-                {2_000,2_000 }
-            };
-
         public MaxbetBuilderUnitTests()
         {
             syncMaxbetReposiory = Substitute.For<MaxbetReposiory>();
@@ -183,6 +147,7 @@ namespace OWP.Maxbet.UnitTests.Builder
             var expected = new MaxbetSpread
             {
                 Handicap = 400000,
+                OverUnder = 400000,
                 FirstHalfHandicap = 120000,
                 FirstHalfOverUnder = 120000
             };
@@ -233,7 +198,7 @@ namespace OWP.Maxbet.UnitTests.Builder
                 }
             };
 
-            maxbetBuilder.BuildMaxbetFirstHalfHandicap(maxbet, maxbetMapper);
+            maxbetBuilder.BuildMaxbetFirstHalfHandicap(maxbet);
 
             var expected = new List<MaxbetModel>
             {
@@ -263,7 +228,7 @@ namespace OWP.Maxbet.UnitTests.Builder
                 }
             };
 
-            maxbetBuilder.BuildMaxbetFirstHalfHandicap(maxbet, maxbetMapper);
+            maxbetBuilder.BuildMaxbetFirstHalfHandicap(maxbet);
 
             var expected = new List<MaxbetModel>
             {
@@ -292,7 +257,7 @@ namespace OWP.Maxbet.UnitTests.Builder
                 }
             };
 
-            maxbetBuilder.BuildMaxbetFirstHalfOverUnder(maxbet, maxbetMapper);
+            maxbetBuilder.BuildMaxbetFirstHalfOverUnder(maxbet);
 
             var expected = new List<MaxbetModel>
             {
@@ -322,7 +287,7 @@ namespace OWP.Maxbet.UnitTests.Builder
                 }
             };
 
-            maxbetBuilder.BuildMaxbetFirstHalfOverUnder(maxbet, maxbetMapper);
+            maxbetBuilder.BuildMaxbetFirstHalfOverUnder(maxbet);
 
             var expected = new List<MaxbetModel>
             {
