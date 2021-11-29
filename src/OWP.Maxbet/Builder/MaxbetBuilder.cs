@@ -163,6 +163,13 @@ namespace OWP.Maxbet.Builder
             {
                 return BuildMaxbetSender(maxbet);
             }
+
+            var hasExistsOu = maxbet.Any(s => s.BettypeId == (int)EnumBettype.OverUnder);
+            if (!hasExistsOu)
+            {
+                BuildMaxbetOverUnder(maxbet);
+            }
+
             var hasExistsFirstHalfHdp = maxbet.Any(s => s.BettypeId == (int)EnumBettype.FirstHalfHandicap);
             if (!hasExistsFirstHalfHdp)
             {
@@ -266,6 +273,17 @@ namespace OWP.Maxbet.Builder
         private void BuildMaxbetSpecialOverUnder(List<MaxbetModel> maxbet)
         {
             var handicap = maxbet.FirstOrDefault(m => m.BettypeId.Equals((int)EnumBettype.Handicap));
+            maxbet.Add(new MaxbetModel
+            {
+                BettypeId = (int)EnumBettype.OverUnder,
+                Value = handicap.Value
+            });
+        }
+
+        private void BuildMaxbetOverUnder(List<MaxbetModel> maxbet)
+        {
+            var handicap = maxbet.FirstOrDefault(m => m.BettypeId == (int)EnumBettype.Handicap) ?? new MaxbetModel();
+
             maxbet.Add(new MaxbetModel
             {
                 BettypeId = (int)EnumBettype.OverUnder,
