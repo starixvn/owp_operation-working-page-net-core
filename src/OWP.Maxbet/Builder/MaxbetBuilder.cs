@@ -223,7 +223,7 @@ namespace OWP.Maxbet.Builder
             var hasExistsOu = maxbet.Any(s => s.BettypeId.Equals((int)EnumBettype.OverUnder));
             if (!hasExistsOu)
             {
-                BuildMaxbetSpecialOverUnder(maxbet);
+                BuildMaxbetSpecialOverUnder(maxbet, maxbetMainMatch, hadicapMapper);
             }
 
             var hasExistsFirstHalfHdp = maxbet.Any(s => s.BettypeId.Equals((int)EnumBettype.FirstHalfHandicap));
@@ -270,13 +270,19 @@ namespace OWP.Maxbet.Builder
             });
         }
 
-        private void BuildMaxbetSpecialOverUnder(List<MaxbetModel> maxbet)
+        private void BuildMaxbetSpecialOverUnder(List<MaxbetModel> maxbet, List<MaxbetModel> maxbetMainMatch, Dictionary<int, int> mapper)
         {
-            var handicap = maxbet.FirstOrDefault(m => m.BettypeId.Equals((int)EnumBettype.Handicap));
-            maxbet.Add(new MaxbetModel
+            var handicapMainMatch = maxbetMainMatch.FirstOrDefault(m => m.BettypeId.Equals((int)EnumBettype.Handicap)) ?? new MaxbetModel();
+            var hasExistsHdpMainMatch = mapper.TryGetValue((int)handicapMainMatch.Value, out int valueFirstHdp);
+
+            maxbet.Add(hasExistsHdpMainMatch ? new MaxbetModel
             {
                 BettypeId = (int)EnumBettype.OverUnder,
-                Value = handicap.Value
+                Value = valueFirstHdp
+            } : new MaxbetModel
+            {
+                BettypeId = (int)EnumBettype.OverUnder,
+                Value = handicapMainMatch.Value
             });
         }
 
