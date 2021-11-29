@@ -77,10 +77,13 @@ namespace OWP.AutoAssignment
             return await dynamicRepository.FetchMultipleAsync<TraderInfo, UserWorkingShift>(criteria);
         }
 
-        public Task<IEnumerable<MatchQueried>> GetMatchByDate(DateTime eventDate)
+        public async Task<IEnumerable<MatchQueried>> GetMatchByDate(DateTime eventDate)
         {
-
-            throw new NotImplementedException();
+            var criteria = new GetMatchByDateCriteria()
+            {
+                EventDate = eventDate
+            };
+            return await dynamicRepository.FetchAsync<MatchQueried>(criteria);
         }
 
         public async Task UpdateStatusRequest(StatusRequestModel model)
