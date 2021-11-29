@@ -27,7 +27,7 @@ namespace OWP.AutoAssignment.Services.PublicApi
             var realMatchIds = SelectMatchIds(matchQueried.ToList(), false);
             var sabaMatchIds = SelectMatchIds(matchQueried.ToList(), true);
 
-            var realMatches = await repository.GetRealMatchInfositeByIds(realMatchIds);
+          
 
             return new List<SchedulingMatch>();
         }

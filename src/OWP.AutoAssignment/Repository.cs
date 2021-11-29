@@ -12,7 +12,7 @@ namespace OWP.AutoAssignment
     {
         Task<IEnumerable<RequestModel>> GetRequests();
 
-        Task<IEnumerable<RealMatchInfo>> GetRealMatchInfositeByIds(IList<int> ids);
+        Task<IEnumerable<RealMatchCommonInfo>> GetRealMatchCommonInfoByIds(IList<int> ids);
 
         Task<IEnumerable<MatchQueried>> GetMatchByDate(DateTime eventDate);
 
@@ -33,9 +33,19 @@ namespace OWP.AutoAssignment
     {
         private readonly IDynamicRepository dynamicRepository;
 
-        public async Task<IEnumerable<RealMatchInfo>> GetRealMatchInfositeByIds(IList<int> ids)
+        public RepositoryImp(IDynamicRepository dynamicRepository)
         {
-            throw new NotImplementedException();
+            this.dynamicRepository = dynamicRepository;
+        }
+
+        public async Task<IEnumerable<RealMatchCommonInfo>> GetRealMatchCommonInfoByIds(IList<int> ids)
+        {
+            var criteria = new GetCommonRealMatchInfoByIdsCriteria
+            {
+                Ids = string.Join(",", ids)
+            };
+
+            return await dynamicRepository.FetchAsync<RealMatchCommonInfo>(criteria);
         }
 
         public async Task<IEnumerable<RequestModel>> GetRequests()
@@ -69,6 +79,7 @@ namespace OWP.AutoAssignment
 
         public Task<IEnumerable<MatchQueried>> GetMatchByDate(DateTime eventDate)
         {
+
             throw new NotImplementedException();
         }
 

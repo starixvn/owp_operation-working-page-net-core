@@ -2,7 +2,7 @@
 
 namespace OWP.AutoAssignment.Models.PublicApi
 {
-    public class RealMatch : CommonMatchSender
+    public class RealMatchSender : CommonMatchSender
     {
         public static int[] PickedBettypes => new[] { 0 };
 
@@ -16,6 +16,8 @@ namespace OWP.AutoAssignment.Models.PublicApi
 
         [JsonProperty("MaxBet_NextCorner")]
         public double MaxBet_NextCorner { get; set; }
+
+        public bool HasReporter { get; set; }
 
         public bool RequireChinese { get; set; }
 

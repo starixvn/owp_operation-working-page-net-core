@@ -2,8 +2,8 @@
 {
     public class SchedulingMatch
     {
-        public RealMatch Real { get; set; }
+        public RealMatchSender Real { get; set; }
 
-        public SabaMatch Saba { get; set; }
+        public SabaMatchSender Saba { get; set; }
     }
 }

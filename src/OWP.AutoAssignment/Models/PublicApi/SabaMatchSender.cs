@@ -2,7 +2,7 @@
 
 namespace OWP.AutoAssignment.Models.PublicApi
 {
-    public class SabaMatch : CommonMatchSender
+    public class SabaMatchSender : CommonMatchSender
     {
         [JsonProperty("SABA_type")]
         public int SabaType { get; set; }

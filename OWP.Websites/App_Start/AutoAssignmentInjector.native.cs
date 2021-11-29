@@ -9,7 +9,10 @@ namespace OWP.Websites.App_Start
     {
         public static void InjectAutoAssignmentService(this IServiceCollection services)
         {
+            services.AddScoped<ExtraTimeDetectorService, ExtraTimeDetectorServiceImp>();
             services.AddScoped<GetRequestService, GetRequestServiceImp>();
+            services.AddScoped<ProviderDetectorService, ProviderDetectorServiceImp>();
+            services.AddScoped<RealMatchService, RealMatchServiceImp>();
             services.AddScoped<RequestBuilder, RequestBuilderImp>();
             services.AddScoped<SaveRequestService, SaveRequestServiceImp>();
             services.AddScoped<SchedulingMatchBuilderService, SchedulingMatchBuilderServiceImp>();

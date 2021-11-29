@@ -8,7 +8,7 @@ namespace OWP.AutoAssignment.Models.PublicApi
         [JsonProperty("MaxBet_MainMatch")]
         public double MaxBetMainMatch { get; set; }
 
-        public DateTime KOTime { get; set; }
+        public string KOTime { get; set; }
 
         public string Location { get; set; }
 
