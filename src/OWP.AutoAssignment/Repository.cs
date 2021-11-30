@@ -68,6 +68,16 @@ namespace OWP.AutoAssignment
             return await dynamicRepository.FetchAsync<RealMatchCommonInfo>(criteria);
         }
 
+        public async Task<IEnumerable<SabaMatchCommonInfo>> GetSabaMatchCommonInfoByIds(IList<int> ids)
+        {
+            var criteria = new GetCommonSabaMatchInfoByIdsCriteria()
+            {
+                Ids = string.Join(",", ids)
+            };
+
+            return await dynamicRepository.FetchAsync<SabaMatchCommonInfo>(criteria);
+        }
+
         public async Task<IEnumerable<RequestModel>> GetPublicRequests()
         {
             var criteria = new NewRequestCriteria();
