@@ -30,7 +30,23 @@
             var actual = await service.BuildSabaMatch(matchsQueried);
 
             DeepAssert.Equal(expected, actual);
+        }
 
+        [Fact]
+        public async Task GetSabaMaxbet_Always_ReturnValues()
+        {
+            var expected = new List<SabaMaxbetInfo>()
+                {
+                    new SabaMaxbetInfo { MatchId = 1, Maxbet = 1 }
+                };
+
+            repository.GetSabaMaxbet(Arg.Compat.Any<int[]>())
+                .Returns(expected);
+            var service = new SabaMatchServiceImp(repository);
+
+            var act = await service.GetSabaMaxbet(new int[] { 1 });
+
+            DeepAssert.Equal(expected, act);
         }
 
         public List<SabaMatchCommonInfo> MockListSabaMatchInfo()
@@ -103,7 +119,6 @@
                     SabaType = 3,
                     KOTime = "2021-11-28T00:00:00"
                 }
-
             };
     }
 }
