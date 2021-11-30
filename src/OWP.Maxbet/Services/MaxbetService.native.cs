@@ -3,6 +3,7 @@ using OWP.Maxbet.Builder;
 using OWP.Maxbet.Handlers;
 using OWP.Maxbet.Models;
 using OWP.Maxbet.Selector;
+using OWP.Services;
 using System.Threading.Tasks;
 
 namespace OWP.Maxbet.Services
@@ -32,13 +33,16 @@ namespace OWP.Maxbet.Services
 
         private readonly SpecialProductSelector specialProductSelector;
 
+        private readonly LogServiceWrapper logServiceWrapper;
+
         public MaxbetServiceImp(
             MaxbetReposiory syncMaxbetReposiory,
             TraderAssignmentBuilder traderAssignmentBuilder,
             SpreadBuilder spreadBuilder,
             MaxbetBuilder maxbetBuilder,
             IMediator mediator,
-            SpecialProductSelector specialProductSelector)
+            SpecialProductSelector specialProductSelector,
+            LogServiceWrapper logServiceWrapper)
         {
             this.syncMaxbetReposiory = syncMaxbetReposiory;
             this.traderAssignmentBuilder = traderAssignmentBuilder;
@@ -46,6 +50,7 @@ namespace OWP.Maxbet.Services
             this.maxbetBuilder = maxbetBuilder;
             this.mediator = mediator;
             this.specialProductSelector = specialProductSelector;
+            this.logServiceWrapper = logServiceWrapper;
         }
 
         public async Task<int> GetMatchIdByAdminSiteId(int adminsiteId)
@@ -61,6 +66,9 @@ namespace OWP.Maxbet.Services
             var maxbet = await specialProductSelector.SelectMaxbet(owpMatch, bettypeId);
             var secondAcceptValue = await specialProductSelector.SelectSecondAcceptedValues(owpMatch.MinorMatchId, bettypeId);
             var numberOfLines = await specialProductSelector.SelectNumberOfLines(owpMatch.MinorMatchId, bettypeId);
+
+            await logServiceWrapper.Log("=====GetSpecialProductInfo request======", owpMatch, adminsiteId, bettypeId);
+            await logServiceWrapper.Log("=====GetSpecialProductInfo======", traders, spread, maxbet, secondAcceptValue, numberOfLines);
 
             var maxbetCN88 = new MaxbetSpread
             {

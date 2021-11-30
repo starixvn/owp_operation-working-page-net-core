@@ -1,4 +1,5 @@
 ﻿using OWP.Maxbet.Models;
+using OWP.Services;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,14 +14,18 @@ namespace OWP.Maxbet.Builder
     {
         private readonly MaxbetReposiory maxbetReposiory;
 
-        public SpecialProductTraderBuilderImp(MaxbetReposiory maxbetReposiory)
+        private readonly LogServiceWrapper logServiceWrapper;
+
+        public SpecialProductTraderBuilderImp(MaxbetReposiory maxbetReposiory, LogServiceWrapper logServiceWrapper)
         {
             this.maxbetReposiory = maxbetReposiory;
+            this.logServiceWrapper = logServiceWrapper;
         }
 
         public async Task<TraderAssignmentSender> BuildTraderXMins(int specialProductId)
         {
             var traders = await maxbetReposiory.GetTraderXMins(specialProductId);
+            await logServiceWrapper.Log("=====BuildTraderXMins======", traders);
             var traderHdp = traders?.FirstOrDefault();
             return new TraderAssignmentSender
             {

@@ -20,7 +20,7 @@
             var index = 0;
             foreach (var parameter in parameters)
             {
-                stringBuilder.AppendFormat("Parameter {0}-{1}: {2}\r\n", index, parameter.GetType(), JsonConvert.SerializeObject(parameter));
+                stringBuilder.AppendFormat("Parameter {0}-{1}: {2}\r\n", index, parameter != null ? parameter.GetType() : string.Empty, JsonConvert.SerializeObject(parameter));
                 index++;
             }
 
