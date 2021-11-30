@@ -1,13 +1,13 @@
-﻿using Fanex.Data.Repository;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Fanex.Data.Repository;
 using OWP.AutoAssignment.Criteria.InternalApi;
 using OWP.AutoAssignment.Criteria.PublicApi;
 using OWP.AutoAssignment.Models.InternalApi;
 using OWP.AutoAssignment.Models.PublicApi;
 using OWP.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace OWP.AutoAssignment
 {
@@ -20,6 +20,8 @@ namespace OWP.AutoAssignment
         Task CreateRequest(CreateRequestCriteria criteria);
 
         Task<IEnumerable<RealMatchCommonInfo>> GetRealMatchCommonInfoByIds(IList<int> ids);
+
+        Task<IEnumerable<SabaMatchCommonInfo>> GetSabaMatchCommonInfoByIds(IList<int> ids);
 
         Task<IEnumerable<MatchQueried>> GetMatchByDate(DateTime eventDate);
 
