@@ -19,6 +19,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\src\OWP.AutoAssignment\OWP.AutoAssignment.csproj" />
+		<ProjectReference Include="..\..\src\OWP.AutoAssignment\OWP.AutoAssignment.csproj" />
 	</ItemGroup>
 </Project>
