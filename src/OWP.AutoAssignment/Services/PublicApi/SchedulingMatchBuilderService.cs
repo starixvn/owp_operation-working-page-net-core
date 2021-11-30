@@ -15,11 +15,8 @@ namespace OWP.AutoAssignment.Services.PublicApi
     {
         private readonly Repository repository;
 
-        private readonly SabaMatchService sabaMatchService;
-
-        public SchedulingMatchBuilderServiceImp(Repository repository, SabaMatchService sabaMatchService)
+        public SchedulingMatchBuilderServiceImp(Repository repository)
         {
-            this.sabaMatchService = sabaMatchService;
             this.repository = repository;
         }
 
@@ -29,8 +26,6 @@ namespace OWP.AutoAssignment.Services.PublicApi
 
             var realMatchIds = SelectMatchIds(matchQueried.ToList(), false);
             var sabaMatchIds = SelectMatchIds(matchQueried.ToList(), true);
-
-            var sabaMaxbets = await sabaMatchService.GetSabaMaxbet(sabaMatchIds);
 
             return new List<SchedulingMatch>();
         }

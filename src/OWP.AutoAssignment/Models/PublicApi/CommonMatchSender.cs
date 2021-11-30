@@ -6,7 +6,7 @@ namespace OWP.AutoAssignment.Models.PublicApi
     public class CommonMatchSender
     {
         [JsonProperty("MaxBet_MainMatch")]
-        public double MaxBetMainMatch { get; set; }
+        public decimal? MaxBetMainMatch { get; set; }
 
         public string KOTime { get; set; }
 

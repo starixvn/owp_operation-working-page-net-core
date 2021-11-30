@@ -1,6 +1,4 @@
-﻿
-
-namespace OWP.AutoAssignment.Services.PublicApi
+﻿namespace OWP.AutoAssignment.Services.PublicApi
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -28,12 +26,15 @@ namespace OWP.AutoAssignment.Services.PublicApi
         {
             var matchIds = matchsQueried.Select(i => i.InfositeMatchId).ToList();
             var matchInfos = await GetSabaMatchInfo(matchIds);
+            var maxbetInfos = await GetSabaMaxbet(matchIds);
+
             return matchInfos.Select(i => new SabaMatchSender()
             {
                 MatchId = i.InfositeId,
                 Location = i.Location,
                 KOTime = i.KOTime.ToString(AutoConstant.FormatDateTime),
                 SabaType = GetSabaType(matchsQueried, i.InfositeId),
+                MaxBetMainMatch = GetMaxbetValue(maxbetInfos.ToList(), i.InfositeId)
             }).ToList();
         }
 
@@ -42,11 +43,15 @@ namespace OWP.AutoAssignment.Services.PublicApi
                 .Select(x => x.SabaType)
                 .FirstOrDefault();
 
+        private decimal? GetMaxbetValue(List<SabaMaxbetInfo> maxbetInfos, int infositeId)
+            => maxbetInfos.Where(m => m.MatchId == infositeId)
+                .Select(x => x.Maxbet)
+                .FirstOrDefault();
+
         public async Task<IEnumerable<SabaMaxbetInfo>> GetSabaMaxbet(IList<int> matchIds)
             => await repository.GetSabaMaxbet(matchIds);
 
         public async Task<IEnumerable<SabaMatchCommonInfo>> GetSabaMatchInfo(IList<int> matchIds)
             => await repository.GetSabaMatchCommonInfoByIds(matchIds);
-
     }
 }
