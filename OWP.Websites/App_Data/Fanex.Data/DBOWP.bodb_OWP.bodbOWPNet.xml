@@ -208,7 +208,7 @@
 		<Setting Key="OWP_AutoAssignment_GetSabaMaxbet" SpName="OWP_AutoAssignment_GetSabaMaxbet" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
 		<Setting Key="OWP_AutoAssignment_GetCommonRealMatchInfoByIds" SpName="OWP_AutoAssignment_GetCommonRealMatchInfoByIds" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
 		<Setting Key="OWP_AutoAssignment_GetCommonSabaMatchInfoByIds" SpName="OWP_AutoAssignment_GetCommonSabaMatchInfoByIds" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
-		<Setting Key="OWP_AutoAssignment_DetectSabaMatchByDate" SpName="OWP_AutoAssignment_DetectSabaMatchByDate" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
+		<Setting Key="OWP_AutoAssignment_GetMainMatch" SpName="OWP_AutoAssignment_GetMainMatch" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
 	</Function>
 	<Function Name="LSTReport">
 		<Setting Key="Task_OWP_LSTReport_GetDataByDate" SpName="Task_OWP_LSTReport_GetDataByDate" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>

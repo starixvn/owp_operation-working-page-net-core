@@ -4,8 +4,6 @@
     {
         public int InfositeMatchId { get; set; }
 
-        public bool IsSaba { get; set; }
-
         public int SabaType { get; set; }
     }
 }
