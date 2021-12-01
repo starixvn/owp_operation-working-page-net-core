@@ -5,6 +5,8 @@ using OWP.AutoAssignment.Services.SaveResponse;
 
 namespace OWP.Websites.App_Start
 {
+    using AutoAssignment.Services.InternalApi;
+
     public static class AutoAssignmentInjector
     {
         public static void InjectAutoAssignmentService(this IServiceCollection services)
@@ -20,6 +22,7 @@ namespace OWP.Websites.App_Start
             services.AddScoped<LAUserService, LAUserServiceImp>();
             services.AddScoped<TraderUserService, TraderUserServiceImp>();
             services.AddScoped<Repository, RepositoryImp>();
+            services.AddScoped<CreateRequestService, CreateRequestServiceImp>();
         }
     }
 }
