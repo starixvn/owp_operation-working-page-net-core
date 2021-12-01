@@ -37,6 +37,17 @@ namespace OWP.Maxbet
             return Ok(maxbetInfo);
         }
 
+
+        [HttpGet]
+        [Route("matchId/subType/{matchId}/{subType}")]
+        [Produces("application/json")]
+        public async Task<IActionResult> GetBettypeId(int matchId, int subType)
+        {
+            var bettypeId = MinorBettype.GetMinorBettypeIdBySubtype(subType);
+            var owpMatch = await maxbetService.GetMatchIdByAdminSiteId(matchId, bettypeId);
+            return Ok(new { subType, bettypeId, owpMatch });
+        }
+
         [HttpGet]
         [Route("{matchId}/{subType}")]
         [Produces("application/json")]
@@ -44,7 +55,6 @@ namespace OWP.Maxbet
         {
             var bettypeId = MinorBettype.GetMinorBettypeIdBySubtype(subType);
             var owpMatch = await maxbetService.GetMatchIdByAdminSiteId(matchId, bettypeId);
-
             if (owpMatch is null)
             {
                 return NotFound();
@@ -53,6 +63,7 @@ namespace OWP.Maxbet
             var maxbetInfo = await maxbetService.GetSpecialProductInfo(owpMatch, matchId, bettypeId);
 
             return Ok(maxbetInfo);
+           
         }
     }
 }
