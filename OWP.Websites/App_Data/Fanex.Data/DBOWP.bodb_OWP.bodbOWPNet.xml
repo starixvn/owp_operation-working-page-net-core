@@ -245,7 +245,7 @@
 		<Setting Key="OWP_API_SyncMaxbet_GetMatchNoHDP" SpName="OWP_API_SyncMaxbet_GetMatchNoHDP" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_API_SyncMaxbet_GetSpread" SpName="OWP_API_SyncMaxbet_GetSpread" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_API_SyncMaxbet_GetMaxbet" SpName="OWP_API_SyncMaxbet_GetMaxbet" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-		<Setting Key="OWP_API_SyncMaxbet_GetMatchIdByAdminsiteIdAndBettypeId" SpName="OWP_API_SyncMaxbet_GetMatchIdByAdminsiteIdAndBettypeId_xtest" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_API_SyncMaxbet_GetMatchIdByAdminsiteIdAndBettypeId" SpName="OWP_API_SyncMaxbet_GetMatchIdByAdminsiteIdAndBettypeId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_API_SyncMaxbet_GetTraderXMins" SpName="OWP_API_SyncMaxbet_GetTraderXMins" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_API_SyncMaxbet_GetSpreadXMins" SpName="OWP_API_SyncMaxbet_GetSpreadXMins" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_API_SyncMaxbet_GetMaxbetXMins" SpName="OWP_API_SyncMaxbet_GetMaxbetXMins" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
