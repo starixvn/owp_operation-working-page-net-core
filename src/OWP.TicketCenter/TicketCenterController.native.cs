@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -7,13 +9,12 @@ using OWP.TicketCenter.Middleware;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Services;
 using OWP.TicketCenter.ViewModels;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace OWP.TicketCenter
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
     [Authorize]
     [EnableCors("AllowOrigin")]
     public class TicketCenterController : ControllerBase
@@ -116,6 +117,14 @@ namespace OWP.TicketCenter
         [ServiceFilter(typeof(PermissionFilter), Order = 0)]
         [ServiceFilter(typeof(PermissionRemoveLastRecipient), Order = 1)]
         public async Task<IActionResult> RemoveSingleRecipient(RemoveSingleRecipientRequest request)
+        {
+            var result = await mediator.Send(request);
+            return Ok(result);
+        }
+
+        [HttpPost("ticket-detail/update-ticket-status")]
+        [ServiceFilter(typeof(PermissionFilter))]
+        public async Task<IActionResult> UpdateTicketStatus(UpdateTicketStatusRequest request)
         {
             var result = await mediator.Send(request);
             return Ok(result);

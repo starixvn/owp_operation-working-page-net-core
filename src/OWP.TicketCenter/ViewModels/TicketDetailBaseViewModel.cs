@@ -1,5 +1,5 @@
-﻿using OWP.TicketCenter.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using OWP.TicketCenter.Models;
 
 namespace OWP.TicketCenter.ViewModels
 {
@@ -11,6 +11,8 @@ namespace OWP.TicketCenter.ViewModels
         public int TicketId { get; set; }
 
         public int TicketType { get; set; }
+
+        public string TicketStatus { get; set; }
 
         public string TypeName { get; set; }
 

@@ -9,7 +9,7 @@ namespace OWP.TicketCenter.Handlers
 {
     public class TicketOtherDetailRequest : PermissionCheckedModel, IRequest<TicketOtherDetailViewModel>
     {
-      
+
     }
 
     public class TicketOtherDetailHandler : IRequestHandler<TicketOtherDetailRequest, TicketOtherDetailViewModel>

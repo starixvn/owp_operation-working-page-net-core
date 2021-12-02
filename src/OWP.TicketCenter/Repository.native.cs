@@ -2,15 +2,15 @@
 
 namespace OWP.TicketCenter
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
     using AutoMapper;
     using Criteria;
     using Fanex.Data.Repository;
     using OWP.TicketCenter.Handlers;
     using OWP.TicketCenter.Models;
     using OWP.Utils;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     public interface Repository
     {
@@ -74,6 +74,8 @@ namespace OWP.TicketCenter
         Task InsertNewRecipientNotification(InsertNewRecipientNotificationCriteria criteria);
 
         Task InsertNewMessageNotification(InsertNewMessageNotificationCriteria criteria);
+
+        Task UpdateTicketStatus(UpdateTicketStatusCriteria criteria);
     }
 
     public class RepositoryImp : Repository
@@ -168,7 +170,7 @@ namespace OWP.TicketCenter
 
         public async Task RemoveManyRecipientReader(RemoveManyRecipientReaderCriteria criteria)
             => await dynamicRepository.ExecuteAsync(criteria);
-       
+
 
         public async Task<int> RemoveSingleRecipient(RemoveSingleRecipientRequest request)
         {
@@ -272,7 +274,7 @@ namespace OWP.TicketCenter
 
         public async Task UpdateManyRecipientReader(UpdateManyRecipientReaderCriteria criteria)
             => await dynamicRepository.ExecuteAsync(criteria);
-       
+
 
         public async Task UpdateSingleRecipientReader(UpdateSingleRecipientReaderCriteria criteria)
         {
@@ -292,6 +294,9 @@ namespace OWP.TicketCenter
             => await dynamicRepository.ExecuteAsync(criteria);
 
         public async Task InsertNewMessageNotification(InsertNewMessageNotificationCriteria criteria)
+            => await dynamicRepository.ExecuteAsync(criteria);
+
+        public async Task UpdateTicketStatus(UpdateTicketStatusCriteria criteria)
             => await dynamicRepository.ExecuteAsync(criteria);
     }
 }
