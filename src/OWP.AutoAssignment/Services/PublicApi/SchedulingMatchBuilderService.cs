@@ -37,7 +37,7 @@ namespace OWP.AutoAssignment.Services.PublicApi
 
         private IList<int> SelectMatchIds(IList<MatchQueried> matchQuerieds, bool isSaba)
           => matchQuerieds
-              .Where(m => m.IsSaba == isSaba)
+              .Where(m => m.SabaType.HasValue)
               .Select(x => x.InfositeMatchId)
               .ToList();
     }

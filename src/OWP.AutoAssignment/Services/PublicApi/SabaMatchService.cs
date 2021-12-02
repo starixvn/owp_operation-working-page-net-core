@@ -40,7 +40,7 @@
 
         private static int GetSabaType(List<MatchQueried> matchsQueried, int infositeId)
             => matchsQueried.Where(i => i.InfositeMatchId == infositeId)
-                .Select(x => x.SabaType)
+                .Select(x => x.SabaType.Value)
                 .FirstOrDefault();
 
         private decimal? GetMaxbetValue(List<SabaMaxbetInfo> maxbetInfos, int infositeId)

@@ -78,19 +78,16 @@
                 new()
                 {
                     InfositeMatchId = 1,
-                    IsSaba = true,
                     SabaType = 1
                 },
                 new()
                 {
                     InfositeMatchId = 2,
-                    IsSaba = true,
                     SabaType = 2
                 },
                 new()
                 {
                     InfositeMatchId = 3,
-                    IsSaba = true,
                     SabaType = 3
                 },
             };
