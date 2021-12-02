@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Asserts.Compare;
+using OWP.Services;
 
 namespace OWP.Maxbet.UnitTests.Builder
 {
@@ -16,10 +17,13 @@ namespace OWP.Maxbet.UnitTests.Builder
 
         private readonly SpreadBuilderImp spreadBuilder;
 
+        private readonly LogServiceWrapper logServiceWrapper;
+
         public SpreadBuilderUnitTests()
         {
+            logServiceWrapper = Substitute.For<LogServiceWrapper>();
             syncMaxbetReposiory = Substitute.For<MaxbetReposiory>();
-            spreadBuilder = new SpreadBuilderImp(syncMaxbetReposiory);
+            spreadBuilder = new SpreadBuilderImp(syncMaxbetReposiory, logServiceWrapper);
         }
 
         [Fact]

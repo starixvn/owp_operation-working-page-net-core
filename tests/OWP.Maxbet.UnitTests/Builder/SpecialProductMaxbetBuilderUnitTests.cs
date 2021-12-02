@@ -1,11 +1,8 @@
 ﻿using NSubstitute;
 using OWP.Maxbet.Builder;
 using OWP.Maxbet.Models;
-using System;
+using OWP.Services;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 using Xunit.Asserts.Compare;
 
@@ -19,16 +16,20 @@ namespace OWP.Maxbet.UnitTests.Builder
 
         private readonly MaxbetBuilder maxbetBuilder;
 
+        private readonly LogServiceWrapper logServiceWrapper;
+
         public SpecialProductMaxbetBuilderUnitTests()
         {
             syncMaxbetReposiory = Substitute.For<MaxbetReposiory>();
             maxbetBuilder = Substitute.For<MaxbetBuilder>();
-            specialProductMaxbetBuilder = new SpecialProductMaxbetBuilderImp(syncMaxbetReposiory, maxbetBuilder);
+            logServiceWrapper = Substitute.For<LogServiceWrapper>();
+            specialProductMaxbetBuilder = new SpecialProductMaxbetBuilderImp(syncMaxbetReposiory, maxbetBuilder, logServiceWrapper);
         }
 
         [Fact]
         public async void BuildMaxbet_Not_Found_Maxbet_Return_ModelDefault()
         {
+            await logServiceWrapper.Log(Arg.Compat.Any<string>());
             syncMaxbetReposiory
                 .GetMaxbetByOwpMatchId(123)
                     .ReturnsForAnyArgs(new List<MaxbetModel>());
@@ -39,6 +40,7 @@ namespace OWP.Maxbet.UnitTests.Builder
         [Fact]
         public async void BuildMaxbet_Found_Maxbet_Return_ModelMaxbetSpread()
         {
+            await logServiceWrapper.Log(Arg.Compat.Any<string>());
             syncMaxbetReposiory
                 .GetMaxbetByOwpMatchId(123)
                     .ReturnsForAnyArgs(new List<MaxbetModel>()

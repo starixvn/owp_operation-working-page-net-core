@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Asserts.Compare;
+using OWP.Services;
 
 namespace OWP.Maxbet.UnitTests.Builder
 {
@@ -15,10 +16,13 @@ namespace OWP.Maxbet.UnitTests.Builder
 
         private readonly TraderAssignmentBuilderImp traderAssignment;
 
+        private readonly LogServiceWrapper logServiceWrapper;
+
         public TraderAssignmentBuilderUnitTests()
         {
+            logServiceWrapper = Substitute.For<LogServiceWrapper>();
             syncMaxbetReposiory = Substitute.For<MaxbetReposiory>();
-            traderAssignment = new TraderAssignmentBuilderImp(syncMaxbetReposiory);
+            traderAssignment = new TraderAssignmentBuilderImp(syncMaxbetReposiory, logServiceWrapper);
         }
 
         [Fact]

@@ -1,5 +1,6 @@
 ﻿using NSubstitute;
 using OWP.Maxbet.Builder;
+using OWP.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +16,15 @@ namespace OWP.Maxbet.UnitTests.Builder
         private readonly MaxbetReposiory syncMaxbetReposiory;
 
         private readonly SpecialProductSpreadBuilder specialProductSpreadBuilder;
+        
+        private readonly LogServiceWrapper logServiceWrapper;
+
 
         public SpecialProductSpreadBuilderUnitTests()
         {
+            logServiceWrapper = Substitute.For<LogServiceWrapper>();
             syncMaxbetReposiory = Substitute.For<MaxbetReposiory>();
-            specialProductSpreadBuilder = new SpecialProductSpreadBuilderImp(syncMaxbetReposiory);
+            specialProductSpreadBuilder = new SpecialProductSpreadBuilderImp(syncMaxbetReposiory, logServiceWrapper);
         }
 
         [Fact]
