@@ -1,6 +1,7 @@
 ﻿using OWP.AutoAssignment.Criteria.InternalApi;
 using OWP.AutoAssignment.Enum;
 using OWP.AutoAssignment.Models.InternalApi;
+using OWP.AutoAssignment.Services.PublicApi;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,11 +14,11 @@ namespace OWP.AutoAssignment.Services.InternalApi
     {
         Task CreateRequest(CreateRequestModel model);
 
-        Task<bool> ExistMatchValid(CreateRequestModel model);
+        Task<bool> ExistMatchValid(DateTime eventDate);
 
-        Task<bool> ExistsTraderValid(CreateRequestModel model);
+        Task<bool> ExistsSuspenderValid(DateTime eventDate);
 
-        Task<string> GetRequestIsWaiting(CreateRequestModel model);
+        Task<string> GetRequestIsWaiting(DateTime eventDate);
 
         Task<IList<SchedulingRequest>> GetRequests();
     }
@@ -25,14 +26,24 @@ namespace OWP.AutoAssignment.Services.InternalApi
     public class CreateRequestServiceImp : CreateRequestService
     {
         private readonly Repository repository;
-       
+
+        private readonly SchedulingMatchBuilderService schedulingMatchBuilderService;
+
+        private readonly LAUserService lAUserService;
+
+        private readonly TraderUserService traderUserService;
 
         public CreateRequestServiceImp(
-            Repository repository
+            Repository repository,
+            SchedulingMatchBuilderService schedulingMatchBuilderService,
+            LAUserService lAUserService,
+            TraderUserService traderUserService
             )
         {
             this.repository = repository;
-           
+            this.schedulingMatchBuilderService = schedulingMatchBuilderService;
+            this.lAUserService = lAUserService;
+            this.traderUserService = traderUserService;
         }
 
         public async Task CreateRequest(CreateRequestModel model)
@@ -47,19 +58,22 @@ namespace OWP.AutoAssignment.Services.InternalApi
             await repository.CreateRequest(criteria);
         }
 
-        public Task<bool> ExistMatchValid(CreateRequestModel model)
+        public async Task<bool> ExistMatchValid(DateTime eventDate)
         {
-            throw new NotImplementedException();
+            var match = await schedulingMatchBuilderService.GetMatchesInfo(eventDate);
+            return match.Real.Any() || match.Saba.Any();
         }
 
-        public Task<bool> ExistsTraderValid(CreateRequestModel model)
+        public async Task<bool> ExistsSuspenderValid(DateTime eventDate)
         {
-            throw new NotImplementedException();
+            var existsLaUser = await lAUserService.ExistsLAUserValid(eventDate);
+            var existsTraderUser = await traderUserService.ExistsTraderValid(eventDate);
+            return existsLaUser || existsTraderUser;
         }
 
-        public async Task<string> GetRequestIsWaiting(CreateRequestModel model)
+        public async Task<string> GetRequestIsWaiting(DateTime eventDate)
         {
-            var requestIsWaiting = await repository.GetRequestIsWaiting(model.EventDate);
+            var requestIsWaiting = await repository.GetRequestIsWaiting(eventDate);
             return requestIsWaiting;
         }
 
@@ -70,5 +84,7 @@ namespace OWP.AutoAssignment.Services.InternalApi
                 ? allRequest.OrderByDescending(r => r.CreatedDate).ToList()
                 : new List<SchedulingRequest>();
         }
+
+
     }
 }

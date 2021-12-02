@@ -11,6 +11,8 @@ namespace OWP.AutoAssignment.Services.PublicApi
     public interface TraderUserService
     {
         Task<IList<SchedulingTraderInfo>> GetTradersInfo(DateTime eventDate);
+
+        Task<bool> ExistsTraderValid(DateTime eventDate);
     }
 
     public class TraderUserServiceImp : TraderUserService
@@ -66,5 +68,8 @@ namespace OWP.AutoAssignment.Services.PublicApi
 
             traders.ForEach(x => x.MaxGames = maxGameDict.GetValue(x.MultipleGames ?? string.Empty, null));
         }
+
+        public async Task<bool> ExistsTraderValid(DateTime eventDate)
+        => (await GetTradersInfo(eventDate)).Any();
     }
 }

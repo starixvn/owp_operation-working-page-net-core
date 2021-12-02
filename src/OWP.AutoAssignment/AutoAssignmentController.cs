@@ -31,9 +31,9 @@ namespace OWP.AutoAssignment
         [HttpPost]
         public async Task<IActionResult> CreateRequest(CreateRequestModel model)
         {
-            var existsMatchValid = await createRequestService.ExistMatchValid(model);
-            var existsTraderValid = await createRequestService.ExistsTraderValid(model);
-            var requestIdIsWaiting = await createRequestService.GetRequestIsWaiting(model);
+            var existsMatchValid = await createRequestService.ExistMatchValid(model.EventDate);
+            var existsTraderValid = await createRequestService.ExistsSuspenderValid(model.EventDate);
+            var requestIdIsWaiting = await createRequestService.GetRequestIsWaiting(model.EventDate);
             if (!string.IsNullOrWhiteSpace(requestIdIsWaiting))
             {
                 var message = string.Format(AutoConstant.ExistsRequestIdIsWaiting, requestIdIsWaiting);

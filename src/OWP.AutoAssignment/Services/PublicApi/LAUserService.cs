@@ -10,6 +10,8 @@ namespace OWP.AutoAssignment.Services.PublicApi
     public interface LAUserService
     {
         Task<IList<SchedulingLAUser>> GetLAUsersInfo(DateTime eventDate);
+
+        Task<bool> ExistsLAUserValid(DateTime eventDate);
     }
 
     public class LAUserServiceImp : LAUserService
@@ -60,5 +62,8 @@ namespace OWP.AutoAssignment.Services.PublicApi
                  OutTime = ws.ShiftEndTime.ToString(AutoConstant.FormatDateTime)
              }).ToArray()
          };
+
+        public async Task<bool> ExistsLAUserValid(DateTime eventDate)
+            => (await GetLAUsersInfo(eventDate)).Any();
     }
 }
