@@ -8,9 +8,7 @@
 
     public interface SabaMatchService
     {
-        Task<IEnumerable<SabaMaxbetInfo>> GetSabaMaxbet(IList<int> matchIds);
-
-        Task<IEnumerable<SabaMatchSender>> BuildSabaMatch(List<MatchQueried> matchsQueried);
+        Task<IList<SabaMatchSender>> BuildSabaMatchInfo(IList<MatchQueried> matchsQueried);
     }
 
     public class SabaMatchServiceImp : SabaMatchService
@@ -22,7 +20,7 @@
             this.repository = repository;
         }
 
-        public async Task<IEnumerable<SabaMatchSender>> BuildSabaMatch(List<MatchQueried> matchsQueried)
+        public async Task<IList<SabaMatchSender>> BuildSabaMatchInfo(IList<MatchQueried> matchsQueried)
         {
             var matchIds = matchsQueried.Select(i => i.InfositeMatchId).ToList();
             var matchInfos = await GetSabaMatchInfo(matchIds);
@@ -34,19 +32,19 @@
                 Location = i.Location,
                 KOTime = i.KOTime.ToString(AutoConstant.FormatDateTime),
                 SabaType = GetSabaType(matchsQueried, i.InfositeId),
-                MaxBetMainMatch = GetMaxbetValue(maxbetInfos.ToList(), i.InfositeId)
+                MaxBet = GetMaxbetValue(maxbetInfos.ToList(), i.InfositeId)
             }).ToList();
         }
 
-        private static int GetSabaType(List<MatchQueried> matchsQueried, int infositeId)
-            => matchsQueried.Where(i => i.InfositeMatchId == infositeId)
-                .Select(x => x.SabaType.Value)
-                .FirstOrDefault();
+        private static int? GetSabaType(IList<MatchQueried> matchsQueried, int infositeId)
+            => matchsQueried
+            .FirstOrDefault(i => i.InfositeMatchId == infositeId)?
+            .SabaType;
 
         private decimal? GetMaxbetValue(List<SabaMaxbetInfo> maxbetInfos, int infositeId)
-            => maxbetInfos.Where(m => m.MatchId == infositeId)
-                .Select(x => x.Maxbet)
-                .FirstOrDefault();
+            => maxbetInfos
+            .FirstOrDefault(m => m.MatchId == infositeId)?
+            .Maxbet;
 
         public async Task<IEnumerable<SabaMaxbetInfo>> GetSabaMaxbet(IList<int> matchIds)
             => await repository.GetSabaMaxbet(matchIds);

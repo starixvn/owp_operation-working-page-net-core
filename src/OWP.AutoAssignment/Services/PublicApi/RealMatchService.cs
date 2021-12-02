@@ -3,13 +3,14 @@ using OWP.AutoAssignment.Criteria.PublicApi;
 using OWP.AutoAssignment.Models.PublicApi;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace OWP.AutoAssignment.Services.PublicApi
 {
     public interface RealMatchService
     {
-        Task<IList<RealMatchSender>> Build(IList<int> ids);
+        Task<IList<RealMatchSender>> BuildRealMatchInfo(IList<MatchQueried> matchsQueried);
     }
 
     public class RealMatchServiceImp : RealMatchService
@@ -31,10 +32,13 @@ namespace OWP.AutoAssignment.Services.PublicApi
             this.providerService = providerService;
         }
 
-        public async Task<IList<RealMatchSender>> Build(IList<int> ids)
+        public async Task<IList<RealMatchSender>> BuildRealMatchInfo(IList<MatchQueried> matchsQueried)
         {
+            var matchIds = matchsQueried.Select(i => i.InfositeMatchId).ToList();
+
             var realMatchSenders = new List<RealMatchSender>();
-            var realMatches = await repository.GetRealMatchCommonInfoByIds(ids);
+            var realMatches = await repository.GetRealMatchCommonInfoByIds(matchIds);
+           
             foreach (var match in realMatches)
             {
                 var commonInfo = GetCommonInfo(match);

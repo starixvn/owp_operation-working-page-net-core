@@ -27,11 +27,11 @@ namespace OWP.AutoAssignment
 
         Task<ValueTuple<IEnumerable<LAUserInfo>, IEnumerable<UserWorkingShift>>> GetLAInfoByDate(DateTime eventDate);
 
-        Task<ValueTuple<IEnumerable<TraderInfo>, IEnumerable<UserWorkingShift>>> GetTraderInfoByDate(DateTime eventDate);
+        Task<ValueTuple<IEnumerable<SchedulingTraderInfo>, IEnumerable<UserWorkingShift>>> GetTraderInfoByDate(DateTime eventDate);
 
         Task UpdateStatusRequest(StatusRequestModel statusRequestModel);
 
-        Task<ValueTuple<IEnumerable<TraderInfo>, IEnumerable<UserWorkingShift>>> GetTraders(DateTime eventDate);
+        Task<ValueTuple<IEnumerable<SchedulingTraderInfo>, IEnumerable<UserWorkingShift>>> GetTraders(DateTime eventDate);
 
         Task<IEnumerable<int>> GetUserInfoFromNAPUserControl();
 
@@ -98,7 +98,7 @@ namespace OWP.AutoAssignment
             return await dynamicRepository.FetchMultipleAsync<LAUserInfo, UserWorkingShift>(criteria);
         }
 
-        public async Task<(IEnumerable<TraderInfo>, IEnumerable<UserWorkingShift>)> GetTraderInfoByDate(DateTime eventDate)
+        public async Task<(IEnumerable<SchedulingTraderInfo>, IEnumerable<UserWorkingShift>)> GetTraderInfoByDate(DateTime eventDate)
         {
             var criteria = new GetTradersByDateCriteria
             {
@@ -106,12 +106,12 @@ namespace OWP.AutoAssignment
                 EventDate = eventDate
             };
 
-            return await dynamicRepository.FetchMultipleAsync<TraderInfo, UserWorkingShift>(criteria);
+            return await dynamicRepository.FetchMultipleAsync<SchedulingTraderInfo, UserWorkingShift>(criteria);
         }
 
         public async Task<IEnumerable<MatchQueried>> GetMatchByDate(DateTime eventDate)
         {
-            var criteria = new GetMatchByDateCriteria()
+            var criteria = new GetInfoSiteMatchByDateCriteria()
             {
                 EventDate = eventDate
             };
@@ -128,7 +128,7 @@ namespace OWP.AutoAssignment
             await dynamicRepository.ExecuteAsync(criteria);
         }
 
-        public async Task<(IEnumerable<TraderInfo>, IEnumerable<UserWorkingShift>)> GetTraders(DateTime eventDate)
+        public async Task<(IEnumerable<SchedulingTraderInfo>, IEnumerable<UserWorkingShift>)> GetTraders(DateTime eventDate)
         {
             {
                 var criteria = new GetTradersByDateCriteria
@@ -137,7 +137,7 @@ namespace OWP.AutoAssignment
                     EventDate = eventDate
                 };
 
-                return await dynamicRepository.FetchMultipleAsync<TraderInfo, UserWorkingShift>(criteria);
+                return await dynamicRepository.FetchMultipleAsync<SchedulingTraderInfo, UserWorkingShift>(criteria);
             }
         }
 
@@ -164,6 +164,6 @@ namespace OWP.AutoAssignment
 
         public async Task<IEnumerable<SabaMaxbetInfo>> GetSabaMaxbet(IList<int> matchIds)
             => await dynamicRepository.FetchAsync<SabaMaxbetInfo>(
-                new GetSabaMaxbetCriteria { MatchIds = string.Join(',', matchIds) });
+                new GetMaxMaxbetFTHDPCriteria { MatchIds = string.Join(',', matchIds) });
     }
 }

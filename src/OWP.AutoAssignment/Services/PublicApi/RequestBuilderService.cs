@@ -15,9 +15,9 @@ namespace OWP.AutoAssignment.Services.PublicApi
     public class RequestBuilderImp : RequestBuilder
     {
         private readonly IList<RequestSender> sender = new List<RequestSender>();
-        private IList<SchedulingMatch> schedulingMatch = new List<SchedulingMatch>();
+        private SchedulingMatch schedulingMatch = new SchedulingMatch();
         private IList<SchedulingLAUser> schedulingLAUser = new List<SchedulingLAUser>();
-        private IList<TraderInfo> traderInfos = new List<TraderInfo>();
+        private IList<SchedulingTraderInfo> traderInfos = new List<SchedulingTraderInfo>();
 
         private readonly Repository repository;
         private readonly SchedulingMatchBuilderService matchService;
@@ -38,23 +38,38 @@ namespace OWP.AutoAssignment.Services.PublicApi
 
         public async Task<IEnumerable<RequestSender>> BuildRequestSenderModel(IEnumerable<RequestModel> request)
         {
+            var sender = new List<RequestSender>();
             foreach (var req in request)
             {
                 schedulingMatch = await matchService.GetMatchesInfo(req.EventDate);
                 schedulingLAUser = await laService.GetLAUsersInfo(req.EventDate);
                 traderInfos = await traderService.GetTradersInfo(req.EventDate);
-
-                if (schedulingMatch.Any() && (schedulingLAUser.Any() || traderInfos.Any()))
-                {
-                    sender.Add(BuildRequestSender(req, "New"));
-                    await UpdateStatusRequest(req, StatusRequest.Running);
-                }
-                else
-                {
-                    await UpdateStatusRequest(req, StatusRequest.Success);
-                }
+                await BuildRequestSenderModel(req, schedulingMatch, sender);
             }
             return sender;
+        }
+
+        private async Task BuildRequestSenderModel(
+            RequestModel request,
+            SchedulingMatch schedulingMatch,
+            IList<RequestSender> sender)
+        {
+            var realMatch = schedulingMatch.Real;
+            var sabaMatch = schedulingMatch.Saba;
+
+            var hasSuspender = schedulingLAUser.Any() || traderInfos.Any();
+
+            if (realMatch.Any()
+                && sabaMatch.Any()
+                && hasSuspender)
+            {
+                sender.Add(BuildRequestSender(request, "New"));
+                await UpdateStatusRequest(request, StatusRequest.Running);
+            }
+            else
+            {
+                await UpdateStatusRequest(request, StatusRequest.Success);
+            }
         }
 
         private async Task UpdateStatusRequest(RequestModel requestModel, StatusRequest status)

@@ -1,9 +1,11 @@
-﻿namespace OWP.AutoAssignment.Models.PublicApi
+﻿using System.Collections.Generic;
+
+namespace OWP.AutoAssignment.Models.PublicApi
 {
     public class SchedulingMatch
     {
-        public RealMatchSender Real { get; set; }
+        public List<RealMatchSender> Real { get; set; } = new List<RealMatchSender>();
 
-        public SabaMatchSender Saba { get; set; }
+        public List<SabaMatchSender> Saba { get; set; } = new List<SabaMatchSender>();
     }
 }

@@ -10,7 +10,7 @@ namespace OWP.AutoAssignment.Services.PublicApi
 {
     public interface TraderUserService
     {
-        Task<IList<TraderInfo>> GetTradersInfo(DateTime eventDate);
+        Task<IList<SchedulingTraderInfo>> GetTradersInfo(DateTime eventDate);
     }
 
     public class TraderUserServiceImp : TraderUserService
@@ -22,7 +22,7 @@ namespace OWP.AutoAssignment.Services.PublicApi
             this.repository = repository;
         }
 
-        public async Task<IList<TraderInfo>> GetTradersInfo(DateTime eventDate)
+        public async Task<IList<SchedulingTraderInfo>> GetTradersInfo(DateTime eventDate)
         {
             var traders = await repository.GetTraders(eventDate);
             var napUserIds = await repository.GetUserInfoFromNAPUserControl();
@@ -35,9 +35,9 @@ namespace OWP.AutoAssignment.Services.PublicApi
             return BuildTradersInfo(filteredUsers, workingShifts);
         }
 
-        public IList<TraderInfo> BuildTradersInfo(IEnumerable<TraderInfo> users, IEnumerable<UserWorkingShift> workingShifts)
+        public IList<SchedulingTraderInfo> BuildTradersInfo(IEnumerable<SchedulingTraderInfo> users, IEnumerable<UserWorkingShift> workingShifts)
         {
-            var userList = new List<TraderInfo>();
+            var userList = new List<SchedulingTraderInfo>();
             foreach (var user in users)
             {
                 var userWorkingShifts = workingShifts.Where(x => x.UserId == user.TraderId);
@@ -56,7 +56,7 @@ namespace OWP.AutoAssignment.Services.PublicApi
             return userList;
         }
 
-        private static void MapMultipleGames(List<TraderInfo> traders)
+        private static void MapMultipleGames(List<SchedulingTraderInfo> traders)
         {
             var maxGameDict = new Dictionary<string, int?>
             {

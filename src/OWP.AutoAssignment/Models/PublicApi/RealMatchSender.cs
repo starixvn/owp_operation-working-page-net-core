@@ -11,6 +11,9 @@ namespace OWP.AutoAssignment.Models.PublicApi
 
         public bool HasTV { get; set; }
 
+        [JsonProperty("MaxBet_MainMatch")]
+        public decimal? MaxBetMainMatch { get; set; }
+
         [JsonProperty("MaxBet_NoOfCorner")]
         public double MaxBetNoOfCorner { get; set; }
 

@@ -2,7 +2,7 @@
 
 namespace OWP.AutoAssignment.Models.PublicApi
 {
-    public class TraderInfo
+    public class SchedulingTraderInfo
     {
         public int TraderId { get; set; }
 

@@ -27,7 +27,7 @@
             var expected = GetExpected();
             var service = new SabaMatchServiceImp(repository);
 
-            var actual = await service.BuildSabaMatch(matchsQueried);
+            var actual = await service.BuildSabaMatchInfo(matchsQueried);
 
             DeepAssert.Equal(expected, actual);
         }
