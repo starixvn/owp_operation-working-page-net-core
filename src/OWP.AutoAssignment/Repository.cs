@@ -42,7 +42,7 @@ namespace OWP.AutoAssignment
 
         Task<IEnumerable<MaxBetOfFTHDP>> GetMaxMaxbetFTHDP(IList<int> matchIds);
 
-        Task<IEnumerable<MaxBetCorner>> GetMaxBetCorner(List<MaxBetOfFTHDP> events);
+        Task<IEnumerable<MaxBetCorner>> GetMaxBetCorner(List<RealMatchMaxBetFTHDP> events);
 
         Task<IEnumerable<RealMatchMaxBetFTHDP>> GetMaxMaxBetFTHDPForRealMatch(IList<int> matchIds);
     }
@@ -171,10 +171,10 @@ namespace OWP.AutoAssignment
             => await dynamicRepository.FetchAsync<MaxBetOfFTHDP>(
                 new GetMaxMaxbetFTHDPCriteria { MatchIds = string.Join(',', matchIds) });
 
-        public async Task<IEnumerable<MaxBetCorner>> GetMaxBetCorner(List<MaxBetOfFTHDP> events)
+        public async Task<IEnumerable<MaxBetCorner>> GetMaxBetCorner(List<RealMatchMaxBetFTHDP> events)
         {
             var xml = events.ToXml().ToString();
-            var criteria = new GetMaxBetCornerCriteria()
+            var criteria = new GetMaxBetCornerCriteria
             {
                 Xml = xml
             };

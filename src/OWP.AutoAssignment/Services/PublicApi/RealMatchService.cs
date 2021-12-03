@@ -40,18 +40,26 @@ namespace OWP.AutoAssignment.Services.PublicApi
 
             var maxBetHDPsInfo = (await repository.GetMaxMaxBetFTHDPForRealMatch(matchIds)).ToList();
 
+            var maxBetCorners = (await repository.GetMaxBetCorner(maxBetHDPsInfo)).ToList();
 
             foreach (var match in realMatches)
             {
                 var maxBetHDP = maxBetHDPsInfo.Where(x => x.InfoSiteMatchId == match.InfoSiteId).ToList();
-
-                var commonInfo = BuildMatchInfo(match, maxBetHDP);
+                var mbNextCorner = maxBetCorners.FirstOrDefault(x => x.InfoSiteMatchId == match.InfoSiteId)?.MaxBetNextCorner;
+                var mbNoOfCorner = maxBetCorners.FirstOrDefault(x => x.InfoSiteMatchId == match.InfoSiteId)?.MaxBetNoOfCorner;
+                var mbCorners = new MaxBetCorner
+                {
+                    InfoSiteMatchId = match.InfoSiteId,
+                    MaxBetNextCorner = mbNextCorner,
+                    MaxBetNoOfCorner = mbNoOfCorner
+                };
+                var commonInfo = BuildMatchInfo(match, maxBetHDP, mbCorners);
                 realMatchSenders.Add(commonInfo);
             }
             return realMatchSenders;
         }
 
-        private RealMatchSender BuildMatchInfo(RealMatchCommonInfo match, List<RealMatchMaxBetFTHDP> maxBetHDPOption)
+        private RealMatchSender BuildMatchInfo(RealMatchCommonInfo match, List<RealMatchMaxBetFTHDP> maxBetHDPOption, MaxBetCorner maxBetCorners)
         {
             var leagueName = match.LeagueName;
             var hasTv = string.IsNullOrWhiteSpace(match.Tv);
@@ -71,8 +79,8 @@ namespace OWP.AutoAssignment.Services.PublicApi
                 Location = match.Location,
                 Provider = providerService.DetectProviderType(match.OtherProvider),
                 IsFantasy = IsFantasy(match.LeagueName),
-                //MaxBetNextCorner = GetMBNextCorner(maxBetCorners, match.InfoSiteId),
-                //MaxBetNoOfCorner = GetMBNoOfCorner(maxBetCorners, match.InfoSiteId)
+                MaxBetNextCorner = maxBetCorners.MaxBetNextCorner,
+                MaxBetNoOfCorner = maxBetCorners.MaxBetNoOfCorner,
                 MaxBetMainMatch = GetMaxBetMainMatch(maxBetHDPOption, hasTv)
             };
         }
@@ -101,13 +109,5 @@ namespace OWP.AutoAssignment.Services.PublicApi
                 ? maxBetOption.FirstOrDefault(x => x.HasTv == hasTv)?.MaxBetFTHDP
                 : maxBetOption.FirstOrDefault()?.MaxBetFTHDP;
 
-        private decimal? GetMBNextCorner(List<MaxBetCorner> maxBetCorners, int matchId)
-            => maxBetCorners
-                .FirstOrDefault(m => m.InfoSiteMatchId == matchId)?
-                .MaxBetNextCorner;
-        private decimal? GetMBNoOfCorner(List<MaxBetCorner> maxBetCorners, int matchId)
-            => maxBetCorners
-                .FirstOrDefault(m => m.InfoSiteMatchId == matchId)?
-                .MaxBetNoOfCorner;
     }
 }
