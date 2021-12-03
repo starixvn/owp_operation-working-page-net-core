@@ -2,9 +2,9 @@
 {
     public class MaxBetOfFTHDP
     {
-        public int MatchId { get; set; }
+        public int InfoSiteMatchId { get; set; }
 
-        public decimal? MaxBet { get; set; }
+        public decimal? MaxBetFTHDP { get; set; }
         
     }
 }

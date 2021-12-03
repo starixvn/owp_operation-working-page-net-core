@@ -35,12 +35,12 @@
         [Fact]
         public async Task GetSabaMaxbet_Always_ReturnValues()
         {
-            var expected = new List<SabaMaxbetInfo>()
+            var expected = new List<MaxBetOfFTHDP>()
                 {
-                    new SabaMaxbetInfo { MatchId = 1, Maxbet = 1 }
+                    new MaxBetOfFTHDP { InfoSiteMatchId = 1, MaxBetFTHDP = 1 }
                 };
 
-            repository.GetSabaMaxbet(Arg.Compat.Any<int[]>())
+            repository.GetMaxMaxbetFTHDP(Arg.Compat.Any<int[]>())
                 .Returns(expected);
             var service = new SabaMatchServiceImp(repository);
 

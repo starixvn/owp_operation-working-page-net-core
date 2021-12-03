@@ -43,8 +43,8 @@
 
         private decimal? GetMaxbetValue(List<MaxBetOfFTHDP> maxbetInfos, int infositeId)
             => maxbetInfos
-            .FirstOrDefault(m => m.MatchId == infositeId)?
-            .MaxBet;
+            .FirstOrDefault(m => m.InfoSiteMatchId == infositeId)?
+            .MaxBetFTHDP;
 
         public async Task<IEnumerable<MaxBetOfFTHDP>> GetSabaMaxbet(IList<int> matchIds)
             => await repository.GetMaxMaxbetFTHDP(matchIds);
