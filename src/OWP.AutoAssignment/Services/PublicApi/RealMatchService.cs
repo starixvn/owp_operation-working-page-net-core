@@ -44,13 +44,13 @@ namespace OWP.AutoAssignment.Services.PublicApi
            
             foreach (var match in realMatches)
             {
-                var commonInfo = GetCommonInfo(match,maxBetCorners.ToList());
+                var commonInfo = BuildMatchInfo(match,maxBetCorners.ToList());
                 realMatchSenders.Add(commonInfo);
             }
             return realMatchSenders;
         }
 
-        private RealMatchSender GetCommonInfo(RealMatchCommonInfo match, List<MaxBetCorner> maxBetCorners)
+        private RealMatchSender BuildMatchInfo(RealMatchCommonInfo match, List<MaxBetCorner> maxBetCorners)
         {
             var leagueName = match.LeagueName;
             return new RealMatchSender
