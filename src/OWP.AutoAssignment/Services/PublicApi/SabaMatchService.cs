@@ -41,13 +41,13 @@
             .FirstOrDefault(i => i.InfositeMatchId == infositeId)?
             .SabaType;
 
-        private decimal? GetMaxbetValue(List<SabaMaxbetInfo> maxbetInfos, int infositeId)
+        private decimal? GetMaxbetValue(List<MaxBetOfFTHDP> maxbetInfos, int infositeId)
             => maxbetInfos
             .FirstOrDefault(m => m.MatchId == infositeId)?
-            .Maxbet;
+            .MaxBet;
 
-        public async Task<IEnumerable<SabaMaxbetInfo>> GetSabaMaxbet(IList<int> matchIds)
-            => await repository.GetSabaMaxbet(matchIds);
+        public async Task<IEnumerable<MaxBetOfFTHDP>> GetSabaMaxbet(IList<int> matchIds)
+            => await repository.GetMaxMaxbetFTHDP(matchIds);
 
         public async Task<IEnumerable<SabaMatchCommonInfo>> GetSabaMatchInfo(IList<int> matchIds)
             => await repository.GetSabaMatchCommonInfoByIds(matchIds);

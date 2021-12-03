@@ -15,10 +15,10 @@ namespace OWP.AutoAssignment.Models.PublicApi
         public decimal? MaxBetMainMatch { get; set; }
 
         [JsonProperty("MaxBet_NoOfCorner")]
-        public double MaxBetNoOfCorner { get; set; }
+        public decimal? MaxBetNoOfCorner { get; set; }
 
         [JsonProperty("MaxBet_NextCorner")]
-        public double MaxBet_NextCorner { get; set; }
+        public decimal? MaxBetNextCorner { get; set; }
 
         public bool HasReporter { get; set; }
 

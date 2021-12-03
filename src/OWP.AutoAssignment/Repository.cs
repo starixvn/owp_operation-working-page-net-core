@@ -8,9 +8,12 @@ using OWP.AutoAssignment.Criteria.PublicApi;
 using OWP.AutoAssignment.Models.InternalApi;
 using OWP.AutoAssignment.Models.PublicApi;
 using OWP.Utils;
+using OWP.AutoAssignment.Utils;
 
 namespace OWP.AutoAssignment
 {
+    using System.Xml.Serialization;
+
     public interface Repository
     {
         Task<IEnumerable<SchedulingRequest>> GetRequestsInternal();
@@ -39,7 +42,9 @@ namespace OWP.AutoAssignment
 
         Task<string> GetRequestIsWaiting(DateTime eventDate);
 
-        Task<IEnumerable<SabaMaxbetInfo>> GetSabaMaxbet(IList<int> matchIds);
+        Task<IEnumerable<MaxBetOfFTHDP>> GetMaxMaxbetFTHDP(IList<int> matchIds);
+
+        Task<IEnumerable<MaxBetCorner>> GetMaxBetCorner(List<MaxBetOfFTHDP> events);
     }
 
     public class RepositoryImp : Repository
@@ -162,8 +167,19 @@ namespace OWP.AutoAssignment
         public async Task CreateRequest(CreateRequestCriteria criteria)
             => await dynamicRepository.ExecuteAsync(criteria);
 
-        public async Task<IEnumerable<SabaMaxbetInfo>> GetSabaMaxbet(IList<int> matchIds)
-            => await dynamicRepository.FetchAsync<SabaMaxbetInfo>(
+        public async Task<IEnumerable<MaxBetOfFTHDP>> GetMaxMaxbetFTHDP(IList<int> matchIds)
+            => await dynamicRepository.FetchAsync<MaxBetOfFTHDP>(
                 new GetMaxMaxbetFTHDPCriteria { MatchIds = string.Join(',', matchIds) });
+
+        public async Task<IEnumerable<MaxBetCorner>> GetMaxBetCorner(List<MaxBetOfFTHDP> events)
+        {
+            var xml = events.ToXml().ToString();
+            var criteria = new GetMaxBetCornerCriteria()
+            {
+                Xml = xml
+            };
+            return await dynamicRepository.FetchAsync<MaxBetCorner>(criteria);
+        }
+
     }
 }

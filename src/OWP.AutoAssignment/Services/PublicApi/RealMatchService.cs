@@ -38,16 +38,19 @@ namespace OWP.AutoAssignment.Services.PublicApi
 
             var realMatchSenders = new List<RealMatchSender>();
             var realMatches = await repository.GetRealMatchCommonInfoByIds(matchIds);
+
+            var maxBetByMatchIds = await repository.GetMaxMaxbetFTHDP(matchIds);
+            var maxBetCorners = await repository.GetMaxBetCorner(maxBetByMatchIds.ToList());
            
             foreach (var match in realMatches)
             {
-                var commonInfo = GetCommonInfo(match);
+                var commonInfo = GetCommonInfo(match,maxBetCorners.ToList());
                 realMatchSenders.Add(commonInfo);
             }
             return realMatchSenders;
         }
 
-        private RealMatchSender GetCommonInfo(RealMatchCommonInfo match)
+        private RealMatchSender GetCommonInfo(RealMatchCommonInfo match, List<MaxBetCorner> maxBetCorners)
         {
             var leagueName = match.LeagueName;
             return new RealMatchSender
@@ -64,7 +67,9 @@ namespace OWP.AutoAssignment.Services.PublicApi
                 ExtraTime = extraTimeService.DetectExtraTime(match.Remark),
                 Location = match.Location,
                 Provider= providerService.DetectProviderType(match.OtherProvider),
-                IsFantasy = IsFantasy(match.LeagueName)
+                IsFantasy = IsFantasy(match.LeagueName),
+                MaxBetNextCorner = GetMBNextCorner(maxBetCorners,match.InfoSiteId),
+                MaxBetNoOfCorner = GetMBNoOfCorner(maxBetCorners, match.InfoSiteId)
             };
         }
 
@@ -86,5 +91,14 @@ namespace OWP.AutoAssignment.Services.PublicApi
 
         private bool IsFantasy(string leagueName)
             => leagueName.Contains(AutoConstant.Fantasy, StringComparison.OrdinalIgnoreCase);
+
+        private decimal? GetMBNextCorner(List<MaxBetCorner> maxBetCorners, int matchId)
+            => maxBetCorners
+                .FirstOrDefault(m => m.InfoSiteMatchId == matchId)?
+                .MaxBetNextCorner;
+        private decimal? GetMBNoOfCorner(List<MaxBetCorner> maxBetCorners, int matchId)
+            => maxBetCorners
+                .FirstOrDefault(m => m.InfoSiteMatchId == matchId)?
+                .MaxBetNoOfCorner;
     }
 }
