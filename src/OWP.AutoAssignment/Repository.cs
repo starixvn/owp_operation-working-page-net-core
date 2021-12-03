@@ -7,13 +7,11 @@ using OWP.AutoAssignment.Criteria.InternalApi;
 using OWP.AutoAssignment.Criteria.PublicApi;
 using OWP.AutoAssignment.Models.InternalApi;
 using OWP.AutoAssignment.Models.PublicApi;
-using OWP.Utils;
 using OWP.AutoAssignment.Utils;
+using OWP.Utils;
 
 namespace OWP.AutoAssignment
 {
-    using System.Xml.Serialization;
-
     public interface Repository
     {
         Task<IEnumerable<SchedulingRequest>> GetRequestsInternal();
@@ -45,6 +43,8 @@ namespace OWP.AutoAssignment
         Task<IEnumerable<MaxBetOfFTHDP>> GetMaxMaxbetFTHDP(IList<int> matchIds);
 
         Task<IEnumerable<MaxBetCorner>> GetMaxBetCorner(List<MaxBetOfFTHDP> events);
+
+        Task<IEnumerable<RealMatchMaxBetFTHDP>> GetMaxMaxBetFTHDPForRealMatch(IList<int> matchIds);
     }
 
     public class RepositoryImp : Repository
@@ -181,5 +181,8 @@ namespace OWP.AutoAssignment
             return await dynamicRepository.FetchAsync<MaxBetCorner>(criteria);
         }
 
+        public async Task<IEnumerable<RealMatchMaxBetFTHDP>> GetMaxMaxBetFTHDPForRealMatch(IList<int> matchIds)
+            => await dynamicRepository.FetchAsync<RealMatchMaxBetFTHDP>(
+                new GetMaxMaxBetFTHDPForRealMatchCriteria() { MatchIds = string.Join(',', matchIds) });
     }
 }
