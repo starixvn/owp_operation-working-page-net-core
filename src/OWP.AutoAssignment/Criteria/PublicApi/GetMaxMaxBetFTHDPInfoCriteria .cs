@@ -2,7 +2,7 @@
 {
     using Fanex.Data.Repository;
 
-    public class GetMaxMaxBetFTHDPForRealMatchCriteria : CriteriaBase
+    public class GetMaxMaxBetFTHDPInfoCriteria : CriteriaBase
     {
         public string MatchIds { get; set; }
 

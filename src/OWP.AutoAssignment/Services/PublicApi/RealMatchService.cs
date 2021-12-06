@@ -36,39 +36,31 @@ namespace OWP.AutoAssignment.Services.PublicApi
             var matchIds = matchsQueried.Select(i => i.InfositeMatchId).ToList();
 
             var realMatchSenders = new List<RealMatchSender>();
-            var realMatches = await repository.GetRealMatchCommonInfoByIds(matchIds);
-
-            var maxBetHDPsInfo = (await repository.GetMaxMaxBetFTHDPForRealMatch(matchIds)).ToList();
-
-            var maxBetCorners = (await repository.GetMaxBetCorner(maxBetHDPsInfo)).ToList();
+            var realMatches = (await repository.GetRealMatchCommonInfoByIds(matchIds)).ToList();
+            var maxBetHdpOptions = (await repository.GetMaxMaxBetFTHDPInfo(matchIds)).ToList();
+            var maxBetHdpInfo = BuildMaxBetMainMatch(maxBetHdpOptions, realMatches).ToList();
+            var maxBetCorners = (await repository.GetMaxBetCorner(maxBetHdpInfo)).ToList();
 
             foreach (var match in realMatches)
             {
-                var maxBetHDP = maxBetHDPsInfo.Where(x => x.InfoSiteMatchId == match.InfoSiteId).ToList();
-                var mbNextCorner = maxBetCorners.FirstOrDefault(x => x.InfoSiteMatchId == match.InfoSiteId)?.MaxBetNextCorner;
-                var mbNoOfCorner = maxBetCorners.FirstOrDefault(x => x.InfoSiteMatchId == match.InfoSiteId)?.MaxBetNoOfCorner;
-                var mbCorners = new MaxBetCorner
-                {
-                    InfoSiteMatchId = match.InfoSiteId,
-                    MaxBetNextCorner = mbNextCorner,
-                    MaxBetNoOfCorner = mbNoOfCorner
-                };
-                var commonInfo = BuildMatchInfo(match, maxBetHDP, mbCorners);
+                var mbHdp = maxBetHdpInfo.FirstOrDefault(x => x.InfoSiteMatchId == match.InfoSiteId);
+                var mbCorner = maxBetCorners.FirstOrDefault(x => x.InfoSiteMatchId == match.InfoSiteId);
+
+                var commonInfo = BuildMatchInfo(match, mbHdp, mbCorner);
                 realMatchSenders.Add(commonInfo);
             }
             return realMatchSenders;
         }
 
-        private RealMatchSender BuildMatchInfo(RealMatchCommonInfo match, List<RealMatchMaxBetFTHDP> maxBetHDPOption, MaxBetCorner maxBetCorners)
+        private RealMatchSender BuildMatchInfo(RealMatchCommonInfo match, MaxBetOfFTHDP maxBetHdp, MaxBetCorner maxBetCorners)
         {
             var leagueName = match.LeagueName;
-            var hasTv = string.IsNullOrWhiteSpace(match.Tv);
 
             return new RealMatchSender
             {
                 MatchId = match.InfoSiteId,
                 IsFutsal = IsFutsal(leagueName),
-                HasTV = hasTv,
+                HasTV = !string.IsNullOrWhiteSpace(match.Tv),
                 KOTime = match.KOTime.ToString(AutoConstant.FormatDateTime),
                 HasReporter = HasReporter(match.Provider),
                 RequireChinese = RequireChinese(match.Provider),
@@ -79,9 +71,9 @@ namespace OWP.AutoAssignment.Services.PublicApi
                 Location = match.Location,
                 Provider = providerService.DetectProviderType(match.OtherProvider),
                 IsFantasy = IsFantasy(match.LeagueName),
-                MaxBetNextCorner = maxBetCorners.MaxBetNextCorner,
-                MaxBetNoOfCorner = maxBetCorners.MaxBetNoOfCorner,
-                MaxBetMainMatch = GetMaxBetMainMatch(maxBetHDPOption, hasTv)
+                MaxBetNextCorner = maxBetCorners?.MaxBetNextCorner,
+                MaxBetNoOfCorner = maxBetCorners?.MaxBetNoOfCorner,
+                MaxBetMainMatch = maxBetHdp?.MaxBetFTHDP
             };
         }
 
@@ -104,10 +96,24 @@ namespace OWP.AutoAssignment.Services.PublicApi
         private bool IsFantasy(string leagueName)
             => leagueName.Contains(AutoConstant.Fantasy, StringComparison.OrdinalIgnoreCase);
 
-        private decimal? GetMaxBetMainMatch(IList<RealMatchMaxBetFTHDP> maxBetOption, bool hasTv)
-            => maxBetOption.Any(i => i.HasTv)
-                ? maxBetOption.FirstOrDefault(x => x.HasTv == hasTv)?.MaxBetFTHDP
-                : maxBetOption.FirstOrDefault()?.MaxBetFTHDP;
+        private IEnumerable<MaxBetOfFTHDP> BuildMaxBetMainMatch(IList<MaxBetFTHDPInfo> maxBetOptions,
+            IList<RealMatchCommonInfo> realMatches)
+        {
+            foreach (var match in realMatches)
+            {
+                var hasMatchTv = !string.IsNullOrWhiteSpace(match.Tv);
+                var mbHdpOption = maxBetOptions.Where(i => i.MatchId == match.InfoSiteId).ToList();
+                yield return new MaxBetOfFTHDP()
+                {
+                    InfoSiteMatchId = match.InfoSiteId,
+                    MaxBetFTHDP = GetMaxBetHdp(mbHdpOption, hasMatchTv)
+                };
+            }
+        }
 
+        private decimal? GetMaxBetHdp(IList<MaxBetFTHDPInfo> maxBetOption, bool hasMatchTv)
+            => maxBetOption.Any(i => i.HasTv == hasMatchTv)
+                ? maxBetOption.FirstOrDefault(i => i.HasTv == hasMatchTv)?.MaxBet
+                : maxBetOption.FirstOrDefault()?.MaxBet;
     }
 }
