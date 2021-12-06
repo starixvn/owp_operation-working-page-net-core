@@ -14,7 +14,6 @@ namespace OWP.TicketCenter
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
     [Authorize]
     [EnableCors("AllowOrigin")]
     public class TicketCenterController : ControllerBase
@@ -129,5 +128,9 @@ namespace OWP.TicketCenter
             var result = await mediator.Send(request);
             return Ok(result);
         }
+
+        [HttpGet("ticket-detail/get-status-history")]
+        public async Task<IEnumerable<StatusHistory>> GetStatusHistoryByTicketId(int ticketId)
+            => await mediator.Send(new GetStatusHistoryRequest { TicketId = ticketId });
     }
 }

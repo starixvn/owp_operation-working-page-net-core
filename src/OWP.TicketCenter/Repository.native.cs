@@ -76,6 +76,8 @@ namespace OWP.TicketCenter
         Task InsertNewMessageNotification(InsertNewMessageNotificationCriteria criteria);
 
         Task UpdateTicketStatus(UpdateTicketStatusCriteria criteria);
+
+        Task<IEnumerable<StatusHistory>> GetStatusHistory(int ticketId);
     }
 
     public class RepositoryImp : Repository
@@ -298,5 +300,15 @@ namespace OWP.TicketCenter
 
         public async Task UpdateTicketStatus(UpdateTicketStatusCriteria criteria)
             => await dynamicRepository.ExecuteAsync(criteria);
+
+        public async Task<IEnumerable<StatusHistory>> GetStatusHistory(int ticketId)
+        {
+            var criteria = new GetStatusHistoryCriteria
+            {
+                TicketId = ticketId
+            };
+
+            return await dynamicRepository.FetchAsync<StatusHistory>(criteria);
+        }
     }
 }
