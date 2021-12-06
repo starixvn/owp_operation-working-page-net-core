@@ -7,7 +7,7 @@ using OWP.AutoAssignment.Criteria.InternalApi;
 using OWP.AutoAssignment.Criteria.PublicApi;
 using OWP.AutoAssignment.Models.InternalApi;
 using OWP.AutoAssignment.Models.PublicApi;
-using OWP.AutoAssignment.Utils;
+using OWP.AutoAssignment.Utils.XMLExtensions;
 using OWP.Utils;
 
 namespace OWP.AutoAssignment

@@ -1,4 +1,4 @@
-﻿namespace OWP.AutoAssignment.Utils
+﻿namespace OWP.AutoAssignment.Utils.XMLExtensions
 {
     using System;
 
