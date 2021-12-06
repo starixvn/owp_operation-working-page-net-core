@@ -1,22 +1,22 @@
 ﻿using MediatR;
-using Olympus.OWP.Constants;
 using OWP.Maxbet.Builder;
 using OWP.Maxbet.Handlers;
 using OWP.Maxbet.Models;
 using OWP.Maxbet.Selector;
+using OWP.Services;
 using System.Threading.Tasks;
 
 namespace OWP.Maxbet.Services
 {
     public interface MaxbetService
     {
-        public Task<MaxbetInfo> GetSpecialProductInfo(int owpMatchId, int adminsiteId, int bettypeId);
+        public Task<MaxbetInfo> GetSpecialProductInfo(MinorMatchInfo owpMatch, int adminsiteId, int bettypeId);
 
         public Task<MaxbetInfo> GetMaxbetInfo(int owpMatchId, int adminsiteId);
 
         public Task<int> GetMatchIdByAdminSiteId(int adminsiteId);
 
-        public Task<int> GetMatchIdByAdminSiteId(int adminsiteId, int bettypeId);
+        public Task<MinorMatchInfo> GetMatchIdByAdminSiteId(int adminsiteId, int bettypeId);
     }
 
     public class MaxbetServiceImp : MaxbetService
@@ -33,13 +33,16 @@ namespace OWP.Maxbet.Services
 
         private readonly SpecialProductSelector specialProductSelector;
 
+        private readonly LogServiceWrapper logServiceWrapper;
+
         public MaxbetServiceImp(
             MaxbetReposiory syncMaxbetReposiory,
             TraderAssignmentBuilder traderAssignmentBuilder,
             SpreadBuilder spreadBuilder,
             MaxbetBuilder maxbetBuilder,
             IMediator mediator,
-            SpecialProductSelector specialProductSelector)
+            SpecialProductSelector specialProductSelector,
+            LogServiceWrapper logServiceWrapper)
         {
             this.syncMaxbetReposiory = syncMaxbetReposiory;
             this.traderAssignmentBuilder = traderAssignmentBuilder;
@@ -47,21 +50,25 @@ namespace OWP.Maxbet.Services
             this.maxbetBuilder = maxbetBuilder;
             this.mediator = mediator;
             this.specialProductSelector = specialProductSelector;
+            this.logServiceWrapper = logServiceWrapper;
         }
 
         public async Task<int> GetMatchIdByAdminSiteId(int adminsiteId)
             => await syncMaxbetReposiory.GetMatchIdByAdminSiteId(adminsiteId);
 
-        public async Task<int> GetMatchIdByAdminSiteId(int adminsiteId, int bettypeId)
+        public async Task<MinorMatchInfo> GetMatchIdByAdminSiteId(int adminsiteId, int bettypeId)
             => await syncMaxbetReposiory.GetMatchIdByAdminSiteId(adminsiteId, bettypeId);
 
-        public async Task<MaxbetInfo> GetSpecialProductInfo(int owpMatchId, int adminsiteId, int bettypeId)
+        public async Task<MaxbetInfo> GetSpecialProductInfo(MinorMatchInfo owpMatch, int adminsiteId, int bettypeId)
         {
-            var traders = await specialProductSelector.SelectTrader(owpMatchId, bettypeId);
-            var spread = await specialProductSelector.SelectSpread(owpMatchId, bettypeId);
-            var maxbet = await specialProductSelector.SelectMaxbet(owpMatchId, bettypeId);
-            var secondAcceptValue = await specialProductSelector.SelectSecondAcceptedValues(owpMatchId, bettypeId);
-            var numberOfLines = await specialProductSelector.SelectNumberOfLines(owpMatchId, bettypeId);
+            var traders = await specialProductSelector.SelectTrader(owpMatch.MinorMatchId, bettypeId);
+            var spread = await specialProductSelector.SelectSpread(owpMatch.MinorMatchId, bettypeId);
+            var maxbet = await specialProductSelector.SelectMaxbet(owpMatch, bettypeId);
+            var secondAcceptValue = await specialProductSelector.SelectSecondAcceptedValues(owpMatch.MinorMatchId, bettypeId);
+            var numberOfLines = await specialProductSelector.SelectNumberOfLines(owpMatch.MinorMatchId, bettypeId);
+
+            await logServiceWrapper.Log("=====GetSpecialProductInfo request======", owpMatch, adminsiteId, bettypeId);
+            await logServiceWrapper.Log("=====GetSpecialProductInfo======", traders, spread, maxbet, secondAcceptValue, numberOfLines);
 
             var maxbetCN88 = new MaxbetSpread
             {

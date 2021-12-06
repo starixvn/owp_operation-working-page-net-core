@@ -147,6 +147,7 @@ namespace OWP.Maxbet.UnitTests.Builder
             var expected = new MaxbetSpread
             {
                 Handicap = 400000,
+                OverUnder = 400000,
                 FirstHalfHandicap = 120000,
                 FirstHalfOverUnder = 120000
             };

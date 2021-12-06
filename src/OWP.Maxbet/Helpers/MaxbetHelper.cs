@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using OWP.Maxbet.Models;
+using System.Collections.Generic;
 using System.Linq;
-using OWP.Maxbet.Models;
 
 namespace OWP.Helpers
 {

@@ -1,7 +1,8 @@
-﻿using System.Threading.Tasks;
-using OWP.Maxbet.Models;
-using OWP.Enums;
+﻿using OWP.Enums;
 using OWP.Helpers;
+using OWP.Maxbet.Models;
+using OWP.Services;
+using System.Threading.Tasks;
 
 namespace OWP.Maxbet.Builder
 {
@@ -13,17 +14,18 @@ namespace OWP.Maxbet.Builder
     public class TraderAssignmentBuilderImp : TraderAssignmentBuilder
     {
         private readonly MaxbetReposiory syncMaxbetReposiory;
+        private readonly LogServiceWrapper logServiceWrapper;
 
-        public TraderAssignmentBuilderImp(MaxbetReposiory syncMaxbetReposiory)
+        public TraderAssignmentBuilderImp(MaxbetReposiory syncMaxbetReposiory, LogServiceWrapper logServiceWrapper)
         {
             this.syncMaxbetReposiory = syncMaxbetReposiory;
+            this.logServiceWrapper = logServiceWrapper;
         }
-
-
 
         public async Task<TraderAssignmentSender> BuildTraderAssignmentSender(int owpMatchId)
         {
             var traderAssignments = await syncMaxbetReposiory.GetTradersByOwpMatchId(owpMatchId);
+            await logServiceWrapper.Log("====BuildTraderAssignmentSender======", traderAssignments);
 
             var handicap = MaxbetHelper.FindTraderAssinmentByBettype(traderAssignments, (int)EnumBettype.Handicap) ?? new TraderAssignment();
             var overunder = MaxbetHelper.FindTraderAssinmentByBettype(traderAssignments, (int)EnumBettype.OverUnder) ?? new TraderAssignment();
