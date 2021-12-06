@@ -96,7 +96,7 @@ namespace OWP.AutoAssignment.Services.PublicApi
         private bool IsFantasy(string leagueName)
             => leagueName.Contains(AutoConstant.Fantasy, StringComparison.OrdinalIgnoreCase);
 
-        private IEnumerable<MaxBetOfFTHDP> BuildMaxBetMainMatch(IList<MaxBetFTHDPInfo> maxBetOptions,
+        public IEnumerable<MaxBetOfFTHDP> BuildMaxBetMainMatch(IList<MaxBetFTHDPInfo> maxBetOptions,
             IList<RealMatchCommonInfo> realMatches)
         {
             foreach (var match in realMatches)
