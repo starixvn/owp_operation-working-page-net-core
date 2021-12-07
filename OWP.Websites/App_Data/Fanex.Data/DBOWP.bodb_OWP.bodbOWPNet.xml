@@ -209,6 +209,7 @@
 		<Setting Key="OWP_AutoAssignment_GetCommonSabaMatchInfoByIds" SpName="OWP_AutoAssignment_GetCommonSabaMatchInfoByIds" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
 		<Setting Key="OWP_AutoAssignment_GetMainMatch" SpName="OWP_AutoAssignment_GetMainMatch" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
 		<Setting Key="OWP_AutoAssignment_GetMaxMaxbet_FTHDP" SpName="OWP_AutoAssignment_GetMaxMaxbet_FTHDP" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
+		<Setting Key="OWP_AutoAssignment_GetMaxMaxbetForRealMatch_FTHDP" SpName="OWP_AutoAssignment_GetMaxMaxbetForRealMatch_FTHDP" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
 		<Setting Key="OWP_AutoAssignment_GetInfoSiteMatchByDate" SpName="OWP_AutoAssignment_GetInfoSiteMatchByDate" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
 		<Setting Key="OWP_AutoAssignment_GetMaxBetCorner" SpName="OWP_AutoAssignment_GetMaxBetCorner" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
 	</Function>

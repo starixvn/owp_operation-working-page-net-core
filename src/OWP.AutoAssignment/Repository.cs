@@ -77,7 +77,7 @@ namespace OWP.AutoAssignment
 
         public async Task<IEnumerable<SabaMatchCommonInfo>> GetSabaMatchCommonInfoByIds(IList<int> ids)
         {
-            var criteria = new GetCommonSabaMatchInfoByIdsCriteria()
+            var criteria = new GetCommonSabaMatchInfoByIdsCriteria
             {
                 Ids = string.Join(",", ids)
             };
@@ -116,7 +116,7 @@ namespace OWP.AutoAssignment
 
         public async Task<IEnumerable<MatchQueried>> GetMatchByDate(DateTime eventDate)
         {
-            var criteria = new GetInfoSiteMatchByDateCriteria()
+            var criteria = new GetInfoSiteMatchByDateCriteria
             {
                 EventDate = eventDate
             };
@@ -183,6 +183,6 @@ namespace OWP.AutoAssignment
 
         public async Task<IEnumerable<MaxBetFTHDPInfo>> GetMaxMaxBetFTHDPInfo(IList<int> matchIds)
             => await dynamicRepository.FetchAsync<MaxBetFTHDPInfo>(
-                new GetMaxMaxBetFTHDPInfoCriteria() { MatchIds = string.Join(',', matchIds) });
+                new GetMaxMaxBetFTHDPInfoCriteria { MatchIds = string.Join(',', matchIds) });
     }
 }

@@ -24,15 +24,15 @@
         {
             var matchIds = matchsQueried.Select(i => i.InfositeMatchId).ToList();
             var matchInfos = await GetSabaMatchInfo(matchIds);
-            var maxbetInfos = await GetSabaMaxbet(matchIds);
+            var maxBetInfos = await GetSabaMaxbet(matchIds);
 
-            return matchInfos.Select(i => new SabaMatchSender()
+            return matchInfos.Select(i => new SabaMatchSender
             {
                 MatchId = i.InfositeId,
                 Location = i.Location,
                 KOTime = i.KOTime.ToString(AutoConstant.FormatDateTime),
                 SabaType = GetSabaType(matchsQueried, i.InfositeId),
-                MaxBet = GetMaxbetValue(maxbetInfos.ToList(), i.InfositeId)
+                MaxBet = GetMaxBetValue(maxBetInfos.ToList(), i.InfositeId)
             }).ToList();
         }
 
@@ -41,7 +41,7 @@
             .FirstOrDefault(i => i.InfositeMatchId == infositeId)?
             .SabaType;
 
-        private decimal? GetMaxbetValue(List<MaxBetOfFTHDP> maxbetInfos, int infositeId)
+        private decimal? GetMaxBetValue(List<MaxBetOfFTHDP> maxbetInfos, int infositeId)
             => maxbetInfos
             .FirstOrDefault(m => m.InfoSiteMatchId == infositeId)?
             .MaxBetFTHDP;

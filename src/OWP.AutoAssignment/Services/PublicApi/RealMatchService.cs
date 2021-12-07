@@ -103,7 +103,7 @@ namespace OWP.AutoAssignment.Services.PublicApi
             {
                 var hasMatchTv = !string.IsNullOrWhiteSpace(match.Tv);
                 var mbHdpOption = maxBetOptions.Where(i => i.MatchId == match.InfoSiteId).ToList();
-                yield return new MaxBetOfFTHDP()
+                yield return new MaxBetOfFTHDP
                 {
                     InfoSiteMatchId = match.InfoSiteId,
                     MaxBetFTHDP = GetMaxBetHdp(mbHdpOption, hasMatchTv)
