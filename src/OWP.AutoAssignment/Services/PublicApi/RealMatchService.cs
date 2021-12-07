@@ -40,22 +40,42 @@ namespace OWP.AutoAssignment.Services.PublicApi
             var maxBetHdpOptions = (await repository.GetMaxMaxBetFTHDPInfo(matchIds)).ToList();
             var maxBetHdpInfo = BuildMaxBetMainMatch(maxBetHdpOptions, realMatches).ToList();
             var maxBetCorners = (await repository.GetMaxBetCorner(maxBetHdpInfo)).ToList();
-
-            foreach (var match in realMatches)
+            var multipleRealMatch= new MultipleRealMatchBuilder
             {
-                var mbHdp = maxBetHdpInfo.FirstOrDefault(x => x.InfoSiteMatchId == match.InfoSiteId);
-                var mbCorner = maxBetCorners.FirstOrDefault(x => x.InfoSiteMatchId == match.InfoSiteId);
-
-                var commonInfo = BuildMatchInfo(match, mbHdp, mbCorner);
-                realMatchSenders.Add(commonInfo);
-            }
+                RealMatches= realMatches,
+                MaxBetHdpInfo= maxBetHdpInfo,
+                MaxBetCorners= maxBetCorners,
+            };
+            BuildMultipleRealMatchSender(multipleRealMatch, realMatchSenders);
             return realMatchSenders;
         }
 
-        private RealMatchSender BuildMatchInfo(RealMatchCommonInfo match, MaxBetOfFTHDP maxBetHdp, MaxBetCorner maxBetCorners)
+        private void BuildMultipleRealMatchSender(MultipleRealMatchBuilder multipleRealMatch,
+            IList<RealMatchSender> realMatchSenders)
         {
-            var leagueName = match.LeagueName;
+          
+            foreach (var match in multipleRealMatch.RealMatches)
+            {
+                var mbHdp = multipleRealMatch.MaxBetHdpInfo.FirstOrDefault(x => x.InfoSiteMatchId == match.InfoSiteId);
+                var mbCorner = multipleRealMatch.MaxBetCorners.FirstOrDefault(x => x.InfoSiteMatchId == match.InfoSiteId);
 
+                var singleRealMatchBuilder = new SingleRealMatchBuilder
+                {
+                    Match= match,
+                    MaxBetHdp= mbHdp,
+                    MaxBetCorners=mbCorner
+                };
+                var commonInfo = BuildSingleRealMatchSender(singleRealMatchBuilder);
+                realMatchSenders.Add(commonInfo);
+            }
+        }
+
+        private RealMatchSender BuildSingleRealMatchSender(SingleRealMatchBuilder singleRealMatchBuilder)
+        {
+            var match = singleRealMatchBuilder.Match;
+            var maxBetCorners = singleRealMatchBuilder.MaxBetCorners;
+            var maxBetHdp = singleRealMatchBuilder.MaxBetHdp;
+            var leagueName = match.LeagueName;
             return new RealMatchSender
             {
                 MatchId = match.InfoSiteId,
