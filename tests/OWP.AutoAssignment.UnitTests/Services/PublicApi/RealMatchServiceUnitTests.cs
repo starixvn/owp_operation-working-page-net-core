@@ -1,5 +1,6 @@
 ﻿namespace OWP.AutoAssignment.UnitTests.Services.PublicApi
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -17,24 +18,66 @@
         public RealMatchServiceUnitTests()
         {
             repository = Substitute.For<Repository>();
-            extraTimeService = Substitute.For<ExtraTimeDetectorService>();
-            providerService = Substitute.For<ProviderDetectorService>();
+            extraTimeService = Substitute.For<ExtraTimeDetectorServiceImp>();
+            providerService = Substitute.For<ProviderDetectorServiceImp>();
         }
 
         [Fact]
-        public async Task BuildMaxBetMainMatch_Always_ReturnListMaxBetHDP()
+        public async Task BuildRealMatchInfo_Always_ReturnListRealMatchInfo()
+        {
+            repository.GetRealMatchCommonInfoByIds(Arg.Compat.Any<List<int>>())
+                .Returns(MockListRealMatchCommon());
+            repository.GetMaxMaxBetFTHDPInfo(Arg.Compat.Any<List<int>>())
+                .Returns(MockListMaxBetHdpInfo());
+            repository.GetMaxBetCorner(Arg.Compat.Any<List<MaxBetOfFTHDP>>())
+                .Returns(MockListMaxBetConner());
+            var expected = MockListRealMatchSender();
+            var service = new RealMatchServiceImp(repository, extraTimeService, providerService);
+
+            var actual = await service
+                .BuildRealMatchInfo(new List<MatchQueried>() { new() { InfositeMatchId = 1, SabaType = null } });
+
+            DeepAssert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void BuildMaxBetMainMatch_Always_ReturnListMaxBetHDP()
         {
             var service = new RealMatchServiceImp(repository, extraTimeService, providerService);
-            var maxBetOptions = MockListMaxBetFThdpInfo();
+            var maxBetOptions = MockListMaxBetHdpInfo();
             var realMatches = MockListRealMatchCommon();
-            var expected = MockListMaxBetOfFthdp();
+            var expected = MockListMaxBetOfHdp();
 
             var actual = service.BuildMaxBetMainMatch(maxBetOptions, realMatches).ToList();
 
             DeepAssert.Equal(expected, actual);
         }
 
-        public List<MaxBetFTHDPInfo> MockListMaxBetFThdpInfo()
+        public List<MaxBetCorner> MockListMaxBetConner()
+            => new()
+            {
+                new()
+                {
+                    InfoSiteMatchId = 1,
+                    MaxBetNextCorner = 20,
+                    MaxBetNoOfCorner = 20,
+                },
+                new()
+                {
+                    InfoSiteMatchId = 3,
+                    MaxBetNextCorner = 30,
+                    MaxBetNoOfCorner = 30,
+                },
+                new()
+                {
+                    InfoSiteMatchId = 4,
+                    MaxBetNextCorner = 40,
+                    MaxBetNoOfCorner = 40,
+                },
+
+            };
+
+        public List<MaxBetFTHDPInfo> MockListMaxBetHdpInfo()
             => new()
             {
                 new()
@@ -75,22 +118,36 @@
                 new()
                 {
                     InfoSiteId = 1,
-                    Tv = string.Empty
-
+                    LeagueName = "Premier league",
+                    Provider = "SM",
+                    Remark = "ETPK",
+                    Tv = string.Empty,
+                    KOTime = new DateTime(2021, 11, 30),
+                    OtherProvider = "bg"
                 },
                 new()
                 {
                     InfoSiteId = 3,
-                    Tv = "HTV2"
+                    LeagueName = "Premier league",
+                    Provider = "SM",
+                    Remark = string.Empty,
+                    Tv = "HTV2",
+                    KOTime = new DateTime(2021, 11, 28),
+                    OtherProvider = "bg"
                 },
                 new()
                 {
                     InfoSiteId = 4,
-                    Tv = "K+"
+                    LeagueName = "Premier league",
+                    Remark = "PK",
+                    Provider = "SM",
+                    Tv = "K+",
+                    KOTime = new DateTime(2021, 11, 29),
+                    OtherProvider = ""
                 },
             };
 
-        public List<MaxBetOfFTHDP> MockListMaxBetOfFthdp()
+        public List<MaxBetOfFTHDP> MockListMaxBetOfHdp()
             => new()
             {
                 new()
@@ -108,6 +165,44 @@
                 {
                     InfoSiteMatchId = 4,
                     MaxBetFTHDP = 5000,
+                },
+            };
+
+        public List<RealMatchSender> MockListRealMatchSender()
+            => new()
+            {
+                new()
+                {
+                    MatchId = 1,
+                    MaxBetMainMatch = 2000,
+                    MaxBetNextCorner = 20,
+                    MaxBetNoOfCorner = 20,
+                    ExtraTime = "ETPK",
+                    Provider = new[] { 1 },
+                    KOTime = "2021-11-30T00:00:00",
+                    HasTV = false,
+                },
+                new()
+                {
+                    MatchId = 3,
+                    MaxBetMainMatch = 3000,
+                    MaxBetNextCorner = 30,
+                    MaxBetNoOfCorner = 30,
+                    ExtraTime = "NM",
+                    Provider = new[] { 1 },
+                    KOTime = "2021-11-28T00:00:00",
+                    HasTV = true
+                },
+                new()
+                {
+                    MatchId = 4,
+                    MaxBetMainMatch = 5000,
+                    MaxBetNextCorner = 40,
+                    MaxBetNoOfCorner = 40,
+                    ExtraTime = "PK",
+                    Provider = Array.Empty<int>(),
+                    KOTime = "2021-11-29T00:00:00",
+                    HasTV = true
                 },
             };
     }
