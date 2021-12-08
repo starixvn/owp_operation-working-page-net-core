@@ -36,17 +36,21 @@ namespace OWP.AutoAssignment.Services.PublicApi
             var matchIds = matchsQueried.Select(i => i.InfositeMatchId).ToList();
 
             var realMatchSenders = new List<RealMatchSender>();
-        
-            var maxBetHdpOptions = (await repository.GetMaxMaxBetFTHDPInfo(matchIds)).ToList();
-            var maxBetFtHdpByMatchIds = maxBetHdpOptions.Select(i => i.MatchId).Distinct().ToList();
+
+            var maxBetHdpOptions = (await repository.GetMaxMaxBetFTHDPInfo(matchIds))
+                .Where(x => x.MaxBet != null)
+                .ToList();
+            var maxBetFtHdpByMatchIds = maxBetHdpOptions
+                .Select(i => i.MatchId).Distinct()
+                .ToList();
             var realMatches = (await repository.GetRealMatchCommonInfoByIds(maxBetFtHdpByMatchIds)).ToList();
             var maxBetHdpInfo = BuildMaxBetMainMatch(maxBetHdpOptions, realMatches).ToList();
             var maxBetCorners = (await repository.GetMaxBetCorner(maxBetHdpInfo)).ToList();
-            var multipleRealMatch= new MultipleRealMatchBuilder
+            var multipleRealMatch = new MultipleRealMatchBuilder
             {
-                RealMatches= realMatches,
-                MaxBetHdpInfo= maxBetHdpInfo,
-                MaxBetCorners= maxBetCorners,
+                RealMatches = realMatches,
+                MaxBetHdpInfo = maxBetHdpInfo,
+                MaxBetCorners = maxBetCorners,
             };
             BuildMultipleRealMatchSender(multipleRealMatch, realMatchSenders);
             return realMatchSenders;
@@ -55,7 +59,7 @@ namespace OWP.AutoAssignment.Services.PublicApi
         private void BuildMultipleRealMatchSender(MultipleRealMatchBuilder multipleRealMatch,
             IList<RealMatchSender> realMatchSenders)
         {
-          
+
             foreach (var match in multipleRealMatch.RealMatches)
             {
                 var mbHdp = multipleRealMatch.MaxBetHdpInfo.FirstOrDefault(x => x.InfoSiteMatchId == match.InfoSiteId);
@@ -63,9 +67,9 @@ namespace OWP.AutoAssignment.Services.PublicApi
 
                 var singleRealMatchBuilder = new SingleRealMatchBuilder
                 {
-                    Match= match,
-                    MaxBetHdp= mbHdp,
-                    MaxBetCorners=mbCorner
+                    Match = match,
+                    MaxBetHdp = mbHdp,
+                    MaxBetCorners = mbCorner
                 };
                 var commonInfo = BuildSingleRealMatchSender(singleRealMatchBuilder);
                 realMatchSenders.Add(commonInfo);
