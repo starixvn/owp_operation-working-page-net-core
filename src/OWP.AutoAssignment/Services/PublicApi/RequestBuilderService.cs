@@ -59,7 +59,7 @@ namespace OWP.AutoAssignment.Services.PublicApi
 
             var hasSuspender = schedulingLAUser.Any() || traderInfos.Any();
             var hasMatch = realMatch.Any() || sabaMatch.Any();
-            if (hasMatch)
+            if (hasMatch && hasSuspender)
             {
                 sender.Add(BuildRequestSender(request, "New"));
                 await UpdateStatusRequest(request, StatusRequest.Running);

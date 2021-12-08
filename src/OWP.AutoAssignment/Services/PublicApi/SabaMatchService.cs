@@ -29,7 +29,6 @@
             return matchInfos.Select(i => new SabaMatchSender
             {
                 MatchId = i.InfositeId,
-                Location = i.Location,
                 KOTime = i.KOTime.ToString(AutoConstant.FormatDateTime),
                 SabaType = GetSabaType(matchsQueried, i.InfositeId),
                 MaxBet = GetMaxBetValue(maxBetInfos.ToList(), i.InfositeId)

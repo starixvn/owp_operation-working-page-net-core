@@ -98,21 +98,18 @@
                 new()
                 {
                     MatchId = 1,
-                    Location = "Q.12",
                     SabaType = 1,
                     KOTime = "2021-11-30T00:00:00"
                 },
                 new()
                 {
                     MatchId = 2,
-                    Location = "Q.11",
                     SabaType = 2,
                     KOTime = "2021-11-29T00:00:00"
                 },
                 new()
                 {
                     MatchId = 3,
-                    Location = "Q.10",
                     SabaType = 3,
                     KOTime = "2021-11-28T00:00:00"
                 }

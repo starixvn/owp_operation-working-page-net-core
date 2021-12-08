@@ -37,7 +37,7 @@ namespace OWP.AutoAssignment.Services.PublicApi
             return BuildTradersInfo(filteredUsers, workingShifts);
         }
 
-        public IList<SchedulingTraderInfo> BuildTradersInfo(IEnumerable<SchedulingTraderInfo> users, IEnumerable<UserWorkingShift> workingShifts)
+        private IList<SchedulingTraderInfo> BuildTradersInfo(IEnumerable<SchedulingTraderInfo> users, IEnumerable<UserWorkingShift> workingShifts)
         {
             var userList = new List<SchedulingTraderInfo>();
             foreach (var user in users)

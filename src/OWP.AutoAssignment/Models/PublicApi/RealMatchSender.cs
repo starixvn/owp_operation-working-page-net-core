@@ -20,6 +20,8 @@ namespace OWP.AutoAssignment.Models.PublicApi
         [JsonProperty("MaxBet_NextCorner", NullValueHandling = NullValueHandling.Ignore)]
         public decimal? MaxBetNextCorner { get; set; }
 
+        public string Location { get; set; }
+
         public bool HasReporter { get; set; }
 
         public bool RequireChinese { get; set; }
