@@ -48,6 +48,8 @@ namespace OWP.AutoAssignment
         Task<IEnumerable<MaxBetFTHDPInfo>> GetMaxMaxBetFTHDPInfo(IList<int> matchIds);
 
         Task<int> GetRequestStatus(string requestId);
+
+        Task RemoveRequest(string requestId);
     }
 
     public class RepositoryImp : Repository
@@ -198,6 +200,15 @@ namespace OWP.AutoAssignment
             };
             var requestStatus = await dynamicRepository.FetchAsync<int>(criteria);
             return requestStatus.FirstOrDefault();
+        }
+
+        public async Task RemoveRequest(string requestId)
+        {
+            var criteria = new RemoveRequestCriteria
+            {
+                RequestId = requestId
+            };
+            await dynamicRepository.ExecuteAsync(criteria);
         }
     }
 }

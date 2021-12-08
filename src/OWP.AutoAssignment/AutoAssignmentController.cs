@@ -23,6 +23,11 @@ namespace OWP.AutoAssignment
             this.createRequestService = createRequestService;
         }
 
+        [Route("remove-request")]
+        [HttpPost]
+        public async Task RemoveRequest(CheckRequestModel model)
+          => await createRequestService.RemoveRequest(model.RequestId);
+
         [Route("get-request")]
         [HttpGet]
         public async Task<IEnumerable<SchedulingRequest>> GetRequests()

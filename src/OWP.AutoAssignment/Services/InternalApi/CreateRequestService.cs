@@ -24,6 +24,8 @@ namespace OWP.AutoAssignment.Services.InternalApi
         Task<string> GetRequestIsWaiting(DateTime eventDate);
 
         Task<IList<SchedulingRequest>> GetRequests();
+
+        Task RemoveRequest(string requestId);
     }
 
     public class CreateRequestServiceImp : CreateRequestService
@@ -90,6 +92,8 @@ namespace OWP.AutoAssignment.Services.InternalApi
 
         public async Task<int> GetRequestStatus(string requestId)
             => await repository.GetRequestStatus(requestId);
-       
+
+        public async Task RemoveRequest(string requestId)
+        => await repository.RemoveRequest(requestId);
     }
 }

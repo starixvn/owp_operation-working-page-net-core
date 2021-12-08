@@ -1,6 +1,6 @@
 ﻿using Fanex.Data.Repository;
 
-namespace OWP.AutoAssignment.Criteria.PublicApi
+namespace OWP.AutoAssignment.Criteria.InternalApi
 {
     public class RequestStatusCriteria : CriteriaBase
     {
