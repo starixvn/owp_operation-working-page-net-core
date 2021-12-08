@@ -1,4 +1,5 @@
 ﻿using OWP.AutoAssignment.Criteria.InternalApi;
+using OWP.AutoAssignment.Criteria.PublicApi;
 using OWP.AutoAssignment.Enum;
 using OWP.AutoAssignment.Models.InternalApi;
 using OWP.AutoAssignment.Services.PublicApi;
@@ -12,6 +13,8 @@ namespace OWP.AutoAssignment.Services.InternalApi
 {
     public interface CreateRequestService
     {
+        Task<int> GetRequestStatus(string requestId);
+
         Task CreateRequest(CreateRequestModel model);
 
         Task<bool> ExistMatchValid(DateTime eventDate);
@@ -85,6 +88,8 @@ namespace OWP.AutoAssignment.Services.InternalApi
                 : new List<SchedulingRequest>();
         }
 
-
+        public async Task<int> GetRequestStatus(string requestId)
+            => await repository.GetRequestStatus(requestId);
+       
     }
 }

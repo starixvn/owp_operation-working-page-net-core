@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Fanex.Data.Repository;
+using Fanex.NAP.Client.Configuration;
 using OWP.AutoAssignment.Criteria.InternalApi;
 using OWP.AutoAssignment.Criteria.PublicApi;
 using OWP.AutoAssignment.Models.InternalApi;
@@ -45,15 +46,20 @@ namespace OWP.AutoAssignment
         Task<IEnumerable<MaxBetCorner>> GetMaxBetCorner(List<MaxBetOfFTHDP> events);
 
         Task<IEnumerable<MaxBetFTHDPInfo>> GetMaxMaxBetFTHDPInfo(IList<int> matchIds);
+
+        Task<int> GetRequestStatus(string requestId);
     }
 
     public class RepositoryImp : Repository
     {
         private readonly IDynamicRepository dynamicRepository;
 
-        public RepositoryImp(IDynamicRepository dynamicRepository)
+        private readonly INapSettings napSettings;
+
+        public RepositoryImp(IDynamicRepository dynamicRepository, INapSettings napSettings)
         {
             this.dynamicRepository = dynamicRepository;
+            this.napSettings = napSettings;
         }
 
         public async Task<IEnumerable<SchedulingRequest>> GetRequestsInternal()
@@ -95,8 +101,7 @@ namespace OWP.AutoAssignment
         {
             var criteria = new GetLAInfoCriteria
             {
-                // TODO
-                SiteId = 99,
+                SiteId = napSettings.SiteId,
                 EventDate = eventDate
             };
             criteria.ThrowExceptionIfInvalid();
@@ -107,7 +112,7 @@ namespace OWP.AutoAssignment
         {
             var criteria = new GetTradersByDateCriteria
             {
-                SiteId = 99,
+                SiteId = napSettings.SiteId,
                 EventDate = eventDate
             };
 
@@ -138,7 +143,7 @@ namespace OWP.AutoAssignment
             {
                 var criteria = new GetTradersByDateCriteria
                 {
-                    SiteId = 99,
+                    SiteId = napSettings.SiteId,
                     EventDate = eventDate
                 };
 
@@ -150,7 +155,7 @@ namespace OWP.AutoAssignment
             => await dynamicRepository.FetchAsync<int>(new GetCustInfoFromDB02Criteria());
 
         public async Task<IEnumerable<int>> GetUserInfoFromNAPUserControl()
-            => await dynamicRepository.FetchAsync<int>(new GetUserInfoFromNAPUserControlCriteria { SiteId = 99 });
+            => await dynamicRepository.FetchAsync<int>(new GetUserInfoFromNAPUserControlCriteria { SiteId = napSettings.SiteId });
 
         public async Task<string> GetRequestIsWaiting(DateTime eventDate)
         {
@@ -184,5 +189,15 @@ namespace OWP.AutoAssignment
         public async Task<IEnumerable<MaxBetFTHDPInfo>> GetMaxMaxBetFTHDPInfo(IList<int> matchIds)
             => await dynamicRepository.FetchAsync<MaxBetFTHDPInfo>(
                 new GetMaxMaxBetFTHDPInfoCriteria { MatchIds = string.Join(',', matchIds) });
+
+        public async Task<int> GetRequestStatus(string requestId)
+        {
+            var criteria = new RequestStatusCriteria
+            {
+                RequestId = requestId
+            };
+            var requestStatus = await dynamicRepository.FetchAsync<int>(criteria);
+            return requestStatus.FirstOrDefault();
+        }
     }
 }

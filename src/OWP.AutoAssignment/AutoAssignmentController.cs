@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using OWP.AutoAssignment.Constant;
 using OWP.AutoAssignment.Models.InternalApi;
+using OWP.AutoAssignment.Models.PublicApi;
 using OWP.AutoAssignment.Services.InternalApi;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -26,6 +27,11 @@ namespace OWP.AutoAssignment
         [HttpGet]
         public async Task<IEnumerable<SchedulingRequest>> GetRequests()
             => await createRequestService.GetRequests();
+
+        [Route("check-request")]
+        [HttpPost]
+        public async Task<int> CheckRequest(CheckRequestModel model)
+            => await createRequestService.GetRequestStatus(model.RequestId);
 
         [Route("create-request")]
         [HttpPost]
