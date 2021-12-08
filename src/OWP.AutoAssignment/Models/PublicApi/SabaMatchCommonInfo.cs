@@ -6,8 +6,6 @@
     {
         public int InfositeId { get; set; }
 
-        public string LeagueName { get; set; }
-
         public string Location { get; set; }
 
         public DateTime KOTime { get; set; }

@@ -36,8 +36,10 @@ namespace OWP.AutoAssignment.Services.PublicApi
             var matchIds = matchsQueried.Select(i => i.InfositeMatchId).ToList();
 
             var realMatchSenders = new List<RealMatchSender>();
-            var realMatches = (await repository.GetRealMatchCommonInfoByIds(matchIds)).ToList();
+        
             var maxBetHdpOptions = (await repository.GetMaxMaxBetFTHDPInfo(matchIds)).ToList();
+            var maxBetFtHdpByMatchIds = maxBetHdpOptions.Select(i => i.MatchId).Distinct().ToList();
+            var realMatches = (await repository.GetRealMatchCommonInfoByIds(maxBetFtHdpByMatchIds)).ToList();
             var maxBetHdpInfo = BuildMaxBetMainMatch(maxBetHdpOptions, realMatches).ToList();
             var maxBetCorners = (await repository.GetMaxBetCorner(maxBetHdpInfo)).ToList();
             var multipleRealMatch= new MultipleRealMatchBuilder
