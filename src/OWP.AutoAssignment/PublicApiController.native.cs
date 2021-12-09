@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using OWP.AutoAssignment.Models.PublicApi;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using OWP.AutoAssignment.Services.PublicApi;
 using OWP.AutoAssignment.Services.SaveResponse;
 
@@ -28,10 +27,10 @@ namespace OWP.AutoAssignment
 
         [HttpGet]
         [Route("get-new")]
-        public new async Task<IEnumerable<RequestSender>> Request()
+        public new async Task<IActionResult> Request()
         {
             var sender = await getRequestService.GetRequest();
-            return sender;
+            return Ok(JsonConvert.SerializeObject(sender));
         }
     }
 }
