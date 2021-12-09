@@ -4,7 +4,7 @@
     {
         public const string RecipientGroup = "RecipientGroup";
 
-        public const string TicketCenter = "TicketCenter";
+        public const string TicketCenter = "MyTicket";
 
         public const string Tickets = "Tickets";
 
