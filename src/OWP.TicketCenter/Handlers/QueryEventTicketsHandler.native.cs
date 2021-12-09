@@ -58,6 +58,6 @@ namespace OWP.TicketCenter.Handlers
 
         private List<TicketDetailBaseViewModel> SortEventTicketByCommentLatestDate(
             List<TicketDetailBaseViewModel> tickets)
-            => tickets.OrderByDescending(x => x.CommentLatestDate).ToList();
+            => tickets.OrderByDescending(x => x.IsPinned).ThenByDescending(x => x.CommentLatestDate).ToList();
     }
 }

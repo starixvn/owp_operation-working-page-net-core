@@ -60,7 +60,6 @@ namespace OWP.TicketCenter
 
         Task InsertManyRecipientReader(InsertManyRecipientReaderCriteria criteria);
 
-
         Task UpdateManyRecipientReader(UpdateManyRecipientReaderCriteria criteria);
 
         Task UpdateSingleRecipientReader(UpdateSingleRecipientReaderCriteria criteria);
@@ -78,6 +77,8 @@ namespace OWP.TicketCenter
         Task UpdateTicketStatus(UpdateTicketStatusCriteria criteria);
 
         Task<IEnumerable<StatusHistory>> GetStatusHistory(int ticketId);
+
+        Task PinTicket(PinTicketCriteria criteria);
     }
 
     public class RepositoryImp : Repository
@@ -172,7 +173,6 @@ namespace OWP.TicketCenter
 
         public async Task RemoveManyRecipientReader(RemoveManyRecipientReaderCriteria criteria)
             => await dynamicRepository.ExecuteAsync(criteria);
-
 
         public async Task<int> RemoveSingleRecipient(RemoveSingleRecipientRequest request)
         {
@@ -277,7 +277,6 @@ namespace OWP.TicketCenter
         public async Task UpdateManyRecipientReader(UpdateManyRecipientReaderCriteria criteria)
             => await dynamicRepository.ExecuteAsync(criteria);
 
-
         public async Task UpdateSingleRecipientReader(UpdateSingleRecipientReaderCriteria criteria)
         {
             await dynamicRepository.ExecuteAsync(criteria);
@@ -313,5 +312,8 @@ namespace OWP.TicketCenter
 
             return await dynamicRepository.FetchAsync<StatusHistory>(criteria);
         }
+
+        public async Task PinTicket(PinTicketCriteria criteria)
+            => await dynamicRepository.ExecuteAsync(criteria);
     }
 }

@@ -28,5 +28,7 @@ namespace OWP.TicketCenter.Models
         #endregion message
 
         public bool IsRead { get; set; }
+
+        public bool IsPinned { get; set; }
     }
 }

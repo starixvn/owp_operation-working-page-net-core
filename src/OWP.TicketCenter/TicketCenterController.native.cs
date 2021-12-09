@@ -14,7 +14,7 @@ namespace OWP.TicketCenter
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [AllowAnonymous]
     [EnableCors("AllowOrigin")]
     public class TicketCenterController : ControllerBase
     {
@@ -132,5 +132,9 @@ namespace OWP.TicketCenter
         [HttpGet("ticket-detail/get-status-history")]
         public async Task<IEnumerable<StatusHistory>> GetStatusHistoryByTicketId(int ticketId)
             => await mediator.Send(new GetStatusHistoryRequest { TicketId = ticketId });
+
+        [HttpPost("pin-ticket")]
+        public async Task PinTicket(PinTicketRequest request)
+            => await mediator.Send(request);
     }
 }

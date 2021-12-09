@@ -26,6 +26,8 @@ namespace OWP.TicketCenter.ViewModels
 
         public bool IsRead { get; set; }
 
+        public bool IsPinned { get; set; }
+
         public int EventType
         {
             get;
