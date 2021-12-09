@@ -10,7 +10,7 @@ namespace OWP.AutoAssignment
 {
     [Route("api/public/auto-assignment")]
     [ApiController]
-    [Authorize]
+    [AllowAnonymous]
     [EnableCors("AllowOrigin")]
     public class PublicApiController : ControllerBase
     {
