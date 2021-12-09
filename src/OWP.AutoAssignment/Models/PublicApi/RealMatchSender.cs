@@ -4,7 +4,6 @@ namespace OWP.AutoAssignment.Models.PublicApi
 {
     public class RealMatchSender : CommonMatchSender
     {
-        public static int[] PickedBettypes => new[] { 0 };
 
         [JsonProperty("Is_Futsal")]
         public bool IsFutsal { get; set; }
@@ -36,7 +35,7 @@ namespace OWP.AutoAssignment.Models.PublicApi
 
         public int[] Provider { get; set; }
 
-        public static string Group => "FT";
+        public string Group { get; set; } = "FT";
 
         public bool IsFantasy { get; set; }
 
