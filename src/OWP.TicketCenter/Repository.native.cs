@@ -299,7 +299,10 @@ namespace OWP.TicketCenter
             => await dynamicRepository.ExecuteAsync(criteria);
 
         public async Task UpdateTicketStatus(UpdateTicketStatusCriteria criteria)
-            => await dynamicRepository.ExecuteAsync(criteria);
+        {
+            criteria.ThrowExceptionIfInvalid();
+            await dynamicRepository.ExecuteAsync(criteria);
+        }
 
         public async Task<IEnumerable<StatusHistory>> GetStatusHistory(int ticketId)
         {

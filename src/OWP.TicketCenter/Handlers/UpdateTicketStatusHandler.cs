@@ -3,14 +3,13 @@ using System.Threading.Tasks;
 using Fanex.NAP.Client.Helpers.Web;
 using MediatR;
 using OWP.TicketCenter.Criteria;
+using OWP.TicketCenter.Middleware.Models;
 using OWP.TicketCenter.Notification.Services;
 
 namespace OWP.TicketCenter.Handlers
 {
-    public class UpdateTicketStatusRequest : IRequest<string>
+    public class UpdateTicketStatusRequest : PermissionCheckedModel, IRequest<string>
     {
-        public int TicketId { get; set; }
-
         public string TicketStatus { get; set; }
     }
 
