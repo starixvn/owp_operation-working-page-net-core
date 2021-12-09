@@ -99,7 +99,8 @@ namespace OWP.AutoAssignment.Services.PublicApi
                 IsFantasy = IsFantasy(match.LeagueName),
                 MaxBetNextCorner = maxBetCorners?.MaxBetNextCorner,
                 MaxBetNoOfCorner = maxBetCorners?.MaxBetNoOfCorner,
-                MaxBetMainMatch = maxBetHdp?.MaxBetFTHDP
+                MaxBetMainMatch = maxBetHdp?.MaxBetFTHDP,
+                HasChannel = !string.IsNullOrWhiteSpace(match.Channel)
             };
         }
 
