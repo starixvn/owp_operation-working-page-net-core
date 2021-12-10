@@ -17,7 +17,7 @@ namespace OWP.TicketCenter.Handlers
 
         public int TicketTypeId { get; set; }
 
-        public string TicketStatus { get; set; }
+        public string TicketStatuses { get; set; }
 
         public string TicketId { get; set; }
 
