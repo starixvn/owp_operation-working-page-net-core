@@ -29,7 +29,8 @@
                     { EnumMatchOffer.Accept30s, 30 },
                     { EnumMatchOffer.Accept5s, 5 },
                     { EnumMatchOffer.Accept8s, 8 },
-                    { EnumMatchOffer.Accept12s, 12 }
+                    { EnumMatchOffer.Accept12s, 12 },
+                    { EnumMatchOffer.Accept6s, 6 }
                 }
             );
 

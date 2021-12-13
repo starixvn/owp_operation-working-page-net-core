@@ -23,6 +23,7 @@
         [InlineData((int)EnumMatchOffer.Accept20s, 20)]
         [InlineData((int)EnumMatchOffer.Accept30s, 30)]
         [InlineData((int)EnumMatchOffer.Accept15s, 15)]
+        [InlineData((int)EnumMatchOffer.Accept6s, 6)]
         [InlineData((int)EnumMatchOffer.FastMarket, null)]
         public async Task Handler_MatchWith5sAcceptMatchOffer_Return5(int matchOfferId, int? expected)
         {

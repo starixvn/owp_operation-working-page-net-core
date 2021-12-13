@@ -11,5 +11,6 @@
         Accept5s = 7,
         Accept8s = 8,
         Accept12s = 9,
+        Accept6s = 10
     }
 }
