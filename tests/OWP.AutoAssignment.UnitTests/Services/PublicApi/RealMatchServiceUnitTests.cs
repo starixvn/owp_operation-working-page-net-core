@@ -25,18 +25,25 @@
         [Fact]
         public async Task BuildRealMatchInfo_Always_ReturnListRealMatchInfo()
         {
+            // Arrange
             repository.GetRealMatchCommonInfoByIds(Arg.Compat.Any<List<int>>())
                 .Returns(MockListRealMatchCommon());
             repository.GetMaxMaxBetFTHDPInfo(Arg.Compat.Any<List<int>>())
                 .Returns(MockListMaxBetHdpInfo());
             repository.GetMaxBetCorner(Arg.Compat.Any<List<MaxBetOfFTHDP>>())
                 .Returns(MockListMaxBetConner());
+            providerService.DetectProviderType(Arg.Compat.Any<string>())
+                .ReturnsForAnyArgs(x => new int[] { 1 });
+
             var expected = MockListRealMatchSender();
             var service = new RealMatchServiceImp(repository, extraTimeService, providerService);
 
+            // Act
             var actual = await service
                 .BuildRealMatchInfo(new List<MatchQueried>() { new() { InfositeMatchId = 1, SabaType = null } });
 
+
+            // Assert
             DeepAssert.Equal(expected, actual);
         }
 
@@ -200,7 +207,7 @@
                     MaxBetNextCorner = 40,
                     MaxBetNoOfCorner = 40,
                     ExtraTime = "PK",
-                    Provider = Array.Empty<int>(),
+                    Provider = new[] { 1 },
                     KOTime = "2021-11-29T00:00:00",
                     HasTV = true
                 },

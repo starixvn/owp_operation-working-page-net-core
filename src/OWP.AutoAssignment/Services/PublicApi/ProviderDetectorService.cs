@@ -1,5 +1,4 @@
-﻿using OWP.AutoAssignment.Enum;
-using OWP.AutoAssignment.Models.PublicApi;
+﻿using OWP.AutoAssignment.Constant;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,52 +12,29 @@ namespace OWP.AutoAssignment.Services.PublicApi
 
     public class ProviderDetectorServiceImp : ProviderDetectorService
     {
+        private readonly IReadOnlyDictionary<string, int> ProviderHasTypeStadium = new Dictionary<string, int>
+        {
+            { AutoConstant.ProviderBgLabel , AutoConstant.ProviderBgId},
+            { AutoConstant.ProviderRb2Label, AutoConstant.ProviderRb2Id},
+            { AutoConstant.ProviderRtsLabel, AutoConstant.ProviderRtsId},
+            { AutoConstant.ProviderBetLabel, AutoConstant.ProviderBetId}
+        };
+
         public int[] DetectProviderType(string otherProvider)
         {
-            var providerModels = BuildListProviderModel(otherProvider);
+            var providerArray = otherProvider.Split("/");
 
-            var providerTypes = SelectProviderType(providerModels);
-
-            AddTypeOtherInNeed(providerTypes, otherProvider);
-
-            return providerTypes.ToArray();
+            var providerLabel = GetSingleProviderLabel(providerArray);
+            var providerTypes = ProviderHasTypeStadium.GetValueOrDefault(providerLabel ?? string.Empty, AutoConstant.ProviderOtherId);
+            return new int[] { providerTypes };
         }
 
-        private void AddTypeOtherInNeed(IList<int> providerTypes, string otherProvider)
+        private string GetSingleProviderLabel(string[] providerArray)
         {
-            if (!providerTypes.Any() && otherProvider.Length > 0)
-            {
-                providerTypes.Add((int)Provider.Other);
-            }
+            var providerHasTypeStadiumKeys = ProviderHasTypeStadium.Keys.ToList();
+            return providerArray.FirstOrDefault(source =>
+            providerHasTypeStadiumKeys.Exists(dest =>
+                string.Equals(source, dest, StringComparison.OrdinalIgnoreCase)));
         }
-
-        private IList<int> SelectProviderType(IList<ProviderModel> providerModels)
-            => providerModels
-                .Where(p => p.IndexWithinString > -1)
-                .OrderBy(p => p.IndexWithinString)
-                .Select(p => p.ProviderId)
-                .Distinct()
-                .ToList();
-
-        private IList<ProviderModel> BuildListProviderModel(string otherProvider)
-            => new List<ProviderModel>
-            {
-                BuildSingleProviderModel((int) Provider.Ipsd,
-                    otherProvider.IndexOf("ipsd", StringComparison.CurrentCultureIgnoreCase)),
-                BuildSingleProviderModel((int) Provider.Ipsd,
-                    otherProvider.IndexOf("bg", StringComparison.CurrentCultureIgnoreCase)),
-                BuildSingleProviderModel((int) Provider.Rb2,
-                    otherProvider.IndexOf("rb2", StringComparison.CurrentCultureIgnoreCase)),
-                BuildSingleProviderModel((int) Provider.Rts,
-                    otherProvider.IndexOf("rts", StringComparison.CurrentCultureIgnoreCase)),
-                BuildSingleProviderModel((int) Provider.Bet,
-                    otherProvider.IndexOf("bet", StringComparison.CurrentCultureIgnoreCase))
-            };
-
-        private static ProviderModel BuildSingleProviderModel(int providerId, int indexWithinString) => new()
-        {
-            ProviderId = providerId,
-            IndexWithinString = indexWithinString
-        };
     }
 }

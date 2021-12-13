@@ -12,7 +12,25 @@
 
         public const string FormatDateTime = "yyyy-MM-dd'T'HH:mm:ss";
 
-        public const string MatchStatusIds = "1,2,3,4,5,6";
+        public const int ProviderOtherId = 0;
+
+        public const int ProviderBgId = 1;
+
+        public const int ProviderRb2Id = 2;
+
+        public const int ProviderRtsId = 3;
+
+        public const int ProviderBetId = 4;
+
+        public const string ProviderBgLabel = "BG";
+
+        public const string ProviderRb2Label = "RB2";
+
+        public const string ProviderRtsLabel = "RTS";
+
+        public const string ProviderBetLabel = "BET";
+
+
 
         public const string EtPk = "ETPK";
         public const string Et = "ET";

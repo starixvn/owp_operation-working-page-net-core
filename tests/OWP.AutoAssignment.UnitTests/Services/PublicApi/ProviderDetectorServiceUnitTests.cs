@@ -6,13 +6,12 @@ namespace OWP.AutoAssignment.UnitTests.Services.PublicApi
     public class ProviderDetectorServiceUnitTests
     {
         [Theory]
-        [InlineData(new object[] { "ipsd", new int[] { 1 } })]
-        [InlineData(new object[] { "bg", new int[] { 1 } })]
-        [InlineData(new object[] { "rb2", new int[] { 2 } })]
-        [InlineData(new object[] { "rts", new int[] { 3 } })]
-        [InlineData(new object[] { "bet", new int[] { 4 } })]
-        [InlineData(new object[] { "abc", new int[] { 0 } })]
-        [InlineData(new object[] { "ipsd,bg,rb2,rts,bet", new int[] { 1, 2, 3, 4 } })]
+        [InlineData(new object[] { "BG/RB2/BET/RTS", new int[] { 1 } })]
+        [InlineData(new object[] { "RB2/BG/BET/RTS", new int[] { 2 } })]
+        [InlineData(new object[] { "RTS/RB2/BET/BET", new int[] { 3 } })]
+        [InlineData(new object[] { "BET/RTS", new int[] { 4 } })]
+        [InlineData(new object[] { "betf", new int[] { 0 } })]
+        [InlineData(new object[] { "abc/BET", new int[] { 4 } })]
         public void DetectIndexAndOrderProviderSpecial_ReturnProviderCorrect(string provider, int[] expected)
         {
             var service = new ProviderDetectorServiceImp();
