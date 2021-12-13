@@ -13,10 +13,10 @@ namespace OWP.AutoAssignment.Models.PublicApi
         [JsonProperty("MaxBet_MainMatch")]
         public decimal? MaxBetMainMatch { get; set; }
 
-        [JsonProperty("MaxBet_NoOfCorner", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("MaxBet_NoOfCorner")]
         public decimal? MaxBetNoOfCorner { get; set; }
 
-        [JsonProperty("MaxBet_NextCorner", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("MaxBet_NextCorner")]
         public decimal? MaxBetNextCorner { get; set; }
 
         public string Location { get; set; }
