@@ -18,8 +18,8 @@
         public RealMatchServiceUnitTests()
         {
             repository = Substitute.For<Repository>();
-            extraTimeService = Substitute.For<ExtraTimeDetectorServiceImp>();
-            providerService = Substitute.For<ProviderDetectorServiceImp>();
+            extraTimeService = Substitute.For<ExtraTimeDetectorService>();
+            providerService = Substitute.For<ProviderDetectorService>();
         }
 
         [Fact]
@@ -34,6 +34,8 @@
                 .Returns(MockListMaxBetConner());
             providerService.DetectProviderType(Arg.Compat.Any<string>())
                 .ReturnsForAnyArgs(x => new int[] { 1 });
+            extraTimeService.DetectExtraTime(Arg.Compat.Any<string>())
+                .ReturnsForAnyArgs(x => "ETPK");
 
             var expected = MockListRealMatchSender();
             var service = new RealMatchServiceImp(repository, extraTimeService, providerService);
@@ -195,7 +197,7 @@
                     MaxBetMainMatch = 3000,
                     MaxBetNextCorner = 30,
                     MaxBetNoOfCorner = 30,
-                    ExtraTime = "NM",
+                    ExtraTime = "ETPK",
                     Provider = new[] { 1 },
                     KOTime = "2021-11-28T00:00:00",
                     HasTV = true
@@ -206,7 +208,7 @@
                     MaxBetMainMatch = 5000,
                     MaxBetNextCorner = 40,
                     MaxBetNoOfCorner = 40,
-                    ExtraTime = "PK",
+                    ExtraTime = "ETPK",
                     Provider = new[] { 1 },
                     KOTime = "2021-11-29T00:00:00",
                     HasTV = true
