@@ -1,6 +1,6 @@
 ﻿using Fanex.Data.Repository;
 
-namespace OWP.AutoAssignment.Models.InternalApi
+namespace OWP.AutoAssignment.Criteria.InternalApi
 {
     public class RemoveRequestCriteria : NonQueryCommand
     {

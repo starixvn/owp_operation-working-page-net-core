@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Fanex.Data.Repository;
 using Fanex.NAP.Client.Configuration;
 using OWP.AutoAssignment.Criteria.InternalApi;
@@ -9,6 +10,7 @@ using OWP.AutoAssignment.Criteria.PublicApi;
 using OWP.AutoAssignment.Models.InternalApi;
 using OWP.AutoAssignment.Models.PublicApi;
 using OWP.AutoAssignment.Utils.XMLExtensions;
+using OWP.Models;
 using OWP.Utils;
 
 namespace OWP.AutoAssignment
@@ -30,7 +32,9 @@ namespace OWP.AutoAssignment
         Task<ValueTuple<IEnumerable<LAUserInfo>, IEnumerable<UserWorkingShift>>> GetLAInfoByDate(DateTime eventDate);
 
         Task<ValueTuple<IEnumerable<SchedulingTraderInfo>, IEnumerable<UserWorkingShift>>> GetTraderInfoByDate(DateTime eventDate);
-
+        
+        Task <ResultDataObject>SaveRequest(SaveRequestModel model);
+        
         Task UpdateStatusRequest(StatusRequestModel statusRequestModel);
 
         Task<ValueTuple<IEnumerable<SchedulingTraderInfo>, IEnumerable<UserWorkingShift>>> GetTraders(DateTime eventDate);
@@ -209,6 +213,30 @@ namespace OWP.AutoAssignment
                 RequestId = requestId
             };
             await dynamicRepository.ExecuteAsync(criteria);
+        }
+
+        public async Task<ResultDataObject> SaveRequest(SaveRequestModel model)
+        {
+            var result = new List<ResultDataObject>();
+            var criteria = new SaveRequestCriteria
+            {
+                RequestId = model.RequestId,
+                Status = model.Code,
+                AutoAssignmentResultDoc = model.Data.ToXml().ToString(SaveOptions.DisableFormatting)
+            };
+            criteria.ThrowExceptionIfInvalid();
+            await dynamicRepository.ExecuteAsync(criteria);
+            result.Add(new ResultDataObject
+            {
+                Data = model.RequestId,
+                Code = criteria.ErrCode
+            });
+
+            return new ResultDataObject
+            {
+                Code = result.Any(x => x.Code == 0) ? 0 : 1,
+                Data = result
+            };
         }
     }
 }
