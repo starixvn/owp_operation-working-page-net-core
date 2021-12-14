@@ -38,23 +38,36 @@
 
         public const string ProviderBetLabelTV = "BETTV";
 
-
-
         public const string EtPk = "ETPK";
+
         public const string Et = "ET";
+
         public const string Pk = "PK";
+
         public const string Nomal = "NM";
 
-        public const string Futsal= "FUTSAL";
+        public const string Futsal = "FUTSAL";
 
-        public const string Saba= "SABA";
-        public const string Woo= "WOO";
-        public const string Al= "AL";
-        public const string Slr= "SLR";
+        public const string Saba = "SABA";
+
+        public const string Woo = "WOO";
+
+        public const string Al = "AL";
+
+        public const string Slr = "SLR";
+
+        public const string ReporterWoo = "(WOO)";
+
+        public const string ReporterAl = "(AL)";
+
+        public const string ReporterSlr = "(SLR)";
 
         public const string Fantasy = "Fantasy";
 
-        public const string EtPkConfirm= "Pls cfm this game have ET, PK or not";
+        public const string EtPkConfirm = "Pls cfm this game have ET, PK or not";
 
+        public static readonly string[] ProviderType = {
+            "BG","RB2","RTS","BET"
+        };
     }
 }
