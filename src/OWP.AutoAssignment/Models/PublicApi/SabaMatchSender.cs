@@ -7,7 +7,6 @@ namespace OWP.AutoAssignment.Models.PublicApi
         [JsonProperty("SABA_type")]
         public int? SabaType { get; set; }
 
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public decimal? MaxBet { get; set; }
     }
 }

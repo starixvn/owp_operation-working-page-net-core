@@ -210,6 +210,8 @@
 		<Setting Key="OWP_AutoAssignment_GetInfoSiteMatchByDate" SpName="OWP_AutoAssignment_GetInfoSiteMatchByDate" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
 		<Setting Key="OWP_AutoAssignment_GetMaxBetCorner" SpName="OWP_AutoAssignment_GetMaxBetCorner" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
 		<Setting Key="OWP_AutoAssignmentResult_Insert" SpName="OWP_AutoAssignmentResult_Insert" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
+		<Setting Key="OWP_AutoAssignment_Export_GetLAInfo" SpName="OWP_AutoAssignment_Export_GetLAInfo" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
+		<Setting Key="OWP_AutoAssignment_Export_GetTraderInfo" SpName="OWP_AutoAssignment_Export_GetTraderInfo" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
 	</Function>
 	<Function Name="LSTReport">
 		<Setting Key="Task_OWP_LSTReport_GetDataByDate" SpName="Task_OWP_LSTReport_GetDataByDate" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>

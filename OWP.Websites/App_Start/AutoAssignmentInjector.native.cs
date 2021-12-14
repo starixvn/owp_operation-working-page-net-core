@@ -23,6 +23,8 @@ namespace OWP.Websites.App_Start
             services.AddScoped<TraderUserService, TraderUserServiceImp>();
             services.AddScoped<Repository, RepositoryImp>();
             services.AddScoped<CreateRequestService, CreateRequestServiceImp>();
+            services.AddScoped<LABuilderService, LABuilderServiceImp>();
+            services.AddScoped<TraderBuilderService, TraderBuilderServiceImp>();
         }
     }
 }

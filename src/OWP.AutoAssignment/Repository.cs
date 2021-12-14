@@ -54,6 +54,11 @@ namespace OWP.AutoAssignment
         Task<int> GetRequestStatus(string requestId);
 
         Task RemoveRequest(string requestId);
+
+        Task<IEnumerable<LAExportInfo>> GetLAExportInfo(GetLAExportInfoCriteria criteria);
+
+        Task<IEnumerable<TraderExportInfo>> GetTraderExportInfo(GetTraderExportInfoCriteria criteria);
+
     }
 
     public class RepositoryImp : Repository
@@ -238,5 +243,11 @@ namespace OWP.AutoAssignment
                 Data = result
             };
         }
+
+        public async Task<IEnumerable<LAExportInfo>> GetLAExportInfo(GetLAExportInfoCriteria criteria)
+        => await dynamicRepository.FetchAsync<LAExportInfo>(criteria);
+
+        public async Task<IEnumerable<TraderExportInfo>> GetTraderExportInfo(GetTraderExportInfoCriteria criteria)
+     => await dynamicRepository.FetchAsync<TraderExportInfo>(criteria);
     }
 }
