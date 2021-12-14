@@ -265,6 +265,6 @@ namespace OWP.AutoAssignment
 
         public async Task<IEnumerable<InfoSiteMatchModel>> GetInfoSiteMatchByIds(IList<int> matchIds)
             => await dynamicRepository.FetchAsync<InfoSiteMatchModel>(
-                new GetInfoSiteMatchByIdsCriteria() { Ids = string.Join(',', matchIds) });
+                new GetInfoSiteMatchByIdsCriteria { Ids = string.Join(',', matchIds) });
     }
 }

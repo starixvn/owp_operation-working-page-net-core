@@ -9,6 +9,6 @@ namespace OWP.AutoAssignment.Criteria.PublicApi
 
         public override bool IsValid() => true;
 
-        public override string GetSettingKey() => "OWP_AutoAssignment_GetMatchIdsByDate";
+        public override string GetSettingKey() => "OWP_AutoAssignment_GetInfoSiteMatchResultByDate";
     }
 }
