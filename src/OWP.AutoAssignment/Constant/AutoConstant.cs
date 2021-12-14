@@ -30,6 +30,14 @@
 
         public const string ProviderBetLabel = "BET";
 
+        public const string ProviderBgLabelTV = "BGTV";
+
+        public const string ProviderRb2LabelTV = "RB2TV";
+
+        public const string ProviderRtsLabelTV = "RTSTV";
+
+        public const string ProviderBetLabelTV = "BETTV";
+
 
 
         public const string EtPk = "ETPK";

@@ -20,21 +20,34 @@ namespace OWP.AutoAssignment.Services.PublicApi
             { AutoConstant.ProviderBetLabel, AutoConstant.ProviderBetId}
         };
 
+        private readonly IReadOnlyDictionary<string, int> ProviderHasTypeTV = new Dictionary<string, int>
+        {
+            { AutoConstant.ProviderBgLabelTV , AutoConstant.ProviderBgId},
+            { AutoConstant.ProviderRb2LabelTV, AutoConstant.ProviderRb2Id},
+            { AutoConstant.ProviderRtsLabelTV, AutoConstant.ProviderRtsId},
+            { AutoConstant.ProviderBetLabelTV, AutoConstant.ProviderBetId}
+        };
+
         public int[] DetectProviderType(string otherProvider)
         {
             var providerArray = otherProvider.Split("/");
 
-            var providerLabel = GetSingleProviderLabel(providerArray);
+            var providerLabel = GetSingleProvider(providerArray, ProviderHasTypeStadium);
+            if (providerLabel == null)
+            {
+                providerLabel = GetSingleProvider(providerArray, ProviderHasTypeTV);
+            }
             var providerTypes = ProviderHasTypeStadium.GetValueOrDefault(providerLabel ?? string.Empty, AutoConstant.ProviderOtherId);
             return new int[] { providerTypes };
         }
 
-        private string GetSingleProviderLabel(string[] providerArray)
+        private string GetSingleProvider<T>(string[] providerArray, T keyValuePairs)
+            where T : IReadOnlyDictionary<string, int>
         {
-            var providerHasTypeStadiumKeys = ProviderHasTypeStadium.Keys.ToList();
+            var keys = keyValuePairs.Keys.ToList();
             return providerArray.FirstOrDefault(source =>
-            providerHasTypeStadiumKeys.Exists(dest =>
-                string.Equals(source, dest, StringComparison.OrdinalIgnoreCase)));
+                keys.Exists(dest =>
+                    string.Equals(source, dest, StringComparison.OrdinalIgnoreCase)));
         }
     }
 }
