@@ -5,5 +5,7 @@
         public int InfoSiteMatchId { get; set; }
 
         public string UserName { get; set; }
+
+        public int Bettype { get; set; }
     }
 }

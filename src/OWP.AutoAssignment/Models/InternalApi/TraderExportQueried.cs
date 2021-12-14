@@ -11,5 +11,7 @@
         public int FTOUAssingeeId { get; init; }
 
         public int FIRSTHOUAssingeeId { get; init; }
+
+        public int Bettype { get; init; }
     }
 }
