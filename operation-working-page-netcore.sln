@@ -51,7 +51,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OWP.OvertimeReport.UnitTest
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OWP.AutoAssignment", "src\OWP.AutoAssignment\OWP.AutoAssignment.csproj", "{F8F6F79F-B4A0-4D30-8775-B0B56D12A446}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OWP.AutoAssignment.UnitTests", "tests\OWP.AutoAssignment.UnitTests\OWP.AutoAssignment.UnitTests.csproj", "{F2C3C857-5162-4A4B-B4B9-F1E6377C8977}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OWP.AutoAssignment.UnitTests", "tests\OWP.AutoAssignment.UnitTests\OWP.AutoAssignment.UnitTests.csproj", "{F2C3C857-5162-4A4B-B4B9-F1E6377C8977}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

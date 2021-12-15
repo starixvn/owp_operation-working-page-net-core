@@ -5,7 +5,11 @@ using OWP.AutoAssignment.Constant;
 using OWP.AutoAssignment.Models.InternalApi;
 using OWP.AutoAssignment.Models.PublicApi;
 using OWP.AutoAssignment.Services.InternalApi;
+using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace OWP.AutoAssignment
@@ -18,9 +22,16 @@ namespace OWP.AutoAssignment
     {
         private readonly CreateRequestService createRequestService;
 
-        public AutoAssignmentController(CreateRequestService createRequestService)
+        private readonly ExportExcelService exportExcelService;
+
+
+
+        public AutoAssignmentController(
+            CreateRequestService createRequestService,
+            ExportExcelService exportExcelService)
         {
             this.createRequestService = createRequestService;
+            this.exportExcelService = exportExcelService;
         }
 
         [Route("remove-request")]
@@ -60,6 +71,37 @@ namespace OWP.AutoAssignment
             }
             await createRequestService.CreateRequest(model);
             return Ok();
+        }
+
+        [Route("export-excel")]
+        [HttpGet]
+        public async Task<HttpResponseMessage> ExportExcel(DateTime eventDate)
+        {
+            var exportExcelModel = new ExportModel
+            {
+                // TODO
+            };
+            var absolutedTemplatePath = @"App_Data\Templates\AutoAssignment.xlsx";
+            var excelPackage = exportExcelService.CreateExcelPackage(absolutedTemplatePath, exportExcelModel);
+
+            var bin = excelPackage.GetAsByteArray();
+
+            return BuildExcelPackageResponse(bin, eventDate);
+
+        }
+
+        private HttpResponseMessage BuildExcelPackageResponse(byte[] bin, DateTime eventDate)
+        {
+            var result = new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new ByteArrayContent(bin)
+            };
+            result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+            {
+                FileName = $"Auto_Assignment_{eventDate.ToString("yyyyMMdd")}.xlsx"
+            };
+            result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/xlsx");
+            return result;
         }
     }
 }

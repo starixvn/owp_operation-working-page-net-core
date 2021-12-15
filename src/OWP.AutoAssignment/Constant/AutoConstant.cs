@@ -67,7 +67,16 @@
         public const string EtPkConfirm = "Pls cfm this game have ET, PK or not";
 
         public static readonly string[] ProviderType = {
-            "BG","RB2","RTS","BET"
+            ProviderBgLabel,
+            ProviderRb2Label,
+            ProviderRtsLabel,
+            ProviderBetLabel
         };
+
+        public const string TemplateName = "Sheet0";
+
+        public const string SheetName = "AutoAssignment";
+
+        public const int StartRowIndex = 3;
     }
 }
