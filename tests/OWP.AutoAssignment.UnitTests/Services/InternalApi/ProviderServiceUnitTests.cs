@@ -1,6 +1,6 @@
 ﻿namespace OWP.AutoAssignment.UnitTests.Services.SaveResponse
 {
-    using AutoAssignment.Services.SaveResponse;
+    using AutoAssignment.Services.InternalApi;
     using Models.InternalApi;
     using Xunit;
 
@@ -62,20 +62,5 @@
             Assert.Equal(expected, actual);
         }
 
-        [Theory]
-        [InlineData("TV/BGTV/RB2TV/BETTV/RTSTV", "BGTV")]
-        [InlineData("TV/BGTV/RB2TV/BET/RTSTV", "BET")]
-        [InlineData("BGTV/RB2/BET/RTSTV", "RB2")]
-        [InlineData("TV/(WOO)", null)]
-        [InlineData("", null)]
-        [InlineData("   ././", null)]
-        public void GetFirstProvider_Always_ReturnFirstProvider(string otherProvider, string expected)
-        {
-            var service = new ProviderServiceImp();
-
-            var actual = service.GetFirstProvider(otherProvider);
-
-            Assert.Equal(expected, actual);
-        }
     }
 }
