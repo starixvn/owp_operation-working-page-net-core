@@ -2,15 +2,15 @@
 
 namespace OWP.TicketCenter
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
     using AutoMapper;
     using Criteria;
     using Fanex.Data.Repository;
     using OWP.TicketCenter.Handlers;
     using OWP.TicketCenter.Models;
     using OWP.Utils;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     public interface Repository
     {
@@ -60,7 +60,6 @@ namespace OWP.TicketCenter
 
         Task InsertManyRecipientReader(InsertManyRecipientReaderCriteria criteria);
 
-
         Task UpdateManyRecipientReader(UpdateManyRecipientReaderCriteria criteria);
 
         Task UpdateSingleRecipientReader(UpdateSingleRecipientReaderCriteria criteria);
@@ -74,6 +73,12 @@ namespace OWP.TicketCenter
         Task InsertNewRecipientNotification(InsertNewRecipientNotificationCriteria criteria);
 
         Task InsertNewMessageNotification(InsertNewMessageNotificationCriteria criteria);
+
+        Task UpdateTicketStatus(UpdateTicketStatusCriteria criteria);
+
+        Task<IEnumerable<StatusHistory>> GetStatusHistory(int ticketId);
+
+        Task PinTicket(PinTicketCriteria criteria);
     }
 
     public class RepositoryImp : Repository
@@ -168,7 +173,6 @@ namespace OWP.TicketCenter
 
         public async Task RemoveManyRecipientReader(RemoveManyRecipientReaderCriteria criteria)
             => await dynamicRepository.ExecuteAsync(criteria);
-       
 
         public async Task<int> RemoveSingleRecipient(RemoveSingleRecipientRequest request)
         {
@@ -272,7 +276,6 @@ namespace OWP.TicketCenter
 
         public async Task UpdateManyRecipientReader(UpdateManyRecipientReaderCriteria criteria)
             => await dynamicRepository.ExecuteAsync(criteria);
-       
 
         public async Task UpdateSingleRecipientReader(UpdateSingleRecipientReaderCriteria criteria)
         {
@@ -292,6 +295,25 @@ namespace OWP.TicketCenter
             => await dynamicRepository.ExecuteAsync(criteria);
 
         public async Task InsertNewMessageNotification(InsertNewMessageNotificationCriteria criteria)
+            => await dynamicRepository.ExecuteAsync(criteria);
+
+        public async Task UpdateTicketStatus(UpdateTicketStatusCriteria criteria)
+        {
+            criteria.ThrowExceptionIfInvalid();
+            await dynamicRepository.ExecuteAsync(criteria);
+        }
+
+        public async Task<IEnumerable<StatusHistory>> GetStatusHistory(int ticketId)
+        {
+            var criteria = new GetStatusHistoryCriteria
+            {
+                TicketId = ticketId
+            };
+
+            return await dynamicRepository.FetchAsync<StatusHistory>(criteria);
+        }
+
+        public async Task PinTicket(PinTicketCriteria criteria)
             => await dynamicRepository.ExecuteAsync(criteria);
     }
 }

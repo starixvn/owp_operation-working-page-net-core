@@ -328,6 +328,9 @@
 		<Setting Key="OWP_TicketCenter_InsertNewTicketOtherNotification" SpName="OWP_TicketCenter_InsertNewTicketOtherNotification" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_TicketCenter_InsertNewRecipientNotification" SpName="OWP_TicketCenter_InsertNewRecipientNotification" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_TicketCenter_InsertNewMessageNotification" SpName="OWP_TicketCenter_InsertNewMessageNotification" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenter_UpdateTicketStatus" SpName="OWP_TicketCenter_UpdateTicketStatus" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenter_GetTicketStatusHistory" SpName="OWP_TicketCenter_GetTicketStatusHistory" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenter_PinTicket" SpName="OWP_TicketCenter_PinTicket" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 	</Function>
 	<Function Name="FileUpload">
 		<Setting Key="OWP_FileUpload_Upload" SpName="OWP_FileUpload_Upload" DbName="DBOWP.bodb_OWP.bodbOWPNet" />

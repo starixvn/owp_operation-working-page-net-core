@@ -8,6 +8,8 @@ namespace OWP.TicketCenter.Models
 
         public int TicketType { get; set; }
 
+        public string TicketStatus { get; set; }
+
         public string TypeName { get; set; }
 
         #region message
@@ -26,5 +28,7 @@ namespace OWP.TicketCenter.Models
         #endregion message
 
         public bool IsRead { get; set; }
+
+        public bool IsPinned { get; set; }
     }
 }

@@ -1,5 +1,5 @@
-﻿using OWP.TicketCenter.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using OWP.TicketCenter.Models;
 
 namespace OWP.TicketCenter.ViewModels
 {
@@ -12,6 +12,8 @@ namespace OWP.TicketCenter.ViewModels
 
         public int TicketType { get; set; }
 
+        public string TicketStatus { get; set; }
+
         public string TypeName { get; set; }
 
         public IList<RecipientResponseModel> Recipients { get; set; }
@@ -23,6 +25,8 @@ namespace OWP.TicketCenter.ViewModels
         public IssueCreatorModel CreatorInfo { get; set; }
 
         public bool IsRead { get; set; }
+
+        public bool IsPinned { get; set; }
 
         public int EventType
         {

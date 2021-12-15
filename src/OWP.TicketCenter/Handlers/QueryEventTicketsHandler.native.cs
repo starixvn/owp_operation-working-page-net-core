@@ -1,13 +1,13 @@
-﻿using OWP.TicketCenter.Services;
+﻿using System.Linq;
+using OWP.TicketCenter.Services;
 using OWP.TicketCenter.ViewModels;
-using System.Linq;
 
 namespace OWP.TicketCenter.Handlers
 {
-    using MediatR;
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
+    using MediatR;
 
     public class QueryEventTicketsRequest : IRequest<List<TicketDetailBaseViewModel>>
     {
@@ -16,6 +16,8 @@ namespace OWP.TicketCenter.Handlers
         public string Keyword { get; set; }
 
         public int TicketTypeId { get; set; }
+
+        public string TicketStatuses { get; set; }
 
         public string TicketId { get; set; }
 
@@ -44,7 +46,7 @@ namespace OWP.TicketCenter.Handlers
             var ticketLeague = await leagueService.GetAllLeague(request);
             var ticketMatch = await matchService.GetAllMatch(request);
             var ticketOthers = await otherService.GetAllTicketOther(request);
-            
+
             var eventTickets = new List<TicketDetailBaseViewModel>();
 
             eventTickets.AddRange(ticketLeague);
@@ -56,6 +58,6 @@ namespace OWP.TicketCenter.Handlers
 
         private List<TicketDetailBaseViewModel> SortEventTicketByCommentLatestDate(
             List<TicketDetailBaseViewModel> tickets)
-            => tickets.OrderByDescending(x => x.CommentLatestDate).ToList();
+            => tickets.OrderByDescending(x => x.IsPinned).ThenByDescending(x => x.CommentLatestDate).ToList();
     }
 }

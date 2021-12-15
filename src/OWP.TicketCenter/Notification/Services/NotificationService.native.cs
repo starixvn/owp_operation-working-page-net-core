@@ -1,15 +1,12 @@
-﻿using System.Collections.Generic;
-using OWP.Models;
-
-namespace OWP.TicketCenter.Notification.Services
+﻿namespace OWP.TicketCenter.Notification.Services
 {
+    using System.Linq;
+    using System.Threading.Tasks;
     using Hubs;
     using Microsoft.AspNetCore.SignalR;
     using Models;
     using OWP.Services;
     using OWP.Utils;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     public interface NotificationService
     {
@@ -18,6 +15,8 @@ namespace OWP.TicketCenter.Notification.Services
         Task<bool> NotifyNewMessageIncome(int ticketId);
 
         Task<bool> NotifyNewAddRecipient(int ticketId);
+
+        Task<bool> NotifyChangeStatusIncome(int ticketId);
 
         Task<bool> NotifyUserClickOnToast(int userId, int ticketId, int eventType);
     }
@@ -87,6 +86,16 @@ namespace OWP.TicketCenter.Notification.Services
             await notify.Clients
                 .User(userId.ToString())
                 .NotifyUserOnClickToast(ticketId, eventType);
+            return await Task.FromResult(true);
+        }
+
+        public async Task<bool> NotifyChangeStatusIncome(int ticketId)
+        {
+            var userIds = await repository.GetUserIdsByTicketId(ticketId);
+            var userIdsString = userIds.Distinct().Select(u => u.ToString());
+            await notify.Clients
+                .Users(userIdsString)
+                .NotifyChangeStatusIncome();
             return await Task.FromResult(true);
         }
     }
