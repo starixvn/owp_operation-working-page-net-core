@@ -1,5 +1,5 @@
 ﻿using System;
-namespace OWP.AutoAssignment.Models.PublicApi
+namespace OWP.AutoAssignment.Models.InternalApi
 {
     public class InfoSiteMatchModel
     {

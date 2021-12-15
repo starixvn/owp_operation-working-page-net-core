@@ -61,7 +61,7 @@ namespace OWP.AutoAssignment
 
         Task<IEnumerable<AutoAssignmentResultModel>> GetAutoAssignmentByDate(DateTime eventDate);
 
-        Task<IEnumerable<InfoSiteMatchModel>> GetInfoSiteMatchByIds(IList<int> matchIds);
+        Task<IEnumerable<InfoSiteMatchModel>> GetInfoSiteMatchByIds(List<BetTypeById> events);
 
     }
 
@@ -263,8 +263,14 @@ namespace OWP.AutoAssignment
             return await dynamicRepository.FetchAsync<AutoAssignmentResultModel>(criteria);
         }
 
-        public async Task<IEnumerable<InfoSiteMatchModel>> GetInfoSiteMatchByIds(IList<int> matchIds)
-            => await dynamicRepository.FetchAsync<InfoSiteMatchModel>(
-                new GetInfoSiteMatchByIdsCriteria { Ids = string.Join(',', matchIds) });
+        public async Task<IEnumerable<InfoSiteMatchModel>> GetInfoSiteMatchByIds(List<BetTypeById> events)
+        {
+            var xml = events.ToXml().ToString();
+            var criteria = new GetInfoSiteMatchByIdAndBetTypeCriteria
+            {
+                Xml = xml
+            };
+            return await dynamicRepository.FetchAsync<InfoSiteMatchModel>(criteria);
+        }
     }
 }

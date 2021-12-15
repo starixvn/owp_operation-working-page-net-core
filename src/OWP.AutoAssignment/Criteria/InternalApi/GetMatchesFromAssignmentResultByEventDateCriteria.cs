@@ -1,6 +1,6 @@
 ﻿using Fanex.Data.Repository;
 using System;
-namespace OWP.AutoAssignment.Criteria.PublicApi
+namespace OWP.AutoAssignment.Criteria.InternalApi
 {
 
     public class GetMatchesFromAssignmentResultByEventDateCriteria: CriteriaBase
