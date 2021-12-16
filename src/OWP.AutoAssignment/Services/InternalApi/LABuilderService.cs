@@ -32,15 +32,9 @@ namespace OWP.AutoAssignment.Services.InternalApi
             IList<AutoAssignmentResultModel> autoAssignModels)
         {
             var lAQueryInfo = BuildLAExportQueryInfo(autoAssignModels);
-            var lAExportInfo = (await QueryLAExportInfo(lAQueryInfo)).ToList();
-            foreach (var exportMatchModel in models)
-            {
-                
-                exportMatchModel.LA = lAExportInfo
-                    .FirstOrDefault(x => x.InfoSiteMatchId == exportMatchModel.InfoSiteMatchId)
-                    ?.UserName;
-            }
+            var lAExportInfo = await QueryLAExportInfo(lAQueryInfo);
 
+            BuildExportLaModel(models,lAExportInfo.ToList());
         }
 
         private IList<LAExportQueryInfo> BuildLAExportQueryInfo(IList<AutoAssignmentResultModel> autoAssignModels)
@@ -60,6 +54,18 @@ namespace OWP.AutoAssignment.Services.InternalApi
             };
 
             return await repository.GetLAExportInfo(criteria);
+        }
+
+        private void BuildExportLaModel(IList<ExportMatchModel> exportModels,
+            List<LAExportInfo> laExportModel)
+        {
+            foreach (var exportMatchModel in exportModels)
+            {
+
+                exportMatchModel.LA = laExportModel
+                    .FirstOrDefault(x => x.InfoSiteMatchId == exportMatchModel.InfoSiteMatchId)
+                    ?.UserName;
+            }
         }
 
     }

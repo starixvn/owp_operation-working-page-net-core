@@ -44,17 +44,9 @@ namespace OWP.AutoAssignment.Services.InternalApi
             IList<AutoAssignmentResultModel> autoAssignModels)
         {
             var traderQueryInfo = BuildTraderExportQueryInfo(autoAssignModels);
-            var traderExportInfo = (await QueryTraderExportInfo(traderQueryInfo)).ToList();
-
-            foreach (var exportMatchModel in models)
-            {
-                var findTraderInfoById = traderExportInfo
-                    .FirstOrDefault(x => x.InfoSiteMatchId == exportMatchModel.InfoSiteMatchId);
-                exportMatchModel.Trader1HHDP = findTraderInfoById?.Trader1HHDP;
-                exportMatchModel.Trader1HOU = findTraderInfoById?.Trader1HOU;
-                exportMatchModel.TraderHDP = findTraderInfoById?.TraderFTHDP;
-                exportMatchModel.TraderOU = findTraderInfoById?.TraderFTOU;
-            }
+            var traderExportInfo = await QueryTraderExportInfo(traderQueryInfo);
+            BuildExportTraderModel(models,traderExportInfo.ToList());
+            
         }
 
         private IList<TraderExportQueryInfo> BuildTraderExportQueryInfo(IList<AutoAssignmentResultModel> autoAssignModels)
@@ -78,12 +70,20 @@ namespace OWP.AutoAssignment.Services.InternalApi
 
             return await repository.GetTraderExportInfo(criteria);
         }
+
         private void BuildExportTraderModel(IList<ExportMatchModel> exportModels,
             List<TraderExportInfo> traderExportModel)
-            => traderExportModel.ForEach(m =>
+        {
+            foreach (var exportMatchModel in exportModels)
             {
-                var traderInfo = mapper.Map<ExportMatchModel>(m);
-                exportModels.Add(traderInfo);
-            });
+                var findTraderInfoById = traderExportModel
+                    .FirstOrDefault(x => x.InfoSiteMatchId == exportMatchModel.InfoSiteMatchId);
+                exportMatchModel.Trader1HHDP = findTraderInfoById?.Trader1HHDP;
+                exportMatchModel.Trader1HOU = findTraderInfoById?.Trader1HOU;
+                exportMatchModel.TraderHDP = findTraderInfoById?.TraderFTHDP;
+                exportMatchModel.TraderOU = findTraderInfoById?.TraderFTOU;
+            }
+        }
+           
     }
 }
