@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using OWP.AutoAssignment.Models.InternalApi;
 
 namespace OWP.AutoAssignment.Services.InternalApi
 {
-    using Models.InternalApi;
-
     public interface InfoMatchBuilderService
     {
-        Task<IList<InfoSiteMatchModel>> BuildInfoSiteMatch(DateTime eventDate);
+        Task<IList<InfoSiteMatchModel>> Build(DateTime eventDate);
     }
     public class InfoMatchBuilderServiceImp : InfoMatchBuilderService
     {
@@ -19,7 +17,7 @@ namespace OWP.AutoAssignment.Services.InternalApi
         {
             this.repository = repository;
         }
-        public async Task<IList<InfoSiteMatchModel>> BuildInfoSiteMatch(DateTime eventDate)
+        public async Task<IList<InfoSiteMatchModel>> Build(DateTime eventDate)
         {
             var infoAutoAssignmentResult = await repository.GetAutoAssignmentByDate(eventDate);
 
