@@ -9,7 +9,7 @@ using AutoMapper;
 
 namespace OWP.AutoAssignment.Services.InternalApi
 {
-    
+
     public interface TraderBuilderService
     {
         Task<object> Build(IList<TraderExportQueryInfo> info);
@@ -45,8 +45,8 @@ namespace OWP.AutoAssignment.Services.InternalApi
         {
             var traderQueryInfo = BuildTraderExportQueryInfo(autoAssignModels);
             var traderExportInfo = await QueryTraderExportInfo(traderQueryInfo);
-            BuildExportTraderModel(models,traderExportInfo.ToList());
-            
+            BuildExportTraderModel(models, traderExportInfo.ToList());
+
         }
 
         private IList<TraderExportQueryInfo> BuildTraderExportQueryInfo(IList<AutoAssignmentResultModel> autoAssignModels)
@@ -72,18 +72,21 @@ namespace OWP.AutoAssignment.Services.InternalApi
         }
 
         private void BuildExportTraderModel(IList<ExportMatchModel> exportModels,
-            List<TraderExportInfo> traderExportModel)
+            IList<TraderExportInfo> traderExportModel)
         {
             foreach (var exportMatchModel in exportModels)
             {
-                var findTraderInfoById = traderExportModel
-                    .FirstOrDefault(x => x.InfoSiteMatchId == exportMatchModel.InfoSiteMatchId);
-                exportMatchModel.Trader1HHDP = findTraderInfoById?.Trader1HHDP;
-                exportMatchModel.Trader1HOU = findTraderInfoById?.Trader1HOU;
-                exportMatchModel.TraderHDP = findTraderInfoById?.TraderFTHDP;
-                exportMatchModel.TraderOU = findTraderInfoById?.TraderFTOU;
+                var traderInfo = GetSingleTraderInfoById(traderExportModel, exportMatchModel.InfoSiteMatchId);
+                exportMatchModel.Trader1HHDP = traderInfo?.Trader1HHDP;
+                exportMatchModel.Trader1HOU = traderInfo?.Trader1HOU;
+                exportMatchModel.TraderHDP = traderInfo?.TraderFTHDP;
+                exportMatchModel.TraderOU = traderInfo?.TraderFTOU;
             }
         }
-           
+
+        private TraderExportInfo GetSingleTraderInfoById(IList<TraderExportInfo> traderExportModel, int id)
+            => traderExportModel
+                    .FirstOrDefault(x => x.InfoSiteMatchId == id);
+
     }
 }

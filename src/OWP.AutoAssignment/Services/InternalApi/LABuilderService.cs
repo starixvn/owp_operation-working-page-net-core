@@ -34,7 +34,7 @@ namespace OWP.AutoAssignment.Services.InternalApi
             var lAQueryInfo = BuildLAExportQueryInfo(autoAssignModels);
             var lAExportInfo = await QueryLAExportInfo(lAQueryInfo);
 
-            BuildExportLaModel(models,lAExportInfo.ToList());
+            BuildExportLaModel(models, lAExportInfo.ToList());
         }
 
         private IList<LAExportQueryInfo> BuildLAExportQueryInfo(IList<AutoAssignmentResultModel> autoAssignModels)
@@ -57,16 +57,18 @@ namespace OWP.AutoAssignment.Services.InternalApi
         }
 
         private void BuildExportLaModel(IList<ExportMatchModel> exportModels,
-            List<LAExportInfo> laExportModel)
+            IList<LAExportInfo> laExportModel)
         {
             foreach (var exportMatchModel in exportModels)
             {
-
-                exportMatchModel.LA = laExportModel
-                    .FirstOrDefault(x => x.InfoSiteMatchId == exportMatchModel.InfoSiteMatchId)
-                    ?.UserName;
+                var laInfo = GetSingleLaInfoById(laExportModel, exportMatchModel.InfoSiteMatchId);
+                exportMatchModel.LA = laInfo?.UserName;
             }
         }
+
+        private LAExportInfo GetSingleLaInfoById(IList<LAExportInfo> laExportModel, int id)
+            => laExportModel
+                    .FirstOrDefault(x => x.InfoSiteMatchId == id);
 
     }
 }
