@@ -37,15 +37,11 @@ namespace OWP.AutoAssignment.Services.PublicApi
 
             var realMatchSenders = new List<RealMatchSender>();
 
-            var maxBetHdpOptions = (await repository.GetMaxMaxBetFTHDPInfo(matchIds))
-                .Where(x => x.MaxBet != null)
-                .ToList();
-            var maxBetFtHdpByMatchIds = maxBetHdpOptions
-                .Select(i => i.MatchId).Distinct()
-                .ToList();
-            var realMatches = (await repository.GetRealMatchCommonInfoByIds(maxBetFtHdpByMatchIds)).ToList();
+            var maxBetHdpOptions = await GetMaxMaxBetFTHDPInfo(matchIds);
+            var maxBetFtHdpMatchIds = SelectMaxBetFtHdpMatchIds(maxBetHdpOptions);
+            var realMatches = await GetRealMatchCommonInfoByIds(maxBetFtHdpMatchIds);
             var maxBetHdpInfo = BuildMaxBetMainMatch(maxBetHdpOptions, realMatches).ToList();
-            var maxBetCorners = (await repository.GetMaxBetCorner(maxBetHdpInfo)).ToList();
+            var maxBetCorners = await GetMaxBetCorner(maxBetHdpInfo);
             var multipleRealMatch = new MultipleRealMatchBuilder
             {
                 RealMatches = realMatches,
@@ -55,6 +51,22 @@ namespace OWP.AutoAssignment.Services.PublicApi
             BuildMultipleRealMatchSender(multipleRealMatch, realMatchSenders);
             return realMatchSenders;
         }
+
+        private IList<int> SelectMaxBetFtHdpMatchIds(IList<MaxBetFTHDPInfo> maxBetHdpOptions)
+            => maxBetHdpOptions
+                .Select(i => i.MatchId).Distinct()
+                .ToList();
+
+        private async Task<IList<MaxBetCorner>> GetMaxBetCorner(IList<MaxBetOfFTHDP> maxBetHdpInfo)
+            => (await repository.GetMaxBetCorner(maxBetHdpInfo)).ToList();
+
+        private async Task<IList<RealMatchCommonInfo>> GetRealMatchCommonInfoByIds(IList<int> ids)
+            => (await repository.GetRealMatchCommonInfoByIds(ids)).ToList();
+
+        private async Task<IList<MaxBetFTHDPInfo>> GetMaxMaxBetFTHDPInfo(IList<int> matchIds)
+            => (await repository.GetMaxMaxBetFTHDPInfo(matchIds))
+                .Where(x => x.MaxBet != null)
+                .ToList();
 
         private void BuildMultipleRealMatchSender(MultipleRealMatchBuilder multipleRealMatch,
             IList<RealMatchSender> realMatchSenders)
