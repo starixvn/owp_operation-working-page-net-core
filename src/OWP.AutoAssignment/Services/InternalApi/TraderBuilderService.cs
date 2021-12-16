@@ -2,6 +2,7 @@
 using OWP.AutoAssignment.Models.InternalApi;
 using OWP.AutoAssignment.Utils.XMLExtensions;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
@@ -9,7 +10,11 @@ namespace OWP.AutoAssignment.Services.InternalApi
 {
     public interface TraderBuilderService
     {
-        Task<object> Build(IList<TraderExportQueried> info);
+        Task<object> Build(IList<TraderExportQueryInfo> info);
+
+        Task Build(
+            IList<ExportMatchModel> models,
+            IList<AutoAssignmentResultModel> autoAssignModels);
     }
 
     public class TraderBuilderServiceImp : TraderBuilderService
@@ -21,11 +26,43 @@ namespace OWP.AutoAssignment.Services.InternalApi
             this.repository = repository;
         }
 
-        public async Task<object> Build(IList<TraderExportQueried> info)
+        public async Task<object> Build(IList<TraderExportQueryInfo> info)
         {
             var criteria = new GetTraderExportInfoCriteria
             {
                 Xml = info.ToXml().ToString(SaveOptions.DisableFormatting)
+            };
+
+            return await repository.GetTraderExportInfo(criteria);
+        }
+
+        public async Task Build(
+            IList<ExportMatchModel> models,
+            IList<AutoAssignmentResultModel> autoAssignModels)
+        {
+            var traderQueryInfo = BuildTraderExportQueryInfo(autoAssignModels);
+            var traderExportInfo = await QueryTraderExportInfo(traderQueryInfo);
+
+            // TODO UPDATE traderExportInfo TO ExportMatchModel;
+        }
+
+        private IList<TraderExportQueryInfo> BuildTraderExportQueryInfo(IList<AutoAssignmentResultModel> autoAssignModels)
+        => autoAssignModels
+                .Select(model => new TraderExportQueryInfo
+                {
+                    InfoSiteMatchId = model.InfoSiteMatchId,
+                    FTHDPAssingeeId = model.UserId_FTHDP,
+                    FIRSTHHDPAssingeeId = model.UserId_1HHDP,
+                    FTOUAssingeeId = model.UserId_FTOU,
+                    FIRSTHOUAssingeeId = model.UserId_1HOU,
+                    Bettype = model.Bettype
+                }).ToList();
+
+        private async Task<IEnumerable<TraderExportInfo>> QueryTraderExportInfo(IList<TraderExportQueryInfo> queryInfo)
+        {
+            var criteria = new GetTraderExportInfoCriteria
+            {
+                Xml = queryInfo.ToXml().ToString(SaveOptions.DisableFormatting)
             };
 
             return await repository.GetTraderExportInfo(criteria);

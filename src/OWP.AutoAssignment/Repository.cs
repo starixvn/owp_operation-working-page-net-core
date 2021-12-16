@@ -59,9 +59,9 @@ namespace OWP.AutoAssignment
 
         Task<IEnumerable<TraderExportInfo>> GetTraderExportInfo(GetTraderExportInfoCriteria criteria);
 
-        Task<IEnumerable<AutoAssignmentResultModel>> GetAutoAssignmentByDate(DateTime eventDate);
+        Task<IEnumerable<AutoAssignmentResultModel>> GetAutoAssignmentResultByDate(DateTime eventDate);
 
-        Task<IEnumerable<InfoSiteMatchModel>> GetInfoSiteMatchByIds(List<BetTypeById> events);
+        Task<IEnumerable<InfoSiteMatchModel>> GetInfoSiteMatchInfo(IList<MatchQueryInfo> events);
 
     }
 
@@ -254,16 +254,16 @@ namespace OWP.AutoAssignment
         public async Task<IEnumerable<TraderExportInfo>> GetTraderExportInfo(GetTraderExportInfoCriteria criteria)
      => await dynamicRepository.FetchAsync<TraderExportInfo>(criteria);
 
-        public async Task<IEnumerable<AutoAssignmentResultModel>> GetAutoAssignmentByDate(DateTime eventDate)
+        public async Task<IEnumerable<AutoAssignmentResultModel>> GetAutoAssignmentResultByDate(DateTime eventDate)
         {
-            var criteria = new GetMatchesFromAssignmentResultByEventDateCriteria
+            var criteria = new GetAutoAssignmentResultCriteria
             {
                 EventDate = eventDate
             };
             return await dynamicRepository.FetchAsync<AutoAssignmentResultModel>(criteria);
         }
 
-        public async Task<IEnumerable<InfoSiteMatchModel>> GetInfoSiteMatchByIds(List<BetTypeById> events)
+        public async Task<IEnumerable<InfoSiteMatchModel>> GetInfoSiteMatchInfo(IList<MatchQueryInfo> events)
         {
             var xml = events.ToXml().ToString();
             var criteria = new GetInfoSiteMatchByIdAndBetTypeCriteria

@@ -2,22 +2,26 @@
 using OfficeOpenXml;
 using OWP.AutoAssignment.Constant;
 using OWP.AutoAssignment.Models.InternalApi;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace OWP.AutoAssignment.Services.InternalApi
 {
-    public interface ExportExcelService
+    public interface ExcelPackageCreatorService
     {
-        ExcelPackage CreateExcelPackage(string templatePath, ExportModel model);
+        ExcelPackage CreateExcelPackage(string templatePath, ExportExcelModel model);
     }
 
-    public class ExportExcelServiceImp : ExportExcelService
+    public class ExcelPackageCreatorServiceImp : ExcelPackageCreatorService
     {
         private ExcelPackage excelPackage { get; set; }
 
         private ExcelWorksheet reportSheet;
 
-        public ExcelPackage CreateExcelPackage(string templatePath, ExportModel model)
+        public ExcelPackage CreateExcelPackage(string templatePath, ExportExcelModel model)
         {
             LoadTemplate(templatePath);
             BuildReportBody(model);
@@ -34,13 +38,13 @@ namespace OWP.AutoAssignment.Services.InternalApi
             }
         }
 
-        public void BuildReportBody(ExportModel model)
+        private void BuildReportBody(ExportExcelModel model)
         {
             reportSheet.ApplyModel(model.Date);
             reportSheet.ApplyVertical(model.exportMatchModels, AutoConstant.StartRowIndex);
         }
 
-        public void ClearTemplate()
+        private void ClearTemplate()
         {
             excelPackage.Workbook.Worksheets.Delete(AutoConstant.TemplateName);
         }

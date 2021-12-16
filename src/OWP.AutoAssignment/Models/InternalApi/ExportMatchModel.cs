@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Globalization;
 using Epplus.Mapper.Annotations;
+using OfficeOpenXml.Attributes;
 
 namespace OWP.AutoAssignment.Models.InternalApi
 {
+    [EpplusTable]
     public record ExportMatchModel
     {
         private string _time;
 
         [Cell("C3")]
-        public string Time
+        public string EventDateTime
         {
             get
             {
@@ -24,14 +26,17 @@ namespace OWP.AutoAssignment.Models.InternalApi
             }
         }
 
+        [EpplusIgnore]
+        public int Bettype { get; init; }
+
         [Cell("G3")]
-        public string League { get; set; }
+        public string LeagueName { get; set; }
 
         [Cell("E3")]
-        public string Home { get; set; }
+        public string HomeName { get; set; }
 
         [Cell("F3")]
-        public string Away { get; set; }
+        public string AwayName { get; set; }
 
         [Cell("H3")]
         public string MatchOffer { get; set; }
@@ -100,22 +105,22 @@ namespace OWP.AutoAssignment.Models.InternalApi
         public string ReporterPhone { get; set; }
 
         [Cell("AO3")]
-        public int InfoSiteID { get; set; }
+        public int InfoSiteMatchId { get; set; }
 
         [Cell("AP3")]
-        public int AdminSiteID { get; set; }
+        public int AdminSiteMatchId { get; set; }
 
         [Cell("AQ3")]
-        public string Web1 { get; set; }
+        public string Website1 { get; set; }
 
         [Cell("AR3")]
-        public string Web2 { get; set; }
+        public string Website2 { get; set; }
 
         [Cell("AS3")]
-        public string Web3 { get; set; }
+        public string Website3 { get; set; }
 
         [Cell("AT3")]
-        public string Web4 { get; set; }
+        public string Website4 { get; set; }
 
         [Cell("AY3")]
         public double MaxBetOU { get; set; }

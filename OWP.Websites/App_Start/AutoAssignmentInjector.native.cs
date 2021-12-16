@@ -25,7 +25,9 @@ namespace OWP.Websites.App_Start
             services.AddScoped<CreateRequestService, CreateRequestServiceImp>();
             services.AddScoped<LABuilderService, LABuilderServiceImp>();
             services.AddScoped<TraderBuilderService, TraderBuilderServiceImp>();
-            services.AddScoped<ExportExcelService, ExportExcelServiceImp>();
+            services.AddScoped<ExcelPackageCreatorService, ExcelPackageCreatorServiceImp>();
+            services.AddScoped<ExportService, ExportServiceImp>();
+            services.AddScoped<MatchInfoBuilderService, MatchInfoBuilderServiceImp>();
         }
     }
 }

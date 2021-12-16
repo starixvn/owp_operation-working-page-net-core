@@ -1,18 +1,21 @@
 ﻿using Epplus.Mapper.Annotations;
+using OfficeOpenXml.Attributes;
 using System;
 using System.Collections.Generic;
 
 namespace OWP.AutoAssignment.Models.InternalApi
 {
-    public record ExportModel
+    [EpplusTable]
+    public record ExportExcelModel
     {
         [Cell("B1")]
         public DateTime Date { get; init; }
 
+        [EpplusIgnore]
         public IList<ExportMatchModel> exportMatchModels
         {
             get;
             set;
-        }
+        } = new List<ExportMatchModel>();
     }
 }

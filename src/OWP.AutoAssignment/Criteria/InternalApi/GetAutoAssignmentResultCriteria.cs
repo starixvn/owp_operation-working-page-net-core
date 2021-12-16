@@ -3,7 +3,7 @@ using System;
 namespace OWP.AutoAssignment.Criteria.InternalApi
 {
 
-    public class GetMatchesFromAssignmentResultByEventDateCriteria: CriteriaBase
+    public class GetAutoAssignmentResultCriteria: CriteriaBase
     {
         public DateTime EventDate { get; set; }
 

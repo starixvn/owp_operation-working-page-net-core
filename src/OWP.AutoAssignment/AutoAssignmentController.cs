@@ -22,16 +22,18 @@ namespace OWP.AutoAssignment
     {
         private readonly CreateRequestService createRequestService;
 
-        private readonly ExportExcelService exportExcelService;
+        private readonly ExcelPackageCreatorService excelPackageService;
 
-
+        private readonly ExportService exportService;
 
         public AutoAssignmentController(
             CreateRequestService createRequestService,
-            ExportExcelService exportExcelService)
+            ExcelPackageCreatorService excelPackageService,
+            ExportService exportService)
         {
             this.createRequestService = createRequestService;
-            this.exportExcelService = exportExcelService;
+            this.excelPackageService = excelPackageService;
+            this.exportService = exportService;
         }
 
         [Route("remove-request")]
@@ -77,12 +79,14 @@ namespace OWP.AutoAssignment
         [HttpGet]
         public async Task<HttpResponseMessage> ExportExcel(DateTime eventDate)
         {
-            var exportExcelModel = new ExportModel
+            var exportModel = await exportService.BuildExportModelByDate(eventDate);
+            var exportExcelModel = new ExportExcelModel
             {
-                // TODO
+                Date = eventDate,
+                exportMatchModels = exportModel
             };
             var absolutedTemplatePath = @"App_Data\Templates\AutoAssignment.xlsx";
-            var excelPackage = exportExcelService.CreateExcelPackage(absolutedTemplatePath, exportExcelModel);
+            var excelPackage = excelPackageService.CreateExcelPackage(absolutedTemplatePath, exportExcelModel);
 
             var bin = excelPackage.GetAsByteArray();
 

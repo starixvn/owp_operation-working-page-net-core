@@ -2,6 +2,7 @@
 using OWP.AutoAssignment.Models.InternalApi;
 using OWP.AutoAssignment.Utils.XMLExtensions;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
@@ -9,7 +10,9 @@ namespace OWP.AutoAssignment.Services.InternalApi
 {
     public interface LABuilderService
     {
-        Task<object> Build(IList<LAExportQueried> info);
+        Task Build(
+            IList<ExportMatchModel> models,
+            IList<AutoAssignmentResultModel> autoAssignModels);
     }
 
     public class LABuilderServiceImp : LABuilderService
@@ -21,14 +24,34 @@ namespace OWP.AutoAssignment.Services.InternalApi
             this.repository = repository;
         }
 
-        public async Task<object> Build(IList<LAExportQueried> info)
+        public async Task Build(
+            IList<ExportMatchModel> models,
+            IList<AutoAssignmentResultModel> autoAssignModels)
+        {
+            var lAQueryInfo = BuildLAExportQueryInfo(autoAssignModels);
+            var lAExportInfo = await QueryLAExportInfo(lAQueryInfo);
+
+            // TODO UPDATE lAExportInfo TO ExportMatchModel;
+        }
+
+        private IList<LAExportQueryInfo> BuildLAExportQueryInfo(IList<AutoAssignmentResultModel> autoAssignModels)
+        => autoAssignModels
+                .Select(model => new LAExportQueryInfo
+                {
+                    InfoSiteMatchId = model.InfoSiteMatchId,
+                   
+                    Bettype = model.Bettype
+                }).ToList();
+
+        private async Task<IEnumerable<LAExportInfo>> QueryLAExportInfo(IList<LAExportQueryInfo> queryInfo)
         {
             var criteria = new GetLAExportInfoCriteria
             {
-                Xml = info.ToXml().ToString(SaveOptions.DisableFormatting)
+                Xml = queryInfo.ToXml().ToString(SaveOptions.DisableFormatting)
             };
 
             return await repository.GetLAExportInfo(criteria);
         }
+
     }
 }
