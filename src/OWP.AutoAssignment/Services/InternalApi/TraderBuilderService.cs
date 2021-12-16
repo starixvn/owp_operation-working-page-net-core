@@ -5,9 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using AutoMapper;
 
 namespace OWP.AutoAssignment.Services.InternalApi
 {
+    
     public interface TraderBuilderService
     {
         Task<object> Build(IList<TraderExportQueryInfo> info);
@@ -20,10 +22,11 @@ namespace OWP.AutoAssignment.Services.InternalApi
     public class TraderBuilderServiceImp : TraderBuilderService
     {
         private readonly Repository repository;
-
-        public TraderBuilderServiceImp(Repository repository)
+        private readonly IMapper mapper;
+        public TraderBuilderServiceImp(Repository repository, IMapper mapper)
         {
             this.repository = repository;
+            this.mapper = mapper;
         }
 
         public async Task<object> Build(IList<TraderExportQueryInfo> info)
@@ -41,9 +44,17 @@ namespace OWP.AutoAssignment.Services.InternalApi
             IList<AutoAssignmentResultModel> autoAssignModels)
         {
             var traderQueryInfo = BuildTraderExportQueryInfo(autoAssignModels);
-            var traderExportInfo = await QueryTraderExportInfo(traderQueryInfo);
+            var traderExportInfo = (await QueryTraderExportInfo(traderQueryInfo)).ToList();
 
-            // TODO UPDATE traderExportInfo TO ExportMatchModel;
+            foreach (var exportMatchModel in models)
+            {
+                var findTraderInfoById = traderExportInfo
+                    .FirstOrDefault(x => x.InfoSiteMatchId == exportMatchModel.InfoSiteMatchId);
+                exportMatchModel.Trader1HHDP = findTraderInfoById?.Trader1HHDP;
+                exportMatchModel.Trader1HOU = findTraderInfoById?.Trader1HOU;
+                exportMatchModel.TraderHDP = findTraderInfoById?.TraderFTHDP;
+                exportMatchModel.TraderOU = findTraderInfoById?.TraderFTOU;
+            }
         }
 
         private IList<TraderExportQueryInfo> BuildTraderExportQueryInfo(IList<AutoAssignmentResultModel> autoAssignModels)
@@ -67,5 +78,12 @@ namespace OWP.AutoAssignment.Services.InternalApi
 
             return await repository.GetTraderExportInfo(criteria);
         }
+        private void BuildExportTraderModel(IList<ExportMatchModel> exportModels,
+            List<TraderExportInfo> traderExportModel)
+            => traderExportModel.ForEach(m =>
+            {
+                var traderInfo = mapper.Map<ExportMatchModel>(m);
+                exportModels.Add(traderInfo);
+            });
     }
 }

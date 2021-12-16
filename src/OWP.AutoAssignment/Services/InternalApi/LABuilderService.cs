@@ -5,9 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-
+using AutoMapper;
 namespace OWP.AutoAssignment.Services.InternalApi
 {
+
     public interface LABuilderService
     {
         Task Build(
@@ -17,11 +18,13 @@ namespace OWP.AutoAssignment.Services.InternalApi
 
     public class LABuilderServiceImp : LABuilderService
     {
+        private readonly IMapper mapper;
         private readonly Repository repository;
 
-        public LABuilderServiceImp(Repository repository)
+        public LABuilderServiceImp(Repository repository, IMapper mapper)
         {
             this.repository = repository;
+            this.mapper = mapper;
         }
 
         public async Task Build(
@@ -29,9 +32,15 @@ namespace OWP.AutoAssignment.Services.InternalApi
             IList<AutoAssignmentResultModel> autoAssignModels)
         {
             var lAQueryInfo = BuildLAExportQueryInfo(autoAssignModels);
-            var lAExportInfo = await QueryLAExportInfo(lAQueryInfo);
+            var lAExportInfo = (await QueryLAExportInfo(lAQueryInfo)).ToList();
+            foreach (var exportMatchModel in models)
+            {
+                
+                exportMatchModel.LA = lAExportInfo
+                    .FirstOrDefault(x => x.InfoSiteMatchId == exportMatchModel.InfoSiteMatchId)
+                    ?.UserName;
+            }
 
-            // TODO UPDATE lAExportInfo TO ExportMatchModel;
         }
 
         private IList<LAExportQueryInfo> BuildLAExportQueryInfo(IList<AutoAssignmentResultModel> autoAssignModels)
@@ -39,7 +48,7 @@ namespace OWP.AutoAssignment.Services.InternalApi
                 .Select(model => new LAExportQueryInfo
                 {
                     InfoSiteMatchId = model.InfoSiteMatchId,
-                   
+                    LAAssingeeId = model.UserId_LA,
                     Bettype = model.Bettype
                 }).ToList();
 

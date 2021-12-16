@@ -22,7 +22,7 @@
 
         public int? UserId_1HOU { get; set; }
 
-        public int? UserId_LA { get; set; }
+        public int UserId_LA { get; set; }
 
         public string Group { get; set; }
 
