@@ -12,8 +12,6 @@ namespace OWP.AutoAssignment.Services.InternalApi
 
     public interface TraderBuilderService
     {
-        Task<object> Build(IList<TraderExportQueryInfo> info);
-
         Task Build(
             IList<ExportMatchModel> models,
             IList<AutoAssignmentResultModel> autoAssignModels);
@@ -22,21 +20,9 @@ namespace OWP.AutoAssignment.Services.InternalApi
     public class TraderBuilderServiceImp : TraderBuilderService
     {
         private readonly Repository repository;
-        private readonly IMapper mapper;
-        public TraderBuilderServiceImp(Repository repository, IMapper mapper)
+        public TraderBuilderServiceImp(Repository repository)
         {
             this.repository = repository;
-            this.mapper = mapper;
-        }
-
-        public async Task<object> Build(IList<TraderExportQueryInfo> info)
-        {
-            var criteria = new GetTraderExportInfoCriteria
-            {
-                Xml = info.ToXml().ToString(SaveOptions.DisableFormatting)
-            };
-
-            return await repository.GetTraderExportInfo(criteria);
         }
 
         public async Task Build(

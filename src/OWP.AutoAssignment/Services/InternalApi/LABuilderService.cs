@@ -18,13 +18,11 @@ namespace OWP.AutoAssignment.Services.InternalApi
 
     public class LABuilderServiceImp : LABuilderService
     {
-        private readonly IMapper mapper;
         private readonly Repository repository;
 
-        public LABuilderServiceImp(Repository repository, IMapper mapper)
+        public LABuilderServiceImp(Repository repository)
         {
             this.repository = repository;
-            this.mapper = mapper;
         }
 
         public async Task Build(
