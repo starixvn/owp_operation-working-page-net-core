@@ -6,6 +6,8 @@
 
         public int MatchId { get; set; }
 
+        public int LeagueSettingId { get; set; }
+
         public decimal? MaxBet { get; set; }
     }
 }

@@ -32,9 +32,9 @@ namespace OWP.AutoAssignment
         Task<ValueTuple<IEnumerable<LAUserInfo>, IEnumerable<UserWorkingShift>>> GetLAInfoByDate(DateTime eventDate);
 
         Task<ValueTuple<IEnumerable<SchedulingTraderInfo>, IEnumerable<UserWorkingShift>>> GetTraderInfoByDate(DateTime eventDate);
-        
-        Task <ResultDataObject>SaveRequest(SaveRequestModel model);
-        
+
+        Task<ResultDataObject> SaveRequest(SaveRequestModel model);
+
         Task UpdateStatusRequest(StatusRequestModel statusRequestModel);
 
         Task<ValueTuple<IEnumerable<SchedulingTraderInfo>, IEnumerable<UserWorkingShift>>> GetTraders(DateTime eventDate);
@@ -62,6 +62,8 @@ namespace OWP.AutoAssignment
         Task<IEnumerable<AutoAssignmentResultModel>> GetAutoAssignmentResultByDate(DateTime eventDate);
 
         Task<IEnumerable<InfoSiteMatchModel>> GetInfoSiteMatchInfo(IList<MatchQueryInfo> events);
+
+        Task SaveEventSender(IEnumerable<AutoAssignmentHistory> events);
 
     }
 
@@ -252,7 +254,7 @@ namespace OWP.AutoAssignment
         => await dynamicRepository.FetchAsync<LAExportInfo>(criteria);
 
         public async Task<IEnumerable<TraderExportInfo>> GetTraderExportInfo(GetTraderExportInfoCriteria criteria)
-     => await dynamicRepository.FetchAsync<TraderExportInfo>(criteria);
+        => await dynamicRepository.FetchAsync<TraderExportInfo>(criteria);
 
         public async Task<IEnumerable<AutoAssignmentResultModel>> GetAutoAssignmentResultByDate(DateTime eventDate)
         {
@@ -271,6 +273,16 @@ namespace OWP.AutoAssignment
                 Xml = xml
             };
             return await dynamicRepository.FetchAsync<InfoSiteMatchModel>(criteria);
+        }
+
+        public async Task SaveEventSender(IEnumerable<AutoAssignmentHistory> events)
+        {
+            var xml = events.ToXml().ToString();
+            var criteria = new SaveEventSenderCriteria
+            {
+                Xml = xml
+            };
+            await dynamicRepository.ExecuteAsync(criteria);
         }
     }
 }

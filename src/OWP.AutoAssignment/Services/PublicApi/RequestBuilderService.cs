@@ -1,12 +1,13 @@
-﻿using OWP.AutoAssignment.Enum;
-using OWP.AutoAssignment.Models.PublicApi;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using OWP.AutoAssignment.Enum;
+using OWP.AutoAssignment.Models.PublicApi;
 
 namespace OWP.AutoAssignment.Services.PublicApi
 {
+    using Models.InternalApi;
+
     public interface RequestBuilder
     {
         Task<IEnumerable<RequestSender>> BuildRequestSenderModel(IEnumerable<RequestModel> request);
@@ -63,6 +64,7 @@ namespace OWP.AutoAssignment.Services.PublicApi
             {
                 sender.Add(BuildRequestSender(request, "New"));
                 await UpdateStatusRequest(request, StatusRequest.Running);
+                await SaveEventSender(request, realMatch, sabaMatch);
             }
             else
             {
@@ -95,5 +97,30 @@ namespace OWP.AutoAssignment.Services.PublicApi
                Suspenders = schedulingLAUser,
                Traders = traderInfos
            };
+
+        private async Task SaveEventSender(RequestModel requestModel, IList<RealMatchSender> realMatchs, IList<SabaMatchSender> sabaMatchs)
+        {
+            var events = new List<AutoAssignmentHistory>();
+            var realHistory = realMatchs.Select(i => new AutoAssignmentHistory
+            {
+                InfoSiteMatchId = i.MatchId,
+                LeagueSettingId = i.LeagueSettingId,
+                RequestId = requestModel.RequestId,
+                MaxBetFTHDP = i.MaxBetMainMatch,
+                MaxBetNextCorner = i.MaxBetNextCorner,
+                MaxBetNoOfCorner = i.MaxBetNoOfCorner,
+            });
+            var sabaHistory = sabaMatchs.Select(x => new AutoAssignmentHistory
+            {
+                InfoSiteMatchId = x.MatchId,
+                MaxBetFTHDP = x.MaxBet,
+                LeagueSettingId = x.LeagueSettingId,
+                RequestId = requestModel.RequestId
+            });
+            events.AddRange(realHistory);
+            events.AddRange(sabaHistory);
+
+            await repository.SaveEventSender(events);
+        }
     }
 }

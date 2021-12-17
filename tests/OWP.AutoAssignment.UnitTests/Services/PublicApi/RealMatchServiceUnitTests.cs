@@ -94,30 +94,35 @@
                     MatchId = 1,
                     MaxBet = 1000,
                     HasTv = true,
+                    LeagueSettingId = 1,
                 },
                 new()
                 {
                     MatchId = 1,
                     MaxBet = 2000,
                     HasTv = false,
+                    LeagueSettingId = 1
                 },
                 new()
                 {
                     MatchId = 3,
                     MaxBet = 3000,
                     HasTv = false,
+                    LeagueSettingId = 2
                 },
                 new()
                 {
                     MatchId = 4,
                     MaxBet = 4000,
                     HasTv = false,
+                    LeagueSettingId = 3
                 },
                 new()
                 {
                     MatchId = 4,
                     MaxBet = 5000,
                     HasTv = true,
+                    LeagueSettingId = 3
                 },
             };
 
@@ -163,17 +168,19 @@
                 {
                     InfoSiteMatchId = 1,
                     MaxBetFTHDP = 2000,
-
+                    LeagueSettingId = 1
                 },
                 new()
                 {
                     InfoSiteMatchId = 3,
                     MaxBetFTHDP = 3000,
+                    LeagueSettingId = 2
                 },
                 new()
                 {
                     InfoSiteMatchId = 4,
                     MaxBetFTHDP = 5000,
+                    LeagueSettingId = 3
                 },
             };
 
@@ -190,6 +197,7 @@
                     Provider = new[] { 1 },
                     KOTime = "2021-11-30T00:00:00",
                     HasTV = false,
+                    LeagueSettingId = 1,
                 },
                 new()
                 {
@@ -200,7 +208,8 @@
                     ExtraTime = "ETPK",
                     Provider = new[] { 1 },
                     KOTime = "2021-11-28T00:00:00",
-                    HasTV = true
+                    HasTV = true,
+                    LeagueSettingId = 2,
                 },
                 new()
                 {
@@ -211,7 +220,8 @@
                     ExtraTime = "ETPK",
                     Provider = new[] { 1 },
                     KOTime = "2021-11-29T00:00:00",
-                    HasTV = true
+                    HasTV = true,
+                    LeagueSettingId = 3,
                 },
             };
     }

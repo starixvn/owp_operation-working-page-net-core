@@ -112,6 +112,7 @@ namespace OWP.AutoAssignment.Services.PublicApi
                 MaxBetNextCorner = maxBetCorners?.MaxBetNextCorner,
                 MaxBetNoOfCorner = maxBetCorners?.MaxBetNoOfCorner,
                 MaxBetMainMatch = maxBetHdp?.MaxBetFTHDP,
+                LeagueSettingId = maxBetHdp?.LeagueSettingId,
                 HasChannel = !string.IsNullOrWhiteSpace(match.Channel)
             };
         }
@@ -142,17 +143,19 @@ namespace OWP.AutoAssignment.Services.PublicApi
             {
                 var hasMatchTv = !string.IsNullOrWhiteSpace(match.Tv);
                 var mbHdpOption = maxBetOptions.Where(i => i.MatchId == match.InfoSiteId).ToList();
+                var maxBetHdp = GetMaxBetHdp(mbHdpOption, hasMatchTv);
                 yield return new MaxBetOfFTHDP
                 {
                     InfoSiteMatchId = match.InfoSiteId,
-                    MaxBetFTHDP = GetMaxBetHdp(mbHdpOption, hasMatchTv)
+                    LeagueSettingId = maxBetHdp.LeagueSettingId,
+                    MaxBetFTHDP = maxBetHdp.MaxBet
                 };
             }
         }
 
-        private decimal? GetMaxBetHdp(IList<MaxBetFTHDPInfo> maxBetOption, bool hasMatchTv)
+        private MaxBetFTHDPInfo GetMaxBetHdp(IList<MaxBetFTHDPInfo> maxBetOption, bool hasMatchTv)
             => maxBetOption.Any(i => i.HasTv == hasMatchTv)
-                ? maxBetOption.FirstOrDefault(i => i.HasTv == hasMatchTv)?.MaxBet
-                : maxBetOption.FirstOrDefault()?.MaxBet;
+                ? maxBetOption.FirstOrDefault(i => i.HasTv == hasMatchTv)
+                : maxBetOption.FirstOrDefault();
     }
 }
