@@ -20,18 +20,24 @@ namespace OWP.AutoAssignment.Services.InternalApi
 
         private readonly IMapper mapper;
 
-        public MatchInfoBuilderServiceImp(Repository repository, IMapper mapper)
+        private readonly ProviderService providerService;
+
+        public MatchInfoBuilderServiceImp(Repository repository, IMapper mapper, ProviderService providerService)
         {
             this.repository = repository;
             this.mapper = mapper;
+            this.providerService = providerService;
         }
 
 
         public async Task Build(IList<ExportMatchModel> models, IList<AutoAssignmentResultModel> autoAssignModels)
         {
             var matchQueryInfo = BuildMatchQueryInfo(autoAssignModels);
-            var matchExportModels = await QueryMatchInfo(matchQueryInfo);
-            BuildExportMatchModel(models, matchExportModels.ToList());
+            var matchIds = GetMatchIdQueryInfo(autoAssignModels);
+            var matchInfos = (await QueryMatchInfo(matchQueryInfo)).ToList();
+            var providerInfos = (await QueryProviderInfo(matchIds)).ToList();
+            var leagueSettings = (await LeagueSettingInfo(matchIds)).ToList();
+            BuildExportMatchModel(models, matchInfos, providerInfos, leagueSettings, autoAssignModels);
         }
 
         private IList<MatchQueryInfo> BuildMatchQueryInfo(IList<AutoAssignmentResultModel> autoAssignModels)
@@ -42,15 +48,53 @@ namespace OWP.AutoAssignment.Services.InternalApi
                     BetType = model.Bettype
                 }).ToList();
 
+        private IList<int> GetMatchIdQueryInfo(IList<AutoAssignmentResultModel> autoAssignModels)
+            => autoAssignModels
+                .Select(i => i.InfoSiteMatchId).ToList();
+
         private async Task<IEnumerable<InfoSiteMatchModel>> QueryMatchInfo(IList<MatchQueryInfo> queryInfo)
             => await repository.GetInfoSiteMatchInfo(queryInfo);
 
-        private void BuildExportMatchModel(IList<ExportMatchModel> exportModels,
-            List<InfoSiteMatchModel> matchModels)
-            => matchModels.ForEach(m =>
+        private async Task<IEnumerable<ProviderInfo>> QueryProviderInfo(IList<int> queryInfo)
+            => await repository.GetProviderInfo(queryInfo);
+
+        private async Task<IEnumerable<LeagueSettingInfo>> LeagueSettingInfo(IList<int> queryInfo)
+            => await repository.GetLeagueSettingInfo(queryInfo);
+
+        private void BuildExportMatchModel(IList<ExportMatchModel> models,
+            List<InfoSiteMatchModel> matchInfos,
+            IList<ProviderInfo> providerInfos,
+            IList<LeagueSettingInfo> leagueSettingInfos,
+            IList<AutoAssignmentResultModel> autoAssignModels)
+        {
+            foreach (var match in matchInfos)
             {
-                var matchInfo = mapper.Map<ExportMatchModel>(m);
-                exportModels.Add(matchInfo);
-            });
+                var provider = providerInfos.FirstOrDefault(i => i.MatchId == match.InfoSiteMatchId);
+                var leagueSetting = leagueSettingInfos.FirstOrDefault(x => x.MatchId == match.InfoSiteMatchId);
+                var pcCode = autoAssignModels.FirstOrDefault(x => x.InfoSiteMatchId == match.InfoSiteMatchId)?.PcCode;
+                var matchModel = mapper.Map<ExportMatchModel>(match);
+                matchModel.Provider = providerService.Build(provider, pcCode);
+                matchModel.OtherProvider = provider?.OtherProvider;
+                matchModel.MatchOffer = leagueSetting?.MatchOffer;
+                matchModel.LSTNote = leagueSetting?.LSTNote;
+                matchModel.MaxBetHDP = leagueSetting?.MaxBetHDP;
+                matchModel.SpreadHDP = leagueSetting?.SpreadHDP;
+                matchModel.SpreadOU = leagueSetting?.SpreadOU;
+                matchModel.NoHDP = leagueSetting?.NoHDP;
+                matchModel.MaxBetOU = leagueSetting?.MaxBetOU;
+                matchModel.MaxBet1HHDP = leagueSetting?.MaxBet1HHDP;
+                matchModel.MaxBet1HOU = leagueSetting?.MaxBet1HOU;
+                matchModel.Spread1HHDP = leagueSetting?.Spread1HHDP;
+                matchModel.Spread1HOU = leagueSetting?.Spread1HOU;
+                matchModel.MaxBet1X2 = leagueSetting?.MaxBet1X2;
+                matchModel.Spread1X2 = leagueSetting?.Spread1X2;
+                matchModel.MaxBet1H1X2 = leagueSetting?.MaxBet1H1X2;
+                matchModel.Spread1H1X2 = leagueSetting?.Spread1H1X2;
+
+                models.Add(matchModel);
+            }
+
+        }
+
     }
 }
