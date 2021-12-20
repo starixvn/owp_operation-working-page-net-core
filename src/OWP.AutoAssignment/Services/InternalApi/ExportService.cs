@@ -19,6 +19,10 @@ namespace OWP.AutoAssignment.Services.InternalApi
 
         private readonly MatchInfoBuilderService matchInfoService;
 
+        private readonly ProviderBuilderService providerBuilderService;
+
+        private readonly LeagueSettingBuilderService leagueSettingBuilderService;
+
         private readonly Repository repository;
 
         public IList<ExportMatchModel> ExportModels { get; set; } = new List<ExportMatchModel>();
@@ -29,11 +33,15 @@ namespace OWP.AutoAssignment.Services.InternalApi
             LABuilderService lABuilderService,
             TraderBuilderService traderBuilderService,
              MatchInfoBuilderService matchInfoService,
+            ProviderBuilderService providerBuilderService,
+            LeagueSettingBuilderService leagueSettingBuilderService,
              Repository repository)
         {
             this.lABuilderService = lABuilderService;
             this.traderBuilderService = traderBuilderService;
             this.matchInfoService = matchInfoService;
+            this.providerBuilderService = providerBuilderService;
+            this.leagueSettingBuilderService = leagueSettingBuilderService;
             this.repository = repository;
         }
 
@@ -43,6 +51,8 @@ namespace OWP.AutoAssignment.Services.InternalApi
             await BuildMatchInfo();
             await BuildLAInfo();
             await BuildTraderInfo();
+            await BuildProviderInfo();
+            await BuildLeagueSettingInfo();
             return ExportModels;
         }
 
@@ -54,5 +64,11 @@ namespace OWP.AutoAssignment.Services.InternalApi
 
         private async Task BuildTraderInfo()
             => await traderBuilderService.Build(ExportModels, autoAssignModels);
+
+        private async Task BuildProviderInfo()
+            => await providerBuilderService.Build(ExportModels, autoAssignModels);
+
+        private async Task BuildLeagueSettingInfo()
+            => await leagueSettingBuilderService.Build(ExportModels, autoAssignModels);
     }
 }
