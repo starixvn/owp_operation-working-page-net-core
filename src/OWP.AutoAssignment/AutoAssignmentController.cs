@@ -7,6 +7,7 @@ using OWP.AutoAssignment.Models.PublicApi;
 using OWP.AutoAssignment.Services.InternalApi;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -77,7 +78,7 @@ namespace OWP.AutoAssignment
 
         [Route("export-excel")]
         [HttpGet]
-        public async Task<HttpResponseMessage> ExportExcel(DateTime eventDate)
+        public async Task<IActionResult> ExportExcel(DateTime eventDate)
         {
             var exportModel = await exportService.BuildExportModelByDate(eventDate);
             var exportExcelModel = new ExportExcelModel
@@ -88,24 +89,17 @@ namespace OWP.AutoAssignment
             var absolutedTemplatePath = @"App_Data\Templates\AutoAssignment.xlsx";
             var excelPackage = excelPackageService.CreateExcelPackage(absolutedTemplatePath, exportExcelModel);
 
-            var bin = excelPackage.GetAsByteArray();
+            var fileContent = excelPackage.GetAsByteArray();
 
-            return BuildExcelPackageResponse(bin, eventDate);
+            return BuildExcelPackageResponse(fileContent, eventDate);
 
         }
 
-        private HttpResponseMessage BuildExcelPackageResponse(byte[] bin, DateTime eventDate)
+        private IActionResult BuildExcelPackageResponse(byte[] fileContent, DateTime eventDate)
         {
-            var result = new HttpResponseMessage(HttpStatusCode.OK)
-            {
-                Content = new ByteArrayContent(bin)
-            };
-            result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
-            {
-                FileName = $"Auto_Assignment_{eventDate.ToString("yyyyMMdd")}.xlsx"
-            };
-            result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/xlsx");
-            return result;
+            var stream = new MemoryStream(fileContent);
+            var fileName = $"Auto_Assignment_{eventDate.ToString("yyyyMMdd")}.xlsx";
+            return File(stream, "application/xlsx", fileName);
         }
     }
 }

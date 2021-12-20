@@ -73,10 +73,4 @@
     <ProjectReference Include="..\src\OWP.TicketCenter\OWP.TicketCenter.csproj" />
 
   </ItemGroup>
-
-  <ItemGroup>
-    <None Update="App_Data\Templates\AutoAssignment.xlsx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
 </Project>

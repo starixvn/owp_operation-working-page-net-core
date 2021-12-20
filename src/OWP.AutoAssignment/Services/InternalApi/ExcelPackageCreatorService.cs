@@ -40,7 +40,7 @@ namespace OWP.AutoAssignment.Services.InternalApi
 
         private void BuildReportBody(ExportExcelModel model)
         {
-            reportSheet.ApplyModel(model.Date);
+            reportSheet.ApplyModel(model);
             reportSheet.ApplyVertical(model.exportMatchModels, AutoConstant.StartRowIndex);
         }
 
