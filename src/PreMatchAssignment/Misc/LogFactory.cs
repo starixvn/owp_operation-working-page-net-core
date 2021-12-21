@@ -74,7 +74,7 @@
             return $"{type}: #{assignmentLog.Username}";
         }
 
-        private List<T> Parse<T>(string xml)
+        public List<T> Parse<T>(string xml)
         {
             var result = new List<T>();
             var serializer = new XmlSerializer(typeof(T));
