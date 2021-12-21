@@ -165,6 +165,7 @@ namespace OWP.Websites
             services.InjectTicketCenterService();
             services.InjectOvertimeReport();
             services.InjectAutoAssignmentService();
+            services.InjectPreMatchAssignmentService();
         }
 
         private void ConfigureNapServices(IServiceCollection services)

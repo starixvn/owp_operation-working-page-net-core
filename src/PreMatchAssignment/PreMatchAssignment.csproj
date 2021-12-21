@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="Fanex.Caching.Redis.AspNetCore" Version="2.2.2.1" />
+    <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+	<PackageReference Include="MediatR" Version="9.0.0" />
+	<PackageReference Include="Fanex.Data.Repository" Version="4.2.2" />
+	<PackageReference Include="Fanex.NAP.Client.AspNetCore.net50" Version="1.0.0" />
+	<PackageReference Include="Fanex.NAP.Core" Version="2.1.0.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OWP\OWP.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,49 @@
+﻿namespace OWP.PreMatchAssignment.Models
+{
+    public class LeagueAssignment
+    {
+        public int No { get; set; }
+
+        public int LeagueId { get; set; }
+
+        public int PreMatchLeagueId { get; set; }
+
+        public string LeagueName { get; set; }
+
+        public int MatchCount { get; set; }
+
+        public string HDP { get; set; }
+
+        public string OU { get; set; }
+
+        public string HDPTakeOver { get; set; }
+
+        public string OUTakeOver { get; set; }
+
+        public string OtherHDP { get; set; }
+
+        public string OtherOU { get; set; }
+
+        public string OtherHDPTakeOver { get; set; }
+
+        public string OtherOUTakeOver { get; set; }
+
+        public decimal? Spread { get; set; }
+
+        public decimal? Maxbet { get; set; }
+
+        public bool Blacklist { get; set; }
+
+        public string Remark { get; set; }
+
+        public bool HasMessages { get; set; }
+
+        public bool IsRead { get; set; }
+
+        public int? PreMatchIssueId { get; set; }
+
+        public bool HasNotes { get; set; }
+
+        public int? PreMatchNoteId { get; set; }
+    }
+}
