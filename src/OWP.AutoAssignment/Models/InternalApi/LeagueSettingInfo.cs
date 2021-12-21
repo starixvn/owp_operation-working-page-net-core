@@ -8,30 +8,29 @@
 
         public string LSTNote { get; set; }
 
-        public double? MaxBetHDP { get; set; }
+        public decimal? MaxBetHDP { get; set; }
 
-        public double? SpreadHDP { get; set; }
+        public decimal? SpreadHDP { get; set; }
 
-        public double? SpreadOU { get; set; }
+        public decimal? SpreadOU { get; set; }
 
-        public double? MaxBetOU { get; set; }
+        public decimal? MaxBetOU { get; set; }
 
-        public double? MaxBet1HHDP { get; set; }
+        public decimal? MaxBet1HHDP { get; set; }
 
-        public double? MaxBet1HOU { get; set; }
+        public decimal? MaxBet1HOU { get; set; }
 
-        public double? Spread1HHDP { get; set; }
+        public decimal? Spread1HHDP { get; set; }
 
-        public double? Spread1HOU { get; set; }
+        public decimal? Spread1HOU { get; set; }
 
         public string NoHDP { get; set; }
 
-        public double? MaxBet1X2 { get; set; }
+        public decimal? MaxBet1X2 { get; set; }
 
-        public double? Spread1X2 { get; set; }
+        public decimal? Spread1X2 { get; set; }
 
-        public double? MaxBet1H1X2 { get; set; }
+        public decimal? MaxBet1H1X2 { get; set; }
 
-        public double? Spread1H1X2 { get; set; }
     }
 }

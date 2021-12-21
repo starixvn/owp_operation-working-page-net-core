@@ -45,13 +45,13 @@ namespace OWP.AutoAssignment.Models.InternalApi
         public string LSTNote { get; set; }
 
         [Cell("J3")]
-        public double? MaxBetHDP { get; set; }
+        public string MaxBetHDP { get; set; }
 
         [Cell("K3")]
-        public double? SpreadHDP { get; set; }
+        public string SpreadHDP { get; set; }
 
         [Cell("L3")]
-        public double? SpreadOU { get; set; }
+        public string SpreadOU { get; set; }
 
         [Cell("M3")]
         public string NoHDP { get; set; }
@@ -123,30 +123,28 @@ namespace OWP.AutoAssignment.Models.InternalApi
         public string Website4 { get; set; }
 
         [Cell("AY3")]
-        public double? MaxBetOU { get; set; }
+        public string MaxBetOU { get; set; }
 
         [Cell("AZ3")]
-        public double? MaxBet1HHDP { get; set; }
+        public string MaxBet1HHDP { get; set; }
 
         [Cell("BA3")]
-        public double? MaxBet1HOU { get; set; }
+        public string MaxBet1HOU { get; set; }
 
         [Cell("BB3")]
-        public double? Spread1HHDP { get; set; }
+        public string Spread1HHDP { get; set; }
 
         [Cell("BC3")]
-        public double? Spread1HOU { get; set; }
+        public string Spread1HOU { get; set; }
 
         [Cell("BD3")]
-        public double? MaxBet1X2 { get; set; }
+        public string MaxBet1X2 { get; set; }
 
         [Cell("BE3")]
-        public double? Spread1X2 { get; set; }
+        public string Spread1X2 { get; set; }
 
         [Cell("BF3")]
-        public double? MaxBet1H1X2 { get; set; }
+        public string MaxBet1H1X2 { get; set; }
 
-        [Cell("BG3")]
-        public double? Spread1H1X2 { get; set; }
     }
 }

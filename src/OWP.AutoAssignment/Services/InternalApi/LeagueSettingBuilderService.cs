@@ -5,6 +5,8 @@ using OWP.AutoAssignment.Models.InternalApi;
 
 namespace OWP.AutoAssignment.Services.InternalApi
 {
+    using System.Globalization;
+
     public interface LeagueSettingBuilderService
     {
         Task Build(
@@ -33,21 +35,20 @@ namespace OWP.AutoAssignment.Services.InternalApi
             foreach (var exportMatchModel in exportModels)
             {
                 var leagueSettingInfo = GetInfoLeagueSettingById(leagueSettings, exportMatchModel.InfoSiteMatchId);
-                exportMatchModel.MatchOffer = leagueSettingInfo?.MatchOffer;
-                exportMatchModel.LSTNote = leagueSettingInfo?.LSTNote;
-                exportMatchModel.MaxBetHDP = leagueSettingInfo?.MaxBetHDP;
-                exportMatchModel.SpreadHDP = leagueSettingInfo?.SpreadHDP;
-                exportMatchModel.SpreadOU = leagueSettingInfo?.SpreadOU;
-                exportMatchModel.NoHDP = leagueSettingInfo?.NoHDP;
-                exportMatchModel.MaxBetOU = leagueSettingInfo?.MaxBetOU;
-                exportMatchModel.MaxBet1HHDP = leagueSettingInfo?.MaxBet1HHDP;
-                exportMatchModel.MaxBet1HOU = leagueSettingInfo?.MaxBet1HOU;
-                exportMatchModel.Spread1HHDP = leagueSettingInfo?.Spread1HHDP;
-                exportMatchModel.Spread1HOU = leagueSettingInfo?.Spread1HOU;
-                exportMatchModel.MaxBet1X2 = leagueSettingInfo?.MaxBet1X2;
-                exportMatchModel.Spread1X2 = leagueSettingInfo?.Spread1X2;
-                exportMatchModel.MaxBet1H1X2 = leagueSettingInfo?.MaxBet1H1X2;
-                exportMatchModel.Spread1H1X2 = leagueSettingInfo?.Spread1H1X2;
+                exportMatchModel.MatchOffer = leagueSettingInfo.MatchOffer;
+                exportMatchModel.LSTNote = leagueSettingInfo.LSTNote;
+                exportMatchModel.MaxBetHDP = FormatMaxbet(leagueSettingInfo.MaxBetHDP);
+                exportMatchModel.SpreadHDP = FormatSpread(leagueSettingInfo.SpreadHDP);
+                exportMatchModel.SpreadOU = FormatSpread(leagueSettingInfo.SpreadOU);
+                exportMatchModel.NoHDP = leagueSettingInfo.NoHDP;
+                exportMatchModel.MaxBetOU = FormatMaxbet(leagueSettingInfo.MaxBetOU);
+                exportMatchModel.MaxBet1HHDP = FormatMaxbet(leagueSettingInfo.MaxBet1HHDP);
+                exportMatchModel.MaxBet1HOU = FormatMaxbet(leagueSettingInfo.MaxBet1HOU);
+                exportMatchModel.Spread1HHDP = FormatSpread(leagueSettingInfo.Spread1HHDP);
+                exportMatchModel.Spread1HOU = FormatSpread(leagueSettingInfo.Spread1HOU);
+                exportMatchModel.MaxBet1X2 = FormatMaxbet(leagueSettingInfo.MaxBet1X2);
+                exportMatchModel.Spread1X2 = FormatSpread(leagueSettingInfo.Spread1X2);
+                exportMatchModel.MaxBet1H1X2 = FormatMaxbet(leagueSettingInfo.MaxBet1H1X2);
             }
         }
 
@@ -61,5 +62,12 @@ namespace OWP.AutoAssignment.Services.InternalApi
         private IList<int> GetMatchIdQueryInfo(IList<AutoAssignmentResultModel> autoAssignModels)
             => autoAssignModels
                 .Select(i => i.InfoSiteMatchId).ToList();
+
+        private static string FormatMaxbet(decimal? maxbet)
+            => maxbet.HasValue ? (maxbet.Value / 1000).ToString("0.####", CultureInfo.InvariantCulture) + "K" : string.Empty;
+
+        public static string FormatSpread(decimal? spread)
+            => spread.HasValue ? (spread.Value * 100).ToString("0.##", CultureInfo.InvariantCulture) : string.Empty;
+
     }
 }
