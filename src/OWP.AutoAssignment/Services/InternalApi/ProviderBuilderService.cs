@@ -36,14 +36,15 @@ namespace OWP.AutoAssignment.Services.InternalApi
         {
             foreach (var exportMatchModel in exportModels)
             {
-                var pcCode = GetPcCodeById(autoAssignModels, exportMatchModel.InfoSiteMatchId);
+                var matchResult = GetMatchInfoById(autoAssignModels, exportMatchModel.InfoSiteMatchId);
                 var providerInfoById = GetInfoProviderById(providerInfos, exportMatchModel.InfoSiteMatchId);
-                exportMatchModel.Provider = BuildProvider(providerInfoById, pcCode);
+                exportMatchModel.Provider = matchResult.IsSaba ? matchResult.PcCode :
+                    BuildProviderForRealMatch(providerInfoById, matchResult);
                 exportMatchModel.OtherProvider = providerInfoById.OtherProvider;
             }
         }
 
-        public string BuildProvider(ProviderInfo provider, string pcCode)
+        public string BuildProviderForRealMatch(ProviderInfo provider, AutoAssignmentResultModel matchResult)
         {
             var reporter = GetReporter(provider.Provider);
             var firstProvider = FirstProviderBuilder.GetFirstProvider(provider.OtherProvider);
@@ -52,8 +53,11 @@ namespace OWP.AutoAssignment.Services.InternalApi
                 provider.ProviderTv,
                 firstProvider,
                 reporter,
-                pcCode
             };
+            if (matchResult.IsFutsal)
+            {
+                providerItems.Add(matchResult.PcCode);
+            }
 
             return string.Join("/", providerItems.Where(x => !string.IsNullOrWhiteSpace(x)));
         }
@@ -77,9 +81,9 @@ namespace OWP.AutoAssignment.Services.InternalApi
             return reporter;
         }
 
-        private string GetPcCodeById(IList<AutoAssignmentResultModel> autoAssignmentResult, int id)
+        private AutoAssignmentResultModel GetMatchInfoById(IList<AutoAssignmentResultModel> autoAssignmentResult, int id)
             => autoAssignmentResult
-                .FirstOrDefault(x => x.InfoSiteMatchId == id)?.PcCode;
+                .FirstOrDefault(x => x.InfoSiteMatchId == id);
 
         private ProviderInfo GetInfoProviderById(IList<ProviderInfo> providerExportModel, int id)
             => providerExportModel
