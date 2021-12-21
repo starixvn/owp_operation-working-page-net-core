@@ -29,7 +29,7 @@
             var actorId = currentSession.Username;
             var issueInfo = await service.QueryPreMatchIssueInfo(request.PreMatchIssueId);
 
-            PreMatchIssueNotifyHub.OpenIssueChatBoard(actorId, issueInfo);
+            //PreMatchIssueNotifyHub.OpenIssueChatBoard(actorId, issueInfo);
 
             return await Task.FromResult(Unit.Value);
         }

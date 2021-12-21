@@ -13,7 +13,7 @@ namespace OWP.Websites
             services.AddScoped<QueryLogService, QueryLogServiceImp>();
             services.AddScoped<LogFactory, LogFactoryImp>();
 
-            services.AddScoped<NotificationService, NotificationServiceImp>();
+            //services.AddScoped<NotificationService, NotificationServiceImp>();
             services.AddScoped<NoteService, NoteServiceImp>();
             services.AddScoped<ShiftAssignmentService, ShiftAssignmentServiceImp>();
         }

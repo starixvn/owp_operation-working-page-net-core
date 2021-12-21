@@ -25,14 +25,14 @@
     {
         private readonly PreMatchAssignmentService preMatchAssignmentService;
 
-        private readonly NotificationService notificationService;
+        //private readonly NotificationService notificationService;
 
         //private readonly GlobalNotificationService globalNotificationService;
 
-        public PostNewMessageHandler(PreMatchAssignmentService preMatchAssignmentService, NotificationService notificationService)
+        public PostNewMessageHandler(PreMatchAssignmentService preMatchAssignmentService)
         {
             this.preMatchAssignmentService = preMatchAssignmentService;
-            this.notificationService = notificationService;
+            //this.notificationService = notificationService;
             //this.globalNotificationService = globalNotificationService;
         }
 
@@ -45,10 +45,10 @@
                 PreMatchIssueId = request.PreMatchIssueId
             };
 
-            var sessionId = await notificationService.Notify(notificationMessage, request.FileId, request.IsPreMatch);
+            //var sessionId = await notificationService.Notify(notificationMessage, request.FileId, request.IsPreMatch);
             var notifyUsers = await preMatchAssignmentService.QueryNotificationReceivers(request.PreMatchIssueId);
             //await globalNotificationService.Notify(sessionId, request.PreMatchIssueId);
-            PreMatchIssueNotifyHub.NewIssuesIncome(notifyUsers);
+            //PreMatchIssueNotifyHub.NewIssuesIncome(notifyUsers);
 
             return await preMatchAssignmentService.QueryIssueMessages(request.PreMatchIssueId, request.IsShowAllMessage);
         }
