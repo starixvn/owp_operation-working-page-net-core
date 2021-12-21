@@ -28,7 +28,6 @@ namespace OWP.Websites.App_Start
             services.AddScoped<ExcelPackageCreatorService, ExcelPackageCreatorServiceImp>();
             services.AddScoped<ExportService, ExportServiceImp>();
             services.AddScoped<MatchInfoBuilderService, MatchInfoBuilderServiceImp>();
-            services.AddScoped<ProviderService, ProviderServiceImp>();
             services.AddScoped<ProviderBuilderService, ProviderBuilderServiceImp>();
             services.AddScoped<LeagueSettingBuilderService, LeagueSettingBuilderServiceImp>();
         }

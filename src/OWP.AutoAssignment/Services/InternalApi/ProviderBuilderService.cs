@@ -5,6 +5,10 @@ using OWP.AutoAssignment.Models.InternalApi;
 
 namespace OWP.AutoAssignment.Services.InternalApi
 {
+    using System;
+    using Builder;
+    using Constant;
+
     public interface ProviderBuilderService
     {
         Task Build(
@@ -14,11 +18,10 @@ namespace OWP.AutoAssignment.Services.InternalApi
     public class ProviderBuilderServiceImp : ProviderBuilderService
     {
         private readonly Repository repository;
-        private readonly ProviderService providerService;
-        public ProviderBuilderServiceImp(Repository repository, ProviderService providerService)
+
+        public ProviderBuilderServiceImp(Repository repository)
         {
             this.repository = repository;
-            this.providerService = providerService;
         }
         public async Task Build(IList<ExportMatchModel> models, IList<AutoAssignmentResultModel> autoAssignModels, string requestId)
         {
@@ -35,9 +38,43 @@ namespace OWP.AutoAssignment.Services.InternalApi
             {
                 var pcCode = GetPcCodeById(autoAssignModels, exportMatchModel.InfoSiteMatchId);
                 var providerInfoById = GetInfoProviderById(providerInfos, exportMatchModel.InfoSiteMatchId);
-                exportMatchModel.Provider = providerService.Build(providerInfoById, pcCode);
+                exportMatchModel.Provider = BuildProvider(providerInfoById, pcCode);
                 exportMatchModel.OtherProvider = providerInfoById.OtherProvider;
             }
+        }
+
+        public string BuildProvider(ProviderInfo provider, string pcCode)
+        {
+            var reporter = GetReporter(provider.Provider);
+            var firstProvider = FirstProviderBuilder.GetFirstProvider(provider.OtherProvider);
+            var providerItems = new List<string>
+            {
+                provider.ProviderTv,
+                firstProvider,
+                reporter,
+                pcCode
+            };
+
+            return string.Join("/", providerItems.Where(x => !string.IsNullOrWhiteSpace(x)));
+        }
+
+        private static string GetReporter(string provider)
+        {
+            string reporter = string.Empty;
+            if (provider.Contains(AutoConstant.Woo, StringComparison.OrdinalIgnoreCase))
+            {
+                reporter += AutoConstant.ReporterWoo;
+            }
+            if (provider.Contains(AutoConstant.Al, StringComparison.OrdinalIgnoreCase))
+            {
+                reporter += AutoConstant.ReporterAl;
+            }
+            if (provider.Contains(AutoConstant.Slr, StringComparison.OrdinalIgnoreCase))
+            {
+                reporter += AutoConstant.ReporterSlr;
+            }
+
+            return reporter;
         }
 
         private string GetPcCodeById(IList<AutoAssignmentResultModel> autoAssignmentResult, int id)
@@ -51,6 +88,7 @@ namespace OWP.AutoAssignment.Services.InternalApi
         private IList<int> GetMatchIdQueryInfo(IList<AutoAssignmentResultModel> autoAssignModels)
             => autoAssignModels
                 .Select(i => i.InfoSiteMatchId).ToList();
+
         private async Task<IEnumerable<ProviderInfo>> QueryProviderInfo(IList<int> queryInfo, string requestId)
             => await repository.GetProviderInfo(queryInfo, requestId);
     }
