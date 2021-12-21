@@ -44,7 +44,7 @@
 
         [Theory]
         [InlineData("", "BET")]
-        [InlineData("SLR", "BET/(SLR)")]
+        [InlineData("SLRAL", "BET/(AL)(SLR)")]
         public void Build_ProviderIsEmptyOrSLR_ReturnProvider(string provider, string expected)
         {
             var service = new ProviderServiceImp();

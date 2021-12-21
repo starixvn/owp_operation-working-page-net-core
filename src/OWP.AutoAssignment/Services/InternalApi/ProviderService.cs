@@ -33,14 +33,21 @@
 
         private static string GetReporter(string provider)
         {
+            string reporter = string.Empty;
             if (provider.Contains(AutoConstant.Woo, StringComparison.OrdinalIgnoreCase))
-                return AutoConstant.ReporterWoo;
+            {
+                reporter += AutoConstant.ReporterWoo;
+            }
             if (provider.Contains(AutoConstant.Al, StringComparison.OrdinalIgnoreCase))
-                return AutoConstant.ReporterAl;
+            {
+                reporter += AutoConstant.ReporterAl;
+            }
             if (provider.Contains(AutoConstant.Slr, StringComparison.OrdinalIgnoreCase))
-                return AutoConstant.ReporterSlr;
+            {
+                reporter += AutoConstant.ReporterSlr;
+            }
 
-            return string.Empty;
+            return reporter;
         }
 
 
