@@ -1,41 +1,64 @@
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
+using Fanex.NAP.Client;
+using Fanex.NAP.Client.Configuration;
+using Fanex.NAP.Client.Helpers.Web;
+using OWP.Hubs;
+using OWP.OtherSport.Hubs;
+using OWP.TicketCenter.Hubs;
+using OWP.Websites;
+using OWP.Websites.CrossCuttingConcern;
 
-namespace OWP.Websites
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
-    public static class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
+    ApplicationName = typeof(Program).Assembly.FullName,
+    ContentRootPath = Directory.GetCurrentDirectory(),
 
-        public static IHostBuilder CreateHostBuilder(string[] args)
-        {
-            var webHostBuilder = Host.CreateDefaultBuilder(args)
-                  .ConfigureWebHostDefaults(webBuilder =>
-                  {
-#if DEBUG
-                      webBuilder.UseUrls("https://*:5001;http://*:5000");
-#else
-                    webBuilder.UseUrls("http://*:5000");
-#endif
-                      webBuilder.ConfigureAppConfiguration((builderContext, config) =>
-                        {
-                            var env = builderContext.HostingEnvironment;
+});
 
-                            config.SetBasePath(env.ContentRootPath);
-                            config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-                            config.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true,
-                                reloadOnChange: true);
+builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
-                            config.AddEnvironmentVariables();
-                        });
-                      webBuilder.UseStartup<Startup>();
-                  });
+// Add services to the container.
+ builder.Services.AddCorsPolicy();
+ builder.Services.AddControllerAuthorization();
+ builder.Services.AddCookieAuthentication(builder.Configuration);
+ builder.Services.AddRedis(builder.Configuration);
+ builder.Services.AddRedisSession(builder.Configuration);
+ builder.Services.AddSignalR(builder.Configuration);
+ builder.Services.AddSimpleDataApiModule();
+ builder.Services.AddNapServices(builder.Configuration);
+ builder.Services.AddFanexServices(builder.Configuration);
+ builder.Services.AddCoreServices();
+ builder.Services.AddMediator();
+ builder.Services.AddInternalServices();
+ builder.Services.AddAutoMapper();
+ builder.Services.AddRazorPages();
+ builder.Services.AddControllersWithViews();
 
-            return webHostBuilder;
-        }
-    }
-}
+// Configure app
+var app = builder.Build();
+app.UseDeveloperExceptionPage();
+
+app.UseStaticFiles();
+app.UseCookiePolicy();
+app.UseSession();
+app.UseMiddleware<ErrorHandler>();
+app.UseRouting();
+app.UseCors("AllowOrigin");
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
+
+    endpoints.MapHub<NewDataUploadNotifyHubImp>("/otherSportNewDataUploadNotifyHub");
+    endpoints.MapHub<ChangedInfoNotifyHubImp>("/changedInfoNotifyHub");
+    endpoints.MapHub<TicketCenterNotifyHubImp>("/ticketCenterNotifyHub");
+});
+
+NapClientManager
+  .UseConfig(app.Services.GetService<INapSettings>())
+  .UseSession(app.Services.GetService<INapSession>());
+
+app.Run();

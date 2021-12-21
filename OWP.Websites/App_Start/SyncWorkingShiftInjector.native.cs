@@ -1,13 +1,11 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using OWP.ApiSyncWorkingShift;
+﻿using OWP.ApiSyncWorkingShift;
 
-namespace OWP.Websites.App_Start
+namespace OWP.Websites;
+
+public static class SyncWorkingShiftInjector
 {
-    public static class SyncWorkingShiftInjector
+    public static void AddSyncWorkingShift(this IServiceCollection services)
     {
-        public static void InjectSyncWorkingShift(this IServiceCollection services)
-        {
-            services.AddScoped<WorkingShiftRepository, WorkingShiftRepositoryImp>();
-        }
+        services.AddScoped<WorkingShiftRepository, WorkingShiftRepositoryImp>();
     }
 }

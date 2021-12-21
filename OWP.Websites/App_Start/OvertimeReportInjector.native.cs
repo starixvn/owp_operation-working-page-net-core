@@ -1,15 +1,13 @@
-﻿namespace OWP.Websites.App_Start
-{
-    using Microsoft.Extensions.DependencyInjection;
-    using OWP.OvertimeReport.Services;
+﻿using OWP.OvertimeReport.Services;
 
-    public static class OvertimeReportInjector
+namespace OWP.Websites;
+
+public static class OvertimeReportInjector
+{
+    public static void AddOvertimeReport(this IServiceCollection services)
     {
-        public static void InjectOvertimeReport(this IServiceCollection services)
-        {
-            services.AddScoped<CommandRepository, CommandRepositoryImp>();
-            services.AddScoped<ReportByMonthServices, ReportByMonthServicesImp>();
-            services.AddScoped<ExportReportByMonthServices, ExportReportByMonthServicesImp>();
-        }
+        services.AddScoped<CommandRepository, CommandRepositoryImp>();
+        services.AddScoped<ReportByMonthServices, ReportByMonthServicesImp>();
+        services.AddScoped<ExportReportByMonthServices, ExportReportByMonthServicesImp>();
     }
 }
