@@ -27,7 +27,7 @@
         {
             var firstLabel = FirstProviderBuilder.GetFirstProvider(otherProvider)?.ToUpper();
             var providerTypes = providerHasType.GetValueOrDefault(firstLabel ?? string.Empty, AutoConstant.ProviderOtherId);
-            return new int[] { providerTypes };
+            return new [] { providerTypes };
         }
 
     }

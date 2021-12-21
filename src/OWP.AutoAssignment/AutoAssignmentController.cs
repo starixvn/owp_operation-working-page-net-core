@@ -83,7 +83,7 @@ namespace OWP.AutoAssignment
                 Date = eventDate,
                 exportMatchModels = exportModel
             };
-            var absolutedTemplatePath = @"App_Data\Templates\AutoAssignment.xlsx";
+            const string absolutedTemplatePath = @"App_Data\Templates\AutoAssignment.xlsx";
             var excelPackage = excelPackageService.CreateExcelPackage(absolutedTemplatePath, exportExcelModel);
 
             var fileContent = excelPackage.GetAsByteArray();

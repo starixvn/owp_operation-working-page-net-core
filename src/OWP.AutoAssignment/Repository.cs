@@ -149,12 +149,12 @@ namespace OWP.AutoAssignment
             return await dynamicRepository.FetchAsync<MatchQueried>(criteria);
         }
 
-        public async Task UpdateStatusRequest(StatusRequestModel model)
+        public async Task UpdateStatusRequest(StatusRequestModel statusRequestModel)
         {
             var criteria = new UpdateStatusRequestCriteria
             {
-                RequestId = model.RequestId,
-                Status = model.Status
+                RequestId = statusRequestModel.RequestId,
+                Status = statusRequestModel.Status
             };
             await dynamicRepository.ExecuteAsync(criteria);
         }

@@ -1,6 +1,6 @@
 ﻿namespace OWP.AutoAssignment.Constant
 {
-    public class AutoConstant
+    public static class AutoConstant
     {
         public const string NoFindAnyMatchValidOnSelectedDate = "There is no matches in selected date";
 

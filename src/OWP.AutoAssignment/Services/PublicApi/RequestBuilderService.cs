@@ -15,9 +15,10 @@ namespace OWP.AutoAssignment.Services.PublicApi
 
     public class RequestBuilderImp : RequestBuilder
     {
-        private readonly IList<RequestSender> sender = new List<RequestSender>();
         private SchedulingMatch schedulingMatch = new SchedulingMatch();
+
         private IList<SchedulingLAUser> schedulingLAUser = new List<SchedulingLAUser>();
+
         private IList<SchedulingTraderInfo> traderInfos = new List<SchedulingTraderInfo>();
 
         private readonly Repository repository;
