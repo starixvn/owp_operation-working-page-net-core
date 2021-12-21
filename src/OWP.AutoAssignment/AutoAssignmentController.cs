@@ -1,17 +1,14 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using OWP.AutoAssignment.Constant;
 using OWP.AutoAssignment.Models.InternalApi;
 using OWP.AutoAssignment.Models.PublicApi;
 using OWP.AutoAssignment.Services.InternalApi;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
 
 namespace OWP.AutoAssignment
 {
@@ -78,9 +75,9 @@ namespace OWP.AutoAssignment
 
         [Route("export-excel")]
         [HttpGet]
-        public async Task<IActionResult> ExportExcel(DateTime eventDate)
+        public async Task<IActionResult> ExportExcel(DateTime eventDate, string requestId)
         {
-            var exportModel = await exportService.BuildExportModelByDate(eventDate);
+            var exportModel = await exportService.BuildExportModelByDate(eventDate, requestId);
             var exportExcelModel = new ExportExcelModel
             {
                 Date = eventDate,

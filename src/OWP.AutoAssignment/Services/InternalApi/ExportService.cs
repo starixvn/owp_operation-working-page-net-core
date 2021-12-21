@@ -1,14 +1,14 @@
-﻿using OWP.AutoAssignment.Models.InternalApi;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using OWP.AutoAssignment.Models.InternalApi;
 
 namespace OWP.AutoAssignment.Services.InternalApi
 {
     public interface ExportService
     {
-        Task<IList<ExportMatchModel>> BuildExportModelByDate(DateTime eventDate);
+        Task<IList<ExportMatchModel>> BuildExportModelByDate(DateTime eventDate, string requestId);
     }
 
     public class ExportServiceImp : ExportService
@@ -45,14 +45,14 @@ namespace OWP.AutoAssignment.Services.InternalApi
             this.repository = repository;
         }
 
-        public async Task<IList<ExportMatchModel>> BuildExportModelByDate(DateTime eventDate)
+        public async Task<IList<ExportMatchModel>> BuildExportModelByDate(DateTime eventDate, string requestId)
         {
             autoAssignModels = (await repository.GetAutoAssignmentResultByDate(eventDate)).ToList();
             await BuildMatchInfo();
             await BuildLAInfo();
             await BuildTraderInfo();
-            await BuildProviderInfo();
-            await BuildLeagueSettingInfo();
+            await BuildProviderInfo(requestId);
+            await BuildLeagueSettingInfo(requestId);
             return ExportModels;
         }
 
@@ -65,10 +65,10 @@ namespace OWP.AutoAssignment.Services.InternalApi
         private async Task BuildTraderInfo()
             => await traderBuilderService.Build(ExportModels, autoAssignModels);
 
-        private async Task BuildProviderInfo()
-            => await providerBuilderService.Build(ExportModels, autoAssignModels);
+        private async Task BuildProviderInfo(string requestId)
+            => await providerBuilderService.Build(ExportModels, autoAssignModels, requestId);
 
-        private async Task BuildLeagueSettingInfo()
-            => await leagueSettingBuilderService.Build(ExportModels, autoAssignModels);
+        private async Task BuildLeagueSettingInfo(string requestId)
+            => await leagueSettingBuilderService.Build(ExportModels, autoAssignModels, requestId);
     }
 }

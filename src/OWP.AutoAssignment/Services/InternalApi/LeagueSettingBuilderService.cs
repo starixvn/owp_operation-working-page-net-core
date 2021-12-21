@@ -1,7 +1,7 @@
-﻿using OWP.AutoAssignment.Models.InternalApi;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using OWP.AutoAssignment.Models.InternalApi;
 
 namespace OWP.AutoAssignment.Services.InternalApi
 {
@@ -9,7 +9,8 @@ namespace OWP.AutoAssignment.Services.InternalApi
     {
         Task Build(
             IList<ExportMatchModel> models,
-            IList<AutoAssignmentResultModel> autoAssignModels);
+            IList<AutoAssignmentResultModel> autoAssignModels,
+            string requestId);
     }
     public class LeagueSettingBuilderServiceImp : LeagueSettingBuilderService
     {
@@ -18,10 +19,10 @@ namespace OWP.AutoAssignment.Services.InternalApi
         {
             this.repository = repository;
         }
-        public async Task Build(IList<ExportMatchModel> models, IList<AutoAssignmentResultModel> autoAssignModels)
+        public async Task Build(IList<ExportMatchModel> models, IList<AutoAssignmentResultModel> autoAssignModels, string requestId)
         {
             var matchIds = GetMatchIdQueryInfo(autoAssignModels);
-            var leagueSettings = (await LeagueSettingInfo(matchIds)).ToList();
+            var leagueSettings = (await LeagueSettingInfo(matchIds, requestId)).ToList();
 
             BuildExportLeagueSetting(models, leagueSettings);
         }
@@ -50,8 +51,8 @@ namespace OWP.AutoAssignment.Services.InternalApi
             }
         }
 
-        private async Task<IEnumerable<LeagueSettingInfo>> LeagueSettingInfo(IList<int> queryInfo)
-            => await repository.GetLeagueSettingInfo(queryInfo);
+        private async Task<IEnumerable<LeagueSettingInfo>> LeagueSettingInfo(IList<int> queryInfo, string requestId)
+            => await repository.GetLeagueSettingInfo(queryInfo, requestId);
 
         private LeagueSettingInfo GetInfoLeagueSettingById(IList<LeagueSettingInfo> leagueSettingExportModel, int id)
             => leagueSettingExportModel

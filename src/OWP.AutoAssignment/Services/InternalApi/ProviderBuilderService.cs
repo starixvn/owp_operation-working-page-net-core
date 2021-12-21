@@ -1,7 +1,7 @@
-﻿using OWP.AutoAssignment.Models.InternalApi;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using OWP.AutoAssignment.Models.InternalApi;
 
 namespace OWP.AutoAssignment.Services.InternalApi
 {
@@ -9,7 +9,7 @@ namespace OWP.AutoAssignment.Services.InternalApi
     {
         Task Build(
             IList<ExportMatchModel> models,
-            IList<AutoAssignmentResultModel> autoAssignModels);
+            IList<AutoAssignmentResultModel> autoAssignModels, string requestId);
     }
     public class ProviderBuilderServiceImp : ProviderBuilderService
     {
@@ -20,10 +20,10 @@ namespace OWP.AutoAssignment.Services.InternalApi
             this.repository = repository;
             this.providerService = providerService;
         }
-        public async Task Build(IList<ExportMatchModel> models, IList<AutoAssignmentResultModel> autoAssignModels)
+        public async Task Build(IList<ExportMatchModel> models, IList<AutoAssignmentResultModel> autoAssignModels, string requestId)
         {
             var matchIds = GetMatchIdQueryInfo(autoAssignModels);
-            var providerInfos = (await QueryProviderInfo(matchIds)).ToList();
+            var providerInfos = (await QueryProviderInfo(matchIds, requestId)).ToList();
 
             BuildExportProvider(models, providerInfos, autoAssignModels);
         }
@@ -51,7 +51,7 @@ namespace OWP.AutoAssignment.Services.InternalApi
         private IList<int> GetMatchIdQueryInfo(IList<AutoAssignmentResultModel> autoAssignModels)
             => autoAssignModels
                 .Select(i => i.InfoSiteMatchId).ToList();
-        private async Task<IEnumerable<ProviderInfo>> QueryProviderInfo(IList<int> queryInfo)
-            => await repository.GetProviderInfo(queryInfo);
+        private async Task<IEnumerable<ProviderInfo>> QueryProviderInfo(IList<int> queryInfo, string requestId)
+            => await repository.GetProviderInfo(queryInfo, requestId);
     }
 }

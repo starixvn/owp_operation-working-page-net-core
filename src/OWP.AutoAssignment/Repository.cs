@@ -63,9 +63,9 @@ namespace OWP.AutoAssignment
 
         Task<IEnumerable<InfoSiteMatchModel>> GetInfoSiteMatchInfo(IList<MatchQueryInfo> events);
 
-        Task<IEnumerable<ProviderInfo>> GetProviderInfo(IList<int> matchIds);
+        Task<IEnumerable<ProviderInfo>> GetProviderInfo(IList<int> matchIds, string requestId);
 
-        Task<IEnumerable<LeagueSettingInfo>> GetLeagueSettingInfo(IList<int> matchIds);
+        Task<IEnumerable<LeagueSettingInfo>> GetLeagueSettingInfo(IList<int> matchIds, string requestId);
 
         Task SaveEventSender(IEnumerable<AutoAssignmentHistory> events);
 
@@ -279,13 +279,21 @@ namespace OWP.AutoAssignment
             return await dynamicRepository.FetchAsync<InfoSiteMatchModel>(criteria);
         }
 
-        public async Task<IEnumerable<ProviderInfo>> GetProviderInfo(IList<int> matchIds)
+        public async Task<IEnumerable<ProviderInfo>> GetProviderInfo(IList<int> matchIds, string requestId)
             => await dynamicRepository.FetchAsync<ProviderInfo>(
-                new GetProviderInfoCriteria() { MatchIds = string.Join(',', matchIds) });
+                new GetProviderInfoCriteria
+                {
+                    MatchIds = string.Join(',', matchIds),
+                    RequestId = requestId
+                });
 
-        public async Task<IEnumerable<LeagueSettingInfo>> GetLeagueSettingInfo(IList<int> matchIds)
+        public async Task<IEnumerable<LeagueSettingInfo>> GetLeagueSettingInfo(IList<int> matchIds, string requestId)
             => await dynamicRepository.FetchAsync<LeagueSettingInfo>(
-                new GetLeagueSettingInfoCriteria() { MatchIds = string.Join(',', matchIds) });
+                new GetLeagueSettingInfoCriteria
+                {
+                    MatchIds = string.Join(',', matchIds),
+                    RequestId = requestId
+                });
 
         public async Task SaveEventSender(IEnumerable<AutoAssignmentHistory> events)
         {
