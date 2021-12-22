@@ -59,14 +59,19 @@ namespace OWP.AutoAssignment.Services.InternalApi
         {
             foreach (var exportMatchModel in exportModels)
             {
-                var laInfo = GetSingleLaInfoById(laExportModel, exportMatchModel.InfoSiteMatchId);
+                var laInfo = GetSingleLaInfoById(laExportModel, exportMatchModel);
                 exportMatchModel.LA = laInfo?.UserName;
             }
         }
 
-        private LAExportInfo GetSingleLaInfoById(IList<LAExportInfo> laExportModel, int id)
-            => laExportModel
-                    .FirstOrDefault(x => x.InfoSiteMatchId == id);
+        private LAExportInfo GetSingleLaInfoById(IList<LAExportInfo> laExportModel, ExportMatchModel exportMatchModel)
+        {
+            var bettype = exportMatchModel.Bettype;
+            var id = exportMatchModel.InfoSiteMatchId;
+            return laExportModel
+            .FirstOrDefault(x => x.InfoSiteMatchId == id && x.Bettype == bettype);
+        }
+
 
     }
 }

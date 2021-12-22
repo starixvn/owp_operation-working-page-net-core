@@ -27,9 +27,9 @@ namespace OWP.AutoAssignment.Models.InternalApi
 
         public string Agent { get; set; }
 
-        public int InfoSiteMatchId { get; set; }
+        public int? InfoSiteMatchId { get; set; }
 
-        public int AdminSiteMatchId { get; set; }
+        public int? AdminSiteMatchId { get; set; }
 
         public string Website1 { get; set; }
 

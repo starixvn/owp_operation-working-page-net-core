@@ -104,11 +104,14 @@ namespace OWP.AutoAssignment.Models.InternalApi
         [Cell("AN3")]
         public string ReporterPhone { get; set; }
 
-        [Cell("AO3")]
+        [EpplusIgnore]
         public int InfoSiteMatchId { get; set; }
 
+        [Cell("AO3")]
+        public int InfoSiteMatchIdExport => InfoSiteMatchId;
+
         [Cell("AP3")]
-        public int AdminSiteMatchId { get; set; }
+        public int? AdminSiteMatchId { get; set; }
 
         [Cell("AQ3")]
         public string Website1 { get; set; }

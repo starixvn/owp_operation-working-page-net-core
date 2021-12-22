@@ -61,7 +61,7 @@ namespace OWP.AutoAssignment.Services.InternalApi
         {
             foreach (var exportMatchModel in exportModels)
             {
-                var traderInfo = GetSingleTraderInfoById(traderExportModel, exportMatchModel.InfoSiteMatchId);
+                var traderInfo = GetSingleTraderInfoById(traderExportModel, exportMatchModel);
                 exportMatchModel.Trader1HHDP = traderInfo?.Trader1HHDP;
                 exportMatchModel.Trader1HOU = traderInfo?.Trader1HOU;
                 exportMatchModel.TraderHDP = traderInfo?.TraderFTHDP;
@@ -69,9 +69,15 @@ namespace OWP.AutoAssignment.Services.InternalApi
             }
         }
 
-        private TraderExportInfo GetSingleTraderInfoById(IList<TraderExportInfo> traderExportModel, int id)
-            => traderExportModel
-                    .FirstOrDefault(x => x.InfoSiteMatchId == id);
+        private TraderExportInfo GetSingleTraderInfoById(IList<TraderExportInfo> traderExportModel,
+            ExportMatchModel exportMatchModel)
+        {
+            var id = exportMatchModel.InfoSiteMatchId;
+            var bettype = exportMatchModel.Bettype;
+            return traderExportModel
+                .FirstOrDefault(x => x.InfoSiteMatchId == id && x.Bettype == bettype);
+        }
+
 
     }
 }

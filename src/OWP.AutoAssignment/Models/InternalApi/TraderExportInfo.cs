@@ -4,6 +4,8 @@
     {
         public int InfoSiteMatchId { get; set; }
 
+        public int Bettype { get; set; }
+
         public string TraderFTHDP { get; set; }
 
         public string Trader1HHDP { get; set; }
