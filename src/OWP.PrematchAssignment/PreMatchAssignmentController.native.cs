@@ -7,6 +7,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Mvc;
+    using Newtonsoft.Json;
     using OWP.PreMatchAssignment.Handlers;
     using OWP.PreMatchAssignment.Models;
 
@@ -53,9 +54,11 @@
 
         [Route("get-day-shift")]
         [HttpPost]
-        public async Task<QueryPreMatchLeagueViewModel> QueryDayShift(QueryDayShiftPreMatchRequest request)
+        public async Task<IActionResult> QueryDayShift(QueryDayShiftPreMatchRequest request)
         {
-            return await mediator.Send(request);
+            var sender = await mediator.Send(request);
+
+            return Ok(JsonConvert.SerializeObject(sender));
         }
 
         [Route("get-night-shift")]

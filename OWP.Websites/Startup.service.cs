@@ -51,6 +51,7 @@ namespace OWP.Websites
     using System.Linq;
     using System.Reflection;
     using System.Threading.Tasks;
+    using PreMatchAssignment;
     using TicketTypeRecipient;
 
     public partial class Startup
@@ -250,6 +251,7 @@ namespace OWP.Websites
             services.AddMediatR(typeof(FileUploadController).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(TicketTypeRecipientController).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(OvertimeReportController).GetTypeInfo().Assembly);
+            services.AddMediatR(typeof(PreMatchAssignmentController).GetTypeInfo().Assembly);
         }
 
         private static void InitializeSimpleDataApiModule(IServiceCollection services)
@@ -267,6 +269,7 @@ namespace OWP.Websites
                 mc.AddProfile(new TicketCenter.AutoMapperProfile());
                 mc.AddProfile(new OvertimeReport.AutoMapperProfile());
                 mc.AddProfile(new AutoAssignment.AutoMapperProfile());
+                mc.AddProfile(new PreMatchAssignment.AutoMapperProfile());
             });
 
             IMapper mapper = mapperConfig.CreateMapper();
