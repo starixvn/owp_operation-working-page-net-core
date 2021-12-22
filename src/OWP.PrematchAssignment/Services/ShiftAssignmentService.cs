@@ -1,4 +1,5 @@
-﻿using OWP.Utils;
+﻿using Fanex.NAP.Client.Helpers.Web;
+using OWP.Utils;
 
 namespace OWP.PreMatchAssignment.Services
 {
@@ -28,7 +29,7 @@ namespace OWP.PreMatchAssignment.Services
     {
         private readonly IDynamicRepository dynamicRepository;
 
-        private readonly ICurrentSession currentSession;
+        private readonly INapSession currentSession;
 
         private readonly IMapper mapper;
 
@@ -46,7 +47,7 @@ namespace OWP.PreMatchAssignment.Services
             public AssignmentShift NightShift { get; set; }
         }
 
-        public ShiftAssignmentServiceImp(IDynamicRepository dynamicRepository, ICurrentSession currentSession, IMapper mapper)
+        public ShiftAssignmentServiceImp(IDynamicRepository dynamicRepository, INapSession currentSession, IMapper mapper)
         {
             this.dynamicRepository = dynamicRepository;
             this.currentSession = currentSession;

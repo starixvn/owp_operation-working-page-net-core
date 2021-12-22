@@ -1,4 +1,6 @@
-﻿namespace OWP.PreMatchAssignment.Services
+﻿using Fanex.NAP.Client.Helpers.Web;
+
+namespace OWP.PreMatchAssignment.Services
 {
     using System;
     using System.Collections.Generic;
@@ -17,9 +19,9 @@
     {
         private readonly IDynamicRepository dynamicRepository;
 
-        private readonly ICurrentSession currentSession;
+        private readonly INapSession currentSession;
 
-        public QueryWorkingShiftImp(IDynamicRepository dynamicRepository, ICurrentSession currentSession)
+        public QueryWorkingShiftImp(IDynamicRepository dynamicRepository, INapSession currentSession)
         {
             this.dynamicRepository = dynamicRepository;
             this.currentSession = currentSession;

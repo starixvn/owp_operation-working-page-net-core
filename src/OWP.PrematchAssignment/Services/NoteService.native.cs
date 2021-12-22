@@ -1,4 +1,6 @@
 ﻿
+using Fanex.NAP.Client.Helpers.Web;
+
 namespace OWP.PreMatchAssignment.Services
 {
     using System;
@@ -20,13 +22,13 @@ namespace OWP.PreMatchAssignment.Services
 
     public class NoteServiceImp : NoteService
     {
-        private readonly ICurrentSession currentSession;
+        private readonly INapSession napSession;
 
         private readonly IDynamicRepository dynamicRepo;
 
-        public NoteServiceImp(ICurrentSession currentSession, IDynamicRepository dynamicRepo)
+        public NoteServiceImp(INapSession napSession, IDynamicRepository dynamicRepo)
         {
-            this.currentSession = currentSession;
+            this.napSession = napSession;
             this.dynamicRepo = dynamicRepo;
         }
 
@@ -34,7 +36,7 @@ namespace OWP.PreMatchAssignment.Services
         {
             var criteria = new InsertNewNoteCriteria
             {
-                ActorId = currentSession.UserId,
+                ActorId = napSession.UserId,
                 EventDate = request.EventDate,
                 InfoSiteMatchId = request.InfoSiteMatchId,
                 Message = request.Message,
@@ -58,7 +60,7 @@ namespace OWP.PreMatchAssignment.Services
         {
             var criteria = new EditNoteMessageCriteria
             {
-                ActorId = currentSession.UserId,
+                ActorId = napSession.UserId,
                 Message = request.Message,
                 PreMatchNoteMessageId = request.PreMatchNoteMessageId,
                 CreatedDate = DateTime.Now
@@ -79,7 +81,7 @@ namespace OWP.PreMatchAssignment.Services
         {
             var criteria = new InsertNewNoteMessageCriteria
             {
-                ActorId = currentSession.UserId,
+                ActorId = napSession.UserId,
                 Message = request.Message,
                 PreMatchNoteId = request.PreMatchNoteId,
                 CreatedDate = DateTime.Now

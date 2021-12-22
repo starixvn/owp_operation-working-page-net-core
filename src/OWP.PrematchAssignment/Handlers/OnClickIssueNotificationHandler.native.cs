@@ -1,4 +1,6 @@
-﻿namespace OWP.PreMatchAssignment.Handlers
+﻿using Fanex.NAP.Client.Helpers.Web;
+
+namespace OWP.PreMatchAssignment.Handlers
 {
     using System.Threading;
     using System.Threading.Tasks;
@@ -14,19 +16,19 @@
 
     public class OnClickIssueNotificationHandler : IRequestHandler<OnClickIssueNotificationRequest>
     {
-        private readonly ICurrentSession currentSession;
+        private readonly INapSession napSession;
 
         private readonly PreMatchAssignmentService service;
 
-        public OnClickIssueNotificationHandler(ICurrentSession currentSession, PreMatchAssignmentService service)
+        public OnClickIssueNotificationHandler(INapSession napSession, PreMatchAssignmentService service)
         {
-            this.currentSession = currentSession;
+            this.napSession = napSession;
             this.service = service;
         }
 
         public async Task<Unit> Handle(OnClickIssueNotificationRequest request, CancellationToken cancellationToken)
         {
-            var actorId = currentSession.Username;
+            var actorId = napSession.UserId;
             var issueInfo = await service.QueryPreMatchIssueInfo(request.PreMatchIssueId);
 
             //PreMatchIssueNotifyHub.OpenIssueChatBoard(actorId, issueInfo);

@@ -1,4 +1,6 @@
-﻿namespace OWP.PreMatchAssignment.UnitTests.Services
+﻿using Fanex.NAP.Client.Helpers.Web;
+
+namespace OWP.PreMatchAssignment.UnitTests.Services
 {
     using System;
     using System.Collections.Generic;
@@ -20,7 +22,7 @@
         {
             //Arrange
             var dynamicRepo = Substitute.For<IDynamicRepository>();
-            var currentSession = Substitute.For<ICurrentSession>();
+            var currentSession = Substitute.For<INapSession>();
             var mapper = Substitute.For<IMapper>();
             currentSession.UserId = 8;
             dynamicRepo.FetchMultipleAsync<PreMatchLeague, InfoSiteMatch>(Arg.Compat.Any<QueryShiftPreMatchCriteria>()).Returns(Task.FromResult(CreateMockData()));
@@ -85,7 +87,7 @@
         {
             //Arrange
             var dynamicRepo = Substitute.For<IDynamicRepository>();
-            var currentSession = Substitute.For<ICurrentSession>();
+            var currentSession = Substitute.For<INapSession>();
             var mapper = Substitute.For<IMapper>();
             currentSession.UserId = 8;
             var leagues = new List<LeagueAssignment>
@@ -162,7 +164,7 @@
         {
             //Arrange
             var dynamicRepo = Substitute.For<IDynamicRepository>();
-            var currentSession = Substitute.For<ICurrentSession>();
+            var currentSession = Substitute.For<INapSession>();
             var mapper = Substitute.For<IMapper>();
             currentSession.UserId = 8;
             dynamicRepo.FetchAsync<TimeSpan>(Arg.Compat.Any<GetStartTimeCriteria>()).Returns(Task.FromResult(MockStartTime(false)));
@@ -244,7 +246,7 @@
         {
             //Arrange
             var dynamicRepo = Substitute.For<IDynamicRepository>();
-            var currentSession = Substitute.For<ICurrentSession>();
+            var currentSession = Substitute.For<INapSession>();
             var mapper = Substitute.For<IMapper>();
             currentSession.UserId = 8;
             dynamicRepo.FetchAsync<TimeSpan>(Arg.Compat.Any<GetStartTimeCriteria>()).Returns(Task.FromResult(MockStartTime(true)));
@@ -324,7 +326,7 @@
         {
             //Arrange
             var dynamicRepo = Substitute.For<IDynamicRepository>();
-            var currentSession = Substitute.For<ICurrentSession>();
+            var currentSession = Substitute.For<INapSession>();
             var mapper = Substitute.For<IMapper>();
             currentSession.UserId = 8;
             var requestStartTime = new TimeSpan(13, 00, 00);
@@ -417,7 +419,7 @@
         {
             //Arrange
             var dynamicRepo = Substitute.For<IDynamicRepository>();
-            var currentSession = Substitute.For<ICurrentSession>();
+            var currentSession = Substitute.For<INapSession>();
             var mapper = Substitute.For<IMapper>();
             currentSession.UserId = 8;
             var matches = new List<InfoSiteMatch>

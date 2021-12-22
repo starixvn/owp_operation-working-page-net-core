@@ -1,4 +1,6 @@
-﻿namespace OWP.PreMatchAssignment.UnitTests.Services
+﻿using Fanex.NAP.Client.Helpers.Web;
+
+namespace OWP.PreMatchAssignment.UnitTests.Services
 {
     using System;
     using System.Collections.Generic;
@@ -18,13 +20,13 @@
 
         private readonly QueryWorkingShift queryWorkingShift;
 
-        private readonly ICurrentSession currentSession;
+        private readonly INapSession currentSession;
 
         public QueryWorkingShiftUnitTests()
         {
             dynamicRepository = Substitute.For<IDynamicRepository>();
 
-            currentSession = Substitute.For<ICurrentSession>();
+            currentSession = Substitute.For<INapSession>();
 
             queryWorkingShift = new QueryWorkingShiftImp(dynamicRepository, currentSession);
         }

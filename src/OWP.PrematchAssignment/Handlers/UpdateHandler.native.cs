@@ -42,7 +42,7 @@ namespace OWP.PreMatchAssignment.Handlers
             }
             await preMatchAssignmentService.Delete(request);
             var preMatchLeagueIdUpdated = request.PrematchUpdated.Select(item => item.PreMatchLeagueId).ToList();
-            await preMatchAssignmentService.SaveOldPrematchAssignment(preMatchLeagueIdUpdated);
+            await preMatchAssignmentService.SaveOldPreMatchAssignment(preMatchLeagueIdUpdated);
             await preMatchAssignmentService.Update(request);
 
             // TODO

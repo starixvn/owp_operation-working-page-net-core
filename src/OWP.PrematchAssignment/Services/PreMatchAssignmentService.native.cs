@@ -1,4 +1,6 @@
-﻿namespace OWP.PreMatchAssignment.Services
+﻿using Fanex.NAP.Client.Helpers.Web;
+
+namespace OWP.PreMatchAssignment.Services
 {
     using System;
     using System.Collections.Generic;
@@ -37,14 +39,14 @@
 
         Task<PreMatchIssueInfo> QueryPreMatchIssueInfo(int preMatchIssueId);
 
-        Task SaveOldPrematchAssignment(List<int> preMatchId);
+        Task SaveOldPreMatchAssignment(List<int> preMatchId);
     }
 
     public class PreMatchAssignmentServiceImp : PreMatchAssignmentService
     {
         private readonly IDynamicRepository dynamicRepository;
 
-        private readonly ICurrentSession currentSession;
+        private readonly INapSession currentSession;
 
         private readonly IMapper mapper;
 
@@ -52,7 +54,7 @@
 
         public PreMatchAssignmentServiceImp(
             IDynamicRepository dynamicRepository,
-            ICurrentSession currentSession,
+            INapSession currentSession,
             IMapper mapper,
             ICache cache)
         {
@@ -205,7 +207,7 @@
             return result.FirstOrDefault();
         }
 
-        public async Task SaveOldPrematchAssignment(List<int> preMatchId)
+        public async Task SaveOldPreMatchAssignment(List<int> preMatchId)
         {
             var assignmentOldValue = await QueryAssignmentOldValue(preMatchId);
             var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromDays(RedisKey.CACHE_EXPIRED_IN_DAYS));
