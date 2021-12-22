@@ -4,7 +4,6 @@
     using Models;
     using NSubstitute;
     using OWP.PreMatchAssignment.Misc;
-    using PreMatchAssignment.Misc;
     using Xunit;
 
     public class LogFactoryUnitTests
