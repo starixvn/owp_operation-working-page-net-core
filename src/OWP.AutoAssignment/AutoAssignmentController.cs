@@ -83,8 +83,8 @@ namespace OWP.AutoAssignment
                 Date = eventDate.ToString("MMM dd, yyyy"),
                 exportMatchModels = exportModel
             };
-            const string absolutedTemplatePath = @"App_Data\Templates\AutoAssignment.xlsx";
-            var excelPackage = excelPackageService.CreateExcelPackage(absolutedTemplatePath, exportExcelModel);
+            const string absoluteTemplatePath = @"App_Data\Templates\AutoAssignment.xlsx";
+            var excelPackage = excelPackageService.CreateExcelPackage(absoluteTemplatePath, exportExcelModel);
 
             var fileContent = excelPackage.GetAsByteArray();
 
@@ -95,7 +95,7 @@ namespace OWP.AutoAssignment
         private IActionResult BuildExcelPackageResponse(byte[] fileContent, DateTime eventDate)
         {
             var stream = new MemoryStream(fileContent);
-            var fileName = $"Auto_Assignment_{eventDate.ToString("yyyyMMdd")}.xlsx";
+            var fileName = $"Auto_Assignment_{eventDate:yyyyMMdd}.xlsx";
             return File(stream, "application/xlsx", fileName);
         }
     }
