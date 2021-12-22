@@ -9,7 +9,7 @@ namespace OWP.AutoAssignment.Models.InternalApi
     public record ExportExcelModel
     {
         [Cell("B1")]
-        public DateTime Date { get; init; }
+        public string Date { get; init; }
 
         [EpplusIgnore]
         public IList<ExportMatchModel> exportMatchModels

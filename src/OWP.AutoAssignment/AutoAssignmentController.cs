@@ -80,7 +80,7 @@ namespace OWP.AutoAssignment
             var exportModel = await exportService.BuildExportModelByDate(eventDate, requestId);
             var exportExcelModel = new ExportExcelModel
             {
-                Date = eventDate,
+                Date = eventDate.ToString("MMM dd, yyyy"),
                 exportMatchModels = exportModel
             };
             const string absolutedTemplatePath = @"App_Data\Templates\AutoAssignment.xlsx";
