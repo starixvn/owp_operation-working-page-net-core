@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using OtherSport.Notification.Models;
     using OtherSport.Notification.Services;
-    using Fanex.NAP.Core.Web.Session;
     using NSubstitute;
     using Xunit;
     using Xunit.Asserts.Compare;

@@ -3,11 +3,10 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Fanex.Data.Repository;
-    using Fanex.NAP.Core.Web.Session;
-    using Criteria;
     using Models;
     using Olympus.Xml;
     using Fanex.NAP.Client.Helpers.Web;
+    using OWP.OtherSport.Notification.Criteria;
 
     public interface CommandRepository
     {
