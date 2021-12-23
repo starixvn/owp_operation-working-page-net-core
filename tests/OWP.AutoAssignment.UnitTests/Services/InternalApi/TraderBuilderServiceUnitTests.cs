@@ -115,6 +115,7 @@
                 new TraderExportInfo()
                 {
                     InfoSiteMatchId = 100,
+                    Bettype=0,
                     Trader1HHDP = "Ti",
                     Trader1HOU = "Ti",
                     TraderFTHDP = "Ti",
@@ -123,6 +124,7 @@
                 new TraderExportInfo()
                 {
                     InfoSiteMatchId = 101,
+                    Bettype = -3,
                     Trader1HHDP = "Ti",
                     Trader1HOU = "Ti",
                     TraderFTHDP = "Ti",
