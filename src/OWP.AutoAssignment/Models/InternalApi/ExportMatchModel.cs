@@ -108,7 +108,9 @@ namespace OWP.AutoAssignment.Models.InternalApi
         public int InfoSiteMatchId { get; set; }
 
         [Cell("AO3")]
-        public int InfoSiteMatchIdExport => InfoSiteMatchId;
+        public int? InfoSiteMatchIdExport => Bettype==-3 || Bettype==-4
+            ? null
+            : InfoSiteMatchId;
 
         [Cell("AP3")]
         public int? AdminSiteMatchId { get; set; }
