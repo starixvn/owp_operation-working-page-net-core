@@ -1,4 +1,7 @@
-﻿using System;
+﻿using OWP.PrematchAssignment.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace OWP.PreMatchAssignment.Models
 {
@@ -16,12 +19,6 @@ namespace OWP.PreMatchAssignment.Models
 
         public int PreMatchLeagueId { get; set; }
 
-        public bool HasMessages { get; set; }
-
-        public bool IsRead { get; set; }
-
-        public int? PreMatchIssueId { get; set; }
-
         public bool HasNotes { get; set; }
 
         public int? PreMatchNoteId { get; set; }
@@ -29,5 +26,11 @@ namespace OWP.PreMatchAssignment.Models
         public bool IsLive { get; set; }
 
         public string MatchStatus { get; set; } = string.Empty;
+
+        public List<TicketMatchBasicInfo> TicketList { get; set; }
+
+        public bool HasMessages => TicketList.Count > 0;
+
+        public bool IsRead => TicketList.All(x => x.IsRead);
     }
 }

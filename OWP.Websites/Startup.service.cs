@@ -1,5 +1,5 @@
-using OWP.TicketCenter;
 using OWP.FileUpload;
+using OWP.TicketCenter;
 using OWP.TicketCenter.Hubs;
 namespace OWP.Websites
 {
@@ -38,8 +38,8 @@ namespace OWP.Websites
     using ONEbook.UM.Transport;
     using OtherSport;
     using OvertimeReport;
-    using TicketCenter= OWP.TicketCenter;
     using OWP.OtherSport.Hubs;
+    using PreMatchAssignment;
     using PreMatchNotification;
     using RecipientGroup;
     using Sentry;
@@ -53,6 +53,7 @@ namespace OWP.Websites
     using System.Threading.Tasks;
     using PreMatchAssignment;
     using TicketTypeRecipient;
+    using TicketCenter = OWP.TicketCenter;
 
     public partial class Startup
     {
@@ -269,7 +270,7 @@ namespace OWP.Websites
                 mc.AddProfile(new TicketCenter.AutoMapperProfile());
                 mc.AddProfile(new OvertimeReport.AutoMapperProfile());
                 mc.AddProfile(new AutoAssignment.AutoMapperProfile());
-                mc.AddProfile(new PreMatchAssignment.AutoMapperProfile());
+                mc.AddProfile(new PrematchAssignment.AutoMapperProfile());
             });
 
             IMapper mapper = mapperConfig.CreateMapper();

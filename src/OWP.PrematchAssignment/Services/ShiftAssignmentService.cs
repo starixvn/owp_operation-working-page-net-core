@@ -1,28 +1,30 @@
 ﻿using Fanex.NAP.Client.Helpers.Web;
-using OWP.Utils;
+using OWP.PrematchAssignment.Models;
 
 namespace OWP.PreMatchAssignment.Services
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
     using AutoMapper;
+    using Constants;
     using Criteria;
     using Fanex.Data.Repository;
-    using Fanex.NAP.Core.Web.Session;
     using Handlers;
-    using Misc;
     using Models;
-    using Constants;
-    using System.Globalization;
     using OWP.Extensions;
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq;
+    using System.Threading.Tasks;
 
     public interface ShiftAssignmentService
     {
         Task<QueryPreMatchLeagueViewModel> QueryDayShift(QueryDayShiftPreMatchRequest request);
 
         Task<QueryPreMatchLeagueViewModel> QueryNightShift(QueryNightShiftPreMatchRequest request);
+
+        Task<Dictionary<int, List<TicketLeagueBasicInfo>>> QueryAllLeaguesTicket(IEnumerable<int> owpLeagueIds);
+
+        Task<Dictionary<int, List<TicketMatchBasicInfo>>> QueryAllMatchesTicket(IEnumerable<int> owpLeagueIds);
     }
 
     public class ShiftAssignmentServiceImp : ShiftAssignmentService
@@ -59,7 +61,6 @@ namespace OWP.PreMatchAssignment.Services
             var queryDayShiftCriteria = new QueryShiftPreMatchCriteria
             {
                 EventDate = request.EventDate,
-                ActorId = currentSession.UserId,
                 EventToDateTime = request.EventDate.AddDays(1).AddHours(11).AddMinutes(59).AddSeconds(59),
                 EventFromDateTime = request.EventDate.AddHours(12),
                 IsDay = true
@@ -95,6 +96,36 @@ namespace OWP.PreMatchAssignment.Services
             }
 
             return await QueryNightShiftWithDBStartTime(defaultShift, request, startTime, actorId);
+        }
+
+        public async Task<Dictionary<int, List<TicketLeagueBasicInfo>>> QueryAllLeaguesTicket(IEnumerable<int> owpLeagueIds)
+        {
+            var criteria = new QueryAllLeaguesTicketCriteria
+            {
+                OWPLeagueIds = string.Join(",", owpLeagueIds.Distinct()),
+                ActorId = currentSession.UserId
+            };
+
+            var result = await dynamicRepository.FetchAsync<TicketLeagueBasicInfo>(criteria);
+
+            return result
+                .GroupBy(x => x.OWPLeagueId)
+                .ToDictionary(x => x.Key, x => x.ToList());
+        }
+
+        public async Task<Dictionary<int, List<TicketMatchBasicInfo>>> QueryAllMatchesTicket(IEnumerable<int> infoSiteMatchIds)
+        {
+            var criteria = new QueryAllMatchesTicketCriteria
+            {
+                InfoSiteMatchIds = string.Join(",", infoSiteMatchIds.Distinct()),
+                ActorId = currentSession.UserId
+            };
+
+            var result = await dynamicRepository.FetchAsync<TicketMatchBasicInfo>(criteria);
+
+            return result
+                .GroupBy(x => x.InfoSiteMatchId)
+                .ToDictionary(x => x.Key, x => x.ToList());
         }
 
         private static bool IsRequestStartTimeGreaterThanDBStartTime(QueryNightShiftPreMatchRequest request, TimeSpan? startTime)
@@ -153,7 +184,6 @@ namespace OWP.PreMatchAssignment.Services
             return new QueryShiftPreMatchCriteria
             {
                 EventDate = eventDate,
-                ActorId = actorId,
                 EventToDateTime = eventToDateTime,
                 EventFromDateTime = eventToRequestStartTime,
                 IsDay = IsDay
@@ -293,7 +323,7 @@ namespace OWP.PreMatchAssignment.Services
                 EventDate = eventDate
             };
 
-           return await dynamicRepository.FetchAsync<LinkedMatch>(criteria);
+            return await dynamicRepository.FetchAsync<LinkedMatch>(criteria);
         }
 
         private static bool CheckMainAssignmentContainsEmployee(PreMatchLeague league, string employee)

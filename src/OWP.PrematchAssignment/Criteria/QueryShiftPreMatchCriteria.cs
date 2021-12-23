@@ -1,7 +1,7 @@
 ﻿namespace OWP.PreMatchAssignment.Criteria
 {
-    using System;
     using Fanex.Data.Repository;
+    using System;
 
     public class QueryShiftPreMatchCriteria : CriteriaBase
     {
@@ -12,8 +12,6 @@
         public DateTime EventToDateTime { get; set; }
 
         public bool IsDay { get; set; }
-
-        public int ActorId { get; set; }
 
         public override string GetSettingKey() => "OWP_PreMatchAssignment_QueryDayShift";
 

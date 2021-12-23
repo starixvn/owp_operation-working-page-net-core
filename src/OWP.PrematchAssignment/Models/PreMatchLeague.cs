@@ -48,12 +48,6 @@
 
         public string Remark { get; set; }
 
-        public bool HasMessages { get; set; }
-
-        public bool IsRead { get; set; }
-
-        public int? PreMatchIssueId { get; set; }
-
         public bool HasNotes { get; set; }
 
         public int? PreMatchNoteId { get; set; }
