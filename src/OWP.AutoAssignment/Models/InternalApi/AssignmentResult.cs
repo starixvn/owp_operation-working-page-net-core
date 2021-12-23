@@ -35,11 +35,13 @@ namespace OWP.AutoAssignment.Models.InternalApi
         [JsonProperty("LA_SusId")]
         public int? UserId_LA { get; set; }
 
-
         public string Group { get; set; }
 
         public string ExtraTime { get; set; }
 
         public int StatusCode { get; set; }
+
+        [JsonProperty("SABA_type")]
+        public int? SabaType { get; set; }
     }
 }
