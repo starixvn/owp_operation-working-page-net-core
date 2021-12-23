@@ -1,5 +1,9 @@
 ﻿namespace OWP.OtherSport
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Threading.Tasks;
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Cors;
@@ -12,10 +16,6 @@
     using OWP.OtherSport.Submit;
     using OWP.OtherSport.Submit.Models;
     using OWP.OtherSport.Validation;
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Threading.Tasks;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -50,21 +50,21 @@
                 return new UnsupportedMediaTypeResult();
             }
 
-            if (Request.Form.Files != null && Request.Form.Files.Count == 1)
+            if (Request.Form.Files.Count != 1)
             {
-                using var ms = new MemoryStream();
-                Request.Form.Files[0].CopyTo(ms);
-
-                var request = new ValidationHandler.Request
-                {
-                    Stream = ms
-                };
-                var result = await mediator.Send(request);
-
-                return new JsonResult(result);
+                return BadRequest();
             }
 
-            return BadRequest();
+            await using var ms = new MemoryStream();
+            await Request.Form.Files[0].CopyToAsync(ms);
+
+            var request = new ValidationHandler.Request
+            {
+                Stream = ms
+            };
+            var result = await mediator.Send(request);
+
+            return new JsonResult(result);
         }
 
         [Route("submit")]
@@ -102,9 +102,10 @@
                 MatchStatuses = matchStatuses
             };
 
-            var excelPackage = await mediator.Send(request);
+            using var excelPackage = await mediator.Send(request);
             var fileName = $"OS Live Game Assignment {from.ToString("MMddyyyy")} - {to.ToString("MMddyyyy")}.xlsx";
-            return File(excelPackage.GetAsByteArray(), "application/octet-stream", fileName);
+            var bytes = await excelPackage.GetAsByteArrayAsync();
+            return File(bytes, "application/octet-stream", fileName);
         }
     }
 }

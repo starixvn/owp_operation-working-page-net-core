@@ -3,6 +3,11 @@ using OWP.TicketCenter;
 using OWP.TicketCenter.Hubs;
 namespace OWP.Websites
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
+    using System.Threading.Tasks;
     using ApiSyncWorkingShift;
     using App_Start;
     using AutoMapper;
@@ -46,12 +51,6 @@ namespace OWP.Websites
     using Services;
     using SimpleDataApi;
     using StackExchange.Redis;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
-    using System.Threading.Tasks;
-    using PreMatchAssignment;
     using TicketTypeRecipient;
     using TicketCenter = OWP.TicketCenter;
 

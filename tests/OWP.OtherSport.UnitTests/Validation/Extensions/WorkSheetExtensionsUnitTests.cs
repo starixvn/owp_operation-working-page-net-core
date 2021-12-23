@@ -16,7 +16,7 @@
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             using var excelPackage = new ExcelPackage();
-            var worksheet = excelPackage.Workbook.Worksheets.Add("Sheet0");
+            using var worksheet = excelPackage.Workbook.Worksheets.Add("Sheet0");
 
             worksheet.Cells[1, 1].Value = "Match Status";
             worksheet.Cells[1, 2].Value = "Sport";
@@ -329,7 +329,7 @@
         public void ReadAllAssignments_ExcelWithSomeValues_ReturnAssignmentModel()
         {
             using var excelPackage = new ExcelPackage();
-            var worksheet = ExcelValidatorUnitTests.GetValidHeaderWorksheet(excelPackage);
+            using var worksheet = ExcelValidatorUnitTests.GetValidHeaderWorksheet(excelPackage);
 
             worksheet.Cells[2, 2].Value = "Live";
             worksheet.Cells[2, 3].Value = "Soccer";

@@ -1,18 +1,15 @@
 ﻿namespace OWP.FileUpload
 {
+    using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
-    using System.Net;
-    using System.Net.Http;
-    using System.Net.Http.Headers;
     using System.Threading.Tasks;
     using MediatR;
-    using System.Collections.Generic;
-    using File = Models.File;
-    using Microsoft.AspNetCore.Cors;
-    using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Authorization;
-    using System.IO;
+    using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using File = Models.File;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -31,7 +28,7 @@
         [HttpPost]
         public async Task<int> Upload(IFormFile file)
         {
-            var memoryStream = new MemoryStream();
+            await using var memoryStream = new MemoryStream();
 
             await file.CopyToAsync(memoryStream);
 
@@ -51,7 +48,7 @@
         public async Task<IList<File>> Upload(IList<IFormFile> files)
         {
             var result = new List<File>();
-            var memoryStream = new MemoryStream();
+            await using var memoryStream = new MemoryStream();
 
             foreach (var file in files)
             {
@@ -86,8 +83,8 @@
             var isImage = IsImage(fileExtension);
             var mediaType = GetMediaType(isImage, fileExtension);
 
-            var stream = new MemoryStream(file.FileContent);
-            return isImage 
+            await using var stream = new MemoryStream(file.FileContent);
+            return isImage
                 ? File(stream, mediaType)
                 : File(stream, mediaType, file.Title);
         }

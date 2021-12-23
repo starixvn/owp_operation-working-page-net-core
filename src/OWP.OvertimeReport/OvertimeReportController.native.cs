@@ -1,14 +1,14 @@
 ﻿namespace OWP.OvertimeReport
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
     using Handlers;
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Mvc;
     using Models;
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -48,21 +48,21 @@
         [HttpGet]
         public async Task<IActionResult> ExportReportByMonth([FromQuery] ExportReportByMonthRequest request)
         {
-            var excelPackage = await mediator.Send(request);
+            using var excelPackage = await mediator.Send(request);
             var monthYearInString = new DateTime(request.Year, request.Month, 1).ToString("MMM yyyy");
             var fileName = $"Monthly Overtime Report - {monthYearInString}.xlsx";
-
-            return File(excelPackage.GetAsByteArray(), "application/octet-stream", fileName);
+            var bytes = await excelPackage.GetAsByteArrayAsync();
+            return File(bytes, "application/octet-stream", fileName);
         }
 
         [Route("export-report-by-year")]
         [HttpGet]
         public async Task<IActionResult> ExportReportByYear([FromQuery] ExportReportByYearRequest request)
         {
-            var excelPackage = await mediator.Send(request);
+            using var excelPackage = await mediator.Send(request);
             var fileName = $"Annual Overtime Report - {request.Year}.xlsx";
-
-            return File(excelPackage.GetAsByteArray(), "application/octet-stream", fileName);
+            var bytes = await excelPackage.GetAsByteArrayAsync();
+            return File(bytes, "application/octet-stream", fileName);
         }
     }
 }
