@@ -15,10 +15,16 @@ namespace OWP.PreMatchAssignment.Services
     using Models;
     using Newtonsoft.Json;
     using OWP.PreMatchAssignment.Constants;
+    using PrematchAssignment.Criteria;
+    using PrematchAssignment.Models;
     using Utils;
 
     public interface PreMatchAssignmentService
     {
+        Task<IEnumerable<AssigneeQueried>> QueryAssigneePreMatch(int id);
+
+        Task<InfoMatchQueried> GetInfoMatchById(int id);
+
         Task Update(UpdateLeagueAssignmentRequest request);
 
         Task Delete(UpdateLeagueAssignmentRequest request);
@@ -62,6 +68,24 @@ namespace OWP.PreMatchAssignment.Services
             this.currentSession = currentSession;
             this.mapper = mapper;
             this.cache = cache;
+        }
+        public async Task<IEnumerable<AssigneeQueried>> QueryAssigneePreMatch(int id)
+        {
+            var criteria = new QueryAssigneePreMatchByPreLeagueIdCriteria
+            {
+                Id = id
+            };
+            criteria.ThrowExceptionIfInvalid();
+            return await dynamicRepository.FetchAsync<AssigneeQueried>(criteria);
+        }
+        public async Task<InfoMatchQueried> GetInfoMatchById(int id)
+        {
+            var criteria = new QueryInfoMatchByIdCriteria
+            {
+                Id = id
+            };
+            criteria.ThrowExceptionIfInvalid();
+            return (await dynamicRepository.FetchAsync<InfoMatchQueried>(criteria)).FirstOrDefault();
         }
 
         public async Task Update(UpdateLeagueAssignmentRequest request)

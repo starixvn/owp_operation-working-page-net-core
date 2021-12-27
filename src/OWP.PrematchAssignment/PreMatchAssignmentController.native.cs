@@ -3,13 +3,14 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Handlers;
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Mvc;
     using Newtonsoft.Json;
-    using OWP.PreMatchAssignment.Handlers;
-    using OWP.PreMatchAssignment.Models;
+    using PreMatchAssignment.Models;
+    using PrematchAssignment.Handlers;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -22,6 +23,22 @@
         public PreMatchAssignmentController(IMediator mediator)
         {
             this.mediator = mediator;
+        }
+
+        [Route("get-assignee-pre-match")]
+        [HttpPost]
+        public async Task<IActionResult> GetAssigneePreMatch(QueryAssigneeRequest request)
+        {
+            var sender = await mediator.Send(request);
+            return Ok(JsonConvert.SerializeObject(sender));
+        }
+
+        [Route("get-info-match")]
+        [HttpPost]
+        public async Task<IActionResult> GetInfoMatchById(QueryInfoMatchRequest request)
+        {
+            var sender = await mediator.Send(request);
+            return Ok(JsonConvert.SerializeObject(sender));
         }
 
         [Route("get-working-shift")]
