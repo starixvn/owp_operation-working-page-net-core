@@ -20,6 +20,8 @@ namespace OWP.ApiSyncWorkingShift.Models
 
         public DateTime? LastUpdated { get; set; }
 
+        public string ShiftOT { get; set; }
+
         [XmlIgnore]
         [JsonIgnore]
         public bool IsTimeShift { get; set; }
