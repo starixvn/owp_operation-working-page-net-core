@@ -15,6 +15,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="App_Data\Templates\AnnualOvertimeReportTemplate.xlsx" />
+    <None Remove="App_Data\Templates\AutoAssignment.xlsx" />
   </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Include="..\.sonarlint\nap-owp\CSharp\SonarLint.xml" Link="SonarLint.xml" />
@@ -22,6 +23,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="App_Data\Templates\AnnualOvertimeReportTemplate.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\Templates\AutoAssignment.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="App_Data\Templates\ExportOSAssignmentTemplate.xlsx">
@@ -58,6 +62,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\src\OWP.AutoAssignment\OWP.AutoAssignment.csproj" />
     <ProjectReference Include="..\src\OWP.FileUpload\OWP.FileUpload.csproj" />
     <ProjectReference Include="..\src\OWP.OvertimeReport\OWP.OvertimeReport.csproj" />
     <ProjectReference Include="..\src\OWP\OWP.csproj" />

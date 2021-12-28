@@ -14,6 +14,7 @@ COPY ./src/OWP.RecipientGroup/. ./src/OWP.RecipientGroup
 COPY ./src/OWP.TicketCenter/. ./src/OWP.TicketCenter
 COPY ./src/OWP.OvertimeReport/. ./src/OWP.OvertimeReport
 COPY ./src/OWP.FileUpload/. ./src/OWP.FileUpload
+COPY ./src/OWP.AutoAssignment/. ./src/OWP.AutoAssignment
 COPY ./OWP.Websites/OWP.Websites.csproj ./OWP.Websites/OWP.Websites.csproj
 
 WORKDIR /src/OWP.Websites

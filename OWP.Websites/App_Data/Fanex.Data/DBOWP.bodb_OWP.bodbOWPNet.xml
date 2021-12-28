@@ -191,12 +191,33 @@
 		<Setting Key="OWP_AutoAssignment_GetMatchesByDate" SpName="OWP_AutoAssignment_GetMatchesByDate" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
 		<Setting Key="OWP_AutoAssignmentRequest_Insert" SpName="OWP_AutoAssignmentRequest_Insert" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
 		<Setting Key="OWP_AutoAssignmentResult_Insert" SpName="OWP_AutoAssignmentResult_Insert" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
-		<Setting Key="OWP_AutoAssignment_GetLA" SpName="OWP_AutoAssignment_GetLA" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
-		<Setting Key="OWP_AutoAssignmentRequest_Api_GetByStatus" SpName="OWP_AutoAssignmentRequest_Api_GetByStatus" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
+		<Setting Key="OWP_AutoAssignment_GetAutoUserResult" SpName="OWP_AutoAssignment_GetAutoUserResult" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
+		<Setting Key="OWP_AutoAssignment_GetRequestNew" SpName="OWP_AutoAssignment_GetRequestNew" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
 		<Setting Key="OWP_AutoAssignmentRequest_Api_GetStatusByRequestId" SpName="OWP_AutoAssignmentRequest_Api_GetStatusByRequestId" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
-		<Setting Key="OWP_AutoAssignment_GetAllMatchIsAssigned" SpName="OWP_AutoAssignment_GetAllMatchIsAssigned" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
-		<Setting Key="OWP_AutoAssignment_GetAssignInfoInvalid" SpName="OWP_AutoAssignment_GetAssignInfoInvalid" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
 		<Setting Key="OWP_AutoAssignmentRequest_Api_UpdateStatusRequestId" SpName="OWP_AutoAssignmentRequest_Api_UpdateStatusRequestId" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
+		<Setting Key="OWP_AutoAssignment_GetRequestIsWaiting" SpName="OWP_AutoAssignment_GetRequestIsWaiting" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
+		<Setting Key="OWP_AutoAssignment_RemoveRequestId" SpName="OWP_AutoAssignment_RemoveRequestId" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
+		<Setting Key="OWP_AutoAssignment_GetResult" SpName="OWP_AutoAssignment_GetResult" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
+		<Setting Key="OWP_AutoAssignmentVisualization_GetUsersByDate" SpName="OWP_AutoAssignmentVisualization_GetUsersByDate" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
+		<Setting Key="OWP_AutoAssignment_GetCustInfoFromDB02" SpName="OWP_AutoAssignment_GetCustInfoFromDB02" DbName="DBACC.bodb02.bodbAdminNet"></Setting>
+		<Setting Key="OWP_AutoAssignment_GetUserInfoFromNAPUserControl" SpName="OWP_AutoAssignment_GetUserInfoFromNAPUserControl" DbName="DBPOL.NAP_UserControl.bodbAdminNet"></Setting>
+		<Setting Key="OWP_AutoAssignment_GetTradersByDate" SpName="OWP_AutoAssignment_GetTradersByDate" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
+		<Setting Key="OWP_AutoAssignment_GetCommonRealMatchInfoByIds" SpName="OWP_AutoAssignment_GetCommonRealMatchInfoByIds" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
+		<Setting Key="OWP_AutoAssignment_GetCommonSabaMatchInfoByIds" SpName="OWP_AutoAssignment_GetCommonSabaMatchInfoByIds" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
+		<Setting Key="OWP_AutoAssignment_GetMainMatch" SpName="OWP_AutoAssignment_GetMainMatch" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
+		<Setting Key="OWP_AutoAssignment_GetMaxMaxbet_FTHDP" SpName="OWP_AutoAssignment_GetMaxMaxbet_FTHDP" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
+		<Setting Key="OWP_AutoAssignment_GetMaxMaxbetForRealMatch_FTHDP" SpName="OWP_AutoAssignment_GetMaxMaxbetForRealMatch_FTHDP" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
+		<Setting Key="OWP_AutoAssignment_GetInfoSiteMatchByDate" SpName="OWP_AutoAssignment_GetInfoSiteMatchByDate" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
+		<Setting Key="OWP_AutoAssignment_GetMaxBetCorner" SpName="OWP_AutoAssignment_GetMaxBetCorner" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
+		<Setting Key="OWP_AutoAssignmentResult_Insert" SpName="OWP_AutoAssignmentResult_Insert" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
+		<Setting Key="OWP_AutoAssignment_Export_GetLAInfo" SpName="OWP_AutoAssignment_Export_GetLAInfo" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
+		<Setting Key="OWP_AutoAssignment_Export_GetTraderInfo" SpName="OWP_AutoAssignment_Export_GetTraderInfo" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
+		<Setting Key="OWP_AutoAssignment_GetInfoSiteMatchResultByDate" SpName="OWP_AutoAssignment_GetInfoSiteMatchResultByDate" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
+		<Setting Key="OWP_AutoAssignment_GetInfoSiteMatchByIdAndBetType" SpName="OWP_AutoAssignment_GetInfoSiteMatchByIdAndBetType" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
+		<Setting Key="OWP_AutoAssignment_SaveEventHistory" SpName="OWP_AutoAssignment_SaveEventHistory" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
+		<Setting Key="OWP_AutoAssignment_GetProviderInfoByIds" SpName="OWP_AutoAssignment_GetProviderInfoByIds" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
+		<Setting Key="OWP_AutoAssignment_GetLeagueSettingInfo" SpName="OWP_AutoAssignment_GetLeagueSettingInfo" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
+
 	</Function>
 	<Function Name="LSTReport">
 		<Setting Key="Task_OWP_LSTReport_GetDataByDate" SpName="Task_OWP_LSTReport_GetDataByDate" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
@@ -336,7 +357,7 @@
 		<Setting Key="OWP_FileUpload_Upload" SpName="OWP_FileUpload_Upload" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_FileUpload_QueryById" SpName="OWP_FileUpload_QueryById" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 	</Function>
-  <Function Name="OvertimeReport">
-    <Setting Key="OWP_OvertimeReport_GetReportByDateRange" SpName="OWP_OvertimeReport_GetReportByDateRange" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-  </Function>
+	<Function Name="OvertimeReport">
+		<Setting Key="OWP_OvertimeReport_GetReportByDateRange" SpName="OWP_OvertimeReport_GetReportByDateRange" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+	</Function>
 </Functions>

@@ -164,6 +164,7 @@ namespace OWP.Websites
             services.InjectRecipientGroup();
             services.InjectTicketCenterService();
             services.InjectOvertimeReport();
+            services.InjectAutoAssignmentService();
         }
 
         private void ConfigureNapServices(IServiceCollection services)
@@ -264,6 +265,7 @@ namespace OWP.Websites
                 mc.AddProfile(new OtherSport.AutoMapperProfile());
                 mc.AddProfile(new TicketCenter.AutoMapperProfile());
                 mc.AddProfile(new OvertimeReport.AutoMapperProfile());
+                mc.AddProfile(new AutoAssignment.AutoMapperProfile());
             });
 
             IMapper mapper = mapperConfig.CreateMapper();
