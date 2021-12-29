@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 using OWP.PreMatchAssignment.Models;
 using OWP.PreMatchAssignment.Services;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace OWP.PreMatchAssignment.Handlers
 {
@@ -29,7 +29,11 @@ namespace OWP.PreMatchAssignment.Handlers
 
         public async Task<QueryPreMatchLeagueViewModel> Handle(QueryNightShiftPreMatchRequest request, CancellationToken cancellationToken)
         {
-            return await shiftAssignmentService.QueryNightShift(request);
+            var shiftAssignments = await shiftAssignmentService.QueryNightShift(request);
+
+            await shiftAssignmentService.MapTicketLists(shiftAssignments);
+
+            return shiftAssignments;
         }
     }
 }

@@ -48,6 +48,6 @@ namespace OWP.PreMatchAssignment.Models
 
         public int? PreMatchNoteId { get; set; }
 
-        public List<TicketLeagueBasicInfo> TicketList { get; set; }
+        public List<TicketLeagueBasicInfo> TicketList { get; set; } = new List<TicketLeagueBasicInfo>();
     }
 }

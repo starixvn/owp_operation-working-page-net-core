@@ -15,6 +15,8 @@ namespace OWP.PrematchAssignment.Models
         public string LatestMessage { get; set; }
 
         public bool IsRead { get; set; }
+
+        public int EventType => (int)Enum.EventType.League;
     }
 
     public class TicketMatchBasicInfo
@@ -30,5 +32,7 @@ namespace OWP.PrematchAssignment.Models
         public string LatestMessage { get; set; }
 
         public bool IsRead { get; set; }
+
+        public int EventType => (int)Enum.EventType.Match;
     }
 }

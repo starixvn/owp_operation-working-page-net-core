@@ -27,7 +27,7 @@ namespace OWP.PreMatchAssignment.Models
 
         public string MatchStatus { get; set; } = string.Empty;
 
-        public List<TicketMatchBasicInfo> TicketList { get; set; }
+        public List<TicketMatchBasicInfo> TicketList { get; set; } = new List<TicketMatchBasicInfo>();
 
         public bool HasMessages => TicketList.Count > 0;
 
