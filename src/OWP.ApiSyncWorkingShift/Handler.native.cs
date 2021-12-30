@@ -26,12 +26,12 @@ namespace OWP.ApiSyncWorkingShift
 
         public async Task<IEnumerable<WorkingShiftModel>> Handle(QueryWorkingShiftRequest request, CancellationToken cancellationToken)
         {
-            var workingShiftModelInternal= await commandRepository.Query(request);
-            foreach (var shift in workingShiftModelInternal)
+            var workingShiftModels= await commandRepository.Query(request);
+            foreach (var shift in workingShiftModels)
             {
                 shift.RecalculateShiftCode();
             }
-            return workingShiftModelInternal;
+            return workingShiftModels;
         }
     }
 }
