@@ -1,16 +1,16 @@
 ﻿namespace OWP.PreMatchAssignment
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
     using Handlers;
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Mvc;
     using Newtonsoft.Json;
-    using PreMatchAssignment.Models;
     using PrematchAssignment.Handlers;
+    using PreMatchAssignment.Models;
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -73,16 +73,18 @@
         [HttpPost]
         public async Task<IActionResult> QueryDayShift(QueryDayShiftPreMatchRequest request)
         {
-            var sender = await mediator.Send(request);
+            var result = await mediator.Send(request);
 
-            return Ok(JsonConvert.SerializeObject(sender));
+            return Ok(JsonConvert.SerializeObject(result));
         }
 
         [Route("get-night-shift")]
         [HttpPost]
-        public async Task<QueryPreMatchLeagueViewModel> QueryNightShift(QueryNightShiftPreMatchRequest request)
+        public async Task<IActionResult> QueryNightShift(QueryNightShiftPreMatchRequest request)
         {
-            return await mediator.Send(request);
+            var result = await mediator.Send(request);
+
+            return Ok(JsonConvert.SerializeObject(result));
         }
 
         [Route("post-message")]
