@@ -2,6 +2,7 @@
 using OWP.ApiSyncWorkingShift.Utils;
 using System;
 using System.Xml.Serialization;
+using OWP.ApiSyncWorkingShift.Const;
 
 namespace OWP.ApiSyncWorkingShift.Models
 {
@@ -20,7 +21,13 @@ namespace OWP.ApiSyncWorkingShift.Models
 
         public DateTime? LastUpdated { get; set; }
 
+        [XmlIgnore]
+        [JsonIgnore]
         public string ShiftOT { get; set; }
+
+        public bool IsOffDay => string.Equals(ShiftOT, HrmConst.OFF);
+
+        public bool IsPublicHoliday => string.Equals(ShiftOT, HrmConst.PUBLIC_HOLIDAY);
 
         [XmlIgnore]
         [JsonIgnore]
