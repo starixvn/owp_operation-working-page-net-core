@@ -22,7 +22,7 @@ namespace OWP.PreMatchAssignment.Services
 
         Task<QueryPreMatchLeagueViewModel> QueryNightShift(QueryNightShiftPreMatchRequest request);
 
-        Task MapTicketLists(QueryPreMatchLeagueViewModel shiftAssignments);
+        Task MapTicketLists(QueryPreMatchLeagueViewModel shiftAssignments, int actorId);
     }
 
     public class ShiftAssignmentServiceImp : ShiftAssignmentService
@@ -96,13 +96,13 @@ namespace OWP.PreMatchAssignment.Services
             return await QueryNightShiftWithDBStartTime(defaultShift, request, startTime, actorId);
         }
 
-        public async Task MapTicketLists(QueryPreMatchLeagueViewModel shiftAssignments)
+        public async Task MapTicketLists(QueryPreMatchLeagueViewModel shiftAssignments, int actorId)
         {
             var leagueIds = shiftAssignments.PreMatchLeagues.Select(x => x.LeagueId);
             var infoSiteMatchIds = shiftAssignments.InfoSiteMatches.Select(x => x.InfoSiteMatchId);
 
-            var leagueTickets = await QueryAllLeaguesTicket(leagueIds);
-            var matchTickets = await QueryAllMatchesTicket(infoSiteMatchIds);
+            var leagueTickets = await QueryAllLeaguesTicket(leagueIds, actorId);
+            var matchTickets = await QueryAllMatchesTicket(infoSiteMatchIds, actorId);
 
             foreach (var league in shiftAssignments.PreMatchLeagues)
             {
@@ -116,13 +116,13 @@ namespace OWP.PreMatchAssignment.Services
                 match.TicketList = matchTicket;
             }
         }
-        
-        public async Task<Dictionary<int, List<TicketLeagueBasicInfo>>> QueryAllLeaguesTicket(IEnumerable<int> owpLeagueIds)
+
+        public async Task<Dictionary<int, List<TicketLeagueBasicInfo>>> QueryAllLeaguesTicket(IEnumerable<int> owpLeagueIds, int actorId)
         {
             var criteria = new QueryAllLeaguesTicketCriteria
             {
                 OWPLeagueIds = string.Join(",", owpLeagueIds.Distinct()),
-                ActorId = currentSession.UserId
+                ActorId = actorId
             };
 
             var result = await dynamicRepository.FetchAsync<TicketLeagueBasicInfo>(criteria);
@@ -132,12 +132,12 @@ namespace OWP.PreMatchAssignment.Services
                 .ToDictionary(x => x.Key, x => x.ToList());
         }
 
-        public async Task<Dictionary<int, List<TicketMatchBasicInfo>>> QueryAllMatchesTicket(IEnumerable<int> infoSiteMatchIds)
+        public async Task<Dictionary<int, List<TicketMatchBasicInfo>>> QueryAllMatchesTicket(IEnumerable<int> infoSiteMatchIds, int actorId)
         {
             var criteria = new QueryAllMatchesTicketCriteria
             {
                 InfoSiteMatchIds = string.Join(",", infoSiteMatchIds.Distinct()),
-                ActorId = currentSession.UserId
+                ActorId = actorId
             };
 
             var result = await dynamicRepository.FetchAsync<TicketMatchBasicInfo>(criteria);

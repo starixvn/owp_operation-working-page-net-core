@@ -16,6 +16,8 @@ namespace OWP.PreMatchAssignment.Handlers
         public TimeSpan StartTime { get; set; }
 
         public string LeagueName { get; set; }
+
+        public int ActorId { get; set; }
     }
 
     public class QueryNightShiftPreMatchHandler : IRequestHandler<QueryNightShiftPreMatchRequest, QueryPreMatchLeagueViewModel>
@@ -31,7 +33,7 @@ namespace OWP.PreMatchAssignment.Handlers
         {
             var shiftAssignments = await shiftAssignmentService.QueryNightShift(request);
 
-            await shiftAssignmentService.MapTicketLists(shiftAssignments);
+            await shiftAssignmentService.MapTicketLists(shiftAssignments, request.ActorId);
 
             return shiftAssignments;
         }

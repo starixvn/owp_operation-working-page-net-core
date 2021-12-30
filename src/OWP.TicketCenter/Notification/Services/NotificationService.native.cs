@@ -1,12 +1,12 @@
 ﻿namespace OWP.TicketCenter.Notification.Services
 {
-    using System.Linq;
-    using System.Threading.Tasks;
     using Hubs;
     using Microsoft.AspNetCore.SignalR;
     using Models;
     using OWP.Services;
     using OWP.Utils;
+    using System.Linq;
+    using System.Threading.Tasks;
 
     public interface NotificationService
     {
@@ -25,17 +25,21 @@
     {
         private readonly NotifyEngine notifyEngine;
 
-        private readonly IHubContext<TicketCenterNotifyHubImp, TicketCenterNotifyHub> notify;
+        private readonly IHubContext<TicketCenterNotifyHubImp, TicketCenterNotifyHub> notifyMyTicket;
+
+        private readonly IHubContext<PreMatchNotifyHubImp, PreMatchNotifyHub> notifyPreMatch;
 
         private readonly Repository repository;
 
         public NotificationServiceImp(
             NotifyEngine notifyEngine,
             Repository repository,
-            IHubContext<TicketCenterNotifyHubImp, TicketCenterNotifyHub> notify)
+            IHubContext<TicketCenterNotifyHubImp, TicketCenterNotifyHub> notifyMyTicket,
+            IHubContext<PreMatchNotifyHubImp, PreMatchNotifyHub> notifyPreMatch)
         {
             this.notifyEngine = notifyEngine;
-            this.notify = notify;
+            this.notifyMyTicket = notifyMyTicket;
+            this.notifyPreMatch = notifyPreMatch;
             this.repository = repository;
         }
 
@@ -64,8 +68,11 @@
         public async Task<bool> NotifyNewMessageIncome(int ticketId)
         {
             var userIds = await repository.GetUserIdsByTicketId(ticketId);
-            var userIdsString = userIds.Select(u => u.ToString());
-            await notify.Clients
+            var userIdsString = userIds.Distinct().Select(u => u.ToString()).ToList();
+            await notifyMyTicket.Clients
+                .Users(userIdsString)
+                .NotifyNewMessageIncome();
+            await notifyPreMatch.Clients
                 .Users(userIdsString)
                 .NotifyNewMessageIncome();
             return await Task.FromResult(true);
@@ -74,8 +81,11 @@
         public async Task<bool> NotifyNewAddRecipient(int ticketId)
         {
             var userIds = await repository.GetUserIdsByTicketId(ticketId);
-            var userIdsString = userIds.Select(u => u.ToString());
-            await notify.Clients
+            var userIdsString = userIds.Distinct().Select(u => u.ToString()).ToList();
+            await notifyMyTicket.Clients
+                .Users(userIdsString)
+                .NotifyNewAddRecipient();
+            await notifyPreMatch.Clients
                 .Users(userIdsString)
                 .NotifyNewAddRecipient();
             return await Task.FromResult(true);
@@ -83,7 +93,10 @@
 
         public async Task<bool> NotifyUserClickOnToast(int userId, int ticketId, int eventType)
         {
-            await notify.Clients
+            await notifyMyTicket.Clients
+                .User(userId.ToString())
+                .NotifyUserOnClickToast(ticketId, eventType);
+            await notifyPreMatch.Clients
                 .User(userId.ToString())
                 .NotifyUserOnClickToast(ticketId, eventType);
             return await Task.FromResult(true);
@@ -92,8 +105,11 @@
         public async Task<bool> NotifyChangeStatusIncome(int ticketId)
         {
             var userIds = await repository.GetUserIdsByTicketId(ticketId);
-            var userIdsString = userIds.Distinct().Select(u => u.ToString());
-            await notify.Clients
+            var userIdsString = userIds.Distinct().Select(u => u.ToString()).ToList();
+            await notifyMyTicket.Clients
+                .Users(userIdsString)
+                .NotifyChangeStatusIncome();
+            await notifyPreMatch.Clients
                 .Users(userIdsString)
                 .NotifyChangeStatusIncome();
             return await Task.FromResult(true);

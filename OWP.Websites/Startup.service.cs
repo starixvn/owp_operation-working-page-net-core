@@ -3,11 +3,6 @@ using OWP.TicketCenter;
 using OWP.TicketCenter.Hubs;
 namespace OWP.Websites
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
-    using System.Threading.Tasks;
     using ApiSyncWorkingShift;
     using App_Start;
     using AutoMapper;
@@ -51,6 +46,11 @@ namespace OWP.Websites
     using Services;
     using SimpleDataApi;
     using StackExchange.Redis;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
+    using System.Threading.Tasks;
     using TicketTypeRecipient;
     using TicketCenter = OWP.TicketCenter;
 
@@ -239,6 +239,7 @@ namespace OWP.Websites
             });
             services.AddSingleton<NewDataUploadNotifyHubImp>();
             services.AddSingleton<TicketCenterNotifyHubImp>();
+            services.AddSingleton<PreMatchNotifyHubImp>();
         }
         private static void ConfigureMediator(IServiceCollection services)
         {

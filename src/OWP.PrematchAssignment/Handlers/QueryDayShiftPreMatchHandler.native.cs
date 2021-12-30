@@ -14,6 +14,8 @@ namespace OWP.PreMatchAssignment.Handlers
         public DateTime EventDate { get; set; }
 
         public string LeagueName { get; set; }
+
+        public int ActorId { get; set; }
     }
 
     public class QueryDayShiftPreMatchHandler : IRequestHandler<QueryDayShiftPreMatchRequest, QueryPreMatchLeagueViewModel>
@@ -28,16 +30,9 @@ namespace OWP.PreMatchAssignment.Handlers
         public async Task<QueryPreMatchLeagueViewModel> Handle(QueryDayShiftPreMatchRequest request, CancellationToken cancellationToken)
         {
             var shiftAssignments = await shiftAssignmentService.QueryDayShift(request);
-            await shiftAssignmentService.MapTicketLists(shiftAssignments);
+            await shiftAssignmentService.MapTicketLists(shiftAssignments, request.ActorId);
 
             return shiftAssignments;
-
-            //return new QueryPreMatchLeagueViewModel
-            //{
-            //    PreMatchLeagues = new List<LeagueAssignment>
-            //        { shiftAssignments.PreMatchLeagues.ToList().FirstOrDefault() },
-            //    InfoSiteMatches = new List<InfoSiteMatch> { shiftAssignments.InfoSiteMatches.ToList().FirstOrDefault() }
-            //};
         }
     }
 }
