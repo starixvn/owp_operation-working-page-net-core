@@ -32,13 +32,17 @@ namespace OWP.TicketCenter.Handlers
 
         private readonly EventTicketOtherService otherService;
 
+        private readonly EventTicketSupportService supportService;
+
         public QueryEventTicketsHandler(EventTicketLeagueService leagueService,
             EventTicketMatchService matchService,
-            EventTicketOtherService otherService)
+            EventTicketOtherService otherService,
+            EventTicketSupportService supportService)
         {
             this.leagueService = leagueService;
             this.matchService = matchService;
             this.otherService = otherService;
+            this.supportService = supportService;
         }
 
         public async Task<List<TicketDetailBaseViewModel>> Handle(QueryEventTicketsRequest request, CancellationToken cancellationToken)
@@ -46,12 +50,14 @@ namespace OWP.TicketCenter.Handlers
             var ticketLeague = await leagueService.GetAllLeague(request);
             var ticketMatch = await matchService.GetAllMatch(request);
             var ticketOthers = await otherService.GetAllTicketOther(request);
+            var ticketSupport = await supportService.GetAllTicketSupport(request);
 
             var eventTickets = new List<TicketDetailBaseViewModel>();
 
             eventTickets.AddRange(ticketLeague);
             eventTickets.AddRange(ticketMatch);
             eventTickets.AddRange(ticketOthers);
+            eventTickets.AddRange(ticketSupport);
 
             return SortEventTicketByCommentLatestDate(eventTickets);
         }

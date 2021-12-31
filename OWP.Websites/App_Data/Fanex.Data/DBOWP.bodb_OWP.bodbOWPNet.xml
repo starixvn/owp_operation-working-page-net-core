@@ -321,6 +321,7 @@
 		<Setting Key="OWP_TicketCenter_NewTicket_GetEvent" SpName="OWP_TicketCenter_NewTicket_GetEvent" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_TicketCenter_GetTicketType" SpName="OWP_TicketCenter_GetTicketType" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_TicketIssueOther_Create" SpName="OWP_TicketIssueOther_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketIssueSupport_Create" SpName="OWP_TicketIssueSupport_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_TicketIssue_Create" SpName="OWP_TicketIssue_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_TicketIssueMessage_Create" SpName="OWP_TicketIssueMessage_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_TicketIssue_AddManyRecipient" SpName="OWP_TicketIssue_AddManyRecipient" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
@@ -329,12 +330,14 @@
 		<Setting Key="OWP_TicketIssue_RemoveSingleRecipient" SpName="OWP_TicketIssue_RemoveSingleRecipient" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_TicketIssueLeague_Create" SpName="OWP_TicketIssueLeague_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_TicketCenterOther_Get" SpName="OWP_TicketCenterOther_Get" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenterSupport_Get" SpName="OWP_TicketCenterSupport_Get" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_TicketCenterLeague_Get" SpName="OWP_TicketCenterLeague_Get" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_TicketCenterEvent_Get" SpName="OWP_TicketCenterEvent_Get" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_TicketIssue_DeleteRecipient" SpName="OWP_TicketIssue_DeleteRecipient" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_TicketLeagueDetail_Get" SpName="OWP_TicketLeagueDetail_Get" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_TicketMatchDetail_Get" SpName="OWP_TicketMatchDetail_Get" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_TicketOtherDetail_Get" SpName="OWP_TicketOtherDetail_Get" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketSupportDetail_Get" SpName="OWP_TicketSupportDetail_Get" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_TicketCenter_GetRecipientByTicketId" SpName="OWP_TicketCenter_GetRecipientByTicketId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_TicketCreatorDetail_Get" SpName="OWP_TicketCreatorDetail_Get" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_TicketIssueCreator_Create" SpName="OWP_TicketIssueCreator_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
@@ -347,6 +350,7 @@
 		<Setting Key="OWP_TicketCenter_InsertNewTicketLeagueNotification" SpName="OWP_TicketCenter_InsertNewTicketLeagueNotification" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_TicketCenter_InsertNewTicketMatchNotification" SpName="OWP_TicketCenter_InsertNewTicketMatchNotification" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_TicketCenter_InsertNewTicketOtherNotification" SpName="OWP_TicketCenter_InsertNewTicketOtherNotification" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenter_InsertNewTicketSupportNotification" SpName="OWP_TicketCenter_InsertNewTicketSupportNotification" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_TicketCenter_InsertNewRecipientNotification" SpName="OWP_TicketCenter_InsertNewRecipientNotification" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_TicketCenter_InsertNewMessageNotification" SpName="OWP_TicketCenter_InsertNewMessageNotification" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_TicketCenter_UpdateTicketStatus" SpName="OWP_TicketCenter_UpdateTicketStatus" DbName="DBOWP.bodb_OWP.bodbOWPNet" />

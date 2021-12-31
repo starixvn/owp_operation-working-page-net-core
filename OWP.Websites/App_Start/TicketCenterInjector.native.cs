@@ -16,15 +16,22 @@ namespace OWP.Websites.App_Start
             services.AddScoped<Repository, RepositoryImp>();
             services.AddScoped<RecipientService, RecipientServiceImp>();
             services.AddScoped<TicketDetailService, TicketDetailServiceImp>();
+
             services.AddScoped<TicketLeagueDetailService, TicketLeagueDetailServiceImp>();
             services.AddScoped<TicketMatchDetailService, TicketMatchDetailServiceImp>();
             services.AddScoped<TicketOtherDetailService, TicketOtherDetailServiceImp>();
+            services.AddScoped<TicketSupportDetailService, TicketSupportDetailServiceImp>();
+
             services.AddScoped<EventTicketMatchService, EventTicketMatchServiceImp>();
             services.AddScoped<EventTicketOtherService, EventTicketOtherServiceImp>();
             services.AddScoped<EventTicketLeagueService, EventTicketLeagueServiceImp>();
+            services.AddScoped<EventTicketSupportService, EventTicketSupportServiceImp>();
+
             services.AddScoped<NewTicketLeagueMessageDBWriter, NewTicketLeagueMessageDBWriterImp>();
             services.AddScoped<NewTicketMatchMessageDBWriter, NewTicketMatchMessageDBWriterImp>();
             services.AddScoped<NewTicketOtherMessageDBWriter, NewTicketOtherMessageDBWriterImp>();
+            services.AddScoped<NewTicketSupportMessageDBWriter, NewTicketSupportMessageDbWriterImp>();
+
             services.AddScoped<NotificationService, NotificationServiceImp>();
             services.AddScoped<PermissionService, PermissionServiceImp>();
             services.AddScoped<NewRecipientMessageDBWriter, NewRecipientMessageDBWriterImp>();
