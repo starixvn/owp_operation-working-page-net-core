@@ -27,7 +27,7 @@
 
         [Route("get-assignee-pre-match")]
         [HttpPost]
-        public async Task<IActionResult> GetAssigneePreMatch(QueryAssigneeRequest request)
+        public async Task<IActionResult> GetAssigneesPreMatch(QueryAssigneesRequest request)
         {
             var sender = await mediator.Send(request);
             return Ok(JsonConvert.SerializeObject(sender));

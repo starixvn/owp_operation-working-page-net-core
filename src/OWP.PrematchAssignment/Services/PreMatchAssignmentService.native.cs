@@ -2,26 +2,25 @@
 
 namespace OWP.PreMatchAssignment.Services
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
     using AutoMapper;
     using Criteria;
     using Fanex.Caching;
     using Fanex.Data.Repository;
-    using Fanex.NAP.Core.Web.Session;
     using Handlers;
     using Models;
     using Newtonsoft.Json;
     using OWP.PreMatchAssignment.Constants;
     using PrematchAssignment.Criteria;
     using PrematchAssignment.Models;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
     using Utils;
 
     public interface PreMatchAssignmentService
     {
-        Task<IEnumerable<AssigneeQueried>> QueryAssigneePreMatch(int id);
+        Task<IEnumerable<TicketAssignee>> QueryAssigneesByLeagueId(int id);
 
         Task<InfoMatchQueried> GetInfoMatchById(int id);
 
@@ -69,21 +68,25 @@ namespace OWP.PreMatchAssignment.Services
             this.mapper = mapper;
             this.cache = cache;
         }
-        public async Task<IEnumerable<AssigneeQueried>> QueryAssigneePreMatch(int id)
+
+        public async Task<IEnumerable<TicketAssignee>> QueryAssigneesByLeagueId(int id)
         {
             var criteria = new QueryAssigneePreMatchByPreLeagueIdCriteria
             {
                 Id = id
             };
+
             criteria.ThrowExceptionIfInvalid();
-            return await dynamicRepository.FetchAsync<AssigneeQueried>(criteria);
+            return await dynamicRepository.FetchAsync<TicketAssignee>(criteria);
         }
+
         public async Task<InfoMatchQueried> GetInfoMatchById(int id)
         {
             var criteria = new QueryInfoMatchByIdCriteria
             {
                 Id = id
             };
+
             criteria.ThrowExceptionIfInvalid();
             return (await dynamicRepository.FetchAsync<InfoMatchQueried>(criteria)).FirstOrDefault();
         }
