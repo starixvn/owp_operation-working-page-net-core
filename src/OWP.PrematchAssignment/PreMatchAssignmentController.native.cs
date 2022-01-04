@@ -9,7 +9,6 @@
     using PrematchAssignment.Handlers;
     using PreMatchAssignment.Models;
     using System;
-    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     [Route("api/[controller]")]
@@ -43,14 +42,11 @@
 
         [Route("get-working-shift")]
         [HttpGet]
-        public async Task<IEnumerable<WorkingShift>> GetWorkingShift(DateTime date)
+        public async Task<IActionResult> GetWorkingShift(DateTime date)
         {
-            var request = new QueryWorkingShiftRequest
-            {
-                Date = date
-            };
+            var result = await mediator.Send(new QueryWorkingShiftRequest { Date = date });
 
-            return await mediator.Send(request);
+            return Ok(JsonConvert.SerializeObject(result));
         }
 
         [Route("save")]
@@ -63,10 +59,12 @@
 
         [Route("get-log")]
         [HttpGet]
-        public async Task<QueryLogViewModel> QueryLog(int pageSize, int pageNumber, bool isDay)
+        public async Task<IActionResult> QueryLog(int pageSize, int pageNumber, bool isDay)
         {
             var request = new QueryLogRequest { PageSize = pageSize, PageNumber = pageNumber, IsDay = isDay };
-            return await mediator.Send(request);
+            var result = await mediator.Send(request);
+
+            return Ok(JsonConvert.SerializeObject(result));
         }
 
         [Route("get-day-shift")]
@@ -85,34 +83,6 @@
             var result = await mediator.Send(request);
 
             return Ok(JsonConvert.SerializeObject(result));
-        }
-
-        [Route("post-message")]
-        [HttpPost]
-        public async Task<IEnumerable<Message>> PostMessage(PostNewMessageRequest request)
-        {
-            return await mediator.Send(request);
-        }
-
-        [Route("get-message")]
-        [HttpPost]
-        public async Task<IEnumerable<Message>> GetMessage(GetIssueRequest request)
-        {
-            return await mediator.Send(request);
-        }
-
-        [Route("create-issue")]
-        [HttpPost]
-        public async Task<QueryMessagesViewModel> CreateNewIssue(CreateNewIssueRequest request)
-        {
-            return await mediator.Send(request);
-        }
-
-        [Route("query-league-by-id")]
-        [HttpPost]
-        public async Task<QueryPreMatchLeagueViewModel> QueryById(QueryPreMatchLeagueByIdRequest request)
-        {
-            return await mediator.Send(request);
         }
 
         [Route("post-note-message")]
@@ -134,13 +104,6 @@
         public async Task<Note> EditNoteMessage(EditNoteMessageRequest request)
         {
             return await mediator.Send(request);
-        }
-
-        [Route("on-click-issue-notification")]
-        [HttpPost]
-        public async Task OpenChatBoard(OnClickIssueNotificationRequest request)
-        {
-            await mediator.Send(request);
         }
     }
 }
