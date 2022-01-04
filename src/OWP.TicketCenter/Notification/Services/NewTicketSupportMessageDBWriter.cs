@@ -10,11 +10,11 @@ namespace OWP.TicketCenter.Notification.Services
         public Task<string> Execute(MessageTransform message, NotificationTemplateCode code);
     }
 
-    public class NewTicketSupportMessageDbWriterImp : NewTicketSupportMessageDBWriter
+    public class NewTicketSupportMessageDBWriterImp : NewTicketSupportMessageDBWriter
     {
         private readonly Repository repository;
 
-        public NewTicketSupportMessageDbWriterImp(Repository repository)
+        public NewTicketSupportMessageDBWriterImp(Repository repository)
         {
             this.repository = repository;
         }

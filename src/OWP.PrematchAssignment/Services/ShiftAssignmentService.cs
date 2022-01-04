@@ -77,7 +77,6 @@ namespace OWP.PreMatchAssignment.Services
 
         public async Task<QueryPreMatchLeagueViewModel> QueryNightShift(QueryNightShiftPreMatchRequest request)
         {
-            var actorId = currentSession.UserId;
             var startTime = await QueryExistedStartTime(request.EventDate);
 
             var dayShift = await queryAssignmentShift(request, request.StartTime, true);
