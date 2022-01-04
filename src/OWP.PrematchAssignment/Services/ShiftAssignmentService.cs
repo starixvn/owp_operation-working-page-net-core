@@ -80,8 +80,8 @@ namespace OWP.PreMatchAssignment.Services
             var actorId = currentSession.UserId;
             var startTime = await QueryExistedStartTime(request.EventDate);
 
-            var dayShift = await queryAssignmentShift(request, request.StartTime, true, actorId);
-            var nightShiftWithRequestStartTime = await queryAssignmentShift(request, request.StartTime, false, actorId);
+            var dayShift = await queryAssignmentShift(request, request.StartTime, true);
+            var nightShiftWithRequestStartTime = await queryAssignmentShift(request, request.StartTime, false);
             var defaultShift = new DefaultDayAndNightShift
             {
                 DayShift = dayShift,
@@ -93,7 +93,7 @@ namespace OWP.PreMatchAssignment.Services
                 return QueryNightShiftWithoutDBStartTime(defaultShift, startTime);
             }
 
-            return await QueryNightShiftWithDBStartTime(defaultShift, request, startTime, actorId);
+            return await QueryNightShiftWithDBStartTime(defaultShift, request, startTime);
         }
 
         public async Task MapTicketLists(QueryPreMatchLeagueViewModel shiftAssignments, int actorId)
@@ -154,16 +154,16 @@ namespace OWP.PreMatchAssignment.Services
 
            => GetNightShiftResultWithoutDBStartTime(defaultShifts.NightShift, defaultShifts.DayShift, startTime);
 
-        private async Task<QueryPreMatchLeagueViewModel> QueryNightShiftWithDBStartTime(DefaultDayAndNightShift defaultShifts, QueryNightShiftPreMatchRequest request, TimeSpan? startTime, int actorId)
+        private async Task<QueryPreMatchLeagueViewModel> QueryNightShiftWithDBStartTime(DefaultDayAndNightShift defaultShifts, QueryNightShiftPreMatchRequest request, TimeSpan? startTime)
         {
-            var nightShiftWithDBStartTime = await queryAssignmentShift(request, startTime.Value, false, actorId);
+            var nightShiftWithDBStartTime = await queryAssignmentShift(request, startTime.Value, false);
 
             return GetNightShiftResultWithDBStartTime(defaultShifts.NightShift, defaultShifts.DayShift, nightShiftWithDBStartTime);
         }
 
-        private async Task<AssignmentShift> queryAssignmentShift(QueryNightShiftPreMatchRequest request, TimeSpan startTime, bool isDayShift, int actorId)
+        private async Task<AssignmentShift> queryAssignmentShift(QueryNightShiftPreMatchRequest request, TimeSpan startTime, bool isDayShift)
         {
-            var queryCriteria = CreateNightShiftCriteria(request.EventDate, startTime, actorId, isDayShift);
+            var queryCriteria = CreateNightShiftCriteria(request.EventDate, startTime, isDayShift);
             var result = await QueryShift(queryCriteria, request.Employee, request.LeagueName, request.EventDate);
 
             return new AssignmentShift { Leagues = result.Item1, Matches = result.Item2 };
@@ -195,7 +195,7 @@ namespace OWP.PreMatchAssignment.Services
             return result.Any() ? new TimeSpan?(result.FirstOrDefault()) : null;
         }
 
-        private static CriteriaBase CreateNightShiftCriteria(DateTime eventDate, TimeSpan? startTime, int actorId, bool IsDay)
+        private static CriteriaBase CreateNightShiftCriteria(DateTime eventDate, TimeSpan? startTime, bool IsDay)
         {
             var eventToDateTime = eventDate.AddDays(1).AddHours(11).AddMinutes(59).AddSeconds(59);
             var eventToRequestStartTime = CalculateQueryDateTime(startTime.Value, eventDate);
