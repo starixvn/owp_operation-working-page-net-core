@@ -1,4 +1,9 @@
 FROM registry.nexdev.net:5050/docker/dotnet/core/sdk:5.0.102-ca-patch-buster-slim AS builder
+# Install the tools
+RUN dotnet tool install --tool-path /tools dotnet-trace
+RUN dotnet tool install --tool-path /tools dotnet-dump
+RUN dotnet tool install --tool-path /tools dotnet-counters
+
 WORKDIR /src
 
 COPY ./.sonarlint/. ./.sonarlint
@@ -34,6 +39,7 @@ RUN sed -i 's/MinProtocol = TLSv1.2/MinProtocol = TLSv1/g' /usr/lib/ssl/openssl.
 
 WORKDIR /app
 COPY --from=builder /app .
+COPY --from=builder /tools /tools
 
 ENV TZ="America/La_Paz" 
 
