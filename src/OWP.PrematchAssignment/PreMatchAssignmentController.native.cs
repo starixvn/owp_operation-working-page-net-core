@@ -9,7 +9,9 @@
     using PrematchAssignment.Handlers;
     using PreMatchAssignment.Models;
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
+    using PrematchAssignment.Models;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -26,10 +28,9 @@
 
         [Route("get-assignee-pre-match")]
         [HttpPost]
-        public async Task<IActionResult> GetAssigneesPreMatch(QueryAssigneesRequest request)
+        public async Task<IEnumerable<TicketAssignee>> GetAssigneesPreMatch(QueryAssigneesRequest request)
         {
-            var sender = await mediator.Send(request);
-            return Ok(JsonConvert.SerializeObject(sender));
+            return await mediator.Send(request);
         }
 
         [Route("get-info-match")]
