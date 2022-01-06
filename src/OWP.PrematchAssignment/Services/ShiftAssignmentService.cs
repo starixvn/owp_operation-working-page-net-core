@@ -106,13 +106,13 @@ namespace OWP.PreMatchAssignment.Services
             foreach (var league in shiftAssignments.PreMatchLeagues)
             {
                 var leagueTicket = leagueTickets.GetValue(league.LeagueId, new List<TicketLeagueBasicInfo>());
-                league.TicketList = leagueTicket;
+                league.TicketList = leagueTicket.OrderByDescending(x => x.LatestCreatedDate).ToList();
             }
 
             foreach (var match in shiftAssignments.InfoSiteMatches)
             {
                 var matchTicket = matchTickets.GetValue(match.InfoSiteMatchId, new List<TicketMatchBasicInfo>());
-                match.TicketList = matchTicket;
+                match.TicketList = matchTicket.OrderByDescending(x => x.LatestCreatedDate).ToList();
             }
         }
 
