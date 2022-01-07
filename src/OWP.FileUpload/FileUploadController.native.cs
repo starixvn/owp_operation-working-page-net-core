@@ -83,7 +83,8 @@
             var isImage = IsImage(fileExtension);
             var mediaType = GetMediaType(isImage, fileExtension);
 
-            await using var stream = new MemoryStream(file.FileContent);
+            var stream = new MemoryStream(file.FileContent);
+
             return isImage
                 ? File(stream, mediaType)
                 : File(stream, mediaType, file.Title);
