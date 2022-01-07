@@ -6,8 +6,10 @@
     {
         public int InfositeId { get; set; }
 
-        public string Location { get; set; }
-
         public DateTime KOTime { get; set; }
+
+        public int HomeId { get; set; }
+
+        public int AwayId { get; set; }
     }
 }

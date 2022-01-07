@@ -32,7 +32,9 @@
                 KOTime = i.KOTime.ToString(AutoConstant.FormatDateTime),
                 SabaType = GetSabaType(matchsQueried, i.InfositeId),
                 LeagueSettingId = GetMaxBetValue(maxBetInfos, i.InfositeId)?.LeagueSettingId,
-                MaxBet = GetMaxBetValue(maxBetInfos, i.InfositeId)?.MaxBetFTHDP
+                MaxBet = GetMaxBetValue(maxBetInfos, i.InfositeId)?.MaxBetFTHDP,
+                AwayId = i.AwayId,
+                HomeId = i.HomeId
             }).ToList();
         }
 
