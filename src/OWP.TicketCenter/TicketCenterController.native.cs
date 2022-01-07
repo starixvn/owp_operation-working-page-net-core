@@ -51,6 +51,10 @@ namespace OWP.TicketCenter
         public async Task<int> NewTicketIssueOther(NewTicketIssueOtherRequest request)
             => await mediator.Send(request);
 
+        [HttpPost("new-ticket-issue-support")]
+        public async Task<int> NewTicketIssueSupport(NewTicketIssueSupportRequest request)
+            => await mediator.Send(request);
+
         [HttpPost("new-ticket-issue-league")]
         public async Task<int> NewTicketIssueLeague(NewTicketIssueLeagueRequest request)
         => await mediator.Send(request);
@@ -97,6 +101,14 @@ namespace OWP.TicketCenter
         [HttpPost("ticket-detail/get-other")]
         [ServiceFilter(typeof(PermissionFilter))]
         public async Task<IActionResult> GetTicketOtherDetail(TicketOtherDetailRequest request)
+        {
+            var result = await mediator.Send(request);
+            return Ok(result);
+        }
+
+        [HttpPost("ticket-detail/get-support")]
+        [ServiceFilter(typeof(PermissionFilter))]
+        public async Task<IActionResult> GetTicketSupportDetail(TicketSupportDetailRequest request)
         {
             var result = await mediator.Send(request);
             return Ok(result);

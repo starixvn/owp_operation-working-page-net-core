@@ -14,35 +14,34 @@
         public void Read_WithValidExcelStream_ReturnUploadingModel()
         {
             var excelReader = new ExcelReaderImp();
-            var stream = new MemoryStream();
-            using (var excelPackage = new ExcelPackage(stream))
-            {
-                var worksheet = ExcelValidatorUnitTests.GetValidHeaderWorksheet(excelPackage);
+            using var stream = new MemoryStream();
+            using var excelPackage = new ExcelPackage(stream);
 
-                worksheet.Cells[2, 2].Value = "Live";
-                worksheet.Cells[2, 3].Value = "Soccer";
-                worksheet.Cells[2, 4].Value = "12/2/2020  3:30:00 PM";
-                worksheet.Cells[2, 5].Value = "CHINA FOOTBALL SUPER LEAGUE (PLAY OFF)";
-                worksheet.Cells[2, 6].Value = "Dalian Pro FC (N)";
-                worksheet.Cells[2, 7].Value = "Guangzhou R&F";
-                worksheet.Cells[2, 8].Value = "Asian 4";
-                worksheet.Cells[2, 9].Value = "3HDP";
-                worksheet.Cells[2, 10].Value = "15s Accept";
-                worksheet.Cells[2, 11].Value = "YES";
-                worksheet.Cells[2, 12].Value = "TV/BGTV/Glive53";
-                worksheet.Cells[2, 13].Value = "BGtv/RB2tv/BETtv/";
-                worksheet.Cells[2, 14].Value = "InPlay";
-                worksheet.Cells[2, 15].Value = "Euro40";
-                worksheet.Cells[2, 19].Value = "#starix1 note";
-                worksheet.Cells[2, 20].Value = "#starix2 mynote";
-                worksheet.Cells[2, 151].Value = "other note";
-                worksheet.Cells[2, 152].Value = "#starix14 other";
-                worksheet.Cells[2, 159].Value = "50000";
+            using var worksheet = ExcelValidatorUnitTests.GetValidHeaderWorksheet(excelPackage);
 
-                var data = excelPackage.GetAsByteArray();
+            worksheet.Cells[2, 2].Value = "Live";
+            worksheet.Cells[2, 3].Value = "Soccer";
+            worksheet.Cells[2, 4].Value = "12/2/2020  3:30:00 PM";
+            worksheet.Cells[2, 5].Value = "CHINA FOOTBALL SUPER LEAGUE (PLAY OFF)";
+            worksheet.Cells[2, 6].Value = "Dalian Pro FC (N)";
+            worksheet.Cells[2, 7].Value = "Guangzhou R&F";
+            worksheet.Cells[2, 8].Value = "Asian 4";
+            worksheet.Cells[2, 9].Value = "3HDP";
+            worksheet.Cells[2, 10].Value = "15s Accept";
+            worksheet.Cells[2, 11].Value = "YES";
+            worksheet.Cells[2, 12].Value = "TV/BGTV/Glive53";
+            worksheet.Cells[2, 13].Value = "BGtv/RB2tv/BETtv/";
+            worksheet.Cells[2, 14].Value = "InPlay";
+            worksheet.Cells[2, 15].Value = "Euro40";
+            worksheet.Cells[2, 19].Value = "#starix1 note";
+            worksheet.Cells[2, 20].Value = "#starix2 mynote";
+            worksheet.Cells[2, 151].Value = "other note";
+            worksheet.Cells[2, 152].Value = "#starix14 other";
+            worksheet.Cells[2, 159].Value = "50000";
 
-                stream = new MemoryStream(data);
-            }
+            var data = excelPackage.GetAsByteArray();
+
+            using var excelMemoryStream = new MemoryStream(data);
 
             var expected = new UploadingDataFromExcel
             {
@@ -349,7 +348,7 @@
                 Traders = new List<string> { "starix1", "starix2", "starix14" }
             };
 
-            var actual = excelReader.Read(stream);
+            var actual = excelReader.Read(excelMemoryStream);
             DeepAssert.Equal(expected, actual);
         }
     }

@@ -1,5 +1,10 @@
 ﻿namespace OWP.OtherSport.UnitTests.Validation
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Threading;
+    using System.Threading.Tasks;
     using Fanex.NAP.Client.Helpers.Web;
     using NSubstitute;
     using OfficeOpenXml;
@@ -7,11 +12,6 @@
     using OWP.OtherSport.Validation.Exceptions;
     using OWP.OtherSport.Validation.Models;
     using OWP.OtherSport.Validation.Services;
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Threading;
-    using System.Threading.Tasks;
     using Xunit;
     using Xunit.Asserts.Compare;
 
@@ -21,7 +21,8 @@
         public async Task Handle_ExcelHeaderIsInvalid_ReturnsCriticalValidationExceptionMessage()
         {
             // Arrange            
-            var request = new ValidationHandler.Request { Stream = MockFileStream() };
+            await using var stream = MockFileStream();
+            var request = new ValidationHandler.Request { Stream = stream };
             var exception = new InvalidExcelFormatException();
             var handler = MockHandler(request, exception);
 
@@ -42,7 +43,7 @@
                 {
                 Message = "Invalid abc",
                 Row = 1
-                } 
+                }
             };
             var exception = new InvalidAssignmentRowException(validationResult);
             var handler = MockHandler(request, exception);
@@ -74,9 +75,9 @@
 
         private static Stream MockFileStream()
         {
-            var stream = new MemoryStream();
+            using var stream = new MemoryStream();
             using var excelPackage = new ExcelPackage(stream);
-            var worksheet = excelPackage.Workbook.Worksheets.Add("Sheet0");
+            using var worksheet = excelPackage.Workbook.Worksheets.Add("Sheet0");
 
             worksheet.Cells[1, 1].Value = "Match Status";
             worksheet.Cells[1, 2].Value = "Sport";

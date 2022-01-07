@@ -24,9 +24,9 @@
         {
             stream.Seek(0, SeekOrigin.Begin);
 
-            using var package = new ExcelPackage(stream);
-            var sheet = package.Workbook.Worksheets.First();
-            var assignments = sheet.ReadAllAssignments(StartRow).ToList();
+            using var excelPackage = new ExcelPackage(stream);
+            using var worksheet = excelPackage.Workbook.Worksheets.First();
+            var assignments = worksheet.ReadAllAssignments(StartRow).ToList();
 
             return new UploadingDataFromExcel
             {

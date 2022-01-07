@@ -12,10 +12,10 @@
         public void Validate_WithExcelStreamExceeds5000Records_ThrowDataLengthExceedsMaximumException()
         {
             var excelValidator = new ExcelValidatorImp();
-            var stream = new MemoryStream();
+            using var stream = new MemoryStream();
 
             using var excelPackage = new ExcelPackage(stream);
-            var worksheet = excelPackage.Workbook.Worksheets.Add("Sheet0");
+            using var worksheet = excelPackage.Workbook.Worksheets.Add("Sheet0");
 
             worksheet.Cells[1, 1].Value = "Match Status";
             worksheet.Cells[1, 2].Value = "Sport";
@@ -35,19 +35,19 @@
             }
 
             var data = excelPackage.GetAsByteArray();
-            stream = new MemoryStream(data);
+            using var excelMemoryStream = new MemoryStream(data);
 
-            Assert.Throws<DataLengthExceedsMaximumException>(() => excelValidator.Validate(stream));
+            Assert.Throws<DataLengthExceedsMaximumException>(() => excelValidator.Validate(excelMemoryStream));
         }
 
         [Fact]
         public void Validate_WithNotEnoughHeaders_ThrowInvalidExcelFormatException()
         {
             var excelValidator = new ExcelValidatorImp();
-            var stream = new MemoryStream();
+            using var stream = new MemoryStream();
 
             using var excelPackage = new ExcelPackage(stream);
-            var worksheet = excelPackage.Workbook.Worksheets.Add("Sheet0");
+            using var worksheet = excelPackage.Workbook.Worksheets.Add("Sheet0");
 
             worksheet.Cells[1, 1].Value = "Match Status";
             worksheet.Cells[1, 2].Value = "Sport";
@@ -57,38 +57,37 @@
             worksheet.Cells[1, 6].Value = "Away";
 
             var data = excelPackage.GetAsByteArray();
-            stream = new MemoryStream(data);
+            using var excelMemoryStream = new MemoryStream(data);
 
-            Assert.Throws<InvalidExcelFormatException>(() => excelValidator.Validate(stream));
+            Assert.Throws<InvalidExcelFormatException>(() => excelValidator.Validate(excelMemoryStream));
         }
 
         [Fact]
         public void Validate_WithErrorCellValue_ThrowInvalidExcelCellFormatException()
         {
             var excelValidator = new ExcelValidatorImp();
-            var stream = new MemoryStream();
+            using var stream = new MemoryStream();
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
             using var excelPackage = new ExcelPackage(stream);
-            var worksheet = GetValidHeaderWorksheet(excelPackage);
+            using var worksheet = GetValidHeaderWorksheet(excelPackage);
 
             worksheet.Cells[2, 41].Formula = "B4/C4";
             worksheet.Cells[2, 41].Calculate();
 
             var data = excelPackage.GetAsByteArray();
-            stream = new MemoryStream(data);
+            using var excelMemoryStream = new MemoryStream(data);
 
-            Assert.Throws<InvalidExcelCellFormatException>(() => excelValidator.Validate(stream));
+            Assert.Throws<InvalidExcelCellFormatException>(() => excelValidator.Validate(excelMemoryStream));
         }
 
         [Fact]
         public void Validate_WithAllValidCellValue_DoesNotThrowException()
         {
             var excelValidator = new ExcelValidatorImp();
-            var stream = new MemoryStream();
-            //ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            using var stream = new MemoryStream();
             using var excelPackage = new ExcelPackage(stream);
-            var worksheet = GetValidHeaderWorksheet(excelPackage);
+            using var worksheet = GetValidHeaderWorksheet(excelPackage);
 
             worksheet.Cells[2, 2].Value = "Live";
             worksheet.Cells[2, 3].Value = "Soccer";
@@ -110,9 +109,9 @@
             worksheet.Cells[2, 159].Value = "50000";
 
             var data = excelPackage.GetAsByteArray();
-            stream = new MemoryStream(data);
+            using var excelMemoryStream = new MemoryStream(data);
 
-            var exception = Record.Exception(() => excelValidator.Validate(stream));
+            var exception = Record.Exception(() => excelValidator.Validate(excelMemoryStream));
             Assert.Null(exception);
         }
 

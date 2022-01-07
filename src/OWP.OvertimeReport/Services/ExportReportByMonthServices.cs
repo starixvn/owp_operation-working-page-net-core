@@ -1,10 +1,5 @@
 ﻿namespace OWP.OvertimeReport.Services
 {
-    using Constants;
-    using Extensions;
-    using Models;
-    using OfficeOpenXml;
-    using OfficeOpenXml.Style;
     using System;
     using System.Collections.Generic;
     using System.Data;
@@ -12,6 +7,11 @@
     using System.Globalization;
     using System.Linq;
     using System.Threading.Tasks;
+    using Constants;
+    using Extensions;
+    using Models;
+    using OfficeOpenXml;
+    using OfficeOpenXml.Style;
 
     public interface ExportReportByMonthServices
     {
@@ -22,13 +22,13 @@
     {
         private readonly ReportByMonthServices reportService;
 
-        private ExcelPackage ExcelPackage { get; set; }
+        private ExcelPackage excelPackage;
 
-        private ExcelWorksheet ReportSheet { get; set; }
+        private ExcelWorksheet reportSheet;
 
-        private int TotalColIndex { get; set; }
+        private int totalColumnIndex;
 
-        private int DateColumnNumber { get; set; }
+        private int dateColumnNumber;
 
         public ExportReportByMonthServicesImp(ReportByMonthServices reportService)
         {
@@ -43,35 +43,35 @@
             BuildHeaderInfo(model.DateColumns.ToList());
             BuildReportBody(model);
 
-            return ExcelPackage;
+            return excelPackage;
         }
 
         public void BuildTemplate(OverTimeRequest request)
         {
             var monthYearInString = new DateTime(request.Year, request.Month, 1).ToString("MMM-yyyy");
-            ExcelPackage = new ExcelPackage();
-            ReportSheet = ExcelPackage.Workbook.Worksheets.Add(monthYearInString);
-            ReportSheet.View.FreezePanes(3, 4);
-            ReportSheet.Column(UserColConst.TraderColIndex).Width = 20;
+            excelPackage = new ExcelPackage();
+            reportSheet = excelPackage.Workbook.Worksheets.Add(monthYearInString);
+            reportSheet.View.FreezePanes(3, 4);
+            reportSheet.Column(UserColConst.TraderColIndex).Width = 20;
         }
 
         public void BuildHeaderInfo(List<DateColumnInfo> dateColumns)
         {
-            DateColumnNumber = dateColumns.Count;
-            TotalColIndex = ExcelConst.StartDataColIndex + DateColumnNumber;
+            dateColumnNumber = dateColumns.Count;
+            totalColumnIndex = ExcelConst.StartDataColIndex + dateColumnNumber;
             SetHeaderStyle();
 
-            ReportSheet.Cells[ExcelConst.HeaderRowIndex, UserColConst.NoColIndex].Value = UserColConst.NoColName;
-            ReportSheet.Cells[ExcelConst.HeaderRowIndex, UserColConst.LocationColIndex].Value = UserColConst.LocationColName;
-            ReportSheet.Cells[ExcelConst.HeaderRowIndex, UserColConst.TraderColIndex].Value = UserColConst.TraderColName;
-            ReportSheet.Cells[ExcelConst.HeaderRowIndex, TotalColIndex].Value = UserColConst.TotalColName;
+            reportSheet.Cells[ExcelConst.HeaderRowIndex, UserColConst.NoColIndex].Value = UserColConst.NoColName;
+            reportSheet.Cells[ExcelConst.HeaderRowIndex, UserColConst.LocationColIndex].Value = UserColConst.LocationColName;
+            reportSheet.Cells[ExcelConst.HeaderRowIndex, UserColConst.TraderColIndex].Value = UserColConst.TraderColName;
+            reportSheet.Cells[ExcelConst.HeaderRowIndex, totalColumnIndex].Value = UserColConst.TotalColName;
 
-            for (var i = 0; i < DateColumnNumber; i++)
+            for (var i = 0; i < dateColumnNumber; i++)
             {
                 var dateColumn = dateColumns[i];
                 var colIndex = i + ExcelConst.StartDataColIndex;
-                ReportSheet.Cells[1, colIndex].Value = dateColumn.DayOfWeek;
-                ReportSheet.Cells[2, colIndex].Value = dateColumn.Date;
+                reportSheet.Cells[1, colIndex].Value = dateColumn.DayOfWeek;
+                reportSheet.Cells[2, colIndex].Value = dateColumn.Date;
 
                 if (dateColumn.IsWeekend)
                 {
@@ -100,11 +100,11 @@
 
         public void BuildUserInfo(TraderOvertime traderOvertime, int rowIndex, int i)
         {
-            ReportSheet.Cells[rowIndex, UserColConst.NoColIndex].Value = i + 1;
-            ReportSheet.Cells[rowIndex, UserColConst.LocationColIndex].Value = traderOvertime.Location ?? "-";
-            ReportSheet.Cells[rowIndex, UserColConst.TraderColIndex].Value = traderOvertime.Trader;
-            ReportSheet.Cells[rowIndex, TotalColIndex].Value = FormatHour(traderOvertime.Total);
-            SetTotalStyle(rowIndex, TotalColIndex);
+            reportSheet.Cells[rowIndex, UserColConst.NoColIndex].Value = i + 1;
+            reportSheet.Cells[rowIndex, UserColConst.LocationColIndex].Value = traderOvertime.Location ?? "-";
+            reportSheet.Cells[rowIndex, UserColConst.TraderColIndex].Value = traderOvertime.Trader;
+            reportSheet.Cells[rowIndex, totalColumnIndex].Value = FormatHour(traderOvertime.Total);
+            SetTotalStyle(rowIndex, totalColumnIndex);
         }
 
         public void BuildOvertimeData(Dictionary<string, OverTimeInfo> overtimes, int rowIndex, List<DateColumnInfo> dateColumns)
@@ -113,20 +113,20 @@
             {
                 var colIndex = i + ExcelConst.StartDataColIndex;
                 var overtime = overtimes.GetValue(dateColumns[i].Date, new OverTimeInfo());
-                ReportSheet.Cells[rowIndex, colIndex].Value = FormatHour(overtime.Hour);
-                ReportSheet.Cells[rowIndex, colIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+                reportSheet.Cells[rowIndex, colIndex].Value = FormatHour(overtime.Hour);
+                reportSheet.Cells[rowIndex, colIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
 
                 if (overtime.IsOffDay)
                 {
-                    ReportSheet.Cells[rowIndex, colIndex].Style.Font.Color.SetColor(ColorConst.OffDay);
+                    reportSheet.Cells[rowIndex, colIndex].Style.Font.Color.SetColor(ColorConst.OffDay);
                 }
             }
         }
 
         private void BuildTotalHours(decimal totalHours, int footerRowIndex)
         {
-            ReportSheet.Cells[footerRowIndex, TotalColIndex].Value = FormatHour(totalHours);
-            SetTotalStyle(footerRowIndex, TotalColIndex);
+            reportSheet.Cells[footerRowIndex, totalColumnIndex].Value = FormatHour(totalHours);
+            SetTotalStyle(footerRowIndex, totalColumnIndex);
         }
 
         private void BuildTotalHoursByDate(List<decimal> totalHoursByDate, int footerRowIndex)
@@ -134,7 +134,7 @@
             for (var i = 0; i < totalHoursByDate.Count; i++)
             {
                 var colIndex = i + ExcelConst.StartDataColIndex;
-                ReportSheet.Cells[footerRowIndex, colIndex].Value = FormatHour(totalHoursByDate[i]);
+                reportSheet.Cells[footerRowIndex, colIndex].Value = FormatHour(totalHoursByDate[i]);
                 SetTotalStyle(footerRowIndex, colIndex);
             }
         }
@@ -142,15 +142,15 @@
         private void SetTotalStyle(int rowIndex, int colIndex)
         {
             SetBackgroundColor(rowIndex, colIndex, ColorConst.TotalBackground);
-            ReportSheet.Cells[rowIndex, colIndex].Style.Font.Bold = true;
-            ReportSheet.Cells[rowIndex, colIndex].Style.Font.Color.SetColor(ColorConst.TotalText);
-            ReportSheet.Cells[rowIndex, colIndex].Style.Border.BorderAround(ExcelBorderStyle.Thin, ColorConst.HeaderBorder);
-            ReportSheet.Cells[rowIndex, colIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+            reportSheet.Cells[rowIndex, colIndex].Style.Font.Bold = true;
+            reportSheet.Cells[rowIndex, colIndex].Style.Font.Color.SetColor(ColorConst.TotalText);
+            reportSheet.Cells[rowIndex, colIndex].Style.Border.BorderAround(ExcelBorderStyle.Thin, ColorConst.HeaderBorder);
+            reportSheet.Cells[rowIndex, colIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
         }
 
         private void SetHeaderStyle()
         {
-            for (var i = 1; i <= TotalColIndex; i++)
+            for (var i = 1; i <= totalColumnIndex; i++)
             {
                 SetStyleHeaderStyle(ExcelConst.HeaderRowIndex, i, ColorConst.Header);
                 SetStyleHeaderStyle(ExcelConst.DayOfWeekRowIndex, i, ColorConst.Header);
@@ -160,18 +160,18 @@
 
         private void SetStyleHeaderStyle(int rowIndex, int colIndex, Color color)
         {
-            ReportSheet.Cells[rowIndex, colIndex].Style.Fill.PatternType = ExcelFillStyle.Solid;
-            ReportSheet.Cells[rowIndex, colIndex].Style.Fill.BackgroundColor.SetColor(color);
-            ReportSheet.Cells[rowIndex, colIndex].Style.Font.Bold = true;
-            ReportSheet.Cells[rowIndex, colIndex].Style.Border.BorderAround(ExcelBorderStyle.Thin, ColorConst.HeaderBorder);
-            ReportSheet.Cells[rowIndex, colIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            reportSheet.Cells[rowIndex, colIndex].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            reportSheet.Cells[rowIndex, colIndex].Style.Fill.BackgroundColor.SetColor(color);
+            reportSheet.Cells[rowIndex, colIndex].Style.Font.Bold = true;
+            reportSheet.Cells[rowIndex, colIndex].Style.Border.BorderAround(ExcelBorderStyle.Thin, ColorConst.HeaderBorder);
+            reportSheet.Cells[rowIndex, colIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
         }
 
         private void SetBackgroundColor(int rowIndex, int colIndex, Color color)
         {
-            ReportSheet.Cells[rowIndex, colIndex].Style.Fill.PatternType = ExcelFillStyle.Solid;
-            ReportSheet.Cells[rowIndex, colIndex].Style.Fill.BackgroundColor.SetColor(color);
-            ReportSheet.Cells[rowIndex, colIndex].Style.Border.BorderAround(ExcelBorderStyle.Thin, ColorConst.Header);
+            reportSheet.Cells[rowIndex, colIndex].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            reportSheet.Cells[rowIndex, colIndex].Style.Fill.BackgroundColor.SetColor(color);
+            reportSheet.Cells[rowIndex, colIndex].Style.Border.BorderAround(ExcelBorderStyle.Thin, ColorConst.Header);
         }
 
         private string FormatHour(decimal hour)

@@ -1,6 +1,5 @@
 ﻿namespace OWP.OtherSport.Validation.Services
 {
-    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -20,11 +19,11 @@
         {
             stream.Seek(0, SeekOrigin.Begin);
 
-            using var package = new ExcelPackage(stream);
-            var sheet = package.Workbook.Worksheets.First();
-            ValidateDataLength(sheet);
-            ValidateHeaders(sheet);
-            ValidateCellValues(sheet);
+            using var excelPackage = new ExcelPackage(stream);
+            using var worksheet = excelPackage.Workbook.Worksheets.First();
+            ValidateDataLength(worksheet);
+            ValidateHeaders(worksheet);
+            ValidateCellValues(worksheet);
         }
 
         private static void ValidateDataLength(ExcelWorksheet sheet)

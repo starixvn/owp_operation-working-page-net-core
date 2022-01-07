@@ -1,5 +1,5 @@
-using OWP.TicketCenter;
 using OWP.FileUpload;
+using OWP.TicketCenter;
 using OWP.TicketCenter.Hubs;
 namespace OWP.Websites
 {
@@ -38,8 +38,8 @@ namespace OWP.Websites
     using ONEbook.UM.Transport;
     using OtherSport;
     using OvertimeReport;
-    using TicketCenter= OWP.TicketCenter;
     using OWP.OtherSport.Hubs;
+    using PreMatchAssignment;
     using PreMatchNotification;
     using RecipientGroup;
     using Sentry;
@@ -52,6 +52,7 @@ namespace OWP.Websites
     using System.Reflection;
     using System.Threading.Tasks;
     using TicketTypeRecipient;
+    using TicketCenter = OWP.TicketCenter;
 
     public partial class Startup
     {
@@ -165,6 +166,7 @@ namespace OWP.Websites
             services.InjectTicketCenterService();
             services.InjectOvertimeReport();
             services.InjectAutoAssignmentService();
+            services.InjectPreMatchAssignmentService();
         }
 
         private void ConfigureNapServices(IServiceCollection services)
@@ -237,6 +239,7 @@ namespace OWP.Websites
             });
             services.AddSingleton<NewDataUploadNotifyHubImp>();
             services.AddSingleton<TicketCenterNotifyHubImp>();
+            services.AddSingleton<PreMatchNotifyHubImp>();
         }
         private static void ConfigureMediator(IServiceCollection services)
         {
@@ -249,6 +252,7 @@ namespace OWP.Websites
             services.AddMediatR(typeof(FileUploadController).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(TicketTypeRecipientController).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(OvertimeReportController).GetTypeInfo().Assembly);
+            services.AddMediatR(typeof(PreMatchAssignmentController).GetTypeInfo().Assembly);
         }
 
         private static void InitializeSimpleDataApiModule(IServiceCollection services)
@@ -266,6 +270,7 @@ namespace OWP.Websites
                 mc.AddProfile(new TicketCenter.AutoMapperProfile());
                 mc.AddProfile(new OvertimeReport.AutoMapperProfile());
                 mc.AddProfile(new AutoAssignment.AutoMapperProfile());
+                mc.AddProfile(new PrematchAssignment.AutoMapperProfile());
             });
 
             IMapper mapper = mapperConfig.CreateMapper();

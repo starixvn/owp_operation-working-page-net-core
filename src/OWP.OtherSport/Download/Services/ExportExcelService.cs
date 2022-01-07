@@ -22,7 +22,7 @@
 
         private readonly BuildExcelModelService buildExcelModelService;
 
-        private ExcelPackage excelPackage { get; set; }
+        private ExcelPackage excelPackage;
 
         private ExcelWorksheet reportSheet;
 
@@ -37,11 +37,11 @@
         public async Task<ExcelPackage> CreateExcelPackage(DownloadAssignmentRequest request)
         {
             var templatePath = @$"App_Data{Path.DirectorySeparatorChar}Templates{Path.DirectorySeparatorChar}ExportOSAssignmentTemplate.xlsx";
-            var absolutedTemplatePath = $"{configurationService.CurrentDirectory}{Path.DirectorySeparatorChar}{templatePath}";
+            var absoluteTemplatePath = $"{configurationService.CurrentDirectory}{Path.DirectorySeparatorChar}{templatePath}";
 
             var model = await buildExcelModelService.BuildExcelModel(request);
 
-            return CreateExcelPackage(absolutedTemplatePath, model);
+            return CreateExcelPackage(absoluteTemplatePath, model);
         }
 
         public ExcelPackage CreateExcelPackage(string templatePath, ExcelModel model)
@@ -54,11 +54,10 @@
 
         public void LoadTemplate(string templatePath)
         {
-            using (var stream = new FileStream(templatePath, FileMode.Open, FileAccess.Read))
-            {
-                excelPackage = new ExcelPackage(stream);
-                reportSheet = excelPackage.Workbook.Worksheets.Copy(ExcelConst.TemplateName, ExcelConst.SheetName);
-            }
+            using var stream = new FileStream(templatePath, FileMode.Open, FileAccess.Read);
+
+            excelPackage = new ExcelPackage(stream);
+            reportSheet = excelPackage.Workbook.Worksheets.Copy(ExcelConst.TemplateName, ExcelConst.SheetName);
         }
 
         public void BuildLAReportBody(ExcelModel model)

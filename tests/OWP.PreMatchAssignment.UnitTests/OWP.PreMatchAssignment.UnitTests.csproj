@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Services\NotificationServiceUnitTests.cs" />
+  </ItemGroup>
+<ItemGroup>
+	<PackageReference Include="CompareNETObjects" Version="4.73.0" />
+	<PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
+	<PackageReference Include="NSubstitute" Version="4.2.2" />
+	<PackageReference Include="xunit" Version="2.4.1" />
+	<PackageReference Include="Xunit.Asserts.Compare" Version="1.0.0.5" />
+	<PackageReference Include="xunit.runner.visualstudio" Version="2.4.3" />
+</ItemGroup>
+<ItemGroup>
+  <ProjectReference Include="..\..\src\OWP.PrematchAssignment\OWP.PrematchAssignment.csproj" />
+</ItemGroup>
+</Project>

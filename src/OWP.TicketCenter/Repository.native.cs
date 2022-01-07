@@ -24,6 +24,8 @@ namespace OWP.TicketCenter
 
         Task AddNewTicketIssueOther(NewTicketIssueOtherRequest request);
 
+        Task AddNewTicketIssueSupport(NewTicketIssueSupportRequest request);
+
         Task<MessageDetailViewModel> AddNewMessage(NewMessageRequestModel message);
 
         Task AddManyRecipients(AddManyRecipientCriteria criteria);
@@ -31,6 +33,8 @@ namespace OWP.TicketCenter
         Task AddNewTicketIssueLeague(NewTicketIssueLeagueRequest request);
 
         Task<IEnumerable<EventTicketOtherModel>> GetEventTicketOther(QueryEventTicketsRequest request);
+
+        Task<IEnumerable<EventTicketSupportModel>> GetEventTicketSupport(QueryEventTicketsRequest request);
 
         Task<IEnumerable<EventTicketLeagueModel>> GetEventTicketLeague(QueryEventTicketsRequest request);
 
@@ -41,6 +45,8 @@ namespace OWP.TicketCenter
         Task<IEnumerable<EventTicketLeagueModel>> GetTicketLeagueDetail(int ticketId);
 
         Task<IEnumerable<EventTicketOtherModel>> GetTicketOtherDetail(int ticketId);
+
+        Task<IEnumerable<EventTicketSupportModel>> GetTicketSupportDetail(int ticketId);
 
         Task<IEnumerable<RecipientResponseModel>> GetRecipientByTicketId(int ticketId);
 
@@ -69,6 +75,8 @@ namespace OWP.TicketCenter
         Task InsertNewTicketMatchNotification(InsertNewTicketMatchNotificationCriteria criteria);
 
         Task InsertNewTicketOtherNotification(InsertNewTicketOtherNotificationCriteria criteria);
+
+        Task InsertNewTicketSupportNotification(InsertNewTicketSupportNotificationCriteria criteria);
 
         Task InsertNewRecipientNotification(InsertNewRecipientNotificationCriteria criteria);
 
@@ -126,6 +134,13 @@ namespace OWP.TicketCenter
         public async Task AddNewTicketIssueOther(NewTicketIssueOtherRequest request)
         {
             var criteria = mapper.Map<AddNewTicketIssueOtherCriteria>(request);
+            criteria.ThrowExceptionIfInvalid();
+            await dynamicRepository.ExecuteAsync(criteria);
+        }
+
+        public async Task AddNewTicketIssueSupport(NewTicketIssueSupportRequest request)
+        {
+            var criteria = mapper.Map<AddNewTicketIssueSupportCriteria>(request);
             criteria.ThrowExceptionIfInvalid();
             await dynamicRepository.ExecuteAsync(criteria);
         }
@@ -210,6 +225,13 @@ namespace OWP.TicketCenter
             return await dynamicRepository.FetchAsync<EventTicketOtherModel>(criteria);
         }
 
+        public async Task<IEnumerable<EventTicketSupportModel>> GetEventTicketSupport(QueryEventTicketsRequest request)
+        {
+            var criteria = mapper.Map<GetEventTicketSupportCriteria>(request);
+            criteria.ThrowExceptionIfInvalid();
+            return await dynamicRepository.FetchAsync<EventTicketSupportModel>(criteria);
+        }
+
         public async Task<IEnumerable<EventTicketLeagueModel>> GetEventTicketLeague(QueryEventTicketsRequest request)
         {
             var criteria = mapper.Map<GetEventTicketLeagueCriteria>(request);
@@ -245,6 +267,16 @@ namespace OWP.TicketCenter
             };
             criteria.ThrowExceptionIfInvalid();
             return await dynamicRepository.FetchAsync<EventTicketOtherModel>(criteria);
+        }
+
+        public async Task<IEnumerable<EventTicketSupportModel>> GetTicketSupportDetail(int ticketId)
+        {
+            var criteria = new TicketDetailSupportCriteria
+            {
+                TicketId = ticketId
+            };
+            criteria.ThrowExceptionIfInvalid();
+            return await dynamicRepository.FetchAsync<EventTicketSupportModel>(criteria);
         }
 
         public async Task<IEnumerable<RecipientResponseModel>> GetRecipientByTicketId(int ticketId)
@@ -290,6 +322,10 @@ namespace OWP.TicketCenter
 
         public async Task InsertNewTicketOtherNotification(InsertNewTicketOtherNotificationCriteria criteria)
             => await dynamicRepository.ExecuteAsync(criteria);
+
+        public async Task InsertNewTicketSupportNotification(InsertNewTicketSupportNotificationCriteria criteria)
+            => await dynamicRepository.ExecuteAsync(criteria);
+        
 
         public async Task InsertNewRecipientNotification(InsertNewRecipientNotificationCriteria criteria)
             => await dynamicRepository.ExecuteAsync(criteria);
