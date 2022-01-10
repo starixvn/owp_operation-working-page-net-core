@@ -12,6 +12,6 @@ namespace OWP.TicketCenter.Criteria
 
         public override string GetSettingKey() => "OWP_TicketCenter_UpdateTicketStatus";
 
-        public override bool IsValid() => TicketId > 0;
+        public override bool IsValid() => TicketId > 0 && ModifiedBy > 0;
     }
 }
