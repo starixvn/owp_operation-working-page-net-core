@@ -2,6 +2,7 @@
 using OWP.PreMatchAssignment.Constants;
 using OWP.PreMatchAssignment.Models;
 using OWP.PreMatchAssignment.Services;
+using OWP.Services;
 using System;
 using System.Linq;
 using System.Threading;
@@ -18,20 +19,20 @@ namespace OWP.PreMatchAssignment.Handlers
         public TimeSpan? StartTime { get; set; }
 
         public DateTime Date { get; set; }
+
+        public string NetCoreUrl { get; set; }
     }
 
     public class UpdateHandler : IRequestHandler<UpdateLeagueAssignmentRequest>
     {
         private readonly PreMatchAssignmentService preMatchAssignmentService;
 
-       // private readonly IHttpHandler httpHandler;
+        private readonly IHttpHandler httpHandler;
 
-        public UpdateHandler(
-            PreMatchAssignmentService preMatchAssignmentService
-        )
+        public UpdateHandler(PreMatchAssignmentService preMatchAssignmentService, IHttpHandler httpHandler)
         {
             this.preMatchAssignmentService = preMatchAssignmentService;
-            //this.httpHandler = httpHandler;
+            this.httpHandler = httpHandler;
         }
 
         public async Task<Unit> Handle(UpdateLeagueAssignmentRequest request, CancellationToken cancellationToken)
@@ -44,9 +45,7 @@ namespace OWP.PreMatchAssignment.Handlers
             var preMatchLeagueIdUpdated = request.PrematchUpdated.Select(item => item.PreMatchLeagueId).ToList();
             await preMatchAssignmentService.SaveOldPreMatchAssignment(preMatchLeagueIdUpdated);
             await preMatchAssignmentService.Update(request);
-
-            // TODO
-            //var requestLink = $"{AppSettings.NetCoreIP}/api/PreMatchNotification/notify-assignment?redisKey={RedisKey.KEY_PREMATCH_ASSIGNMENT_OLD_VALUE_SNAPSHOT}";
+            var requestLink = $"{request.NetCoreUrl}/api/PreMatchNotification/notify-assignment?redisKey={RedisKey.KEY_PREMATCH_ASSIGNMENT_OLD_VALUE_SNAPSHOT}";
 
             var fromDateGmt8 = DateTime.Today.AddHours(12);
             var toDateGmt8 = DateTime.Today.AddDays(1).AddHours(11).AddMinutes(59);
@@ -56,7 +55,7 @@ namespace OWP.PreMatchAssignment.Handlers
             if (requestDateGmt8 > fromDateGmt8
                 && requestDateGmt8 <= toDateGmt8)
             {
-                //await httpHandler.GetAsync(requestLink);
+                await httpHandler.GetAsync(requestLink);
             }
 
             return Unit.Value;

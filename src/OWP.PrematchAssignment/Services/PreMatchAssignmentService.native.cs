@@ -30,20 +30,6 @@ namespace OWP.PreMatchAssignment.Services
 
         Task UpdateStartTime(UpdateLeagueAssignmentRequest request);
 
-        Task<IEnumerable<Message>> QueryIssueMessages(int preMatchIssueId, bool isShowAllMessage);
-
-        Task<IEnumerable<Message>> QueryIssueMessagesAfterInsert(int? owpLeagueId, int? infoSiteMatchId);
-
-        Task CreateNewIssue(CreateNewIssueRequest request);
-
-        Task PostNewMessage(PostNewMessageRequest request);
-
-        Task<QueryPreMatchLeagueViewModel> QueryById(QueryPreMatchLeagueByIdRequest request);
-
-        Task<IList<string>> QueryNotificationReceivers(int preMatchIssueId);
-
-        Task<PreMatchIssueInfo> QueryPreMatchIssueInfo(int preMatchIssueId);
-
         Task SaveOldPreMatchAssignment(List<int> preMatchId);
     }
 
@@ -129,109 +115,6 @@ namespace OWP.PreMatchAssignment.Services
                 ActorId = currentSession.UserId
             };
             await dynamicRepository.ExecuteAsync(updateStartTimeCriteria);
-        }
-
-        public async Task<IEnumerable<Message>> QueryIssueMessages(int preMatchIssueId, bool isShowAllMessage)
-        {
-            var criteria = new QueryIssueMessagesCriteria
-            {
-                PreMatchIssueId = preMatchIssueId,
-                ActorId = currentSession.UserId
-            };
-
-            var result = await dynamicRepository.FetchMultipleAsync<Message, DateTime>(criteria);
-            var messageList = isShowAllMessage
-                              ? result.Item1.ToList()
-                              : ShowMessageIn24Hours(result.Item1, result.Item2.FirstOrDefault());
-
-            return messageList;
-        }
-
-        public static IEnumerable<Message> ShowMessageIn24Hours(IEnumerable<Message> data, DateTime currentTime)
-        {
-            var last24Hours = currentTime.AddHours(-24);
-            return data.Where(x => x.CreatedDate >= last24Hours);
-        }
-
-        public async Task<IEnumerable<Message>> QueryIssueMessagesAfterInsert(int? owpLeagueId, int? infoSiteMatchId)
-        {
-            var criteria = new QueryIssueMessagesAfterInsertCriteria
-            {
-                InfoSiteMatchId = infoSiteMatchId,
-                OWPLeagueId = owpLeagueId,
-                ActorId = currentSession.UserId
-            };
-
-            return await dynamicRepository.FetchAsync<Message>(criteria);
-        }
-
-        public async Task CreateNewIssue(CreateNewIssueRequest request)
-        {
-            var criteria = new InsertNewIssueCriteria
-            {
-                ActorId = currentSession.UserId,
-                InfoSiteMatchId = request.InfoSiteMatchId,
-                Message = request.Message,
-                OWPLeagueId = request.OWPLeagueId,
-                FileId = request.FileId
-            };
-
-            await dynamicRepository.ExecuteAsync(criteria);
-        }
-
-        public async Task PostNewMessage(PostNewMessageRequest request)
-        {
-            var criteria = new InsertNewMessageCriteria
-            {
-                ActorId = currentSession.UserId,
-                Message = request.Message,
-                PreMatchIssueId = request.PreMatchIssueId,
-                FileId = request.FileId
-            };
-
-            await dynamicRepository.ExecuteAsync(criteria);
-        }
-
-        public async Task<QueryPreMatchLeagueViewModel> QueryById(QueryPreMatchLeagueByIdRequest request)
-        {
-            var criteria = new QueryByPreMatchLeagueIdCriteria
-            {
-                ActorId = currentSession.UserId,
-                PreMatchLeagueId = request.PreMatchLeagueId,
-                StartTime = request.StartTime
-            };
-
-            var result = await dynamicRepository.FetchMultipleAsync<PreMatchLeague, InfoSiteMatch>(criteria);
-
-            var viewModel = new QueryPreMatchLeagueViewModel
-            {
-                InfoSiteMatches = result.Item2,
-                PreMatchLeagues = mapper.Map<IList<LeagueAssignment>>(result.Item1)
-            };
-            return viewModel;
-        }
-
-        public async Task<IList<string>> QueryNotificationReceivers(int preMatchIssueId)
-        {
-            var criteria = new GetNotificationReceiversCriteria
-            {
-                ActorId = currentSession.UserId,
-                PreMatchIssueId = preMatchIssueId
-            };
-            var result = await dynamicRepository.FetchAsync<string>(criteria);
-            return result.ToList();
-        }
-
-        public async Task<PreMatchIssueInfo> QueryPreMatchIssueInfo(int preMatchIssueId)
-        {
-            var criteria = new QueryPreMatchIssueInfoCriteria
-            {
-                PreMatchIssueId = preMatchIssueId
-            };
-            criteria.ThrowExceptionIfInvalid();
-
-            var result = await dynamicRepository.FetchAsync<PreMatchIssueInfo>(criteria);
-            return result.FirstOrDefault();
         }
 
         public async Task SaveOldPreMatchAssignment(List<int> preMatchId)

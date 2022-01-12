@@ -1,13 +1,12 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using Fanex.NAP.Client.Helpers.Web;
-using MediatR;
-using OWP.TicketCenter.Criteria;
-using OWP.TicketCenter.Middleware.Models;
-using OWP.TicketCenter.Notification.Services;
-
-namespace OWP.TicketCenter.Handlers
+﻿namespace OWP.TicketCenter.Handlers
 {
+    using MediatR;
+    using OWP.TicketCenter.Criteria;
+    using OWP.TicketCenter.Middleware.Models;
+    using OWP.TicketCenter.Notification.Services;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     public class UpdateTicketStatusRequest : PermissionCheckedModel, IRequest<string>
     {
         public string TicketStatus { get; set; }
@@ -17,17 +16,13 @@ namespace OWP.TicketCenter.Handlers
     {
         private readonly Repository repository;
 
-        private readonly INapSession session;
-
         private readonly NotificationService notificationService;
 
         public UpdateTicketStatusHandler(
             Repository repository,
-            INapSession session,
             NotificationService notificationService)
         {
             this.repository = repository;
-            this.session = session;
             this.notificationService = notificationService;
         }
 
@@ -37,7 +32,7 @@ namespace OWP.TicketCenter.Handlers
             {
                 TicketId = request.TicketId,
                 TicketStatus = request.TicketStatus,
-                ModifiedBy = session.UserId
+                ModifiedBy = request.ActorId
             };
 
             await repository.UpdateTicketStatus(criteria);
