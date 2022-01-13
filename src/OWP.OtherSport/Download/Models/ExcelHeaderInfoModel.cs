@@ -1,5 +1,4 @@
 ﻿using Epplus.Mapper.Annotations;
-using System;
 
 namespace OWP.OtherSport.Download.Models
 {
@@ -18,6 +17,12 @@ namespace OWP.OtherSport.Download.Models
         public string Sports { get; set; }
 
         [Cell("J1")]
+        public string OfferLive { get; set; }
+
+        [Cell("L1")]
         public string MatchStatus { get; set; }
+
+        [Cell("N1")]
+        public string LinkedMatch { get; set; }
     }
 }

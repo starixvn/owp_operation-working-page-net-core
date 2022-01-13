@@ -56,7 +56,7 @@
                 ToDate = "Mar 25, 2021",
                 Employee = "sa",
                 Sports = "Basketball",
-                MatchStatus = "Live"
+                OfferLive = "Live"
             };
 
             var expectedAssignments = new ExcelAssignmentModel

@@ -1,11 +1,10 @@
-﻿using OWP.OtherSport.Shared.Helper;
-
-namespace OWP.OtherSport.Download.Services
+﻿namespace OWP.OtherSport.Download.Services
 {
     using AutoMapper;
     using Constants;
     using Models;
     using OWP.Extensions;
+    using OWP.OtherSport.Shared.Helper;
     using OWP.OtherSport.Shared.Services;
     using OWP.OtherSport.Submit.Models;
     using Submit.Contants;
@@ -55,7 +54,9 @@ namespace OWP.OtherSport.Download.Services
                 ToDate = request.To.ToString("MMM dd, yyyy"),
                 Employee = string.IsNullOrEmpty(request.Employee) ? "All" : request.Employee,
                 Sports = request.Sports,
-                MatchStatus = request.OfferLives
+                OfferLive = request.OfferLives,
+                MatchStatus = request.MatchStatuses,
+                LinkedMatch = request.LinkedMatches
             };
         }
 
@@ -148,9 +149,6 @@ namespace OWP.OtherSport.Download.Services
             => excelColumn.GetValue(new Tuple<string, string>(sport, matchSetting.BetTypeName), 3);
 
         private static string GetMaxbetSpreadValue(decimal? value)
-            => value?
-                    .ToString()
-                        .TrimEnd('0')
-                            .TrimEnd('.');
+            => value?.ToString().TrimEnd('0').TrimEnd('.');
     }
 }
