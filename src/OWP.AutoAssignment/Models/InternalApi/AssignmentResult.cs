@@ -1,5 +1,5 @@
-﻿using OWP.AutoAssignment.Utils.XMLExtensions;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using OWP.AutoAssignment.Utils.XMLExtensions;
 
 namespace OWP.AutoAssignment.Models.InternalApi
 {
@@ -35,7 +35,11 @@ namespace OWP.AutoAssignment.Models.InternalApi
         [JsonProperty("LA_SusId")]
         public int? UserId_LA { get; set; }
 
+        [JsonProperty("Group_LA")]
         public string Group { get; set; }
+
+        [JsonProperty("Group_Trader")]
+        public string GroupTrader { get; set; }
 
         public string ExtraTime { get; set; }
 
