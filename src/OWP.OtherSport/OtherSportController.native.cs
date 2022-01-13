@@ -1,9 +1,5 @@
 ﻿namespace OWP.OtherSport
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Threading.Tasks;
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Cors;
@@ -16,6 +12,10 @@
     using OWP.OtherSport.Submit;
     using OWP.OtherSport.Submit.Models;
     using OWP.OtherSport.Validation;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Threading.Tasks;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -99,7 +99,7 @@
                 To = to,
                 Employee = employee,
                 Sports = sports,
-                MatchStatuses = matchStatuses
+                OfferLives = matchStatuses
             };
 
             using var excelPackage = await mediator.Send(request);

@@ -4,7 +4,6 @@
     using OfficeOpenXml;
     using OWP.OtherSport.Download.Services;
     using System;
-    using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -18,10 +17,14 @@
 
         public string Sports { get; set; }
 
+        public string OfferLives { get; set; }
+
         public string MatchStatuses { get; set; }
+
+        public string LinkedMatches { get; set; }
     }
 
-    public class Handler: IRequestHandler<DownloadAssignmentRequest, ExcelPackage>
+    public class Handler : IRequestHandler<DownloadAssignmentRequest, ExcelPackage>
     {
         private readonly ExportExcelService exportExcelService;
 

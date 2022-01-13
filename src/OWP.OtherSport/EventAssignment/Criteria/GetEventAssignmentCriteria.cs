@@ -13,6 +13,8 @@
 
         public string OfferLives { get; set; }
 
+        public string LinkedMatches { get; set; }
+
         public override string GetSettingKey() => "OWP_OSLiveGameAssignment_Query";
 
         public override bool IsValid() => true;

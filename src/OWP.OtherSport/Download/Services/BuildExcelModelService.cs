@@ -55,7 +55,7 @@ namespace OWP.OtherSport.Download.Services
                 ToDate = request.To.ToString("MMM dd, yyyy"),
                 Employee = string.IsNullOrEmpty(request.Employee) ? "All" : request.Employee,
                 Sports = request.Sports,
-                MatchStatus = request.MatchStatuses
+                MatchStatus = request.OfferLives
             };
         }
 
