@@ -23,7 +23,7 @@ namespace OWP.OtherSport.UnitTests.Notification.Services
                 {
                     MatchNo = 123,
                     OSMatchId = 123,
-                    MatchStatus = "CANCEL",
+                    OfferLive = "CANCEL",
                     League = "Vleague",
                     Home = "Binh Dinh",
                     Away = "Ha Noi"
@@ -32,7 +32,7 @@ namespace OWP.OtherSport.UnitTests.Notification.Services
                 {
                     MatchNo = 123,
                     OSMatchId = 123,
-                    MatchStatus = "LIVE",
+                    OfferLive = "LIVE",
                     League = "Vleague",
                     Home = "Binh Dinh",
                     Away = "Ha Noi"

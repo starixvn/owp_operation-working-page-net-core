@@ -1,12 +1,12 @@
 ﻿namespace OWP.Websites
 {
     using Microsoft.Extensions.DependencyInjection;
-    using Submit = OtherSport.Submit.Services;
-    using Download = OtherSport.Download.Services;
-    using Validation = OtherSport.Validation.Services;
-    using EventAssignment = OtherSport.EventAssignment.Services;
     using OWP.OtherSport.Notification.Services;
-    using TicketCenterNotification= OWP.TicketCenter.Notification;
+    using Download = OtherSport.Download.Services;
+    using EventAssignment = OtherSport.EventAssignment.Services;
+    using Shared = OWP.OtherSport.Shared.Services;
+    using Submit = OtherSport.Submit.Services;
+    using Validation = OtherSport.Validation.Services;
 
     public static class OtherSportInjector
     {
@@ -31,10 +31,11 @@
             services.AddScoped<EventAssignment.AssignmentBuilder, EventAssignment.AssignmentBuilderImp>();
             services.AddScoped<EventAssignment.MatchSettingBuilder, EventAssignment.MatchSettingBuilderImp>();
             services.AddScoped<EventAssignment.EventAssignmentBuilder, EventAssignment.EventAssignmentBuilderImp>();
+            services.AddScoped<Shared.MatchStatusCalculator, Shared.MatchStatusCalculatorImp>();
 
             services.AddScoped<Download.BuildExcelModelService, Download.BuildExcelModelServiceImp>();
             services.AddScoped<Download.ExportExcelService, Download.ExportExcelServiceImp>();
-            services.AddScoped<Download.CommandRepository, Download.CommandRepositoryImp > ();
+            services.AddScoped<Download.CommandRepository, Download.CommandRepositoryImp>();
 
             // Notification
             services.AddScoped<MessageFactory, MessageFactoryImp>();

@@ -24,7 +24,6 @@ namespace OWP.OtherSport.Download.Services
 
         private readonly IMapper mapper;
 
-
         public BuildExcelModelServiceImp(
             CommandRepository commandRepository,
             IMapper mapper)

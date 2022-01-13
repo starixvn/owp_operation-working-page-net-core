@@ -18,7 +18,7 @@
 
         public List<ChangedValue> Create(ChangedMatchSnapshot snapshot, List<Assignee> existingAssignees)
         {
-            var isMatchStatusChanged = !string.Equals(snapshot.OldMatch.MatchStatus, snapshot.NewMatch.MatchStatus, StringComparison.CurrentCultureIgnoreCase);
+            var isMatchStatusChanged = !string.Equals(snapshot.OldMatch.OfferLive, snapshot.NewMatch.OfferLive, StringComparison.CurrentCultureIgnoreCase);
             if (!isMatchStatusChanged)
             {
                 return new List<ChangedValue>();
@@ -27,8 +27,8 @@
            return existingAssignees.Select(a => new ChangedValue
            {
                MessageTypeId = (int)MsgTemplateCode.EditMatchStatus,
-               OldValue = snapshot.OldMatch.MatchStatus,
-               NewValue = snapshot.NewMatch.MatchStatus,
+               OldValue = snapshot.OldMatch.OfferLive,
+               NewValue = snapshot.NewMatch.OfferLive,
                MatchNo = snapshot.NewMatch.MatchNo.ToString(CultureInfo.InvariantCulture),
                League = snapshot.NewMatch.League,
                EventName = snapshot.NewMatch.Home + EVENT_VS + snapshot.NewMatch.Away,
