@@ -2,6 +2,7 @@
 {
     using AutoMapper;
     using NSubstitute;
+    using OWP.OtherSport.EventAssignment;
     using OWP.OtherSport.EventAssignment.Models;
     using OWP.OtherSport.EventAssignment.Services;
     using OWP.OtherSport.Submit.Contants;
@@ -72,7 +73,11 @@
         [Fact]
         public void Build_MapEventAssignmentModel_BuildMatchSettingAndMatchAssignment()
         {
-            string employee = "Starix1";
+            var request = new QueryEventAssignmentRequest
+            {
+                Employee = "Starix1",
+                MatchStatuses = new List<string> { "In-play", "Early" }
+            };
 
             var service = new EventAssignmentBuilderImp(assignmentBuilder, matchSettingBuilder, mapper);
             var assignmentSnapshot = new AssignmentSnapshot
@@ -129,7 +134,7 @@
 
             var expected = GetExpected();
 
-            var actual = service.Build(assignmentSnapshot, employee);
+            var actual = service.Build(assignmentSnapshot, request);
 
             DeepAssert.Equal(expected, actual);
         }

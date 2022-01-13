@@ -29,7 +29,7 @@
 
         public string MatchStatus { get; set; }
 
-        public int AdminsiteMatchId { get; set; }
+        public int? AdminsiteMatchId { get; set; }
 
         public string Reporter { get; set; }
 

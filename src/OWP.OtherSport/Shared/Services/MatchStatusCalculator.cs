@@ -69,7 +69,7 @@ namespace OWP.OtherSport.Shared.Services
             }
         }
 
-        public async Task<Dictionary<int, EventStatus>> QueryMatchStatus(IEnumerable<int> adminsiteMatchIds)
+        public async Task<Dictionary<int?, EventStatus>> QueryMatchStatus(IEnumerable<int?> adminsiteMatchIds)
         {
             var criteria = new GetEventStatusFromMainDBCriteria
             {
@@ -94,7 +94,7 @@ namespace OWP.OtherSport.Shared.Services
 
     public class EventStatus
     {
-        public int AdminsiteMatchId { get; set; }
+        public int? AdminsiteMatchId { get; set; }
 
         public string MatchStatus { get; set; }
     }
