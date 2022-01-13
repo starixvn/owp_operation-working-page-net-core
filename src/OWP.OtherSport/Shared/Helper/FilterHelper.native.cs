@@ -1,6 +1,4 @@
-﻿using OWP.OtherSport.Shared.Constants;
-
-namespace OWP.OtherSport.Shared.Helper
+﻿namespace OWP.OtherSport.Shared.Helper
 {
     using Extensions;
     using Submit.Models;
@@ -39,11 +37,7 @@ namespace OWP.OtherSport.Shared.Helper
             foreach (var key in matchsInfos.Keys)
             {
                 var match = matchsInfos[key];
-                if (!match.OfferLive.IsContains(OfferLive.Live))
-                {
-                    matches.Add(key, matchsInfos[key]);
-                }
-                else if (matchStatuses.Contains(match.MatchStatus, StringComparer.OrdinalIgnoreCase))
+                if (matchStatuses.Contains(match.MatchStatus, StringComparer.OrdinalIgnoreCase))
                 {
                     matches.Add(key, matchsInfos[key]);
                 }

@@ -1,15 +1,14 @@
-﻿using Fanex.Data.Repository;
-using OWP.Extensions;
-using OWP.OtherSport.Shared.Constants;
-using OWP.OtherSport.Submit.Models;
-using OWP.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace OWP.OtherSport.Shared.Services
+﻿namespace OWP.OtherSport.Shared.Services
 {
+    using Fanex.Data.Repository;
+    using OWP.Extensions;
+    using OWP.OtherSport.Submit.Models;
+    using OWP.Utils;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
     public interface MatchStatusCalculator
     {
         Task Map(Dictionary<int, MatchInfo> matchInfoDict);
@@ -41,7 +40,7 @@ namespace OWP.OtherSport.Shared.Services
         {
             if (match.MatchStatus.Equals(MatchStatus.Completed, StringComparison.OrdinalIgnoreCase))
             {
-                return match.MatchStatus;
+                return MatchStatus.Completed;
             }
 
             if (match.DateTime.Date > nowDateTime.Date)
@@ -64,7 +63,7 @@ namespace OWP.OtherSport.Shared.Services
             foreach (var key in matchInfoDict.Keys)
             {
                 var match = matchInfoDict[key];
-                var matchFromMainDb = matchStatusFromMainDBs.GetValue(key, new EventStatus());
+                var matchFromMainDb = matchStatusFromMainDBs.GetValue(match.AdminsiteMatchId, new EventStatus());
                 match.MatchStatus = matchFromMainDb.MatchStatus;
             }
         }
@@ -80,7 +79,14 @@ namespace OWP.OtherSport.Shared.Services
 
             return result.ToDictionary(x => x.AdminsiteMatchId);
         }
+    }
 
+    public static class MatchStatus
+    {
+        public const string InPlay = "In-play";
+        public const string Completed = "Completed";
+        public const string PreMatch = "Prematch";
+        public const string Early = "Early";
     }
 
     public class GetEventStatusFromMainDBCriteria : CriteriaBase
@@ -96,6 +102,6 @@ namespace OWP.OtherSport.Shared.Services
     {
         public int? AdminsiteMatchId { get; set; }
 
-        public string MatchStatus { get; set; }
+        public string MatchStatus { get; set; } = string.Empty;
     }
 }

@@ -6,11 +6,8 @@
 
   <ItemGroup>
     <Compile Remove="Builder\**" />
-    <Compile Remove="Helper\**" />
     <EmbeddedResource Remove="Builder\**" />
-    <EmbeddedResource Remove="Helper\**" />
     <None Remove="Builder\**" />
-    <None Remove="Helper\**" />
   </ItemGroup>
 
   <ItemGroup>

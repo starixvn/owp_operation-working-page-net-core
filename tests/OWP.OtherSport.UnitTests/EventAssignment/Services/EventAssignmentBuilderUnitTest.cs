@@ -103,6 +103,7 @@
                             OSMatchId = 117,
                             Sport = "Basketball",
                             MatchNo=2,
+                            MatchStatus = "In-play"
                          }
                     },
                     {   222, new MatchInfo
@@ -110,6 +111,7 @@
                             OSMatchId = 222,
                             Sport = "Snooker",
                             MatchNo=2,
+                            MatchStatus = "Early"
                          }
                     },
                 },
@@ -147,6 +149,7 @@
                     OSMatchId = 117,
                     Sport = "Basketball",
                     MatchNo=2,
+                    MatchStatus = "In-play",
                     TraderMaxbetModels = new List<TraderMaxBetModel>
                     {
                         new()
@@ -166,6 +169,7 @@
                     OSMatchId = 222,
                     Sport = "Snooker",
                     MatchNo=2,
+                    MatchStatus = "Early",
                     TraderMaxbetModels = new List<TraderMaxBetModel>
                     {
                         new()
