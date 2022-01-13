@@ -27,7 +27,7 @@
                 FromDate = request.From,
                 ToDate = request.To,
                 Sports = request.Sports,
-                MatchStatuses = request.MatchStatuses
+                OfferLives = request.MatchStatuses
             };
 
             var (matches, assignments, maxbets) = await dynamicRepository.FetchMultipleAsync<MatchInfo, MatchAssignment, MatchSetting>(criteria);

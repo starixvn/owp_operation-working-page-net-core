@@ -6,6 +6,7 @@ namespace OWP.OtherSport.Download.Services
     using Constants;
     using Models;
     using OWP.Extensions;
+    using OWP.OtherSport.Shared.Services;
     using OWP.OtherSport.Submit.Models;
     using Submit.Contants;
     using System;
@@ -24,11 +25,15 @@ namespace OWP.OtherSport.Download.Services
 
         private readonly IMapper mapper;
 
+        private readonly MatchStatusCalculator matchStatusCalculator;
+
         public BuildExcelModelServiceImp(
             CommandRepository commandRepository,
+            MatchStatusCalculator matchStatusCalculator,
             IMapper mapper)
         {
             this.commandRepository = commandRepository;
+            this.matchStatusCalculator = matchStatusCalculator;
             this.mapper = mapper;
         }
 
@@ -57,6 +62,8 @@ namespace OWP.OtherSport.Download.Services
         public async Task<ExcelAssignmentModel> BuildExcelAssignments(DownloadAssignmentRequest request)
         {
             var assignmentSnapshot = await commandRepository.Query(request);
+            await matchStatusCalculator.Map(assignmentSnapshot.Matches);
+
             assignmentSnapshot.Matches = FilterHelper.FilterMatchesByEmployee(request.Employee, assignmentSnapshot);
 
             var matchAssignments = BuildTraders(assignmentSnapshot);

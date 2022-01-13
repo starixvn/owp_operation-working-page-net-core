@@ -12,7 +12,7 @@ namespace OWP.OtherSport.Shared.Services
 {
     public interface MatchStatusCalculator
     {
-        Task Build(Dictionary<int, MatchInfo> matchInfoDict);
+        Task Map(Dictionary<int, MatchInfo> matchInfoDict);
     }
 
     public class MatchStatusCalculatorImp : MatchStatusCalculator
@@ -24,37 +24,37 @@ namespace OWP.OtherSport.Shared.Services
             this.dynamicRepository = dynamicRepository;
         }
 
-        public async Task Build(Dictionary<int, MatchInfo> matchInfoDict)
+        public async Task Map(Dictionary<int, MatchInfo> matchInfoDict)
         {
             await MapMatchStatusFromMainDb(matchInfoDict);
 
             foreach (var key in matchInfoDict.Keys)
             {
                 var match = matchInfoDict[key];
-                if (!match.OfferLive.IsContains(OfferLive.Live))
-                {
-                    match.MatchStatus = String.Empty;
-                }
-
-                if (match.MatchStatus.Equals(MatchStatus.Completed, StringComparison.OrdinalIgnoreCase))
-                {
-                    match.MatchStatus = match.MatchStatus;
-                }
-
                 var nowDateTime = DateTimeExtensions.ToGmt8(DateTime.Now);
-                if (match.DateTime.Date > nowDateTime.Date)
-                {
-                    match.MatchStatus = MatchStatus.Early;
-                }
-                else if (match.DateTime >= nowDateTime)
-                {
-                    match.MatchStatus = MatchStatus.InPlay;
-                }
-                else
-                {
-                    match.MatchStatus = MatchStatus.PreMatch;
-                }
+
+                match.MatchStatus = CalculateMatchStatus(match, nowDateTime);
             }
+        }
+
+        private static string CalculateMatchStatus(MatchInfo match, DateTime nowDateTime)
+        {
+            if (match.MatchStatus.Equals(MatchStatus.Completed, StringComparison.OrdinalIgnoreCase))
+            {
+                return match.MatchStatus;
+            }
+
+            if (match.DateTime.Date > nowDateTime.Date)
+            {
+                return MatchStatus.Early;
+            }
+
+            if (match.DateTime >= nowDateTime)
+            {
+                return MatchStatus.InPlay;
+            }
+
+            return MatchStatus.PreMatch;
         }
 
         private async Task MapMatchStatusFromMainDb(Dictionary<int, MatchInfo> matchInfoDict)

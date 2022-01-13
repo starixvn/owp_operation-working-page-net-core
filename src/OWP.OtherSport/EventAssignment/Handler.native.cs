@@ -44,7 +44,7 @@
         public async Task<IEnumerable<EventAssignmentModel>> Handle(QueryEventAssignmentRequest request, CancellationToken cancellationToken)
         {
             var assignmentSnapshot = await commandRepository.Query(request);
-            await matchStatusCalculator.Build(assignmentSnapshot.Matches);
+            await matchStatusCalculator.Map(assignmentSnapshot.Matches);
 
             return eventAssignmentBuilder.Build(assignmentSnapshot, request);
         }

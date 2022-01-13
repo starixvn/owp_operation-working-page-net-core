@@ -1,7 +1,7 @@
 ﻿namespace OWP.OtherSport.EventAssignment.Criteria
 {
-    using System;
     using Fanex.Data.Repository;
+    using System;
 
     public class GetEventAssignmentCriteria : CriteriaBase
     {
@@ -11,7 +11,7 @@
 
         public string Sports { get; set; }
 
-        public string MatchStatuses { get; set; }
+        public string OfferLives { get; set; }
 
         public override string GetSettingKey() => "OWP_OSLiveGameAssignment_Query";
 
