@@ -12,7 +12,6 @@
     using OWP.OtherSport.Submit;
     using OWP.OtherSport.Submit.Models;
     using OWP.OtherSport.Validation;
-    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Threading.Tasks;
@@ -86,24 +85,10 @@
 
         [Route("download")]
         [HttpGet]
-        public async Task<IActionResult> Download(
-            [FromQuery] DateTime from,
-            [FromQuery] DateTime to,
-            [FromQuery] string employee,
-            [FromQuery] string sports,
-            [FromQuery] string matchStatuses)
+        public async Task<IActionResult> Download([FromQuery] DownloadAssignmentRequest request)
         {
-            var request = new DownloadAssignmentRequest
-            {
-                From = from,
-                To = to,
-                Employee = employee,
-                Sports = sports,
-                OfferLives = matchStatuses
-            };
-
             using var excelPackage = await mediator.Send(request);
-            var fileName = $"OS Live Game Assignment {from.ToString("MMddyyyy")} - {to.ToString("MMddyyyy")}.xlsx";
+            var fileName = $"OS Live Game Assignment {request.From.ToString("MMddyyyy")} - {request.To.ToString("MMddyyyy")}.xlsx";
             var bytes = await excelPackage.GetAsByteArrayAsync();
             return File(bytes, "application/octet-stream", fileName);
         }

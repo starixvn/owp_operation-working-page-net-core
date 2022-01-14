@@ -58,17 +58,27 @@
 
         private async Task MapMatchStatusFromMainDb(Dictionary<int, MatchInfo> matchInfoDict)
         {
-            var adminSiteMatchIds = matchInfoDict.Values.Select(x => x.AdminsiteMatchId).Distinct();
+            var adminSiteMatchIds = matchInfoDict.Values
+                .Where(x => x.AdminsiteMatchId != null)
+                .Select(x => x.AdminsiteMatchId).Distinct();
             var matchStatusFromMainDBs = await QueryMatchStatus(adminSiteMatchIds);
+
             foreach (var key in matchInfoDict.Keys)
             {
                 var match = matchInfoDict[key];
-                var matchFromMainDb = matchStatusFromMainDBs.GetValue(match.AdminsiteMatchId, new EventStatus());
-                match.MatchStatus = matchFromMainDb.MatchStatus;
+                if (match.AdminsiteMatchId == null)
+                {
+                    match.MatchStatus = string.Empty;
+                }
+                else
+                {
+                    var matchFromMainDb = matchStatusFromMainDBs.GetValue((int)match.AdminsiteMatchId, new EventStatus());
+                    match.MatchStatus = matchFromMainDb.MatchStatus;
+                }
             }
         }
 
-        public async Task<Dictionary<int?, EventStatus>> QueryMatchStatus(IEnumerable<int?> adminsiteMatchIds)
+        public async Task<Dictionary<int, EventStatus>> QueryMatchStatus(IEnumerable<int?> adminsiteMatchIds)
         {
             var criteria = new GetEventStatusFromMainDBCriteria
             {
@@ -100,7 +110,7 @@
 
     public class EventStatus
     {
-        public int? AdminsiteMatchId { get; set; }
+        public int AdminsiteMatchId { get; set; }
 
         public string MatchStatus { get; set; } = string.Empty;
     }
