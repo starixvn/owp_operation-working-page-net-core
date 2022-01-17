@@ -55,19 +55,16 @@
                 new()
                 {
                     InfositeId = 1,
-                    Location = "Q.12",
                     KOTime = new DateTime(2021, 11, 30)
                 },
                 new()
                 {
                     InfositeId = 2,
-                    Location = "Q.11",
                     KOTime = new DateTime(2021, 11, 29)
                 },
                 new()
                 {
                     InfositeId = 3,
-                    Location = "Q.10",
                     KOTime = new DateTime(2021, 11, 28)
                 },
             };
