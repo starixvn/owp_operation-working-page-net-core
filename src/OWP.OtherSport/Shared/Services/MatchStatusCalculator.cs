@@ -48,7 +48,7 @@
                 return MatchStatus.Early;
             }
 
-            if (match.DateTime >= nowDateTime)
+            if (nowDateTime >= match.DateTime)
             {
                 return MatchStatus.InPlay;
             }

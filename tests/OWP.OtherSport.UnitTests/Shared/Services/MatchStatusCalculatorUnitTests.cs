@@ -33,9 +33,9 @@
             service.Map(matchInfo);
 
             Assert.Equal("Completed", matchInfo[1].MatchStatus);
-            Assert.Equal("Prematch", matchInfo[2].MatchStatus);
+            Assert.Equal("In-play", matchInfo[2].MatchStatus);
             Assert.Equal("Completed", matchInfo[3].MatchStatus);
-            Assert.Equal("In-play", matchInfo[4].MatchStatus);
+            Assert.Equal("Prematch", matchInfo[4].MatchStatus);
             Assert.Equal("Early", matchInfo[5].MatchStatus);
         }
 
