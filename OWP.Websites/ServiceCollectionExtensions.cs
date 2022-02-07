@@ -124,6 +124,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<LogServiceWrapper, LogServiceWrapperImp>();
         services.AddSingleton<ConfigurationService, ConfigurationServiceImp>();
         services.AddScoped<NotifyEngine, NotifyEngineImp>();
+        services.AddScoped<IHttpHandler, OWP.Services.HttpClientHandler>();
 
         return services;
     }
