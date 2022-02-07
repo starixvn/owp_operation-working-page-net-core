@@ -88,7 +88,7 @@
         private void BuildMatchInfo(int row, MatchInfo assignment)
         {
             reportSheet.Cells[row, MatchInfoConst.MatchNoColIndex].Value = assignment.MatchNo;
-            reportSheet.Cells[row, MatchInfoConst.MatchStatusColIndex].Value = assignment.MatchStatus;
+            reportSheet.Cells[row, MatchInfoConst.MatchStatusColIndex].Value = assignment.OfferLive;
             reportSheet.Cells[row, MatchInfoConst.SportColIndex].Value = assignment.Sport;
             reportSheet.Cells[row, MatchInfoConst.DateTimeColIndex].Value = assignment.DateTime;
             reportSheet.Cells[row, MatchInfoConst.LeagueColIndex].Value = assignment.League;

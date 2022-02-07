@@ -37,7 +37,7 @@ namespace OWP.OtherSport.UnitTests.Download.Services
                 To = new DateTime(2021, 03, 25),
                 Employee = "sa",
                 Sports = "Basketball",
-                MatchStatuses = "Live"
+                OfferLives = "Live"
             };
             var excelModel = GetExcelModel();
             buildExcelModelService.BuildExcelModel(request).Returns(excelModel);
@@ -62,7 +62,7 @@ namespace OWP.OtherSport.UnitTests.Download.Services
                     ToDate = "Mar 25, 2021",
                     Employee = "sa",
                     Sports = "Basketball",
-                    MatchStatus = "Live"
+                    OfferLive = "Live"
                 },
                 ExcelAssignmentModels = new ExcelAssignmentModel
                 {

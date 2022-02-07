@@ -2,6 +2,7 @@
 {
     using Extensions;
     using Submit.Models;
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -24,6 +25,21 @@
                 if (existsAssignment)
                 {
                     matches.Add(key, assignmentSnapshot.Matches[key]);
+                }
+            }
+
+            return matches;
+        }
+
+        public static Dictionary<int, MatchInfo> FilterMatchesByMatchStatus(IList<string> matchStatuses, Dictionary<int, MatchInfo> matchsInfos)
+        {
+            var matches = new Dictionary<int, MatchInfo>();
+            foreach (var key in matchsInfos.Keys)
+            {
+                var match = matchsInfos[key];
+                if (matchStatuses.Contains(match.MatchStatus, StringComparer.OrdinalIgnoreCase))
+                {
+                    matches.Add(key, matchsInfos[key]);
                 }
             }
 

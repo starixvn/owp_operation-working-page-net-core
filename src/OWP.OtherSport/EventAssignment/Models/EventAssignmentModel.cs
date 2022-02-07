@@ -9,7 +9,11 @@
 
         public int OSMatchId { get; set; }
 
+        public string OfferLive { get; set; }
+
         public string MatchStatus { get; set; }
+
+        public int? AdminsiteMatchId { get; set; }
 
         public string Reporter { get; set; }
 

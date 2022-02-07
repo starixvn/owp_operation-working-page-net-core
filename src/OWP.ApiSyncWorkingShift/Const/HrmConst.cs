@@ -1,6 +1,6 @@
 ﻿namespace OWP.ApiSyncWorkingShift.Const
 {
-    public class HrmConst
+    public static class HrmConst
     {
         public const string OFF = "OFF";
 

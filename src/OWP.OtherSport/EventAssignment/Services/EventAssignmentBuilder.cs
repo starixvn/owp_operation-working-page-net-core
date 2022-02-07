@@ -10,7 +10,7 @@
 
     public interface EventAssignmentBuilder
     {
-        List<EventAssignmentModel> Build(AssignmentSnapshot assignmentSnapshot, string employee);
+        List<EventAssignmentModel> Build(AssignmentSnapshot assignmentSnapshot, QueryEventAssignmentRequest request);
     }
 
     public class EventAssignmentBuilderImp : EventAssignmentBuilder
@@ -31,12 +31,14 @@
             this.mapper = mapper;
         }
 
-        public List<EventAssignmentModel> Build(AssignmentSnapshot assignmentSnapshot, string employee)
+        public List<EventAssignmentModel> Build(AssignmentSnapshot assignmentSnapshot, QueryEventAssignmentRequest request)
         {
             RemoveInvalidNote(assignmentSnapshot.MatchAssignments);
 
-            var filteredMatches = FilterHelper.FilterMatchesByEmployee(employee, assignmentSnapshot);
-            var eventAssignments = mapper.Map<List<EventAssignmentModel>>(filteredMatches.Values);
+            var filteredMatchesByEmployee = FilterHelper.FilterMatchesByEmployee(request.Employee, assignmentSnapshot);
+            var filteredMatchesByMatchStatus = FilterHelper.FilterMatchesByMatchStatus(request.MatchStatuses, filteredMatchesByEmployee);
+
+            var eventAssignments = mapper.Map<List<EventAssignmentModel>>(filteredMatchesByMatchStatus.Values);
 
             assignmentBuilder.Build(eventAssignments, assignmentSnapshot.MatchAssignments);
             matchSettingBuilder.Build(eventAssignments, assignmentSnapshot.MatchSettings);

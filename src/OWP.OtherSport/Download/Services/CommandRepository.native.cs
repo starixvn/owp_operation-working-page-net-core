@@ -11,7 +11,7 @@
         Task<AssignmentSnapshot> Query(DownloadAssignmentRequest request);
     }
 
-    public class CommandRepositoryImp: CommandRepository
+    public class CommandRepositoryImp : CommandRepository
     {
         private readonly IDynamicRepository dynamicRepository;
 
@@ -27,7 +27,8 @@
                 FromDate = request.From,
                 ToDate = request.To,
                 Sports = request.Sports,
-                MatchStatuses = request.MatchStatuses
+                OfferLives = request.OfferLives,
+                LinkedMatches = request.LinkedMatches
             };
 
             var (matches, assignments, maxbets) = await dynamicRepository.FetchMultipleAsync<MatchInfo, MatchAssignment, MatchSetting>(criteria);

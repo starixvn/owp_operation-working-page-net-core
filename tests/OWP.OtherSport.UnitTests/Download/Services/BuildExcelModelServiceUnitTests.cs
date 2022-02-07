@@ -5,6 +5,7 @@
     using OWP.OtherSport.Download;
     using OWP.OtherSport.Download.Models;
     using OWP.OtherSport.Download.Services;
+    using OWP.OtherSport.Shared.Services;
     using OWP.OtherSport.Submit.Contants;
     using OWP.OtherSport.Submit.Models;
     using System;
@@ -19,6 +20,8 @@
 
         private readonly CommandRepository commandRepository;
 
+        private readonly MatchStatusCalculator matchStatusCalculator;
+
         public BuildExcelModelServiceUnitTests()
         {
             var config = new MapperConfiguration(cfg =>
@@ -28,8 +31,9 @@
             });
             var iMapper = config.CreateMapper();
             commandRepository = Substitute.For<CommandRepository>();
+            matchStatusCalculator = Substitute.For<MatchStatusCalculator>();
 
-            service = new BuildExcelModelServiceImp(commandRepository, iMapper);
+            service = new BuildExcelModelServiceImp(commandRepository, matchStatusCalculator, iMapper);
         }
 
         [Fact]
@@ -41,7 +45,7 @@
                 To = new DateTime(2021, 03, 25),
                 Employee = "sa",
                 Sports = "Basketball",
-                MatchStatuses = "Live"
+                OfferLives = "Live"
             };
             var assignmentSnapshot = GetAssignmentSnapshot();
             commandRepository.Query(request).Returns(assignmentSnapshot);
@@ -52,7 +56,7 @@
                 ToDate = "Mar 25, 2021",
                 Employee = "sa",
                 Sports = "Basketball",
-                MatchStatus = "Live"
+                OfferLive = "Live"
             };
 
             var expectedAssignments = new ExcelAssignmentModel
