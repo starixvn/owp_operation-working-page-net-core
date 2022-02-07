@@ -1,102 +1,96 @@
 ﻿
+using Fanex.Data.Repository;
 using Fanex.NAP.Client.Helpers.Web;
+using OWP.PreMatchAssignment.Criteria;
+using OWP.PreMatchAssignment.Handlers;
+using OWP.PreMatchAssignment.Models;
 
-namespace OWP.PreMatchAssignment.Services
+namespace OWP.PreMatchAssignment.Services;
+public interface NoteService
 {
-    using System;
-    using System.Threading.Tasks;
-    using Criteria;
-    using Fanex.Data.Repository;
-    using Fanex.NAP.Core.Web.Session;
-    using Handlers;
-    using Models;
+    Task<Note> CreateNewNote(CreateNewNoteRequest request);
 
-    public interface NoteService
+    Task<Note> InsertNewNoteMessage(PostNewNoteMessageRequest request);
+
+    Task<Note> EditNoteMessage(EditNoteMessageRequest request);
+}
+
+public class NoteServiceImp : NoteService
+{
+    private readonly INapSession napSession;
+
+    private readonly IDynamicRepository dynamicRepo;
+
+    public NoteServiceImp(INapSession napSession, IDynamicRepository dynamicRepo)
     {
-        Task<Note> CreateNewNote(CreateNewNoteRequest request);
-
-        Task<Note> InsertNewNoteMessage(PostNewNoteMessageRequest request);
-
-        Task<Note> EditNoteMessage(EditNoteMessageRequest request);
+        this.napSession = napSession;
+        this.dynamicRepo = dynamicRepo;
     }
 
-    public class NoteServiceImp : NoteService
+    public async Task<Note> CreateNewNote(CreateNewNoteRequest request)
     {
-        private readonly INapSession napSession;
-
-        private readonly IDynamicRepository dynamicRepo;
-
-        public NoteServiceImp(INapSession napSession, IDynamicRepository dynamicRepo)
+        var criteria = new InsertNewNoteCriteria
         {
-            this.napSession = napSession;
-            this.dynamicRepo = dynamicRepo;
-        }
+            ActorId = napSession.UserId,
+            EventDate = request.EventDate,
+            InfoSiteMatchId = request.InfoSiteMatchId,
+            Message = request.Message,
+            OWPLeagueId = request.OWPLeagueId,
+            CreatedDate = DateTime.Now
+        };
 
-        public async Task<Note> CreateNewNote(CreateNewNoteRequest request)
+        await dynamicRepo.ExecuteAsync(criteria);
+
+        return new Note
         {
-            var criteria = new InsertNewNoteCriteria
-            {
-                ActorId = napSession.UserId,
-                EventDate = request.EventDate,
-                InfoSiteMatchId = request.InfoSiteMatchId,
-                Message = request.Message,
-                OWPLeagueId = request.OWPLeagueId,
-                CreatedDate = DateTime.Now
-            };
+            CreatedDate = criteria.CreatedDate,
+            Message = request.Message,
+            PreMatchNoteId = criteria.PreMatchNoteId,
+            PreMatchNoteMessageId = criteria.PreMatchNoteMessageId,
+            Username = criteria.Username
+        };
+    }
 
-            await dynamicRepo.ExecuteAsync(criteria);
-
-            return new Note
-            {
-                CreatedDate = criteria.CreatedDate,
-                Message = request.Message,
-                PreMatchNoteId = criteria.PreMatchNoteId,
-                PreMatchNoteMessageId = criteria.PreMatchNoteMessageId,
-                Username = criteria.Username
-            };
-        }
-
-        public async Task<Note> EditNoteMessage(EditNoteMessageRequest request)
+    public async Task<Note> EditNoteMessage(EditNoteMessageRequest request)
+    {
+        var criteria = new EditNoteMessageCriteria
         {
-            var criteria = new EditNoteMessageCriteria
-            {
-                ActorId = napSession.UserId,
-                Message = request.Message,
-                PreMatchNoteMessageId = request.PreMatchNoteMessageId,
-                CreatedDate = DateTime.Now
-            };
+            ActorId = napSession.UserId,
+            Message = request.Message,
+            PreMatchNoteMessageId = request.PreMatchNoteMessageId,
+            CreatedDate = DateTime.Now
+        };
 
-            await dynamicRepo.ExecuteAsync(criteria);
+        await dynamicRepo.ExecuteAsync(criteria);
 
-            return new Note
-            {
-                CreatedDate = criteria.CreatedDate,
-                Message = request.Message,
-                Username = criteria.Username,
-                PreMatchNoteMessageId = request.PreMatchNoteMessageId
-            };
-        }
-
-        public async Task<Note> InsertNewNoteMessage(PostNewNoteMessageRequest request)
+        return new Note
         {
-            var criteria = new InsertNewNoteMessageCriteria
-            {
-                ActorId = napSession.UserId,
-                Message = request.Message,
-                PreMatchNoteId = request.PreMatchNoteId,
-                CreatedDate = DateTime.Now
-            };
+            CreatedDate = criteria.CreatedDate,
+            Message = request.Message,
+            Username = criteria.Username,
+            PreMatchNoteMessageId = request.PreMatchNoteMessageId
+        };
+    }
 
-            await dynamicRepo.ExecuteAsync(criteria);
+    public async Task<Note> InsertNewNoteMessage(PostNewNoteMessageRequest request)
+    {
+        var criteria = new InsertNewNoteMessageCriteria
+        {
+            ActorId = napSession.UserId,
+            Message = request.Message,
+            PreMatchNoteId = request.PreMatchNoteId,
+            CreatedDate = DateTime.Now
+        };
 
-            return new Note
-            {
-                CreatedDate = criteria.CreatedDate,
-                Message = request.Message,
-                PreMatchNoteId = criteria.PreMatchNoteId,
-                PreMatchNoteMessageId = criteria.PreMatchNoteMessageId,
-                Username = criteria.Username
-            };
-        }
+        await dynamicRepo.ExecuteAsync(criteria);
+
+        return new Note
+        {
+            CreatedDate = criteria.CreatedDate,
+            Message = request.Message,
+            PreMatchNoteId = criteria.PreMatchNoteId,
+            PreMatchNoteMessageId = criteria.PreMatchNoteMessageId,
+            Username = criteria.Username
+        };
     }
 }
