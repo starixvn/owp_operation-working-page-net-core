@@ -106,5 +106,13 @@
         {
             return await mediator.Send(request);
         }
+
+        [Route("export")]
+        [HttpGet]
+        public async Task<IActionResult> ExportPreMatchReport()
+        {
+            var request = new ExportPreMatchAssignmentRequest();
+            return File(await mediator.Send(request), "application/xlsx", "PreMatchAssignmentReport.xlsx");
+        }
     }
 }

@@ -6,7 +6,7 @@ namespace OWP.Websites
 {
     public static class PreMatchAssignmentInjector
     {
-        public static void InjectPreMatchAssignmentService(this IServiceCollection services)
+        public static void AddPreMatchAssignmentServices(this IServiceCollection services)
         {
             services.AddScoped<QueryWorkingShift, QueryWorkingShiftImp>();
             services.AddScoped<PreMatchAssignmentService, PreMatchAssignmentServiceImp>();
@@ -16,6 +16,7 @@ namespace OWP.Websites
             //services.AddScoped<NotificationService, NotificationServiceImp>();
             services.AddScoped<NoteService, NoteServiceImp>();
             services.AddScoped<ShiftAssignmentService, ShiftAssignmentServiceImp>();
+            services.AddScoped<PreMatchReportExportService, PreMatchReportExportServiceImp>();
         }
     }
 }

@@ -1,4 +1,3 @@
-
 using System.Reflection;
 
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -42,6 +41,7 @@ using OWP.Maxbet;
 using OWP.OtherSport;
 using OWP.OtherSport.Hubs;
 using OWP.OvertimeReport;
+using OWP.PreMatchAssignment;
 using OWP.PreMatchNotification;
 using OWP.RecipientGroup;
 using OWP.Services;
@@ -207,6 +207,7 @@ public static class ServiceCollectionExtensions
         services.AddRecipientGroup();
         services.AddTicketCenterService();
         services.AddOvertimeReport();
+        services.AddPreMatchAssignmentServices();
 
         return services;
     }
@@ -222,6 +223,7 @@ public static class ServiceCollectionExtensions
         services.AddMediatR(typeof(FileUploadController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(TicketTypeRecipientController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(OvertimeReportController).GetTypeInfo().Assembly);
+        services.AddMediatR(typeof(PreMatchAssignmentController).Assembly);
 
         return services;
     }
@@ -247,7 +249,6 @@ public static class ServiceCollectionExtensions
 
         return services;
     }
-
 
     public static IServiceCollection AddRedis(this IServiceCollection services, IConfiguration configuration)
     {
@@ -279,6 +280,7 @@ public static class ServiceCollectionExtensions
 
         return services;
     }
+
     public static IServiceCollection AddSignalR(this IServiceCollection services, IConfiguration configuration)
     {
         var redisConfig = configuration.GetSection("AuthSettings:RedisConfig").Value;
