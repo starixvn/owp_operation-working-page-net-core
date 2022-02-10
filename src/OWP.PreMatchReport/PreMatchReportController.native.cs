@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+    using Newtonsoft.Json;
 using MediatR;
 using OWP.PreMatchReport.Handlers;
 using OWP.PreMatchReport.Models;
@@ -21,9 +22,10 @@ public class PreMatchReportController : ControllerBase
     }
 
     [HttpPost("get-prematch-report")]
-    public async Task<IEnumerable<ReportModel>> GetPreMatchReport(ReportRequest request)
+        public async Task<IActionResult> GetPreMatchReport(ReportRequest request)
     {
-        return await mediator.Send(request);
+            var sender = await mediator.Send(request);
+            return Ok(JsonConvert.SerializeObject(sender));
     }
 
     [Route("export")]

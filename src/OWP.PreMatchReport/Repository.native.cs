@@ -10,6 +10,7 @@ namespace OWP.PreMatchReport
     public interface Repository
     {
         Task<IEnumerable<QueryPrematchReportModel>> GetReportForLeague(QueryModel queryModel);
+        Task<IEnumerable<QueryPrematchReportModel>> GetReportForMatches(QueryModel queryModel);
     }
 
     public class RepositoryImp : Repository
@@ -23,6 +24,16 @@ namespace OWP.PreMatchReport
         public async Task<IEnumerable<QueryPrematchReportModel>> GetReportForLeague(QueryModel queryModel)
         {
             var criteria = new GetReportForLeagueCriteria
+            {
+                FromDate = queryModel.FromDate,
+                ToDate = queryModel.ToDate,
+                KeyWord = queryModel.KeyWord
+            };
+            return await dynamicRepository.FetchAsync<QueryPrematchReportModel>(criteria);
+        }
+        public async Task<IEnumerable<QueryPrematchReportModel>> GetReportForMatches(QueryModel queryModel)
+        {
+            var criteria = new GetReportForMatchesCriteria
             {
                 FromDate = queryModel.FromDate,
                 ToDate = queryModel.ToDate,
