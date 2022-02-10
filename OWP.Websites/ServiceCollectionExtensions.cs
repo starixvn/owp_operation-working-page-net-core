@@ -49,6 +49,7 @@ using OWP.SimpleDataApi;
 using OWP.TicketCenter;
 using OWP.TicketCenter.Hubs;
 using OWP.TicketTypeRecipient;
+using OWP.PreMatchReport;
 
 using Sentry;
 
@@ -65,6 +66,7 @@ public static class ServiceCollectionExtensions
             mc.AddProfile(new OtherSport.AutoMapperProfile());
             mc.AddProfile(new TicketCenter.AutoMapperProfile());
             mc.AddProfile(new OvertimeReport.AutoMapperProfile());
+            mc.AddProfile(new PreMatchReport.AutoMapperProfile());
         });
 
         var mapper = mapperConfig.CreateMapper();
@@ -208,6 +210,7 @@ public static class ServiceCollectionExtensions
         services.AddTicketCenterService();
         services.AddOvertimeReport();
         services.AddPreMatchAssignmentServices();
+        services.AddPreMatchReportService();
 
         return services;
     }
@@ -224,7 +227,7 @@ public static class ServiceCollectionExtensions
         services.AddMediatR(typeof(TicketTypeRecipientController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(OvertimeReportController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(PreMatchAssignmentController).Assembly);
-
+        services.AddMediatR(typeof(PreMatchReportController).GetTypeInfo().Assembly);
         return services;
     }
 
