@@ -1,45 +1,43 @@
-namespace OWP.PreMatchReport
-{
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Criteria;
-    using Fanex.Data.Repository;
-    using OWP.PreMatchReport.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using OWP.PreMatchReport.Criteria;
+using Fanex.Data.Repository;
+using OWP.PreMatchReport.Models;
 
-    public interface Repository
+namespace OWP.PreMatchReport;
+public interface Repository
+{
+    Task<IEnumerable<QueryPrematchReportModel>> GetReportForLeague(QueryModel queryModel);
+    Task<IEnumerable<QueryPrematchReportModel>> GetReportForMatches(QueryModel queryModel);
+}
+
+public class RepositoryImp : Repository
+{
+    private readonly IDynamicRepository dynamicRepository;
+    public RepositoryImp(IDynamicRepository dynamicRepository)
     {
-        Task<IEnumerable<QueryPrematchReportModel>> GetReportForLeague(QueryModel queryModel);
-        Task<IEnumerable<QueryPrematchReportModel>> GetReportForMatches(QueryModel queryModel);
+        this.dynamicRepository = dynamicRepository;
     }
 
-    public class RepositoryImp : Repository
+    public async Task<IEnumerable<QueryPrematchReportModel>> GetReportForLeague(QueryModel queryModel)
     {
-        private readonly IDynamicRepository dynamicRepository;
-        public RepositoryImp(IDynamicRepository dynamicRepository)
+        var criteria = new GetReportForLeagueCriteria
         {
-            this.dynamicRepository = dynamicRepository;
-        }
-
-        public async Task<IEnumerable<QueryPrematchReportModel>> GetReportForLeague(QueryModel queryModel)
+            FromDate = queryModel.FromDate,
+            ToDate = queryModel.ToDate,
+            KeyWord = queryModel.KeyWord
+        };
+        return await dynamicRepository.FetchAsync<QueryPrematchReportModel>(criteria);
+    }
+    public async Task<IEnumerable<QueryPrematchReportModel>> GetReportForMatches(QueryModel queryModel)
+    {
+        var criteria = new GetReportForMatchesCriteria
         {
-            var criteria = new GetReportForLeagueCriteria
-            {
-                FromDate = queryModel.FromDate,
-                ToDate = queryModel.ToDate,
-                KeyWord = queryModel.KeyWord
-            };
-            return await dynamicRepository.FetchAsync<QueryPrematchReportModel>(criteria);
-        }
-        public async Task<IEnumerable<QueryPrematchReportModel>> GetReportForMatches(QueryModel queryModel)
-        {
-            var criteria = new GetReportForMatchesCriteria
-            {
-                FromDate = queryModel.FromDate,
-                ToDate = queryModel.ToDate,
-                KeyWord = queryModel.KeyWord
-            };
-            return await dynamicRepository.FetchAsync<QueryPrematchReportModel>(criteria);
-        }
+            FromDate = queryModel.FromDate,
+            ToDate = queryModel.ToDate,
+            KeyWord = queryModel.KeyWord
+        };
+        return await dynamicRepository.FetchAsync<QueryPrematchReportModel>(criteria);
     }
 }

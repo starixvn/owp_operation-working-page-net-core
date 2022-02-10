@@ -16,7 +16,6 @@ namespace OWP.Websites
             //services.AddScoped<NotificationService, NotificationServiceImp>();
             services.AddScoped<NoteService, NoteServiceImp>();
             services.AddScoped<ShiftAssignmentService, ShiftAssignmentServiceImp>();
-            services.AddScoped<PreMatchReportExportService, PreMatchReportExportServiceImp>();
         }
     }
 }
