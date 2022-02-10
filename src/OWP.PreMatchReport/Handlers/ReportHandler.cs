@@ -11,8 +11,8 @@ namespace OWP.PreMatchReport.Handlers
 
     public class ReportRequest : QueryModel, IRequest<IEnumerable<ReportModel>>
     {
-
     }
+
     public class ReportHandler : IRequestHandler<ReportRequest, IEnumerable<ReportModel>>
     {
         private readonly IMapper mapper;
@@ -51,13 +51,13 @@ namespace OWP.PreMatchReport.Handlers
             foreach (var element in HDPLeagueLst)
             {
                 singleTraderOfLeague.TraderName = element.TraderName;
-                HDPLeagueHelper.buildHDPLeague(singleTraderOfLeague, element);
-                singleTraderOfLeague.Total_HDPLeague = HDPLeagueLst.Sum(x=>x.Amount);
+                //   HDPLeagueHelper.buildHDPLeague(singleTraderOfLeague, element);
+                singleTraderOfLeague.Total_HDPLeague = HDPLeagueLst.Sum(x => x.Amount);
             }
             foreach (var element in OULeagueLst)
             {
-                HDPLeagueHelper.buildOULeague(singleTraderOfLeague, element);
-                singleTraderOfLeague.Total_OULeague = OULeagueLst.Sum(x=>x.Amount);
+                //    HDPLeagueHelper.buildOULeague(singleTraderOfLeague, element);
+                singleTraderOfLeague.Total_OULeague = OULeagueLst.Sum(x => x.Amount);
             }
             return singleTraderOfLeague;
         }

@@ -1,4 +1,4 @@
-﻿namespace OWP.PreMatchAssignment.Constants;
+﻿namespace OWP.PreMatchReport.Constants;
 
 public class ReportConst
 {

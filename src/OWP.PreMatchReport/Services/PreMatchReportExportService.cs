@@ -1,8 +1,8 @@
 ﻿using OfficeOpenXml;
-using OWP.PreMatchAssignment.Constants;
+using OWP.PreMatchReport.Constants;
 using OWP.Services;
 
-namespace OWP.PreMatchAssignment.Services;
+namespace OWP.PreMatchReport.Services;
 
 public interface PreMatchReportExportService
 {

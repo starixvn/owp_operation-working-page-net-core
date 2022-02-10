@@ -1,31 +1,36 @@
-namespace OWP.PreMatchReport
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
+using MediatR;
+using OWP.PreMatchReport.Handlers;
+using OWP.PreMatchReport.Models;
+
+namespace OWP.PreMatchReport;
+
+[Route("api/[controller]")]
+[ApiController]
+[AllowAnonymous]
+[EnableCors("AllowOrigin")]
+public class PreMatchReportController : ControllerBase
 {
-    using System.Reflection.Metadata;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Cors;
-    using Microsoft.AspNetCore.Mvc;
-    using MediatR;
-    using Handlers;
-    using Models;
+    private readonly IMediator mediator;
 
-    [Route("api/[controller]")]
-    [ApiController]
-    [AllowAnonymous]
-    [EnableCors("AllowOrigin")]
-    public class PreMatchReportController : ControllerBase
+    public PreMatchReportController(IMediator mediator)
     {
-        private readonly IMediator mediator;
+        this.mediator = mediator;
+    }
 
-        public PreMatchReportController(IMediator mediator)
-        {
-            this.mediator = mediator;
-        }
-        [HttpPost("get-prematch-report")]
-        public async Task<IEnumerable<ReportModel>> GetPreMatchReport(ReportRequest request)
-        {
-            return await mediator.Send(request);
-        }   
+    [HttpPost("get-prematch-report")]
+    public async Task<IEnumerable<ReportModel>> GetPreMatchReport(ReportRequest request)
+    {
+        return await mediator.Send(request);
+    }
+
+    [Route("export")]
+    [HttpGet]
+    public async Task<IActionResult> ExportPreMatchReport()
+    {
+        var request = new ExportPreMatchReportRequest();
+        return File(await mediator.Send(request), "application/xlsx", "PreMatchAssignmentReport.xlsx");
     }
 }
