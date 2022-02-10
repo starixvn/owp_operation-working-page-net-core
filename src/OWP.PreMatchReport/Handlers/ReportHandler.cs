@@ -1,5 +1,6 @@
 namespace OWP.PreMatchReport.Handlers
 {
+    using AutoMapper;
     using OWP.PreMatchReport.Helper;
     using System.Collections.Generic;
     using System.Linq;
@@ -14,10 +15,12 @@ namespace OWP.PreMatchReport.Handlers
     }
     public class ReportHandler : IRequestHandler<ReportRequest, IEnumerable<ReportModel>>
     {
+        private readonly IMapper mapper;
         private readonly Repository repository;
 
-        public ReportHandler(Repository repository)
+        public ReportHandler(IMapper mapper, Repository repository)
         {
+            this.mapper = mapper;
             this.repository = repository;
         }
 
@@ -25,12 +28,13 @@ namespace OWP.PreMatchReport.Handlers
         {
             var queryReport = await repository.GetReportForLeague(request);
             var groupedTraderLeague = queryReport.GroupBy(x => x.TraderName).Select(y => y.ToList()).ToList();
-            var reportLeague = buildTraderReportLeague(groupedTraderLeague);
-            return reportLeague;
+            var reportLeague = buildTraderReportLeague(groupedTraderLeague).ToList();
+            var reportPreMatch = mapper.Map<IList<ReportModel>>(reportLeague);           
+            return reportPreMatch;
         }
-        public IList<ReportModel> buildTraderReportLeague(List<List<QueryPrematchReportModel>> traderReportLst)
+        public IList<ReportLeagueModel> buildTraderReportLeague(List<List<QueryPrematchReportModel>> traderReportLst)
         {
-            var traderOfLeague = new List<ReportModel>();
+            var traderOfLeague = new List<ReportLeagueModel>();
 
             foreach (var item in traderReportLst)
             {
@@ -39,9 +43,9 @@ namespace OWP.PreMatchReport.Handlers
             }
             return traderOfLeague;
         }
-        public ReportModel buildSingleTraderLeague(IList<QueryPrematchReportModel> reportItem)
+        public ReportLeagueModel buildSingleTraderLeague(IList<QueryPrematchReportModel> reportItem)
         {
-            var singleTraderOfLeague = new ReportModel();
+            var singleTraderOfLeague = new ReportLeagueModel();
             var HDPLeagueLst = reportItem.Select(x => x).Where(y => y.Bettype == 1).ToList();
             var OULeagueLst = reportItem.Select(x => x).Where(y => y.Bettype == 2).ToList();
             foreach (var element in HDPLeagueLst)
@@ -57,15 +61,5 @@ namespace OWP.PreMatchReport.Handlers
             }
             return singleTraderOfLeague;
         }
-        
-        
-        // public void buildReport(IEnumerable<ReportModel> lstReport)
-        // {
-        //     foreach (var item in lstReport)
-        //     {
-        //         item.TotalMatches = item.Total_HDPMatches + item.Total_OUMatches;
-        //         item.TotalLeague = item.Total_HDPLeague + item.Total_OULeague;
-        //     }
-        // }
     }
 }
