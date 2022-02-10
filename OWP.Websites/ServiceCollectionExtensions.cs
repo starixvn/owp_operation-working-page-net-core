@@ -66,6 +66,7 @@ public static class ServiceCollectionExtensions
             mc.AddProfile(new OtherSport.AutoMapperProfile());
             mc.AddProfile(new TicketCenter.AutoMapperProfile());
             mc.AddProfile(new OvertimeReport.AutoMapperProfile());
+            mc.AddProfile(new PreMatchReport.AutoMapperProfile());
         });
 
         var mapper = mapperConfig.CreateMapper();

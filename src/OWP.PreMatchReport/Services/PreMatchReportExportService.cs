@@ -1,5 +1,6 @@
 ﻿using OfficeOpenXml;
 using OWP.PreMatchReport.Constants;
+using OWP.PreMatchReport.Models;
 using OWP.Services;
 
 namespace OWP.PreMatchReport.Services;
@@ -35,8 +36,16 @@ public class PreMatchReportExportServiceImp : PreMatchReportExportService
             throw new FileNotFoundException(ReportConst.ReportTemplate);
         }
 
+        var records = getDataExportPreMatch();
+
         using var package = new ExcelPackage(file);
 
+        package.Workbook.Worksheets[0].Cells["A3"].LoadFromCollection(records);
         return await package.GetAsByteArrayAsync();
+    }
+
+    private List<ExportPreMatchModel> getDataExportPreMatch()
+    {
+        return new List<ExportPreMatchModel>();
     }
 }
