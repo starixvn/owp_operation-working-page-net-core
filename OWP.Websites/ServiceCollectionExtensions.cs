@@ -226,7 +226,7 @@ public static class ServiceCollectionExtensions
         services.AddMediatR(typeof(FileUploadController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(TicketTypeRecipientController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(OvertimeReportController).GetTypeInfo().Assembly);
-        services.AddMediatR(typeof(PreMatchAssignmentController).Assembly);
+        services.AddMediatR(typeof(PreMatchAssignmentController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(PreMatchReportController).GetTypeInfo().Assembly);
         return services;
     }
