@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-    using Newtonsoft.Json;
+using Newtonsoft.Json;
 using MediatR;
 using OWP.PreMatchReport.Handlers;
 using OWP.PreMatchReport.Models;
@@ -22,17 +22,23 @@ public class PreMatchReportController : ControllerBase
     }
 
     [HttpPost("get-prematch-report")]
-        public async Task<IActionResult> GetPreMatchReport(ReportRequest request)
+    public async Task<IActionResult> GetPreMatchReport(ReportRequest request)
     {
-            var sender = await mediator.Send(request);
-            return Ok(JsonConvert.SerializeObject(sender));
+        var sender = await mediator.Send(request);
+        return Ok(JsonConvert.SerializeObject(sender));
     }
 
-    [Route("export")]
-    [HttpGet]
-    public async Task<IActionResult> ExportPreMatchReport()
+    [Route("export-prematch-report")]
+    [HttpPost]
+    public async Task<IActionResult> ExportPreMatchReport(QueryModel query)
     {
-        var request = new ExportPreMatchReportRequest();
-        return File(await mediator.Send(request), "application/xlsx", "PreMatchAssignmentReport.xlsx");
+        var request = new ExportPreMatchReportRequest()
+        {
+            Query = query
+        };
+
+        var result = await mediator.Send(request);
+
+        return File(result.Content, result.ContentType, result.Name);
     }
 }

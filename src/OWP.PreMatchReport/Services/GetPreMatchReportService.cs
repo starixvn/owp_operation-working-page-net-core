@@ -11,8 +11,9 @@ namespace OWP.PreMatchReport.Services;
 
 public interface GetPreMatchReportService
 {
-    Task<IList<ReportModel>> GetReports(ReportRequest request);
+    Task<IList<ReportModel>> GetReports(QueryModel queryModel);
 }
+
 public class GetPreMatchReportServiceImp : GetPreMatchReportService
 {
     private readonly Repository repository;
@@ -22,10 +23,10 @@ public class GetPreMatchReportServiceImp : GetPreMatchReportService
         this.repository = repository;
     }
 
-    public async Task<IList<ReportModel>> GetReports(ReportRequest request)
+    public async Task<IList<ReportModel>> GetReports(QueryModel queryModel)
     {
-        var queryReportLeague = await repository.GetReportForLeague(request);
-        var queryReportMatches = await repository.GetReportForMatches(request);
+        var queryReportLeague = await repository.GetReportForLeague(queryModel);
+        var queryReportMatches = await repository.GetReportForMatches(queryModel);
 
         var groupedTraderLeague = queryReportLeague.GroupBy(x => x.TraderName).Select(y => y.ToList()).ToList();
         var groupedTraderMatches = queryReportMatches.GroupBy(x => x.TraderName).Select(y => y.ToList()).ToList();
@@ -43,6 +44,7 @@ public class GetPreMatchReportServiceImp : GetPreMatchReportService
 
         return reportLeague;
     }
+
     public IList<ReportModel> buildTraderReportLeague(List<List<QueryPrematchReportModel>> traderReportLst)
     {
         var traderOfLeague = new List<ReportModel>();
@@ -63,6 +65,7 @@ public class GetPreMatchReportServiceImp : GetPreMatchReportService
         }
         return traderOfLeague;
     }
+
     public IList<ReportModel> buildTraderReportMatches(List<List<QueryPrematchReportModel>> traderReportLst)
     {
         var traderOfLeague = new List<ReportModel>();
@@ -83,6 +86,7 @@ public class GetPreMatchReportServiceImp : GetPreMatchReportService
         }
         return traderOfLeague;
     }
+
     public ReportHDPLeagueModel buildSingleTraderHDPLeague(IList<QueryPrematchReportModel> reportItem)
     {
         var singleTraderOfLeague = new ReportHDPLeagueModel();
@@ -94,6 +98,7 @@ public class GetPreMatchReportServiceImp : GetPreMatchReportService
         }
         return singleTraderOfLeague;
     }
+
     public ReportOULeagueModel buildSingleTraderOULeague(IList<QueryPrematchReportModel> reportItem)
     {
         var singleTraderOfLeague = new ReportOULeagueModel();
@@ -105,6 +110,7 @@ public class GetPreMatchReportServiceImp : GetPreMatchReportService
         }
         return singleTraderOfLeague;
     }
+
     public ReportHDPMatchesModel buildSingleTraderHDPMatches(IList<QueryPrematchReportModel> reportItem)
     {
         var singleTraderOfMatches = new ReportHDPMatchesModel();
@@ -116,6 +122,7 @@ public class GetPreMatchReportServiceImp : GetPreMatchReportService
         }
         return singleTraderOfMatches;
     }
+
     public ReportOUMatchesModel buildSingleTraderOUMatches(IList<QueryPrematchReportModel> reportItem)
     {
         var singleTraderOfMatches = new ReportOUMatchesModel();
