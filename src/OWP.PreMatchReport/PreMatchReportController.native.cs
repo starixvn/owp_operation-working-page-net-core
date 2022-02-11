@@ -24,13 +24,12 @@ public class PreMatchReportController : ControllerBase
     [HttpPost("get-prematch-report")]
     public async Task<IActionResult> GetPreMatchReport(ReportRequest request)
     {
-        var sender = await mediator.Send(request);
-        return Ok(JsonConvert.SerializeObject(sender));
+        var result = await mediator.Send(request);
+        return Ok(result);
     }
 
-    [Route("export-prematch-report")]
-    [HttpPost]
-    public async Task<IActionResult> ExportPreMatchReport(QueryModel query)
+    [HttpGet("export-prematch-report")]
+    public async Task<IActionResult> ExportPreMatchReport([FromQuery] QueryModel query)
     {
         var request = new ExportPreMatchReportRequest()
         {

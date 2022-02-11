@@ -58,9 +58,8 @@ public class PreMatchReportExportServiceImp : PreMatchReportExportService
     private async Task<List<ExportPreMatchModel>> GetDataExportPreMatch(QueryModel query)
     {
         var result = await preMatchReportService.GetReports(query);
-        var records = mapper.Map<List<ExportPreMatchModel>>(result);
 
-        return records;
+        return result.ToList();
     }
 
     private void Visualize(ExcelWorksheet worksheet, List<ExportPreMatchModel> records)

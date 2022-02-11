@@ -1,6 +1,6 @@
 ﻿namespace OWP.PreMatchReport.Models;
 
-internal class ExportPreMatchModel
+public class ExportPreMatchModel
 {
     public string TraderName { get; set; }
     public string TotalMatches { get; set; }

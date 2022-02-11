@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using OWP.PreMatchReport.Models;
 using OWP.PreMatchReport.Handlers;
 using OWP.PreMatchReport.Constants;
@@ -12,19 +13,21 @@ namespace OWP.PreMatchReport.Services;
 
 public interface GetPreMatchReportService
 {
-    Task<IList<ReportModel>> GetReports(QueryModel queryModel);
+    Task<IList<ExportPreMatchModel>> GetReports(QueryModel queryModel);
 }
 
 public class GetPreMatchReportServiceImp : GetPreMatchReportService
 {
     private readonly Repository repository;
+    private readonly IMapper mapper;
 
-    public GetPreMatchReportServiceImp(Repository repository)
+    public GetPreMatchReportServiceImp(Repository repository, IMapper mapper)
     {
         this.repository = repository;
+        this.mapper = mapper;
     }
 
-    public async Task<IList<ReportModel>> GetReports(QueryModel queryModel)
+    public async Task<IList<ExportPreMatchModel>> GetReports(QueryModel queryModel)
     {
         var queryReportLeague = await repository.GetReportForLeague(queryModel);
         var queryReportMatches = await repository.GetReportForMatches(queryModel);
@@ -32,8 +35,8 @@ public class GetPreMatchReportServiceImp : GetPreMatchReportService
         var groupedTraderLeague = groupTraderByUserName(queryReportLeague);
         var groupedTraderMatches = groupTraderByUserName(queryReportMatches);
 
-        var reportLeague = buildTraderReportLeague(groupedTraderLeague);
-        var reportMatches = buildTraderReportMatches(groupedTraderMatches);
+        var reportLeague = BuildTraderReportLeague(groupedTraderLeague).ToList();
+        var reportMatches = BuildTraderReportMatches(groupedTraderMatches).ToList();
 
         foreach (var element in reportLeague)
         {
@@ -43,22 +46,17 @@ public class GetPreMatchReportServiceImp : GetPreMatchReportService
             element.TotalMatches = findTrader.TotalMatches;
         }
 
-        return reportLeague;
+        return mapper.Map<List<ExportPreMatchModel>>(reportLeague);
     }
 
-    public Dictionary<string, List<QueryPrematchReportModel>> groupTraderByUserName(IEnumerable<QueryPrematchReportModel> queryReport)
-    => queryReport.GroupBy(x => x.TraderName).ToDictionary(t => t.Key, t => t.Select(r => r).ToList());
-
-    public IList<ReportModel> buildTraderReportLeague(Dictionary<string, List<QueryPrematchReportModel>> traderReport)
+    public IList<ReportModel> BuildTraderReportLeague(List<List<QueryPrematchReportModel>> traderReportLst)
     {
         var traderOfLeague = new List<ReportModel>();
 
         foreach (var item in traderReport)
         {
-            var hdpLeague = new ReportHDPLeagueModel();
-            buildSingleTraderHDP(item.Value, hdpLeague);
-            var ouLeague = new ReportOULeagueModel();
-            buildSingleTraderOU(item.Value, ouLeague);
+            var hdpLeague = BuildSingleTraderHDPLeague(item);
+            var ouLeague = BuildSingleTraderOULeague(item);
             var temp = new ReportModel
             {
                 TraderName = item.Key,
@@ -71,16 +69,15 @@ public class GetPreMatchReportServiceImp : GetPreMatchReportService
         }
         return traderOfLeague;
     }
-    public IList<ReportModel> buildTraderReportMatches(Dictionary<string, List<QueryPrematchReportModel>> traderReport)
+
+    public IList<ReportModel> BuildTraderReportMatches(List<List<QueryPrematchReportModel>> traderReportLst)
     {
         var traderOfLeague = new List<ReportModel>();
 
         foreach (var item in traderReport)
         {
-            var hdpMatches = new ReportHDPMatchesModel();
-            buildSingleTraderHDP(item.Value, hdpMatches);
-            var ouMatches = new ReportOUMatchesModel();
-            buildSingleTraderOU(item.Value, ouMatches);
+            var hdpMatches = BuildSingleTraderHDPMatches(item);
+            var ouMatches = BuildSingleTraderOUMatches(item);
             var temp = new ReportModel
             {
                 TraderName = item.Key,
@@ -93,7 +90,8 @@ public class GetPreMatchReportServiceImp : GetPreMatchReportService
         }
         return traderOfLeague;
     }
-    public void buildSingleTraderHDP(IList<QueryPrematchReportModel> reportItem, ReportBaseModel singleTraderOfLeague)
+
+    public ReportHDPLeagueModel BuildSingleTraderHDPLeague(IList<QueryPrematchReportModel> reportItem)
     {
         var HDPLst = reportItem.Select(x => x).Where(y => y.Bettype == ReportConst.HDP_Id).ToList();
         foreach (var element in HDPLst)
@@ -102,7 +100,8 @@ public class GetPreMatchReportServiceImp : GetPreMatchReportService
             singleTraderOfLeague.Total = HDPLst.Sum(x => x.Amount);
         }
     }
-    public void buildSingleTraderOU(IList<QueryPrematchReportModel> reportItem, ReportBaseModel singleTraderOfLeague)
+
+    public ReportOULeagueModel BuildSingleTraderOULeague(IList<QueryPrematchReportModel> reportItem)
     {
         var OULst = reportItem.Select(x => x).Where(y => y.Bettype == ReportConst.OU_Id).ToList();
         foreach (var element in OULst)
@@ -110,7 +109,6 @@ public class GetPreMatchReportServiceImp : GetPreMatchReportService
             BuildHelper.build(singleTraderOfLeague, element);
             singleTraderOfLeague.Total = OULst.Sum(x => x.Amount);
         }
-
 
     }
 }

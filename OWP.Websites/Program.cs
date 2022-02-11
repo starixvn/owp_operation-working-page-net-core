@@ -11,27 +11,27 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
     ApplicationName = typeof(Program).Assembly.FullName,
     ContentRootPath = Directory.GetCurrentDirectory(),
-
 });
 
 builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
 // Add services to the container.
- builder.Services.AddCorsPolicy();
- builder.Services.AddControllerAuthorization();
- builder.Services.AddCookieAuthentication(builder.Configuration);
- builder.Services.AddRedis(builder.Configuration);
- builder.Services.AddRedisSession(builder.Configuration);
- builder.Services.AddSignalR(builder.Configuration);
- builder.Services.AddSimpleDataApiModule();
- builder.Services.AddNapServices(builder.Configuration);
- builder.Services.AddFanexServices(builder.Configuration);
- builder.Services.AddCoreServices();
- builder.Services.AddMediator();
- builder.Services.AddInternalServices();
- builder.Services.AddAutoMapper();
- builder.Services.AddRazorPages();
- builder.Services.AddControllersWithViews();
+builder.Services.AddCorsPolicy();
+builder.Services.AddControllerAuthorization();
+builder.Services.AddCookieAuthentication(builder.Configuration);
+builder.Services.AddRedis(builder.Configuration);
+builder.Services.AddRedisSession(builder.Configuration);
+builder.Services.AddSignalR(builder.Configuration);
+builder.Services.AddSimpleDataApiModule();
+builder.Services.AddNapServices(builder.Configuration);
+builder.Services.AddFanexServices(builder.Configuration);
+builder.Services.AddCoreServices();
+builder.Services.AddMediator();
+builder.Services.AddAutoMapper();
+builder.Services.AddInternalServices();
+
+builder.Services.AddRazorPages();
+builder.Services.AddControllersWithViews();
 
 // Configure app
 var app = builder.Build();

@@ -41,6 +41,7 @@ using OWP.Maxbet;
 using OWP.OtherSport;
 using OWP.OtherSport.Hubs;
 using OWP.OvertimeReport;
+using OWP.PrematchAssignment;
 using OWP.PreMatchAssignment;
 using OWP.PreMatchNotification;
 using OWP.RecipientGroup;
@@ -67,6 +68,7 @@ public static class ServiceCollectionExtensions
             mc.AddProfile(new TicketCenter.AutoMapperProfile());
             mc.AddProfile(new OvertimeReport.AutoMapperProfile());
             mc.AddProfile(new PreMatchReport.AutoMapperProfile());
+            mc.AddProfile((new PrematchAssignment.AutoMapperProfile()));
         });
 
         var mapper = mapperConfig.CreateMapper();
