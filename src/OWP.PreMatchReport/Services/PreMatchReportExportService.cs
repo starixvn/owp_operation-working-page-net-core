@@ -18,13 +18,11 @@ public class PreMatchReportExportServiceImp : PreMatchReportExportService
 {
     private readonly ConfigurationService configurationService;
     private readonly GetPreMatchReportService preMatchReportService;
-    private readonly IMapper mapper;
 
-    public PreMatchReportExportServiceImp(ConfigurationService configurationService, GetPreMatchReportService preMatchReportService, IMapper mapper)
+    public PreMatchReportExportServiceImp(ConfigurationService configurationService, GetPreMatchReportService preMatchReportService)
     {
         this.configurationService = configurationService;
         this.preMatchReportService = preMatchReportService;
-        this.mapper = mapper;
     }
 
     private FileInfo GetReportTemplate(string fileName)
