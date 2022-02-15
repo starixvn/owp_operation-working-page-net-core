@@ -3,8 +3,8 @@
 public class ExportPreMatchModel
 {
     public string TraderName { get; set; }
-    public string TotalMatches { get; set; }
     public string TotalLeague { get; set; }
+    public string TotalMatches { get; set; }
 
     // hdp league
     public string LeagueHdpMj { get; set; }
