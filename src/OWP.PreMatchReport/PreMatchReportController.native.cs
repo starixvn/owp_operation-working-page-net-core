@@ -28,8 +28,8 @@ public class PreMatchReportController : ControllerBase
         return Ok(result);
     }
 
-    [HttpPost("export-prematch-report")]
-    public async Task<IActionResult> ExportPreMatchReport(QueryModel query)
+    [HttpGet("export-prematch-report")]
+    public async Task<IActionResult> ExportPreMatchReport([FromQuery] QueryModel query)
     {
         var request = new ExportPreMatchReportRequest()
         {
