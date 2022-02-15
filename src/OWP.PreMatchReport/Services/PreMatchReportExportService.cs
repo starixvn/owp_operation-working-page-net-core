@@ -70,6 +70,8 @@ public class PreMatchReportExportServiceImp : PreMatchReportExportService
         worksheet.Cells[range].Style.Border.Right.Style = ExcelBorderStyle.Thin;
         worksheet.Cells[range].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
 
-        worksheet.Cells[$"B3:BC{rowEnd}"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+        var rangeData = records.Count == 0 ? "B3:BC3" : $"B3:BC{rowEnd}";
+
+        worksheet.Cells[rangeData].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
     }
 }
