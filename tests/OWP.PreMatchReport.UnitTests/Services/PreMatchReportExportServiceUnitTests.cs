@@ -39,7 +39,14 @@ public class PreMatchReportExportServiceUnitTests
         Assert.NotNull(actual);
     }
 
-    private List<ExportPreMatchModel> mockExportPreMatchModels => new List<ExportPreMatchModel>()
+    private List<ExportPreMatchModel> mockExportPreMatchModels => new()
     {
+        new()
+        {
+            TraderName = "ABC",
+            TotalMatches = "1",
+            TotalLeague = "2",
+            LeagueHdpM1 = "1"
+        }
     };
 }
