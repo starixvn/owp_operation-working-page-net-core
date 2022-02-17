@@ -139,7 +139,6 @@
     <Setting Key="OWP_TicketCenter_PinTicket" SpName="OWP_TicketCenter_PinTicket" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_TicketCenter_DeleteTicket" SpName="OWP_TicketCenter_DeleteTicket" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_TicketCenter_GetExistedTicketId" SpName="OWP_TicketCenter_GetExistedTicketId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_CountUnreadMessageByUserId" SpName="OWP_CountUnreadMessageByUserId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
   </Function>
   <Function Name="FileUpload">
     <Setting Key="OWP_FileUpload_Upload" SpName="OWP_FileUpload_Upload" DbName="DBOWP.bodb_OWP.bodbOWPNet" />

@@ -88,7 +88,7 @@ namespace OWP.TicketCenter
 
     Task<IEnumerable<MessageUnreadCounter>> GetMessageUnreadByMultipleUserId(IList<int> userIds);
 
-
+        
     Task<bool> QueryExistedTicketId(int ticketId);
   }
 
