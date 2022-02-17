@@ -4,6 +4,9 @@ using OWP.TicketCenter.Middleware.Models;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Notification.Services;
 using OWP.TicketCenter.ViewModels;
+using OWP.TicketCenter.Enum;
+using OWP.TicketCenter.Notification.Models;
+using System.Linq;
 
 namespace OWP.TicketCenter.Handlers
 {
@@ -56,7 +59,13 @@ namespace OWP.TicketCenter.Handlers
 
             var result = await repository.AddNewMessage(message);
 
-            await notification.Notify(sessionId, request.TicketId, request.TicketEventType);
+            await notification.Notify(new NotificationSource
+            {
+                SessionId = sessionId,
+                TicketId = request.TicketId,
+                EventType = request.TicketEventType,
+                IsNewMessage = true
+            });
 
             await notification.NotifyNewMessageIncome(request.TicketId);
 

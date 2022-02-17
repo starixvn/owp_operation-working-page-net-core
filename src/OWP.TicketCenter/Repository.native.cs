@@ -49,8 +49,6 @@ namespace OWP.TicketCenter
 
         Task<IEnumerable<int>> GetUserIdsByTicketId(int ticketId);
 
-        Task<IEnumerable<int>> GetUserIdsIgnoredCreatorId(int ticketId, int creatorId);
-
         Task<int> AddSingleRecipient(InsertSingleRecipientRequest request);
 
         Task RemoveManyRecipientReader(RemoveManyRecipientReaderCriteria criteria);
@@ -86,6 +84,9 @@ namespace OWP.TicketCenter
         Task PinTicket(PinTicketCriteria criteria);
 
         Task DeleteTicket(DeleteTicketCriteria criteria);
+        
+         Task<IEnumerable<MessageUnreadCounter>> GetMessageUnreadByMultipleUserId(string sessionId);
+
         
         Task<bool> QueryExistedTicketId(int ticketId);
     }
@@ -167,17 +168,6 @@ namespace OWP.TicketCenter
             };
             criteria.ThrowExceptionIfInvalid();
             return await dynamicRepository.FetchAsync<int>(criteria);
-        }
-
-        public async Task<IEnumerable<int>> GetUserIdsIgnoredCreatorId(int ticketId, int creatorId)
-        {
-            var criteria = new GetUserIdsByTicketIdCriteria
-            {
-                TicketId = ticketId
-            };
-            criteria.ThrowExceptionIfInvalid();
-            var userIds = await dynamicRepository.FetchAsync<int>(criteria);
-            return userIds.Where(id => id != creatorId);
         }
 
         public async Task<int> AddSingleRecipient(InsertSingleRecipientRequest request)
@@ -365,5 +355,11 @@ namespace OWP.TicketCenter
 
             return existedTicketId.HasValue;
         }
+          public async Task<IEnumerable<MessageUnreadCounter>> GetMessageUnreadByMultipleUserId(string userIds)
+            => await dynamicRepository.FetchAsync<MessageUnreadCounter>(new GetMessageUnreadByMultipleUserIdCriteria
+            {
+                UserIds = userIds
+            });
+
     }
 }

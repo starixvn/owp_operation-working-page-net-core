@@ -82,9 +82,7 @@ namespace OWP.TicketCenter.UnitTests.Handlers
             await writer.Execute(Arg.Compat.Any<MessageTransform>(), Arg.Compat.Any<NotificationTemplateCode>());
 
             await notificationService.Notify(
-                Arg.Compat.Any<string>(),
-                Arg.Compat.Any<int>(),
-                Arg.Compat.Any<int>());
+                Arg.Compat.Any<NotificationSource>());
 
             await notificationService.NotifyNewMessageIncome(Arg.Compat.Any<int>());
 

@@ -9,5 +9,9 @@ namespace OWP.TicketCenter.Notification.Models
         public int TicketType { get; set; }
 
         public int EventType { get; set; }
+
+        public int? TotalMessageUnread { get; set; }
+
+        public bool IsNewMessage { get; set; }
     }
 }
