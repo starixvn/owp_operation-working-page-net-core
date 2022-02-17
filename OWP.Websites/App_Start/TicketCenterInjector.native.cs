@@ -10,6 +10,7 @@ public static class TicketCenterInjector
     public static void AddTicketCenterService(this IServiceCollection services)
     {
         services.AddScoped<PermissionFilter>();
+        services.AddScoped<PermissionOnExistedTicket>();
         services.AddScoped<PermissionOnOpenTicketDetail>();
         services.AddScoped<PermissionRemoveLastRecipient>();
         services.AddScoped<Repository, RepositoryImp>();

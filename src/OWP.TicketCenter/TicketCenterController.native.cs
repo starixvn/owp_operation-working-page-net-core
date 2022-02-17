@@ -27,7 +27,8 @@ namespace OWP.TicketCenter
         }
 
         [HttpPost("new-message")]
-        [ServiceFilter(typeof(PermissionFilter))]
+        [ServiceFilter(typeof(PermissionOnExistedTicket), Order = 0)]
+        [ServiceFilter(typeof(PermissionFilter), Order = 1)]
         public async Task<IActionResult> NewMessage(NewMessageRequest request)
         {
             var result = await mediator.Send(request);
@@ -82,7 +83,8 @@ namespace OWP.TicketCenter
         #region get detail
 
         [HttpPost("ticket-detail/get-league")]
-        [ServiceFilter(typeof(PermissionFilter))]
+        [ServiceFilter(typeof(PermissionOnExistedTicket), Order = 0)]
+        [ServiceFilter(typeof(PermissionFilter), Order = 1)]
         public async Task<IActionResult> GetTicketLeagueDetail(TicketLeagueDetailRequest request)
         {
             var result = await mediator.Send(request);
@@ -90,7 +92,8 @@ namespace OWP.TicketCenter
         }
 
         [HttpPost("ticket-detail/get-match")]
-        [ServiceFilter(typeof(PermissionFilter))]
+        [ServiceFilter(typeof(PermissionOnExistedTicket), Order = 0)]
+        [ServiceFilter(typeof(PermissionFilter), Order = 1)]
         public async Task<IActionResult> GetTicketMatchDetail(TicketMatchDetailRequest request)
         {
             var result = await mediator.Send(request);
@@ -98,7 +101,8 @@ namespace OWP.TicketCenter
         }
 
         [HttpPost("ticket-detail/get-other")]
-        [ServiceFilter(typeof(PermissionFilter))]
+        [ServiceFilter(typeof(PermissionOnExistedTicket), Order = 0)]
+        [ServiceFilter(typeof(PermissionFilter), Order = 1)]
         public async Task<IActionResult> GetTicketOtherDetail(TicketOtherDetailRequest request)
         {
             var result = await mediator.Send(request);
@@ -106,7 +110,8 @@ namespace OWP.TicketCenter
         }
 
         [HttpPost("ticket-detail/get-support")]
-        [ServiceFilter(typeof(PermissionFilter))]
+        [ServiceFilter(typeof(PermissionOnExistedTicket), Order = 0)]
+        [ServiceFilter(typeof(PermissionFilter), Order = 1)]
         public async Task<IActionResult> GetTicketSupportDetail(TicketSupportDetailRequest request)
         {
             var result = await mediator.Send(request);
@@ -116,7 +121,8 @@ namespace OWP.TicketCenter
         #endregion get detail
 
         [HttpPost("ticket-detail/insert-single-recipient")]
-        [ServiceFilter(typeof(PermissionFilter))]
+        [ServiceFilter(typeof(PermissionOnExistedTicket), Order = 0)]
+        [ServiceFilter(typeof(PermissionFilter), Order = 1)]
         public async Task<IActionResult> AddSingleRecipient(InsertSingleRecipientRequest request)
         {
             var result = await mediator.Send(request);
@@ -124,8 +130,9 @@ namespace OWP.TicketCenter
         }
 
         [HttpPost("ticket-detail/remove-single-recipient")]
-        [ServiceFilter(typeof(PermissionFilter), Order = 0)]
-        [ServiceFilter(typeof(PermissionRemoveLastRecipient), Order = 1)]
+        [ServiceFilter(typeof(PermissionOnExistedTicket), Order = 0)]
+        [ServiceFilter(typeof(PermissionFilter), Order = 1)]
+        [ServiceFilter(typeof(PermissionRemoveLastRecipient), Order = 2)]
         public async Task<IActionResult> RemoveSingleRecipient(RemoveSingleRecipientRequest request)
         {
             var result = await mediator.Send(request);
@@ -133,7 +140,8 @@ namespace OWP.TicketCenter
         }
 
         [HttpPost("ticket-detail/update-ticket-status")]
-        [ServiceFilter(typeof(PermissionFilter))]
+        [ServiceFilter(typeof(PermissionOnExistedTicket), Order = 0)]
+        [ServiceFilter(typeof(PermissionFilter), Order = 1)]
         public async Task<IActionResult> UpdateTicketStatus(UpdateTicketStatusRequest request)
         {
             var result = await mediator.Send(request);

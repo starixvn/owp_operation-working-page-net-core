@@ -86,6 +86,8 @@ namespace OWP.TicketCenter
         Task PinTicket(PinTicketCriteria criteria);
 
         Task DeleteTicket(DeleteTicketCriteria criteria);
+        
+        Task<bool> QueryExistedTicketId(int ticketId);
     }
 
     public class RepositoryImp : Repository
@@ -349,7 +351,19 @@ namespace OWP.TicketCenter
 
         public async Task PinTicket(PinTicketCriteria criteria)
             => await dynamicRepository.ExecuteAsync(criteria);
+            
         public async Task DeleteTicket(DeleteTicketCriteria criteria)
             => await dynamicRepository.ExecuteAsync(criteria);
+
+        public async Task<bool> QueryExistedTicketId(int ticketId)
+        {
+            var criteria = new GetExistedTicketIdCriteria
+            {
+                TicketId = ticketId
+            };
+            var existedTicketId = (await dynamicRepository.FetchAsync<int?>(criteria)).FirstOrDefault();
+
+            return existedTicketId.HasValue;
+        }
     }
 }
