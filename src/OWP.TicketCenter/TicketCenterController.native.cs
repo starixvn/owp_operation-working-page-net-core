@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using System.Net;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -145,6 +146,10 @@ namespace OWP.TicketCenter
 
         [HttpPost("pin-ticket")]
         public async Task PinTicket(PinTicketRequest request)
+            => await mediator.Send(request);
+
+        [HttpPost("delete-ticket")]
+        public async Task DeleteTicket(DeleteTicketRequest request)
             => await mediator.Send(request);
     }
 }

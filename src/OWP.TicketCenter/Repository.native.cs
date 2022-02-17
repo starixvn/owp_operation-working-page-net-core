@@ -84,6 +84,8 @@ namespace OWP.TicketCenter
         Task<IEnumerable<StatusHistory>> GetStatusHistory(int ticketId);
 
         Task PinTicket(PinTicketCriteria criteria);
+
+        Task DeleteTicket(DeleteTicketCriteria criteria);
     }
 
     public class RepositoryImp : Repository
@@ -346,6 +348,8 @@ namespace OWP.TicketCenter
         }
 
         public async Task PinTicket(PinTicketCriteria criteria)
+            => await dynamicRepository.ExecuteAsync(criteria);
+        public async Task DeleteTicket(DeleteTicketCriteria criteria)
             => await dynamicRepository.ExecuteAsync(criteria);
     }
 }
