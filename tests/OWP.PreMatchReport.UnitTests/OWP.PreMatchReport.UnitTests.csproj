@@ -7,11 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="App_Data\Templates\PreMatchAssigmentReportTemplate.xlsx" />
+    <None Remove="App_Data\Templates\PreMatchAssignmentReportTemplate.xlsx" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="App_Data\Templates\PreMatchAssigmentReportTemplate.xlsx">
+    <Content Include="App_Data\Templates\PreMatchAssignmentReportTemplate.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

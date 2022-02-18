@@ -21,7 +21,6 @@ namespace OWP.PreMatchNotification.UnitTests.Assignment.OtherAssignment
 
         public OtherAssignmentDetectorUnitTestsBase()
         {
-            
             SetUp();
         }
 

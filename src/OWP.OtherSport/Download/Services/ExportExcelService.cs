@@ -123,7 +123,13 @@
 
         public void Dispose()
         {
-            excelPackage.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool isDisposing)
+        {
+            excelPackage?.Dispose();
         }
     }
 }
