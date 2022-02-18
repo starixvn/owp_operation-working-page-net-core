@@ -13,7 +13,7 @@ namespace OWP.PreMatchReport.Helper
             { LeagueGroupConst.MJ , "MJ"},
             { LeagueGroupConst.M1 , "M1"},
             { LeagueGroupConst.M2 , "M2"},
-            { LeagueGroupConst.M2 , "Unknown"},
+            { LeagueGroupConst.M3 , "M3"},
             { LeagueGroupConst.M4 , "M4"},
             { LeagueGroupConst.Others , "Others"},
             { LeagueGroupConst.Others1 , "Others1"},
