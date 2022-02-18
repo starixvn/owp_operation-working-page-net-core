@@ -66,4 +66,4 @@ NapClientManager
 app.Run();
 #endif
 
-await app.RunAsync("https://localhost:5001");
+await app.RunAsync("http://0.0.0.0:5000");

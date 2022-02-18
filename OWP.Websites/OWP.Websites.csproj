@@ -54,6 +54,7 @@
     <PackageReference Include="Olympus.SimpleDataApi.AspNetCore" Version="3.0.0" />
     <PackageReference Include="ONEbook.UM.AspNetCore" Version="3.1.0-beta02" />
     <PackageReference Include="ONEbook.UM.Transport" Version="3.1.1" />
+    <PackageReference Include="Microsoft.NETCore.Targets" Version="6.0.0-preview.4.21253.7" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
