@@ -23,7 +23,7 @@ public class ExportPreMatchReportHandler : IRequestHandler<ExportPreMatchReportR
     public async Task<FileExport> Handle(ExportPreMatchReportRequest request, CancellationToken cancellationToken)
     {
         var content = await reportExportService.Export(request.Query);
-        var fileName = $"Pre-match Assigment Record {request.Query.FromDate.ToString("ddMMMyyyy")}-{request.Query.ToDate.ToString("ddMMMyyyy")}.xlsx";
+        var fileName = $"Prematch Assigment Record {request.Query.FromDate.ToString("ddMMMyyyy")}-{request.Query.ToDate.ToString("ddMMMyyyy")}.xlsx";
 
         return new FileExport(fileName, content);
     }
