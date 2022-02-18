@@ -2,6 +2,7 @@ namespace OWP.PreMatchReport.Models;
 
 public class ReportModel
 {
+    public int UserId { get; set; }
     public string TraderName { get; set; }
     public int TotalMatches { get; set; }
     public int TotalLeague { get; set; }

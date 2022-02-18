@@ -45,7 +45,20 @@ public class GetPreMatchReportServiceImp : GetPreMatchReportService
             element.TotalMatches = findTrader.TotalMatches;
         }
 
-        return mapper.Map<List<ExportPreMatchModel>>(reportLeague);
+        List<int> assignmentUserId = reportLeague.Select(x => x.UserId).ToList();
+
+        var userNames = await repository.GetUnAssigned(assignmentUserId, queryModel.KeyWord);
+
+        var reportEmpty = userNames.Select(item => new ReportModel
+        {
+            TraderName = item,
+            ReportHDPLeague = new ReportHDPLeagueModel(),
+            ReportHDPMatches = new ReportHDPMatchesModel(),
+            ReportOULeague = new ReportOULeagueModel(),
+            ReportOUMatches = new ReportOUMatchesModel()
+        }).ToList();
+
+        return mapper.Map<List<ExportPreMatchModel>>(reportLeague.Concat(reportEmpty));
     }
 
     public Dictionary<string, List<QueryPrematchReportModel>> GroupTraderByUserName(IEnumerable<QueryPrematchReportModel> queryReport)
@@ -63,6 +76,7 @@ public class GetPreMatchReportServiceImp : GetPreMatchReportService
             BuildSingleTraderOU(item.Value, ouLeague);
             var temp = new ReportModel
             {
+                UserId = item.Value[0].UserId,
                 TraderName = item.Key,
                 ReportHDPLeague = hdpLeague,
                 ReportOULeague = ouLeague,
@@ -86,6 +100,7 @@ public class GetPreMatchReportServiceImp : GetPreMatchReportService
             BuildSingleTraderOU(item.Value, ouMatches);
             var temp = new ReportModel
             {
+                UserId = item.Value[0].UserId,
                 TraderName = item.Key,
                 ReportHDPMatches = hdpMatches,
                 ReportOUMatches = ouMatches,
@@ -99,7 +114,7 @@ public class GetPreMatchReportServiceImp : GetPreMatchReportService
 
     public void BuildSingleTraderHDP(IList<QueryPrematchReportModel> reportItem, ReportBaseModel singleTraderOfLeague)
     {
-        var HDPLst = reportItem.Select(x => x).Where(y => y.Bettype == ReportConst.HDP_Id).ToList();
+        var HDPLst = reportItem.Select(x => x).Where(y => y?.Bettype == ReportConst.HDP_Id).ToList();
         foreach (var element in HDPLst)
         {
             BuildHelper.build(singleTraderOfLeague, element);

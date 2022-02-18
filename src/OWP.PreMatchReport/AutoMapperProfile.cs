@@ -44,7 +44,7 @@ public class AutoMapperProfile : Profile
          .ForMember(dest => dest.LeagueOuOthers4, act => act.MapFrom(src => src.ReportOULeague.Others4.ToDashes()))
          .ForMember(dest => dest.LeagueOuOthers5, act => act.MapFrom(src => src.ReportOULeague.Others5.ToDashes()))
          .ForMember(dest => dest.LeagueOuUnknown, act => act.MapFrom(src => src.ReportOULeague.Unknown.ToDashes()))
-         .ForMember(dest => dest.LeagueOuTotal, act => act.MapFrom(src => src.ReportOULeague.Total))
+         .ForMember(dest => dest.LeagueOuTotal, act => act.MapFrom(src => src.ReportOULeague.Total.ToDashes()))
          //
          .ForMember(dest => dest.MatchHdpMj, act => act.MapFrom(src => src.ReportHDPMatches.MJ.ToDashes()))
          .ForMember(dest => dest.MatchHdpM1, act => act.MapFrom(src => src.ReportHDPMatches.M1.ToDashes()))
