@@ -394,6 +394,6 @@
 	<Function Name="PreMatchReport">
 		<Setting Key="OWP_PreMatchReport_GetReportForLeagueByDateRange" SpName="OWP_PreMatchReport_GetReportForLeagueByDateRange" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_PreMatchReport_GetReportForMatchByDateRange" SpName="OWP_PreMatchReport_GetReportForMatchByDateRange" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-		<Setting Key="OWP_PreMatchReport_GetAllUnassignedUsers" SpName="OWP_PreMatchReport_GetAllUnassignedUsers" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
+		<Setting Key="OWP_PreMatchReport_GetAllUnassignedUsers" SpName="OWP_PreMatchReport_GetAllUnassignedUsers" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 	</Function>
 </Functions>

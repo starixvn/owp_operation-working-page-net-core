@@ -1,9 +1,9 @@
 namespace OWP.PreMatchReport.Helper
 {
-    using System.Reflection;
     using OWP.Extensions;
-    using OWP.PreMatchReport.Models;
     using OWP.PreMatchReport.Constants;
+    using OWP.PreMatchReport.Models;
+    using System.Reflection;
 
     public static class LeagueGroupHelper
     {

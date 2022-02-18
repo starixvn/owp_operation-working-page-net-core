@@ -9,6 +9,7 @@ public interface Repository
     Task<IEnumerable<QueryPrematchReportModel>> GetReportForLeague(QueryModel queryModel);
 
     Task<IEnumerable<QueryPrematchReportModel>> GetReportForMatches(QueryModel queryModel);
+
     Task<List<string>> GetUnAssigned(List<int> userIds, string keyWord);
 }
 
@@ -42,11 +43,12 @@ public class RepositoryImp : Repository
         };
         return await dynamicRepository.FetchAsync<QueryPrematchReportModel>(criteria);
     }
+
     public async Task<List<string>> GetUnAssigned(List<int> userIds, string keyWord)
     {
         var criteria = new GetUnAssignedUserCriteria
         {
-            UserIds = string.Join(',', userIds) ,
+            UserIds = string.Join(',', userIds),
             KeyWord = keyWord
         };
         return (await dynamicRepository.FetchAsync<string>(criteria)).ToList();
