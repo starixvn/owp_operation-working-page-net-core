@@ -27,8 +27,6 @@
 
         private int totalColumnIndex;
 
-        private int dateColumnNumber;
-
         public ExportReportByMonthServicesImp(ReportByMonthServices reportService)
         {
             this.reportService = reportService;
@@ -56,8 +54,7 @@
 
         public void BuildHeaderInfo(List<DateColumnInfo> dateColumns)
         {
-            dateColumnNumber = dateColumns.Count;
-            totalColumnIndex = ExcelConst.StartDataColIndex + dateColumnNumber;
+            totalColumnIndex = ExcelConst.StartDataColIndex + dateColumns.Count;
             SetHeaderStyle();
 
             reportSheet.Cells[ExcelConst.HeaderRowIndex, UserColConst.NoColIndex].Value = UserColConst.NoColName;
@@ -65,7 +62,7 @@
             reportSheet.Cells[ExcelConst.HeaderRowIndex, UserColConst.TraderColIndex].Value = UserColConst.TraderColName;
             reportSheet.Cells[ExcelConst.HeaderRowIndex, totalColumnIndex].Value = UserColConst.TotalColName;
 
-            for (var i = 0; i < dateColumnNumber; i++)
+            for (var i = 0; i < dateColumns.Count; i++)
             {
                 var dateColumn = dateColumns[i];
                 var colIndex = i + ExcelConst.StartDataColIndex;

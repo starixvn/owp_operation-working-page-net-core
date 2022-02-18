@@ -117,7 +117,7 @@ public class GetPreMatchReportServiceImp : GetPreMatchReportService
         var HDPLst = reportItem.Select(x => x).Where(y => y?.Bettype == ReportConst.HDP_Id).ToList();
         foreach (var element in HDPLst)
         {
-            BuildHelper.build(singleTraderOfLeague, element);
+            LeagueGroupHelper.Build(singleTraderOfLeague, element);
             singleTraderOfLeague.Total = HDPLst.Sum(x => x.Amount);
         }
     }
@@ -127,7 +127,7 @@ public class GetPreMatchReportServiceImp : GetPreMatchReportService
         var OULst = reportItem.Select(x => x).Where(y => y.Bettype == ReportConst.OU_Id).ToList();
         foreach (var element in OULst)
         {
-            BuildHelper.build(singleTraderOfLeague, element);
+            LeagueGroupHelper.Build(singleTraderOfLeague, element);
             singleTraderOfLeague.Total = OULst.Sum(x => x.Amount);
         }
     }

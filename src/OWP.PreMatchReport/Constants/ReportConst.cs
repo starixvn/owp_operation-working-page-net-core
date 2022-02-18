@@ -1,22 +1,24 @@
 ﻿namespace OWP.PreMatchReport.Constants;
 
-public class ReportConst
+public static class ReportConst
 {
-    public const string ReportTemplate = "PreMatchAssigmentReportTemplate.xlsx";
-    
-    public const int Unknown_Id = 0;
-    public const int MJ_Id = 1;
-    public const int M1_Id = 2;
-    public const int M2_Id = 3;
-    public const int M3_Id = 4;
-    public const int M4_Id = 5;
-    public const int Others_Id = 6;
-    public const int Others1_Id = 7;
-    public const int Others2_Id = 8;
-    public const int Others3_Id = 9;
-    public const int Others4_Id = 10;
-    public const int Others5_Id = 11;
-
+    public const string ReportTemplate = "PreMatchAssignmentReportTemplate.xlsx";
     public const int HDP_Id = 1;
     public const int OU_Id = 3;
+}
+
+public static class LeagueGroupConst
+{
+    public const int Unknown = 0;
+    public const int MJ = 1;
+    public const int M1 = 2;
+    public const int M2 = 3;
+    public const int M3 = 4;
+    public const int M4 = 5;
+    public const int Others = 6;
+    public const int Others1 = 7;
+    public const int Others2 = 8;
+    public const int Others3 = 9;
+    public const int Others4 = 10;
+    public const int Others5 = 11;
 }
