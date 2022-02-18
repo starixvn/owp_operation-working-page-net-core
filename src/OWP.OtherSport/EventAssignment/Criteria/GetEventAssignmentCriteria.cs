@@ -1,7 +1,6 @@
 ﻿namespace OWP.OtherSport.EventAssignment.Criteria
 {
     using Fanex.Data.Repository;
-    
 
     public class GetEventAssignmentCriteria : CriteriaBase
     {

@@ -4,8 +4,7 @@
     using OWP.PreMatchNotification.Constants;
     using OWP.PreMatchNotification.LinkedMatch.Models;
     using OWP.PreMatchNotification.Models;
-    
-    
+
     public interface ChangedLiveMatchGenerator
     {
         List<ChangedValue> Create(ChangedSnapshot changedSnapshot, Employee employees);

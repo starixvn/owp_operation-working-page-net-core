@@ -5,16 +5,12 @@ namespace OWP.OvertimeReport.UnitTests.Handlers
     using OvertimeReport.Models;
     using OWP.OvertimeReport.Handlers;
     using OWP.OvertimeReport.Services;
-    
-    
-    
-    
+
     using Xunit;
     using Xunit.Asserts.Compare;
 
     public class GetReportByYearHandlerUnitTests
     {
-
         [Fact]
         public async Task Handle_WithCorrectReuestModel_ReturnData()
         {

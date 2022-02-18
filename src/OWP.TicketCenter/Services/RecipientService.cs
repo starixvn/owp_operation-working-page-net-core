@@ -2,8 +2,6 @@
 using OWP.TicketCenter.Enum;
 using OWP.TicketCenter.Models;
 
-
-
 namespace OWP.TicketCenter.Services
 {
     public interface RecipientService

@@ -1,7 +1,5 @@
 ﻿namespace OWP.AutoAssignment.Services.PublicApi
 {
-    
-        
     using Constant;
     using OWP.AutoAssignment.Models.PublicApi;
 

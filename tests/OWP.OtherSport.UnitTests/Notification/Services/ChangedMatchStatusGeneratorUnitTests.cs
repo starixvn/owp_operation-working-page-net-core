@@ -1,8 +1,4 @@
-﻿
-
-using System.Text;
-
-using OWP.OtherSport.Notification.Models;
+﻿using OWP.OtherSport.Notification.Models;
 using OWP.OtherSport.Notification.Services;
 using OWP.OtherSport.Submit.Models;
 using Xunit;

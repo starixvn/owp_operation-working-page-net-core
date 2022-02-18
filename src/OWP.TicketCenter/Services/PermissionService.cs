@@ -1,6 +1,4 @@
-﻿
-
-namespace OWP.TicketCenter.Services
+﻿namespace OWP.TicketCenter.Services
 {
     public interface PermissionService
     {
@@ -27,7 +25,7 @@ namespace OWP.TicketCenter.Services
         public async Task<bool> HasPermissionRemoveLastRecipient(int ticketId)
         {
             var recipients = await repository.GetRecipientByTicketId(ticketId);
-            return recipients.Count()>1;
+            return recipients.Count() > 1;
         }
     }
 }

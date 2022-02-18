@@ -5,8 +5,6 @@
     using Models;
     using OfficeOpenXml;
     using Services;
-    
-    
 
     public class ExportReportByMonthRequest : IRequest<ExcelPackage>
     {

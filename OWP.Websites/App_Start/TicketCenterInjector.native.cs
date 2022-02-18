@@ -19,17 +19,17 @@ public static class TicketCenterInjector
         services.AddScoped<TicketLeagueDetailService, TicketLeagueDetailServiceImp>();
         services.AddScoped<TicketMatchDetailService, TicketMatchDetailServiceImp>();
         services.AddScoped<TicketOtherDetailService, TicketOtherDetailServiceImp>();
-            services.AddScoped<TicketSupportDetailService, TicketSupportDetailServiceImp>();
+        services.AddScoped<TicketSupportDetailService, TicketSupportDetailServiceImp>();
 
         services.AddScoped<EventTicketMatchService, EventTicketMatchServiceImp>();
         services.AddScoped<EventTicketOtherService, EventTicketOtherServiceImp>();
         services.AddScoped<EventTicketLeagueService, EventTicketLeagueServiceImp>();
-            services.AddScoped<EventTicketSupportService, EventTicketSupportServiceImp>();
+        services.AddScoped<EventTicketSupportService, EventTicketSupportServiceImp>();
 
         services.AddScoped<NewTicketLeagueMessageDBWriter, NewTicketLeagueMessageDBWriterImp>();
         services.AddScoped<NewTicketMatchMessageDBWriter, NewTicketMatchMessageDBWriterImp>();
         services.AddScoped<NewTicketOtherMessageDBWriter, NewTicketOtherMessageDBWriterImp>();
-            services.AddScoped<NewTicketSupportMessageDBWriter, NewTicketSupportMessageDBWriterImp>();
+        services.AddScoped<NewTicketSupportMessageDBWriter, NewTicketSupportMessageDBWriterImp>();
 
         services.AddScoped<NotificationService, NotificationServiceImp>();
         services.AddScoped<PermissionService, PermissionServiceImp>();

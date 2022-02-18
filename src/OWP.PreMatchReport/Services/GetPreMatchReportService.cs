@@ -1,12 +1,7 @@
-using OWP.PreMatchReport.Helper;
-
-
-
 using AutoMapper;
-using OWP.PreMatchReport.Models;
-using OWP.PreMatchReport.Handlers;
 using OWP.PreMatchReport.Constants;
-using MediatR;
+using OWP.PreMatchReport.Helper;
+using OWP.PreMatchReport.Models;
 
 namespace OWP.PreMatchReport.Services;
 

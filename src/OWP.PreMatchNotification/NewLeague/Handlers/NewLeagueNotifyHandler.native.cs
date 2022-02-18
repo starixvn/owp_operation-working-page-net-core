@@ -2,18 +2,14 @@
 
 namespace OWP.PreMatchNotification.NewLeague.Handlers
 {
-    
-    
-        
-    
+    using Constants;
+    using Criteria;
     using Fanex.Data.Repository;
     using MediatR;
-    using Constants;
-    using OWP.PreMatchNotification.Models;
-    using Criteria;
     using Models;
-    using Services;
+    using OWP.PreMatchNotification.Models;
     using OWP.PreMatchNotification.Services;
+    using Services;
 
     public class NewLeagueNotifyRequest : IRequest<Unit>
     {

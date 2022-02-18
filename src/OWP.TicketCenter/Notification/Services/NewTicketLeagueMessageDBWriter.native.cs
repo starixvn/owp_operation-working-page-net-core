@@ -1,5 +1,4 @@
-﻿
-using OWP.TicketCenter.Criteria;
+﻿using OWP.TicketCenter.Criteria;
 using OWP.TicketCenter.Notification.Const;
 using OWP.TicketCenter.Notification.Models;
 
@@ -10,7 +9,7 @@ namespace OWP.TicketCenter.Notification.Services
         public Task<string> Execute(MessageTransform message, NotificationTemplateCode code);
     }
 
-    public class NewTicketLeagueMessageDBWriterImp: NewTicketLeagueMessageDBWriter
+    public class NewTicketLeagueMessageDBWriterImp : NewTicketLeagueMessageDBWriter
     {
         private readonly Repository repository;
 

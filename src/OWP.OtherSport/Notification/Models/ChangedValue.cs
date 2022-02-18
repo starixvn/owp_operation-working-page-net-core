@@ -1,8 +1,5 @@
 ﻿namespace OWP.OtherSport.Notification.Models
 {
-    
-    
-
     public class ChangedValue
     {
         public int UserId { get; set; }

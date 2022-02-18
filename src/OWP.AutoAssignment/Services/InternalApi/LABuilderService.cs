@@ -2,12 +2,10 @@
 using OWP.AutoAssignment.Models.InternalApi;
 using OWP.AutoAssignment.Utils.XMLExtensions;
 
-
 using System.Xml.Linq;
 
 namespace OWP.AutoAssignment.Services.InternalApi
 {
-
     public interface LABuilderService
     {
         Task Build(
@@ -70,7 +68,5 @@ namespace OWP.AutoAssignment.Services.InternalApi
             return laExportModel
             .FirstOrDefault(x => x.InfoSiteMatchId == id && x.Bettype == bettype);
         }
-
-
     }
 }

@@ -1,10 +1,7 @@
-﻿
-using OWP.TicketCenter.Models;
+﻿using OWP.TicketCenter.Models;
 
 namespace OWP.TicketCenter.ViewModels
 {
-    
-    
     public class TicketDetailBaseViewModel
     {
         public int TicketId { get; set; }

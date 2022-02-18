@@ -1,7 +1,5 @@
 ﻿namespace OWP.FileUpload
 {
-    
-    
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Cors;
@@ -75,7 +73,6 @@
             };
 
             var file = await mediator.Send(request);
-
 
             var fileExtension = file.Title.Substring(file.Title.LastIndexOf('.') + 1).ToLowerInvariant().Trim();
             var isImage = IsImage(fileExtension);

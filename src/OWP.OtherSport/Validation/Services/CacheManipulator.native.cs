@@ -1,8 +1,5 @@
 ﻿namespace OWP.OtherSport.Validation.Services
 {
-    
-    
-    
     using Fanex.Caching;
     using Models;
     using Newtonsoft.Json;

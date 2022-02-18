@@ -1,8 +1,4 @@
-﻿
-
-using System.Text;
-
-using OWP.PreMatchNotification.Assignment.Models;
+﻿using OWP.PreMatchNotification.Assignment.Models;
 using OWP.PreMatchNotification.Assignment.Services.OtherAssignment;
 using OWP.PreMatchNotification.Models;
 using Xunit;

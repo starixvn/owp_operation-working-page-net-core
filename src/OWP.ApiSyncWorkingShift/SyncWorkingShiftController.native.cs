@@ -1,7 +1,4 @@
-﻿
-
-
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OWP.ApiSyncWorkingShift.Models;
@@ -25,8 +22,8 @@ namespace OWP.ApiSyncWorkingShift
         public async Task<IEnumerable<WorkingShiftModel>> GetMaxbet(DateTime from, DateTime to)
             => await mediator.Send(new QueryWorkingShiftRequest
             {
-                From= from,
-                To= to
+                From = from,
+                To = to
             });
     }
 }

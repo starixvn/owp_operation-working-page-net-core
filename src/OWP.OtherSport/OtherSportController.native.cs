@@ -12,9 +12,6 @@
     using OWP.OtherSport.Submit;
     using OWP.OtherSport.Submit.Models;
     using OWP.OtherSport.Validation;
-    
-    
-    
 
     [Route("api/[controller]")]
     [ApiController]

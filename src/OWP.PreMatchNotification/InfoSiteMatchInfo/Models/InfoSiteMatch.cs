@@ -1,7 +1,5 @@
 ﻿namespace OWP.PreMatchNotification.InfoSiteMatchInfo.Models
 {
-    
-
     public class InfoSiteMatch
     {
         public int InfoSiteMatchId { get; set; }

@@ -1,9 +1,7 @@
 ﻿namespace OWP.TicketTypeRecipient
 {
-    
-    
-    using Microsoft.AspNetCore.Mvc;
     using MediatR;
+    using Microsoft.AspNetCore.Mvc;
     using Models;
     using OWP.TicketTypeRecipient.Handlers;
 

@@ -4,9 +4,6 @@
     using MediatR;
     using Models;
     using Services;
-    
-        
-    
 
     public class QueryReportByYearRequest : IRequest<IEnumerable<OvertimeByYear>>
     {

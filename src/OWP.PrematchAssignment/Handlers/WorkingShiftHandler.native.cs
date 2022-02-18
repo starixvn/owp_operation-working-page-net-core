@@ -1,9 +1,5 @@
 ﻿namespace OWP.PreMatchAssignment.Handlers
 {
-    
-    
-    
-    
     using MediatR;
     using Models;
     using Services;
@@ -12,6 +8,7 @@
     {
         public DateTime Date { get; set; }
     }
+
     public class WorkingShiftHandler : IRequestHandler<QueryWorkingShiftRequest, IEnumerable<WorkingShift>>
     {
         private readonly QueryWorkingShift queryWorkingShift;
@@ -20,6 +17,7 @@
         {
             this.queryWorkingShift = queryWorkingShift;
         }
+
         public async Task<IEnumerable<WorkingShift>> Handle(QueryWorkingShiftRequest request, CancellationToken cancellationToken)
         {
             var result = await queryWorkingShift.QueryWorkingShift(request.Date);

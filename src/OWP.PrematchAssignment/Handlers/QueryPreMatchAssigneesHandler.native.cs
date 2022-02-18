@@ -3,9 +3,6 @@
     using MediatR;
     using Models;
     using PreMatchAssignment.Services;
-    
-        
-    
 
     public class QueryAssigneesRequest : IRequest<IEnumerable<TicketAssignee>>
     {
@@ -29,4 +26,3 @@
         }
     }
 }
-

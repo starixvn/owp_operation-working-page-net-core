@@ -1,7 +1,4 @@
-﻿using OWP.OtherSport.Submit.Models;
-
-
-namespace OWP.OtherSport.EventAssignment.Models
+﻿namespace OWP.OtherSport.EventAssignment.Models
 {
     public class TraderMaxBetModel
     {

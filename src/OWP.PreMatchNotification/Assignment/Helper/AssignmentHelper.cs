@@ -1,8 +1,6 @@
-﻿using OWP.PreMatchNotification.Assignment.Constant;
-using OWP.PreMatchNotification.Assignment.Models;
+﻿using OWP.PreMatchNotification.Assignment.Models;
 using OWP.PreMatchNotification.Constants;
 using OWP.PreMatchNotification.Models;
-
 
 namespace OWP.PreMatchNotification.Assignment.Helper
 {

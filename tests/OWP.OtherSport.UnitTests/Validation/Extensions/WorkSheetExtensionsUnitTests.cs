@@ -1,7 +1,6 @@
 ﻿namespace OWP.OtherSport.UnitTests.Validation.Extensions
 {
-    
-        using OfficeOpenXml;
+    using OfficeOpenXml;
     using OWP.OtherSport.UnitTests.Validation.Services;
     using OWP.OtherSport.Validation.Extensions;
     using OWP.OtherSport.Validation.Models;

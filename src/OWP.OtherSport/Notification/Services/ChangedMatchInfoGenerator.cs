@@ -1,11 +1,10 @@
 ﻿namespace OWP.OtherSport.Notification.Services
 {
-    
-    using System.Globalization;
-        using System.Reflection;
     using Models;
     using OWP.OtherSport.Notification.Constants;
     using OWP.OtherSport.Submit.Models;
+    using System.Globalization;
+    using System.Reflection;
 
     public interface ChangedMatchInfoGenerator
     {

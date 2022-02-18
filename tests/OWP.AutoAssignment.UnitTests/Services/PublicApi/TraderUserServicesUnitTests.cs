@@ -2,8 +2,6 @@
 using OWP.AutoAssignment.Models.PublicApi;
 using OWP.AutoAssignment.Services.PublicApi;
 
-
-
 using Xunit;
 using Xunit.Asserts.Compare;
 

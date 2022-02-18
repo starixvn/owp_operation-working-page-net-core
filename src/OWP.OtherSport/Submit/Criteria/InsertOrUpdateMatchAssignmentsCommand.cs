@@ -2,7 +2,7 @@
 {
     using Fanex.Data.Repository;
 
-    public class InsertOrUpdateMatchAssignmentsCommand: NonQueryCommand
+    public class InsertOrUpdateMatchAssignmentsCommand : NonQueryCommand
     {
         public string MatchAssignments { get; set; }
 

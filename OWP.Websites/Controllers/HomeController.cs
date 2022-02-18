@@ -1,19 +1,15 @@
-﻿
-
-using System.Diagnostics;
-using System.Net;
-using System.Net.Sockets;
-using System.Security.Claims;
-
-using Fanex.NAP.Client.Helpers.Web;
+﻿using Fanex.NAP.Client.Helpers.Web;
 using Fanex.NAP.Client.Models.ParameterObject;
 using Fanex.NAP.Client.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OWP.Websites.Models;
+using System.Diagnostics;
+using System.Net;
+using System.Net.Sockets;
+using System.Security.Claims;
 
 namespace OWP.Websites.Controllers
 {

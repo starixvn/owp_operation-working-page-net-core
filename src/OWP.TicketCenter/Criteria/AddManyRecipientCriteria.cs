@@ -2,7 +2,7 @@
 
 namespace OWP.TicketCenter.Criteria
 {
-    public class AddManyRecipientCriteria :  NonQueryCommand
+    public class AddManyRecipientCriteria : NonQueryCommand
     {
         public int TicketId { get; set; }
 

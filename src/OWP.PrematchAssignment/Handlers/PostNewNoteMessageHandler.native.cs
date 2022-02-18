@@ -1,7 +1,5 @@
 ﻿namespace OWP.PreMatchAssignment.Handlers
 {
-    
-    
     using MediatR;
     using Models;
     using Services;

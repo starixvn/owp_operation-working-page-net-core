@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-using AutoMapper;
-using OfficeOpenXml;
+﻿using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using OWP.Extensions;
 using OWP.PreMatchReport.Constants;

@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
 using OWP.TicketCenter.Builder;
+using OWP.TicketCenter.Enum;
 using OWP.TicketCenter.Handlers;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.ViewModels;
-
-
-using OWP.TicketCenter.Enum;
 
 namespace OWP.TicketCenter.Services
 {
@@ -13,6 +11,7 @@ namespace OWP.TicketCenter.Services
     {
         Task<IList<TicketSupportDetailViewModel>> GetAllTicketSupport(QueryEventTicketsRequest request);
     }
+
     public class EventTicketSupportServiceImp : EventTicketSupportService
     {
         private readonly Repository repository;
@@ -49,6 +48,7 @@ namespace OWP.TicketCenter.Services
             }
             return ticketSupportViewModel;
         }
+
         private IEnumerable<MessageResponseModel> BuildMessageModels(IEnumerable<EventTicketSupportModel> models)
             => models
                 .Select(x => mapper.Map<MessageResponseModel>(x))

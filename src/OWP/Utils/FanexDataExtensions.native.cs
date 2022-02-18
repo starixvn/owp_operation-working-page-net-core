@@ -1,6 +1,5 @@
 ﻿namespace OWP.Utils
 {
-    
     using Fanex.Data.Repository;
     using Newtonsoft.Json;
 

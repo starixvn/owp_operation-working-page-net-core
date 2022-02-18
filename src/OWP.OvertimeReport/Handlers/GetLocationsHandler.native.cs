@@ -1,13 +1,10 @@
 ﻿namespace OWP.OvertimeReport.Handlers
 {
-    
-        
-    
     using MediatR;
     using OWP.OvertimeReport.Models;
     using OWP.Services;
 
-    public class GetLocationsRequest: IRequest<IEnumerable<Location>>
+    public class GetLocationsRequest : IRequest<IEnumerable<Location>>
     {
     }
 

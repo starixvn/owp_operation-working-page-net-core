@@ -1,8 +1,4 @@
-﻿
-
-using System.Text;
-
-using OWP.TicketCenter.Criteria;
+﻿using OWP.TicketCenter.Criteria;
 using OWP.TicketCenter.Handlers;
 using OWP.TicketCenter.Notification.Const;
 

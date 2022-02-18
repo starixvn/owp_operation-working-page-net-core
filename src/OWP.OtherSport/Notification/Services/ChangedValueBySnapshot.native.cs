@@ -1,7 +1,6 @@
 ﻿namespace OWP.OtherSport.Notification.Services
 {
-    
-        using Models;
+    using Models;
     using Submit.Models;
 
     public interface ChangedValueBySnapshot

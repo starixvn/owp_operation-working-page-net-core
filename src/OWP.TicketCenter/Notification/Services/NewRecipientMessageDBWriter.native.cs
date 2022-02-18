@@ -2,7 +2,6 @@
 using OWP.TicketCenter.Handlers;
 using OWP.TicketCenter.Notification.Const;
 
-
 namespace OWP.TicketCenter.Notification.Services
 {
     public interface NewRecipientMessageDBWriter

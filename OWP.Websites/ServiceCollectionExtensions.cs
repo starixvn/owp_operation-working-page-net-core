@@ -1,13 +1,4 @@
-using System.Reflection;
-
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors.Infrastructure;
-using Microsoft.AspNetCore.DataProtection;
-using Microsoft.AspNetCore.Mvc.Authorization;
-
 using AutoMapper;
-
 using Fanex.Caching.Redis;
 using Fanex.Data;
 using Fanex.Data.Repository;
@@ -22,39 +13,37 @@ using Fanex.NAP.Client.AspNetCore.Session;
 using Fanex.NAP.Client.Configuration;
 using Fanex.NAP.Client.Helpers.Web;
 using Fanex.NAP.Client.Services;
-
 using MediatR;
-
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors.Infrastructure;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Newtonsoft.Json;
-
 using Olympus.SimpleDataApi;
-
 using ONEbook.UM.AspNetCore;
 using ONEbook.UM.Configurations;
 using ONEbook.UM.Helpers;
 using ONEbook.UM.Services;
 using ONEbook.UM.Transport;
-
 using OWP.ApiSyncWorkingShift;
 using OWP.FileUpload;
 using OWP.Maxbet;
 using OWP.OtherSport;
 using OWP.OtherSport.Hubs;
 using OWP.OvertimeReport;
-using OWP.PrematchAssignment;
 using OWP.PreMatchAssignment;
 using OWP.PreMatchNotification;
+using OWP.PreMatchReport;
 using OWP.RecipientGroup;
 using OWP.Services;
 using OWP.SimpleDataApi;
 using OWP.TicketCenter;
 using OWP.TicketCenter.Hubs;
 using OWP.TicketTypeRecipient;
-using OWP.PreMatchReport;
-
 using Sentry;
-
 using StackExchange.Redis;
+using System.Reflection;
 
 namespace OWP.Websites;
 

@@ -13,6 +13,5 @@
         public decimal? MaxBetNoOfCorner { get; set; }
 
         public decimal? MaxBetNextCorner { get; set; }
-
     }
 }

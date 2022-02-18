@@ -1,6 +1,5 @@
 ﻿namespace OWP.OtherSport.UnitTests.Notification.Services
 {
-    
     using OtherSport.Notification.Models;
     using OtherSport.Notification.Services;
     using OtherSport.Submit.Models;

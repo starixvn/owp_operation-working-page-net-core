@@ -2,9 +2,6 @@
 using OWP.AutoAssignment.Models.PublicApi;
 using OWP.Extensions;
 
-
-
-
 namespace OWP.AutoAssignment.Services.PublicApi
 {
     public interface TraderUserService

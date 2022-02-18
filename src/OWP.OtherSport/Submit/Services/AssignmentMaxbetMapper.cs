@@ -3,9 +3,7 @@
     using Contants;
     using Models;
     using Validation.Models;
-    
-    
-    
+
     public interface AssignmentMaxbetMapper
     {
         Dictionary<int, List<AssignmentMaxbet>> MapBySports(List<AssignmentModel> assignments);

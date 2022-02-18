@@ -27,7 +27,7 @@ namespace OWP.TicketCenter
                 opt => opt.Ignore());
             CreateMap<NewTicketIssueLeagueRequest, NewMessageRequestModel>().ForMember(
                 m => m.FileId,
-                opt => opt.Ignore()); 
+                opt => opt.Ignore());
 
             CreateMap<QueryEventTicketsRequest, GetEventTicketLeagueCriteria>();
             CreateMap<QueryEventTicketsRequest, GetEventTicketMatchCriteria>();

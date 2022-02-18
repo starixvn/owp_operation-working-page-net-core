@@ -1,5 +1,4 @@
-﻿
-using Fanex.Data.Repository;
+﻿using Fanex.Data.Repository;
 using Fanex.NAP.Client.Configuration;
 using OWP.ProductAssignmentReference.Criteria;
 using OWP.ProductAssignmentReference.Models;
@@ -59,6 +58,5 @@ namespace OWP.ProductAssignmentReference
                 {
                     RefName = name
                 });
-
     }
 }

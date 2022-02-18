@@ -1,7 +1,5 @@
 ﻿namespace OWP.PreMatchNotification.NewLeague.Models
 {
-    
-
     public class InfoSiteMatch
     {
         public int OWPLeagueId { get; set; }

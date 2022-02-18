@@ -1,7 +1,5 @@
 ﻿namespace OWP.OtherSport.Notification.Services
 {
-    
-        
     using OWP.OtherSport.Notification.Extensions;
     using OWP.OtherSport.Notification.Models;
 

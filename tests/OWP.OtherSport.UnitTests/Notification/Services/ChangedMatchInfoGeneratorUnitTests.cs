@@ -1,8 +1,4 @@
-﻿
-
-using System.Text;
-
-using OWP.OtherSport.Notification.Constants;
+﻿using OWP.OtherSport.Notification.Constants;
 using OWP.OtherSport.Notification.Models;
 using OWP.OtherSport.Notification.Services;
 using OWP.OtherSport.Submit.Models;
@@ -13,7 +9,6 @@ namespace OWP.OtherSport.UnitTests.Notification.Services
 {
     public class ChangedMatchInfoGeneratorUnitTests
     {
-
         [Fact]
         public void BuildListMatchChanged_MatchHasValueChange_ReturnListChangedValue()
         {

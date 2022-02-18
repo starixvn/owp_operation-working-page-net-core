@@ -1,6 +1,4 @@
-﻿
-
-namespace OWP.PreMatchAssignment.Models
+﻿namespace OWP.PreMatchAssignment.Models
 {
     public class Message
     {

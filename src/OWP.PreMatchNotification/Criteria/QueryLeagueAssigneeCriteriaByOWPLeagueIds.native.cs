@@ -1,6 +1,5 @@
 ﻿namespace OWP.PreMatchNotification.Criteria
 {
-    
     using Fanex.Data.Repository;
 
     public class QueryLeagueAssigneeCriteriaByOWPLeagueIds : CriteriaBase

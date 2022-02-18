@@ -1,7 +1,5 @@
 ﻿namespace OWP.AutoAssignment.UnitTests.Services.InternalApi
 {
-    
-    
     using AutoAssignment.Services.InternalApi;
     using Criteria.InternalApi;
     using Models.InternalApi;
@@ -57,6 +55,7 @@
 
             DeepAssert.Equal(expected, models);
         }
+
         public List<ExportMatchModel> ExpectedModel()
             => new()
             {
@@ -115,7 +114,7 @@
                 new TraderExportInfo()
                 {
                     InfoSiteMatchId = 100,
-                    Bettype=0,
+                    Bettype = 0,
                     Trader1HHDP = "Ti",
                     Trader1HOU = "Ti",
                     TraderFTHDP = "Ti",

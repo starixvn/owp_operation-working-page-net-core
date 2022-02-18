@@ -3,7 +3,7 @@
     using OWP.OtherSport.EventAssignment.Models;
     using OWP.OtherSport.EventAssignment.Services;
     using OWP.OtherSport.Submit.Models;
-    
+
     using Xunit;
     using Xunit.Asserts.Compare;
 

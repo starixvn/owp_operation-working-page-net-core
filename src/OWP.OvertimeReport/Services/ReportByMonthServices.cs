@@ -2,9 +2,6 @@
 {
     using Extensions;
     using Models;
-    
-    
-        
 
     public interface ReportByMonthServices
     {
@@ -67,7 +64,6 @@
                 yield return overtimeByDate.Sum(x => x.Hour);
             }
         }
-
 
         public IEnumerable<DateColumnInfo> BuildDateColumnInfos(int month, int year, int daysInMonth)
         {

@@ -5,7 +5,7 @@
         public const string Basketball = "Basketball";
         public const string Football = "Football";
         public const string FieldHockey = "Field Hockey";
-        public const string IceHockey  = "Ice Hockey";
+        public const string IceHockey = "Ice Hockey";
         public const string Darts = "Darts";
         public const string Pool = "Pool";
         public const string TableTennis = "Table Tennis";

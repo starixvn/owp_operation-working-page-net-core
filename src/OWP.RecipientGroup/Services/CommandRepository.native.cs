@@ -4,8 +4,6 @@
     using Fanex.Data.Repository;
     using Handlers;
     using Models;
-    
-        
 
     public interface CommandRepository
     {

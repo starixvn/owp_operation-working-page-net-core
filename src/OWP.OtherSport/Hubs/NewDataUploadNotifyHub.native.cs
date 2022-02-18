@@ -1,7 +1,6 @@
 ﻿namespace OWP.OtherSport.Hubs
 {
     using Microsoft.AspNetCore.SignalR;
-    
 
     public interface NewDataUploadNotifyHub
     {

@@ -1,6 +1,4 @@
-﻿
-
-namespace OWP.TicketCenter.UnitTests
+﻿namespace OWP.TicketCenter.UnitTests
 {
     public class CompareHelper
     {

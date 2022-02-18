@@ -1,8 +1,6 @@
 ﻿using Epplus.Mapper.Annotations;
 using OfficeOpenXml.Attributes;
 
-
-
 namespace OWP.AutoAssignment.Models.InternalApi
 {
     [EpplusTable]

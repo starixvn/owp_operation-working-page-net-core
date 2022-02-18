@@ -1,6 +1,4 @@
-﻿
-
-using AutoMapper;
+﻿using AutoMapper;
 using OWP.AutoAssignment.Models.InternalApi;
 
 namespace OWP.AutoAssignment.Services.InternalApi
@@ -12,6 +10,7 @@ namespace OWP.AutoAssignment.Services.InternalApi
             IList<AutoAssignmentResultModel> autoAssignModels
             );
     }
+
     public class MatchInfoBuilderServiceImp : MatchInfoBuilderService
     {
         private readonly Repository repository;
@@ -23,7 +22,6 @@ namespace OWP.AutoAssignment.Services.InternalApi
             this.repository = repository;
             this.mapper = mapper;
         }
-
 
         public async Task Build(IList<ExportMatchModel> models, IList<AutoAssignmentResultModel> autoAssignModels)
         {
@@ -52,8 +50,6 @@ namespace OWP.AutoAssignment.Services.InternalApi
                 var matchModel = mapper.Map<ExportMatchModel>(match);
                 models.Add(matchModel);
             }
-
         }
-
     }
 }

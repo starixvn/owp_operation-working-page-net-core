@@ -1,6 +1,5 @@
 ﻿using OWP.Maxbet.Models;
 
-
 namespace OWP.Helpers
 {
     public static class MaxbetHelper

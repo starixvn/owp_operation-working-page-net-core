@@ -4,9 +4,6 @@
     using OWP.Extensions;
     using OWP.OtherSport.Submit.Models;
     using OWP.Utils;
-    
-    
-        
 
     public interface MatchStatusCalculator
     {

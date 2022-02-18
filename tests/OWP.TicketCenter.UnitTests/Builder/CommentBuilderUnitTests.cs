@@ -1,6 +1,5 @@
 ﻿using OWP.TicketCenter.Builder;
 
-
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.ViewModels;
 using Xunit;
@@ -46,14 +45,13 @@ namespace OWP.TicketCenter.UnitTests.Builder
                     UserId = 8,
                     Username = "sa"
                 }
-
             };
 
             // Act
             var actual = TwoLastCommentBuilder.GetTwoLastComment(messageModel);
 
             // Assert
-            var expected= new List<MessageDetailViewModel>
+            var expected = new List<MessageDetailViewModel>
             {
                 new()
                 {
@@ -73,7 +71,7 @@ namespace OWP.TicketCenter.UnitTests.Builder
                 },
             };
 
-            DeepAssert.Equal(expected,actual.ToList());
+            DeepAssert.Equal(expected, actual.ToList());
         }
     }
 }

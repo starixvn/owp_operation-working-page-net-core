@@ -1,17 +1,15 @@
-﻿
-
-using MediatR;
+﻿using MediatR;
 using OWP.TicketCenter.Middleware.Models;
 using OWP.TicketCenter.Notification.Services;
 
 namespace OWP.TicketCenter.Handlers
 {
-    public class OnClickIssueNotificationRequest: PermissionCheckedModel, IRequest
+    public class OnClickIssueNotificationRequest : PermissionCheckedModel, IRequest
     {
         public int EventType { get; set; }
     }
 
-    public class OnClickIssueNotificationRequestImp: IRequestHandler<OnClickIssueNotificationRequest>
+    public class OnClickIssueNotificationRequestImp : IRequestHandler<OnClickIssueNotificationRequest>
     {
         private readonly NotificationService notify;
 

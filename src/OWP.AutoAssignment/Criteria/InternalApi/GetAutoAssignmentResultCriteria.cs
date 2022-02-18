@@ -2,8 +2,7 @@
 
 namespace OWP.AutoAssignment.Criteria.InternalApi
 {
-
-    public class GetAutoAssignmentResultCriteria: CriteriaBase
+    public class GetAutoAssignmentResultCriteria : CriteriaBase
     {
         public DateTime EventDate { get; set; }
 

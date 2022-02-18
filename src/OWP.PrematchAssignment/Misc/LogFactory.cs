@@ -1,11 +1,9 @@
 ﻿namespace OWP.PreMatchAssignment.Misc
 {
-    
-    using System.Globalization;
-    
-        using System.Xml;
-    using System.Xml.Serialization;
     using Models;
+    using System.Globalization;
+    using System.Xml;
+    using System.Xml.Serialization;
 
     public interface LogFactory
     {
@@ -90,6 +88,5 @@
 
             return result;
         }
-
     }
 }

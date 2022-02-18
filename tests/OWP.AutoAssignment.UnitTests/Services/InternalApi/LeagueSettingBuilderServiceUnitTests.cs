@@ -1,8 +1,7 @@
 ﻿namespace OWP.AutoAssignment.UnitTests.Services.InternalApi
 {
     using AutoAssignment.Services.InternalApi;
-    
-    
+
     using Models.InternalApi;
     using NSubstitute;
     using Xunit;
@@ -37,13 +36,13 @@
             };
             var autoAssignment = MockAssignmentResultModels();
 
-            repository.GetLeagueSettingInfo(Arg.Compat.Any<IList<int>>(),Arg.Compat.Any<string>()).Returns(MockLeagueSettingInfos());
+            repository.GetLeagueSettingInfo(Arg.Compat.Any<IList<int>>(), Arg.Compat.Any<string>()).Returns(MockLeagueSettingInfos());
 
             await service.Build(models, autoAssignment, requestId);
 
             var expected = ExpectedModel();
 
-            DeepAssert.Equal(expected,models);
+            DeepAssert.Equal(expected, models);
         }
 
         public List<ExportMatchModel> ExpectedModel()
@@ -64,7 +63,6 @@
                     Spread1X2 = "100000",
                     MaxBet1X2 = "1K",
                     MaxBet1H1X2 = "1K"
-
                 },
                 new()
                 {

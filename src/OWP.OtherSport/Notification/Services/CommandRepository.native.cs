@@ -1,11 +1,9 @@
 ﻿namespace OWP.OtherSport.Notification.Services
 {
-    
-    
     using Fanex.Data.Repository;
+    using Fanex.NAP.Client.Helpers.Web;
     using Models;
     using Olympus.Xml;
-    using Fanex.NAP.Client.Helpers.Web;
     using OWP.OtherSport.Notification.Criteria;
 
     public interface CommandRepository

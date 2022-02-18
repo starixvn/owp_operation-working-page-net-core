@@ -2,9 +2,6 @@
 using OWP.Maxbet.Builder;
 using OWP.Services;
 
-
-using System.Text;
-
 using Xunit;
 using Xunit.Asserts.Compare;
 

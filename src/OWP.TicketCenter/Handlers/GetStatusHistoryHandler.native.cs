@@ -1,7 +1,4 @@
-﻿
-
-
-using MediatR;
+﻿using MediatR;
 using OWP.TicketCenter.Models;
 
 namespace OWP.TicketCenter.Handlers

@@ -1,7 +1,5 @@
 ﻿namespace OWP.OtherSport.Validation.Models
 {
-    
-
     public class AssignmentModel
     {
         public AssignmentModel()
@@ -162,7 +160,6 @@
             OtherTraderVolleyballSetsXPointWinnerHDP = string.Empty;
             OtherTraderVolleyballSetWinnerHDPOE = string.Empty;
         }
-
 
         public double MatchNo { get; set; }
 
@@ -585,7 +582,6 @@
         public decimal? MaxBetSnookerMatchWinnerOU { get; set; }
 
         public decimal? MaxBetSnookerFramesWinnerHDPOUOE { get; set; }
-
 
         public decimal? MaxBetSnookerFramesWinnerOU { get; set; }
 

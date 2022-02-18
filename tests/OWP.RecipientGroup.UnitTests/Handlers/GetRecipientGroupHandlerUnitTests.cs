@@ -4,9 +4,7 @@
     using NSubstitute;
     using OWP.RecipientGroup.Handlers;
     using Services;
-    
-        
-    
+
     using Xunit;
     using Xunit.Asserts.Compare;
 

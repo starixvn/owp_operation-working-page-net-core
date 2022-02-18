@@ -1,8 +1,5 @@
 ﻿namespace OWP.PreMatchAssignment.UnitTests.Services
 {
-    
-    
-    
     using Criteria;
     using Fanex.Data.Repository;
     using Models;

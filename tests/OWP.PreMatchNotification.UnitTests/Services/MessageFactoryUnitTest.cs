@@ -4,7 +4,6 @@ using OWP.PreMatchNotification.Constants;
 using OWP.PreMatchNotification.Models;
 using OWP.PreMatchNotification.Services;
 
-
 using Xunit;
 using Xunit.Asserts.Compare;
 

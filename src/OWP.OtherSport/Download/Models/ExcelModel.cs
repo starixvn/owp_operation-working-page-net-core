@@ -1,6 +1,4 @@
 ﻿using OWP.OtherSport.Submit.Models;
-using OWP.OtherSport.Validation.Models;
-
 
 namespace OWP.OtherSport.Download.Models
 {
@@ -27,7 +25,7 @@ namespace OWP.OtherSport.Download.Models
         }
     }
 
-    public class ExcelMatchMaxBetSpread: MatchSetting
+    public class ExcelMatchMaxBetSpread : MatchSetting
     {
         public int ColumnIndexMaxbet { get; set; }
 

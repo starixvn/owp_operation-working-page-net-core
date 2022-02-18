@@ -1,11 +1,11 @@
-﻿
-using Fanex.Data.Repository;
+﻿using Fanex.Data.Repository;
 using Fanex.NAP.Client.Helpers.Web;
 using OWP.PreMatchAssignment.Criteria;
 using OWP.PreMatchAssignment.Handlers;
 using OWP.PreMatchAssignment.Models;
 
 namespace OWP.PreMatchAssignment.Services;
+
 public interface NoteService
 {
     Task<Note> CreateNewNote(CreateNewNoteRequest request);

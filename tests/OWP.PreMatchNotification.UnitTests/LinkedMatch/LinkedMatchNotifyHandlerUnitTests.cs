@@ -6,9 +6,7 @@
     using OWP.PreMatchNotification.LinkedMatch.Services;
     using OWP.PreMatchNotification.Models;
     using OWP.PreMatchNotification.Services;
-    
-    
-    
+
     using Xunit;
     using Xunit.Asserts.Compare;
 
@@ -24,7 +22,7 @@
 
         public LinkedMatchNotifyHandlerUnitTests()
         {
-            cacheManipulator= Substitute.For<CacheManipulator>();
+            cacheManipulator = Substitute.For<CacheManipulator>();
             queryRepository = Substitute.For<Repository>();
             changedValueBySnapshot = Substitute.For<ChangedLinkedMatchDetector>();
             messageFactory = Substitute.For<MessageFactory>();
@@ -32,11 +30,11 @@
             notify = Substitute.For<NotifyServices>();
 
             service = new LinkedMatchNotifyHandler(
-                cacheManipulator, 
-                queryRepository, 
+                cacheManipulator,
+                queryRepository,
                 changedValueBySnapshot,
-                messageFactory, 
-                commandRepository, 
+                messageFactory,
+                commandRepository,
                 notify);
         }
 
@@ -55,7 +53,7 @@
                 new(){PreMatchLeagueId=200,AssigneeId=3},
                 new(){PreMatchLeagueId=200,AssigneeId=4},
             };
-            var expected= new List<InfositePrematchLeague>
+            var expected = new List<InfositePrematchLeague>
             {
                 new(){InfoSiteMatchId=111, PreMatchLeagueId=100, PrematchAssigneeIds=new List<int>{1} },
                 new(){InfoSiteMatchId=222, PreMatchLeagueId=200, PrematchAssigneeIds=new List<int>{3,4} },

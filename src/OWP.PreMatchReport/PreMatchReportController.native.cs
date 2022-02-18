@@ -1,8 +1,7 @@
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using MediatR;
 using OWP.PreMatchReport.Handlers;
 using OWP.PreMatchReport.Models;
 

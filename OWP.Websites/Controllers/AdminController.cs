@@ -1,10 +1,8 @@
 using Fanex.Caching;
-using Newtonsoft.Json;
-using StackExchange.Redis;
-
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json;
 using OWP.PreMatchAssignment.Models;
+using StackExchange.Redis;
 
 namespace OWP.Websites.Controllers;
 
@@ -13,7 +11,6 @@ public class AdministratorController : Controller
     private readonly ICache cache;
 
     private readonly IConfiguration configuration;
-
 
     public AdministratorController(ICache cache, IConfiguration configuration)
     {
@@ -57,7 +54,7 @@ public class AdministratorController : Controller
                 LeagueName = "Tyler-TestLeague",
                 PreMatchLeagueId = 1,
                 IsDay = true
-            }       
+            }
         };
         var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromDays(1));
         var assignmentSnapshotInJson = JsonConvert.SerializeObject(testObject);
@@ -82,8 +79,6 @@ public class AdministratorController : Controller
 
             cacheContent = JsonConvert.SerializeObject(parameters[1]);
         }
-
-
 
         ViewBag.CacheContent = cacheContent;
         return View("CacheContent");

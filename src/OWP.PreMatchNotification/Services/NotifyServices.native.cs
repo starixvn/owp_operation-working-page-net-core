@@ -3,9 +3,6 @@
     using Microsoft.AspNetCore.SignalR;
     using OWP.Hubs;
     using OWP.PreMatchNotification.Models;
-    
-    
-    
 
     public interface NotifyServices
     {

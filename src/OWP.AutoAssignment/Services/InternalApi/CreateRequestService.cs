@@ -1,12 +1,7 @@
 ﻿using OWP.AutoAssignment.Criteria.InternalApi;
-using OWP.AutoAssignment.Criteria.PublicApi;
 using OWP.AutoAssignment.Enum;
 using OWP.AutoAssignment.Models.InternalApi;
 using OWP.AutoAssignment.Services.PublicApi;
-
-
-using System.Text;
-
 
 namespace OWP.AutoAssignment.Services.InternalApi
 {

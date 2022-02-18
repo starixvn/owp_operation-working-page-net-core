@@ -4,9 +4,7 @@
     using OWP.OtherSport.EventAssignment.Models;
     using OWP.OtherSport.Submit.Contants;
     using OWP.OtherSport.Submit.Models;
-    
-    
-    
+
     public interface AssignmentBuilder
     {
         public void Build(List<EventAssignmentModel> eventAssignmentModels, Dictionary<int, List<MatchAssignment>> matchAssignments);
@@ -16,7 +14,7 @@
     {
         public void Build(List<EventAssignmentModel> eventAssignmentModels, Dictionary<int, List<MatchAssignment>> matchAssignments)
         {
-            foreach(var eventAssignmentModel in eventAssignmentModels)
+            foreach (var eventAssignmentModel in eventAssignmentModels)
             {
                 var assignmentsByOWPMatchId = matchAssignments.GetValue(eventAssignmentModel.OSMatchId, new List<MatchAssignment>());
 

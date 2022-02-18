@@ -4,12 +4,9 @@ using OWP.TicketCenter.UnitTests.Enum;
 namespace OWP.TicketCenter.UnitTests.Services
 {
     using AutoMapper;
-    using Handlers;
     using Models;
     using NSubstitute;
-    
-    
-    
+
     using TicketCenter.Services;
     using ViewModels;
     using Xunit;

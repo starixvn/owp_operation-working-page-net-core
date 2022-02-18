@@ -8,16 +8,14 @@ using OWP.TicketCenter.Notification.Models;
 using OWP.TicketCenter.Notification.Services;
 using OWP.TicketCenter.Services;
 
-
-
-
 namespace OWP.TicketCenter.Handlers
 {
     public class NewTicketIssueSupportRequest : NewTicketModelBase, IRequest<int>
     {
         public string Subject { get; set; }
     }
-    public class NewTicketIssueSupportHandler: IRequestHandler<NewTicketIssueSupportRequest,int>
+
+    public class NewTicketIssueSupportHandler : IRequestHandler<NewTicketIssueSupportRequest, int>
     {
         private readonly Repository repository;
 

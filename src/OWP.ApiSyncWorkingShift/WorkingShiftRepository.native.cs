@@ -1,6 +1,4 @@
-﻿
-
-using Fanex.Data.Repository;
+﻿using Fanex.Data.Repository;
 using OWP.ApiSyncWorkingShift.Criteria;
 using OWP.ApiSyncWorkingShift.Models;
 

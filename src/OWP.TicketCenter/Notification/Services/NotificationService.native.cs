@@ -4,8 +4,6 @@
     using Microsoft.AspNetCore.SignalR;
     using Models;
     using OWP.Services;
-    using OWP.Utils;
-        
 
     public interface NotificationService
     {

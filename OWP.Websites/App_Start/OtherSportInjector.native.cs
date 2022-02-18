@@ -1,9 +1,9 @@
-﻿using Submit = OWP.OtherSport.Submit.Services;
+﻿using OWP.OtherSport.Notification.Services;
 using Download = OWP.OtherSport.Download.Services;
-using Validation = OWP.OtherSport.Validation.Services;
 using EventAssignment = OWP.OtherSport.EventAssignment.Services;
 using Shared = OWP.OtherSport.Shared.Services;
-using OWP.OtherSport.Notification.Services;
+using Submit = OWP.OtherSport.Submit.Services;
+using Validation = OWP.OtherSport.Validation.Services;
 
 namespace OWP.Websites;
 

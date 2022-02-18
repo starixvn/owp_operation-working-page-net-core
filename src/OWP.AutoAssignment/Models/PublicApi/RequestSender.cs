@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 
-
 namespace OWP.AutoAssignment.Models.PublicApi
 {
     public class RequestSender

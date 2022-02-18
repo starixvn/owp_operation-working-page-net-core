@@ -1,7 +1,5 @@
 ﻿namespace OWP.AutoAssignment.UnitTests.Services.InternalApi
 {
-    
-    
     using AutoAssignment.Services.InternalApi;
     using Models.InternalApi;
     using NSubstitute;
@@ -11,6 +9,7 @@
     public class ProviderBuilderUnitTests
     {
         private readonly Repository repository;
+
         public ProviderBuilderUnitTests()
         {
             repository = Substitute.For<Repository>();
@@ -69,7 +68,6 @@
                     Provider = "SLRAL",
                     ProviderTv = "TV"
                 },
-
             };
 
         public List<ExportMatchModel> MockExpected()

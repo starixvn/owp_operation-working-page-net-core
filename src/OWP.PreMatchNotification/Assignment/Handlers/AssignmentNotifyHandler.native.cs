@@ -3,13 +3,9 @@ using MediatR;
 using OWP.PreMatchNotification.Assignment.Criteria;
 using OWP.PreMatchNotification.Assignment.Models;
 using OWP.PreMatchNotification.Assignment.Services.MyAssignment;
+using OWP.PreMatchNotification.Assignment.Services.OtherAssignment;
 using OWP.PreMatchNotification.Models;
 using OWP.PreMatchNotification.Services;
-
-
-
-using OWP.PreMatchNotification.Assignment.Services.OtherAssignment;
-
 using System.Globalization;
 
 namespace OWP.PreMatchNotification.Assignment.Handlers

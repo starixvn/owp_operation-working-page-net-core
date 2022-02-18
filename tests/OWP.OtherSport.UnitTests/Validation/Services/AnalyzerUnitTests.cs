@@ -4,10 +4,7 @@
     using OWP.OtherSport.Validation;
     using OWP.OtherSport.Validation.Models;
     using OWP.OtherSport.Validation.Services;
-    
-    
-    
-    
+
     using Xunit;
     using Xunit.Asserts.Compare;
 
@@ -36,7 +33,7 @@
             var assignmentModels = GetAssignmentModels();
 
             excelReader.Read(Arg.Compat.Any<Stream>()).Returns(rawModelInExcel);
-            repository.GetTraders(Arg.Compat.Any<List<string>>()).Returns(traders);           
+            repository.GetTraders(Arg.Compat.Any<List<string>>()).Returns(traders);
             assignmentBuilder.BuildAssignment(Arg.Compat.Any<List<Trader>>(),
                 Arg.Compat.Any<List<AssignmentModelInExcel>>())
                 .Returns(assignmentModels);

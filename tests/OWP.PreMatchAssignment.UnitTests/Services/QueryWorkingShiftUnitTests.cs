@@ -27,7 +27,6 @@ public class QueryWorkingShiftUnitTests
     }
 
     [Fact]
-
     public async Task QueryWorkingShift_NoData_ReturnEmptyWorkingShift()
     {
         var EventDate = DateTime.Parse("2020-08-16");
@@ -45,7 +44,6 @@ public class QueryWorkingShiftUnitTests
     }
 
     [Fact]
-
     public async Task QueryWorkingShift_AvailableData_ReturnWorkingShift()
     {
         var EventDate = DateTime.Parse("2020-08-16");

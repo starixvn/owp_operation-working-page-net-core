@@ -5,8 +5,7 @@
     using OWP.OtherSport.Shared.Services;
     using OWP.OtherSport.Submit.Models;
     using OWP.Utils;
-    
-    
+
     using Xunit;
 
     public class MatchStatusCalculatorUnitTests

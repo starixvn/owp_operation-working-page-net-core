@@ -1,7 +1,4 @@
-﻿
-
-
-namespace OWP.PreMatchNotification.LinkedMatch.Models
+﻿namespace OWP.PreMatchNotification.LinkedMatch.Models
 {
     public class InfositePrematchLeague
     {

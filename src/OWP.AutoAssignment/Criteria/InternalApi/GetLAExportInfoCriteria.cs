@@ -7,6 +7,5 @@
 
         public override bool IsValid()
             => true;
-
     }
 }

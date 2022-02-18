@@ -16,7 +16,6 @@
 
         public class Handler : IRequestHandler<UploadCommand, FileModel>
         {
-
             private readonly IDynamicRepository dynamicRepo;
 
             public Handler(IDynamicRepository dynamicRepo)

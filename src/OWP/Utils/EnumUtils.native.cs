@@ -1,6 +1,5 @@
 ﻿namespace OWP.Utils
 {
-    
     using System.ComponentModel;
 
     public static class EnumUtils<T>

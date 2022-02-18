@@ -1,6 +1,4 @@
-﻿
-
-using OWP.AutoAssignment.Enum;
+﻿using OWP.AutoAssignment.Enum;
 using OWP.AutoAssignment.Models.PublicApi;
 
 namespace OWP.AutoAssignment.Services.PublicApi

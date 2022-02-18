@@ -1,8 +1,6 @@
 ﻿namespace OWP.OtherSport.UnitTests.Notification.Services
 {
-    
-    
-        using OWP.OtherSport.Notification.Constants;
+    using OWP.OtherSport.Notification.Constants;
     using OWP.OtherSport.Notification.Models;
     using OWP.OtherSport.Notification.Services;
     using OWP.OtherSport.Submit.Models;

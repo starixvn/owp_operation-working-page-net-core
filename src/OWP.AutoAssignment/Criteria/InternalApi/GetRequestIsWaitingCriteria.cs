@@ -1,7 +1,6 @@
 ﻿namespace OWP.AutoAssignment.Criteria.InternalApi
 {
     using Fanex.Data.Repository;
-    
 
     public class GetRequestIsWaitingCriteria : CriteriaBase
     {

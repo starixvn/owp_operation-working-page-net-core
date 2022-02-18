@@ -1,7 +1,6 @@
 ﻿using OWP.Extensions;
 using OWP.OtherSport.Submit.Contants;
 
-
 namespace OWP.OtherSport.EventAssignment.Models
 {
     public class MatchSettingModel

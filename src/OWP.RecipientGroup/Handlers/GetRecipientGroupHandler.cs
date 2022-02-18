@@ -4,11 +4,9 @@
     using MediatR;
     using Models;
     using Services;
-    
-        
-    
 
-    public class QueryRecipientGroupRequest : IRequest<IEnumerable<TicketGroup>> { }
+    public class QueryRecipientGroupRequest : IRequest<IEnumerable<TicketGroup>>
+    { }
 
     public class GetRecipientGroupHandler : IRequestHandler<QueryRecipientGroupRequest, IEnumerable<TicketGroup>>
     {

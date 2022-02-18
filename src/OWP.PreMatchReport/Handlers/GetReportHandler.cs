@@ -1,7 +1,6 @@
-using AutoMapper;
+using MediatR;
 using OWP.PreMatchReport.Models;
 using OWP.PreMatchReport.Services;
-using MediatR;
 
 namespace OWP.PreMatchReport.Handlers;
 

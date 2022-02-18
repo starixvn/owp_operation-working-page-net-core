@@ -1,9 +1,6 @@
 ﻿using OWP.AutoAssignment.Constant;
 using OWP.AutoAssignment.Models.PublicApi;
 
-
-
-
 namespace OWP.AutoAssignment.Services.PublicApi
 {
     public interface LAUserService

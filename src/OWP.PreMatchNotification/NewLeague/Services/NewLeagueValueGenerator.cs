@@ -1,7 +1,6 @@
 ﻿namespace OWP.PreMatchNotification.NewLeague.Services
 {
-    
-        using OWP.PreMatchNotification.Constants;
+    using OWP.PreMatchNotification.Constants;
     using OWP.PreMatchNotification.Models;
     using OWP.PreMatchNotification.NewLeague.Models;
     using OWP.PreMatchNotification.Services;

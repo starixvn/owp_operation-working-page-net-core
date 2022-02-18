@@ -7,8 +7,6 @@ using OWP.OtherSport.Submit.Contants;
 using OWP.OtherSport.Submit.Models;
 using OWP.Services;
 
-
-
 using Xunit;
 using Xunit.Asserts.Compare;
 

@@ -1,16 +1,13 @@
 ﻿namespace OWP.OvertimeReport.Services
 {
-
-
-    using System.Data;
-    using System.Drawing;
-    using System.Globalization;
-
     using Constants;
     using Extensions;
     using Models;
     using OfficeOpenXml;
     using OfficeOpenXml.Style;
+    using System.Data;
+    using System.Drawing;
+    using System.Globalization;
 
     public interface ExportReportByMonthServices
     {
@@ -152,7 +149,6 @@
                 SetStyleHeaderStyle(ExcelConst.DayOfWeekRowIndex, i, ColorConst.Header);
             }
         }
-
 
         private void SetStyleHeaderStyle(int rowIndex, int colIndex, Color color)
         {

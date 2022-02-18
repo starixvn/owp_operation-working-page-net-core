@@ -1,8 +1,5 @@
 ﻿namespace OWP.OtherSport.EventAssignment.Models
 {
-    
-    
-
     public class EventAssignmentModel
     {
         public double MatchNo { get; set; }

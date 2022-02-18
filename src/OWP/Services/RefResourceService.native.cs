@@ -1,7 +1,5 @@
 ﻿namespace OWP.Services
 {
-    
-    
     using Fanex.Data.Repository;
 
     public interface RefResourceService

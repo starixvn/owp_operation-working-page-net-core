@@ -3,8 +3,6 @@ using OWP.Helpers;
 using OWP.Maxbet.Models;
 using OWP.Services;
 
-
-
 namespace OWP.Maxbet.Builder
 {
     public interface SpreadBuilder
@@ -23,7 +21,6 @@ namespace OWP.Maxbet.Builder
         private readonly MaxbetReposiory syncMaxbetReposiory;
 
         private readonly LogServiceWrapper logServiceWrapper;
-
 
         public SpreadBuilderImp(MaxbetReposiory syncMaxbetReposiory, LogServiceWrapper logServiceWrapper)
         {

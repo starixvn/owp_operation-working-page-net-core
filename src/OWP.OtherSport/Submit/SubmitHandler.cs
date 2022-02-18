@@ -8,10 +8,6 @@
     using OWP.OtherSport.Submit.Services;
     using OWP.OtherSport.Validation.Models;
     using OWP.Utils;
-    
-    
-        
-    
 
     public class SubmitRequest : IRequest<SubmitResponse>
     {
@@ -72,7 +68,7 @@
                 IsSuccessful = true,
                 Message = "Other sport assignment is successfully submitted!",
                 EventDates = string.Join(",", eventDates)
-        };
+            };
         }
 
         private async Task<SubmitResponse> GetUserWhoIsUploadingAssignment(List<DateTime> eventDates)

@@ -3,8 +3,7 @@
     using Fanex.Data.Repository;
     using OWP.OtherSport.Validation.Criteria;
     using OWP.OtherSport.Validation.Models;
-    
-        
+
     public interface Repository
     {
         Task<List<Trader>> GetTraders(List<string> traderNames);
@@ -18,6 +17,7 @@
         {
             this.repository = repository;
         }
+
         public async Task<List<Trader>> GetTraders(List<string> traderNames)
         {
             var traderNamesInString = string.Join(",", traderNames);

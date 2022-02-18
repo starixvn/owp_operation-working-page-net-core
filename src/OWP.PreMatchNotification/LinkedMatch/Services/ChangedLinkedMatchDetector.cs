@@ -2,9 +2,7 @@
 {
     using Models;
     using OWP.PreMatchNotification.Models;
-    
-    
-    
+
     public interface ChangedLinkedMatchDetector
     {
         List<ChangedValue> Create(List<GeneralMatch> oldMatches, List<GeneralMatch> newMatches, Employee employees);

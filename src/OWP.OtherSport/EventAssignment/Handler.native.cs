@@ -4,10 +4,6 @@
     using OWP.OtherSport.EventAssignment.Models;
     using OWP.OtherSport.EventAssignment.Services;
     using OWP.OtherSport.Shared.Services;
-    
-    
-    
-    
 
     public class QueryEventAssignmentRequest : IRequest<IEnumerable<EventAssignmentModel>>
     {

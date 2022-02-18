@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 
-
 namespace OWP.TicketCenter.Hubs
 {
     public interface PreMatchNotifyHub

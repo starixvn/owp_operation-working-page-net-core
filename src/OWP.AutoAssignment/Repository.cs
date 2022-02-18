@@ -1,8 +1,4 @@
-﻿
-
-
-using System.Xml.Linq;
-using Fanex.Data.Repository;
+﻿using Fanex.Data.Repository;
 using Fanex.NAP.Client.Configuration;
 using OWP.AutoAssignment.Criteria.InternalApi;
 using OWP.AutoAssignment.Criteria.PublicApi;
@@ -11,6 +7,7 @@ using OWP.AutoAssignment.Models.PublicApi;
 using OWP.AutoAssignment.Utils.XMLExtensions;
 using OWP.Models;
 using OWP.Utils;
+using System.Xml.Linq;
 
 namespace OWP.AutoAssignment
 {
@@ -67,7 +64,6 @@ namespace OWP.AutoAssignment
         Task<IEnumerable<LeagueSettingInfo>> GetLeagueSettingInfo(IList<int> matchIds, string requestId);
 
         Task SaveEventSender(IEnumerable<AutoAssignmentHistory> events);
-
     }
 
     public class RepositoryImp : Repository

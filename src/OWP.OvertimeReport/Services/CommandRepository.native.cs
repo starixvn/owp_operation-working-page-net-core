@@ -4,9 +4,6 @@
     using Fanex.Data.Repository;
     using Fanex.NAP.Client.Configuration;
     using Models;
-    
-    
-    
 
     public interface CommandRepository
     {

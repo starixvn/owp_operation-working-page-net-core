@@ -1,5 +1,4 @@
-﻿
-namespace OWP.FileUpload.Criteria
+﻿namespace OWP.FileUpload.Criteria
 {
     using Fanex.Data.Repository;
 

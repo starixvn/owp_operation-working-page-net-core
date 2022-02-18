@@ -1,8 +1,5 @@
 ﻿namespace OWP.AutoAssignment.UnitTests.Services.PublicApi
 {
-    
-    
-    
     using AutoAssignment.Services.PublicApi;
     using Models.PublicApi;
     using NSubstitute;

@@ -1,6 +1,5 @@
 ﻿namespace OWP.PreMatchAssignment.Criteria
 {
-    
     using Fanex.Data.Repository;
 
     public class UpdateStartTimeCriteria : NonQueryCommand

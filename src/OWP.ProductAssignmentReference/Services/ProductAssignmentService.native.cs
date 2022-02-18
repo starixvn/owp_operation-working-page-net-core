@@ -1,7 +1,4 @@
-﻿
-
-
-using Fanex.Caching;
+﻿using Fanex.Caching;
 using Newtonsoft.Json;
 using OWP.ProductAssignmentReference.Models;
 
@@ -25,8 +22,6 @@ namespace OWP.ProductAssignmentReference.Services
         private readonly ICache cache;
         private readonly ProductAssignmentRepository repository;
 
-       
-
         public ProductAssignmentServiceImp(
             ProductAssignmentRepository repository,
             ICache cache)
@@ -34,7 +29,6 @@ namespace OWP.ProductAssignmentReference.Services
             this.repository = repository;
             this.cache = cache;
         }
-
 
         public async Task<LastUpdateInfo> GetLastUpdate()
         {

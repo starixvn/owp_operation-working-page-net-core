@@ -1,13 +1,10 @@
 ﻿using NSubstitute;
+using OWP.Enums;
 using OWP.Maxbet.Builder;
 using OWP.Maxbet.Models;
-using OWP.Enums;
-
-
-
+using OWP.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
-using OWP.Services;
 
 namespace OWP.Maxbet.UnitTests.Builder
 {

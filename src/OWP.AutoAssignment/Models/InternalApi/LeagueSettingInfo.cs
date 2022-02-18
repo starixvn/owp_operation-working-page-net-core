@@ -31,6 +31,5 @@
         public decimal? Spread1X2 { get; set; }
 
         public decimal? MaxBet1H1X2 { get; set; }
-
     }
 }

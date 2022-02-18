@@ -2,7 +2,7 @@
 
 namespace OWP.OtherSport.Submit.Criteria
 {
-    public class GetMatchIdsByDateListCriteria: CriteriaBase
+    public class GetMatchIdsByDateListCriteria : CriteriaBase
     {
         public string EventDates { get; set; }
 

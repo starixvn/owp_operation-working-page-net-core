@@ -1,6 +1,4 @@
-﻿
-
-namespace OWP.Utils
+﻿namespace OWP.Utils
 {
     public static class DateTimeExtensions
     {

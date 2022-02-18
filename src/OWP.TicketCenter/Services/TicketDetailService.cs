@@ -1,7 +1,5 @@
-﻿
-using AutoMapper;
+﻿using AutoMapper;
 using OWP.TicketCenter.ViewModels;
-using OWP.Utils;
 
 namespace OWP.TicketCenter.Services
 {

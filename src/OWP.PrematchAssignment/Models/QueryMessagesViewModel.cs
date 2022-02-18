@@ -1,8 +1,5 @@
-﻿
-namespace OWP.PreMatchAssignment.Models
+﻿namespace OWP.PreMatchAssignment.Models
 {
-    
-
     public class QueryMessagesViewModel
     {
         public int PreMatchIssueId { get; set; }

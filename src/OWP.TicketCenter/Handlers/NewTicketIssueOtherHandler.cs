@@ -8,9 +8,6 @@ using OWP.TicketCenter.Notification.Models;
 using OWP.TicketCenter.Notification.Services;
 using OWP.TicketCenter.Services;
 
-
-
-
 namespace OWP.TicketCenter.Handlers
 {
     public class NewTicketIssueOtherRequest : NewTicketModelBase, IRequest<int>
@@ -53,8 +50,8 @@ namespace OWP.TicketCenter.Handlers
 
             var criteria = new InsertIssueCreatorCriteria
             {
-                TicketId=ticketId,
-                CreatorId=request.CreatorId
+                TicketId = ticketId,
+                CreatorId = request.CreatorId
             };
 
             await repository.InsertIssueCreator(criteria);

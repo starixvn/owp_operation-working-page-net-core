@@ -1,8 +1,5 @@
 ﻿namespace OWP.PreMatchNotification.Services
 {
-    
-    
-        
     using Criteria;
     using Fanex.Data.Repository;
     using Fanex.NAP.Client.Helpers.Web;

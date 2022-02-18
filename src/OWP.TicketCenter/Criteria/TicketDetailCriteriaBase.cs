@@ -1,12 +1,8 @@
-﻿
-
-using System.Text;
-
-using Fanex.Data.Repository;
+﻿using Fanex.Data.Repository;
 
 namespace OWP.TicketCenter.Criteria
 {
-    public abstract class TicketDetailCriteriaBase: CriteriaBase
+    public abstract class TicketDetailCriteriaBase : CriteriaBase
     {
         public int TicketId { get; set; }
 

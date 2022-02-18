@@ -1,8 +1,8 @@
 ﻿namespace OWP.OtherSport.Validation.Models
 {
-    using System.ComponentModel.DataAnnotations;
     using OWP.OtherSport.Validation.Annotations;
     using OWP.OtherSport.Validation.Constants;
+    using System.ComponentModel.DataAnnotations;
 
     public class AssignmentModelInExcel
     {

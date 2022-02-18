@@ -2,8 +2,7 @@
 {
     using NSubstitute;
     using OWP.TicketCenter.Services;
-    
-    
+
     using Xunit;
 
     public class PermissionServiceUnitTests

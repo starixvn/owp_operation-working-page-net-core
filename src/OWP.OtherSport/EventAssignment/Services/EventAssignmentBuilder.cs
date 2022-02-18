@@ -5,8 +5,7 @@
     using Shared.Helper;
     using Submit.Contants;
     using Submit.Models;
-    
-    
+
     public interface EventAssignmentBuilder
     {
         List<EventAssignmentModel> Build(AssignmentSnapshot assignmentSnapshot, QueryEventAssignmentRequest request);

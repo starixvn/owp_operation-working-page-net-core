@@ -5,8 +5,6 @@
     using Fanex.Logging.Extensions.Database;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Configuration;
-    
-    
 
     public class ErrorHandler
     {
@@ -59,7 +57,6 @@
                 await context.Response.WriteAsync(Environment.NewLine);
                 await context.Response.WriteAsync(exception.StackTrace);
             }
-            
         }
     }
 }

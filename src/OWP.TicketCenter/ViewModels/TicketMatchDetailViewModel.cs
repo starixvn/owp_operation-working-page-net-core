@@ -1,6 +1,4 @@
-﻿
-
-namespace OWP.TicketCenter.ViewModels
+﻿namespace OWP.TicketCenter.ViewModels
 {
     public class TicketMatchDetailViewModel : TicketDetailBaseViewModel
     {

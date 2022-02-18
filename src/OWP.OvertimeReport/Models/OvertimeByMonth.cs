@@ -1,6 +1,4 @@
-﻿
-
-namespace OWP.OvertimeReport.Models
+﻿namespace OWP.OvertimeReport.Models
 {
     public class OvertimeByMonth
     {

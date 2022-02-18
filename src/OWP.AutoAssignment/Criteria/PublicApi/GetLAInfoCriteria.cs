@@ -1,6 +1,5 @@
 ﻿using Fanex.Data.Repository;
 
-
 namespace OWP.AutoAssignment.Criteria.PublicApi
 {
     public class GetLAInfoCriteria : CriteriaBase

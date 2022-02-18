@@ -3,9 +3,6 @@ using OWP.PreMatchNotification.Assignment.Models;
 using OWP.PreMatchNotification.Assignment.Services.OtherAssignment;
 using OWP.PreMatchNotification.Models;
 
-
-using System.Text;
-
 using Xunit;
 using Xunit.Asserts.Compare;
 
@@ -13,8 +10,6 @@ namespace OWP.PreMatchNotification.UnitTests.Assignment.OtherAssignment
 {
     public class OtherAssignmentDetectorUnitTestsBase : IDisposable
     {
-       
-
         public AssignmentSnapshot OldSnapshot { get; set; }
 
         public AssignmentSnapshot NewSnapshot { get; set; }
@@ -26,7 +21,6 @@ namespace OWP.PreMatchNotification.UnitTests.Assignment.OtherAssignment
 
         private void SetUp()
         {
-
             OldSnapshot = new()
             {
                 LeagueName = "VLeague",

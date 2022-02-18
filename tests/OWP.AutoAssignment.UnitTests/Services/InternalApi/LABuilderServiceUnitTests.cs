@@ -1,7 +1,5 @@
 ﻿namespace OWP.AutoAssignment.UnitTests.Services.InternalApi
 {
-    
-    
     using AutoAssignment.Services.InternalApi;
     using Criteria.InternalApi;
     using Models.InternalApi;
@@ -55,7 +53,7 @@
 
             var expected = ExpectedModel();
 
-            DeepAssert.Equal(expected,models);
+            DeepAssert.Equal(expected, models);
         }
 
         public List<ExportMatchModel> ExpectedModel()
@@ -84,7 +82,7 @@
             };
 
         public List<AutoAssignmentResultModel> MockAssignmentResultModels()
-            => new ()
+            => new()
             {
                 new AutoAssignmentResultModel()
                 {

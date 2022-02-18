@@ -4,8 +4,6 @@
     using OWP.TicketCenter.Criteria;
     using OWP.TicketCenter.Middleware.Models;
     using OWP.TicketCenter.Notification.Services;
-    
-    
 
     public class UpdateTicketStatusRequest : PermissionCheckedModel, IRequest<string>
     {

@@ -1,7 +1,5 @@
 ﻿namespace OWP.TicketCenter.Handlers
 {
-    
-    
     using MediatR;
 
     public class PinTicketRequest : IRequest<Unit>

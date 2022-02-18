@@ -2,9 +2,6 @@
 using OWP.Maxbet.Criteria;
 using OWP.Maxbet.Models;
 
-
-
-
 namespace OWP.Maxbet
 {
     public interface MaxbetReposiory

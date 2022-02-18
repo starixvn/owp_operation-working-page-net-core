@@ -5,10 +5,8 @@
     using OWP.Enums;
     using OWP.Maxbet.Criteria;
     using OWP.Maxbet.Models;
-    
+
     using System.Collections.ObjectModel;
-        
-    
 
     public class GetSecondAcceptValueHandler
     {

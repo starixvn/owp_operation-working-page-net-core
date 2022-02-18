@@ -1,9 +1,5 @@
-﻿using OWP.PreMatchNotification.Assignment.Constant;
-using OWP.PreMatchNotification.Assignment.Helper;
-using OWP.PreMatchNotification.Assignment.Models;
-using OWP.PreMatchNotification.Constants;
+﻿using OWP.PreMatchNotification.Assignment.Models;
 using OWP.PreMatchNotification.Models;
-
 
 namespace OWP.PreMatchNotification.Assignment.Services.MyAssignment
 {
@@ -26,7 +22,7 @@ namespace OWP.PreMatchNotification.Assignment.Services.MyAssignment
         void DetectChangeAssignmentOtherOuTOver(AssignmentSnapshot oldSnapshot, AssignmentSnapshot newSnapshot, List<ChangedValue> changedValues);
     }
 
-    public class MyAssignmentDetectorImp: MyAssignmentDetector
+    public class MyAssignmentDetectorImp : MyAssignmentDetector
     {
         private readonly ChangedValueHdpDetector changedValueHdpDetector;
 

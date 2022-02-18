@@ -5,8 +5,6 @@ using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Notification.Services;
 using OWP.TicketCenter.ViewModels;
 
-
-
 namespace OWP.TicketCenter.Handlers
 {
     public class NewMessageRequest : PermissionCheckedModel, IRequest<MessageDetailViewModel>
@@ -47,9 +45,9 @@ namespace OWP.TicketCenter.Handlers
 
             var criteria = new UpdateManyRecipientReaderCriteria
             {
-                TicketId=request.TicketId,
-                IsRead=false,
-                ActorId=request.ActorId
+                TicketId = request.TicketId,
+                IsRead = false,
+                ActorId = request.ActorId
             };
 
             await repository.UpdateManyRecipientReader(criteria);

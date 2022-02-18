@@ -1,5 +1,3 @@
-
-
 namespace OWP.Websites.Models
 {
     public class ErrorViewModel

@@ -1,4 +1,5 @@
 ﻿using OWP.RecipientGroup.Services;
+
 namespace OWP.Websites;
 
 public static class RecipientGroupInjector

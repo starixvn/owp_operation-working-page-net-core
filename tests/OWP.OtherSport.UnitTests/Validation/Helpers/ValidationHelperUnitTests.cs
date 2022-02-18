@@ -2,16 +2,15 @@
 {
     using OWP.OtherSport.Validation.Helpers;
     using OWP.OtherSport.Validation.Models;
-    
+
     using System.ComponentModel.DataAnnotations;
     using Xunit;
     using Xunit.Asserts.Compare;
 
     public class ValidationHelperUnitTests
     {
-       [Fact]
-
-       public void BuildValidationRowResult_ValidationResult_ReturnValidation()
+        [Fact]
+        public void BuildValidationRowResult_ValidationResult_ReturnValidation()
         {
             var assignmentValidationList = new List<AssignmentValidationRowResult>();
 

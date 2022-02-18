@@ -1,11 +1,7 @@
 ﻿using NSubstitute;
+using OWP.Enums;
 using OWP.Maxbet.Builder;
 using OWP.Maxbet.Models;
-using OWP.Enums;
-
-
-using System.Text;
-
 using Xunit;
 using Xunit.Asserts.Compare;
 

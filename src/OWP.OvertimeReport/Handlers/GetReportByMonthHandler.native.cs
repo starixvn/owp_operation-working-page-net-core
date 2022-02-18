@@ -4,8 +4,6 @@
     using MediatR;
     using Models;
     using Services;
-    
-    
 
     public class QueryReportByMonthRequest : IRequest<OvertimeByMonth>
     {

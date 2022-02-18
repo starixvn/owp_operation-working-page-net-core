@@ -2,11 +2,7 @@
 {
     using Microsoft.AspNetCore.SignalR;
     using OWP.Hubs;
-    using OWP.OtherSport.Hubs;
     using OWP.OtherSport.Notification.Models;
-    
-    
-    
 
     public interface NotifyServices
     {

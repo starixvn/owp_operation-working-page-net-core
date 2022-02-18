@@ -1,7 +1,6 @@
 ﻿using Fanex.Data.Repository;
 using OWP.AutoAssignment.Enum;
 
-
 namespace OWP.AutoAssignment.Criteria.InternalApi
 {
     public class CreateRequestCriteria : NonQueryCommand

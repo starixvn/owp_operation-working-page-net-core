@@ -12,9 +12,7 @@ namespace OWP.PreMatchAssignment.Services
     using OWP.PreMatchAssignment.Constants;
     using PrematchAssignment.Criteria;
     using PrematchAssignment.Models;
-    
-    
-        
+
     using Utils;
 
     public interface PreMatchAssignmentService

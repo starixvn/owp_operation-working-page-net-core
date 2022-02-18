@@ -1,7 +1,5 @@
 ﻿namespace OWP.OtherSport.Notification.Services
 {
-    
-        
     using Criteria;
     using Fanex.Data.Repository;
     using Models;

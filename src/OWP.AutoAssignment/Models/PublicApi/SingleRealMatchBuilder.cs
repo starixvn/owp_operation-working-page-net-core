@@ -7,6 +7,5 @@
         public MaxBetOfFTHDP MaxBetHdp { get; init; }
 
         public MaxBetCorner MaxBetCorners { get; init; }
-
     }
 }

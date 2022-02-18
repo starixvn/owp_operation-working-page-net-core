@@ -3,9 +3,6 @@ using OWP.Helpers;
 using OWP.Maxbet.Constants;
 using OWP.Maxbet.Models;
 
-
-
-
 namespace OWP.Maxbet.Builder
 {
     public interface MaxbetBuilder

@@ -1,6 +1,5 @@
 ﻿namespace OWP.OtherSport.Notification.Models
 {
-    
     using Submit.Models;
 
     public class ChangedSnapshot

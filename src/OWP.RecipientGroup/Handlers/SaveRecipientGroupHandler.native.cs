@@ -4,9 +4,6 @@
     using Models;
     using OWP.RecipientGroup.Criteria;
     using Services;
-    
-        
-    
 
     public class SaveRecipientGroupRequest : IRequest<string>
     {

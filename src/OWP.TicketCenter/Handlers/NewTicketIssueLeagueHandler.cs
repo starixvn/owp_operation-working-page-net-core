@@ -8,9 +8,6 @@ using OWP.TicketCenter.Notification.Models;
 using OWP.TicketCenter.Notification.Services;
 using OWP.TicketCenter.Services;
 
-
-
-
 namespace OWP.TicketCenter.Handlers
 {
     public class NewTicketIssueLeagueRequest : NewTicketModelBase, IRequest<int>

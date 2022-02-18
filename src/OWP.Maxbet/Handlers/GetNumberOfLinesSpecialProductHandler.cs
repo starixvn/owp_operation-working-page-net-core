@@ -6,8 +6,6 @@ using OWP.Maxbet.Models;
 
 using System.Collections.ObjectModel;
 
-
-
 namespace OWP.Maxbet.Handlers
 {
     public class GetNumberOfLinesSpecialProductHandler

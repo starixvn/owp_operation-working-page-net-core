@@ -2,9 +2,8 @@
 {
     using AutoMapper;
     using Models;
-    
-    
-        using TicketCenter.Services;
+
+    using TicketCenter.Services;
     using ViewModels;
     using Xunit;
     using Xunit.Asserts.Compare;

@@ -1,8 +1,5 @@
 ﻿namespace OWP.PreMatchNotification.InfoSiteMatchInfo.Services
 {
-    
-    
-        
     using Fanex.Data.Repository;
     using OWP.PreMatchNotification.InfoSiteMatchInfo.Criteria;
     using OWP.PreMatchNotification.InfoSiteMatchInfo.Models;

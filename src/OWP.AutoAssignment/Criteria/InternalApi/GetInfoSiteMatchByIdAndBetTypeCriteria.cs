@@ -2,7 +2,7 @@
 
 namespace OWP.AutoAssignment.Criteria.InternalApi
 {
-    public class GetInfoSiteMatchByIdAndBetTypeCriteria: CriteriaBase
+    public class GetInfoSiteMatchByIdAndBetTypeCriteria : CriteriaBase
     {
         public string Xml { get; set; }
 

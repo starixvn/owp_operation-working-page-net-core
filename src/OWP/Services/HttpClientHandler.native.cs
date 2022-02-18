@@ -1,8 +1,4 @@
-﻿
-
-
-
-namespace OWP.Services
+﻿namespace OWP.Services
 {
     public interface IHttpHandler
     {

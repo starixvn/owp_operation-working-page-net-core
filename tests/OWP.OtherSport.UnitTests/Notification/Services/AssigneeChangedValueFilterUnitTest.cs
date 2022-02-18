@@ -1,17 +1,14 @@
 ﻿namespace OWP.OtherSport.UnitTests.Notification.Services
 {
-    
+    using NSubstitute;
     using OtherSport.Notification.Models;
     using OtherSport.Notification.Services;
-    using NSubstitute;
+    using OWP.OtherSport.Notification.Constants;
     using Xunit;
     using Xunit.Asserts.Compare;
-    using OWP.OtherSport.Notification.Constants;
 
     public class AssigneeChangedValueFilterUnitTest
     {
-        
-
         [Fact]
         public void Filter_AssigneeUnSubcribeForMatchInfoUpdatedId_ReturnAssigneeChangedValues()
         {

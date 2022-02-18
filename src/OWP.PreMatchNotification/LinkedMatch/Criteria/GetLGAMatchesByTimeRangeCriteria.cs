@@ -1,9 +1,8 @@
 ﻿namespace OWP.PreMatchNotification.LinkedMatch.Criteria
 {
-    
     using Fanex.Data.Repository;
 
-    public class GetLGAMatchesByTimeRangeCriteria: CriteriaBase
+    public class GetLGAMatchesByTimeRangeCriteria : CriteriaBase
     {
         public DateTime EventDate { get; set; }
 

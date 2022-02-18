@@ -1,7 +1,7 @@
-﻿using System.Collections.Immutable;
-using Fanex.NAP.Client.Helpers.Web;
+﻿using Fanex.NAP.Client.Helpers.Web;
 using OWP.OtherSport.Notification.Constants;
 using OWP.OtherSport.Notification.Models;
+using System.Collections.Immutable;
 
 namespace OWP.OtherSport.Notification.Services
 {

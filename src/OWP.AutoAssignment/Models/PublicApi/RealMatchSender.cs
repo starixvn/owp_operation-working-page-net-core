@@ -4,7 +4,6 @@ namespace OWP.AutoAssignment.Models.PublicApi
 {
     public class RealMatchSender : CommonMatchSender
     {
-
         [JsonProperty("Is_Futsal")]
         public bool IsFutsal { get; set; }
 

@@ -1,10 +1,5 @@
 ﻿namespace OWP.OtherSport.UnitTests.Validation
 {
-    
-    
-    
-    
-    
     using Fanex.NAP.Client.Helpers.Web;
     using NSubstitute;
     using OfficeOpenXml;
@@ -20,7 +15,7 @@
         [Fact]
         public async Task Handle_ExcelHeaderIsInvalid_ReturnsCriticalValidationExceptionMessage()
         {
-            // Arrange            
+            // Arrange
             await using var stream = MockFileStream();
             var request = new ValidationHandler.Request { Stream = stream };
             var exception = new InvalidExcelFormatException();
@@ -36,7 +31,7 @@
         [Fact]
         public async Task Handle_InvalidAssignment_ReturnsInvalidAssignmentRowExceptionMessage()
         {
-            // Arrange            
+            // Arrange
             var request = new ValidationHandler.Request { Stream = MockFileStream() };
             var validationResult = new List<AssignmentValidationRowResult>{
                 new AssignmentValidationRowResult
@@ -60,7 +55,7 @@
         [Fact]
         public async Task Handle_Assignment_ReturnsValidationResult()
         {
-            // Arrange            
+            // Arrange
             var request = new ValidationHandler.Request { Stream = MockFileStream() };
             var handler = MockHandlerWithNoException(request);
 

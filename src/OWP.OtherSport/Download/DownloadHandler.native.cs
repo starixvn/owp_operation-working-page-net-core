@@ -3,9 +3,6 @@
     using MediatR;
     using OfficeOpenXml;
     using OWP.OtherSport.Download.Services;
-    
-    
-    
 
     public class DownloadAssignmentRequest : IRequest<ExcelPackage>
     {

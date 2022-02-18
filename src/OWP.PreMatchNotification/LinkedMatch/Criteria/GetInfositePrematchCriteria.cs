@@ -1,6 +1,5 @@
 ﻿namespace OWP.PreMatchNotification.LinkedMatch.Criteria
 {
-    
     using Fanex.Data.Repository;
 
     public class GetInfositePrematchCriteria : CriteriaBase

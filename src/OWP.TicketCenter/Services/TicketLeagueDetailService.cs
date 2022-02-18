@@ -1,5 +1,4 @@
-﻿
-using AutoMapper;
+﻿using AutoMapper;
 using OWP.TicketCenter.Criteria;
 using OWP.TicketCenter.Enum;
 using OWP.TicketCenter.Handlers;
@@ -43,9 +42,9 @@ namespace OWP.TicketCenter.Services
 
             var criteria = new UpdateSingleRecipientReaderCriteria
             {
-                TicketId=ticketId,
-                IsRead= true,
-                RecipientId=actorId
+                TicketId = ticketId,
+                IsRead = true,
+                RecipientId = actorId
             };
 
             await repository.UpdateSingleRecipientReader(criteria);

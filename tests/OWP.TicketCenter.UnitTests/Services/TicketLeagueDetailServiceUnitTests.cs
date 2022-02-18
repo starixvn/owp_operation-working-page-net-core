@@ -6,10 +6,6 @@ namespace OWP.TicketCenter.UnitTests.Services
     using AutoMapper;
     using Models;
     using NSubstitute;
-    
-    
-    
-    using Handlers;
     using TicketCenter.Services;
     using ViewModels;
     using Xunit;

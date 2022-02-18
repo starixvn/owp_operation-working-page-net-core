@@ -2,9 +2,6 @@
 {
     using Models;
     using OWP.PreMatchNotification.Services;
-    
-    
-        
 
     public interface CacheManipulator
     {

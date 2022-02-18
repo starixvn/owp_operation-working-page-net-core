@@ -3,11 +3,9 @@
     using OWP.OtherSport.Validation.Exceptions;
     using OWP.OtherSport.Validation.Helpers;
     using OWP.OtherSport.Validation.Models;
-    
-    
+
     using System.ComponentModel.DataAnnotations;
-    using System.Globalization;
-        using System.Reflection;
+    using System.Reflection;
     using System.Text.RegularExpressions;
 
     public interface AssignmentValidator

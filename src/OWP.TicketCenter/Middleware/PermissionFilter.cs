@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using OWP.TicketCenter.Middleware.Models;
 using OWP.TicketCenter.Services;
 
-
 namespace OWP.TicketCenter.Middleware
 {
     public class PermissionFilter : IAsyncActionFilter

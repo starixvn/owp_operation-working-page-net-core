@@ -4,12 +4,9 @@ using OWP.TicketCenter.UnitTests.Enum;
 namespace OWP.TicketCenter.UnitTests.Services
 {
     using AutoMapper;
-    using Handlers;
     using Models;
     using NSubstitute;
-    
-    
-    
+
     using TicketCenter.Services;
     using ViewModels;
     using Xunit;
@@ -41,11 +38,11 @@ namespace OWP.TicketCenter.UnitTests.Services
         {
             // Arrange
             var request = new TicketMatchDetailRequest() { ActorId = 1, TicketId = 10 };
-            
+
             // Act
             repository.GetTicketMatchDetail(request.TicketId).Returns(MockTicketMatchSource());
             repository.GetRecipientByTicketId(request.TicketId).Returns(MockRecipientResponse());
-            
+
             var service = new TicketMatchDetailServiceImp(repository, ticketDetailService, mapper);
             var expected = new TicketMatchDetailViewModel()
             {
@@ -76,31 +73,31 @@ namespace OWP.TicketCenter.UnitTests.Services
         }
 
         public List<EventTicketMatchModel> MockTicketMatchSource()
-            => new ()
+            => new()
             {
                 new()
                 {
                     TicketId = 145,
                     MessageId = 12,
-                    TypeName="Other",
+                    TypeName = "Other",
                     HomeName = "MU",
                     AwayName = "Liv",
-                    Message ="hello",
+                    Message = "hello",
                     UserId = 8,
                     Username = "Liam",
-                    CreatedDate = new DateTime(2021,8,1)
+                    CreatedDate = new DateTime(2021, 8, 1)
                 },
                 new()
                 {
                     TicketId = 145,
                     MessageId = 14,
-                    TypeName="Other",
+                    TypeName = "Other",
                     HomeName = "MU",
                     AwayName = "Liv",
-                    Message ="ten ten",
+                    Message = "ten ten",
                     UserId = 9,
                     Username = "Bruno",
-                    CreatedDate = new DateTime(2021,8,2)
+                    CreatedDate = new DateTime(2021, 8, 2)
                 },
             };
 

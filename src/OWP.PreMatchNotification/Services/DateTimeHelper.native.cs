@@ -1,7 +1,5 @@
 ﻿namespace OWP.PreMatchNotification.Services
 {
-    
-
     public interface DateTimeHelper
     {
         DateTime GetCurrentDate();

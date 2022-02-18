@@ -1,17 +1,17 @@
 ﻿namespace OWP.OtherSport.Notification.Criteria
 {
-	using Fanex.Data.Repository;
+    using Fanex.Data.Repository;
 
-	public class InsertMessageCommand : NonQueryCommand
-	{
-		public string Messages { get; set; }
+    public class InsertMessageCommand : NonQueryCommand
+    {
+        public string Messages { get; set; }
 
-		public int CreatedByUserId { get; set; }
+        public int CreatedByUserId { get; set; }
 
-		public string SessionId { get; set; }
+        public string SessionId { get; set; }
 
-		public override string GetSettingKey() => "OWP_AssignmentUpload_MessageInsert";
+        public override string GetSettingKey() => "OWP_AssignmentUpload_MessageInsert";
 
-		public override bool IsValid() => true;
-	}
+        public override bool IsValid() => true;
+    }
 }

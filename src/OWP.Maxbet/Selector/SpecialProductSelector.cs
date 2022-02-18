@@ -5,7 +5,6 @@ using OWP.Maxbet.Handlers;
 using OWP.Maxbet.Models;
 using OWP.Services;
 
-
 namespace OWP.Maxbet.Selector
 {
     public interface SpecialProductSelector

@@ -3,7 +3,6 @@ using OWP.PreMatchNotification.Assignment.Helper;
 using OWP.PreMatchNotification.Assignment.Models;
 using OWP.PreMatchNotification.Models;
 
-
 namespace OWP.PreMatchNotification.Assignment.Services.MyAssignment
 {
     public interface ChangedValueOuDetector

@@ -1,6 +1,5 @@
 ﻿namespace OWP.AutoAssignment.Services.PublicApi
 {
-    
     using Builder;
     using OWP.AutoAssignment.Constant;
 
@@ -27,8 +26,7 @@
         {
             var firstLabel = FirstProviderBuilder.GetFirstProvider(otherProvider)?.ToUpper();
             var providerTypes = providerHasType.GetValueOrDefault(firstLabel ?? string.Empty, AutoConstant.ProviderOtherId);
-            return new [] { providerTypes };
+            return new[] { providerTypes };
         }
-
     }
 }

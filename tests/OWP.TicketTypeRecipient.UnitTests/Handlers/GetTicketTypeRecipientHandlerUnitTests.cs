@@ -5,8 +5,7 @@ namespace OWP.TicketTypeRecipient.UnitTests.Handlers
     using OWP.Enums;
     using OWP.TicketTypeRecipient.Handlers;
     using OWP.TicketTypeRecipient.Models;
-    
-        
+
     using Xunit;
     using Xunit.Asserts.Compare;
 

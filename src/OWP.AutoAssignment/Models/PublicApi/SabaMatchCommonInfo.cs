@@ -1,7 +1,5 @@
 ﻿namespace OWP.AutoAssignment.Models.PublicApi
 {
-    
-
     public class SabaMatchCommonInfo
     {
         public int InfositeId { get; set; }

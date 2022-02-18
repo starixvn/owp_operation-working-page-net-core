@@ -1,13 +1,13 @@
 ﻿using OWP.AutoAssignment.Constant;
 
-
 namespace OWP.AutoAssignment.Services.PublicApi
 {
     public interface ExtraTimeDetectorService
     {
         string DetectExtraTime(string remark);
     }
-    public class ExtraTimeDetectorServiceImp: ExtraTimeDetectorService
+
+    public class ExtraTimeDetectorServiceImp : ExtraTimeDetectorService
     {
         public string DetectExtraTime(string remark)
         {

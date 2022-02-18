@@ -1,8 +1,6 @@
 ﻿using Fanex.Caching;
 using Newtonsoft.Json;
 
-
-
 namespace OWP.PreMatchNotification.Services
 {
     public interface CacheManipulatorCommon

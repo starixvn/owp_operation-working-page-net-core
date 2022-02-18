@@ -4,9 +4,6 @@ using OWP.PreMatchAssignment.Models;
 using OWP.PreMatchAssignment.Services;
 using OWP.Services;
 
-
-
-
 namespace OWP.PreMatchAssignment.Handlers
 {
     public class UpdateLeagueAssignmentRequest : IRequest

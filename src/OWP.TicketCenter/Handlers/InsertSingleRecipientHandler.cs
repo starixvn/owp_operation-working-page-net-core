@@ -3,9 +3,6 @@ using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Notification.Services;
 using OWP.TicketCenter.Services;
 
-
-
-
 namespace OWP.TicketCenter.Handlers
 {
     public class InsertSingleRecipientRequest : InsertOrRemoveSingleRecipientModel, IRequest<int>

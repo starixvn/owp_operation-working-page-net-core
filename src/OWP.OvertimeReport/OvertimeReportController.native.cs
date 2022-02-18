@@ -1,8 +1,5 @@
 ﻿namespace OWP.OvertimeReport
 {
-    
-    
-    
     using Handlers;
     using MediatR;
     using Microsoft.AspNetCore.Authorization;

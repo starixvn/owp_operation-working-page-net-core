@@ -1,14 +1,12 @@
 ﻿namespace OWP.OtherSport.UnitTests.Notification.Services
 {
-    
-    
+    using Fanex.NAP.Client.Helpers.Web;
+    using NSubstitute;
     using OtherSport.Notification.Models;
     using OtherSport.Notification.Services;
-    using NSubstitute;
+    using OWP.OtherSport.Notification.Constants;
     using Xunit;
     using Xunit.Asserts.Compare;
-    using OWP.OtherSport.Notification.Constants;
-    using Fanex.NAP.Client.Helpers.Web;
 
     public class MessageFactoryUnitTest
     {

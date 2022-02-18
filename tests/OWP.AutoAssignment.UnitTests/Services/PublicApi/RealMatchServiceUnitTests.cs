@@ -1,8 +1,5 @@
 ﻿namespace OWP.AutoAssignment.UnitTests.Services.PublicApi
 {
-    
-    
-        
     using AutoAssignment.Services.PublicApi;
     using Models.PublicApi;
     using NSubstitute;
@@ -14,6 +11,7 @@
         private readonly Repository repository;
         private readonly ExtraTimeDetectorService extraTimeService;
         private readonly ProviderDetectorService providerService;
+
         public RealMatchServiceUnitTests()
         {
             repository = Substitute.For<Repository>();
@@ -42,7 +40,6 @@
             // Act
             var actual = await service
                 .BuildRealMatchInfo(new List<MatchQueried>() { new() { InfositeMatchId = 1, SabaType = null } });
-
 
             // Assert
             DeepAssert.Equal(expected, actual);
@@ -82,7 +79,6 @@
                     MaxBetNextCorner = 40,
                     MaxBetNoOfCorner = 40,
                 },
-
             };
 
         public List<MaxBetFTHDPInfo> MockListMaxBetHdpInfo()

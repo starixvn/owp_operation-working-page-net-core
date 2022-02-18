@@ -1,6 +1,5 @@
 ﻿namespace OWP.OtherSport.Validation.Exceptions
 {
-    
     using System.Runtime.Serialization;
 
     [Serializable]

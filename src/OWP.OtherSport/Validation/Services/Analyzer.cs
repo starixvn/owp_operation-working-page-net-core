@@ -1,6 +1,5 @@
 ﻿namespace OWP.OtherSport.Validation.Services
 {
-    
     using OWP.OtherSport.Validation.Models;
 
     public interface Analyzer

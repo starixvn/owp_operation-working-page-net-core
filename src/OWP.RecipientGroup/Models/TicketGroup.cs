@@ -1,6 +1,4 @@
-﻿
-
-namespace OWP.RecipientGroup.Models
+﻿namespace OWP.RecipientGroup.Models
 {
     public class TicketGroup
     {

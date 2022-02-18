@@ -1,10 +1,9 @@
 ﻿namespace OWP.PreMatchNotification.Services
 {
-    
-    using System.Collections.Immutable;
-        using Fanex.NAP.Client.Helpers.Web;
+    using Fanex.NAP.Client.Helpers.Web;
     using OWP.PreMatchNotification.Constants;
     using OWP.PreMatchNotification.Models;
+    using System.Collections.Immutable;
 
     public interface MessageFactory
     {

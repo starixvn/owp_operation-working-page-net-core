@@ -1,12 +1,6 @@
-﻿
-
-using System.Text;
-
-using NSubstitute;
+﻿using NSubstitute;
 using OWP.TicketCenter.Criteria;
 using OWP.TicketCenter.Handlers;
-using OWP.TicketCenter.Notification.Const;
-using OWP.TicketCenter.Notification.Models;
 using OWP.TicketCenter.Notification.Services;
 using Xunit;
 

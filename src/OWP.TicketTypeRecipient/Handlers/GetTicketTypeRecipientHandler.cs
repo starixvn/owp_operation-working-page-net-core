@@ -3,7 +3,7 @@
     using Fanex.Data.Repository;
     using MediatR;
     using Models;
-    
+
     public class GetTicketTypeRecipientRequest : IRequest<IEnumerable<TicketTypeRecipient>>
     {
     }

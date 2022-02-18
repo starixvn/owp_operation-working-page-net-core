@@ -8,8 +8,6 @@ using OWP.TicketCenter.Notification.Models;
 using OWP.TicketCenter.Notification.Services;
 using OWP.TicketCenter.Services;
 
-
-
 using Xunit;
 
 namespace OWP.TicketCenter.UnitTests.Handlers

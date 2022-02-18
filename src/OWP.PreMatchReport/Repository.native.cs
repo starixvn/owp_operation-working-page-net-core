@@ -1,13 +1,13 @@
-
-
-using OWP.PreMatchReport.Criteria;
 using Fanex.Data.Repository;
+using OWP.PreMatchReport.Criteria;
 using OWP.PreMatchReport.Models;
 
 namespace OWP.PreMatchReport;
+
 public interface Repository
 {
     Task<IEnumerable<QueryPrematchReportModel>> GetReportForLeague(QueryModel queryModel);
+
     Task<IEnumerable<QueryPrematchReportModel>> GetReportForMatches(QueryModel queryModel);
     Task<List<string>> GetUnAssigned(List<int> userIds, string keyWord);
 }
@@ -15,6 +15,7 @@ public interface Repository
 public class RepositoryImp : Repository
 {
     private readonly IDynamicRepository dynamicRepository;
+
     public RepositoryImp(IDynamicRepository dynamicRepository)
     {
         this.dynamicRepository = dynamicRepository;
@@ -30,6 +31,7 @@ public class RepositoryImp : Repository
         };
         return await dynamicRepository.FetchAsync<QueryPrematchReportModel>(criteria);
     }
+
     public async Task<IEnumerable<QueryPrematchReportModel>> GetReportForMatches(QueryModel queryModel)
     {
         var criteria = new GetReportForMatchesCriteria

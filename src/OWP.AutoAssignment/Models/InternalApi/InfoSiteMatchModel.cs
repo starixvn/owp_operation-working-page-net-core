@@ -1,5 +1,4 @@
-﻿
-namespace OWP.AutoAssignment.Models.InternalApi
+﻿namespace OWP.AutoAssignment.Models.InternalApi
 {
     public class InfoSiteMatchModel
     {
@@ -40,6 +39,5 @@ namespace OWP.AutoAssignment.Models.InternalApi
         public string Website4 { get; set; }
 
         public int Bettype { get; set; }
-
     }
 }

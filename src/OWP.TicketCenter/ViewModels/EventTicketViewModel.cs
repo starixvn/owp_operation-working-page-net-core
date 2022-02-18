@@ -1,7 +1,4 @@
-﻿
-using OWP.TicketCenter.Models;
-
-namespace OWP.TicketCenter.ViewModels
+﻿namespace OWP.TicketCenter.ViewModels
 {
     public class EventTicketViewModel
     {

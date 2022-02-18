@@ -4,7 +4,5 @@
     {
         public override string GetSettingKey()
             => "OWP_TicketOtherDetail_Get";
-
     }
-
 }

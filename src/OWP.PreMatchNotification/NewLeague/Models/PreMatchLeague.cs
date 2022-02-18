@@ -1,8 +1,5 @@
 ﻿namespace OWP.PreMatchNotification.NewLeague.Models
 {
-    
-    
-
     public class PreMatchLeague : IEqualityComparer<PreMatchLeague>
     {
         public int PreMatchLeagueId { get; set; }

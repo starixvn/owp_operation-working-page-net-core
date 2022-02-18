@@ -1,7 +1,5 @@
 ﻿namespace OWP.OtherSport.Notification
 {
-    
-    
     using MediatR;
     using OWP.OtherSport.Notification.Services;
 

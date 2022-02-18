@@ -1,12 +1,12 @@
-﻿using Fanex.NAP.Client.Helpers.Web;
-using AutoMapper;
+﻿using AutoMapper;
 using Fanex.Data.Repository;
+using Fanex.NAP.Client.Helpers.Web;
 using NSubstitute;
-using Xunit;
-using Xunit.Asserts.Compare;
+using OWP.PreMatchAssignment.Criteria;
 using OWP.PreMatchAssignment.Models;
 using OWP.PreMatchAssignment.Services;
-using OWP.PreMatchAssignment.Criteria;
+using Xunit;
+using Xunit.Asserts.Compare;
 
 namespace OWP.PreMatchAssignment.UnitTests.Services;
 

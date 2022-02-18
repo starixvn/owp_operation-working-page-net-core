@@ -1,8 +1,5 @@
 ﻿namespace OWP.OtherSport.Submit.Models
 {
-    
-    
-
     public class AssignmentSnapshot
     {
         public Dictionary<int, MatchInfo> Matches { get; set; }

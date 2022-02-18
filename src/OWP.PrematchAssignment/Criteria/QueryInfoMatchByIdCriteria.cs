@@ -2,7 +2,7 @@
 
 namespace OWP.PrematchAssignment.Criteria
 {
-    public class QueryInfoMatchByIdCriteria: CriteriaBase
+    public class QueryInfoMatchByIdCriteria : CriteriaBase
     {
         public int Id { get; set; }
 

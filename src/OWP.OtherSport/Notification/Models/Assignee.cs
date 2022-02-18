@@ -1,7 +1,5 @@
 ﻿namespace OWP.OtherSport.Notification.Models
 {
-    
-
     public class Assignee : IEqualityComparer<Assignee>
     {
         public int AssigneeId { get; set; }

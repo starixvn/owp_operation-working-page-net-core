@@ -2,8 +2,7 @@
 
 namespace OWP.OtherSport.Notification.Services
 {
-    
-        using Constants;
+    using Constants;
     using Extensions;
     using Models;
     using OWP.Extensions;

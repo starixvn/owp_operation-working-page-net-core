@@ -10,10 +10,8 @@ namespace OWP.PreMatchAssignment.Services
     using Handlers;
     using Models;
     using OWP.Extensions;
-    
-    
+
     using System.Globalization;
-        
 
     public interface ShiftAssignmentService
     {
@@ -32,14 +30,14 @@ namespace OWP.PreMatchAssignment.Services
 
         private readonly IMapper mapper;
 
-        class AssignmentShift
+        private class AssignmentShift
         {
             public IEnumerable<PreMatchLeague> Leagues { get; set; }
 
             public IEnumerable<InfoSiteMatch> Matches { get; set; }
         }
 
-        class DefaultDayAndNightShift
+        private class DefaultDayAndNightShift
         {
             public AssignmentShift DayShift { get; set; }
 
@@ -229,7 +227,6 @@ namespace OWP.PreMatchAssignment.Services
             {
                 InfoSiteMatches = nightShiftWithRequestStartTime.Matches.ToList(),
                 PreMatchLeagues = mapper.Map<IList<LeagueAssignment>>(preMatchLeagues)
-
             };
         }
 
@@ -259,7 +256,6 @@ namespace OWP.PreMatchAssignment.Services
 
                         return x;
                     });
-
             }
 
             var preMatchLeagues = SortAndAddNo(nightShiftWithRequestStartTimeLeagues);

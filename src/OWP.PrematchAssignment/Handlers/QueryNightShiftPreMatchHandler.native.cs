@@ -2,9 +2,6 @@
 using OWP.PreMatchAssignment.Models;
 using OWP.PreMatchAssignment.Services;
 
-
-
-
 namespace OWP.PreMatchAssignment.Handlers
 {
     public class QueryNightShiftPreMatchRequest : IRequest<QueryPreMatchLeagueViewModel>

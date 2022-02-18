@@ -1,7 +1,6 @@
 ﻿using OWP.Maxbet.Models;
 using OWP.Services;
 
-
 namespace OWP.Maxbet.Builder
 {
     public interface SpecialProductMaxbetBuilder

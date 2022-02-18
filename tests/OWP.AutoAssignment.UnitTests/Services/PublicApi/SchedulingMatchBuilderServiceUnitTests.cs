@@ -2,8 +2,6 @@
 using OWP.AutoAssignment.Models.PublicApi;
 using OWP.AutoAssignment.Services.PublicApi;
 
-
-
 using Xunit;
 using Xunit.Asserts.Compare;
 
@@ -57,7 +55,7 @@ namespace OWP.AutoAssignment.UnitTests.Services.PublicApi
 
             // Act
             var service = new SchedulingMatchBuilderServiceImp(repository, sabaMatchService, realMatchService);
-            var actual= await service.GetMatchesInfo(DateTime.Parse("2021-12-8"));
+            var actual = await service.GetMatchesInfo(DateTime.Parse("2021-12-8"));
 
             var expected = new SchedulingMatch
             {
@@ -102,7 +100,6 @@ namespace OWP.AutoAssignment.UnitTests.Services.PublicApi
             };
 
             repository.GetMatchByDate(Arg.Compat.Any<DateTime>()).ReturnsForAnyArgs(r => matchQueried);
-
         }
     }
 }

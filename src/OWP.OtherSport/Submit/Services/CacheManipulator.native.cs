@@ -4,9 +4,6 @@
     using Newtonsoft.Json;
     using OWP.OtherSport.Submit.Models;
     using OWP.OtherSport.Validation.Models;
-    
-    
-    
 
     public interface CacheManipulator
     {

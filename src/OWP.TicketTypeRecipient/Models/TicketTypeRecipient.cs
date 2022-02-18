@@ -1,8 +1,5 @@
-﻿
-namespace OWP.TicketTypeRecipient.Models
+﻿namespace OWP.TicketTypeRecipient.Models
 {
-    
-
     public class TicketTypeRecipient
     {
         public TicketType TicketType { get; set; }

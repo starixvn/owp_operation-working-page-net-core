@@ -8,9 +8,6 @@
     using OWP.OtherSport.Shared.Services;
     using OWP.OtherSport.Submit.Models;
     using Submit.Contants;
-    
-    
-        
 
     public interface BuildExcelModelService
     {

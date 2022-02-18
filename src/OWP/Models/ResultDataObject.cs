@@ -1,5 +1,4 @@
-﻿using System.Net;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace OWP.Models;
 
@@ -34,6 +33,6 @@ public class ResultDataObject
             return;
         }
 
-        throw new ArgumentException (Message);
+        throw new ArgumentException(Message);
     }
 }

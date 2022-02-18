@@ -1,7 +1,5 @@
 ﻿namespace OWP.PreMatchNotification.LinkedMatch.Models
 {
-    
-
     public class ChangedSnapshot
     {
         public List<GeneralMatch> DeletedMatches { get; set; }

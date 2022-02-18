@@ -1,6 +1,4 @@
-﻿
-
-namespace OWP.OtherSport.Notification.Models
+﻿namespace OWP.OtherSport.Notification.Models
 {
     public class MessageModel
     {

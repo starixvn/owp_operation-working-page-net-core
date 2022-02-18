@@ -3,9 +3,7 @@
     using Models;
     using NSubstitute;
     using OWP.OvertimeReport.Services;
-    
-    
-        
+
     using Xunit;
     using Xunit.Asserts.Compare;
 

@@ -5,7 +5,6 @@ using OWP.Maxbet.Models;
 using OWP.Maxbet.Selector;
 using OWP.Services;
 
-
 namespace OWP.Maxbet.Services
 {
     public interface MaxbetService

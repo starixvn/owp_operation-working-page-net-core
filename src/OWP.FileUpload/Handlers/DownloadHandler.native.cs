@@ -14,7 +14,6 @@ namespace OWP.FileUpload.Handlers
 
         public class Handler : IRequestHandler<DownloadRequest, FileModel>
         {
-
             private readonly IDynamicRepository dynamicRepo;
 
             public Handler(IDynamicRepository dynamicRepo)
