@@ -1,8 +1,5 @@
 ﻿namespace OWP.OtherSport.Download.Services
 {
-    
-    
-    
     using Epplus.Mapper.Extensions;
     using OfficeOpenXml;
     using OWP.Extensions;
@@ -16,7 +13,7 @@
         Task<ExcelPackage> CreateExcelPackage(DownloadAssignmentRequest request);
     }
 
-    public class ExportExcelServiceImp : ExportExcelService
+    public class ExportExcelServiceImp : ExportExcelService, IDisposable
     {
         private readonly ConfigurationService configurationService;
 
@@ -122,6 +119,11 @@
                 reportSheet.Cells[row, matchSetting.ColumnIndexMaxbet].Value = matchSetting.ValueMaxbet;
                 reportSheet.Cells[row, matchSetting.ColumnIndexSpread].Value = matchSetting.ValueSpread;
             }
+        }
+
+        public void Dispose()
+        {
+            excelPackage.Dispose();
         }
     }
 }

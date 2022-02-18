@@ -24,7 +24,7 @@
         public int Year { get; set; }
     }
 
-    public class ExportReportByYearHandler : IRequestHandler<ExportReportByYearRequest, ExcelPackage>
+    public class ExportReportByYearHandler : IRequestHandler<ExportReportByYearRequest, ExcelPackage>, IDisposable
     {
         private readonly IMapper mapper;
 
@@ -168,6 +168,11 @@
             return hourDecimal != 0
                 ? hourDecimal.ToString("0.00", CultureInfo.InvariantCulture)
                 : "-";
+        }
+
+        public void Dispose()
+        {
+            excelPackage.Dispose();
         }
     }
 }

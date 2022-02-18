@@ -1,11 +1,11 @@
 ﻿namespace OWP.OvertimeReport.Services
 {
-    
-    
+
+
     using System.Data;
     using System.Drawing;
     using System.Globalization;
-        
+
     using Constants;
     using Extensions;
     using Models;
@@ -17,7 +17,7 @@
         Task<ExcelPackage> ExportReportByMonth(OverTimeRequest request);
     }
 
-    public class ExportReportByMonthServicesImp : ExportReportByMonthServices
+    public class ExportReportByMonthServicesImp : ExportReportByMonthServices, IDisposable
     {
         private readonly ReportByMonthServices reportService;
 
@@ -177,5 +177,10 @@
             => hour != 0
                 ? hour.ToString("0.00", CultureInfo.InvariantCulture)
                 : "-";
+
+        public void Dispose()
+        {
+            excelPackage.Dispose();
+        }
     }
 }
