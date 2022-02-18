@@ -1,8 +1,14 @@
-using AutoMapper;
+using System.Linq;
+using System.Collections.Generic;
 using NSubstitute;
+using Xunit;
+using Xunit.Asserts.Compare;
+using AutoMapper;
+
 using OWP.PreMatchReport.Models;
 using OWP.PreMatchReport.Services;
-using Xunit;
+
+
 
 namespace OWP.PreMatchReport.UnitTests.Services;
 
@@ -93,25 +99,13 @@ public class GetPreMatchReportServiceUnitTests
             KeyWord = ""
         };
 
+        var userIds = new List<int>(){
+            1,2,3
+        };
+
         repository.GetReportForLeague(request).Returns(MockReportForLeague());
         repository.GetReportForMatches(request).Returns(MockReportForMatches());
-
-        var reportPrematch = new ReportModel()
-        {
-            TraderName = "sa",
-            TotalMatches = 14,
-            TotalLeague = 14,
-            ReportHDPLeague = new ReportHDPLeagueModel()
-            {
-                MJ = 1,
-                M1 = 1
-            },
-            ReportHDPMatches = new ReportHDPMatchesModel()
-            {
-                MJ = 1,
-                M1 = 1
-            }
-        };
+        repository.GetUnAssigned(Arg.Compat.Any<List<int>>(),Arg.Compat.Any<string>()).Returns(mockReturnUsers());
 
         var actual = await service.GetReports(request);
 
@@ -122,7 +116,9 @@ public class GetPreMatchReportServiceUnitTests
         Assert.Equal(expected[0].LeagueHdpMj, actual[0].LeagueHdpMj);
         Assert.Equal(expected[0].MatchHdpMj, actual[0].MatchHdpMj);
     }
-
+    public List<string> mockReturnUsers()
+    => new()
+    { "sa", "starix1", "starix2"};
     public List<ExportPreMatchModel> Expected()
     => new()
     {
@@ -137,12 +133,12 @@ public class GetPreMatchReportServiceUnitTests
             MatchHdpM1 = "7"
         }
     };
-
     public List<QueryPrematchReportModel> MockReportForLeague()
     => new()
     {
         new()
         {
+            UserId = 1,
             TraderName = "sa",
             GroupId = 1,
             Bettype = 1,
@@ -150,18 +146,19 @@ public class GetPreMatchReportServiceUnitTests
         },
         new()
         {
+            UserId = 1,
             TraderName = "sa",
             GroupId = 2,
             Bettype = 1,
             Amount = 7
         }
     };
-
     public List<QueryPrematchReportModel> MockReportForMatches()
     => new()
     {
         new()
         {
+            UserId = 1,
             TraderName = "sa",
             GroupId = 1,
             Bettype = 1,
@@ -169,6 +166,7 @@ public class GetPreMatchReportServiceUnitTests
         },
         new()
         {
+            UserId = 1,
             TraderName = "sa",
             GroupId = 2,
             Bettype = 1,
