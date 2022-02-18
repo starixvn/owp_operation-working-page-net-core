@@ -1,6 +1,6 @@
 ﻿namespace OWP.OtherSport.Notification.Services
 {
-    using System.Threading.Tasks;
+    
     using Fanex.Caching;
     using Newtonsoft.Json;
     using Submit.Models;

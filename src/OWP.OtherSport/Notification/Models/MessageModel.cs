@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿
 
 namespace OWP.OtherSport.Notification.Models
 {

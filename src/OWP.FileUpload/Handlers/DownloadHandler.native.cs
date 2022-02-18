@@ -1,7 +1,4 @@
-﻿using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Fanex.Data.Repository;
+﻿using Fanex.Data.Repository;
 using MediatR;
 using OWP.FileUpload.Criteria;
 using OWP.FileUpload.Models;

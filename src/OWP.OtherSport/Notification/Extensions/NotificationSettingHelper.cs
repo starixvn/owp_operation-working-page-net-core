@@ -1,6 +1,6 @@
 ﻿namespace OWP.OtherSport.Notification.Extensions
 {
-    using System.Collections.Generic;
+    
     using Constants;
 
     public static class NotificationSettingHelper

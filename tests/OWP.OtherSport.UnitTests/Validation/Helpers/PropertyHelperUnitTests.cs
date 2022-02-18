@@ -1,8 +1,7 @@
 ﻿namespace OWP.OtherSport.UnitTests.Validation.Helpers
 {
     using System.ComponentModel.DataAnnotations;
-    using System.Linq;
-    using OWP.OtherSport.Validation.Helpers;
+        using OWP.OtherSport.Validation.Helpers;
     using Xunit;
 
     public class PropertyHelperUnitTests

@@ -1,9 +1,8 @@
 ﻿namespace OWP.PreMatchNotification.Services
 {
-    using System.Collections.Generic;
+    
     using System.Collections.Immutable;
-    using System.Linq;
-    using Fanex.NAP.Client.Helpers.Web;
+        using Fanex.NAP.Client.Helpers.Web;
     using OWP.PreMatchNotification.Constants;
     using OWP.PreMatchNotification.Models;
 

@@ -4,9 +4,8 @@
     using Fanex.Data.Repository;
     using Handlers;
     using Models;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
+    
+        
 
     public interface CommandRepository
     {

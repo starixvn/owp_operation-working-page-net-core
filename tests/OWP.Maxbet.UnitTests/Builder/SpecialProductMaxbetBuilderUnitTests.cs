@@ -2,7 +2,7 @@
 using OWP.Maxbet.Builder;
 using OWP.Maxbet.Models;
 using OWP.Services;
-using System.Collections.Generic;
+
 using Xunit;
 using Xunit.Asserts.Compare;
 

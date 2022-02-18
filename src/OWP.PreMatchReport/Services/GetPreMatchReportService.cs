@@ -1,8 +1,7 @@
 using OWP.PreMatchReport.Helper;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+
+
+
 using AutoMapper;
 using OWP.PreMatchReport.Models;
 using OWP.PreMatchReport.Handlers;

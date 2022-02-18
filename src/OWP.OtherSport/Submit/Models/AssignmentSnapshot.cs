@@ -1,7 +1,7 @@
 ﻿namespace OWP.OtherSport.Submit.Models
 {
-    using System;
-    using System.Collections.Generic;
+    
+    
 
     public class AssignmentSnapshot
     {

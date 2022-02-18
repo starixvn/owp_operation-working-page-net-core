@@ -1,7 +1,7 @@
 ﻿namespace OWP.OtherSport.Validation.Exceptions
 {
-    using System;
-    using System.Collections.Generic;
+    
+    
     using System.Runtime.Serialization;
     using Models;
 

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿
 using AutoMapper;
 using OWP.TicketCenter.ViewModels;
 using OWP.Utils;

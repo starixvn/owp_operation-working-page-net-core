@@ -1,6 +1,6 @@
 ﻿using OWP.PreMatchNotification.Assignment.Models;
 using OWP.PreMatchNotification.Models;
-using System.Collections.Generic;
+
 
 namespace OWP.PreMatchNotification.Assignment.Services.OtherAssignment
 {

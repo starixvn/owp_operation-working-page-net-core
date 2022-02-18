@@ -1,7 +1,6 @@
 ﻿using OWP.TicketCenter.Builder;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+
+
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.ViewModels;
 using Xunit;

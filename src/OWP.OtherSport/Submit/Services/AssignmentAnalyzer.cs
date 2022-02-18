@@ -1,11 +1,10 @@
 ﻿namespace OWP.OtherSport.Submit.Services
 {
     using Models;
-    using System.Collections.Generic;
+    
     using OWP.OtherSport.Validation.Models;
     using Contants;
-    using System.Linq;
-
+    
     public interface AssignmentAnalyzer
     {
         List<MatchAssignment> GetAllAssignmentsOfMatch(AssignmentModel assignment, List<AssignmentMaxbet> assignmentMaxbets);

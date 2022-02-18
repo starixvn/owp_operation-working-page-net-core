@@ -1,9 +1,8 @@
 ﻿namespace OWP.PreMatchNotification.UnitTests.NewLeague
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using OWP.PreMatchNotification.Models;
+    
+    
+        using OWP.PreMatchNotification.Models;
     using OWP.PreMatchNotification.NewLeague.Models;
     using OWP.PreMatchNotification.NewLeague.Services;
     using NSubstitute;

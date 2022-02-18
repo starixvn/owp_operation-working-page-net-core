@@ -1,7 +1,7 @@
 ﻿
 namespace OWP.PreMatchAssignment.Models
 {
-    using System.Collections.Generic;
+    
 
     public class QueryMessagesViewModel
     {

@@ -4,10 +4,9 @@
     using OWP.OtherSport.EventAssignment.Models;
     using OWP.OtherSport.Submit.Contants;
     using OWP.OtherSport.Submit.Models;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
+    
+    
+    
     public interface AssignmentBuilder
     {
         public void Build(List<EventAssignmentModel> eventAssignmentModels, Dictionary<int, List<MatchAssignment>> matchAssignments);

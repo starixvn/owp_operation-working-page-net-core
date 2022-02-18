@@ -1,6 +1,6 @@
 ﻿namespace OWP.AutoAssignment.Models.PublicApi
 {
-    using System;
+    
 
     public class SabaMatchCommonInfo
     {

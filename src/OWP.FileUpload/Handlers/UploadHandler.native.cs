@@ -1,8 +1,5 @@
 ﻿namespace OWP.FileUpload.Handlers
 {
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
     using Criteria;
     using Fanex.Data.Repository;
     using MediatR;

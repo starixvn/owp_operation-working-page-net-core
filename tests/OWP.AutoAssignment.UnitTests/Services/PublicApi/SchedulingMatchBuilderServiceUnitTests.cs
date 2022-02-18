@@ -1,9 +1,9 @@
 ﻿using NSubstitute;
 using OWP.AutoAssignment.Models.PublicApi;
 using OWP.AutoAssignment.Services.PublicApi;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+
+
+
 using Xunit;
 using Xunit.Asserts.Compare;
 

@@ -3,8 +3,8 @@ using OWP.TicketCenter.Handlers;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Notification.Services;
 using OWP.TicketCenter.Services;
-using System.Collections.Generic;
-using System.Threading;
+
+
 using Xunit;
 
 namespace OWP.TicketCenter.UnitTests.Handlers

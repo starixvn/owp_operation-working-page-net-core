@@ -4,10 +4,9 @@
     using NSubstitute;
     using OWP.RecipientGroup.Handlers;
     using Services;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
+    
+        
+    
     using Xunit;
     using Xunit.Asserts.Compare;
 

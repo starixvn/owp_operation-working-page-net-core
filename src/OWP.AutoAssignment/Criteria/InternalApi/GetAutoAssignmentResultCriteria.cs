@@ -1,5 +1,5 @@
 ﻿using Fanex.Data.Repository;
-using System;
+
 namespace OWP.AutoAssignment.Criteria.InternalApi
 {
 

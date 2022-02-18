@@ -3,9 +3,8 @@
     using Fanex.Data.Repository;
     using OWP.OtherSport.Validation.Criteria;
     using OWP.OtherSport.Validation.Models;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
+    
+        
     public interface Repository
     {
         Task<List<Trader>> GetTraders(List<string> traderNames);

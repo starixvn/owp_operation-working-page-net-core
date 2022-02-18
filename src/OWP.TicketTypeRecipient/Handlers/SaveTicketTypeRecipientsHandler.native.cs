@@ -1,11 +1,11 @@
 ﻿namespace OWP.TicketTypeRecipient.Handlers
 {
-    using System.Collections.Generic;
+    
     using MediatR;
     using Fanex.Data.Repository;
     using OWP.TicketTypeRecipient.Models;
-    using System.Threading.Tasks;
-    using System.Threading;
+    
+    
     using Olympus.Xml;
 
     public class SaveTicketTypeRecipientsCommand : IRequest<Unit>

@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
+
 using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Security.Claims;
-using System.Threading.Tasks;
+
 using Fanex.NAP.Client.Helpers.Web;
 using Fanex.NAP.Client.Models.ParameterObject;
 using Fanex.NAP.Client.Services;

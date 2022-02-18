@@ -2,10 +2,9 @@
 {
     using Extensions;
     using Submit.Models;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
+    
+    
+    
     public static class FilterHelper
     {
         public static Dictionary<int, MatchInfo> FilterMatchesByEmployee(string employee, AssignmentSnapshot assignmentSnapshot)

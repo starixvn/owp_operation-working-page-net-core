@@ -4,9 +4,8 @@
     using OWP.PreMatchNotification.Constants;
     using OWP.PreMatchNotification.LinkedMatch.Models;
     using OWP.PreMatchNotification.Models;
-    using System.Collections.Generic;
-    using System.Linq;
-
+    
+    
     public interface ChangedMatchStatusGenerator
     {
         List<ChangedValue> Create(ChangedSnapshot changedSnapshot, Employee employees);

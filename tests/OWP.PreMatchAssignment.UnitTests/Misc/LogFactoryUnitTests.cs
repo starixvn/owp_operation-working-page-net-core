@@ -2,7 +2,7 @@
 {
     using Models;
     using OWP.PreMatchAssignment.Misc;
-    using System.Collections.Generic;
+    
     using Xunit;
 
     public class LogFactoryUnitTests

@@ -1,6 +1,6 @@
 ﻿namespace OWP.PreMatchNotification.InfoSiteMatchInfo.Models
 {
-    using System;
+    
 
     public class InfoSiteMatch
     {

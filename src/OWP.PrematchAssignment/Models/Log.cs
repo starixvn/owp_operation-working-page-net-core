@@ -1,6 +1,6 @@
 ﻿namespace OWP.PreMatchAssignment.Models
 {
-    using System;
+    
 
     public class Log
     {

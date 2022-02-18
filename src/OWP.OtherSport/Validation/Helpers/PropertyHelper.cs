@@ -1,8 +1,7 @@
 ﻿namespace OWP.OtherSport.Validation.Helpers
 {
     using System.ComponentModel.DataAnnotations;
-    using System.Linq;
-    using System.Reflection;
+        using System.Reflection;
 
     public static class PropertyHelper
     {

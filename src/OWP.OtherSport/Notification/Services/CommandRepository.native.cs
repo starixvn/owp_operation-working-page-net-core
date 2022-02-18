@@ -1,7 +1,7 @@
 ﻿namespace OWP.OtherSport.Notification.Services
 {
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
+    
+    
     using Fanex.Data.Repository;
     using Models;
     using Olympus.Xml;

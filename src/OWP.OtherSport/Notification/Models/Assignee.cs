@@ -1,6 +1,6 @@
 ﻿namespace OWP.OtherSport.Notification.Models
 {
-    using System.Collections.Generic;
+    
 
     public class Assignee : IEqualityComparer<Assignee>
     {

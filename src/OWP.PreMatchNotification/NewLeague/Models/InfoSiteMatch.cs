@@ -1,6 +1,6 @@
 ﻿namespace OWP.PreMatchNotification.NewLeague.Models
 {
-    using System;
+    
 
     public class InfoSiteMatch
     {

@@ -1,7 +1,7 @@
 ﻿namespace OWP.AutoAssignment.UnitTests.Services.InternalApi
 {
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
+    
+    
     using AutoAssignment.Services.InternalApi;
     using Criteria.InternalApi;
     using Models.InternalApi;

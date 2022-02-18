@@ -4,9 +4,9 @@
     using OWP.Hubs;
     using OWP.OtherSport.Hubs;
     using OWP.OtherSport.Notification.Models;
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
+    
+    
+    
 
     public interface NotifyServices
     {

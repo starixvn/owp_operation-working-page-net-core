@@ -1,7 +1,7 @@
 ﻿
 namespace OWP.PreMatchAssignment.Models
 {
-    using System;
+    
 
     public class Note
     {

@@ -1,15 +1,14 @@
 ﻿namespace OWP.Services
 {
-    using System.Linq;
     using Fanex.Data.Repository;
     using OWP.Models;
     using OWP.Utils;
     using Microsoft.AspNetCore.SignalR;
     using OWP.Criteria;
     using OWP.Hubs;
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
+    
+    
+    
 
     public interface NotifyEngine
     {

@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 
 namespace OWP.TicketCenter.UnitTests
 {

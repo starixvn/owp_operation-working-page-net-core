@@ -1,6 +1,6 @@
 ﻿namespace OWP.PreMatchAssignment.Models
 {
-    using System;
+    
     using System.Xml.Serialization;
     using OWP.Extensions;
     using OWP.Utils;

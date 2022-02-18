@@ -8,11 +8,10 @@
     using OWP.OtherSport.Submit.Services;
     using OWP.OtherSport.Validation.Models;
     using OWP.Utils;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
+    
+    
+        
+    
 
     public class SubmitRequest : IRequest<SubmitResponse>
     {

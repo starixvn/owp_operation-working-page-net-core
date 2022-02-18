@@ -1,6 +1,6 @@
 ﻿namespace OWP.OtherSport.UnitTests.Notification.Services
 {
-    using System.Collections.Generic;
+    
     using NSubstitute;
     using OtherSport.Notification.Models;
     using OtherSport.Notification.Services;

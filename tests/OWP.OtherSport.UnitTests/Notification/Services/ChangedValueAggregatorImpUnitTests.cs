@@ -1,8 +1,7 @@
 ﻿namespace OWP.OtherSport.UnitTests.Notification.Services
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using OtherSport.Notification.Constants;
+    
+        using OtherSport.Notification.Constants;
     using OtherSport.Notification.Models;
     using OtherSport.Notification.Services;
     using AutoMapper;

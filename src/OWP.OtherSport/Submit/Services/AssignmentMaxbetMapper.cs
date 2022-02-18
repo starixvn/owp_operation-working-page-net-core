@@ -3,10 +3,9 @@
     using Contants;
     using Models;
     using Validation.Models;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
+    
+    
+    
     public interface AssignmentMaxbetMapper
     {
         Dictionary<int, List<AssignmentMaxbet>> MapBySports(List<AssignmentModel> assignments);

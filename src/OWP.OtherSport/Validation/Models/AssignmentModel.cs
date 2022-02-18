@@ -1,6 +1,6 @@
 ﻿namespace OWP.OtherSport.Validation.Models
 {
-    using System;
+    
 
     public class AssignmentModel
     {

@@ -4,8 +4,8 @@ using OWP.TicketCenter.Middleware.Models;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Notification.Services;
 using OWP.TicketCenter.ViewModels;
-using System.Threading;
-using System.Threading.Tasks;
+
+
 
 namespace OWP.TicketCenter.Handlers
 {

@@ -1,8 +1,7 @@
 ﻿namespace OWP.OtherSport.Notification.Services
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
+    
+        
     using OWP.OtherSport.Notification.Extensions;
     using OWP.OtherSport.Notification.Models;
 

@@ -1,6 +1,6 @@
 ﻿namespace OWP.PreMatchNotification.Models
 {
-    using System.Collections.Generic;
+    
 
     public class ChangedValue
     {

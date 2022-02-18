@@ -5,8 +5,8 @@
     using Fanex.Logging.Extensions.Database;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Configuration;
-    using System;
-    using System.Threading.Tasks;
+    
+    
 
     public class ErrorHandler
     {

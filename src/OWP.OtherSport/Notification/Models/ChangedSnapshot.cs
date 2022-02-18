@@ -1,6 +1,6 @@
 ﻿namespace OWP.OtherSport.Notification.Models
 {
-    using System.Collections.Generic;
+    
     using Submit.Models;
 
     public class ChangedSnapshot

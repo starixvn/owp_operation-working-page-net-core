@@ -1,6 +1,6 @@
 ﻿namespace OWP.TicketCenter.Criteria
 {
-    using System;
+    
     using System.Globalization;
     using Fanex.Data.Repository;
 

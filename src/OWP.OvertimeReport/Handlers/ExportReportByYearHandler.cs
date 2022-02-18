@@ -1,12 +1,11 @@
 ﻿namespace OWP.OvertimeReport.Handlers
 {
-    using System.Collections.Generic;
+    
     using System.Drawing;
     using System.Globalization;
-    using System.IO;
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
+    
+        
+    
     using AutoMapper;
     using Constants;
     using Epplus.Mapper.Extensions;

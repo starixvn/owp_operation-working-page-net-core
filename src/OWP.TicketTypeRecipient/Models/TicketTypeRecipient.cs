@@ -1,7 +1,7 @@
 ﻿
 namespace OWP.TicketTypeRecipient.Models
 {
-    using System.Collections.Generic;
+    
 
     public class TicketTypeRecipient
     {

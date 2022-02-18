@@ -1,5 +1,5 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
+﻿
+
 using MediatR;
 using OWP.TicketCenter.Middleware.Models;
 using OWP.TicketCenter.Models;

@@ -1,9 +1,8 @@
 ﻿namespace OWP.AutoAssignment.UnitTests.Services.PublicApi
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
+    
+    
+        
     using AutoAssignment.Services.PublicApi;
     using Models.PublicApi;
     using NSubstitute;

@@ -2,7 +2,7 @@
 {
     using OWP.Extensions;
     using OWP.OtherSport.Submit.Contants;
-    using System.Collections.Generic;
+    
 
     public class MatchAssignment
     {

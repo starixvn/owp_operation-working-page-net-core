@@ -1,6 +1,6 @@
 ﻿namespace OWP.AutoAssignment.Services.PublicApi
 {
-    using System.Collections.Generic;
+    
     using Builder;
     using OWP.AutoAssignment.Constant;
 

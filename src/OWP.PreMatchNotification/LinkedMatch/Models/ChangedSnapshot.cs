@@ -1,6 +1,6 @@
 ﻿namespace OWP.PreMatchNotification.LinkedMatch.Models
 {
-    using System.Collections.Generic;
+    
 
     public class ChangedSnapshot
     {

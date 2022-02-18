@@ -2,10 +2,9 @@
 {
     using AutoMapper;
     using Models;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using TicketCenter.Services;
+    
+    
+        using TicketCenter.Services;
     using ViewModels;
     using Xunit;
     using Xunit.Asserts.Compare;

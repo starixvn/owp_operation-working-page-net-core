@@ -4,7 +4,7 @@
     using OWP.PreMatchNotification.LinkedMatch.Models;
     using OWP.PreMatchNotification.LinkedMatch.Services;
     using OWP.PreMatchNotification.Models;
-    using System.Collections.Generic;
+    
     using Xunit;
     using Xunit.Asserts.Compare;
 

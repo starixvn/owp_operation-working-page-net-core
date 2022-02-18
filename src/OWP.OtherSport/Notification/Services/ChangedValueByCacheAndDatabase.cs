@@ -1,7 +1,7 @@
 ﻿namespace OWP.OtherSport.Notification.Services
 {
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
+    
+    
     using OWP.OtherSport.Notification.Models;
     using QueryRepository = Submit.Services.CommandRepository;
 

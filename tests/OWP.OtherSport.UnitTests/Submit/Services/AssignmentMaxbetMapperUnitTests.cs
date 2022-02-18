@@ -1,6 +1,6 @@
 ﻿namespace OWP.OtherSport.UnitTests.Submit.Services
 {
-    using System.Collections.Generic;
+    
     using OWP.OtherSport.Submit.Models;
     using Xunit.Asserts.Compare;
     using OWP.OtherSport.Submit.Contants;

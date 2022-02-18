@@ -4,9 +4,8 @@
     using OWP.OtherSport.Submit.Models;
     using OWP.OtherSport.Submit.Services;
     using OWP.OtherSport.Validation.Models;
-    using System.Collections.Generic;
-    using System.Linq;
-    using Xunit;
+    
+        using Xunit;
     using Xunit.Asserts.Compare;
 
     public class AssignmentAnalyzerUnitTests

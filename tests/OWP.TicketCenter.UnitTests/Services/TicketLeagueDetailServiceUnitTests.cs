@@ -6,9 +6,9 @@ namespace OWP.TicketCenter.UnitTests.Services
     using AutoMapper;
     using Models;
     using NSubstitute;
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
+    
+    
+    
     using Handlers;
     using TicketCenter.Services;
     using ViewModels;

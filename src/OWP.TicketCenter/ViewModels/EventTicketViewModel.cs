@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿
 using OWP.TicketCenter.Models;
 
 namespace OWP.TicketCenter.ViewModels

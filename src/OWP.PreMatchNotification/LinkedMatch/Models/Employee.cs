@@ -1,5 +1,5 @@
 ﻿using OWP.PreMatchNotification.Models;
-using System.Collections.Generic;
+
 
 namespace OWP.PreMatchNotification.LinkedMatch.Models
 {

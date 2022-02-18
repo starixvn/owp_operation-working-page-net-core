@@ -1,6 +1,5 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
+
 using OWP.PreMatchReport.Criteria;
 using Fanex.Data.Repository;
 using OWP.PreMatchReport.Models;

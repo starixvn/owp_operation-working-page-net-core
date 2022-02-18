@@ -7,9 +7,9 @@ using OWP.TicketCenter.Notification.Const;
 using OWP.TicketCenter.Notification.Models;
 using OWP.TicketCenter.Notification.Services;
 using OWP.TicketCenter.Services;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
+
+
+
 using Xunit;
 
 namespace OWP.TicketCenter.UnitTests.Handlers

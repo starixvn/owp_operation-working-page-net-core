@@ -1,5 +1,5 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
+﻿
+
 using MediatR;
 using OWP.OtherSport.Submit.Models;
 using OWP.OtherSport.Submit.Services;

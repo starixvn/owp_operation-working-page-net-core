@@ -1,8 +1,7 @@
 using Fanex.Caching;
 using Newtonsoft.Json;
 using StackExchange.Redis;
-using System;
-using System.Linq;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using OWP.PreMatchAssignment.Models;

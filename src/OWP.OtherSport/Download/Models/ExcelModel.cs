@@ -1,6 +1,6 @@
 ﻿using OWP.OtherSport.Submit.Models;
 using OWP.OtherSport.Validation.Models;
-using System.Collections.Generic;
+
 
 namespace OWP.OtherSport.Download.Models
 {

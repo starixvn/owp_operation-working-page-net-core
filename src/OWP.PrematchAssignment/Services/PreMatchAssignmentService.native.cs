@@ -12,10 +12,9 @@ namespace OWP.PreMatchAssignment.Services
     using OWP.PreMatchAssignment.Constants;
     using PrematchAssignment.Criteria;
     using PrematchAssignment.Models;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
+    
+    
+        
     using Utils;
 
     public interface PreMatchAssignmentService

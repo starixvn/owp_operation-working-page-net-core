@@ -1,8 +1,8 @@
 ﻿namespace OWP.AutoAssignment.UnitTests.Services.InternalApi
 {
     using AutoAssignment.Services.InternalApi;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
+    
+    
     using Models.InternalApi;
     using NSubstitute;
     using Xunit;

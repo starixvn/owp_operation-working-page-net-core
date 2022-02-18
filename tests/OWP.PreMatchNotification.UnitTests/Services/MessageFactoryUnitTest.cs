@@ -3,8 +3,8 @@ using NSubstitute;
 using OWP.PreMatchNotification.Constants;
 using OWP.PreMatchNotification.Models;
 using OWP.PreMatchNotification.Services;
-using System;
-using System.Collections.Generic;
+
+
 using Xunit;
 using Xunit.Asserts.Compare;
 

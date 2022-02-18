@@ -1,7 +1,7 @@
 ﻿namespace OWP.PreMatchAssignment.Constants
 {
     using OWP.Extensions;
-    using System.Collections.Generic;
+    
 
     public static class NotificationType
     {

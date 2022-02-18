@@ -4,8 +4,7 @@ using OWP.Maxbet.Constants;
 using OWP.Maxbet.Handlers;
 using OWP.Maxbet.Models;
 using OWP.Services;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace OWP.Maxbet.Selector
 {

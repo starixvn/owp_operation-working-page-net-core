@@ -3,8 +3,8 @@
     using Models;
     using NSubstitute;
     using OWP.TicketCenter.Criteria;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
+    
+    
     using TicketCenter.Services;
     using Xunit;
 

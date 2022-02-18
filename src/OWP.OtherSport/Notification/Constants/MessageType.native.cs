@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿
 using OWP.Extensions;
 
 namespace OWP.OtherSport.Notification.Constants

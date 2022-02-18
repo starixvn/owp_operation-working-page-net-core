@@ -2,11 +2,11 @@ using NSubstitute;
 using Xunit;
 using Xunit.Asserts.Compare;
 using AutoMapper;
-using System.Threading.Tasks;
+
 using OWP.PreMatchReport.Models;
 using OWP.PreMatchReport.Services;
-using System.Collections.Generic;
-using System.Threading;
+
+
 
 namespace OWP.PreMatchReport.UnitTests.Services;
 

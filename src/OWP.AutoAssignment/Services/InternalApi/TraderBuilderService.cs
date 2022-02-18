@@ -1,9 +1,8 @@
 ﻿using OWP.AutoAssignment.Criteria.InternalApi;
 using OWP.AutoAssignment.Models.InternalApi;
 using OWP.AutoAssignment.Utils.XMLExtensions;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
+
 using System.Xml.Linq;
 
 namespace OWP.AutoAssignment.Services.InternalApi

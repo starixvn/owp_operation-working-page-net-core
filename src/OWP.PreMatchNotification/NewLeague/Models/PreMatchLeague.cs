@@ -1,7 +1,7 @@
 ﻿namespace OWP.PreMatchNotification.NewLeague.Models
 {
-    using System;
-    using System.Collections.Generic;
+    
+    
 
     public class PreMatchLeague : IEqualityComparer<PreMatchLeague>
     {

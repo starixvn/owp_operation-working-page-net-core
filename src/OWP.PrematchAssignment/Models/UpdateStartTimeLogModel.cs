@@ -1,6 +1,6 @@
 ﻿namespace OWP.PreMatchAssignment.Models
 {
-    using System;
+    
     using System.Xml.Serialization;
 
     [XmlRoot(ElementName = "z")]

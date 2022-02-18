@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 using Fanex.Data.Repository;
 
 namespace OWP.ApiSyncWorkingShift.Criteria

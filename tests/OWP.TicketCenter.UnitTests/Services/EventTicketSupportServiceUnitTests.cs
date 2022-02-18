@@ -5,8 +5,8 @@
     using AutoMapper;
     using Models;
     using NSubstitute;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
+    
+    
     using TicketCenter.Services;
     using ViewModels;
     using Xunit;

@@ -1,7 +1,7 @@
 ﻿namespace OWP.PrematchAssignment.Handlers
 {
-    using System.Threading;
-    using System.Threading.Tasks;
+    
+    
     using MediatR;
     using PreMatchAssignment.Models;
     using PreMatchAssignment.Services;

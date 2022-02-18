@@ -1,7 +1,7 @@
 ﻿namespace OWP.PreMatchNotification
 {
-    using System;
-    using System.Threading.Tasks;
+    
+    
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Cors;

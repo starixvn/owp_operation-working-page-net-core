@@ -1,6 +1,6 @@
 ﻿namespace OWP.ApiSyncWorkingShift.Utils
 {
-    using System;
+    
     using OWP.Utils;
 
     public static class WorkingShiftExtensionHelper

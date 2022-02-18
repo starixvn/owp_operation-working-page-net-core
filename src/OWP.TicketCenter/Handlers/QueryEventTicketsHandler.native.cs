@@ -1,12 +1,8 @@
-﻿using System.Linq;
-using OWP.TicketCenter.Services;
+﻿using OWP.TicketCenter.Services;
 using OWP.TicketCenter.ViewModels;
 
 namespace OWP.TicketCenter.Handlers
 {
-    using System.Collections.Generic;
-    using System.Threading;
-    using System.Threading.Tasks;
     using MediatR;
 
     public class QueryEventTicketsRequest : IRequest<List<TicketDetailBaseViewModel>>

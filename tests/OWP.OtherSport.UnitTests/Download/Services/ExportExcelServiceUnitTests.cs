@@ -6,9 +6,9 @@ using OWP.OtherSport.Download.Services;
 using OWP.OtherSport.Submit.Contants;
 using OWP.OtherSport.Submit.Models;
 using OWP.Services;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+
+
+
 using Xunit;
 using Xunit.Asserts.Compare;
 

@@ -2,9 +2,8 @@
 
 namespace OWP.OtherSport.Notification.Services
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using Extensions;
+    
+        using Extensions;
     using Models;
     using OWP.Extensions;
     using OWP.OtherSport.Notification.Constants;

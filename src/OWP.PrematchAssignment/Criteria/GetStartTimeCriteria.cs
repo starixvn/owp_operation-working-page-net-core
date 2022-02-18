@@ -1,6 +1,6 @@
 ﻿namespace OWP.PreMatchAssignment.Criteria
 {
-    using System;
+    
     using Fanex.Data.Repository;
 
     public class GetStartTimeCriteria : CriteriaBase

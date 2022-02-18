@@ -1,6 +1,6 @@
 ﻿namespace OWP.OvertimeReport.Models
 {
-    using System.Collections.Generic;
+    
 
     public class OvertimeByYear
     {

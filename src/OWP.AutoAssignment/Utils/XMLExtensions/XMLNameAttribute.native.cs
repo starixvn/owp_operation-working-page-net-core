@@ -1,6 +1,6 @@
 ﻿namespace OWP.AutoAssignment.Utils.XMLExtensions
 {
-    using System;
+    
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Property)]
     public sealed class XMLNameAttribute : Attribute

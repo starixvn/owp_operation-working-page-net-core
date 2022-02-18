@@ -5,8 +5,7 @@
     using Models;
     using OWP.Services;
     using OWP.Utils;
-    using System.Linq;
-    using System.Threading.Tasks;
+        
 
     public interface NotificationService
     {

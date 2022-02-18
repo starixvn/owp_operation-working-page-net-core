@@ -1,6 +1,6 @@
 ﻿namespace OWP.OtherSport.UnitTests.Validation.Annotations
 {
-    using System.Collections.Generic;
+    
     using System.ComponentModel.DataAnnotations;
     using OWP.OtherSport.Validation.Annotations;
     using Xunit;

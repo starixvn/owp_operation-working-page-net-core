@@ -1,8 +1,8 @@
 ﻿namespace OWP.OtherSport.Download.Services
 {
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Threading.Tasks;
+    
+    
+    
     using Epplus.Mapper.Extensions;
     using OfficeOpenXml;
     using OWP.Extensions;

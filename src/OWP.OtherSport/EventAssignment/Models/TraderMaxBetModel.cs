@@ -1,5 +1,5 @@
 ﻿using OWP.OtherSport.Submit.Models;
-using System.Collections.Generic;
+
 
 namespace OWP.OtherSport.EventAssignment.Models
 {

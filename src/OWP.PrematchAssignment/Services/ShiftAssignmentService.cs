@@ -10,11 +10,10 @@ namespace OWP.PreMatchAssignment.Services
     using Handlers;
     using Models;
     using OWP.Extensions;
-    using System;
-    using System.Collections.Generic;
+    
+    
     using System.Globalization;
-    using System.Linq;
-    using System.Threading.Tasks;
+        
 
     public interface ShiftAssignmentService
     {

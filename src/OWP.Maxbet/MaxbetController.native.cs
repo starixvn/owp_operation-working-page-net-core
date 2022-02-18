@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Olympus.OWP.Constants;
 using OWP.Maxbet.Services;
-using System.Threading.Tasks;
+
 
 namespace OWP.Maxbet
 {

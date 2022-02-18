@@ -1,9 +1,8 @@
 ﻿namespace OWP.PreMatchAssignment.Services
 {
-    using System.Collections.Generic;
+    
     using System.Collections.Immutable;
-    using System.Linq;
-    using System.Threading.Tasks;
+        
     using Constants;
     using Criteria;
     using Fanex.Data.Repository;

@@ -1,6 +1,6 @@
 ﻿namespace OWP.OtherSport
 {
-    using System;
+    
     using System.Reflection;
     using AutoMapper;
     using OWP.OtherSport.Download.Models;
