@@ -54,8 +54,9 @@ public class PreMatchReportExportServiceImp : PreMatchReportExportService
     private async Task<List<ExportPreMatchModel>> GetDataExportPreMatch(QueryModel query)
     {
         var result = await preMatchReportService.GetReports(query);
+        var sorted = result.OrderBy(d => d.TraderName.ToLower());
 
-        return result.ToList();
+        return sorted.ToList();
     }
 
     private void Visualize(ExcelWorksheet worksheet, List<ExportPreMatchModel> records)
