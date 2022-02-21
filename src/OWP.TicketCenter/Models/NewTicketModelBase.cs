@@ -7,6 +7,8 @@
 
         public int TicketType { get; set; }
 
+        public int SubType { get; set; }
+
         #region message
 
         public string Message { get; set; }

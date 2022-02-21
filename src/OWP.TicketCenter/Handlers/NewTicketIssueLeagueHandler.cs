@@ -43,7 +43,7 @@ namespace OWP.TicketCenter.Handlers
 
         public async Task<int> Handle(NewTicketIssueLeagueRequest request, CancellationToken cancellationToken)
         {
-            var ticketId = await repository.BuildTicketId(request.TicketType);
+            var ticketId = await repository.BuildTicketId(request.TicketType, request.SubType);
             request.TicketId = ticketId;
             await repository.AddNewTicketIssueLeague(request);
 

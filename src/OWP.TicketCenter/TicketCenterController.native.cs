@@ -159,5 +159,10 @@ namespace OWP.TicketCenter
         [HttpPost("delete-ticket")]
         public async Task DeleteTicket(DeleteTicketRequest request)
             => await mediator.Send(request);
+
+        [HttpPost("get-subtype")]
+        public async Task<IEnumerable<SubTypeModel>> GetSubTypeByTicketType(GetSubTypeRequest request)
+            => await mediator.Send(request);
+
     }
 }
