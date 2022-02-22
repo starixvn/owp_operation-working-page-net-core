@@ -47,7 +47,9 @@ namespace OWP.TicketCenter.Notification.Services
     {
       await notifyEngine.Notify(source.SessionId, messageTuple =>
       {
-        var userIds = string.Join(",", messageTuple.Item1.Select(x => x.UserId));
+        var userIds = messageTuple.Item1
+          .Select(x => x.UserId)
+          .ToList();
 
         var awaiter = repository
                   .GetMessageUnreadByMultipleUserId(userIds)

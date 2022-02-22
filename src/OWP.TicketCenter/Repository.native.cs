@@ -5,6 +5,7 @@ namespace OWP.TicketCenter
   using AutoMapper;
   using Criteria;
   using Fanex.Data.Repository;
+  using OWP.Models;
   using OWP.TicketCenter.Handlers;
   using OWP.TicketCenter.Models;
   using OWP.Utils;
@@ -85,7 +86,7 @@ namespace OWP.TicketCenter
 
     Task DeleteTicket(DeleteTicketCriteria criteria);
 
-    Task<IEnumerable<MessageUnreadCounter>> GetMessageUnreadByMultipleUserId(string sessionId);
+    Task<IEnumerable<MessageUnreadCounter>> GetMessageUnreadByMultipleUserId(IList<int> userIds);
 
 
     Task<bool> QueryExistedTicketId(int ticketId);
@@ -355,11 +356,23 @@ namespace OWP.TicketCenter
 
       return existedTicketId.HasValue;
     }
-    public async Task<IEnumerable<MessageUnreadCounter>> GetMessageUnreadByMultipleUserId(string userIds)
-      => await dynamicRepository.FetchAsync<MessageUnreadCounter>(new GetMessageUnreadByMultipleUserIdCriteria
+    public async Task<IEnumerable<MessageUnreadCounter>> GetMessageUnreadByMultipleUserId(IList<int> userIds)
+    {
+      var messageUnread = new List<MessageUnreadCounter>();
+      foreach (var userId in userIds)
       {
-        UserIds = userIds
-      });
-
+        var result = await dynamicRepository.FetchAsync<int>(new CountUnreadMessageCriteria
+        {
+          UserId = userId
+        });
+        var totalUnreadMessage = result.FirstOrDefault();
+        messageUnread.Add(new MessageUnreadCounter
+        {
+          UserId = userId,
+          Total = totalUnreadMessage
+        });
+      }
+      return messageUnread;
+    }
   }
 }
