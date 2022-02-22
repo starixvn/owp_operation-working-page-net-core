@@ -62,7 +62,7 @@ namespace OWP.TicketCenter.Notification.Services
           MessageContent = x.MessageContent,
           TicketId = source.TicketId,
           EventType = source.EventType,
-          TotalMessageUnread = messageUnread?.FirstOrDefault(m => m.UserId == x.UserId)!.Total,
+          TotalMessageUnread = messageUnread?.FirstOrDefault(m => m.UserId == x.UserId)?.Total,
           IsNewMessage = source.IsNewMessage
         }).DistinctBy(x => new
         {
