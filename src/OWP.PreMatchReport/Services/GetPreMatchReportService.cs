@@ -42,18 +42,25 @@ public class GetPreMatchReportServiceImp : GetPreMatchReportService
 
         List<int> assignmentUserId = reportLeague.Select(x => x.UserId).ToList();
 
-        var userNames = await repository.GetUnAssigned(assignmentUserId, queryModel.KeyWord);
+        var userAssigned = await repository.GetUnAssigned(assignmentUserId, queryModel.KeyWord);
 
-        var reportEmpty = userNames.Select(item => new ReportModel
+        var reportEmpty = userAssigned.Select(item => new ReportModel
         {
-            TraderName = item,
+            UserId = item.UserId,
+            TraderName = item.UserName,
             ReportHDPLeague = new ReportHDPLeagueModel(),
             ReportHDPMatches = new ReportHDPMatchesModel(),
             ReportOULeague = new ReportOULeagueModel(),
             ReportOUMatches = new ReportOUMatchesModel()
         }).ToList();
+        var napUserIds = await repository.GetUserIdFromNapUser();
+        var db02TraderIds = await repository.GetUserIdFromDb02();
 
-        return mapper.Map<List<ExportPreMatchModel>>(reportLeague.Concat(reportEmpty));
+        var reportInfo = reportLeague.Concat(reportEmpty)
+            .Where(x => napUserIds.Any(y => y == x.UserId) && db02TraderIds.Any(y => y == x.UserId))
+            .ToList();
+
+        return mapper.Map<List<ExportPreMatchModel>>(reportInfo);
     }
 
     public Dictionary<string, List<QueryPrematchReportModel>> GroupTraderByUserName(IEnumerable<QueryPrematchReportModel> queryReport)

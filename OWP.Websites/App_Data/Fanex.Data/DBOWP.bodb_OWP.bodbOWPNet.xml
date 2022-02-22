@@ -389,6 +389,8 @@
 		<Setting Key="OWP_PrematchAssignment_GetAllLeaguesTicket" SpName="OWP_PrematchAssignment_GetAllLeaguesTicket" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_PrematchAssignment_GetAllMatchesTicket" SpName="OWP_PrematchAssignment_GetAllMatchesTicket" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_PreMatchAssignment_GetAssigneeByPreMatchLeagueId" SpName="OWP_PreMatchAssignment_GetAssigneeByPreMatchLeagueId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AutoAssignment_GetCustInfoFromDB02" SpName="OWP_AutoAssignment_GetCustInfoFromDB02" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AutoAssignment_GetUserInfoFromNAPUserControl" SpName="OWP_AutoAssignment_GetUserInfoFromNAPUserControl" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 	</Function>
 
 	<Function Name="PreMatchReport">

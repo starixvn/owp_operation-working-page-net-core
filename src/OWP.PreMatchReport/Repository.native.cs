@@ -1,4 +1,6 @@
 using Fanex.Data.Repository;
+using Fanex.NAP.Client.Configuration;
+using OWP.PreMatchReport.Constants;
 using OWP.PreMatchReport.Criteria;
 using OWP.PreMatchReport.Models;
 
@@ -10,16 +12,23 @@ public interface Repository
 
     Task<IEnumerable<QueryPrematchReportModel>> GetReportForMatches(QueryModel queryModel);
 
-    Task<List<string>> GetUnAssigned(List<int> userIds, string keyWord);
+    Task<IEnumerable<UserInfo>> GetUnAssigned(List<int> userIds, string keyWord);
+
+    Task<IEnumerable<int>> GetUserIdFromDb02();
+
+    Task<IEnumerable<int>> GetUserIdFromNapUser();
 }
 
 public class RepositoryImp : Repository
 {
     private readonly IDynamicRepository dynamicRepository;
 
-    public RepositoryImp(IDynamicRepository dynamicRepository)
+    private readonly INapSettings napSettings;
+
+    public RepositoryImp(IDynamicRepository dynamicRepository, INapSettings napSettings)
     {
         this.dynamicRepository = dynamicRepository;
+        this.napSettings = napSettings;
     }
 
     public async Task<IEnumerable<QueryPrematchReportModel>> GetReportForLeague(QueryModel queryModel)
@@ -44,13 +53,19 @@ public class RepositoryImp : Repository
         return await dynamicRepository.FetchAsync<QueryPrematchReportModel>(criteria);
     }
 
-    public async Task<List<string>> GetUnAssigned(List<int> userIds, string keyWord)
+    public async Task<IEnumerable<UserInfo>> GetUnAssigned(List<int> userIds, string keyWord)
     {
         var criteria = new GetUnAssignedUserCriteria
         {
             UserIds = string.Join(',', userIds),
             KeyWord = keyWord
         };
-        return (await dynamicRepository.FetchAsync<string>(criteria)).ToList();
+        return (await dynamicRepository.FetchAsync<UserInfo>(criteria)).ToList();
     }
+
+    public async Task<IEnumerable<int>> GetUserIdFromDb02()
+    => await dynamicRepository.FetchAsync<int>(new GetUserIdFromDb02Criteria());
+
+    public async Task<IEnumerable<int>> GetUserIdFromNapUser()
+    => await dynamicRepository.FetchAsync<int>(new GetUserIdFromNapUserCriteria { SiteId = napSettings.SiteId });
 }
