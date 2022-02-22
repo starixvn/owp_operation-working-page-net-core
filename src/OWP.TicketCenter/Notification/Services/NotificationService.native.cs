@@ -57,6 +57,7 @@ namespace OWP.TicketCenter.Notification.Services
 
         return messageTuple.Item2.Select(x => new NotificationModel
         {
+          UserId = x.UserId,
           IsImportant = x.IsImportant,
           MessageType = x.MessageType,
           MessageContent = x.MessageContent,
@@ -66,6 +67,7 @@ namespace OWP.TicketCenter.Notification.Services
           IsNewMessage = source.IsNewMessage
         }).DistinctBy(x => new
         {
+          x.UserId,
           x.IsImportant,
           x.MessageType,
           x.MessageContent,
@@ -73,7 +75,7 @@ namespace OWP.TicketCenter.Notification.Services
           x.EventType,
           x.TotalMessageUnread,
           x.IsNewMessage
-        }).ToList();
+        }).ToDictionary(x => x.UserId.ToString(), x => x);
       });
     }
 

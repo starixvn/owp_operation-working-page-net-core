@@ -12,6 +12,8 @@
     Task Notify<T>(IList<T> messages, IList<string> receivedUserIds) where T : MessageModel;
 
     Task Notify<T>(string sessionId, Func<Tuple<IList<User>, IList<MessageModel>>, IList<T>> messageModelFunc) where T : MessageModel;
+
+    Task Notify<T>(string sessionId, Func<Tuple<IList<User>, IList<MessageModel>>, IDictionary<string, T>> messageModelFunc) where T : MessageModel;
   }
 
   public class NotifyEngineImp : NotifyEngine
@@ -42,6 +44,32 @@
             .Users(receivedUserIds)
             .notifyChangedInformationData(result);
       }
+    }
+
+    public async Task Notify<T>(IDictionary<string, T> messagesKeyValuePair) where T : MessageModel
+    {
+      foreach (var userId in messagesKeyValuePair.Keys)
+      {
+        var message = messagesKeyValuePair[userId];
+        var result = new
+        {
+          notificationId = Guid.NewGuid(),
+          message
+        };
+
+        await notifyChangedHub.Clients
+            .Users(userId)
+            .notifyChangedInformationData(result);
+      }
+    }
+
+    public async Task Notify<T>(string sessionId, Func<Tuple<IList<User>, IList<MessageModel>>, IDictionary<string, T>> messageModelFunc) where T : MessageModel
+    {
+      var userTuple = await QueryBySession(sessionId);
+
+      var messageModel = messageModelFunc(userTuple);
+
+      await Notify(messageModel);
     }
 
     public async Task Notify<T>(string sessionId, Func<Tuple<IList<User>, IList<MessageModel>>, IList<T>> messageModelFunc) where T : MessageModel
