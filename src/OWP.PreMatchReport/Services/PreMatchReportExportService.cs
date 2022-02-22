@@ -1,4 +1,5 @@
-﻿using OfficeOpenXml;
+﻿using System.Globalization;
+using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using OWP.Extensions;
 using OWP.PreMatchReport.Constants;
@@ -54,7 +55,7 @@ public class PreMatchReportExportServiceImp : PreMatchReportExportService
     private async Task<List<ExportPreMatchModel>> GetDataExportPreMatch(QueryModel query)
     {
         var result = await preMatchReportService.GetReports(query);
-        var sorted = result.OrderBy(d => d.TraderName.ToLower());
+        var sorted = result.OrderBy(d => d.TraderName.ToLower(CultureInfo.InvariantCulture));
 
         return sorted.ToList();
     }
