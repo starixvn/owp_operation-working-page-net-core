@@ -80,6 +80,8 @@ namespace OWP.TicketCenter
 
         Task UpdateTicketStatus(UpdateTicketStatusCriteria criteria);
 
+        Task UpdateTicketSubType(UpdateTicketSubTypeCriteria criteria);
+
         Task<IEnumerable<StatusHistory>> GetStatusHistory(int ticketId);
 
         Task PinTicket(PinTicketCriteria criteria);
@@ -327,6 +329,12 @@ namespace OWP.TicketCenter
             => await dynamicRepository.ExecuteAsync(criteria);
 
         public async Task UpdateTicketStatus(UpdateTicketStatusCriteria criteria)
+        {
+            criteria.ThrowExceptionIfInvalid();
+            await dynamicRepository.ExecuteAsync(criteria);
+        }
+
+        public async Task UpdateTicketSubType(UpdateTicketSubTypeCriteria criteria)
         {
             criteria.ThrowExceptionIfInvalid();
             await dynamicRepository.ExecuteAsync(criteria);

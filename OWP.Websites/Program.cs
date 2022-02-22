@@ -61,6 +61,9 @@ app.UseEndpoints(endpoints =>
 NapClientManager
   .UseConfig(app.Services.GetService<INapSettings>())
   .UseSession(app.Services.GetService<INapSession>());
+#if DEBUG
+app.Run();
+#endif
 
 #if DEBUG
 app.Run();

@@ -148,6 +148,15 @@ namespace OWP.TicketCenter
             return Ok(result);
         }
 
+        [HttpPost("ticket-detail/update-ticket-subtype")]
+        [ServiceFilter(typeof(PermissionOnExistedTicket), Order = 0)]
+        [ServiceFilter(typeof(PermissionFilter), Order = 1)]
+        public async Task<IActionResult> UpdateTicketSubType(UpdateTicketSubTypeRequest request)
+        {
+            var result = await mediator.Send(request);
+            return Ok(result);
+        }
+
         [HttpGet("ticket-detail/get-status-history")]
         public async Task<IEnumerable<StatusHistory>> GetStatusHistoryByTicketId(int ticketId)
             => await mediator.Send(new GetStatusHistoryRequest { TicketId = ticketId });
@@ -163,6 +172,5 @@ namespace OWP.TicketCenter
         [HttpPost("get-subtype")]
         public async Task<IEnumerable<SubTypeModel>> GetSubTypeByTicketType(GetSubTypeRequest request)
             => await mediator.Send(request);
-
     }
 }
