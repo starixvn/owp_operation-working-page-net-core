@@ -2,13 +2,11 @@
 
 namespace OWP.OtherSport.Notification.Services
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using OWP.Extensions;
     using Constants;
-    using Notification.Models;
-    using Submit.Models;
     using Extensions;
+    using Notification.Models;
+    using OWP.Extensions;
+    using Submit.Models;
 
     public interface ChangedAssignmentNoteGenerator
     {

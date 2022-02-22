@@ -1,6 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 using OWP.OtherSport.Submit.Models;
 using OWP.OtherSport.Submit.Services;
 
@@ -18,6 +16,7 @@ namespace OWP.OtherSport.EventAssignment
         {
             this.cacheManipulator = cacheManipulator;
         }
+
         public async Task<LastUpdateInfo> Handle(QueryLastUpdate request, CancellationToken cancellationToken)
         => await cacheManipulator.GetLastUpdate();
     }

@@ -1,6 +1,6 @@
 ﻿namespace OWP.PreMatchAssignment.Models
 {
-    using System.Collections.Generic;
+    
     using Microsoft.AspNet.SignalR;
 
     public class PreMatchIssueNotifyHub : Hub

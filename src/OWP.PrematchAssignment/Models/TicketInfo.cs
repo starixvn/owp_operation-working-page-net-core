@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace OWP.PrematchAssignment.Models
+﻿namespace OWP.PrematchAssignment.Models
 {
     public class TicketLeagueBasicInfo
     {

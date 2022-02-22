@@ -1,25 +1,21 @@
 ﻿namespace OWP.FileUpload.Handlers
 {
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
     using Criteria;
     using Fanex.Data.Repository;
     using MediatR;
-    using File = Models.File;
+    using OWP.FileUpload.Models;
 
     public class UploadHandler
     {
-        public class UploadCommand : IRequest<File>
+        public class UploadCommand : IRequest<FileModel>
         {
             public byte[] FileStream { get; set; }
 
             public string FileName { get; set; }
         }
 
-        public class Handler : IRequestHandler<UploadCommand, File>
+        public class Handler : IRequestHandler<UploadCommand, FileModel>
         {
-
             private readonly IDynamicRepository dynamicRepo;
 
             public Handler(IDynamicRepository dynamicRepo)
@@ -27,7 +23,7 @@
                 this.dynamicRepo = dynamicRepo;
             }
 
-            public async Task<File> Handle(UploadCommand request, CancellationToken cancellationToken)
+            public async Task<FileModel> Handle(UploadCommand request, CancellationToken cancellationToken)
             {
                 var criteria = new UploadCriteria
                 {
@@ -37,7 +33,7 @@
 
                 var result = await dynamicRepo.FetchAsync<int>(criteria);
 
-                return new File
+                return new FileModel
                 {
                     FileId = result.FirstOrDefault(),
                     Title = request.FileName

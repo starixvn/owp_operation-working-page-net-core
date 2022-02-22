@@ -1,8 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net5.0</TargetFramework>
+		<TargetFramework>net6.0</TargetFramework>
+		<Nullable>disable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<CodeAnalysisRuleSet>..\..\.sonarlint\nap-owpcsharp.ruleset</CodeAnalysisRuleSet>
 	</PropertyGroup>
+
+	<ItemGroup>
+		<AdditionalFiles Include="..\..\.sonarlint\nap-owp\CSharp\SonarLint.xml" Link="SonarLint.xml" />
+	</ItemGroup>
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<Compile Remove="Models\PreMatchIssueNotifyHub.cs" />
@@ -11,6 +21,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="AutoMapper" Version="10.1.1" />
+		<PackageReference Include="EPPlus" Version="5.5.4" />
 		<PackageReference Include="Fanex.Caching.Redis.AspNetCore" Version="2.2.2.1" />
 		<PackageReference Include="MediatR" Version="9.0.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
@@ -18,7 +29,6 @@
 		<PackageReference Include="MediatR" Version="9.0.0" />
 		<PackageReference Include="Fanex.Data.Repository" Version="4.2.2" />
 		<PackageReference Include="Fanex.NAP.Client.AspNetCore" Version="1.0.0.8" />
-		<PackageReference Include="Fanex.NAP.Core" Version="2.1.0.12" />
 	</ItemGroup>
 
 	<ItemGroup>

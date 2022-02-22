@@ -1,7 +1,5 @@
 ﻿namespace OWP.PreMatchAssignment.Models
 {
-    using System;
-
     public class Log
     {
         public string LeagueName { get; set; }

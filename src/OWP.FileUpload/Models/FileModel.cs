@@ -1,6 +1,6 @@
 ﻿namespace OWP.FileUpload.Models
 {
-    public class File
+    public class FileModel
     {
         public int FileId { get; set; }
 

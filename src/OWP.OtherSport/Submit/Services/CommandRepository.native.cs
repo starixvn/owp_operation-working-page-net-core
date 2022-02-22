@@ -7,10 +7,6 @@
     using OWP.OtherSport.Submit.Models;
     using OWP.OtherSport.Validation.Models;
     using OWP.Services;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     public interface CommandRepository
     {
@@ -21,7 +17,7 @@
         Task Update(string eventDateInString, List<AssignmentModel> newAssignments);
     }
 
-    public class CommandRepositoryImp: CommandRepository
+    public class CommandRepositoryImp : CommandRepository
     {
         private readonly IDynamicRepository repository;
 

@@ -1,6 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 using OWP.TicketCenter.Middleware.Models;
 using OWP.TicketCenter.Services;
 using OWP.TicketCenter.ViewModels;
@@ -9,7 +7,6 @@ namespace OWP.TicketCenter.Handlers
 {
     public class TicketLeagueDetailRequest : PermissionCheckedModel, IRequest<TicketLeagueDetailViewModel>
     {
-      
     }
 
     public class TicketLeagueDetailHandler : IRequestHandler<TicketLeagueDetailRequest, TicketLeagueDetailViewModel>

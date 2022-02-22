@@ -1,7 +1,5 @@
 ﻿namespace OWP.OtherSport.UnitTests.Validation.Services
 {
-    using System.Collections.Generic;
-    using System.IO;
     using OfficeOpenXml;
     using OWP.OtherSport.Validation.Models;
     using OWP.OtherSport.Validation.Services;

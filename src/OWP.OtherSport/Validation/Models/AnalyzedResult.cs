@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace OWP.OtherSport.Validation.Models
+﻿namespace OWP.OtherSport.Validation.Models
 {
     public class AnalyzedResult
     {

@@ -7,9 +7,6 @@ using OWP.TicketCenter.Notification.Const;
 using OWP.TicketCenter.Notification.Models;
 using OWP.TicketCenter.Notification.Services;
 using OWP.TicketCenter.Services;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace OWP.TicketCenter.Handlers
 {
@@ -53,8 +50,8 @@ namespace OWP.TicketCenter.Handlers
 
             var criteria = new InsertIssueCreatorCriteria
             {
-                TicketId=ticketId,
-                CreatorId=request.CreatorId
+                TicketId = ticketId,
+                CreatorId = request.CreatorId
             };
 
             await repository.InsertIssueCreator(criteria);

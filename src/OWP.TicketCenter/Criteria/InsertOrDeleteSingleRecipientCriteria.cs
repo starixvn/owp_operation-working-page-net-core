@@ -2,7 +2,7 @@
 
 namespace OWP.TicketCenter.Criteria
 {
-    public abstract class InsertOrDeleteSingleRecipientCriteria: CriteriaBase
+    public abstract class InsertOrDeleteSingleRecipientCriteria : CriteriaBase
     {
         public int TicketId { get; set; }
 

@@ -1,7 +1,5 @@
 ﻿namespace OWP.OvertimeReport.Models
 {
-    using System;
-
     public class OvertimeData
     {
         public int UserId { get; set; }

@@ -1,7 +1,5 @@
 ﻿namespace OWP.Utils
 {
-    using System;
-
     public static class UserHelper
     {
         public static string GetFlagCodeFromLocationCode(string locationCode)

@@ -1,7 +1,5 @@
 ﻿namespace OWP.PreMatchNotification.Models
 {
-    using System.Collections.Generic;
-
     public class Assignee : IEqualityComparer<Assignee>
     {
         public int AssigneeId { get; set; }

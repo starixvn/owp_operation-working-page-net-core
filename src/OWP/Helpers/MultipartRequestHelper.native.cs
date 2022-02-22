@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace OWP.Helpers
+﻿namespace OWP.Helpers
 {
     public static class MultipartRequestHelper
     {

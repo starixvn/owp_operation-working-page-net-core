@@ -1,6 +1,5 @@
 ﻿using Fanex.Data.Repository;
 using OWP.AutoAssignment.Enum;
-using System;
 
 namespace OWP.AutoAssignment.Criteria.InternalApi
 {

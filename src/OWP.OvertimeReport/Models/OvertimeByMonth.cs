@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-namespace OWP.OvertimeReport.Models
+﻿namespace OWP.OvertimeReport.Models
 {
     public class OvertimeByMonth
     {

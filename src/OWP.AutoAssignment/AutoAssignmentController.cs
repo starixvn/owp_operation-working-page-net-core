@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using OWP.AutoAssignment.Constant;
@@ -91,7 +87,6 @@ namespace OWP.AutoAssignment
             var fileContent = excelPackage.GetAsByteArray();
 
             return BuildExcelPackageResponse(fileContent, eventDate);
-
         }
 
         private IActionResult BuildExcelPackageResponse(byte[] fileContent, DateTime eventDate)

@@ -1,5 +1,4 @@
 ﻿using OWP.AutoAssignment.Enum;
-using System;
 
 namespace OWP.AutoAssignment.Models.InternalApi
 {

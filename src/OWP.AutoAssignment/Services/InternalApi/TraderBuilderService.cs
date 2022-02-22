@@ -1,14 +1,11 @@
 ﻿using OWP.AutoAssignment.Criteria.InternalApi;
 using OWP.AutoAssignment.Models.InternalApi;
 using OWP.AutoAssignment.Utils.XMLExtensions;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using System.Xml.Linq;
 
 namespace OWP.AutoAssignment.Services.InternalApi
 {
-
     public interface TraderBuilderService
     {
         Task Build(
@@ -19,6 +16,7 @@ namespace OWP.AutoAssignment.Services.InternalApi
     public class TraderBuilderServiceImp : TraderBuilderService
     {
         private readonly Repository repository;
+
         public TraderBuilderServiceImp(Repository repository)
         {
             this.repository = repository;
@@ -31,7 +29,6 @@ namespace OWP.AutoAssignment.Services.InternalApi
             var traderQueryInfo = BuildTraderExportQueryInfo(autoAssignModels);
             var traderExportInfo = await QueryTraderExportInfo(traderQueryInfo);
             BuildExportTraderModel(models, traderExportInfo.ToList());
-
         }
 
         private IList<TraderExportQueryInfo> BuildTraderExportQueryInfo(IList<AutoAssignmentResultModel> autoAssignModels)
@@ -77,7 +74,5 @@ namespace OWP.AutoAssignment.Services.InternalApi
             return traderExportModel
                 .FirstOrDefault(x => x.InfoSiteMatchId == id && x.Bettype == bettype);
         }
-
-
     }
 }

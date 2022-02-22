@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace OWP.TicketCenter.Models
+﻿namespace OWP.TicketCenter.Models
 {
     public class NewTicketModelBase
     {
@@ -15,7 +13,7 @@ namespace OWP.TicketCenter.Models
 
         public int CreatorId { get; set; }
 
-        #endregion
+        #endregion message
 
         public IList<InsertOrRemoveManyRecipientModel> Recipients { get; set; } =
             new List<InsertOrRemoveManyRecipientModel>();

@@ -1,7 +1,6 @@
-﻿using OWP.Maxbet.Models;
-using OWP.Enums;
+﻿using OWP.Enums;
 using OWP.Helpers;
-using System.Collections.Generic;
+using OWP.Maxbet.Models;
 using Xunit;
 using Xunit.Asserts.Compare;
 

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OWP.PreMatchNotification.Assignment.Helper;
+﻿using OWP.PreMatchNotification.Assignment.Helper;
 using OWP.PreMatchNotification.Assignment.Models;
 using OWP.PreMatchNotification.Models;
 using Xunit;
@@ -19,7 +14,7 @@ namespace OWP.PreMatchNotification.UnitTests.Assignment.Helper
             var myAssignmentDetectorModel = BuildMyAssignmentDetectorModel();
             var changedValues = new List<ChangedValue>();
             AssignmentHelper.DetectChangedValueNewAssignment(myAssignmentDetectorModel, changedValues);
-            var changedValuesExpected= new List<ChangedValue>();
+            var changedValuesExpected = new List<ChangedValue>();
             DeepAssert.Equal(changedValuesExpected, changedValues);
         }
 
@@ -29,7 +24,7 @@ namespace OWP.PreMatchNotification.UnitTests.Assignment.Helper
             var myAssignmentDetectorModel = BuildMyAssignmentDetectorModel();
             myAssignmentDetectorModel.NewAssignment = "starix15";
             myAssignmentDetectorModel.UserIdNewAssign = 123;
-           
+
             var changedValues = new List<ChangedValue>();
             AssignmentHelper.DetectChangedValueNewAssignment(myAssignmentDetectorModel, changedValues);
             var changedValuesExpected = new List<ChangedValue>
@@ -140,6 +135,5 @@ namespace OWP.PreMatchNotification.UnitTests.Assignment.Helper
 
                 IsDay = true
             };
-
     }
 }

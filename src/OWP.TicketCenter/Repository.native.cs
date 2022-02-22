@@ -2,9 +2,6 @@
 
 namespace OWP.TicketCenter
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
     using AutoMapper;
     using Criteria;
     using Fanex.Data.Repository;
@@ -325,7 +322,6 @@ namespace OWP.TicketCenter
 
         public async Task InsertNewTicketSupportNotification(InsertNewTicketSupportNotificationCriteria criteria)
             => await dynamicRepository.ExecuteAsync(criteria);
-        
 
         public async Task InsertNewRecipientNotification(InsertNewRecipientNotificationCriteria criteria)
             => await dynamicRepository.ExecuteAsync(criteria);

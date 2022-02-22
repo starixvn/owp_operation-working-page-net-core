@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace OWP.AutoAssignment.Models.InternalApi
+﻿namespace OWP.AutoAssignment.Models.InternalApi
 {
     public class CreateRequestModel
     {

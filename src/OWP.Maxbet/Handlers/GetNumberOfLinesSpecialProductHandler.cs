@@ -3,11 +3,8 @@ using MediatR;
 using OWP.Enums;
 using OWP.Maxbet.Criteria;
 using OWP.Maxbet.Models;
-using System.Collections.Generic;
+
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace OWP.Maxbet.Handlers
 {

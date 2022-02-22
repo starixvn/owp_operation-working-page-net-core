@@ -1,16 +1,14 @@
 ﻿namespace OWP.OtherSport.UnitTests.Submit.Services
 {
-    using System.Collections.Generic;
-    using OWP.OtherSport.Submit.Models;
-    using Xunit.Asserts.Compare;
     using OWP.OtherSport.Submit.Contants;
+    using OWP.OtherSport.Submit.Models;
     using OWP.OtherSport.Submit.Services;
     using OWP.OtherSport.Validation.Models;
     using Xunit;
+    using Xunit.Asserts.Compare;
 
     public class AssignmentMaxbetMapperUnitTests
     {
-
         private readonly AssignmentMaxbetMapperImp services;
 
         public AssignmentMaxbetMapperUnitTests()
@@ -925,7 +923,6 @@
                     OtherTrader = assignment.OtherTraderBaseballFTRunLineHDP,
                     MaxBet = assignment.MaxBetBaseballFTRunLineHDP,
                     Spread = assignment.SpreadBaseballFTRunLineHDP
-
                 },
                 new()
                 {

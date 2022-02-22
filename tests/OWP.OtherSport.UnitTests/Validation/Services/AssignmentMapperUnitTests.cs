@@ -3,8 +3,7 @@
     using AutoMapper;
     using OWP.OtherSport.Validation.Models;
     using OWP.OtherSport.Validation.Services;
-    using System;
-    using System.Collections.Generic;
+
     using Xunit;
     using Xunit.Asserts.Compare;
 

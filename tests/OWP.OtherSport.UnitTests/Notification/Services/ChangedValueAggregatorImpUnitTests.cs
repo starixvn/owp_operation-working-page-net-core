@@ -1,11 +1,9 @@
 ﻿namespace OWP.OtherSport.UnitTests.Notification.Services
 {
-    using System.Collections.Generic;
-    using System.Linq;
+    using AutoMapper;
     using OtherSport.Notification.Constants;
     using OtherSport.Notification.Models;
     using OtherSport.Notification.Services;
-    using AutoMapper;
     using Xunit;
 
     public class ChangedValueAggregatorImpUnitTests
@@ -73,7 +71,6 @@
             Assert.Contains(actual, item => item.OSMatchId == 20 & item.MessageTypeId == (int)MsgTemplateCode.AssignmentInsert && item.BetTypeName == "1Q & 3Q (OU/OE)");
             Assert.Contains(actual, item => item.OSMatchId == 20 & item.MessageTypeId == (int)MsgTemplateCode.AssignmentDelete && item.BetTypeName == "1Q & 3Q (OU)");
         }
-
 
         [Fact]
         public void GetAggregatedValue_Always_UpdateOldAndNewValueAndMessageType()

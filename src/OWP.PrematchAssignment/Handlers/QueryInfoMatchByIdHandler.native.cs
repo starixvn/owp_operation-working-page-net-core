@@ -1,7 +1,5 @@
 ﻿namespace OWP.PrematchAssignment.Handlers
 {
-    using System.Threading;
-    using System.Threading.Tasks;
     using MediatR;
     using PreMatchAssignment.Models;
     using PreMatchAssignment.Services;
@@ -10,6 +8,7 @@
     {
         public int Id { get; set; }
     }
+
     public class QueryInfoMatchByIdHandler : IRequestHandler<QueryInfoMatchRequest, InfoMatchQueried>
     {
         private readonly PreMatchAssignmentService preMatchAssignmentService;

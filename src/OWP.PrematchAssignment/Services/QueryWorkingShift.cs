@@ -1,66 +1,60 @@
-﻿using Fanex.NAP.Client.Helpers.Web;
+﻿using Fanex.Data.Repository;
+using Fanex.NAP.Client.Helpers.Web;
+using OWP.PreMatchAssignment.Criteria;
+using OWP.PreMatchAssignment.Models;
 
-namespace OWP.PreMatchAssignment.Services
+namespace OWP.PreMatchAssignment.Services;
+
+public interface QueryWorkingShift
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Criteria;
-    using Fanex.Data.Repository;
-    using Fanex.NAP.Core.Web.Session;
-    using Models;
+    Task<List<WorkingShift>> QueryWorkingShift(DateTime eventDate);
+}
 
-    public interface QueryWorkingShift
+public class QueryWorkingShiftImp : QueryWorkingShift
+{
+    private readonly IDynamicRepository dynamicRepository;
+
+    private readonly INapSession currentSession;
+
+    public QueryWorkingShiftImp(IDynamicRepository dynamicRepository, INapSession currentSession)
     {
-        Task<List<WorkingShift>> QueryWorkingShift(DateTime eventDate);
+        this.dynamicRepository = dynamicRepository;
+        this.currentSession = currentSession;
     }
-    public class QueryWorkingShiftImp : QueryWorkingShift
+
+    private async Task<List<WorkingShiftModel>> GetWorkingShiftByDate(DateTime eventDate)
     {
-        private readonly IDynamicRepository dynamicRepository;
-
-        private readonly INapSession currentSession;
-
-        public QueryWorkingShiftImp(IDynamicRepository dynamicRepository, INapSession currentSession)
+        var criteria = new GetWorkingShiftByDateCriteria
         {
-            this.dynamicRepository = dynamicRepository;
-            this.currentSession = currentSession;
+            EventDate = eventDate,
+            UserId = currentSession.UserId
+        };
+
+        var result = (await dynamicRepository.FetchAsync<WorkingShiftModel>(criteria)).ToList();
+
+        return result;
+    }
+
+    public async Task<List<WorkingShift>> QueryWorkingShift(DateTime eventDate)
+    {
+        var workingShiftByDate = await GetWorkingShiftByDate(eventDate);
+        foreach (var shiftCode in workingShiftByDate)
+        {
+            shiftCode.RecalculateShiftCode();
         }
+        var workingShifts = workingShiftByDate.GroupBy(a => a.ShiftCode).ToDictionary(a => a.Key, a => a.Select(b => b.NickName).ToList());
 
-        private async Task<List<WorkingShiftModel>> GetWorkingShiftByDate(DateTime eventDate)
+        var workingModel = new List<WorkingShift>();
+        foreach (var workingShift in workingShifts)
         {
-            var criteria = new GetWorkingShiftByDateCriteria
+            var shift = new WorkingShift
             {
-                EventDate = eventDate,
-                UserId = currentSession.UserId
+                Shifts = workingShift.Key,
+                Usernames = string.Join(", ", workingShift.Value.Distinct())
             };
-
-            var result = (await dynamicRepository.FetchAsync<WorkingShiftModel>(criteria)).ToList();
-
-            return result;
+            workingModel.Add(shift);
         }
 
-        public async Task<List<WorkingShift>> QueryWorkingShift(DateTime eventDate)
-        {
-            var workingShiftByDate = await GetWorkingShiftByDate(eventDate);
-            foreach (var shiftCode in workingShiftByDate)
-            {
-                shiftCode.RecalculateShiftCode();
-            }
-            var workingShifts = workingShiftByDate.GroupBy(a => a.ShiftCode).ToDictionary(a => a.Key, a => a.Select(b => b.NickName).ToList());
-
-            var workingModel = new List<WorkingShift>();
-            foreach (var workingShift in workingShifts)
-            {
-                var shift = new WorkingShift
-                {
-                    Shifts = workingShift.Key,
-                    Usernames = string.Join(", ", workingShift.Value.Distinct())
-                };
-                workingModel.Add(shift);
-            }
-
-            return workingModel.OrderBy(x => x.Shifts).ToList();
-        }
+        return workingModel.OrderBy(x => x.Shifts).ToList();
     }
 }

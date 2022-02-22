@@ -2,7 +2,7 @@
 
 namespace OWP.TicketCenter.Notification.Models
 {
-    public class NotificationModel:MessageModel
+    public class NotificationModel : MessageModel
     {
         public int TicketId { get; set; }
 

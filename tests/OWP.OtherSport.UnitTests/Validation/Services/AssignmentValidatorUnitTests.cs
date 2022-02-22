@@ -2,7 +2,7 @@
 {
     using OWP.OtherSport.Validation.Models;
     using OWP.OtherSport.Validation.Services;
-    using System.Collections.Generic;
+
     using System.ComponentModel.DataAnnotations;
     using Xunit;
     using Xunit.Asserts.Compare;

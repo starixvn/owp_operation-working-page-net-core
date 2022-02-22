@@ -2,9 +2,6 @@
 {
     using Models;
     using OWP.PreMatchNotification.Models;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public interface ChangedLinkedMatchDetector
     {

@@ -4,8 +4,6 @@
     using MediatR;
     using Models;
     using Services;
-    using System.Threading;
-    using System.Threading.Tasks;
 
     public class QueryReportByMonthRequest : IRequest<OvertimeByMonth>
     {

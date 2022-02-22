@@ -1,6 +1,6 @@
 ﻿namespace OWP.PreMatchAssignment.UnitTests.Services
 {
-    using System.Threading.Tasks;
+    
     using Constants;
     using Criteria;
     using Fanex.Data.Repository;

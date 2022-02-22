@@ -7,7 +7,7 @@
     using OWP.OtherSport.EventAssignment.Services;
     using OWP.OtherSport.Submit.Contants;
     using OWP.OtherSport.Submit.Models;
-    using System.Collections.Generic;
+
     using Xunit;
     using Xunit.Asserts.Compare;
 

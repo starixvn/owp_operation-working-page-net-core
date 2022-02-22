@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace OWP.OtherSport.Notification.Models
+﻿namespace OWP.OtherSport.Notification.Models
 {
     public class MessageModel
     {

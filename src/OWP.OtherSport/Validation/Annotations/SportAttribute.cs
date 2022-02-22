@@ -1,9 +1,7 @@
 ﻿namespace OWP.OtherSport.Validation.Annotations
 {
-    using System;
     using System.Collections.Immutable;
     using System.ComponentModel.DataAnnotations;
-    using System.Linq;
 
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
     public class SportAttribute : ValidationAttribute

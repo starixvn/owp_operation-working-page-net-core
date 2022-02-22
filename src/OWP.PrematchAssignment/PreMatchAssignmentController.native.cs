@@ -7,11 +7,8 @@
     using Microsoft.AspNetCore.Mvc;
     using Newtonsoft.Json;
     using PrematchAssignment.Handlers;
-    using PreMatchAssignment.Models;
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
     using PrematchAssignment.Models;
+    using PreMatchAssignment.Models;
 
     [Route("api/[controller]")]
     [ApiController]

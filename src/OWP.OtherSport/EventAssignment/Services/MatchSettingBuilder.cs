@@ -1,13 +1,10 @@
 ﻿namespace OWP.OtherSport.EventAssignment.Services
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Linq;
     using OWP.Extensions;
     using OWP.OtherSport.EventAssignment.Models;
     using OWP.OtherSport.Submit.Contants;
     using OWP.OtherSport.Submit.Models;
+    using System.Globalization;
 
     public interface MatchSettingBuilder
     {

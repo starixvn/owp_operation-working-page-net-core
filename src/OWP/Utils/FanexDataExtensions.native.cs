@@ -1,9 +1,8 @@
 ﻿namespace OWP.Utils
 {
     using Fanex.Data.Repository;
-    using System.Net;
-    using System.Net.Http;
-    using System.Web.Http;
+    using Newtonsoft.Json;
+
     public static class FanexDataExtensions
     {
         public static void ThrowExceptionIfInvalid(this ICriteria criteria)
@@ -13,12 +12,9 @@
                 return;
             }
 
-            var resp = new HttpResponseMessage(HttpStatusCode.BadRequest)
-            {
-                Content = new StringContent("Invalid criteria")
-            };
+            var message = $"Invalid criteria: {JsonConvert.SerializeObject(criteria)}";
 
-            throw new HttpResponseException(resp);
+            throw new ArgumentException(message);
         }
     }
 }

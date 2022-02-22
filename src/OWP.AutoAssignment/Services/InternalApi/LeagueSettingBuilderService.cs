@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using OWP.AutoAssignment.Models.InternalApi;
+﻿using OWP.AutoAssignment.Models.InternalApi;
 
 namespace OWP.AutoAssignment.Services.InternalApi
 {
@@ -14,13 +11,16 @@ namespace OWP.AutoAssignment.Services.InternalApi
             IList<AutoAssignmentResultModel> autoAssignModels,
             string requestId);
     }
+
     public class LeagueSettingBuilderServiceImp : LeagueSettingBuilderService
     {
         private readonly Repository repository;
+
         public LeagueSettingBuilderServiceImp(Repository repository)
         {
             this.repository = repository;
         }
+
         public async Task Build(IList<ExportMatchModel> models, IList<AutoAssignmentResultModel> autoAssignModels, string requestId)
         {
             var matchIds = GetMatchIdQueryInfo(autoAssignModels);
@@ -68,6 +68,5 @@ namespace OWP.AutoAssignment.Services.InternalApi
 
         public static string FormatSpread(decimal? spread)
             => spread.HasValue ? (spread.Value * 100).ToString("0.##", CultureInfo.InvariantCulture) : string.Empty;
-
     }
 }

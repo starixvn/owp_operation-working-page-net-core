@@ -1,12 +1,5 @@
-﻿using OWP.PreMatchNotification.Assignment.Constant;
-using OWP.PreMatchNotification.Assignment.Models;
-using OWP.PreMatchNotification.Constants;
+﻿using OWP.PreMatchNotification.Assignment.Models;
 using OWP.PreMatchNotification.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OWP.PreMatchNotification.Assignment.Services.OtherAssignment
 {
@@ -72,7 +65,7 @@ namespace OWP.PreMatchNotification.Assignment.Services.OtherAssignment
             if (!string.Equals(oldSnapshot.HdpTakeOver, newSnapshot.HdpTakeOver) ||
                 string.IsNullOrWhiteSpace(newSnapshot.HdpTakeOver))
             {
-               return;
+                return;
             }
 
             var userId = newSnapshot.HdpTakeOverUserId.Value;

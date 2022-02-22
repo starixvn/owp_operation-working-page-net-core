@@ -1,9 +1,6 @@
 ﻿using MediatR;
 using OWP.PreMatchAssignment.Models;
 using OWP.PreMatchAssignment.Services;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace OWP.PreMatchAssignment.Handlers
 {

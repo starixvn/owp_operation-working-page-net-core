@@ -1,12 +1,9 @@
 ﻿using AutoMapper;
 using OWP.TicketCenter.Builder;
+using OWP.TicketCenter.Enum;
 using OWP.TicketCenter.Handlers;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.ViewModels;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using OWP.TicketCenter.Enum;
 
 namespace OWP.TicketCenter.Services
 {

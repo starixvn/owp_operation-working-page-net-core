@@ -2,7 +2,7 @@
 {
     using Fanex.Data.Repository;
 
-    public class QueryAssigneePreMatchByPreLeagueIdCriteria: CriteriaBase
+    public class QueryAssigneePreMatchByPreLeagueIdCriteria : CriteriaBase
     {
         public int Id { get; set; }
 

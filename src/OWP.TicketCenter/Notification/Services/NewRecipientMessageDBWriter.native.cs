@@ -1,7 +1,6 @@
 ﻿using OWP.TicketCenter.Criteria;
 using OWP.TicketCenter.Handlers;
 using OWP.TicketCenter.Notification.Const;
-using System.Threading.Tasks;
 
 namespace OWP.TicketCenter.Notification.Services
 {

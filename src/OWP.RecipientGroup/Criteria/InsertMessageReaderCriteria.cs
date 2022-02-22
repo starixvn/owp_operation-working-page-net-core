@@ -12,5 +12,4 @@ namespace OWP.RecipientGroup.Criteria
 
         public override bool IsValid() => true;
     }
-
 }

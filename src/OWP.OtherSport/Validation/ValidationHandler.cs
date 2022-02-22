@@ -1,16 +1,11 @@
 ﻿namespace OWP.OtherSport.Validation
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.IO;
-    using System.Threading;
-    using System.Threading.Tasks;
     using Fanex.NAP.Client.Helpers.Web;
     using MediatR;
     using Models;
     using OWP.OtherSport.Validation.Exceptions;
     using OWP.OtherSport.Validation.Services;
+    using System.Globalization;
 
     public class ValidationHandler
     {

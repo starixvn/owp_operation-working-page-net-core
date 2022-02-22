@@ -1,7 +1,5 @@
 ﻿namespace OWP.OtherSport.UnitTests.Validation.Extensions
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using OfficeOpenXml;
     using OWP.OtherSport.UnitTests.Validation.Services;
     using OWP.OtherSport.Validation.Extensions;

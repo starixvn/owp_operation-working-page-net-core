@@ -1,9 +1,6 @@
 ﻿using OWP.TicketCenter.Criteria;
 using OWP.TicketCenter.Enum;
 using OWP.TicketCenter.Models;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace OWP.TicketCenter.Services
 {

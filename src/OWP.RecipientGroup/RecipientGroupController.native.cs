@@ -6,8 +6,6 @@
     using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Mvc;
     using Models;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
 
     [Route("api/[controller]")]
     [ApiController]

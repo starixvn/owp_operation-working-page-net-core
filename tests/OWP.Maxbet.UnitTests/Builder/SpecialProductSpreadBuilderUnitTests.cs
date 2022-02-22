@@ -1,11 +1,7 @@
 ﻿using NSubstitute;
 using OWP.Maxbet.Builder;
 using OWP.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using Xunit;
 using Xunit.Asserts.Compare;
 
@@ -16,9 +12,8 @@ namespace OWP.Maxbet.UnitTests.Builder
         private readonly MaxbetReposiory syncMaxbetReposiory;
 
         private readonly SpecialProductSpreadBuilder specialProductSpreadBuilder;
-        
-        private readonly LogServiceWrapper logServiceWrapper;
 
+        private readonly LogServiceWrapper logServiceWrapper;
 
         public SpecialProductSpreadBuilderUnitTests()
         {

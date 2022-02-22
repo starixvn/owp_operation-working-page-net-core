@@ -1,6 +1,5 @@
 ﻿using OWP.PreMatchNotification.Assignment.Models;
 using OWP.PreMatchNotification.Models;
-using System.Collections.Generic;
 
 namespace OWP.PreMatchNotification.Assignment.Services.OtherAssignment
 {
@@ -17,6 +16,7 @@ namespace OWP.PreMatchNotification.Assignment.Services.OtherAssignment
         {
             this.otherAssignmentDetector = otherAssignmentDetector;
         }
+
         public IEnumerable<ChangedValue> Create(AssignmentSnapshot oldSnapshot, AssignmentSnapshot newSnapshot)
         {
             var changedValues = new List<ChangedValue>();

@@ -3,8 +3,6 @@
     using Fanex.Data.Repository;
     using OWP.OtherSport.EventAssignment.Criteria;
     using OWP.OtherSport.Submit.Models;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     public interface CommandRepository
     {

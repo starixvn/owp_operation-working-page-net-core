@@ -2,7 +2,6 @@
 using OWP.Helpers;
 using OWP.Maxbet.Models;
 using OWP.Services;
-using System.Threading.Tasks;
 
 namespace OWP.Maxbet.Builder
 {

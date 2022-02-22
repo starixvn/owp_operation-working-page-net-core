@@ -1,9 +1,8 @@
 ﻿using Fanex.Data.Repository;
-using System;
+
 namespace OWP.AutoAssignment.Criteria.InternalApi
 {
-
-    public class GetAutoAssignmentResultCriteria: CriteriaBase
+    public class GetAutoAssignmentResultCriteria : CriteriaBase
     {
         public DateTime EventDate { get; set; }
 

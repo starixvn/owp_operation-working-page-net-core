@@ -1,7 +1,5 @@
 ﻿namespace OWP.OtherSport.Notification
 {
-    using System.Threading;
-    using System.Threading.Tasks;
     using MediatR;
     using OWP.OtherSport.Notification.Services;
 

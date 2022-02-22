@@ -1,12 +1,5 @@
 ﻿namespace OWP.OvertimeReport.Handlers
 {
-    using System.Collections.Generic;
-    using System.Drawing;
-    using System.Globalization;
-    using System.IO;
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
     using AutoMapper;
     using Constants;
     using Epplus.Mapper.Extensions;
@@ -15,6 +8,8 @@
     using OfficeOpenXml;
     using OfficeOpenXml.Style;
     using OWP.Services;
+    using System.Drawing;
+    using System.Globalization;
 
     public class ExportReportByYearRequest : IRequest<ExcelPackage>
     {
@@ -25,7 +20,7 @@
         public int Year { get; set; }
     }
 
-    public class ExportReportByYearHandler : IRequestHandler<ExportReportByYearRequest, ExcelPackage>
+    public class ExportReportByYearHandler : IRequestHandler<ExportReportByYearRequest, ExcelPackage>, IDisposable
     {
         private readonly IMapper mapper;
 
@@ -169,6 +164,17 @@
             return hourDecimal != 0
                 ? hourDecimal.ToString("0.00", CultureInfo.InvariantCulture)
                 : "-";
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool isDisposing)
+        {
+            excelPackage?.Dispose();
         }
     }
 }

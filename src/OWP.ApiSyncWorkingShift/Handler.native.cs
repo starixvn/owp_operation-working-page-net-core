@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 using OWP.ApiSyncWorkingShift.Models;
 
 namespace OWP.ApiSyncWorkingShift
@@ -26,7 +21,7 @@ namespace OWP.ApiSyncWorkingShift
 
         public async Task<IEnumerable<WorkingShiftModel>> Handle(QueryWorkingShiftRequest request, CancellationToken cancellationToken)
         {
-            var workingShiftModels= await commandRepository.Query(request);
+            var workingShiftModels = await commandRepository.Query(request);
             foreach (var shift in workingShiftModels)
             {
                 shift.RecalculateShiftCode();

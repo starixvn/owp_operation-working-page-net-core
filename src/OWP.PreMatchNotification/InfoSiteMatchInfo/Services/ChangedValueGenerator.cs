@@ -5,9 +5,7 @@
     using OWP.Extensions;
     using OWP.PreMatchNotification.Models;
     using OWP.PreMatchNotification.Services;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
+
     using System.Reflection;
 
     public interface ChangedValueGenerator

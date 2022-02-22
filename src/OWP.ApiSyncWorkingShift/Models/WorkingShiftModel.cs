@@ -1,8 +1,7 @@
 ﻿using Newtonsoft.Json;
-using OWP.ApiSyncWorkingShift.Utils;
-using System;
-using System.Xml.Serialization;
 using OWP.ApiSyncWorkingShift.Const;
+using OWP.ApiSyncWorkingShift.Utils;
+using System.Xml.Serialization;
 
 namespace OWP.ApiSyncWorkingShift.Models
 {

@@ -4,7 +4,6 @@ using OWP.Maxbet.Handlers;
 using OWP.Maxbet.Models;
 using OWP.Maxbet.Selector;
 using OWP.Services;
-using System.Threading.Tasks;
 
 namespace OWP.Maxbet.Services
 {

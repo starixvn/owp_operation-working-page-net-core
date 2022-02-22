@@ -2,10 +2,8 @@
 {
     using AutoMapper;
     using OWP.OtherSport.Validation.Models;
-    using System;
-    using System.Collections.Generic;
+
     using System.Globalization;
-    using System.Linq;
     using System.Reflection;
     using System.Text.RegularExpressions;
 

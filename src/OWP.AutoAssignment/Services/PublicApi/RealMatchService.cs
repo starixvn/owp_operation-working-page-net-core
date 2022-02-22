@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using OWP.AutoAssignment.Constant;
+﻿using OWP.AutoAssignment.Constant;
 using OWP.AutoAssignment.Models.PublicApi;
 
 namespace OWP.AutoAssignment.Services.PublicApi
@@ -15,7 +11,6 @@ namespace OWP.AutoAssignment.Services.PublicApi
     public class RealMatchServiceImp : RealMatchService
     {
         private readonly Repository repository;
-
 
         private readonly ExtraTimeDetectorService extraTimeService;
 
@@ -71,7 +66,6 @@ namespace OWP.AutoAssignment.Services.PublicApi
         private void BuildMultipleRealMatchSender(MultipleRealMatchBuilder multipleRealMatch,
             IList<RealMatchSender> realMatchSenders)
         {
-
             foreach (var match in multipleRealMatch.RealMatches)
             {
                 var mbHdp = multipleRealMatch.MaxBetHdpInfo.FirstOrDefault(x => x.InfoSiteMatchId == match.InfoSiteId);

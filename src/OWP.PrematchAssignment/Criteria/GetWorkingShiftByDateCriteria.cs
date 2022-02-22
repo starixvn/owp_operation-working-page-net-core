@@ -1,7 +1,7 @@
 ﻿namespace OWP.PreMatchAssignment.Criteria
 {
-    using System;
     using Fanex.Data.Repository;
+
     public class GetWorkingShiftByDateCriteria : CriteriaBase
     {
         public DateTime EventDate { get; set; }

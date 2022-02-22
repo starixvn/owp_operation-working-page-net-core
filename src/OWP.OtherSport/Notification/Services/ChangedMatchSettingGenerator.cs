@@ -1,15 +1,11 @@
 ﻿namespace OWP.OtherSport.Notification.Services
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Linq;
     using Constants;
     using Models;
     using OWP.Extensions;
-    using OWP.OtherSport.Notification.Extensions;
     using OWP.OtherSport.Submit.Contants;
     using Submit.Models;
+    using System.Globalization;
     using Utils;
 
     public interface ChangedMatchSettingGenerator

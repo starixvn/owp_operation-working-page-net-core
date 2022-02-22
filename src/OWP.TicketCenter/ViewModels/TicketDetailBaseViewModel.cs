@@ -1,11 +1,7 @@
-﻿using System.Collections.Generic;
-using OWP.TicketCenter.Models;
+﻿using OWP.TicketCenter.Models;
 
 namespace OWP.TicketCenter.ViewModels
 {
-    using System;
-    using System.Linq;
-
     public class TicketDetailBaseViewModel
     {
         public int TicketId { get; set; }

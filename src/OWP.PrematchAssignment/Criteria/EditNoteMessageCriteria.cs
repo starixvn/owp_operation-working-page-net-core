@@ -1,8 +1,5 @@
-﻿
-
-namespace OWP.PreMatchAssignment.Criteria
+﻿namespace OWP.PreMatchAssignment.Criteria
 {
-    using System;
     using Fanex.Data.Repository;
 
     public class EditNoteMessageCriteria : NonQueryCommand

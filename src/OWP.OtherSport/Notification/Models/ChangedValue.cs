@@ -1,8 +1,5 @@
 ﻿namespace OWP.OtherSport.Notification.Models
 {
-    using System;
-    using System.Collections.Generic;
-
     public class ChangedValue
     {
         public int UserId { get; set; }

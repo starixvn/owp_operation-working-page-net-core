@@ -1,13 +1,11 @@
-﻿namespace OWP.Websites.App_Start
-{
-    using Microsoft.Extensions.DependencyInjection;
-    using OWP.RecipientGroup.Services;
+﻿using OWP.RecipientGroup.Services;
 
-    public static class RecipientGroupInjector
+namespace OWP.Websites;
+
+public static class RecipientGroupInjector
+{
+    public static void AddRecipientGroup(this IServiceCollection services)
     {
-        public static void InjectRecipientGroup(this IServiceCollection services)
-        {
-            services.AddScoped<CommandRepository, CommandRepositoryImp>();
-        }
+        services.AddScoped<CommandRepository, CommandRepositoryImp>();
     }
 }

@@ -1,7 +1,5 @@
 ﻿namespace OWP.AutoAssignment.Builder
 {
-    using System;
-    using System.Linq;
     using Constant;
 
     public static class FirstProviderBuilder

@@ -3,10 +3,6 @@
     using Fanex.Data.Repository;
     using MediatR;
     using Models;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
 
     public class GetTicketTypeRecipientRequest : IRequest<IEnumerable<TicketTypeRecipient>>
     {

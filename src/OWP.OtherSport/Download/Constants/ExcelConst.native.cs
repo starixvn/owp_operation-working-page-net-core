@@ -1,6 +1,4 @@
 ﻿using OWP.OtherSport.Submit.Contants;
-using System;
-using System.Collections.Generic;
 
 namespace OWP.OtherSport.Download.Constants
 {
@@ -18,7 +16,7 @@ namespace OWP.OtherSport.Download.Constants
             { new Tuple<string, string>(Sport.Basketball, Bettype.FirstHHDP),           20},
             { new Tuple<string, string>(Sport.Basketball, Bettype.FirstQ3QHDP),         21},
             { new Tuple<string, string>(Sport.Basketball, Bettype.FTOUOE),              22},
-           
+
             { new Tuple<string, string>(Sport.Basketball, Bettype.FirstHOUOE),          23},
             { new Tuple<string, string>(Sport.Basketball, Bettype.FirstQ3QOUOE),        24},
             { new Tuple<string, string>(Sport.Football, Bettype.FTHDP),                 25},
@@ -157,7 +155,6 @@ namespace OWP.OtherSport.Download.Constants
 
         public static readonly Dictionary<Tuple<string, string>, int> MaxbetColumn = new Dictionary<Tuple<string, string>, int>
         {
-           
             { new Tuple<string, string>(Sport.Basketball, Bettype.FTHDP),               153},
             { new Tuple<string, string>(Sport.Basketball, Bettype.FTOUOE),              154},
             { new Tuple<string, string>(Sport.Basketball, Bettype.FTOE),                155},
@@ -208,7 +205,7 @@ namespace OWP.OtherSport.Download.Constants
             { new Tuple<string, string>(Sport.Cricket, Bettype.NextOverOUPlayerOU),     200},
             { new Tuple<string, string>(Sport.Cricket, Bettype.FT1X2),                  201},
             { new Tuple<string, string>(Sport.Snooker, Bettype.MatchWinnerHDPOU),       202},
-            { new Tuple<string, string>(Sport.Snooker, Bettype.MatchWinnerOU),          203}, 
+            { new Tuple<string, string>(Sport.Snooker, Bettype.MatchWinnerOU),          203},
             { new Tuple<string, string>(Sport.Snooker, Bettype.FramesWinnerHDPOUOE),    204},
             { new Tuple<string, string>(Sport.Snooker, Bettype.FramesWinnerOU),         205},
             { new Tuple<string, string>(Sport.Snooker, Bettype.FramesWinnerOE),         206},
@@ -233,7 +230,6 @@ namespace OWP.OtherSport.Download.Constants
 
         public static readonly Dictionary<Tuple<string, string>, int> SpreadColumn = new Dictionary<Tuple<string, string>, int>
         {
-
             { new Tuple<string, string>(Sport.Basketball, Bettype.FTHDP),               224},
             { new Tuple<string, string>(Sport.Basketball, Bettype.FTOUOE),              225},
             { new Tuple<string, string>(Sport.Basketball, Bettype.FTOE),                226},

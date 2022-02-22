@@ -1,7 +1,5 @@
 ﻿namespace OWP.PreMatchNotification.Models
 {
-    using System.Collections.Generic;
-
     public class MessageModel
     {
         public bool IsImportant { get; set; }

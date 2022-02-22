@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace OWP.OtherSport.Submit.Models
+﻿namespace OWP.OtherSport.Submit.Models
 {
     public class LastUpdateInfo
     {

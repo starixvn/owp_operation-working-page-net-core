@@ -1,13 +1,11 @@
 ﻿namespace OWP.AutoAssignment.UnitTests.Services.PublicApi
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
     using AutoAssignment.Services.PublicApi;
     using Models.PublicApi;
     using NSubstitute;
     using Xunit;
     using Xunit.Asserts.Compare;
+
     public class RequestBuilderServiceUnitTests
     {
         private readonly Repository repository;
@@ -44,7 +42,6 @@
             var actual = await service.BuildRequestSenderModel(request);
 
             DeepAssert.Equal(expected, actual);
-
         }
 
         public List<RequestSender> MockRequestSenders()

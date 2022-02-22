@@ -1,14 +1,11 @@
 ﻿namespace OWP.Maxbet.UnitTests.Handlers
 {
-    using System.Collections.Generic;
-    using System.Threading;
-    using System.Threading.Tasks;
     using Fanex.Data.Repository;
     using NSubstitute;
+    using OWP.Enums;
     using OWP.Maxbet.Criteria;
     using OWP.Maxbet.Handlers;
     using OWP.Maxbet.Models;
-    using OWP.Enums;
     using Xunit;
 
     public class GetSecondAcceptValueHandlerUnitTests

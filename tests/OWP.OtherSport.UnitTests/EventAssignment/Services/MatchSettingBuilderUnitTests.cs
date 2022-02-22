@@ -4,7 +4,7 @@
     using OWP.OtherSport.EventAssignment.Services;
     using OWP.OtherSport.Submit.Contants;
     using OWP.OtherSport.Submit.Models;
-    using System.Collections.Generic;
+
     using Xunit;
     using Xunit.Asserts.Compare;
 
@@ -71,8 +71,8 @@
                     Sport = "Basketball",
                     TraderMaxbetModels = new List<TraderMaxBetModel>
                     {
-                        new(){ 
-                            BetTypeName = Bettype.FTOUOE, 
+                        new(){
+                            BetTypeName = Bettype.FTOUOE,
                             TraderAssignment = new TraderAssignment{MainTrader="FTOUOE"},
                             MatchSettings = new List<MatchSettingModel>
                             {
@@ -80,8 +80,8 @@
                                 new(){BetTypeName="OE", MaxBet=555, Spread="3%"},
                             }
                         },
-                        new(){ 
-                            BetTypeName = Bettype.FTHDP, 
+                        new(){
+                            BetTypeName = Bettype.FTHDP,
                             TraderAssignment = new TraderAssignment{MainTrader="FTHDP"},
                             MatchSettings = new List<MatchSettingModel>
                             {
@@ -96,8 +96,8 @@
                     Sport = "Snooker",
                     TraderMaxbetModels = new List<TraderMaxBetModel>
                     {
-                        new(){ 
-                            BetTypeName = Bettype.FramesWinnerHDPOUOE, 
+                        new(){
+                            BetTypeName = Bettype.FramesWinnerHDPOUOE,
                             TraderAssignment = new TraderAssignment{MainTrader="FramesWinnerHDPOUOE"},
                             MatchSettings = new List<MatchSettingModel>
                             {
@@ -106,12 +106,12 @@
                                 new(){BetTypeName="OE",MaxBet=1000,Spread="3%"}
                             }
                         },
-                        new(){ 
+                        new(){
                             BetTypeName = Bettype.First5FramesHDP,
                             TraderAssignment = new TraderAssignment{MainTrader="First5FramesHDP"}
                         },
-                        new(){ 
-                            BetTypeName = Bettype.MatchWinnerHDPOU, 
+                        new(){
+                            BetTypeName = Bettype.MatchWinnerHDPOU,
                             TraderAssignment = new TraderAssignment{MainTrader="First5FramesHDP"},
                             MatchSettings = new List<MatchSettingModel>
                             {

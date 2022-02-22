@@ -2,7 +2,7 @@
 
 namespace OWP.TicketCenter.Criteria
 {
-    public class QueryIssueCreatorCriteria: CriteriaBase
+    public class QueryIssueCreatorCriteria : CriteriaBase
     {
         public int TicketId { get; set; }
 

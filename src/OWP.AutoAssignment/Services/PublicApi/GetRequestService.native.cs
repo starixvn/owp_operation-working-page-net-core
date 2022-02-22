@@ -1,13 +1,10 @@
 ﻿using OWP.AutoAssignment.Models.PublicApi;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace OWP.AutoAssignment.Services.PublicApi
 {
     public interface GetRequestService
     {
         Task<IEnumerable<RequestSender>> GetRequest();
-
     }
 
     public class GetRequestServiceImp : GetRequestService

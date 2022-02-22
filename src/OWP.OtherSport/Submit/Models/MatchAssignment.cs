@@ -2,7 +2,6 @@
 {
     using OWP.Extensions;
     using OWP.OtherSport.Submit.Contants;
-    using System.Collections.Generic;
 
     public class MatchAssignment
     {
@@ -20,7 +19,8 @@
 
         public string AssignmentNote { get; set; } = string.Empty;
 
-        public int Order {
+        public int Order
+        {
             get => BettypeOrder.GetValue(BetTypeName, 0);
         }
 

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace OWP.TicketCenter.Models
+﻿namespace OWP.TicketCenter.Models
 {
     public class StatusHistory
     {

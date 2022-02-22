@@ -1,16 +1,13 @@
 ﻿namespace OWP.PreMatchNotification.UnitTests.NewLeague
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
+    using NSubstitute;
+    using OWP.PreMatchNotification.Constants;
     using OWP.PreMatchNotification.Models;
     using OWP.PreMatchNotification.NewLeague.Models;
     using OWP.PreMatchNotification.NewLeague.Services;
-    using NSubstitute;
+    using OWP.PreMatchNotification.Services;
     using Xunit;
     using Xunit.Asserts.Compare;
-    using OWP.PreMatchNotification.Services;
-    using OWP.PreMatchNotification.Constants;
 
     public class NewLeagueValueGeneratorUnitTests
     {

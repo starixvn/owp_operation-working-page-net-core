@@ -1,18 +1,11 @@
 ﻿namespace OWP.PreMatchNotification.LinkedMatch
 {
-    using System.Threading;
-    using System.Threading.Tasks;
     using MediatR;
-    using Services;
-    using System;
-    using System.Linq;
-    using OWP.PreMatchNotification.Services;
-    using OWP.PreMatchNotification.Models;
-    using System.Collections.Generic;
-    using OWP.PreMatchNotification.LinkedMatch.Models;
     using OWP.PreMatchNotification.Constants;
-    using OWP.Extensions;
-    using OWP.Services;
+    using OWP.PreMatchNotification.LinkedMatch.Models;
+    using OWP.PreMatchNotification.Models;
+    using OWP.PreMatchNotification.Services;
+    using Services;
 
     public class LinkedMatchNotifyRequest : IRequest<Unit>
     {
@@ -72,7 +65,7 @@
                 var messages = changedValueBySnapshot.Create(oldMatches, newMatches, employees);
 
                 return messages;
-            }            
+            }
 
             return new List<ChangedValue>();
         }

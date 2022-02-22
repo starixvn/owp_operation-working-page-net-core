@@ -1,7 +1,5 @@
 ﻿namespace OWP.OvertimeReport.Models
 {
-    using System.Collections.Generic;
-
     public class OvertimeByYear
     {
         public string Location { get; set; }

@@ -1,13 +1,9 @@
 ﻿namespace OWP.OtherSport.Validation.Services
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Text.RegularExpressions;
     using Models;
     using OfficeOpenXml;
     using OWP.OtherSport.Validation.Extensions;
+    using System.Text.RegularExpressions;
 
     public interface ExcelReader
     {

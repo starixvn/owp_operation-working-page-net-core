@@ -1,6 +1,5 @@
 ﻿namespace OWP.PreMatchNotification.NewLeague.Criteria
 {
-    using System;
     using Fanex.Data.Repository;
 
     public class GetPreMatchLeaguesCriteria : CriteriaBase

@@ -1,7 +1,6 @@
-﻿using System;
-using System.Globalization;
-using Epplus.Mapper.Annotations;
+﻿using Epplus.Mapper.Annotations;
 using OfficeOpenXml.Attributes;
+using System.Globalization;
 
 namespace OWP.AutoAssignment.Models.InternalApi
 {
@@ -108,7 +107,7 @@ namespace OWP.AutoAssignment.Models.InternalApi
         public int InfoSiteMatchId { get; set; }
 
         [Cell("AO3")]
-        public int? InfoSiteMatchIdExport => Bettype==-3 || Bettype==-4
+        public int? InfoSiteMatchIdExport => Bettype == -3 || Bettype == -4
             ? null
             : InfoSiteMatchId;
 
@@ -150,6 +149,5 @@ namespace OWP.AutoAssignment.Models.InternalApi
 
         [Cell("BF3")]
         public string MaxBet1H1X2 { get; set; }
-
     }
 }

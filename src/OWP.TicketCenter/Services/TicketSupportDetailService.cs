@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using OWP.TicketCenter.Criteria;
 using OWP.TicketCenter.Enum;
 using OWP.TicketCenter.Handlers;
@@ -13,6 +11,7 @@ namespace OWP.TicketCenter.Services
     {
         Task<TicketSupportDetailViewModel> GetTicketSupportDetail(TicketSupportDetailRequest request);
     }
+
     public class TicketSupportDetailServiceImp : TicketSupportDetailService
     {
         private readonly Repository repository;
@@ -20,6 +19,7 @@ namespace OWP.TicketCenter.Services
         private readonly TicketDetailService ticketDetailService;
 
         private readonly IMapper mapper;
+
         public TicketSupportDetailServiceImp(Repository repository, TicketDetailService ticketDetailService, IMapper mapper)
         {
             this.repository = repository;

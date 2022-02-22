@@ -1,15 +1,11 @@
 ﻿namespace OWP.FileUpload
 {
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Threading.Tasks;
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using File = Models.File;
+    using OWP.FileUpload.Models;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -45,9 +41,9 @@
 
         [Route("multiple-upload")]
         [HttpPost]
-        public async Task<IList<File>> Upload(IList<IFormFile> files)
+        public async Task<IList<FileModel>> Upload(IList<IFormFile> files)
         {
-            var result = new List<File>();
+            var result = new List<FileModel>();
             await using var memoryStream = new MemoryStream();
 
             foreach (var file in files)
@@ -77,7 +73,6 @@
             };
 
             var file = await mediator.Send(request);
-
 
             var fileExtension = file.Title.Substring(file.Title.LastIndexOf('.') + 1).ToLowerInvariant().Trim();
             var isImage = IsImage(fileExtension);

@@ -1,7 +1,6 @@
 ﻿namespace OWP.PreMatchAssignment.Criteria
 {
     using Fanex.Data.Repository;
-    using System;
 
     public class InsertNewNoteCriteria : NonQueryCommand
     {

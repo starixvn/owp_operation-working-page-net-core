@@ -1,5 +1,4 @@
 ﻿using OWP.AutoAssignment.Constant;
-using System;
 
 namespace OWP.AutoAssignment.Services.PublicApi
 {
@@ -7,7 +6,8 @@ namespace OWP.AutoAssignment.Services.PublicApi
     {
         string DetectExtraTime(string remark);
     }
-    public class ExtraTimeDetectorServiceImp: ExtraTimeDetectorService
+
+    public class ExtraTimeDetectorServiceImp : ExtraTimeDetectorService
     {
         public string DetectExtraTime(string remark)
         {

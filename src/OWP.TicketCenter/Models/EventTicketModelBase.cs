@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace OWP.TicketCenter.Models
+﻿namespace OWP.TicketCenter.Models
 {
     public class EventTicketModelBase
     {
@@ -13,6 +11,7 @@ namespace OWP.TicketCenter.Models
         public string TypeName { get; set; }
 
         #region message
+
         public int UserId { get; set; }
 
         public string Username { get; set; }

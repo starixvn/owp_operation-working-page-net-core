@@ -1,16 +1,11 @@
 ﻿namespace OWP.PreMatchNotification.InfoSiteMatchInfo.Handlers
 {
-    using System.Threading;
-    using System.Threading.Tasks;
     using MediatR;
-    using System;
-    using OWP.PreMatchNotification.InfoSiteMatchInfo.Services;
-    using OWP.PreMatchNotification.Services;
-    using OWP.PreMatchNotification.Models;
-    using System.Collections.Generic;
-    using System.Linq;
     using OWP.PreMatchNotification.Constants;
     using OWP.PreMatchNotification.InfoSiteMatchInfo.Models;
+    using OWP.PreMatchNotification.InfoSiteMatchInfo.Services;
+    using OWP.PreMatchNotification.Models;
+    using OWP.PreMatchNotification.Services;
 
     public class MatchInfoNotifyRequest : IRequest<Unit>
     {

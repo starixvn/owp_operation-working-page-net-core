@@ -1,10 +1,8 @@
 ﻿namespace OWP.OtherSport.Submit.Services
 {
-    using Models;
-    using System.Collections.Generic;
-    using OWP.OtherSport.Validation.Models;
     using Contants;
-    using System.Linq;
+    using Models;
+    using OWP.OtherSport.Validation.Models;
 
     public interface AssignmentAnalyzer
     {

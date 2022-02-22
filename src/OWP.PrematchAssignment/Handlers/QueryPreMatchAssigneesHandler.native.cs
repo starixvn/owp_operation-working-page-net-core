@@ -3,10 +3,6 @@
     using MediatR;
     using Models;
     using PreMatchAssignment.Services;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
 
     public class QueryAssigneesRequest : IRequest<IEnumerable<TicketAssignee>>
     {
@@ -30,4 +26,3 @@
         }
     }
 }
-

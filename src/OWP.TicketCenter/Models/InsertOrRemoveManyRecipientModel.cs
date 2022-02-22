@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace OWP.TicketCenter.Models
+﻿namespace OWP.TicketCenter.Models
 {
     public class InsertOrRemoveManyRecipientModel
     {

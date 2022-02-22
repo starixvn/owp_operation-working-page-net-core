@@ -4,8 +4,6 @@ using OWP.TicketCenter.Middleware.Models;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Notification.Services;
 using OWP.TicketCenter.ViewModels;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace OWP.TicketCenter.Handlers
 {
@@ -47,9 +45,9 @@ namespace OWP.TicketCenter.Handlers
 
             var criteria = new UpdateManyRecipientReaderCriteria
             {
-                TicketId=request.TicketId,
-                IsRead=false,
-                ActorId=request.ActorId
+                TicketId = request.TicketId,
+                IsRead = false,
+                ActorId = request.ActorId
             };
 
             await repository.UpdateManyRecipientReader(criteria);

@@ -1,8 +1,5 @@
 ﻿namespace OWP.OtherSport.Submit.Models
 {
-    using System;
-    using System.Collections.Generic;
-
     public class AssignmentSnapshot
     {
         public Dictionary<int, MatchInfo> Matches { get; set; }

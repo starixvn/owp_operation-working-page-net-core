@@ -1,7 +1,5 @@
 ﻿namespace OWP.PreMatchAssignment.Services
 {
-    using System.Linq;
-    using System.Threading.Tasks;
     using Criteria;
     using Fanex.Data.Repository;
     using Handlers;

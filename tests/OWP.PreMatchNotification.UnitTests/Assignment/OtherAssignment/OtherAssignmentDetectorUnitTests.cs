@@ -2,11 +2,7 @@
 using OWP.PreMatchNotification.Assignment.Models;
 using OWP.PreMatchNotification.Assignment.Services.OtherAssignment;
 using OWP.PreMatchNotification.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using Xunit;
 using Xunit.Asserts.Compare;
 
@@ -14,21 +10,17 @@ namespace OWP.PreMatchNotification.UnitTests.Assignment.OtherAssignment
 {
     public class OtherAssignmentDetectorUnitTestsBase : IDisposable
     {
-       
-
         public AssignmentSnapshot OldSnapshot { get; set; }
 
         public AssignmentSnapshot NewSnapshot { get; set; }
 
         public OtherAssignmentDetectorUnitTestsBase()
         {
-            
             SetUp();
         }
 
         private void SetUp()
         {
-
             OldSnapshot = new()
             {
                 LeagueName = "VLeague",

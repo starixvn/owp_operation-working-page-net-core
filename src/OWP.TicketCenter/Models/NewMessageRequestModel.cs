@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-
-namespace OWP.TicketCenter.Models
+﻿namespace OWP.TicketCenter.Models
 {
-   public class NewMessageRequestModel
+    public class NewMessageRequestModel
     {
         public int TicketId { get; set; }
 

@@ -8,9 +8,7 @@
     using OWP.OtherSport.Shared.Services;
     using OWP.OtherSport.Submit.Contants;
     using OWP.OtherSport.Submit.Models;
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
+
     using Xunit;
     using Xunit.Asserts.Compare;
 

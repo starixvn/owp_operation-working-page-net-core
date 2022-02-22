@@ -3,11 +3,8 @@
     using OWP.OtherSport.Validation.Exceptions;
     using OWP.OtherSport.Validation.Helpers;
     using OWP.OtherSport.Validation.Models;
-    using System;
-    using System.Collections.Generic;
+
     using System.ComponentModel.DataAnnotations;
-    using System.Globalization;
-    using System.Linq;
     using System.Reflection;
     using System.Text.RegularExpressions;
 

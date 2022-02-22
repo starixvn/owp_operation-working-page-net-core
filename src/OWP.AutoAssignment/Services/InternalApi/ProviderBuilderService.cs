@@ -1,11 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using OWP.AutoAssignment.Models.InternalApi;
+﻿using OWP.AutoAssignment.Models.InternalApi;
 
 namespace OWP.AutoAssignment.Services.InternalApi
 {
-    using System;
     using Builder;
     using Constant;
 
@@ -15,6 +11,7 @@ namespace OWP.AutoAssignment.Services.InternalApi
             IList<ExportMatchModel> models,
             IList<AutoAssignmentResultModel> autoAssignModels, string requestId);
     }
+
     public class ProviderBuilderServiceImp : ProviderBuilderService
     {
         private readonly Repository repository;
@@ -23,6 +20,7 @@ namespace OWP.AutoAssignment.Services.InternalApi
         {
             this.repository = repository;
         }
+
         public async Task Build(IList<ExportMatchModel> models, IList<AutoAssignmentResultModel> autoAssignModels, string requestId)
         {
             var matchIds = GetMatchIdQueryInfo(autoAssignModels);

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using NSubstitute;
+﻿using NSubstitute;
 using OWP.TicketCenter.Handlers;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.ViewModels;
@@ -19,12 +13,12 @@ namespace OWP.TicketCenter.UnitTests.Handlers
 
         private readonly Repository repository;
 
-
         public GetEventOptionsUnitTests()
         {
             repository = Substitute.For<Repository>();
             eventOptionHandler = new GetEventOptionHandler(repository);
         }
+
         [Fact]
         public async void GetEventOption_Keyword_ReturnListOption()
         {
@@ -101,7 +95,6 @@ namespace OWP.TicketCenter.UnitTests.Handlers
                     {
                         new ()
                         {
-
                             RecipientId = 19,
 
                             UserName = "sa",
@@ -111,7 +104,7 @@ namespace OWP.TicketCenter.UnitTests.Handlers
                     }
                 }
             };
-            DeepAssert.Equal(expected,actual);
+            DeepAssert.Equal(expected, actual);
         }
     }
 }

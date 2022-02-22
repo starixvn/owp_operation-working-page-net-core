@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace OWP.ProductAssignmentReference.Models
+﻿namespace OWP.ProductAssignmentReference.Models
 {
     public class LastUpdateInfo
     {

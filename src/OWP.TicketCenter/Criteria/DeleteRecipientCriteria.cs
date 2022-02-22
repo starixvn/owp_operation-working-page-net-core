@@ -1,6 +1,4 @@
-﻿using Fanex.Data.Repository;
-
-namespace OWP.TicketCenter.Criteria
+﻿namespace OWP.TicketCenter.Criteria
 {
     public class DeleteRecipientCriteria : RecipientCriteriaBase
     {

@@ -1,13 +1,8 @@
 ﻿namespace OWP.PreMatchNotification.LinkedMatch.Services
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Fanex.Data.Repository;
     using Criteria;
+    using Fanex.Data.Repository;
     using Models;
-    using OWP.Services;
 
     public interface Repository
     {

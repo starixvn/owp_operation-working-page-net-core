@@ -217,7 +217,6 @@
 		<Setting Key="OWP_AutoAssignment_SaveEventHistory" SpName="OWP_AutoAssignment_SaveEventHistory" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
 		<Setting Key="OWP_AutoAssignment_GetProviderInfoByIds" SpName="OWP_AutoAssignment_GetProviderInfoByIds" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
 		<Setting Key="OWP_AutoAssignment_GetLeagueSettingInfo" SpName="OWP_AutoAssignment_GetLeagueSettingInfo" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
-
 	</Function>
 	<Function Name="LSTReport">
 		<Setting Key="Task_OWP_LSTReport_GetDataByDate" SpName="Task_OWP_LSTReport_GetDataByDate" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
@@ -392,4 +391,9 @@
 		<Setting Key="OWP_PreMatchAssignment_GetAssigneeByPreMatchLeagueId" SpName="OWP_PreMatchAssignment_GetAssigneeByPreMatchLeagueId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 	</Function>
 
+	<Function Name="PreMatchReport">
+		<Setting Key="OWP_PreMatchReport_GetReportForLeagueByDateRange" SpName="OWP_PreMatchReport_GetReportForLeagueByDateRange" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_PreMatchReport_GetReportForMatchByDateRange" SpName="OWP_PreMatchReport_GetReportForMatchByDateRange" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_PreMatchReport_GetAllUnassignedUsers" SpName="OWP_PreMatchReport_GetAllUnassignedUsers" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+	</Function>
 </Functions>

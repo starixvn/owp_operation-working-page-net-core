@@ -1,7 +1,5 @@
 ﻿using OWP.PreMatchNotification.Assignment.Models;
 using OWP.PreMatchNotification.Models;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace OWP.PreMatchNotification.Assignment.Services.MyAssignment
 {

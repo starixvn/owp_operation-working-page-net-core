@@ -1,8 +1,5 @@
 ﻿namespace OWP.Maxbet.UnitTests.Handlers
 {
-    using System.Collections.Generic;
-    using System.Threading;
-    using System.Threading.Tasks;
     using Fanex.Data.Repository;
     using NSubstitute;
     using OWP.Enums;

@@ -1,24 +1,20 @@
 ﻿namespace OWP.OvertimeReport.Services
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Data;
-    using System.Drawing;
-    using System.Globalization;
-    using System.Linq;
-    using System.Threading.Tasks;
     using Constants;
     using Extensions;
     using Models;
     using OfficeOpenXml;
     using OfficeOpenXml.Style;
+    using System.Data;
+    using System.Drawing;
+    using System.Globalization;
 
     public interface ExportReportByMonthServices
     {
         Task<ExcelPackage> ExportReportByMonth(OverTimeRequest request);
     }
 
-    public class ExportReportByMonthServicesImp : ExportReportByMonthServices
+    public class ExportReportByMonthServicesImp : ExportReportByMonthServices, IDisposable
     {
         private readonly ReportByMonthServices reportService;
 
@@ -27,8 +23,6 @@
         private ExcelWorksheet reportSheet;
 
         private int totalColumnIndex;
-
-        private int dateColumnNumber;
 
         public ExportReportByMonthServicesImp(ReportByMonthServices reportService)
         {
@@ -57,8 +51,7 @@
 
         public void BuildHeaderInfo(List<DateColumnInfo> dateColumns)
         {
-            dateColumnNumber = dateColumns.Count;
-            totalColumnIndex = ExcelConst.StartDataColIndex + dateColumnNumber;
+            totalColumnIndex = ExcelConst.StartDataColIndex + dateColumns.Count;
             SetHeaderStyle();
 
             reportSheet.Cells[ExcelConst.HeaderRowIndex, UserColConst.NoColIndex].Value = UserColConst.NoColName;
@@ -66,7 +59,7 @@
             reportSheet.Cells[ExcelConst.HeaderRowIndex, UserColConst.TraderColIndex].Value = UserColConst.TraderColName;
             reportSheet.Cells[ExcelConst.HeaderRowIndex, totalColumnIndex].Value = UserColConst.TotalColName;
 
-            for (var i = 0; i < dateColumnNumber; i++)
+            for (var i = 0; i < dateColumns.Count; i++)
             {
                 var dateColumn = dateColumns[i];
                 var colIndex = i + ExcelConst.StartDataColIndex;
@@ -157,7 +150,6 @@
             }
         }
 
-
         private void SetStyleHeaderStyle(int rowIndex, int colIndex, Color color)
         {
             reportSheet.Cells[rowIndex, colIndex].Style.Fill.PatternType = ExcelFillStyle.Solid;
@@ -178,5 +170,16 @@
             => hour != 0
                 ? hour.ToString("0.00", CultureInfo.InvariantCulture)
                 : "-";
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool isDisposing)
+        {
+            excelPackage?.Dispose();
+        }
     }
 }

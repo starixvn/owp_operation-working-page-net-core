@@ -1,8 +1,5 @@
 ﻿namespace OWP.AutoAssignment.Services.PublicApi
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
     using Constant;
     using OWP.AutoAssignment.Models.PublicApi;
 

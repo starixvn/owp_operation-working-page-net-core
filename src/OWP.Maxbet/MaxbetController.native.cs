@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Olympus.OWP.Constants;
 using OWP.Maxbet.Services;
-using System.Threading.Tasks;
 
 namespace OWP.Maxbet
 {
@@ -37,7 +36,6 @@ namespace OWP.Maxbet
             return Ok(maxbetInfo);
         }
 
-
         [HttpGet]
         [Route("matchId/subType/{matchId}/{subType}")]
         [Produces("application/json")]
@@ -63,7 +61,6 @@ namespace OWP.Maxbet
             var maxbetInfo = await maxbetService.GetSpecialProductInfo(owpMatch, matchId, bettypeId);
 
             return Ok(maxbetInfo);
-           
         }
     }
 }

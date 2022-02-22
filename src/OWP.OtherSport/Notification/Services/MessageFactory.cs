@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
-using System.Text.RegularExpressions;
-using Fanex.NAP.Client.Helpers.Web;
+﻿using Fanex.NAP.Client.Helpers.Web;
 using OWP.OtherSport.Notification.Constants;
 using OWP.OtherSport.Notification.Models;
+using System.Collections.Immutable;
 
 namespace OWP.OtherSport.Notification.Services
 {

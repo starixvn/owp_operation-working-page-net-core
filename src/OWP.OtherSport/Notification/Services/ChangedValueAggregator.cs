@@ -1,7 +1,5 @@
 ﻿namespace OWP.OtherSport.Notification.Services
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using AutoMapper;
     using Constants;
     using Models;
@@ -9,11 +7,17 @@
     public interface ChangedValueAggregator
     {
         List<ChangedValue> Aggregate(List<ChangedValue> changedValues);
+
         IEnumerable<ChangedValue> GetAggreatedValueForIndirectOtherAssignments(IEnumerable<ChangedValue> changedValues);
+
         ChangedValue GetAggregatedValueForDoubleAssignment(ChangedValue deletingAssignment, ChangedValue insertingChangedValue);
+
         IEnumerable<ChangedValue> GetAggregatedValueForIndirectMainAssignments(IEnumerable<ChangedValue> changedValues);
+
         IEnumerable<ChangedValue> GetIndirectMainAssignmentChangedValues(List<ChangedValue> changedValues);
+
         IEnumerable<ChangedValue> GetIndirectOtherAssignmentChangedValues(List<ChangedValue> changedValues);
+
         IEnumerable<ChangedValue> GetNonAggregatedChangedValues(List<ChangedValue> changedValues);
     }
 

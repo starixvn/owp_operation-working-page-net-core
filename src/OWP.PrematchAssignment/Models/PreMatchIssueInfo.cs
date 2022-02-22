@@ -1,8 +1,5 @@
-﻿
-namespace OWP.PreMatchAssignment.Models
+﻿namespace OWP.PreMatchAssignment.Models
 {
-    using System;
-
     public class PreMatchIssueInfo
     {
         public int PreMatchIssueId { get; set; }

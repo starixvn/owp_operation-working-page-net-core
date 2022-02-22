@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using OWP.AutoAssignment;
+﻿using OWP.AutoAssignment;
 using OWP.AutoAssignment.Services.PublicApi;
 using OWP.AutoAssignment.Services.SaveResponse;
 

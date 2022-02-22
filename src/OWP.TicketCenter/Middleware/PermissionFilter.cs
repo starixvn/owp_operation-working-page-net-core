@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 using OWP.TicketCenter.Middleware.Models;
 using OWP.TicketCenter.Services;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace OWP.TicketCenter.Middleware
 {

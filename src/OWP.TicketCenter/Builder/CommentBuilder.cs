@@ -1,8 +1,6 @@
 ﻿namespace OWP.TicketCenter.Builder
 {
     using Models;
-    using System.Collections.Generic;
-    using System.Linq;
     using ViewModels;
 
     public static class TwoLastCommentBuilder

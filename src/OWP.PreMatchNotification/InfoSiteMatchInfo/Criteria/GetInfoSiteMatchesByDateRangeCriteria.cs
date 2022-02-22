@@ -1,6 +1,5 @@
 ﻿namespace OWP.PreMatchNotification.InfoSiteMatchInfo.Criteria
 {
-    using System;
     using Fanex.Data.Repository;
 
     public class GetInfoSiteMatchesByDateRangeCriteria : CriteriaBase

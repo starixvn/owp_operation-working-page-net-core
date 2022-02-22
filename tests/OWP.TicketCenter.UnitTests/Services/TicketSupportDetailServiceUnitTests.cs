@@ -1,13 +1,10 @@
 ﻿namespace OWP.TicketCenter.UnitTests.Services
 {
-    using System;
-    using TicketCenter.Handlers;
-    using Enum;
     using AutoMapper;
+    using Enum;
     using Models;
     using NSubstitute;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
+    using TicketCenter.Handlers;
     using TicketCenter.Services;
     using ViewModels;
     using Xunit;
