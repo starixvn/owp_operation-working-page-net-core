@@ -12,85 +12,85 @@ using Xunit;
 
 namespace OWP.TicketCenter.UnitTests.Handlers
 {
-    public class NewTicketIssueOtherHandlerUnitTests
+  public class NewTicketIssueOtherHandlerUnitTests
+  {
+    private readonly Repository repository;
+
+    private readonly IMapper mapper;
+
+    private readonly NewTicketOtherMessageDBWriter writer;
+
+    private readonly NotificationService notificationService;
+
+    private readonly RecipientService recipientService;
+
+    private readonly NewTicketIssueOtherHandler handler;
+
+    public NewTicketIssueOtherHandlerUnitTests()
     {
-        private readonly Repository repository;
+      repository = Substitute.For<Repository>();
+      mapper = Substitute.For<IMapper>();
+      writer = Substitute.For<NewTicketOtherMessageDBWriter>();
+      notificationService = Substitute.For<NotificationService>();
+      recipientService = Substitute.For<RecipientService>();
 
-        private readonly IMapper mapper;
-
-        private readonly NewTicketOtherMessageDBWriter writer;
-
-        private readonly NotificationService notificationService;
-
-        private readonly RecipientService recipientService;
-
-        private readonly NewTicketIssueOtherHandler handler;
-
-        public NewTicketIssueOtherHandlerUnitTests()
-        {
-            repository = Substitute.For<Repository>();
-            mapper = Substitute.For<IMapper>();
-            writer = Substitute.For<NewTicketOtherMessageDBWriter>();
-            notificationService = Substitute.For<NotificationService>();
-            recipientService = Substitute.For<RecipientService>();
-
-            handler = new NewTicketIssueOtherHandler(
-                repository,
-                mapper,
-                writer,
-                notificationService,
-                recipientService
-                );
-        }
-
-        [Fact]
-        public async void InsertNewOtherIssue_IssueInfo_ReturnTicketId()
-        {
-            // Arrange
-            var request = new NewTicketIssueOtherRequest();
-
-            repository
-                .BuildTicketId(request.TicketType)
-                .Returns(Task.FromResult(111));
-
-            await repository
-                .AddNewTicketIssueOther(request);
-
-            await repository.AddNewMessage(Arg.Compat.Any<NewMessageRequestModel>());
-
-            await repository.InsertIssueCreator(Arg.Compat.Any<InsertIssueCreatorCriteria>());
-
-            recipientService.InsertManyRecipient(
-                    Arg.Compat.Any<IList<InsertOrRemoveManyRecipientModel>>(),
-                    Arg.Compat.Any<int>())
-                .ReturnsForAnyArgs(Task.FromResult(true));
-
-            recipientService.InsertManyRecipientReader(
-                    Arg.Compat.Any<IList<InsertOrRemoveManyRecipientModel>>(),
-                    Arg.Compat.Any<int>(),
-                    Arg.Compat.Any<int>())
-                .ReturnsForAnyArgs(Task.FromResult(true));
-
-            mapper
-                .Map<NewMessageRequestModel>(request)
-                .Returns(x => new NewMessageRequestModel
-                {
-                    Message = "abc"
-                }
-                );
-
-            await writer.Execute(Arg.Compat.Any<MessageTransform>(), Arg.Compat.Any<NotificationTemplateCode>());
-
-            await notificationService.Notify(
-                Arg.Compat.Any<NotificationSource>());
-
-            await notificationService.NotifyNewMessageIncome(Arg.Compat.Any<int>());
-
-            var actual = await handler.Handle(request, CancellationToken.None);
-
-            //Assert
-            var expected = 111;
-            Assert.Equal(actual, expected);
-        }
+      handler = new NewTicketIssueOtherHandler(
+          repository,
+          mapper,
+          writer,
+          notificationService,
+          recipientService
+          );
     }
+
+    [Fact]
+    public async void InsertNewOtherIssue_IssueInfo_ReturnTicketId()
+    {
+      // Arrange
+      var request = new NewTicketIssueOtherRequest();
+
+      repository
+          .BuildTicketId(request.TicketType, request.SubType)
+          .Returns(Task.FromResult(111));
+
+      await repository
+          .AddNewTicketIssueOther(request);
+
+      await repository.AddNewMessage(Arg.Compat.Any<NewMessageRequestModel>());
+
+      await repository.InsertIssueCreator(Arg.Compat.Any<InsertIssueCreatorCriteria>());
+
+      recipientService.InsertManyRecipient(
+              Arg.Compat.Any<IList<InsertOrRemoveManyRecipientModel>>(),
+              Arg.Compat.Any<int>())
+          .ReturnsForAnyArgs(Task.FromResult(true));
+
+      recipientService.InsertManyRecipientReader(
+              Arg.Compat.Any<IList<InsertOrRemoveManyRecipientModel>>(),
+              Arg.Compat.Any<int>(),
+              Arg.Compat.Any<int>())
+          .ReturnsForAnyArgs(Task.FromResult(true));
+
+      mapper
+          .Map<NewMessageRequestModel>(request)
+          .Returns(x => new NewMessageRequestModel
+          {
+            Message = "abc"
+          }
+          );
+
+      await writer.Execute(Arg.Compat.Any<MessageTransform>(), Arg.Compat.Any<NotificationTemplateCode>());
+
+      await notificationService.Notify(
+          Arg.Compat.Any<NotificationSource>());
+
+      await notificationService.NotifyNewMessageIncome(Arg.Compat.Any<int>());
+
+      var actual = await handler.Handle(request, CancellationToken.None);
+
+      //Assert
+      var expected = 111;
+      Assert.Equal(actual, expected);
+    }
+  }
 }
