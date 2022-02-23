@@ -10,6 +10,8 @@
         public int TicketTypeId { get; set; }
 
         public List<Recipient> Recipients { get; set; }
+
+        public List<Subtype> Subtypes { get; set; }
     }
 
     public class SaveTicketTypeRecipientsHandler : IRequestHandler<SaveTicketTypeRecipientsCommand>
@@ -26,7 +28,8 @@
             var criteria = new SaveRecipientsCriteria
             {
                 TicketTypeId = request.TicketTypeId,
-                Recipients = XmlConverter.Serialize(request.Recipients)
+                Recipients = XmlConverter.Serialize(request.Recipients),
+                Subtypes = XmlConverter.Serialize(request.Subtypes)
             };
             await repository.ExecuteAsync(criteria);
 
@@ -38,6 +41,8 @@
             public int TicketTypeId { get; set; }
 
             public string Recipients { get; set; }
+
+            public string Subtypes { get; set; }
 
             public override string GetSettingKey() => "OWP_TicketTypeRecipient_SaveTicketTypeRecipient";
 

@@ -19,12 +19,12 @@
 
         public async Task<IEnumerable<TicketTypeRecipient>> Handle(GetTicketTypeRecipientRequest request, CancellationToken cancellationToken)
         {
-            var (ticketTypes, recipients) = await repository.FetchMultipleAsync<TicketType, RecipientData>(new GetRecipientDataCriteria());
+            var (ticketTypes, recipients, subtypes) = await repository.FetchMultipleAsync<TicketType, RecipientData, Subtype>(new GetRecipientDataCriteria());
 
-            return GetResult(ticketTypes, recipients);
+            return GetResult(ticketTypes, recipients, subtypes);
         }
 
-        private static IEnumerable<TicketTypeRecipient> GetResult(IEnumerable<TicketType> ticketTypes, IEnumerable<RecipientData> recipients)
+        private static IEnumerable<TicketTypeRecipient> GetResult(IEnumerable<TicketType> ticketTypes, IEnumerable<RecipientData> recipients, IEnumerable<Subtype> subtypes)
         {
             var sortedTicketTypes = ticketTypes.OrderBy(x => x.TypeName);
 
@@ -42,7 +42,11 @@
                         TicketTypeRecipientId = y.TicketTypeRecipientId
                     })
                     .OrderBy(x => x.RecipientName)
-                    .ToList()
+                    .ToList(),
+                    Subtypes = subtypes
+                        .Where(x => x.TypeId == type.TypeId)
+                        .OrderBy(x => x.SubtypeName)
+                        .ToList()
                 };
             }
         }

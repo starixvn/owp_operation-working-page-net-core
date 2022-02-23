@@ -5,5 +5,7 @@
         public TicketType TicketType { get; set; }
 
         public List<Recipient> Recipients { get; set; }
+
+        public List<Subtype> Subtypes { get; set; }
     }
 }
