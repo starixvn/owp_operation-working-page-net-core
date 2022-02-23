@@ -116,9 +116,20 @@ public class GetPreMatchReportServiceUnitTests
         Assert.Equal(expected[0].LeagueHdpMj, actual[0].LeagueHdpMj);
         Assert.Equal(expected[0].MatchHdpMj, actual[0].MatchHdpMj);
     }
-    public List<string> mockReturnUsers()
+    public List<UserInfo> mockReturnUsers()
     => new()
-    { "sa", "starix1", "starix2"};
+    { 
+        new()
+        {
+            UserId = 1,
+            UserName = "sa"
+        },
+        new()
+        {
+            UserId = 2,
+            UserName = "sa2"
+        }
+    };
     public List<ExportPreMatchModel> Expected()
     => new()
     {
