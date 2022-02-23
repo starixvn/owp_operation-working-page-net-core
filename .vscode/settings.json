@@ -11,7 +11,8 @@
   "git.ignoreLimitWarning": true,
   "editor.formatOnSave": true,
   "sonarlint.ls.javaHome": "C:\\Program Files\\Java\\jdk1.8.0_201",
-  "editor.acceptSuggestionOnEnter": "smart"
+  "editor.acceptSuggestionOnEnter": "smart",
+  "dotnet-test-explorer.testProjectPath": "**/*Tests.csproj",
   "cSpell.words": [
     "maxbet",
     "uuidv"
