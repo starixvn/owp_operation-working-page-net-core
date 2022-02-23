@@ -104,7 +104,7 @@ namespace OWP.TicketCenter.Handlers
 
             await notificationService.NotifyNewMessageIncome(ticketId);
 
-            await notificationService.NotifyNewAddRecipient(ticketId);
+            await notificationService.NotifyNewAddRecipient(ticketId, request.CreatorId);
 
             return ticketId;
         }

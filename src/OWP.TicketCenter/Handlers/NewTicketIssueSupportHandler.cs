@@ -87,7 +87,7 @@ namespace OWP.TicketCenter.Handlers
                 NotificationTemplateCode.NewTicket);
             await notificationService.NotifyNewMessageIncome(ticketId);
 
-            await notificationService.NotifyNewAddRecipient(ticketId);
+            await notificationService.NotifyNewAddRecipient(ticketId, request.CreatorId);
 
             await notificationService.Notify(new NotificationSource
             {
