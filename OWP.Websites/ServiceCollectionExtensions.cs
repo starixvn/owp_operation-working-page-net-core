@@ -41,7 +41,6 @@ using OWP.SimpleDataApi;
 using OWP.TicketCenter;
 using OWP.TicketCenter.Hubs;
 using OWP.TicketTypeRecipient;
-using OWP.PreMatchAssignment;
 
 using Sentry;
 using StackExchange.Redis;
