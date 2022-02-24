@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using OWP.Extensions;
 using OWP.TicketCenter.Criteria;
 using OWP.TicketCenter.Handlers;
 using OWP.TicketCenter.ViewModels;
@@ -29,7 +30,8 @@ namespace OWP.TicketCenter
                 m => m.FileId,
                 opt => opt.Ignore());
 
-            CreateMap<QueryEventTicketsRequest, GetEventTicketLeagueCriteria>();
+            CreateMap<QueryEventTicketsRequest, GetEventTicketLeagueCriteria>()
+                .ForMember(dest => dest.TicketTypeXML, m => m.MapFrom(src => src.TicketTypes.ToXml()));
             CreateMap<QueryEventTicketsRequest, GetEventTicketMatchCriteria>();
             CreateMap<QueryEventTicketsRequest, GetEventTicketOtherCriteria>();
             CreateMap<QueryEventTicketsRequest, GetEventTicketSupportCriteria>();

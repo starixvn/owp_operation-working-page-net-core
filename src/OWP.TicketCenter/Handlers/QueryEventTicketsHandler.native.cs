@@ -1,4 +1,6 @@
-﻿using OWP.TicketCenter.Services;
+﻿using System.Linq;
+using OWP.TicketCenter.Models;
+using OWP.TicketCenter.Services;
 using OWP.TicketCenter.ViewModels;
 
 namespace OWP.TicketCenter.Handlers
@@ -12,6 +14,7 @@ namespace OWP.TicketCenter.Handlers
         public string Keyword { get; set; }
 
         public int TicketTypeId { get; set; }
+        public IList<TicketType> TicketTypes { get; set; }
 
         public string TicketStatuses { get; set; }
 
@@ -44,6 +47,7 @@ namespace OWP.TicketCenter.Handlers
         public async Task<List<TicketDetailBaseViewModel>> Handle(QueryEventTicketsRequest request, CancellationToken cancellationToken)
         {
             var ticketLeague = await leagueService.GetAllLeague(request);
+
             var ticketMatch = await matchService.GetAllMatch(request);
             var ticketOthers = await otherService.GetAllTicketOther(request);
             var ticketSupport = await supportService.GetAllTicketSupport(request);

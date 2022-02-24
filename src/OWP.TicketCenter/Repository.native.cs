@@ -1,4 +1,5 @@
-﻿using OWP.TicketCenter.ViewModels;
+﻿using OWP.Extensions;
+using OWP.TicketCenter.ViewModels;
 
 namespace OWP.TicketCenter
 {
@@ -237,6 +238,7 @@ namespace OWP.TicketCenter
         public async Task<IEnumerable<EventTicketLeagueModel>> GetEventTicketLeague(QueryEventTicketsRequest request)
         {
             var criteria = mapper.Map<GetEventTicketLeagueCriteria>(request);
+
             criteria.ThrowExceptionIfInvalid();
             return await dynamicRepository.FetchAsync<EventTicketLeagueModel>(criteria);
         }
