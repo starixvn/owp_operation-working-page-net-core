@@ -141,6 +141,7 @@
     <Setting Key="OWP_TicketCenter_DeleteTicket" SpName="OWP_TicketCenter_DeleteTicket" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_TicketCenter_GetExistedTicketId" SpName="OWP_TicketCenter_GetExistedTicketId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_TicketCenter_GetSubTypeByTicketTypeId" SpName="OWP_TicketCenter_GetSubTypeByTicketTypeId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenter_GetAllTicketSubType" SpName="OWP_TicketCenter_GetAllTicketSubType" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
   </Function>
   <Function Name="FileUpload">
     <Setting Key="OWP_FileUpload_Upload" SpName="OWP_FileUpload_Upload" DbName="DBOWP.bodb_OWP.bodbOWPNet" />

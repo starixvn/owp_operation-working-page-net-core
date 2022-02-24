@@ -14,7 +14,9 @@ namespace OWP.TicketCenter
     {
         Task<IList<EventOptionInfoModel>> GetEventOptionInfo(string keyword);
 
-        Task<IList<TicketTypeModel>> GetTicketTypes();
+        Task<IList<ParentType>> GetTicketTypes();
+
+        Task<IList<SubType>> GetAllTicketSubTypes();
 
         Task<int> BuildTicketId(int ticketType, int subType);
 
@@ -120,9 +122,13 @@ namespace OWP.TicketCenter
             })).ToList();
         }
 
-        public async Task<IList<TicketTypeModel>> GetTicketTypes()
-                   => (await dynamicRepository.FetchAsync<TicketTypeModel>(new GetTicketTypeCriteria()))
+        public async Task<IList<ParentType>> GetTicketTypes()
+           => (await dynamicRepository.FetchAsync<ParentType>(new GetTicketTypeCriteria()))
                        .ToList();
+
+        public async Task<IList<SubType>> GetAllTicketSubTypes()
+           => (await dynamicRepository.FetchAsync<SubType>(new GetAllTicketSubTypeCriteria()))
+               .ToList();
 
         public async Task<int> BuildTicketId(int ticketType, int subType)
             => (await dynamicRepository.FetchAsync<int>(new BuildNewTicketIdCriteria

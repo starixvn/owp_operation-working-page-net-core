@@ -77,7 +77,7 @@ namespace OWP.TicketCenter
             => await mediator.Send(request);
 
         [HttpGet("get-ticket-type")]
-        public async Task<IEnumerable<TicketTypeModel>> GetTicketTye()
+        public async Task<TicketTypeModel> GetTicketTye()
             => await mediator.Send(new TicketTypeRequest());
 
         #region get detail
