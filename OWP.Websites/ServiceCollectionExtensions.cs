@@ -49,252 +49,252 @@ namespace OWP.Websites;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddAutoMapper(this IServiceCollection services)
+  public static IServiceCollection AddAutoMapper(this IServiceCollection services)
+  {
+    var mapperConfig = new MapperConfiguration(mc =>
     {
-        var mapperConfig = new MapperConfiguration(mc =>
+      mc.AddProfile(new OtherSport.AutoMapperProfile());
+      mc.AddProfile(new TicketCenter.AutoMapperProfile());
+      mc.AddProfile(new OvertimeReport.AutoMapperProfile());
+      mc.AddProfile(new PreMatchReport.AutoMapperProfile());
+      mc.AddProfile((new PrematchAssignment.AutoMapperProfile()));
+    });
+
+    var mapper = mapperConfig.CreateMapper();
+    services.AddSingleton(mapper);
+
+    services.AddMvc();
+
+    return services;
+  }
+
+  public static IServiceCollection AddControllerAuthorization(this IServiceCollection services)
+  {
+    services.AddControllers(config =>
+    {
+      var policy = new AuthorizationPolicyBuilder()
+                           .RequireAuthenticatedUser()
+                           .Build();
+      config.Filters.Add(new AuthorizeFilter(policy));
+    });
+    services.AddControllersWithViews()
+        .AddNewtonsoftJson(options =>
         {
-            mc.AddProfile(new OtherSport.AutoMapperProfile());
-            mc.AddProfile(new TicketCenter.AutoMapperProfile());
-            mc.AddProfile(new OvertimeReport.AutoMapperProfile());
-            mc.AddProfile(new PreMatchReport.AutoMapperProfile());
-            mc.AddProfile((new PrematchAssignment.AutoMapperProfile()));
-        });
+          options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+        }
+    );
 
-        var mapper = mapperConfig.CreateMapper();
-        services.AddSingleton(mapper);
+    return services;
+  }
 
-        services.AddMvc();
+  public static IServiceCollection AddCookieAuthentication(this IServiceCollection services, IConfiguration configuration)
+  {
+    services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                  options.LoginPath = configuration.GetSection("AuthSettings:LoginPath").Value;
+                  options.LogoutPath = configuration.GetSection("AuthSettings:LogoutPath").Value;
+                  options.ExpireTimeSpan = TimeSpan.FromMinutes(int.Parse(configuration.GetSection("AuthSettings:CookieTimeOut").Value));
+                  options.Cookie = new CookieBuilder
+                  {
+                    Name = "Fanex.OWP.Cookie",
+                    SecurePolicy = CookieSecurePolicy.SameAsRequest
+                  };
+                  options.Events.OnSigningOut = context =>
+                      {
+                      context.Response.Redirect(options.LoginPath);
+                      return Task.CompletedTask;
+                    };
+                });
 
-        return services;
-    }
+    return services;
+  }
 
-    public static IServiceCollection AddControllerAuthorization(this IServiceCollection services)
+  public static IServiceCollection AddCoreServices(this IServiceCollection services)
+  {
+    services.AddScoped<IDynamicRepository, DynamicRepository>();
+    services.AddScoped<RefResourceService, RefResourceServiceImp>();
+    services.AddSingleton<LogServiceWrapper, LogServiceWrapperImp>();
+    services.AddSingleton<ConfigurationService, ConfigurationServiceImp>();
+    services.AddScoped<NotifyEngine, NotifyEngineImp>();
+    services.AddScoped<IHttpHandler, OWP.Services.HttpClientHandler>();
+
+    return services;
+  }
+
+  public static IServiceCollection AddCorsPolicy(this IServiceCollection services)
+  {
+    Action<CorsPolicyBuilder> corsPolicy = builder =>
+             {
+               builder.WithOrigins("https://localhost:44380",
+                                       "https://localhost:64193",
+                                       "http://localhost:64193",
+                                       "http://localhost:57420",
+                                       "https://owp.nexdev.net",
+                                       "https://owp-netcore-v1.nexdev.net",
+                                       "https://owp-netcore-v2.nexdev.net",
+                                       "https://owp-netcore-v3.nexdev.net",
+                                       "https://owp.starixuat.com",
+                                       "https://newowp1.starixuat.com",
+                                       "https://newowp2.starixuat.com",
+                                       "https://newowp3.starixuat.com",
+                                       "https://owp.oneops.net",
+                                       "https://newowp.oneops.net",
+                                       "https://owp1.oneops.net",
+                                       "http://localhost:3000",
+                                       "https://owp.starixuat.com"
+                                       )
+                         .AllowAnyMethod()
+                         .AllowAnyHeader()
+                         .AllowCredentials();
+             };
+    services.AddCors(options =>
     {
-        services.AddControllers(config =>
-        {
-            var policy = new AuthorizationPolicyBuilder()
-                             .RequireAuthenticatedUser()
-                             .Build();
-            config.Filters.Add(new AuthorizeFilter(policy));
-        });
-        services.AddControllersWithViews()
-            .AddNewtonsoftJson(options =>
-            {
-                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            }
-        );
+      options.AddPolicy("AllowOrigin", corsPolicy);
+    });
 
-        return services;
-    }
+    return services;
+  }
 
-    public static IServiceCollection AddCookieAuthentication(this IServiceCollection services, IConfiguration configuration)
-    {
-        services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                    .AddCookie(options =>
-                    {
-                        options.LoginPath = configuration.GetSection("AuthSettings:LoginPath").Value;
-                        options.LogoutPath = configuration.GetSection("AuthSettings:LogoutPath").Value;
-                        options.ExpireTimeSpan = TimeSpan.FromMinutes(int.Parse(configuration.GetSection("AuthSettings:CookieTimeOut").Value));
-                        options.Cookie = new CookieBuilder
-                        {
-                            Name = "Fanex.OWP.Cookie",
-                            SecurePolicy = CookieSecurePolicy.SameAsRequest
-                        };
-                        options.Events.OnSigningOut = context =>
-                        {
-                            context.Response.Redirect(options.LoginPath);
-                            return Task.CompletedTask;
-                        };
-                    });
-
-        return services;
-    }
-
-    public static IServiceCollection AddCoreServices(this IServiceCollection services)
-    {
-        services.AddScoped<IDynamicRepository, DynamicRepository>();
-        services.AddScoped<RefResourceService, RefResourceServiceImp>();
-        services.AddSingleton<LogServiceWrapper, LogServiceWrapperImp>();
-        services.AddSingleton<ConfigurationService, ConfigurationServiceImp>();
-        services.AddScoped<NotifyEngine, NotifyEngineImp>();
-        services.AddScoped<IHttpHandler, OWP.Services.HttpClientHandler>();
-
-        return services;
-    }
-
-    public static IServiceCollection AddCorsPolicy(this IServiceCollection services)
-    {
-        Action<CorsPolicyBuilder> corsPolicy = builder =>
-                 {
-                     builder.WithOrigins("https://localhost:44380",
-                                         "https://localhost:64193",
-                                         "http://localhost:64193",
-                                         "http://localhost:57420",
-                                         "https://owp.nexdev.net",
-                                         "https://owp-netcore-v1.nexdev.net",
-                                         "https://owp-netcore-v2.nexdev.net",
-                                         "https://owp-netcore-v3.nexdev.net",
-                                         "https://owp.starixuat.com",
-                                         "https://newowp1.starixuat.com",
-                                         "https://newowp2.starixuat.com",
-                                         "https://newowp3.starixuat.com",
-                                         "https://owp.oneops.net",
-                                         "https://newowp.oneops.net",
-                                         "https://owp1.oneops.net",
-                                         "http://localhost:3000",
-                                         "https://owp.starixuat.com"
-                                         )
-                           .AllowAnyMethod()
-                           .AllowAnyHeader()
-                           .AllowCredentials();
-                 };
-        services.AddCors(options =>
-        {
-            options.AddPolicy("AllowOrigin", corsPolicy);
-        });
-
-        return services;
-    }
-
-    public static IServiceCollection AddFanexServices(this IServiceCollection services, IConfiguration configuration)
-    {
-        var connections = configuration.GetSection("ConnectionStrings")
-                               .GetChildren()
-                               .AsEnumerable()
-                               .ToDictionary(
-                                        x => x.GetValue<string>("Name"),
-                                        y => new ConnectionConfiguration(y.GetValue<string>("Name"), y.GetValue<string>("ConnectionString"), y.GetValue<string>("ProviderName"))
-                                );
+  public static IServiceCollection AddFanexServices(this IServiceCollection services, IConfiguration configuration)
+  {
+    var connections = configuration.GetSection("ConnectionStrings")
+                           .GetChildren()
+                           .AsEnumerable()
+                           .ToDictionary(
+                                    x => x.GetValue<string>("Name"),
+                                    y => new ConnectionConfiguration(y.GetValue<string>("Name"), y.GetValue<string>("ConnectionString"), y.GetValue<string>("ProviderName"))
+                            );
         var storedProcedurePath = configuration.GetValue<string>("StoredProcedurePath");
 
-        DbSettingProviderManager
-          .StartNewSession()
-          .Use(connections)
-          .WithSqlServer()
+    DbSettingProviderManager
+      .StartNewSession()
+      .Use(connections)
+      .WithSqlServer()
           .UseDefaultDbSettingProvider(resourcePath: storedProcedurePath)
-          .Run();
+      .Run();
 
-        LogManager
-        .SetDefaultLogCategory(configuration.GetSection("LogCategory").Value)
-        .Use(new List<ILogEngine>
-        {
+    LogManager
+    .SetDefaultLogCategory(configuration.GetSection("LogCategory").Value)
+    .Use(new List<ILogEngine>
+    {
                 new SentryLogging(new SentryEngineOptions
                 {
                     Dsn = new Dsn(configuration.GetSection("SentryEngineOptions:Dsn").Value)
                 })
-        });
+    });
 
-        ExceptionHandler
-            .UseConfig(new LoggingConfiguration())
-            .UseGetDbExceptionInfo(DatabaseInfoGetters.GetDbExceptionInfo);
+    ExceptionHandler
+        .UseConfig(new LoggingConfiguration())
+        .UseGetDbExceptionInfo(DatabaseInfoGetters.GetDbExceptionInfo);
 
-        return services;
-    }
+    return services;
+  }
 
-    public static IServiceCollection AddInternalServices(this IServiceCollection services)
+  public static IServiceCollection AddInternalServices(this IServiceCollection services)
+  {
+    services.AddSyncMaxbet();
+    services.AddOtherSport();
+    services.AddProductAssignment();
+    services.AddSyncWorkingShift();
+    services.AddPreMatchNotification();
+    services.AddRecipientGroup();
+    services.AddTicketCenterService();
+    services.AddOvertimeReport();
+    services.AddPreMatchAssignmentServices();
+    services.AddPreMatchReportService();
+    services.AddTicketTypeRecipientService();
+    return services;
+  }
+
+  public static IServiceCollection AddMediator(this IServiceCollection services)
+  {
+    services.AddMediatR(typeof(MaxbetController).GetTypeInfo().Assembly);
+    services.AddMediatR(typeof(OtherSportController).GetTypeInfo().Assembly);
+    services.AddMediatR(typeof(SyncWorkingShiftController).GetTypeInfo().Assembly);
+    services.AddMediatR(typeof(PreMatchNotificationController).GetTypeInfo().Assembly);
+    services.AddMediatR(typeof(RecipientGroupController).GetTypeInfo().Assembly);
+    services.AddMediatR(typeof(TicketCenterController).GetTypeInfo().Assembly);
+    services.AddMediatR(typeof(FileUploadController).GetTypeInfo().Assembly);
+    services.AddMediatR(typeof(TicketTypeRecipientController).GetTypeInfo().Assembly);
+    services.AddMediatR(typeof(OvertimeReportController).GetTypeInfo().Assembly);
+    services.AddMediatR(typeof(PreMatchAssignmentController).GetTypeInfo().Assembly);
+    services.AddMediatR(typeof(PreMatchReportController).GetTypeInfo().Assembly);
+    return services;
+  }
+
+  public static IServiceCollection AddNapServices(this IServiceCollection services, IConfiguration configuration)
+  {
+    services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+    services.AddTransient<Fanex.Logging.ILogger, Logger>();
+    services.AddSingleton(new UMClientConfiguration().Initialize(configuration));
+
+    services.AddSingleton<INapSettings>(new NapSettings(configuration));
+    services.AddSingleton<INapSession, NapSession>();
+
+    services.AddSingleton<IGroupService, GroupService>();
+    services.AddSingleton<IUserService, UserService>();
+    services.AddSingleton<ISecurityService, SecurityService>();
+    services.AddSingleton<ISiteService, SiteService>();
+
+    services.AddSingleton<IMaintenanceService, MaintenanceService>();
+    services.AddSingleton<IUMCacheService, UMCacheService>();
+    services.AddSingleton<IUMRestClient, UMRestClient>();
+    services.AddSingleton<IHttpContextHelper, HttpContextHelper>();
+
+    return services;
+  }
+
+  public static IServiceCollection AddRedis(this IServiceCollection services, IConfiguration configuration)
+  {
+    var redisConfig = configuration.GetSection("AuthSettings:RedisConfig").Value;
+    var redis = ConnectionMultiplexer.Connect(redisConfig);
+
+    services.AddDataProtection()
+        .PersistKeysToStackExchangeRedis(redis, "Fanex.OWP-ProtectionKeys");
+
+    services.AddStackExchangeRedisCache(options =>
     {
-        services.AddSyncMaxbet();
-        services.AddOtherSport();
-        services.AddProductAssignment();
-        services.AddSyncWorkingShift();
-        services.AddPreMatchNotification();
-        services.AddRecipientGroup();
-        services.AddTicketCenterService();
-        services.AddOvertimeReport();
-        services.AddPreMatchAssignmentServices();
-        services.AddPreMatchReportService();
+      options.Configuration = redisConfig;
+      options.InstanceName = $"Fanex.OWP.Session-";
+    });
 
-        return services;
-    }
+    services.AddRedisCache(configuration.GetSection("fanex.caching.redis"));
 
-    public static IServiceCollection AddMediator(this IServiceCollection services)
+    return services;
+  }
+
+  public static IServiceCollection AddRedisSession(this IServiceCollection services, IConfiguration configuration)
+  {
+    services.AddSession(options =>
     {
-        services.AddMediatR(typeof(MaxbetController).GetTypeInfo().Assembly);
-        services.AddMediatR(typeof(OtherSportController).GetTypeInfo().Assembly);
-        services.AddMediatR(typeof(SyncWorkingShiftController).GetTypeInfo().Assembly);
-        services.AddMediatR(typeof(PreMatchNotificationController).GetTypeInfo().Assembly);
-        services.AddMediatR(typeof(RecipientGroupController).GetTypeInfo().Assembly);
-        services.AddMediatR(typeof(TicketCenterController).GetTypeInfo().Assembly);
-        services.AddMediatR(typeof(FileUploadController).GetTypeInfo().Assembly);
-        services.AddMediatR(typeof(TicketTypeRecipientController).GetTypeInfo().Assembly);
-        services.AddMediatR(typeof(OvertimeReportController).GetTypeInfo().Assembly);
-        services.AddMediatR(typeof(PreMatchAssignmentController).GetTypeInfo().Assembly);
-        services.AddMediatR(typeof(PreMatchReportController).GetTypeInfo().Assembly);
-        return services;
-    }
+      options.Cookie.IsEssential = true;
+      options.IdleTimeout = TimeSpan.FromMinutes(int.Parse(configuration.GetSection("AuthSettings:SessionTimeOut").Value));
+      options.Cookie.Name = "Fanex.OWP.Session";
+    });
 
-    public static IServiceCollection AddNapServices(this IServiceCollection services, IConfiguration configuration)
+    return services;
+  }
+
+  public static IServiceCollection AddSignalR(this IServiceCollection services, IConfiguration configuration)
+  {
+    var redisConfig = configuration.GetSection("AuthSettings:RedisConfig").Value;
+    services.AddSignalR().AddStackExchangeRedis(redisConfig, options =>
     {
-        services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-        services.AddTransient<Fanex.Logging.ILogger, Logger>();
-        services.AddSingleton(new UMClientConfiguration().Initialize(configuration));
+      options.Configuration.ChannelPrefix = "OWPNetCore";
+    });
+    services.AddSingleton<NewDataUploadNotifyHubImp>();
+    services.AddSingleton<TicketCenterNotifyHubImp>();
 
-        services.AddSingleton<INapSettings>(new NapSettings(configuration));
-        services.AddSingleton<INapSession, NapSession>();
+    return services;
+  }
 
-        services.AddSingleton<IGroupService, GroupService>();
-        services.AddSingleton<IUserService, UserService>();
-        services.AddSingleton<ISecurityService, SecurityService>();
-        services.AddSingleton<ISiteService, SiteService>();
+  public static IServiceCollection AddSimpleDataApiModule(this IServiceCollection services)
+  {
+    services.AddTransient<SimpleCriteriaFactory, SimpleCriteriaFactoryImp>();
+    services.AddTransient<SimpleFunctionPermissionFactory, SimpleFunctionPermissionFactoryImp>();
+    services.AddTransient<SimpleMapperFactory, SimpleMapperFactoryImp>();
 
-        services.AddSingleton<IMaintenanceService, MaintenanceService>();
-        services.AddSingleton<IUMCacheService, UMCacheService>();
-        services.AddSingleton<IUMRestClient, UMRestClient>();
-        services.AddSingleton<IHttpContextHelper, HttpContextHelper>();
-
-        return services;
-    }
-
-    public static IServiceCollection AddRedis(this IServiceCollection services, IConfiguration configuration)
-    {
-        var redisConfig = configuration.GetSection("AuthSettings:RedisConfig").Value;
-        var redis = ConnectionMultiplexer.Connect(redisConfig);
-
-        services.AddDataProtection()
-            .PersistKeysToStackExchangeRedis(redis, "Fanex.OWP-ProtectionKeys");
-
-        services.AddStackExchangeRedisCache(options =>
-        {
-            options.Configuration = redisConfig;
-            options.InstanceName = $"Fanex.OWP.Session-";
-        });
-
-        services.AddRedisCache(configuration.GetSection("fanex.caching.redis"));
-
-        return services;
-    }
-
-    public static IServiceCollection AddRedisSession(this IServiceCollection services, IConfiguration configuration)
-    {
-        services.AddSession(options =>
-        {
-            options.Cookie.IsEssential = true;
-            options.IdleTimeout = TimeSpan.FromMinutes(int.Parse(configuration.GetSection("AuthSettings:SessionTimeOut").Value));
-            options.Cookie.Name = "Fanex.OWP.Session";
-        });
-
-        return services;
-    }
-
-    public static IServiceCollection AddSignalR(this IServiceCollection services, IConfiguration configuration)
-    {
-        var redisConfig = configuration.GetSection("AuthSettings:RedisConfig").Value;
-        services.AddSignalR().AddStackExchangeRedis(redisConfig, options =>
-        {
-            options.Configuration.ChannelPrefix = "OWPNetCore";
-        });
-        services.AddSingleton<NewDataUploadNotifyHubImp>();
-        services.AddSingleton<TicketCenterNotifyHubImp>();
-
-        return services;
-    }
-
-    public static IServiceCollection AddSimpleDataApiModule(this IServiceCollection services)
-    {
-        services.AddTransient<SimpleCriteriaFactory, SimpleCriteriaFactoryImp>();
-        services.AddTransient<SimpleFunctionPermissionFactory, SimpleFunctionPermissionFactoryImp>();
-        services.AddTransient<SimpleMapperFactory, SimpleMapperFactoryImp>();
-
-        return services;
-    }
+    return services;
+  }
 }
