@@ -52,10 +52,12 @@ namespace OWP.TicketTypeRecipient.Middleware
     private IList<SubtypeChecker> buildSubtypesCheck(SaveTicketTypeRecipientsCommand model)
     => model
           .Subtypes
+          .Where(x => x.SubtypeId == 0)
           .Select(x => new SubtypeChecker
           {
             SubtypeName = x.SubtypeName
-          }).ToList();
+          })
+          .ToList();
 
 
     private async Task<IList<string>> CheckExistsSubtype(IList<SubtypeChecker> subtypeNames)
