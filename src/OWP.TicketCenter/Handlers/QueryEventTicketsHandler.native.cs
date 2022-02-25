@@ -13,8 +13,7 @@ namespace OWP.TicketCenter.Handlers
 
         public string Keyword { get; set; }
 
-        public int TicketTypeId { get; set; }
-        public IList<TicketType> TicketTypes { get; set; }
+        public string TicketTypeId { get; set; }
 
         public string TicketStatuses { get; set; }
 
@@ -54,7 +53,7 @@ namespace OWP.TicketCenter.Handlers
 
             var eventTickets = new List<TicketDetailBaseViewModel>();
 
-            eventTickets.AddRange(ticketLeague);
+             eventTickets.AddRange(ticketLeague);
             eventTickets.AddRange(ticketMatch);
             eventTickets.AddRange(ticketOthers);
             eventTickets.AddRange(ticketSupport);
