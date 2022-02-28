@@ -1,7 +1,7 @@
 ﻿namespace OWP.TicketCenter.Criteria
 {
-    using Fanex.Data.Repository;
     using System.Globalization;
+    using Fanex.Data.Repository;
 
     public abstract class InsertNotificationMessageCriteria : NonQueryCommand
     {
@@ -15,7 +15,6 @@
 
         public int ActorId { get; set; }
 
-        public string SessionId { get; }
-            = Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture);
+        public string SessionId { get; } = Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture);
     }
 }

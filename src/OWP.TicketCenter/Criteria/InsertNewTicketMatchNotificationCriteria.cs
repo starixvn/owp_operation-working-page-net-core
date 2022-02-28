@@ -4,8 +4,7 @@
     {
         public int TicketId { get; set; }
 
-        public override string GetSettingKey()
-            => "OWP_TicketCenter_InsertNewTicketMatchNotification";
+        public override string GetSettingKey() => "OWP_TicketCenter_InsertNewTicketMatchNotification";
 
         public override bool IsValid()
             => NotificationContent.Length > 0 &&

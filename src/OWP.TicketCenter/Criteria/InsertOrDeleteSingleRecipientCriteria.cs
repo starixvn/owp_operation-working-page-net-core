@@ -10,7 +10,6 @@ namespace OWP.TicketCenter.Criteria
 
         public int RecipientId { get; set; }
 
-        public override bool IsValid()
-            => TicketId > 0 && RecipientId > 0;
+        public override bool IsValid() => TicketId > 0 && RecipientId > 0;
     }
 }

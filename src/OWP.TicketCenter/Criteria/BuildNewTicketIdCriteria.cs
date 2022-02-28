@@ -6,8 +6,7 @@ namespace OWP.TicketCenter.Criteria
     {
         public int TicketType { get; set; }
 
-        public override string GetSettingKey()
-            => "OWP_TicketIssue_Create";
+        public override string GetSettingKey() => "OWP_TicketIssue_Create";
 
         public override bool IsValid()
             => true;

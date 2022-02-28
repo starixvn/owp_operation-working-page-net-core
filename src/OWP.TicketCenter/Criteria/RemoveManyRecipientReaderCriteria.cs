@@ -10,10 +10,8 @@ namespace OWP.TicketCenter.Criteria
 
         public string IndividualIds { get; set; }
 
-        public override string GetSettingKey()
-            => "OWP_TicketCenter_DeleteManyRecipientReader";
+        public override string GetSettingKey() => "OWP_TicketCenter_DeleteManyRecipientReader";
 
-        public override bool IsValid()
-            => TicketId > 0;
+        public override bool IsValid() => TicketId > 0;
     }
 }

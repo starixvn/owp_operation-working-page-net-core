@@ -16,7 +16,6 @@ namespace OWP.TicketCenter.Criteria
 
         public int MarketKey { get; set; } = 1;
 
-        public override bool IsValid()
-            => ActorId > 0;
+        public override bool IsValid() => ActorId > 0;
     }
 }

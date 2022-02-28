@@ -2,7 +2,6 @@
 {
     public class RemoveSingleRecipientCriteria : InsertOrDeleteSingleRecipientCriteria
     {
-        public override string GetSettingKey()
-            => "OWP_TicketIssue_RemoveSingleRecipient";
+        public override string GetSettingKey() => "OWP_TicketIssue_RemoveSingleRecipient";
     }
 }

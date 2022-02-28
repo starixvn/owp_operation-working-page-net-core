@@ -8,10 +8,8 @@ namespace OWP.Maxbet.Criteria
 
         public int BettypeId { get; set; }
 
-        public override string GetSettingKey()
-            => "OWP_API_SyncMaxbet_GetMatchIdByAdminsiteIdAndBettypeId";
+        public override string GetSettingKey() => "OWP_API_SyncMaxbet_GetMatchIdByAdminsiteIdAndBettypeId";
 
-        public override bool IsValid()
-        => true;
+        public override bool IsValid() => true;
     }
 }

@@ -8,8 +8,7 @@ namespace OWP.TicketCenter.Criteria
 
         public int OwpLeagueId { get; set; }
 
-        public override string GetSettingKey()
-            => "OWP_TicketIssueLeague_Create";
+        public override string GetSettingKey() => "OWP_TicketIssueLeague_Create";
 
         public override bool IsValid()
             => TicketId > 0 && OwpLeagueId > 0;

@@ -14,8 +14,7 @@ namespace OWP.TicketCenter.Criteria
 
         public bool IsSaved { get; set; }
 
-        public override string GetSettingKey()
-            => "OWP_TicketIssueMessage_Create";
+        public override string GetSettingKey() => "OWP_TicketIssueMessage_Create";
 
         public override bool IsValid()
             => TicketId > 0 &&

@@ -14,8 +14,7 @@ namespace OWP.ProductAssignmentReference.Criteria
 
         public string Value { get; set; }
 
-        public override string GetSettingKey()
-            => "OWP_ProductAssignment_UserInfo_Update";
+        public override string GetSettingKey() => "OWP_ProductAssignment_UserInfo_Update";
 
         public override bool IsValid() => UserId > 0;
     }

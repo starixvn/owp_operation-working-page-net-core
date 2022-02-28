@@ -8,8 +8,7 @@ namespace OWP.TicketCenter.Criteria
 
         public string Subject { get; set; }
 
-        public override string GetSettingKey()
-            => "OWP_TicketIssueOther_Create";
+        public override string GetSettingKey() => "OWP_TicketIssueOther_Create";
 
         public override bool IsValid()
             => TicketId > 0 && Subject.Length > 0;
