@@ -1,3 +1,4 @@
+using System.Reflection;
 using AutoMapper;
 using Fanex.Caching.Redis;
 using Fanex.Data;
@@ -41,10 +42,8 @@ using OWP.SimpleDataApi;
 using OWP.TicketCenter;
 using OWP.TicketCenter.Hubs;
 using OWP.TicketTypeRecipient;
-
 using Sentry;
 using StackExchange.Redis;
-using System.Reflection;
 
 namespace OWP.Websites;
 
@@ -166,12 +165,13 @@ public static class ServiceCollectionExtensions
                                         x => x.GetValue<string>("Name"),
                                         y => new ConnectionConfiguration(y.GetValue<string>("Name"), y.GetValue<string>("ConnectionString"), y.GetValue<string>("ProviderName"))
                                 );
+        var storedProcedurePath = configuration.GetValue<string>("StoredProcedurePath");
 
         DbSettingProviderManager
           .StartNewSession()
           .Use(connections)
           .WithSqlServer()
-          .UseDefaultDbSettingProvider(resourcePath: "~/App_Data/Fanex.Data")
+          .UseDefaultDbSettingProvider(resourcePath: storedProcedurePath)
           .Run();
 
         LogManager
