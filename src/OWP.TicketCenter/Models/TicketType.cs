@@ -2,6 +2,7 @@
 
 public class TicketType
 {
-    public int TypeId { get; set; }
-    public int SubTypeId { get; set; }
+    public string TypeId { get; set; }
+
+    public string SubTypeId { get; set; }
 }

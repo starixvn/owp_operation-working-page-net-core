@@ -1,6 +1,7 @@
 ﻿using OWP.TicketCenter.Models;
 
 namespace OWP.TicketCenter.ViewModels;
+
 public class TicketDetailBaseViewModel
 {
     public int TicketId { get; set; }
@@ -10,7 +11,9 @@ public class TicketDetailBaseViewModel
     public string TicketStatus { get; set; }
 
     public string TypeName { get; set; }
-    public int TicketSubTypeId { get; set; }
+
+    public int? TicketSubTypeId { get; set; }
+
     public string TicketSubTypeName { get; set; }
 
     public IList<RecipientResponseModel> Recipients { get; set; }

@@ -30,10 +30,18 @@ namespace OWP.TicketCenter
                 m => m.FileId,
                 opt => opt.Ignore());
 
-            CreateMap<QueryEventTicketsRequest, GetEventTicketLeagueCriteria>();
-            CreateMap<QueryEventTicketsRequest, GetEventTicketMatchCriteria>();
-            CreateMap<QueryEventTicketsRequest, GetEventTicketOtherCriteria>();
-            CreateMap<QueryEventTicketsRequest, GetEventTicketSupportCriteria>();
+            CreateMap<QueryEventTicketsRequest, GetEventTicketLeagueCriteria>().ForMember(
+                m => m.TicketId,
+                opt => opt.Ignore());
+            CreateMap<QueryEventTicketsRequest, GetEventTicketMatchCriteria>().ForMember(
+                m => m.TicketId,
+                opt => opt.Ignore());
+            CreateMap<QueryEventTicketsRequest, GetEventTicketOtherCriteria>().ForMember(
+                m => m.TicketId,
+                opt => opt.Ignore());
+            CreateMap<QueryEventTicketsRequest, GetEventTicketSupportCriteria>().ForMember(
+                m => m.TicketId,
+                opt => opt.Ignore());
 
             CreateMap<EventTicketLeagueModel, TicketLeagueDetailViewModel>()
                 .ForMember(

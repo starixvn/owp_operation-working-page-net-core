@@ -232,7 +232,8 @@ namespace OWP.TicketCenter
         {
             var criteria = mapper.Map<GetEventTicketSupportCriteria>(request);
             criteria.ThrowExceptionIfInvalid();
-            return await dynamicRepository.FetchAsync<EventTicketSupportModel>(criteria);
+            var a = await dynamicRepository.FetchAsync<EventTicketSupportModel>(criteria);
+            return a;
         }
 
         public async Task<IEnumerable<EventTicketLeagueModel>> GetEventTicketLeague(QueryEventTicketsRequest request)

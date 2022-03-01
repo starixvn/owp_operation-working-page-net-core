@@ -6,6 +6,7 @@ using OWP.TicketCenter.ViewModels;
 namespace OWP.TicketCenter.Handlers
 {
     using MediatR;
+    using OWP.Extensions;
 
     public class QueryEventTicketsRequest : IRequest<List<TicketDetailBaseViewModel>>
     {
@@ -20,6 +21,19 @@ namespace OWP.TicketCenter.Handlers
         public string TicketId { get; set; }
 
         public int MarketKey { get; set; }
+
+        public string TicketTypeXML => GetTicketTypeXML(TicketTypeId);
+
+        public string GetTicketTypeXML(string ticketTypeString)
+        {
+            var ticket = ticketTypeString.Split(',')
+                .Select(i => new TicketType
+                {
+                    TypeId = i.Split('-').FirstOrDefault(),
+                    SubTypeId = i.Split('-').LastOrDefault()
+                });
+            return ticket.ToXml().ToString();
+        }
     }
 
     public class QueryEventTicketsHandler : IRequestHandler<QueryEventTicketsRequest, List<TicketDetailBaseViewModel>>
@@ -53,7 +67,7 @@ namespace OWP.TicketCenter.Handlers
 
             var eventTickets = new List<TicketDetailBaseViewModel>();
 
-             eventTickets.AddRange(ticketLeague);
+            eventTickets.AddRange(ticketLeague);
             eventTickets.AddRange(ticketMatch);
             eventTickets.AddRange(ticketOthers);
             eventTickets.AddRange(ticketSupport);
