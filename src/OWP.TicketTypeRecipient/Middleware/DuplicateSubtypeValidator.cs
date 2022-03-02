@@ -8,11 +8,11 @@ using OWP.TicketTypeRecipient.Models;
 
 namespace OWP.TicketTypeRecipient.Middleware
 {
-  public class DupplicateSubtypeValidator : IAsyncActionFilter
+  public class DuplicateSubtypeValidator : IAsyncActionFilter
   {
     private readonly IDynamicRepository repository;
 
-    public DupplicateSubtypeValidator(IDynamicRepository dynamicRepository)
+    public DuplicateSubtypeValidator(IDynamicRepository dynamicRepository)
     {
       repository = dynamicRepository;
     }
@@ -28,14 +28,17 @@ namespace OWP.TicketTypeRecipient.Middleware
         var unique = DuplicateSubtypeInInternalTicketType(model);
 
         var newSubtypes = BuildSubtypesCheck(model);
-        var lstSubtypeExists = await CheckExistsSubtype(newSubtypes);
 
-        if (!unique || lstSubtypeExists.Count() > 0)
+        var subTypeExistsCurrentTicketType = newSubtypes.GroupBy(x => x.SubtypeName).Where(g => g.Count() > 1).Select(y => y.Key).ToList();
+        var lstSubtypeExistsAnotherTicketType = await CheckExistsSubtype(newSubtypes, model.TicketTypeId);
+
+        if (!unique || lstSubtypeExistsAnotherTicketType.Count() > 0)
         {
+          var subtypeExistToString = string.Join(",", lstSubtypeExistsAnotherTicketType.Concat(subTypeExistsCurrentTicketType).Distinct());
           context.HttpContext.Response.StatusCode = 400;
           context.Result = new ContentResult
           {
-            Content = "A subtype with this name already exists. Please try again"
+            Content = $"A subtype with this name '{subtypeExistToString}' already exists. Please try again"
           };
           return;
         }
@@ -52,7 +55,6 @@ namespace OWP.TicketTypeRecipient.Middleware
     private IList<SubtypeChecker> BuildSubtypesCheck(SaveTicketTypeRecipientsCommand model)
     => model
           .Subtypes
-          .Where(x => x.SubtypeId == 0)
           .Select(x => new SubtypeChecker
           {
             SubtypeName = x.SubtypeName
@@ -60,11 +62,12 @@ namespace OWP.TicketTypeRecipient.Middleware
           .ToList();
 
 
-    private async Task<IList<string>> CheckExistsSubtype(IList<SubtypeChecker> subtypeNames)
+    private async Task<IList<string>> CheckExistsSubtype(IList<SubtypeChecker> subtypeNames, int ticketTypeId)
     {
       var criteria = new CheckExistsSubtypeCriteria
       {
-        Xml = subtypeNames.ToXml().ToString()
+        Xml = subtypeNames.ToXml().ToString(),
+        TicketTypeId = ticketTypeId
       };
       var result = await repository.FetchAsync<string>(criteria);
       return result.ToList();
@@ -74,6 +77,8 @@ namespace OWP.TicketTypeRecipient.Middleware
   public class CheckExistsSubtypeCriteria : CriteriaBase
   {
     public string Xml { get; set; }
+
+    public int TicketTypeId { get; set; }
     public override string GetSettingKey() => "OWP_TicketTypeRecipient_CheckExists_Subtype";
 
 

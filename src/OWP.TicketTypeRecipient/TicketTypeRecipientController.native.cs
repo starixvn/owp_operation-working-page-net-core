@@ -21,7 +21,7 @@
     public async Task<IEnumerable<TicketTypeRecipient>> GetTicketTypeRecipients() => await mediator.Send(new GetTicketTypeRecipientRequest());
 
     [HttpPost("save-ticket-recipients")]
-    [ServiceFilter(typeof(DupplicateSubtypeValidator))]
+    [ServiceFilter(typeof(DuplicateSubtypeValidator))]
     public async Task SaveTicketTypeRecipients(SaveTicketTypeRecipientsCommand command) => await mediator.Send(command);
   }
 }
