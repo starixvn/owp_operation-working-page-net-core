@@ -27,7 +27,7 @@ namespace OWP.TicketTypeRecipient.Middleware
       {
         var unique = DuplicateSubtypeInInternalTicketType(model);
 
-        var newSubtypes = buildSubtypesCheck(model);
+        var newSubtypes = BuildSubtypesCheck(model);
         var lstSubtypeExists = await CheckExistsSubtype(newSubtypes);
 
         if (!unique || lstSubtypeExists.Count() > 0)
@@ -49,7 +49,7 @@ namespace OWP.TicketTypeRecipient.Middleware
         .GroupBy(x => x.SubtypeName)
         .All(g => g.Count() == 1);
 
-    private IList<SubtypeChecker> buildSubtypesCheck(SaveTicketTypeRecipientsCommand model)
+    private IList<SubtypeChecker> BuildSubtypesCheck(SaveTicketTypeRecipientsCommand model)
     => model
           .Subtypes
           .Where(x => x.SubtypeId == 0)
