@@ -13,7 +13,7 @@ namespace OWP.TicketCenter
 {
   [Route("api/[controller]")]
   [ApiController]
-  [AllowAnonymous]
+  [Authorize]
   [EnableCors("AllowOrigin")]
   public class TicketCenterController : ControllerBase
   {
@@ -77,7 +77,7 @@ namespace OWP.TicketCenter
         => await mediator.Send(request);
 
     [HttpGet("get-ticket-type")]
-        public async Task<TicketTypeModel> GetTicketType()
+    public async Task<TicketTypeModel> GetTicketType()
         => await mediator.Send(new TicketTypeRequest());
 
     #region get detail

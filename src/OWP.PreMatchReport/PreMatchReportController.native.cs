@@ -9,34 +9,34 @@ namespace OWP.PreMatchReport;
 
 [Route("api/[controller]")]
 [ApiController]
-[AllowAnonymous]
+[Authorize]
 [EnableCors("AllowOrigin")]
 public class PreMatchReportController : ControllerBase
 {
-    private readonly IMediator mediator;
+  private readonly IMediator mediator;
 
-    public PreMatchReportController(IMediator mediator)
+  public PreMatchReportController(IMediator mediator)
+  {
+    this.mediator = mediator;
+  }
+
+  [HttpPost("get-prematch-report")]
+  public async Task<IActionResult> GetPreMatchReport(ReportRequest request)
+  {
+    var result = await mediator.Send(request);
+    return Ok(result);
+  }
+
+  [HttpGet("export-prematch-report")]
+  public async Task<IActionResult> ExportPreMatchReport([FromQuery] QueryModel query)
+  {
+    var request = new ExportPreMatchReportRequest()
     {
-        this.mediator = mediator;
-    }
+      Query = query
+    };
 
-    [HttpPost("get-prematch-report")]
-    public async Task<IActionResult> GetPreMatchReport(ReportRequest request)
-    {
-        var result = await mediator.Send(request);
-        return Ok(result);
-    }
+    var result = await mediator.Send(request);
 
-    [HttpGet("export-prematch-report")]
-    public async Task<IActionResult> ExportPreMatchReport([FromQuery] QueryModel query)
-    {
-        var request = new ExportPreMatchReportRequest()
-        {
-            Query = query
-        };
-
-        var result = await mediator.Send(request);
-
-        return File(result.Content, result.ContentType, result.Name);
-    }
+    return File(result.Content, result.ContentType, result.Name);
+  }
 }
