@@ -2,9 +2,9 @@
 {
     public class TicketTypeModel
     {
-        public List<ParentType> Parent { get; set; }
+        public List<ParentType> Parents { get; set; }
 
-        public List<SubType> Child { get; set; }
+        public List<SubType> Children { get; set; }
     }
 
     public class ParentType

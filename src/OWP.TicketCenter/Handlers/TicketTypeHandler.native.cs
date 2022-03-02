@@ -21,7 +21,7 @@ namespace OWP.TicketCenter.Handlers
             var parentType = (await repository.GetTicketTypes()).ToList();
             var subType = (await repository.GetAllTicketSubTypes()).ToList();
 
-            return new TicketTypeModel { Parent = parentType, Child = subType };
+            return new TicketTypeModel { Parents = parentType, Children = subType };
         }
     }
 }
