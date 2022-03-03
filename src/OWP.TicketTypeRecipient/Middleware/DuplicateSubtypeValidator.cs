@@ -5,6 +5,7 @@ using Fanex.Data.Repository;
 using OWP.Extensions;
 using OWP.TicketTypeRecipient.Middleware.Models;
 using OWP.TicketTypeRecipient.Models;
+using System.Text;
 
 namespace OWP.TicketTypeRecipient.Middleware
 {
@@ -34,16 +35,27 @@ namespace OWP.TicketTypeRecipient.Middleware
 
                 if (!unique || lstSubtypeExistsAnotherTicketType.Any())
                 {
-                    var subtypeExistToString = string.Join(",", lstSubtypeExistsAnotherTicketType.Concat(subTypeExistsCurrentTicketType).Distinct());
+          var subTypeInvalid = lstSubtypeExistsAnotherTicketType.Concat(subTypeExistsCurrentTicketType).Distinct();
                     context.HttpContext.Response.StatusCode = 400;
                     context.Result = new ContentResult
                     {
-                        Content = $"A subtype with this name '{subtypeExistToString}' already exists. Please try again"
+            Content = BuildErrorMessage(subTypeInvalid.ToList()),
                     };
                     return;
                 }
             }
             await next();
+    }
+
+    private string BuildErrorMessage(IList<string> subtypeInvalid)
+    {
+      var message = new StringBuilder("A subtype with this name <ul>");
+      foreach (var subtype in subtypeInvalid)
+      {
+        message.AppendFormat("<li>{0}<li>", subtype);
+      }
+      message.Append("</ul> already exists. Please try again");
+      return message.ToString();
         }
 
         private bool DuplicateSubtypeInInternalTicketType(SaveTicketTypeRecipientsCommand model)
