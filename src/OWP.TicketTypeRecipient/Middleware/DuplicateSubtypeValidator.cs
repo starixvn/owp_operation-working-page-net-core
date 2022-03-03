@@ -52,9 +52,9 @@ namespace OWP.TicketTypeRecipient.Middleware
       var message = new StringBuilder("A subtype with this name <ul>");
       foreach (var subtype in subtypeInvalid)
       {
-        message.AppendFormat("<li>{0}<li>", subtype);
+        message.AppendFormat("<li>{0}</li>", subtype);
       }
-      message.Append("</ul> already exists. Please try again");
+      message.Append("</ul> Already exists. Please try again");
       return message.ToString();
         }
 
