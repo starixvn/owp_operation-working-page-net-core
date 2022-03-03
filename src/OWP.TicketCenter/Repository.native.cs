@@ -94,7 +94,7 @@ namespace OWP.TicketCenter
     Task<IEnumerable<MessageUnreadCounter>> GetMessageUnreadByMultipleUserId(IList<int> userIds);
 
     Task<IEnumerable<SubTypeModel>> GetSubTypeByTicketTypeId(int ticketTypeId);
-        
+
     Task<bool> QueryExistedTicketId(int ticketId);
   }
 
@@ -391,6 +391,15 @@ namespace OWP.TicketCenter
         });
       }
       return messageUnread;
+    }
+
+    public async Task<IEnumerable<SubTypeModel>> GetSubTypeByTicketTypeId(int ticketTypeId)
+    {
+      var criteria = new GetSubTypeCriteria
+      {
+        TicketTypeId = ticketTypeId
+      };
+      return await dynamicRepository.FetchAsync<SubTypeModel>(criteria);
     }
   }
 }
