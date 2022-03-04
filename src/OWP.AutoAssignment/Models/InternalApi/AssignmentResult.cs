@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using OWP.AutoAssignment.Utils.XMLExtensions;
+using OWP.Extensions;
 
 namespace OWP.AutoAssignment.Models.InternalApi
 {

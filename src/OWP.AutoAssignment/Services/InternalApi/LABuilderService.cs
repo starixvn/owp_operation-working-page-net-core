@@ -1,8 +1,6 @@
 ﻿using OWP.AutoAssignment.Criteria.InternalApi;
 using OWP.AutoAssignment.Models.InternalApi;
-using OWP.AutoAssignment.Utils.XMLExtensions;
-
-using System.Xml.Linq;
+using Olympus.Xml;
 
 namespace OWP.AutoAssignment.Services.InternalApi
 {
@@ -45,7 +43,7 @@ namespace OWP.AutoAssignment.Services.InternalApi
         {
             var criteria = new GetLAExportInfoCriteria
             {
-                Xml = queryInfo.ToXml().ToString(SaveOptions.DisableFormatting)
+                Xml = XmlConverter.Serialize(queryInfo)
             };
 
             return await repository.GetLAExportInfo(criteria);

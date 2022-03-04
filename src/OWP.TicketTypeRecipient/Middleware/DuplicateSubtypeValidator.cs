@@ -2,10 +2,9 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using OWP.TicketTypeRecipient.Handlers;
 using Microsoft.AspNetCore.Mvc;
 using Fanex.Data.Repository;
-using OWP.Extensions;
 using OWP.TicketTypeRecipient.Middleware.Models;
-using OWP.TicketTypeRecipient.Models;
 using System.Text;
+using Olympus.Xml;
 
 namespace OWP.TicketTypeRecipient.Middleware
 {
@@ -35,27 +34,27 @@ namespace OWP.TicketTypeRecipient.Middleware
 
                 if (!unique || lstSubtypeExistsAnotherTicketType.Any())
                 {
-          var subTypeInvalid = lstSubtypeExistsAnotherTicketType.Concat(subTypeExistsCurrentTicketType).Distinct();
+                    var subTypeInvalid = lstSubtypeExistsAnotherTicketType.Concat(subTypeExistsCurrentTicketType).Distinct();
                     context.HttpContext.Response.StatusCode = 400;
                     context.Result = new ContentResult
                     {
-            Content = BuildErrorMessage(subTypeInvalid.ToList()),
+                        Content = BuildErrorMessage(subTypeInvalid.ToList()),
                     };
                     return;
                 }
             }
             await next();
-    }
+        }
 
-    private string BuildErrorMessage(IList<string> subtypeInvalid)
-    {
-      var message = new StringBuilder("A subtype with this name <ul>");
-      foreach (var subtype in subtypeInvalid)
-      {
-        message.AppendFormat("<li>{0}</li>", subtype);
-      }
-      message.Append("</ul> Already exists. Please try again");
-      return message.ToString();
+        private string BuildErrorMessage(IList<string> subtypeInvalid)
+        {
+            var message = new StringBuilder("A subtype with this name <ul>");
+            foreach (var subtype in subtypeInvalid)
+            {
+                message.AppendFormat("<li>{0}</li>", subtype);
+            }
+            message.Append("</ul> Already exists. Please try again");
+            return message.ToString();
         }
 
         private bool DuplicateSubtypeInInternalTicketType(SaveTicketTypeRecipientsCommand model)
@@ -76,7 +75,7 @@ namespace OWP.TicketTypeRecipient.Middleware
         {
             var criteria = new CheckExistsSubtypeCriteria
             {
-                Xml = subtypeNames.ToXml().ToString(),
+                Xml = XmlConverter.Serialize(subtypeNames),
                 TicketTypeId = ticketTypeId
             };
             var result = await repository.FetchAsync<string>(criteria);

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Olympus.Xml;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Services;
 using OWP.TicketCenter.ViewModels;
@@ -32,7 +33,7 @@ namespace OWP.TicketCenter.Handlers
                     TypeId = i.Split('-').FirstOrDefault(),
                     SubTypeId = i.Split('-').LastOrDefault()
                 });
-            return ticket.ToXml().ToString();
+            return XmlConverter.Serialize(ticket);
         }
     }
 

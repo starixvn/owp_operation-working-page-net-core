@@ -23,7 +23,7 @@ public class UpdateTicketSubTypeHandler : IRequestHandler<UpdateTicketSubTypeReq
 
     public async Task<Unit> Handle(UpdateTicketSubTypeRequest request, CancellationToken cancellationToken)
     {
-        await repository.UpdateTicketSubType((new UpdateTicketSubTypeCriteria()
+        await repository.UpdateTicketSubType((new UpdateTicketSubTypeCriteria
         {
             TicketId = request.TicketId,
             TicketSubTypeId = request.TicketSubTypeId
