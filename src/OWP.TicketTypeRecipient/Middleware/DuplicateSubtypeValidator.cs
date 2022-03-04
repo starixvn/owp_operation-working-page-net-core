@@ -23,6 +23,7 @@ namespace OWP.TicketTypeRecipient.Middleware
                      .ActionArguments
                      .SingleOrDefault(p => p.Value is SaveTicketTypeRecipientsCommand)
                      .Value;
+
             if (param is SaveTicketTypeRecipientsCommand model)
             {
                 var unique = DuplicateSubtypeInInternalTicketType(model);
@@ -47,15 +48,7 @@ namespace OWP.TicketTypeRecipient.Middleware
         }
 
         private string BuildErrorMessage(IList<string> subtypeInvalid)
-        {
-            var message = new StringBuilder("A subtype with this name <ul>");
-            foreach (var subtype in subtypeInvalid)
-            {
-                message.AppendFormat("<li>{0}</li>", subtype);
-            }
-            message.Append("</ul> Already exists. Please try again");
-            return message.ToString();
-        }
+            => $"A subtype with this name <b>{string.Join(", ", subtypeInvalid)}</b> already exists. Please try again!";
 
         private bool DuplicateSubtypeInInternalTicketType(SaveTicketTypeRecipientsCommand model)
         => model.Subtypes
