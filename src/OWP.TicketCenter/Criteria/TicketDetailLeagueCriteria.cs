@@ -2,7 +2,6 @@
 {
     public class TicketDetailLeagueCriteria : TicketDetailCriteriaBase
     {
-        public override string GetSettingKey()
-            => "OWP_TicketLeagueDetail_Get";
+        public override string GetSettingKey() => "OWP_TicketLeagueDetail_Get";
     }
 }

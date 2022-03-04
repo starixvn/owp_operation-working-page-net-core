@@ -12,10 +12,8 @@ namespace OWP.ProductAssignmentReference.Criteria
 
         public int SiteId { get; set; }
 
-        public override string GetSettingKey()
-            => "OWP_ProductAssignment_GetUserBy_User_Role_Section";
+        public override string GetSettingKey() => "OWP_ProductAssignment_GetUserBy_User_Role_Section";
 
-        public override bool IsValid()
-        => true;
+        public override bool IsValid() => true;
     }
 }

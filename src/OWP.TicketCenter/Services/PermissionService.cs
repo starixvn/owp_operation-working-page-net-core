@@ -5,6 +5,8 @@
         Task<bool> HasPermission(int ticketId, int creatorId);
 
         Task<bool> HasPermissionRemoveLastRecipient(int ticketId);
+
+        Task<bool> HasExistedTicket(int ticketId);
     }
 
     public class PermissionServiceImp : PermissionService
@@ -27,5 +29,14 @@
             var recipients = await repository.GetRecipientByTicketId(ticketId);
             return recipients.Count() > 1;
         }
+
+        public async Task<bool> IsDeletedTicket(int ticketId)
+        {
+            var recipients = await repository.GetRecipientByTicketId(ticketId);
+            return recipients.Count() > 1;
+        }
+
+        public async Task<bool> HasExistedTicket(int ticketId)
+           => await repository.QueryExistedTicketId(ticketId);
     }
 }

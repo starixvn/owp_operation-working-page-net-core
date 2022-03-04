@@ -14,8 +14,7 @@ namespace OWP.TicketCenter.Criteria
 
         public int OwpAwayId { get; set; }
 
-        public override string GetSettingKey()
-            => "OWP_TicketIssueEvent_Create";
+        public override string GetSettingKey() => "OWP_TicketIssueEvent_Create";
 
         public override bool IsValid()
             => TicketId > 0 &&

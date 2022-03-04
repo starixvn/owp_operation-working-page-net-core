@@ -2,6 +2,7 @@
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Notification.Services;
 using OWP.TicketCenter.Services;
+using OWP.TicketCenter.Notification.Models;
 
 namespace OWP.TicketCenter.Handlers
 {
@@ -43,9 +44,14 @@ namespace OWP.TicketCenter.Handlers
 
             var sessionId = await writer.Execute(request);
 
-            await notificationService.Notify(sessionId, request.TicketId, request.TicketEventType);
+            await notificationService.Notify(new NotificationSource
+            {
+                SessionId = sessionId,
+                TicketId = request.TicketId,
+                EventType = request.TicketEventType
+            });
 
-            await notificationService.NotifyNewAddRecipient(request.TicketId);
+            await notificationService.NotifyNewAddRecipient(request.TicketId, request.ActorId);
 
             return await repository.AddSingleRecipient(request);
         }

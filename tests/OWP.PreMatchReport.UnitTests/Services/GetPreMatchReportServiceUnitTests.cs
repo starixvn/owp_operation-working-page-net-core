@@ -8,8 +8,6 @@ using AutoMapper;
 using OWP.PreMatchReport.Models;
 using OWP.PreMatchReport.Services;
 
-
-
 namespace OWP.PreMatchReport.UnitTests.Services;
 
 public class GetPreMatchReportServiceUnitTests
@@ -105,7 +103,9 @@ public class GetPreMatchReportServiceUnitTests
 
         repository.GetReportForLeague(request).Returns(MockReportForLeague());
         repository.GetReportForMatches(request).Returns(MockReportForMatches());
-        repository.GetUnAssigned(Arg.Compat.Any<List<int>>(),Arg.Compat.Any<string>()).Returns(mockReturnUsers());
+        repository.GetUnAssigned(Arg.Compat.Any<List<int>>(), Arg.Compat.Any<string>()).Returns(mockReturnUsers());
+        repository.GetUserIdFromDb02().Returns(new List<int> { 1 });
+        repository.GetUserIdFromNapUser().Returns(new List<int> { 1 });
 
         var actual = await service.GetReports(request);
 
@@ -116,9 +116,10 @@ public class GetPreMatchReportServiceUnitTests
         Assert.Equal(expected[0].LeagueHdpMj, actual[0].LeagueHdpMj);
         Assert.Equal(expected[0].MatchHdpMj, actual[0].MatchHdpMj);
     }
+
     public List<UserInfo> mockReturnUsers()
     => new()
-    { 
+    {
         new()
         {
             UserId = 1,
@@ -130,6 +131,7 @@ public class GetPreMatchReportServiceUnitTests
             UserName = "sa2"
         }
     };
+
     public List<ExportPreMatchModel> Expected()
     => new()
     {
@@ -144,6 +146,7 @@ public class GetPreMatchReportServiceUnitTests
             MatchHdpM1 = "7"
         }
     };
+
     public List<QueryPrematchReportModel> MockReportForLeague()
     => new()
     {
@@ -164,6 +167,7 @@ public class GetPreMatchReportServiceUnitTests
             Amount = 7
         }
     };
+
     public List<QueryPrematchReportModel> MockReportForMatches()
     => new()
     {

@@ -6,8 +6,7 @@ namespace OWP.TicketCenter.Criteria
     {
         public int TicketId { get; set; }
 
-        public override string GetSettingKey()
-            => "OWP_TicketCenterEvent_GetUserIdsByTicketId";
+        public override string GetSettingKey() => "OWP_TicketCenterEvent_GetUserIdsByTicketId";
 
         public override bool IsValid()
             => TicketId > 0;

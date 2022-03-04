@@ -87,9 +87,14 @@ namespace OWP.TicketCenter.Handlers
                 NotificationTemplateCode.NewTicket);
             await notificationService.NotifyNewMessageIncome(ticketId);
 
-            await notificationService.NotifyNewAddRecipient(ticketId);
+            await notificationService.NotifyNewAddRecipient(ticketId, request.CreatorId);
 
-            await notificationService.Notify(sessionId, ticketId, (int)EventType.Support);
+            await notificationService.Notify(new NotificationSource
+            {
+                SessionId = sessionId,
+                TicketId = ticketId,
+                EventType = (int)EventType.Support,
+            });
 
             return ticketId;
         }

@@ -10,10 +10,8 @@ namespace OWP.TicketCenter.Criteria
 
         public bool IsRead { get; set; }
 
-        public override string GetSettingKey()
-            => "OWP_TicketCenter_UpdateSingleRecipientReader";
+        public override string GetSettingKey() => "OWP_TicketCenter_UpdateSingleRecipientReader";
 
-        public override bool IsValid()
-            => TicketId > 0 && RecipientId > 0;
+        public override bool IsValid() => TicketId > 0 && RecipientId > 0;
     }
 }

@@ -10,8 +10,7 @@ namespace OWP.TicketCenter.Criteria
 
         public string RecipientIds { get; set; }
 
-        public override string GetSettingKey()
-            => "OWP_TicketIssue_AddManyRecipient";
+        public override string GetSettingKey() => "OWP_TicketIssue_AddManyRecipient";
 
         public override bool IsValid()
             => TicketId > 0 && RecipientIds.Length > 0;

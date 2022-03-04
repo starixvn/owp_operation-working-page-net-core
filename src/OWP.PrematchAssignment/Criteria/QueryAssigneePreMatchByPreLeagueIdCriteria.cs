@@ -6,8 +6,7 @@
     {
         public int Id { get; set; }
 
-        public override string GetSettingKey()
-            => "OWP_PreMatchAssignment_GetAssigneeByPreMatchLeagueId";
+        public override string GetSettingKey() => "OWP_PreMatchAssignment_GetAssigneeByPreMatchLeagueId";
 
         public override bool IsValid() => true;
     }

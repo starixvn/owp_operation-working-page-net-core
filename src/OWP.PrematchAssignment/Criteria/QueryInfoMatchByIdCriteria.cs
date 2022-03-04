@@ -6,8 +6,7 @@ namespace OWP.PrematchAssignment.Criteria
     {
         public int Id { get; set; }
 
-        public override string GetSettingKey()
-            => "OWP_PreMatchAssignment_GetInfoSiteMatchById";
+        public override string GetSettingKey() => "OWP_PreMatchAssignment_GetInfoSiteMatchById";
 
         public override bool IsValid() => true;
     }

@@ -1,17 +1,20 @@
-﻿namespace OWP.TicketCenter.Notification.Services
+﻿using OWP.TicketCenter.Models;
+
+namespace OWP.TicketCenter.Notification.Services
 {
     using Hubs;
     using Microsoft.AspNetCore.SignalR;
     using Models;
     using OWP.Services;
+    using OWP.Utils;
 
     public interface NotificationService
     {
-        Task Notify(string sessionId, int ticketId, int eventType);
+        Task Notify(NotificationSource source);
 
         Task<bool> NotifyNewMessageIncome(int ticketId);
 
-        Task<bool> NotifyNewAddRecipient(int ticketId);
+        Task<bool> NotifyNewAddRecipient(int ticketId, int acctorId);
 
         Task<bool> NotifyChangeStatusIncome(int ticketId);
 
@@ -40,25 +43,41 @@
             this.repository = repository;
         }
 
-        public async Task Notify(string sessionId, int ticketId, int eventType)
+        public async Task Notify(NotificationSource source)
         {
-            await notifyEngine.Notify(sessionId, messageTuple =>
+            await notifyEngine.Notify(source.SessionId, messageTuple =>
             {
+                var userIds = messageTuple.Item1
+            .Select(x => x.UserId)
+            .ToList();
+
+                var awaiter = repository
+                    .GetMessageUnreadByMultipleUserId(userIds)
+                    .ConfigureAwait(true);
+
+                var messageUnread = awaiter.GetAwaiter().GetResult();
+
                 return messageTuple.Item2.Select(x => new NotificationModel
                 {
+                    UserId = x.UserId,
                     IsImportant = x.IsImportant,
                     MessageType = x.MessageType,
                     MessageContent = x.MessageContent,
-                    TicketId = ticketId,
-                    EventType = eventType
+                    TicketId = source.TicketId,
+                    EventType = source.EventType,
+                    TotalMessageUnread = messageUnread?.FirstOrDefault(m => m.UserId == x.UserId)?.Total,
+                    IsNewMessage = source.IsNewMessage
                 }).DistinctBy(x => new
                 {
+                    x.UserId,
                     x.IsImportant,
                     x.MessageType,
                     x.MessageContent,
                     x.TicketId,
-                    x.EventType
-                }).ToList();
+                    x.EventType,
+                    x.TotalMessageUnread,
+                    x.IsNewMessage
+                }).ToDictionary(x => x.UserId.ToString(), x => x);
             });
         }
 
@@ -75,15 +94,16 @@
             return await Task.FromResult(true);
         }
 
-        public async Task<bool> NotifyNewAddRecipient(int ticketId)
+        public async Task<bool> NotifyNewAddRecipient(int ticketId, int acctorId)
         {
             var userIds = await repository.GetUserIdsByTicketId(ticketId);
-            var userIdsString = userIds.Distinct().Select(u => u.ToString()).ToList();
+            var userIdsString = userIds.Where(u => u != acctorId)
+                .Distinct().Select(u => u.ToString()).ToList();
             await notifyMyTicket.Clients
                 .Users(userIdsString)
                 .NotifyNewAddRecipient();
             await notifyPreMatch.Clients
-                .Users(userIdsString)
+                .All
                 .NotifyNewAddRecipient();
             return await Task.FromResult(true);
         }
