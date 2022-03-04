@@ -42,6 +42,7 @@ using OWP.SimpleDataApi;
 using OWP.TicketCenter;
 using OWP.TicketCenter.Hubs;
 using OWP.TicketTypeRecipient;
+using OWP.Websites.App_Start;
 using Sentry;
 using StackExchange.Redis;
 
@@ -102,9 +103,9 @@ public static class ServiceCollectionExtensions
                   };
                   options.Events.OnSigningOut = context =>
                       {
-                      context.Response.Redirect(options.LoginPath);
-                      return Task.CompletedTask;
-                    };
+                        context.Response.Redirect(options.LoginPath);
+                        return Task.CompletedTask;
+                      };
                 });
 
     return services;
@@ -165,7 +166,7 @@ public static class ServiceCollectionExtensions
                                     x => x.GetValue<string>("Name"),
                                     y => new ConnectionConfiguration(y.GetValue<string>("Name"), y.GetValue<string>("ConnectionString"), y.GetValue<string>("ProviderName"))
                             );
-        var storedProcedurePath = configuration.GetValue<string>("StoredProcedurePath");
+    var storedProcedurePath = configuration.GetValue<string>("StoredProcedurePath");
 
     DbSettingProviderManager
       .StartNewSession()
@@ -193,6 +194,7 @@ public static class ServiceCollectionExtensions
 
   public static IServiceCollection AddInternalServices(this IServiceCollection services)
   {
+    services.AddAutoAssignmentService();
     services.AddSyncMaxbet();
     services.AddOtherSport();
     services.AddProductAssignment();

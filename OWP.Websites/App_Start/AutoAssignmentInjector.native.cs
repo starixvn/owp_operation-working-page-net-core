@@ -8,7 +8,7 @@ namespace OWP.Websites.App_Start
 
   public static class AutoAssignmentInjector
   {
-    public static void InjectAutoAssignmentService(this IServiceCollection services)
+    public static void AddAutoAssignmentService(this IServiceCollection services)
     {
       services.AddScoped<ExtraTimeDetectorService, ExtraTimeDetectorServiceImp>();
       services.AddScoped<GetRequestService, GetRequestServiceImp>();
