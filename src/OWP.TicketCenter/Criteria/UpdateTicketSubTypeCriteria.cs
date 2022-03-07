@@ -9,5 +9,5 @@ public class UpdateTicketSubTypeCriteria : NonQueryCommand
 
     public override string GetSettingKey() => "OWP_TicketCenter_UpdateTicketSubType";
 
-    public override bool IsValid() => TicketId > 0 && TicketSubTypeId > 0;
+    public override bool IsValid() => TicketId > 0;
 }
