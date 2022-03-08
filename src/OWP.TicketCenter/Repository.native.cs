@@ -1,4 +1,5 @@
-﻿using OWP.TicketCenter.ViewModels;
+﻿using OWP.Extensions;
+using OWP.TicketCenter.ViewModels;
 
 namespace OWP.TicketCenter
 {
@@ -14,9 +15,11 @@ namespace OWP.TicketCenter
   {
     Task<IList<EventOptionInfoModel>> GetEventOptionInfo(string keyword);
 
-    Task<IList<TicketTypeModel>> GetTicketTypes();
+    Task<IList<ParentType>> GetTicketTypes();
 
-    Task<int> BuildTicketId(int ticketType);
+    Task<IList<SubType>> GetAllTicketSubTypes();
+
+    Task<int> BuildTicketId(int ticketType, int subType);
 
     Task AddNewTicketIssueEvent(NewTicketIssueEventRequest request);
 
@@ -80,6 +83,8 @@ namespace OWP.TicketCenter
 
     Task UpdateTicketStatus(UpdateTicketStatusCriteria criteria);
 
+    Task UpdateTicketSubType(UpdateTicketSubTypeCriteria criteria);
+
     Task<IEnumerable<StatusHistory>> GetStatusHistory(int ticketId);
 
     Task PinTicket(PinTicketCriteria criteria);
@@ -88,6 +93,7 @@ namespace OWP.TicketCenter
 
     Task<IEnumerable<MessageUnreadCounter>> GetMessageUnreadByMultipleUserId(IList<int> userIds);
 
+    Task<IEnumerable<SubTypeModel>> GetSubTypeByTicketTypeId(int ticketTypeId);
 
     Task<bool> QueryExistedTicketId(int ticketId);
   }
@@ -117,14 +123,19 @@ namespace OWP.TicketCenter
       })).ToList();
     }
 
-    public async Task<IList<TicketTypeModel>> GetTicketTypes()
-               => (await dynamicRepository.FetchAsync<TicketTypeModel>(new GetTicketTypeCriteria()))
+    public async Task<IList<ParentType>> GetTicketTypes()
+       => (await dynamicRepository.FetchAsync<ParentType>(new GetTicketTypeCriteria()))
                    .ToList();
 
-    public async Task<int> BuildTicketId(int ticketType)
+    public async Task<IList<SubType>> GetAllTicketSubTypes()
+       => (await dynamicRepository.FetchAsync<SubType>(new GetAllTicketSubTypeCriteria()))
+           .ToList();
+
+    public async Task<int> BuildTicketId(int ticketType, int subType)
         => (await dynamicRepository.FetchAsync<int>(new BuildNewTicketIdCriteria
         {
-          TicketType = ticketType
+          TicketType = ticketType,
+          SubType = subType
         })).FirstOrDefault();
 
     public async Task AddNewTicketIssueEvent(NewTicketIssueEventRequest request)
@@ -227,6 +238,7 @@ namespace OWP.TicketCenter
     public async Task<IEnumerable<EventTicketLeagueModel>> GetEventTicketLeague(QueryEventTicketsRequest request)
     {
       var criteria = mapper.Map<GetEventTicketLeagueCriteria>(request);
+
       criteria.ThrowExceptionIfInvalid();
       return await dynamicRepository.FetchAsync<EventTicketLeagueModel>(criteria);
     }
@@ -330,6 +342,12 @@ namespace OWP.TicketCenter
       await dynamicRepository.ExecuteAsync(criteria);
     }
 
+    public async Task UpdateTicketSubType(UpdateTicketSubTypeCriteria criteria)
+    {
+      criteria.ThrowExceptionIfInvalid();
+      await dynamicRepository.ExecuteAsync(criteria);
+    }
+
     public async Task<IEnumerable<StatusHistory>> GetStatusHistory(int ticketId)
     {
       var criteria = new GetStatusHistoryCriteria
@@ -373,6 +391,15 @@ namespace OWP.TicketCenter
         });
       }
       return messageUnread;
+    }
+
+    public async Task<IEnumerable<SubTypeModel>> GetSubTypeByTicketTypeId(int ticketTypeId)
+    {
+      var criteria = new GetSubTypeCriteria
+      {
+        TicketTypeId = ticketTypeId
+      };
+      return await dynamicRepository.FetchAsync<SubTypeModel>(criteria);
     }
   }
 }

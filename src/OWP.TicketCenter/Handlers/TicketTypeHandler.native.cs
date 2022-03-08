@@ -3,11 +3,11 @@ using OWP.TicketCenter.Models;
 
 namespace OWP.TicketCenter.Handlers
 {
-    public class TicketTypeRequest : IRequest<IList<TicketTypeModel>>
+    public class TicketTypeRequest : IRequest<TicketTypeModel>
     {
     }
 
-    public class TicketTypeHandler : IRequestHandler<TicketTypeRequest, IList<TicketTypeModel>>
+    public class TicketTypeHandler : IRequestHandler<TicketTypeRequest, TicketTypeModel>
     {
         private readonly Repository repository;
 
@@ -16,7 +16,12 @@ namespace OWP.TicketCenter.Handlers
             this.repository = repository;
         }
 
-        public async Task<IList<TicketTypeModel>> Handle(TicketTypeRequest request, CancellationToken cancellationToken)
-            => await repository.GetTicketTypes();
+        public async Task<TicketTypeModel> Handle(TicketTypeRequest request, CancellationToken cancellationToken)
+        {
+            var parentType = (await repository.GetTicketTypes()).ToList();
+            var subType = (await repository.GetAllTicketSubTypes()).ToList();
+
+            return new TicketTypeModel { Parents = parentType, Children = subType };
+        }
     }
 }

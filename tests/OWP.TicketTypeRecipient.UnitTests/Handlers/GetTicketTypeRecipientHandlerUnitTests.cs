@@ -54,6 +54,9 @@ namespace OWP.TicketTypeRecipient.UnitTests.Handlers
                             RecipientName = "starix2",
                             RecipientType = (int)TicketRecipient.USER
                         }
+                    },
+                    Subtypes = new List<Subtype> {
+                        new Subtype { TypeId = 1, SubtypeId = 1, SubtypeName = "Verify League" }
                     }
                 },
                 new TicketTypeRecipient
@@ -72,6 +75,9 @@ namespace OWP.TicketTypeRecipient.UnitTests.Handlers
                             RecipientName = "CSD",
                             RecipientType = (int)TicketRecipient.GROUP
                         }
+                    },
+                    Subtypes = new List<Subtype> {
+                        new Subtype { TypeId = 2, SubtypeId = 5, SubtypeName = "Check League" }
                     }
                 },
                 new TicketTypeRecipient
@@ -81,7 +87,8 @@ namespace OWP.TicketTypeRecipient.UnitTests.Handlers
                         TypeId = 3,
                         TypeName = "type3"
                     },
-                    Recipients = new List<Recipient>()
+                    Recipients = new List<Recipient>(),
+                    Subtypes = new List<Subtype>()
                 }
             };
 
@@ -155,9 +162,15 @@ namespace OWP.TicketTypeRecipient.UnitTests.Handlers
                 }
             };
 
+            var mockSubtype = new List<Subtype>
+            {
+                new Subtype { TypeId = 1, SubtypeId = 1, SubtypeName = "Verify League" },
+                new Subtype { TypeId = 2, SubtypeId = 5, SubtypeName = "Check League" }
+            };
+
             var dynamicRepo = Substitute.For<IDynamicRepository>();
-            dynamicRepo.FetchMultipleAsync<TicketType, GetTicketTypeRecipientHandler.RecipientData>(Arg.Any<GetTicketTypeRecipientHandler.GetRecipientDataCriteria>())
-                .Returns((mockTicketTypes, mockRecipients));
+            dynamicRepo.FetchMultipleAsync<TicketType, GetTicketTypeRecipientHandler.RecipientData, Subtype>(Arg.Any<GetTicketTypeRecipientHandler.GetRecipientDataCriteria>())
+                .Returns((mockTicketTypes, mockRecipients, mockSubtype));
 
             return new GetTicketTypeRecipientHandler(dynamicRepo);
         }

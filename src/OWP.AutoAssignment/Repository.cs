@@ -4,10 +4,10 @@ using OWP.AutoAssignment.Criteria.InternalApi;
 using OWP.AutoAssignment.Criteria.PublicApi;
 using OWP.AutoAssignment.Models.InternalApi;
 using OWP.AutoAssignment.Models.PublicApi;
-using OWP.AutoAssignment.Utils.XMLExtensions;
 using OWP.Models;
 using OWP.Utils;
 using System.Xml.Linq;
+using Olympus.Xml;
 
 namespace OWP.AutoAssignment
 {
@@ -194,7 +194,7 @@ namespace OWP.AutoAssignment
 
         public async Task<IEnumerable<MaxBetCorner>> GetMaxBetCorner(IList<MaxBetOfFTHDP> events)
         {
-            var xml = events.ToXml().ToString();
+            var xml = XmlConverter.Serialize(events);
             var criteria = new GetMaxBetCornerCriteria
             {
                 Xml = xml
@@ -232,7 +232,7 @@ namespace OWP.AutoAssignment
             {
                 RequestId = model.RequestId,
                 Status = model.Code,
-                AutoAssignmentResultDoc = model.Data.ToXml().ToString(SaveOptions.DisableFormatting)
+                AutoAssignmentResultDoc = XmlConverter.Serialize(model.Data)
             };
             criteria.ThrowExceptionIfInvalid();
             await dynamicRepository.ExecuteAsync(criteria);
@@ -266,7 +266,7 @@ namespace OWP.AutoAssignment
 
         public async Task<IEnumerable<InfoSiteMatchModel>> GetInfoSiteMatchInfo(IList<MatchQueryInfo> events)
         {
-            var xml = events.ToXml().ToString();
+            var xml = XmlConverter.Serialize(events);
             var criteria = new GetInfoSiteMatchByIdAndBetTypeCriteria
             {
                 Xml = xml
@@ -292,7 +292,7 @@ namespace OWP.AutoAssignment
 
         public async Task SaveEventSender(IEnumerable<AutoAssignmentHistory> events)
         {
-            var xml = events.ToXml().ToString();
+            var xml = XmlConverter.Serialize(events);
             var criteria = new SaveEventSenderCriteria
             {
                 Xml = xml

@@ -30,12 +30,6 @@
             return recipients.Count() > 1;
         }
 
-        public async Task<bool> IsDeletedTicket(int ticketId)
-        {
-            var recipients = await repository.GetRecipientByTicketId(ticketId);
-            return recipients.Count() > 1;
-        }
-
         public async Task<bool> HasExistedTicket(int ticketId)
            => await repository.QueryExistedTicketId(ticketId);
     }

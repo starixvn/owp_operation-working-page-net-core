@@ -1,9 +1,13 @@
-﻿using OWP.TicketCenter.Services;
+﻿using System.Linq;
+using Olympus.Xml;
+using OWP.TicketCenter.Models;
+using OWP.TicketCenter.Services;
 using OWP.TicketCenter.ViewModels;
 
 namespace OWP.TicketCenter.Handlers
 {
     using MediatR;
+    using OWP.Extensions;
 
     public class QueryEventTicketsRequest : IRequest<List<TicketDetailBaseViewModel>>
     {
@@ -11,13 +15,26 @@ namespace OWP.TicketCenter.Handlers
 
         public string Keyword { get; set; }
 
-        public int TicketTypeId { get; set; }
+        public string TicketTypeId { get; set; }
 
         public string TicketStatuses { get; set; }
 
         public string TicketId { get; set; }
 
         public int MarketKey { get; set; }
+
+        public string TicketTypeXML => GetTicketTypeXML(TicketTypeId);
+
+        public string GetTicketTypeXML(string ticketTypeString)
+        {
+            var ticket = ticketTypeString.Split(',')
+                .Select(i => new TicketType
+                {
+                    TypeId = i.Split('-').FirstOrDefault(),
+                    SubTypeId = i.Split('-').LastOrDefault()
+                });
+            return XmlConverter.Serialize(ticket);
+        }
     }
 
     public class QueryEventTicketsHandler : IRequestHandler<QueryEventTicketsRequest, List<TicketDetailBaseViewModel>>
@@ -44,6 +61,7 @@ namespace OWP.TicketCenter.Handlers
         public async Task<List<TicketDetailBaseViewModel>> Handle(QueryEventTicketsRequest request, CancellationToken cancellationToken)
         {
             var ticketLeague = await leagueService.GetAllLeague(request);
+
             var ticketMatch = await matchService.GetAllMatch(request);
             var ticketOthers = await otherService.GetAllTicketOther(request);
             var ticketSupport = await supportService.GetAllTicketSupport(request);

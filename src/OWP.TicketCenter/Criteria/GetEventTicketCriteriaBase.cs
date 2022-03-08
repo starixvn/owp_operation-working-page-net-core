@@ -1,4 +1,7 @@
-﻿using Fanex.Data.Repository;
+﻿using Fanex.Data;
+using Fanex.Data.Repository;
+using OWP.Extensions;
+using OWP.TicketCenter.Models;
 
 namespace OWP.TicketCenter.Criteria
 {
@@ -12,7 +15,7 @@ namespace OWP.TicketCenter.Criteria
 
         public string TicketStatuses { get; set; }
 
-        public int TicketTypeId { get; set; }
+        public string TicketTypeXML { get; set; }
 
         public int MarketKey { get; set; } = 1;
 

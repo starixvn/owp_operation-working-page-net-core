@@ -96,6 +96,7 @@
   <Function Name="TicketTypeRecipient">
     <Setting Key="OWP_TicketTypeRecipient_SaveTicketTypeRecipient" SpName="OWP_TicketTypeRecipient_SaveTicketTypeRecipient" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_TicketTypeRecipient_GetTicketTypeRecipient" SpName="OWP_TicketTypeRecipient_GetTicketTypeRecipient" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+	  <Setting Key="OWP_TicketTypeRecipient_CheckExists_Subtype" SpName="OWP_TicketTypeRecipient_CheckExists_Subtype" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
   </Function>
   <Function Name="TicketCenter">
     <Setting Key="OWP_TicketCenter_GetRecipient" SpName="OWP_TicketCenter_GetRecipient" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
@@ -135,11 +136,14 @@
     <Setting Key="OWP_TicketCenter_InsertNewRecipientNotification" SpName="OWP_TicketCenter_InsertNewRecipientNotification" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_TicketCenter_InsertNewMessageNotification" SpName="OWP_TicketCenter_InsertNewMessageNotification" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_TicketCenter_UpdateTicketStatus" SpName="OWP_TicketCenter_UpdateTicketStatus" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenter_UpdateTicketSubType" SpName="OWP_TicketCenter_UpdateTicketSubType" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_TicketCenter_GetTicketStatusHistory" SpName="OWP_TicketCenter_GetTicketStatusHistory" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_TicketCenter_PinTicket" SpName="OWP_TicketCenter_PinTicket" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_TicketCenter_DeleteTicket" SpName="OWP_TicketCenter_DeleteTicket" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_TicketCenter_GetExistedTicketId" SpName="OWP_TicketCenter_GetExistedTicketId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_CountUnreadMessageByUserId" SpName="OWP_CountUnreadMessageByUserId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenter_GetSubTypeByTicketTypeId" SpName="OWP_TicketCenter_GetSubTypeByTicketTypeId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenter_GetAllTicketSubType" SpName="OWP_TicketCenter_GetAllTicketSubType" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
   </Function>
   <Function Name="FileUpload">
     <Setting Key="OWP_FileUpload_Upload" SpName="OWP_FileUpload_Upload" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
@@ -170,7 +174,6 @@
     <Setting Key="OWP_PreMatchAssignment_QueryIssueMessages" SpName="OWP_PreMatchAssignment_QueryIssueMessages" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_PreMatchAssignment_QueryIssueInfo" SpName="OWP_PreMatchAssignment_QueryIssueInfo" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
   </Function>
-
   <Function Name="PreMatchReport">
     <Setting Key="OWP_PreMatchReport_GetReportForLeagueByDateRange" SpName="OWP_PreMatchReport_GetReportForLeagueByDateRange" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_PreMatchReport_GetReportForMatchByDateRange" SpName="OWP_PreMatchReport_GetReportForMatchByDateRange" DbName="DBOWP.bodb_OWP.bodbOWPNet" />

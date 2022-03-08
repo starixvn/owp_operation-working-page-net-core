@@ -1,7 +1,7 @@
-﻿namespace OWP.AutoAssignment.Models.InternalApi
-{
-    using Utils.XMLExtensions;
+﻿using OWP.Extensions;
 
+namespace OWP.AutoAssignment.Models.InternalApi
+{
     [XMLName("Row")]
     public class MatchQueryInfo
     {
