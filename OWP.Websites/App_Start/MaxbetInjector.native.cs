@@ -19,6 +19,6 @@ public static class MaxbetInjector
     services.AddScoped<SpecialProductTraderBuilder, SpecialProductTraderBuilderImp>();
     services.AddScoped<SpecialProductSelector, SpecialProductSelectorImp>();
 
-    services.AddScoped<MaxbetReposiory, MaxbetReposioryImp>();
+    services.AddScoped<MaxbetRepository, MaxbetRepositoryImp>();
   }
 }

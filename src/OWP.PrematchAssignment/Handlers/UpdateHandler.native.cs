@@ -3,58 +3,66 @@ using OWP.PreMatchAssignment.Constants;
 using OWP.PreMatchAssignment.Models;
 using OWP.PreMatchAssignment.Services;
 using OWP.Services;
-
+using OWP.NotificationRequests;
 namespace OWP.PreMatchAssignment.Handlers
 {
-    public class UpdateLeagueAssignmentRequest : IRequest
+  public class UpdateLeagueAssignmentRequest : IRequest
+  {
+    public int[] PrematchIdDeleted { get; set; }
+
+    public LeagueAssignment[] PrematchUpdated { get; set; }
+
+    public TimeSpan? StartTime { get; set; }
+
+    public DateTime Date { get; set; }
+  }
+
+  public class UpdateHandler : IRequestHandler<UpdateLeagueAssignmentRequest>
+  {
+    private readonly PreMatchAssignmentService preMatchAssignmentService;
+
+    private readonly IHttpHandler httpHandler;
+
+    private readonly IMediator mediator;
+
+    public UpdateHandler(
+      PreMatchAssignmentService preMatchAssignmentService,
+      IHttpHandler httpHandler,
+      IMediator mediator)
     {
-        public int[] PrematchIdDeleted { get; set; }
-
-        public LeagueAssignment[] PrematchUpdated { get; set; }
-
-        public TimeSpan? StartTime { get; set; }
-
-        public DateTime Date { get; set; }
-
-        public string NetCoreUrl { get; set; }
+      this.preMatchAssignmentService = preMatchAssignmentService;
+      this.httpHandler = httpHandler;
+      this.mediator = mediator;
     }
 
-    public class UpdateHandler : IRequestHandler<UpdateLeagueAssignmentRequest>
+    public async Task<Unit> Handle(UpdateLeagueAssignmentRequest request, CancellationToken cancellationToken)
     {
-        private readonly PreMatchAssignmentService preMatchAssignmentService;
+      if (request.StartTime.HasValue)
+      {
+        await preMatchAssignmentService.UpdateStartTime(request);
+      }
+      await preMatchAssignmentService.Delete(request);
+      var preMatchLeagueIdUpdated = request.PrematchUpdated.Select(item => item.PreMatchLeagueId).ToList();
+      await preMatchAssignmentService.SaveOldPreMatchAssignment(preMatchLeagueIdUpdated);
+      await preMatchAssignmentService.Update(request);
 
-        private readonly IHttpHandler httpHandler;
-
-        public UpdateHandler(PreMatchAssignmentService preMatchAssignmentService, IHttpHandler httpHandler)
+      var fromDateGmt8 = DateTime.Today.AddHours(12);
+      var toDateGmt8 = DateTime.Today.AddDays(1).AddHours(11).AddMinutes(59);
+      var currentTime = DateTime.Now.TimeOfDay;
+      var requestDate = request.Date.Date + currentTime;
+      var requestDateGmt8 = requestDate.AddHours(12);
+      if (requestDateGmt8 > fromDateGmt8
+          && requestDateGmt8 <= toDateGmt8)
+      {
+        var notifyRequest = new PrematchAssignmentNotifyRequest
         {
-            this.preMatchAssignmentService = preMatchAssignmentService;
-            this.httpHandler = httpHandler;
-        }
+          RedisKey = RedisKey.KEY_PREMATCH_ASSIGNMENT_OLD_VALUE_SNAPSHOT
+        };
 
-        public async Task<Unit> Handle(UpdateLeagueAssignmentRequest request, CancellationToken cancellationToken)
-        {
-            if (request.StartTime.HasValue)
-            {
-                await preMatchAssignmentService.UpdateStartTime(request);
-            }
-            await preMatchAssignmentService.Delete(request);
-            var preMatchLeagueIdUpdated = request.PrematchUpdated.Select(item => item.PreMatchLeagueId).ToList();
-            await preMatchAssignmentService.SaveOldPreMatchAssignment(preMatchLeagueIdUpdated);
-            await preMatchAssignmentService.Update(request);
-            var requestLink = $"{request.NetCoreUrl}/api/PreMatchNotification/notify-assignment?redisKey={RedisKey.KEY_PREMATCH_ASSIGNMENT_OLD_VALUE_SNAPSHOT}";
+        await mediator.Send(notifyRequest);
+      }
 
-            var fromDateGmt8 = DateTime.Today.AddHours(12);
-            var toDateGmt8 = DateTime.Today.AddDays(1).AddHours(11).AddMinutes(59);
-            var currentTime = DateTime.Now.TimeOfDay;
-            var requestDate = request.Date.Date + currentTime;
-            var requestDateGmt8 = requestDate.AddHours(12);
-            if (requestDateGmt8 > fromDateGmt8
-                && requestDateGmt8 <= toDateGmt8)
-            {
-                await httpHandler.GetAsync(requestLink);
-            }
-
-            return Unit.Value;
-        }
+      return Unit.Value;
     }
+  }
 }

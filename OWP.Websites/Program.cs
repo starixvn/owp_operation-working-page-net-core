@@ -9,8 +9,8 @@ using OWP.Websites.CrossCuttingConcern;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
-    ApplicationName = typeof(Program).Assembly.FullName,
-    ContentRootPath = Directory.GetCurrentDirectory(),
+  ApplicationName = typeof(Program).Assembly.FullName,
+  ContentRootPath = Directory.GetCurrentDirectory(),
 });
 
 builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
@@ -29,7 +29,7 @@ builder.Services.AddCoreServices();
 builder.Services.AddMediator();
 builder.Services.AddAutoMapper();
 builder.Services.AddInternalServices();
-
+builder.Services.AddRabbitMQ(builder.Configuration);
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
 
@@ -48,14 +48,14 @@ app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapControllerRoute(
-        name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}");
+  endpoints.MapControllerRoute(
+      name: "default",
+      pattern: "{controller=Home}/{action=Index}/{id?}");
 
-    endpoints.MapHub<NewDataUploadNotifyHubImp>("/otherSportNewDataUploadNotifyHub");
-    endpoints.MapHub<ChangedInfoNotifyHubImp>("/changedInfoNotifyHub");
-    endpoints.MapHub<TicketCenterNotifyHubImp>("/ticketCenterNotifyHub");
-    endpoints.MapHub<PreMatchNotifyHubImp>("/preMatchNotifyHub");
+  endpoints.MapHub<NewDataUploadNotifyHubImp>("/otherSportNewDataUploadNotifyHub");
+  endpoints.MapHub<ChangedInfoNotifyHubImp>("/changedInfoNotifyHub");
+  endpoints.MapHub<TicketCenterNotifyHubImp>("/ticketCenterNotifyHub");
+  endpoints.MapHub<PreMatchNotifyHubImp>("/preMatchNotifyHub");
 });
 
 NapClientManager

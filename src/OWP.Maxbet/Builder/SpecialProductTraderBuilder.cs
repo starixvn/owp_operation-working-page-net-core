@@ -3,33 +3,33 @@ using OWP.Services;
 
 namespace OWP.Maxbet.Builder
 {
-    public interface SpecialProductTraderBuilder
+  public interface SpecialProductTraderBuilder
+  {
+    public Task<TraderAssignmentSender> BuildTraderXMins(int specialProductId);
+  }
+
+  public class SpecialProductTraderBuilderImp : SpecialProductTraderBuilder
+  {
+    private readonly MaxbetRepository maxbetRepository;
+
+    private readonly LogServiceWrapper logServiceWrapper;
+
+    public SpecialProductTraderBuilderImp(MaxbetRepository maxbetRepository, LogServiceWrapper logServiceWrapper)
     {
-        public Task<TraderAssignmentSender> BuildTraderXMins(int specialProductId);
+      this.maxbetRepository = maxbetRepository;
+      this.logServiceWrapper = logServiceWrapper;
     }
 
-    public class SpecialProductTraderBuilderImp : SpecialProductTraderBuilder
+    public async Task<TraderAssignmentSender> BuildTraderXMins(int specialProductId)
     {
-        private readonly MaxbetReposiory maxbetReposiory;
-
-        private readonly LogServiceWrapper logServiceWrapper;
-
-        public SpecialProductTraderBuilderImp(MaxbetReposiory maxbetReposiory, LogServiceWrapper logServiceWrapper)
-        {
-            this.maxbetReposiory = maxbetReposiory;
-            this.logServiceWrapper = logServiceWrapper;
-        }
-
-        public async Task<TraderAssignmentSender> BuildTraderXMins(int specialProductId)
-        {
-            var traders = await maxbetReposiory.GetTraderXMins(specialProductId);
-            await logServiceWrapper.Log("=====BuildTraderXMins======", traders);
-            var traderHdp = traders?.FirstOrDefault();
-            return new TraderAssignmentSender
-            {
-                Handicap = traderHdp,
-                OverUnder = traderHdp
-            };
-        }
+      var traders = await maxbetRepository.GetTraderXMins(specialProductId);
+      await logServiceWrapper.Log("=====BuildTraderXMins======", traders);
+      var traderHdp = traders?.FirstOrDefault();
+      return new TraderAssignmentSender
+      {
+        Handicap = traderHdp,
+        OverUnder = traderHdp
+      };
     }
+  }
 }
