@@ -2,7 +2,6 @@
 using OWP.PreMatchNotification.LinkedMatch.Models;
 using OWP.PreMatchNotification.LinkedMatch.Services;
 using OWP.PreMatchNotification.Models;
-
 using Xunit;
 using Xunit.Asserts.Compare;
 
@@ -56,7 +55,7 @@ namespace OWP.PreMatchNotification.UnitTests.LinkedMatch.Services
                     Home="HomeA",
                     Away="AwayA",
                     KoTime = "02:12 PM",
-                    ReceivedUserIds=new List<int>{1,2,3,8,9,12,13}
+                    ReceivedUserIds=new List<int>{8,9,12,13}
                 },
                 new(){
                     MessageTypeId=(int)MsgTemplateCode.LGACancelLiveMatch,
@@ -64,7 +63,7 @@ namespace OWP.PreMatchNotification.UnitTests.LinkedMatch.Services
                     Home="HomeB",
                     Away="AwayB",
                     KoTime = "02:10 AM",
-                    ReceivedUserIds=new List<int>{1,2,3,4,5,6}
+                    ReceivedUserIds=new List<int>{4,5,6}
                 },
                 new(){
                     MessageTypeId=(int)MsgTemplateCode.LGAAddLiveMatch,
