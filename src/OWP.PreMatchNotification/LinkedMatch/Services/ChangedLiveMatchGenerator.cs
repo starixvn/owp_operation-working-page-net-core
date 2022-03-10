@@ -32,6 +32,7 @@
             var messageTypeId = isDeletedMatches
                 ? (int)MsgTemplateCode.LGACancelLiveMatch
                 : (int)MsgTemplateCode.LGAAddLiveMatch;
+            var lstEmployees = isDeletedMatches ? new List<int>() : employees.AllLSTEmployees;
 
             foreach (var match in matches)
             {
@@ -47,8 +48,8 @@
                     Away = infositeInfo.AwayName,
                     KoTime = infositeInfo.EventDateTime.ToString("hh:mm tt"),
                     ReceivedUserIds = !prematchAssigneeIds.Any()
-                        ? employees.AllLSTEmployees.Union(employees.AllPrematchEmployees).Distinct().ToList()
-                        : employees.AllLSTEmployees.Union(prematchAssigneeIds).Distinct().ToList()
+                        ? lstEmployees.Union(employees.AllPrematchEmployees).Distinct().ToList()
+                        : lstEmployees.Union(prematchAssigneeIds).Distinct().ToList()
                 };
             }
         }
