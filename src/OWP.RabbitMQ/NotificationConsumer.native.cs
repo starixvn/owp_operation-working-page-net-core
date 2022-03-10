@@ -1,25 +1,51 @@
-// using Microsoft.Extensions.Hosting;
+using MediatR;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
+using OWP.Services;
 
-// namespace OWP.RabbitMQ;
+namespace OWP.RabbitMQ;
 
-// public class NotificationConsumer : IHostedService
-// {
-//   private readonly RabbitMqClient rabbitMqClient;
+public class NotificationConsumer : ConsumerBase, IHostedService
+{
+  private readonly IConfiguration configuration;
 
-//   public NotificationConsumer(RabbitMqClient rabbitMqClient)
-//   {
-//     this.rabbitMqClient = rabbitMqClient;
-//   }
+  private readonly LogServiceWrapper logServiceWrapper;
 
-//   public Task StartAsync(CancellationToken cancellationToken)
-//   {
-//     rabbitMqClient.OnEventReceived();
+  public NotificationConsumer(
+    IMediator mediator,
+    ConnectionFactory connectionFactory,
+    IConfiguration configuration,
+    LogServiceWrapper logServiceWrapper
+    ) : base(mediator, connectionFactory, configuration, logServiceWrapper)
+  {
+    this.configuration = configuration;
+    this.logServiceWrapper = logServiceWrapper;
+  }
 
-//     return Task.CompletedTask;
-//   }
+  public virtual async Task StartAsync(CancellationToken cancellationToken)
+  {
+    var queue = configuration.GetSection("RabbitMQ:Queue").Value;
 
-//   public Task StopAsync(CancellationToken cancellationToken)
-//   {
-//     return Task.CompletedTask;
-//   }
-// }
+    try
+    {
+      var consumer = new AsyncEventingBasicConsumer(channel);
+      consumer.Received += OnEventReceived;
+
+      channel.BasicConsume(queue: queue, autoAck: false, consumer: consumer);
+    }
+    catch (Exception ex)
+    {
+      await logServiceWrapper.Log("Error while consuming message", ex);
+    }
+
+    return;
+  }
+
+  public virtual Task StopAsync(CancellationToken cancellationToken)
+  {
+    Dispose();
+    return Task.CompletedTask;
+  }
+}

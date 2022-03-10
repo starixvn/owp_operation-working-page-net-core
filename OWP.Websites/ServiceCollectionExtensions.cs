@@ -46,6 +46,7 @@ using RabbitMQ.Client;
 using Sentry;
 using StackExchange.Redis;
 using OWP.RabbitMQ;
+using OWP.PreMatchNotification;
 
 namespace OWP.Websites;
 
@@ -121,7 +122,7 @@ public static class ServiceCollectionExtensions
     services.AddSingleton<ConfigurationService, ConfigurationServiceImp>();
     services.AddScoped<NotifyEngine, NotifyEngineImp>();
     services.AddScoped<IHttpHandler, OWP.Services.HttpClientHandler>();
-
+    services.AddTransient<ScopedDynamicRepository, ScopedDynamicRepositoryImp>();
     return services;
   }
 
@@ -216,7 +217,7 @@ public static class ServiceCollectionExtensions
     services.AddMediatR(typeof(MaxbetController).GetTypeInfo().Assembly);
     services.AddMediatR(typeof(OtherSportController).GetTypeInfo().Assembly);
     services.AddMediatR(typeof(SyncWorkingShiftController).GetTypeInfo().Assembly);
-    services.AddMediatR(typeof(PreMatchNotification.Services.NotifyServices).GetTypeInfo().Assembly);
+    services.AddMediatR(typeof(PrematchNotificationController).GetTypeInfo().Assembly);
     services.AddMediatR(typeof(RecipientGroupController).GetTypeInfo().Assembly);
     services.AddMediatR(typeof(TicketCenterController).GetTypeInfo().Assembly);
     services.AddMediatR(typeof(FileUploadController).GetTypeInfo().Assembly);
@@ -313,11 +314,11 @@ public static class ServiceCollectionExtensions
 
     services.AddSingleton(serviceProvider => new ConnectionFactory
     {
-      UserName = "guest",
-      Password = "guest",
-      HostName = "localhost",
-      Port = 5672,
-      // VirtualHost = virtualHosting,
+      UserName = username,
+      Password = password,
+      HostName = hosting,
+      Port = port,
+      VirtualHost = virtualHosting,
       DispatchConsumersAsync = true
     });
 

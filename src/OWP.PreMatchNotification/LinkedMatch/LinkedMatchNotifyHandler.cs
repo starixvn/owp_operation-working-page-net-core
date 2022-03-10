@@ -35,14 +35,13 @@
 
     public async Task<Unit> Handle(LinkedMatchNotifyRequest request, CancellationToken cancellationToken)
     {
-      Console.WriteLine($"handle linked match {request.SessionId}");
-      // var messages = await GenerateMessages(request);
-      // var messageModels = messageFactory.Transform(messages);
+      var messages = await GenerateMessages(request);
+      var messageModels = messageFactory.Transform(messages);
 
-      // await commandRepository.InsertMessage(messageModels, request.SessionId);
-      // await notify.Notify(messageModels);
+      await commandRepository.InsertMessage(messageModels, request.SessionId);
+      await notify.Notify(messageModels);
 
-      // await cacheManipulator.DeleteAssignmentSnapshot(request.SessionId);
+      await cacheManipulator.DeleteAssignmentSnapshot(request.SessionId);
 
       return await Task.FromResult(Unit.Value);
     }

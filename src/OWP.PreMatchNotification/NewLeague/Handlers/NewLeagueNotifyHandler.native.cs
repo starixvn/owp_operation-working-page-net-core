@@ -1,22 +1,21 @@
-﻿using OWP.PreMatchNotification.Criteria;
-
-namespace OWP.PreMatchNotification.NewLeague.Handlers
+﻿namespace OWP.PreMatchNotification.NewLeague.Handlers
 {
   using Constants;
   using Criteria;
-  using Fanex.Data.Repository;
   using MediatR;
   using Models;
   using OWP.NotificationRequests;
+  using OWP.PreMatchNotification.Criteria;
   using OWP.PreMatchNotification.Models;
   using OWP.PreMatchNotification.Services;
+  using OWP.Services;
   using Services;
 
   public class NewLeagueNotifyHandler : IRequestHandler<PrematchNewLeagueNotifyRequest, Unit>
   {
     private readonly CacheManipulatorCommon cacheManipulator;
 
-    private readonly IDynamicRepository dynamicRepository;
+    private readonly ScopedDynamicRepository dynamicRepository;
 
     private readonly NewLeagueValueGenerator newLeagueGenerator;
 
@@ -30,7 +29,7 @@ namespace OWP.PreMatchNotification.NewLeague.Handlers
 
     public NewLeagueNotifyHandler(
         CacheManipulatorCommon cacheManipulator,
-        IDynamicRepository dynamicRepository,
+        ScopedDynamicRepository dynamicRepository,
         NewLeagueValueGenerator newLeagueGenerator,
         MessageFactory messageFactory,
         CommandRepository commandRepository,

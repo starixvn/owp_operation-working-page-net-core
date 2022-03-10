@@ -1,5 +1,4 @@
-﻿using Fanex.Data.Repository;
-using MediatR;
+﻿using MediatR;
 using OWP.NotificationRequests;
 using OWP.PreMatchNotification.Assignment.Criteria;
 using OWP.PreMatchNotification.Assignment.Models;
@@ -7,6 +6,7 @@ using OWP.PreMatchNotification.Assignment.Services.MyAssignment;
 using OWP.PreMatchNotification.Assignment.Services.OtherAssignment;
 using OWP.PreMatchNotification.Models;
 using OWP.PreMatchNotification.Services;
+using OWP.Services;
 
 namespace OWP.PreMatchNotification.Assignment.Handlers
 {
@@ -14,7 +14,7 @@ namespace OWP.PreMatchNotification.Assignment.Handlers
   {
     private readonly CacheManipulatorCommon cacheManipulator;
 
-    private readonly IDynamicRepository dynamicRepository;
+    private readonly ScopedDynamicRepository dynamicRepository;
 
     private readonly MyAssignmentGenerator myAssignmentGenerator;
 
@@ -28,7 +28,7 @@ namespace OWP.PreMatchNotification.Assignment.Handlers
 
     public AssignmentNotifyHandler(
         CacheManipulatorCommon cacheManipulator,
-        IDynamicRepository dynamicRepository,
+        ScopedDynamicRepository dynamicRepository,
         MyAssignmentGenerator myAssignmentGenerator,
         MessageFactory messageFactory,
         CommandRepository commandRepository,

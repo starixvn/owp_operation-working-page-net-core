@@ -21,6 +21,7 @@ public abstract class RabbitMqClient : IDisposable
     var exchange = configuration.GetSection("RabbitMQ:Exchange").Value;
     var queue = configuration.GetSection("RabbitMQ:Queue").Value;
 
+#if !DEBUG
     if (connection == null || !connection.IsOpen)
     {
       connection = connectionFactory.CreateConnection();
@@ -30,13 +31,13 @@ public abstract class RabbitMqClient : IDisposable
     {
       channel = connection.CreateModel();
       channel.ExchangeDeclare(
-          exchange: "NAP.OWP.Notification",
+          exchange: exchange,
           type: "direct",
           durable: true,
           autoDelete: false);
 
       channel.QueueDeclare(
-          queue: "NAP.OWP.Notification.message",
+          queue: queue,
           durable: false,
           exclusive: false,
           autoDelete: false);
@@ -44,11 +45,12 @@ public abstract class RabbitMqClient : IDisposable
       foreach (var key in RoutingKey.Keys)
       {
         channel.QueueBind(
-        queue: "NAP.OWP.Notification.message",
-        exchange: "NAP.OWP.Notification",
+        queue: queue,
+        exchange: exchange,
         routingKey: key);
       }
     }
+#endif
   }
 
   public void Dispose()

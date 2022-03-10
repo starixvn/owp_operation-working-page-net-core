@@ -1,46 +1,47 @@
 ﻿namespace OWP.PreMatchNotification.InfoSiteMatchInfo.Services
 {
-    using Fanex.Data.Repository;
-    using OWP.PreMatchNotification.InfoSiteMatchInfo.Criteria;
-    using OWP.PreMatchNotification.InfoSiteMatchInfo.Models;
+  using Fanex.Data.Repository;
+  using OWP.PreMatchNotification.InfoSiteMatchInfo.Criteria;
+  using OWP.PreMatchNotification.InfoSiteMatchInfo.Models;
+  using OWP.Services;
 
-    public interface Repository
+  public interface Repository
+  {
+    Task<IList<InfoSiteMatch>> GetInfoSiteMatchNewSnapshot(DateTime fromDate, DateTime toDate);
+
+    Task<IList<InfoSiteMatch>> GetLGALinkedInfoSiteMatch(List<int> infoSiteMatchIds);
+  }
+
+  public class RepositoryImp : Repository
+  {
+    private readonly ScopedDynamicRepository dynamicRepository;
+
+    public RepositoryImp(ScopedDynamicRepository dynamicRepository)
     {
-        Task<IList<InfoSiteMatch>> GetInfoSiteMatchNewSnapshot(DateTime fromDate, DateTime toDate);
-
-        Task<IList<InfoSiteMatch>> GetLGALinkedInfoSiteMatch(List<int> infoSiteMatchIds);
+      this.dynamicRepository = dynamicRepository;
     }
 
-    public class RepositoryImp : Repository
+    public async Task<IList<InfoSiteMatch>> GetInfoSiteMatchNewSnapshot(DateTime fromDate, DateTime toDate)
     {
-        private readonly IDynamicRepository dynamicRepository;
+      var criteria = new GetInfoSiteMatchesByDateRangeCriteria
+      {
+        FromDate = fromDate.Date.AddHours(12),
+        ToDate = toDate.AddHours(11).AddMinutes(59)
+      };
+      var result = await dynamicRepository.FetchAsync<InfoSiteMatch>(criteria);
 
-        public RepositoryImp(IDynamicRepository dynamicRepository)
-        {
-            this.dynamicRepository = dynamicRepository;
-        }
-
-        public async Task<IList<InfoSiteMatch>> GetInfoSiteMatchNewSnapshot(DateTime fromDate, DateTime toDate)
-        {
-            var criteria = new GetInfoSiteMatchesByDateRangeCriteria
-            {
-                FromDate = fromDate.Date.AddHours(12),
-                ToDate = toDate.AddHours(11).AddMinutes(59)
-            };
-            var result = await dynamicRepository.FetchAsync<InfoSiteMatch>(criteria);
-
-            return result.ToList();
-        }
-
-        public async Task<IList<InfoSiteMatch>> GetLGALinkedInfoSiteMatch(List<int> infoSiteMatchIds)
-        {
-            var criteria = new GetLinkedOWPMatchCriteria
-            {
-                InfositeMatchIds = string.Join(',', infoSiteMatchIds)
-            };
-            var result = await dynamicRepository.FetchAsync<InfoSiteMatch>(criteria);
-
-            return result.ToList();
-        }
+      return result.ToList();
     }
+
+    public async Task<IList<InfoSiteMatch>> GetLGALinkedInfoSiteMatch(List<int> infoSiteMatchIds)
+    {
+      var criteria = new GetLinkedOWPMatchCriteria
+      {
+        InfositeMatchIds = string.Join(',', infoSiteMatchIds)
+      };
+      var result = await dynamicRepository.FetchAsync<InfoSiteMatch>(criteria);
+
+      return result.ToList();
+    }
+  }
 }
