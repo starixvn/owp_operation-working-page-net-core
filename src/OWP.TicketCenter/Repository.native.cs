@@ -96,6 +96,8 @@ namespace OWP.TicketCenter
     Task<IEnumerable<SubTypeModel>> GetSubTypeByTicketTypeId(int ticketTypeId);
 
     Task<bool> QueryExistedTicketId(int ticketId);
+
+    Task UpdateIsSavedMessage(SaveMessageRequest request);
   }
 
   public class RepositoryImp : Repository
@@ -400,6 +402,16 @@ namespace OWP.TicketCenter
         TicketTypeId = ticketTypeId
       };
       return await dynamicRepository.FetchAsync<SubTypeModel>(criteria);
+    }
+
+    public async Task UpdateIsSavedMessage(SaveMessageRequest request)
+    {
+      var criteria = new SaveMessageCriteria
+      {
+          MessageId = request.MessageId,
+          IsSaved = request.IsSaved,
+      };
+      await dynamicRepository.ExecuteAsync(criteria);
     }
   }
 }

@@ -161,6 +161,10 @@ namespace OWP.TicketCenter
     public async Task<IEnumerable<StatusHistory>> GetStatusHistoryByTicketId(int ticketId)
         => await mediator.Send(new GetStatusHistoryRequest { TicketId = ticketId });
 
+    [HttpPost("ticket-detail/update-save-message")]
+    public async Task SaveMessage(SaveMessageRequest request)
+        => await mediator.Send(request);
+
     [HttpPost("pin-ticket")]
     public async Task PinTicket(PinTicketRequest request)
         => await mediator.Send(request);
