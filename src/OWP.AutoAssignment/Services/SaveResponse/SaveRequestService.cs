@@ -4,36 +4,34 @@ using OWP.Models;
 
 namespace OWP.AutoAssignment.Services.SaveResponse
 {
-    public interface SaveRequestService
+  public interface SaveRequestService
+  {
+    Task<ResultDataObject> Save(SaveRequestModel model);
+  }
+
+  public class SaveRequestServiceImp : SaveRequestService
+  {
+    private readonly Repository repository;
+
+    public SaveRequestServiceImp(Repository repository)
     {
-        Task<ResultDataObject> Save(HttpRequestMessage request);
+      this.repository = repository;
     }
 
-    public class SaveRequestServiceImp : SaveRequestService
+    public async Task<ResultDataObject> Save(SaveRequestModel model)
     {
-        private readonly Repository repository;
-
-        public SaveRequestServiceImp(Repository repository)
+      if (model == null || model.Data == null)
+      {
+        return new ResultDataObject
         {
-            this.repository = repository;
-        }
+          Code = 1,
+          Message = "Data not found"
+        };
+      }
 
-        public async Task<ResultDataObject> Save(HttpRequestMessage request)
-        {
-            var jsonString = await request.Content.ReadAsStringAsync();
-            var model = JsonConvert.DeserializeObject<SaveRequestModel>(jsonString);
-            if (model == null || model.Data == null)
-            {
-                return new ResultDataObject
-                {
-                    Code = 1,
-                    Message = "Data not found"
-                };
-            }
+      var result = await repository.SaveRequest(model);
 
-            var result = await repository.SaveRequest(model);
-
-            return result;
-        }
+      return result;
     }
+  }
 }
