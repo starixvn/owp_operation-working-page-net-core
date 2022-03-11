@@ -38,7 +38,7 @@ public abstract class RabbitMqClient : IDisposable
 
       channel.QueueDeclare(
           queue: queue,
-          durable: false,
+          durable: true,
           exclusive: false,
           autoDelete: false);
 
