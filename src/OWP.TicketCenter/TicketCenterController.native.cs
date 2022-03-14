@@ -176,5 +176,10 @@ namespace OWP.TicketCenter
     [HttpPost("get-subtype")]
     public async Task<IEnumerable<SubTypeModel>> GetSubTypeByTicketType(GetSubTypeRequest request)
         => await mediator.Send(request);
+
+    
+    [HttpGet("mark-all-tickets")]
+    public async Task MarkAllTicketAsRead(int actorId)
+        => await mediator.Send(new MarkAllTicketsRequest { ActorId = actorId });
   }
 }

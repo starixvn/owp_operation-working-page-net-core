@@ -98,6 +98,8 @@ namespace OWP.TicketCenter
     Task<bool> QueryExistedTicketId(int ticketId);
 
     Task UpdateIsSavedMessage(SaveMessageRequest request);
+
+    Task UpdateTicketsAsRead(int actorId);
   }
 
   public class RepositoryImp : Repository
@@ -412,6 +414,15 @@ namespace OWP.TicketCenter
           IsSaved = request.IsSaved,
       };
       await dynamicRepository.ExecuteAsync(criteria);
+    }
+
+    public async Task UpdateTicketsAsRead(int actorId)
+    {
+        var criteria = new MarkAllTicketsCriteria
+        {
+            ActorId = actorId
+        };
+        await dynamicRepository.ExecuteAsync(criteria);
     }
   }
 }
