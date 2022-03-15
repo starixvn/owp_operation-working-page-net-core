@@ -14,7 +14,7 @@ public static class RoutingKey
     "infosite-match-info"
   }.ToImmutableList();
 
-  public static readonly IImmutableDictionary<string, Func<string, NotificationCommandBaseModel>> KeyMappingDict = new Dictionary<string, Func<string, NotificationCommandBaseModel>>{
+  public static readonly IImmutableDictionary<string, Func<string, NotificationCommandBaseModel?>> KeyMappingDict = new Dictionary<string, Func<string, NotificationCommandBaseModel?>>{
             {"linked-lga-match", JsonConvert.DeserializeObject<LinkedMatchNotifyRequest>},
             {"prematch-assignment", JsonConvert.DeserializeObject<PrematchAssignmentNotifyRequest>},
             {"prematch-new-league", JsonConvert.DeserializeObject<PrematchNewLeagueNotifyRequest>},
