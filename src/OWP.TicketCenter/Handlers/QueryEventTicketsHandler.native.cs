@@ -1,15 +1,12 @@
-﻿using System.Linq;
-using Olympus.Xml;
+﻿using Olympus.Xml;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Services;
-using OWP.TicketCenter.ViewModels;
 
 namespace OWP.TicketCenter.Handlers
 {
     using MediatR;
-    using OWP.Extensions;
 
-    public class QueryEventTicketsRequest : IRequest<List<TicketDetailBaseViewModel>>
+    public class QueryEventTicketsRequest : IRequest<IList<TicketBaseInfo>>
     {
         public int ActorId { get; set; }
 
@@ -37,47 +34,16 @@ namespace OWP.TicketCenter.Handlers
         }
     }
 
-    public class QueryEventTicketsHandler : IRequestHandler<QueryEventTicketsRequest, List<TicketDetailBaseViewModel>>
+    public class QueryEventTicketsHandler : IRequestHandler<QueryEventTicketsRequest, IList<TicketBaseInfo>>
     {
-        private readonly EventTicketLeagueService leagueService;
+        private readonly GetEventTicketsService getEventTicketService;
 
-        private readonly EventTicketMatchService matchService;
-
-        private readonly EventTicketOtherService otherService;
-
-        private readonly EventTicketSupportService supportService;
-
-        public QueryEventTicketsHandler(EventTicketLeagueService leagueService,
-            EventTicketMatchService matchService,
-            EventTicketOtherService otherService,
-            EventTicketSupportService supportService)
+        public QueryEventTicketsHandler(GetEventTicketsService getEventTicketService)
         {
-            this.leagueService = leagueService;
-            this.matchService = matchService;
-            this.otherService = otherService;
-            this.supportService = supportService;
+            this.getEventTicketService = getEventTicketService;
         }
 
-        public async Task<List<TicketDetailBaseViewModel>> Handle(QueryEventTicketsRequest request, CancellationToken cancellationToken)
-        {
-            var ticketLeague = await leagueService.GetAllLeague(request);
-
-            var ticketMatch = await matchService.GetAllMatch(request);
-            var ticketOthers = await otherService.GetAllTicketOther(request);
-            var ticketSupport = await supportService.GetAllTicketSupport(request);
-
-            var eventTickets = new List<TicketDetailBaseViewModel>();
-
-            eventTickets.AddRange(ticketLeague);
-            eventTickets.AddRange(ticketMatch);
-            eventTickets.AddRange(ticketOthers);
-            eventTickets.AddRange(ticketSupport);
-
-            return SortEventTicketByCommentLatestDate(eventTickets);
-        }
-
-        private List<TicketDetailBaseViewModel> SortEventTicketByCommentLatestDate(
-            List<TicketDetailBaseViewModel> tickets)
-            => tickets.OrderByDescending(x => x.IsPinned).ThenByDescending(x => x.CommentLatestDate).ToList();
+        public async Task<IList<TicketBaseInfo>> Handle(QueryEventTicketsRequest request, CancellationToken cancellationToken)
+             => await getEventTicketService.GetAllTickets(request);
     }
 }

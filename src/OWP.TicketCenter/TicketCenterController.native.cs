@@ -73,7 +73,7 @@ namespace OWP.TicketCenter
     }
 
     [HttpPost("get-event-ticket")]
-    public async Task<List<TicketDetailBaseViewModel>> GetEventTicket(QueryEventTicketsRequest request)
+    public async Task<IList<TicketBaseInfo>> GetEventTicket(QueryEventTicketsRequest request)
         => await mediator.Send(request);
 
     [HttpGet("get-ticket-type")]
