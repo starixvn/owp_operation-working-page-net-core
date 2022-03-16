@@ -18,8 +18,6 @@
 
         public bool IsRead { get; set; }
 
-        public bool IsSaved { get; set; }
-
         public bool IsPinned { get; set; }
 
         public IList<MessageInfoModel> Messages { get; set; }
