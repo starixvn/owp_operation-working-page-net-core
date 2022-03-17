@@ -1,21 +1,21 @@
 ﻿namespace OWP.PreMatchNotification.Services
 {
-    using Fanex.NAP.Client.Helpers.Web;
-    using OWP.PreMatchNotification.Constants;
-    using OWP.PreMatchNotification.Models;
-    using System.Collections.Immutable;
+  using Fanex.NAP.Client.Helpers.Web;
+  using OWP.PreMatchNotification.Constants;
+  using OWP.PreMatchNotification.Models;
+  using System.Collections.Immutable;
 
-    public interface MessageFactory
+  public interface MessageFactory
+  {
+    List<MessageModel> Transform(IList<ChangedValue> changedValues);
+  }
+
+  public class MessageFactoryImp : MessageFactory
+  {
+    #region MessageTemplate
+
+    private static readonly ImmutableList<MessageTemplate> messageTemplates = ImmutableList<MessageTemplate>.Empty.AddRange(new[]
     {
-        List<MessageModel> Transform(IList<ChangedValue> changedValues);
-    }
-
-    public class MessageFactoryImp : MessageFactory
-    {
-        #region MessageTemplate
-
-        private static readonly ImmutableList<MessageTemplate> messageTemplates = ImmutableList<MessageTemplate>.Empty.AddRange(new[]
-        {
             new MessageTemplate
             {
                  MessageType=(int)MsgTemplateCode.DayShiftAssignmentInsert,
@@ -100,101 +100,111 @@
             },
         });
 
-        #endregion MessageTemplate
+    #endregion MessageTemplate
 
-        #region MessageModelRaw
+    #region MessageModelRaw
 
-        private class MessageModelRaw
-        {
-            public string MessageContent { get; set; }
+    private class MessageModelRaw
+    {
+      public string MessageContent { get; set; }
 
-            public bool IsImportant { get; set; }
+      public bool IsImportant { get; set; }
 
-            public int MessageType { get; set; }
+      public int MessageType { get; set; }
 
-            public bool IsBlinking { get; set; }
+      public bool IsBlinking { get; set; }
 
-            public List<int> Assignees { get; set; }
-        }
-
-        #endregion MessageModelRaw
-
-        private static readonly Dictionary<int, MessageTemplate> messageTemplateMap = messageTemplates.ToDictionary(m => m.MessageType, m => m);
-
-        private readonly INapSession currentSession;
-
-        public MessageFactoryImp(INapSession currentSession)
-        {
-            this.currentSession = currentSession;
-        }
-
-        public List<MessageModel> Transform(IList<ChangedValue> changedValues)
-        {
-            var messageModels = TransformChangedValueToMessageModel(changedValues);
-            return Reduce(messageModels);
-        }
-
-        private List<MessageModelRaw> TransformChangedValueToMessageModel(IList<ChangedValue> changedValues)
-        {
-            return changedValues
-                .Select(g =>
-                {
-                    var messageTemplate = messageTemplateMap[g.MessageTypeId];
-                    var content = CreateMessageContent(g);
-
-                    return new MessageModelRaw
-                    {
-                        IsImportant = messageTemplate.IsImportant,
-                        MessageContent = content,
-                        MessageType = g.MessageTypeId,
-                        Assignees = g.ReceivedUserIds,
-                        IsBlinking = messageTemplate.IsBlinking
-                    };
-                }).ToList();
-        }
-
-        private string CreateMessageContent(ChangedValue value)
-        {
-            var messageTemplate = messageTemplateMap[value.MessageTypeId];
-            var content = messageTemplate.MessageContent;
-
-            content = content.Replace("<newvalue>", "<b><newvalue></b>");
-
-            if (value.MessageTypeId == (int)MsgTemplateCode.UpdateHome ||
-                value.MessageTypeId == (int)MsgTemplateCode.UpdateAway ||
-                value.MessageTypeId == (int)MsgTemplateCode.UpdateKOTime)
-            {
-                content = content.Replace("<oldvalue>", "<b><oldvalue></b>");
-            }
-
-            content = content.Replace("<newvalue>", string.IsNullOrWhiteSpace(value.NewValue) ? "[]" : value.NewValue);
-            content = content.Replace("<oldvalue>", string.IsNullOrWhiteSpace(value.OldValue) ? "[]" : value.OldValue);
-            content = content.Replace("<League>", value.League);
-            content = content.Replace("<Home>", value.Home);
-            content = content.Replace("<Away>", value.Away);
-            content = content.Replace("<User>", currentSession.UserName);
-            content = content.Replace("<bettype>", value.BetTypeName);
-            content = content.Replace("<K.O Time>", value.KoTime);
-
-            return content;
-        }
-
-        private static List<MessageModel> Reduce(List<MessageModelRaw> messageModels)
-        {
-            return messageModels.GroupBy(m => new { m.MessageContent, m.IsImportant, m.MessageType, m.IsBlinking })
-                .Select(m =>
-                {
-                    var assignees = m.SelectMany(x => x.Assignees).Distinct().ToArray();
-                    return new MessageModel
-                    {
-                        MessageType = m.Key.MessageType,
-                        MessageContent = m.Key.MessageContent,
-                        IsImportant = m.Key.IsImportant,
-                        ReceivedUserIds = assignees.Select(a => a.ToString()).ToList(),
-                        IsBlinking = m.Key.IsBlinking
-                    };
-                })
-                .ToList();
-        }
+      public List<int> Assignees { get; set; }
     }
+
+    #endregion MessageModelRaw
+
+    private static readonly Dictionary<int, MessageTemplate> messageTemplateMap = messageTemplates.ToDictionary(m => m.MessageType, m => m);
+
+    private readonly INapSession currentSession;
+
+    public MessageFactoryImp(INapSession currentSession)
+    {
+      this.currentSession = currentSession;
+    }
+
+    public List<MessageModel> Transform(IList<ChangedValue> changedValues)
+    {
+      var messageModels = TransformChangedValueToMessageModel(changedValues);
+      return Reduce(messageModels);
+    }
+
+    private List<MessageModelRaw> TransformChangedValueToMessageModel(IList<ChangedValue> changedValues)
+    {
+      return changedValues
+          .Select(g =>
+          {
+            var messageTemplate = messageTemplateMap[g.MessageTypeId];
+            var content = CreateMessageContent(g);
+
+            return new MessageModelRaw
+            {
+              IsImportant = messageTemplate.IsImportant,
+              MessageContent = content,
+              MessageType = g.MessageTypeId,
+              Assignees = g.ReceivedUserIds,
+              IsBlinking = messageTemplate.IsBlinking
+            };
+          }).ToList();
+    }
+
+    private string CreateMessageContent(ChangedValue value)
+    {
+      var messageTemplate = messageTemplateMap[value.MessageTypeId];
+      var content = messageTemplate.MessageContent;
+
+      content = content.Replace("<newvalue>", "<b><newvalue></b>");
+
+      if (value.MessageTypeId == (int)MsgTemplateCode.UpdateHome ||
+          value.MessageTypeId == (int)MsgTemplateCode.UpdateAway ||
+          value.MessageTypeId == (int)MsgTemplateCode.UpdateKOTime)
+      {
+        content = content.Replace("<oldvalue>", "<b><oldvalue></b>");
+      }
+
+      string username;
+      try
+      {
+        username = currentSession.UserName;
+      }
+      catch (NullReferenceException ex)
+      {
+        username = string.Empty;
+      }
+
+      content = content.Replace("<newvalue>", string.IsNullOrWhiteSpace(value.NewValue) ? "[]" : value.NewValue);
+      content = content.Replace("<oldvalue>", string.IsNullOrWhiteSpace(value.OldValue) ? "[]" : value.OldValue);
+      content = content.Replace("<League>", value.League);
+      content = content.Replace("<Home>", value.Home);
+      content = content.Replace("<Away>", value.Away);
+      content = content.Replace("<User>", username);
+      content = content.Replace("<bettype>", value.BetTypeName);
+      content = content.Replace("<K.O Time>", value.KoTime);
+
+      return content;
+    }
+
+    private static List<MessageModel> Reduce(List<MessageModelRaw> messageModels)
+    {
+      return messageModels.GroupBy(m => new { m.MessageContent, m.IsImportant, m.MessageType, m.IsBlinking })
+          .Select(m =>
+          {
+            var assignees = m.SelectMany(x => x.Assignees).Distinct().ToArray();
+            return new MessageModel
+            {
+              MessageType = m.Key.MessageType,
+              MessageContent = m.Key.MessageContent,
+              IsImportant = m.Key.IsImportant,
+              ReceivedUserIds = assignees.Select(a => a.ToString()).ToList(),
+              IsBlinking = m.Key.IsBlinking
+            };
+          })
+          .ToList();
+    }
+  }
 }
