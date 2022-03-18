@@ -36,20 +36,10 @@
     {
       messages.ForEach(x => x.ReceivedUserIdList = string.Join(",", x.ReceivedUserIds));
 
-      int userId;
-      try
-      {
-        userId = currentSession.UserId;
-      }
-      catch (NullReferenceException ex)
-      {
-        userId = 0;
-      }
-
       var criteria = new InsertMessageCommand
       {
         Messages = XmlConverter.Serialize(messages),
-        CreatedByUserId = userId,
+        CreatedByUserId = 0,
         SessionId = sessionId
       };
 

@@ -167,22 +167,12 @@
         content = content.Replace("<oldvalue>", "<b><oldvalue></b>");
       }
 
-      string username;
-      try
-      {
-        username = currentSession.UserName;
-      }
-      catch (NullReferenceException ex)
-      {
-        username = string.Empty;
-      }
-
       content = content.Replace("<newvalue>", string.IsNullOrWhiteSpace(value.NewValue) ? "[]" : value.NewValue);
       content = content.Replace("<oldvalue>", string.IsNullOrWhiteSpace(value.OldValue) ? "[]" : value.OldValue);
       content = content.Replace("<League>", value.League);
       content = content.Replace("<Home>", value.Home);
       content = content.Replace("<Away>", value.Away);
-      content = content.Replace("<User>", username);
+      content = content.Replace("<User>", string.Empty);
       content = content.Replace("<bettype>", value.BetTypeName);
       content = content.Replace("<K.O Time>", value.KoTime);
 
