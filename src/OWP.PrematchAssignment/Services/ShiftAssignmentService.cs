@@ -61,9 +61,9 @@ namespace OWP.PreMatchAssignment.Services
                 IsDay = true
             };
 
-            var result = await QueryShift(queryDayShiftCriteria, request.Employee, request.LeagueName, request.EventDate);
+            var result = await QueryShift(queryDayShiftCriteria, request.Employee, request.LeagueName, request.EventDate);            
 
-            var preMatchLeagues = SortAndAddNo(result.Item1);
+            var preMatchLeagues = SortAndAddNo(result.Item1);            
 
             return new QueryPreMatchLeagueViewModel
             {
@@ -303,6 +303,8 @@ namespace OWP.PreMatchAssignment.Services
             var matches = data.Item2.Where(x => filterByLeagueName.Any(y => y.PreMatchLeagueId == x.PreMatchLeagueId));
 
             await MapMatchStatusWhichLinkedOWP(matches, eventDate);
+            
+            await AddOddStatusNo(matches);
 
             return new Tuple<IEnumerable<PreMatchLeague>, IEnumerable<InfoSiteMatch>>(filterByLeagueName, matches);
         }
@@ -392,5 +394,43 @@ namespace OWP.PreMatchAssignment.Services
 
             return sortedLeagues;
         }
+
+        private async Task<IEnumerable<OddStatus>> QueryOddStatusFromMainDB(IEnumerable<InfoSiteMatch> infositeMatches)
+        {
+            var adminSiteMatchIds = infositeMatches.Select(x => x.AdminSiteMatchId).Distinct();
+            var criteria = new QueryOddStatusFromMainDBCriteria
+            {
+                AdminSiteMatchIds = string.Join(",", adminSiteMatchIds)
+            };
+
+            return await dynamicRepository.FetchAsync<OddStatus>(criteria);
+        }
+
+        public async Task AddOddStatusNo(IEnumerable<InfoSiteMatch> infositeMatches)
+        {
+            var oddStatuses = await QueryOddStatusFromMainDB(infositeMatches);
+            var oddStatusesDict = oddStatuses.GroupBy(x => x.AdminSiteMatchId).ToDictionary(x => x.Key, x => x.ToList());            
+
+            foreach (var infositeMatch in infositeMatches)
+            {
+                var oddStatusByMatchId = oddStatusesDict.GetValue(infositeMatch.AdminSiteMatchId, new List<OddStatus>());
+                var openedHDP = IsRunning(oddStatusByMatchId.Where(x => x.Bettype == 1));
+                var openedOU = IsRunning(oddStatusByMatchId.Where(x => x.Bettype == 3));
+
+                infositeMatch.MatchOffer = CalculateOddStatus(openedHDP, openedOU);
+            }
+        }
+
+        private static bool IsRunning(IEnumerable<OddStatus> oddStatuses) 
+            => oddStatuses.Any(x => string.Equals(x.OddsStatus, "running", StringComparison.OrdinalIgnoreCase));
+
+        private static string CalculateOddStatus(bool openedHDP, bool openedOU)
+        => (openedHDP, openedOU) switch
+           {
+                (true, true) => "Opened",
+                (false, true) => "HDP (?)",
+                (true, false) => "OU (?)",
+                _ => string.Empty,
+            };
     }
 }
