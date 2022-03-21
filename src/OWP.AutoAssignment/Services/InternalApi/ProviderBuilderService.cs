@@ -44,8 +44,8 @@ namespace OWP.AutoAssignment.Services.InternalApi
 
         public string BuildProviderForRealMatch(ProviderInfo provider, AutoAssignmentResultModel matchResult)
         {
-            var reporter = GetReporter(provider.Provider);
-            var firstProvider = FirstProviderBuilder.GetFirstProvider(provider.OtherProvider);
+            var reporter = GetReporter(provider?.Provider);
+            var firstProvider = FirstProviderBuilder.GetFirstProvider(provider?.OtherProvider);
             var providerItems = new List<string>
             {
                 provider.ProviderTv,
