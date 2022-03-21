@@ -33,7 +33,6 @@ public class ConsumerBase : RabbitMqClient
       var routingKey = eventArgs.RoutingKey;
       var message = RoutingKey.KeyMappingDict[routingKey](body);
 
-      await logServiceWrapper.Log($"Got a {routingKey} message from queue", message);
       await mediator.Send(message);
     }
     catch (Exception ex)
