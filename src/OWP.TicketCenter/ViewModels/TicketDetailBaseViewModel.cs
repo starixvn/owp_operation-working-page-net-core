@@ -26,6 +26,8 @@ public class TicketDetailBaseViewModel
 
     public bool IsRead { get; set; }
 
+    public bool IsSaved { get; set; }
+
     public bool IsPinned { get; set; }
 
     public int EventType { get; set; }

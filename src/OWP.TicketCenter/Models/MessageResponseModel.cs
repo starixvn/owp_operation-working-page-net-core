@@ -16,4 +16,10 @@
 
         public int? FileId { get; set; }
     }
+
+    public class MessageInfoModel : MessageResponseModel
+    {
+        public int TicketId { get; set; }
+    }
+
 }

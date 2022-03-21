@@ -35,7 +35,7 @@ namespace OWP.TicketTypeRecipient.Middleware
 
         if (!unique || lstSubtypeExistsAnotherTicketType.Any() || subTypeExistsCurrentTicketType.Any())
         {
-          var subTypeInvalid = lstSubtypeExistsAnotherTicketType.Concat(subTypeExistsCurrentTicketType).Select(x => x.ToLower()).Distinct();
+          var subTypeInvalid = lstSubtypeExistsAnotherTicketType.Concat(subTypeExistsCurrentTicketType).Select(x => x.ToLowerInvariant()).Distinct();
           context.HttpContext.Response.StatusCode = 400;
           context.Result = new ContentResult
           {
@@ -60,7 +60,7 @@ namespace OWP.TicketTypeRecipient.Middleware
           .Subtypes
           .Select(x => new SubtypeChecker
           {
-            SubtypeName = x.SubtypeName.ToLower()
+            SubtypeName = x.SubtypeName.ToLowerInvariant()
           })
           .ToList();
 

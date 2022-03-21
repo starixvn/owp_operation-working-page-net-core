@@ -33,13 +33,13 @@ namespace OWP.TicketCenter
 
     Task AddNewTicketIssueLeague(NewTicketIssueLeagueRequest request);
 
-    Task<IEnumerable<EventTicketOtherModel>> GetEventTicketOther(QueryEventTicketsRequest request);
+    Task<IEnumerable<TicketOtherInfo>> GetEventTicketOther(QueryEventTicketsRequest request);
 
-    Task<IEnumerable<EventTicketSupportModel>> GetEventTicketSupport(QueryEventTicketsRequest request);
+    Task<IEnumerable<TicketSupportInfo>> GetEventTicketSupport(QueryEventTicketsRequest request);
 
-    Task<IEnumerable<EventTicketLeagueModel>> GetEventTicketLeague(QueryEventTicketsRequest request);
+    Task<IEnumerable<TicketLeagueInfo>> GetEventTicketLeague(QueryEventTicketsRequest request);
 
-    Task<IEnumerable<EventTicketMatchModel>> GetEventTicketMatch(QueryEventTicketsRequest request);
+    Task<IEnumerable<TicketMatchInfo>> GetEventTicketMatch(QueryEventTicketsRequest request);
 
     Task<IEnumerable<EventTicketMatchModel>> GetTicketMatchDetail(int ticketId);
 
@@ -96,6 +96,12 @@ namespace OWP.TicketCenter
     Task<IEnumerable<SubTypeModel>> GetSubTypeByTicketTypeId(int ticketTypeId);
 
     Task<bool> QueryExistedTicketId(int ticketId);
+
+    Task UpdateIsSavedMessage(SaveMessageRequest request);
+
+    Task UpdateTicketsAsRead(int actorId);
+
+    Task<IEnumerable<MessageInfoModel>> GetTwoLastCommnet(IList<int> ticketIds);
   }
 
   public class RepositoryImp : Repository
@@ -214,33 +220,33 @@ namespace OWP.TicketCenter
       return result;
     }
 
-    public async Task<IEnumerable<EventTicketMatchModel>> GetEventTicketMatch(QueryEventTicketsRequest request)
+    public async Task<IEnumerable<TicketMatchInfo>> GetEventTicketMatch(QueryEventTicketsRequest request)
     {
       var criteria = mapper.Map<GetEventTicketMatchCriteria>(request);
       criteria.ThrowExceptionIfInvalid();
-      return await dynamicRepository.FetchAsync<EventTicketMatchModel>(criteria);
+      return await dynamicRepository.FetchAsync<TicketMatchInfo>(criteria);
     }
 
-    public async Task<IEnumerable<EventTicketOtherModel>> GetEventTicketOther(QueryEventTicketsRequest request)
+    public async Task<IEnumerable<TicketOtherInfo>> GetEventTicketOther(QueryEventTicketsRequest request)
     {
       var criteria = mapper.Map<GetEventTicketOtherCriteria>(request);
       criteria.ThrowExceptionIfInvalid();
-      return await dynamicRepository.FetchAsync<EventTicketOtherModel>(criteria);
+      return await dynamicRepository.FetchAsync<TicketOtherInfo>(criteria);
     }
 
-    public async Task<IEnumerable<EventTicketSupportModel>> GetEventTicketSupport(QueryEventTicketsRequest request)
+    public async Task<IEnumerable<TicketSupportInfo>> GetEventTicketSupport(QueryEventTicketsRequest request)
     {
       var criteria = mapper.Map<GetEventTicketSupportCriteria>(request);
       criteria.ThrowExceptionIfInvalid();
-      return await dynamicRepository.FetchAsync<EventTicketSupportModel>(criteria);
+      return await dynamicRepository.FetchAsync<TicketSupportInfo>(criteria);
     }
 
-    public async Task<IEnumerable<EventTicketLeagueModel>> GetEventTicketLeague(QueryEventTicketsRequest request)
+    public async Task<IEnumerable<TicketLeagueInfo>> GetEventTicketLeague(QueryEventTicketsRequest request)
     {
       var criteria = mapper.Map<GetEventTicketLeagueCriteria>(request);
 
       criteria.ThrowExceptionIfInvalid();
-      return await dynamicRepository.FetchAsync<EventTicketLeagueModel>(criteria);
+      return await dynamicRepository.FetchAsync<TicketLeagueInfo>(criteria);
     }
 
     public async Task<IEnumerable<EventTicketMatchModel>> GetTicketMatchDetail(int ticketId)
@@ -400,6 +406,35 @@ namespace OWP.TicketCenter
         TicketTypeId = ticketTypeId
       };
       return await dynamicRepository.FetchAsync<SubTypeModel>(criteria);
+    }
+
+    public async Task UpdateIsSavedMessage(SaveMessageRequest request)
+    {
+      var criteria = new SaveMessageCriteria
+      {
+          MessageId = request.MessageId,
+          IsSaved = request.IsSaved,
+      };
+      await dynamicRepository.ExecuteAsync(criteria);
+    }
+
+    public async Task UpdateTicketsAsRead(int actorId)
+    {
+        var criteria = new MarkAllTicketsCriteria
+        {
+            ActorId = actorId
+        };
+        await dynamicRepository.ExecuteAsync(criteria);
+    }
+
+    public async Task<IEnumerable<MessageInfoModel>> GetTwoLastCommnet(IList<int> ticketIds)
+    {
+        var criteria = new GetTwoLastCommnetCriteria
+        {
+            TicketId = String.Join(',', ticketIds)
+        };
+
+        return await dynamicRepository.FetchAsync<MessageInfoModel>(criteria);
     }
   }
 }

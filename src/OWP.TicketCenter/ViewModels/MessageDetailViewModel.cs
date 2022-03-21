@@ -12,6 +12,8 @@
 
         public int? FileId { get; set; }
 
+        public bool IsSaved { get; set; }
+
         public bool IsFile => FileId.HasValue;
 
         public DateTime? CreatedDate { get; set; }

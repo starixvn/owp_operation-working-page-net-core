@@ -73,7 +73,7 @@ namespace OWP.TicketCenter
     }
 
     [HttpPost("get-event-ticket")]
-    public async Task<List<TicketDetailBaseViewModel>> GetEventTicket(QueryEventTicketsRequest request)
+    public async Task<IList<TicketBaseInfo>> GetEventTicket(QueryEventTicketsRequest request)
         => await mediator.Send(request);
 
     [HttpGet("get-ticket-type")]
@@ -161,6 +161,10 @@ namespace OWP.TicketCenter
     public async Task<IEnumerable<StatusHistory>> GetStatusHistoryByTicketId(int ticketId)
         => await mediator.Send(new GetStatusHistoryRequest { TicketId = ticketId });
 
+    [HttpPost("ticket-detail/update-save-message")]
+    public async Task SaveMessage(SaveMessageRequest request)
+        => await mediator.Send(request);
+
     [HttpPost("pin-ticket")]
     public async Task PinTicket(PinTicketRequest request)
         => await mediator.Send(request);
@@ -172,5 +176,10 @@ namespace OWP.TicketCenter
     [HttpPost("get-subtype")]
     public async Task<IEnumerable<SubTypeModel>> GetSubTypeByTicketType(GetSubTypeRequest request)
         => await mediator.Send(request);
+
+    
+    [HttpGet("mark-all-tickets")]
+    public async Task MarkAllTicketAsRead(int actorId)
+        => await mediator.Send(new MarkAllTicketsRequest { ActorId = actorId });
   }
 }
