@@ -312,10 +312,8 @@ namespace OWP.PreMatchAssignment.Services
             return new Tuple<IEnumerable<PreMatchLeague>, IEnumerable<InfoSiteMatch>>(filterByLeagueName, matchesFilterByMatchOffer);
         }
 
-        private IEnumerable<InfoSiteMatch> FilterByMatchOffer(IEnumerable<InfoSiteMatch> matches, List<String> matchOffers)
-        {
-            return matches.Where(m => matchOffers.Any(x => x.Equals(m.MatchOffer)));
-        }
+        private static IEnumerable<InfoSiteMatch> FilterByMatchOffer(IEnumerable<InfoSiteMatch> matches, List<String> matchOffers)
+            => matches.Where(m => matchOffers.Any(x => x.Equals(m.MatchOffer)));
 
         public async Task MapMatchStatusWhichLinkedOWP(IEnumerable<InfoSiteMatch> matches, DateTime dateTime)
         {
