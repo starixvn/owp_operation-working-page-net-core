@@ -8,26 +8,26 @@ using Xunit.Asserts.Compare;
 
 namespace OWP.Maxbet.UnitTests.Builder
 {
-    public class TraderAssignmentBuilderUnitTests
+  public class TraderAssignmentBuilderUnitTests
+  {
+    private readonly MaxbetRepository syncMaxbetRepository;
+
+    private readonly TraderAssignmentBuilderImp traderAssignment;
+
+    private readonly LogServiceWrapper logServiceWrapper;
+
+    public TraderAssignmentBuilderUnitTests()
     {
-        private readonly MaxbetReposiory syncMaxbetReposiory;
+      logServiceWrapper = Substitute.For<LogServiceWrapper>();
+      syncMaxbetRepository = Substitute.For<MaxbetRepository>();
+      traderAssignment = new TraderAssignmentBuilderImp(syncMaxbetRepository, logServiceWrapper);
+    }
 
-        private readonly TraderAssignmentBuilderImp traderAssignment;
-
-        private readonly LogServiceWrapper logServiceWrapper;
-
-        public TraderAssignmentBuilderUnitTests()
-        {
-            logServiceWrapper = Substitute.For<LogServiceWrapper>();
-            syncMaxbetReposiory = Substitute.For<MaxbetReposiory>();
-            traderAssignment = new TraderAssignmentBuilderImp(syncMaxbetReposiory, logServiceWrapper);
-        }
-
-        [Fact]
-        public async Task BuildTraderAssignmentSender_OwpmatchId_TraderAssignment_Has_Full_Bettype_ReturnTraderInfoFullBettype()
-        {
-            var matchId = 123;
-            List<TraderAssignment> traders = new List<TraderAssignment>
+    [Fact]
+    public async Task BuildTraderAssignmentSender_OwpmatchId_TraderAssignment_Has_Full_Bettype_ReturnTraderInfoFullBettype()
+    {
+      var matchId = 123;
+      List<TraderAssignment> traders = new List<TraderAssignment>
             {
                 new TraderAssignment
                 {
@@ -51,37 +51,37 @@ namespace OWP.Maxbet.UnitTests.Builder
                 }
             };
 
-            syncMaxbetReposiory
-              .GetTradersByOwpMatchId(matchId)
-              .ReturnsForAnyArgs(Task.FromResult(traders));
+      syncMaxbetRepository
+        .GetTradersByOwpMatchId(matchId)
+        .ReturnsForAnyArgs(Task.FromResult(traders));
 
-            var result = await traderAssignment.BuildTraderAssignmentSender(matchId);
+      var result = await traderAssignment.BuildTraderAssignmentSender(matchId);
 
-            var expected = new TraderAssignmentSender
-            {
-                Handicap = 111,
-                OverUnder = 112,
-                FirstHalfHandicap = 113,
-                FirstHalfOverUnder = 114
-            };
+      var expected = new TraderAssignmentSender
+      {
+        Handicap = 111,
+        OverUnder = 112,
+        FirstHalfHandicap = 113,
+        FirstHalfOverUnder = 114
+      };
 
-            DeepAssert.Equal(result, expected);
-        }
-
-        [Fact]
-        public async Task BuildTraderAssignmentSender_OwpmatchId_TraderAssignment_NotFound_Bettype_ReturnTraderDefault()
-        {
-            var matchId = 123;
-
-            syncMaxbetReposiory
-              .GetTradersByOwpMatchId(matchId)
-              .ReturnsForAnyArgs(Task.FromResult(new List<TraderAssignment>()));
-
-            var result = await traderAssignment.BuildTraderAssignmentSender(matchId);
-
-            var expected = new TraderAssignmentSender();
-
-            DeepAssert.Equal(result, expected);
-        }
+      DeepAssert.Equal(result, expected);
     }
+
+    [Fact]
+    public async Task BuildTraderAssignmentSender_OwpmatchId_TraderAssignment_NotFound_Bettype_ReturnTraderDefault()
+    {
+      var matchId = 123;
+
+      syncMaxbetRepository
+        .GetTradersByOwpMatchId(matchId)
+        .ReturnsForAnyArgs(Task.FromResult(new List<TraderAssignment>()));
+
+      var result = await traderAssignment.BuildTraderAssignmentSender(matchId);
+
+      var expected = new TraderAssignmentSender();
+
+      DeepAssert.Equal(result, expected);
+    }
+  }
 }

@@ -3,32 +3,32 @@ using OWP.Services;
 
 namespace OWP.Maxbet.Builder
 {
-    public interface SpecialProductSpreadBuilder
+  public interface SpecialProductSpreadBuilder
+  {
+    Task<MaxbetSpread> BuildSpreadXMins(int owpMatchId);
+  }
+
+  public class SpecialProductSpreadBuilderImp : SpecialProductSpreadBuilder
+  {
+    private readonly MaxbetRepository syncMaxbetRepository;
+    private readonly LogServiceWrapper logServiceWrapper;
+
+    public SpecialProductSpreadBuilderImp(MaxbetRepository syncMaxbetRepository, LogServiceWrapper logServiceWrapper)
     {
-        Task<MaxbetSpread> BuildSpreadXMins(int owpMatchId);
+      this.syncMaxbetRepository = syncMaxbetRepository;
+      this.logServiceWrapper = logServiceWrapper;
     }
 
-    public class SpecialProductSpreadBuilderImp : SpecialProductSpreadBuilder
+    public async Task<MaxbetSpread> BuildSpreadXMins(int owpMatchId)
     {
-        private readonly MaxbetReposiory syncMaxbetReposiory;
-        private readonly LogServiceWrapper logServiceWrapper;
-
-        public SpecialProductSpreadBuilderImp(MaxbetReposiory syncMaxbetReposiory, LogServiceWrapper logServiceWrapper)
-        {
-            this.syncMaxbetReposiory = syncMaxbetReposiory;
-            this.logServiceWrapper = logServiceWrapper;
-        }
-
-        public async Task<MaxbetSpread> BuildSpreadXMins(int owpMatchId)
-        {
-            var spread = await syncMaxbetReposiory.GetSpreadXMins(owpMatchId);
-            await logServiceWrapper.Log("====BuildSpreadXMins====", spread);
-            var spreadHdp = spread?.FirstOrDefault();
-            return new()
-            {
-                Handicap = spreadHdp,
-                OverUnder = spreadHdp
-            };
-        }
+      var spread = await syncMaxbetRepository.GetSpreadXMins(owpMatchId);
+      await logServiceWrapper.Log("====BuildSpreadXMins====", spread);
+      var spreadHdp = spread?.FirstOrDefault();
+      return new()
+      {
+        Handicap = spreadHdp,
+        OverUnder = spreadHdp
+      };
     }
+  }
 }

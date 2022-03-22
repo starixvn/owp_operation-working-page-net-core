@@ -1,62 +1,63 @@
 ﻿namespace OWP.PreMatchNotification.UnitTests.InfoSiteMatchInfo
 {
-    using NSubstitute;
-    using OWP.PreMatchNotification.Constants;
-    using OWP.PreMatchNotification.InfoSiteMatchInfo.Handlers;
-    using OWP.PreMatchNotification.InfoSiteMatchInfo.Models;
-    using OWP.PreMatchNotification.InfoSiteMatchInfo.Services;
-    using OWP.PreMatchNotification.Models;
-    using OWP.PreMatchNotification.Services;
+  using NSubstitute;
+  using OWP.NotificationRequests;
+  using OWP.PreMatchNotification.Constants;
+  using OWP.PreMatchNotification.InfoSiteMatchInfo.Handlers;
+  using OWP.PreMatchNotification.InfoSiteMatchInfo.Models;
+  using OWP.PreMatchNotification.InfoSiteMatchInfo.Services;
+  using OWP.PreMatchNotification.Models;
+  using OWP.PreMatchNotification.Services;
+  using Xunit.Asserts.Compare;
+  using Xunit;
 
-    using Xunit;
-    using Xunit.Asserts.Compare;
 
-    public class MatchInfoNotifyHandlerUnitTests
+  public class MatchInfoNotifyHandlerUnitTests
+  {
+    [Fact]
+    public async Task GenerateMessages_ReturnChangedValues()
     {
-        [Fact]
-        public async Task GenerateMessages_ReturnChangedValues()
-        {
-            var service = MockService();
-            var expected = MockexpectedAssigneeMessages().Union(MockExpectedLSTMessages()).ToList();
+      var service = MockService();
+      var expected = MockexpectedAssigneeMessages().Union(MockExpectedLSTMessages()).ToList();
 
-            var actual = await service.GenerateMessages(new MatchInfoNotifyRequest());
+      var actual = await service.GenerateMessages(new MatchInfoNotifyRequest());
 
-            DeepAssert.Equal(expected, actual);
-        }
+      DeepAssert.Equal(expected, actual);
+    }
 
-        private MatchInfoNotifyHandler MockService()
-        {
-            var cacheManipulator = Substitute.For<CacheManipulatorCommon>();
-            var queryRepository = Substitute.For<Repository>();
-            var changedValueGenerator = Substitute.For<ChangedValueGenerator>();
-            var messageFactory = Substitute.For<MessageFactory>();
-            var commandRepository = Substitute.For<CommandRepository>();
-            var notify = Substitute.For<NotifyServices>();
+    private MatchInfoNotifyHandler MockService()
+    {
+      var cacheManipulator = Substitute.For<CacheManipulatorCommon>();
+      var queryRepository = Substitute.For<Repository>();
+      var changedValueGenerator = Substitute.For<ChangedValueGenerator>();
+      var messageFactory = Substitute.For<MessageFactory>();
+      var commandRepository = Substitute.For<CommandRepository>();
+      var notify = Substitute.For<NotifyServices>();
 
-            cacheManipulator.GetMultipleData<InfoSiteMatch>(Arg.Any<string>()).Returns(MockOldSnapshot());
-            queryRepository.GetInfoSiteMatchNewSnapshot(Arg.Any<DateTime>(), Arg.Any<DateTime>()).Returns(MockNewSnapshot());
-            queryRepository.GetLGALinkedInfoSiteMatch(Arg.Any<List<int>>()).Returns(MockLinkedMatches());
-            commandRepository
-                .GetPreMatchLeagueAssigneesByOWPLeagueIds(Arg.Any<List<int>>(), Arg.Any<DateTime>()).Returns(MockPreMatchAssignees());
-            commandRepository.GetEmployeesBySection(Arg.Any<string>()).Returns(MockAssigneeLST());
-            changedValueGenerator
-                .CreateAssigneeMessages(Arg.Any<List<InfoSiteMatch>>(), Arg.Any<List<InfoSiteMatch>>(), Arg.Any<List<Assignee>>())
-                .Returns(MockexpectedAssigneeMessages());
-            changedValueGenerator
-                .CreateLSTMessages(Arg.Any<List<ChangedValue>>(), Arg.Any<List<Assignee>>(), Arg.Any<List<InfoSiteMatch>>())
-                .Returns(MockExpectedLSTMessages());
+      cacheManipulator.GetMultipleData<InfoSiteMatch>(Arg.Any<string>()).Returns(MockOldSnapshot());
+      queryRepository.GetInfoSiteMatchNewSnapshot(Arg.Any<DateTime>(), Arg.Any<DateTime>()).Returns(MockNewSnapshot());
+      queryRepository.GetLGALinkedInfoSiteMatch(Arg.Any<List<int>>()).Returns(MockLinkedMatches());
+      commandRepository
+          .GetPreMatchLeagueAssigneesByOWPLeagueIds(Arg.Any<List<int>>(), Arg.Any<DateTime>()).Returns(MockPreMatchAssignees());
+      commandRepository.GetEmployeesBySection(Arg.Any<string>()).Returns(MockAssigneeLST());
+      changedValueGenerator
+          .CreateAssigneeMessages(Arg.Any<List<InfoSiteMatch>>(), Arg.Any<List<InfoSiteMatch>>(), Arg.Any<List<Assignee>>())
+          .Returns(MockexpectedAssigneeMessages());
+      changedValueGenerator
+          .CreateLSTMessages(Arg.Any<List<ChangedValue>>(), Arg.Any<List<Assignee>>(), Arg.Any<List<InfoSiteMatch>>())
+          .Returns(MockExpectedLSTMessages());
 
-            return new MatchInfoNotifyHandler(cacheManipulator,
-                                                queryRepository,
-                                                changedValueGenerator,
-                                                messageFactory,
-                                                commandRepository,
-                                                notify);
-        }
+      return new MatchInfoNotifyHandler(cacheManipulator,
+                                          queryRepository,
+                                          changedValueGenerator,
+                                          messageFactory,
+                                          commandRepository,
+                                          notify);
+    }
 
-        private IList<ChangedValue> MockexpectedAssigneeMessages()
-        {
-            return new List<ChangedValue>
+    private IList<ChangedValue> MockexpectedAssigneeMessages()
+    {
+      return new List<ChangedValue>
             {
                 new ChangedValue
                 {
@@ -81,11 +82,11 @@
                     MessageTypeId = (int)MsgTemplateCode.UpdateKOTime
                 }
             };
-        }
+    }
 
-        private IList<InfoSiteMatch> MockOldSnapshot()
-        {
-            return new List<InfoSiteMatch>
+    private IList<InfoSiteMatch> MockOldSnapshot()
+    {
+      return new List<InfoSiteMatch>
             {
                 new InfoSiteMatch
                 {
@@ -106,11 +107,11 @@
                     LeagueName="Premier League"
                 }
             };
-        }
+    }
 
-        private IList<InfoSiteMatch> MockNewSnapshot()
-        {
-            return new List<InfoSiteMatch>
+    private IList<InfoSiteMatch> MockNewSnapshot()
+    {
+      return new List<InfoSiteMatch>
 
             {
                 new InfoSiteMatch
@@ -131,11 +132,11 @@
                     LeagueName="Premier League change"
                 }
             };
-        }
+    }
 
-        private IList<Assignee> MockPreMatchAssignees()
-        {
-            return new List<Assignee>
+    private IList<Assignee> MockPreMatchAssignees()
+    {
+      return new List<Assignee>
             {
                 new Assignee
                 {
@@ -163,11 +164,11 @@
                     OWPLeagueId = 101
                 }
             };
-        }
+    }
 
-        private IList<ChangedValue> MockExpectedLSTMessages()
-        {
-            return new List<ChangedValue>
+    private IList<ChangedValue> MockExpectedLSTMessages()
+    {
+      return new List<ChangedValue>
             {
                 new ChangedValue
                 {
@@ -181,11 +182,11 @@
                     MessageTypeId = (int)MsgTemplateCode.UpdateHome
                 }
             };
-        }
+    }
 
-        private IList<Assignee> MockAssigneeLST()
-        {
-            return new List<Assignee>
+    private IList<Assignee> MockAssigneeLST()
+    {
+      return new List<Assignee>
             {
                 new Assignee
                 {
@@ -208,11 +209,11 @@
                     AssigneeId = 6
                 },
             };
-        }
+    }
 
-        private IList<InfoSiteMatch> MockLinkedMatches()
-        {
-            return new List<InfoSiteMatch>
+    private IList<InfoSiteMatch> MockLinkedMatches()
+    {
+      return new List<InfoSiteMatch>
             {
                 new InfoSiteMatch
                 {
@@ -231,6 +232,6 @@
                     InfoSiteMatchId = 5
                 }
             };
-        }
     }
+  }
 }

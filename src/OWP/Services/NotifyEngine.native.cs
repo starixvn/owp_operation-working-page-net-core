@@ -4,8 +4,8 @@
   using Microsoft.AspNetCore.SignalR;
   using OWP.Criteria;
   using OWP.Hubs;
-    using OWP.Models;
-    using OWP.Utils;
+  using OWP.Models;
+  using OWP.Utils;
 
   public interface NotifyEngine
   {

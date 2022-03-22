@@ -1,82 +1,83 @@
 ﻿namespace OWP.PreMatchNotification.Services
 {
-    using Criteria;
-    using Fanex.Data.Repository;
-    using Fanex.NAP.Client.Helpers.Web;
-    using Models;
-    using Olympus.Xml;
+  using Criteria;
+  using Fanex.Data.Repository;
+  using Fanex.NAP.Client.Helpers.Web;
+  using Models;
+  using Olympus.Xml;
+  using OWP.Services;
 
-    public interface CommandRepository
+  public interface CommandRepository
+  {
+    Task InsertMessage(List<MessageModel> messages, string sessionId);
+
+    Task<IList<Assignee>> GetEmployeesBySection(string section);
+
+    Task<IList<Assignee>> GetPreMatchLeagueAssignees(IList<int> preMatchLeagueIds);
+
+    Task<IList<Assignee>> GetPreMatchLeagueAssigneesByOWPLeagueIds(IList<int> owpLeagueIds, DateTime eventDate);
+  }
+
+  public class CommandRepositoryImp : CommandRepository
+  {
+    private readonly ScopedDynamicRepository dynamicRepository;
+
+    private readonly INapSession currentSession;
+
+    public CommandRepositoryImp(
+        INapSession currentSession,
+        ScopedDynamicRepository dynamicRepository)
     {
-        Task InsertMessage(List<MessageModel> messages, string sessionId);
-
-        Task<IList<Assignee>> GetEmployeesBySection(string section);
-
-        Task<IList<Assignee>> GetPreMatchLeagueAssignees(IList<int> preMatchLeagueIds);
-
-        Task<IList<Assignee>> GetPreMatchLeagueAssigneesByOWPLeagueIds(IList<int> owpLeagueIds, DateTime eventDate);
+      this.currentSession = currentSession;
+      this.dynamicRepository = dynamicRepository;
     }
 
-    public class CommandRepositoryImp : CommandRepository
+    public async Task InsertMessage(List<MessageModel> messages, string sessionId)
     {
-        private readonly IDynamicRepository dynamicRepository;
+      messages.ForEach(x => x.ReceivedUserIdList = string.Join(",", x.ReceivedUserIds));
 
-        private readonly INapSession currentSession;
+      var criteria = new InsertMessageCommand
+      {
+        Messages = XmlConverter.Serialize(messages),
+        CreatedByUserId = 0,
+        SessionId = sessionId
+      };
 
-        public CommandRepositoryImp(
-            INapSession currentSession,
-            IDynamicRepository dynamicRepository)
-        {
-            this.currentSession = currentSession;
-            this.dynamicRepository = dynamicRepository;
-        }
-
-        public async Task InsertMessage(List<MessageModel> messages, string sessionId)
-        {
-            messages.ForEach(x => x.ReceivedUserIdList = string.Join(",", x.ReceivedUserIds));
-
-            var criteria = new InsertMessageCommand
-            {
-                Messages = XmlConverter.Serialize(messages),
-                CreatedByUserId = currentSession.UserId,
-                SessionId = sessionId
-            };
-
-            await dynamicRepository.ExecuteAsync(criteria);
-        }
-
-        public async Task<IList<Assignee>> GetEmployeesBySection(string section)
-        {
-            var criteria = new QuerySectionEmployeeCriteria
-            {
-                Section = section
-            };
-            var result = await dynamicRepository.FetchAsync<Assignee>(criteria).ConfigureAwait(false);
-
-            return result.ToList();
-        }
-
-        public async Task<IList<Assignee>> GetPreMatchLeagueAssignees(IList<int> preMatchLeagueIds)
-        {
-            var criteria = new QueryLeagueAssigneeCriteria
-            {
-                PreMatchLeagueIds = string.Join(',', preMatchLeagueIds)
-            };
-            var result = await dynamicRepository.FetchAsync<Assignee>(criteria).ConfigureAwait(false);
-
-            return result.ToList();
-        }
-
-        public async Task<IList<Assignee>> GetPreMatchLeagueAssigneesByOWPLeagueIds(IList<int> owpLeagueIds, DateTime eventDate)
-        {
-            var criteria = new QueryLeagueAssigneeCriteriaByOWPLeagueIds
-            {
-                OWPLeagueIds = string.Join(',', owpLeagueIds),
-                EventDate = eventDate
-            };
-            var result = await dynamicRepository.FetchAsync<Assignee>(criteria).ConfigureAwait(false);
-
-            return result.ToList();
-        }
+      await dynamicRepository.ExecuteAsync(criteria);
     }
+
+    public async Task<IList<Assignee>> GetEmployeesBySection(string section)
+    {
+      var criteria = new QuerySectionEmployeeCriteria
+      {
+        Section = section
+      };
+      var result = await dynamicRepository.FetchAsync<Assignee>(criteria).ConfigureAwait(false);
+
+      return result.ToList();
+    }
+
+    public async Task<IList<Assignee>> GetPreMatchLeagueAssignees(IList<int> preMatchLeagueIds)
+    {
+      var criteria = new QueryLeagueAssigneeCriteria
+      {
+        PreMatchLeagueIds = string.Join(',', preMatchLeagueIds)
+      };
+      var result = await dynamicRepository.FetchAsync<Assignee>(criteria).ConfigureAwait(false);
+
+      return result.ToList();
+    }
+
+    public async Task<IList<Assignee>> GetPreMatchLeagueAssigneesByOWPLeagueIds(IList<int> owpLeagueIds, DateTime eventDate)
+    {
+      var criteria = new QueryLeagueAssigneeCriteriaByOWPLeagueIds
+      {
+        OWPLeagueIds = string.Join(',', owpLeagueIds),
+        EventDate = eventDate
+      };
+      var result = await dynamicRepository.FetchAsync<Assignee>(criteria).ConfigureAwait(false);
+
+      return result.ToList();
+    }
+  }
 }

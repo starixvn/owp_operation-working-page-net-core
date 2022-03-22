@@ -1,4 +1,9 @@
 using System.Reflection;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors.Infrastructure;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using AutoMapper;
 using Fanex.Caching.Redis;
 using Fanex.Data;
@@ -15,11 +20,6 @@ using Fanex.NAP.Client.Configuration;
 using Fanex.NAP.Client.Helpers.Web;
 using Fanex.NAP.Client.Services;
 using MediatR;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors.Infrastructure;
-using Microsoft.AspNetCore.DataProtection;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using Newtonsoft.Json;
 using Olympus.SimpleDataApi;
 using ONEbook.UM.AspNetCore;
@@ -34,7 +34,6 @@ using OWP.OtherSport;
 using OWP.OtherSport.Hubs;
 using OWP.OvertimeReport;
 using OWP.PreMatchAssignment;
-using OWP.PreMatchNotification;
 using OWP.PreMatchReport;
 using OWP.RecipientGroup;
 using OWP.Services;
@@ -43,8 +42,11 @@ using OWP.TicketCenter;
 using OWP.TicketCenter.Hubs;
 using OWP.TicketTypeRecipient;
 using OWP.Websites.App_Start;
+using RabbitMQ.Client;
 using Sentry;
 using StackExchange.Redis;
+using OWP.RabbitMQ;
+using OWP.PreMatchNotification;
 
 namespace OWP.Websites;
 
@@ -120,7 +122,7 @@ public static class ServiceCollectionExtensions
     services.AddSingleton<ConfigurationService, ConfigurationServiceImp>();
     services.AddScoped<NotifyEngine, NotifyEngineImp>();
     services.AddScoped<IHttpHandler, OWP.Services.HttpClientHandler>();
-
+    services.AddTransient<ScopedDynamicRepository, ScopedDynamicRepositoryImp>();
     return services;
   }
 
@@ -215,7 +217,7 @@ public static class ServiceCollectionExtensions
     services.AddMediatR(typeof(MaxbetController).GetTypeInfo().Assembly);
     services.AddMediatR(typeof(OtherSportController).GetTypeInfo().Assembly);
     services.AddMediatR(typeof(SyncWorkingShiftController).GetTypeInfo().Assembly);
-    services.AddMediatR(typeof(PreMatchNotificationController).GetTypeInfo().Assembly);
+    services.AddMediatR(typeof(PrematchNotificationController).GetTypeInfo().Assembly);
     services.AddMediatR(typeof(RecipientGroupController).GetTypeInfo().Assembly);
     services.AddMediatR(typeof(TicketCenterController).GetTypeInfo().Assembly);
     services.AddMediatR(typeof(FileUploadController).GetTypeInfo().Assembly);
@@ -223,6 +225,7 @@ public static class ServiceCollectionExtensions
     services.AddMediatR(typeof(OvertimeReportController).GetTypeInfo().Assembly);
     services.AddMediatR(typeof(PreMatchAssignmentController).GetTypeInfo().Assembly);
     services.AddMediatR(typeof(PreMatchReportController).GetTypeInfo().Assembly);
+    services.AddMediatR(typeof(NotificationConsumer).GetTypeInfo().Assembly);
     return services;
   }
 
@@ -298,6 +301,28 @@ public static class ServiceCollectionExtensions
     services.AddTransient<SimpleFunctionPermissionFactory, SimpleFunctionPermissionFactoryImp>();
     services.AddTransient<SimpleMapperFactory, SimpleMapperFactoryImp>();
 
+    return services;
+  }
+
+  public static IServiceCollection AddRabbitMQ(this IServiceCollection services, IConfiguration configuration)
+  {
+    var hosting = configuration.GetSection("RabbitMQ:Hosting").Value;
+    var virtualHosting = configuration.GetSection("RabbitMQ:VirtualHost").Value;
+    var username = configuration.GetSection("RabbitMQ:UserName").Value;
+    var password = configuration.GetSection("RabbitMQ:Password").Value;
+    var port = int.Parse(configuration.GetSection("RabbitMQ:Port").Value);
+
+    services.AddSingleton(serviceProvider => new ConnectionFactory
+    {
+      UserName = username,
+      Password = password,
+      HostName = hosting,
+      Port = port,
+      VirtualHost = virtualHosting,
+      DispatchConsumersAsync = true
+    });
+
+    services.AddHostedService<NotificationConsumer>();
     return services;
   }
 }

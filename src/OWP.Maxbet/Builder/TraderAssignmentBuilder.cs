@@ -5,38 +5,38 @@ using OWP.Services;
 
 namespace OWP.Maxbet.Builder
 {
-    public interface TraderAssignmentBuilder
+  public interface TraderAssignmentBuilder
+  {
+    Task<TraderAssignmentSender> BuildTraderAssignmentSender(int owpMatchId);
+  }
+
+  public class TraderAssignmentBuilderImp : TraderAssignmentBuilder
+  {
+    private readonly MaxbetRepository syncMaxbetRepository;
+    private readonly LogServiceWrapper logServiceWrapper;
+
+    public TraderAssignmentBuilderImp(MaxbetRepository syncMaxbetRepository, LogServiceWrapper logServiceWrapper)
     {
-        Task<TraderAssignmentSender> BuildTraderAssignmentSender(int owpMatchId);
+      this.syncMaxbetRepository = syncMaxbetRepository;
+      this.logServiceWrapper = logServiceWrapper;
     }
 
-    public class TraderAssignmentBuilderImp : TraderAssignmentBuilder
+    public async Task<TraderAssignmentSender> BuildTraderAssignmentSender(int owpMatchId)
     {
-        private readonly MaxbetReposiory syncMaxbetReposiory;
-        private readonly LogServiceWrapper logServiceWrapper;
+      var traderAssignments = await syncMaxbetRepository.GetTradersByOwpMatchId(owpMatchId);
+      await logServiceWrapper.Log("====BuildTraderAssignmentSender======", traderAssignments);
 
-        public TraderAssignmentBuilderImp(MaxbetReposiory syncMaxbetReposiory, LogServiceWrapper logServiceWrapper)
-        {
-            this.syncMaxbetReposiory = syncMaxbetReposiory;
-            this.logServiceWrapper = logServiceWrapper;
-        }
-
-        public async Task<TraderAssignmentSender> BuildTraderAssignmentSender(int owpMatchId)
-        {
-            var traderAssignments = await syncMaxbetReposiory.GetTradersByOwpMatchId(owpMatchId);
-            await logServiceWrapper.Log("====BuildTraderAssignmentSender======", traderAssignments);
-
-            var handicap = MaxbetHelper.FindTraderAssinmentByBettype(traderAssignments, (int)EnumBettype.Handicap) ?? new TraderAssignment();
-            var overunder = MaxbetHelper.FindTraderAssinmentByBettype(traderAssignments, (int)EnumBettype.OverUnder) ?? new TraderAssignment();
-            var firstHalfHandicap = MaxbetHelper.FindTraderAssinmentByBettype(traderAssignments, (int)EnumBettype.FirstHalfHandicap) ?? new TraderAssignment();
-            var firstHalfOverUnder = MaxbetHelper.FindTraderAssinmentByBettype(traderAssignments, (int)EnumBettype.FirstHalfOverUnder) ?? new TraderAssignment();
-            return new TraderAssignmentSender
-            {
-                Handicap = handicap.UserId,
-                OverUnder = overunder.UserId,
-                FirstHalfHandicap = firstHalfHandicap.UserId,
-                FirstHalfOverUnder = firstHalfOverUnder.UserId,
-            };
-        }
+      var handicap = MaxbetHelper.FindTraderAssignmentByBettype(traderAssignments, (int)EnumBettype.Handicap) ?? new TraderAssignment();
+      var overunder = MaxbetHelper.FindTraderAssignmentByBettype(traderAssignments, (int)EnumBettype.OverUnder) ?? new TraderAssignment();
+      var firstHalfHandicap = MaxbetHelper.FindTraderAssignmentByBettype(traderAssignments, (int)EnumBettype.FirstHalfHandicap) ?? new TraderAssignment();
+      var firstHalfOverUnder = MaxbetHelper.FindTraderAssignmentByBettype(traderAssignments, (int)EnumBettype.FirstHalfOverUnder) ?? new TraderAssignment();
+      return new TraderAssignmentSender
+      {
+        Handicap = handicap.UserId,
+        OverUnder = overunder.UserId,
+        FirstHalfHandicap = firstHalfHandicap.UserId,
+        FirstHalfOverUnder = firstHalfOverUnder.UserId,
+      };
     }
+  }
 }
