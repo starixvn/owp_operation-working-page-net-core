@@ -10,7 +10,7 @@ namespace OWP.PreMatchAssignment.Services
     using Handlers;
     using Models;
     using OWP.Extensions;
-
+    using OWP.PrematchAssignment.Constants;
     using System.Globalization;
 
     public interface ShiftAssignmentService
@@ -61,9 +61,9 @@ namespace OWP.PreMatchAssignment.Services
                 IsDay = true
             };
 
-            var result = await QueryShift(queryDayShiftCriteria, request.Employee, request.LeagueName, request.EventDate);            
+            var result = await QueryShift(queryDayShiftCriteria, request.Employee, request.LeagueName, request.matchOffers, request.EventDate);
 
-            var preMatchLeagues = SortAndAddNo(result.Item1);            
+            var preMatchLeagues = SortAndAddNo(result.Item1);
 
             return new QueryPreMatchLeagueViewModel
             {
@@ -160,7 +160,7 @@ namespace OWP.PreMatchAssignment.Services
         private async Task<AssignmentShift> queryAssignmentShift(QueryNightShiftPreMatchRequest request, TimeSpan startTime, bool isDayShift)
         {
             var queryCriteria = CreateNightShiftCriteria(request.EventDate, startTime, isDayShift);
-            var result = await QueryShift(queryCriteria, request.Employee, request.LeagueName, request.EventDate);
+            var result = await QueryShift(queryCriteria, request.Employee, request.LeagueName, request.MatchOffers, request.EventDate);
 
             return new AssignmentShift { Leagues = result.Item1, Matches = result.Item2 };
         }
@@ -291,7 +291,8 @@ namespace OWP.PreMatchAssignment.Services
             return eventDate.Date.Add(time);
         }
 
-        private async Task<Tuple<IEnumerable<PreMatchLeague>, IEnumerable<InfoSiteMatch>>> QueryShift(CriteriaBase criteria, string employee, string leagueName, DateTime eventDate)
+        private async Task<Tuple<IEnumerable<PreMatchLeague>, IEnumerable<InfoSiteMatch>>> QueryShift(CriteriaBase criteria,
+            string employee, string leagueName, List<String> matchOffers, DateTime eventDate)
         {
             var data = await dynamicRepository.FetchMultipleAsync<PreMatchLeague, InfoSiteMatch>(criteria);
 
@@ -303,10 +304,17 @@ namespace OWP.PreMatchAssignment.Services
             var matches = data.Item2.Where(x => filterByLeagueName.Any(y => y.PreMatchLeagueId == x.PreMatchLeagueId));
 
             await MapMatchStatusWhichLinkedOWP(matches, eventDate);
-            
+
             await AddOddStatusNo(matches);
 
-            return new Tuple<IEnumerable<PreMatchLeague>, IEnumerable<InfoSiteMatch>>(filterByLeagueName, matches);
+            var matchesFilterByMatchOffer = FilterByMatchOffer(matches, matchOffers);
+
+            return new Tuple<IEnumerable<PreMatchLeague>, IEnumerable<InfoSiteMatch>>(filterByLeagueName, matchesFilterByMatchOffer);
+        }
+
+        private IEnumerable<InfoSiteMatch> FilterByMatchOffer(IEnumerable<InfoSiteMatch> matches, List<String> matchOffers)
+        {
+            return matches.Where(m => matchOffers.Any(x => x.Equals(m.MatchOffer)));
         }
 
         public async Task MapMatchStatusWhichLinkedOWP(IEnumerable<InfoSiteMatch> matches, DateTime dateTime)
@@ -409,7 +417,7 @@ namespace OWP.PreMatchAssignment.Services
         public async Task AddOddStatusNo(IEnumerable<InfoSiteMatch> infositeMatches)
         {
             var oddStatuses = await QueryOddStatusFromMainDB(infositeMatches);
-            var oddStatusesDict = oddStatuses.GroupBy(x => x.AdminSiteMatchId).ToDictionary(x => x.Key, x => x.ToList());            
+            var oddStatusesDict = oddStatuses.GroupBy(x => x.AdminSiteMatchId).ToDictionary(x => x.Key, x => x.ToList());
 
             foreach (var infositeMatch in infositeMatches)
             {
@@ -421,15 +429,15 @@ namespace OWP.PreMatchAssignment.Services
             }
         }
 
-        private static bool IsRunning(IEnumerable<OddStatus> oddStatuses) 
+        private static bool IsRunning(IEnumerable<OddStatus> oddStatuses)
             => oddStatuses.Any(x => string.Equals(x.OddsStatus, "running", StringComparison.OrdinalIgnoreCase));
 
         private static string CalculateOddStatus(bool openedHDP, bool openedOU)
-        => (openedHDP, openedOU) switch
-           {
-                (true, true) => "Opened",
-                (false, true) => "HDP (?)",
-                (true, false) => "OU (?)",
+            => (openedHDP, openedOU) switch
+            {
+                (true, true) => MatchOffferStatus.Opened,
+                (false, true) => MatchOffferStatus.Hdp,
+                (true, false) => MatchOffferStatus.Ou,
                 _ => string.Empty,
             };
     }

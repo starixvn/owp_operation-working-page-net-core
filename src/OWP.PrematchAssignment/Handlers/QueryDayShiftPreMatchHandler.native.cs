@@ -4,14 +4,6 @@ using OWP.PreMatchAssignment.Services;
 
 namespace OWP.PreMatchAssignment.Handlers
 {
-    public enum MatchOffer
-    {
-        Running = 1,
-        HDP,
-        OU,
-        Watting
-    }
-
     public class QueryDayShiftPreMatchRequest : IRequest<QueryPreMatchLeagueViewModel>
     {
         public string Employee { get; set; }
@@ -22,7 +14,7 @@ namespace OWP.PreMatchAssignment.Handlers
 
         public int ActorId { get; set; }
 
-        public List<MatchOffer> matchOffers { get; set; }
+        public List<String> matchOffers { get; set; }
     }
 
     public class QueryDayShiftPreMatchHandler : IRequestHandler<QueryDayShiftPreMatchRequest, QueryPreMatchLeagueViewModel>
