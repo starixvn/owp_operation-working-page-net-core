@@ -10,6 +10,10 @@
 
         public decimal? MaxBetHDP { get; set; }
 
+        public decimal? MaxBetNextCorner { get; set; }
+
+        public decimal? MaxbetNoOfCorner { get; set; }
+
         public decimal? SpreadHDP { get; set; }
 
         public decimal? SpreadOU { get; set; }

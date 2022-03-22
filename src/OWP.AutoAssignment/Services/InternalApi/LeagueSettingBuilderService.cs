@@ -3,6 +3,7 @@
 namespace OWP.AutoAssignment.Services.InternalApi
 {
     using System.Globalization;
+    using OWP.AutoAssignment.Constant;
 
     public interface LeagueSettingBuilderService
     {
@@ -35,20 +36,37 @@ namespace OWP.AutoAssignment.Services.InternalApi
             foreach (var exportMatchModel in exportModels)
             {
                 var leagueSettingInfo = GetInfoLeagueSettingById(leagueSettings, exportMatchModel.InfoSiteMatchId);
-                exportMatchModel.MatchOffer = leagueSettingInfo.MatchOffer;
-                exportMatchModel.LSTNote = leagueSettingInfo.LSTNote;
-                exportMatchModel.MaxBetHDP = FormatMaxbet(leagueSettingInfo.MaxBetHDP);
-                exportMatchModel.SpreadHDP = FormatSpread(leagueSettingInfo.SpreadHDP);
-                exportMatchModel.SpreadOU = FormatSpread(leagueSettingInfo.SpreadOU);
-                exportMatchModel.NoHDP = leagueSettingInfo.NoHDP;
-                exportMatchModel.MaxBetOU = FormatMaxbet(leagueSettingInfo.MaxBetOU);
-                exportMatchModel.MaxBet1HHDP = FormatMaxbet(leagueSettingInfo.MaxBet1HHDP);
-                exportMatchModel.MaxBet1HOU = FormatMaxbet(leagueSettingInfo.MaxBet1HOU);
-                exportMatchModel.Spread1HHDP = FormatSpread(leagueSettingInfo.Spread1HHDP);
-                exportMatchModel.Spread1HOU = FormatSpread(leagueSettingInfo.Spread1HOU);
-                exportMatchModel.MaxBet1X2 = FormatMaxbet(leagueSettingInfo.MaxBet1X2);
-                exportMatchModel.Spread1X2 = FormatSpread(leagueSettingInfo.Spread1X2);
-                exportMatchModel.MaxBet1H1X2 = FormatMaxbet(leagueSettingInfo.MaxBet1H1X2);
+                BuildExportMaxBet(exportMatchModel, leagueSettingInfo);
+            }
+        }
+
+        private void BuildExportMaxBet(ExportMatchModel exportModel, LeagueSettingInfo leagueSetting)
+        {
+            if (exportModel.Bettype == BetType.NoCorner)
+            {
+                exportModel.MaxBetHDP = FormatMaxbet(leagueSetting.MaxbetNoOfCorner);
+                exportModel.MaxBetOU = FormatMaxbet(leagueSetting.MaxbetNoOfCorner);
+            }
+            else if (exportModel.Bettype == BetType.NextCorner)
+            {
+                exportModel.MaxBetHDP = FormatMaxbet(leagueSetting.MaxBetNextCorner);
+            }
+            else
+            {
+                exportModel.MatchOffer = leagueSetting.MatchOffer;
+                exportModel.LSTNote = leagueSetting.LSTNote;
+                exportModel.NoHDP = leagueSetting.NoHDP;
+                exportModel.MaxBetHDP = FormatMaxbet(leagueSetting.MaxBetHDP);
+                exportModel.SpreadHDP = FormatSpread(leagueSetting.SpreadHDP);
+                exportModel.SpreadOU = FormatSpread(leagueSetting.SpreadOU);
+                exportModel.MaxBetOU = FormatMaxbet(leagueSetting.MaxBetOU);
+                exportModel.MaxBet1HHDP = FormatMaxbet(leagueSetting.MaxBet1HHDP);
+                exportModel.MaxBet1HOU = FormatMaxbet(leagueSetting.MaxBet1HOU);
+                exportModel.Spread1HHDP = FormatSpread(leagueSetting.Spread1HHDP);
+                exportModel.Spread1HOU = FormatSpread(leagueSetting.Spread1HOU);
+                exportModel.MaxBet1X2 = FormatMaxbet(leagueSetting.MaxBet1X2);
+                exportModel.Spread1X2 = FormatSpread(leagueSetting.Spread1X2);
+                exportModel.MaxBet1H1X2 = FormatMaxbet(leagueSetting.MaxBet1H1X2);
             }
         }
 
