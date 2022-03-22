@@ -4,6 +4,10 @@ namespace OWP.Helpers
 {
   public static class MaxbetHelper
   {
+    private const decimal MAXBET_HDP = 70000;
+
+    private const decimal MAXBET_ET = 35000;
+
     public static T FindTraderAssignmentByBettype<T>(List<T> assignment, int bettypeId) where T : TraderAssignment
         => assignment.FirstOrDefault(a => a.BettypeId == bettypeId);
 
@@ -12,5 +16,36 @@ namespace OWP.Helpers
 
     public static T FindMaxbetByBettype<T>(List<T> maxbets, int bettypeId) where T : MaxbetModel
         => maxbets.FirstOrDefault(a => a.BettypeId == bettypeId);
+
+    public static void UpdateMaxbetPEN(MaxbetSpread maxbet)
+    {
+      var hdp = maxbet.Handicap;
+      maxbet.FirstHalfHandicap = null;
+      maxbet.FirstHalfOverUnder = null;
+      if (hdp.HasValue)
+      {
+        var hdpPEN = hdp / 2;
+        maxbet.Handicap = hdpPEN;
+        maxbet.Handicap = hdpPEN;
+      }
+    }
+
+    internal static void UpdateSpreadPEN(MaxbetSpread spread)
+    {
+      spread.Handicap = (decimal)0.08;
+      spread.OverUnder = (decimal)0.1;
+      spread.FirstHalfHandicap = null;
+      spread.FirstHalfOverUnder = null;
+    }
+    internal static void UpdateMaxbetET(MaxbetSpread maxbet)
+    {
+      if (maxbet.Handicap == MAXBET_HDP)
+      {
+        maxbet.Handicap = MAXBET_ET;
+        maxbet.OverUnder = MAXBET_ET;
+        maxbet.FirstHalfHandicap = null;
+        maxbet.FirstHalfHandicap = null;
+      }
+    }
   }
 }

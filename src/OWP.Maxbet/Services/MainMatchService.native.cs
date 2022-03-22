@@ -1,6 +1,8 @@
 using MediatR;
+using OWP.Helpers;
 using OWP.Maxbet.Builder;
 using OWP.Maxbet.Handlers;
+using OWP.Maxbet.Helpers;
 using OWP.Maxbet.Models;
 
 namespace OWP.Maxbet.Services
@@ -10,10 +12,17 @@ namespace OWP.Maxbet.Services
     Task<int> GetMatchIdByAdminSiteId(int adminsiteId);
 
     Task<MaxbetInfo> GetMaxbetInfo(int owpMatchId, int adminsiteId);
+
+    Task<MaxbetInfo> GetMaxbetInfoET(int owpMatchId, int adminsiteId);
+
+    Task<MaxbetInfo> GetMaxbetInfoPEN(int owpMatchId, int adminsiteId);
+
   }
 
   public class MainMatchServiceImp : MainMatchService
   {
+
+
     private readonly MaxbetRepository syncMaxbetRepository;
 
     private readonly TraderAssignmentBuilder traderAssignmentBuilder;
@@ -41,6 +50,33 @@ namespace OWP.Maxbet.Services
 
     public async Task<MaxbetInfo> GetMaxbetInfo(int owpMatchId, int adminsiteId)
     {
+      var maxbetInfo = await BuildMatchInfoExcludeNumberOfLines(owpMatchId, adminsiteId);
+      var numberOfLines = await mediator.Send(new GetNumberOfLinesHandler.Request { OWPMatchId = owpMatchId });
+
+      maxbetInfo.NumberOfLines = numberOfLines;
+      return maxbetInfo;
+    }
+
+    public async Task<MaxbetInfo> GetMaxbetInfoET(int owpMatchId, int adminsiteId)
+    {
+      var maxbetInfo = await BuildMatchInfoExcludeNumberOfLines(owpMatchId, adminsiteId);
+      NumberOfLineHelper.UpdateNumberOfLine(maxbetInfo.NumberOfLines);
+      MaxbetHelper.UpdateMaxbetET(maxbetInfo.Maxbet);
+      maxbetInfo.Ft1stLineHandicap = Ft1stLineHandicapHelper.BuildFt1stLineHandicap();
+      return maxbetInfo;
+    }
+
+    public async Task<MaxbetInfo> GetMaxbetInfoPEN(int owpMatchId, int adminsiteId)
+    {
+      var maxbetInfo = await BuildMatchInfoExcludeNumberOfLines(owpMatchId, adminsiteId);
+      NumberOfLineHelper.UpdateNumberOfLine(maxbetInfo.NumberOfLines);
+      MaxbetHelper.UpdateMaxbetPEN(maxbetInfo.Maxbet);
+      MaxbetHelper.UpdateSpreadPEN(maxbetInfo.Spread, (decimal)0.08, (decimal)0.1);
+      return maxbetInfo;
+    }
+
+    private async Task<MaxbetInfo> BuildMatchInfoExcludeNumberOfLines(int owpMatchId, int adminsiteId)
+    {
       var traderAssignmentsSender = await traderAssignmentBuilder.BuildTraderAssignmentSender(owpMatchId);
 
       var spread = await spreadBuilder.BuildSpreadMainMatch(owpMatchId);
@@ -57,8 +93,6 @@ namespace OWP.Maxbet.Services
 
       var secondAcceptValue = await mediator.Send(new GetSecondAcceptValueHandler.Request { OWPMatchId = owpMatchId });
 
-      var numberOfLines = await mediator.Send(new GetNumberOfLinesHandler.Request { OWPMatchId = owpMatchId });
-
       return new MaxbetInfo
       {
         AdminsiteID = adminsiteId,
@@ -66,7 +100,6 @@ namespace OWP.Maxbet.Services
         Spread = spread,
         Maxbet = maxbet,
         MaxbetCN88 = cn88Maxbet,
-        NumberOfLines = numberOfLines,
         SecondAcceptValue = secondAcceptValue
       };
     }
