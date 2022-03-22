@@ -14,7 +14,7 @@ namespace OWP.PreMatchAssignment.Handlers
 
         public int ActorId { get; set; }
 
-        public List<String> matchOffers { get; set; }
+        public List<string> matchOffers { get; set; }
     }
 
     public class QueryDayShiftPreMatchHandler : IRequestHandler<QueryDayShiftPreMatchRequest, QueryPreMatchLeagueViewModel>
