@@ -30,10 +30,10 @@ namespace OWP.Helpers
       }
     }
 
-    internal static void UpdateSpreadPEN(MaxbetSpread spread)
+    internal static void UpdateSpreadPEN(MaxbetSpread spread, decimal hdpNewValue, decimal ouNewValue)
     {
-      spread.Handicap = (decimal)0.08;
-      spread.OverUnder = (decimal)0.1;
+      spread.Handicap = hdpNewValue;
+      spread.OverUnder = ouNewValue;
       spread.FirstHalfHandicap = null;
       spread.FirstHalfOverUnder = null;
     }
