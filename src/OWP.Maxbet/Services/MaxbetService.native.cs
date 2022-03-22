@@ -35,7 +35,7 @@ namespace OWP.Maxbet.Services
     private readonly LogServiceWrapper logServiceWrapper;
 
     public MaxbetServiceImp(
-        MaxbetRepository syncMaxbetReposiory,
+        MaxbetRepository syncMaxbetRepository,
         TraderAssignmentBuilder traderAssignmentBuilder,
         SpreadBuilder spreadBuilder,
         MaxbetBuilder maxbetBuilder,
@@ -43,7 +43,7 @@ namespace OWP.Maxbet.Services
         SpecialProductSelector specialProductSelector,
         LogServiceWrapper logServiceWrapper)
     {
-      this.syncMaxbetRepository = syncMaxbetReposiory;
+      this.syncMaxbetRepository = syncMaxbetRepository;
       this.traderAssignmentBuilder = traderAssignmentBuilder;
       this.spreadBuilder = spreadBuilder;
       this.maxbetBuilder = maxbetBuilder;

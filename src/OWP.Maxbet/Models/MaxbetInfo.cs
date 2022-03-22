@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 namespace OWP.Maxbet.Models
 {
