@@ -14,6 +14,8 @@ public static class MaxbetInjector
     services.AddScoped<MaxbetBuilder, MaxbetBuilderImp>();
     services.AddScoped<MainMatchService, MainMatchServiceImp>();
     services.AddScoped<SpecialProductService, SpecialProductServiceImp>();
+    services.AddScoped<SabaMatchService, SabaMatchServiceImp>();
+    services.AddScoped<FutsalMatchService, FutsalMatchServiceImp>();
     services.AddScoped<SpecialProductMaxbetBuilder, SpecialProductMaxbetBuilderImp>();
     services.AddScoped<SpecialProductSpreadBuilder, SpecialProductSpreadBuilderImp>();
     services.AddScoped<SpecialProductTraderBuilder, SpecialProductTraderBuilderImp>();

@@ -18,9 +18,7 @@ namespace OWP.Maxbet.Services
 
     private readonly TraderAssignmentBuilder traderAssignmentBuilder;
     private readonly IMediator mediator;
-    public SabaMatchServiceImp(
-        TraderAssignmentBuilder traderAssignmentBuilder,
-        IMediator mediator)
+    public SabaMatchServiceImp(TraderAssignmentBuilder traderAssignmentBuilder, IMediator mediator)
     {
       this.traderAssignmentBuilder = traderAssignmentBuilder;
       this.mediator = mediator;

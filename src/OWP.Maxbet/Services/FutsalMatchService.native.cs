@@ -8,8 +8,6 @@ namespace OWP.Maxbet.Services
 {
   public interface FutsalMatchService
   {
-    Task<int> GetMatchIdByAdminSiteId(int adminsiteId);
-
     public Task<MaxbetInfo> GetMaxBetInfoFutsalET(int owpMatchId, int adminsiteId);
 
     public Task<MaxbetInfo> GetMaxBetInfoFutsalPEN(int owpMatchId, int adminsiteId);
@@ -17,22 +15,16 @@ namespace OWP.Maxbet.Services
   }
   public class FutsalMatchServiceImp : FutsalMatchService
   {
-    private readonly MaxbetRepository syncMaxbetRepository;
-
     private readonly IMediator mediator;
 
     private readonly ServiceCommon serviceCommon;
 
-    public FutsalMatchServiceImp(MaxbetRepository syncMaxbetRepository,
-        IMediator mediator,
-        ServiceCommon serviceCommon)
+    public FutsalMatchServiceImp(IMediator mediator, ServiceCommon serviceCommon)
     {
       this.syncMaxbetRepository = syncMaxbetRepository;
       this.mediator = mediator;
       this.serviceCommon = serviceCommon;
     }
-    public async Task<int> GetMatchIdByAdminSiteId(int adminsiteId)
-            => await syncMaxbetRepository.GetMatchIdByAdminSiteId(adminsiteId);
 
     public async Task<MaxbetInfo> GetMaxBetInfoFutsalET(int owpMatchId, int adminsiteId)
     {
