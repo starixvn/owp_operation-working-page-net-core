@@ -34,7 +34,7 @@ namespace OWP.Maxbet.Services
       var spread = new MaxbetSpread
       {
         Handicap = MaxBetSetting.SPREAD_SABA,
-        OverUnder = (decimal)MaxBetSetting.SPREAD_SABA
+        OverUnder = MaxBetSetting.SPREAD_SABA
       };
 
       var maxbet = new MaxbetSpread
