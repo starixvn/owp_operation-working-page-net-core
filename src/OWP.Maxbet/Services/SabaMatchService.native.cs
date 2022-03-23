@@ -29,7 +29,7 @@ namespace OWP.Maxbet.Services
     {
       var traderAssignmentsSender = await traderAssignmentBuilder.BuildTraderAssignmentSender(owpMatchId);
 
-      MaxbetHelper.UpdateTraderETPK(traderAssignmentsSender);
+      MaxbetHelper.Reset1HTraderETPEN(traderAssignmentsSender);
 
       var secondAcceptValue = await mediator.Send(new GetSecondAcceptValueHandler.Request { OWPMatchId = owpMatchId });
 

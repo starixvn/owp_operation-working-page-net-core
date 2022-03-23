@@ -20,8 +20,6 @@ namespace OWP.Maxbet.Helpers
     public static void UpdateMaxbetPEN(MaxbetSpread maxbet)
     {
       var hdp = maxbet.Handicap;
-      maxbet.FirstHalfHandicap = null;
-      maxbet.FirstHalfOverUnder = null;
       if (hdp.HasValue)
       {
         var hdpPEN = hdp / 2;
@@ -34,23 +32,48 @@ namespace OWP.Maxbet.Helpers
     {
       spread.Handicap = hdpNewValue;
       spread.OverUnder = ouNewValue;
+    }
+
+    internal static void Reset1HSpreadPEN(MaxbetSpread spread)
+    {
       spread.FirstHalfHandicap = null;
       spread.FirstHalfOverUnder = null;
     }
+
+
     internal static void UpdateMaxbetET(MaxbetSpread maxbet)
     {
       if (maxbet.Handicap == MAXBET_HDP)
       {
         maxbet.Handicap = MAXBET_ET;
         maxbet.OverUnder = MAXBET_ET;
-        maxbet.FirstHalfHandicap = null;
-        maxbet.FirstHalfHandicap = null;
       }
     }
-    public static void UpdateTraderETPK(TraderAssignmentSender trader)
+
+    internal static void Reset1HMaxbetETPEN(MaxbetSpread maxbet)
+    {
+      maxbet.FirstHalfHandicap = null;
+      maxbet.FirstHalfHandicap = null;
+    }
+
+    public static void Reset1HTraderETPEN(TraderAssignmentSender trader)
     {
       trader.FirstHalfHandicap = null;
       trader.FirstHalfOverUnder = null;
+    }
+
+    internal static void SetDefaultMaxbetInfo(MaxbetInfo maxbetInfo)
+    {
+      maxbetInfo.Maxbet.FirstHalfHandicap = null;
+      maxbetInfo.Maxbet.FirstHalfOverUnder = null;
+
+      maxbetInfo.Spread.FirstHalfHandicap = null;
+      maxbetInfo.Spread.FirstHalfOverUnder = null;
+
+      maxbetInfo.Traders.FirstHalfHandicap = null;
+      maxbetInfo.Traders.FirstHalfOverUnder = null;
+
+      NumberOfLineHelper.UpdateNumberOfLine(maxbetInfo.NumberOfLines);
     }
   }
 }

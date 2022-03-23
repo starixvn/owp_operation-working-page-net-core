@@ -22,6 +22,9 @@ namespace OWP.Maxbet.Services
   public class MainMatchServiceImp : MainMatchService
   {
 
+    private const decimal SPREAD_HDP_PEN = (decimal)0.08;
+
+    private const decimal SPREAD_OU_PEN = (decimal)0.1;
 
     private readonly MaxbetRepository syncMaxbetRepository;
 
@@ -60,8 +63,11 @@ namespace OWP.Maxbet.Services
     public async Task<MaxbetInfo> GetMaxbetInfoET(int owpMatchId, int adminsiteId)
     {
       var maxbetInfo = await BuildMatchInfoExcludeNumberOfLines(owpMatchId, adminsiteId);
-      NumberOfLineHelper.UpdateNumberOfLine(maxbetInfo.NumberOfLines);
+
+      MaxbetHelper.SetDefaultMaxbetInfo(maxbetInfo);
+
       MaxbetHelper.UpdateMaxbetET(maxbetInfo.Maxbet);
+
       maxbetInfo.Ft1stLineHandicap = Ft1stLineHandicapHelper.BuildFt1stLineHandicap();
       return maxbetInfo;
     }
@@ -69,9 +75,12 @@ namespace OWP.Maxbet.Services
     public async Task<MaxbetInfo> GetMaxbetInfoPEN(int owpMatchId, int adminsiteId)
     {
       var maxbetInfo = await BuildMatchInfoExcludeNumberOfLines(owpMatchId, adminsiteId);
-      NumberOfLineHelper.UpdateNumberOfLine(maxbetInfo.NumberOfLines);
+
+      MaxbetHelper.SetDefaultMaxbetInfo(maxbetInfo);
+
       MaxbetHelper.UpdateMaxbetPEN(maxbetInfo.Maxbet);
-      MaxbetHelper.UpdateSpreadPEN(maxbetInfo.Spread, (decimal)0.08, (decimal)0.1);
+
+      MaxbetHelper.UpdateSpreadPEN(maxbetInfo.Spread, SPREAD_HDP_PEN, SPREAD_OU_PEN);
       return maxbetInfo;
     }
 
