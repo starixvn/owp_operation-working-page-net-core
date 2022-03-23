@@ -292,7 +292,7 @@ namespace OWP.PreMatchAssignment.Services
         }
 
         private async Task<Tuple<IEnumerable<PreMatchLeague>, IEnumerable<InfoSiteMatch>>> QueryShift(CriteriaBase criteria,
-            string employee, string leagueName, List<String> matchOffers, DateTime eventDate)
+            string employee, string leagueName, List<string> matchOffers, DateTime eventDate)
         {
             var data = await dynamicRepository.FetchMultipleAsync<PreMatchLeague, InfoSiteMatch>(criteria);
 
@@ -309,7 +309,11 @@ namespace OWP.PreMatchAssignment.Services
 
             var matchesFilterByMatchOffer = FilterByMatchOffer(matches, matchOffers);
 
-            return new Tuple<IEnumerable<PreMatchLeague>, IEnumerable<InfoSiteMatch>>(filterByLeagueName, matchesFilterByMatchOffer);
+            var preMatchLeagueIds = matchesFilterByMatchOffer.Select(m => m.PreMatchLeagueId).Distinct().ToList();
+
+            var leaguesFilterByMatch = filterByLeagueName.Where(l => preMatchLeagueIds.Contains(l.PreMatchLeagueId));
+
+            return new Tuple<IEnumerable<PreMatchLeague>, IEnumerable<InfoSiteMatch>>(leaguesFilterByMatch, matchesFilterByMatchOffer);
         }
 
         private static IEnumerable<InfoSiteMatch> FilterByMatchOffer(IEnumerable<InfoSiteMatch> matches, List<String> matchOffers)
