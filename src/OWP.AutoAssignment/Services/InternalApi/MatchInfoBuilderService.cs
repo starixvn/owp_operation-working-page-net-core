@@ -28,7 +28,8 @@ namespace OWP.AutoAssignment.Services.InternalApi
         public async Task Build(IList<ExportMatchModel> models, IList<AutoAssignmentResultModel> autoAssignModels)
         {
             var matchQueryInfo = BuildMatchQueryInfo(autoAssignModels);
-            var matchInfos = (await QueryMatchInfo(matchQueryInfo)).ToList();
+            var matchInfos = (await QueryMatchInfo(matchQueryInfo))
+                .OrderBy(x => x.EventDateTime).ToList();
 
             BuildExportMatchModel(models, matchInfos);
         }

@@ -49,9 +49,7 @@ namespace OWP.AutoAssignment.Services.InternalApi
             await BuildTraderInfo();
             await BuildProviderInfo(requestId);
             await BuildLeagueSettingInfo(requestId);
-            return ExportModels
-                .OrderBy(x => DateTime.Parse(x.EventDateTime))
-                .ToList();
+            return ExportModels;
         }
 
         private async Task BuildMatchInfo()
