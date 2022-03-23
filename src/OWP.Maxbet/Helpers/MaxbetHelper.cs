@@ -13,7 +13,21 @@ namespace OWP.Maxbet.Helpers
     public static T FindMaxbetByBettype<T>(List<T> maxbets, int bettypeId) where T : MaxbetModel
         => maxbets.FirstOrDefault(a => a.BettypeId == bettypeId);
 
-
+    public static void UpdateSpreadPEN(MaxbetSpread spread, decimal newValueHdp, decimal newValueOU)
+    {
+      spread.Handicap = newValueHdp;
+      spread.OverUnder = newValueOU;
+    }
+    public static void UpdateMaxbetPEN(MaxbetSpread maxbet)
+    {
+      var hdp = maxbet.Handicap;
+      if (hdp.HasValue)
+      {
+        var hdpPEN = hdp / 2;
+        maxbet.Handicap = hdpPEN;
+        maxbet.Handicap = hdpPEN;
+      }
+    }
     internal static void SetDefaultMaxbetInfo(MaxbetInfo maxbetInfo)
     {
       maxbetInfo.Maxbet.FirstHalfHandicap = null;
@@ -27,25 +41,6 @@ namespace OWP.Maxbet.Helpers
 
       maxbetInfo.MaxbetCN88.FirstHalfHandicap = null;
       maxbetInfo.MaxbetCN88.FirstHalfOverUnder = null;
-
-      NumberOfLineHelper.UpdateNumberOfLine(maxbetInfo.NumberOfLines);
-      }
-    }
-
-    internal static void Reset1HMaxbetETPEN(MaxbetSpread maxbet)
-    {
-    }
-
-    internal static void SetDefaultMaxbetInfo(MaxbetInfo maxbetInfo)
-    {
-      maxbetInfo.Maxbet.FirstHalfHandicap = null;
-      maxbetInfo.Maxbet.FirstHalfOverUnder = null;
-
-      maxbetInfo.Spread.FirstHalfHandicap = null;
-      maxbetInfo.Spread.FirstHalfOverUnder = null;
-
-      maxbetInfo.Traders.FirstHalfHandicap = null;
-      maxbetInfo.Traders.FirstHalfOverUnder = null;
 
       NumberOfLineHelper.UpdateNumberOfLine(maxbetInfo.NumberOfLines);
     }

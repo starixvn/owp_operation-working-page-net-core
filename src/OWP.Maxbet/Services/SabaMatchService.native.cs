@@ -33,14 +33,14 @@ namespace OWP.Maxbet.Services
 
       var spread = new MaxbetSpread
       {
-        Handicap = MaxBetSetting.Spread_Saba,
-        OverUnder = (decimal)MaxBetSetting.Spread_Saba
+        Handicap = MaxBetSetting.SPREAD_SABA,
+        OverUnder = (decimal)MaxBetSetting.SPREAD_SABA
       };
 
       var maxbet = new MaxbetSpread
       {
-        Handicap = MaxBetSetting.Maxbet_Saba,
-        OverUnder = MaxBetSetting.Maxbet_Saba
+        Handicap = MaxBetSetting.MAXBET_SABA,
+        OverUnder = MaxBetSetting.MAXBET_SABA
       };
 
       var cn88Maxbet = new MaxbetSpread
