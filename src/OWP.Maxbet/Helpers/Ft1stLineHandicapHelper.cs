@@ -2,8 +2,8 @@ namespace OWP.Maxbet.Helpers
 {
   public static class Ft1stLineHandicapHelper
   {
-    const int Ft1stLineHandicap = 0;
+    const int FT1_1ST_LINE_HDP = 0;
 
-    public static int BuildFt1stLineHandicap() => Ft1stLineHandicap;
+    public static int BuildFt1stLineHandicap() => FT1_1ST_LINE_HDP;
   }
 }

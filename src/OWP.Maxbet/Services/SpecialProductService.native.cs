@@ -1,3 +1,4 @@
+using OWP.Maxbet.Helpers;
 using OWP.Maxbet.Models;
 using OWP.Maxbet.Selector;
 using OWP.Services;
@@ -9,6 +10,8 @@ namespace OWP.Maxbet.Services
     Task<MinorMatchInfo> GetMatchIdByAdminSiteId(int adminsiteId, int bettypeId);
 
     Task<MaxbetInfo> GetSpecialProductInfo(MinorMatchInfo owpMatch, int adminsiteId, int bettypeId);
+
+    Task<MaxbetInfo> GetMaxbetInfoET(MinorMatchInfo owpMatch, int adminsiteId, int bettypeId);
   }
 
   public class SpecialProductServiceImp : SpecialProductService
@@ -31,16 +34,48 @@ namespace OWP.Maxbet.Services
     public async Task<MinorMatchInfo> GetMatchIdByAdminSiteId(int adminsiteId, int bettypeId)
             => await syncMaxbetRepository.GetMatchIdByAdminSiteId(adminsiteId, bettypeId);
 
+    public async Task<MaxbetInfo> GetMaxbetInfoET(MinorMatchInfo owpMatch, int adminsiteId, int bettypeId)
+    {
+      var maxbetInfo = await GetSpecialProductInfoExcludeNumberOfLines(owpMatch, adminsiteId, bettypeId);
+
+      MaxbetHelper.SetDefaultMaxbetInfo(maxbetInfo);
+
+      maxbetInfo.Ft1stLineHandicap = Ft1stLineHandicapHelper.BuildFt1stLineHandicap();
+      return maxbetInfo;
+    }
+
     public async Task<MaxbetInfo> GetSpecialProductInfo(MinorMatchInfo owpMatch, int adminsiteId, int bettypeId)
+    {
+      var maxbetInfo = await GetSpecialProductInfoExcludeNumberOfLines(owpMatch, adminsiteId, bettypeId);
+      var numberOfLines = await specialProductSelector.SelectNumberOfLines(owpMatch.MinorMatchId, bettypeId);
+
+      maxbetInfo.NumberOfLines = numberOfLines;
+
+      await logServiceWrapper.Log("=====GetSpecialProductInfo request======", owpMatch, adminsiteId, bettypeId);
+      await logServiceWrapper.Log("=====GetSpecialProductInfo======",
+      maxbetInfo.Traders,
+      maxbetInfo.Spread,
+       maxbetInfo.Maxbet,
+        maxbetInfo.SecondAcceptValue,
+        maxbetInfo.NumberOfLines);
+
+      var maxbetCN88 = new MaxbetSpread
+      {
+        FirstHalfHandicap = 0,
+        FirstHalfOverUnder = 0,
+        Handicap = 0,
+        OverUnder = 0
+      };
+
+      return maxbetInfo;
+    }
+
+    private async Task<MaxbetInfo> GetSpecialProductInfoExcludeNumberOfLines(MinorMatchInfo owpMatch, int adminsiteId, int bettypeId)
     {
       var traders = await specialProductSelector.SelectTrader(owpMatch.MinorMatchId, bettypeId);
       var spread = await specialProductSelector.SelectSpread(owpMatch.MinorMatchId, bettypeId);
       var maxbet = await specialProductSelector.SelectMaxbet(owpMatch, bettypeId);
       var secondAcceptValue = await specialProductSelector.SelectSecondAcceptedValues(owpMatch.MinorMatchId, bettypeId);
-      var numberOfLines = await specialProductSelector.SelectNumberOfLines(owpMatch.MinorMatchId, bettypeId);
-
-      await logServiceWrapper.Log("=====GetSpecialProductInfo request======", owpMatch, adminsiteId, bettypeId);
-      await logServiceWrapper.Log("=====GetSpecialProductInfo======", traders, spread, maxbet, secondAcceptValue, numberOfLines);
 
       var maxbetCN88 = new MaxbetSpread
       {
@@ -57,8 +92,7 @@ namespace OWP.Maxbet.Services
         Spread = spread,
         Maxbet = maxbet,
         MaxbetCN88 = maxbetCN88,
-        SecondAcceptValue = secondAcceptValue,
-        NumberOfLines = numberOfLines
+        SecondAcceptValue = secondAcceptValue
       };
     }
   }

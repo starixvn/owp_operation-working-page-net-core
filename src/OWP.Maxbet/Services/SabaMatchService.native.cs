@@ -29,52 +29,40 @@ namespace OWP.Maxbet.Services
     {
       var traderAssignmentsSender = await traderAssignmentBuilder.BuildTraderAssignmentSender(owpMatchId);
 
-      MaxbetHelper.Reset1HTraderETPEN(traderAssignmentsSender);
-
       var secondAcceptValue = await mediator.Send(new GetSecondAcceptValueHandler.Request { OWPMatchId = owpMatchId });
 
       var spread = new MaxbetSpread
       {
         Handicap = MaxBetSetting.Spread_Saba,
-        OverUnder = MaxBetSetting.Spread_Saba,
-        FirstHalfHandicap = null,
-        FirstHalfOverUnder = null
+        OverUnder = (decimal)MaxBetSetting.Spread_Saba
       };
 
       var maxbet = new MaxbetSpread
       {
         Handicap = MaxBetSetting.Maxbet_Saba,
-        OverUnder = MaxBetSetting.Maxbet_Saba,
-        FirstHalfHandicap = null,
-        FirstHalfOverUnder = null
+        OverUnder = MaxBetSetting.Maxbet_Saba
       };
 
       var cn88Maxbet = new MaxbetSpread
       {
-        FirstHalfHandicap = null,
-        FirstHalfOverUnder = null,
         Handicap = 0,
         OverUnder = 0
       };
 
-      var numberOfLines = new NumberOfLines
-      {
-        CreditFt = (int)NumberOfLinesETPEN.CreditFt,
-        CreditFirstHalf = (int)NumberOfLinesETPEN.CreditFirstHalf,
-        LicenseeFt = (int)NumberOfLinesETPEN.LicenseeFt,
-        LicenseeFirstHalf = (int)NumberOfLinesETPEN.LicenseeFirstHalf
-      };
-
-      return new MaxbetInfo
+      var maxbetInfo = new MaxbetInfo
       {
         AdminsiteID = adminsiteId,
         Traders = traderAssignmentsSender,
         Spread = spread,
         Maxbet = maxbet,
         MaxbetCN88 = cn88Maxbet,
-        NumberOfLines = numberOfLines,
+        NumberOfLines = new NumberOfLines(),
         SecondAcceptValue = secondAcceptValue
       };
+
+      MaxbetHelper.SetDefaultMaxbetInfo(maxbetInfo);
+
+      return maxbetInfo;
     }
   }
 }

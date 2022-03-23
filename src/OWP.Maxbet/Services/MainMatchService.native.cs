@@ -22,6 +22,9 @@ namespace OWP.Maxbet.Services
 
   public class MainMatchServiceImp : MainMatchService
   {
+    private const decimal MAXBET_HDP = 70000;
+
+    private const decimal MAXBET_ET = 35000;
 
     private const decimal SPREAD_HDP_PEN = (decimal)0.08;
 
@@ -68,7 +71,7 @@ namespace OWP.Maxbet.Services
 
       MaxbetHelper.SetDefaultMaxbetInfo(maxbetInfo);
 
-      MaxbetHelper.UpdateMaxbetET(maxbetInfo.Maxbet);
+      UpdateMaxbetET(maxbetInfo.Maxbet);
 
       maxbetInfo.Ft1stLineHandicap = Ft1stLineHandicapHelper.BuildFt1stLineHandicap();
       return maxbetInfo;
@@ -80,9 +83,9 @@ namespace OWP.Maxbet.Services
 
       MaxbetHelper.SetDefaultMaxbetInfo(maxbetInfo);
 
-      MaxbetHelper.UpdateMaxbetPEN(maxbetInfo.Maxbet);
+      UpdateMaxbetPEN(maxbetInfo.Maxbet);
 
-      MaxbetHelper.UpdateSpreadPEN(maxbetInfo.Spread, SPREAD_HDP_PEN, SPREAD_OU_PEN);
+      UpdateSpreadPEN(maxbetInfo.Spread);
       return maxbetInfo;
     }
 
@@ -100,14 +103,35 @@ namespace OWP.Maxbet.Services
     {
       var maxbetInfo = await BuildMatchInfoExcludeNumberOfLines(owpMatchId, adminsiteId);
 
-      NumberOfLineHelper.UpdateNumberOfLine(maxbetInfo.NumberOfLines);
-
-      MaxbetHelper.UpdateMaxbetPEN(maxbetInfo.Maxbet);
 
       MaxbetHelper.UpdateSpreadPEN(maxbetInfo.Spread, MaxBetSetting.Spread_Futsal_PEN, MaxBetSetting.Spread_Futsal_PEN);
       return maxbetInfo;
     }
 
+    private static void UpdateMaxbetET(MaxbetSpread maxbet)
+    {
+      if (maxbet.Handicap == MAXBET_HDP)
+      {
+        maxbet.Handicap = MAXBET_ET;
+        maxbet.OverUnder = MAXBET_ET;
+      }
+    }
+    private static void UpdateSpreadPEN(MaxbetSpread spread)
+    {
+      spread.Handicap = SPREAD_HDP_PEN;
+      spread.OverUnder = SPREAD_OU_PEN;
+    }
+
+    private static void UpdateMaxbetPEN(MaxbetSpread maxbet)
+    {
+      var hdp = maxbet.Handicap;
+      if (hdp.HasValue)
+      {
+        var hdpPEN = hdp / 2;
+        maxbet.Handicap = hdpPEN;
+        maxbet.Handicap = hdpPEN;
+      }
+    }
     private async Task<MaxbetInfo> BuildMatchInfoExcludeNumberOfLines(int owpMatchId, int adminsiteId)
     {
       var traderAssignmentsSender = await traderAssignmentBuilder.BuildTraderAssignmentSender(owpMatchId);
