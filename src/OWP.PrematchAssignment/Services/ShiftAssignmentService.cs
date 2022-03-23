@@ -61,7 +61,7 @@ namespace OWP.PreMatchAssignment.Services
                 IsDay = true
             };
 
-            var result = await QueryShift(queryDayShiftCriteria, request.Employee, request.LeagueName, request.matchOffers, request.EventDate);
+            var result = await QueryShift(queryDayShiftCriteria, request.Employee, request.LeagueName, request.MatchOffers, request.EventDate);
 
             var preMatchLeagues = SortAndAddNo(result.Item1);
 

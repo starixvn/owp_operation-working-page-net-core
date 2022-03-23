@@ -72,7 +72,13 @@ public class ShiftAssignmentService
         var service = new ShiftAssignmentServiceImp(dynamicRepo, currentSession, mapper);
 
         //Act
-        var actual = await service.QueryDayShift(new Handlers.QueryDayShiftPreMatchRequest { Employee = "sa", EventDate = DateTime.Now, LeagueName = string.Empty });
+        var actual = await service.QueryDayShift(new Handlers.QueryDayShiftPreMatchRequest
+        {
+            Employee = "sa",
+            EventDate = DateTime.Now,
+            MatchOffers = new List<string> { "" },
+            LeagueName = string.Empty
+        });
 
         //Assert
         DeepAssert.Equal(expected, actual);
@@ -149,7 +155,13 @@ public class ShiftAssignmentService
         var service = new ShiftAssignmentServiceImp(dynamicRepo, currentSession, mapper);
 
         //Act
-        var actual = await service.QueryDayShift(new Handlers.QueryDayShiftPreMatchRequest { Employee = string.Empty, EventDate = DateTime.Now, LeagueName = string.Empty });
+        var actual = await service.QueryDayShift(new Handlers.QueryDayShiftPreMatchRequest
+        {
+            Employee = string.Empty,
+            EventDate = DateTime.Now,
+            MatchOffers = new List<string> { "" },
+            LeagueName = string.Empty
+        });
 
         //Assert
         DeepAssert.Equal(expected, actual);
@@ -231,7 +243,13 @@ public class ShiftAssignmentService
         var service = new ShiftAssignmentServiceImp(dynamicRepo, currentSession, mapper);
 
         //Act
-        var actual = await service.QueryNightShift(new Handlers.QueryNightShiftPreMatchRequest { Employee = string.Empty, EventDate = DateTime.Now, LeagueName = string.Empty });
+        var actual = await service.QueryNightShift(new Handlers.QueryNightShiftPreMatchRequest
+        {
+            Employee = string.Empty,
+            EventDate = DateTime.Now,
+            MatchOffers = new List<string> { "" },
+            LeagueName = string.Empty
+        });
 
         //Assert
         DeepAssert.Equal(expected, actual);
@@ -310,6 +328,7 @@ public class ShiftAssignmentService
             Employee = string.Empty,
             EventDate = DateTime.Now,
             LeagueName = string.Empty,
+            MatchOffers = new List<string> { "" },
             StartTime = new TimeSpan(11, 00, 00)
         });
 
@@ -403,6 +422,7 @@ public class ShiftAssignmentService
             Employee = string.Empty,
             EventDate = DateTime.Now,
             LeagueName = string.Empty,
+            MatchOffers = new List<string> { "" },
             StartTime = requestStartTime
         });
 
