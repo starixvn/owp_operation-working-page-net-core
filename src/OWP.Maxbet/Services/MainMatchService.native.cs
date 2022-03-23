@@ -4,6 +4,7 @@ using OWP.Maxbet.Builder;
 using OWP.Maxbet.Handlers;
 using OWP.Maxbet.Helpers;
 using OWP.Maxbet.Models;
+using OWP.Maxbet.Constants;
 
 namespace OWP.Maxbet.Services
 {
@@ -54,6 +55,7 @@ namespace OWP.Maxbet.Services
     public async Task<MaxbetInfo> GetMaxbetInfo(int owpMatchId, int adminsiteId)
     {
       var maxbetInfo = await BuildMatchInfoExcludeNumberOfLines(owpMatchId, adminsiteId);
+
       var numberOfLines = await mediator.Send(new GetNumberOfLinesHandler.Request { OWPMatchId = owpMatchId });
 
       maxbetInfo.NumberOfLines = numberOfLines;
@@ -81,6 +83,28 @@ namespace OWP.Maxbet.Services
       MaxbetHelper.UpdateMaxbetPEN(maxbetInfo.Maxbet);
 
       MaxbetHelper.UpdateSpreadPEN(maxbetInfo.Spread, SPREAD_HDP_PEN, SPREAD_OU_PEN);
+      return maxbetInfo;
+    }
+
+    public async Task<MaxbetInfo> GetMaxBetInfoFutsalET(int owpMatchId, int adminsiteId)
+    {
+      var maxbetInfo = await BuildMatchInfoExcludeNumberOfLines(owpMatchId, adminsiteId);
+
+      MaxbetHelper.SetDefaultMaxbetInfo(maxbetInfo);
+
+      maxbetInfo.Ft1stLineHandicap = Ft1stLineHandicapHelper.BuildFt1stLineHandicap();
+      return maxbetInfo;
+    }
+
+    public async Task<MaxbetInfo> GetMaxBetInfoFutsalPEN(int owpMatchId, int adminsiteId)
+    {
+      var maxbetInfo = await BuildMatchInfoExcludeNumberOfLines(owpMatchId, adminsiteId);
+
+      NumberOfLineHelper.UpdateNumberOfLine(maxbetInfo.NumberOfLines);
+
+      MaxbetHelper.UpdateMaxbetPEN(maxbetInfo.Maxbet);
+
+      MaxbetHelper.UpdateSpreadPEN(maxbetInfo.Spread, MaxBetSetting.Spread_Futsal_PEN, MaxBetSetting.Spread_Futsal_PEN);
       return maxbetInfo;
     }
 
