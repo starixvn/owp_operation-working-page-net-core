@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System.Globalization;
+using AutoMapper;
+using OWP.AutoAssignment.Constant;
 using OWP.AutoAssignment.Models.InternalApi;
 
 namespace OWP.AutoAssignment.Services.InternalApi
@@ -47,9 +49,23 @@ namespace OWP.AutoAssignment.Services.InternalApi
         {
             foreach (var match in matchInfos)
             {
-                var matchModel = mapper.Map<ExportMatchModel>(match);
+                var matchModel = BuildExportMatchInfo(match);
                 models.Add(matchModel);
             }
         }
+
+        private ExportMatchModel BuildExportMatchInfo(InfoSiteMatchModel matchInfo)
+        => matchInfo.Bettype == BetType.MainMatch ? mapper.Map<ExportMatchModel>(matchInfo)
+            : new ExportMatchModel
+            {
+                EventDateTime = matchInfo.EventDateTime
+                .ToString("hh:mm tt", CultureInfo.InvariantCulture),
+                LeagueName = matchInfo.LeagueName,
+                AwayName = matchInfo.AwayName,
+                HomeName = matchInfo.HomeName,
+                InfoSiteMatchId = matchInfo.InfoSiteMatchId.HasValue
+                ? matchInfo.InfoSiteMatchId.Value : 0,
+                Bettype = matchInfo.Bettype,
+            };
     }
 }
