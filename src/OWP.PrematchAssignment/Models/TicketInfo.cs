@@ -15,6 +15,8 @@
         public bool IsRead { get; set; }
 
         public int EventType => (int)Enum.EventType.League;
+        public int SubtypeId { get; set; }
+        public string SubtypeName { get; set; }
     }
 
     public class TicketMatchBasicInfo
@@ -32,5 +34,8 @@
         public bool IsRead { get; set; }
 
         public int EventType => (int)Enum.EventType.Match;
+
+        public int SubtypeId { get; set; }
+        public string SubtypeName { get; set; }
     }
 }
