@@ -1,6 +1,6 @@
 ﻿using OWP.Maxbet.Models;
 
-namespace OWP.Helpers
+namespace OWP.Maxbet.Helpers
 {
   public static class MaxbetHelper
   {
@@ -46,6 +46,11 @@ namespace OWP.Helpers
         maxbet.FirstHalfHandicap = null;
         maxbet.FirstHalfHandicap = null;
       }
+    }
+    public static void UpdateTraderETPK(TraderAssignmentSender trader)
+    {
+      trader.FirstHalfHandicap = null;
+      trader.FirstHalfOverUnder = null;
     }
   }
 }

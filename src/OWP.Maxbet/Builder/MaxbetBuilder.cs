@@ -1,5 +1,5 @@
 ﻿using OWP.Enums;
-using OWP.Helpers;
+using OWP.Maxbet.Helpers;
 using OWP.Maxbet.Constants;
 using OWP.Maxbet.Models;
 
