@@ -199,5 +199,130 @@ namespace OWP.Maxbet.UnitTests.Helpers
     }
 
     #endregion maxbet
+
+    [Fact]
+    public void UpdateSpreadPEN_Always_Returns()
+    {
+      var spread = new MaxbetSpread
+      {
+        Handicap = 123,
+        OverUnder = 123,
+        FirstHalfHandicap = 123,
+        FirstHalfOverUnder = 123
+      };
+
+      var newHandicap = (decimal)0.2;
+
+      var newOverUnder = (decimal)0.2;
+
+      MaxbetHelper.UpdateSpreadPEN(spread, newHandicap, newOverUnder);
+
+      var expected = new MaxbetSpread
+      {
+        Handicap = (decimal)0.2,
+        OverUnder = (decimal)0.2,
+        FirstHalfHandicap = 123,
+        FirstHalfOverUnder = 123
+      };
+
+      DeepAssert.Equal(expected, spread);
+    }
+
+    [Fact]
+    public void UpdateMaxbetPEN_Always_Returns()
+    {
+      var maxbet = new MaxbetSpread
+      {
+        Handicap = 1000,
+        OverUnder = 1000,
+        FirstHalfHandicap = 123,
+        FirstHalfOverUnder = 123
+      };
+
+      MaxbetHelper.UpdateMaxbetPEN(maxbet);
+
+      var expected = new MaxbetSpread
+      {
+        Handicap = 500,
+        OverUnder = 500,
+        FirstHalfHandicap = 123,
+        FirstHalfOverUnder = 123
+      };
+
+      DeepAssert.Equal(expected, maxbet);
+    }
+
+    [Fact]
+    public void SetDefaultMaxbetInfo_Always_Returns()
+    {
+      var maxbet = new MaxbetSpread
+      {
+        Handicap = 1000,
+        OverUnder = 1000,
+        FirstHalfHandicap = 123,
+        FirstHalfOverUnder = 123
+      };
+
+      var spread = new MaxbetSpread
+      {
+        Handicap = 123,
+        OverUnder = 123,
+        FirstHalfHandicap = 123,
+        FirstHalfOverUnder = 123
+      };
+
+      var trader = new MaxbetSpread
+      {
+        Handicap = 3838,
+        OverUnder = 3838,
+        FirstHalfHandicap = 3838,
+        FirstHalfOverUnder = 3838
+      };
+
+      var maxbetCN88 = new MaxbetSpread
+      {
+        Handicap = 0,
+        OverUnder = 0,
+        FirstHalfHandicap = 0,
+        FirstHalfOverUnder = 0
+      };
+
+      var numberOfLines = new NumberOfLines
+      {
+        CreditFirstHalf = 1,
+        CreditFt = 2,
+        LicenseeFirstHalf = 3,
+        LicenseeFt = 4
+      };
+
+      var maxbetInfo = new MaxbetInfo
+      {
+        Spread = spread,
+        Maxbet = maxbet,
+        MaxbetCN88 = maxbetCN88,
+        NumberOfLines = numberOfLines
+      };
+
+      MaxbetHelper.SetDefaultMaxbetInfo(maxbetInfo);
+
+      var expectedMaxbet = new MaxbetSpread
+      {
+        Handicap = 1000,
+        OverUnder = 1000,
+        FirstHalfHandicap = null,
+        FirstHalfOverUnder = null
+      };
+
+      var expectedNumberOfLines = new NumberOfLines
+      {
+        CreditFirstHalf = 2,
+        CreditFt = 2,
+        LicenseeFirstHalf = 0,
+        LicenseeFt = 0
+      };
+
+      DeepAssert.Equal(maxbetInfo.Maxbet, expectedMaxbet);
+      DeepAssert.Equal(maxbetInfo.NumberOfLines, expectedNumberOfLines);
+    }
   }
 }

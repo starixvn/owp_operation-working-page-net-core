@@ -25,10 +25,10 @@ namespace OWP.Maxbet.Helpers
       {
         var hdpPEN = hdp / 2;
         maxbet.Handicap = hdpPEN;
-        maxbet.Handicap = hdpPEN;
+        maxbet.OverUnder = hdpPEN;
       }
     }
-    internal static void SetDefaultMaxbetInfo(MaxbetInfo maxbetInfo)
+    public static void SetDefaultMaxbetInfo(MaxbetInfo maxbetInfo)
     {
       maxbetInfo.Maxbet.FirstHalfHandicap = null;
       maxbetInfo.Maxbet.FirstHalfOverUnder = null;

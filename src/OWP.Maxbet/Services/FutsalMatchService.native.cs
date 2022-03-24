@@ -21,7 +21,6 @@ namespace OWP.Maxbet.Services
 
     public FutsalMatchServiceImp(IMediator mediator, ServiceCommon serviceCommon)
     {
-      this.syncMaxbetRepository = syncMaxbetRepository;
       this.mediator = mediator;
       this.serviceCommon = serviceCommon;
     }
