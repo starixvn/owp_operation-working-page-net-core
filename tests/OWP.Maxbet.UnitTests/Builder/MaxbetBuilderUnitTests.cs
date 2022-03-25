@@ -13,6 +13,75 @@ namespace OWP.Maxbet.UnitTests.Builder
 
     private readonly MaxbetBuilderImp maxbetBuilder;
 
+    private readonly Dictionary<int, Tuple<int, int>> maxbetBookingMapper = new Dictionary<int, Tuple<int, int>>
+        {
+            {500_000, new (10_000,5_000)},
+            {400_000, new (10_000,5_000)},
+            {350_000, new (10_000,5_000)},
+            {300_000, new (10_000,5_000)},
+            {200_000, new (10_000,5_000)},
+            {180_000, new (10_000,5_000)},
+            {150_000, new (6_000,4_000)},
+            {130_000, new (6_000,4_000)},
+            {120_000, new (6_000,4_000)},
+            {110_000, new (6_000,4_000)},
+            {100_000, new (6_000,4_000)},
+            {90_000, new (3_000,2_000)},
+            {80_000, new (3_000,2_000)},
+            {70_000, new (3_000,2_000)},
+            {60_000, new (3_000,2_000)},
+            {50_000, new (3_000,2_000)},
+            {40_000, new (3_000,2_000)},
+            {35_000, new (3_000,2_000)},
+            {30_000, new (3_000,2_000)},
+            {25_000, new (3_000,2_000)},
+            {20_000, new (3_000,2_000)},
+            {18_000, new (3_000,2_000)},
+            {15_000, new (3_000,2_000)},
+            {12_000, new (3_000,2_000)},
+            {10_000, new (3_000,2_000)},
+            {8_000, new (3_000,2_000)},
+            {7_000, new (3_000,2_000)},
+            {6_000, new (3_000,2_000)},
+            {5_000, new (3_000,2_000)},
+            {4_000, new (3_000,2_000)},
+            {3_000, new (3_000,2_000)},
+        };
+    private readonly Dictionary<int, Tuple<int, int>> maxbetCornerMapper = new Dictionary<int, Tuple<int, int>>
+        {
+            {500_000, new (18_000,8_000)},
+            {400_000, new (18_000,8_000)},
+            {350_000, new (18_000,8_000)},
+            {300_000, new (18_000,8_000)},
+            {200_000, new (18_000,8_000)},
+            {180_000, new (18_000,8_000)},
+            {150_000, new (12_000,6_000)},
+            {130_000, new (12_000,6_000)},
+            {120_000, new (12_000,6_000)},
+            {110_000, new (12_000,6_000)},
+            {100_000, new (12_000,6_000)},
+            {90_000, new (12_000,6_000)},
+            {80_000, new (7_000,3_000)},
+            {70_000, new (7_000,3_000)},
+            {60_000, new (7_000,3_000)},
+            {50_000, new (7_000,3_000)},
+            {40_000, new (7_000,3_000)},
+            {35_000, new (5_000,3_000)},
+            {30_000, new (5_000,3_000)},
+            {25_000, new (5_000,3_000)},
+            {20_000, new (5_000,3_000)},
+            {18_000, new (5_000,3_000)},
+            {15_000, new (5_000,3_000)},
+            {12_000, new (5_000,3_000)},
+            {10_000, new (4_000,2_000)},
+            {8_000, new (4_000,2_000)},
+            {7_000, new (4_000,2_000)},
+            {6_000, new (4_000,2_000)},
+            {5_000, new (3_000,2_000)},
+            {4_000, new (3_000,2_000)},
+            {3_000, new (2_000,2_000)},
+            {2_000, new (2_000,2_000)},
+        };
     public MaxbetBuilderUnitTests()
     {
       syncMaxbetRepository = Substitute.For<MaxbetRepository>();
@@ -294,6 +363,130 @@ namespace OWP.Maxbet.UnitTests.Builder
                 new MaxbetModel
                 {
                     BettypeId= (int)EnumBettype.FirstHalfOverUnder,
+                }
+            };
+      DeepAssert.Equal(expected, maxbet);
+    }
+
+    [Fact]
+    public void BuildMaxbetCorner_SpecialFirstHalfOverUnder_CompareMaxbetAfterBuild()
+    {
+
+      var maxbetMainMatch = new List<MaxbetModel>
+            {
+                new MaxbetModel
+                {
+                    BettypeId= (int)EnumBettype.FirstHalfOverUnder,
+                    Value=120000
+                }
+            };
+      var maxbet = new List<MaxbetModel>();
+
+      maxbetBuilder.BuildMaxbetSpecialFirstHalfOverUnder(maxbet, maxbetMainMatch, maxbetCornerMapper);
+      var expected = new List<MaxbetModel>
+            {
+                new MaxbetModel
+                {
+                    BettypeId= (int)EnumBettype.FirstHalfOverUnder,
+                    Value=null
+                }
+            };
+      DeepAssert.Equal(expected, maxbet);
+    }
+
+    [Fact]
+    public void BuildMaxbetCorner_SpecialFirstHalfHandicap_CompareMaxbetAfterBuild()
+    {
+
+      var maxbetMainMatch = new List<MaxbetModel>
+            {
+                new MaxbetModel
+                {
+                    BettypeId= (int)EnumBettype.FirstHalfHandicap,
+                    Value=120000
+                }
+            };
+      var maxbet = new List<MaxbetModel>();
+
+      maxbetBuilder.BuildMaxbetSpecialFirstHalfHandicap(maxbet, maxbetMainMatch, maxbetCornerMapper);
+      var expected = new List<MaxbetModel>
+            {
+                new MaxbetModel
+                {
+                    BettypeId= (int)EnumBettype.FirstHalfHandicap,
+                    Value=null
+                }
+            };
+      DeepAssert.Equal(expected, maxbet);
+    }
+    [Fact]
+    public void BuildMaxbet_NextCornerOrBooking_Returns_MaxbetSender()
+    {
+      var maxbet = new List<MaxbetModel>
+            {
+                new MaxbetModel
+                {
+                    BettypeId= (int)EnumBettype.Handicap,
+                    Value=400000
+                }
+            };
+      var maxbetMainMatch = new List<MaxbetModel>();
+
+      var result = maxbetBuilder.BuildMaxbetNextCornerOrBooking(maxbet, maxbetMainMatch, maxbetBookingMapper);
+      var expected = new MaxbetSpread
+      {
+        Handicap = 400000,
+        OverUnder = null,
+        FirstHalfHandicap = null,
+        FirstHalfOverUnder = null
+      };
+      DeepAssert.Equal(expected, result);
+    }
+
+    [Fact]
+    public void BuildMaxbetSpecial_NextCornerOrBooking_Returns_MaxbetSender()
+    {
+      var maxbet = new List<MaxbetModel>
+            {
+                new MaxbetModel
+                {
+                    BettypeId= (int)EnumBettype.OverUnder,
+                    Value=400000
+                }
+            };
+      var maxbetMainMatch = new List<MaxbetModel>();
+
+      var result = maxbetBuilder.BuildMaxbetNextCornerOrBooking(maxbet, maxbetMainMatch, maxbetBookingMapper);
+      var expected = new MaxbetSpread
+      {
+        Handicap = null,
+        OverUnder = 400000,
+        FirstHalfHandicap = null,
+        FirstHalfOverUnder = null
+      };
+      DeepAssert.Equal(expected, result);
+    }
+    [Fact]
+    public void BuildMaxbetCorner_SpecialOverUnder_CompareMaxbetAfterBuild()
+    {
+
+      var maxbetMainMatch = new List<MaxbetModel>
+            {
+                new MaxbetModel
+                {
+                    BettypeId= (int)EnumBettype.OverUnder,
+                    Value=120000
+                }
+            };
+      var maxbet = new List<MaxbetModel>();
+
+      maxbetBuilder.BuildMaxbetSpecialOverUnder(maxbet, maxbetMainMatch, maxbetCornerMapper);
+      var expected = new List<MaxbetModel>
+            {
+                new MaxbetModel
+                {
+                    BettypeId= (int)EnumBettype.OverUnder,
+                    Value=null
                 }
             };
       DeepAssert.Equal(expected, maxbet);

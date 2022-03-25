@@ -219,7 +219,7 @@ namespace OWP.Maxbet.Builder
       return BuildMaxbetSender(maxbet);
     }
 
-    private MaxbetSpread BuildMaxbetNextCornerOrBooking(
+    public MaxbetSpread BuildMaxbetNextCornerOrBooking(
         List<MaxbetModel> maxbet,
         List<MaxbetModel> maxbetMainMatch,
         Dictionary<int, Tuple<int, int>> mapper)
@@ -254,7 +254,7 @@ namespace OWP.Maxbet.Builder
       });
     }
 
-    private void BuildMaxbetSpecialOverUnder(
+    public void BuildMaxbetSpecialOverUnder(
         List<MaxbetModel> maxbet,
         List<MaxbetModel> maxbetMainMatch,
         Dictionary<int, Tuple<int, int>> mapper)
@@ -275,7 +275,7 @@ namespace OWP.Maxbet.Builder
       });
     }
 
-    private void BuildMaxbetSpecialFirstHalfHandicap(
+    public void BuildMaxbetSpecialFirstHalfHandicap(
         List<MaxbetModel> maxbet,
         List<MaxbetModel> maxbetMainMatch,
         Dictionary<int, Tuple<int, int>> mapper)
@@ -296,7 +296,7 @@ namespace OWP.Maxbet.Builder
       });
     }
 
-    private void BuildMaxbetSpecialFirstHalfOverUnder(
+    public void BuildMaxbetSpecialFirstHalfOverUnder(
        List<MaxbetModel> maxbet,
        List<MaxbetModel> maxbetMainMatch,
        Dictionary<int, Tuple<int, int>> mapper)
