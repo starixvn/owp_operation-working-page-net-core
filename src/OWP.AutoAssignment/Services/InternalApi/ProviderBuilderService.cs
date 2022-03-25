@@ -38,7 +38,7 @@ namespace OWP.AutoAssignment.Services.InternalApi
                 var providerInfoById = GetInfoProviderById(providerInfos, exportMatchModel.InfoSiteMatchId);
                 exportMatchModel.Provider = matchResult.IsSaba ? matchResult.PcCode :
                     BuildProviderForRealMatch(providerInfoById, matchResult);
-                exportMatchModel.OtherProvider = providerInfoById.OtherProvider;
+                exportMatchModel.OtherProvider = providerInfoById?.OtherProvider;
             }
         }
 
