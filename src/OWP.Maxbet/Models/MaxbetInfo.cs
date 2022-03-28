@@ -20,6 +20,6 @@ namespace OWP.Maxbet.Models
     public NumberOfLines NumberOfLines { get; set; }
 
     [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-    public int Ft1stLineHandicap { get; set; }
+    public int? Ft1stLineHandicap { get; set; }
   }
 }
