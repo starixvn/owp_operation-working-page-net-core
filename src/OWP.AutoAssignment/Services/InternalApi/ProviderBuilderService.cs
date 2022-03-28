@@ -80,16 +80,19 @@ namespace OWP.AutoAssignment.Services.InternalApi
         }
 
         private AutoAssignmentResultModel GetMatchInfoById(IList<AutoAssignmentResultModel> autoAssignmentResult, int id)
-            => autoAssignmentResult
-                .FirstOrDefault(x => x.InfoSiteMatchId == id);
+            => autoAssignmentResult?
+                .FirstOrDefault(x => x.InfoSiteMatchId == id)
+                ?? new AutoAssignmentResultModel();
 
         private ProviderInfo GetInfoProviderById(IList<ProviderInfo> providerExportModel, int id)
-            => providerExportModel
-                .FirstOrDefault(x => x.MatchId == id);
+            => providerExportModel?
+                .FirstOrDefault(x => x.MatchId == id)
+                ?? new ProviderInfo();
 
         private IList<int> GetMatchIdQueryInfo(IList<AutoAssignmentResultModel> autoAssignModels)
-            => autoAssignModels
-                .Select(i => i.InfoSiteMatchId).ToList();
+            => autoAssignModels?
+                .Select(i => i.InfoSiteMatchId).ToList()
+                ?? new List<int>();
 
         private async Task<IEnumerable<ProviderInfo>> QueryProviderInfo(IList<int> queryInfo, string requestId)
             => await repository.GetProviderInfo(queryInfo, requestId);

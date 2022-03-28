@@ -75,7 +75,8 @@ namespace OWP.AutoAssignment.Services.InternalApi
 
         private LeagueSettingInfo GetInfoLeagueSettingById(IList<LeagueSettingInfo> leagueSettingExportModel, int id)
             => leagueSettingExportModel
-                .FirstOrDefault(x => x.MatchId == id);
+                .FirstOrDefault(x => x.MatchId == id)
+                ?? new LeagueSettingInfo();
 
         private IList<int> GetMatchIdQueryInfo(IList<AutoAssignmentResultModel> autoAssignModels)
             => autoAssignModels
