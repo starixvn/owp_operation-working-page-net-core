@@ -1,4 +1,5 @@
-﻿using OWP.Maxbet.Constants;
+﻿using OWP.Extensions;
+using OWP.Maxbet.Constants;
 using OWP.Maxbet.Models;
 using OWP.Maxbet.Services;
 
@@ -10,7 +11,7 @@ namespace OWP.Maxbet.Misc
 
         public virtual async Task<MaxbetInfo> GetMaxBetETPK(MatchInfo matchInfo, int adminSiteId, int subtype)
         {
-            return await NextMatch?.GetMaxBetETPK(matchInfo, adminSiteId, subtype) ?? null;
+            return await NextMatch?.GetMaxBetETPK(matchInfo, adminSiteId, subtype);
         }
     }
 
@@ -25,12 +26,12 @@ namespace OWP.Maxbet.Misc
 
         public override async Task<MaxbetInfo> GetMaxBetETPK(MatchInfo matchInfo, int adminSiteId, int subtype)
         {
-            return IsSaBaMatchETPK(matchInfo.owpLeagueName, subtype) ? await sabaMatchService.GetMaxbetInfoSaba(matchInfo.owpMatchId, adminSiteId)
+            return IsSaBaMatchETPK(matchInfo?.owpLeagueName, subtype) ? await sabaMatchService.GetMaxbetInfoSaba(matchInfo.owpMatchId, adminSiteId)
                 : await base.GetMaxBetETPK(matchInfo, adminSiteId, subtype);
         }
 
         private bool IsSaBaMatchETPK(string leagueName, int subtype)
-            => leagueName.Contains("SABA") && subtype == 200;
+            => leagueName.IsContains("SABA") && subtype == SubTypeETPK.SaBaPK;
     }
 
     public class FutsalMatchRule : ETPKMatchRule
@@ -44,11 +45,11 @@ namespace OWP.Maxbet.Misc
 
         public override async Task<MaxbetInfo> GetMaxBetETPK(MatchInfo matchInfo, int adminSiteId, int subtype)
         {
-            if (IsFutsalMatchETPK(matchInfo.owpLeagueName) && subtype == SubTypeETPK.FutsalET)
+            if (IsFutsalMatchETPK(matchInfo?.owpLeagueName) && subtype == SubTypeETPK.FutsalET)
             {
                 return await futsalMatchService.GetMaxBetInfoFutsalET(matchInfo.owpMatchId, adminSiteId);
             }
-            if (IsFutsalMatchETPK(matchInfo.owpLeagueName) && subtype == SubTypeETPK.FutsalET)
+            if (IsFutsalMatchETPK(matchInfo?.owpLeagueName) && subtype == SubTypeETPK.FutsalPK)
             {
                 return await futsalMatchService.GetMaxBetInfoFutsalPEN(matchInfo.owpMatchId, adminSiteId);
             }
@@ -56,7 +57,7 @@ namespace OWP.Maxbet.Misc
         }
 
         private bool IsFutsalMatchETPK(string leagueName)
-            => leagueName.Contains("FUTSAL");
+            => leagueName.IsContains("FUTSAL");
     }
 
     public class MainMatchRule : ETPKMatchRule

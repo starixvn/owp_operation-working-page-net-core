@@ -49,10 +49,11 @@ namespace OWP.Maxbet
         [Produces("application/json")]
         public async Task<IActionResult> GetSpecialProduct(int matchId, int subType)
         {
-            if (Array.Exists(SubTypeETPK.SubTypeETPKs, i => i == subType))
+            if (IsMatchETPK(subType))
             {
                 var maxbetETPKInfo = await ETPKMatchService.GetMaxBetETPK(matchId, subType);
-                return Ok(maxbetETPKInfo);
+                return maxbetETPKInfo is null ? NotFound()
+                    : Ok(maxbetETPKInfo);
             }
             var bettypeId = MinorBettype.GetMinorBettypeIdBySubtype(subType);
             var owpMatch = await specialProductService.GetMatchIdByAdminSiteId(matchId, bettypeId);
@@ -65,5 +66,8 @@ namespace OWP.Maxbet
 
             return Ok(maxbetInfo);
         }
+
+        private bool IsMatchETPK(int subType)
+            => Array.Exists(SubTypeETPK.SubTypeETPKs, i => i == subType);
     }
 }

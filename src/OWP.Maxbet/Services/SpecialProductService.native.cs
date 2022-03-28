@@ -37,8 +37,12 @@ namespace OWP.Maxbet.Services
 
         public async Task<MaxbetInfo> GetMaxbetInfoET(int adminsiteId, int bettypeId)
         {
-            var owpMatch = await GetMatchIdByAdminSiteId(adminsiteId, bettypeId);
-            var maxbetInfo = await GetSpecialProductInfoExcludeNumberOfLines(owpMatch, adminsiteId, bettypeId);
+            var minorMatch = await GetMatchIdByAdminSiteId(adminsiteId, bettypeId);
+            if (minorMatch is null)
+            {
+                return null;
+            }
+            var maxbetInfo = await GetSpecialProductInfoExcludeNumberOfLines(minorMatch, adminsiteId, bettypeId);
 
             MaxbetHelper.SetDefaultMaxbetInfo(maxbetInfo);
 
@@ -57,9 +61,9 @@ namespace OWP.Maxbet.Services
             await logServiceWrapper.Log("=====GetSpecialProductInfo======",
             maxbetInfo.Traders,
             maxbetInfo.Spread,
-             maxbetInfo.Maxbet,
-              maxbetInfo.SecondAcceptValue,
-              maxbetInfo.NumberOfLines);
+            maxbetInfo.Maxbet,
+            maxbetInfo.SecondAcceptValue,
+            maxbetInfo.NumberOfLines);
 
             var maxbetCN88 = new MaxbetSpread
             {
