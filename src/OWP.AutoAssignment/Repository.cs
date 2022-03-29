@@ -64,6 +64,8 @@ namespace OWP.AutoAssignment
         Task<IEnumerable<LeagueSettingInfo>> GetLeagueSettingInfo(IList<int> matchIds, string requestId);
 
         Task SaveEventSender(IEnumerable<AutoAssignmentHistory> events);
+
+        Task<string> GetLatestRequestIdByDate(DateTime eventDate);
     }
 
     public class RepositoryImp : Repository
@@ -298,6 +300,16 @@ namespace OWP.AutoAssignment
                 Xml = xml
             };
             await dynamicRepository.ExecuteAsync(criteria);
+        }
+
+        public async Task<string> GetLatestRequestIdByDate(DateTime eventDate)
+        {
+            var criteria = new GetLatestRequestByDateCriteria
+            {
+                EventDate = eventDate
+            };
+            return (await dynamicRepository.FetchAsync<string>(criteria))
+                .FirstOrDefault();
         }
     }
 }

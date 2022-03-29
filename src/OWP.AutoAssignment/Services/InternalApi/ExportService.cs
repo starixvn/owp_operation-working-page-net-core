@@ -4,7 +4,7 @@ namespace OWP.AutoAssignment.Services.InternalApi
 {
     public interface ExportService
     {
-        Task<IList<ExportMatchModel>> BuildExportModelByDate(DateTime eventDate, string requestId);
+        Task<IList<ExportMatchModel>> BuildExportModelByDate(DateTime eventDate);
     }
 
     public class ExportServiceImp : ExportService
@@ -41,8 +41,9 @@ namespace OWP.AutoAssignment.Services.InternalApi
             this.repository = repository;
         }
 
-        public async Task<IList<ExportMatchModel>> BuildExportModelByDate(DateTime eventDate, string requestId)
+        public async Task<IList<ExportMatchModel>> BuildExportModelByDate(DateTime eventDate)
         {
+            var requestId = await repository.GetLatestRequestIdByDate(eventDate);
             autoAssignModels = (await repository.GetAutoAssignmentResultByDate(eventDate)).ToList();
             await BuildMatchInfo();
             await BuildLAInfo();

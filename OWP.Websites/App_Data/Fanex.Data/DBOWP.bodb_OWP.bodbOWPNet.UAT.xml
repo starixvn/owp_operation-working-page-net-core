@@ -33,6 +33,7 @@
     <Setting Key="OWP_AutoAssignment_SaveEventHistory" SpName="OWP_AutoAssignment_SaveEventHistory" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
     <Setting Key="OWP_AutoAssignment_GetProviderInfoByIds" SpName="OWP_AutoAssignment_GetProviderInfoByIds" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
     <Setting Key="OWP_AutoAssignment_GetLeagueSettingInfo" SpName="OWP_AutoAssignment_GetLeagueSettingInfo" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
+    <Setting Key="OWP_AutoAssignment_GetLatestRequestIdByDate" SpName="OWP_AutoAssignment_GetLatestRequestIdByDate" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
   </Function>
 
   <Function Name="AssignmentUpload">
