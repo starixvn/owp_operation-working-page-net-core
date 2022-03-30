@@ -55,7 +55,7 @@ namespace OWP.AutoAssignment
 
         Task<IEnumerable<TraderExportInfo>> GetTraderExportInfo(GetTraderExportInfoCriteria criteria);
 
-        Task<IEnumerable<AutoAssignmentResultModel>> GetAutoAssignmentResultByDate(DateTime eventDate);
+        Task<IEnumerable<AutoAssignmentResultModel>> GetAutoAssignmentResultByRequestId(string requestId);
 
         Task<IEnumerable<InfoSiteMatchModel>> GetInfoSiteMatchInfo(IList<MatchQueryInfo> events);
 
@@ -257,11 +257,11 @@ namespace OWP.AutoAssignment
         public async Task<IEnumerable<TraderExportInfo>> GetTraderExportInfo(GetTraderExportInfoCriteria criteria)
         => await dynamicRepository.FetchAsync<TraderExportInfo>(criteria);
 
-        public async Task<IEnumerable<AutoAssignmentResultModel>> GetAutoAssignmentResultByDate(DateTime eventDate)
+        public async Task<IEnumerable<AutoAssignmentResultModel>> GetAutoAssignmentResultByRequestId(string requestId)
         {
             var criteria = new GetAutoAssignmentResultCriteria
             {
-                EventDate = eventDate
+                RequestId = requestId
             };
             return await dynamicRepository.FetchAsync<AutoAssignmentResultModel>(criteria);
         }

@@ -44,7 +44,7 @@ namespace OWP.AutoAssignment.Services.InternalApi
         public async Task<IList<ExportMatchModel>> BuildExportModelByDate(DateTime eventDate)
         {
             var requestId = await repository.GetLatestRequestIdByDate(eventDate);
-            autoAssignModels = (await repository.GetAutoAssignmentResultByDate(eventDate)).ToList();
+            autoAssignModels = (await repository.GetAutoAssignmentResultByRequestId(requestId)).ToList();
             await BuildMatchInfo();
             await BuildLAInfo();
             await BuildTraderInfo();
