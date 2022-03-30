@@ -4,7 +4,11 @@ namespace OWP.PreMatchAssignment.Models
 {
     public class InfoSiteMatch
     {
+        public string MatchOffer { get; set; } = String.Empty;
+
         public int InfoSiteMatchId { get; set; }
+
+        public int AdminSiteMatchId { get; set; }
 
         public string LeagueName { get; set; }
 

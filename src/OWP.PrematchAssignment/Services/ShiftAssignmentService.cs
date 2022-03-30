@@ -10,7 +10,7 @@ namespace OWP.PreMatchAssignment.Services
     using Handlers;
     using Models;
     using OWP.Extensions;
-
+    using OWP.PrematchAssignment.Constants;
     using System.Globalization;
 
     public interface ShiftAssignmentService
@@ -61,7 +61,7 @@ namespace OWP.PreMatchAssignment.Services
                 IsDay = true
             };
 
-            var result = await QueryShift(queryDayShiftCriteria, request.Employee, request.LeagueName, request.EventDate);
+            var result = await QueryShift(queryDayShiftCriteria, request.Employee, request.LeagueName, request.MatchOffers, request.EventDate);
 
             var preMatchLeagues = SortAndAddNo(result.Item1);
 
@@ -160,7 +160,7 @@ namespace OWP.PreMatchAssignment.Services
         private async Task<AssignmentShift> queryAssignmentShift(QueryNightShiftPreMatchRequest request, TimeSpan startTime, bool isDayShift)
         {
             var queryCriteria = CreateNightShiftCriteria(request.EventDate, startTime, isDayShift);
-            var result = await QueryShift(queryCriteria, request.Employee, request.LeagueName, request.EventDate);
+            var result = await QueryShift(queryCriteria, request.Employee, request.LeagueName, request.MatchOffers, request.EventDate);
 
             return new AssignmentShift { Leagues = result.Item1, Matches = result.Item2 };
         }
@@ -291,7 +291,8 @@ namespace OWP.PreMatchAssignment.Services
             return eventDate.Date.Add(time);
         }
 
-        private async Task<Tuple<IEnumerable<PreMatchLeague>, IEnumerable<InfoSiteMatch>>> QueryShift(CriteriaBase criteria, string employee, string leagueName, DateTime eventDate)
+        private async Task<Tuple<IEnumerable<PreMatchLeague>, IEnumerable<InfoSiteMatch>>> QueryShift(CriteriaBase criteria,
+            string employee, string leagueName, List<string> matchOffers, DateTime eventDate)
         {
             var data = await dynamicRepository.FetchMultipleAsync<PreMatchLeague, InfoSiteMatch>(criteria);
 
@@ -304,8 +305,19 @@ namespace OWP.PreMatchAssignment.Services
 
             await MapMatchStatusWhichLinkedOWP(matches, eventDate);
 
-            return new Tuple<IEnumerable<PreMatchLeague>, IEnumerable<InfoSiteMatch>>(filterByLeagueName, matches);
+            await AddOddStatusNo(matches);
+
+            var matchesFilterByMatchOffer = matchOffers is null ? matches : FilterByMatchOffer(matches, matchOffers);
+
+            var preMatchLeagueIds = matchesFilterByMatchOffer.Select(m => m.PreMatchLeagueId).Distinct().ToList();
+
+            var leaguesFilterByMatch = filterByLeagueName.Where(l => preMatchLeagueIds.Contains(l.PreMatchLeagueId));
+
+            return new Tuple<IEnumerable<PreMatchLeague>, IEnumerable<InfoSiteMatch>>(leaguesFilterByMatch, matchesFilterByMatchOffer);
         }
+
+        private static IEnumerable<InfoSiteMatch> FilterByMatchOffer(IEnumerable<InfoSiteMatch> matches, List<string> matchOffers)
+            => matches?.Where(m => matchOffers.Any(x => x.Equals(m.MatchOffer)));
 
         public async Task MapMatchStatusWhichLinkedOWP(IEnumerable<InfoSiteMatch> matches, DateTime dateTime)
         {
@@ -392,5 +404,43 @@ namespace OWP.PreMatchAssignment.Services
 
             return sortedLeagues;
         }
+
+        private async Task<IEnumerable<OddStatus>> QueryOddStatusFromMainDB(IEnumerable<InfoSiteMatch> infositeMatches)
+        {
+            var adminSiteMatchIds = infositeMatches.Select(x => x.AdminSiteMatchId).Distinct();
+            var criteria = new QueryOddStatusFromMainDBCriteria
+            {
+                AdminSiteMatchIds = string.Join(",", adminSiteMatchIds)
+            };
+
+            return await dynamicRepository.FetchAsync<OddStatus>(criteria);
+        }
+
+        public async Task AddOddStatusNo(IEnumerable<InfoSiteMatch> infositeMatches)
+        {
+            var oddStatuses = await QueryOddStatusFromMainDB(infositeMatches);
+            var oddStatusesDict = oddStatuses.GroupBy(x => x.AdminSiteMatchId).ToDictionary(x => x.Key, x => x.ToList());
+
+            foreach (var infositeMatch in infositeMatches)
+            {
+                var oddStatusByMatchId = oddStatusesDict.GetValue(infositeMatch.AdminSiteMatchId, new List<OddStatus>());
+                var openedHDP = IsRunning(oddStatusByMatchId.Where(x => x.Bettype == 1));
+                var openedOU = IsRunning(oddStatusByMatchId.Where(x => x.Bettype == 3));
+
+                infositeMatch.MatchOffer = CalculateOddStatus(openedHDP, openedOU);
+            }
+        }
+
+        private static bool IsRunning(IEnumerable<OddStatus> oddStatuses)
+            => oddStatuses.Any(x => string.Equals(x.OddsStatus, "running", StringComparison.OrdinalIgnoreCase));
+
+        private static string CalculateOddStatus(bool openedHDP, bool openedOU)
+            => (openedHDP, openedOU) switch
+            {
+                (true, true) => MatchOffferStatus.Opened,
+                (false, true) => MatchOffferStatus.Hdp,
+                (true, false) => MatchOffferStatus.Ou,
+                _ => string.Empty,
+            };
     }
 }

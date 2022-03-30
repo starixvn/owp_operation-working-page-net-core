@@ -2,6 +2,7 @@
 using Fanex.Data.Repository;
 using Fanex.NAP.Client.Helpers.Web;
 using NSubstitute;
+using OWP.PrematchAssignment.Models;
 using OWP.PreMatchAssignment.Criteria;
 using OWP.PreMatchAssignment.Models;
 using OWP.PreMatchAssignment.Services;
@@ -71,7 +72,13 @@ public class ShiftAssignmentService
         var service = new ShiftAssignmentServiceImp(dynamicRepo, currentSession, mapper);
 
         //Act
-        var actual = await service.QueryDayShift(new Handlers.QueryDayShiftPreMatchRequest { Employee = "sa", EventDate = DateTime.Now, LeagueName = string.Empty });
+        var actual = await service.QueryDayShift(new Handlers.QueryDayShiftPreMatchRequest
+        {
+            Employee = "sa",
+            EventDate = DateTime.Now,
+            MatchOffers = new List<string> { "" },
+            LeagueName = string.Empty
+        });
 
         //Assert
         DeepAssert.Equal(expected, actual);
@@ -148,7 +155,13 @@ public class ShiftAssignmentService
         var service = new ShiftAssignmentServiceImp(dynamicRepo, currentSession, mapper);
 
         //Act
-        var actual = await service.QueryDayShift(new Handlers.QueryDayShiftPreMatchRequest { Employee = string.Empty, EventDate = DateTime.Now, LeagueName = string.Empty });
+        var actual = await service.QueryDayShift(new Handlers.QueryDayShiftPreMatchRequest
+        {
+            Employee = string.Empty,
+            EventDate = DateTime.Now,
+            MatchOffers = new List<string> { "" },
+            LeagueName = string.Empty
+        });
 
         //Assert
         DeepAssert.Equal(expected, actual);
@@ -230,7 +243,13 @@ public class ShiftAssignmentService
         var service = new ShiftAssignmentServiceImp(dynamicRepo, currentSession, mapper);
 
         //Act
-        var actual = await service.QueryNightShift(new Handlers.QueryNightShiftPreMatchRequest { Employee = string.Empty, EventDate = DateTime.Now, LeagueName = string.Empty });
+        var actual = await service.QueryNightShift(new Handlers.QueryNightShiftPreMatchRequest
+        {
+            Employee = string.Empty,
+            EventDate = DateTime.Now,
+            MatchOffers = new List<string> { "" },
+            LeagueName = string.Empty
+        });
 
         //Assert
         DeepAssert.Equal(expected, actual);
@@ -309,6 +328,7 @@ public class ShiftAssignmentService
             Employee = string.Empty,
             EventDate = DateTime.Now,
             LeagueName = string.Empty,
+            MatchOffers = new List<string> { "" },
             StartTime = new TimeSpan(11, 00, 00)
         });
 
@@ -402,6 +422,7 @@ public class ShiftAssignmentService
             Employee = string.Empty,
             EventDate = DateTime.Now,
             LeagueName = string.Empty,
+            MatchOffers = new List<string> { "" },
             StartTime = requestStartTime
         });
 
@@ -615,5 +636,37 @@ public class ShiftAssignmentService
         };
 
         return new ValueTuple<IEnumerable<PreMatchLeague>, IEnumerable<InfoSiteMatch>>(leagues, matches);
+    }
+
+    [Fact]
+    public async Task AddOddStatusNo()
+    {
+        var dynamicRepo = Substitute.For<IDynamicRepository>();
+        var currentSession = Substitute.For<INapSession>();
+        var mapper = Substitute.For<IMapper>();
+        var service = new ShiftAssignmentServiceImp(dynamicRepo, currentSession, mapper);
+        var infositeMatches = new List<InfoSiteMatch>
+        {
+            new InfoSiteMatch { AdminSiteMatchId = 111 },
+            new InfoSiteMatch { AdminSiteMatchId = 222 },
+            new InfoSiteMatch { AdminSiteMatchId = 333 },
+            new InfoSiteMatch { AdminSiteMatchId = 444 },
+        };
+        dynamicRepo.FetchAsync<OddStatus>(Arg.Any<QueryOddStatusFromMainDBCriteria>()).Returns(
+            new List<OddStatus>
+            {
+                new OddStatus { AdminSiteMatchId = 111, Bettype = 1, OddsStatus = "running" },
+                new OddStatus { AdminSiteMatchId = 111, Bettype = 1, OddsStatus = "closed" },
+                new OddStatus { AdminSiteMatchId = 222, Bettype = 1, OddsStatus = "running" },
+                new OddStatus { AdminSiteMatchId = 222, Bettype = 3, OddsStatus = "running" },
+                new OddStatus { AdminSiteMatchId = 333, Bettype = 3, OddsStatus = "Running" },
+            });
+
+        await service.AddOddStatusNo(infositeMatches);
+
+        Assert.Equal("OU (?)", infositeMatches[0].MatchOffer);
+        Assert.Equal("Opened", infositeMatches[1].MatchOffer);
+        Assert.Equal("HDP (?)", infositeMatches[2].MatchOffer);
+        Assert.Equal("", infositeMatches[3].MatchOffer);
     }
 }
