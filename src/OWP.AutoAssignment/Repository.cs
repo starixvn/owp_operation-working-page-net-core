@@ -55,7 +55,7 @@ namespace OWP.AutoAssignment
 
         Task<IEnumerable<TraderExportInfo>> GetTraderExportInfo(GetTraderExportInfoCriteria criteria);
 
-        Task<IEnumerable<AutoAssignmentResultModel>> GetAutoAssignmentResultByDate(DateTime eventDate);
+        Task<IEnumerable<AutoAssignmentResultModel>> GetAutoAssignmentResultByRequestId(string requestId);
 
         Task<IEnumerable<InfoSiteMatchModel>> GetInfoSiteMatchInfo(IList<MatchQueryInfo> events);
 
@@ -64,6 +64,8 @@ namespace OWP.AutoAssignment
         Task<IEnumerable<LeagueSettingInfo>> GetLeagueSettingInfo(IList<int> matchIds, string requestId);
 
         Task SaveEventSender(IEnumerable<AutoAssignmentHistory> events);
+
+        Task<string> GetLatestRequestIdByDate(DateTime eventDate);
     }
 
     public class RepositoryImp : Repository
@@ -255,11 +257,11 @@ namespace OWP.AutoAssignment
         public async Task<IEnumerable<TraderExportInfo>> GetTraderExportInfo(GetTraderExportInfoCriteria criteria)
         => await dynamicRepository.FetchAsync<TraderExportInfo>(criteria);
 
-        public async Task<IEnumerable<AutoAssignmentResultModel>> GetAutoAssignmentResultByDate(DateTime eventDate)
+        public async Task<IEnumerable<AutoAssignmentResultModel>> GetAutoAssignmentResultByRequestId(string requestId)
         {
             var criteria = new GetAutoAssignmentResultCriteria
             {
-                EventDate = eventDate
+                RequestId = requestId
             };
             return await dynamicRepository.FetchAsync<AutoAssignmentResultModel>(criteria);
         }
@@ -298,6 +300,16 @@ namespace OWP.AutoAssignment
                 Xml = xml
             };
             await dynamicRepository.ExecuteAsync(criteria);
+        }
+
+        public async Task<string> GetLatestRequestIdByDate(DateTime eventDate)
+        {
+            var criteria = new GetLatestRequestByDateCriteria
+            {
+                EventDate = eventDate
+            };
+            return (await dynamicRepository.FetchAsync<string>(criteria))
+                .FirstOrDefault();
         }
     }
 }

@@ -71,9 +71,9 @@ namespace OWP.AutoAssignment
 
         [Route("export-excel")]
         [HttpGet]
-        public async Task<IActionResult> ExportExcel(DateTime eventDate, string requestId)
+        public async Task<IActionResult> ExportExcel(DateTime eventDate)
         {
-            var exportModel = await exportService.BuildExportModelByDate(eventDate, requestId);
+            var exportModel = await exportService.BuildExportModelByDate(eventDate);
             var exportExcelModel = new ExportExcelModel
             {
                 Date = eventDate.ToString("MMM dd, yyyy"),

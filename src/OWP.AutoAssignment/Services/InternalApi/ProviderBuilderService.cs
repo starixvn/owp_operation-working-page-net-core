@@ -38,17 +38,17 @@ namespace OWP.AutoAssignment.Services.InternalApi
                 var providerInfoById = GetInfoProviderById(providerInfos, exportMatchModel.InfoSiteMatchId);
                 exportMatchModel.Provider = matchResult.IsSaba ? matchResult.PcCode :
                     BuildProviderForRealMatch(providerInfoById, matchResult);
-                exportMatchModel.OtherProvider = providerInfoById.OtherProvider;
+                exportMatchModel.OtherProvider = providerInfoById?.OtherProvider;
             }
         }
 
         public string BuildProviderForRealMatch(ProviderInfo provider, AutoAssignmentResultModel matchResult)
         {
-            var reporter = GetReporter(provider.Provider);
-            var firstProvider = FirstProviderBuilder.GetFirstProvider(provider.OtherProvider);
+            var reporter = GetReporter(provider?.Provider ?? String.Empty);
+            var firstProvider = FirstProviderBuilder.GetFirstProvider(provider?.OtherProvider ?? String.Empty);
             var providerItems = new List<string>
             {
-                provider.ProviderTv,
+                provider?.ProviderTv,
                 firstProvider,
                 reporter,
             };
@@ -80,16 +80,19 @@ namespace OWP.AutoAssignment.Services.InternalApi
         }
 
         private AutoAssignmentResultModel GetMatchInfoById(IList<AutoAssignmentResultModel> autoAssignmentResult, int id)
-            => autoAssignmentResult
-                .FirstOrDefault(x => x.InfoSiteMatchId == id);
+            => autoAssignmentResult?
+                .FirstOrDefault(x => x.InfoSiteMatchId == id)
+                ?? new AutoAssignmentResultModel();
 
         private ProviderInfo GetInfoProviderById(IList<ProviderInfo> providerExportModel, int id)
-            => providerExportModel
-                .FirstOrDefault(x => x.MatchId == id);
+            => providerExportModel?
+                .FirstOrDefault(x => x.MatchId == id)
+                ?? new ProviderInfo();
 
         private IList<int> GetMatchIdQueryInfo(IList<AutoAssignmentResultModel> autoAssignModels)
-            => autoAssignModels
-                .Select(i => i.InfoSiteMatchId).ToList();
+            => autoAssignModels?
+                .Select(i => i.InfoSiteMatchId).ToList()
+                ?? new List<int>();
 
         private async Task<IEnumerable<ProviderInfo>> QueryProviderInfo(IList<int> queryInfo, string requestId)
             => await repository.GetProviderInfo(queryInfo, requestId);

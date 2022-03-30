@@ -28,11 +28,12 @@
     <Setting Key="OWP_AutoAssignmentResult_Insert" SpName="OWP_AutoAssignmentResult_Insert" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
     <Setting Key="OWP_AutoAssignment_Export_GetLAInfo" SpName="OWP_AutoAssignment_Export_GetLAInfo" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
     <Setting Key="OWP_AutoAssignment_Export_GetTraderInfo" SpName="OWP_AutoAssignment_Export_GetTraderInfo" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
-    <Setting Key="OWP_AutoAssignment_GetInfoSiteMatchResultByDate" SpName="OWP_AutoAssignment_GetInfoSiteMatchResultByDate" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
     <Setting Key="OWP_AutoAssignment_GetInfoSiteMatchByIdAndBetType" SpName="OWP_AutoAssignment_GetInfoSiteMatchByIdAndBetType" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
     <Setting Key="OWP_AutoAssignment_SaveEventHistory" SpName="OWP_AutoAssignment_SaveEventHistory" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
     <Setting Key="OWP_AutoAssignment_GetProviderInfoByIds" SpName="OWP_AutoAssignment_GetProviderInfoByIds" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
     <Setting Key="OWP_AutoAssignment_GetLeagueSettingInfo" SpName="OWP_AutoAssignment_GetLeagueSettingInfo" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
+    <Setting Key="OWP_AutoAssignment_GetLatestRequestIdByDate" SpName="OWP_AutoAssignment_GetLatestRequestIdByDate" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
+    <Setting Key="OWP_AutoAssignment_GetInfoSiteMatchResultByRequestId" SpName="OWP_AutoAssignment_GetInfoSiteMatchResultByRequestId" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
   </Function>
 
   <Function Name="AssignmentUpload">
@@ -136,17 +137,17 @@
     <Setting Key="OWP_TicketCenter_InsertNewRecipientNotification" SpName="OWP_TicketCenter_InsertNewRecipientNotification" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_TicketCenter_InsertNewMessageNotification" SpName="OWP_TicketCenter_InsertNewMessageNotification" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_TicketCenter_UpdateTicketStatus" SpName="OWP_TicketCenter_UpdateTicketStatus" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-		<Setting Key="OWP_TicketCenter_UpdateTicketSubType" SpName="OWP_TicketCenter_UpdateTicketSubType" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+	  <Setting Key="OWP_TicketCenter_UpdateTicketSubType" SpName="OWP_TicketCenter_UpdateTicketSubType" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_TicketCenter_GetTicketStatusHistory" SpName="OWP_TicketCenter_GetTicketStatusHistory" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_TicketCenter_PinTicket" SpName="OWP_TicketCenter_PinTicket" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_TicketCenter_DeleteTicket" SpName="OWP_TicketCenter_DeleteTicket" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_TicketCenter_GetExistedTicketId" SpName="OWP_TicketCenter_GetExistedTicketId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_CountUnreadMessageByUserId" SpName="OWP_CountUnreadMessageByUserId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-		<Setting Key="OWP_TicketCenter_GetSubTypeByTicketTypeId" SpName="OWP_TicketCenter_GetSubTypeByTicketTypeId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-		<Setting Key="OWP_TicketCenter_GetAllTicketSubType" SpName="OWP_TicketCenter_GetAllTicketSubType" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+    <Setting Key="OWP_TicketCenter_GetSubTypeByTicketTypeId" SpName="OWP_TicketCenter_GetSubTypeByTicketTypeId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+	  <Setting Key="OWP_TicketCenter_GetAllTicketSubType" SpName="OWP_TicketCenter_GetAllTicketSubType" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_TicketCenter_UpdateIsSavedMessage" SpName="OWP_TicketCenter_UpdateIsSavedMessage" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketCenter_UpdateTicketsAsReadByActorId" SpName="OWP_TicketCenter_UpdateTicketsAsReadByActorId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketCenter_GetTwoLastComment" SpName="OWP_TicketCenter_GetTwoLastComment" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+    <Setting Key="OWP_TicketCenter_UpdateTicketsAsReadByActorId" SpName="OWP_TicketCenter_UpdateTicketsAsReadByActorId" DbName="DBOWP.bodb_OWP.bodbOWPNet" /> 
+    <Setting Key="OWP_TicketCenter_GetTwoLastComment" SpName="OWP_TicketCenter_GetTwoLastComment" DbName="DBOWP.bodb_OWP.bodbOWPNet" /> 
   </Function>
   <Function Name="FileUpload">
     <Setting Key="OWP_FileUpload_Upload" SpName="OWP_FileUpload_Upload" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
