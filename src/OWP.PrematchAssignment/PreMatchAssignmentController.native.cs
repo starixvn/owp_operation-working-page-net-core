@@ -103,5 +103,15 @@
         {
             return await mediator.Send(request);
         }
+
+        [Route("get-assigned-league-id")]
+        [HttpGet]
+        public async Task<IActionResult> QueryAssignedLeagueId(int actorId)
+        {
+            var request = new QueryAssignedLeagueIdRequest { ActorId = actorId };
+            var result = await mediator.Send(request);
+
+            return Ok(JsonConvert.SerializeObject(result));
+        }
     }
 }

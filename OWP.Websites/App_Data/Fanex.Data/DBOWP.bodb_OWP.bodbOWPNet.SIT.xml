@@ -178,6 +178,8 @@
     <Setting Key="OWP_PreMatchAssignment_QueryIssueMessages" SpName="OWP_PreMatchAssignment_QueryIssueMessages" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_PreMatchAssignment_QueryIssueInfo" SpName="OWP_PreMatchAssignment_QueryIssueInfo" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 	<Setting Key="OWP_PrematchAssignment_GetOddStatusFromMainDB" SpName="OWP_PrematchAssignment_GetOddStatusFromMainDB" DbName="DBACC.bodb02.bodbAdminNet" />
+	<Setting Key="OWP_PreMatchAssignment_QueryAssignedLeagueIdFromMainDB" SpName="OWP_PreMatchAssignment_QueryAssignedLeagueIdFromMainDB" DbName="DBACC.bodb02.bodbAdminNet" />
+	<Setting Key="OWP_PreMatchAssignment_QueryAssignedLeagueNames" SpName="OWP_PreMatchAssignment_QueryAssignedLeagueNames" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
   </Function>
   <Function Name="PreMatchReport">
     <Setting Key="OWP_PreMatchReport_GetReportForLeagueByDateRange" SpName="OWP_PreMatchReport_GetReportForLeagueByDateRange" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
