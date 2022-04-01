@@ -24,7 +24,7 @@ namespace OWP.PreMatchAssignment.Handlers
 
     public async Task<AssignedLeagueId> Handle(QueryAssignedLeagueIdRequest request, CancellationToken cancellationToken)
     {
-      var owpLeageNames = await QueryAssignedLeagueNames(request.ActorId);
+      var owpLeageNames = await QueryAssignedLeagueNames(request);
       var mainDbLeagueIds = await QueryAssignedLeagueIdsFromMainDB(owpLeageNames);
       var unSupportedLeagueNames= new List<string>();
 
@@ -35,16 +35,18 @@ namespace OWP.PreMatchAssignment.Handlers
 
       return new AssignedLeagueId
       {
-        LeagueIds = string.Join(",", mainDbLeagueIds),
+        LeagueIds = string.Join(",", mainDbLeagueIds.Select(x => x.LeagueId)),
         UnSupportedLeagueNames = unSupportedLeagueNames,
         TodayLeagueCount=owpLeageNames.Count()
       };
     }
 
-    public async Task<IEnumerable<string>> QueryAssignedLeagueNames(int actorId)
+    public async Task<IEnumerable<string>> QueryAssignedLeagueNames(QueryAssignedLeagueIdRequest request)
     {
       var criteria = new QueryAssignedLeagueNamesCriteria { 
-        ActorId = actorId,
+        ActorId = request.ActorId,
+        BettypeId = request.BettypeId,
+        IsTakeOver = request.IsTakeOver,
         Date = DateTime.Now.ToGmt8()
       };
 
