@@ -11,7 +11,9 @@ namespace OWP.PreMatchAssignment.Handlers
     public int BettypeId { get; set; }
 
     public bool IsTakeOver { get; set; }
-  }
+
+    public bool IsDay { get; set; }
+    }
 
   public class QueryAssignedLeagueIdHandler : IRequestHandler<QueryAssignedLeagueIdRequest, AssignedLeagueId>
   {
@@ -47,6 +49,7 @@ namespace OWP.PreMatchAssignment.Handlers
         ActorId = request.ActorId,
         BettypeId = request.BettypeId,
         IsTakeOver = request.IsTakeOver,
+        IsDay = request.IsDay,
         Date = DateTime.Now.ToGmt8()
       };
 
@@ -96,6 +99,8 @@ namespace OWP.PreMatchAssignment.Handlers
     public int BettypeId { get; set; }
 
     public bool IsTakeOver { get; set; }
+
+    public bool IsDay { get; set; }
 
     public DateTime Date { get; set; }
 
