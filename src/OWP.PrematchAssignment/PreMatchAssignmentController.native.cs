@@ -106,9 +106,8 @@
 
         [Route("get-assigned-league-id")]
         [HttpGet]
-        public async Task<IActionResult> QueryAssignedLeagueId(int actorId)
+        public async Task<IActionResult> QueryAssignedLeagueId([FromQuery]QueryAssignedLeagueIdRequest request)
         {
-            var request = new QueryAssignedLeagueIdRequest { ActorId = actorId };
             var result = await mediator.Send(request);
 
             return Ok(JsonConvert.SerializeObject(result));

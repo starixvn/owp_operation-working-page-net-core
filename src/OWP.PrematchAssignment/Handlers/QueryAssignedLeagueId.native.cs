@@ -7,6 +7,10 @@ namespace OWP.PreMatchAssignment.Handlers
   public class QueryAssignedLeagueIdRequest : IRequest<AssignedLeagueId>
   {
     public int ActorId { get; set; }
+
+    public int BettypeId { get; set; }
+
+    public bool IsTakeOver { get; set; }
   }
 
   public class QueryAssignedLeagueIdHandler : IRequestHandler<QueryAssignedLeagueIdRequest, AssignedLeagueId>
@@ -22,20 +26,18 @@ namespace OWP.PreMatchAssignment.Handlers
     {
       var owpLeageNames = await QueryAssignedLeagueNames(request.ActorId);
       var mainDbLeagueIds = await QueryAssignedLeagueIdsFromMainDB(owpLeageNames);
+      var unSupportedLeagueNames= new List<string>();
 
-      if(owpLeageNames.Count() > mainDbLeagueIds.Count())
+      if (owpLeageNames.Count() > mainDbLeagueIds.Count())
       {
-        var unSupportLeagueNames = owpLeageNames.Except(mainDbLeagueIds.Select(x => x.LeagueName));
-
-        return new AssignedLeagueId
-        {
-          UnSupportedLeagueNames = unSupportLeagueNames.ToList()
-        };
+        unSupportedLeagueNames = owpLeageNames.Except(mainDbLeagueIds.Select(x => x.LeagueName)).ToList();
       }
 
       return new AssignedLeagueId
       {
-        LeagueIds = string.Join(",", mainDbLeagueIds)
+        LeagueIds = string.Join(",", mainDbLeagueIds),
+        UnSupportedLeagueNames = unSupportedLeagueNames,
+        TodayLeagueCount=owpLeageNames.Count()
       };
     }
 
@@ -65,6 +67,8 @@ namespace OWP.PreMatchAssignment.Handlers
     public string LeagueIds { get; set; }
 
     public List<string> UnSupportedLeagueNames { get; set; }
+
+    public int TodayLeagueCount { get; set; }
   }
 
   public class LeagueInfo
@@ -86,6 +90,10 @@ namespace OWP.PreMatchAssignment.Handlers
   public class QueryAssignedLeagueNamesCriteria : CriteriaBase
   {
     public int ActorId { get; set; }
+
+    public int BettypeId { get; set; }
+
+    public bool IsTakeOver { get; set; }
 
     public DateTime Date { get; set; }
 
