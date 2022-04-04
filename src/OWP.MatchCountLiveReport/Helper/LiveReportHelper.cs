@@ -8,11 +8,11 @@ public static class LiveReportHelper
   {
     var fromDate = request.FromDate;
     var toDate = request.ToDate;
-    var dateTime= fromDate.ToString("MMddyyyy");
+    var dateTime= fromDate.ToString("ddMMMyyyy");
     if (DateTime.Compare(fromDate, toDate) != 0)
     {
-      dateTime=$"{dateTime} - {toDate.ToString("MMddyyyy")}";
+      dateTime=$"{dateTime} - {toDate.ToString("ddMMMyyyy")}";
     }
-    return $"Match Count Live Report {dateTime}.xlsx";;
+    return $"Match Count Live Report {dateTime}.xlsx";
   }
 }
