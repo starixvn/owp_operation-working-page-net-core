@@ -1,6 +1,7 @@
 using MediatR;
 using OWP.MatchCountLiveReport.Models;
 using OWP.MatchCountLiveReport.Criteria;
+using OWP.MatchCountLiveReport.data;
 
 namespace OWP.MatchCountLiveReport.Handlers;
 
@@ -22,12 +23,13 @@ public class QueryHandler : IRequestHandler<QueryRequest, IList<ReportInfo>>
 
   public async Task<IList<ReportInfo>> Handle(QueryRequest request, CancellationToken cancellationToken)
   {
-    var criteria = new QueryReportInfoCriteria
+    return MockData.MockTestData();
+    /* var criteria = new QueryReportInfoCriteria
     {
       FromDate = request.FromDate,
       ToDate = request.ToDate
     };
-    return await repository.QueryReportInfo(criteria);
+    return await repository.QueryReportInfo(criteria); */
   }
 
 }

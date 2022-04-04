@@ -1,46 +1,41 @@
 ﻿using OWP.MatchCountLiveReport.Models;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
+using OWP.MatchCountLiveReport.Handlers;
+using OWP.MatchCountLiveReport.Helper;
+namespace OWP.MatchCountLiveReport;
 
-namespace OWP.MatchCountLiveReport
+[Route("api/[controller]")]
+[ApiController]
+[EnableCors("AllowOrigin")]
+[AllowAnonymous]
+public class MatchCountLiveReportController : ControllerBase
 {
-  using MediatR;
-  using Microsoft.AspNetCore.Authorization;
-  using Microsoft.AspNetCore.Cors;
-  using Microsoft.AspNetCore.Mvc;
-  using OWP.MatchCountLiveReport.Handlers;
-  using System.Collections.Generic;
-  using System.Threading.Tasks;
+  private readonly IMediator mediator;
 
-  [Route("api/[controller]")]
-  [ApiController]
-  [EnableCors("AllowOrigin")]
-  [Authorize]
-  public class MatchCountLiveReportController : ControllerBase
+  public MatchCountLiveReportController(IMediator mediator)
   {
-    private readonly IMediator mediator;
+    this.mediator = mediator;
+  }
 
-    public MatchCountLiveReportController(IMediator mediator)
+  [Route("query")]
+  [HttpGet]
+  public async Task<IList<ReportInfo>> Query([FromQuery] QueryRequest request)
+  => await mediator.Send(request);
+
+  [Route("export")]
+  [HttpGet]
+  public async Task<IActionResult> Export([FromQuery] QueryRequest request)
+  {
+    var dataSource = await mediator.Send(request);
+    var excelPackage = await mediator.Send(new ExportRequest
     {
-      this.mediator = mediator;
-    }
-
-    [Route("query")]
-    [HttpPost]
-    public async Task<IList<ReportInfo>> Query([FromQuery] QueryRequest request)
-    => await mediator.Send(request);
-
-    [Route("export")]
-    [HttpPost]
-    public async Task<IActionResult> Export([FromQuery] QueryRequest request)
-    {
-      var dataSource = await mediator.Send(request);
-      var excelPackage = await mediator.Send(new ExportRequest
-      {
-        DataSource = dataSource
-      });
-      var fileName = $"OS Live Game Assignment {request.FromDate.ToString("MMddyyyy")} - {request.ToDate.ToString("MMddyyyy")}.xlsx";
-      var bytes = await excelPackage.GetAsByteArrayAsync();
-      return File(bytes, "application/octet-stream", fileName);
-
-    }
+      DataSource = dataSource
+    });
+    var fileName = LiveReportHelper.BuildFileName(request);
+    var bytes = await excelPackage.GetAsByteArrayAsync();
+    return File(bytes, "application/octet-stream", fileName);
   }
 }

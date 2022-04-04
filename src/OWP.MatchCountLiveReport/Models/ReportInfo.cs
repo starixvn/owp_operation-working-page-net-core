@@ -48,7 +48,7 @@ namespace OWP.MatchCountLiveReport.Models
     [Cell("M3")]
     public int? Others4 { get; set; }
 
-    [Cell("N")]
+    [Cell("N3")]
     public int? Others5 { get; set; }
 
     [Cell("O3")]

@@ -4,6 +4,8 @@ using OfficeOpenXml;
 
 using OWP.MatchCountLiveReport.Models;
 using Epplus.Mapper.Extensions;
+using System.Drawing;
+using OfficeOpenXml.Style;
 
 namespace OWP.MatchCountLiveReport.Handlers
 {
@@ -14,6 +16,17 @@ namespace OWP.MatchCountLiveReport.Handlers
   }
   public class ExportHandler : IRequestHandler<ExportRequest, ExcelPackage>, IDisposable
   {
+    private const int START_ROW_INDEX = 3;
+
+    private readonly Color headerSectionColor = ColorTranslator.FromHtml("#00b050");
+
+    private readonly Color headerSectionBackgroundColor = ColorTranslator.FromHtml("#eaf1dd");
+
+    private readonly IList<string> headerSectionTitle = new List<string>{
+      "Real Soccer",
+      "SABA"
+    };
+
     private readonly ConfigurationService configurationService;
 
     private ExcelPackage excelPackage;
@@ -43,15 +56,16 @@ namespace OWP.MatchCountLiveReport.Handlers
 
     private void SetStyleSectionHeader()
     {
-      var dimension=reportSheet.Dimension;
-      var start = dimension.Start;
+      var dimension = reportSheet.Dimension;
       var end = dimension.End;
-      for (var index = start.Row; index < end.Row; index++)
+      for (var index = START_ROW_INDEX; index < end.Row; index++)
       {
-        var value = reportSheet.Cells[index, 0].Text;
-        if (value is null)
+        var bettype = reportSheet.Cells[index, 2].Text;
+        if (headerSectionTitle.Any(x => string.Equals(x, bettype)))
         {
-          // TODO set style
+          reportSheet.Row(index).Style.Fill.PatternType = ExcelFillStyle.Solid;
+          reportSheet.Row(index).Style.Fill.BackgroundColor.SetColor(headerSectionBackgroundColor);
+          reportSheet.Row(index).Style.Font.Color.SetColor(headerSectionColor);
         }
       }
     }
