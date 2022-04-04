@@ -10,7 +10,7 @@ namespace OWP.MatchCountLiveReport.Models
     public int? No { get; set; }
 
     [Cell("B3")]
-    public string Bettype { get; set; }
+    public string BetType { get; set; }
 
     [EpplusIgnore]
     public bool IsSaba { get; set; }

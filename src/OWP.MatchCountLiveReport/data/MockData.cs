@@ -7,7 +7,7 @@ namespace OWP.MatchCountLiveReport.data
     public static IList<ReportInfo> MockTestData()
     => new List<ReportInfo>{
           new ReportInfo{
-            Bettype="Real Soccer",
+            BetType="Real Soccer",
             Total=100,
             Mj=100,
             M1=100,
@@ -26,7 +26,7 @@ namespace OWP.MatchCountLiveReport.data
           },
           new ReportInfo{
             No=1,
-            Bettype="Main",
+            BetType="Main",
             Total=99,
             Mj=99,
             M1=99,
@@ -45,7 +45,7 @@ namespace OWP.MatchCountLiveReport.data
           },
           new ReportInfo{
             No=2,
-            Bettype="Corners",
+            BetType="Corners",
             Total=88,
             Mj=88,
             M1=88,
@@ -63,7 +63,7 @@ namespace OWP.MatchCountLiveReport.data
             IsSaba= false
           },
           new ReportInfo{
-            Bettype="SABA",
+            BetType="SABA",
             Total=100,
             Mj=100,
             M1=100,
@@ -82,7 +82,7 @@ namespace OWP.MatchCountLiveReport.data
           },
           new ReportInfo{
             No=1,
-            Bettype="SABA CLUB FRIENDLY Virtual PES 21 - 15 Mins Play",
+            BetType="SABA CLUB FRIENDLY Virtual PES 21 - 15 Mins Play",
             Total=99,
             Mj=99,
             M1=99,
@@ -97,11 +97,11 @@ namespace OWP.MatchCountLiveReport.data
             Others5=99,
             Others6=99,
             Unknown=99,
-            IsSaba= false
+            IsSaba= true
           },
           new ReportInfo{
             No=2,
-            Bettype="SABA INTERNATIONAL FRIENDLY Virtual PES 21 - 20 Mins Play",
+            BetType="SABA INTERNATIONAL FRIENDLY Virtual PES 21 - 20 Mins Play",
             Total=88,
             Mj=88,
             M1=88,
@@ -116,7 +116,7 @@ namespace OWP.MatchCountLiveReport.data
             Others5=88,
             Others6=88,
             Unknown=88,
-            IsSaba= false
+            IsSaba= true
           }
     };
   }
