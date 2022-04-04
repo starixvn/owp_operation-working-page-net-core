@@ -19,6 +19,8 @@
 		<None Remove="App_Data\Templates\AutoAssignment.xlsx" />
 		<None Remove="App_Data\Templates\ExportOSAssignmentTemplate.xlsx" />
 		<None Remove="App_Data\Templates\PreMatchAssignmentReportTemplate.xlsx" />
+    <None Remove="App_Data\Templates\MatchCountLiveReportTemplate.xlsx" />
+  
 	</ItemGroup>
 	<ItemGroup>
 		<AdditionalFiles Include="..\.sonarlint\nap-owp\CSharp\SonarLint.xml" Link="SonarLint.xml" />
@@ -72,5 +74,6 @@
 		<ProjectReference Include="..\src\OWP.TicketCenter\OWP.TicketCenter.csproj" />
 		<ProjectReference Include="..\src\OWP.PreMatchReport\OWP.PreMatchReport.csproj" />
 		<ProjectReference Include="..\src\OWP.RabbitMQ\OWP.RabbitMQ.csproj" />
+    <ProjectReference Include="..\src\OWP.MatchCountLiveReport\OWP.MatchCountLiveReport.csproj" />
 	</ItemGroup>
 </Project>
