@@ -23,13 +23,13 @@ public class QueryHandler : IRequestHandler<QueryRequest, IList<ReportInfo>>
 
   public async Task<IList<ReportInfo>> Handle(QueryRequest request, CancellationToken cancellationToken)
   {
-    return MockData.MockTestData();
-    /* var criteria = new QueryReportInfoCriteria
+
+    var criteria = new QueryReportInfoCriteria
     {
       FromDate = request.FromDate,
       ToDate = request.ToDate
     };
-    return await repository.QueryReportInfo(criteria); */
+    return await repository.QueryReportInfo(criteria);
   }
 
 }
