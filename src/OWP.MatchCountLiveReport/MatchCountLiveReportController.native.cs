@@ -10,7 +10,7 @@ namespace OWP.MatchCountLiveReport;
 [Route("api/[controller]")]
 [ApiController]
 [EnableCors("AllowOrigin")]
-[AllowAnonymous]
+[Authorize]
 public class MatchCountLiveReportController : ControllerBase
 {
   private readonly IMediator mediator;
