@@ -22,6 +22,7 @@ COPY ./src/OWP.FileUpload/. ./src/OWP.FileUpload
 COPY ./src/OWP.AutoAssignment/. ./src/OWP.AutoAssignment
 COPY ./src/OWP.PrematchAssignment/. ./src/OWP.PrematchAssignment
 COPY ./src/OWP.PreMatchReport/. ./src/OWP.PreMatchReport
+COPY ./src/OWP.MatchCountLiveReport/. ./src/OWP.MatchCountLiveReport
 COPY ./src/OWP.RabbitMQ/. ./src/OWP.RabbitMQ
 COPY ./OWP.Websites/OWP.Websites.csproj ./OWP.Websites/OWP.Websites.csproj
 
