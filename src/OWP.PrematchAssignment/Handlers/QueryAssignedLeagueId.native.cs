@@ -12,7 +12,7 @@ namespace OWP.PreMatchAssignment.Handlers
 
     public bool IsTakeOver { get; set; }
 
-    public bool IsDay { get; set; }
+    public string PrematchLeagueIds { get; set; }
     }
 
   public class QueryAssignedLeagueIdHandler : IRequestHandler<QueryAssignedLeagueIdRequest, AssignedLeagueId>
@@ -45,12 +45,12 @@ namespace OWP.PreMatchAssignment.Handlers
 
     public async Task<IEnumerable<string>> QueryAssignedLeagueNames(QueryAssignedLeagueIdRequest request)
     {
-      var criteria = new QueryAssignedLeagueNamesCriteria { 
+      var criteria = new QueryAssignedLeagueNamesCriteria
+      { 
         ActorId = request.ActorId,
         BettypeId = request.BettypeId,
         IsTakeOver = request.IsTakeOver,
-        IsDay = request.IsDay,
-        Date = DateTime.Now.ToGmt8()
+        PrematchLeagueIds = request.PrematchLeagueIds
       };
 
       return await dynamicRepository.FetchAsync<string>(criteria);
@@ -100,9 +100,7 @@ namespace OWP.PreMatchAssignment.Handlers
 
     public bool IsTakeOver { get; set; }
 
-    public bool IsDay { get; set; }
-
-    public DateTime Date { get; set; }
+    public string PrematchLeagueIds { get; set; }
 
     public override string GetSettingKey() => "OWP_PreMatchAssignment_QueryAssignedLeagueNames";
 
