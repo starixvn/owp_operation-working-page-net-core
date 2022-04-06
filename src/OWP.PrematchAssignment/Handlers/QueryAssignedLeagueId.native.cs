@@ -32,7 +32,7 @@ namespace OWP.PreMatchAssignment.Handlers
 
         public async Task<AssignedLeagueId> Handle(QueryAssignedLeagueIdRequest request, CancellationToken cancellationToken)
         {
-            var eventDate = DateTime.Now.ToGmt8();
+            var eventDate = DateTime.Now.Date.ToGmt8();
             var startTime = await shiftAssignmentService.QueryExistedStartTime(eventDate);
             var criteria = request.IsDay
             ? new QueryShiftPreMatchCriteria
