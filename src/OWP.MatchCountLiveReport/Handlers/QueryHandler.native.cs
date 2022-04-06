@@ -1,7 +1,6 @@
 using MediatR;
 using OWP.MatchCountLiveReport.Models;
 using OWP.MatchCountLiveReport.Criteria;
-using OWP.MatchCountLiveReport.data;
 
 namespace OWP.MatchCountLiveReport.Handlers;
 
