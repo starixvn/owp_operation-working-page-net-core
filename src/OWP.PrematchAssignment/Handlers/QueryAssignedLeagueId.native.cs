@@ -1,109 +1,132 @@
 ﻿using Fanex.Data.Repository;
 using MediatR;
+using OWP.PreMatchAssignment.Criteria;
+using OWP.PreMatchAssignment.Models;
+using OWP.PreMatchAssignment.Services;
 using OWP.Utils;
 
 namespace OWP.PreMatchAssignment.Handlers
 {
-  public class QueryAssignedLeagueIdRequest : IRequest<AssignedLeagueId>
-  {
-    public int ActorId { get; set; }
-
-    public int BettypeId { get; set; }
-
-    public bool IsTakeOver { get; set; }
-
-    public string PrematchLeagueIds { get; set; }
-    }
-
-  public class QueryAssignedLeagueIdHandler : IRequestHandler<QueryAssignedLeagueIdRequest, AssignedLeagueId>
-  {
-    private readonly IDynamicRepository dynamicRepository;
-
-    public QueryAssignedLeagueIdHandler(IDynamicRepository dynamicRepository)
+    public class QueryAssignedLeagueIdRequest : IRequest<AssignedLeagueId>
     {
-      this.dynamicRepository = dynamicRepository;
-    }
+        public int ActorId { get; set; } 
 
-    public async Task<AssignedLeagueId> Handle(QueryAssignedLeagueIdRequest request, CancellationToken cancellationToken)
+        public int BettypeId { get; set; }
+
+        public bool IsTakeOver { get; set; }
+
+        public bool IsDay { get; set; }
+    }
+    
+    public class QueryAssignedLeagueIdHandler : IRequestHandler<QueryAssignedLeagueIdRequest, AssignedLeagueId>
     {
-      var owpLeageNames = await QueryAssignedLeagueNames(request);
-      var mainDbLeagueIds = await QueryAssignedLeagueIdsFromMainDB(owpLeageNames);
-      var unSupportedLeagueNames= new List<string>();
+        private readonly IDynamicRepository dynamicRepository;
 
-      if (owpLeageNames.Count() > mainDbLeagueIds.Count())
-      {
-        unSupportedLeagueNames = owpLeageNames.Except(mainDbLeagueIds.Select(x => x.LeagueName)).ToList();
-      }
+        private readonly ShiftAssignmentService shiftAssignmentService;
 
-      return new AssignedLeagueId
-      {
-        LeagueIds = string.Join(",", mainDbLeagueIds.Select(x => x.LeagueId)),
-        UnSupportedLeagueNames = unSupportedLeagueNames,
-        TodayLeagueCount=owpLeageNames.Count()
-      };
-    }
+        public QueryAssignedLeagueIdHandler(IDynamicRepository dynamicRepository, ShiftAssignmentService shiftAssignmentService)
+        {
+          this.dynamicRepository = dynamicRepository;
+          this.shiftAssignmentService = shiftAssignmentService;
+        }
 
-    public async Task<IEnumerable<string>> QueryAssignedLeagueNames(QueryAssignedLeagueIdRequest request)
+        public async Task<AssignedLeagueId> Handle(QueryAssignedLeagueIdRequest request, CancellationToken cancellationToken)
+        {
+            var eventDate = DateTime.Now.ToGmt8();
+            var startTime = await shiftAssignmentService.QueryExistedStartTime(eventDate);
+            var criteria = request.IsDay
+            ? new QueryShiftPreMatchCriteria
+            {
+                EventDate = eventDate,
+                EventFromDateTime = eventDate.AddHours(12),
+                EventToDateTime = eventDate.AddDays(1).AddHours(11).AddMinutes(59).AddSeconds(59),
+                IsDay = request.IsDay
+            }
+            : shiftAssignmentService.CreateNightShiftCriteria(eventDate, startTime, request.IsDay);
+            var (prematchLeague, infomatch) = await dynamicRepository.FetchMultipleAsync<PreMatchLeague, InfoSiteMatch>(criteria);
+            var prematchLeagueIds = prematchLeague.Select(x => x.PreMatchLeagueId).Distinct();
+
+            var owpLeageNames = await QueryAssignedLeagueNames(request, prematchLeagueIds);
+            var mainDbLeagueIds = await QueryAssignedLeagueIdsFromMainDB(owpLeageNames);
+            var unSupportedLeagueNames= new List<string>();
+
+            if (owpLeageNames.Count() > mainDbLeagueIds.Count())
+            {
+                unSupportedLeagueNames = owpLeageNames.Except(mainDbLeagueIds.Select(x => x.LeagueName)).ToList();
+            }
+
+            return new AssignedLeagueId
+            {
+                LeagueIds = string.Join(",", mainDbLeagueIds.Select(x => x.LeagueId)),
+                UnSupportedLeagueNames = unSupportedLeagueNames,
+                TodayLeagueCount=owpLeageNames.Count()
+            };
+        }
+
+        public async Task<IEnumerable<string>> QueryAssignedLeagueNames(QueryAssignedLeagueIdRequest request, IEnumerable<int> prematchLeagueIds)
+        {
+            var criteria = new QueryAssignedLeagueNamesCriteria
+            { 
+                ActorId = request.ActorId,
+                BettypeId = request.BettypeId,
+                IsTakeOver = request.IsTakeOver,
+                IsDay = request.IsDay,
+                PrematchLeagueIds = string.Join(",", prematchLeagueIds)
+            };
+
+            return await dynamicRepository.FetchAsync<string>(criteria);
+        }
+
+        public async Task<IEnumerable<LeagueInfo>> QueryAssignedLeagueIdsFromMainDB(IEnumerable<string> leagueNames)
+        {
+            var criteria = new QueryAssignedLeagueIdsFromMainDBCriteria
+            {
+                LeagueNames = string.Join(",", leagueNames)
+            };
+
+            return await dynamicRepository.FetchAsync<LeagueInfo>(criteria);
+        }
+    } 
+
+    public class AssignedLeagueId
     {
-      var criteria = new QueryAssignedLeagueNamesCriteria
-      { 
-        ActorId = request.ActorId,
-        BettypeId = request.BettypeId,
-        IsTakeOver = request.IsTakeOver,
-        PrematchLeagueIds = request.PrematchLeagueIds
-      };
+        public string LeagueIds { get; set; }
 
-      return await dynamicRepository.FetchAsync<string>(criteria);
+        public List<string> UnSupportedLeagueNames { get; set; }
+
+        public int TodayLeagueCount { get; set; }
     }
 
-    public async Task<IEnumerable<LeagueInfo>> QueryAssignedLeagueIdsFromMainDB(IEnumerable<string> leagueNames)
+    public class LeagueInfo
     {
-      var criteria = new QueryAssignedLeagueIdsFromMainDBCriteria
-      {
-        LeagueNames = string.Join(",", leagueNames)
-      };
+        public int LeagueId { get; set; }
 
-      return await dynamicRepository.FetchAsync<LeagueInfo>(criteria);
+        public string LeagueName { get; set; }
     }
-  }
 
-  public class AssignedLeagueId
-  {
-    public string LeagueIds { get; set; }
+    public class QueryAssignedLeagueIdsFromMainDBCriteria : CriteriaBase
+    {
+        public string LeagueNames { get; set; }
 
-    public List<string> UnSupportedLeagueNames { get; set; }
+        public override string GetSettingKey() => "OWP_PreMatchAssignment_QueryAssignedLeagueIdFromMainDB";
 
-    public int TodayLeagueCount { get; set; }
-  }
+        public override bool IsValid() => true;
+    }
 
-  public class LeagueInfo
-  {
-    public int LeagueId { get; set; }
+    public class QueryAssignedLeagueNamesCriteria : CriteriaBase
+    {
+        public int ActorId { get; set; }
 
-    public string LeagueName { get; set; }
-  }
+        public int BettypeId { get; set; }
 
-  public class QueryAssignedLeagueIdsFromMainDBCriteria : CriteriaBase
-  {
-    public string LeagueNames { get; set; }
+        public bool IsTakeOver { get; set; }
 
-    public override string GetSettingKey() => "OWP_PreMatchAssignment_QueryAssignedLeagueIdFromMainDB";
+        public bool IsDay { get; set; }
 
-    public override bool IsValid() => true;
-  }
+        public string PrematchLeagueIds { get; set; }
 
-  public class QueryAssignedLeagueNamesCriteria : CriteriaBase
-  {
-    public int ActorId { get; set; }
+        public override string GetSettingKey() => "OWP_PreMatchAssignment_QueryAssignedLeagueNames";
 
-    public int BettypeId { get; set; }
-
-    public bool IsTakeOver { get; set; }
-
-    public string PrematchLeagueIds { get; set; }
-
-    public override string GetSettingKey() => "OWP_PreMatchAssignment_QueryAssignedLeagueNames";
-
-    public override bool IsValid() => ActorId > 0;
-  }
+        public override bool IsValid() => ActorId > 0;
+    }
 }

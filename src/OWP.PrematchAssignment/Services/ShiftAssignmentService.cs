@@ -20,6 +20,10 @@ namespace OWP.PreMatchAssignment.Services
         Task<QueryPreMatchLeagueViewModel> QueryNightShift(QueryNightShiftPreMatchRequest request);
 
         Task MapTicketLists(QueryPreMatchLeagueViewModel shiftAssignments, int actorId);
+
+        Task<TimeSpan?> QueryExistedStartTime(DateTime EventDate);
+
+        CriteriaBase CreateNightShiftCriteria(DateTime eventDate, TimeSpan? startTime, bool IsDay);
     }
 
     public class ShiftAssignmentServiceImp : ShiftAssignmentService
@@ -180,7 +184,7 @@ namespace OWP.PreMatchAssignment.Services
             return dbStartTimeDateTime.CompareTo(requestStartTimeDateTime) <= 0;
         }
 
-        private async Task<TimeSpan?> QueryExistedStartTime(DateTime EventDate)
+        public async Task<TimeSpan?> QueryExistedStartTime(DateTime EventDate)
         {
             var criteria = new GetStartTimeCriteria
             {
@@ -191,7 +195,7 @@ namespace OWP.PreMatchAssignment.Services
             return result.Any() ? new TimeSpan?(result.FirstOrDefault()) : null;
         }
 
-        private static CriteriaBase CreateNightShiftCriteria(DateTime eventDate, TimeSpan? startTime, bool IsDay)
+        public CriteriaBase CreateNightShiftCriteria(DateTime eventDate, TimeSpan? startTime, bool IsDay)
         {
             var eventToDateTime = eventDate.AddDays(1).AddHours(11).AddMinutes(59).AddSeconds(59);
             var eventToRequestStartTime = CalculateQueryDateTime(startTime.Value, eventDate);
