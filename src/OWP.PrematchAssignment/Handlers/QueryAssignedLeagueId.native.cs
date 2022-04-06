@@ -32,20 +32,7 @@ namespace OWP.PreMatchAssignment.Handlers
 
         public async Task<AssignedLeagueId> Handle(QueryAssignedLeagueIdRequest request, CancellationToken cancellationToken)
         {
-            var eventDate = DateTime.Now.Date.ToGmt8();
-            var startTime = await shiftAssignmentService.QueryExistedStartTime(eventDate);
-            var criteria = request.IsDay
-            ? new QueryShiftPreMatchCriteria
-            {
-                EventDate = eventDate,
-                EventFromDateTime = eventDate.AddHours(12),
-                EventToDateTime = eventDate.AddDays(1).AddHours(11).AddMinutes(59).AddSeconds(59),
-                IsDay = request.IsDay
-            }
-            : shiftAssignmentService.CreateNightShiftCriteria(eventDate, startTime, request.IsDay);
-            var (prematchLeague, infomatch) = await dynamicRepository.FetchMultipleAsync<PreMatchLeague, InfoSiteMatch>(criteria);
-            var prematchLeagueIds = prematchLeague.Select(x => x.PreMatchLeagueId).Distinct();
-
+            var prematchLeagueIds = await GetTodayPrematchLeague(request.IsDay);
             var owpLeageNames = await QueryAssignedLeagueNames(request, prematchLeagueIds);
             var mainDbLeagueIds = await QueryAssignedLeagueIdsFromMainDB(owpLeageNames);
             var unSupportedLeagueNames= new List<string>();
@@ -61,6 +48,24 @@ namespace OWP.PreMatchAssignment.Handlers
                 UnSupportedLeagueNames = unSupportedLeagueNames,
                 TodayLeagueCount=owpLeageNames.Count()
             };
+        }
+
+        public async Task<IEnumerable<int>> GetTodayPrematchLeague(bool isDay)
+        {
+            var eventDate = DateTime.Now.Date.ToGmt8();
+            var startTime = await shiftAssignmentService.QueryExistedStartTime(eventDate);
+            var criteria = isDay
+            ? new QueryShiftPreMatchCriteria
+            {
+                EventDate = eventDate,
+                EventFromDateTime = eventDate.AddHours(12),
+                EventToDateTime = eventDate.AddDays(1).AddHours(11).AddMinutes(59).AddSeconds(59),
+                IsDay = isDay
+            }
+            : shiftAssignmentService.CreateNightShiftCriteria(eventDate, startTime, isDay);
+
+            var (prematchLeague, _) = await dynamicRepository.FetchMultipleAsync<PreMatchLeague, InfoSiteMatch>(criteria);
+            return prematchLeague.Select(x => x.PreMatchLeagueId).Distinct();
         }
 
         public async Task<IEnumerable<string>> QueryAssignedLeagueNames(QueryAssignedLeagueIdRequest request, IEnumerable<int> prematchLeagueIds)
