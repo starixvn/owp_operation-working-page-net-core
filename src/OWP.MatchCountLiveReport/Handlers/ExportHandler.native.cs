@@ -18,8 +18,6 @@ namespace OWP.MatchCountLiveReport.Handlers
   {
     private const int START_ROW_INDEX = 3;
 
-    private readonly Color headerSectionColor = ColorTranslator.FromHtml("#00b050");
-
     private readonly Color headerSectionBackgroundColor = ColorTranslator.FromHtml("#eaf1dd");
 
     private readonly IList<string> headerSectionTitle = new List<string>{
@@ -64,8 +62,8 @@ namespace OWP.MatchCountLiveReport.Handlers
         if (headerSectionTitle.Any(x => string.Equals(x, bettype)))
         {
           reportSheet.Row(index).Style.Fill.PatternType = ExcelFillStyle.Solid;
+          reportSheet.Row(index).Style.Font.Bold = true;
           reportSheet.Row(index).Style.Fill.BackgroundColor.SetColor(headerSectionBackgroundColor);
-          reportSheet.Row(index).Style.Font.Color.SetColor(headerSectionColor);
         }
       }
     }
