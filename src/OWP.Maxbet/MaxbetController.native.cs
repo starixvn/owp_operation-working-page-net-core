@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Olympus.OWP.Constants;
+using OWP.Maxbet.Constants;
 using OWP.Maxbet.Services;
 
 namespace OWP.Maxbet
@@ -12,11 +13,18 @@ namespace OWP.Maxbet
     [EnableCors("AllowOrigin")]
     public class MaxbetController : ControllerBase
     {
-        private readonly MaxbetService maxbetService;
+        private readonly MainMatchService mainMatchService;
 
-        public MaxbetController(MaxbetService maxbetService)
+        private readonly SpecialProductService specialProductService;
+
+        private readonly ETPKMatchService ETPKMatchService;
+
+        public MaxbetController(MainMatchService mainMatchService,
+          SpecialProductService specialProductService, ETPKMatchService ETPKMatchService)
         {
-            this.maxbetService = maxbetService;
+            this.mainMatchService = mainMatchService;
+            this.specialProductService = specialProductService;
+            this.ETPKMatchService = ETPKMatchService;
         }
 
         [HttpGet]
@@ -24,26 +32,16 @@ namespace OWP.Maxbet
         [Produces("application/json")]
         public async Task<IActionResult> GetMaxbet(int matchId)
         {
-            var owpMatchId = await maxbetService.GetMatchIdByAdminSiteId(matchId);
+            var owpMatchId = await mainMatchService.GetMatchIdByAdminSiteId(matchId);
 
             if (owpMatchId == 0)
             {
                 return NotFound();
             }
 
-            var maxbetInfo = await maxbetService.GetMaxbetInfo(owpMatchId, matchId);
+            var maxbetInfo = await mainMatchService.GetMaxbetInfo(owpMatchId, matchId);
 
             return Ok(maxbetInfo);
-        }
-
-        [HttpGet]
-        [Route("matchId/subType/{matchId}/{subType}")]
-        [Produces("application/json")]
-        public async Task<IActionResult> GetBettypeId(int matchId, int subType)
-        {
-            var bettypeId = MinorBettype.GetMinorBettypeIdBySubtype(subType);
-            var owpMatch = await maxbetService.GetMatchIdByAdminSiteId(matchId, bettypeId);
-            return Ok(new { subType, bettypeId, owpMatch });
         }
 
         [HttpGet]
@@ -51,16 +49,25 @@ namespace OWP.Maxbet
         [Produces("application/json")]
         public async Task<IActionResult> GetSpecialProduct(int matchId, int subType)
         {
+            if (IsMatchETPK(subType))
+            {
+                var maxbetETPKInfo = await ETPKMatchService.GetMaxBetETPK(matchId, subType);
+                return maxbetETPKInfo is null ? NotFound()
+                    : Ok(maxbetETPKInfo);
+            }
             var bettypeId = MinorBettype.GetMinorBettypeIdBySubtype(subType);
-            var owpMatch = await maxbetService.GetMatchIdByAdminSiteId(matchId, bettypeId);
+            var owpMatch = await specialProductService.GetMatchIdByAdminSiteId(matchId, bettypeId);
             if (owpMatch is null)
             {
                 return NotFound();
             }
 
-            var maxbetInfo = await maxbetService.GetSpecialProductInfo(owpMatch, matchId, bettypeId);
+            var maxbetInfo = await specialProductService.GetSpecialProductInfo(owpMatch, matchId, bettypeId);
 
             return Ok(maxbetInfo);
         }
+
+        private bool IsMatchETPK(int subType)
+            => Array.Exists(SubTypeETPK.SubTypeETPKs, i => i == subType);
     }
 }

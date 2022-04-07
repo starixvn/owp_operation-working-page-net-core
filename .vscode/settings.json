@@ -12,9 +12,7 @@
   "git.ignoreLimitWarning": true,
   "sonarlint.ls.javaHome": "C:\\Program Files\\Java\\jdk1.8.0_201",
   "editor.acceptSuggestionOnEnter": "smart",
-  "dotnet-test-explorer.testProjectPath": "**/*Tests.csproj",
-  "cSpell.words": [
-    "maxbet",
-    "uuidv"
-  ]
+  "dotnet-test-explorer.testArguments": "/p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=./lcov.info",
+  "dotnet-test-explorer.testProjectPath": "**/*.UnitTests.csproj",
+  "cSpell.words": ["maxbet", "uuidv"]
 }
