@@ -61,6 +61,7 @@ namespace OWP.MatchCountLiveReport.Handlers
         var bettype = reportSheet.Cells[index, 2].Text;
         if (headerSectionTitle.Any(x => string.Equals(x, bettype)))
         {
+          reportSheet.Row(index).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
           reportSheet.Row(index).Style.Fill.PatternType = ExcelFillStyle.Solid;
           reportSheet.Row(index).Style.Font.Bold = true;
           reportSheet.Row(index).Style.Fill.BackgroundColor.SetColor(headerSectionBackgroundColor);
