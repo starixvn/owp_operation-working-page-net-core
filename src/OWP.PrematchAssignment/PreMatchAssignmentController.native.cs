@@ -103,5 +103,14 @@
         {
             return await mediator.Send(request);
         }
+
+        [Route("get-assigned-league-id")]
+        [HttpGet]
+        public async Task<IActionResult> QueryAssignedLeagueId([FromQuery]QueryAssignedLeagueIdRequest request)
+        {
+            var result = await mediator.Send(request);
+
+            return Ok(JsonConvert.SerializeObject(result));
+        }
     }
 }
