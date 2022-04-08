@@ -26,7 +26,7 @@ namespace OWP.Maxbet.Misc
 
         public override async Task<MaxbetInfo> GetMaxBetETPK(MatchInfo matchInfo, int adminSiteId, int subtype)
         {
-            return IsSaBaMatchETPK(matchInfo?.owpLeagueName, subtype) ? await sabaMatchService.GetMaxbetInfoSaba(matchInfo.owpMatchId, adminSiteId)
+            return IsSaBaMatchETPK(matchInfo.owpLeagueName, subtype) ? await sabaMatchService.GetMaxbetInfoSaba(matchInfo.owpMatchId, adminSiteId)
                 : await base.GetMaxBetETPK(matchInfo, adminSiteId, subtype);
         }
 
@@ -45,11 +45,11 @@ namespace OWP.Maxbet.Misc
 
         public override async Task<MaxbetInfo> GetMaxBetETPK(MatchInfo matchInfo, int adminSiteId, int subtype)
         {
-            if (IsFutsalMatchETPK(matchInfo?.owpLeagueName) && subtype == SubTypeETPK.FutsalET)
+            if (IsFutsalMatchETPK(matchInfo.owpLeagueName) && subtype == SubTypeETPK.FutsalET)
             {
                 return await futsalMatchService.GetMaxBetInfoFutsalET(matchInfo.owpMatchId, adminSiteId);
             }
-            if (IsFutsalMatchETPK(matchInfo?.owpLeagueName) && subtype == SubTypeETPK.FutsalPK)
+            if (IsFutsalMatchETPK(matchInfo.owpLeagueName) && subtype == SubTypeETPK.FutsalPK)
             {
                 return await futsalMatchService.GetMaxBetInfoFutsalPEN(matchInfo.owpMatchId, adminSiteId);
             }
