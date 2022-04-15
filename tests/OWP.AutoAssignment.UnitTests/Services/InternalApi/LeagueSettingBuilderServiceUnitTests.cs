@@ -68,17 +68,8 @@
                 {
                     InfoSiteMatchId = 101,
                     Bettype = -3,
-                    MaxBetHDP = "1K",
-                    SpreadHDP = "100000",
-                    SpreadOU = "200000",
-                    MaxBetOU = "2K",
-                    MaxBet1HHDP = "1K",
-                    Spread1HHDP = "100000",
-                    Spread1HOU = "100000",
-                    MaxBet1HOU = "1K",
-                    Spread1X2 = "100000",
-                    MaxBet1X2 = "1K",
-                    MaxBet1H1X2 = "1K"
+                    MaxBetHDP = "10K",
+                    MaxBetOU = "10K"
                 }
             };
 
@@ -130,6 +121,7 @@
                     MaxBet1HOU = 1000,
                     Spread1X2 = 1000,
                     MaxBet1X2 = 1000,
+                    MaxbetNoOfCorner = 10000,
                     MaxBet1H1X2 = 1000
                 }
             };

@@ -64,9 +64,12 @@ namespace OWP.AutoAssignment.Services.InternalApi
                 LeagueName = matchInfo.LeagueName,
                 AwayName = matchInfo.AwayName,
                 HomeName = matchInfo.HomeName,
-                InfoSiteMatchId = matchInfo.InfoSiteMatchId.HasValue
-                ? matchInfo.InfoSiteMatchId.Value : 0,
+                InfoSiteMatchId = GetInfoSiteCornerMatchId(matchInfo),
                 Bettype = matchInfo.Bettype,
             };
+
+        private int GetInfoSiteCornerMatchId(InfoSiteMatchModel matchInfo)
+            => matchInfo.InfoSiteMatchId.HasValue
+                ? matchInfo.InfoSiteMatchId.Value : 0;
     }
 }

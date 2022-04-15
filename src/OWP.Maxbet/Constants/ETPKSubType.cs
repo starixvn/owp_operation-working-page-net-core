@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -76,7 +77,7 @@ namespace OWP.Maxbet.Constants
             AwaySingleTeamET
         };
 
-        public static readonly Dictionary<int, int> SpecialSubType = new Dictionary<int, int>
+        public static readonly ImmutableDictionary<int, int> SpecialSubType = new Dictionary<int, int>
         {
             {NoOfCornersET, NoOfCorners },
             {NextCornersET, NextCorners },
@@ -88,6 +89,6 @@ namespace OWP.Maxbet.Constants
             {SpecialGoalET, SpecialGoal },
             {HomeSingleTeamET, HomeSingleTeam },
             {AwaySingleTeamET, AwaySingleTeam },
-        };
+        }.ToImmutableDictionary();
     }
 }

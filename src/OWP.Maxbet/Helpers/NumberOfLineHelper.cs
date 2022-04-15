@@ -2,7 +2,7 @@ using OWP.Maxbet.Models;
 
 namespace OWP.Maxbet.Helpers
 {
-    public enum NumberOfLinesETPEN
+    public enum NumberOfLinesEtPen
     {
         CreditFirstHalf = 2,
         CreditFt = 2,
@@ -15,10 +15,10 @@ namespace OWP.Maxbet.Helpers
         public static NumberOfLines UpdateNumberOfLine()
           => new NumberOfLines
           {
-              CreditFirstHalf = (int)NumberOfLinesETPEN.CreditFirstHalf,
-              CreditFt = (int)NumberOfLinesETPEN.CreditFt,
-              LicenseeFirstHalf = (int)NumberOfLinesETPEN.LicenseeFirstHalf,
-              LicenseeFt = (int)NumberOfLinesETPEN.LicenseeFt
+              CreditFirstHalf = (int)NumberOfLinesEtPen.CreditFirstHalf,
+              CreditFt = (int)NumberOfLinesEtPen.CreditFt,
+              LicenseeFirstHalf = (int)NumberOfLinesEtPen.LicenseeFirstHalf,
+              LicenseeFt = (int)NumberOfLinesEtPen.LicenseeFt
           };
     }
 }

@@ -19,6 +19,8 @@
 		<None Remove="App_Data\Templates\AutoAssignment.xlsx" />
 		<None Remove="App_Data\Templates\ExportOSAssignmentTemplate.xlsx" />
 		<None Remove="App_Data\Templates\PreMatchAssignmentReportTemplate.xlsx" />
+    <None Remove="App_Data\Templates\MatchCountLiveReportTemplate.xlsx" />
+  
 	</ItemGroup>
 	<ItemGroup>
 		<AdditionalFiles Include="..\.sonarlint\nap-owp\CSharp\SonarLint.xml" Link="SonarLint.xml" />
@@ -49,7 +51,7 @@
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.0" />
 		<PackageReference Include="Microsoft.AspNetCore.SignalR.StackExchangeRedis" Version="6.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="6.0.0" />
-		<PackageReference Include="Olympus.SimpleDataApi.AspNetCore" Version="3.0.0" />
+		<PackageReference Include="Olympus.SimpleDataApi.AspNetCore" Version="4.0.0" />
 		<PackageReference Include="ONEbook.UM.AspNetCore" Version="3.1.0-beta02" />
 		<PackageReference Include="ONEbook.UM.Transport" Version="3.1.1" />
 		<PackageReference Include="Microsoft.NETCore.Targets" Version="6.0.0-preview.4.21253.7" PrivateAssets="all" />
@@ -72,5 +74,6 @@
 		<ProjectReference Include="..\src\OWP.TicketCenter\OWP.TicketCenter.csproj" />
 		<ProjectReference Include="..\src\OWP.PreMatchReport\OWP.PreMatchReport.csproj" />
 		<ProjectReference Include="..\src\OWP.RabbitMQ\OWP.RabbitMQ.csproj" />
+    <ProjectReference Include="..\src\OWP.MatchCountLiveReport\OWP.MatchCountLiveReport.csproj" />
 	</ItemGroup>
 </Project>

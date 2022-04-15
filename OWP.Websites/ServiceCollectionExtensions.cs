@@ -47,6 +47,7 @@ using Sentry;
 using StackExchange.Redis;
 using OWP.RabbitMQ;
 using OWP.PreMatchNotification;
+using OWP.MatchCountLiveReport;
 
 namespace OWP.Websites;
 
@@ -209,6 +210,7 @@ public static class ServiceCollectionExtensions
     services.AddPreMatchAssignmentServices();
     services.AddPreMatchReportService();
     services.AddTicketTypeRecipientService();
+    services.AddMatchLiveReportService();
     return services;
   }
 
@@ -226,6 +228,7 @@ public static class ServiceCollectionExtensions
     services.AddMediatR(typeof(PreMatchAssignmentController).GetTypeInfo().Assembly);
     services.AddMediatR(typeof(PreMatchReportController).GetTypeInfo().Assembly);
     services.AddMediatR(typeof(NotificationConsumer).GetTypeInfo().Assembly);
+    services.AddMediatR(typeof(MatchCountLiveReportController).GetTypeInfo().Assembly);
     return services;
   }
 
