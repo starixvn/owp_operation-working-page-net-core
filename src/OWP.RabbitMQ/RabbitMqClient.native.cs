@@ -8,7 +8,7 @@ public abstract class RabbitMqClient : IDisposable
 {
   protected readonly IModel channel;
   private readonly IConnection connection;
-  private readonly ConnectionFactory connectionFactory;
+  private readonly IConnectionFactory connectionFactory;
   private readonly IConfiguration configuration;
 
   public RabbitMqClient(
@@ -17,40 +17,34 @@ public abstract class RabbitMqClient : IDisposable
   {
     this.connectionFactory = connectionFactory;
     this.configuration = configuration;
+    connection = connectionFactory.CreateConnection();
+    channel = connection.CreateModel();
+  }
 
+  protected void ConnectRabbitMQ()
+  {
     var exchange = configuration.GetSection("RabbitMQ:Exchange").Value;
     var queue = configuration.GetSection("RabbitMQ:Queue").Value;
 
-#if !DEBUG
-    if (connection == null || !connection.IsOpen)
-    {
-      connection = connectionFactory.CreateConnection();
-    }
-
-    if (channel == null || !channel.IsOpen)
-    {
-      channel = connection.CreateModel();
-      channel.ExchangeDeclare(
-          exchange: exchange,
-          type: "direct",
-          durable: true,
-          autoDelete: false);
-
-      channel.QueueDeclare(
-          queue: queue,
-          durable: true,
-          exclusive: false,
-          autoDelete: false);
-
-      foreach (var key in RoutingKey.Keys)
-      {
-        channel.QueueBind(
-        queue: queue,
+    channel.ExchangeDeclare(
         exchange: exchange,
-        routingKey: key);
-      }
+        type: "direct",
+        durable: true,
+        autoDelete: false);
+
+    channel.QueueDeclare(
+        queue: queue,
+        durable: true,
+        exclusive: false,
+        autoDelete: false);
+
+    foreach (var key in RoutingKey.Keys)
+    {
+      channel.QueueBind(
+      queue: queue,
+      exchange: exchange,
+      routingKey: key);
     }
-#endif
   }
 
   public void Dispose()
