@@ -41,7 +41,8 @@ namespace OWP.MatchCountLiveReport.Handlers
       var templatePath = GetReportTemplate();
       LoadTemplate(templatePath);
       BuildExcelBody(request);
-      return excelPackage;
+
+      return await Task.FromResult(excelPackage);
     }
 
 

@@ -25,7 +25,10 @@ public class NotificationConsumer : ConsumerBase, IHostedService
 
   public virtual async Task StartAsync(CancellationToken cancellationToken)
   {
+  #if !DEBUG
     base.ConnectRabbitMQ();
+  #endif
+
     var queue = configuration.GetSection("RabbitMQ:Queue").Value;
 
     try

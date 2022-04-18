@@ -36,7 +36,6 @@ public abstract class RabbitMqClient : IDisposable
 
   protected void ConnectRabbitMQ()
   {
-#if !DEBUG
     var exchange = configuration.GetSection("RabbitMQ:Exchange").Value;
     var queue = configuration.GetSection("RabbitMQ:Queue").Value;
 
@@ -62,7 +61,6 @@ public abstract class RabbitMqClient : IDisposable
       exchange: exchange,
       routingKey: key);
     }
-#endif
   }
 
   public void Dispose()
