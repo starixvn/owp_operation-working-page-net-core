@@ -309,22 +309,6 @@ public static class ServiceCollectionExtensions
 
   public static IServiceCollection AddRabbitMQ(this IServiceCollection services, IConfiguration configuration)
   {
-    var hosting = configuration.GetSection("RabbitMQ:Hosting").Value;
-    var virtualHosting = configuration.GetSection("RabbitMQ:VirtualHost").Value;
-    var username = configuration.GetSection("RabbitMQ:UserName").Value;
-    var password = configuration.GetSection("RabbitMQ:Password").Value;
-    var port = int.Parse(configuration.GetSection("RabbitMQ:Port").Value);
-
-    services.AddSingleton(serviceProvider => new ConnectionFactory
-    {
-      UserName = username,
-      Password = password,
-      HostName = hosting,
-      Port = port,
-      VirtualHost = virtualHosting,
-      DispatchConsumersAsync = true
-    });
-
     services.AddHostedService<NotificationConsumer>();
     return services;
   }

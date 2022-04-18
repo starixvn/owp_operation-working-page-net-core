@@ -15,10 +15,9 @@ public class NotificationConsumer : ConsumerBase, IHostedService
 
   public NotificationConsumer(
     IMediator mediator,
-    ConnectionFactory connectionFactory,
     IConfiguration configuration,
     LogServiceWrapper logServiceWrapper
-    ) : base(mediator, connectionFactory, configuration, logServiceWrapper)
+    ) : base(mediator, configuration, logServiceWrapper)
   {
     this.configuration = configuration;
     this.logServiceWrapper = logServiceWrapper;
@@ -26,6 +25,10 @@ public class NotificationConsumer : ConsumerBase, IHostedService
 
   public virtual async Task StartAsync(CancellationToken cancellationToken)
   {
+  #if !DEBUG
+    base.ConnectRabbitMQ();
+  #endif
+
     var queue = configuration.GetSection("RabbitMQ:Queue").Value;
 
     try
