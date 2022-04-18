@@ -15,10 +15,9 @@ public class NotificationConsumer : ConsumerBase, IHostedService
 
   public NotificationConsumer(
     IMediator mediator,
-    ConnectionFactory connectionFactory,
     IConfiguration configuration,
     LogServiceWrapper logServiceWrapper
-    ) : base(mediator, connectionFactory, configuration, logServiceWrapper)
+    ) : base(mediator, configuration, logServiceWrapper)
   {
     this.configuration = configuration;
     this.logServiceWrapper = logServiceWrapper;

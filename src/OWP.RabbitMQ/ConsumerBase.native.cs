@@ -1,4 +1,3 @@
-using RabbitMQ.Client;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using RabbitMQ.Client.Events;
@@ -16,10 +15,9 @@ public class ConsumerBase : RabbitMqClient
 
   public ConsumerBase(
       IMediator mediator,
-      ConnectionFactory connectionFactory,
       IConfiguration configuration,
       LogServiceWrapper logServiceWrapper
-      ) : base(connectionFactory, configuration)
+      ) : base(configuration)
   {
     this.mediator = mediator;
     this.logServiceWrapper = logServiceWrapper;

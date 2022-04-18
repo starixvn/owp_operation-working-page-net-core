@@ -6,25 +6,42 @@ namespace OWP.RabbitMQ;
 
 public abstract class RabbitMqClient : IDisposable
 {
-  protected readonly IModel channel;
-  private readonly IConnection connection;
+#pragma warning disable CS0649 // Field 'RabbitMqClientImp.channel/connection' is never assigned to
+  protected IModel channel;
+  private IConnection connection;
+#pragma warning restore CS0649
   private readonly IConnectionFactory connectionFactory;
   private readonly IConfiguration configuration;
 
-  public RabbitMqClient(
-      ConnectionFactory connectionFactory,
-      IConfiguration configuration)
+  public RabbitMqClient(IConfiguration configuration)
   {
-    this.connectionFactory = connectionFactory;
     this.configuration = configuration;
-    connection = connectionFactory.CreateConnection();
-    channel = connection.CreateModel();
+
+    var hosting = configuration.GetSection("RabbitMQ:Hosting").Value;
+    var virtualHosting = configuration.GetSection("RabbitMQ:VirtualHost").Value;
+    var username = configuration.GetSection("RabbitMQ:UserName").Value;
+    var password = configuration.GetSection("RabbitMQ:Password").Value;
+    var port = int.Parse(configuration.GetSection("RabbitMQ:Port").Value);
+
+    connectionFactory = new ConnectionFactory
+    {
+      UserName = username,
+      Password = password,
+      HostName = hosting,
+      Port = port,
+      VirtualHost = virtualHosting,
+      DispatchConsumersAsync = true
+    };
   }
 
   protected void ConnectRabbitMQ()
   {
+#if !DEBUG
     var exchange = configuration.GetSection("RabbitMQ:Exchange").Value;
     var queue = configuration.GetSection("RabbitMQ:Queue").Value;
+
+    connection = connectionFactory.CreateConnection();
+    channel = connection.CreateModel();
 
     channel.ExchangeDeclare(
         exchange: exchange,
@@ -45,6 +62,7 @@ public abstract class RabbitMqClient : IDisposable
       exchange: exchange,
       routingKey: key);
     }
+#endif
   }
 
   public void Dispose()
