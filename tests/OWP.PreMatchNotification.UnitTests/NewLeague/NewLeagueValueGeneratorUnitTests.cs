@@ -1,6 +1,7 @@
 ﻿namespace OWP.PreMatchNotification.UnitTests.NewLeague
 {
-    using NSubstitute;
+  using Fanex.Logging;
+  using NSubstitute;
     using OWP.PreMatchNotification.Constants;
     using OWP.PreMatchNotification.Models;
     using OWP.PreMatchNotification.NewLeague.Models;
@@ -15,8 +16,9 @@
         public void Create_ReturnNewLeagueMessages()
         {
             var dateTimeHelper = Substitute.For<DateTimeHelper>();
+            var logger = Substitute.For<ILogger>();
             dateTimeHelper.GetCurrentDate().Returns(new DateTime(2021, 06, 21));
-            var service = new NewLeagueValueGeneratorImp(dateTimeHelper);
+            var service = new NewLeagueValueGeneratorImp(dateTimeHelper,logger);
             var receivedUserIds = MockAssignees().Select(x => x.AssigneeId).ToList();
             var expected = new List<ChangedValue>
             {
