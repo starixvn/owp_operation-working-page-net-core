@@ -2,10 +2,8 @@
 {
   using Constants;
   using Criteria;
-  using Fanex.Logging;
   using MediatR;
   using Models;
-  using Newtonsoft.Json;
   using OWP.NotificationRequests;
   using OWP.PreMatchNotification.Criteria;
   using OWP.PreMatchNotification.Models;
