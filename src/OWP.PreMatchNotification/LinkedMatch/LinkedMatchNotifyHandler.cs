@@ -1,5 +1,6 @@
 ﻿namespace OWP.PreMatchNotification.LinkedMatch
 {
+  using Fanex.Logging;
   using MediatR;
   using OWP.NotificationRequests;
   using OWP.PreMatchNotification.Constants;
@@ -17,13 +18,16 @@
     private readonly CommandRepository commandRepository;
     private readonly NotifyServices notify;
 
+    private readonly ILogger logger;
+
     public LinkedMatchNotifyHandler(
         CacheManipulator cacheManipulator,
         Repository queryRepository,
         ChangedLinkedMatchDetector changedValueBySnapshot,
         MessageFactory messageFactory,
         CommandRepository commandRepository,
-        NotifyServices notify)
+        NotifyServices notify,
+        ILogger logger)
     {
       this.cacheManipulator = cacheManipulator;
       this.queryRepository = queryRepository;
@@ -31,10 +35,12 @@
       this.messageFactory = messageFactory;
       this.commandRepository = commandRepository;
       this.notify = notify;
+      this.logger = logger;
     }
 
     public async Task<Unit> Handle(LinkedMatchNotifyRequest request, CancellationToken cancellationToken)
     {
+      logger.Info("Notify:=>LinkedMatchNotifyHandler");
       var messages = await GenerateMessages(request);
       var messageModels = messageFactory.Transform(messages);
 

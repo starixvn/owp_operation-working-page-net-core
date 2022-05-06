@@ -28,9 +28,11 @@ public class ConsumerBase : RabbitMqClient
     try
     {
       var body = Encoding.UTF8.GetString(eventArgs.Body.ToArray());
+      await logServiceWrapper.Log("Body: " + body);
       var routingKey = eventArgs.RoutingKey;
+      await logServiceWrapper.Log("RoutingKey: " + routingKey);
       var message = RoutingKey.KeyMappingDict[routingKey](body);
-
+ await logServiceWrapper.Log("message: " + nameof(message));
       if (message != null)
       {
         await mediator.Send(message);

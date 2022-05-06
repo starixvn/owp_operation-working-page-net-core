@@ -2,6 +2,7 @@
 {
   using Constants;
   using Criteria;
+  using Fanex.Logging;
   using MediatR;
   using Models;
   using OWP.NotificationRequests;
@@ -25,6 +26,9 @@
 
     private readonly NotifyServices notify;
 
+    private readonly ILogger logger;
+
+
     private const string OLD_PREMATCHLEAGUES_SNAPSHOT_KEY = "OWP-Old-PreMatchLeagues";
 
     public NewLeagueNotifyHandler(
@@ -33,7 +37,8 @@
         NewLeagueValueGenerator newLeagueGenerator,
         MessageFactory messageFactory,
         CommandRepository commandRepository,
-        NotifyServices notify)
+        NotifyServices notify,
+        ILogger logger)
     {
       this.cacheManipulator = cacheManipulator;
       this.dynamicRepository = dynamicRepository;
@@ -41,10 +46,12 @@
       this.messageFactory = messageFactory;
       this.commandRepository = commandRepository;
       this.notify = notify;
+      this.logger = logger;
     }
 
     public async Task<Unit> Handle(PrematchNewLeagueNotifyRequest request, CancellationToken cancellationToken)
     {
+      logger.Info("Notify:=> NewLeagueNotifyHandler");
       var messages = await GenerateMessages(request);
       var messageModels = messageFactory.Transform(messages);
 

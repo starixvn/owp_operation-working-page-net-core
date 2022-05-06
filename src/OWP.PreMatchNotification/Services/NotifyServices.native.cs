@@ -24,7 +24,6 @@
 
         public async Task Notify(List<MessageModel> messages)
         {
-          logger.Info("Notify:=> START");
             foreach (var message in messages)
             {
               message.MessageContent= "Starix 58 test";

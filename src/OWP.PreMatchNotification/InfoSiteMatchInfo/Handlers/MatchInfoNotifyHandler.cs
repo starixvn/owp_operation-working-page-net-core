@@ -1,5 +1,6 @@
 ﻿namespace OWP.PreMatchNotification.InfoSiteMatchInfo.Handlers
 {
+  using Fanex.Logging;
   using MediatR;
   using OWP.NotificationRequests;
   using OWP.PreMatchNotification.Constants;
@@ -22,6 +23,8 @@
 
     private readonly NotifyServices notify;
 
+    private readonly ILogger logger;
+
     private const string OLD_INFOSITEMATCHES_SNAPSHOT_KEY = "OWP-Old-InfoSiteMatches";
 
     public MatchInfoNotifyHandler(
@@ -30,7 +33,8 @@
         ChangedValueGenerator changedValueGenerator,
         MessageFactory messageFactory,
         CommandRepository commandRepository,
-        NotifyServices notify)
+        NotifyServices notify,
+        ILogger logger)
     {
       this.cacheManipulator = cacheManipulator;
       this.queryRepository = queryRepository;
@@ -38,10 +42,12 @@
       this.messageFactory = messageFactory;
       this.commandRepository = commandRepository;
       this.notify = notify;
+      this.logger = logger;
     }
 
     public async Task<Unit> Handle(MatchInfoNotifyRequest request, CancellationToken cancellationToken)
     {
+      logger.Info("Notify:=>MatchInfoNotifyHandler");
       var messages = await GenerateMessages(request);
       var messageModels = messageFactory.Transform(messages);
 
