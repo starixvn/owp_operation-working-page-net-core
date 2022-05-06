@@ -34,9 +34,9 @@
                     message
                 };
                 logger.Info($"Notify:=>{result.message}-{result.notificationId}-{string.Join(",",message.ReceivedUserIds)}");
-                await notifyChangedHub.Clients
+                /* await notifyChangedHub.Clients
                     .Users(message.ReceivedUserIds)
-                    .notifyChangedInformationData(result);
+                    .notifyChangedInformationData(result); */
             }
           logger.Info("Notify:=> END");
         }
