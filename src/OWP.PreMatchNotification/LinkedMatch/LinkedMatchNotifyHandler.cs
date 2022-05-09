@@ -18,7 +18,6 @@
     private readonly CommandRepository commandRepository;
     private readonly NotifyServices notify;
 
-    private readonly ILogger logger;
 
     public LinkedMatchNotifyHandler(
         CacheManipulator cacheManipulator,
@@ -26,8 +25,7 @@
         ChangedLinkedMatchDetector changedValueBySnapshot,
         MessageFactory messageFactory,
         CommandRepository commandRepository,
-        NotifyServices notify,
-        ILogger logger)
+        NotifyServices notify)
     {
       this.cacheManipulator = cacheManipulator;
       this.queryRepository = queryRepository;
@@ -35,12 +33,10 @@
       this.messageFactory = messageFactory;
       this.commandRepository = commandRepository;
       this.notify = notify;
-      this.logger = logger;
     }
 
     public async Task<Unit> Handle(LinkedMatchNotifyRequest request, CancellationToken cancellationToken)
     {
-      logger.Info("Notify:=>LinkedMatchNotifyHandler");
       var messages = await GenerateMessages(request);
       var messageModels = messageFactory.Transform(messages);
 

@@ -23,8 +23,6 @@
 
     private readonly NotifyServices notify;
 
-    private readonly ILogger logger;
-
     private const string OLD_INFOSITEMATCHES_SNAPSHOT_KEY = "OWP-Old-InfoSiteMatches";
 
     public MatchInfoNotifyHandler(
@@ -33,8 +31,7 @@
         ChangedValueGenerator changedValueGenerator,
         MessageFactory messageFactory,
         CommandRepository commandRepository,
-        NotifyServices notify,
-        ILogger logger)
+        NotifyServices notify)
     {
       this.cacheManipulator = cacheManipulator;
       this.queryRepository = queryRepository;
@@ -42,12 +39,10 @@
       this.messageFactory = messageFactory;
       this.commandRepository = commandRepository;
       this.notify = notify;
-      this.logger = logger;
     }
 
     public async Task<Unit> Handle(MatchInfoNotifyRequest request, CancellationToken cancellationToken)
     {
-      logger.Info("Notify:=>MatchInfoNotifyHandler");
       var messages = await GenerateMessages(request);
       var messageModels = messageFactory.Transform(messages);
 

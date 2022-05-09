@@ -10,6 +10,8 @@ namespace OWP.PreMatchNotification.Services
         Task<T> GetSingleData<T>(string key, T defaultValue);
 
         Task RemoveData(string key);
+
+        Task Cache(string key, string value);
     }
 
     public class CacheManipulatorCommonImp : CacheManipulatorCommon
@@ -43,5 +45,12 @@ namespace OWP.PreMatchNotification.Services
 
         public async Task RemoveData(string key)
             => await cache.RemoveAsync(key);
+
+        public async Task Cache(string key, string value)
+        {
+          var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(30));
+          await cache.SetAsync(key, value, cachePolicy);
+        }
+       
     }
 }
