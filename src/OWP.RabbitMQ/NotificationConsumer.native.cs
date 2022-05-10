@@ -4,6 +4,7 @@ using Microsoft.Extensions.Hosting;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using OWP.Services;
+using Fanex.Caching;
 
 namespace OWP.RabbitMQ;
 
@@ -16,8 +17,9 @@ public class NotificationConsumer : ConsumerBase, IHostedService
   public NotificationConsumer(
     IMediator mediator,
     IConfiguration configuration,
-    LogServiceWrapper logServiceWrapper
-    ) : base(mediator, configuration, logServiceWrapper)
+    LogServiceWrapper logServiceWrapper,
+    ICache cacheManipulator
+    ) : base(mediator, configuration, logServiceWrapper,cacheManipulator)
   {
     this.configuration = configuration;
     this.logServiceWrapper = logServiceWrapper;

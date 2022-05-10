@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using RabbitMQ.Client;
 using OWP.RabbitMQ.Constants;
+using Fanex.Caching;
 
 namespace OWP.RabbitMQ;
 
@@ -13,10 +14,12 @@ public abstract class RabbitMqClient : IDisposable
   private readonly IConnectionFactory connectionFactory;
   private readonly IConfiguration configuration;
 
-  public RabbitMqClient(IConfiguration configuration)
+  private readonly ICache cacheManipulator;
+
+  public RabbitMqClient(IConfiguration configuration, ICache cacheManipulator)
   {
     this.configuration = configuration;
-
+    this.cacheManipulator = cacheManipulator;
     var hosting = configuration.GetSection("RabbitMQ:Hosting").Value;
     var virtualHosting = configuration.GetSection("RabbitMQ:VirtualHost").Value;
     var username = configuration.GetSection("RabbitMQ:UserName").Value;
@@ -48,16 +51,17 @@ public abstract class RabbitMqClient : IDisposable
         durable: true,
         autoDelete: false);
 
-    channel.QueueDeclare(
-        queue: queue,
+    var result=channel.QueueDeclare(
+        queue: "",
         durable: true,
         exclusive: false,
         autoDelete: false);
-
+        var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromDays(1));
+cacheManipulator.Set($"queue name: {result.QueueName}", result.QueueName, cachePolicy);
     foreach (var key in RoutingKey.Keys)
     {
       channel.QueueBind(
-      queue: queue,
+      queue: result.QueueName,
       exchange: exchange,
       routingKey: key);
     }

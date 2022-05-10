@@ -21,7 +21,7 @@ public class ConsumerBase : RabbitMqClient
       IConfiguration configuration,
       LogServiceWrapper logServiceWrapper,
       ICache cacheManipulator
-      ) : base(configuration)
+      ) : base(configuration,cacheManipulator)
   {
     this.mediator = mediator;
     this.logServiceWrapper = logServiceWrapper;
