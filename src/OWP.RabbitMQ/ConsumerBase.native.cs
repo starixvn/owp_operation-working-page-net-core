@@ -4,6 +4,7 @@ using RabbitMQ.Client.Events;
 using System.Text;
 using OWP.RabbitMQ.Constants;
 using OWP.Services;
+using Fanex.Caching;
 
 namespace OWP.RabbitMQ;
 
@@ -13,14 +14,18 @@ public class ConsumerBase : RabbitMqClient
 
   private readonly LogServiceWrapper logServiceWrapper;
 
+  private readonly ICache cacheManipulator;
+
   public ConsumerBase(
       IMediator mediator,
       IConfiguration configuration,
-      LogServiceWrapper logServiceWrapper
+      LogServiceWrapper logServiceWrapper,
+      ICache cacheManipulator
       ) : base(configuration)
   {
     this.mediator = mediator;
     this.logServiceWrapper = logServiceWrapper;
+    this.cacheManipulator = cacheManipulator;
   }
 
   protected virtual async Task OnEventReceived(object sender, BasicDeliverEventArgs eventArgs)
@@ -28,11 +33,10 @@ public class ConsumerBase : RabbitMqClient
     try
     {
       var body = Encoding.UTF8.GetString(eventArgs.Body.ToArray());
-      await logServiceWrapper.Log("Body: " + body);
       var routingKey = eventArgs.RoutingKey;
-      await logServiceWrapper.Log("RoutingKey: " + routingKey);
       var message = RoutingKey.KeyMappingDict[routingKey](body);
- await logServiceWrapper.Log("message: " + nameof(message));
+       var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(30));
+      cacheManipulator.Set($"RabbitMQ receive Session: {message.SessionId}", message.SessionId, cachePolicy);
       if (message != null)
       {
         await mediator.Send(message);

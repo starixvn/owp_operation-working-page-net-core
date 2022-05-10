@@ -54,7 +54,8 @@
 
       await notify.Notify(messageModels);
        var leaguesJson = JsonConvert.SerializeObject(messageModels);
-      await cacheManipulator.Cache($"New_Prematch_League-{request.SessionId}",leaguesJson);
+      cacheManipulator.Cache($"[NewLeagueNotifyHandler] New_Prematch_League_Receive-{request.SessionId}", request.SessionId);
+      cacheManipulator.Cache($"[NewLeagueNotifyHandler] New_Prematch_League-{request.SessionId}",leaguesJson);
 
       await cacheManipulator.RemoveData($"{OLD_PREMATCHLEAGUES_SNAPSHOT_KEY}-{request.SessionId}");
 
