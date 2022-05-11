@@ -44,7 +44,7 @@ public class PubSubEventImp : PubSubEvent
     {
       var body=JsonConvert.SerializeObject(message);
       logger.Info($"Redis Subscribe receive: {body}");
-      cache.Set($"RedisPubSub-Subscribe-Carlos_-test", message, cachePolicy);
+      cache.Set("RedisPubSub-Subscribe-Carlos-test", body.ToString(), cachePolicy);
     });
   }
 }
