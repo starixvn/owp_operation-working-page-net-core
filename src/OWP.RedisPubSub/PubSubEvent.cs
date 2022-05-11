@@ -39,12 +39,12 @@ public class PubSubEventImp : PubSubEvent
     cache.Set($"RedisPubSub-Subscribe-{DateTime.Now}","RedisPubSub-Subscribe" , cachePolicy);
    
     var sub = redis.GetSubscriber();
+    
     sub.Subscribe("messages", (channel, message) =>
     {
-       var policy = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(30));
       var body=JsonConvert.SerializeObject(message);
       logger.Info($"Redis Subscribe receive: {body}");
-      cache.Set($"RedisPubSub-Subscribe-{body}", message, policy);
+      cache.Set($"RedisPubSub-Subscribe-Carlos_-test", message, cachePolicy);
     });
   }
 }
