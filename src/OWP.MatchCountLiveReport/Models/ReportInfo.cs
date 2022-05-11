@@ -4,10 +4,9 @@ namespace OWP.MatchCountLiveReport.Models
 {
   using System.Text.Json.Serialization;
   using Epplus.Mapper.Annotations;
-  using OWP.MatchCountLiveReport.Helper;
-
-  public class ReportInfo
-  {
+using OWP.MatchCountLiveReport.Helper;
+public class ReportInfo
+{
     [Cell("A3")]
     public int? No { get; set; }
 
@@ -102,18 +101,66 @@ namespace OWP.MatchCountLiveReport.Models
     public string ExcelOthers5Column => LiveReportHelper.BuildCellValue(Others5);
 
     [EpplusIgnore]
-    public int? Others6 { get; set; }
+    public int? MJT1 { get; set; }
 
     [Cell("O3")]
     [JsonIgnore]
-    public string ExcelOthers6Column => LiveReportHelper.BuildCellValue(Others6);
+    public string ExcelMJT1Column => LiveReportHelper.BuildCellValue(MJT1);
+
+    [EpplusIgnore]
+    public int? MJT2 { get; set; }
+
+    [Cell("P3")]
+    [JsonIgnore]
+    public string ExcelMJT2Column => LiveReportHelper.BuildCellValue(MJT2);
+
+    [EpplusIgnore]
+    public int? CLMJQ { get; set; }
+
+    [Cell("Q3")]
+    [JsonIgnore]
+    public string ExcelCLMJQColumn => LiveReportHelper.BuildCellValue(CLMJQ);
+
+    [EpplusIgnore]
+    public int? CLMNQ { get; set; }
+
+    [Cell("R3")]
+    [JsonIgnore]
+    public string ExcelCLMNQColumn => LiveReportHelper.BuildCellValue(CLMNQ);
+
+    [EpplusIgnore]
+    public int? INTMJ { get; set; }
+
+    [Cell("S3")]
+    [JsonIgnore]
+    public string ExcelINTMJColumn => LiveReportHelper.BuildCellValue(INTMJ);
+
+    [EpplusIgnore]
+    public int? INTMN { get; set; }
+
+    [Cell("T3")]
+    [JsonIgnore]
+    public string ExcelINTMNColumn => LiveReportHelper.BuildCellValue(INTMN);
+
+    [EpplusIgnore]
+    public int? WorldCup { get; set; }
+
+    [Cell("U3")]
+    [JsonIgnore]
+    public string ExcelWorldCupColumn => LiveReportHelper.BuildCellValue(WorldCup);
+
+    [EpplusIgnore]
+    public int? Euro { get; set; }
+
+    [Cell("V3")]
+    [JsonIgnore]
+    public string ExcelEuroColumn => LiveReportHelper.BuildCellValue(Euro);
 
     [EpplusIgnore]
     public int? Unknown { get; set; }
 
-    [Cell("P3")]
+    [Cell("W3")]
     [JsonIgnore]
     public string ExcelUnknownColumn => LiveReportHelper.BuildCellValue(Unknown);
-
   }
 }

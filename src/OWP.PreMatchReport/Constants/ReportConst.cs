@@ -22,4 +22,12 @@ public static class LeagueGroupConst
     public const int Others3 = 9;
     public const int Others4 = 10;
     public const int Others5 = 11;
+    public const int MjT1 = 12;
+    public const int MjT2 = 13;
+    public const int ClMjQ = 14;
+    public const int ClMnQ = 15;
+    public const int IntMj = 16;
+    public const int IntMn = 17;
+    public const int WorldCup = 18;
+    public const int Euro = 19;
 }

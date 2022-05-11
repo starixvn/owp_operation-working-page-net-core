@@ -21,6 +21,14 @@ namespace OWP.PreMatchReport.Helper
             { LeagueGroupConst.Others3 , "Others3"},
             { LeagueGroupConst.Others4 , "Others4"},
             { LeagueGroupConst.Others5 , "Others5"},
+            { LeagueGroupConst.MjT1 , "MjT1"},
+            { LeagueGroupConst.MjT2 , "MjT2"},
+            { LeagueGroupConst.ClMjQ , "ClMjQ"},
+            { LeagueGroupConst.ClMnQ , "ClMnQ"},
+            { LeagueGroupConst.IntMj , "IntMj"},
+            { LeagueGroupConst.IntMn , "IntMn"},
+            { LeagueGroupConst.WorldCup , "WorldCup"},
+            { LeagueGroupConst.Euro , "Euro"},
         };
 
         public static void Build(ReportBaseModel singleTraderOfLeague, QueryPrematchReportModel element)

@@ -127,7 +127,7 @@ public class GetPreMatchReportServiceImp : GetPreMatchReportService
 
   public void BuildSingleTraderOU(IList<QueryPrematchReportModel> reportItem, ReportBaseModel singleTraderOfLeague)
   {
-    var OULst = reportItem.Select(x => x).Where(y => y.Bettype == ReportConst.OU_Id).ToList();
+    var OULst = reportItem.Select(x => x).Where(y => y?.Bettype == ReportConst.OU_Id).ToList();
     foreach (var element in OULst)
     {
       LeagueGroupHelper.Build(singleTraderOfLeague, element);
