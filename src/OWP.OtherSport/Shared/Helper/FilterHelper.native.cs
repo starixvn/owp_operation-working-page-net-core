@@ -17,8 +17,8 @@
             {
                 var assignments = assignmentSnapshot.MatchAssignments.GetValue(key, new List<MatchAssignment>());
                 var existsAssignment = assignments.Any(match =>
-                    match.Username.IsContains(employee) ||
-                    match.Nickname.IsContains(employee));
+                    match.Username.Equals(employee) ||
+                    match.Nickname.Equals(employee));
                 if (existsAssignment)
                 {
                     matches.Add(key, assignmentSnapshot.Matches[key]);
