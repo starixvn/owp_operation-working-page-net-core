@@ -1,7 +1,6 @@
 ﻿namespace OWP.PreMatchNotification.NewLeague.Services
 {
   using Fanex.Logging;
-  using Newtonsoft.Json;
   using OWP.PreMatchNotification.Constants;
     using OWP.PreMatchNotification.Models;
     using OWP.PreMatchNotification.NewLeague.Models;
@@ -32,14 +31,12 @@
             IList<InfoSiteMatch> infoSiteMatches)
         {
             var newLeagues = GetNewPreMatchLeagues(oldSnapshot, newSnapshot, infoSiteMatches);
-            logger.Info($"New league: {JsonConvert.SerializeObject(newLeagues)}");
             foreach (var league in newLeagues)
             {
                 yield return new ChangedValue
                 {
                     League = league.OWPLeagueName,
-                    //ReceivedUserIds = assignees.Select(x => x.AssigneeId).ToList(),
-                    ReceivedUserIds= new List<int>{20902509},
+                    ReceivedUserIds = assignees.Select(x => x.AssigneeId).ToList(),
                     MessageTypeId = (int)MsgTemplateCode.NewLeague
                 };
             }
@@ -49,13 +46,9 @@
             IList<PreMatchLeague> newSnapshot, IList<InfoSiteMatch> infoSiteMatches)
         {
             var newLeagues = newSnapshot.Except(oldSnapshot, new PreMatchLeague()).ToList();
-            logger.Info($"New league Except: {JsonConvert.SerializeObject(newLeagues)}");
-           logger.Info($"infoSiteMatches: {JsonConvert.SerializeObject(infoSiteMatches)}");
-           
             var currentDate = dateTimeHelper.GetCurrentDate();
             var fromDate = currentDate.AddHours(12);
             var toDate = currentDate.AddDays(1).AddHours(11).AddMinutes(59);
-            logger.Info($"fromDate: {fromDate} - todate: {toDate}");
             foreach (var league in newLeagues)
             {
                 var matches = infoSiteMatches.Where(x =>
