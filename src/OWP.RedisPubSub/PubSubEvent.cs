@@ -42,9 +42,9 @@ public class PubSubEventImp : PubSubEvent
     
     sub.Subscribe("messages", (channel, message) =>
     {
-      var body=JsonConvert.SerializeObject(message);
-      logger.Info($"Redis Subscribe receive: {body}");
-      cache.Set("RedisPubSub-Subscribe-Carlos-test", body.ToString(), cachePolicy);
+      var body=JsonConvert.DeserializeObject<PrematchNewLeagueReceiveModel>(message);
+      logger.Info($"Redis Subscribe receive: {body?.SessionId}-{DateTime.Now}");
+      cache.Set("RedisPubSub-Subscribe-{DateTime.Now}", message, cachePolicy);
     });
   }
 }
