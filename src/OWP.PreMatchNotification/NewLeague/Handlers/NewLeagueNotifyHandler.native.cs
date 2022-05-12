@@ -27,8 +27,6 @@
 
     private readonly NotifyServices notify;
 
-    private readonly ILogger logger;
-
     private const string OLD_PREMATCHLEAGUES_SNAPSHOT_KEY = "OWP-Old-PreMatchLeagues";
 
     public NewLeagueNotifyHandler(
@@ -37,8 +35,7 @@
         NewLeagueValueGenerator newLeagueGenerator,
         MessageFactory messageFactory,
         CommandRepository commandRepository,
-        NotifyServices notify,
-        ILogger logger)
+        NotifyServices notify)
     {
       this.cacheManipulator = cacheManipulator;
       this.dynamicRepository = dynamicRepository;
@@ -46,7 +43,6 @@
       this.messageFactory = messageFactory;
       this.commandRepository = commandRepository;
       this.notify = notify;
-      this.logger = logger;
     }
 
     public async Task<Unit> Handle(PrematchNewLeagueNotifyRequest request, CancellationToken cancellationToken)
@@ -66,19 +62,12 @@
     private async Task<IList<ChangedValue>> GenerateMessages(PrematchNewLeagueNotifyRequest request)
     {
       var oldSnapshot = await cacheManipulator.GetMultipleData<PreMatchLeague>($"{OLD_PREMATCHLEAGUES_SNAPSHOT_KEY}-{request.SessionId}");
-      var logContent = $"Content[receive] OldPreMatchLeagues: {JsonConvert.SerializeObject(oldSnapshot)}, cacheKey: {OLD_PREMATCHLEAGUES_SNAPSHOT_KEY}-{request.SessionId}";
-      logger.Info(logContent);
       var newSnapshot = await GetPreMatchLeagueNewSnapshot(request.FromDate);
-      logContent = $"Content[receive] newSnapshot: {JsonConvert.SerializeObject(newSnapshot)}, cacheKey: {OLD_PREMATCHLEAGUES_SNAPSHOT_KEY}-{request.SessionId}";
-      logger.Info(logContent);
       
       var preMatchAssignees = await commandRepository.GetEmployeesBySection(Section.PreMatch);
       var infoSiteMatches = await GetInfoSiteMatch(newSnapshot.Select(x => x.OWPLeagueId).ToList(), request.FromDate);
 
       var messages = newLeagueGenerator.Create(oldSnapshot, newSnapshot, preMatchAssignees, infoSiteMatches);
-      logContent = $"messages: {JsonConvert.SerializeObject(messages)}, cacheKey: {OLD_PREMATCHLEAGUES_SNAPSHOT_KEY}-{request.SessionId}";
-       logger.Info(logContent);
-       logger.Info("Notify sync prematch league => END");
       return messages.ToList();
     }
 
