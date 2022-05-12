@@ -51,7 +51,10 @@
       var messageModels = messageFactory.Transform(messages);
 
       await commandRepository.InsertMessage(messageModels, request.SessionId);
-
+      foreach (var item in messageModels)
+      {
+        item.MessageContent=item.MessageContent+request.SessionId;
+      }
       await notify.Notify(messageModels);
       var mesage = JsonConvert.SerializeObject(messageModels);
       cacheManipulator.Cache($"[NewLeagueNotifyHandler] New_Prematch_League_Receive-{request.SessionId}", request.SessionId);

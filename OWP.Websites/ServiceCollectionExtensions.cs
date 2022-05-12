@@ -319,7 +319,7 @@ public static class ServiceCollectionExtensions
     var redisConfig = configuration.GetSection("AuthSettings:RedisConfig").Value;
     var multiplexer  = ConnectionMultiplexer.Connect(redisConfig);
     services.AddSingleton<IConnectionMultiplexer>(multiplexer);
-    services.AddSingleton<PubSubEvent, PubSubEventImp>();
+    services.AddTransient<PubSubEvent, PubSubEventImp>();
     
     var sp = services.BuildServiceProvider();
     var pubSubEvent= sp.GetService<PubSubEvent>();
