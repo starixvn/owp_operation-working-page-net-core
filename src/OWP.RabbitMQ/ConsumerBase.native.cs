@@ -35,9 +35,6 @@ public class ConsumerBase : RabbitMqClient
       var body = Encoding.UTF8.GetString(eventArgs.Body.ToArray());
       var routingKey = eventArgs.RoutingKey;
       var message = RoutingKey.KeyMappingDict[routingKey](body);
-       var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(30));
-      await logServiceWrapper.Log($"RabbitMQ receive Session: {message.SessionId}",message.SessionId);
-      cacheManipulator.Set($"RabbitMQ-receive-Session-{message.SessionId}", message, cachePolicy);
       if (message != null)
       {
         await mediator.Send(message);

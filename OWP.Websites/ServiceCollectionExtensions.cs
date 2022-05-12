@@ -323,7 +323,7 @@ public static class ServiceCollectionExtensions
     
     var sp = services.BuildServiceProvider();
     var pubSubEvent= sp.GetService<PubSubEvent>();
-    pubSubEvent.Subscribe();
+    pubSubEvent?.Subscribe();
     return services;
   }
 }

@@ -53,9 +53,9 @@
       await commandRepository.InsertMessage(messageModels, request.SessionId);
 
       await notify.Notify(messageModels);
-       var leaguesJson = JsonConvert.SerializeObject(messageModels);
+      var mesage = JsonConvert.SerializeObject(messageModels);
       cacheManipulator.Cache($"[NewLeagueNotifyHandler] New_Prematch_League_Receive-{request.SessionId}", request.SessionId);
-      cacheManipulator.Cache($"[NewLeagueNotifyHandler] New_Prematch_League-{request.SessionId}",leaguesJson);
+      cacheManipulator.Cache($"[NewLeagueNotifyHandler] New_Prematch_League-{request.SessionId}",mesage);
 
       await cacheManipulator.RemoveData($"{OLD_PREMATCHLEAGUES_SNAPSHOT_KEY}-{request.SessionId}");
 
