@@ -56,10 +56,6 @@
 
       await commandRepository.InsertMessage(messageModels, request.SessionId);
      
-      foreach (var message in messageModels)
-      {
-        message.ReceivedUserIds= new List<string>{"20902509"};
-      }
       await notify.Notify(messageModels);
       await cacheManipulator.RemoveData($"{OLD_PREMATCHLEAGUES_SNAPSHOT_KEY}-{request.SessionId}");
 
