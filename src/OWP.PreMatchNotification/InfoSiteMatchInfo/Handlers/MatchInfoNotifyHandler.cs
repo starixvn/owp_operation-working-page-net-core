@@ -1,5 +1,6 @@
 ﻿namespace OWP.PreMatchNotification.InfoSiteMatchInfo.Handlers
 {
+  using Fanex.Logging;
   using MediatR;
   using OWP.NotificationRequests;
   using OWP.PreMatchNotification.Constants;

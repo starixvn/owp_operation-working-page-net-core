@@ -29,13 +29,16 @@
 
     private const string OLD_PREMATCHLEAGUES_SNAPSHOT_KEY = "OWP-Old-PreMatchLeagues";
 
+    private readonly LogServiceWrapper logServiceWrapper;
+
     public NewLeagueNotifyHandler(
         CacheManipulatorCommon cacheManipulator,
         ScopedDynamicRepository dynamicRepository,
         NewLeagueValueGenerator newLeagueGenerator,
         MessageFactory messageFactory,
         CommandRepository commandRepository,
-        NotifyServices notify)
+        NotifyServices notify,
+        LogServiceWrapper logServiceWrapper)
     {
       this.cacheManipulator = cacheManipulator;
       this.dynamicRepository = dynamicRepository;
@@ -43,6 +46,7 @@
       this.messageFactory = messageFactory;
       this.commandRepository = commandRepository;
       this.notify = notify;
+      this.logServiceWrapper = logServiceWrapper;
     }
 
     public async Task<Unit> Handle(PrematchNewLeagueNotifyRequest request, CancellationToken cancellationToken)
@@ -51,11 +55,14 @@
       var messageModels = messageFactory.Transform(messages);
 
       await commandRepository.InsertMessage(messageModels, request.SessionId);
-
+     
       await notify.Notify(messageModels);
-
       await cacheManipulator.RemoveData($"{OLD_PREMATCHLEAGUES_SNAPSHOT_KEY}-{request.SessionId}");
 
+      var mesage = JsonConvert.SerializeObject(messageModels);
+      await logServiceWrapper.Log($"[NewLeague] message- {request.SessionId}: ", mesage);
+      cacheManipulator.Cache($"[NewLeagueNotifyHandler] New_Prematch_League_Receive-{request.SessionId}", request.SessionId);
+      
       return await Task.FromResult(Unit.Value);
     }
 

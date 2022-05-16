@@ -16,9 +16,9 @@
         public void Create_ReturnNewLeagueMessages()
         {
             var dateTimeHelper = Substitute.For<DateTimeHelper>();
-            var logger = Substitute.For<ILogger>();
+    
             dateTimeHelper.GetCurrentDate().Returns(new DateTime(2021, 06, 21));
-            var service = new NewLeagueValueGeneratorImp(dateTimeHelper,logger);
+            var service = new NewLeagueValueGeneratorImp(dateTimeHelper);
             var receivedUserIds = MockAssignees().Select(x => x.AssigneeId).ToList();
             var expected = new List<ChangedValue>
             {

@@ -1,6 +1,5 @@
 ﻿namespace OWP.PreMatchNotification.NewLeague.Services
 {
-  using Fanex.Logging;
   using OWP.PreMatchNotification.Constants;
     using OWP.PreMatchNotification.Models;
     using OWP.PreMatchNotification.NewLeague.Models;
@@ -17,12 +16,9 @@
     {
         private readonly DateTimeHelper dateTimeHelper;
 
-        private readonly ILogger logger;
-
-        public NewLeagueValueGeneratorImp(DateTimeHelper dateTimeHelper, ILogger logger)
+        public NewLeagueValueGeneratorImp(DateTimeHelper dateTimeHelper)
         {
             this.dateTimeHelper = dateTimeHelper;
-            this.logger = logger;
         }
 
         public IEnumerable<ChangedValue> Create(IList<PreMatchLeague> oldSnapshot,
@@ -31,15 +27,16 @@
             IList<InfoSiteMatch> infoSiteMatches)
         {
             var newLeagues = GetNewPreMatchLeagues(oldSnapshot, newSnapshot, infoSiteMatches);
+            var changedValue = new List<ChangedValue>();
             foreach (var league in newLeagues)
             {
-                yield return new ChangedValue
-                {
+              changedValue.Add(new ChangedValue{
                     League = league.OWPLeagueName,
                     ReceivedUserIds = assignees.Select(x => x.AssigneeId).ToList(),
                     MessageTypeId = (int)MsgTemplateCode.NewLeague
-                };
+              });
             }
+            return changedValue.ToList();
         }
 
         private IEnumerable<PreMatchLeague> GetNewPreMatchLeagues(IList<PreMatchLeague> oldSnapshot,
@@ -49,6 +46,8 @@
             var currentDate = dateTimeHelper.GetCurrentDate();
             var fromDate = currentDate.AddHours(12);
             var toDate = currentDate.AddDays(1).AddHours(11).AddMinutes(59);
+
+            var preMatchLeagues = new List<PreMatchLeague>();
             foreach (var league in newLeagues)
             {
                 var matches = infoSiteMatches.Where(x =>
@@ -58,9 +57,10 @@
 
                 if (matches.Any())
                 {
-                    yield return league;
+                    preMatchLeagues.Add(league);
                 }
             }
+            return preMatchLeagues;
         }
     }
 }

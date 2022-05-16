@@ -1,5 +1,6 @@
 ﻿namespace OWP.PreMatchNotification.LinkedMatch
 {
+  using Fanex.Logging;
   using MediatR;
   using OWP.NotificationRequests;
   using OWP.PreMatchNotification.Constants;
@@ -16,6 +17,7 @@
     private readonly MessageFactory messageFactory;
     private readonly CommandRepository commandRepository;
     private readonly NotifyServices notify;
+
 
     public LinkedMatchNotifyHandler(
         CacheManipulator cacheManipulator,

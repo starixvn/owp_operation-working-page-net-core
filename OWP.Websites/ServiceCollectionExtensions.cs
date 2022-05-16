@@ -48,6 +48,8 @@ using StackExchange.Redis;
 using OWP.RabbitMQ;
 using OWP.PreMatchNotification;
 using OWP.MatchCountLiveReport;
+using OWP.RedisPubSub;
+using Fanex.Caching;
 
 namespace OWP.Websites;
 
@@ -310,6 +312,18 @@ public static class ServiceCollectionExtensions
   public static IServiceCollection AddRabbitMQ(this IServiceCollection services, IConfiguration configuration)
   {
     services.AddHostedService<NotificationConsumer>();
+    return services;
+  }
+
+  public static IServiceCollection AddRedisPubSub(this IServiceCollection services, IConfiguration configuration){
+    var redisConfig = configuration.GetSection("AuthSettings:RedisConfig").Value;
+    var multiplexer  = ConnectionMultiplexer.Connect(redisConfig);
+    services.AddSingleton<IConnectionMultiplexer>(multiplexer);
+    services.AddTransient<PubSubEvent, PubSubEventImp>();
+    
+    var sp = services.BuildServiceProvider();
+    var pubSubEvent= sp.GetService<PubSubEvent>();
+    pubSubEvent?.Subscribe();
     return services;
   }
 }
