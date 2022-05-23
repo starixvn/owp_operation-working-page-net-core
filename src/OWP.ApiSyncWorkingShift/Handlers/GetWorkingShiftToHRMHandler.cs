@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using OWP.ApiSyncWorkingShift.Models;
 
-namespace OWP.ApiSyncWorkingShift
+namespace OWP.ApiSyncWorkingShift.Handlers
 {
     public class QueryWorkingShiftRequest : IRequest<IEnumerable<WorkingShiftModel>>
     {

@@ -73,6 +73,7 @@
   </Function>
   <Function Name="APISyncWorkingShift">
     <Setting Key="OWP_API_SyncEmployeeWorkingShift_GetWorkingShift" SpName="OWP_API_SyncEmployeeWorkingShift_GetWorkingShift" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+    <Setting Key="OWP_API_SyncWorkingShift_To_HRPP" SpName="OWP_API_SyncWorkingShift_To_HRPP" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
   </Function>
   <Function Name="PreMatchNotification">
     <Setting Key="OWP_PreMatchNotification_QueryLeague" SpName="OWP_PreMatchNotification_QueryLeague" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
