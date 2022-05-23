@@ -1,7 +1,7 @@
 ﻿using Fanex.Data.Repository;
 using OWP.ApiSyncWorkingShift.Criteria;
-using OWP.ApiSyncWorkingShift.Models;
 using OWP.ApiSyncWorkingShift.Handlers;
+using OWP.ApiSyncWorkingShift.Models;
 
 namespace OWP.ApiSyncWorkingShift
 {
@@ -29,7 +29,7 @@ namespace OWP.ApiSyncWorkingShift
             });
 
         public async Task<IEnumerable<WorkingShiftHRPPModel>> QueryWorkingShiftHRPP(QueryWorkingShiftToHRPPRequest request)
-            => await dynamicRepository.FetchAsync<WorkingShiftHRPPModel>(new GetEmployeeWorkingShiftCriteria
+            => await dynamicRepository.FetchAsync<WorkingShiftHRPPModel>(new GetEmployeeWorkingShiftHRPPCriteria
             {
                 FromDate = request.From,
                 ToDate = request.To
