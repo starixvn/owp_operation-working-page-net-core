@@ -15,8 +15,6 @@ namespace OWP.OtherSport.Notification.Services
 
     public class InsertedMatchChangedValueGeneratorImp : InsertedMatchChangedValueGenerator
     {
-        private const string EVENT_VS = " -vs- ";
-
         public IEnumerable<ChangedValue> Create(List<int> matcheIds, AssignmentSnapshot snapshot)
         {
             return CreateEnumerable(matcheIds, snapshot).SelectMany(v => v).Distinct().ToList();
@@ -54,7 +52,7 @@ namespace OWP.OtherSport.Notification.Services
                     OSMatchId = match.OSMatchId,
                     MatchNo = match.MatchNo.ToString(CultureInfo.CurrentCulture),
                     League = match.League,
-                    EventName = match.Home + EVENT_VS + match.Away,
+                    EventName = UpdatedValueHelper.CreateEventName(match),
                     UserId = assignment.UserId,
                     Username = assignment.Username,
                     AssignmentType = assignment.AssignmentType,

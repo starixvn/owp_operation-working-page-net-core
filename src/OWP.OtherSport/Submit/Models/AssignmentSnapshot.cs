@@ -36,6 +36,8 @@
 
         public string Home { get; set; }
 
+        public bool IsNeutral { get; set; }
+
         public string Away { get; set; }
 
         public string League { get; set; }

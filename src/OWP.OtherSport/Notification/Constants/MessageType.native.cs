@@ -19,6 +19,7 @@ namespace OWP.OtherSport.Notification.Constants
             { "MaxBet", (int)MsgTemplateCode.EditMaxbet },
             { "Reporter", (int)MsgTemplateCode.EditReporter },
             { "Provider", (int)MsgTemplateCode.EditProvider },
+            { "IsNeutral", (int)MsgTemplateCode.EditNeutral },
         };
 
         public static int GetMessageTypeIdForChangedMatchInfo(string property)

@@ -22,6 +22,7 @@
         EditReporter = 118,
         EditProvider = 119,
         EditAssignmentNote = 120,
-        EditSpread = 121
+        EditSpread = 121,
+        EditNeutral = 122,
     };
 }

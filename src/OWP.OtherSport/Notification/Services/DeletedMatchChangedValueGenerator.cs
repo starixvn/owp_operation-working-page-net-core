@@ -15,8 +15,6 @@ namespace OWP.OtherSport.Notification.Services
 
     public class DeletedMatchChangedValueGeneratorImp : DeletedMatchChangedValueGenerator
     {
-        private const string EVENT_VS = " -vs- ";
-
         public IEnumerable<ChangedValue> Create(List<int> matcheIds, AssignmentSnapshot snapshot)
         {
             foreach (var matchId in matcheIds)
@@ -48,7 +46,7 @@ namespace OWP.OtherSport.Notification.Services
                 OSMatchId = match.OSMatchId,
                 MatchNo = match.MatchNo.ToString(CultureInfo.CurrentCulture),
                 League = match.League,
-                EventName = match.Home + EVENT_VS + match.Away,
+                EventName = UpdatedValueHelper.CreateEventName(match),
                 UserId = assignment.UserId,
                 Username = assignment.Username,
                 AssignmentType = assignment.AssignmentType,

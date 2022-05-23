@@ -15,8 +15,6 @@ namespace OWP.OtherSport.Notification.Services
 
     public class ChangedAssignmentGeneratorImp : ChangedAssignmentGenerator
     {
-        private const string EVENT_VS = " -vs- ";
-
         private readonly ChangedDetector changeDetector;
 
         public ChangedAssignmentGeneratorImp(ChangedDetector changeDetector)
@@ -68,7 +66,7 @@ namespace OWP.OtherSport.Notification.Services
                     OSMatchId = match.OSMatchId,
                     MatchNo = match.MatchNo.ToString(CultureInfo.CurrentCulture),
                     League = match.League,
-                    EventName = match.Home + EVENT_VS + match.Away,
+                    EventName = UpdatedValueHelper.CreateEventName(match),
                     UserId = assignment.UserId,
                     Username = assignment.Username,
                     EventDateTime = match.DateTime
@@ -106,7 +104,7 @@ namespace OWP.OtherSport.Notification.Services
                     OSMatchId = match.OSMatchId,
                     MatchNo = match.MatchNo.ToString(CultureInfo.CurrentCulture),
                     League = match.League,
-                    EventName = match.Home + EVENT_VS + match.Away,
+                    EventName = UpdatedValueHelper.CreateEventName(match),
                     UserId = assignment.UserId,
                     Username = assignment.Username,
                     EventDateTime = match.DateTime

@@ -3,6 +3,7 @@
     using Constants;
     using Models;
     using OWP.Extensions;
+    using OWP.OtherSport.Notification.Extensions;
     using OWP.OtherSport.Submit.Contants;
     using Submit.Models;
     using System.Globalization;
@@ -15,8 +16,6 @@
 
     public class ChangedMatchSettingGeneratorImp : ChangedMatchSettingGenerator
     {
-        private const string EVENT_VS = " -vs- ";
-
         public List<ChangedValue> Create(ChangedMatchSnapshot snapshot, int matchId, List<Assignee> existingAssignees)
         {
             var newMatchSettings = snapshot.NewSnapshot.MatchSettings.GetValue(matchId, new List<MatchSetting>());
@@ -36,7 +35,7 @@
                     BetTypeName = changed.BetTypeName,
                     MatchNo = matchInfo.MatchNo.ToString(CultureInfo.InvariantCulture),
                     League = matchInfo.League,
-                    EventName = matchInfo.Home + EVENT_VS + matchInfo.Away,
+                    EventName = UpdatedValueHelper.CreateEventName(matchInfo),
                     UserId = a.AssigneeId,
                     Username = a.AssigneeName,
                     OSMatchId = matchId

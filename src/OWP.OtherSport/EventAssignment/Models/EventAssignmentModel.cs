@@ -32,6 +32,10 @@
 
         public string AutoLink { get; set; }
 
+        public bool IsNeutral { get; set; }
+
+        public string HomeName => IsNeutral ? Home + (" (N)") : Home;
+
         public string Provider { get; set; }
 
         public string OtherProvider { get; set; }

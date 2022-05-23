@@ -15,8 +15,6 @@ namespace OWP.OtherSport.Notification.Services
 
     public class ChangedAssignmentNoteGeneratorImp : ChangedAssignmentNoteGenerator
     {
-        private const string EVENT_VS = " -vs- ";
-
         internal class MatchAssignmentComparer : IEqualityComparer<MatchAssignment>
         {
             public bool Equals(MatchAssignment x, MatchAssignment y)
@@ -60,7 +58,7 @@ namespace OWP.OtherSport.Notification.Services
                     OSMatchId = match.OSMatchId,
                     MatchNo = match.MatchNo.ToString(CultureInfo.CurrentCulture),
                     League = match.League,
-                    EventName = match.Home + EVENT_VS + match.Away,
+                    EventName = UpdatedValueHelper.CreateEventName(match),
                     UserId = assignment.UserId,
                     Username = assignment.Username
                 };

@@ -58,8 +58,18 @@
             MapTradersWithNote(excelModel, model);
             MapMaxbetsAndSpreads(excelModel, model);
             MapStatus(excelModel, model);
+            MapIsNeutralMatch(excelModel, model);
 
             return model;
+        }
+
+        public void MapIsNeutralMatch(AssignmentModelInExcel excelModel, AssignmentModel model)
+        {
+            if (excelModel.Home.Trim().EndsWith("(N)"))
+            {
+                model.Home = excelModel.Home.Trim().Replace("(N)", "");
+                model.IsNeutral = true;
+            }
         }
 
         public void MapDateTime(AssignmentModelInExcel excelModel, AssignmentModel model)

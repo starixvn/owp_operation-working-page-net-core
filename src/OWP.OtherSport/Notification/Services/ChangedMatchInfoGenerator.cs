@@ -2,6 +2,7 @@
 {
     using Models;
     using OWP.OtherSport.Notification.Constants;
+    using OWP.OtherSport.Notification.Extensions;
     using OWP.OtherSport.Submit.Models;
     using System.Globalization;
     using System.Reflection;
@@ -27,7 +28,8 @@
             "WB",
             "Remark",
             "Reporter",
-            "Provider"
+            "Provider",
+            "IsNeutral"
         };
 
         public List<ChangedValue> Create(MatchInfo oldMatch, MatchInfo newMatch, List<Assignee> existingAssignees)
@@ -43,7 +45,7 @@
                     OldValue = GetOldValue(oldMatch, changed),
                     League = newMatch.League,
                     MatchNo = newMatch.MatchNo.ToString(CultureInfo.InvariantCulture),
-                    EventName = newMatch.Home + EVENT_VS + newMatch.Away,
+                    EventName = UpdatedValueHelper.CreateEventName(newMatch),
                     UserId = a.AssigneeId,
                     Username = a.AssigneeName
                 });
@@ -55,14 +57,34 @@
         }
 
         public static string GetNewValue(MatchInfo newMatch, ChangedValue changed)
-            => changed.MessageTypeId == MessageType.GetMessageTypeIdForChangedMatchInfo("Home")
-                ? changed.NewValue + EVENT_VS + newMatch.Away
-                : changed.NewValue;
+        {
+            if (changed.MessageTypeId == MessageType.GetMessageTypeIdForChangedMatchInfo("Home"))
+            {
+                return changed.NewValue + EVENT_VS + newMatch.Away;
+            }
+
+            if (changed.MessageTypeId == MessageType.GetMessageTypeIdForChangedMatchInfo("IsNeutral"))
+            {
+                return (changed.NewValue == "False" ? newMatch.Home : (newMatch.Home + " (N)")) + EVENT_VS + newMatch.Away;
+            }
+
+            return changed.NewValue;
+        }
 
         public static string GetOldValue(MatchInfo newMatch, ChangedValue changed)
-        => changed.MessageTypeId == MessageType.GetMessageTypeIdForChangedMatchInfo("Home")
-                ? changed.OldValue + EVENT_VS + newMatch.Away
-                : changed.OldValue;
+        {
+            if (changed.MessageTypeId == MessageType.GetMessageTypeIdForChangedMatchInfo("Home"))
+            {
+                return changed.OldValue + EVENT_VS + newMatch.Away;
+            }
+
+            if (changed.MessageTypeId == MessageType.GetMessageTypeIdForChangedMatchInfo("IsNeutral"))
+            {
+                return (changed.OldValue == "False" ? newMatch.Home : (newMatch.Home + " (N)")) + EVENT_VS + newMatch.Away;
+            }
+
+            return changed.OldValue;
+        }
 
         public List<ChangedValue> GetListValueChanged(MatchInfo oldMatch, MatchInfo newMatch)
         {

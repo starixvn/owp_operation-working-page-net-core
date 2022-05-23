@@ -170,12 +170,12 @@
         {
             var isDuplicated = assignments.Any(x => IsEquals(x.DateTime, assignment.DateTime) &&
                                                     IsEquals(x.League, assignment.League) &&
-                                                    IsEquals(x.Home, assignment.Home) &&
+                                                    IsEquals(x.Home.Replace("(N)", "").Trim(), assignment.Home.Replace("(N)", "").Trim()) &&
                                                     IsEquals(x.Away, assignment.Away));
 
             if (isDuplicated)
             {
-                results.Add(new ValidationResult($"Duplicate Match: {assignment.League} | {assignment.Home} -vs- {assignment.Away}"));
+                results.Add(new ValidationResult($"Duplicate Match: {assignment.League} | {assignment.Home.Replace("(N)", "").Trim()} -vs- {assignment.Away}"));
             }
         }
 

@@ -127,6 +127,11 @@ namespace OWP.OtherSport.Notification.Services
             {
                  MessageType=(int)MsgTemplateCode.EditAssignmentNote,
                  MessageContent="<b>Your Assignment Note</b> Updated from <oldvalue> to <newvalue> for <Match.No> - <League> - <Event> updated by <User>"
+            },
+            new MessageTemplate
+            {
+                MessageType = (int) MsgTemplateCode.EditNeutral,
+                MessageContent = "<Match.No> - <League> - <newvalue> updated by <User>, previous: [ <Match.No> - <League> - <oldvalue>]"
             }
         });
 

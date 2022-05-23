@@ -1,56 +1,56 @@
+using Fanex.Caching;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using OWP.Services;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using OWP.Services;
-using Fanex.Caching;
 
 namespace OWP.RabbitMQ;
 
 public class NotificationConsumer : ConsumerBase, IHostedService
 {
-  private readonly IConfiguration configuration;
+    private readonly IConfiguration configuration;
 
-  private readonly LogServiceWrapper logServiceWrapper;
+    private readonly LogServiceWrapper logServiceWrapper;
 
-  public NotificationConsumer(
-    IMediator mediator,
-    IConfiguration configuration,
-    LogServiceWrapper logServiceWrapper,
-    ICache cacheManipulator
-    ) : base(mediator, configuration, logServiceWrapper,cacheManipulator)
-  {
-    this.configuration = configuration;
-    this.logServiceWrapper = logServiceWrapper;
-  }
+    public NotificationConsumer(
+      IMediator mediator,
+      IConfiguration configuration,
+      LogServiceWrapper logServiceWrapper,
+      ICache cacheManipulator
+      ) : base(mediator, configuration, logServiceWrapper, cacheManipulator)
+    {
+        this.configuration = configuration;
+        this.logServiceWrapper = logServiceWrapper;
+    }
 
-  public virtual async Task StartAsync(CancellationToken cancellationToken)
-  {
-  #if !DEBUG
+    public virtual async Task StartAsync(CancellationToken cancellationToken)
+    {
+#if !DEBUG
     base.ConnectRabbitMQ();
-  #endif
+#endif
 
-    var queue = configuration.GetSection("RabbitMQ:Queue").Value;
+        var queue = configuration.GetSection("RabbitMQ:Queue").Value;
 
-    try
-    {
-      var consumer = new AsyncEventingBasicConsumer(channel);
-      consumer.Received += OnEventReceived;
+        try
+        {
+            var consumer = new AsyncEventingBasicConsumer(channel);
+            consumer.Received += OnEventReceived;
 
-      channel.BasicConsume(queue: queue, autoAck: false, consumer: consumer);
+            channel.BasicConsume(queue: queue, autoAck: false, consumer: consumer);
+        }
+        catch (Exception ex)
+        {
+            await logServiceWrapper.Log("Error while consuming message", ex);
+        }
+
+        return;
     }
-    catch (Exception ex)
+
+    public virtual Task StopAsync(CancellationToken cancellationToken)
     {
-      await logServiceWrapper.Log("Error while consuming message", ex);
+        Dispose();
+        return Task.CompletedTask;
     }
-
-    return;
-  }
-
-  public virtual Task StopAsync(CancellationToken cancellationToken)
-  {
-    Dispose();
-    return Task.CompletedTask;
-  }
 }

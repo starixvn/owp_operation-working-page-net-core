@@ -1,5 +1,6 @@
 ﻿namespace OWP.OtherSport.Notification.Extensions
 {
+    using OWP.OtherSport.Submit.Models;
     using System.Text.RegularExpressions;
 
     public static class UpdatedValueHelper
@@ -13,5 +14,7 @@
                             : Regex.Replace(assignmentNote, USER, $"#{userName}", RegexOptions.IgnoreCase);
             return newValue;
         }
+
+        public static string CreateEventName(MatchInfo match) => (match.IsNeutral ? $"{match.Home} (N)" : match.Home) + " -vs- " + match.Away;
     }
 }

@@ -89,7 +89,8 @@
             reportSheet.Cells[row, MatchInfoConst.SportColIndex].Value = assignment.Sport;
             reportSheet.Cells[row, MatchInfoConst.DateTimeColIndex].Value = assignment.DateTime;
             reportSheet.Cells[row, MatchInfoConst.LeagueColIndex].Value = assignment.League;
-            reportSheet.Cells[row, MatchInfoConst.HomeColIndex].Value = assignment.Home;
+            reportSheet.Cells[row, MatchInfoConst.HomeColIndex].Value =
+                GetHomeName(assignment.Home, assignment.IsNeutral);
             reportSheet.Cells[row, MatchInfoConst.AwayColIndex].Value = assignment.Away;
             reportSheet.Cells[row, MatchInfoConst.CategoryColIndex].Value = assignment.Category;
             reportSheet.Cells[row, MatchInfoConst.NoHDPColIndex].Value = assignment.NoHDP;
@@ -111,6 +112,9 @@
                 reportSheet.Cells[row, assignment.ColumnIndex].Value = assignment.Value;
             }
         }
+
+        private string GetHomeName(string homeName, bool isNeutral)
+            => isNeutral ? homeName + " (N)" : homeName;
 
         private void BuildMatchSettings(int row, List<ExcelMatchMaxBetSpread> matchSettings)
         {
