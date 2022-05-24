@@ -51,17 +51,16 @@ public abstract class RabbitMqClient : IDisposable
         durable: true,
         autoDelete: false);
 
-    var result=channel.QueueDeclare(
-        queue: "",
+    channel.QueueDeclare(
+        queue: queue,
         durable: true,
         exclusive: false,
         autoDelete: false);
-        var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromDays(1));
-cacheManipulator.Set($"queue name: {result.QueueName}", result.QueueName, cachePolicy);
+
     foreach (var key in RoutingKey.Keys)
     {
       channel.QueueBind(
-      queue: result.QueueName,
+      queue: queue,
       exchange: exchange,
       routingKey: key);
     }
