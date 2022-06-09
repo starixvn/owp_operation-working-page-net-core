@@ -37,8 +37,7 @@
 
             public List<AssignmentValidationRowResult> ValidationResults { get; set; }
 
-            public bool IsSuccessful => string.IsNullOrEmpty(Exception)
-                                        && ValidationResults.Count == 0;
+            public bool IsSuccessful { get; set; }
         }
 
         public class Handler : IRequestHandler<Request, Response>
@@ -85,11 +84,13 @@
                         }
                     };
 
+                    result.IsSuccessful = false;
                     result.ValidationResults = validationResults;
                     result.Exception = ex.Message;
                 }
                 catch (InvalidAssignmentRowException ex)
                 {
+                    result.IsSuccessful = false;
                     result.ValidationResults = ex.ValidationResults;
                     result.Exception = ex.Message;
                 }

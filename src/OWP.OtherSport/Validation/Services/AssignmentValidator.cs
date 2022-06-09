@@ -236,21 +236,21 @@
             foreach (var match in matchInfos)
             {
                 var row = assigments.FindIndex(x => x.League.Equals(match.League)
-                    && x.DateTime.Equals(match.DateTime)
+                    && DateTime.FromOADate(double.Parse(x.DateTime, CultureInfo.InvariantCulture)).Equals(match.DateTime)
                     && x.Home.Equals(match.Home)
                     && x.Away.Equals(match.Away)
                     && x.Sport.Equals(match.Sport)) + 2;
 
-                var validationRowResult = match.Id.HasValue ? new AssignmentValidationRowResult()
+                var validationRowResult = !match.Id.HasValue ? new AssignmentValidationRowResult()
                 {
-                    ErrorCode = 200,
-                    Message = match.ToString(),
+                    ErrorCode = 2,
+                    Message = $"Unable to delete match: {match.ToString()}",
                     Row = row
                 }
                 : new AssignmentValidationRowResult()
                 {
-                    ErrorCode = 201,
-                    Message = match.ToString(),
+                    ErrorCode = 3,
+                    Message = $"Confirm this match will be deleted: {match.ToString()}",
                     Row = row
                 };
 
@@ -272,9 +272,12 @@
                 League = y.League
             }).ToList();
 
-            var result = await repository.ExistsOSMatch(deleteMatch);
+            var yesDeleteMatch = await repository.ExistsOSMatch(deleteMatch);
+            var noDeleteMatch = deleteMatch.Where(x => !yesDeleteMatch.ToList().Any(r => r.Equals(x)));
 
-            return result;
+            var result = yesDeleteMatch.Concat(noDeleteMatch);
+
+            return result.ToList();
         }
     }
 }

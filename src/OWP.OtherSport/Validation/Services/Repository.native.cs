@@ -9,7 +9,7 @@
     {
         Task<List<Trader>> GetTraders(List<string> traderNames);
 
-        Task<List<OSMatchInfo>> ExistsOSMatch(List<OSMatchInfo> matchInfos);
+        Task<IEnumerable<OSMatchInfo>> ExistsOSMatch(List<OSMatchInfo> matchInfos);
     }
 
     public class RepositoryImp : Repository
@@ -21,7 +21,7 @@
             this.repository = repository;
         }
 
-        public async Task<List<OSMatchInfo>> ExistsOSMatch(List<OSMatchInfo> matchInfos)
+        public async Task<IEnumerable<OSMatchInfo>> ExistsOSMatch(List<OSMatchInfo> matchInfos)
         {
             var criteria = new ExistsOSMatchCriteria
             {
@@ -30,7 +30,7 @@
 
             var result = await repository.FetchAsync<OSMatchInfo>(criteria);
 
-            return result.ToList();
+            return result;
         }
 
         public async Task<List<Trader>> GetTraders(List<string> traderNames)

@@ -1,6 +1,6 @@
 ﻿namespace OWP.OtherSport.Validation.Models;
 
-public class OSMatchInfo
+public class OSMatchInfo : IEquatable<OSMatchInfo>
 {
     public int? Id { get; set; }
     public DateTime DateTime { get; set; }
@@ -8,7 +8,15 @@ public class OSMatchInfo
     public string Home { get; set; }
     public string Away { get; set; }
     public string Sport { get; set; }
-    public bool canDelete { get; set; }
 
-    public override string ToString() => $"({DateTime.ToString("yyyy-MM-dddd H:mm:ss")},{League}, {Home}, {Away}, {Sport})";
+    public bool Equals(OSMatchInfo other)
+    {
+        return Home == other.Home
+            && Away == other.Away
+            && DateTime == other.DateTime
+            && Sport == other.Sport
+            && League == other.League;
+    }
+
+    public override string ToString() => $"(DateTime: {DateTime.ToString("yyyy-MM-dd H:mm:ss")}, League: {League}, Home: {Home}, Away: {Away}, Sport: {Sport})";
 }
