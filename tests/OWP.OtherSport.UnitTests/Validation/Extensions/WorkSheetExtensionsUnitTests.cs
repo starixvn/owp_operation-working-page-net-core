@@ -42,6 +42,7 @@
                     {"IPTV", 0},
                     {"Streaming Info (WB)", 0},
                     {"Remark", 0},
+                    {"Action", 0},
                     {"Trader Basketball FT (HDP)", 0},
                     {"Trader Basketball 1H (HDP)", 0},
                     {"Trader Basketball 1Q & 3Q (HDP)", 0},
@@ -343,9 +344,9 @@
             worksheet.Cells[2, 13].Value = "BGtv/RB2tv/BETtv/";
             worksheet.Cells[2, 14].Value = "InPlay";
             worksheet.Cells[2, 15].Value = "Euro40";
-            worksheet.Cells[2, 19].Value = "starix1";
+            worksheet.Cells[2, 19].Value = "";
             worksheet.Cells[2, 20].Value = "starix2";
-            worksheet.Cells[2, 159].Value = "50000";
+            worksheet.Cells[2, 160].Value = "50000";
 
             worksheet.Cells[3, 1].Value = null;
             worksheet.Cells[3, 2].Value = null;
@@ -363,7 +364,7 @@
             worksheet.Cells[3, 14].Value = null;
             worksheet.Cells[3, 17].Value = null;
             worksheet.Cells[3, 18].Value = null;
-            worksheet.Cells[3, 157].Value = null;
+            worksheet.Cells[3, 158].Value = null;
 
             worksheet.Cells[4, 2].Value = "Live";
             worksheet.Cells[4, 3].Value = "Soccer";
@@ -379,9 +380,9 @@
             worksheet.Cells[4, 13].Value = "BGtv/RB2tv/BETtv/";
             worksheet.Cells[4, 14].Value = "InPlay";
             worksheet.Cells[4, 15].Value = "Euro40";
-            worksheet.Cells[4, 19].Value = "starix1";
+            worksheet.Cells[4, 19].Value = "";
             worksheet.Cells[4, 20].Value = "starix2";
-            worksheet.Cells[4, 159].Value = "50000";
+            worksheet.Cells[4, 160].Value = "50000";
 
             worksheet.Cells[4, 2].Value = "Basketball";
             worksheet.Cells[5, 2].Value = "Football";
@@ -417,10 +418,11 @@
                 IPTV = "Euro40",
                 WB = string.Empty,
                 Remark = string.Empty,
+                Action = "",
                 MatchNo = string.Empty,
                 Reporter = string.Empty,
-                TraderBasketballFTHDP = "starix1",
-                TraderBasketball1HHDP = "starix2",
+                TraderBasketballFTHDP = "starix2",
+                TraderBasketball1HHDP = "",
                 TraderBasketball1Q3QHDP = string.Empty,
                 TraderBasketballFTOUOE = string.Empty,
                 TraderBasketball1HOUOE = string.Empty,

@@ -11,7 +11,7 @@
 
     public interface AssignmentValidator
     {
-        Task Validate(UploadingDataFromExcel rawDataFromExcel,
+        void Validate(UploadingDataFromExcel rawDataFromExcel,
             List<Trader> traders);
 
         void ValidateMatchNo(AssignmentModelInExcel assignment, List<ValidationResult> results);
@@ -34,7 +34,7 @@
             this.repository = repository;
         }
 
-        public async Task Validate(UploadingDataFromExcel rawDataFromExcel, List<Trader> traders)
+        public void Validate(UploadingDataFromExcel rawDataFromExcel, List<Trader> traders)
         {
             var validationResults = new List<AssignmentValidationRowResult>();
             var warningDeleteResults = new List<AssignmentValidationRowResult>();
@@ -44,7 +44,7 @@
                 var rowIndex = i;
                 var assignments = rawDataFromExcel.Assignments.ToList();
                 assignments.RemoveAt(i); //Remove match at i for duplicate matches validation
-                var isDeleteMatch = rawDataFromExcel.Assignments[i].Action.Contains("delete");
+                var isDeleteMatch = rawDataFromExcel.Assignments[i].Action == "delete";
                 var validationResultsOfAssignment = isDeleteMatch ? ValidateAssignmentForDeleteMatch(rawDataFromExcel.Assignments[i], assignments, traders)
                                                                   : CustomValidateAssignment(rawDataFromExcel.Assignments[i], assignments, traders);
                 ValidationHelper.BuildValidationRowResult(
@@ -244,13 +244,13 @@
                 var validationRowResult = !match.Id.HasValue ? new AssignmentValidationRowResult()
                 {
                     ErrorCode = 2,
-                    Message = $"Unable to delete match: {match.ToString()}",
+                    Message = $"{match.ToString()}",
                     Row = row
                 }
                 : new AssignmentValidationRowResult()
                 {
                     ErrorCode = 3,
-                    Message = $"Confirm this match will be deleted: {match.ToString()}",
+                    Message = $"{match.ToString()}",
                     Row = row
                 };
 

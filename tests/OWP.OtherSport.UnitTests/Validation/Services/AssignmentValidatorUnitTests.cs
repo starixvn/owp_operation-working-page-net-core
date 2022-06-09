@@ -1,5 +1,6 @@
 ﻿namespace OWP.OtherSport.UnitTests.Validation.Services
 {
+    using NSubstitute;
     using OWP.OtherSport.Validation.Models;
     using OWP.OtherSport.Validation.Services;
 
@@ -10,10 +11,12 @@
     public class AssignmentValidatorUnitTests
     {
         private readonly AssignmentValidatorImp assignmentValidator;
+        private readonly Repository repository;
 
         public AssignmentValidatorUnitTests()
         {
-            assignmentValidator = new AssignmentValidatorImp();
+            repository = Substitute.For<Repository>();
+            assignmentValidator = new AssignmentValidatorImp(repository);
         }
 
         [Fact]

@@ -32,7 +32,7 @@
 
             var traders = await repository.GetTraders(rawDataFromExcel.Traders);
 
-            await assignmentValidator.Validate(rawDataFromExcel, traders);
+            assignmentValidator.Validate(rawDataFromExcel, traders);
 
             var warningDeleteResults = await assignmentValidator.WarningDeleteMatch(rawDataFromExcel.Assignments);
 
