@@ -44,9 +44,9 @@
                 var rowIndex = i;
                 var assignments = rawDataFromExcel.Assignments.ToList();
                 assignments.RemoveAt(i); //Remove match at i for duplicate matches validation
-
-                var validationResultsOfAssignment = CustomValidateAssignment(rawDataFromExcel.Assignments[i], assignments, traders);
-
+                var isDeleteMatch = rawDataFromExcel.Assignments[i].Action == "delete";
+                var validationResultsOfAssignment = isDeleteMatch ? ValidateAssignmentForDeleteMatch(rawDataFromExcel.Assignments[i], assignments, traders) 
+                                                                  : CustomValidateAssignment(rawDataFromExcel.Assignments[i], assignments, traders);
                 ValidationHelper.BuildValidationRowResult(
                    validationResultsOfAssignment,
                    validationResults,
@@ -72,6 +72,14 @@
             ValidateDuplicatedMatch(assignment, assigments, results);
             ValidateDateTime(assignment, results);
             ValidateMaxbetAndSpreadInString(assignment, results);
+
+            return results;
+        }
+
+        public List<ValidationResult> ValidateAssignmentForDeleteMatch(AssignmentModelInExcel assignment, List<AssignmentModelInExcel> assigments, List<Trader> traders)
+        {
+            var results = new List<ValidationResult>();
+            ValidateDuplicatedMatch(assignment, assigments, results);
 
             return results;
         }
@@ -182,7 +190,8 @@
             var isDuplicated = assignments.Any(x => IsEquals(x.DateTime, assignment.DateTime) &&
                                                     IsEquals(x.League, assignment.League) &&
                                                     IsEquals(x.Home.Replace("(N)", "").Trim(), assignment.Home.Replace("(N)", "").Trim()) &&
-                                                    IsEquals(x.Away, assignment.Away));
+                                                    IsEquals(x.Away, assignment.Away) &&
+                                                    IsEquals(x.Sport,assignment.Sport));
 
             if (isDuplicated)
             {
