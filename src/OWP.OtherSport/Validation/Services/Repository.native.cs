@@ -1,12 +1,15 @@
 ﻿namespace OWP.OtherSport.Validation.Services
 {
     using Fanex.Data.Repository;
+    using Newtonsoft.Json;
     using OWP.OtherSport.Validation.Criteria;
     using OWP.OtherSport.Validation.Models;
 
     public interface Repository
     {
         Task<List<Trader>> GetTraders(List<string> traderNames);
+
+        Task<List<OSMatchInfo>> ExistsOSMatch(List<OSMatchInfo> matchInfos);
     }
 
     public class RepositoryImp : Repository
@@ -16,6 +19,18 @@
         public RepositoryImp(IDynamicRepository repository)
         {
             this.repository = repository;
+        }
+
+        public async Task<List<OSMatchInfo>> ExistsOSMatch(List<OSMatchInfo> matchInfos)
+        {
+            var criteria = new ExistsOSMatchCriteria
+            {
+                OSMatches = JsonConvert.SerializeObject(matchInfos)
+            };
+
+            var result = await repository.FetchAsync<OSMatchInfo>(criteria);
+
+            return result.ToList();
         }
 
         public async Task<List<Trader>> GetTraders(List<string> traderNames)

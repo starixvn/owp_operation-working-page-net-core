@@ -60,6 +60,7 @@
             MapStatus(excelModel, model);
             MapIsNeutralMatch(excelModel, model);
 
+
             return model;
         }
 

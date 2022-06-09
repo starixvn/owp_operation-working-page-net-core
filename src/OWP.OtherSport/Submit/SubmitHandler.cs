@@ -94,7 +94,9 @@
             try
             {
                 await cacheManipulator.SaveUserWhoIsUploadingAssignment(eventDates, session.UserName);
+
                 await SaveDataAndCleanupCache(eventDates, assignments, sessionId);
+
                 await cacheManipulator.SaveLastUpdate(
                     new LastUpdateInfo
                     {

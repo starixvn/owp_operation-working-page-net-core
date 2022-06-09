@@ -5,12 +5,13 @@
     using OWP.OtherSport.Validation.Models;
 
     using System.ComponentModel.DataAnnotations;
+    using System.Globalization;
     using System.Reflection;
     using System.Text.RegularExpressions;
 
     public interface AssignmentValidator
     {
-        void Validate(UploadingDataFromExcel rawDataFromExcel,
+        Task Validate(UploadingDataFromExcel rawDataFromExcel,
             List<Trader> traders);
 
         void ValidateMatchNo(AssignmentModelInExcel assignment, List<ValidationResult> results);
@@ -20,13 +21,23 @@
         void ValidateDateTime(AssignmentModelInExcel assignment, List<ValidationResult> results);
 
         void ValidateMaxbetAndSpreadInString(AssignmentModelInExcel assignment, List<ValidationResult> results);
+
+        Task<List<AssignmentValidationRowResult>> WarningDeleteMatch(List<AssignmentModelInExcel> assigments);
     }
 
     public class AssignmentValidatorImp : AssignmentValidator
     {
-        public void Validate(UploadingDataFromExcel rawDataFromExcel, List<Trader> traders)
+        private readonly Repository repository;
+
+        public AssignmentValidatorImp(Repository repository)
+        {
+            this.repository = repository;
+        }
+
+        public async Task Validate(UploadingDataFromExcel rawDataFromExcel, List<Trader> traders)
         {
             var validationResults = new List<AssignmentValidationRowResult>();
+            var warningDeleteResults = new List<AssignmentValidationRowResult>();
 
             for (var i = 0; i < rawDataFromExcel.Assignments.Count; i++)
             {
@@ -206,6 +217,55 @@
             }
 
             return validationResults.OrderBy(x => x.Row).ToList();
+        }
+
+        public async Task<List<AssignmentValidationRowResult>> WarningDeleteMatch(List<AssignmentModelInExcel> assigments)
+        {
+            var results = new List<AssignmentValidationRowResult>();
+            var matchInfos = await DelatableMatches(assigments);
+
+            foreach (var match in matchInfos)
+            {
+                var row = assigments.FindIndex(x => x.League.Equals(match.League)
+                    && x.DateTime.Equals(match.DateTime)
+                    && x.Home.Equals(match.Home)
+                    && x.Away.Equals(match.Away)
+                    && x.Sport.Equals(match.Sport)) + 2;
+
+                var validationRowResult = match.Id.HasValue ? new AssignmentValidationRowResult()
+                {
+                    ErrorCode = 200,
+                    Message = match.ToString(),
+                    Row = row
+                }
+                : new AssignmentValidationRowResult()
+                {
+                    ErrorCode = 201,
+                    Message = match.ToString(),
+                    Row = row
+                };
+
+                results.Add(validationRowResult);
+            }
+
+            return results;
+        }
+
+        private async Task<List<OSMatchInfo>> DelatableMatches(List<AssignmentModelInExcel> assignments)
+        {
+            var deleteMatch = assignments.Where(x => x.Action.Equals("delete"))
+            .Select(y => new OSMatchInfo
+            {
+                Home = y.Home,
+                Away = y.Away,
+                DateTime = DateTime.FromOADate(double.Parse(y.DateTime, CultureInfo.InvariantCulture)),
+                Sport = y.Sport,
+                League = y.League
+            }).ToList();
+
+            var result = await repository.ExistsOSMatch(deleteMatch);
+
+            return result;
         }
     }
 }

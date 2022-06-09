@@ -1062,5 +1062,7 @@
 
         [Display(Name = "Spread Tennis Most Double Faults")]
         public string SpreadTennisMostDoubleFaults { get; set; }
+
+        public override string ToString() => $"{DateTime},{League},{Home},{Away},{Sport}";
     }
 }
