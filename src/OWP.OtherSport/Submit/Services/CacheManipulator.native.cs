@@ -19,6 +19,8 @@
 
         Task SaveLastUpdate(LastUpdateInfo info);
 
+        Task SaveDeletedMatchesSnapshot(List<DeletedMatch> deletedMatches);
+
         Task<LastUpdateInfo> GetLastUpdate();
     }
 
@@ -26,6 +28,7 @@
     {
         private const string KEY_OS_ASSIGNMENT = "OWP-OS-AssignmentUpload";
         private const string KEY_OLD_OS_ASSIGNMENT_SNAPSHOT = "OWP-Old-OS-Assignment";
+        private const string KEY_DELETED_MATCHES_SNAPSHOT = "OS-DELETED-MATCH";
         private const string KEY_USER_WHO_IS_OS_UPLOADING_ASSIGNMENT = "OWP-User-Who-Is-OS-Uploading-Assignemnt";
         private const int CACHE_EXPIRED_IN_DAYS = 36500;
         private const int CACHE_USER_WHO_IS_ULOADING_ASSIGNMENT_EXPIRED_IN_MINUTE = 30;
@@ -54,6 +57,14 @@
             var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromDays(365));
             var assignmentSnapshotInJson = JsonConvert.SerializeObject(assignmentSnapshot);
             var cacheKey = $"{KEY_OLD_OS_ASSIGNMENT_SNAPSHOT}-{sessionId}";
+            await cache.SetAsync(cacheKey, assignmentSnapshotInJson, cachePolicy);
+        }
+
+        public async Task SaveDeletedMatchesSnapshot(List<DeletedMatch> deletedMatches)
+        {
+            var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromDays(1));
+            var assignmentSnapshotInJson = JsonConvert.SerializeObject(deletedMatches);
+            var cacheKey = $"{KEY_DELETED_MATCHES_SNAPSHOT}";
             await cache.SetAsync(cacheKey, assignmentSnapshotInJson, cachePolicy);
         }
 

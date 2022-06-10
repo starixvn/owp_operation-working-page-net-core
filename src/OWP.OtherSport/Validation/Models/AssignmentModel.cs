@@ -179,6 +179,8 @@
 
         public string Away { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         public string League { get; set; }
 
         public string Category { get; set; }

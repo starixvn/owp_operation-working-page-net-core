@@ -113,9 +113,14 @@
         private async Task SaveDataAndCleanupCache(List<DateTime> eventDates, List<AssignmentModel> assignments, string sessionId)
         {
             var eventDateInString = string.Join(',', eventDates);
+            var deletedAssignments = assignments.Where(x => x.IsDeleted).ToList();
+            var newAssignments = assignments.Except(deletedAssignments).ToList();
+            var deletedMatches = await GetDeletedMatchInfo(deletedAssignments);
+            var deletedMatchIdsInString = string.Join(",", deletedMatches.Select(i => i.OSMatchId));
 
+            await SaveDeletedMatchesToSnapshot(deletedMatches);
             await SaveOldAssignmentsToSnapshot(eventDateInString, sessionId);
-            await SaveAssignmentsToDatabase(assignments, eventDateInString);
+            await SaveAssignmentsToDatabase(newAssignments, deletedMatchIdsInString);
         }
 
         public async Task SaveOldAssignmentsToSnapshot(string eventDateInString, string sessionId)
@@ -124,7 +129,25 @@
             await cacheManipulator.SaveOldAssignmentSnapshot(oldSnapshot, sessionId);
         }
 
-        public async Task SaveAssignmentsToDatabase(List<AssignmentModel> newAssignments, string eventDateInString)
-            => await commandRepository.Update(eventDateInString, newAssignments);
+        public async Task<List<DeletedMatch>> GetDeletedMatchInfo(IList<AssignmentModel> deletedAssignments)
+        {
+            var matchInfo = deletedAssignments.Select(i => new OSMatchInfo
+            {
+                Id = i.OSMatchId,
+                Home = i.Home,
+                Away = i.Away,
+                DateTime = i.DateTime,
+                Sport = i.Sport,
+                League = i.League
+            }).ToList();
+
+            return await commandRepository.GetDeletedMatchInfo(matchInfo);
+        }
+
+        public async Task SaveAssignmentsToDatabase(List<AssignmentModel> newAssignments, string deletedMatchIds)
+            => await commandRepository.Update(deletedMatchIds, newAssignments);
+
+        public async Task SaveDeletedMatchesToSnapshot(List<DeletedMatch> deletedMatches)
+            => await cacheManipulator.SaveDeletedMatchesSnapshot(deletedMatches);
     }
 }

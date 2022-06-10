@@ -64,6 +64,7 @@
     <Setting Key="OWP_OSLiveGameAssignment_Query" SpName="OWP_OSLiveGameAssignment_Query" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_AssignmentUpload_MessageInsert" SpName="OWP_AssignmentUpload_MessageInsert" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     <Setting Key="OWP_OSLiveGameAssignment_GetEventStatusFromMainDB" SpName="OWP_OSLiveGameAssignment_GetEventStatusFromMainDB" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+    <Setting Key="OWP_OSAssignmentUpload_GetDeletedMatchesInfo" SpName="OWP_OSAssignmentUpload_GetDeletedMatchesInfo" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
   </Function>
   <Function Name="OtherSport">
     <Setting Key="OWP_ProductAssignment_GetUserBy_User_Role_Section" SpName="OWP_ProductAssignment_GetUserBy_User_Role_Section" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
