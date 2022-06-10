@@ -62,10 +62,10 @@
 
         public async Task SaveDeletedMatchesSnapshot(List<DeletedMatch> deletedMatches)
         {
-            var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromDays(1));
-            var assignmentSnapshotInJson = JsonConvert.SerializeObject(deletedMatches);
+            var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromHours(1));
+            var deletedMatchesSnapshotInJson = JsonConvert.SerializeObject(deletedMatches);
             var cacheKey = $"{KEY_DELETED_MATCHES_SNAPSHOT}";
-            await cache.SetAsync(cacheKey, assignmentSnapshotInJson, cachePolicy);
+            await cache.SetAsync(cacheKey, deletedMatchesSnapshotInJson, cachePolicy);
         }
 
         public async Task<string> GetUserWhoIsUploadingAssignment(DateTime eventDate)
