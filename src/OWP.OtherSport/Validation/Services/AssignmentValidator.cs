@@ -88,19 +88,19 @@
         {
             if (!ValidationHelper.IsValidateSport(assignment.Sport))
             {
-                results.Add(new ValidationResult($"Column Sport - Invalid sport"));
+                results.Add(new ValidationResult("Column Sport - Invalid sport"));
             }
             if (string.IsNullOrWhiteSpace(assignment.League))
             {
-                results.Add(new ValidationResult($"League is required"));
+                results.Add(new ValidationResult("League is required"));
             }
             if (string.IsNullOrWhiteSpace(assignment.Home))
             {
-                results.Add(new ValidationResult($"Home is required"));
+                results.Add(new ValidationResult("Home is required"));
             }
             if (string.IsNullOrWhiteSpace(assignment.Away))
             {
-                results.Add(new ValidationResult($"Away is required"));
+                results.Add(new ValidationResult("Away is required"));
             }
         }
 
