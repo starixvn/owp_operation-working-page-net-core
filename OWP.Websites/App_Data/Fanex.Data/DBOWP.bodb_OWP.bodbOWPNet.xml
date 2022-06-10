@@ -56,6 +56,7 @@
 		<Setting Key="OWP_API_SyncMaxbet_GetMatchInfoByAdminsiteId" SpName="OWP_API_SyncMaxbet_GetMatchInfoByAdminsiteId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 	</Function>
 	<Function Name="OtherSport">
+		<Setting Key="OWP_OSAssignmentUpload_ExistsOSMatch" SpName="OWP_OSAssignmentUpload_ExistsOSMatch" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_OSAssignmentUpload_MatchesDelete" SpName="OWP_OSAssignmentUpload_MatchesDelete" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_OSAssignmentUpload_GetAllMatchesByDateList" SpName="OWP_OSAssignmentUpload_GetAllMatchesByDateList" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_OSAssignmentUpload_GetMatchIdsByDateList" SpName="OWP_OSAssignmentUpload_GetMatchIdsByDateList" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
@@ -87,7 +88,6 @@
 		<Setting Key="OWP_PrematchNotification_GetLinkedOWPMatch" SpName="OWP_PrematchNotification_GetLinkedOWPMatch" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_PreMatchNotification_QueryInfoSiteMatchByOWPLeagueIds" SpName="OWP_PreMatchNotification_QueryInfoSiteMatchByOWPLeagueIds" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_PreMatchNotification_QueryInfoSiteMatchesByDateRange" SpName="OWP_PreMatchNotification_QueryInfoSiteMatchesByDateRange" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-		<Setting Key="OWP_OSAssignmentUpload_ExistsOSMatch" SpName="OWP_OSAssignmentUpload_ExistsOSMatch" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 	</Function>
 	<Function Name="TicketSetting">
 		<Setting Key="OWP_TicketSetting_GetAllRecipients" SpName="OWP_TicketSetting_GetAllRecipients" DbName="DBOWP.bodb_OWP.bodbOWPNet" />

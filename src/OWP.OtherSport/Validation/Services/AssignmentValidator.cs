@@ -37,7 +37,6 @@
         public void Validate(UploadingDataFromExcel rawDataFromExcel, List<Trader> traders)
         {
             var validationResults = new List<AssignmentValidationRowResult>();
-            var warningDeleteResults = new List<AssignmentValidationRowResult>();
 
             for (var i = 0; i < rawDataFromExcel.Assignments.Count; i++)
             {
@@ -262,13 +261,13 @@
                     && x.Away.Equals(match.Away)
                     && x.Sport.Equals(match.Sport)) + 2;
 
-                var validationRowResult = !match.Id.HasValue ? new AssignmentValidationRowResult()
+                var validationRowResult = !match.Id.HasValue ? new AssignmentValidationRowResult
                 {
-                    ErrorCode = 2,
+                    ErrorCode = 2, // unable delete
                     Message = $"{match.ToString()}",
                     Row = row
                 }
-                : new AssignmentValidationRowResult()
+                : new AssignmentValidationRowResult
                 {
                     ErrorCode = 3,
                     Message = $"{match.ToString()}",
@@ -294,7 +293,7 @@
             }).ToList();
 
             var yesDeleteMatch = await repository.ExistsOSMatch(deleteMatch);
-            var noDeleteMatch = deleteMatch.Where(x => !yesDeleteMatch.ToList().Any(r => r.Equals(x)));
+            var noDeleteMatch = deleteMatch.Where(x => !yesDeleteMatch.Any(r => r.Equals(x)));
 
             var result = yesDeleteMatch.Concat(noDeleteMatch);
 
