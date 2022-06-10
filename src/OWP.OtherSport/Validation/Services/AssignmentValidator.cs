@@ -80,10 +80,31 @@
         {
             var results = new List<ValidationResult>();
             ValidateDuplicatedMatch(assignment, assigments, results);
-
+            ValidateInfoDeletedMatch(assignment, results);
+            ValidateDateTime(assignment, results);
             return results;
         }
 
+        private static void ValidateInfoDeletedMatch(AssignmentModelInExcel assignment, List<ValidationResult> results)
+        {
+            if (!ValidationHelper.IsValidateSport(assignment.Sport))
+            {
+                results.Add(new ValidationResult($"Column Sport - Invalid sport"));
+            }
+            if (string.IsNullOrWhiteSpace(assignment.League))
+            {
+                results.Add(new ValidationResult($"League is required"));
+            }
+            if (string.IsNullOrWhiteSpace(assignment.Home))
+            {
+                results.Add(new ValidationResult($"Home is required"));
+            }
+             if (string.IsNullOrWhiteSpace(assignment.Away))
+            {
+                results.Add(new ValidationResult($"Away is required"));
+            }
+        }
+        
         public void ValidateMatchNo(AssignmentModelInExcel assignment, List<ValidationResult> results)
         {
             if (string.IsNullOrWhiteSpace(assignment.MatchNo))
@@ -98,7 +119,7 @@
                 }
             }
         }
-
+        
         public void ValidateTraders(AssignmentModelInExcel assignment, List<ValidationResult> results, List<Trader> traders)
         {
             var invalidTraders = traders.Where(t => t.UserId == 0).Select(t => t.Username).ToList();
