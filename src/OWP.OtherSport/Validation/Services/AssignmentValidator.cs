@@ -99,12 +99,12 @@
             {
                 results.Add(new ValidationResult($"Home is required"));
             }
-             if (string.IsNullOrWhiteSpace(assignment.Away))
+            if (string.IsNullOrWhiteSpace(assignment.Away))
             {
                 results.Add(new ValidationResult($"Away is required"));
             }
         }
-        
+
         public void ValidateMatchNo(AssignmentModelInExcel assignment, List<ValidationResult> results)
         {
             if (string.IsNullOrWhiteSpace(assignment.MatchNo))
@@ -119,7 +119,7 @@
                 }
             }
         }
-        
+
         public void ValidateTraders(AssignmentModelInExcel assignment, List<ValidationResult> results, List<Trader> traders)
         {
             var invalidTraders = traders.Where(t => t.UserId == 0).Select(t => t.Username).ToList();
