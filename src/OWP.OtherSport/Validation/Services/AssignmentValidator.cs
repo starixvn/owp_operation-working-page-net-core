@@ -43,7 +43,8 @@
                 var rowIndex = i;
                 var assignments = rawDataFromExcel.Assignments.ToList();
                 assignments.RemoveAt(i); //Remove match at i for duplicate matches validation
-                var isDeleteMatch = rawDataFromExcel.Assignments[i].Action == "delete";
+                var actionColumnContent = rawDataFromExcel.Assignments[i].Action;
+                var isDeleteMatch = (actionColumnContent ?? "").Contains("delete");
                 var validationResultsOfAssignment = isDeleteMatch ? ValidateAssignmentForDeleteMatch(rawDataFromExcel.Assignments[i], assignments, traders)
                                                                   : CustomValidateAssignment(rawDataFromExcel.Assignments[i], assignments, traders);
                 ValidationHelper.BuildValidationRowResult(
@@ -251,7 +252,7 @@
         public async Task<List<AssignmentValidationRowResult>> WarningDeleteMatch(List<AssignmentModelInExcel> assigments)
         {
             var results = new List<AssignmentValidationRowResult>();
-            var matchInfos = await DelatableMatches(assigments);
+            var matchInfos = await DeletableMatches(assigments);
 
             foreach (var match in matchInfos)
             {
@@ -280,7 +281,7 @@
             return results;
         }
 
-        private async Task<List<OSMatchInfo>> DelatableMatches(List<AssignmentModelInExcel> assignments)
+        private async Task<List<OSMatchInfo>> DeletableMatches(List<AssignmentModelInExcel> assignments)
         {
             var deleteMatch = assignments.Where(x => x.Action.Contains("delete"))
             .Select(y => new OSMatchInfo

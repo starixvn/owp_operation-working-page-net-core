@@ -447,9 +447,82 @@ namespace OWP.OtherSport.UnitTests.Validation.Services
       DeepAssert.Equal(expected, actual);
     }
 
-    private static List<AssignmentModelInExcel> GetAssignmentModels()
-    {
-      return new List<AssignmentModelInExcel>
+        [Fact]
+        public async Task WarningDelete_ValidModel_UnableDeleteMatch()
+        {
+            var assigments = new List<AssignmentModelInExcel>
+            {
+                new AssignmentModelInExcel
+                {
+                    Away = "OKC",
+                    Home = "Toronto Raptor",
+                    League = "NBA",
+                    Sport = "Basketball",
+                    DateTime = "43831.645833333336",
+                    Action = "delete"
+                }
+            };
+            var expect = new List<AssignmentValidationRowResult>
+            {
+                new AssignmentValidationRowResult
+                {
+                    Row = 2,
+                    ErrorCode = 2,
+                    Message = "(DateTime: 2020-01-01 15:30:00, League: NBA, Home: Toronto Raptor, Away: OKC, Sport: Basketball)"
+                }
+            };
+
+            var actual = await assignmentValidator.WarningDeleteMatch(assigments);
+
+            DeepAssert.Equal(expect, actual);
+        }
+
+        [Fact]
+        public async Task WarningDelete_ValidModel_CanDeleteMatch()
+        {
+            var assigments = new List<AssignmentModelInExcel>
+            {
+                new AssignmentModelInExcel
+                {
+                    Away = "OKC",
+                    Home = "Toronto Raptor",
+                    League = "NBA",
+                    Sport = "Basketball",
+                    DateTime = "43831.645833333336",
+                    Action = "delete"
+                }
+            };
+            var expect = new List<AssignmentValidationRowResult>
+            {
+                new AssignmentValidationRowResult
+                {
+                    Row = 2,
+                    ErrorCode = 3,
+                    Message = "(DateTime: 2020-01-01 15:30:00, League: NBA, Home: Toronto Raptor, Away: OKC, Sport: Basketball)"
+                }
+            };
+            var matches = new List<OSMatchInfo>
+            {
+                new OSMatchInfo
+                {
+                    Away = "OKC",
+                    Home = "Toronto Raptor",
+                    League = "NBA",
+                    Sport = "Basketball",
+                    DateTime = new DateTime(2020,01,01,15,30,00),
+                    Id = 10
+                }
+            };
+
+            repository.ExistsOSMatch(Arg.Compat.Any<List<OSMatchInfo>>()).Returns(matches);
+            var actual = await assignmentValidator.WarningDeleteMatch(assigments);
+
+            DeepAssert.Equal(expect, actual);
+        }
+
+        private static List<AssignmentModelInExcel> GetAssignmentModels()
+        {
+            return new List<AssignmentModelInExcel>
             {
                 new AssignmentModelInExcel
                 {
