@@ -19,5 +19,5 @@ public class OSMatchInfo : IEquatable<OSMatchInfo>
          => DateTime == other.DateTime
             && League == other.League;
 
-    public override string ToString() => $"(DateTime: {DateTime.ToString("yyyy-MM-dd H:mm:ss")}, League: {League}, Home: {Home}, Away: {Away}, Sport: {Sport})";
+    public override string ToString() => $"Sport: {Sport}, KO Time: {DateTime.ToString()}, {League}: {Home} -vs- {Away}";
 }
