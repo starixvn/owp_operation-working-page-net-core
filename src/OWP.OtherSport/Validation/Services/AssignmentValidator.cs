@@ -276,7 +276,7 @@
             var deleteMatch = assignments.Where(x => x.Action.Contains("delete"))
             .Select(y => new OSMatchInfo
             {
-                Home = y.Home,
+                Home = y.Home.Replace("(N)", "").Trim(),
                 Away = y.Away,
                 DateTime = DateTime.FromOADate(double.Parse(y.DateTime, CultureInfo.InvariantCulture)),
                 Sport = y.Sport,

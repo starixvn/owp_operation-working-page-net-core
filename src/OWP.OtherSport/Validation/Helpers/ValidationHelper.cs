@@ -54,7 +54,7 @@
         }
 
         public static bool MatchInfoEqualAssignment(OSMatchInfo matchInfo, AssignmentModelInExcel otherMatchInfo)
-            => matchInfo.Home.Equals(otherMatchInfo.Home) && matchInfo.Away.Equals(otherMatchInfo.Away) && matchInfo.Sport.Equals(otherMatchInfo.Sport);
+            => matchInfo.Home.Replace("(N)", "").Trim().Equals(otherMatchInfo.Home.Replace("(N)", "").Trim()) && matchInfo.Away.Equals(otherMatchInfo.Away) && matchInfo.Sport.Equals(otherMatchInfo.Sport);
 
         public static bool LeagueInfoEqualAssignment(OSMatchInfo matchInfo, AssignmentModelInExcel otherMatchInfo)
             => matchInfo.League.Equals(otherMatchInfo.League) && matchInfo.DateTime.Equals(DateTime.FromOADate(double.Parse(otherMatchInfo.DateTime, CultureInfo.InvariantCulture)));
