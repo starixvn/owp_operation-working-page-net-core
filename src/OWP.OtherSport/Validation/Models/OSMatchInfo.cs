@@ -10,13 +10,14 @@ public class OSMatchInfo : IEquatable<OSMatchInfo>
     public string Sport { get; set; }
 
     public bool Equals(OSMatchInfo other)
-    {
-        return Home == other.Home
-            && Away == other.Away
-            && DateTime == other.DateTime
-            && Sport == other.Sport
+        => EqualMatch(other) && EqualLeague(other);
+
+    private bool EqualMatch(OSMatchInfo other)
+        => Home == other.Home && Away == other.Away && Sport == other.Sport;
+
+    private bool EqualLeague(OSMatchInfo other)
+         => DateTime == other.DateTime
             && League == other.League;
-    }
 
     public override string ToString() => $"(DateTime: {DateTime.ToString("yyyy-MM-dd H:mm:ss")}, League: {League}, Home: {Home}, Away: {Away}, Sport: {Sport})";
 }

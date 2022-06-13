@@ -208,22 +208,13 @@
 
         private static void ValidateDuplicatedMatch(AssignmentModelInExcel assignment, List<AssignmentModelInExcel> assignments, List<ValidationResult> results)
         {
-            var isDuplicated = assignments.Any(x => IsEquals(x.DateTime, assignment.DateTime) &&
-                                                    IsEquals(x.League, assignment.League) &&
-                                                    IsEquals(x.Home.Replace("(N)", "").Trim(), assignment.Home.Replace("(N)", "").Trim()) &&
-                                                    IsEquals(x.Away, assignment.Away) &&
-                                                    IsEquals(x.Sport, assignment.Sport));
+            var isDuplicated = assignments.Any(x => ValidationHelper.EqualLeagueAssignment(x, assignment)
+                && ValidationHelper.EqualMatchAssignment(x, assignment));
 
             if (isDuplicated)
             {
                 results.Add(new ValidationResult($"Duplicate Match: {assignment.League} | {assignment.Home.Replace("(N)", "").Trim()} -vs- {assignment.Away}"));
             }
-        }
-
-        private static bool IsEquals(string source, string value)
-        {
-            return !string.IsNullOrWhiteSpace(source) &&
-                source.Equals(value, StringComparison.OrdinalIgnoreCase);
         }
 
         public static List<AssignmentValidationRowResult> GroupByDuplicateMatchMessage(List<AssignmentValidationRowResult> validationResults)
@@ -256,11 +247,10 @@
 
             foreach (var match in matchInfos)
             {
-                var row = assigments.FindIndex(x => x.League.Equals(match.League)
-                    && DateTime.FromOADate(double.Parse(x.DateTime, CultureInfo.InvariantCulture)).Equals(match.DateTime)
-                    && x.Home.Equals(match.Home)
-                    && x.Away.Equals(match.Away)
-                    && x.Sport.Equals(match.Sport)) + 2;
+                var row = assigments.FindIndex(x =>
+                    ValidationHelper.MatchInfoEqualAssignment(match, x)
+                    && ValidationHelper.LeagueInfoEqualAssignment(match, x)
+                ) + 2;
 
                 var validationRowResult = !match.Id.HasValue ? new AssignmentValidationRowResult
                 {
