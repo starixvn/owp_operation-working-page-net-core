@@ -269,7 +269,7 @@
                 results.Add(validationRowResult);
             }
 
-            return results;
+            return results.OrderBy(x => x.Row).ToList();
         }
 
         private async Task<List<OSMatchInfo>> DeletableMatches(List<AssignmentModelInExcel> assignments)
