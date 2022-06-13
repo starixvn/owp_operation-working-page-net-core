@@ -1,5 +1,6 @@
 ﻿namespace OWP.OtherSport.Validation.Services
 {
+    using OWP.Extensions;
     using OWP.OtherSport.Validation.Exceptions;
     using OWP.OtherSport.Validation.Helpers;
     using OWP.OtherSport.Validation.Models;
@@ -44,7 +45,7 @@
                 var assignments = rawDataFromExcel.Assignments.ToList();
                 assignments.RemoveAt(i); //Remove match at i for duplicate matches validation
                 var actionColumnContent = rawDataFromExcel.Assignments[i].Action;
-                var isDeleteMatch = (actionColumnContent ?? "").Contains("delete");
+                var isDeleteMatch = actionColumnContent.IsContains("delete");
                 var validationResultsOfAssignment = isDeleteMatch ? ValidateAssignmentForDeleteMatch(rawDataFromExcel.Assignments[i], assignments, traders)
                                                                   : CustomValidateAssignment(rawDataFromExcel.Assignments[i], assignments, traders);
                 ValidationHelper.BuildValidationRowResult(
@@ -273,7 +274,7 @@
 
         private async Task<List<OSMatchInfo>> DeletableMatches(List<AssignmentModelInExcel> assignments)
         {
-            var deleteMatch = assignments.Where(x => x.Action.Contains("delete"))
+            var deleteMatch = assignments.Where(x => x.Action.IsContains("delete"))
             .Select(y => new OSMatchInfo
             {
                 Home = y.Home.Replace("(N)", "").Trim(),
