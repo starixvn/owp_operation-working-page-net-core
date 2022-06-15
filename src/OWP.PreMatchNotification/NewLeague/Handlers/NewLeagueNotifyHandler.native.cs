@@ -57,7 +57,6 @@
       await commandRepository.InsertMessage(messageModels, request.SessionId);
      
       await notify.Notify(messageModels);
-      await cacheManipulator.RemoveData($"{OLD_PREMATCHLEAGUES_SNAPSHOT_KEY}-{request.SessionId}");
 
       var mesage = JsonConvert.SerializeObject(messageModels);
       await logServiceWrapper.Log($"[NewLeague] message- {request.SessionId}: ", mesage);
