@@ -261,6 +261,8 @@ public static class ServiceCollectionExtensions
     var redisConfig = configuration.GetSection("AuthSettings:RedisConfig").Value;
     var redis = ConnectionMultiplexer.Connect(redisConfig);
 
+    services.AddSingleton<IConnectionMultiplexer>(redis);
+
     services.AddDataProtection()
         .PersistKeysToStackExchangeRedis(redis, "Fanex.OWP-ProtectionKeys");
 
@@ -272,6 +274,14 @@ public static class ServiceCollectionExtensions
 
     services.AddRedisCache(configuration.GetSection("fanex.caching.redis"));
 
+    return services;
+  }
+
+  public static IServiceCollection AddRedisPubSub(this IServiceCollection services, IConfiguration configuration){
+    services.AddTransient<PubSubEvent, PubSubEventImp>();
+    var sp = services.BuildServiceProvider();
+    var pubSubEvent= sp.GetService<PubSubEvent>();
+    pubSubEvent?.Subscribe();
     return services;
   }
 
@@ -312,18 +322,6 @@ public static class ServiceCollectionExtensions
   public static IServiceCollection AddRabbitMQ(this IServiceCollection services, IConfiguration configuration)
   {
     services.AddHostedService<NotificationConsumer>();
-    return services;
-  }
-
-  public static IServiceCollection AddRedisPubSub(this IServiceCollection services, IConfiguration configuration){
-    var redisConfig = configuration.GetSection("AuthSettings:RedisConfig").Value;
-    var multiplexer  = ConnectionMultiplexer.Connect(redisConfig);
-    services.AddSingleton<IConnectionMultiplexer>(multiplexer);
-    services.AddTransient<PubSubEvent, PubSubEventImp>();
-    
-    var sp = services.BuildServiceProvider();
-    var pubSubEvent= sp.GetService<PubSubEvent>();
-    pubSubEvent?.Subscribe();
     return services;
   }
 }
