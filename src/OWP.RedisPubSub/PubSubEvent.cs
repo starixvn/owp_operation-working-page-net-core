@@ -9,7 +9,7 @@ using MediatR;
 namespace OWP.RedisPubSub;
 public interface PubSubEvent
 {
-  void Subscribe();
+  void Subscribe(string chanel);
 }
 
 public class PubSubEventImp : PubSubEvent
@@ -30,12 +30,12 @@ public class PubSubEventImp : PubSubEvent
     this.mediator = mediator;
   }
 
-  public void Subscribe()
+  public void Subscribe(string channel)
   {
-    logger.Info("Redis Subscribe Connect");
+    logger.Info("Redis Subscribe chanel:"+ channel);
     var sub = redis.GetSubscriber();
     
-    sub.Subscribe(Constant.NEW_LEAGUE_CHANEL, (channel, message) =>
+    sub.Subscribe(channel, (channel, message) =>
     {
        var request=JsonConvert.DeserializeObject<PrematchNewLeagueNotifyRequest>(message);
       logger.Info($"Redis Subscribe receive: {request?.SessionId}-{request?.FromDate}-{DateTime.Now}");

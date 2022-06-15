@@ -59,8 +59,10 @@
       await notify.Notify(messageModels);
 
       var mesage = JsonConvert.SerializeObject(messageModels);
+      
       await logServiceWrapper.Log($"[NewLeague] message- {request.SessionId}: ", mesage);
-      cacheManipulator.Cache($"[NewLeagueNotifyHandler] New_Prematch_League_Receive-{request.SessionId}", request.SessionId);
+     
+      await logServiceWrapper.Log($"[NewLeague] message length- {request.SessionId}: ", mesage.Length);
       
       return await Task.FromResult(Unit.Value);
     }
