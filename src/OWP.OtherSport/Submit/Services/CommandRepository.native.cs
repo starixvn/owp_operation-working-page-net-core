@@ -1,4 +1,6 @@
-﻿namespace OWP.OtherSport.Submit.Services
+﻿using Newtonsoft.Json;
+
+namespace OWP.OtherSport.Submit.Services
 {
     using Fanex.Data.Repository;
     using Fanex.NAP.Client.Helpers.Web;
@@ -12,9 +14,11 @@
     {
         Task<AssignmentSnapshot> Query(string eventDates);
 
+        Task<List<DeletedMatch>> GetDeletedMatchInfo(List<OSMatchInfo> deletedassignments);
+
         Task<List<int>> GetOldMatchIds(string eventDateInString);
 
-        Task Update(string eventDateInString, List<AssignmentModel> newAssignments);
+        Task Update(string deletedMatchIds, List<AssignmentModel> newAssignments);
     }
 
     public class CommandRepositoryImp : CommandRepository
@@ -60,6 +64,15 @@
             };
         }
 
+        public async Task<List<DeletedMatch>> GetDeletedMatchInfo(List<OSMatchInfo> deletedMatch)
+        {
+            var criteria = new GetDeletedMatchesCriteria
+            {
+                OSMatches = JsonConvert.SerializeObject(deletedMatch)
+            };
+            return (await repository.FetchAsync<DeletedMatch>(criteria)).ToList();
+        }
+
         public async Task<List<int>> GetOldMatchIds(string eventDateInString)
         {
             var criteria = new GetMatchIdsByDateListCriteria
@@ -70,23 +83,19 @@
             return (await repository.FetchAsync<int>(criteria)).ToList();
         }
 
-        public async Task Update(string eventDateInString, List<AssignmentModel> newAssignments)
+        public async Task Update(string deletedMatchIds, List<AssignmentModel> newAssignments)
         {
-            var oldMatchIds = await GetOldMatchIds(eventDateInString);
-            await logService.Log("OS-Update-Input parameters", oldMatchIds, newAssignments);
             var hashKeyMap = await InsertOrUpdateMatch(newAssignments);
             var newMatchIds = hashKeyMap.Select(h => h.OSMatchId).Distinct().ToList();
             var newMatchIdsInString = string.Join(',', newMatchIds);
 
-            var deletedMatchIdsInString = assignmentAnalyzer.DetectOldMatchIds(oldMatchIds, newMatchIds);
             assignmentAnalyzer.ReassignOSMatchId(hashKeyMap, newAssignments);
             var assignmentMaxbets = mapper.MapBySports(newAssignments);
-            await logService.Log("OS-UpdateMatchExtraInformation-Input parameters", hashKeyMap, newMatchIdsInString, deletedMatchIdsInString, newAssignments);
 
             await Task.WhenAll(
                 InsertOrUpdateMatchAssignment(newAssignments, assignmentMaxbets, newMatchIdsInString),
                 InsertOrUpdateMaxBetSpread(newAssignments, assignmentMaxbets, newMatchIdsInString),
-                DeleteOldMatches(deletedMatchIdsInString));
+                DeleteOldMatches(deletedMatchIds));
         }
 
         public async Task<List<MatchByHashKey>> InsertOrUpdateMatch(List<AssignmentModel> assignments)

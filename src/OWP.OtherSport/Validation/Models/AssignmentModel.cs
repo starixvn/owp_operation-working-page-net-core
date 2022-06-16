@@ -161,7 +161,7 @@
             OtherTraderVolleyballSetWinnerHDPOE = string.Empty;
         }
 
-        public double MatchNo { get; set; }
+        public string MatchNo { get; set; }
 
         public int OSMatchId { get; set; }
 
@@ -178,6 +178,8 @@
         public bool IsNeutral { get; set; }
 
         public string Away { get; set; }
+
+        public bool IsDeleted { get; set; }
 
         public string League { get; set; }
 

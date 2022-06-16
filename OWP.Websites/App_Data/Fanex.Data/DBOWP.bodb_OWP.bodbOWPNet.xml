@@ -32,8 +32,8 @@
 		<Setting Key="OWP_AutoAssignment_SaveEventHistory" SpName="OWP_AutoAssignment_SaveEventHistory" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_AutoAssignment_GetProviderInfoByIds" SpName="OWP_AutoAssignment_GetProviderInfoByIds" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_AutoAssignment_GetLeagueSettingInfo" SpName="OWP_AutoAssignment_GetLeagueSettingInfo" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_AutoAssignment_GetLatestRequestIdByDate" SpName="OWP_AutoAssignment_GetLatestRequestIdByDate" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
-    <Setting Key="OWP_AutoAssignment_GetInfoSiteMatchResultByRequestId" SpName="OWP_AutoAssignment_GetInfoSiteMatchResultByRequestId" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
+		<Setting Key="OWP_AutoAssignment_GetLatestRequestIdByDate" SpName="OWP_AutoAssignment_GetLatestRequestIdByDate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AutoAssignment_GetInfoSiteMatchResultByRequestId" SpName="OWP_AutoAssignment_GetInfoSiteMatchResultByRequestId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 	</Function>
 
 	<Function Name="AssignmentUpload">
@@ -56,6 +56,7 @@
 		<Setting Key="OWP_API_SyncMaxbet_GetMatchInfoByAdminsiteId" SpName="OWP_API_SyncMaxbet_GetMatchInfoByAdminsiteId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 	</Function>
 	<Function Name="OtherSport">
+		<Setting Key="OWP_OSAssignmentUpload_ExistsOSMatch" SpName="OWP_OSAssignmentUpload_ExistsOSMatch" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_OSAssignmentUpload_MatchesDelete" SpName="OWP_OSAssignmentUpload_MatchesDelete" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_OSAssignmentUpload_GetAllMatchesByDateList" SpName="OWP_OSAssignmentUpload_GetAllMatchesByDateList" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_OSAssignmentUpload_GetMatchIdsByDateList" SpName="OWP_OSAssignmentUpload_GetMatchIdsByDateList" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
@@ -66,6 +67,7 @@
 		<Setting Key="OWP_OSLiveGameAssignment_Query" SpName="OWP_OSLiveGameAssignment_Query" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_AssignmentUpload_MessageInsert" SpName="OWP_AssignmentUpload_MessageInsert" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_OSLiveGameAssignment_GetEventStatusFromMainDB" SpName="OWP_OSLiveGameAssignment_GetEventStatusFromMainDB" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_OSAssignmentUpload_GetDeletedMatchesInfo" SpName="OWP_OSAssignmentUpload_GetDeletedMatchesInfo" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 	</Function>
 	<Function Name="OtherSport">
 		<Setting Key="OWP_ProductAssignment_GetUserBy_User_Role_Section" SpName="OWP_ProductAssignment_GetUserBy_User_Role_Section" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
@@ -73,7 +75,7 @@
 	</Function>
 	<Function Name="APISyncWorkingShift">
 		<Setting Key="OWP_API_SyncEmployeeWorkingShift_GetWorkingShift" SpName="OWP_API_SyncEmployeeWorkingShift_GetWorkingShift" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_API_SyncWorkingShift_To_HRPP" SpName="OWP_API_SyncWorkingShift_To_HRPP" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_API_SyncWorkingShift_To_HRPP" SpName="OWP_API_SyncWorkingShift_To_HRPP" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 	</Function>
 	<Function Name="PreMatchNotification">
 		<Setting Key="OWP_PreMatchNotification_QueryLeague" SpName="OWP_PreMatchNotification_QueryLeague" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
@@ -179,9 +181,9 @@
 		<Setting Key="OWP_PreMatchAssignment_QueryIssueMessagesAfterInsert" SpName="OWP_PreMatchAssignment_QueryIssueMessagesAfterInsert" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_PreMatchAssignment_QueryIssueMessages" SpName="OWP_PreMatchAssignment_QueryIssueMessages" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_PreMatchAssignment_QueryIssueInfo" SpName="OWP_PreMatchAssignment_QueryIssueInfo" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-	<Setting Key="OWP_PrematchAssignment_GetOddStatusFromMainDB" SpName="OWP_PrematchAssignment_GetOddStatusFromMainDB" DbName="DBACC.bodb02.bodbAdminNet" />
-	<Setting Key="OWP_PreMatchAssignment_QueryAssignedLeagueIdFromMainDB" SpName="OWP_PreMatchAssignment_QueryAssignedLeagueIdFromMainDB" DbName="DBACC.bodb02.bodbAdminNet" />
-	<Setting Key="OWP_PreMatchAssignment_QueryAssignedLeagueNames" SpName="OWP_PreMatchAssignment_QueryAssignedLeagueNames" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_PrematchAssignment_GetOddStatusFromMainDB" SpName="OWP_PrematchAssignment_GetOddStatusFromMainDB" DbName="DBACC.bodb02.bodbAdminNet" />
+		<Setting Key="OWP_PreMatchAssignment_QueryAssignedLeagueIdFromMainDB" SpName="OWP_PreMatchAssignment_QueryAssignedLeagueIdFromMainDB" DbName="DBACC.bodb02.bodbAdminNet" />
+		<Setting Key="OWP_PreMatchAssignment_QueryAssignedLeagueNames" SpName="OWP_PreMatchAssignment_QueryAssignedLeagueNames" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 	</Function>
 	<Function Name="PreMatchReport">
 		<Setting Key="OWP_PreMatchReport_GetReportForLeagueByDateRange" SpName="OWP_PreMatchReport_GetReportForLeagueByDateRange" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
@@ -190,7 +192,7 @@
 		<Setting Key="OWP_AutoAssignment_GetCustInfoFromDB02" SpName="OWP_AutoAssignment_GetCustInfoFromDB02" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_AutoAssignment_GetUserInfoFromNAPUserControl" SpName="OWP_AutoAssignment_GetUserInfoFromNAPUserControl" DbName="DBPOL.NAP_UserControl.bodbAdminNet" />
 	</Function>
-  <Function Name="MatchLiveReport">
-    <Setting Key="OWP_MatchLiveReport_GetByTimeRange" SpName="OWP_MatchLiveReport_GetByTimeRange" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-  </Function>
+	<Function Name="MatchLiveReport">
+		<Setting Key="OWP_MatchLiveReport_GetByTimeRange" SpName="OWP_MatchLiveReport_GetByTimeRange" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+	</Function>
 </Functions>

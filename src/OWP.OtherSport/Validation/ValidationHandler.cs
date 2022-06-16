@@ -37,8 +37,7 @@
 
             public List<AssignmentValidationRowResult> ValidationResults { get; set; }
 
-            public bool IsSuccessful => string.IsNullOrEmpty(Exception)
-                                        && ValidationResults.Count == 0;
+            public bool IsSuccessful { get; set; }
         }
 
         public class Handler : IRequestHandler<Request, Response>
@@ -65,9 +64,14 @@
                 {
                     SessionId = request.SessionId
                 };
+
                 try
                 {
-                    result.RecordCount = await ProcessAssignmentUploading(result.SessionId, request);
+                    var processResult = await ProcessAssignmentUploading(result.SessionId, request);
+
+                    result.RecordCount = processResult.OriginalRecordCount;
+                    result.ValidationResults = processResult.WarningDeleteResults;
+                    result.IsSuccessful = true;
                 }
                 catch (CriticalValidationException ex)
                 {
@@ -80,11 +84,13 @@
                         }
                     };
 
+                    result.IsSuccessful = false;
                     result.ValidationResults = validationResults;
                     result.Exception = ex.Message;
                 }
                 catch (InvalidAssignmentRowException ex)
                 {
+                    result.IsSuccessful = false;
                     result.ValidationResults = ex.ValidationResults;
                     result.Exception = ex.Message;
                 }
@@ -94,13 +100,15 @@
                 return result;
             }
 
-            private async Task<int> ProcessAssignmentUploading(string sessionId, Request request)
+            private async Task<AnalyzedResult> ProcessAssignmentUploading(string sessionId, Request request)
             {
                 excelValidator.Validate(request.Stream);
+
                 var analyzedResult = await analyzer.Analyze(request);
+
                 await cacheManipulator.SaveAssignmentsSnapshot(sessionId, analyzedResult.Assignments);
 
-                return analyzedResult.OriginalRecordCount;
+                return analyzedResult;
             }
 
             private async Task LogExcelFile(string sessionId, Stream file)

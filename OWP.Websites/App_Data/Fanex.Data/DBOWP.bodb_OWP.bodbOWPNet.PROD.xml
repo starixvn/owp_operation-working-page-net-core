@@ -1,196 +1,198 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Functions>
-  <Function Name="Common">
-    <Setting Key="OWP_RefResourceGetByName" SpName="OWP_RefResourceGetByName" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-  </Function>
-  <Function Name ="EventAssignment">
-    <Setting Key="OWP_MessageGetBySessionId" SpName ="OWP_MessageGetBySessionId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-  </Function>
-  <Function Name="AutoAssignment">
-    <Setting Key="OWP_AutoAssignmentRequest_GetAll" SpName="OWP_AutoAssignmentRequest_GetAll" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
-    <Setting Key="OWP_AutoAssignment_GetUsersByDate" SpName="OWP_AutoAssignment_GetUsersByDate" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
-    <Setting Key="OWP_AutoAssignmentRequest_Insert" SpName="OWP_AutoAssignmentRequest_Insert" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
-    <Setting Key="OWP_AutoAssignmentResult_Insert" SpName="OWP_AutoAssignmentResult_Insert" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
-    <Setting Key="OWP_AutoAssignment_GetRequestNew" SpName="OWP_AutoAssignment_GetRequestNew" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
-    <Setting Key="OWP_AutoAssignmentRequest_Api_GetStatusByRequestId" SpName="OWP_AutoAssignmentRequest_Api_GetStatusByRequestId" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
-    <Setting Key="OWP_AutoAssignmentRequest_Api_UpdateStatusRequestId" SpName="OWP_AutoAssignmentRequest_Api_UpdateStatusRequestId" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
-    <Setting Key="OWP_AutoAssignment_GetRequestIsWaiting" SpName="OWP_AutoAssignment_GetRequestIsWaiting" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
-    <Setting Key="OWP_AutoAssignment_RemoveRequestId" SpName="OWP_AutoAssignment_RemoveRequestId" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
-    <Setting Key="OWP_AutoAssignment_GetCustInfoFromDB02" SpName="OWP_AutoAssignment_GetCustInfoFromDB02" DbName="DBACC.bodb02.bodbAdminNet"/>
-    <Setting Key="OWP_AutoAssignment_GetUserInfoFromNAPUserControl" SpName="OWP_AutoAssignment_GetUserInfoFromNAPUserControl" DbName="DBPOL.NAP_UserControl.bodbAdminNet"/>
-    <Setting Key="OWP_AutoAssignment_GetTradersByDate" SpName="OWP_AutoAssignment_GetTradersByDate" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
-    <Setting Key="OWP_AutoAssignment_GetCommonRealMatchInfoByIds" SpName="OWP_AutoAssignment_GetCommonRealMatchInfoByIds" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
-    <Setting Key="OWP_AutoAssignment_GetCommonSabaMatchInfoByIds" SpName="OWP_AutoAssignment_GetCommonSabaMatchInfoByIds" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
-    <Setting Key="OWP_AutoAssignment_GetMaxMaxbet_FTHDP" SpName="OWP_AutoAssignment_GetMaxMaxbet_FTHDP" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
-    <Setting Key="OWP_AutoAssignment_GetMaxMaxbetForRealMatch_FTHDP" SpName="OWP_AutoAssignment_GetMaxMaxbetForRealMatch_FTHDP" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
-    <Setting Key="OWP_AutoAssignment_GetInfoSiteMatchByDate" SpName="OWP_AutoAssignment_GetInfoSiteMatchByDate" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
-    <Setting Key="OWP_AutoAssignment_GetMaxBetCorner" SpName="OWP_AutoAssignment_GetMaxBetCorner" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
-    <Setting Key="OWP_AutoAssignmentResult_Insert" SpName="OWP_AutoAssignmentResult_Insert" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
-    <Setting Key="OWP_AutoAssignment_Export_GetLAInfo" SpName="OWP_AutoAssignment_Export_GetLAInfo" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
-    <Setting Key="OWP_AutoAssignment_Export_GetTraderInfo" SpName="OWP_AutoAssignment_Export_GetTraderInfo" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
-    <Setting Key="OWP_AutoAssignment_GetInfoSiteMatchByIdAndBetType" SpName="OWP_AutoAssignment_GetInfoSiteMatchByIdAndBetType" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
-    <Setting Key="OWP_AutoAssignment_SaveEventHistory" SpName="OWP_AutoAssignment_SaveEventHistory" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
-    <Setting Key="OWP_AutoAssignment_GetProviderInfoByIds" SpName="OWP_AutoAssignment_GetProviderInfoByIds" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
-    <Setting Key="OWP_AutoAssignment_GetLeagueSettingInfo" SpName="OWP_AutoAssignment_GetLeagueSettingInfo" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
-    <Setting Key="OWP_AutoAssignment_GetLatestRequestIdByDate" SpName="OWP_AutoAssignment_GetLatestRequestIdByDate" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
-    <Setting Key="OWP_AutoAssignment_GetInfoSiteMatchResultByRequestId" SpName="OWP_AutoAssignment_GetInfoSiteMatchResultByRequestId" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
-  </Function>
+	<Function Name="Common">
+		<Setting Key="OWP_RefResourceGetByName" SpName="OWP_RefResourceGetByName" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+	</Function>
+	<Function Name ="EventAssignment">
+		<Setting Key="OWP_MessageGetBySessionId" SpName ="OWP_MessageGetBySessionId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+	</Function>
+	<Function Name="AutoAssignment">
+		<Setting Key="OWP_AutoAssignmentRequest_GetAll" SpName="OWP_AutoAssignmentRequest_GetAll" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AutoAssignment_GetUsersByDate" SpName="OWP_AutoAssignment_GetUsersByDate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AutoAssignmentRequest_Insert" SpName="OWP_AutoAssignmentRequest_Insert" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AutoAssignmentResult_Insert" SpName="OWP_AutoAssignmentResult_Insert" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AutoAssignment_GetRequestNew" SpName="OWP_AutoAssignment_GetRequestNew" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AutoAssignmentRequest_Api_GetStatusByRequestId" SpName="OWP_AutoAssignmentRequest_Api_GetStatusByRequestId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AutoAssignmentRequest_Api_UpdateStatusRequestId" SpName="OWP_AutoAssignmentRequest_Api_UpdateStatusRequestId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AutoAssignment_GetRequestIsWaiting" SpName="OWP_AutoAssignment_GetRequestIsWaiting" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AutoAssignment_RemoveRequestId" SpName="OWP_AutoAssignment_RemoveRequestId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AutoAssignment_GetCustInfoFromDB02" SpName="OWP_AutoAssignment_GetCustInfoFromDB02" DbName="DBACC.bodb02.bodbAdminNet" />
+		<Setting Key="OWP_AutoAssignment_GetUserInfoFromNAPUserControl" SpName="OWP_AutoAssignment_GetUserInfoFromNAPUserControl" DbName="DBPOL.NAP_UserControl.bodbAdminNet" />
+		<Setting Key="OWP_AutoAssignment_GetTradersByDate" SpName="OWP_AutoAssignment_GetTradersByDate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AutoAssignment_GetCommonRealMatchInfoByIds" SpName="OWP_AutoAssignment_GetCommonRealMatchInfoByIds" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AutoAssignment_GetCommonSabaMatchInfoByIds" SpName="OWP_AutoAssignment_GetCommonSabaMatchInfoByIds" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AutoAssignment_GetMaxMaxbet_FTHDP" SpName="OWP_AutoAssignment_GetMaxMaxbet_FTHDP" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AutoAssignment_GetMaxMaxbetForRealMatch_FTHDP" SpName="OWP_AutoAssignment_GetMaxMaxbetForRealMatch_FTHDP" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AutoAssignment_GetInfoSiteMatchByDate" SpName="OWP_AutoAssignment_GetInfoSiteMatchByDate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AutoAssignment_GetMaxBetCorner" SpName="OWP_AutoAssignment_GetMaxBetCorner" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AutoAssignmentResult_Insert" SpName="OWP_AutoAssignmentResult_Insert" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AutoAssignment_Export_GetLAInfo" SpName="OWP_AutoAssignment_Export_GetLAInfo" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AutoAssignment_Export_GetTraderInfo" SpName="OWP_AutoAssignment_Export_GetTraderInfo" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AutoAssignment_GetInfoSiteMatchByIdAndBetType" SpName="OWP_AutoAssignment_GetInfoSiteMatchByIdAndBetType" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AutoAssignment_SaveEventHistory" SpName="OWP_AutoAssignment_SaveEventHistory" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AutoAssignment_GetProviderInfoByIds" SpName="OWP_AutoAssignment_GetProviderInfoByIds" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AutoAssignment_GetLeagueSettingInfo" SpName="OWP_AutoAssignment_GetLeagueSettingInfo" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AutoAssignment_GetLatestRequestIdByDate" SpName="OWP_AutoAssignment_GetLatestRequestIdByDate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AutoAssignment_GetInfoSiteMatchResultByRequestId" SpName="OWP_AutoAssignment_GetInfoSiteMatchResultByRequestId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+	</Function>
 
-  <Function Name="AssignmentUpload">
-    <Setting Key="OWP_AssignmentUpload_GetNotificationSetting" SpName="OWP_AssignmentUpload_GetNotificationSetting" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_AssignmentUpload_GetSectionMemberOfUserReceivedWatcher" SpName="OWP_AssignmentUpload_GetSectionMemberOfUserReceivedWatcher" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-  </Function>
+	<Function Name="AssignmentUpload">
+		<Setting Key="OWP_AssignmentUpload_GetNotificationSetting" SpName="OWP_AssignmentUpload_GetNotificationSetting" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AssignmentUpload_GetSectionMemberOfUserReceivedWatcher" SpName="OWP_AssignmentUpload_GetSectionMemberOfUserReceivedWatcher" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+	</Function>
 
-  <Function Name="SyncMaxbet">
-    <Setting Key="OWP_API_SyncMaxbet_GetMatchIdByAdminsiteId" SpName="OWP_API_SyncMaxbet_GetMatchIdByAdminsiteId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_API_SyncMaxbet_GetTrader" SpName="OWP_API_SyncMaxbet_GetTrader" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_API_SyncMaxbet_GetMatchOffer" SpName="OWP_API_SyncMaxbet_GetMatchOffer" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_API_SyncMaxbet_GetMatchNoHDP" SpName="OWP_API_SyncMaxbet_GetMatchNoHDP" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_API_SyncMaxbet_GetSpread" SpName="OWP_API_SyncMaxbet_GetSpread" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_API_SyncMaxbet_GetMaxbet" SpName="OWP_API_SyncMaxbet_GetMaxbet" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_API_SyncMaxbet_GetMatchIdByAdminsiteIdAndBettypeId" SpName="OWP_API_SyncMaxbet_GetMatchIdByAdminsiteIdAndBettypeId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_API_SyncMaxbet_GetTraderXMins" SpName="OWP_API_SyncMaxbet_GetTraderXMins" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_API_SyncMaxbet_GetSpreadXMins" SpName="OWP_API_SyncMaxbet_GetSpreadXMins" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_API_SyncMaxbet_GetMaxbetXMins" SpName="OWP_API_SyncMaxbet_GetMaxbetXMins" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_API_SyncMaxbet_SpecialProduct_GetSpread" SpName="OWP_API_SyncMaxbet_SpecialProduct_GetSpread" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_API_SyncMaxbet_GetMatchInfoByAdminsiteId" SpName="OWP_API_SyncMaxbet_GetMatchInfoByAdminsiteId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-  </Function>
-  <Function Name="OtherSport">
-    <Setting Key="OWP_OSAssignmentUpload_MatchesDelete" SpName="OWP_OSAssignmentUpload_MatchesDelete" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_OSAssignmentUpload_GetAllMatchesByDateList" SpName="OWP_OSAssignmentUpload_GetAllMatchesByDateList" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_OSAssignmentUpload_GetMatchIdsByDateList" SpName="OWP_OSAssignmentUpload_GetMatchIdsByDateList" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_OSAssignmentUpload_MatchAssignmentsInsertOrUpdate" SpName="OWP_OSAssignmentUpload_MatchAssignmentsInsertOrUpdate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_OSAssignmentUpload_MaxBetInsertOrUpdate" SpName="OWP_OSAssignmentUpload_MaxBetInsertOrUpdate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_OSAssignmentUpload_MatchInsertOrUpdate" SpName="OWP_OSAssignmentUpload_MatchInsertOrUpdate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_OSAssignmentUpload_GetTraderByUsername" SpName="OWP_OSAssignmentUpload_GetTraderByUsername" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_OSLiveGameAssignment_Query" SpName="OWP_OSLiveGameAssignment_Query" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_AssignmentUpload_MessageInsert" SpName="OWP_AssignmentUpload_MessageInsert" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_OSLiveGameAssignment_GetEventStatusFromMainDB" SpName="OWP_OSLiveGameAssignment_GetEventStatusFromMainDB" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-  </Function>
-  <Function Name="OtherSport">
-    <Setting Key="OWP_ProductAssignment_GetUserBy_User_Role_Section" SpName="OWP_ProductAssignment_GetUserBy_User_Role_Section" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_ProductAssignment_UserInfo_Update" SpName="OWP_ProductAssignment_UserInfo_Update" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-  </Function>
-  <Function Name="APISyncWorkingShift">
-    <Setting Key="OWP_API_SyncEmployeeWorkingShift_GetWorkingShift" SpName="OWP_API_SyncEmployeeWorkingShift_GetWorkingShift" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_API_SyncWorkingShift_To_HRPP" SpName="OWP_API_SyncWorkingShift_To_HRPP" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
- </Function>
-  <Function Name="PreMatchNotification">
-    <Setting Key="OWP_PreMatchNotification_QueryLeague" SpName="OWP_PreMatchNotification_QueryLeague" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_PreMatchNotification_QueryEmployeeBySection" SpName="OWP_PreMatchNotification_QueryEmployeeBySection" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_PreMatchNotification_QueryLeagueAssignee" SpName="OWP_PreMatchNotification_QueryLeagueAssignee" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_PreMatchNotification_QueryInfoSiteMatchesByDate" SpName="OWP_PreMatchNotification_QueryInfoSiteMatchesByDate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_AssignmentUpload_AllMatchesByTimeRange" SpName="OWP_AssignmentUpload_AllMatchesByTimeRange" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_PreMatchNotification_QueryLeagueAssigneeByOWPLeagueIds" SpName="OWP_PreMatchNotification_QueryLeagueAssigneeByOWPLeagueIds" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_PreMatchNotification_QueryAssignmentByPreMatchLeagueId" SpName="OWP_PreMatchNotification_QueryAssignmentByPreMatchLeagueId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_PrematchNotification_GetLinkedOWPMatch" SpName="OWP_PrematchNotification_GetLinkedOWPMatch" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_PreMatchNotification_QueryInfoSiteMatchByOWPLeagueIds" SpName="OWP_PreMatchNotification_QueryInfoSiteMatchByOWPLeagueIds" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_PreMatchNotification_QueryInfoSiteMatchesByDateRange" SpName="OWP_PreMatchNotification_QueryInfoSiteMatchesByDateRange" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-  </Function>
-  <Function Name="TicketSetting">
-    <Setting Key="OWP_TicketSetting_GetAllRecipients" SpName="OWP_TicketSetting_GetAllRecipients" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-  </Function>
-  <Function Name="RecipientGroup">
-    <Setting Key="OWP_RecipientGroup_GetRecipientGroup" SpName="OWP_RecipientGroup_GetRecipientGroup" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_RecipientGroup_SaveRecipientGroup" SpName="OWP_RecipientGroup_SaveRecipientGroup" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_RecipientGroup_InsertMessageReader" SpName="OWP_RecipientGroup_InsertMessageReader" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_RecipientGroup_RemoveMessageReader" SpName="OWP_RecipientGroup_RemoveMessageReader" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-  </Function>
-  <Function Name="TicketTypeRecipient">
-    <Setting Key="OWP_TicketTypeRecipient_SaveTicketTypeRecipient" SpName="OWP_TicketTypeRecipient_SaveTicketTypeRecipient" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketTypeRecipient_GetTicketTypeRecipient" SpName="OWP_TicketTypeRecipient_GetTicketTypeRecipient" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-	  <Setting Key="OWP_TicketTypeRecipient_CheckExists_Subtype" SpName="OWP_TicketTypeRecipient_CheckExists_Subtype" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-  </Function>
-  <Function Name="TicketCenter">
-    <Setting Key="OWP_TicketCenter_GetRecipient" SpName="OWP_TicketCenter_GetRecipient" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketIssueEvent_Create" SpName="OWP_TicketIssueEvent_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketCenter_NewTicket_GetEvent" SpName="OWP_TicketCenter_NewTicket_GetEvent" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketCenter_GetTicketType" SpName="OWP_TicketCenter_GetTicketType" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketIssueOther_Create" SpName="OWP_TicketIssueOther_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketIssueSupport_Create" SpName="OWP_TicketIssueSupport_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketIssue_Create" SpName="OWP_TicketIssue_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketIssueMessage_Create" SpName="OWP_TicketIssueMessage_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketIssue_AddManyRecipient" SpName="OWP_TicketIssue_AddManyRecipient" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketIssue_AddSingleRecipient" SpName="OWP_TicketIssue_AddSingleRecipient" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketIssue_RemoveSingleRecipient" SpName="OWP_TicketIssue_RemoveSingleRecipient" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketIssueLeague_Create" SpName="OWP_TicketIssueLeague_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketCenterOther_Get" SpName="OWP_TicketCenterOther_Get" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketCenterSupport_Get" SpName="OWP_TicketCenterSupport_Get" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketCenterLeague_Get" SpName="OWP_TicketCenterLeague_Get" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketCenterEvent_Get" SpName="OWP_TicketCenterEvent_Get" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketIssue_DeleteRecipient" SpName="OWP_TicketIssue_DeleteRecipient" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketLeagueDetail_Get" SpName="OWP_TicketLeagueDetail_Get" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketMatchDetail_Get" SpName="OWP_TicketMatchDetail_Get" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketOtherDetail_Get" SpName="OWP_TicketOtherDetail_Get" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketSupportDetail_Get" SpName="OWP_TicketSupportDetail_Get" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketCenter_GetRecipientByTicketId" SpName="OWP_TicketCenter_GetRecipientByTicketId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketCreatorDetail_Get" SpName="OWP_TicketCreatorDetail_Get" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketIssueCreator_Create" SpName="OWP_TicketIssueCreator_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketCenter_AddManyRecipientReader" SpName="OWP_TicketCenter_AddManyRecipientReader" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketCenter_UpdateManyRecipientReader" SpName="OWP_TicketCenter_UpdateManyRecipientReader" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketCenter_UpdateSingleRecipientReader" SpName="OWP_TicketCenter_UpdateSingleRecipientReader" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketCenter_DeleteManyRecipientReader" SpName="OWP_TicketCenter_DeleteManyRecipientReader" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketCenterEvent_GetUserIdsByTicketId" SpName="OWP_TicketCenterEvent_GetUserIdsByTicketId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketCenter_GetDefaultRecipientByTicketTypeId" SpName="OWP_TicketCenter_GetDefaultRecipientByTicketTypeId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketCenter_InsertNewTicketLeagueNotification" SpName="OWP_TicketCenter_InsertNewTicketLeagueNotification" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketCenter_InsertNewTicketMatchNotification" SpName="OWP_TicketCenter_InsertNewTicketMatchNotification" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketCenter_InsertNewTicketOtherNotification" SpName="OWP_TicketCenter_InsertNewTicketOtherNotification" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketCenter_InsertNewTicketSupportNotification" SpName="OWP_TicketCenter_InsertNewTicketSupportNotification" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketCenter_InsertNewRecipientNotification" SpName="OWP_TicketCenter_InsertNewRecipientNotification" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketCenter_InsertNewMessageNotification" SpName="OWP_TicketCenter_InsertNewMessageNotification" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketCenter_UpdateTicketStatus" SpName="OWP_TicketCenter_UpdateTicketStatus" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-	  <Setting Key="OWP_TicketCenter_UpdateTicketSubType" SpName="OWP_TicketCenter_UpdateTicketSubType" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketCenter_GetTicketStatusHistory" SpName="OWP_TicketCenter_GetTicketStatusHistory" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketCenter_PinTicket" SpName="OWP_TicketCenter_PinTicket" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketCenter_DeleteTicket" SpName="OWP_TicketCenter_DeleteTicket" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketCenter_GetExistedTicketId" SpName="OWP_TicketCenter_GetExistedTicketId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_CountUnreadMessageByUserId" SpName="OWP_CountUnreadMessageByUserId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketCenter_GetSubTypeByTicketTypeId" SpName="OWP_TicketCenter_GetSubTypeByTicketTypeId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-	  <Setting Key="OWP_TicketCenter_GetAllTicketSubType" SpName="OWP_TicketCenter_GetAllTicketSubType" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketCenter_UpdateIsSavedMessage" SpName="OWP_TicketCenter_UpdateIsSavedMessage" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketCenter_UpdateTicketsAsReadByActorId" SpName="OWP_TicketCenter_UpdateTicketsAsReadByActorId" DbName="DBOWP.bodb_OWP.bodbOWPNet" /> 
-    <Setting Key="OWP_TicketCenter_GetTwoLastComment" SpName="OWP_TicketCenter_GetTwoLastComment" DbName="DBOWP.bodb_OWP.bodbOWPNet" /> 
-  </Function>
-  <Function Name="FileUpload">
-    <Setting Key="OWP_FileUpload_Upload" SpName="OWP_FileUpload_Upload" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_FileUpload_QueryById" SpName="OWP_FileUpload_QueryById" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-  </Function>
-  <Function Name="OvertimeReport">
-    <Setting Key="OWP_OvertimeReport_GetReportByDateRange" SpName="OWP_OvertimeReport_GetReportByDateRange" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-  </Function>
-  <Function Name="PreMatchAssignment">
-    <Setting Key="OWP_PreMatchAssignment_GetWorkingShift" SpName="OWP_PreMatchAssignment_GetWorkingShift" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_PreMatchAssignment_GetChangeLog" SpName="OWP_PreMatchAssignment_GetChangeLog" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_PreMatchAssignment_QueryDayShift" SpName="OWP_PreMatchAssignment_QueryDayShift" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_PreMatchAssignment_GetStartTimeForNightShift" SpName="OWP_PreMatchAssignment_GetStartTimeForNightShift" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_PreMatchAssignment_Update" SpName="OWP_PreMatchAssignment_Update" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_PreMatchAssignment_DeleteLeague" SpName="OWP_PreMatchAssignment_DeleteLeague" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_PreMatchAssignment_UpdateStartTime" SpName="OWP_PreMatchAssignment_UpdateStartTime" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_PreMatchAssignment_QueryByPreMatchLeagueId" SpName="OWP_PreMatchAssignment_QueryByPreMatchLeagueId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_PreMatchAssignment_InsertNewNote" SpName="OWP_PreMatchAssignment_InsertNewNote" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_PreMatchAssignment_InsertNewNoteMessage" SpName="OWP_PreMatchAssignment_InsertNewNoteMessage" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_PreMatchAssignment_EditNoteMessage" SpName="OWP_PreMatchAssignment_EditNoteMessage" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_PreMatchAssignment_GetInfoSiteMatchById" SpName="OWP_PreMatchAssignment_GetInfoSiteMatchById" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_PrematchAssignment_GetLinkedOWPMatch" SpName="OWP_PrematchAssignment_GetLinkedOWPMatch" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_PreMatchNotification_QueryAssignmentByPreMatchLeagueId" SpName="OWP_PreMatchNotification_QueryAssignmentByPreMatchLeagueId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_PrematchAssignment_GetAllLeaguesTicket" SpName="OWP_PrematchAssignment_GetAllLeaguesTicket" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_PrematchAssignment_GetAllMatchesTicket" SpName="OWP_PrematchAssignment_GetAllMatchesTicket" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_PreMatchAssignment_GetAssigneeByPreMatchLeagueId" SpName="OWP_PreMatchAssignment_GetAssigneeByPreMatchLeagueId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_PreMatchAssignment_QueryIssueMessagesAfterInsert" SpName="OWP_PreMatchAssignment_QueryIssueMessagesAfterInsert" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_PreMatchAssignment_QueryIssueMessages" SpName="OWP_PreMatchAssignment_QueryIssueMessages" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_PreMatchAssignment_QueryIssueInfo" SpName="OWP_PreMatchAssignment_QueryIssueInfo" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-	<Setting Key="OWP_PrematchAssignment_GetOddStatusFromMainDB" SpName="OWP_PrematchAssignment_GetOddStatusFromMainDB" DbName="DBACC.bodb02.bodbAdminNet" />
-	<Setting Key="OWP_PreMatchAssignment_QueryAssignedLeagueIdFromMainDB" SpName="OWP_PreMatchAssignment_QueryAssignedLeagueIdFromMainDB" DbName="DBACC.bodb02.bodbAdminNet" />
-	<Setting Key="OWP_PreMatchAssignment_QueryAssignedLeagueNames" SpName="OWP_PreMatchAssignment_QueryAssignedLeagueNames" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-  </Function>
-  <Function Name="PreMatchReport">
-    <Setting Key="OWP_PreMatchReport_GetReportForLeagueByDateRange" SpName="OWP_PreMatchReport_GetReportForLeagueByDateRange" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_PreMatchReport_GetReportForMatchByDateRange" SpName="OWP_PreMatchReport_GetReportForMatchByDateRange" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_PreMatchReport_GetAllUnassignedUsers" SpName="OWP_PreMatchReport_GetAllUnassignedUsers" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_AutoAssignment_GetCustInfoFromDB02" SpName="OWP_AutoAssignment_GetCustInfoFromDB02" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_AutoAssignment_GetUserInfoFromNAPUserControl" SpName="OWP_AutoAssignment_GetUserInfoFromNAPUserControl" DbName="DBPOL.NAP_UserControl.bodbAdminNet"/>
-  </Function>
-  <Function Name="MatchLiveReport">
-    <Setting Key="OWP_MatchLiveReport_GetByTimeRange" SpName="OWP_MatchLiveReport_GetByTimeRange" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-  </Function>
+	<Function Name="SyncMaxbet">
+		<Setting Key="OWP_API_SyncMaxbet_GetMatchIdByAdminsiteId" SpName="OWP_API_SyncMaxbet_GetMatchIdByAdminsiteId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_API_SyncMaxbet_GetTrader" SpName="OWP_API_SyncMaxbet_GetTrader" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_API_SyncMaxbet_GetMatchOffer" SpName="OWP_API_SyncMaxbet_GetMatchOffer" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_API_SyncMaxbet_GetMatchNoHDP" SpName="OWP_API_SyncMaxbet_GetMatchNoHDP" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_API_SyncMaxbet_GetSpread" SpName="OWP_API_SyncMaxbet_GetSpread" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_API_SyncMaxbet_GetMaxbet" SpName="OWP_API_SyncMaxbet_GetMaxbet" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_API_SyncMaxbet_GetMatchIdByAdminsiteIdAndBettypeId" SpName="OWP_API_SyncMaxbet_GetMatchIdByAdminsiteIdAndBettypeId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_API_SyncMaxbet_GetTraderXMins" SpName="OWP_API_SyncMaxbet_GetTraderXMins" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_API_SyncMaxbet_GetSpreadXMins" SpName="OWP_API_SyncMaxbet_GetSpreadXMins" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_API_SyncMaxbet_GetMaxbetXMins" SpName="OWP_API_SyncMaxbet_GetMaxbetXMins" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_API_SyncMaxbet_SpecialProduct_GetSpread" SpName="OWP_API_SyncMaxbet_SpecialProduct_GetSpread" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_API_SyncMaxbet_GetMatchInfoByAdminsiteId" SpName="OWP_API_SyncMaxbet_GetMatchInfoByAdminsiteId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+	</Function>
+	<Function Name="OtherSport">
+		<Setting Key="OWP_OSAssignmentUpload_ExistsOSMatch" SpName="OWP_OSAssignmentUpload_ExistsOSMatch" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_OSAssignmentUpload_MatchesDelete" SpName="OWP_OSAssignmentUpload_MatchesDelete" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_OSAssignmentUpload_GetAllMatchesByDateList" SpName="OWP_OSAssignmentUpload_GetAllMatchesByDateList" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_OSAssignmentUpload_GetMatchIdsByDateList" SpName="OWP_OSAssignmentUpload_GetMatchIdsByDateList" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_OSAssignmentUpload_MatchAssignmentsInsertOrUpdate" SpName="OWP_OSAssignmentUpload_MatchAssignmentsInsertOrUpdate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_OSAssignmentUpload_MaxBetInsertOrUpdate" SpName="OWP_OSAssignmentUpload_MaxBetInsertOrUpdate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_OSAssignmentUpload_MatchInsertOrUpdate" SpName="OWP_OSAssignmentUpload_MatchInsertOrUpdate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_OSAssignmentUpload_GetTraderByUsername" SpName="OWP_OSAssignmentUpload_GetTraderByUsername" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_OSLiveGameAssignment_Query" SpName="OWP_OSLiveGameAssignment_Query" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AssignmentUpload_MessageInsert" SpName="OWP_AssignmentUpload_MessageInsert" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_OSLiveGameAssignment_GetEventStatusFromMainDB" SpName="OWP_OSLiveGameAssignment_GetEventStatusFromMainDB" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_OSAssignmentUpload_GetDeletedMatchesInfo" SpName="OWP_OSAssignmentUpload_GetDeletedMatchesInfo" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+	</Function>
+	<Function Name="OtherSport">
+		<Setting Key="OWP_ProductAssignment_GetUserBy_User_Role_Section" SpName="OWP_ProductAssignment_GetUserBy_User_Role_Section" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_ProductAssignment_UserInfo_Update" SpName="OWP_ProductAssignment_UserInfo_Update" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+	</Function>
+	<Function Name="APISyncWorkingShift">
+		<Setting Key="OWP_API_SyncEmployeeWorkingShift_GetWorkingShift" SpName="OWP_API_SyncEmployeeWorkingShift_GetWorkingShift" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_API_SyncWorkingShift_To_HRPP" SpName="OWP_API_SyncWorkingShift_To_HRPP" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+	</Function>
+	<Function Name="PreMatchNotification">
+		<Setting Key="OWP_PreMatchNotification_QueryLeague" SpName="OWP_PreMatchNotification_QueryLeague" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_PreMatchNotification_QueryEmployeeBySection" SpName="OWP_PreMatchNotification_QueryEmployeeBySection" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_PreMatchNotification_QueryLeagueAssignee" SpName="OWP_PreMatchNotification_QueryLeagueAssignee" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_PreMatchNotification_QueryInfoSiteMatchesByDate" SpName="OWP_PreMatchNotification_QueryInfoSiteMatchesByDate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AssignmentUpload_AllMatchesByTimeRange" SpName="OWP_AssignmentUpload_AllMatchesByTimeRange" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_PreMatchNotification_QueryLeagueAssigneeByOWPLeagueIds" SpName="OWP_PreMatchNotification_QueryLeagueAssigneeByOWPLeagueIds" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_PreMatchNotification_QueryAssignmentByPreMatchLeagueId" SpName="OWP_PreMatchNotification_QueryAssignmentByPreMatchLeagueId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_PrematchNotification_GetLinkedOWPMatch" SpName="OWP_PrematchNotification_GetLinkedOWPMatch" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_PreMatchNotification_QueryInfoSiteMatchByOWPLeagueIds" SpName="OWP_PreMatchNotification_QueryInfoSiteMatchByOWPLeagueIds" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_PreMatchNotification_QueryInfoSiteMatchesByDateRange" SpName="OWP_PreMatchNotification_QueryInfoSiteMatchesByDateRange" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+	</Function>
+	<Function Name="TicketSetting">
+		<Setting Key="OWP_TicketSetting_GetAllRecipients" SpName="OWP_TicketSetting_GetAllRecipients" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+	</Function>
+	<Function Name="RecipientGroup">
+		<Setting Key="OWP_RecipientGroup_GetRecipientGroup" SpName="OWP_RecipientGroup_GetRecipientGroup" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_RecipientGroup_SaveRecipientGroup" SpName="OWP_RecipientGroup_SaveRecipientGroup" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_RecipientGroup_InsertMessageReader" SpName="OWP_RecipientGroup_InsertMessageReader" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_RecipientGroup_RemoveMessageReader" SpName="OWP_RecipientGroup_RemoveMessageReader" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+	</Function>
+	<Function Name="TicketTypeRecipient">
+		<Setting Key="OWP_TicketTypeRecipient_SaveTicketTypeRecipient" SpName="OWP_TicketTypeRecipient_SaveTicketTypeRecipient" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketTypeRecipient_GetTicketTypeRecipient" SpName="OWP_TicketTypeRecipient_GetTicketTypeRecipient" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketTypeRecipient_CheckExists_Subtype" SpName="OWP_TicketTypeRecipient_CheckExists_Subtype" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+	</Function>
+	<Function Name="TicketCenter">
+		<Setting Key="OWP_TicketCenter_GetRecipient" SpName="OWP_TicketCenter_GetRecipient" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketIssueEvent_Create" SpName="OWP_TicketIssueEvent_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenter_NewTicket_GetEvent" SpName="OWP_TicketCenter_NewTicket_GetEvent" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenter_GetTicketType" SpName="OWP_TicketCenter_GetTicketType" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketIssueOther_Create" SpName="OWP_TicketIssueOther_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketIssueSupport_Create" SpName="OWP_TicketIssueSupport_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketIssue_Create" SpName="OWP_TicketIssue_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketIssueMessage_Create" SpName="OWP_TicketIssueMessage_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketIssue_AddManyRecipient" SpName="OWP_TicketIssue_AddManyRecipient" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketIssue_AddSingleRecipient" SpName="OWP_TicketIssue_AddSingleRecipient" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketIssue_RemoveSingleRecipient" SpName="OWP_TicketIssue_RemoveSingleRecipient" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketIssueLeague_Create" SpName="OWP_TicketIssueLeague_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenterOther_Get" SpName="OWP_TicketCenterOther_Get" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenterSupport_Get" SpName="OWP_TicketCenterSupport_Get" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenterLeague_Get" SpName="OWP_TicketCenterLeague_Get" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenterEvent_Get" SpName="OWP_TicketCenterEvent_Get" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketIssue_DeleteRecipient" SpName="OWP_TicketIssue_DeleteRecipient" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketLeagueDetail_Get" SpName="OWP_TicketLeagueDetail_Get" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketMatchDetail_Get" SpName="OWP_TicketMatchDetail_Get" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketOtherDetail_Get" SpName="OWP_TicketOtherDetail_Get" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketSupportDetail_Get" SpName="OWP_TicketSupportDetail_Get" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenter_GetRecipientByTicketId" SpName="OWP_TicketCenter_GetRecipientByTicketId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCreatorDetail_Get" SpName="OWP_TicketCreatorDetail_Get" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketIssueCreator_Create" SpName="OWP_TicketIssueCreator_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenter_AddManyRecipientReader" SpName="OWP_TicketCenter_AddManyRecipientReader" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenter_UpdateManyRecipientReader" SpName="OWP_TicketCenter_UpdateManyRecipientReader" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenter_UpdateSingleRecipientReader" SpName="OWP_TicketCenter_UpdateSingleRecipientReader" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenter_DeleteManyRecipientReader" SpName="OWP_TicketCenter_DeleteManyRecipientReader" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenterEvent_GetUserIdsByTicketId" SpName="OWP_TicketCenterEvent_GetUserIdsByTicketId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenter_GetDefaultRecipientByTicketTypeId" SpName="OWP_TicketCenter_GetDefaultRecipientByTicketTypeId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenter_InsertNewTicketLeagueNotification" SpName="OWP_TicketCenter_InsertNewTicketLeagueNotification" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenter_InsertNewTicketMatchNotification" SpName="OWP_TicketCenter_InsertNewTicketMatchNotification" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenter_InsertNewTicketOtherNotification" SpName="OWP_TicketCenter_InsertNewTicketOtherNotification" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenter_InsertNewTicketSupportNotification" SpName="OWP_TicketCenter_InsertNewTicketSupportNotification" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenter_InsertNewRecipientNotification" SpName="OWP_TicketCenter_InsertNewRecipientNotification" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenter_InsertNewMessageNotification" SpName="OWP_TicketCenter_InsertNewMessageNotification" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenter_UpdateTicketStatus" SpName="OWP_TicketCenter_UpdateTicketStatus" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenter_UpdateTicketSubType" SpName="OWP_TicketCenter_UpdateTicketSubType" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenter_GetTicketStatusHistory" SpName="OWP_TicketCenter_GetTicketStatusHistory" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenter_PinTicket" SpName="OWP_TicketCenter_PinTicket" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenter_DeleteTicket" SpName="OWP_TicketCenter_DeleteTicket" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenter_GetExistedTicketId" SpName="OWP_TicketCenter_GetExistedTicketId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_CountUnreadMessageByUserId" SpName="OWP_CountUnreadMessageByUserId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenter_GetSubTypeByTicketTypeId" SpName="OWP_TicketCenter_GetSubTypeByTicketTypeId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenter_GetAllTicketSubType" SpName="OWP_TicketCenter_GetAllTicketSubType" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenter_UpdateIsSavedMessage" SpName="OWP_TicketCenter_UpdateIsSavedMessage" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenter_UpdateTicketsAsReadByActorId" SpName="OWP_TicketCenter_UpdateTicketsAsReadByActorId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenter_GetTwoLastComment" SpName="OWP_TicketCenter_GetTwoLastComment" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+	</Function>
+	<Function Name="FileUpload">
+		<Setting Key="OWP_FileUpload_Upload" SpName="OWP_FileUpload_Upload" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_FileUpload_QueryById" SpName="OWP_FileUpload_QueryById" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+	</Function>
+	<Function Name="OvertimeReport">
+		<Setting Key="OWP_OvertimeReport_GetReportByDateRange" SpName="OWP_OvertimeReport_GetReportByDateRange" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+	</Function>
+	<Function Name="PreMatchAssignment">
+		<Setting Key="OWP_PreMatchAssignment_GetWorkingShift" SpName="OWP_PreMatchAssignment_GetWorkingShift" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_PreMatchAssignment_GetChangeLog" SpName="OWP_PreMatchAssignment_GetChangeLog" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_PreMatchAssignment_QueryDayShift" SpName="OWP_PreMatchAssignment_QueryDayShift" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_PreMatchAssignment_GetStartTimeForNightShift" SpName="OWP_PreMatchAssignment_GetStartTimeForNightShift" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_PreMatchAssignment_Update" SpName="OWP_PreMatchAssignment_Update" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_PreMatchAssignment_DeleteLeague" SpName="OWP_PreMatchAssignment_DeleteLeague" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_PreMatchAssignment_UpdateStartTime" SpName="OWP_PreMatchAssignment_UpdateStartTime" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_PreMatchAssignment_QueryByPreMatchLeagueId" SpName="OWP_PreMatchAssignment_QueryByPreMatchLeagueId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_PreMatchAssignment_InsertNewNote" SpName="OWP_PreMatchAssignment_InsertNewNote" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_PreMatchAssignment_InsertNewNoteMessage" SpName="OWP_PreMatchAssignment_InsertNewNoteMessage" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_PreMatchAssignment_EditNoteMessage" SpName="OWP_PreMatchAssignment_EditNoteMessage" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_PreMatchAssignment_GetInfoSiteMatchById" SpName="OWP_PreMatchAssignment_GetInfoSiteMatchById" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_PrematchAssignment_GetLinkedOWPMatch" SpName="OWP_PrematchAssignment_GetLinkedOWPMatch" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_PreMatchNotification_QueryAssignmentByPreMatchLeagueId" SpName="OWP_PreMatchNotification_QueryAssignmentByPreMatchLeagueId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_PrematchAssignment_GetAllLeaguesTicket" SpName="OWP_PrematchAssignment_GetAllLeaguesTicket" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_PrematchAssignment_GetAllMatchesTicket" SpName="OWP_PrematchAssignment_GetAllMatchesTicket" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_PreMatchAssignment_GetAssigneeByPreMatchLeagueId" SpName="OWP_PreMatchAssignment_GetAssigneeByPreMatchLeagueId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_PreMatchAssignment_QueryIssueMessagesAfterInsert" SpName="OWP_PreMatchAssignment_QueryIssueMessagesAfterInsert" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_PreMatchAssignment_QueryIssueMessages" SpName="OWP_PreMatchAssignment_QueryIssueMessages" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_PreMatchAssignment_QueryIssueInfo" SpName="OWP_PreMatchAssignment_QueryIssueInfo" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_PrematchAssignment_GetOddStatusFromMainDB" SpName="OWP_PrematchAssignment_GetOddStatusFromMainDB" DbName="DBACC.bodb02.bodbAdminNet" />
+		<Setting Key="OWP_PreMatchAssignment_QueryAssignedLeagueIdFromMainDB" SpName="OWP_PreMatchAssignment_QueryAssignedLeagueIdFromMainDB" DbName="DBACC.bodb02.bodbAdminNet" />
+		<Setting Key="OWP_PreMatchAssignment_QueryAssignedLeagueNames" SpName="OWP_PreMatchAssignment_QueryAssignedLeagueNames" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+	</Function>
+	<Function Name="PreMatchReport">
+		<Setting Key="OWP_PreMatchReport_GetReportForLeagueByDateRange" SpName="OWP_PreMatchReport_GetReportForLeagueByDateRange" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_PreMatchReport_GetReportForMatchByDateRange" SpName="OWP_PreMatchReport_GetReportForMatchByDateRange" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_PreMatchReport_GetAllUnassignedUsers" SpName="OWP_PreMatchReport_GetAllUnassignedUsers" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AutoAssignment_GetCustInfoFromDB02" SpName="OWP_AutoAssignment_GetCustInfoFromDB02" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AutoAssignment_GetUserInfoFromNAPUserControl" SpName="OWP_AutoAssignment_GetUserInfoFromNAPUserControl" DbName="DBPOL.NAP_UserControl.bodbAdminNet" />
+	</Function>
+	<Function Name="MatchLiveReport">
+		<Setting Key="OWP_MatchLiveReport_GetByTimeRange" SpName="OWP_MatchLiveReport_GetByTimeRange" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+	</Function>
 </Functions>

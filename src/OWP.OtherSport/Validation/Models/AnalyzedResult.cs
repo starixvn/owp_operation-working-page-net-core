@@ -5,5 +5,7 @@
         public List<AssignmentModel> Assignments { get; set; }
 
         public int OriginalRecordCount { get; set; }
+
+        public List<AssignmentValidationRowResult> WarningDeleteResults { get; set; }
     }
 }
