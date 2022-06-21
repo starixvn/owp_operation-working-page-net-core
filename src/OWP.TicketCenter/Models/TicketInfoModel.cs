@@ -14,7 +14,7 @@
 
         public string TicketSubTypeName { get; set; }
 
-        public DateTime? LastCommentDate { get; set; }
+        public DateTime LastCommentDate { get; set; }
 
         public bool IsRead { get; set; }
 

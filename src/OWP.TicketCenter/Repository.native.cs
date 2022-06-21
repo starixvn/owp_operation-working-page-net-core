@@ -102,6 +102,8 @@ namespace OWP.TicketCenter
     Task UpdateTicketsAsRead(int actorId);
 
     Task<IEnumerable<MessageInfoModel>> GetTwoLastCommnet(IList<int> ticketIds);
+
+    Task<IList<int>> GetTicketIdHaveSavedMessage();
   }
 
   public class RepositoryImp : Repository
@@ -436,5 +438,8 @@ namespace OWP.TicketCenter
 
         return await dynamicRepository.FetchAsync<MessageInfoModel>(criteria);
     }
+
+    public async Task<IList<int>> GetTicketIdHaveSavedMessage()
+       => (await dynamicRepository.FetchAsync<int>(new GetTicketIdHaveSavedMessageCriteria())).ToList();
   }
 }

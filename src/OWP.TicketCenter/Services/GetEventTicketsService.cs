@@ -1,47 +1,71 @@
-﻿using AutoMapper;
+﻿using System.IO.Compression;
+using AutoMapper;
 using OWP.TicketCenter.Handlers;
 using OWP.TicketCenter.Models;
 
 namespace OWP.TicketCenter.Services
 {
-    public interface GetEventTicketsService
+  public interface GetEventTicketsService
+  {
+    Task<IList<TicketBaseInfo>> GetAllTickets(QueryEventTicketsRequest request);
+  }
+
+  public class GetEventTicketsServiceImp : GetEventTicketsService
+  {
+    private readonly Repository repository;
+
+    public GetEventTicketsServiceImp(Repository repository)
     {
-        Task<IList<TicketBaseInfo>> GetAllTickets(QueryEventTicketsRequest request);
+      this.repository = repository;
     }
 
-    public class GetEventTicketsServiceImp : GetEventTicketsService
+    public async Task<IList<TicketBaseInfo>> GetAllTickets(QueryEventTicketsRequest request)
     {
-        private readonly Repository repository;
+      var ticketLeague = await repository.GetEventTicketLeague(request);
+      var ticketMatch = await repository.GetEventTicketMatch(request);
+      var ticketOthers = await repository.GetEventTicketOther(request);
+      var ticketSupport = await repository.GetEventTicketSupport(request);
+      var ticketIdSaved = await repository.GetTicketIdHaveSavedMessage();
+      var eventTickets = new List<TicketBaseInfo>();
+      eventTickets.AddRange(ticketLeague);
+      eventTickets.AddRange(ticketMatch);
+      eventTickets.AddRange(ticketOthers);
+      eventTickets.AddRange(ticketSupport);
 
-        public GetEventTicketsServiceImp(Repository repository)
-        {
-            this.repository = repository;
-        }
+      var ticketIsShowed = BuildTicketIsShowed(eventTickets, ticketIdSaved.ToList());
 
-        public async Task<IList<TicketBaseInfo>> GetAllTickets(QueryEventTicketsRequest request)
-        {
-            var ticketLeague = await repository.GetEventTicketLeague(request);
-            var ticketMatch = await repository.GetEventTicketMatch(request);
-            var ticketOthers = await repository.GetEventTicketOther(request);
-            var ticketSupport = await repository.GetEventTicketSupport(request);
-            var eventTickets = new List<TicketBaseInfo>();
-            eventTickets.AddRange(ticketLeague);
-            eventTickets.AddRange(ticketMatch);
-            eventTickets.AddRange(ticketOthers);
-            eventTickets.AddRange(ticketSupport);
-            var ticketIds = eventTickets.Select(x => x.TicketId).ToList();
-            var lastComments = await repository.GetTwoLastCommnet(ticketIds);
+      var ticketIds = ticketIsShowed.Select(x => x.TicketId).ToList();
+      var lastComments = await repository.GetTwoLastCommnet(ticketIds);
 
-            foreach (var ticket in eventTickets)
-            {
-                ticket.Messages = lastComments.Where(x => x.TicketId == ticket.TicketId).ToList();
-            }
+      foreach (var ticket in ticketIsShowed)
+      {
+        ticket.Messages = lastComments.Where(x => x.TicketId == ticket.TicketId).ToList();
+      }
 
-            return SortEventTicketByCommentLatestDate(eventTickets);
-        }
-
-        private List<TicketBaseInfo> SortEventTicketByCommentLatestDate(
-           List<TicketBaseInfo> tickets)
-           => tickets.OrderByDescending(x => x.IsPinned).ThenByDescending(x => x.LastCommentDate).ToList();
+      return SortEventTicketByCommentLatestDate(ticketIsShowed);
     }
+
+    private List<TicketBaseInfo> SortEventTicketByCommentLatestDate(
+       List<TicketBaseInfo> tickets)
+       => tickets.OrderByDescending(x => x.IsPinned).ThenByDescending(x => x.LastCommentDate).ToList();
+
+    private List<TicketBaseInfo> BuildTicketIsShowed(List<TicketBaseInfo> allTicket, List<int> ticketId)
+    {
+      var ticketSaved = new List<TicketBaseInfo>();
+
+      ticketId.ToList().ForEach(x =>
+      {
+        var findTicket = allTicket.Where(y => y.TicketId.Equals(x)).ToList();
+        ticketSaved.AddRange(findTicket);
+      });
+
+      var ticketNotSaved = allTicket.Except(ticketSaved).ToList();
+
+      var ticketIsShowed = ticketNotSaved.Where(x => DateTime.Now.Subtract(x.LastCommentDate).Days <= 30).ToList();
+      
+      ticketSaved.AddRange(ticketIsShowed);
+
+      return ticketSaved;
+    }
+  }
 }
