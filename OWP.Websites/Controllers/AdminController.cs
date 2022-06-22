@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using OWP.PreMatchAssignment.Models;
 using StackExchange.Redis;
+using System.Net;
 
 namespace OWP.Websites.Controllers;
 
@@ -82,5 +83,45 @@ public class AdministratorController : Controller
 
         ViewBag.CacheContent = cacheContent;
         return View("CacheContent");
+    }
+
+    public ActionResult GetLogFile()
+    {
+        var folderPath = @$"App_Data{Path.DirectorySeparatorChar}Files";
+        var absolutedFolderPath = $"{AppDomain.CurrentDomain.BaseDirectory}{Path.DirectorySeparatorChar}{folderPath}";
+        DirectoryInfo directory = new DirectoryInfo(absolutedFolderPath);
+        if (!Directory.Exists(absolutedFolderPath))
+        {
+            Directory.CreateDirectory(absolutedFolderPath);
+        }
+
+        FileInfo[] files = directory.GetFiles("*.xlsx").OrderByDescending(p => p.CreationTime).ToArray();
+        List<object> fileInfos = new List<object>();
+
+        foreach (FileInfo file in files)
+        {
+            fileInfos.Add(new
+            {
+                fileName = file.Name,
+                createdTime = file.CreationTimeUtc.AddHours(8)
+            });
+        }
+
+        ViewBag.Files = fileInfos;
+        return View("GetLogFile");
+    }
+
+    public ActionResult DownloadFile(string fileName)
+    {
+        var folderPath = @$"App_Data{Path.DirectorySeparatorChar}Files";
+        var absolutedFolderPath = $"{AppDomain.CurrentDomain.BaseDirectory}{Path.DirectorySeparatorChar}{folderPath}";
+        var fullPath = Path.Combine(absolutedFolderPath, fileName);
+        // Disable the warning.
+        #pragma warning disable SYSLIB0014
+        WebClient net = new();
+        var data = net.DownloadData(fullPath);
+        var content = new System.IO.MemoryStream(data);
+        var contentType = "APPLICATION/octet-stream";
+        return File(content, contentType, fileName);
     }
 }

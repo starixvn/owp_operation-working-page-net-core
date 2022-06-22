@@ -1,0 +1,35 @@
+﻿@{
+    Layout = null;
+}
+<html>
+<head>
+    <style>
+        td {
+            border: 1px solid #aabbcc;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <td>File</td>
+                    <td>Log time GMT+8</td>
+                    <td>Action</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var file in ViewBag.Files)
+                {
+                    <tr>
+                        <td>@file.fileName</td>
+                        <td>@file.createdTime</td>
+                        <td>@Html.ActionLink("Download", "DownloadFile", new { fileName = file.fileName })</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
