@@ -34,15 +34,12 @@
 
             assignmentValidator.Validate(rawDataFromExcel, traders);
 
-            var warningDeleteResults = await assignmentValidator.WarningDeleteMatch(rawDataFromExcel.Assignments);
-
             var assignments = assignmentBuilder.BuildAssignment(traders, rawDataFromExcel.Assignments);
 
             return new AnalyzedResult
             {
                 Assignments = assignments,
-                OriginalRecordCount = rawDataFromExcel.Assignments.Count,
-                WarningDeleteResults = warningDeleteResults
+                OriginalRecordCount = rawDataFromExcel.Assignments.Count
             };
         }
     }

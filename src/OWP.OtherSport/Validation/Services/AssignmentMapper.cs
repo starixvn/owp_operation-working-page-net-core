@@ -1,6 +1,4 @@
-﻿using OWP.Extensions;
-
-namespace OWP.OtherSport.Validation.Services
+﻿namespace OWP.OtherSport.Validation.Services
 {
     using AutoMapper;
     using OWP.OtherSport.Validation.Models;
@@ -32,8 +30,6 @@ namespace OWP.OtherSport.Validation.Services
         void MapMaxbetsAndSpreads(AssignmentModelInExcel excelModel, AssignmentModel model);
 
         void MapStatus(AssignmentModelInExcel excelModel, AssignmentModel model);
-
-        void MapIsDeleted(AssignmentModelInExcel excelModel, AssignmentModel model);
     }
 
     public class AssignmentMapperImp : AssignmentMapper
@@ -63,7 +59,6 @@ namespace OWP.OtherSport.Validation.Services
             MapMaxbetsAndSpreads(excelModel, model);
             MapStatus(excelModel, model);
             MapIsNeutralMatch(excelModel, model);
-            MapIsDeleted(excelModel, model);
 
             return model;
         }
@@ -75,11 +70,6 @@ namespace OWP.OtherSport.Validation.Services
                 model.Home = excelModel.Home.Trim().Replace("(N)", "");
                 model.IsNeutral = true;
             }
-        }
-
-        public void MapIsDeleted(AssignmentModelInExcel excelModel, AssignmentModel model)
-        {
-            model.IsDeleted = excelModel.Action.IsContains("delete");
         }
 
         public void MapDateTime(AssignmentModelInExcel excelModel, AssignmentModel model)

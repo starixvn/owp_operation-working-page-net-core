@@ -31,11 +31,11 @@
             worksheet.Cells[2, 13].Value = "BGtv/RB2tv/BETtv/";
             worksheet.Cells[2, 14].Value = "InPlay";
             worksheet.Cells[2, 15].Value = "Euro40";
-            worksheet.Cells[2, 19].Value = "";
+            worksheet.Cells[2, 19].Value = "#starix1 note";
             worksheet.Cells[2, 20].Value = "#starix2 mynote";
-            worksheet.Cells[2, 152].Value = "other note";
-            worksheet.Cells[2, 153].Value = "#starix14 other";
-            worksheet.Cells[2, 160].Value = "50000";
+            worksheet.Cells[2, 151].Value = "other note";
+            worksheet.Cells[2, 152].Value = "#starix14 other";
+            worksheet.Cells[2, 159].Value = "50000";
 
             var data = excelPackage.GetAsByteArray();
 
@@ -65,9 +65,8 @@
                         Reporter = string.Empty,
                         WB = string.Empty,
                         Remark = string.Empty,
-                        Action = "",
-                        TraderBasketballFTHDP = "#starix2 mynote",
-                        TraderBasketball1HHDP = "",
+                        TraderBasketballFTHDP = "#starix1 note",
+                        TraderBasketball1HHDP = "#starix2 mynote",
                         TraderBasketball1Q3QHDP = string.Empty,
                         TraderBasketballFTOUOE = string.Empty,
                         TraderBasketball1HOUOE = string.Empty,
@@ -344,7 +343,7 @@
                         SpreadTennisMostDoubleFaults = string.Empty
                     }
                 },
-                Traders = new List<string> { "starix2", "starix14" }
+                Traders = new List<string> { "starix1", "starix2", "starix14" }
             };
 
             var actual = excelReader.Read(excelMemoryStream);

@@ -88,9 +88,6 @@
         [StringLength(EventUploadingPropertyMaxLength.Remark, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         public string Remark { get; set; }
 
-        [Display(Name = "Action")]
-        public string Action { get; set; }
-
         // Basketball
         [Display(Name = "Trader Basketball FT (HDP)")]
         [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
@@ -1062,7 +1059,5 @@
 
         [Display(Name = "Spread Tennis Most Double Faults")]
         public string SpreadTennisMostDoubleFaults { get; set; }
-
-        public override string ToString() => $"{DateTime},{League},{Home},{Away},{Sport}";
     }
 }
