@@ -160,7 +160,8 @@
             var isDuplicated = assignments.Any(x => IsEquals(x.DateTime, assignment.DateTime) &&
                                                     IsEquals(x.League, assignment.League) &&
                                                     IsEquals(x.Home.Replace("(N)", "").Trim(), assignment.Home.Replace("(N)", "").Trim()) &&
-                                                    IsEquals(x.Away, assignment.Away));
+                                                    IsEquals(x.Away, assignment.Away) &&
+                                                    IsEquals(x.Sport, assignment.Sport));
 
             if (isDuplicated)
             {
