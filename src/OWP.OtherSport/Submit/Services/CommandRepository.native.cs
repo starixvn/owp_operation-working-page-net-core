@@ -14,9 +14,9 @@ namespace OWP.OtherSport.Submit.Services
     {
         Task<AssignmentSnapshot> Query(string eventDates);
 
-        Task<List<DeletedMatch>> GetDeletedMatchInfo(List<OSMatchInfo> deletedassignments);
+        Task<List<DeletedMatch>> GetOldMatchInfo(string eventDateInString);
 
-        Task<List<int>> GetOldMatchIds(string eventDateInString);
+        Task<List<MatchByHashKey>> InsertOrUpdateMatch(List<AssignmentModel> assignments);
 
         Task Update(string deletedMatchIds, List<AssignmentModel> newAssignments);
     }
@@ -64,23 +64,14 @@ namespace OWP.OtherSport.Submit.Services
             };
         }
 
-        public async Task<List<DeletedMatch>> GetDeletedMatchInfo(List<OSMatchInfo> deletedMatch)
-        {
-            var criteria = new GetDeletedMatchesCriteria
-            {
-                OSMatches = JsonConvert.SerializeObject(deletedMatch)
-            };
-            return (await repository.FetchAsync<DeletedMatch>(criteria)).ToList();
-        }
-
-        public async Task<List<int>> GetOldMatchIds(string eventDateInString)
+        public async Task<List<DeletedMatch>> GetOldMatchInfo(string eventDateInString)
         {
             var criteria = new GetMatchIdsByDateListCriteria
             {
                 EventDates = eventDateInString
             };
 
-            return (await repository.FetchAsync<int>(criteria)).ToList();
+            return (await repository.FetchAsync<DeletedMatch>(criteria)).ToList();
         }
 
         public async Task Update(string deletedMatchIds, List<AssignmentModel> newAssignments)

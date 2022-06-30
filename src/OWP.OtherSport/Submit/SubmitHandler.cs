@@ -112,15 +112,22 @@
 
         private async Task SaveDataAndCleanupCache(List<DateTime> eventDates, List<AssignmentModel> assignments, string sessionId)
         {
-            var eventDateInString = string.Join(',', eventDates);
-            var deletedAssignments = assignments.Where(x => x.IsDeleted).ToList();
-            var newAssignments = assignments.Except(deletedAssignments).ToList();
-            var deletedMatches = await GetDeletedMatchInfo(deletedAssignments);
-            var deletedMatchIdsInString = string.Join(",", deletedMatches.Select(i => i.OSMatchId));
 
-            await SaveDeletedMatchesToSnapshot(deletedMatches);
+            var eventDateInString = string.Join(',', eventDates);
+
+            var oldMatch = await commandRepository.GetOldMatchInfo(eventDateInString);
+            var oldMatchIds = oldMatch.Select(x => x.OSMatchId).Distinct().ToList();
+
+            var hashKeyMap = await commandRepository.InsertOrUpdateMatch(assignments);
+            var newMatchIds = hashKeyMap.Select(h => h.OSMatchId).Distinct().ToList();
+
+            var deletedMatchIds = oldMatchIds.Except(newMatchIds);
+            var deletedInfo = oldMatch.Where(x => deletedMatchIds.Any(y => x.OSMatchId.Equals(y))).ToList();
+            var deletedMatchIdsInString = string.Join(",", deletedInfo.Select(i => i.OSMatchId));
+
+            await SaveDeletedMatchesToSnapshot(deletedInfo);
             await SaveOldAssignmentsToSnapshot(eventDateInString, sessionId);
-            await SaveAssignmentsToDatabase(newAssignments, deletedMatchIdsInString);
+            await SaveAssignmentsToDatabase(assignments, deletedMatchIdsInString);
             await cacheManipulator.DeleteAssignments(sessionId);
         }
 
@@ -128,21 +135,6 @@
         {
             var oldSnapshot = await commandRepository.Query(eventDateInString);
             await cacheManipulator.SaveOldAssignmentSnapshot(oldSnapshot, sessionId);
-        }
-
-        public async Task<List<DeletedMatch>> GetDeletedMatchInfo(IList<AssignmentModel> deletedAssignments)
-        {
-            var matchInfo = deletedAssignments.Select(i => new OSMatchInfo
-            {
-                Id = i.OSMatchId,
-                Home = i.Home,
-                Away = i.Away,
-                DateTime = i.DateTime,
-                Sport = i.Sport,
-                League = i.League
-            }).ToList();
-
-            return await commandRepository.GetDeletedMatchInfo(matchInfo);
         }
 
         public async Task SaveAssignmentsToDatabase(List<AssignmentModel> newAssignments, string deletedMatchIds)
