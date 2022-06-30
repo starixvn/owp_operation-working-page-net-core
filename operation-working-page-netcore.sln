@@ -65,7 +65,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OWP.MatchCountLiveReport", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OWP.RedisPubSub", "src\OWP.RedisPubSub\OWP.RedisPubSub.csproj", "{B12FF9C2-54FB-4988-B1A8-8CB0C07267E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OWP.OSBasketballMaxbetSetting", "src\OWP.OSBasketballMaxbetSetting\OWP.OSBasketballMaxbetSetting.csproj", "{4063C8CE-8843-4EEE-ACF1-DF2E5409226A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OWP.OSLeagueSetting", "src\OWP.OSLeagueSetting\OWP.OSLeagueSetting.csproj", "{4063C8CE-8843-4EEE-ACF1-DF2E5409226A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

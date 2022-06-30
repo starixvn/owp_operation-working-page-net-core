@@ -30,6 +30,7 @@ using OWP.ApiSyncWorkingShift;
 using OWP.FileUpload;
 using OWP.MatchCountLiveReport;
 using OWP.Maxbet;
+using OWP.OSLeagueSetting;
 using OWP.OtherSport;
 using OWP.OtherSport.Hubs;
 using OWP.OvertimeReport;
@@ -228,6 +229,7 @@ public static class ServiceCollectionExtensions
         services.AddMediatR(typeof(PreMatchReportController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(NotificationConsumer).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(MatchCountLiveReportController).GetTypeInfo().Assembly);
+        services.AddMediatR(typeof(OSLeagueController).GetTypeInfo().Assembly);
         return services;
     }
 

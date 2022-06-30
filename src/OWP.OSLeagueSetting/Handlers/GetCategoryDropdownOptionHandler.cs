@@ -1,10 +1,10 @@
 using Fanex.Data.Repository;
 using MediatR;
-using OWP.OSBasketballMaxbetSetting.Models;
+using OWP.OSLeagueSetting.Models;
 
-namespace OWP.OSBasketballMaxbetSetting.Handlers;
+namespace OWP.OSLeagueSetting.Handlers;
 
-public class GetRoundDropdownOptionHandler
+public class GetCategoryDropdownOptionHandler
 {
     public class Request : IRequest<IList<DropdownOption>>
     {
@@ -23,22 +23,22 @@ public class GetRoundDropdownOptionHandler
             {
                 new DropdownOption{
                     Value=1,
-                    Label= "Round 1",
+                    Label= "Category 1",
 
                 },
                  new DropdownOption{
                     Value=2,
-                    Label= "Round 2",
+                    Label= "Category 2",
 
                 },
                  new DropdownOption{
                     Value=3,
-                    Label= "Round 3",
+                    Label= "Category 3",
 
                 },
                  new DropdownOption{
                     Value=4,
-                    Label= "Round 4"
+                    Label= "Category 4"
                 }
             };
         }

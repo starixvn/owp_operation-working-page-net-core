@@ -77,5 +77,6 @@
         <ProjectReference Include="..\src\OWP.RabbitMQ\OWP.RabbitMQ.csproj" />
         <ProjectReference Include="..\src\OWP.MatchCountLiveReport\OWP.MatchCountLiveReport.csproj" />
         <ProjectReference Include="..\src\OWP.RedisPubSub\OWP.RedisPubSub.csproj" />
+    <ProjectReference Include="..\src\OWP.OSLeagueSetting\OWP.OSLeagueSetting.csproj" />
     </ItemGroup>
 </Project>

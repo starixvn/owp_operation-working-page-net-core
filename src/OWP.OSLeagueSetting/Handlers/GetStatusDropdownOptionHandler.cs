@@ -1,8 +1,8 @@
 using Fanex.Data.Repository;
 using MediatR;
-using OWP.OSBasketballMaxbetSetting.Models;
+using OWP.OSLeagueSetting.Models;
 
-namespace OWP.OSBasketballMaxbetSetting.Handlers;
+namespace OWP.OSLeagueSetting.Handlers;
 
 public class GetStatusDropdownOptionHandler
 {

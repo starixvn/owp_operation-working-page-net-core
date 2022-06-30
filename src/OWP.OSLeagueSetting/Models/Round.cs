@@ -1,4 +1,4 @@
-namespace OWP.OSBasketballMaxbetSetting.Models;
+namespace OWP.OSLeagueSetting.Models;
 
 public class Round
 {

@@ -2,21 +2,21 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using OWP.OSBasketballMaxbetSetting.Models;
-using OWP.OSBasketballMaxbetSetting.Handlers;
+using OWP.OSLeagueSetting.Models;
+using OWP.OSLeagueSetting.Handlers;
 
-namespace OWP.OSBasketballMaxbetSetting;
+namespace OWP.OSLeagueSetting;
 
 [Route("api/[controller]")]
 [ApiController]
 [EnableCors("AllowOrigin")]
 [AllowAnonymous]
 //[Authorize]
-public class BasketballMaxbetController : ControllerBase
+public class OSLeagueController : ControllerBase
 {
     private readonly IMediator mediator;
 
-    public BasketballMaxbetController(IMediator mediator)
+    public OSLeagueController(IMediator mediator)
     {
         this.mediator = mediator;
     }
