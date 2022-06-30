@@ -19,7 +19,7 @@
 
             worksheet.Cells[2, 2].Value = "Live";
             worksheet.Cells[2, 3].Value = "Soccer";
-            worksheet.Cells[2, 4].Value = "12/2/2020  3:30:00 PM";
+            worksheet.Cells[2, 4].Value = "44771.5104166667";
             worksheet.Cells[2, 5].Value = "CHINA FOOTBALL SUPER LEAGUE (PLAY OFF)";
             worksheet.Cells[2, 6].Value = "Dalian Pro FC (N)";
             worksheet.Cells[2, 7].Value = "Guangzhou R&F";
@@ -45,12 +45,12 @@
             {
                 Assignments = new List<AssignmentModelInExcel>
                 {
-                    new AssignmentModelInExcel
+                    new ()
                     {
                         MatchNo = "",
                         MatchStatus = "Live",
                         Sport = "Soccer",
-                        DateTime = "12/2/2020  3:30:00 PM",
+                        DateTime = "44771.5104166667",
                         Home = "Dalian Pro FC (N)",
                         Away = "Guangzhou R&F",
                         League = "CHINA FOOTBALL SUPER LEAGUE (PLAY OFF)",
@@ -346,7 +346,7 @@
                 Traders = new List<string> { "starix1", "starix2", "starix14" }
             };
 
-            var actual = excelReader.Read(excelMemoryStream);
+            var actual = excelReader.Read(excelMemoryStream, new DateTime(2022, 01, 01), new DateTime(2022, 10, 01));
             DeepAssert.Equal(expected, actual);
         }
     }

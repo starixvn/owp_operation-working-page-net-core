@@ -1,6 +1,6 @@
 ﻿namespace OWP.OtherSport.Validation.Services
 {
-    using OWP.OtherSport.Validation.Models;
+    using Models;
 
     public interface Analyzer
     {
@@ -28,7 +28,7 @@
 
         public async Task<AnalyzedResult> Analyze(ValidationHandler.Request request)
         {
-            var rawDataFromExcel = excelReader.Read(request.Stream);
+            var rawDataFromExcel = excelReader.Read(request.Stream, request.FromDate, request.ToDate);
 
             var traders = await repository.GetTraders(rawDataFromExcel.Traders);
 

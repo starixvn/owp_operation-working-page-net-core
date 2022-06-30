@@ -17,8 +17,6 @@
 
         void ValidateTraders(AssignmentModelInExcel assignment, List<ValidationResult> results, List<Trader> traders);
 
-        void ValidateDateTime(AssignmentModelInExcel assignment, List<ValidationResult> results);
-
         void ValidateMaxbetAndSpreadInString(AssignmentModelInExcel assignment, List<ValidationResult> results);
     }
 
@@ -59,7 +57,6 @@
             ValidateTraders(assignment, results, traders);
             ValidateDataAnotation(assignment, results);
             ValidateDuplicatedMatch(assignment, assigments, results);
-            ValidateDateTime(assignment, results);
             ValidateMaxbetAndSpreadInString(assignment, results);
 
             return results;
@@ -132,14 +129,6 @@
         {
             var context = new ValidationContext(assignment, null, null);
             Validator.TryValidateObject(assignment, context, results, true);
-        }
-
-        public void ValidateDateTime(AssignmentModelInExcel assignment, List<ValidationResult> results)
-        {
-            if (!double.TryParse(assignment.DateTime, out _))
-            {
-                results.Add(new ValidationResult("[Column: Date Time] - Error: Invalid date time format"));
-            }
         }
 
         public void ValidateMaxbetAndSpreadInString(AssignmentModelInExcel assignment, List<ValidationResult> results)

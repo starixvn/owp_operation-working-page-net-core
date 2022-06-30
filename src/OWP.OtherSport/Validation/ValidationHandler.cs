@@ -102,11 +102,8 @@
             {
                 excelValidator.Validate(request.Stream);
                 var analyzedResult = await analyzer.Analyze(request);
-                var fromDate = request.FromDate.AddHours(12);
-                var toDate = request.ToDate.AddDays(1).AddHours(11).AddMinutes(59).AddSeconds(59);
-                var validAssignments = analyzedResult.Assignments.Where(x =>
-                    x.DateTime >= fromDate && x.DateTime <= toDate).ToList(); 
-                await cacheManipulator.SaveAssignmentsSnapshot(sessionId, validAssignments);
+
+                await cacheManipulator.SaveAssignmentsSnapshot(sessionId, analyzedResult.Assignments);
 
                 return analyzedResult.OriginalRecordCount;
             }
