@@ -18,6 +18,10 @@
 
             public string SessionId { get; private set; }
 
+            public DateTime FromDate { get; set; }
+
+            public DateTime ToDate { get; set; }
+
             public Stream Stream { get; set; }
         }
 
@@ -98,7 +102,11 @@
             {
                 excelValidator.Validate(request.Stream);
                 var analyzedResult = await analyzer.Analyze(request);
-                await cacheManipulator.SaveAssignmentsSnapshot(sessionId, analyzedResult.Assignments);
+                var fromDate = request.FromDate.AddHours(12);
+                var toDate = request.ToDate.AddDays(1).AddHours(11).AddMinutes(59).AddSeconds(59);
+                var validAssignments = analyzedResult.Assignments.Where(x =>
+                    x.DateTime >= fromDate && x.DateTime <= toDate).ToList(); 
+                await cacheManipulator.SaveAssignmentsSnapshot(sessionId, validAssignments);
 
                 return analyzedResult.OriginalRecordCount;
             }
