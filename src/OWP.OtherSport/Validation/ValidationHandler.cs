@@ -6,6 +6,7 @@
     using OWP.OtherSport.Validation.Exceptions;
     using OWP.OtherSport.Validation.Services;
     using System.Globalization;
+    using Utils;
 
     public class ValidationHandler
     {
@@ -93,7 +94,7 @@
                     result.Exception = ex.Message;
                 }
 
-                await LogExcelFile(request.SessionId, request.Stream);
+                await LogExcelFile(request);
 
                 return result;
             }
@@ -108,7 +109,7 @@
                 return analyzedResult.OriginalRecordCount;
             }
 
-            private async Task LogExcelFile(string sessionId, Stream file)
+            private async Task LogExcelFile(Request request)
             {
                 var folderPath = @$"App_Data{Path.DirectorySeparatorChar}Files";
                 var absolutedFolderPath = $"{AppDomain.CurrentDomain.BaseDirectory}{Path.DirectorySeparatorChar}{folderPath}";
@@ -118,12 +119,13 @@
                     Directory.CreateDirectory(absolutedFolderPath);
                 }
 
-                var fileName = $"{sessionId}-{session.UserName}-New-OS.xlsx";
+                var currentTime = DateTime.Now.ToGmt8().ToString("yyyyMMdd-HH'h'mm'm'ss-'GMT8'");
+                var fileName = $"({request.FromDate.ToString("yyyyMMdd")}-{request.ToDate.ToString("yyyyMMdd")})-{session.UserName}-({currentTime})-New-OS.xlsx";
                 var fullPath = Path.Combine(absolutedFolderPath, fileName);
 
                 using var stream = File.Create(fullPath);
-                file.Seek(0, SeekOrigin.Begin);
-                await file.CopyToAsync(stream);
+                request.Stream.Seek(0, SeekOrigin.Begin);
+                await request.Stream.CopyToAsync(stream);
             }
         }
     }

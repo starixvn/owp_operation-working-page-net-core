@@ -17,7 +17,7 @@
         {
             // Arrange
             await using var stream = MockFileStream();
-            var request = new ValidationHandler.Request { Stream = stream };
+            var request = new ValidationHandler.Request { Stream = stream, FromDate = new DateTime(2022, 02, 02), ToDate = new DateTime(2022, 03, 02) };
             var exception = new InvalidExcelFormatException();
             var handler = MockHandler(request, exception);
 
