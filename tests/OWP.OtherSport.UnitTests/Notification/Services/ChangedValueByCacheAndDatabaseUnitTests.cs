@@ -33,13 +33,13 @@
                     UserId = 10
                 }
             };
-            cacheManipulator.GetAssignmentSnapshot(Arg.Compat.Any<string>(), Arg.Compat.Any<string>()).Returns(new AssignmentSnapshot());
-            commandRepo.Query(Arg.Compat.Any<string>()).Returns(new AssignmentSnapshot());
-            cacheManipulator.DeleteAssignmentSnapshot(Arg.Compat.Any<string>(), Arg.Compat.Any<string>());
+            cacheManipulator.GetAssignmentSnapshot(Arg.Compat.Any<string>()).Returns(new AssignmentSnapshot());
+            commandRepo.Query(Arg.Compat.Any<DateTime>(), Arg.Compat.Any<DateTime>()).Returns(new AssignmentSnapshot());
+            cacheManipulator.DeleteAssignmentSnapshot(Arg.Compat.Any<string>());
             changedValueBySnapshot.Create(Arg.Compat.Any<AssignmentSnapshot>(), Arg.Compat.Any<AssignmentSnapshot>()).Returns(changedValues);
 
             // Act
-            var actual = services.Create("abc", "2021-05-13");
+            var actual = services.Create("abc", new DateTime(2022, 06, 10), new DateTime(2022, 06, 11));
 
             // Assert
             Equals(changedValues, actual);

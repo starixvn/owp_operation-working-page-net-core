@@ -76,7 +76,8 @@ namespace OWP.OtherSport
             var requestNotify = new NotifyRequest
             {
                 SessionId = request.SessionId,
-                EventDate = viewModel.EventDates
+                FromDate = request.FromDate,
+                ToDate = request.ToDate
             };
 
             await mediator.Send(requestNotify);
