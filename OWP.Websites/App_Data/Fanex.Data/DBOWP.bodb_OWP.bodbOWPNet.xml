@@ -194,4 +194,9 @@
 	<Function Name="MatchLiveReport">
 		<Setting Key="OWP_MatchLiveReport_GetByTimeRange" SpName="OWP_MatchLiveReport_GetByTimeRange" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 	</Function>
+    <Function Name="OSLeagueSetting">
+		<Setting Key="OWP_OSLeagueSetting_GetStatusOption" SpName="OWP_OSLeagueSetting_GetStatusOption" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+        <Setting Key="OWP_OSLeagueSetting_GetCategoryOption" SpName="OWP_OSLeagueSetting_GetCategoryOption" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+        <Setting Key="OWP_OSLeagueSetting_GetRoundOption" SpName="OWP_OSLeagueSetting_GetRoundOption" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+	</Function>
 </Functions>

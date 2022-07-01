@@ -1,4 +1,5 @@
 ﻿using Olympus.SimpleDataApi;
+using OWP.SimpleDataApi.Criteria.OsLeagueSetting;
 using OWP.SimpleDataApi.Criteria.TicketCenter;
 
 namespace OWP.SimpleDataApi
@@ -8,8 +9,15 @@ namespace OWP.SimpleDataApi
         static SimpleCriteriaFactoryImp()
         {
             RegisterTicketCenter();
+            RegisterOsLeagueSetting();
         }
 
+        private static void RegisterOsLeagueSetting()
+        {
+            CriteriaTypes.Add(ConstantApiKey.OsLeagueSettingGetCategoryOption, typeof(GetCategoryOptionCriteria));
+            CriteriaTypes.Add(ConstantApiKey.OsLeagueSettingGetRoundOption, typeof(GetRoundOptionCriteria));
+            CriteriaTypes.Add(ConstantApiKey.OsLeagueSettingGetStatusOption, typeof(GetStatusOptionCriteria));
+        }
         private static void RegisterTicketCenter()
         {
             CriteriaTypes.Add(ConstantApiKey.TicketCenterGetRecipient, typeof(GetRecipientCriteria));
