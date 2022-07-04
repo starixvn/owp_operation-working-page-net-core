@@ -1,18 +1,22 @@
 {
-  "editor.fontSize": 15,
-  "editor.tabSize": 4,
-  "editor.insertSpaces": true,
-  "editor.formatOnSave": true,
-  "window.zoomLevel": 0,
-  "editor.renderWhitespace": "all",
-  "editor.detectIndentation": false,
-  "files.hotExit": "off",
-  "terminal.integrated.fontSize": 14,
-  "javascript.updateImportsOnFileMove.enabled": "never",
-  "git.ignoreLimitWarning": true,
-  "sonarlint.ls.javaHome": "C:\\Program Files\\Java\\jdk1.8.0_201",
-  "editor.acceptSuggestionOnEnter": "smart",
-  "dotnet-test-explorer.testArguments": "/p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=./lcov.info",
-  "dotnet-test-explorer.testProjectPath": "**/*.UnitTests.csproj",
-  "cSpell.words": ["maxbet", "uuidv"]
+    "editor.fontSize": 15,
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "editor.formatOnSave": true,
+    "window.zoomLevel": 0,
+    "editor.renderWhitespace": "all",
+    "editor.detectIndentation": false,
+    "files.hotExit": "off",
+    "terminal.integrated.fontSize": 14,
+    "javascript.updateImportsOnFileMove.enabled": "never",
+    "git.ignoreLimitWarning": true,
+    "sonarlint.ls.javaHome": "C:\\Program Files\\Java\\jdk1.8.0_201",
+    "editor.acceptSuggestionOnEnter": "smart",
+    "dotnet-test-explorer.testArguments": "/p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=./lcov.info",
+    "dotnet-test-explorer.testProjectPath": "**/*.UnitTests.csproj",
+    "cSpell.words": [
+        "maxbet",
+        "uuidv"
+    ],
+    "workbench.editor.enablePreview": false
 }
