@@ -401,6 +401,7 @@
 
             var expected = new AssignmentModelInExcel
             {
+                RowIndex = 2,
                 MatchStatus = "Live",
                 Sport = "Soccer",
                 DateTime = "12/2/2020  3:30:00 PM",

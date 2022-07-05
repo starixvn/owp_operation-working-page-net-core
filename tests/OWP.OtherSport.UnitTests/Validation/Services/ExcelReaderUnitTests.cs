@@ -47,6 +47,7 @@
                 {
                     new ()
                     {
+                        RowIndex = 2,
                         MatchNo = "",
                         MatchStatus = "Live",
                         Sport = "Soccer",

@@ -28,7 +28,7 @@
 
             for (var i = 0; i < rawDataFromExcel.Assignments.Count; i++)
             {
-                var rowIndex = i;
+                var rowIndex =rawDataFromExcel.Assignments[i].RowIndex ;
                 var assignments = rawDataFromExcel.Assignments.ToList();
                 assignments.RemoveAt(i); //Remove match at i for duplicate matches validation
 

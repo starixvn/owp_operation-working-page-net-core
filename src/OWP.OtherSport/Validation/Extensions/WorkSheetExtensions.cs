@@ -22,7 +22,8 @@
         {
             var result = new Dictionary<string, int>(StringComparer.CurrentCultureIgnoreCase);
             var type = typeof(AssignmentModelInExcel);
-            var properties = type.GetProperties().ToList();
+            var properties = type.GetProperties()
+                .Where(x => x.Name != "RowIndex").ToList();
             var headers = sheet.GetHeaderNames().ToList();
 
             foreach (var property in properties)
@@ -108,6 +109,8 @@
             var getValueMethod = methods.First(m => m.IsGenericMethod && m.Name == "GetValue");
 
             var model = new AssignmentModelInExcel();
+
+            model.RowIndex = row;
 
             foreach (var property in properties)
             {
