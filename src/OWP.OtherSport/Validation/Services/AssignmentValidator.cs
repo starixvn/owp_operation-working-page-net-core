@@ -28,7 +28,7 @@
 
             for (var i = 0; i < rawDataFromExcel.Assignments.Count; i++)
             {
-                var rowIndex =rawDataFromExcel.Assignments[i].RowIndex ;
+                var rowIndex = rawDataFromExcel.Assignments[i].RowIndex;
                 var assignments = rawDataFromExcel.Assignments.ToList();
                 assignments.RemoveAt(i); //Remove match at i for duplicate matches validation
 
@@ -157,13 +157,12 @@
 
         private static void ValidateDuplicatedMatch(AssignmentModelInExcel assignment, List<AssignmentModelInExcel> assignments, List<ValidationResult> results)
         {
-            var condition1 = assignments.Any(x => IsEquals(x.League, assignment.League) &&
+            var dupAssignmentInfo = assignments.Where(x => IsEquals(x.League, assignment.League) &&
                                                     IsEquals(x.Home.Replace("(N)", "").Trim(), assignment.Home.Replace("(N)", "").Trim()) &&
-                                                    IsEquals(x.Away, assignment.Away));
+                                                    IsEquals(x.Away, assignment.Away) &&
+                                                    IsEquals(x.DateTime, assignment.DateTime)).ToList();
 
-            var condition2 = assignments.Any(x => IsEquals(x.DateTime, assignment.DateTime));
-            var condition3 = assignments.Any(x => IsEquals(x.Sport, assignment.Sport));
-            var isDuplicated = condition1 && condition2 && condition3;
+            var isDuplicated = dupAssignmentInfo.Any(x => IsEquals(x.Sport, assignment.Sport));
             if (isDuplicated)
             {
                 results.Add(new ValidationResult($"Duplicate Match: {assignment.League} | {assignment.Home.Replace("(N)", "").Trim()} -vs- {assignment.Away}"));
