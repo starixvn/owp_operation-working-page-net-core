@@ -21,11 +21,6 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Newtonsoft.Json;
 using Olympus.SimpleDataApi;
-using ONEbook.UM.AspNetCore;
-using ONEbook.UM.Configurations;
-using ONEbook.UM.Helpers;
-using ONEbook.UM.Services;
-using ONEbook.UM.Transport;
 using OWP.ApiSyncWorkingShift;
 using OWP.FileUpload;
 using OWP.MatchCountLiveReport;
@@ -247,7 +242,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         services.AddTransient<Fanex.Logging.ILogger, Logger>();
-        services.AddSingleton(new UMClientConfiguration().Initialize(configuration));
+        //services.AddSingleton(new UMClientConfiguration().Initialize(configuration));
 
         services.AddSingleton<INapSettings>(new NapSettings(configuration));
         services.AddSingleton<INapSession, NapSession>();
@@ -257,10 +252,10 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<ISecurityService, SecurityService>();
         services.AddSingleton<ISiteService, SiteService>();
 
-        services.AddSingleton<IMaintenanceService, MaintenanceService>();
-        services.AddSingleton<IUMCacheService, UMCacheService>();
-        services.AddSingleton<IUMRestClient, UMRestClient>();
-        services.AddSingleton<IHttpContextHelper, HttpContextHelper>();
+        //services.AddSingleton<IMaintenanceService, MaintenanceService>();
+        //services.AddSingleton<IUMCacheService, UMCacheService>();
+        //services.AddSingleton<IUMRestClient, UMRestClient>();
+        //services.AddSingleton<IHttpContextHelper, HttpContextHelper>();
 
         return services;
     }

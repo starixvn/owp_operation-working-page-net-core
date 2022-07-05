@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\OWP.MessagePublisher\OWP.MessagePublisher.csproj" />
     <ProjectReference Include="..\OWP\OWP.csproj" />
   </ItemGroup>
 

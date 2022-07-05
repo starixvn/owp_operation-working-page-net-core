@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using OWP.MessagePublisher;
 using OWP.TicketCenter.Criteria;
 using OWP.TicketCenter.Enum;
 using OWP.TicketCenter.Models;
@@ -18,27 +19,26 @@ namespace OWP.TicketCenter.Handlers
     public class NewTicketIssueOtherHandler : IRequestHandler<NewTicketIssueOtherRequest, int>
     {
         private readonly Repository repository;
-
         private readonly IMapper mapper;
-
         private readonly NewTicketOtherMessageDBWriter writer;
-
         private readonly NotificationService notificationService;
-
         private readonly RecipientService recipientService;
+        private readonly IMessagePublisher publisher;
 
         public NewTicketIssueOtherHandler(
             Repository repository,
             IMapper mapper,
             NewTicketOtherMessageDBWriter writer,
             NotificationService notificationService,
-            RecipientService recipientService)
+            RecipientService recipientService,
+            IMessagePublisher publisher = null)
         {
             this.repository = repository;
             this.mapper = mapper;
             this.writer = writer;
             this.notificationService = notificationService;
             this.recipientService = recipientService;
+            this.publisher = publisher;
         }
 
         public async Task<int> Handle(NewTicketIssueOtherRequest request, CancellationToken cancellationToken)
@@ -89,16 +89,23 @@ namespace OWP.TicketCenter.Handlers
                 notificationMessage,
                 NotificationTemplateCode.NewTicket);
 
-            await notificationService.NotifyNewMessageIncome(ticketId);
+            //await notificationService.NotifyNewMessageIncome(ticketId);
 
-            await notificationService.NotifyNewAddRecipient(ticketId, request.CreatorId);
+            //await notificationService.NotifyNewAddRecipient(ticketId, request.CreatorId);
 
-            await notificationService.Notify(new NotificationSource
+            //await notificationService.Notify(new NotificationSource
+            //{
+            //    SessionId = sessionId,
+            //    TicketId = ticketId,
+            //    EventType = (int)EventType.Other,
+            //});
+            var messageModel = new
             {
                 SessionId = sessionId,
                 TicketId = ticketId,
                 EventType = (int)EventType.Other,
-            });
+            };
+            publisher.PushMessage<object>(messageModel, RoutingKey.TicketCenter);
 
             return ticketId;
         }

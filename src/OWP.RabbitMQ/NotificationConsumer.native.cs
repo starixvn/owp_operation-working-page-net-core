@@ -3,7 +3,6 @@ using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using OWP.Services;
-using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
 namespace OWP.RabbitMQ;
@@ -38,7 +37,7 @@ public class NotificationConsumer : ConsumerBase, IHostedService
             var consumer = new AsyncEventingBasicConsumer(channel);
             consumer.Received += OnEventReceived;
 
-            channel.BasicConsume(queue: queue, autoAck: false, consumer: consumer);
+            //  channel.BasicConsume(queue: queue, autoAck: false, consumer: consumer);
         }
         catch (Exception ex)
         {

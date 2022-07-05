@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using OWP.MessagePublisher;
 using OWP.TicketCenter.Criteria;
 using OWP.TicketCenter.Enum;
 using OWP.TicketCenter.Models;
@@ -18,27 +19,25 @@ namespace OWP.TicketCenter.Handlers
     public class NewTicketIssueLeagueHandler : IRequestHandler<NewTicketIssueLeagueRequest, int>
     {
         private readonly Repository repository;
-
         private readonly IMapper mapper;
-
         private readonly NewTicketLeagueMessageDBWriter writer;
-
         private readonly NotificationService notificationService;
-
         private readonly RecipientService recipientService;
-
+        private readonly IMessagePublisher publisher;
         public NewTicketIssueLeagueHandler(
             Repository repository,
             IMapper mapper,
             NewTicketLeagueMessageDBWriter writer,
             NotificationService notificationService,
-            RecipientService recipientService)
+            RecipientService recipientService,
+            IMessagePublisher publisher)
         {
             this.repository = repository;
             this.mapper = mapper;
             this.writer = writer;
             this.notificationService = notificationService;
             this.recipientService = recipientService;
+            this.publisher = publisher;
         }
 
         public async Task<int> Handle(NewTicketIssueLeagueRequest request, CancellationToken cancellationToken)
@@ -92,14 +91,14 @@ namespace OWP.TicketCenter.Handlers
 
             await notificationService.NotifyNewAddRecipient(ticketId, request.CreatorId);
 
-            await notificationService.Notify(new NotificationSource
-            {
-                SessionId = sessionId,
-                TicketId = ticketId,
-                EventType = (int)EventType.League,
-            });
-
-           
+            //await notificationService.Notify(new NotificationSource
+            //{
+            //    SessionId = sessionId,
+            //    TicketId = ticketId,
+            //    EventType = (int)EventType.League,
+            //});
+            var notificationSource = new NotificationSource(sessionId, ticketId, (int)EventType.League);
+            publisher.PushMessage<NotificationSource>(notificationSource, RoutingKey.TicketCenter);
 
             return ticketId;
         }
