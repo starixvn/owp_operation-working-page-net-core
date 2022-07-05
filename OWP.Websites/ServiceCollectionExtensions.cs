@@ -64,6 +64,7 @@ public static class ServiceCollectionExtensions
             mc.AddProfile(new PreMatchReport.AutoMapperProfile());
             mc.AddProfile((new PrematchAssignment.AutoMapperProfile()));
             mc.AddProfile(new AutoAssignment.AutoMapperProfile());
+            mc.AddProfile(new OSLeagueSetting.AutoMapperProfile());
         });
 
         var mapper = mapperConfig.CreateMapper();
@@ -211,6 +212,7 @@ public static class ServiceCollectionExtensions
         services.AddPreMatchReportService();
         services.AddTicketTypeRecipientService();
         services.AddMatchLiveReportService();
+        services.AddOSLeagueSetting();
         return services;
     }
 

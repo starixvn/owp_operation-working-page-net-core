@@ -11,7 +11,6 @@ namespace OWP.OSLeagueSetting;
 [ApiController]
 [EnableCors("AllowOrigin")]
 [AllowAnonymous]
-//[Authorize]
 public class OSLeagueController : ControllerBase
 {
     private readonly IMediator mediator;
@@ -21,8 +20,7 @@ public class OSLeagueController : ControllerBase
         this.mediator = mediator;
     }
 
-    [HttpGet("league-setting")]
-    [Produces("application/json")]
+    [HttpPost("league-setting")]
     public async Task<IActionResult> GetLeagueInfo(GetLeagueInfoHandler.Request queryInfo)
     {
         var leagueInfo = await mediator.Send(queryInfo);

@@ -150,7 +150,7 @@
 		<Setting Key="OWP_TicketCenter_UpdateIsSavedMessage" SpName="OWP_TicketCenter_UpdateIsSavedMessage" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_TicketCenter_UpdateTicketsAsReadByActorId" SpName="OWP_TicketCenter_UpdateTicketsAsReadByActorId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_TicketCenter_GetTwoLastComment" SpName="OWP_TicketCenter_GetTwoLastComment" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_TicketCenter_GetTicketIsSaved" SpName="OWP_TicketCenter_GetTicketIsSaved" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenter_GetTicketIsSaved" SpName="OWP_TicketCenter_GetTicketIsSaved" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 	</Function>
 	<Function Name="FileUpload">
 		<Setting Key="OWP_FileUpload_Upload" SpName="OWP_FileUpload_Upload" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
@@ -194,9 +194,10 @@
 	<Function Name="MatchLiveReport">
 		<Setting Key="OWP_MatchLiveReport_GetByTimeRange" SpName="OWP_MatchLiveReport_GetByTimeRange" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 	</Function>
-    <Function Name="OSLeagueSetting">
+	<Function Name="OSLeagueSetting">
 		<Setting Key="OWP_OSLeagueSetting_GetStatusOption" SpName="OWP_OSLeagueSetting_GetStatusOption" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-        <Setting Key="OWP_OSLeagueSetting_GetCategoryOption" SpName="OWP_OSLeagueSetting_GetCategoryOption" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-        <Setting Key="OWP_OSLeagueSetting_GetRoundOption" SpName="OWP_OSLeagueSetting_GetRoundOption" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_OSLeagueSetting_GetCategoryOption" SpName="OWP_OSLeagueSetting_GetCategoryOption" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_OSLeagueSetting_GetRoundOption" SpName="OWP_OSLeagueSetting_GetRoundOption" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_OSLeagueSetting_GetLeagueSettingInfo" SpName="OWP_OSLeagueSetting_GetLeagueSettingInfo" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 	</Function>
 </Functions>
