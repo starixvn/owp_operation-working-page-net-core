@@ -17,7 +17,6 @@
 
         public DateTime ToDate { get; set; }
 
-        public int DiffDays { get; set; }
     }
 
     public class SubmitResponse
@@ -57,8 +56,9 @@
         {
             var newAssignments = await cacheManipulator.GetNewAssignments(request.SessionId);
             var eventDates = new List<DateTime>();
+            var diffDays = request.ToDate - request.FromDate;
 
-            for (int i = 0; i <= request.DiffDays; i++)
+            for (int i = 0; i <= diffDays.TotalDays; i++)
             {
                 eventDates.Add(request.FromDate.AddDays(i));
             }

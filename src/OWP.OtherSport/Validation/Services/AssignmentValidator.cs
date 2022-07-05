@@ -157,12 +157,13 @@
 
         private static void ValidateDuplicatedMatch(AssignmentModelInExcel assignment, List<AssignmentModelInExcel> assignments, List<ValidationResult> results)
         {
-            var isDuplicated = assignments.Any(x => IsEquals(x.DateTime, assignment.DateTime) &&
-                                                    IsEquals(x.League, assignment.League) &&
+            var condition1 = assignments.Any(x => IsEquals(x.League, assignment.League) &&
                                                     IsEquals(x.Home.Replace("(N)", "").Trim(), assignment.Home.Replace("(N)", "").Trim()) &&
-                                                    IsEquals(x.Away, assignment.Away) &&
-                                                    IsEquals(x.Sport, assignment.Sport));
+                                                    IsEquals(x.Away, assignment.Away));
 
+            var condition2 = assignments.Any(x => IsEquals(x.DateTime, assignment.DateTime));
+            var condition3 = assignments.Any(x => IsEquals(x.Sport, assignment.Sport));
+            var isDuplicated = condition1 && condition2 && condition3;
             if (isDuplicated)
             {
                 results.Add(new ValidationResult($"Duplicate Match: {assignment.League} | {assignment.Home.Replace("(N)", "").Trim()} -vs- {assignment.Away}"));

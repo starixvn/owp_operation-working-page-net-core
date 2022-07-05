@@ -215,6 +215,21 @@
         }
 
         [Fact]
+        public void MapIsNeutralMatch_ReturnNewHomeName()
+        {
+            var excelModel = new AssignmentModelInExcel
+            {
+                Home = "Team A(N)"
+            };
+
+            var model = new AssignmentModel();
+
+            assignmentMapper.MapIsNeutralMatch(excelModel, model);
+
+            Assert.Equal("Team A", model.Home);
+        }
+
+        [Fact]
         public void Map_ValidModel_ReturnsUserModel()
         {
             var excelModel = GetAssignmentModelInExcel();
