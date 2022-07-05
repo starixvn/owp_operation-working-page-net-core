@@ -26,6 +26,7 @@ COPY ./src/OWP.MatchCountLiveReport/. ./src/OWP.MatchCountLiveReport
 COPY ./src/OWP.RedisPubSub/. ./src/OWP.RedisPubSub
 COPY ./src/OWP.OSLeagueSetting/. ./src/OWP.OSLeagueSetting
 COPY ./src/OWP.RabbitMQ/. ./src/OWP.RabbitMQ
+COPY ./src/OWP.Report/. ./src/OWP.Report
 COPY ./OWP.Websites/OWP.Websites.csproj ./OWP.Websites/OWP.Websites.csproj
 
 WORKDIR /src/OWP.Websites
