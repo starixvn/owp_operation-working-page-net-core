@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using OWP.OSLeagueSetting.Models;
 using OWP.OSLeagueSetting.Handlers;
+using Newtonsoft.Json;
 
 namespace OWP.OSLeagueSetting;
 
@@ -25,5 +26,14 @@ public class OSLeagueController : ControllerBase
     {
         var leagueInfo = await mediator.Send(queryInfo);
         return Ok(leagueInfo);
+    }
+
+    [HttpGet("league-setting-detail")]
+    public async Task<IActionResult> QuerySettingDetailById(int leagueSettingId)
+    {
+        var request = new GetLeagueSettingDetailRequest { LeagueSettingId = leagueSettingId };
+        var result = await mediator.Send(request);
+
+        return Ok(result);
     }
 }

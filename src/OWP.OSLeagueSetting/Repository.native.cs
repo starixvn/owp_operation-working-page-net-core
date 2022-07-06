@@ -9,6 +9,8 @@ using OWP.OSLeagueSetting.Handlers;
 public interface Repository
 {
     Task<IEnumerable<LeagueSettingInfo>> GetLeagueSettingInfo(GetLeagueInfoHandler.Request request);
+
+    Task<SettingDetail> GetLeagueSettingDetail(int leagueSettingId);
 }
 
 public class RepositoryImp : Repository
@@ -30,5 +32,12 @@ public class RepositoryImp : Repository
             league = request.League
         };
         return await dynamicRepository.FetchAsync<LeagueSettingInfo>(criteria);
+    }
+
+    public async Task<SettingDetail> GetLeagueSettingDetail(int leagueSettingId)
+    {
+        var criteria = new QueryLeagueSettingDetailCriteria { LeagueSettingId = leagueSettingId };
+
+        return (await dynamicRepository.FetchAsync<SettingDetail>(criteria)).First();
     }
 }
