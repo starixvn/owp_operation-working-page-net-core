@@ -9,6 +9,8 @@
     {
         Task<List<AssignmentModel>> GetNewAssignments(string sessionId);
 
+        Task DeleteAssignments(string sessionId);
+
         Task SaveOldAssignmentSnapshot(AssignmentSnapshot assignmentSnapshot, string sessionId);
 
         Task<string> GetUserWhoIsUploadingAssignment(DateTime eventDate);
@@ -52,9 +54,15 @@
             return assignments ?? new List<AssignmentModel>();
         }
 
+        public async Task DeleteAssignments(string sessionId)
+        {
+            var cacheKey = $"{KEY_OS_ASSIGNMENT}-{sessionId}";
+            await cache.RemoveAsync(cacheKey);
+        }
+
         public async Task SaveOldAssignmentSnapshot(AssignmentSnapshot assignmentSnapshot, string sessionId)
         {
-            var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromDays(365));
+            var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromHours(1));
             var assignmentSnapshotInJson = JsonConvert.SerializeObject(assignmentSnapshot);
             var cacheKey = $"{KEY_OLD_OS_ASSIGNMENT_SNAPSHOT}-{sessionId}";
             await cache.SetAsync(cacheKey, assignmentSnapshotInJson, cachePolicy);

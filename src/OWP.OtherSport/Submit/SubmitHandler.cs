@@ -121,6 +121,7 @@
             await SaveDeletedMatchesToSnapshot(deletedMatches);
             await SaveOldAssignmentsToSnapshot(eventDateInString, sessionId);
             await SaveAssignmentsToDatabase(newAssignments, deletedMatchIdsInString);
+            await cacheManipulator.DeleteAssignments(sessionId);
         }
 
         public async Task SaveOldAssignmentsToSnapshot(string eventDateInString, string sessionId)

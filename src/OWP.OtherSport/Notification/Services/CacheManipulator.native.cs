@@ -33,7 +33,7 @@
 
         public async Task DeleteAssignmentSnapshot(string sessionId, string eventDate)
         {
-            var cacheKey = $"{KEY_OLD_OS_ASSIGNMENT_SNAPSHOT}-{sessionId}-{eventDate}";
+            var cacheKey = $"{KEY_OLD_OS_ASSIGNMENT_SNAPSHOT}-{sessionId}";
             await cache.RemoveAsync(cacheKey);
         }
     }
