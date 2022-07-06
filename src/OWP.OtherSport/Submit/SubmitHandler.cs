@@ -16,7 +16,6 @@
         public DateTime FromDate { get; set; }
 
         public DateTime ToDate { get; set; }
-
     }
 
     public class SubmitResponse
@@ -30,7 +29,6 @@
         public string Message { get; set; }
 
         public bool IsSuccessful { get; set; }
-
     }
 
     public class SubmitHandler : IRequestHandler<SubmitRequest, SubmitResponse>
@@ -120,7 +118,6 @@
 
         private async Task SaveDataAndCleanupCache(SubmitRequest request, List<AssignmentModel> assignments)
         {
-
             var oldMatch = await commandRepository.GetOldMatchInfo(request.FromDate, request.ToDate);
             var oldMatchIds = oldMatch.Select(x => x.OSMatchId).Distinct().ToList();
 
@@ -134,7 +131,7 @@
             await SaveDeletedMatchesToSnapshot(deletedInfo);
             await SaveOldAssignmentsToSnapshot(request.FromDate, request.ToDate, request.SessionId);
             await SaveAssignmentsToDatabase(assignments, deletedMatchIdsInString);
-            await cacheManipulator.DeleteAssignments(sessionId);
+            await cacheManipulator.DeleteAssignments(request.SessionId);
         }
 
         public async Task SaveOldAssignmentsToSnapshot(DateTime fromDate, DateTime toDate, string sessionId)
