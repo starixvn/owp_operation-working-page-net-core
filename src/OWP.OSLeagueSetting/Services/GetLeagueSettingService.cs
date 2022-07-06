@@ -53,7 +53,7 @@ public class GetLeagueSettingServiceImp : GetLeagueSettingService
         var offerLineFormat = FormatToString(offerLines, LeagueSettingConst.OfferLines);
         var betTypeFormat = FormatNumberBetType(betTypes);
         var betDeyLayFormat = FormatToString(betDeyLay, LeagueSettingConst.BetDelay);
-        var manualUpdate = leagueSettingInfos.Any(x => x.ManualUpdateScore)
+        var manualUpdate = leagueSettingInfos.Any(x => x.IsManualUpdateScore)
             ? $"({LeagueSettingConst.ManualUpdate})"
             : string.Empty;
 
@@ -62,18 +62,18 @@ public class GetLeagueSettingServiceImp : GetLeagueSettingService
 
     private static string CalculateSummaryRemark(IList<LeagueSettingInfo> leagueSettingInfos)
     {
-        var weekMatchs = leagueSettingInfos.Select(x => x.WeekMatch).Distinct();
+        var weekMatches = leagueSettingInfos.Select(x => x.WeekMatch).Distinct();
         var providers = leagueSettingInfos.Select(x => x.Provider).Distinct();
 
-        var weekMatchFormat = FormatToString(weekMatchs, LeagueSettingConst.WeekMatch);
+        var weekMatchFormat = FormatToString(weekMatches, LeagueSettingConst.WeekMatch);
         var providerFormat = FormatToString(providers, LeagueSettingConst.Provider);
         var timeFormat = FormatDateTime(leagueSettingInfos.FirstOrDefault());
-
-        var IPTV = leagueSettingInfos.Any(x => x.IPTV)
+        var remark = FormatRemark(leagueSettingInfos.FirstOrDefault());
+        var ipTv = leagueSettingInfos.Any(x => x.IsIptvOnly)
             ? $"({LeagueSettingConst.IPTV})"
             : string.Empty;
 
-        return $"{weekMatchFormat}{providerFormat}{timeFormat}{IPTV}";
+        return $"{weekMatchFormat}{providerFormat}{timeFormat}{ipTv}{remark}";
     }
 
     private static string FormatToString(IEnumerable<string> values, string property)
@@ -82,7 +82,7 @@ public class GetLeagueSettingServiceImp : GetLeagueSettingService
 
         return values.Count() == totalOption
              ? string.Empty
-             : $"(<{string.Concat('/', values)}>)";
+             : $"(<{string.Join('/', values)}>)";
     }
 
     private static string FormatNumberBetType(IEnumerable<string> betTypes)
@@ -91,5 +91,8 @@ public class GetLeagueSettingServiceImp : GetLeagueSettingService
             : $"(<{betTypes.Count()} Bet Types>)";
 
     private static string FormatDateTime(LeagueSettingInfo leagueInfo)
-        => $"{leagueInfo.KOFromTime.ToString("hh:mm")} - {leagueInfo.KOToTime.ToString("hh:mm")}";
+        => $"({leagueInfo.KOFromTime.ToString(@"hh\:mm")} - {leagueInfo.KOToTime.ToString(@"hh\:mm")})";
+
+    private static string FormatRemark(LeagueSettingInfo leagueInfo)
+        => $"(<{leagueInfo.Remark}>)";
 }

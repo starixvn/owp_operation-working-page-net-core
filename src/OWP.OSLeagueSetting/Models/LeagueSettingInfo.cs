@@ -4,7 +4,7 @@ public class LeagueSettingInfo
 {
     public int LeagueSettingId { get; set; }
 
-    public string Category { get; set; }
+    public string CategoryName { get; set; }
 
     public string OSLeagueName { get; set; }
 
@@ -34,11 +34,11 @@ public class LeagueSettingInfo
 
     public string Remark { get; set; }
 
-    public bool ManualUpdateScore { get; set; }
+    public bool IsManualUpdateScore { get; set; }
 
-    public bool IPTV { get; set; }
+    public bool IsIptvOnly { get; set; }
 
-    public DateTime KOFromTime { get; set; }
+    public TimeSpan KOFromTime { get; set; }
 
-    public DateTime KOToTime { get; set; }
+    public TimeSpan KOToTime { get; set; }
 }

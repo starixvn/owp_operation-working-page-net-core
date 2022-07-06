@@ -10,7 +10,7 @@ public class LeagueSettingModel
 {
     public int LeagueSettingId { get; set; }
 
-    public string Category { get; set; }
+    public string CategoryName { get; set; }
 
     public string OSLeagueName { get; set; }
 

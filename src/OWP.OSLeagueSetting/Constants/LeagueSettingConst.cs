@@ -31,6 +31,7 @@ public static class LeagueSettingConst
             TotalOfferLines
         },
         { BetDelay, TotalBetDelay },
-        { WeekMatch, TotalWeekMatch }
+        { WeekMatch, TotalWeekMatch },
+        { Provider, TotalProvider }
     };
 }
