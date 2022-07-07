@@ -29,7 +29,7 @@ public class RepositoryImp : Repository
             CategoryId = request.CategoryId,
             RoundId = request.RoundId,
             Status = request.StatusId,
-            league = request.League
+            League = request.League
         };
         return await dynamicRepository.FetchAsync<LeagueSettingInfo>(criteria);
     }

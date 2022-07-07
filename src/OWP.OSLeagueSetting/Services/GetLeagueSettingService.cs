@@ -57,7 +57,7 @@ public class GetLeagueSettingServiceImp : GetLeagueSettingService
             ? $"({LeagueSettingConst.ManualUpdate})"
             : string.Empty;
 
-        return $"{offerLineFormat}{betTypeFormat}{betDeyLayFormat}{manualUpdate}";
+        return $"{offerLineFormat},{betTypeFormat},{betDeyLayFormat},{manualUpdate}";
     }
 
     private static string CalculateSummaryRemark(IList<LeagueSettingInfo> leagueSettingInfos)
@@ -73,7 +73,7 @@ public class GetLeagueSettingServiceImp : GetLeagueSettingService
             ? $"({LeagueSettingConst.IPTV})"
             : string.Empty;
 
-        return $"{weekMatchFormat}{providerFormat}{timeFormat}{ipTv}{remark}";
+        return $"{weekMatchFormat},{providerFormat},{timeFormat},{ipTv},{remark}";
     }
 
     private static string FormatToString(IEnumerable<string> values, string property)

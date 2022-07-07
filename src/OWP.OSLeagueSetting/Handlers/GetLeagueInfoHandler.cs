@@ -11,7 +11,7 @@ public class GetLeagueInfoHandler
     {
         public string League { get; set; }
 
-        public bool StatusId { get; set; }
+        public string StatusId { get; set; }
 
         public string CategoryId { get; set; }
 
