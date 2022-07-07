@@ -13,5 +13,7 @@
         public const string OsLeagueSettingGetRoundOption = "os-league-setting-get-round-option";
 
         public const string OsLeagueSettingGetStatusOption = "os-league-setting-get-status-option";
+
+        public const string OsLeagueSettingGetBetTypesOption = "os-league-setting-get-bet-types-option";
     }
 }

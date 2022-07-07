@@ -17,6 +17,7 @@ namespace OWP.SimpleDataApi
             CriteriaTypes.Add(ConstantApiKey.OsLeagueSettingGetCategoryOption, typeof(GetCategoryOptionCriteria));
             CriteriaTypes.Add(ConstantApiKey.OsLeagueSettingGetRoundOption, typeof(GetRoundOptionCriteria));
             CriteriaTypes.Add(ConstantApiKey.OsLeagueSettingGetStatusOption, typeof(GetStatusOptionCriteria));
+            CriteriaTypes.Add(ConstantApiKey.OsLeagueSettingGetBetTypesOption, typeof(GetBetTypesOptionCriteria));
         }
         private static void RegisterTicketCenter()
         {
