@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Fanex.NAP.Client.Helpers.Web;
+using MediatR;
 using OWP.MessagePublisher;
 using OWP.TicketCenter.Criteria;
 using OWP.TicketCenter.Middleware.Models;
@@ -26,17 +27,20 @@ namespace OWP.TicketCenter.Handlers
         private readonly NotificationService notification;
         private readonly NewMessageDBWriter writer;
         private readonly IMessagePublisher publisher;
+        private readonly INapSession napSession;
 
-        public NewMessageHandler(Repository repository, NotificationService notification, NewMessageDBWriter writer, IMessagePublisher publisher)
+        public NewMessageHandler(Repository repository, NotificationService notification, NewMessageDBWriter writer, IMessagePublisher publisher, INapSession napSession)
         {
             this.repository = repository;
             this.notification = notification;
             this.writer = writer;
             this.publisher = publisher;
+            this.napSession = napSession;
         }
 
         public async Task<MessageDetailViewModel> Handle(NewMessageRequest request, CancellationToken cancellationToken)
         {
+            var user = napSession?.UserId;
             var message = new NewMessageRequestModel
             {
                 TicketId = request.TicketId,

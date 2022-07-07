@@ -34,8 +34,8 @@ builder.Services.AddAutoMapper();
 builder.Services.AddInternalServices();
 builder.Services.AddRabbitMQ(builder.Configuration);
 builder.Services.AddRedisPubSub(builder.Configuration);
-builder.Services.AddRazorPages();
-builder.Services.AddControllersWithViews();
+//builder.Services.AddRazorPages();
+//builder.Services.AddControllersWithViews();
 
 // Configure app
 var app = builder.Build();
