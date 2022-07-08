@@ -37,7 +37,8 @@ public class RepositoryImp : Repository
     public async Task<SettingDetail> GetLeagueSettingDetail(int leagueSettingId)
     {
         var criteria = new QueryLeagueSettingDetailCriteria { LeagueSettingId = leagueSettingId };
+        var result = (await dynamicRepository.FetchAsync<SettingDetail>(criteria));
 
-        return (await dynamicRepository.FetchAsync<SettingDetail>(criteria)).First();
+        return result.Count() > 0 ? result.FirstOrDefault() : new SettingDetail();
     }
 }
