@@ -6,6 +6,7 @@
     using OWP.OtherSport.Validation.Exceptions;
     using OWP.OtherSport.Validation.Services;
     using System.Globalization;
+    using Utils;
 
     public class ValidationHandler
     {
@@ -17,6 +18,10 @@
             }
 
             public string SessionId { get; private set; }
+
+            public DateTime FromDate { get; set; }
+
+            public DateTime ToDate { get; set; }
 
             public Stream Stream { get; set; }
         }
@@ -37,7 +42,8 @@
 
             public List<AssignmentValidationRowResult> ValidationResults { get; set; }
 
-            public bool IsSuccessful { get; set; }
+            public bool IsSuccessful => string.IsNullOrEmpty(Exception)
+                                        && ValidationResults.Count == 0;
         }
 
         public class Handler : IRequestHandler<Request, Response>
@@ -64,14 +70,9 @@
                 {
                     SessionId = request.SessionId
                 };
-
                 try
                 {
-                    var processResult = await ProcessAssignmentUploading(result.SessionId, request);
-
-                    result.RecordCount = processResult.OriginalRecordCount;
-                    result.ValidationResults = processResult.WarningDeleteResults;
-                    result.IsSuccessful = true;
+                    result.RecordCount = await ProcessAssignmentUploading(result.SessionId, request);
                 }
                 catch (CriticalValidationException ex)
                 {
@@ -84,34 +85,31 @@
                         }
                     };
 
-                    result.IsSuccessful = false;
                     result.ValidationResults = validationResults;
                     result.Exception = ex.Message;
                 }
                 catch (InvalidAssignmentRowException ex)
                 {
-                    result.IsSuccessful = false;
                     result.ValidationResults = ex.ValidationResults;
                     result.Exception = ex.Message;
                 }
 
-                await LogExcelFile(request.SessionId, request.Stream);
+                await LogExcelFile(request);
 
                 return result;
             }
 
-            private async Task<AnalyzedResult> ProcessAssignmentUploading(string sessionId, Request request)
+            private async Task<int> ProcessAssignmentUploading(string sessionId, Request request)
             {
                 excelValidator.Validate(request.Stream);
-
                 var analyzedResult = await analyzer.Analyze(request);
 
                 await cacheManipulator.SaveAssignmentsSnapshot(sessionId, analyzedResult.Assignments);
 
-                return analyzedResult;
+                return analyzedResult.OriginalRecordCount;
             }
 
-            private async Task LogExcelFile(string sessionId, Stream file)
+            private async Task LogExcelFile(Request request)
             {
                 var folderPath = @$"App_Data{Path.DirectorySeparatorChar}Files";
                 var absolutedFolderPath = $"{AppDomain.CurrentDomain.BaseDirectory}{Path.DirectorySeparatorChar}{folderPath}";
@@ -121,12 +119,13 @@
                     Directory.CreateDirectory(absolutedFolderPath);
                 }
 
-                var fileName = $"{sessionId}-{session.UserName}-New-OS.xlsx";
+                var currentTime = DateTime.Now.ToGmt8().ToString("yyyyMMdd-HH'h'mm'm'ss-'GMT8'");
+                var fileName = $"({request.FromDate.ToString("yyyyMMdd")}-{request.ToDate.ToString("yyyyMMdd")})-{session.UserName}-({currentTime})-New-OS.xlsx";
                 var fullPath = Path.Combine(absolutedFolderPath, fileName);
 
                 using var stream = File.Create(fullPath);
-                file.Seek(0, SeekOrigin.Begin);
-                await file.CopyToAsync(stream);
+                request.Stream.Seek(0, SeekOrigin.Begin);
+                await request.Stream.CopyToAsync(stream);
             }
         }
     }

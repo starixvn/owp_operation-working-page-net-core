@@ -1,12 +1,10 @@
 ﻿namespace OWP.OtherSport.Validation.Services
 {
-    using OWP.Extensions;
     using OWP.OtherSport.Validation.Exceptions;
     using OWP.OtherSport.Validation.Helpers;
     using OWP.OtherSport.Validation.Models;
 
     using System.ComponentModel.DataAnnotations;
-    using System.Globalization;
     using System.Reflection;
     using System.Text.RegularExpressions;
 
@@ -19,35 +17,23 @@
 
         void ValidateTraders(AssignmentModelInExcel assignment, List<ValidationResult> results, List<Trader> traders);
 
-        void ValidateDateTime(AssignmentModelInExcel assignment, List<ValidationResult> results);
-
         void ValidateMaxbetAndSpreadInString(AssignmentModelInExcel assignment, List<ValidationResult> results);
-
-        Task<List<AssignmentValidationRowResult>> WarningDeleteMatch(List<AssignmentModelInExcel> assigments);
     }
 
     public class AssignmentValidatorImp : AssignmentValidator
     {
-        private readonly Repository repository;
-
-        public AssignmentValidatorImp(Repository repository)
-        {
-            this.repository = repository;
-        }
-
         public void Validate(UploadingDataFromExcel rawDataFromExcel, List<Trader> traders)
         {
             var validationResults = new List<AssignmentValidationRowResult>();
 
             for (var i = 0; i < rawDataFromExcel.Assignments.Count; i++)
             {
-                var rowIndex = i;
+                var rowIndex = rawDataFromExcel.Assignments[i].RowIndex;
                 var assignments = rawDataFromExcel.Assignments.ToList();
                 assignments.RemoveAt(i); //Remove match at i for duplicate matches validation
-                var actionColumnContent = rawDataFromExcel.Assignments[i].Action;
-                var isDeleteMatch = actionColumnContent.IsContains("delete");
-                var validationResultsOfAssignment = isDeleteMatch ? ValidateAssignmentForDeleteMatch(rawDataFromExcel.Assignments[i], assignments, traders)
-                                                                  : CustomValidateAssignment(rawDataFromExcel.Assignments[i], assignments, traders);
+
+                var validationResultsOfAssignment = CustomValidateAssignment(rawDataFromExcel.Assignments[i], assignments, traders);
+
                 ValidationHelper.BuildValidationRowResult(
                    validationResultsOfAssignment,
                    validationResults,
@@ -71,39 +57,9 @@
             ValidateTraders(assignment, results, traders);
             ValidateDataAnotation(assignment, results);
             ValidateDuplicatedMatch(assignment, assigments, results);
-            ValidateDateTime(assignment, results);
             ValidateMaxbetAndSpreadInString(assignment, results);
 
             return results;
-        }
-
-        public List<ValidationResult> ValidateAssignmentForDeleteMatch(AssignmentModelInExcel assignment, List<AssignmentModelInExcel> assigments, List<Trader> traders)
-        {
-            var results = new List<ValidationResult>();
-            ValidateDuplicatedMatch(assignment, assigments, results);
-            ValidateInfoDeletedMatch(assignment, results);
-            ValidateDateTime(assignment, results);
-            return results;
-        }
-
-        private static void ValidateInfoDeletedMatch(AssignmentModelInExcel assignment, List<ValidationResult> results)
-        {
-            if (!ValidationHelper.IsValidateSport(assignment.Sport))
-            {
-                results.Add(new ValidationResult("Column Sport - Invalid sport"));
-            }
-            if (string.IsNullOrWhiteSpace(assignment.League))
-            {
-                results.Add(new ValidationResult("League is required"));
-            }
-            if (string.IsNullOrWhiteSpace(assignment.Home))
-            {
-                results.Add(new ValidationResult("Home is required"));
-            }
-            if (string.IsNullOrWhiteSpace(assignment.Away))
-            {
-                results.Add(new ValidationResult("Away is required"));
-            }
         }
 
         public void ValidateMatchNo(AssignmentModelInExcel assignment, List<ValidationResult> results)
@@ -175,14 +131,6 @@
             Validator.TryValidateObject(assignment, context, results, true);
         }
 
-        public void ValidateDateTime(AssignmentModelInExcel assignment, List<ValidationResult> results)
-        {
-            if (!double.TryParse(assignment.DateTime, out _))
-            {
-                results.Add(new ValidationResult("[Column: Date Time] - Error: Invalid date time format"));
-            }
-        }
-
         public void ValidateMaxbetAndSpreadInString(AssignmentModelInExcel assignment, List<ValidationResult> results)
         {
             const string regex = @"^(?:|[0-9]\d{0,9}(\.\d{1,9})?%?)$";
@@ -209,13 +157,22 @@
 
         private static void ValidateDuplicatedMatch(AssignmentModelInExcel assignment, List<AssignmentModelInExcel> assignments, List<ValidationResult> results)
         {
-            var isDuplicated = assignments.Any(x => ValidationHelper.EqualLeagueAssignment(x, assignment)
-                && ValidationHelper.EqualMatchAssignment(x, assignment));
+            var dupAssignmentInfo = assignments.Where(x => IsEquals(x.League, assignment.League) &&
+                                                    IsEquals(x.Home.Replace("(N)", "").Trim(), assignment.Home.Replace("(N)", "").Trim()) &&
+                                                    IsEquals(x.Away, assignment.Away) &&
+                                                    IsEquals(x.DateTime, assignment.DateTime)).ToList();
 
+            var isDuplicated = dupAssignmentInfo.Any(x => IsEquals(x.Sport, assignment.Sport));
             if (isDuplicated)
             {
                 results.Add(new ValidationResult($"Duplicate Match: {assignment.League} | {assignment.Home.Replace("(N)", "").Trim()} -vs- {assignment.Away}"));
             }
+        }
+
+        private static bool IsEquals(string source, string value)
+        {
+            return !string.IsNullOrWhiteSpace(source) &&
+                source.Equals(value, StringComparison.OrdinalIgnoreCase);
         }
 
         public static List<AssignmentValidationRowResult> GroupByDuplicateMatchMessage(List<AssignmentValidationRowResult> validationResults)
@@ -239,57 +196,6 @@
             }
 
             return validationResults.OrderBy(x => x.Row).ToList();
-        }
-
-        public async Task<List<AssignmentValidationRowResult>> WarningDeleteMatch(List<AssignmentModelInExcel> assigments)
-        {
-            var results = new List<AssignmentValidationRowResult>();
-            var matchInfos = await DeletableMatches(assigments);
-
-            foreach (var match in matchInfos)
-            {
-                var row = assigments.FindIndex(x =>
-                    ValidationHelper.MatchInfoEqualAssignment(match, x)
-                    && ValidationHelper.LeagueInfoEqualAssignment(match, x)
-                ) + 2;
-
-                var validationRowResult = !match.Id.HasValue ? new AssignmentValidationRowResult
-                {
-                    ErrorCode = 2, // unable delete
-                    Message = $"{match.ToString()}",
-                    Row = row
-                }
-                : new AssignmentValidationRowResult
-                {
-                    ErrorCode = 3,
-                    Message = $"{match.ToString()}",
-                    Row = row
-                };
-
-                results.Add(validationRowResult);
-            }
-
-            return results.OrderBy(x => x.Row).ToList();
-        }
-
-        private async Task<List<OSMatchInfo>> DeletableMatches(List<AssignmentModelInExcel> assignments)
-        {
-            var deleteMatch = assignments.Where(x => x.Action.IsContains("delete"))
-            .Select(y => new OSMatchInfo
-            {
-                Home = y.Home.Replace("(N)", "").Trim(),
-                Away = y.Away,
-                DateTime = DateTime.FromOADate(double.Parse(y.DateTime, CultureInfo.InvariantCulture)),
-                Sport = y.Sport,
-                League = y.League
-            }).ToList();
-
-            var yesDeleteMatch = await repository.ExistsOSMatch(deleteMatch);
-            var noDeleteMatch = deleteMatch.Where(x => !yesDeleteMatch.Any(r => r.Equals(x)));
-
-            var result = yesDeleteMatch.Concat(noDeleteMatch);
-
-            return result.ToList();
         }
     }
 }

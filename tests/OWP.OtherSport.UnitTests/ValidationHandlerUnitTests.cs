@@ -17,7 +17,7 @@
         {
             // Arrange
             await using var stream = MockFileStream();
-            var request = new ValidationHandler.Request { Stream = stream };
+            var request = new ValidationHandler.Request { Stream = stream, FromDate = new DateTime(2022, 02, 02), ToDate = new DateTime(2022, 03, 02) };
             var exception = new InvalidExcelFormatException();
             var handler = MockHandler(request, exception);
 
@@ -58,11 +58,13 @@
             // Arrange
             var request = new ValidationHandler.Request { Stream = MockFileStream() };
             var handler = MockHandlerWithNoException(request);
+
             // Act
             var actual = await handler.Handle(request, new CancellationToken(false));
 
             // Assert
             DeepAssert.Equal(1, actual.RecordCount);
+            Assert.Empty(actual.ValidationResults);
             Assert.True(actual.IsSuccessful);
         }
 

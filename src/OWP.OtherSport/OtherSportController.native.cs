@@ -1,4 +1,6 @@
-﻿namespace OWP.OtherSport
+﻿using System.Globalization;
+
+namespace OWP.OtherSport
 {
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
@@ -56,7 +58,9 @@
 
             var request = new ValidationHandler.Request
             {
-                Stream = ms
+                Stream = ms,
+                FromDate = DateTime.Parse(Request.Form["fromDate"].ToString()),
+                ToDate = DateTime.Parse(Request.Form["toDate"].ToString())
             };
             var result = await mediator.Send(request);
 
@@ -72,7 +76,8 @@
             var requestNotify = new NotifyRequest
             {
                 SessionId = request.SessionId,
-                EventDate = viewModel.EventDates
+                FromDate = request.FromDate,
+                ToDate = request.ToDate
             };
 
             await mediator.Send(requestNotify);

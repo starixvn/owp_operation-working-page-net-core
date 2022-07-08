@@ -32,7 +32,7 @@
             var traders = GetTraders();
             var assignmentModels = GetAssignmentModels();
 
-            excelReader.Read(Arg.Compat.Any<Stream>()).Returns(rawModelInExcel);
+            excelReader.Read(Arg.Compat.Any<Stream>(), Arg.Compat.Any<DateTime>(), Arg.Compat.Any<DateTime>()).Returns(rawModelInExcel);
             repository.GetTraders(Arg.Compat.Any<List<string>>()).Returns(traders);
             assignmentBuilder.BuildAssignment(Arg.Compat.Any<List<Trader>>(),
                 Arg.Compat.Any<List<AssignmentModelInExcel>>())
@@ -50,24 +50,24 @@
         {
             var assignmentModelInExcels = new List<AssignmentModelInExcel>
             {
-                new AssignmentModelInExcel
+                new ()
                 {
                     Sport = "Basketball",
                     Home = "Golden State Warrior",
                     Away = "LA Laker",
                     MatchStatus = "Completed",
-                    DateTime = "12/10/2020 12:00 AM",
+                    DateTime = "44771.5104166667",
                     League = "NBA",
                     AutoLink = "YES"
                 },
 
-                new AssignmentModelInExcel
+                new ()
                 {
                     Sport = "Ice Hookey",
                     Home = "Golden State Warrior",
                     Away = "LA Laker",
                     MatchStatus = "Completed",
-                    DateTime = "12/10/2020 12:00 AM",
+                    DateTime = "44771.5104166667",
                     League = "Hookey",
                     AutoLink = "YES"
                 }

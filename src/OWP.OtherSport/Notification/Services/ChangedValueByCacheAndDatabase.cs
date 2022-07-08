@@ -5,7 +5,7 @@
 
     public interface ChangedValueByCacheAndDatabase
     {
-        Task<List<ChangedValue>> Create(string sessionId, string eventDate);
+        Task<List<ChangedValue>> Create(string sessionId, DateTime fromDate, DateTime toDate);
     }
 
     public class ChangedValueByCacheAndDatabaseImp : ChangedValueByCacheAndDatabase
@@ -24,12 +24,12 @@
             this.changedValueBySnapshot = changedValueBySnapshot;
         }
 
-        public async Task<List<ChangedValue>> Create(string sessionId, string eventDate)
+        public async Task<List<ChangedValue>> Create(string sessionId, DateTime fromDate, DateTime toDate)
         {
-            var oldSnapshot = await cacheManipulator.GetAssignmentSnapshot(sessionId, eventDate);
-            var newSnapshot = await queryRepository.Query(eventDate);
+            var oldSnapshot = await cacheManipulator.GetAssignmentSnapshot(sessionId);
+            var newSnapshot = await queryRepository.Query(fromDate, toDate);
 
-            await cacheManipulator.DeleteAssignmentSnapshot(sessionId, eventDate);
+            await cacheManipulator.DeleteAssignmentSnapshot(sessionId);
 
             return changedValueBySnapshot.Create(oldSnapshot, newSnapshot);
         }

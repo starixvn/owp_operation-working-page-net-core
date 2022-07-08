@@ -1,6 +1,5 @@
 ﻿namespace OWP.OtherSport.UnitTests.Validation.Services
 {
-    using NSubstitute;
     using OWP.OtherSport.Validation.Models;
     using OWP.OtherSport.Validation.Services;
 
@@ -11,12 +10,10 @@
     public class AssignmentValidatorUnitTests
     {
         private readonly AssignmentValidatorImp assignmentValidator;
-        private readonly Repository repository;
 
         public AssignmentValidatorUnitTests()
         {
-            repository = Substitute.For<Repository>();
-            assignmentValidator = new AssignmentValidatorImp(repository);
+            assignmentValidator = new AssignmentValidatorImp();
         }
 
         [Fact]
@@ -140,81 +137,6 @@
             };
 
             assignmentValidator.ValidateTraders(assignmentModelList[0], actual, invalidTrader);
-            DeepAssert.Equal(expected, actual);
-        }
-
-        [Fact]
-        public void ValidateDateTime_InValidDateTime_ReturnError()
-        {
-            var actual = new List<ValidationResult>();
-            var assignmentModelList = new List<AssignmentModelInExcel>
-            {
-                new AssignmentModelInExcel
-                {
-                    Away = "OKC",
-                    Home = "Toronto Raptor",
-                    League = "NBA",
-                    Sport = "Basketball",
-                    TraderBadmintonAllProductPointWinner = "Esther",
-                    DateTime = "Feb 32, 2020 02:00 PM"
-                }
-            };
-
-            var expected = new List<ValidationResult>
-            {
-                new ValidationResult("[Column: Date Time] - Error: Invalid date time format")
-            };
-
-            assignmentValidator.ValidateDateTime(assignmentModelList[0], actual);
-            DeepAssert.Equal(expected, actual);
-        }
-
-        [Fact]
-        public void ValidateDateTime_InValidDateTimeFormat_ReturnError()
-        {
-            var actual = new List<ValidationResult>();
-            var assignmentModelList = new List<AssignmentModelInExcel>
-            {
-                new AssignmentModelInExcel
-                {
-                    Away = "OKC",
-                    Home = "Toronto Raptor",
-                    League = "NBA",
-                    Sport = "Basketball",
-                    TraderBadmintonAllProductPointWinner = "Esther",
-                    DateTime = "02 32, 2020 02:00 PM"
-                }
-            };
-
-            var expected = new List<ValidationResult>
-            {
-                new ValidationResult("[Column: Date Time] - Error: Invalid date time format")
-            };
-
-            assignmentValidator.ValidateDateTime(assignmentModelList[0], actual);
-            DeepAssert.Equal(expected, actual);
-        }
-
-        [Fact]
-        public void ValidateDateTime_ValidDateTime_ResulstIsEmpt()
-        {
-            var actual = new List<ValidationResult>();
-            var assignmentModelList = new List<AssignmentModelInExcel>
-            {
-                new AssignmentModelInExcel
-                {
-                    Away = "OKC",
-                    Home = "Toronto Raptor",
-                    League = "NBA",
-                    Sport = "Basketball",
-                    TraderBadmintonAllProductPointWinner = "Esther",
-                    DateTime = "43883.583333333336"
-                }
-            };
-
-            var expected = new List<ValidationResult>();
-
-            assignmentValidator.ValidateDateTime(assignmentModelList[0], actual);
             DeepAssert.Equal(expected, actual);
         }
 
@@ -395,34 +317,6 @@
         }
 
         [Fact]
-        public void ValidateInfoDeleteMatch_ReturnMessage()
-        {
-            var assignment = new AssignmentModelInExcel
-            {
-                Away = "",
-                Home = "",
-                League = "",
-                Sport = "",
-                DateTime = "43832.645833333336"
-            };
-            var traders = new List<Trader>
-            {
-                new Trader{ UserId = 1, Username = "Esther"},
-                new Trader{ UserId = 10, Username = "Mira"}
-            };
-            var assigments = new List<AssignmentModelInExcel>();
-            var expected = new List<ValidationResult>
-            {
-                new ValidationResult("Column Sport - Invalid sport"),
-                new ValidationResult("League is required"),
-                new ValidationResult("Home is required"),
-                new ValidationResult("Away is required")
-            };
-            var actual = assignmentValidator.ValidateAssignmentForDeleteMatch(assignment, assigments, traders);
-            DeepAssert.Equal(expected, actual);
-        }
-
-        [Fact]
         public void GroupDuplicateMessage()
         {
             var assignments = new List<AssignmentValidationRowResult>
@@ -444,79 +338,6 @@
             var actual = AssignmentValidatorImp.GroupByDuplicateMatchMessage(assignments);
 
             DeepAssert.Equal(expected, actual);
-        }
-
-        [Fact]
-        public async Task WarningDelete_ValidModel_UnableDeleteMatch()
-        {
-            var assigments = new List<AssignmentModelInExcel>
-            {
-                new AssignmentModelInExcel
-                {
-                    Away = "OKC",
-                    Home = "Toronto Raptor",
-                    League = "NBA",
-                    Sport = "Basketball",
-                    DateTime = "43831.645833333336",
-                    Action = "delete"
-                }
-            };
-            var expect = new List<AssignmentValidationRowResult>
-            {
-                new AssignmentValidationRowResult
-                {
-                    Row = 2,
-                    ErrorCode = 2,
-                    Message = "(DateTime: 2020-01-01 15:30:00, League: NBA, Home: Toronto Raptor, Away: OKC, Sport: Basketball)"
-                }
-            };
-
-            var actual = await assignmentValidator.WarningDeleteMatch(assigments);
-
-            DeepAssert.Equal(expect, actual);
-        }
-
-        [Fact]
-        public async Task WarningDelete_ValidModel_CanDeleteMatch()
-        {
-            var assigments = new List<AssignmentModelInExcel>
-            {
-                new AssignmentModelInExcel
-                {
-                    Away = "OKC",
-                    Home = "Toronto Raptor",
-                    League = "NBA",
-                    Sport = "Basketball",
-                    DateTime = "43831.645833333336",
-                    Action = "delete"
-                }
-            };
-            var expect = new List<AssignmentValidationRowResult>
-            {
-                new AssignmentValidationRowResult
-                {
-                    Row = 2,
-                    ErrorCode = 3,
-                    Message = "(DateTime: 2020-01-01 15:30:00, League: NBA, Home: Toronto Raptor, Away: OKC, Sport: Basketball)"
-                }
-            };
-            var matches = new List<OSMatchInfo>
-            {
-                new OSMatchInfo
-                {
-                    Away = "OKC",
-                    Home = "Toronto Raptor",
-                    League = "NBA",
-                    Sport = "Basketball",
-                    DateTime = new DateTime(2020,01,01,15,30,00),
-                    Id = 10
-                }
-            };
-
-            repository.ExistsOSMatch(Arg.Compat.Any<List<OSMatchInfo>>()).Returns(matches);
-            var actual = await assignmentValidator.WarningDeleteMatch(assigments);
-
-            DeepAssert.Equal(expect, actual);
         }
 
         private static List<AssignmentModelInExcel> GetAssignmentModels()

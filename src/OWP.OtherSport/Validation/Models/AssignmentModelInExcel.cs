@@ -21,6 +21,8 @@
             ErrorMessage = "[Column: {0}] - The Match Status must be Live, Canceled or Postponed")]
         public string MatchStatus { get; set; }
 
+        public int RowIndex { get; set; }
+
         [Display(Name = "Sport")]
         [Sport(ErrorMessage = "[Column: {0}] - Invalid sport")]
         public string Sport { get; set; }
@@ -87,9 +89,6 @@
         [Display(Name = "Remark")]
         [StringLength(EventUploadingPropertyMaxLength.Remark, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
         public string Remark { get; set; }
-
-        [Display(Name = "Action")]
-        public string Action { get; set; }
 
         // Basketball
         [Display(Name = "Trader Basketball FT (HDP)")]
@@ -1062,7 +1061,5 @@
 
         [Display(Name = "Spread Tennis Most Double Faults")]
         public string SpreadTennisMostDoubleFaults { get; set; }
-
-        public override string ToString() => $"{DateTime},{League},{Home},{Away},{Sport}";
     }
 }

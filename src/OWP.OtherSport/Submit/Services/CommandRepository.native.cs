@@ -12,11 +12,11 @@ namespace OWP.OtherSport.Submit.Services
 
     public interface CommandRepository
     {
-        Task<AssignmentSnapshot> Query(string eventDates);
+        Task<AssignmentSnapshot> Query(DateTime fromDate, DateTime toDate);
 
-        Task<List<DeletedMatch>> GetDeletedMatchInfo(List<OSMatchInfo> deletedassignments);
+        Task<List<DeletedMatch>> GetOldMatchInfo(DateTime fromDate, DateTime toDate);
 
-        Task<List<int>> GetOldMatchIds(string eventDateInString);
+        Task<List<MatchByHashKey>> InsertOrUpdateMatch(List<AssignmentModel> assignments);
 
         Task Update(string deletedMatchIds, List<AssignmentModel> newAssignments);
     }
@@ -47,11 +47,12 @@ namespace OWP.OtherSport.Submit.Services
             this.logService = logService;
         }
 
-        public async Task<AssignmentSnapshot> Query(string eventDates)
+        public async Task<AssignmentSnapshot> Query(DateTime fromDate, DateTime toDate)
         {
             var criteria = new GetAllMatchesByDateTimeListCriteria
             {
-                EventDates = eventDates
+                FromDate = fromDate,
+                ToDate = toDate
             };
 
             var (firstResultSet, secondResultSet, thirdResultSet) = await repository.FetchMultipleAsync<MatchInfo, MatchAssignment, MatchSetting>(criteria);
@@ -64,23 +65,15 @@ namespace OWP.OtherSport.Submit.Services
             };
         }
 
-        public async Task<List<DeletedMatch>> GetDeletedMatchInfo(List<OSMatchInfo> deletedMatch)
-        {
-            var criteria = new GetDeletedMatchesCriteria
-            {
-                OSMatches = JsonConvert.SerializeObject(deletedMatch)
-            };
-            return (await repository.FetchAsync<DeletedMatch>(criteria)).ToList();
-        }
-
-        public async Task<List<int>> GetOldMatchIds(string eventDateInString)
+        public async Task<List<DeletedMatch>> GetOldMatchInfo(DateTime fromDate, DateTime toDate)
         {
             var criteria = new GetMatchIdsByDateListCriteria
             {
-                EventDates = eventDateInString
+                FromDate = fromDate,
+                ToDate = toDate
             };
 
-            return (await repository.FetchAsync<int>(criteria)).ToList();
+            return (await repository.FetchAsync<DeletedMatch>(criteria)).ToList();
         }
 
         public async Task Update(string deletedMatchIds, List<AssignmentModel> newAssignments)

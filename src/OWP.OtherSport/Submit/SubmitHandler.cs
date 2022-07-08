@@ -12,6 +12,10 @@
     public class SubmitRequest : IRequest<SubmitResponse>
     {
         public string SessionId { get; set; }
+
+        public DateTime FromDate { get; set; }
+
+        public DateTime ToDate { get; set; }
     }
 
     public class SubmitResponse
@@ -20,14 +24,11 @@
         {
             Message = string.Empty;
             IsSuccessful = true;
-            EventDates = string.Empty;
         }
 
         public string Message { get; set; }
 
         public bool IsSuccessful { get; set; }
-
-        public string EventDates { get; set; }
     }
 
     public class SubmitHandler : IRequestHandler<SubmitRequest, SubmitResponse>
@@ -52,7 +53,13 @@
         public async Task<SubmitResponse> Handle(SubmitRequest request, CancellationToken cancellationToken)
         {
             var newAssignments = await cacheManipulator.GetNewAssignments(request.SessionId);
-            var eventDates = newAssignments.Select(a => a.DateTime.Date).Distinct().ToList();
+            var eventDates = new List<DateTime>();
+            var diffDays = request.ToDate - request.FromDate;
+
+            for (int i = 0; i <= diffDays.TotalDays; i++)
+            {
+                eventDates.Add(request.FromDate.AddDays(i));
+            }
 
             var userWhoIsUploadingAssignment = await GetUserWhoIsUploadingAssignment(eventDates);
             if (!userWhoIsUploadingAssignment.IsSuccessful)
@@ -60,14 +67,13 @@
                 return userWhoIsUploadingAssignment;
             }
 
-            await TryHandle(eventDates, newAssignments, request.SessionId);
+            await TryHandle(eventDates, newAssignments, request);
             await notifyHub.Clients.All.NotifyUploadedNewData();
 
             return new SubmitResponse
             {
                 IsSuccessful = true,
-                Message = "Other sport assignment is successfully submitted!",
-                EventDates = string.Join(",", eventDates)
+                Message = "Other sport assignment is successfully submitted!"
             };
         }
 
@@ -89,13 +95,13 @@
             return new SubmitResponse();
         }
 
-        private async Task TryHandle(List<DateTime> eventDates, List<AssignmentModel> assignments, string sessionId)
+        private async Task TryHandle(List<DateTime> eventDates, List<AssignmentModel> assignments, SubmitRequest request)
         {
             try
             {
                 await cacheManipulator.SaveUserWhoIsUploadingAssignment(eventDates, session.UserName);
 
-                await SaveDataAndCleanupCache(eventDates, assignments, sessionId);
+                await SaveDataAndCleanupCache(request, assignments);
 
                 await cacheManipulator.SaveLastUpdate(
                     new LastUpdateInfo
@@ -110,39 +116,28 @@
             }
         }
 
-        private async Task SaveDataAndCleanupCache(List<DateTime> eventDates, List<AssignmentModel> assignments, string sessionId)
+        private async Task SaveDataAndCleanupCache(SubmitRequest request, List<AssignmentModel> assignments)
         {
-            var eventDateInString = string.Join(',', eventDates);
-            var deletedAssignments = assignments.Where(x => x.IsDeleted).ToList();
-            var newAssignments = assignments.Except(deletedAssignments).ToList();
-            var deletedMatches = await GetDeletedMatchInfo(deletedAssignments);
-            var deletedMatchIdsInString = string.Join(",", deletedMatches.Select(i => i.OSMatchId));
+            var oldMatch = await commandRepository.GetOldMatchInfo(request.FromDate, request.ToDate);
+            var oldMatchIds = oldMatch.Select(x => x.OSMatchId).Distinct().ToList();
 
-            await SaveDeletedMatchesToSnapshot(deletedMatches);
-            await SaveOldAssignmentsToSnapshot(eventDateInString, sessionId);
-            await SaveAssignmentsToDatabase(newAssignments, deletedMatchIdsInString);
-            await cacheManipulator.DeleteAssignments(sessionId);
+            var hashKeyMap = await commandRepository.InsertOrUpdateMatch(assignments);
+            var newMatchIds = hashKeyMap.Select(h => h.OSMatchId).Distinct().ToList();
+
+            var deletedMatchIds = oldMatchIds.Except(newMatchIds);
+            var deletedInfo = oldMatch.Where(x => deletedMatchIds.Any(y => x.OSMatchId.Equals(y))).ToList();
+            var deletedMatchIdsInString = string.Join(",", deletedInfo.Select(i => i.OSMatchId));
+
+            await SaveDeletedMatchesToSnapshot(deletedInfo);
+            await SaveOldAssignmentsToSnapshot(request.FromDate, request.ToDate, request.SessionId);
+            await SaveAssignmentsToDatabase(assignments, deletedMatchIdsInString);
+            await cacheManipulator.DeleteAssignments(request.SessionId);
         }
 
-        public async Task SaveOldAssignmentsToSnapshot(string eventDateInString, string sessionId)
+        public async Task SaveOldAssignmentsToSnapshot(DateTime fromDate, DateTime toDate, string sessionId)
         {
-            var oldSnapshot = await commandRepository.Query(eventDateInString);
+            var oldSnapshot = await commandRepository.Query(fromDate, toDate);
             await cacheManipulator.SaveOldAssignmentSnapshot(oldSnapshot, sessionId);
-        }
-
-        public async Task<List<DeletedMatch>> GetDeletedMatchInfo(IList<AssignmentModel> deletedAssignments)
-        {
-            var matchInfo = deletedAssignments.Select(i => new OSMatchInfo
-            {
-                Id = i.OSMatchId,
-                Home = i.Home,
-                Away = i.Away,
-                DateTime = i.DateTime,
-                Sport = i.Sport,
-                League = i.League
-            }).ToList();
-
-            return await commandRepository.GetDeletedMatchInfo(matchInfo);
         }
 
         public async Task SaveAssignmentsToDatabase(List<AssignmentModel> newAssignments, string deletedMatchIds)

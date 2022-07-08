@@ -1,4 +1,8 @@
-﻿namespace OWP.OtherSport.Validation.Services
+﻿using System.Globalization;
+using Microsoft.AspNetCore.Mvc;
+using OWP.OtherSport.Notification.Services;
+
+namespace OWP.OtherSport.Validation.Services
 {
     using Models;
     using OfficeOpenXml;
@@ -7,7 +11,7 @@
 
     public interface ExcelReader
     {
-        UploadingDataFromExcel Read(Stream stream);
+        UploadingDataFromExcel Read(Stream stream, DateTime fromDate, DateTime toDate);
     }
 
     public class ExcelReaderImp : ExcelReader
@@ -16,18 +20,19 @@
 
         private static readonly Regex otherTraderRegex = new Regex(@"#[^\s#]+", RegexOptions.IgnoreCase);
 
-        public UploadingDataFromExcel Read(Stream stream)
+        public UploadingDataFromExcel Read(Stream stream, DateTime fromDate, DateTime toDate)
         {
             stream.Seek(0, SeekOrigin.Begin);
 
             using var excelPackage = new ExcelPackage(stream);
             using var worksheet = excelPackage.Workbook.Worksheets.First();
             var assignments = worksheet.ReadAllAssignments(StartRow).ToList();
+            var validAssignments = GetValidAssignments(assignments, fromDate, toDate);
 
             return new UploadingDataFromExcel
             {
-                Assignments = assignments,
-                Traders = GetTraders(assignments)
+                Assignments = validAssignments,
+                Traders = GetTraders(validAssignments)
             };
         }
 
@@ -74,6 +79,21 @@
         {
             var matches = otherTraderRegex.Matches(text);
             return matches.Cast<Match>().FirstOrDefault()?.Value.Remove(0, 1);
+        }
+
+        private static List<AssignmentModelInExcel> GetValidAssignments(IList<AssignmentModelInExcel> assignment, DateTime fromDate, DateTime toDate)
+        {
+            var fromDateFormat = fromDate.AddHours(12);
+            var toDateFormat = toDate.AddDays(1).AddHours(11).AddMinutes(59).AddSeconds(59);
+            return assignment
+                .Where(x => CovertDateTime(x.DateTime) >= fromDateFormat && CovertDateTime(x.DateTime) <= toDateFormat)
+                .ToList();
+        }
+
+        public static DateTime CovertDateTime(string dateTimeInString)
+        {
+            var doubleDatetime = Double.TryParse(dateTimeInString, out var number) ? number : 0;
+            return DateTime.FromOADate(doubleDatetime);
         }
     }
 }

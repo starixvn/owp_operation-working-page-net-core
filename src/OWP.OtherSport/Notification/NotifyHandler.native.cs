@@ -7,7 +7,9 @@
     {
         public string SessionId { get; set; }
 
-        public string EventDate { get; internal set; }
+        public DateTime FromDate { get; set; }
+
+        public DateTime ToDate { get; set; }
     }
 
     public class NotifyHandler : IRequestHandler<NotifyRequest, bool>
@@ -37,7 +39,7 @@
 
         public async Task<bool> Handle(NotifyRequest request, CancellationToken cancellationToken)
         {
-            var messages = await changedValueByCacheAndDatabase.Create(request.SessionId, request.EventDate);
+            var messages = await changedValueByCacheAndDatabase.Create(request.SessionId, request.FromDate, request.ToDate);
             var assigneeChangedValues = await assigneeChangedValueFilter.Filter(messages);
 
             var aggregatedChangedValues = changedValueAggregator.Aggregate(assigneeChangedValues);

@@ -19,7 +19,7 @@
 
             worksheet.Cells[2, 2].Value = "Live";
             worksheet.Cells[2, 3].Value = "Soccer";
-            worksheet.Cells[2, 4].Value = "12/2/2020  3:30:00 PM";
+            worksheet.Cells[2, 4].Value = "44771.5104166667";
             worksheet.Cells[2, 5].Value = "CHINA FOOTBALL SUPER LEAGUE (PLAY OFF)";
             worksheet.Cells[2, 6].Value = "Dalian Pro FC (N)";
             worksheet.Cells[2, 7].Value = "Guangzhou R&F";
@@ -31,11 +31,11 @@
             worksheet.Cells[2, 13].Value = "BGtv/RB2tv/BETtv/";
             worksheet.Cells[2, 14].Value = "InPlay";
             worksheet.Cells[2, 15].Value = "Euro40";
-            worksheet.Cells[2, 19].Value = "";
+            worksheet.Cells[2, 19].Value = "#starix1 note";
             worksheet.Cells[2, 20].Value = "#starix2 mynote";
-            worksheet.Cells[2, 152].Value = "other note";
-            worksheet.Cells[2, 153].Value = "#starix14 other";
-            worksheet.Cells[2, 160].Value = "50000";
+            worksheet.Cells[2, 151].Value = "other note";
+            worksheet.Cells[2, 152].Value = "#starix14 other";
+            worksheet.Cells[2, 159].Value = "50000";
 
             var data = excelPackage.GetAsByteArray();
 
@@ -45,12 +45,13 @@
             {
                 Assignments = new List<AssignmentModelInExcel>
                 {
-                    new AssignmentModelInExcel
+                    new ()
                     {
+                        RowIndex = 2,
                         MatchNo = "",
                         MatchStatus = "Live",
                         Sport = "Soccer",
-                        DateTime = "12/2/2020  3:30:00 PM",
+                        DateTime = "44771.5104166667",
                         Home = "Dalian Pro FC (N)",
                         Away = "Guangzhou R&F",
                         League = "CHINA FOOTBALL SUPER LEAGUE (PLAY OFF)",
@@ -65,9 +66,8 @@
                         Reporter = string.Empty,
                         WB = string.Empty,
                         Remark = string.Empty,
-                        Action = "",
-                        TraderBasketballFTHDP = "#starix2 mynote",
-                        TraderBasketball1HHDP = "",
+                        TraderBasketballFTHDP = "#starix1 note",
+                        TraderBasketball1HHDP = "#starix2 mynote",
                         TraderBasketball1Q3QHDP = string.Empty,
                         TraderBasketballFTOUOE = string.Empty,
                         TraderBasketball1HOUOE = string.Empty,
@@ -344,10 +344,10 @@
                         SpreadTennisMostDoubleFaults = string.Empty
                     }
                 },
-                Traders = new List<string> { "starix2", "starix14" }
+                Traders = new List<string> { "starix1", "starix2", "starix14" }
             };
 
-            var actual = excelReader.Read(excelMemoryStream);
+            var actual = excelReader.Read(excelMemoryStream, new DateTime(2022, 01, 01), new DateTime(2022, 10, 01));
             DeepAssert.Equal(expected, actual);
         }
     }
