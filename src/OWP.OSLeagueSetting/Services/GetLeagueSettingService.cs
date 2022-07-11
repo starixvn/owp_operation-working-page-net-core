@@ -54,7 +54,7 @@ public class GetLeagueSettingServiceImp : GetLeagueSettingService
         var betTypeFormat = FormatNumberBetType(betTypes);
         var betDeyLayFormat = FormatToString(betDeyLay, LeagueSettingConst.BetDelay);
         var manualUpdate = leagueSettingInfos.Any(x => x.IsManualUpdateScore)
-            ? $"({LeagueSettingConst.ManualUpdate})"
+            ? $"{LeagueSettingConst.ManualUpdate}"
             : string.Empty;
 
         return $"{offerLineFormat},{betTypeFormat},{betDeyLayFormat},{manualUpdate}";
@@ -70,7 +70,7 @@ public class GetLeagueSettingServiceImp : GetLeagueSettingService
         var timeFormat = FormatDateTime(leagueSettingInfos.FirstOrDefault());
         var remark = FormatRemark(leagueSettingInfos.FirstOrDefault());
         var ipTv = leagueSettingInfos.Any(x => x.IsIptvOnly)
-            ? $"({LeagueSettingConst.IPTV})"
+            ? $"{LeagueSettingConst.IPTV}"
             : string.Empty;
 
         return $"{weekMatchFormat},{providerFormat},{timeFormat},{ipTv},{remark}";
@@ -82,17 +82,17 @@ public class GetLeagueSettingServiceImp : GetLeagueSettingService
 
         return values.Count() == totalOption
              ? string.Empty
-             : $"(<{string.Join('/', values)}>)";
+             : $"<{string.Join('/', values)}>";
     }
 
     private static string FormatNumberBetType(IEnumerable<string> betTypes)
         => betTypes.Count() == LeagueSettingConst.NumberBetType
             ? string.Empty
-            : $"(<{betTypes.Count()} Bet Types>)";
+            : $"<{betTypes.Count()} Bet Types>";
 
     private static string FormatDateTime(LeagueSettingInfo leagueInfo)
-        => $"({leagueInfo.KOFromTime.ToString(@"hh\:mm")} - {leagueInfo.KOToTime.ToString(@"hh\:mm")})";
+        => $"{leagueInfo.KOFromTime.ToString(@"hh\:mm")} - {leagueInfo.KOToTime.ToString(@"hh\:mm")}";
 
     private static string FormatRemark(LeagueSettingInfo leagueInfo)
-        => $"(<{leagueInfo.Remark}>)";
+        => $"<{leagueInfo.Remark}>";
 }
