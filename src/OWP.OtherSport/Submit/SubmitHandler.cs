@@ -37,18 +37,22 @@
         private readonly CacheManipulator cacheManipulator;
         private readonly CommandRepository commandRepository;
         private readonly INapSession session;
+        private readonly IMessagePublisher publisher;
         private readonly IHubContext<NewDataUploadNotifyHubImp, NewDataUploadNotifyHub> notifyHub;
 
         public SubmitHandler(
             CacheManipulator cacheManipulator,
             CommandRepository commandRepository,
             INapSession session,
-            IHubContext<NewDataUploadNotifyHubImp, NewDataUploadNotifyHub> notifyHub)
+            IHubContext<NewDataUploadNotifyHubImp, NewDataUploadNotifyHub> notifyHub,
+            IMessagePublisher publisher)
+
         {
             this.cacheManipulator = cacheManipulator;
             this.commandRepository = commandRepository;
             this.session = session;
             this.notifyHub = notifyHub;
+            this.publisher = publisher;
         }
 
         public async Task<SubmitResponse> Handle(SubmitRequest request, CancellationToken cancellationToken)
@@ -70,6 +74,8 @@
 
             await TryHandle(eventDates, newAssignments, request);
             await notifyHub.Clients.All.NotifyUploadedNewData();
+
+            publisher.PushMessage<SubmitRequest>(request, RoutingKey.OtherSport);
 
             return new SubmitResponse
             {

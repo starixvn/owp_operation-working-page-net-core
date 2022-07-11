@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-namespace OWP.OtherSport
+﻿namespace OWP.OtherSport
 {
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
@@ -10,7 +8,6 @@ namespace OWP.OtherSport
     using OWP.OtherSport.Download;
     using OWP.OtherSport.EventAssignment;
     using OWP.OtherSport.EventAssignment.Models;
-    using OWP.OtherSport.Notification;
     using OWP.OtherSport.Submit;
     using OWP.OtherSport.Submit.Models;
     using OWP.OtherSport.Validation;
@@ -72,15 +69,6 @@ namespace OWP.OtherSport
         public async Task<IActionResult> Submit(SubmitRequest request)
         {
             var viewModel = await mediator.Send(request);
-
-            var requestNotify = new NotifyRequest
-            {
-                SessionId = request.SessionId,
-                FromDate = request.FromDate,
-                ToDate = request.ToDate
-            };
-
-            await mediator.Send(requestNotify);
 
             return new JsonResult(viewModel);
         }

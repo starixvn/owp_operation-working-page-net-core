@@ -22,7 +22,11 @@ public class Publisher : IMessagePublisher
     {
         var factory = new ConnectionFactory
         {
-            HostName = setting.Hosting
+            HostName = setting.Hosting,
+            VirtualHost = setting.VirtualHost,
+            Port = setting.Port,
+            Password = setting.Password,
+            UserName = setting.UserName
         };
 
         var connection = factory.CreateConnection();

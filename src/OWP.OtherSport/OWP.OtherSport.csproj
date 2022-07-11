@@ -25,6 +25,7 @@
     <PackageReference Include="Olympus.Xml" Version="1.0.0.4" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\OWP.MessagePublisher\OWP.MessagePublisher.csproj" />
     <ProjectReference Include="..\OWP\OWP.csproj" />
   </ItemGroup>
 
