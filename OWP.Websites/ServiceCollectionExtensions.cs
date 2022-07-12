@@ -298,12 +298,7 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddSignalR(this IServiceCollection services, IConfiguration configuration)
     {
-        var redisConfig = configuration.GetSection("AuthSettings:RedisConfig").Value;
-        var chanelBackplane = configuration.GetSection("SignalRRedisBackplaneChannel").Value;
-        services.AddSignalR().AddStackExchangeRedis(redisConfig, options =>
-        {
-            options.Configuration.ChannelPrefix = chanelBackplane;
-        });
+        services.AddSignalR();
         services.AddSingleton<NewDataUploadNotifyHubImp>();
         services.AddSingleton<TicketCenterNotifyHubImp>();
 
