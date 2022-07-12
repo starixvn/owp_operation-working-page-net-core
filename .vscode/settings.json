@@ -18,5 +18,6 @@
         "maxbet",
         "uuidv"
     ],
-    "workbench.editor.enablePreview": false
+    "workbench.editor.enablePreview": false,
+    "ttProcessor.TTPath": "C:\\\"Program Files (x86)\"\\\"Microsoft Visual Studio\"\\2019\\Professional\\Common7\\IDE\\TextTransform.exe"
 }
