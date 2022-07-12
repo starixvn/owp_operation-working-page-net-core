@@ -20,15 +20,7 @@ namespace OWP.ProductAssignmentReference
         }
 
         [HttpGet("ref-resource/{name}")]
-        public async Task<IEnumerable<object>> GetRefResourceByName(string name)
-        {
-            var resourceInfo = (await service.GetResourceByName(name)).ToList();
-            return resourceInfo.Select(r => new
-            {
-                r.ResourceId,
-                r.Value
-            });
-        }
+        public async Task<IEnumerable<object>> GetRefResourceByName(string name) => await service.GetResourceByName(name);
 
         [HttpGet("last-update")]
         public async Task<object> GetLastUpdate()

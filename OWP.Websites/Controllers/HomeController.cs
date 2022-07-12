@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Text;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Security.Claims;
@@ -91,11 +92,21 @@ namespace OWP.Websites.Controllers
         [HttpGet]
         public IActionResult Collect()
         {
+            var builder = new StringBuilder();
+            builder.AppendFormat("GC.GetTotalMemory(false): {0}\n<br />", GC.GetTotalMemory(false));
+
 #pragma warning disable S1215 // "GC.Collect" should not be called
             GC.Collect();
+            GC.WaitForPendingFinalizers();
 #pragma warning restore S1215 // "GC.Collect" should not be called
 
-            return Content("OK");
+            builder.AppendFormat("GC.WaitForPendingFinalizers was called but GetTotalMemory(false) still is: {0}\n<br />", GC.GetTotalMemory(false));
+
+            GC.GetTotalMemory(true);
+
+            builder.AppendFormat("GC.GetTotalMemory(true) was called and GetTotalMemory is: {0}\n<br />", GC.GetTotalMemory(true));
+
+            return Content(builder.ToString());
         }
 
 #if DEBUG
