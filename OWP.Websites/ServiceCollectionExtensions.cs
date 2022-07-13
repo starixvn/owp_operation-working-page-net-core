@@ -41,6 +41,7 @@ using OWP.RabbitMQ;
 using OWP.RecipientGroup;
 using OWP.RedisPubSub;
 using OWP.Report;
+using OWP.LeagueManagement;
 using OWP.Services;
 using OWP.SimpleDataApi;
 using OWP.TicketCenter;
@@ -67,6 +68,7 @@ public static class ServiceCollectionExtensions
             mc.AddProfile(new AutoAssignment.AutoMapperProfile());
             mc.AddProfile(new OSLeagueSetting.AutoMapperProfile());
             mc.AddProfile(new Report.AutoMapperProfile());
+            mc.AddProfile(new LeagueManagement.AutoMapperProfile());
         });
 
         var mapper = mapperConfig.CreateMapper();
@@ -216,6 +218,7 @@ public static class ServiceCollectionExtensions
         services.AddMatchLiveReportService();
         services.AddOSLeagueSetting();
         services.AddLAReportService();
+        services.AddLeagueManagementService();
         return services;
     }
 
@@ -236,6 +239,7 @@ public static class ServiceCollectionExtensions
         services.AddMediatR(typeof(MatchCountLiveReportController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(OSLeagueController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(ReportApiController).GetTypeInfo().Assembly);
+        services.AddMediatR(typeof(LeagueApiController).GetTypeInfo().Assembly);
         return services;
     }
 

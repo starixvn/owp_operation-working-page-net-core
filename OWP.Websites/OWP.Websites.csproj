@@ -18,8 +18,8 @@
         <None Remove="App_Data\Templates\AnnualOvertimeReportTemplate.xlsx" />
         <None Remove="App_Data\Templates\AutoAssignment.xlsx" />
         <None Remove="App_Data\Templates\ExportOSAssignmentTemplate.xlsx" />
-     <None Remove="App_Data\Templates\LA-Report.xlsx" />
-      <None Remove="App_Data\Templates\LST-Report.xlsx" />
+        <None Remove="App_Data\Templates\LA-Report.xlsx" />
+        <None Remove="App_Data\Templates\LST-Report.xlsx" />
         <None Remove="App_Data\Templates\PreMatchAssignmentReportTemplate.xlsx" />
         <None Remove="App_Data\Templates\MatchCountLiveReportTemplate.xlsx" />
 
@@ -34,7 +34,7 @@
         <PackageReference Include="AutoMapper" Version="10.1.1" />
         <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
         <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
-    <PackageReference Include="EPPlus" Version="6.0.3" />
+        <PackageReference Include="EPPlus" Version="6.0.3" />
         <PackageReference Include="Epplus.Mapper" Version="1.0.0.13" />
         <PackageReference Include="Fanex.Caching.Redis.AspNetCore" Version="2.2.3-beta2" />
         <PackageReference Include="Fanex.Data" Version="4.2.2" />
@@ -80,6 +80,7 @@
         <ProjectReference Include="..\src\OWP.MatchCountLiveReport\OWP.MatchCountLiveReport.csproj" />
         <ProjectReference Include="..\src\OWP.RedisPubSub\OWP.RedisPubSub.csproj" />
     <ProjectReference Include="..\src\OWP.OSLeagueSetting\OWP.OSLeagueSetting.csproj" />
-     <ProjectReference Include="..\src\OWP.Report\OWP.Report.csproj" />
+        <ProjectReference Include="..\src\OWP.Report\OWP.Report.csproj" />
+        <ProjectReference Include="..\src\OWP.LeagueManagement\OWP.LeagueManagement.csproj" />
     </ItemGroup>
 </Project>
