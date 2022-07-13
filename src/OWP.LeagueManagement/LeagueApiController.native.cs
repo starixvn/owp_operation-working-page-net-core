@@ -8,9 +8,12 @@ namespace OWP.LeagueManagement
     using System.Threading.Tasks;
     using Models;
     using OWP.LeagueManagement.Handlers;
+    using OWP.Models;
 
-    [AllowAnonymous]
     [Route("api/league-management")]
+    [Authorize]
+    [ApiController]
+    [EnableCors("AllowOrigin")]
     public class LeagueApiController : ControllerBase
     {
         private readonly IMediator mediator;

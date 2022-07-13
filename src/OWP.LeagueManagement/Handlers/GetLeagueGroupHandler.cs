@@ -2,6 +2,7 @@ using MediatR;
 using OWP.LeagueManagement.Models;
 using OWP.LeagueManagement.Service;
 using OWP.LeagueManagement.Constants;
+using OWP.Models;
 
 namespace OWP.LeagueManagement.Handlers
 {
