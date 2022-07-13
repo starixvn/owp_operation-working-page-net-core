@@ -1,15 +1,15 @@
 ﻿using Fanex.Data.Repository;
 using MediatR;
+using OWP.Extensions;
 using OWP.PreMatchAssignment.Criteria;
 using OWP.PreMatchAssignment.Models;
 using OWP.PreMatchAssignment.Services;
-using OWP.Utils;
 
 namespace OWP.PreMatchAssignment.Handlers
 {
     public class QueryAssignedLeagueIdRequest : IRequest<AssignedLeagueId>
     {
-        public int ActorId { get; set; } 
+        public int ActorId { get; set; }
 
         public int BettypeId { get; set; }
 
@@ -17,7 +17,7 @@ namespace OWP.PreMatchAssignment.Handlers
 
         public bool IsDay { get; set; }
     }
-    
+
     public class QueryAssignedLeagueIdHandler : IRequestHandler<QueryAssignedLeagueIdRequest, AssignedLeagueId>
     {
         private readonly IDynamicRepository dynamicRepository;
@@ -26,8 +26,8 @@ namespace OWP.PreMatchAssignment.Handlers
 
         public QueryAssignedLeagueIdHandler(IDynamicRepository dynamicRepository, ShiftAssignmentService shiftAssignmentService)
         {
-          this.dynamicRepository = dynamicRepository;
-          this.shiftAssignmentService = shiftAssignmentService;
+            this.dynamicRepository = dynamicRepository;
+            this.shiftAssignmentService = shiftAssignmentService;
         }
 
         public async Task<AssignedLeagueId> Handle(QueryAssignedLeagueIdRequest request, CancellationToken cancellationToken)
@@ -35,7 +35,7 @@ namespace OWP.PreMatchAssignment.Handlers
             var prematchLeagueIds = await GetTodayPrematchLeague(request.IsDay);
             var owpLeageNames = await QueryAssignedLeagueNames(request, prematchLeagueIds);
             var mainDbLeagueIds = await QueryAssignedLeagueIdsFromMainDB(owpLeageNames);
-            var unSupportedLeagueNames= new List<string>();
+            var unSupportedLeagueNames = new List<string>();
 
             if (owpLeageNames.Count() > mainDbLeagueIds.Count())
             {
@@ -46,7 +46,7 @@ namespace OWP.PreMatchAssignment.Handlers
             {
                 LeagueIds = string.Join(",", mainDbLeagueIds.Select(x => x.LeagueId)),
                 UnSupportedLeagueNames = unSupportedLeagueNames,
-                TodayLeagueCount=owpLeageNames.Count()
+                TodayLeagueCount = owpLeageNames.Count()
             };
         }
 
@@ -71,7 +71,7 @@ namespace OWP.PreMatchAssignment.Handlers
         public async Task<IEnumerable<string>> QueryAssignedLeagueNames(QueryAssignedLeagueIdRequest request, IEnumerable<int> prematchLeagueIds)
         {
             var criteria = new QueryAssignedLeagueNamesCriteria
-            { 
+            {
                 ActorId = request.ActorId,
                 BettypeId = request.BettypeId,
                 IsTakeOver = request.IsTakeOver,
@@ -91,7 +91,7 @@ namespace OWP.PreMatchAssignment.Handlers
 
             return await dynamicRepository.FetchAsync<LeagueInfo>(criteria);
         }
-    } 
+    }
 
     public class AssignedLeagueId
     {

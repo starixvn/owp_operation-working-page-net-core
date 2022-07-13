@@ -5,9 +5,9 @@
     using System.Threading.Tasks;
     using Criteria;
     using Fanex.Logging;
-    using Fanex.NAP.OWP.Core.Constants;
     using Microsoft.Extensions.Configuration;
     using Models;
+    using OWP.Constants;
     using OWP.Services;
     using Report.Models;
 

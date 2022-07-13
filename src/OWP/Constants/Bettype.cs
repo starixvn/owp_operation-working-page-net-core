@@ -1,4 +1,4 @@
-namespace Fanex.NAP.OWP.Core.Constants
+namespace OWP.Constants
 {
     public static class Bettype
     {

@@ -8,6 +8,7 @@ using OWP.Models;
 using OWP.Utils;
 using System.Xml.Linq;
 using Olympus.Xml;
+using OWP.Extensions;
 
 namespace OWP.AutoAssignment
 {

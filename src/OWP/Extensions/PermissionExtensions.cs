@@ -1,4 +1,4 @@
-namespace OWP.Utils
+namespace OWP.Extensions
 {
     using System.Collections.Generic;
     using System.Linq;

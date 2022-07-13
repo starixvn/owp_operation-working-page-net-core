@@ -8,7 +8,7 @@
 // </summary>
 //
 // <history>
-// Lasted generated date: 7/12/2022 11:18:18 AM
+// Lasted generated date: 7/13/2022 10:05:03 AM
 // </history>
 
 namespace OWP.Constants
@@ -18,10 +18,6 @@ namespace OWP.Constants
 	/// <summary>
 	/// Function keys.
 	/// </summary>
-	[System.CodeDom.Compiler.GeneratedCodeAttribute("T4", "1.0.0.0")]
-	[SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Generated code")] 
-	[SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1602:EnumerationItemsMustBeDocumented", Justification = "Generated code")] 
-	[SuppressMessage("Microsoft.StyleCop.CSharp.LayoutRules", "SA1508:ClosingCurlyBracketsMustNotBePrecededByBlankLine", Justification = "Generated code")] 
 	public static class FunctionKeys
 	{
 			public const string Administration = "Administration";

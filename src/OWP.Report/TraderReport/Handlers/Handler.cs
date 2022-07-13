@@ -5,7 +5,6 @@
     using System.Threading;
     using System.Threading.Tasks;
     using Constants;
-    using Fanex.NAP.OWP.Core.Constants;
     using MediatR;
     using Models;
     using Report.Models;
