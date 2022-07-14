@@ -1,9 +1,6 @@
-using System.Reflection.Metadata;
 using MediatR;
 using OWP.LeagueManagement.Models;
 using OWP.LeagueManagement.Service;
-using OWP.LeagueManagement.Constants;
-
 namespace OWP.LeagueManagement.Handlers
 {
     public class GetAllLeagueRequest : IRequest<IList<LeagueInfoResponse>>
@@ -20,7 +17,7 @@ namespace OWP.LeagueManagement.Handlers
             this.leagueManagementService = leagueManagementService;
         }
 
-        public Task<IList<LeagueInfoResponse>> Handle(GetAllLeagueRequest request, CancellationToken cancellationToken)
-         => leagueManagementService.GetAllLeague(request.Query);
+        public async Task<IList<LeagueInfoResponse>> Handle(GetAllLeagueRequest request, CancellationToken cancellationToken)
+            => await leagueManagementService.GetAllLeague(request.Query);
     }
 }

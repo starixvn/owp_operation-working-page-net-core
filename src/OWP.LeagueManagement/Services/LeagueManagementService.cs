@@ -3,10 +3,7 @@ namespace OWP.LeagueManagement.Service
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using System.Xml.Linq;
-    using AutoMapper;
     using Criteria;
-    using Fanex.Data.Repository;
     using Fanex.NAP.Client.Helpers.Web;
     using Olympus.Xml;
     using Models;
@@ -16,7 +13,6 @@ namespace OWP.LeagueManagement.Service
 
     public interface LeagueManagementService
     {
-        Task<IEnumerable<ReferenceResource>> GetResourceByName(string name);
 
         Task<ResultDataObject> UpdateTvList(IEnumerable<TVList> models);
 
@@ -26,32 +22,20 @@ namespace OWP.LeagueManagement.Service
 
         Task<IList<LeagueInfoResponse>> GetAllLeague(LeagueInfoQuery query);
 
-        // string GetConditionRegex(Condition condition);
+        string GetConditionRegex(Condition condition);
 
-        // LeagueSettingCondition ConvertToLeagueSettingCondition(int leagueSettingId, string condition);
+        LeagueSettingCondition ConvertToLeagueSettingCondition(int leagueSettingId, string condition);
     }
 
     public class LeagueManagementServiceImp : LeagueManagementService
     {
-        private readonly IDynamicRepository dynamicRepository;
-        private readonly IMapper mapper;
+        private readonly Repository repository;
         private readonly INapSession session;
 
-        public LeagueManagementServiceImp(
-            INapSession session,
-            IDynamicRepository dynamicRepository,
-            IMapper mapper)
+        public LeagueManagementServiceImp(INapSession session, Repository repository)
         {
             this.session = session;
-            this.dynamicRepository = dynamicRepository;
-            this.mapper = mapper;
-        }
-
-        public async Task<IEnumerable<ReferenceResource>> GetResourceByName(string name)
-        {
-            var criteria = new GetRefResourceByNameCriteria { RefName = name };
-
-            return await dynamicRepository.FetchAsync<ReferenceResource>(criteria);
+            this.repository = repository;
         }
 
         public async Task<ResultDataObject> UpdateTvList(IEnumerable<TVList> models)
@@ -61,12 +45,7 @@ namespace OWP.LeagueManagement.Service
                 UpdateTvListXml = XmlConverter.Serialize(models),
                 ActorId = session.UserId
             };
-            await dynamicRepository.FetchAsync<ResultDataObject>(criteria);
-            return new ResultDataObject
-            {
-                Code = criteria.ErrCode,
-                Message = criteria.ErrMsg
-            };
+            return await repository.UpdateTVList(criteria);
         }
 
         public async Task<ResultDataObject> UpdateCondition(LeagueSettingCondition model)
@@ -84,13 +63,7 @@ namespace OWP.LeagueManagement.Service
                 Round = string.Join("/", rounds),
                 FullConditionDescription = JsonConvert.SerializeObject(model)
             };
-
-            await dynamicRepository.FetchAsync<ResultDataObject>(criteria);
-            return new ResultDataObject
-            {
-                Code = criteria.ErrCode,
-                Message = criteria.ErrMsg
-            };
+            return await repository.UpdateCondition(criteria);
         }
 
         public string GetConditionRegex(Condition condition)
@@ -103,9 +76,8 @@ namespace OWP.LeagueManagement.Service
         public async Task<LeagueSettingCondition> GetCondition(int leagueSettingId)
         {
             var criteria = new GetConditionCriteria { LeagueSettingId = leagueSettingId };
-            var condition = await dynamicRepository.FetchAsync<string>(criteria);
-            var result = ConvertToLeagueSettingCondition(leagueSettingId, condition?.FirstOrDefault());
-
+            var condition = await repository.GetCondition(criteria);
+            var result = ConvertToLeagueSettingCondition(leagueSettingId, condition);
             result.LeagueSettingId = leagueSettingId;
 
             return result;
@@ -120,15 +92,11 @@ namespace OWP.LeagueManagement.Service
 
         public async Task<IList<LeagueInfoResponse>> GetAllLeague(LeagueInfoQuery query)
         {
-            var criteria = mapper.Map<GetAllLeagueInfoCriteria>(query);
-            var leagueInfoResponses = (await dynamicRepository.FetchAsync<LeagueInfoResponse>(criteria)).ToList();
+            var leagueInfoResponses = await repository.GetAllLeague(query);
             var leagueIds = leagueInfoResponses.Select(l => l.OWPLeagueId);
             var leagueIdString = string.Join(",", leagueIds);
 
-            var leagueLinkToTeam = (await dynamicRepository.FetchAsync<int>(new GetLinkLeagueAndTeamCriteria
-            {
-                LeagueIdString = leagueIdString
-            })).ToList();
+            var leagueLinkToTeam = await repository.GetLeagueLinkToTeam(leagueIdString);
 
             foreach (var league in leagueInfoResponses)
             {

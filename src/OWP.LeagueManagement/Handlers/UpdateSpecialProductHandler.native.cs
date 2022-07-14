@@ -15,8 +15,8 @@ namespace OWP.LeagueManagement.Handlers
         {
             this.specialProductService = specialProductService;
         }
-        public Task<ProductInfo> Handle(UpdateSpecialProductRequest request, CancellationToken cancellationToken)
-            => specialProductService.UpdateSpecialProduct(request.Model);
+        public async Task<ProductInfo> Handle(UpdateSpecialProductRequest request, CancellationToken cancellationToken)
+            => await specialProductService.UpdateSpecialProduct(request.Model);
 
     }
 }

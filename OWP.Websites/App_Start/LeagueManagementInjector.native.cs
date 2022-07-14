@@ -9,5 +9,6 @@ public static class LeagueManagementInjector
     {
         services.AddScoped<LeagueManagementService, LeagueManagementServiceImp>();
         services.AddScoped<SpecialProductService, SpecialProductServiceImp>();
+        services.AddScoped<Repository, RepositoryImp>();
     }
 }

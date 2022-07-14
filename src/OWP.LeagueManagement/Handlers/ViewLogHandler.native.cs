@@ -2,7 +2,6 @@ using MediatR;
 using OWP.LeagueManagement.Models;
 using OWP.LeagueManagement.Service;
 
-
 namespace OWP.LeagueManagement.Handlers
 {
     public class ViewLogRequest : IRequest<IList<LogDisplayModel>>
@@ -16,8 +15,8 @@ namespace OWP.LeagueManagement.Handlers
         {
             this.specialProductService = specialProductService;
         }
-        public Task<IList<LogDisplayModel>> Handle(ViewLogRequest request, CancellationToken cancellationToken)
-            => specialProductService.BuildLog(request.Model);
+        public async Task<IList<LogDisplayModel>> Handle(ViewLogRequest request, CancellationToken cancellationToken)
+            => await specialProductService.BuildLog(request.Model);
 
     }
 }

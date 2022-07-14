@@ -4,9 +4,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Models;
 using Fanex.NAP.Client.Helpers.Web;
-using AutoMapper;
-using Fanex.Data.Repository;
-using Criteria;
 public interface SpecialProductService
 {
     Task<IList<LogDisplayModel>> BuildLog(QueryLogModel model);
@@ -15,32 +12,24 @@ public interface SpecialProductService
 }
 public class SpecialProductServiceImp : SpecialProductService
 {
-    private readonly IDynamicRepository dynamicRepository;
+    private readonly Repository repository;
     private readonly INapSession session;
-    private readonly IMapper mapper;
 
-    public SpecialProductServiceImp(IDynamicRepository dynamicRepository, INapSession session, IMapper mapper)
+    public SpecialProductServiceImp(Repository repository, INapSession session)
     {
-        this.dynamicRepository = dynamicRepository;
+        this.repository = repository;
         this.session = session;
-        this.mapper = mapper;
     }
 
     public async Task<IList<LogDisplayModel>> BuildLog(QueryLogModel model)
     {
-        var criteria = new SpecialProductGetLogCriteria
-        {
-            ObjectId = model.ObjectId,
-            PageSize = model.PageSize
-        };
-        var userLog = (await dynamicRepository.FetchAsync<UserLogModel>(criteria)).ToList();
+        var userLog = await repository.SearchUserLog(model);
         return LogBuilder.Build(userLog);
     }
 
     public async Task<ProductInfo> UpdateSpecialProduct(SpecialProduct model)
     {
         model.ActorId = session.UserId;
-        var criteria = mapper.Map<UpdateSpecialProductCriteria>(model);
-        return (await dynamicRepository.FetchAsync<ProductInfo>(criteria)).FirstOrDefault();
+        return await repository.UpdateSpecialProduct(model);
     }
 }

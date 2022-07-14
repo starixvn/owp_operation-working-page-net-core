@@ -1,7 +1,6 @@
 using MediatR;
 using OWP.LeagueManagement.Models;
 using OWP.LeagueManagement.Service;
-using OWP.LeagueManagement.Constants;
 using OWP.Models;
 
 namespace OWP.LeagueManagement.Handlers
@@ -17,7 +16,7 @@ namespace OWP.LeagueManagement.Handlers
         {
             this.leagueManagementService = leagueManagementService;
         }
-        public Task<ResultDataObject> Handle(UpdateTvListRequest request, CancellationToken cancellationToken)
-        => leagueManagementService.UpdateTvList(request.Models);
+        public async Task<ResultDataObject> Handle(UpdateTvListRequest request, CancellationToken cancellationToken)
+            => await leagueManagementService.UpdateTvList(request.Models);
     }
 }
