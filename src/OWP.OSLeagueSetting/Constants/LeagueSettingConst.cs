@@ -1,4 +1,6 @@
-﻿namespace OWP.OSLeagueSetting.Constants;
+﻿using System.Collections.Immutable;
+
+namespace OWP.OSLeagueSetting.Constants;
 
 public static class LeagueSettingConst
 {
@@ -18,13 +20,13 @@ public static class LeagueSettingConst
 
     public const string WeekMatch = "Week Match";
 
-    public const int TotalWeekMatch = 26;
+    public const int TotalWeekMatch = 27;
 
     public const string Provider = "Provider";
 
     public const int TotalProvider = 3;
 
-    public static readonly Dictionary<string, int> SummaryFullOption = new()
+    public static readonly ImmutableDictionary<string, int> SummaryFullOption = new Dictionary<string, int>
     {
         {
             OfferLines,
@@ -33,5 +35,5 @@ public static class LeagueSettingConst
         { BetDelay, TotalBetDelay },
         { WeekMatch, TotalWeekMatch },
         { Provider, TotalProvider }
-    };
+    }.ToImmutableDictionary();
 }
