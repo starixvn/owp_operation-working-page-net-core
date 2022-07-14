@@ -201,6 +201,5 @@
 		<Setting Key="OWP_OSLeagueSetting_GetLeagueSettingInfo" SpName="OWP_OSLeagueSetting_GetLeagueSettingInfo" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_OSLeagueSetting_GetLeagueSettingDetail" SpName="OWP_OSLeagueSetting_GetLeagueSettingDetail" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_OSLeagueSetting_GetBetTypesOption" SpName="OWP_OSLeagueSetting_GetBetTypesOption" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-
 	</Function>
 </Functions>
