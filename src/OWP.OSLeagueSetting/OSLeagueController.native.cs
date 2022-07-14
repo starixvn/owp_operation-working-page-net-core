@@ -2,9 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using OWP.OSLeagueSetting.Models;
 using OWP.OSLeagueSetting.Handlers;
-using Newtonsoft.Json;
 
 namespace OWP.OSLeagueSetting;
 
