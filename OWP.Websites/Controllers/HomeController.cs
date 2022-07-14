@@ -93,18 +93,24 @@ namespace OWP.Websites.Controllers
         public IActionResult Collect()
         {
             var builder = new StringBuilder();
-            builder.AppendFormat("GC.GetTotalMemory(false): {0}\n<br />", GC.GetTotalMemory(false));
+            builder.AppendFormat("GC.GetTotalMemory(false): {0:n0}\n<br />", GC.GetTotalMemory(false));
 
 #pragma warning disable S1215 // "GC.Collect" should not be called
             GC.Collect();
             GC.WaitForPendingFinalizers();
 #pragma warning restore S1215 // "GC.Collect" should not be called
 
-            builder.AppendFormat("GC.WaitForPendingFinalizers was called but GetTotalMemory(false) still is: {0}\n<br />", GC.GetTotalMemory(false));
+            builder.AppendFormat("GC.WaitForPendingFinalizers was called but GetTotalMemory(false) still is: {0:n0}\n<br />", GC.GetTotalMemory(false));
 
             GC.GetTotalMemory(true);
 
-            builder.AppendFormat("GC.GetTotalMemory(true) was called and GetTotalMemory is: {0}\n<br />", GC.GetTotalMemory(true));
+            using var currentProcess = Process.GetCurrentProcess();
+            builder.AppendFormat("GC.GetTotalMemory(true) was called and GetTotalMemory is: {0:n0}\n<br />", GC.GetTotalMemory(true));
+            builder.AppendFormat("VirtualMemorySize64 is: {0:n0}\n<br />", currentProcess.VirtualMemorySize64);
+            builder.AppendFormat("PrivateMemorySize64 is: {0:n0}\n<br />", currentProcess.PrivateMemorySize64);
+            builder.AppendFormat("WorkingSet64 is: {0:n0}\n<br />", currentProcess.WorkingSet64);
+            builder.AppendFormat("PagedMemorySize64 is: {0:n0}\n<br />", currentProcess.PagedMemorySize64);
+            builder.AppendFormat("NonpagedSystemMemorySize64 is: {0:n0}\n<br />", currentProcess.NonpagedSystemMemorySize64);
 
             return Content(builder.ToString());
         }
