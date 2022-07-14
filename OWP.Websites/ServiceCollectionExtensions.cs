@@ -322,6 +322,8 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddSimpleDataApiModule(this IServiceCollection services)
     {
+        SimpleDataApiConfigurationHandler.Instance()
+                .SetActorIdParameterName("ActorId");
         services.AddTransient<SimpleCriteriaFactory, SimpleCriteriaFactoryImp>();
         services.AddTransient<SimpleFunctionPermissionFactory, SimpleFunctionPermissionFactoryImp>();
         services.AddTransient<SimpleMapperFactory, SimpleMapperFactoryImp>();

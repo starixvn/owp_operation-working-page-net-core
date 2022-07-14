@@ -47,8 +47,14 @@ namespace OWP.LeagueManagement
 
         [HttpGet]
         [Route("get-condition")]
-        public async Task<LeagueSettingCondition> GetCondition(GetConditionRequest request)
-        => await mediator.Send(request);
+        public async Task<LeagueSettingCondition> GetCondition([FromQuery] int LeagueSettingId)
+        {
+            var request = new GetConditionRequest
+            {
+                LeagueSettingId = LeagueSettingId
+            };
+            return await mediator.Send(request);
+        }
 
         [Route("viewlog")]
         [HttpPost]
