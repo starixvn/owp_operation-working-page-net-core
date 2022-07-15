@@ -67,7 +67,7 @@
                 ReportModels = reportModels
             };
 
-            var excelPackage = await mediator.Send(request);
+            using var excelPackage = await mediator.Send(request);
             var bytes = await excelPackage.GetAsByteArrayAsync();
             return File(bytes, "application/octet-stream", "Trader Report.xlsx");
         }
@@ -90,7 +90,7 @@
                 ReportModels = reportModels
             };
 
-            var excelPackage = await mediator.Send(request);
+            using var excelPackage = await mediator.Send(request);
             var fileName = $"LA Report {reportRequest.FromDate.ToString("ddMMMMyyyy")}-{reportRequest.ToDate.ToString("ddMMMMyyyy")}.xlsx";
             var bytes = await excelPackage.GetAsByteArrayAsync();
             return File(bytes, "application/octet-stream", fileName);
