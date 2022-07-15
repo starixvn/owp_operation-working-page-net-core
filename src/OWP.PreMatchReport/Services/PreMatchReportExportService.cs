@@ -45,7 +45,7 @@ public class PreMatchReportExportServiceImp : PreMatchReportExportService
 
         using var package = new ExcelPackage(file);
 
-        var worksheet = package.Workbook.Worksheets[0];
+        using var worksheet = package.Workbook.Worksheets[0];
         worksheet.Cells["A1"].Value = $"Date: {query.FromDate.ToFormatVn()} To {query.ToDate.ToFormatVn()}";
         worksheet.Cells["A3"].LoadFromCollection(records);
         Visualize(worksheet, records);
