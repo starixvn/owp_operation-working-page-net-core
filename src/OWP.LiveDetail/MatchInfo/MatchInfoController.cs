@@ -35,7 +35,7 @@ namespace OWP.LiveDetail.MatchInfo
 
         private readonly GetAdminSiteMatchIdService getAdminSiteMatchIdService;
 
-        //private readonly RabbitMqClient rabbitMqClient;
+
 
 #pragma warning disable S107 // Methods should not have too many parameters
         public MatchInfoController(
@@ -121,12 +121,12 @@ namespace OWP.LiveDetail.MatchInfo
                 //await notificationService.Notify(updateResult.Data as string);
 
 #if !DEBUG
-                var request = new LinkedMatchNotifyRequest
+               /*  var request = new LinkedMatchNotifyRequest
                 {
                     SessionId = sessionId,
                     EventDate = filterEventDate
-                };
-                rabbitMqClient.Publish(request);
+                }; */
+                //rabbitMqClient.Publish(request);
 #endif
             }
 
