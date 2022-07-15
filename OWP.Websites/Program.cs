@@ -9,8 +9,8 @@ using OWP.Websites.CrossCuttingConcern;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
-  ApplicationName = typeof(Program).Assembly.FullName,
-  ContentRootPath = Directory.GetCurrentDirectory(),
+    ApplicationName = typeof(Program).Assembly.FullName,
+    ContentRootPath = Directory.GetCurrentDirectory(),
 });
 
 builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
@@ -47,27 +47,29 @@ app.UseCors("AllowOrigin");
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseEndpoints(endpoints =>
-{
-  endpoints.MapControllerRoute(
-      name: "default",
-      pattern: "{controller=Home}/{action=Index}/{id?}");
-
-  endpoints.MapHub<NewDataUploadNotifyHubImp>("/otherSportNewDataUploadNotifyHub");
-  endpoints.MapHub<ChangedInfoNotifyHubImp>("/changedInfoNotifyHub");
-  endpoints.MapHub<TicketCenterNotifyHubImp>("/ticketCenterNotifyHub");
-  endpoints.MapHub<PreMatchNotifyHubImp>("/preMatchNotifyHub");
-});
-
 NapClientManager
   .UseConfig(app.Services.GetService<INapSettings>())
   .UseSession(app.Services.GetService<INapSession>());
 
-#if DEBUG
-app.Run();
-#endif
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
 
-await app.RunAsync("http://0.0.0.0:5000");
+    endpoints.MapHub<NewDataUploadNotifyHubImp>("/otherSportNewDataUploadNotifyHub");
+    endpoints.MapHub<ChangedInfoNotifyHubImp>("/changedInfoNotifyHub");
+    endpoints.MapHub<TicketCenterNotifyHubImp>("/ticketCenterNotifyHub");
+    endpoints.MapHub<PreMatchNotifyHubImp>("/preMatchNotifyHub");
+});
+
+app.Urls.Add("http://+:5000");
+if (app.Environment.IsDevelopment())
+{
+    app.Urls.Add("https://+:5001");
+}
+
+await app.RunAsync();
 
 
 
