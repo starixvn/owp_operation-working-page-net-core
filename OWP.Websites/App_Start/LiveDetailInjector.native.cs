@@ -10,6 +10,7 @@ using OWP.LiveDetail.OtherProvider;
 using OWP.LiveDetail.Provider;
 using OWP.LiveDetail.Television;
 using OWP.LiveDetail.User;
+using OWP.Services;
 
 namespace OWP.Websites.App_Start
 {
@@ -29,6 +30,8 @@ namespace OWP.Websites.App_Start
             services.AddScoped<ProviderRepository, ProviderRepositoryImp>();
             services.AddScoped<TelevisionRepository, TelevisionRepositoryImp>();
             services.AddScoped<UserRepository, UserRepositoryImp>();
+            services.AddScoped<CheckIsLiveStatusServices, CheckIsLiveStatusServicesImp>();
+            services.AddScoped<GetAdminSiteMatchIdService, GetAdminSiteMatchIdServiceImp>();
 
         }
 

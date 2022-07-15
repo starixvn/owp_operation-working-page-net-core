@@ -11,6 +11,7 @@ namespace OWP.LiveDetail.MatchInfo
     using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Mvc;
     using Models;
+    using Newtonsoft.Json;
     using OWP.Extensions;
     using Services;
     using System.Collections.Generic;
@@ -62,7 +63,7 @@ namespace OWP.LiveDetail.MatchInfo
         [HttpGet]
         [Route("")]
         [NapAuth(FunctionKey = FunctionKeys.DetailsInformation, Policy = Constant.Policy.Read)]
-        public async Task<MatchInfoModel> Query(int owpMatchId)
+        public async Task<IActionResult> Query(int owpMatchId)
         {
             var matchInfo = await repository.Query(owpMatchId);
             if (matchInfo == null)
@@ -90,7 +91,7 @@ namespace OWP.LiveDetail.MatchInfo
             matchInfo.AdminSiteId = await getAdminSiteMatchIdService.GetAdminSiteMatchId(matchInfo.OWPMatchId,
                 matchInfo.ParentMatchId ?? matchInfo.OWPMatchId, matchInfo.MinorBettypeId);
 
-            return matchInfo;
+            return Ok(JsonConvert.SerializeObject(matchInfo));
         }
 
         private static IEnumerable<RefResourceModel> GetNoOfHDPsWithSelected(int? noOfHDP, IEnumerable<RefResourceModel> noOfHDPs)
