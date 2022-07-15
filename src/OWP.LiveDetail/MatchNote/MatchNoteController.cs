@@ -17,12 +17,12 @@
     public class MatchNoteController : ControllerBase
     {
         private readonly MatchNoteRepository repository;
-        private readonly NotificationService notificationService;
+        //private readonly NotificationService notificationService;
 
-        public MatchNoteController(MatchNoteRepository repository, NotificationService notificationService)
+        public MatchNoteController(MatchNoteRepository repository)
         {
             this.repository = repository;
-            this.notificationService = notificationService;
+            //this.notificationService = notificationService;
         }
 
         [HttpGet]
@@ -39,7 +39,7 @@
         public async Task<CreateResult> Create(CreateModel model)
         {
             var result = await repository.Create(model);
-            await notificationService.Notify(result.SessionId);
+            //await notificationService.Notify(result.SessionId);
             return result;
         }
 
@@ -49,7 +49,7 @@
         public async Task Update(UpdateModel model)
         {
             var sessionId = await repository.Update(model);
-            await notificationService.Notify(sessionId);
+            //await notificationService.Notify(sessionId);
         }
 
         [HttpDelete]
@@ -58,7 +58,7 @@
         public async Task Delete(DeleteModel model)
         {
             var sesionId = await repository.Delete(model);
-            await notificationService.Notify(sesionId);
+            //await notificationService.Notify(sesionId);
         }
     }
 }

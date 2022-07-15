@@ -20,12 +20,12 @@
     public class AssignmentController : ControllerBase
     {
         private readonly AssignmentRepository repository;
-        private readonly NotificationService notificationService;
+        //private readonly NotificationService notificationService;
 
-        public AssignmentController(AssignmentRepository repository, NotificationService notificationService)
+        public AssignmentController(AssignmentRepository repository)
         {
             this.repository = repository;
-            this.notificationService = notificationService;
+            //this.notificationService = notificationService;
         }
 
         [HttpGet]
@@ -54,7 +54,7 @@
             var createdResult = await repository.Create(model);
             if (createdResult.Code == 0)
             {
-                await notificationService.Notify(createdResult.SessionId);
+                //await notificationService.Notify(createdResult.SessionId);
             }
 
             return createdResult;
@@ -68,7 +68,7 @@
             var updatedResult = await repository.Update(model);
             if (updatedResult.Code == 0)
             {
-                await notificationService.Notify(updatedResult.SessionId);
+                //await notificationService.Notify(updatedResult.SessionId);
             }
 
             return updatedResult;
@@ -82,7 +82,7 @@
             var deleteResult = await repository.Delete(model);
             if (deleteResult.Code == 0)
             {
-                await notificationService.Notify(deleteResult.SessionId);
+                //await notificationService.Notify(deleteResult.SessionId);
             }
 
             return deleteResult;

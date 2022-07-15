@@ -40,12 +40,13 @@ namespace OWP.LiveDetail.MatchInfo
 #pragma warning disable S107 // Methods should not have too many parameters
         public MatchInfoController(
             MatchInfoRepository repository,
-            NotificationService notificationService,
+
             PermissionService permissionService,
             LiveDetailCacheManipulator cacheManipulator,
             CheckIsLiveStatusServices checkIsLiveStatusServices,
             GetAdminSiteMatchIdService getAdminSiteMatchIdService
         )
+        //NotificationService notificationService,
         //RabbitMqClient rabbitMqClient)
 #pragma warning restore S107 // Methods should not have too many parameters
         {

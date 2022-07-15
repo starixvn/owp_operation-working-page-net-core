@@ -8,7 +8,6 @@ using OWP.LiveDetail.MatchOdd;
 using OWP.LiveDetail.MatchSetting;
 using OWP.LiveDetail.OtherProvider;
 using OWP.LiveDetail.Provider;
-using OWP.LiveDetail.ReadyTradeStatus;
 using OWP.LiveDetail.Television;
 using OWP.LiveDetail.User;
 
@@ -28,7 +27,6 @@ namespace OWP.Websites.App_Start
             services.AddScoped<MatchSettingRepository, MatchSettingRepositoryImp>();
             services.AddScoped<OtherProviderRepository, OtherProviderRepositoryImp>();
             services.AddScoped<ProviderRepository, ProviderRepositoryImp>();
-            services.AddScoped<TraderStatusRepository, TraderStatusRepositoryImp>();
             services.AddScoped<TelevisionRepository, TelevisionRepositoryImp>();
             services.AddScoped<UserRepository, UserRepositoryImp>();
 
