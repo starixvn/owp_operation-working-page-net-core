@@ -5,6 +5,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Mvc;
+    using Newtonsoft.Json;
 
     [Route("api/live-detail/user")]
     [ApiController]
@@ -21,23 +22,26 @@
 
         [Route("suggestion")]
         [HttpGet]
-        public async Task<IEnumerable<UserSuggestionEntity>> GetSuggestion([FromQuery] GetSuggestionModel model)
+        public async Task<IActionResult> GetSuggestion([FromQuery] GetSuggestionModel model)
         {
-            return await repository.GetSuggestion(model);
+            var result = await repository.GetSuggestion(model);
+            return Ok(JsonConvert.SerializeObject(result));
         }
 
         [Route("all")]
         [HttpGet]
-        public async Task<IEnumerable<UserInfoModel>> GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            return await repository.GetAll();
+            var result = await repository.GetAll();
+            return Ok(JsonConvert.SerializeObject(result));
         }
 
         [Route("info")]
         [HttpGet]
-        public async Task<UserInfoModel> GetUserInfo(string name)
+        public async Task<IActionResult> GetUserInfo(string name)
         {
-            return await repository.GetUserInfo(name);
+            var result = await repository.GetUserInfo(name);
+            return Ok(JsonConvert.SerializeObject(result));
         }
     }
 }

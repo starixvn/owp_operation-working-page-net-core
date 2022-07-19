@@ -9,6 +9,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Mvc;
+    using Newtonsoft.Json;
     using Services;
 
 
@@ -31,25 +32,25 @@
         [HttpGet]
         [Route("")]
         [NapAuth(FunctionKey = FunctionKeys.DetailsInformation, Policy = Constant.Policy.Read)]
-        public async Task<IEnumerable<Assignment>> Query([FromQuery] QueryModel model)
+        public async Task<IActionResult> Query([FromQuery] QueryModel model)
         {
-            return await repository.Query(model);
+            var result = await repository.Query(model);
+            return Ok(JsonConvert.SerializeObject(result));
         }
 
         [HttpPost]
         [Route("validate")]
         [NapAuth(FunctionKey = FunctionKeys.DetailsInformation, Policy = Constant.Policy.Host)]
-        public async Task<ValidateResult> Validate(ValidateModel model)
+        public async Task<IActionResult> Validate(ValidateModel model)
         {
             var validateResult = await repository.Validate(model);
-
-            return validateResult;
+            return Ok(JsonConvert.SerializeObject(validateResult));
         }
 
         [HttpPost]
         [Route("")]
         [NapAuth(FunctionKey = FunctionKeys.DetailsInformation, Policy = Constant.Policy.Host)]
-        public async Task<CommandResult> Create(CreateModel model)
+        public async Task<IActionResult> Create(CreateModel model)
         {
             var createdResult = await repository.Create(model);
             if (createdResult.Code == 0)
@@ -57,13 +58,13 @@
                 //await notificationService.Notify(createdResult.SessionId);
             }
 
-            return createdResult;
+            return Ok(JsonConvert.SerializeObject(createdResult));
         }
 
         [HttpPut]
         [Route("")]
         [NapAuth(FunctionKey = FunctionKeys.DetailsInformation, Policy = Constant.Policy.Host)]
-        public async Task<CommandResult> Update(UpdateModel model)
+        public async Task<IActionResult> Update(UpdateModel model)
         {
             var updatedResult = await repository.Update(model);
             if (updatedResult.Code == 0)
@@ -71,13 +72,13 @@
                 //await notificationService.Notify(updatedResult.SessionId);
             }
 
-            return updatedResult;
+            return Ok(JsonConvert.SerializeObject(updatedResult));
         }
 
         [HttpDelete]
         [Route("")]
         [NapAuth(FunctionKey = FunctionKeys.DetailsInformation, Policy = Constant.Policy.Host)]
-        public async Task<CommandResult> Delete([FromQuery] DeleteModel model)
+        public async Task<IActionResult> Delete([FromQuery] DeleteModel model)
         {
             var deleteResult = await repository.Delete(model);
             if (deleteResult.Code == 0)
@@ -85,7 +86,7 @@
                 //await notificationService.Notify(deleteResult.SessionId);
             }
 
-            return deleteResult;
+            return Ok(JsonConvert.SerializeObject(deleteResult));
         }
     }
 }

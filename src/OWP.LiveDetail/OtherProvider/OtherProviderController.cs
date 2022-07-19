@@ -5,6 +5,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Mvc;
+    using Newtonsoft.Json;
 
     [Route("api/live-detail/other-provider")]
     [ApiController]
@@ -20,9 +21,10 @@
         }
 
         [Route("all")]
-        public async Task<IEnumerable<OtherProvider>> GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            return await repository.GetAll();
+            var result = await repository.GetAll();
+            return Ok(JsonConvert.SerializeObject(result));
         }
     }
 }

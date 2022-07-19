@@ -4,6 +4,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Mvc;
+    using Newtonsoft.Json;
 
     [Route("api/live-detail/infosite-match")]
     [ApiController]
@@ -23,7 +24,7 @@
         public async Task<IActionResult> Get(GetInfositeMatchModel model)
         {
             var result = await repository.Get(model);
-            return Ok(result);
+            return Ok(JsonConvert.SerializeObject(result));
         }
     }
 }

@@ -1,4 +1,4 @@
-namespace OWP.LiveDetail.UnitTests
+namespace OWP.LiveDetail.UnitTests.Agent
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;

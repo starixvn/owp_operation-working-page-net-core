@@ -8,6 +8,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Mvc;
+    using Newtonsoft.Json;
     using Services;
 
     [Route("api/live-detail/match-setting")]
@@ -21,7 +22,7 @@
 
         //private readonly NotificationService notificationService;
 
-        public MatchSettingController(MatchSettingRepository repository, NotificationService notificationService)
+        public MatchSettingController(MatchSettingRepository repository)
         {
             this.repository = repository;
             //this.notificationService = notificationService;
@@ -30,39 +31,40 @@
         [HttpGet]
         [Route("")]
         [NapAuth(FunctionKey = FunctionKeys.DetailsInformation, Policy = Constant.Policy.Read)]
-        public async Task<IEnumerable<MatchSetting>> Query([FromQuery] QueryModel model)
+        public async Task<IActionResult> Query([FromQuery] QueryModel model)
         {
-            return await repository.Query(model);
+            var result = await repository.Query(model);
+            return Ok(JsonConvert.SerializeObject(result));
         }
 
         [HttpPost]
         [Route("")]
         [NapAuth(FunctionKey = FunctionKeys.DetailsInformation, Policy = Constant.Policy.Host)]
-        public async Task<CreateResult> Create(CreateModel model)
+        public async Task<IActionResult> Create(CreateModel model)
         {
             var result = await repository.Create(model);
             //await notificationService.Notify(result.SessionId);
-            return result;
+            return Ok(JsonConvert.SerializeObject(result));
         }
         [HttpPut]
         [Route("")]
         [NapAuth(FunctionKey = FunctionKeys.DetailsInformation, Policy = Constant.Policy.Host)]
-        public async Task<ResponseResult> Update(UpdateModel model)
+        public async Task<IActionResult> Update(UpdateModel model)
         {
             var result = await repository.Update(model);
             //await notificationService.Notify(result.SessionId);
-            return result;
+            return Ok(JsonConvert.SerializeObject(result));
         }
 
 
         [HttpDelete]
         [Route("")]
         [NapAuth(FunctionKey = FunctionKeys.DetailsInformation, Policy = Constant.Policy.Host)]
-        public async Task<ResponseResult> Delete(DeleteModel model)
+        public async Task<IActionResult> Delete(DeleteModel model)
         {
             var result = await repository.Delete(model);
             //await notificationService.Notify(result.SessionId);
-            return result;
+            return Ok(JsonConvert.SerializeObject(result));
         }
     }
 }

@@ -8,7 +8,7 @@ namespace OWP.LeagueManagement
     using System.Threading.Tasks;
     using Models;
     using OWP.LeagueManagement.Handlers;
-    using OWP.Models;
+    using Newtonsoft.Json;
 
     [Route("api/league-management")]
     [Authorize]
@@ -24,8 +24,11 @@ namespace OWP.LeagueManagement
         }
         [HttpGet]
         [Route("get-league-group")]
-        public async Task<IEnumerable<ReferenceResource>> GetLeagueGroup()
-            => await mediator.Send(new GetLeagueGroupRequest());
+        public async Task<IActionResult> GetLeagueGroup()
+        {
+            var result = await mediator.Send(new GetLeagueGroupRequest());
+            return Ok(JsonConvert.SerializeObject(result));
+        }
 
         [HttpPost]
         [Route("update-tv-list")]
@@ -33,7 +36,7 @@ namespace OWP.LeagueManagement
         {
             var request = new UpdateTvListRequest { Models = models };
             var result = await mediator.Send(request);
-            return Ok(result);
+            return Ok(JsonConvert.SerializeObject(result));
         }
 
         [HttpPost]
@@ -42,51 +45,55 @@ namespace OWP.LeagueManagement
         {
             var request = new UpdateConditionRequest { Models = models };
             var result = await mediator.Send(request);
-            return Ok(result);
+            return Ok(JsonConvert.SerializeObject(result));
         }
 
         [HttpGet]
         [Route("get-condition")]
-        public async Task<LeagueSettingCondition> GetCondition([FromQuery] int LeagueSettingId)
+        public async Task<IActionResult> GetCondition([FromQuery] int LeagueSettingId)
         {
             var request = new GetConditionRequest
             {
                 LeagueSettingId = LeagueSettingId
             };
-            return await mediator.Send(request);
+            var result = await mediator.Send(request);
+            return Ok(JsonConvert.SerializeObject(result));
         }
 
         [Route("viewlog")]
         [HttpPost]
-        public async Task<IList<LogDisplayModel>> ViewLog([FromBody] QueryLogModel model)
+        public async Task<IActionResult> ViewLog([FromBody] QueryLogModel model)
         {
             var request = new ViewLogRequest
             {
                 Model = model
             };
-            return await mediator.Send(request);
+            var result = await mediator.Send(request);
+            return Ok(JsonConvert.SerializeObject(result));
         }
 
         [Route("update-special-product")]
         [HttpPost]
-        public async Task<ProductInfo> UpdateSpecialProduct([FromBody] SpecialProduct model)
+        public async Task<IActionResult> UpdateSpecialProduct([FromBody] SpecialProduct model)
         {
             var request = new UpdateSpecialProductRequest
             {
                 Model = model
             };
-            return await mediator.Send(request);
+            var result = await mediator.Send(request);
+            return Ok(JsonConvert.SerializeObject(result));
         }
 
         [Route("get-all-league")]
         [HttpPost]
-        public async Task<IList<LeagueInfoResponse>> GetAllLeague([FromBody] LeagueInfoQuery query)
+        public async Task<IActionResult> GetAllLeague([FromBody] LeagueInfoQuery query)
         {
             var request = new GetAllLeagueRequest
             {
                 Query = query
             };
-            return await mediator.Send(request);
+            var result = await mediator.Send(request);
+            return Ok(JsonConvert.SerializeObject(result));
         }
     }
 }

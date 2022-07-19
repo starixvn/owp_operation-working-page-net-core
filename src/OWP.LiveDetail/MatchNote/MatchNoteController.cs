@@ -8,6 +8,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Mvc;
+    using Newtonsoft.Json;
     using Services;
 
     [Route("api/live-detail/match-note")]
@@ -28,19 +29,20 @@
         [HttpGet]
         [Route("")]
         [NapAuth(FunctionKey = FunctionKeys.Note, Policy = Constant.Policy.Read)]
-        public async Task<IEnumerable<MatchNoteModel>> Query([FromQuery] QueryModel model)
+        public async Task<IActionResult> Query([FromQuery] QueryModel model)
         {
-            return await repository.Query(model);
+            var result = await repository.Query(model);
+            return Ok(JsonConvert.SerializeObject(result));
         }
 
         [HttpPost]
         [Route("")]
         [NapAuth(FunctionKey = FunctionKeys.Note, Policy = Constant.Policy.Host)]
-        public async Task<CreateResult> Create(CreateModel model)
+        public async Task<IActionResult> Create(CreateModel model)
         {
             var result = await repository.Create(model);
             //await notificationService.Notify(result.SessionId);
-            return result;
+            return Ok(JsonConvert.SerializeObject(result));
         }
 
         [HttpPut]
@@ -57,8 +59,8 @@
         [NapAuth(FunctionKey = FunctionKeys.Note, Policy = Constant.Policy.Host)]
         public async Task Delete(DeleteModel model)
         {
-            var sesionId = await repository.Delete(model);
-            //await notificationService.Notify(sesionId);
+            var sessionId = await repository.Delete(model);
+            //await notificationService.Notify(sessionId);
         }
     }
 }

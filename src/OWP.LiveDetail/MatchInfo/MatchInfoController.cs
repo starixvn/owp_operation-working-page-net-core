@@ -68,7 +68,7 @@ namespace OWP.LiveDetail.MatchInfo
             var matchInfo = await repository.Query(owpMatchId);
             if (matchInfo == null)
             {
-                return null;
+                return new EmptyResult();
             }
 
             if (!permissionService.HasRight(FunctionKeys.FullTimeView, Constant.Policy.Read))
@@ -76,7 +76,7 @@ namespace OWP.LiveDetail.MatchInfo
                 var matchTimeRangeResult = TimeRangeExtensions.CheckMainMatch(matchInfo.EventDate);
                 if (!matchTimeRangeResult.IsAllowedToViewDetail)
                 {
-                    return null;
+                    return new EmptyResult();
                 }
             }
 
@@ -132,7 +132,7 @@ namespace OWP.LiveDetail.MatchInfo
 #endif
             }
 
-            return Ok(updateResult);
+            return Ok(JsonConvert.SerializeObject(updateResult));
         }
 
         public DateTime MapFilterEventDate(DateTime eventDateTime)
@@ -156,11 +156,11 @@ namespace OWP.LiveDetail.MatchInfo
             var validateResult = await repository.ValidatePhone(validatePhoneModel);
             if (validateResult.IsFailed)
             {
-                return Ok(new ResultDataObject
+                return Ok(JsonConvert.SerializeObject(new ResultDataObject
                 {
                     Code = 1,
                     Message = validateResult.FailedMessage
-                });
+                }));
             }
 
             var updateResult = await repository.UpdateProviderInfo(model);
@@ -169,7 +169,7 @@ namespace OWP.LiveDetail.MatchInfo
                 //await notificationService.Notify(updateResult.Data as string);
             }
 
-            return Ok(updateResult);
+            return Ok(JsonConvert.SerializeObject(updateResult));
         }
 
         [HttpPut]
@@ -183,13 +183,13 @@ namespace OWP.LiveDetail.MatchInfo
                 //await notificationService.Notify(updateResult.Data as string);
             }
 
-            return Ok(updateResult);
+            return Ok(JsonConvert.SerializeObject(updateResult));
         }
 
         [HttpGet]
         [Route("validate-infositeId")]
         [NapAuth(FunctionKey = FunctionKeys.DetailsInformation, Policy = Constant.Policy.Read)]
-        public async Task<ValidationInfositeIdModel> ValidateInfoSiteMatchId(int matchId, int infoSiteMatchId)
+        public async Task<IActionResult> ValidateInfoSiteMatchId(int matchId, int infoSiteMatchId)
         {
             var match = await repository.GetMatchInfoForCheckIsLive(matchId, infoSiteMatchId);
             var mainDBResult = await checkIsLiveStatusServices.GetOfferLiveStatusFromMainDB(match.ParentAdminSiteId.ToString());
@@ -198,12 +198,12 @@ namespace OWP.LiveDetail.MatchInfo
                 match.MinorBettypeId,
                 match.ParentAdminSiteId,
                 mainDBResult);
-
-            return new ValidationInfositeIdModel
+            var result = new ValidationInfositeIdModel
             {
                 IsInfoSiteLinked = match.IsInfoSiteLinked,
                 IsLiveStatusSynchronized = match.IsLiveMatchStatus && isLive
             };
+            return Ok(JsonConvert.SerializeObject(result));
         }
 
         [HttpPost]
