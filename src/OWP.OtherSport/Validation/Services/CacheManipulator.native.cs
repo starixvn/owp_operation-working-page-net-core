@@ -14,7 +14,7 @@
         private readonly ICache cache;
 
         private const string KEY_OS_ASSIGNMENT = "OWP-OS-AssignmentUpload";
-        private const int ASSIGNMENT_CACHE_EXPIRED_IN_DAYS = 1;
+        private const int ASSIGNMENT_CACHE_EXPIRED_IN_MINUTE = 15;
 
         public CacheManipulatorImp(
             ICache cache)
@@ -24,8 +24,7 @@
 
         public async Task SaveAssignmentsSnapshot(string sessionId, List<AssignmentModel> assignments)
         {
-            var expiredDate = DateTime.Today.AddDays(ASSIGNMENT_CACHE_EXPIRED_IN_DAYS);
-            var absoluteTimeSpan = expiredDate - DateTime.Now;
+            var absoluteTimeSpan = TimeSpan.FromMinutes(ASSIGNMENT_CACHE_EXPIRED_IN_MINUTE);
             var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(absoluteTimeSpan);
             var cacheKey = $"{KEY_OS_ASSIGNMENT}-{sessionId}";
 
