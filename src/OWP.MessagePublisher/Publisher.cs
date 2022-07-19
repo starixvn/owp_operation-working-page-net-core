@@ -14,6 +14,9 @@ public interface IMessagePublisher
 public class Publisher : IMessagePublisher
 {
     private readonly RabbitMQSetting setting;
+
+    private const string Exchange = "SessionMessage";
+    private const string QueueName = "Session";
     public Publisher(IOptions<RabbitMQSetting> options)
     {
         setting = options.Value;
@@ -29,15 +32,15 @@ public class Publisher : IMessagePublisher
             UserName = setting.UserName
         };
 
-        var connection = factory.CreateConnection();
+        using var connection = factory.CreateConnection();
         using var channel = connection.CreateModel();
 
-        channel.ExchangeDeclare(exchange: setting.Exchange, type: "direct", durable: true, autoDelete: false);
-        channel.QueueDeclare(queue: setting.Queue, durable: true, exclusive: false, autoDelete: false);
+        channel.ExchangeDeclare(exchange: Exchange, type: "direct", durable: true, autoDelete: false);
+        channel.QueueDeclare(queue: QueueName, durable: true, exclusive: false, autoDelete: false);
 
         var json = JsonConvert.SerializeObject(message);
         var body = Encoding.UTF8.GetBytes(json);
 
-        channel.BasicPublish(exchange: setting.Exchange, routingKey: routingKey, body: body);
+        channel.BasicPublish(exchange: Exchange, routingKey: routingKey, body: body);
     }
 }
