@@ -82,7 +82,7 @@ namespace OWP.AutoAssignment
 
             var absoluteTemplatePath = @$"App_Data{Path.DirectorySeparatorChar}Templates{Path.DirectorySeparatorChar}AutoAssignment.xlsx";
 
-            var excelPackage = excelPackageService.CreateExcelPackage(absoluteTemplatePath, exportExcelModel);
+            using var excelPackage = excelPackageService.CreateExcelPackage(absoluteTemplatePath, exportExcelModel);
 
             var fileContent = excelPackage.GetAsByteArray();
 
