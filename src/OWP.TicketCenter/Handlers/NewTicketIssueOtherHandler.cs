@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
 using MediatR;
 using OWP.MessagePublisher;
+using OWP.NotificationHandler;
 using OWP.TicketCenter.Criteria;
-using OWP.TicketCenter.Enum;
 using OWP.TicketCenter.Models;
-using OWP.TicketCenter.Notification.Const;
 using OWP.TicketCenter.Notification.Models;
 using OWP.TicketCenter.Notification.Services;
 using OWP.TicketCenter.Services;
@@ -24,6 +23,8 @@ namespace OWP.TicketCenter.Handlers
         private readonly NotificationService notificationService;
         private readonly RecipientService recipientService;
         private readonly IMessagePublisher publisher;
+        private readonly MessageClient messageClient;
+
 
         public NewTicketIssueOtherHandler(
             Repository repository,
@@ -31,7 +32,8 @@ namespace OWP.TicketCenter.Handlers
             NewTicketOtherMessageDBWriter writer,
             NotificationService notificationService,
             RecipientService recipientService,
-            IMessagePublisher publisher = null)
+            IMessagePublisher publisher = null,
+            MessageClient messageClient = null)
         {
             this.repository = repository;
             this.mapper = mapper;
@@ -39,6 +41,7 @@ namespace OWP.TicketCenter.Handlers
             this.notificationService = notificationService;
             this.recipientService = recipientService;
             this.publisher = publisher;
+            this.messageClient = messageClient;
         }
 
         public async Task<int> Handle(NewTicketIssueOtherRequest request, CancellationToken cancellationToken)
@@ -85,9 +88,12 @@ namespace OWP.TicketCenter.Handlers
                 Comment = newMessage.Message,
                 ActorId = request.CreatorId
             };
-            var sessionId = await writer.Execute(
-                notificationMessage,
-                NotificationTemplateCode.NewTicket);
+
+            messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketOther);
+
+            //var sessionId = await writer.Execute(
+            //    notificationMessage,
+            //    NotificationTemplateCode.NewTicket);
 
             //await notificationService.NotifyNewMessageIncome(ticketId);
 
@@ -99,13 +105,13 @@ namespace OWP.TicketCenter.Handlers
             //    TicketId = ticketId,
             //    EventType = (int)EventType.Other,
             //});
-            var messageModel = new
-            {
-                SessionId = sessionId,
-                TicketId = ticketId,
-                EventType = (int)EventType.Other,
-            };
-            publisher.PushMessage<object>(messageModel, RoutingKey.TicketCenter);
+            //var messageModel = new
+            //{
+            //    SessionId = sessionId,
+            //    TicketId = ticketId,
+            //    EventType = (int)EventType.Other,
+            //};
+            //publisher.PushMessage<object>(messageModel, RoutingKey.TicketCenter);
 
             return ticketId;
         }

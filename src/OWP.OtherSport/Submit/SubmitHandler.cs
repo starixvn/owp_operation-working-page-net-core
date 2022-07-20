@@ -4,6 +4,8 @@
     using MediatR;
     using Microsoft.AspNetCore.SignalR;
     using OWP.Extensions;
+    using OWP.MessagePublisher;
+    using OWP.NotificationHandler;
     using OWP.OtherSport.Hubs;
     using OWP.OtherSport.Submit.Models;
     using OWP.OtherSport.Submit.Services;
@@ -39,13 +41,15 @@
         private readonly INapSession session;
         private readonly IMessagePublisher publisher;
         private readonly IHubContext<NewDataUploadNotifyHubImp, NewDataUploadNotifyHub> notifyHub;
+        private readonly MessageClient messageClient;
 
         public SubmitHandler(
             CacheManipulator cacheManipulator,
             CommandRepository commandRepository,
             INapSession session,
             IHubContext<NewDataUploadNotifyHubImp, NewDataUploadNotifyHub> notifyHub,
-            IMessagePublisher publisher)
+            IMessagePublisher publisher,
+            MessageClient messageClient)
 
         {
             this.cacheManipulator = cacheManipulator;
@@ -53,6 +57,7 @@
             this.session = session;
             this.notifyHub = notifyHub;
             this.publisher = publisher;
+            this.messageClient = messageClient;
         }
 
         public async Task<SubmitResponse> Handle(SubmitRequest request, CancellationToken cancellationToken)
@@ -75,7 +80,15 @@
             await TryHandle(eventDates, newAssignments, request);
             await notifyHub.Clients.All.NotifyUploadedNewData();
 
-            publisher.PushMessage<object>(new
+            //publisher.PushMessage<object>(new
+            //{
+            //    SessionId = request.SessionId,
+            //    FromDate = request.FromDate,
+            //    ToDate = request.ToDate,
+            //    ActorId = session.UserId
+            //}, RoutingKey.OtherSport);
+
+            messageClient.SendMessage(new
             {
                 SessionId = request.SessionId,
                 FromDate = request.FromDate,

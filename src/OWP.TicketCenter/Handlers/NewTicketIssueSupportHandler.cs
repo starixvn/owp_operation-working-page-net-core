@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
 using MediatR;
 using OWP.MessagePublisher;
+using OWP.NotificationHandler;
 using OWP.TicketCenter.Criteria;
-using OWP.TicketCenter.Enum;
 using OWP.TicketCenter.Models;
-using OWP.TicketCenter.Notification.Const;
 using OWP.TicketCenter.Notification.Models;
 using OWP.TicketCenter.Notification.Services;
 using OWP.TicketCenter.Services;
@@ -24,6 +23,8 @@ public class NewTicketIssueSupportHandler : IRequestHandler<NewTicketIssueSuppor
     private readonly NotificationService notificationService;
     private readonly RecipientService recipientService;
     private readonly IMessagePublisher publisher;
+    private readonly MessageClient messageClient;
+
 
     public NewTicketIssueSupportHandler(
         Repository repository,
@@ -31,7 +32,8 @@ public class NewTicketIssueSupportHandler : IRequestHandler<NewTicketIssueSuppor
         NewTicketSupportMessageDBWriter writer,
         NotificationService notificationService,
         RecipientService recipientService,
-        IMessagePublisher publisher)
+        IMessagePublisher publisher,
+        MessageClient messageClient)
     {
         this.repository = repository;
         this.mapper = mapper;
@@ -39,6 +41,7 @@ public class NewTicketIssueSupportHandler : IRequestHandler<NewTicketIssueSuppor
         this.writer = writer;
         this.recipientService = recipientService;
         this.publisher = publisher;
+        this.messageClient = messageClient;
     }
 
     public async Task<int> Handle(NewTicketIssueSupportRequest request, CancellationToken cancellationToken)
@@ -85,11 +88,14 @@ public class NewTicketIssueSupportHandler : IRequestHandler<NewTicketIssueSuppor
             Comment = newMessage.Message,
             ActorId = request.CreatorId
         };
-        var sessionId = await writer.Execute(
-            notificationMessage,
-            NotificationTemplateCode.NewTicket);
-        await notificationService.NotifyNewMessageIncome(ticketId);
 
+        messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketSupport);
+
+        //var sessionId = await writer.Execute(
+        //    notificationMessage,
+        //    NotificationTemplateCode.NewTicket);
+
+        await notificationService.NotifyNewMessageIncome(ticketId);
         await notificationService.NotifyNewAddRecipient(ticketId, request.CreatorId);
 
         //await notificationService.Notify(new NotificationSource
@@ -99,8 +105,8 @@ public class NewTicketIssueSupportHandler : IRequestHandler<NewTicketIssueSuppor
         //    EventType = (int)EventType.Support,
         //});
 
-        var notificationSource = new NotificationSource(sessionId, ticketId, (int)EventType.Support);
-        publisher.PushMessage<NotificationSource>(notificationSource, RoutingKey.TicketCenter);
+        //var notificationSource = new NotificationSource(sessionId, ticketId, (int)EventType.Support);
+        //publisher.PushMessage<NotificationSource>(notificationSource, RoutingKey.TicketCenter);
 
         return ticketId;
     }

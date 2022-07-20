@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using OWP.MessagePublisher;
+using OWP.NotificationHandler;
 using OWP.TicketCenter.Models;
-using OWP.TicketCenter.Notification.Models;
 using OWP.TicketCenter.Notification.Services;
 using OWP.TicketCenter.Services;
 
@@ -16,21 +16,27 @@ namespace OWP.TicketCenter.Handlers
         private readonly Repository repository;
         private readonly RecipientService recipientService;
         private readonly NotificationService notificationService;
-        private readonly NewRecipientMessageDBWriter writer;
-        private readonly IMessagePublisher publisher;
+        //private readonly NewRecipientMessageDBWriter writer;
+        private readonly MessageClient messageClient;
+
+        public InsertRecipientHandler(MessageClient messageClient)
+        {
+            this.messageClient = messageClient;
+        }
 
         public InsertRecipientHandler(
             Repository repository,
             RecipientService recipientService,
             NotificationService notificationService,
-            NewRecipientMessageDBWriter writer,
-            IMessagePublisher publisher)
+            MessageClient messageClient
+          //NewRecipientMessageDBWriter writer,
+          )
         {
             this.repository = repository;
             this.recipientService = recipientService;
             this.notificationService = notificationService;
-            this.writer = writer;
-            this.publisher = publisher;
+            this.messageClient = messageClient;
+            //this.writer = writer;
         }
 
         public async Task<int> Handle(InsertSingleRecipientRequest request, CancellationToken cancellationToken)
@@ -46,7 +52,7 @@ namespace OWP.TicketCenter.Handlers
 
             await recipientService.InsertManyRecipientReader(recipients, request.TicketId, request.ActorId);
 
-            var sessionId = await writer.Execute(request);
+            //var sessionId = await writer.Execute(request);
 
             //await notificationService.Notify(new NotificationSource
             //{
@@ -54,8 +60,11 @@ namespace OWP.TicketCenter.Handlers
             //    TicketId = request.TicketId,
             //    EventType = request.TicketEventType
             //});
-            var notificationSource = new NotificationSource(sessionId, request.TicketId, request.TicketEventType);
-            publisher.PushMessage<NotificationSource>(notificationSource, RoutingKey.TicketCenter);
+            //var notificationSource = new NotificationSource(sessionId, request.TicketId, request.TicketEventType);
+            //publisher.PushMessage<NotificationSource>(notificationSource, RoutingKey.TicketCenter);
+
+            // publish rabbit
+            messageClient.SendMessage(request, RoutingKey.TicketCenterNewRecipient);
 
             await notificationService.NotifyNewAddRecipient(request.TicketId, request.ActorId);
 

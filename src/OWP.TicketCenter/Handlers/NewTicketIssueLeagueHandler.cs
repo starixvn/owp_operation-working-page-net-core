@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
 using MediatR;
 using OWP.MessagePublisher;
+using OWP.NotificationHandler;
 using OWP.TicketCenter.Criteria;
-using OWP.TicketCenter.Enum;
 using OWP.TicketCenter.Models;
-using OWP.TicketCenter.Notification.Const;
 using OWP.TicketCenter.Notification.Models;
 using OWP.TicketCenter.Notification.Services;
 using OWP.TicketCenter.Services;
@@ -24,13 +23,16 @@ namespace OWP.TicketCenter.Handlers
         private readonly NotificationService notificationService;
         private readonly RecipientService recipientService;
         private readonly IMessagePublisher publisher;
+        private readonly MessageClient messageClient;
+
         public NewTicketIssueLeagueHandler(
             Repository repository,
             IMapper mapper,
             NewTicketLeagueMessageDBWriter writer,
             NotificationService notificationService,
             RecipientService recipientService,
-            IMessagePublisher publisher)
+            IMessagePublisher publisher,
+            MessageClient messageClient)
         {
             this.repository = repository;
             this.mapper = mapper;
@@ -38,6 +40,7 @@ namespace OWP.TicketCenter.Handlers
             this.notificationService = notificationService;
             this.recipientService = recipientService;
             this.publisher = publisher;
+            this.messageClient = messageClient;
         }
 
         public async Task<int> Handle(NewTicketIssueLeagueRequest request, CancellationToken cancellationToken)
@@ -83,13 +86,12 @@ namespace OWP.TicketCenter.Handlers
                 Comment = newMessage.Message,
                 ActorId = request.CreatorId
             };
-            var sessionId = await writer.Execute(
-                notificationMessage,
-                NotificationTemplateCode.NewTicket);
 
-            await notificationService.NotifyNewMessageIncome(ticketId);
-
-            await notificationService.NotifyNewAddRecipient(ticketId, request.CreatorId);
+            //
+            messageClient.SendMessage(request, RoutingKey.TicketCenterNewTicketLeague);
+            //var sessionId = await writer.Execute(
+            //    notificationMessage,
+            //    NotificationTemplateCode.NewTicket);
 
             //await notificationService.Notify(new NotificationSource
             //{
@@ -97,8 +99,12 @@ namespace OWP.TicketCenter.Handlers
             //    TicketId = ticketId,
             //    EventType = (int)EventType.League,
             //});
-            var notificationSource = new NotificationSource(sessionId, ticketId, (int)EventType.League);
-            publisher.PushMessage<NotificationSource>(notificationSource, RoutingKey.TicketCenter);
+
+            await notificationService.NotifyNewMessageIncome(ticketId);
+
+            await notificationService.NotifyNewAddRecipient(ticketId, request.CreatorId);
+
+
 
             return ticketId;
         }

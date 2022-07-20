@@ -74,6 +74,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OWP.LeagueManagement", "src\OWP.LeagueManagement\OWP.LeagueManagement.csproj", "{8158DF97-56DA-4E6E-BEE3-E2A8424C036A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OWP.LeagueManagement.UnitTests", "tests\OWP.LeagueManagement.UnitTests\OWP.LeagueManagement.UnitTests.csproj", "{473C6EA9-E4A7-4D6D-B6E1-5234699AA1A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OWP.MessagePublisher", "src\OWP.MessagePublisher\OWP.MessagePublisher.csproj", "{ACE7E5F6-64F9-4926-980E-7015896E83DC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OWP.NotificationHandler", "src\OWP.NotificationHandler\OWP.NotificationHandler.csproj", "{2C3A78EF-DFD6-4609-815A-8FEB4B014583}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

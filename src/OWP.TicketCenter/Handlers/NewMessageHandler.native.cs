@@ -1,10 +1,10 @@
 ﻿using Fanex.NAP.Client.Helpers.Web;
 using MediatR;
 using OWP.MessagePublisher;
+using OWP.NotificationHandler;
 using OWP.TicketCenter.Criteria;
 using OWP.TicketCenter.Middleware.Models;
 using OWP.TicketCenter.Models;
-using OWP.TicketCenter.Notification.Models;
 using OWP.TicketCenter.Notification.Services;
 using OWP.TicketCenter.ViewModels;
 
@@ -25,17 +25,22 @@ namespace OWP.TicketCenter.Handlers
     {
         private readonly Repository repository;
         private readonly NotificationService notification;
-        private readonly NewMessageDBWriter writer;
+        private readonly MessageClient messageClient;
         private readonly IMessagePublisher publisher;
         private readonly INapSession napSession;
 
-        public NewMessageHandler(Repository repository, NotificationService notification, NewMessageDBWriter writer, IMessagePublisher publisher, INapSession napSession)
+        public NewMessageHandler(
+            Repository repository,
+            NotificationService notification,
+            IMessagePublisher publisher,
+            INapSession napSession,
+            MessageClient messageClient)
         {
             this.repository = repository;
             this.notification = notification;
-            this.writer = writer;
             this.publisher = publisher;
             this.napSession = napSession;
+            this.messageClient = messageClient;
         }
 
         public async Task<MessageDetailViewModel> Handle(NewMessageRequest request, CancellationToken cancellationToken)
@@ -58,19 +63,11 @@ namespace OWP.TicketCenter.Handlers
 
             await repository.UpdateManyRecipientReader(criteria);
 
-            var sessionId = await writer.Execute(request);
 
             var result = await repository.AddNewMessage(message);
 
-            //await notification.Notify(new NotificationSource
-            //{
-            //    SessionId = sessionId,
-            //    TicketId = request.TicketId,
-            //    EventType = request.TicketEventType,
-            //    IsNewMessage = true
-            //});
-            var notificationSource = new NotificationSource(sessionId, request.TicketId, request.TicketEventType, true);
-            publisher.PushMessage<NotificationSource>(notificationSource, RoutingKey.TicketCenter);
+            // publish rabbit
+            messageClient.SendMessage(request, RoutingKey.TicketCenterNewMessage);
 
             await notification.NotifyNewMessageIncome(request.TicketId);
 
