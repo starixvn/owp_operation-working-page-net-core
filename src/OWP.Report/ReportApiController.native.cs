@@ -1,20 +1,17 @@
 ﻿namespace OWP.Report
 {
     using LAReport.Handlers;
-    using LAReport.Models;
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Mvc;
+    using Newtonsoft.Json;
     using System;
-    using System.Collections.Generic;
     using System.Threading.Tasks;
     using TraderReport.Handlers;
-    using TraderReport.Models;
 
     [Route("api/report")]
     [ApiController]
-    //[AllowAnonymous]
     [Authorize]
     [EnableCors("AllowOrigin")]
     public class ReportApiController : ControllerBase
@@ -37,16 +34,18 @@
 
         [Route("lst")]
         [HttpPost]
-        public async Task<IEnumerable<ReportModel>> GetDataLstReport(ReportRequest request)
+        public async Task<IActionResult> GetDataLstReport(ReportRequest request)
         {
-            return await mediator.Send(request);
+            var reportModel = await mediator.Send(request);
+            return Ok(JsonConvert.SerializeObject(reportModel));
         }
 
         [Route("la")]
         [HttpPost]
-        public async Task<IEnumerable<LAReportModel>> GetDataLAReport(LAReportRequest request)
+        public async Task<IActionResult> GetDataLAReport(LAReportRequest request)
         {
-            return await mediator.Send(request);
+            var reportModel = await mediator.Send(request);
+            return Ok(JsonConvert.SerializeObject(reportModel));
         }
 
         [Route("lst/export-excel")]
