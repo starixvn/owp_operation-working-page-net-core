@@ -7,6 +7,7 @@ using OWP.NotificationHandler;
 using OWP.OtherSport.Hubs;
 using OWP.TicketCenter.Hubs;
 using OWP.Websites;
+using OWP.Websites.App_Start;
 using OWP.Websites.CrossCuttingConcern;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
@@ -51,6 +52,7 @@ app.UseRouting();
 app.UseCors("AllowOrigin");
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseRabbitListener();
 
 NapClientManager
   .UseConfig(app.Services.GetService<INapSettings>())

@@ -19,9 +19,9 @@ public class MessageClient
     private IBasicProperties props;
 
     private readonly RabbitMQSetting setting;
-    private readonly IConnection connection;
-    private readonly IModel channel;
-    private readonly EventingBasicConsumer consumer;
+    private IConnection connection;
+    private IModel channel;
+    private EventingBasicConsumer consumer;
     private readonly BlockingCollection<string> respQueue = new BlockingCollection<string>();
     private readonly IHubContext<ChangedInfoNotifyHubImp, ChangedInfoNotifyHub> notifyChangedHub;
 
@@ -30,19 +30,23 @@ public class MessageClient
         this.setting = options.Value;
         this.notifyChangedHub = notifyChangedHub;
 
+        this.Connect();
+    }
+
+    public void Connect()
+    {
         var factory = new ConnectionFactory() { HostName = setting.Hosting };
 
         connection = factory.CreateConnection();
         channel = connection.CreateModel();
 
-        channel.QueueDeclare(queue: QueueName, durable: false, exclusive: false, autoDelete: false, arguments: null);
+        channel.QueueDeclare(queue: QueueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
 
         consumer = new EventingBasicConsumer(channel);
 
         consumer.Received += OnReceived;
 
         channel.BasicConsume(consumer: consumer, queue: QueueName, autoAck: true);
-
     }
 
     public void SendMessage(object message, string correlationId)
