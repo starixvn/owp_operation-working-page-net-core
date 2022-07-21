@@ -61,13 +61,16 @@
 
         private async Task<IList<ChangedValue>> GenerateMessages(PrematchNewLeagueNotifyRequest request)
         {
-            var oldSnapshot = await cacheManipulator.GetMultipleData<PreMatchLeague>($"{OLD_PREMATCHLEAGUES_SNAPSHOT_KEY}-{request.SessionId}");
+            var oldPrematchRedisKey = $"{OLD_PREMATCHLEAGUES_SNAPSHOT_KEY}-{request.SessionId}";
+            var oldSnapshot = await cacheManipulator.GetMultipleData<PreMatchLeague>(oldPrematchRedisKey);
             var newSnapshot = await GetPreMatchLeagueNewSnapshot(request.FromDate);
 
             var preMatchAssignees = await commandRepository.GetEmployeesBySection(Section.PreMatch);
             var infoSiteMatches = await GetInfoSiteMatch(newSnapshot.Select(x => x.OWPLeagueId).ToList(), request.FromDate);
 
             var messages = newLeagueGenerator.Create(oldSnapshot, newSnapshot, preMatchAssignees, infoSiteMatches);
+            await cacheManipulator.RemoveData(oldPrematchRedisKey);
+            
             return messages.ToList();
         }
 
