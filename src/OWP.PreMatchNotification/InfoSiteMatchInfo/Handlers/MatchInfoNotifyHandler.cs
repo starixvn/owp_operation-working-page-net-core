@@ -1,6 +1,5 @@
 ﻿namespace OWP.PreMatchNotification.InfoSiteMatchInfo.Handlers
 {
-  using Fanex.Logging;
   using MediatR;
   using OWP.NotificationRequests;
   using OWP.PreMatchNotification.Constants;
@@ -45,12 +44,10 @@
     {
       var messages = await GenerateMessages(request);
       var messageModels = messageFactory.Transform(messages);
+      await cacheManipulator.RemoveData($"{OLD_INFOSITEMATCHES_SNAPSHOT_KEY}-{request.SessionId}");
 
       await commandRepository.InsertMessage(messageModels, request.SessionId);
-
       await notify.Notify(messageModels);
-
-      await cacheManipulator.RemoveData($"{OLD_INFOSITEMATCHES_SNAPSHOT_KEY}-{request.SessionId}");
 
       return await Task.FromResult(Unit.Value);
     }
