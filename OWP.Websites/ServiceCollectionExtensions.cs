@@ -27,13 +27,12 @@ using OWP.MatchCountLiveReport;
 using OWP.Maxbet;
 using OWP.OSLeagueSetting;
 using OWP.NotificationHandler;
+using OWP.RabbitMQ;
 using OWP.OtherSport;
 using OWP.OtherSport.Hubs;
 using OWP.OvertimeReport;
 using OWP.PreMatchAssignment;
-using OWP.PreMatchNotification;
 using OWP.PreMatchReport;
-using OWP.RabbitMQ;
 using OWP.RecipientGroup;
 using OWP.RedisPubSub;
 using OWP.Report;
@@ -47,6 +46,7 @@ using OWP.Websites.App_Start;
 using Sentry;
 using StackExchange.Redis;
 using System.Reflection;
+using OWP.RabbitMQ.Handler;
 
 namespace OWP.Websites;
 
@@ -204,7 +204,6 @@ public static class ServiceCollectionExtensions
         services.AddOtherSport();
         services.AddProductAssignment();
         services.AddSyncWorkingShift();
-        services.AddPreMatchNotification();
         services.AddRecipientGroup();
         services.AddTicketCenterService();
         services.AddOvertimeReport();
@@ -223,7 +222,6 @@ public static class ServiceCollectionExtensions
         services.AddMediatR(typeof(MaxbetController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(OtherSportController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(SyncWorkingShiftController).GetTypeInfo().Assembly);
-        services.AddMediatR(typeof(PrematchNotificationController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(RecipientGroupController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(TicketCenterController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(FileUploadController).GetTypeInfo().Assembly);
@@ -231,7 +229,6 @@ public static class ServiceCollectionExtensions
         services.AddMediatR(typeof(OvertimeReportController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(PreMatchAssignmentController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(PreMatchReportController).GetTypeInfo().Assembly);
-        services.AddMediatR(typeof(NotificationConsumer).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(MatchCountLiveReportController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(OSLeagueController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(ReportApiController).GetTypeInfo().Assembly);
@@ -326,7 +323,6 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddRabbitMQ(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddHostedService<NotificationConsumer>();
         services.AddSingleton<MessageClient>();
         services.AddTransient<SendNotificationHander, SendNotificationHanderImp>();
 

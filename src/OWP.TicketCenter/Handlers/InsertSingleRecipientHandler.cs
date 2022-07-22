@@ -1,6 +1,6 @@
 ﻿using MediatR;
-using OWP.NotificationHandler;
-using OWP.NotificationHandler.Constants;
+using OWP.RabbitMQ;
+using OWP.RabbitMQ.Constants;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Notification.Services;
 using OWP.TicketCenter.Services;

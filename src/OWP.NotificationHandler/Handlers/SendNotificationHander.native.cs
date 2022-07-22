@@ -1,28 +1,29 @@
 ﻿using MediatR;
 using OWP.Models;
-using OWP.NotificationHandler.Constants;
+using OWP.RabbitMQ.Constants;
 using OWP.NotificationRequests;
 
-namespace OWP.NotificationHandler;
-
+namespace OWP.RabbitMQ.Handler;
 
 public interface SendNotificationHander
 {
     Task Handle(string key, string message);
 }
+
 public class SendNotificationHanderImp : SendNotificationHander
 {
     private readonly IMediator mediator;
+
     public SendNotificationHanderImp(IMediator mediator)
     {
         this.mediator = mediator;
     }
+
     public async Task Handle(string key, string message)
     {
         var request = CreateRequest(key, message);
-        var result = await mediator.Send(request);
+        await mediator.Send(request);
     }
-
 
     private NotificationCommandBaseModel CreateRequest(string key, string message)
     {
@@ -41,5 +42,4 @@ public class SendNotificationHanderImp : SendNotificationHander
                 return new NotificationCommandBaseModel();
         }
     }
-
 }

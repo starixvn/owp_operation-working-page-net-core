@@ -1,7 +1,7 @@
 ﻿using Fanex.NAP.Client.Helpers.Web;
 using MediatR;
-using OWP.NotificationHandler;
-using OWP.NotificationHandler.Constants;
+using OWP.RabbitMQ;
+using OWP.RabbitMQ.Constants;
 using OWP.TicketCenter.Criteria;
 using OWP.TicketCenter.Middleware.Models;
 using OWP.TicketCenter.Models;

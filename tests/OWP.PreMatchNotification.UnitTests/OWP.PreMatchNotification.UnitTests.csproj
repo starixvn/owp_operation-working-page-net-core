@@ -29,8 +29,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\OWP.PreMatchNotification\OWP.PreMatchNotification.csproj" />
-  </ItemGroup>
-
 </Project>

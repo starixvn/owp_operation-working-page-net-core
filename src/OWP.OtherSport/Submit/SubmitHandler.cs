@@ -7,6 +7,8 @@
     using OWP.MessagePublisher;
     using OWP.NotificationHandler;
     using OWP.NotificationHandler.Constants;
+    using OWP.RabbitMQ;
+    using OWP.RabbitMQ.Constants;
     using OWP.OtherSport.Hubs;
     using OWP.OtherSport.Submit.Models;
     using OWP.OtherSport.Submit.Services;

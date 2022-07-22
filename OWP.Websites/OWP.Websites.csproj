@@ -62,21 +62,18 @@
     <ItemGroup>
         <ProjectReference Include="..\src\OWP.AutoAssignment\OWP.AutoAssignment.csproj" />
         <ProjectReference Include="..\src\OWP.FileUpload\OWP.FileUpload.csproj" />
-    <ProjectReference Include="..\src\OWP.NotificationHandler\OWP.NotificationHandler.csproj" />
         <ProjectReference Include="..\src\OWP.OvertimeReport\OWP.OvertimeReport.csproj" />
         <ProjectReference Include="..\src\OWP.PrematchAssignment\OWP.PrematchAssignment.csproj" />
         <ProjectReference Include="..\src\OWP\OWP.csproj" />
         <ProjectReference Include="..\src\OWP.ApiSyncWorkingShift\OWP.ApiSyncWorkingShift.csproj" />
         <ProjectReference Include="..\src\OWP.Maxbet\OWP.Maxbet.csproj" />
         <ProjectReference Include="..\src\OWP.OtherSport\OWP.OtherSport.csproj" />
-        <ProjectReference Include="..\src\OWP.PreMatchNotification\OWP.PreMatchNotification.csproj" />
         <ProjectReference Include="..\src\OWP.ProductAssignmentReference\OWP.ProductAssignmentReference.csproj" />
         <ProjectReference Include="..\src\OWP.RecipientGroup\OWP.RecipientGroup.csproj" />
         <ProjectReference Include="..\src\OWP.SimpleDataApi\OWP.SimpleDataApi.csproj" />
         <ProjectReference Include="..\src\OWP.TicketTypeRecipient\OWP.TicketTypeRecipient.csproj" />
         <ProjectReference Include="..\src\OWP.TicketCenter\OWP.TicketCenter.csproj" />
         <ProjectReference Include="..\src\OWP.PreMatchReport\OWP.PreMatchReport.csproj" />
-        <ProjectReference Include="..\src\OWP.RabbitMQ\OWP.RabbitMQ.csproj" />
         <ProjectReference Include="..\src\OWP.MatchCountLiveReport\OWP.MatchCountLiveReport.csproj" />
         <ProjectReference Include="..\src\OWP.RedisPubSub\OWP.RedisPubSub.csproj" />
     <ProjectReference Include="..\src\OWP.OSLeagueSetting\OWP.OSLeagueSetting.csproj" />

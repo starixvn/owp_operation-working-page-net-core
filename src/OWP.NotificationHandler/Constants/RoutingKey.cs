@@ -1,4 +1,4 @@
-﻿namespace OWP.NotificationHandler.Constants;
+﻿namespace OWP.RabbitMQ.Constants;
 
 public static class RoutingKey
 {
@@ -17,18 +17,18 @@ public static class RoutingKey
 
     public static readonly string[] Keys = new string[]
     {
-    LinkedLgaMatch,
-    PrematchNewLeague,
-    InfositeMatchInfo,
-    PrematchAssignment,
-    TicketCenter,
-    OtherSport,
-    TicketCenterNewMessage,
-    TicketCenterNewRecipient,
-    TicketCenterNewTicketEvent,
-    TicketCenterNewTicketLeague,
-    TicketCenterNewTicketOther,
-    TicketCenterNewTicketSupport
+        LinkedLgaMatch,
+        PrematchNewLeague,
+        InfositeMatchInfo,
+        PrematchAssignment,
+        TicketCenter,
+        OtherSport,
+        TicketCenterNewMessage,
+        TicketCenterNewRecipient,
+        TicketCenterNewTicketEvent,
+        TicketCenterNewTicketLeague,
+        TicketCenterNewTicketOther,
+        TicketCenterNewTicketSupport
     };
 }
 

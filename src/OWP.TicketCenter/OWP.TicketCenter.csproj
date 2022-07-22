@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OWP.NotificationHandler\OWP.NotificationHandler.csproj" />
+    <ProjectReference Include="..\OWP.NotificationHandler\OWP.RabbitMQ.csproj" />
     <ProjectReference Include="..\OWP\OWP.csproj" />
   </ItemGroup>
 

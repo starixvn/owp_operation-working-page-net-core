@@ -1,19 +1,17 @@
 ﻿using Fanex.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using OWP.RabbitMQ.Handler;
+using OWP.RabbitMQ.Model;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
 
-namespace OWP.NotificationHandler;
-
+namespace OWP.RabbitMQ;
 
 public class MessageClient
 {
-    private const string QueueName = "rpc_queue";
-
     private IBasicProperties props;
-    private IConnection connection;
     private IModel channel;
     private EventingBasicConsumer consumer;
 
@@ -35,39 +33,45 @@ public class MessageClient
     {
         try
         {
-            var factory = new ConnectionFactory() { HostName = setting.Hosting };
+            var factory = new ConnectionFactory()
+            {
+                UserName = setting.UserName,
+                Password = setting.Password,
+                HostName = setting.Hosting,
+                Port = setting.Port,
+                VirtualHost = setting.VirtualHost,
+                DispatchConsumersAsync = true
+            };
 
-            connection = factory.CreateConnection();
+            var connection = factory.CreateConnection();
             channel = connection.CreateModel();
 
-            channel.QueueDeclare(queue: QueueName, durable: true, autoDelete: false);
+            channel.QueueDeclare(queue: setting.ReplyQueue, durable: true, autoDelete: false);
 
             consumer = new EventingBasicConsumer(channel);
 
             consumer.Received += OnReceived;
 
-            channel.BasicConsume(consumer: consumer, queue: QueueName, autoAck: true);
+            channel.BasicConsume(consumer: consumer, queue: setting.ReplyQueue, autoAck: true);
         }
         catch (Exception ex)
         {
             logger.Error(ex.Message, ex);
-            //throw;
         }
-
     }
 
-    public void SendMessage(object message, string correlationId)
+    public void SendMessage(object message, string messageType)
     {
         var json = JsonConvert.SerializeObject(message);
         var messageBytes = Encoding.UTF8.GetBytes(json);
 
         props = channel.CreateBasicProperties();
-        props.CorrelationId = correlationId;
-        props.ReplyTo = QueueName;
+        props.Type = messageType;
+        props.ReplyTo = setting.RequestQueue;
 
         channel.BasicPublish(
-            exchange: "",
-            routingKey: "Message",
+            exchange: string.Empty,
+            routingKey: setting.RequestQueue,
             basicProperties: props,
             body: messageBytes);
     }
@@ -78,14 +82,6 @@ public class MessageClient
         var props = eventArgs.BasicProperties;
         var response = Encoding.UTF8.GetString(body);
 
-        await notificationHander.Handle(props.CorrelationId, response);
-    }
-
-
-    public void Close()
-    {
-        connection.Close();
+        await notificationHander.Handle(props.Type, response);
     }
 }
-
-

@@ -1,4 +1,4 @@
-﻿using OWP.NotificationHandler;
+﻿using OWP.RabbitMQ;
 
 namespace OWP.Websites.App_Start
 {
