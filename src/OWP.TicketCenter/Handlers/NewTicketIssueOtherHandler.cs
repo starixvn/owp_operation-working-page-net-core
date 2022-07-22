@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
-using OWP.MessagePublisher;
 using OWP.NotificationHandler;
+using OWP.NotificationHandler.Constants;
 using OWP.TicketCenter.Criteria;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Notification.Models;
@@ -22,7 +22,6 @@ namespace OWP.TicketCenter.Handlers
         private readonly NewTicketOtherMessageDBWriter writer;
         private readonly NotificationService notificationService;
         private readonly RecipientService recipientService;
-        private readonly IMessagePublisher publisher;
         private readonly MessageClient messageClient;
 
 
@@ -32,7 +31,6 @@ namespace OWP.TicketCenter.Handlers
             NewTicketOtherMessageDBWriter writer,
             NotificationService notificationService,
             RecipientService recipientService,
-            IMessagePublisher publisher = null,
             MessageClient messageClient = null)
         {
             this.repository = repository;
@@ -40,7 +38,6 @@ namespace OWP.TicketCenter.Handlers
             this.writer = writer;
             this.notificationService = notificationService;
             this.recipientService = recipientService;
-            this.publisher = publisher;
             this.messageClient = messageClient;
         }
 

@@ -2,7 +2,6 @@ using Fanex.NAP.Client;
 using Fanex.NAP.Client.Configuration;
 using Fanex.NAP.Client.Helpers.Web;
 using OWP.Hubs;
-using OWP.MessagePublisher;
 using OWP.NotificationHandler;
 using OWP.OtherSport.Hubs;
 using OWP.TicketCenter.Hubs;
@@ -25,8 +24,7 @@ builder.Services.AddCookieAuthentication(builder.Configuration);
 builder.Services.AddRedis(builder.Configuration);
 builder.Services.AddRedisSession(builder.Configuration);
 builder.Services.Configure<RabbitMQSetting>(builder.Configuration.GetSection(RabbitMQSetting.RabbitMQ));
-builder.Services.AddScoped<IMessagePublisher, Publisher>();
-builder.Services.AddSingleton<MessageClient>();
+
 builder.Services.AddSignalR(builder.Configuration);
 builder.Services.AddSimpleDataApiModule();
 builder.Services.AddNapServices(builder.Configuration);

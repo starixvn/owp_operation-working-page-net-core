@@ -1,7 +1,7 @@
 ﻿using Fanex.NAP.Client.Helpers.Web;
 using MediatR;
-using OWP.MessagePublisher;
 using OWP.NotificationHandler;
+using OWP.NotificationHandler.Constants;
 using OWP.TicketCenter.Criteria;
 using OWP.TicketCenter.Middleware.Models;
 using OWP.TicketCenter.Models;
@@ -26,19 +26,16 @@ namespace OWP.TicketCenter.Handlers
         private readonly Repository repository;
         private readonly NotificationService notification;
         private readonly MessageClient messageClient;
-        private readonly IMessagePublisher publisher;
         private readonly INapSession napSession;
 
         public NewMessageHandler(
             Repository repository,
             NotificationService notification,
-            IMessagePublisher publisher,
             INapSession napSession,
             MessageClient messageClient)
         {
             this.repository = repository;
             this.notification = notification;
-            this.publisher = publisher;
             this.napSession = napSession;
             this.messageClient = messageClient;
         }

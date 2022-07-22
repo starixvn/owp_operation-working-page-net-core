@@ -34,7 +34,8 @@ namespace OWP.TicketCenter.UnitTests.Handlers
                 repository,
                 recipientService,
                 notificationService,
-                writer);
+                null
+                );
 
             var recipients = new List<InsertOrRemoveManyRecipientModel>();
 

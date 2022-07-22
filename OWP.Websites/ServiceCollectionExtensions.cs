@@ -26,6 +26,7 @@ using OWP.FileUpload;
 using OWP.MatchCountLiveReport;
 using OWP.Maxbet;
 using OWP.OSLeagueSetting;
+using OWP.NotificationHandler;
 using OWP.OtherSport;
 using OWP.OtherSport.Hubs;
 using OWP.OvertimeReport;
@@ -326,6 +327,9 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddRabbitMQ(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddHostedService<NotificationConsumer>();
+        services.AddSingleton<MessageClient>();
+        services.AddTransient<SendNotificationHander, SendNotificationHanderImp>();
+
         return services;
     }
 }

@@ -1,12 +1,8 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Fanex.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using OWP.Hubs;
-using OWP.MessagePublisher;
-using OWP.NotificationHandler.Models;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using System.Collections.Concurrent;
 using System.Text;
 
 namespace OWP.NotificationHandler;
@@ -17,36 +13,47 @@ public class MessageClient
     private const string QueueName = "rpc_queue";
 
     private IBasicProperties props;
-
-    private readonly RabbitMQSetting setting;
     private IConnection connection;
     private IModel channel;
     private EventingBasicConsumer consumer;
-    private readonly BlockingCollection<string> respQueue = new BlockingCollection<string>();
-    private readonly IHubContext<ChangedInfoNotifyHubImp, ChangedInfoNotifyHub> notifyChangedHub;
 
-    public MessageClient(IOptions<RabbitMQSetting> options, IHubContext<ChangedInfoNotifyHubImp, ChangedInfoNotifyHub> notifyChangedHub)
+    private readonly RabbitMQSetting setting;
+    private readonly SendNotificationHander notificationHander;
+    public readonly ILogger logger;
+
+    public MessageClient(
+        IOptions<RabbitMQSetting> options,
+        SendNotificationHander notificationHander,
+        ILogger logger)
     {
         this.setting = options.Value;
-        this.notifyChangedHub = notifyChangedHub;
-
-        this.Connect();
+        this.notificationHander = notificationHander;
+        this.logger = logger;
     }
 
     public void Connect()
     {
-        var factory = new ConnectionFactory() { HostName = setting.Hosting };
+        try
+        {
+            var factory = new ConnectionFactory() { HostName = setting.Hosting };
 
-        connection = factory.CreateConnection();
-        channel = connection.CreateModel();
+            connection = factory.CreateConnection();
+            channel = connection.CreateModel();
 
-        channel.QueueDeclare(queue: QueueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
+            channel.QueueDeclare(queue: QueueName, durable: true, autoDelete: false);
 
-        consumer = new EventingBasicConsumer(channel);
+            consumer = new EventingBasicConsumer(channel);
 
-        consumer.Received += OnReceived;
+            consumer.Received += OnReceived;
 
-        channel.BasicConsume(consumer: consumer, queue: QueueName, autoAck: true);
+            channel.BasicConsume(consumer: consumer, queue: QueueName, autoAck: true);
+        }
+        catch (Exception ex)
+        {
+            logger.Error(ex.Message, ex);
+            //throw;
+        }
+
     }
 
     public void SendMessage(object message, string correlationId)
@@ -71,56 +78,9 @@ public class MessageClient
         var props = eventArgs.BasicProperties;
         var response = Encoding.UTF8.GetString(body);
 
-        await HandleSendNotification(props.CorrelationId, response);
+        await notificationHander.Handle(props.CorrelationId, response);
     }
 
-    private async Task HandleSendNotification(string key, string message)
-    {
-        // ticket center
-        if (key == RoutingKey.TicketCenterNewRecipient
-            || key == RoutingKey.TicketCenterNewRecipient
-            || key == RoutingKey.TicketCenterNewTicketEvent
-            || key == RoutingKey.TicketCenterNewTicketLeague
-            || key == RoutingKey.TicketCenterNewTicketOther
-            || key == RoutingKey.TicketCenterNewTicketSupport)
-        {
-            await HandleSendNotificationTicketCenter(message);
-            return;
-        }
-
-        // other sport
-        if (key == RoutingKey.OtherSport)
-        {
-            await HandleSendNotificationOtherSport(message);
-            return;
-        }
-    }
-
-    private async Task HandleSendNotificationTicketCenter(string message)
-    {
-        var lists = JsonConvert.DeserializeObject<List<TicketCenterContent>>(message);
-
-        foreach (var item in lists)
-        {
-            await notifyChangedHub.Clients
-            //.Users(item.userId)
-            .All
-            .notifyChangedInformationData(item);
-        }
-    }
-
-    private async Task HandleSendNotificationOtherSport(string message)
-    {
-        var lists = JsonConvert.DeserializeObject<List<OtherSportContent>>(message);
-
-        foreach (var item in lists)
-        {
-            await notifyChangedHub.Clients
-            //.Users(item.Message.ReceivedUserIds)
-            .All
-            .notifyChangedInformationData(item);
-        }
-    }
 
     public void Close()
     {

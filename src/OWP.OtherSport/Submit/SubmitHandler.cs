@@ -6,6 +6,7 @@
     using OWP.Extensions;
     using OWP.MessagePublisher;
     using OWP.NotificationHandler;
+    using OWP.NotificationHandler.Constants;
     using OWP.OtherSport.Hubs;
     using OWP.OtherSport.Submit.Models;
     using OWP.OtherSport.Submit.Services;
@@ -39,7 +40,6 @@
         private readonly CacheManipulator cacheManipulator;
         private readonly CommandRepository commandRepository;
         private readonly INapSession session;
-        private readonly IMessagePublisher publisher;
         private readonly IHubContext<NewDataUploadNotifyHubImp, NewDataUploadNotifyHub> notifyHub;
         private readonly MessageClient messageClient;
 
@@ -48,7 +48,6 @@
             CommandRepository commandRepository,
             INapSession session,
             IHubContext<NewDataUploadNotifyHubImp, NewDataUploadNotifyHub> notifyHub,
-            IMessagePublisher publisher,
             MessageClient messageClient)
 
         {
@@ -56,7 +55,6 @@
             this.commandRepository = commandRepository;
             this.session = session;
             this.notifyHub = notifyHub;
-            this.publisher = publisher;
             this.messageClient = messageClient;
         }
 

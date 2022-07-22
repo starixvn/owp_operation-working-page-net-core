@@ -3,12 +3,15 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OWP.MessagePublisher\OWP.MessagePublisher.csproj" />
-    <ProjectReference Include="..\OWP.RabbitMQ\OWP.RabbitMQ.csproj" />
+    <PackageReference Include="RabbitMQ.Client" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OWP\OWP.csproj" />
   </ItemGroup>
 
 </Project>

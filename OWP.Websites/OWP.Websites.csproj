@@ -58,12 +58,10 @@
         <PackageReference Include="ONEbook.UM.AspNetCore" Version="3.1.0" />
         <PackageReference Include="ONEbook.UM.Transport" Version="3.1.1" />
         <PackageReference Include="Microsoft.NETCore.Targets" Version="6.0.0-preview.4.21253.7" PrivateAssets="all" />
-        <PackageReference Include="RabbitMQ.Client" Version="6.2.4" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\src\OWP.AutoAssignment\OWP.AutoAssignment.csproj" />
         <ProjectReference Include="..\src\OWP.FileUpload\OWP.FileUpload.csproj" />
-    <ProjectReference Include="..\src\OWP.MessagePublisher\OWP.MessagePublisher.csproj" />
     <ProjectReference Include="..\src\OWP.NotificationHandler\OWP.NotificationHandler.csproj" />
         <ProjectReference Include="..\src\OWP.OvertimeReport\OWP.OvertimeReport.csproj" />
         <ProjectReference Include="..\src\OWP.PrematchAssignment\OWP.PrematchAssignment.csproj" />
