@@ -62,11 +62,7 @@ app.UseEndpoints(endpoints =>
     endpoints.MapHub<TicketCenterNotifyHubImp>("/ticketCenterNotifyHub");
     endpoints.MapHub<PreMatchNotifyHubImp>("/preMatchNotifyHub");
 });
-app.Urls.Add("http://+:5000");
-if (app.Environment.IsDevelopment())
-{
-    app.Urls.Add("https://+:5001");
-}
-await app.RunAsync();
+#if DEBUG
 
+#endif
 
