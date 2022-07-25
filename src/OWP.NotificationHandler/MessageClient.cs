@@ -13,7 +13,9 @@ public class MessageClient
 {
     private IBasicProperties props;
     private IModel channel;
-    private EventingBasicConsumer consumer;
+    private ConnectionFactory factory;
+    private IConnection connection;
+    private AsyncEventingBasicConsumer consumer;
 
     private readonly RabbitMQSetting setting;
     private readonly SendNotificationHander notificationHander;
@@ -33,7 +35,7 @@ public class MessageClient
     {
         try
         {
-            var factory = new ConnectionFactory()
+            factory = new ConnectionFactory()
             {
                 UserName = setting.UserName,
                 Password = setting.Password,
@@ -43,12 +45,12 @@ public class MessageClient
                 DispatchConsumersAsync = true
             };
 
-            var connection = factory.CreateConnection();
+            connection = factory.CreateConnection();
             channel = connection.CreateModel();
 
             channel.QueueDeclare(queue: setting.ReplyQueue, durable: true, exclusive: false, autoDelete: false);
 
-            consumer = new EventingBasicConsumer(channel);
+            consumer = new AsyncEventingBasicConsumer(channel);
 
             consumer.Received += OnReceived;
 
@@ -67,7 +69,7 @@ public class MessageClient
 
         props = channel.CreateBasicProperties();
         props.Type = messageType;
-        props.ReplyTo = setting.RequestQueue;
+        props.ReplyTo = setting.ReplyQueue;
 
         channel.BasicPublish(
             exchange: string.Empty,
@@ -76,7 +78,7 @@ public class MessageClient
             body: messageBytes);
     }
 
-    private async void OnReceived(object model, BasicDeliverEventArgs eventArgs)
+    private async Task OnReceived(object model, BasicDeliverEventArgs eventArgs)
     {
         var body = eventArgs.Body.ToArray();
         var props = eventArgs.BasicProperties;
