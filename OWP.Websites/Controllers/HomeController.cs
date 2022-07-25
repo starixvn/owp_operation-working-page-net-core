@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OWP.Websites.Models;
+using Fanex.NAP.Client.Configuration;
 
 namespace OWP.Websites.Controllers
 {
@@ -18,9 +19,12 @@ namespace OWP.Websites.Controllers
     {
         private readonly INapSession session;
 
-        public HomeController(INapSession session)
+        private readonly INapSettings napSettings;
+
+        public HomeController(INapSession session, INapSettings napSettings)
         {
             this.session = session;
+            this.napSettings = napSettings;
         }
 
         [AllowAnonymous]
@@ -31,9 +35,8 @@ namespace OWP.Websites.Controllers
             ViewBag.Username = session.UserName;
             ViewBag.Ip = GetIp();
             ViewBag.FakeLoginEnabled = false;
-#if DEBUG
-            ViewBag.FakeLoginEnabled = true;
-#endif
+
+            ViewBag.FakeLoginEnabled = napSettings.Environment == "UAT";
             return View();
         }
 
@@ -115,12 +118,16 @@ namespace OWP.Websites.Controllers
             return Content(builder.ToString());
         }
 
-#if DEBUG
 
         [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> FakeLogin()
         {
+            if (napSettings.Environment == "LIVE")
+            {
+                return Content("This function is unavailable");
+            }
+
             var criteria = new LoginParameter
             {
                 UserId = 8,
@@ -158,7 +165,5 @@ namespace OWP.Websites.Controllers
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
         }
-
-#endif
     }
 }
