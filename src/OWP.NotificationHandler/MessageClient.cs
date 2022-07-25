@@ -46,7 +46,7 @@ public class MessageClient
             var connection = factory.CreateConnection();
             channel = connection.CreateModel();
 
-            channel.QueueDeclare(queue: setting.ReplyQueue, durable: true, autoDelete: false);
+            channel.QueueDeclare(queue: setting.ReplyQueue, durable: true, exclusive: false, autoDelete: false);
 
             consumer = new EventingBasicConsumer(channel);
 
