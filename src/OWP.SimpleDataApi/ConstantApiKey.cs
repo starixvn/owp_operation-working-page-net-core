@@ -43,5 +43,13 @@
         public const string LeagueManagementGetTeamInfo = "league-management-get-team-info";
 
         public const string GetLastUpdated = "get-last-updated";
+
+        public const string GetBettypeForTradingInfo = "live-game-assignment-get-bettype-for-trading-info";
+
+        public const string GetBettypeForSpecialEvent = "live-game-assignment-get-bettype-for-special-event";
+
+        public const string GetSpecialEventTemplate = "live-game-assignment-get-special-event-template";
+
+        public const string GetMatchSettingByMatchIdCriteria = "live-detail-get-matchsetting-by-id";
     }
 }
