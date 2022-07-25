@@ -13,8 +13,6 @@ public class MessageClient
 {
     private IBasicProperties props;
     private IModel channel;
-    private ConnectionFactory factory;
-    private IConnection connection;
     private AsyncEventingBasicConsumer consumer;
 
     private readonly RabbitMQSetting setting;
@@ -35,7 +33,7 @@ public class MessageClient
     {
         try
         {
-            factory = new ConnectionFactory()
+            var factory = new ConnectionFactory()
             {
                 UserName = setting.UserName,
                 Password = setting.Password,
@@ -45,7 +43,7 @@ public class MessageClient
                 DispatchConsumersAsync = true
             };
 
-            connection = factory.CreateConnection();
+            var connection = factory.CreateConnection();
             channel = connection.CreateModel();
 
             channel.QueueDeclare(queue: setting.ReplyQueue, durable: true, exclusive: false, autoDelete: false);
