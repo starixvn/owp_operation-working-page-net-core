@@ -25,7 +25,6 @@ public class NewTicketIssueEventHandler : IRequestHandler<NewTicketIssueEventReq
 {
     private readonly Repository repository;
     private readonly IMapper mapper;
-    private readonly NewTicketMatchMessageDBWriter writer;
     private readonly NotificationService notificationService;
     private readonly RecipientService recipientService;
     private readonly MessageClient messageClient;
@@ -33,14 +32,12 @@ public class NewTicketIssueEventHandler : IRequestHandler<NewTicketIssueEventReq
     public NewTicketIssueEventHandler(
         Repository repository,
         IMapper mapper,
-        NewTicketMatchMessageDBWriter writer,
         NotificationService notificationService,
         RecipientService recipientService,
         MessageClient messageClient)
     {
         this.repository = repository;
         this.mapper = mapper;
-        this.writer = writer;
         this.notificationService = notificationService;
         this.recipientService = recipientService;
         this.messageClient = messageClient;
@@ -90,7 +87,6 @@ public class NewTicketIssueEventHandler : IRequestHandler<NewTicketIssueEventReq
             ActorId = request.CreatorId
         };
 
-        // publish
         messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketEvent);
 
         await notificationService.NotifyNewMessageIncome(ticketId);

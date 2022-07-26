@@ -19,7 +19,6 @@ namespace OWP.TicketCenter.Handlers
     {
         private readonly Repository repository;
         private readonly IMapper mapper;
-        private readonly NewTicketLeagueMessageDBWriter writer;
         private readonly NotificationService notificationService;
         private readonly RecipientService recipientService;
         private readonly MessageClient messageClient;
@@ -27,14 +26,12 @@ namespace OWP.TicketCenter.Handlers
         public NewTicketIssueLeagueHandler(
             Repository repository,
             IMapper mapper,
-            NewTicketLeagueMessageDBWriter writer,
             NotificationService notificationService,
             RecipientService recipientService,
             MessageClient messageClient)
         {
             this.repository = repository;
             this.mapper = mapper;
-            this.writer = writer;
             this.notificationService = notificationService;
             this.recipientService = recipientService;
             this.messageClient = messageClient;
@@ -83,25 +80,11 @@ namespace OWP.TicketCenter.Handlers
                 Comment = newMessage.Message,
                 ActorId = request.CreatorId
             };
-
-            //
-            messageClient.SendMessage(request, RoutingKey.TicketCenterNewTicketLeague);
-            //var sessionId = await writer.Execute(
-            //    notificationMessage,
-            //    NotificationTemplateCode.NewTicket);
-
-            //await notificationService.Notify(new NotificationSource
-            //{
-            //    SessionId = sessionId,
-            //    TicketId = ticketId,
-            //    EventType = (int)EventType.League,
-            //});
+            messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketLeague);
 
             await notificationService.NotifyNewMessageIncome(ticketId);
 
             await notificationService.NotifyNewAddRecipient(ticketId, request.CreatorId);
-
-
 
             return ticketId;
         }

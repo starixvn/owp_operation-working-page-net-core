@@ -19,26 +19,22 @@ namespace OWP.TicketCenter.Handlers
     {
         private readonly Repository repository;
         private readonly IMapper mapper;
-        private readonly NewTicketOtherMessageDBWriter writer;
-        private readonly NotificationService notificationService;
         private readonly RecipientService recipientService;
+        private readonly NotificationService notificationService;
         private readonly MessageClient messageClient;
-
 
         public NewTicketIssueOtherHandler(
             Repository repository,
             IMapper mapper,
-            NewTicketOtherMessageDBWriter writer,
             NotificationService notificationService,
             RecipientService recipientService,
             MessageClient messageClient = null)
         {
             this.repository = repository;
             this.mapper = mapper;
-            this.writer = writer;
-            this.notificationService = notificationService;
             this.recipientService = recipientService;
             this.messageClient = messageClient;
+            this.notificationService = notificationService;
         }
 
         public async Task<int> Handle(NewTicketIssueOtherRequest request, CancellationToken cancellationToken)
@@ -88,27 +84,9 @@ namespace OWP.TicketCenter.Handlers
 
             messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketOther);
 
-            //var sessionId = await writer.Execute(
-            //    notificationMessage,
-            //    NotificationTemplateCode.NewTicket);
+            await notificationService.NotifyNewMessageIncome(ticketId);
 
-            //await notificationService.NotifyNewMessageIncome(ticketId);
-
-            //await notificationService.NotifyNewAddRecipient(ticketId, request.CreatorId);
-
-            //await notificationService.Notify(new NotificationSource
-            //{
-            //    SessionId = sessionId,
-            //    TicketId = ticketId,
-            //    EventType = (int)EventType.Other,
-            //});
-            //var messageModel = new
-            //{
-            //    SessionId = sessionId,
-            //    TicketId = ticketId,
-            //    EventType = (int)EventType.Other,
-            //};
-            //publisher.PushMessage<object>(messageModel, RoutingKey.TicketCenter);
+            await notificationService.NotifyNewAddRecipient(ticketId, request.CreatorId);
 
             return ticketId;
         }

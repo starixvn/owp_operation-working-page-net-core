@@ -16,12 +16,12 @@ public class MessageClient
     private AsyncEventingBasicConsumer consumer;
 
     private readonly RabbitMQSetting setting;
-    private readonly SendNotificationHander notificationHander;
+    private readonly NotificationHanderFactory notificationHander;
     public readonly ILogger logger;
 
     public MessageClient(
         IOptions<RabbitMQSetting> options,
-        SendNotificationHander notificationHander,
+        NotificationHanderFactory notificationHander,
         ILogger logger)
     {
         this.setting = options.Value;

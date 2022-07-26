@@ -1,20 +1,20 @@
 ﻿using MediatR;
 using OWP.Models;
-using OWP.RabbitMQ.Constants;
 using OWP.NotificationRequests;
+using OWP.RabbitMQ.Constants;
 
 namespace OWP.RabbitMQ.Handler;
 
-public interface SendNotificationHander
+public interface NotificationHanderFactory
 {
     Task Handle(string key, string message);
 }
 
-public class SendNotificationHanderImp : SendNotificationHander
+public class NotificationHanderFactoryImp : NotificationHanderFactory
 {
     private readonly IMediator mediator;
 
-    public SendNotificationHanderImp(IMediator mediator)
+    public NotificationHanderFactoryImp(IMediator mediator)
     {
         this.mediator = mediator;
     }
@@ -25,7 +25,7 @@ public class SendNotificationHanderImp : SendNotificationHander
         await mediator.Send(request);
     }
 
-    private NotificationCommandBaseModel CreateRequest(string key, string message)
+    private static NotificationCommandBaseModel CreateRequest(string key, string message)
     {
         switch (key)
         {

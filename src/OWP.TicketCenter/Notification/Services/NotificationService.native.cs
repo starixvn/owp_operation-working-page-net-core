@@ -2,12 +2,9 @@
 {
     using Hubs;
     using Microsoft.AspNetCore.SignalR;
-    using Models;
-    using OWP.Services;
 
     public interface NotificationService
     {
-        Task Notify(NotificationSource source);
 
         Task<bool> NotifyNewMessageIncome(int ticketId);
 
@@ -22,7 +19,6 @@
 
     public class NotificationServiceImp : NotificationService
     {
-        private readonly NotifyEngine notifyEngine;
 
         private readonly IHubContext<TicketCenterNotifyHubImp, TicketCenterNotifyHub> notifyMyTicket;
 
@@ -31,53 +27,13 @@
         private readonly Repository repository;
 
         public NotificationServiceImp(
-            NotifyEngine notifyEngine,
             Repository repository,
             IHubContext<TicketCenterNotifyHubImp, TicketCenterNotifyHub> notifyMyTicket,
             IHubContext<PreMatchNotifyHubImp, PreMatchNotifyHub> notifyPreMatch)
         {
-            this.notifyEngine = notifyEngine;
             this.notifyMyTicket = notifyMyTicket;
             this.notifyPreMatch = notifyPreMatch;
             this.repository = repository;
-        }
-
-        public async Task Notify(NotificationSource source)
-        {
-            //await notifyEngine.Notify(source.SessionId, messageTuple =>
-            //{
-            //    var userIds = messageTuple.Item1
-            //.Select(x => x.UserId)
-            //.ToList();
-
-            //    var awaiter = repository
-            //        .GetMessageUnreadByMultipleUserId(userIds)
-            //        .ConfigureAwait(true);
-
-            //    var messageUnread = awaiter.GetAwaiter().GetResult();
-
-            //    return messageTuple.Item2.Select(x => new NotificationModel
-            //    {
-            //        UserId = x.UserId,
-            //        IsImportant = x.IsImportant,
-            //        MessageType = x.MessageType,
-            //        MessageContent = x.MessageContent,
-            //        TicketId = source.TicketId,
-            //        EventType = source.EventType,
-            //        TotalMessageUnread = messageUnread?.FirstOrDefault(m => m.UserId == x.UserId)?.Total,
-            //        IsNewMessage = source.IsNewMessage
-            //    }).DistinctBy(x => new
-            //    {
-            //        x.UserId,
-            //        x.IsImportant,
-            //        x.MessageType,
-            //        x.MessageContent,
-            //        x.TicketId,
-            //        x.EventType,
-            //        x.TotalMessageUnread,
-            //        x.IsNewMessage
-            //    }).ToDictionary(x => x.UserId.ToString(), x => x);
-            //});
         }
 
         public async Task<bool> NotifyNewMessageIncome(int ticketId)

@@ -76,14 +76,6 @@
             await TryHandle(eventDates, newAssignments, request);
             await notifyHub.Clients.All.NotifyUploadedNewData();
 
-            //publisher.PushMessage<object>(new
-            //{
-            //    SessionId = request.SessionId,
-            //    FromDate = request.FromDate,
-            //    ToDate = request.ToDate,
-            //    ActorId = session.UserId
-            //}, RoutingKey.OtherSport);
-
             messageClient.SendMessage(new
             {
                 SessionId = request.SessionId,

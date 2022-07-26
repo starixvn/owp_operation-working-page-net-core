@@ -63,7 +63,6 @@ namespace OWP.TicketCenter.Handlers
 
             var result = await repository.AddNewMessage(message);
 
-            // publish rabbit
             messageClient.SendMessage(request, RoutingKey.TicketCenterNewMessage);
 
             await notification.NotifyNewMessageIncome(request.TicketId);

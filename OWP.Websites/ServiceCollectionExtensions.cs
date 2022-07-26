@@ -330,7 +330,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddRabbitMQ(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddSingleton<MessageClient>();
-        services.AddTransient<SendNotificationHander, SendNotificationHanderImp>();
+        services.AddTransient<NotificationHanderFactory, NotificationHanderFactoryImp>();
 
         return services;
     }

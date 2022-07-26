@@ -2,15 +2,21 @@
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
 using OWP.Hubs;
-using OWP.NotificationRequests;
 
-namespace OWP.TicketCenter.Notification;
+namespace OWP.RabbitMQ.Handlers;
 
-public class NotificationHandler : IRequestHandler<TicketCenterNotifyRequest, Unit>
+public class TicketCenterNotifyRequest : IRequest<Unit>
+{
+    public string Message { get; set; }
+}
+
+
+
+public class TicketCenterNotificationHandler : IRequestHandler<TicketCenterNotifyRequest, Unit>
 {
     private readonly IHubContext<ChangedInfoNotifyHubImp, ChangedInfoNotifyHub> notifyChangedHub;
 
-    public NotificationHandler(IHubContext<ChangedInfoNotifyHubImp, ChangedInfoNotifyHub> notifyChangedHub)
+    public TicketCenterNotificationHandler(IHubContext<ChangedInfoNotifyHubImp, ChangedInfoNotifyHub> notifyChangedHub)
     {
         this.notifyChangedHub = notifyChangedHub;
     }

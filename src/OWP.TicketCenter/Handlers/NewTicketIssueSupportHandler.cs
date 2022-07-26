@@ -19,7 +19,6 @@ public class NewTicketIssueSupportHandler : IRequestHandler<NewTicketIssueSuppor
 {
     private readonly Repository repository;
     private readonly IMapper mapper;
-    private readonly NewTicketSupportMessageDBWriter writer;
     private readonly NotificationService notificationService;
     private readonly RecipientService recipientService;
     private readonly MessageClient messageClient;
@@ -28,7 +27,6 @@ public class NewTicketIssueSupportHandler : IRequestHandler<NewTicketIssueSuppor
     public NewTicketIssueSupportHandler(
         Repository repository,
         IMapper mapper,
-        NewTicketSupportMessageDBWriter writer,
         NotificationService notificationService,
         RecipientService recipientService,
         MessageClient messageClient)
@@ -36,7 +34,6 @@ public class NewTicketIssueSupportHandler : IRequestHandler<NewTicketIssueSuppor
         this.repository = repository;
         this.mapper = mapper;
         this.notificationService = notificationService;
-        this.writer = writer;
         this.recipientService = recipientService;
         this.messageClient = messageClient;
     }
@@ -88,22 +85,9 @@ public class NewTicketIssueSupportHandler : IRequestHandler<NewTicketIssueSuppor
 
         messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketSupport);
 
-        //var sessionId = await writer.Execute(
-        //    notificationMessage,
-        //    NotificationTemplateCode.NewTicket);
-
         await notificationService.NotifyNewMessageIncome(ticketId);
+
         await notificationService.NotifyNewAddRecipient(ticketId, request.CreatorId);
-
-        //await notificationService.Notify(new NotificationSource
-        //{
-        //    SessionId = sessionId,
-        //    TicketId = ticketId,
-        //    EventType = (int)EventType.Support,
-        //});
-
-        //var notificationSource = new NotificationSource(sessionId, ticketId, (int)EventType.Support);
-        //publisher.PushMessage<NotificationSource>(notificationSource, RoutingKey.TicketCenter);
 
         return ticketId;
     }

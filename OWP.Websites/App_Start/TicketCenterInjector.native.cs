@@ -24,14 +24,7 @@ public static class TicketCenterInjector
 
         services.AddScoped<GetEventTicketsService, GetEventTicketsServiceImp>();
 
-        services.AddScoped<NewTicketLeagueMessageDBWriter, NewTicketLeagueMessageDBWriterImp>();
-        services.AddScoped<NewTicketMatchMessageDBWriter, NewTicketMatchMessageDBWriterImp>();
-        services.AddScoped<NewTicketOtherMessageDBWriter, NewTicketOtherMessageDBWriterImp>();
-        services.AddScoped<NewTicketSupportMessageDBWriter, NewTicketSupportMessageDBWriterImp>();
-
         services.AddScoped<NotificationService, NotificationServiceImp>();
         services.AddScoped<PermissionService, PermissionServiceImp>();
-        services.AddScoped<NewRecipientMessageDBWriter, NewRecipientMessageDBWriterImp>();
-        services.AddScoped<NewMessageDBWriter, NewMessageDBWriterImp>();
     }
 }
