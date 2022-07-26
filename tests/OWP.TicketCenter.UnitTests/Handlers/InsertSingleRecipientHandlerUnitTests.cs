@@ -16,14 +16,12 @@ namespace OWP.TicketCenter.UnitTests.Handlers
 
         private readonly NotificationService notificationService;
 
-        private readonly NewRecipientMessageDBWriter writer;
 
         public InsertSingleRecipientHandlerUnitTests()
         {
             repository = Substitute.For<Repository>();
             recipientService = Substitute.For<RecipientService>();
             notificationService = Substitute.For<NotificationService>();
-            writer = Substitute.For<NewRecipientMessageDBWriter>();
         }
 
         [Fact]

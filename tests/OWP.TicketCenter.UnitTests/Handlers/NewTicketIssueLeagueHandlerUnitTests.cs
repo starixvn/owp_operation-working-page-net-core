@@ -3,8 +3,6 @@ using NSubstitute;
 using OWP.TicketCenter.Criteria;
 using OWP.TicketCenter.Handlers;
 using OWP.TicketCenter.Models;
-using OWP.TicketCenter.Notification.Const;
-using OWP.TicketCenter.Notification.Models;
 using OWP.TicketCenter.Notification.Services;
 using OWP.TicketCenter.Services;
 
@@ -18,7 +16,6 @@ namespace OWP.TicketCenter.UnitTests.Handlers
 
         private readonly IMapper mapper;
 
-        private readonly NewTicketLeagueMessageDBWriter writer;
 
         private readonly NotificationService notificationService;
 
@@ -30,7 +27,6 @@ namespace OWP.TicketCenter.UnitTests.Handlers
         {
             repository = Substitute.For<Repository>();
             mapper = Substitute.For<IMapper>();
-            writer = Substitute.For<NewTicketLeagueMessageDBWriter>();
             notificationService = Substitute.For<NotificationService>();
             recipientService = Substitute.For<RecipientService>();
 
@@ -78,11 +74,6 @@ namespace OWP.TicketCenter.UnitTests.Handlers
                     Message = "abc"
                 }
                 );
-
-            await writer.Execute(Arg.Compat.Any<MessageTransform>(), Arg.Compat.Any<NotificationTemplateCode>());
-
-            await notificationService.Notify(
-                Arg.Compat.Any<NotificationSource>());
 
             await notificationService.NotifyNewMessageIncome(Arg.Compat.Any<int>());
 
