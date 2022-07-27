@@ -1,8 +1,8 @@
 ﻿using Fanex.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using OWP.RabbitMQ.Handler;
 using OWP.RabbitMQ.Model;
+using OWP.RabbitMQ.Services;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
@@ -16,16 +16,16 @@ public class MessageClient
     private AsyncEventingBasicConsumer consumer;
 
     private readonly RabbitMQSetting setting;
-    private readonly NotificationHanderFactory notificationHander;
+    private readonly NotificationServices notificationService;
     public readonly ILogger logger;
 
     public MessageClient(
         IOptions<RabbitMQSetting> options,
-        NotificationHanderFactory notificationHander,
+        NotificationServices notificationService,
         ILogger logger)
     {
         this.setting = options.Value;
-        this.notificationHander = notificationHander;
+        this.notificationService = notificationService;
         this.logger = logger;
     }
 
@@ -82,6 +82,6 @@ public class MessageClient
         var props = eventArgs.BasicProperties;
         var response = Encoding.UTF8.GetString(body);
 
-        await notificationHander.Handle(props.Type, response);
+        await notificationService.NotifyByRequest(props.Type, response);
     }
 }

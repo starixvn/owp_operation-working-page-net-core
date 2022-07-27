@@ -5,5 +5,5 @@ namespace OWP.NotificationRequests;
 
 public class PrematchNewLeagueNotifyRequest : NotificationCommandBaseModel, IRequest<Unit>
 {
-  public DateTime FromDate { get; set; }
+    public DateTime FromDate { get; set; }
 }

@@ -7,6 +7,5 @@
         Task notifyChangedInformationData(object messageInfo);
     }
 
-    public class ChangedInfoNotifyHubImp : Hub<ChangedInfoNotifyHub>
-    { }
+    public class ChangedInfoNotifyHubImp : Hub<ChangedInfoNotifyHub> { }
 }

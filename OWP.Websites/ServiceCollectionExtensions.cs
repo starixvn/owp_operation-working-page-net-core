@@ -39,7 +39,7 @@ using OWP.OvertimeReport;
 using OWP.PreMatchAssignment;
 using OWP.PreMatchReport;
 using OWP.RabbitMQ;
-using OWP.RabbitMQ.Handler;
+using OWP.RabbitMQ.Services;
 using OWP.RecipientGroup;
 using OWP.RedisPubSub;
 using OWP.Report;
@@ -330,7 +330,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddRabbitMQ(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddSingleton<MessageClient>();
-        services.AddTransient<NotificationHanderFactory, NotificationHanderFactoryImp>();
+        services.AddTransient<NotificationServices, NotificationServicesImp>();
 
         return services;
     }

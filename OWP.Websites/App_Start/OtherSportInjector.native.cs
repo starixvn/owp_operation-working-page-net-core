@@ -34,6 +34,5 @@ public static class OtherSportInjector
         services.AddScoped<Download.BuildExcelModelService, Download.BuildExcelModelServiceImp>();
         services.AddScoped<Download.ExportExcelService, Download.ExportExcelServiceImp>();
         services.AddScoped<Download.CommandRepository, Download.CommandRepositoryImp>();
-
     }
 }

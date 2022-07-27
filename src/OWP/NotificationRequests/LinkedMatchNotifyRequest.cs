@@ -5,5 +5,5 @@ namespace OWP.NotificationRequests;
 
 public class LinkedMatchNotifyRequest : NotificationCommandBaseModel, IRequest<Unit>
 {
-  public DateTime EventDate { get; set; }
+    public DateTime EventDate { get; set; }
 }
