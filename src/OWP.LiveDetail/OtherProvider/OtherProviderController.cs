@@ -9,7 +9,7 @@
 
     [Route("api/live-detail/other-provider")]
     [ApiController]
-    [Authorize]
+    [AllowAnonymous]
     [EnableCors("AllowOrigin")]
     public class OtherProviderController : ControllerBase
     {

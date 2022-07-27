@@ -19,8 +19,7 @@ namespace OWP.LiveDetail.MatchInfo
 
     [Route("api/live-detail/match-info")]
     [ApiController]
-    //[AllowAnonymous]
-    [Authorize]
+    [AllowAnonymous]
     [EnableCors("AllowOrigin")]
     public class MatchInfoController : ControllerBase
     {

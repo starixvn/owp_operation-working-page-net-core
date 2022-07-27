@@ -9,7 +9,7 @@
 
     [Route("api/live-detail/television")]
     [ApiController]
-    [Authorize]
+    [AllowAnonymous]
     [EnableCors("AllowOrigin")]
     public class TelevisionController : ControllerBase
     {

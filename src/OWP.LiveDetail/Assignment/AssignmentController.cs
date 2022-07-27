@@ -14,8 +14,7 @@
 
 
     [ApiController]
-    //[AllowAnonymous]
-    [Authorize]
+    [AllowAnonymous]
     [EnableCors("AllowOrigin")]
     [Route("api/live-detail/assignment")]
     public class AssignmentController : ControllerBase
