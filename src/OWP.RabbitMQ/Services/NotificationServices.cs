@@ -53,8 +53,8 @@ public class NotificationServicesImp : NotificationServices
                 message
             };
             await notifyChangedHub.Clients
-                //.All
-                .Users(message.ReceivedUserIds)
+                .All
+                //.Users(message.ReceivedUserIds)
                 .notifyChangedInformationData(result);
         }
     }
@@ -70,8 +70,8 @@ public class NotificationServicesImp : NotificationServices
                 message
             };
             await notifyChangedHub.Clients
-                .Users($"{message.UserId}")
-                //.All
+                //.Users($"{message.UserId}")
+                .All
                 .notifyChangedInformationData(result);
         }
     }
