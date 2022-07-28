@@ -6,25 +6,47 @@ public static class LeagueSettingConst
 {
     public const string ManualUpdate = "Manual Update Score";
 
-    public const string IPTV = "IPTV Only";
+    public const string IpTv = "IPTV Only";
 
     public const string OfferLines = "OfferLines";
 
-    public const int TotalOfferLines = 9;
+    public const string BetType = "BetType";
 
-    public const int NumberBetType = 16;
+    public const string Remark = "Remark";
 
-    public const string BetDelay = "Bet Delay";
+    public const string TimeRange = "TimeRange";
 
-    public const int TotalBetDelay = 4;
+    public const string BetDelay = "BetDelay";
 
-    public const string WeekMatch = "Week Match";
-
-    public const int TotalWeekMatch = 27;
+    public const string WeekMatch = "WeekMatch";
 
     public const string Provider = "Provider";
 
+    public const string ManualUpdateStyle = "update-score";
+
+    public const string IpTvStyle = "Iptv-only";
+
+    public const string OfferLinesStyle = "offer-lines";
+
+    public const string BetTypeStyle = "bet-type";
+
+    public const string RemarkStyle = "remark";
+
+    public const string TimeRangeStyle = "time-range";
+
+    public const string BetDelayStyle = "bet-delay";
+
+    public const string WeekMatchStyle = "week-match";
+
+    public const string ProviderStyle = "provider";
+
     public const int TotalProvider = 3;
+
+    public const int TotalOfferLines = 9;
+
+    public const int TotalBetDelay = 4;
+
+    public const int TotalWeekMatch = 27;
 
     public static readonly ImmutableDictionary<string, int> SummaryFullOption = new Dictionary<string, int>
     {
@@ -35,5 +57,21 @@ public static class LeagueSettingConst
         { BetDelay, TotalBetDelay },
         { WeekMatch, TotalWeekMatch },
         { Provider, TotalProvider }
+    }.ToImmutableDictionary();
+
+    public static readonly ImmutableDictionary<string, string> SummaryStyleOption = new Dictionary<string, string>
+    {
+        {
+            OfferLines,
+            OfferLinesStyle
+        },
+        { BetDelay, BetDelayStyle },
+        { WeekMatch, WeekMatchStyle },
+        { Provider, ProviderStyle },
+        {ManualUpdate,ManualUpdateStyle},
+        {IpTv,IpTvStyle},
+        {BetType,BetTypeStyle},
+        {Remark,RemarkStyle},
+        {TimeRange,TimeRangeStyle}
     }.ToImmutableDictionary();
 }

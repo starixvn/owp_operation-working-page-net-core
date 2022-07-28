@@ -1,7 +1,8 @@
-﻿using AutoMapper;
-using OWP.OSLeagueSetting.Constants;
+﻿using OWP.OSLeagueSetting.Constants;
 using OWP.OSLeagueSetting.Handlers;
 using OWP.OSLeagueSetting.Models;
+using AutoMapper;
+using OWP.OSLeagueSetting.Helper;
 
 namespace OWP.OSLeagueSetting.Services;
 
@@ -31,63 +32,18 @@ public class GetLeagueSettingServiceImp : GetLeagueSettingService
         foreach (var key in leagueDict.Keys)
         {
             var league = mapper.Map<LeagueSettingModel>(leagueDict[key].FirstOrDefault());
-            league.SummaryInfo = CalculateSummaryInfo(leagueDict[key]);
-            league.SummaryRemark = CalculateSummaryRemark(leagueDict[key]);
+            league.SummaryInfo = OSLeagueSettingHelper.CalculateSummaryInfo(leagueDict[key]).ToList();
+            league.SummaryRemark = OSLeagueSettingHelper.CalculateSummaryRemark(leagueDict[key]).ToList();
             leagueSettings.Add(league);
         }
 
-        return leagueSettings;
+        return SortLeagueSetting(leagueSettings);
     }
 
-    private static string CalculateSummaryInfo(IList<LeagueSettingInfo> leagueSettingInfos)
-    {
-        var offerLines = leagueSettingInfos.Select(x => x.OfferLines).Distinct();
-        var betTypes = leagueSettingInfos.Select(x => x.BetType).Distinct();
-        var betDeyLay = leagueSettingInfos.Select(x => x.BetDelay).Distinct();
-
-        var offerLineFormat = FormatToString(offerLines, LeagueSettingConst.OfferLines);
-        var betTypeFormat = FormatNumberBetType(betTypes);
-        var betDeyLayFormat = FormatToString(betDeyLay, LeagueSettingConst.BetDelay);
-        var manualUpdate = leagueSettingInfos.Any(x => x.IsManualUpdateScore)
-            ? $"{LeagueSettingConst.ManualUpdate}"
-            : string.Empty;
-
-        return $"{offerLineFormat},{betTypeFormat},{betDeyLayFormat},{manualUpdate}";
-    }
-
-    private static string CalculateSummaryRemark(IList<LeagueSettingInfo> leagueSettingInfos)
-    {
-        var weekMatches = leagueSettingInfos.Select(x => x.WeekMatch).Distinct();
-        var providers = leagueSettingInfos.Select(x => x.Provider).Distinct();
-
-        var weekMatchFormat = FormatToString(weekMatches, LeagueSettingConst.WeekMatch);
-        var providerFormat = FormatToString(providers, LeagueSettingConst.Provider);
-        var timeFormat = FormatDateTime(leagueSettingInfos.FirstOrDefault());
-        var remark = FormatRemark(leagueSettingInfos.FirstOrDefault());
-        var ipTv = leagueSettingInfos.Any(x => x.IsIptvOnly)
-            ? $"{LeagueSettingConst.IPTV}"
-            : string.Empty;
-
-        return $"{weekMatchFormat},{providerFormat},{timeFormat},{ipTv},{remark}";
-    }
-
-    private static string FormatToString(IEnumerable<string> values, string property)
-    {
-        var totalOption = LeagueSettingConst.SummaryFullOption.GetValueOrDefault(property);
-
-        return values.Count() == totalOption
-             ? string.Empty
-             : $"<{string.Join('/', values)}>";
-    }
-
-    private static string FormatNumberBetType(IEnumerable<string> betTypes)
-        => betTypes.Count() == LeagueSettingConst.NumberBetType
-            ? string.Empty
-            : $"<{betTypes.Count()} Bet Types>";
-
-    private static string FormatDateTime(LeagueSettingInfo leagueInfo)
-        => $"{leagueInfo.KOFromTime.ToString(@"hh\:mm")} - {leagueInfo.KOToTime.ToString(@"hh\:mm")}";
-
-    private static string FormatRemark(LeagueSettingInfo leagueInfo)
-        => $"<{leagueInfo.Remark}>";
+    private static IList<LeagueSettingModel> SortLeagueSetting(List<LeagueSettingModel> leagueSetting)
+        => leagueSetting
+                .OrderBy(x => x.OSLeagueName)
+                .ThenByDescending(x => x.MaxBetHDP)
+                .ThenByDescending(x => x.MaxBetOU)
+                .ToList();
 }
