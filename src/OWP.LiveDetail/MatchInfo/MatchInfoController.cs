@@ -19,8 +19,8 @@ namespace OWP.LiveDetail.MatchInfo
 
     [Route("api/live-detail/match-info")]
     [ApiController]
-    [AllowAnonymous]
     [EnableCors("AllowOrigin")]
+    [Authorize]
     public class MatchInfoController : ControllerBase
     {
         private readonly MatchInfoRepository repository;
@@ -61,7 +61,7 @@ namespace OWP.LiveDetail.MatchInfo
 
         [HttpGet]
         [Route("")]
-        //[NapAuth(FunctionKey = FunctionKeys.DetailsInformation, Policy = Constant.Policy.Read)]
+        [NapAuth(FunctionKey = FunctionKeys.DetailsInformation, Policy = Constant.Policy.Read)]
         public async Task<IActionResult> Query(int owpMatchId)
         {
             var matchInfo = await repository.Query(owpMatchId);
@@ -70,14 +70,14 @@ namespace OWP.LiveDetail.MatchInfo
                 return new EmptyResult();
             }
 
-            // if (!permissionService.HasRight(FunctionKeys.FullTimeView, Constant.Policy.Read))
-            // {
-            //     var matchTimeRangeResult = TimeRangeExtensions.CheckMainMatch(matchInfo.EventDate);
-            //     if (!matchTimeRangeResult.IsAllowedToViewDetail)
-            //     {
-            //         return new EmptyResult();
-            //     }
-            // }
+            if (!permissionService.HasRight(FunctionKeys.FullTimeView, Constant.Policy.Read))
+            {
+                var matchTimeRangeResult = TimeRangeExtensions.CheckMainMatch(matchInfo.EventDate);
+                if (!matchTimeRangeResult.IsAllowedToViewDetail)
+                {
+                    return new EmptyResult();
+                }
+            }
 
             matchInfo.TVs = await repository.GetTelevisionsByMatchId(owpMatchId);
             matchInfo.OtherProviders = await repository.GetOtherProvidersByMatchId(owpMatchId);
