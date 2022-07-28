@@ -16,27 +16,19 @@ namespace OWP.TicketCenter.Handlers
         private readonly Repository repository;
         private readonly RecipientService recipientService;
         private readonly NotificationService notificationService;
-        //private readonly NewRecipientMessageDBWriter writer;
         private readonly MessageClient messageClient;
-
-        public InsertRecipientHandler(MessageClient messageClient)
-        {
-            this.messageClient = messageClient;
-        }
 
         public InsertRecipientHandler(
             Repository repository,
             RecipientService recipientService,
             NotificationService notificationService,
             MessageClient messageClient
-          //NewRecipientMessageDBWriter writer,
           )
         {
             this.repository = repository;
             this.recipientService = recipientService;
             this.notificationService = notificationService;
             this.messageClient = messageClient;
-            //this.writer = writer;
         }
 
         public async Task<int> Handle(InsertSingleRecipientRequest request, CancellationToken cancellationToken)

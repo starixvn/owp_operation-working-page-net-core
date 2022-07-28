@@ -1,6 +1,4 @@
 ﻿using MediatR;
-using OWP.NotificationRequests;
-using OWP.PreMatchAssignment.Constants;
 using OWP.PreMatchAssignment.Models;
 using OWP.PreMatchAssignment.Services;
 
@@ -42,21 +40,21 @@ namespace OWP.PreMatchAssignment.Handlers
             await preMatchAssignmentService.SaveOldPreMatchAssignment(preMatchLeagueIdUpdated);
             await preMatchAssignmentService.Update(request);
 
-            var fromDateGmt8 = DateTime.Today.AddHours(12);
-            var toDateGmt8 = DateTime.Today.AddDays(1).AddHours(11).AddMinutes(59);
-            var currentTime = DateTime.Now.TimeOfDay;
-            var requestDate = request.Date.Date + currentTime;
-            var requestDateGmt8 = requestDate.AddHours(12);
-            if (requestDateGmt8 > fromDateGmt8
-                && requestDateGmt8 <= toDateGmt8)
-            {
-                var notifyRequest = new PrematchAssignmentNotifyRequest
-                {
-                    RedisKey = RedisKey.KEY_PREMATCH_ASSIGNMENT_OLD_VALUE_SNAPSHOT
-                };
+            //var fromDateGmt8 = DateTime.Today.AddHours(12);
+            //var toDateGmt8 = DateTime.Today.AddDays(1).AddHours(11).AddMinutes(59);
+            //var currentTime = DateTime.Now.TimeOfDay;
+            //var requestDate = request.Date.Date + currentTime;
+            //var requestDateGmt8 = requestDate.AddHours(12);
+            //if (requestDateGmt8 > fromDateGmt8
+            //    && requestDateGmt8 <= toDateGmt8)
+            //{
+            //    var notifyRequest = new PrematchAssignmentNotifyRequest
+            //    {
+            //        RedisKey = RedisKey.KEY_PREMATCH_ASSIGNMENT_OLD_VALUE_SNAPSHOT
+            //    };
 
-                await mediator.Send(notifyRequest);
-            }
+            //    await mediator.Send(notifyRequest);
+            //}
 
             return Unit.Value;
         }
