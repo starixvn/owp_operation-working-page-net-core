@@ -82,6 +82,8 @@ public class MessageClient
         var props = eventArgs.BasicProperties;
         var response = Encoding.UTF8.GetString(body);
 
+        logger.Info(response);
+
         await notificationService.NotifyByRequest(props.Type, response);
     }
 }
