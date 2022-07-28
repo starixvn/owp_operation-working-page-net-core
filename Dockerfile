@@ -10,7 +10,6 @@ COPY ./.sonarlint/. ./.sonarlint
 COPY ./src/OWP/. ./src/OWP
 COPY ./src/OWP.OtherSport/. ./src/OWP.OtherSport
 COPY ./src/OWP.ApiSyncWorkingShift/. ./src/OWP.ApiSyncWorkingShift
-COPY ./src/OWP.PreMatchNotification/. ./src/OWP.PreMatchNotification
 COPY ./src/OWP.Maxbet/. ./src/OWP.Maxbet
 COPY ./src/OWP.ProductAssignmentReference/. ./src/OWP.ProductAssignmentReference
 COPY ./src/OWP.SimpleDataApi/. ./src/OWP.SimpleDataApi
