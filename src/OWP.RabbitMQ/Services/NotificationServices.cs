@@ -70,8 +70,8 @@ public class NotificationServicesImp : NotificationServices
                 message
             };
             await notifyChangedHub.Clients
-                //.Users($"{message.UserId}")
-                .All
+                .Users($"{message.UserId}")
+                //.All
                 .notifyChangedInformationData(result);
         }
     }
