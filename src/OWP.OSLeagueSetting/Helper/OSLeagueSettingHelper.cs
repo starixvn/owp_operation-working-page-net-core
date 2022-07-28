@@ -33,11 +33,18 @@ public static class OSLeagueSettingHelper
             FormatToString(weekMatches, LeagueSettingConst.WeekMatch),
             FormatToString(providers, LeagueSettingConst.Provider),
             FormatDateTime(leagueSettingInfos.FirstOrDefault(), LeagueSettingConst.TimeRange),
-            FormatRemark(leagueSettingInfos.FirstOrDefault(), LeagueSettingConst.Remark),
-            FormatManualIpTv(leagueSettingInfos, LeagueSettingConst.IpTv)
+            FormatManualIpTv(leagueSettingInfos, LeagueSettingConst.IpTv),
+            FormatRemark(leagueSettingInfos.FirstOrDefault(), LeagueSettingConst.Remark)
         };
 
         return summaryRemark.Where(x => !string.IsNullOrEmpty(x?.Text));
+    }
+
+    public static string CalculateRoundName(IList<LeagueSettingInfo> leagueSettingInfos)
+    {
+        var roundNames = leagueSettingInfos.Select(x => x.RoundName)
+            .Distinct();
+        return string.Join(',', roundNames.Where(x => !string.IsNullOrEmpty(x)));
     }
 
     private static SummaryDetail FormatToString(IEnumerable<string> values, string property)
@@ -58,7 +65,7 @@ public static class OSLeagueSettingHelper
     {
         return new()
         {
-            Text = $"{betTypes} Bet Types",
+            Text = betTypes != 0 ? $"{betTypes} Bet Types" : string.Empty,
             Style = LeagueSettingConst.SummaryStyleOption.GetValueOrDefault(property)
         };
     }

@@ -34,6 +34,7 @@ public class GetLeagueSettingServiceImp : GetLeagueSettingService
             var league = mapper.Map<LeagueSettingModel>(leagueDict[key].FirstOrDefault());
             league.SummaryInfo = OSLeagueSettingHelper.CalculateSummaryInfo(leagueDict[key]).ToList();
             league.SummaryRemark = OSLeagueSettingHelper.CalculateSummaryRemark(leagueDict[key]).ToList();
+            league.RoundName = OSLeagueSettingHelper.CalculateRoundName(leagueDict[key]);
             leagueSettings.Add(league);
         }
 
