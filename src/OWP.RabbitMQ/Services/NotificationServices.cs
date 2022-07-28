@@ -61,7 +61,7 @@ public class NotificationServicesImp : NotificationServices
 
     public async Task NotifyForTicketCenter(string messageInString)
     {
-        var messageModels = JsonConvert.DeserializeObject<List<TicketCenterMessageModel>>(messageInString);
+        var messageModels = JsonConvert.DeserializeObject<List<TicketMessageModel>>(messageInString);
         foreach (var message in messageModels)
         {
             var result = new

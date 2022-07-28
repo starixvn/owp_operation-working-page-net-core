@@ -1,12 +1,5 @@
 ﻿namespace OWP.RabbitMQ.Model;
 
-public class TicketCenterMessageModel
-{
-    public string NotificationId { get; set; }
-
-    public NotificationModel Message { get; set; }
-}
-
 public class TicketMessageModel
 {
     public int UserId { get; set; }
