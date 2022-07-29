@@ -47,6 +47,7 @@ public class MessageClient
             channel = connection.CreateModel();
 
             channel.QueueDeclare(queue: setting.ReplyQueue, durable: true, exclusive: false, autoDelete: false);
+            channel.QueueDeclare(queue: setting.RequestQueue, durable: true, exclusive: false, autoDelete: false);
 
             consumer = new AsyncEventingBasicConsumer(channel);
 
