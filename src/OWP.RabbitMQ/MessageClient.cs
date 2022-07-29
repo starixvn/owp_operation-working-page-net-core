@@ -78,12 +78,18 @@ public class MessageClient
 
     private async Task OnReceived(object model, BasicDeliverEventArgs eventArgs)
     {
-        var body = eventArgs.Body.ToArray();
-        var props = eventArgs.BasicProperties;
-        var response = Encoding.UTF8.GetString(body);
+        try
+        {
+            var body = eventArgs.Body.ToArray();
+            var props = eventArgs.BasicProperties;
+            var response = Encoding.UTF8.GetString(body);
 
-        logger.Info(response);
-
-        await notificationService.NotifyByRequest(props.Type, response);
+            logger.Info(response);
+            await notificationService.NotifyByRequest(props.Type, response);
+        }
+        catch (Exception ex)
+        {
+            logger.Error(ex.Message, ex);
+        }
     }
 }
