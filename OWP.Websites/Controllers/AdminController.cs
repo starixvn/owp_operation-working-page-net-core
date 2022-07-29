@@ -87,16 +87,19 @@ public class AdministratorController : Controller
 
     public ActionResult GetLogFile()
     {
-        var folderPath = @$"App_Data{Path.DirectorySeparatorChar}Files";
-        var absolutedFolderPath = $"{AppDomain.CurrentDomain.BaseDirectory}{Path.DirectorySeparatorChar}{folderPath}";
-        DirectoryInfo directory = new DirectoryInfo(absolutedFolderPath);
-        if (!Directory.Exists(absolutedFolderPath))
+        var fullPath = Path.Combine(
+            AppDomain.CurrentDomain.BaseDirectory,
+            "App_Data",
+            "Files");
+
+        if (!Directory.Exists(fullPath))
         {
-            Directory.CreateDirectory(absolutedFolderPath);
+            Directory.CreateDirectory(fullPath);
         }
 
-        FileInfo[] files = directory.GetFiles("*.xlsx").OrderByDescending(p => p.CreationTime).ToArray();
-        List<object> fileInfos = new List<object>();
+        var directory = new DirectoryInfo(fullPath);
+        var files = directory.GetFiles("*.xlsx").OrderByDescending(p => p.CreationTime).ToArray();
+        var fileInfos = new List<object>();
 
         foreach (FileInfo file in files)
         {
@@ -113,14 +116,13 @@ public class AdministratorController : Controller
 
     public ActionResult DownloadFile(string fileName)
     {
-        var folderPath = @$"App_Data{Path.DirectorySeparatorChar}Files";
-        var absolutedFolderPath = $"{AppDomain.CurrentDomain.BaseDirectory}{Path.DirectorySeparatorChar}{folderPath}";
-        var fullPath = Path.Combine(absolutedFolderPath, fileName);
-        // Disable the warning.
-        #pragma warning disable SYSLIB0014
-        WebClient net = new();
-        var data = net.DownloadData(fullPath);
-        var content = new System.IO.MemoryStream(data);
+        var fullPath = Path.Combine(
+            AppDomain.CurrentDomain.BaseDirectory,
+            "App_Data",
+            "Files",
+            fileName);
+
+        var content = System.IO.File.ReadAllBytes(fullPath);
         var contentType = "APPLICATION/octet-stream";
         return File(content, contentType, fileName);
     }
