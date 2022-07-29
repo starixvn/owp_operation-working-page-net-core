@@ -29,8 +29,9 @@ public class NotificationServicesImp : NotificationServices
             case RoutingKey.InfositeMatchInfo:
             case RoutingKey.LinkedLgaMatch:
             case RoutingKey.PrematchNewLeague:
+            case RoutingKey.PrematchAssignment:
                 await NotifyBase(message);
-                break;
+                return;
             case RoutingKey.TicketCenterNewMessage:
             case RoutingKey.TicketCenterNewRecipient:
             case RoutingKey.TicketCenterNewTicketEvent:
@@ -38,7 +39,9 @@ public class NotificationServicesImp : NotificationServices
             case RoutingKey.TicketCenterNewTicketOther:
             case RoutingKey.TicketCenterNewTicketSupport:
                 await NotifyForTicketCenter(message); // need to review
-                break;
+                return;
+            default:
+                throw new ArgumentException($"Notify request not accept key: {nameof(key)}");
         }
     }
 
@@ -53,7 +56,6 @@ public class NotificationServicesImp : NotificationServices
                 message
             };
             await notifyChangedHub.Clients
-                //.All
                 .Users(message.ReceivedUserIds)
                 .notifyChangedInformationData(result);
         }
@@ -71,7 +73,6 @@ public class NotificationServicesImp : NotificationServices
             };
             await notifyChangedHub.Clients
                 .Users($"{message.UserId}")
-                //.All
                 .notifyChangedInformationData(result);
         }
     }
