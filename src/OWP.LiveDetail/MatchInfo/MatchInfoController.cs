@@ -207,7 +207,6 @@ namespace OWP.LiveDetail.MatchInfo
 
         [HttpPost]
         [Route("get-admin-site-id")]
-        [AllowAnonymous]
         public async Task<int?> GetAdminSiteMatchId(GetAdminSiteMatchIdRequest model)
         {
             return await getAdminSiteMatchIdService.GetAdminSiteMatchId(model.OWPMatchId, model.ParentMatchId,

@@ -13,7 +13,7 @@
 
     [Route("api/live-detail/match-note")]
     [ApiController]
-    [AllowAnonymous]
+    [Authorize]
     [EnableCors("AllowOrigin")]
     public class MatchNoteController : ControllerBase
     {

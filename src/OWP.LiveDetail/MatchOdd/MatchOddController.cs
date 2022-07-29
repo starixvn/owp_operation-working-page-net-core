@@ -14,7 +14,7 @@
     [Route("api/live-detail/match-odd")]
     [ApiController]
     [EnableCors("AllowOrigin")]
-    [AllowAnonymous]
+    [Authorize]
     public class MatchOddController : ControllerBase
     {
         private readonly MatchOddRepository repository;

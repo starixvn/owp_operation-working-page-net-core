@@ -10,7 +10,7 @@
     [Route("api/live-detail/user")]
     [ApiController]
     [EnableCors("AllowOrigin")]
-    [AllowAnonymous]
+    [Authorize]
     public class LiveDetailUserController : ControllerBase
     {
         private readonly UserRepository repository;

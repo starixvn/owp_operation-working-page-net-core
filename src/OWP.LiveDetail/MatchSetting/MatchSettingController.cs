@@ -14,7 +14,7 @@
     [Route("api/live-detail/match-setting")]
     [ApiController]
     [EnableCors("AllowOrigin")]
-    [AllowAnonymous]
+    [Authorize]
 
     public class MatchSettingController : ControllerBase
     {
