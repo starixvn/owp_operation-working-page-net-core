@@ -57,6 +57,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OWP.PreMatchAssignment.Unit
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OWP.MatchCountLiveReport", "src\OWP.MatchCountLiveReport\OWP.MatchCountLiveReport.csproj", "{741D34D4-354A-4C17-8A0D-D1DBC58E2282}"
 EndProject
+<<<<<<< HEAD
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OWP.RedisPubSub", "src\OWP.RedisPubSub\OWP.RedisPubSub.csproj", "{B12FF9C2-54FB-4988-B1A8-8CB0C07267E3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OWP.OSLeagueSetting", "src\OWP.OSLeagueSetting\OWP.OSLeagueSetting.csproj", "{4063C8CE-8843-4EEE-ACF1-DF2E5409226A}"
@@ -72,6 +73,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OWP.MessagePublisher", "src
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OWP.NotificationHandler", "src\OWP.NotificationHandler\OWP.NotificationHandler.csproj", "{2C3A78EF-DFD6-4609-815A-8FEB4B014583}"
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OWP.RabbitMQ", "src\OWP.NotificationHandler\OWP.RabbitMQ.csproj", "{2C3A78EF-DFD6-4609-815A-8FEB4B014583}"
+=======
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OWP.RabbitMQ", "src\OWP.RabbitMQ\OWP.RabbitMQ.csproj", "{2C3A78EF-DFD6-4609-815A-8FEB4B014583}"
+>>>>>>> cb880c35 (refactor: remove code)
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -285,16 +285,6 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddRedisPubSub(this IServiceCollection services, IConfiguration configuration)
-    {
-        var chanel = configuration.GetSection("RedisChannel:NewLeague").Value;
-        services.AddTransient<PubSubEvent, PubSubEventImp>();
-        var sp = services.BuildServiceProvider();
-        var pubSubEvent = sp.GetService<PubSubEvent>();
-        pubSubEvent?.Subscribe(chanel);
-        return services;
-    }
-
     public static IServiceCollection AddRedisSession(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddSession(options =>

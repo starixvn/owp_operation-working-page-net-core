@@ -34,7 +34,6 @@ builder.Services.AddMediator();
 builder.Services.AddAutoMapper();
 builder.Services.AddInternalServices();
 builder.Services.AddRabbitMQ(builder.Configuration);
-builder.Services.AddRedisPubSub(builder.Configuration);
 //builder.Services.AddRazorPages();
 //builder.Services.AddControllersWithViews();
 
