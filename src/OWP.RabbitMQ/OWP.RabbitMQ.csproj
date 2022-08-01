@@ -14,8 +14,4 @@
     <ProjectReference Include="..\OWP\OWP.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Handlers\" />
-  </ItemGroup>
-
 </Project>

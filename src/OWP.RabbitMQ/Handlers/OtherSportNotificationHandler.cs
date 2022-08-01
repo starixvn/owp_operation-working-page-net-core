@@ -12,11 +12,11 @@ public class OtherSportNotifyRequest : IRequest<Unit>
 
 
 
-public class OrtherSportNotificationHandler : IRequestHandler<OtherSportNotifyRequest, Unit>
+public class OtherSportNotificationHandler : IRequestHandler<OtherSportNotifyRequest, Unit>
 {
     private readonly IHubContext<ChangedInfoNotifyHubImp, ChangedInfoNotifyHub> notifyChangedHub;
 
-    public OrtherSportNotificationHandler(IHubContext<ChangedInfoNotifyHubImp, ChangedInfoNotifyHub> notifyChangedHub)
+    public OtherSportNotificationHandler(IHubContext<ChangedInfoNotifyHubImp, ChangedInfoNotifyHub> notifyChangedHub)
     {
         this.notifyChangedHub = notifyChangedHub;
     }
