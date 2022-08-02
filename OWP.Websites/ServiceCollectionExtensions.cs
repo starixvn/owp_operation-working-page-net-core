@@ -30,6 +30,7 @@ using OWP.ApiSyncWorkingShift;
 using OWP.FileUpload;
 using OWP.MatchCountLiveReport;
 using OWP.Maxbet;
+using OWP.OSLeagueSetting;
 using OWP.OtherSport;
 using OWP.OtherSport.Hubs;
 using OWP.OvertimeReport;
@@ -63,6 +64,7 @@ public static class ServiceCollectionExtensions
             mc.AddProfile(new PreMatchReport.AutoMapperProfile());
             mc.AddProfile((new PrematchAssignment.AutoMapperProfile()));
             mc.AddProfile(new AutoAssignment.AutoMapperProfile());
+            mc.AddProfile(new OSLeagueSetting.AutoMapperProfile());
         });
 
         var mapper = mapperConfig.CreateMapper();
@@ -210,6 +212,7 @@ public static class ServiceCollectionExtensions
         services.AddPreMatchReportService();
         services.AddTicketTypeRecipientService();
         services.AddMatchLiveReportService();
+        services.AddOSLeagueSetting();
         return services;
     }
 
@@ -228,6 +231,7 @@ public static class ServiceCollectionExtensions
         services.AddMediatR(typeof(PreMatchReportController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(NotificationConsumer).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(MatchCountLiveReportController).GetTypeInfo().Assembly);
+        services.AddMediatR(typeof(OSLeagueController).GetTypeInfo().Assembly);
         return services;
     }
 

@@ -24,6 +24,7 @@ COPY ./src/OWP.PrematchAssignment/. ./src/OWP.PrematchAssignment
 COPY ./src/OWP.PreMatchReport/. ./src/OWP.PreMatchReport
 COPY ./src/OWP.MatchCountLiveReport/. ./src/OWP.MatchCountLiveReport
 COPY ./src/OWP.RedisPubSub/. ./src/OWP.RedisPubSub
+COPY ./src/OWP.OSLeagueSetting/. ./src/OWP.OSLeagueSetting
 COPY ./src/OWP.RabbitMQ/. ./src/OWP.RabbitMQ
 COPY ./OWP.Websites/OWP.Websites.csproj ./OWP.Websites/OWP.Websites.csproj
 
@@ -50,8 +51,8 @@ ENV TZ="America/La_Paz"
 
 # Don’t run as root
 RUN adduser --disabled-password \
-  --home /app \
-  --gecos '' dotnetuser && chown -R dotnetuser /app
+    --home /app \
+    --gecos '' dotnetuser && chown -R dotnetuser /app
 USER dotnetuser
 #
 
