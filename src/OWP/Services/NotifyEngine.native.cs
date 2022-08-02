@@ -1,101 +1,102 @@
 ﻿namespace OWP.Services
 {
-  using Fanex.Data.Repository;
-  using Microsoft.AspNetCore.SignalR;
-  using OWP.Criteria;
-  using OWP.Hubs;
-  using OWP.Models;
-  using OWP.Utils;
+    using Fanex.Data.Repository;
+    using Microsoft.AspNetCore.SignalR;
+    using OWP.Criteria;
+    using OWP.Extensions;
+    using OWP.Hubs;
+    using OWP.Models;
+    using OWP.Utils;
 
-  public interface NotifyEngine
-  {
-    Task Notify<T>(IList<T> messages, IList<string> receivedUserIds) where T : MessageModel;
-
-    Task Notify<T>(string sessionId, Func<Tuple<IList<User>, IList<MessageModel>>, IList<T>> messageModelFunc) where T : MessageModel;
-
-    Task Notify<T>(string sessionId, Func<Tuple<IList<User>, IList<MessageModel>>, IDictionary<string, T>> messageModelFunc) where T : MessageModel;
-  }
-
-  public class NotifyEngineImp : NotifyEngine
-  {
-    private readonly IHubContext<ChangedInfoNotifyHubImp, ChangedInfoNotifyHub> notifyChangedHub;
-
-    private readonly IDynamicRepository repository;
-
-    public NotifyEngineImp(
-        IHubContext<ChangedInfoNotifyHubImp, ChangedInfoNotifyHub> notifyChangedHub,
-        IDynamicRepository repository)
+    public interface NotifyEngine
     {
-      this.notifyChangedHub = notifyChangedHub;
-      this.repository = repository;
+        Task Notify<T>(IList<T> messages, IList<string> receivedUserIds) where T : MessageModel;
+
+        Task Notify<T>(string sessionId, Func<Tuple<IList<User>, IList<MessageModel>>, IList<T>> messageModelFunc) where T : MessageModel;
+
+        Task Notify<T>(string sessionId, Func<Tuple<IList<User>, IList<MessageModel>>, IDictionary<string, T>> messageModelFunc) where T : MessageModel;
     }
 
-    public async Task Notify<T>(IList<T> messages, IList<string> receivedUserIds) where T : MessageModel
+    public class NotifyEngineImp : NotifyEngine
     {
-      foreach (var message in messages)
-      {
-        var result = new
+        private readonly IHubContext<ChangedInfoNotifyHubImp, ChangedInfoNotifyHub> notifyChangedHub;
+
+        private readonly IDynamicRepository repository;
+
+        public NotifyEngineImp(
+            IHubContext<ChangedInfoNotifyHubImp, ChangedInfoNotifyHub> notifyChangedHub,
+            IDynamicRepository repository)
         {
-          notificationId = Guid.NewGuid(),
-          message
-        };
+            this.notifyChangedHub = notifyChangedHub;
+            this.repository = repository;
+        }
 
-        await notifyChangedHub.Clients
-            .Users(receivedUserIds)
-            .notifyChangedInformationData(result);
-      }
-    }
-
-    public async Task Notify<T>(IDictionary<string, T> messagesKeyValuePair) where T : MessageModel
-    {
-      foreach (var userId in messagesKeyValuePair.Keys)
-      {
-        var message = messagesKeyValuePair[userId];
-        var result = new
+        public async Task Notify<T>(IList<T> messages, IList<string> receivedUserIds) where T : MessageModel
         {
-          notificationId = Guid.NewGuid(),
-          message
-        };
+            foreach (var message in messages)
+            {
+                var result = new
+                {
+                    notificationId = Guid.NewGuid(),
+                    message
+                };
 
-        await notifyChangedHub.Clients
-            .Users(userId)
-            .notifyChangedInformationData(result);
-      }
+                await notifyChangedHub.Clients
+                    .Users(receivedUserIds)
+                    .notifyChangedInformationData(result);
+            }
+        }
+
+        public async Task Notify<T>(IDictionary<string, T> messagesKeyValuePair) where T : MessageModel
+        {
+            foreach (var userId in messagesKeyValuePair.Keys)
+            {
+                var message = messagesKeyValuePair[userId];
+                var result = new
+                {
+                    notificationId = Guid.NewGuid(),
+                    message
+                };
+
+                await notifyChangedHub.Clients
+                    .Users(userId)
+                    .notifyChangedInformationData(result);
+            }
+        }
+
+        public async Task Notify<T>(string sessionId, Func<Tuple<IList<User>, IList<MessageModel>>, IDictionary<string, T>> messageModelFunc) where T : MessageModel
+        {
+            var userTuple = await QueryBySession(sessionId);
+
+            var messageModel = messageModelFunc(userTuple);
+
+            await Notify(messageModel);
+        }
+
+        public async Task Notify<T>(string sessionId, Func<Tuple<IList<User>, IList<MessageModel>>, IList<T>> messageModelFunc) where T : MessageModel
+        {
+            var userTuple = await QueryBySession(sessionId);
+
+            var messageModel = messageModelFunc(userTuple);
+
+            var receivedUserIds = userTuple
+                .Item1
+                .Select(u => u.UserId.ToString())
+                .Distinct()
+                .ToList();
+
+            await Notify(messageModel, receivedUserIds);
+        }
+
+        private async Task<Tuple<IList<User>, IList<MessageModel>>> QueryBySession(string sessionId)
+        {
+            var criteria = new GetMessageBySessionCriteria
+            {
+                SessionId = sessionId
+            };
+            criteria.ThrowExceptionIfInvalid();
+            var result = await repository.FetchMultipleAsync<User, MessageModel>(criteria);
+            return new Tuple<IList<User>, IList<MessageModel>>(result.Item1.ToList(), result.Item2.ToList());
+        }
     }
-
-    public async Task Notify<T>(string sessionId, Func<Tuple<IList<User>, IList<MessageModel>>, IDictionary<string, T>> messageModelFunc) where T : MessageModel
-    {
-      var userTuple = await QueryBySession(sessionId);
-
-      var messageModel = messageModelFunc(userTuple);
-
-      await Notify(messageModel);
-    }
-
-    public async Task Notify<T>(string sessionId, Func<Tuple<IList<User>, IList<MessageModel>>, IList<T>> messageModelFunc) where T : MessageModel
-    {
-      var userTuple = await QueryBySession(sessionId);
-
-      var messageModel = messageModelFunc(userTuple);
-
-      var receivedUserIds = userTuple
-          .Item1
-          .Select(u => u.UserId.ToString())
-          .Distinct()
-          .ToList();
-
-      await Notify(messageModel, receivedUserIds);
-    }
-
-    private async Task<Tuple<IList<User>, IList<MessageModel>>> QueryBySession(string sessionId)
-    {
-      var criteria = new GetMessageBySessionCriteria
-      {
-        SessionId = sessionId
-      };
-      criteria.ThrowExceptionIfInvalid();
-      var result = await repository.FetchMultipleAsync<User, MessageModel>(criteria);
-      return new Tuple<IList<User>, IList<MessageModel>>(result.Item1.ToList(), result.Item2.ToList());
-    }
-  }
 }

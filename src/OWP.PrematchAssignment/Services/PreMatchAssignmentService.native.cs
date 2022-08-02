@@ -9,6 +9,7 @@ namespace OWP.PreMatchAssignment.Services
     using Handlers;
     using Models;
     using Newtonsoft.Json;
+    using OWP.Extensions;
     using OWP.PreMatchAssignment.Constants;
     using PrematchAssignment.Criteria;
     using PrematchAssignment.Models;

@@ -116,14 +116,12 @@ public class AdministratorController : Controller
 
     public ActionResult DownloadFile(string fileName)
     {
-        var fullPath = Path.Combine(
+        var filePath = Path.Combine(
             AppDomain.CurrentDomain.BaseDirectory,
             "App_Data",
             "Files",
             fileName);
-
-        var content = System.IO.File.ReadAllBytes(fullPath);
-        var contentType = "APPLICATION/octet-stream";
-        return File(content, contentType, fileName);
+        var bytes = System.IO.File.ReadAllBytes(filePath);
+        return File(bytes, "application/octet-stream", fileName);
     }
 }

@@ -1,6 +1,8 @@
 ﻿using Olympus.SimpleDataApi;
 using OWP.SimpleDataApi.Criteria.OsLeagueSetting;
+using OWP.SimpleDataApi.Criteria.LeagueManagement;
 using OWP.SimpleDataApi.Criteria.TicketCenter;
+using OWP.SimpleDataApi.Criteria.LiveGameAssignment;
 
 namespace OWP.SimpleDataApi
 {
@@ -10,6 +12,47 @@ namespace OWP.SimpleDataApi
         {
             RegisterTicketCenter();
             RegisterOsLeagueSetting();
+            RegisterLeagueManagement();
+            RegisterLiveGameAssignment();
+        }
+        private static void RegisterLiveGameAssignment()
+        {
+            CriteriaTypes.Add(ConstantApiKey.GetBettypeForTradingInfo, typeof(GetBettypeForTradingInfoCriteria));
+
+            CriteriaTypes.Add(ConstantApiKey.GetBettypeForSpecialEvent, typeof(GetBettypeForSpecialEventCriteria));
+
+            CriteriaTypes.Add(ConstantApiKey.GetSpecialEventTemplate, typeof(GetSpecialEventTemplateCriteria));
+
+            CriteriaTypes.Add(ConstantApiKey.GetLastUpdated, typeof(GetLastUpdatedCriteria));
+        }
+
+        private static void RegisterLeagueManagement()
+        {
+            CommandTypes.Add(ConstantApiKey.LeagueManagementUpdateLeagueGroup, typeof(LeagueManagementUpdateLeagueGroupCriteria));
+
+            CommandTypes.Add(ConstantApiKey.LeagueManagementUpdateLeagueIsActive, typeof(LeagueManagementUpdateIsActiveLeagueCriteria));
+
+            CommandTypes.Add(ConstantApiKey.LeagueManagementUpdateLeagueIsBlacklist, typeof(LeagueManagementUpdateIsBlackListLeagueCriteria));
+
+            CommandTypes.Add(ConstantApiKey.LeagueManagementInsertLeagueSetting, typeof(LeagueManagementInsertLeagueSettingCriteria));
+
+            CommandTypes.Add(ConstantApiKey.LeagueManagementUpdateLeagueSetting, typeof(LeagueManagementUpdateLeagueSettingCriteria));
+
+            CommandTypes.Add(ConstantApiKey.LeagueManagementDeleteLeagueSetting, typeof(LeagueManagementDeleteLeagueSettingCriteria));
+
+            CommandTypes.Add(ConstantApiKey.LeagueManagementUpdateSpecialProduct, typeof(LeagueManagementUpdateSpecialProductCriteria));
+
+            CommandTypes.Add(ConstantApiKey.LeagueManagementDeleteSpecialProduct, typeof(LeagueManagementDeleteSpecialProductCriteria));
+
+            CriteriaTypes.Add(ConstantApiKey.LeagueManagementGetAllLeagueInfo, typeof(LeagueManagementGetAllLeagueInfoCriteria));
+
+            CriteriaTypes.Add(ConstantApiKey.LeagueManagementGetLeagueSettingById, typeof(LeagueManagementGetLeagueSettingByLeagueIdCriteria));
+
+            CriteriaTypes.Add(ConstantApiKey.LeagueManagementGetTVList, typeof(LeagueManagementGetTVListCriteria));
+
+            CriteriaTypes.Add(ConstantApiKey.LeagueManagementGetAllSpecialProduct, typeof(LeagueManagementGetAllSpecialProductCriteria));
+
+            CriteriaTypes.Add(ConstantApiKey.LeagueManagementGetTeamInfo, typeof(LeagueManagementGetTeamInfoCriteria));
         }
 
         private static void RegisterOsLeagueSetting()

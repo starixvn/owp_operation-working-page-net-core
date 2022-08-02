@@ -83,7 +83,6 @@ namespace OWP.AutoAssignment
             var absoluteTemplatePath = @$"App_Data{Path.DirectorySeparatorChar}Templates{Path.DirectorySeparatorChar}AutoAssignment.xlsx";
 
             using var excelPackage = excelPackageService.CreateExcelPackage(absoluteTemplatePath, exportExcelModel);
-
             var fileContent = excelPackage.GetAsByteArray();
 
             return BuildExcelPackageResponse(fileContent, eventDate);
@@ -91,9 +90,8 @@ namespace OWP.AutoAssignment
 
         private IActionResult BuildExcelPackageResponse(byte[] fileContent, DateTime eventDate)
         {
-            var stream = new MemoryStream(fileContent);
             var fileName = $"Auto_Assignment_{eventDate:yyyyMMdd}.xlsx";
-            return File(stream, "application/xlsx", fileName);
+            return File(fileContent, "application/xlsx", fileName);
         }
     }
 }
