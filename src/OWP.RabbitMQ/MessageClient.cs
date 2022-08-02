@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 using OWP.RabbitMQ.Model;
 using OWP.RabbitMQ.Services;
 using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
 using System.Text;
 
 namespace OWP.RabbitMQ;
@@ -13,10 +12,8 @@ public class MessageClient
 {
     private IBasicProperties props;
     private IModel channel;
-    private AsyncEventingBasicConsumer consumer;
 
     private readonly RabbitMQSetting setting;
-    private readonly NotificationServices notificationService;
     public readonly ILogger logger;
 
     public MessageClient(
@@ -25,7 +22,6 @@ public class MessageClient
         ILogger logger)
     {
         this.setting = options.Value;
-        this.notificationService = notificationService;
         this.logger = logger;
     }
 
@@ -46,14 +42,7 @@ public class MessageClient
             var connection = factory.CreateConnection();
             channel = connection.CreateModel();
 
-            channel.QueueDeclare(queue: setting.ReplyQueue, durable: true, exclusive: false, autoDelete: false);
             channel.QueueDeclare(queue: setting.RequestQueue, durable: true, exclusive: false, autoDelete: false);
-
-            consumer = new AsyncEventingBasicConsumer(channel);
-
-            consumer.Received += OnReceived;
-
-            channel.BasicConsume(consumer: consumer, queue: setting.ReplyQueue, autoAck: true);
         }
         catch (Exception ex)
         {
@@ -68,29 +57,11 @@ public class MessageClient
 
         props = channel.CreateBasicProperties();
         props.Type = messageType;
-        props.ReplyTo = setting.ReplyQueue;
 
         channel.BasicPublish(
             exchange: string.Empty,
             routingKey: setting.RequestQueue,
             basicProperties: props,
             body: messageBytes);
-    }
-
-    private async Task OnReceived(object model, BasicDeliverEventArgs eventArgs)
-    {
-        try
-        {
-            var body = eventArgs.Body.ToArray();
-            var props = eventArgs.BasicProperties;
-            var response = Encoding.UTF8.GetString(body);
-
-            logger.Info(response);
-            await notificationService.NotifyByRequest(props.Type, response);
-        }
-        catch (Exception ex)
-        {
-            logger.Error(ex.Message, ex);
-        }
     }
 }
