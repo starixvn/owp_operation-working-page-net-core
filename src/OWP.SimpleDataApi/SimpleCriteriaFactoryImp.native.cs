@@ -1,7 +1,6 @@
 ﻿using Olympus.SimpleDataApi;
 using OWP.SimpleDataApi.Criteria.OsLeagueSetting;
 using OWP.SimpleDataApi.Criteria.LeagueManagement;
-using OWP.SimpleDataApi.Criteria.LiveDetail;
 using OWP.SimpleDataApi.Criteria.TicketCenter;
 using OWP.SimpleDataApi.Criteria.LiveGameAssignment;
 
@@ -14,31 +13,17 @@ namespace OWP.SimpleDataApi
             RegisterTicketCenter();
             RegisterOsLeagueSetting();
             RegisterLeagueManagement();
-            RegisterLiveDetail();
             RegisterLiveGameAssignment();
         }
         private static void RegisterLiveGameAssignment()
         {
             CriteriaTypes.Add(ConstantApiKey.GetBettypeForTradingInfo, typeof(GetBettypeForTradingInfoCriteria));
 
-            CriteriaTypes.Add(ConstantApiKey.GetMatchSettingByMatchIdCriteria, typeof(GetMatchSettingByMatchIdCriteria));
-
             CriteriaTypes.Add(ConstantApiKey.GetBettypeForSpecialEvent, typeof(GetBettypeForSpecialEventCriteria));
 
             CriteriaTypes.Add(ConstantApiKey.GetSpecialEventTemplate, typeof(GetSpecialEventTemplateCriteria));
 
             CriteriaTypes.Add(ConstantApiKey.GetLastUpdated, typeof(GetLastUpdatedCriteria));
-        }
-        private static void RegisterLiveDetail()
-        {
-            CriteriaTypes.Add(ConstantApiKey.GetAgentSuggestion, typeof(GetAgentSuggestionCriteria));
-
-            CriteriaTypes.Add(ConstantApiKey.GetProviderSuggestion, typeof(GetProviderSuggestionCriteria));
-
-            CriteriaTypes.Add(ConstantApiKey.GetOtherProviderSuggestion, typeof(GetOtherProviderSuggestionCriteria));
-
-            CriteriaTypes.Add(ConstantApiKey.GetTelevisionSuggestion, typeof(GetTelevisionSuggestionCriteria));
-
         }
 
         private static void RegisterLeagueManagement()

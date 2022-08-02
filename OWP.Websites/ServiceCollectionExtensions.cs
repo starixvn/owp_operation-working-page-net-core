@@ -51,7 +51,6 @@ using OWP.Websites.App_Start;
 using Sentry;
 using StackExchange.Redis;
 using System.Reflection;
-using OWP.LiveDetail;
 
 namespace OWP.Websites;
 
@@ -70,7 +69,6 @@ public static class ServiceCollectionExtensions
             mc.AddProfile(new OSLeagueSetting.AutoMapperProfile());
             mc.AddProfile(new Report.AutoMapperProfile());
             mc.AddProfile(new LeagueManagement.AutoMapperProfile());
-            mc.AddProfile(new LiveDetail.AutoMapperProfile());
         });
 
         var mapper = mapperConfig.CreateMapper();
@@ -221,7 +219,6 @@ public static class ServiceCollectionExtensions
         services.AddOSLeagueSetting();
         services.AddLAReportService();
         services.AddLeagueManagementService();
-        services.AddLiveDetailService();
         return services;
     }
 

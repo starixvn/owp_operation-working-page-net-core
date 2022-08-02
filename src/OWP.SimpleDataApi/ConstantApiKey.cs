@@ -50,6 +50,5 @@
 
         public const string GetSpecialEventTemplate = "live-game-assignment-get-special-event-template";
 
-        public const string GetMatchSettingByMatchIdCriteria = "live-detail-get-matchsetting-by-id";
     }
 }
