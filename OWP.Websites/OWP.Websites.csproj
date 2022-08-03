@@ -75,8 +75,7 @@
         <ProjectReference Include="..\src\OWP.TicketCenter\OWP.TicketCenter.csproj" />
         <ProjectReference Include="..\src\OWP.PreMatchReport\OWP.PreMatchReport.csproj" />
         <ProjectReference Include="..\src\OWP.MatchCountLiveReport\OWP.MatchCountLiveReport.csproj" />
-        <ProjectReference Include="..\src\OWP.RedisPubSub\OWP.RedisPubSub.csproj" />
-    <ProjectReference Include="..\src\OWP.OSLeagueSetting\OWP.OSLeagueSetting.csproj" />
+         <ProjectReference Include="..\src\OWP.OSLeagueSetting\OWP.OSLeagueSetting.csproj" />
         <ProjectReference Include="..\src\OWP.Report\OWP.Report.csproj" />
         <ProjectReference Include="..\src\OWP.LeagueManagement\OWP.LeagueManagement.csproj" />
     </ItemGroup>

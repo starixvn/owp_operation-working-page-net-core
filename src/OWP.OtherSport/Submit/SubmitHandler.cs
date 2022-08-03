@@ -3,13 +3,13 @@
     using Fanex.NAP.Client.Helpers.Web;
     using MediatR;
     using Microsoft.AspNetCore.SignalR;
+    using OWP.Extensions;
     using OWP.OtherSport.Hubs;
     using OWP.OtherSport.Submit.Models;
     using OWP.OtherSport.Submit.Services;
     using OWP.OtherSport.Validation.Models;
     using OWP.RabbitMQ;
     using OWP.RabbitMQ.Constants;
-    using OWP.Utils;
 
     public class SubmitRequest : IRequest<SubmitResponse>
     {
