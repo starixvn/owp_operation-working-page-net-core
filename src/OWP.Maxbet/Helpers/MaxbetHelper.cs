@@ -65,7 +65,7 @@ namespace OWP.Maxbet.Helpers
         public static MaxbetModel Build(
             bool existsValueBettype,
             int bettypeId,
-            decimal valueBettype,
+            decimal? valueBettype,
             decimal? defaultValue)
             => existsValueBettype ? new MaxbetModel
             {

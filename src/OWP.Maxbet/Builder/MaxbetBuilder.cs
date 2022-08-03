@@ -87,7 +87,7 @@ public class MaxbetBuilderImp : MaxbetBuilder
                 {2_000,2_000 }
             };
 
-    private readonly Dictionary<int, Tuple<int, int>> maxbetBookingMapper = new Dictionary<int, Tuple<int, int>>
+    private readonly Dictionary<int, Tuple<decimal, decimal>> maxbetBookingMapper = new Dictionary<int, Tuple<decimal, decimal>>
         {
             {500_000, new (10_000,5_000)},
             {400_000, new (10_000,5_000)},
@@ -136,18 +136,18 @@ public class MaxbetBuilderImp : MaxbetBuilder
             {110_000, new (6_000,12_000, 3_000,6_000)},
             {100_000, new (6_000,12_000, 3_000,6_000)},
             {90_000, new (6_000,12_000, 3_000,6_000)},
-            {80_000, new (3_500,7_000, 2_00,3_000)},
-            {70_000, new (3_500,7_000, 2_00,3_000)},
-            {60_000, new (3_500,7_000, 2_00,3_000)},
-            {50_000, new (3_500,7_000, 2_00,3_000)},
-            {40_000, new (3_500,7_000, 2_00,3_000)},
-            {35_000, new (2_500,5_000, 2_00,3_000)},
-            {30_000, new (2_500,5_000, 2_00,3_000)},
-            {25_000, new (2_500,5_000, 2_00,3_000)},
-            {20_000, new (2_500,5_000, 2_00,3_000)},
-            {18_000, new (2_500,5_000, 2_00,3_000)},
-            {15_000, new (2_500,5_000, 2_00,3_000)},
-            {12_000, new (2_500,5_000, 2_00,3_000)},
+            {80_000, new (3_500,7_000, 2_000,3_000)},
+            {70_000, new (3_500,7_000, 2_000,3_000)},
+            {60_000, new (3_500,7_000, 2_000,3_000)},
+            {50_000, new (3_500,7_000, 2_000,3_000)},
+            {40_000, new (3_500,7_000, 2_000,3_000)},
+            {35_000, new (2_500,5_000, 2_000,3_000)},
+            {30_000, new (2_500,5_000, 2_000,3_000)},
+            {25_000, new (2_500,5_000, 2_000,3_000)},
+            {20_000, new (2_500,5_000, 2_000,3_000)},
+            {18_000, new (2_500,5_000, 2_000,3_000)},
+            {15_000, new (2_500,5_000, 2_000,3_000)},
+            {12_000, new (2_500,5_000, 2_000,3_000)},
             {10_000, new (2_000,4_000,2_000,2_000)},
             {8_000, new (2_000,4_000,2_000,2_000)},
             {7_000, new (2_000,4_000,2_000,2_000)},
@@ -232,7 +232,7 @@ public class MaxbetBuilderImp : MaxbetBuilder
             var valueBettype = default(Tuple<int, int, int, int>);
             var hasExistsHdpMainMatch = handicapMainMatch.Value.HasValue && maxbetCornerMapper.TryGetValue((int)handicapMainMatch.Value, out valueBettype);
 
-            maxbet.Add(MaxbetHelper.Build(hasExistsHdpMainMatch, (int)EnumBettype.Handicap, valueBettype.Item2, handicapMainMatch.Value));
+            maxbet.Add(MaxbetHelper.Build(hasExistsHdpMainMatch, (int)EnumBettype.Handicap, valueBettype?.Item2, handicapMainMatch.Value));
         }
 
         return BuildMaxbetSender(maxbet);
@@ -245,10 +245,10 @@ public class MaxbetBuilderImp : MaxbetBuilder
         {
             var handicapMainMatch = GetHandicapMainMatch(maxbetMainMatch);
 
-            var valueBettype = default(Tuple<int, int>);
+            var valueBettype = default(Tuple<decimal, decimal>);
             var hasExistsHdpMainMatch = handicapMainMatch.Value.HasValue && maxbetBookingMapper.TryGetValue((int)handicapMainMatch.Value, out valueBettype);
 
-            maxbet.Add(MaxbetHelper.Build(hasExistsHdpMainMatch, (int)EnumBettype.Handicap, valueBettype.Item1, handicapMainMatch.Value));
+            maxbet.Add(MaxbetHelper.Build(hasExistsHdpMainMatch, (int)EnumBettype.Handicap, valueBettype?.Item1, handicapMainMatch.Value));
         }
 
         return BuildMaxbetSender(maxbet);
@@ -265,22 +265,22 @@ public class MaxbetBuilderImp : MaxbetBuilder
 
         if (canUpdateValueBettype.Hdp)
         {
-            maxbet.Add(MaxbetHelper.Build(hasExistsValueBettype, (int)EnumBettype.Handicap, valueBettype.Item1, handicapMainMatch.Value));
+            maxbet.Add(MaxbetHelper.Build(hasExistsValueBettype, (int)EnumBettype.Handicap, valueBettype?.Item1, handicapMainMatch.Value));
         }
 
         if (canUpdateValueBettype.Ou)
         {
-            maxbet.Add(MaxbetHelper.Build(hasExistsValueBettype, (int)EnumBettype.OverUnder, valueBettype.Item2, handicapMainMatch.Value));
+            maxbet.Add(MaxbetHelper.Build(hasExistsValueBettype, (int)EnumBettype.OverUnder, valueBettype?.Item2, handicapMainMatch.Value));
         }
 
         if (canUpdateValueBettype.FirstHalfHdp)
         {
-            maxbet.Add(MaxbetHelper.Build(hasExistsValueBettype, (int)EnumBettype.FirstHalfHandicap, valueBettype.Item3, handicapMainMatch.Value));
+            maxbet.Add(MaxbetHelper.Build(hasExistsValueBettype, (int)EnumBettype.FirstHalfHandicap, valueBettype?.Item3, handicapMainMatch.Value));
         }
 
         if (canUpdateValueBettype.FirstHalfOu)
         {
-            maxbet.Add(MaxbetHelper.Build(hasExistsValueBettype, (int)EnumBettype.FirstHalfOverUnder, valueBettype.Item4, handicapMainMatch.Value));
+            maxbet.Add(MaxbetHelper.Build(hasExistsValueBettype, (int)EnumBettype.FirstHalfOverUnder, valueBettype?.Item4, handicapMainMatch.Value));
         }
 
         return BuildMaxbetSender(maxbet);
@@ -293,27 +293,27 @@ public class MaxbetBuilderImp : MaxbetBuilder
         var handicapMainMatch = GetHandicapMainMatch(maxbetMainMatch);
         var canUpdateValueBettype = MaxbetHelper.CanUpdateValueBettype(maxbet);
 
-        var valueBettype = default(Tuple<int, int>);
+        var valueBettype = default(Tuple<decimal, decimal>);
         var hasExistsValueBettype = handicapMainMatch.Value.HasValue && maxbetBookingMapper.TryGetValue((int)handicapMainMatch.Value, out valueBettype);
 
         if (canUpdateValueBettype.Hdp)
         {
-            maxbet.Add(MaxbetHelper.Build(hasExistsValueBettype, (int)EnumBettype.Handicap, valueBettype.Item1, handicapMainMatch.Value));
+            maxbet.Add(MaxbetHelper.Build(hasExistsValueBettype, (int)EnumBettype.Handicap, valueBettype?.Item1, handicapMainMatch.Value));
         }
 
         if (canUpdateValueBettype.Ou)
         {
-            maxbet.Add(MaxbetHelper.Build(hasExistsValueBettype, (int)EnumBettype.OverUnder, valueBettype.Item1, handicapMainMatch.Value));
+            maxbet.Add(MaxbetHelper.Build(hasExistsValueBettype, (int)EnumBettype.OverUnder, valueBettype?.Item1, handicapMainMatch.Value));
         }
 
         if (canUpdateValueBettype.FirstHalfHdp)
         {
-            maxbet.Add(MaxbetHelper.Build(hasExistsValueBettype, (int)EnumBettype.FirstHalfHandicap, valueBettype.Item2, handicapMainMatch.Value));
+            maxbet.Add(MaxbetHelper.Build(hasExistsValueBettype, (int)EnumBettype.FirstHalfHandicap, valueBettype?.Item2, handicapMainMatch.Value));
         }
 
         if (canUpdateValueBettype.FirstHalfOu)
         {
-            maxbet.Add(MaxbetHelper.Build(hasExistsValueBettype, (int)EnumBettype.FirstHalfOverUnder, valueBettype.Item2, handicapMainMatch.Value));
+            maxbet.Add(MaxbetHelper.Build(hasExistsValueBettype, (int)EnumBettype.FirstHalfOverUnder, valueBettype?.Item2, handicapMainMatch.Value));
         }
 
         return BuildMaxbetSender(maxbet);
