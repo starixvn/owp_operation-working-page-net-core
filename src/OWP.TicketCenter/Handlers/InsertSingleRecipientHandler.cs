@@ -44,17 +44,6 @@ namespace OWP.TicketCenter.Handlers
 
             await recipientService.InsertManyRecipientReader(recipients, request.TicketId, request.ActorId);
 
-            //var sessionId = await writer.Execute(request);
-
-            //await notificationService.Notify(new NotificationSource
-            //{
-            //    SessionId = sessionId,
-            //    TicketId = request.TicketId,
-            //    EventType = request.TicketEventType
-            //});
-            //var notificationSource = new NotificationSource(sessionId, request.TicketId, request.TicketEventType);
-            //publisher.PushMessage<NotificationSource>(notificationSource, RoutingKey.TicketCenter);
-
             // publish rabbit
             messageClient.SendMessage(request, RoutingKey.TicketCenterNewRecipient);
 

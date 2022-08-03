@@ -30,8 +30,6 @@ namespace OWP.PreMatchAssignment.Services
     {
         private readonly IDynamicRepository dynamicRepository;
 
-        private readonly INapSession currentSession;
-
         private readonly IMapper mapper;
 
         private class AssignmentShift
@@ -48,10 +46,9 @@ namespace OWP.PreMatchAssignment.Services
             public AssignmentShift NightShift { get; set; }
         }
 
-        public ShiftAssignmentServiceImp(IDynamicRepository dynamicRepository, INapSession currentSession, IMapper mapper)
+        public ShiftAssignmentServiceImp(IDynamicRepository dynamicRepository, IMapper mapper)
         {
             this.dynamicRepository = dynamicRepository;
-            this.currentSession = currentSession;
             this.mapper = mapper;
         }
 

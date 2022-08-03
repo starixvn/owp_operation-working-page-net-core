@@ -8,7 +8,7 @@
 // </summary>
 //
 // <history>
-// Lasted generated date: 7/13/2022 10:05:03 AM
+// Lasted generated date: 8/3/2022 2:12:49 PM
 // </history>
 
 namespace OWP.Constants
@@ -101,6 +101,8 @@ namespace OWP.Constants
 				public const string NotificationSetting_MySectionMessage = "NotificationSetting_MySectionMessage";
 
 				public const string OddsCompiler = "OddsCompiler";
+
+				public const string OSBasketballMaxbet = "OSBasketballMaxbet";
 
 				public const string OSLiveGame = "OSLiveGame";
 

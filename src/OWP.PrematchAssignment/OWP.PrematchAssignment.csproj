@@ -6,10 +6,6 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <CodeAnalysisRuleSet>..\..\.sonarlint\nap-owpcsharp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-
-  <ItemGroup>
-    <AdditionalFiles Include="..\..\.sonarlint\nap-owp\CSharp\SonarLint.xml" Link="SonarLint.xml" />
-  </ItemGroup>
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>

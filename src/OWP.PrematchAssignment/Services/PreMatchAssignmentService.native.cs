@@ -14,8 +14,6 @@ namespace OWP.PreMatchAssignment.Services
     using PrematchAssignment.Criteria;
     using PrematchAssignment.Models;
 
-    using Utils;
-
     public interface PreMatchAssignmentService
     {
         Task<IEnumerable<TicketAssignee>> QueryAssigneesByLeagueId(int id);

@@ -168,7 +168,6 @@
         <Setting Key="OWP_PreMatchAssignment_Update" SpName="OWP_PreMatchAssignment_Update" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_PreMatchAssignment_DeleteLeague" SpName="OWP_PreMatchAssignment_DeleteLeague" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_PreMatchAssignment_UpdateStartTime" SpName="OWP_PreMatchAssignment_UpdateStartTime" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-        <Setting Key="OWP_PreMatchAssignment_QueryByPreMatchLeagueId" SpName="OWP_PreMatchAssignment_QueryByPreMatchLeagueId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_PreMatchAssignment_InsertNewNote" SpName="OWP_PreMatchAssignment_InsertNewNote" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_PreMatchAssignment_InsertNewNoteMessage" SpName="OWP_PreMatchAssignment_InsertNewNoteMessage" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_PreMatchAssignment_EditNoteMessage" SpName="OWP_PreMatchAssignment_EditNoteMessage" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
