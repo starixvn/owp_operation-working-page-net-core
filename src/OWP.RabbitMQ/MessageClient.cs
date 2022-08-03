@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using OWP.RabbitMQ.Model;
-using OWP.RabbitMQ.Services;
 using RabbitMQ.Client;
 using System.Text;
 
@@ -18,7 +17,6 @@ public class MessageClient
 
     public MessageClient(
         IOptions<RabbitMQSetting> options,
-        NotificationServices notificationService,
         ILogger logger)
     {
         this.setting = options.Value;
