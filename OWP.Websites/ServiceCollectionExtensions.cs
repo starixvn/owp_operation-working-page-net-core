@@ -281,10 +281,11 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddSignalR(this IServiceCollection services, IConfiguration configuration)
     {
         var redisConfig = configuration.GetSection("AuthSettings:RedisConfig").Value;
+        var channelPrefix = configuration.GetSection("AuthSettings:ChannelPrefix").Value;
         services.AddSignalR()
         .AddStackExchangeRedis(redisConfig, options =>
         {
-            options.Configuration.ChannelPrefix = "OWPApp";
+            options.Configuration.ChannelPrefix = channelPrefix;
         });
         services.AddSingleton<NewDataUploadNotifyHubImp>();
         services.AddSingleton<TicketCenterNotifyHubImp>();
