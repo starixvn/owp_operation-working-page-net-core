@@ -34,8 +34,6 @@ builder.Services.AddMediator();
 builder.Services.AddAutoMapper();
 builder.Services.AddInternalServices();
 builder.Services.AddRabbitMQ(builder.Configuration);
-//builder.Services.AddRazorPages();
-//builder.Services.AddControllersWithViews();
 
 // Configure app
 var app = builder.Build();
@@ -66,10 +64,9 @@ app.UseEndpoints(endpoints =>
     endpoints.MapHub<TicketCenterNotifyHubImp>("/ticketCenterNotifyHub");
     endpoints.MapHub<PreMatchNotifyHubImp>("/preMatchNotifyHub");
 });
-app.Urls.Add("http://+:5000");
-if (app.Environment.IsDevelopment())
-{
-    app.Urls.Add("https://+:5001");
-}
-await app.RunAsync();
+#if DEBUG
+app.Run();
+#endif
+
+await app.RunAsync("http://0.0.0.0:5000");
 

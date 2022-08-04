@@ -261,20 +261,6 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddRedis(this IServiceCollection services, IConfiguration configuration)
     {
-        //var redisConfig = configuration.GetSection("AuthSettings:RedisConfig").Value;
-        //var redis = ConnectionMultiplexer.Connect(redisConfig);
-
-        //services.AddSingleton<IConnectionMultiplexer>(redis);
-
-        //services.AddDataProtection()
-        //    .PersistKeysToStackExchangeRedis(redis, "Fanex.OWP-ProtectionKeys");
-
-        //services.AddStackExchangeRedisCache(options =>
-        //{
-        //    options.Configuration = redisConfig;
-        //    options.InstanceName = $"Fanex.OWP.Session-";
-        //});
-
         services.AddRedisCache(configuration.GetSection("fanex.caching.redis"));
 
         return services;

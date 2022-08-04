@@ -1,4 +1,4 @@
-﻿using Fanex.Logging;
+﻿using Fanex.NAP.Client.Helpers.Web;
 using MediatR;
 using OWP.PreMatchAssignment.Constants;
 using OWP.PreMatchAssignment.Models;
@@ -23,14 +23,16 @@ namespace OWP.PreMatchAssignment.Handlers
     {
         private readonly PreMatchAssignmentService preMatchAssignmentService;
         private readonly MessageClient messageClient;
-        private readonly ILogger logger;
+        private readonly INapSession napSession;
 
         public UpdateHandler(
-          PreMatchAssignmentService preMatchAssignmentService, MessageClient messageClient, ILogger logger)
+          PreMatchAssignmentService preMatchAssignmentService,
+          MessageClient messageClient,
+          INapSession napSession)
         {
             this.preMatchAssignmentService = preMatchAssignmentService;
             this.messageClient = messageClient;
-            this.logger = logger;
+            this.napSession = napSession;
         }
 
         public async Task<Unit> Handle(UpdateLeagueAssignmentRequest request, CancellationToken cancellationToken)
@@ -49,14 +51,13 @@ namespace OWP.PreMatchAssignment.Handlers
             var currentTime = DateTime.Now.TimeOfDay;
             var requestDate = request.Date.Date + currentTime;
             var requestDateGmt8 = requestDate.AddHours(12);
-            logger.Error("UpdateLeagueAssignmentRequest run");
-            if (requestDateGmt8 > fromDateGmt8
-                && requestDateGmt8 <= toDateGmt8)
+
+            if (requestDateGmt8 > fromDateGmt8 && requestDateGmt8 <= toDateGmt8)
             {
-                logger.Error("UpdateLeagueAssignmentRequest run SendMessage");
                 messageClient.SendMessage(new
                 {
-                    RedisKey = RedisKey.KEY_PREMATCH_ASSIGNMENT_OLD_VALUE_SNAPSHOT
+                    RedisKey = RedisKey.KEY_PREMATCH_ASSIGNMENT_OLD_VALUE_SNAPSHOT,
+                    ActorId = napSession.UserId
                 }, RoutingKey.PrematchAssignment);
             }
 
