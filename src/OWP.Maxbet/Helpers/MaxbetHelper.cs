@@ -1,4 +1,5 @@
-﻿using OWP.Maxbet.Models;
+﻿using OWP.Enums;
+using OWP.Maxbet.Models;
 
 namespace OWP.Maxbet.Helpers
 {
@@ -29,7 +30,7 @@ namespace OWP.Maxbet.Helpers
                 maxbet.OverUnder = hdpPEN;
             }
         }
-    public static void SetDefaultMaxbetInfo(MaxbetInfo maxbetInfo)
+        public static void SetDefaultMaxbetInfo(MaxbetInfo maxbetInfo)
         {
             maxbetInfo.Maxbet.FirstHalfHandicap = null;
             maxbetInfo.Maxbet.FirstHalfOverUnder = null;
@@ -45,5 +46,35 @@ namespace OWP.Maxbet.Helpers
 
             maxbetInfo.NumberOfLines = NumberOfLineHelper.UpdateNumberOfLine();
         }
+
+        public static ExistsValueBettype CanUpdateValueBettype(List<MaxbetModel> maxbet)
+        {
+            var hasExistsHdp = maxbet.Any(s => s.BettypeId.Equals((int)EnumBettype.Handicap));
+            var hasExistsOu = maxbet.Any(s => s.BettypeId.Equals((int)EnumBettype.OverUnder));
+            var hasExistsFirstHalfHdp = maxbet.Any(s => s.BettypeId.Equals((int)EnumBettype.FirstHalfHandicap));
+            var hasExistsFirstHalfOu = maxbet.Any(s => s.BettypeId.Equals((int)EnumBettype.FirstHalfOverUnder));
+            return new ExistsValueBettype
+            {
+                Hdp = !hasExistsHdp,
+                Ou = !hasExistsOu,
+                FirstHalfHdp = !hasExistsFirstHalfHdp,
+                FirstHalfOu = !hasExistsFirstHalfOu,
+            };
+        }
+
+        public static MaxbetModel Build(
+            bool existsValueBettype,
+            int bettypeId,
+            decimal? valueBettype,
+            decimal? defaultValue)
+            => existsValueBettype ? new MaxbetModel
+            {
+                BettypeId = bettypeId,
+                Value = valueBettype
+            } : new MaxbetModel
+            {
+                BettypeId = bettypeId,
+                Value = defaultValue
+            };
     }
 }
