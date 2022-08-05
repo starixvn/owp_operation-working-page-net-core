@@ -85,6 +85,7 @@
                 UserName = session.UserName
             }, RoutingKey.OtherSport);
 
+
             return new SubmitResponse
             {
                 IsSuccessful = true,
@@ -135,7 +136,7 @@
         {
             var oldMatch = await commandRepository.GetOldMatchInfo(request.FromDate, request.ToDate);
             var oldMatchIds = oldMatch.Select(x => x.OSMatchId).Distinct().ToList();
-
+            await SaveOldAssignmentsToSnapshot(request.FromDate, request.ToDate, request.SessionId);
             var hashKeyMap = await commandRepository.InsertOrUpdateMatch(assignments);
             var newMatchIds = hashKeyMap.Select(h => h.OSMatchId).Distinct().ToList();
 
@@ -144,7 +145,6 @@
             var deletedMatchIdsInString = string.Join(",", deletedInfo.Select(i => i.OSMatchId));
 
             await SaveDeletedMatchesToSnapshot(deletedInfo);
-            await SaveOldAssignmentsToSnapshot(request.FromDate, request.ToDate, request.SessionId);
             await SaveAssignmentsToDatabase(assignments, deletedMatchIdsInString);
             await cacheManipulator.DeleteAssignments(request.SessionId);
         }
