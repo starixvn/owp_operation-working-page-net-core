@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using OWP.OSLeagueSetting.Handlers;
+using OWP.OSLeagueSetting.Models;
+using OWP.OSLeagueSetting.Services;
 
 namespace OWP.OSLeagueSetting;
 
@@ -14,9 +16,18 @@ public class OSLeagueController : ControllerBase
 {
     private readonly IMediator mediator;
 
-    public OSLeagueController(IMediator mediator)
+    private readonly AddSettingService addService;
+
+    private readonly EditSettingService editService;
+
+    public OSLeagueController(
+        IMediator mediator,
+        AddSettingService addService,
+        EditSettingService editService)
     {
         this.mediator = mediator;
+        this.addService = addService;
+        this.editService = editService;
     }
 
     [HttpPost("league-setting")]
@@ -34,4 +45,12 @@ public class OSLeagueController : ControllerBase
 
         return Ok(result);
     }
+
+    [HttpPost("add-setting")]
+    public async Task AddSetting(AddSetting model)
+   => await addService.Execute(model);
+
+    [HttpPost("edit-setting")]
+    public async Task EditSetting(EditSetting model)
+    => await editService.Execute(model);
 }

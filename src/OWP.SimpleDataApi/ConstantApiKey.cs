@@ -15,15 +15,15 @@ public static class ConstantApiKey
 
     public const string OsLeagueSettingGetBetTypesOption = "os-league-setting-get-bet-types-option";
 
-    public const string OsLeagueSettingGetBetDelayOption = "os-league-setting-get-category-option";
+    public const string OsLeagueSettingGetBetDelayOption = "os-league-setting-get-bet-delay-option";
 
-    public const string OsLeagueSettingGetOfferLiveOption = "os-league-setting-get-round-option";
+    public const string OsLeagueSettingGetOfferLiveOption = "os-league-setting-offer-line-option";
 
-    public const string OsLeagueSettingGetProviderOption = "os-league-setting-get-status-option";
+    public const string OsLeagueSettingGetProviderOption = "os-league-setting-get-provider-option";
 
-    public const string OsLeagueSettingGetRegionOption = "os-league-setting-get-bet-types-option";
+    public const string OsLeagueSettingGetRegionOption = "os-league-setting-get-region-option";
 
-    public const string OsLeagueSettingGetWeekMatchOption = "os-league-setting-get-bet-types-option";
+    public const string OsLeagueSettingGetWeekMatchOption = "os-league-setting-get-week-match-option";
 
     public const string LeagueManagementGetAllLeagueInfo = "league-management-get-all-league";
 

@@ -185,6 +185,8 @@
 		<Setting Key="OWP_OSLeagueSetting_GetRegionOption" SpName="OWP_OSLeagueSetting_GetRegionOption" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_OSLeagueSetting_GetWeekMatchOption" SpName="OWP_OSLeagueSetting_GetWeekMatchOption" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 
+        <Setting Key="OWP_OSLeagueSetting_Add" SpName="OWP_OSLeagueSetting_Add" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_OSLeagueSetting_Edit" SpName="OWP_OSLeagueSetting_Edit" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_OSLeagueSetting_GetStatusOption" SpName="OWP_OSLeagueSetting_GetStatusOption" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_OSLeagueSetting_GetCategoryOption" SpName="OWP_OSLeagueSetting_GetCategoryOption" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_OSLeagueSetting_GetRoundOption" SpName="OWP_OSLeagueSetting_GetRoundOption" DbName="DBOWP.bodb_OWP.bodbOWPNet" />

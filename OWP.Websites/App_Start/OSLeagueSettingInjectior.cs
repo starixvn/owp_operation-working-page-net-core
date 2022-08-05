@@ -9,5 +9,7 @@ public static class OSLeagueSettingInjectior
     {
         services.AddScoped<Repository, RepositoryImp>();
         services.AddScoped<GetLeagueSettingService, GetLeagueSettingServiceImp>();
+        services.AddScoped<AddSettingService, AddSettingServiceImp>();
+        services.AddScoped<EditSettingService, EditSettingServiceImp>();
     }
 }
