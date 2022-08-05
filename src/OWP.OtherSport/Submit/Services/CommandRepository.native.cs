@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace OWP.OtherSport.Submit.Services
+﻿namespace OWP.OtherSport.Submit.Services
 {
     using Fanex.Data.Repository;
     using Fanex.NAP.Client.Helpers.Web;
@@ -18,7 +16,7 @@ namespace OWP.OtherSport.Submit.Services
 
         Task<List<MatchByHashKey>> InsertOrUpdateMatch(List<AssignmentModel> assignments);
 
-        Task Update(string deletedMatchIds, List<AssignmentModel> newAssignments);
+        Task Update(string deletedMatchIds, List<AssignmentModel> newAssignments, string newMatchIdsInString);
     }
 
     public class CommandRepositoryImp : CommandRepository
@@ -76,13 +74,8 @@ namespace OWP.OtherSport.Submit.Services
             return (await repository.FetchAsync<DeletedMatch>(criteria)).ToList();
         }
 
-        public async Task Update(string deletedMatchIds, List<AssignmentModel> newAssignments)
+        public async Task Update(string deletedMatchIds, List<AssignmentModel> newAssignments, string newMatchIdsInString)
         {
-            var hashKeyMap = await InsertOrUpdateMatch(newAssignments);
-            var newMatchIds = hashKeyMap.Select(h => h.OSMatchId).Distinct().ToList();
-            var newMatchIdsInString = string.Join(',', newMatchIds);
-
-            assignmentAnalyzer.ReassignOSMatchId(hashKeyMap, newAssignments);
             var assignmentMaxbets = mapper.MapBySports(newAssignments);
 
             await Task.WhenAll(

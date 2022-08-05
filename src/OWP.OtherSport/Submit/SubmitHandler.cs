@@ -40,13 +40,16 @@
         private readonly INapSession session;
         private readonly IHubContext<NewDataUploadNotifyHubImp, NewDataUploadNotifyHub> notifyHub;
         private readonly MessageClient messageClient;
+        private readonly AssignmentAnalyzer assignmentAnalyzer;
+
 
         public SubmitHandler(
             CacheManipulator cacheManipulator,
             CommandRepository commandRepository,
             INapSession session,
             IHubContext<NewDataUploadNotifyHubImp, NewDataUploadNotifyHub> notifyHub,
-            MessageClient messageClient)
+            MessageClient messageClient,
+            AssignmentAnalyzer assignmentAnalyzer)
 
         {
             this.cacheManipulator = cacheManipulator;
@@ -54,6 +57,7 @@
             this.session = session;
             this.notifyHub = notifyHub;
             this.messageClient = messageClient;
+            this.assignmentAnalyzer = assignmentAnalyzer;
         }
 
         public async Task<SubmitResponse> Handle(SubmitRequest request, CancellationToken cancellationToken)
@@ -134,18 +138,21 @@
 
         private async Task SaveDataAndCleanupCache(SubmitRequest request, List<AssignmentModel> assignments)
         {
+            await SaveOldAssignmentsToSnapshot(request.FromDate, request.ToDate, request.SessionId);
+
             var oldMatch = await commandRepository.GetOldMatchInfo(request.FromDate, request.ToDate);
             var oldMatchIds = oldMatch.Select(x => x.OSMatchId).Distinct().ToList();
-            await SaveOldAssignmentsToSnapshot(request.FromDate, request.ToDate, request.SessionId);
             var hashKeyMap = await commandRepository.InsertOrUpdateMatch(assignments);
             var newMatchIds = hashKeyMap.Select(h => h.OSMatchId).Distinct().ToList();
+
+            assignmentAnalyzer.ReassignOSMatchId(hashKeyMap, assignments);
 
             var deletedMatchIds = oldMatchIds.Except(newMatchIds);
             var deletedInfo = oldMatch.Where(x => deletedMatchIds.Any(y => x.OSMatchId.Equals(y))).ToList();
             var deletedMatchIdsInString = string.Join(",", deletedInfo.Select(i => i.OSMatchId));
 
             await SaveDeletedMatchesToSnapshot(deletedInfo);
-            await SaveAssignmentsToDatabase(assignments, deletedMatchIdsInString);
+            await SaveAssignmentsToDatabase(assignments, deletedMatchIdsInString, string.Join(',', newMatchIds));
             await cacheManipulator.DeleteAssignments(request.SessionId);
         }
 
@@ -155,8 +162,8 @@
             await cacheManipulator.SaveOldAssignmentSnapshot(oldSnapshot, sessionId);
         }
 
-        public async Task SaveAssignmentsToDatabase(List<AssignmentModel> newAssignments, string deletedMatchIds)
-            => await commandRepository.Update(deletedMatchIds, newAssignments);
+        public async Task SaveAssignmentsToDatabase(List<AssignmentModel> newAssignments, string deletedMatchIds, string newMatchIdsInString)
+            => await commandRepository.Update(deletedMatchIds, newAssignments, newMatchIdsInString);
 
         public async Task SaveDeletedMatchesToSnapshot(List<DeletedMatch> deletedMatches)
             => await cacheManipulator.SaveDeletedMatchesSnapshot(deletedMatches);
