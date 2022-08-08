@@ -6,6 +6,7 @@ using Models;
 using Fanex.Data.Repository;
 using OWP.OSLeagueSetting.Handlers;
 using OWP.Extensions;
+using Fanex.NAP.Client.Helpers.Web;
 
 public interface Repository
 {
@@ -13,16 +14,19 @@ public interface Repository
 
     Task<SettingDetail> GetLeagueSettingDetail(int leagueSettingId);
 
-    Task AddOrEditSetting(INonQueryCommand criteria);
+    Task AddOrEditSetting(AddOrEditSettingCommonCriteria criteria);
 }
 
 public class RepositoryImp : Repository
 {
+    private readonly INapSession currentSession;
+
     private readonly IDynamicRepository dynamicRepository;
 
-    public RepositoryImp(IDynamicRepository dynamicRepository)
+    public RepositoryImp(IDynamicRepository dynamicRepository, INapSession currentSession)
     {
         this.dynamicRepository = dynamicRepository;
+        this.currentSession = currentSession;
     }
 
     public async Task<IEnumerable<LeagueSettingInfo>> GetLeagueSettingInfo(GetLeagueInfoHandler.Request request)
@@ -45,9 +49,10 @@ public class RepositoryImp : Repository
         return result.Count() > 0 ? result.FirstOrDefault() : new SettingDetail();
     }
 
-    public async Task AddOrEditSetting(INonQueryCommand criteria)
+    public async Task AddOrEditSetting(AddOrEditSettingCommonCriteria criteria)
     {
         criteria.ThrowExceptionIfInvalid();
+        criteria.UserId = currentSession.UserId;
         await dynamicRepository.ExecuteAsync(criteria);
     }
 }

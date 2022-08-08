@@ -4,6 +4,8 @@ namespace OWP.OSLeagueSetting.Criteria;
 
 public abstract class AddOrEditSettingCommonCriteria : NonQueryCommand
 {
+    public int UserId { get; set; }
+
     public int RegionId { get; set; }
 
     public int CategoryId { get; set; }

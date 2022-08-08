@@ -1,6 +1,6 @@
 namespace OWP.OSLeagueSetting.Models;
 
-public abstract class AddOrEditSettingCommon
+public class AddOrEditSettingCommon
 {
     public int RegionId { get; set; }
 
