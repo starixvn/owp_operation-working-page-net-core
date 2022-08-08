@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using OWP.OSLeagueSetting.Handlers;
 using OWP.OSLeagueSetting.Models;
 using OWP.OSLeagueSetting.Services;
-
 namespace OWP.OSLeagueSetting;
 
 [Route("api/[controller]")]
@@ -53,4 +52,12 @@ public class OSLeagueController : ControllerBase
     [HttpPost("edit-setting")]
     public async Task EditSetting(EditSetting model)
     => await editService.Execute(model);
+
+    [HttpGet("get-log-setting")]
+    public async Task<IActionResult> GetLogSetting(int LeagueSettingId)
+    {
+        var request = new GetLogSettingRequest { LeagueSettingId = LeagueSettingId };
+        var result = await mediator.Send(request);
+        return Ok(result);
+    }
 }

@@ -8,6 +8,7 @@ namespace OWP.OSLeagueSetting.Services;
 
 public interface GetLeagueSettingService
 {
+    Task<IList<LogDisplayModel>> BuildLog(int LeagueSettingId);
     Task<IList<LeagueSettingModel>> GetLeagueSetting(GetLeagueInfoHandler.Request request);
 }
 
@@ -21,7 +22,11 @@ public class GetLeagueSettingServiceImp : GetLeagueSettingService
         this.repository = repository;
         this.mapper = mapper;
     }
-
+    public async Task<IList<LogDisplayModel>> BuildLog(int leagueSettingId)
+    {
+        var userLog = await repository.GetLogSetting(leagueSettingId);
+        return LogBuilder.Build(userLog, mapper);
+    }
     public async Task<IList<LeagueSettingModel>> GetLeagueSetting(GetLeagueInfoHandler.Request request)
     {
         var leagueInfo = await repository.GetLeagueSettingInfo(request);

@@ -15,6 +15,8 @@ public interface Repository
     Task<SettingDetail> GetLeagueSettingDetail(int leagueSettingId);
 
     Task AddOrEditSetting(AddOrEditSettingCommonCriteria criteria);
+
+    Task<IList<UserLogModel>> GetLogSetting(int leagueSettingId);
 }
 
 public class RepositoryImp : Repository
@@ -54,5 +56,11 @@ public class RepositoryImp : Repository
         criteria.ThrowExceptionIfInvalid();
         criteria.UserId = currentSession.UserId;
         await dynamicRepository.ExecuteAsync(criteria);
+    }
+
+    public async Task<IList<UserLogModel>> GetLogSetting(int leagueSettingId)
+    {
+        var criteria = new GetLogSettingCriteria { LeagueSettingId = leagueSettingId };
+        return (await dynamicRepository.FetchAsync<UserLogModel>(criteria)).ToList();
     }
 }
