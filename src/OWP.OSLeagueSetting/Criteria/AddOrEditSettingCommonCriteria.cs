@@ -16,7 +16,7 @@ public abstract class AddOrEditSettingCommonCriteria : NonQueryCommand
 
     public string OfferLineId { get; set; }
 
-    public int BetDelayId { get; set; }
+    public string BetDelayId { get; set; }
 
     public string ProviderId { get; set; }
 

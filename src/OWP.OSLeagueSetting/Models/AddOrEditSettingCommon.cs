@@ -12,7 +12,7 @@ public class AddOrEditSettingCommon
 
     public string OfferLineId { get; set; }
 
-    public int BetDelayId { get; set; }
+    public string BetDelayId { get; set; }
 
     public string ProviderId { get; set; }
 
