@@ -16,11 +16,10 @@ public interface MessageClient
 
 public class MessageClientImp : MessageClient
 {
-    private IBasicProperties props;
     private IModel channel;
 
     private readonly RabbitMQSetting setting;
-    public readonly ILogger logger;
+    private readonly ILogger logger;
 
     public MessageClientImp(
         IOptions<RabbitMQSetting> options,
@@ -34,7 +33,7 @@ public class MessageClientImp : MessageClient
     {
         try
         {
-            var factory = new ConnectionFactory()
+            var factory = new ConnectionFactory
             {
                 UserName = setting.UserName,
                 Password = setting.Password,
@@ -60,7 +59,7 @@ public class MessageClientImp : MessageClient
         var json = JsonConvert.SerializeObject(message);
         var messageBytes = Encoding.UTF8.GetBytes(json);
 
-        props = channel.CreateBasicProperties();
+        var props = channel.CreateBasicProperties();
         props.Type = messageType;
 
         channel.BasicPublish(
