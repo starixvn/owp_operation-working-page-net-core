@@ -7,7 +7,14 @@ using System.Text;
 
 namespace OWP.RabbitMQ;
 
-public class MessageClient
+
+public interface MessageClient
+{
+    void Connect();
+    void SendMessage(object message, string messageType);
+}
+
+public class MessageClientImp : MessageClient
 {
     private IBasicProperties props;
     private IModel channel;
@@ -15,7 +22,7 @@ public class MessageClient
     private readonly RabbitMQSetting setting;
     public readonly ILogger logger;
 
-    public MessageClient(
+    public MessageClientImp(
         IOptions<RabbitMQSetting> options,
         ILogger logger)
     {

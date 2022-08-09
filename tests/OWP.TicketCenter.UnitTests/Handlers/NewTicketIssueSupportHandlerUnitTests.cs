@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using NSubstitute;
+using OWP.RabbitMQ;
 using OWP.TicketCenter.Criteria;
 using OWP.TicketCenter.Handlers;
 using OWP.TicketCenter.Models;
@@ -23,19 +24,22 @@ namespace OWP.TicketCenter.UnitTests.Handlers
 
         private readonly NewTicketIssueSupportHandler handler;
 
+        private readonly MessageClient messageClient;
+
         public NewTicketIssueSupportHandlerUnitTests()
         {
             repository = Substitute.For<Repository>();
             mapper = Substitute.For<IMapper>();
             notificationService = Substitute.For<NotificationService>();
             recipientService = Substitute.For<RecipientService>();
+            messageClient = Substitute.For<MessageClient>();
 
             handler = new NewTicketIssueSupportHandler(
                 repository,
                 mapper,
                 notificationService,
                 recipientService,
-                null
+                messageClient
                 );
         }
 

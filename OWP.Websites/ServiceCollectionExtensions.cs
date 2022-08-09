@@ -124,7 +124,6 @@ public static class ServiceCollectionExtensions
         services.AddScoped<RefResourceService, RefResourceServiceImp>();
         services.AddSingleton<LogServiceWrapper, LogServiceWrapperImp>();
         services.AddSingleton<ConfigurationService, ConfigurationServiceImp>();
-        services.AddScoped<NotifyEngine, NotifyEngineImp>();
         services.AddTransient<ScopedDynamicRepository, ScopedDynamicRepositoryImp>();
         return services;
     }
@@ -306,7 +305,7 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddRabbitMQ(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddSingleton<MessageClient>();
+        services.AddSingleton<MessageClient, MessageClientImp>();
 
         return services;
     }
