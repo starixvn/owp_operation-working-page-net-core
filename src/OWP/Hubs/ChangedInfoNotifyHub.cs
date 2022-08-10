@@ -3,7 +3,7 @@
 
 namespace OWP.Hubs;
 
-public interface ChangedInfoNotifyHub
+public interface ChangedInfoNotifyHub // Redis backplane
 {
     Task notifyChangedInformationData(object messageInfo);
 }
