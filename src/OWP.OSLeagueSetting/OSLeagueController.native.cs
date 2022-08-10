@@ -37,11 +37,11 @@ public class OSLeagueController : ControllerBase
     }
 
     [HttpPost("add-setting")]
-    public async Task AddSetting(AddSetting model)
+    public async Task AddSetting(SettingDetail model)
    => await addService.Execute(model);
 
     [HttpPost("edit-setting")]
-    public async Task EditSetting(EditSetting model)
+    public async Task EditSetting(SettingDetail model)
     => await editService.Execute(model);
 
     [HttpGet("get-log-setting")]

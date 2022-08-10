@@ -6,7 +6,7 @@ namespace OWP.OSLeagueSetting.Services;
 
 public interface EditSettingService
 {
-    Task Execute(EditSetting model);
+    Task Execute(SettingDetail model);
 }
 
 public class EditSettingServiceImp : EditSettingService
@@ -21,7 +21,7 @@ public class EditSettingServiceImp : EditSettingService
         this.mapper = mapper;
     }
 
-    public async Task Execute(EditSetting model)
+    public async Task Execute(SettingDetail model)
     {
         var criteria = mapper.Map<EditSettingCriteria>(model);
         await repository.AddOrEditSetting(criteria);

@@ -9,8 +9,8 @@ public class AutoMapperProfile : Profile
     public AutoMapperProfile()
     {
         CreateMap<LeagueSettingInfo, LeagueSettingModel>();
-        CreateMap<AddSetting, AddSettingCriteria>();
-        CreateMap<EditSetting, EditSettingCriteria>();
+        CreateMap<SettingDetail, AddSettingCriteria>();
+        CreateMap<SettingDetail, EditSettingCriteria>();
         CreateMap<LogModelDeserialize, NewDataLeagueSetting>();
         CreateMap<LogModelDeserialize, OldDataLeagueSetting>();
     }
