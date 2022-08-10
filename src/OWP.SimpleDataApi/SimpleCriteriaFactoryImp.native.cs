@@ -60,6 +60,7 @@ public class SimpleCriteriaFactoryImp : SimpleCriteriaFactoryBase
         CriteriaTypes.Add(ConstantApiKey.OsLeagueSettingGetRoundOption, typeof(GetRoundOptionCriteria));
         CriteriaTypes.Add(ConstantApiKey.OsLeagueSettingGetStatusOption, typeof(GetStatusOptionCriteria));
         CriteriaTypes.Add(ConstantApiKey.OsLeagueSettingGetBetTypesOption, typeof(GetBetTypesOptionCriteria));
+        CriteriaTypes.Add(ConstantApiKey.OsLeagueSettingGetDetail, typeof(QueryLeagueSettingDetailCriteria));
 
         CriteriaTypes.Add(ConstantApiKey.OsLeagueSettingGetBetDelayOption, typeof(GetBetDelayOptionCriteria));
         CriteriaTypes.Add(ConstantApiKey.OsLeagueSettingGetOfferLiveOption, typeof(GetOfferLineOptionCriteria));

@@ -11,13 +11,15 @@ public static class ConstantApiKey
 
     public const string OsLeagueSettingGetRoundOption = "os-league-setting-get-round-option";
 
+    public const string OsLeagueSettingGetDetail = "os-league-setting-get-detail";
+
     public const string OsLeagueSettingGetStatusOption = "os-league-setting-get-status-option";
 
     public const string OsLeagueSettingGetBetTypesOption = "os-league-setting-get-bet-types-option";
 
     public const string OsLeagueSettingGetBetDelayOption = "os-league-setting-get-bet-delay-option";
 
-    public const string OsLeagueSettingGetOfferLiveOption = "os-league-setting-offer-line-option";
+    public const string OsLeagueSettingGetOfferLiveOption = "os-league-setting-get-offer-line-option";
 
     public const string OsLeagueSettingGetProviderOption = "os-league-setting-get-provider-option";
 

@@ -12,8 +12,6 @@ public interface Repository
 {
     Task<IEnumerable<LeagueSettingInfo>> GetLeagueSettingInfo(GetLeagueInfoHandler.Request request);
 
-    Task<SettingDetail> GetLeagueSettingDetail(int leagueSettingId);
-
     Task AddOrEditSetting(AddOrEditSettingCommonCriteria criteria);
 
     Task<IList<UserLogModel>> GetLogSetting(int leagueSettingId);
@@ -41,14 +39,6 @@ public class RepositoryImp : Repository
             League = request.League
         };
         return await dynamicRepository.FetchAsync<LeagueSettingInfo>(criteria);
-    }
-
-    public async Task<SettingDetail> GetLeagueSettingDetail(int leagueSettingId)
-    {
-        var criteria = new QueryLeagueSettingDetailCriteria { LeagueSettingId = leagueSettingId };
-        var result = (await dynamicRepository.FetchAsync<SettingDetail>(criteria));
-
-        return result.Count() > 0 ? result.FirstOrDefault() : new SettingDetail();
     }
 
     public async Task AddOrEditSetting(AddOrEditSettingCommonCriteria criteria)

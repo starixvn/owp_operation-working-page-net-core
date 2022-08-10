@@ -36,15 +36,6 @@ public class OSLeagueController : ControllerBase
         return Ok(leagueInfo);
     }
 
-    [HttpGet("league-setting-detail")]
-    public async Task<IActionResult> QuerySettingDetailById(int leagueSettingId)
-    {
-        var request = new GetLeagueSettingDetailRequest { LeagueSettingId = leagueSettingId };
-        var result = await mediator.Send(request);
-
-        return Ok(result);
-    }
-
     [HttpPost("add-setting")]
     public async Task AddSetting(AddSetting model)
    => await addService.Execute(model);
