@@ -3,6 +3,7 @@ namespace OWP.OSLeagueSetting.Models
     public class NewDataLeagueSetting
     {
         public string LeagueName { get; set; }
+        public string IsActive { get; set; }
         public string Region { get; set; }
         public string Category { get; set; }
         public string Round { get; set; }

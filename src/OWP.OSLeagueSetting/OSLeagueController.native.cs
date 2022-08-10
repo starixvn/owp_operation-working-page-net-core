@@ -54,9 +54,9 @@ public class OSLeagueController : ControllerBase
     => await editService.Execute(model);
 
     [HttpGet("get-log-setting")]
-    public async Task<IActionResult> GetLogSetting(int LeagueSettingId)
+    public async Task<IActionResult> GetLogSetting(int leagueSettingId)
     {
-        var request = new GetLogSettingRequest { LeagueSettingId = LeagueSettingId };
+        var request = new GetLogSettingRequest { LeagueSettingId = leagueSettingId };
         var result = await mediator.Send(request);
         return Ok(result);
     }

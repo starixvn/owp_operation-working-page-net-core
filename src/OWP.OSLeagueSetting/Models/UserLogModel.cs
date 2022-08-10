@@ -4,7 +4,7 @@ namespace OWP.OSLeagueSetting.Models
 
     public class UserLogModel
     {
-        public string Action { get; set; }
+        public int Action { get; set; }
 
         public string DataOld { get; set; }
 

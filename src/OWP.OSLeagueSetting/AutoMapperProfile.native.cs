@@ -11,7 +11,7 @@ public class AutoMapperProfile : Profile
         CreateMap<LeagueSettingInfo, LeagueSettingModel>();
         CreateMap<AddSetting, AddSettingCriteria>();
         CreateMap<EditSetting, EditSettingCriteria>();
-        CreateMap<NewDataLeagueSetting, LogModelDeserialize>();
-        CreateMap<OldDataLeagueSetting, LogModelDeserialize>();
+        CreateMap<LogModelDeserialize, NewDataLeagueSetting>();
+        CreateMap<LogModelDeserialize, OldDataLeagueSetting>();
     }
 }

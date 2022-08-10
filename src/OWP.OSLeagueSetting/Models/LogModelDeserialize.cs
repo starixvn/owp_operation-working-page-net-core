@@ -9,6 +9,9 @@ namespace OWP.OSLeagueSetting.Models
         [XmlAttribute("osLeagueName")]
         public string LeagueName { get; set; }
 
+        [XmlAttribute("osIsActive")]
+        public string IsActive { get; set; }
+
         [XmlAttribute("osRegion")]
         public string Region { get; set; }
 
@@ -21,7 +24,7 @@ namespace OWP.OSLeagueSetting.Models
         [XmlAttribute("osWeekMatch")]
         public string WeekMatch { get; set; }
 
-        [XmlAttribute("OfferLines")]
+        [XmlAttribute("osOfferLines")]
         public string OfferLines { get; set; }
 
         [XmlAttribute("osBetDelay")]
