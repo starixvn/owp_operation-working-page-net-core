@@ -2,7 +2,7 @@
 
 public class SettingDetail
 {
-    public int LeagueSettingId { get; set; }
+    public int? LeagueSettingId { get; set; }
 
     public string LeagueName { get; set; }
 
@@ -16,9 +16,9 @@ public class SettingDetail
 
     public string BetDelay { get; set; }
 
-    public TimeSpan KOFromTime { get; set; }
+    public TimeSpan? KOFromTime { get; set; }
 
-    public TimeSpan KOToTime { get; set; }
+    public TimeSpan? KOToTime { get; set; }
 
     public string Remark { get; set; }
 
@@ -26,13 +26,13 @@ public class SettingDetail
 
     public bool IsIptvOnly { get; set; }
 
-    public double SpreadHDP { get; set; }
+    public decimal? SpreadHDP { get; set; }
 
-    public double SpreadOU { get; set; }
+    public decimal? SpreadOU { get; set; }
 
-    public double MaxbetHDP { get; set; }
+    public decimal? MaxbetHDP { get; set; }
 
-    public double MaxbetOU { get; set; }
+    public decimal? MaxbetOU { get; set; }
 
     public string Rounds { get; set; }
 
