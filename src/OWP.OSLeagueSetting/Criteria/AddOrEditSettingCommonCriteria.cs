@@ -6,11 +6,9 @@ public abstract class AddOrEditSettingCommonCriteria : NonQueryCommand
 {
     public int UserId { get; set; }
 
-    public bool IsActive { get; set; }
+    public int? Region { get; set; }
 
-    public int Region { get; set; }
-
-    public int Category { get; set; }
+    public int? Category { get; set; }
 
     public int? WeekMatch { get; set; }
 

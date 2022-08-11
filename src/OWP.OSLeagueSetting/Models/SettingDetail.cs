@@ -8,9 +8,9 @@ public class SettingDetail
 
     public bool IsActive { get; set; }
 
-    public int Region { get; set; }
+    public int? Region { get; set; }
 
-    public int Category { get; set; }
+    public int? Category { get; set; }
 
     public int? WeekMatch { get; set; }
 
