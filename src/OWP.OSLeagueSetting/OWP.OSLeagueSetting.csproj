@@ -16,9 +16,7 @@
         <PackageReference Include="Fanex.NAP.Client.AspNetCore" Version="2.0.0.1-beta3" />
         <PackageReference Include="Olympus.Xml" Version="1.0.0.4" />
     </ItemGroup>
-
     <ItemGroup>
-        <Folder Include="Services\" />
         <ProjectReference Include="..\OWP\OWP.csproj" />
     </ItemGroup>
   <ItemGroup>

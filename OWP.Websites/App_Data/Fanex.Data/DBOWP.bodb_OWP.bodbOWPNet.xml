@@ -245,5 +245,6 @@
         <Setting Key="OWP_SpecialProduct_GetLog" SpName="OWP_SpecialProduct_GetLog" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_LeagueManagement_GetTeamInfo" SpName="OWP_LeagueManagement_GetTeamInfo" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_LeagueManagement_GetLinkLeagueAndTeam" SpName="OWP_LeagueManagement_GetLinkLeagueAndTeam" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+        <Setting Key="OWP_OSLeagueSetting_GetLeagueSettingByLeagueName" SpName="OWP_OSLeagueSetting_GetLeagueSettingByLeagueName" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     </Function>
 </Functions>

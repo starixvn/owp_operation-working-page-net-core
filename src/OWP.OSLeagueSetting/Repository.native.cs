@@ -1,5 +1,4 @@
-﻿
-namespace OWP.OSLeagueSetting;
+﻿namespace OWP.OSLeagueSetting;
 
 using OWP.OSLeagueSetting.Criteria;
 using Models;
@@ -15,6 +14,9 @@ public interface Repository
     Task AddOrEditSetting(AddOrEditSettingCommonCriteria criteria);
 
     Task<IList<UserLogModel>> GetLogSetting(int leagueSettingId);
+    
+    Task<IEnumerable<LeagueSettingBase>> GetLeagueSettingByLeagueName(int? leagueSettingId, string leagueName);
+
 }
 
 public class RepositoryImp : Repository
@@ -52,5 +54,11 @@ public class RepositoryImp : Repository
     {
         var criteria = new GetLogSettingCriteria { LeagueSettingId = leagueSettingId };
         return (await dynamicRepository.FetchAsync<UserLogModel>(criteria)).ToList();
+    }
+
+    public async Task<IEnumerable<LeagueSettingBase>> GetLeagueSettingByLeagueName(int? leagueSettingId, string leagueName)
+    {
+        var criteria = new GetLeagueSettingByLeagueNameCriteria {LeagueSettingId = leagueSettingId,LeagueName = leagueName };
+        return await dynamicRepository.FetchAsync<LeagueSettingBase>(criteria);
     }
 }

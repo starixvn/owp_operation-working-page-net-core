@@ -1,4 +1,5 @@
 ﻿namespace OWP.SimpleDataApi;
+
 public static class ConstantApiKey
 {
     public const string TicketCenterGetRecipient = "ticket-center-get-recipient";
@@ -60,5 +61,4 @@ public static class ConstantApiKey
     public const string GetBettypeForSpecialEvent = "live-game-assignment-get-bettype-for-special-event";
 
     public const string GetSpecialEventTemplate = "live-game-assignment-get-special-event-template";
-
 }

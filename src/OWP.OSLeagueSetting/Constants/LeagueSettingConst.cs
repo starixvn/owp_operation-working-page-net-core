@@ -75,3 +75,15 @@ public static class LeagueSettingConst
         {TimeRange,TimeRangeStyle}
     }.ToImmutableDictionary();
 }
+
+public enum DuplicateType
+{
+    Round,
+    OfferLine,
+    BetDelay,
+    WeekMatch,
+    Provider,
+    RangeTime,
+    IPTV,
+    Remark
+}

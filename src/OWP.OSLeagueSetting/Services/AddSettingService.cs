@@ -1,6 +1,6 @@
-﻿using OWP.OSLeagueSetting.Models;
-using AutoMapper;
+﻿using AutoMapper;
 using OWP.OSLeagueSetting.Criteria;
+using OWP.OSLeagueSetting.Models;
 
 namespace OWP.OSLeagueSetting.Services;
 

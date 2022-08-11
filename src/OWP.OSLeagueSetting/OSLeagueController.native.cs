@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using OWP.OSLeagueSetting.Handlers;
+using OWP.OSLeagueSetting.Middleware;
 using OWP.OSLeagueSetting.Models;
 using OWP.OSLeagueSetting.Services;
+
 namespace OWP.OSLeagueSetting;
 
 [Route("api/[controller]")]
@@ -36,13 +38,15 @@ public class OSLeagueController : ControllerBase
         return Ok(leagueInfo);
     }
 
+    [TypeFilter(typeof(DuplicateActionFilter))]
     [HttpPost("add-setting")]
     public async Task AddSetting(SettingDetail model)
-   => await addService.Execute(model);
+     => await addService.Execute(model);
 
+    [TypeFilter(typeof(DuplicateActionFilter))]
     [HttpPost("edit-setting")]
     public async Task EditSetting(SettingDetail model)
-    => await editService.Execute(model);
+     => await editService.Execute(model);
 
     [HttpGet("get-log-setting")]
     public async Task<IActionResult> GetLogSetting(int leagueSettingId)

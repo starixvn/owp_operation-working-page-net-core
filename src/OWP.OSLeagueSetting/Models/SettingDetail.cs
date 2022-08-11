@@ -28,6 +28,7 @@ public class SettingDetail
 
     public decimal? SpreadHDP { get; set; }
 
+
     public decimal? SpreadOU { get; set; }
 
     public decimal? MaxbetHDP { get; set; }
