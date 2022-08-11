@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
         <Nullable>disable</Nullable>
@@ -48,7 +48,6 @@
         <PackageReference Include="Fanex.NAP.Signin.AspNetCore" Version="2.0.0.2-beta4" />
         <PackageReference Include="MediatR" Version="9.0.0" />
         <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
-        <PackageReference Include="MessagePack" Version="2.3.85" />
         <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="6.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.SignalR.StackExchangeRedis" Version="6.0.0" />
@@ -58,28 +57,25 @@
         <PackageReference Include="ONEbook.UM.AspNetCore" Version="3.1.0" />
         <PackageReference Include="ONEbook.UM.Transport" Version="3.1.1" />
         <PackageReference Include="Microsoft.NETCore.Targets" Version="6.0.0-preview.4.21253.7" PrivateAssets="all" />
-        <PackageReference Include="RabbitMQ.Client" Version="6.2.4" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\src\OWP.AutoAssignment\OWP.AutoAssignment.csproj" />
         <ProjectReference Include="..\src\OWP.FileUpload\OWP.FileUpload.csproj" />
         <ProjectReference Include="..\src\OWP.OvertimeReport\OWP.OvertimeReport.csproj" />
         <ProjectReference Include="..\src\OWP.PrematchAssignment\OWP.PrematchAssignment.csproj" />
+        <ProjectReference Include="..\src\OWP.RabbitMQ\OWP.RabbitMQ.csproj" />
         <ProjectReference Include="..\src\OWP\OWP.csproj" />
         <ProjectReference Include="..\src\OWP.ApiSyncWorkingShift\OWP.ApiSyncWorkingShift.csproj" />
         <ProjectReference Include="..\src\OWP.Maxbet\OWP.Maxbet.csproj" />
         <ProjectReference Include="..\src\OWP.OtherSport\OWP.OtherSport.csproj" />
-        <ProjectReference Include="..\src\OWP.PreMatchNotification\OWP.PreMatchNotification.csproj" />
         <ProjectReference Include="..\src\OWP.ProductAssignmentReference\OWP.ProductAssignmentReference.csproj" />
         <ProjectReference Include="..\src\OWP.RecipientGroup\OWP.RecipientGroup.csproj" />
         <ProjectReference Include="..\src\OWP.SimpleDataApi\OWP.SimpleDataApi.csproj" />
         <ProjectReference Include="..\src\OWP.TicketTypeRecipient\OWP.TicketTypeRecipient.csproj" />
         <ProjectReference Include="..\src\OWP.TicketCenter\OWP.TicketCenter.csproj" />
         <ProjectReference Include="..\src\OWP.PreMatchReport\OWP.PreMatchReport.csproj" />
-        <ProjectReference Include="..\src\OWP.RabbitMQ\OWP.RabbitMQ.csproj" />
         <ProjectReference Include="..\src\OWP.MatchCountLiveReport\OWP.MatchCountLiveReport.csproj" />
-        <ProjectReference Include="..\src\OWP.RedisPubSub\OWP.RedisPubSub.csproj" />
-    <ProjectReference Include="..\src\OWP.OSLeagueSetting\OWP.OSLeagueSetting.csproj" />
+         <ProjectReference Include="..\src\OWP.OSLeagueSetting\OWP.OSLeagueSetting.csproj" />
         <ProjectReference Include="..\src\OWP.Report\OWP.Report.csproj" />
         <ProjectReference Include="..\src\OWP.LeagueManagement\OWP.LeagueManagement.csproj" />
     </ItemGroup>

@@ -3,8 +3,10 @@ using Fanex.NAP.Client.Configuration;
 using Fanex.NAP.Client.Helpers.Web;
 using OWP.Hubs;
 using OWP.OtherSport.Hubs;
+using OWP.RabbitMQ.Model;
 using OWP.TicketCenter.Hubs;
 using OWP.Websites;
+using OWP.Websites.App_Start;
 using OWP.Websites.CrossCuttingConcern;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
@@ -21,6 +23,8 @@ builder.Services.AddControllerAuthorization();
 builder.Services.AddCookieAuthentication(builder.Configuration);
 builder.Services.AddRedis(builder.Configuration);
 builder.Services.AddRedisSession(builder.Configuration);
+builder.Services.Configure<RabbitMQSetting>(builder.Configuration.GetSection(RabbitMQSetting.RabbitMQ));
+
 builder.Services.AddSignalR(builder.Configuration);
 builder.Services.AddSimpleDataApiModule();
 builder.Services.AddNapServices(builder.Configuration);
@@ -30,9 +34,6 @@ builder.Services.AddMediator();
 builder.Services.AddAutoMapper();
 builder.Services.AddInternalServices();
 builder.Services.AddRabbitMQ(builder.Configuration);
-builder.Services.AddRedisPubSub(builder.Configuration);
-builder.Services.AddRazorPages();
-builder.Services.AddControllersWithViews();
 
 // Configure app
 var app = builder.Build();
@@ -46,6 +47,7 @@ app.UseRouting();
 app.UseCors("AllowOrigin");
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseRabbitListener();
 
 NapClientManager
   .UseConfig(app.Services.GetService<INapSettings>())
@@ -62,10 +64,9 @@ app.UseEndpoints(endpoints =>
     endpoints.MapHub<TicketCenterNotifyHubImp>("/ticketCenterNotifyHub");
     endpoints.MapHub<PreMatchNotifyHubImp>("/preMatchNotifyHub");
 });
-app.Urls.Add("http://+:5000");
-if (app.Environment.IsDevelopment())
-{
-    app.Urls.Add("https://+:5001");
-}
-await app.RunAsync();
+#if DEBUG
+app.Run();
+#endif
+
+await app.RunAsync("http://0.0.0.0:5000");
 

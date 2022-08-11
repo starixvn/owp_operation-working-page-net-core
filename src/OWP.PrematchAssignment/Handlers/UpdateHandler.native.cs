@@ -1,8 +1,10 @@
-﻿using MediatR;
-using OWP.NotificationRequests;
+﻿using Fanex.NAP.Client.Helpers.Web;
+using MediatR;
 using OWP.PreMatchAssignment.Constants;
 using OWP.PreMatchAssignment.Models;
 using OWP.PreMatchAssignment.Services;
+using OWP.RabbitMQ;
+using OWP.RabbitMQ.Constants;
 
 namespace OWP.PreMatchAssignment.Handlers
 {
@@ -20,15 +22,17 @@ namespace OWP.PreMatchAssignment.Handlers
     public class UpdateHandler : IRequestHandler<UpdateLeagueAssignmentRequest>
     {
         private readonly PreMatchAssignmentService preMatchAssignmentService;
-
-        private readonly IMediator mediator;
+        private readonly MessageClient messageClient;
+        private readonly INapSession napSession;
 
         public UpdateHandler(
           PreMatchAssignmentService preMatchAssignmentService,
-          IMediator mediator)
+          MessageClient messageClient,
+          INapSession napSession)
         {
             this.preMatchAssignmentService = preMatchAssignmentService;
-            this.mediator = mediator;
+            this.messageClient = messageClient;
+            this.napSession = napSession;
         }
 
         public async Task<Unit> Handle(UpdateLeagueAssignmentRequest request, CancellationToken cancellationToken)
@@ -47,15 +51,14 @@ namespace OWP.PreMatchAssignment.Handlers
             var currentTime = DateTime.Now.TimeOfDay;
             var requestDate = request.Date.Date + currentTime;
             var requestDateGmt8 = requestDate.AddHours(12);
-            if (requestDateGmt8 > fromDateGmt8
-                && requestDateGmt8 <= toDateGmt8)
-            {
-                var notifyRequest = new PrematchAssignmentNotifyRequest
-                {
-                    RedisKey = RedisKey.KEY_PREMATCH_ASSIGNMENT_OLD_VALUE_SNAPSHOT
-                };
 
-                await mediator.Send(notifyRequest);
+            if (requestDateGmt8 > fromDateGmt8 && requestDateGmt8 <= toDateGmt8)
+            {
+                messageClient.SendMessage(new
+                {
+                    RedisKey = RedisKey.KEY_PREMATCH_ASSIGNMENT_OLD_VALUE_SNAPSHOT,
+                    ActorId = napSession.UserId
+                }, RoutingKey.PrematchAssignment);
             }
 
             return Unit.Value;

@@ -1,4 +1,5 @@
 ﻿using NSubstitute;
+using OWP.RabbitMQ;
 using OWP.TicketCenter.Handlers;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Notification.Services;
@@ -16,14 +17,14 @@ namespace OWP.TicketCenter.UnitTests.Handlers
 
         private readonly NotificationService notificationService;
 
-        private readonly NewRecipientMessageDBWriter writer;
+        private readonly MessageClient messageClient;
 
         public InsertSingleRecipientHandlerUnitTests()
         {
             repository = Substitute.For<Repository>();
             recipientService = Substitute.For<RecipientService>();
             notificationService = Substitute.For<NotificationService>();
-            writer = Substitute.For<NewRecipientMessageDBWriter>();
+            messageClient = Substitute.For<MessageClient>();
         }
 
         [Fact]
@@ -34,7 +35,8 @@ namespace OWP.TicketCenter.UnitTests.Handlers
                 repository,
                 recipientService,
                 notificationService,
-                writer);
+               messageClient
+                );
 
             var recipients = new List<InsertOrRemoveManyRecipientModel>();
 
@@ -45,6 +47,8 @@ namespace OWP.TicketCenter.UnitTests.Handlers
             repository
                 .AddSingleRecipient(Arg.Compat.Any<InsertSingleRecipientRequest>())
                 .ReturnsForAnyArgs(x => 1);
+
+            messageClient.SendMessage(Arg.Compat.Any<object>(), Arg.Compat.Any<string>());
 
             var actual = await handler.Handle(new InsertSingleRecipientRequest(), CancellationToken.None);
 

@@ -17,7 +17,6 @@ using MediatR;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors.Infrastructure;
-using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Newtonsoft.Json;
 using Olympus.SimpleDataApi;
@@ -28,6 +27,7 @@ using ONEbook.UM.Services;
 using ONEbook.UM.Transport;
 using OWP.ApiSyncWorkingShift;
 using OWP.FileUpload;
+using OWP.LeagueManagement;
 using OWP.MatchCountLiveReport;
 using OWP.Maxbet;
 using OWP.OSLeagueSetting;
@@ -35,13 +35,10 @@ using OWP.OtherSport;
 using OWP.OtherSport.Hubs;
 using OWP.OvertimeReport;
 using OWP.PreMatchAssignment;
-using OWP.PreMatchNotification;
 using OWP.PreMatchReport;
 using OWP.RabbitMQ;
 using OWP.RecipientGroup;
-using OWP.RedisPubSub;
 using OWP.Report;
-using OWP.LeagueManagement;
 using OWP.Services;
 using OWP.SimpleDataApi;
 using OWP.TicketCenter;
@@ -127,7 +124,6 @@ public static class ServiceCollectionExtensions
         services.AddScoped<RefResourceService, RefResourceServiceImp>();
         services.AddSingleton<LogServiceWrapper, LogServiceWrapperImp>();
         services.AddSingleton<ConfigurationService, ConfigurationServiceImp>();
-        services.AddScoped<NotifyEngine, NotifyEngineImp>();
         services.AddTransient<ScopedDynamicRepository, ScopedDynamicRepositoryImp>();
         return services;
     }
@@ -208,7 +204,6 @@ public static class ServiceCollectionExtensions
         services.AddOtherSport();
         services.AddProductAssignment();
         services.AddSyncWorkingShift();
-        services.AddPreMatchNotification();
         services.AddRecipientGroup();
         services.AddTicketCenterService();
         services.AddOvertimeReport();
@@ -227,7 +222,6 @@ public static class ServiceCollectionExtensions
         services.AddMediatR(typeof(MaxbetController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(OtherSportController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(SyncWorkingShiftController).GetTypeInfo().Assembly);
-        services.AddMediatR(typeof(PrematchNotificationController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(RecipientGroupController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(TicketCenterController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(FileUploadController).GetTypeInfo().Assembly);
@@ -235,7 +229,6 @@ public static class ServiceCollectionExtensions
         services.AddMediatR(typeof(OvertimeReportController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(PreMatchAssignmentController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(PreMatchReportController).GetTypeInfo().Assembly);
-        services.AddMediatR(typeof(NotificationConsumer).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(MatchCountLiveReportController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(OSLeagueController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(ReportApiController).GetTypeInfo().Assembly);
@@ -267,32 +260,8 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddRedis(this IServiceCollection services, IConfiguration configuration)
     {
-        var redisConfig = configuration.GetSection("AuthSettings:RedisConfig").Value;
-        var redis = ConnectionMultiplexer.Connect(redisConfig);
-
-        services.AddSingleton<IConnectionMultiplexer>(redis);
-
-        services.AddDataProtection()
-            .PersistKeysToStackExchangeRedis(redis, "Fanex.OWP-ProtectionKeys");
-
-        services.AddStackExchangeRedisCache(options =>
-        {
-            options.Configuration = redisConfig;
-            options.InstanceName = $"Fanex.OWP.Session-";
-        });
-
         services.AddRedisCache(configuration.GetSection("fanex.caching.redis"));
 
-        return services;
-    }
-
-    public static IServiceCollection AddRedisPubSub(this IServiceCollection services, IConfiguration configuration)
-    {
-        var chanel = configuration.GetSection("RedisChannel:NewLeague").Value;
-        services.AddTransient<PubSubEvent, PubSubEventImp>();
-        var sp = services.BuildServiceProvider();
-        var pubSubEvent = sp.GetService<PubSubEvent>();
-        pubSubEvent?.Subscribe(chanel);
         return services;
     }
 
@@ -310,7 +279,13 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddSignalR(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddSignalR();
+        var redisConfig = configuration.GetSection("AuthSettings:RedisConfig").Value;
+        var channelPrefix = configuration.GetSection("AuthSettings:ChannelPrefix").Value;
+        services.AddSignalR()
+        .AddStackExchangeRedis(redisConfig, options =>
+        {
+            options.Configuration.ChannelPrefix = channelPrefix;
+        });
         services.AddSingleton<NewDataUploadNotifyHubImp>();
         services.AddSingleton<TicketCenterNotifyHubImp>();
 
@@ -330,7 +305,8 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddRabbitMQ(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddHostedService<NotificationConsumer>();
+        services.AddSingleton<MessageClient, MessageClientImp>();
+
         return services;
     }
 }

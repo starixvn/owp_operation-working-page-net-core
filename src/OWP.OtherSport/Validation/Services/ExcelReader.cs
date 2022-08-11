@@ -1,7 +1,5 @@
 ﻿using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
-using OWP.OtherSport.Notification.Services;
-
 namespace OWP.OtherSport.Validation.Services
 {
     using Models;

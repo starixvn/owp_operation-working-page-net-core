@@ -10,7 +10,6 @@ COPY ./.sonarlint/. ./.sonarlint
 COPY ./src/OWP/. ./src/OWP
 COPY ./src/OWP.OtherSport/. ./src/OWP.OtherSport
 COPY ./src/OWP.ApiSyncWorkingShift/. ./src/OWP.ApiSyncWorkingShift
-COPY ./src/OWP.PreMatchNotification/. ./src/OWP.PreMatchNotification
 COPY ./src/OWP.Maxbet/. ./src/OWP.Maxbet
 COPY ./src/OWP.ProductAssignmentReference/. ./src/OWP.ProductAssignmentReference
 COPY ./src/OWP.SimpleDataApi/. ./src/OWP.SimpleDataApi
@@ -23,7 +22,6 @@ COPY ./src/OWP.AutoAssignment/. ./src/OWP.AutoAssignment
 COPY ./src/OWP.PrematchAssignment/. ./src/OWP.PrematchAssignment
 COPY ./src/OWP.PreMatchReport/. ./src/OWP.PreMatchReport
 COPY ./src/OWP.MatchCountLiveReport/. ./src/OWP.MatchCountLiveReport
-COPY ./src/OWP.RedisPubSub/. ./src/OWP.RedisPubSub
 COPY ./src/OWP.OSLeagueSetting/. ./src/OWP.OSLeagueSetting
 COPY ./src/OWP.RabbitMQ/. ./src/OWP.RabbitMQ
 COPY ./src/OWP.Report/. ./src/OWP.Report

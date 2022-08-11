@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using MediatR;
+using OWP.RabbitMQ;
+using OWP.RabbitMQ.Constants;
 using OWP.TicketCenter.Criteria;
-using OWP.TicketCenter.Enum;
 using OWP.TicketCenter.Models;
-using OWP.TicketCenter.Notification.Const;
 using OWP.TicketCenter.Notification.Models;
 using OWP.TicketCenter.Notification.Services;
 using OWP.TicketCenter.Services;
@@ -18,27 +18,23 @@ namespace OWP.TicketCenter.Handlers
     public class NewTicketIssueLeagueHandler : IRequestHandler<NewTicketIssueLeagueRequest, int>
     {
         private readonly Repository repository;
-
         private readonly IMapper mapper;
-
-        private readonly NewTicketLeagueMessageDBWriter writer;
-
         private readonly NotificationService notificationService;
-
         private readonly RecipientService recipientService;
+        private readonly MessageClient messageClient;
 
         public NewTicketIssueLeagueHandler(
             Repository repository,
             IMapper mapper,
-            NewTicketLeagueMessageDBWriter writer,
             NotificationService notificationService,
-            RecipientService recipientService)
+            RecipientService recipientService,
+            MessageClient messageClient)
         {
             this.repository = repository;
             this.mapper = mapper;
-            this.writer = writer;
             this.notificationService = notificationService;
             this.recipientService = recipientService;
+            this.messageClient = messageClient;
         }
 
         public async Task<int> Handle(NewTicketIssueLeagueRequest request, CancellationToken cancellationToken)
@@ -84,22 +80,11 @@ namespace OWP.TicketCenter.Handlers
                 Comment = newMessage.Message,
                 ActorId = request.CreatorId
             };
-            var sessionId = await writer.Execute(
-                notificationMessage,
-                NotificationTemplateCode.NewTicket);
+            messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketLeague);
 
             await notificationService.NotifyNewMessageIncome(ticketId);
 
             await notificationService.NotifyNewAddRecipient(ticketId, request.CreatorId);
-
-            await notificationService.Notify(new NotificationSource
-            {
-                SessionId = sessionId,
-                TicketId = ticketId,
-                EventType = (int)EventType.League,
-            });
-
-           
 
             return ticketId;
         }

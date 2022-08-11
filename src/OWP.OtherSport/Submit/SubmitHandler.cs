@@ -8,7 +8,8 @@
     using OWP.OtherSport.Submit.Models;
     using OWP.OtherSport.Submit.Services;
     using OWP.OtherSport.Validation.Models;
-    using OWP.Utils;
+    using OWP.RabbitMQ;
+    using OWP.RabbitMQ.Constants;
 
     public class SubmitRequest : IRequest<SubmitResponse>
     {
@@ -38,17 +39,25 @@
         private readonly CommandRepository commandRepository;
         private readonly INapSession session;
         private readonly IHubContext<NewDataUploadNotifyHubImp, NewDataUploadNotifyHub> notifyHub;
+        private readonly MessageClient messageClient;
+        private readonly AssignmentAnalyzer assignmentAnalyzer;
+
 
         public SubmitHandler(
             CacheManipulator cacheManipulator,
             CommandRepository commandRepository,
             INapSession session,
-            IHubContext<NewDataUploadNotifyHubImp, NewDataUploadNotifyHub> notifyHub)
+            IHubContext<NewDataUploadNotifyHubImp, NewDataUploadNotifyHub> notifyHub,
+            MessageClient messageClient,
+            AssignmentAnalyzer assignmentAnalyzer)
+
         {
             this.cacheManipulator = cacheManipulator;
             this.commandRepository = commandRepository;
             this.session = session;
             this.notifyHub = notifyHub;
+            this.messageClient = messageClient;
+            this.assignmentAnalyzer = assignmentAnalyzer;
         }
 
         public async Task<SubmitResponse> Handle(SubmitRequest request, CancellationToken cancellationToken)
@@ -70,6 +79,16 @@
 
             await TryHandle(eventDates, newAssignments, request);
             await notifyHub.Clients.All.NotifyUploadedNewData();
+
+            messageClient.SendMessage(new
+            {
+                SessionId = request.SessionId,
+                FromDate = request.FromDate,
+                ToDate = request.ToDate,
+                ActorId = session.UserId,
+                UserName = session.UserName
+            }, RoutingKey.OtherSport);
+
 
             return new SubmitResponse
             {
@@ -119,19 +138,21 @@
 
         private async Task SaveDataAndCleanupCache(SubmitRequest request, List<AssignmentModel> assignments)
         {
+            await SaveOldAssignmentsToSnapshot(request.FromDate, request.ToDate, request.SessionId);
+
             var oldMatch = await commandRepository.GetOldMatchInfo(request.FromDate, request.ToDate);
             var oldMatchIds = oldMatch.Select(x => x.OSMatchId).Distinct().ToList();
-
             var hashKeyMap = await commandRepository.InsertOrUpdateMatch(assignments);
             var newMatchIds = hashKeyMap.Select(h => h.OSMatchId).Distinct().ToList();
+
+            assignmentAnalyzer.ReassignOSMatchId(hashKeyMap, assignments);
 
             var deletedMatchIds = oldMatchIds.Except(newMatchIds);
             var deletedInfo = oldMatch.Where(x => deletedMatchIds.Any(y => x.OSMatchId.Equals(y))).ToList();
             var deletedMatchIdsInString = string.Join(",", deletedInfo.Select(i => i.OSMatchId));
 
             await SaveDeletedMatchesToSnapshot(deletedInfo);
-            await SaveOldAssignmentsToSnapshot(request.FromDate, request.ToDate, request.SessionId);
-            await SaveAssignmentsToDatabase(assignments, deletedMatchIdsInString);
+            await SaveAssignmentsToDatabase(assignments, deletedMatchIdsInString, string.Join(',', newMatchIds));
             await cacheManipulator.DeleteAssignments(request.SessionId);
         }
 
@@ -141,8 +162,8 @@
             await cacheManipulator.SaveOldAssignmentSnapshot(oldSnapshot, sessionId);
         }
 
-        public async Task SaveAssignmentsToDatabase(List<AssignmentModel> newAssignments, string deletedMatchIds)
-            => await commandRepository.Update(deletedMatchIds, newAssignments);
+        public async Task SaveAssignmentsToDatabase(List<AssignmentModel> newAssignments, string deletedMatchIds, string newMatchIdsInString)
+            => await commandRepository.Update(deletedMatchIds, newAssignments, newMatchIdsInString);
 
         public async Task SaveDeletedMatchesToSnapshot(List<DeletedMatch> deletedMatches)
             => await cacheManipulator.SaveDeletedMatchesSnapshot(deletedMatches);

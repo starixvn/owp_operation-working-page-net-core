@@ -1,8 +1,9 @@
 ﻿using MediatR;
+using OWP.RabbitMQ;
+using OWP.RabbitMQ.Constants;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Notification.Services;
 using OWP.TicketCenter.Services;
-using OWP.TicketCenter.Notification.Models;
 
 namespace OWP.TicketCenter.Handlers
 {
@@ -15,18 +16,19 @@ namespace OWP.TicketCenter.Handlers
         private readonly Repository repository;
         private readonly RecipientService recipientService;
         private readonly NotificationService notificationService;
-        private readonly NewRecipientMessageDBWriter writer;
+        private readonly MessageClient messageClient;
 
         public InsertRecipientHandler(
             Repository repository,
             RecipientService recipientService,
             NotificationService notificationService,
-            NewRecipientMessageDBWriter writer)
+            MessageClient messageClient
+          )
         {
             this.repository = repository;
             this.recipientService = recipientService;
             this.notificationService = notificationService;
-            this.writer = writer;
+            this.messageClient = messageClient;
         }
 
         public async Task<int> Handle(InsertSingleRecipientRequest request, CancellationToken cancellationToken)
@@ -42,14 +44,8 @@ namespace OWP.TicketCenter.Handlers
 
             await recipientService.InsertManyRecipientReader(recipients, request.TicketId, request.ActorId);
 
-            var sessionId = await writer.Execute(request);
-
-            await notificationService.Notify(new NotificationSource
-            {
-                SessionId = sessionId,
-                TicketId = request.TicketId,
-                EventType = request.TicketEventType
-            });
+            // publish rabbit
+            messageClient.SendMessage(request, RoutingKey.TicketCenterNewRecipient);
 
             await notificationService.NotifyNewAddRecipient(request.TicketId, request.ActorId);
 

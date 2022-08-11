@@ -14,8 +14,6 @@ namespace OWP.PreMatchAssignment.Services
     using PrematchAssignment.Criteria;
     using PrematchAssignment.Models;
 
-    using Utils;
-
     public interface PreMatchAssignmentService
     {
         Task<IEnumerable<TicketAssignee>> QueryAssigneesByLeagueId(int id);
@@ -118,7 +116,7 @@ namespace OWP.PreMatchAssignment.Services
         public async Task SaveOldPreMatchAssignment(List<int> preMatchId)
         {
             var assignmentOldValue = await QueryAssignmentOldValue(preMatchId);
-            var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromDays(RedisKey.CACHE_EXPIRED_IN_DAYS));
+            var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(RedisKey.CACHE_EXPIRED_IN_5_MINS));
             var assignmentSnapshotInJson = JsonConvert.SerializeObject(assignmentOldValue);
             await cache.RemoveAsync(RedisKey.KEY_PREMATCH_ASSIGNMENT_OLD_VALUE_SNAPSHOT);
             await cache.SetAsync(RedisKey.KEY_PREMATCH_ASSIGNMENT_OLD_VALUE_SNAPSHOT, assignmentSnapshotInJson, cachePolicy);

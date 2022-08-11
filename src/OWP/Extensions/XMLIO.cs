@@ -55,13 +55,14 @@ namespace Fanex.NAP.OWP.Core.Extensions.XMLExtensions
         private static IEnumerable<Expression> GetExpressions(PropertyInfo p, Expression obj, Expression lambda)
         {
             var prop = Expression.Property(obj, p);
-
-            if (p.PropertyType.IsPrimitive
+            var isValidProp = p.PropertyType.IsPrimitive
                 || p.PropertyType == typeof(string)
                 || p.PropertyType == typeof(DateTime)
-                || p.PropertyType.IsGenericType
-                && p.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>)
-                && p.PropertyType.GetGenericArguments()[0].IsPrimitive)
+                || p.PropertyType.IsGenericType;
+
+            if (isValidProp &&
+                p.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>) &&
+                p.PropertyType.GetGenericArguments()[0].IsPrimitive)
             {
                 var name = GetPropertyName(p);
                 return new[] { Expression.Invoke(lambda, Expression.Constant(name), Expression.Convert(prop, typeof(object))) };

@@ -18,9 +18,7 @@ public class ShiftAssignmentService
     {
         //Arrange
         var dynamicRepo = Substitute.For<IDynamicRepository>();
-        var currentSession = Substitute.For<INapSession>();
         var mapper = Substitute.For<IMapper>();
-        currentSession.UserId = 8;
         dynamicRepo.FetchMultipleAsync<PreMatchLeague, InfoSiteMatch>(Arg.Compat.Any<QueryShiftPreMatchCriteria>()).Returns(Task.FromResult(CreateMockData()));
         var leagues = new List<LeagueAssignment>
         {
@@ -69,7 +67,7 @@ public class ShiftAssignmentService
 
         mapper.Map<IList<LeagueAssignment>>(Arg.Compat.Any<IList<PreMatchLeague>>()).Returns(leagues);
         var expected = new QueryPreMatchLeagueViewModel { InfoSiteMatches = matches, PreMatchLeagues = leagues };
-        var service = new ShiftAssignmentServiceImp(dynamicRepo, currentSession, mapper);
+        var service = new ShiftAssignmentServiceImp(dynamicRepo, mapper);
 
         //Act
         var actual = await service.QueryDayShift(new Handlers.QueryDayShiftPreMatchRequest
@@ -152,7 +150,7 @@ public class ShiftAssignmentService
         var expected = new QueryPreMatchLeagueViewModel { PreMatchLeagues = leagues, InfoSiteMatches = matches };
         dynamicRepo.FetchMultipleAsync<PreMatchLeague, InfoSiteMatch>(Arg.Compat.Any<QueryShiftPreMatchCriteria>()).Returns(Task.FromResult(CreateMockData()));
         mapper.Map<IList<LeagueAssignment>>(Arg.Compat.Any<IList<PreMatchLeague>>()).Returns(leagues);
-        var service = new ShiftAssignmentServiceImp(dynamicRepo, currentSession, mapper);
+        var service = new ShiftAssignmentServiceImp(dynamicRepo, mapper);
 
         //Act
         var actual = await service.QueryDayShift(new Handlers.QueryDayShiftPreMatchRequest
@@ -172,9 +170,7 @@ public class ShiftAssignmentService
     {
         //Arrange
         var dynamicRepo = Substitute.For<IDynamicRepository>();
-        var currentSession = Substitute.For<INapSession>();
         var mapper = Substitute.For<IMapper>();
-        currentSession.UserId = 8;
         dynamicRepo.FetchAsync<TimeSpan>(Arg.Compat.Any<GetStartTimeCriteria>()).Returns(Task.FromResult(MockStartTime(false)));
         dynamicRepo.FetchMultipleAsync<PreMatchLeague, InfoSiteMatch>(Arg.Compat.Is<QueryShiftPreMatchCriteria>(x => x.IsDay)).Returns(Task.FromResult(CreateMockData()));
         dynamicRepo.FetchMultipleAsync<PreMatchLeague, InfoSiteMatch>(Arg.Compat.Is<QueryShiftPreMatchCriteria>(x => !x.IsDay)).Returns(Task.FromResult(CreateNightShiftMockData()));
@@ -240,7 +236,7 @@ public class ShiftAssignmentService
 
         mapper.Map<IList<LeagueAssignment>>(Arg.Compat.Any<IList<PreMatchLeague>>()).Returns(leagues);
         var expected = new QueryPreMatchLeagueViewModel { InfoSiteMatches = matches, PreMatchLeagues = leagues };
-        var service = new ShiftAssignmentServiceImp(dynamicRepo, currentSession, mapper);
+        var service = new ShiftAssignmentServiceImp(dynamicRepo, mapper);
 
         //Act
         var actual = await service.QueryNightShift(new Handlers.QueryNightShiftPreMatchRequest
@@ -260,9 +256,7 @@ public class ShiftAssignmentService
     {
         //Arrange
         var dynamicRepo = Substitute.For<IDynamicRepository>();
-        var currentSession = Substitute.For<INapSession>();
         var mapper = Substitute.For<IMapper>();
-        currentSession.UserId = 8;
         dynamicRepo.FetchAsync<TimeSpan>(Arg.Compat.Any<GetStartTimeCriteria>()).Returns(Task.FromResult(MockStartTime(true)));
         dynamicRepo.FetchMultipleAsync<PreMatchLeague, InfoSiteMatch>(Arg.Compat.Is<QueryShiftPreMatchCriteria>(x => x.IsDay)).Returns(Task.FromResult(CreateMockData()));
         dynamicRepo.FetchMultipleAsync<PreMatchLeague, InfoSiteMatch>(Arg.Compat.Is<QueryShiftPreMatchCriteria>(x => !x.IsDay)).Returns(Task.FromResult(CreateNightShiftMockData()));
@@ -320,7 +314,7 @@ public class ShiftAssignmentService
 
         mapper.Map<IList<LeagueAssignment>>(Arg.Compat.Any<IList<PreMatchLeague>>()).Returns(leagues);
         var expected = new QueryPreMatchLeagueViewModel { InfoSiteMatches = matches, PreMatchLeagues = leagues };
-        var service = new ShiftAssignmentServiceImp(dynamicRepo, currentSession, mapper);
+        var service = new ShiftAssignmentServiceImp(dynamicRepo, mapper);
 
         //Act
         var actual = await service.QueryNightShift(new Handlers.QueryNightShiftPreMatchRequest
@@ -341,9 +335,7 @@ public class ShiftAssignmentService
     {
         //Arrange
         var dynamicRepo = Substitute.For<IDynamicRepository>();
-        var currentSession = Substitute.For<INapSession>();
         var mapper = Substitute.For<IMapper>();
-        currentSession.UserId = 8;
         var requestStartTime = new TimeSpan(13, 00, 00);
         var eventToRequestStartTime = DateTime.Now.Date.Add(new TimeSpan(15, 00, 00));
 
@@ -414,7 +406,7 @@ public class ShiftAssignmentService
 
         mapper.Map<IList<LeagueAssignment>>(Arg.Compat.Any<IList<PreMatchLeague>>()).Returns(leagues);
         var expected = new QueryPreMatchLeagueViewModel { InfoSiteMatches = matches, PreMatchLeagues = leagues };
-        var service = new ShiftAssignmentServiceImp(dynamicRepo, currentSession, mapper);
+        var service = new ShiftAssignmentServiceImp(dynamicRepo, mapper);
 
         //Act
         var actual = await service.QueryNightShift(new Handlers.QueryNightShiftPreMatchRequest
@@ -435,9 +427,7 @@ public class ShiftAssignmentService
     {
         //Arrange
         var dynamicRepo = Substitute.For<IDynamicRepository>();
-        var currentSession = Substitute.For<INapSession>();
         var mapper = Substitute.For<IMapper>();
-        currentSession.UserId = 8;
         var matches = new List<InfoSiteMatch>
         {
             new InfoSiteMatch {InfoSiteMatchId = 111, IsLive = false},
@@ -454,7 +444,7 @@ public class ShiftAssignmentService
         dynamicRepo.FetchAsync<LinkedMatch>(Arg.Compat.Any<QueryLinkedOWPMatchCriteria>())
             .Returns(mockResult);
 
-        var service = new ShiftAssignmentServiceImp(dynamicRepo, currentSession, mapper);
+        var service = new ShiftAssignmentServiceImp(dynamicRepo, mapper);
 
         await service.MapMatchStatusWhichLinkedOWP(matches, new DateTime());
 
@@ -642,9 +632,8 @@ public class ShiftAssignmentService
     public async Task AddOddStatusNo()
     {
         var dynamicRepo = Substitute.For<IDynamicRepository>();
-        var currentSession = Substitute.For<INapSession>();
         var mapper = Substitute.For<IMapper>();
-        var service = new ShiftAssignmentServiceImp(dynamicRepo, currentSession, mapper);
+        var service = new ShiftAssignmentServiceImp(dynamicRepo, mapper);
         var infositeMatches = new List<InfoSiteMatch>
         {
             new InfoSiteMatch { AdminSiteMatchId = 111 },

@@ -85,23 +85,26 @@
 
         [Route("post-note-message")]
         [HttpPost]
-        public async Task<Note> PostNoteMessage(PostNewNoteMessageRequest request)
+        public async Task<IActionResult> PostNoteMessage(PostNewNoteMessageRequest request)
         {
-            return await mediator.Send(request);
+            var result = await mediator.Send(request);
+            return Ok(JsonConvert.SerializeObject(result));
         }
 
         [Route("create-note")]
         [HttpPost]
-        public async Task<Note> CreateNewNote(CreateNewNoteRequest request)
+        public async Task<IActionResult> CreateNewNote(CreateNewNoteRequest request)
         {
-            return await mediator.Send(request);
+            var result = await mediator.Send(request);
+            return Ok(JsonConvert.SerializeObject(result));
         }
 
         [Route("edit-note-message")]
         [HttpPost]
-        public async Task<Note> EditNoteMessage(EditNoteMessageRequest request)
+        public async Task<IActionResult> EditNoteMessage(EditNoteMessageRequest request)
         {
-            return await mediator.Send(request);
+            var result = await mediator.Send(request);
+            return Ok(JsonConvert.SerializeObject(result));
         }
 
         [Route("get-assigned-league-id")]
