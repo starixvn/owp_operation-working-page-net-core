@@ -8,17 +8,17 @@ public class SettingDetail
 
     public bool IsActive { get; set; }
 
-    public string Region { get; set; }
+    public int Region { get; set; }
 
-    public string Category { get; set; }
+    public int Category { get; set; }
 
-    public string WeekMatch { get; set; }
+    public int? WeekMatch { get; set; }
 
     public string BetDelay { get; set; }
 
-    public TimeSpan? KOFromTime { get; set; }
+    public DateTime? KOFromTime { get; set; }
 
-    public TimeSpan? KOToTime { get; set; }
+    public DateTime? KOToTime { get; set; }
 
     public string Remark { get; set; }
 

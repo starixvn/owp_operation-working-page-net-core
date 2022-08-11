@@ -6,23 +6,19 @@ public abstract class AddOrEditSettingCommonCriteria : NonQueryCommand
 {
     public int UserId { get; set; }
 
-    public int LeagueSettingId { get; set; }
-
-    public string LeagueName { get; set; }
-
     public bool IsActive { get; set; }
 
-    public string Region { get; set; }
+    public int Region { get; set; }
 
-    public string Category { get; set; }
+    public int Category { get; set; }
 
-    public string WeekMatch { get; set; }
+    public int? WeekMatch { get; set; }
 
     public string BetDelay { get; set; }
 
-    public TimeSpan KOFromTime { get; set; }
+    public DateTime? KOFromTime { get; set; }
 
-    public TimeSpan KOToTime { get; set; }
+    public DateTime? KOToTime { get; set; }
 
     public string Remark { get; set; }
 
@@ -30,13 +26,13 @@ public abstract class AddOrEditSettingCommonCriteria : NonQueryCommand
 
     public bool IsIptvOnly { get; set; }
 
-    public double SpreadHDP { get; set; }
+    public decimal? SpreadHDP { get; set; }
 
-    public double SpreadOU { get; set; }
+    public decimal? SpreadOU { get; set; }
 
-    public double MaxbetHDP { get; set; }
+    public decimal? MaxbetHDP { get; set; }
 
-    public double MaxbetOU { get; set; }
+    public decimal? MaxbetOU { get; set; }
 
     public string Rounds { get; set; }
 
