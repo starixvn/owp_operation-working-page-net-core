@@ -7,7 +7,7 @@ namespace OWP.LeagueManagement.Service
     using System.Xml.Serialization;
     using Models;
     using OWP.Extensions;
-    using Utils;
+    using OWP.Utils;
 
     public static class LogBuilder
     {
@@ -16,8 +16,8 @@ namespace OWP.LeagueManagement.Service
             var logDisplayModel = new List<LogDisplayModel>();
             foreach (var log in userLog)
             {
-                var productBeforeChange = !string.IsNullOrEmpty(log.DataOld) ? Deserialize<LogModelDeserialize>(log.DataOld).FirstOrDefault() : new LogModelDeserialize();
-                var productAfterChange = !string.IsNullOrEmpty(log.Data) ? Deserialize<LogModelDeserialize>(log.Data).FirstOrDefault() : new LogModelDeserialize();
+                var productBeforeChange = !string.IsNullOrEmpty(log.DataOld) ? BuildLogXmlHelper.Deserialize<LogModelDeserialize>(log.DataOld).FirstOrDefault() : new LogModelDeserialize();
+                var productAfterChange = !string.IsNullOrEmpty(log.Data) ? BuildLogXmlHelper.Deserialize<LogModelDeserialize>(log.Data).FirstOrDefault() : new LogModelDeserialize();
                 logDisplayModel.Add(new LogDisplayModel
                 {
                     Product = productBeforeChange.Product ?? productAfterChange.Product,
@@ -29,24 +29,6 @@ namespace OWP.LeagueManagement.Service
                 });
             }
             return logDisplayModel;
-        }
-
-        private static List<T> Deserialize<T>(string xml)
-        {
-            var result = new List<T>();
-            var serializer = new XmlSerializer(typeof(T));
-            var xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(xml);
-            var rootElement = xmlDoc.ChildNodes[0];
-            foreach (XmlElement childElement in rootElement)
-            {
-                using (var sr = new StringReader(childElement.OuterXml))
-                {
-                    result.Add((T)serializer.Deserialize(sr));
-                }
-            }
-
-            return result;
         }
     }
 
