@@ -1,7 +1,9 @@
 ﻿namespace OWP.OSLeagueSetting.Models;
 
-public class LeagueSettingInfo : LeagueSettingBase
+public class LeagueSettingInfo
 {
+    public int LeagueSettingId { get; set; }
+
     public int? CategoryId { get; set; }
 
     public string CategoryName { get; set; }
@@ -33,4 +35,12 @@ public class LeagueSettingInfo : LeagueSettingBase
     public string Region { get; set; }
 
     public bool IsManualUpdateScore { get; set; }
+
+    public string Remark { get; set; }
+
+    public TimeSpan? KOFromTime { get; set; }
+
+    public TimeSpan? KOToTime { get; set; }
+
+    public bool IsIptvOnly { get; set; }
 }

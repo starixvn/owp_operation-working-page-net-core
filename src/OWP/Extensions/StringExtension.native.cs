@@ -23,4 +23,11 @@ public static class StringExtension
 
     public static string ToFormatDDMMyyyy(this DateTime @this)
         => @this.ToString("ddMMyyyy", CultureInfo.InvariantCulture);
+
+    public static int? ConvertNullableInt(this string text)
+    {
+        int i;
+        if (int.TryParse(text, out i)) return i;
+        return null;
+    }
 }

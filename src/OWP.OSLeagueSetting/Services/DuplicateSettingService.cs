@@ -23,7 +23,7 @@ public class DuplicateSettingServiceImp : DuplicateSettingService
 
     public async Task<bool> IsDuplicate(SettingDetail model)
     {
-        var leagueSettings = await repository.GetLeagueSettingByLeagueName(model.LeagueSettingId,model.LeagueName);
+        var leagueSettings = await repository.GetLeagueSettingByLeagueName(model.LeagueSettingId, model.LeagueName);
         var leagueCombines = CombineLeagueSetting(leagueSettings).ToList();
         if (!leagueCombines.Any())
         {
@@ -46,7 +46,7 @@ public class DuplicateSettingServiceImp : DuplicateSettingService
         return roundRule.IsDuplicate(model, leagueCombines);
     }
 
-    private IEnumerable<DuplicateSettingModel> CombineLeagueSetting(IEnumerable<LeagueSettingBase> leagueSettings)
+    private IEnumerable<DuplicateSettingModel> CombineLeagueSetting(IEnumerable<DuplicateSettingInfo> leagueSettings)
     {
         var leagueDict = leagueSettings.GroupBy(x => x.LeagueSettingId)
             .ToDictionary(g => g.Key, g => g.ToList());

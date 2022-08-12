@@ -25,11 +25,12 @@ public class DuplicateActionFilter : IAsyncActionFilter
             var isDupLeagueSetting = await duplicatedSettingService.IsDuplicate(model);
             if (isDupLeagueSetting)
             {
-                context.HttpContext.Response.StatusCode = 203;
+                context.HttpContext.Response.StatusCode = 400;
                 context.Result = new ContentResult
                 {
                     Content = "A setting already exists. Please check again"
                 };
+
                 return;
             }
 
