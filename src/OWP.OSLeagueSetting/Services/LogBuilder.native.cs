@@ -25,7 +25,7 @@ namespace OWP.OSLeagueSetting.Services
                     ModifyBy = log.ModifiedBy
                 });
             }
-            return logDisplayModel;
+            return logDisplayModel.OrderByDescending(x => DateTime.Parse(x.ModifyDate)).ToList();
         }
     }
 }
