@@ -42,9 +42,9 @@ public static class LeagueSettingConst
 
     public const int TotalProvider = 3;
 
-    public const int TotalOfferLines = 9;
+    public const int TotalOfferLines = 10;
 
-    public const int TotalBetDelay = 4;
+    public const int TotalBetDelay = 5;
 
     public const int TotalWeekMatch = 27;
 
