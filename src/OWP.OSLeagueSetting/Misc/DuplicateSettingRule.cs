@@ -99,15 +99,15 @@ public class RangeTimeRule : DuplicateRule
 {
     public override bool IsDuplicate(SettingDetail model, IList<DuplicateSettingModel> leagueSettings)
     {
-        var leaguesByOfferLine = GetLeagueSettingByTimeRange(model.KOFromTime, model.KOToTime, leagueSettings);
+        var leaguesByOfferLine = GetLeagueSettingByTimeRange(model.KOFromTime?.TimeOfDay, model.KOToTime?.TimeOfDay, leagueSettings);
 
         return leaguesByOfferLine.Any() && base.IsDuplicate(model, leagueSettings);
     }
 
-    private static IList<DuplicateSettingModel> GetLeagueSettingByTimeRange(DateTime? koFromTime, DateTime? koToTime, IList<DuplicateSettingModel> leagueSettings)
+    private static IList<DuplicateSettingModel> GetLeagueSettingByTimeRange(TimeSpan? koFromTime, TimeSpan? koToTime, IList<DuplicateSettingModel> leagueSettings)
     {
         return leagueSettings.Where(x => leagueSettings.Any(x => IsTimeRangeOverLap(
-                koFromTime.GetValueOrDefault().TimeOfDay, koToTime.GetValueOrDefault().TimeOfDay,
+                koFromTime.GetValueOrDefault(), koToTime.GetValueOrDefault(),
                 x.KOFromTime.GetValueOrDefault(), x.KOToTime.GetValueOrDefault()))).ToList();
     }
 

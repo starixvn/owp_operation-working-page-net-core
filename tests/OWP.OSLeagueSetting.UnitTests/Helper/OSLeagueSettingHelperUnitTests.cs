@@ -52,7 +52,7 @@ public class OSLeagueSettingHelperUnitTests
                 LeagueSettingId = 1,
                 OSLeagueName = "C1",
                 BetType = "HDP",
-                KOFromTime = new TimeSpan(25,3,20),
+                KOFromTime = new TimeSpan(0,3,20),
                 KOToTime = new TimeSpan(0,4,20),
                 OfferLines = "1 line",
                 IsManualUpdateScore = true,
@@ -69,25 +69,4 @@ public class OSLeagueSettingHelperUnitTests
                 WeekMatch = "cde"
             },
         };
-
-    [Fact]
-    public void test()
-    {
-        var service = new RangeTimeRule();
-        var model = new SettingDetail
-        {
-            KOFromTime = new TimeSpan(17, 00, 00),
-            KOToTime = new TimeSpan(18, 00, 00),
-        };
-        var leagueInfo = new List<DuplicateSettingModel>
-        {
-            new()
-            {
-                KOFromTime = new TimeSpan(0,00,00),
-                KOToTime =new TimeSpan(5,00,00),
-            }
-        };
-
-        service.IsDuplicate(model, leagueInfo);
-    }
 }

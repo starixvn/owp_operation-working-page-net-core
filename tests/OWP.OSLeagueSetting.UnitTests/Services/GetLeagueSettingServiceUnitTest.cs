@@ -68,7 +68,7 @@ public class GetLeagueSettingServiceUnitTest
                 MaxBetOU = 40,
                 RoundName= string.Empty,
                 SummaryInfo = new List<SummaryDetail>(),
-                SummaryRemark = new List<SummaryDetail>{new (){Text = "00:03 - ", Style = "time-range" } }
+                SummaryRemark = new List<SummaryDetail>{new (){Text = "After 01:00", Style = "time-range" } }
             }
         };
 
@@ -99,7 +99,7 @@ public class GetLeagueSettingServiceUnitTest
                 OSLeagueName = "C2",
                 MaxBetHDP = 40,
                 MaxBetOU = 40,
-                KOFromTime = new TimeSpan(0,3,20),
+                KOFromTime = new TimeSpan(1,1,20),
                 KOToTime = null
             },
             new()
@@ -108,7 +108,7 @@ public class GetLeagueSettingServiceUnitTest
                 OSLeagueName = "C2",
                 MaxBetHDP = 40,
                 MaxBetOU = 40,
-                KOFromTime = new TimeSpan(0,3,20),
+                KOFromTime = new TimeSpan(1,1,20),
                 KOToTime = null
             },
             new()
