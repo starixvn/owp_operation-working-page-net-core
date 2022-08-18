@@ -61,9 +61,9 @@ public class BetDelayRule : DuplicateRule
 {
     public override bool IsDuplicate(SettingDetail model, IList<DuplicateSettingModel> leagueSettings)
     {
-        var leaguesByOfferLine = GetLeagueSettingByBetDelay(model.BetDelay, leagueSettings);
+        var leaguesByBetDelay = GetLeagueSettingByBetDelay(model.BetDelay, leagueSettings);
 
-        return leaguesByOfferLine.Any() && base.IsDuplicate(model, leagueSettings);
+        return leaguesByBetDelay.Any() && base.IsDuplicate(model, leagueSettings);
     }
 
     private static IList<DuplicateSettingModel> GetLeagueSettingByBetDelay(string betDelay,
@@ -80,9 +80,9 @@ public class ProviderRule : DuplicateRule
 {
     public override bool IsDuplicate(SettingDetail model, IList<DuplicateSettingModel> leagueSettings)
     {
-        var leaguesByOfferLine = GetLeagueSettingByProvider(model.Providers, leagueSettings);
+        var leaguesByProvider = GetLeagueSettingByProvider(model.Providers, leagueSettings);
 
-        return leaguesByOfferLine.Any() && base.IsDuplicate(model, leagueSettings);
+        return leaguesByProvider.Any() && base.IsDuplicate(model, leagueSettings);
     }
 
     private static IList<DuplicateSettingModel> GetLeagueSettingByProvider(string provider,
@@ -99,29 +99,36 @@ public class RangeTimeRule : DuplicateRule
 {
     public override bool IsDuplicate(SettingDetail model, IList<DuplicateSettingModel> leagueSettings)
     {
-        var leaguesByOfferLine = GetLeagueSettingByTimeRange(model.KOFromTime?.TimeOfDay, model.KOToTime?.TimeOfDay, leagueSettings);
+        var leaguesByRangeTime = GetLeagueSettingByTimeRange(model.KOFromTime?.TimeOfDay, model.KOToTime?.TimeOfDay, leagueSettings);
 
-        return leaguesByOfferLine.Any() && base.IsDuplicate(model, leagueSettings);
+        return leaguesByRangeTime.Any() && base.IsDuplicate(model, leagueSettings);
     }
 
     private static IList<DuplicateSettingModel> GetLeagueSettingByTimeRange(TimeSpan? koFromTime, TimeSpan? koToTime, IList<DuplicateSettingModel> leagueSettings)
     {
-        return leagueSettings.Where(x => leagueSettings.Any(x => IsTimeRangeOverLap(
-                koFromTime.GetValueOrDefault(), koToTime.GetValueOrDefault(),
-                x.KOFromTime.GetValueOrDefault(), x.KOToTime.GetValueOrDefault()))).ToList();
+        return leagueSettings.Where(x => leagueSettings
+            .Any(x => IsTimeRangeOverLap(koFromTime, koToTime, x.KOFromTime, x.KOToTime)))
+            .ToList();
     }
 
-    private static bool IsTimeRangeOverLap(TimeSpan fromTime, TimeSpan toTime, TimeSpan fromTimeDB, TimeSpan toTimeDB)
+    private static bool IsTimeRangeOverLap(TimeSpan? fromTime, TimeSpan? toTime, TimeSpan? fromTimeDB, TimeSpan? toTimeDB)
     {
-        var newKoToTimeModel = GetFormattedKoToTime(fromTime, toTime);
-        var newKoToTimeDB = GetFormattedKoToTime(fromTimeDB, toTimeDB);
-        return fromTime <= newKoToTimeDB
-               && fromTimeDB <= newKoToTimeModel;
+        if (IsKoTimeNotExits(fromTime, toTime, fromTimeDB, toTimeDB))
+        {
+            return true;
+        }
+        var newKoToTimeModel = GetFormattedKoToTime(fromTime.GetValueOrDefault(), toTime.GetValueOrDefault());
+        var newKoToTimeDB = GetFormattedKoToTime(fromTimeDB.GetValueOrDefault(), toTimeDB.GetValueOrDefault());
+        return fromTime.GetValueOrDefault() < newKoToTimeDB
+               && fromTimeDB.GetValueOrDefault() < newKoToTimeModel;
     }
+
+    private static bool IsKoTimeNotExits(TimeSpan? fromTime, TimeSpan? toTime, TimeSpan? fromTimeDB, TimeSpan? toTimeDB)
+        => fromTime is null && toTime is null && fromTimeDB is null && toTimeDB is null;
 
     private static TimeSpan GetFormattedKoToTime(TimeSpan fromTime, TimeSpan toTime)
     {
-        return toTime < fromTime ? toTime += TimeSpan.FromHours(24) : toTime;
+        return toTime < fromTime ? toTime + TimeSpan.FromHours(24) : toTime;
     }
 }
 
@@ -146,15 +153,15 @@ public class RemarkRule : DuplicateRule
 {
     public override bool IsDuplicate(SettingDetail model, IList<DuplicateSettingModel> leagueSettings)
     {
-        var leaguesByIpTv = GetLeagueSettingByRemark(model.Remark, leagueSettings);
+        var leaguesByRemark = GetLeagueSettingByRemark(model.Remark, leagueSettings);
 
-        return leaguesByIpTv.Any() && base.IsDuplicate(model, leagueSettings);
+        return leaguesByRemark.Any() && base.IsDuplicate(model, leagueSettings);
     }
 
     private static IList<DuplicateSettingModel> GetLeagueSettingByRemark(string remark,
         IList<DuplicateSettingModel> leagueSettings)
     {
-        return leagueSettings.Where(x => x.Remark == remark)
+        return leagueSettings.Where(x => x.Remark.Trim() == remark.Trim())
             .ToList();
     }
 }
