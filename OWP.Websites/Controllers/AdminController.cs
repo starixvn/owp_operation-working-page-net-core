@@ -1,9 +1,8 @@
 using Fanex.Caching;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using OWP.PreMatchAssignment.Models;
+using OWP.Extensions;
 using StackExchange.Redis;
-using System.Net;
 
 namespace OWP.Websites.Controllers;
 
@@ -48,18 +47,19 @@ public class AdministratorController : Controller
         return RedirectToAction("Cache");
     }
 
-    public async Task<ActionResult> SaveCache(string cacheKey)
+    public async Task<ActionResult> SaveLastDateForRegenerateReport(string functionName, DateTime lastDate)
     {
-        var testObject = new List<AssignmentSnapshot>{
-            new AssignmentSnapshot{
-                LeagueName = "Tyler-TestLeague",
-                PreMatchLeagueId = 1,
-                IsDay = true
-            }
+        var cacheKeyDict = new Dictionary<string, string> {
+            { "la", "OWP_SumReportData_LAReport_LastDate" },
+            { "trader", "OWP_SumReportData_TraderReport_LastDate" },
+            { "prematch", "OWP_SumReportData_PrematchReport_LastDate" },
+            { "overtime", "OWP_SumReportData_OvertimeReport_LastDate" },
+            { "matchlive", "OWP_SumReportData_MatchLiveReport_LastDate" }
         };
+        var cacheKey = cacheKeyDict.GetValue(functionName, string.Empty);
         var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromDays(1));
-        var assignmentSnapshotInJson = JsonConvert.SerializeObject(testObject);
-        await cache.SetAsync(cacheKey, "TylerTestContent", cachePolicy);
+
+        await cache.SetAsync(cacheKey, lastDate.ToString("yyyy-MM-dd"), cachePolicy);
         return RedirectToAction("Cache");
     }
 
