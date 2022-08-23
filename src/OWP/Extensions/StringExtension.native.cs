@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace OWP.Extensions;
 
@@ -23,6 +24,11 @@ public static class StringExtension
 
     public static string ToFormatDDMMyyyy(this DateTime @this)
         => @this.ToString("ddMMyyyy", CultureInfo.InvariantCulture);
+
+    public static string ReplaceWith(this string text, string regex, string replacement)
+    {
+        return Regex.Replace(text, regex, replacement);
+    }
 
     public static int? ConvertNullableInt(this string text)
     {
