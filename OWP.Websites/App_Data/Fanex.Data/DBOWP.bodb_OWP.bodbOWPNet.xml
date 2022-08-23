@@ -246,4 +246,8 @@
         <Setting Key="OWP_LeagueManagement_GetTeamInfo" SpName="OWP_LeagueManagement_GetTeamInfo" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_LeagueManagement_GetLinkLeagueAndTeam" SpName="OWP_LeagueManagement_GetLinkLeagueAndTeam" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     </Function>
+	<Function>
+		<Setting Key="OWP_MaxbetSetting_Update" SpName="OWP_MaxbetSetting_Update" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_MaxbetSetting_Get" SpName="OWP_MaxbetSetting_Get" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+	</Function>
 </Functions>
