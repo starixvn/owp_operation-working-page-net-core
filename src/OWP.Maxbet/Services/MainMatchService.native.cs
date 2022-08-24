@@ -51,8 +51,6 @@ namespace OWP.Maxbet.Services
     {
       var maxbetInfo = await serviceCommon.BuildMatchInfoExcludeNumberOfLines(owpMatchId, adminsiteId);
 
-      MaxbetHelper.SetDefaultMaxbetInfo(maxbetInfo);
-
       UpdateMaxbetET(maxbetInfo.Maxbet);
 
       maxbetInfo.Ft1stLineHandicap = Ft1stLineHandicapHelper.BuildFt1stLineHandicap();
