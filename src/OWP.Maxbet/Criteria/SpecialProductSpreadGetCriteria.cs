@@ -1,13 +1,12 @@
 ﻿using Fanex.Data.Repository;
 
-namespace OWP.Maxbet.Criteria
+namespace OWP.Maxbet.Criteria;
+
+public class SpecialProductSpreadGetCriteria : CriteriaBase
 {
-    public class SpecialProductSpreadGetCriteria : CriteriaBase
-    {
-        public int OwpMatchId { get; set; }
+    public int OwpMatchId { get; set; }
 
-        public override string GetSettingKey() => "OWP_API_SyncMaxbet_SpecialProduct_GetSpread";
+    public override string GetSettingKey() => "OWP_API_SyncMaxbet_SpecialProduct_GetSpread";
 
-        public override bool IsValid() => true;
-    }
+    public override bool IsValid() => true;
 }

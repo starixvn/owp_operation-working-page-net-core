@@ -2,7 +2,7 @@
 
 using Models;
 using AutoMapper;
-using OWP.OSLeagueSetting.Criteria;
+using Criteria;
 
 public class AutoMapperProfile : Profile
 {
@@ -11,7 +11,6 @@ public class AutoMapperProfile : Profile
         CreateMap<LeagueSettingInfo, LeagueSettingModel>();
         CreateMap<SettingDetail, AddSettingCriteria>();
         CreateMap<SettingDetail, EditSettingCriteria>();
-        CreateMap<LogModelDeserialize, NewDataLeagueSetting>();
-        CreateMap<LogModelDeserialize, OldDataLeagueSetting>();
+        CreateMap<SettingModelDeserialize, LogDataLeagueSetting>();
     }
 }

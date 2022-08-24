@@ -1,11 +1,10 @@
-namespace OWP.OSLeagueSetting.Models
+namespace OWP.OSLeagueSetting.Models;
+
+public class LogDisplayModel
 {
-    public class LogDisplayModel
-    {
-        public int Action { get; set; }
-        public OldDataLeagueSetting OldValue { get; set; }
-        public NewDataLeagueSetting NewValue { get; set; }
-        public string ModifyDate { get; set; }
-        public string ModifyBy { get; set; }
-    }
+    public int Action { get; set; }
+    public LogDataLeagueSetting OldValue { get; set; }
+    public LogDataLeagueSetting NewValue { get; set; }
+    public string ModifyDate { get; set; }
+    public string ModifyBy { get; set; }
 }
