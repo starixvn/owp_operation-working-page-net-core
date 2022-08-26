@@ -43,9 +43,7 @@ namespace OWP.Maxbet.Services
                 return null;
             }
             var maxbetInfo = await GetSpecialProductInfoExcludeNumberOfLines(minorMatch, adminsiteId, bettypeId);
-
-            MaxbetHelper.SetDefaultMaxbetInfo(maxbetInfo);
-
+            maxbetInfo.NumberOfLines = NumberOfLineHelper.UpdateNumberOfLine();
             maxbetInfo.Ft1stLineHandicap = Ft1stLineHandicapHelper.BuildFt1stLineHandicap();
             return maxbetInfo;
         }
