@@ -1,25 +1,33 @@
-﻿using OWP.OSLeagueSetting.Criteria;
+﻿namespace OWP.OSLeagueSetting;
 
-namespace OWP.OSLeagueSetting;
-
+using OWP.OSLeagueSetting.Criteria;
 using Models;
 using Fanex.Data.Repository;
 using OWP.OSLeagueSetting.Handlers;
+using OWP.Extensions;
+using Fanex.NAP.Client.Helpers.Web;
 
 public interface Repository
 {
     Task<IEnumerable<LeagueSettingInfo>> GetLeagueSettingInfo(GetLeagueInfoHandler.Request request);
 
-    Task<SettingDetail> GetLeagueSettingDetail(int leagueSettingId);
+    Task AddOrEditSetting(AddOrEditSettingCommonCriteria criteria);
+
+    Task<(IEnumerable<UserLogModel>, IEnumerable<UserLogModel>)> GetLogSetting(int leagueSettingId);
+
+    Task<IEnumerable<DuplicateSettingInfo>> GetLeagueSettingByLeagueName(int? leagueSettingId, string leagueName);
 }
 
 public class RepositoryImp : Repository
 {
+    private readonly INapSession currentSession;
+
     private readonly IDynamicRepository dynamicRepository;
 
-    public RepositoryImp(IDynamicRepository dynamicRepository)
+    public RepositoryImp(IDynamicRepository dynamicRepository, INapSession currentSession)
     {
         this.dynamicRepository = dynamicRepository;
+        this.currentSession = currentSession;
     }
 
     public async Task<IEnumerable<LeagueSettingInfo>> GetLeagueSettingInfo(GetLeagueInfoHandler.Request request)
@@ -34,11 +42,22 @@ public class RepositoryImp : Repository
         return await dynamicRepository.FetchAsync<LeagueSettingInfo>(criteria);
     }
 
-    public async Task<SettingDetail> GetLeagueSettingDetail(int leagueSettingId)
+    public async Task AddOrEditSetting(AddOrEditSettingCommonCriteria criteria)
     {
-        var criteria = new QueryLeagueSettingDetailCriteria { LeagueSettingId = leagueSettingId };
-        var result = (await dynamicRepository.FetchAsync<SettingDetail>(criteria));
+        criteria.ThrowExceptionIfInvalid();
+        criteria.UserId = currentSession.UserId;
+        await dynamicRepository.ExecuteAsync(criteria);
+    }
 
-        return result.Count() > 0 ? result.FirstOrDefault() : new SettingDetail();
+    public async Task<(IEnumerable<UserLogModel>, IEnumerable<UserLogModel>)> GetLogSetting(int leagueSettingId)
+    {
+        var criteria = new GetLogSettingCriteria { LeagueSettingId = leagueSettingId };
+        return await dynamicRepository.FetchMultipleAsync<UserLogModel, UserLogModel>(criteria);
+    }
+
+    public async Task<IEnumerable<DuplicateSettingInfo>> GetLeagueSettingByLeagueName(int? leagueSettingId, string leagueName)
+    {
+        var criteria = new GetLeagueSettingByLeagueNameCriteria { LeagueSettingId = leagueSettingId, LeagueName = leagueName };
+        return await dynamicRepository.FetchAsync<DuplicateSettingInfo>(criteria);
     }
 }

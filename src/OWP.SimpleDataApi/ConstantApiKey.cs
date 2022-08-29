@@ -1,54 +1,64 @@
-﻿namespace OWP.SimpleDataApi
+﻿namespace OWP.SimpleDataApi;
+
+public static class ConstantApiKey
 {
-    public static class ConstantApiKey
-    {
-        public const string TicketCenterGetRecipient = "ticket-center-get-recipient";
+    public const string TicketCenterGetRecipient = "ticket-center-get-recipient";
 
-        public const string TicketCenterGetDefaultRecipient = "ticket-center-get-default-recipient";
+    public const string TicketCenterGetDefaultRecipient = "ticket-center-get-default-recipient";
 
-        public const string TicketSettingGetAllRecipients = "ticket-setting-get-all-recipients";
+    public const string TicketSettingGetAllRecipients = "ticket-setting-get-all-recipients";
 
-        public const string OsLeagueSettingGetCategoryOption = "os-league-setting-get-category-option";
+    public const string OsLeagueSettingGetCategoryOption = "os-league-setting-get-category-option";
 
-        public const string OsLeagueSettingGetRoundOption = "os-league-setting-get-round-option";
+    public const string OsLeagueSettingGetRoundOption = "os-league-setting-get-round-option";
 
-        public const string OsLeagueSettingGetStatusOption = "os-league-setting-get-status-option";
+    public const string OsLeagueSettingGetDetail = "os-league-setting-get-detail";
 
-        public const string OsLeagueSettingGetBetTypesOption = "os-league-setting-get-bet-types-option";
+    public const string OsLeagueSettingGetStatusOption = "os-league-setting-get-status-option";
 
-        public const string LeagueManagementGetAllLeagueInfo = "league-management-get-all-league";
+    public const string OsLeagueSettingGetBetTypesOption = "os-league-setting-get-bet-types-option";
 
-        public const string LeagueManagementGetLeagueSettingById = "league-management-get-league-setting-by-id";
+    public const string OsLeagueSettingGetBetDelayOption = "os-league-setting-get-bet-delay-option";
 
-        public const string LeagueManagementGetTVList = "league-management-get-tv-list";
+    public const string OsLeagueSettingGetOfferLiveOption = "os-league-setting-get-offer-line-option";
 
-        public const string LeagueManagementUpdateLeagueIsActive = "league-management-update-league-is-active";
+    public const string OsLeagueSettingGetProviderOption = "os-league-setting-get-provider-option";
 
-        public const string LeagueManagementUpdateLeagueIsBlacklist = "league-management-update-league-is-blacklist";
+    public const string OsLeagueSettingGetRegionOption = "os-league-setting-get-region-option";
 
-        public const string LeagueManagementUpdateLeagueGroup = "league-management-update-league-group";
+    public const string OsLeagueSettingGetWeekMatchOption = "os-league-setting-get-week-match-option";
 
-        public const string LeagueManagementInsertLeagueSetting = "league-management-insert-league-setting";
+    public const string LeagueManagementGetAllLeagueInfo = "league-management-get-all-league";
 
-        public const string LeagueManagementUpdateLeagueSetting = "league-management-update-league-setting";
+    public const string LeagueManagementGetLeagueSettingById = "league-management-get-league-setting-by-id";
 
-        public const string LeagueManagementDeleteLeagueSetting = "league-management-delete-league-setting";
+    public const string LeagueManagementGetTVList = "league-management-get-tv-list";
 
-        public const string LeagueManagementGetAllSpecialProduct = "league-management-get-all-special-product";
+    public const string LeagueManagementUpdateLeagueIsActive = "league-management-update-league-is-active";
 
-        public const string LeagueManagementUpdateSpecialProduct = "league-management-update-special-product";
+    public const string LeagueManagementUpdateLeagueIsBlacklist = "league-management-update-league-is-blacklist";
 
-        public const string LeagueManagementDeleteSpecialProduct = "league-management-delete-special-product";
+    public const string LeagueManagementUpdateLeagueGroup = "league-management-update-league-group";
 
-        public const string LeagueManagementGetTeamInfo = "league-management-get-team-info";
+    public const string LeagueManagementInsertLeagueSetting = "league-management-insert-league-setting";
 
-        public const string GetLastUpdated = "get-last-updated";
+    public const string LeagueManagementUpdateLeagueSetting = "league-management-update-league-setting";
 
-        public const string GetBettypeForTradingInfo = "live-game-assignment-get-bettype-for-trading-info";
+    public const string LeagueManagementDeleteLeagueSetting = "league-management-delete-league-setting";
 
-        public const string GetBettypeForSpecialEvent = "live-game-assignment-get-bettype-for-special-event";
+    public const string LeagueManagementGetAllSpecialProduct = "league-management-get-all-special-product";
 
-        public const string GetSpecialEventTemplate = "live-game-assignment-get-special-event-template";
+    public const string LeagueManagementUpdateSpecialProduct = "league-management-update-special-product";
 
-    }
+    public const string LeagueManagementDeleteSpecialProduct = "league-management-delete-special-product";
+
+    public const string LeagueManagementGetTeamInfo = "league-management-get-team-info";
+
+    public const string GetLastUpdated = "get-last-updated";
+
+    public const string GetBettypeForTradingInfo = "live-game-assignment-get-bettype-for-trading-info";
+
+    public const string GetBettypeForSpecialEvent = "live-game-assignment-get-bettype-for-special-event";
+
+    public const string GetSpecialEventTemplate = "live-game-assignment-get-special-event-template";
 }

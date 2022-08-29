@@ -1,4 +1,7 @@
-﻿namespace OWP.Websites.App_Start;
+﻿using OWP.AutoAssignment;
+using OWP.OSLeagueSetting.Factory;
+
+namespace OWP.Websites.App_Start;
 
 using OSLeagueSetting;
 using OWP.OSLeagueSetting.Services;
@@ -9,5 +12,10 @@ public static class OSLeagueSettingInjectior
     {
         services.AddScoped<Repository, RepositoryImp>();
         services.AddScoped<GetLeagueSettingService, GetLeagueSettingServiceImp>();
+        services.AddScoped<AddSettingService, AddSettingServiceImp>();
+        services.AddScoped<EditSettingService, EditSettingServiceImp>();
+        services.AddScoped<DuplicateSettingService, DuplicateSettingServiceImp>();
+        services.AddScoped<SettingRuleCreator, SettingRuleCreatorImp>();
+        services.AddScoped<LogService, LogServiceImp>();
     }
 }

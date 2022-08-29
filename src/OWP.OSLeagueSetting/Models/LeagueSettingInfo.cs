@@ -12,13 +12,13 @@ public class LeagueSettingInfo
 
     public bool IsActive { get; set; }
 
-    public double MaxBetHDP { get; set; }
+    public double? MaxBetHDP { get; set; }
 
-    public double MaxBetOU { get; set; }
+    public double? MaxBetOU { get; set; }
 
-    public double SpreadHDP { get; set; }
+    public double? SpreadHDP { get; set; }
 
-    public double SpreadOU { get; set; }
+    public double? SpreadOU { get; set; }
 
     public string RoundName { get; set; }
 
@@ -34,13 +34,13 @@ public class LeagueSettingInfo
 
     public string Region { get; set; }
 
-    public string Remark { get; set; }
-
     public bool IsManualUpdateScore { get; set; }
 
-    public bool IsIptvOnly { get; set; }
+    public string Remark { get; set; }
 
     public TimeSpan? KOFromTime { get; set; }
 
     public TimeSpan? KOToTime { get; set; }
+
+    public bool IsIptvOnly { get; set; }
 }

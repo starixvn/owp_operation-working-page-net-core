@@ -72,15 +72,34 @@ public static class OSLeagueSettingHelper
 
     private static SummaryDetail FormatDateTime(LeagueSettingInfo leagueInfo, string property)
     {
+        string style = LeagueSettingConst.SummaryStyleOption.GetValueOrDefault(property);
         if (leagueInfo.KOToTime is null && leagueInfo.KOFromTime is null)
         {
             return null;
         }
 
+        if (leagueInfo.KOFromTime is null)
+        {
+            return new()
+            {
+                Text = $"Before {leagueInfo.KOToTime?.ToString(@"hh\:mm")} ",
+                Style = style
+            };
+        }
+
+        if (leagueInfo.KOToTime is null)
+        {
+            return new()
+            {
+                Text = $"After {leagueInfo.KOFromTime?.Add(TimeSpan.FromMinutes(-1)):hh\\:mm}",
+                Style = style
+            };
+        }
+
         return new()
         {
-            Text = $"{leagueInfo.KOFromTime?.ToString(@"hh\:mm")} - {leagueInfo.KOToTime?.ToString(@"hh\:mm")}",
-            Style = LeagueSettingConst.SummaryStyleOption.GetValueOrDefault(property)
+            Text = $"{leagueInfo.KOFromTime?.ToString(@"hh\:mm")} - { leagueInfo.KOToTime?.ToString(@"hh\:mm")}",
+            Style = style
         };
     }
 

@@ -18,13 +18,13 @@ public class LeagueSettingModel
 
     public bool IsActive { get; set; }
 
-    public double MaxBetHDP { get; set; }
+    public double? MaxBetHDP { get; set; }
 
-    public double MaxBetOU { get; set; }
+    public double? MaxBetOU { get; set; }
 
-    public double SpreadHDP { get; set; }
+    public double? SpreadHDP { get; set; }
 
-    public double SpreadOU { get; set; }
+    public double? SpreadOU { get; set; }
 
     public string RoundName { get; set; }
 
