@@ -44,8 +44,8 @@
         <PackageReference Include="Fanex.Logging.Extensions.Database" Version="1.0.8" />
         <PackageReference Include="Fanex.Logging.Sentry" Version="1.0.6" />
         <PackageReference Include="Fanex.Logging.Sentry.RavenClient" Version="1.0.1" />
-        <PackageReference Include="Fanex.NAP.Client.AspNetCore" Version="2.0.0.1-beta3" />
-        <PackageReference Include="Fanex.NAP.Signin.AspNetCore" Version="2.0.0.2-beta4" />
+        <PackageReference Include="Fanex.NAP.Client.AspNetCore" Version="2.0.0.1" />
+        <PackageReference Include="Fanex.NAP.Signin.AspNetCore" Version="2.0.0.2" />
         <PackageReference Include="MediatR" Version="9.0.0" />
         <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="6.0.0" />
@@ -75,7 +75,7 @@
         <ProjectReference Include="..\src\OWP.TicketCenter\OWP.TicketCenter.csproj" />
         <ProjectReference Include="..\src\OWP.PreMatchReport\OWP.PreMatchReport.csproj" />
         <ProjectReference Include="..\src\OWP.MatchCountLiveReport\OWP.MatchCountLiveReport.csproj" />
-         <ProjectReference Include="..\src\OWP.OSLeagueSetting\OWP.OSLeagueSetting.csproj" />
+        <ProjectReference Include="..\src\OWP.OSLeagueSetting\OWP.OSLeagueSetting.csproj" />
         <ProjectReference Include="..\src\OWP.Report\OWP.Report.csproj" />
         <ProjectReference Include="..\src\OWP.LeagueManagement\OWP.LeagueManagement.csproj" />
     </ItemGroup>

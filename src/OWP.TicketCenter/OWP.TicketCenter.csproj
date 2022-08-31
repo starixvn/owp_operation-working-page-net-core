@@ -1,22 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <Nullable>disable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>disable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="10.1.1" />
-    <PackageReference Include="Fanex.Data.Repository" Version="4.2.2" />
-    <PackageReference Include="Fanex.NAP.Client.AspNetCore" Version="2.0.0.1-beta3" />
-    <PackageReference Include="MediatR" Version="9.0.0" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="AutoMapper" Version="10.1.1" />
+        <PackageReference Include="Fanex.Data.Repository" Version="4.2.2" />
+        <PackageReference Include="Fanex.NAP.Client.AspNetCore" Version="2.0.0.1" />
+        <PackageReference Include="MediatR" Version="9.0.0" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\OWP.RabbitMQ\OWP.RabbitMQ.csproj" />
-    <ProjectReference Include="..\OWP\OWP.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\OWP.RabbitMQ\OWP.RabbitMQ.csproj" />
+        <ProjectReference Include="..\OWP\OWP.csproj" />
+    </ItemGroup>
 
 
 </Project>
