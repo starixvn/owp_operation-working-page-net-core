@@ -48,6 +48,7 @@ using OWP.TicketTypeRecipient;
 using OWP.Websites.App_Start;
 using StackExchange.Redis;
 using System.Reflection;
+using OWP.MaxbetSetting;
 
 namespace OWP.Websites;
 
@@ -66,6 +67,7 @@ public static class ServiceCollectionExtensions
             mc.AddProfile(new OSLeagueSetting.AutoMapperProfile());
             mc.AddProfile(new Report.AutoMapperProfile());
             mc.AddProfile(new LeagueManagement.AutoMapperProfile());
+            mc.AddProfile(new MaxbetSetting.AutoMapperProfile());
         });
 
         var mapper = mapperConfig.CreateMapper();
