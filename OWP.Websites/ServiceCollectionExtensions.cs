@@ -19,7 +19,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Newtonsoft.Json;
-using Olympus.SimpleDataApi;
 using ONEbook.UM.AspNetCore;
 using ONEbook.UM.Configurations;
 using ONEbook.UM.Helpers;
@@ -41,11 +40,11 @@ using OWP.RecipientGroup;
 using OWP.Report;
 using OWP.Services;
 using OWP.SimpleDataApi;
+using OWP.SimpleDataApi.Core;
 using OWP.TicketCenter;
 using OWP.TicketCenter.Hubs;
 using OWP.TicketTypeRecipient;
 using OWP.Websites.App_Start;
-using Sentry;
 using StackExchange.Redis;
 using System.Reflection;
 
@@ -186,7 +185,7 @@ public static class ServiceCollectionExtensions
         {
                 new SentryLogging(new SentryEngineOptions
                 {
-                    Dsn = new Dsn(configuration.GetSection("SentryEngineOptions:Dsn").Value)
+                    Dsn = configuration.GetSection("SentryEngineOptions:Dsn").Value
                 })
         });
 

@@ -1,4 +1,5 @@
-﻿using Olympus.SimpleDataApi;
+﻿
+using OWP.SimpleDataApi.Core;
 
 namespace OWP.SimpleDataApi.Mapper
 {

@@ -22,7 +22,7 @@
         <PackageReference Include="Fanex.Logging" Version="2.0.1" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
         <PackageReference Include="Olympus.Xml" Version="1.0.0.4" />
-        <PackageReference Include="MediatR" Version="9.0.0" />
+        <PackageReference Include="MediatR" Version="10.0.1" />
         <PackageReference Include="Fanex.NAP.Client.AspNetCore" Version="2.0.0.1" />
     </ItemGroup>
     <ItemGroup>
