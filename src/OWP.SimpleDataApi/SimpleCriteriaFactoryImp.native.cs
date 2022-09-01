@@ -1,8 +1,8 @@
-﻿using OWP.SimpleDataApi.Criteria.OsLeagueSetting;
+﻿using Olympus.SimpleDataApi;
+using OWP.SimpleDataApi.Criteria.OsLeagueSetting;
 using OWP.SimpleDataApi.Criteria.LeagueManagement;
 using OWP.SimpleDataApi.Criteria.TicketCenter;
 using OWP.SimpleDataApi.Criteria.LiveGameAssignment;
-using OWP.SimpleDataApi.Core;
 
 namespace OWP.SimpleDataApi;
 public class SimpleCriteriaFactoryImp : SimpleCriteriaFactoryBase

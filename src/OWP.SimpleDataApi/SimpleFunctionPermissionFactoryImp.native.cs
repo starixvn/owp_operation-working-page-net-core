@@ -1,5 +1,5 @@
 ﻿using Fanex.NAP.Core.Business;
-using OWP.SimpleDataApi.Core;
+using Olympus.SimpleDataApi;
 
 namespace OWP.SimpleDataApi
 {

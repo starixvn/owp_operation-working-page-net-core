@@ -1,5 +1,4 @@
 ﻿namespace OWP.SimpleDataApi;
-
 public static class FunctionKeys
 {
     public const string RecipientGroup = "RecipientGroup";
