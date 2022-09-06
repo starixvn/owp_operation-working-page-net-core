@@ -9,7 +9,7 @@ public class UpdateMaxbetSettingRequest : IRequest<Unit>
 {
     public decimal FT_HDP { get; set; }
     public string Column { get; set; }
-    public decimal Value { get; set; }
+    public decimal? Value { get; set; }
 }
 
 public class UpdateMaxbetSettingHanler : IRequestHandler<UpdateMaxbetSettingRequest, Unit>

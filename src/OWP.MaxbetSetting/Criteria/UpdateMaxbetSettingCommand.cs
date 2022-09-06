@@ -8,7 +8,7 @@ public class UpdateMaxbetSettingCriteria : NonQueryCommand
 
     public string Column { get; set; }
 
-    public decimal Value { get; set; }
+    public decimal? Value { get; set; }
 
     public int ActorId { get; set; }
 
