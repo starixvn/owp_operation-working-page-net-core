@@ -6,7 +6,7 @@ using OWP.MaxbetSetting.Models;
 using OWP.MaxbetSetting.Helpers;
 using AutoMapper;
 
-namespace OWP.MaxbetSetting.Handler;
+namespace OWP.MaxbetSetting.Handlers;
 
 public class GetLogMaxbetSettingRequest : IRequest<IList<MaxBetLogSetting>>
 {

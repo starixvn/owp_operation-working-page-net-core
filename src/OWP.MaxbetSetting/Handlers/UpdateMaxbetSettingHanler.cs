@@ -3,9 +3,9 @@ using Fanex.NAP.Client.Helpers.Web;
 using MediatR;
 using OWP.MaxbetSetting.Criteria;
 
-namespace OWP.MaxbetSetting.Handler;
+namespace OWP.MaxbetSetting.Handlers;
 
-public class UpdateMaxbetSettingRequest : IRequest<Unit> 
+public class UpdateMaxbetSettingRequest : IRequest<Unit>
 {
     public decimal FT_HDP { get; set; }
     public string Column { get; set; }
@@ -25,7 +25,8 @@ public class UpdateMaxbetSettingHanler : IRequestHandler<UpdateMaxbetSettingRequ
 
     public async Task<Unit> Handle(UpdateMaxbetSettingRequest request, CancellationToken cancellationToken)
     {
-        var criteria = new UpdateMaxbetSettingCriteria {
+        var criteria = new UpdateMaxbetSettingCriteria
+        {
             FT_HDP = request.FT_HDP,
             Column = request.Column,
             Value = request.Value,

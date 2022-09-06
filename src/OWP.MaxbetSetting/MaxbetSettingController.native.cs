@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using OWP.MaxbetSetting.Handler;
+using OWP.MaxbetSetting.Handlers;
 using Newtonsoft.Json;
 
 namespace OWP.MaxbetSetting;

@@ -48,7 +48,6 @@ using OWP.TicketTypeRecipient;
 using OWP.Websites.App_Start;
 using StackExchange.Redis;
 using System.Reflection;
-using OWP.MaxbetSetting;
 
 namespace OWP.Websites;
 

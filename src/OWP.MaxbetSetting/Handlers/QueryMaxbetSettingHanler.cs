@@ -3,9 +3,9 @@ using MediatR;
 using OWP.MaxbetSetting.Criteria;
 using OWP.MaxbetSetting.Models;
 
-namespace OWP.MaxbetSetting.Handler;
+namespace OWP.MaxbetSetting.Handlers;
 
-public class QueryMaxbetSettingRequest : IRequest<List<MaxBetSettingModel>> {}
+public class QueryMaxbetSettingRequest : IRequest<List<MaxBetSettingModel>> { }
 
 public class QueryMaxbetSettingHanler : IRequestHandler<QueryMaxbetSettingRequest, List<MaxBetSettingModel>>
 {
