@@ -20,4 +20,5 @@ public class MaxBetSettingModel
     public string SecondAccept_Corner { get; set; }
     public string SecondAccept_TotalBooking { get; set; }
     public string SecondAccept_Fantasy { get; set; }
+    public string LastUpdatedBy { get; set; }
 }
