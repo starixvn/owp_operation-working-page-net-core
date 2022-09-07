@@ -16,4 +16,8 @@ public class MaxbetSetting
     public decimal TotalBooking_1H_HDP { get; set; }
     public decimal TotalBooking_1H_OU { get; set; }
     public decimal NextBooking_FT_HDP { get; set; }
+    public string SecondAccept_Main { get; set; }
+    public string SecondAccept_Corner { get; set; }
+    public string SecondAccept_TotalBooking { get; set; }
+    public string SecondAccept_Fantasy { get; set; }
 }

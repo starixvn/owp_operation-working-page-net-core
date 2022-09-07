@@ -17,7 +17,7 @@ public class GetSecondAcceptValueHandler
 
         public decimal? MaxbetHdp { get; set; }
 
-        public int bettype { get; set; }
+        public int Bettype { get; set; }
     }
 
     public class Handler : IRequestHandler<Request, int?>
@@ -46,10 +46,10 @@ public class GetSecondAcceptValueHandler
         public async Task<int?> Handle(Request request, CancellationToken cancellationToken)
         {
             var matchOfferId = await maxbetRepository.GetMatchOfferId(request.OWPMatchId);
-            return BuildSecondAcceptValue(matchOfferId) ?? await BuildSecondAcceptValueDefault(request);
+            return GetSecondAcceptValue(matchOfferId) ?? await BuildSecondAcceptValueDefault(request);
         }
 
-        private static int? BuildSecondAcceptValue(int matchOfferId)
+        private static int? GetSecondAcceptValue(int matchOfferId)
         {
             if (!numberOfLinesDict.TryGetValue((EnumMatchOffer)matchOfferId, out int result))
             {
@@ -69,10 +69,10 @@ public class GetSecondAcceptValueHandler
                 await maxbetRepository.GetSecondAcceptValueDefaultInfo(request.MaxbetHdp.Value, request.OWPMatchId);
             if (leagueName.IsContains("FANTASY"))
             {
-                return secondAccept?.Fantasy;
+                return GetSecondAcceptValue(secondAccept.Fantasy);
             }
 
-            return BuildSecondAcceptValueSpecialDefault(request.bettype, secondAccept);
+            return BuildSecondAcceptValueSpecialDefault(request.Bettype, secondAccept);
         }
 
         private int? BuildSecondAcceptValueSpecialDefault(int bettype,
@@ -81,17 +81,17 @@ public class GetSecondAcceptValueHandler
             if (bettype == SpecialBettype.BETTYPE_ID_NEXT_CORNERS ||
                 bettype == SpecialBettype.BETTYPE_ID_NO_OF_CORNERS)
             {
-                return secondAccept?.Corner;
+                return GetSecondAcceptValue(secondAccept.Corner);
             }
 
             if (bettype == SpecialBettype.BETTYPE_ID_TOTAL_BOOKINGS)
             {
-                return secondAccept?.TotalBooking;
+                return GetSecondAcceptValue(secondAccept.TotalBooking);
             }
 
             if (bettype == SpecialBettype.BETTYPE_ID_MAIN_MATCH)
             {
-                return secondAccept?.Main;
+                return GetSecondAcceptValue(secondAccept.Main);
             }
 
             return null;

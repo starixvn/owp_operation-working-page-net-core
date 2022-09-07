@@ -75,14 +75,14 @@ namespace OWP.Maxbet.Selector
             }
         }
 
-        public async Task<int?> SelectSecondAcceptedValues(int owpMatchId, int bettypeId, decimal? maxbeMainMatch)
+        public async Task<int?> SelectSecondAcceptedValues(int owpMatchId, int bettypeId, decimal? maxbetMainMatch)
         {
             if (SpecialBettype.BettypeIdSpecificXMins.Any(id => id == bettypeId))
             {
                 return null;
             }
 
-            return await mediator.Send(new GetSecondAcceptValueHandler.Request { OWPMatchId = owpMatchId, bettype = bettypeId, MaxbetHdp = maxbeMainMatch });
+            return await mediator.Send(new GetSecondAcceptValueHandler.Request { OWPMatchId = owpMatchId, Bettype = bettypeId, MaxbetHdp = maxbetMainMatch });
         }
 
         public async Task<NumberOfLines> SelectNumberOfLines(int owpMatchId, int bettypeId)

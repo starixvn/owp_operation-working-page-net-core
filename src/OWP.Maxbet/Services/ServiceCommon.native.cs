@@ -45,7 +45,8 @@ namespace OWP.Maxbet.Services
                 OverUnder = 0
             };
 
-            var secondAcceptValue = await mediator.Send(new GetSecondAcceptValueHandler.Request { OWPMatchId = owpMatchId, MaxbetHdp = maxbet.Handicap, bettype = 0 });
+            var secondAcceptValue = await mediator.Send(new GetSecondAcceptValueHandler.Request
+            { OWPMatchId = owpMatchId, MaxbetHdp = maxbet.Handicap, Bettype = SpecialBettype.BETTYPE_ID_MAIN_MATCH });
 
             return new MaxbetInfo
             {

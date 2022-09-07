@@ -1,4 +1,5 @@
 using MediatR;
+using OWP.Enums;
 using OWP.Maxbet.Builder;
 using OWP.Maxbet.Handlers;
 using OWP.Maxbet.Models;
@@ -30,9 +31,11 @@ namespace OWP.Maxbet.Services
         {
             var traderAssignmentsSender = await traderAssignmentBuilder.BuildTraderAssignmentSender(owpMatchId);
 
-            var maxbetMainMatch = await maxbetRepository.GetMainMatchHDPByChildMatchId(owpMatchId);
+            var maxbetMainMatch = (await maxbetRepository.GetMaxbetByOwpMatchId(owpMatchId))
+                .FirstOrDefault(m => m.BettypeId.Equals((int)EnumBettype.Handicap));
 
-            var secondAcceptValue = await mediator.Send(new GetSecondAcceptValueHandler.Request { OWPMatchId = owpMatchId, bettype = SpecialBettype.BETTYPE_ID_MAIN_MATCH, MaxbetHdp = maxbetMainMatch });
+            var secondAcceptValue = await mediator.Send(new GetSecondAcceptValueHandler.Request
+            { OWPMatchId = owpMatchId, Bettype = SpecialBettype.BETTYPE_ID_MAIN_MATCH, MaxbetHdp = maxbetMainMatch?.Value });
 
             var spread = new MaxbetSpread
             {
