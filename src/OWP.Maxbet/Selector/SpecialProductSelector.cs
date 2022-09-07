@@ -15,7 +15,7 @@ namespace OWP.Maxbet.Selector
 
         public Task<MaxbetSpread> SelectMaxbet(MinorMatchInfo specialProduct, int bettypeId);
 
-        public Task<int?> SelectSecondAcceptedValues(int owpMatchId, int bettypeId);
+        public Task<int?> SelectSecondAcceptedValues(int owpMatchId, int bettypeId, decimal? maxbeMainMatch);
 
         public Task<NumberOfLines> SelectNumberOfLines(int owpMatchId, int bettypeId);
     }
@@ -75,10 +75,15 @@ namespace OWP.Maxbet.Selector
             }
         }
 
-        public async Task<int?> SelectSecondAcceptedValues(int owpMatchId, int bettypeId)
-            => SpecialBettype.BettypeIdSpecificXMins.Any(id => id == bettypeId)
-            ? null
-            : await mediator.Send(new GetSecondAcceptValueHandler.Request { OWPMatchId = owpMatchId });
+        public async Task<int?> SelectSecondAcceptedValues(int owpMatchId, int bettypeId, decimal? maxbeMainMatch)
+        {
+            if (SpecialBettype.BettypeIdSpecificXMins.Any(id => id == bettypeId))
+            {
+                return null;
+            }
+
+            return await mediator.Send(new GetSecondAcceptValueHandler.Request { OWPMatchId = owpMatchId, bettype = bettypeId, MaxbetHdp = maxbeMainMatch });
+        }
 
         public async Task<NumberOfLines> SelectNumberOfLines(int owpMatchId, int bettypeId)
             => SpecialBettype.BettypeIdSpecificXMins.Any(id => id == bettypeId)

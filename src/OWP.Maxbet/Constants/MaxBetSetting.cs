@@ -15,5 +15,7 @@ namespace OWP.Maxbet.Constants
     public const decimal MAXBET_SABA = 2000;
 
     public const decimal SPREAD_FUTSAL_PEN = (decimal)0.2;
+
+    public static decimal FOLLOW_MAIN_MATCH = -1;
   }
 }

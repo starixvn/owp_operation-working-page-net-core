@@ -1,67 +1,61 @@
 using MediatR;
 using OWP.Maxbet.Builder;
+using OWP.Maxbet.Constants;
 using OWP.Maxbet.Handlers;
 using OWP.Maxbet.Models;
 
 namespace OWP.Maxbet.Services
 {
-  public interface ServiceCommon
-  {
-    Task<MaxbetInfo> BuildMatchInfoExcludeNumberOfLines(int owpMatchId, int adminsiteId);
-  }
-
-  public class ServiceCommonImp : ServiceCommon
-  {
-    private readonly MaxbetRepository syncMaxbetRepository;
-
-    private readonly TraderAssignmentBuilder traderAssignmentBuilder;
-
-    private readonly SpreadBuilder spreadBuilder;
-
-    private readonly MaxbetBuilder maxbetBuilder;
-
-    private readonly IMediator mediator;
-
-    public ServiceCommonImp(MaxbetRepository syncMaxbetRepository,
-    TraderAssignmentBuilder traderAssignmentBuilder,
-        SpreadBuilder spreadBuilder,
-        MaxbetBuilder maxbetBuilder,
-        IMediator mediator)
+    public interface ServiceCommon
     {
-      this.syncMaxbetRepository = syncMaxbetRepository;
-      this.traderAssignmentBuilder = traderAssignmentBuilder;
-      this.spreadBuilder = spreadBuilder;
-      this.maxbetBuilder = maxbetBuilder;
-      this.mediator = mediator;
+        Task<MaxbetInfo> BuildMatchInfoExcludeNumberOfLines(int owpMatchId, int adminsiteId);
     }
 
-    public async Task<MaxbetInfo> BuildMatchInfoExcludeNumberOfLines(int owpMatchId, int adminsiteId)
+    public class ServiceCommonImp : ServiceCommon
     {
-      var traderAssignmentsSender = await traderAssignmentBuilder.BuildTraderAssignmentSender(owpMatchId);
+        private readonly TraderAssignmentBuilder traderAssignmentBuilder;
 
-      var spread = await spreadBuilder.BuildSpreadMainMatch(owpMatchId);
+        private readonly SpreadBuilder spreadBuilder;
 
-      var maxbet = await maxbetBuilder.BuildMaxbet(owpMatchId);
+        private readonly MaxbetBuilder maxbetBuilder;
 
-      var cn88Maxbet = new MaxbetSpread
-      {
-        FirstHalfHandicap = 0,
-        FirstHalfOverUnder = 0,
-        Handicap = 0,
-        OverUnder = 0
-      };
+        private readonly IMediator mediator;
 
-      var secondAcceptValue = await mediator.Send(new GetSecondAcceptValueHandler.Request { OWPMatchId = owpMatchId });
+        public ServiceCommonImp(TraderAssignmentBuilder traderAssignmentBuilder, SpreadBuilder spreadBuilder, MaxbetBuilder maxbetBuilder, IMediator mediator)
+        {
+            this.traderAssignmentBuilder = traderAssignmentBuilder;
+            this.spreadBuilder = spreadBuilder;
+            this.maxbetBuilder = maxbetBuilder;
+            this.mediator = mediator;
+        }
 
-      return new MaxbetInfo
-      {
-        AdminsiteID = adminsiteId,
-        Traders = traderAssignmentsSender,
-        Spread = spread,
-        Maxbet = maxbet,
-        MaxbetCN88 = cn88Maxbet,
-        SecondAcceptValue = secondAcceptValue
-      };
+        public async Task<MaxbetInfo> BuildMatchInfoExcludeNumberOfLines(int owpMatchId, int adminsiteId)
+        {
+            var traderAssignmentsSender = await traderAssignmentBuilder.BuildTraderAssignmentSender(owpMatchId);
+
+            var maxbet = await maxbetBuilder.BuildMaxbet(owpMatchId);
+
+            var spread = await spreadBuilder.BuildSpreadMainMatch(owpMatchId);
+
+            var cn88Maxbet = new MaxbetSpread
+            {
+                FirstHalfHandicap = 0,
+                FirstHalfOverUnder = 0,
+                Handicap = 0,
+                OverUnder = 0
+            };
+
+            var secondAcceptValue = await mediator.Send(new GetSecondAcceptValueHandler.Request { OWPMatchId = owpMatchId, MaxbetHdp = maxbet.Handicap, bettype = 0 });
+
+            return new MaxbetInfo
+            {
+                AdminsiteID = adminsiteId,
+                Traders = traderAssignmentsSender,
+                Spread = spread,
+                Maxbet = maxbet,
+                MaxbetCN88 = cn88Maxbet,
+                SecondAcceptValue = secondAcceptValue
+            };
+        }
     }
-  }
 }

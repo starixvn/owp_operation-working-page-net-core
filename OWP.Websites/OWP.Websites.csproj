@@ -22,7 +22,6 @@
         <None Remove="App_Data\Templates\LST-Report.xlsx" />
         <None Remove="App_Data\Templates\PreMatchAssignmentReportTemplate.xlsx" />
         <None Remove="App_Data\Templates\MatchCountLiveReportTemplate.xlsx" />
-
     </ItemGroup>
     <ItemGroup>
         <AdditionalFiles Include="..\.sonarlint\nap-owp\CSharp\SonarLint.xml" Link="SonarLint.xml" />

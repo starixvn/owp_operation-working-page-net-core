@@ -25,6 +25,14 @@ namespace OWP.Maxbet
         public Task<IEnumerable<decimal?>> GetSpreadXMins(int owpMatchId);
 
         public Task<IEnumerable<decimal?>> GetMaxbetXMins(int owpMatchId);
+
+        public Task<IEnumerable<MaxbetSetting>> GetMaxbetSettingDefault();
+
+        public Task<(SecondAcceptDefault, string)> GetSecondAcceptValueDefaultInfo(decimal maxbetHDP, int OWPMatchId);
+
+        public Task<int> GetMatchOfferId(int matchId);
+
+        public Task<decimal?> GetMainMatchHDPByChildMatchId(int matchId);
     }
 
     public class MaxbetRepositoryImp : MaxbetRepository
@@ -129,6 +137,44 @@ namespace OWP.Maxbet
                 AdminsiteId = adminSiteId,
             };
             return (await dynamicRepository.FetchAsync<MatchInfo>(criteria)).FirstOrDefault();
+        }
+
+        public async Task<IEnumerable<MaxbetSetting>> GetMaxbetSettingDefault()
+        {
+            var criteria = new GetMaxbetSettingCriteria();
+
+            return await dynamicRepository.FetchAsync<MaxbetSetting>(criteria);
+        }
+
+        public async Task<(SecondAcceptDefault, string)> GetSecondAcceptValueDefaultInfo(decimal maxbetHDP, int OWPMatchId)
+        {
+            var criteria = new GetSecondAcceptValueDefaultCriteria { MaxbetHDP = maxbetHDP, OWPMatchId = OWPMatchId };
+            var (secondAcceptDefaults, leagueNames)
+                = await dynamicRepository.FetchMultipleAsync<SecondAcceptDefault, string>(criteria);
+
+            return (secondAcceptDefaults.FirstOrDefault(), leagueNames.FirstOrDefault());
+        }
+
+        public async Task<int> GetMatchOfferId(int matchId)
+        {
+            var criteria = new MatchOfferGetCriteria
+            {
+                OWPMatchId = matchId
+            };
+
+            var matchOffer = await dynamicRepository.FetchAsync<MatchResource>(criteria);
+
+            return matchOffer.Count() == 1 ? matchOffer.First().ResourceId : 0;
+        }
+
+        public async Task<decimal?> GetMainMatchHDPByChildMatchId(int matchId)
+        {
+            var criteria = new GetMaxbetMainMatchCriteria
+            {
+                OWPMatchId = matchId
+            };
+
+            return (await dynamicRepository.FetchAsync<decimal?>(criteria))?.FirstOrDefault();
         }
     }
 }

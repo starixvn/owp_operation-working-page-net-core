@@ -1,4 +1,5 @@
 ﻿using OWP.Enums;
+using OWP.Maxbet.Constants;
 using OWP.Maxbet.Models;
 
 namespace OWP.Maxbet.Helpers
@@ -30,6 +31,7 @@ namespace OWP.Maxbet.Helpers
                 maxbet.OverUnder = hdpPEN;
             }
         }
+
         public static void SetDefaultMaxbetInfo(MaxbetInfo maxbetInfo)
         {
             maxbetInfo.Maxbet.FirstHalfHandicap = null;
@@ -63,11 +65,10 @@ namespace OWP.Maxbet.Helpers
         }
 
         public static MaxbetModel Build(
-            bool existsValueBettype,
             int bettypeId,
             decimal? valueBettype,
             decimal? defaultValue)
-            => existsValueBettype ? new MaxbetModel
+            => valueBettype.HasValue && valueBettype.Value != MaxBetSetting.FOLLOW_MAIN_MATCH ? new MaxbetModel
             {
                 BettypeId = bettypeId,
                 Value = valueBettype
