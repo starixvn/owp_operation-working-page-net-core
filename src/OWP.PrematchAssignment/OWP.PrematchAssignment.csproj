@@ -1,36 +1,36 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <Nullable>disable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <CodeAnalysisRuleSet>..\..\.sonarlint\nap-owpcsharp.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
-  </ItemGroup>
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>disable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <CodeAnalysisRuleSet>..\..\.sonarlint\nap-owpcsharp.ruleset</CodeAnalysisRuleSet>
+    </PropertyGroup>
+    <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <Compile Remove="Models\PreMatchIssueNotifyHub.cs" />
-    <Compile Remove="Services\NotificationService.cs" />
-  </ItemGroup>
+    <ItemGroup>
+        <Compile Remove="Models\PreMatchIssueNotifyHub.cs" />
+        <Compile Remove="Services\NotificationService.cs" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="10.1.1" />
-    <PackageReference Include="EPPlus" Version="5.5.4" />
-    <PackageReference Include="Fanex.Caching.Redis.AspNetCore" Version="2.2.2.1" />
-    <PackageReference Include="MediatR" Version="9.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
-    <PackageReference Include="MediatR" Version="9.0.0" />
-    <PackageReference Include="Fanex.Data.Repository" Version="4.2.2" />
-    <PackageReference Include="Fanex.NAP.Client.AspNetCore" Version="2.0.0.1-beta3" />
-    <PackageReference Include="Microsoft.NETCore.Targets" Version="6.0.0-preview.4.21253.7" PrivateAssets="all" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="AutoMapper" Version="11.0.1" />
+        <PackageReference Include="EPPlus" Version="6.0.7" />
+        <PackageReference Include="Fanex.Caching.Redis.AspNetCore" Version="2.2.3" />
+        <PackageReference Include="MediatR" Version="10.0.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+        <PackageReference Include="MediatR" Version="10.0.1" />
+        <PackageReference Include="Fanex.Data.Repository" Version="4.2.2" />
+        <PackageReference Include="Fanex.NAP.Client.AspNetCore" Version="2.0.0.1" />
+        <PackageReference Include="Microsoft.NETCore.Targets" Version="6.0.0-preview.4.21253.7" PrivateAssets="all" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\OWP.RabbitMQ\OWP.RabbitMQ.csproj" />
-    <ProjectReference Include="..\OWP\OWP.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\OWP.RabbitMQ\OWP.RabbitMQ.csproj" />
+        <ProjectReference Include="..\OWP\OWP.csproj" />
+    </ItemGroup>
 
 </Project>

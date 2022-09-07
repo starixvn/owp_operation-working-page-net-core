@@ -45,7 +45,6 @@ using OWP.TicketCenter;
 using OWP.TicketCenter.Hubs;
 using OWP.TicketTypeRecipient;
 using OWP.Websites.App_Start;
-using Sentry;
 using StackExchange.Redis;
 using System.Reflection;
 
@@ -186,7 +185,7 @@ public static class ServiceCollectionExtensions
         {
                 new SentryLogging(new SentryEngineOptions
                 {
-                    Dsn = new Dsn(configuration.GetSection("SentryEngineOptions:Dsn").Value)
+                    Dsn = configuration.GetSection("SentryEngineOptions:Dsn").Value
                 })
         });
 
