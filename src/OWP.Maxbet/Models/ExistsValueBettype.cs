@@ -1,5 +1,4 @@
 namespace OWP.Maxbet.Models;
-
 public class ExistsValueBettype
 {
     public bool Hdp { get; set; }

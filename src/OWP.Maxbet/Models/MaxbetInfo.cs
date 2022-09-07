@@ -1,6 +1,7 @@
-﻿namespace OWP.Maxbet.Models;
-
+﻿
 using Newtonsoft.Json;
+
+namespace OWP.Maxbet.Models;
 
 public class MaxbetInfo
 {
@@ -14,10 +15,14 @@ public class MaxbetInfo
 
     public MaxbetSpread Maxbet { get; set; }
 
-    public MaxbetSpread MaxbetCN88 { get; set; }
-
     public NumberOfLines NumberOfLines { get; set; }
 
     [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
     public int? Ft1stLineHandicap { get; set; }
+
+    [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+    public OddHandicapInfo OddsHandicap { get; set; }
+
+    [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+    public OddOverUnderInfo OddsOverUnder { get; set; }
 }

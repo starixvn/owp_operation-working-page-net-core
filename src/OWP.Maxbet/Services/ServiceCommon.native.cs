@@ -13,6 +13,7 @@ public interface ServiceCommon
 
 public class ServiceCommonImp : ServiceCommon
 {
+    private readonly MaxbetRepository syncMaxbetRepository;
     private readonly TraderAssignmentBuilder traderAssignmentBuilder;
 
     private readonly SpreadBuilder spreadBuilder;
@@ -21,8 +22,13 @@ public class ServiceCommonImp : ServiceCommon
 
     private readonly IMediator mediator;
 
-    public ServiceCommonImp(TraderAssignmentBuilder traderAssignmentBuilder, SpreadBuilder spreadBuilder, MaxbetBuilder maxbetBuilder, IMediator mediator)
+    public ServiceCommonImp(MaxbetRepository syncMaxbetRepository,
+    TraderAssignmentBuilder traderAssignmentBuilder,
+        SpreadBuilder spreadBuilder,
+        MaxbetBuilder maxbetBuilder,
+        IMediator mediator)
     {
+        this.syncMaxbetRepository = syncMaxbetRepository;
         this.traderAssignmentBuilder = traderAssignmentBuilder;
         this.spreadBuilder = spreadBuilder;
         this.maxbetBuilder = maxbetBuilder;
@@ -33,20 +39,12 @@ public class ServiceCommonImp : ServiceCommon
     {
         var traderAssignmentsSender = await traderAssignmentBuilder.BuildTraderAssignmentSender(owpMatchId);
 
+        var spread = await spreadBuilder.BuildSpreadMainMatch(owpMatchId);
         var maxbet = await maxbetBuilder.BuildMaxbet(owpMatchId);
 
-        var spread = await spreadBuilder.BuildSpreadMainMatch(owpMatchId);
 
-        var cn88Maxbet = new MaxbetSpread
-        {
-            FirstHalfHandicap = 0,
-            FirstHalfOverUnder = 0,
-            Handicap = 0,
-            OverUnder = 0
-        };
-
-        var secondAcceptValue = await mediator.Send(new GetSecondAcceptValueHandler.Request
-            { OWPMatchId = owpMatchId, MaxbetHdp = maxbet.Handicap, Bettype = SpecialBettype.BETTYPE_ID_MAIN_MATCH });
+        var secondAcceptValue = await mediator.Send(new GetSecondAcceptValueHandler.Request()
+        { OWPMatchId = owpMatchId, MaxbetHdp = maxbet.Handicap, Bettype = SpecialBettype.BETTYPE_ID_MAIN_MATCH });
 
         return new MaxbetInfo
         {
@@ -54,7 +52,6 @@ public class ServiceCommonImp : ServiceCommon
             Traders = traderAssignmentsSender,
             Spread = spread,
             Maxbet = maxbet,
-            MaxbetCN88 = cn88Maxbet,
             SecondAcceptValue = secondAcceptValue
         };
     }

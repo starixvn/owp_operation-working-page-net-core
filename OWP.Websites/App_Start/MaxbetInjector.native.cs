@@ -22,6 +22,8 @@ public static class MaxbetInjector
         services.AddScoped<SpecialProductSelector, SpecialProductSelectorImp>();
         services.AddScoped<ServiceCommon, ServiceCommonImp>();
         services.AddScoped<ETPKMatchService, ETPKMatchServiceImp>();
+        services.AddScoped<OddService, OddServiceImp>();
+        services.AddScoped<ServiceCommon, ServiceCommonImp>();
 
         services.AddScoped<MaxbetRepository, MaxbetRepositoryImp>();
     }

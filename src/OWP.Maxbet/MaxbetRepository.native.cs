@@ -26,7 +26,10 @@ public interface MaxbetRepository
 
     public Task<IEnumerable<decimal?>> GetMaxbetXMins(int owpMatchId);
 
-    public Task<IEnumerable<MaxbetSetting>> GetMaxbetSettingDefault();
+        public Task<IEnumerable<Models.KeyValuePair>> GetOddByOwpId(int owpMatchId);
+        
+         public Task<IEnumerable<MaxbetSetting>> GetMaxbetSettingDefault();
+
 
     public Task<(SecondAcceptDefault, string)> GetSecondAcceptValueDefaultInfo(decimal? maxbetHDP, int OWPMatchId);
 
@@ -135,6 +138,14 @@ public class MaxbetRepositoryImp : MaxbetRepository
             AdminsiteId = adminSiteId
         };
         return (await dynamicRepository.FetchAsync<MatchInfo>(criteria)).FirstOrDefault();
+        }
+
+        public async Task<IEnumerable<Models.KeyValuePair>> GetOddByOwpId(int owpMatchId)
+        {
+            return await dynamicRepository.FetchAsync<Models.KeyValuePair>(new OddGetCriteria
+            {
+                OwpMatchId = owpMatchId
+            });
     }
 
     public async Task<IEnumerable<MaxbetSetting>> GetMaxbetSettingDefault()
