@@ -15,7 +15,7 @@ namespace OWP.Maxbet.Selector
 
         public Task<MaxbetSpread> SelectMaxbet(MinorMatchInfo specialProduct, int bettypeId);
 
-        public Task<int?> SelectSecondAcceptedValues(int owpMatchId, int bettypeId, decimal? maxbeMainMatch);
+        public Task<int?> SelectSecondAcceptedValues(int owpMatchId, int bettypeId, decimal? maxbetMainMatch);
 
         public Task<NumberOfLines> SelectNumberOfLines(int owpMatchId, int bettypeId);
     }
