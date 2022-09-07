@@ -10,8 +10,7 @@ namespace OWP.MaxbetSetting;
 [Route("api/[controller]")]
 [ApiController]
 [EnableCors("AllowOrigin")]
-[AllowAnonymous]
-//[Authorize]
+[Authorize]
 public class MaxbetSettingController
 {
     private readonly IMediator mediator;
