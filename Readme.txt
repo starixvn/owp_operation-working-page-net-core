@@ -8,7 +8,7 @@ copy /Y DBOWP.bodb_OWP.bodbOWPNet.xml DBOWP.bodb_OWP.bodbOWPNet.LOCAL.xml
 copy /Y DBOWP.bodb_OWP.bodbOWPNet.xml DBOWP.bodb_OWP.bodbOWPNet.LOCAL_1.xml
 copy /Y DBOWP.bodb_OWP.bodbOWPNet.xml DBOWP.bodb_OWP.bodbOWPNet.LOCAL_2.xml
 copy /Y DBOWP.bodb_OWP.bodbOWPNet.xml DBOWP.bodb_OWP.bodbOWPNet.LOCAL_3.xml
-copy /Y DBOWP.bodb_OWP.bodbOWPNet.xml DBOWP.bodb_OWP.bodbOWPNet.PROD.xml
+copy /Y DBOWP.bodb_OWP.bodbOWPNet.xml DBOWP.bodb_OWP.bodbOWPNet.PROD_1.xml
 copy /Y DBOWP.bodb_OWP.bodbOWPNet.xml DBOWP.bodb_OWP.bodbOWPNet.SIT.xml
 copy /Y DBOWP.bodb_OWP.bodbOWPNet.xml DBOWP.bodb_OWP.bodbOWPNet.UAT.xml
 copy /Y DBOWP.bodb_OWP.bodbOWPNet.xml DBOWP.bodb_OWP.bodbOWPNet.UAT_1.xml
