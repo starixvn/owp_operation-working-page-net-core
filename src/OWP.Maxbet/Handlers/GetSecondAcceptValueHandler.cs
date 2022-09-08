@@ -61,12 +61,8 @@ public class GetSecondAcceptValueHandler
 
         private async Task<int?> BuildSecondAcceptValueDefault(Request request)
         {
-            if (!request.MaxbetHdp.HasValue)
-            {
-                return null;
-            }
             var (secondAccept, leagueName) =
-                await maxbetRepository.GetSecondAcceptValueDefaultInfo(request.MaxbetHdp.Value, request.OWPMatchId);
+                await maxbetRepository.GetSecondAcceptValueDefaultInfo(request.MaxbetHdp, request.OWPMatchId);
             if (leagueName.IsContains("FANTASY"))
             {
                 return GetSecondAcceptValue(secondAccept.Fantasy);

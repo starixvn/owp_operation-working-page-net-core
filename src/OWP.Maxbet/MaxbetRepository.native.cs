@@ -28,7 +28,7 @@ namespace OWP.Maxbet
 
         public Task<IEnumerable<MaxbetSetting>> GetMaxbetSettingDefault();
 
-        public Task<(SecondAcceptDefault, string)> GetSecondAcceptValueDefaultInfo(decimal maxbetHDP, int OWPMatchId);
+        public Task<(SecondAcceptDefault, string)> GetSecondAcceptValueDefaultInfo(decimal? maxbetHDP, int OWPMatchId);
 
         public Task<int> GetMatchOfferId(int matchId);
     }
@@ -144,7 +144,7 @@ namespace OWP.Maxbet
             return await dynamicRepository.FetchAsync<MaxbetSetting>(criteria);
         }
 
-        public async Task<(SecondAcceptDefault, string)> GetSecondAcceptValueDefaultInfo(decimal maxbetHDP, int OWPMatchId)
+        public async Task<(SecondAcceptDefault, string)> GetSecondAcceptValueDefaultInfo(decimal? maxbetHDP, int OWPMatchId)
         {
             var criteria = new GetSecondAcceptValueDefaultCriteria { MaxbetHDP = maxbetHDP, OWPMatchId = OWPMatchId };
             var (secondAcceptDefaults, leagueNames)
