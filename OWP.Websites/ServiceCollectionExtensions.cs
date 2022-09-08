@@ -67,6 +67,7 @@ public static class ServiceCollectionExtensions
             mc.AddProfile(new Report.AutoMapperProfile());
             mc.AddProfile(new LeagueManagement.AutoMapperProfile());
             mc.AddProfile(new MaxbetSetting.AutoMapperProfile());
+            mc.AddProfile(new LiveDetail.AutoMapperProfile());
         });
 
         var mapper = mapperConfig.CreateMapper();
@@ -126,6 +127,9 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<LogServiceWrapper, LogServiceWrapperImp>();
         services.AddSingleton<ConfigurationService, ConfigurationServiceImp>();
         services.AddTransient<ScopedDynamicRepository, ScopedDynamicRepositoryImp>();
+        services.AddScoped<CheckIsLiveStatusServices, CheckIsLiveStatusServicesImp>();
+        services.AddScoped<GetAdminSiteMatchIdService, GetAdminSiteMatchIdServiceImp>();
+        services.AddScoped<PermissionService, PermissionServiceImp>();
         return services;
     }
 
@@ -215,6 +219,7 @@ public static class ServiceCollectionExtensions
         services.AddOSLeagueSetting();
         services.AddLAReportService();
         services.AddLeagueManagementService();
+        services.AddLiveDetailService();
         return services;
     }
 

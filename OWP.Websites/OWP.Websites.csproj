@@ -88,5 +88,6 @@
         <ProjectReference Include="..\src\OWP.OSLeagueSetting\OWP.OSLeagueSetting.csproj" />
         <ProjectReference Include="..\src\OWP.Report\OWP.Report.csproj" />
         <ProjectReference Include="..\src\OWP.LeagueManagement\OWP.LeagueManagement.csproj" />
+        <ProjectReference Include="..\src\OWP.LiveDetail\OWP.LiveDetail.csproj" />
     </ItemGroup>
 </Project>
