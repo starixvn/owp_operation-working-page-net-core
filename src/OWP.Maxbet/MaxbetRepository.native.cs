@@ -30,7 +30,7 @@ namespace OWP.Maxbet
 
         public Task<(SecondAcceptDefault, string)> GetSecondAcceptValueDefaultInfo(decimal? maxbetHDP, int OWPMatchId);
 
-        public Task<int> GetMatchOfferId(int matchId);
+        public Task<IEnumerable<MatchResource>> GetMatchOfferId(int matchId);
     }
 
     public class MaxbetRepositoryImp : MaxbetRepository
@@ -153,16 +153,14 @@ namespace OWP.Maxbet
             return (secondAcceptDefaults.FirstOrDefault(), leagueNames.FirstOrDefault());
         }
 
-        public async Task<int> GetMatchOfferId(int matchId)
+        public async Task<IEnumerable<MatchResource>> GetMatchOfferId(int matchId)
         {
             var criteria = new MatchOfferGetCriteria
             {
                 OWPMatchId = matchId
             };
 
-            var matchOffer = await dynamicRepository.FetchAsync<MatchResource>(criteria);
-
-            return matchOffer.Count() == 1 ? matchOffer.First().ResourceId : 0;
+            return await dynamicRepository.FetchAsync<MatchResource>(criteria);
         }
     }
 }

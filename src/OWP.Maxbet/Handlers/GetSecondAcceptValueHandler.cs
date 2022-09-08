@@ -1,4 +1,5 @@
-﻿using OWP.Maxbet.Models;
+﻿using System;
+using OWP.Maxbet.Models;
 
 namespace OWP.Maxbet.Handlers;
 
@@ -45,8 +46,17 @@ public class GetSecondAcceptValueHandler
 
         public async Task<int?> Handle(Request request, CancellationToken cancellationToken)
         {
-            var matchOfferId = await maxbetRepository.GetMatchOfferId(request.OWPMatchId);
-            return GetSecondAcceptValue(matchOfferId) ?? await BuildSecondAcceptValueDefault(request);
+            var matchOfferIds = (await maxbetRepository.GetMatchOfferId(request.OWPMatchId))
+                .ToList();
+
+            var offerId = matchOfferIds.FirstOrDefault(new MatchResource());
+
+            if (matchOfferIds.Count > 1 || IsExitIgnoreIds(offerId))
+            {
+                return null;
+            }
+
+            return GetSecondAcceptValue(offerId.ResourceId) ?? await BuildSecondAcceptValueDefault(request);
         }
 
         private static int? GetSecondAcceptValue(int matchOfferId)
@@ -91,6 +101,12 @@ public class GetSecondAcceptValueHandler
             }
 
             return null;
+        }
+
+        private bool IsExitIgnoreIds(MatchResource matchOfferId)
+        {
+            return Array.Exists(MaxBetSetting.IGNORE_MATCH_OFFER_ID,
+                i => i == matchOfferId.ResourceId);
         }
     }
 }

@@ -1,3 +1,5 @@
+using OWP.Enums;
+
 namespace OWP.Maxbet.Constants
 {
     public static class MaxBetSetting
@@ -17,5 +19,11 @@ namespace OWP.Maxbet.Constants
         public const decimal SPREAD_FUTSAL_PEN = (decimal)0.2;
 
         public const decimal FOLLOW_MAIN_MATCH = -1;
+
+        public static readonly int[] IGNORE_MATCH_OFFER_ID = new[]
+        {
+            (int)EnumMatchOffer.KO15,
+            (int)EnumMatchOffer.FastMarket
+        };
     }
 }
