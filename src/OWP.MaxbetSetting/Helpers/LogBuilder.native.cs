@@ -25,7 +25,7 @@ namespace OWP.MaxbetSetting.Helpers
                     ModifyBy = log.ModifiedBy
                 });
             }
-            return logDisplayModel.OrderByDescending(x => x.ModifyDate).ToList();
+            return logDisplayModel;
         }
     }
 }

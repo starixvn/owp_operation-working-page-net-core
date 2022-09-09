@@ -34,7 +34,7 @@ public class GetLogMaxbetSettingHandler : IRequestHandler<GetLogMaxbetSettingReq
 
         var maxBetSettingLog = await dynamicRepository.FetchAsync<UserLogModel>(criteria);
 
-        var result = LogBuilder.Build(maxBetSettingLog.ToList(), mapper);
+        var result = LogBuilder.Build(maxBetSettingLog.OrderByDescending(x => x.ModifiedDate).ToList(), mapper);
         return result;
     }
 }
