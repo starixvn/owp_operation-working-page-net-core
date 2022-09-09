@@ -29,6 +29,10 @@ public static class StringExtension
     {
         return Regex.Replace(text, regex, replacement);
     }
+    
+     public static bool IsContainsAll(this string toBeSearchedString, params string[] searchStrings)
+        => searchStrings.All(toBeSearchedString.IsContains);
+
 
     public static int? ConvertNullableInt(this string text)
     {

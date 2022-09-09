@@ -4,6 +4,7 @@ using OWP.Maxbet.Constants;
 using OWP.Maxbet.Models;
 
 namespace OWP.Maxbet.Builder;
+
 public interface MaxbetBuilder
 {
     Task<MaxbetSpread> BuildMaxbet(int owpMatchId);
@@ -95,11 +96,11 @@ public class MaxbetBuilderImp : MaxbetBuilder
             {300_000, new (10_000,5_000)},
             {200_000, new (10_000,5_000)},
             {180_000, new (10_000,5_000)},
-            {150_000, new (6_000,4_000)},
-            {130_000, new (6_000,4_000)},
-            {120_000, new (6_000,4_000)},
-            {110_000, new (6_000,4_000)},
-            {100_000, new (6_000,4_000)},
+            {150_000, new (5_000,3_000)},
+            {130_000, new (5_000,3_000)},
+            {120_000, new (5_000,3_000)},
+            {110_000, new (5_000,3_000)},
+            {100_000, new (5_000,3_000)},
             {90_000, new (3_000,2_000)},
             {80_000, new (3_000,2_000)},
             {70_000, new (3_000,2_000)},
@@ -352,7 +353,6 @@ public class MaxbetBuilderImp : MaxbetBuilder
 
         var maxbetModel = MaxbetHelper.Build(existsValueFirstHalfHandicap, (int)EnumBettype.FirstHalfHandicap, valueFirstHalfHandicap, handicap.Value);
         maxbet.Add(maxbetModel);
-
     }
 
     public static MaxbetSpread BuildMaxbetSender(List<MaxbetModel> maxbet)
