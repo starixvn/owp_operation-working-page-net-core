@@ -7,7 +7,7 @@ public class AutoMapperProfile : Profile
 {
     public AutoMapperProfile()
     {
-        CreateMap<LogModelDeserialize, MaxBetSettingModel>();
-        CreateMap<LogModelDeserialize, MaxBetSettingModel>();
+        CreateMap<LogModelDeserialize, MaxBetLogSettingModel>();
+        CreateMap<LogModelDeserialize, MaxBetLogSettingModel>();
     }
 }

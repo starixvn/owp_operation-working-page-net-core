@@ -9,18 +9,18 @@ namespace OWP.MaxbetSetting.Helpers
 
     public static class LogBuilder
     {
-        public static IList<MaxBetLogSetting> Build(IList<UserLogModel> userLog, IMapper mapper)
+        public static IList<LogDisplayModel> Build(IList<UserLogModel> userLog, IMapper mapper)
         {
-            var logDisplayModel = new List<MaxBetLogSetting>();
+            var logDisplayModel = new List<LogDisplayModel>();
             foreach (var log in userLog)
             {
                 var productBeforeChange = !string.IsNullOrEmpty(log.DataOld) ? BuildLogXmlHelper.Deserialize<LogModelDeserialize>(log.DataOld).FirstOrDefault() : new LogModelDeserialize();
                 var productAfterChange = !string.IsNullOrEmpty(log.Data) ? BuildLogXmlHelper.Deserialize<LogModelDeserialize>(log.Data).FirstOrDefault() : new LogModelDeserialize();
-                logDisplayModel.Add(new MaxBetLogSetting
+                logDisplayModel.Add(new LogDisplayModel
                 {
                     Action = log.Action,
-                    OldValue = mapper.Map<MaxBetSettingModel>(productBeforeChange),
-                    NewValue = mapper.Map<MaxBetSettingModel>(productAfterChange),
+                    OldValue = mapper.Map<MaxBetLogSettingModel>(productBeforeChange),
+                    NewValue = mapper.Map<MaxBetLogSettingModel>(productAfterChange),
                     ModifyDate = log.ModifiedDate.ToGmt8().ToString("MM/dd/yyyy hh:mm tt"),
                     ModifyBy = log.ModifiedBy
                 });

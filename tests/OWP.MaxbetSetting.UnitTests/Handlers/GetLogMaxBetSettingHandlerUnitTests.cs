@@ -47,15 +47,15 @@ namespace OWP.MaxbetSetting.UnitTests.Handlers
                 }
             };
             dynamicRepository.FetchAsync<UserLogModel>(Arg.Compat.Any<GetLogMaxBetSettingCriteria>()).Returns(log);
-            var expected = new List<MaxBetLogSetting>()
+            var expected = new List<LogDisplayModel>()
             {
-                new MaxBetLogSetting()
+                new LogDisplayModel()
                 {
                     Action = 128,
-                    OldValue = new MaxBetSettingModel(){
+                    OldValue = new MaxBetLogSettingModel(){
                         SecondAccept_Corner = "4"
                     },
-                    NewValue = new MaxBetSettingModel(){
+                    NewValue = new MaxBetLogSettingModel(){
                         SecondAccept_Corner = "7"
                     },
                     ModifyDate= "2022-09-05 23:52:09",

@@ -8,12 +8,12 @@ using AutoMapper;
 
 namespace OWP.MaxbetSetting.Handlers;
 
-public class GetLogMaxbetSettingRequest : IRequest<IList<MaxBetLogSetting>>
+public class GetLogMaxbetSettingRequest : IRequest<IList<LogDisplayModel>>
 {
     public int FT_HDP { get; set; }
 }
 
-public class GetLogMaxbetSettingHandler : IRequestHandler<GetLogMaxbetSettingRequest, IList<MaxBetLogSetting>>
+public class GetLogMaxbetSettingHandler : IRequestHandler<GetLogMaxbetSettingRequest, IList<LogDisplayModel>>
 {
     private readonly IDynamicRepository dynamicRepository;
 
@@ -25,7 +25,7 @@ public class GetLogMaxbetSettingHandler : IRequestHandler<GetLogMaxbetSettingReq
         this.mapper = mapper;
     }
 
-    public async Task<IList<MaxBetLogSetting>> Handle(GetLogMaxbetSettingRequest request, CancellationToken cancellationToken)
+    public async Task<IList<LogDisplayModel>> Handle(GetLogMaxbetSettingRequest request, CancellationToken cancellationToken)
     {
         var criteria = new GetLogMaxBetSettingCriteria
         {
