@@ -22,7 +22,6 @@
         <None Remove="App_Data\Templates\LST-Report.xlsx" />
         <None Remove="App_Data\Templates\PreMatchAssignmentReportTemplate.xlsx" />
         <None Remove="App_Data\Templates\MatchCountLiveReportTemplate.xlsx" />
-
     </ItemGroup>
     <ItemGroup>
         <AdditionalFiles Include="..\.sonarlint\nap-owp\CSharp\SonarLint.xml" Link="SonarLint.xml" />
@@ -61,6 +60,7 @@
     <ItemGroup>
         <ProjectReference Include="..\src\OWP.AutoAssignment\OWP.AutoAssignment.csproj" />
         <ProjectReference Include="..\src\OWP.FileUpload\OWP.FileUpload.csproj" />
+        <ProjectReference Include="..\src\OWP.MaxbetSetting\OWP.MaxbetSetting.csproj" />
         <ProjectReference Include="..\src\OWP.OvertimeReport\OWP.OvertimeReport.csproj" />
         <ProjectReference Include="..\src\OWP.PrematchAssignment\OWP.PrematchAssignment.csproj" />
         <ProjectReference Include="..\src\OWP.RabbitMQ\OWP.RabbitMQ.csproj" />

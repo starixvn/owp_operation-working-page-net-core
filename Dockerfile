@@ -11,6 +11,7 @@ COPY ./src/OWP/. ./src/OWP
 COPY ./src/OWP.OtherSport/. ./src/OWP.OtherSport
 COPY ./src/OWP.ApiSyncWorkingShift/. ./src/OWP.ApiSyncWorkingShift
 COPY ./src/OWP.Maxbet/. ./src/OWP.Maxbet
+COPY ./src/OWP.MaxbetSetting/. ./src/OWP.MaxbetSetting
 COPY ./src/OWP.ProductAssignmentReference/. ./src/OWP.ProductAssignmentReference
 COPY ./src/OWP.SimpleDataApi/. ./src/OWP.SimpleDataApi
 COPY ./src/OWP.TicketTypeRecipient/. ./src/OWP.TicketTypeRecipient

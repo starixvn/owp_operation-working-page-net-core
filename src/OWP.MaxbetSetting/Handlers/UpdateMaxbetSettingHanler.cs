@@ -1,0 +1,40 @@
+﻿using Fanex.Data.Repository;
+using Fanex.NAP.Client.Helpers.Web;
+using MediatR;
+using OWP.MaxbetSetting.Criteria;
+
+namespace OWP.MaxbetSetting.Handlers;
+
+public class UpdateMaxbetSettingRequest : IRequest<Unit>
+{
+    public decimal FT_HDP { get; set; }
+    public string Column { get; set; }
+    public decimal? Value { get; set; }
+}
+
+public class UpdateMaxbetSettingHanler : IRequestHandler<UpdateMaxbetSettingRequest, Unit>
+{
+    private readonly IDynamicRepository dynamicRepository;
+    private readonly INapSession session;
+
+    public UpdateMaxbetSettingHanler(IDynamicRepository dynamicRepository, INapSession session)
+    {
+        this.dynamicRepository = dynamicRepository;
+        this.session = session;
+    }
+
+    public async Task<Unit> Handle(UpdateMaxbetSettingRequest request, CancellationToken cancellationToken)
+    {
+        var criteria = new UpdateMaxbetSettingCriteria
+        {
+            FT_HDP = request.FT_HDP,
+            Column = request.Column,
+            Value = request.Value,
+            ActorId = session.UserId
+        };
+
+        await dynamicRepository.ExecuteAsync(criteria);
+
+        return Unit.Value;
+    }
+}

@@ -30,6 +30,7 @@ using OWP.FileUpload;
 using OWP.LeagueManagement;
 using OWP.MatchCountLiveReport;
 using OWP.Maxbet;
+using OWP.MaxbetSetting;
 using OWP.OSLeagueSetting;
 using OWP.OtherSport;
 using OWP.OtherSport.Hubs;
@@ -65,6 +66,7 @@ public static class ServiceCollectionExtensions
             mc.AddProfile(new OSLeagueSetting.AutoMapperProfile());
             mc.AddProfile(new Report.AutoMapperProfile());
             mc.AddProfile(new LeagueManagement.AutoMapperProfile());
+            mc.AddProfile(new MaxbetSetting.AutoMapperProfile());
         });
 
         var mapper = mapperConfig.CreateMapper();
@@ -219,6 +221,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddMediator(this IServiceCollection services)
     {
         services.AddMediatR(typeof(MaxbetController).GetTypeInfo().Assembly);
+        services.AddMediatR(typeof(MaxbetSettingController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(OtherSportController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(SyncWorkingShiftController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(RecipientGroupController).GetTypeInfo().Assembly);

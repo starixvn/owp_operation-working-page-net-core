@@ -15,6 +15,7 @@
             BETTYPE_ID_SPECIFIC15MINS_TOTAL_BOOKINGS
          };
 
+        public const int BETTYPE_ID_MAIN_MATCH = 0;
         public const int BETTYPE_ID_NO_OF_CORNERS = -3;
         public const int BETTYPE_ID_NEXT_CORNERS = -4;
         public const int BETTYPE_ID_TOTAL_BOOKINGS = -6;

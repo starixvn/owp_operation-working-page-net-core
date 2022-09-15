@@ -1,3 +1,4 @@
+using OWP.Enums;
 using OWP.Maxbet.Helpers;
 using OWP.Maxbet.Models;
 using OWP.Maxbet.Selector;
@@ -79,7 +80,9 @@ namespace OWP.Maxbet.Services
             var traders = await specialProductSelector.SelectTrader(owpMatch.MinorMatchId, bettypeId);
             var spread = await specialProductSelector.SelectSpread(owpMatch.MinorMatchId, bettypeId);
             var maxbet = await specialProductSelector.SelectMaxbet(owpMatch, bettypeId);
-            var secondAcceptValue = await specialProductSelector.SelectSecondAcceptedValues(owpMatch.MinorMatchId, bettypeId);
+            var maxbetMainMatch = (await syncMaxbetRepository.GetMaxbetByOwpMatchId(owpMatch.ParentMatchId))
+                .FirstOrDefault(m => m.BettypeId.Equals((int)EnumBettype.Handicap));
+            var secondAcceptValue = await specialProductSelector.SelectSecondAcceptedValues(owpMatch.MinorMatchId, bettypeId, maxbetMainMatch?.Value);
 
             var maxbetCN88 = new MaxbetSpread
             {

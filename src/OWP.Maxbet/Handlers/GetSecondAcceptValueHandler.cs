@@ -1,25 +1,31 @@
-﻿namespace OWP.Maxbet.Handlers
+﻿using System;
+using OWP.Maxbet.Models;
+
+namespace OWP.Maxbet.Handlers;
+
+using MediatR;
+using OWP.Enums;
+using OWP.Extensions;
+using OWP.Maxbet.Constants;
+
+using System.Collections.ObjectModel;
+
+public class GetSecondAcceptValueHandler
 {
-    using Fanex.Data.Repository;
-    using MediatR;
-    using OWP.Enums;
-    using OWP.Maxbet.Criteria;
-    using OWP.Maxbet.Models;
-
-    using System.Collections.ObjectModel;
-
-    public class GetSecondAcceptValueHandler
+    public class Request : IRequest<int?>
     {
-        public class Request : IRequest<int?>
-        {
-            public int OWPMatchId { get; set; }
-        }
+        public int OWPMatchId { get; set; }
 
-        public class Handler : IRequestHandler<Request, int?>
-        {
-            private static readonly ReadOnlyDictionary<EnumMatchOffer, int> numberOfLinesDict = new ReadOnlyDictionary<EnumMatchOffer, int>(
-                new Dictionary<EnumMatchOffer, int>
-                {
+        public decimal? MaxbetHdp { get; set; }
+
+        public int Bettype { get; set; }
+    }
+
+    public class Handler : IRequestHandler<Request, int?>
+    {
+        private static readonly ReadOnlyDictionary<EnumMatchOffer, int> numberOfLinesDict = new ReadOnlyDictionary<EnumMatchOffer, int>(
+            new Dictionary<EnumMatchOffer, int>
+            {
                     { EnumMatchOffer.Accept10s, 10 },
                     { EnumMatchOffer.Accept15s, 15  },
                     { EnumMatchOffer.Accept20s, 20 },
@@ -28,43 +34,79 @@
                     { EnumMatchOffer.Accept8s, 8 },
                     { EnumMatchOffer.Accept12s, 12 },
                     { EnumMatchOffer.Accept6s, 6 }
-                }
-            );
+            }
+        );
 
-            private readonly IDynamicRepository dynamicRepository;
+        private readonly MaxbetRepository maxbetRepository;
 
-            public Handler(IDynamicRepository dynamicRepository)
+        public Handler(MaxbetRepository maxbetRepository)
+        {
+            this.maxbetRepository = maxbetRepository;
+        }
+
+        public async Task<int?> Handle(Request request, CancellationToken cancellationToken)
+        {
+            var matchOfferIds = (await maxbetRepository.GetMatchOfferId(request.OWPMatchId))
+                .ToList();
+
+            var offerId = matchOfferIds.FirstOrDefault(new MatchResource());
+
+            if (matchOfferIds.Count > 1 || IsExitIgnoreIds(offerId))
             {
-                this.dynamicRepository = dynamicRepository;
+                return null;
             }
 
-            public async Task<int?> Handle(Request request, CancellationToken cancellationToken)
+            return GetSecondAcceptValue(offerId.ResourceId) ?? await BuildSecondAcceptValueDefault(request);
+        }
+
+        private static int? GetSecondAcceptValue(int matchOfferId)
+        {
+            if (!numberOfLinesDict.TryGetValue((EnumMatchOffer)matchOfferId, out int result))
             {
-                var matchOfferId = await GetMatchOfferId(request.OWPMatchId);
-                return BuildSecondAcceptValue(matchOfferId);
+                return null;
             }
 
-            private async Task<int> GetMatchOfferId(int matchId)
+            return result;
+        }
+
+        private async Task<int?> BuildSecondAcceptValueDefault(Request request)
+        {
+            var (secondAccept, leagueName) =
+                await maxbetRepository.GetSecondAcceptValueDefaultInfo(request.MaxbetHdp, request.OWPMatchId);
+            if (leagueName.IsContains("FANTASY"))
             {
-                var criteria = new MatchOfferGetCriteria
-                {
-                    OWPMatchId = matchId
-                };
-
-                var matchOffer = await dynamicRepository.FetchAsync<MatchResource>(criteria);
-
-                return matchOffer.Count() == 1 ? matchOffer.First().ResourceId : 0;
+                return GetSecondAcceptValue(secondAccept.Fantasy);
             }
 
-            private static int? BuildSecondAcceptValue(int matchOfferId)
-            {
-                if (!numberOfLinesDict.TryGetValue((EnumMatchOffer)matchOfferId, out int result))
-                {
-                    return null;
-                }
+            return BuildSecondAcceptValueSpecialDefault(request.Bettype, secondAccept);
+        }
 
-                return result;
+        private int? BuildSecondAcceptValueSpecialDefault(int bettype,
+            SecondAcceptDefault secondAccept)
+        {
+            if (bettype == SpecialBettype.BETTYPE_ID_NEXT_CORNERS ||
+                bettype == SpecialBettype.BETTYPE_ID_NO_OF_CORNERS)
+            {
+                return GetSecondAcceptValue(secondAccept.Corner);
             }
+
+            if (bettype == SpecialBettype.BETTYPE_ID_TOTAL_BOOKINGS)
+            {
+                return GetSecondAcceptValue(secondAccept.TotalBooking);
+            }
+
+            if (bettype == SpecialBettype.BETTYPE_ID_MAIN_MATCH)
+            {
+                return GetSecondAcceptValue(secondAccept.Main);
+            }
+
+            return null;
+        }
+
+        private bool IsExitIgnoreIds(MatchResource matchOfferId)
+        {
+            return Array.Exists(MaxBetSetting.IGNORE_MATCH_OFFER_ID,
+                i => i == matchOfferId.ResourceId);
         }
     }
 }

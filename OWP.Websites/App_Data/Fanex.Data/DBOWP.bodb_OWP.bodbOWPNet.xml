@@ -54,6 +54,7 @@
         <Setting Key="OWP_API_SyncMaxbet_GetMaxbetXMins" SpName="OWP_API_SyncMaxbet_GetMaxbetXMins" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_API_SyncMaxbet_SpecialProduct_GetSpread" SpName="OWP_API_SyncMaxbet_SpecialProduct_GetSpread" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_API_SyncMaxbet_GetMatchInfoByAdminsiteId" SpName="OWP_API_SyncMaxbet_GetMatchInfoByAdminsiteId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+        <Setting Key="OWP_API_SyncMaxbet_GetSecondAcceptValueDefault" SpName="OWP_API_SyncMaxbet_GetSecondAcceptValueDefault" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     </Function>
     <Function Name="OtherSport">
         <Setting Key="OWP_OSAssignmentUpload_MatchesDelete" SpName="OWP_OSAssignmentUpload_MatchesDelete" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
@@ -179,11 +180,11 @@
         <Setting Key="OWP_MatchLiveReport_GetByTimeRange" SpName="OWP_MatchLiveReport_GetByTimeRange" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     </Function>
     <Function Name="OSLeagueSetting">
-		<Setting Key="OWP_OSLeagueSetting_GetCategoryOption" SpName="OWP_OSLeagueSetting_GetCategoryOption" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-		<Setting Key="OWP_OSLeagueSetting_GetRoundOption" SpName="OWP_OSLeagueSetting_GetRoundOption" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-		<Setting Key="OWP_OSLeagueSetting_GetLeagueSettingInfo" SpName="OWP_OSLeagueSetting_GetLeagueSettingInfo" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-		<Setting Key="OWP_OSLeagueSetting_GetLeagueSettingDetail" SpName="OWP_OSLeagueSetting_GetLeagueSettingDetail" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-		<Setting Key="OWP_OSLeagueSetting_GetBetTypesOption" SpName="OWP_OSLeagueSetting_GetBetTypesOption" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+        <Setting Key="OWP_OSLeagueSetting_GetCategoryOption" SpName="OWP_OSLeagueSetting_GetCategoryOption" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+        <Setting Key="OWP_OSLeagueSetting_GetRoundOption" SpName="OWP_OSLeagueSetting_GetRoundOption" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+        <Setting Key="OWP_OSLeagueSetting_GetLeagueSettingInfo" SpName="OWP_OSLeagueSetting_GetLeagueSettingInfo" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+        <Setting Key="OWP_OSLeagueSetting_GetLeagueSettingDetail" SpName="OWP_OSLeagueSetting_GetLeagueSettingDetail" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+        <Setting Key="OWP_OSLeagueSetting_GetBetTypesOption" SpName="OWP_OSLeagueSetting_GetBetTypesOption" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_OSLeagueSetting_GetBetDelayOption" SpName="OWP_OSLeagueSetting_GetBetDelayOption" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_OSLeagueSetting_GetOfferLineOption" SpName="OWP_OSLeagueSetting_GetOfferLineOption" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_OSLeagueSetting_GetProviderOption" SpName="OWP_OSLeagueSetting_GetProviderOption" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
@@ -192,7 +193,7 @@
         <Setting Key="OWP_OSLeagueSetting_Add" SpName="OWP_OSLeagueSetting_Add" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_OSLeagueSetting_Edit" SpName="OWP_OSLeagueSetting_Edit" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_OSLeagueSetting_GetLeagueSettingByLeagueName" SpName="OWP_OSLeagueSetting_GetLeagueSettingByLeagueName" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-        <Setting Key="OWP_OSLeagueSetting_GetLogSetting" SpName="OWP_OSLeagueSetting_GetLogSetting" DbName="DBOWP.bodb_OWP.bodbOWPNet" />    
+        <Setting Key="OWP_OSLeagueSetting_GetLogSetting" SpName="OWP_OSLeagueSetting_GetLogSetting" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     </Function>
     <Function Name="EventAssignment">
         <Setting Key="OWP_MatchListDetailsGet" SpName="OWP_MatchListDetailsGet" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
@@ -245,5 +246,10 @@
         <Setting Key="OWP_SpecialProduct_GetLog" SpName="OWP_SpecialProduct_GetLog" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_LeagueManagement_GetTeamInfo" SpName="OWP_LeagueManagement_GetTeamInfo" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_LeagueManagement_GetLinkLeagueAndTeam" SpName="OWP_LeagueManagement_GetLinkLeagueAndTeam" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+    </Function>
+    <Function>
+        <Setting Key="OWP_MaxbetSetting_Update" SpName="OWP_MaxbetSetting_Update" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+        <Setting Key="OWP_MaxbetSetting_Get" SpName="OWP_MaxbetSetting_Get" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+        <Setting Key="OWP_MaxBetSetting_GetLogMaxBetSetting" SpName="OWP_MaxBetSetting_GetLogMaxBetSetting" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     </Function>
 </Functions>
