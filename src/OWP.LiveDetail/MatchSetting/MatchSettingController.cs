@@ -9,6 +9,8 @@
     using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Mvc;
     using Newtonsoft.Json;
+    using OWP.RabbitMQ.Constants;
+    using RabbitMQ;
     using Services;
 
     [Route("api/live-detail/match-setting")]
@@ -20,12 +22,12 @@
     {
         private readonly MatchSettingRepository repository;
 
-        //private readonly NotificationService notificationService;
+        private readonly MessageClient messageClient;
 
-        public MatchSettingController(MatchSettingRepository repository)
+        public MatchSettingController(MatchSettingRepository repository, MessageClient messageClient)
         {
             this.repository = repository;
-            //this.notificationService = notificationService;
+            this.messageClient = messageClient;
         }
 
         [HttpGet]
@@ -43,7 +45,7 @@
         public async Task<IActionResult> Create(CreateModel model)
         {
             var result = await repository.Create(model);
-            //await notificationService.Notify(result.SessionId);
+            messageClient.SendMessage(result.SessionId, RoutingKey.LiveDetail);
             return Ok(JsonConvert.SerializeObject(result));
         }
         [HttpPut]
@@ -52,7 +54,7 @@
         public async Task<IActionResult> Update(UpdateModel model)
         {
             var result = await repository.Update(model);
-            //await notificationService.Notify(result.SessionId);
+            messageClient.SendMessage(result.SessionId, RoutingKey.LiveDetail);
             return Ok(JsonConvert.SerializeObject(result));
         }
 
@@ -63,7 +65,7 @@
         public async Task<IActionResult> Delete(DeleteModel model)
         {
             var result = await repository.Delete(model);
-            //await notificationService.Notify(result.SessionId);
+            messageClient.SendMessage(result.SessionId, RoutingKey.LiveDetail);
             return Ok(JsonConvert.SerializeObject(result));
         }
     }

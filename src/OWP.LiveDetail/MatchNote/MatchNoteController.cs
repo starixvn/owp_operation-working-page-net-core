@@ -9,6 +9,8 @@
     using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Mvc;
     using Newtonsoft.Json;
+    using RabbitMQ;
+    using RabbitMQ.Constants;
     using Services;
 
     [Route("api/live-detail/match-note")]
@@ -18,12 +20,13 @@
     public class MatchNoteController : ControllerBase
     {
         private readonly MatchNoteRepository repository;
-        //private readonly NotificationService notificationService;
 
-        public MatchNoteController(MatchNoteRepository repository)
+        private readonly MessageClient messageClient;
+
+        public MatchNoteController(MatchNoteRepository repository, MessageClient messageClient)
         {
             this.repository = repository;
-            //this.notificationService = notificationService;
+            this.messageClient = messageClient;
         }
 
         [HttpGet]
@@ -41,7 +44,7 @@
         public async Task<IActionResult> Create(CreateModel model)
         {
             var result = await repository.Create(model);
-            //await notificationService.Notify(result.SessionId);
+            messageClient.SendMessage(result.SessionId, RoutingKey.LiveDetail);
             return Ok(JsonConvert.SerializeObject(result));
         }
 
@@ -51,7 +54,7 @@
         public async Task Update(UpdateModel model)
         {
             var sessionId = await repository.Update(model);
-            //await notificationService.Notify(sessionId);
+            messageClient.SendMessage(sessionId, RoutingKey.LiveDetail);
         }
 
         [HttpDelete]
@@ -60,7 +63,7 @@
         public async Task Delete(DeleteModel model)
         {
             var sessionId = await repository.Delete(model);
-            //await notificationService.Notify(sessionId);
+            messageClient.SendMessage(sessionId, RoutingKey.LiveDetail);
         }
     }
 }

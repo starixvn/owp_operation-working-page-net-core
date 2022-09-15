@@ -16,6 +16,9 @@ namespace OWP.LiveDetail.MatchInfo
     using Services;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using RabbitMQ;
+    using RabbitMQ.Constants;
+    using OWP.RabbitMQ.Model;
 
     [Route("api/live-detail/match-info")]
     [ApiController]
@@ -25,7 +28,7 @@ namespace OWP.LiveDetail.MatchInfo
     {
         private readonly MatchInfoRepository repository;
 
-        //private readonly NotificationService notificationService;
+        private readonly MessageClient messageClient;
 
         private readonly PermissionService permissionService;
 
@@ -40,23 +43,20 @@ namespace OWP.LiveDetail.MatchInfo
 #pragma warning disable S107 // Methods should not have too many parameters
         public MatchInfoController(
             MatchInfoRepository repository,
-
             PermissionService permissionService,
             LiveDetailCacheManipulator cacheManipulator,
             CheckIsLiveStatusServices checkIsLiveStatusServices,
-            GetAdminSiteMatchIdService getAdminSiteMatchIdService
+            GetAdminSiteMatchIdService getAdminSiteMatchIdService,
+            MessageClient messageClient
         )
-        //NotificationService notificationService,
-        //RabbitMqClient rabbitMqClient)
 #pragma warning restore S107 // Methods should not have too many parameters
         {
             this.repository = repository;
-            //this.notificationService = notificationService;
             this.permissionService = permissionService;
             this.cacheManipulator = cacheManipulator;
             this.checkIsLiveStatusServices = checkIsLiveStatusServices;
             this.getAdminSiteMatchIdService = getAdminSiteMatchIdService;
-            //this.rabbitMqClient = rabbitMqClient;
+            this.messageClient = messageClient;
         }
 
         [HttpGet]
@@ -113,22 +113,17 @@ namespace OWP.LiveDetail.MatchInfo
         {
             var filterEventDate = MapFilterEventDate(model.KickOffTime);
             var oldSnapshot = await repository.QueryMatchesByDate(filterEventDate);
-            var sessionId = Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture);
-            await cacheManipulator.SaveOldAssignmentSnapshot(sessionId, oldSnapshot);
-
             var updateResult = await repository.UpdateMatchInfo(model);
             if (updateResult.Code == 0)
             {
-                //await notificationService.Notify(updateResult.Data as string);
-
-#if !DEBUG
-               /*  var request = new LinkedMatchNotifyRequest
+                var sessionId = updateResult.Data;
+                messageClient.SendMessage(sessionId, RoutingKey.LiveDetail);
+                await cacheManipulator.SaveOldAssignmentSnapshot(sessionId, oldSnapshot);
+                messageClient.SendMessage(new
                 {
                     SessionId = sessionId,
-                    EventDate = filterEventDate
-                }; */
-                //rabbitMqClient.Publish(request);
-#endif
+                    EventDate = filterEventDate.Date
+                }, RoutingKey.LinkedLgaMatch);
             }
 
             return Ok(JsonConvert.SerializeObject(updateResult));
@@ -165,7 +160,7 @@ namespace OWP.LiveDetail.MatchInfo
             var updateResult = await repository.UpdateProviderInfo(model);
             if (updateResult.IsSuccess)
             {
-                //await notificationService.Notify(updateResult.Data as string);
+                messageClient.SendMessage(updateResult.Data, RoutingKey.LiveDetail);
             }
 
             return Ok(JsonConvert.SerializeObject(updateResult));
@@ -179,7 +174,7 @@ namespace OWP.LiveDetail.MatchInfo
             var updateResult = await repository.UpdateTradingInfo(model);
             if (updateResult.IsSuccess)
             {
-                //await notificationService.Notify(updateResult.Data as string);
+                messageClient.SendMessage(updateResult.Data, RoutingKey.LiveDetail);
             }
 
             return Ok(JsonConvert.SerializeObject(updateResult));

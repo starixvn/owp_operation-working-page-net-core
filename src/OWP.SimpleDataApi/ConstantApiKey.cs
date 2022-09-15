@@ -54,11 +54,14 @@ public static class ConstantApiKey
 
     public const string LeagueManagementGetTeamInfo = "league-management-get-team-info";
 
-    public const string GetLastUpdated = "get-last-updated";
+    public const string GetAgentSuggestion = "get-agent-suggestion";
 
-    public const string GetBettypeForTradingInfo = "live-game-assignment-get-bettype-for-trading-info";
+    public const string GetMatchSettingByMatchIdCriteria = "live-detail-get-matchsetting-by-id";
 
-    public const string GetBettypeForSpecialEvent = "live-game-assignment-get-bettype-for-special-event";
+    public const string GetOtherProviderSuggestion = "get-other-provider-suggestion";
 
-    public const string GetSpecialEventTemplate = "live-game-assignment-get-special-event-template";
+    public const string GetProviderSuggestion = "get-provider-suggestion";
+
+    public const string GetTelevisionSuggestion = "get-television-suggestion";
+
 }

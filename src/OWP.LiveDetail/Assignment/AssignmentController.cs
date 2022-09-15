@@ -10,6 +10,8 @@
     using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Mvc;
     using Newtonsoft.Json;
+    using RabbitMQ;
+    using RabbitMQ.Constants;
     using Services;
 
 
@@ -20,12 +22,13 @@
     public class AssignmentController : ControllerBase
     {
         private readonly AssignmentRepository repository;
-        //private readonly NotificationService notificationService;
 
-        public AssignmentController(AssignmentRepository repository)
+        private readonly MessageClient messageClient;
+
+        public AssignmentController(AssignmentRepository repository, MessageClient messageClient)
         {
             this.repository = repository;
-            //this.notificationService = notificationService;
+            this.messageClient = messageClient;
         }
 
         [HttpGet]
@@ -54,8 +57,9 @@
             var createdResult = await repository.Create(model);
             if (createdResult.Code == 0)
             {
-                //await notificationService.Notify(createdResult.SessionId);
+                messageClient.SendMessage(createdResult.SessionId, RoutingKey.LiveDetail);
             }
+
 
             return Ok(JsonConvert.SerializeObject(createdResult));
         }
@@ -68,7 +72,7 @@
             var updatedResult = await repository.Update(model);
             if (updatedResult.Code == 0)
             {
-                //await notificationService.Notify(updatedResult.SessionId);
+                messageClient.SendMessage(updatedResult.SessionId, RoutingKey.LiveDetail);
             }
 
             return Ok(JsonConvert.SerializeObject(updatedResult));
@@ -82,7 +86,7 @@
             var deleteResult = await repository.Delete(model);
             if (deleteResult.Code == 0)
             {
-                //await notificationService.Notify(deleteResult.SessionId);
+                messageClient.SendMessage(deleteResult.SessionId, RoutingKey.LiveDetail);
             }
 
             return Ok(JsonConvert.SerializeObject(deleteResult));

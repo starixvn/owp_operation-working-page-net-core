@@ -9,6 +9,8 @@
     using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Mvc;
     using Newtonsoft.Json;
+    using OWP.RabbitMQ;
+    using OWP.RabbitMQ.Constants;
     using Services;
 
     [Route("api/live-detail/match-odd")]
@@ -18,12 +20,13 @@
     public class MatchOddController : ControllerBase
     {
         private readonly MatchOddRepository repository;
-        //private readonly NotificationService notificationService;
 
-        public MatchOddController(MatchOddRepository repository)
+        private readonly MessageClient messageClient;
+
+        public MatchOddController(MatchOddRepository repository, MessageClient messageClient)
         {
             this.repository = repository;
-            // this.notificationService = notificationService;
+            this.messageClient = messageClient;
         }
 
         [HttpGet]
@@ -41,7 +44,7 @@
         public async Task<IActionResult> Create(CreateModel model)
         {
             var result = await repository.Create(model);
-            // await notificationService.Notify(result.SessionId);
+            messageClient.SendMessage(result.SessionId, RoutingKey.LiveDetail);
             return Ok(JsonConvert.SerializeObject(result));
         }
 
@@ -51,7 +54,7 @@
         public async Task<IActionResult> Update(UpdateModel model)
         {
             var result = await repository.Update(model);
-            // await notificationService.Notify(result.SessionId);
+            messageClient.SendMessage(result.SessionId, RoutingKey.LiveDetail);
             return Ok(JsonConvert.SerializeObject(result));
         }
 
@@ -61,7 +64,7 @@
         public async Task<IActionResult> Delete(DeleteModel model)
         {
             var result = await repository.Delete(model);
-            // await notificationService.Notify(result.SessionId);
+            messageClient.SendMessage(result.SessionId, RoutingKey.LiveDetail);
             return Ok(JsonConvert.SerializeObject(result));
         }
     }
