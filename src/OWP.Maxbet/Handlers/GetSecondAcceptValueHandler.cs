@@ -1,13 +1,10 @@
-﻿using System;
-using OWP.Maxbet.Models;
-
-namespace OWP.Maxbet.Handlers;
+﻿namespace OWP.Maxbet.Handlers;
 
 using MediatR;
 using OWP.Enums;
 using OWP.Extensions;
 using OWP.Maxbet.Constants;
-
+using OWP.Maxbet.Models;
 using System.Collections.ObjectModel;
 
 public class GetSecondAcceptValueHandler
@@ -49,12 +46,14 @@ public class GetSecondAcceptValueHandler
             var matchOfferIds = (await maxbetRepository.GetMatchOfferId(request.OWPMatchId))
                 .ToList();
 
-            var offerId = matchOfferIds.FirstOrDefault(new MatchResource());
+            var validOfferIds = GetMatchOfferIdValid(matchOfferIds);
 
-            if (matchOfferIds.Count > 1 || IsExitIgnoreIds(offerId))
+            if (validOfferIds.Count > 1 || IsOnlyExistIgnoreIds(matchOfferIds))
             {
                 return null;
             }
+
+            var offerId = validOfferIds.FirstOrDefault(new MatchResource());
 
             return GetSecondAcceptValue(offerId.ResourceId) ?? await BuildSecondAcceptValueDefault(request);
         }
@@ -103,10 +102,14 @@ public class GetSecondAcceptValueHandler
             return null;
         }
 
-        private bool IsExitIgnoreIds(MatchResource matchOfferId)
-        {
-            return Array.Exists(MaxBetSetting.IGNORE_MATCH_OFFER_ID,
-                i => i == matchOfferId.ResourceId);
-        }
+        private bool IsOnlyExistIgnoreIds(IList<MatchResource> matchOfferIds)
+            => matchOfferIds.Count > 0 &&
+               matchOfferIds.All(x => Array.Exists(MaxBetSetting.IGNORE_MATCH_OFFER_ID, i => i == x.ResourceId));
+
+        private List<MatchResource> GetMatchOfferIdValid(IList<MatchResource> matchOfferIds)
+            => matchOfferIds
+                .Where(x => x.ResourceId != (int)EnumMatchOffer.KO15 && x.ResourceId != (int)EnumMatchOffer.FastMarket)
+                .ToList();
+
     }
 }
