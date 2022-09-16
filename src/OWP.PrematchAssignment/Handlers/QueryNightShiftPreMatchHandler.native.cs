@@ -15,6 +15,7 @@ namespace OWP.PreMatchAssignment.Handlers
         public string LeagueName { get; set; }
 
         public int ActorId { get; set; }
+
         public List<string> MatchOffers { get; set; }
     }
 
@@ -22,15 +23,19 @@ namespace OWP.PreMatchAssignment.Handlers
     {
         private readonly ShiftAssignmentService shiftAssignmentService;
 
-        public QueryNightShiftPreMatchHandler(ShiftAssignmentService shiftAssignmentService)
+        private readonly MaxbetSpreadService maxbetSpreadService;
+
+        public QueryNightShiftPreMatchHandler(ShiftAssignmentService shiftAssignmentService, MaxbetSpreadService maxbetSpreadService)
         {
             this.shiftAssignmentService = shiftAssignmentService;
+            this.maxbetSpreadService = maxbetSpreadService;
         }
 
         public async Task<QueryPreMatchLeagueViewModel> Handle(QueryNightShiftPreMatchRequest request, CancellationToken cancellationToken)
         {
             var shiftAssignments = await shiftAssignmentService.QueryNightShift(request);
 
+            await maxbetSpreadService.Build(shiftAssignments.InfoSiteMatches);
             await shiftAssignmentService.MapTicketLists(shiftAssignments, request.ActorId);
 
             return shiftAssignments;

@@ -21,14 +21,18 @@ namespace OWP.PreMatchAssignment.Handlers
     {
         private readonly ShiftAssignmentService shiftAssignmentService;
 
-        public QueryDayShiftPreMatchHandler(ShiftAssignmentService shiftAssignmentService)
+        private readonly MaxbetSpreadService maxbetSpreadService;
+
+        public QueryDayShiftPreMatchHandler(ShiftAssignmentService shiftAssignmentService, MaxbetSpreadService maxbetSpreadService)
         {
             this.shiftAssignmentService = shiftAssignmentService;
+            this.maxbetSpreadService = maxbetSpreadService;
         }
 
         public async Task<QueryPreMatchLeagueViewModel> Handle(QueryDayShiftPreMatchRequest request, CancellationToken cancellationToken)
         {
             var shiftAssignments = await shiftAssignmentService.QueryDayShift(request);
+            await maxbetSpreadService.Build(shiftAssignments.InfoSiteMatches);
             await shiftAssignmentService.MapTicketLists(shiftAssignments, request.ActorId);
 
             return shiftAssignments;
