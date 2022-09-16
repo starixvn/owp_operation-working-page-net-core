@@ -57,7 +57,7 @@
             var createdResult = await repository.Create(model);
             if (createdResult.Code == 0)
             {
-                messageClient.SendMessage(createdResult.SessionId, RoutingKey.LiveDetail);
+                messageClient.SendMessage(new { SessionId = createdResult.SessionId }, RoutingKey.LiveDetail);
             }
 
 
@@ -72,7 +72,7 @@
             var updatedResult = await repository.Update(model);
             if (updatedResult.Code == 0)
             {
-                messageClient.SendMessage(updatedResult.SessionId, RoutingKey.LiveDetail);
+                messageClient.SendMessage(new { SessionId = updatedResult.SessionId }, RoutingKey.LiveDetail);
             }
 
             return Ok(JsonConvert.SerializeObject(updatedResult));
@@ -86,7 +86,7 @@
             var deleteResult = await repository.Delete(model);
             if (deleteResult.Code == 0)
             {
-                messageClient.SendMessage(deleteResult.SessionId, RoutingKey.LiveDetail);
+                messageClient.SendMessage(new { SessionId = deleteResult.SessionId }, RoutingKey.LiveDetail);
             }
 
             return Ok(JsonConvert.SerializeObject(deleteResult));

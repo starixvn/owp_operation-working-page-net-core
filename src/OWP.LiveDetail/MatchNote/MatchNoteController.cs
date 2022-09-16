@@ -1,69 +1,64 @@
-﻿namespace OWP.LiveDetail.MatchNote
+﻿namespace OWP.LiveDetail.MatchNote;
+
+using Constants;
+using Fanex.NAP.Client.AspNetCore.Attributes;
+using Fanex.NAP.Core.Business;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using RabbitMQ;
+using RabbitMQ.Constants;
+
+[Route("api/live-detail/match-note")]
+[ApiController]
+[Authorize]
+[EnableCors("AllowOrigin")]
+public class MatchNoteController : ControllerBase
 {
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using Constants;
-    using Fanex.NAP.Client.AspNetCore.Attributes;
-    using Fanex.NAP.Core.Business;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Cors;
-    using Microsoft.AspNetCore.Mvc;
-    using Newtonsoft.Json;
-    using RabbitMQ;
-    using RabbitMQ.Constants;
-    using Services;
+    private readonly MessageClient messageClient;
+    private readonly MatchNoteRepository repository;
 
-    [Route("api/live-detail/match-note")]
-    [ApiController]
-    [Authorize]
-    [EnableCors("AllowOrigin")]
-    public class MatchNoteController : ControllerBase
+    public MatchNoteController(MatchNoteRepository repository, MessageClient messageClient)
     {
-        private readonly MatchNoteRepository repository;
+        this.repository = repository;
+        this.messageClient = messageClient;
+    }
 
-        private readonly MessageClient messageClient;
+    [HttpGet]
+    [Route("")]
+    [NapAuth(FunctionKey = FunctionKeys.Note, Policy = Constant.Policy.Read)]
+    public async Task<IActionResult> Query([FromQuery] QueryModel model)
+    {
+        var result = await repository.Query(model);
+        return Ok(JsonConvert.SerializeObject(result));
+    }
 
-        public MatchNoteController(MatchNoteRepository repository, MessageClient messageClient)
-        {
-            this.repository = repository;
-            this.messageClient = messageClient;
-        }
+    [HttpPost]
+    [Route("")]
+    [NapAuth(FunctionKey = FunctionKeys.Note, Policy = Constant.Policy.Host)]
+    public async Task<IActionResult> Create(CreateModel model)
+    {
+        var result = await repository.Create(model);
+        messageClient.SendMessage(new { SessionId = result.SessionId }, RoutingKey.LiveDetail);
+        return Ok(JsonConvert.SerializeObject(result));
+    }
 
-        [HttpGet]
-        [Route("")]
-        [NapAuth(FunctionKey = FunctionKeys.Note, Policy = Constant.Policy.Read)]
-        public async Task<IActionResult> Query([FromQuery] QueryModel model)
-        {
-            var result = await repository.Query(model);
-            return Ok(JsonConvert.SerializeObject(result));
-        }
+    [HttpPut]
+    [Route("")]
+    [NapAuth(FunctionKey = FunctionKeys.Note, Policy = Constant.Policy.Host)]
+    public async Task Update(UpdateModel model)
+    {
+        var sessionId = await repository.Update(model);
+        messageClient.SendMessage(new { SessionId = sessionId }, RoutingKey.LiveDetail);
+    }
 
-        [HttpPost]
-        [Route("")]
-        [NapAuth(FunctionKey = FunctionKeys.Note, Policy = Constant.Policy.Host)]
-        public async Task<IActionResult> Create(CreateModel model)
-        {
-            var result = await repository.Create(model);
-            messageClient.SendMessage(result.SessionId, RoutingKey.LiveDetail);
-            return Ok(JsonConvert.SerializeObject(result));
-        }
-
-        [HttpPut]
-        [Route("")]
-        [NapAuth(FunctionKey = FunctionKeys.Note, Policy = Constant.Policy.Host)]
-        public async Task Update(UpdateModel model)
-        {
-            var sessionId = await repository.Update(model);
-            messageClient.SendMessage(sessionId, RoutingKey.LiveDetail);
-        }
-
-        [HttpDelete]
-        [Route("")]
-        [NapAuth(FunctionKey = FunctionKeys.Note, Policy = Constant.Policy.Host)]
-        public async Task Delete(DeleteModel model)
-        {
-            var sessionId = await repository.Delete(model);
-            messageClient.SendMessage(sessionId, RoutingKey.LiveDetail);
-        }
+    [HttpDelete]
+    [Route("")]
+    [NapAuth(FunctionKey = FunctionKeys.Note, Policy = Constant.Policy.Host)]
+    public async Task Delete(DeleteModel model)
+    {
+        var sessionId = await repository.Delete(model);
+        messageClient.SendMessage(new { SessionId = sessionId }, RoutingKey.LiveDetail);
     }
 }
