@@ -37,6 +37,7 @@
     </Function>
 
     <Function Name="AssignmentUpload">
+        <Setting Key="OWP_AssignmentUpload_AllMatchesByTimeRange" SpName="OWP_AssignmentUpload_AllMatchesByTimeRange" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_AssignmentUpload_GetNotificationSetting" SpName="OWP_AssignmentUpload_GetNotificationSetting" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_AssignmentUpload_GetSectionMemberOfUserReceivedWatcher" SpName="OWP_AssignmentUpload_GetSectionMemberOfUserReceivedWatcher" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     </Function>
@@ -90,6 +91,12 @@
         <Setting Key="OWP_TicketTypeRecipient_SaveTicketTypeRecipient" SpName="OWP_TicketTypeRecipient_SaveTicketTypeRecipient" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_TicketTypeRecipient_GetTicketTypeRecipient" SpName="OWP_TicketTypeRecipient_GetTicketTypeRecipient" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_TicketTypeRecipient_CheckExists_Subtype" SpName="OWP_TicketTypeRecipient_CheckExists_Subtype" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+    </Function>
+    <Function Name="Assignment">
+        <Setting Key="OWP_Assignment_GetByMatchId" SpName="OWP_Assignment_GetByMatchId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+        <Setting Key="OWP_Assignment_Create" SpName="OWP_Assignment_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+        <Setting Key="OWP_Assignment_Update" SpName="OWP_Assignment_Update" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+        <Setting Key="OWP_Assignment_Delete" SpName="OWP_Assignment_Delete" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     </Function>
     <Function Name="LiveDetail">
         <Setting Key="OWP_TelevisionGetAll" SpName="OWP_TelevisionGetAll" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
