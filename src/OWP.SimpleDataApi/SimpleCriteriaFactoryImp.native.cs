@@ -14,6 +14,7 @@ public class SimpleCriteriaFactoryImp : SimpleCriteriaFactoryBase
         RegisterTicketCenter();
         RegisterOsLeagueSetting();
         RegisterLeagueManagement();
+        RegisterLiveDetail();
     }
 
     private static void RegisterLiveDetail()
@@ -28,7 +29,7 @@ public class SimpleCriteriaFactoryImp : SimpleCriteriaFactoryBase
 
         CriteriaTypes.Add(ConstantApiKey.GetAgentSuggestion, typeof(GetAgentSuggestionCriteria));
     }
-    
+
     private static void RegisterLeagueManagement()
     {
         CommandTypes.Add(ConstantApiKey.LeagueManagementUpdateLeagueGroup, typeof(LeagueManagementUpdateLeagueGroupCriteria));
