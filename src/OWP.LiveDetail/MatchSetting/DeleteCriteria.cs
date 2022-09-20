@@ -12,7 +12,7 @@
 
         public override string GetSettingKey() => "OWP_LiveDetail_MatchSetting_Delete";
 
-        public int MinorBettypeId { get; set; }
+        public int? MinorBettypeId { get; set; }
 
         public int MatchId { get; set; }
 

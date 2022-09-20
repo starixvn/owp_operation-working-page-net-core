@@ -10,7 +10,7 @@
 
         public int UserId { get; set; }
 
-        public int MinorBettypeId { get; set; }
+        public int? MinorBettypeId { get; set; }
 
         public int MatchId { get; set; }
 

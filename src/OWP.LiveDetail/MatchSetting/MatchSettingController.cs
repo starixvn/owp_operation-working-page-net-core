@@ -12,8 +12,8 @@ using RabbitMQ.Constants;
 
 [Route("api/live-detail/match-setting")]
 [ApiController]
-[EnableCors("AllowOrigin")]
 [Authorize]
+[EnableCors("AllowOrigin")]
 public class MatchSettingController : ControllerBase
 {
     private readonly MessageClient messageClient;

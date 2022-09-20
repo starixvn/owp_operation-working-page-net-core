@@ -11,7 +11,7 @@
 
         public string SessionId { get; private set; } = Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture);
 
-        public int MinorBettypeId { get; set; }
+        public int? MinorBettypeId { get; set; }
 
         public int BettypeId { get; set; }
 
