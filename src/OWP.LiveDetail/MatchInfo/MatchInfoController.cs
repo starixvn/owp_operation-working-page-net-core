@@ -58,12 +58,18 @@ public class MatchInfoController : ControllerBase
     public async Task<IActionResult> Query(int owpMatchId)
     {
         var matchInfo = await repository.Query(owpMatchId);
-        if (matchInfo == null) return new EmptyResult();
+        if (matchInfo == null)
+        {
+            return new EmptyResult();
+        }
 
         if (!permissionService.HasRight(FunctionKeys.FullTimeView, Constant.Policy.Read))
         {
             var matchTimeRangeResult = TimeRangeExtensions.CheckMainMatch(matchInfo.EventDate);
-            if (!matchTimeRangeResult.IsAllowedToViewDetail) return new EmptyResult();
+            if (!matchTimeRangeResult.IsAllowedToViewDetail)
+            {
+                return new EmptyResult();
+            }
         }
 
         matchInfo.TVs = await repository.GetTelevisionsByMatchId(owpMatchId);
@@ -84,9 +90,12 @@ public class MatchInfoController : ControllerBase
         IEnumerable<RefResourceModel> noOfHDPs)
     {
         foreach (var item in noOfHDPs)
+        {
             if (item.Id == noOfHDP)
+            {
                 item.IsSelected = true;
-
+            }
+        }
         return noOfHDPs;
     }
 
@@ -132,17 +141,21 @@ public class MatchInfoController : ControllerBase
         };
 
         var validateResult = await repository.ValidatePhone(validatePhoneModel);
+
         if (validateResult.IsFailed)
+        {
             return Ok(JsonConvert.SerializeObject(new ResultDataObject
             {
                 Code = 1,
                 Message = validateResult.FailedMessage
             }));
-
+        }
         var updateResult = await repository.UpdateProviderInfo(model);
-        if (updateResult.IsSuccess)
-            messageClient.SendMessage(new { SessionId = updateResult.Data }, RoutingKey.LiveDetail);
 
+        if (updateResult.IsSuccess)
+        {
+            messageClient.SendMessage(new { SessionId = updateResult.Data }, RoutingKey.LiveDetail);
+        }
         return Ok(JsonConvert.SerializeObject(updateResult));
     }
 
@@ -153,8 +166,9 @@ public class MatchInfoController : ControllerBase
     {
         var updateResult = await repository.UpdateTradingInfo(model);
         if (updateResult.IsSuccess)
+        {
             messageClient.SendMessage(new { SessionId = updateResult.Data }, RoutingKey.LiveDetail);
-
+        }
         return Ok(JsonConvert.SerializeObject(updateResult));
     }
 
