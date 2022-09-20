@@ -60,8 +60,8 @@ public class MaxbetSpreadServiceImp : MaxbetSpreadService
         if (count == FLAG_CAN_FILL_MAXBET_SPREAD)
         {
             var maxbetHdp = maxbetSpreadValue.First(x => x.Bettype == Bettype.Handicap);
-            infoSiteMatch.Hdp.Maxbet = maxbetHdp?.Maxbet;
-            infoSiteMatch.Hdp.Spread = maxbetHdp?.Spread;
+            infoSiteMatch.MaxBetHdp.Maxbet = maxbetHdp?.Maxbet;
+            infoSiteMatch.MaxBetHdp.Spread = maxbetHdp?.Spread;
         }
     }
 
@@ -71,8 +71,8 @@ public class MaxbetSpreadServiceImp : MaxbetSpreadService
         if (count == FLAG_CAN_FILL_MAXBET_SPREAD)
         {
             var maxbetOu = maxbetSpreadValue.First(x => x.Bettype == Bettype.OverUnder);
-            infoSiteMatch.Ou.Maxbet = maxbetOu?.Maxbet;
-            infoSiteMatch.Ou.Spread = maxbetOu?.Spread;
+            infoSiteMatch.MaxBetOu.Maxbet = maxbetOu?.Maxbet;
+            infoSiteMatch.MaxBetOu.Spread = maxbetOu?.Spread;
         }
     }
 }
