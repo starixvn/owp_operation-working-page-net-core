@@ -15,6 +15,8 @@ using Fanex.NAP.Client.Configuration;
 
 namespace OWP.Websites.Controllers
 {
+    using ONEbook.UM.AspNetCore.Filters;
+
     public class HomeController : Controller
     {
         private readonly INapSession session;
@@ -28,6 +30,7 @@ namespace OWP.Websites.Controllers
         }
 
         [AllowAnonymous]
+        [SkipUMFilter]
         public IActionResult Index()
         {
             ViewBag.IsSessionAvailable = HttpContext.Session.IsAvailable;

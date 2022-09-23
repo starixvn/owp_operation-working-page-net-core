@@ -1,6 +1,9 @@
 using Fanex.NAP.Client;
 using Fanex.NAP.Client.Configuration;
 using Fanex.NAP.Client.Helpers.Web;
+using Fanex.NAP.Signin.AspNetCore.Attribute;
+using Microsoft.AspNetCore.Mvc;
+using ONEbook.UM.AspNetCore.Filters;
 using OWP.Hubs;
 using OWP.OtherSport.Hubs;
 using OWP.RabbitMQ.Model;
@@ -28,12 +31,18 @@ builder.Services.Configure<RabbitMQSetting>(builder.Configuration.GetSection(Rab
 builder.Services.AddSignalR(builder.Configuration);
 builder.Services.AddSimpleDataApiModule();
 builder.Services.AddNapServices(builder.Configuration);
+builder.Services.AddOnebookUMServices(builder.Configuration);
 builder.Services.AddFanexServices(builder.Configuration);
 builder.Services.AddCoreServices();
 builder.Services.AddMediator();
 builder.Services.AddAutoMapper();
 builder.Services.AddInternalServices();
 builder.Services.AddRabbitMQ(builder.Configuration);
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add(new ServiceFilterAttribute(typeof(CheckUMFilterAttribute)));
+    options.Filters.Add(new SessionAuthorizeAttribute());
+}).AddNewtonsoftJson();
 
 // Configure app
 var app = builder.Build();
