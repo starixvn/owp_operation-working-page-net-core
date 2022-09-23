@@ -16,6 +16,10 @@ namespace OWP.PreMatchAssignment.Models
 
         public string AwayName { get; set; }
 
+        public MaxbetSpreadBase MaxBetHdp { get; set; } = new MaxbetSpreadBase();
+
+        public MaxbetSpreadBase MaxBetOu { get; set; } = new MaxbetSpreadBase();
+
         public DateTime EventDateTime { get; set; }
 
         public int PreMatchLeagueId { get; set; }
