@@ -8,7 +8,7 @@
 
     <ItemGroup>
         <PackageReference Include="AutoMapper" Version="11.0.1" />
-        <PackageReference Include="EPPlus" Version="6.0.7" />
+        <PackageReference Include="EPPlus" Version="6.0.8" />
         <PackageReference Include="Epplus.Mapper" Version="1.0.0.13" />
         <PackageReference Include="Fanex.Data.Repository" Version="4.2.2" />
         <PackageReference Include="Fanex.NAP.Client.AspNetCore" Version="2.0.0.1" />

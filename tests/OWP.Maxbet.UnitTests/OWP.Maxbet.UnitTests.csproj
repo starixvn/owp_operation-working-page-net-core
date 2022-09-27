@@ -9,7 +9,7 @@
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="CompareNETObjects" Version="4.77.0" />
+        <PackageReference Include="CompareNETObjects" Version="4.78.0" />
         <PackageReference Include="coverlet.msbuild" Version="3.1.2">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>

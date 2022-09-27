@@ -242,8 +242,6 @@ public static class ServiceCollectionExtensions
     {
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         services.AddTransient<Fanex.Logging.ILogger, Logger>();
-        services.AddSingleton(new UMClientConfiguration().Initialize(configuration));
-
         services.AddSingleton<INapSettings>(new NapSettings(configuration));
         services.AddSingleton<INapSession, NapSession>();
 
@@ -252,10 +250,13 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<ISecurityService, SecurityService>();
         services.AddSingleton<ISiteService, SiteService>();
 
-        services.AddSingleton<IMaintenanceService, MaintenanceService>();
-        services.AddSingleton<IUMCacheService, UMCacheService>();
-        services.AddSingleton<IUMRestClient, UMRestClient>();
-        services.AddSingleton<IHttpContextHelper, HttpContextHelper>();
+        return services;
+    }
+
+    public static IServiceCollection AddOnebookUMServices(this IServiceCollection services, IConfiguration configuration)
+    {
+        OnebookUMInitializer.InitializeUMClientManager(configuration);
+        OnebookUMInitializer.RegisterServiceCollection(services);
 
         return services;
     }
