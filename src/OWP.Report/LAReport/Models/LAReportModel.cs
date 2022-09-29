@@ -12,25 +12,31 @@
 
         public int TotalMatches { get; set; }
 
-        public int LinkLowerThan3 { get; set; }
+        public int Link2 { get; set; }
 
-        public int LinkX3 { get; set; }
+        public int Link3 { get; set; }
 
-        public int LinkX6 { get; set; }
+        public int Link4 { get; set; }
 
-        public int LinkX9Plus { get; set; }
+        public int Link5 { get; set; }
 
-        public int TotalMultiMatches => LinkLowerThan3 + LinkX3 + LinkX6 + LinkX9Plus;
+        public int Link6 { get; set; }
 
-        public int ProviderTv { get; set; }
+        public int Link7 { get; set; }
 
-        public int Provider { get; set; }
+        public int Link8Plus { get; set; }
 
-        public int TV { get; set; }
+        public int TotalMultiMatches => Link2 + Link3 + Link4 + Link5 + Link6 + Link7 + Link8Plus;
 
-        public int Reporter { get; set; }
+        public int OnlyProvider { get; set; }
 
-        public int TotalSingleMatches => ProviderTv + Provider + TV + Reporter;
+        public int OnlyTv { get; set; }
+
+        public int OnlyReporter { get; set; }
+
+        public int MixedProviderTVReporter { get; set; }
+
+        public int TotalSingleMatches => OnlyProvider + OnlyTv + OnlyReporter + MixedProviderTVReporter;
 
         public int CornerPlus { get; set; }
 
@@ -46,7 +52,7 @@
 
         public int FTCorner { get; set; }
 
-        public int  FTCorner5ML { get; set; }
+        public int FTCorner5ML { get; set; }
 
         public int TotalMixedProduct => FTCorner + FTCorner5ML;
 
@@ -67,14 +73,17 @@
         public int Others { get; set; }
 
         public int SumTotal()
-            => LinkLowerThan3 +
-            LinkX3 +
-            LinkX6 +
-            LinkX9Plus +
-            ProviderTv +
-            Provider +
-            TV +
-            Reporter +
+            => Link2 +
+            Link3 +
+            Link4 +
+            Link5 +
+            Link6 +
+            Link7 +
+            Link8Plus +
+            OnlyProvider +
+            OnlyTv +
+            OnlyReporter +
+            MixedProviderTVReporter +
             CornerPlus +
             TBookingPlus +
             Fantasy +
