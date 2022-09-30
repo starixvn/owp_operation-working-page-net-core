@@ -73,6 +73,9 @@ app.UseEndpoints(endpoints =>
     endpoints.MapHub<TicketCenterNotifyHubImp>("/ticketCenterNotifyHub");
     endpoints.MapHub<PreMatchNotifyHubImp>("/preMatchNotifyHub");
 });
+
+ThreadPool.SetMinThreads(100, 100);
+
 #if DEBUG
 app.Run();
 #endif
