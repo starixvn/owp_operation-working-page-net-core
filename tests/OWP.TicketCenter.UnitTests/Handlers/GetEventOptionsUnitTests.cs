@@ -28,7 +28,7 @@ namespace OWP.TicketCenter.UnitTests.Handlers
                 Keyword = "league"
             };
 
-            var eventOptionInfoModel = new List<EventOptionInfoModel>()
+            var eventOptionInfoModel = new List<EventCheckingOption>()
             {
                 new ()
                 {
@@ -66,11 +66,11 @@ namespace OWP.TicketCenter.UnitTests.Handlers
             var actual = await eventOptionHandler.Handle(request, CancellationToken.None);
 
             // Assert
-            var expected = new List<EventOptionInfoSender>
+            var expected = new List<EventCheckingOptionInfoSender>
             {
                 new ()
                 {
-                    EventInfoViewModel = new List<EventOptionInfoViewModel>
+                    EventInfoViewModel = new List<EventCheckingOptionInfoViewModel>
                     {
                         new ()
                         {

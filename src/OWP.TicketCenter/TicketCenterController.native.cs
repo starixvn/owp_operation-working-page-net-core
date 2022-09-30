@@ -69,6 +69,16 @@ namespace OWP.TicketCenter
             });
             return Ok(eventSender);
         }
+        [HttpGet("new-ticket/get-event-lga")]
+        [Produces("application/json")]
+        public async Task<IActionResult> GetEventInfoLGA(string keyword)
+        {
+            var eventSender = await mediator.Send(new GetTicketEventOptionLGARequest
+            {
+                Keyword = keyword
+            });
+            return Ok(eventSender);
+        }
 
         [HttpPost("get-event-ticket")]
         public async Task<IList<TicketBaseInfo>> GetEventTicket(QueryEventTicketsRequest request)

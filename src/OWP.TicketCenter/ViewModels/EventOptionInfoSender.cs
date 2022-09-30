@@ -2,8 +2,16 @@
 {
     public class EventOptionInfoSender
     {
-        public IList<EventOptionInfoViewModel> EventInfoViewModel { get; set; }
-
         public IList<UserViewModel> UserViewModel { get; set; }
+    }
+
+    public class EventCheckingOptionInfoSender : EventOptionInfoSender
+    {
+        public IList<EventCheckingOptionInfoViewModel> EventInfoViewModel { get; set; }
+    }
+
+    public class EventLGAOptionInfoSender : EventOptionInfoSender
+    {
+        public IList<EventLGAOptionInfoViewModel> EventInfoViewModel { get; set; }
     }
 }

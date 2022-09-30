@@ -3,12 +3,12 @@ using OWP.TicketCenter.ViewModels;
 
 namespace OWP.TicketCenter.Handlers
 {
-    public class GetTicketEventOptionRequest : IRequest<IList<EventOptionInfoSender>>
+    public class GetTicketEventOptionRequest : IRequest<IList<EventCheckingOptionInfoSender>>
     {
         public string Keyword { get; set; }
     }
 
-    public class GetEventOptionHandler : IRequestHandler<GetTicketEventOptionRequest, IList<EventOptionInfoSender>>
+    public class GetEventOptionHandler : IRequestHandler<GetTicketEventOptionRequest, IList<EventCheckingOptionInfoSender>>
     {
         private readonly Repository repository;
 
@@ -17,14 +17,14 @@ namespace OWP.TicketCenter.Handlers
             this.repository = repository;
         }
 
-        public async Task<IList<EventOptionInfoSender>> Handle(GetTicketEventOptionRequest request, CancellationToken cancellationToken)
+        public async Task<IList<EventCheckingOptionInfoSender>> Handle(GetTicketEventOptionRequest request, CancellationToken cancellationToken)
         {
             var eventInfo = await repository.GetEventOptionInfo((request.Keyword));
             var eventInfoDic = eventInfo
                 .GroupBy(e => new { e.LeagueName })
                 .ToDictionary(x => x.Key, x => x.ToList());
 
-            var eventInfoSender = new List<EventOptionInfoSender>();
+            var eventInfoSender = new List<EventCheckingOptionInfoSender>();
             foreach (var key in eventInfoDic.Keys)
             {
                 var userViewModel = eventInfoDic[key]
@@ -37,7 +37,7 @@ namespace OWP.TicketCenter.Handlers
                     })?.DistinctBy(x => new { x.RecipientId, x.UserName, x.NickName });
 
                 var eventViewModel = eventInfoDic[key]
-                    .Select(i => new EventOptionInfoViewModel
+                    .Select(i => new EventCheckingOptionInfoViewModel
                     {
                         InfoSiteMatchId = i.InfoSiteMatchId,
                         OwpLeagueId = i.OwpLeagueId,
@@ -62,7 +62,7 @@ namespace OWP.TicketCenter.Handlers
                         l.IsLeague,
                     });
 
-                eventInfoSender.Add(new EventOptionInfoSender
+                eventInfoSender.Add(new EventCheckingOptionInfoSender
                 {
                     EventInfoViewModel = eventViewModel.ToList(),
                     UserViewModel = userViewModel.ToList()
