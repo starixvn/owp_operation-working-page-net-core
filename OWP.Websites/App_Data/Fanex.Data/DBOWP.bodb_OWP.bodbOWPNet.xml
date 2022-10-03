@@ -197,6 +197,9 @@
         <Setting Key="OWP_TicketCenter_GetTicketIsSaved" SpName="OWP_TicketCenter_GetTicketIsSaved" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_TicketCenter_NewTicket_GetEventForLiveGameAsssignment" SpName="OWP_TicketCenter_NewTicket_GetEventForLiveGameAsssignment" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     </Function>
+    <Function Name="TicketEvent">
+        <Setting Key="OWP_TicketEvent_GetTicketByOwpMatchId" SpName="OWP_TicketEvent_GetTicketByOwpMatchId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+    </Function>
     <Function Name="FileUpload">
         <Setting Key="OWP_FileUpload_Upload" SpName="OWP_FileUpload_Upload" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_FileUpload_QueryById" SpName="OWP_FileUpload_QueryById" DbName="DBOWP.bodb_OWP.bodbOWPNet" />

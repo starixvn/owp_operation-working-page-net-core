@@ -26,6 +26,7 @@ using ONEbook.UM.Helpers;
 using ONEbook.UM.Services;
 using ONEbook.UM.Transport;
 using OWP.ApiSyncWorkingShift;
+using OWP.TicketEvent;
 using OWP.FileUpload;
 using OWP.LeagueManagement;
 using OWP.MatchCountLiveReport;
@@ -240,6 +241,7 @@ public static class ServiceCollectionExtensions
         services.AddMediatR(typeof(OSLeagueController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(ReportApiController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(LeagueApiController).GetTypeInfo().Assembly);
+        services.AddMediatR(typeof(TicketEventController).GetTypeInfo().Assembly);
         return services;
     }
 

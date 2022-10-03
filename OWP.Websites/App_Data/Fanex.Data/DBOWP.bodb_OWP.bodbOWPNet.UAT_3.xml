@@ -145,6 +145,9 @@
         <Setting Key="OWP_TaskList_GetMinorMatchByMatchId" SpName="OWP_TaskList_GetMinorMatchByMatchId" DbName="DBACC.bodb02.bodbAdminNet" />
         <Setting Key="OWP_TaskList_GetSubTypeSpecialProduct" SpName="OWP_TaskList_GetSubTypeSpecialProduct" DbName="DBACC.bodb02.bodbAdminNet" />
     </Function>
+    <Function Name="TicketEvent">
+        <Setting Key="OWP_TicketEvent_GetTicketByOwpMatchId" SpName="OWP_TicketEvent_GetTicketByOwpMatchId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+    </Function>
     <Function Name="TicketCenter">
         <Setting Key="OWP_TicketCenter_GetRecipient" SpName="OWP_TicketCenter_GetRecipient" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_TicketIssueEvent_Create" SpName="OWP_TicketIssueEvent_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
