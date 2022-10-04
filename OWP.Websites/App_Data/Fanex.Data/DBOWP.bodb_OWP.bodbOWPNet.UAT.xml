@@ -7,6 +7,7 @@
         <Setting Key="OWP_MessageGetBySessionId" SpName="OWP_MessageGetBySessionId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     </Function>
     <Function Name="TicketEvent">
+        <Setting Key="OWP_TicketEvent_GetAssigneesByOwpMatchId" SpName="OWP_TicketEvent_GetAssigneesByOwpMatchId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_TicketEvent_GetTicketByOwpMatchId" SpName="OWP_TicketEvent_GetTicketByOwpMatchId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     </Function>
     <Function Name="AutoAssignment">
@@ -97,6 +98,7 @@
         <Setting Key="OWP_TicketIssueEvent_Create" SpName="OWP_TicketIssueEvent_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_TicketCenter_NewTicket_GetEvent" SpName="OWP_TicketCenter_NewTicket_GetEvent" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_TicketCenter_GetTicketType" SpName="OWP_TicketCenter_GetTicketType" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+        <Setting Key="OWP_TicketIssueLga_Create" SpName="OWP_TicketIssueLga_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_TicketIssueOther_Create" SpName="OWP_TicketIssueOther_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_TicketIssueSupport_Create" SpName="OWP_TicketIssueSupport_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_TicketIssue_Create" SpName="OWP_TicketIssue_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
