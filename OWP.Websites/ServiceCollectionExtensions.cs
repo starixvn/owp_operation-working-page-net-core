@@ -221,6 +221,7 @@ public static class ServiceCollectionExtensions
         services.AddLAReportService();
         services.AddLeagueManagementService();
         services.AddLiveDetailService();
+        services.AddTicKetEventService();
         return services;
     }
 

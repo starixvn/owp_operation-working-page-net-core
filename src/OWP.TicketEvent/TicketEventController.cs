@@ -1,10 +1,10 @@
+namespace OWP.TicketEvent;
+
+using Handlers;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using OWP.TicketEvent.Handlers;
-
-namespace OWP.TicketEvent;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -20,11 +20,22 @@ public class TicketEventController
     }
 
     [HttpGet("get-ticket-list")]
-    public async Task<IActionResult> QueryMaxbetSetting(int OWPMatchId)
+    public async Task<IActionResult> QueryMaxBetSetting(int owpMatchId)
     {
         var result = await mediator.Send(new GetTicketListRequest
         {
-            OWPMatchId = OWPMatchId
+            OwpMatchId = owpMatchId
+        });
+
+        return new JsonResult(result);
+    }
+
+    [HttpGet("get-assignees-lga")]
+    public async Task<IActionResult> GetAssigneesLga(int owpMatchId)
+    {
+        var result = await mediator.Send(new QueryAssigneesLgaRequest
+        {
+            OwpMatchId = owpMatchId
         });
 
         return new JsonResult(result);

@@ -7,29 +7,23 @@ namespace OWP.TicketEvent.Handlers;
 
 public class GetTicketListRequest : IRequest<IList<TicketListModel>>
 {
-    public int OWPMatchId { get; set; }
+    public int OwpMatchId { get; set; }
 }
 
 public class GetTicketListHandler : IRequestHandler<GetTicketListRequest, IList<TicketListModel>>
 {
-    private readonly IDynamicRepository repository;
+    private readonly Repository repository;
 
-    public GetTicketListHandler(IDynamicRepository repository)
+    public GetTicketListHandler(Repository repository)
     {
         this.repository = repository;
     }
 
     public async Task<IList<TicketListModel>> Handle(GetTicketListRequest request, CancellationToken cancellationToken)
     {
-        var tiektList = await GetTicketFromDB(request.OWPMatchId);
-        return BuildResponseTicket(tiektList);
+        var ticketList = await repository.GetTicketFromDb(request.OwpMatchId);
+        return BuildResponseTicket(ticketList);
     }
-
-    private async Task<IList<TicketListModel>> GetTicketFromDB(int OWPMatchId)
-    => (await repository.FetchAsync<TicketListModel>(new GetTicketListCriteria
-    {
-        OWPMatchId = OWPMatchId
-    })).ToList();
 
     private IList<TicketListModel> BuildResponseTicket(IList<TicketListModel> models)
     {

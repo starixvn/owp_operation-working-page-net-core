@@ -4,10 +4,10 @@ namespace OWP.TicketEvent.Criteria;
 
 public class GetTicketListCriteria : CriteriaBase
 {
-    public int OWPMatchId { get; set; }
+    public int OwpMatchId { get; set; }
 
     public override string GetSettingKey() => "OWP_TicketEvent_GetTicketByOwpMatchId";
 
-    public override bool IsValid() => OWPMatchId > 0;
+    public override bool IsValid() => OwpMatchId > 0;
 
 }
