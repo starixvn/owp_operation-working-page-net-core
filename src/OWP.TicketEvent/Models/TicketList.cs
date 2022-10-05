@@ -1,4 +1,3 @@
-using System;
 
 namespace OWP.TicketEvent.Models;
 
@@ -14,5 +13,5 @@ public class TicketListModel
 
     public string SubtypeName { get; set; }
 
-    public bool IsRead { get; set; } = false;
+    public bool IsRead { get; set; }
 }

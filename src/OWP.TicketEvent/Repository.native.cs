@@ -11,7 +11,7 @@ namespace OWP.TicketEvent
         public Task<IEnumerable<TicketAssignees>> QueryAssigneesByLeagueId(int owpMatchId);
     }
 
-    public class RepositoryImp: Repository
+    public class RepositoryImp : Repository
     {
         private readonly IDynamicRepository repository;
 
@@ -22,6 +22,7 @@ namespace OWP.TicketEvent
         public async Task<IList<TicketListModel>> GetTicketFromDb(int owpMatchId)
             => (await repository.FetchAsync<TicketListModel>(new GetTicketListCriteria
             {
+                ActorId = 8,
                 OwpMatchId = owpMatchId
             })).ToList();
 

@@ -25,15 +25,7 @@ public class GetTicketListHandler : IRequestHandler<GetTicketListRequest, IList<
 
     public async Task<IList<TicketListModel>> Handle(GetTicketListRequest request, CancellationToken cancellationToken)
     {
-        return new List<TicketListModel>(){
-            new TicketListModel{
-                TicketId= 123,
-                LatestUsername= "sa",
-                LatestCreatedDate=DateTime.Now,
-                SubtypeName="Event",
-                LatestMessage="Please enter"
-            }
-        };
+        return await repository.GetTicketFromDb(request.OwpMatchId);
     }
 
 }

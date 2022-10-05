@@ -28,7 +28,7 @@ public class TicketEventController : ControllerBase
             OwpMatchId = owpMatchId
         });
 
-        return new JsonResult(result);
+        return Ok(JsonConvert.SerializeObject(result));
     }
 
     [HttpGet("get-assignees-lga")]
