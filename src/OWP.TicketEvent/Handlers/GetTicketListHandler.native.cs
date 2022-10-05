@@ -1,4 +1,5 @@
 using Fanex.Data.Repository;
+using Fanex.NAP.Client.Helpers.Web;
 using MediatR;
 using OWP.TicketEvent.Criteria;
 using OWP.TicketEvent.Models;
@@ -14,28 +15,25 @@ public class GetTicketListHandler : IRequestHandler<GetTicketListRequest, IList<
 {
     private readonly Repository repository;
 
-    public GetTicketListHandler(Repository repository)
+    private readonly INapSession currentSession;
+
+    public GetTicketListHandler(Repository repository, INapSession currentSession)
     {
         this.repository = repository;
+        this.currentSession = currentSession;
     }
 
     public async Task<IList<TicketListModel>> Handle(GetTicketListRequest request, CancellationToken cancellationToken)
     {
-        var ticketList = await repository.GetTicketFromDb(request.OwpMatchId);
-        return BuildResponseTicket(ticketList);
+        return new List<TicketListModel>(){
+            new TicketListModel{
+                TicketId= 123,
+                LatestUsername= "sa",
+                LatestCreatedDate=DateTime.Now,
+                SubtypeName="Event",
+                LatestMessage="Please enter"
+            }
+        };
     }
 
-    private IList<TicketListModel> BuildResponseTicket(IList<TicketListModel> models)
-    {
-        var ticketResponse = new List<TicketListModel>();
-        var ticketPair = models
-            .GroupBy(t => t.TicketId)
-            .ToDictionary(t => t.Key, t => t.ToList().OrderByDescending(x => x.CreatedDate).First());
-
-        foreach (var ticket in ticketPair)
-        {
-            ticketResponse.Add(ticket.Value);
-        }
-        return ticketResponse;
-    }
 }

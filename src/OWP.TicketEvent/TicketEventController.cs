@@ -5,12 +5,13 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 [Route("api/[controller]")]
 [ApiController]
 [EnableCors("AllowOrigin")]
 [Authorize]
-public class TicketEventController
+public class TicketEventController : ControllerBase
 {
     private readonly IMediator mediator;
 
@@ -38,6 +39,6 @@ public class TicketEventController
             OwpMatchId = owpMatchId
         });
 
-        return new JsonResult(result);
+        return Ok(JsonConvert.SerializeObject(result));
     }
 }
