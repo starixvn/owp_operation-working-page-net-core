@@ -56,8 +56,8 @@ namespace OWP.TicketCenter
         [HttpPost("new-ticket-issue-league")]
         public async Task<int> NewTicketIssueLeague(NewTicketIssueLeagueRequest request)
         => await mediator.Send(request);
-        [HttpPost("new-ticket-issue-lga")]
-        public async Task<int> NewTicketIssueLga(NewTicketIssueLgaRequest request)
+        [HttpPost("new-ticket-issue-live-incident")]
+        public async Task<int> NewTicketIssueLga(NewTicketIssueLiveIncidentRequest request)
         => await mediator.Send(request);
         #endregion new ticket
 

@@ -29,7 +29,7 @@ namespace OWP.TicketCenter
 
         Task AddNewTicketIssueSupport(NewTicketIssueSupportRequest request);
 
-        Task AddNewTicketIssueLga(NewTicketIssueLgaRequest request);
+        Task AddNewTicketIssueLiveIncident(NewTicketIssueLiveIncidentRequest request);
 
         Task<MessageDetailViewModel> AddNewMessage(NewMessageRequestModel message);
 
@@ -159,9 +159,9 @@ namespace OWP.TicketCenter
                 TicketType = ticketType,
                 SubType = subType
             })).FirstOrDefault();
-        public async Task AddNewTicketIssueLga(NewTicketIssueLgaRequest request)
+        public async Task AddNewTicketIssueLiveIncident(NewTicketIssueLiveIncidentRequest request)
         {
-            var criteria = mapper.Map<AddNewTicketIssueLgaCriteria>(request);
+            var criteria = mapper.Map<AddNewTicketIssueLiveIncidentCriteria>(request);
             criteria.ThrowExceptionIfInvalid();
             await dynamicRepository.ExecuteAsync(criteria);
         }

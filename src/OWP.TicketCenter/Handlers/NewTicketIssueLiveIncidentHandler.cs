@@ -6,28 +6,28 @@ using OWP.TicketCenter.Services;
 
 namespace OWP.TicketCenter.Handlers;
 
-public class NewTicketIssueLgaRequest : NewTicketModelBase, IRequest<int>
+public class NewTicketIssueLiveIncidentRequest : NewTicketModelBase, IRequest<int>
 {
     public int OwpMatchId { get; set; }
 }
-public class NewTicketIssueLgaHandler : IRequestHandler<NewTicketIssueLgaRequest, int>
+public class NewTicketIssueLiveIncidentHandler : IRequestHandler<NewTicketIssueLiveIncidentRequest, int>
 {
     private readonly Repository repository;
     private readonly RecipientService recipientService;
     private readonly IMapper mapper;
 
-    public NewTicketIssueLgaHandler(Repository repository, RecipientService recipientService, IMapper mapper)
+    public NewTicketIssueLiveIncidentHandler(Repository repository, RecipientService recipientService, IMapper mapper)
     {
         this.repository = repository;
         this.recipientService = recipientService;
         this.mapper = mapper;
     }
 
-    public async Task<int> Handle(NewTicketIssueLgaRequest request, CancellationToken cancellationToken)
+    public async Task<int> Handle(NewTicketIssueLiveIncidentRequest request, CancellationToken cancellationToken)
     {
         var ticketId = await repository.BuildTicketId(request.TicketType, request.SubType);
         request.TicketId = ticketId;
-        await repository.AddNewTicketIssueLga(request);
+        await repository.AddNewTicketIssueLiveIncident(request);
         var messages = new List<NewMessageRequestModel>();
         foreach (var file in request.Files)
         {

@@ -12,13 +12,13 @@ namespace OWP.TicketCenter
     {
         public AutoMapperProfile()
         {
-            CreateMap<NewTicketIssueLgaRequest, AddNewTicketIssueLgaCriteria>();
+            CreateMap<NewTicketIssueLiveIncidentRequest, AddNewTicketIssueLiveIncidentCriteria>();
             CreateMap<NewTicketIssueEventRequest, AddNewTicketIssueEventCriteria>();
             CreateMap<NewTicketIssueOtherRequest, AddNewTicketIssueOtherCriteria>();
             CreateMap<NewTicketIssueLeagueRequest, AddNewTicketIssueLeagueCriteria>();
             CreateMap<NewTicketIssueSupportRequest, AddNewTicketIssueSupportCriteria>();
 
-            CreateMap<NewTicketIssueLgaRequest, NewMessageRequestModel>().ForMember(
+            CreateMap<NewTicketIssueLiveIncidentRequest, NewMessageRequestModel>().ForMember(
                 m => m.FileId,
                 opt => opt.Ignore());
             CreateMap<NewTicketIssueEventRequest, NewMessageRequestModel>().ForMember(

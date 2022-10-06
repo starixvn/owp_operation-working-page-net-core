@@ -151,7 +151,7 @@
         <Setting Key="OWP_TicketIssueEvent_Create" SpName="OWP_TicketIssueEvent_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_TicketCenter_NewTicket_GetEvent" SpName="OWP_TicketCenter_NewTicket_GetEvent" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_TicketCenter_GetTicketType" SpName="OWP_TicketCenter_GetTicketType" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-        <Setting Key="OWP_TicketIssueLga_Create" SpName="OWP_TicketIssueLga_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+        <Setting Key="OWP_TicketIssueLiveIncident_Create" SpName="OWP_TicketIssueLiveIncident_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_TicketIssueOther_Create" SpName="OWP_TicketIssueOther_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_TicketIssueSupport_Create" SpName="OWP_TicketIssueSupport_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_TicketIssue_Create" SpName="OWP_TicketIssue_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
