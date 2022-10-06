@@ -21,6 +21,7 @@ public static class TicketCenterInjector
         services.AddScoped<TicketMatchDetailService, TicketMatchDetailServiceImp>();
         services.AddScoped<TicketOtherDetailService, TicketOtherDetailServiceImp>();
         services.AddScoped<TicketSupportDetailService, TicketSupportDetailServiceImp>();
+        services.AddScoped<TicketLiveIncidentDetailService, TicketLiveIncidentDetailServiceImp>();
 
         services.AddScoped<GetEventTicketsService, GetEventTicketsServiceImp>();
 

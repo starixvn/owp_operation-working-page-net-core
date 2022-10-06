@@ -6,10 +6,8 @@ namespace OWP.TicketCenter
     using AutoMapper;
     using Criteria;
     using Fanex.Data.Repository;
-    using OWP.Models;
     using OWP.TicketCenter.Handlers;
     using OWP.TicketCenter.Models;
-    using OWP.Utils;
 
     public interface Repository
     {
@@ -41,11 +39,15 @@ namespace OWP.TicketCenter
 
         Task<IEnumerable<TicketSupportInfo>> GetEventTicketSupport(QueryEventTicketsRequest request);
 
+        Task<IEnumerable<TicketMatchInfo>> GetEventTicketLiveIncident(QueryEventTicketsRequest request);
+
         Task<IEnumerable<TicketLeagueInfo>> GetEventTicketLeague(QueryEventTicketsRequest request);
 
         Task<IEnumerable<TicketMatchInfo>> GetEventTicketMatch(QueryEventTicketsRequest request);
 
         Task<IEnumerable<EventTicketMatchModel>> GetTicketMatchDetail(int ticketId);
+
+        Task<IEnumerable<EventTicketMatchModel>> GetTicketLiveIncidentDetail(int ticketId);
 
         Task<IEnumerable<EventTicketLeagueModel>> GetTicketLeagueDetail(int ticketId);
 
@@ -262,6 +264,15 @@ namespace OWP.TicketCenter
             return await dynamicRepository.FetchAsync<TicketSupportInfo>(criteria);
         }
 
+        public async Task<IEnumerable<TicketMatchInfo>> GetEventTicketLiveIncident(QueryEventTicketsRequest request)
+        {
+            var criteria = mapper.Map<GetEventTicketLiveIncidentCriteria>(request);
+            var result = await dynamicRepository.FetchAsync<TicketMatchInfo>(criteria);
+
+            result.ToList().ForEach(x => { x.EventType = 5; });
+            return result;
+        }
+
         public async Task<IEnumerable<TicketLeagueInfo>> GetEventTicketLeague(QueryEventTicketsRequest request)
         {
             var criteria = mapper.Map<GetEventTicketLeagueCriteria>(request);
@@ -277,6 +288,15 @@ namespace OWP.TicketCenter
                 TicketId = ticketId
             };
             criteria.ThrowExceptionIfInvalid();
+            return await dynamicRepository.FetchAsync<EventTicketMatchModel>(criteria);
+        }
+
+        public async Task<IEnumerable<EventTicketMatchModel>> GetTicketLiveIncidentDetail(int ticketId)
+        {
+            var criteria = new TicketDetailLiveIncidentCriteria
+            {
+                TicketId = ticketId
+            };
             return await dynamicRepository.FetchAsync<EventTicketMatchModel>(criteria);
         }
 
