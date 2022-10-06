@@ -7,7 +7,7 @@ using Fanex.Logging;
 using Fanex.Logging.Extensions;
 using Fanex.Logging.Extensions.AspNetCore;
 using Fanex.Logging.Extensions.Database;
-using Fanex.Logging.Sentry;
+using Fanex.Logging.Sentry.RavenClient;
 using Fanex.NAP.Client.AspNetCore.Configuration;
 using Fanex.NAP.Client.AspNetCore.Session;
 using Fanex.NAP.Client.Configuration;
@@ -20,13 +20,7 @@ using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Newtonsoft.Json;
 using Olympus.SimpleDataApi;
-using ONEbook.UM.AspNetCore;
-using ONEbook.UM.Configurations;
-using ONEbook.UM.Helpers;
-using ONEbook.UM.Services;
-using ONEbook.UM.Transport;
 using OWP.ApiSyncWorkingShift;
-using OWP.TicketEvent;
 using OWP.FileUpload;
 using OWP.LeagueManagement;
 using OWP.MatchCountLiveReport;
@@ -45,8 +39,10 @@ using OWP.Services;
 using OWP.SimpleDataApi;
 using OWP.TicketCenter;
 using OWP.TicketCenter.Hubs;
+using OWP.TicketEvent;
 using OWP.TicketTypeRecipient;
 using OWP.Websites.App_Start;
+using SharpRaven;
 using StackExchange.Redis;
 using System.Reflection;
 
@@ -154,6 +150,7 @@ public static class ServiceCollectionExtensions
                                          "https://newowp.oneops.net",
                                          "https://owp1.oneops.net",
                                          "http://localhost:3000",
+                                         "http://localhost:3001",
                                          "https://owp.starixuat.com"
                                          )
                            .AllowAnyMethod()
@@ -190,10 +187,10 @@ public static class ServiceCollectionExtensions
         .SetDefaultLogCategory(configuration.GetSection("LogCategory").Value)
         .Use(new List<ILogEngine>
         {
-                new SentryLogging(new SentryEngineOptions
-                {
-                    Dsn = configuration.GetSection("SentryEngineOptions:Dsn").Value
-                })
+            new SentryLogging(new SentryEngineOptions
+            {
+                Dsn = new Dsn(configuration.GetSection("SentryEngineOptions:Dsn").Value)
+            })
         });
 
         ExceptionHandler
