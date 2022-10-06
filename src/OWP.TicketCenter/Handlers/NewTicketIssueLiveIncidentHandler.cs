@@ -1,26 +1,37 @@
 using MediatR;
 using AutoMapper;
+using OWP.RabbitMQ;
+using OWP.RabbitMQ.Constants;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Criteria;
 using OWP.TicketCenter.Services;
+using OWP.TicketCenter.Notification.Models;
 
 namespace OWP.TicketCenter.Handlers;
 
 public class NewTicketIssueLiveIncidentRequest : NewTicketModelBase, IRequest<int>
 {
     public int OwpMatchId { get; set; }
+
+    public string OwpLeagueName { get; set; }
+
+    public string OwpHomeName { get; set; }
+
+    public string OwpAwayName { get; set; }
 }
 public class NewTicketIssueLiveIncidentHandler : IRequestHandler<NewTicketIssueLiveIncidentRequest, int>
 {
     private readonly Repository repository;
     private readonly RecipientService recipientService;
     private readonly IMapper mapper;
+    private readonly MessageClient messageClient;
 
-    public NewTicketIssueLiveIncidentHandler(Repository repository, RecipientService recipientService, IMapper mapper)
+    public NewTicketIssueLiveIncidentHandler(Repository repository, RecipientService recipientService, IMapper mapper, MessageClient messageClient)
     {
         this.repository = repository;
         this.recipientService = recipientService;
         this.mapper = mapper;
+        this.messageClient = messageClient;
     }
 
     public async Task<int> Handle(NewTicketIssueLiveIncidentRequest request, CancellationToken cancellationToken)
@@ -57,6 +68,18 @@ public class NewTicketIssueLiveIncidentHandler : IRequestHandler<NewTicketIssueL
         await recipientService.InsertManyRecipient(request.Recipients, request.TicketId);
 
         await recipientService.InsertManyRecipientReader(request.Recipients, request.TicketId, request.CreatorId);
+
+        var notificationMessage = new MessageLiveIncidentTransform
+        {
+            TicketId = ticketId,
+            Comment = newMessage.Message,
+            ActorId = request.CreatorId,
+            OwpLeagueName = request.OwpLeagueName,
+            OwpHomeName = request.OwpHomeName,
+            OwpAwayName = request.OwpAwayName
+        };
+
+        messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketLiveIncident);
 
         return ticketId;
     }

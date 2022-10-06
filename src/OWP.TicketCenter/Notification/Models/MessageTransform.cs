@@ -12,4 +12,11 @@
 
         public string Username { get; set; }
     }
+
+    public class MessageLiveIncidentTransform : MessageTransform
+    {
+        public string OwpLeagueName { get; set; }
+        public string OwpHomeName { get; set; }
+        public string OwpAwayName { get; set; }
+    }
 }
