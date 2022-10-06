@@ -39,6 +39,6 @@ public class TicketEventController : ControllerBase
             OwpMatchId = owpMatchId
         });
 
-        return Ok(JsonConvert.SerializeObject(result));
+        return Ok(result);
     }
 }
