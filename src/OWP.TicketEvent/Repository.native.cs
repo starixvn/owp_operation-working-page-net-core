@@ -22,8 +22,9 @@ namespace OWP.TicketEvent
         public async Task<IList<TicketListModel>> GetTicketFromDb(int owpMatchId)
             => (await repository.FetchAsync<TicketListModel>(new GetTicketListCriteria
             {
+                // TODO
                 ActorId = 8,
-                OwpMatchId = owpMatchId
+                OwpMatchIds = owpMatchId.ToString()
             })).ToList();
 
         public async Task<IEnumerable<TicketAssignees>> QueryAssigneesByLeagueId(int owpMatchId)
