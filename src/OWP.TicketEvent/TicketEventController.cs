@@ -21,11 +21,12 @@ public class TicketEventController : ControllerBase
     }
 
     [HttpGet("get-ticket-list")]
-    public async Task<IActionResult> QueryMaxBetSetting(int owpMatchId)
+    public async Task<IActionResult> QueryMaxBetSetting(int owpMatchId, int actorId)
     {
         var result = await mediator.Send(new GetTicketListRequest
         {
-            OwpMatchId = owpMatchId
+            OwpMatchId = owpMatchId,
+            ActorId = actorId
         });
 
         return Ok(JsonConvert.SerializeObject(result));

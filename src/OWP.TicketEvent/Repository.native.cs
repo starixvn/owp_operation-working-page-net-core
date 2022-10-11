@@ -3,10 +3,11 @@ namespace OWP.TicketEvent
 {
     using Criteria;
     using Fanex.Data.Repository;
+    using OWP.TicketEvent.Handlers;
 
     public interface Repository
     {
-        public Task<IList<TicketListModel>> GetTicketFromDb(int owpMatchId);
+        public Task<IList<TicketListModel>> GetTicketFromDb(GetTicketListRequest request);
 
         public Task<IEnumerable<TicketAssignees>> QueryAssigneesByLeagueId(int owpMatchId);
     }
@@ -19,12 +20,11 @@ namespace OWP.TicketEvent
         {
             this.repository = repository;
         }
-        public async Task<IList<TicketListModel>> GetTicketFromDb(int owpMatchId)
+        public async Task<IList<TicketListModel>> GetTicketFromDb(GetTicketListRequest request)
             => (await repository.FetchAsync<TicketListModel>(new GetTicketListCriteria
             {
-                // TODO
-                ActorId = 8,
-                OwpMatchIds = owpMatchId.ToString()
+                ActorId = request.ActorId,
+                OwpMatchIds = request.OwpMatchId.ToString()
             })).ToList();
 
         public async Task<IEnumerable<TicketAssignees>> QueryAssigneesByLeagueId(int owpMatchId)
