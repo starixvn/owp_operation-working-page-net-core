@@ -66,7 +66,7 @@ namespace OWP.Utils
                 return Guid.Parse(item.ToString());
             }
 
-            return new Guid();
+            return Guid.NewGuid();
         }
 
         [DebuggerStepThrough]
