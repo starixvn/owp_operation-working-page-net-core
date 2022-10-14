@@ -46,8 +46,11 @@ namespace OWP.TicketCenter.Handlers
 
             // publish rabbit
             messageClient.SendMessage(request, RoutingKey.TicketCenterNewRecipient);
+            var ticketInfoLga = await repository.GetTicketInfoLga(request.TicketId);
 
             await notificationService.NotifyNewAddRecipient(request.TicketId, request.ActorId);
+
+            await notificationService.NotifyNewAddRecipientLga(request.TicketId, ticketInfoLga.OwpMatchId, request.ActorId);
 
             return await repository.AddSingleRecipient(request);
         }

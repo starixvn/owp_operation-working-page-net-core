@@ -65,7 +65,11 @@ namespace OWP.TicketCenter.Handlers
 
             messageClient.SendMessage(request, RoutingKey.TicketCenterNewMessage);
 
+            var ticketInfoLga = await repository.GetTicketInfoLga(request.TicketId);
+
             await notification.NotifyNewMessageIncome(request.TicketId);
+
+            await notification.NotifyNewMessageLga(request.TicketId, ticketInfoLga.OwpMatchId, request.ActorId);
 
             return result;
         }

@@ -6,11 +6,14 @@ namespace OWP.TicketCenter
     using AutoMapper;
     using Criteria;
     using Fanex.Data.Repository;
+    using Fanex.NAP.Client.Helpers.Web;
     using OWP.TicketCenter.Handlers;
     using OWP.TicketCenter.Models;
 
     public interface Repository
     {
+        Task<IList<HasTicketModel>> GetTicketMatchLga(string owpMatchIds);
+
         Task<IList<EventCheckingOption>> GetEventOptionInfo(string keyword);
 
         Task<IList<EventLGAOption>> GetEventOptionLGAInfo(string keyword);
@@ -110,6 +113,8 @@ namespace OWP.TicketCenter
         Task<IEnumerable<MessageInfoModel>> GetTwoLastCommnet(IList<int> ticketIds);
 
         Task<IList<int>> GetTicketIdHaveSavedMessage();
+
+        Task<TicketInfoLgaModel> GetTicketInfoLga(int ticketId);
     }
 
     public class RepositoryImp : Repository
@@ -118,10 +123,13 @@ namespace OWP.TicketCenter
 
         private readonly IMapper mapper;
 
-        public RepositoryImp(IDynamicRepository dynamicRepository, IMapper mapper)
+        private readonly INapSession session;
+
+        public RepositoryImp(IDynamicRepository dynamicRepository, IMapper mapper, INapSession session)
         {
             this.dynamicRepository = dynamicRepository;
             this.mapper = mapper;
+            this.session = session;
         }
 
         public async Task<IList<EventCheckingOption>> GetEventOptionInfo(string keyword)
@@ -480,5 +488,24 @@ namespace OWP.TicketCenter
 
         public async Task<IList<int>> GetTicketIdHaveSavedMessage()
            => (await dynamicRepository.FetchAsync<int>(new GetTicketIdHaveSavedMessageCriteria())).ToList();
+
+        public async Task<TicketInfoLgaModel> GetTicketInfoLga(int ticketId)
+        {
+            var criteria = new GetInfoTicketLgaCriteria
+            {
+                TicketId = ticketId
+            };
+            return (await dynamicRepository.FetchAsync<TicketInfoLgaModel>(criteria)).FirstOrDefault();
+        }
+
+        public async Task<IList<HasTicketModel>> GetTicketMatchLga(string owpMatchIds)
+        {
+            var criteria = new DetectEventHasTicketCriteria
+            {
+                OWPMatchIds = owpMatchIds,
+                ActorId = session.UserId
+            };
+            return (await dynamicRepository.FetchAsync<HasTicketModel>(criteria)).ToList();
+        }
     }
 }

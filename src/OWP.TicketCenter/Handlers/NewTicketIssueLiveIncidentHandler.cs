@@ -1,13 +1,14 @@
-using MediatR;
-using AutoMapper;
-using OWP.RabbitMQ;
-using OWP.RabbitMQ.Constants;
-using OWP.TicketCenter.Models;
-using OWP.TicketCenter.Criteria;
-using OWP.TicketCenter.Services;
-using OWP.TicketCenter.Notification.Models;
-
 namespace OWP.TicketCenter.Handlers;
+
+using AutoMapper;
+using Criteria;
+using MediatR;
+using Models;
+using Notification.Models;
+using Notification.Services;
+using RabbitMQ;
+using RabbitMQ.Constants;
+using Services;
 
 public class NewTicketIssueLiveIncidentRequest : NewTicketModelBase, IRequest<int>
 {
@@ -19,18 +20,26 @@ public class NewTicketIssueLiveIncidentRequest : NewTicketModelBase, IRequest<in
 
     public string OwpAwayName { get; set; }
 }
+
 public class NewTicketIssueLiveIncidentHandler : IRequestHandler<NewTicketIssueLiveIncidentRequest, int>
 {
-    private readonly Repository repository;
-    private readonly RecipientService recipientService;
     private readonly IMapper mapper;
     private readonly MessageClient messageClient;
+    private readonly NotificationService notificationService;
+    private readonly RecipientService recipientService;
+    private readonly Repository repository;
 
-    public NewTicketIssueLiveIncidentHandler(Repository repository, RecipientService recipientService, IMapper mapper, MessageClient messageClient)
+    public NewTicketIssueLiveIncidentHandler(
+        Repository repository,
+        IMapper mapper,
+        NotificationService notificationService,
+        RecipientService recipientService,
+        MessageClient messageClient)
     {
         this.repository = repository;
-        this.recipientService = recipientService;
         this.mapper = mapper;
+        this.notificationService = notificationService;
+        this.recipientService = recipientService;
         this.messageClient = messageClient;
     }
 
@@ -41,22 +50,17 @@ public class NewTicketIssueLiveIncidentHandler : IRequestHandler<NewTicketIssueL
         await repository.AddNewTicketIssueLiveIncident(request);
         var messages = new List<NewMessageRequestModel>();
         foreach (var file in request.Files)
-        {
-            messages.Add(new()
+            messages.Add(new NewMessageRequestModel
             {
                 TicketId = ticketId,
                 CreatorId = request.CreatorId,
                 Message = file.Title,
                 FileId = file.FileId
             });
-        }
         var newMessage = mapper.Map<NewMessageRequestModel>(request);
         messages.Add(newMessage);
 
-        foreach (var message in messages)
-        {
-            await repository.AddNewMessage(message);
-        }
+        foreach (var message in messages) await repository.AddNewMessage(message);
         var criteria = new InsertIssueCreatorCriteria
         {
             TicketId = ticketId,
@@ -80,6 +84,10 @@ public class NewTicketIssueLiveIncidentHandler : IRequestHandler<NewTicketIssueL
         };
 
         messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketLiveIncident);
+
+        await notificationService.NotifyNewMessageLga(ticketId, request.OwpMatchId, request.CreatorId);
+
+        await notificationService.NotifyNewAddRecipientLga(ticketId, request.OwpMatchId, request.CreatorId);
 
         return ticketId;
     }
