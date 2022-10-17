@@ -45,7 +45,7 @@
             var userIds = await repository.GetUserIdsByTicketId(ticketId);
             var userIdsString = userIds.Distinct().Select(u => u.ToString()).ToList();
             await notifyMyTicket.Clients
-                .All
+                .Users(userIdsString)
                 .NotifyNewMessageIncome();
             await notifyPreMatch.Clients
                 .Users(userIdsString)
