@@ -41,13 +41,6 @@ namespace OWP.TicketCenter
 
         #region new ticket
 
-        [HttpPost("get-ticket-match")]
-        public async Task<IActionResult> GetTicketMatchLga(GetTicketMatchLgaRequest request)
-        {
-            var result = await mediator.Send(request);
-            return Ok(result);
-        }
-
         [HttpPost("new-ticket-issue-event")]
         public async Task<int> NewTicketIssueEvent(NewTicketIssueEventRequest request)
             => await mediator.Send(request);

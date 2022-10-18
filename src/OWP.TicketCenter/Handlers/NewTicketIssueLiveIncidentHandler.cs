@@ -46,10 +46,15 @@ public class NewTicketIssueLiveIncidentHandler : IRequestHandler<NewTicketIssueL
     public async Task<int> Handle(NewTicketIssueLiveIncidentRequest request, CancellationToken cancellationToken)
     {
         var ticketId = await repository.BuildTicketId(request.TicketType, request.SubType);
+
         request.TicketId = ticketId;
+
         await repository.AddNewTicketIssueLiveIncident(request);
+
         var messages = new List<NewMessageRequestModel>();
+
         foreach (var file in request.Files)
+        {
             messages.Add(new NewMessageRequestModel
             {
                 TicketId = ticketId,
@@ -57,10 +62,16 @@ public class NewTicketIssueLiveIncidentHandler : IRequestHandler<NewTicketIssueL
                 Message = file.Title,
                 FileId = file.FileId
             });
+        }
+
         var newMessage = mapper.Map<NewMessageRequestModel>(request);
         messages.Add(newMessage);
 
-        foreach (var message in messages) await repository.AddNewMessage(message);
+        foreach (var message in messages)
+        {
+            await repository.AddNewMessage(message);
+        }
+
         var criteria = new InsertIssueCreatorCriteria
         {
             TicketId = ticketId,

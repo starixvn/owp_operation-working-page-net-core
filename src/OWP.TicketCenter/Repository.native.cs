@@ -12,8 +12,6 @@ namespace OWP.TicketCenter
 
     public interface Repository
     {
-        Task<IList<HasTicketModel>> GetTicketMatchLga(string owpMatchIds);
-
         Task<IList<EventCheckingOption>> GetEventOptionInfo(string keyword);
 
         Task<IList<EventLGAOption>> GetEventOptionLGAInfo(string keyword);
@@ -496,16 +494,6 @@ namespace OWP.TicketCenter
                 TicketId = ticketId
             };
             return (await dynamicRepository.FetchAsync<TicketInfoLgaModel>(criteria)).FirstOrDefault();
-        }
-
-        public async Task<IList<HasTicketModel>> GetTicketMatchLga(string owpMatchIds)
-        {
-            var criteria = new DetectEventHasTicketCriteria
-            {
-                OWPMatchIds = owpMatchIds,
-                ActorId = session.UserId
-            };
-            return (await dynamicRepository.FetchAsync<HasTicketModel>(criteria)).ToList();
         }
     }
 }
