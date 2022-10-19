@@ -96,6 +96,10 @@ public class NewTicketIssueLiveIncidentHandler : IRequestHandler<NewTicketIssueL
 
         messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketLiveIncident);
 
+        await notificationService.NotifyNewMessageIncome(ticketId);
+
+        await notificationService.NotifyNewAddRecipient(ticketId, request.CreatorId);
+
         await notificationService.NotifyNewMessageLga(ticketId, request.OwpMatchId, request.CreatorId);
 
         await notificationService.NotifyNewAddRecipientLga(ticketId, request.OwpMatchId, request.CreatorId);

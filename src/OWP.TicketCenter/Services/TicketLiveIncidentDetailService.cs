@@ -52,7 +52,7 @@ namespace OWP.TicketCenter.Services
             viewModel.CreatorInfo = issueCreator;
             viewModel.Recipients = recipients?.ToList();
             viewModel.Messages = messages?.ToList();
-            viewModel.EventType = (int)EventType.Match;
+            viewModel.EventType = (int)EventType.LiveIncident;
 
             return viewModel;
         }
