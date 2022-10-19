@@ -1,15 +1,15 @@
 ﻿namespace OWP.LiveDetail.UnitTests.MatchInfo
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
     using AutoMapper;
     using Common;
     using Fanex.Data.Repository;
     using Fanex.NAP.Client.Helpers.Web;
     using LiveDetail.MatchInfo;
     using NSubstitute;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
     using Xunit;
     using Xunit.Asserts.Compare;
     using AgentSpace = LiveDetail.Agent;
@@ -68,7 +68,6 @@
             // Assert
             Assert.Equal(matchInfo, result);
             Assert.Equal("Dec 19, 2018", result.EventDateDisplay);
-            Assert.Equal("3:45 PM", result.KickOffTimeDisplay);
         }
 
         [Fact]
