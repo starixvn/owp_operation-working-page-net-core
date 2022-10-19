@@ -74,7 +74,7 @@ namespace OWP.Services
             catch (Exception e)
             {
                 var message = $"Exception when deserialize {json} to {typeof(T)}";
-                throw new Exception(message, e);
+                throw new ArgumentNullException(message, e);
             }
         }
 
