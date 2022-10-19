@@ -183,7 +183,6 @@ namespace OWP.TicketCenter
         [HttpPost("ticket-detail/update-save-message")]
         [ServiceFilter(typeof(PermissionOnExistedTicket), Order = 0)]
         [ServiceFilter(typeof(PermissionFilter), Order = 1)]
-        [ServiceFilter(typeof(PermissionRemoveLastRecipient), Order = 2)]
         public async Task SaveMessage(SaveMessageRequest request)
             => await mediator.Send(request);
 
