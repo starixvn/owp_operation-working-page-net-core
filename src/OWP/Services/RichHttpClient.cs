@@ -17,15 +17,6 @@ namespace OWP.Services
         Task<Stream> Download(string requestUri);
     }
 
-    public class RichHttpClientException : Exception
-    {
-        public RichHttpClientException() : base() { }
-
-        public RichHttpClientException(string message) : base(message) { }
-
-        public RichHttpClientException(string message, Exception e) : base(message, e) { }
-    }
-
     public class RichHttpClientImp : RichHttpClient
     {
 
@@ -83,7 +74,7 @@ namespace OWP.Services
             catch (Exception e)
             {
                 var message = $"Exception when deserialize {json} to {typeof(T)}";
-                throw new RichHttpClientException(message, e);
+                throw new Exception(message, e);
             }
         }
 
