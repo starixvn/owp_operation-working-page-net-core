@@ -7,7 +7,7 @@ namespace OWP.MaxbetSetting.Handlers;
 
 public class UpdateMaxbetSettingRequest : IRequest<Unit>
 {
-    public decimal FT_HDP { get; set; }
+    public decimal FTHDP { get; set; }
     public string Column { get; set; }
     public decimal? Value { get; set; }
 }
@@ -27,7 +27,7 @@ public class UpdateMaxbetSettingHanler : IRequestHandler<UpdateMaxbetSettingRequ
     {
         var criteria = new UpdateMaxbetSettingCriteria
         {
-            FT_HDP = request.FT_HDP,
+            FT_HDP = request.FTHDP,
             Column = request.Column,
             Value = request.Value,
             ActorId = session.UserId
