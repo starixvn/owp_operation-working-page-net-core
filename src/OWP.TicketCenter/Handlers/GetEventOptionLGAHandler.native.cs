@@ -27,15 +27,6 @@ namespace OWP.TicketCenter.Handlers
             var eventInfoSender = new List<EventLGAOptionInfoSender>();
             foreach (var key in eventInfoDic.Keys)
             {
-                var userViewModel = eventInfoDic[key]
-                    .Where(x => x.HasAssignee)
-                    .Select(x => new UserViewModel
-                    {
-                        RecipientId = x.RecipientId,
-                        UserName = x.UserName,
-                        NickName = x.NickName
-                    })?.DistinctBy(x => new { x.RecipientId, x.UserName, x.NickName });
-
                 var eventViewModel = eventInfoDic[key]
                     .Select(i => new EventLGAOptionInfoViewModel
                     {
@@ -65,7 +56,7 @@ namespace OWP.TicketCenter.Handlers
                 eventInfoSender.Add(new EventLGAOptionInfoSender
                 {
                     EventInfoViewModel = eventViewModel.ToList(),
-                    UserViewModel = userViewModel.ToList()
+                    UserViewModel = new List<UserViewModel>()
                 });
             }
 
