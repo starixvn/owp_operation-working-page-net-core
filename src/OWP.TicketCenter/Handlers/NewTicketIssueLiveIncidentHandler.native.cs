@@ -1,6 +1,5 @@
 namespace OWP.TicketCenter.Handlers;
 
-using AutoMapper;
 using Criteria;
 using MediatR;
 using Models;
@@ -23,24 +22,24 @@ public class NewTicketIssueLiveIncidentRequest : NewTicketModelBase, IRequest<in
 
 public class NewTicketIssueLiveIncidentHandler : IRequestHandler<NewTicketIssueLiveIncidentRequest, int>
 {
-    private readonly IMapper mapper;
     private readonly MessageClient messageClient;
     private readonly NotificationService notificationService;
     private readonly RecipientService recipientService;
     private readonly Repository repository;
+    private readonly MessageService messageService;
 
     public NewTicketIssueLiveIncidentHandler(
         Repository repository,
-        IMapper mapper,
+        MessageService messageService,
         NotificationService notificationService,
         RecipientService recipientService,
         MessageClient messageClient)
     {
         this.repository = repository;
-        this.mapper = mapper;
         this.notificationService = notificationService;
         this.recipientService = recipientService;
         this.messageClient = messageClient;
+        this.messageService = messageService;
     }
 
     public async Task<int> Handle(NewTicketIssueLiveIncidentRequest request, CancellationToken cancellationToken)
@@ -51,26 +50,7 @@ public class NewTicketIssueLiveIncidentHandler : IRequestHandler<NewTicketIssueL
 
         await repository.AddNewTicketIssueLiveIncident(request);
 
-        var messages = new List<NewMessageRequestModel>();
-
-        foreach (var file in request.Files)
-        {
-            messages.Add(new NewMessageRequestModel
-            {
-                TicketId = ticketId,
-                CreatorId = request.CreatorId,
-                Message = file.Title,
-                FileId = file.FileId
-            });
-        }
-
-        var newMessage = mapper.Map<NewMessageRequestModel>(request);
-        messages.Add(newMessage);
-
-        foreach (var message in messages)
-        {
-            await repository.AddNewMessage(message);
-        }
+        var newMessage = await messageService.InsertMessage(request, ticketId);
 
         var criteria = new InsertIssueCreatorCriteria
         {

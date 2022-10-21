@@ -22,7 +22,7 @@ public static class TicketCenterInjector
         services.AddScoped<TicketOtherDetailService, TicketOtherDetailServiceImp>();
         services.AddScoped<TicketSupportDetailService, TicketSupportDetailServiceImp>();
         services.AddScoped<TicketLiveIncidentDetailService, TicketLiveIncidentDetailServiceImp>();
-
+        services.AddScoped<MessageService, MessageServiceImp>();
         services.AddScoped<GetEventTicketsService, GetEventTicketsServiceImp>();
 
         services.AddScoped<NotificationService, NotificationServiceImp>();
