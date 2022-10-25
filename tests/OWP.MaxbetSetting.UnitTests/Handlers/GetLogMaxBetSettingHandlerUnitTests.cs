@@ -1,5 +1,6 @@
 namespace OWP.MaxbetSetting.UnitTests.Handlers
 {
+    using AutoMapper;
     using Fanex.Data.Repository;
     using NSubstitute;
     using OWP.MaxbetSetting.Criteria;
@@ -7,7 +8,6 @@ namespace OWP.MaxbetSetting.UnitTests.Handlers
     using OWP.MaxbetSetting.Models;
     using Xunit;
     using Xunit.Asserts.Compare;
-    using AutoMapper;
 
     public class GetLogMaxbetSettingHandlerUnitTests
     {
@@ -17,22 +17,21 @@ namespace OWP.MaxbetSetting.UnitTests.Handlers
 
         private GetLogMaxbetSettingHandler handler;
 
-        public void Setup()
+        public GetLogMaxbetSettingHandlerUnitTests()
         {
             dynamicRepository = Substitute.For<IDynamicRepository>();
             var configuration = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<LogModelDeserialize, MaxBetSettingModel>();
-                cfg.CreateMap<LogModelDeserialize, MaxBetSettingModel>();
+                cfg.CreateMap<LogModelDeserialize, MaxBetLogSettingModel>();
             });
             mapper = configuration.CreateMapper();
+
             handler = new GetLogMaxbetSettingHandler(dynamicRepository, mapper);
         }
 
         [Fact]
         public async Task GetLogMaxBetSetting_Always_Return()
         {
-            Setup();
             // Arrange
             var request = new GetLogMaxbetSettingRequest();
             var log = new List<UserLogModel>()

@@ -1,13 +1,12 @@
 namespace OWP.MaxbetSetting;
 
-using Models;
 using AutoMapper;
+using Models;
 
 public class AutoMapperProfile : Profile
 {
     public AutoMapperProfile()
     {
-        CreateMap<LogModelDeserialize, MaxBetLogSettingModel>();
         CreateMap<LogModelDeserialize, MaxBetLogSettingModel>();
     }
 }

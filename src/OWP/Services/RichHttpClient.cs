@@ -1,12 +1,12 @@
 namespace OWP.Services
 {
+    using Newtonsoft.Json;
     using System;
     using System.IO;
     using System.Net.Http;
     using System.Net.Http.Headers;
     using System.Text;
     using System.Threading.Tasks;
-    using Newtonsoft.Json;
 
     public interface RichHttpClient
     {
@@ -15,13 +15,6 @@ namespace OWP.Services
         Task<T> Post<T>(string requestUri, object postData) where T : class;
 
         Task<Stream> Download(string requestUri);
-    }
-
-    public class RichHttpClientException : Exception
-    {
-        public RichHttpClientException(string message, Exception e) : base(message, e)
-        {
-        }
     }
 
     public class RichHttpClientImp : RichHttpClient
@@ -81,7 +74,7 @@ namespace OWP.Services
             catch (Exception e)
             {
                 var message = $"Exception when deserialize {json} to {typeof(T)}";
-                throw new RichHttpClientException(message, e);
+                throw new ArgumentNullException(message, e);
             }
         }
 

@@ -1,4 +1,6 @@
-﻿namespace OWP.TicketCenter.UnitTests.Services
+﻿using OWP.TicketCenter.Models;
+
+namespace OWP.TicketCenter.UnitTests.Services
 {
     using NSubstitute;
     using OWP.TicketCenter.Services;
@@ -24,6 +26,32 @@
             var service = new PermissionServiceImp(repository);
 
             var actual = await service.HasPermission(ticketId, creatorId);
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task HasPermissionRemoveLastRecipient_Always_CheckPermission()
+        {
+            repository.GetRecipientByTicketId(Arg.Any<int>())
+                .Returns(new List<RecipientResponseModel> { new() { GroupName = "Liam", RecipientId = 10 } });
+            var expected = false;
+            var service = new PermissionServiceImp(repository);
+
+            var actual = await service.HasPermissionRemoveLastRecipient(5);
+
+            Assert.Equal(expected, actual);
+        }
+
+
+        [Fact]
+        public async Task HasExistedTicket_Always_CheckPermission()
+        {
+            repository.QueryExistedTicketId(Arg.Any<int>()).Returns(true);
+            var expected = true;
+            var service = new PermissionServiceImp(repository);
+
+            var actual = await service.HasExistedTicket(5);
 
             Assert.Equal(expected, actual);
         }

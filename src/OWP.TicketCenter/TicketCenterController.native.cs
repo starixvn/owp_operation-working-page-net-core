@@ -56,7 +56,9 @@ namespace OWP.TicketCenter
         [HttpPost("new-ticket-issue-league")]
         public async Task<int> NewTicketIssueLeague(NewTicketIssueLeagueRequest request)
         => await mediator.Send(request);
-
+        [HttpPost("new-ticket-issue-live-incident")]
+        public async Task<int> NewTicketIssueLga(NewTicketIssueLiveIncidentRequest request)
+        => await mediator.Send(request);
         #endregion new ticket
 
         [HttpGet("new-ticket/get-event")]
@@ -64,6 +66,16 @@ namespace OWP.TicketCenter
         public async Task<IActionResult> GetEventInfo(string keyword)
         {
             var eventSender = await mediator.Send(new GetTicketEventOptionRequest
+            {
+                Keyword = keyword
+            });
+            return Ok(eventSender);
+        }
+        [HttpGet("new-ticket/get-event-lga")]
+        [Produces("application/json")]
+        public async Task<IActionResult> GetEventInfoLGA(string keyword)
+        {
+            var eventSender = await mediator.Send(new GetTicketEventOptionLGARequest
             {
                 Keyword = keyword
             });
@@ -93,6 +105,15 @@ namespace OWP.TicketCenter
         [ServiceFilter(typeof(PermissionOnExistedTicket), Order = 0)]
         [ServiceFilter(typeof(PermissionFilter), Order = 1)]
         public async Task<IActionResult> GetTicketMatchDetail(TicketMatchDetailRequest request)
+        {
+            var result = await mediator.Send(request);
+            return Ok(result);
+        }
+
+        [HttpPost("ticket-detail/get-live-incident")]
+        [ServiceFilter(typeof(PermissionOnExistedTicket), Order = 0)]
+        [ServiceFilter(typeof(PermissionFilter), Order = 1)]
+        public async Task<IActionResult> GetTicketLiveIncidientDetail(TicketLiveIncidentDetailRequest request)
         {
             var result = await mediator.Send(request);
             return Ok(result);
@@ -160,6 +181,8 @@ namespace OWP.TicketCenter
             => await mediator.Send(new GetStatusHistoryRequest { TicketId = ticketId });
 
         [HttpPost("ticket-detail/update-save-message")]
+        [ServiceFilter(typeof(PermissionOnExistedTicket), Order = 0)]
+        [ServiceFilter(typeof(PermissionFilter), Order = 1)]
         public async Task SaveMessage(SaveMessageRequest request)
             => await mediator.Send(request);
 

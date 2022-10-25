@@ -3,6 +3,7 @@ using MediatR;
 using OWP.RabbitMQ;
 using OWP.RabbitMQ.Constants;
 using OWP.TicketCenter.Criteria;
+using OWP.TicketCenter.Enum;
 using OWP.TicketCenter.Middleware.Models;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Notification.Services;
@@ -66,6 +67,12 @@ namespace OWP.TicketCenter.Handlers
             messageClient.SendMessage(request, RoutingKey.TicketCenterNewMessage);
 
             await notification.NotifyNewMessageIncome(request.TicketId);
+
+            if (request.TicketEventType == (int)EventType.LiveIncident)
+            {
+                var ticketInfoLga = await repository.GetTicketInfoLga(request.TicketId);
+                await notification.NotifyNewMessageLga(request.TicketId, ticketInfoLga.OwpMatchId, request.ActorId);
+            }
 
             return result;
         }

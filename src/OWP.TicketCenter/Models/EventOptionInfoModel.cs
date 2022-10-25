@@ -2,8 +2,6 @@
 {
     public class EventOptionInfoModel
     {
-        public int InfoSiteMatchId { get; set; }
-
         public int OwpLeagueId { get; set; }
 
         public string LeagueName { get; set; }
@@ -27,5 +25,15 @@
         public string NickName { get; set; }
 
         public bool HasAssignee { get; set; }
+    }
+
+    public class EventCheckingOption : EventOptionInfoModel
+    {
+        public int InfoSiteMatchId { get; set; }
+    }
+
+    public class EventLGAOption : EventOptionInfoModel
+    {
+        public int OwpMatchId { get; set; }
     }
 }

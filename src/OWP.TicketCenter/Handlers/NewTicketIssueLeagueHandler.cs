@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using OWP.RabbitMQ;
 using OWP.RabbitMQ.Constants;
 using OWP.TicketCenter.Criteria;
@@ -18,20 +17,20 @@ namespace OWP.TicketCenter.Handlers
     public class NewTicketIssueLeagueHandler : IRequestHandler<NewTicketIssueLeagueRequest, int>
     {
         private readonly Repository repository;
-        private readonly IMapper mapper;
+        private readonly MessageService messageService;
         private readonly NotificationService notificationService;
         private readonly RecipientService recipientService;
         private readonly MessageClient messageClient;
 
         public NewTicketIssueLeagueHandler(
             Repository repository,
-            IMapper mapper,
+            MessageService messageService,
             NotificationService notificationService,
             RecipientService recipientService,
             MessageClient messageClient)
         {
             this.repository = repository;
-            this.mapper = mapper;
+            this.messageService = messageService;
             this.notificationService = notificationService;
             this.recipientService = recipientService;
             this.messageClient = messageClient;
@@ -51,24 +50,7 @@ namespace OWP.TicketCenter.Handlers
 
             await repository.InsertIssueCreator(criteria);
 
-            var messages = new List<NewMessageRequestModel>();
-            foreach (var file in request.Files)
-            {
-                messages.Add(new()
-                {
-                    TicketId = ticketId,
-                    CreatorId = request.CreatorId,
-                    Message = file.Title,
-                    FileId = file.FileId
-                });
-            }
-            var newMessage = mapper.Map<NewMessageRequestModel>(request);
-            messages.Add(newMessage);
-
-            foreach (var message in messages)
-            {
-                await repository.AddNewMessage(message);
-            }
+            var newMessage = await messageService.InsertMessage(request, ticketId);
 
             await recipientService.InsertManyRecipient(request.Recipients, request.TicketId);
 

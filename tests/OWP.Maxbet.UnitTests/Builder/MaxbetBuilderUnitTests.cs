@@ -44,11 +44,6 @@ namespace OWP.Maxbet.UnitTests.Builder
                 },
                 new MaxbetModel
                 {
-                    BettypeId= (int)EnumBettype.OverUnder,
-                    Value=1000
-                },
-                 new MaxbetModel
-                {
                     BettypeId= (int)EnumBettype.FirstHalfHandicap,
                     Value=1000
                 },
@@ -77,6 +72,198 @@ namespace OWP.Maxbet.UnitTests.Builder
         }
 
         [Fact]
+        public async Task BuildMaxbetSpecialProduct_Found_MaxbetNoOFCorner_ReturnMaxbetSpreadCorrect()
+        {
+            IEnumerable<MaxbetModel> maxbet = new List<MaxbetModel>
+            {
+                new ()
+                {
+                    BettypeId= (int)EnumBettype.Handicap,
+                    Value=1000
+                },
+            };
+            IEnumerable<MaxbetModel> maxBetMainMatch = new List<MaxbetModel>
+            {
+                new ()
+                {
+                    BettypeId= (int)EnumBettype.Handicap,
+                    Value=1000
+                },
+                new ()
+                {
+                    BettypeId= (int)EnumBettype.OverUnder,
+                    Value=1000
+                },
+                new()
+                {
+                    BettypeId= (int)EnumBettype.FirstHalfHandicap,
+                    Value=1000
+                },
+                new()
+                {
+                    BettypeId= (int)EnumBettype.FirstHalfOverUnder,
+                    Value=1000
+                }
+            };
+            syncMaxbetRepository
+                .GetMaxbetByOwpMatchId(1)
+                .Returns(maxbet);
+            syncMaxbetRepository
+                .GetMaxbetByOwpMatchId(2)
+                .Returns(maxBetMainMatch);
+
+            syncMaxbetRepository.GetMaxbetSettingDefault()
+                .Returns(GetMaxbetSettingInfosRaw());
+
+            var result = await maxbetBuilder
+                .BuildMaxbetSpecialProduct(new MinorMatchInfo { MinorMatchId = 1, ParentMatchId = 2 }, -3);
+
+            var expected = new MaxbetSpread
+            {
+                Handicap = 1000,
+                OverUnder = 1000,
+                FirstHalfHandicap = 1000,
+                FirstHalfOverUnder = 1000
+            };
+
+            DeepAssert.Equal(expected, result);
+        }
+
+        [Fact]
+        public async Task BuildMaxbetSpecialProduct_Found_MaxbetNextCorners_ReturnMaxbetSpreadCorrect()
+        {
+
+            IEnumerable<MaxbetModel> maxBetMainMatch = new List<MaxbetModel>
+            {
+                new ()
+                {
+                    BettypeId= (int)EnumBettype.Handicap,
+                    Value=1000
+                },
+
+            };
+
+            syncMaxbetRepository
+                .GetMaxbetByOwpMatchId(2)
+                .Returns(maxBetMainMatch);
+
+            syncMaxbetRepository.GetMaxbetSettingDefault()
+                .Returns(GetMaxbetSettingInfosRaw());
+
+            var result = await maxbetBuilder
+                .BuildMaxbetSpecialProduct(new MinorMatchInfo { MinorMatchId = 1, ParentMatchId = 2 }, -4);
+
+            var expected = new MaxbetSpread
+            {
+                Handicap = 1000,
+
+            };
+
+            DeepAssert.Equal(expected, result);
+        }
+
+        [Fact]
+        public async Task BuildMaxbetSpecialProduct_Found_MaxbetNextBooking_ReturnMaxbetSpreadCorrect()
+        {
+
+            IEnumerable<MaxbetModel> maxBetMainMatch = new List<MaxbetModel>
+            {
+                new ()
+                {
+                    BettypeId= (int)EnumBettype.Handicap,
+                    Value=1000
+                },
+
+            };
+
+            syncMaxbetRepository
+                .GetMaxbetByOwpMatchId(2)
+                .Returns(maxBetMainMatch);
+
+            syncMaxbetRepository.GetMaxbetSettingDefault()
+                .Returns(GetMaxbetSettingInfosRaw());
+
+            var result = await maxbetBuilder
+                .BuildMaxbetSpecialProduct(new MinorMatchInfo { MinorMatchId = 1, ParentMatchId = 2 }, -7);
+
+            var expected = new MaxbetSpread
+            {
+                Handicap = 1000,
+
+            };
+
+            DeepAssert.Equal(expected, result);
+        }
+
+        [Fact]
+        public async Task BuildMaxbetSpecialProduct_Found_MaxbetTotalBooking_ReturnMaxbetSpreadCorrect()
+        {
+
+            IEnumerable<MaxbetModel> maxBetMainMatch = new List<MaxbetModel>
+            {
+                new ()
+                {
+                    BettypeId= (int)EnumBettype.Handicap,
+                    Value=1000
+                },
+
+            };
+
+            syncMaxbetRepository
+                .GetMaxbetByOwpMatchId(2)
+                .Returns(maxBetMainMatch);
+
+            syncMaxbetRepository.GetMaxbetSettingDefault()
+                .Returns(GetMaxbetSettingInfosRaw());
+
+            var result = await maxbetBuilder
+                .BuildMaxbetSpecialProduct(new MinorMatchInfo { MinorMatchId = 1, ParentMatchId = 2 }, -6);
+
+            var expected = new MaxbetSpread
+            {
+                Handicap = 1000,
+                OverUnder = 1000,
+                FirstHalfHandicap = 1000,
+                FirstHalfOverUnder = 1000,
+            };
+
+            DeepAssert.Equal(expected, result);
+        }
+
+        [Fact]
+        public async Task BuildMaxbetSpecialProduct_Found_OverUnder_ReturnMaxbetSpreadCorrect()
+        {
+
+            IEnumerable<MaxbetModel> maxBetMainMatch = new List<MaxbetModel>
+            {
+                new ()
+                {
+                    BettypeId= (int)EnumBettype.Handicap,
+                    Value=1000
+                },
+
+            };
+
+            syncMaxbetRepository
+                .GetMaxbetByOwpMatchId(2)
+                .Returns(maxBetMainMatch);
+
+            syncMaxbetRepository.GetMaxbetSettingDefault()
+                .Returns(GetMaxbetSettingInfosRaw());
+
+            var result = await maxbetBuilder
+                .BuildMaxbetSpecialProduct(new MinorMatchInfo { MinorMatchId = 1, ParentMatchId = 2 }, -7);
+
+            var expected = new MaxbetSpread
+            {
+                Handicap = 1000,
+
+            };
+
+            DeepAssert.Equal(expected, result);
+        }
+
+        [Fact]
         public void BuildMaxbetSender_ListMaxbetEmpty_ReturnMaxbetSenderDefault()
         {
             var maxbet = new List<MaxbetModel>();
@@ -89,22 +276,22 @@ namespace OWP.Maxbet.UnitTests.Builder
         {
             var maxbet = new List<MaxbetModel>
             {
-                new MaxbetModel
+                new ()
                 {
                     BettypeId= (int)EnumBettype.Handicap,
                     Value=10000
                 },
-                new MaxbetModel
+                new ()
                 {
                     BettypeId= (int)EnumBettype.OverUnder,
                     Value=10000
                 },
-                new MaxbetModel
+                new()
                 {
                     BettypeId= (int)EnumBettype.FirstHalfHandicap,
                     Value=10000
                 },
-                new MaxbetModel
+                new ()
                 {
                     BettypeId= (int)EnumBettype.FirstHalfOverUnder,
                     Value=10000

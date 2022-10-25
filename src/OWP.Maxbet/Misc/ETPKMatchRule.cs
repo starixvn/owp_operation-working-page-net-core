@@ -34,11 +34,16 @@ namespace OWP.Maxbet.Misc
             => IsSaBaMatch(leagueName) && subtype == SubTypeETPK.SaBaPK;
 
         private bool IsSaBaMatch(string leagueName)
+            => IsSaBaFifa(leagueName) || IsSaBaPes(leagueName);
+
+        private bool IsSaBaFifa(string leagueName)
+            => leagueName.IsContainsAll("SABA", "FIFA", "16 Mins")
+               || leagueName.IsContainsAll("SABA", "FIFA", "6 Mins")
+               || leagueName.IsContainsAll("M88 SABA", "FIFA", "16 Mins");
+
+        private bool IsSaBaPes(string leagueName)
             => leagueName.IsContainsAll("SABA", "PES", "15 Mins")
                || leagueName.IsContainsAll("PES", "20 Mins")
-               || leagueName.IsContainsAll("SABA", "FIFA", "16 Mins")
-               || leagueName.IsContainsAll("SABA", "FIFA", "6 Mins")
-               || leagueName.IsContainsAll("M88 SABA", "FIFA", "16 Mins")
                || leagueName.IsContainsAll("SABA", "PES", "5 Mins");
     }
 

@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using OWP.Extensions;
 using OWP.TicketCenter.Criteria;
 using OWP.TicketCenter.Handlers;
 using OWP.TicketCenter.ViewModels;
@@ -12,11 +11,15 @@ namespace OWP.TicketCenter
     {
         public AutoMapperProfile()
         {
+            CreateMap<NewTicketIssueLiveIncidentRequest, AddNewTicketIssueLiveIncidentCriteria>();
             CreateMap<NewTicketIssueEventRequest, AddNewTicketIssueEventCriteria>();
             CreateMap<NewTicketIssueOtherRequest, AddNewTicketIssueOtherCriteria>();
             CreateMap<NewTicketIssueLeagueRequest, AddNewTicketIssueLeagueCriteria>();
             CreateMap<NewTicketIssueSupportRequest, AddNewTicketIssueSupportCriteria>();
 
+            CreateMap<NewTicketIssueLiveIncidentRequest, NewMessageRequestModel>().ForMember(
+                m => m.FileId,
+                opt => opt.Ignore());
             CreateMap<NewTicketIssueEventRequest, NewMessageRequestModel>().ForMember(
                 m => m.FileId,
                 opt => opt.Ignore());
@@ -33,6 +36,7 @@ namespace OWP.TicketCenter
             CreateMap<QueryEventTicketsRequest, GetEventTicketMatchCriteria>();
             CreateMap<QueryEventTicketsRequest, GetEventTicketOtherCriteria>();
             CreateMap<QueryEventTicketsRequest, GetEventTicketSupportCriteria>();
+            CreateMap<QueryEventTicketsRequest, GetEventTicketLiveIncidentCriteria>();
 
             CreateMap<EventTicketLeagueModel, TicketLeagueDetailViewModel>()
                 .ForMember(
