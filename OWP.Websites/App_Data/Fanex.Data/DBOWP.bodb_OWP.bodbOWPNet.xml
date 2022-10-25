@@ -213,7 +213,7 @@
         <Setting Key="OWP_OvertimeReport_GetReportByDateRange" SpName="OWP_OvertimeReport_GetReportByDateRange" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     </Function>
     <Function Name="PreMatchAssignment">
-        <Setting Key="OWP_PrematchAssignment_GetMaxbetSpread" SpName="OWP_PrematchAssignment_GetMaxbetSpread" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+        <Setting Key="OWP_PrematchAssignment_GetMaxbetSpread" SpName="OWP_PrematchAssignment_GetMaxbetSpread" DbName="DBACC.bodb02.bodbAdminNet" />
         <Setting Key="OWP_PreMatchAssignment_GetWorkingShift" SpName="OWP_PreMatchAssignment_GetWorkingShift" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_PreMatchAssignment_GetChangeLog" SpName="OWP_PreMatchAssignment_GetChangeLog" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_PreMatchAssignment_QueryDayShift" SpName="OWP_PreMatchAssignment_QueryDayShift" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
