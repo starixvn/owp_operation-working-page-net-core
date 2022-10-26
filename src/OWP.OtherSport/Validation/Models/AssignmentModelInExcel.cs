@@ -21,6 +21,9 @@
             ErrorMessage = "[Column: {0}] - The Match Status must be Live, Canceled or Postponed")]
         public string MatchStatus { get; set; }
 
+        [Display(Name = "AdminsiteMatchID")]
+        public int? AdminSiteId { get; set; }
+
         public int RowIndex { get; set; }
 
         [Display(Name = "Sport")]

@@ -17,6 +17,7 @@
             Away = string.Empty;
             League = string.Empty;
             AutoLink = string.Empty;
+
         }
 
         public void TraderConstructor()
@@ -166,6 +167,8 @@
         public int OSMatchId { get; set; }
 
         public string Reporter { get; set; }
+
+        public int? AdminSiteId { get; set; }
 
         public string MatchStatus { get; set; }
 

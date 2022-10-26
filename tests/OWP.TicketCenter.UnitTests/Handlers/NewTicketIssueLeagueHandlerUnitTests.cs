@@ -25,17 +25,20 @@ namespace OWP.TicketCenter.UnitTests.Handlers
 
         private readonly MessageClient messageClient;
 
+        private readonly MessageService messageService;
+
         public NewTicketIssueLeagueHandlerUnitTests()
         {
             repository = Substitute.For<Repository>();
             mapper = Substitute.For<IMapper>();
+            messageService = Substitute.For<MessageService>();
             notificationService = Substitute.For<NotificationService>();
             recipientService = Substitute.For<RecipientService>();
             messageClient = Substitute.For<MessageClient>();
 
             handler = new NewTicketIssueLeagueHandler(
                 repository,
-                mapper,
+                messageService,
                 notificationService,
                 recipientService,
                 messageClient
