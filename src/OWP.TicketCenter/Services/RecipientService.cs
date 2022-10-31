@@ -52,12 +52,14 @@ namespace OWP.TicketCenter.Services
         {
             var recipientGroupIds = BuildRecipientIdsByType(recipients, RecipientType.Group);
             var recipientIndividualIds = BuildRecipientIdsByType(recipients, RecipientType.Individual);
+            var recipientSectionIds = BuildRecipientIdsByType(recipients, RecipientType.Section);
 
             var criteria = new RemoveManyRecipientReaderCriteria
             {
                 TicketId = ticketId,
                 GroupIds = recipientGroupIds,
                 IndividualIds = recipientIndividualIds,
+                SectionIds = recipientSectionIds
             };
 
             await repository.RemoveManyRecipientReader(criteria);
@@ -70,11 +72,12 @@ namespace OWP.TicketCenter.Services
         {
             var recipientGroupIds = BuildRecipientIdsByType(recipients, RecipientType.Group);
             var recipientIndividualIds = BuildRecipientIdsByType(recipients, RecipientType.Individual);
-
+            var recipientSectionIds = BuildRecipientIdsByType(recipients, RecipientType.Section);
             var criteria = new InsertManyRecipientReaderCriteria
             {
                 TicketId = ticketId,
                 GroupIds = recipientGroupIds,
+                SectionIds = recipientSectionIds,
                 IndividualIds = recipientIndividualIds,
                 CreatorId = creatorId
             };
