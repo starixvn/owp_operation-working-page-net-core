@@ -12,6 +12,8 @@
 
         public int? AdminsiteMatchId { get; set; }
 
+        public bool IsLinked { get; set; }
+
         public string Reporter { get; set; }
 
         public string Sport { get; set; }
