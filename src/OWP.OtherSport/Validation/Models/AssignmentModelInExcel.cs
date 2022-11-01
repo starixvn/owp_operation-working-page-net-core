@@ -22,7 +22,7 @@
         public string MatchStatus { get; set; }
 
         [Display(Name = "AdminsiteMatchID")]
-        public int? AdminSiteId { get; set; }
+        public string AdminSiteId { get; set; }
 
         public int RowIndex { get; set; }
 

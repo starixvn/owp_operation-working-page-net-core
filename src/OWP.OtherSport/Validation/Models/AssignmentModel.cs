@@ -168,7 +168,7 @@
 
         public string Reporter { get; set; }
 
-        public int? AdminSiteId { get; set; }
+        public string AdminSiteId { get; set; }
 
         public string MatchStatus { get; set; }
 
