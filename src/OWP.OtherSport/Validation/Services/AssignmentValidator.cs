@@ -1,201 +1,237 @@
-﻿namespace OWP.OtherSport.Validation.Services
+﻿namespace OWP.OtherSport.Validation.Services;
+using OWP.OtherSport.Validation.Exceptions;
+using OWP.OtherSport.Validation.Helpers;
+using OWP.OtherSport.Validation.Models;
+
+using System.ComponentModel.DataAnnotations;
+using System.Reflection;
+using System.Text.RegularExpressions;
+
+public interface AssignmentValidator
 {
-    using OWP.OtherSport.Validation.Exceptions;
-    using OWP.OtherSport.Validation.Helpers;
-    using OWP.OtherSport.Validation.Models;
+    void Validate(UploadingDataFromExcel rawDataFromExcel,
+        List<Trader> traders);
 
-    using System.ComponentModel.DataAnnotations;
-    using System.Reflection;
-    using System.Text.RegularExpressions;
+    void ValidateMatchNo(AssignmentModelInExcel assignment, List<ValidationResult> results);
 
-    public interface AssignmentValidator
+    void ValidateTraders(AssignmentModelInExcel assignment, List<ValidationResult> results, List<Trader> traders);
+
+    void ValidateMaxbetAndSpreadInString(AssignmentModelInExcel assignment, List<ValidationResult> results);
+}
+
+public class AssignmentValidatorImp : AssignmentValidator
+{
+    public void Validate(UploadingDataFromExcel rawDataFromExcel, List<Trader> traders)
     {
-        void Validate(UploadingDataFromExcel rawDataFromExcel,
-            List<Trader> traders);
+        var validationResults = new List<AssignmentValidationRowResult>();
 
-        void ValidateMatchNo(AssignmentModelInExcel assignment, List<ValidationResult> results);
+        for (var i = 0; i < rawDataFromExcel.Assignments.Count; i++)
+        {
+            var rowIndex = rawDataFromExcel.Assignments[i].RowIndex;
+            var assignments = rawDataFromExcel.Assignments.ToList();
+            assignments.RemoveAt(i); //Remove match at i for duplicate matches validation
 
-        void ValidateTraders(AssignmentModelInExcel assignment, List<ValidationResult> results, List<Trader> traders);
+            var validationResultsOfAssignment = CustomValidateAssignment(rawDataFromExcel.Assignments[i], assignments, traders);
 
-        void ValidateMaxbetAndSpreadInString(AssignmentModelInExcel assignment, List<ValidationResult> results);
+            ValidationHelper.BuildValidationRowResult(
+               validationResultsOfAssignment,
+               validationResults,
+               rowIndex);
+        }
+
+        validationResults = GroupByDuplicateMatchMessage(validationResults,
+         "Duplicate Match",
+         "Duplicate AdminSite Id");
+
+        var hasError = validationResults.Any();
+
+        if (hasError)
+        {
+            throw new InvalidAssignmentRowException(validationResults);
+        }
     }
 
-    public class AssignmentValidatorImp : AssignmentValidator
+    public List<ValidationResult> CustomValidateAssignment(AssignmentModelInExcel assignment, List<AssignmentModelInExcel> assigments, List<Trader> traders)
     {
-        public void Validate(UploadingDataFromExcel rawDataFromExcel, List<Trader> traders)
+        var results = new List<ValidationResult>();
+        ValidateMatchNo(assignment, results);
+        ValidateTraders(assignment, results, traders);
+        ValidateDataAnotation(assignment, results);
+        ValidateDuplicatedMatch(assignment, assigments, results);
+        ValidateDuplicatedAdminSiteId(assignment, assigments, results);
+        ValidateMaxbetAndSpreadInString(assignment, results);
+
+        return results;
+    }
+
+    public void ValidateDuplicatedAdminSiteId(AssignmentModelInExcel assignment, List<AssignmentModelInExcel> assignments, List<ValidationResult> results)
+    {
+        if (int.TryParse(assignment.AdminSiteId, out int _))
         {
-            var validationResults = new List<AssignmentValidationRowResult>();
+            var duplicatedAdminSiteId = assignments
+                    .Where(x => string.Equals(x.AdminSiteId?.Trim(), assignment.AdminSiteId?.Trim()))
+                    .Select(x => x.AdminSiteId?.Trim());
 
-            for (var i = 0; i < rawDataFromExcel.Assignments.Count; i++)
-            {
-                var rowIndex = rawDataFromExcel.Assignments[i].RowIndex;
-                var assignments = rawDataFromExcel.Assignments.ToList();
-                assignments.RemoveAt(i); //Remove match at i for duplicate matches validation
+            var isDuplicated = duplicatedAdminSiteId.Any(id => string.Equals(id, assignment.AdminSiteId?.Trim()));
 
-                var validationResultsOfAssignment = CustomValidateAssignment(rawDataFromExcel.Assignments[i], assignments, traders);
-
-                ValidationHelper.BuildValidationRowResult(
-                   validationResultsOfAssignment,
-                   validationResults,
-                   rowIndex);
-            }
-
-            validationResults = GroupByDuplicateMatchMessage(validationResults);
-
-            var hasError = validationResults.Any();
-
-            if (hasError)
-            {
-                throw new InvalidAssignmentRowException(validationResults);
-            }
-        }
-
-        public List<ValidationResult> CustomValidateAssignment(AssignmentModelInExcel assignment, List<AssignmentModelInExcel> assigments, List<Trader> traders)
-        {
-            var results = new List<ValidationResult>();
-            ValidateMatchNo(assignment, results);
-            ValidateTraders(assignment, results, traders);
-            ValidateDataAnotation(assignment, results);
-            ValidateDuplicatedMatch(assignment, assigments, results);
-            ValidateMaxbetAndSpreadInString(assignment, results);
-
-            return results;
-        }
-
-        public void ValidateMatchNo(AssignmentModelInExcel assignment, List<ValidationResult> results)
-        {
-            if (string.IsNullOrWhiteSpace(assignment.MatchNo))
-            {
-                results.Add(new ValidationResult("Match No is required"));
-            }
-            else
-            {
-                if (!double.TryParse(assignment.MatchNo, out double _))
-                {
-                    results.Add(new ValidationResult("Match No must be number"));
-                }
-            }
-        }
-
-        public void ValidateTraders(AssignmentModelInExcel assignment, List<ValidationResult> results, List<Trader> traders)
-        {
-            var invalidTraders = traders.Where(t => t.UserId == 0).Select(t => t.Username).ToList();
-
-            if (invalidTraders.Count > 0)
-            {
-                var error = ValidateInvalidTrader(assignment, invalidTraders);
-
-                if (error.Count > 0)
-                {
-                    var invalidTradersInString = string.Join("; ", error);
-                    results.Add(new ValidationResult("Invalid " + invalidTradersInString));
-                }
-            }
-        }
-
-        public static List<string> ValidateInvalidTrader(AssignmentModelInExcel assignment, List<string> invalidTraders)
-        {
-            var errorList = new List<string>();
-            var properties = typeof(AssignmentModelInExcel).GetProperties();
-
-            foreach (var prop in properties)
-            {
-                if (prop.Name.StartsWith("Trader", StringComparison.CurrentCultureIgnoreCase) ||
-                    prop.Name.StartsWith("OtherTrader", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    var property = GetProperty(assignment, prop.Name);
-                    var trader = property.GetValue(assignment)?.ToString() ?? string.Empty;
-                    CheckTraderIgnoreNote(errorList, invalidTraders, trader, PropertyHelper.GetDisplayName(prop));
-                }
-            }
-
-            return errorList;
-        }
-
-        private static PropertyInfo GetProperty(AssignmentModelInExcel model, string propertyName)
-            => model.GetType().GetProperties().Single(p => p.Name == propertyName);
-
-        public static void CheckTraderIgnoreNote(List<string> errorList, List<string> invalidTraders, string trader, string name)
-        {
-            var regex = new Regex(@"#(.*?)(\s|$)");
-            var traderName = regex.Match(trader).Groups[1].Value;
-            if (invalidTraders.Contains(traderName))
-            {
-                errorList.Add($"{name}: {traderName}");
-            }
-        }
-
-        public static void ValidateDataAnotation(AssignmentModelInExcel assignment, List<ValidationResult> results)
-        {
-            var context = new ValidationContext(assignment, null, null);
-            Validator.TryValidateObject(assignment, context, results, true);
-        }
-
-        public void ValidateMaxbetAndSpreadInString(AssignmentModelInExcel assignment, List<ValidationResult> results)
-        {
-            const string regex = @"^(?:|[0-9]\d{0,9}(\.\d{1,9})?%?)$";
-
-            const BindingFlags flags = BindingFlags.Public | BindingFlags.Instance;
-            var destinationProperties = typeof(AssignmentModelInExcel).GetProperties(flags);
-
-            foreach (var property in destinationProperties)
-            {
-                if (property.Name.StartsWith("MaxBet", StringComparison.CurrentCultureIgnoreCase) ||
-                    property.Name.StartsWith("Spread", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    var value = property.GetValue(assignment).ToString() ?? string.Empty;
-                    var match = Regex.Match(value, regex, RegexOptions.IgnoreCase);
-
-                    if (!match.Success)
-                    {
-                        var colName = property.Name.Substring(0, 6);
-                        results.Add(new ValidationResult($"[Column: {PropertyHelper.GetDisplayName(property)}] - Error: Invalid {colName} format"));
-                    }
-                }
-            }
-        }
-
-        private static void ValidateDuplicatedMatch(AssignmentModelInExcel assignment, List<AssignmentModelInExcel> assignments, List<ValidationResult> results)
-        {
-            var dupAssignmentInfo = assignments.Where(x => IsEquals(x.League, assignment.League) &&
-                                                    IsEquals(x.Home.Replace("(N)", "").Trim(), assignment.Home.Replace("(N)", "").Trim()) &&
-                                                    IsEquals(x.Away, assignment.Away) &&
-                                                    IsEquals(x.DateTime, assignment.DateTime)).ToList();
-
-            var isDuplicated = dupAssignmentInfo.Any(x => IsEquals(x.Sport, assignment.Sport));
             if (isDuplicated)
             {
-                results.Add(new ValidationResult($"Duplicate Match: {assignment.League} | {assignment.Home.Replace("(N)", "").Trim()} -vs- {assignment.Away}"));
+                results.Add(new ValidationResult($"Duplicate AdminSite Id: '{assignment.AdminSiteId}'"));
             }
         }
-
-        private static bool IsEquals(string source, string value)
+        else if (!string.IsNullOrWhiteSpace(assignment.AdminSiteId))
         {
-            return !string.IsNullOrWhiteSpace(source) &&
-                source.Equals(value, StringComparison.OrdinalIgnoreCase);
+            results.Add(new ValidationResult("AdminsiteMatchId must be number"));
         }
+    }
 
-        public static List<AssignmentValidationRowResult> GroupByDuplicateMatchMessage(List<AssignmentValidationRowResult> validationResults)
+    public void ValidateMatchNo(AssignmentModelInExcel assignment, List<ValidationResult> results)
+    {
+        if (string.IsNullOrWhiteSpace(assignment.MatchNo))
         {
-            var duplicateMatches = validationResults.Where(x => x.Message.StartsWith("Duplicate Match"))
-                                     .GroupBy(x => x.Message)
-                                     .Where(x => x.Count() > 1)
-                                     .ToList();
-            foreach (var duplicateMatch in duplicateMatches)
+            results.Add(new ValidationResult("Match No is required"));
+        }
+        else
+        {
+            if (!double.TryParse(assignment.MatchNo, out double _))
             {
-                var duplicateRow = duplicateMatch.Select(x => x.Row).ToList();
-                var rowNumber = duplicateMatch.FirstOrDefault().Row;
-                duplicateRow.RemoveAt(0);
-                validationResults.Add(new()
-                {
-                    Row = rowNumber,
-                    Message = $"{duplicateMatch.FirstOrDefault().Message} (with row {string.Join(',', duplicateRow)})"
-                });
-
-                validationResults.RemoveAll(x => duplicateMatch.Any(y => y.Message == x.Message));
+                results.Add(new ValidationResult("Match No must be number"));
             }
-
-            return validationResults.OrderBy(x => x.Row).ToList();
         }
+    }
+
+    public void ValidateTraders(AssignmentModelInExcel assignment, List<ValidationResult> results, List<Trader> traders)
+    {
+        var invalidTraders = traders.Where(t => t.UserId == 0).Select(t => t.Username).ToList();
+
+        if (invalidTraders.Count > 0)
+        {
+            var error = ValidateInvalidTrader(assignment, invalidTraders);
+
+            if (error.Count > 0)
+            {
+                var invalidTradersInString = string.Join("; ", error);
+                results.Add(new ValidationResult("Invalid " + invalidTradersInString));
+            }
+        }
+    }
+
+    public static List<string> ValidateInvalidTrader(AssignmentModelInExcel assignment, List<string> invalidTraders)
+    {
+        var errorList = new List<string>();
+        var properties = typeof(AssignmentModelInExcel).GetProperties();
+
+        foreach (var prop in properties)
+        {
+            if (prop.Name.StartsWith("Trader", StringComparison.CurrentCultureIgnoreCase) ||
+                prop.Name.StartsWith("OtherTrader", StringComparison.CurrentCultureIgnoreCase))
+            {
+                var property = GetProperty(assignment, prop.Name);
+                var trader = property.GetValue(assignment)?.ToString() ?? string.Empty;
+                CheckTraderIgnoreNote(errorList, invalidTraders, trader, PropertyHelper.GetDisplayName(prop));
+            }
+        }
+
+        return errorList;
+    }
+
+    private static PropertyInfo GetProperty(AssignmentModelInExcel model, string propertyName)
+        => model.GetType().GetProperties().Single(p => p.Name == propertyName);
+
+    public static void CheckTraderIgnoreNote(List<string> errorList, List<string> invalidTraders, string trader, string name)
+    {
+        var regex = new Regex(@"#(.*?)(\s|$)");
+        var traderName = regex.Match(trader).Groups[1].Value;
+        if (invalidTraders.Contains(traderName))
+        {
+            errorList.Add($"{name}: {traderName}");
+        }
+    }
+
+    public static void ValidateDataAnotation(AssignmentModelInExcel assignment, List<ValidationResult> results)
+    {
+        var context = new ValidationContext(assignment, null, null);
+        Validator.TryValidateObject(assignment, context, results, true);
+    }
+
+    public void ValidateMaxbetAndSpreadInString(AssignmentModelInExcel assignment, List<ValidationResult> results)
+    {
+        const string regex = @"^(?:|[0-9]\d{0,9}(\.\d{1,9})?%?)$";
+
+        const BindingFlags flags = BindingFlags.Public | BindingFlags.Instance;
+        var destinationProperties = typeof(AssignmentModelInExcel).GetProperties(flags);
+
+        foreach (var property in destinationProperties)
+        {
+            if (property.Name.StartsWith("MaxBet", StringComparison.CurrentCultureIgnoreCase) ||
+                property.Name.StartsWith("Spread", StringComparison.CurrentCultureIgnoreCase))
+            {
+                var value = property.GetValue(assignment).ToString() ?? string.Empty;
+                var match = Regex.Match(value, regex, RegexOptions.IgnoreCase);
+
+                if (!match.Success)
+                {
+                    var colName = property.Name.Substring(0, 6);
+                    results.Add(new ValidationResult($"[Column: {PropertyHelper.GetDisplayName(property)}] - Error: Invalid {colName} format"));
+                }
+            }
+        }
+    }
+
+    private static void ValidateDuplicatedMatch(AssignmentModelInExcel assignment, List<AssignmentModelInExcel> assignments, List<ValidationResult> results)
+    {
+        var dupAssignmentInfo = assignments.Where(x => IsEquals(x.League, assignment.League) &&
+                                                IsEquals(x.Home.Replace("(N)", "").Trim(), assignment.Home.Replace("(N)", "").Trim()) &&
+                                                IsEquals(x.Away, assignment.Away) &&
+                                                IsEquals(x.DateTime, assignment.DateTime)).ToList();
+
+        var isDuplicated = dupAssignmentInfo.Any(x => IsEquals(x.Sport, assignment.Sport));
+        if (isDuplicated)
+        {
+            results.Add(new ValidationResult($"Duplicate Match: {assignment.League} | {assignment.Home.Replace("(N)", "").Trim()} -vs- {assignment.Away}"));
+        }
+    }
+
+    private static bool IsEquals(string source, string value)
+    {
+        return !string.IsNullOrWhiteSpace(source) &&
+            source.Equals(value, StringComparison.OrdinalIgnoreCase);
+    }
+
+    public static List<AssignmentValidationRowResult> GroupByDuplicateMatchMessage(List<AssignmentValidationRowResult> validationResults, params string[] containString)
+    {
+        var duplicateMatches = validationResults.Where(x => HasStartWith(x.Message, containString))
+                                 // x.Message.StartsWith("Duplicate Match"))
+                                 .GroupBy(x => x.Message)
+                                 .Where(x => x.Count() > 1)
+                                 .ToList();
+        foreach (var duplicateMatch in duplicateMatches)
+        {
+            var duplicateRow = duplicateMatch.Select(x => x.Row).ToList();
+            var rowNumber = duplicateMatch.FirstOrDefault().Row;
+            duplicateRow.RemoveAt(0);
+            validationResults.Add(new()
+            {
+                Row = rowNumber,
+                Message = $"{duplicateMatch.FirstOrDefault().Message} (with row {string.Join(',', duplicateRow)})"
+            });
+
+            validationResults.RemoveAll(x => duplicateMatch.Any(y => y.Message == x.Message));
+        }
+
+        return validationResults.OrderBy(x => x.Row).ToList();
+    }
+
+    private static bool HasStartWith(string source, params string[] childString)
+    {
+        foreach (var child in childString)
+        {
+            if (source.StartsWith(child))
+            {
+                return true;
+            }
+        }
+        return false;
+
     }
 }

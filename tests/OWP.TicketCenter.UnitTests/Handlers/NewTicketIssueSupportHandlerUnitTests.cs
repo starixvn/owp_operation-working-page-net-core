@@ -26,6 +26,8 @@ namespace OWP.TicketCenter.UnitTests.Handlers
 
         private readonly MessageClient messageClient;
 
+        private readonly MessageService messageService;
+
         public NewTicketIssueSupportHandlerUnitTests()
         {
             repository = Substitute.For<Repository>();
@@ -33,10 +35,11 @@ namespace OWP.TicketCenter.UnitTests.Handlers
             notificationService = Substitute.For<NotificationService>();
             recipientService = Substitute.For<RecipientService>();
             messageClient = Substitute.For<MessageClient>();
+            messageService = Substitute.For<MessageService>();
 
             handler = new NewTicketIssueSupportHandler(
                 repository,
-                mapper,
+                messageService,
                 notificationService,
                 recipientService,
                 messageClient

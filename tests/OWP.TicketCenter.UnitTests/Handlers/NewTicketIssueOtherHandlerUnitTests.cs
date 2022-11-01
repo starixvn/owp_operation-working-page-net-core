@@ -21,26 +21,21 @@ namespace OWP.TicketCenter.UnitTests.Handlers
 
         private readonly RecipientService recipientService;
 
-        private readonly NewTicketIssueOtherHandler handler;
-
         private readonly MessageClient messageClient;
+
+        private readonly MessageService messageService;
 
 
         public NewTicketIssueOtherHandlerUnitTests()
         {
             repository = Substitute.For<Repository>();
             mapper = Substitute.For<IMapper>();
+            messageService = Substitute.For<MessageService>();
             notificationService = Substitute.For<NotificationService>();
             recipientService = Substitute.For<RecipientService>();
             messageClient = Substitute.For<MessageClient>();
 
-            handler = new NewTicketIssueOtherHandler(
-                repository,
-                mapper,
-                notificationService,
-                recipientService,
-                messageClient
-                );
+
         }
 
         [Fact]
@@ -81,6 +76,13 @@ namespace OWP.TicketCenter.UnitTests.Handlers
 
             await notificationService.NotifyNewMessageIncome(Arg.Compat.Any<int>());
 
+            var handler = new NewTicketIssueOtherHandler(
+                            repository,
+                            messageService,
+                            notificationService,
+                            recipientService,
+                            messageClient
+                            );
             var actual = await handler.Handle(request, CancellationToken.None);
 
             //Assert
