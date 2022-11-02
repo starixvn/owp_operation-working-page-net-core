@@ -335,7 +335,7 @@
                 new(){ Row = 15, Message = "invalid trader HDP"}
             };
 
-            var actual = AssignmentValidatorImp.GroupByDuplicateMatchMessage(assignments);
+            var actual = AssignmentValidatorImp.GroupByDuplicateMatchMessage(assignments, "Duplicate Match");
 
             DeepAssert.Equal(expected, actual);
         }

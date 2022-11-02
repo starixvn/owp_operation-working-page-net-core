@@ -66,8 +66,8 @@
                 MatchAssignments = new Dictionary<int, List<ExcelMatchAssignment>>
                 {
                     { 111, new List<ExcelMatchAssignment> {
-                        new ExcelMatchAssignment { ColumnIndex=19,Value="", AssignmentType = 1, BetTypeName = Bettype.FTHDP, UserId = 8, Username="sa" },
-                        new ExcelMatchAssignment { ColumnIndex=87,Value="#starix15 mynote", AssignmentType = 2, BetTypeName = Bettype.FirstHHDP,
+                        new ExcelMatchAssignment { ColumnIndex=20,Value="", AssignmentType = 1, BetTypeName = Bettype.FTHDP, UserId = 8, Username="sa" },
+                        new ExcelMatchAssignment { ColumnIndex=88,Value="#starix15 mynote", AssignmentType = 2, BetTypeName = Bettype.FirstHHDP,
                             UserId = 123, Username="starix15", AssignmentNote = "#<user> mynote" }
                     } }
                 },
@@ -75,21 +75,21 @@
                 {
                     { 111, new List<ExcelMatchMaxBetSpread> {
                         new ExcelMatchMaxBetSpread {
-                            ColumnIndexMaxbet=153,
+                            ColumnIndexMaxbet=154,
                             ValueMaxbet="1234",
                             BetTypeName = Bettype.FTHDP,
                             MaxBet = 1234,
                             Spread =12,
-                            ColumnIndexSpread = 224,
+                            ColumnIndexSpread = 225,
                             ValueSpread = "12"
                         },
                         new ExcelMatchMaxBetSpread {
-                            ColumnIndexMaxbet=154,
+                            ColumnIndexMaxbet=155,
                             ValueMaxbet="222.05",
                             BetTypeName = Bettype.FTOUOE,
                             MaxBet = 222.05m,
                             Spread = 13,
-                            ColumnIndexSpread = 225,
+                            ColumnIndexSpread = 226,
                             ValueSpread = "13"
                         }
                     } }

@@ -25,6 +25,7 @@
             var expected = new Dictionary<string, int>
                 {
                     {"Match No",0 },
+                    {"AdminsiteMatchID", 0},
                     {"Reporter",0 },
                     {"Match Status", 1},
                     {"Sport", 2},
