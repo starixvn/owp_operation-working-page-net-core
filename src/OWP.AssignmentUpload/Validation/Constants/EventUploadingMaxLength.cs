@@ -1,0 +1,61 @@
+namespace OWP.AssignmentUpload.Validation.Constants
+{
+    public static class EventUploadingMaxLength
+    {
+        public const int MatchNo = 50;
+        public const int MatchStatus = 15;
+        public const int InfoSiteMatchId = 50;
+        public const int KickOffTime = 50;
+        public const int OtherTime = 50;
+        public const int MatchOffer = 2000;
+        public const int LeagueName = 500;
+        public const int HomeName = 200;
+        public const int AwayName = 200;
+        public const int Note = 4000;
+        public const int Round = 2000;
+        public const int Division = 2000;
+        public const int Remark = 2000;
+        public const int NoHDP = 20;
+        public const int MaxBetHDP = 50;
+        public const int SpreadHDP = 50;
+        public const int TraderHDP = 50;
+        public const int MaxBet1HHDP = 50;
+        public const int Spread1HHDP = 50;
+        public const int Trader1HHDP = 50;
+        public const int MaxBetOU = 50;
+        public const int SpreadOU = 50;
+        public const int TraderOU = 50;
+        public const int MaxBet1HOU = 50;
+        public const int Spread1HOU = 50;
+        public const int Trader1HOU = 50;
+        public const int MaxBet1X2 = 50;
+        public const int Spread1X2 = 50;
+        public const int Trader1X2 = 50;
+        public const int MaxBet1H1X2 = 50;
+        public const int Spread1H1X2 = 50;
+        public const int Trader1H1X2 = 50;
+        public const int MaxBetXMins = 50;
+        public const int SpreadXMins = 50;
+        public const int Trader15Mins = 50;
+        public const int Trader10Mins = 50;
+        public const int LA = 50;
+        public const int MaxBetFM = 50;
+        public const int SpreadFM = 50;
+        public const int TraderFM = 50;
+        public const int TraderAIO = 50;
+        public const int Agent = 2000;
+        public const int TV = 2000;
+        public const int Channel = 100;
+        public const int IPTV = 100;
+        public const int WatchBet = 100;
+        public const int OtherProvider = 900;
+        public const int Provider = 900;
+        public const int ReporterPhone = 200;
+        public const int Website1 = 1000;
+        public const int Website2 = 1000;
+        public const int Website3 = 1000;
+        public const int Website4 = 1000;
+        public const int TraderName = 50;
+        public const int AssignmentNote = 200;
+    }
+}

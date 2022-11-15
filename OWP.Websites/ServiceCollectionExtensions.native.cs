@@ -219,6 +219,7 @@ public static class ServiceCollectionExtensions
         services.AddLeagueManagementService();
         services.AddLiveDetailService();
         services.AddTicKetEventService();
+        services.AddAssignmentUploadService();
         return services;
     }
 
