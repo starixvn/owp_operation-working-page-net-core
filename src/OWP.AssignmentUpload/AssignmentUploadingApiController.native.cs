@@ -10,11 +10,11 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using Notification;
 using OWP.Helpers;
 using OWP.RabbitMQ.Constants;
 using Submit;
 using Validation;
+using Fanex.NAP.Client.Helpers.Web;
 
 [Route("api/event-assignment-uploading")]
 [ApiController]
@@ -27,14 +27,19 @@ public class AssignmentUploadingApiController : ControllerBase
 
     private readonly MessageClient rabbitMqClient;
 
+    private readonly INapSession currentSession;
+
     public AssignmentUploadingApiController(IMediator mediator,
-        MessageClient rabbitMqClient)
+        MessageClient rabbitMqClient,
+        INapSession currentSession)
     {
         this.mediator = mediator;
         this.rabbitMqClient = rabbitMqClient;
+        this.currentSession = currentSession;
     }
 
-    [HttpPost("validate/{eventDate}/{isUploadFMAndAIO}")]
+    [HttpPost]
+    [Route("validate/{eventDate}/{isUploadFMAndAIO}")]
     [Produces("application/json")]
     public async Task<IActionResult> Validate(DateTime eventDate, bool isUploadFMAndAIO)
     {
@@ -61,29 +66,30 @@ public class AssignmentUploadingApiController : ControllerBase
         return Ok(viewModel);
     }
 
-    [HttpPost("submit")]
+    [HttpPost]
+    [Route("submit")]
+    [Produces("application/json")]
     public async Task<IActionResult> Submit(SubmitRequest request)
     {
         var viewModel = await mediator.Send(request);
 
-        var requestNotify = new NotifyRequest
-        {
-            SessionId = request.SessionId,
-            EventDate = request.EventDate,
-            IsUploadFMAndAIO = request.IsUploadFMAndAIO
-        };
+        NotifyForAssignmentUpload(request);
 
-        await Notify(requestNotify);
-
-        NotifyForPrematch(requestNotify);
+        NotifyForPrematch(request);
 
         return Ok(viewModel);
     }
 
-    private async Task Notify(NotifyRequest request)
-    => await mediator.Send(request);
+    private void NotifyForAssignmentUpload(SubmitRequest request)
+    => rabbitMqClient.SendMessage(new
+    {
+        EventDate = request.EventDate.Date,
+        SessionId = request.SessionId,
+        IsUploadFMAndAIO = request.IsUploadFMAndAIO,
+        ActorId = currentSession.UserId,
+    }, RoutingKey.AssignmentUpload);
 
-    private void NotifyForPrematch(NotifyRequest request)
+    private void NotifyForPrematch(SubmitRequest request)
         => rabbitMqClient.SendMessage(new
         {
             EventDate = request.EventDate.Date,
