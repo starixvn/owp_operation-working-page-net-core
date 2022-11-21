@@ -40,7 +40,6 @@ public class AssignmentUploadingApiController : ControllerBase
 
     [HttpPost]
     [Route("validate/{eventDate}/{isUploadFMAndAIO}")]
-    [Produces("application/json")]
     public async Task<IActionResult> Validate(DateTime eventDate, bool isUploadFMAndAIO)
     {
         if (!MultipartRequestHelper.IsMultipartContentType(Request.ContentType))
@@ -53,13 +52,13 @@ public class AssignmentUploadingApiController : ControllerBase
             return BadRequest();
         }
 
-        var stream = await GetUploadStream();
-
+        await using var ms = new MemoryStream();
+        await Request.Form.Files[0].CopyToAsync(ms);
         var request = new ValidationRequest
         {
             IsUploadFMAndAIO = isUploadFMAndAIO,
             EventDate = eventDate,
-            Stream = stream
+            Stream = ms
         };
 
         var viewModel = await mediator.Send(request);
@@ -95,11 +94,4 @@ public class AssignmentUploadingApiController : ControllerBase
             EventDate = request.EventDate.Date,
             SessionId = request.SessionId
         }, RoutingKey.LinkedLgaMatch);
-
-    private async Task<Stream> GetUploadStream()
-    {
-        await using var ms = new MemoryStream();
-        await Request.Form.Files[0].CopyToAsync(ms);
-        return ms;
-    }
 }
