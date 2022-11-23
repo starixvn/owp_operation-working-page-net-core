@@ -483,7 +483,7 @@
                 MaxBetOU = 1,
                 MaxBetXMins = 1,
                 NoHDP = "a",
-                Notes = new List<string> { "aaa" },
+
                 OtherProvider = "u",
                 OtherTime = new TimeSpan(0, 8, 15, 22, 0),
                 OtherTraders10Mins = "0,a",
