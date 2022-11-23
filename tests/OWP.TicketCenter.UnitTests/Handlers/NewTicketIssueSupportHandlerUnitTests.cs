@@ -74,6 +74,8 @@ namespace OWP.TicketCenter.UnitTests.Handlers
                     Arg.Compat.Any<int>())
                 .ReturnsForAnyArgs(Task.FromResult(true));
 
+            messageService.InsertMessage(request, Arg.Any<int>()).Returns(new NewMessageRequestModel());
+
             mapper
                 .Map<NewMessageRequestModel>(request)
                 .Returns(x => new NewMessageRequestModel

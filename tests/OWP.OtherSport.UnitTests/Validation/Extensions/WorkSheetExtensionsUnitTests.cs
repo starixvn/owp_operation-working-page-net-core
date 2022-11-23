@@ -330,23 +330,24 @@
             using var excelPackage = new ExcelPackage();
             using var worksheet = ExcelValidatorUnitTests.GetValidHeaderWorksheet(excelPackage);
 
-            worksheet.Cells[2, 2].Value = "Live";
-            worksheet.Cells[2, 3].Value = "Soccer";
-            worksheet.Cells[2, 4].Value = "12/2/2020  3:30:00 PM";
-            worksheet.Cells[2, 5].Value = "CHINA FOOTBALL SUPER LEAGUE (PLAY OFF)";
-            worksheet.Cells[2, 6].Value = "Dalian Pro FC (N)";
-            worksheet.Cells[2, 7].Value = "Guangzhou R&F";
-            worksheet.Cells[2, 8].Value = "Asian 4";
-            worksheet.Cells[2, 9].Value = "3HDP";
-            worksheet.Cells[2, 10].Value = "15s Accept";
-            worksheet.Cells[2, 11].Value = "YES";
-            worksheet.Cells[2, 12].Value = "TV/BGTV/Glive53";
-            worksheet.Cells[2, 13].Value = "BGtv/RB2tv/BETtv/";
-            worksheet.Cells[2, 14].Value = "InPlay";
-            worksheet.Cells[2, 15].Value = "Euro40";
-            worksheet.Cells[2, 19].Value = "starix1";
-            worksheet.Cells[2, 20].Value = "starix2";
-            worksheet.Cells[2, 159].Value = "50000";
+            worksheet.Cells[2, 2].Value = "123456";
+            worksheet.Cells[2, 3].Value = "Live";
+            worksheet.Cells[2, 4].Value = "Soccer";
+            worksheet.Cells[2, 5].Value = "12/2/2020  3:30:00 PM";
+            worksheet.Cells[2, 6].Value = "CHINA FOOTBALL SUPER LEAGUE (PLAY OFF)";
+            worksheet.Cells[2, 7].Value = "Dalian Pro FC (N)";
+            worksheet.Cells[2, 8].Value = "Guangzhou R&F";
+            worksheet.Cells[2, 9].Value = "Asian 4";
+            worksheet.Cells[2, 10].Value = "3HDP";
+            worksheet.Cells[2, 11].Value = "15s Accept";
+            worksheet.Cells[2, 12].Value = "YES";
+            worksheet.Cells[2, 13].Value = "TV/BGTV/Glive53";
+            worksheet.Cells[2, 14].Value = "BGtv/RB2tv/BETtv/";
+            worksheet.Cells[2, 15].Value = "InPlay";
+            worksheet.Cells[2, 16].Value = "Euro40";
+            worksheet.Cells[2, 20].Value = "starix1";
+            worksheet.Cells[2, 21].Value = "starix2";
+            worksheet.Cells[2, 160].Value = "50000";
 
             worksheet.Cells[3, 1].Value = null;
             worksheet.Cells[3, 2].Value = null;
@@ -380,29 +381,14 @@
             worksheet.Cells[4, 13].Value = "BGtv/RB2tv/BETtv/";
             worksheet.Cells[4, 14].Value = "InPlay";
             worksheet.Cells[4, 15].Value = "Euro40";
-            worksheet.Cells[4, 19].Value = "starix1";
+            worksheet.Cells[4, 16].Value = "starix1";
             worksheet.Cells[4, 20].Value = "starix2";
-            worksheet.Cells[4, 159].Value = "50000";
-
-            worksheet.Cells[4, 2].Value = "Basketball";
-            worksheet.Cells[5, 2].Value = "Football";
-            worksheet.Cells[6, 2].Value = "Ice Hockey";
-            worksheet.Cells[7, 2].Value = "Darts";
-            worksheet.Cells[8, 2].Value = "Pool";
-            worksheet.Cells[9, 2].Value = "Table Tennis";
-            worksheet.Cells[10, 2].Value = "Volleyball";
-            worksheet.Cells[11, 2].Value = "Handball";
-            worksheet.Cells[12, 2].Value = "Netball";
-            worksheet.Cells[13, 2].Value = "Cricket";
-            worksheet.Cells[14, 2].Value = "Snooker";
-            worksheet.Cells[15, 2].Value = "Baseball";
-            worksheet.Cells[16, 2].Value = "Badminton";
-            worksheet.Cells[17, 2].Value = "Tennis";
-            worksheet.Cells[18, 2].Value = "Other Sports";
+            worksheet.Cells[4, 160].Value = "50000";
 
             var expected = new AssignmentModelInExcel
             {
                 RowIndex = 2,
+                AdminSiteId = "123456",
                 MatchStatus = "Live",
                 Sport = "Soccer",
                 DateTime = "12/2/2020  3:30:00 PM",
