@@ -376,7 +376,6 @@
                     MaxBetOU = null,
                     MaxBetXMins = null,
                     NoHDP = "",
-                    Notes = new List<string> { string.Empty },
                     OtherOfTime = "",
                     OtherProvider = "",
                     OtherTraders10Mins = "",

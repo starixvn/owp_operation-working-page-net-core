@@ -11,7 +11,6 @@ namespace OWP.AssignmentUpload.Validation.Constants
         public const int LeagueName = 500;
         public const int HomeName = 200;
         public const int AwayName = 200;
-        public const int Note = 4000;
         public const int Round = 2000;
         public const int Division = 2000;
         public const int Remark = 2000;

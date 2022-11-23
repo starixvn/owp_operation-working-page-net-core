@@ -68,10 +68,6 @@ namespace OWP.AssignmentUpload.Validation.Models
             ErrorMessage = "[Column: {0}] - The No.HDP must be 1HDP, 2HDP, 2+1H, 3HDP, 4HDP, 2+4 lines, 3+3 lines, 3+4 lines, 4+4 lines, 1 line or 2 lines")]
         public string NoHDP { get; set; }
 
-        [Display(Name = "Note")]
-        [StringLengthOfListString(EventUploadingMaxLength.Note, ErrorMessage = "[Column: Note] - Error: The item's value must not exceed {0} characters")]
-        public List<string> Notes { get; set; } = new List<string>();
-
         [Display(Name = "Time")]
         [RegularExpression(@"^([0-1]?[0-9]|2[0-3]):[0-5][0-9](\s)*(AM|PM)$", ErrorMessage = "[Column: {0}] - Error: Invalid time format")]
         public string Time { get; set; }
