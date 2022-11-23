@@ -4,6 +4,7 @@ namespace OWP.AssignmentUpload.Validation.Exceptions
     using System.Collections.Generic;
     using Models;
 
+    [Serializable]
     public class InvalidAssignmentRowException : Exception
     {
         public InvalidAssignmentRowException(List<AssignmentValidationRowResult> validationResults) : base("Some rows have invalid data")
