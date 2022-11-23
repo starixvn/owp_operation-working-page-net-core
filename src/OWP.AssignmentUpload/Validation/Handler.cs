@@ -1,16 +1,16 @@
 ﻿namespace OWP.AssignmentUpload.Validation
 {
-    using System;
-    using System.Globalization;
-    using System.IO;
-    using System.Threading;
-    using System.Threading.Tasks;
     using Exceptions;
     using Fanex.NAP.Client.Helpers.Web;
     using MediatR;
     using Models;
     using OWP.Services;
     using Services;
+    using System;
+    using System.Globalization;
+    using System.IO;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     public class ValidationRequest : IRequest<AssignmentValidationResult>
     {
@@ -45,8 +45,7 @@
             ExcelValidator excelValidator,
             ConfigurationService configurationService,
             CacheManipulator cacheManipulator,
-            INapSession currentSession
-           )
+            INapSession currentSession)
         {
             this.analyzer = analyzer;
             this.cacheManipulator = cacheManipulator;
