@@ -74,6 +74,8 @@ namespace OWP.TicketCenter.UnitTests.Handlers
                 }
                 );
 
+            messageService.InsertMessage(request, Arg.Any<int>()).Returns(new NewMessageRequestModel());
+
             await notificationService.NotifyNewMessageIncome(Arg.Compat.Any<int>());
 
             var handler = new NewTicketIssueOtherHandler(

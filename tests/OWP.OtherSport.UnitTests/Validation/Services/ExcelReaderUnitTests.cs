@@ -17,25 +17,26 @@
 
             using var worksheet = ExcelValidatorUnitTests.GetValidHeaderWorksheet(excelPackage);
 
-            worksheet.Cells[2, 2].Value = "Live";
-            worksheet.Cells[2, 3].Value = "Soccer";
-            worksheet.Cells[2, 4].Value = "44771.5104166667";
-            worksheet.Cells[2, 5].Value = "CHINA FOOTBALL SUPER LEAGUE (PLAY OFF)";
-            worksheet.Cells[2, 6].Value = "Dalian Pro FC (N)";
-            worksheet.Cells[2, 7].Value = "Guangzhou R&F";
-            worksheet.Cells[2, 8].Value = "Asian 4";
-            worksheet.Cells[2, 9].Value = "3HDP";
-            worksheet.Cells[2, 10].Value = "15s Accept";
-            worksheet.Cells[2, 11].Value = "YES";
-            worksheet.Cells[2, 12].Value = "TV/BGTV/Glive53";
-            worksheet.Cells[2, 13].Value = "BGtv/RB2tv/BETtv/";
-            worksheet.Cells[2, 14].Value = "InPlay";
-            worksheet.Cells[2, 15].Value = "Euro40";
-            worksheet.Cells[2, 19].Value = "#starix1 note";
-            worksheet.Cells[2, 20].Value = "#starix2 mynote";
-            worksheet.Cells[2, 151].Value = "other note";
-            worksheet.Cells[2, 152].Value = "#starix14 other";
-            worksheet.Cells[2, 159].Value = "50000";
+            worksheet.Cells[2, 2].Value = "123456";
+            worksheet.Cells[2, 3].Value = "Live";
+            worksheet.Cells[2, 4].Value = "Soccer";
+            worksheet.Cells[2, 5].Value = "44771.5104166667";
+            worksheet.Cells[2, 6].Value = "CHINA FOOTBALL SUPER LEAGUE (PLAY OFF)";
+            worksheet.Cells[2, 7].Value = "Dalian Pro FC (N)";
+            worksheet.Cells[2, 8].Value = "Guangzhou R&F";
+            worksheet.Cells[2, 9].Value = "Asian 4";
+            worksheet.Cells[2, 10].Value = "3HDP";
+            worksheet.Cells[2, 11].Value = "15s Accept";
+            worksheet.Cells[2, 12].Value = "YES";
+            worksheet.Cells[2, 13].Value = "TV/BGTV/Glive53";
+            worksheet.Cells[2, 14].Value = "BGtv/RB2tv/BETtv/";
+            worksheet.Cells[2, 15].Value = "InPlay";
+            worksheet.Cells[2, 16].Value = "Euro40";
+            worksheet.Cells[2, 20].Value = "#starix1 note";
+            worksheet.Cells[2, 21].Value = "#starix2 mynote";
+            worksheet.Cells[2, 152].Value = "other note";
+            worksheet.Cells[2, 153].Value = "#starix14 other";
+            worksheet.Cells[2, 160].Value = "50000";
 
             var data = excelPackage.GetAsByteArray();
 
@@ -48,6 +49,7 @@
                     new ()
                     {
                         RowIndex = 2,
+                        AdminSiteId = "123456",
                         MatchNo = "",
                         MatchStatus = "Live",
                         Sport = "Soccer",

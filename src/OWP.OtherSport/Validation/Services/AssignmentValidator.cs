@@ -9,8 +9,7 @@ using System.Text.RegularExpressions;
 
 public interface AssignmentValidator
 {
-    void Validate(UploadingDataFromExcel rawDataFromExcel,
-        List<Trader> traders);
+    void Validate(UploadingDataFromExcel rawDataFromExcel, List<Trader> traders);
 
     void ValidateMatchNo(AssignmentModelInExcel assignment, List<ValidationResult> results);
 
@@ -79,9 +78,12 @@ public class AssignmentValidatorImp : AssignmentValidator
                 results.Add(new ValidationResult($"Duplicate AdminSite Id: '{assignment.AdminSiteId}'"));
             }
         }
-        else if (!string.IsNullOrWhiteSpace(assignment.AdminSiteId))
+        else
         {
-            results.Add(new ValidationResult("AdminsiteMatchId must be number"));
+            if (!string.IsNullOrWhiteSpace(assignment.AdminSiteId))
+            {
+                results.Add(new ValidationResult("AdminsiteMatchId must be number"));
+            }
         }
     }
 
