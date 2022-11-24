@@ -109,8 +109,10 @@
             Assert.Equal(expected.SessionId, actual.SessionId);
             Assert.True(actual.IsSuccessful);
             Assert.Empty(actual.Exception);
-
-            DeleteDirectory(tempDirectory);
+            if (Directory.Exists(tempDirectory))
+            {
+                DeleteDirectory(tempDirectory);
+            }
         }
 
         [Fact]
@@ -136,7 +138,10 @@
             Assert.Empty(actual.Exception);
             Assert.Equal(expected.ValidationResults, actual.ValidationResults);
 
-            DeleteDirectory(tempDirectory);
+            if (Directory.Exists(tempDirectory))
+            {
+                DeleteDirectory(tempDirectory);
+            }
         }
 
         private static ValidationRequest CreateStreamWithExcelPackageData()
