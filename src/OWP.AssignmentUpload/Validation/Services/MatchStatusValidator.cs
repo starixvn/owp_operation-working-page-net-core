@@ -1,11 +1,12 @@
 ﻿namespace OWP.AssignmentUpload.Validation.Services
 {
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.Linq;
     using Constants;
     using Exceptions;
     using Models;
+    using OWP.AssignmentUpload.Validation.Helper;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Linq;
 
     public interface MatchStatusValidator
     {
@@ -17,11 +18,12 @@
         public void Validate(List<AssignmentModel> assignments)
         {
             var validationResults = new List<AssignmentValidationRowResult>();
+            var inExcelAssignments = ValidationHelper.RemoveMatchGenerateBySystem(assignments);
 
-            for (var i = 0; i < assignments.Count; i++)
+            for (var i = 0; i < inExcelAssignments.Count; i++)
             {
                 var rowIndex = i;
-                var validationResultsOfAssignment = CheckMatchStatus(assignments[i], assignments);                
+                var validationResultsOfAssignment = CheckMatchStatus(inExcelAssignments[i], inExcelAssignments);
                 var validationResultsOfAssignmentRow = validationResultsOfAssignment
                     .Select(v => new AssignmentValidationRowResult
                     {
