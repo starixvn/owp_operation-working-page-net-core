@@ -20,8 +20,6 @@
 
         Task InsertOrUpdateMatchAssignments(List<AssignmentModel> assignments, bool isUploadFMAndAIO, string matchIds);
 
-        Task InsertOrUpdateMatchNotes(List<AssignmentModel> assignments, string matchIds);
-
         Task InsertOrUpdateMatchOffers(List<AssignmentModel> assignments, string matchIds);
 
         Task InsertOrUpdateMatchOtherProviders(List<AssignmentModel> assignments, string matchIds);
@@ -110,7 +108,6 @@
             await Task.WhenAll(
                             InsertOrUpdateMatchAgents(assignments, matchIdsInString),
                             InsertOrUpdateMatchAssignments(assignments, request.IsUploadFMAndAIO, matchIdsInString),
-                            InsertOrUpdateMatchNotes(assignments, matchIdsInString),
                             InsertOrUpdateMatchOffers(assignments, matchIdsInString),
                             InsertOrUpdateMatchOtherProviders(assignments, matchIdsInString),
                             InsertOrUpdateMatchProviders(assignments, matchIdsInString),
@@ -159,21 +156,6 @@
 
             await repository.ExecuteAsync(command);
         }
-
-        public async Task InsertOrUpdateMatchNotes(List<AssignmentModel> assignments, string matchIds)
-        {
-            var matchNotes = assignments.Select(a => assignmentAnalyzer.GetMatchNotes(a)).SelectMany(a => a)
-                                                                                         .Where(a => !string.IsNullOrEmpty(a.Note));
-            var command = new InsertOrUpdateMatchNotesCommand
-            {
-                MatchNotes = XmlConverter.Serialize(matchNotes),
-                UserId = currentSession.UserId,
-                MatchIds = matchIds
-            };
-
-            await repository.ExecuteAsync(command);
-        }
-
         public async Task InsertOrUpdateMatchOffers(List<AssignmentModel> assignments, string matchIds)
         {
             var matchOffers = assignments.Select(a => assignmentAnalyzer.GetOffersOfMatch(a)).SelectMany(a => a);
