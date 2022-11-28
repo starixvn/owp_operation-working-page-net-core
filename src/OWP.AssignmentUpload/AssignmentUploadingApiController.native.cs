@@ -86,6 +86,7 @@ public class AssignmentUploadingApiController : ControllerBase
             SessionId = request.SessionId,
             IsUploadFMAndAIO = request.IsUploadFMAndAIO,
             ActorId = currentSession.UserId,
+            UserName = currentSession.UserName
         }, RoutingKey.AssignmentUpload);
 
     private void NotifyForPrematch(SubmitRequest request)
