@@ -90,6 +90,10 @@ namespace OWP.LiveGameList.Models
 
         public string MatchCode { get; set; }
 
+        public bool IsRead { get; set; }
+
+        public bool HasTicket { get; set; }
+
         public AssignmentModel Assignment { get; set; }
 
         public MatchSettingModel MatchSetting { get; set; }
@@ -102,5 +106,5 @@ namespace OWP.LiveGameList.Models
 
         public IEnumerable<TicketInfo> TicketInfos { get; set; }
     }
-}
+
 }

@@ -1,78 +1,52 @@
 ﻿using Fanex.NAP.Client.Helpers.Web;
+using Fanex.NAP.Core.Business;
+using OWP.Constants;
 using OWP.LiveGameList.Criteria;
-using OWP.LiveGameList.Helper;
 using OWP.LiveGameList.Models;
+using OWP.Services;
 
-namespace OWP.LiveGameList.Services
+namespace OWP.LiveGameList.Services;
+
+public interface EventInformationService
 {
-    public interface EventInformationService
+    Task<IEnumerable<MatchInfo>> GetEvents(DateTime eventDate, string statusId);
+}
+
+public class EventInformationServiceImp : EventInformationService
+{
+    private readonly Repository repository;
+    private readonly INapSession currentSession;
+    private PermissionService permissionService;
+    private readonly GetAdminSiteMatchIdService getAdminSiteMatchIdService;
+
+
+    public EventInformationServiceImp(Repository repository, INapSession currentSession, GetAdminSiteMatchIdService getAdminSiteMatchIdService, PermissionService permissionService)
     {
-        Task<IEnumerable<MatchInfo>> GetEvents(GetEventsCriteria criteria);
+        this.repository = repository;
+        this.currentSession = currentSession;
+        this.getAdminSiteMatchIdService = getAdminSiteMatchIdService;
+        this.permissionService = permissionService;
     }
 
-    public class EventInformationServiceImp : EventInformationService
+    public async Task<IEnumerable<MatchInfo>> GetEvents(DateTime eventDate, string statusId)
     {
-        private readonly Repository repository;
-        private readonly INapSession currentSession;
-        private readonly GetAdminSiteMatchIdService getAdminSiteMatchIdService;
-
-        public EventInformationServiceImp(Repository repository, INapSession currentSession, GetAdminSiteMatchIdService getAdminSiteMatchIdService)
-        {
-            this.repository = repository;
-            this.currentSession = currentSession;
-            this.getAdminSiteMatchIdService = getAdminSiteMatchIdService;
-        }
-
-        public async Task<IEnumerable<MatchInfo>> GetEvents(GetEventsCriteria criteria)
-        {
-            var matches = repository.GetEventInformation(criteria).ToList();
-            BuildIPTVCopy(matches);
-            await BuildAdminSiteId(matches);
-            await BuildTicketList(matches);
-
-            return matches;
-        }
-
-        private async Task BuildAdminSiteId(IList<MatchInfo> matches)
-        {
-            foreach (var match in matches)
-            {
-                match.AdminSiteId = await getAdminSiteMatchIdService.GetAdminSiteMatchId(match.OWPMatchId,
-                    match.ParentMatchId, match.MinorBettypeId);
-
-            }
-        }
-
-
-        private void BuildIPTVCopy(IList<MatchInfo> matches)
-        {
-            foreach (var match in matches)
-            {
-                var tvCode = match.Televisions.Select(t => t.TVCode);
-                match.IPTVCopy = LiveGameListHelper.BuildIpTv(new IPTVModel
+        var matches = repository
+            .GetEventInformation(
+                new GetEventsCriteria
                 {
-                    TeleVision = string.Join("/", tvCode),
-                    IpTv = match.IPTV,
-                    Channel = match.Channel,
-                    Stream = match.WatchBet
-                });
-            }
-        }
+                    EventDate = eventDate,
+                    MatchStatusIds = statusId,
+                    ActorId = currentSession.UserId,
+                    ShowAll = IsShowFullEventInformation()
+                })
+            .ToList();
+        // await getAdminSiteMatchIdService.UpdateMinorAdminMatchId(matches);
+        return matches;
+    }
 
-        private async Task BuildTicketList(List<MatchInfo> matches)
-        {
-            string matchIds = string.Join(",", matches.Select(x => x.OWPMatchId));
-            int userId = currentSession.UserId;
-            var tickets = (await repository
-                    .GetTicketsByOwpMatchId(new GetTicketListCriteria
-                    { OWPMatchIds = matchIds, ActorId = userId }))
-                .ToList();
-            foreach (var match in matches)
-            {
-                match.TicketInfos = tickets.Where(x => x.OwpMatchId == match.OWPMatchId)
-                    .OrderByDescending(x => x.LatestCreatedDate);
-            }
-        }
-
+    private bool IsShowFullEventInformation()
+    {
+        return permissionService.HasRight(FunctionKeys.FullTimeView, Constant.Policy.Read);
     }
 }
+

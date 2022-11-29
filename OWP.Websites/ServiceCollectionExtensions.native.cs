@@ -225,6 +225,7 @@ public static class ServiceCollectionExtensions
         services.AddTicKetEventService();
         services.AddAssignmentUploadService();
         services.AddEventPicking();
+        services.AddLiveGameListService();
         return services;
     }
 

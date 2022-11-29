@@ -1,12 +1,15 @@
 ﻿using Fanex.Data.Repository;
 using Olympus.OWP.Constants;
-using OWP.Criteria;
+using Olympus.Xml;
+using OWP.LiveGameList.Criteria;
+using OWP.LiveGameList.Models;
+using System.Data;
 
 namespace OWP.LiveGameList.Services
 {
     public interface GetAdminSiteMatchIdService
     {
-        Task<int?> GetAdminSiteMatchId(int owpMatchId, int parentMatchId, int? minorBettypeId);
+        Task UpdateMinorAdminMatchId(IList<MatchInfo> matchInfos);
     }
     public class GetAdminSiteMatchIdServiceImp : GetAdminSiteMatchIdService
     {
@@ -54,47 +57,41 @@ namespace OWP.LiveGameList.Services
             this.dynamicRepository = dynamicRepository;
         }
 
-        public async Task<int?> GetAdminSiteMatchId(int owpMatchId, int parentMatchId, int? minorBettypeId)
+        public async Task UpdateMinorAdminMatchId(IList<MatchInfo> matchInfos)
         {
-            var getAdminSiteMatchIdCriteria = new GetAdminSiteMatchIdCriteria
-            {
-                OWPMatchId = minorBettypeId.HasValue ? parentMatchId : owpMatchId
-            };
-            var adminSiteMatchIds = await dynamicRepository.FetchAsync<int?>(getAdminSiteMatchIdCriteria);
-            var adminSiteMatchId = adminSiteMatchIds.FirstOrDefault();
+            var minorMatches = matchInfos.Where(x => !x.MinorBettypeId.HasValue)
+                .Select(x => new MinorMatch { ParentMatchId = x.AdminSiteId, OwpMatchId = x.OWPMatchId, SubType = GetSubTypeByMinorBetTypeId(x.MinorBettypeId) });
 
-            if (!minorBettypeId.HasValue || !adminSiteMatchId.HasValue)
+            var minorInfos = (await dynamicRepository
+                .FetchAsync<MinorMatchInfo>(new GetMinorAdminSiteIdsCriteria { Xml = XmlConverter.Serialize(minorMatches) }))
+                .ToList();
+
+            foreach (var match in matchInfos)
             {
-                return adminSiteMatchId;
+                var minorMatch = minorInfos.FirstOrDefault(x => x.OwpMatchId == match.OWPMatchId);
+                if (minorMatch is not null)
+                {
+                    match.AdminSiteId = minorMatch.AdminMatchId;
+                }
             }
-
-            int subType = 0;
-            if (specialMinorBetTypes.Any(x => x == minorBettypeId.Value))
-            {
-                subType = GetSubTypeSpecialProduct(minorBettypeId.Value);
-            }
-
-            if (validMinorBetTypes.Any(x => x == minorBettypeId.Value))
-            {
-                subType = MinorBettype.GetRepresentativeSubtype(minorBettypeId.Value);
-            }
-
-            if (subType == 0)
-            {
-                return null;
-            }
-
-            var getMinorCriteria = new GetMinorAdminSiteMatchCriteria
-            {
-                MatchId = adminSiteMatchId.Value,
-                SubType = subType
-            };
-            var minors = await dynamicRepository.FetchAsync<int?>(getMinorCriteria);
-
-            return minors.FirstOrDefault();
         }
 
-        private int GetSubTypeSpecialProduct(int minorBettypeId)
-            => specialMinorSubTypes.ContainsKey(minorBettypeId) ? specialMinorSubTypes[minorBettypeId] : 0;
+        public int? GetSubTypeByMinorBetTypeId(int? minorBetTypeId)
+        {
+            if (specialMinorBetTypes.Any(x => x == minorBetTypeId))
+            {
+                return GetSubTypeSpecialProduct(minorBetTypeId.GetValueOrDefault());
+            }
+
+            if (validMinorBetTypes.Any(x => x == minorBetTypeId))
+            {
+                return MinorBettype.GetRepresentativeSubtype(minorBetTypeId.GetValueOrDefault());
+            }
+
+            return null;
+        }
+
+        private int GetSubTypeSpecialProduct(int minorBetTypeId)
+            => specialMinorSubTypes.ContainsKey(minorBetTypeId) ? specialMinorSubTypes[minorBetTypeId] : 0;
     }
 }

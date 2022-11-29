@@ -1,14 +1,15 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using OWP.LiveGameList.Services;
 
 namespace OWP.LiveGameList;
 
 [Route("api/[controller]")]
 [ApiController]
+[AllowAnonymous]
 [EnableCors("AllowOrigin")]
-[Authorize]
 public class LiveGameListController : ControllerBase
 {
     private readonly EventInformationService service;
@@ -20,6 +21,9 @@ public class LiveGameListController : ControllerBase
 
     [Route("query")]
     [HttpGet]
-    public async Task<IList<Object>> Query()
-        => await service.GetEvents(object await );
+    public async Task<IActionResult> Query(DateTime eventDate, string statusId)
+    {
+        var value = await service.GetEvents(eventDate, statusId);
+        return Ok(JsonConvert.SerializeObject(value));
+    }
 }
