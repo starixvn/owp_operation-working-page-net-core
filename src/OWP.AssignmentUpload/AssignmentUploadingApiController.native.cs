@@ -82,7 +82,7 @@ public class AssignmentUploadingApiController : ControllerBase
     private void NotifyForAssignmentUpload(SubmitRequest request)
         => rabbitMqClient.SendMessage(new
         {
-            EventDate = request.EventDate.Date,
+            EventDate = request.EventDate,
             SessionId = request.SessionId,
             IsUploadFMAndAIO = request.IsUploadFMAndAIO,
             ActorId = currentSession.UserId,
