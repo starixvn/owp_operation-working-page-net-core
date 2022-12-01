@@ -57,10 +57,10 @@
         <PackageReference Include="Sentry" Version="3.15.0" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\OWP.LiveGameList\OWP.LiveGameList.csproj" />
         <ProjectReference Include="..\src\OWP.AutoAssignment\OWP.AutoAssignment.csproj" />
         <ProjectReference Include="..\src\OWP.EventPicking\OWP.EventPicking.csproj" />
         <ProjectReference Include="..\src\OWP.FileUpload\OWP.FileUpload.csproj" />
+        <ProjectReference Include="..\src\OWP.LiveGameList\OWP.LiveGameList.csproj" />
         <ProjectReference Include="..\src\OWP.MaxbetSetting\OWP.MaxbetSetting.csproj" />
         <ProjectReference Include="..\src\OWP.PrematchAssignment\OWP.PrematchAssignment.csproj" />
         <ProjectReference Include="..\src\OWP.RabbitMQ\OWP.RabbitMQ.csproj" />

@@ -2,7 +2,7 @@
 
 namespace OWP.LiveGameList.Enum;
 
-public enum MajorBetTypeEnum
+public enum MajorBetType
 {
     [Description("Handicap")]
     Handicap = 1,

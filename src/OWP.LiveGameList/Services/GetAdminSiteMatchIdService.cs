@@ -59,7 +59,7 @@ namespace OWP.LiveGameList.Services
 
         public async Task UpdateMinorAdminMatchId(IList<MatchInfo> matchInfos)
         {
-            var minorMatches = matchInfos.Where(x => x.MinorBettypeId.HasValue)
+            var minorMatches = matchInfos.Where(x => x.MinorBettypeId.HasValue && x.AdminSiteId.HasValue)
                 .Select(x => new MinorMatch { ParentMatchId = x.AdminSiteId, OwpMatchId = x.OWPMatchId, SubType = GetSubTypeByMinorBetTypeId(x.MinorBettypeId) });
 
             var minorInfos = (await dynamicRepository
@@ -74,6 +74,9 @@ namespace OWP.LiveGameList.Services
                     match.AdminSiteId = minorMatch.AdminMatchId;
                 }
             }
+
+            var a = matchInfos.Where(x => x.OWPMatchId == 1912614);
+
         }
 
         public int? GetSubTypeByMinorBetTypeId(int? minorBetTypeId)

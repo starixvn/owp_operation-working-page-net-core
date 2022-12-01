@@ -6,12 +6,14 @@ namespace OWP.LiveGameList;
 
 public interface Repository
 {
-    (IEnumerable<MatchInfo>, IEnumerable<Assignment>, IEnumerable<MatchSetting>, IEnumerable<Television>, IEnumerable<MatchOffer>, IEnumerable<TicketInfo>) GetEventInformation(GetEventsCriteria criteria);
+    (IEnumerable<MatchInfo>, IEnumerable<Assignment>, IEnumerable<MatchSetting>, IEnumerable<Television>, IEnumerable<MatchOffer>, IEnumerable<TicketInfo>)
+        GetEventInformation(GetEventsCriteria criteria);
 }
 
 public class RepositoryImp : Repository
 {
-    public (IEnumerable<MatchInfo>, IEnumerable<Assignment>, IEnumerable<MatchSetting>, IEnumerable<Television>, IEnumerable<MatchOffer>, IEnumerable<TicketInfo>) GetEventInformation(GetEventsCriteria criteria)
+    public (IEnumerable<MatchInfo>, IEnumerable<Assignment>, IEnumerable<MatchSetting>, IEnumerable<Television>, IEnumerable<MatchOffer>, IEnumerable<TicketInfo>)
+        GetEventInformation(GetEventsCriteria criteria)
     {
         using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
         {

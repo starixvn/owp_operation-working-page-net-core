@@ -44,7 +44,7 @@ public class EventInformationServiceImp : EventInformationService
 
         var match = matchesRaw.ToList();
         BuildEvent(match, assignments.ToList(), matchSetting.ToList(), televisions.ToList(), matchOffers.ToList(), tickets.ToList());
-        //await getAdminSiteMatchIdService.UpdateMinorAdminMatchId(match);
+        await getAdminSiteMatchIdService.UpdateMinorAdminMatchId(match);
         return match;
     }
 

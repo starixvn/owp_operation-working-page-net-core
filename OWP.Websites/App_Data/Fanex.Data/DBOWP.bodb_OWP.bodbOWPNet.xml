@@ -319,6 +319,7 @@
     </Function>
     <Function Name="LiveGameList">
     	<Setting Key="OWP_LiveGameList_QueryEvents" SpName="OWP_LiveGameList_QueryEvents" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+    	<Setting Key="OWP_LiveGameList_GetMinorAdminSiteMatchIds" SpName="OWP_LiveGameList_GetMinorAdminSiteMatchIds" DbName="DBACC.bodb02.bodbAdminNet" />
     </Function>
     <Function Name="AssignmentUpload">
 		<Setting Key="OWP_AssignmentUpload_AllAssignmentsByTimeRange" SpName="OWP_AssignmentUpload_AllAssignmentsByTimeRange" DbName="DBOWP.bodb_OWP.bodbOWPNet" />

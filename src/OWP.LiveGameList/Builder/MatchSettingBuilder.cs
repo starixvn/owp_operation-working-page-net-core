@@ -5,16 +5,16 @@ namespace OWP.LiveGameList.Builder;
 
 public static class MatchSettingBuilder
 {
-    public static MatchSettingModel Build(MatchInfo matchInfo, IEnumerable<MatchSetting> matchSettings)
+    public static MatchSettingModel Build(MatchInfo matchInfo, IList<MatchSetting> matchSettings)
 
         => new()
         {
-            Handicap = GetMatchSetting(matchSettings, matchInfo, (int)MajorBetTypeEnum.Handicap),
-            OverUnder = GetMatchSetting(matchSettings, matchInfo, (int)MajorBetTypeEnum.OverUnder),
-            OneXTwo = GetMatchSetting(matchSettings, matchInfo, (int)MajorBetTypeEnum.OneXTwo),
-            Handicap1st = GetMatchSetting(matchSettings, matchInfo, (int)MajorBetTypeEnum.Handicap1St),
-            OverUnder1st = GetMatchSetting(matchSettings, matchInfo, (int)MajorBetTypeEnum.OverUnder1St),
-            OneXTwo1st = GetMatchSetting(matchSettings, matchInfo, (int)MajorBetTypeEnum.OneXTwo1St),
+            Handicap = GetMatchSetting(matchSettings, matchInfo, (int)MajorBetType.Handicap),
+            OverUnder = GetMatchSetting(matchSettings, matchInfo, (int)MajorBetType.OverUnder),
+            OneXTwo = GetMatchSetting(matchSettings, matchInfo, (int)MajorBetType.OneXTwo),
+            Handicap1st = GetMatchSetting(matchSettings, matchInfo, (int)MajorBetType.Handicap1St),
+            OverUnder1st = GetMatchSetting(matchSettings, matchInfo, (int)MajorBetType.OverUnder1St),
+            OneXTwo1st = GetMatchSetting(matchSettings, matchInfo, (int)MajorBetType.OneXTwo1St),
             Specific15Mins =
                 GetMatchSettingForSpecialBettype(matchSettings, matchInfo, (int)MinorBetType.Specific15Mins),
             Specific10Mins =
@@ -52,13 +52,13 @@ public static class MatchSettingBuilder
         if (matchInfo.MinorBettypeId == (int)MinorBetType.NoOfCorner && bettypeId == (int)MinorBetType.Specific15Mins)
         {
             result = matchSettings.FirstOrDefault(x => x.MinorBettypeId == (int)MinorBetType.Specific15MinsCorners
-                                                       && x.BettypeId == (int)MajorBetTypeEnum.Handicap
+                                                       && x.BettypeId == (int)MajorBetType.Handicap
                                                        && x.ParentMatchId == matchInfo.ParentMatchId);
         }
         else if (matchInfo.MinorBettypeId == (int)MinorBetType.TotalBooking && bettypeId == (int)MinorBetType.Specific15Mins)
         {
             result = matchSettings.FirstOrDefault(x => x.MinorBettypeId == (int)MinorBetType.Specific15MinsTotalBookings
-                                                       && x.BettypeId == (int)MajorBetTypeEnum.Handicap
+                                                       && x.BettypeId == (int)MajorBetType.Handicap
                                                        && x.ParentMatchId == matchInfo.ParentMatchId);
         }
         else
