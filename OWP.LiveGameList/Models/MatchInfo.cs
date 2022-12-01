@@ -88,6 +88,24 @@ namespace OWP.LiveGameList.Models
         public IEnumerable<MatchOffer> MatchOffers { get; set; }
 
         public IEnumerable<TicketInfo> TicketInfos { get; set; }
+
+        public int LengthLeague { get; set; }
+
+        public int LengthRemark { get; set; }
+
+        public int LengthFtTraderHdp { get; set; }
+
+        public int LengthFtTraderOu { get; set; }
+
+        public int Length1HTraderHdp { get; set; }
+
+        public int Length1HTraderOu { get; set; }
+
+        public int LengthLa { get; set; }
+
+        public int LengthIpTv { get; set; }
+
+        public int LengthProvider { get; set; }
     }
 
 }

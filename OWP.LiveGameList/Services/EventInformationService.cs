@@ -44,7 +44,7 @@ public class EventInformationServiceImp : EventInformationService
 
         var match = matchesRaw.ToList();
         BuildEvent(match, assignments.ToList(), matchSetting.ToList(), televisions.ToList(), matchOffers.ToList(), tickets.ToList());
-        await getAdminSiteMatchIdService.UpdateMinorAdminMatchId(match);
+        //await getAdminSiteMatchIdService.UpdateMinorAdminMatchId(match);
         return match;
     }
 
@@ -81,6 +81,34 @@ public class EventInformationServiceImp : EventInformationService
                 .OrderByDescending(x => x.LatestCreatedDate);
             matchInfo.HasTicket = ticketByMatchId.Any();
             matchInfo.IsRead = ticketByMatchId.All(x => x.IsRead);
+
+            matchInfo.LengthLeague = matchInfo.League.Length +
+                                     matchInfo.MatchOffers.Select(x => x.MatchOfferValue.Length).Sum();
+            matchInfo.LengthRemark = matchInfo.Remark.Length + matchInfo.Round.Length + matchInfo.Division.Length;
+
+            matchInfo.LengthFtTraderHdp = matchInfo.Assignment.Handicap.Select(x => x.Username.Length * 4).Sum() +
+                                          matchInfo.Assignment.HandicapOthers.Select(x => x.AssignmentNote.Length * 4)
+                                              .Sum();
+
+            matchInfo.LengthFtTraderOu = matchInfo.Assignment.OverUnder.Select(x => x.Username.Length * 4).Sum() +
+                                         matchInfo.Assignment.OverUnderOthers.Select(x => x.AssignmentNote.Length * 4)
+                                             .Sum();
+
+            matchInfo.Length1HTraderHdp = matchInfo.Assignment.Handicap1st.Select(x => x.Username.Length * 4).Sum() +
+                                          matchInfo.Assignment.Handicap1stOthers.Select(x => x.AssignmentNote.Length * 4)
+                                              .Sum();
+            matchInfo.Length1HTraderOu = matchInfo.Assignment.OverUnder1st.Select(x => x.Username.Length * 4).Sum() +
+                                         matchInfo.Assignment.OverUnder1stOthers.Select(x => x.AssignmentNote.Length * 4)
+                                             .Sum();
+
+            matchInfo.LengthLa = matchInfo.Assignment.LA.Select(x => x.Username.Length * 4).Sum() +
+                                 matchInfo.Assignment.LAOthers.Select(x => x.AssignmentNote.Length * 4).Sum();
+
+            matchInfo.LengthIpTv = matchInfo.Televisions.Select(x => x.TVCode.Length * 4).Sum();
+
+            matchInfo.LengthProvider = matchInfo.Provider.Length + matchInfo.WatchBet.Length + matchInfo.Phone.Length;
+
+
 
         }
     }
