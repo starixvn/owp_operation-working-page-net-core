@@ -1,5 +1,4 @@
-﻿using OWP.LiveGameList.Models;
-using System.Globalization;
+﻿using System.Globalization;
 
 namespace OWP.LiveGameList.Helper
 {
@@ -31,31 +30,6 @@ namespace OWP.LiveGameList.Helper
             return spread.HasValue ? (spread.Value * 100).ToString("0.##", CultureInfo.InvariantCulture) : string.Empty;
         }
 
-        public static string BuildIpTv(IPTVModel iPTVModel)
-        {
-            var ipTv = new List<string>();
 
-            if (!string.IsNullOrWhiteSpace(iPTVModel.TeleVision))
-            {
-                ipTv.Add(iPTVModel.TeleVision);
-            }
-
-            if (!string.IsNullOrWhiteSpace(iPTVModel.IpTv))
-            {
-                ipTv.Add(iPTVModel.IpTv);
-            }
-
-            if (!string.IsNullOrWhiteSpace(iPTVModel.Channel))
-            {
-                ipTv.Add(iPTVModel.Channel);
-            }
-
-            if (!string.IsNullOrWhiteSpace(iPTVModel.Stream))
-            {
-                ipTv.Add(iPTVModel.Stream);
-            }
-
-            return string.Join("/", ipTv);
-        }
     }
 }

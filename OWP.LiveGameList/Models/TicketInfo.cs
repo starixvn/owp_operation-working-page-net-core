@@ -14,6 +14,6 @@
 
         public string SubtypeName { get; set; }
 
-        public bool IsRead { get; set; } = false;
+        public bool IsRead { get; set; }
     }
 }

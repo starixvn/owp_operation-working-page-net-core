@@ -4,14 +4,6 @@ namespace OWP.LiveGameList.Models
 {
     public class MatchInfo
     {
-        public MatchInfo()
-        {
-            Assignment = new AssignmentModel();
-            MatchSetting = new MatchSettingModel();
-            MatchNotes = new List<MatchNote>();
-            Televisions = new List<Television>();
-        }
-
         public int OWPMatchId { get; set; }
 
         public int ParentMatchId { get; set; }
@@ -81,13 +73,6 @@ namespace OWP.LiveGameList.Models
 
         public string MatchStatus { get; set; }
 
-        public int TotalNotes { get; set; }
-
-        public static bool IsHasNewNote
-        {
-            get { return false; }
-        }
-
         public string MatchCode { get; set; }
 
         public bool IsRead { get; set; }
@@ -97,8 +82,6 @@ namespace OWP.LiveGameList.Models
         public AssignmentModel Assignment { get; set; }
 
         public MatchSettingModel MatchSetting { get; set; }
-
-        public IEnumerable<MatchNote> MatchNotes { get; set; }
 
         public IEnumerable<Television> Televisions { get; set; }
 

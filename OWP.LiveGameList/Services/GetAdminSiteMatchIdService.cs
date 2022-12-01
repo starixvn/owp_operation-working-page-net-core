@@ -1,6 +1,6 @@
 ﻿using Fanex.Data.Repository;
+using Newtonsoft.Json;
 using Olympus.OWP.Constants;
-using Olympus.Xml;
 using OWP.LiveGameList.Criteria;
 using OWP.LiveGameList.Models;
 using System.Data;
@@ -59,11 +59,11 @@ namespace OWP.LiveGameList.Services
 
         public async Task UpdateMinorAdminMatchId(IList<MatchInfo> matchInfos)
         {
-            var minorMatches = matchInfos.Where(x => !x.MinorBettypeId.HasValue)
+            var minorMatches = matchInfos.Where(x => x.MinorBettypeId.HasValue)
                 .Select(x => new MinorMatch { ParentMatchId = x.AdminSiteId, OwpMatchId = x.OWPMatchId, SubType = GetSubTypeByMinorBetTypeId(x.MinorBettypeId) });
 
             var minorInfos = (await dynamicRepository
-                .FetchAsync<MinorMatchInfo>(new GetMinorAdminSiteIdsCriteria { Xml = XmlConverter.Serialize(minorMatches) }))
+                .FetchAsync<MinorMatchInfo>(new GetMinorAdminSiteIdsCriteria { MinorMatches = JsonConvert.SerializeObject(minorMatches) }))
                 .ToList();
 
             foreach (var match in matchInfos)

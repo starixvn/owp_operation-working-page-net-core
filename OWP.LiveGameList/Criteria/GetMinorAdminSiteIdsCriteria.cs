@@ -4,7 +4,7 @@ namespace OWP.LiveGameList.Criteria
 {
     public class GetMinorAdminSiteIdsCriteria : CriteriaBase
     {
-        public string Xml { get; set; }
+        public string MinorMatches { get; set; }
 
         public override string GetSettingKey() => "OWP_LiveGameList_GetMinorAdminSiteMatchIds";
 

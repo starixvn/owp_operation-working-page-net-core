@@ -2,7 +2,7 @@
 
 namespace OWP.LiveGameList.Enum
 {
-    public enum MinorBetTypeEnum
+    public enum MinorBetType
     {
         [Description("Specific 15 Mins")]
         Specific15Mins = -1,
