@@ -1,13 +1,13 @@
-﻿using Fanex.NAP.Client.Helpers.Web;
-using Fanex.NAP.Core.Business;
-using OWP.Constants;
-using OWP.LiveGameList.Builder;
-using OWP.LiveGameList.Criteria;
-using OWP.LiveGameList.Models;
-using OWP.Services;
-using System.Net;
+﻿namespace OWP.LiveGameList.Services;
 
-namespace OWP.LiveGameList.Services;
+using System.Net;
+using Builder;
+using Constants;
+using Criteria;
+using Fanex.NAP.Client.Helpers.Web;
+using Fanex.NAP.Core.Business;
+using Models;
+using OWP.Services;
 
 public interface EventInformationService
 {
@@ -16,13 +16,14 @@ public interface EventInformationService
 
 public class EventInformationServiceImp : EventInformationService
 {
-    private readonly Repository repository;
     private readonly INapSession currentSession;
-    private readonly PermissionService permissionService;
     private readonly GetAdminSiteMatchIdService getAdminSiteMatchIdService;
+    private readonly PermissionService permissionService;
+    private readonly Repository repository;
 
 
-    public EventInformationServiceImp(Repository repository, INapSession currentSession, GetAdminSiteMatchIdService getAdminSiteMatchIdService, PermissionService permissionService)
+    public EventInformationServiceImp(Repository repository, INapSession currentSession,
+        GetAdminSiteMatchIdService getAdminSiteMatchIdService, PermissionService permissionService)
     {
         this.repository = repository;
         this.currentSession = currentSession;
@@ -43,11 +44,40 @@ public class EventInformationServiceImp : EventInformationService
                 });
 
         var match = matchesRaw.ToList();
-        BuildEvent(match, assignments.ToList(), matchSetting.ToList(), televisions.ToList(), matchOffers.ToList(), tickets.ToList());
+        BuildEvent(match, assignments.ToList(), matchSetting.ToList(), televisions.ToList(), matchOffers.ToList(),
+            tickets.ToList());
+        BuildLengthProperty(match);
         await getAdminSiteMatchIdService.UpdateMinorAdminMatchId(match);
         return match;
     }
+    private void BuildLengthProperty(IList<MatchInfo> matchInfos)
+    {
+        foreach (var matchInfo in matchInfos)
+        {
+            matchInfo.LengthLeague = matchInfo.League.Length +
+                                     matchInfo.MatchOffers.Select(x => x.MatchOfferValue.Length).Sum();
 
+            matchInfo.LengthRemark = matchInfo.Remark.Length + matchInfo.Round.Length + matchInfo.Division.Length;
+
+            matchInfo.LengthTraderOu = SumLengthTrader(matchInfo.Assignment.OverUnder,
+                matchInfo.Assignment.OverUnderOthers) + SumLengthTrader(
+                matchInfo.Assignment.OverUnder1st, matchInfo.Assignment.OverUnder1stOthers);
+
+            matchInfo.LengthTraderHdp = SumLengthTrader(matchInfo.Assignment.Handicap,
+                matchInfo.Assignment.HandicapOthers) + SumLengthTrader(
+                matchInfo.Assignment.Handicap1st, matchInfo.Assignment.Handicap1stOthers);
+
+            matchInfo.LengthOtherProduct = SumLengthOtherProduct(matchInfo);
+
+            matchInfo.LengthLa =
+                SumLengthTrader(matchInfo.Assignment.LA, matchInfo.Assignment.LAOthers);
+
+            matchInfo.LengthIpTv = matchInfo.Televisions.Select(x => x.TVCode.Length * 4).Sum();
+
+            matchInfo.LengthProvider =
+                matchInfo.Provider.Length * 2 + matchInfo.WatchBet.Length + matchInfo.Phone.Length;
+        }
+    }
     private void BuildEvent(
         IList<MatchInfo> matchInfos,
         IList<Assignment> assignments,
@@ -81,40 +111,35 @@ public class EventInformationServiceImp : EventInformationService
                 .OrderByDescending(x => x.LatestCreatedDate);
             matchInfo.HasTicket = ticketByMatchId.Any();
             matchInfo.IsRead = ticketByMatchId.All(x => x.IsRead);
-
-            matchInfo.LengthLeague = matchInfo.League.Length +
-                                     matchInfo.MatchOffers.Select(x => x.MatchOfferValue.Length).Sum();
-            matchInfo.LengthRemark = matchInfo.Remark.Length + matchInfo.Round.Length + matchInfo.Division.Length;
-
-            matchInfo.LengthFtTraderHdp = matchInfo.Assignment.Handicap.Select(x => x.Username.Length * 4).Sum() +
-                                          matchInfo.Assignment.HandicapOthers.Select(x => x.AssignmentNote.Length * 4)
-                                              .Sum();
-
-            matchInfo.LengthFtTraderOu = matchInfo.Assignment.OverUnder.Select(x => x.Username.Length * 4).Sum() +
-                                         matchInfo.Assignment.OverUnderOthers.Select(x => x.AssignmentNote.Length * 4)
-                                             .Sum();
-
-            matchInfo.Length1HTraderHdp = matchInfo.Assignment.Handicap1st.Select(x => x.Username.Length * 4).Sum() +
-                                          matchInfo.Assignment.Handicap1stOthers.Select(x => x.AssignmentNote.Length * 4)
-                                              .Sum();
-            matchInfo.Length1HTraderOu = matchInfo.Assignment.OverUnder1st.Select(x => x.Username.Length * 4).Sum() +
-                                         matchInfo.Assignment.OverUnder1stOthers.Select(x => x.AssignmentNote.Length * 4)
-                                             .Sum();
-
-            matchInfo.LengthLa = matchInfo.Assignment.LA.Select(x => x.Username.Length * 4).Sum() +
-                                 matchInfo.Assignment.LAOthers.Select(x => x.AssignmentNote.Length * 4).Sum();
-
-            matchInfo.LengthIpTv = matchInfo.Televisions.Select(x => x.TVCode.Length * 4).Sum();
-
-            matchInfo.LengthProvider = matchInfo.Provider.Length + matchInfo.WatchBet.Length + matchInfo.Phone.Length;
-
-
-
+            
         }
     }
 
+    private int SumLengthOtherProduct(MatchInfo matchInfo)
+    {
+        return SumLengthTrader(matchInfo.Assignment.OneXTwo,
+                   matchInfo.Assignment.OneXTwoOthers) +
+               SumLengthTrader(matchInfo.Assignment.OneXTwo1st,
+                   matchInfo.Assignment.OneXTwo1stOthers) +
+               SumLengthTrader(matchInfo.Assignment.FastMarket,
+                   matchInfo.Assignment.FastMarketOthers) +
+               SumLengthTrader(matchInfo.Assignment.AllInOne,
+                   matchInfo.Assignment.AllInOneOthers) +
+               SumLengthTrader(matchInfo.Assignment.Specific15Mins,
+                   matchInfo.Assignment.Specific15MinsOthers) +
+               SumLengthTrader(matchInfo.Assignment.Specific10Mins,
+                   matchInfo.Assignment.Specific10MinsOthers);
+        ;
+    }
+
+    private int SumLengthTrader(IEnumerable<Assignment> assignments, IEnumerable<Assignment> assignmentsOther)
+    {
+        return (assignments.Select(x => x.Username.Length).Sum() +
+                assignmentsOther.Select(x => x.AssignmentNote.Length).Sum()) * 2;
+    }
+
     private bool IsShowFullEventInformation()
-        => permissionService.HasRight(FunctionKeys.FullTimeView, Constant.Policy.Read);
-
+    {
+        return permissionService.HasRight(FunctionKeys.FullTimeView, Constant.Policy.Read);
+    }
 }
-
