@@ -1,4 +1,4 @@
-﻿namespace OWP.OvertimeReport.Services
+﻿namespace OWP.Report.OvertimeReport.Services
 {
     using Extensions;
     using Models;

@@ -17,11 +17,9 @@ COPY ./src/OWP.SimpleDataApi/. ./src/OWP.SimpleDataApi
 COPY ./src/OWP.TicketTypeRecipient/. ./src/OWP.TicketTypeRecipient
 COPY ./src/OWP.RecipientGroup/. ./src/OWP.RecipientGroup
 COPY ./src/OWP.TicketCenter/. ./src/OWP.TicketCenter
-COPY ./src/OWP.OvertimeReport/. ./src/OWP.OvertimeReport
 COPY ./src/OWP.FileUpload/. ./src/OWP.FileUpload
 COPY ./src/OWP.AutoAssignment/. ./src/OWP.AutoAssignment
 COPY ./src/OWP.PrematchAssignment/. ./src/OWP.PrematchAssignment
-COPY ./src/OWP.PreMatchReport/. ./src/OWP.PreMatchReport
 COPY ./src/OWP.MatchCountLiveReport/. ./src/OWP.MatchCountLiveReport
 COPY ./src/OWP.OSLeagueSetting/. ./src/OWP.OSLeagueSetting
 COPY ./src/OWP.RabbitMQ/. ./src/OWP.RabbitMQ

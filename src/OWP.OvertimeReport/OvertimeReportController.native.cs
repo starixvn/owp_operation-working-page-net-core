@@ -1,4 +1,4 @@
-﻿namespace OWP.OvertimeReport
+﻿namespace OWP.Report.OvertimeReport
 {
     using Handlers;
     using MediatR;

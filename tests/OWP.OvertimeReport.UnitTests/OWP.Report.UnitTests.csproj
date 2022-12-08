@@ -11,6 +11,9 @@
         <Content Include="App_Data\Templates\AnnualOvertimeReportTemplate.xlsx">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
+        <Content Include="App_Data\Templates\PreMatchAssignmentReportTemplate.xlsx">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
 
     <ItemGroup>
@@ -30,7 +33,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\OWP.OvertimeReport\OWP.OvertimeReport.csproj" />
+        <ProjectReference Include="..\..\src\OWP.Report\OWP.Report.csproj" />
     </ItemGroup>
 
 </Project>

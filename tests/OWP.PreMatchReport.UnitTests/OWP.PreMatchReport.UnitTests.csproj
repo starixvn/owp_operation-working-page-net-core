@@ -32,7 +32,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\OWP.PreMatchReport\OWP.PreMatchReport.csproj" />
+      <ProjectReference Include="..\..\src\OWP.Report\OWP.Report.csproj" />
     </ItemGroup>
 
 </Project>

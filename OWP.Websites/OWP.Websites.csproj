@@ -59,7 +59,6 @@
         <ProjectReference Include="..\src\OWP.EventPicking\OWP.EventPicking.csproj" />
         <ProjectReference Include="..\src\OWP.FileUpload\OWP.FileUpload.csproj" />
         <ProjectReference Include="..\src\OWP.MaxbetSetting\OWP.MaxbetSetting.csproj" />
-        <ProjectReference Include="..\src\OWP.OvertimeReport\OWP.OvertimeReport.csproj" />
         <ProjectReference Include="..\src\OWP.PrematchAssignment\OWP.PrematchAssignment.csproj" />
         <ProjectReference Include="..\src\OWP.RabbitMQ\OWP.RabbitMQ.csproj" />
         <ProjectReference Include="..\src\OWP\OWP.csproj" />
@@ -71,7 +70,6 @@
         <ProjectReference Include="..\src\OWP.SimpleDataApi\OWP.SimpleDataApi.csproj" />
         <ProjectReference Include="..\src\OWP.TicketTypeRecipient\OWP.TicketTypeRecipient.csproj" />
         <ProjectReference Include="..\src\OWP.TicketCenter\OWP.TicketCenter.csproj" />
-        <ProjectReference Include="..\src\OWP.PreMatchReport\OWP.PreMatchReport.csproj" />
         <ProjectReference Include="..\src\OWP.MatchCountLiveReport\OWP.MatchCountLiveReport.csproj" />
         <ProjectReference Include="..\src\OWP.OSLeagueSetting\OWP.OSLeagueSetting.csproj" />
         <ProjectReference Include="..\src\OWP.Report\OWP.Report.csproj" />

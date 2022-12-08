@@ -31,12 +31,13 @@ using OWP.MaxbetSetting;
 using OWP.OSLeagueSetting;
 using OWP.OtherSport;
 using OWP.OtherSport.Hubs;
-using OWP.OvertimeReport;
 using OWP.PreMatchAssignment;
-using OWP.PreMatchReport;
 using OWP.RabbitMQ;
 using OWP.RecipientGroup;
 using OWP.Report;
+using OWP.Report.OvertimeReport;
+using OWP.Report.PreMatchReport;
+using OWP.Report.TraderReport;
 using OWP.Services;
 using OWP.SimpleDataApi;
 using OWP.TicketCenter;
@@ -58,9 +59,9 @@ public static class ServiceCollectionExtensions
         {
             mc.AddProfile(new OtherSport.AutoMapperProfile());
             mc.AddProfile(new TicketCenter.AutoMapperProfile());
-            mc.AddProfile(new OvertimeReport.AutoMapperProfile());
-            mc.AddProfile(new PreMatchReport.AutoMapperProfile());
-            mc.AddProfile((new PrematchAssignment.AutoMapperProfile()));
+            mc.AddProfile(new Report.OvertimeReport.AutoMapperProfile());
+            mc.AddProfile(new Report.PreMatchReport.AutoMapperProfile());
+            mc.AddProfile(new PrematchAssignment.AutoMapperProfile());
             mc.AddProfile(new AutoAssignment.AutoMapperProfile());
             mc.AddProfile(new OSLeagueSetting.AutoMapperProfile());
             mc.AddProfile(new Report.AutoMapperProfile());
@@ -100,22 +101,22 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddCookieAuthentication(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                    .AddCookie(options =>
-                    {
-                        options.LoginPath = configuration.GetSection("AuthSettings:LoginPath").Value;
-                        options.LogoutPath = configuration.GetSection("AuthSettings:LogoutPath").Value;
-                        options.ExpireTimeSpan = TimeSpan.FromMinutes(int.Parse(configuration.GetSection("AuthSettings:CookieTimeOut").Value));
-                        options.Cookie = new CookieBuilder
-                        {
-                            Name = "Fanex.OWP.Cookie",
-                            SecurePolicy = CookieSecurePolicy.SameAsRequest
-                        };
-                        options.Events.OnSigningOut = context =>
-                        {
-                            context.Response.Redirect(options.LoginPath);
-                            return Task.CompletedTask;
-                        };
-                    });
+            .AddCookie(options =>
+            {
+                options.LoginPath = configuration.GetSection("AuthSettings:LoginPath").Value;
+                options.LogoutPath = configuration.GetSection("AuthSettings:LogoutPath").Value;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(int.Parse(configuration.GetSection("AuthSettings:CookieTimeOut").Value));
+                options.Cookie = new CookieBuilder
+                {
+                    Name = "Fanex.OWP.Cookie",
+                    SecurePolicy = CookieSecurePolicy.SameAsRequest
+                };
+                options.Events.OnSigningOut = context =>
+                {
+                    context.Response.Redirect(options.LoginPath);
+                    return Task.CompletedTask;
+                };
+            });
 
         return services;
     }
@@ -243,7 +244,8 @@ public static class ServiceCollectionExtensions
         services.AddMediatR(typeof(PreMatchReportController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(MatchCountLiveReportController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(OSLeagueController).GetTypeInfo().Assembly);
-        services.AddMediatR(typeof(ReportApiController).GetTypeInfo().Assembly);
+        services.AddMediatR(typeof(LAReportController).GetTypeInfo().Assembly);
+        services.AddMediatR(typeof(TraderReportController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(LeagueApiController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(TicketEventController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(AssignmentUploadingApiController).GetTypeInfo().Assembly);
