@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using Fanex.Data.Repository;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -6,65 +5,65 @@ namespace OWP.Services;
 
 public interface ScopedDynamicRepository
 {
-  Task<int> ExecuteAsync(INonQueryCommand command);
+    Task<int> ExecuteAsync(INonQueryCommand command);
 
-  Task<IEnumerable<T>> FetchAsync<T>(ICriteria criteria);
+    Task<IEnumerable<T>> FetchAsync<T>(ICriteria criteria);
 
-  Task<(IEnumerable<TFirst> firstResultSet, IEnumerable<TSecond> secondResultSe)> FetchMultipleAsync<TFirst, TSecond>(ICriteria criteria);
+    Task<(IEnumerable<TFirst> firstResultSet, IEnumerable<TSecond> secondResultSe)> FetchMultipleAsync<TFirst, TSecond>(ICriteria criteria);
 
-  Task<(IEnumerable<TFirst> firstResultSet, IEnumerable<TSecond> secondResultSet, IEnumerable<TThird> thirdResultSet)> FetchMultipleAsync<TFirst, TSecond, TThird>(ICriteria criteria);
+    Task<(IEnumerable<TFirst> firstResultSet, IEnumerable<TSecond> secondResultSet, IEnumerable<TThird> thirdResultSet)> FetchMultipleAsync<TFirst, TSecond, TThird>(ICriteria criteria);
 }
 
 public class ScopedDynamicRepositoryImp : ScopedDynamicRepository
 {
-  private readonly IServiceProvider serviceProvider;
+    private readonly IServiceProvider serviceProvider;
 
-  public ScopedDynamicRepositoryImp(IServiceProvider serviceProvider)
-  {
-    this.serviceProvider = serviceProvider;
-  }
-
-  public async Task<int> ExecuteAsync(INonQueryCommand command)
-  {
-    using (var scope = serviceProvider.CreateScope())
+    public ScopedDynamicRepositoryImp(IServiceProvider serviceProvider)
     {
-      var scopedProcessingService =
-          scope.ServiceProvider.GetRequiredService<IDynamicRepository>();
-
-      return await scopedProcessingService.ExecuteAsync(command);
+        this.serviceProvider = serviceProvider;
     }
-  }
 
-  public async Task<IEnumerable<T>> FetchAsync<T>(ICriteria criteria)
-  {
-    using (var scope = serviceProvider.CreateScope())
+    public async Task<int> ExecuteAsync(INonQueryCommand command)
     {
-      var scopedProcessingService =
-          scope.ServiceProvider.GetRequiredService<IDynamicRepository>();
+        using (var scope = serviceProvider.CreateScope())
+        {
+            var scopedProcessingService =
+                scope.ServiceProvider.GetRequiredService<IDynamicRepository>();
 
-      return await scopedProcessingService.FetchAsync<T>(criteria);
+            return await scopedProcessingService.ExecuteAsync(command);
+        }
     }
-  }
 
-  public async Task<(IEnumerable<TFirst> firstResultSet, IEnumerable<TSecond> secondResultSe)> FetchMultipleAsync<TFirst, TSecond>(ICriteria criteria)
-  {
-    using (var scope = serviceProvider.CreateScope())
+    public async Task<IEnumerable<T>> FetchAsync<T>(ICriteria criteria)
     {
-      var scopedProcessingService =
-          scope.ServiceProvider.GetRequiredService<IDynamicRepository>();
+        using (var scope = serviceProvider.CreateScope())
+        {
+            var scopedProcessingService =
+                scope.ServiceProvider.GetRequiredService<IDynamicRepository>();
 
-      return await scopedProcessingService.FetchMultipleAsync<TFirst, TSecond>(criteria);
+            return await scopedProcessingService.FetchAsync<T>(criteria);
+        }
     }
-  }
 
-  public async Task<(IEnumerable<TFirst> firstResultSet, IEnumerable<TSecond> secondResultSet, IEnumerable<TThird> thirdResultSet)> FetchMultipleAsync<TFirst, TSecond, TThird>(ICriteria criteria)
-  {
-    using (var scope = serviceProvider.CreateScope())
+    public async Task<(IEnumerable<TFirst> firstResultSet, IEnumerable<TSecond> secondResultSe)> FetchMultipleAsync<TFirst, TSecond>(ICriteria criteria)
     {
-      var scopedProcessingService =
-          scope.ServiceProvider.GetRequiredService<IDynamicRepository>();
+        using (var scope = serviceProvider.CreateScope())
+        {
+            var scopedProcessingService =
+                scope.ServiceProvider.GetRequiredService<IDynamicRepository>();
 
-      return await scopedProcessingService.FetchMultipleAsync<TFirst, TSecond, TThird>(criteria);
+            return await scopedProcessingService.FetchMultipleAsync<TFirst, TSecond>(criteria);
+        }
     }
-  }
+
+    public async Task<(IEnumerable<TFirst> firstResultSet, IEnumerable<TSecond> secondResultSet, IEnumerable<TThird> thirdResultSet)> FetchMultipleAsync<TFirst, TSecond, TThird>(ICriteria criteria)
+    {
+        using (var scope = serviceProvider.CreateScope())
+        {
+            var scopedProcessingService =
+                scope.ServiceProvider.GetRequiredService<IDynamicRepository>();
+
+            return await scopedProcessingService.FetchMultipleAsync<TFirst, TSecond, TThird>(criteria);
+        }
+    }
 }

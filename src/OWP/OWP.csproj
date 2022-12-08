@@ -12,6 +12,11 @@
         <CodeAnalysisRuleSet>OWP.ruleset</CodeAnalysisRuleSet>
     </PropertyGroup>
     <ItemGroup>
+      <Compile Remove="RequestMediator\**" />
+      <EmbeddedResource Remove="RequestMediator\**" />
+      <None Remove="RequestMediator\**" />
+    </ItemGroup>
+    <ItemGroup>
         <AdditionalFiles Include="..\..\.sonarlint\nap-owp\CSharp\SonarLint.xml" Link="SonarLint.xml" />
     </ItemGroup>
     <ItemGroup>
@@ -39,8 +44,5 @@
             <AutoGen>True</AutoGen>
             <DependentUpon>FunctionKeys.tt</DependentUpon>
         </Compile>
-    </ItemGroup>
-    <ItemGroup>
-      <Folder Include="RequestMediator\" />
     </ItemGroup>
 </Project>
