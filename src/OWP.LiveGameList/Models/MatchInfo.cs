@@ -92,20 +92,27 @@ namespace OWP.LiveGameList.Models
         public int LengthLeague { get; set; }
 
         public int LengthRemark { get; set; }
+        
+        public int LengthIpTv { get; set; }
+
+        public int LengthProvider { get; set; }
 
         public int LengthTraderHdp { get; set; }
 
         public int LengthTraderOu { get; set; }
 
-        public int LengthOtherProduct { get; set; }
+        public int LengthOtherProductOneXTwo { get; set; }
 
-        public int NumberOfOtherProduct { get; set; }
+        public int LengthOtherProduct1HOneXTwo { get; set; }
 
-        public int LengthLa { get; set; }
+        public int LengthOtherProductFastMarket { get; set; }
 
-        public int LengthIpTv { get; set; }
+        public int LengthOtherProductAllInOne { get; set; }
 
-        public int LengthProvider { get; set; }
+        public int LengthOtherProductTenMinutes { get; set; }
+
+        public int LengthOtherProductFifteenMinutes { get; set; }
+
     }
 
 }
