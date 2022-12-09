@@ -21,6 +21,8 @@ public class EventInformationServiceImp : EventInformationService
     private readonly PermissionService permissionService;
     private readonly Repository repository;
 
+    private List<MatchInfo> matchInfos = new();
+
 
     public EventInformationServiceImp(Repository repository, INapSession currentSession,
         GetAdminSiteMatchIdService getAdminSiteMatchIdService, PermissionService permissionService)
@@ -43,43 +45,15 @@ public class EventInformationServiceImp : EventInformationService
                     ShowAll = IsShowFullEventInformation()
                 });
 
-        var match = matchesRaw.ToList();
-        BuildEvent(match, assignments.ToList(), matchSetting.ToList(), televisions.ToList(), matchOffers.ToList(),
+        matchInfos = matchesRaw.ToList();
+        BuildEvent(assignments.ToList(), matchSetting.ToList(), televisions.ToList(), matchOffers.ToList(),
             tickets.ToList());
-        BuildLengthProperty(match);
-        await getAdminSiteMatchIdService.UpdateMinorAdminMatchId(match);
-        return match;
+
+        await getAdminSiteMatchIdService.UpdateMinorAdminMatchId(matchInfos);
+        return matchInfos;
     }
-    private void BuildLengthProperty(IList<MatchInfo> matchInfos)
-    {
-        foreach (var matchInfo in matchInfos)
-        {
-            matchInfo.LengthLeague = matchInfo.League.Length +
-                                     matchInfo.MatchOffers.Select(x => x.MatchOfferValue.Length).Sum();
 
-            matchInfo.LengthRemark = matchInfo.Remark.Length + matchInfo.Round.Length + matchInfo.Division.Length;
-
-            matchInfo.LengthTraderOu = SumLengthTrader(matchInfo.Assignment.OverUnder,
-                matchInfo.Assignment.OverUnderOthers) + SumLengthTrader(
-                matchInfo.Assignment.OverUnder1st, matchInfo.Assignment.OverUnder1stOthers);
-
-            matchInfo.LengthTraderHdp = SumLengthTrader(matchInfo.Assignment.Handicap,
-                matchInfo.Assignment.HandicapOthers) + SumLengthTrader(
-                matchInfo.Assignment.Handicap1st, matchInfo.Assignment.Handicap1stOthers);
-
-            matchInfo.LengthOtherProduct = SumLengthOtherProduct(matchInfo);
-
-            matchInfo.LengthLa =
-                SumLengthTrader(matchInfo.Assignment.LA, matchInfo.Assignment.LAOthers);
-
-            matchInfo.LengthIpTv = matchInfo.Televisions.Select(x => x.TVCode.Length * 4).Sum();
-
-            matchInfo.LengthProvider =
-                matchInfo.Provider.Length * 2 + matchInfo.WatchBet.Length + matchInfo.Phone.Length;
-        }
-    }
     private void BuildEvent(
-        IList<MatchInfo> matchInfos,
         IList<Assignment> assignments,
         IList<MatchSetting> matchSettings,
         IList<Television> televisions,
@@ -111,8 +85,39 @@ public class EventInformationServiceImp : EventInformationService
                 .OrderByDescending(x => x.LatestCreatedDate);
             matchInfo.HasTicket = ticketByMatchId.Any();
             matchInfo.IsRead = ticketByMatchId.All(x => x.IsRead);
-            
+            BuildLengthProperty(matchInfo);
         }
+    }
+
+    private void BuildLengthProperty(MatchInfo matchInfo)
+    {
+        matchInfo.LengthLeague = matchInfo.League.Length +
+                                 matchInfo.MatchOffers.Select(x => x.MatchOfferValue.Length).Sum();
+
+        matchInfo.LengthRemark = matchInfo.Remark.Length + matchInfo.Round.Length + matchInfo.Division.Length;
+
+        matchInfo.LengthTraderOu = SumLengthTrader(matchInfo.Assignment.OverUnder,
+            matchInfo.Assignment.OverUnderOthers) + SumLengthTrader(
+            matchInfo.Assignment.OverUnder1st, matchInfo.Assignment.OverUnder1stOthers);
+
+        matchInfo.LengthTraderHdp = SumLengthTrader(matchInfo.Assignment.Handicap,
+            matchInfo.Assignment.HandicapOthers) + SumLengthTrader(
+            matchInfo.Assignment.Handicap1st, matchInfo.Assignment.Handicap1stOthers);
+
+        matchInfo.LengthOtherProduct = SumLengthOtherProduct(matchInfo);
+
+        matchInfo.NumberOfOtherProduct = matchInfo.Assignment.Specific10Mins.Count() +
+                                         matchInfo.Assignment.Specific15Mins.Count() +
+                                         matchInfo.Assignment.AllInOne.Count() +
+                                         matchInfo.Assignment.FastMarket.Count();
+
+        matchInfo.LengthLa =
+            SumLengthTrader(matchInfo.Assignment.LA, matchInfo.Assignment.LAOthers);
+
+        matchInfo.LengthIpTv = matchInfo.Televisions.Select(x => x.TVCode.Length * 4).Sum();
+
+        var lengthProvider = string.IsNullOrEmpty(matchInfo.Provider) ? 0 : matchInfo.Provider.Length * 4;
+        matchInfo.LengthProvider = lengthProvider + matchInfo.WatchBet.Length + matchInfo.Phone.Length;
     }
 
     private int SumLengthOtherProduct(MatchInfo matchInfo)
@@ -134,8 +139,8 @@ public class EventInformationServiceImp : EventInformationService
 
     private int SumLengthTrader(IEnumerable<Assignment> assignments, IEnumerable<Assignment> assignmentsOther)
     {
-        return (assignments.Select(x => x.Username.Length).Sum() +
-                assignmentsOther.Select(x => x.AssignmentNote.Length).Sum()) * 2;
+        return (assignments.Select(x => string.IsNullOrEmpty(x.Username) ? 0 : x.Username.Length).Sum() +
+                assignmentsOther.Select(x => string.IsNullOrEmpty(x.AssignmentNote) ? 0 : x.AssignmentNote.Length).Sum()) * 2;
     }
 
     private bool IsShowFullEventInformation()

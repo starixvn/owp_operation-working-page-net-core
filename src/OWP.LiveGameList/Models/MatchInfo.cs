@@ -98,7 +98,9 @@ namespace OWP.LiveGameList.Models
         public int LengthTraderOu { get; set; }
 
         public int LengthOtherProduct { get; set; }
-        
+
+        public int NumberOfOtherProduct { get; set; }
+
         public int LengthLa { get; set; }
 
         public int LengthIpTv { get; set; }
