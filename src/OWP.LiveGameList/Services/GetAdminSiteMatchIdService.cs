@@ -74,9 +74,6 @@ namespace OWP.LiveGameList.Services
                     match.AdminSiteId = minorMatch.AdminMatchId;
                 }
             }
-
-            var a = matchInfos.Where(x => x.OWPMatchId == 1912614);
-
         }
 
         public int? GetSubTypeByMinorBetTypeId(int? minorBetTypeId)

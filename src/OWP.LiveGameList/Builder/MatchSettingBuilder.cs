@@ -6,7 +6,6 @@ namespace OWP.LiveGameList.Builder;
 public static class MatchSettingBuilder
 {
     public static MatchSettingModel Build(MatchInfo matchInfo, IList<MatchSetting> matchSettings)
-
         => new()
         {
             Handicap = GetMatchSetting(matchSettings, matchInfo, (int)MajorBetType.Handicap),
