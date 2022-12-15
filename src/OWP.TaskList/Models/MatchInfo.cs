@@ -97,10 +97,6 @@ namespace OWP.TaskList.Models
 
         public DateTime ReadyDateTime { get; set; }
 
-        public int TotalNotes { get; set; }
-
-        public bool IsHasNewNote { get; set; }
-
         public AssignmentModel Assignment { get; set; }
 
         public MatchSettingModel MatchSetting { get; set; }

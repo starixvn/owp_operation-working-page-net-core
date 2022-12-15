@@ -1,12 +1,13 @@
 ﻿namespace OWP.TaskList;
-
+using Fanex.Data;
 using Criteria;
 using Fanex.Data.Repository;
 using Models;
 
 public interface Repository
 {
-    Task<IEnumerable<MatchInfo>> GetTaskList(GetTaskListCriteria criteria);
+    public (IEnumerable<MatchInfo>, IEnumerable<Assignment>, IEnumerable<MatchSetting>, IEnumerable<Television>, IEnumerable<MatchOffer>, IEnumerable<MainMatchInfo>) GetTaskList(GetTaskListCriteria criteria);
+
 }
 
 public class RepositoryImp : Repository
@@ -18,8 +19,21 @@ public class RepositoryImp : Repository
         this.dynamicRepository = dynamicRepository;
     }
 
-    public async Task<IEnumerable<MatchInfo>> GetTaskList(GetTaskListCriteria criteria)
+    public (IEnumerable<MatchInfo>, IEnumerable<Assignment>, IEnumerable<MatchSetting>, IEnumerable<Television>, IEnumerable<MatchOffer>, IEnumerable<MainMatchInfo>) GetTaskList(GetTaskListCriteria criteria)
     {
-        return (await dynamicRepository.FetchAsync<MatchInfo>(criteria)).ToArray();
+        using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
+        {
+            using (var reader = db.QueryMultiple(criteria))
+            {
+                var matchInfos = reader.Read<MatchInfo>();
+                var assignments = reader.Read<Assignment>();
+                var matchSettings = reader.Read<MatchSetting>();
+                var televisions = reader.Read<Television>();
+                var matchOffers = reader.Read<MatchOffer>();
+                var mainMatchInfo = reader.Read<MainMatchInfo>();
+                // var tickets = reader.Read<TicketInfo>();
+                return (matchInfos, assignments, matchSettings, televisions, matchOffers, mainMatchInfo);
+            }
+        }
     }
 }

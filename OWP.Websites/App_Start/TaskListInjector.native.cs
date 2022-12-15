@@ -9,6 +9,7 @@ public static class TaskListInjector
     {
         services.AddScoped<Repository, RepositoryImp>();
         services.AddScoped<GetEventByDayService, GetEventByDayServiceImp>();
+        services.AddScoped<GetAdminSiteMatchIdService, GetAdminSiteMatchIdServiceImp>();
     }
 }
 
