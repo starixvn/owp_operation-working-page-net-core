@@ -40,6 +40,7 @@ using OWP.Report.PreMatchReport;
 using OWP.Report.TraderReport;
 using OWP.Services;
 using OWP.SimpleDataApi;
+using OWP.TaskList;
 using OWP.TicketCenter;
 using OWP.TicketCenter.Hubs;
 using OWP.TicketEvent;
@@ -226,6 +227,7 @@ public static class ServiceCollectionExtensions
         services.AddAssignmentUploadService();
         services.AddEventPicking();
         services.AddLiveGameListService();
+        services.AddTaskListService();
         return services;
     }
 
@@ -250,6 +252,7 @@ public static class ServiceCollectionExtensions
         services.AddMediatR(typeof(LeagueApiController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(TicketEventController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(AssignmentUploadingApiController).GetTypeInfo().Assembly);
+        services.AddMediatR(typeof(TaskListController).GetTypeInfo().Assembly);
         return services;
     }
 
