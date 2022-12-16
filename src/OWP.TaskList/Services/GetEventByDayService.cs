@@ -5,12 +5,11 @@ using Fanex.NAP.Core.Business;
 using OWP.TaskList.Models;
 using OWP.Services;
 using OWP.Enums;
+using OWP.TaskList.Builders;
 
 namespace OWP.TaskList.Services
 {
-    using Builders;
     using Newtonsoft.Json;
-
     public interface GetEventByDayService
     {
         Task<TaskListModel> GetEventByDay(DateTime eventDate, bool isHideCompletedMatches);
@@ -25,7 +24,7 @@ namespace OWP.TaskList.Services
 
         private readonly GetAdminSiteMatchIdService getAdminSiteMatchIdService;
 
-        public GetEventByDayServiceImp(Repository repository, INapSession session, PermissionService permissionService, GetAdminSiteMatchIdService getAdminSiteMatchIdService = null)
+        public GetEventByDayServiceImp(Repository repository, INapSession session, PermissionService permissionService, GetAdminSiteMatchIdService getAdminSiteMatchIdService)
         {
             this.repository = repository;
             this.session = session;
@@ -120,8 +119,6 @@ namespace OWP.TaskList.Services
             return GetInfo(matchesRaw, assignments, matchSetting, televisions, matchOffers,
                 mainMatchInfo, tickets);
         }
-
-
 
         private IEnumerable<MatchInfo> GetInfo(
         IEnumerable<MatchInfo> matchInfos,
