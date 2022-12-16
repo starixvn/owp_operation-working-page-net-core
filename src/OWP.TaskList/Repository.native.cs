@@ -1,13 +1,16 @@
 ﻿namespace OWP.TaskList;
-using Fanex.Data;
+
 using Criteria;
+using Fanex.Data;
 using Fanex.Data.Repository;
 using Fanex.NAP.Client.Helpers.Web;
 using Models;
 
 public interface Repository
 {
-    public (IEnumerable<MatchInfo>, IEnumerable<Assignment>, IEnumerable<MatchSetting>, IEnumerable<Television>, IEnumerable<MatchOffer>, IEnumerable<MainMatchInfo>) GetTaskList(GetTaskListCriteria criteria);
+    public (IEnumerable<MatchInfo>, IEnumerable<Assignment>, IEnumerable<MatchSetting>, IEnumerable<Television>,
+        IEnumerable<MatchOffer>, IEnumerable<MainMatchInfo>, IEnumerable<TicketInfo>) GetTaskList(
+            GetTaskListCriteria criteria);
 
     public Task<DateTime> UpdateTradeStatus(int matchId);
 }
@@ -24,7 +27,9 @@ public class RepositoryImp : Repository
         this.session = session;
     }
 
-    public (IEnumerable<MatchInfo>, IEnumerable<Assignment>, IEnumerable<MatchSetting>, IEnumerable<Television>, IEnumerable<MatchOffer>, IEnumerable<MainMatchInfo>) GetTaskList(GetTaskListCriteria criteria)
+    public (IEnumerable<MatchInfo>, IEnumerable<Assignment>, IEnumerable<MatchSetting>, IEnumerable<Television>,
+        IEnumerable<MatchOffer>, IEnumerable<MainMatchInfo>, IEnumerable<TicketInfo>) GetTaskList(
+            GetTaskListCriteria criteria)
     {
         using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
         {
@@ -36,8 +41,8 @@ public class RepositoryImp : Repository
                 var televisions = reader.Read<Television>();
                 var matchOffers = reader.Read<MatchOffer>();
                 var mainMatchInfo = reader.Read<MainMatchInfo>();
-                // var tickets = reader.Read<TicketInfo>();
-                return (matchInfos, assignments, matchSettings, televisions, matchOffers, mainMatchInfo);
+                var tickets = reader.Read<TicketInfo>();
+                return (matchInfos, assignments, matchSettings, televisions, matchOffers, mainMatchInfo, tickets);
             }
         }
     }

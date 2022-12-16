@@ -21,7 +21,7 @@ namespace OWP.TaskList.Models
 
         public decimal? Spread { get; set; }
 
-        public string MaxbetSpreadToDisplay => BuildDisplayMaxbetSpread.Build(Maxbet, Spread);
+        public string MaxbetSpreadToDisplay => DisplayMaxbetSpreadBuilder.Build(Maxbet, Spread);
 
         [JsonIgnore]
         public bool IsHasMaxbetSpread

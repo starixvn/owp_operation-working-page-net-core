@@ -2,7 +2,7 @@ using System.Globalization;
 
 namespace OWP.TaskList;
 
-public static class BuildDisplayMaxbetSpread
+public static class DisplayMaxbetSpreadBuilder
 {
     public static string Build(decimal? maxBet, decimal? spread)
     {

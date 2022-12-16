@@ -106,6 +106,13 @@ namespace OWP.TaskList.Models
 
         public IEnumerable<MatchOffer> MatchOffers { get; set; }
 
+        public IEnumerable<TicketInfo> TicketInfos { get; set; }
+
+        public bool IsRead { get; set; }
+
+        public bool HasTicket { get; set; }
+
+
         public int Rowspan
         {
             get
