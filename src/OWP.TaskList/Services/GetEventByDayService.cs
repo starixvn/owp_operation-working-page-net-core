@@ -9,6 +9,7 @@ using OWP.Enums;
 namespace OWP.TaskList.Services
 {
     using Builders;
+    using Newtonsoft.Json;
 
     public interface GetEventByDayService
     {
@@ -51,16 +52,41 @@ namespace OWP.TaskList.Services
         }
         public async Task<IEnumerable<MatchInfo>> GetMatchListToday(GetTaskListCriteria criteria)
         {
-            var matchInfos = new List<MatchInfo>();
+            var matchInfo = new List<MatchInfo>();
 
             if (criteria != null && criteria.IsValid())
             {
-                matchInfos = GetEvents(criteria).ToList();
+                matchInfo = GetEvents(criteria).ToList();
             }
-            BuildIPTVCopy(matchInfos);
-            await BuildAdminSiteId(matchInfos);
+            BuildIPTVCopy(matchInfo);
+            await BuildAdminSiteId(matchInfo);
+            FakeData(matchInfo);
+            return matchInfo;
+        }
 
-            return matchInfos;
+        private void FakeData(IList<MatchInfo> matchInfo)
+        {
+            int i = 1;
+            matchInfo.Add(matchInfo.First().Clone());
+            matchInfo.Add(matchInfo.First().Clone());
+            foreach (var item in matchInfo)
+            {
+                item.MatchNo = i.ToString();
+                item.Provider = "provider";
+                item.WatchBet = "WatchBet";
+                item.Phone = "Phone";
+                item.OtherProvider = "OtherProvider";
+                item.AdminSiteId = i;
+                if (i == 1)
+                {
+                    item.League = item.League + "FIFA SABA ";
+                }
+                if (i == 2)
+                {
+                    item.League = item.League + " PES ";
+                }
+                i++;
+            }
         }
         private async Task BuildAdminSiteId(IList<MatchInfo> matches)
         {
@@ -94,16 +120,16 @@ namespace OWP.TaskList.Services
             return GetInfo(matchesRaw, assignments, matchSetting, televisions, matchOffers,
                 mainMatchInfo, tickets);
         }
-        
-        
-        
+
+
+
         private IEnumerable<MatchInfo> GetInfo(
         IEnumerable<MatchInfo> matchInfos,
            IEnumerable<Assignment> assignments,
            IEnumerable<MatchSetting> matchSettings,
            IEnumerable<Television> televisions,
            IEnumerable<MatchOffer> matchOffers,
-           IEnumerable<MainMatchInfo> mainMatchInfos, 
+           IEnumerable<MainMatchInfo> mainMatchInfos,
            IEnumerable<TicketInfo> tickets)
         {
             foreach (var matchInfo in matchInfos)

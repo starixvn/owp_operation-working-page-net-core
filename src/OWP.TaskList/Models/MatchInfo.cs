@@ -39,16 +39,10 @@ namespace OWP.TaskList.Models
 
         public string League { get; set; }
 
-        public bool IsPES
-        {
-            get => League.IndexOf(" PES ", StringComparison.CurrentCultureIgnoreCase) >= 0;
-        }
+        public bool IsPES => League.IndexOf(" PES ", StringComparison.CurrentCultureIgnoreCase) >= 0;
 
-        public bool IsFIFA
-        {
-            get => League.IndexOf("SABA ", StringComparison.CurrentCultureIgnoreCase) >= 0 &&
+        public bool IsFIFA => League.IndexOf("SABA ", StringComparison.CurrentCultureIgnoreCase) >= 0 &&
                    League.IndexOf("FIFA", StringComparison.CurrentCultureIgnoreCase) >= 0;
-        }
 
         public string NoOfHDP { get; set; }
 
@@ -101,7 +95,6 @@ namespace OWP.TaskList.Models
 
         public MatchSettingModel MatchSetting { get; set; }
 
-        [JsonIgnore]
         public IEnumerable<Television> Televisions { get; set; }
 
         public IEnumerable<MatchOffer> MatchOffers { get; set; }
@@ -143,40 +136,20 @@ namespace OWP.TaskList.Models
             }
         }
 
-        public string TimeToHtml
+        public string OtherTimeDisplay => OtherTime.HasValue ?
+            OtherTime.Value.ToOWPTimeFormat().Replace(" ", String.Empty)
+            : string.Empty;
+
+        public string KickOffTimeDisplay => KickOffTime.ToOWPTimeFormat();
+
+        public string EventDateDisplay => EventDate.ToKOTimeDateFormat();
+
+        public string ReadyDateTimeDisplay => ReadyDateTime.ToString("hh:mm tt MMM dd, yyyy");
+
+        public MatchInfo Clone()
         {
-            get
-            {
-                var time = new StringBuilder();
-                var kickOffTime = KickOffTime.ToOWPTimeFormat();
-
-                if (!IsTodayEvent)
-                {
-                    time.AppendFormat(CultureInfo.InvariantCulture, "<span class='badge-label cancelled'>{0}</span>", EventDate.ToKOTimeDateFormat());
-                }
-
-                time.AppendFormat(CultureInfo.InvariantCulture, "<p>{0}</p>", kickOffTime.Replace(" ", String.Empty));
-
-                if (OtherTime.HasValue)
-                {
-                    var otherTime = OtherTime.Value.ToOWPTimeFormat();
-                    time.AppendFormat(CultureInfo.InvariantCulture, "<p><span class='badge-label other-time'>{0}</span></p>", otherTime.Replace(" ", String.Empty));
-                }
-
-                return time.ToString();
-            }
-        }
-
-        public string TelevisionToHtml
-        {
-            get
-            {
-                var television = string.Join(
-                    ", ",
-                    Televisions.Select(x => string.Format(CultureInfo.InvariantCulture, "<span style='color: {0}'>{1}</span>", x.Color, x.TVCode.Trim())));
-
-                return television;
-            }
+            var serialized = JsonConvert.SerializeObject(this);
+            return JsonConvert.DeserializeObject<MatchInfo>(serialized);
         }
     }
 }
