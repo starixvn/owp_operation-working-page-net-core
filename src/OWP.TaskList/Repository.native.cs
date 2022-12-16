@@ -2,21 +2,26 @@
 using Fanex.Data;
 using Criteria;
 using Fanex.Data.Repository;
+using Fanex.NAP.Client.Helpers.Web;
 using Models;
 
 public interface Repository
 {
     public (IEnumerable<MatchInfo>, IEnumerable<Assignment>, IEnumerable<MatchSetting>, IEnumerable<Television>, IEnumerable<MatchOffer>, IEnumerable<MainMatchInfo>) GetTaskList(GetTaskListCriteria criteria);
 
+    public Task<DateTime> UpdateTradeStatus(int matchId);
 }
 
 public class RepositoryImp : Repository
 {
     private readonly IDynamicRepository dynamicRepository;
 
-    public RepositoryImp(IDynamicRepository dynamicRepository)
+    private readonly INapSession session;
+
+    public RepositoryImp(IDynamicRepository dynamicRepository, INapSession session)
     {
         this.dynamicRepository = dynamicRepository;
+        this.session = session;
     }
 
     public (IEnumerable<MatchInfo>, IEnumerable<Assignment>, IEnumerable<MatchSetting>, IEnumerable<Television>, IEnumerable<MatchOffer>, IEnumerable<MainMatchInfo>) GetTaskList(GetTaskListCriteria criteria)
@@ -35,5 +40,15 @@ public class RepositoryImp : Repository
                 return (matchInfos, assignments, matchSettings, televisions, matchOffers, mainMatchInfo);
             }
         }
+    }
+
+    public async Task<DateTime> UpdateTradeStatus(int matchId)
+    {
+        var criteria = new UpdateReadyTradeStatusCriteria
+        {
+            OWPMatchId = matchId,
+            UserId = 360418
+        };
+        return (await dynamicRepository.FetchAsync<DateTime>(criteria)).FirstOrDefault();
     }
 }

@@ -27,5 +27,9 @@ namespace OWP.TaskList
         [HttpPost("task-list-table")]
         public async Task<TaskListModel> TaskListTable(TaskListTableRequest request)
             => await mediator.Send(request);
+
+        [HttpPost("update-trade-status")]
+        public async Task<DateTime> UpdateReadyTradeStatus(UpdateReadyTradeStatusRequest request)
+            => await mediator.Send(request);
     }
 }

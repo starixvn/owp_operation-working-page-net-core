@@ -34,7 +34,7 @@ namespace OWP.TaskList.Services
         {
             var criteria = new GetTaskListCriteria
             {
-                UserId = session.UserId,
+                UserId = 360418,
                 EventDate = eventDate
             };
 
