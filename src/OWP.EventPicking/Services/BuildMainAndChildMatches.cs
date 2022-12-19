@@ -1,5 +1,8 @@
+using MediatR;
 using OWP.EventPicking.Models;
 using OWP.Extensions;
+using OWP.MaxbetSetting.Handlers;
+using OWP.MaxbetSetting.Models;
 
 namespace OWP.EventPicking.Services;
 
@@ -13,27 +16,35 @@ public class BuildMainAndChildMatchesImp : BuildMainAndChildMatches
     private readonly Repository repository;
     private readonly BuildMainMatchMaxBet buildMainMatchMaxBet;
     private readonly BuildChildMatchMaxBet buildChildMatchMaxBet;
+    private readonly BuildMatchOffer buildMatchOffer;
     private readonly BuildRowColor buildRowColor;
+    private readonly IMediator mediator;
 
     public BuildMainAndChildMatchesImp(
         Repository repository,
         BuildMainMatchMaxBet buildMainMatchMaxBet,
         BuildChildMatchMaxBet buildChildMatchMaxBet,
-        BuildRowColor buildRowColor)
+        BuildRowColor buildRowColor,
+        BuildMatchOffer buildMatchOffer,
+        IMediator mediator)
     {
         this.repository = repository;
         this.buildMainMatchMaxBet = buildMainMatchMaxBet;
         this.buildChildMatchMaxBet = buildChildMatchMaxBet;
         this.buildRowColor = buildRowColor;
+        this.mediator = mediator;
+        this.buildMatchOffer = buildMatchOffer;
     }
 
     public async Task<List<EventPickingModel>> GetMainAndChildMatchEvent(DateTime date)
     {
         var mainMatches = await repository.QueryMainMatch(date);
         var childMatches = await repository.QueryChildMatch(date);
+        var maxBetInDict = await GetMaxBetDefaultSetting();
 
         await buildMainMatchMaxBet.BuildMainMatchMaxbet(mainMatches);
-        await buildChildMatchMaxBet.BuildChildMatchMaxbet(mainMatches, childMatches);
+        buildChildMatchMaxBet.Build(mainMatches, childMatches, maxBetInDict);
+        buildMatchOffer.Build(mainMatches, childMatches, maxBetInDict);
 
         //var filteredMainMatches = RemoveTestingMatches(mainMatches);
         var filteredMainMatches = mainMatches;
@@ -60,6 +71,12 @@ public class BuildMainAndChildMatchesImp : BuildMainAndChildMatches
             .OrderBy(x => x.EventDateTime)
             .Where(x => !CheckMatchHaveBeenExclude(x.HomeName))
             .ToList();
+    }
+
+    private async Task<Dictionary<decimal, MaxBetSettingModel>> GetMaxBetDefaultSetting()
+    {
+        var maxBet = await mediator.Send(new QueryMaxbetSettingRequest());
+        return maxBet.ToDictionary(x => x.FT_HDP);
     }
 
     private static IEnumerable<EventPickingModel> RemoveTestingMatches(IEnumerable<EventPickingModel> mainMatches)
