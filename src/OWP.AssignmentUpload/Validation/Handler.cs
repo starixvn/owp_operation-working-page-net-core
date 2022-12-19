@@ -91,10 +91,16 @@
         {
             try
             {
-                const string folderPath = @"App_Data\Files";
-                var absolutedFolderPath = $"{configurationService.CurrentDirectory}{Path.DirectorySeparatorChar}{folderPath}";
+                var folderPath = @$"App_Data{Path.DirectorySeparatorChar}Files";
+                var absoluteFolderPath = $"{AppDomain.CurrentDomain.BaseDirectory}{Path.DirectorySeparatorChar}{folderPath}";
+
+                if (!Directory.Exists(absoluteFolderPath))
+                {
+                    Directory.CreateDirectory(absoluteFolderPath);
+                }
+
                 var fileName = $"{sessionId}-{currentSession.UserName}-New.xlsx";
-                var fullPath = Path.Combine(absolutedFolderPath, fileName);
+                var fullPath = Path.Combine(absoluteFolderPath, fileName);
                 using (var stream = File.Create(fullPath))
                 {
                     file.Seek(0, SeekOrigin.Begin);
