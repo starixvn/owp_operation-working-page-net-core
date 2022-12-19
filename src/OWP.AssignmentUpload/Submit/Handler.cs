@@ -1,16 +1,16 @@
 ﻿
 namespace OWP.AssignmentUpload.Submit
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Threading;
-    using System.Threading.Tasks;
     using Fanex.NAP.Client.Helpers.Web;
     using MediatR;
     using Models;
     using Services;
+    using System;
+    using System.Collections.Generic;
+    using System.Threading;
+    using System.Threading.Tasks;
 
-    public class SubmitRequest : IRequest<string>
+    public class SubmitRequest : IRequest<SubmitResponse>
     {
         public string SessionId { get; set; }
 
@@ -19,7 +19,14 @@ namespace OWP.AssignmentUpload.Submit
         public bool IsUploadFMAndAIO { get; set; }
     }
 
-    public class Handler : IRequestHandler<SubmitRequest, string>
+    public class SubmitResponse
+    {
+        public string Message { get; set; } = string.Empty;
+
+        public bool IsSuccessful { get; set; } = true;
+    }
+
+    public class Handler : IRequestHandler<SubmitRequest, SubmitResponse>
     {
         private readonly QueryRepository queryRepository;
 
@@ -41,17 +48,25 @@ namespace OWP.AssignmentUpload.Submit
             this.currentSession = currentSession;
         }
 
-        public async Task<string> Handle(SubmitRequest request, CancellationToken cancellationToken)
+        public async Task<SubmitResponse> Handle(SubmitRequest request, CancellationToken cancellationToken)
         {
             var userWhoIsUploadingAssignment = await cacheManipulator.GetUserWhoIsUploadingAssignment(request.EventDate);
             if (!string.IsNullOrEmpty(userWhoIsUploadingAssignment))
             {
-                return userWhoIsUploadingAssignment;
+                return new SubmitResponse
+                {
+                    Message = $"User {userWhoIsUploadingAssignment} is uploading another assignment file for date  {request.EventDate:MMM dd, yyyy}. Please try again later!",
+                    IsSuccessful = false
+                };
             }
 
             await TryHandle(request);
 
-            return string.Empty;
+            return new SubmitResponse
+            {
+                IsSuccessful = true,
+                Message = "Event assignment is successfully submitted!"
+            };
         }
 
         private async Task TryHandle(SubmitRequest request)
