@@ -317,4 +317,26 @@
         <Setting Key="OWP_MaxbetSetting_Get" SpName="OWP_MaxbetSetting_Get" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_MaxBetSetting_GetLogMaxBetSetting" SpName="OWP_MaxBetSetting_GetLogMaxBetSetting" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     </Function>
+    <Function Name="AssignmentUpload">
+		<Setting Key="OWP_AssignmentUpload_AllAssignmentsByTimeRange" SpName="OWP_AssignmentUpload_AllAssignmentsByTimeRange" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AssignmentUpload_AllMatchesByTimeRange" SpName="OWP_AssignmentUpload_AllMatchesByTimeRange" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AssignmentUpload_AllMatchSettingsByTimeRange" SpName="OWP_AssignmentUpload_AllMatchSettingsByTimeRange" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AssignmentUpload_AllMatchIdsByDateSel" SpName="OWP_AssignmentUpload_AllMatchIdsByDateSel" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AssignmentUpload_MatchAgentsInsertOrUpdate" SpName="OWP_AssignmentUpload_MatchAgentsInsertOrUpdate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AssignmentUpload_MatchesDel" SpName="OWP_AssignmentUpload_MatchesDel" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AssignmentUpload_MatchAssignmentsInsertOrUpdate" SpName="OWP_AssignmentUpload_MatchAssignmentsInsertOrUpdate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AssignmentUpload_MatchInsertOrUpdate" SpName="OWP_AssignmentUpload_MatchInsertOrUpdate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AssignmentUpload_MatchNotesInsertOrUpdate" SpName="OWP_AssignmentUpload_MatchNotesInsertOrUpdate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AssignmentUpload_MatchOffersInsertOrUpdate" SpName="OWP_AssignmentUpload_MatchOffersInsertOrUpdate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AssignmentUpload_MatchOtherProvidersInsertOrUpdate" SpName="OWP_AssignmentUpload_MatchOtherProvidersInsertOrUpdate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AssignmentUpload_MatchProvidersInsertOrUpdate" SpName="OWP_AssignmentUpload_MatchProvidersInsertOrUpdate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AssignmentUpload_MatchSettingsInsertOrUpdate" SpName="OWP_AssignmentUpload_MatchSettingsInsertOrUpdate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AssignmentUpload_MatchTelevisionsInsertOrUpdate" SpName="OWP_AssignmentUpload_MatchTelevisionsInsertOrUpdate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TraderByUsernameSel" SpName="OWP_TraderByUsernameSel" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AssignmentUpload_MessageInsert" SpName="OWP_AssignmentUpload_MessageInsert" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AssignmentUpload_GetNotificationSetting" SpName="OWP_AssignmentUpload_GetNotificationSetting" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AssignmentUpload_GetSectionMemberOfUserReceivedWatcher" SpName="OWP_AssignmentUpload_GetSectionMemberOfUserReceivedWatcher" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_AssignmentUpload_UploadHistoryInsertOrUpdate" SpName="OWP_AssignmentUpload_UploadHistoryInsertOrUpdate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_InfoSiteMatch_GetInfoSiteMatchByDate" SpName="OWP_InfoSiteMatch_GetInfoSiteMatchByDate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+	</Function>
 </Functions>

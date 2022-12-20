@@ -21,6 +21,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Newtonsoft.Json;
 using Olympus.SimpleDataApi;
 using OWP.ApiSyncWorkingShift;
+using OWP.AssignmentUpload;
 using OWP.FileUpload;
 using OWP.LeagueManagement;
 using OWP.MatchCountLiveReport;
@@ -65,6 +66,7 @@ public static class ServiceCollectionExtensions
             mc.AddProfile(new LeagueManagement.AutoMapperProfile());
             mc.AddProfile(new MaxbetSetting.AutoMapperProfile());
             mc.AddProfile(new LiveDetail.AutoMapperProfile());
+            mc.AddProfile(new AssignmentUpload.AutoMapperProfile());
         });
 
         var mapper = mapperConfig.CreateMapper();
@@ -219,6 +221,7 @@ public static class ServiceCollectionExtensions
         services.AddLeagueManagementService();
         services.AddLiveDetailService();
         services.AddTicKetEventService();
+        services.AddAssignmentUploadService();
         return services;
     }
 
@@ -240,6 +243,7 @@ public static class ServiceCollectionExtensions
         services.AddMediatR(typeof(ReportApiController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(LeagueApiController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(TicketEventController).GetTypeInfo().Assembly);
+        services.AddMediatR(typeof(AssignmentUploadingApiController).GetTypeInfo().Assembly);
         return services;
     }
 
