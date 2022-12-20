@@ -1,0 +1,26 @@
+﻿using System.Collections.Immutable;
+
+namespace OWP.EventPicking.Misc;
+
+public static class Constant
+{
+    public static string ColorWhiteHex = "#FFFFFF";
+    public static string ColorGrayHex = "#808080";
+    public static string ColorRedHex = "#F6BEBE";
+
+    public const string ColorWhite = "white";
+    public static string ColorGray = "gray";
+    public static string ColorRed = "red";
+
+    public const string ContainsCondition = "Contains";
+
+    public static readonly ImmutableDictionary<string, string> ColorDict = new Dictionary<string, string>
+    {
+        { ColorRed, ColorRedHex },
+        { ColorGray, ColorGrayHex },
+        { ColorWhite, ColorWhiteHex }
+    }.ToImmutableDictionary();
+
+    public static readonly List<string> SpecialOwpName = new List<string>
+            {"Next Corners","Next Booking", "(SPECIFIC 15 MINS)"};
+}

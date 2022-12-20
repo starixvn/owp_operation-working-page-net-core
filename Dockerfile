@@ -30,6 +30,7 @@ COPY ./src/OWP.LeagueManagement/. ./src/OWP.LeagueManagement
 COPY ./src/OWP.LiveDetail/. ./src/OWP.LiveDetail
 COPY ./src/OWP.TicketEvent/. ./src/OWP.TicketEvent
 COPY ./src/OWP.AssignmentUpload/. ./src/OWP.AssignmentUpload
+COPY ./src/OWP.EventPicking/. ./src/OWP.EventPicking
 COPY ./OWP.Websites/OWP.Websites.csproj ./OWP.Websites/OWP.Websites.csproj
 
 WORKDIR /src/OWP.Websites

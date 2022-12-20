@@ -29,9 +29,9 @@ public static class StringExtension
     {
         return Regex.Replace(text, regex, replacement);
     }
-    
-     public static bool IsContainsAll(this string toBeSearchedString, params string[] searchStrings)
-        => searchStrings.All(toBeSearchedString.IsContains);
+
+    public static bool IsContainsAll(this string toBeSearchedString, params string[] searchStrings)
+       => searchStrings.All(toBeSearchedString.IsContains);
 
 
     public static int? ConvertNullableInt(this string text)
@@ -40,4 +40,7 @@ public static class StringExtension
         if (int.TryParse(text, out i)) return i;
         return null;
     }
+
+    public static string RemoveNonAlphaCharacters(string source)
+           => new string(source?.Where(char.IsLetter).ToArray());
 }

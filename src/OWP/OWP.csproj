@@ -3,6 +3,7 @@
         <TargetFramework>net7.0</TargetFramework>
         <Nullable>disable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+		<SonarQubeExclude>True</SonarQubeExclude>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
         <CodeAnalysisRuleSet>OWP.ruleset</CodeAnalysisRuleSet>
@@ -40,5 +41,8 @@
             <AutoGen>True</AutoGen>
             <DependentUpon>FunctionKeys.tt</DependentUpon>
         </Compile>
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="RequestMediator\" />
     </ItemGroup>
 </Project>

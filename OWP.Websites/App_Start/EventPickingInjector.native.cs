@@ -1,0 +1,16 @@
+﻿using OWP.EventPicking;
+using OWP.EventPicking.Services;
+
+namespace OWP.Websites;
+
+public static class EventPickingInjector
+{
+    public static void AddEventPicking(this IServiceCollection services)
+    {
+        services.AddScoped<Repository, RepositoryImp>();
+        services.AddScoped<BuildMainMatchMaxBet, BuildMainMatchMaxBetImp>();
+        services.AddScoped<BuildChildMatchMaxBet, BuildChildMatchMaxBetImp>();
+        services.AddScoped<BuildRowColor, BuildRowColorImp>();
+        services.AddScoped<BuildMainAndChildMatches, BuildMainAndChildMatchesImp>();
+    }
+}

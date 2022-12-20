@@ -22,6 +22,7 @@ using Newtonsoft.Json;
 using Olympus.SimpleDataApi;
 using OWP.ApiSyncWorkingShift;
 using OWP.AssignmentUpload;
+using OWP.EventPicking;
 using OWP.FileUpload;
 using OWP.LeagueManagement;
 using OWP.MatchCountLiveReport;
@@ -222,12 +223,14 @@ public static class ServiceCollectionExtensions
         services.AddLiveDetailService();
         services.AddTicKetEventService();
         services.AddAssignmentUploadService();
+        services.AddEventPicking();
         return services;
     }
 
     public static IServiceCollection AddMediator(this IServiceCollection services)
     {
         services.AddMediatR(typeof(MaxbetController).GetTypeInfo().Assembly);
+        services.AddMediatR(typeof(EventPickingController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(MaxbetSettingController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(OtherSportController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(SyncWorkingShiftController).GetTypeInfo().Assembly);
