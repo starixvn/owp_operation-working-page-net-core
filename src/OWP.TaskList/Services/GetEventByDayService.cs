@@ -34,7 +34,7 @@ namespace OWP.TaskList.Services
         {
             var criteria = new GetTaskListCriteria
             {
-                UserId = 360418,
+                UserId = 8,
                 EventDate = eventDate
             };
 
@@ -69,6 +69,7 @@ namespace OWP.TaskList.Services
             matchInfo.Add(matchInfo.First().Clone());
             matchInfo.Add(matchInfo.First().Clone());
             matchInfo.Add(matchInfo.First().Clone());
+
             foreach (var item in matchInfo)
             {
                 item.MatchNo = i.ToString();
@@ -77,6 +78,9 @@ namespace OWP.TaskList.Services
                 item.Phone = "Phone";
                 item.OtherProvider = "OtherProvider";
                 item.AdminSiteId = i;
+                item.Remark = "Remark";
+                item.Round = "Round";
+                item.Division = "Division";
                 if (i == 1)
                 {
                     item.League = item.League + "FIFA SABA ";
