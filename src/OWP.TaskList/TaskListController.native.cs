@@ -2,13 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Newtonsoft.Json;
 using OWP.TaskList.Handlers;
-using OWP.TaskList.Models;
 namespace OWP.TaskList
 {
     [Route("api/[controller]")]
@@ -25,11 +20,14 @@ namespace OWP.TaskList
         }
 
         [HttpPost("task-list-table")]
-        public async Task<TaskListModel> TaskListTable(TaskListTableRequest request)
-            => await mediator.Send(request);
+        public async Task<IActionResult> TaskListTable(TaskListTableRequest request)
+        {
+            var result = await mediator.Send(request);
+            return Ok(JsonConvert.SerializeObject(result));
+        }
 
         [HttpPost("update-trade-status")]
         public async Task<DateTime> UpdateReadyTradeStatus(UpdateReadyTradeStatusRequest request)
-            => await mediator.Send(request);
+                => await mediator.Send(request);
     }
 }

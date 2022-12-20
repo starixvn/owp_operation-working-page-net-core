@@ -1,15 +1,13 @@
-﻿using OWP.Constants;
-using OWP.TaskList.Criteria;
-using Fanex.NAP.Client.Helpers.Web;
+﻿using Fanex.NAP.Client.Helpers.Web;
 using Fanex.NAP.Core.Business;
-using OWP.TaskList.Models;
+using OWP.Constants;
 using OWP.Services;
-using OWP.Enums;
 using OWP.TaskList.Builders;
+using OWP.TaskList.Criteria;
+using OWP.TaskList.Models;
 
 namespace OWP.TaskList.Services
 {
-    using Newtonsoft.Json;
     public interface GetEventByDayService
     {
         Task<TaskListModel> GetEventByDay(DateTime eventDate, bool isHideCompletedMatches);
