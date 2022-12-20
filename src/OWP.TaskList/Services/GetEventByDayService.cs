@@ -40,9 +40,8 @@ namespace OWP.TaskList.Services
 
             var model = new TaskListModel
             {
-                HasReadNotePermission = permissionService.HasRight(FunctionKeys.Note, Constant.Policy.Read),
                 Matches = await GetMatchListToday(criteria),
-                HasDetailInformationPermission = permissionService.HasRight(FunctionKeys.DetailsInformation, Constant.Policy.Read),
+                HasDetailInformationPermission = true,
                 IsHideCompletedMatches = isHideCompletedMatches
             };
             return model;
@@ -66,6 +65,10 @@ namespace OWP.TaskList.Services
             int i = 1;
             matchInfo.Add(matchInfo.First().Clone());
             matchInfo.Add(matchInfo.First().Clone());
+            matchInfo.Add(matchInfo.First().Clone());
+            matchInfo.Add(matchInfo.First().Clone());
+            matchInfo.Add(matchInfo.First().Clone());
+            matchInfo.Add(matchInfo.First().Clone());
             foreach (var item in matchInfo)
             {
                 item.MatchNo = i.ToString();
@@ -77,11 +80,56 @@ namespace OWP.TaskList.Services
                 if (i == 1)
                 {
                     item.League = item.League + "FIFA SABA ";
+                    item.MatchStatus = "Live";
+                    item.OtherTime = new TimeSpan(5, 6, 22);
+                    item.NoOfHDP = "NoOfHDP";
+                    item.NoOfHDPId = 1;
+                    item.MatchCode = "MatchCode";
+                    item.MatchOffers = new List<MatchOffer>{
+                        new MatchOffer{
+                            MatchOfferValue= "MatchOfferValue",
+                        },
+                        new MatchOffer{
+                            MatchOfferValue= "MatchOfferValue1",
+                        }
+                    };
                 }
                 if (i == 2)
                 {
                     item.League = item.League + " PES ";
+                    item.MatchStatus = "In-play";
+                    item.OtherTime = new TimeSpan(5, 6, 22);
+                    item.NoOfHDP = "NoOfHDP";
+                    item.NoOfHDPId = 2;
+                    item.MatchCode = "MatchCode";
+                    item.MatchOffers = new List<MatchOffer>{
+                        new MatchOffer{
+                            MatchOfferValue= "MatchOfferValue",
+                        },
+                        new MatchOffer{
+                            MatchOfferValue= "MatchOfferValue1",
+                        }
+                    };
                 }
+                if (i == 3)
+                {
+                    item.MatchStatus = "Completed";
+
+                    item.OtherTime = new TimeSpan(5, 6, 22);
+                }
+                if (i == 4)
+                {
+                    item.MatchStatus = "Cancel";
+                }
+                if (i == 5)
+                {
+                    item.MatchStatus = "Postponed";
+                }
+                if (i == 6)
+                {
+                    item.MatchStatus = "Suspended";
+                }
+                item.NoOfHDPId = i;
                 i++;
             }
         }
