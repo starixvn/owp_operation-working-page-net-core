@@ -81,6 +81,13 @@ namespace OWP.TaskList.Services
                 item.Remark = "Remark";
                 item.Round = "Round";
                 item.Division = "Division";
+                item.Televisions = new List<Television>(){
+                    new Television{
+                        TVCode= "TV code",
+                        Color="red"
+                    }
+                };
+                item.Channel = "channel";
                 if (i == 1)
                 {
                     item.League = item.League + "FIFA SABA ";
