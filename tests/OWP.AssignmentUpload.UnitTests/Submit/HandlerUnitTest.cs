@@ -1,16 +1,17 @@
 ﻿namespace OWP.AssignmentUpload.UnitTests.Submit
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Threading;
-    using System.Threading.Tasks;
     using AssignmentUpload.Submit;
     using AssignmentUpload.Submit.Models;
     using AssignmentUpload.Submit.Services;
     using AssignmentUpload.Validation.Models;
     using Fanex.NAP.Client.Helpers.Web;
     using NSubstitute;
+    using System;
+    using System.Collections.Generic;
+    using System.Threading;
+    using System.Threading.Tasks;
     using Xunit;
+    using Xunit.Asserts.Compare;
 
     public class HandlerUnitTest
     {
@@ -49,7 +50,11 @@
                 MatchSettings = new Dictionary<int, List<MatchSetting>>()
             };
             const string processingUser = "AnyUser";
-
+            var expectedResponse = new SubmitResponse
+            {
+                IsSuccessful = false,
+                Message = "User AnyUser is uploading another assignment file for date  May 25, 2020. Please try again later!"
+            };
             cacheManipulator.GetUserWhoIsUploadingAssignment(Arg.Compat.Any<DateTime>()).Returns(processingUser);
             await handler.SaveAssignmentsToDatabase(request);
 
@@ -57,7 +62,7 @@
             var actual = await handler.Handle(request, new CancellationToken(false));
 
             // Assert
-            Assert.Equal(processingUser, actual);
+            DeepAssert.Equal(expectedResponse, actual);
         }
 
         [Fact]
@@ -85,12 +90,17 @@
                             .Returns(emptyAssignments);
             cacheManipulator.GetUserWhoIsUploadingAssignment(Arg.Compat.Any<DateTime>()).Returns(string.Empty);
             await handler.SaveAssignmentsToDatabase(request);
+            var expectedResponse = new SubmitResponse
+            {
+                IsSuccessful = true,
+                Message = "Event assignment is successfully submitted!"
+            };
 
             // Act
             var actual = await handler.Handle(request, new CancellationToken(false));
 
             // Assert
-            Assert.Equal(string.Empty, actual);
+            DeepAssert.Equal(expectedResponse, actual);
             await commandRepository.Received().Update(emptyMatchIds, emptyAssignments, request);
             await cacheManipulator.Received().SaveAssignmentSnapshot(request.SessionId, emptySnapshot);
         }
@@ -120,12 +130,17 @@
                             .Returns(emptyAssignments);
             cacheManipulator.GetUserWhoIsUploadingAssignment(Arg.Compat.Any<DateTime>()).Returns(string.Empty);
             await handler.SaveAssignmentsToDatabase(request);
+            var expectedResponse = new SubmitResponse
+            {
+                IsSuccessful = true,
+                Message = "Event assignment is successfully submitted!"
+            };
 
             // Act
             var actual = await handler.Handle(request, new CancellationToken(false));
 
             // Assert
-            Assert.Equal(string.Empty, actual);
+            DeepAssert.Equal(expectedResponse, actual);
             await commandRepository.Received().Update(emptyMatchIds, emptyAssignments, request);
             await cacheManipulator.Received().SaveAssignmentSnapshot(request.SessionId, emptySnapshot);
         }
