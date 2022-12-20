@@ -16,7 +16,7 @@ public class BuildMainAndChildMatchesImp : BuildMainAndChildMatches
     private readonly Repository repository;
     private readonly BuildMainMatchMaxBet buildMainMatchMaxBet;
     private readonly BuildChildMatchMaxBet buildChildMatchMaxBet;
-    private readonly BuildMatchOffer buildMatchOffer;
+    private readonly BuildMatchOfferByLiveSetting buildMatchOffer;
     private readonly BuildRowColor buildRowColor;
     private readonly IMediator mediator;
 
@@ -25,7 +25,7 @@ public class BuildMainAndChildMatchesImp : BuildMainAndChildMatches
         BuildMainMatchMaxBet buildMainMatchMaxBet,
         BuildChildMatchMaxBet buildChildMatchMaxBet,
         BuildRowColor buildRowColor,
-        BuildMatchOffer buildMatchOffer,
+        BuildMatchOfferByLiveSetting buildMatchOffer,
         IMediator mediator)
     {
         this.repository = repository;

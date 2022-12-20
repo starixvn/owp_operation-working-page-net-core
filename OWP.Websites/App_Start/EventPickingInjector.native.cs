@@ -12,5 +12,6 @@ public static class EventPickingInjector
         services.AddScoped<BuildChildMatchMaxBet, BuildChildMatchMaxBetImp>();
         services.AddScoped<BuildRowColor, BuildRowColorImp>();
         services.AddScoped<BuildMainAndChildMatches, BuildMainAndChildMatchesImp>();
+        services.AddScoped<BuildMatchOfferByLiveSetting, BuildMatchOfferByLiveSettingImp>();
     }
 }

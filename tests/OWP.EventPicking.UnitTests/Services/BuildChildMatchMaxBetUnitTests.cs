@@ -1,8 +1,5 @@
-using MediatR;
-using NSubstitute;
 using OWP.EventPicking.Models;
 using OWP.EventPicking.Services;
-using OWP.MaxbetSetting.Handlers;
 using OWP.MaxbetSetting.Models;
 using Xunit;
 using Xunit.Asserts.Compare;
@@ -11,35 +8,32 @@ namespace OWP.EventPicking.UnitTests.Services;
 
 public class BuildChildMatchMaxBetUnitTests
 {
-    private readonly IMediator mediator;
     private readonly BuildChildMatchMaxBetImp services;
 
     public BuildChildMatchMaxBetUnitTests()
     {
-        mediator = Substitute.For<IMediator>();
-        services = new BuildChildMatchMaxBetImp(mediator);
+        services = new BuildChildMatchMaxBetImp();
     }
 
     [Fact]
-    public async Task BuildChildMatchMaxbet()
+    public void BuildChildMatchMaxbet()
     {
         var childMatches = MockChildMatches();
         var mainMatches = MockMainMatches();
-        var maxbetSettings = new List<MaxBetSettingModel>
+        var maxbetSettings = new Dictionary<decimal, MaxBetSettingModel>
         {
-            new() {
+            { 5000, new MaxBetSettingModel {
                 FT_HDP = 5000,
                 NoOfCorner_FT_HDP = 2000,
                 NoOfCorner_FT_OU = 100,
                 NextCorner_FT_HDP = 12000
-            },
-            new() {FT_HDP = 4000, NextCorner_FT_HDP = 400, NextBooking_FT_HDP = 100},
-            new() {FT_HDP = 3000, TotalBooking_FT_HDP = 300, TotalBooking_FT_OU = 100},
-            new() {FT_HDP = -1000, NextCorner_FT_HDP = 200, NextBooking_FT_HDP = 333}
+            } },
+            { 4000, new() {FT_HDP = 4000, NextCorner_FT_HDP = 400, NextBooking_FT_HDP = 100} },
+            { 3000, new() { FT_HDP = 3000, TotalBooking_FT_HDP = 300, TotalBooking_FT_OU = 100} },
+            { -1000, new() { FT_HDP = -1000, NextCorner_FT_HDP = 200, NextBooking_FT_HDP = 333 }}
         };
-        mediator.Send(Arg.Any<QueryMaxbetSettingRequest>()).Returns(maxbetSettings);
 
-        await services.BuildChildMatchMaxbet(mainMatches, childMatches);
+        services.Build(mainMatches, childMatches, maxbetSettings);
 
         DeepAssert.Equal(MockExpectedMatches().First().MaxBetHDP, childMatches.First().MaxBetHDP);
     }
