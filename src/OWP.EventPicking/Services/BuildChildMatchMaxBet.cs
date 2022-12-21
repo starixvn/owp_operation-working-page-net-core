@@ -8,41 +8,44 @@ namespace OWP.EventPicking.Services;
 
 public interface BuildChildMatchMaxBet
 {
-    void Build(IEnumerable<EventPickingModel> mainMatchesHasMaxBet, IEnumerable<EventPickingModel> childMatches, Dictionary<decimal, MaxBetSettingModel> maxBetDefault);
+    void Build(IEnumerable<EventPickingModel> mainMatches, IEnumerable<EventPickingModel> childMatches, Dictionary<decimal, MaxBetSettingModel> maxBetDefault);
 }
 
 public class BuildChildMatchMaxBetImp : BuildChildMatchMaxBet
 {
     public void Build(IEnumerable<EventPickingModel> mainMatches,
         IEnumerable<EventPickingModel> childMatches,
-        Dictionary<decimal, MaxBetSettingModel> maxBetDefault)
+        Dictionary<decimal, MaxBetSettingModel> maxBetDefaults)
     {
         foreach (var child in childMatches)
         {
-            var maxBet = GetMaxBetSettingDefault(mainMatches, child.InfoSiteMatchId, maxBetDefault);
-            switch (child.MinorBettypeId)
+            var maxBetDefault = GetMaxBetSettingDefault(mainMatches, child.InfoSiteMatchId, maxBetDefaults);
+            if (maxBetDefault != null)
             {
-                case Bettype.Corner:
-                    child.MaxBetHDP = maxBet.NoOfCorner_FT_HDP.ToOWPMaxBetFormat();
-                    child.MaxBetOU = maxBet.NoOfCorner_FT_OU.ToOWPMaxBetFormat();
-                    child.MaxBet1HHDP = maxBet.NoOfCorner_1H_HDP.ToOWPMaxBetFormat();
-                    child.MaxBet1HOU = maxBet.NoOfCorner_1H_OU.ToOWPMaxBetFormat();
-                    break;
-                case Bettype.TotalBooking:
-                    child.MaxBetHDP = maxBet.TotalBooking_FT_HDP.ToOWPMaxBetFormat();
-                    child.MaxBetOU = maxBet.TotalBooking_FT_OU.ToOWPMaxBetFormat();
-                    child.MaxBet1HHDP = maxBet.TotalBooking_1H_HDP.ToOWPMaxBetFormat();
-                    child.MaxBet1HOU = maxBet.TotalBooking_1H_OU.ToOWPMaxBetFormat();
-                    break;
-                case Bettype.NextCorner:
-                    child.MaxBetHDP = maxBet.NextCorner_FT_HDP.ToOWPMaxBetFormat();
-                    break;
-                case Bettype.NextBooking:
-                    child.MaxBetHDP = maxBet.NextBooking_FT_HDP.ToOWPMaxBetFormat();
-                    break;
-                default:
-                    child.MaxBetHDP = string.Empty;
-                    break;
+                switch (child.MinorBettypeId)
+                {
+                    case Bettype.Corner:
+                        child.MaxBetHDP = maxBetDefault.NoOfCorner_FT_HDP.ToOWPMaxBetFormat();
+                        child.MaxBetOU = maxBetDefault.NoOfCorner_FT_OU.ToOWPMaxBetFormat();
+                        child.MaxBet1HHDP = maxBetDefault.NoOfCorner_1H_HDP.ToOWPMaxBetFormat();
+                        child.MaxBet1HOU = maxBetDefault.NoOfCorner_1H_OU.ToOWPMaxBetFormat();
+                        break;
+                    case Bettype.TotalBooking:
+                        child.MaxBetHDP = maxBetDefault.TotalBooking_FT_HDP.ToOWPMaxBetFormat();
+                        child.MaxBetOU = maxBetDefault.TotalBooking_FT_OU.ToOWPMaxBetFormat();
+                        child.MaxBet1HHDP = maxBetDefault.TotalBooking_1H_HDP.ToOWPMaxBetFormat();
+                        child.MaxBet1HOU = maxBetDefault.TotalBooking_1H_OU.ToOWPMaxBetFormat();
+                        break;
+                    case Bettype.NextCorner:
+                        child.MaxBetHDP = maxBetDefault.NextCorner_FT_HDP.ToOWPMaxBetFormat();
+                        break;
+                    case Bettype.NextBooking:
+                        child.MaxBetHDP = maxBetDefault.NextBooking_FT_HDP.ToOWPMaxBetFormat();
+                        break;
+                    default:
+                        child.MaxBetHDP = string.Empty;
+                        break;
+                }
             }
         }
     }

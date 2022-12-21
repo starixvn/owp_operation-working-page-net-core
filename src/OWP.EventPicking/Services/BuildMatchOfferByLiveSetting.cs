@@ -23,7 +23,9 @@ namespace OWP.EventPicking.Services
         {
             mainMatches.ForEach(x =>
             {
-                x.MatchOffer = x.MatchOffer ?? GetMatchOffer(settingDefault, x, x.MaxBetHDPNumber);
+                x.MatchOffer = string.IsNullOrEmpty(x.MatchOffer)
+                    ? GetMatchOffer(settingDefault, x, x.MaxBetHDPNumber)
+                    : x.MatchOffer;
             });
         }
 
