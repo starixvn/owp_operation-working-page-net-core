@@ -49,7 +49,7 @@ public class GetEventByDayServiceUnitTests
             }
         };
         var service = new GetEventByDayServiceImp(repository, session, permissionService, getAdminSiteMatchIdService);
-        var actual = await service.GetEventByDay(new DateTime(), true);
+        var actual = await service.GetEventByDay(new DateTime());
 
         Assert.Equal(expected.First().League, actual.Matches.First().League);
     }
@@ -78,7 +78,7 @@ public class GetEventByDayServiceUnitTests
         => new List<MatchOffer> { new() { MatchOfferValue = "6s", OWPMatchId = 1 } };
 
     public IEnumerable<MainMatchInfo> MockMainInfos()
-        => new List<MainMatchInfo> { new() { OWPMatchId = 1 , IsCompletedMatch = false} };
+        => new List<MainMatchInfo> { new() { OWPMatchId = 1, IsCompletedMatch = false } };
 
     public IEnumerable<TicketInfo> MockTicketInfo()
         => new List<TicketInfo> { new() { OwpMatchId = 1 } };
