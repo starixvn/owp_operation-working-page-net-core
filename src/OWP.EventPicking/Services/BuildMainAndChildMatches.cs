@@ -46,8 +46,7 @@ public class BuildMainAndChildMatchesImp : BuildMainAndChildMatches
         buildChildMatchMaxBet.Build(mainMatches, childMatches, maxBetInDict);
         buildMatchOffer.Build(mainMatches, childMatches, maxBetInDict);
 
-        //var filteredMainMatches = RemoveTestingMatches(mainMatches);
-        var filteredMainMatches = mainMatches;
+        var filteredMainMatches = RemoveTestingMatches(mainMatches);
         var allMatches = CombineMainAndChildMatchEvent(filteredMainMatches, childMatches);
         buildRowColor.BuildRowColor(allMatches);
 

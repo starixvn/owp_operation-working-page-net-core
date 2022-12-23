@@ -5,6 +5,7 @@ using OWP.EventPicking.Services;
 using OWP.MaxbetSetting.Handlers;
 using OWP.MaxbetSetting.Models;
 using Xunit;
+using Xunit.Asserts.Compare;
 
 namespace OWP.EventPicking.UnitTests.Services;
 
@@ -56,7 +57,7 @@ public class BuildMainAndChildMatchesUnitTests
         mediator.Send(Arg.Any<QueryMaxbetSettingRequest>()).Returns(maxbetSettings);
 
         var actual = await services.GetMainAndChildMatchEvent(new DateTime(2022, 11, 06));
-        //DeepAssert.Equal(ExpectedMatches(), actual);
+        DeepAssert.Equal(ExpectedMatches(), actual);
     }
 
     public List<EventPickingModel> MockMainMatches()
