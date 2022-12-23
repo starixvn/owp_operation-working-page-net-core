@@ -1,7 +1,5 @@
-﻿using OWP.Utils;
-using System.Globalization;
-using System.Text;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using OWP.Utils;
 
 namespace OWP.TaskList.Models
 {
@@ -105,6 +103,7 @@ namespace OWP.TaskList.Models
 
         public bool HasTicket { get; set; }
 
+        public DateTime EventDateTime => EventDate.Add(KickOffTime);
 
         public int Rowspan
         {
