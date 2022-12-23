@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
 using OWP.TicketCenter.Models;
+using OWP.TicketCenter.ViewModels;
 
 namespace OWP.TicketCenter.Services;
 
 public interface MessageService
 {
     Task<NewMessageRequestModel> InsertMessage(NewTicketModelBase request, int ticketId);
+
+    Task<IEnumerable<MessageDetailViewModel>> GetMessageListInLast2Days(int ticketId);
 }
 
 public class MessageServiceImp : MessageService
@@ -44,5 +47,13 @@ public class MessageServiceImp : MessageService
         }
 
         return newMessage;
+    }
+
+    public async Task<IEnumerable<MessageDetailViewModel>> GetMessageListInLast2Days(int ticketId)
+    {
+        var messages = await repository.GetMessageInLastTwoDays(ticketId);
+        return messages
+            .DistinctBy(m => new { m.UserId, m.Username, m.CreatedDate, m.MessageId, m.Message, m.IsSaved })
+            .OrderBy(m => m.CreatedDate);
     }
 }

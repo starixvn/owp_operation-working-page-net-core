@@ -30,7 +30,7 @@
             var service = new TicketDetailServiceImp(mapper);
             var expected = GetExpected();
 
-            var actual = service.BuildMessage(MockTicketSource()).ToList();
+            var actual = service.GetMessageList(MockTicketSource()).ToList();
 
             DeepAssert.Equal(expected, actual);
         }

@@ -5,21 +5,18 @@ using OWP.TicketCenter.ViewModels;
 
 namespace OWP.TicketCenter.Handlers
 {
-    public class TicketMatchDetailRequest : PermissionCheckedModel, IRequest<TicketMatchDetailViewModel>
-    {
-    }
+    public class TicketMatchDetailRequest : PermissionCheckedModel, IRequest<TicketMatchDetailViewModel> { }
 
     public class TicketMatchDetailHandler : IRequestHandler<TicketMatchDetailRequest, TicketMatchDetailViewModel>
     {
-        private readonly TicketMatchDetailService service;
+        private readonly TicketDetailService service;
 
-        public TicketMatchDetailHandler(TicketMatchDetailService service)
+        public TicketMatchDetailHandler(TicketDetailService service)
         {
             this.service = service;
         }
 
-        public async Task<TicketMatchDetailViewModel> Handle(TicketMatchDetailRequest request,
-            CancellationToken cancellationToken)
+        public async Task<TicketMatchDetailViewModel> Handle(TicketMatchDetailRequest request, CancellationToken cancellationToken)
             => await service.GetTicketMatchDetail(request);
     }
 }
