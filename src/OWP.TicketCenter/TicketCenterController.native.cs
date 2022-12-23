@@ -6,6 +6,7 @@ using OWP.TicketCenter.Handlers;
 using OWP.TicketCenter.Middleware;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Services;
+using OWP.TicketCenter.ViewModels;
 
 namespace OWP.TicketCenter
 {
@@ -205,5 +206,9 @@ namespace OWP.TicketCenter
         [HttpGet("mark-all-tickets")]
         public async Task MarkAllTicketAsRead(int actorId)
             => await mediator.Send(new MarkAllTicketsRequest { ActorId = actorId });
+
+        [HttpPost("get-next-list-messages")]
+        public async Task<IEnumerable<MessageDetailViewModel>> GetNextListMessages(GetNextListMessagesRequest request)
+            => await mediator.Send(request);
     }
 }

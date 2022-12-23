@@ -115,6 +115,8 @@ namespace OWP.TicketCenter
         Task<IList<int>> GetTicketIdHaveSavedMessage();
 
         Task<TicketInfoLgaModel> GetTicketInfoLga(int ticketId);
+
+        Task<IEnumerable<MessageDetailViewModel>> GetNextListMessages(GetNextListMessageCriteria criteria);
     }
 
     public class RepositoryImp : Repository
@@ -488,5 +490,8 @@ namespace OWP.TicketCenter
             };
             return (await dynamicRepository.FetchAsync<TicketInfoLgaModel>(criteria)).FirstOrDefault();
         }
+
+        public async Task<IEnumerable<MessageDetailViewModel>> GetNextListMessages(GetNextListMessageCriteria criteria)
+            => await dynamicRepository.FetchAsync<MessageDetailViewModel>(criteria);
     }
 }
