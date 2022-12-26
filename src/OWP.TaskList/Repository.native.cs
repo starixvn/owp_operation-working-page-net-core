@@ -52,7 +52,7 @@ public class RepositoryImp : Repository
         var criteria = new UpdateReadyTradeStatusCriteria
         {
             OWPMatchId = matchId,
-            UserId = 360418
+            UserId = session.UserId
         };
         return (await dynamicRepository.FetchAsync<DateTime>(criteria)).FirstOrDefault();
     }
