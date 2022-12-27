@@ -1,4 +1,4 @@
-﻿namespace OWP.OvertimeReport.Criteria
+﻿namespace OWP.Report.OvertimeReport.Criteria
 {
     using Fanex.Data.Repository;
 

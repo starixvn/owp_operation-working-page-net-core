@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net7.0</TargetFramework>
         <Nullable>disable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <IsPackable>false</IsPackable>
@@ -11,17 +11,18 @@
         <Content Include="App_Data\Templates\AnnualOvertimeReportTemplate.xlsx">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
+        <Content Include="App_Data\Templates\PreMatchAssignmentReportTemplate.xlsx">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="CompareNETObjects" Version="4.78.0" />
-        <PackageReference Include="coverlet.msbuild" Version="3.1.2">
+        <PackageReference Include="coverlet.msbuild" Version="3.2.0">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
-        <PackageReference Include="EPPlus" Version="6.0.8" />
-        <PackageReference Include="Fanex.Data.Repository" Version="4.2.2" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.1" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.0" />
         <PackageReference Include="NSubstitute" Version="4.4.0" />
         <PackageReference Include="xunit" Version="2.4.2" />
         <PackageReference Include="xUnit.Asserts.Compare" Version="1.0.0.5" />
@@ -32,7 +33,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\OWP.OvertimeReport\OWP.OvertimeReport.csproj" />
+        <ProjectReference Include="..\..\src\OWP.Report\OWP.Report.csproj" />
     </ItemGroup>
 
 </Project>

@@ -15,5 +15,11 @@ namespace OWP.Constants
         public const int FirstHalfOneXTwo = 15;
 
         public const int Corner = -3;
+
+        public const int NextCorner = -4;
+
+        public const int TotalBooking = -6;
+
+        public const int NextBooking = -7;
     }
 }

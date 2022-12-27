@@ -1,4 +1,4 @@
-﻿namespace OWP.OvertimeReport.Models
+﻿namespace OWP.Report.OvertimeReport.Models
 {
     public class OverTimeRequest
     {

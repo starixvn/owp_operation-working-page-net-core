@@ -324,6 +324,13 @@
 		<Setting Key="OWP_AssignmentUpload_AllMatchIdsByDateSel" SpName="OWP_AssignmentUpload_AllMatchIdsByDateSel" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_AssignmentUpload_MatchAgentsInsertOrUpdate" SpName="OWP_AssignmentUpload_MatchAgentsInsertOrUpdate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_AssignmentUpload_MatchesDel" SpName="OWP_AssignmentUpload_MatchesDel" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+	<Function Name="EventPicking">
+		<Setting Key="OWP_EventPicking_GetLeagueSetting" SpName="OWP_EventPicking_GetLeagueSetting" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_LeagueManagement_GetAllTVCondition" SpName="OWP_LeagueManagement_GetAllTVCondition" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_EventPicking_GetInfoSiteChildMatch" SpName="OWP_EventPicking_GetInfoSiteChildMatch" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_EventPicking_GetInfoSiteMatch" SpName="OWP_EventPicking_GetInfoSiteMatch" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_EventPicking_InsertOrDeleteNoOfferMatch" SpName="OWP_EventPicking_InsertOrDeleteNoOfferMatch" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
+	</Function>
 		<Setting Key="OWP_AssignmentUpload_MatchAssignmentsInsertOrUpdate" SpName="OWP_AssignmentUpload_MatchAssignmentsInsertOrUpdate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_AssignmentUpload_MatchInsertOrUpdate" SpName="OWP_AssignmentUpload_MatchInsertOrUpdate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_AssignmentUpload_MatchNotesInsertOrUpdate" SpName="OWP_AssignmentUpload_MatchNotesInsertOrUpdate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />

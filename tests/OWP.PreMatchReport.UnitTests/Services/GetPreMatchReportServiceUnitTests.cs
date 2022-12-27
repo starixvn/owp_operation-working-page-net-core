@@ -1,14 +1,10 @@
-using System.Linq;
-using System.Collections.Generic;
-using NSubstitute;
-using Xunit;
-using Xunit.Asserts.Compare;
 using AutoMapper;
+using NSubstitute;
+using OWP.Report.PreMatchReport.Models;
+using OWP.Report.PreMatchReport.Services;
+using Xunit;
 
-using OWP.PreMatchReport.Models;
-using OWP.PreMatchReport.Services;
-
-namespace OWP.PreMatchReport.UnitTests.Services;
+namespace OWP.Report.PreMatchReport.UnitTests.Services;
 
 public class GetPreMatchReportServiceUnitTests
 {
@@ -95,10 +91,6 @@ public class GetPreMatchReportServiceUnitTests
             FromDate = DateTime.Parse("2021-12-08"),
             ToDate = DateTime.Parse("2021-12-08"),
             KeyWord = ""
-        };
-
-        var userIds = new List<int>(){
-            1,2,3
         };
 
         repository.GetReportForLeague(request).Returns(MockReportForLeague());

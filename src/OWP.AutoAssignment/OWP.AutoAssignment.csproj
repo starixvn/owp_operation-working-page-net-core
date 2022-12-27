@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net7.0</TargetFramework>
         <Nullable>disable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <CodeAnalysisRuleSet>..\..\.sonarlint\nap-owpcsharp.ruleset</CodeAnalysisRuleSet>
@@ -21,12 +21,11 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Fanex.NAP.Client.AspNetCore" Version="2.0.0.1" />
-        <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
-        <PackageReference Include="EPPlus" Version="6.0.8" />
-        <PackageReference Include="AutoMapper" Version="11.0.1" />
+        <PackageReference Include="EPPlus" Version="6.1.0" />
+        <PackageReference Include="AutoMapper" Version="12.0.0" />
         <PackageReference Include="Epplus.Mapper" Version="1.0.0.13" />
+        <PackageReference Include="Olympus.Xml" Version="1.0.0.4" />
     </ItemGroup>
 
     <ItemGroup>

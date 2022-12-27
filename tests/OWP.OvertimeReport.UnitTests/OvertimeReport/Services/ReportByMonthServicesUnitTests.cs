@@ -1,8 +1,8 @@
-﻿namespace OWP.OvertimeReport.UnitTests.Services
+﻿namespace OWP.Report.UnitTests.OvertimeReport.Services
 {
-    using Models;
     using NSubstitute;
-    using OWP.OvertimeReport.Services;
+    using OWP.Report.OvertimeReport.Models;
+    using OWP.Report.OvertimeReport.Services;
 
     using Xunit;
     using Xunit.Asserts.Compare;

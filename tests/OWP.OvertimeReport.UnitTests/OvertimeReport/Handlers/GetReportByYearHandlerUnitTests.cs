@@ -1,10 +1,10 @@
-namespace OWP.OvertimeReport.UnitTests.Handlers
+namespace OWP.Report.UnitTests.OvertimeReport.Handlers
 {
     using AutoMapper;
     using NSubstitute;
-    using OvertimeReport.Models;
-    using OWP.OvertimeReport.Handlers;
-    using OWP.OvertimeReport.Services;
+    using OWP.Report.OvertimeReport.Handlers;
+    using OWP.Report.OvertimeReport.Models;
+    using OWP.Report.OvertimeReport.Services;
 
     using Xunit;
     using Xunit.Asserts.Compare;

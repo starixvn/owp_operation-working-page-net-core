@@ -1,12 +1,12 @@
-﻿namespace OWP.OvertimeReport.UnitTests.Handlers
+﻿namespace OWP.Report.UnitTests.OvertimeReport.Handlers
 {
     using AutoMapper;
-    using Constants;
     using MediatR;
-    using Models;
     using NSubstitute;
     using OfficeOpenXml;
-    using OWP.OvertimeReport.Handlers;
+    using OWP.Report.OvertimeReport.Constants;
+    using OWP.Report.OvertimeReport.Handlers;
+    using OWP.Report.OvertimeReport.Models;
     using OWP.Services;
 
     using Xunit;

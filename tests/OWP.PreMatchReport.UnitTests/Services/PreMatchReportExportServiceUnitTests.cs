@@ -1,11 +1,11 @@
 ﻿using NSubstitute;
 using OfficeOpenXml;
-using OWP.PreMatchReport.Models;
-using OWP.PreMatchReport.Services;
+using OWP.Report.PreMatchReport.Models;
+using OWP.Report.PreMatchReport.Services;
 using OWP.Services;
 using Xunit;
 
-namespace OWP.PreMatchReport.UnitTests.Services;
+namespace OWP.Report.PreMatchReport.UnitTests.Services;
 
 public class PreMatchReportExportServiceUnitTests
 {

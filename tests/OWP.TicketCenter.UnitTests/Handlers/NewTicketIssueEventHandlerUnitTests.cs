@@ -87,7 +87,7 @@ namespace OWP.TicketCenter.UnitTests.Handlers
             await notificationService.NotifyNewMessageIncome(Arg.Compat.Any<int>());
 
             var actual = await handler.Handle(request, CancellationToken.None);
-
+            // Temp
             //Assert
             var expected = 111;
             Assert.Equal(actual, expected);

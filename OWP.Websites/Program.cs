@@ -62,17 +62,13 @@ NapClientManager
   .UseConfig(app.Services.GetService<INapSettings>())
   .UseSession(app.Services.GetService<INapSession>());
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllerRoute(
+app.MapControllerRoute(
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}");
-
-    endpoints.MapHub<NewDataUploadNotifyHubImp>("/otherSportNewDataUploadNotifyHub");
-    endpoints.MapHub<ChangedInfoNotifyHubImp>("/changedInfoNotifyHub");
-    endpoints.MapHub<TicketCenterNotifyHubImp>("/ticketCenterNotifyHub");
-    endpoints.MapHub<PreMatchNotifyHubImp>("/preMatchNotifyHub");
-});
+app.MapHub<NewDataUploadNotifyHubImp>("/otherSportNewDataUploadNotifyHub");
+app.MapHub<ChangedInfoNotifyHubImp>("/changedInfoNotifyHub");
+app.MapHub<TicketCenterNotifyHubImp>("/ticketCenterNotifyHub");
+app.MapHub<PreMatchNotifyHubImp>("/preMatchNotifyHub");
 
 ThreadPool.SetMinThreads(100, 100);
 

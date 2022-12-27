@@ -1,8 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net7.0</TargetFramework>
         <Nullable>disable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+		<SonarQubeExclude>True</SonarQubeExclude>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
         <CodeAnalysisRuleSet>OWP.ruleset</CodeAnalysisRuleSet>
@@ -10,6 +11,11 @@
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
         <CodeAnalysisRuleSet>OWP.ruleset</CodeAnalysisRuleSet>
     </PropertyGroup>
+    <ItemGroup>
+      <Compile Remove="RequestMediator\**" />
+      <EmbeddedResource Remove="RequestMediator\**" />
+      <None Remove="RequestMediator\**" />
+    </ItemGroup>
     <ItemGroup>
         <AdditionalFiles Include="..\..\.sonarlint\nap-owp\CSharp\SonarLint.xml" Link="SonarLint.xml" />
     </ItemGroup>
@@ -21,8 +27,6 @@
         <PackageReference Include="Olympus.OWP.Constants" Version="1.0.0.3" />
         <PackageReference Include="Fanex.Logging" Version="2.0.1" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-        <PackageReference Include="Olympus.Xml" Version="1.0.0.4" />
-        <PackageReference Include="MediatR" Version="10.0.1" />
         <PackageReference Include="Fanex.NAP.Client.AspNetCore" Version="2.0.0.1" />
     </ItemGroup>
     <ItemGroup>
