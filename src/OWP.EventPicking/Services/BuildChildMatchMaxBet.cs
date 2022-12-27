@@ -8,7 +8,7 @@ namespace OWP.EventPicking.Services;
 
 public interface BuildChildMatchMaxBet
 {
-    void Build(IEnumerable<EventPickingModel> mainMatches, IEnumerable<EventPickingModel> childMatches, Dictionary<decimal, MaxBetSettingModel> maxBetDefault);
+    void Build(IEnumerable<EventPickingModel> mainMatches, IEnumerable<EventPickingModel> childMatches, Dictionary<decimal, MaxBetSettingModel> maxBetDefaults);
 }
 
 public class BuildChildMatchMaxBetImp : BuildChildMatchMaxBet

@@ -7,7 +7,7 @@ namespace OWP.EventPicking.Services
 {
     public interface BuildMatchOfferByLiveSetting
     {
-        void Build(IEnumerable<EventPickingModel> mainMatchesHasMaxBet, IEnumerable<EventPickingModel> childMatches, Dictionary<decimal, MaxBetSettingModel> maxBetDefault);
+        void Build(IEnumerable<EventPickingModel> mainMatches, IEnumerable<EventPickingModel> childMatches, Dictionary<decimal, MaxBetSettingModel> settingDefault);
     }
 
     public class BuildMatchOfferByLiveSettingImp : BuildMatchOfferByLiveSetting
