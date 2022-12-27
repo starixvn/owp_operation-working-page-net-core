@@ -8,6 +8,8 @@ namespace OWP.SimpleDataApi.Criteria.TicketCenter
 
         public bool IncludeGroup { get; set; }
 
+        public bool IncludeSection { get; set; }
+
         public override string GetSettingKey() => "OWP_TicketCenter_GetRecipient";
 
         public override bool IsValid() => true;

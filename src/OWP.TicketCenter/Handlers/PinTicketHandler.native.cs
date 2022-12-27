@@ -1,12 +1,10 @@
 ﻿namespace OWP.TicketCenter.Handlers
 {
     using MediatR;
+    using OWP.TicketCenter.Middleware.Models;
 
-    public class PinTicketRequest : IRequest<Unit>
+    public class PinTicketRequest : PermissionCheckedModel, IRequest<Unit>
     {
-        public int UserId { get; set; }
-
-        public int TicketId { get; set; }
 
         public bool IsPinned { get; set; }
     }
@@ -22,7 +20,7 @@
 
         public async Task<Unit> Handle(PinTicketRequest request, CancellationToken cancellationToken)
         {
-            await repository.PinTicket(new Criteria.PinTicketCriteria { ActorId = request.UserId, TicketId = request.TicketId, IsPinned = request.IsPinned });
+            await repository.PinTicket(new Criteria.PinTicketCriteria { ActorId = request.ActorId, TicketId = request.TicketId, IsPinned = request.IsPinned });
 
             return await Task.FromResult(Unit.Value);
         }

@@ -56,6 +56,7 @@ namespace OWP.TicketCenter
         [HttpPost("new-ticket-issue-league")]
         public async Task<int> NewTicketIssueLeague(NewTicketIssueLeagueRequest request)
         => await mediator.Send(request);
+
         [HttpPost("new-ticket-issue-live-incident")]
         public async Task<int> NewTicketIssueLga(NewTicketIssueLiveIncidentRequest request)
         => await mediator.Send(request);
@@ -186,10 +187,12 @@ namespace OWP.TicketCenter
         public async Task SaveMessage(SaveMessageRequest request)
             => await mediator.Send(request);
 
+        [ServiceFilter(typeof(PermissionOnAction))]
         [HttpPost("pin-ticket")]
         public async Task PinTicket(PinTicketRequest request)
             => await mediator.Send(request);
 
+        [ServiceFilter(typeof(PermissionOnAction))]
         [HttpPost("delete-ticket")]
         public async Task DeleteTicket(DeleteTicketRequest request)
             => await mediator.Send(request);
