@@ -20,15 +20,6 @@ public class LAReportController : ControllerBase
         this.mediator = mediator;
     }
 
-    [Route("get-server-time")]
-    [HttpGet]
-    [Produces("application/json")]
-    public IActionResult GetServerTime()
-    {
-        var serverTime = DateTime.Today.AddDays(-1);
-        return Ok(serverTime.ToString("MM/dd/yyyy"));
-    }
-
     [Route("la")]
     [HttpPost]
     public async Task<IActionResult> GetDataLAReport(LAReportRequest request)
