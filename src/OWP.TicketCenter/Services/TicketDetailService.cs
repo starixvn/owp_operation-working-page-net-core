@@ -79,6 +79,10 @@ namespace OWP.TicketCenter.Services
 
         public async Task BuildExtInfoTicketDetail(TicketDetailBaseViewModel model, int ticketId, int actorId)
         {
+            if (model == null)
+            {
+                return;
+            };
             var messages = await messageService.GetMessageListInLast2Days(ticketId);
             var criteria = new UpdateSingleRecipientReaderCriteria
             {
