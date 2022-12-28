@@ -108,15 +108,15 @@ namespace OWP.TicketCenter
 
         Task UpdateTicketsAsRead(int actorId);
 
-        Task<IEnumerable<MessageInfoModel>> GetTwoLastCommnet(IList<int> ticketIds);
+        Task<IEnumerable<MessageInfoModel>> GetTwoLastComment(IList<int> ticketIds);
 
-        Task<IEnumerable<MessageDetailViewModel>> GetMessageInLastTwoDays(int ticketId);
+        Task<(bool, IEnumerable<MessageDetailViewModel>)> GetMessageInLastTwoDays(int ticketId);
 
         Task<IList<int>> GetTicketIdHaveSavedMessage();
 
         Task<TicketInfoLgaModel> GetTicketInfoLga(int ticketId);
 
-        Task<IEnumerable<MessageDetailViewModel>> GetNextListMessages(GetNextListMessageCriteria criteria);
+        Task<(bool, IEnumerable<MessageDetailViewModel>)> GetNextListMessages(GetNextListMessageCriteria criteria);
     }
 
     public class RepositoryImp : Repository
@@ -463,9 +463,9 @@ namespace OWP.TicketCenter
             await dynamicRepository.ExecuteAsync(criteria);
         }
 
-        public async Task<IEnumerable<MessageInfoModel>> GetTwoLastCommnet(IList<int> ticketIds)
+        public async Task<IEnumerable<MessageInfoModel>> GetTwoLastComment(IList<int> ticketIds)
         {
-            var criteria = new GetTwoLastCommnetCriteria
+            var criteria = new GetTwoLastCommentCriteria
             {
                 TicketId = String.Join(',', ticketIds)
             };
@@ -473,10 +473,11 @@ namespace OWP.TicketCenter
             return await dynamicRepository.FetchAsync<MessageInfoModel>(criteria);
         }
 
-        public async Task<IEnumerable<MessageDetailViewModel>> GetMessageInLastTwoDays(int ticketId)
+        public async Task<(bool, IEnumerable<MessageDetailViewModel>)> GetMessageInLastTwoDays(int ticketId)
         {
             var criteria = new GetMessageInLast2DaysCriteria { TicketId = ticketId };
-            return await dynamicRepository.FetchAsync<MessageDetailViewModel>(criteria);
+            var messages = await dynamicRepository.FetchAsync<MessageDetailViewModel>(criteria);
+            return (criteria.CanShowMoreMessage, messages);
         }
 
         public async Task<IList<int>> GetTicketIdHaveSavedMessage()
@@ -491,7 +492,10 @@ namespace OWP.TicketCenter
             return (await dynamicRepository.FetchAsync<TicketInfoLgaModel>(criteria)).FirstOrDefault();
         }
 
-        public async Task<IEnumerable<MessageDetailViewModel>> GetNextListMessages(GetNextListMessageCriteria criteria)
-            => await dynamicRepository.FetchAsync<MessageDetailViewModel>(criteria);
+        public async Task<(bool, IEnumerable<MessageDetailViewModel>)> GetNextListMessages(GetNextListMessageCriteria criteria)
+        {
+            var messages = await dynamicRepository.FetchAsync<MessageDetailViewModel>(criteria);
+            return (criteria.CanShowMoreMessage, messages);
+        }
     }
 }

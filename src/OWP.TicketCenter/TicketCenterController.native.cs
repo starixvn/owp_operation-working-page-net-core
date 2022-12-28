@@ -208,7 +208,14 @@ namespace OWP.TicketCenter
             => await mediator.Send(new MarkAllTicketsRequest { ActorId = actorId });
 
         [HttpPost("get-next-list-messages")]
-        public async Task<IEnumerable<MessageDetailViewModel>> GetNextListMessages(GetNextListMessagesRequest request)
-            => await mediator.Send(request);
+        public async Task<object> GetNextListMessages(GetNextListMessagesRequest request)
+        {
+            var (canShowMoreMessage, messages) = await mediator.Send(request);
+            return new
+            {
+                canShowMoreMessage,
+                messages
+            };
+        }
     }
 }

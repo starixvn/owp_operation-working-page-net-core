@@ -4,6 +4,8 @@ namespace OWP.TicketCenter.Criteria
 {
     public class GetNextListMessageCriteria : CriteriaBase
     {
+        public bool CanShowMoreMessage { get; set; }
+
         public int MsgOfPage { get; set; }
 
         public int TicketId { get; set; }

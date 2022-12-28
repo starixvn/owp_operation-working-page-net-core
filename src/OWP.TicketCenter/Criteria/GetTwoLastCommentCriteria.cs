@@ -2,7 +2,7 @@
 
 namespace OWP.TicketCenter.Criteria
 {
-    public class GetTwoLastCommnetCriteria : NonQueryCommand
+    public class GetTwoLastCommentCriteria : NonQueryCommand
     {
         public string TicketId { get; set; }
 

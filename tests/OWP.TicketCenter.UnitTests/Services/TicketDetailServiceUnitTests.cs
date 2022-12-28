@@ -24,7 +24,7 @@ public class TicketDetailServiceUnitTests
             cfg.CreateMap<EventTicketLeagueModel, TicketLeagueDetailViewModel>();
             cfg.CreateMap<EventTicketMatchModel, TicketMatchDetailViewModel>();
             cfg.CreateMap<EventTicketSupportModel, TicketSupportDetailViewModel>();
-            cfg.CreateMap<EventTicketMatchModel, TicketLiveIncidientDetailViewModel>();
+            cfg.CreateMap<EventTicketMatchModel, TicketLiveIncidentDetailViewModel>();
         });
         repository = Substitute.For<Repository>();
         messageService = Substitute.For<MessageService>();
@@ -47,10 +47,10 @@ public class TicketDetailServiceUnitTests
         var recipients = new List<RecipientResponseModel> {
             new() {  RecipientId = 10, UserName = "sa", }
         };
-        var messages = GetMockMessage();
+        var (canShowMoreMessage, messages) = GetMockMessage();
+        messageService.GetMessageListInLast2Days(request.TicketId).Returns((canShowMoreMessage, messages));
         repository.GetTicketMatchDetail(request.TicketId).Returns(ticketMatchDetail);
         repository.GetRecipientByTicketId(request.TicketId).Returns(recipients);
-        messageService.GetMessageListInLast2Days(request.TicketId).Returns(messages);
 
         var expected = new TicketMatchDetailViewModel
         {
@@ -79,10 +79,10 @@ public class TicketDetailServiceUnitTests
         var recipients = new List<RecipientResponseModel> {
             new() {  RecipientId = 10, UserName = "sa", }
         };
-        var messages = GetMockMessage();
+        var (canShowMoreMessage, messages) = GetMockMessage();
+        messageService.GetMessageListInLast2Days(request.TicketId).Returns((canShowMoreMessage, messages));
         repository.GetTicketLeagueDetail(request.TicketId).Returns(ticketLeagueDetail);
         repository.GetRecipientByTicketId(request.TicketId).Returns(recipients);
-        messageService.GetMessageListInLast2Days(request.TicketId).Returns(messages);
 
         var expected = new TicketLeagueDetailViewModel
         {
@@ -110,10 +110,10 @@ public class TicketDetailServiceUnitTests
         var recipients = new List<RecipientResponseModel> {
             new() {  RecipientId = 10, UserName = "sa", }
         };
-        var messages = GetMockMessage();
+        var (canShowMoreMessage, messages) = GetMockMessage();
         repository.GetTicketOtherDetail(request.TicketId).Returns(ticketOtherDetail);
         repository.GetRecipientByTicketId(request.TicketId).Returns(recipients);
-        messageService.GetMessageListInLast2Days(request.TicketId).Returns(messages);
+        messageService.GetMessageListInLast2Days(request.TicketId).Returns((canShowMoreMessage, messages));
 
         var expected = new TicketOtherDetailViewModel
         {
@@ -129,11 +129,11 @@ public class TicketDetailServiceUnitTests
     }
 
     [Fact]
-    public async Task GetTicketLiveIncidientDetail_Always_ReturnTicketLiveIncidientDetailViewModel()
+    public async Task GetTicketLiveIncidentDetail_Always_ReturnTicketLiveIncidentDetailViewModel()
     {
         var actorId = 8;
         var request = new TicketLiveIncidentDetailRequest { ActorId = actorId, TicketId = 145 };
-        var ticketLiveIncidientDetail = new EventTicketMatchModel
+        var ticketLiveIncidentDetail = new EventTicketMatchModel
         {
             TicketId = 145,
             TypeName = "Other",
@@ -143,12 +143,12 @@ public class TicketDetailServiceUnitTests
         var recipients = new List<RecipientResponseModel> {
             new() {  RecipientId = 10, UserName = "sa", }
         };
-        var messages = GetMockMessage();
-        repository.GetTicketLiveIncidentDetail(request.TicketId).Returns(ticketLiveIncidientDetail);
+        var (canShowMoreMessage, messages) = GetMockMessage();
+        repository.GetTicketLiveIncidentDetail(request.TicketId).Returns(ticketLiveIncidentDetail);
         repository.GetRecipientByTicketId(request.TicketId).Returns(recipients);
-        messageService.GetMessageListInLast2Days(request.TicketId).Returns(messages);
+        messageService.GetMessageListInLast2Days(request.TicketId).Returns((canShowMoreMessage, messages));
 
-        var expected = new TicketLiveIncidientDetailViewModel
+        var expected = new TicketLiveIncidentDetailViewModel
         {
             TicketId = 145,
             TypeName = "Other",
@@ -175,10 +175,10 @@ public class TicketDetailServiceUnitTests
         var recipients = new List<RecipientResponseModel> {
             new() {  RecipientId = 10, UserName = "sa", }
         };
-        var messages = GetMockMessage();
+        var (canShowMoreMessage, messages) = GetMockMessage();
         repository.GetTicketSupportDetail(request.TicketId).Returns(ticketSupportDetail);
         repository.GetRecipientByTicketId(request.TicketId).Returns(recipients);
-        messageService.GetMessageListInLast2Days(request.TicketId).Returns(messages);
+        messageService.GetMessageListInLast2Days(request.TicketId).Returns((canShowMoreMessage, messages));
 
         var expected = new TicketSupportDetailViewModel
         {
@@ -192,8 +192,8 @@ public class TicketDetailServiceUnitTests
         DeepAssert.Equal(expected, actual);
     }
 
-    public List<MessageDetailViewModel> GetMockMessage()
-        => new List<MessageDetailViewModel>
+    public (bool, List<MessageDetailViewModel>) GetMockMessage()
+        => (true, new List<MessageDetailViewModel>
         {
             new()
             {
@@ -211,5 +211,5 @@ public class TicketDetailServiceUnitTests
                 CreatedDate = new DateTime(2021,9,29,16,29,31),
                 Username = "sa",
             }
-        };
+        });
 }

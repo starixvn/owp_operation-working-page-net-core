@@ -8,7 +8,7 @@ public interface MessageService
 {
     Task<NewMessageRequestModel> InsertMessage(NewTicketModelBase request, int ticketId);
 
-    Task<IEnumerable<MessageDetailViewModel>> GetMessageListInLast2Days(int ticketId);
+    Task<(bool, IEnumerable<MessageDetailViewModel>)> GetMessageListInLast2Days(int ticketId);
 }
 
 public class MessageServiceImp : MessageService
@@ -49,11 +49,12 @@ public class MessageServiceImp : MessageService
         return newMessage;
     }
 
-    public async Task<IEnumerable<MessageDetailViewModel>> GetMessageListInLast2Days(int ticketId)
+    public async Task<(bool, IEnumerable<MessageDetailViewModel>)> GetMessageListInLast2Days(int ticketId)
     {
-        var messages = await repository.GetMessageInLastTwoDays(ticketId);
-        return messages
+        var (canShowMoreMessage, messages) = await repository.GetMessageInLastTwoDays(ticketId);
+
+        return (canShowMoreMessage, messages
             .DistinctBy(m => new { m.UserId, m.Username, m.CreatedDate, m.MessageId, m.Message, m.IsSaved })
-            .OrderBy(m => m.CreatedDate);
+            .OrderBy(m => m.CreatedDate));
     }
 }

@@ -8,7 +8,7 @@ namespace OWP.TicketCenter.Services
     public interface TicketDetailService
     {
         Task<TicketMatchDetailViewModel> GetTicketMatchDetail(TicketMatchDetailRequest request);
-        Task<TicketLiveIncidientDetailViewModel> GetTicketLiveIncidentDetail(TicketLiveIncidentDetailRequest request);
+        Task<TicketLiveIncidentDetailViewModel> GetTicketLiveIncidentDetail(TicketLiveIncidentDetailRequest request);
         Task<TicketLeagueDetailViewModel> GetTicketLeagueDetail(TicketLeagueDetailRequest request);
         Task<TicketOtherDetailViewModel> GetTicketOtherDetail(TicketOtherDetailRequest request);
         Task<TicketSupportDetailViewModel> GetTicketSupportDetail(TicketSupportDetailRequest request);
@@ -37,10 +37,10 @@ namespace OWP.TicketCenter.Services
             return viewModel;
         }
 
-        public async Task<TicketLiveIncidientDetailViewModel> GetTicketLiveIncidentDetail(TicketLiveIncidentDetailRequest request)
+        public async Task<TicketLiveIncidentDetailViewModel> GetTicketLiveIncidentDetail(TicketLiveIncidentDetailRequest request)
         {
             var ticketMatch = await repository.GetTicketLiveIncidentDetail(request.TicketId);
-            var viewModel = mapper.Map<TicketLiveIncidientDetailViewModel>(ticketMatch);
+            var viewModel = mapper.Map<TicketLiveIncidentDetailViewModel>(ticketMatch);
 
             await BuildExtInfoTicketDetail(viewModel, request.TicketId, request.ActorId);
 
@@ -83,7 +83,7 @@ namespace OWP.TicketCenter.Services
             {
                 return;
             };
-            var messages = await messageService.GetMessageListInLast2Days(ticketId);
+            var (canShowMoreMessage, messages) = await messageService.GetMessageListInLast2Days(ticketId);
             var criteria = new UpdateSingleRecipientReaderCriteria
             {
                 TicketId = ticketId,
@@ -98,6 +98,7 @@ namespace OWP.TicketCenter.Services
             model.CreatorInfo = issueCreator;
             model.Recipients = recipients?.ToList();
             model.Messages = messages?.ToList();
+            model.CanShowMoreMessage = canShowMoreMessage;
         }
     }
 }

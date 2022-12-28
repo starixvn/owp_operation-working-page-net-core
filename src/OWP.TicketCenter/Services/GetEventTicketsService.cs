@@ -35,7 +35,7 @@ namespace OWP.TicketCenter.Services
             var ticketIsShowed = BuildTicketIsShowed(eventTickets, ticketIdSaved.ToList());
 
             var ticketIds = ticketIsShowed.Select(x => x.TicketId).ToList();
-            var lastComments = await repository.GetTwoLastCommnet(ticketIds);
+            var lastComments = await repository.GetTwoLastComment(ticketIds);
 
             foreach (var ticket in ticketIsShowed)
             {
