@@ -8,7 +8,7 @@ namespace OWP.TicketCenter.Criteria
 
         public int TicketId { get; set; }
 
-        public int FirstMsgId { get; set; }
+        public int? FirstMsgId { get; set; }
 
 
         public override string GetSettingKey()

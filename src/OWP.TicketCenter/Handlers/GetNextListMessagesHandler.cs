@@ -10,7 +10,7 @@ public class GetNextListMessagesRequest : IRequest<IEnumerable<MessageDetailView
 
     public int TicketId { get; set; }
 
-    public int FirstMsgId { get; set; }
+    public int? FirstMsgId { get; set; }
 }
 
 public class GetNextListMessagesHandler : IRequestHandler<GetNextListMessagesRequest, IEnumerable<MessageDetailViewModel>>
