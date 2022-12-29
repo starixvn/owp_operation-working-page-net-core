@@ -16,7 +16,7 @@ namespace OWP.TicketCenter
             CreateMap<NewTicketIssueOtherRequest, AddNewTicketIssueOtherCriteria>();
             CreateMap<NewTicketIssueLeagueRequest, AddNewTicketIssueLeagueCriteria>();
             CreateMap<NewTicketIssueSupportRequest, AddNewTicketIssueSupportCriteria>();
-
+            CreateMap<EventTicketMatchModel, TicketLiveIncidentDetailViewModel>();
             CreateMap<NewTicketIssueLiveIncidentRequest, NewMessageRequestModel>().ForMember(
                 m => m.FileId,
                 opt => opt.Ignore());
