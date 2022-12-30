@@ -60,7 +60,7 @@
 
         private static int CalculateHeightRow(int number)
         {
-            return Equals(number, 0) ? 0 : (number + 2) * 20;
+            return Equals(number, 0) ? 0 : number * 20;
         }
     }
 }

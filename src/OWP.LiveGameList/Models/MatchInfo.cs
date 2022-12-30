@@ -92,7 +92,7 @@ namespace OWP.LiveGameList.Models
         public int LengthLeague { get; set; }
 
         public int LengthRemark { get; set; }
-        
+
         public int LengthIpTv { get; set; }
 
         public int LengthProvider { get; set; }
@@ -112,6 +112,36 @@ namespace OWP.LiveGameList.Models
         public int LengthOtherProductTenMinutes { get; set; }
 
         public int LengthOtherProductFifteenMinutes { get; set; }
+
+        public int RowSpan
+        {
+            get
+            {
+                var rowSpan = 0;
+
+                if (Assignment.FastMarket.Any() || MatchSetting.FastMarket.IsHasMaxbetSpread)
+                {
+                    rowSpan++;
+                }
+
+                if (Assignment.AllInOne.Any())
+                {
+                    rowSpan++;
+                }
+
+                if (Assignment.Specific15Mins.Any() || MatchSetting.Specific15Mins.IsHasMaxbetSpread)
+                {
+                    rowSpan++;
+                }
+
+                if (Assignment.Specific10Mins.Any() || MatchSetting.Specific10Mins.IsHasMaxbetSpread)
+                {
+                    rowSpan++;
+                }
+
+                return rowSpan;
+            }
+        }
 
     }
 
