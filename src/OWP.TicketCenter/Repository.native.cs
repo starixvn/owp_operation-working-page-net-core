@@ -117,6 +117,8 @@ namespace OWP.TicketCenter
         Task<TicketInfoLgaModel> GetTicketInfoLga(int ticketId);
 
         Task<(bool, IEnumerable<MessageDetailViewModel>)> GetNextListMessages(GetNextListMessageCriteria criteria);
+
+        Task<(bool canShowMoreMessage, List<MessageDetailViewModel> messages)> GetMessageListByGreaterMessageId(int ticketId, int messageId);
     }
 
     public class RepositoryImp : Repository
@@ -496,6 +498,17 @@ namespace OWP.TicketCenter
         {
             var messages = await dynamicRepository.FetchAsync<MessageDetailViewModel>(criteria);
             return (criteria.CanShowMoreMessage, messages);
+        }
+
+        public async Task<(bool, List<MessageDetailViewModel>)> GetMessageListByGreaterMessageId(int ticketId, int messageId)
+        {
+            var criteria = new GetMessageByGreaterMessageIdCriteria
+            {
+                TicketId = ticketId,
+                MessageId = messageId
+            };
+            var messages = await dynamicRepository.FetchAsync<MessageDetailViewModel>(criteria);
+            return (criteria.CanShowMoreMessage, messages.ToList());
         }
     }
 }

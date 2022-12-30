@@ -8,7 +8,9 @@ public interface MessageService
 {
     Task<NewMessageRequestModel> InsertMessage(NewTicketModelBase request, int ticketId);
 
-    Task<(bool, IEnumerable<MessageDetailViewModel>)> GetMessageListInLast2Days(int ticketId);
+    Task<(bool, List<MessageDetailViewModel>)> GetMessageListInLast2Days(int ticketId);
+
+    Task<(bool, List<MessageDetailViewModel>)> GetMessageListByGreaterMessageId(int ticketId, int firstMessageId);
 }
 
 public class MessageServiceImp : MessageService
@@ -49,12 +51,23 @@ public class MessageServiceImp : MessageService
         return newMessage;
     }
 
-    public async Task<(bool, IEnumerable<MessageDetailViewModel>)> GetMessageListInLast2Days(int ticketId)
+    public async Task<(bool, List<MessageDetailViewModel>)> GetMessageListInLast2Days(int ticketId)
     {
         var (canShowMoreMessage, messages) = await repository.GetMessageInLastTwoDays(ticketId);
 
         return (canShowMoreMessage, messages
             .DistinctBy(m => new { m.UserId, m.Username, m.CreatedDate, m.MessageId, m.Message, m.IsSaved })
-            .OrderBy(m => m.CreatedDate));
+            .OrderBy(m => m.CreatedDate)
+            .ToList());
+    }
+
+    public async Task<(bool, List<MessageDetailViewModel>)> GetMessageListByGreaterMessageId(int ticketId, int firstMessageId)
+    {
+        var (canShowMoreMessage, messages) = await repository.GetMessageListByGreaterMessageId(ticketId, firstMessageId);
+
+        return (canShowMoreMessage, messages
+            .DistinctBy(m => new { m.UserId, m.Username, m.CreatedDate, m.MessageId, m.Message, m.IsSaved })
+            .OrderBy(m => m.CreatedDate)
+            .ToList());
     }
 }

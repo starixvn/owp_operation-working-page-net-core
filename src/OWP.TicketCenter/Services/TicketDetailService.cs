@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using OWP.TicketCenter.Criteria;
 using OWP.TicketCenter.Handlers;
+using OWP.TicketCenter.Middleware.Models;
 using OWP.TicketCenter.ViewModels;
 
 namespace OWP.TicketCenter.Services
@@ -32,7 +33,7 @@ namespace OWP.TicketCenter.Services
             var ticketMatch = await repository.GetTicketMatchDetail(request.TicketId);
             var viewModel = mapper.Map<TicketMatchDetailViewModel>(ticketMatch);
 
-            await BuildExtInfoTicketDetail(viewModel, request.TicketId, request.ActorId);
+            await BuildExtInfoTicketDetail(viewModel, request);
 
             return viewModel;
         }
@@ -42,7 +43,7 @@ namespace OWP.TicketCenter.Services
             var ticketMatch = await repository.GetTicketLiveIncidentDetail(request.TicketId);
             var viewModel = mapper.Map<TicketLiveIncidentDetailViewModel>(ticketMatch);
 
-            await BuildExtInfoTicketDetail(viewModel, request.TicketId, request.ActorId);
+            await BuildExtInfoTicketDetail(viewModel, request);
 
             return viewModel;
         }
@@ -52,7 +53,7 @@ namespace OWP.TicketCenter.Services
             var ticketLeague = await repository.GetTicketLeagueDetail(request.TicketId);
             var viewModel = mapper.Map<TicketLeagueDetailViewModel>(ticketLeague);
 
-            await BuildExtInfoTicketDetail(viewModel, request.TicketId, request.ActorId);
+            await BuildExtInfoTicketDetail(viewModel, request);
 
             return viewModel;
         }
@@ -62,7 +63,7 @@ namespace OWP.TicketCenter.Services
             var ticketOther = await repository.GetTicketOtherDetail(request.TicketId);
             var viewModel = mapper.Map<TicketOtherDetailViewModel>(ticketOther);
 
-            await BuildExtInfoTicketDetail(viewModel, request.TicketId, request.ActorId);
+            await BuildExtInfoTicketDetail(viewModel, request);
 
             return viewModel;
         }
@@ -72,23 +73,28 @@ namespace OWP.TicketCenter.Services
             var ticketSupport = await repository.GetTicketSupportDetail(request.TicketId);
             var viewModel = mapper.Map<TicketSupportDetailViewModel>(ticketSupport);
 
-            await BuildExtInfoTicketDetail(viewModel, request.TicketId, request.ActorId);
+            await BuildExtInfoTicketDetail(viewModel, request);
 
             return viewModel;
         }
 
-        public async Task BuildExtInfoTicketDetail(TicketDetailBaseViewModel model, int ticketId, int actorId)
+        public async Task BuildExtInfoTicketDetail(TicketDetailBaseViewModel model, PermissionCheckedModel permissionModel)
         {
+            var ticketId = permissionModel.TicketId;
+
             if (model == null)
             {
                 return;
             };
-            var (canShowMoreMessage, messages) = await messageService.GetMessageListInLast2Days(ticketId);
+
+            (var canShowMoreMessage, var messages) = !permissionModel.FirstMessageId.HasValue
+            ? await messageService.GetMessageListInLast2Days(ticketId)
+            : await messageService.GetMessageListByGreaterMessageId(ticketId, permissionModel.FirstMessageId.Value);
             var criteria = new UpdateSingleRecipientReaderCriteria
             {
                 TicketId = ticketId,
                 IsRead = true,
-                RecipientId = actorId
+                RecipientId = permissionModel.ActorId
             };
             await repository.UpdateSingleRecipientReader(criteria);
 

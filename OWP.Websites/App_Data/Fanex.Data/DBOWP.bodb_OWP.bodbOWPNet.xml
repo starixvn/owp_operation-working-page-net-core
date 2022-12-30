@@ -202,6 +202,7 @@
         <Setting Key="OWP_TicketCenter_GetInfoTicketLga" SpName="OWP_TicketCenter_GetInfoTicketLga" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_TicketCenter_GetNextListMessage" SpName="OWP_TicketCenter_GetNextListMessage" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_TicketCenter_GetMessageInLast2Days" SpName="OWP_TicketCenter_GetMessageInLast2Days" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_TicketCenter_GetMessageByGreaterMessageId" SpName="OWP_TicketCenter_GetMessageByGreaterMessageId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     </Function>
     <Function Name="TicketEvent">
         <Setting Key="OWP_TicketEvent_GetAssigneesByOwpMatchId" SpName="OWP_TicketEvent_GetAssigneesByOwpMatchId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />

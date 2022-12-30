@@ -115,7 +115,7 @@ namespace OWP.TicketCenter
         [HttpPost("ticket-detail/get-live-incident")]
         [ServiceFilter(typeof(PermissionOnExistedTicket), Order = 0)]
         [ServiceFilter(typeof(PermissionFilter), Order = 1)]
-        public async Task<IActionResult> GetTicketLiveIncidientDetail(TicketLiveIncidentDetailRequest request)
+        public async Task<IActionResult> GetTicketLiveIncidentDetail(TicketLiveIncidentDetailRequest request)
         {
             var result = await mediator.Send(request);
             return Ok(result);
