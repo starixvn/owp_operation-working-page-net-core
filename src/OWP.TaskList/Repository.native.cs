@@ -38,8 +38,8 @@ public class RepositoryImp : Repository
                 var matchInfos = reader.Read<MatchInfo>();
                 var assignments = reader.Read<Assignment>();
                 var matchSettings = reader.Read<MatchSetting>();
-                var televisions = reader.Read<Television>();
                 var matchOffers = reader.Read<MatchOffer>();
+                var televisions = reader.Read<Television>();
                 var mainMatchInfo = reader.Read<MainMatchInfo>();
                 var tickets = reader.Read<TicketInfo>();
                 return (matchInfos, assignments, matchSettings, televisions, matchOffers, mainMatchInfo, tickets);

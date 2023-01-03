@@ -8,8 +8,8 @@ namespace OWP.TaskList
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
     [EnableCors("AllowOrigin")]
+    [Authorize]
     public class TaskListController : ControllerBase
     {
         private readonly IMediator mediator;
