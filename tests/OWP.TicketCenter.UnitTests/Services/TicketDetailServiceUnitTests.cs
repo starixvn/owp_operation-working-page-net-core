@@ -58,7 +58,8 @@ public class TicketDetailServiceUnitTests
             HomeName = "MU",
             AwayName = "Liv",
             Recipients = recipients,
-            Messages = messages
+            Messages = messages,
+            CanShowMoreMessage = true
         };
 
         var actual = await service.GetTicketMatchDetail(request);
@@ -89,7 +90,8 @@ public class TicketDetailServiceUnitTests
             TicketId = 145,
             OwpLeagueName = "League test",
             Recipients = recipients,
-            Messages = messages
+            Messages = messages,
+            CanShowMoreMessage = true
         };
 
         var actual = await service.GetTicketLeagueDetail(request);
@@ -120,7 +122,8 @@ public class TicketDetailServiceUnitTests
             TicketId = 145,
             TypeName = "Other",
             Recipients = recipients,
-            Messages = messages
+            Messages = messages,
+            CanShowMoreMessage = true
         };
 
         var actual = await service.GetTicketOtherDetail(request);
@@ -155,7 +158,8 @@ public class TicketDetailServiceUnitTests
             HomeName = "MU",
             AwayName = "Liv",
             Recipients = recipients,
-            Messages = messages
+            Messages = messages,
+            CanShowMoreMessage = true
         };
 
         var actual = await service.GetTicketLiveIncidentDetail(request);
@@ -184,7 +188,8 @@ public class TicketDetailServiceUnitTests
         {
             TicketId = 145,
             Recipients = recipients,
-            Messages = messages
+            Messages = messages,
+            CanShowMoreMessage = true
         };
 
         var actual = await service.GetTicketSupportDetail(request);
