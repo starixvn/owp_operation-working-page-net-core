@@ -19,5 +19,5 @@
         "uuidv"
     ],
     "workbench.editor.enablePreview": false,
-    "ttProcessor.TTPath": "C:\\\"Program Files (x86)\"\\\"Microsoft Visual Studio\"\\2019\\Professional\\Common7\\IDE\\TextTransform.exe"
+    "ttProcessor.TTPath": "C:\\\"Program Files\"\\\"Microsoft Visual Studio\"\\2022\\Professional\\Common7\\IDE\\TextTransform.exe"
 }

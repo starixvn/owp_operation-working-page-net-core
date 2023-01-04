@@ -8,7 +8,7 @@
 // </summary>
 //
 // <history>
-// Lasted generated date: 9/8/2022 10:47:55 AM
+// Lasted generated date: 1/4/2023 2:05:31 PM
 // </history>
 
 namespace OWP.Constants
@@ -47,6 +47,8 @@ namespace OWP.Constants
         public const string DetailsInformation = "DetailsInformation";
 
         public const string EventPicking = "EventPicking";
+
+        public const string EventPickingNew = "EventPickingNew";
 
         public const string EventTickets = "EventTickets";
 
@@ -120,11 +122,15 @@ namespace OWP.Constants
 
         public const string PrematchReport = "PrematchReport";
 
+        public const string ProviderArrangement = "ProviderArrangement";
+
         public const string QuickSearch = "QuickSearch";
 
         public const string RecipientGroup = "RecipientGroup";
 
         public const string SystemConfiguration = "SystemConfiguration";
+
+        public const string TaskList = "TaskList";
 
         public const string Tickets = "Tickets";
 

@@ -1,9 +1,12 @@
-﻿using MediatR;
+﻿using Fanex.NAP.Client.AspNetCore.Attributes;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using OWP.Constants;
 using OWP.ProviderArrangement.Handlers;
 using OWP.ProviderArrangement.Models;
+using static Fanex.NAP.Core.Business.Constant;
 
 namespace OWP.ProviderArrangement;
 
@@ -23,6 +26,7 @@ public class ProviderArrangementController : ControllerBase
     }
 
     [HttpGet("get-provider")]
+    [NapAuth(FunctionKey = FunctionKeys.ProviderArrangement, Policy = Policy.Read)]
     public async Task<IList<ProviderModel>> GetProvider()
     => await mediator.Send(new GetProviderRequest());
 
