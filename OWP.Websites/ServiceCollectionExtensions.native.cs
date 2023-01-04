@@ -32,6 +32,7 @@ using OWP.OSLeagueSetting;
 using OWP.OtherSport;
 using OWP.OtherSport.Hubs;
 using OWP.PreMatchAssignment;
+using OWP.ProviderArrangement;
 using OWP.RabbitMQ;
 using OWP.RecipientGroup;
 using OWP.Report;
@@ -253,6 +254,7 @@ public static class ServiceCollectionExtensions
         services.AddMediatR(typeof(TicketEventController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(AssignmentUploadingApiController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(TaskListController).GetTypeInfo().Assembly);
+        services.AddMediatR(typeof(ProviderArrangementController).GetTypeInfo().Assembly);
         return services;
     }
 

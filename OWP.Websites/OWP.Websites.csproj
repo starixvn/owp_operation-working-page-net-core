@@ -81,5 +81,6 @@
         <ProjectReference Include="..\src\OWP.LiveDetail\OWP.LiveDetail.csproj" />
         <ProjectReference Include="..\src\OWP.TicketEvent\OWP.TicketEvent.csproj" />
         <ProjectReference Include="..\src\OWP.AssignmentUpload\OWP.AssignmentUpload.csproj" />
+        <ProjectReference Include="..\src\OWP.ProviderArrangement\OWP.ProviderArrangement.csproj" />
     </ItemGroup>
 </Project>
