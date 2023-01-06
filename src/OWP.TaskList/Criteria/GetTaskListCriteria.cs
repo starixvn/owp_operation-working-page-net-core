@@ -10,7 +10,7 @@ namespace OWP.TaskList.Criteria
 
         public DateTime EventDate { get; set; }
 
-        public override string GetSettingKey() => "OWP_TaskListForTodayGet";
+        public override string GetSettingKey() => "OWP_TaskList_GetEventsByDay";
 
         public override bool IsValid() => UserId > 0;
     }
