@@ -352,5 +352,6 @@
 	</Function>
     <Function Name="ProviderArrangement">
 		<Setting Key="OWP_ProviderArrangement_GetAllProvider" SpName="OWP_ProviderArrangement_GetAllProvider" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-	</Function>
+    <Setting Key="OWP_ProviderArrangement_UpdateOderProvider" SpName="OWP_ProviderArrangement_UpdateOderProvider" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+    </Function>
 </Functions>

@@ -30,4 +30,11 @@ public class ProviderArrangementController : ControllerBase
     public async Task<IList<ProviderModel>> GetProvider()
     => await mediator.Send(new GetProviderRequest());
 
+    [HttpPost("update-provider-arrangement")]
+    public async Task<IActionResult> UpdateProviderArrangement(UpdateProviderArrangementRequest request)
+    {
+        var result = await mediator.Send(request);
+        return Ok(result);
+    }
+
 }
