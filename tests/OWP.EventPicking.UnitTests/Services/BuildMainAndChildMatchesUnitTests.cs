@@ -18,6 +18,7 @@ public class BuildMainAndChildMatchesUnitTests
     private readonly IMediator mediator;
     private readonly BuildMatchOfferByLiveSetting buildMatchOffer;
     private readonly BuildMainAndChildMatchesImp services;
+    private readonly BuildProvider providerBuilder;
 
     public BuildMainAndChildMatchesUnitTests()
     {
@@ -27,12 +28,14 @@ public class BuildMainAndChildMatchesUnitTests
         buildRowColor = Substitute.For<BuildRowColor>();
         mediator = Substitute.For<IMediator>();
         buildMatchOffer = Substitute.For<BuildMatchOfferByLiveSetting>();
+        providerBuilder = Substitute.For<BuildProvider>();
         services = new BuildMainAndChildMatchesImp(
             repository,
             buildMainMatchMaxBet,
             buildChildMatchMaxBet,
             buildRowColor,
             buildMatchOffer,
+            providerBuilder,
             mediator);
     }
 
