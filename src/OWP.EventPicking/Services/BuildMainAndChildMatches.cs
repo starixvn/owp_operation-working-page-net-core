@@ -43,11 +43,11 @@ public class BuildMainAndChildMatchesImp : BuildMainAndChildMatches
     {
         var mainMatches = await repository.QueryMainMatch(date);
         var childMatches = await repository.QueryChildMatch(date);
-        var maxBetInDict = await GetMaxBetDefaultSetting();
+        var maxBet = await GetMaxBetDefaultSetting();
 
         await buildMainMatchMaxBet.BuildMainMatchMaxbet(mainMatches);
-        buildChildMatchMaxBet.Build(mainMatches, childMatches, maxBetInDict);
-        buildMatchOffer.Build(mainMatches, childMatches, maxBetInDict);
+        buildChildMatchMaxBet.Build(mainMatches, childMatches, maxBet);
+        buildMatchOffer.Build(mainMatches, childMatches, maxBet);
         var filteredMainMatches = RemoveTestingMatches(mainMatches);
         var allMatches = CombineMainAndChildMatchEvent(filteredMainMatches, childMatches);
         buildRowColor.BuildRowColor(allMatches);

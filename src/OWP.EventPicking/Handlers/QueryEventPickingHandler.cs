@@ -24,12 +24,15 @@ public class QueryEventPickingHandler : IRequestHandler<QueryEventPickingRequest
         return FilterAllMatchesByRequest(matches, request);
     }
     public List<EventPickingModel> FilterAllMatchesByRequest(List<EventPickingModel> matches, QueryEventPickingRequest request)
-    {
-        var filteredMatches = matches.Where(x => request.FilterMatch.Contains(x.RowColor, StringComparer.OrdinalIgnoreCase));
-        var filteredSelectGame = filteredMatches.Where(x => request.SelectGame.Contains(ConvertBoolToInt(x.IsNoOffer)));
+    => matches
+        .Where(x => ValidMatch(x, request))?
+        .ToList();
 
-        return filteredSelectGame.ToList();
-    }
+    private bool ValidMatch(EventPickingModel match, QueryEventPickingRequest condition)
+    => condition.FilterMatch.Contains(match.RowColor, StringComparer.OrdinalIgnoreCase)
+    && condition.SelectGame.Contains(ConvertBoolToInt(match.IsNoOffer))
+    && condition.HasProvider.Contains(match.Provider, StringComparer.OrdinalIgnoreCase)
+    && condition.HasOtherProvider.Contains(match.OtherProvider, StringComparer.OrdinalIgnoreCase);
 
     private int ConvertBoolToInt(bool value) => value ? 1 : 0;
 }

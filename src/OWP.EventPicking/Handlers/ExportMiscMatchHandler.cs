@@ -47,10 +47,10 @@ public class ExportMiscMatchHandler : IRequestHandler<ExportMiscMatchRequest, Fi
         excelPackage.SaveAs(fileStream);
         fileStream.Position = 0;
         const string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-        var fsr = new FileStreamResult(fileStream, contentType);
-        fsr.FileDownloadName = $"Event Picking-{request.Date.ToString("yyyy-MM-dd")}.xlsx";
+        var fileStreamResult = new FileStreamResult(fileStream, contentType);
+        fileStreamResult.FileDownloadName = $"Event Picking-{request.Date.ToString("yyyy-MM-dd")}.xlsx";
 
-        return fsr;
+        return fileStreamResult;
     }
 
     private static void FillRowColor(IList<EventPickingModel> matches, ExcelWorksheet templateSheet)
