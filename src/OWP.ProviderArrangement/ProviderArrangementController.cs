@@ -39,7 +39,7 @@ public class ProviderArrangementController : ControllerBase
 
     [HttpGet("get-log")]
     [NapAuth(FunctionKey = FunctionKeys.ProviderArrangement, Policy = Policy.Read)]
-    public async Task<IList<ProviderModel>> GetLog()
+    public async Task<IList<LogDisplayModel>> GetLog()
        => await mediator.Send(new GetLogRequest());
 
 }

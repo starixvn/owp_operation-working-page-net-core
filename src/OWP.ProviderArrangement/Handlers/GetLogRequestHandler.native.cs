@@ -4,17 +4,17 @@ using System.Threading;
 using System.Threading.Tasks;
 using Criteria;
 using Fanex.Data.Repository;
-using Fanex.NAP.Client.Helpers.Web;
 using MediatR;
 using Models;
-using Newtonsoft.Json;
+using OWP.Extensions;
+using OWP.Utils;
 
-public class GetLogRequest : IRequest<IList<ProviderModel>>
+public class GetLogRequest : IRequest<IList<LogDisplayModel>>
 {
 
 }
 
-public class GetLogRequestHandler : IRequestHandler<GetLogRequest, IList<ProviderModel>>
+public class GetLogRequestHandler : IRequestHandler<GetLogRequest, IList<LogDisplayModel>>
 {
 
     private readonly IDynamicRepository repository;
@@ -24,9 +24,35 @@ public class GetLogRequestHandler : IRequestHandler<GetLogRequest, IList<Provide
         this.repository = repository;
     }
 
-    public async Task<IList<ProviderModel>> Handle(GetLogRequest request, CancellationToken cancellationToken)
+    public async Task<IList<LogDisplayModel>> Handle(GetLogRequest request, CancellationToken cancellationToken)
     {
         var criteria = new GetLogProviderCriteria();
-        return (await repository.FetchAsync<ProviderModel>(criteria)).ToList();
+        var logModel = await repository.FetchAsync<UserLogModel>(criteria);
+
+        return BuildLogs(logModel);
     }
+
+    public IList<LogDisplayModel> BuildLogs(IEnumerable<UserLogModel> logInfos)
+    {
+        var logResult = new List<LogDisplayModel>();
+
+        foreach (var log in logInfos)
+        {
+            var infoBeforeChange = ConvertFromXML<ProviderModelDeserialize>(log?.DataOld);
+            var infoAfterChange = ConvertFromXML<ProviderModelDeserialize>(log?.Data);
+            logResult.Add(new LogDisplayModel
+            {
+                OldValue = infoBeforeChange?.Providers?.Split(',').ToList(),
+                NewValue = infoAfterChange.Providers?.Split(',').ToList(),
+                Action = infoAfterChange.ActionName,
+                ModifyDate = log?.ModifiedDate.ToGmt8().ToString("MM/dd/yyyy hh:mm tt"),
+                ModifyBy = log?.ModifiedBy
+            });
+            
+        }
+
+        return logResult;
+    }
+    private static T ConvertFromXML<T>(string xml)
+        => xml is null ? default : BuildLogXmlHelper.Deserialize<T>(xml).FirstOrDefault();
 }
