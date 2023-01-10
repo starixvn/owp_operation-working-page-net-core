@@ -6,31 +6,25 @@ public class GetEventValidator : AsyncFilter<EventPickingRequest>
 {
     public override (bool, int, string) Execute(EventPickingRequest model)
     {
-        var canNext = true;
         var statusCode = 400;
-        if (model.SelectGame is null)
+        if (!model.SelectGame.Any())
         {
-            canNext = false;
-            return (canNext, statusCode, "Please select at least one option for Select Game");
+            return (false, statusCode, "Please select at least one option for Select Game");
         }
-        if (model.FilterMatch is null)
+        if (!model.FilterMatch.Any())
         {
-            canNext = false;
-            return (canNext, statusCode, "Please select at least one option for Filter Match");
+            return (false, statusCode, "Please select at least one option for Filter Match");
         }
 
-        if (model.HasProvider is null)
+        if (!model.HasProvider.Any())
         {
-            canNext = false;
-            return (canNext, statusCode, "Please select at least one option for Other Provider");
+            return (false, statusCode, "Please select at least one option for Other Provider");
         }
-        if (model.HasOtherProvider is null)
+        if (!model.HasOtherProvider.Any())
         {
-            canNext = false;
-            return (canNext, statusCode, "Please select at least one option for Has Other Provider");
+            return (false, statusCode, "Please select at least one option for Has Other Provider");
         }
         statusCode = 200;
-        canNext = true;
-        return (canNext, statusCode, string.Empty);
+        return (true, statusCode, string.Empty);
     }
 }
