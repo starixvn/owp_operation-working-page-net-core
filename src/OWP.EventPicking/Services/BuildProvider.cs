@@ -1,4 +1,5 @@
 ﻿using OWP.EventPicking.Models;
+using OWP.Extensions;
 
 namespace OWP.EventPicking.Services;
 
@@ -18,24 +19,30 @@ public class BuildProviderImp : BuildProvider
 
     public async Task Build(List<EventPickingModel> matches)
     {
-        var priorityProviders = await GetAllProviders();
+        var priorityProviders = await repository.GetProviderArrangement();
         matches.ForEach(x => x.Provider = BuildProviderByOtherProvider(priorityProviders, x.OtherProvider));
     }
 
-    private async Task<List<string>> GetAllProviders()
+    private string BuildProviderByOtherProvider(List<string> priorityProviders, string otherProviderInString)
     {
-        var providers = await repository.GetProviderArrangement();
-        var tvProvider = providers.Select(x => x + "TV");
-        providers.AddRange(tvProvider.ToList());
-        return providers;
-    }
-
-    private string BuildProviderByOtherProvider(List<string> priorityProviders, string otherProvider)
-    {
-        var otherProviderList = otherProvider?.Split("/");
+        var otherProviders = otherProviderInString?.Split("/").ToList();
         foreach (var value in priorityProviders)
         {
-            var provider = otherProviderList?.FirstOrDefault(x => x == value);
+            var provider = otherProviders?.FirstOrDefault(x => x.Equals(value, StringComparison.OrdinalIgnoreCase));
+            if (!string.IsNullOrWhiteSpace(provider))
+            {
+                return provider;
+            }
+        }
+
+        return BuildProviderTv(priorityProviders, otherProviders);
+    }
+
+    private string BuildProviderTv(List<string> priorityProviders, List<string> otherProviders)
+    {
+        foreach (var value in priorityProviders)
+        {
+            var provider = otherProviders?.FirstOrDefault(x => x.IsContains(value) && x.IsContains("TV"));
             if (!string.IsNullOrWhiteSpace(provider))
             {
                 return provider;

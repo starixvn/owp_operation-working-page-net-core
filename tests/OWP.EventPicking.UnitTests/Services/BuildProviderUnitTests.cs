@@ -23,9 +23,11 @@ namespace OWP.EventPicking.UnitTests.Services
             await service.Build(matches);
 
             Assert.Equal("", matches[0].Provider);
-            Assert.Equal("RB2", matches[1].Provider);
+            Assert.Equal("rb2", matches[1].Provider);
             Assert.Equal("FC", matches[2].Provider);
-            Assert.Equal("FC", matches[3].Provider);
+            Assert.Equal("RB2TV", matches[3].Provider);
+            Assert.Equal("abcRB2TVdef", matches[4].Provider);
+            Assert.Equal("abcRB2aabbTV", matches[5].Provider);
         }
 
 
@@ -41,7 +43,7 @@ namespace OWP.EventPicking.UnitTests.Services
                 },
                 new()
                 {
-                    OtherProvider = "RB2/ok/oke"
+                    OtherProvider = "rb2/ok/oke"
                 },
                 new()
                 {
@@ -50,7 +52,15 @@ namespace OWP.EventPicking.UnitTests.Services
                 },
                 new()
                 {
-                    OtherProvider = "RB2TV/FC"
+                    OtherProvider = "RB2TV"
+                },
+                new()
+                {
+                    OtherProvider = "abcRB2TVdef/aaa"
+                },
+                new()
+                {
+                    OtherProvider = "abcRB2aabbTV/aaa"
                 }
             };
 

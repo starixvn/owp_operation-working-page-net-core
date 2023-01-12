@@ -4,7 +4,7 @@ namespace OWP.ProviderArrangement.Models
 
     public class UserLogModel
     {
-        public string DataOld { get; set; } = null;
+        public string DataOld { get; set; }
 
         public string Data { get; set; }
 
