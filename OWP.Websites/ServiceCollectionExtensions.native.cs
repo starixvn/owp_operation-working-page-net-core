@@ -17,6 +17,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors.Infrastructure;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Newtonsoft.Json;
 using Olympus.SimpleDataApi;
@@ -284,6 +285,19 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddRedis(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddRedisCache(configuration.GetSection("fanex.caching.redis"));
+
+        var redisConfig = configuration.GetSection("AuthSettings:RedisConfig").Value;
+        var redisMultiplexer = ConnectionMultiplexer.Connect(redisConfig);
+
+        services.AddDataProtection().PersistKeysToStackExchangeRedis(redisMultiplexer, "Fanex.OWP-ProtectionKeys");
+
+        services.AddSingleton(redisMultiplexer);
+
+        services.AddStackExchangeRedisCache(options =>
+        {
+            options.Configuration = redisConfig;
+            options.InstanceName = "Fanex.OWP.Session-";
+        });
 
         return services;
     }
