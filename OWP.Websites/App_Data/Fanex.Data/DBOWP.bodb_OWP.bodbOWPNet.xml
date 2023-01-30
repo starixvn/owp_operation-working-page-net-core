@@ -139,7 +139,7 @@
         <Setting Key="OWP_OtherProvider_GetSuggestion" SpName="OWP_OtherProvider_GetSuggestion" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     </Function>
     <Function Name="TaskScheduling">
-        <Setting Key="OWP_TaskListForTodayGet" SpName="OWP_TaskListForTodayGet" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+        <Setting Key="OWP_TaskList_GetEventsByDay" SpName="OWP_TaskList_GetEventsByDay" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_MatchNoteViewUpdate" SpName="OWP_MatchNoteViewUpdate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_TaskList_GetAdminSiteMatchId" SpName="OWP_TaskList_GetAdminSiteMatchId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_TaskList_GetMinorMatchByMatchId" SpName="OWP_TaskList_GetMinorMatchByMatchId" DbName="DBACC.bodb02.bodbAdminNet" />

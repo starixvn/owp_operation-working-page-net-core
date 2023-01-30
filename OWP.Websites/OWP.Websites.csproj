@@ -64,6 +64,7 @@
         <ProjectReference Include="..\src\OWP.MaxbetSetting\OWP.MaxbetSetting.csproj" />
         <ProjectReference Include="..\src\OWP.PrematchAssignment\OWP.PrematchAssignment.csproj" />
         <ProjectReference Include="..\src\OWP.RabbitMQ\OWP.RabbitMQ.csproj" />
+        <ProjectReference Include="..\src\OWP.TaskList\OWP.TaskList.csproj" />
         <ProjectReference Include="..\src\OWP\OWP.csproj" />
         <ProjectReference Include="..\src\OWP.ApiSyncWorkingShift\OWP.ApiSyncWorkingShift.csproj" />
         <ProjectReference Include="..\src\OWP.Maxbet\OWP.Maxbet.csproj" />
