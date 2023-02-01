@@ -1,15 +1,12 @@
 using MediatR;
+using OWP.EventPicking.Middleware.Models;
 using OWP.EventPicking.Models;
 using OWP.EventPicking.Services;
 
 namespace OWP.EventPicking.Handlers;
 
-public class QueryEventPickingRequest : IRequest<List<EventPickingModel>>
-{
-    public DateTime Date { get; set; }
-    public List<int> SelectGame { get; set; }
-    public List<string> FilterMatch { get; set; }
-}
+public class QueryEventPickingRequest : EventPickingRequest, IRequest<List<EventPickingModel>>
+{ }
 
 public class QueryEventPickingHandler : IRequestHandler<QueryEventPickingRequest, List<EventPickingModel>>
 {
@@ -27,12 +24,15 @@ public class QueryEventPickingHandler : IRequestHandler<QueryEventPickingRequest
         return FilterAllMatchesByRequest(matches, request);
     }
     public List<EventPickingModel> FilterAllMatchesByRequest(List<EventPickingModel> matches, QueryEventPickingRequest request)
-    {
-        var filteredMatches = matches.Where(x => request.FilterMatch.Contains(x.RowColor, StringComparer.OrdinalIgnoreCase));
-        var filteredSelectGame = filteredMatches.Where(x => request.SelectGame.Contains(ConvertBoolToInt(x.IsNoOffer)));
+    => matches
+        .Where(x => ValidMatch(x, request))?
+        .ToList();
 
-        return filteredSelectGame.ToList();
-    }
+    private bool ValidMatch(EventPickingModel match, QueryEventPickingRequest condition)
+    => condition.FilterMatch.Contains(match.RowColor, StringComparer.OrdinalIgnoreCase)
+    && condition.SelectGame.Contains(ConvertBoolToInt(match.IsNoOffer))
+    && condition.HasProvider.Contains(match.HasProvider, StringComparer.OrdinalIgnoreCase)
+    && condition.HasOtherProvider.Contains(match.HasOtherProvider, StringComparer.OrdinalIgnoreCase);
 
     private int ConvertBoolToInt(bool value) => value ? 1 : 0;
 }

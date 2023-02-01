@@ -1,4 +1,5 @@
 ﻿using OWP.EventPicking;
+using OWP.EventPicking.Middleware;
 using OWP.EventPicking.Services;
 
 namespace OWP.Websites;
@@ -13,5 +14,7 @@ public static class EventPickingInjector
         services.AddScoped<BuildRowColor, BuildRowColorImp>();
         services.AddScoped<BuildMainAndChildMatches, BuildMainAndChildMatchesImp>();
         services.AddScoped<BuildMatchOfferByLiveSetting, BuildMatchOfferByLiveSettingImp>();
+        services.AddScoped<BuildProvider, BuildProviderImp>();
+        services.AddScoped<GetEventValidator>();
     }
 }

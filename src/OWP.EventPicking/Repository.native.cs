@@ -5,6 +5,7 @@ using OWP.EventPicking.Criteria;
 using OWP.EventPicking.Handlers;
 using OWP.EventPicking.Models;
 
+
 namespace OWP.EventPicking;
 
 public interface Repository
@@ -18,6 +19,8 @@ public interface Repository
     Task<IEnumerable<Condition>> GetTVList();
 
     Task InsertOrDeleteNoOfferMatch(InsertOrDeleteNoOfferMatchRequest request);
+
+    Task<List<string>> GetProviderArrangement();
 }
 
 public class RepositoryImp : Repository
@@ -76,5 +79,16 @@ public class RepositoryImp : Repository
             ActorId = session.UserId
         };
         await dynamicRepository.ExecuteAsync(criteria);
+    }
+
+    public async Task<List<string>> GetProviderArrangement()
+    {
+        var criteria = new GetProviderCriteria();
+        var provider = (await dynamicRepository.FetchAsync<ProviderInfo>(criteria))
+            .OrderBy(x => x.Order)
+            .Select(x => x.Value)
+            .ToList();
+
+        return provider;
     }
 }

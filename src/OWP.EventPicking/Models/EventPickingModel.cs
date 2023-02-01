@@ -265,6 +265,14 @@ public class EventPickingModel
     // MaxBet & Spread
     public decimal? MaxBetHDPNumber { get; set; }
 
+    public string HasProvider => !string.IsNullOrWhiteSpace(this.Provider)
+    ? "yes"
+    : "no";
+
+    public string HasOtherProvider => !string.IsNullOrWhiteSpace(this.OtherProvider)
+    ? "yes"
+    : "no";
+
     public void MapWeekendSettings(LeagueSetting leagueSetting)
     {
         MatchOffer = leagueSetting.MaxbetWK_MatchOffer;

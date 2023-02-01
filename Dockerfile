@@ -31,6 +31,7 @@ COPY ./src/OWP.AssignmentUpload/. ./src/OWP.AssignmentUpload
 COPY ./src/OWP.LiveGameList/. ./src/OWP.LiveGameList
 COPY ./src/OWP.EventPicking/. ./src/OWP.EventPicking
 COPY ./src/OWP.TaskList/. ./src/OWP.TaskList
+COPY ./src/OWP.ProviderArrangement/. ./src/OWP.ProviderArrangement
 COPY ./OWP.Websites/OWP.Websites.csproj ./OWP.Websites/OWP.Websites.csproj
 
 WORKDIR /src/OWP.Websites
@@ -41,7 +42,7 @@ COPY ./OWP.Websites .
 
 RUN dotnet publish -r linux-x64 --self-contained false -c Release -o /app 
 
-FROM hub.nexdev.net/base/dotnet/core/aspnet:7.0-alpine AS base
+FROM hub.nexdev.net/base/dotnet/core/aspnet:7.0 AS base
 
 WORKDIR /app
 COPY --from=builder /app .

@@ -47,8 +47,11 @@
         <PackageReference Include="Fanex.Logging.Sentry.RavenClient" Version="1.0.1" />
         <PackageReference Include="Fanex.NAP.Signin.AspNetCore" Version="2.0.0.4" />
         <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="7.0.2" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.SignalR.StackExchangeRedis" Version="7.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="7.0.2" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
         <PackageReference Include="Microsoft.NETCore.Targets" Version="6.0.0-preview.4.21253.7" PrivateAssets="all" />
         <PackageReference Include="ONEbook.UM" Version="3.1.3" />
         <PackageReference Include="ONEbook.UM.AspNetCore" Version="3.1.0" />
@@ -81,5 +84,6 @@
         <ProjectReference Include="..\src\OWP.LiveDetail\OWP.LiveDetail.csproj" />
         <ProjectReference Include="..\src\OWP.TicketEvent\OWP.TicketEvent.csproj" />
         <ProjectReference Include="..\src\OWP.AssignmentUpload\OWP.AssignmentUpload.csproj" />
+        <ProjectReference Include="..\src\OWP.ProviderArrangement\OWP.ProviderArrangement.csproj" />
     </ItemGroup>
 </Project>

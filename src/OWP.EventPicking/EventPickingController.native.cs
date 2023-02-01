@@ -3,13 +3,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using OWP.EventPicking.Handlers;
+using OWP.EventPicking.Middleware;
 
 namespace OWP.EventPicking;
 
 [Route("api/[controller]")]
 [ApiController]
 [EnableCors("AllowOrigin")]
-[Authorize]
+[AllowAnonymous]
 public class EventPickingController
 {
     private readonly IMediator mediator;
@@ -20,6 +21,7 @@ public class EventPickingController
     }
 
     [HttpPost("get-event-picking")]
+    [ServiceFilter(typeof(GetEventValidator))]
     public async Task<IActionResult> QueryEventPicking(QueryEventPickingRequest request)
     {
         var result = await mediator.Send(request);

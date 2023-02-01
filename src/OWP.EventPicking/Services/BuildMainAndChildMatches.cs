@@ -18,6 +18,7 @@ public class BuildMainAndChildMatchesImp : BuildMainAndChildMatches
     private readonly BuildChildMatchMaxBet buildChildMatchMaxBet;
     private readonly BuildMatchOfferByLiveSetting buildMatchOffer;
     private readonly BuildRowColor buildRowColor;
+    private readonly BuildProvider buildProvider;
     private readonly IMediator mediator;
 
     public BuildMainAndChildMatchesImp(
@@ -26,6 +27,7 @@ public class BuildMainAndChildMatchesImp : BuildMainAndChildMatches
         BuildChildMatchMaxBet buildChildMatchMaxBet,
         BuildRowColor buildRowColor,
         BuildMatchOfferByLiveSetting buildMatchOffer,
+        BuildProvider buildProvider,
         IMediator mediator)
     {
         this.repository = repository;
@@ -33,6 +35,7 @@ public class BuildMainAndChildMatchesImp : BuildMainAndChildMatches
         this.buildChildMatchMaxBet = buildChildMatchMaxBet;
         this.buildRowColor = buildRowColor;
         this.mediator = mediator;
+        this.buildProvider = buildProvider;
         this.buildMatchOffer = buildMatchOffer;
     }
 
@@ -40,15 +43,15 @@ public class BuildMainAndChildMatchesImp : BuildMainAndChildMatches
     {
         var mainMatches = await repository.QueryMainMatch(date);
         var childMatches = await repository.QueryChildMatch(date);
-        var maxBetInDict = await GetMaxBetDefaultSetting();
+        var maxBet = await GetMaxBetDefaultSetting();
 
         await buildMainMatchMaxBet.BuildMainMatchMaxbet(mainMatches);
-        buildChildMatchMaxBet.Build(mainMatches, childMatches, maxBetInDict);
-        buildMatchOffer.Build(mainMatches, childMatches, maxBetInDict);
-
+        buildChildMatchMaxBet.Build(mainMatches, childMatches, maxBet);
+        buildMatchOffer.Build(mainMatches, childMatches, maxBet);
         var filteredMainMatches = RemoveTestingMatches(mainMatches);
         var allMatches = CombineMainAndChildMatchEvent(filteredMainMatches, childMatches);
         buildRowColor.BuildRowColor(allMatches);
+        await buildProvider.Build(allMatches);
 
         return allMatches;
     }
