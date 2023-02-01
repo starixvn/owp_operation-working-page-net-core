@@ -18,11 +18,11 @@ public class GetEventValidator : AsyncFilter<EventPickingRequest>
 
         if (!model.HasProvider.Any())
         {
-            return (false, statusCode, "Please select at least one option for Other Provider");
+            return (false, statusCode, "Please select at least one option for Provider");
         }
         if (!model.HasOtherProvider.Any())
         {
-            return (false, statusCode, "Please select at least one option for Has Other Provider");
+            return (false, statusCode, "Please select at least one option for Other Provider");
         }
         statusCode = 200;
         return (true, statusCode, string.Empty);
