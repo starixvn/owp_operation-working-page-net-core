@@ -17,5 +17,7 @@
         public DateTime? KOTime { get; set; }
 
         public string EventName => OwpLeagueName;
+
+        public int EventType => (int)Enum.EventType.Match;
     }
 }

@@ -1,127 +1,220 @@
-﻿namespace OWP.TicketCenter.UnitTests.Services
+﻿namespace OWP.TicketCenter.UnitTests.Services;
+
+using AutoMapper;
+using Models;
+using NSubstitute;
+using OWP.TicketCenter.Handlers;
+using TicketCenter.Services;
+using ViewModels;
+using Xunit;
+using Xunit.Asserts.Compare;
+
+public class TicketDetailServiceUnitTests
 {
-    using AutoMapper;
-    using Models;
+    private readonly IMapper mapper;
+    private readonly Repository repository;
+    private readonly MessageService messageService;
+    private readonly TicketDetailServiceImp service;
 
-    using TicketCenter.Services;
-    using ViewModels;
-    using Xunit;
-    using Xunit.Asserts.Compare;
-
-    public class TicketDetailServiceUnitTests
+    public TicketDetailServiceUnitTests()
     {
-        private readonly IMapper mapper;
-
-        public TicketDetailServiceUnitTests()
+        var configuration = new MapperConfiguration(cfg =>
         {
-            var configuration = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<EventTicketOtherModel, MessageDetailViewModel>();
-                cfg.CreateMap<EventTicketLeagueModel, MessageDetailViewModel>();
-                cfg.CreateMap<EventTicketMatchModel, MessageDetailViewModel>();
-            });
+            cfg.CreateMap<EventTicketOtherModel, TicketOtherDetailViewModel>();
+            cfg.CreateMap<EventTicketLeagueModel, TicketLeagueDetailViewModel>();
+            cfg.CreateMap<EventTicketMatchModel, TicketMatchDetailViewModel>();
+            cfg.CreateMap<EventTicketSupportModel, TicketSupportDetailViewModel>();
+            cfg.CreateMap<EventTicketMatchModel, TicketLiveIncidentDetailViewModel>();
+        });
+        repository = Substitute.For<Repository>();
+        messageService = Substitute.For<MessageService>();
+        mapper = configuration.CreateMapper();
 
-            mapper = configuration.CreateMapper();
-        }
-
-        [Fact]
-        public void BuildMessage_Always_ListMessageDetailViewModel()
-        {
-            var service = new TicketDetailServiceImp(mapper);
-            var expected = GetExpected();
-
-            var actual = service.BuildMessage(MockTicketSource()).ToList();
-
-            DeepAssert.Equal(expected, actual);
-        }
-
-        public List<EventTicketModelBase> MockTicketSource()
-        {
-            return new List<EventTicketModelBase>
-            {
-                new EventTicketOtherModel()
-                {
-                    TicketId = 20,
-                    MessageId = 18,
-                    TypeName="Other",
-                    Subject = "vaccine",
-                    Message ="hehe",
-                    UserId = 12,
-                    Username = "starix1",
-                    CreatedDate = new DateTime(2021,9,29,17,29,31)
-                },
-                new EventTicketLeagueModel()
-                {
-                    TicketId = 10,
-                    MessageId = 12,
-                    TypeName="Other",
-                    OwpLeagueName ="NHA",
-                    Message ="hi",
-                    UserId = 8,
-                    Username = "sa",
-                    CreatedDate = new DateTime(2021,9,29,16,29,31)
-                },
-                new EventTicketLeagueModel()
-                {
-                    TicketId = 10,
-                    MessageId = 12,
-                    TypeName="Other",
-                    OwpLeagueName ="NHA",
-                    Message ="hello,test Match",
-                    UserId = 8,
-                    Username = "sa",
-                    CreatedDate = new DateTime(2021,9,29,15,30,31)
-                },
-                new EventTicketMatchModel()
-                {
-                    TicketId = 10,
-                    MessageId = 14,
-                    TypeName="Other",
-                    HomeName = "MU",
-                    AwayName = "MC",
-                    Message ="hi, Im Liam test",
-                    UserId = 9,
-                    Username = "starix2",
-                    CreatedDate = new DateTime(2021,9,29,16,29,31)
-                },
-            };
-        }
-
-        public List<MessageDetailViewModel> GetExpected()
-            => new List<MessageDetailViewModel>
-            {
-                new()
-                {
-                    MessageId = 12,
-                    UserId = 8,
-                    Message = "hello,test Match",
-                    CreatedDate =new DateTime(2021,9,29,15,30,31),
-                    Username = "sa",
-                },
-                new()
-                {
-                    MessageId = 12,
-                    UserId = 8,
-                    Message = "hi",
-                    CreatedDate = new DateTime(2021,9,29,16,29,31),
-                    Username = "sa",
-                },
-                new()
-                {
-                    MessageId = 14,
-                    UserId = 9,
-                    Message = "hi, Im Liam test",
-                    CreatedDate = new DateTime(2021,9,29,16,29,31),
-                    Username = "starix2",
-                },
-                new()
-                {
-                    MessageId = 18,
-                    UserId = 12,
-                    Message = "hehe",
-                    CreatedDate = new DateTime(2021,9,29,17,29,31),
-                    Username = "starix1",
-                }
-            };
+        service = new TicketDetailServiceImp(mapper, repository, messageService);
     }
+
+    [Fact]
+    public async Task GetTicketMatchDetail_Always_ReturnTicketMatchDetailViewModel()
+    {
+        var actorId = 8;
+        var request = new TicketMatchDetailRequest { ActorId = actorId, TicketId = 145 };
+        var ticketMatchDetail = new EventTicketMatchModel
+        {
+            TicketId = 145,
+            HomeName = "MU",
+            AwayName = "Liv"
+        };
+        var recipients = new List<RecipientResponseModel> {
+            new() {  RecipientId = 10, UserName = "sa", }
+        };
+        var (canShowMoreMessage, messages) = GetMockMessage();
+        messageService.GetMessageListInLast2Days(request.TicketId).Returns((canShowMoreMessage, messages));
+        repository.GetTicketMatchDetail(request.TicketId).Returns(ticketMatchDetail);
+        repository.GetRecipientByTicketId(request.TicketId).Returns(recipients);
+
+        var expected = new TicketMatchDetailViewModel
+        {
+            TicketId = 145,
+            HomeName = "MU",
+            AwayName = "Liv",
+            Recipients = recipients,
+            Messages = messages,
+            CanShowMoreMessage = true
+        };
+
+        var actual = await service.GetTicketMatchDetail(request);
+
+        DeepAssert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public async Task GetTicketLeagueDetail_Always_ReturnTicketLeagueDetailViewModel()
+    {
+        var actorId = 8;
+        var request = new TicketLeagueDetailRequest { ActorId = actorId, TicketId = 145 };
+        var ticketLeagueDetail = new EventTicketLeagueModel
+        {
+            TicketId = 145,
+            OwpLeagueName = "League test",
+        };
+        var recipients = new List<RecipientResponseModel> {
+            new() {  RecipientId = 10, UserName = "sa", }
+        };
+        var (canShowMoreMessage, messages) = GetMockMessage();
+        messageService.GetMessageListInLast2Days(request.TicketId).Returns((canShowMoreMessage, messages));
+        repository.GetTicketLeagueDetail(request.TicketId).Returns(ticketLeagueDetail);
+        repository.GetRecipientByTicketId(request.TicketId).Returns(recipients);
+
+        var expected = new TicketLeagueDetailViewModel
+        {
+            TicketId = 145,
+            OwpLeagueName = "League test",
+            Recipients = recipients,
+            Messages = messages,
+            CanShowMoreMessage = true
+        };
+
+        var actual = await service.GetTicketLeagueDetail(request);
+
+        DeepAssert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public async Task GetTicketOtherDetail_Always_ReturnTicketOtherDetailViewModel()
+    {
+        var actorId = 8;
+        var request = new TicketOtherDetailRequest { ActorId = actorId, TicketId = 145 };
+        var ticketOtherDetail = new EventTicketOtherModel
+        {
+            TicketId = 145,
+            TypeName = "Other",
+        };
+        var recipients = new List<RecipientResponseModel> {
+            new() {  RecipientId = 10, UserName = "sa", }
+        };
+        var (canShowMoreMessage, messages) = GetMockMessage();
+        repository.GetTicketOtherDetail(request.TicketId).Returns(ticketOtherDetail);
+        repository.GetRecipientByTicketId(request.TicketId).Returns(recipients);
+        messageService.GetMessageListInLast2Days(request.TicketId).Returns((canShowMoreMessage, messages));
+
+        var expected = new TicketOtherDetailViewModel
+        {
+            TicketId = 145,
+            TypeName = "Other",
+            Recipients = recipients,
+            Messages = messages,
+            CanShowMoreMessage = true
+        };
+
+        var actual = await service.GetTicketOtherDetail(request);
+
+        DeepAssert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public async Task GetTicketLiveIncidentDetail_Always_ReturnTicketLiveIncidentDetailViewModel()
+    {
+        var actorId = 8;
+        var request = new TicketLiveIncidentDetailRequest { ActorId = actorId, TicketId = 145 };
+        var ticketLiveIncidentDetail = new EventTicketMatchModel
+        {
+            TicketId = 145,
+            TypeName = "Other",
+            HomeName = "MU",
+            AwayName = "Liv"
+        };
+        var recipients = new List<RecipientResponseModel> {
+            new() {  RecipientId = 10, UserName = "sa", }
+        };
+        var (canShowMoreMessage, messages) = GetMockMessage();
+        repository.GetTicketLiveIncidentDetail(request.TicketId).Returns(ticketLiveIncidentDetail);
+        repository.GetRecipientByTicketId(request.TicketId).Returns(recipients);
+        messageService.GetMessageListInLast2Days(request.TicketId).Returns((canShowMoreMessage, messages));
+
+        var expected = new TicketLiveIncidentDetailViewModel
+        {
+            TicketId = 145,
+            TypeName = "Other",
+            HomeName = "MU",
+            AwayName = "Liv",
+            Recipients = recipients,
+            Messages = messages,
+            CanShowMoreMessage = true
+        };
+
+        var actual = await service.GetTicketLiveIncidentDetail(request);
+
+        DeepAssert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public async Task GetTicketSupportDetail_Always_ReturnTicketSupportDetailViewModel()
+    {
+        var actorId = 8;
+        var request = new TicketSupportDetailRequest { ActorId = actorId, TicketId = 145 };
+        var ticketSupportDetail = new EventTicketSupportModel
+        {
+            TicketId = 145
+        };
+        var recipients = new List<RecipientResponseModel> {
+            new() {  RecipientId = 10, UserName = "sa", }
+        };
+        var (canShowMoreMessage, messages) = GetMockMessage();
+        repository.GetTicketSupportDetail(request.TicketId).Returns(ticketSupportDetail);
+        repository.GetRecipientByTicketId(request.TicketId).Returns(recipients);
+        messageService.GetMessageListInLast2Days(request.TicketId).Returns((canShowMoreMessage, messages));
+
+        var expected = new TicketSupportDetailViewModel
+        {
+            TicketId = 145,
+            Recipients = recipients,
+            Messages = messages,
+            CanShowMoreMessage = true
+        };
+
+        var actual = await service.GetTicketSupportDetail(request);
+
+        DeepAssert.Equal(expected, actual);
+    }
+
+    public (bool, List<MessageDetailViewModel>) GetMockMessage()
+        => (true, new List<MessageDetailViewModel>
+        {
+            new()
+            {
+                MessageId = 12,
+                UserId = 8,
+                Message = "hello,test Match",
+                CreatedDate =new DateTime(2021,9,29,15,30,31),
+                Username = "sa",
+            },
+            new()
+            {
+                MessageId = 12,
+                UserId = 8,
+                Message = "hi",
+                CreatedDate = new DateTime(2021,9,29,16,29,31),
+                Username = "sa",
+            }
+        });
 }

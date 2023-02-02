@@ -6,6 +6,7 @@ using OWP.TicketCenter.Handlers;
 using OWP.TicketCenter.Middleware;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Services;
+using OWP.TicketCenter.ViewModels;
 
 namespace OWP.TicketCenter
 {
@@ -114,7 +115,7 @@ namespace OWP.TicketCenter
         [HttpPost("ticket-detail/get-live-incident")]
         [ServiceFilter(typeof(PermissionOnExistedTicket), Order = 0)]
         [ServiceFilter(typeof(PermissionFilter), Order = 1)]
-        public async Task<IActionResult> GetTicketLiveIncidientDetail(TicketLiveIncidentDetailRequest request)
+        public async Task<IActionResult> GetTicketLiveIncidentDetail(TicketLiveIncidentDetailRequest request)
         {
             var result = await mediator.Send(request);
             return Ok(result);
@@ -205,5 +206,16 @@ namespace OWP.TicketCenter
         [HttpGet("mark-all-tickets")]
         public async Task MarkAllTicketAsRead(int actorId)
             => await mediator.Send(new MarkAllTicketsRequest { ActorId = actorId });
+
+        [HttpPost("get-next-list-messages")]
+        public async Task<object> GetNextListMessages(GetNextListMessagesRequest request)
+        {
+            var (canShowMoreMessage, messages) = await mediator.Send(request);
+            return new
+            {
+                canShowMoreMessage,
+                messages
+            };
+        }
     }
 }

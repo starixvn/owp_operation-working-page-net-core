@@ -7,5 +7,7 @@
         public string OwpLeagueName { get; set; }
 
         public string EventName => OwpLeagueName;
+
+        public int EventType => (int)Enum.EventType.League;
     }
 }

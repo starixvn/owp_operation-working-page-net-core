@@ -18,6 +18,8 @@ public class TicketDetailBaseViewModel
 
     public IList<RecipientResponseModel> Recipients { get; set; }
 
+    public bool CanShowMoreMessage { get; set; }
+
     public IList<MessageDetailViewModel> Messages { get; set; }
 
     public DateTime? CommentLatestDate => Messages.FirstOrDefault()?.CreatedDate;
@@ -29,6 +31,4 @@ public class TicketDetailBaseViewModel
     public bool IsSaved { get; set; }
 
     public bool IsPinned { get; set; }
-
-    public int EventType { get; set; }
 }
