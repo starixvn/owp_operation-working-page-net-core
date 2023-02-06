@@ -33,7 +33,7 @@ namespace OWP.PreMatchAssignment.Handlers
         {
             var shiftAssignments = await shiftAssignmentService.QueryDayShift(request);
             await maxbetSpreadService.Build(shiftAssignments.InfoSiteMatches);
-            await shiftAssignmentService.MapTicketLists(shiftAssignments, request.ActorId);
+            await shiftAssignmentService.MapTicketLists(shiftAssignments.PreMatchLeagues, shiftAssignments.InfoSiteMatches, request.ActorId);
 
             return shiftAssignments;
         }

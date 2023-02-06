@@ -19,7 +19,7 @@ namespace OWP.PreMatchAssignment.Services
 
         Task<QueryNightShiftPreMatchLeagueViewModel> QueryNightShift(QueryNightShiftPreMatchRequest request);
 
-        Task MapTicketLists(QueryPreMatchLeagueViewModel shiftAssignments, int actorId);
+        Task MapTicketLists(IEnumerable<LeagueAssignment> PreMatchLeagues, IEnumerable<InfoSiteMatch> InfoSiteMatches, int actorId);
 
         Task<TimeSpan?> QueryExistedStartTime(DateTime EventDate);
 
@@ -31,8 +31,6 @@ namespace OWP.PreMatchAssignment.Services
         private readonly IDynamicRepository dynamicRepository;
 
         private readonly IMapper mapper;
-
-
 
         public ShiftAssignmentServiceImp(IDynamicRepository dynamicRepository, IMapper mapper)
         {
@@ -81,21 +79,21 @@ namespace OWP.PreMatchAssignment.Services
             return await QueryNightShiftWithDBStartTime(defaultShift, request, startTime);
         }
 
-        public async Task MapTicketLists(QueryPreMatchLeagueViewModel shiftAssignments, int actorId)
+        public async Task MapTicketLists(IEnumerable<LeagueAssignment> PreMatchLeagues, IEnumerable<InfoSiteMatch> InfoSiteMatches, int actorId)
         {
-            var leagueIds = shiftAssignments.PreMatchLeagues.Select(x => x.LeagueId);
-            var infoSiteMatchIds = shiftAssignments.InfoSiteMatches.Select(x => x.InfoSiteMatchId);
+            var leagueIds = PreMatchLeagues.Select(x => x.LeagueId);
+            var infoSiteMatchIds = InfoSiteMatches.Select(x => x.InfoSiteMatchId);
 
             var leagueTickets = await QueryAllLeaguesTicket(leagueIds, actorId);
             var matchTickets = await QueryAllMatchesTicket(infoSiteMatchIds, actorId);
 
-            foreach (var league in shiftAssignments.PreMatchLeagues)
+            foreach (var league in PreMatchLeagues)
             {
                 var leagueTicket = leagueTickets.GetValue(league.LeagueId, new List<TicketLeagueBasicInfo>());
                 league.TicketList = leagueTicket.OrderByDescending(x => x.LatestCreatedDate).ToList();
             }
 
-            foreach (var match in shiftAssignments.InfoSiteMatches)
+            foreach (var match in InfoSiteMatches)
             {
                 var matchTicket = matchTickets.GetValue(match.InfoSiteMatchId, new List<TicketMatchBasicInfo>());
                 match.TicketList = matchTicket.OrderByDescending(x => x.LatestCreatedDate).ToList();
