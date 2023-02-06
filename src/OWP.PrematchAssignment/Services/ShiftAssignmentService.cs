@@ -17,7 +17,7 @@ namespace OWP.PreMatchAssignment.Services
     {
         Task<QueryPreMatchLeagueViewModel> QueryDayShift(QueryDayShiftPreMatchRequest request);
 
-        Task<QueryPreMatchLeagueViewModel> QueryNightShift(QueryNightShiftPreMatchRequest request);
+        Task<QueryNightShiftPreMatchLeagueViewModel> QueryNightShift(QueryNightShiftPreMatchRequest request);
 
         Task MapTicketLists(QueryPreMatchLeagueViewModel shiftAssignments, int actorId);
 
@@ -32,19 +32,7 @@ namespace OWP.PreMatchAssignment.Services
 
         private readonly IMapper mapper;
 
-        private class AssignmentShift
-        {
-            public IEnumerable<PreMatchLeague> Leagues { get; set; }
 
-            public IEnumerable<InfoSiteMatch> Matches { get; set; }
-        }
-
-        private class DefaultDayAndNightShift
-        {
-            public AssignmentShift DayShift { get; set; }
-
-            public AssignmentShift NightShift { get; set; }
-        }
 
         public ShiftAssignmentServiceImp(IDynamicRepository dynamicRepository, IMapper mapper)
         {
@@ -73,16 +61,16 @@ namespace OWP.PreMatchAssignment.Services
             };
         }
 
-        public async Task<QueryPreMatchLeagueViewModel> QueryNightShift(QueryNightShiftPreMatchRequest request)
+        public async Task<QueryNightShiftPreMatchLeagueViewModel> QueryNightShift(QueryNightShiftPreMatchRequest request)
         {
             var startTime = await QueryExistedStartTime(request.EventDate);
 
-            var dayShift = await queryAssignmentShift(request, request.StartTime, true);
-            var nightShiftWithRequestStartTime = await queryAssignmentShift(request, request.StartTime, false);
+            var dayShift = await QueryAssignmentShift(request, request.StartTime, true);
+            var nightShiftWithRequestStartTime = await QueryAssignmentShift(request, request.StartTime, false);
             var defaultShift = new DefaultDayAndNightShift
             {
                 DayShift = dayShift,
-                NightShift = nightShiftWithRequestStartTime
+                NightShift = mapper.Map<AssignmentNightShift>(nightShiftWithRequestStartTime)
             };
 
             if (IsRequestStartTimeGreaterThanDBStartTime(request, startTime))
@@ -147,18 +135,18 @@ namespace OWP.PreMatchAssignment.Services
         private static bool IsRequestStartTimeGreaterThanDBStartTime(QueryNightShiftPreMatchRequest request, TimeSpan? startTime)
         => !startTime.HasValue || IsDBStartTimeLowerThanRequestStartTime(startTime, request.StartTime);
 
-        private QueryPreMatchLeagueViewModel QueryNightShiftWithoutDBStartTime(DefaultDayAndNightShift defaultShifts, TimeSpan? startTime)
+        private QueryNightShiftPreMatchLeagueViewModel QueryNightShiftWithoutDBStartTime(DefaultDayAndNightShift defaultShifts, TimeSpan? startTime)
 
            => GetNightShiftResultWithoutDBStartTime(defaultShifts.NightShift, defaultShifts.DayShift, startTime);
 
-        private async Task<QueryPreMatchLeagueViewModel> QueryNightShiftWithDBStartTime(DefaultDayAndNightShift defaultShifts, QueryNightShiftPreMatchRequest request, TimeSpan? startTime)
+        private async Task<QueryNightShiftPreMatchLeagueViewModel> QueryNightShiftWithDBStartTime(DefaultDayAndNightShift defaultShifts, QueryNightShiftPreMatchRequest request, TimeSpan? startTime)
         {
-            var nightShiftWithDBStartTime = await queryAssignmentShift(request, startTime.Value, false);
+            var nightShiftWithDBStartTime = await QueryAssignmentShift(request, startTime.Value, false);
 
             return GetNightShiftResultWithDBStartTime(defaultShifts.NightShift, defaultShifts.DayShift, nightShiftWithDBStartTime);
         }
 
-        private async Task<AssignmentShift> queryAssignmentShift(QueryNightShiftPreMatchRequest request, TimeSpan startTime, bool isDayShift)
+        private async Task<AssignmentShift> QueryAssignmentShift(QueryNightShiftPreMatchRequest request, TimeSpan startTime, bool isDayShift)
         {
             var queryCriteria = CreateNightShiftCriteria(request.EventDate, startTime, isDayShift);
             var result = await QueryShift(queryCriteria, request.Employee, request.LeagueName, request.MatchOffers, request.EventDate);
@@ -206,8 +194,8 @@ namespace OWP.PreMatchAssignment.Services
             };
         }
 
-        private QueryPreMatchLeagueViewModel GetNightShiftResultWithoutDBStartTime(
-            AssignmentShift nightShiftWithRequestStartTime,
+        private QueryNightShiftPreMatchLeagueViewModel GetNightShiftResultWithoutDBStartTime(
+            AssignmentNightShift nightShiftWithRequestStartTime,
             AssignmentShift dayShift,
             TimeSpan? startTime)
         {
@@ -216,23 +204,23 @@ namespace OWP.PreMatchAssignment.Services
             if (!startTime.HasValue)
             {
                 var dayShiftLeagues = dayShift.Leagues;
-                var dayShiftLeaguesDict = dayShiftLeagues.ToDictionary(x => x.LeagueId);
+                var dayShiftLeaguesPair = dayShiftLeagues.ToDictionary(x => x.LeagueId);
 
                 nightShiftWithRequestStartTimeLeagues = nightShiftWithRequestStartTimeLeagues
-                    .Select(x => { return copyAssignment(x, dayShiftLeaguesDict[x.LeagueId]); });
+                    .Select(x => { return UpdateAssignmentHint(x, dayShiftLeaguesPair[x.LeagueId]); });
             }
 
             var preMatchLeagues = SortAndAddNo(nightShiftWithRequestStartTimeLeagues);
 
-            return new QueryPreMatchLeagueViewModel
+            return new QueryNightShiftPreMatchLeagueViewModel
             {
                 InfoSiteMatches = nightShiftWithRequestStartTime.Matches.ToList(),
-                PreMatchLeagues = mapper.Map<IList<LeagueAssignment>>(preMatchLeagues)
+                PreMatchLeagues = mapper.Map<IList<NightShiftLeagueAssignment>>(preMatchLeagues)
             };
         }
 
-        private QueryPreMatchLeagueViewModel GetNightShiftResultWithDBStartTime(
-            AssignmentShift nightShiftWithRequestStartTime,
+        private QueryNightShiftPreMatchLeagueViewModel GetNightShiftResultWithDBStartTime(
+            AssignmentNightShift nightShiftWithRequestStartTime,
             AssignmentShift dayShift,
             AssignmentShift nightShiftWithDBStartTime
             )
@@ -248,24 +236,32 @@ namespace OWP.PreMatchAssignment.Services
             foreach (var league in newLeagues)
             {
                 nightShiftWithRequestStartTimeLeagues = nightShiftWithRequestStartTimeLeagues
-                    .Select(x =>
-                    {
-                        if (x.LeagueId == league.LeagueId)
-                        {
-                            return copyAssignment(x, league);
-                        }
-
-                        return x;
-                    });
+                    .Select(x => x.LeagueId == league.LeagueId
+                    ? UpdateAssignmentHint(x, league)
+                    : x
+                    );
             }
 
             var preMatchLeagues = SortAndAddNo(nightShiftWithRequestStartTimeLeagues);
 
-            return new QueryPreMatchLeagueViewModel
+            return new QueryNightShiftPreMatchLeagueViewModel
             {
-                PreMatchLeagues = mapper.Map<IList<LeagueAssignment>>(preMatchLeagues),
-                InfoSiteMatches = nightShiftWithRequestStartTime.Matches.ToList()
+                PreMatchLeagues = mapper.Map<IList<NightShiftLeagueAssignment>>(preMatchLeagues),
+                InfoSiteMatches = nightShiftWithRequestStartTime.Matches
             };
+        }
+
+        private static NightShiftPreMatchLeague UpdateAssignmentHint(NightShiftPreMatchLeague dest, PreMatchLeague source)
+        {
+            dest.HDPNicknameHint = source.HDPNickname;
+            dest.OtherHDPNicknameHint = source.OtherHDPNickname;
+            dest.OUNicknameHint = source.OUNickname;
+            dest.OtherOUNickname = source.OtherOUNickname;
+            dest.HDPTakeOverNicknameHint = source.HDPTakeOverNickname;
+            dest.OtherHDPTakeOverNicknameHint = source.OtherHDPTakeOverNickname;
+            dest.OUTakeOverNicknameHint = source.OUTakeOverNickname;
+            dest.OtherOUTakeOverNicknameHint = source.OtherOUTakeOverNickname;
+            return dest;
         }
 
         private static PreMatchLeague copyAssignment(PreMatchLeague des, PreMatchLeague source)
