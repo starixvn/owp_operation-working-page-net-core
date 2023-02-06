@@ -1,15 +1,15 @@
 ﻿namespace OWP.AssignmentUpload.Submit.Services
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
     using Criteria;
     using Fanex.Data.Repository;
     using Fanex.NAP.Client.Helpers.Web;
     using Models;
     using Olympus.Xml;
     using OWP.Services;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
     using Validation.Models;
 
     public interface CommandRepository
@@ -94,7 +94,6 @@
                 .Select(a => a.InfoSiteMatchId)
                 .Distinct();
             var deletedMainMatches = oldMatches
-                .Where(m => !m.IsSaba)
                 .Select(m => m.InfoSiteMatchId)
                 .Except(newMainMatches)
                 .Select(m => new MatchKickoffDate { MatchId = m, KickoffDate = kickoffDate, MinorBettypeId = null })

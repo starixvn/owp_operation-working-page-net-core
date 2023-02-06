@@ -85,7 +85,7 @@ namespace OWP.TicketCenter.Services
             if (model == null)
             {
                 return;
-            };
+            }
 
             (var canShowMoreMessage, var messages) = !permissionModel.FirstMessageId.HasValue
             ? await messageService.GetMessageListInLast2Days(ticketId)
