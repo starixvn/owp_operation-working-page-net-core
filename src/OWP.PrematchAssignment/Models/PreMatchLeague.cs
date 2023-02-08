@@ -1,4 +1,6 @@
-﻿namespace OWP.PreMatchAssignment.Models
+﻿using System.Text.Json.Serialization;
+
+namespace OWP.PreMatchAssignment.Models
 {
     public class PreMatchLeague
     {
@@ -43,6 +45,22 @@
         public string OtherHDPTakeOverNickname { get; set; }
 
         public string OtherOUTakeOverNickname { get; set; }
+
+        public string HDPHint { get; set; }
+
+        public string OUHint { get; set; }
+
+        public string HDPTakeOverHint { get; set; }
+
+        public string OUTakeOverHint { get; set; }
+
+        public string OtherHDPHint { get; set; }
+
+        public string OtherOUHint { get; set; }
+
+        public string OtherHDPTakeOverHint { get; set; }
+
+        public string OtherOUTakeOverHint { get; set; }
 
         public bool BlackList { get; set; }
 

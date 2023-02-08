@@ -1,4 +1,5 @@
-﻿using OWP.PrematchAssignment.Models;
+﻿using System.Text.Json.Serialization;
+using OWP.PrematchAssignment.Models;
 
 namespace OWP.PreMatchAssignment.Models
 {
@@ -29,6 +30,22 @@ namespace OWP.PreMatchAssignment.Models
         public string OtherHDPTakeOver { get; set; }
 
         public string OtherOUTakeOver { get; set; }
+
+        public string HDPHint { get; set; }
+
+        public string OUHint { get; set; }
+
+        public string HDPTakeOverHint { get; set; }
+
+        public string OUTakeOverHint { get; set; }
+
+        public string OtherHDPHint { get; set; }
+
+        public string OtherOUHint { get; set; }
+
+        public string OtherHDPTakeOverHint { get; set; }
+
+        public string OtherOUTakeOverHint { get; set; }
 
         public decimal? Spread { get; set; }
 

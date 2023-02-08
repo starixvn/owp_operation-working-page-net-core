@@ -4,7 +4,7 @@ using OWP.PreMatchAssignment.Services;
 
 namespace OWP.PreMatchAssignment.Handlers
 {
-    public class QueryNightShiftPreMatchRequest : IRequest<QueryNightShiftPreMatchLeagueViewModel>
+    public class QueryNightShiftPreMatchRequest : IRequest<QueryPreMatchLeagueViewModel>
     {
         public string Employee { get; set; }
 
@@ -19,7 +19,7 @@ namespace OWP.PreMatchAssignment.Handlers
         public List<string> MatchOffers { get; set; }
     }
 
-    public class QueryNightShiftPreMatchHandler : IRequestHandler<QueryNightShiftPreMatchRequest, QueryNightShiftPreMatchLeagueViewModel>
+    public class QueryNightShiftPreMatchHandler : IRequestHandler<QueryNightShiftPreMatchRequest, QueryPreMatchLeagueViewModel>
     {
         private readonly ShiftAssignmentService shiftAssignmentService;
 
@@ -31,7 +31,7 @@ namespace OWP.PreMatchAssignment.Handlers
             this.maxbetSpreadService = maxbetSpreadService;
         }
 
-        public async Task<QueryNightShiftPreMatchLeagueViewModel> Handle(QueryNightShiftPreMatchRequest request, CancellationToken cancellationToken)
+        public async Task<QueryPreMatchLeagueViewModel> Handle(QueryNightShiftPreMatchRequest request, CancellationToken cancellationToken)
         {
             var shiftAssignments = await shiftAssignmentService.QueryNightShift(request);
 

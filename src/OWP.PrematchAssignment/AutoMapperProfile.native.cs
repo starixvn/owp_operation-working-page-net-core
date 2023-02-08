@@ -11,9 +11,6 @@
         {
             CreateMap<LeagueAssignment, UpdateAssignmentCriteria>();
             CreateMap<PreMatchLeague, LeagueAssignment>();
-            CreateMap<PreMatchLeague, NightShiftLeagueAssignment>();
-            CreateMap<NightShiftPreMatchLeague, NightShiftLeagueAssignment>();
-            CreateMap<AssignmentShift, AssignmentNightShift>();
         }
     }
 }

@@ -9,17 +9,10 @@ namespace OWP.PrematchAssignment.Models
         public IEnumerable<InfoSiteMatch> Matches { get; set; }
     }
 
-    public class AssignmentNightShift
-    {
-        public IEnumerable<NightShiftPreMatchLeague> Leagues { get; set; }
-
-        public IEnumerable<InfoSiteMatch> Matches { get; set; }
-    }
-
     public class DefaultDayAndNightShift
     {
         public AssignmentShift DayShift { get; set; }
 
-        public AssignmentNightShift NightShift { get; set; }
+        public AssignmentShift NightShift { get; set; }
     }
 }
