@@ -1,10 +1,11 @@
-﻿namespace OWP.Services;
+﻿using Fanex.Data.Repository;
+using OWP.Models;
 
-using Fanex.Data.Repository;
+namespace OWP.Services;
 
 public interface RefResourceService
 {
-    Task<IEnumerable<RefResource>> GetRefResourcesByName(string name);
+    Task<IEnumerable<ReferenceResource>> GetRefResourcesByName(string name);
 }
 
 public class RefResourceServiceImp : RefResourceService
@@ -16,15 +17,8 @@ public class RefResourceServiceImp : RefResourceService
         this.dynamicRepository = dynamicRepository;
     }
 
-    public async Task<IEnumerable<RefResource>> GetRefResourcesByName(string refName)
-        => await dynamicRepository.FetchAsync<RefResource>(new GetRefResourceByNameCriteria { RefName = refName });
-}
-
-public class RefResource
-{
-    public int ResourceId { get; set; }
-
-    public string Value { get; set; }
+    public async Task<IEnumerable<ReferenceResource>> GetRefResourcesByName(string refName)
+        => await dynamicRepository.FetchAsync<ReferenceResource>(new GetRefResourceByNameCriteria { RefName = refName });
 }
 
 public class GetRefResourceByNameCriteria : CriteriaBase
@@ -34,4 +28,9 @@ public class GetRefResourceByNameCriteria : CriteriaBase
     public override bool IsValid() => !string.IsNullOrEmpty(RefName);
 
     public override string GetSettingKey() => "OWP_RefResourceGetByName";
+}
+
+public static class RefName
+{
+    public static string MatchOffer = "MatchOffer";
 }

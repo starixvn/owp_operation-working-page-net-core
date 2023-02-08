@@ -1,60 +1,67 @@
-﻿namespace OWP.AssignmentUpload.Validation.Services;
-
-using Models;
-
-public interface Analyzer
+﻿namespace OWP.AssignmentUpload.Validation.Services
 {
-    Task<AnalyzedResult> Analyze(ValidationRequest request);
-}
+    using Models;
+    using OWP.Services;
+    using System.Threading.Tasks;
 
-public class AnalyzerImp : Analyzer
-{
-    private readonly AssignmentValidator assignmentValidator;
-    private readonly ExcelReader excelReader;
-    private readonly MatchStatusValidator matchStatusValidator;
-    private readonly InfoSiteMatchUpdater infoSiteMatchUpdater;
-    private readonly Repository repository;
-    private readonly AssignmentBuilder assignmentBuilder;
-    private readonly InfoSiteValidation infoSiteValidation;
-
-    public AnalyzerImp(
-        AssignmentValidator assignmentValidator,
-        InfoSiteMatchUpdater infoSiteMatchUpdater,
-        ExcelReader excelReader,
-        MatchStatusValidator matchStatusValidator,
-        Repository repository,
-        AssignmentBuilder assignmentBuilder,
-        InfoSiteValidation infoSiteValidation)
+    public interface Analyzer
     {
-        this.assignmentValidator = assignmentValidator;
-        this.excelReader = excelReader;
-        this.matchStatusValidator = matchStatusValidator;
-        this.infoSiteMatchUpdater = infoSiteMatchUpdater;
-        this.repository = repository;
-        this.assignmentBuilder = assignmentBuilder;
-        this.infoSiteValidation = infoSiteValidation;
+        Task<AnalyzedResult> Analyze(ValidationRequest request);
     }
 
-    public async Task<AnalyzedResult> Analyze(ValidationRequest request)
+    public class AnalyzerImp : Analyzer
     {
-        var rawDataFromExcel = excelReader.Read(request.Stream);
+        private readonly AssignmentValidator assignmentValidator;
+        private readonly ExcelReader excelReader;
+        private readonly MatchStatusValidator matchStatusValidator;
+        private readonly InfoSiteMatchUpdater infoSiteMatchUpdater;
+        private readonly Repository repository;
+        private readonly AssignmentBuilder assignmentBuilder;
+        private readonly InfoSiteValidation infoSiteValidation;
+        private readonly RefResourceService refResourceService;
 
-        var traders = await repository.GetTraders(rawDataFromExcel.Traders);
-
-        var assignments = assignmentBuilder.BuildAssignment(traders, request, rawDataFromExcel.Assignments);
-
-        await infoSiteMatchUpdater.UpdateInfoSiteMatchToOwpMatch(assignments, request.EventDate);
-
-        assignmentValidator.Validate(request.EventDate, rawDataFromExcel, traders, request.IsUploadFMAndAIO);
-
-        matchStatusValidator.Validate(assignments);
-
-        infoSiteValidation.Validate(assignments);
-
-        return new AnalyzedResult
+        public AnalyzerImp(
+            AssignmentValidator assignmentValidator,
+            InfoSiteMatchUpdater infoSiteMatchUpdater,
+            ExcelReader excelReader,
+            MatchStatusValidator matchStatusValidator,
+            Repository repository,
+            AssignmentBuilder assignmentBuilder,
+            InfoSiteValidation infoSiteValidation,
+            RefResourceService refResourceService)
         {
-            Assignments = assignments,
-            OriginalRecordCount = rawDataFromExcel.Assignments.Count
-        };
+            this.assignmentValidator = assignmentValidator;
+            this.excelReader = excelReader;
+            this.matchStatusValidator = matchStatusValidator;
+            this.infoSiteMatchUpdater = infoSiteMatchUpdater;
+            this.repository = repository;
+            this.assignmentBuilder = assignmentBuilder;
+            this.infoSiteValidation = infoSiteValidation;
+            this.refResourceService = refResourceService;
+        }
+
+        public async Task<AnalyzedResult> Analyze(ValidationRequest request)
+        {
+            var rawDataFromExcel = excelReader.Read(request.Stream);
+
+            var traders = await repository.GetTraders(rawDataFromExcel.Traders);
+            var matchOffers = (await refResourceService.GetRefResourcesByName(RefName.MatchOffer)).ToList();
+
+            var assignments = assignmentBuilder.BuildAssignment(traders, request, rawDataFromExcel.Assignments);
+
+            await infoSiteMatchUpdater.UpdateInfoSiteMatchToOwpMatch(assignments, request.EventDate);
+
+            assignmentValidator.Validate(request.EventDate, rawDataFromExcel, traders, request.IsUploadFMAndAIO, matchOffers);
+
+            matchStatusValidator.Validate(assignments);
+
+            infoSiteValidation.Validate(assignments);
+
+            return new AnalyzedResult
+            {
+                Assignments = assignments,
+                OriginalRecordCount = rawDataFromExcel.Assignments.Count
+            };
+        }
     }
 }
