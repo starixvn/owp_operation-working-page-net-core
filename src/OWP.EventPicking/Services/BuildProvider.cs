@@ -1,7 +1,7 @@
-﻿using OWP.EventPicking.Models;
-using OWP.Extensions;
+﻿namespace OWP.EventPicking.Services;
 
-namespace OWP.EventPicking.Services;
+using Extensions;
+using Models;
 
 public interface BuildProvider
 {

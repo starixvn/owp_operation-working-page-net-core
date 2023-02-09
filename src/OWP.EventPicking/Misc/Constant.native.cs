@@ -1,6 +1,6 @@
-﻿using System.Collections.Immutable;
+﻿namespace OWP.EventPicking.Misc;
 
-namespace OWP.EventPicking.Misc;
+using System.Collections.Immutable;
 
 public static class Constant
 {
@@ -21,6 +21,5 @@ public static class Constant
         { ColorWhite, ColorWhiteHex }
     }.ToImmutableDictionary();
 
-    public static readonly List<string> SpecialOwpName = new List<string>
-            {"Next Corners","Next Booking", "(SPECIFIC 15 MINS)"};
+    public static readonly List<string> SpecialOwpName = new() {"Next Corners","Next Booking", "(SPECIFIC 15 MINS)"};
 }

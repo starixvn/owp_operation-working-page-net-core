@@ -1,8 +1,8 @@
-using OWP.EventPicking.Misc;
-using OWP.EventPicking.Models;
-using OWP.Extensions;
-
 namespace OWP.EventPicking.Services;
+
+using Extensions;
+using Misc;
+using Models;
 
 public interface BuildRowColor
 {

@@ -1,9 +1,9 @@
-using MediatR;
-using OWP.EventPicking.Middleware.Models;
-using OWP.EventPicking.Models;
-using OWP.EventPicking.Services;
-
 namespace OWP.EventPicking.Handlers;
+
+using MediatR;
+using Middleware.Models;
+using Models;
+using Services;
 
 public class QueryEventPickingRequest : EventPickingRequest, IRequest<List<EventPickingModel>>
 { }

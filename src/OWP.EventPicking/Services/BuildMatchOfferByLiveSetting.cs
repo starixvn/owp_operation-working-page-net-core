@@ -1,9 +1,9 @@
-﻿using OWP.Constants;
-using OWP.EventPicking.Models;
-using OWP.Extensions;
-using OWP.MaxbetSetting.Models;
+﻿namespace OWP.EventPicking.Services;
 
-namespace OWP.EventPicking.Services;
+using Constants;
+using Extensions;
+using MaxbetSetting.Models;
+using Models;
 
 public interface BuildMatchOfferByLiveSetting
 {
@@ -48,7 +48,7 @@ public class BuildMatchOfferByLiveSettingImp : BuildMatchOfferByLiveSetting
     {
         var liveSettingDefault = liveSettingsDefault.ContainsKey((decimal)maxBetHDP)
             ? liveSettingsDefault.GetValue((decimal)maxBetHDP)
-            : liveSettingsDefault.GetValue((-1000m));
+            : liveSettingsDefault.GetValue(-1000m);
         var isFantasyMatch = match.LeagueName.IsContains("FANTASY");
         return (match.MinorBettypeId, isFantasyMatch) switch
         {
@@ -57,7 +57,7 @@ public class BuildMatchOfferByLiveSettingImp : BuildMatchOfferByLiveSetting
             (Bettype.TotalBooking, _) => liveSettingDefault.SecondAccept_TotalBooking,
             (null, true) => liveSettingDefault.SecondAccept_Fantasy, // fantasy match
             (null, false) => liveSettingDefault.SecondAccept_Main, // main match
-            _ => null,
+            _ => null
         };
     }
 }

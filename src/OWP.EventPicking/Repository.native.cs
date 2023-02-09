@@ -1,12 +1,11 @@
+namespace OWP.EventPicking;
+
+using Criteria;
 using Fanex.Data.Repository;
 using Fanex.NAP.Client.Helpers.Web;
+using Handlers;
+using Models;
 using Newtonsoft.Json;
-using OWP.EventPicking.Criteria;
-using OWP.EventPicking.Handlers;
-using OWP.EventPicking.Models;
-
-
-namespace OWP.EventPicking;
 
 public interface Repository
 {

@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿namespace OWP.EventPicking.Models;
 
-namespace OWP.EventPicking.Models;
+using Newtonsoft.Json;
 
 public class LeagueSetting
 {
