@@ -1,7 +1,7 @@
-﻿using Fanex.NAP.Core.Business;
-using Olympus.SimpleDataApi;
+﻿namespace OWP.SimpleDataApi;
 
-namespace OWP.SimpleDataApi;
+using Fanex.NAP.Core.Business;
+using Olympus.SimpleDataApi;
 
 public class SimpleFunctionPermissionFactoryImp : SimpleFunctionPermissionFactoryBase
 {

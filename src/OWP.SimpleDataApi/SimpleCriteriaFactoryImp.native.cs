@@ -1,11 +1,11 @@
-﻿using Olympus.SimpleDataApi;
-using OWP.SimpleDataApi.Criteria.OsLeagueSetting;
-using OWP.SimpleDataApi.Criteria.LeagueManagement;
-using OWP.SimpleDataApi.Criteria.TicketCenter;
-using OWP.SimpleDataApi.Criteria.LiveDetail;
-using OWP.SimpleDataApi.Criteria;
+﻿namespace OWP.SimpleDataApi;
 
-namespace OWP.SimpleDataApi;
+using Criteria;
+using Criteria.LeagueManagement;
+using Criteria.LiveDetail;
+using Criteria.OsLeagueSetting;
+using Criteria.TicketCenter;
+using Olympus.SimpleDataApi;
 
 public class SimpleCriteriaFactoryImp : SimpleCriteriaFactoryBase
 {

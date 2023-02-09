@@ -1,6 +1,6 @@
-using Fanex.Data.Repository;
-
 namespace OWP.SimpleDataApi.Criteria.OsLeagueSetting;
+
+using Fanex.Data.Repository;
 
 public class GetBetDelayOptionCriteria : CriteriaBase
 {

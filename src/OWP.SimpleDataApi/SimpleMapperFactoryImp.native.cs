@@ -1,7 +1,7 @@
-﻿using Olympus.SimpleDataApi;
-using OWP.SimpleDataApi.Mapper;
+﻿namespace OWP.SimpleDataApi;
 
-namespace OWP.SimpleDataApi;
+using Mapper;
+using Olympus.SimpleDataApi;
 
 public class SimpleMapperFactoryImp : SimpleMapperFactoryBase
 {
