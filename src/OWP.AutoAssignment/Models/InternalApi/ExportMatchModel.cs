@@ -12,10 +12,7 @@ public record ExportMatchModel
     [Cell("C3")]
     public string EventDateTime
     {
-        get
-        {
-            return _time;
-        }
+        get => _time;
         set
         {
             DateTime time;

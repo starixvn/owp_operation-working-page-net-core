@@ -33,11 +33,5 @@ public class Assignment
 
     public bool IsCancelled { get; set; }
 
-    public bool IsHasContactInfo
-    {
-        get
-        {
-            return !string.IsNullOrWhiteSpace(Skype) || !string.IsNullOrWhiteSpace(Phone) || !string.IsNullOrWhiteSpace(Extension);
-        }
-    }
+    public bool IsHasContactInfo => !string.IsNullOrWhiteSpace(Skype) || !string.IsNullOrWhiteSpace(Phone) || !string.IsNullOrWhiteSpace(Extension);
 }

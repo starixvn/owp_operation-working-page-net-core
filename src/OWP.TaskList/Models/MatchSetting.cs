@@ -23,11 +23,5 @@ public class MatchSetting
     public string MaxbetSpreadToDisplay => DisplayMaxbetSpreadBuilder.Build(Maxbet, Spread);
 
     [JsonIgnore]
-    public bool IsHasMaxbetSpread
-    {
-        get
-        {
-            return Maxbet.HasValue || Spread.HasValue;
-        }
-    }
+    public bool IsHasMaxbetSpread => Maxbet.HasValue || Spread.HasValue;
 }

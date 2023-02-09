@@ -8,10 +8,7 @@ public class OvertimeByMonth
 
     public IEnumerable<decimal> TotalHoursByDate { get; set; }
 
-    public decimal TotalHours
-    {
-        get => TraderOvertime.Sum(x => x.Total);
-    }
+    public decimal TotalHours => TraderOvertime.Sum(x => x.Total);
 }
 
 public class TraderOvertime

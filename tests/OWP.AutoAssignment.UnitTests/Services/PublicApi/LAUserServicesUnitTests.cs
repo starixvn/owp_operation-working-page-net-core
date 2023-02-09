@@ -65,7 +65,7 @@ public class LAUserServicesUnitTests
                 UserId=8,
                 WorkingShifts= new[]
                 {
-                    new()
+                    new SchedulingWorkingShift
                     {
                         InTime= "2021-12-08T00:00:00",
                         OutTime="2021-12-09T00:00:00"

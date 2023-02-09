@@ -69,10 +69,7 @@ public class MatchInfo
 
     public string IPTVCopy { get; set; }
 
-    public bool IsMinorMatch
-    {
-        get { return OWPMatchId != ParentMatchId; }
-    }
+    public bool IsMinorMatch => OWPMatchId != ParentMatchId;
 
     public bool IsOneHourToKickOffTime { get; set; }
 

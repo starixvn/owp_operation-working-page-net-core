@@ -11,10 +11,7 @@ public class MatchSettingModel
 
     public string Spread { get; set; }
 
-    public int Order
-    {
-        get => MinorBettypeOrder.GetValue(BetTypeName, 0);
-    }
+    public int Order => MinorBettypeOrder.GetValue(BetTypeName, 0);
 
     private readonly Dictionary<string, int> MinorBettypeOrder = new()
     {

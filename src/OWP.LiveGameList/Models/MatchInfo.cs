@@ -32,16 +32,11 @@ public class MatchInfo
 
     public string League { get; set; }
 
-    public bool IsPES
-    {
-        get => League.IndexOf(" PES ", StringComparison.CurrentCultureIgnoreCase) >= 0;
-    }
+    public bool IsPES => League.IndexOf(" PES ", StringComparison.CurrentCultureIgnoreCase) >= 0;
 
-    public bool IsFIFA
-    {
-        get => League.IndexOf("SABA ", StringComparison.CurrentCultureIgnoreCase) >= 0 &&
-               League.IndexOf("FIFA", StringComparison.CurrentCultureIgnoreCase) >= 0;
-    }
+    public bool IsFIFA =>
+        League.IndexOf("SABA ", StringComparison.CurrentCultureIgnoreCase) >= 0 &&
+        League.IndexOf("FIFA", StringComparison.CurrentCultureIgnoreCase) >= 0;
 
     public string NoOfHDP { get; set; }
 
