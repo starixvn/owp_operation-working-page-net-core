@@ -20,8 +20,6 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
     ContentRootPath = Directory.GetCurrentDirectory(),
 });
 
-builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-
 // Add services to the container.
 builder.Services.AddCorsPolicy();
 builder.Services.AddControllerAuthorization();
