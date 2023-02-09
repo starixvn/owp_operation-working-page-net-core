@@ -239,9 +239,11 @@ namespace OWP.AssignmentUpload.Validation.Services
 
         public void ValidateMatchOffers(AssignmentModelInExcel assignment, List<ReferenceResource> matchOffers, List<ValidationResult> results)
         {
-            var excelMatchOffers = assignment.MatchOffer.Split(',').ToList();
-            var matchOfferValues = matchOffers.Select(y => y.Value);
-            var isInValid = excelMatchOffers.Any(x => !string.IsNullOrEmpty(x) && !matchOfferValues.Contains(x.Trim()));
+            var excelMatchOffers = assignment.MatchOffer
+                .Split(',')
+                .Where((x => !string.IsNullOrEmpty(x))).ToList();
+            var matchOfferValues = matchOffers.Select(y => y.Value.ToLower());
+            var isInValid = excelMatchOffers.Any(x => !matchOfferValues.Contains(x.Trim().ToLower()));
 
             if (isInValid)
             {

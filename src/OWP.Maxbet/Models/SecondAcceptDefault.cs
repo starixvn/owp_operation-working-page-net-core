@@ -2,8 +2,8 @@
 
 public class SecondAcceptDefault
 {
-    public int Main { get; set; }
-    public int Corner { get; set; }
-    public int TotalBooking { get; set; }
-    public int Fantasy { get; set; }
+    public string Main { get; set; }
+    public string Corner { get; set; }
+    public string TotalBooking { get; set; }
+    public string Fantasy { get; set; }
 }
