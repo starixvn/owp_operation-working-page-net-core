@@ -1,7 +1,5 @@
 namespace OWP.ProviderArrangement.Models;
 
-using System;
-
 public class UserLogModel
 {
     public string DataOld { get; set; }

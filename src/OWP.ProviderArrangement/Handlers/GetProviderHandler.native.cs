@@ -1,9 +1,9 @@
+namespace OWP.ProviderArrangement.Handlers;
+
+using Criteria;
 using Fanex.Data.Repository;
 using MediatR;
-using OWP.ProviderArrangement.Criteria;
-using OWP.ProviderArrangement.Models;
-
-namespace OWP.ProviderArrangement.Handlers;
+using Models;
 
 public class GetProviderRequest : IRequest<IList<ProviderModel>>
 {

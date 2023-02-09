@@ -1,13 +1,11 @@
 namespace OWP.ProviderArrangement.Handlers;
 
-using System.Threading;
-using System.Threading.Tasks;
 using Criteria;
+using Extensions;
 using Fanex.Data.Repository;
 using MediatR;
 using Models;
-using OWP.Extensions;
-using OWP.Utils;
+using Utils;
 
 public class GetLogRequest : IRequest<IList<LogDisplayModel>>
 {
