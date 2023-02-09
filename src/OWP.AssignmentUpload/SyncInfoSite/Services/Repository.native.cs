@@ -1,36 +1,35 @@
-﻿namespace OWP.AssignmentUpload.SyncInfoSite
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Fanex.Data.Repository;
-    using Models;
-    using InfositeIdSync.Criteria;
+﻿namespace OWP.AssignmentUpload.SyncInfoSite;
 
-    public interface SyncInfoSiteRepository
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Fanex.Data.Repository;
+using Models;
+using InfositeIdSync.Criteria;
+
+public interface SyncInfoSiteRepository
+{
+    Task<List<InfositeMatch>> QueryInfositeMatch(DateTime eventDate);
+}
+
+public class SyncInfoSiteRepositoryImp : SyncInfoSiteRepository
+{
+    private readonly IDynamicRepository repository;
+
+    public SyncInfoSiteRepositoryImp(IDynamicRepository repository)
     {
-        Task<List<InfositeMatch>> QueryInfositeMatch(DateTime eventDate);
+        this.repository = repository;
     }
 
-    public class SyncInfoSiteRepositoryImp : SyncInfoSiteRepository
+    public async Task<List<InfositeMatch>> QueryInfositeMatch(DateTime eventDate)
     {
-        private readonly IDynamicRepository repository;
-
-        public SyncInfoSiteRepositoryImp(IDynamicRepository repository)
+        var criteria = new QueryInfositeMatchCriteria
         {
-            this.repository = repository;
-        }
+            EventDate = eventDate
+        };
 
-        public async Task<List<InfositeMatch>> QueryInfositeMatch(DateTime eventDate)
-        {
-            var criteria = new QueryInfositeMatchCriteria
-            {
-                EventDate = eventDate
-            };
-
-            var matches = await repository.FetchAsync<InfositeMatch>(criteria);
-            return matches.ToList();
-        }
+        var matches = await repository.FetchAsync<InfositeMatch>(criteria);
+        return matches.ToList();
     }
 }

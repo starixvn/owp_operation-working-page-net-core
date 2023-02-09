@@ -1,9 +1,8 @@
-﻿namespace OWP.Maxbet.Models
-{
-    public class TraderAssignment
-    {
-        public int BettypeId { get; set; }
+﻿namespace OWP.Maxbet.Models;
 
-        public int? UserId { get; set; }
-    }
+public class TraderAssignment
+{
+    public int BettypeId { get; set; }
+
+    public int? UserId { get; set; }
 }

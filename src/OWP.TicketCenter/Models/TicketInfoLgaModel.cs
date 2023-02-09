@@ -1,10 +1,8 @@
-namespace OWP.TicketCenter.Models
+namespace OWP.TicketCenter.Models;
+
+public class TicketInfoLgaModel
 {
-    public class TicketInfoLgaModel
-    {
-        public int OwpMatchId { get; set; }
+    public int OwpMatchId { get; set; }
 
-        public int CreatorId { get; set; }
-    }
-
+    public int CreatorId { get; set; }
 }

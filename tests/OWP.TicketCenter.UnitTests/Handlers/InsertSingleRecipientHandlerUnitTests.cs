@@ -7,54 +7,53 @@ using OWP.TicketCenter.Services;
 
 using Xunit;
 
-namespace OWP.TicketCenter.UnitTests.Handlers
+namespace OWP.TicketCenter.UnitTests.Handlers;
+
+public class InsertSingleRecipientHandlerUnitTests
 {
-    public class InsertSingleRecipientHandlerUnitTests
+    private readonly Repository repository;
+
+    private readonly RecipientService recipientService;
+
+    private readonly NotificationService notificationService;
+
+    private readonly MessageClient messageClient;
+
+    public InsertSingleRecipientHandlerUnitTests()
     {
-        private readonly Repository repository;
+        repository = Substitute.For<Repository>();
+        recipientService = Substitute.For<RecipientService>();
+        notificationService = Substitute.For<NotificationService>();
+        messageClient = Substitute.For<MessageClient>();
+    }
 
-        private readonly RecipientService recipientService;
+    [Fact]
+    public async void InsertSingleRecipient_RecipientInfo_ReturnIdFromDB()
+    {
+        // Arrange
+        var handler = new InsertRecipientHandler(
+            repository,
+            recipientService,
+            notificationService,
+            messageClient
+        );
 
-        private readonly NotificationService notificationService;
+        var recipients = new List<InsertOrRemoveManyRecipientModel>();
 
-        private readonly MessageClient messageClient;
+        recipientService
+            .InsertManyRecipientReader(recipients, 1, 3)
+            .Returns(x => true);
 
-        public InsertSingleRecipientHandlerUnitTests()
-        {
-            repository = Substitute.For<Repository>();
-            recipientService = Substitute.For<RecipientService>();
-            notificationService = Substitute.For<NotificationService>();
-            messageClient = Substitute.For<MessageClient>();
-        }
+        repository
+            .AddSingleRecipient(Arg.Compat.Any<InsertSingleRecipientRequest>())
+            .ReturnsForAnyArgs(x => 1);
 
-        [Fact]
-        public async void InsertSingleRecipient_RecipientInfo_ReturnIdFromDB()
-        {
-            // Arrange
-            var handler = new InsertRecipientHandler(
-                repository,
-                recipientService,
-                notificationService,
-               messageClient
-                );
+        messageClient.SendMessage(Arg.Compat.Any<object>(), Arg.Compat.Any<string>());
 
-            var recipients = new List<InsertOrRemoveManyRecipientModel>();
+        var actual = await handler.Handle(new InsertSingleRecipientRequest(), CancellationToken.None);
 
-            recipientService
-                .InsertManyRecipientReader(recipients, 1, 3)
-                .Returns(x => true);
-
-            repository
-                .AddSingleRecipient(Arg.Compat.Any<InsertSingleRecipientRequest>())
-                .ReturnsForAnyArgs(x => 1);
-
-            messageClient.SendMessage(Arg.Compat.Any<object>(), Arg.Compat.Any<string>());
-
-            var actual = await handler.Handle(new InsertSingleRecipientRequest(), CancellationToken.None);
-
-            //Assert
-            var expected = 1;
-            Assert.Equal(actual, expected);
-        }
+        //Assert
+        var expected = 1;
+        Assert.Equal(actual, expected);
     }
 }

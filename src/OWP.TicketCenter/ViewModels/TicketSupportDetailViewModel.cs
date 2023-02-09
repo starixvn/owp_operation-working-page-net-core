@@ -1,11 +1,10 @@
-﻿namespace OWP.TicketCenter.ViewModels
+﻿namespace OWP.TicketCenter.ViewModels;
+
+public class TicketSupportDetailViewModel : TicketDetailBaseViewModel
 {
-    public class TicketSupportDetailViewModel : TicketDetailBaseViewModel
-    {
-        public string Subject { get; set; }
+    public string Subject { get; set; }
 
-        public string EventName => Subject;
+    public string EventName => Subject;
 
-        public int EventType => (int)Enum.EventType.Support;
-    }
+    public int EventType => (int)Enum.EventType.Support;
 }

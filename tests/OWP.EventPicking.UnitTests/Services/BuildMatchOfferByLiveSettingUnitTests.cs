@@ -3,58 +3,58 @@ using OWP.EventPicking.Services;
 using OWP.MaxbetSetting.Models;
 using Xunit;
 
-namespace OWP.EventPicking.UnitTests.Services
+namespace OWP.EventPicking.UnitTests.Services;
+
+public class BuildMatchOfferByLiveSettingUnitTests
 {
-    public class BuildMatchOfferByLiveSettingUnitTests
+    private readonly BuildMatchOfferByLiveSettingImp service;
+    public BuildMatchOfferByLiveSettingUnitTests()
     {
-        private readonly BuildMatchOfferByLiveSettingImp service;
-        public BuildMatchOfferByLiveSettingUnitTests()
+        service = new BuildMatchOfferByLiveSettingImp();
+    }
+
+    [Fact]
+    public void BuildMatchOfferByLiveSetting()
+    {
+        var maxbetSettings = new Dictionary<decimal, MaxBetSettingModel>
         {
-            service = new BuildMatchOfferByLiveSettingImp();
-        }
+            { 5000, new MaxBetSettingModel {
+                FT_HDP = 5000,
+                NoOfCorner_FT_HDP = 2000,
+                NoOfCorner_FT_OU = 100,
+                NextCorner_FT_HDP = 12000,
+                SecondAccept_Fantasy = "fantasy offer setting",
+                SecondAccept_Corner = "offer corner"
+            } },
+            { 4000, new() {
+                FT_HDP = 4000,
+                NextCorner_FT_HDP = 400,
+                NextBooking_FT_HDP = 100,
+                SecondAccept_Main="offer main",
+                SecondAccept_TotalBooking = "offer booking"
+            } },
+            { 3000, new() { FT_HDP = 3000, TotalBooking_FT_HDP = 300, TotalBooking_FT_OU = 100} },
+            { -1000, new() { FT_HDP = -1000, NextCorner_FT_HDP = 200, NextBooking_FT_HDP = 333 }}
+        };
+        var mockMainMatches = MockMainMatches();
+        var mockChildMatches = MockChildMatches();
+        service.Build(mockMainMatches, mockChildMatches, maxbetSettings);
 
-        [Fact]
-        public void BuildMatchOfferByLiveSetting()
-        {
-            var maxbetSettings = new Dictionary<decimal, MaxBetSettingModel>
-            {
-                { 5000, new MaxBetSettingModel {
-                    FT_HDP = 5000,
-                    NoOfCorner_FT_HDP = 2000,
-                    NoOfCorner_FT_OU = 100,
-                    NextCorner_FT_HDP = 12000,
-                    SecondAccept_Fantasy = "fantasy offer setting",
-                    SecondAccept_Corner = "offer corner"
-                } },
-                { 4000, new() {
-                    FT_HDP = 4000,
-                    NextCorner_FT_HDP = 400,
-                    NextBooking_FT_HDP = 100,
-                    SecondAccept_Main="offer main",
-                    SecondAccept_TotalBooking = "offer booking"
-                } },
-                { 3000, new() { FT_HDP = 3000, TotalBooking_FT_HDP = 300, TotalBooking_FT_OU = 100} },
-                { -1000, new() { FT_HDP = -1000, NextCorner_FT_HDP = 200, NextBooking_FT_HDP = 333 }}
-            };
-            var mockMainMatches = MockMainMatches();
-            var mockChildMatches = MockChildMatches();
-            service.Build(mockMainMatches, mockChildMatches, maxbetSettings);
+        Assert.Equal("fantasy offer", mockMainMatches[0].MatchOffer);
+        Assert.Equal("fantasy offer setting", mockMainMatches[1].MatchOffer);
+        Assert.Equal("offer main", mockMainMatches[2].MatchOffer);
+        Assert.Equal("offer main match", mockMainMatches[3].MatchOffer);
+        Assert.Null(mockMainMatches[4].MatchOffer);
 
-            Assert.Equal("fantasy offer", mockMainMatches[0].MatchOffer);
-            Assert.Equal("fantasy offer setting", mockMainMatches[1].MatchOffer);
-            Assert.Equal("offer main", mockMainMatches[2].MatchOffer);
-            Assert.Equal("offer main match", mockMainMatches[3].MatchOffer);
-            Assert.Null(mockMainMatches[4].MatchOffer);
+        Assert.Equal("offer corner", mockChildMatches[0].MatchOffer);
+        Assert.Equal("offer corner", mockChildMatches[1].MatchOffer);
+        Assert.Equal("offer booking", mockChildMatches[2].MatchOffer);
+        Assert.Null(mockChildMatches[3].MatchOffer);
+        Assert.Null(mockChildMatches[4].MatchOffer);
+    }
 
-            Assert.Equal("offer corner", mockChildMatches[0].MatchOffer);
-            Assert.Equal("offer corner", mockChildMatches[1].MatchOffer);
-            Assert.Equal("offer booking", mockChildMatches[2].MatchOffer);
-            Assert.Null(mockChildMatches[3].MatchOffer);
-            Assert.Null(mockChildMatches[4].MatchOffer);
-        }
-
-        public List<EventPickingModel> MockMainMatches()
-            => new List<EventPickingModel>
+    public List<EventPickingModel> MockMainMatches()
+        => new List<EventPickingModel>
         {
             new()
             {
@@ -97,8 +97,8 @@ namespace OWP.EventPicking.UnitTests.Services
                 MatchOffer = null
             },
         };
-        public List<EventPickingModel> MockChildMatches()
-            => new List<EventPickingModel> {
+    public List<EventPickingModel> MockChildMatches()
+        => new List<EventPickingModel> {
             new()
             {
                 OWPLeagueId = 100,
@@ -130,5 +130,4 @@ namespace OWP.EventPicking.UnitTests.Services
                 MinorBettypeId = -99
             }
         };
-    }
 }

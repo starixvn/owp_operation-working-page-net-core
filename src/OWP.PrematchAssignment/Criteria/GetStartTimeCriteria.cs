@@ -1,13 +1,12 @@
-﻿namespace OWP.PreMatchAssignment.Criteria
+﻿namespace OWP.PreMatchAssignment.Criteria;
+
+using Fanex.Data.Repository;
+
+public class GetStartTimeCriteria : CriteriaBase
 {
-    using Fanex.Data.Repository;
+    public DateTime EventDate { get; set; }
 
-    public class GetStartTimeCriteria : CriteriaBase
-    {
-        public DateTime EventDate { get; set; }
+    public override string GetSettingKey() => "OWP_PreMatchAssignment_GetStartTimeForNightShift";
 
-        public override string GetSettingKey() => "OWP_PreMatchAssignment_GetStartTimeForNightShift";
-
-        public override bool IsValid() => true;
-    }
+    public override bool IsValid() => true;
 }

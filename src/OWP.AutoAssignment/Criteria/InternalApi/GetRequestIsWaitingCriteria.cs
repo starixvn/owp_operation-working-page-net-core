@@ -1,13 +1,12 @@
-﻿namespace OWP.AutoAssignment.Criteria.InternalApi
+﻿namespace OWP.AutoAssignment.Criteria.InternalApi;
+
+using Fanex.Data.Repository;
+
+public class GetRequestIsWaitingCriteria : CriteriaBase
 {
-    using Fanex.Data.Repository;
+    public DateTime EventDate { get; set; }
 
-    public class GetRequestIsWaitingCriteria : CriteriaBase
-    {
-        public DateTime EventDate { get; set; }
+    public override bool IsValid() => true;
 
-        public override bool IsValid() => true;
-
-        public override string GetSettingKey() => "OWP_AutoAssignment_GetRequestIsWaiting";
-    }
+    public override string GetSettingKey() => "OWP_AutoAssignment_GetRequestIsWaiting";
 }

@@ -1,36 +1,35 @@
-namespace OWP.LiveDetail.UnitTests.Agent
+namespace OWP.LiveDetail.UnitTests.Agent;
+
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Fanex.Data.Repository;
+using LiveDetail.Agent;
+using NSubstitute;
+using Xunit;
+
+public class RepositoryUnitTests
 {
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using Fanex.Data.Repository;
-    using LiveDetail.Agent;
-    using NSubstitute;
-    using Xunit;
+    private readonly IDynamicRepository dynamicRepository;
+    private readonly AgentRepository agentRepository;
 
-    public class RepositoryUnitTests
+    public RepositoryUnitTests()
     {
-        private readonly IDynamicRepository dynamicRepository;
-        private readonly AgentRepository agentRepository;
+        dynamicRepository = Substitute.For<IDynamicRepository>();
+        agentRepository = new AgentRepositoryImp(dynamicRepository);
+    }
 
-        public RepositoryUnitTests()
-        {
-            dynamicRepository = Substitute.For<IDynamicRepository>();
-            agentRepository = new AgentRepositoryImp(dynamicRepository);
-        }
+    [Fact]
+    public async Task GetAll_Always_ReturnAgentList()
+    {
+        // Arrange
+        var agents = new List<Agent> { new Agent { AgentId = 2, AgentName = "ag" } };
+        dynamicRepository.FetchAsync<Agent>(Arg.Compat.Any<GetAllCriteria>()).Returns(agents);
 
-        [Fact]
-        public async Task GetAll_Always_ReturnAgentList()
-        {
-            // Arrange
-            var agents = new List<Agent> { new Agent { AgentId = 2, AgentName = "ag" } };
-            dynamicRepository.FetchAsync<Agent>(Arg.Compat.Any<GetAllCriteria>()).Returns(agents);
+        // Act
+        var actual = await agentRepository.GetAll();
 
-            // Act
-            var actual = await agentRepository.GetAll();
-
-            // Assert
-            Assert.Equal(agents, actual);
-            await dynamicRepository.Received().FetchAsync<Agent>(Arg.Compat.Any<GetAllCriteria>());
-        }
+        // Assert
+        Assert.Equal(agents, actual);
+        await dynamicRepository.Received().FetchAsync<Agent>(Arg.Compat.Any<GetAllCriteria>());
     }
 }

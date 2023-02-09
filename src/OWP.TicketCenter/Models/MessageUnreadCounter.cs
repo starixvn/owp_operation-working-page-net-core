@@ -1,9 +1,8 @@
-﻿namespace OWP.TicketCenter.Models
-{
-    public class MessageUnreadCounter
-    {
-        public int UserId { get; set; }  
+﻿namespace OWP.TicketCenter.Models;
 
-        public int Total { get; set; }  
-    }
+public class MessageUnreadCounter
+{
+    public int UserId { get; set; }  
+
+    public int Total { get; set; }  
 }

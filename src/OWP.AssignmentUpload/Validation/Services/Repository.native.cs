@@ -1,40 +1,39 @@
-namespace OWP.AssignmentUpload.Validation.Services
-{
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Criteria;
-    using Fanex.Data.Repository;
-    using Models;
+namespace OWP.AssignmentUpload.Validation.Services;
 
-    public interface Repository
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Criteria;
+using Fanex.Data.Repository;
+using Models;
+
+public interface Repository
+{
+    Task<List<Trader>> GetTraders(List<string> traderNames);
+}
+
+public class RepositoryImp : Repository
+{
+    private readonly IDynamicRepository repository;
+
+    public RepositoryImp(IDynamicRepository repository)
     {
-        Task<List<Trader>> GetTraders(List<string> traderNames);
+        this.repository = repository;
     }
 
-    public class RepositoryImp : Repository
+    public async Task<List<Trader>> GetTraders(List<string> traderNames)
     {
-        private readonly IDynamicRepository repository;
-
-        public RepositoryImp(IDynamicRepository repository)
+        var traderNamesInString = string.Join(",", traderNames);
+        if (string.IsNullOrEmpty(traderNamesInString))
         {
-            this.repository = repository;
+            return new List<Trader>();
         }
 
-        public async Task<List<Trader>> GetTraders(List<string> traderNames)
+        var criteria = new TraderByUsernameQueryCriteria
         {
-            var traderNamesInString = string.Join(",", traderNames);
-            if (string.IsNullOrEmpty(traderNamesInString))
-            {
-                return new List<Trader>();
-            }
+            Username = traderNamesInString
+        };
 
-            var criteria = new TraderByUsernameQueryCriteria
-            {
-                Username = traderNamesInString
-            };
-
-            return (await repository.FetchAsync<Trader>(criteria)).ToList();
-        }
+        return (await repository.FetchAsync<Trader>(criteria)).ToList();
     }
 }

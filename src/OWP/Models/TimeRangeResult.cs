@@ -1,9 +1,8 @@
-namespace OWP.Models
-{
-    public class TimeRangeResult
-    {
-        public bool IsMatchInTimeRange { get; set; }
+namespace OWP.Models;
 
-        public bool IsAllowedToViewDetail { get; set; }
-    }
+public class TimeRangeResult
+{
+    public bool IsMatchInTimeRange { get; set; }
+
+    public bool IsAllowedToViewDetail { get; set; }
 }

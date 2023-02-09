@@ -1,7 +1,6 @@
-﻿namespace OWP.LiveDetail.MatchSetting
+﻿namespace OWP.LiveDetail.MatchSetting;
+
+public class CreateResult : ResponseResult
 {
-    public class CreateResult : ResponseResult
-    {
-        public int Id { get; set; }
-    }
+    public int Id { get; set; }
 }

@@ -1,38 +1,37 @@
-﻿namespace OWP.Services
+﻿namespace OWP.Services;
+
+using Fanex.Data.Repository;
+
+public interface RefResourceService
 {
-    using Fanex.Data.Repository;
+    Task<IEnumerable<RefResource>> GetRefResourcesByName(string name);
+}
 
-    public interface RefResourceService
+public class RefResourceServiceImp : RefResourceService
+{
+    private readonly IDynamicRepository dynamicRepository;
+
+    public RefResourceServiceImp(IDynamicRepository dynamicRepository)
     {
-        Task<IEnumerable<RefResource>> GetRefResourcesByName(string name);
+        this.dynamicRepository = dynamicRepository;
     }
 
-    public class RefResourceServiceImp : RefResourceService
-    {
-        private readonly IDynamicRepository dynamicRepository;
+    public async Task<IEnumerable<RefResource>> GetRefResourcesByName(string refName)
+        => await dynamicRepository.FetchAsync<RefResource>(new GetRefResourceByNameCriteria { RefName = refName });
+}
 
-        public RefResourceServiceImp(IDynamicRepository dynamicRepository)
-        {
-            this.dynamicRepository = dynamicRepository;
-        }
+public class RefResource
+{
+    public int ResourceId { get; set; }
 
-        public async Task<IEnumerable<RefResource>> GetRefResourcesByName(string refName)
-            => await dynamicRepository.FetchAsync<RefResource>(new GetRefResourceByNameCriteria { RefName = refName });
-    }
+    public string Value { get; set; }
+}
 
-    public class RefResource
-    {
-        public int ResourceId { get; set; }
+public class GetRefResourceByNameCriteria : CriteriaBase
+{
+    public string RefName { get; set; }
 
-        public string Value { get; set; }
-    }
+    public override bool IsValid() => !string.IsNullOrEmpty(RefName);
 
-    public class GetRefResourceByNameCriteria : CriteriaBase
-    {
-        public string RefName { get; set; }
-
-        public override bool IsValid() => !string.IsNullOrEmpty(RefName);
-
-        public override string GetSettingKey() => "OWP_RefResourceGetByName";
-    }
+    public override string GetSettingKey() => "OWP_RefResourceGetByName";
 }

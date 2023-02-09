@@ -1,9 +1,8 @@
-﻿namespace OWP.AutoAssignment.Models.PublicApi
-{
-    public class SchedulingLAUser : LAUserInfo
-    {
-        public bool InLineWithTV { get; } = true;
+﻿namespace OWP.AutoAssignment.Models.PublicApi;
 
-        public SchedulingWorkingShift[] WorkingShifts { get; set; }
-    }
+public class SchedulingLAUser : LAUserInfo
+{
+    public bool InLineWithTV { get; } = true;
+
+    public SchedulingWorkingShift[] WorkingShifts { get; set; }
 }

@@ -1,8 +1,7 @@
-﻿namespace OWP.Enums
+﻿namespace OWP.Enums;
+
+public enum TicketRecipient
 {
-    public enum TicketRecipient
-    {
-        USER = 1,
-        GROUP = 2
-    }
+    USER = 1,
+    GROUP = 2
 }

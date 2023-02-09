@@ -1,23 +1,22 @@
-﻿namespace OWP.LiveDetail.Common
+﻿namespace OWP.LiveDetail.Common;
+
+using System.Collections.Generic;
+using System.Linq;
+using OWP.Constants;
+
+public class ValidateResult
+
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using OWP.Constants;
+    public IEnumerable<ValidateEntity> Results { get; set; }
 
-    public class ValidateResult
+    public IEnumerable<ValidateEntity> FailedResults => Results.Where(x => x.ResultType == (int)RuleReturnType.Failed);
 
-    {
-        public IEnumerable<ValidateEntity> Results { get; set; }
+    public IEnumerable<ValidateEntity> WarningResults => Results.Where(x => x.ResultType == (int)RuleReturnType.WarningMinor
+                                                                            || x.ResultType == (int)RuleReturnType.WarningMajor);
 
-        public IEnumerable<ValidateEntity> FailedResults => Results.Where(x => x.ResultType == (int)RuleReturnType.Failed);
+    public bool IsFailed => FailedResults.Any();
 
-        public IEnumerable<ValidateEntity> WarningResults => Results.Where(x => x.ResultType == (int)RuleReturnType.WarningMinor
-                                        || x.ResultType == (int)RuleReturnType.WarningMajor);
+    public bool IsHasWarning => WarningResults.Any();
 
-        public bool IsFailed => FailedResults.Any();
-
-        public bool IsHasWarning => WarningResults.Any();
-
-        public string FailedMessage => string.Join("\n", FailedResults.Select(x => x.Message));
-    }
+    public string FailedMessage => string.Join("\n", FailedResults.Select(x => x.Message));
 }

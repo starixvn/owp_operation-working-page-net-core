@@ -1,11 +1,10 @@
-﻿namespace OWP.TicketCenter.Middleware.Models
+﻿namespace OWP.TicketCenter.Middleware.Models;
+
+public class PermissionCheckedModel
 {
-    public class PermissionCheckedModel
-    {
-        public int TicketId { get; set; }
+    public int TicketId { get; set; }
 
-        public int ActorId { get; set; }
+    public int ActorId { get; set; }
 
-        public int? FirstMessageId { get; set; }
-    }
+    public int? FirstMessageId { get; set; }
 }

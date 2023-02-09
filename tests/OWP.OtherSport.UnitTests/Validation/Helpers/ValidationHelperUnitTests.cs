@@ -1,50 +1,49 @@
-﻿namespace OWP.OtherSport.UnitTests.Validation.Helpers
+﻿namespace OWP.OtherSport.UnitTests.Validation.Helpers;
+
+using OWP.OtherSport.Validation.Helpers;
+using OWP.OtherSport.Validation.Models;
+
+using System.ComponentModel.DataAnnotations;
+using Xunit;
+using Xunit.Asserts.Compare;
+
+public class ValidationHelperUnitTests
 {
-    using OWP.OtherSport.Validation.Helpers;
-    using OWP.OtherSport.Validation.Models;
-
-    using System.ComponentModel.DataAnnotations;
-    using Xunit;
-    using Xunit.Asserts.Compare;
-
-    public class ValidationHelperUnitTests
+    [Fact]
+    public void BuildValidationRowResult_ValidationResult_ReturnValidation()
     {
-        [Fact]
-        public void BuildValidationRowResult_ValidationResult_ReturnValidation()
+        var assignmentValidationList = new List<AssignmentValidationRowResult>();
+
+        var validationResult = new List<ValidationResult>
         {
-            var assignmentValidationList = new List<AssignmentValidationRowResult>();
+            new ValidationResult("Invalid Trader Baseball FT Run Line (HDP): Esther")
+        };
 
-            var validationResult = new List<ValidationResult>
-            {
-                new ValidationResult("Invalid Trader Baseball FT Run Line (HDP): Esther")
-            };
-
-            var expected = new List<AssignmentValidationRowResult>
-            {
-                new AssignmentValidationRowResult
-                {
-                    Row = 2,
-                    Message = "Invalid Trader Baseball FT Run Line (HDP): Esther"
-                }
-            };
-
-            ValidationHelper.BuildValidationRowResult(validationResult, assignmentValidationList, 2);
-
-            DeepAssert.Equal(expected, assignmentValidationList);
-        }
-
-        [Fact]
-        public void BuildValidationRowResult_EmptyValidation_ReturnValidationEqualZero()
+        var expected = new List<AssignmentValidationRowResult>
         {
-            var assignmentValidationList = new List<AssignmentValidationRowResult>();
+            new AssignmentValidationRowResult
+            {
+                Row = 2,
+                Message = "Invalid Trader Baseball FT Run Line (HDP): Esther"
+            }
+        };
 
-            var validationResult = new List<ValidationResult>();
+        ValidationHelper.BuildValidationRowResult(validationResult, assignmentValidationList, 2);
 
-            var expected = new List<AssignmentValidationRowResult>();
+        DeepAssert.Equal(expected, assignmentValidationList);
+    }
 
-            ValidationHelper.BuildValidationRowResult(validationResult, assignmentValidationList, 0);
+    [Fact]
+    public void BuildValidationRowResult_EmptyValidation_ReturnValidationEqualZero()
+    {
+        var assignmentValidationList = new List<AssignmentValidationRowResult>();
 
-            DeepAssert.Equal(expected, assignmentValidationList);
-        }
+        var validationResult = new List<ValidationResult>();
+
+        var expected = new List<AssignmentValidationRowResult>();
+
+        ValidationHelper.BuildValidationRowResult(validationResult, assignmentValidationList, 0);
+
+        DeepAssert.Equal(expected, assignmentValidationList);
     }
 }

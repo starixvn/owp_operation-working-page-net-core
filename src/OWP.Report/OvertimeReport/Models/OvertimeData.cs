@@ -1,13 +1,12 @@
-﻿namespace OWP.Report.OvertimeReport.Models
+﻿namespace OWP.Report.OvertimeReport.Models;
+
+public class OvertimeData
 {
-    public class OvertimeData
-    {
-        public int UserId { get; set; }
+    public int UserId { get; set; }
 
-        public DateTime ReportDate { get; set; }
+    public DateTime ReportDate { get; set; }
 
-        public decimal Hour { get; set; }
+    public decimal Hour { get; set; }
 
-        public bool IsOffDay { get; set; }
-    }
+    public bool IsOffDay { get; set; }
 }

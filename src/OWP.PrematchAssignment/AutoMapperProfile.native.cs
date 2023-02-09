@@ -1,16 +1,15 @@
-﻿namespace OWP.PrematchAssignment
-{
-    using AutoMapper;
-    using OWP.PrematchAssignment.Models;
-    using OWP.PreMatchAssignment.Criteria;
-    using OWP.PreMatchAssignment.Models;
+﻿namespace OWP.PrematchAssignment;
 
-    public class AutoMapperProfile : Profile
+using AutoMapper;
+using OWP.PrematchAssignment.Models;
+using OWP.PreMatchAssignment.Criteria;
+using OWP.PreMatchAssignment.Models;
+
+public class AutoMapperProfile : Profile
+{
+    public AutoMapperProfile()
     {
-        public AutoMapperProfile()
-        {
-            CreateMap<LeagueAssignment, UpdateAssignmentCriteria>();
-            CreateMap<PreMatchLeague, LeagueAssignment>();
-        }
+        CreateMap<LeagueAssignment, UpdateAssignmentCriteria>();
+        CreateMap<PreMatchLeague, LeagueAssignment>();
     }
 }

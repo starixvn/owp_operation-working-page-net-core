@@ -1,7 +1,6 @@
-﻿namespace OWP.AutoAssignment.Models.PublicApi
+﻿namespace OWP.AutoAssignment.Models.PublicApi;
+
+public class CheckRequestModel
 {
-    public class CheckRequestModel
-    {
-        public string RequestId { get; set; }
-    }
+    public string RequestId { get; set; }
 }

@@ -1,36 +1,35 @@
-﻿namespace OWP.Report.LAReport.Services
+﻿namespace OWP.Report.LAReport.Services;
+
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Criteria;
+using Fanex.Data.Repository;
+using Models;
+using Report.Models;
+
+public interface QueryRepository
 {
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using Criteria;
-    using Fanex.Data.Repository;
-    using Models;
-    using Report.Models;
+    Task<IEnumerable<LAReportModel>> Query(QueryModel model);
+}
 
-    public interface QueryRepository
+public class QueryRepositoryImp : QueryRepository
+{
+    private readonly IDynamicRepository dynamicRepository;
+
+    public QueryRepositoryImp(IDynamicRepository dynamicRepository)
     {
-        Task<IEnumerable<LAReportModel>> Query(QueryModel model);
+        this.dynamicRepository = dynamicRepository;
     }
 
-    public class QueryRepositoryImp : QueryRepository
+    public async Task<IEnumerable<LAReportModel>> Query(QueryModel model)
     {
-        private readonly IDynamicRepository dynamicRepository;
-
-        public QueryRepositoryImp(IDynamicRepository dynamicRepository)
+        var criteria = new GetLAReportCriteria
         {
-            this.dynamicRepository = dynamicRepository;
-        }
+            FromDate = model.FromDate,
+            ToDate = model.ToDate
+        };
 
-        public async Task<IEnumerable<LAReportModel>> Query(QueryModel model)
-        {
-            var criteria = new GetLAReportCriteria
-            {
-                FromDate = model.FromDate,
-                ToDate = model.ToDate
-            };
-
-            return await dynamicRepository.FetchAsync<LAReportModel>(criteria);
-        }
+        return await dynamicRepository.FetchAsync<LAReportModel>(criteria);
+    }
             
-    }
 }

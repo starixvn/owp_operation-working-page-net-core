@@ -1,9 +1,8 @@
-﻿namespace OWP.OtherSport.Submit.Models
-{
-    public class OtherTrader
-    {
-        public int UserId { get; set; }
+﻿namespace OWP.OtherSport.Submit.Models;
 
-        public string AssignmentNote { get; set; }
-    }
+public class OtherTrader
+{
+    public int UserId { get; set; }
+
+    public string AssignmentNote { get; set; }
 }

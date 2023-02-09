@@ -7,68 +7,67 @@ using OWP.TicketCenter.Notification.Models;
 using OWP.TicketCenter.Notification.Services;
 using OWP.TicketCenter.Services;
 
-namespace OWP.TicketCenter.Handlers
+namespace OWP.TicketCenter.Handlers;
+
+public class NewTicketIssueLeagueRequest : NewTicketModelBase, IRequest<int>
 {
-    public class NewTicketIssueLeagueRequest : NewTicketModelBase, IRequest<int>
+    public int OwpLeagueId { get; set; }
+}
+
+public class NewTicketIssueLeagueHandler : IRequestHandler<NewTicketIssueLeagueRequest, int>
+{
+    private readonly Repository repository;
+    private readonly MessageService messageService;
+    private readonly NotificationService notificationService;
+    private readonly RecipientService recipientService;
+    private readonly MessageClient messageClient;
+
+    public NewTicketIssueLeagueHandler(
+        Repository repository,
+        MessageService messageService,
+        NotificationService notificationService,
+        RecipientService recipientService,
+        MessageClient messageClient)
     {
-        public int OwpLeagueId { get; set; }
+        this.repository = repository;
+        this.messageService = messageService;
+        this.notificationService = notificationService;
+        this.recipientService = recipientService;
+        this.messageClient = messageClient;
     }
 
-    public class NewTicketIssueLeagueHandler : IRequestHandler<NewTicketIssueLeagueRequest, int>
+    public async Task<int> Handle(NewTicketIssueLeagueRequest request, CancellationToken cancellationToken)
     {
-        private readonly Repository repository;
-        private readonly MessageService messageService;
-        private readonly NotificationService notificationService;
-        private readonly RecipientService recipientService;
-        private readonly MessageClient messageClient;
+        var ticketId = await repository.BuildTicketId(request.TicketType, request.SubType);
+        request.TicketId = ticketId;
+        await repository.AddNewTicketIssueLeague(request);
 
-        public NewTicketIssueLeagueHandler(
-            Repository repository,
-            MessageService messageService,
-            NotificationService notificationService,
-            RecipientService recipientService,
-            MessageClient messageClient)
+        var criteria = new InsertIssueCreatorCriteria
         {
-            this.repository = repository;
-            this.messageService = messageService;
-            this.notificationService = notificationService;
-            this.recipientService = recipientService;
-            this.messageClient = messageClient;
-        }
+            TicketId = ticketId,
+            CreatorId = request.CreatorId
+        };
 
-        public async Task<int> Handle(NewTicketIssueLeagueRequest request, CancellationToken cancellationToken)
+        await repository.InsertIssueCreator(criteria);
+
+        var newMessage = await messageService.InsertMessage(request, ticketId);
+
+        await recipientService.InsertManyRecipient(request.Recipients, request.TicketId);
+
+        await recipientService.InsertManyRecipientReader(request.Recipients, request.TicketId, request.CreatorId);
+
+        var notificationMessage = new MessageTransform
         {
-            var ticketId = await repository.BuildTicketId(request.TicketType, request.SubType);
-            request.TicketId = ticketId;
-            await repository.AddNewTicketIssueLeague(request);
+            TicketId = ticketId,
+            Comment = newMessage.Message,
+            ActorId = request.CreatorId
+        };
+        messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketLeague);
 
-            var criteria = new InsertIssueCreatorCriteria
-            {
-                TicketId = ticketId,
-                CreatorId = request.CreatorId
-            };
+        await notificationService.NotifyNewMessageIncome(ticketId);
 
-            await repository.InsertIssueCreator(criteria);
+        await notificationService.NotifyNewAddRecipient(ticketId, request.CreatorId);
 
-            var newMessage = await messageService.InsertMessage(request, ticketId);
-
-            await recipientService.InsertManyRecipient(request.Recipients, request.TicketId);
-
-            await recipientService.InsertManyRecipientReader(request.Recipients, request.TicketId, request.CreatorId);
-
-            var notificationMessage = new MessageTransform
-            {
-                TicketId = ticketId,
-                Comment = newMessage.Message,
-                ActorId = request.CreatorId
-            };
-            messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketLeague);
-
-            await notificationService.NotifyNewMessageIncome(ticketId);
-
-            await notificationService.NotifyNewAddRecipient(ticketId, request.CreatorId);
-
-            return ticketId;
-        }
+        return ticketId;
     }
 }

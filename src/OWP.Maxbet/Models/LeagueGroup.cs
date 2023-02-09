@@ -1,7 +1,6 @@
-﻿namespace OWP.Maxbet.Models
+﻿namespace OWP.Maxbet.Models;
+
+public class LeagueGroup
 {
-    public class LeagueGroup
-    {
-        public int LeagueGroupId { get; set; }
-    }
+    public int LeagueGroupId { get; set; }
 }

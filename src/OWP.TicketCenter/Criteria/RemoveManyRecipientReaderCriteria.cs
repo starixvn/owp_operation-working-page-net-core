@@ -1,19 +1,18 @@
 ﻿using Fanex.Data.Repository;
 
-namespace OWP.TicketCenter.Criteria
+namespace OWP.TicketCenter.Criteria;
+
+public class RemoveManyRecipientReaderCriteria : NonQueryCommand
 {
-    public class RemoveManyRecipientReaderCriteria : NonQueryCommand
-    {
-        public int TicketId { get; set; }
+    public int TicketId { get; set; }
 
-        public string GroupIds { get; set; }
+    public string GroupIds { get; set; }
 
-        public string IndividualIds { get; set; }
+    public string IndividualIds { get; set; }
 
-        public string SectionIds { get; set; }
+    public string SectionIds { get; set; }
 
-        public override string GetSettingKey() => "OWP_TicketCenter_DeleteManyRecipientReader";
+    public override string GetSettingKey() => "OWP_TicketCenter_DeleteManyRecipientReader";
 
-        public override bool IsValid() => TicketId > 0;
-    }
+    public override bool IsValid() => TicketId > 0;
 }

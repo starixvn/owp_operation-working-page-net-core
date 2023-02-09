@@ -1,11 +1,10 @@
-﻿namespace OWP.LiveDetail.Television
+﻿namespace OWP.LiveDetail.Television;
+
+using Fanex.Data.Repository;
+
+public class GetAllCriteria : CriteriaBase
 {
-    using Fanex.Data.Repository;
+    public override bool IsValid() => true;
 
-    public class GetAllCriteria : CriteriaBase
-    {
-        public override bool IsValid() => true;
-
-        public override string GetSettingKey() => "OWP_TelevisionGetAll";
-    }
+    public override string GetSettingKey() => "OWP_TelevisionGetAll";
 }

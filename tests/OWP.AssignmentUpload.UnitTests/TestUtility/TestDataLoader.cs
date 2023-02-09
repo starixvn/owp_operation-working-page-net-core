@@ -1,18 +1,17 @@
-﻿namespace OWP.AssignmentUpload.UnitTests.TestUtility
+﻿namespace OWP.AssignmentUpload.UnitTests.TestUtility;
+
+using System;
+using System.IO;
+using Newtonsoft.Json;
+
+internal static class TestDataLoader
 {
-    using System;
-    using System.IO;
-    using Newtonsoft.Json;
-
-    internal static class TestDataLoader
+    internal static T Load<T>(string filename)
     {
-        internal static T Load<T>(string filename)
-        {
-            var directory = $"{Environment.CurrentDirectory}\\TestData";
-            var dataFilePath = $"{directory}\\{filename}";
-            var text = File.ReadAllText(dataFilePath);
+        var directory = $"{Environment.CurrentDirectory}\\TestData";
+        var dataFilePath = $"{directory}\\{filename}";
+        var text = File.ReadAllText(dataFilePath);
 
-            return JsonConvert.DeserializeObject<T>(text);
-        }
+        return JsonConvert.DeserializeObject<T>(text);
     }
 }

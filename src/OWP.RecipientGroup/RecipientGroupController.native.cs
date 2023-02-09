@@ -1,38 +1,37 @@
-﻿namespace OWP.RecipientGroup
+﻿namespace OWP.RecipientGroup;
+
+using Handlers;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
+using Models;
+
+[Route("api/[controller]")]
+[ApiController]
+[EnableCors("AllowOrigin")]
+[Authorize]
+public class RecipientGroupController : ControllerBase
 {
-    using Handlers;
-    using MediatR;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Cors;
-    using Microsoft.AspNetCore.Mvc;
-    using Models;
+    private readonly IMediator mediator;
 
-    [Route("api/[controller]")]
-    [ApiController]
-    [EnableCors("AllowOrigin")]
-    [Authorize]
-    public class RecipientGroupController : ControllerBase
+    public RecipientGroupController(IMediator mediator)
     {
-        private readonly IMediator mediator;
+        this.mediator = mediator;
+    }
 
-        public RecipientGroupController(IMediator mediator)
-        {
-            this.mediator = mediator;
-        }
+    [Route("get-recipient-group")]
+    [HttpGet]
+    public async Task<IEnumerable<TicketGroup>> GetRecipientGroup()
+    {
+        return await mediator.Send(new QueryRecipientGroupRequest());
+    }
 
-        [Route("get-recipient-group")]
-        [HttpGet]
-        public async Task<IEnumerable<TicketGroup>> GetRecipientGroup()
-        {
-            return await mediator.Send(new QueryRecipientGroupRequest());
-        }
-
-        [Route("save-recipient-group")]
-        [HttpPost]
-        public async Task<IActionResult> SaveRecipientGroup(SaveRecipientGroupRequest model)
-        {
-            await mediator.Send(model);
-            return Ok();
-        }
+    [Route("save-recipient-group")]
+    [HttpPost]
+    public async Task<IActionResult> SaveRecipientGroup(SaveRecipientGroupRequest model)
+    {
+        await mediator.Send(model);
+        return Ok();
     }
 }

@@ -1,11 +1,10 @@
-namespace OWP.Criteria
+namespace OWP.Criteria;
+
+using Fanex.Data.Repository;
+
+public class GetNotificationQueueCriteria : CriteriaBase
 {
-    using Fanex.Data.Repository;
+    public override bool IsValid() => true;
 
-    public class GetNotificationQueueCriteria : CriteriaBase
-    {
-        public override bool IsValid() => true;
-
-        public override string GetSettingKey() => "OWP_GetNotificationQueue";
-    }
+    public override string GetSettingKey() => "OWP_GetNotificationQueue";
 }

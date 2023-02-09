@@ -3,64 +3,64 @@ using AutoMapper;
 using OWP.AutoAssignment.Constant;
 using OWP.AutoAssignment.Models.InternalApi;
 
-namespace OWP.AutoAssignment.Services.InternalApi
+namespace OWP.AutoAssignment.Services.InternalApi;
+
+public interface MatchInfoBuilderService
 {
-    public interface MatchInfoBuilderService
+    Task Build(
+        IList<ExportMatchModel> models,
+        IList<AutoAssignmentResultModel> autoAssignModels
+    );
+}
+
+public class MatchInfoBuilderServiceImp : MatchInfoBuilderService
+{
+    private readonly Repository repository;
+
+    private readonly IMapper mapper;
+
+    public MatchInfoBuilderServiceImp(Repository repository, IMapper mapper)
     {
-        Task Build(
-            IList<ExportMatchModel> models,
-            IList<AutoAssignmentResultModel> autoAssignModels
-            );
+        this.repository = repository;
+        this.mapper = mapper;
     }
 
-    public class MatchInfoBuilderServiceImp : MatchInfoBuilderService
+    public async Task Build(IList<ExportMatchModel> models, IList<AutoAssignmentResultModel> autoAssignModels)
     {
-        private readonly Repository repository;
+        var matchQueryInfo = BuildMatchQueryInfo(autoAssignModels);
+        var matchInfos = (await QueryMatchInfo(matchQueryInfo))
+            .OrderBy(x => x.EventDateTime).ToList();
 
-        private readonly IMapper mapper;
+        BuildExportMatchModel(models, matchInfos);
+    }
 
-        public MatchInfoBuilderServiceImp(Repository repository, IMapper mapper)
-        {
-            this.repository = repository;
-            this.mapper = mapper;
-        }
-
-        public async Task Build(IList<ExportMatchModel> models, IList<AutoAssignmentResultModel> autoAssignModels)
-        {
-            var matchQueryInfo = BuildMatchQueryInfo(autoAssignModels);
-            var matchInfos = (await QueryMatchInfo(matchQueryInfo))
-                .OrderBy(x => x.EventDateTime).ToList();
-
-            BuildExportMatchModel(models, matchInfos);
-        }
-
-        private IList<MatchQueryInfo> BuildMatchQueryInfo(IList<AutoAssignmentResultModel> autoAssignModels)
+    private IList<MatchQueryInfo> BuildMatchQueryInfo(IList<AutoAssignmentResultModel> autoAssignModels)
         => autoAssignModels
-                .Select(model => new MatchQueryInfo
-                {
-                    InfoSiteMatchId = model.InfoSiteMatchId,
-                    BetType = model.Bettype
-                }).ToList();
-
-        private async Task<IEnumerable<InfoSiteMatchModel>> QueryMatchInfo(IList<MatchQueryInfo> queryInfo)
-            => await repository.GetInfoSiteMatchInfo(queryInfo);
-
-        private void BuildExportMatchModel(IList<ExportMatchModel> models,
-            List<InfoSiteMatchModel> matchInfos)
-        {
-            foreach (var match in matchInfos)
+            .Select(model => new MatchQueryInfo
             {
-                var matchModel = BuildExportMatchInfo(match);
-                models.Add(matchModel);
-            }
-        }
+                InfoSiteMatchId = model.InfoSiteMatchId,
+                BetType = model.Bettype
+            }).ToList();
 
-        private ExportMatchModel BuildExportMatchInfo(InfoSiteMatchModel matchInfo)
+    private async Task<IEnumerable<InfoSiteMatchModel>> QueryMatchInfo(IList<MatchQueryInfo> queryInfo)
+        => await repository.GetInfoSiteMatchInfo(queryInfo);
+
+    private void BuildExportMatchModel(IList<ExportMatchModel> models,
+        List<InfoSiteMatchModel> matchInfos)
+    {
+        foreach (var match in matchInfos)
+        {
+            var matchModel = BuildExportMatchInfo(match);
+            models.Add(matchModel);
+        }
+    }
+
+    private ExportMatchModel BuildExportMatchInfo(InfoSiteMatchModel matchInfo)
         => matchInfo.Bettype == BetType.MainMatch ? mapper.Map<ExportMatchModel>(matchInfo)
             : new ExportMatchModel
             {
                 EventDateTime = matchInfo.EventDateTime
-                .ToString("hh:mm tt", CultureInfo.InvariantCulture),
+                    .ToString("hh:mm tt", CultureInfo.InvariantCulture),
                 LeagueName = matchInfo.LeagueName,
                 AwayName = matchInfo.AwayName,
                 HomeName = matchInfo.HomeName,
@@ -68,8 +68,7 @@ namespace OWP.AutoAssignment.Services.InternalApi
                 Bettype = matchInfo.Bettype,
             };
 
-        private int GetInfoSiteCornerMatchId(InfoSiteMatchModel matchInfo)
-            => matchInfo.InfoSiteMatchId.HasValue
-                ? matchInfo.InfoSiteMatchId.Value : 0;
-    }
+    private int GetInfoSiteCornerMatchId(InfoSiteMatchModel matchInfo)
+        => matchInfo.InfoSiteMatchId.HasValue
+            ? matchInfo.InfoSiteMatchId.Value : 0;
 }

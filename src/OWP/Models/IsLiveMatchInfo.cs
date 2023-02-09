@@ -1,13 +1,12 @@
-namespace OWP.Models
+namespace OWP.Models;
+
+public class IsLiveMatchInfo
 {
-    public class IsLiveMatchInfo
-    {
-        public int MatchId { get; set; }
+    public int MatchId { get; set; }
 
-        public int SubType { get; set; }
+    public int SubType { get; set; }
 
-        public bool OfferLive { get; set; }
+    public bool OfferLive { get; set; }
 
-        public int? ParentId { get; set; }
-    }
+    public int? ParentId { get; set; }
 }

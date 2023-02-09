@@ -1,9 +1,8 @@
-﻿namespace OWP.LiveDetail.Provider
-{
-    public class Provider
-    {
-        public int ProviderId { get; set; }
+﻿namespace OWP.LiveDetail.Provider;
 
-        public string ProviderName { get; set; }
-    }
+public class Provider
+{
+    public int ProviderId { get; set; }
+
+    public string ProviderName { get; set; }
 }

@@ -1,7 +1,6 @@
-﻿namespace OWP.LiveDetail.MatchNote
+﻿namespace OWP.LiveDetail.MatchNote;
+
+public class DeleteModel
 {
-    public class DeleteModel
-    {
-        public int MatchNoteId { get; set; }
-    }
+    public int MatchNoteId { get; set; }
 }

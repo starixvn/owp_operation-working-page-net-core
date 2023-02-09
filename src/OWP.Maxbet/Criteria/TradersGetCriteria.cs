@@ -1,13 +1,12 @@
 ﻿using Fanex.Data.Repository;
 
-namespace OWP.Maxbet.Criteria
+namespace OWP.Maxbet.Criteria;
+
+public class TradersGetCriteria : CriteriaBase
 {
-    public class TradersGetCriteria : CriteriaBase
-    {
-        public int OwpMatchId { get; set; }
+    public int OwpMatchId { get; set; }
 
-        public override string GetSettingKey() => "OWP_API_SyncMaxbet_GetTrader";
+    public override string GetSettingKey() => "OWP_API_SyncMaxbet_GetTrader";
 
-        public override bool IsValid() => true;
-    }
+    public override bool IsValid() => true;
 }

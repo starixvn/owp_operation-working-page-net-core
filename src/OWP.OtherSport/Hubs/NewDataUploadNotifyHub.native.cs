@@ -1,17 +1,16 @@
-﻿namespace OWP.OtherSport.Hubs
+﻿namespace OWP.OtherSport.Hubs;
+
+using Microsoft.AspNetCore.SignalR;
+
+public interface NewDataUploadNotifyHub
 {
-    using Microsoft.AspNetCore.SignalR;
+    Task NotifyUploadedNewData();
+}
 
-    public interface NewDataUploadNotifyHub
+public class NewDataUploadNotifyHubImp : Hub<NewDataUploadNotifyHub>
+{
+    public async Task Notify()
     {
-        Task NotifyUploadedNewData();
-    }
-
-    public class NewDataUploadNotifyHubImp : Hub<NewDataUploadNotifyHub>
-    {
-        public async Task Notify()
-        {
-            await Clients.All.NotifyUploadedNewData();
-        }
+        await Clients.All.NotifyUploadedNewData();
     }
 }

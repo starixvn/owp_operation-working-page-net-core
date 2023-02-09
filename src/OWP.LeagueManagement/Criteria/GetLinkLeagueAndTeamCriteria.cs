@@ -1,13 +1,12 @@
-namespace OWP.LeagueManagement.Criteria
+namespace OWP.LeagueManagement.Criteria;
+
+using Fanex.Data.Repository;
+
+public class GetLinkLeagueAndTeamCriteria : CriteriaBase
 {
-    using Fanex.Data.Repository;
+    public string LeagueIdString { get; set; }
 
-    public class GetLinkLeagueAndTeamCriteria : CriteriaBase
-    {
-        public string LeagueIdString { get; set; }
+    public override string GetSettingKey() => "OWP_LeagueManagement_GetLinkLeagueAndTeam";
 
-        public override string GetSettingKey() => "OWP_LeagueManagement_GetLinkLeagueAndTeam";
-
-        public override bool IsValid() => true;
-    }
+    public override bool IsValid() => true;
 }

@@ -1,148 +1,147 @@
-﻿namespace OWP.AssignmentUpload.UnitTests.Submit
+﻿namespace OWP.AssignmentUpload.UnitTests.Submit;
+
+using AssignmentUpload.Submit;
+using AssignmentUpload.Submit.Models;
+using AssignmentUpload.Submit.Services;
+using AssignmentUpload.Validation.Models;
+using Fanex.NAP.Client.Helpers.Web;
+using NSubstitute;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using Xunit;
+using Xunit.Asserts.Compare;
+
+public class HandlerUnitTest
 {
-    using AssignmentUpload.Submit;
-    using AssignmentUpload.Submit.Models;
-    using AssignmentUpload.Submit.Services;
-    using AssignmentUpload.Validation.Models;
-    using Fanex.NAP.Client.Helpers.Web;
-    using NSubstitute;
-    using System;
-    using System.Collections.Generic;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Xunit;
-    using Xunit.Asserts.Compare;
+    private readonly CommandRepository commandRepository;
+    private readonly QueryRepository queryRepository;
+    private readonly CacheManipulator cacheManipulator;
+    private readonly INapSession currentSession;
+    private readonly Handler handler;
 
-    public class HandlerUnitTest
+    public HandlerUnitTest()
     {
-        private readonly CommandRepository commandRepository;
-        private readonly QueryRepository queryRepository;
-        private readonly CacheManipulator cacheManipulator;
-        private readonly INapSession currentSession;
-        private readonly Handler handler;
+        commandRepository = Substitute.For<CommandRepository>();
+        queryRepository = Substitute.For<QueryRepository>();
+        cacheManipulator = Substitute.For<CacheManipulator>();
+        currentSession = Substitute.For<INapSession>();
 
-        public HandlerUnitTest()
+        queryRepository.GetOldMatchIds(Arg.Compat.Any<DateTime>()).Returns(new List<OldMatch>());
+        handler = new Handler(queryRepository, cacheManipulator, commandRepository, currentSession);
+    }
+
+    [Fact]
+    public async Task Handle_ThereIsAProcessingUser_ReturnsThatUser()
+    {
+        // Arrange
+        var request = new SubmitRequest
         {
-            commandRepository = Substitute.For<CommandRepository>();
-            queryRepository = Substitute.For<QueryRepository>();
-            cacheManipulator = Substitute.For<CacheManipulator>();
-            currentSession = Substitute.For<INapSession>();
+            EventDate = DateTime.Parse("05/25/2020"),
+            SessionId = "sessionId"
+        };
 
-            queryRepository.GetOldMatchIds(Arg.Compat.Any<DateTime>()).Returns(new List<OldMatch>());
-            handler = new Handler(queryRepository, cacheManipulator, commandRepository, currentSession);
-        }
-
-        [Fact]
-        public async Task Handle_ThereIsAProcessingUser_ReturnsThatUser()
+        var emptyAssignments = new List<AssignmentModel>();
+        var emptySnapshot = new AssignmentSnapshot
         {
-            // Arrange
-            var request = new SubmitRequest
-            {
-                EventDate = DateTime.Parse("05/25/2020"),
-                SessionId = "sessionId"
-            };
-
-            var emptyAssignments = new List<AssignmentModel>();
-            var emptySnapshot = new AssignmentSnapshot
-            {
-                Matches = new Dictionary<int, GeneralMatch>(),
-                Assignments = new Dictionary<int, List<MatchAssignment>>(),
-                MatchSettings = new Dictionary<int, List<MatchSetting>>()
-            };
-            const string processingUser = "AnyUser";
-            var expectedResponse = new SubmitResponse
-            {
-                IsSuccessful = false,
-                Message = "User AnyUser is uploading another assignment file for date  May 25, 2020. Please try again later!"
-            };
-            cacheManipulator.GetUserWhoIsUploadingAssignment(Arg.Compat.Any<DateTime>()).Returns(processingUser);
-            await handler.SaveAssignmentsToDatabase(request);
-
-            // Act
-            var actual = await handler.Handle(request, new CancellationToken(false));
-
-            // Assert
-            DeepAssert.Equal(expectedResponse, actual);
-        }
-
-        [Fact]
-        public async Task Handle_NoProcessingUser_SnapshotShouldBeSavedAndDataShouldBeUpdated()
+            Matches = new Dictionary<int, GeneralMatch>(),
+            Assignments = new Dictionary<int, List<MatchAssignment>>(),
+            MatchSettings = new Dictionary<int, List<MatchSetting>>()
+        };
+        const string processingUser = "AnyUser";
+        var expectedResponse = new SubmitResponse
         {
-            // Arrange
-            var emptyMatchIds = new List<OldMatch>();
-            var request = new SubmitRequest
-            {
-                EventDate = DateTime.Parse("05/25/2020"),
-                SessionId = "sessionId"
-            };
+            IsSuccessful = false,
+            Message = "User AnyUser is uploading another assignment file for date  May 25, 2020. Please try again later!"
+        };
+        cacheManipulator.GetUserWhoIsUploadingAssignment(Arg.Compat.Any<DateTime>()).Returns(processingUser);
+        await handler.SaveAssignmentsToDatabase(request);
 
-            var emptyAssignments = new List<AssignmentModel>();
-            var emptySnapshot = new AssignmentSnapshot
-            {
-                Matches = new Dictionary<int, GeneralMatch>(),
-                Assignments = new Dictionary<int, List<MatchAssignment>>(),
-                MatchSettings = new Dictionary<int, List<MatchSetting>>()
-            };
+        // Act
+        var actual = await handler.Handle(request, new CancellationToken(false));
 
-            queryRepository.GetOldMatchIds(Arg.Compat.Any<DateTime>()).Returns(emptyMatchIds);
-            queryRepository.Query(request.EventDate).Returns(Task.FromResult(emptySnapshot));
-            cacheManipulator.GetAssignments(Arg.Compat.Any<string>())
-                            .Returns(emptyAssignments);
-            cacheManipulator.GetUserWhoIsUploadingAssignment(Arg.Compat.Any<DateTime>()).Returns(string.Empty);
-            await handler.SaveAssignmentsToDatabase(request);
-            var expectedResponse = new SubmitResponse
-            {
-                IsSuccessful = true,
-                Message = "Event assignment is successfully submitted!"
-            };
+        // Assert
+        DeepAssert.Equal(expectedResponse, actual);
+    }
 
-            // Act
-            var actual = await handler.Handle(request, new CancellationToken(false));
-
-            // Assert
-            DeepAssert.Equal(expectedResponse, actual);
-            await commandRepository.Received().Update(emptyMatchIds, emptyAssignments, request);
-            await cacheManipulator.Received().SaveAssignmentSnapshot(request.SessionId, emptySnapshot);
-        }
-
-        [Fact]
-        public async Task Handle_NoProcessingUser_SnapshotShouldBeSavedAndDataShouldBeUpdated_ReturnEmpty()
+    [Fact]
+    public async Task Handle_NoProcessingUser_SnapshotShouldBeSavedAndDataShouldBeUpdated()
+    {
+        // Arrange
+        var emptyMatchIds = new List<OldMatch>();
+        var request = new SubmitRequest
         {
-            // Arrange
-            var emptyMatchIds = new List<OldMatch>();
-            var request = new SubmitRequest
-            {
-                EventDate = DateTime.Parse("05/25/2020"),
-                SessionId = "sessionId"
-            };
+            EventDate = DateTime.Parse("05/25/2020"),
+            SessionId = "sessionId"
+        };
 
-            var emptyAssignments = new List<AssignmentModel>();
-            var emptySnapshot = new AssignmentSnapshot
-            {
-                Matches = new Dictionary<int, GeneralMatch>(),
-                Assignments = new Dictionary<int, List<MatchAssignment>>(),
-                MatchSettings = new Dictionary<int, List<MatchSetting>>()
-            };
+        var emptyAssignments = new List<AssignmentModel>();
+        var emptySnapshot = new AssignmentSnapshot
+        {
+            Matches = new Dictionary<int, GeneralMatch>(),
+            Assignments = new Dictionary<int, List<MatchAssignment>>(),
+            MatchSettings = new Dictionary<int, List<MatchSetting>>()
+        };
 
-            queryRepository.GetOldMatchIds(Arg.Compat.Any<DateTime>()).Returns(emptyMatchIds);
-            queryRepository.Query(request.EventDate).Returns(Task.FromResult(emptySnapshot));
-            cacheManipulator.GetAssignments(Arg.Compat.Any<string>())
-                            .Returns(emptyAssignments);
-            cacheManipulator.GetUserWhoIsUploadingAssignment(Arg.Compat.Any<DateTime>()).Returns(string.Empty);
-            await handler.SaveAssignmentsToDatabase(request);
-            var expectedResponse = new SubmitResponse
-            {
-                IsSuccessful = true,
-                Message = "Event assignment is successfully submitted!"
-            };
+        queryRepository.GetOldMatchIds(Arg.Compat.Any<DateTime>()).Returns(emptyMatchIds);
+        queryRepository.Query(request.EventDate).Returns(Task.FromResult(emptySnapshot));
+        cacheManipulator.GetAssignments(Arg.Compat.Any<string>())
+            .Returns(emptyAssignments);
+        cacheManipulator.GetUserWhoIsUploadingAssignment(Arg.Compat.Any<DateTime>()).Returns(string.Empty);
+        await handler.SaveAssignmentsToDatabase(request);
+        var expectedResponse = new SubmitResponse
+        {
+            IsSuccessful = true,
+            Message = "Event assignment is successfully submitted!"
+        };
 
-            // Act
-            var actual = await handler.Handle(request, new CancellationToken(false));
+        // Act
+        var actual = await handler.Handle(request, new CancellationToken(false));
 
-            // Assert
-            DeepAssert.Equal(expectedResponse, actual);
-            await commandRepository.Received().Update(emptyMatchIds, emptyAssignments, request);
-            await cacheManipulator.Received().SaveAssignmentSnapshot(request.SessionId, emptySnapshot);
-        }
+        // Assert
+        DeepAssert.Equal(expectedResponse, actual);
+        await commandRepository.Received().Update(emptyMatchIds, emptyAssignments, request);
+        await cacheManipulator.Received().SaveAssignmentSnapshot(request.SessionId, emptySnapshot);
+    }
+
+    [Fact]
+    public async Task Handle_NoProcessingUser_SnapshotShouldBeSavedAndDataShouldBeUpdated_ReturnEmpty()
+    {
+        // Arrange
+        var emptyMatchIds = new List<OldMatch>();
+        var request = new SubmitRequest
+        {
+            EventDate = DateTime.Parse("05/25/2020"),
+            SessionId = "sessionId"
+        };
+
+        var emptyAssignments = new List<AssignmentModel>();
+        var emptySnapshot = new AssignmentSnapshot
+        {
+            Matches = new Dictionary<int, GeneralMatch>(),
+            Assignments = new Dictionary<int, List<MatchAssignment>>(),
+            MatchSettings = new Dictionary<int, List<MatchSetting>>()
+        };
+
+        queryRepository.GetOldMatchIds(Arg.Compat.Any<DateTime>()).Returns(emptyMatchIds);
+        queryRepository.Query(request.EventDate).Returns(Task.FromResult(emptySnapshot));
+        cacheManipulator.GetAssignments(Arg.Compat.Any<string>())
+            .Returns(emptyAssignments);
+        cacheManipulator.GetUserWhoIsUploadingAssignment(Arg.Compat.Any<DateTime>()).Returns(string.Empty);
+        await handler.SaveAssignmentsToDatabase(request);
+        var expectedResponse = new SubmitResponse
+        {
+            IsSuccessful = true,
+            Message = "Event assignment is successfully submitted!"
+        };
+
+        // Act
+        var actual = await handler.Handle(request, new CancellationToken(false));
+
+        // Assert
+        DeepAssert.Equal(expectedResponse, actual);
+        await commandRepository.Received().Update(emptyMatchIds, emptyAssignments, request);
+        await cacheManipulator.Received().SaveAssignmentSnapshot(request.SessionId, emptySnapshot);
     }
 }

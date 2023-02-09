@@ -1,11 +1,10 @@
 ﻿using Fanex.Data.Repository;
 
-namespace OWP.TicketCenter.Criteria
-{
-    public abstract class TicketDetailCriteriaBase : CriteriaBase
-    {
-        public int TicketId { get; set; }
+namespace OWP.TicketCenter.Criteria;
 
-        public override bool IsValid() => TicketId > 0;
-    }
+public abstract class TicketDetailCriteriaBase : CriteriaBase
+{
+    public int TicketId { get; set; }
+
+    public override bool IsValid() => TicketId > 0;
 }

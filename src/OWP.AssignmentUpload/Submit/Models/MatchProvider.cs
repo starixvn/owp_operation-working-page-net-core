@@ -1,9 +1,8 @@
-﻿namespace OWP.AssignmentUpload.Submit.Models
-{
-    public class MatchProvider
-    {
-        public int MatchId { get; set; }
+﻿namespace OWP.AssignmentUpload.Submit.Models;
 
-        public string Provider { get; set; }
-    }
+public class MatchProvider
+{
+    public int MatchId { get; set; }
+
+    public string Provider { get; set; }
 }

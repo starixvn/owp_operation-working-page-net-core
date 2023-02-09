@@ -1,13 +1,12 @@
 ﻿using Fanex.Data.Repository;
 
-namespace OWP.PreMatchAssignment.Criteria
+namespace OWP.PreMatchAssignment.Criteria;
+
+public class QueryAssignmentByPrematchLeagueIdCriteria : CriteriaBase
 {
-    public class QueryAssignmentByPrematchLeagueIdCriteria : CriteriaBase
-    {
-        public int PreMatchLeagueId { get; set; }
+    public int PreMatchLeagueId { get; set; }
 
-        public override string GetSettingKey() => "OWP_PreMatchNotification_QueryAssignmentByPreMatchLeagueId";
+    public override string GetSettingKey() => "OWP_PreMatchNotification_QueryAssignmentByPreMatchLeagueId";
 
-        public override bool IsValid() => true;
-    }
+    public override bool IsValid() => true;
 }

@@ -1,11 +1,10 @@
-namespace OWP.Models
+namespace OWP.Models;
+
+using System.Collections.Generic;
+
+public class NotificationEventArgs
 {
-    using System.Collections.Generic;
+    public string UserId { get; set; }
 
-    public class NotificationEventArgs
-    {
-        public string UserId { get; set; }
-
-        public IList<Message> Messages { get; set; }
-    }
+    public IList<Message> Messages { get; set; }
 }

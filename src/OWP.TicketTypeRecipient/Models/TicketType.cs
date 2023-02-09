@@ -1,17 +1,16 @@
-﻿namespace OWP.TicketTypeRecipient.Models
+﻿namespace OWP.TicketTypeRecipient.Models;
+
+using System.Diagnostics.CodeAnalysis;
+
+public class TicketType : IEqualityComparer<TicketType>
 {
-    using System.Diagnostics.CodeAnalysis;
+    public int TypeId { get; set; }
 
-    public class TicketType : IEqualityComparer<TicketType>
-    {
-        public int TypeId { get; set; }
+    public string TypeName { get; set; }
 
-        public string TypeName { get; set; }
+    public bool Equals(TicketType x, TicketType y)
+        => x.TypeId == y.TypeId && x.TypeName.Equals(y.TypeName, StringComparison.CurrentCultureIgnoreCase);
 
-        public bool Equals(TicketType x, TicketType y)
-            => x.TypeId == y.TypeId && x.TypeName.Equals(y.TypeName, StringComparison.CurrentCultureIgnoreCase);
-
-        public int GetHashCode([DisallowNull] TicketType obj)
-            => TypeId;
-    }
+    public int GetHashCode([DisallowNull] TicketType obj)
+        => TypeId;
 }

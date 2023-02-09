@@ -1,9 +1,8 @@
-﻿namespace OWP.LiveGameList.Models
-{
-    public class QueryModel
-    {
-        public DateTime EventDate { get; set; }
+﻿namespace OWP.LiveGameList.Models;
 
-        public string MatchStatusIds { get; set; }
-    }
+public class QueryModel
+{
+    public DateTime EventDate { get; set; }
+
+    public string MatchStatusIds { get; set; }
 }

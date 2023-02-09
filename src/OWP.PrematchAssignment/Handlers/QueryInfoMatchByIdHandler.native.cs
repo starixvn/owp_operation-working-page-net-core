@@ -1,28 +1,27 @@
-﻿namespace OWP.PrematchAssignment.Handlers
-{
-    using MediatR;
-    using PreMatchAssignment.Models;
-    using PreMatchAssignment.Services;
+﻿namespace OWP.PrematchAssignment.Handlers;
 
-    public class QueryInfoMatchRequest : IRequest<InfoMatchQueried>
+using MediatR;
+using PreMatchAssignment.Models;
+using PreMatchAssignment.Services;
+
+public class QueryInfoMatchRequest : IRequest<InfoMatchQueried>
+{
+    public int Id { get; set; }
+}
+
+public class QueryInfoMatchByIdHandler : IRequestHandler<QueryInfoMatchRequest, InfoMatchQueried>
+{
+    private readonly PreMatchAssignmentService preMatchAssignmentService;
+
+    public QueryInfoMatchByIdHandler(PreMatchAssignmentService preMatchAssignmentService)
     {
-        public int Id { get; set; }
+        this.preMatchAssignmentService = preMatchAssignmentService;
     }
 
-    public class QueryInfoMatchByIdHandler : IRequestHandler<QueryInfoMatchRequest, InfoMatchQueried>
+    public async Task<InfoMatchQueried> Handle(QueryInfoMatchRequest request, CancellationToken cancellationToken)
     {
-        private readonly PreMatchAssignmentService preMatchAssignmentService;
+        var result = await preMatchAssignmentService.GetInfoMatchById(request.Id);
 
-        public QueryInfoMatchByIdHandler(PreMatchAssignmentService preMatchAssignmentService)
-        {
-            this.preMatchAssignmentService = preMatchAssignmentService;
-        }
-
-        public async Task<InfoMatchQueried> Handle(QueryInfoMatchRequest request, CancellationToken cancellationToken)
-        {
-            var result = await preMatchAssignmentService.GetInfoMatchById(request.Id);
-
-            return result;
-        }
+        return result;
     }
 }

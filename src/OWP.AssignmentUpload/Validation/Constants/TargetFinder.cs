@@ -1,8 +1,7 @@
-﻿namespace OWP.AssignmentUpload.Validation.Constants
+﻿namespace OWP.AssignmentUpload.Validation.Constants;
+
+public enum TargetFinder
 {
-    public enum TargetFinder
-    {
-        Home,
-        Away
-    }
+    Home,
+    Away
 }

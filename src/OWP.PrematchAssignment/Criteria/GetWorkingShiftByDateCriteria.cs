@@ -1,15 +1,14 @@
-﻿namespace OWP.PreMatchAssignment.Criteria
+﻿namespace OWP.PreMatchAssignment.Criteria;
+
+using Fanex.Data.Repository;
+
+public class GetWorkingShiftByDateCriteria : CriteriaBase
 {
-    using Fanex.Data.Repository;
+    public DateTime EventDate { get; set; }
 
-    public class GetWorkingShiftByDateCriteria : CriteriaBase
-    {
-        public DateTime EventDate { get; set; }
+    public int UserId { get; set; }
 
-        public int UserId { get; set; }
+    public override bool IsValid() => UserId > 0;
 
-        public override bool IsValid() => UserId > 0;
-
-        public override string GetSettingKey() => "OWP_PreMatchAssignment_GetWorkingShift";
-    }
+    public override string GetSettingKey() => "OWP_PreMatchAssignment_GetWorkingShift";
 }

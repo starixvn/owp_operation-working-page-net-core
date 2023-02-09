@@ -1,13 +1,12 @@
-﻿namespace OWP.OtherSport.Submit.Models
+﻿namespace OWP.OtherSport.Submit.Models;
+
+public class MatchSetting
 {
-    public class MatchSetting
-    {
-        public int OSMatchId { get; set; }
+    public int OSMatchId { get; set; }
 
-        public string BetTypeName { get; set; }
+    public string BetTypeName { get; set; }
 
-        public decimal? MaxBet { get; set; }
+    public decimal? MaxBet { get; set; }
 
-        public decimal? Spread { get; set; }
-    }
+    public decimal? Spread { get; set; }
 }

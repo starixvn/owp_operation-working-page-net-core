@@ -2,43 +2,42 @@
 using OWP.PreMatchAssignment.Models;
 using OWP.PreMatchAssignment.Services;
 
-namespace OWP.PreMatchAssignment.Handlers
+namespace OWP.PreMatchAssignment.Handlers;
+
+public class QueryNightShiftPreMatchRequest : IRequest<QueryPreMatchLeagueViewModel>
 {
-    public class QueryNightShiftPreMatchRequest : IRequest<QueryPreMatchLeagueViewModel>
+    public string Employee { get; set; }
+
+    public DateTime EventDate { get; set; }
+
+    public TimeSpan StartTime { get; set; }
+
+    public string LeagueName { get; set; }
+
+    public int ActorId { get; set; }
+
+    public List<string> MatchOffers { get; set; }
+}
+
+public class QueryNightShiftPreMatchHandler : IRequestHandler<QueryNightShiftPreMatchRequest, QueryPreMatchLeagueViewModel>
+{
+    private readonly ShiftAssignmentService shiftAssignmentService;
+
+    private readonly MaxbetSpreadService maxbetSpreadService;
+
+    public QueryNightShiftPreMatchHandler(ShiftAssignmentService shiftAssignmentService, MaxbetSpreadService maxbetSpreadService)
     {
-        public string Employee { get; set; }
-
-        public DateTime EventDate { get; set; }
-
-        public TimeSpan StartTime { get; set; }
-
-        public string LeagueName { get; set; }
-
-        public int ActorId { get; set; }
-
-        public List<string> MatchOffers { get; set; }
+        this.shiftAssignmentService = shiftAssignmentService;
+        this.maxbetSpreadService = maxbetSpreadService;
     }
 
-    public class QueryNightShiftPreMatchHandler : IRequestHandler<QueryNightShiftPreMatchRequest, QueryPreMatchLeagueViewModel>
+    public async Task<QueryPreMatchLeagueViewModel> Handle(QueryNightShiftPreMatchRequest request, CancellationToken cancellationToken)
     {
-        private readonly ShiftAssignmentService shiftAssignmentService;
+        var shiftAssignments = await shiftAssignmentService.QueryNightShift(request);
 
-        private readonly MaxbetSpreadService maxbetSpreadService;
+        await maxbetSpreadService.Build(shiftAssignments.InfoSiteMatches);
+        await shiftAssignmentService.MapTicketLists(shiftAssignments.PreMatchLeagues, shiftAssignments.InfoSiteMatches, request.ActorId);
 
-        public QueryNightShiftPreMatchHandler(ShiftAssignmentService shiftAssignmentService, MaxbetSpreadService maxbetSpreadService)
-        {
-            this.shiftAssignmentService = shiftAssignmentService;
-            this.maxbetSpreadService = maxbetSpreadService;
-        }
-
-        public async Task<QueryPreMatchLeagueViewModel> Handle(QueryNightShiftPreMatchRequest request, CancellationToken cancellationToken)
-        {
-            var shiftAssignments = await shiftAssignmentService.QueryNightShift(request);
-
-            await maxbetSpreadService.Build(shiftAssignments.InfoSiteMatches);
-            await shiftAssignmentService.MapTicketLists(shiftAssignments.PreMatchLeagues, shiftAssignments.InfoSiteMatches, request.ActorId);
-
-            return shiftAssignments;
-        }
+        return shiftAssignments;
     }
 }

@@ -1,9 +1,8 @@
-﻿namespace OWP.Maxbet.Models
-{
-    public class SpreadModel
-    {
-        public int Bettype { get; set; }
+﻿namespace OWP.Maxbet.Models;
 
-        public decimal? Spread { get; set; }
-    }
+public class SpreadModel
+{
+    public int Bettype { get; set; }
+
+    public decimal? Spread { get; set; }
 }

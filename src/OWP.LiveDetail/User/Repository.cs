@@ -1,53 +1,52 @@
-﻿namespace OWP.LiveDetail.User
+﻿namespace OWP.LiveDetail.User;
+
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using AutoMapper;
+using Fanex.Data.Repository;
+using OWP.Extensions;
+
+public interface UserRepository
 {
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using AutoMapper;
-    using Fanex.Data.Repository;
-    using OWP.Extensions;
+    Task<IEnumerable<UserSuggestionEntity>> GetSuggestion(GetSuggestionModel model);
 
-    public interface UserRepository
+    Task<IEnumerable<UserInfoModel>> GetAll();
+
+    Task<UserInfoModel> GetUserInfo(string name);
+}
+
+public class UserRepositoryImp : UserRepository
+{
+    private readonly IDynamicRepository repository;
+
+    public UserRepositoryImp(IDynamicRepository repository)
     {
-        Task<IEnumerable<UserSuggestionEntity>> GetSuggestion(GetSuggestionModel model);
-
-        Task<IEnumerable<UserInfoModel>> GetAll();
-
-        Task<UserInfoModel> GetUserInfo(string name);
+        this.repository = repository;
     }
 
-    public class UserRepositoryImp : UserRepository
+    public async Task<IEnumerable<UserSuggestionEntity>> GetSuggestion(GetSuggestionModel model)
     {
-        private readonly IDynamicRepository repository;
+        var mapper = new MapperConfiguration(cfg => cfg.CreateMap<GetSuggestionModel, GetSuggestionCriteria>().ForAllMembers(opt => opt.Condition(src => src != null))).CreateMapper();
 
-        public UserRepositoryImp(IDynamicRepository repository)
+        var criteria = mapper.Map<GetSuggestionCriteria>(model);
+        criteria.ThrowExceptionIfInvalid();
+        return await repository.FetchAsync<UserSuggestionEntity>(criteria);
+    }
+
+    public async Task<IEnumerable<UserInfoModel>> GetAll()
+    {
+        var criteria = new GetUserListCriteria();
+        criteria.ThrowExceptionIfInvalid();
+        return await repository.FetchAsync<UserInfoModel>(criteria);
+    }
+
+    public async Task<UserInfoModel> GetUserInfo(string name)
+    {
+        var criteria = new GetInfoByNameCriteria
         {
-            this.repository = repository;
-        }
-
-        public async Task<IEnumerable<UserSuggestionEntity>> GetSuggestion(GetSuggestionModel model)
-        {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<GetSuggestionModel, GetSuggestionCriteria>().ForAllMembers(opt => opt.Condition(src => src != null))).CreateMapper();
-
-            var criteria = mapper.Map<GetSuggestionCriteria>(model);
-            criteria.ThrowExceptionIfInvalid();
-            return await repository.FetchAsync<UserSuggestionEntity>(criteria);
-        }
-
-        public async Task<IEnumerable<UserInfoModel>> GetAll()
-        {
-            var criteria = new GetUserListCriteria();
-            criteria.ThrowExceptionIfInvalid();
-            return await repository.FetchAsync<UserInfoModel>(criteria);
-        }
-
-        public async Task<UserInfoModel> GetUserInfo(string name)
-        {
-            var criteria = new GetInfoByNameCriteria
-            {
-                Name = name
-            };
-            criteria.ThrowExceptionIfInvalid();
-            return await repository.GetAsync<UserInfoModel>(criteria);
-        }
+            Name = name
+        };
+        criteria.ThrowExceptionIfInvalid();
+        return await repository.GetAsync<UserInfoModel>(criteria);
     }
 }

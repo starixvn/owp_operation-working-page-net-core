@@ -1,9 +1,8 @@
-namespace OWP.AssignmentUpload.Validation.Anotations
-{
-    using System;
+namespace OWP.AssignmentUpload.Validation.Anotations;
 
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
-    public class MaxBetAttribute : Attribute
-    {
-    }
+using System;
+
+[AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
+public class MaxBetAttribute : Attribute
+{
 }

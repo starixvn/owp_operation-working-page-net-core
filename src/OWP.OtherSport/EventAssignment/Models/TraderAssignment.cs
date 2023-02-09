@@ -1,9 +1,8 @@
-﻿namespace OWP.OtherSport.EventAssignment.Models
-{
-    public class TraderAssignment
-    {
-        public string MainTrader { get; set; }
+﻿namespace OWP.OtherSport.EventAssignment.Models;
 
-        public string AssignmentNote { get; set; }
-    }
+public class TraderAssignment
+{
+    public string MainTrader { get; set; }
+
+    public string AssignmentNote { get; set; }
 }

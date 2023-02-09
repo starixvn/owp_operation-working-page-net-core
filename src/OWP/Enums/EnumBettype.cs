@@ -1,10 +1,9 @@
-﻿namespace OWP.Enums
+﻿namespace OWP.Enums;
+
+public enum EnumBettype
 {
-    public enum EnumBettype
-    {
-        Handicap = 1,
-        OverUnder = 3,
-        FirstHalfHandicap = 7,
-        FirstHalfOverUnder = 8
-    }
+    Handicap = 1,
+    OverUnder = 3,
+    FirstHalfHandicap = 7,
+    FirstHalfOverUnder = 8
 }

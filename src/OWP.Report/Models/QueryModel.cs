@@ -1,11 +1,10 @@
-﻿namespace OWP.Report.Models
+﻿namespace OWP.Report.Models;
+
+using System;
+
+public class QueryModel
 {
-    using System;
+    public DateTime FromDate { get; set; }
 
-    public class QueryModel
-    {
-        public DateTime FromDate { get; set; }
-
-        public DateTime ToDate { get; set; }
-    }
+    public DateTime ToDate { get; set; }
 }

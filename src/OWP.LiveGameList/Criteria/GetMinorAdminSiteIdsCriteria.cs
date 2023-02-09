@@ -1,14 +1,13 @@
 ﻿using Fanex.Data.Repository;
 
-namespace OWP.LiveGameList.Criteria
+namespace OWP.LiveGameList.Criteria;
+
+public class GetMinorAdminSiteIdsCriteria : CriteriaBase
 {
-    public class GetMinorAdminSiteIdsCriteria : CriteriaBase
-    {
-        public string MinorMatches { get; set; }
+    public string MinorMatches { get; set; }
 
-        public override string GetSettingKey() => "OWP_LiveGameList_GetMinorAdminSiteMatchIds";
+    public override string GetSettingKey() => "OWP_LiveGameList_GetMinorAdminSiteMatchIds";
 
-        public override bool IsValid()
-            => true;
-    }
+    public override bool IsValid()
+        => true;
 }

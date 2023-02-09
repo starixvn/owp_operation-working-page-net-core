@@ -1,14 +1,13 @@
 ﻿using Fanex.Data.Repository;
 
-namespace OWP.TicketCenter.Criteria
+namespace OWP.TicketCenter.Criteria;
+
+public class GetUserIdsByTicketIdCriteria : CriteriaBase
 {
-    public class GetUserIdsByTicketIdCriteria : CriteriaBase
-    {
-        public int TicketId { get; set; }
+    public int TicketId { get; set; }
 
-        public override string GetSettingKey() => "OWP_TicketCenterEvent_GetUserIdsByTicketId";
+    public override string GetSettingKey() => "OWP_TicketCenterEvent_GetUserIdsByTicketId";
 
-        public override bool IsValid()
-            => TicketId > 0;
-    }
+    public override bool IsValid()
+        => TicketId > 0;
 }

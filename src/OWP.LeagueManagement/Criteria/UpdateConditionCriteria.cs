@@ -1,28 +1,27 @@
-namespace OWP.LeagueManagement.Criteria
+namespace OWP.LeagueManagement.Criteria;
+
+using Fanex.Data.Repository;
+public class UpdateConditionCriteria : CriteriaBase
 {
-    using Fanex.Data.Repository;
-    public class UpdateConditionCriteria : CriteriaBase
-    {
-        public int ActorId { get; set; }
+    public int ActorId { get; set; }
 
-        public int LeagueSettingId { get; set; }
+    public int LeagueSettingId { get; set; }
 
-        public bool HasTV { get; set; }
+    public bool HasTV { get; set; }
 
-        public string TV { get; set; }
+    public string TV { get; set; }
 
-        public string Round { get; set; }
+    public string Round { get; set; }
 
-        public string Division { get; set; }
+    public string Division { get; set; }
 
-        public string FullConditionDescription { get; set; }
+    public string FullConditionDescription { get; set; }
 
-        public int ErrCode { get; set; }
+    public int ErrCode { get; set; }
 
-        public string ErrMsg { get; set; }
+    public string ErrMsg { get; set; }
 
-        public override string GetSettingKey() => "OWP_LeagueManagement_UpdateCondition";
+    public override string GetSettingKey() => "OWP_LeagueManagement_UpdateCondition";
 
-        public override bool IsValid() => LeagueSettingId > 0 && ActorId > 0;
-    }
+    public override bool IsValid() => LeagueSettingId > 0 && ActorId > 0;
 }

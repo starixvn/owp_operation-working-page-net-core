@@ -8,88 +8,87 @@ using OWP.TicketCenter.Notification.Services;
 using OWP.TicketCenter.Services;
 using Xunit;
 
-namespace OWP.TicketCenter.UnitTests.Handlers
+namespace OWP.TicketCenter.UnitTests.Handlers;
+
+public class NewTicketIssueLeagueHandlerUnitTests
 {
-    public class NewTicketIssueLeagueHandlerUnitTests
+    private readonly Repository repository;
+
+    private readonly IMapper mapper;
+
+
+    private readonly NotificationService notificationService;
+
+    private readonly RecipientService recipientService;
+
+    private readonly NewTicketIssueLeagueHandler handler;
+
+    private readonly MessageClient messageClient;
+
+    private readonly MessageService messageService;
+
+    public NewTicketIssueLeagueHandlerUnitTests()
     {
-        private readonly Repository repository;
+        repository = Substitute.For<Repository>();
+        mapper = Substitute.For<IMapper>();
+        messageService = Substitute.For<MessageService>();
+        notificationService = Substitute.For<NotificationService>();
+        recipientService = Substitute.For<RecipientService>();
+        messageClient = Substitute.For<MessageClient>();
 
-        private readonly IMapper mapper;
+        handler = new NewTicketIssueLeagueHandler(
+            repository,
+            messageService,
+            notificationService,
+            recipientService,
+            messageClient
+        );
+    }
 
+    [Fact]
+    public async void InsertNewLeagueIssue_IssueInfo_ReturnTicketId()
+    {
+        // Arrange
+        var request = new NewTicketIssueLeagueRequest();
 
-        private readonly NotificationService notificationService;
+        repository
+            .BuildTicketId(request.TicketType, request.SubType)
+            .Returns(Task.FromResult(111));
 
-        private readonly RecipientService recipientService;
+        await repository
+            .AddNewTicketIssueLeague(request);
 
-        private readonly NewTicketIssueLeagueHandler handler;
+        await repository.AddNewMessage(Arg.Compat.Any<NewMessageRequestModel>());
 
-        private readonly MessageClient messageClient;
+        await repository.InsertIssueCreator(Arg.Compat.Any<InsertIssueCreatorCriteria>());
 
-        private readonly MessageService messageService;
+        recipientService.InsertManyRecipient(
+                Arg.Compat.Any<IList<InsertOrRemoveManyRecipientModel>>(),
+                Arg.Compat.Any<int>())
+            .ReturnsForAnyArgs(Task.FromResult(true));
 
-        public NewTicketIssueLeagueHandlerUnitTests()
-        {
-            repository = Substitute.For<Repository>();
-            mapper = Substitute.For<IMapper>();
-            messageService = Substitute.For<MessageService>();
-            notificationService = Substitute.For<NotificationService>();
-            recipientService = Substitute.For<RecipientService>();
-            messageClient = Substitute.For<MessageClient>();
+        recipientService.InsertManyRecipientReader(
+                Arg.Compat.Any<IList<InsertOrRemoveManyRecipientModel>>(),
+                Arg.Compat.Any<int>(),
+                Arg.Compat.Any<int>())
+            .ReturnsForAnyArgs(Task.FromResult(true));
 
-            handler = new NewTicketIssueLeagueHandler(
-                repository,
-                messageService,
-                notificationService,
-                recipientService,
-                messageClient
-                );
-        }
+        messageService.InsertMessage(request, Arg.Any<int>()).Returns(new NewMessageRequestModel());
 
-        [Fact]
-        public async void InsertNewLeagueIssue_IssueInfo_ReturnTicketId()
-        {
-            // Arrange
-            var request = new NewTicketIssueLeagueRequest();
-
-            repository
-                .BuildTicketId(request.TicketType, request.SubType)
-                .Returns(Task.FromResult(111));
-
-            await repository
-                .AddNewTicketIssueLeague(request);
-
-            await repository.AddNewMessage(Arg.Compat.Any<NewMessageRequestModel>());
-
-            await repository.InsertIssueCreator(Arg.Compat.Any<InsertIssueCreatorCriteria>());
-
-            recipientService.InsertManyRecipient(
-                    Arg.Compat.Any<IList<InsertOrRemoveManyRecipientModel>>(),
-                    Arg.Compat.Any<int>())
-                .ReturnsForAnyArgs(Task.FromResult(true));
-
-            recipientService.InsertManyRecipientReader(
-                    Arg.Compat.Any<IList<InsertOrRemoveManyRecipientModel>>(),
-                    Arg.Compat.Any<int>(),
-                    Arg.Compat.Any<int>())
-                .ReturnsForAnyArgs(Task.FromResult(true));
-
-            messageService.InsertMessage(request, Arg.Any<int>()).Returns(new NewMessageRequestModel());
-
-            mapper
-                .Map<NewMessageRequestModel>(request)
-                .Returns(x => new NewMessageRequestModel
+        mapper
+            .Map<NewMessageRequestModel>(request)
+            .Returns(x => new NewMessageRequestModel
                 {
                     Message = "abc"
                 }
-                );
+            );
 
-            await notificationService.NotifyNewMessageIncome(Arg.Compat.Any<int>());
+        await notificationService.NotifyNewMessageIncome(Arg.Compat.Any<int>());
 
-            var actual = await handler.Handle(request, CancellationToken.None);
+        var actual = await handler.Handle(request, CancellationToken.None);
 
-            //Assert
-            var expected = 111;
-            Assert.Equal(actual, expected);
-        }
+        //Assert
+        var expected = 111;
+        Assert.Equal(actual, expected);
     }
 }

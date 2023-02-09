@@ -1,9 +1,8 @@
-﻿namespace OWP.AssignmentUpload.Submit.Models
-{
-    public class OtherTrader
-    {
-        public int UserId { get; set; }
+﻿namespace OWP.AssignmentUpload.Submit.Models;
 
-        public string AssignmentNote { get; set; }
-    }
+public class OtherTrader
+{
+    public int UserId { get; set; }
+
+    public string AssignmentNote { get; set; }
 }

@@ -1,9 +1,8 @@
-﻿namespace OWP.AutoAssignment.Models.InternalApi
-{
-    public class CreateRequestModel
-    {
-        public DateTime EventDate { get; set; }
+﻿namespace OWP.AutoAssignment.Models.InternalApi;
 
-        public int CreatorId { get; set; }
-    }
+public class CreateRequestModel
+{
+    public DateTime EventDate { get; set; }
+
+    public int CreatorId { get; set; }
 }

@@ -1,13 +1,12 @@
-﻿namespace OWP.PreMatchAssignment.Criteria
+﻿namespace OWP.PreMatchAssignment.Criteria;
+
+using Fanex.Data.Repository;
+
+public class QueryOddStatusFromMainDBCriteria : CriteriaBase
 {
-    using Fanex.Data.Repository;
+    public string AdminSiteMatchIds { get; set; }
 
-    public class QueryOddStatusFromMainDBCriteria : CriteriaBase
-    {
-        public string AdminSiteMatchIds { get; set; }
+    public override string GetSettingKey() => "OWP_PrematchAssignment_GetOddStatusFromMainDB";
 
-        public override string GetSettingKey() => "OWP_PrematchAssignment_GetOddStatusFromMainDB";
-
-        public override bool IsValid() => true;
-    }
+    public override bool IsValid() => true;
 }

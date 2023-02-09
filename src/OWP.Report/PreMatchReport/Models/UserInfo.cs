@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OWP.Report.PreMatchReport.Models
-{
-    public class UserInfo
-    {
-        public int UserId { get; set; }
+namespace OWP.Report.PreMatchReport.Models;
 
-        public string UserName { get; set; }
-    }
+public class UserInfo
+{
+    public int UserId { get; set; }
+
+    public string UserName { get; set; }
 }

@@ -1,11 +1,10 @@
-﻿namespace OWP.TicketTypeRecipient.Models
+﻿namespace OWP.TicketTypeRecipient.Models;
+
+public class TicketTypeRecipient
 {
-    public class TicketTypeRecipient
-    {
-        public TicketType TicketType { get; set; }
+    public TicketType TicketType { get; set; }
 
-        public List<Recipient> Recipients { get; set; }
+    public List<Recipient> Recipients { get; set; }
 
-        public List<Subtype> Subtypes { get; set; }
-    }
+    public List<Subtype> Subtypes { get; set; }
 }

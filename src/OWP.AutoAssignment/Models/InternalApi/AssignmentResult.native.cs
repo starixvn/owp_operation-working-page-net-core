@@ -1,11 +1,11 @@
 ﻿using Newtonsoft.Json;
 using OWP.Extensions;
 
-namespace OWP.AutoAssignment.Models.InternalApi
+namespace OWP.AutoAssignment.Models.InternalApi;
+
+[XMLName("Row")]
+public class AssignmentResult
 {
-  [XMLName("Row")]
-  public class AssignmentResult
-  {
     [XMLName("InfoSiteMatchId")]
     public int MatchId { get; set; }
 
@@ -47,5 +47,4 @@ namespace OWP.AutoAssignment.Models.InternalApi
 
     [JsonProperty("SABA_type")]
     public int? SabaType { get; set; }
-  }
 }

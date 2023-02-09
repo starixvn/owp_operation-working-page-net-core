@@ -1,13 +1,12 @@
-﻿namespace OWP.RecipientGroup.Models
+﻿namespace OWP.RecipientGroup.Models;
+
+public class Recipient
 {
-    public class Recipient
-    {
-        public int RecipientGroupId { get; set; }
+    public int RecipientGroupId { get; set; }
 
-        public int RecipientId { get; set; }
+    public int RecipientId { get; set; }
 
-        public string RecipientName { get; set; }
+    public string RecipientName { get; set; }
 
-        public int RecipientType { get; set; }
-    }
+    public int RecipientType { get; set; }
 }

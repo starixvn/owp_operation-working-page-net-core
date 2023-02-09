@@ -1,13 +1,12 @@
-﻿namespace OWP.AssignmentUpload
-{
-    using AutoMapper;
-    using Validation.Models;
+﻿namespace OWP.AssignmentUpload;
 
-    public class AutoMapperProfile : Profile
+using AutoMapper;
+using Validation.Models;
+
+public class AutoMapperProfile : Profile
+{
+    public AutoMapperProfile()
     {
-        public AutoMapperProfile()
-        {
-            CreateMap<AssignmentModelInExcel, AssignmentModel>();
-        }
+        CreateMap<AssignmentModelInExcel, AssignmentModel>();
     }
 }

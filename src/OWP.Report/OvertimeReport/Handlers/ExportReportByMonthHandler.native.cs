@@ -1,40 +1,39 @@
-﻿namespace OWP.Report.OvertimeReport.Handlers
+﻿namespace OWP.Report.OvertimeReport.Handlers;
+
+using AutoMapper;
+using MediatR;
+using Models;
+using OfficeOpenXml;
+using Services;
+
+public class ExportReportByMonthRequest : IRequest<ExcelPackage>
 {
-    using AutoMapper;
-    using MediatR;
-    using Models;
-    using OfficeOpenXml;
-    using Services;
+    public string Location { get; set; } = string.Empty;
 
-    public class ExportReportByMonthRequest : IRequest<ExcelPackage>
+    public string Trader { get; set; } = string.Empty;
+
+    public int Month { get; set; }
+
+    public int Year { get; set; }
+}
+
+public class ExportReportByMonthHandler : IRequestHandler<ExportReportByMonthRequest, ExcelPackage>
+{
+    private readonly IMapper mapper;
+    private readonly ExportReportByMonthServices reportService;
+
+    public ExportReportByMonthHandler(
+        IMapper mapper,
+        ExportReportByMonthServices reportService)
     {
-        public string Location { get; set; } = string.Empty;
-
-        public string Trader { get; set; } = string.Empty;
-
-        public int Month { get; set; }
-
-        public int Year { get; set; }
+        this.mapper = mapper;
+        this.reportService = reportService;
     }
 
-    public class ExportReportByMonthHandler : IRequestHandler<ExportReportByMonthRequest, ExcelPackage>
+    public async Task<ExcelPackage> Handle(ExportReportByMonthRequest request, CancellationToken cancellationToken)
     {
-        private readonly IMapper mapper;
-        private readonly ExportReportByMonthServices reportService;
+        var exportRequest = mapper.Map<OverTimeRequest>(request);
 
-        public ExportReportByMonthHandler(
-            IMapper mapper,
-            ExportReportByMonthServices reportService)
-        {
-            this.mapper = mapper;
-            this.reportService = reportService;
-        }
-
-        public async Task<ExcelPackage> Handle(ExportReportByMonthRequest request, CancellationToken cancellationToken)
-        {
-            var exportRequest = mapper.Map<OverTimeRequest>(request);
-
-            return await reportService.ExportReportByMonth(exportRequest);
-        }
+        return await reportService.ExportReportByMonth(exportRequest);
     }
 }

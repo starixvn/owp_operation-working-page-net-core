@@ -3,20 +3,19 @@ using OWP.TicketCenter.Middleware.Models;
 using OWP.TicketCenter.Services;
 using OWP.TicketCenter.ViewModels;
 
-namespace OWP.TicketCenter.Handlers
+namespace OWP.TicketCenter.Handlers;
+
+public class TicketOtherDetailRequest : PermissionCheckedModel, IRequest<TicketOtherDetailViewModel> { }
+
+public class TicketOtherDetailHandler : IRequestHandler<TicketOtherDetailRequest, TicketOtherDetailViewModel>
 {
-    public class TicketOtherDetailRequest : PermissionCheckedModel, IRequest<TicketOtherDetailViewModel> { }
+    private readonly TicketDetailService service;
 
-    public class TicketOtherDetailHandler : IRequestHandler<TicketOtherDetailRequest, TicketOtherDetailViewModel>
+    public TicketOtherDetailHandler(TicketDetailService service)
     {
-        private readonly TicketDetailService service;
-
-        public TicketOtherDetailHandler(TicketDetailService service)
-        {
-            this.service = service;
-        }
-
-        public async Task<TicketOtherDetailViewModel> Handle(TicketOtherDetailRequest request, CancellationToken cancellationToken)
-            => await service.GetTicketOtherDetail(request);
+        this.service = service;
     }
+
+    public async Task<TicketOtherDetailViewModel> Handle(TicketOtherDetailRequest request, CancellationToken cancellationToken)
+        => await service.GetTicketOtherDetail(request);
 }

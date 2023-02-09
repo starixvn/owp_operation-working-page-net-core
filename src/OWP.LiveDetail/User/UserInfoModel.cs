@@ -1,13 +1,12 @@
-﻿namespace OWP.LiveDetail.User
+﻿namespace OWP.LiveDetail.User;
+
+public class UserInfoModel : ShortUserInfo
 {
-    public class UserInfoModel : ShortUserInfo
-    {
-        public string Skype { get; set; }
+    public string Skype { get; set; }
 
-        public string Extension { get; set; }
+    public string Extension { get; set; }
 
-        public string Phone { get; set; }
+    public string Phone { get; set; }
 
-        public bool IsSecondAccount { get; set; }
-    }
+    public bool IsSecondAccount { get; set; }
 }

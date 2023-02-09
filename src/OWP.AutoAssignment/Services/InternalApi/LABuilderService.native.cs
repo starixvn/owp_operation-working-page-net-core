@@ -2,69 +2,68 @@
 using OWP.AutoAssignment.Models.InternalApi;
 using Olympus.Xml;
 
-namespace OWP.AutoAssignment.Services.InternalApi
+namespace OWP.AutoAssignment.Services.InternalApi;
+
+public interface LABuilderService
 {
-    public interface LABuilderService
+    Task Build(
+        IList<ExportMatchModel> models,
+        IList<AutoAssignmentResultModel> autoAssignModels);
+}
+
+public class LABuilderServiceImp : LABuilderService
+{
+    private readonly Repository repository;
+
+    public LABuilderServiceImp(Repository repository)
     {
-        Task Build(
-            IList<ExportMatchModel> models,
-            IList<AutoAssignmentResultModel> autoAssignModels);
+        this.repository = repository;
     }
 
-    public class LABuilderServiceImp : LABuilderService
+    public async Task Build(
+        IList<ExportMatchModel> models,
+        IList<AutoAssignmentResultModel> autoAssignModels)
     {
-        private readonly Repository repository;
+        var lAQueryInfo = BuildLAExportQueryInfo(autoAssignModels);
+        var lAExportInfo = await QueryLAExportInfo(lAQueryInfo);
 
-        public LABuilderServiceImp(Repository repository)
-        {
-            this.repository = repository;
-        }
+        BuildExportLaModel(models, lAExportInfo.ToList());
+    }
 
-        public async Task Build(
-            IList<ExportMatchModel> models,
-            IList<AutoAssignmentResultModel> autoAssignModels)
-        {
-            var lAQueryInfo = BuildLAExportQueryInfo(autoAssignModels);
-            var lAExportInfo = await QueryLAExportInfo(lAQueryInfo);
-
-            BuildExportLaModel(models, lAExportInfo.ToList());
-        }
-
-        private IList<LAExportQueryInfo> BuildLAExportQueryInfo(IList<AutoAssignmentResultModel> autoAssignModels)
+    private IList<LAExportQueryInfo> BuildLAExportQueryInfo(IList<AutoAssignmentResultModel> autoAssignModels)
         => autoAssignModels
-                .Select(model => new LAExportQueryInfo
-                {
-                    InfoSiteMatchId = model.InfoSiteMatchId,
-                    LAAssingeeId = model.UserId_LA,
-                    Bettype = model.Bettype
-                }).ToList();
-
-        private async Task<IEnumerable<LAExportInfo>> QueryLAExportInfo(IList<LAExportQueryInfo> queryInfo)
-        {
-            var criteria = new GetLAExportInfoCriteria
+            .Select(model => new LAExportQueryInfo
             {
-                Xml = XmlConverter.Serialize(queryInfo)
-            };
+                InfoSiteMatchId = model.InfoSiteMatchId,
+                LAAssingeeId = model.UserId_LA,
+                Bettype = model.Bettype
+            }).ToList();
 
-            return await repository.GetLAExportInfo(criteria);
-        }
-
-        private void BuildExportLaModel(IList<ExportMatchModel> exportModels,
-            IList<LAExportInfo> laExportModel)
+    private async Task<IEnumerable<LAExportInfo>> QueryLAExportInfo(IList<LAExportQueryInfo> queryInfo)
+    {
+        var criteria = new GetLAExportInfoCriteria
         {
-            foreach (var exportMatchModel in exportModels)
-            {
-                var laInfo = GetSingleLaInfoById(laExportModel, exportMatchModel);
-                exportMatchModel.LA = laInfo?.UserName;
-            }
-        }
+            Xml = XmlConverter.Serialize(queryInfo)
+        };
 
-        private LAExportInfo GetSingleLaInfoById(IList<LAExportInfo> laExportModel, ExportMatchModel exportMatchModel)
+        return await repository.GetLAExportInfo(criteria);
+    }
+
+    private void BuildExportLaModel(IList<ExportMatchModel> exportModels,
+        IList<LAExportInfo> laExportModel)
+    {
+        foreach (var exportMatchModel in exportModels)
         {
-            var bettype = exportMatchModel.Bettype;
-            var id = exportMatchModel.InfoSiteMatchId;
-            return laExportModel
+            var laInfo = GetSingleLaInfoById(laExportModel, exportMatchModel);
+            exportMatchModel.LA = laInfo?.UserName;
+        }
+    }
+
+    private LAExportInfo GetSingleLaInfoById(IList<LAExportInfo> laExportModel, ExportMatchModel exportMatchModel)
+    {
+        var bettype = exportMatchModel.Bettype;
+        var id = exportMatchModel.InfoSiteMatchId;
+        return laExportModel
             .FirstOrDefault(x => x.InfoSiteMatchId == id && x.Bettype == bettype);
-        }
     }
 }

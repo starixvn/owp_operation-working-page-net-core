@@ -1,31 +1,30 @@
-namespace OWP.TicketCenter.Handlers
+namespace OWP.TicketCenter.Handlers;
+
+using MediatR;
+using OWP.TicketCenter.Middleware.Models;
+using System.Threading;
+using System.Threading.Tasks;
+
+public class SaveMessageRequest : PermissionCheckedModel, IRequest<bool>
 {
-    using MediatR;
-    using OWP.TicketCenter.Middleware.Models;
-    using System.Threading;
-    using System.Threading.Tasks;
+    public int MessageId { get; set; }
 
-    public class SaveMessageRequest : PermissionCheckedModel, IRequest<bool>
+    public bool IsSaved { get; set; }
+}
+
+public class SaveMessageHandler : IRequestHandler<SaveMessageRequest, bool>
+{
+    private readonly Repository repository;
+
+    public SaveMessageHandler(Repository repository)
     {
-        public int MessageId { get; set; }
-
-        public bool IsSaved { get; set; }
+        this.repository = repository;
     }
 
-    public class SaveMessageHandler : IRequestHandler<SaveMessageRequest, bool>
+    public async Task<bool> Handle(SaveMessageRequest request, CancellationToken cancellationToken)
     {
-        private readonly Repository repository;
+        await repository.UpdateIsSavedMessage(request);
 
-        public SaveMessageHandler(Repository repository)
-        {
-            this.repository = repository;
-        }
-
-        public async Task<bool> Handle(SaveMessageRequest request, CancellationToken cancellationToken)
-        {
-            await repository.UpdateIsSavedMessage(request);
-
-            return await Task.FromResult(true);
-        }
+        return await Task.FromResult(true);
     }
 }

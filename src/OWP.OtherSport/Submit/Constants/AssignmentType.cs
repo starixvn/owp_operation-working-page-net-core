@@ -1,8 +1,7 @@
-﻿namespace OWP.OtherSport.Submit.Contants
+﻿namespace OWP.OtherSport.Submit.Contants;
+
+public enum AssignmentType
 {
-    public enum AssignmentType
-    {
-        Assignment = 1,
-        OtherAssignment = 2
-    }
+    Assignment = 1,
+    OtherAssignment = 2
 }

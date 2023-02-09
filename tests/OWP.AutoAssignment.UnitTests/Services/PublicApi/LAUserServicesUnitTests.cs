@@ -5,77 +5,76 @@ using OWP.AutoAssignment.Services.PublicApi;
 using Xunit;
 using Xunit.Asserts.Compare;
 
-namespace OWP.AutoAssignment.UnitTests.Services.PublicApi
+namespace OWP.AutoAssignment.UnitTests.Services.PublicApi;
+
+public class LAUserServicesUnitTests
 {
-    public class LAUserServicesUnitTests
+    private readonly Repository repository;
+
+    public LAUserServicesUnitTests()
     {
-        private readonly Repository repository;
+        repository = Substitute.For<Repository>();
+    }
 
-        public LAUserServicesUnitTests()
+    [Fact]
+    public async Task GetLAUsersInfo_EventDate_ReturnUserWorkingShift()
+    {
+        // Arrange
+        var lAUserInfo = new List<LAUserInfo>
         {
-            repository = Substitute.For<Repository>();
-        }
+            new LAUserInfo
+            {
+                UserId =8,
+                Level =1,
 
-        [Fact]
-        public async Task GetLAUsersInfo_EventDate_ReturnUserWorkingShift()
+                SpeakChinese = true,
+
+                SpeakEnglish = true,
+
+                Location ="SMS"
+            }
+        };
+
+        var workingShift = new List<UserWorkingShift>
         {
-            // Arrange
-            var lAUserInfo = new List<LAUserInfo>
+            new UserWorkingShift
             {
-                new LAUserInfo
-                {
-                    UserId =8,
-                    Level =1,
+                UserId=8,
+                ShiftStartTime= DateTime.Parse("2021-12-08"),
+                ShiftEndTime= DateTime.Parse("2021-12-09"),
+            }
+        };
 
-                    SpeakChinese = true,
+        var userInfo = new ValueTuple<IEnumerable<LAUserInfo>, IEnumerable<UserWorkingShift>>(lAUserInfo, workingShift);
 
-                    SpeakEnglish = true,
+        repository
+            .GetLAInfoByDate(Arg.Compat.Any<DateTime>())
+            .ReturnsForAnyArgs(r => userInfo);
 
-                   Location ="SMS"
-                }
-            };
+        // Act
+        var service = new LAUserServiceImp(repository);
+        var actual = await service.GetLAUsersInfo(DateTime.Parse("2021-12-08"));
 
-            var workingShift = new List<UserWorkingShift>
+        var expected = new List<SchedulingLAUser>
+        {
+            new SchedulingLAUser
             {
-                new UserWorkingShift
+                Level=1,
+                Location="SMS",
+                SpeakChinese=true,
+                SpeakEnglish=true,
+                UserId=8,
+                WorkingShifts= new SchedulingWorkingShift[]
                 {
-                    UserId=8,
-                    ShiftStartTime= DateTime.Parse("2021-12-08"),
-                    ShiftEndTime= DateTime.Parse("2021-12-09"),
-                }
-            };
-
-            var userInfo = new ValueTuple<IEnumerable<LAUserInfo>, IEnumerable<UserWorkingShift>>(lAUserInfo, workingShift);
-
-            repository
-                .GetLAInfoByDate(Arg.Compat.Any<DateTime>())
-                .ReturnsForAnyArgs(r => userInfo);
-
-            // Act
-            var service = new LAUserServiceImp(repository);
-            var actual = await service.GetLAUsersInfo(DateTime.Parse("2021-12-08"));
-
-            var expected = new List<SchedulingLAUser>
-            {
-                new SchedulingLAUser
-                {
-                    Level=1,
-                    Location="SMS",
-                    SpeakChinese=true,
-                    SpeakEnglish=true,
-                    UserId=8,
-                    WorkingShifts= new SchedulingWorkingShift[]
+                    new SchedulingWorkingShift
                     {
-                        new SchedulingWorkingShift
-                        {
-                            InTime= "2021-12-08T00:00:00",
-                            OutTime="2021-12-09T00:00:00"
-                        }
+                        InTime= "2021-12-08T00:00:00",
+                        OutTime="2021-12-09T00:00:00"
                     }
                 }
-            };
-            // Assert
-            DeepAssert.Equal(expected, actual);
-        }
+            }
+        };
+        // Assert
+        DeepAssert.Equal(expected, actual);
     }
 }

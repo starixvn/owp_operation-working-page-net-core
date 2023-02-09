@@ -1,10 +1,9 @@
-namespace OWP.LeagueManagement.Models
+namespace OWP.LeagueManagement.Models;
+
+public class TVList
 {
-    public class TVList
-    {
-        public string Label { get; set; }
+    public string Label { get; set; }
 
-        public string Value { get; set; }
+    public string Value { get; set; }
 
-    }
 }

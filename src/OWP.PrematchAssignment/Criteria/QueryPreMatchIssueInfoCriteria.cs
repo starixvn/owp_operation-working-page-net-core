@@ -1,13 +1,12 @@
-﻿namespace OWP.PreMatchAssignment.Criteria
+﻿namespace OWP.PreMatchAssignment.Criteria;
+
+using Fanex.Data.Repository;
+
+public class QueryPreMatchIssueInfoCriteria : CriteriaBase
 {
-    using Fanex.Data.Repository;
+    public int PreMatchIssueId { get; set; }
 
-    public class QueryPreMatchIssueInfoCriteria : CriteriaBase
-    {
-        public int PreMatchIssueId { get; set; }
+    public override string GetSettingKey() => "OWP_PreMatchAssignment_QueryIssueInfo";
 
-        public override string GetSettingKey() => "OWP_PreMatchAssignment_QueryIssueInfo";
-
-        public override bool IsValid() => PreMatchIssueId > 0;
-    }
+    public override bool IsValid() => PreMatchIssueId > 0;
 }

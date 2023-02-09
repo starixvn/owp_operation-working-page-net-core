@@ -1,15 +1,14 @@
 ﻿using Fanex.Data.Repository;
 
-namespace OWP.ApiSyncWorkingShift.Criteria
+namespace OWP.ApiSyncWorkingShift.Criteria;
+
+public class GetEmployeeWorkingShiftHRPPCriteria : CriteriaBase
 {
-    public class GetEmployeeWorkingShiftHRPPCriteria : CriteriaBase
-    {
-        public DateTime FromDate { get; set; }
+    public DateTime FromDate { get; set; }
 
-        public DateTime ToDate { get; set; }
+    public DateTime ToDate { get; set; }
 
-        public override string GetSettingKey() => "OWP_API_SyncWorkingShift_To_HRPP";
+    public override string GetSettingKey() => "OWP_API_SyncWorkingShift_To_HRPP";
 
-        public override bool IsValid() => true;
-    }
+    public override bool IsValid() => true;
 }

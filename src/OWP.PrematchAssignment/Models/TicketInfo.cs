@@ -1,41 +1,40 @@
-﻿namespace OWP.PrematchAssignment.Models
+﻿namespace OWP.PrematchAssignment.Models;
+
+public class TicketLeagueBasicInfo
 {
-    public class TicketLeagueBasicInfo
-    {
-        public int OWPLeagueId { get; set; }
+    public int OWPLeagueId { get; set; }
 
-        public int TicketId { get; set; }
+    public int TicketId { get; set; }
 
-        public string LatestUsername { get; set; }
+    public string LatestUsername { get; set; }
 
-        public DateTime LatestCreatedDate { get; set; }
+    public DateTime LatestCreatedDate { get; set; }
 
-        public string LatestMessage { get; set; }
+    public string LatestMessage { get; set; }
 
-        public bool IsRead { get; set; }
+    public bool IsRead { get; set; }
 
-        public int EventType => (int)Enum.EventType.League;
-        public int SubtypeId { get; set; }
-        public string SubtypeName { get; set; }
-    }
+    public int EventType => (int)Enum.EventType.League;
+    public int SubtypeId { get; set; }
+    public string SubtypeName { get; set; }
+}
 
-    public class TicketMatchBasicInfo
-    {
-        public int InfoSiteMatchId { get; set; }
+public class TicketMatchBasicInfo
+{
+    public int InfoSiteMatchId { get; set; }
 
-        public int TicketId { get; set; }
+    public int TicketId { get; set; }
 
-        public string LatestUsername { get; set; }
+    public string LatestUsername { get; set; }
 
-        public DateTime LatestCreatedDate { get; set; }
+    public DateTime LatestCreatedDate { get; set; }
 
-        public string LatestMessage { get; set; }
+    public string LatestMessage { get; set; }
 
-        public bool IsRead { get; set; }
+    public bool IsRead { get; set; }
 
-        public int EventType => (int)Enum.EventType.Match;
+    public int EventType => (int)Enum.EventType.Match;
 
-        public int SubtypeId { get; set; }
-        public string SubtypeName { get; set; }
-    }
+    public int SubtypeId { get; set; }
+    public string SubtypeName { get; set; }
 }

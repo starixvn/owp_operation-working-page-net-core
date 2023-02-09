@@ -1,113 +1,112 @@
-﻿namespace OWP.OtherSport.Shared.Services
+﻿namespace OWP.OtherSport.Shared.Services;
+
+using Fanex.Data.Repository;
+using OWP.Extensions;
+using OWP.OtherSport.Submit.Models;
+using OWP.Utils;
+
+public interface MatchStatusCalculator
 {
-    using Fanex.Data.Repository;
-    using OWP.Extensions;
-    using OWP.OtherSport.Submit.Models;
-    using OWP.Utils;
+    Task Map(Dictionary<int, MatchInfo> matchInfoDict);
+}
 
-    public interface MatchStatusCalculator
+public class MatchStatusCalculatorImp : MatchStatusCalculator
+{
+    private readonly IDynamicRepository dynamicRepository;
+
+    public MatchStatusCalculatorImp(IDynamicRepository dynamicRepository)
     {
-        Task Map(Dictionary<int, MatchInfo> matchInfoDict);
+        this.dynamicRepository = dynamicRepository;
     }
 
-    public class MatchStatusCalculatorImp : MatchStatusCalculator
+    public async Task Map(Dictionary<int, MatchInfo> matchInfoDict)
     {
-        private readonly IDynamicRepository dynamicRepository;
+        await MapMatchStatusFromMainDb(matchInfoDict);
 
-        public MatchStatusCalculatorImp(IDynamicRepository dynamicRepository)
+        foreach (var key in matchInfoDict.Keys)
         {
-            this.dynamicRepository = dynamicRepository;
-        }
+            var match = matchInfoDict[key];
+            var nowDateTime = DateTimeExtensions.ToGmt8(DateTime.Now);
 
-        public async Task Map(Dictionary<int, MatchInfo> matchInfoDict)
-        {
-            await MapMatchStatusFromMainDb(matchInfoDict);
-
-            foreach (var key in matchInfoDict.Keys)
-            {
-                var match = matchInfoDict[key];
-                var nowDateTime = DateTimeExtensions.ToGmt8(DateTime.Now);
-
-                match.MatchStatus = CalculateMatchStatus(match, nowDateTime);
-            }
-        }
-
-        private static string CalculateMatchStatus(MatchInfo match, DateTime nowDateTime)
-        {
-            if (match.MatchStatus.Equals(MatchStatus.Completed, StringComparison.OrdinalIgnoreCase))
-            {
-                return MatchStatus.Completed;
-            }
-
-            if (match.DateTime.Date > nowDateTime.Date)
-            {
-                return MatchStatus.Early;
-            }
-
-            if (nowDateTime >= match.DateTime)
-            {
-                return MatchStatus.InPlay;
-            }
-
-            return MatchStatus.PreMatch;
-        }
-
-        private async Task MapMatchStatusFromMainDb(Dictionary<int, MatchInfo> matchInfoDict)
-        {
-            var adminSiteMatchIds = matchInfoDict.Values
-                .Where(x => x.AdminsiteMatchId != null)
-                .Select(x => x.AdminsiteMatchId).Distinct();
-            var matchStatusFromMainDBs = await QueryMatchStatus(adminSiteMatchIds);
-
-            foreach (var key in matchInfoDict.Keys)
-            {
-                var match = matchInfoDict[key];
-                if (match.AdminsiteMatchId == null)
-                {
-                    match.MatchStatus = string.Empty;
-                }
-                else
-                {
-                    var matchFromMainDb = matchStatusFromMainDBs.GetValue((int)match.AdminsiteMatchId, new EventStatus());
-                    match.MatchStatus = matchFromMainDb.MatchStatus;
-                }
-            }
-        }
-
-        public async Task<Dictionary<int, EventStatus>> QueryMatchStatus(IEnumerable<int?> adminsiteMatchIds)
-        {
-            var criteria = new GetEventStatusFromMainDBCriteria
-            {
-                AdminsiteMatchIds = string.Join(",", adminsiteMatchIds)
-            };
-
-            var result = await dynamicRepository.FetchAsync<EventStatus>(criteria);
-
-            return result.ToDictionary(x => x.AdminsiteMatchId);
+            match.MatchStatus = CalculateMatchStatus(match, nowDateTime);
         }
     }
 
-    public static class MatchStatus
+    private static string CalculateMatchStatus(MatchInfo match, DateTime nowDateTime)
     {
-        public const string InPlay = "In-play";
-        public const string Completed = "Completed";
-        public const string PreMatch = "Prematch";
-        public const string Early = "Early";
+        if (match.MatchStatus.Equals(MatchStatus.Completed, StringComparison.OrdinalIgnoreCase))
+        {
+            return MatchStatus.Completed;
+        }
+
+        if (match.DateTime.Date > nowDateTime.Date)
+        {
+            return MatchStatus.Early;
+        }
+
+        if (nowDateTime >= match.DateTime)
+        {
+            return MatchStatus.InPlay;
+        }
+
+        return MatchStatus.PreMatch;
     }
 
-    public class GetEventStatusFromMainDBCriteria : CriteriaBase
+    private async Task MapMatchStatusFromMainDb(Dictionary<int, MatchInfo> matchInfoDict)
     {
-        public string AdminsiteMatchIds { get; set; }
+        var adminSiteMatchIds = matchInfoDict.Values
+            .Where(x => x.AdminsiteMatchId != null)
+            .Select(x => x.AdminsiteMatchId).Distinct();
+        var matchStatusFromMainDBs = await QueryMatchStatus(adminSiteMatchIds);
 
-        public override string GetSettingKey() => "OWP_OSLiveGameAssignment_GetEventStatusFromMainDB";
-
-        public override bool IsValid() => true;
+        foreach (var key in matchInfoDict.Keys)
+        {
+            var match = matchInfoDict[key];
+            if (match.AdminsiteMatchId == null)
+            {
+                match.MatchStatus = string.Empty;
+            }
+            else
+            {
+                var matchFromMainDb = matchStatusFromMainDBs.GetValue((int)match.AdminsiteMatchId, new EventStatus());
+                match.MatchStatus = matchFromMainDb.MatchStatus;
+            }
+        }
     }
 
-    public class EventStatus
+    public async Task<Dictionary<int, EventStatus>> QueryMatchStatus(IEnumerable<int?> adminsiteMatchIds)
     {
-        public int AdminsiteMatchId { get; set; }
+        var criteria = new GetEventStatusFromMainDBCriteria
+        {
+            AdminsiteMatchIds = string.Join(",", adminsiteMatchIds)
+        };
 
-        public string MatchStatus { get; set; } = string.Empty;
+        var result = await dynamicRepository.FetchAsync<EventStatus>(criteria);
+
+        return result.ToDictionary(x => x.AdminsiteMatchId);
     }
+}
+
+public static class MatchStatus
+{
+    public const string InPlay = "In-play";
+    public const string Completed = "Completed";
+    public const string PreMatch = "Prematch";
+    public const string Early = "Early";
+}
+
+public class GetEventStatusFromMainDBCriteria : CriteriaBase
+{
+    public string AdminsiteMatchIds { get; set; }
+
+    public override string GetSettingKey() => "OWP_OSLiveGameAssignment_GetEventStatusFromMainDB";
+
+    public override bool IsValid() => true;
+}
+
+public class EventStatus
+{
+    public int AdminsiteMatchId { get; set; }
+
+    public string MatchStatus { get; set; } = string.Empty;
 }

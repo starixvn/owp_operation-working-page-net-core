@@ -1,20 +1,19 @@
-﻿namespace OWP.LiveDetail.MatchInfo
+﻿namespace OWP.LiveDetail.MatchInfo;
+
+public class ValidationInfositeIdModel
 {
-    public class ValidationInfositeIdModel
-    {
-        public bool IsInfoSiteLinked { get; set; }
+    public bool IsInfoSiteLinked { get; set; }
 
-        public bool IsLiveStatusSynchronized { get; set; }
-    }
+    public bool IsLiveStatusSynchronized { get; set; }
+}
 
-    public class IsLiveStatusModel
-    {
-        public bool IsInfoSiteLinked { get; set; }
+public class IsLiveStatusModel
+{
+    public bool IsInfoSiteLinked { get; set; }
 
-        public int? MinorBettypeId { get; set; }
+    public int? MinorBettypeId { get; set; }
 
-        public int ParentAdminSiteId { get; set; }
+    public int ParentAdminSiteId { get; set; }
 
-        public bool IsLiveMatchStatus { get; set; }
-    }
+    public bool IsLiveMatchStatus { get; set; }
 }

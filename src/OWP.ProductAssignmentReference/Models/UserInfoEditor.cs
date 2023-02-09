@@ -1,17 +1,16 @@
-﻿namespace OWP.ProductAssignmentReference.Models
+﻿namespace OWP.ProductAssignmentReference.Models;
+
+public class UserInfoEditor
 {
-    public class UserInfoEditor
-    {
-        public string Username { get; set; }
+    public string Username { get; set; }
 
-        public int UserId { get; set; }
+    public int UserId { get; set; }
 
-        public string Label { get; set; }
+    public string Label { get; set; }
 
-        public string Value { get; set; }
+    public string Value { get; set; }
 
-        public int ActorId { get; set; }
+    public int ActorId { get; set; }
 
-        public string ActorName { get; set; }
-    }
+    public string ActorName { get; set; }
 }

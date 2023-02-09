@@ -1,13 +1,12 @@
-namespace OWP.Criteria
+namespace OWP.Criteria;
+
+using Fanex.Data.Repository;
+
+public class GetOfferLiveFromMainDBCriteria : CriteriaBase
 {
-    using Fanex.Data.Repository;
+    public string AdminSiteIds { get; set; }
 
-    public class GetOfferLiveFromMainDBCriteria : CriteriaBase
-    {
-        public string AdminSiteIds { get; set; }
+    public override string GetSettingKey() => "OWP_LiveGameAssignment_GetMatchStatusFromMainDB";
 
-        public override string GetSettingKey() => "OWP_LiveGameAssignment_GetMatchStatusFromMainDB";
-
-        public override bool IsValid() => true;
-    }
+    public override bool IsValid() => true;
 }

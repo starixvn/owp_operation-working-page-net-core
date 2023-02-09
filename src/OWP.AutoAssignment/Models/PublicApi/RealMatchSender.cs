@@ -1,43 +1,42 @@
 ﻿using Newtonsoft.Json;
 
-namespace OWP.AutoAssignment.Models.PublicApi
+namespace OWP.AutoAssignment.Models.PublicApi;
+
+public class RealMatchSender : CommonMatchSender
 {
-    public class RealMatchSender : CommonMatchSender
-    {
-        [JsonProperty("Is_Futsal")]
-        public bool IsFutsal { get; set; }
+    [JsonProperty("Is_Futsal")]
+    public bool IsFutsal { get; set; }
 
-        public bool HasTV { get; set; }
+    public bool HasTV { get; set; }
 
-        [JsonProperty("MaxBet_MainMatch")]
-        public decimal? MaxBetMainMatch { get; set; }
+    [JsonProperty("MaxBet_MainMatch")]
+    public decimal? MaxBetMainMatch { get; set; }
 
-        [JsonProperty("MaxBet_NoOfCorner")]
-        public decimal? MaxBetNoOfCorner { get; set; }
+    [JsonProperty("MaxBet_NoOfCorner")]
+    public decimal? MaxBetNoOfCorner { get; set; }
 
-        [JsonProperty("MaxBet_NextCorner")]
-        public decimal? MaxBetNextCorner { get; set; }
+    [JsonProperty("MaxBet_NextCorner")]
+    public decimal? MaxBetNextCorner { get; set; }
 
-        public string Location { get; set; }
+    public string Location { get; set; }
 
-        public bool HasReporter { get; set; }
+    public bool HasReporter { get; set; }
 
-        public bool RequireChinese { get; set; }
+    public bool RequireChinese { get; set; }
 
-        public bool RequireEnglish { get; set; }
+    public bool RequireEnglish { get; set; }
 
-        public bool IsSoloMatch { get; set; }
+    public bool IsSoloMatch { get; set; }
 
-        public bool IsMajorLeague { get; set; }
+    public bool IsMajorLeague { get; set; }
 
-        public string ExtraTime { get; set; }
+    public string ExtraTime { get; set; }
 
-        public int[] Provider { get; set; }
+    public int[] Provider { get; set; }
 
-        public string Group { get; set; } = "FT";
+    public string Group { get; set; } = "FT";
 
-        public bool IsFantasy { get; set; }
+    public bool IsFantasy { get; set; }
 
-        public bool HasChannel { get; set; }
-    }
+    public bool HasChannel { get; set; }
 }

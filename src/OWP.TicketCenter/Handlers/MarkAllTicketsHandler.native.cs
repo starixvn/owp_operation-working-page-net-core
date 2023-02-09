@@ -1,26 +1,25 @@
-﻿namespace OWP.TicketCenter.Handlers
-{
-    using MediatR;
+﻿namespace OWP.TicketCenter.Handlers;
 
-    public class MarkAllTicketsRequest : IRequest<Unit>
+using MediatR;
+
+public class MarkAllTicketsRequest : IRequest<Unit>
+{
+    public int ActorId { get; set; }
+}
+
+public class MarkAllTicketsHandler : IRequestHandler<MarkAllTicketsRequest, Unit>
+{
+    private readonly Repository repository;
+
+    public MarkAllTicketsHandler(Repository repository)
     {
-        public int ActorId { get; set; }
+        this.repository = repository;
     }
 
-    public class MarkAllTicketsHandler : IRequestHandler<MarkAllTicketsRequest, Unit>
+    public async Task<Unit> Handle(MarkAllTicketsRequest request, CancellationToken cancellationToken)
     {
-        private readonly Repository repository;
+        await repository.UpdateTicketsAsRead(request.ActorId);
 
-        public MarkAllTicketsHandler(Repository repository)
-        {
-            this.repository = repository;
-        }
-
-        public async Task<Unit> Handle(MarkAllTicketsRequest request, CancellationToken cancellationToken)
-        {
-            await repository.UpdateTicketsAsRead(request.ActorId);
-
-            return await Task.FromResult(Unit.Value);
-        }
+        return await Task.FromResult(Unit.Value);
     }
 }

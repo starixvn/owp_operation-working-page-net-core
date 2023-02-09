@@ -1,44 +1,43 @@
-﻿namespace OWP.AssignmentUpload.Validation.Constants
+﻿namespace OWP.AssignmentUpload.Validation.Constants;
+
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+
+[SuppressMessage("Microsoft.Design", "CA1008:EnumsShouldHaveZeroValue", Justification = "Reviewed.")]
+public enum MinorBettype
 {
-    using System.Collections.Generic;
-    using System.Collections.Immutable;
-    using System.ComponentModel;
-    using System.Diagnostics.CodeAnalysis;
+    [Description("Fast Market")]
+    FastMarket = -88,
 
-    [SuppressMessage("Microsoft.Design", "CA1008:EnumsShouldHaveZeroValue", Justification = "Reviewed.")]
-    public enum MinorBettype
-    {
-        [Description("Fast Market")]
-        FastMarket = -88,
+    [Description("All In One")]
+    AllInOne = -89,
 
-        [Description("All In One")]
-        AllInOne = -89,
+    [Description("Specific 15 Mins")]
+    Specific15Mins = -1,
 
-        [Description("Specific 15 Mins")]
-        Specific15Mins = -1,
+    [Description("Specific 10 Mins")]
+    Specific10Mins = -2,
 
-        [Description("Specific 10 Mins")]
-        Specific10Mins = -2,
+    [Description("Specific 15 Mins Total Of Bookings")]
+    Specific15MinsTotalBookings = -8,
 
-        [Description("Specific 15 Mins Total Of Bookings")]
-        Specific15MinsTotalBookings = -8,
-
-        [Description("Specific 15 Mins Number Of Corners")]
-        Specific15MinsCorners = -5,
+    [Description("Specific 15 Mins Number Of Corners")]
+    Specific15MinsCorners = -5,
 
 
-        [Description("Total Booking")]
-        TotalBooking = -6,
+    [Description("Total Booking")]
+    TotalBooking = -6,
 
-        [Description("No.of Corner")]
-        NoOfCorner = -3,
-    }
-
-    public static class MinorBettypeConst
-    {
-        public static readonly ImmutableList<int> MinorBettypeIdGenerateBySystem = ImmutableList<int>.Empty.AddRange(new List<int>
-        {
-             -88, -89, -1, -2, -8, -5
-        });
-    };
+    [Description("No.of Corner")]
+    NoOfCorner = -3,
 }
+
+public static class MinorBettypeConst
+{
+    public static readonly ImmutableList<int> MinorBettypeIdGenerateBySystem = ImmutableList<int>.Empty.AddRange(new List<int>
+    {
+        -88, -89, -1, -2, -8, -5
+    });
+};

@@ -1,11 +1,10 @@
-﻿namespace OWP.FileUpload.Models
+﻿namespace OWP.FileUpload.Models;
+
+public class FileModel
 {
-    public class FileModel
-    {
-        public int FileId { get; set; }
+    public int FileId { get; set; }
 
-        public string Title { get; set; }
+    public string Title { get; set; }
 
-        public byte[] FileContent { get; set; }
-    }
+    public byte[] FileContent { get; set; }
 }

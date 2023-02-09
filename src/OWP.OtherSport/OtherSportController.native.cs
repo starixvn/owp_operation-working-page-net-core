@@ -1,86 +1,85 @@
-﻿namespace OWP.OtherSport
+﻿namespace OWP.OtherSport;
+
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
+using OWP.Helpers;
+using OWP.OtherSport.Download;
+using OWP.OtherSport.EventAssignment;
+using OWP.OtherSport.EventAssignment.Models;
+using OWP.OtherSport.Submit;
+using OWP.OtherSport.Submit.Models;
+using OWP.OtherSport.Validation;
+
+[Route("api/[controller]")]
+[ApiController]
+[EnableCors("AllowOrigin")]
+[Authorize]
+public class OtherSportController : ControllerBase
 {
-    using MediatR;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Cors;
-    using Microsoft.AspNetCore.Mvc;
-    using OWP.Helpers;
-    using OWP.OtherSport.Download;
-    using OWP.OtherSport.EventAssignment;
-    using OWP.OtherSport.EventAssignment.Models;
-    using OWP.OtherSport.Submit;
-    using OWP.OtherSport.Submit.Models;
-    using OWP.OtherSport.Validation;
+    private readonly IMediator mediator;
 
-    [Route("api/[controller]")]
-    [ApiController]
-    [EnableCors("AllowOrigin")]
-    [Authorize]
-    public class OtherSportController : ControllerBase
+    public OtherSportController(IMediator mediator)
     {
-        private readonly IMediator mediator;
+        this.mediator = mediator;
+    }
 
-        public OtherSportController(IMediator mediator)
+    [HttpGet("last-update")]
+    public async Task<LastUpdateInfo> QueryEventAssignment()
+        => await mediator.Send(new QueryLastUpdate());
+
+    [Route("get-assignment")]
+    [HttpPost]
+    public async Task<IEnumerable<EventAssignmentModel>> QueryEventAssignment(QueryEventAssignmentRequest request)
+    {
+        return await mediator.Send(request);
+    }
+
+    [Route("validate")]
+    [HttpPost]
+    public async Task<IActionResult> Validate()
+    {
+        if (!MultipartRequestHelper.IsMultipartContentType(Request.ContentType))
         {
-            this.mediator = mediator;
+            return new UnsupportedMediaTypeResult();
         }
 
-        [HttpGet("last-update")]
-        public async Task<LastUpdateInfo> QueryEventAssignment()
-            => await mediator.Send(new QueryLastUpdate());
-
-        [Route("get-assignment")]
-        [HttpPost]
-        public async Task<IEnumerable<EventAssignmentModel>> QueryEventAssignment(QueryEventAssignmentRequest request)
+        if (Request.Form.Files.Count != 1)
         {
-            return await mediator.Send(request);
+            return BadRequest();
         }
 
-        [Route("validate")]
-        [HttpPost]
-        public async Task<IActionResult> Validate()
+        await using var ms = new MemoryStream();
+        await Request.Form.Files[0].CopyToAsync(ms);
+
+        var request = new ValidationHandler.Request
         {
-            if (!MultipartRequestHelper.IsMultipartContentType(Request.ContentType))
-            {
-                return new UnsupportedMediaTypeResult();
-            }
+            Stream = ms,
+            FromDate = DateTime.Parse(Request.Form["fromDate"].ToString()),
+            ToDate = DateTime.Parse(Request.Form["toDate"].ToString())
+        };
+        var result = await mediator.Send(request);
 
-            if (Request.Form.Files.Count != 1)
-            {
-                return BadRequest();
-            }
+        return new JsonResult(result);
+    }
 
-            await using var ms = new MemoryStream();
-            await Request.Form.Files[0].CopyToAsync(ms);
+    [Route("submit")]
+    [HttpPost]
+    public async Task<IActionResult> Submit(SubmitRequest request)
+    {
+        var viewModel = await mediator.Send(request);
 
-            var request = new ValidationHandler.Request
-            {
-                Stream = ms,
-                FromDate = DateTime.Parse(Request.Form["fromDate"].ToString()),
-                ToDate = DateTime.Parse(Request.Form["toDate"].ToString())
-            };
-            var result = await mediator.Send(request);
+        return new JsonResult(viewModel);
+    }
 
-            return new JsonResult(result);
-        }
-
-        [Route("submit")]
-        [HttpPost]
-        public async Task<IActionResult> Submit(SubmitRequest request)
-        {
-            var viewModel = await mediator.Send(request);
-
-            return new JsonResult(viewModel);
-        }
-
-        [Route("download")]
-        [HttpGet]
-        public async Task<IActionResult> Download([FromQuery] DownloadAssignmentRequest request)
-        {
-            using var excelPackage = await mediator.Send(request);
-            var fileName = $"OS Live Game Assignment {request.From.ToString("MMddyyyy")} - {request.To.ToString("MMddyyyy")}.xlsx";
-            var bytes = await excelPackage.GetAsByteArrayAsync();
-            return File(bytes, "application/octet-stream", fileName);
-        }
+    [Route("download")]
+    [HttpGet]
+    public async Task<IActionResult> Download([FromQuery] DownloadAssignmentRequest request)
+    {
+        using var excelPackage = await mediator.Send(request);
+        var fileName = $"OS Live Game Assignment {request.From.ToString("MMddyyyy")} - {request.To.ToString("MMddyyyy")}.xlsx";
+        var bytes = await excelPackage.GetAsByteArrayAsync();
+        return File(bytes, "application/octet-stream", fileName);
     }
 }

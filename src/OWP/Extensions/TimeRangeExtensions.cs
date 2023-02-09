@@ -1,31 +1,30 @@
-namespace OWP.Extensions
+namespace OWP.Extensions;
+
+using System;
+using Models;
+using OWP.Utils;
+
+public static class TimeRangeExtensions
 {
-    using System;
-    using Models;
-    using OWP.Utils;
-
-    public static class TimeRangeExtensions
+    public static TimeRangeResult CheckMainMatch(DateTime eventDate)
     {
-        public static TimeRangeResult CheckMainMatch(DateTime eventDate)
-        {
-            return CheckMatch(eventDate);
-        }
+        return CheckMatch(eventDate);
+    }
 
-        public static TimeRangeResult CheckMatch(DateTime eventDate)
-        {
-            var dateTime = DateTime.Now.ToGmt8();
-            var timeRange = dateTime.TimeRangeOfDate();
-            return CheckMatch(timeRange, eventDate);
-        }
+    public static TimeRangeResult CheckMatch(DateTime eventDate)
+    {
+        var dateTime = DateTime.Now.ToGmt8();
+        var timeRange = dateTime.TimeRangeOfDate();
+        return CheckMatch(timeRange, eventDate);
+    }
 
-        public static TimeRangeResult CheckMatch(this DateTime toTime, DateTime eventDate)
+    public static TimeRangeResult CheckMatch(this DateTime toTime, DateTime eventDate)
+    {
+        var isMatchInTimeRange = eventDate <= toTime;
+        return new TimeRangeResult
         {
-            var isMatchInTimeRange = eventDate <= toTime;
-            return new TimeRangeResult
-            {
-                IsMatchInTimeRange = isMatchInTimeRange,
-                IsAllowedToViewDetail = isMatchInTimeRange
-            };
-        }
+            IsMatchInTimeRange = isMatchInTimeRange,
+            IsAllowedToViewDetail = isMatchInTimeRange
+        };
     }
 }

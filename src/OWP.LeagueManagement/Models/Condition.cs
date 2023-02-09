@@ -1,9 +1,8 @@
-namespace OWP.LeagueManagement.Models
-{
-    public class Condition
-    {
-        public string Type { get; set; }
+namespace OWP.LeagueManagement.Models;
 
-        public string Value { get; set; }
-    }
+public class Condition
+{
+    public string Type { get; set; }
+
+    public string Value { get; set; }
 }

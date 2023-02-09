@@ -1,13 +1,12 @@
-﻿namespace OWP.AutoAssignment.Models.PublicApi
+﻿namespace OWP.AutoAssignment.Models.PublicApi;
+
+public class MaxBetFTHDPInfo
 {
-    public class MaxBetFTHDPInfo
-    {
-        public bool HasTv { get; set; }
+    public bool HasTv { get; set; }
 
-        public int MatchId { get; set; }
+    public int MatchId { get; set; }
 
-        public int LeagueSettingId { get; set; }
+    public int LeagueSettingId { get; set; }
 
-        public decimal? MaxBet { get; set; }
-    }
+    public decimal? MaxBet { get; set; }
 }

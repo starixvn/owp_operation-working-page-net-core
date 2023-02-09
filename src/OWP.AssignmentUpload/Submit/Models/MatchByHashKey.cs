@@ -1,9 +1,8 @@
-﻿namespace OWP.AssignmentUpload.Submit.Models
-{
-    public class MatchByHashKey
-    {
-        public int OWPMatchId { get; set; }
+﻿namespace OWP.AssignmentUpload.Submit.Models;
 
-        public string HashKey { get; set; }
-    }
+public class MatchByHashKey
+{
+    public int OWPMatchId { get; set; }
+
+    public string HashKey { get; set; }
 }

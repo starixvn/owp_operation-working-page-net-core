@@ -1,13 +1,12 @@
-﻿namespace OWP.LiveDetail.MatchInfo
+﻿namespace OWP.LiveDetail.MatchInfo;
+
+using Fanex.Data.Repository;
+
+public class GetRefResourceByNameCriteria : CriteriaBase
 {
-    using Fanex.Data.Repository;
+    public string RefName { get; set; }
 
-    public class GetRefResourceByNameCriteria : CriteriaBase
-    {
-        public string RefName { get; set; }
+    public override bool IsValid() => !string.IsNullOrEmpty(RefName);
 
-        public override bool IsValid() => !string.IsNullOrEmpty(RefName);
-
-        public override string GetSettingKey() => "OWP_RefResourceGetByName";
-    }
+    public override string GetSettingKey() => "OWP_RefResourceGetByName";
 }

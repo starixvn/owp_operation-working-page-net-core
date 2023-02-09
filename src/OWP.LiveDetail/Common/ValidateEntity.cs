@@ -1,9 +1,8 @@
-﻿namespace OWP.LiveDetail.Common
-{
-    public class ValidateEntity
-    {
-        public int ResultType { get; set; }
+﻿namespace OWP.LiveDetail.Common;
 
-        public string Message { get; set; }
-    }
+public class ValidateEntity
+{
+    public int ResultType { get; set; }
+
+    public string Message { get; set; }
 }

@@ -1,11 +1,10 @@
-﻿namespace OWP.LiveDetail.User
+﻿namespace OWP.LiveDetail.User;
+
+public class ShortUserInfo
 {
-    public class ShortUserInfo
-    {
-        public int UserId { get; set; }
+    public int UserId { get; set; }
 
-        public string UserName { get; set; }
+    public string UserName { get; set; }
 
-        public string NickName { get; set; }
-    }
+    public string NickName { get; set; }
 }

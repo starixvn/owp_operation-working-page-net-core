@@ -1,18 +1,17 @@
-﻿namespace OWP.LiveGameList.Models
+﻿namespace OWP.LiveGameList.Models;
+
+public class MinorMatch
 {
-    public class MinorMatch
-    {
-        public int OwpMatchId { get; set; }
+    public int OwpMatchId { get; set; }
 
-        public int? ParentMatchId { get; set; }
+    public int? ParentMatchId { get; set; }
 
-        public int? SubType { get; set; }
-    }
+    public int? SubType { get; set; }
+}
 
-    public class MinorMatchInfo
-    {
-        public int? OwpMatchId { get; set; }
+public class MinorMatchInfo
+{
+    public int? OwpMatchId { get; set; }
 
-        public int? AdminMatchId { get; set; }
-    }
+    public int? AdminMatchId { get; set; }
 }

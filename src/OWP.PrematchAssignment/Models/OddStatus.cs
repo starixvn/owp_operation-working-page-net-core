@@ -1,11 +1,10 @@
-﻿namespace OWP.PrematchAssignment.Models
+﻿namespace OWP.PrematchAssignment.Models;
+
+public class OddStatus
 {
-    public class OddStatus
-    {
-        public int AdminSiteMatchId { get; set; }
+    public int AdminSiteMatchId { get; set; }
 
-        public int Bettype { get; set; }
+    public int Bettype { get; set; }
 
-        public string OddsStatus { get; set; }
-    }
+    public string OddsStatus { get; set; }
 }

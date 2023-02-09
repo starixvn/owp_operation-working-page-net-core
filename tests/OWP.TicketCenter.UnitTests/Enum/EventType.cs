@@ -1,10 +1,9 @@
-﻿namespace OWP.TicketCenter.UnitTests.Enum
+﻿namespace OWP.TicketCenter.UnitTests.Enum;
+
+public enum EventType
 {
-    public enum EventType
-    {
-        League = 1,
-        Match = 2,
-        Other = 3,
-        Support = 4
-    }
+    League = 1,
+    Match = 2,
+    Other = 3,
+    Support = 4
 }

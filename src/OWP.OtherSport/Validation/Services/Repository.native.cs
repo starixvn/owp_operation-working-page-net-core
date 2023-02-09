@@ -1,37 +1,36 @@
-﻿namespace OWP.OtherSport.Validation.Services
-{
-    using Fanex.Data.Repository;
-    using OWP.OtherSport.Validation.Criteria;
-    using OWP.OtherSport.Validation.Models;
+﻿namespace OWP.OtherSport.Validation.Services;
 
-    public interface Repository
+using Fanex.Data.Repository;
+using OWP.OtherSport.Validation.Criteria;
+using OWP.OtherSport.Validation.Models;
+
+public interface Repository
+{
+    Task<List<Trader>> GetTraders(List<string> traderNames);
+}
+
+public class RepositoryImp : Repository
+{
+    private readonly IDynamicRepository repository;
+
+    public RepositoryImp(IDynamicRepository repository)
     {
-        Task<List<Trader>> GetTraders(List<string> traderNames);
+        this.repository = repository;
     }
 
-    public class RepositoryImp : Repository
+    public async Task<List<Trader>> GetTraders(List<string> traderNames)
     {
-        private readonly IDynamicRepository repository;
-
-        public RepositoryImp(IDynamicRepository repository)
+        var traderNamesInString = string.Join(",", traderNames);
+        if (string.IsNullOrEmpty(traderNamesInString))
         {
-            this.repository = repository;
+            return new List<Trader>();
         }
 
-        public async Task<List<Trader>> GetTraders(List<string> traderNames)
+        var criteria = new TraderByUsernameQueryCriteria
         {
-            var traderNamesInString = string.Join(",", traderNames);
-            if (string.IsNullOrEmpty(traderNamesInString))
-            {
-                return new List<Trader>();
-            }
+            Username = traderNamesInString
+        };
 
-            var criteria = new TraderByUsernameQueryCriteria
-            {
-                Username = traderNamesInString
-            };
-
-            return (await repository.FetchAsync<Trader>(criteria)).ToList();
-        }
+        return (await repository.FetchAsync<Trader>(criteria)).ToList();
     }
 }

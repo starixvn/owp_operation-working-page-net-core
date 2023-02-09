@@ -1,16 +1,15 @@
-﻿namespace OWP.AutoAssignment.Models.PublicApi
+﻿namespace OWP.AutoAssignment.Models.PublicApi;
+
+using Newtonsoft.Json;
+
+public class CommonMatchSender
 {
-    using Newtonsoft.Json;
+    public int[] PickedBettypes { get; set; } = new[] { 0 };
 
-    public class CommonMatchSender
-    {
-        public int[] PickedBettypes { get; set; } = new[] { 0 };
+    public string KOTime { get; set; }
 
-        public string KOTime { get; set; }
+    public int MatchId { get; set; }
 
-        public int MatchId { get; set; }
-
-        [JsonIgnore]
-        public int? LeagueSettingId { get; set; }
-    }
+    [JsonIgnore]
+    public int? LeagueSettingId { get; set; }
 }

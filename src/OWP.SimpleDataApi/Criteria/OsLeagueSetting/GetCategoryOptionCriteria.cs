@@ -1,11 +1,10 @@
 using Fanex.Data.Repository;
 
-namespace OWP.SimpleDataApi.Criteria.OsLeagueSetting
-{
-    public class GetCategoryOptionCriteria : CriteriaBase
-    {
-        public override string GetSettingKey() => "OWP_OSLeagueSetting_GetCategoryOption";
+namespace OWP.SimpleDataApi.Criteria.OsLeagueSetting;
 
-        public override bool IsValid() => true;
-    }
+public class GetCategoryOptionCriteria : CriteriaBase
+{
+    public override string GetSettingKey() => "OWP_OSLeagueSetting_GetCategoryOption";
+
+    public override bool IsValid() => true;
 }

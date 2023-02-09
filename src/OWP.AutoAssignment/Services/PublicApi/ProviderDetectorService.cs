@@ -1,32 +1,31 @@
-﻿namespace OWP.AutoAssignment.Services.PublicApi
+﻿namespace OWP.AutoAssignment.Services.PublicApi;
+
+using Builder;
+using OWP.AutoAssignment.Constant;
+
+public interface ProviderDetectorService
 {
-    using Builder;
-    using OWP.AutoAssignment.Constant;
+    int[] DetectProviderType(string otherProvider);
+}
 
-    public interface ProviderDetectorService
+public class ProviderDetectorServiceImp : ProviderDetectorService
+{
+    private readonly IReadOnlyDictionary<string, int> providerHasType = new Dictionary<string, int>
     {
-        int[] DetectProviderType(string otherProvider);
-    }
+        { AutoConstant.ProviderBgLabel , AutoConstant.ProviderBgId},
+        { AutoConstant.ProviderRb2Label, AutoConstant.ProviderRb2Id},
+        { AutoConstant.ProviderRtsLabel, AutoConstant.ProviderRtsId},
+        { AutoConstant.ProviderBetLabel, AutoConstant.ProviderBetId},
+        { AutoConstant.ProviderBgLabelTV , AutoConstant.ProviderBgId},
+        { AutoConstant.ProviderRb2LabelTV, AutoConstant.ProviderRb2Id},
+        { AutoConstant.ProviderRtsLabelTV, AutoConstant.ProviderRtsId},
+        { AutoConstant.ProviderBetLabelTV, AutoConstant.ProviderBetId}
+    };
 
-    public class ProviderDetectorServiceImp : ProviderDetectorService
+    public int[] DetectProviderType(string otherProvider)
     {
-        private readonly IReadOnlyDictionary<string, int> providerHasType = new Dictionary<string, int>
-        {
-            { AutoConstant.ProviderBgLabel , AutoConstant.ProviderBgId},
-            { AutoConstant.ProviderRb2Label, AutoConstant.ProviderRb2Id},
-            { AutoConstant.ProviderRtsLabel, AutoConstant.ProviderRtsId},
-            { AutoConstant.ProviderBetLabel, AutoConstant.ProviderBetId},
-            { AutoConstant.ProviderBgLabelTV , AutoConstant.ProviderBgId},
-            { AutoConstant.ProviderRb2LabelTV, AutoConstant.ProviderRb2Id},
-            { AutoConstant.ProviderRtsLabelTV, AutoConstant.ProviderRtsId},
-            { AutoConstant.ProviderBetLabelTV, AutoConstant.ProviderBetId}
-        };
-
-        public int[] DetectProviderType(string otherProvider)
-        {
-            var firstLabel = FirstProviderBuilder.GetFirstProvider(otherProvider)?.ToUpper();
-            var providerTypes = providerHasType.GetValueOrDefault(firstLabel ?? string.Empty, AutoConstant.ProviderOtherId);
-            return new[] { providerTypes };
-        }
+        var firstLabel = FirstProviderBuilder.GetFirstProvider(otherProvider)?.ToUpper();
+        var providerTypes = providerHasType.GetValueOrDefault(firstLabel ?? string.Empty, AutoConstant.ProviderOtherId);
+        return new[] { providerTypes };
     }
 }

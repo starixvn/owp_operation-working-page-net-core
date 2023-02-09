@@ -1,9 +1,8 @@
-﻿namespace OWP.AssignmentUpload.Submit.Models
-{
-    public class MatchTelevision
-    {
-        public int MatchId { get; set; }
+﻿namespace OWP.AssignmentUpload.Submit.Models;
 
-        public string TV { get; set; }
-    }
+public class MatchTelevision
+{
+    public int MatchId { get; set; }
+
+    public string TV { get; set; }
 }

@@ -1,7 +1,6 @@
-﻿namespace OWP.LiveDetail.MatchNote
+﻿namespace OWP.LiveDetail.MatchNote;
+
+public class QueryModel
 {
-    public class QueryModel
-    {
-        public int OWPMatchId { get; set; }
-    }
+    public int OWPMatchId { get; set; }
 }

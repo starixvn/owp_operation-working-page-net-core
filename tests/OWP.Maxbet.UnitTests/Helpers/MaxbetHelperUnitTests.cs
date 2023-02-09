@@ -4,70 +4,70 @@ using OWP.Maxbet.Models;
 using Xunit;
 using Xunit.Asserts.Compare;
 
-namespace OWP.Maxbet.UnitTests.Helpers
+namespace OWP.Maxbet.UnitTests.Helpers;
+
+public class MaxbetHelperUnitTests
 {
-  public class MaxbetHelperUnitTests
-  {
     #region trader assignment
 
     [Fact]
     public void FindTraderAssignmentByBettype_ListAssignment_BettypeId_Found_ReturnAssignmentHDP()
     {
-      var assignments = new List<TraderAssignment>
+        var assignments = new List<TraderAssignment>
+        {
+            new TraderAssignment
             {
-                new TraderAssignment
-                {
-                    BettypeId= (int)EnumBettype.Handicap,
-                    UserId=111
-                },
-                 new TraderAssignment
-                {
-                    BettypeId= (int)EnumBettype.OverUnder,
-                    UserId=222
-                },
-                  new TraderAssignment
-                {
-                    BettypeId= (int)EnumBettype.FirstHalfHandicap,
-                    UserId=333
-                },
-                   new TraderAssignment
-                {
-                    BettypeId= (int)EnumBettype.FirstHalfOverUnder,
-                    UserId=444
-                }
-            };
-      var result = MaxbetHelper.FindTraderAssignmentByBettype(assignments, (int)EnumBettype.Handicap);
-      var expected = new TraderAssignment
-      {
-        BettypeId = (int)EnumBettype.Handicap,
-        UserId = 111
-      };
-      DeepAssert.Equal(expected, result);
+                BettypeId= (int)EnumBettype.Handicap,
+                UserId=111
+            },
+            new TraderAssignment
+            {
+                BettypeId= (int)EnumBettype.OverUnder,
+                UserId=222
+            },
+            new TraderAssignment
+            {
+                BettypeId= (int)EnumBettype.FirstHalfHandicap,
+                UserId=333
+            },
+            new TraderAssignment
+            {
+                BettypeId= (int)EnumBettype.FirstHalfOverUnder,
+                UserId=444
+            }
+        };
+        var result = MaxbetHelper.FindTraderAssignmentByBettype(assignments, (int)EnumBettype.Handicap);
+        var expected = new TraderAssignment
+        {
+            BettypeId = (int)EnumBettype.Handicap,
+            UserId = 111
+        };
+        DeepAssert.Equal(expected, result);
     }
 
     [Fact]
     public void FindTraderAssignmentByBettype_ListAssignment_BettypeId_NotFound_ReturnNull()
     {
-      var assignments = new List<TraderAssignment>
+        var assignments = new List<TraderAssignment>
+        {
+            new TraderAssignment
             {
-                 new TraderAssignment
-                {
-                    BettypeId= (int)EnumBettype.OverUnder,
-                    UserId=222
-                },
-                  new TraderAssignment
-                {
-                    BettypeId= (int)EnumBettype.FirstHalfHandicap,
-                    UserId=333
-                },
-                   new TraderAssignment
-                {
-                    BettypeId= (int)EnumBettype.FirstHalfOverUnder,
-                    UserId=444
-                }
-            };
-      var result = MaxbetHelper.FindTraderAssignmentByBettype(assignments, (int)EnumBettype.Handicap);
-      Assert.Null(result);
+                BettypeId= (int)EnumBettype.OverUnder,
+                UserId=222
+            },
+            new TraderAssignment
+            {
+                BettypeId= (int)EnumBettype.FirstHalfHandicap,
+                UserId=333
+            },
+            new TraderAssignment
+            {
+                BettypeId= (int)EnumBettype.FirstHalfOverUnder,
+                UserId=444
+            }
+        };
+        var result = MaxbetHelper.FindTraderAssignmentByBettype(assignments, (int)EnumBettype.Handicap);
+        Assert.Null(result);
     }
 
     #endregion trader assignment
@@ -77,61 +77,61 @@ namespace OWP.Maxbet.UnitTests.Helpers
     [Fact]
     public void FindSpreadByBettype_ListSpread_BettypeId_Found_ReturnSpreadHDP()
     {
-      var spreads = new List<SpreadModel>
+        var spreads = new List<SpreadModel>
+        {
+            new SpreadModel
             {
-                new SpreadModel
-                {
-                    Bettype= (int)EnumBettype.Handicap,
-                    Spread=(decimal)0.1
-                },
-                 new SpreadModel
-                {
-                    Bettype= (int)EnumBettype.OverUnder,
-                     Spread=(decimal)0.3
-                },
-                  new SpreadModel
-                {
-                    Bettype= (int)EnumBettype.FirstHalfHandicap,
-                     Spread=(decimal)0.3
-                },
-                   new SpreadModel
-                {
-                    Bettype= (int)EnumBettype.FirstHalfOverUnder,
-                    Spread=(decimal)0.4
-                }
-            };
-      var result = MaxbetHelper.FindSpreadByBettype(spreads, (int)EnumBettype.Handicap);
-      var expected = new SpreadModel
-      {
-        Bettype = (int)EnumBettype.Handicap,
-        Spread = (decimal)0.1
-      };
-      DeepAssert.Equal(expected, result);
+                Bettype= (int)EnumBettype.Handicap,
+                Spread=(decimal)0.1
+            },
+            new SpreadModel
+            {
+                Bettype= (int)EnumBettype.OverUnder,
+                Spread=(decimal)0.3
+            },
+            new SpreadModel
+            {
+                Bettype= (int)EnumBettype.FirstHalfHandicap,
+                Spread=(decimal)0.3
+            },
+            new SpreadModel
+            {
+                Bettype= (int)EnumBettype.FirstHalfOverUnder,
+                Spread=(decimal)0.4
+            }
+        };
+        var result = MaxbetHelper.FindSpreadByBettype(spreads, (int)EnumBettype.Handicap);
+        var expected = new SpreadModel
+        {
+            Bettype = (int)EnumBettype.Handicap,
+            Spread = (decimal)0.1
+        };
+        DeepAssert.Equal(expected, result);
     }
 
     [Fact]
     public void FindSpreadByBettype_ListSpread_BettypeId_Found_ReturnNull()
     {
-      var spreads = new List<SpreadModel>
+        var spreads = new List<SpreadModel>
+        {
+            new SpreadModel
             {
-                 new SpreadModel
-                {
-                    Bettype= (int)EnumBettype.OverUnder,
-                     Spread=(decimal)0.3
-                },
-                  new SpreadModel
-                {
-                    Bettype= (int)EnumBettype.FirstHalfHandicap,
-                     Spread=(decimal)0.3
-                },
-                   new SpreadModel
-                {
-                    Bettype= (int)EnumBettype.FirstHalfOverUnder,
-                    Spread=(decimal)0.4
-                }
-            };
-      var result = MaxbetHelper.FindSpreadByBettype(spreads, (int)EnumBettype.Handicap);
-      Assert.Null(result);
+                Bettype= (int)EnumBettype.OverUnder,
+                Spread=(decimal)0.3
+            },
+            new SpreadModel
+            {
+                Bettype= (int)EnumBettype.FirstHalfHandicap,
+                Spread=(decimal)0.3
+            },
+            new SpreadModel
+            {
+                Bettype= (int)EnumBettype.FirstHalfOverUnder,
+                Spread=(decimal)0.4
+            }
+        };
+        var result = MaxbetHelper.FindSpreadByBettype(spreads, (int)EnumBettype.Handicap);
+        Assert.Null(result);
     }
 
     #endregion spread
@@ -141,61 +141,61 @@ namespace OWP.Maxbet.UnitTests.Helpers
     [Fact]
     public void FindMaxbetByBettype_ListMaxbet_BettypeId_Found_ReturnMaxbetHDP()
     {
-      var maxbets = new List<MaxbetModel>
+        var maxbets = new List<MaxbetModel>
+        {
+            new MaxbetModel
             {
-                new MaxbetModel
-                {
-                    BettypeId= (int)EnumBettype.Handicap,
-                    Value=(decimal)0.1
-                },
-                 new MaxbetModel
-                {
-                    BettypeId= (int)EnumBettype.OverUnder,
-                     Value=(decimal)0.3
-                },
-                  new MaxbetModel
-                {
-                    BettypeId= (int)EnumBettype.FirstHalfHandicap,
-                     Value=(decimal)0.3
-                },
-                   new MaxbetModel
-                {
-                    BettypeId= (int)EnumBettype.FirstHalfOverUnder,
-                    Value=(decimal)0.4
-                }
-            };
-      var result = MaxbetHelper.FindMaxbetByBettype(maxbets, (int)EnumBettype.Handicap);
-      var expected = new MaxbetModel
-      {
-        BettypeId = (int)EnumBettype.Handicap,
-        Value = (decimal)0.1
-      };
-      DeepAssert.Equal(expected, result);
+                BettypeId= (int)EnumBettype.Handicap,
+                Value=(decimal)0.1
+            },
+            new MaxbetModel
+            {
+                BettypeId= (int)EnumBettype.OverUnder,
+                Value=(decimal)0.3
+            },
+            new MaxbetModel
+            {
+                BettypeId= (int)EnumBettype.FirstHalfHandicap,
+                Value=(decimal)0.3
+            },
+            new MaxbetModel
+            {
+                BettypeId= (int)EnumBettype.FirstHalfOverUnder,
+                Value=(decimal)0.4
+            }
+        };
+        var result = MaxbetHelper.FindMaxbetByBettype(maxbets, (int)EnumBettype.Handicap);
+        var expected = new MaxbetModel
+        {
+            BettypeId = (int)EnumBettype.Handicap,
+            Value = (decimal)0.1
+        };
+        DeepAssert.Equal(expected, result);
     }
 
     [Fact]
     public void FindMaxbetByBettype_ListSpread_BettypeId_Found_ReturnNull()
     {
-      var maxbets = new List<MaxbetModel>
+        var maxbets = new List<MaxbetModel>
+        {
+            new MaxbetModel
             {
-                 new MaxbetModel
-                {
-                    BettypeId= (int)EnumBettype.OverUnder,
-                     Value=(decimal)111
-                },
-                  new MaxbetModel
-                {
-                    BettypeId= (int)EnumBettype.FirstHalfHandicap,
-                      Value=(decimal)111
-                },
-                   new MaxbetModel
-                {
-                    BettypeId= (int)EnumBettype.FirstHalfOverUnder,
-                     Value=(decimal)111
-                }
-            };
-      var result = MaxbetHelper.FindMaxbetByBettype(maxbets, (int)EnumBettype.Handicap);
-      Assert.Null(result);
+                BettypeId= (int)EnumBettype.OverUnder,
+                Value=(decimal)111
+            },
+            new MaxbetModel
+            {
+                BettypeId= (int)EnumBettype.FirstHalfHandicap,
+                Value=(decimal)111
+            },
+            new MaxbetModel
+            {
+                BettypeId= (int)EnumBettype.FirstHalfOverUnder,
+                Value=(decimal)111
+            }
+        };
+        var result = MaxbetHelper.FindMaxbetByBettype(maxbets, (int)EnumBettype.Handicap);
+        Assert.Null(result);
     }
 
     #endregion maxbet
@@ -203,126 +203,125 @@ namespace OWP.Maxbet.UnitTests.Helpers
     [Fact]
     public void UpdateSpreadPEN_Always_Returns()
     {
-      var spread = new MaxbetSpread
-      {
-        Handicap = 123,
-        OverUnder = 123,
-        FirstHalfHandicap = 123,
-        FirstHalfOverUnder = 123
-      };
+        var spread = new MaxbetSpread
+        {
+            Handicap = 123,
+            OverUnder = 123,
+            FirstHalfHandicap = 123,
+            FirstHalfOverUnder = 123
+        };
 
-      var newHandicap = (decimal)0.2;
+        var newHandicap = (decimal)0.2;
 
-      var newOverUnder = (decimal)0.2;
+        var newOverUnder = (decimal)0.2;
 
-      MaxbetHelper.UpdateSpreadPEN(spread, newHandicap, newOverUnder);
+        MaxbetHelper.UpdateSpreadPEN(spread, newHandicap, newOverUnder);
 
-      var expected = new MaxbetSpread
-      {
-        Handicap = (decimal)0.2,
-        OverUnder = (decimal)0.2,
-        FirstHalfHandicap = 123,
-        FirstHalfOverUnder = 123
-      };
+        var expected = new MaxbetSpread
+        {
+            Handicap = (decimal)0.2,
+            OverUnder = (decimal)0.2,
+            FirstHalfHandicap = 123,
+            FirstHalfOverUnder = 123
+        };
 
-      DeepAssert.Equal(expected, spread);
+        DeepAssert.Equal(expected, spread);
     }
 
     [Fact]
     public void UpdateMaxbetPEN_Always_Returns()
     {
-      var maxbet = new MaxbetSpread
-      {
-        Handicap = 1000,
-        OverUnder = 1000,
-        FirstHalfHandicap = 123,
-        FirstHalfOverUnder = 123
-      };
+        var maxbet = new MaxbetSpread
+        {
+            Handicap = 1000,
+            OverUnder = 1000,
+            FirstHalfHandicap = 123,
+            FirstHalfOverUnder = 123
+        };
 
-      MaxbetHelper.UpdateMaxbetPEN(maxbet);
+        MaxbetHelper.UpdateMaxbetPEN(maxbet);
 
-      var expected = new MaxbetSpread
-      {
-        Handicap = 500,
-        OverUnder = 500,
-        FirstHalfHandicap = 123,
-        FirstHalfOverUnder = 123
-      };
+        var expected = new MaxbetSpread
+        {
+            Handicap = 500,
+            OverUnder = 500,
+            FirstHalfHandicap = 123,
+            FirstHalfOverUnder = 123
+        };
 
-      DeepAssert.Equal(expected, maxbet);
+        DeepAssert.Equal(expected, maxbet);
     }
 
     [Fact]
     public void SetDefaultMaxbetInfo_Always_Returns()
     {
-      var maxbet = new MaxbetSpread
-      {
-        Handicap = 1000,
-        OverUnder = 1000,
-        FirstHalfHandicap = 123,
-        FirstHalfOverUnder = 123
-      };
+        var maxbet = new MaxbetSpread
+        {
+            Handicap = 1000,
+            OverUnder = 1000,
+            FirstHalfHandicap = 123,
+            FirstHalfOverUnder = 123
+        };
 
-      var spread = new MaxbetSpread
-      {
-        Handicap = 123,
-        OverUnder = 123,
-        FirstHalfHandicap = 123,
-        FirstHalfOverUnder = 123
-      };
+        var spread = new MaxbetSpread
+        {
+            Handicap = 123,
+            OverUnder = 123,
+            FirstHalfHandicap = 123,
+            FirstHalfOverUnder = 123
+        };
 
-      var trader = new MaxbetSpread
-      {
-        Handicap = 3838,
-        OverUnder = 3838,
-        FirstHalfHandicap = 3838,
-        FirstHalfOverUnder = 3838
-      };
+        var trader = new MaxbetSpread
+        {
+            Handicap = 3838,
+            OverUnder = 3838,
+            FirstHalfHandicap = 3838,
+            FirstHalfOverUnder = 3838
+        };
 
-      var maxbetCN88 = new MaxbetSpread
-      {
-        Handicap = 0,
-        OverUnder = 0,
-        FirstHalfHandicap = 0,
-        FirstHalfOverUnder = 0
-      };
+        var maxbetCN88 = new MaxbetSpread
+        {
+            Handicap = 0,
+            OverUnder = 0,
+            FirstHalfHandicap = 0,
+            FirstHalfOverUnder = 0
+        };
 
-      var numberOfLines = new NumberOfLines
-      {
-        CreditFirstHalf = 1,
-        CreditFt = 2,
-        LicenseeFirstHalf = 3,
-        LicenseeFt = 4
-      };
+        var numberOfLines = new NumberOfLines
+        {
+            CreditFirstHalf = 1,
+            CreditFt = 2,
+            LicenseeFirstHalf = 3,
+            LicenseeFt = 4
+        };
 
-      var maxbetInfo = new MaxbetInfo
-      {
-        Spread = spread,
-        Maxbet = maxbet,
-        MaxbetCN88 = maxbetCN88,
-        NumberOfLines = numberOfLines
-      };
+        var maxbetInfo = new MaxbetInfo
+        {
+            Spread = spread,
+            Maxbet = maxbet,
+            MaxbetCN88 = maxbetCN88,
+            NumberOfLines = numberOfLines
+        };
 
-      MaxbetHelper.SetDefaultMaxbetInfo(maxbetInfo);
+        MaxbetHelper.SetDefaultMaxbetInfo(maxbetInfo);
 
-      var expectedMaxbet = new MaxbetSpread
-      {
-        Handicap = 1000,
-        OverUnder = 1000,
-        FirstHalfHandicap = null,
-        FirstHalfOverUnder = null
-      };
+        var expectedMaxbet = new MaxbetSpread
+        {
+            Handicap = 1000,
+            OverUnder = 1000,
+            FirstHalfHandicap = null,
+            FirstHalfOverUnder = null
+        };
 
-      var expectedNumberOfLines = new NumberOfLines
-      {
-        CreditFirstHalf = 2,
-        CreditFt = 2,
-        LicenseeFirstHalf = 0,
-        LicenseeFt = 0
-      };
+        var expectedNumberOfLines = new NumberOfLines
+        {
+            CreditFirstHalf = 2,
+            CreditFt = 2,
+            LicenseeFirstHalf = 0,
+            LicenseeFt = 0
+        };
 
-      DeepAssert.Equal(maxbetInfo.Maxbet, expectedMaxbet);
-      DeepAssert.Equal(maxbetInfo.NumberOfLines, expectedNumberOfLines);
+        DeepAssert.Equal(maxbetInfo.Maxbet, expectedMaxbet);
+        DeepAssert.Equal(maxbetInfo.NumberOfLines, expectedNumberOfLines);
     }
-  }
 }

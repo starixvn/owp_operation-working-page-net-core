@@ -1,20 +1,19 @@
-namespace OWP.Models
+namespace OWP.Models;
+
+public class PermissionModel
 {
-    public class PermissionModel
+    public PermissionModel()
+        : this(false, false)
     {
-        public PermissionModel()
-            : this(false, false)
-        {
-        }
-
-        public PermissionModel(bool isRead, bool isHost)
-        {
-            IsRead = isRead;
-            IsHost = isHost;
-        }
-
-        public bool IsRead { get; }
-
-        public bool IsHost { get; }
     }
+
+    public PermissionModel(bool isRead, bool isHost)
+    {
+        IsRead = isRead;
+        IsHost = isHost;
+    }
+
+    public bool IsRead { get; }
+
+    public bool IsHost { get; }
 }

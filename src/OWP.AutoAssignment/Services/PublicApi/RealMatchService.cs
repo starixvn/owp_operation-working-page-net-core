@@ -1,155 +1,154 @@
 ﻿using OWP.AutoAssignment.Constant;
 using OWP.AutoAssignment.Models.PublicApi;
 
-namespace OWP.AutoAssignment.Services.PublicApi
+namespace OWP.AutoAssignment.Services.PublicApi;
+
+public interface RealMatchService
 {
-    public interface RealMatchService
+    Task<IList<RealMatchSender>> BuildRealMatchInfo(IList<MatchQueried> matchsQueried);
+}
+
+public class RealMatchServiceImp : RealMatchService
+{
+    private readonly Repository repository;
+
+    private readonly ExtraTimeDetectorService extraTimeService;
+
+    private readonly ProviderDetectorService providerService;
+
+    public RealMatchServiceImp(
+        Repository repository,
+        ExtraTimeDetectorService extraTimeService,
+        ProviderDetectorService providerService)
     {
-        Task<IList<RealMatchSender>> BuildRealMatchInfo(IList<MatchQueried> matchsQueried);
+        this.repository = repository;
+        this.extraTimeService = extraTimeService;
+        this.providerService = providerService;
     }
 
-    public class RealMatchServiceImp : RealMatchService
+    public async Task<IList<RealMatchSender>> BuildRealMatchInfo(IList<MatchQueried> matchsQueried)
     {
-        private readonly Repository repository;
+        var matchIds = matchsQueried.Select(i => i.InfositeMatchId).ToList();
 
-        private readonly ExtraTimeDetectorService extraTimeService;
+        var realMatchSenders = new List<RealMatchSender>();
 
-        private readonly ProviderDetectorService providerService;
-
-        public RealMatchServiceImp(
-            Repository repository,
-            ExtraTimeDetectorService extraTimeService,
-            ProviderDetectorService providerService)
+        var maxBetHdpOptions = await GetMaxMaxBetFTHDPInfo(matchIds);
+        var maxBetFtHdpMatchIds = SelectMaxBetFtHdpMatchIds(maxBetHdpOptions);
+        var realMatches = await GetRealMatchCommonInfoByIds(maxBetFtHdpMatchIds);
+        var maxBetHdpInfo = BuildMaxBetMainMatch(maxBetHdpOptions, realMatches).ToList();
+        var maxBetCorners = await GetMaxBetCorner(maxBetHdpInfo);
+        var multipleRealMatch = new MultipleRealMatchBuilder
         {
-            this.repository = repository;
-            this.extraTimeService = extraTimeService;
-            this.providerService = providerService;
-        }
+            RealMatches = realMatches,
+            MaxBetHdpInfo = maxBetHdpInfo,
+            MaxBetCorners = maxBetCorners,
+        };
+        BuildMultipleRealMatchSender(multipleRealMatch, realMatchSenders);
+        return realMatchSenders;
+    }
 
-        public async Task<IList<RealMatchSender>> BuildRealMatchInfo(IList<MatchQueried> matchsQueried)
+    private IList<int> SelectMaxBetFtHdpMatchIds(IList<MaxBetFTHDPInfo> maxBetHdpOptions)
+        => maxBetHdpOptions
+            .Select(i => i.MatchId).Distinct()
+            .ToList();
+
+    private async Task<IList<MaxBetCorner>> GetMaxBetCorner(IList<MaxBetOfFTHDP> maxBetHdpInfo)
+        => (await repository.GetMaxBetCorner(maxBetHdpInfo)).ToList();
+
+    private async Task<IList<RealMatchCommonInfo>> GetRealMatchCommonInfoByIds(IList<int> ids)
+        => (await repository.GetRealMatchCommonInfoByIds(ids)).ToList();
+
+    private async Task<IList<MaxBetFTHDPInfo>> GetMaxMaxBetFTHDPInfo(IList<int> matchIds)
+        => (await repository.GetMaxMaxBetFTHDPInfo(matchIds))
+            .Where(x => x.MaxBet != null)
+            .ToList();
+
+    private void BuildMultipleRealMatchSender(MultipleRealMatchBuilder multipleRealMatch,
+        IList<RealMatchSender> realMatchSenders)
+    {
+        foreach (var match in multipleRealMatch.RealMatches)
         {
-            var matchIds = matchsQueried.Select(i => i.InfositeMatchId).ToList();
+            var mbHdp = multipleRealMatch.MaxBetHdpInfo.FirstOrDefault(x => x.InfoSiteMatchId == match.InfoSiteId);
+            var mbCorner = multipleRealMatch.MaxBetCorners.FirstOrDefault(x => x.InfoSiteMatchId == match.InfoSiteId);
 
-            var realMatchSenders = new List<RealMatchSender>();
-
-            var maxBetHdpOptions = await GetMaxMaxBetFTHDPInfo(matchIds);
-            var maxBetFtHdpMatchIds = SelectMaxBetFtHdpMatchIds(maxBetHdpOptions);
-            var realMatches = await GetRealMatchCommonInfoByIds(maxBetFtHdpMatchIds);
-            var maxBetHdpInfo = BuildMaxBetMainMatch(maxBetHdpOptions, realMatches).ToList();
-            var maxBetCorners = await GetMaxBetCorner(maxBetHdpInfo);
-            var multipleRealMatch = new MultipleRealMatchBuilder
+            var singleRealMatchBuilder = new SingleRealMatchBuilder
             {
-                RealMatches = realMatches,
-                MaxBetHdpInfo = maxBetHdpInfo,
-                MaxBetCorners = maxBetCorners,
+                Match = match,
+                MaxBetHdp = mbHdp,
+                MaxBetCorners = mbCorner
             };
-            BuildMultipleRealMatchSender(multipleRealMatch, realMatchSenders);
-            return realMatchSenders;
+            var commonInfo = BuildSingleRealMatchSender(singleRealMatchBuilder);
+            realMatchSenders.Add(commonInfo);
         }
+    }
 
-        private IList<int> SelectMaxBetFtHdpMatchIds(IList<MaxBetFTHDPInfo> maxBetHdpOptions)
-            => maxBetHdpOptions
-                .Select(i => i.MatchId).Distinct()
-                .ToList();
-
-        private async Task<IList<MaxBetCorner>> GetMaxBetCorner(IList<MaxBetOfFTHDP> maxBetHdpInfo)
-            => (await repository.GetMaxBetCorner(maxBetHdpInfo)).ToList();
-
-        private async Task<IList<RealMatchCommonInfo>> GetRealMatchCommonInfoByIds(IList<int> ids)
-            => (await repository.GetRealMatchCommonInfoByIds(ids)).ToList();
-
-        private async Task<IList<MaxBetFTHDPInfo>> GetMaxMaxBetFTHDPInfo(IList<int> matchIds)
-            => (await repository.GetMaxMaxBetFTHDPInfo(matchIds))
-                .Where(x => x.MaxBet != null)
-                .ToList();
-
-        private void BuildMultipleRealMatchSender(MultipleRealMatchBuilder multipleRealMatch,
-            IList<RealMatchSender> realMatchSenders)
+    private RealMatchSender BuildSingleRealMatchSender(SingleRealMatchBuilder singleRealMatchBuilder)
+    {
+        var match = singleRealMatchBuilder.Match;
+        var maxBetCorners = singleRealMatchBuilder.MaxBetCorners;
+        var maxBetHdp = singleRealMatchBuilder.MaxBetHdp;
+        var leagueName = match.LeagueName;
+        return new RealMatchSender
         {
-            foreach (var match in multipleRealMatch.RealMatches)
-            {
-                var mbHdp = multipleRealMatch.MaxBetHdpInfo.FirstOrDefault(x => x.InfoSiteMatchId == match.InfoSiteId);
-                var mbCorner = multipleRealMatch.MaxBetCorners.FirstOrDefault(x => x.InfoSiteMatchId == match.InfoSiteId);
+            MatchId = match.InfoSiteId,
+            IsFutsal = IsFutsal(leagueName),
+            HasTV = !string.IsNullOrWhiteSpace(match.Tv),
+            KOTime = match.KOTime.ToString(AutoConstant.FormatDateTime),
+            HasReporter = HasReporter(match.Provider),
+            RequireChinese = RequireChinese(match.Provider),
+            RequireEnglish = RequireEnglish(match.Provider),
+            IsSoloMatch = match.IsSoloMatch,
+            IsMajorLeague = match.IsMajorLeague,
+            ExtraTime = extraTimeService.DetectExtraTime(match.Remark),
+            Location = match.Location,
+            Provider = providerService.DetectProviderType(match.OtherProvider),
+            IsFantasy = IsFantasy(match.LeagueName),
+            MaxBetNextCorner = maxBetCorners?.MaxBetNextCorner,
+            MaxBetNoOfCorner = maxBetCorners?.MaxBetNoOfCorner,
+            MaxBetMainMatch = maxBetHdp?.MaxBetFTHDP,
+            LeagueSettingId = maxBetHdp?.LeagueSettingId,
+            HasChannel = !string.IsNullOrWhiteSpace(match.Channel)
+        };
+    }
 
-                var singleRealMatchBuilder = new SingleRealMatchBuilder
-                {
-                    Match = match,
-                    MaxBetHdp = mbHdp,
-                    MaxBetCorners = mbCorner
-                };
-                var commonInfo = BuildSingleRealMatchSender(singleRealMatchBuilder);
-                realMatchSenders.Add(commonInfo);
-            }
-        }
+    private bool IsFutsal(string leagueName)
+        => leagueName.Contains(AutoConstant.Futsal, StringComparison.OrdinalIgnoreCase)
+           && !leagueName.Contains(AutoConstant.Saba, StringComparison.OrdinalIgnoreCase);
 
-        private RealMatchSender BuildSingleRealMatchSender(SingleRealMatchBuilder singleRealMatchBuilder)
-        {
-            var match = singleRealMatchBuilder.Match;
-            var maxBetCorners = singleRealMatchBuilder.MaxBetCorners;
-            var maxBetHdp = singleRealMatchBuilder.MaxBetHdp;
-            var leagueName = match.LeagueName;
-            return new RealMatchSender
-            {
-                MatchId = match.InfoSiteId,
-                IsFutsal = IsFutsal(leagueName),
-                HasTV = !string.IsNullOrWhiteSpace(match.Tv),
-                KOTime = match.KOTime.ToString(AutoConstant.FormatDateTime),
-                HasReporter = HasReporter(match.Provider),
-                RequireChinese = RequireChinese(match.Provider),
-                RequireEnglish = RequireEnglish(match.Provider),
-                IsSoloMatch = match.IsSoloMatch,
-                IsMajorLeague = match.IsMajorLeague,
-                ExtraTime = extraTimeService.DetectExtraTime(match.Remark),
-                Location = match.Location,
-                Provider = providerService.DetectProviderType(match.OtherProvider),
-                IsFantasy = IsFantasy(match.LeagueName),
-                MaxBetNextCorner = maxBetCorners?.MaxBetNextCorner,
-                MaxBetNoOfCorner = maxBetCorners?.MaxBetNoOfCorner,
-                MaxBetMainMatch = maxBetHdp?.MaxBetFTHDP,
-                LeagueSettingId = maxBetHdp?.LeagueSettingId,
-                HasChannel = !string.IsNullOrWhiteSpace(match.Channel)
-            };
-        }
-
-        private bool IsFutsal(string leagueName)
-            => leagueName.Contains(AutoConstant.Futsal, StringComparison.OrdinalIgnoreCase)
-            && !leagueName.Contains(AutoConstant.Saba, StringComparison.OrdinalIgnoreCase);
-
-        private bool HasReporter(string provider)
+    private bool HasReporter(string provider)
         => provider.Contains(AutoConstant.Woo, StringComparison.OrdinalIgnoreCase)
-            || provider.Contains(AutoConstant.Al, StringComparison.OrdinalIgnoreCase)
-            || provider.Contains(AutoConstant.Slr, StringComparison.OrdinalIgnoreCase);
+           || provider.Contains(AutoConstant.Al, StringComparison.OrdinalIgnoreCase)
+           || provider.Contains(AutoConstant.Slr, StringComparison.OrdinalIgnoreCase);
 
-        private bool RequireChinese(string provider)
-            => provider.Contains(AutoConstant.Woo, StringComparison.OrdinalIgnoreCase)
-            || provider.Contains(AutoConstant.Al, StringComparison.OrdinalIgnoreCase);
+    private bool RequireChinese(string provider)
+        => provider.Contains(AutoConstant.Woo, StringComparison.OrdinalIgnoreCase)
+           || provider.Contains(AutoConstant.Al, StringComparison.OrdinalIgnoreCase);
 
-        private bool RequireEnglish(string provider)
-            => provider.Contains(AutoConstant.Slr, StringComparison.OrdinalIgnoreCase);
+    private bool RequireEnglish(string provider)
+        => provider.Contains(AutoConstant.Slr, StringComparison.OrdinalIgnoreCase);
 
-        private bool IsFantasy(string leagueName)
-            => leagueName.Contains(AutoConstant.Fantasy, StringComparison.OrdinalIgnoreCase);
+    private bool IsFantasy(string leagueName)
+        => leagueName.Contains(AutoConstant.Fantasy, StringComparison.OrdinalIgnoreCase);
 
-        public IEnumerable<MaxBetOfFTHDP> BuildMaxBetMainMatch(IList<MaxBetFTHDPInfo> maxBetOptions,
-            IList<RealMatchCommonInfo> realMatches)
+    public IEnumerable<MaxBetOfFTHDP> BuildMaxBetMainMatch(IList<MaxBetFTHDPInfo> maxBetOptions,
+        IList<RealMatchCommonInfo> realMatches)
+    {
+        foreach (var match in realMatches)
         {
-            foreach (var match in realMatches)
+            var hasMatchTv = !string.IsNullOrWhiteSpace(match.Tv);
+            var mbHdpOption = maxBetOptions.Where(i => i.MatchId == match.InfoSiteId).ToList();
+            var maxBetHdp = GetMaxBetHdp(mbHdpOption, hasMatchTv);
+            yield return new MaxBetOfFTHDP
             {
-                var hasMatchTv = !string.IsNullOrWhiteSpace(match.Tv);
-                var mbHdpOption = maxBetOptions.Where(i => i.MatchId == match.InfoSiteId).ToList();
-                var maxBetHdp = GetMaxBetHdp(mbHdpOption, hasMatchTv);
-                yield return new MaxBetOfFTHDP
-                {
-                    InfoSiteMatchId = match.InfoSiteId,
-                    LeagueSettingId = maxBetHdp.LeagueSettingId,
-                    MaxBetFTHDP = maxBetHdp.MaxBet
-                };
-            }
+                InfoSiteMatchId = match.InfoSiteId,
+                LeagueSettingId = maxBetHdp.LeagueSettingId,
+                MaxBetFTHDP = maxBetHdp.MaxBet
+            };
         }
-
-        private MaxBetFTHDPInfo GetMaxBetHdp(IList<MaxBetFTHDPInfo> maxBetOption, bool hasMatchTv)
-            => maxBetOption.Any(i => i.HasTv == hasMatchTv)
-                ? maxBetOption.FirstOrDefault(i => i.HasTv == hasMatchTv)
-                : maxBetOption.FirstOrDefault();
     }
+
+    private MaxBetFTHDPInfo GetMaxBetHdp(IList<MaxBetFTHDPInfo> maxBetOption, bool hasMatchTv)
+        => maxBetOption.Any(i => i.HasTv == hasMatchTv)
+            ? maxBetOption.FirstOrDefault(i => i.HasTv == hasMatchTv)
+            : maxBetOption.FirstOrDefault();
 }

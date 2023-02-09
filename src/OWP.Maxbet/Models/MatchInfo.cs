@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OWP.Maxbet.Models
-{
-    public class MatchInfo
-    {
-        public int owpMatchId { get; set; }
+namespace OWP.Maxbet.Models;
 
-        public string owpLeagueName { get; set; }
-    }
+public class MatchInfo
+{
+    public int owpMatchId { get; set; }
+
+    public string owpLeagueName { get; set; }
 }

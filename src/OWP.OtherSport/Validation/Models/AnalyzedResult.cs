@@ -1,9 +1,8 @@
-﻿namespace OWP.OtherSport.Validation.Models
-{
-    public class AnalyzedResult
-    {
-        public List<AssignmentModel> Assignments { get; set; }
+﻿namespace OWP.OtherSport.Validation.Models;
 
-        public int OriginalRecordCount { get; set; }
-    }
+public class AnalyzedResult
+{
+    public List<AssignmentModel> Assignments { get; set; }
+
+    public int OriginalRecordCount { get; set; }
 }

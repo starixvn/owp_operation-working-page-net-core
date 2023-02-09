@@ -1,9 +1,8 @@
-﻿namespace OWP.AutoAssignment.Models.PublicApi
-{
-    public class ProviderModel
-    {
-        public int ProviderId { get; set; }
+﻿namespace OWP.AutoAssignment.Models.PublicApi;
 
-        public int IndexWithinString { get; set; }
-    }
+public class ProviderModel
+{
+    public int ProviderId { get; set; }
+
+    public int IndexWithinString { get; set; }
 }

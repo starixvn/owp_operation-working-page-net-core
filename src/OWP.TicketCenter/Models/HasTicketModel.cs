@@ -1,11 +1,10 @@
-namespace OWP.TicketCenter.Models
+namespace OWP.TicketCenter.Models;
+
+public class HasTicketModel
 {
-    public class HasTicketModel
-    {
-        public int OWPMatchId { get; set; }
+    public int OWPMatchId { get; set; }
 
-        public bool IsRead { get; set; }
+    public bool IsRead { get; set; }
 
-        public bool HasTicket { get; set; }
-    }
+    public bool HasTicket { get; set; }
 }

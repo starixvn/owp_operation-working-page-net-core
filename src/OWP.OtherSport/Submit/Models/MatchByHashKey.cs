@@ -1,9 +1,8 @@
-﻿namespace OWP.OtherSport.Submit.Models
-{
-    public class MatchByHashKey
-    {
-        public int OSMatchId { get; set; }
+﻿namespace OWP.OtherSport.Submit.Models;
 
-        public string HashKey { get; set; }
-    }
+public class MatchByHashKey
+{
+    public int OSMatchId { get; set; }
+
+    public string HashKey { get; set; }
 }

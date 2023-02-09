@@ -1,15 +1,14 @@
-﻿namespace OWP.RecipientGroup.Criteria
+﻿namespace OWP.RecipientGroup.Criteria;
+
+using Fanex.Data.Repository;
+
+public class RemoveMessageReaderCriteria : NonQueryCommand
 {
-    using Fanex.Data.Repository;
+    public int GroupId { get; set; }
 
-    public class RemoveMessageReaderCriteria : NonQueryCommand
-    {
-        public int GroupId { get; set; }
+    public string UserIds { get; set; }
 
-        public string UserIds { get; set; }
+    public override string GetSettingKey() => "OWP_RecipientGroup_RemoveMessageReader";
 
-        public override string GetSettingKey() => "OWP_RecipientGroup_RemoveMessageReader";
-
-        public override bool IsValid() => true;
-    }
+    public override bool IsValid() => true;
 }

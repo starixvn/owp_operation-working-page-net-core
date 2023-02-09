@@ -1,9 +1,9 @@
 using OfficeOpenXml.Attributes;
 
-namespace OWP.MatchCountLiveReport.Models
-{
-  using System.Text.Json.Serialization;
-  using Epplus.Mapper.Annotations;
+namespace OWP.MatchCountLiveReport.Models;
+
+using System.Text.Json.Serialization;
+using Epplus.Mapper.Annotations;
 using OWP.MatchCountLiveReport.Helper;
 public class ReportInfo
 {
@@ -162,5 +162,4 @@ public class ReportInfo
     [Cell("W3")]
     [JsonIgnore]
     public string ExcelUnknownColumn => LiveReportHelper.BuildCellValue(Unknown);
-  }
 }

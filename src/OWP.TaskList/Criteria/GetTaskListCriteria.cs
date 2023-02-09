@@ -1,17 +1,16 @@
 ﻿using Fanex.Data.Repository;
 
-namespace OWP.TaskList.Criteria
+namespace OWP.TaskList.Criteria;
+
+public class GetTaskListCriteria : CriteriaBase
 {
-    public class GetTaskListCriteria : CriteriaBase
-    {
-        public int UserId { get; set; }
+    public int UserId { get; set; }
 
-        public bool IsGetYesterdayEvent { get; set; }
+    public bool IsGetYesterdayEvent { get; set; }
 
-        public DateTime EventDate { get; set; }
+    public DateTime EventDate { get; set; }
 
-        public override string GetSettingKey() => "OWP_TaskList_GetEventsByDay";
+    public override string GetSettingKey() => "OWP_TaskList_GetEventsByDay";
 
-        public override bool IsValid() => UserId > 0;
-    }
+    public override bool IsValid() => UserId > 0;
 }

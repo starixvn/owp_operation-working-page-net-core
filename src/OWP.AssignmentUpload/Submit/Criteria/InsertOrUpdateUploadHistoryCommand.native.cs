@@ -1,13 +1,12 @@
-﻿namespace OWP.AssignmentUpload.Submit.Criteria
+﻿namespace OWP.AssignmentUpload.Submit.Criteria;
+
+using System;
+using Fanex.Data.Repository;
+
+public class InsertOrUpdateUploadHistoryCommand : NonQueryCommand
 {
-    using System;
-    using Fanex.Data.Repository;
+    public DateTime EventDate { get; set; }
+    public override string GetSettingKey() => "OWP_AssignmentUpload_UploadHistoryInsertOrUpdate";
 
-    public class InsertOrUpdateUploadHistoryCommand : NonQueryCommand
-    {
-        public DateTime EventDate { get; set; }
-        public override string GetSettingKey() => "OWP_AssignmentUpload_UploadHistoryInsertOrUpdate";
-
-        public override bool IsValid() => true;
-    }
+    public override bool IsValid() => true;
 }

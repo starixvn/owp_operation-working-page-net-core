@@ -1,24 +1,23 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 
-namespace OWP.TicketCenter.Hubs
+namespace OWP.TicketCenter.Hubs;
+
+public interface TicketCenterNotifyHub
 {
-    public interface TicketCenterNotifyHub
-    {
-        Task NotifyNewMessageIncome();
+    Task NotifyNewMessageIncome();
 
-        Task NotifyNewAddRecipient();
+    Task NotifyNewAddRecipient();
 
-        Task NotifyChangeStatusIncome();
+    Task NotifyChangeStatusIncome();
 
-        Task NotifyUserOnClickToast(int ticketId, int eventType);
+    Task NotifyUserOnClickToast(int ticketId, int eventType);
 
-        Task NotifyNewMessageLga(int owpMatchId, int actorId);
+    Task NotifyNewMessageLga(int owpMatchId, int actorId);
 
-        Task NotifyNewAddRecipientLga(int owpMatchId, int actorId);
+    Task NotifyNewAddRecipientLga(int owpMatchId, int actorId);
 
-    }
+}
 
-    public class TicketCenterNotifyHubImp : Hub<TicketCenterNotifyHub>
-    {
-    }
+public class TicketCenterNotifyHubImp : Hub<TicketCenterNotifyHub>
+{
 }

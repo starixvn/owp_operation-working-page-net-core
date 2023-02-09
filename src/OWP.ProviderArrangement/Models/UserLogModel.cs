@@ -1,15 +1,14 @@
-namespace OWP.ProviderArrangement.Models
+namespace OWP.ProviderArrangement.Models;
+
+using System;
+
+public class UserLogModel
 {
-    using System;
+    public string DataOld { get; set; }
 
-    public class UserLogModel
-    {
-        public string DataOld { get; set; }
+    public string Data { get; set; }
 
-        public string Data { get; set; }
+    public DateTime ModifiedDate { get; set; }
 
-        public DateTime ModifiedDate { get; set; }
-
-        public string ModifiedBy { get; set; }
-    }
+    public string ModifiedBy { get; set; }
 }

@@ -1,11 +1,10 @@
-﻿namespace OWP.LiveDetail.Agent
+﻿namespace OWP.LiveDetail.Agent;
+
+using Fanex.Data.Repository;
+
+public class GetAllCriteria : CriteriaBase
 {
-    using Fanex.Data.Repository;
+    public override bool IsValid() => true;
 
-    public class GetAllCriteria : CriteriaBase
-    {
-        public override bool IsValid() => true;
-
-        public override string GetSettingKey() => "OWP_Agent_GetAll";
-    }
+    public override string GetSettingKey() => "OWP_Agent_GetAll";
 }

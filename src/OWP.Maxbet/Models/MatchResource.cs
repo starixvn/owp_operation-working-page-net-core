@@ -1,7 +1,6 @@
-﻿namespace OWP.Maxbet.Models
+﻿namespace OWP.Maxbet.Models;
+
+public class MatchResource
 {
-    public class MatchResource
-    {
-        public int ResourceId { get; set; }
-    }
+    public int ResourceId { get; set; }
 }

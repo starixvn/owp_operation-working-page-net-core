@@ -1,23 +1,22 @@
-﻿namespace OWP.OtherSport.Validation.Helpers
+﻿namespace OWP.OtherSport.Validation.Helpers;
+
+using OWP.OtherSport.Validation.Models;
+
+using System.ComponentModel.DataAnnotations;
+
+public static class ValidationHelper
 {
-    using OWP.OtherSport.Validation.Models;
-
-    using System.ComponentModel.DataAnnotations;
-
-    public static class ValidationHelper
+    public static void BuildValidationRowResult(
+        List<ValidationResult> validationResults,
+        List<AssignmentValidationRowResult> validationRowResult,
+        int rowIndex)
     {
-        public static void BuildValidationRowResult(
-           List<ValidationResult> validationResults,
-           List<AssignmentValidationRowResult> validationRowResult,
-           int rowIndex)
-        {
-            var validationResultsRow = validationResults
-                   .Select(v => new AssignmentValidationRowResult
-                   {
-                       Row = rowIndex,
-                       Message = v.ErrorMessage
-                   });
-            validationRowResult.AddRange(validationResultsRow);
-        }
+        var validationResultsRow = validationResults
+            .Select(v => new AssignmentValidationRowResult
+            {
+                Row = rowIndex,
+                Message = v.ErrorMessage
+            });
+        validationRowResult.AddRange(validationResultsRow);
     }
 }

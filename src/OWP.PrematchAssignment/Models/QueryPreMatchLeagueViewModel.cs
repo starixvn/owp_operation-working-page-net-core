@@ -1,13 +1,12 @@
-﻿namespace OWP.PreMatchAssignment.Models
+﻿namespace OWP.PreMatchAssignment.Models;
+
+using Newtonsoft.Json;
+
+public class QueryPreMatchLeagueViewModel
 {
-    using Newtonsoft.Json;
+    [JsonProperty("PreMatchLeagues")]
+    public IEnumerable<LeagueAssignment> PreMatchLeagues { get; set; }
 
-    public class QueryPreMatchLeagueViewModel
-    {
-        [JsonProperty("PreMatchLeagues")]
-        public IEnumerable<LeagueAssignment> PreMatchLeagues { get; set; }
-
-        [JsonProperty("InfoSiteMatches")]
-        public IEnumerable<InfoSiteMatch> InfoSiteMatches { get; set; }
-    }
+    [JsonProperty("InfoSiteMatches")]
+    public IEnumerable<InfoSiteMatch> InfoSiteMatches { get; set; }
 }

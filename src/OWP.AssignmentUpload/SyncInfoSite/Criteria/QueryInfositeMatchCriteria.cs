@@ -1,14 +1,13 @@
-﻿namespace OWP.InfositeIdSync.Criteria
+﻿namespace OWP.InfositeIdSync.Criteria;
+
+using System;
+using Fanex.Data.Repository;
+
+public class QueryInfositeMatchCriteria : CriteriaBase
 {
-    using System;
-    using Fanex.Data.Repository;
+    public DateTime EventDate { get; set; }
 
-    public class QueryInfositeMatchCriteria : CriteriaBase
-    {
-        public DateTime EventDate { get; set; }
+    public override string GetSettingKey() => "OWP_InfoSiteMatch_GetInfoSiteMatchByDate";
 
-        public override string GetSettingKey() => "OWP_InfoSiteMatch_GetInfoSiteMatchByDate";
-
-        public override bool IsValid() => true;
-    }
+    public override bool IsValid() => true;
 }

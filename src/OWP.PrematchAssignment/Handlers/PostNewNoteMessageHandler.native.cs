@@ -1,28 +1,27 @@
-﻿namespace OWP.PreMatchAssignment.Handlers
+﻿namespace OWP.PreMatchAssignment.Handlers;
+
+using MediatR;
+using Models;
+using Services;
+
+public class PostNewNoteMessageRequest : IRequest<Note>
 {
-    using MediatR;
-    using Models;
-    using Services;
+    public int PreMatchNoteId { get; set; }
 
-    public class PostNewNoteMessageRequest : IRequest<Note>
+    public string Message { get; set; }
+}
+
+public class PostNewNoteMessageHandler : IRequestHandler<PostNewNoteMessageRequest, Note>
+{
+    private readonly NoteService noteService;
+
+    public PostNewNoteMessageHandler(NoteService noteService)
     {
-        public int PreMatchNoteId { get; set; }
-
-        public string Message { get; set; }
+        this.noteService = noteService;
     }
 
-    public class PostNewNoteMessageHandler : IRequestHandler<PostNewNoteMessageRequest, Note>
+    public async Task<Note> Handle(PostNewNoteMessageRequest request, CancellationToken cancellationToken)
     {
-        private readonly NoteService noteService;
-
-        public PostNewNoteMessageHandler(NoteService noteService)
-        {
-            this.noteService = noteService;
-        }
-
-        public async Task<Note> Handle(PostNewNoteMessageRequest request, CancellationToken cancellationToken)
-        {
-            return await noteService.InsertNewNoteMessage(request);
-        }
+        return await noteService.InsertNewNoteMessage(request);
     }
 }

@@ -1,62 +1,61 @@
-﻿namespace OWP.OtherSport.EventAssignment.Services
-{
-    using AutoMapper;
-    using Models;
-    using Shared.Helper;
-    using Submit.Contants;
-    using Submit.Models;
+﻿namespace OWP.OtherSport.EventAssignment.Services;
 
-    public interface EventAssignmentBuilder
+using AutoMapper;
+using Models;
+using Shared.Helper;
+using Submit.Contants;
+using Submit.Models;
+
+public interface EventAssignmentBuilder
+{
+    List<EventAssignmentModel> Build(AssignmentSnapshot assignmentSnapshot, QueryEventAssignmentRequest request);
+}
+
+public class EventAssignmentBuilderImp : EventAssignmentBuilder
+{
+    private readonly AssignmentBuilder assignmentBuilder;
+
+    private readonly MatchSettingBuilder matchSettingBuilder;
+
+    private readonly IMapper mapper;
+
+    public EventAssignmentBuilderImp(
+        AssignmentBuilder assignmentBuilder,
+        MatchSettingBuilder matchSettingBuilder,
+        IMapper mapper)
     {
-        List<EventAssignmentModel> Build(AssignmentSnapshot assignmentSnapshot, QueryEventAssignmentRequest request);
+        this.assignmentBuilder = assignmentBuilder;
+        this.matchSettingBuilder = matchSettingBuilder;
+        this.mapper = mapper;
     }
 
-    public class EventAssignmentBuilderImp : EventAssignmentBuilder
+    public List<EventAssignmentModel> Build(AssignmentSnapshot assignmentSnapshot, QueryEventAssignmentRequest request)
     {
-        private readonly AssignmentBuilder assignmentBuilder;
+        RemoveInvalidNote(assignmentSnapshot.MatchAssignments);
 
-        private readonly MatchSettingBuilder matchSettingBuilder;
+        var filteredMatchesByEmployee = FilterHelper.FilterMatchesByEmployee(request.Employee, assignmentSnapshot);
+        var filteredMatchesByMatchStatus = FilterHelper.FilterMatchesByMatchStatus(request.MatchStatuses, filteredMatchesByEmployee);
 
-        private readonly IMapper mapper;
+        var eventAssignments = mapper.Map<List<EventAssignmentModel>>(filteredMatchesByMatchStatus.Values);
 
-        public EventAssignmentBuilderImp(
-            AssignmentBuilder assignmentBuilder,
-            MatchSettingBuilder matchSettingBuilder,
-            IMapper mapper)
+        assignmentBuilder.Build(eventAssignments, assignmentSnapshot.MatchAssignments);
+        matchSettingBuilder.Build(eventAssignments, assignmentSnapshot.MatchSettings);
+
+        return eventAssignments;
+    }
+
+    public static void RemoveInvalidNote(Dictionary<int, List<MatchAssignment>> assignments)
+    {
+        foreach (var key in assignments.Keys)
         {
-            this.assignmentBuilder = assignmentBuilder;
-            this.matchSettingBuilder = matchSettingBuilder;
-            this.mapper = mapper;
-        }
+            var assignmentList = assignments[key];
 
-        public List<EventAssignmentModel> Build(AssignmentSnapshot assignmentSnapshot, QueryEventAssignmentRequest request)
-        {
-            RemoveInvalidNote(assignmentSnapshot.MatchAssignments);
-
-            var filteredMatchesByEmployee = FilterHelper.FilterMatchesByEmployee(request.Employee, assignmentSnapshot);
-            var filteredMatchesByMatchStatus = FilterHelper.FilterMatchesByMatchStatus(request.MatchStatuses, filteredMatchesByEmployee);
-
-            var eventAssignments = mapper.Map<List<EventAssignmentModel>>(filteredMatchesByMatchStatus.Values);
-
-            assignmentBuilder.Build(eventAssignments, assignmentSnapshot.MatchAssignments);
-            matchSettingBuilder.Build(eventAssignments, assignmentSnapshot.MatchSettings);
-
-            return eventAssignments;
-        }
-
-        public static void RemoveInvalidNote(Dictionary<int, List<MatchAssignment>> assignments)
-        {
-            foreach (var key in assignments.Keys)
-            {
-                var assignmentList = assignments[key];
-
-                assignments[key] = assignmentList.Where(a =>
+            assignments[key] = assignmentList.Where(a =>
                     !(string.Equals(a.AssignmentNote, "#<user>") &&
-                    a.UserId == 0 &&
-                    a.AssignmentType == (int)AssignmentType.OtherAssignment))
+                      a.UserId == 0 &&
+                      a.AssignmentType == (int)AssignmentType.OtherAssignment))
                 .OrderBy(x => x.Order)
                 .ToList();
-            }
         }
     }
 }

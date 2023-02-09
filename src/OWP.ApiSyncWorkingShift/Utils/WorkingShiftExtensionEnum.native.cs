@@ -1,14 +1,13 @@
-﻿namespace OWP.ApiSyncWorkingShift.Utils
+﻿namespace OWP.ApiSyncWorkingShift.Utils;
+
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+
+public enum WorkingShiftExtension
 {
-    using System.ComponentModel;
-    using System.Diagnostics.CodeAnalysis;
+    [Description("(REAL)")]
+    Real = 1,
 
-    public enum WorkingShiftExtension
-    {
-        [Description("(REAL)")]
-        Real = 1,
-
-        [Description("(SPECIAL)")]
-        Special = 2
-    }
+    [Description("(SPECIAL)")]
+    Special = 2
 }
