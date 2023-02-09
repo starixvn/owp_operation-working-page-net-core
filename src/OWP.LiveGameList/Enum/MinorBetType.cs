@@ -1,6 +1,6 @@
-﻿using System.ComponentModel;
+﻿namespace OWP.LiveGameList.Enum;
 
-namespace OWP.LiveGameList.Enum;
+using System.ComponentModel;
 
 public enum MinorBetType
 {

@@ -1,11 +1,10 @@
-﻿using Fanex.Data.Repository;
+﻿namespace OWP.LiveGameList.Services;
+
+using Criteria;
+using Fanex.Data.Repository;
+using Models;
 using Newtonsoft.Json;
 using Olympus.OWP.Constants;
-using OWP.LiveGameList.Criteria;
-using OWP.LiveGameList.Models;
-using System.Data;
-
-namespace OWP.LiveGameList.Services;
 
 public interface GetAdminSiteMatchIdService
 {
@@ -40,13 +39,13 @@ public class GetAdminSiteMatchIdServiceImp : GetAdminSiteMatchIdService
         -108 // 2H 1st Free Kick
     };
 
-    private readonly List<int> specialMinorBetTypes = new List<int>
+    private readonly List<int> specialMinorBetTypes = new()
     {
         -4, // Next Corners
-        -7, // Next Booking
+        -7 // Next Booking
     };
 
-    private readonly Dictionary<int, int> specialMinorSubTypes = new Dictionary<int, int>
+    private readonly Dictionary<int, int> specialMinorSubTypes = new()
     {
         { -4, 2101 }, // 1st Next Corners
         { -7, 2901 } // Next Booking

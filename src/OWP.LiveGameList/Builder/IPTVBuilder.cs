@@ -1,6 +1,6 @@
-﻿using OWP.LiveGameList.Models;
+﻿namespace OWP.LiveGameList.Builder;
 
-namespace OWP.LiveGameList.Builder;
+using Models;
 
 public static class IPTVBuilder
 {

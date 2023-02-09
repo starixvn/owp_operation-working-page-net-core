@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿namespace OWP.LiveGameList.Models;
 
-namespace OWP.LiveGameList.Models;
+using Newtonsoft.Json;
 
 public class Assignment
 {

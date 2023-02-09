@@ -10,5 +10,5 @@ public class MatchNote
 
     public bool IsViewed { get; set; }
 
-    public System.DateTime LastUpdated { get; set; }
+    public DateTime LastUpdated { get; set; }
 }

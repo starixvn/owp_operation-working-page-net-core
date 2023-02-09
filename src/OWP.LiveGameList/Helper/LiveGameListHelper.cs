@@ -1,6 +1,6 @@
-﻿using System.Globalization;
+﻿namespace OWP.LiveGameList.Helper;
 
-namespace OWP.LiveGameList.Helper;
+using System.Globalization;
 
 public static class LiveGameListHelper
 {
