@@ -1,7 +1,6 @@
-using System.Globalization;
-using OWP.Extensions;
-
 namespace OWP.OSLeagueSetting.Models;
+
+using Extensions;
 
 public class LogDataLeagueSetting
 {

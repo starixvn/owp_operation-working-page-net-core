@@ -1,6 +1,6 @@
-﻿using System.Collections.Immutable;
+﻿namespace OWP.OSLeagueSetting.Constants;
 
-namespace OWP.OSLeagueSetting.Constants;
+using System.Collections.Immutable;
 
 public static class LeagueSettingConst
 {

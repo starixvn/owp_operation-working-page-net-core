@@ -1,6 +1,5 @@
 namespace OWP.OSLeagueSetting.Models;
 
-using System.Xml;
 using System.Xml.Serialization;
 
 [XmlRoot(ElementName = "z")]

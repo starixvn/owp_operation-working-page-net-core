@@ -1,8 +1,8 @@
 ﻿namespace OWP.OSLeagueSetting;
 
-using Models;
 using AutoMapper;
 using Criteria;
+using Models;
 
 public class AutoMapperProfile : Profile
 {
