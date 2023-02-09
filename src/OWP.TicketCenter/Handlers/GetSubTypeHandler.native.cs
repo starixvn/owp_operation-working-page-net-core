@@ -1,10 +1,7 @@
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
-using OWP.TicketCenter.Models;
-
 namespace OWP.TicketCenter.Handlers;
+
+using MediatR;
+using Models;
 
 public class GetSubTypeRequest : IRequest<IEnumerable<SubTypeModel>>
 {
@@ -20,5 +17,5 @@ public class GetSubTypeHandler : IRequestHandler<GetSubTypeRequest, IEnumerable<
     }
 
     public async Task<IEnumerable<SubTypeModel>> Handle(GetSubTypeRequest request, CancellationToken cancellationToken)
-        => (await repository.GetSubTypeByTicketTypeId(request.TicketTypeId));
+        => await repository.GetSubTypeByTicketTypeId(request.TicketTypeId);
 }

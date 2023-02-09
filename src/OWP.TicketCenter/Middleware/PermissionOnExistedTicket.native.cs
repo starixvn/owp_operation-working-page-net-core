@@ -2,8 +2,9 @@ namespace OWP.TicketCenter.Middleware;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using OWP.TicketCenter.Middleware.Models;
-using OWP.TicketCenter.Services;
+using Models;
+using Services;
+
 public class PermissionOnExistedTicket : IAsyncActionFilter
 {
     private readonly PermissionService permissionService;

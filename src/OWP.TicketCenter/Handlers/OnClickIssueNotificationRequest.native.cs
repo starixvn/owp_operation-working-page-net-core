@@ -1,8 +1,8 @@
-﻿using MediatR;
-using OWP.TicketCenter.Middleware.Models;
-using OWP.TicketCenter.Notification.Services;
+﻿namespace OWP.TicketCenter.Handlers;
 
-namespace OWP.TicketCenter.Handlers;
+using MediatR;
+using Middleware.Models;
+using Notification.Services;
 
 public class OnClickIssueNotificationRequest : PermissionCheckedModel, IRequest
 {

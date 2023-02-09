@@ -1,8 +1,7 @@
-using System;
 namespace OWP.TicketCenter.Criteria;
 
-using System;
 using Fanex.Data.Repository;
+
 public class DeleteTicketCriteria: NonQueryCommand
 {
     public int UserId { get; set; }

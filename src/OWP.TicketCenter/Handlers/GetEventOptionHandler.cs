@@ -1,7 +1,7 @@
-﻿using MediatR;
-using OWP.TicketCenter.ViewModels;
+﻿namespace OWP.TicketCenter.Handlers;
 
-namespace OWP.TicketCenter.Handlers;
+using MediatR;
+using ViewModels;
 
 public class GetTicketEventOptionRequest : IRequest<IList<EventCheckingOptionInfoSender>>
 {
@@ -19,7 +19,7 @@ public class GetEventOptionHandler : IRequestHandler<GetTicketEventOptionRequest
 
     public async Task<IList<EventCheckingOptionInfoSender>> Handle(GetTicketEventOptionRequest request, CancellationToken cancellationToken)
     {
-        var eventInfo = await repository.GetEventOptionInfo((request.Keyword));
+        var eventInfo = await repository.GetEventOptionInfo(request.Keyword);
         var eventInfoDic = eventInfo
             .GroupBy(e => new { e.LeagueName })
             .ToDictionary(x => x.Key, x => x.ToList());
@@ -47,7 +47,7 @@ public class GetEventOptionHandler : IRequestHandler<GetTicketEventOptionRequest
                     AwayName = i.AwayName,
                     AwayId = i.AwayId,
                     EventDateTimeGmt8 = i.EventDateTimeGmt8,
-                    IsLeague = i.IsLeague,
+                    IsLeague = i.IsLeague
                 })
                 .DistinctBy(l => new
                 {
@@ -59,7 +59,7 @@ public class GetEventOptionHandler : IRequestHandler<GetTicketEventOptionRequest
                     l.AwayId,
                     l.AwayName,
                     l.EventDateTimeGmt8,
-                    l.IsLeague,
+                    l.IsLeague
                 });
 
             eventInfoSender.Add(new EventCheckingOptionInfoSender

@@ -1,6 +1,6 @@
-﻿using Fanex.Data.Repository;
-using System;
-namespace OWP.TicketCenter.Criteria;
+﻿namespace OWP.TicketCenter.Criteria;
+
+using Fanex.Data.Repository;
 
 public class CountUnreadMessageCriteria : CriteriaBase
 {

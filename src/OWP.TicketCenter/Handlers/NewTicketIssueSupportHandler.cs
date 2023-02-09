@@ -1,13 +1,13 @@
-﻿using MediatR;
-using OWP.RabbitMQ;
-using OWP.RabbitMQ.Constants;
-using OWP.TicketCenter.Criteria;
-using OWP.TicketCenter.Models;
-using OWP.TicketCenter.Notification.Models;
-using OWP.TicketCenter.Notification.Services;
-using OWP.TicketCenter.Services;
+﻿namespace OWP.TicketCenter.Handlers;
 
-namespace OWP.TicketCenter.Handlers;
+using Criteria;
+using MediatR;
+using Models;
+using Notification.Models;
+using Notification.Services;
+using RabbitMQ;
+using RabbitMQ.Constants;
+using Services;
 
 public class NewTicketIssueSupportRequest : NewTicketModelBase, IRequest<int>
 {

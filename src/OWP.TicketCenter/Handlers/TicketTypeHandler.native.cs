@@ -1,7 +1,7 @@
-﻿using MediatR;
-using OWP.TicketCenter.Models;
+﻿namespace OWP.TicketCenter.Handlers;
 
-namespace OWP.TicketCenter.Handlers;
+using MediatR;
+using Models;
 
 public class TicketTypeRequest : IRequest<TicketTypeModel>
 {

@@ -1,8 +1,8 @@
-﻿using MediatR;
-using OWP.TicketCenter.Models;
-using OWP.TicketCenter.Services;
+﻿namespace OWP.TicketCenter.Handlers;
 
-namespace OWP.TicketCenter.Handlers;
+using MediatR;
+using Models;
+using Services;
 
 public class RemoveSingleRecipientRequest : InsertOrRemoveSingleRecipientModel, IRequest<int>
 {
@@ -22,11 +22,11 @@ public class RemoveSingleRecipientHandler : IRequestHandler<RemoveSingleRecipien
 
     public async Task<int> Handle(RemoveSingleRecipientRequest request, CancellationToken cancellationToken)
     {
-        var recipients = new List<InsertOrRemoveManyRecipientModel>()
+        var recipients = new List<InsertOrRemoveManyRecipientModel>
         {
             new ()
             {
-                RecipientIds = new List<int>(){request.RecipientId},
+                RecipientIds = new List<int> {request.RecipientId},
                 RecipientType = request.RecipientType
             }
         };

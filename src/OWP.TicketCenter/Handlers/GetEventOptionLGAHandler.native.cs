@@ -1,7 +1,7 @@
-using MediatR;
-using OWP.TicketCenter.ViewModels;
-
 namespace OWP.TicketCenter.Handlers;
+
+using MediatR;
+using ViewModels;
 
 public class GetTicketEventOptionLGARequest : IRequest<IList<EventLGAOptionInfoSender>>
 {
@@ -19,7 +19,7 @@ public class GetEventOptionLGAHandler : IRequestHandler<GetTicketEventOptionLGAR
 
     public async Task<IList<EventLGAOptionInfoSender>> Handle(GetTicketEventOptionLGARequest request, CancellationToken cancellationToken)
     {
-        var eventInfo = await repository.GetEventOptionLGAInfo((request.Keyword));
+        var eventInfo = await repository.GetEventOptionLGAInfo(request.Keyword);
         var eventInfoDic = eventInfo
             .GroupBy(e => new { e.LeagueName })
             .ToDictionary(x => x.Key, x => x.ToList());
@@ -38,7 +38,7 @@ public class GetEventOptionLGAHandler : IRequestHandler<GetTicketEventOptionLGAR
                     AwayName = i.AwayName,
                     AwayId = i.AwayId,
                     EventDateTimeGmt8 = i.EventDateTimeGmt8,
-                    IsLeague = i.IsLeague,
+                    IsLeague = i.IsLeague
                 })
                 .DistinctBy(l => new
                 {
@@ -50,7 +50,7 @@ public class GetEventOptionLGAHandler : IRequestHandler<GetTicketEventOptionLGAR
                     l.AwayId,
                     l.AwayName,
                     l.EventDateTimeGmt8,
-                    l.IsLeague,
+                    l.IsLeague
                 });
 
             eventInfoSender.Add(new EventLGAOptionInfoSender

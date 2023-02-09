@@ -1,6 +1,6 @@
-﻿using Fanex.Data.Repository;
+﻿namespace OWP.TicketCenter.Criteria;
 
-namespace OWP.TicketCenter.Criteria;
+using Fanex.Data.Repository;
 
 public abstract class InsertOrDeleteSingleRecipientCriteria : CriteriaBase
 {

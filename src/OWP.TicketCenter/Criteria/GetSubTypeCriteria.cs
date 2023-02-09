@@ -1,6 +1,7 @@
 namespace OWP.TicketCenter.Criteria;
 
 using Fanex.Data.Repository;
+
 public class GetSubTypeCriteria : CriteriaBase
 {
     public int TicketTypeId { get; set; }

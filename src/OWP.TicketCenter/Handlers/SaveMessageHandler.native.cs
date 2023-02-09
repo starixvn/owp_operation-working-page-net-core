@@ -1,9 +1,7 @@
 namespace OWP.TicketCenter.Handlers;
 
 using MediatR;
-using OWP.TicketCenter.Middleware.Models;
-using System.Threading;
-using System.Threading.Tasks;
+using Middleware.Models;
 
 public class SaveMessageRequest : PermissionCheckedModel, IRequest<bool>
 {

@@ -1,8 +1,8 @@
-﻿using OWP.TicketCenter.Criteria;
-using OWP.TicketCenter.Enum;
-using OWP.TicketCenter.Models;
+﻿namespace OWP.TicketCenter.Services;
 
-namespace OWP.TicketCenter.Services;
+using Criteria;
+using Enum;
+using Models;
 
 public interface RecipientService
 {

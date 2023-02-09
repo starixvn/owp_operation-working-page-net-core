@@ -1,10 +1,10 @@
-﻿using AutoMapper;
-using OWP.TicketCenter.Criteria;
-using OWP.TicketCenter.Handlers;
-using OWP.TicketCenter.Middleware.Models;
-using OWP.TicketCenter.ViewModels;
+﻿namespace OWP.TicketCenter.Services;
 
-namespace OWP.TicketCenter.Services;
+using AutoMapper;
+using Criteria;
+using Handlers;
+using Middleware.Models;
+using ViewModels;
 
 public interface TicketDetailService
 {
@@ -87,7 +87,7 @@ public class TicketDetailServiceImp : TicketDetailService
             return;
         }
 
-        (var canShowMoreMessage, var messages) = !permissionModel.FirstMessageId.HasValue
+        var (canShowMoreMessage, messages) = !permissionModel.FirstMessageId.HasValue
             ? await messageService.GetMessageListInLast2Days(ticketId)
             : await messageService.GetMessageListByGreaterMessageId(ticketId, permissionModel.FirstMessageId.Value);
         var criteria = new UpdateSingleRecipientReaderCriteria

@@ -1,7 +1,7 @@
-﻿using MediatR;
-using OWP.TicketCenter.Models;
+﻿namespace OWP.TicketCenter.Handlers;
 
-namespace OWP.TicketCenter.Handlers;
+using MediatR;
+using Models;
 
 public class GetStatusHistoryRequest : IRequest<IEnumerable<StatusHistory>>
 {
@@ -18,5 +18,5 @@ public class GetStatusHistoryHandler : IRequestHandler<GetStatusHistoryRequest, 
     }
 
     public async Task<IEnumerable<StatusHistory>> Handle(GetStatusHistoryRequest request, CancellationToken cancellationToken)
-        => (await repository.GetStatusHistory(request.TicketId));
+        => await repository.GetStatusHistory(request.TicketId);
 }

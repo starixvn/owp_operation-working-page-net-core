@@ -1,8 +1,8 @@
-﻿using AutoMapper;
-using OWP.TicketCenter.Models;
-using OWP.TicketCenter.ViewModels;
+﻿namespace OWP.TicketCenter.Services;
 
-namespace OWP.TicketCenter.Services;
+using AutoMapper;
+using Models;
+using ViewModels;
 
 public interface MessageService
 {
@@ -30,7 +30,7 @@ public class MessageServiceImp : MessageService
         var messages = new List<NewMessageRequestModel>();
         foreach (var file in request.Files)
         {
-            messages.Add(new()
+            messages.Add(new NewMessageRequestModel
             {
                 TicketId = ticketId,
                 CreatorId = request.CreatorId,

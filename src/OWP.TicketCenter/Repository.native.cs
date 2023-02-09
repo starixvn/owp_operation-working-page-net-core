@@ -1,14 +1,13 @@
-﻿using OWP.Extensions;
-using OWP.TicketCenter.ViewModels;
-
-namespace OWP.TicketCenter;
+﻿namespace OWP.TicketCenter;
 
 using AutoMapper;
 using Criteria;
+using Extensions;
 using Fanex.Data.Repository;
 using Fanex.NAP.Client.Helpers.Web;
-using OWP.TicketCenter.Handlers;
-using OWP.TicketCenter.Models;
+using Handlers;
+using Models;
+using ViewModels;
 
 public interface Repository
 {
@@ -138,7 +137,7 @@ public class RepositoryImp : Repository
 
     public async Task<IList<EventCheckingOption>> GetEventOptionInfo(string keyword)
     {
-        var criteria = new GetEventCriteria()
+        var criteria = new GetEventCriteria
         {
             Keyword = keyword
         };
@@ -151,7 +150,7 @@ public class RepositoryImp : Repository
 
     public async Task<IList<EventLGAOption>> GetEventOptionLGAInfo(string keyword)
     {
-        var criteria = new GetEventLGACriteria()
+        var criteria = new GetEventLGACriteria
         {
             Keyword = keyword
         };
@@ -242,7 +241,7 @@ public class RepositoryImp : Repository
 
     public async Task<MessageDetailViewModel> AddNewMessage(NewMessageRequestModel message)
     {
-        var criteria = new AddNewTicketIssueMessageCriteria()
+        var criteria = new AddNewTicketIssueMessageCriteria
         {
             TicketId = message.TicketId,
             UserId = message.CreatorId,
@@ -344,7 +343,7 @@ public class RepositoryImp : Repository
 
     public async Task<IssueCreatorModel> GetIssueCreator(int ticketId)
     {
-        var creator = new QueryIssueCreatorCriteria()
+        var creator = new QueryIssueCreatorCriteria
         {
             TicketId = ticketId
         };
@@ -451,7 +450,7 @@ public class RepositoryImp : Repository
         var criteria = new SaveMessageCriteria
         {
             MessageId = request.MessageId,
-            IsSaved = request.IsSaved,
+            IsSaved = request.IsSaved
         };
         await dynamicRepository.ExecuteAsync(criteria);
     }
@@ -469,7 +468,7 @@ public class RepositoryImp : Repository
     {
         var criteria = new GetTwoLastCommentCriteria
         {
-            TicketId = String.Join(',', ticketIds)
+            TicketId = string.Join(',', ticketIds)
         };
 
         return await dynamicRepository.FetchAsync<MessageInfoModel>(criteria);

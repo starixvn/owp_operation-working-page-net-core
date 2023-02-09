@@ -1,14 +1,13 @@
-﻿using MediatR;
+﻿namespace OWP.TicketCenter;
+
+using Handlers;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using OWP.TicketCenter.Handlers;
-using OWP.TicketCenter.Middleware;
-using OWP.TicketCenter.Models;
-using OWP.TicketCenter.Services;
-using OWP.TicketCenter.ViewModels;
-
-namespace OWP.TicketCenter;
+using Middleware;
+using Models;
+using Services;
 
 [Route("api/[controller]")]
 [ApiController]
