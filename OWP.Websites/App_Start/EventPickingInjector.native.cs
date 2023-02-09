@@ -1,8 +1,8 @@
-﻿using OWP.EventPicking;
-using OWP.EventPicking.Middleware;
-using OWP.EventPicking.Services;
+﻿namespace OWP.Websites;
 
-namespace OWP.Websites;
+using EventPicking;
+using EventPicking.Middleware;
+using EventPicking.Services;
 
 public static class EventPickingInjector
 {

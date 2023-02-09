@@ -17,7 +17,7 @@ using OWP.Websites.CrossCuttingConcern;
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
     ApplicationName = typeof(Program).Assembly.FullName,
-    ContentRootPath = Directory.GetCurrentDirectory(),
+    ContentRootPath = Directory.GetCurrentDirectory()
 });
 
 // Add services to the container.
@@ -85,8 +85,8 @@ NapClientManager
   .UseSession(app.Services.GetService<INapSession>());
 
 app.MapControllerRoute(
-        name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}");
+        "default",
+        "{controller=Home}/{action=Index}/{id?}");
 app.MapHub<NewDataUploadNotifyHubImp>("/otherSportNewDataUploadNotifyHub");
 app.MapHub<ChangedInfoNotifyHubImp>("/changedInfoNotifyHub");
 app.MapHub<TicketCenterNotifyHubImp>("/ticketCenterNotifyHub");

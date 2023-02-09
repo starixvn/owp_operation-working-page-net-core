@@ -1,10 +1,8 @@
-﻿using OWP.AutoAssignment;
-using OWP.OSLeagueSetting.Factory;
-
-namespace OWP.Websites.App_Start;
+﻿namespace OWP.Websites.App_Start;
 
 using OSLeagueSetting;
-using OWP.OSLeagueSetting.Services;
+using OSLeagueSetting.Factory;
+using OSLeagueSetting.Services;
 
 public static class OSLeagueSettingInjectior
 {

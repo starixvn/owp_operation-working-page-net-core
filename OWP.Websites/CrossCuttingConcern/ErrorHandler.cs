@@ -3,8 +3,6 @@
 using Fanex.Logging;
 using Fanex.Logging.Extensions;
 using Fanex.Logging.Extensions.Database;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
 
 public class ErrorHandler
 {

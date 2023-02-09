@@ -1,8 +1,11 @@
-﻿using System.Text;
+﻿namespace OWP.Websites.Controllers;
+
 using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Security.Claims;
+using System.Text;
+using Fanex.NAP.Client.Configuration;
 using Fanex.NAP.Client.Helpers.Web;
 using Fanex.NAP.Client.Models.ParameterObject;
 using Fanex.NAP.Client.Services;
@@ -10,11 +13,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OWP.Websites.Models;
-using Fanex.NAP.Client.Configuration;
-
-namespace OWP.Websites.Controllers;
-
+using Models;
 using ONEbook.UM.AspNetCore.Filters;
 
 public class HomeController : Controller
@@ -161,8 +160,8 @@ public class HomeController : Controller
 
         var claims = new List<Claim>
         {
-            new Claim(ClaimTypes.Name, "sa"),
-            new Claim(ClaimTypes.NameIdentifier, "8")
+            new(ClaimTypes.Name, "sa"),
+            new(ClaimTypes.NameIdentifier, "8")
         };
 
         var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

@@ -1,18 +1,17 @@
-using OWP.LiveDetail.Agent;
-using OWP.LiveDetail.Assignment;
-using OWP.LiveDetail.Common;
-using OWP.LiveDetail.InfositeMatch;
-using OWP.LiveDetail.MatchInfo;
-using OWP.LiveDetail.MatchNote;
-using OWP.LiveDetail.MatchOdd;
-using OWP.LiveDetail.MatchSetting;
-using OWP.LiveDetail.OtherProvider;
-using OWP.LiveDetail.Provider;
-using OWP.LiveDetail.Television;
-using OWP.LiveDetail.User;
-using OWP.Services;
-
 namespace OWP.Websites.App_Start;
+
+using LiveDetail.Agent;
+using LiveDetail.Assignment;
+using LiveDetail.Common;
+using LiveDetail.InfositeMatch;
+using LiveDetail.MatchInfo;
+using LiveDetail.MatchNote;
+using LiveDetail.MatchOdd;
+using LiveDetail.MatchSetting;
+using LiveDetail.OtherProvider;
+using LiveDetail.Provider;
+using LiveDetail.Television;
+using LiveDetail.User;
 
 public static class LiveDetailInjector
 {

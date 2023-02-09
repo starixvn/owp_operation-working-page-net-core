@@ -1,10 +1,9 @@
-﻿using OWP.AutoAssignment;
-using OWP.AutoAssignment.Services.PublicApi;
-using OWP.AutoAssignment.Services.SaveResponse;
+﻿namespace OWP.Websites.App_Start;
 
-namespace OWP.Websites.App_Start;
-
+using AutoAssignment;
 using AutoAssignment.Services.InternalApi;
+using AutoAssignment.Services.PublicApi;
+using AutoAssignment.Services.SaveResponse;
 
 public static class AutoAssignmentInjector
 {
