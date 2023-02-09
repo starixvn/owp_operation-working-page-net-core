@@ -1,6 +1,6 @@
-﻿using Fanex.Data.Repository;
+﻿namespace OWP.Report.PreMatchReport.Criteria;
 
-namespace OWP.Report.PreMatchReport.Criteria;
+using Fanex.Data.Repository;
 
 public class GetUserIdFromDb02Criteria : CriteriaBase
 {

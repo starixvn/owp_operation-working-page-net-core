@@ -1,6 +1,5 @@
 ﻿namespace OWP.Report.TraderReport.Criteria;
 
-using System;
 using Fanex.Data.Repository;
 
 public class GetTraderReportCriteria : CriteriaBase

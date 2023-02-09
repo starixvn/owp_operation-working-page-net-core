@@ -1,7 +1,5 @@
 ﻿namespace OWP.Report.LAReport.Services;
 
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Criteria;
 using Fanex.Data.Repository;
 using Models;

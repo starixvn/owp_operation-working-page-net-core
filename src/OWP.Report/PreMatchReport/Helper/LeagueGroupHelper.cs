@@ -1,13 +1,13 @@
 namespace OWP.Report.PreMatchReport.Helper;
 
-using OWP.Extensions;
-using OWP.Report.PreMatchReport.Constants;
-using OWP.Report.PreMatchReport.Models;
 using System.Reflection;
+using Constants;
+using Extensions;
+using Models;
 
 public static class LeagueGroupHelper
 {
-    private static readonly Dictionary<int, string> leagueGroups = new Dictionary<int, string>
+    private static readonly Dictionary<int, string> leagueGroups = new()
     {
         { LeagueGroupConst.Unknown , "Unknown"},
         { LeagueGroupConst.MJ , "MJ"},
@@ -28,13 +28,13 @@ public static class LeagueGroupHelper
         { LeagueGroupConst.IntMj , "IntMj"},
         { LeagueGroupConst.IntMn , "IntMn"},
         { LeagueGroupConst.WorldCup , "WorldCup"},
-        { LeagueGroupConst.Euro , "Euro"},
+        { LeagueGroupConst.Euro , "Euro"}
     };
 
     public static void Build(ReportBaseModel singleTraderOfLeague, QueryPrematchReportModel element)
     {
         var leagueGroup = leagueGroups.GetValue(element.GroupId, string.Empty);
-        PropertyInfo prop = singleTraderOfLeague.GetType().GetProperty(leagueGroup, BindingFlags.Public | BindingFlags.Instance);
+        var prop = singleTraderOfLeague.GetType().GetProperty(leagueGroup, BindingFlags.Public | BindingFlags.Instance);
 
         if (prop != null && prop.CanWrite)
         {

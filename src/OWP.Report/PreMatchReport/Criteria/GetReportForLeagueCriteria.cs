@@ -1,6 +1,6 @@
-using Fanex.Data.Repository;
-
 namespace OWP.Report.PreMatchReport.Criteria;
+
+using Fanex.Data.Repository;
 
 public class GetReportForLeagueCriteria : CriteriaBase
 {

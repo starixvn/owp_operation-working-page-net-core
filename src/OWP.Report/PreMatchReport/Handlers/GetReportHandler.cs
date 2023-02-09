@@ -1,8 +1,8 @@
-using MediatR;
-using OWP.Report.PreMatchReport.Models;
-using OWP.Report.PreMatchReport.Services;
-
 namespace OWP.Report.PreMatchReport.Handlers;
+
+using MediatR;
+using Models;
+using Services;
 
 public class ReportRequest : QueryModel, IRequest<List<ExportPreMatchModel>>
 {

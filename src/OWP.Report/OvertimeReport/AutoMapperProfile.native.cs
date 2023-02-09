@@ -1,8 +1,8 @@
-﻿using AutoMapper;
-using OWP.Report.OvertimeReport.Handlers;
-using OWP.Report.OvertimeReport.Models;
+﻿namespace OWP.Report.OvertimeReport;
 
-namespace OWP.Report.OvertimeReport;
+using AutoMapper;
+using Handlers;
+using Models;
 
 public class AutoMapperProfile : Profile
 {

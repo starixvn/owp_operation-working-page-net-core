@@ -1,9 +1,5 @@
 ﻿namespace OWP.Report.TraderReport.Handlers;
 
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using AutoMapper;
 using Fanex.NAP.Client.Helpers.Web;
 using MediatR;

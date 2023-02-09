@@ -1,7 +1,5 @@
 ﻿namespace OWP.Report.TraderReport.Criteria;
 
-using System;
-
 public class GetPerformanceDetailsCriteria
 {
     public DateTime FromDate { get; set; }

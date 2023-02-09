@@ -74,7 +74,7 @@ public class ReportByMonthServicesImp : ReportByMonthServices
             {
                 Date = date.ToString("dd-MMM"),
                 IsWeekend = IsWeekend(date),
-                DayOfWeek = date.ToString("ddd"),
+                DayOfWeek = date.ToString("ddd")
             };
         }
     }

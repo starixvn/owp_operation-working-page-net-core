@@ -1,13 +1,10 @@
 ﻿namespace OWP.Report.TraderReport.Services;
 
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using Constants;
 using Criteria;
 using Fanex.Logging;
 using Microsoft.Extensions.Configuration;
 using Models;
-using OWP.Constants;
 using OWP.Services;
 using Report.Models;
 

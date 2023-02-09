@@ -1,10 +1,9 @@
 ﻿namespace OWP.Report.TraderReport.Services;
 
 using Constants;
+using Extensions;
 using Models;
-using OWP.Extensions;
 using OWP.Services;
-using Utils;
 
 public interface ReportPermissionService
 {

@@ -1,6 +1,5 @@
 ﻿namespace OWP.Report.TraderReport.Services;
 
-using System.IO;
 using Constant;
 using Epplus.Mapper.Extensions;
 using Models;
