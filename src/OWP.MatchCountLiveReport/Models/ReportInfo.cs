@@ -1,10 +1,10 @@
-using OfficeOpenXml.Attributes;
-
 namespace OWP.MatchCountLiveReport.Models;
 
 using System.Text.Json.Serialization;
 using Epplus.Mapper.Annotations;
-using OWP.MatchCountLiveReport.Helper;
+using Helper;
+using OfficeOpenXml.Attributes;
+
 public class ReportInfo
 {
     [Cell("A3")]

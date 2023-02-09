@@ -1,13 +1,12 @@
-using MediatR;
-using OWP.Services;
-using OfficeOpenXml;
-
-using OWP.MatchCountLiveReport.Models;
-using Epplus.Mapper.Extensions;
-using System.Drawing;
-using OfficeOpenXml.Style;
-
 namespace OWP.MatchCountLiveReport.Handlers;
+
+using System.Drawing;
+using Epplus.Mapper.Extensions;
+using MediatR;
+using Models;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
+using Services;
 
 public class ExportRequest : IRequest<ExcelPackage>
 {
@@ -80,7 +79,7 @@ public class ExportHandler : IRequestHandler<ExportRequest, ExcelPackage>, IDisp
 
     private string GetReportTemplate()
     {
-        var templatePath = @$"App_Data/Templates/MatchCountLiveReportTemplate.xlsx";
+        var templatePath = @"App_Data/Templates/MatchCountLiveReportTemplate.xlsx";
         return $"{configurationService.CurrentDirectory}{Path.DirectorySeparatorChar}{templatePath}";
     }
 
