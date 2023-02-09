@@ -1,7 +1,7 @@
-﻿using MediatR;
-using OWP.ApiSyncWorkingShift.Models;
+﻿namespace OWP.ApiSyncWorkingShift.Handlers;
 
-namespace OWP.ApiSyncWorkingShift.Handlers;
+using MediatR;
+using Models;
 
 public class QueryWorkingShiftToHRPPRequest : IRequest<IEnumerable<WorkingShiftHRPPModel>>
 {

@@ -1,10 +1,10 @@
-﻿using MediatR;
+﻿namespace OWP.ApiSyncWorkingShift;
+
+using Handlers;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OWP.ApiSyncWorkingShift.Handlers;
-using OWP.ApiSyncWorkingShift.Models;
-
-namespace OWP.ApiSyncWorkingShift;
+using Models;
 
 [Route("api/")]
 [ApiController]
