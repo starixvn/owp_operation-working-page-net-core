@@ -25,7 +25,7 @@ public class QueryEventPickingHandler : IRequestHandler<QueryEventPickingRequest
     }
     public List<EventPickingModel> FilterAllMatchesByRequest(List<EventPickingModel> matches, QueryEventPickingRequest request)
     => matches
-        .Where(x => ValidMatch(x, request))?
+        .Where(x => ValidMatch(x, request))
         .ToList();
 
     private bool ValidMatch(EventPickingModel match, QueryEventPickingRequest condition)

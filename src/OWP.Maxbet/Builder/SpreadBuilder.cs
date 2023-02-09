@@ -64,7 +64,7 @@ public class SpreadBuilderImp : SpreadBuilder
 
         if (!hasExistsFirstHalfHdp)
         {
-            spread.Add(handicap?.Spread < spreadBaseline ?
+            spread.Add(handicap.Spread < spreadBaseline ?
                 new SpreadModel
                 {
                     Bettype = (int)EnumBettype.FirstHalfHandicap,
@@ -80,7 +80,7 @@ public class SpreadBuilderImp : SpreadBuilder
 
         if (!hasExistsFirstHalfOu)
         {
-            spread.Add(overUnder?.Spread < spreadBaseline
+            spread.Add(overUnder.Spread < spreadBaseline
                 ? new SpreadModel
                 {
                     Bettype = (int)EnumBettype.FirstHalfOverUnder,

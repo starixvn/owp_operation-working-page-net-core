@@ -45,5 +45,5 @@ public static class ValidationHelper
 
     public static List<AssignmentModel> RemoveMatchGenerateBySystem(List<AssignmentModel> owpMatchs)
         => owpMatchs.Where(o => !MinorBettypeConst.MinorBettypeIdGenerateBySystem
-            .Exists(m => m == o.MinorBettypeId))?.ToList();
+            .Exists(m => m == o.MinorBettypeId)).ToList();
 }

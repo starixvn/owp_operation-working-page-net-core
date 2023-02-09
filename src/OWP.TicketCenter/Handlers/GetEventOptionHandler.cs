@@ -34,7 +34,7 @@ public class GetEventOptionHandler : IRequestHandler<GetTicketEventOptionRequest
                     RecipientId = x.RecipientId,
                     UserName = x.UserName,
                     NickName = x.NickName
-                })?.DistinctBy(x => new { x.RecipientId, x.UserName, x.NickName });
+                }).DistinctBy(x => new { x.RecipientId, x.UserName, x.NickName });
 
             var eventViewModel = eventInfoDic[key]
                 .Select(i => new EventCheckingOptionInfoViewModel

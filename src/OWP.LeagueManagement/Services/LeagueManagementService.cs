@@ -100,6 +100,6 @@ public class LeagueManagementServiceImp : LeagueManagementService
             league.HasLinkLeagueAndTeam = leagueLinkToTeam.Any(id => league.OWPLeagueId == id);
         }
 
-        return leagueInfoResponses?.ToList();
+        return leagueInfoResponses.ToList();
     }
 }
