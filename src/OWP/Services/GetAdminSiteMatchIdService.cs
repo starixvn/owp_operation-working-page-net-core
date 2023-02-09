@@ -1,11 +1,8 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+namespace OWP.Services;
+
+using Criteria;
 using Fanex.Data.Repository;
 using Olympus.OWP.Constants;
-using OWP.Criteria;
-
-namespace OWP.Services;
 
 public interface GetAdminSiteMatchIdService
 {
@@ -41,13 +38,13 @@ public class GetAdminSiteMatchIdServiceImp : GetAdminSiteMatchIdService
         -108 // 2H 1st Free Kick
     };
 
-    private readonly List<int> specialMinorBetTypes = new List<int>
+    private readonly List<int> specialMinorBetTypes = new()
     {
         -4, // Next Corners
-        -7, // Next Booking
+        -7 // Next Booking
     };
 
-    private readonly Dictionary<int, int> specialMinorSubTypes = new Dictionary<int, int>
+    private readonly Dictionary<int, int> specialMinorSubTypes = new()
     {
         { -4, 2101 }, // 1st Next Corners
         { -7, 2901 } // Next Booking
@@ -72,7 +69,7 @@ public class GetAdminSiteMatchIdServiceImp : GetAdminSiteMatchIdService
             return adminSiteMatchId;
         }
 
-        int subType = 0;
+        var subType = 0;
         if (specialMinorBetTypes.Any(x => x == minorBettypeId.Value))
         {
             subType = GetSubTypeSpecialProduct(minorBettypeId.Value);

@@ -1,7 +1,6 @@
 namespace OWP.Enums;
 
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 
 public enum AssignmentType
 {

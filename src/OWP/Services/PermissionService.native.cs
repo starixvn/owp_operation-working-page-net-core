@@ -1,8 +1,5 @@
 namespace OWP.Services;
 
-using System.Collections.Generic;
-using System.Linq;
-using Fanex.NAP.Client.AspNetCore.Configuration;
 using Fanex.NAP.Client.Configuration;
 using Fanex.NAP.Client.Helpers.Web;
 using Fanex.NAP.Client.Models.ValueObject;

@@ -1,6 +1,6 @@
-using OWP.Extensions;
-
 namespace OWP.Utils;
+
+using Extensions;
 
 public static class OneManyMapping
 {
@@ -10,7 +10,7 @@ public static class OneManyMapping
     public const int AwaySingleTeamPenaltyShootout = -99;
     public const int NextGoal = -109;
 
-    private static readonly Dictionary<int, Tuple<int, int>> OneManyList = new Dictionary<int, Tuple<int, int>>
+    private static readonly Dictionary<int, Tuple<int, int>> OneManyList = new()
     {
         { HomeSingleTeamPenaltyShootout, new Tuple<int, int>(1, 49) },
         { AwaySingleTeamPenaltyShootout, new Tuple<int, int>(1, 49) },

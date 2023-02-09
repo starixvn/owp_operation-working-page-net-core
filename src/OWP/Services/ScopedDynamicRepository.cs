@@ -1,7 +1,7 @@
+namespace OWP.Services;
+
 using Fanex.Data.Repository;
 using Microsoft.Extensions.DependencyInjection;
-
-namespace OWP.Services;
 
 public interface ScopedDynamicRepository
 {

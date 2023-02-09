@@ -1,6 +1,6 @@
-﻿using Fanex.Data.Repository;
+﻿namespace OWP.Criteria;
 
-namespace OWP.Criteria;
+using Fanex.Data.Repository;
 
 public class GetMessageBySessionCriteria : CriteriaBase
 {

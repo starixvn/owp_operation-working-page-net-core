@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿namespace OWP.Hubs;
 
-
-namespace OWP.Hubs;
+using Microsoft.AspNetCore.SignalR;
 
 public interface ChangedInfoNotifyHub // Redis backplane
 {

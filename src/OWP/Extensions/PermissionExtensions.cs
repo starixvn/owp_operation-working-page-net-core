@@ -1,7 +1,5 @@
 namespace OWP.Extensions;
 
-using System.Collections.Generic;
-using System.Linq;
 using Fanex.NAP.Client.Models.ValueObject;
 using Fanex.NAP.Core.Business;
 using Models;

@@ -1,7 +1,5 @@
 namespace OWP.Constants;
 
-using System.Diagnostics.CodeAnalysis;
-
 public enum RuleReturnType
 {
     Failed = 1,

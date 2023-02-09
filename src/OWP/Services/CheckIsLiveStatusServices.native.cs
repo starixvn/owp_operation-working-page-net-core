@@ -1,14 +1,10 @@
 namespace OWP.Services;
 
+using Criteria;
 using Fanex.Data.Repository;
 using Models;
 using Olympus.OWP.Constants;
-using OWP.Criteria;
-using OWP.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Utils;
 
 public interface CheckIsLiveStatusServices
 {
@@ -47,8 +43,8 @@ public class CheckIsLiveStatusServicesImp : CheckIsLiveStatusServices
 
         return mainDBResult.Where(x =>
             x.ParentId == parentAdminSiteId &&
-            x.SubType >= (subType + fromIndex) &&
-            x.SubType <= (subType + toIndex));
+            x.SubType >= subType + fromIndex &&
+            x.SubType <= subType + toIndex);
     }
 
     private static IEnumerable<IsLiveMatchInfo> GetOfferLiveMainMatch(int parentAdminSiteId, List<IsLiveMatchInfo> mainDBResult)

@@ -1,6 +1,5 @@
 namespace OWP.Utils;
 
-using System;
 using System.Diagnostics;
 
 public static class Converter
@@ -13,14 +12,14 @@ public static class Converter
             return (T)Convert.ChangeType(item, typeof(T));
         }
 
-        return default(T);
+        return default;
     }
 
     [DebuggerStepThrough]
     public static int ToInt(object item, int defaultValue = 0)
     {
-        int result = defaultValue;
-        bool b = false;
+        var result = defaultValue;
+        var b = false;
 
         if (!ReferenceEquals(item, null) && item != DBNull.Value)
         {
@@ -33,8 +32,8 @@ public static class Converter
     [DebuggerStepThrough]
     public static bool ToBool(object item, bool defaultValue = false)
     {
-        bool result = defaultValue;
-        bool b = false;
+        var result = defaultValue;
+        var b = false;
 
         if (!ReferenceEquals(item, null) && item != DBNull.Value)
         {
@@ -47,8 +46,8 @@ public static class Converter
     [DebuggerStepThrough]
     public static decimal ToDecimal(object item, decimal defaultValue = 0)
     {
-        decimal result = defaultValue;
-        bool b = false;
+        var result = defaultValue;
+        var b = false;
 
         if (!ReferenceEquals(item, null) && item != DBNull.Value)
         {
@@ -77,8 +76,8 @@ public static class Converter
 
     public static DateTime ToDateTime(object item, DateTime defaultValue)
     {
-        DateTime result = defaultValue;
-        bool b = false;
+        var result = defaultValue;
+        var b = false;
 
         if (!ReferenceEquals(item, null) && item != DBNull.Value)
         {
@@ -91,8 +90,8 @@ public static class Converter
     [DebuggerStepThrough]
     public static char ToChar(object item, char defaultValue = char.MinValue)
     {
-        char result = defaultValue;
-        bool b = false;
+        var result = defaultValue;
+        var b = false;
 
         if (!ReferenceEquals(item, null) && item != DBNull.Value)
         {

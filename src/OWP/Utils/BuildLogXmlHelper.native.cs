@@ -2,6 +2,7 @@ namespace OWP.Utils;
 
 using System.Xml;
 using System.Xml.Serialization;
+
 public static class BuildLogXmlHelper
 {
     public static List<T> Deserialize<T>(string xml)

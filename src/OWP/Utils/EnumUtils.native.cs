@@ -48,7 +48,7 @@ public static class EnumUtils<T>
                 }
             }
         }
-        return default(T);
+        return default;
     }
 
     public static T ToEnum(string s)
