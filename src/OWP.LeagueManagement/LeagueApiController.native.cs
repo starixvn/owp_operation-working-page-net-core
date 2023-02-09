@@ -1,13 +1,11 @@
 namespace OWP.LeagueManagement;
 
+using Handlers;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Models;
-using OWP.LeagueManagement.Handlers;
 using Newtonsoft.Json;
 
 [Route("api/league-management")]

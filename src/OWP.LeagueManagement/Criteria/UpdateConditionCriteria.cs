@@ -1,6 +1,7 @@
 namespace OWP.LeagueManagement.Criteria;
 
 using Fanex.Data.Repository;
+
 public class UpdateConditionCriteria : CriteriaBase
 {
     public int ActorId { get; set; }

@@ -1,8 +1,5 @@
 namespace OWP.LeagueManagement.Models;
 
-using System.Collections.Generic;
-using Newtonsoft.Json;
-
 public class LeagueSettingCondition
 {
     public int LeagueSettingId { get; set; }

@@ -1,7 +1,5 @@
 namespace OWP.LeagueManagement.Models;
 
-using System;
-
 public class UserLogModel
 {
     public string Action { get; set; }

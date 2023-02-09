@@ -1,6 +1,5 @@
 namespace OWP.LeagueManagement.Models;
 
-using Newtonsoft.Json;
 public class LogDisplayModel
 {
     public string Product { get; set; }

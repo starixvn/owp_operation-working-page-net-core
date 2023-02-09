@@ -1,7 +1,5 @@
 namespace OWP.LeagueManagement.Models;
 
-using Newtonsoft.Json;
-using System;
 public class LeagueInfoResponse
 {
     public bool HasLinkLeagueAndTeam { get; set; }

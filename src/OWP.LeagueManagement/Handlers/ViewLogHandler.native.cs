@@ -1,8 +1,8 @@
-using MediatR;
-using OWP.LeagueManagement.Models;
-using OWP.LeagueManagement.Service;
-
 namespace OWP.LeagueManagement.Handlers;
+
+using MediatR;
+using Models;
+using Service;
 
 public class ViewLogRequest : IRequest<IList<LogDisplayModel>>
 {

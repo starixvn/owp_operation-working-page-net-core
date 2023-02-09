@@ -1,6 +1,7 @@
 namespace OWP.LeagueManagement.Criteria;
 
 using Fanex.Data.Repository;
+
 public class GetConditionCriteria : CriteriaBase
 {
     public int LeagueSettingId { get; set; }

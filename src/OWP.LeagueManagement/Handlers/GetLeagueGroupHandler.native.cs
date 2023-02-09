@@ -1,9 +1,8 @@
-using MediatR;
-using OWP.LeagueManagement.Models;
-using OWP.LeagueManagement.Constants;
-using OWP.Models;
-
 namespace OWP.LeagueManagement.Handlers;
+
+using Constants;
+using MediatR;
+using OWP.Models;
 
 public class GetLeagueGroupRequest : IRequest<IEnumerable<ReferenceResource>>
 {
