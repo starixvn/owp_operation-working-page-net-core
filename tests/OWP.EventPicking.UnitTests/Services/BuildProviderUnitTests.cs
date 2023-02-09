@@ -36,28 +36,28 @@ public class BuildProviderUnitTests
     public List<EventPickingModel> MockMatches()
         => new()
         {
-            new()
+            new EventPickingModel
             {
                 OtherProvider = ""
             },
-            new()
+            new EventPickingModel
             {
                 OtherProvider = "rb2/ok/oke"
             },
-            new()
+            new EventPickingModel
             {
                 OtherProvider = "FC/FCTV"
 
             },
-            new()
+            new EventPickingModel
             {
                 OtherProvider = "RB2TV"
             },
-            new()
+            new EventPickingModel
             {
                 OtherProvider = "abcRB2TVdef/aaa"
             },
-            new()
+            new EventPickingModel
             {
                 OtherProvider = "abcRB2aabbTV/aaa"
             }

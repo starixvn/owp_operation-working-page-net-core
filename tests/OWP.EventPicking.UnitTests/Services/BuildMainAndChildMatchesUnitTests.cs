@@ -66,7 +66,7 @@ public class BuildMainAndChildMatchesUnitTests
     public List<EventPickingModel> MockMainMatches()
         => new()
         {
-            new()
+            new EventPickingModel
             {
                 OWPLeagueId = 111,
                 InfoSiteMatchId = 3333,
@@ -77,7 +77,7 @@ public class BuildMainAndChildMatchesUnitTests
                 OutSide = "Outside",
                 RowColor = "white"
             },
-            new()
+            new EventPickingModel
             {
                 OWPLeagueId = 222,
                 InfoSiteMatchId = 4444,
@@ -93,21 +93,21 @@ public class BuildMainAndChildMatchesUnitTests
     public List<EventPickingModel> MockChildMatches()
         => new()
         {
-            new()
+            new EventPickingModel
             {
                 OWPLeagueId = 111,
                 InfoSiteMatchId = 3333,
                 EventDateTime = new DateTime(2022, 11, 06),
                 RowColor = "white"
             },
-            new()
+            new EventPickingModel
             {
                 OWPLeagueId = 222,
                 InfoSiteMatchId = 3333,
                 EventDateTime = new DateTime(2022, 11, 7),
                 RowColor = "white"
             },
-            new()
+            new EventPickingModel
             {
                 OWPLeagueId = 222,
                 InfoSiteMatchId = 4444,
@@ -119,7 +119,7 @@ public class BuildMainAndChildMatchesUnitTests
     public List<EventPickingModel> ExpectedMatches()
         => new()
         {
-            new()
+            new EventPickingModel
             {
                 OWPLeagueId = 111,
                 InfoSiteMatchId = 3333,
@@ -130,14 +130,14 @@ public class BuildMainAndChildMatchesUnitTests
                 OutSide = "Outside",
                 RowColor = "white"
             },
-            new()
+            new EventPickingModel
             {
                 OWPLeagueId = 111,
                 InfoSiteMatchId = 3333,
                 EventDateTime = new DateTime(2022, 11, 06),
                 RowColor = "white"
             },
-            new()
+            new EventPickingModel
             {
                 OWPLeagueId = 222,
                 InfoSiteMatchId = 3333,

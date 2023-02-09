@@ -5,7 +5,7 @@ public sealed class XMLNameAttribute : Attribute
 {
     public XMLNameAttribute(string name)
     {
-        this.Name = name;
+        Name = name;
     }
 
     public string Name { get; }

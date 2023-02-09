@@ -52,9 +52,9 @@ public class MatchStatusCalculatorUnitTests
     private static List<EventStatus> MockEventStatus()
         => new()
         {
-            new() { AdminsiteMatchId = 111, MatchStatus = "Completed" },
-            new() { AdminsiteMatchId = 222, MatchStatus = "Live" },
-            new() { AdminsiteMatchId = 333, MatchStatus = "completed" },
-            new() { AdminsiteMatchId = 444, MatchStatus = "" }
+            new EventStatus { AdminsiteMatchId = 111, MatchStatus = "Completed" },
+            new EventStatus { AdminsiteMatchId = 222, MatchStatus = "Live" },
+            new EventStatus { AdminsiteMatchId = 333, MatchStatus = "completed" },
+            new EventStatus { AdminsiteMatchId = 444, MatchStatus = "" }
         };
 }

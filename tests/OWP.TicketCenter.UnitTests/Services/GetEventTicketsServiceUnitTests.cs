@@ -41,7 +41,7 @@ public class GetEventTicketsServiceUnitTests
     public List<TicketLeagueInfo> MockListEventTicketLeague()
         => new()
         {
-            new()
+            new TicketLeagueInfo
             {
                 TicketId = 1,
                 OwpLeagueId=17,
@@ -53,7 +53,7 @@ public class GetEventTicketsServiceUnitTests
     public List<TicketMatchInfo> MockListEventTicketMatch()
         => new()
         {
-            new()
+            new TicketMatchInfo
             {
                 TicketId = 2,
                 OwpLeagueId=17,
@@ -65,7 +65,7 @@ public class GetEventTicketsServiceUnitTests
     public List<TicketOtherInfo> MockListEventTicketOther()
         => new()
         {
-            new()
+            new TicketOtherInfo
             {
                 TicketId = 3,
                 Subject="hi",
@@ -76,7 +76,7 @@ public class GetEventTicketsServiceUnitTests
     public List<TicketSupportInfo> MockListEventTicketSupport()
         => new()
         {
-            new()
+            new TicketSupportInfo
             {
                 TicketId = 4,
                 Subject ="hi",
@@ -87,22 +87,22 @@ public class GetEventTicketsServiceUnitTests
     public List<MessageInfoModel> MockLastMessageInfo()
         => new()
         {
-            new()
+            new MessageInfoModel
             {
                 MessageId = 1,
                 TicketId=1
             },
-            new()
+            new MessageInfoModel
             {
                 MessageId = 2,
                 TicketId=2
             },
-            new()
+            new MessageInfoModel
             {
                 MessageId = 3,
                 TicketId=3
             },
-            new()
+            new MessageInfoModel
             {
                 MessageId = 4,
                 TicketId=4

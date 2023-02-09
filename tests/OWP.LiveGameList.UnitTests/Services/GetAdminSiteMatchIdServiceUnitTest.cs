@@ -32,10 +32,10 @@ public class GetAdminSiteMatchIdServiceUnitTest
     public List<MatchInfo> MockMatchInfo()
         => new()
         {
-            new(){ OWPMatchId = 17, MinorBettypeId = 112, AdminSiteId = 1},
-            new () { OWPMatchId = 18, MinorBettypeId = 113,AdminSiteId = 1},
-            new () { OWPMatchId = 18, MinorBettypeId = -4,AdminSiteId = 1},
-            new () { OWPMatchId = 18, MinorBettypeId = -3,AdminSiteId = 1}
+            new MatchInfo { OWPMatchId = 17, MinorBettypeId = 112, AdminSiteId = 1},
+            new MatchInfo { OWPMatchId = 18, MinorBettypeId = 113,AdminSiteId = 1},
+            new MatchInfo { OWPMatchId = 18, MinorBettypeId = -4,AdminSiteId = 1},
+            new MatchInfo { OWPMatchId = 18, MinorBettypeId = -3,AdminSiteId = 1}
         };
 
     public IEnumerable<MinorMatchInfo> MockMinorMatchInfo()

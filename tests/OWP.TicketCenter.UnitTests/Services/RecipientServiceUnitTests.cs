@@ -70,12 +70,12 @@ public class RecipientServiceUnitTests
     public List<InsertOrRemoveManyRecipientModel> MockListRecipients()
         => new()
         {
-            new()
+            new InsertOrRemoveManyRecipientModel
             {
                 RecipientIds =new List<int> {1},
                 RecipientType = 1
             },
-            new()
+            new InsertOrRemoveManyRecipientModel
             {
                 RecipientIds =new List<int> {4,5,6},
                 RecipientType = 2

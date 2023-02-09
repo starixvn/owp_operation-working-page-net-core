@@ -67,7 +67,7 @@ public class BuildMainMatchMaxBetUnitTests
     public List<EventPickingModel> MockMainMatches()
         => new()
         {
-            new()
+            new EventPickingModel
             {
                 OWPLeagueId = 111,
                 InfoSiteMatchId = 3333,
@@ -77,7 +77,7 @@ public class BuildMainMatchMaxBetUnitTests
                 Round = "Round",
                 OutSide = "Outside"
             },
-            new()
+            new EventPickingModel
             {
                 OWPLeagueId = 222,
                 InfoSiteMatchId = 4444,
@@ -87,7 +87,7 @@ public class BuildMainMatchMaxBetUnitTests
                 Round = "Round",
                 OutSide = "Outside"
             },
-            new()
+            new EventPickingModel
             {
                 OWPLeagueId = 333,
                 InfoSiteMatchId = 5555,
@@ -97,7 +97,7 @@ public class BuildMainMatchMaxBetUnitTests
                 Round = "Round",
                 OutSide = "Outside"
             },
-            new()
+            new EventPickingModel
             {
                 OWPLeagueId = 444,
                 InfoSiteMatchId = 5555,
@@ -112,7 +112,7 @@ public class BuildMainMatchMaxBetUnitTests
     public List<EventPickingModel> MockExpectedMatches()
         => new()
         {
-            new()
+            new EventPickingModel
             {
                 OWPLeagueId = 111,
                 MaxBetHDPNumber = 2000,
@@ -130,7 +130,7 @@ public class BuildMainMatchMaxBetUnitTests
                 MaxBetOU = "0.1K",
                 SpreadOU = "1%"
             },
-            new()
+            new EventPickingModel
             {
                 OWPLeagueId = 222,
                 MaxBetHDPNumber = 1000,
@@ -148,7 +148,7 @@ public class BuildMainMatchMaxBetUnitTests
                 SpreadOU = "3%",
                 NoHDP = "No 1"
             },
-            new()
+            new EventPickingModel
             {
                 OWPLeagueId = 333,
                 InfoSiteMatchId = 5555,
@@ -163,7 +163,7 @@ public class BuildMainMatchMaxBetUnitTests
                 SpreadHDP = "",
                 SpreadOU = ""
             },
-            new()
+            new EventPickingModel
             {
                 OWPLeagueId = 444,
                 InfoSiteMatchId = 5555,

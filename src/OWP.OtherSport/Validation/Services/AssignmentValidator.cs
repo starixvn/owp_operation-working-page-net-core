@@ -65,7 +65,7 @@ public class AssignmentValidatorImp : AssignmentValidator
 
     public void ValidateDuplicatedAdminSiteId(AssignmentModelInExcel assignment, List<AssignmentModelInExcel> assignments, List<ValidationResult> results)
     {
-        if (int.TryParse(assignment.AdminSiteId, out var _))
+        if (int.TryParse(assignment.AdminSiteId, out _))
         {
             var duplicatedAdminSiteId = assignments
                     .Where(x => string.Equals(x.AdminSiteId?.Trim(), assignment.AdminSiteId?.Trim()))
@@ -95,7 +95,7 @@ public class AssignmentValidatorImp : AssignmentValidator
         }
         else
         {
-            if (!double.TryParse(assignment.MatchNo, out var _))
+            if (!double.TryParse(assignment.MatchNo, out _))
             {
                 results.Add(new ValidationResult("Match No must be number"));
             }

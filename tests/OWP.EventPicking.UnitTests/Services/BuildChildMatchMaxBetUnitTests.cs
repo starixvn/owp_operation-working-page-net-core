@@ -41,27 +41,27 @@ public class BuildChildMatchMaxBetUnitTests
     public List<EventPickingModel> MockChildMatches()
         => new()
         {
-            new()
+            new EventPickingModel
             {
                 InfoSiteMatchId = 3333,
                 MinorBettypeId = -3
             },
-            new()
+            new EventPickingModel
             {
                 InfoSiteMatchId = 3333,
                 MinorBettypeId = -4
             },
-            new()
+            new EventPickingModel
             {
                 InfoSiteMatchId = 4444,
                 MinorBettypeId = -6
             },
-            new()
+            new EventPickingModel
             {
                 InfoSiteMatchId = 5555,
                 MinorBettypeId = -7
             },
-            new()
+            new EventPickingModel
             {
                 InfoSiteMatchId = 4444,
                 MinorBettypeId = -99
@@ -71,18 +71,18 @@ public class BuildChildMatchMaxBetUnitTests
     public List<EventPickingModel> MockMainMatches()
         => new()
         {
-            new() { MaxBetHDP = null },
-            new()
+            new EventPickingModel { MaxBetHDP = null },
+            new EventPickingModel
             {
                 MaxBetHDPNumber = 5000,
                 InfoSiteMatchId = 3333
             },
-            new()
+            new EventPickingModel
             {
                 MaxBetHDPNumber = 3000,
                 InfoSiteMatchId = 4444
             },
-            new()
+            new EventPickingModel
             {
                 MaxBetHDPNumber = 100,
                 InfoSiteMatchId = 5555
@@ -92,33 +92,33 @@ public class BuildChildMatchMaxBetUnitTests
     public List<EventPickingModel> MockExpectedMatches()
         => new()
         {
-            new()
+            new EventPickingModel
             {
                 InfoSiteMatchId = 3333,
                 MinorBettypeId = -3,
                 MaxBetHDP = "2K",
                 MaxBetOU = "0.1K"
             },
-            new()
+            new EventPickingModel
             {
                 InfoSiteMatchId = 3333,
                 MinorBettypeId = -4,
                 MaxBetHDP = "12K"
             },
-            new()
+            new EventPickingModel
             {
                 InfoSiteMatchId = 4444,
                 MinorBettypeId = -6,
                 MaxBetHDP = "0.3K",
                 MaxBetOU = "0.1K"
             },
-            new()
+            new EventPickingModel
             {
                 InfoSiteMatchId = 5555,
                 MinorBettypeId = -7,
                 MaxBetHDP = "0.333K"
             },
-            new()
+            new EventPickingModel
             {
                 InfoSiteMatchId = 4444,
                 MinorBettypeId = -99,

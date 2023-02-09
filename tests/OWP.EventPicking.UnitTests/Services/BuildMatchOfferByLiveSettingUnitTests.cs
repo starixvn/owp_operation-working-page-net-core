@@ -56,7 +56,7 @@ public class BuildMatchOfferByLiveSettingUnitTests
     public List<EventPickingModel> MockMainMatches()
         => new()
         {
-            new()
+            new EventPickingModel
             {
                 OWPLeagueId = 111,
                 InfoSiteMatchId = 1111,
@@ -64,7 +64,7 @@ public class BuildMatchOfferByLiveSettingUnitTests
                 MaxBetHDPNumber = 5000,
                 MatchOffer = "fantasy offer"
             },
-            new()
+            new EventPickingModel
             {
                 OWPLeagueId = 222,
                 InfoSiteMatchId = 2222,
@@ -72,7 +72,7 @@ public class BuildMatchOfferByLiveSettingUnitTests
                 MaxBetHDPNumber = 5000,
                 MatchOffer = null
             },
-            new()
+            new EventPickingModel
             {
                 OWPLeagueId = 333,
                 InfoSiteMatchId = 3333,
@@ -80,7 +80,7 @@ public class BuildMatchOfferByLiveSettingUnitTests
                 MaxBetHDPNumber = 4000,
                 MatchOffer = null
             },
-            new()
+            new EventPickingModel
             {
                 OWPLeagueId = 444,
                 InfoSiteMatchId = 4444,
@@ -88,7 +88,7 @@ public class BuildMatchOfferByLiveSettingUnitTests
                 MaxBetHDPNumber = 4000,
                 MatchOffer = "offer main match"
             },
-            new()
+            new EventPickingModel
             {
                 OWPLeagueId = 5,
                 InfoSiteMatchId = 5555,
@@ -100,31 +100,31 @@ public class BuildMatchOfferByLiveSettingUnitTests
     public List<EventPickingModel> MockChildMatches()
         => new()
         {
-            new()
+            new EventPickingModel
             {
                 OWPLeagueId = 100,
                 InfoSiteMatchId = 1111,
                 MinorBettypeId = -3
             },
-            new()
+            new EventPickingModel
             {
                 OWPLeagueId = 200,
                 InfoSiteMatchId = 2222,
                 MinorBettypeId = -4
             },
-            new()
+            new EventPickingModel
             {
                 OWPLeagueId = 300,
                 InfoSiteMatchId = 3333,
                 MinorBettypeId = -6
             },
-            new()
+            new EventPickingModel
             {
                 OWPLeagueId = 500,
                 InfoSiteMatchId = 5555,
                 MinorBettypeId = -6
             },
-            new()
+            new EventPickingModel
             {
                 OWPLeagueId = 400,
                 InfoSiteMatchId = 3333,

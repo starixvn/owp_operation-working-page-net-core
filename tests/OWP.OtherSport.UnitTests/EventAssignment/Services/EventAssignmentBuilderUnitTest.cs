@@ -143,7 +143,7 @@ public class EventAssignmentBuilderUnitTest
     public List<EventAssignmentModel> GetExpected()
         => new()
         {
-            new()
+            new EventAssignmentModel
             {
                 OSMatchId = 117,
                 Sport = "Basketball",
@@ -163,7 +163,7 @@ public class EventAssignmentBuilderUnitTest
                     }
                 }
             },
-            new()
+            new EventAssignmentModel
             {
                 OSMatchId = 222,
                 Sport = "Snooker",
