@@ -1,16 +1,12 @@
 ﻿namespace OWP.AssignmentUpload.Validation;
 
+using System.Globalization;
 using Exceptions;
 using Fanex.NAP.Client.Helpers.Web;
 using MediatR;
 using Models;
 using OWP.Services;
 using Services;
-using System;
-using System.Globalization;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 
 public class ValidationRequest : IRequest<AssignmentValidationResult>
 {
@@ -19,7 +15,7 @@ public class ValidationRequest : IRequest<AssignmentValidationResult>
         SessionId = Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture);
     }
 
-    public string SessionId { get; private set; }
+    public string SessionId { get; }
 
     public DateTime EventDate { get; set; }
 

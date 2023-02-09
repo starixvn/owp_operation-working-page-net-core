@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace OWP.AssignmentUpload.Validation.Models;
+﻿namespace OWP.AssignmentUpload.Validation.Models;
 
 public class InfoSiteMatchModel
 {

@@ -1,7 +1,5 @@
 ﻿namespace OWP.AssignmentUpload.Validation.Models;
 
-using System;
-
 public class Session
 {
     public string SessionId { get; set; }

@@ -1,7 +1,5 @@
 namespace OWP.AssignmentUpload.Validation.Exceptions;
 
-using System;
-using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Models;
 

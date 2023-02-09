@@ -1,9 +1,5 @@
 namespace OWP.AssignmentUpload.Validation.Services;
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Text.RegularExpressions;
 using Constants;
 using Extensions;
@@ -19,7 +15,7 @@ public class ExcelReaderImp : ExcelReader
 {
     private const int StartRow = 3;
 
-    private static readonly Regex otherTraderRegex = new Regex(@"#[^\s#]+", RegexOptions.IgnoreCase);
+    private static readonly Regex otherTraderRegex = new(@"#[^\s#]+", RegexOptions.IgnoreCase);
 
     public UploadingDataFromExcel Read(Stream stream)
     {
@@ -108,7 +104,7 @@ public class ExcelReaderImp : ExcelReader
             {
 
                 var matches = otherTraderRegex.Matches(p);
-                return matches.Cast<Match>().Select(s => s.Value.Remove(0, 1)).FirstOrDefault();
+                return matches.Select(s => s.Value.Remove(0, 1)).FirstOrDefault();
             })
             .Where(n => !string.IsNullOrEmpty(n))
             .Select(l => l.Length <= maxLength ? l : l.Substring(0, maxLength))

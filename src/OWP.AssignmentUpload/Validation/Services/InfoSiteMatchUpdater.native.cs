@@ -1,12 +1,8 @@
 namespace OWP.AssignmentUpload.Validation.Services;
 
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Models;
-using SyncInfoSite.Services;
-using System;
 using SyncInfoSite.Helper;
+using SyncInfoSite.Services;
 
 public interface InfoSiteMatchUpdater
 {
@@ -17,13 +13,13 @@ public class InfoSiteMatchUpdaterImp : InfoSiteMatchUpdater
 {
     private readonly SyncInfoSiteService syncInfoSiteService;
 
-    private static List<MainMatchBackupModel> mainMatchBackupModel = new List<MainMatchBackupModel>();
+    private static readonly List<MainMatchBackupModel> mainMatchBackupModel = new();
 
     public InfoSiteMatchUpdaterImp(
         Repository repository,
         SyncInfoSiteService syncInfoSiteIdService)
     {
-        this.syncInfoSiteService = syncInfoSiteIdService;
+        syncInfoSiteService = syncInfoSiteIdService;
     }
 
     public async Task UpdateInfoSiteMatchToOwpMatch(List<AssignmentModel> owpMatch, DateTime eventDateTime)

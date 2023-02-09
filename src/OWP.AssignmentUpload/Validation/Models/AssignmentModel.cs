@@ -1,8 +1,5 @@
 namespace OWP.AssignmentUpload.Validation.Models;
 
-using System;
-using System.Collections.Generic;
-
 public class AssignmentModel
 {
     public AssignmentModel()

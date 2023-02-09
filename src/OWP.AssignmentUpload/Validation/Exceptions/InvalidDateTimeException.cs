@@ -1,6 +1,6 @@
-using System.Runtime.Serialization;
-
 namespace OWP.AssignmentUpload.Validation.Exceptions;
+
+using System.Runtime.Serialization;
 
 [Serializable]
 public class InvalidDateTimeException : CriticalValidationException

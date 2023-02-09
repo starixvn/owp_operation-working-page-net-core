@@ -1,6 +1,5 @@
 ﻿namespace OWP.AssignmentUpload.Validation.Constants;
 
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
@@ -31,7 +30,7 @@ public enum MinorBettype
     TotalBooking = -6,
 
     [Description("No.of Corner")]
-    NoOfCorner = -3,
+    NoOfCorner = -3
 }
 
 public static class MinorBettypeConst
@@ -40,4 +39,4 @@ public static class MinorBettypeConst
     {
         -88, -89, -1, -2, -8, -5
     });
-};
+}

@@ -1,9 +1,6 @@
 ﻿
 namespace OWP.AssignmentUpload.SyncInfoSite.Services;
 
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Validation.Models;
 
 public interface SyncInfoSiteService

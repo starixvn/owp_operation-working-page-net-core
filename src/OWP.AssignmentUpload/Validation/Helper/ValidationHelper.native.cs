@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using OWP.AssignmentUpload.Validation.Constants;
-using OWP.AssignmentUpload.Validation.Models;
+﻿namespace OWP.AssignmentUpload.Validation.Helper;
 
-namespace OWP.AssignmentUpload.Validation.Helper;
+using System.ComponentModel.DataAnnotations;
+using Constants;
+using Models;
 
 public static class ValidationHelper
 {
@@ -30,7 +27,7 @@ public static class ValidationHelper
         => owpMatchs.Count(a => string.Equals(a.Home, owpMatch.Home, StringComparison.CurrentCultureIgnoreCase) &&
                                 string.Equals(a.Away, owpMatch.Away, StringComparison.CurrentCultureIgnoreCase) &&
                                 string.Equals(a.League, owpMatch.League, StringComparison.CurrentCultureIgnoreCase) &&
-                                string.Equals(a.KickOffTime, owpMatch.KickOffTime));
+                                Equals(a.KickOffTime, owpMatch.KickOffTime));
 
     public static void BuildValidationRowResult(
         List<ValidationResult> validationResults,

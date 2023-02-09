@@ -1,6 +1,5 @@
 ﻿namespace OWP.InfositeIdSync.Criteria;
 
-using System;
 using Fanex.Data.Repository;
 
 public class QueryInfositeMatchCriteria : CriteriaBase

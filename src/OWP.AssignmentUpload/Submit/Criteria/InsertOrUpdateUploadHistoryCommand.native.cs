@@ -1,6 +1,5 @@
 ﻿namespace OWP.AssignmentUpload.Submit.Criteria;
 
-using System;
 using Fanex.Data.Repository;
 
 public class InsertOrUpdateUploadHistoryCommand : NonQueryCommand

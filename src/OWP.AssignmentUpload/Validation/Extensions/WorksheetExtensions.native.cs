@@ -1,10 +1,7 @@
 namespace OWP.AssignmentUpload.Validation.Extensions;
 
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
-using System.Linq;
 using System.Reflection;
 using Anotations;
 using Constants;
@@ -24,7 +21,7 @@ public static class WorksheetExtensions
 
         public bool IsSpread { get; set; }
 
-        public List<int> ColumnIndices { get; set; } = new List<int>();
+        public List<int> ColumnIndices { get; set; } = new();
 
         public Type PropertyType => PropertyInfo.PropertyType;
     }

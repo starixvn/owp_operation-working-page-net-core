@@ -1,7 +1,5 @@
 ﻿namespace OWP.AssignmentUpload.SyncInfoSite.Services;
 
-using System.Collections.Generic;
-using System.Linq;
 using Helper;
 using Models;
 using Validation.Models;

@@ -1,10 +1,7 @@
-﻿using OWP.AssignmentUpload.SyncInfoSite.Models;
-using OWP.AssignmentUpload.Validation.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿namespace OWP.AssignmentUpload.SyncInfoSite.Helper;
 
-namespace OWP.AssignmentUpload.SyncInfoSite.Helper;
+using Models;
+using Validation.Models;
 
 public static class InfoSiteHelper
 {

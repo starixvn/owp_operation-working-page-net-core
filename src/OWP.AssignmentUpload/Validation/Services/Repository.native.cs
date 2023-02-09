@@ -1,8 +1,5 @@
 namespace OWP.AssignmentUpload.Validation.Services;
 
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Criteria;
 using Fanex.Data.Repository;
 using Models;

@@ -1,6 +1,5 @@
 ﻿namespace OWP.AssignmentUpload.Validation.Services;
 
-using System.Threading.Tasks;
 using Models;
 
 public interface Analyzer

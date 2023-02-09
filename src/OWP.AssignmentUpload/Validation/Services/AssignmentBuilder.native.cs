@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using OWP.AssignmentUpload.Validation.Models;
+﻿namespace OWP.AssignmentUpload.Validation.Services;
 
-namespace OWP.AssignmentUpload.Validation.Services;
+using Models;
 
 public interface AssignmentBuilder
 {

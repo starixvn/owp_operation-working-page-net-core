@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using OWP.AssignmentUpload.Validation.Exceptions;
-using OWP.AssignmentUpload.Validation.Helper;
-using OWP.AssignmentUpload.Validation.Models;
+﻿namespace OWP.AssignmentUpload.Validation.Services;
 
-namespace OWP.AssignmentUpload.Validation.Services;
+using System.ComponentModel.DataAnnotations;
+using Exceptions;
+using Helper;
+using Models;
 
 public interface InfoSiteValidation
 {

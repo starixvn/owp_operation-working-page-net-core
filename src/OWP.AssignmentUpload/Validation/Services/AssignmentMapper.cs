@@ -1,9 +1,6 @@
 namespace OWP.AssignmentUpload.Validation.Services;
 
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Text.RegularExpressions;
 using AutoMapper;
 using Models;
@@ -44,7 +41,7 @@ public class AssignmentMapperImp : AssignmentMapper
 {
     private readonly IMapper mapper;
 
-    private static readonly Regex otherTraderRegex = new Regex(@"#[^\s#]+", RegexOptions.IgnoreCase);
+    private static readonly Regex otherTraderRegex = new(@"#[^\s#]+", RegexOptions.IgnoreCase);
 
     public AssignmentMapperImp(IMapper mapper)
     {
@@ -182,7 +179,7 @@ public class AssignmentMapperImp : AssignmentMapper
     public int ExtractTrader(string text)
     {
         var matches = otherTraderRegex.Matches(text);
-        var name = matches.Cast<Match>().Select(s => s.Value.Remove(0, 1)).FirstOrDefault();
+        var name = matches.Select(s => s.Value.Remove(0, 1)).FirstOrDefault();
 
         return string.IsNullOrEmpty(name) ? 0 : GetTraderId(name);
     }

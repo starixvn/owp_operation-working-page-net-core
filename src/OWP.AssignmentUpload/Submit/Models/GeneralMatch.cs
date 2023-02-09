@@ -1,7 +1,5 @@
 ﻿namespace OWP.AssignmentUpload.Submit.Models;
 
-using System;
-
 public class GeneralMatch
 {
     public int MatchId { get; set; }

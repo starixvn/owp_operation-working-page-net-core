@@ -1,7 +1,5 @@
 namespace OWP.AssignmentUpload.Validation.Models;
 
-using System.Collections.Generic;
-
 public class AssignmentValidationResult
 {
     public AssignmentValidationResult()

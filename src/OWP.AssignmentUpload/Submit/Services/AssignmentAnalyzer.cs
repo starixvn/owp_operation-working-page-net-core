@@ -2,9 +2,6 @@
 
     using Constants;
     using Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Constants;
 using Models;
 using Validation.Models;
@@ -459,7 +456,7 @@ public class AssignmentAnalyzerImp : AssignmentAnalyzer
             MatchId = assignmentModel.OWPMatchId,
             BetType = (int)MajorBetType.Handicap,
             MaxBet = assignmentModel.MaxBetHDP,
-            Spread = assignmentModel.SpreadHDP,
+            Spread = assignmentModel.SpreadHDP
         };
 
         yield return new MatchSetting
@@ -467,7 +464,7 @@ public class AssignmentAnalyzerImp : AssignmentAnalyzer
             MatchId = assignmentModel.OWPMatchId,
             BetType = (int)MajorBetType.OneXTwo,
             MaxBet = assignmentModel.MaxBet1X2,
-            Spread = assignmentModel.Spread1H1X2,
+            Spread = assignmentModel.Spread1H1X2
         };
 
         yield return new MatchSetting
@@ -475,7 +472,7 @@ public class AssignmentAnalyzerImp : AssignmentAnalyzer
             MatchId = assignmentModel.OWPMatchId,
             BetType = (int)MajorBetType.OneXTwo1H,
             MaxBet = assignmentModel.MaxBet1H1X2,
-            Spread = assignmentModel.Spread1H1X2,
+            Spread = assignmentModel.Spread1H1X2
         };
 
         yield return new MatchSetting
@@ -483,7 +480,7 @@ public class AssignmentAnalyzerImp : AssignmentAnalyzer
             MatchId = assignmentModel.OWPMatchId,
             BetType = (int)MajorBetType.Handicap1H,
             MaxBet = assignmentModel.MaxBet1HHDP,
-            Spread = assignmentModel.Spread1HHDP,
+            Spread = assignmentModel.Spread1HHDP
         };
 
         yield return new MatchSetting
@@ -491,7 +488,7 @@ public class AssignmentAnalyzerImp : AssignmentAnalyzer
             MatchId = assignmentModel.OWPMatchId,
             BetType = (int)MajorBetType.OverUnder,
             MaxBet = assignmentModel.MaxBetOU,
-            Spread = assignmentModel.SpreadOU,
+            Spread = assignmentModel.SpreadOU
         };
 
         yield return new MatchSetting
@@ -499,7 +496,7 @@ public class AssignmentAnalyzerImp : AssignmentAnalyzer
             MatchId = assignmentModel.OWPMatchId,
             BetType = (int)MajorBetType.OverUnder1H,
             MaxBet = assignmentModel.MaxBet1HOU,
-            Spread = assignmentModel.Spread1HOU,
+            Spread = assignmentModel.Spread1HOU
         };
     }
 

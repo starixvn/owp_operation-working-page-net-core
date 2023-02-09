@@ -1,12 +1,8 @@
 ﻿namespace OWP.AssignmentUpload.SyncInfoSite;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Fanex.Data.Repository;
-using Models;
 using InfositeIdSync.Criteria;
+using Models;
 
 public interface SyncInfoSiteRepository
 {

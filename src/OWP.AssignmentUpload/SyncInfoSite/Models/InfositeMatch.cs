@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace OWP.AssignmentUpload.SyncInfoSite.Models;
+﻿namespace OWP.AssignmentUpload.SyncInfoSite.Models;
 
 public class InfositeMatch
 {
