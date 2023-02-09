@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿namespace OWP.ProductAssignmentReference;
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using OWP.ProductAssignmentReference.Models;
-using OWP.ProductAssignmentReference.Services;
-
-namespace OWP.ProductAssignmentReference;
+using Models;
+using Services;
 
 [Route("api/[controller]")]
 [ApiController]

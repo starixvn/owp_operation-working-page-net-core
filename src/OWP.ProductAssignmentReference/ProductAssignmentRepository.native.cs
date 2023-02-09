@@ -1,9 +1,9 @@
-﻿using Fanex.Data.Repository;
-using Fanex.NAP.Client.Configuration;
-using OWP.ProductAssignmentReference.Criteria;
-using OWP.ProductAssignmentReference.Models;
+﻿namespace OWP.ProductAssignmentReference;
 
-namespace OWP.ProductAssignmentReference;
+using Criteria;
+using Fanex.Data.Repository;
+using Fanex.NAP.Client.Configuration;
+using Models;
 
 public interface ProductAssignmentRepository
 {

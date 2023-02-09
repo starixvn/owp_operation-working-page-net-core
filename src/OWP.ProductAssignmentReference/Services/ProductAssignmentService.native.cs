@@ -1,8 +1,8 @@
-﻿using Fanex.Caching;
-using Newtonsoft.Json;
-using OWP.ProductAssignmentReference.Models;
+﻿namespace OWP.ProductAssignmentReference.Services;
 
-namespace OWP.ProductAssignmentReference.Services;
+using Fanex.Caching;
+using Models;
+using Newtonsoft.Json;
 
 public interface ProductAssignmentService
 {

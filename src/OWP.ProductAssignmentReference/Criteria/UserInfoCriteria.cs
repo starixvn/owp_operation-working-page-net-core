@@ -1,6 +1,6 @@
-﻿using Fanex.Data.Repository;
+﻿namespace OWP.ProductAssignmentReference.Criteria;
 
-namespace OWP.ProductAssignmentReference.Criteria;
+using Fanex.Data.Repository;
 
 public class UserInfoCriteria : CriteriaBase
 {
