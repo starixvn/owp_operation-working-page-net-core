@@ -1,7 +1,6 @@
-﻿using System.Text.Json.Serialization;
-using OWP.PrematchAssignment.Models;
+﻿namespace OWP.PreMatchAssignment.Models;
 
-namespace OWP.PreMatchAssignment.Models;
+using PrematchAssignment.Models;
 
 public class LeagueAssignment
 {
@@ -63,5 +62,5 @@ public class LeagueAssignment
 
     public int? PreMatchNoteId { get; set; }
 
-    public List<TicketLeagueBasicInfo> TicketList { get; set; } = new List<TicketLeagueBasicInfo>();
+    public List<TicketLeagueBasicInfo> TicketList { get; set; } = new();
 }

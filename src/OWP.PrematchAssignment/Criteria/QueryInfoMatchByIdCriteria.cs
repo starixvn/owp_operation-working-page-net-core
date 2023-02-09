@@ -1,6 +1,6 @@
-﻿using Fanex.Data.Repository;
+﻿namespace OWP.PrematchAssignment.Criteria;
 
-namespace OWP.PrematchAssignment.Criteria;
+using Fanex.Data.Repository;
 
 public class QueryInfoMatchByIdCriteria : CriteriaBase
 {

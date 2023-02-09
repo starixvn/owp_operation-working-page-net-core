@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PrematchAssignment.Handlers;
 using PrematchAssignment.Models;
-using PreMatchAssignment.Models;
 
 [Route("api/[controller]")]
 [ApiController]

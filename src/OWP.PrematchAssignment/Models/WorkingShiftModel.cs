@@ -1,8 +1,8 @@
 ﻿namespace OWP.PreMatchAssignment.Models;
 
-using OWP.Extensions;
-using OWP.Utils;
 using System.Xml.Serialization;
+using Extensions;
+using Utils;
 
 public class WorkingShiftModel
 {

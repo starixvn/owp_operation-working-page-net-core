@@ -1,8 +1,8 @@
-﻿using MediatR;
-using OWP.PreMatchAssignment.Models;
-using OWP.PreMatchAssignment.Services;
+﻿namespace OWP.PreMatchAssignment.Handlers;
 
-namespace OWP.PreMatchAssignment.Handlers;
+using MediatR;
+using Models;
+using Services;
 
 public class QueryNightShiftPreMatchRequest : IRequest<QueryPreMatchLeagueViewModel>
 {

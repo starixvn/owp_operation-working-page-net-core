@@ -1,17 +1,15 @@
-﻿using Fanex.NAP.Client.Helpers.Web;
-using OWP.PrematchAssignment.Models;
+﻿namespace OWP.PreMatchAssignment.Services;
 
-namespace OWP.PreMatchAssignment.Services;
-
+using System.Globalization;
 using AutoMapper;
 using Constants;
 using Criteria;
+using Extensions;
 using Fanex.Data.Repository;
 using Handlers;
 using Models;
-using OWP.Extensions;
-using OWP.PrematchAssignment.Constants;
-using System.Globalization;
+using PrematchAssignment.Constants;
+using PrematchAssignment.Models;
 
 public interface ShiftAssignmentService
 {
@@ -434,6 +432,6 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
             (true, true) => MatchOffferStatus.Opened,
             (false, true) => MatchOffferStatus.Hdp,
             (true, false) => MatchOffferStatus.Ou,
-            _ => string.Empty,
+            _ => string.Empty
         };
 }

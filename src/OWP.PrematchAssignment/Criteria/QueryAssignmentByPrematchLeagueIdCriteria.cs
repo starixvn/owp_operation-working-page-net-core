@@ -1,6 +1,6 @@
-﻿using Fanex.Data.Repository;
+﻿namespace OWP.PreMatchAssignment.Criteria;
 
-namespace OWP.PreMatchAssignment.Criteria;
+using Fanex.Data.Repository;
 
 public class QueryAssignmentByPrematchLeagueIdCriteria : CriteriaBase
 {

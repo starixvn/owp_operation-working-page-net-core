@@ -1,12 +1,12 @@
-﻿using Fanex.NAP.Client.Helpers.Web;
-using MediatR;
-using OWP.PreMatchAssignment.Constants;
-using OWP.PreMatchAssignment.Models;
-using OWP.PreMatchAssignment.Services;
-using OWP.RabbitMQ;
-using OWP.RabbitMQ.Constants;
+﻿namespace OWP.PreMatchAssignment.Handlers;
 
-namespace OWP.PreMatchAssignment.Handlers;
+using Constants;
+using Fanex.NAP.Client.Helpers.Web;
+using MediatR;
+using Models;
+using RabbitMQ;
+using RabbitMQ.Constants;
+using Services;
 
 public class UpdateLeagueAssignmentRequest : IRequest
 {

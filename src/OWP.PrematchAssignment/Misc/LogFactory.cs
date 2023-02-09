@@ -1,9 +1,9 @@
 ﻿namespace OWP.PreMatchAssignment.Misc;
 
-using Models;
 using System.Globalization;
 using System.Xml;
 using System.Xml.Serialization;
+using Models;
 
 public interface LogFactory
 {

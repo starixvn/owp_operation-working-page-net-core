@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace OWP.PreMatchAssignment.Models;
+﻿namespace OWP.PreMatchAssignment.Models;
 
 public class PreMatchLeague
 {

@@ -1,6 +1,6 @@
-using OWP.PreMatchAssignment.Models;
-
 namespace OWP.PrematchAssignment.Models;
+
+using PreMatchAssignment.Models;
 
 public class AssignmentShift
 {

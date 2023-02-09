@@ -1,12 +1,12 @@
-﻿using Fanex.Data.Repository;
-using Fanex.NAP.Client.Helpers.Web;
-using OWP.Constants;
-using OWP.Extensions;
-using OWP.PrematchAssignment.Models;
-using OWP.PreMatchAssignment.Criteria;
-using OWP.PreMatchAssignment.Models;
+﻿namespace OWP.PreMatchAssignment.Services;
 
-namespace OWP.PreMatchAssignment.Services;
+using Criteria;
+using Extensions;
+using Fanex.Data.Repository;
+using Fanex.NAP.Client.Helpers.Web;
+using Models;
+using OWP.Constants;
+using PrematchAssignment.Models;
 
 public interface MaxbetSpreadService
 {

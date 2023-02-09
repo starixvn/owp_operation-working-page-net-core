@@ -1,11 +1,11 @@
-﻿using Fanex.Data.Repository;
-using MediatR;
-using OWP.Extensions;
-using OWP.PreMatchAssignment.Criteria;
-using OWP.PreMatchAssignment.Models;
-using OWP.PreMatchAssignment.Services;
+﻿namespace OWP.PreMatchAssignment.Handlers;
 
-namespace OWP.PreMatchAssignment.Handlers;
+using Criteria;
+using Extensions;
+using Fanex.Data.Repository;
+using MediatR;
+using Models;
+using Services;
 
 public class QueryAssignedLeagueIdRequest : IRequest<AssignedLeagueId>
 {

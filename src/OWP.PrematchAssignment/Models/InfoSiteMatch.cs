@@ -1,10 +1,10 @@
-﻿using OWP.PrematchAssignment.Models;
+﻿namespace OWP.PreMatchAssignment.Models;
 
-namespace OWP.PreMatchAssignment.Models;
+using PrematchAssignment.Models;
 
 public class InfoSiteMatch
 {
-    public string MatchOffer { get; set; } = String.Empty;
+    public string MatchOffer { get; set; } = string.Empty;
 
     public int InfoSiteMatchId { get; set; }
 
@@ -16,9 +16,9 @@ public class InfoSiteMatch
 
     public string AwayName { get; set; }
 
-    public MaxbetSpreadBase MaxBetHdp { get; set; } = new MaxbetSpreadBase();
+    public MaxbetSpreadBase MaxBetHdp { get; set; } = new();
 
-    public MaxbetSpreadBase MaxBetOu { get; set; } = new MaxbetSpreadBase();
+    public MaxbetSpreadBase MaxBetOu { get; set; } = new();
 
     public DateTime EventDateTime { get; set; }
 
@@ -32,7 +32,7 @@ public class InfoSiteMatch
 
     public string MatchStatus { get; set; } = string.Empty;
 
-    public List<TicketMatchBasicInfo> TicketList { get; set; } = new List<TicketMatchBasicInfo>();
+    public List<TicketMatchBasicInfo> TicketList { get; set; } = new();
 
     public bool HasMessages => TicketList.Count > 0;
 
