@@ -1,7 +1,7 @@
-﻿using OWP.Maxbet.Models;
-using OWP.Services;
+﻿namespace OWP.Maxbet.Builder;
 
-namespace OWP.Maxbet.Builder;
+using Models;
+using OWP.Services;
 
 public interface SpecialProductTraderBuilder
 {

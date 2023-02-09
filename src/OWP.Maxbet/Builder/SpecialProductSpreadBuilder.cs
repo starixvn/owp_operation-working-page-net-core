@@ -1,7 +1,7 @@
-﻿using OWP.Maxbet.Models;
-using OWP.Services;
+﻿namespace OWP.Maxbet.Builder;
 
-namespace OWP.Maxbet.Builder;
+using Models;
+using OWP.Services;
 
 public interface SpecialProductSpreadBuilder
 {
@@ -24,7 +24,7 @@ public class SpecialProductSpreadBuilderImp : SpecialProductSpreadBuilder
         var spread = await syncMaxbetRepository.GetSpreadXMins(owpMatchId);
         await logServiceWrapper.Log("====BuildSpreadXMins====", spread);
         var spreadHdp = spread?.FirstOrDefault();
-        return new()
+        return new MaxbetSpread
         {
             Handicap = spreadHdp,
             OverUnder = spreadHdp

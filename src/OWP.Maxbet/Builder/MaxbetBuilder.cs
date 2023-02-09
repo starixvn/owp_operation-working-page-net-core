@@ -1,9 +1,9 @@
-﻿using OWP.Enums;
-using OWP.Maxbet.Helpers;
-using OWP.Maxbet.Constants;
-using OWP.Maxbet.Models;
+﻿namespace OWP.Maxbet.Builder;
 
-namespace OWP.Maxbet.Builder;
+using Constants;
+using Enums;
+using Helpers;
+using Models;
 
 public interface MaxbetBuilder
 {

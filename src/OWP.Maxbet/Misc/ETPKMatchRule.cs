@@ -1,9 +1,9 @@
-﻿using OWP.Extensions;
-using OWP.Maxbet.Constants;
-using OWP.Maxbet.Models;
-using OWP.Maxbet.Services;
+﻿namespace OWP.Maxbet.Misc;
 
-namespace OWP.Maxbet.Misc;
+using Constants;
+using Extensions;
+using Models;
+using Services;
 
 public class ETPKMatchRule
 {

@@ -1,10 +1,10 @@
-using MediatR;
-using OWP.Maxbet.Builder;
-using OWP.Maxbet.Constants;
-using OWP.Maxbet.Handlers;
-using OWP.Maxbet.Models;
-
 namespace OWP.Maxbet.Services;
+
+using Builder;
+using Constants;
+using Handlers;
+using MediatR;
+using Models;
 
 public interface ServiceCommon
 {

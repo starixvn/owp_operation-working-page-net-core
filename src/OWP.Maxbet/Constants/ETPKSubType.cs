@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace OWP.Maxbet.Constants;
 
-namespace OWP.Maxbet.Constants;
+using System.Collections.Immutable;
 
 public static class SubTypeETPK
 {
@@ -59,7 +54,7 @@ public static class SubTypeETPK
 
     public const int AwaySingleTeam = 1602;
 
-    public static readonly int[] SubTypeETPKs = new[]{
+    public static readonly int[] SubTypeETPKs = {
         MainMatchET,
         MainMatchPK,
         FutsalET,
@@ -88,6 +83,6 @@ public static class SubTypeETPK
         {FirstPenatyAwardedET, FirstPenatyAwarded },
         {SpecialGoalET, SpecialGoal },
         {HomeSingleTeamET, HomeSingleTeam },
-        {AwaySingleTeamET, AwaySingleTeam },
+        {AwaySingleTeamET, AwaySingleTeam }
     }.ToImmutableDictionary();
 }

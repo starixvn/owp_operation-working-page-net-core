@@ -1,6 +1,6 @@
-using OWP.Maxbet.Models;
-
 namespace OWP.Maxbet.Helpers;
+
+using Models;
 
 public enum NumberOfLinesEtPen
 {
@@ -13,7 +13,7 @@ public enum NumberOfLinesEtPen
 public static class NumberOfLineHelper
 {
     public static NumberOfLines UpdateNumberOfLine()
-        => new NumberOfLines
+        => new()
         {
             CreditFirstHalf = (int)NumberOfLinesEtPen.CreditFirstHalf,
             CreditFt = (int)NumberOfLinesEtPen.CreditFt,

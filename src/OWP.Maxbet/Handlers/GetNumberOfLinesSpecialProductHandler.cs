@@ -1,12 +1,11 @@
-﻿using Fanex.Data.Repository;
-using MediatR;
-using OWP.Enums;
-using OWP.Maxbet.Criteria;
-using OWP.Maxbet.Models;
+﻿namespace OWP.Maxbet.Handlers;
 
 using System.Collections.ObjectModel;
-
-namespace OWP.Maxbet.Handlers;
+using Criteria;
+using Enums;
+using Fanex.Data.Repository;
+using MediatR;
+using Models;
 
 public class GetNumberOfLinesSpecialProductHandler
 {
@@ -17,7 +16,7 @@ public class GetNumberOfLinesSpecialProductHandler
 
     public class Handler : IRequestHandler<Request, NumberOfLines>
     {
-        private static readonly ReadOnlyDictionary<EnumNoOfHdp, NumberOfLines> numberOfLinesDict = new ReadOnlyDictionary<EnumNoOfHdp, NumberOfLines>(
+        private static readonly ReadOnlyDictionary<EnumNoOfHdp, NumberOfLines> numberOfLinesDict = new(
             new Dictionary<EnumNoOfHdp, NumberOfLines>
             {
                 { EnumNoOfHdp.TwoPlusFourLines, new NumberOfLines { CreditFt = 2 , CreditFirstHalf = 2, LicenseeFt = 4, LicenseeFirstHalf = 3 } },
@@ -57,7 +56,7 @@ public class GetNumberOfLinesSpecialProductHandler
 
         private static NumberOfLines BuildNumberOfLines(int noOfHdpId)
         {
-            if (!numberOfLinesDict.TryGetValue((EnumNoOfHdp)noOfHdpId, out NumberOfLines result))
+            if (!numberOfLinesDict.TryGetValue((EnumNoOfHdp)noOfHdpId, out var result))
             {
                 return new NumberOfLines();
             }

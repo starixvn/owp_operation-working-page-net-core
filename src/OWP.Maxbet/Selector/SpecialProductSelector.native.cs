@@ -1,11 +1,11 @@
-﻿using MediatR;
-using OWP.Maxbet.Builder;
-using OWP.Maxbet.Constants;
-using OWP.Maxbet.Handlers;
-using OWP.Maxbet.Models;
-using OWP.Services;
+﻿namespace OWP.Maxbet.Selector;
 
-namespace OWP.Maxbet.Selector;
+using Builder;
+using Constants;
+using Handlers;
+using MediatR;
+using Models;
+using OWP.Services;
 
 public interface SpecialProductSelector
 {
@@ -65,14 +65,13 @@ public class SpecialProductSelectorImp : SpecialProductSelector
         {
             return await specialProductMaxbetBuilder.BuildMaxbetXMins(specialProduct.MinorMatchId);
         }
-        else if (SpecialBettype.BettypeIdSpecialProducts.Any(id => id == bettypeId))
+
+        if (SpecialBettype.BettypeIdSpecialProducts.Any(id => id == bettypeId))
         {
             return await specialProductMaxbetBuilder.BuildMaxbetSpecialProduct(specialProduct, bettypeId);
         }
-        else
-        {
-            return await specialProductMaxbetBuilder.BuildMaxbet(specialProduct.MinorMatchId);
-        }
+
+        return await specialProductMaxbetBuilder.BuildMaxbet(specialProduct.MinorMatchId);
     }
 
     public async Task<int?> SelectSecondAcceptedValues(int owpMatchId, int bettypeId, decimal? maxbetMainMatch)

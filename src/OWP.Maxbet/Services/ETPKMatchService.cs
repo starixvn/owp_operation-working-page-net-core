@@ -1,9 +1,9 @@
-﻿using Olympus.OWP.Constants;
-using OWP.Maxbet.Constants;
-using OWP.Maxbet.Misc;
-using OWP.Maxbet.Models;
+﻿namespace OWP.Maxbet.Services;
 
-namespace OWP.Maxbet.Services;
+using Constants;
+using Misc;
+using Models;
+using Olympus.OWP.Constants;
 
 public interface ETPKMatchService
 {

@@ -1,13 +1,12 @@
-﻿using System.Xml.Serialization;
-using Newtonsoft.Json;
+﻿namespace OWP.Maxbet.Models;
 
-namespace OWP.Maxbet.Models;
+using Newtonsoft.Json;
 
 public class MaxbetInfo
 {
     public int AdminsiteID { get; set; }
 
-    public TraderAssignmentSender Traders { get; set; } = new TraderAssignmentSender();
+    public TraderAssignmentSender Traders { get; set; } = new();
 
     public int? SecondAcceptValue { get; set; }
 

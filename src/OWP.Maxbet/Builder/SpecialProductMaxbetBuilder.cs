@@ -1,7 +1,7 @@
-﻿using OWP.Maxbet.Models;
-using OWP.Services;
+﻿namespace OWP.Maxbet.Builder;
 
-namespace OWP.Maxbet.Builder;
+using Models;
+using OWP.Services;
 
 public interface SpecialProductMaxbetBuilder
 {
@@ -30,7 +30,7 @@ public class SpecialProductMaxbetBuilderImp : SpecialProductMaxbetBuilder
         var maxbet = await syncMaxbetRepository.GetMaxbetByOwpMatchId(owpMatchId);
         await logServiceWrapper.Log("==BuildMaxbet=====", maxbet);
         return !maxbet.Any()
-            ? new()
+            ? new MaxbetSpread()
             : MaxbetBuilderImp.BuildMaxbetSender(maxbet.ToList());
     }
 
@@ -47,7 +47,7 @@ public class SpecialProductMaxbetBuilderImp : SpecialProductMaxbetBuilder
         var maxbet = await syncMaxbetRepository.GetMaxbetXMins(owpMatchId);
         await logServiceWrapper.Log("==BuildMaxbet=====", maxbet);
         var maxbetHdp = maxbet?.FirstOrDefault();
-        return new()
+        return new MaxbetSpread
         {
             Handicap = maxbetHdp,
             OverUnder = maxbetHdp

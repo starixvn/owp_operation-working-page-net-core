@@ -1,8 +1,8 @@
-﻿using Fanex.Data.Repository;
-using OWP.Maxbet.Criteria;
-using OWP.Maxbet.Models;
+﻿namespace OWP.Maxbet;
 
-namespace OWP.Maxbet;
+using Criteria;
+using Fanex.Data.Repository;
+using Models;
 
 public interface MaxbetRepository
 {
@@ -80,7 +80,7 @@ public class MaxbetRepositoryImp : MaxbetRepository
     public async Task<IEnumerable<MaxbetModel>> GetMaxbetByOwpMatchId(int matchId)
         => await dynamicRepository.FetchAsync<MaxbetModel>(new MaxbetGetCriteria
         {
-            OWPMatchId = matchId,
+            OWPMatchId = matchId
         });
 
     public async Task<MinorMatchInfo> GetMatchIdByAdminSiteId(int adminSiteId, int bettypeId)
@@ -110,7 +110,7 @@ public class MaxbetRepositoryImp : MaxbetRepository
     public async Task<IEnumerable<decimal?>> GetMaxbetXMins(int owpMatchId)
         => await dynamicRepository.FetchAsync<decimal?>(new SpecialProductMaxbetXMinsGetCriteria
         {
-            OwpMatchId = owpMatchId,
+            OwpMatchId = owpMatchId
         });
 
     public async Task<(IEnumerable<SpreadModel>, IEnumerable<LeagueGroup>)> GetSpreadSpecialProductById(int owpMatchId)
@@ -132,7 +132,7 @@ public class MaxbetRepositoryImp : MaxbetRepository
     {
         var criteria = new MatchInfoGetCriteria
         {
-            AdminsiteId = adminSiteId,
+            AdminsiteId = adminSiteId
         };
         return (await dynamicRepository.FetchAsync<MatchInfo>(criteria)).FirstOrDefault();
     }

@@ -1,13 +1,12 @@
-using MediatR;
-using OWP.Enums;
-using OWP.Maxbet.Builder;
-using OWP.Maxbet.Handlers;
-using OWP.Maxbet.Models;
-using OWP.Maxbet.Helpers;
-using OWP.Maxbet.Constants;
-using OWP.Services;
-
 namespace OWP.Maxbet.Services;
+
+using Builder;
+using Constants;
+using Enums;
+using Handlers;
+using Helpers;
+using MediatR;
+using Models;
 
 public interface SabaMatchService
 {

@@ -1,10 +1,9 @@
-using MediatR;
-using OWP.Maxbet.Handlers;
-using OWP.Maxbet.Helpers;
-using OWP.Maxbet.Models;
-using OWP.Maxbet.Constants;
-
 namespace OWP.Maxbet.Services;
+
+using Constants;
+using Helpers;
+using MediatR;
+using Models;
 
 public interface FutsalMatchService
 {

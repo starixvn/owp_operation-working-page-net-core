@@ -1,6 +1,6 @@
-using OWP.Enums;
-
 namespace OWP.Maxbet.Constants;
+
+using Enums;
 
 public static class MaxBetSetting
 {
@@ -20,8 +20,7 @@ public static class MaxBetSetting
 
     public const decimal FOLLOW_MAIN_MATCH = -1;
 
-    public static readonly int[] IGNORE_MATCH_OFFER_ID = new[]
-    {
+    public static readonly int[] IGNORE_MATCH_OFFER_ID = {
         (int)EnumMatchOffer.KO15,
         (int)EnumMatchOffer.FastMarket
     };

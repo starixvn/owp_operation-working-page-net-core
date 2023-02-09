@@ -1,8 +1,8 @@
-﻿using OWP.Enums;
-using OWP.Maxbet.Constants;
-using OWP.Maxbet.Models;
+﻿namespace OWP.Maxbet.Helpers;
 
-namespace OWP.Maxbet.Helpers;
+using Constants;
+using Enums;
+using Models;
 
 public static class MaxbetHelper
 {
@@ -60,7 +60,7 @@ public static class MaxbetHelper
             Hdp = !hasExistsHdp,
             Ou = !hasExistsOu,
             FirstHalfHdp = !hasExistsFirstHalfHdp,
-            FirstHalfOu = !hasExistsFirstHalfOu,
+            FirstHalfOu = !hasExistsFirstHalfOu
         };
     }
 

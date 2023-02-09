@@ -1,9 +1,9 @@
-﻿using OWP.Enums;
-using OWP.Maxbet.Helpers;
-using OWP.Maxbet.Models;
-using OWP.Services;
+﻿namespace OWP.Maxbet.Builder;
 
-namespace OWP.Maxbet.Builder;
+using Enums;
+using Helpers;
+using Models;
+using OWP.Services;
 
 public interface TraderAssignmentBuilder
 {
@@ -35,7 +35,7 @@ public class TraderAssignmentBuilderImp : TraderAssignmentBuilder
             Handicap = handicap.UserId,
             OverUnder = overunder.UserId,
             FirstHalfHandicap = firstHalfHandicap.UserId,
-            FirstHalfOverUnder = firstHalfOverUnder.UserId,
+            FirstHalfOverUnder = firstHalfOverUnder.UserId
         };
     }
 }
