@@ -18,8 +18,7 @@ public static class RoutingKey
     public const string OtherSport = "other-sport";
     public const string LiveDetail = "live-detail";
 
-    public static readonly string[] Keys = new[]
-    {
+    public static readonly string[] Keys = {
         LinkedLgaMatch,
         PrematchNewLeague,
         InfositeMatchInfo,

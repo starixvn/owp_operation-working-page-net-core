@@ -1,12 +1,11 @@
-﻿using Fanex.Logging;
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
-using OWP.RabbitMQ.Model;
-using RabbitMQ.Client;
+﻿namespace OWP.RabbitMQ;
+
 using System.Text;
-
-namespace OWP.RabbitMQ;
-
+using Fanex.Logging;
+using global::RabbitMQ.Client;
+using Microsoft.Extensions.Options;
+using Model;
+using Newtonsoft.Json;
 
 public interface MessageClient
 {
@@ -25,7 +24,7 @@ public class MessageClientImp : MessageClient
         IOptions<RabbitMQSetting> options,
         ILogger logger)
     {
-        this.setting = options.Value;
+        setting = options.Value;
         this.logger = logger;
     }
 
@@ -46,7 +45,7 @@ public class MessageClientImp : MessageClient
             var connection = factory.CreateConnection();
             channel = connection.CreateModel();
 
-            channel.QueueDeclare(queue: setting.RequestQueue, durable: true, exclusive: false, autoDelete: false);
+            channel.QueueDeclare(setting.RequestQueue, true, false, false);
         }
         catch (Exception ex)
         {
@@ -63,9 +62,9 @@ public class MessageClientImp : MessageClient
         props.Type = messageType;
 
         channel.BasicPublish(
-            exchange: string.Empty,
-            routingKey: setting.RequestQueue,
-            basicProperties: props,
-            body: messageBytes);
+            string.Empty,
+            setting.RequestQueue,
+            props,
+            messageBytes);
     }
 }
