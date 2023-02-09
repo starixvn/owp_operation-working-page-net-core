@@ -1,6 +1,6 @@
-﻿using Fanex.Data.Repository;
+﻿namespace OWP.RecipientGroup.Criteria;
 
-namespace OWP.RecipientGroup.Criteria;
+using Fanex.Data.Repository;
 
 public class InsertMessageReaderCriteria : NonQueryCommand
 {

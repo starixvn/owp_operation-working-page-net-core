@@ -1,8 +1,8 @@
 ﻿namespace OWP.RecipientGroup.Handlers;
 
+using Criteria;
 using MediatR;
 using Models;
-using OWP.RecipientGroup.Criteria;
 using Services;
 
 public class SaveRecipientGroupRequest : IRequest<string>
@@ -68,7 +68,7 @@ public class SaveRecipientGroupHandler : IRequestHandler<SaveRecipientGroupReque
     {
         var userId = request.Recipients.Select(x => x.RecipientId);
 
-        var criteria = new RemoveMessageReaderCriteria()
+        var criteria = new RemoveMessageReaderCriteria
         {
             GroupId = request.GroupId,
             UserIds = string.Join(",", userId)
