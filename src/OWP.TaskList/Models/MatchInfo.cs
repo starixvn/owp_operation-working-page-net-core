@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
-using OWP.Utils;
+﻿namespace OWP.TaskList.Models;
 
-namespace OWP.TaskList.Models;
+using Newtonsoft.Json;
+using Utils;
 
 public class MatchInfo
 {
@@ -137,7 +137,7 @@ public class MatchInfo
     }
 
     public string OtherTimeDisplay => OtherTime.HasValue ?
-        OtherTime.Value.ToOWPTimeFormat().Replace(" ", String.Empty)
+        OtherTime.Value.ToOWPTimeFormat().Replace(" ", string.Empty)
         : string.Empty;
 
     public string KickOffTimeDisplay => KickOffTime.ToOWPTimeFormat();

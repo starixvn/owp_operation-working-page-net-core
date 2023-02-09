@@ -1,6 +1,6 @@
-﻿using Fanex.Data.Repository;
+﻿namespace OWP.TaskList.Criteria;
 
-namespace OWP.TaskList.Criteria;
+using Fanex.Data.Repository;
 
 public class UpdateReadyTradeStatusCriteria : CriteriaBase
 {

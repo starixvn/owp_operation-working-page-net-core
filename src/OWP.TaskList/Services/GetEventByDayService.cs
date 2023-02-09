@@ -1,10 +1,11 @@
-﻿using Fanex.NAP.Client.Helpers.Web;
-using OWP.Services;
-using OWP.TaskList.Builders;
-using OWP.TaskList.Criteria;
-using OWP.TaskList.Models;
+﻿namespace OWP.TaskList.Services;
 
-namespace OWP.TaskList.Services;
+using Builders;
+using Criteria;
+using Fanex.NAP.Client.Helpers.Web;
+using Models;
+using OWP.Services;
+
 public interface GetEventByDayService
 {
     Task<TaskListModel> GetEventByDay(DateTime eventDate);
@@ -38,7 +39,7 @@ public class GetEventByDayServiceImp : GetEventByDayService
         var model = new TaskListModel
         {
             Matches = await GetMatchListToday(criteria),
-            HasDetailInformationPermission = true,
+            HasDetailInformationPermission = true
         };
         return model;
     }

@@ -1,6 +1,6 @@
-using System.Globalization;
-
 namespace OWP.TaskList;
+
+using System.Globalization;
 
 public static class DisplayMaxbetSpreadBuilder
 {

@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿namespace OWP.TaskList.Models;
 
-namespace OWP.TaskList.Models;
+using Newtonsoft.Json;
 
 public class Assignment
 {
