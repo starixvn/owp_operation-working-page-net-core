@@ -1,7 +1,5 @@
 namespace OWP.MaxbetSetting.Models;
 
-using System;
-
 public class UserLogModel
 {
     public int Action { get; set; }

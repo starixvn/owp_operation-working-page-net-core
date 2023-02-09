@@ -1,11 +1,9 @@
 namespace OWP.MaxbetSetting.Helpers;
 
-using System.Collections.Generic;
-using System.Linq;
-using Models;
-using OWP.Utils;
-using OWP.Extensions;
 using AutoMapper;
+using Extensions;
+using Models;
+using Utils;
 
 public static class LogBuilder
 {

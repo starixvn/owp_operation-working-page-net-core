@@ -1,9 +1,9 @@
-﻿using Fanex.Data.Repository;
-using MediatR;
-using OWP.MaxbetSetting.Criteria;
-using OWP.MaxbetSetting.Models;
+﻿namespace OWP.MaxbetSetting.Handlers;
 
-namespace OWP.MaxbetSetting.Handlers;
+using Criteria;
+using Fanex.Data.Repository;
+using MediatR;
+using Models;
 
 public class QueryMaxbetSettingRequest : IRequest<List<MaxBetSettingModel>> { }
 
