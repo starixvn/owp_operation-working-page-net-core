@@ -1,9 +1,9 @@
-﻿using Fanex.Data.Repository;
-using MediatR;
-using OWP.FileUpload.Criteria;
-using OWP.FileUpload.Models;
+﻿namespace OWP.FileUpload.Handlers;
 
-namespace OWP.FileUpload.Handlers;
+using Criteria;
+using Fanex.Data.Repository;
+using MediatR;
+using Models;
 
 public class DownloadHandler
 {

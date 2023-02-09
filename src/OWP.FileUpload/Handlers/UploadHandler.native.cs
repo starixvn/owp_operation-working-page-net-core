@@ -3,7 +3,7 @@
 using Criteria;
 using Fanex.Data.Repository;
 using MediatR;
-using OWP.FileUpload.Models;
+using Models;
 
 public class UploadHandler
 {

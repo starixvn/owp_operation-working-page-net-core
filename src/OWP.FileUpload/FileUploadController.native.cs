@@ -1,11 +1,12 @@
 ﻿namespace OWP.FileUpload;
 
+using Handlers;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using OWP.FileUpload.Models;
+using Models;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -28,7 +29,7 @@ public class FileUploadController : ControllerBase
 
         await file.CopyToAsync(memoryStream);
 
-        var request = new Handlers.UploadHandler.UploadCommand
+        var request = new UploadHandler.UploadCommand
         {
             FileStream = memoryStream.ToArray(),
             FileName = file.FileName
@@ -49,7 +50,7 @@ public class FileUploadController : ControllerBase
         foreach (var file in files)
         {
             await file.CopyToAsync(memoryStream);
-            var request = new Handlers.UploadHandler.UploadCommand
+            var request = new UploadHandler.UploadCommand
             {
                 FileStream = memoryStream.ToArray(),
                 FileName = file.FileName
@@ -67,7 +68,7 @@ public class FileUploadController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> Download(int fileId)
     {
-        var request = new Handlers.DownloadHandler.DownloadRequest
+        var request = new DownloadHandler.DownloadRequest
         {
             FileId = fileId
         };
