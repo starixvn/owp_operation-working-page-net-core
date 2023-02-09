@@ -1,6 +1,6 @@
-using Fanex.Data.Repository;
-
 namespace OWP.TicketEvent.Criteria;
+
+using Fanex.Data.Repository;
 
 public class GetTicketListCriteria : CriteriaBase
 {

@@ -1,10 +1,8 @@
-using Fanex.Data.Repository;
+namespace OWP.TicketEvent.Handlers;
+
 using Fanex.NAP.Client.Helpers.Web;
 using MediatR;
-using OWP.TicketEvent.Criteria;
-using OWP.TicketEvent.Models;
-
-namespace OWP.TicketEvent.Handlers;
+using Models;
 
 public class GetTicketListRequest : IRequest<IList<TicketListModel>>
 {

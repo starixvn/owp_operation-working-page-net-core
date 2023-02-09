@@ -1,13 +1,6 @@
-﻿using Fanex.Data.Repository;
+﻿namespace OWP.TicketEvent.Handlers;
+
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OWP.TicketEvent.Handlers;
-
 using Models;
 
 public class QueryAssigneesLgaRequest: IRequest<IEnumerable<TicketAssignees>>
