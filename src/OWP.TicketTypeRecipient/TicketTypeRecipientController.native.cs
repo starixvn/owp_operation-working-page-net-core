@@ -1,10 +1,10 @@
 ﻿namespace OWP.TicketTypeRecipient;
 
+using Handlers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Middleware;
 using Models;
-using OWP.TicketTypeRecipient.Handlers;
-using OWP.TicketTypeRecipient.Middleware;
 
 [Route("api/[controller]")]
 [ApiController]

@@ -2,8 +2,8 @@
 
 using Fanex.Data.Repository;
 using MediatR;
+using Models;
 using Olympus.Xml;
-using OWP.TicketTypeRecipient.Models;
 
 public class SaveTicketTypeRecipientsCommand : IRequest<Unit>
 {
