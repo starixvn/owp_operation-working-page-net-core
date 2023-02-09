@@ -1,7 +1,5 @@
 ﻿namespace OWP.LiveDetail.UnitTests.MatchNote;
 
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using AutoMapper;
 using Fanex.Data.Repository;
 using Fanex.NAP.Client.Helpers.Web;
@@ -37,7 +35,7 @@ public class RepositoryUnitTests
         var queryModel = new QueryModel { OWPMatchId = 22 };
         var matchNotes = new List<MatchNoteModel>
         {
-            new MatchNoteModel { MatchNoteId = 1, Username = "sa", Note="ahihi" }
+            new() { MatchNoteId = 1, Username = "sa", Note="ahihi" }
         };
 
         dynamicRepository.FetchAsync<MatchNoteModel>(Arg.Compat.Any<QueryCriteria>()).Returns(matchNotes);

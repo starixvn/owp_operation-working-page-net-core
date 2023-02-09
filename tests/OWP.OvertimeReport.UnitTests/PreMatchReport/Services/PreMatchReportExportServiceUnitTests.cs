@@ -1,11 +1,11 @@
-﻿using NSubstitute;
-using OfficeOpenXml;
-using OWP.Report.PreMatchReport.Models;
-using OWP.Report.PreMatchReport.Services;
-using OWP.Services;
-using Xunit;
+﻿namespace OWP.Report.PreMatchReport.UnitTests.Services;
 
-namespace OWP.Report.PreMatchReport.UnitTests.Services;
+using Models;
+using NSubstitute;
+using OfficeOpenXml;
+using OWP.Services;
+using PreMatchReport.Services;
+using Xunit;
 
 public class PreMatchReportExportServiceUnitTests
 {
@@ -24,7 +24,7 @@ public class PreMatchReportExportServiceUnitTests
     {
         configurationService.CurrentDirectory.Returns(AppDomain.CurrentDomain.BaseDirectory);
 
-        var query = new QueryModel()
+        var query = new QueryModel
         {
             FromDate = DateTime.Now,
             ToDate = DateTime.Now.AddDays(1)
@@ -41,7 +41,7 @@ public class PreMatchReportExportServiceUnitTests
 
     private List<ExportPreMatchModel> mockExportPreMatchModels => new()
     {
-        new()
+        new ExportPreMatchModel
         {
             TraderName = "ABC",
             TotalMatches = "1",

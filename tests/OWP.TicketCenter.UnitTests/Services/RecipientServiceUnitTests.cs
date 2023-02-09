@@ -1,9 +1,8 @@
 ﻿namespace OWP.TicketCenter.UnitTests.Services;
 
+using Criteria;
 using Models;
 using NSubstitute;
-using OWP.TicketCenter.Criteria;
-
 using TicketCenter.Services;
 using Xunit;
 
@@ -69,17 +68,17 @@ public class RecipientServiceUnitTests
 
     [Fact]
     public List<InsertOrRemoveManyRecipientModel> MockListRecipients()
-        => new List<InsertOrRemoveManyRecipientModel>
+        => new()
         {
             new()
             {
-                RecipientIds =new List<int>(){1},
+                RecipientIds =new List<int> {1},
                 RecipientType = 1
             },
             new()
             {
-                RecipientIds =new List<int>(){4,5,6},
+                RecipientIds =new List<int> {4,5,6},
                 RecipientType = 2
-            },
+            }
         };
 }

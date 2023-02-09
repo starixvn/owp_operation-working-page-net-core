@@ -1,7 +1,7 @@
 ﻿namespace OWP.OtherSport.UnitTests.Validation.Annotations;
 
-using OWP.OtherSport.Validation.Annotations;
 using System.ComponentModel.DataAnnotations;
+using OtherSport.Validation.Annotations;
 using Xunit;
 
 public class SportAttributeUnitTests

@@ -1,10 +1,9 @@
 ﻿namespace OWP.Maxbet.UnitTests.Handlers;
 
+using Enums;
+using Maxbet.Handlers;
+using Models;
 using NSubstitute;
-using OWP.Enums;
-
-using OWP.Maxbet.Handlers;
-using OWP.Maxbet.Models;
 using Xunit;
 
 public class GetSecondAcceptValueHandlerUnitTests
@@ -24,7 +23,7 @@ public class GetSecondAcceptValueHandlerUnitTests
     public async Task Handler_MatchWith5sAcceptMatchOffer_Return5(int matchOfferId, int? expected)
     {
         Setup();
-        IEnumerable<MatchResource> matchOffer = new List<MatchResource> { new MatchResource { ResourceId = matchOfferId } };
+        IEnumerable<MatchResource> matchOffer = new List<MatchResource> { new() { ResourceId = matchOfferId } };
         dynamicRepository.GetMatchOfferId(Arg.Compat.Any<int>()).Returns(matchOffer);
 
         var actual = await handler.Handle(new GetSecondAcceptValueHandler.Request { OWPMatchId = 123 }, new CancellationToken(false));
@@ -37,7 +36,7 @@ public class GetSecondAcceptValueHandlerUnitTests
     {
         Setup();
 
-        dynamicRepository.GetMatchOfferId(Arg.Compat.Any<int>()).Returns(new List<MatchResource>() { new MatchResource() { ResourceId = 1 } });
+        dynamicRepository.GetMatchOfferId(Arg.Compat.Any<int>()).Returns(new List<MatchResource> { new() { ResourceId = 1 } });
 
         var actual = await handler.Handle(new GetSecondAcceptValueHandler.Request { OWPMatchId = 123 }, new CancellationToken(false));
 
@@ -49,7 +48,7 @@ public class GetSecondAcceptValueHandlerUnitTests
     {
         Setup();
         IEnumerable<MatchResource> matchOffer = new List<MatchResource> {
-            new MatchResource { ResourceId = (int)EnumMatchOffer.Accept8s }
+            new() { ResourceId = (int)EnumMatchOffer.Accept8s }
         };
         dynamicRepository.GetMatchOfferId(Arg.Compat.Any<int>()).Returns(matchOffer);
 
@@ -62,7 +61,7 @@ public class GetSecondAcceptValueHandlerUnitTests
     public async Task Handler_MatchWithNoMatchOffer_ReturnOfferLineDefault()
     {
         Setup();
-        IEnumerable<MatchResource> matchOffer = new List<MatchResource>() { };
+        IEnumerable<MatchResource> matchOffer = new List<MatchResource>();
         dynamicRepository.GetMatchOfferId(Arg.Compat.Any<int>()).Returns(matchOffer);
         dynamicRepository.GetSecondAcceptValueDefaultInfo(Arg.Compat.Any<decimal?>(), Arg.Compat.Any<int>())
             .Returns(

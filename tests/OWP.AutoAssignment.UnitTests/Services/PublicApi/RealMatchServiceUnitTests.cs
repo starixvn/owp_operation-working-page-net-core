@@ -30,7 +30,7 @@ public class RealMatchServiceUnitTests
         repository.GetMaxBetCorner(Arg.Compat.Any<List<MaxBetOfFTHDP>>())
             .Returns(MockListMaxBetConner());
         providerService.DetectProviderType(Arg.Compat.Any<string>())
-            .ReturnsForAnyArgs(x => new int[] { 1 });
+            .ReturnsForAnyArgs(x => new[] { 1 });
         extraTimeService.DetectExtraTime(Arg.Compat.Any<string>())
             .ReturnsForAnyArgs(x => "ETPK");
 
@@ -39,7 +39,7 @@ public class RealMatchServiceUnitTests
 
         // Act
         var actual = await service
-            .BuildRealMatchInfo(new List<MatchQueried>() { new() { InfositeMatchId = 1, SabaType = null } });
+            .BuildRealMatchInfo(new List<MatchQueried> { new() { InfositeMatchId = 1, SabaType = null } });
 
         // Assert
         DeepAssert.Equal(expected, actual);
@@ -61,70 +61,70 @@ public class RealMatchServiceUnitTests
     public List<MaxBetCorner> MockListMaxBetConner()
         => new()
         {
-            new()
+            new MaxBetCorner
             {
                 InfoSiteMatchId = 1,
                 MaxBetNextCorner = 20,
-                MaxBetNoOfCorner = 20,
+                MaxBetNoOfCorner = 20
             },
-            new()
+            new MaxBetCorner
             {
                 InfoSiteMatchId = 3,
                 MaxBetNextCorner = 30,
-                MaxBetNoOfCorner = 30,
+                MaxBetNoOfCorner = 30
             },
-            new()
+            new MaxBetCorner
             {
                 InfoSiteMatchId = 4,
                 MaxBetNextCorner = 40,
-                MaxBetNoOfCorner = 40,
-            },
+                MaxBetNoOfCorner = 40
+            }
         };
 
     public List<MaxBetFTHDPInfo> MockListMaxBetHdpInfo()
         => new()
         {
-            new()
+            new MaxBetFTHDPInfo
             {
                 MatchId = 1,
                 MaxBet = 1000,
                 HasTv = true,
-                LeagueSettingId = 1,
+                LeagueSettingId = 1
             },
-            new()
+            new MaxBetFTHDPInfo
             {
                 MatchId = 1,
                 MaxBet = 2000,
                 HasTv = false,
                 LeagueSettingId = 1
             },
-            new()
+            new MaxBetFTHDPInfo
             {
                 MatchId = 3,
                 MaxBet = 3000,
                 HasTv = false,
                 LeagueSettingId = 2
             },
-            new()
+            new MaxBetFTHDPInfo
             {
                 MatchId = 4,
                 MaxBet = 4000,
                 HasTv = false,
                 LeagueSettingId = 3
             },
-            new()
+            new MaxBetFTHDPInfo
             {
                 MatchId = 4,
                 MaxBet = 5000,
                 HasTv = true,
                 LeagueSettingId = 3
-            },
+            }
         };
 
     public List<RealMatchCommonInfo> MockListRealMatchCommon()
         => new()
         {
-            new()
+            new RealMatchCommonInfo
             {
                 InfoSiteId = 1,
                 LeagueName = "Premier league",
@@ -134,7 +134,7 @@ public class RealMatchServiceUnitTests
                 KOTime = new DateTime(2021, 11, 30),
                 OtherProvider = "bg"
             },
-            new()
+            new RealMatchCommonInfo
             {
                 InfoSiteId = 3,
                 LeagueName = "Premier league",
@@ -144,7 +144,7 @@ public class RealMatchServiceUnitTests
                 KOTime = new DateTime(2021, 11, 28),
                 OtherProvider = "bg"
             },
-            new()
+            new RealMatchCommonInfo
             {
                 InfoSiteId = 4,
                 LeagueName = "Premier league",
@@ -153,36 +153,36 @@ public class RealMatchServiceUnitTests
                 Tv = "K+",
                 KOTime = new DateTime(2021, 11, 29),
                 OtherProvider = ""
-            },
+            }
         };
 
     public List<MaxBetOfFTHDP> MockListMaxBetOfHdp()
         => new()
         {
-            new()
+            new MaxBetOfFTHDP
             {
                 InfoSiteMatchId = 1,
                 MaxBetFTHDP = 2000,
                 LeagueSettingId = 1
             },
-            new()
+            new MaxBetOfFTHDP
             {
                 InfoSiteMatchId = 3,
                 MaxBetFTHDP = 3000,
                 LeagueSettingId = 2
             },
-            new()
+            new MaxBetOfFTHDP
             {
                 InfoSiteMatchId = 4,
                 MaxBetFTHDP = 5000,
                 LeagueSettingId = 3
-            },
+            }
         };
 
     public List<RealMatchSender> MockListRealMatchSender()
         => new()
         {
-            new()
+            new RealMatchSender
             {
                 MatchId = 1,
                 MaxBetMainMatch = 2000,
@@ -192,9 +192,9 @@ public class RealMatchServiceUnitTests
                 Provider = new[] { 1 },
                 KOTime = "2021-11-30T00:00:00",
                 HasTV = false,
-                LeagueSettingId = 1,
+                LeagueSettingId = 1
             },
-            new()
+            new RealMatchSender
             {
                 MatchId = 3,
                 MaxBetMainMatch = 3000,
@@ -204,9 +204,9 @@ public class RealMatchServiceUnitTests
                 Provider = new[] { 1 },
                 KOTime = "2021-11-28T00:00:00",
                 HasTV = true,
-                LeagueSettingId = 2,
+                LeagueSettingId = 2
             },
-            new()
+            new RealMatchSender
             {
                 MatchId = 4,
                 MaxBetMainMatch = 5000,
@@ -216,7 +216,7 @@ public class RealMatchServiceUnitTests
                 Provider = new[] { 1 },
                 KOTime = "2021-11-29T00:00:00",
                 HasTV = true,
-                LeagueSettingId = 3,
-            },
+                LeagueSettingId = 3
+            }
         };
 }

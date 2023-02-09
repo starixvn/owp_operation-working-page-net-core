@@ -1,20 +1,15 @@
 ﻿namespace OWP.AssignmentUpload.UnitTests.Submit.Services;
 
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using AssignmentUpload.Submit;
+using AssignmentUpload.Submit.Criteria;
 using AssignmentUpload.Submit.Models;
 using AssignmentUpload.Submit.Services;
 using AssignmentUpload.Validation.Models;
-using Fanex.Data;
 using Fanex.Data.Repository;
 using Fanex.NAP.Client.Helpers.Web;
 using NSubstitute;
-using OWP.AssignmentUpload.Submit.Criteria;
 using OWP.Services;
 using Xunit;
-using Fanex.Data.SqlServer;
 
 public class CommandRepositoryIntegrationTest
 {
@@ -27,7 +22,7 @@ public class CommandRepositoryIntegrationTest
             EventDate = DateTime.Parse("05/30/2020")
         };
         var assignments = GetListAssignmentModel();
-        var hashKey = new List<MatchByHashKey> { new MatchByHashKey
+        var hashKey = new List<MatchByHashKey> { new()
         {
             HashKey = "793f6d1977a600d4a8a7df4407e19f67c1c376a8d1832cd19e7b12486d93565d",
             OWPMatchId = 111

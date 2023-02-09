@@ -1,9 +1,8 @@
 ﻿namespace OWP.OtherSport.UnitTests.Validation.Services;
 
-using OWP.OtherSport.Validation.Models;
-using OWP.OtherSport.Validation.Services;
-
 using System.ComponentModel.DataAnnotations;
+using OtherSport.Validation.Models;
+using OtherSport.Validation.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
 
@@ -26,13 +25,13 @@ public class AssignmentValidatorUnitTests
 
         var traders = new List<Trader>
         {
-            new Trader{ UserId = 1, Username = "Esther"},
-            new Trader{ UserId = 10, Username = "Mira"},
-            new Trader{ UserId = 0, Username = "Curry"},
-            new Trader{ UserId = 11, Username = "Jack"},
-            new Trader{ UserId = 12, Username = "Tyler"},
-            new Trader{ UserId = 14, Username = "Carlos"},
-            new Trader{ UserId = 17, Username = "Jacob"}
+            new() { UserId = 1, Username = "Esther"},
+            new() { UserId = 10, Username = "Mira"},
+            new() { UserId = 0, Username = "Curry"},
+            new() { UserId = 11, Username = "Jack"},
+            new() { UserId = 12, Username = "Tyler"},
+            new() { UserId = 14, Username = "Carlos"},
+            new() { UserId = 17, Username = "Jacob"}
         };
 
         var exception = Record.Exception(() => assignmentValidator.Validate(uploadingDataFromExcel, traders));
@@ -46,7 +45,7 @@ public class AssignmentValidatorUnitTests
         {
             Assignments = new List<AssignmentModelInExcel>
             {
-                new AssignmentModelInExcel
+                new()
                 {
                     Away = "OKC",
                     Home = "Toronto Raptor",
@@ -59,9 +58,9 @@ public class AssignmentValidatorUnitTests
         };
         var traders = new List<Trader>
         {
-            new Trader{ UserId = 1, Username = "starix1" },
-            new Trader{ UserId = 2, Username = "starix2" },
-            new Trader{ UserId = 0, Username = "starix3" }
+            new() { UserId = 1, Username = "starix1" },
+            new() { UserId = 2, Username = "starix2" },
+            new() { UserId = 0, Username = "starix3" }
         };
 
         var exception = Record.Exception(() => assignmentValidator.Validate(uploadingDataFromExcel, traders));
@@ -102,7 +101,7 @@ public class AssignmentValidatorUnitTests
         };
         var expected = new List<ValidationResult>
         {
-            new ValidationResult("Match No must be number")
+            new("Match No must be number")
         };
         assignmentValidator.ValidateMatchNo(assignmentModelInExcel, actual);
         DeepAssert.Equal(expected, actual);
@@ -113,7 +112,7 @@ public class AssignmentValidatorUnitTests
     {
         var actual = new List<ValidationResult>();
         var invalidTrader = new List<Trader> {
-            new Trader { UserId = 0, Username = "Bill" }
+            new() { UserId = 0, Username = "Bill" }
         };
         var assignmentModelList = GetAssignmentModels();
 
@@ -127,13 +126,13 @@ public class AssignmentValidatorUnitTests
         var actual = new List<ValidationResult>();
         var invalidTrader = new List<Trader>
         {
-            new Trader { UserId = 0, Username = "Esther" },
-            new Trader { UserId = 0, Username = "Lita" }
+            new() { UserId = 0, Username = "Esther" },
+            new() { UserId = 0, Username = "Lita" }
         };
         var assignmentModelList = GetAssignmentModels();
         var expected = new List<ValidationResult>
         {
-            new ValidationResult("Invalid Trader Baseball FT Run Line (HDP): Esther; Other Trader Basketball 1H (OU/OE): Esther; Other Trader Badminton All Product (Set Winner): Lita")
+            new("Invalid Trader Baseball FT Run Line (HDP): Esther; Other Trader Basketball 1H (OU/OE): Esther; Other Trader Badminton All Product (Set Winner): Lita")
         };
 
         assignmentValidator.ValidateTraders(assignmentModelList[0], actual, invalidTrader);
@@ -166,8 +165,8 @@ public class AssignmentValidatorUnitTests
 
         var expected = new List<ValidationResult>
         {
-            new ValidationResult("[Column: Max Bet Football FT (HDP)] - Error: Invalid MaxBet format"),
-            new ValidationResult("[Column: Spread Basketball FT (HDP)] - Error: Invalid Spread format")
+            new("[Column: Max Bet Football FT (HDP)] - Error: Invalid MaxBet format"),
+            new("[Column: Spread Basketball FT (HDP)] - Error: Invalid Spread format")
         };
 
         assignmentValidator.ValidateMaxbetAndSpreadInString(assignmentModelList[0], actual);
@@ -181,7 +180,7 @@ public class AssignmentValidatorUnitTests
         {
             Assignments = new List<AssignmentModelInExcel>
             {
-                new AssignmentModelInExcel
+                new()
                 {
                     Away = "GSW",
                     Sport = "Basketball",
@@ -194,9 +193,9 @@ public class AssignmentValidatorUnitTests
 
         var traders = new List<Trader>
         {
-            new Trader{ UserId = 1, Username = "Esther"},
-            new Trader{ UserId = 10, Username = "Mira"},
-            new Trader{ UserId = 2, Username = "Lita"}
+            new() { UserId = 1, Username = "Esther"},
+            new() { UserId = 10, Username = "Mira"},
+            new() { UserId = 2, Username = "Lita"}
         };
         var expected = new List<ValidationResult>();
 
@@ -211,7 +210,7 @@ public class AssignmentValidatorUnitTests
         {
             Assignments = new List<AssignmentModelInExcel>
             {
-                new AssignmentModelInExcel
+                new()
                 {
                     Away = "OKC",
                     Home = "Toronto Raptor",
@@ -227,13 +226,13 @@ public class AssignmentValidatorUnitTests
 
         var traders = new List<Trader>
         {
-            new Trader{ UserId = 1, Username = "Esther"},
-            new Trader{ UserId = 10, Username = "Mira"},
-            new Trader{ UserId = 0, Username = "Curry"}
+            new() { UserId = 1, Username = "Esther"},
+            new() { UserId = 10, Username = "Mira"},
+            new() { UserId = 0, Username = "Curry"}
         };
         var expected = new List<ValidationResult>
         {
-            new ValidationResult("Invalid Trader Badminton All Product (Set Winner): Curry")
+            new("Invalid Trader Badminton All Product (Set Winner): Curry")
         };
 
         var actual = assignmentValidator.CustomValidateAssignment(assignmentModel, uploadingDataFromExcel.Assignments, traders);
@@ -247,7 +246,7 @@ public class AssignmentValidatorUnitTests
         {
             Assignments = new List<AssignmentModelInExcel>
             {
-                new AssignmentModelInExcel
+                new()
                 {
                     Away = "OKC",
                     Home = "Toronto Raptor",
@@ -256,7 +255,7 @@ public class AssignmentValidatorUnitTests
                     TraderBadmintonAllProductPointWinner = "Esther",
                     DateTime = "43831.645833333336"
                 },
-                new AssignmentModelInExcel
+                new()
                 {
                     Away = "OKC",
                     Home = "Toronto Raptor",
@@ -272,12 +271,12 @@ public class AssignmentValidatorUnitTests
 
         var traders = new List<Trader>
         {
-            new Trader{ UserId = 1, Username = "Esther"},
-            new Trader{ UserId = 10, Username = "Mira"}
+            new() { UserId = 1, Username = "Esther"},
+            new() { UserId = 10, Username = "Mira"}
         };
         var expected = new List<ValidationResult>
         {
-            new ValidationResult("Duplicate Match: NBA | Toronto Raptor -vs- OKC")
+            new("Duplicate Match: NBA | Toronto Raptor -vs- OKC")
         };
 
         var actual = assignmentValidator.CustomValidateAssignment(assignmentModel, uploadingDataFromExcel.Assignments, traders);
@@ -291,7 +290,7 @@ public class AssignmentValidatorUnitTests
         {
             Assignments = new List<AssignmentModelInExcel>
             {
-                new AssignmentModelInExcel
+                new()
                 {
                     Away = "OKC",
                     Home = "Toronto Raptor",
@@ -307,8 +306,8 @@ public class AssignmentValidatorUnitTests
 
         var traders = new List<Trader>
         {
-            new Trader{ UserId = 1, Username = "Esther"},
-            new Trader{ UserId = 10, Username = "Mira"}
+            new() { UserId = 1, Username = "Esther"},
+            new() { UserId = 10, Username = "Mira"}
         };
         var expected = new List<ValidationResult>();
 
@@ -344,7 +343,7 @@ public class AssignmentValidatorUnitTests
     {
         return new List<AssignmentModelInExcel>
         {
-            new AssignmentModelInExcel
+            new()
             {
                 MatchNo="123",
                 Away = "OKC",

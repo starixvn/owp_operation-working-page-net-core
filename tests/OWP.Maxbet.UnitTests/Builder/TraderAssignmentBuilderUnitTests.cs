@@ -1,12 +1,12 @@
-﻿using NSubstitute;
-using OWP.Enums;
-using OWP.Maxbet.Builder;
-using OWP.Maxbet.Models;
+﻿namespace OWP.Maxbet.UnitTests.Builder;
+
+using Enums;
+using Maxbet.Builder;
+using Models;
+using NSubstitute;
 using OWP.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
-
-namespace OWP.Maxbet.UnitTests.Builder;
 
 public class TraderAssignmentBuilderUnitTests
 {
@@ -27,24 +27,24 @@ public class TraderAssignmentBuilderUnitTests
     public async Task BuildTraderAssignmentSender_OwpmatchId_TraderAssignment_Has_Full_Bettype_ReturnTraderInfoFullBettype()
     {
         var matchId = 123;
-        List<TraderAssignment> traders = new List<TraderAssignment>
+        var traders = new List<TraderAssignment>
         {
-            new TraderAssignment
+            new()
             {
                 BettypeId= (int)EnumBettype.Handicap,
                 UserId=111
             },
-            new TraderAssignment
+            new()
             {
                 BettypeId= (int)EnumBettype.OverUnder,
                 UserId=112
             },
-            new TraderAssignment
+            new()
             {
                 BettypeId= (int)EnumBettype.FirstHalfHandicap,
                 UserId=113
             },
-            new TraderAssignment
+            new()
             {
                 BettypeId= (int)EnumBettype.FirstHalfOverUnder,
                 UserId=114

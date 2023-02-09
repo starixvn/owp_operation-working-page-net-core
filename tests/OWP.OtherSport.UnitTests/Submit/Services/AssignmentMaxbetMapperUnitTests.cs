@@ -1,9 +1,9 @@
 ﻿namespace OWP.OtherSport.UnitTests.Submit.Services;
 
-using OWP.OtherSport.Submit.Contants;
-using OWP.OtherSport.Submit.Models;
-using OWP.OtherSport.Submit.Services;
-using OWP.OtherSport.Validation.Models;
+using OtherSport.Submit.Contants;
+using OtherSport.Submit.Models;
+using OtherSport.Submit.Services;
+using OtherSport.Validation.Models;
 using Xunit;
 using Xunit.Asserts.Compare;
 
@@ -27,7 +27,7 @@ public class AssignmentMaxbetMapperUnitTests
 
         var assignmentMaxbets = new List<AssignmentMaxbet>
         {
-            new AssignmentMaxbet()
+            new()
             {
                 Bettype = "Match Winner",
                 Trader = "TraderOtherSportsMatchWinner",
@@ -35,7 +35,7 @@ public class AssignmentMaxbetMapperUnitTests
                 MaxBet = 1200,
                 Spread = 10
             },
-            new AssignmentMaxbet()
+            new()
             {
                 Bettype = "FT (HDP)",
                 Trader = "TraderOtherSportsFTHDP",
@@ -43,7 +43,7 @@ public class AssignmentMaxbetMapperUnitTests
                 MaxBet = 1200,
                 Spread = 10
             },
-            new AssignmentMaxbet()
+            new()
             {
                 Bettype = "1H (HDP)",
                 Trader = "TraderOtherSports1HHDP",
@@ -51,7 +51,7 @@ public class AssignmentMaxbetMapperUnitTests
                 MaxBet = 1200,
                 Spread = 10
             },
-            new AssignmentMaxbet()
+            new()
             {
                 Bettype = "FT (O/U)",
                 Trader = "TraderOtherSportsFTOU",
@@ -59,7 +59,7 @@ public class AssignmentMaxbetMapperUnitTests
                 MaxBet = 1200,
                 Spread = 10
             },
-            new AssignmentMaxbet()
+            new()
             {
                 Bettype = "1H (O/U)",
                 Trader = "TraderOtherSports1HOU",
@@ -138,7 +138,7 @@ public class AssignmentMaxbetMapperUnitTests
         //Arrange
         var assignment = AssignmentModelMock(Sport.Football);
 
-        var expect = new List<AssignmentMaxbet> { };
+        var expect = new List<AssignmentMaxbet>();
 
         //Act
         var actual = AssignmentMaxbetMapperImp.MapBasketball(assignment);
@@ -153,7 +153,7 @@ public class AssignmentMaxbetMapperUnitTests
         //Arrange
         var assignment = AssignmentModelMock(Sport.FieldHockey);
 
-        var expect = new List<AssignmentMaxbet> { };
+        var expect = new List<AssignmentMaxbet>();
 
         //Act
         var actual = AssignmentMaxbetMapperImp.MapFootball(assignment);
@@ -290,7 +290,7 @@ public class AssignmentMaxbetMapperUnitTests
         //Arrange
         var assignment = AssignmentModelMock(Sport.Darts);
 
-        var expect = new List<AssignmentMaxbet> { };
+        var expect = new List<AssignmentMaxbet>();
 
         //Act
         var actual = AssignmentMaxbetMapperImp.MapFieldHockey(assignment);
@@ -351,7 +351,7 @@ public class AssignmentMaxbetMapperUnitTests
         //Arrange
         var assignment = AssignmentModelMock(Sport.Darts);
 
-        var expect = new List<AssignmentMaxbet> { };
+        var expect = new List<AssignmentMaxbet>();
 
         //Act
         var actual = AssignmentMaxbetMapperImp.MapIceHockey(assignment);
@@ -421,7 +421,7 @@ public class AssignmentMaxbetMapperUnitTests
         //Arrange
         var assignment = AssignmentModelMock(Sport.Darts);
 
-        var expect = new List<AssignmentMaxbet> { };
+        var expect = new List<AssignmentMaxbet>();
 
         //Act
         var actual = AssignmentMaxbetMapperImp.MapOtherSports(assignment);
@@ -466,7 +466,7 @@ public class AssignmentMaxbetMapperUnitTests
         //Arrange
         var assignment = AssignmentModelMock(Sport.Snooker);
 
-        var expect = new List<AssignmentMaxbet> { };
+        var expect = new List<AssignmentMaxbet>();
 
         //Act
         var actual = AssignmentMaxbetMapperImp.MapDarts(assignment);
@@ -511,7 +511,7 @@ public class AssignmentMaxbetMapperUnitTests
         //Arrange
         var assignment = AssignmentModelMock(Sport.Snooker);
 
-        var expect = new List<AssignmentMaxbet> { };
+        var expect = new List<AssignmentMaxbet>();
 
         //Act
         var actual = AssignmentMaxbetMapperImp.MapPool(assignment);
@@ -556,7 +556,7 @@ public class AssignmentMaxbetMapperUnitTests
         //Arrange
         var assignment = AssignmentModelMock(Sport.Snooker);
 
-        var expect = new List<AssignmentMaxbet> { };
+        var expect = new List<AssignmentMaxbet>();
 
         //Act
         var actual = AssignmentMaxbetMapperImp.MapTableTennis(assignment);
@@ -607,7 +607,7 @@ public class AssignmentMaxbetMapperUnitTests
         //Arrange
         var assignment = AssignmentModelMock(Sport.Snooker);
 
-        var expect = new List<AssignmentMaxbet> { };
+        var expect = new List<AssignmentMaxbet>();
 
         //Act
         var actual = AssignmentMaxbetMapperImp.MapVolleyball(assignment);
@@ -668,7 +668,7 @@ public class AssignmentMaxbetMapperUnitTests
         //Arrange
         var assignment = AssignmentModelMock(Sport.Snooker);
 
-        var expect = new List<AssignmentMaxbet> { };
+        var expect = new List<AssignmentMaxbet>();
 
         //Act
         var actual = AssignmentMaxbetMapperImp.MapHandball(assignment);
@@ -763,7 +763,7 @@ public class AssignmentMaxbetMapperUnitTests
         //Arrange
         var assignment = AssignmentModelMock(Sport.Snooker);
 
-        var expect = new List<AssignmentMaxbet> { };
+        var expect = new List<AssignmentMaxbet>();
 
         //Act
         var actual = AssignmentMaxbetMapperImp.MapNetball(assignment);
@@ -813,7 +813,7 @@ public class AssignmentMaxbetMapperUnitTests
         //Arrange
         var assignment = AssignmentModelMock(Sport.Snooker);
 
-        var expect = new List<AssignmentMaxbet> { };
+        var expect = new List<AssignmentMaxbet>();
 
         //Act
         var actual = AssignmentMaxbetMapperImp.MapCricket(assignment);
@@ -900,7 +900,7 @@ public class AssignmentMaxbetMapperUnitTests
         //Arrange
         var assignment = AssignmentModelMock(Sport.OtherSports);
 
-        var expect = new List<AssignmentMaxbet> { };
+        var expect = new List<AssignmentMaxbet>();
 
         //Act
         var actual = AssignmentMaxbetMapperImp.MapSnooker(assignment);
@@ -969,7 +969,7 @@ public class AssignmentMaxbetMapperUnitTests
         //Arrange
         var assignment = AssignmentModelMock(Sport.OtherSports);
 
-        var expect = new List<AssignmentMaxbet> { };
+        var expect = new List<AssignmentMaxbet>();
 
         //Act
         var actual = AssignmentMaxbetMapperImp.MapBaseball(assignment);
@@ -1033,7 +1033,7 @@ public class AssignmentMaxbetMapperUnitTests
         //Arrange
         var assignment = AssignmentModelMock(Sport.OtherSports);
 
-        var expect = new List<AssignmentMaxbet> { };
+        var expect = new List<AssignmentMaxbet>();
 
         //Act
         var actual = AssignmentMaxbetMapperImp.MapBadminton(assignment);
@@ -1090,7 +1090,7 @@ public class AssignmentMaxbetMapperUnitTests
         //Arrange
         var assignment = AssignmentModelMock(Sport.OtherSports);
 
-        var expect = new List<AssignmentMaxbet> { };
+        var expect = new List<AssignmentMaxbet>();
 
         //Act
         var actual = AssignmentMaxbetMapperImp.MapTennis(assignment);
@@ -1100,7 +1100,7 @@ public class AssignmentMaxbetMapperUnitTests
 
     private static AssignmentModel AssignmentModelMock(string sport)
     {
-        return new()
+        return new AssignmentModel
         {
             Sport = sport,
             MatchStatus = "MatchStatus",
@@ -1383,7 +1383,7 @@ public class AssignmentMaxbetMapperUnitTests
             SpreadTennisAllProductLS = 10,
             SpreadTennisNextGame = 10,
             SpreadTennisMostAces = 10,
-            SpreadTennisMostDoubleFaults = 10,
+            SpreadTennisMostDoubleFaults = 10
         };
     }
 }

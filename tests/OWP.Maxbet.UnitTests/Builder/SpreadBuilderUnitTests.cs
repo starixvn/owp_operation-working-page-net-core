@@ -1,12 +1,12 @@
-﻿using NSubstitute;
-using OWP.Enums;
-using OWP.Maxbet.Builder;
-using OWP.Maxbet.Models;
+﻿namespace OWP.Maxbet.UnitTests.Builder;
+
+using Enums;
+using Maxbet.Builder;
+using Models;
+using NSubstitute;
 using OWP.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
-
-namespace OWP.Maxbet.UnitTests.Builder;
 
 public class SpreadBuilderUnitTests
 {
@@ -48,22 +48,22 @@ public class SpreadBuilderUnitTests
         {
             Item1 = new List<SpreadModel>
             {
-                new SpreadModel
+                new()
                 {
                     Bettype= (int)EnumBettype.Handicap,
                     Spread=(decimal)0.1
                 },
-                new SpreadModel
+                new()
                 {
                     Bettype= (int)EnumBettype.OverUnder,
                     Spread=(decimal)0.2
                 },
-                new SpreadModel
+                new()
                 {
                     Bettype= (int)EnumBettype.FirstHalfHandicap,
                     Spread=(decimal)0.3
                 },
-                new SpreadModel
+                new()
                 {
                     Bettype= (int)EnumBettype.FirstHalfOverUnder,
                     Spread=(decimal)0.4
@@ -71,7 +71,7 @@ public class SpreadBuilderUnitTests
             },
             Item2 = new List<LeagueGroup>
             {
-                new LeagueGroup
+                new()
                 {
                     LeagueGroupId=1
                 }
@@ -102,12 +102,12 @@ public class SpreadBuilderUnitTests
         {
             Item1 = new List<SpreadModel>
             {
-                new SpreadModel
+                new()
                 {
                     Bettype= (int)EnumBettype.Handicap,
                     Spread=(decimal)0.1
                 },
-                new SpreadModel
+                new()
                 {
                     Bettype= (int)EnumBettype.OverUnder,
                     Spread=(decimal)0.2
@@ -115,7 +115,8 @@ public class SpreadBuilderUnitTests
             },
 
             Item2 = new List<LeagueGroup> {
-                new LeagueGroup {
+                new()
+                {
                     LeagueGroupId = 1
                 }
             }
@@ -144,12 +145,12 @@ public class SpreadBuilderUnitTests
         {
             Item1 = new List<SpreadModel>
             {
-                new SpreadModel
+                new()
                 {
                     Bettype= (int)EnumBettype.Handicap,
                     Spread=(decimal)0.1
                 },
-                new SpreadModel
+                new()
                 {
                     Bettype= (int)EnumBettype.OverUnder,
                     Spread=(decimal)0.1
@@ -157,7 +158,8 @@ public class SpreadBuilderUnitTests
             },
 
             Item2 = new List<LeagueGroup> {
-                new LeagueGroup {
+                new()
+                {
                     LeagueGroupId = 2
                 }
             }
@@ -184,7 +186,7 @@ public class SpreadBuilderUnitTests
     {
         var spread = new List<SpreadModel>
         {
-            new SpreadModel()
+            new()
         };
 
         var actual = SpreadBuilderImp.BuildSpreadSender(spread);
@@ -197,22 +199,22 @@ public class SpreadBuilderUnitTests
     {
         var spread = new List<SpreadModel>
         {
-            new SpreadModel
+            new()
             {
                 Bettype= (int)EnumBettype.Handicap,
                 Spread=(decimal)0.1
             },
-            new SpreadModel
+            new()
             {
                 Bettype= (int)EnumBettype.OverUnder,
                 Spread=(decimal)0.2
             },
-            new SpreadModel
+            new()
             {
                 Bettype= (int)EnumBettype.FirstHalfHandicap,
                 Spread=(decimal)0.3
             },
-            new SpreadModel
+            new()
             {
                 Bettype= (int)EnumBettype.FirstHalfOverUnder,
                 Spread=(decimal)0.4
@@ -235,7 +237,7 @@ public class SpreadBuilderUnitTests
     {
         var spread = new List<SpreadModel>
         {
-            new SpreadModel
+            new()
             {
                 Bettype= (int)EnumBettype.OverUnder
             }
@@ -249,7 +251,7 @@ public class SpreadBuilderUnitTests
     {
         var spread = new List<SpreadModel>
         {
-            new SpreadModel
+            new()
             {
                 Bettype= (int)EnumBettype.Handicap
             }
@@ -263,22 +265,22 @@ public class SpreadBuilderUnitTests
     {
         var spread = new List<SpreadModel>
         {
-            new SpreadModel
+            new()
             {
                 Bettype= (int)EnumBettype.Handicap,
                 Spread=(decimal)0.1
             },
-            new SpreadModel
+            new()
             {
                 Bettype= (int)EnumBettype.OverUnder,
                 Spread=(decimal)0.2
             },
-            new SpreadModel
+            new()
             {
                 Bettype= (int)EnumBettype.FirstHalfHandicap,
                 Spread=(decimal)0.3
             },
-            new SpreadModel
+            new()
             {
                 Bettype= (int)EnumBettype.FirstHalfOverUnder,
                 Spread=(decimal)0.4
@@ -304,7 +306,7 @@ public class SpreadBuilderUnitTests
     {
         var spread = new List<SpreadModel>
         {
-            new SpreadModel
+            new()
             {
                 Bettype= (int)EnumBettype.Handicap,
                 Spread=(decimal)0.01
@@ -316,7 +318,7 @@ public class SpreadBuilderUnitTests
         var expected = new MaxbetSpread
         {
             Handicap = (decimal)0.01,
-            FirstHalfHandicap = (decimal)0.1,
+            FirstHalfHandicap = (decimal)0.1
         };
 
         DeepAssert.Equal(expected, result);
@@ -328,7 +330,7 @@ public class SpreadBuilderUnitTests
     {
         var spread = new List<SpreadModel>
         {
-            new SpreadModel
+            new()
             {
                 Bettype= (int)EnumBettype.Handicap,
                 Spread=(decimal)0.2
@@ -340,7 +342,7 @@ public class SpreadBuilderUnitTests
         var expected = new MaxbetSpread
         {
             Handicap = (decimal)0.2,
-            FirstHalfHandicap = (decimal)0.2,
+            FirstHalfHandicap = (decimal)0.2
         };
 
         DeepAssert.Equal(expected, result);
@@ -351,22 +353,22 @@ public class SpreadBuilderUnitTests
     {
         var spread = new List<SpreadModel>
         {
-            new SpreadModel
+            new()
             {
                 Bettype= (int)EnumBettype.Handicap,
                 Spread=(decimal)0.1
             },
-            new SpreadModel
+            new()
             {
                 Bettype= (int)EnumBettype.OverUnder,
                 Spread=(decimal)0.2
             },
-            new SpreadModel
+            new()
             {
                 Bettype= (int)EnumBettype.FirstHalfHandicap,
                 Spread=(decimal)0.3
             },
-            new SpreadModel
+            new()
             {
                 Bettype= (int)EnumBettype.FirstHalfOverUnder,
                 Spread=(decimal)0.4
@@ -392,7 +394,7 @@ public class SpreadBuilderUnitTests
     {
         var spread = new List<SpreadModel>
         {
-            new SpreadModel
+            new()
             {
                 Bettype= (int)EnumBettype.OverUnder,
                 Spread=(decimal)0.01
@@ -416,7 +418,7 @@ public class SpreadBuilderUnitTests
     {
         var spread = new List<SpreadModel>
         {
-            new SpreadModel
+            new()
             {
                 Bettype= (int)EnumBettype.OverUnder,
                 Spread=(decimal)0.2
@@ -439,12 +441,12 @@ public class SpreadBuilderUnitTests
     {
         var spread = new List<SpreadModel>
         {
-            new SpreadModel
+            new()
             {
                 Bettype= (int)EnumBettype.Handicap,
                 Spread=(decimal)0.2
             },
-            new SpreadModel
+            new()
             {
                 Bettype= (int)EnumBettype.FirstHalfHandicap,
                 Spread=(decimal)0.1
@@ -455,7 +457,7 @@ public class SpreadBuilderUnitTests
         var expected = new MaxbetSpread
         {
             Handicap = (decimal)0.2,
-            FirstHalfHandicap = (decimal)0.1,
+            FirstHalfHandicap = (decimal)0.1
         };
 
         DeepAssert.Equal(expected, result);
@@ -466,7 +468,7 @@ public class SpreadBuilderUnitTests
     {
         var spread = new List<SpreadModel>
         {
-            new SpreadModel
+            new()
             {
                 Bettype= (int)EnumBettype.Handicap,
                 Spread=(decimal)0.2
@@ -477,7 +479,7 @@ public class SpreadBuilderUnitTests
         var expected = new MaxbetSpread
         {
             Handicap = (decimal)0.2,
-            FirstHalfHandicap = (decimal)0.2,
+            FirstHalfHandicap = (decimal)0.2
         };
 
         DeepAssert.Equal(expected, result);
@@ -488,12 +490,12 @@ public class SpreadBuilderUnitTests
     {
         var spread = new List<SpreadModel>
         {
-            new SpreadModel
+            new()
             {
                 Bettype= (int)EnumBettype.OverUnder,
                 Spread=(decimal)0.2
             },
-            new SpreadModel
+            new()
             {
                 Bettype= (int)EnumBettype.FirstHalfOverUnder,
                 Spread=(decimal)0.1
@@ -515,7 +517,7 @@ public class SpreadBuilderUnitTests
     {
         var spread = new List<SpreadModel>
         {
-            new SpreadModel
+            new()
             {
                 Bettype= (int)EnumBettype.OverUnder,
                 Spread=(decimal)0.2

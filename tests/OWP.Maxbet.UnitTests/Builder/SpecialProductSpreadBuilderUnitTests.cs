@@ -1,11 +1,11 @@
-﻿using NSubstitute;
-using OWP.Maxbet.Builder;
-using OWP.Services;
+﻿namespace OWP.Maxbet.UnitTests.Builder;
 
+using Maxbet.Builder;
+using Models;
+using NSubstitute;
+using OWP.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
-
-namespace OWP.Maxbet.UnitTests.Builder;
 
 public class SpecialProductSpreadBuilderUnitTests
 {
@@ -30,7 +30,7 @@ public class SpecialProductSpreadBuilderUnitTests
             .ReturnsForAnyArgs(new List<decimal?>());
         var actual = await specialProductSpreadBuilder
             .BuildSpreadXMins(123);
-        DeepAssert.Equal(new(), actual);
+        DeepAssert.Equal(new MaxbetSpread(), actual);
     }
 
     [Fact]
@@ -38,10 +38,10 @@ public class SpecialProductSpreadBuilderUnitTests
     {
         syncMaxbetRepository
             .GetSpreadXMins(123)
-            .ReturnsForAnyArgs(new List<decimal?>() { 123 });
+            .ReturnsForAnyArgs(new List<decimal?> { 123 });
         var actual = await specialProductSpreadBuilder
             .BuildSpreadXMins(123);
-        DeepAssert.Equal(new()
+        DeepAssert.Equal(new MaxbetSpread
         {
             Handicap = 123,
             OverUnder = 123

@@ -2,6 +2,7 @@
 
 using Criteria;
 using Fanex.Data.Repository;
+using Handlers;
 using Models;
 using NSubstitute;
 using PreMatchAssignment.Misc;
@@ -34,7 +35,7 @@ public class QueryLogServiceUnitTests
         var expected = CreateExpectedData();
 
         //Act
-        var actual = await logService.Query(new Handlers.QueryLogRequest { PageNumber = 1, PageSize = 10 });
+        var actual = await logService.Query(new QueryLogRequest { PageNumber = 1, PageSize = 10 });
 
         //Assert
         DeepAssert.Equal(expected, actual);
@@ -52,7 +53,7 @@ public class QueryLogServiceUnitTests
         var expected = new QueryLogViewModel { IsLastPage = false, Logs = logData.Item1 };
 
         //Act
-        var actual = await logService.Query(new Handlers.QueryLogRequest { PageNumber = 1, PageSize = 10 });
+        var actual = await logService.Query(new QueryLogRequest { PageNumber = 1, PageSize = 10 });
 
         //Assert
         DeepAssert.Equal(expected, actual);
@@ -62,7 +63,7 @@ public class QueryLogServiceUnitTests
     {
         var logs = new List<Log>
         {
-            new Log
+            new()
             {
                 Action = LogActionConst.UpdateRemark,
                 LastModified = new DateTime(2020,8,20,4,3,50),
@@ -72,7 +73,7 @@ public class QueryLogServiceUnitTests
                 OldValue = "<r><z plid=\"2019\" rm=\"cdcd\"/></r>"
             },
 
-            new Log
+            new()
             {
                 Action = "Delete League",
                 LastModified = new DateTime(2020,8,20,4,3,50),
@@ -82,7 +83,7 @@ public class QueryLogServiceUnitTests
                 OldValue = "<r><z plid=\"2007\"/></r>"
             },
 
-            new Log
+            new()
             {
                 Action = LogActionConst.UpdateAssignment,
                 LastModified = new DateTime(2020,8,20,4,3,50),
@@ -92,7 +93,7 @@ public class QueryLogServiceUnitTests
                 OldValue = string.Empty
             },
 
-            new Log
+            new()
             {
                 Action = "Recover League",
                 LastModified = new DateTime(2020,8,20,4,3,50),
@@ -102,7 +103,7 @@ public class QueryLogServiceUnitTests
                 OldValue = string.Empty
             },
 
-            new Log
+            new()
             {
                 Action = LogActionConst.ChangeStartTime,
                 LastModified = new DateTime(2020,8,20,4,3,50),
@@ -122,7 +123,7 @@ public class QueryLogServiceUnitTests
     {
         var logs = new List<Log>
         {
-            new Log
+            new()
             {
                 Action = LogActionConst.UpdateRemark,
                 LastModified = new DateTime(2020,8,20,4,3,50),
@@ -133,7 +134,7 @@ public class QueryLogServiceUnitTests
                 LastModifiedInString = "08/20/2020 04:03 PM"
             },
 
-            new Log
+            new()
             {
                 Action = "Delete League",
                 LastModified = new DateTime(2020,8,20,4,3,50),
@@ -144,7 +145,7 @@ public class QueryLogServiceUnitTests
                 LastModifiedInString = "08/20/2020 04:03 PM"
             },
 
-            new Log
+            new()
             {
                 Action = LogActionConst.UpdateAssignment,
                 LastModified = new DateTime(2020,8,20,4,3,50),
@@ -155,7 +156,7 @@ public class QueryLogServiceUnitTests
                 LastModifiedInString = "08/20/2020 04:03 PM"
             },
 
-            new Log
+            new()
             {
                 Action = "Recover League",
                 LastModified = new DateTime(2020,8,20,4,3,50),
@@ -166,7 +167,7 @@ public class QueryLogServiceUnitTests
                 LastModifiedInString = "08/20/2020 04:03 PM"
             },
 
-            new Log
+            new()
             {
                 Action = LogActionConst.ChangeStartTime,
                 LastModified = new DateTime(2020,8,20,4,3,50),

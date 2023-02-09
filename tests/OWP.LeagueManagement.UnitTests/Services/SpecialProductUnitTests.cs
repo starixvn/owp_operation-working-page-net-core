@@ -1,16 +1,10 @@
 namespace OWP.LeagueManagement.UnitTests;
 
-using AutoMapper;
+using Fanex.NAP.Client.Helpers.Web;
 using Models;
 using NSubstitute;
-using OWP.LeagueManagement.Service;
-using OWP.LeagueManagement.Criteria;
-using OWP.Models;
-using Olympus.Xml;
-using Newtonsoft.Json;
-using Fanex.NAP.Client.Helpers.Web;
+using Service;
 using Xunit;
-using Xunit.Asserts.Compare;
 
 public class SpecialProductUnitTests
 {
@@ -29,7 +23,7 @@ public class SpecialProductUnitTests
     {
         var query = new SpecialProduct();
         // Arrange
-        var model = new ProductInfo()
+        var model = new ProductInfo
         {
             ErrorMessage = null,
             ProductId = 288
@@ -50,7 +44,7 @@ public class SpecialProductUnitTests
         var model = new QueryLogModel();
         var mockReturnLogModel = new List<UserLogModel>
         {
-            new UserLogModel()
+            new()
             {
                 Action = "Update",
                 DataOld = "<r><z p=\"Maxbet No.Of Corner\" vl=\"5000.0000\"/></r>",
@@ -61,7 +55,7 @@ public class SpecialProductUnitTests
         };
         var expect = new List<LogDisplayModel>
         {
-            new LogDisplayModel()
+            new()
             {
                 Action= "Update",
                 ModifyBy= "sa",

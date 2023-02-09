@@ -1,11 +1,11 @@
-﻿using Fanex.Data.Repository;
-using NSubstitute;
-using OWP.LiveGameList.Criteria;
-using OWP.LiveGameList.Models;
-using OWP.LiveGameList.Services;
-using Xunit;
+﻿namespace OWP.LiveGameList.UnitTests.Services;
 
-namespace OWP.LiveGameList.UnitTests.Services;
+using Criteria;
+using Fanex.Data.Repository;
+using LiveGameList.Services;
+using Models;
+using NSubstitute;
+using Xunit;
 
 public class GetAdminSiteMatchIdServiceUnitTest
 {
@@ -30,7 +30,7 @@ public class GetAdminSiteMatchIdServiceUnitTest
     }
 
     public List<MatchInfo> MockMatchInfo()
-        => new List<MatchInfo>
+        => new()
         {
             new(){ OWPMatchId = 17, MinorBettypeId = 112, AdminSiteId = 1},
             new () { OWPMatchId = 18, MinorBettypeId = 113,AdminSiteId = 1},
@@ -39,6 +39,6 @@ public class GetAdminSiteMatchIdServiceUnitTest
         };
 
     public IEnumerable<MinorMatchInfo> MockMinorMatchInfo()
-        => new List<MinorMatchInfo>() { new() { AdminMatchId = 2, OwpMatchId = 17 } };
+        => new List<MinorMatchInfo> { new() { AdminMatchId = 2, OwpMatchId = 17 } };
 }
 

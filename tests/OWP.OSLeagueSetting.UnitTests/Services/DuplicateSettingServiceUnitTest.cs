@@ -1,13 +1,11 @@
-﻿using AutoMapper;
+﻿namespace OWP.OSLeagueSetting.UnitTests.Services;
+
+using Factory;
+using Models;
 using NSubstitute;
-using OWP.OSLeagueSetting.Factory;
-using OWP.OSLeagueSetting.Handlers;
-using OWP.OSLeagueSetting.Models;
-using OWP.OSLeagueSetting.Services;
+using OSLeagueSetting.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
-
-namespace OWP.OSLeagueSetting.UnitTests.Services;
 
 public class DuplicateSettingServiceUnitTest
 {
@@ -31,7 +29,7 @@ public class DuplicateSettingServiceUnitTest
             Remark = "abc",
             Providers = "1,2",
             KOToTime = null,
-            KOFromTime = new DateTime(2022, 8, 12, 2, 32, 23),
+            KOFromTime = new DateTime(2022, 8, 12, 2, 32, 23)
         };
 
         repository.GetLeagueSettingByLeagueName(Arg.Any<int?>(), Arg.Any<string>())

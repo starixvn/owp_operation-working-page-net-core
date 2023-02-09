@@ -1,7 +1,5 @@
 ﻿namespace OWP.LiveDetail.UnitTests.User;
 
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Fanex.Data.Repository;
 using LiveDetail.User;
 using NSubstitute;
@@ -39,7 +37,7 @@ public class RepositoryUnitTests
         // Arrange
         var userSuggestions = new List<UserSuggestionEntity>
         {
-            new UserSuggestionEntity
+            new()
             {
                 IsAssigned=false,
                 NickName="superman",

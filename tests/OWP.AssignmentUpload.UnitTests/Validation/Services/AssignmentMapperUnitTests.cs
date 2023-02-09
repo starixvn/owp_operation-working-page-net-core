@@ -1,7 +1,5 @@
 ﻿namespace OWP.AssignmentUpload.UnitTests.Validation.Services;
 
-using System;
-using System.Collections.Generic;
 using AssignmentUpload.Validation;
 using AssignmentUpload.Validation.Models;
 using AssignmentUpload.Validation.Services;
@@ -25,9 +23,9 @@ public class AssignmentMapperImpUnitTests
 
         var traders = new List<Trader>
         {
-            new Trader{ UserId = 1, Username = "Mira", IsDuplicate = false },
-            new Trader{ UserId = 3, Username = "Helen", IsDuplicate = false },
-            new Trader{ UserId = 2, Username = "Lina", IsDuplicate = true }
+            new() { UserId = 1, Username = "Mira", IsDuplicate = false },
+            new() { UserId = 3, Username = "Helen", IsDuplicate = false },
+            new() { UserId = 2, Username = "Lina", IsDuplicate = true }
         };
         assignmentMapper.Traders = traders;
     }
@@ -57,7 +55,7 @@ public class AssignmentMapperImpUnitTests
     {
         var excelModels = new List<AssignmentModelInExcel>
         {
-            new AssignmentModelInExcel
+            new()
             {
                 Agent = "Sori",
                 Away = "TPHCM",
@@ -568,7 +566,7 @@ public class AssignmentMapperImpUnitTests
             League = "Seagame",
             Home = "VN(N)",
             Away = "Thai lan",
-            Time = "2020-10-29",
+            Time = "2020-10-29"
         };
 
         var expected = new AssignmentModel

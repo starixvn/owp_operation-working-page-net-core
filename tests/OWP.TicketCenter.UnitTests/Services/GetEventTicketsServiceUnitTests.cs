@@ -1,13 +1,9 @@
-﻿using OWP.TicketCenter.Handlers;
-using OWP.TicketCenter.UnitTests.Enum;
+﻿namespace OWP.TicketCenter.UnitTests.Services;
 
-namespace OWP.TicketCenter.UnitTests.Services;
-
-using AutoMapper;
 using Models;
 using NSubstitute;
-using OWP.TicketCenter.Services;
-using ViewModels;
+using TicketCenter.Handlers;
+using TicketCenter.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
 
@@ -38,11 +34,12 @@ public class GetEventTicketsServiceUnitTests
         DeepAssert.Equal(expected, actual);
     }
     public List<int> MockListTicketIsSaved()
-        => new List<int>{
+        => new()
+        {
             1,2,3
         };
     public List<TicketLeagueInfo> MockListEventTicketLeague()
-        => new List<TicketLeagueInfo>
+        => new()
         {
             new()
             {
@@ -50,11 +47,11 @@ public class GetEventTicketsServiceUnitTests
                 OwpLeagueId=17,
                 OwpLeagueName="NHA",
                 LastCommentDate=new DateTime(2022,3,16)
-            },
+            }
         };
 
     public List<TicketMatchInfo> MockListEventTicketMatch()
-        => new List<TicketMatchInfo>
+        => new()
         {
             new()
             {
@@ -62,100 +59,100 @@ public class GetEventTicketsServiceUnitTests
                 OwpLeagueId=17,
                 OwpLeagueName="NHA",
                 LastCommentDate=new DateTime(2022,3,17)
-            },
+            }
         };
 
     public List<TicketOtherInfo> MockListEventTicketOther()
-        => new List<TicketOtherInfo>
+        => new()
         {
             new()
             {
                 TicketId = 3,
                 Subject="hi",
                 LastCommentDate=new DateTime(2022,3,18)
-            },
+            }
         };
 
     public List<TicketSupportInfo> MockListEventTicketSupport()
-        => new List<TicketSupportInfo>
+        => new()
         {
             new()
             {
                 TicketId = 4,
                 Subject ="hi",
                 LastCommentDate=new DateTime(2022,3,15)
-            },
+            }
         };
 
     public List<MessageInfoModel> MockLastMessageInfo()
-        => new List<MessageInfoModel>
+        => new()
         {
             new()
             {
                 MessageId = 1,
-                TicketId=1,
+                TicketId=1
             },
             new()
             {
                 MessageId = 2,
-                TicketId=2,
+                TicketId=2
             },
             new()
             {
                 MessageId = 3,
-                TicketId=3,
+                TicketId=3
             },
             new()
             {
                 MessageId = 4,
-                TicketId=4,
+                TicketId=4
             }
         };
 
     public IList<TicketBaseInfo> GetExpected()
         => new List<TicketBaseInfo>
         {
-            new TicketOtherInfo()
+            new TicketOtherInfo
             {
                 TicketId = 3,
                 Subject="hi",
                 LastCommentDate=new DateTime(2022,3,18),
-                Messages=new List<MessageInfoModel>()
+                Messages=new List<MessageInfoModel>
                 {
                     new()
                     {
                         MessageId = 3,
-                        TicketId=3,
+                        TicketId=3
                     }
                 }
             },
-            new TicketMatchInfo()
+            new TicketMatchInfo
             {
                 TicketId = 2,
                 OwpLeagueId=17,
                 OwpLeagueName="NHA",
                 LastCommentDate=new DateTime(2022,3,17),
-                Messages=new List<MessageInfoModel>()
+                Messages=new List<MessageInfoModel>
                 {
                     new()
                     {
                         MessageId = 2,
-                        TicketId=2,
+                        TicketId=2
                     }
                 }
             },
-            new TicketLeagueInfo()
+            new TicketLeagueInfo
             {
                 TicketId = 1,
                 OwpLeagueId=17,
                 OwpLeagueName="NHA",
                 LastCommentDate=new DateTime(2022,3,16),
-                Messages=new List<MessageInfoModel>()
+                Messages=new List<MessageInfoModel>
                 {
                     new()
                     {
                         MessageId = 1,
-                        TicketId=1,
+                        TicketId=1
                     }
                 }
             }

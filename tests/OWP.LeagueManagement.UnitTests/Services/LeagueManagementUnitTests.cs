@@ -1,13 +1,13 @@
 namespace OWP.LeagueManagement.UnitTests;
 
-using Models;
-using NSubstitute;
-using OWP.LeagueManagement.Service;
-using OWP.LeagueManagement.Criteria;
-using OWP.Models;
-using Olympus.Xml;
-using Newtonsoft.Json;
+using Criteria;
 using Fanex.NAP.Client.Helpers.Web;
+using Models;
+using Newtonsoft.Json;
+using NSubstitute;
+using Olympus.Xml;
+using OWP.Models;
+using Service;
 using Xunit;
 using Xunit.Asserts.Compare;
 
@@ -29,7 +29,7 @@ public class LeagueManagementUnitTests
         // Arrange
         const int code = 0;
         var message = string.Empty;
-        var model = new List<TVList> { new TVList { Label = "Contains", Value = "TL" } };
+        var model = new List<TVList> { new() { Label = "Contains", Value = "TL" } };
         repository.UpdateTVList(Arg.Compat.Any<UpdateTvListCriteria>()).Returns(Task.FromResult(new ResultDataObject { Code = code, Message = message }));
 
         // Act
@@ -51,8 +51,8 @@ public class LeagueManagementUnitTests
             HasTV = true,
             TV = string.Empty,
             LeagueSettingId = 1,
-            Rounds = new List<Condition> { new Condition { Type = "Contains", Value = string.Empty } },
-            Divisions = new List<Condition> { new Condition { Type = "Equals", Value = string.Empty } }
+            Rounds = new List<Condition> { new() { Type = "Contains", Value = string.Empty } },
+            Divisions = new List<Condition> { new() { Type = "Equals", Value = string.Empty } }
         };
         repository.UpdateCondition(Arg.Compat.Any<UpdateConditionCriteria>()).Returns(Task.FromResult(new ResultDataObject { Code = code, Message = message }));
 
@@ -77,8 +77,8 @@ public class LeagueManagementUnitTests
         const string conditionDesc = "{\"LeagueSettingId\":126,\"HasTV\":true,\"TV\":null,\"Rounds\":[{\"Type\":\"Equals\",\"Value\":\"M2\"}],\"Divisions\":[{\"Type\":\"Equals\",\"Value\":\"Carlos\"}]}";
         var condition = new LeagueSettingCondition
         {
-            Divisions = new List<Condition> { new Condition { Type = "Equals", Value = "Carlos" } },
-            Rounds = new List<Condition> { new Condition { Type = "Equals", Value = "M2" } },
+            Divisions = new List<Condition> { new() { Type = "Equals", Value = "Carlos" } },
+            Rounds = new List<Condition> { new() { Type = "Equals", Value = "M2" } },
             HasTV = true,
             LeagueSettingId = 126,
             TV = null
@@ -143,7 +143,7 @@ public class LeagueManagementUnitTests
     [Fact]
     public async Task GetAllLeague_Always_ReturnData()
     {
-        var mockLeagueLinkToTeam = new List<int>() { 1257 };
+        var mockLeagueLinkToTeam = new List<int> { 1257 };
         var query = new LeagueInfoQuery();
         repository.GetAllLeague(Arg.Compat.Any<LeagueInfoQuery>()).Returns(MockLeagueInfoResponse());
         repository.GetLeagueLinkToTeam(Arg.Compat.Any<string>()).Returns(mockLeagueLinkToTeam);
@@ -156,7 +156,7 @@ public class LeagueManagementUnitTests
     {
         return new List<LeagueInfoResponse>
         {
-            new LeagueInfoResponse()
+            new()
             {
                 CN88MaxFT1X2 = null,
                 CN88MaxMaxbetWD = null,

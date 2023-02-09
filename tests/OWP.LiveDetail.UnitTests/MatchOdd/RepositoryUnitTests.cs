@@ -1,7 +1,5 @@
 ﻿namespace OWP.LiveDetail.UnitTests.MatchOdd;
 
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using AutoMapper;
 using Fanex.Data.Repository;
 using Fanex.NAP.Client.Helpers.Web;
@@ -38,7 +36,7 @@ public class RepositoryUnitTests
         var queryModel = new QueryModel { OWPMatchId = 22 };
         var matchOdds = new List<MatchOdd>
         {
-            new MatchOdd { Id = 1, Bettype = 1, TeamChoice = 1, HDP = 1, Choice = 1, Odds = 1 }
+            new() { Id = 1, Bettype = 1, TeamChoice = 1, HDP = 1, Choice = 1, Odds = 1 }
         };
 
         dynamicRepository.FetchAsync<MatchOdd>(Arg.Compat.Any<QueryCriteria>()).Returns(matchOdds);
@@ -60,7 +58,7 @@ public class RepositoryUnitTests
         };
         const int commandResult = 0;
         var sessionId = string.Empty;
-        dynamicRepository.ExecuteAsync(Arg.Compat.Any<DeleteCriteria>()).Returns(returnThis: x =>
+        dynamicRepository.ExecuteAsync(Arg.Compat.Any<DeleteCriteria>()).Returns(x =>
         {
             var criteria = x.Arg<DeleteCriteria>();
             sessionId = criteria.SessionId;

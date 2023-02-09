@@ -1,11 +1,11 @@
-﻿using NSubstitute;
-using OWP.Maxbet.Builder;
-using OWP.Services;
+﻿namespace OWP.Maxbet.UnitTests.Builder;
 
+using Maxbet.Builder;
+using Models;
+using NSubstitute;
+using OWP.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
-
-namespace OWP.Maxbet.UnitTests.Builder;
 
 public class SpecialProductTraderBuilderUnitTests
 {
@@ -30,7 +30,7 @@ public class SpecialProductTraderBuilderUnitTests
             .ReturnsForAnyArgs(new List<int?>());
         var actual = await specialProductTraderBuilderImp
             .BuildTraderXMins(123);
-        DeepAssert.Equal(new(), actual);
+        DeepAssert.Equal(new TraderAssignmentSender(), actual);
     }
 
     [Fact]
@@ -38,10 +38,10 @@ public class SpecialProductTraderBuilderUnitTests
     {
         syncMaxbetRepository
             .GetTraderXMins(123)
-            .ReturnsForAnyArgs(new List<int?>() { 123 });
+            .ReturnsForAnyArgs(new List<int?> { 123 });
         var actual = await specialProductTraderBuilderImp
             .BuildTraderXMins(123);
-        DeepAssert.Equal(new()
+        DeepAssert.Equal(new TraderAssignmentSender
         {
             Handicap = 123,
             OverUnder = 123

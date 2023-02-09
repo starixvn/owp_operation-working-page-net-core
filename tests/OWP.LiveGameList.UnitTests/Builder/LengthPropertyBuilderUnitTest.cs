@@ -1,16 +1,15 @@
-﻿using OWP.LiveGameList.Builder;
-using OWP.LiveGameList.Models;
+﻿namespace OWP.LiveGameList.UnitTests.Builder;
+
+using LiveGameList.Builder;
+using Models;
 using Xunit;
-
-
-namespace OWP.LiveGameList.UnitTests.Builder;
 
 public class LengthPropertyBuilderUnitTest
 {
     [Fact]
     public void Build_MainMatch_ReturnExpect()
     {
-        var matchInfo = new MatchInfo()
+        var matchInfo = new MatchInfo
         {
             League = "V-league",
             MatchOffers = new List<MatchOffer> { new() { MatchOfferValue = "6s" } },

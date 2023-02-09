@@ -1,21 +1,20 @@
 namespace OWP.MaxbetSetting.UnitTests.Handlers;
 
 using AutoMapper;
+using Criteria;
 using Fanex.Data.Repository;
+using MaxbetSetting.Handlers;
+using Models;
 using NSubstitute;
-using OWP.MaxbetSetting.Criteria;
-using OWP.MaxbetSetting.Handlers;
-using OWP.MaxbetSetting.Models;
 using Xunit;
-using Xunit.Asserts.Compare;
 
 public class GetLogMaxbetSettingHandlerUnitTests
 {
-    private IDynamicRepository dynamicRepository;
+    private readonly IDynamicRepository dynamicRepository;
 
-    private IMapper mapper;
+    private readonly IMapper mapper;
 
-    private GetLogMaxbetSettingHandler handler;
+    private readonly GetLogMaxbetSettingHandler handler;
 
     public GetLogMaxbetSettingHandlerUnitTests()
     {
@@ -34,7 +33,7 @@ public class GetLogMaxbetSettingHandlerUnitTests
     {
         // Arrange
         var request = new GetLogMaxbetSettingRequest();
-        var log = new List<UserLogModel>()
+        var log = new List<UserLogModel>
         {
             new()
             {
@@ -46,15 +45,17 @@ public class GetLogMaxbetSettingHandlerUnitTests
             }
         };
         dynamicRepository.FetchAsync<UserLogModel>(Arg.Compat.Any<GetLogMaxBetSettingCriteria>()).Returns(log);
-        var expected = new List<LogDisplayModel>()
+        var expected = new List<LogDisplayModel>
         {
-            new LogDisplayModel()
+            new()
             {
                 Action = 128,
-                OldValue = new MaxBetLogSettingModel(){
+                OldValue = new MaxBetLogSettingModel
+                {
                     SecondAccept_Corner = "4"
                 },
-                NewValue = new MaxBetLogSettingModel(){
+                NewValue = new MaxBetLogSettingModel
+                {
                     SecondAccept_Corner = "7"
                 },
                 ModifyDate= "2022-09-05 23:52:09",
@@ -63,6 +64,6 @@ public class GetLogMaxbetSettingHandlerUnitTests
         };
 
         var actual = await handler.Handle(request, new CancellationToken(false));
-        DeepAssert.Equals(expected[0].OldValue.SecondAccept_Corner, actual[0].OldValue.SecondAccept_Corner);
+        Equals(expected[0].OldValue.SecondAccept_Corner, actual[0].OldValue.SecondAccept_Corner);
     }
 }

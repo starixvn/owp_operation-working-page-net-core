@@ -1,6 +1,5 @@
 ﻿namespace OWP.AssignmentUpload.UnitTests.Validation.Services;
 
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using AssignmentUpload.Validation.Exceptions;
 using AssignmentUpload.Validation.Models;
@@ -22,23 +21,23 @@ public class InfoSiteValidationUnitTests
     {
         var owpMatchs = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 Away = "awaymar27",
                 Home = "homemar27",
                 League = "leaguemar27"
             },
-            new AssignmentModel
+            new()
             {
                 Away = "awaymar271 Last Corner",
                 Home = "homemar271 Last Corner",
-                League = "leaguemar27 - CORNERS",
+                League = "leaguemar27 - CORNERS"
             },
-            new AssignmentModel
+            new()
             {
                 Away = "awaymar27",
                 Home = "homemar27",
-                League = "leaguemar27",
+                League = "leaguemar27"
             }
         };
 
@@ -56,12 +55,12 @@ public class InfoSiteValidationUnitTests
     {
         var owpMatchs = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 Away = "awaymar27",
                 Home = "homemar27"
             },
-            new AssignmentModel
+            new()
             {
                 Away = "awaymar27",
                 Home = "homemar27"
@@ -80,17 +79,17 @@ public class InfoSiteValidationUnitTests
     {
         var owpMatchs = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 Away = "awaymar27",
                 Home = "homemar27",
                 League = "leaguemar27"
             },
-            new AssignmentModel
+            new()
             {
                 Away = "awaymar27",
                 Home = "homemar27",
-                League = "leaguemar27 - CORNERS",
+                League = "leaguemar27 - CORNERS"
             }
         };
 
@@ -105,17 +104,17 @@ public class InfoSiteValidationUnitTests
     {
         var owpMatchs = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 Away = "awaymar27",
                 Home = "homemar27",
                 League = "leaguemar27"
             },
-            new AssignmentModel
+            new()
             {
                 Away = "awaymar271 Last Corner",
                 Home = "homemar271 Last Corner",
-                League = "leaguemar27 - CORNERS",
+                League = "leaguemar27 - CORNERS"
             }
         };
 
@@ -130,20 +129,20 @@ public class InfoSiteValidationUnitTests
     {
         var owpMatchs = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 Away = "awaymar27",
                 Home = "homemar27",
                 League = "leaguemar27",
-                KickOffTime = new System.TimeSpan(10, 20, 0),
+                KickOffTime = new TimeSpan(10, 20, 0),
                 IsSaba = true
             },
-            new AssignmentModel
+            new()
             {
                 Away = "awaymar27",
                 Home = "homemar27",
                 League = "leaguemar27",
-                KickOffTime = new System.TimeSpan(10, 20, 0),
+                KickOffTime = new TimeSpan(10, 20, 0),
                 IsSaba = true
             }
         };
@@ -160,20 +159,20 @@ public class InfoSiteValidationUnitTests
     {
         var owpMatchs = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 Away = "awaymar27",
                 Home = "homemar27",
                 League = "leaguemar27",
-                KickOffTime = new System.TimeSpan(10, 20, 0),
+                KickOffTime = new TimeSpan(10, 20, 0),
                 IsSaba = true
             },
-            new AssignmentModel
+            new()
             {
                 Away = "awaymar27",
                 Home = "homemar27",
                 League = "leaguemar27",
-                KickOffTime = new System.TimeSpan(3, 20, 0),
+                KickOffTime = new TimeSpan(3, 20, 0),
                 IsSaba = true
             }
         };
@@ -189,12 +188,12 @@ public class InfoSiteValidationUnitTests
     {
         var owpMatchs = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 Away = "awaymar27",
                 InfoSiteMatchId = 10
             },
-            new AssignmentModel
+            new()
             {
 
                 InfoSiteMatchId = 10
@@ -213,11 +212,11 @@ public class InfoSiteValidationUnitTests
     {
         var owpMatchs = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 Away = "awaymar27"
             },
-            new AssignmentModel
+            new()
             {
 
                 InfoSiteMatchId = 1
@@ -235,12 +234,12 @@ public class InfoSiteValidationUnitTests
     {
         var owpMatchs = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 Away = "awaymar27",
                 InfoSiteMatchId = 1
             },
-            new AssignmentModel
+            new()
             {
 
                 InfoSiteMatchId = 2
@@ -258,12 +257,12 @@ public class InfoSiteValidationUnitTests
     {
         var owpMatchs = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 Away = "awaymar27",
                 AdminSiteId = 10
             },
-            new AssignmentModel
+            new()
             {
 
                 AdminSiteId = 10
@@ -282,11 +281,11 @@ public class InfoSiteValidationUnitTests
     {
         var owpMatchs = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 Away = "awaymar27"
             },
-            new AssignmentModel
+            new()
             {
 
                 AdminSiteId = 1
@@ -304,12 +303,12 @@ public class InfoSiteValidationUnitTests
     {
         var owpMatchs = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 Away = "awaymar27",
                 AdminSiteId = 1
             },
-            new AssignmentModel
+            new()
             {
 
                 AdminSiteId = 2
@@ -327,13 +326,13 @@ public class InfoSiteValidationUnitTests
     {
         var owpMatchs = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 Away = "awaymar27",
                 InfoSiteMatchId = 1,
-                MatchNo = "match1",
+                MatchNo = "match1"
             },
-            new AssignmentModel
+            new()
             {
                 InfoSiteMatchId = 1,
                 MatchNo = "match1"
@@ -351,9 +350,9 @@ public class InfoSiteValidationUnitTests
     {
         var owpMatchs = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
-                Away = "awaymar27",
+                Away = "awaymar27"
             }
         };
         var exception = Record.Exception(() => infoSiteValidator.CustomValidateInfoSiteMatch(owpMatchs[0], owpMatchs));
@@ -365,7 +364,7 @@ public class InfoSiteValidationUnitTests
     {
         var owpMatchs = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 Away = "awaymar27"
             }
@@ -380,13 +379,13 @@ public class InfoSiteValidationUnitTests
     {
         var assignmentModelList = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 Away = "awaymar27",
                 League = "league",
                 Home = "home"
             },
-            new AssignmentModel
+            new()
             {
                 Away = "awaymar27",
                 League = "league",
@@ -396,12 +395,12 @@ public class InfoSiteValidationUnitTests
 
         var expected = new List<AssignmentValidationRowResult>
         {
-            new AssignmentValidationRowResult
+            new()
             {
                 Row = 1,
                 Message = "There is duplicated match(es) in the list. Please check again"
             },
-            new AssignmentValidationRowResult
+            new()
             {
                 Row = 2,
                 Message = "There is duplicated match(es) in the list. Please check again"
@@ -417,7 +416,7 @@ public class InfoSiteValidationUnitTests
     {
         var assignmentModelList = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 Away = "awaymar27",
                 League = "league",

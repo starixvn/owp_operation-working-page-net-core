@@ -1,9 +1,8 @@
 ﻿namespace OWP.OtherSport.UnitTests.Validation.Helpers;
 
-using OWP.OtherSport.Validation.Helpers;
-using OWP.OtherSport.Validation.Models;
-
 using System.ComponentModel.DataAnnotations;
+using OtherSport.Validation.Helpers;
+using OtherSport.Validation.Models;
 using Xunit;
 using Xunit.Asserts.Compare;
 
@@ -16,12 +15,12 @@ public class ValidationHelperUnitTests
 
         var validationResult = new List<ValidationResult>
         {
-            new ValidationResult("Invalid Trader Baseball FT Run Line (HDP): Esther")
+            new("Invalid Trader Baseball FT Run Line (HDP): Esther")
         };
 
         var expected = new List<AssignmentValidationRowResult>
         {
-            new AssignmentValidationRowResult
+            new()
             {
                 Row = 2,
                 Message = "Invalid Trader Baseball FT Run Line (HDP): Esther"

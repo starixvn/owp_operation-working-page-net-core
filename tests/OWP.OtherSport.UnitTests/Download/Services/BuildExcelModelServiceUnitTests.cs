@@ -2,13 +2,12 @@
 
 using AutoMapper;
 using NSubstitute;
-using OWP.OtherSport.Download;
-using OWP.OtherSport.Download.Models;
-using OWP.OtherSport.Download.Services;
-using OWP.OtherSport.Shared.Services;
-using OWP.OtherSport.Submit.Contants;
-using OWP.OtherSport.Submit.Models;
-
+using OtherSport.Download;
+using OtherSport.Download.Models;
+using OtherSport.Download.Services;
+using OtherSport.Shared.Services;
+using OtherSport.Submit.Contants;
+using OtherSport.Submit.Models;
 using Xunit;
 using Xunit.Asserts.Compare;
 
@@ -61,20 +60,22 @@ public class BuildExcelModelServiceUnitTests
         {
             Matches = new List<MatchInfo>
             {
-                new MatchInfo { OSMatchId = 111, Sport = Sport.Basketball, Home = "home111", League = "league111" }
+                new() { OSMatchId = 111, Sport = Sport.Basketball, Home = "home111", League = "league111" }
             },
             MatchAssignments = new Dictionary<int, List<ExcelMatchAssignment>>
             {
                 { 111, new List<ExcelMatchAssignment> {
-                    new ExcelMatchAssignment { ColumnIndex=20,Value="", AssignmentType = 1, BetTypeName = Bettype.FTHDP, UserId = 8, Username="sa" },
-                    new ExcelMatchAssignment { ColumnIndex=88,Value="#starix15 mynote", AssignmentType = 2, BetTypeName = Bettype.FirstHHDP,
+                    new() { ColumnIndex=20,Value="", AssignmentType = 1, BetTypeName = Bettype.FTHDP, UserId = 8, Username="sa" },
+                    new()
+                    { ColumnIndex=88,Value="#starix15 mynote", AssignmentType = 2, BetTypeName = Bettype.FirstHHDP,
                         UserId = 123, Username="starix15", AssignmentNote = "#<user> mynote" }
                 } }
             },
             MaxBetSpread = new Dictionary<int, List<ExcelMatchMaxBetSpread>>
             {
                 { 111, new List<ExcelMatchMaxBetSpread> {
-                    new ExcelMatchMaxBetSpread {
+                    new()
+                    {
                         ColumnIndexMaxbet=154,
                         ValueMaxbet="1234",
                         BetTypeName = Bettype.FTHDP,
@@ -83,7 +84,8 @@ public class BuildExcelModelServiceUnitTests
                         ColumnIndexSpread = 225,
                         ValueSpread = "12"
                     },
-                    new ExcelMatchMaxBetSpread {
+                    new()
+                    {
                         ColumnIndexMaxbet=155,
                         ValueMaxbet="222.05",
                         BetTypeName = Bettype.FTOUOE,
@@ -119,19 +121,20 @@ public class BuildExcelModelServiceUnitTests
             MatchAssignments = new Dictionary<int, List<MatchAssignment>>
             {
                 { 111, new List<MatchAssignment> {
-                    new MatchAssignment { AssignmentType = 1, BetTypeName = Bettype.FTHDP, UserId = 8, Username="sa" },
-                    new MatchAssignment { AssignmentType = 2, BetTypeName = Bettype.FirstHHDP, UserId = 123, Username="starix15",
+                    new() { AssignmentType = 1, BetTypeName = Bettype.FTHDP, UserId = 8, Username="sa" },
+                    new()
+                    { AssignmentType = 2, BetTypeName = Bettype.FirstHHDP, UserId = 123, Username="starix15",
                         AssignmentNote = "#<user> mynote" }
                 } },
                 { 222, new List<MatchAssignment> {
-                    new MatchAssignment { AssignmentType = 1, BetTypeName = Bettype.FTHDP, UserId = 2228, Username="tr", Nickname="abc" },
+                    new() { AssignmentType = 1, BetTypeName = Bettype.FTHDP, UserId = 2228, Username="tr", Nickname="abc" }
                 } }
             },
             MatchSettings = new Dictionary<int, List<MatchSetting>>
             {
                 { 111, new List<MatchSetting> {
-                    new MatchSetting { BetTypeName = Bettype.FTHDP, MaxBet = 1234, Spread = 12 },
-                    new MatchSetting { BetTypeName = Bettype.FTOUOE, MaxBet = 222.05m, Spread = 13 }
+                    new() { BetTypeName = Bettype.FTHDP, MaxBet = 1234, Spread = 12 },
+                    new() { BetTypeName = Bettype.FTOUOE, MaxBet = 222.05m, Spread = 13 }
                 } }
             }
         };

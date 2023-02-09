@@ -1,16 +1,15 @@
-﻿using NSubstitute;
-using OWP.OtherSport.Download;
-using OWP.OtherSport.Download.Constants;
-using OWP.OtherSport.Download.Models;
-using OWP.OtherSport.Download.Services;
-using OWP.OtherSport.Submit.Contants;
-using OWP.OtherSport.Submit.Models;
-using OWP.Services;
+﻿namespace OWP.OtherSport.UnitTests.Download.Services;
 
+using NSubstitute;
+using OtherSport.Download;
+using OtherSport.Download.Constants;
+using OtherSport.Download.Models;
+using OtherSport.Download.Services;
+using OtherSport.Submit.Contants;
+using OtherSport.Submit.Models;
+using OWP.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
-
-namespace OWP.OtherSport.UnitTests.Download.Services;
 
 public class ExportExcelServiceUnitTests
 {
@@ -66,21 +65,22 @@ public class ExportExcelServiceUnitTests
             {
                 Matches = new List<MatchInfo>
                 {
-                    new MatchInfo { OSMatchId = 111, Sport = Sport.Basketball, Home = "home111", League = "league111" }
+                    new() { OSMatchId = 111, Sport = Sport.Basketball, Home = "home111", League = "league111" }
                 },
                 MatchAssignments = new Dictionary<int, List<ExcelMatchAssignment>>
                 {
                     { 111, new List<ExcelMatchAssignment> {
-                        new ExcelMatchAssignment { ColumnIndex=19,Value="sa", AssignmentType = 1, BetTypeName = Bettype.FTHDP, UserId = 8, Username="sa" },
-                        new ExcelMatchAssignment { ColumnIndex=83,Value="#starix15 mynote", AssignmentType = 2, BetTypeName = Bettype.FirstHHDP,
+                        new() { ColumnIndex=19,Value="sa", AssignmentType = 1, BetTypeName = Bettype.FTHDP, UserId = 8, Username="sa" },
+                        new()
+                        { ColumnIndex=83,Value="#starix15 mynote", AssignmentType = 2, BetTypeName = Bettype.FirstHHDP,
                             UserId = 123, Username="starix15", AssignmentNote = "#<user> mynote" }
                     } }
                 },
                 MaxBetSpread = new Dictionary<int, List<ExcelMatchMaxBetSpread>>
                 {
                     { 111, new List<ExcelMatchMaxBetSpread> {
-                        new ExcelMatchMaxBetSpread { ColumnIndexMaxbet=145,ValueMaxbet="1234", BetTypeName = Bettype.FTHDP, MaxBet = 1234,ColumnIndexSpread = 190, ValueSpread="13", Spread=13 },
-                        new ExcelMatchMaxBetSpread { ColumnIndexMaxbet=146,ValueMaxbet="222.05", BetTypeName = Bettype.FTOUOE, MaxBet = 222.05m,ColumnIndexSpread = 191, ValueSpread="14", Spread=14 }
+                        new() { ColumnIndexMaxbet=145,ValueMaxbet="1234", BetTypeName = Bettype.FTHDP, MaxBet = 1234,ColumnIndexSpread = 190, ValueSpread="13", Spread=13 },
+                        new() { ColumnIndexMaxbet=146,ValueMaxbet="222.05", BetTypeName = Bettype.FTOUOE, MaxBet = 222.05m,ColumnIndexSpread = 191, ValueSpread="14", Spread=14 }
                     } }
                 }
             }

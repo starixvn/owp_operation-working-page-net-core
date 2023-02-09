@@ -1,8 +1,5 @@
 ﻿namespace OWP.AssignmentUpload.UnitTests.Validation.Services;
 
-using System;
-using System.Collections.Generic;
-using System.IO;
 using AssignmentUpload.Validation.Models;
 using AssignmentUpload.Validation.Services;
 using OfficeOpenXml;
@@ -79,7 +76,7 @@ public class ExcelReaderImpUnitTests
     {
         var assignments = new List<AssignmentModelInExcel>
         {
-            new AssignmentModelInExcel
+            new()
             {
                 OtherTraders10Mins = "#starix1",
                 OtherTraders15Mins = "",
@@ -109,7 +106,7 @@ public class ExcelReaderImpUnitTests
     {
         var assignments = new List<AssignmentModelInExcel>
         {
-            new AssignmentModelInExcel
+            new()
             {
                 OtherTraders10Mins = "#starix1",
                 OtherTraders15Mins = "",
@@ -174,7 +171,7 @@ public class ExcelReaderImpUnitTests
             EventDate = new DateTime(2020, 3, 30),
             Assignments = new List<AssignmentModelInExcel>
             {
-                new AssignmentModelInExcel
+                new()
                 {
                     Time = "01:00 PM",
                     Away = "awaymar27",

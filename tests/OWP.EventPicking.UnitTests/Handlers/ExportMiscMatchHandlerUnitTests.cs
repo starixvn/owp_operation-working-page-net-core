@@ -1,13 +1,13 @@
+namespace OWP.EventPicking.UnitTests.Handlers;
+
+using EventPicking.Handlers;
+using EventPicking.Services;
+using Models;
 using NSubstitute;
-using OWP.EventPicking.Handlers;
-using OWP.EventPicking.Models;
-using OWP.EventPicking.Services;
-using OWP.Services;
 using OfficeOpenXml;
+using OWP.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
-
-namespace OWP.EventPicking.UnitTests.Handlers;
 
 public class ExportMiscMatchHandlerUnitTests
 {
@@ -30,15 +30,15 @@ public class ExportMiscMatchHandlerUnitTests
         ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
         configurationService.CurrentDirectory.Returns(AppDomain.CurrentDomain.BaseDirectory);
 
-        var request = new ExportMiscMatchRequest()
+        var request = new ExportMiscMatchRequest
         {
             Date = new DateTime(2022, 11, 07)
         };
 
-        var matches = new List<EventPickingModel>()
+        var matches = new List<EventPickingModel>
         {
             new(){ InfoSiteMatchId = 111, IsNoOffer = true, RowColor = "Red"},
-            new(){ InfoSiteMatchId = 222, IsNoOffer = true, RowColor = "Gray" },
+            new(){ InfoSiteMatchId = 222, IsNoOffer = true, RowColor = "Gray" }
         };
 
         buildMainAndChildMatches.GetMainAndChildMatchEvent(new DateTime(2022, 11, 07)).Returns(matches);

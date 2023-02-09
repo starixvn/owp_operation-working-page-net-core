@@ -3,8 +3,6 @@
 using AssignmentUpload.SyncInfoSite.Models;
 using AssignmentUpload.SyncInfoSite.Services;
 using AssignmentUpload.Validation.Models;
-using System;
-using System.Collections.Generic;
 using Xunit;
 using Xunit.Asserts.Compare;
 
@@ -24,7 +22,7 @@ public class InfositeIdMappingServiceUnitTests
         var hashkey = Guid.NewGuid().ToString();
         var mainMatchOriginModel = new List<MainMatchBackupModel>
         {
-            new MainMatchBackupModel
+            new()
             {
                 key= parentKey,
                 League="Seagame",
@@ -35,7 +33,7 @@ public class InfositeIdMappingServiceUnitTests
 
         var owpMinorMatch = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 HashKey= hashkey,
                 ParentHashKey= parentKey,
@@ -46,7 +44,7 @@ public class InfositeIdMappingServiceUnitTests
         };
         var newMainMatch = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 HashKey=parentKey,
                 League="V_league",
@@ -57,7 +55,7 @@ public class InfositeIdMappingServiceUnitTests
 
         var expected = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 HashKey= hashkey,
                 ParentHashKey= parentKey,
@@ -77,7 +75,7 @@ public class InfositeIdMappingServiceUnitTests
     {
         var owpMainMatch = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 League= "Seagame",
                 Home="VN",
@@ -87,7 +85,7 @@ public class InfositeIdMappingServiceUnitTests
 
         var infoSiteMatchs = new List<InfositeMatch>
         {
-            new InfositeMatch
+            new()
             {
                 InfoSiteMatchId= 123,
                 LeagueName= "V-League",
@@ -98,7 +96,7 @@ public class InfositeIdMappingServiceUnitTests
         };
         var expected = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 League= "Seagame",
                 Home="VN",
@@ -115,7 +113,7 @@ public class InfositeIdMappingServiceUnitTests
     {
         var owpMainMatch = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 League= "Seagame",
                 Home="VN",
@@ -128,7 +126,7 @@ public class InfositeIdMappingServiceUnitTests
 
         var infoSiteMatchs = new List<InfositeMatch>
         {
-            new InfositeMatch
+            new()
             {
                 LeagueName= "Seagame",
                 HomeName="VN",
@@ -140,7 +138,7 @@ public class InfositeIdMappingServiceUnitTests
         };
         var expected = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 League= "Seagame",
                 Home="VN",
@@ -161,7 +159,7 @@ public class InfositeIdMappingServiceUnitTests
     {
         var owpMainMatch = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 League= "Seagame",
                 Home="VN",
@@ -173,7 +171,7 @@ public class InfositeIdMappingServiceUnitTests
 
         var infoSiteMatchs = new List<InfositeMatch>
         {
-            new InfositeMatch
+            new()
             {
                 LeagueName= "Seagame",
                 HomeName="VN",
@@ -185,7 +183,7 @@ public class InfositeIdMappingServiceUnitTests
         };
         var expected = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 League= "Seagame",
                 Home="VN",
@@ -203,7 +201,7 @@ public class InfositeIdMappingServiceUnitTests
     {
         var owpMainMatch = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 League= "Seagame",
                 Home="Ha Noi",
@@ -214,7 +212,7 @@ public class InfositeIdMappingServiceUnitTests
 
         var infoSiteMatchs = new List<InfositeMatch>
         {
-            new InfositeMatch
+            new()
             {
                 InfoSiteMatchId= 123,
                 LeagueName= "Seagame",
@@ -237,7 +235,7 @@ public class InfositeIdMappingServiceUnitTests
 
         var expected = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 InfoSiteMatchId= 123,
                 League= "Seagame",
@@ -259,7 +257,7 @@ public class InfositeIdMappingServiceUnitTests
     {
         var owpMainMatch = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 InfoSiteMatchId=123,
                 League="V-League",
@@ -270,7 +268,7 @@ public class InfositeIdMappingServiceUnitTests
         };
         var infositeMatches = new List<InfositeMatch>
         {
-            new InfositeMatch
+            new()
             {
                 InfoSiteMatchId=345,
                 LeagueName="Seagame",
@@ -282,7 +280,7 @@ public class InfositeIdMappingServiceUnitTests
 
         var expected = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 InfoSiteMatchId=123,
                 League="V-League",
@@ -300,7 +298,7 @@ public class InfositeIdMappingServiceUnitTests
     {
         var owpMainMatch = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 InfoSiteMatchId=345,
                 League="V-League",
@@ -311,7 +309,7 @@ public class InfositeIdMappingServiceUnitTests
         };
         var infositeMatches = new List<InfositeMatch>
         {
-            new InfositeMatch
+            new()
             {
                 InfoSiteMatchId=345,
                 LeagueName="Seagame",
@@ -334,7 +332,7 @@ public class InfositeIdMappingServiceUnitTests
 
         var expected = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 InfoSiteMatchId=345,
                 League="Seagame",
@@ -354,7 +352,7 @@ public class InfositeIdMappingServiceUnitTests
     {
         var owpMainMatch = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 League= "Seagame",
                 Home="VN",
@@ -364,7 +362,7 @@ public class InfositeIdMappingServiceUnitTests
 
         var infoSiteMatchs = new List<InfositeMatch>
         {
-            new InfositeMatch
+            new()
             {
                 InfoSiteMatchId= 123,
                 LeagueName= "V-League",
@@ -375,7 +373,7 @@ public class InfositeIdMappingServiceUnitTests
         };
         var expected = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 League= "Seagame",
                 Home="VN",

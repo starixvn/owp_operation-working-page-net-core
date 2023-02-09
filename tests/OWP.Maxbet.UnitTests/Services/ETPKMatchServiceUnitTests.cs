@@ -1,10 +1,10 @@
-﻿using NSubstitute;
-using OWP.Maxbet.Models;
-using OWP.Maxbet.Services;
+﻿namespace OWP.Maxbet.UnitTests.Services;
+
+using Maxbet.Services;
+using Models;
+using NSubstitute;
 using Xunit;
 using Xunit.Asserts.Compare;
-
-namespace OWP.Maxbet.UnitTests.Services;
 
 public class ETPKMatchServiceUnitTests
 {
@@ -38,7 +38,7 @@ public class ETPKMatchServiceUnitTests
         maxbetRepository.GetMatchInfoByAdminSiteId(Arg.Any<int>()).Returns(new MatchInfo
         {
             owpLeagueName = leagueName,
-            owpMatchId = 3,
+            owpMatchId = 3
         });
         var expected = new MaxbetInfo { AdminsiteID = 1, Maxbet = new MaxbetSpread { FirstHalfHandicap = 1000 } };
         sabaMatchService.GetMaxbetInfoSaba(Arg.Any<int>(), Arg.Any<int>()).Returns(expected);
@@ -54,7 +54,7 @@ public class ETPKMatchServiceUnitTests
         maxbetRepository.GetMatchInfoByAdminSiteId(Arg.Any<int>()).Returns(new MatchInfo
         {
             owpLeagueName = "Liam",
-            owpMatchId = 3,
+            owpMatchId = 3
         });
 
         var expected = new MaxbetInfo { AdminsiteID = 1, Maxbet = new MaxbetSpread { FirstHalfHandicap = 10000 } };
@@ -75,7 +75,7 @@ public class ETPKMatchServiceUnitTests
         maxbetRepository.GetMatchInfoByAdminSiteId(Arg.Any<int>()).Returns(new MatchInfo
         {
             owpLeagueName = "FUTSAL V-League",
-            owpMatchId = 3,
+            owpMatchId = 3
         });
         var expected = new MaxbetInfo { AdminsiteID = 1, Maxbet = new MaxbetSpread { FirstHalfHandicap = 10000 } };
         futsalMatchService.GetMaxBetInfoFutsalET(Arg.Any<int>(), Arg.Any<int>()).Returns(expected);
@@ -95,7 +95,7 @@ public class ETPKMatchServiceUnitTests
         maxbetRepository.GetMatchInfoByAdminSiteId(Arg.Any<int>()).Returns(new MatchInfo
         {
             owpLeagueName = "DucPho League",
-            owpMatchId = 3,
+            owpMatchId = 3
         });
         var expected = new MaxbetInfo { AdminsiteID = 1, Maxbet = new MaxbetSpread { FirstHalfHandicap = 10000 } };
         mainMatchService.GetMaxbetInfoET(Arg.Any<int>(), Arg.Any<int>()).Returns(expected);

@@ -1,13 +1,13 @@
+namespace OWP.EventPicking.UnitTests.Services;
+
+using EventPicking.Services;
+using MaxbetSetting.Handlers;
+using MaxbetSetting.Models;
 using MediatR;
+using Models;
 using NSubstitute;
-using OWP.EventPicking.Models;
-using OWP.EventPicking.Services;
-using OWP.MaxbetSetting.Handlers;
-using OWP.MaxbetSetting.Models;
 using Xunit;
 using Xunit.Asserts.Compare;
-
-namespace OWP.EventPicking.UnitTests.Services;
 
 public class BuildMainAndChildMatchesUnitTests
 {
@@ -64,7 +64,7 @@ public class BuildMainAndChildMatchesUnitTests
     }
 
     public List<EventPickingModel> MockMainMatches()
-        => new List<EventPickingModel>
+        => new()
         {
             new()
             {
@@ -91,7 +91,7 @@ public class BuildMainAndChildMatchesUnitTests
             }
         };
     public List<EventPickingModel> MockChildMatches()
-        => new List<EventPickingModel>
+        => new()
         {
             new()
             {
@@ -117,7 +117,7 @@ public class BuildMainAndChildMatchesUnitTests
             }
         };
     public List<EventPickingModel> ExpectedMatches()
-        => new List<EventPickingModel>
+        => new()
         {
             new()
             {
@@ -143,7 +143,7 @@ public class BuildMainAndChildMatchesUnitTests
                 InfoSiteMatchId = 3333,
                 EventDateTime = new DateTime(2022, 11, 7),
                 RowColor = "white"
-            },
+            }
 
         };
 }

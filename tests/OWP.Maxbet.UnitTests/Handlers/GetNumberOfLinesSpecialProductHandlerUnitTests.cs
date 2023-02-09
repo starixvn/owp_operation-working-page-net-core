@@ -1,12 +1,11 @@
-﻿using Fanex.Data.Repository;
-using NSubstitute;
-using OWP.Maxbet.Criteria;
-using OWP.Maxbet.Handlers;
-using OWP.Maxbet.Models;
-using Xunit;
-using Xunit.Asserts.Compare;
+﻿namespace OWP.Maxbet.UnitTests.Handlers;
 
-namespace OWP.Maxbet.UnitTests.Handlers;
+using Criteria;
+using Fanex.Data.Repository;
+using Maxbet.Handlers;
+using Models;
+using NSubstitute;
+using Xunit;
 
 public class GetNumberOfLinesSpecialProductHandlerUnitTests
 {
@@ -26,8 +25,8 @@ public class GetNumberOfLinesSpecialProductHandlerUnitTests
         dynamicRepository.FetchAsync<MatchResource>(Arg.Compat.Any<MatchNoOfHdpGetCriteria>()).Returns(Task.FromResult(noOfHdp));
         var expected = new NumberOfLines { CreditFt = 1, CreditFirstHalf = 1, LicenseeFt = 0, LicenseeFirstHalf = 0 };
 
-        NumberOfLines actual = await handler.Handle(new GetNumberOfLinesSpecialProductHandler.Request { OWPMatchId = 3 }, new CancellationToken(false));
+        var actual = await handler.Handle(new GetNumberOfLinesSpecialProductHandler.Request { OWPMatchId = 3 }, new CancellationToken(false));
 
-        DeepAssert.Equals(expected, actual);
+        Equals(expected, actual);
     }
 }

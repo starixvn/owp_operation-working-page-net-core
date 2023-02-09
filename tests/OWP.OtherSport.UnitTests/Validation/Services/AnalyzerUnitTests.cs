@@ -1,10 +1,9 @@
 ﻿namespace OWP.OtherSport.UnitTests.Validation.Services;
 
 using NSubstitute;
-using OWP.OtherSport.Validation;
-using OWP.OtherSport.Validation.Models;
-using OWP.OtherSport.Validation.Services;
-
+using OtherSport.Validation;
+using OtherSport.Validation.Models;
+using OtherSport.Validation.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
 
@@ -91,11 +90,11 @@ public class AnalyzerUnitTests
     {
         var traders = new List<Trader>
         {
-            new Trader{ UserId = 1, Username = "Esther"},
-            new Trader{ UserId = 10, Username = "Mira"},
-            new Trader{ UserId = 2, Username = "Jack"},
-            new Trader{ UserId = 10, Username = "Tyler"},
-            new Trader{ UserId = 2, Username = "Carlos"}
+            new() { UserId = 1, Username = "Esther"},
+            new() { UserId = 10, Username = "Mira"},
+            new() { UserId = 2, Username = "Jack"},
+            new() { UserId = 10, Username = "Tyler"},
+            new() { UserId = 2, Username = "Carlos"}
         };
 
         return traders;

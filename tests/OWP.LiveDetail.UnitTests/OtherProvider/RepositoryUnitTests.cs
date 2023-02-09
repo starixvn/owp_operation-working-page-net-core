@@ -1,7 +1,5 @@
 ﻿namespace OWP.LiveDetail.UnitTests.OtherProvider;
 
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Fanex.Data.Repository;
 using LiveDetail.OtherProvider;
 using NSubstitute;
@@ -22,7 +20,7 @@ public class RepositoryUnitTests
     public async Task GetAll_Always_ReturnOtherProviderList()
     {
         // Arrange
-        var otherProviders = new List<OtherProvider> { new OtherProvider { OtherProviderId = 19, OtherProviderName = "pro" } };
+        var otherProviders = new List<OtherProvider> { new() { OtherProviderId = 19, OtherProviderName = "pro" } };
         dynamicRepository.FetchAsync<OtherProvider>(Arg.Compat.Any<GetAllCriteria>()).Returns(otherProviders);
 
         // Act

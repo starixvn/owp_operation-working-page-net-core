@@ -1,6 +1,6 @@
 ﻿namespace OWP.PreMatchAssignment.UnitTests.Misc;
 
-using OWP.Extensions;
+using Extensions;
 using Xunit;
 
 public class StringExtensionUnitTests

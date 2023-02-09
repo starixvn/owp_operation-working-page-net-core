@@ -1,9 +1,9 @@
 ﻿namespace OWP.OtherSport.UnitTests.Validation.Extensions;
 
 using OfficeOpenXml;
-using OWP.OtherSport.UnitTests.Validation.Services;
-using OWP.OtherSport.Validation.Extensions;
-using OWP.OtherSport.Validation.Models;
+using OtherSport.Validation.Extensions;
+using OtherSport.Validation.Models;
+using Services;
 using Xunit;
 using Xunit.Asserts.Compare;
 
@@ -318,7 +318,7 @@ public class WorkSheetExtensionsUnitTests
             {"Spread Tennis All Product (LS)", 0},
             {"Spread Tennis Next Game", 0},
             {"Spread Tennis Most Aces", 0},
-            {"Spread Tennis Most Double Faults", 0},
+            {"Spread Tennis Most Double Faults", 0}
         };
         var actual = worksheet.GetHeaderMap();
         DeepAssert.Equal(expected, actual);

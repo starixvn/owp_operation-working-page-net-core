@@ -1,10 +1,8 @@
-﻿using OWP.TicketCenter.Models;
+﻿namespace OWP.TicketCenter.UnitTests.Services;
 
-namespace OWP.TicketCenter.UnitTests.Services;
-
+using Models;
 using NSubstitute;
-using OWP.TicketCenter.Services;
-
+using TicketCenter.Services;
 using Xunit;
 
 public class PermissionServiceUnitTests
@@ -22,7 +20,7 @@ public class PermissionServiceUnitTests
     [InlineData(17, 6, false)]
     public async Task HasPermission_Always_CheckPermission(int ticketId, int creatorId, bool expected)
     {
-        repository.GetUserIdsByTicketId(ticketId).Returns(new List<int>() { 1, 2, 3, 4, 5 });
+        repository.GetUserIdsByTicketId(ticketId).Returns(new List<int> { 1, 2, 3, 4, 5 });
         var service = new PermissionServiceImp(repository);
 
         var actual = await service.HasPermission(ticketId, creatorId);

@@ -1,8 +1,8 @@
-using OWP.EventPicking.Models;
-using OWP.EventPicking.Services;
-using Xunit;
-
 namespace OWP.EventPicking.UnitTests.Services;
+
+using EventPicking.Services;
+using Models;
+using Xunit;
 
 public class BuildRowColorUnitTests
 {
@@ -15,7 +15,7 @@ public class BuildRowColorUnitTests
     [Fact]
     public void BuildRowColor_MapRowColor()
     {
-        var eventPickings = new List<EventPickingModel>()
+        var eventPickings = new List<EventPickingModel>
         {
             new() { // Gray
                 IsBlackList = true,
@@ -58,7 +58,7 @@ public class BuildRowColorUnitTests
                 MaxBetHDPNumber = null,
                 MinorBettypeId = null,
                 LeagueName = "League - 20 Mins Play"
-            },
+            }
         };
         service.BuildRowColor(eventPickings);
 

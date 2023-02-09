@@ -1,9 +1,9 @@
-﻿using OWP.EventPicking.Models;
-using OWP.EventPicking.Services;
-using OWP.MaxbetSetting.Models;
-using Xunit;
+﻿namespace OWP.EventPicking.UnitTests.Services;
 
-namespace OWP.EventPicking.UnitTests.Services;
+using EventPicking.Services;
+using MaxbetSetting.Models;
+using Models;
+using Xunit;
 
 public class BuildMatchOfferByLiveSettingUnitTests
 {
@@ -54,7 +54,7 @@ public class BuildMatchOfferByLiveSettingUnitTests
     }
 
     public List<EventPickingModel> MockMainMatches()
-        => new List<EventPickingModel>
+        => new()
         {
             new()
             {
@@ -95,10 +95,11 @@ public class BuildMatchOfferByLiveSettingUnitTests
                 LeagueName = "League A",
                 MaxBetHDPNumber = null,
                 MatchOffer = null
-            },
+            }
         };
     public List<EventPickingModel> MockChildMatches()
-        => new List<EventPickingModel> {
+        => new()
+        {
             new()
             {
                 OWPLeagueId = 100,

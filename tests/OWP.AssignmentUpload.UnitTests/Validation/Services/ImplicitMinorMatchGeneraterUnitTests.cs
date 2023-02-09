@@ -1,8 +1,5 @@
 ﻿namespace OWP.AssignmentUpload.UnitTests.Validation.Services;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AssignmentUpload.Validation.Models;
 using AssignmentUpload.Validation.Services;
 using Xunit;
@@ -317,7 +314,7 @@ public class GenerateImplicitMinorMatchUnitTests
 
         var expected = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 MinorBettypeId = -1,
                 ParentHashKey = "hashkey12345",
@@ -337,7 +334,7 @@ public class GenerateImplicitMinorMatchUnitTests
                 TraderHDP = 8,
                 OtherTradersHDP = "<Root><r u=\"0\" n=\"starix1\" /></Root>"
             },
-            new AssignmentModel
+            new()
             {
                 MinorBettypeId = -2,
                 ParentHashKey = "hashkey12345",
@@ -357,7 +354,7 @@ public class GenerateImplicitMinorMatchUnitTests
                 TraderHDP = 8,
                 OtherTradersHDP = "<Root><r u=\"0\" n=\"starix1\" /></Root>"
             },
-            new AssignmentModel
+            new()
             {
                 MinorBettypeId = -88,
                 ParentHashKey = "hashkey12345",
@@ -377,7 +374,7 @@ public class GenerateImplicitMinorMatchUnitTests
                 TraderHDP = 8,
                 OtherTradersHDP = "<Root><r u=\"0\" n=\"starix1\" /></Root>"
             },
-            new AssignmentModel
+            new()
             {
                 MinorBettypeId = -89,
                 ParentHashKey = "hashkey12345",
@@ -458,7 +455,7 @@ public class GenerateImplicitMinorMatchUnitTests
     {
         var assignments = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 League = "A",
                 Home = "B",
@@ -482,7 +479,7 @@ public class GenerateImplicitMinorMatchUnitTests
                 TraderAIO = 8,
                 OtherTradersAIO = "<Root><r u=\"0\" n=\"starix1\" /></Root>"
             },
-            new AssignmentModel
+            new()
             {
                 MinorBettypeId = -6,
                 League = "A - BOOKING",
@@ -505,7 +502,7 @@ public class GenerateImplicitMinorMatchUnitTests
         var expected = new List<AssignmentModel> { assignments[0] };
         expected.AddRange(new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 MinorBettypeId = -1,
                 ParentHashKey = "hashkey12345",
@@ -525,7 +522,7 @@ public class GenerateImplicitMinorMatchUnitTests
                 TraderHDP = 8,
                 OtherTradersHDP = "<Root><r u=\"0\" n=\"starix1\" /></Root>"
             },
-            new AssignmentModel
+            new()
             {
                 MinorBettypeId = -2,
                 ParentHashKey = "hashkey12345",
@@ -545,7 +542,7 @@ public class GenerateImplicitMinorMatchUnitTests
                 TraderHDP = 8,
                 OtherTradersHDP = "<Root><r u=\"0\" n=\"starix1\" /></Root>"
             },
-            new AssignmentModel
+            new()
             {
                 MinorBettypeId = -88,
                 ParentHashKey = "hashkey12345",
@@ -565,7 +562,7 @@ public class GenerateImplicitMinorMatchUnitTests
                 TraderHDP = 8,
                 OtherTradersHDP = "<Root><r u=\"0\" n=\"starix1\" /></Root>"
             },
-            new AssignmentModel
+            new()
             {
                 MinorBettypeId = -89,
                 ParentHashKey = "hashkey12345",
@@ -588,7 +585,7 @@ public class GenerateImplicitMinorMatchUnitTests
         expected.Add(assignments[1]);
         expected.AddRange(new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 MinorBettypeId = -8,
                 ParentHashKey = "hashkey12345",

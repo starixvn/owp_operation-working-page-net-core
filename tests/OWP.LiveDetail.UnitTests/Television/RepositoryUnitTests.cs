@@ -1,7 +1,5 @@
 ﻿namespace OWP.LiveDetail.UnitTests.Television;
 
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Fanex.Data.Repository;
 using LiveDetail.Television;
 using NSubstitute;
@@ -22,7 +20,7 @@ public class RepositoryUnitTests
     public async Task GetAll_Always_ReturnTelevisionList()
     {
         // Arrange
-        var televisions = new List<Television> { new Television { TVId = 1, TVCode = "tv1", Color = "#as" } };
+        var televisions = new List<Television> { new() { TVId = 1, TVCode = "tv1", Color = "#as" } };
         dynamicRepository.FetchAsync<Television>(Arg.Compat.Any<GetAllCriteria>()).Returns(televisions);
 
         // Act

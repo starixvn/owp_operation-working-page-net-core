@@ -1,7 +1,5 @@
 ﻿namespace OWP.AssignmentUpload.UnitTests.Submit.Services;
 
-using System.Collections.Generic;
-using System.Linq;
 using AssignmentUpload.Submit.Models;
 using AssignmentUpload.Submit.Services;
 using AssignmentUpload.Validation.Models;
@@ -35,7 +33,7 @@ public class AssignmentAnalyzerUnitTests
         };
         var expected = new List<MatchAgent>
         {
-            new MatchAgent
+            new()
             {
                 MatchId = 1234,
                 Agent = "IPSD"
@@ -77,7 +75,7 @@ public class AssignmentAnalyzerUnitTests
             SpreadFM = 50,
             SpreadHDP = 50,
             SpreadOU = 50,
-            SpreadXMins = 50,
+            SpreadXMins = 50
         };
 
         var expected = ExpectedDataForTest();
@@ -244,7 +242,7 @@ public class AssignmentAnalyzerUnitTests
 
         var actualExpected = new List<MatchAssignment>
         {
-            new MatchAssignment
+            new()
             {
                 AssignmentNote="starix1 abc",
                 AssignmentType=2,
@@ -252,7 +250,7 @@ public class AssignmentAnalyzerUnitTests
                 MatchId=1234,
                 UserId=123
             },
-            new MatchAssignment
+            new()
             {
                 AssignmentNote="starix16 abc",
                 AssignmentType=2,
@@ -277,7 +275,7 @@ public class AssignmentAnalyzerUnitTests
 
         var actualExpected = new List<MatchAssignment>
         {
-            new MatchAssignment
+            new()
             {
                 AssignmentNote="starix1 abc",
                 AssignmentType=2,
@@ -285,7 +283,7 @@ public class AssignmentAnalyzerUnitTests
                 MatchId=1234,
                 UserId=123
             },
-            new MatchAssignment
+            new()
             {
                 AssignmentNote="starix16 abc",
                 AssignmentType=2,
@@ -310,7 +308,7 @@ public class AssignmentAnalyzerUnitTests
 
         var actualExpected = new List<MatchAssignment>
         {
-            new MatchAssignment
+            new()
             {
                 AssignmentNote="starix1 abc",
                 AssignmentType=2,
@@ -318,7 +316,7 @@ public class AssignmentAnalyzerUnitTests
                 MatchId=1234,
                 UserId=123
             },
-            new MatchAssignment
+            new()
             {
                 AssignmentNote="starix16 abc",
                 AssignmentType=2,
@@ -343,7 +341,7 @@ public class AssignmentAnalyzerUnitTests
 
         var actualExpected = new List<MatchAssignment>
         {
-            new MatchAssignment
+            new()
             {
                 AssignmentNote="starix1 abc",
                 AssignmentType=2,
@@ -351,7 +349,7 @@ public class AssignmentAnalyzerUnitTests
                 MatchId=1234,
                 UserId=123
             },
-            new MatchAssignment
+            new()
             {
                 AssignmentNote="starix16 abc",
                 AssignmentType=2,
@@ -609,21 +607,21 @@ public class AssignmentAnalyzerUnitTests
         };
         var expected = new List<MatchTelevision>
         {
-            new MatchTelevision
+            new()
             {
                 MatchId = 2,
                 TV = "AB"
             },
-            new MatchTelevision
+            new()
             {
                 MatchId = 2,
                 TV = "hh"
             },
-            new MatchTelevision
+            new()
             {
                 MatchId = 2,
                 TV = "io"
-            },
+            }
         };
 
         var actual = analyzer.GetTelevisionOfMatch(assignment);
@@ -635,7 +633,7 @@ public class AssignmentAnalyzerUnitTests
     {
         var assignmentModel = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 OWPMatchId = 1234,
                 Away = "Liverpool",
@@ -645,7 +643,7 @@ public class AssignmentAnalyzerUnitTests
                 Agent = "IPSD"
             },
 
-            new AssignmentModel
+            new()
             {
                 OWPMatchId = 2345,
                 Away = "Chelsea",
@@ -657,13 +655,13 @@ public class AssignmentAnalyzerUnitTests
 
         var hashKeyMap = new List<MatchByHashKey>
         {
-            new MatchByHashKey
+            new()
             {
                 OWPMatchId = 1234,
                 HashKey = "h1"
             },
 
-            new MatchByHashKey
+            new()
             {
                 OWPMatchId = 2345,
                 HashKey = "h2"
@@ -672,7 +670,7 @@ public class AssignmentAnalyzerUnitTests
 
         var expectedAssignmentModel = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 OWPMatchId = 1234,
                 Away = "Liverpool",
@@ -682,7 +680,7 @@ public class AssignmentAnalyzerUnitTests
                 Agent = "IPSD"
             },
 
-            new AssignmentModel
+            new()
             {
                 OWPMatchId = 2345,
                 Away = "Chelsea",

@@ -2,9 +2,8 @@
 
 using NSubstitute;
 using OfficeOpenXml;
-using OWP.Report.OvertimeReport.Models;
-using OWP.Report.OvertimeReport.Services;
-
+using Report.OvertimeReport.Models;
+using Report.OvertimeReport.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
 
@@ -112,7 +111,7 @@ public class ExportReportByMonthServicesUnitTests
             {
                 Trader = "sa",
                 Location = "SMS",
-                Overtime = new Dictionary<string, OverTimeInfo>()
+                Overtime = new Dictionary<string, OverTimeInfo>
                 {
                     { "01-Oct", new OverTimeInfo { IsOffDay = true, Hour = 2 } },
                     { "02-Oct", new OverTimeInfo { IsOffDay = false, Hour = 10 } },

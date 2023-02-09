@@ -6,10 +6,6 @@ using Fanex.Data.Repository;
 using Fanex.NAP.Client.Helpers.Web;
 using LiveDetail.MatchInfo;
 using NSubstitute;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Xunit;
 using Xunit.Asserts.Compare;
 using AgentSpace = LiveDetail.Agent;
@@ -95,8 +91,8 @@ public class RepositoryUnitTests
         };
         IEnumerable<ValidateEntity> validateEntities = new List<ValidateEntity>
         {
-            new ValidateEntity { ResultType = 3 },
-            new ValidateEntity { ResultType = 1, Message = "Fail1" }
+            new() { ResultType = 3 },
+            new() { ResultType = 1, Message = "Fail1" }
         };
         dynamicRepository.FetchAsync<ValidateEntity>(Arg.Compat.Any<ValidatePhoneCriteria>()).Returns(Task.FromResult(validateEntities));
 
@@ -106,7 +102,7 @@ public class RepositoryUnitTests
         // Assert
         var expectedValidateEntities = new List<ValidateEntity>
         {
-            new ValidateEntity { ResultType = 1, Message = "Fail1" }
+            new() { ResultType = 1, Message = "Fail1" }
         };
         DeepAssert.Equal(expectedValidateEntities, result.Results.ToList());
     }
@@ -213,7 +209,7 @@ public class RepositoryUnitTests
         // Arrange
         const int owpMatchId = 1;
         IEnumerable<MatchStatusModel> matchStatusList = new List<MatchStatusModel> {
-            new MatchStatusModel
+            new()
             {
                 Value = "cancel", DisplayText = "cancel", IsSelected = true
             }

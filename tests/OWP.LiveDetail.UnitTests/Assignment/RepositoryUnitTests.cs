@@ -4,9 +4,6 @@
 
 namespace OWP.LiveDetail.UnitTests.Assignment;
 
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using Common;
 using Fanex.Data.Repository;
@@ -40,7 +37,7 @@ public class RepositoryUnitTests
         // Arrange
         var assignments = new List<Assignment>
         {
-            new Assignment
+            new()
             {
                 AssignmentId=1,
                 AssignmentNote="Note",
@@ -80,8 +77,8 @@ public class RepositoryUnitTests
         };
         IEnumerable<ValidateEntity> validateEntities = new List<ValidateEntity>
         {
-            new ValidateEntity { ResultType = 3 },
-            new ValidateEntity { ResultType = 1, Message = "Fail1" }
+            new() { ResultType = 3 },
+            new() { ResultType = 1, Message = "Fail1" }
         };
 
         dynamicRepository.FetchAsync<ValidateEntity>(Arg.Compat.Any<ValidateCriteria>()).Returns(Task.FromResult(validateEntities));
@@ -92,7 +89,7 @@ public class RepositoryUnitTests
         // Assert
         var expectedValidateEntities = new List<ValidateEntity>
         {
-            new ValidateEntity { ResultType = 1, Message = "Fail1" }
+            new() { ResultType = 1, Message = "Fail1" }
         };
         DeepAssert.Equal(expectedValidateEntities, result.Results.ToList());
     }

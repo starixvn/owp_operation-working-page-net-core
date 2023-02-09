@@ -1,15 +1,16 @@
-﻿using AutoMapper;
+﻿namespace OWP.PreMatchAssignment.UnitTests.Services;
+
+using AutoMapper;
+using Criteria;
 using Fanex.Data.Repository;
 using Fanex.NAP.Client.Helpers.Web;
+using Handlers;
+using Models;
 using NSubstitute;
-using OWP.PrematchAssignment.Models;
-using OWP.PreMatchAssignment.Criteria;
-using OWP.PreMatchAssignment.Models;
-using OWP.PreMatchAssignment.Services;
+using PrematchAssignment.Models;
+using PreMatchAssignment.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
-
-namespace OWP.PreMatchAssignment.UnitTests.Services;
 
 public class ShiftAssignmentService
 {
@@ -22,7 +23,7 @@ public class ShiftAssignmentService
         dynamicRepo.FetchMultipleAsync<PreMatchLeague, InfoSiteMatch>(Arg.Compat.Any<QueryShiftPreMatchCriteria>()).Returns(Task.FromResult(CreateMockData()));
         var leagues = new List<LeagueAssignment>
         {
-            new LeagueAssignment
+            new()
             {
                 No = 1,
                 PreMatchLeagueId = 1,
@@ -33,7 +34,7 @@ public class ShiftAssignmentService
                 OU = "sa",
                 OUTakeOver = "starix14"
             },
-            new LeagueAssignment
+            new()
             {
                 No = 2,
                 PreMatchLeagueId = 2,
@@ -48,17 +49,17 @@ public class ShiftAssignmentService
 
         var matches = new List<InfoSiteMatch>
         {
-            new InfoSiteMatch
+            new()
             {
                 InfoSiteMatchId = 1,
                 PreMatchLeagueId = 1
             },
-            new InfoSiteMatch
+            new()
             {
                 InfoSiteMatchId = 2,
                 PreMatchLeagueId = 1
             },
-            new InfoSiteMatch
+            new()
             {
                 InfoSiteMatchId = 3,
                 PreMatchLeagueId = 2
@@ -70,7 +71,7 @@ public class ShiftAssignmentService
         var service = new ShiftAssignmentServiceImp(dynamicRepo, mapper);
 
         //Act
-        var actual = await service.QueryDayShift(new Handlers.QueryDayShiftPreMatchRequest
+        var actual = await service.QueryDayShift(new QueryDayShiftPreMatchRequest
         {
             Employee = "sa",
             EventDate = DateTime.Now,
@@ -92,7 +93,7 @@ public class ShiftAssignmentService
         currentSession.UserId = 8;
         var leagues = new List<LeagueAssignment>
         {
-            new LeagueAssignment
+            new()
             {
                 No = 1,
                 PreMatchLeagueId = 1,
@@ -103,7 +104,7 @@ public class ShiftAssignmentService
                 OU = "sa",
                 OUTakeOver = "starix14"
             },
-            new LeagueAssignment
+            new()
             {
                 No = 2,
                 PreMatchLeagueId = 2,
@@ -114,7 +115,7 @@ public class ShiftAssignmentService
                 OU = "sa",
                 OUTakeOver = "starix14"
             },
-            new LeagueAssignment
+            new()
             {
                 PreMatchLeagueId = 3,
                 LeagueId = 3,
@@ -126,22 +127,22 @@ public class ShiftAssignmentService
 
         var matches = new List<InfoSiteMatch>
         {
-            new InfoSiteMatch
+            new()
             {
                 InfoSiteMatchId = 1,
                 PreMatchLeagueId = 1
             },
-            new InfoSiteMatch
+            new()
             {
                 InfoSiteMatchId = 2,
                 PreMatchLeagueId = 1
             },
-            new InfoSiteMatch
+            new()
             {
                 InfoSiteMatchId = 3,
                 PreMatchLeagueId = 2
             },
-            new InfoSiteMatch
+            new()
             {
                 InfoSiteMatchId = 4,
                 PreMatchLeagueId = 3
@@ -153,7 +154,7 @@ public class ShiftAssignmentService
         var service = new ShiftAssignmentServiceImp(dynamicRepo, mapper);
 
         //Act
-        var actual = await service.QueryDayShift(new Handlers.QueryDayShiftPreMatchRequest
+        var actual = await service.QueryDayShift(new QueryDayShiftPreMatchRequest
         {
             Employee = string.Empty,
             EventDate = DateTime.Now,
@@ -177,7 +178,7 @@ public class ShiftAssignmentService
 
         var leagues = new List<LeagueAssignment>
         {
-            new LeagueAssignment
+            new()
             {
                 No = 1,
                 PreMatchLeagueId = 4,
@@ -188,7 +189,7 @@ public class ShiftAssignmentService
                 OU = "sa",
                 OUTakeOver = "starix14"
             },
-            new LeagueAssignment
+            new()
             {
                 No = 2,
                 PreMatchLeagueId = 5,
@@ -199,7 +200,7 @@ public class ShiftAssignmentService
                 OU = "sa",
                 OUTakeOver = "starix14"
             },
-            new LeagueAssignment
+            new()
             {
                 No = 3,
                 PreMatchLeagueId = 6,
@@ -212,22 +213,22 @@ public class ShiftAssignmentService
 
         var matches = new List<InfoSiteMatch>
         {
-            new InfoSiteMatch
+            new()
             {
                 InfoSiteMatchId = 1,
                 PreMatchLeagueId = 4
             },
-            new InfoSiteMatch
+            new()
             {
                 InfoSiteMatchId = 2,
                 PreMatchLeagueId = 4
             },
-            new InfoSiteMatch
+            new()
             {
                 InfoSiteMatchId = 3,
                 PreMatchLeagueId = 5
             },
-            new InfoSiteMatch
+            new()
             {
                 InfoSiteMatchId = 4,
                 PreMatchLeagueId = 6
@@ -239,7 +240,7 @@ public class ShiftAssignmentService
         var service = new ShiftAssignmentServiceImp(dynamicRepo, mapper);
 
         //Act
-        var actual = await service.QueryNightShift(new Handlers.QueryNightShiftPreMatchRequest
+        var actual = await service.QueryNightShift(new QueryNightShiftPreMatchRequest
         {
             Employee = string.Empty,
             EventDate = DateTime.Now,
@@ -284,28 +285,28 @@ public class ShiftAssignmentService
                 PreMatchLeagueId = 6,
                 LeagueId = 3,
                 LeagueName = "test3",
-                MatchCount = 1,
+                MatchCount = 1
             }
         };
 
         var matches = new List<InfoSiteMatch>
         {
-            new InfoSiteMatch
+            new()
             {
                 InfoSiteMatchId = 1,
                 PreMatchLeagueId = 4
             },
-            new InfoSiteMatch
+            new()
             {
                 InfoSiteMatchId = 2,
                 PreMatchLeagueId = 4
             },
-            new InfoSiteMatch
+            new()
             {
                 InfoSiteMatchId = 3,
                 PreMatchLeagueId = 5
             },
-            new InfoSiteMatch
+            new()
             {
                 InfoSiteMatchId = 4,
                 PreMatchLeagueId = 6
@@ -317,7 +318,7 @@ public class ShiftAssignmentService
         var service = new ShiftAssignmentServiceImp(dynamicRepo, mapper);
 
         //Act
-        var actual = await service.QueryNightShift(new Handlers.QueryNightShiftPreMatchRequest
+        var actual = await service.QueryNightShift(new QueryNightShiftPreMatchRequest
         {
             Employee = string.Empty,
             EventDate = DateTime.Now,
@@ -382,22 +383,22 @@ public class ShiftAssignmentService
 
         var matches = new List<InfoSiteMatch>
         {
-            new InfoSiteMatch
+            new()
             {
                 InfoSiteMatchId = 1,
                 PreMatchLeagueId = 4
             },
-            new InfoSiteMatch
+            new()
             {
                 InfoSiteMatchId = 2,
                 PreMatchLeagueId = 4
             },
-            new InfoSiteMatch
+            new()
             {
                 InfoSiteMatchId = 3,
                 PreMatchLeagueId = 5
             },
-            new InfoSiteMatch
+            new()
             {
                 InfoSiteMatchId = 4,
                 PreMatchLeagueId = 6
@@ -409,7 +410,7 @@ public class ShiftAssignmentService
         var service = new ShiftAssignmentServiceImp(dynamicRepo, mapper);
 
         //Act
-        var actual = await service.QueryNightShift(new Handlers.QueryNightShiftPreMatchRequest
+        var actual = await service.QueryNightShift(new QueryNightShiftPreMatchRequest
         {
             Employee = string.Empty,
             EventDate = DateTime.Now,
@@ -430,16 +431,16 @@ public class ShiftAssignmentService
         var mapper = Substitute.For<IMapper>();
         var matches = new List<InfoSiteMatch>
         {
-            new InfoSiteMatch {InfoSiteMatchId = 111, IsLive = false},
-            new InfoSiteMatch {InfoSiteMatchId = 222, IsLive = true},
-            new InfoSiteMatch {InfoSiteMatchId = 333, IsLive = true},
-            new InfoSiteMatch {InfoSiteMatchId = 444, IsLive = true}
+            new() {InfoSiteMatchId = 111, IsLive = false},
+            new() {InfoSiteMatchId = 222, IsLive = true},
+            new() {InfoSiteMatchId = 333, IsLive = true},
+            new() {InfoSiteMatchId = 444, IsLive = true}
         };
         var mockResult = new List<LinkedMatch>
         {
-            new LinkedMatch {InfositeMatchId = 111, OWPMatchId = 100, MatchStatus = "Live"},
-            new LinkedMatch {InfositeMatchId = 222, OWPMatchId = 200, MatchStatus = "Live"},
-            new LinkedMatch {InfositeMatchId = 333, OWPMatchId = 100, MatchStatus = "Cancel"},
+            new() {InfositeMatchId = 111, OWPMatchId = 100, MatchStatus = "Live"},
+            new() {InfositeMatchId = 222, OWPMatchId = 200, MatchStatus = "Live"},
+            new() {InfositeMatchId = 333, OWPMatchId = 100, MatchStatus = "Cancel"}
         };
         dynamicRepo.FetchAsync<LinkedMatch>(Arg.Compat.Any<QueryLinkedOWPMatchCriteria>())
             .Returns(mockResult);
@@ -460,7 +461,7 @@ public class ShiftAssignmentService
         {
             return new List<TimeSpan>
                 {
-                    new TimeSpan(15,00,00)
+                    new(15,00,00)
                 };
         }
 
@@ -471,7 +472,7 @@ public class ShiftAssignmentService
     {
         var leagues = new List<PreMatchLeague>
         {
-            new PreMatchLeague
+            new()
             {
                 PreMatchLeagueId = 1,
                 LeagueId = 1,
@@ -481,7 +482,7 @@ public class ShiftAssignmentService
                 OU = "sa",
                 OUTakeOver = "starix14"
             },
-            new PreMatchLeague
+            new()
             {
                 PreMatchLeagueId = 2,
                 LeagueId = 2,
@@ -491,7 +492,7 @@ public class ShiftAssignmentService
                 OU = "sa",
                 OUTakeOver = "starix14"
             },
-            new PreMatchLeague
+            new()
             {
                 PreMatchLeagueId = 3,
                 LeagueId = 3,
@@ -503,22 +504,22 @@ public class ShiftAssignmentService
 
         var matches = new List<InfoSiteMatch>
         {
-            new InfoSiteMatch
+            new()
             {
                 InfoSiteMatchId = 1,
                 PreMatchLeagueId = 1
             },
-            new InfoSiteMatch
+            new()
             {
                 InfoSiteMatchId = 2,
                 PreMatchLeagueId = 1
             },
-            new InfoSiteMatch
+            new()
             {
                 InfoSiteMatchId = 3,
                 PreMatchLeagueId = 2
             },
-            new InfoSiteMatch
+            new()
             {
                 InfoSiteMatchId = 4,
                 PreMatchLeagueId = 3
@@ -532,47 +533,47 @@ public class ShiftAssignmentService
     {
         var leagues = new List<PreMatchLeague>
         {
-            new PreMatchLeague
+            new()
             {
                 PreMatchLeagueId = 4,
                 LeagueId = 1,
                 LeagueName = "test1",
                 MatchCount = 2
             },
-            new PreMatchLeague
+            new()
             {
                 PreMatchLeagueId = 5,
                 LeagueId = 2,
                 LeagueName = "test2",
                 MatchCount = 1
             },
-            new PreMatchLeague
+            new()
             {
                 PreMatchLeagueId = 6,
                 LeagueId = 3,
                 LeagueName = "test3",
-                MatchCount = 1,
+                MatchCount = 1
             }
         };
 
         var matches = new List<InfoSiteMatch>
         {
-            new InfoSiteMatch
+            new()
             {
                 InfoSiteMatchId = 1,
                 PreMatchLeagueId = 4
             },
-            new InfoSiteMatch
+            new()
             {
                 InfoSiteMatchId = 2,
                 PreMatchLeagueId = 4
             },
-            new InfoSiteMatch
+            new()
             {
                 InfoSiteMatchId = 3,
                 PreMatchLeagueId = 5
             },
-            new InfoSiteMatch
+            new()
             {
                 InfoSiteMatchId = 4,
                 PreMatchLeagueId = 6
@@ -586,7 +587,7 @@ public class ShiftAssignmentService
     {
         var leagues = new List<PreMatchLeague>
         {
-            new PreMatchLeague
+            new()
             {
                 PreMatchLeagueId = 4,
                 LeagueId = 1,
@@ -595,7 +596,7 @@ public class ShiftAssignmentService
                 HDP = "starix15",
                 OUTakeOver = "starix14"
             },
-            new PreMatchLeague
+            new()
             {
                 PreMatchLeagueId = 5,
                 LeagueId = 2,
@@ -608,17 +609,17 @@ public class ShiftAssignmentService
 
         var matches = new List<InfoSiteMatch>
         {
-            new InfoSiteMatch
+            new()
             {
                 InfoSiteMatchId = 1,
                 PreMatchLeagueId = 4
             },
-            new InfoSiteMatch
+            new()
             {
                 InfoSiteMatchId = 2,
                 PreMatchLeagueId = 4
             },
-            new InfoSiteMatch
+            new()
             {
                 InfoSiteMatchId = 3,
                 PreMatchLeagueId = 5
@@ -636,19 +637,19 @@ public class ShiftAssignmentService
         var service = new ShiftAssignmentServiceImp(dynamicRepo, mapper);
         var infositeMatches = new List<InfoSiteMatch>
         {
-            new InfoSiteMatch { AdminSiteMatchId = 111 },
-            new InfoSiteMatch { AdminSiteMatchId = 222 },
-            new InfoSiteMatch { AdminSiteMatchId = 333 },
-            new InfoSiteMatch { AdminSiteMatchId = 444 },
+            new() { AdminSiteMatchId = 111 },
+            new() { AdminSiteMatchId = 222 },
+            new() { AdminSiteMatchId = 333 },
+            new() { AdminSiteMatchId = 444 }
         };
         dynamicRepo.FetchAsync<OddStatus>(Arg.Any<QueryOddStatusFromMainDBCriteria>()).Returns(
             new List<OddStatus>
             {
-                new OddStatus { AdminSiteMatchId = 111, Bettype = 1, OddsStatus = "running" },
-                new OddStatus { AdminSiteMatchId = 111, Bettype = 1, OddsStatus = "closed" },
-                new OddStatus { AdminSiteMatchId = 222, Bettype = 1, OddsStatus = "running" },
-                new OddStatus { AdminSiteMatchId = 222, Bettype = 3, OddsStatus = "running" },
-                new OddStatus { AdminSiteMatchId = 333, Bettype = 3, OddsStatus = "Running" },
+                new() { AdminSiteMatchId = 111, Bettype = 1, OddsStatus = "running" },
+                new() { AdminSiteMatchId = 111, Bettype = 1, OddsStatus = "closed" },
+                new() { AdminSiteMatchId = 222, Bettype = 1, OddsStatus = "running" },
+                new() { AdminSiteMatchId = 222, Bettype = 3, OddsStatus = "running" },
+                new() { AdminSiteMatchId = 333, Bettype = 3, OddsStatus = "Running" }
             });
 
         await service.AddOddStatusNo(infositeMatches);

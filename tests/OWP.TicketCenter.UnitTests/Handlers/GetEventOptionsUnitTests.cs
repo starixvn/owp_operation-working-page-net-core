@@ -1,11 +1,11 @@
-﻿using NSubstitute;
-using OWP.TicketCenter.Handlers;
-using OWP.TicketCenter.Models;
-using OWP.TicketCenter.ViewModels;
+﻿namespace OWP.TicketCenter.UnitTests.Handlers;
+
+using Models;
+using NSubstitute;
+using TicketCenter.Handlers;
+using ViewModels;
 using Xunit;
 using Xunit.Asserts.Compare;
-
-namespace OWP.TicketCenter.UnitTests.Handlers;
 
 public class GetEventOptionsUnitTests
 {
@@ -28,7 +28,7 @@ public class GetEventOptionsUnitTests
             Keyword = "league"
         };
 
-        var eventOptionInfoModel = new List<EventCheckingOption>()
+        var eventOptionInfoModel = new List<EventCheckingOption>
         {
             new ()
             {
@@ -88,7 +88,7 @@ public class GetEventOptionsUnitTests
 
                         AwayName = "TL",
 
-                        EventDateTimeGmt8 = DateTime.Parse("2021/10/27"),
+                        EventDateTimeGmt8 = DateTime.Parse("2021/10/27")
                     }
                 },
                 UserViewModel = new List<UserViewModel>
@@ -99,7 +99,7 @@ public class GetEventOptionsUnitTests
 
                         UserName = "sa",
 
-                        NickName = "sa_nickname",
+                        NickName = "sa_nickname"
                     }
                 }
             }

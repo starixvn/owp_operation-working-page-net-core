@@ -1,9 +1,9 @@
-﻿using OWP.LiveGameList.Builder;
-using OWP.LiveGameList.Models;
+﻿namespace OWP.LiveGameList.UnitTests.Builder;
+
+using LiveGameList.Builder;
+using Models;
 using Xunit;
 using Xunit.Asserts.Compare;
-
-namespace OWP.LiveGameList.UnitTests.Builder;
 
 public class IPTVBuilderUnitTests
 {

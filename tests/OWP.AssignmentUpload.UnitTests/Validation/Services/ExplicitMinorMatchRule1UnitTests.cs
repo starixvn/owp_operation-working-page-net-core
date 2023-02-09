@@ -1,6 +1,5 @@
 ﻿namespace OWP.AssignmentUpload.UnitTests.Validation.Services;
 
-using System.Collections.Generic;
 using AssignmentUpload.Validation.Models;
 using AssignmentUpload.Validation.Services;
 using Xunit;
@@ -19,26 +18,26 @@ public class ExplicitMinorMatchRule1UnitTests
     {
         var assignments = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 League = "VIETNAM CHAMPIONSHIP U19 QUALIFIERS",
                 Home = "Ha Noi FC U19 (N)",
                 Away = "Than Quang Ninh U19",
                 HashKey = "9832587b812e62f74fd7bcb8c1e141fde2cd01fa3da8d7f3b9b1b6b0074355b8"
             },
-            new AssignmentModel
+            new()
             {
                 League = "VIETNAM CHAMPIONSHIP U19 QUALIFIERS - CORNERS",
                 Home = "Ha Noi FC U19 (N) Next Corners",
                 Away = "Than Quang Ninh U19 Next Corners"
             },
-            new AssignmentModel
+            new()
             {
                 League = "VIETNAM CHAMPIONSHIP U19 QUALIFIERS - CORNERS",
                 Home = "Ha Noi FC U19 (N) No.of Corners",
                 Away = "Than Quang Ninh U19 No.of Corners"
             },
-            new AssignmentModel
+            new()
             {
                 League = "VIETNAM CHAMPIONSHIP U19 QUALIFIERS",
                 Home = "VIETNAM CHAMPIONSHIP U19 QUALIFIERS",
@@ -67,14 +66,14 @@ public class ExplicitMinorMatchRule1UnitTests
     {
         var assignments = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 League = "leaguemar27",
                 Home = "homemar277",
                 Away = "awaymar277",
                 HashKey = "9832587b812e62f74fd7bcb8c1e141fde2cd01fa3da8d7f3b9b1b6b0074355b8"
             },
-            new AssignmentModel
+            new()
             {
                 League = "leaguemar27 - BOOKING",
                 Home = "homemar277 Next Booking",
@@ -99,38 +98,38 @@ public class ExplicitMinorMatchRule1UnitTests
     {
         var assignments = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 League = "VietNam League",
                 Home = "A",
                 Away = "B",
                 HashKey = "123456"
             },
-            new AssignmentModel //-7
+            new() //-7
             {
                 League = "VietNam League - BOOKING",
                 Home = "A Next Booking",
                 Away = "B Next Booking"
             },
-            new AssignmentModel //-6
+            new() //-6
             {
                 League = "VietNam League - BOOKING",
                 Home = "A Total Bookings",
                 Away = "B Total Bookings"
             },
-            new AssignmentModel //-4
+            new() //-4
             {
                 League = "VietNam League - CORNERS",
                 Home = "A Next Corners",
                 Away = "B Next Corners"
             },
-            new AssignmentModel //-3
+            new() //-3
             {
                 League = "VietNam League - CORNERS",
                 Home = "A No.of Corners",
                 Away = "B No.of Corners"
             },
-            new AssignmentModel
+            new()
             {
                 League = "league test",
                 Home = "C",
@@ -163,14 +162,14 @@ public class ExplicitMinorMatchRule1UnitTests
     {
         var assignments = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 League = "VietNam League",
                 Home = "A",
                 Away = "B",
                 HashKey = "123456"
             },
-            new AssignmentModel //-7
+            new() //-7
             {
                 League = "VietNam League - BOOKING",
                 Home = "A Booking",
@@ -192,7 +191,7 @@ public class ExplicitMinorMatchRule1UnitTests
     {
         var assignments = new List<AssignmentModel>
         {
-            new AssignmentModel //-7
+            new() //-7
             {
                 League = "VietNam League - BOOKING",
                 Home = "A Next Booking",
@@ -214,7 +213,7 @@ public class ExplicitMinorMatchRule1UnitTests
     {
         var assignments = new List<AssignmentModel>
         {
-            new AssignmentModel //-7
+            new() //-7
             {
                 League = "VietNam",
                 Home = "A Next Booking",

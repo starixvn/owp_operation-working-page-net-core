@@ -3,7 +3,7 @@
 using AutoMapper;
 using Models;
 using NSubstitute;
-using OWP.TicketCenter.Handlers;
+using TicketCenter.Handlers;
 using TicketCenter.Services;
 using ViewModels;
 using Xunit;
@@ -45,7 +45,7 @@ public class TicketDetailServiceUnitTests
             AwayName = "Liv"
         };
         var recipients = new List<RecipientResponseModel> {
-            new() {  RecipientId = 10, UserName = "sa", }
+            new() {  RecipientId = 10, UserName = "sa" }
         };
         var (canShowMoreMessage, messages) = GetMockMessage();
         messageService.GetMessageListInLast2Days(request.TicketId).Returns((canShowMoreMessage, messages));
@@ -75,10 +75,10 @@ public class TicketDetailServiceUnitTests
         var ticketLeagueDetail = new EventTicketLeagueModel
         {
             TicketId = 145,
-            OwpLeagueName = "League test",
+            OwpLeagueName = "League test"
         };
         var recipients = new List<RecipientResponseModel> {
-            new() {  RecipientId = 10, UserName = "sa", }
+            new() {  RecipientId = 10, UserName = "sa" }
         };
         var (canShowMoreMessage, messages) = GetMockMessage();
         messageService.GetMessageListInLast2Days(request.TicketId).Returns((canShowMoreMessage, messages));
@@ -107,10 +107,10 @@ public class TicketDetailServiceUnitTests
         var ticketOtherDetail = new EventTicketOtherModel
         {
             TicketId = 145,
-            TypeName = "Other",
+            TypeName = "Other"
         };
         var recipients = new List<RecipientResponseModel> {
-            new() {  RecipientId = 10, UserName = "sa", }
+            new() {  RecipientId = 10, UserName = "sa" }
         };
         var (canShowMoreMessage, messages) = GetMockMessage();
         repository.GetTicketOtherDetail(request.TicketId).Returns(ticketOtherDetail);
@@ -144,7 +144,7 @@ public class TicketDetailServiceUnitTests
             AwayName = "Liv"
         };
         var recipients = new List<RecipientResponseModel> {
-            new() {  RecipientId = 10, UserName = "sa", }
+            new() {  RecipientId = 10, UserName = "sa" }
         };
         var (canShowMoreMessage, messages) = GetMockMessage();
         repository.GetTicketLiveIncidentDetail(request.TicketId).Returns(ticketLiveIncidentDetail);
@@ -177,7 +177,7 @@ public class TicketDetailServiceUnitTests
             TicketId = 145
         };
         var recipients = new List<RecipientResponseModel> {
-            new() {  RecipientId = 10, UserName = "sa", }
+            new() {  RecipientId = 10, UserName = "sa" }
         };
         var (canShowMoreMessage, messages) = GetMockMessage();
         repository.GetTicketSupportDetail(request.TicketId).Returns(ticketSupportDetail);
@@ -206,7 +206,7 @@ public class TicketDetailServiceUnitTests
                 UserId = 8,
                 Message = "hello,test Match",
                 CreatedDate =new DateTime(2021,9,29,15,30,31),
-                Username = "sa",
+                Username = "sa"
             },
             new()
             {
@@ -214,7 +214,7 @@ public class TicketDetailServiceUnitTests
                 UserId = 8,
                 Message = "hi",
                 CreatedDate = new DateTime(2021,9,29,16,29,31),
-                Username = "sa",
+                Username = "sa"
             }
         });
 }

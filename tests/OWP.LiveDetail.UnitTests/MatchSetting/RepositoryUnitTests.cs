@@ -1,7 +1,5 @@
 ﻿namespace OWP.LiveDetail.UnitTests.MatchSetting;
 
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using AutoMapper;
 using Fanex.Data.Repository;
 using Fanex.NAP.Client.Helpers.Web;
@@ -32,7 +30,7 @@ public class RepositoryUnitTests
         // Arrange
         var queryModel = new QueryModel { OWPMatchId = 22 };
         var matchSettings = new List<MatchSetting> {
-            new MatchSetting { OWPMatchId = 12, Bettype = 1, MinorBettypeId = -2, DisplayName = "hdp", Spread = 11, Maxbet = 12, IsFromMaxbetSetting = false }
+            new() { OWPMatchId = 12, Bettype = 1, MinorBettypeId = -2, DisplayName = "hdp", Spread = 11, Maxbet = 12, IsFromMaxbetSetting = false }
         };
 
         dynamicRepository.FetchAsync<MatchSetting>(Arg.Compat.Any<QueryCriteria>()).Returns(matchSettings);

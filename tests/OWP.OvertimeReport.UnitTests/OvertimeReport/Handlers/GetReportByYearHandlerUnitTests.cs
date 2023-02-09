@@ -2,10 +2,9 @@ namespace OWP.Report.UnitTests.OvertimeReport.Handlers;
 
 using AutoMapper;
 using NSubstitute;
-using OWP.Report.OvertimeReport.Handlers;
-using OWP.Report.OvertimeReport.Models;
-using OWP.Report.OvertimeReport.Services;
-
+using Report.OvertimeReport.Handlers;
+using Report.OvertimeReport.Models;
+using Report.OvertimeReport.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
 
@@ -33,25 +32,25 @@ public class GetReportByYearHandlerUnitTests
     private IEnumerable<User> MockUsers()
         => new List<User>
         {
-            new User
+            new()
             {
                 UserId = 1,
                 Username = "sa",
                 Location = "SMS"
             },
-            new User
+            new()
             {
                 UserId = 2,
                 Username = "sa2",
                 Location = "SMS"
             },
-            new User
+            new()
             {
                 UserId = 3,
                 Username = "sa3",
                 Location = "SMS"
             },
-            new User
+            new()
             {
                 UserId = 4,
                 Username = "sa5",
@@ -62,42 +61,42 @@ public class GetReportByYearHandlerUnitTests
     private IEnumerable<OvertimeData> MockData()
         => new List<OvertimeData>
         {
-            new OvertimeData
+            new()
             {
                 UserId = 1,
                 Hour = 2,
                 IsOffDay = true,
                 ReportDate = new DateTime(2021, 10, 2)
             },
-            new OvertimeData
+            new()
             {
                 UserId = 1,
                 Hour = 10,
                 IsOffDay = false,
                 ReportDate = new DateTime(2021, 10, 10)
             },
-            new OvertimeData
+            new()
             {
                 UserId = 1,
                 Hour = 1,
                 IsOffDay = true,
                 ReportDate = new DateTime(2021, 11, 20)
             },
-            new OvertimeData
+            new()
             {
                 UserId = 1,
                 Hour = 1,
                 IsOffDay = true,
                 ReportDate = new DateTime(2021, 12, 20)
             },
-            new OvertimeData
+            new()
             {
                 UserId = 3,
                 Hour = 1,
                 IsOffDay = true,
                 ReportDate = new DateTime(2021, 12, 20)
             },
-            new OvertimeData
+            new()
             {
                 UserId = 3,
                 Hour = 1,
@@ -109,28 +108,28 @@ public class GetReportByYearHandlerUnitTests
     private IEnumerable<OvertimeByYear> MockExpected()
         => new List<OvertimeByYear>
         {
-            new OvertimeByYear
+            new()
             {
                 Trader = "sa5",
                 Location = "Phil",
                 OvertimeData = new List<decimal?> { null, null, null, null, null, null, null, null, null, null, null, null },
                 Total = null
             },
-            new OvertimeByYear
+            new()
             {
                 Trader = "sa",
                 Location = "SMS",
                 OvertimeData = new List<decimal?> { null, null, null, null, null, null, null, null, null, 12, 1, 1 },
                 Total = 14
             },
-            new OvertimeByYear
+            new()
             {
                 Trader = "sa2",
                 Location = "SMS",
                 OvertimeData = new List<decimal?> { null, null, null, null, null, null, null, null, null, null, null, null },
                 Total = null
             },
-            new OvertimeByYear
+            new()
             {
                 Trader = "sa3",
                 Location = "SMS",

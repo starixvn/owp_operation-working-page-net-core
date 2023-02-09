@@ -1,11 +1,9 @@
 ﻿namespace OWP.AssignmentUpload.UnitTests.Validation.Services;
 
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using OWP.AssignmentUpload.Validation.Exceptions;
-using OWP.AssignmentUpload.Validation.Models;
-using OWP.AssignmentUpload.Validation.Services;
+using AssignmentUpload.Validation.Exceptions;
+using AssignmentUpload.Validation.Models;
+using AssignmentUpload.Validation.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
 
@@ -28,7 +26,7 @@ public class AssignmentValidatorImpUnitTests
         }, validationResult);
         var expected = new List<ValidationResult>
         {
-            new ValidationResult("Invalid time")
+            new("Invalid time")
         };
 
         DeepAssert.Equal(expected, validationResult);
@@ -62,8 +60,8 @@ public class AssignmentValidatorImpUnitTests
     {
         var traders = new List<Trader>
         {
-            new Trader{ UserId = 1, Username = "starix1", IsDuplicate = true },
-            new Trader{ UserId = 2, Username = "starix3", IsDuplicate = false }
+            new() { UserId = 1, Username = "starix1", IsDuplicate = true },
+            new() { UserId = 2, Username = "starix3", IsDuplicate = false }
         };
         Assert.Throws<DuplicatedTraderException>(() => assignmentValidator.ValidateDuplicatedTraders(traders));
     }
@@ -73,9 +71,9 @@ public class AssignmentValidatorImpUnitTests
     {
         var traders = new List<Trader>
         {
-            new Trader{ UserId = 1, Username = "starix1", IsDuplicate = false },
-            new Trader{ UserId = 2, Username = "starix2", IsDuplicate = false },
-            new Trader{ UserId = 3, Username = "starix3", IsDuplicate = false }
+            new() { UserId = 1, Username = "starix1", IsDuplicate = false },
+            new() { UserId = 2, Username = "starix2", IsDuplicate = false },
+            new() { UserId = 3, Username = "starix3", IsDuplicate = false }
         };
         var exception = Record.Exception(() => assignmentValidator.ValidateDuplicatedTraders(traders));
         Assert.Null(exception);
@@ -86,12 +84,12 @@ public class AssignmentValidatorImpUnitTests
     {
         var assignmentModelList = new List<AssignmentModelInExcel>
         {
-            new AssignmentModelInExcel
+            new()
             {
                 Away = "awaymar27",
                 MatchNo = "Match1"
             },
-            new AssignmentModelInExcel
+            new()
             {
                 Time = "01:00 PM",
                 MatchNo = "Match1"
@@ -110,11 +108,11 @@ public class AssignmentValidatorImpUnitTests
     {
         var assignmentModelList = new List<AssignmentModelInExcel>
         {
-            new AssignmentModelInExcel
+            new()
             {
                 Away = "awaymar27"
             },
-            new AssignmentModelInExcel
+            new()
             {
                 Time = "01:00 PM",
                 MatchNo = "Match2"
@@ -132,12 +130,12 @@ public class AssignmentValidatorImpUnitTests
     {
         var assignmentModelList = new List<AssignmentModelInExcel>
         {
-            new AssignmentModelInExcel
+            new()
             {
                 Away = "awaymar27",
                 MatchNo = "Match1"
             },
-            new AssignmentModelInExcel
+            new()
             {
                 Time = "01:00 PM",
                 MatchNo = "Match2"
@@ -155,14 +153,14 @@ public class AssignmentValidatorImpUnitTests
     {
         var assignmentModelList = new List<AssignmentModelInExcel>
         {
-            new AssignmentModelInExcel
+            new()
             {
                 Away = "awaymar27",
                 InfoSiteMatchId = 1,
                 MatchNo = "match1",
                 Time = "01:00 PM"
             },
-            new AssignmentModelInExcel
+            new()
             {
                 Time = "01:00 PM",
                 InfoSiteMatchId = 1,
@@ -172,12 +170,12 @@ public class AssignmentValidatorImpUnitTests
 
         var expected = new List<AssignmentValidationRowResult>
         {
-            new AssignmentValidationRowResult
+            new()
             {
                 Row = 1,
                 Message = "Duplicate Match No: 'match1' of matches"
             },
-            new AssignmentValidationRowResult
+            new()
             {
                 Row = 2,
                 Message = "Duplicate Match No: 'match1' of matches"
@@ -193,12 +191,12 @@ public class AssignmentValidatorImpUnitTests
     {
         var assignmentModelList = new List<AssignmentModelInExcel>
         {
-            new AssignmentModelInExcel
+            new()
             {
                 Away = "awaymar27",
                 Time = "01:00 PM"
             },
-            new AssignmentModelInExcel
+            new()
             {
                 Time = "01:00 PM"
             }
@@ -216,12 +214,12 @@ public class AssignmentValidatorImpUnitTests
             EventDate = new DateTime(2020, 03, 30),
             Assignments = new List<AssignmentModelInExcel>
             {
-                new AssignmentModelInExcel
+                new()
                 {
                     Away = "awaymar27",
                     Time = "01:00 PM"
                 },
-                new AssignmentModelInExcel
+                new()
                 {
                     Time = "01:00 PM"
                 }
@@ -229,9 +227,9 @@ public class AssignmentValidatorImpUnitTests
         };
         var traders = new List<Trader>
         {
-            new Trader{ UserId = 1, Username = "starix1" },
-            new Trader{ UserId = 2, Username = "starix2" },
-            new Trader{ UserId = 3, Username = "starix3" }
+            new() { UserId = 1, Username = "starix1" },
+            new() { UserId = 2, Username = "starix2" },
+            new() { UserId = 3, Username = "starix3" }
         };
 
         var exception = Record.Exception(() => assignmentValidator.Validate(dateTime, uploadingDataFromExcel, traders, false));
@@ -244,7 +242,7 @@ public class AssignmentValidatorImpUnitTests
         var actual = new List<ValidationResult>();
         var assignmentModelList = new List<AssignmentModelInExcel>
         {
-            new AssignmentModelInExcel
+            new()
             {
                 OtherTraders10Mins = "a",
                 OtherTraders15Mins = "a",
@@ -272,7 +270,7 @@ public class AssignmentValidatorImpUnitTests
         var actual = new List<ValidationResult>();
         var assignmentModelList = new List<AssignmentModelInExcel>
         {
-            new AssignmentModelInExcel
+            new()
             {
                 OtherTraders10Mins = "a",
                 OtherTraders15Mins = "a",
@@ -300,7 +298,7 @@ public class AssignmentValidatorImpUnitTests
         var actual = new List<ValidationResult>();
         var assignmentModelList = new List<AssignmentModelInExcel>
         {
-            new AssignmentModelInExcel
+            new()
             {
                 Trader10MinsName = "a",
                 Trader15MinsName = "a",
@@ -336,7 +334,7 @@ public class AssignmentValidatorImpUnitTests
         var actual = new List<ValidationResult>();
         var assignmentModelList = new List<AssignmentModelInExcel>
         {
-            new AssignmentModelInExcel
+            new()
             {
                 Trader10MinsName = "a"
             }
@@ -352,18 +350,18 @@ public class AssignmentValidatorImpUnitTests
         var actual = new List<ValidationResult>();
         var invalidTrader = new List<Trader>
         {
-            new Trader { UserId = 0, Username = "a" },
-            new Trader { UserId = 0, Username = "p" },
-            new Trader { UserId = 1, Username = "u" },
-            new Trader { UserId = 0, Username = "o" },
-            new Trader { UserId = 0, Username = "v" },
-            new Trader { UserId = 0, Username = "Mira" },
-            new Trader { UserId = 0, Username = "Carlos" }
+            new() { UserId = 0, Username = "a" },
+            new() { UserId = 0, Username = "p" },
+            new() { UserId = 1, Username = "u" },
+            new() { UserId = 0, Username = "o" },
+            new() { UserId = 0, Username = "v" },
+            new() { UserId = 0, Username = "Mira" },
+            new() { UserId = 0, Username = "Carlos" }
         };
         var assignmentModelList = GetAssignmentModels();
         var expected = new List<ValidationResult>
         {
-            new ValidationResult("Invalid OtherLA: Carlos; OtherTraders (1H O/U): Carlos; OtherTraders (1X2): Carlos; OtherTraders (HDP): Carlos; LA: Mira; Trader (10mins): Mira; Trader (15mins): Mira; Trader (1H 1X2): Mira; Trader (1H HDP): Mira")
+            new("Invalid OtherLA: Carlos; OtherTraders (1H O/U): Carlos; OtherTraders (1X2): Carlos; OtherTraders (HDP): Carlos; LA: Mira; Trader (10mins): Mira; Trader (15mins): Mira; Trader (1H 1X2): Mira; Trader (1H HDP): Mira")
         };
 
         assignmentValidator.ValidateTraders(assignmentModelList[0], actual, invalidTrader);
@@ -375,7 +373,7 @@ public class AssignmentValidatorImpUnitTests
     {
         var actual = new List<ValidationResult>();
         var invalidTrader = new List<Trader> {
-            new Trader { UserId = 0, Username = "Lisa" }
+            new() { UserId = 0, Username = "Lisa" }
         };
         var assignmentModelList = GetAssignmentModels();
         var expected = new List<ValidationResult>();
@@ -388,7 +386,7 @@ public class AssignmentValidatorImpUnitTests
     {
         return new List<AssignmentModelInExcel>
         {
-            new AssignmentModelInExcel
+            new()
             {
                 Trader10MinsName = "Mira",
                 Trader15MinsName = "Mira",

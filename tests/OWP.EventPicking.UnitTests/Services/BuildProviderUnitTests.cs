@@ -1,9 +1,9 @@
-﻿using NSubstitute;
-using OWP.EventPicking.Models;
-using OWP.EventPicking.Services;
-using Xunit;
+﻿namespace OWP.EventPicking.UnitTests.Services;
 
-namespace OWP.EventPicking.UnitTests.Services;
+using EventPicking.Services;
+using Models;
+using NSubstitute;
+using Xunit;
 
 public class BuildProviderUnitTests
 {
@@ -31,11 +31,10 @@ public class BuildProviderUnitTests
     }
 
 
-    public List<string> MockProviderManagement()
-        => new List<string> { "RB2", "BG", "SM", "RTS", "BET", "FC" };
+    public List<string> MockProviderManagement() => new() { "RB2", "BG", "SM", "RTS", "BET", "FC" };
 
     public List<EventPickingModel> MockMatches()
-        => new List<EventPickingModel>
+        => new()
         {
             new()
             {

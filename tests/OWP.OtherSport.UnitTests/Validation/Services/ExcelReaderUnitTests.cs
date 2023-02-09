@@ -1,8 +1,8 @@
 ﻿namespace OWP.OtherSport.UnitTests.Validation.Services;
 
 using OfficeOpenXml;
-using OWP.OtherSport.Validation.Models;
-using OWP.OtherSport.Validation.Services;
+using OtherSport.Validation.Models;
+using OtherSport.Validation.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
 

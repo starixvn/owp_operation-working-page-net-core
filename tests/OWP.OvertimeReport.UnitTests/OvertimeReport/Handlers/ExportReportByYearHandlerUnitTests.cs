@@ -4,11 +4,10 @@ using AutoMapper;
 using MediatR;
 using NSubstitute;
 using OfficeOpenXml;
-using OWP.Report.OvertimeReport.Constants;
-using OWP.Report.OvertimeReport.Handlers;
-using OWP.Report.OvertimeReport.Models;
 using OWP.Services;
-
+using Report.OvertimeReport.Constants;
+using Report.OvertimeReport.Handlers;
+using Report.OvertimeReport.Models;
 using Xunit;
 using Xunit.Asserts.Compare;
 
@@ -118,14 +117,14 @@ public class ExportReportByYearHandlerUnitTests
     private IEnumerable<OvertimeByYear> MockData()
         => new List<OvertimeByYear>
         {
-            new OvertimeByYear
+            new()
             {
                 Trader = "sa5",
                 Location = "Phil",
                 OvertimeData = new List<decimal?> { 2, 1, null, null, null, null, null, null, null, null, null, null },
                 Total = null
             },
-            new OvertimeByYear
+            new()
             {
                 Trader = "sa",
                 Location = "SMS",

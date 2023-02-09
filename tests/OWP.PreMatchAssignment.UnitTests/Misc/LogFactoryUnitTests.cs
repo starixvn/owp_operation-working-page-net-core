@@ -1,8 +1,7 @@
 ﻿namespace OWP.PreMatchAssignment.UnitTests.Misc;
 
 using Models;
-using OWP.PreMatchAssignment.Misc;
-
+using PreMatchAssignment.Misc;
 using Xunit;
 
 public class LogFactoryUnitTests
@@ -14,7 +13,7 @@ public class LogFactoryUnitTests
         var logFactory = new LogFactoryImp();
         var updateAssignments = new List<UpdateAssignmentLogModel>
         {
-            new UpdateAssignmentLogModel
+            new()
             {
                 Bettype = 1,
                 IsTakeOver = true,

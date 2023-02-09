@@ -1,7 +1,6 @@
 ﻿namespace OWP.AutoAssignment.UnitTests.Services.InternalApi;
 
 using AutoAssignment.Services.InternalApi;
-
 using Models.InternalApi;
 using NSubstitute;
 using Xunit;
@@ -13,7 +12,7 @@ public class LeagueSettingBuilderServiceUnitTests
 
     public LeagueSettingBuilderServiceUnitTests()
     {
-        this.repository = Substitute.For<Repository>();
+        repository = Substitute.For<Repository>();
     }
 
     [Fact]
@@ -21,7 +20,7 @@ public class LeagueSettingBuilderServiceUnitTests
     {
         var requestId = "abc-xyz";
         var service = new LeagueSettingBuilderServiceImp(repository);
-        var models = new List<ExportMatchModel>()
+        var models = new List<ExportMatchModel>
         {
             new()
             {
@@ -48,7 +47,7 @@ public class LeagueSettingBuilderServiceUnitTests
     public List<ExportMatchModel> ExpectedModel()
         => new()
         {
-            new()
+            new ExportMatchModel
             {
                 InfoSiteMatchId = 100,
                 Bettype = 0,
@@ -64,7 +63,7 @@ public class LeagueSettingBuilderServiceUnitTests
                 MaxBet1X2 = "1K",
                 MaxBet1H1X2 = "1K"
             },
-            new()
+            new ExportMatchModel
             {
                 InfoSiteMatchId = 101,
                 Bettype = -3,
@@ -76,13 +75,13 @@ public class LeagueSettingBuilderServiceUnitTests
     public List<AutoAssignmentResultModel> MockAssignmentResultModels()
         => new()
         {
-            new AutoAssignmentResultModel()
+            new AutoAssignmentResultModel
             {
                 Bettype = 0,
                 InfoSiteMatchId = 100,
                 RequestId = "abc-xyz"
             },
-            new AutoAssignmentResultModel()
+            new AutoAssignmentResultModel
             {
                 Bettype = -3,
                 InfoSiteMatchId = 101,
@@ -93,7 +92,7 @@ public class LeagueSettingBuilderServiceUnitTests
     public List<LeagueSettingInfo> MockLeagueSettingInfos()
         => new()
         {
-            new LeagueSettingInfo()
+            new LeagueSettingInfo
             {
                 MatchId = 100,
                 MaxBetHDP = 1000,
@@ -108,7 +107,7 @@ public class LeagueSettingBuilderServiceUnitTests
                 MaxBet1X2 = 1000,
                 MaxBet1H1X2 = 1000
             },
-            new LeagueSettingInfo()
+            new LeagueSettingInfo
             {
                 MatchId = 101,
                 MaxBetHDP = 1000,

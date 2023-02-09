@@ -1,11 +1,10 @@
-﻿using NSubstitute;
-using OWP.AutoAssignment.Models.PublicApi;
-using OWP.AutoAssignment.Services.PublicApi;
+﻿namespace OWP.AutoAssignment.UnitTests.Services.PublicApi;
 
+using AutoAssignment.Services.PublicApi;
+using Models.PublicApi;
+using NSubstitute;
 using Xunit;
 using Xunit.Asserts.Compare;
-
-namespace OWP.AutoAssignment.UnitTests.Services.PublicApi;
 
 public class SchedulingMatchBuilderServiceUnitTests
 {
@@ -31,7 +30,7 @@ public class SchedulingMatchBuilderServiceUnitTests
 
         var sabaMatchInfo = new List<SabaMatchSender>
         {
-            new SabaMatchSender
+            new()
             {
                 SabaType=1,
                 MatchId=9999,
@@ -42,7 +41,7 @@ public class SchedulingMatchBuilderServiceUnitTests
 
         var realMatchInfo = new List<RealMatchSender>
         {
-            new RealMatchSender
+            new()
             {
                 MatchId=1234,
                 MaxBetMainMatch=12000,
@@ -61,7 +60,7 @@ public class SchedulingMatchBuilderServiceUnitTests
         {
             Real = new List<RealMatchSender>
             {
-                new RealMatchSender
+                new()
                 {
                     KOTime= KOTine,
                     MatchId=1234,
@@ -70,7 +69,7 @@ public class SchedulingMatchBuilderServiceUnitTests
             },
             Saba = new List<SabaMatchSender>
             {
-                new SabaMatchSender
+                new()
                 {
                     KOTime= KOTine,
                     MatchId=9999,
@@ -88,14 +87,14 @@ public class SchedulingMatchBuilderServiceUnitTests
     {
         var matchQueried = new List<MatchQueried>
         {
-            new MatchQueried
+            new()
             {
                 InfositeMatchId=9999,
                 SabaType=1
             },
-            new MatchQueried
+            new()
             {
-                InfositeMatchId=1234,
+                InfositeMatchId=1234
             }
         };
 

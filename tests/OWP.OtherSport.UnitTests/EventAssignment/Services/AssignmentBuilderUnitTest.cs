@@ -1,9 +1,8 @@
 ﻿namespace OWP.OtherSport.UnitTests.EventAssignment.Services;
 
-using OWP.OtherSport.EventAssignment.Models;
-using OWP.OtherSport.EventAssignment.Services;
-using OWP.OtherSport.Submit.Models;
-
+using OtherSport.EventAssignment.Models;
+using OtherSport.EventAssignment.Services;
+using OtherSport.Submit.Models;
 using Xunit;
 using Xunit.Asserts.Compare;
 
@@ -24,12 +23,12 @@ public class AssignmentBuilderUnitTest
             new()
             {
                 OSMatchId = 111,
-                Sport = "Basketball",
+                Sport = "Basketball"
             },
             new()
             {
                 OSMatchId = 222,
-                Sport = "Snooker",
+                Sport = "Snooker"
             }
         };
 
@@ -45,7 +44,7 @@ public class AssignmentBuilderUnitTest
             {   222, new List<MatchAssignment>
                 {
                     new(){  BetTypeName = "Frames Winner (HDP/OU/OE)",Username= "starix12", UserId=8,AssignmentType = 1,  AssignmentNote = "#<user>"},
-                    new(){  BetTypeName = "First 5 Frames (HDP)",Username= "starix14", UserId=17,AssignmentType = 1,  AssignmentNote = "#<user>"},
+                    new(){  BetTypeName = "First 5 Frames (HDP)",Username= "starix14", UserId=17,AssignmentType = 1,  AssignmentNote = "#<user>"}
                 }
             }
         };
@@ -60,7 +59,7 @@ public class AssignmentBuilderUnitTest
                 {
                     new(){ BetTypeName = "FT (HDP)", TraderAssignment = new TraderAssignment{MainTrader="#starix12",AssignmentNote=""} },
                     new(){ BetTypeName = "FT (OU/OE)", TraderAssignment = new TraderAssignment{MainTrader="#starix14",AssignmentNote=""} },
-                    new(){ BetTypeName = "FT (OE)", TraderAssignment = new TraderAssignment{MainTrader="#starix15",AssignmentNote=""} },
+                    new(){ BetTypeName = "FT (OE)", TraderAssignment = new TraderAssignment{MainTrader="#starix15",AssignmentNote=""} }
                 }
             },
             new()
@@ -70,7 +69,7 @@ public class AssignmentBuilderUnitTest
                 TraderMaxbetModels = new List<TraderMaxBetModel>
                 {
                     new(){ BetTypeName = "Frames Winner (HDP/OU/OE)", TraderAssignment = new TraderAssignment{MainTrader="#starix12",AssignmentNote=""} },
-                    new(){ BetTypeName = "First 5 Frames (HDP)", TraderAssignment = new TraderAssignment{MainTrader="#starix14",AssignmentNote=""} },
+                    new(){ BetTypeName = "First 5 Frames (HDP)", TraderAssignment = new TraderAssignment{MainTrader="#starix14",AssignmentNote=""} }
                 }
             }
         };
@@ -85,7 +84,7 @@ public class AssignmentBuilderUnitTest
     {
         var matchAssignments = new List<MatchAssignment>
         {
-            new MatchAssignment
+            new()
             {
                 Username= "starix12",
                 BetTypeName = "1Q & 3Q (OU/OE)",
@@ -93,7 +92,7 @@ public class AssignmentBuilderUnitTest
                 AssignmentType = 1,
                 AssignmentNote = "#<user>"
             },
-            new MatchAssignment
+            new()
             {
                 AssignmentNote="#<user> helloword",
                 BetTypeName = "1Q & 3Q (OU/OE)",
@@ -106,7 +105,7 @@ public class AssignmentBuilderUnitTest
         var eventAssignmentModel = new EventAssignmentModel
         {
             OSMatchId = 111,
-            Sport = "Basketball",
+            Sport = "Basketball"
         };
 
         var expected = new EventAssignmentModel
@@ -142,7 +141,7 @@ public class AssignmentBuilderUnitTest
     {
         var assignment = new MatchAssignment
         {
-            AssignmentNote = "#starix15 acb",
+            AssignmentNote = "#starix15 acb"
         };
 
         var assignmentNote = assignmentBuilder.DetectAssignment(assignment);

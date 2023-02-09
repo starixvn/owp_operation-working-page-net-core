@@ -1,9 +1,8 @@
 ﻿namespace OWP.Report.UnitTests.OvertimeReport.Services;
 
 using NSubstitute;
-using OWP.Report.OvertimeReport.Models;
-using OWP.Report.OvertimeReport.Services;
-
+using Report.OvertimeReport.Models;
+using Report.OvertimeReport.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
 
@@ -43,25 +42,25 @@ public class ReportByMonthServicesUnitTests
     private IEnumerable<User> MockUsers()
         => new List<User>
         {
-            new User
+            new()
             {
                 UserId = 1,
                 Username = "sa",
                 Location = "SMS"
             },
-            new User
+            new()
             {
                 UserId = 2,
                 Username = "sa2",
                 Location = "SMS"
             },
-            new User
+            new()
             {
                 UserId = 3,
                 Username = "sa3",
                 Location = "SMS"
             },
-            new User
+            new()
             {
                 UserId = 4,
                 Username = "sa5",
@@ -72,42 +71,42 @@ public class ReportByMonthServicesUnitTests
     private IEnumerable<OvertimeData> MockData()
         => new List<OvertimeData>
         {
-            new OvertimeData
+            new()
             {
                 UserId = 1,
                 Hour = 2,
                 IsOffDay = true,
                 ReportDate = new DateTime(2021, 10, 2)
             },
-            new OvertimeData
+            new()
             {
                 UserId = 1,
                 Hour = 10,
                 IsOffDay = false,
                 ReportDate = new DateTime(2021, 10, 10)
             },
-            new OvertimeData
+            new()
             {
                 UserId = 1,
                 Hour = 1,
                 IsOffDay = true,
                 ReportDate = new DateTime(2021, 10, 20)
             },
-            new OvertimeData
+            new()
             {
                 UserId = 1,
                 Hour = 1,
                 IsOffDay = true,
                 ReportDate = new DateTime(2021, 10, 21)
             },
-            new OvertimeData
+            new()
             {
                 UserId = 3,
                 Hour = 1,
                 IsOffDay = true,
                 ReportDate = new DateTime(2021, 10, 20)
             },
-            new OvertimeData
+            new()
             {
                 UserId = 3,
                 Hour = 1,
@@ -149,24 +148,24 @@ public class ReportByMonthServicesUnitTests
             new() { Date = "28-Oct", DayOfWeek = "Thu", IsWeekend = false },
             new() { Date = "29-Oct", DayOfWeek = "Fri", IsWeekend = false },
             new() { Date = "30-Oct", DayOfWeek = "Sat", IsWeekend = true },
-            new() { Date = "31-Oct", DayOfWeek = "Sun", IsWeekend = true },
+            new() { Date = "31-Oct", DayOfWeek = "Sun", IsWeekend = true }
         };
 
     private IEnumerable<TraderOvertime> MockTraderExpected()
         => new List<TraderOvertime>
         {
-            new TraderOvertime
+            new()
             {
                 Trader = "sa5",
                 Location = "Phil",
                 Overtime = new Dictionary<string, OverTimeInfo>(),
                 Total = 0
             },
-            new TraderOvertime
+            new()
             {
                 Trader = "sa",
                 Location = "SMS",
-                Overtime = new Dictionary<string, OverTimeInfo>()
+                Overtime = new Dictionary<string, OverTimeInfo>
                 {
                     { "02-Oct", new OverTimeInfo { IsOffDay = true, Hour = 2 } },
                     { "10-Oct", new OverTimeInfo { IsOffDay = false, Hour = 10 } },
@@ -175,26 +174,26 @@ public class ReportByMonthServicesUnitTests
                 },
                 Total = 14
             },
-            new TraderOvertime
+            new()
             {
                 Trader = "sa2",
                 Location = "SMS",
                 Overtime = new Dictionary<string, OverTimeInfo>(),
                 Total = 0
             },
-            new TraderOvertime
+            new()
             {
                 Trader = "sa3",
                 Location = "SMS",
-                Overtime = new Dictionary<string, OverTimeInfo>()
+                Overtime = new Dictionary<string, OverTimeInfo>
                 {
                     { "20-Oct", new OverTimeInfo { IsOffDay = true, Hour = 1 } },
-                    { "21-Oct", new OverTimeInfo { IsOffDay = true, Hour = 1 } },
+                    { "21-Oct", new OverTimeInfo { IsOffDay = true, Hour = 1 } }
                 },
                 Total = 2
             }
         };
 
     private List<decimal> MockTotalHoursByDate()
-        => new List<decimal> { 0, 2, 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        => new() { 0, 2, 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 }

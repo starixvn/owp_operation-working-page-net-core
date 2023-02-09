@@ -1,7 +1,5 @@
 ﻿namespace OWP.AssignmentUpload.UnitTests.Validation.Services;
 
-using System;
-using System.IO;
 using AssignmentUpload.Validation.Exceptions;
 using AssignmentUpload.Validation.Services;
 using OfficeOpenXml;

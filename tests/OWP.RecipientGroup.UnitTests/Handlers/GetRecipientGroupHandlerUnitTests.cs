@@ -2,9 +2,8 @@
 
 using Models;
 using NSubstitute;
-using OWP.RecipientGroup.Handlers;
+using RecipientGroup.Handlers;
 using Services;
-
 using Xunit;
 using Xunit.Asserts.Compare;
 
@@ -29,7 +28,7 @@ public class GetRecipientGroupHandlerUnitTests
             new(){ RecipientGroupId = 3, GroupId = 1, GroupName = "LST", UserId = 333, Username = "tyler" },
             new(){ RecipientGroupId = 4, GroupId = 3, GroupName = "Candy", UserId = 444, Username = "mira" },
             new(){ RecipientGroupId = 5, GroupId = 3, GroupName = "Candy", UserId = 555, Username = "luca" },
-            new(){ RecipientGroupId = 6, GroupId = 4, GroupName = "Test", UserId = 666, Username = "liam" },
+            new(){ RecipientGroupId = 6, GroupId = 4, GroupName = "Test", UserId = 666, Username = "liam" }
         };
         var expected = new List<TicketGroup>
         {

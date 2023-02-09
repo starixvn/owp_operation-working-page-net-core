@@ -1,6 +1,5 @@
 ﻿namespace OWP.AssignmentUpload.UnitTests.Validation.Services;
 
-using System.Collections.Generic;
 using AssignmentUpload.Validation.Exceptions;
 using AssignmentUpload.Validation.Models;
 using AssignmentUpload.Validation.Services;
@@ -21,7 +20,7 @@ public class MatchStatusValidatorUnitTests
     {
         var assignments = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 League = "VIETNAM CHAMPIONSHIP U19 QUALIFIERS",
                 Home = "Ha Noi FC U19 (N)",
@@ -30,7 +29,7 @@ public class MatchStatusValidatorUnitTests
                 MatchStatus = "Cancel",
                 ParentHashKey= ""
             },
-            new AssignmentModel
+            new()
             {
                 League = "VIETNAM CHAMPIONSHIP U19 QUALIFIERS - CORNERS",
                 Home = "Ha Noi FC U19 (N) Next Corners",
@@ -38,7 +37,7 @@ public class MatchStatusValidatorUnitTests
                 ParentHashKey = "ahihi",
                 MatchStatus = "Live"
             },
-            new AssignmentModel
+            new()
             {
                 League = "VIETNAM CHAMPIONSHIP U19 QUALIFIERS - CORNERS",
                 Home = "Ha Noi FC U19 (N) No.of Corners",
@@ -46,7 +45,7 @@ public class MatchStatusValidatorUnitTests
                 ParentHashKey = "ahihi",
                 MatchStatus = "Suspended"
             },
-            new AssignmentModel
+            new()
             {
                 League = "VIETNAM CHAMPIONSHIP U19 QUALIFIERS - CORNERS",
                 Home = "Ha Noi FC U19 (N) No.of Corners",
@@ -57,17 +56,17 @@ public class MatchStatusValidatorUnitTests
         };
         var expected = new List<AssignmentValidationRowResult>
         {
-            new AssignmentValidationRowResult
+            new()
             {
                 Row = 2,
                 Message = "The status of special events must be same as main match if main match is Cancel, Suspended, or Postponed"
             },
-            new AssignmentValidationRowResult
+            new()
             {
                 Row = 3,
                 Message = "The status of special events must be same as main match if main match is Cancel, Suspended, or Postponed"
             },
-            new AssignmentValidationRowResult
+            new()
             {
                 Row = 4,
                 Message = "The status of special events must be same as main match if main match is Cancel, Suspended, or Postponed"
@@ -83,7 +82,7 @@ public class MatchStatusValidatorUnitTests
     {
         var assignments = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 League = "VIETNAM CHAMPIONSHIP U19 QUALIFIERS",
                 Home = "Ha Noi FC U19 (N)",
@@ -92,7 +91,7 @@ public class MatchStatusValidatorUnitTests
                 MatchStatus = "Suspended",
                 ParentHashKey= ""
             },
-            new AssignmentModel
+            new()
             {
                 League = "VIETNAM CHAMPIONSHIP U19 QUALIFIERS - CORNERS",
                 Home = "Ha Noi FC U19 (N) Next Corners",
@@ -111,7 +110,7 @@ public class MatchStatusValidatorUnitTests
     {
         var assignments = new List<AssignmentModel>
         {
-            new AssignmentModel
+            new()
             {
                 League = "VIETNAM CHAMPIONSHIP U19 QUALIFIERS",
                 Home = "Ha Noi FC U19 (N)",
@@ -120,7 +119,7 @@ public class MatchStatusValidatorUnitTests
                 MatchStatus = "Live",
                 ParentHashKey= ""
             },
-            new AssignmentModel
+            new()
             {
                 League = "VIETNAM CHAMPIONSHIP U19 QUALIFIERS - CORNERS",
                 Home = "Ha Noi FC U19 (N) Next Corners",
@@ -128,7 +127,7 @@ public class MatchStatusValidatorUnitTests
                 ParentHashKey = "ahihi",
                 MatchStatus = "Live"
             },
-            new AssignmentModel
+            new()
             {
                 League = "VIETNAM CHAMPIONSHIP U19 QUALIFIERS - CORNERS",
                 Home = "Ha Noi FC U19 (N) No.of Corners",
@@ -136,7 +135,7 @@ public class MatchStatusValidatorUnitTests
                 ParentHashKey = "ahihi",
                 MatchStatus = "Suspended"
             },
-            new AssignmentModel
+            new()
             {
                 League = "VIETNAM CHAMPIONSHIP U19 QUALIFIERS - CORNERS",
                 Home = "Ha Noi FC U19 (N) No.of Corners",

@@ -1,10 +1,10 @@
-﻿using OWP.Enums;
-using OWP.Maxbet.Helpers;
-using OWP.Maxbet.Models;
+﻿namespace OWP.Maxbet.UnitTests.Helpers;
+
+using Enums;
+using Maxbet.Helpers;
+using Models;
 using Xunit;
 using Xunit.Asserts.Compare;
-
-namespace OWP.Maxbet.UnitTests.Helpers;
 
 public class MaxbetHelperUnitTests
 {
@@ -15,22 +15,22 @@ public class MaxbetHelperUnitTests
     {
         var assignments = new List<TraderAssignment>
         {
-            new TraderAssignment
+            new()
             {
                 BettypeId= (int)EnumBettype.Handicap,
                 UserId=111
             },
-            new TraderAssignment
+            new()
             {
                 BettypeId= (int)EnumBettype.OverUnder,
                 UserId=222
             },
-            new TraderAssignment
+            new()
             {
                 BettypeId= (int)EnumBettype.FirstHalfHandicap,
                 UserId=333
             },
-            new TraderAssignment
+            new()
             {
                 BettypeId= (int)EnumBettype.FirstHalfOverUnder,
                 UserId=444
@@ -50,17 +50,17 @@ public class MaxbetHelperUnitTests
     {
         var assignments = new List<TraderAssignment>
         {
-            new TraderAssignment
+            new()
             {
                 BettypeId= (int)EnumBettype.OverUnder,
                 UserId=222
             },
-            new TraderAssignment
+            new()
             {
                 BettypeId= (int)EnumBettype.FirstHalfHandicap,
                 UserId=333
             },
-            new TraderAssignment
+            new()
             {
                 BettypeId= (int)EnumBettype.FirstHalfOverUnder,
                 UserId=444
@@ -79,22 +79,22 @@ public class MaxbetHelperUnitTests
     {
         var spreads = new List<SpreadModel>
         {
-            new SpreadModel
+            new()
             {
                 Bettype= (int)EnumBettype.Handicap,
                 Spread=(decimal)0.1
             },
-            new SpreadModel
+            new()
             {
                 Bettype= (int)EnumBettype.OverUnder,
                 Spread=(decimal)0.3
             },
-            new SpreadModel
+            new()
             {
                 Bettype= (int)EnumBettype.FirstHalfHandicap,
                 Spread=(decimal)0.3
             },
-            new SpreadModel
+            new()
             {
                 Bettype= (int)EnumBettype.FirstHalfOverUnder,
                 Spread=(decimal)0.4
@@ -114,17 +114,17 @@ public class MaxbetHelperUnitTests
     {
         var spreads = new List<SpreadModel>
         {
-            new SpreadModel
+            new()
             {
                 Bettype= (int)EnumBettype.OverUnder,
                 Spread=(decimal)0.3
             },
-            new SpreadModel
+            new()
             {
                 Bettype= (int)EnumBettype.FirstHalfHandicap,
                 Spread=(decimal)0.3
             },
-            new SpreadModel
+            new()
             {
                 Bettype= (int)EnumBettype.FirstHalfOverUnder,
                 Spread=(decimal)0.4
@@ -143,22 +143,22 @@ public class MaxbetHelperUnitTests
     {
         var maxbets = new List<MaxbetModel>
         {
-            new MaxbetModel
+            new()
             {
                 BettypeId= (int)EnumBettype.Handicap,
                 Value=(decimal)0.1
             },
-            new MaxbetModel
+            new()
             {
                 BettypeId= (int)EnumBettype.OverUnder,
                 Value=(decimal)0.3
             },
-            new MaxbetModel
+            new()
             {
                 BettypeId= (int)EnumBettype.FirstHalfHandicap,
                 Value=(decimal)0.3
             },
-            new MaxbetModel
+            new()
             {
                 BettypeId= (int)EnumBettype.FirstHalfOverUnder,
                 Value=(decimal)0.4
@@ -178,20 +178,20 @@ public class MaxbetHelperUnitTests
     {
         var maxbets = new List<MaxbetModel>
         {
-            new MaxbetModel
+            new()
             {
                 BettypeId= (int)EnumBettype.OverUnder,
-                Value=(decimal)111
+                Value=111
             },
-            new MaxbetModel
+            new()
             {
                 BettypeId= (int)EnumBettype.FirstHalfHandicap,
-                Value=(decimal)111
+                Value=111
             },
-            new MaxbetModel
+            new()
             {
                 BettypeId= (int)EnumBettype.FirstHalfOverUnder,
-                Value=(decimal)111
+                Value=111
             }
         };
         var result = MaxbetHelper.FindMaxbetByBettype(maxbets, (int)EnumBettype.Handicap);

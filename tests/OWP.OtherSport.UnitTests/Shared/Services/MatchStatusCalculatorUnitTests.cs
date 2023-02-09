@@ -1,12 +1,10 @@
 ﻿namespace OWP.OtherSport.UnitTests.Shared.Services;
 
+using Extensions;
 using Fanex.Data.Repository;
 using NSubstitute;
-using OWP.Extensions;
-using OWP.OtherSport.Shared.Services;
-using OWP.OtherSport.Submit.Models;
-using OWP.Utils;
-
+using OtherSport.Shared.Services;
+using OtherSport.Submit.Models;
 using Xunit;
 
 public class MatchStatusCalculatorUnitTests
@@ -15,7 +13,7 @@ public class MatchStatusCalculatorUnitTests
 
     private readonly IDynamicRepository dynamicRepository;
 
-    private readonly DateTime nowDateTime = DateTimeExtensions.ToGmt8(DateTime.Now);
+    private readonly DateTime nowDateTime = DateTime.Now.ToGmt8();
 
     public MatchStatusCalculatorUnitTests()
     {
@@ -47,16 +45,16 @@ public class MatchStatusCalculatorUnitTests
             { 2, new MatchInfo { OSMatchId = 2, AdminsiteMatchId = 222, DateTime = nowDateTime.AddDays(-1) } },
             { 3, new MatchInfo { OSMatchId = 3, AdminsiteMatchId = 333, DateTime = nowDateTime } },
             { 4, new MatchInfo { OSMatchId = 3, AdminsiteMatchId = 444, DateTime = nowDateTime.AddHours(1) } },
-            { 5, new MatchInfo { OSMatchId = 4, AdminsiteMatchId = 555, DateTime = nowDateTime.AddDays(1) } },
+            { 5, new MatchInfo { OSMatchId = 4, AdminsiteMatchId = 555, DateTime = nowDateTime.AddDays(1) } }
         };
     }
 
     private static List<EventStatus> MockEventStatus()
-        => new List<EventStatus>
+        => new()
         {
             new() { AdminsiteMatchId = 111, MatchStatus = "Completed" },
             new() { AdminsiteMatchId = 222, MatchStatus = "Live" },
             new() { AdminsiteMatchId = 333, MatchStatus = "completed" },
-            new() { AdminsiteMatchId = 444, MatchStatus = "" },
+            new() { AdminsiteMatchId = 444, MatchStatus = "" }
         };
 }

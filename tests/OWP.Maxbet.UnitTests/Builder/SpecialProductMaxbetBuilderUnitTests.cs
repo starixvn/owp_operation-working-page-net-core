@@ -1,12 +1,11 @@
-﻿using NSubstitute;
-using OWP.Maxbet.Builder;
-using OWP.Maxbet.Models;
-using OWP.Services;
+﻿namespace OWP.Maxbet.UnitTests.Builder;
 
+using Maxbet.Builder;
+using Models;
+using NSubstitute;
+using OWP.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
-
-namespace OWP.Maxbet.UnitTests.Builder;
 
 public class SpecialProductMaxbetBuilderUnitTests
 {
@@ -34,7 +33,7 @@ public class SpecialProductMaxbetBuilderUnitTests
             .GetMaxbetByOwpMatchId(123)
             .ReturnsForAnyArgs(new List<MaxbetModel>());
         var actual = await specialProductMaxbetBuilder.BuildMaxbet(123);
-        DeepAssert.Equal(new(), actual);
+        DeepAssert.Equal(new MaxbetSpread(), actual);
     }
 
     [Fact]
@@ -43,7 +42,7 @@ public class SpecialProductMaxbetBuilderUnitTests
         await logServiceWrapper.Log(Arg.Compat.Any<string>());
         syncMaxbetRepository
             .GetMaxbetByOwpMatchId(123)
-            .ReturnsForAnyArgs(new List<MaxbetModel>()
+            .ReturnsForAnyArgs(new List<MaxbetModel>
             {
                 new ()
                 {
@@ -67,7 +66,7 @@ public class SpecialProductMaxbetBuilderUnitTests
                 }
             });
         var actual = await specialProductMaxbetBuilder.BuildMaxbet(123);
-        DeepAssert.Equal(new()
+        DeepAssert.Equal(new MaxbetSpread
         {
             Handicap = 10,
             OverUnder = 10,
@@ -84,7 +83,7 @@ public class SpecialProductMaxbetBuilderUnitTests
             .ReturnsForAnyArgs(new List<decimal?>());
         var actual = await specialProductMaxbetBuilder
             .BuildMaxbetXMins(123);
-        DeepAssert.Equal(new(), actual);
+        DeepAssert.Equal(new MaxbetSpread(), actual);
     }
 
     [Fact]
@@ -92,10 +91,10 @@ public class SpecialProductMaxbetBuilderUnitTests
     {
         syncMaxbetRepository
             .GetMaxbetXMins(123)
-            .ReturnsForAnyArgs(new List<decimal?>() { 123 });
+            .ReturnsForAnyArgs(new List<decimal?> { 123 });
         var actual = await specialProductMaxbetBuilder
             .BuildMaxbetXMins(123);
-        DeepAssert.Equal(new()
+        DeepAssert.Equal(new MaxbetSpread
         {
             Handicap = 123,
             OverUnder = 123

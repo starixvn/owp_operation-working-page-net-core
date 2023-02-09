@@ -3,10 +3,10 @@
 using Fanex.NAP.Client.Helpers.Web;
 using NSubstitute;
 using OfficeOpenXml;
-using OWP.OtherSport.Validation;
-using OWP.OtherSport.Validation.Exceptions;
-using OWP.OtherSport.Validation.Models;
-using OWP.OtherSport.Validation.Services;
+using OtherSport.Validation;
+using OtherSport.Validation.Exceptions;
+using OtherSport.Validation.Models;
+using OtherSport.Validation.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
 
@@ -34,7 +34,7 @@ public class ValidationHandlerUnitTests
         // Arrange
         var request = new ValidationHandler.Request { Stream = MockFileStream() };
         var validationResult = new List<AssignmentValidationRowResult>{
-            new AssignmentValidationRowResult
+            new()
             {
                 Message = "Invalid abc",
                 Row = 1
@@ -96,7 +96,7 @@ public class ValidationHandlerUnitTests
             OriginalRecordCount = 1,
             Assignments = new List<AssignmentModel>
             {
-                new AssignmentModel
+                new()
                 {
                     Sport = "Basketball",
                     Home = "Golden State Warrior",

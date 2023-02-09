@@ -24,7 +24,7 @@ public class RequestBuilderServiceUnitTests
     [Fact]
     public async Task BuildRequestSenderModel_Always_ReturnSender()
     {
-        var request = new List<RequestModel>()
+        var request = new List<RequestModel>
         {
             new ()
             {
@@ -47,14 +47,14 @@ public class RequestBuilderServiceUnitTests
     public List<RequestSender> MockRequestSenders()
         => new()
         {
-            new()
+            new RequestSender
             {
                 Action = "New",
                 EventDate = DateTime.Parse("2021-12-08"),
                 RequestId = "johnny",
-                DataHolder = new DataHolder()
+                DataHolder = new DataHolder
                 {
-                    Matches = new SchedulingMatch()
+                    Matches = new SchedulingMatch
                     {
                         Real = new List<RealMatchSender>
                         {
@@ -62,7 +62,7 @@ public class RequestBuilderServiceUnitTests
                             {
                                 KOTime=  DateTime.Parse("2021-12-08").ToString(),
                                 MatchId=1234,
-                                MaxBetMainMatch=12000,
+                                MaxBetMainMatch=12000
                             }
                         },
                         Saba = new List<SabaMatchSender>
@@ -76,7 +76,7 @@ public class RequestBuilderServiceUnitTests
                             }
                         }
                     },
-                    Suspenders = new List<SchedulingLAUser>()
+                    Suspenders = new List<SchedulingLAUser>
                     {
                         new()
                         {
@@ -95,7 +95,7 @@ public class RequestBuilderServiceUnitTests
                             }
                         }
                     },
-                    Traders = new List<SchedulingTraderInfo>()
+                    Traders = new List<SchedulingTraderInfo>
                     {
                         new()
                         {
@@ -146,7 +146,7 @@ public class RequestBuilderServiceUnitTests
     public List<SchedulingLAUser> MockLaService()
         => new()
         {
-            new()
+            new SchedulingLAUser
             {
                 Level = 1,
                 Location = "SMS",
@@ -167,7 +167,7 @@ public class RequestBuilderServiceUnitTests
     public List<SchedulingTraderInfo> MockTraderService()
         => new()
         {
-            new()
+            new SchedulingTraderInfo
             {
                 Level = 1,
                 BettypesPreferences = "Booking",

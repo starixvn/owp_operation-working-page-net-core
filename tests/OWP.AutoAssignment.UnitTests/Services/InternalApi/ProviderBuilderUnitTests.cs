@@ -22,7 +22,7 @@ public class ProviderBuilderUnitTests
         repository.GetProviderInfo(Arg.Compat.Any<List<int>>(), Arg.Compat.Any<string>())
             .Returns(MockListProviderInfo());
 
-        IList<ExportMatchModel> models = new List<ExportMatchModel>()
+        IList<ExportMatchModel> models = new List<ExportMatchModel>
         {
             new (){InfoSiteMatchId = 1},new (){InfoSiteMatchId = 2},new() {InfoSiteMatchId = 3}
         };
@@ -33,7 +33,7 @@ public class ProviderBuilderUnitTests
             new() {InfoSiteMatchId = 3, IsSaba = false,IsFutsal = false,PcCode = "hoho"}
         };
 
-        string requestId = "ten ten";
+        var requestId = "ten ten";
         var expected = MockExpected();
         var service = new ProviderBuilderServiceImp(repository);
 
@@ -47,49 +47,49 @@ public class ProviderBuilderUnitTests
     public List<ProviderInfo> MockListProviderInfo()
         => new()
         {
-            new()
+            new ProviderInfo
             {
                 MatchId = 1,
                 OtherProvider = "TV/BGTV/RB2TV/BETTV/RTSTV",
                 Provider = "helloWOO",
                 ProviderTv = "TV"
             },
-            new()
+            new ProviderInfo
             {
                 MatchId = 2,
                 OtherProvider = "TV/BGTV/RB2TV/BET/RTSTV",
                 Provider = "hiAL",
                 ProviderTv = ""
             },
-            new()
+            new ProviderInfo
             {
                 MatchId = 3,
                 OtherProvider = "TV/BET/RTSTV",
                 Provider = "SLRAL",
                 ProviderTv = "TV"
-            },
+            }
         };
 
     public List<ExportMatchModel> MockExpected()
         => new()
         {
-            new()
+            new ExportMatchModel
             {
                 InfoSiteMatchId = 1,
                 OtherProvider = "TV/BGTV/RB2TV/BETTV/RTSTV",
-                Provider = "TV/BGTV/(WOO)/hihi",
+                Provider = "TV/BGTV/(WOO)/hihi"
             },
-            new()
+            new ExportMatchModel
             {
                 InfoSiteMatchId = 2,
                 OtherProvider = "TV/BGTV/RB2TV/BET/RTSTV",
-                Provider = "BET/(AL)",
+                Provider = "BET/(AL)"
             },
-            new()
+            new ExportMatchModel
             {
                 InfoSiteMatchId = 3,
                 OtherProvider = "TV/BET/RTSTV",
-                Provider = "TV/BET/(AL)(SLR)",
-            },
+                Provider = "TV/BET/(AL)(SLR)"
+            }
         };
 }

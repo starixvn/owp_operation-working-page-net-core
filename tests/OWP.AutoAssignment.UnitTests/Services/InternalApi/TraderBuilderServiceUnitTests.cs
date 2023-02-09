@@ -13,7 +13,7 @@ public class TraderBuilderServiceUnitTests
 
     public TraderBuilderServiceUnitTests()
     {
-        this.repository = Substitute.For<Repository>();
+        repository = Substitute.For<Repository>();
     }
 
     [Fact]
@@ -21,7 +21,7 @@ public class TraderBuilderServiceUnitTests
     {
         repository.GetTraderExportInfo(Arg.Compat.Any<GetTraderExportInfoCriteria>()).Returns(MockTraderExportInfos());
 
-        var models = new List<ExportMatchModel>()
+        var models = new List<ExportMatchModel>
         {
             new()
             {
@@ -31,7 +31,7 @@ public class TraderBuilderServiceUnitTests
                 Trader1HHDP = null,
                 Trader1HOU = null,
                 TraderHDP = null,
-                TraderOU = null,
+                TraderOU = null
             },
             new()
             {
@@ -41,7 +41,7 @@ public class TraderBuilderServiceUnitTests
                 Trader1HHDP = null,
                 Trader1HOU = null,
                 TraderHDP = null,
-                TraderOU = null,
+                TraderOU = null
             }
         };
 
@@ -59,7 +59,7 @@ public class TraderBuilderServiceUnitTests
     public List<ExportMatchModel> ExpectedModel()
         => new()
         {
-            new()
+            new ExportMatchModel
             {
                 InfoSiteMatchId = 100,
                 Bettype = 0,
@@ -67,9 +67,9 @@ public class TraderBuilderServiceUnitTests
                 Trader1HHDP = "Ti",
                 Trader1HOU = "Ti",
                 TraderHDP = "Ti",
-                TraderOU = "Ti",
+                TraderOU = "Ti"
             },
-            new()
+            new ExportMatchModel
             {
                 InfoSiteMatchId = 101,
                 Bettype = -3,
@@ -77,14 +77,14 @@ public class TraderBuilderServiceUnitTests
                 Trader1HHDP = "Ti",
                 Trader1HOU = "Ti",
                 TraderHDP = "Ti",
-                TraderOU = "Ti",
+                TraderOU = "Ti"
             }
         };
 
     public List<AutoAssignmentResultModel> MockAssignmentResultModels()
         => new()
         {
-            new AutoAssignmentResultModel()
+            new AutoAssignmentResultModel
             {
                 Bettype = 0,
                 InfoSiteMatchId = 100,
@@ -95,7 +95,7 @@ public class TraderBuilderServiceUnitTests
                 UserId_FTHDP = 456,
                 UserId_FTOU = 456
             },
-            new AutoAssignmentResultModel()
+            new AutoAssignmentResultModel
             {
                 Bettype = -3,
                 InfoSiteMatchId = 101,
@@ -111,7 +111,7 @@ public class TraderBuilderServiceUnitTests
     public List<TraderExportInfo> MockTraderExportInfos()
         => new()
         {
-            new TraderExportInfo()
+            new TraderExportInfo
             {
                 InfoSiteMatchId = 100,
                 Bettype = 0,
@@ -120,7 +120,7 @@ public class TraderBuilderServiceUnitTests
                 TraderFTHDP = "Ti",
                 TraderFTOU = "Ti"
             },
-            new TraderExportInfo()
+            new TraderExportInfo
             {
                 InfoSiteMatchId = 101,
                 Bettype = -3,

@@ -1,10 +1,9 @@
 ﻿namespace OWP.OtherSport.UnitTests.Submit.Services;
 
-using OWP.OtherSport.Submit.Contants;
-using OWP.OtherSport.Submit.Models;
-using OWP.OtherSport.Submit.Services;
-using OWP.OtherSport.Validation.Models;
-
+using OtherSport.Submit.Contants;
+using OtherSport.Submit.Models;
+using OtherSport.Submit.Services;
+using OtherSport.Validation.Models;
 using Xunit;
 using Xunit.Asserts.Compare;
 
@@ -22,12 +21,12 @@ public class AssignmentAnalyzerUnitTests
     {
         var hashKeys = new List<MatchByHashKey>
         {
-            new MatchByHashKey
+            new()
             {
                 OSMatchId = 1,
                 HashKey="abc123"
             },
-            new MatchByHashKey
+            new()
             {
                 OSMatchId = 2,
                 HashKey = "xyz"
@@ -35,8 +34,8 @@ public class AssignmentAnalyzerUnitTests
         };
         var assignments = new List<AssignmentModel>
         {
-            new AssignmentModel { HashKey = "abc123", Home = "ABC" },
-            new AssignmentModel { HashKey = "xyz", Home = "XYZ" }
+            new() { HashKey = "abc123", Home = "ABC" },
+            new() { HashKey = "xyz", Home = "XYZ" }
         };
         services.ReassignOSMatchId(hashKeys, assignments);
 
@@ -65,15 +64,15 @@ public class AssignmentAnalyzerUnitTests
         };
         var assignmentMaxbet = new List<AssignmentMaxbet>
         {
-            new AssignmentMaxbet { MaxBet = 1200, Spread= 10, Bettype = Bettype.First5FramesHDP },
-            new AssignmentMaxbet { MaxBet = 30000, Spread= 10,Bettype = Bettype.FirstHOU },
-            new AssignmentMaxbet { MaxBet = null, Spread= null, Bettype = Bettype.AllProductLS },
-            new AssignmentMaxbet { Bettype = Bettype.SetXWinnerHDP },
+            new() { MaxBet = 1200, Spread= 10, Bettype = Bettype.First5FramesHDP },
+            new() { MaxBet = 30000, Spread= 10,Bettype = Bettype.FirstHOU },
+            new() { MaxBet = null, Spread= null, Bettype = Bettype.AllProductLS },
+            new() { Bettype = Bettype.SetXWinnerHDP }
         };
         var expected = new List<MatchSetting>
         {
-            new MatchSetting{ OSMatchId = 123, BetTypeName = Bettype.First5FramesHDP,MaxBet = 1200, Spread = 10 },
-            new MatchSetting{ OSMatchId = 123, BetTypeName = Bettype.FirstHOU,MaxBet = 30000, Spread = 10}
+            new() { OSMatchId = 123, BetTypeName = Bettype.First5FramesHDP,MaxBet = 1200, Spread = 10 },
+            new() { OSMatchId = 123, BetTypeName = Bettype.FirstHOU,MaxBet = 30000, Spread = 10}
         };
 
         var actual = services.GetMaxBets(assignment, assignmentMaxbet).ToList();
@@ -90,18 +89,18 @@ public class AssignmentAnalyzerUnitTests
         };
         var assignmentMaxbet = new List<AssignmentMaxbet>
         {
-            new AssignmentMaxbet { Bettype = Bettype.First5FramesHDP, Trader="100,#<user>", OtherTrader="122,#<user> my note" },
-            new AssignmentMaxbet { Bettype = Bettype.FirstHOU, Trader="200,(01) #<user>", OtherTrader="0,my note"},
-            new AssignmentMaxbet { Bettype = Bettype.FirstHOU, Trader="", OtherTrader=""},
-            new AssignmentMaxbet { Bettype = Bettype.SetXWinnerHDP, Trader="0,note", OtherTrader=""},
+            new() { Bettype = Bettype.First5FramesHDP, Trader="100,#<user>", OtherTrader="122,#<user> my note" },
+            new() { Bettype = Bettype.FirstHOU, Trader="200,(01) #<user>", OtherTrader="0,my note"},
+            new() { Bettype = Bettype.FirstHOU, Trader="", OtherTrader=""},
+            new() { Bettype = Bettype.SetXWinnerHDP, Trader="0,note", OtherTrader=""}
         };
         var expected = new List<MatchAssignment>
         {
-            new MatchAssignment{ OSMatchId = 123, AssignmentType=1, BetTypeName = Bettype.First5FramesHDP, UserId = 100, AssignmentNote="#<user>"},
-            new MatchAssignment{ OSMatchId = 123, AssignmentType=2, BetTypeName = Bettype.First5FramesHDP, AssignmentNote="#<user> my note", UserId=122},
-            new MatchAssignment{ OSMatchId = 123, AssignmentType=1, BetTypeName = Bettype.FirstHOU, UserId= 200, AssignmentNote="(01) #<user>"},
-            new MatchAssignment{ OSMatchId = 123, AssignmentType=2, BetTypeName = Bettype.FirstHOU, AssignmentNote="my note", UserId=0},
-            new MatchAssignment{ OSMatchId = 123, AssignmentType=1, BetTypeName = Bettype.SetXWinnerHDP, UserId=0, AssignmentNote="note"}
+            new() { OSMatchId = 123, AssignmentType=1, BetTypeName = Bettype.First5FramesHDP, UserId = 100, AssignmentNote="#<user>"},
+            new() { OSMatchId = 123, AssignmentType=2, BetTypeName = Bettype.First5FramesHDP, AssignmentNote="#<user> my note", UserId=122},
+            new() { OSMatchId = 123, AssignmentType=1, BetTypeName = Bettype.FirstHOU, UserId= 200, AssignmentNote="(01) #<user>"},
+            new() { OSMatchId = 123, AssignmentType=2, BetTypeName = Bettype.FirstHOU, AssignmentNote="my note", UserId=0},
+            new() { OSMatchId = 123, AssignmentType=1, BetTypeName = Bettype.SetXWinnerHDP, UserId=0, AssignmentNote="note"}
         };
 
         var actual = services.GetAllAssignmentsOfMatch(assignment, assignmentMaxbet).ToList();

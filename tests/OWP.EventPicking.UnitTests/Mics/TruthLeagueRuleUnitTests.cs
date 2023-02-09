@@ -1,8 +1,8 @@
-using OWP.EventPicking.Misc;
-using OWP.EventPicking.Models;
-using Xunit;
-
 namespace OWP.EventPicking.UnitTests.Mics;
+
+using Misc;
+using Models;
+using Xunit;
 
 public class TruthLeagueRuleUnitTests
 {
@@ -22,7 +22,7 @@ public class TruthLeagueRuleUnitTests
         var leagueCondition = new List<Condition>
         {
             new() { Type = "Contains", Value = "TV" },
-            new() { Type = "Equal", Value = "HasTV" },
+            new() { Type = "Equal", Value = "HasTV" }
         };
 
         var actual = firstRule.Execute(leagueCondition, matchCondition);

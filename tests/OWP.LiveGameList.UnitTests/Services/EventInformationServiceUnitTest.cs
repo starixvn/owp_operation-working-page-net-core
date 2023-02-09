@@ -1,14 +1,13 @@
-﻿using Fanex.NAP.Client.Helpers.Web;
+﻿namespace OWP.LiveGameList.UnitTests.Services;
+
+using Criteria;
+using Fanex.NAP.Client.Helpers.Web;
+using LiveGameList.Services;
+using Models;
 using NSubstitute;
-using OWP.LiveGameList.Criteria;
-using OWP.LiveGameList.Models;
-using OWP.LiveGameList.Services;
 using OWP.Services;
 using Xunit;
-using GetAdminSiteMatchIdService = OWP.LiveGameList.Services.GetAdminSiteMatchIdService;
-
-
-namespace OWP.LiveGameList.UnitTests.Services;
+using GetAdminSiteMatchIdService = LiveGameList.Services.GetAdminSiteMatchIdService;
 
 public class EventInformationServiceUnitTest
 {
@@ -32,7 +31,8 @@ public class EventInformationServiceUnitTest
             .Returns((MockMatchInfo(), MockAssignment(), MockMatchSetting(), MockTelevision(), MockMatchOffers(),
                 MockTicketInfo()));
 
-        var expected = new List<MatchInfo>() {
+        var expected = new List<MatchInfo>
+        {
             new () {
             OWPMatchId = 1,
             IPTVCopy = "ok/ok",
@@ -44,7 +44,7 @@ public class EventInformationServiceUnitTest
             WatchBet = "ok",
             Phone = "ok none " ,
             HasTicket = true,
-            LengthLeague = 10,
+            LengthLeague = 10
             }
         };
         var service = new EventInformationServiceImp(repository, currentSession, getAdminSiteMatchIdService, permissionService);

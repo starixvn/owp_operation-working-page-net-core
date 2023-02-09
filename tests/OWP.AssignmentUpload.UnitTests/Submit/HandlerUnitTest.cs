@@ -6,10 +6,6 @@ using AssignmentUpload.Submit.Services;
 using AssignmentUpload.Validation.Models;
 using Fanex.NAP.Client.Helpers.Web;
 using NSubstitute;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using Xunit;
 using Xunit.Asserts.Compare;
 

@@ -1,10 +1,10 @@
+namespace OWP.EventPicking.UnitTests.Services;
+
+using EventPicking.Services;
+using Models;
 using NSubstitute;
-using OWP.EventPicking.Models;
-using OWP.EventPicking.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
-
-namespace OWP.EventPicking.UnitTests.Services;
 
 public class BuildMainMatchMaxBetUnitTests
 {
@@ -47,12 +47,12 @@ public class BuildMainMatchMaxBetUnitTests
                 MaxbetWD_NoOfHDP = "No 1"
                 }
             } },
-            { 333, new List<LeagueSetting> { new() { LeagueName = "LeagueB", HasTV = false } } },
+            { 333, new List<LeagueSetting> { new() { LeagueName = "LeagueB", HasTV = false } } }
         };
         var tvList = new List<Condition>
         {
             new() { Type = "Contains", Value="TV" },
-            new() { Type = "Contains", Value="Local" },
+            new() { Type = "Contains", Value="Local" }
         };
         repository.GetLeagueSettings().Returns(leagueSetting);
         repository.GetTVList().Returns(tvList);
@@ -65,7 +65,7 @@ public class BuildMainMatchMaxBetUnitTests
     }
 
     public List<EventPickingModel> MockMainMatches()
-        => new List<EventPickingModel>
+        => new()
         {
             new()
             {
@@ -110,7 +110,7 @@ public class BuildMainMatchMaxBetUnitTests
         };
 
     public List<EventPickingModel> MockExpectedMatches()
-        => new List<EventPickingModel>
+        => new()
         {
             new()
             {
@@ -171,7 +171,7 @@ public class BuildMainMatchMaxBetUnitTests
                 LiveTV = "",
                 LocalTV= "",
                 Round = "",
-                OutSide = "",
+                OutSide = ""
             }
         };
 }

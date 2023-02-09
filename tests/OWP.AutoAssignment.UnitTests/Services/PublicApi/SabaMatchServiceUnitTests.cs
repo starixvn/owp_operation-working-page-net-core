@@ -32,76 +32,76 @@ public class SabaMatchServiceUnitTests
     [Fact]
     public async Task GetSabaMaxbet_Always_ReturnValues()
     {
-        var expected = new List<MaxBetOfFTHDP>()
+        var expected = new List<MaxBetOfFTHDP>
         {
-            new MaxBetOfFTHDP { InfoSiteMatchId = 1, MaxBetFTHDP = 1 }
+            new() { InfoSiteMatchId = 1, MaxBetFTHDP = 1 }
         };
 
         repository.GetMaxMaxbetFTHDP(Arg.Compat.Any<int[]>())
             .Returns(expected);
         var service = new SabaMatchServiceImp(repository);
 
-        var act = await service.GetSabaMaxbet(new int[] { 1 });
+        var act = await service.GetSabaMaxbet(new[] { 1 });
 
         DeepAssert.Equal(expected, act);
     }
 
     public List<SabaMatchCommonInfo> MockListSabaMatchInfo()
-        => new List<SabaMatchCommonInfo>()
+        => new()
         {
-            new()
+            new SabaMatchCommonInfo
             {
                 InfositeId = 1,
                 KOTime = new DateTime(2021, 11, 30)
             },
-            new()
+            new SabaMatchCommonInfo
             {
                 InfositeId = 2,
                 KOTime = new DateTime(2021, 11, 29)
             },
-            new()
+            new SabaMatchCommonInfo
             {
                 InfositeId = 3,
                 KOTime = new DateTime(2021, 11, 28)
-            },
+            }
         };
 
     public List<MatchQueried> MockListMatchsQueried()
         => new()
         {
-            new()
+            new MatchQueried
             {
                 InfositeMatchId = 1,
                 SabaType = 1
             },
-            new()
+            new MatchQueried
             {
                 InfositeMatchId = 2,
                 SabaType = 2
             },
-            new()
+            new MatchQueried
             {
                 InfositeMatchId = 3,
                 SabaType = 3
-            },
+            }
         };
 
     public List<SabaMatchSender> GetExpected()
         => new()
         {
-            new()
+            new SabaMatchSender
             {
                 MatchId = 1,
                 SabaType = 1,
                 KOTime = "2021-11-30T00:00:00"
             },
-            new()
+            new SabaMatchSender
             {
                 MatchId = 2,
                 SabaType = 2,
                 KOTime = "2021-11-29T00:00:00"
             },
-            new()
+            new SabaMatchSender
             {
                 MatchId = 3,
                 SabaType = 3,

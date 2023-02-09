@@ -1,10 +1,5 @@
 ﻿namespace OWP.AssignmentUpload.UnitTests.Validation;
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 using AssignmentUpload.Validation;
 using AssignmentUpload.Validation.Exceptions;
 using AssignmentUpload.Validation.Models;
@@ -66,12 +61,12 @@ public class HandlerUnitTests
         // Arrange
         var expected = new List<AssignmentValidationRowResult>
         {
-            new AssignmentValidationRowResult
+            new()
             {
                 Row = 1,
                 Message = "Duplicate Match No: 'match1' of matches"
             },
-            new AssignmentValidationRowResult
+            new()
             {
                 Row = 2,
                 Message = "Duplicate Match No: 'match1' of matches"

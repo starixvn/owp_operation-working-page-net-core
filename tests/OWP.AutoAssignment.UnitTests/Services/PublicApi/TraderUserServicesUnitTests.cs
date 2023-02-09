@@ -1,11 +1,10 @@
-﻿using NSubstitute;
-using OWP.AutoAssignment.Models.PublicApi;
-using OWP.AutoAssignment.Services.PublicApi;
+﻿namespace OWP.AutoAssignment.UnitTests.Services.PublicApi;
 
+using AutoAssignment.Services.PublicApi;
+using Models.PublicApi;
+using NSubstitute;
 using Xunit;
 using Xunit.Asserts.Compare;
-
-namespace OWP.AutoAssignment.UnitTests.Services.PublicApi;
 
 public class TraderUserServicesUnitTests
 {
@@ -27,7 +26,7 @@ public class TraderUserServicesUnitTests
 
         var expected = new List<SchedulingTraderInfo>
         {
-            new SchedulingTraderInfo
+            new()
             {
                 Level=1,
                 BettypesPreferences="Booking",
@@ -35,9 +34,9 @@ public class TraderUserServicesUnitTests
                 MultipleGames="1G",
                 Role="Employee",
                 TraderId=8,
-                WorkingShifts= new SchedulingWorkingShift[]
+                WorkingShifts= new[]
                 {
-                    new SchedulingWorkingShift
+                    new()
                     {
                         InTime= "2021-12-08T00:00:00",
                         OutTime="2021-12-09T00:00:00"
@@ -54,7 +53,7 @@ public class TraderUserServicesUnitTests
         // Arrange
         var traderInfo = new List<SchedulingTraderInfo>
         {
-            new SchedulingTraderInfo
+            new()
             {
                 TraderId =8,
                 Level =1,
@@ -67,11 +66,11 @@ public class TraderUserServicesUnitTests
 
         var workingShift = new List<UserWorkingShift>
         {
-            new UserWorkingShift
+            new()
             {
                 UserId=8,
                 ShiftStartTime= DateTime.Parse("2021-12-08"),
-                ShiftEndTime= DateTime.Parse("2021-12-09"),
+                ShiftEndTime= DateTime.Parse("2021-12-09")
             }
         };
         var userInfo = new ValueTuple<IEnumerable<SchedulingTraderInfo>, IEnumerable<UserWorkingShift>>(traderInfo, workingShift);

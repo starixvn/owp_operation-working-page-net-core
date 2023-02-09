@@ -1,10 +1,9 @@
 ﻿namespace OWP.OtherSport.UnitTests.EventAssignment.Services;
 
-using OWP.OtherSport.EventAssignment.Models;
-using OWP.OtherSport.EventAssignment.Services;
-using OWP.OtherSport.Submit.Contants;
-using OWP.OtherSport.Submit.Models;
-
+using OtherSport.EventAssignment.Models;
+using OtherSport.EventAssignment.Services;
+using OtherSport.Submit.Contants;
+using OtherSport.Submit.Models;
 using Xunit;
 using Xunit.Asserts.Compare;
 
@@ -50,7 +49,7 @@ public class MatchSettingBuilderUnitTests
                 {
                     new(){BetTypeName=Bettype.FTHDP,MaxBet=2000,Spread=null},
                     new(){BetTypeName=Bettype.FTOUOE,MaxBet=1000,Spread=0.02m},
-                    new(){BetTypeName=Bettype.FTOE,MaxBet=555,Spread=0.03m},
+                    new(){BetTypeName=Bettype.FTOE,MaxBet=555,Spread=0.03m}
                 }
             },
             {   222, new List<MatchSetting>
@@ -58,7 +57,7 @@ public class MatchSettingBuilderUnitTests
                     new(){BetTypeName=Bettype.FramesWinnerOU,MaxBet=2000,Spread=null},
                     new(){BetTypeName=Bettype.FramesWinnerOE,MaxBet=1000,Spread=0.03m},
                     new(){BetTypeName=Bettype.FramesWinnerHDPOUOE,MaxBet=2000,Spread=null},
-                    new(){BetTypeName=Bettype.MatchWinnerOU,MaxBet=555,Spread=0.02m},
+                    new(){BetTypeName=Bettype.MatchWinnerOU,MaxBet=555,Spread=0.02m}
                 }
             }
         };
@@ -77,7 +76,7 @@ public class MatchSettingBuilderUnitTests
                         MatchSettings = new List<MatchSettingModel>
                         {
                             new(){BetTypeName="OU", MaxBet=1000, Spread="2%"},
-                            new(){BetTypeName="OE", MaxBet=555, Spread="3%"},
+                            new(){BetTypeName="OE", MaxBet=555, Spread="3%"}
                         }
                     },
                     new(){

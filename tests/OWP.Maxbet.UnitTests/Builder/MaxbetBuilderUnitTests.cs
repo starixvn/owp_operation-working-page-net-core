@@ -1,11 +1,11 @@
-﻿using NSubstitute;
-using OWP.Enums;
-using OWP.Maxbet.Builder;
-using OWP.Maxbet.Models;
+﻿namespace OWP.Maxbet.UnitTests.Builder;
+
+using Enums;
+using Maxbet.Builder;
+using Models;
+using NSubstitute;
 using Xunit;
 using Xunit.Asserts.Compare;
-
-namespace OWP.Maxbet.UnitTests.Builder;
 
 public class MaxbetBuilderUnitTests
 {
@@ -37,17 +37,17 @@ public class MaxbetBuilderUnitTests
     {
         IEnumerable<MaxbetModel> maxbet = new List<MaxbetModel>
         {
-            new MaxbetModel
+            new()
             {
                 BettypeId= (int)EnumBettype.Handicap,
                 Value=1000
             },
-            new MaxbetModel
+            new()
             {
                 BettypeId= (int)EnumBettype.FirstHalfHandicap,
                 Value=1000
             },
-            new MaxbetModel
+            new()
             {
                 BettypeId= (int)EnumBettype.FirstHalfOverUnder,
                 Value=1000
@@ -80,7 +80,7 @@ public class MaxbetBuilderUnitTests
             {
                 BettypeId= (int)EnumBettype.Handicap,
                 Value=1000
-            },
+            }
         };
         IEnumerable<MaxbetModel> maxBetMainMatch = new List<MaxbetModel>
         {
@@ -139,7 +139,7 @@ public class MaxbetBuilderUnitTests
             {
                 BettypeId= (int)EnumBettype.Handicap,
                 Value=1000
-            },
+            }
 
         };
 
@@ -155,7 +155,7 @@ public class MaxbetBuilderUnitTests
 
         var expected = new MaxbetSpread
         {
-            Handicap = 1000,
+            Handicap = 1000
 
         };
 
@@ -172,7 +172,7 @@ public class MaxbetBuilderUnitTests
             {
                 BettypeId= (int)EnumBettype.Handicap,
                 Value=1000
-            },
+            }
 
         };
 
@@ -188,7 +188,7 @@ public class MaxbetBuilderUnitTests
 
         var expected = new MaxbetSpread
         {
-            Handicap = 1000,
+            Handicap = 1000
 
         };
 
@@ -205,7 +205,7 @@ public class MaxbetBuilderUnitTests
             {
                 BettypeId= (int)EnumBettype.Handicap,
                 Value=1000
-            },
+            }
 
         };
 
@@ -224,7 +224,7 @@ public class MaxbetBuilderUnitTests
             Handicap = 1000,
             OverUnder = 1000,
             FirstHalfHandicap = 1000,
-            FirstHalfOverUnder = 1000,
+            FirstHalfOverUnder = 1000
         };
 
         DeepAssert.Equal(expected, result);
@@ -240,7 +240,7 @@ public class MaxbetBuilderUnitTests
             {
                 BettypeId= (int)EnumBettype.Handicap,
                 Value=1000
-            },
+            }
 
         };
 
@@ -256,7 +256,7 @@ public class MaxbetBuilderUnitTests
 
         var expected = new MaxbetSpread
         {
-            Handicap = 1000,
+            Handicap = 1000
 
         };
 
@@ -315,12 +315,12 @@ public class MaxbetBuilderUnitTests
         var matchId = 123;
         IEnumerable<MaxbetModel> maxbet = new List<MaxbetModel>
         {
-            new MaxbetModel
+            new()
             {
                 BettypeId= (int)EnumBettype.OverUnder,
                 Value=400000
             },
-            new MaxbetModel
+            new()
             {
                 BettypeId= (int)EnumBettype.Handicap,
                 Value=400000
@@ -345,7 +345,7 @@ public class MaxbetBuilderUnitTests
     {
         var maxbet = new List<MaxbetModel>
         {
-            new MaxbetModel
+            new()
             {
                 BettypeId= (int)EnumBettype.Handicap,
                 Value=550000
@@ -356,12 +356,12 @@ public class MaxbetBuilderUnitTests
 
         var expected = new List<MaxbetModel>
         {
-            new MaxbetModel
+            new()
             {
                 BettypeId= (int)EnumBettype.Handicap,
                 Value=550000
             },
-            new MaxbetModel
+            new()
             {
                 BettypeId= (int)EnumBettype.FirstHalfHandicap,
                 Value=550000
@@ -375,7 +375,7 @@ public class MaxbetBuilderUnitTests
     {
         var maxbet = new List<MaxbetModel>
         {
-            new MaxbetModel
+            new()
             {
                 BettypeId= (int)EnumBettype.OverUnder,
                 Value=400
@@ -386,14 +386,14 @@ public class MaxbetBuilderUnitTests
 
         var expected = new List<MaxbetModel>
         {
-            new MaxbetModel
+            new()
             {
                 BettypeId= (int)EnumBettype.OverUnder,
                 Value=400
             },
-            new MaxbetModel
+            new()
             {
-                BettypeId= (int)EnumBettype.FirstHalfHandicap,
+                BettypeId= (int)EnumBettype.FirstHalfHandicap
             }
         };
         DeepAssert.Equal(expected, maxbet);
@@ -404,7 +404,7 @@ public class MaxbetBuilderUnitTests
     {
         var maxbet = new List<MaxbetModel>
         {
-            new MaxbetModel
+            new()
             {
                 BettypeId= (int)EnumBettype.Handicap,
                 Value=400000
@@ -415,12 +415,12 @@ public class MaxbetBuilderUnitTests
 
         var expected = new List<MaxbetModel>
         {
-            new MaxbetModel
+            new()
             {
                 BettypeId= (int)EnumBettype.Handicap,
                 Value=400000
             },
-            new MaxbetModel
+            new()
             {
                 BettypeId= (int)EnumBettype.FirstHalfOverUnder,
                 Value=120000
@@ -434,7 +434,7 @@ public class MaxbetBuilderUnitTests
     {
         var maxbet = new List<MaxbetModel>
         {
-            new MaxbetModel
+            new()
             {
                 BettypeId= (int)EnumBettype.OverUnder,
                 Value=400
@@ -445,14 +445,14 @@ public class MaxbetBuilderUnitTests
 
         var expected = new List<MaxbetModel>
         {
-            new MaxbetModel
+            new()
             {
                 BettypeId= (int)EnumBettype.OverUnder,
                 Value=400
             },
-            new MaxbetModel
+            new()
             {
-                BettypeId= (int)EnumBettype.FirstHalfOverUnder,
+                BettypeId= (int)EnumBettype.FirstHalfOverUnder
             }
         };
         DeepAssert.Equal(expected, maxbet);

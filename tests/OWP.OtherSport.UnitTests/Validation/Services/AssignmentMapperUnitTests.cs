@@ -1,9 +1,8 @@
 ﻿namespace OWP.OtherSport.UnitTests.Validation.Services;
 
 using AutoMapper;
-using OWP.OtherSport.Validation.Models;
-using OWP.OtherSport.Validation.Services;
-
+using OtherSport.Validation.Models;
+using OtherSport.Validation.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
 
@@ -24,9 +23,9 @@ public class AssignmentMapperUnitTests
 
         var traders = new List<Trader>
         {
-            new Trader{ UserId = 1, Username = "Esther"},
-            new Trader{ UserId = 10, Username = "Mira"},
-            new Trader{ UserId = 2, Username = "Lita"}
+            new() { UserId = 1, Username = "Esther"},
+            new() { UserId = 10, Username = "Mira"},
+            new() { UserId = 2, Username = "Lita"}
         };
         assignmentMapper.Traders = traders;
     }

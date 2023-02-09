@@ -1,13 +1,13 @@
-﻿using Fanex.Data.Repository;
+﻿namespace OWP.PreMatchAssignment.UnitTests.Services;
+
+using Criteria;
+using Fanex.Data.Repository;
 using Fanex.NAP.Client.Helpers.Web;
+using Models;
 using NSubstitute;
-using OWP.PreMatchAssignment.Criteria;
-using OWP.PreMatchAssignment.Models;
-using OWP.PreMatchAssignment.Services;
+using PreMatchAssignment.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
-
-namespace OWP.PreMatchAssignment.UnitTests.Services;
 
 public class QueryWorkingShiftUnitTests
 {
@@ -51,13 +51,13 @@ public class QueryWorkingShiftUnitTests
         var getWorkingShiftList = ListWorkingShift();
         var expected = new List<WorkingShift>
             {
-                new WorkingShift
+                new()
                 {
                     Shifts = "00 > 05 (REAL)",
                     Usernames = "esther, curry"
                 },
 
-                new WorkingShift
+                new()
                 {
                     Shifts = "OFF",
                     Usernames = "ella"

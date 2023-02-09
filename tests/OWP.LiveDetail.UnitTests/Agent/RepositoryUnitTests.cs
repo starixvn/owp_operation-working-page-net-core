@@ -1,7 +1,5 @@
 namespace OWP.LiveDetail.UnitTests.Agent;
 
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Fanex.Data.Repository;
 using LiveDetail.Agent;
 using NSubstitute;
@@ -22,7 +20,7 @@ public class RepositoryUnitTests
     public async Task GetAll_Always_ReturnAgentList()
     {
         // Arrange
-        var agents = new List<Agent> { new Agent { AgentId = 2, AgentName = "ag" } };
+        var agents = new List<Agent> { new() { AgentId = 2, AgentName = "ag" } };
         dynamicRepository.FetchAsync<Agent>(Arg.Compat.Any<GetAllCriteria>()).Returns(agents);
 
         // Act
