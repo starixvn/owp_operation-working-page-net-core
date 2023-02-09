@@ -1,9 +1,9 @@
 ﻿namespace OWP.OtherSport.EventAssignment;
 
 using MediatR;
-using OWP.OtherSport.EventAssignment.Models;
-using OWP.OtherSport.EventAssignment.Services;
-using OWP.OtherSport.Shared.Services;
+using Models;
+using Services;
+using Shared.Services;
 
 public class QueryEventAssignmentRequest : IRequest<IEnumerable<EventAssignmentModel>>
 {
@@ -33,7 +33,7 @@ public class Handler : IRequestHandler<QueryEventAssignmentRequest, IEnumerable<
     public Handler(CommandRepository commandRepository, EventAssignmentBuilder assignmentBuilder, MatchStatusCalculator matchStatusCalculator)
     {
         this.commandRepository = commandRepository;
-        this.eventAssignmentBuilder = assignmentBuilder;
+        eventAssignmentBuilder = assignmentBuilder;
         this.matchStatusCalculator = matchStatusCalculator;
     }
 

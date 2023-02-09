@@ -1,7 +1,7 @@
 ﻿namespace OWP.OtherSport.Submit.Models;
 
-using OWP.Extensions;
-using OWP.OtherSport.Submit.Contants;
+using Contants;
+using Extensions;
 
 public class MatchAssignment
 {
@@ -24,7 +24,7 @@ public class MatchAssignment
         get => BettypeOrder.GetValue(BetTypeName, 0);
     }
 
-    private readonly Dictionary<string, int> BettypeOrder = new Dictionary<string, int>
+    private readonly Dictionary<string, int> BettypeOrder = new()
     {
         { Bettype.MatchWinner, -1 },
         { Bettype.FTHDP, 1 },

@@ -1,9 +1,8 @@
 ﻿namespace OWP.OtherSport.Shared.Services;
 
+using Extensions;
 using Fanex.Data.Repository;
-using OWP.Extensions;
-using OWP.OtherSport.Submit.Models;
-using OWP.Utils;
+using Submit.Models;
 
 public interface MatchStatusCalculator
 {
@@ -26,7 +25,7 @@ public class MatchStatusCalculatorImp : MatchStatusCalculator
         foreach (var key in matchInfoDict.Keys)
         {
             var match = matchInfoDict[key];
-            var nowDateTime = DateTimeExtensions.ToGmt8(DateTime.Now);
+            var nowDateTime = DateTime.Now.ToGmt8();
 
             match.MatchStatus = CalculateMatchStatus(match, nowDateTime);
         }

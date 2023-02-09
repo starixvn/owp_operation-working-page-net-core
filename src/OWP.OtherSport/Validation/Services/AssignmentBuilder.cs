@@ -1,6 +1,6 @@
 ﻿namespace OWP.OtherSport.Validation.Services;
 
-using OWP.OtherSport.Validation.Models;
+using Models;
 
 public interface AssignmentBuilder
 {

@@ -1,11 +1,10 @@
 ﻿namespace OWP.OtherSport.Validation.Services;
 
-using AutoMapper;
-using OWP.OtherSport.Validation.Models;
-
 using System.Globalization;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using AutoMapper;
+using Models;
 
 public interface AssignmentMapper
 {
@@ -36,7 +35,7 @@ public class AssignmentMapperImp : AssignmentMapper
 {
     private readonly IMapper mapper;
 
-    private static readonly Regex otherTraderRegex = new Regex(@"#[^\s#]+", RegexOptions.IgnoreCase);
+    private static readonly Regex otherTraderRegex = new(@"#[^\s#]+", RegexOptions.IgnoreCase);
 
     public AssignmentMapperImp(IMapper mapper)
     {
@@ -124,7 +123,7 @@ public class AssignmentMapperImp : AssignmentMapper
     private static decimal? ParseStringToDecimal(string value)
     {
         const NumberStyles style = NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands;
-        return decimal.TryParse(value, style, CultureInfo.InvariantCulture, out decimal tmpValue) ? tmpValue : null;
+        return decimal.TryParse(value, style, CultureInfo.InvariantCulture, out var tmpValue) ? tmpValue : null;
     }
 
     private static PropertyInfo GetProperty(AssignmentModel model, string propertyName)
@@ -152,7 +151,7 @@ public class AssignmentMapperImp : AssignmentMapper
     public int ExtractTrader(string text)
     {
         var matches = otherTraderRegex.Matches(text);
-        var name = matches.Cast<Match>().Select(s => s.Value.Remove(0, 1)).FirstOrDefault();
+        var name = matches.Select(s => s.Value.Remove(0, 1)).FirstOrDefault();
 
         return string.IsNullOrEmpty(name) ? 0 : GetTraderId(name);
     }

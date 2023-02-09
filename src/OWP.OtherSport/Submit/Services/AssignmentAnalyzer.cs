@@ -2,7 +2,7 @@
 
 using Contants;
 using Models;
-using OWP.OtherSport.Validation.Models;
+using Validation.Models;
 
 public interface AssignmentAnalyzer
 {

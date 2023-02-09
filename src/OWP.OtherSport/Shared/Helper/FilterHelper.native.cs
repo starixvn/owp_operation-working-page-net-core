@@ -17,8 +17,8 @@ public static class FilterHelper
         {
             var assignments = assignmentSnapshot.MatchAssignments.GetValue(key, new List<MatchAssignment>());
             var existsAssignment = assignments.Any(match =>
-                (match.Username != null && match.Username.ToLower().Equals(employee?.ToLower()) ||
-                 (match.Nickname != null && match.Nickname.ToLower().Equals(employee?.ToLower()))));
+                (match.Username != null && match.Username.ToLower().Equals(employee?.ToLower())) ||
+                (match.Nickname != null && match.Nickname.ToLower().Equals(employee?.ToLower())));
             if (existsAssignment)
             {
                 matches.Add(key, assignmentSnapshot.Matches[key]);

@@ -1,9 +1,9 @@
 ﻿namespace OWP.OtherSport.Validation.Extensions;
 
-using OfficeOpenXml;
-using OWP.OtherSport.Validation.Helpers;
-using OWP.OtherSport.Validation.Models;
 using System.Reflection;
+using Helpers;
+using Models;
+using OfficeOpenXml;
 
 public static class WorkSheetExtensions
 {
@@ -13,7 +13,7 @@ public static class WorkSheetExtensions
 
         public string DisplayName { get; set; }
 
-        public List<int> ColumnIndices { get; set; } = new List<int>();
+        public List<int> ColumnIndices { get; set; } = new();
 
         public Type PropertyType => PropertyInfo.PropertyType;
     }

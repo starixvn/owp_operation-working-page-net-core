@@ -1,7 +1,7 @@
 ﻿namespace OWP.OtherSport.Validation.Exceptions;
 
-using Models;
 using System.Runtime.Serialization;
+using Models;
 
 [Serializable]
 public class InvalidAssignmentRowException : Exception

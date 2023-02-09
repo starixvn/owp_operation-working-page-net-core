@@ -2,12 +2,12 @@
 
 using AutoMapper;
 using Constants;
+using Extensions;
 using Models;
-using OWP.Extensions;
-using OWP.OtherSport.Shared.Helper;
-using OWP.OtherSport.Shared.Services;
-using OWP.OtherSport.Submit.Models;
+using Shared.Helper;
+using Shared.Services;
 using Submit.Contants;
+using Submit.Models;
 
 public interface BuildExcelModelService
 {

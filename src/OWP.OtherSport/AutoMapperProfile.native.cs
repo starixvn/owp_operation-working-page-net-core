@@ -1,11 +1,11 @@
 ﻿namespace OWP.OtherSport;
 
-using AutoMapper;
-using OWP.OtherSport.Download.Models;
-using OWP.OtherSport.EventAssignment.Models;
-using OWP.OtherSport.Submit.Models;
-using OWP.OtherSport.Validation.Models;
 using System.Reflection;
+using AutoMapper;
+using Download.Models;
+using EventAssignment.Models;
+using Submit.Models;
+using Validation.Models;
 
 public class AutoMapperProfile : Profile
 {

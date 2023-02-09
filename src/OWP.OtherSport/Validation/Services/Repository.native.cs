@@ -1,8 +1,8 @@
 ﻿namespace OWP.OtherSport.Validation.Services;
 
+using Criteria;
 using Fanex.Data.Repository;
-using OWP.OtherSport.Validation.Criteria;
-using OWP.OtherSport.Validation.Models;
+using Models;
 
 public interface Repository
 {

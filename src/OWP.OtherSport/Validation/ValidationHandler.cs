@@ -1,13 +1,12 @@
 ﻿namespace OWP.OtherSport.Validation;
 
+using System.Globalization;
+using Exceptions;
 using Fanex.NAP.Client.Helpers.Web;
 using MediatR;
 using Models;
 using OWP.Extensions;
-using OWP.OtherSport.Validation.Exceptions;
-using OWP.OtherSport.Validation.Services;
-using System.Globalization;
-using Utils;
+using Services;
 
 public class ValidationHandler
 {
@@ -18,7 +17,7 @@ public class ValidationHandler
             SessionId = Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture);
         }
 
-        public string SessionId { get; private set; }
+        public string SessionId { get; }
 
         public DateTime FromDate { get; set; }
 
@@ -79,7 +78,7 @@ public class ValidationHandler
             {
                 var validationResults = new List<AssignmentValidationRowResult>
                 {
-                    new AssignmentValidationRowResult
+                    new()
                     {
                         Row = 1,
                         Message = ex.Message

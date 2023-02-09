@@ -1,10 +1,10 @@
 ﻿namespace OWP.OtherSport.EventAssignment.Services;
 
-using OWP.Extensions;
-using OWP.OtherSport.EventAssignment.Models;
-using OWP.OtherSport.Submit.Contants;
-using OWP.OtherSport.Submit.Models;
 using System.Globalization;
+using Extensions;
+using Models;
+using Submit.Contants;
+using Submit.Models;
 
 public interface MatchSettingBuilder
 {
@@ -40,7 +40,7 @@ public class MatchSettingBuilderImp : MatchSettingBuilder
                 var isSpecialBettype = MainBettypeHasMinorBettypes.ContainsKey(new Tuple<string, string>(bettypeName, sport));
                 eventAssignmentByBettype.MatchSettings.Add(new MatchSettingModel
                 {
-                    BetTypeName = (isMinorBettype || isSpecialBettype) ? DisplayBettypes[bettypeName] : string.Empty,
+                    BetTypeName = isMinorBettype || isSpecialBettype ? DisplayBettypes[bettypeName] : string.Empty,
                     MaxBet = matchSetting.MaxBet,
                     Spread = FormatSpread(matchSetting.Spread)
                 });
@@ -61,7 +61,7 @@ public class MatchSettingBuilderImp : MatchSettingBuilder
         }
     }
 
-    private readonly Dictionary<Tuple<string, string>, int> MainBettypeHasMinorBettypes = new Dictionary<Tuple<string, string>, int>
+    private readonly Dictionary<Tuple<string, string>, int> MainBettypeHasMinorBettypes = new()
     {
         { new Tuple<string, string>(Bettype.FTOUOE, Sport.Basketball), 0 },
         { new Tuple<string, string>(Bettype.FTOUOE, Sport.Netball), 0 },
@@ -72,7 +72,7 @@ public class MatchSettingBuilderImp : MatchSettingBuilder
         { new Tuple<string, string>(Bettype.FramesWinnerHDPOUOE, Sport.Snooker), 0 }
     };
 
-    private readonly Dictionary<string, string> MinorBettypesRelationships = new Dictionary<string, string>
+    private readonly Dictionary<string, string> MinorBettypesRelationships = new()
     {
         { Bettype.FTOE, Bettype.FTOUOE },
         { Bettype.SetWinnerOE, Bettype.SetWinnerHDPOE },
@@ -80,10 +80,10 @@ public class MatchSettingBuilderImp : MatchSettingBuilder
         { Bettype.FirstQ3QOE, Bettype.FirstQ3QOUOE },
         { Bettype.MatchWinnerOU, Bettype.MatchWinnerHDPOU },
         { Bettype.FramesWinnerOU, Bettype.FramesWinnerHDPOUOE },
-        { Bettype.FramesWinnerOE, Bettype.FramesWinnerHDPOUOE },
+        { Bettype.FramesWinnerOE, Bettype.FramesWinnerHDPOUOE }
     };
 
-    private readonly Dictionary<string, string> DisplayBettypes = new Dictionary<string, string>
+    private readonly Dictionary<string, string> DisplayBettypes = new()
     {
         { Bettype.FTOE, MinorBettype.OE },
         { Bettype.SetWinnerOE, MinorBettype.OE },
@@ -97,6 +97,6 @@ public class MatchSettingBuilderImp : MatchSettingBuilder
         { Bettype.FirstHOUOE, MinorBettype.OU },
         { Bettype.FirstQ3QOUOE, MinorBettype.OU },
         { Bettype.MatchWinnerHDPOU, MinorBettype.HDP },
-        { Bettype.FramesWinnerHDPOUOE, MinorBettype.HDP },
+        { Bettype.FramesWinnerHDPOUOE, MinorBettype.HDP }
     };
 }

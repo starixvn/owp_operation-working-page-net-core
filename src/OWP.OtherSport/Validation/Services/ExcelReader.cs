@@ -1,11 +1,9 @@
-﻿using System.Globalization;
-using Microsoft.AspNetCore.Mvc;
-namespace OWP.OtherSport.Validation.Services;
+﻿namespace OWP.OtherSport.Validation.Services;
 
+using System.Text.RegularExpressions;
+using Extensions;
 using Models;
 using OfficeOpenXml;
-using OWP.OtherSport.Validation.Extensions;
-using System.Text.RegularExpressions;
 
 public interface ExcelReader
 {
@@ -16,7 +14,7 @@ public class ExcelReaderImp : ExcelReader
 {
     private const int StartRow = 2;
 
-    private static readonly Regex otherTraderRegex = new Regex(@"#[^\s#]+", RegexOptions.IgnoreCase);
+    private static readonly Regex otherTraderRegex = new(@"#[^\s#]+", RegexOptions.IgnoreCase);
 
     public UploadingDataFromExcel Read(Stream stream, DateTime fromDate, DateTime toDate)
     {
@@ -76,7 +74,7 @@ public class ExcelReaderImp : ExcelReader
     public static string ExtractOtherTrader(string text)
     {
         var matches = otherTraderRegex.Matches(text);
-        return matches.Cast<Match>().FirstOrDefault()?.Value.Remove(0, 1);
+        return matches.FirstOrDefault()?.Value.Remove(0, 1);
     }
 
     private static List<AssignmentModelInExcel> GetValidAssignments(IList<AssignmentModelInExcel> assignment, DateTime fromDate, DateTime toDate)
@@ -90,7 +88,7 @@ public class ExcelReaderImp : ExcelReader
 
     public static DateTime CovertDateTime(string dateTimeInString)
     {
-        var doubleDatetime = Double.TryParse(dateTimeInString, out var number) ? number : 0;
+        var doubleDatetime = double.TryParse(dateTimeInString, out var number) ? number : 0;
         return DateTime.FromOADate(doubleDatetime);
     }
 }

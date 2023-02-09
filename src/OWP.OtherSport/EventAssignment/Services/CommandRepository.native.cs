@@ -1,8 +1,8 @@
 ﻿namespace OWP.OtherSport.EventAssignment.Services;
 
+using Criteria;
 using Fanex.Data.Repository;
-using OWP.OtherSport.EventAssignment.Criteria;
-using OWP.OtherSport.Submit.Models;
+using Submit.Models;
 
 public interface CommandRepository
 {
@@ -27,7 +27,7 @@ public class CommandRepositoryImp : CommandRepository
             ToDate = request.To,
             Sports = string.Join(",", request.Sports),
             OfferLives = string.Join(",", request.OfferLives),
-            LinkedMatches = string.Join(",", request.LinkedMatches),
+            LinkedMatches = string.Join(",", request.LinkedMatches)
         };
 
         var (matches, assignments, maxbets) = await dynamicRepository.FetchMultipleAsync<MatchInfo, MatchAssignment, MatchSetting>(criteria);

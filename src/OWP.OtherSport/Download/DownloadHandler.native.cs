@@ -2,7 +2,7 @@
 
 using MediatR;
 using OfficeOpenXml;
-using OWP.OtherSport.Download.Services;
+using Services;
 
 public class DownloadAssignmentRequest : IRequest<ExcelPackage>
 {

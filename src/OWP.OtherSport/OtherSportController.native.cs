@@ -1,16 +1,16 @@
 ﻿namespace OWP.OtherSport;
 
+using Download;
+using EventAssignment;
+using EventAssignment.Models;
+using Helpers;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using OWP.Helpers;
-using OWP.OtherSport.Download;
-using OWP.OtherSport.EventAssignment;
-using OWP.OtherSport.EventAssignment.Models;
-using OWP.OtherSport.Submit;
-using OWP.OtherSport.Submit.Models;
-using OWP.OtherSport.Validation;
+using Submit;
+using Submit.Models;
+using Validation;
 
 [Route("api/[controller]")]
 [ApiController]

@@ -1,8 +1,8 @@
 ﻿namespace OWP.OtherSport.Download.Services;
 
+using EventAssignment.Criteria;
 using Fanex.Data.Repository;
-using OWP.OtherSport.EventAssignment.Criteria;
-using OWP.OtherSport.Submit.Models;
+using Submit.Models;
 
 public interface CommandRepository
 {

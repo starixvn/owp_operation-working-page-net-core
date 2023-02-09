@@ -1,8 +1,8 @@
-﻿using MediatR;
-using OWP.OtherSport.Submit.Models;
-using OWP.OtherSport.Submit.Services;
+﻿namespace OWP.OtherSport.EventAssignment;
 
-namespace OWP.OtherSport.EventAssignment;
+using MediatR;
+using Submit.Models;
+using Submit.Services;
 
 public class QueryLastUpdate : IRequest<LastUpdateInfo>
 {

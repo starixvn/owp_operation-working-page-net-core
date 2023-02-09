@@ -1,9 +1,9 @@
 ﻿namespace OWP.OtherSport.Validation.Services;
 
+using Constants;
+using Exceptions;
 using Extensions;
 using OfficeOpenXml;
-using OWP.OtherSport.Validation.Constants;
-using OWP.OtherSport.Validation.Exceptions;
 
 public interface ExcelValidator
 {
@@ -25,7 +25,7 @@ public class ExcelValidatorImp : ExcelValidator
 
     private static void ValidateDataLength(ExcelWorksheet sheet)
     {
-        if ((sheet.Dimension.End.Row - 1) > ExcelDataLength.MaximumDataLength)
+        if (sheet.Dimension.End.Row - 1 > ExcelDataLength.MaximumDataLength)
         {
             throw new DataLengthExceedsMaximumException();
         }

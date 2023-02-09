@@ -1,6 +1,6 @@
-﻿using Fanex.Data.Repository;
+﻿namespace OWP.OtherSport.Submit.Criteria;
 
-namespace OWP.OtherSport.Submit.Criteria;
+using Fanex.Data.Repository;
 
 public class GetMatchIdsByDateListCriteria : CriteriaBase
 {

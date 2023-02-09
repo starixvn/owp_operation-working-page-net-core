@@ -1,15 +1,15 @@
 ﻿namespace OWP.OtherSport.Submit;
 
+using Extensions;
 using Fanex.NAP.Client.Helpers.Web;
+using Hubs;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
-using OWP.Extensions;
-using OWP.OtherSport.Hubs;
-using OWP.OtherSport.Submit.Models;
-using OWP.OtherSport.Submit.Services;
-using OWP.OtherSport.Validation.Models;
-using OWP.RabbitMQ;
-using OWP.RabbitMQ.Constants;
+using Models;
+using RabbitMQ;
+using RabbitMQ.Constants;
+using Services;
+using Validation.Models;
 
 public class SubmitRequest : IRequest<SubmitResponse>
 {
@@ -66,7 +66,7 @@ public class SubmitHandler : IRequestHandler<SubmitRequest, SubmitResponse>
         var eventDates = new List<DateTime>();
         var diffDays = request.ToDate - request.FromDate;
 
-        for (int i = 0; i <= diffDays.TotalDays; i++)
+        for (var i = 0; i <= diffDays.TotalDays; i++)
         {
             eventDates.Add(request.FromDate.AddDays(i));
         }
@@ -82,11 +82,11 @@ public class SubmitHandler : IRequestHandler<SubmitRequest, SubmitResponse>
 
         messageClient.SendMessage(new
         {
-            SessionId = request.SessionId,
-            FromDate = request.FromDate,
-            ToDate = request.ToDate,
+            request.SessionId,
+            request.FromDate,
+            request.ToDate,
             ActorId = session.UserId,
-            UserName = session.UserName
+            session.UserName
         }, RoutingKey.OtherSport);
 
 
@@ -127,7 +127,7 @@ public class SubmitHandler : IRequestHandler<SubmitRequest, SubmitResponse>
                 new LastUpdateInfo
                 {
                     Username = session.UserName,
-                    Date = DateTimeExtensions.ToGmt8(DateTime.Now)
+                    Date = DateTime.Now.ToGmt8()
                 });
         }
         finally

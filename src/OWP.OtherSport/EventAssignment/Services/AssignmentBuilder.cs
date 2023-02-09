@@ -1,9 +1,9 @@
 ﻿namespace OWP.OtherSport.EventAssignment.Services;
 
-using OWP.Extensions;
-using OWP.OtherSport.EventAssignment.Models;
-using OWP.OtherSport.Submit.Contants;
-using OWP.OtherSport.Submit.Models;
+using Extensions;
+using Models;
+using Submit.Contants;
+using Submit.Models;
 
 public interface AssignmentBuilder
 {
@@ -26,8 +26,8 @@ public class AssignmentBuilderImp : AssignmentBuilder
     {
         foreach (var assignmentByBettype in assignments.GroupBy(x => x.BetTypeName))
         {
-            var mainAssignment = assignmentByBettype.FirstOrDefault(x => x.AssignmentType == ((int)AssignmentType.Assignment)) ?? new MatchAssignment();
-            var otherAssignment = assignmentByBettype.FirstOrDefault(x => x.AssignmentType == ((int)AssignmentType.OtherAssignment)) ?? new MatchAssignment();
+            var mainAssignment = assignmentByBettype.FirstOrDefault(x => x.AssignmentType == (int)AssignmentType.Assignment) ?? new MatchAssignment();
+            var otherAssignment = assignmentByBettype.FirstOrDefault(x => x.AssignmentType == (int)AssignmentType.OtherAssignment) ?? new MatchAssignment();
 
             var trader = new TraderMaxBetModel
             {

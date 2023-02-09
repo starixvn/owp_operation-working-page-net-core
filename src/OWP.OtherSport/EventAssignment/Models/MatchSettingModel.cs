@@ -1,7 +1,7 @@
-﻿using OWP.Extensions;
-using OWP.OtherSport.Submit.Contants;
+﻿namespace OWP.OtherSport.EventAssignment.Models;
 
-namespace OWP.OtherSport.EventAssignment.Models;
+using Extensions;
+using Submit.Contants;
 
 public class MatchSettingModel
 {
@@ -16,7 +16,7 @@ public class MatchSettingModel
         get => MinorBettypeOrder.GetValue(BetTypeName, 0);
     }
 
-    private readonly Dictionary<string, int> MinorBettypeOrder = new Dictionary<string, int>
+    private readonly Dictionary<string, int> MinorBettypeOrder = new()
     {
         { MinorBettype.HDP, 1 },
         { MinorBettype.OU, 2 },

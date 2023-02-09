@@ -36,7 +36,7 @@ public class EventAssignmentModel
 
     public bool IsNeutral { get; set; }
 
-    public string HomeName => IsNeutral ? Home + (" (N)") : Home;
+    public string HomeName => IsNeutral ? Home + " (N)" : Home;
 
     public string Provider { get; set; }
 
@@ -50,5 +50,5 @@ public class EventAssignmentModel
 
     public string Remark { get; set; }
 
-    public List<TraderMaxBetModel> TraderMaxbetModels { get; set; } = new List<TraderMaxBetModel>();
+    public List<TraderMaxBetModel> TraderMaxbetModels { get; set; } = new();
 }

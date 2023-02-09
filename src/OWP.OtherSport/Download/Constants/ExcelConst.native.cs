@@ -1,6 +1,6 @@
-﻿using OWP.OtherSport.Submit.Contants;
+﻿namespace OWP.OtherSport.Download.Constants;
 
-namespace OWP.OtherSport.Download.Constants;
+using Submit.Contants;
 
 public static class ExcelConst
 {
@@ -10,7 +10,7 @@ public static class ExcelConst
 
     public const int StartRowIndex = 3;
 
-    public static readonly Dictionary<Tuple<string, string>, int> TraderColumn = new Dictionary<Tuple<string, string>, int>
+    public static readonly Dictionary<Tuple<string, string>, int> TraderColumn = new()
     {
         { new Tuple<string, string>(Sport.Basketball, Bettype.FTHDP),               20},
         { new Tuple<string, string>(Sport.Basketball, Bettype.FirstHHDP),           21},
@@ -79,10 +79,10 @@ public static class ExcelConst
         { new Tuple<string, string>(Sport.Tennis, Bettype.AllProductLS),            83},
         { new Tuple<string, string>(Sport.Tennis, Bettype.NextGame),                84},
         { new Tuple<string, string>(Sport.Tennis, Bettype.MostAces),                85},
-        { new Tuple<string, string>(Sport.Tennis, Bettype.MostDoubleFaults),        86},
+        { new Tuple<string, string>(Sport.Tennis, Bettype.MostDoubleFaults),        86}
     };
 
-    public static readonly Dictionary<Tuple<string, string>, int> OtherTraderColumn = new Dictionary<Tuple<string, string>, int>
+    public static readonly Dictionary<Tuple<string, string>, int> OtherTraderColumn = new()
     {
         { new Tuple<string, string>(Sport.Basketball, Bettype.FTHDP),               87},
         { new Tuple<string, string>(Sport.Basketball, Bettype.FirstHHDP),           88},
@@ -153,7 +153,7 @@ public static class ExcelConst
         { new Tuple<string, string>(Sport.Tennis, Bettype.MostDoubleFaults),        153}
     };
 
-    public static readonly Dictionary<Tuple<string, string>, int> MaxbetColumn = new Dictionary<Tuple<string, string>, int>
+    public static readonly Dictionary<Tuple<string, string>, int> MaxbetColumn = new()
     {
         { new Tuple<string, string>(Sport.Basketball, Bettype.FTHDP),               154},
         { new Tuple<string, string>(Sport.Basketball, Bettype.FTOUOE),              155},
@@ -228,7 +228,7 @@ public static class ExcelConst
         { new Tuple<string, string>(Sport.Tennis, Bettype.MostDoubleFaults),        224}
     };
 
-    public static readonly Dictionary<Tuple<string, string>, int> SpreadColumn = new Dictionary<Tuple<string, string>, int>
+    public static readonly Dictionary<Tuple<string, string>, int> SpreadColumn = new()
     {
         { new Tuple<string, string>(Sport.Basketball, Bettype.FTHDP),               225},
         { new Tuple<string, string>(Sport.Basketball, Bettype.FTOUOE),              226},

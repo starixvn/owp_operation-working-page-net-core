@@ -1,12 +1,12 @@
 ﻿namespace OWP.OtherSport.Submit.Services;
 
+using Criteria;
 using Fanex.Data.Repository;
 using Fanex.NAP.Client.Helpers.Web;
+using Models;
 using Olympus.Xml;
-using OWP.OtherSport.Submit.Criteria;
-using OWP.OtherSport.Submit.Models;
-using OWP.OtherSport.Validation.Models;
 using OWP.Services;
+using Validation.Models;
 
 public interface CommandRepository
 {
