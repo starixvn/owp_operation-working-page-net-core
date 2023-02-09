@@ -1,6 +1,6 @@
-﻿using Fanex.Data.Repository;
+﻿namespace OWP.AutoAssignment.Criteria.InternalApi;
 
-namespace OWP.AutoAssignment.Criteria.InternalApi;
+using Fanex.Data.Repository;
 
 public class SaveRequestCriteria : NonQueryCommand
 {

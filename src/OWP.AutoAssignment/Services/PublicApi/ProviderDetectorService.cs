@@ -1,7 +1,7 @@
 ﻿namespace OWP.AutoAssignment.Services.PublicApi;
 
 using Builder;
-using OWP.AutoAssignment.Constant;
+using Constant;
 
 public interface ProviderDetectorService
 {

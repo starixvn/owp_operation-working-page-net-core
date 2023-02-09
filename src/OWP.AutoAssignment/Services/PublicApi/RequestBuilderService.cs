@@ -1,9 +1,8 @@
-﻿using OWP.AutoAssignment.Enum;
-using OWP.AutoAssignment.Models.PublicApi;
+﻿namespace OWP.AutoAssignment.Services.PublicApi;
 
-namespace OWP.AutoAssignment.Services.PublicApi;
-
+using Enum;
 using Models.InternalApi;
+using Models.PublicApi;
 
 public interface RequestBuilder
 {
@@ -12,7 +11,7 @@ public interface RequestBuilder
 
 public class RequestBuilderImp : RequestBuilder
 {
-    private SchedulingMatch schedulingMatch = new SchedulingMatch();
+    private SchedulingMatch schedulingMatch = new();
 
     private IList<SchedulingLAUser> schedulingLAUser = new List<SchedulingLAUser>();
 
@@ -89,7 +88,7 @@ public class RequestBuilderImp : RequestBuilder
     }
 
     private DataHolder BuildDataHolder()
-        => new DataHolder
+        => new()
         {
             Matches = schedulingMatch,
             Suspenders = schedulingLAUser,
@@ -106,7 +105,7 @@ public class RequestBuilderImp : RequestBuilder
             RequestId = requestModel.RequestId,
             MaxBetFTHDP = i.MaxBetMainMatch,
             MaxBetNextCorner = i.MaxBetNextCorner,
-            MaxBetNoOfCorner = i.MaxBetNoOfCorner,
+            MaxBetNoOfCorner = i.MaxBetNoOfCorner
         });
         var sabaHistory = sabaMatchs.Select(x => new AutoAssignmentHistory
         {

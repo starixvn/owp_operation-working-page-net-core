@@ -1,6 +1,6 @@
-﻿using Fanex.Data.Repository;
+﻿namespace OWP.AutoAssignment.Criteria.PublicApi;
 
-namespace OWP.AutoAssignment.Criteria.PublicApi;
+using Fanex.Data.Repository;
 
 public class GetInfoSiteMatchByDateCriteria : CriteriaBase
 {

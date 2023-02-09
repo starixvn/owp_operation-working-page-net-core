@@ -1,8 +1,7 @@
-﻿using Newtonsoft.Json;
-using OWP.AutoAssignment.Models.InternalApi;
-using OWP.Models;
+﻿namespace OWP.AutoAssignment.Services.SaveResponse;
 
-namespace OWP.AutoAssignment.Services.SaveResponse;
+using Models.InternalApi;
+using OWP.Models;
 
 public interface SaveRequestService
 {

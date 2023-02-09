@@ -1,6 +1,6 @@
-﻿using OWP.AutoAssignment.Constant;
+﻿namespace OWP.AutoAssignment.Services.PublicApi;
 
-namespace OWP.AutoAssignment.Services.PublicApi;
+using Constant;
 
 public interface ExtraTimeDetectorService
 {

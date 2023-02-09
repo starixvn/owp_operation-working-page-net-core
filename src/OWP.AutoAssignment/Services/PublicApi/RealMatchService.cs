@@ -1,7 +1,7 @@
-﻿using OWP.AutoAssignment.Constant;
-using OWP.AutoAssignment.Models.PublicApi;
+﻿namespace OWP.AutoAssignment.Services.PublicApi;
 
-namespace OWP.AutoAssignment.Services.PublicApi;
+using Constant;
+using Models.PublicApi;
 
 public interface RealMatchService
 {
@@ -41,7 +41,7 @@ public class RealMatchServiceImp : RealMatchService
         {
             RealMatches = realMatches,
             MaxBetHdpInfo = maxBetHdpInfo,
-            MaxBetCorners = maxBetCorners,
+            MaxBetCorners = maxBetCorners
         };
         BuildMultipleRealMatchSender(multipleRealMatch, realMatchSenders);
         return realMatchSenders;

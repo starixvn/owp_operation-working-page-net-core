@@ -1,9 +1,9 @@
-﻿using Epplus.Mapper.Extensions;
-using OfficeOpenXml;
-using OWP.AutoAssignment.Constant;
-using OWP.AutoAssignment.Models.InternalApi;
+﻿namespace OWP.AutoAssignment.Services.InternalApi;
 
-namespace OWP.AutoAssignment.Services.InternalApi;
+using Constant;
+using Epplus.Mapper.Extensions;
+using Models.InternalApi;
+using OfficeOpenXml;
 
 public interface ExcelPackageCreatorService
 {

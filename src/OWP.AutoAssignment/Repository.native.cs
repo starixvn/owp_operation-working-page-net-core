@@ -1,16 +1,14 @@
-﻿using Fanex.Data.Repository;
-using Fanex.NAP.Client.Configuration;
-using OWP.AutoAssignment.Criteria.InternalApi;
-using OWP.AutoAssignment.Criteria.PublicApi;
-using OWP.AutoAssignment.Models.InternalApi;
-using OWP.AutoAssignment.Models.PublicApi;
-using OWP.Models;
-using OWP.Utils;
-using System.Xml.Linq;
-using Olympus.Xml;
-using OWP.Extensions;
+﻿namespace OWP.AutoAssignment;
 
-namespace OWP.AutoAssignment;
+using Criteria.InternalApi;
+using Criteria.PublicApi;
+using Extensions;
+using Fanex.Data.Repository;
+using Fanex.NAP.Client.Configuration;
+using Models.InternalApi;
+using Models.PublicApi;
+using Olympus.Xml;
+using OWP.Models;
 
 public interface Repository
 {

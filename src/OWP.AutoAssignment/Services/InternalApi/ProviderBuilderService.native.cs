@@ -1,9 +1,8 @@
-﻿using OWP.AutoAssignment.Models.InternalApi;
-
-namespace OWP.AutoAssignment.Services.InternalApi;
+﻿namespace OWP.AutoAssignment.Services.InternalApi;
 
 using Builder;
 using Constant;
+using Models.InternalApi;
 
 public interface ProviderBuilderService
 {
@@ -44,13 +43,13 @@ public class ProviderBuilderServiceImp : ProviderBuilderService
 
     public string BuildProviderForRealMatch(ProviderInfo provider, AutoAssignmentResultModel matchResult)
     {
-        var reporter = GetReporter(provider?.Provider ?? String.Empty);
-        var firstProvider = FirstProviderBuilder.GetFirstProvider(provider?.OtherProvider ?? String.Empty);
+        var reporter = GetReporter(provider?.Provider ?? string.Empty);
+        var firstProvider = FirstProviderBuilder.GetFirstProvider(provider?.OtherProvider ?? string.Empty);
         var providerItems = new List<string>
         {
             provider?.ProviderTv,
             firstProvider,
-            reporter,
+            reporter
         };
         if (matchResult.IsFutsal)
         {
@@ -62,7 +61,7 @@ public class ProviderBuilderServiceImp : ProviderBuilderService
 
     private static string GetReporter(string provider)
     {
-        string reporter = string.Empty;
+        var reporter = string.Empty;
         if (provider.Contains(AutoConstant.Woo, StringComparison.OrdinalIgnoreCase))
         {
             reporter += AutoConstant.ReporterWoo;

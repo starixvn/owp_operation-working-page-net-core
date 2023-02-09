@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿namespace OWP.AutoAssignment.Models.PublicApi;
 
-namespace OWP.AutoAssignment.Models.PublicApi;
+using Newtonsoft.Json;
 
 public class RequestSender
 {

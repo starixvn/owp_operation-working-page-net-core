@@ -1,6 +1,6 @@
-﻿using OWP.AutoAssignment.Models.PublicApi;
+﻿namespace OWP.AutoAssignment.Services.PublicApi;
 
-namespace OWP.AutoAssignment.Services.PublicApi;
+using Models.PublicApi;
 
 public interface SchedulingMatchBuilderService
 {

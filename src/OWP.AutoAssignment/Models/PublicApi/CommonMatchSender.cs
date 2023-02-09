@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 public class CommonMatchSender
 {
-    public int[] PickedBettypes { get; set; } = new[] { 0 };
+    public int[] PickedBettypes { get; set; } = { 0 };
 
     public string KOTime { get; set; }
 

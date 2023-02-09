@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
-using OWP.Extensions;
+﻿namespace OWP.AutoAssignment.Models.InternalApi;
 
-namespace OWP.AutoAssignment.Models.InternalApi;
+using Extensions;
+using Newtonsoft.Json;
 
 [XMLName("Row")]
 public class AssignmentResult

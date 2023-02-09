@@ -1,6 +1,6 @@
-﻿using OWP.AutoAssignment.Enum;
+﻿namespace OWP.AutoAssignment.Models.InternalApi;
 
-namespace OWP.AutoAssignment.Models.InternalApi;
+using Enum;
 
 public class SchedulingRequest
 {

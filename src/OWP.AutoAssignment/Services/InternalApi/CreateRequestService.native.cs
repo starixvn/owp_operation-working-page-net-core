@@ -1,9 +1,9 @@
-﻿using OWP.AutoAssignment.Criteria.InternalApi;
-using OWP.AutoAssignment.Enum;
-using OWP.AutoAssignment.Models.InternalApi;
-using OWP.AutoAssignment.Services.PublicApi;
+﻿namespace OWP.AutoAssignment.Services.InternalApi;
 
-namespace OWP.AutoAssignment.Services.InternalApi;
+using Criteria.InternalApi;
+using Enum;
+using Models.InternalApi;
+using PublicApi;
 
 public interface CreateRequestService
 {

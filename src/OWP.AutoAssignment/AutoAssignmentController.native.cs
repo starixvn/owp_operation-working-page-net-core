@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿namespace OWP.AutoAssignment;
+
+using Constant;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using OWP.AutoAssignment.Constant;
-using OWP.AutoAssignment.Models.InternalApi;
-using OWP.AutoAssignment.Models.PublicApi;
-using OWP.AutoAssignment.Services.InternalApi;
-
-namespace OWP.AutoAssignment;
+using Models.InternalApi;
+using Models.PublicApi;
+using Services.InternalApi;
 
 [Route("api/auto-assignment")]
 [ApiController]

@@ -1,8 +1,8 @@
-﻿using OWP.AutoAssignment.Constant;
-using OWP.AutoAssignment.Models.PublicApi;
-using OWP.Extensions;
+﻿namespace OWP.AutoAssignment.Services.PublicApi;
 
-namespace OWP.AutoAssignment.Services.PublicApi;
+using Constant;
+using Extensions;
+using Models.PublicApi;
 
 public interface TraderUserService
 {

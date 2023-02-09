@@ -1,9 +1,9 @@
-﻿using System.Globalization;
-using AutoMapper;
-using OWP.AutoAssignment.Constant;
-using OWP.AutoAssignment.Models.InternalApi;
+﻿namespace OWP.AutoAssignment.Services.InternalApi;
 
-namespace OWP.AutoAssignment.Services.InternalApi;
+using System.Globalization;
+using AutoMapper;
+using Constant;
+using Models.InternalApi;
 
 public interface MatchInfoBuilderService
 {
@@ -65,7 +65,7 @@ public class MatchInfoBuilderServiceImp : MatchInfoBuilderService
                 AwayName = matchInfo.AwayName,
                 HomeName = matchInfo.HomeName,
                 InfoSiteMatchId = GetInfoSiteCornerMatchId(matchInfo),
-                Bettype = matchInfo.Bettype,
+                Bettype = matchInfo.Bettype
             };
 
     private int GetInfoSiteCornerMatchId(InfoSiteMatchModel matchInfo)

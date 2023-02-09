@@ -1,8 +1,8 @@
-﻿using Epplus.Mapper.Annotations;
-using OfficeOpenXml.Attributes;
-using System.Globalization;
+﻿namespace OWP.AutoAssignment.Models.InternalApi;
 
-namespace OWP.AutoAssignment.Models.InternalApi;
+using System.Globalization;
+using Epplus.Mapper.Annotations;
+using OfficeOpenXml.Attributes;
 
 [EpplusTable]
 public record ExportMatchModel

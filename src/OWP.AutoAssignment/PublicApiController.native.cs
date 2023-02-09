@@ -1,13 +1,13 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿namespace OWP.AutoAssignment;
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Models.InternalApi;
 using Newtonsoft.Json;
-using OWP.AutoAssignment.Models.InternalApi;
-using OWP.AutoAssignment.Services.PublicApi;
-using OWP.AutoAssignment.Services.SaveResponse;
 using OWP.Models;
-
-namespace OWP.AutoAssignment;
+using Services.PublicApi;
+using Services.SaveResponse;
 
 [Route("api/public/auto-assignment")]
 [ApiController]

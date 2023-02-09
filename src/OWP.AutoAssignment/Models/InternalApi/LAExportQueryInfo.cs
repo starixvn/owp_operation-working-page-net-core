@@ -1,6 +1,6 @@
-﻿using OWP.Extensions;
+﻿namespace OWP.AutoAssignment.Models.InternalApi;
 
-namespace OWP.AutoAssignment.Models.InternalApi;
+using Extensions;
 
 [XMLName("Row")]
 public record LAExportQueryInfo

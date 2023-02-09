@@ -1,6 +1,6 @@
-﻿using OWP.AutoAssignment.Models.InternalApi;
+﻿namespace OWP.AutoAssignment.Services.InternalApi;
 
-namespace OWP.AutoAssignment.Services.InternalApi;
+using Models.InternalApi;
 
 public interface ExportService
 {

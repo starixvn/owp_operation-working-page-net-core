@@ -1,9 +1,8 @@
-﻿using OWP.AutoAssignment.Models.InternalApi;
-
-namespace OWP.AutoAssignment.Services.InternalApi;
+﻿namespace OWP.AutoAssignment.Services.InternalApi;
 
 using System.Globalization;
-using OWP.AutoAssignment.Constant;
+using Constant;
+using Models.InternalApi;
 
 public interface LeagueSettingBuilderService
 {

@@ -1,7 +1,7 @@
-﻿using OWP.AutoAssignment.Constant;
-using OWP.AutoAssignment.Models.PublicApi;
+﻿namespace OWP.AutoAssignment.Services.PublicApi;
 
-namespace OWP.AutoAssignment.Services.PublicApi;
+using Constant;
+using Models.PublicApi;
 
 public interface LAUserService
 {
@@ -43,7 +43,7 @@ public class LAUserServiceImp : LAUserService
     }
 
     private static SchedulingLAUser BuildSchedulingLAUser(LAUserInfo user, IEnumerable<UserWorkingShift> userWorkingShifts)
-        => new SchedulingLAUser
+        => new()
         {
             UserId = user.UserId,
             Level = user.Level,
