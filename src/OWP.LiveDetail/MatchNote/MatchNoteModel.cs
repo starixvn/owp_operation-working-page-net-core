@@ -1,7 +1,5 @@
 ﻿namespace OWP.LiveDetail.MatchNote;
 
-using System;
-
 public class MatchNoteModel
 {
     public int MatchNoteId { get; set; }

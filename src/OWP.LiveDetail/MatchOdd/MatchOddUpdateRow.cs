@@ -1,6 +1,6 @@
 ﻿namespace OWP.LiveDetail.MatchOdd;
 
-using OWP.Extensions;
+using Extensions;
 
 [XMLName("Row")]
 public class MatchOddUpdateRow

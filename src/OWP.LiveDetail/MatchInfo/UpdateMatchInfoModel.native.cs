@@ -1,7 +1,5 @@
 ﻿namespace OWP.LiveDetail.MatchInfo;
 
-using System;
-
 public class UpdateMatchInfoModel
 {
     public int OWPMatchId { get; set; }

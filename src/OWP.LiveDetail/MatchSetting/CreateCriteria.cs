@@ -1,12 +1,11 @@
 ﻿namespace OWP.LiveDetail.MatchSetting;
 
-using System;
 using System.Globalization;
 using Fanex.Data.Repository;
 
 public class CreateCriteria : NonQueryCommand
 {
-    public string SessionId { get; private set; } = Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture);
+    public string SessionId { get; } = Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture);
 
     public int UserId { get; set; }
 

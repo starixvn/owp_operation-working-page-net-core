@@ -1,9 +1,7 @@
 ﻿namespace OWP.LiveDetail.Agent;
 
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using Extensions;
 using Fanex.Data.Repository;
-using OWP.Extensions;
 
 public interface AgentRepository
 {

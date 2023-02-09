@@ -40,7 +40,7 @@ public class MatchNoteController : ControllerBase
     public async Task<IActionResult> Create(CreateModel model)
     {
         var result = await repository.Create(model);
-        messageClient.SendMessage(new { SessionId = result.SessionId }, RoutingKey.LiveDetail);
+        messageClient.SendMessage(new { result.SessionId }, RoutingKey.LiveDetail);
         return Ok(JsonConvert.SerializeObject(result));
     }
 

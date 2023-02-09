@@ -1,6 +1,6 @@
 ﻿namespace OWP.LiveDetail.MatchSetting;
 
-using OWP.Model;
+using Model;
 
 public class ResponseResult : OWPCommandResult
 {

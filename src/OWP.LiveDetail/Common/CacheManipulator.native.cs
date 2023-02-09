@@ -1,11 +1,9 @@
-﻿using System;
-using Newtonsoft.Json;
-using System.Threading.Tasks;
-using Fanex.Caching;
-using OWP.LiveDetail.MatchInfo;
-using OWP.Services;
+﻿namespace OWP.LiveDetail.Common;
 
-namespace OWP.LiveDetail.Common;
+using Fanex.Caching;
+using MatchInfo;
+using Newtonsoft.Json;
+using Services;
 
 public interface LiveDetailCacheManipulator
 {

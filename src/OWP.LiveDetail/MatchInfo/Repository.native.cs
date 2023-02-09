@@ -1,22 +1,18 @@
 ﻿
 namespace OWP.LiveDetail.MatchInfo;
 
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Agent;
 using AutoMapper;
 using Common;
+using Constants;
+using Extensions;
 using Fanex.Data.Repository;
+using Fanex.NAP.Client.Helpers.Web;
 using Models;
 using OtherProvider;
 using Provider;
 using Television;
 using Utils;
-using System;
-using Fanex.NAP.Client.Helpers.Web;
-using OWP.Constants;
-using OWP.Extensions;
 
 public interface MatchInfoRepository
 {

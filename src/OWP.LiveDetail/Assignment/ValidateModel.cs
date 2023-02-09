@@ -1,7 +1,5 @@
 ﻿namespace OWP.LiveDetail.Assignment;
 
-using System;
-
 [Serializable]
 public class ValidateModel
 {

@@ -1,6 +1,5 @@
 ﻿namespace OWP.LiveDetail.InfositeMatch;
 
-using System;
 using Fanex.Data.Repository;
 
 public class GetInfoSiteMatchCriteria : CriteriaBase

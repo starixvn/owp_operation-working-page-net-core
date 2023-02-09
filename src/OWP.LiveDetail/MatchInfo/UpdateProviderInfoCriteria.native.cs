@@ -1,14 +1,13 @@
 ﻿namespace OWP.LiveDetail.MatchInfo;
 
-using System;
 using System.Globalization;
-using OWP.Criteria;
+using Criteria;
 
 public class UpdateProviderInfoCriteria : CommandCriteria
 {
     public int ActorId { get; set; }
 
-    public string SessionId { get; private set; } = Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture);
+    public string SessionId { get; } = Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture);
 
     public int OWPMatchId { get; set; }
 

@@ -1,11 +1,9 @@
 ﻿namespace OWP.LiveDetail.InfositeMatch;
 
-using System.Linq;
-using System.Threading.Tasks;
 using Agent;
+using Extensions;
 using Fanex.Data.Repository;
 using Models;
-using OWP.Extensions;
 using Television;
 
 public interface InfositeMatchRepository

@@ -1,9 +1,8 @@
 ﻿namespace OWP.LiveDetail.MatchOdd;
 
-using System;
 using System.Globalization;
 
-public class UpdateCriteria : OWP.Criteria.CommandCriteria
+public class UpdateCriteria : Criteria.CommandCriteria
 {
     public int UserId { get; set; }
 
@@ -13,7 +12,7 @@ public class UpdateCriteria : OWP.Criteria.CommandCriteria
 
     public int TeamChoice { get; set; }
 
-    public string SessionId { get; private set; } = Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture);
+    public string SessionId { get; } = Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture);
 
     public string RecommendOdds { get; set; }
 

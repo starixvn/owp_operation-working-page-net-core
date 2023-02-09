@@ -1,14 +1,11 @@
 ﻿namespace OWP.LiveDetail.MatchInfo;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Agent;
 using Newtonsoft.Json;
 using OtherProvider;
-using OWP.Utils;
 using Provider;
 using Television;
+using Utils;
 
 public class MatchInfoModel
 {

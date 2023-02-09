@@ -1,13 +1,12 @@
 ﻿namespace OWP.LiveDetail.MatchSetting;
 
-using System;
 using System.Globalization;
 
 public class UpdateModel
 {
     public int UserId { get; set; }
 
-    public string SessionId { get; private set; } = Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture);
+    public string SessionId { get; } = Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture);
 
     public int? MinorBettypeId { get; set; }
 

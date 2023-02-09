@@ -40,7 +40,7 @@ public class MatchOddController : ControllerBase
     public async Task<IActionResult> Create(CreateModel model)
     {
         var result = await repository.Create(model);
-        messageClient.SendMessage(new { SessionId = result.SessionId }, RoutingKey.LiveDetail);
+        messageClient.SendMessage(new { result.SessionId }, RoutingKey.LiveDetail);
         return Ok(JsonConvert.SerializeObject(result));
     }
 
@@ -50,7 +50,7 @@ public class MatchOddController : ControllerBase
     public async Task<IActionResult> Update(UpdateModel model)
     {
         var result = await repository.Update(model);
-        messageClient.SendMessage(new { SessionId = result.SessionId }, RoutingKey.LiveDetail);
+        messageClient.SendMessage(new { result.SessionId }, RoutingKey.LiveDetail);
         return Ok(JsonConvert.SerializeObject(result));
     }
 
@@ -60,7 +60,7 @@ public class MatchOddController : ControllerBase
     public async Task<IActionResult> Delete(DeleteModel model)
     {
         var result = await repository.Delete(model);
-        messageClient.SendMessage(new { SessionId = result.SessionId }, RoutingKey.LiveDetail);
+        messageClient.SendMessage(new { result.SessionId }, RoutingKey.LiveDetail);
         return Ok(JsonConvert.SerializeObject(result));
     }
 }

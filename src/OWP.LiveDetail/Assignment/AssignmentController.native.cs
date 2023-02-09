@@ -1,8 +1,5 @@
 ﻿namespace OWP.LiveDetail.Assignment;
 
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Common;
 using Constants;
 using Fanex.NAP.Client.AspNetCore.Attributes;
 using Fanex.NAP.Core.Business;
@@ -12,8 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RabbitMQ;
 using RabbitMQ.Constants;
-using Services;
-
 
 [ApiController]
 [Authorize]
@@ -57,7 +52,7 @@ public class AssignmentController : ControllerBase
         var createdResult = await repository.Create(model);
         if (createdResult.Code == 0)
         {
-            messageClient.SendMessage(new { SessionId = createdResult.SessionId }, RoutingKey.LiveDetail);
+            messageClient.SendMessage(new { createdResult.SessionId }, RoutingKey.LiveDetail);
         }
 
 
@@ -72,7 +67,7 @@ public class AssignmentController : ControllerBase
         var updatedResult = await repository.Update(model);
         if (updatedResult.Code == 0)
         {
-            messageClient.SendMessage(new { SessionId = updatedResult.SessionId }, RoutingKey.LiveDetail);
+            messageClient.SendMessage(new { updatedResult.SessionId }, RoutingKey.LiveDetail);
         }
 
         return Ok(JsonConvert.SerializeObject(updatedResult));
@@ -86,7 +81,7 @@ public class AssignmentController : ControllerBase
         var deleteResult = await repository.Delete(model);
         if (deleteResult.Code == 0)
         {
-            messageClient.SendMessage(new { SessionId = deleteResult.SessionId }, RoutingKey.LiveDetail);
+            messageClient.SendMessage(new { deleteResult.SessionId }, RoutingKey.LiveDetail);
         }
 
         return Ok(JsonConvert.SerializeObject(deleteResult));

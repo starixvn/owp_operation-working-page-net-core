@@ -1,10 +1,7 @@
 ﻿namespace OWP.LiveDetail.Provider;
 
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using Extensions;
 using Fanex.Data.Repository;
-using OWP.Extensions;
-using Utils;
 
 public interface ProviderRepository
 {

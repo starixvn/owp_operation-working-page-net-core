@@ -1,7 +1,6 @@
-﻿using System;
-using Fanex.Data.Repository;
+﻿namespace OWP.LiveDetail.MatchInfo;
 
-namespace OWP.LiveDetail.MatchInfo;
+using Fanex.Data.Repository;
 
 public class GetAllMatchesByTimeRangeCriteria : CriteriaBase
 {

@@ -1,6 +1,6 @@
 ﻿namespace OWP.LiveDetail.MatchOdd;
 
-using OWP.Model;
+using Model;
 
 public class ResponseResult : OWPCommandResult
 {

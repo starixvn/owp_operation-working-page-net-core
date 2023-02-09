@@ -1,14 +1,11 @@
 ﻿namespace OWP.LiveDetail.Assignment;
 
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using Common;
+using Constants;
+using Extensions;
 using Fanex.Data.Repository;
 using Fanex.NAP.Client.Helpers.Web;
-using OWP.Constants;
-using OWP.Extensions;
 using Utils;
 
 public interface AssignmentRepository

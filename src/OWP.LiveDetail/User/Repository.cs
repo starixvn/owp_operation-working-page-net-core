@@ -1,10 +1,8 @@
 ﻿namespace OWP.LiveDetail.User;
 
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using AutoMapper;
+using Extensions;
 using Fanex.Data.Repository;
-using OWP.Extensions;
 
 public interface UserRepository
 {

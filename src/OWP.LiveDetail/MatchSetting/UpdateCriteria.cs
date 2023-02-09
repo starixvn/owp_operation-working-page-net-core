@@ -1,15 +1,14 @@
 ﻿namespace OWP.LiveDetail.MatchSetting;
 
-using System;
 using System.Globalization;
 
-public class UpdateCriteria : OWP.Criteria.CommandCriteria
+public class UpdateCriteria : Criteria.CommandCriteria
 {
     public override string GetSettingKey() => "OWP_LiveDetail_MatchSetting_Update";
 
     public int UserId { get; set; }
 
-    public string SessionId { get; private set; } = Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture);
+    public string SessionId { get; } = Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture);
 
     public int? MinorBettypeId { get; set; }
 

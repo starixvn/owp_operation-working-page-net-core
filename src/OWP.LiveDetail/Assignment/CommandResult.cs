@@ -1,6 +1,6 @@
-﻿using OWP.Model;
+﻿namespace OWP.LiveDetail.Assignment;
 
-namespace OWP.LiveDetail.Assignment;
+using Model;
 
 public class CommandResult : OWPCommandResult
 {
