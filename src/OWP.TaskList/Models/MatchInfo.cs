@@ -42,6 +42,8 @@ namespace OWP.TaskList.Models
         public bool IsFIFA => League.IndexOf("SABA ", StringComparison.CurrentCultureIgnoreCase) >= 0 &&
                    League.IndexOf("FIFA", StringComparison.CurrentCultureIgnoreCase) >= 0;
 
+        public bool IsSaBa => League.IndexOf("SABA ", StringComparison.CurrentCultureIgnoreCase) >= 0;
+
         public string NoOfHDP { get; set; }
 
         public int NoOfHDPId { get; set; }
