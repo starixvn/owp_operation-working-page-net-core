@@ -33,8 +33,10 @@ public class ProductAssignmentRepositoryImp : ProductAssignmentRepository
         {
             RoleId = queryInfo.RoleId,
             User = queryInfo.User,
-            Section = queryInfo.Section,
-            SiteId = napSettings.SiteId
+                SectionId = queryInfo.SectionId,
+                LocationId= queryInfo.LocationId,
+                SiteId = napSettings.SiteId,
+
         };
         return (await dynamicRepository.FetchAsync<UserInfo>(criteria)).ToList();
     }
