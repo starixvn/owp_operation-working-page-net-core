@@ -52,7 +52,7 @@ public class QueryAssignedLeagueIdHandler : IRequestHandler<QueryAssignedLeagueI
 
     public async Task<IEnumerable<int>> GetTodayPrematchLeague(bool isDay)
     {
-        var eventDate = DateTime.Now.Date.ToGmt8();
+            var eventDate = DateTime.Now.ToGmt8().Date;
         var startTime = await shiftAssignmentService.QueryExistedStartTime(eventDate);
         var criteria = isDay
             ? new QueryShiftPreMatchCriteria

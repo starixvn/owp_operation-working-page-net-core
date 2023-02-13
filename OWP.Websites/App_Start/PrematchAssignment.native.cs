@@ -12,7 +12,6 @@ public static class PreMatchAssignmentInjector
         services.AddScoped<QueryLogService, QueryLogServiceImp>();
         services.AddScoped<LogFactory, LogFactoryImp>();
 
-        //services.AddScoped<NotificationService, NotificationServiceImp>();
         services.AddScoped<NoteService, NoteServiceImp>();
         services.AddScoped<MaxbetSpreadService, MaxbetSpreadServiceImp>();
         services.AddScoped<ShiftAssignmentService, ShiftAssignmentServiceImp>();
