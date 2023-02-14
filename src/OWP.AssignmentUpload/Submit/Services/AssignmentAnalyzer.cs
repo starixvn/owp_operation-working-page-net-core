@@ -1,10 +1,10 @@
 ﻿namespace OWP.AssignmentUpload.Submit.Services
 {
+    using Constants;
+    using Models;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Constants;
-    using Models;
     using Validation.Models;
 
     public interface AssignmentAnalyzer
@@ -503,11 +503,13 @@
 
         public IEnumerable<MatchTelevision> GetTelevisionOfMatch(AssignmentModel assignment)
         {
-            var televisions = assignment.TV
-                .Replace("/", ",")
-                .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-                .Select(a => a.Trim())
-                .Distinct();
+            var televisions = !string.IsNullOrEmpty(assignment.TV)
+                ? assignment.TV
+                    .Replace("/", ",")
+                    .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                    .Select(a => a.Trim())
+                    .Distinct()
+                : new List<string>();
             return televisions.Select(a => new MatchTelevision { MatchId = assignment.OWPMatchId, TV = a });
         }
 
