@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Functions>
     <Function Name="Common">
-        <Setting Key="OWP_RefResourceGetByName" SpName="OWP_RefResourceGetByName" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+	    <Setting Key="OWP_RefResourceGetByName" SpName="OWP_RefResourceGetByName" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+	    <Setting Key="OWP_RefResourceGetAll" SpName="OWP_RefResourceGetAll" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     </Function>
-    <Function Name="EventAssignment">
+	<Function Name="EventAssignment">
         <Setting Key="OWP_MessageGetBySessionId" SpName="OWP_MessageGetBySessionId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     </Function>
     <Function Name="AutoAssignment">
@@ -70,8 +71,10 @@
         <Setting Key="OWP_AssignmentUpload_MessageInsert" SpName="OWP_AssignmentUpload_MessageInsert" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_OSLiveGameAssignment_GetEventStatusFromMainDB" SpName="OWP_OSLiveGameAssignment_GetEventStatusFromMainDB" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     </Function>
-    <Function Name="OtherSport">
-        <Setting Key="OWP_ProductAssignment_GetUserBy_User_Role_Section" SpName="OWP_ProductAssignment_GetUserBy_User_Role_Section" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+    <Function Name="ProductAssignment">
+	    <Setting Key="OWP_RefResource_GetMainBettypeBySectionId" SpName="OWP_RefResource_GetMainBettypeBySectionId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+	    <Setting Key="OWP_RefResource_GetLevelBySectionId" SpName="OWP_RefResource_GetLevelBySectionId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_ProductAssignment_GetUserBy_User_Role_Section_Location" SpName="OWP_ProductAssignment_GetUserBy_User_Role_Section_Location" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_ProductAssignment_UserInfo_Update" SpName="OWP_ProductAssignment_UserInfo_Update" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     </Function>
     <Function Name="APISyncWorkingShift">

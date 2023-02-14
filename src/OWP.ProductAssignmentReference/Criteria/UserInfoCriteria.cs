@@ -10,7 +10,7 @@ public class UserInfoCriteria : CriteriaBase
 
     public string User { get; set; }
 
-    public int? RoleId { get; set; }
+        public string RoleId { get; set; }
 
     public int SiteId { get; set; }
 
