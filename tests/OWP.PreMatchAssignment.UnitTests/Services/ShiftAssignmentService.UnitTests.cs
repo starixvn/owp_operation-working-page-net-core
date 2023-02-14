@@ -419,6 +419,7 @@ public class ShiftAssignmentService
             StartTime = requestStartTime
         });
 
+        actual.InfoSiteMatches = actual.InfoSiteMatches.ToList();
         //Assert
         DeepAssert.Equal(expected, actual);
     }
