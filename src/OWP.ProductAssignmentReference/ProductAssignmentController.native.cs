@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Services;
-using OWP.Services;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -20,9 +19,6 @@ public class ProductAssignmentController : ControllerBase
     {
         this.service = service;
     }
-
-    [HttpGet("ref-resource/{name}")]
-    public async Task<IEnumerable<object>> GetRefResourceByName(string name) => await service.GetResourceByName(name);
 
         [HttpGet("get-dropdown-option")]
         public async Task<object> GetDropdownOption()

@@ -73,33 +73,47 @@ public class ProductAssignmentServiceImp : ProductAssignmentService
         public async Task<object> GetDropdownOption()
         {
             var allResource = await refResourceService.GetAllReferenceResource(); ;
-            var roleOption = allResource.Where(r => string.Equals(r.Name, USER_ROLE));
+            var roleOption = allResource.Where(r => string.Equals(r.Name, USER_ROLE)).ToList();
             var sectionOption = allResource.Where(r => string.Equals(r.Name, SECTION) && sectionId.Any(id => id == r.ResourceId));
             var locationOption = allResource.Where(r => string.Equals(r.Name, LOCATION) && locationId.Any(id => id == r.ResourceId));
             var levelOption = await BuildLevelBySectionId();
             var mainBettypeOption = await BuildMainBettypeBySectionId();
-            var multipleMaxGames = allResource.Where(r => string.Equals(r.Name, MAX_MULTIPLE_GAME));
+            var multipleMaxGamesOption = allResource.Where(r => string.Equals(r.Name, MAX_MULTIPLE_GAME)).ToList();
+            AddEmptyOption(roleOption);
+            AddEmptyOption(multipleMaxGamesOption);
             return new
             {
                 roleOption,
                 sectionOption,
                 locationOption,
                 levelOption,
-                mainBettypeOption
+                mainBettypeOption,
+                multipleMaxGamesOption
             };
         }
 
-        private async Task<object> BuildMainBettypeBySectionId()
+
+
+
+        public async Task<IList<UserInfo>> QueryUser(QueryUserInfo queryInfo)
+            => await repository.QueryUser(queryInfo);
+
+        public async Task UpdateUserInfo(UserInfoEditor info)
         {
-            var levelOptionDefault = await repository.GetMainBettypeBySectionId(null);
-            var levelOptionLiveTrading = await repository.GetMainBettypeBySectionId(SECTION_LIVE_TRADING);
-            var levelOptionLiveAssistant = await repository.GetMainBettypeBySectionId(SECTION_LIVE_ASSISTANT_PH);
-            return new
+            await repository.UpdateUserInfo(info);
+            await SaveLastUpdate(new LastUpdateInfo
             {
-                levelOptionDefault,
-                levelOptionLiveTrading,
-                levelOptionLiveAssistant
-            };
+                Username = info.ActorName,
+                Date = DateTime.Now
+            });
+        }
+
+        private async Task SaveLastUpdate(LastUpdateInfo info)
+        {
+            var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromDays(CACHE_EXPIRED_IN_DAYS));
+            var assignmentSnapshotInJson = JsonConvert.SerializeObject(info);
+            var cacheKey = KEY_ASSIGNMENT_CONFIGURATION;
+            await cache.SetAsync(cacheKey, assignmentSnapshotInJson, cachePolicy);
         }
 
         private async Task<object> BuildLevelBySectionId()
@@ -107,6 +121,9 @@ public class ProductAssignmentServiceImp : ProductAssignmentService
             var levelOptionDefault = await repository.GetLevelBySectionId(null);
             var levelOptionLiveTrading = await repository.GetLevelBySectionId(SECTION_LIVE_TRADING);
             var levelOptionLiveAssistant = await repository.GetLevelBySectionId(SECTION_LIVE_ASSISTANT_PH);
+            AddEmptyOption(levelOptionDefault);
+            AddEmptyOption(levelOptionLiveTrading);
+            AddEmptyOption(levelOptionLiveAssistant);
             return new
             {
                 levelOptionDefault,
@@ -115,24 +132,28 @@ public class ProductAssignmentServiceImp : ProductAssignmentService
             };
         }
 
-    public async Task<IList<UserInfo>> QueryUser(QueryUserInfo queryInfo)
-        => await repository.QueryUser(queryInfo);
 
-    public async Task UpdateUserInfo(UserInfoEditor info)
-    {
-        await repository.UpdateUserInfo(info);
-        await SaveLastUpdate(new LastUpdateInfo
+        private void AddEmptyOption(IList<ReferenceResource> options)
+            => options.Add(new()
         {
-            Username = info.ActorName,
-            Date = DateTime.Now
+                ResourceId = 0,
+                Value = string.Empty
         });
-    }
 
-    private async Task SaveLastUpdate(LastUpdateInfo info)
+        private async Task<object> BuildMainBettypeBySectionId()
     {
-        var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromDays(CACHE_EXPIRED_IN_DAYS));
-        var assignmentSnapshotInJson = JsonConvert.SerializeObject(info);
-        var cacheKey = KEY_ASSIGNMENT_CONFIGURATION;
-        await cache.SetAsync(cacheKey, assignmentSnapshotInJson, cachePolicy);
+            var mainBettypeOptionDefault = await repository.GetMainBettypeBySectionId(null);
+            var mainBettypeOptionLiveTrading = await repository.GetMainBettypeBySectionId(SECTION_LIVE_TRADING);
+            var mainBettypeOptionLiveAssistant = await repository.GetMainBettypeBySectionId(SECTION_LIVE_ASSISTANT_PH);
+            AddEmptyOption(mainBettypeOptionDefault);
+            AddEmptyOption(mainBettypeOptionLiveTrading);
+            AddEmptyOption(mainBettypeOptionLiveAssistant);
+
+            return new
+            {
+                mainBettypeOptionDefault,
+                mainBettypeOptionLiveTrading,
+                mainBettypeOptionLiveAssistant
+            };
     }
 }

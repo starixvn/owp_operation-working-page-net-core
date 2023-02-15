@@ -15,4 +15,6 @@ public class UserInfo
     public int MultipleGamesId { get; set; }
 
     public string AssignmentRemark { get; set; }
+
+        public int SectionId { get; set; }
 }
