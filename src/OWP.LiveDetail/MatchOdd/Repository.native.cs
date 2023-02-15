@@ -1,100 +1,97 @@
-﻿namespace OWP.LiveDetail.MatchOdd
+﻿namespace OWP.LiveDetail.MatchOdd;
+
+using System.Xml.Linq;
+using AutoMapper;
+using Extensions;
+using Fanex.Data.Repository;
+using Fanex.NAP.Client.Helpers.Web;
+
+public interface MatchOddRepository
 {
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using System.Xml.Linq;
-    using AutoMapper;
-    using Fanex.Data.Repository;
-    using Fanex.NAP.Client.Helpers.Web;
-    using OWP.Extensions;
+    Task<IEnumerable<MatchOdd>> Query(QueryModel model);
 
-    public interface MatchOddRepository
+    Task<CreateResult> Create(CreateModel model);
+
+    Task<ResponseResult> Update(UpdateModel model);
+
+    Task<ResponseResult> Delete(DeleteModel model);
+}
+
+public class MatchOddRepositoryImp : MatchOddRepository
+{
+    private readonly IMapper mapper;
+    private readonly IDynamicRepository repository;
+    private readonly INapSession session;
+
+    public MatchOddRepositoryImp(IMapper mapper, IDynamicRepository repository, INapSession session)
     {
-        Task<IEnumerable<MatchOdd>> Query(QueryModel model);
-
-        Task<CreateResult> Create(CreateModel model);
-
-        Task<ResponseResult> Update(UpdateModel model);
-
-        Task<ResponseResult> Delete(DeleteModel model);
+        this.mapper = mapper;
+        this.repository = repository;
+        this.session = session;
     }
 
-    public class MatchOddRepositoryImp : MatchOddRepository
+    public async Task<IEnumerable<MatchOdd>> Query(QueryModel model)
     {
-        private readonly IMapper mapper;
-        private readonly IDynamicRepository repository;
-        private readonly INapSession session;
+        var criteria = mapper.Map<QueryCriteria>(model);
 
-        public MatchOddRepositoryImp(IMapper mapper, IDynamicRepository repository, INapSession session)
+        criteria.ThrowExceptionIfInvalid();
+        return await repository.FetchAsync<MatchOdd>(criteria);
+    }
+
+    public async Task<ResponseResult> Update(UpdateModel model)
+    {
+        var criteria = mapper.Map<UpdateCriteria>(model);
+        criteria.RecommendOdds = model.RecommendOdds.ToXML().ToString(SaveOptions.DisableFormatting);
+        criteria.UserId = session.UserId;
+
+        criteria.ThrowExceptionIfInvalid();
+        var result = await repository.ExecuteCommandAsync(criteria);
+
+        var output = new ResponseResult
         {
-            this.mapper = mapper;
-            this.repository = repository;
-            this.session = session;
-        }
+            Code = result.Code,
+            Message = result.Message,
+            SessionId = criteria.SessionId
+        };
 
-        public async Task<IEnumerable<MatchOdd>> Query(QueryModel model)
+        return await Task.FromResult(output);
+    }
+
+    public async Task<CreateResult> Create(CreateModel model)
+    {
+        var criteria = mapper.Map<CreateCriteria>(model);
+        criteria.RecommendOdds = model.RecommendOdds.ToXML().ToString(SaveOptions.DisableFormatting);
+        criteria.UserId = session.UserId;
+
+        criteria.ThrowExceptionIfInvalid();
+        var result = await repository.ExecuteCommandAsync(criteria);
+
+        var output = new CreateResult
         {
-            var criteria = mapper.Map<QueryCriteria>(model);
+            Id = criteria.Id,
+            Code = result.Code,
+            Message = result.Message,
+            SessionId = criteria.SessionId
+        };
+        return await Task.FromResult(output);
+    }
 
-            criteria.ThrowExceptionIfInvalid();
-            return await repository.FetchAsync<MatchOdd>(criteria);
-        }
-
-        public async Task<ResponseResult> Update(UpdateModel model)
+    public async Task<ResponseResult> Delete(DeleteModel model)
+    {
+        var criteria = new DeleteCriteria
         {
-            var criteria = mapper.Map<UpdateCriteria>(model);
-            criteria.RecommendOdds = model.RecommendOdds.ToXML().ToString(SaveOptions.DisableFormatting);
-            criteria.UserId = session.UserId;
-
-            criteria.ThrowExceptionIfInvalid();
-            var result = await repository.ExecuteCommandAsync(criteria);
-
-            var output = new ResponseResult
-            {
-                Code = result.Code,
-                Message = result.Message,
-                SessionId = criteria.SessionId
-            };
-
-            return await Task.FromResult(output);
-        }
-
-        public async Task<CreateResult> Create(CreateModel model)
+            Id = model.Id,
+            UserId = session.UserId
+        };
+        criteria.ThrowExceptionIfInvalid();
+        await repository.ExecuteAsync(criteria);
+        var output = new ResponseResult
         {
-            var criteria = mapper.Map<CreateCriteria>(model);
-            criteria.RecommendOdds = model.RecommendOdds.ToXML().ToString(SaveOptions.DisableFormatting);
-            criteria.UserId = session.UserId;
+            Code = 0,
+            Message = "Ok",
+            SessionId = criteria.SessionId
+        };
 
-            criteria.ThrowExceptionIfInvalid();
-            var result = await repository.ExecuteCommandAsync(criteria);
-
-            var output = new CreateResult
-            {
-                Id = criteria.Id,
-                Code = result.Code,
-                Message = result.Message,
-                SessionId = criteria.SessionId
-            };
-            return await Task.FromResult(output);
-        }
-
-        public async Task<ResponseResult> Delete(DeleteModel model)
-        {
-            var criteria = new DeleteCriteria
-            {
-                Id = model.Id,
-                UserId = session.UserId
-            };
-            criteria.ThrowExceptionIfInvalid();
-            await repository.ExecuteAsync(criteria);
-            var output = new ResponseResult
-            {
-                Code = 0,
-                Message = "Ok",
-                SessionId = criteria.SessionId
-            };
-
-            return await Task.FromResult(output);
-        }
+        return await Task.FromResult(output);
     }
 }

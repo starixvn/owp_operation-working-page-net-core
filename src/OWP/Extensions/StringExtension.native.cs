@@ -1,7 +1,7 @@
-﻿using System.Globalization;
-using System.Text.RegularExpressions;
+﻿namespace OWP.Extensions;
 
-namespace OWP.Extensions;
+using System.Globalization;
+using System.Text.RegularExpressions;
 
 public static class StringExtension
 {
@@ -41,6 +41,5 @@ public static class StringExtension
         return null;
     }
 
-    public static string RemoveNonAlphaCharacters(string source)
-           => new string(source?.Where(char.IsLetter).ToArray());
+    public static string RemoveNonAlphaCharacters(string source) => new(source?.Where(char.IsLetter).ToArray());
 }

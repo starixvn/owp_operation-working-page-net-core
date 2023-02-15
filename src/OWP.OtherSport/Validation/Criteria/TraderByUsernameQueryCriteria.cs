@@ -1,13 +1,12 @@
-﻿namespace OWP.OtherSport.Validation.Criteria
+﻿namespace OWP.OtherSport.Validation.Criteria;
+
+using Fanex.Data.Repository;
+
+public class TraderByUsernameQueryCriteria : CriteriaBase
 {
-    using Fanex.Data.Repository;
+    public string Username { get; set; }
 
-    public class TraderByUsernameQueryCriteria : CriteriaBase
-    {
-        public string Username { get; set; }
+    public override bool IsValid() => true;
 
-        public override bool IsValid() => true;
-
-        public override string GetSettingKey() => "OWP_OSAssignmentUpload_GetTraderByUsername";
-    }
+    public override string GetSettingKey() => "OWP_OSAssignmentUpload_GetTraderByUsername";
 }

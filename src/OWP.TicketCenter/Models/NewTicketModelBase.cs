@@ -1,25 +1,24 @@
-﻿namespace OWP.TicketCenter.Models
+﻿namespace OWP.TicketCenter.Models;
+
+public class NewTicketModelBase
 {
-    public class NewTicketModelBase
-    {
-        // FE do not care this property
-        public int TicketId { get; set; }
+    // FE do not care this property
+    public int TicketId { get; set; }
 
-        public int TicketType { get; set; }
+    public int TicketType { get; set; }
 
-        public int SubType { get; set; }
+    public int SubType { get; set; }
 
-        #region message
+    #region message
 
-        public string Message { get; set; }
+    public string Message { get; set; }
 
-        public int CreatorId { get; set; }
+    public int CreatorId { get; set; }
 
-        #endregion message
+    #endregion message
 
-        public IList<InsertOrRemoveManyRecipientModel> Recipients { get; set; } =
-            new List<InsertOrRemoveManyRecipientModel>();
+    public IList<InsertOrRemoveManyRecipientModel> Recipients { get; set; } =
+        new List<InsertOrRemoveManyRecipientModel>();
 
-        public IList<FileModel> Files { get; set; } = new List<FileModel>();
-    }
+    public IList<FileModel> Files { get; set; } = new List<FileModel>();
 }

@@ -1,15 +1,14 @@
-﻿namespace OWP.PreMatchAssignment.Criteria
+﻿namespace OWP.PreMatchAssignment.Criteria;
+
+using Fanex.Data.Repository;
+
+public class QueryAllLeaguesTicketCriteria : CriteriaBase
 {
-    using Fanex.Data.Repository;
+    public string OWPLeagueIds { get; set; }
 
-    public class QueryAllLeaguesTicketCriteria : CriteriaBase
-    {
-        public string OWPLeagueIds { get; set; }
+    public int ActorId { get; set; }
 
-        public int ActorId { get; set; }
+    public override string GetSettingKey() => "OWP_PrematchAssignment_GetAllLeaguesTicket";
 
-        public override string GetSettingKey() => "OWP_PrematchAssignment_GetAllLeaguesTicket";
-
-        public override bool IsValid() => ActorId > 0;
-    }
+    public override bool IsValid() => ActorId > 0;
 }

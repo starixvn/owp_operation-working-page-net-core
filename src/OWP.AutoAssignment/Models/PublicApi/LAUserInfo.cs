@@ -1,19 +1,18 @@
-﻿using Newtonsoft.Json;
+﻿namespace OWP.AutoAssignment.Models.PublicApi;
 
-namespace OWP.AutoAssignment.Models.PublicApi
+using Newtonsoft.Json;
+
+public class LAUserInfo
 {
-    public class LAUserInfo
-    {
-        [JsonProperty("SusId")]
-        public int UserId { get; set; }
+    [JsonProperty("SusId")]
+    public int UserId { get; set; }
 
-        [JsonProperty("Lvl")]
-        public int Level { get; set; }
+    [JsonProperty("Lvl")]
+    public int Level { get; set; }
 
-        public bool SpeakChinese { get; set; }
+    public bool SpeakChinese { get; set; }
 
-        public bool SpeakEnglish { get; set; }
+    public bool SpeakEnglish { get; set; }
 
-        public string Location { get; set; }
-    }
+    public string Location { get; set; }
 }

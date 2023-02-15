@@ -1,7 +1,7 @@
-﻿using OWP.OSLeagueSetting.Constants;
-using OWP.OSLeagueSetting.Models;
+﻿namespace OWP.OSLeagueSetting.Helper;
 
-namespace OWP.OSLeagueSetting.Helper;
+using Constants;
+using Models;
 
 public static class OSLeagueSettingHelper
 {
@@ -54,7 +54,7 @@ public static class OSLeagueSettingHelper
             ? string.Empty
             : $"{string.Join('/', values.Where(x => !string.IsNullOrEmpty(x)))}";
 
-        return new()
+        return new SummaryDetail
         {
             Text = text,
             Style = LeagueSettingConst.SummaryStyleOption.GetValueOrDefault(property)
@@ -63,7 +63,7 @@ public static class OSLeagueSettingHelper
 
     private static SummaryDetail FormatNumberBetType(int betTypes, string property)
     {
-        return new()
+        return new SummaryDetail
         {
             Text = betTypes != 0 ? $"{betTypes} Bet Types" : string.Empty,
             Style = LeagueSettingConst.SummaryStyleOption.GetValueOrDefault(property)
@@ -72,7 +72,7 @@ public static class OSLeagueSettingHelper
 
     private static SummaryDetail FormatDateTime(LeagueSettingInfo leagueInfo, string property)
     {
-        string style = LeagueSettingConst.SummaryStyleOption.GetValueOrDefault(property);
+        var style = LeagueSettingConst.SummaryStyleOption.GetValueOrDefault(property);
         if (leagueInfo.KOToTime is null && leagueInfo.KOFromTime is null)
         {
             return null;
@@ -80,7 +80,7 @@ public static class OSLeagueSettingHelper
 
         if (leagueInfo.KOFromTime is null)
         {
-            return new()
+            return new SummaryDetail
             {
                 Text = $"Before {leagueInfo.KOToTime?.ToString(@"hh\:mm")} ",
                 Style = style
@@ -89,14 +89,14 @@ public static class OSLeagueSettingHelper
 
         if (leagueInfo.KOToTime is null)
         {
-            return new()
+            return new SummaryDetail
             {
                 Text = $"After {leagueInfo.KOFromTime?.Add(TimeSpan.FromMinutes(-1)):hh\\:mm}",
                 Style = style
             };
         }
 
-        return new()
+        return new SummaryDetail
         {
             Text = $"{leagueInfo.KOFromTime?.ToString(@"hh\:mm")} - { leagueInfo.KOToTime?.ToString(@"hh\:mm")}",
             Style = style

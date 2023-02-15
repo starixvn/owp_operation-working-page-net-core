@@ -1,90 +1,89 @@
-﻿using NSubstitute;
-using OWP.OtherSport.Download;
-using OWP.OtherSport.Download.Constants;
-using OWP.OtherSport.Download.Models;
-using OWP.OtherSport.Download.Services;
-using OWP.OtherSport.Submit.Contants;
-using OWP.OtherSport.Submit.Models;
-using OWP.Services;
+﻿namespace OWP.OtherSport.UnitTests.Download.Services;
 
+using NSubstitute;
+using OtherSport.Download;
+using OtherSport.Download.Constants;
+using OtherSport.Download.Models;
+using OtherSport.Download.Services;
+using OtherSport.Submit.Contants;
+using OtherSport.Submit.Models;
+using OWP.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
 
-namespace OWP.OtherSport.UnitTests.Download.Services
+public class ExportExcelServiceUnitTests
 {
-    public class ExportExcelServiceUnitTests
+    private readonly ExportExcelServiceImp services;
+    private readonly ConfigurationService configurationService;
+    private readonly BuildExcelModelService buildExcelModelService;
+
+    public ExportExcelServiceUnitTests()
     {
-        private readonly ExportExcelServiceImp services;
-        private readonly ConfigurationService configurationService;
-        private readonly BuildExcelModelService buildExcelModelService;
+        configurationService = Substitute.For<ConfigurationService>();
+        buildExcelModelService = Substitute.For<BuildExcelModelService>();
 
-        public ExportExcelServiceUnitTests()
+        services = new ExportExcelServiceImp(configurationService, buildExcelModelService);
+    }
+
+    [Fact]
+    public async Task CreateExcelPackage()
+    {
+        var request = new DownloadAssignmentRequest
         {
-            configurationService = Substitute.For<ConfigurationService>();
-            buildExcelModelService = Substitute.For<BuildExcelModelService>();
+            From = new DateTime(2021, 03, 25),
+            To = new DateTime(2021, 03, 25),
+            Employee = "sa",
+            Sports = "Basketball",
+            OfferLives = "Live"
+        };
+        var excelModel = GetExcelModel();
+        buildExcelModelService.BuildExcelModel(request).Returns(excelModel);
+        configurationService.CurrentDirectory.Returns(AppDomain.CurrentDomain.BaseDirectory);
 
-            services = new ExportExcelServiceImp(configurationService, buildExcelModelService);
-        }
+        var actual = await services.CreateExcelPackage(request);
+        var reportSheet = actual.Workbook.Worksheets[ExcelConst.SheetName];
 
-        [Fact]
-        public async Task CreateExcelPackage()
+        DeepAssert.Equal(reportSheet.Cells[3, 19].Value, "sa");
+        DeepAssert.Equal(reportSheet.Cells[3, 83].Value, "#starix15 mynote");
+        DeepAssert.Equal(reportSheet.Cells[3, 145].Value, "1234");
+        DeepAssert.Equal(reportSheet.Cells[3, 146].Value, "222.05");
+    }
+
+    private static ExcelModel GetExcelModel()
+    {
+        return new ExcelModel
         {
-            var request = new DownloadAssignmentRequest
+            HeaderInfo = new ExcelHeaderInfoModel
             {
-                From = new DateTime(2021, 03, 25),
-                To = new DateTime(2021, 03, 25),
+                FromDate = "Mar 25, 2021",
+                ToDate = "Mar 25, 2021",
                 Employee = "sa",
                 Sports = "Basketball",
-                OfferLives = "Live"
-            };
-            var excelModel = GetExcelModel();
-            buildExcelModelService.BuildExcelModel(request).Returns(excelModel);
-            configurationService.CurrentDirectory.Returns(AppDomain.CurrentDomain.BaseDirectory);
-
-            var actual = await services.CreateExcelPackage(request);
-            var reportSheet = actual.Workbook.Worksheets[ExcelConst.SheetName];
-
-            DeepAssert.Equal(reportSheet.Cells[3, 19].Value, "sa");
-            DeepAssert.Equal(reportSheet.Cells[3, 83].Value, "#starix15 mynote");
-            DeepAssert.Equal(reportSheet.Cells[3, 145].Value, "1234");
-            DeepAssert.Equal(reportSheet.Cells[3, 146].Value, "222.05");
-        }
-
-        private static ExcelModel GetExcelModel()
-        {
-            return new ExcelModel
+                OfferLive = "Live"
+            },
+            ExcelAssignmentModels = new ExcelAssignmentModel
             {
-                HeaderInfo = new ExcelHeaderInfoModel
+                Matches = new List<MatchInfo>
                 {
-                    FromDate = "Mar 25, 2021",
-                    ToDate = "Mar 25, 2021",
-                    Employee = "sa",
-                    Sports = "Basketball",
-                    OfferLive = "Live"
+                    new() { OSMatchId = 111, Sport = Sport.Basketball, Home = "home111", League = "league111" }
                 },
-                ExcelAssignmentModels = new ExcelAssignmentModel
+                MatchAssignments = new Dictionary<int, List<ExcelMatchAssignment>>
                 {
-                    Matches = new List<MatchInfo>
-                    {
-                        new MatchInfo { OSMatchId = 111, Sport = Sport.Basketball, Home = "home111", League = "league111" }
-                    },
-                    MatchAssignments = new Dictionary<int, List<ExcelMatchAssignment>>
-                    {
-                        { 111, new List<ExcelMatchAssignment> {
-                            new ExcelMatchAssignment { ColumnIndex=19,Value="sa", AssignmentType = 1, BetTypeName = Bettype.FTHDP, UserId = 8, Username="sa" },
-                            new ExcelMatchAssignment { ColumnIndex=83,Value="#starix15 mynote", AssignmentType = 2, BetTypeName = Bettype.FirstHHDP,
-                                UserId = 123, Username="starix15", AssignmentNote = "#<user> mynote" }
-                        } }
-                    },
-                    MaxBetSpread = new Dictionary<int, List<ExcelMatchMaxBetSpread>>
-                    {
-                        { 111, new List<ExcelMatchMaxBetSpread> {
-                            new ExcelMatchMaxBetSpread { ColumnIndexMaxbet=145,ValueMaxbet="1234", BetTypeName = Bettype.FTHDP, MaxBet = 1234,ColumnIndexSpread = 190, ValueSpread="13", Spread=13 },
-                            new ExcelMatchMaxBetSpread { ColumnIndexMaxbet=146,ValueMaxbet="222.05", BetTypeName = Bettype.FTOUOE, MaxBet = 222.05m,ColumnIndexSpread = 191, ValueSpread="14", Spread=14 }
-                        } }
-                    }
+                    { 111, new List<ExcelMatchAssignment> {
+                        new() { ColumnIndex=19,Value="sa", AssignmentType = 1, BetTypeName = Bettype.FTHDP, UserId = 8, Username="sa" },
+                        new()
+                        { ColumnIndex=83,Value="#starix15 mynote", AssignmentType = 2, BetTypeName = Bettype.FirstHHDP,
+                            UserId = 123, Username="starix15", AssignmentNote = "#<user> mynote" }
+                    } }
+                },
+                MaxBetSpread = new Dictionary<int, List<ExcelMatchMaxBetSpread>>
+                {
+                    { 111, new List<ExcelMatchMaxBetSpread> {
+                        new() { ColumnIndexMaxbet=145,ValueMaxbet="1234", BetTypeName = Bettype.FTHDP, MaxBet = 1234,ColumnIndexSpread = 190, ValueSpread="13", Spread=13 },
+                        new() { ColumnIndexMaxbet=146,ValueMaxbet="222.05", BetTypeName = Bettype.FTOUOE, MaxBet = 222.05m,ColumnIndexSpread = 191, ValueSpread="14", Spread=14 }
+                    } }
                 }
-            };
-        }
+            }
+        };
     }
 }

@@ -1,12 +1,10 @@
-﻿namespace OWP.Report.TraderReport.Models
+﻿namespace OWP.Report.TraderReport.Models;
+
+using Report.Models;
+
+public class ExcelModel
 {
-    using System.Collections.Generic;
-    using Report.Models;
+    public IList<ExcelReportModel> ExcelModels { get; set; }
 
-    public class ExcelModel
-    {
-        public IList<ExcelReportModel> ExcelModels { get; set; }
-
-        public ExcelFileInfo FileInfo { get; set; }
-    }
+    public ExcelFileInfo FileInfo { get; set; }
 }

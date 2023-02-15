@@ -1,46 +1,45 @@
-﻿namespace OWP.OtherSport.Validation.Services
-{
-    using Models;
+﻿namespace OWP.OtherSport.Validation.Services;
 
-    public interface Analyzer
+using Models;
+
+public interface Analyzer
+{
+    Task<AnalyzedResult> Analyze(ValidationHandler.Request request);
+}
+
+public class AnalyzerImp : Analyzer
+{
+    private readonly ExcelReader excelReader;
+    private readonly Repository repository;
+    private readonly AssignmentBuilder assignmentBuilder;
+    private readonly AssignmentValidator assignmentValidator;
+
+    public AnalyzerImp(
+        ExcelReader excelReader,
+        Repository repository,
+        AssignmentBuilder assignmentBuilder,
+        AssignmentValidator assignmentValidator)
     {
-        Task<AnalyzedResult> Analyze(ValidationHandler.Request request);
+        this.excelReader = excelReader;
+        this.repository = repository;
+        this.assignmentBuilder = assignmentBuilder;
+        this.assignmentValidator = assignmentValidator;
     }
 
-    public class AnalyzerImp : Analyzer
+    public async Task<AnalyzedResult> Analyze(ValidationHandler.Request request)
     {
-        private readonly ExcelReader excelReader;
-        private readonly Repository repository;
-        private readonly AssignmentBuilder assignmentBuilder;
-        private readonly AssignmentValidator assignmentValidator;
+        var rawDataFromExcel = excelReader.Read(request.Stream, request.FromDate, request.ToDate);
 
-        public AnalyzerImp(
-            ExcelReader excelReader,
-            Repository repository,
-            AssignmentBuilder assignmentBuilder,
-            AssignmentValidator assignmentValidator)
+        var traders = await repository.GetTraders(rawDataFromExcel.Traders);
+
+        assignmentValidator.Validate(rawDataFromExcel, traders);
+
+        var assignments = assignmentBuilder.BuildAssignment(traders, rawDataFromExcel.Assignments);
+
+        return new AnalyzedResult
         {
-            this.excelReader = excelReader;
-            this.repository = repository;
-            this.assignmentBuilder = assignmentBuilder;
-            this.assignmentValidator = assignmentValidator;
-        }
-
-        public async Task<AnalyzedResult> Analyze(ValidationHandler.Request request)
-        {
-            var rawDataFromExcel = excelReader.Read(request.Stream, request.FromDate, request.ToDate);
-
-            var traders = await repository.GetTraders(rawDataFromExcel.Traders);
-
-            assignmentValidator.Validate(rawDataFromExcel, traders);
-
-            var assignments = assignmentBuilder.BuildAssignment(traders, rawDataFromExcel.Assignments);
-
-            return new AnalyzedResult
-            {
-                Assignments = assignments,
-                OriginalRecordCount = rawDataFromExcel.Assignments.Count
-            };
-        }
+            Assignments = assignments,
+            OriginalRecordCount = rawDataFromExcel.Assignments.Count
+        };
     }
 }

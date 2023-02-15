@@ -1,514 +1,512 @@
-﻿using OWP.Extensions;
-using OWP.TicketCenter.ViewModels;
+﻿namespace OWP.TicketCenter;
 
-namespace OWP.TicketCenter
+using AutoMapper;
+using Criteria;
+using Extensions;
+using Fanex.Data.Repository;
+using Fanex.NAP.Client.Helpers.Web;
+using Handlers;
+using Models;
+using ViewModels;
+
+public interface Repository
 {
-    using AutoMapper;
-    using Criteria;
-    using Fanex.Data.Repository;
-    using Fanex.NAP.Client.Helpers.Web;
-    using OWP.TicketCenter.Handlers;
-    using OWP.TicketCenter.Models;
+    Task<IList<EventCheckingOption>> GetEventOptionInfo(string keyword);
 
-    public interface Repository
+    Task<IList<EventLGAOption>> GetEventOptionLGAInfo(string keyword);
+
+    Task<IList<ParentType>> GetTicketTypes();
+
+    Task<IList<SubType>> GetAllTicketSubTypes();
+
+    Task<int> BuildTicketId(int ticketType, int subType);
+
+    Task AddNewTicketIssueEvent(NewTicketIssueEventRequest request);
+
+    Task AddNewTicketIssueOther(NewTicketIssueOtherRequest request);
+
+    Task AddNewTicketIssueSupport(NewTicketIssueSupportRequest request);
+
+    Task AddNewTicketIssueLiveIncident(NewTicketIssueLiveIncidentRequest request);
+
+    Task<MessageDetailViewModel> AddNewMessage(NewMessageRequestModel message);
+
+    Task AddManyRecipients(AddManyRecipientCriteria criteria);
+
+    Task AddNewTicketIssueLeague(NewTicketIssueLeagueRequest request);
+
+    Task<IEnumerable<TicketOtherInfo>> GetEventTicketOther(QueryEventTicketsRequest request);
+
+    Task<IEnumerable<TicketSupportInfo>> GetEventTicketSupport(QueryEventTicketsRequest request);
+
+    Task<IEnumerable<TicketMatchInfo>> GetEventTicketLiveIncident(QueryEventTicketsRequest request);
+
+    Task<IEnumerable<TicketLeagueInfo>> GetEventTicketLeague(QueryEventTicketsRequest request);
+
+    Task<IEnumerable<TicketMatchInfo>> GetEventTicketMatch(QueryEventTicketsRequest request);
+
+    Task<EventTicketMatchModel> GetTicketMatchDetail(int ticketId);
+
+    Task<EventTicketMatchModel> GetTicketLiveIncidentDetail(int ticketId);
+
+    Task<EventTicketLeagueModel> GetTicketLeagueDetail(int ticketId);
+
+    Task<EventTicketOtherModel> GetTicketOtherDetail(int ticketId);
+
+    Task<EventTicketSupportModel> GetTicketSupportDetail(int ticketId);
+
+    Task<IEnumerable<RecipientResponseModel>> GetRecipientByTicketId(int ticketId);
+
+    Task<IEnumerable<int>> GetUserIdsByTicketId(int ticketId);
+
+    Task<int> AddSingleRecipient(InsertSingleRecipientRequest request);
+
+    Task RemoveManyRecipientReader(RemoveManyRecipientReaderCriteria criteria);
+
+    Task<int> RemoveSingleRecipient(RemoveSingleRecipientRequest request);
+
+    Task InsertIssueCreator(InsertIssueCreatorCriteria criteria);
+
+    Task<IssueCreatorModel> GetIssueCreator(int ticketId);
+
+    Task InsertManyRecipientReader(InsertManyRecipientReaderCriteria criteria);
+
+    Task UpdateManyRecipientReader(UpdateManyRecipientReaderCriteria criteria);
+
+    Task UpdateSingleRecipientReader(UpdateSingleRecipientReaderCriteria criteria);
+
+    Task InsertNewTicketLeagueNotification(InsertNewTicketLeagueNotificationCriteria criteria);
+
+    Task InsertNewTicketMatchNotification(InsertNewTicketMatchNotificationCriteria criteria);
+
+    Task InsertNewTicketOtherNotification(InsertNewTicketOtherNotificationCriteria criteria);
+
+    Task InsertNewTicketSupportNotification(InsertNewTicketSupportNotificationCriteria criteria);
+
+    Task InsertNewRecipientNotification(InsertNewRecipientNotificationCriteria criteria);
+
+    Task InsertNewMessageNotification(InsertNewMessageNotificationCriteria criteria);
+
+    Task UpdateTicketStatus(UpdateTicketStatusCriteria criteria);
+
+    Task UpdateTicketSubType(UpdateTicketSubTypeCriteria criteria);
+
+    Task<IEnumerable<StatusHistory>> GetStatusHistory(int ticketId);
+
+    Task PinTicket(PinTicketCriteria criteria);
+
+    Task DeleteTicket(DeleteTicketCriteria criteria);
+
+    Task<IEnumerable<MessageUnreadCounter>> GetMessageUnreadByMultipleUserId(IList<int> userIds);
+
+    Task<IEnumerable<SubTypeModel>> GetSubTypeByTicketTypeId(int ticketTypeId);
+
+    Task<bool> QueryExistedTicketId(int ticketId);
+
+    Task UpdateIsSavedMessage(SaveMessageRequest request);
+
+    Task UpdateTicketsAsRead(int actorId);
+
+    Task<IEnumerable<MessageInfoModel>> GetTwoLastComment(IList<int> ticketIds);
+
+    Task<(bool, IEnumerable<MessageDetailViewModel>)> GetMessageInLastTwoDays(int ticketId);
+
+    Task<IList<int>> GetTicketIdHaveSavedMessage();
+
+    Task<TicketInfoLgaModel> GetTicketInfoLga(int ticketId);
+
+    Task<(bool, IEnumerable<MessageDetailViewModel>)> GetNextListMessages(GetNextListMessageCriteria criteria);
+
+    Task<(bool canShowMoreMessage, List<MessageDetailViewModel> messages)> GetMessageListByGreaterMessageId(int ticketId, int messageId);
+}
+
+public class RepositoryImp : Repository
+{
+    private readonly IDynamicRepository dynamicRepository;
+
+    private readonly IMapper mapper;
+
+    private readonly INapSession session;
+
+    public RepositoryImp(IDynamicRepository dynamicRepository, IMapper mapper, INapSession session)
     {
-        Task<IList<EventCheckingOption>> GetEventOptionInfo(string keyword);
-
-        Task<IList<EventLGAOption>> GetEventOptionLGAInfo(string keyword);
-
-        Task<IList<ParentType>> GetTicketTypes();
-
-        Task<IList<SubType>> GetAllTicketSubTypes();
-
-        Task<int> BuildTicketId(int ticketType, int subType);
-
-        Task AddNewTicketIssueEvent(NewTicketIssueEventRequest request);
-
-        Task AddNewTicketIssueOther(NewTicketIssueOtherRequest request);
-
-        Task AddNewTicketIssueSupport(NewTicketIssueSupportRequest request);
-
-        Task AddNewTicketIssueLiveIncident(NewTicketIssueLiveIncidentRequest request);
-
-        Task<MessageDetailViewModel> AddNewMessage(NewMessageRequestModel message);
-
-        Task AddManyRecipients(AddManyRecipientCriteria criteria);
-
-        Task AddNewTicketIssueLeague(NewTicketIssueLeagueRequest request);
-
-        Task<IEnumerable<TicketOtherInfo>> GetEventTicketOther(QueryEventTicketsRequest request);
-
-        Task<IEnumerable<TicketSupportInfo>> GetEventTicketSupport(QueryEventTicketsRequest request);
-
-        Task<IEnumerable<TicketMatchInfo>> GetEventTicketLiveIncident(QueryEventTicketsRequest request);
-
-        Task<IEnumerable<TicketLeagueInfo>> GetEventTicketLeague(QueryEventTicketsRequest request);
-
-        Task<IEnumerable<TicketMatchInfo>> GetEventTicketMatch(QueryEventTicketsRequest request);
-
-        Task<EventTicketMatchModel> GetTicketMatchDetail(int ticketId);
-
-        Task<EventTicketMatchModel> GetTicketLiveIncidentDetail(int ticketId);
-
-        Task<EventTicketLeagueModel> GetTicketLeagueDetail(int ticketId);
-
-        Task<EventTicketOtherModel> GetTicketOtherDetail(int ticketId);
-
-        Task<EventTicketSupportModel> GetTicketSupportDetail(int ticketId);
-
-        Task<IEnumerable<RecipientResponseModel>> GetRecipientByTicketId(int ticketId);
-
-        Task<IEnumerable<int>> GetUserIdsByTicketId(int ticketId);
-
-        Task<int> AddSingleRecipient(InsertSingleRecipientRequest request);
-
-        Task RemoveManyRecipientReader(RemoveManyRecipientReaderCriteria criteria);
-
-        Task<int> RemoveSingleRecipient(RemoveSingleRecipientRequest request);
-
-        Task InsertIssueCreator(InsertIssueCreatorCriteria criteria);
-
-        Task<IssueCreatorModel> GetIssueCreator(int ticketId);
-
-        Task InsertManyRecipientReader(InsertManyRecipientReaderCriteria criteria);
-
-        Task UpdateManyRecipientReader(UpdateManyRecipientReaderCriteria criteria);
-
-        Task UpdateSingleRecipientReader(UpdateSingleRecipientReaderCriteria criteria);
-
-        Task InsertNewTicketLeagueNotification(InsertNewTicketLeagueNotificationCriteria criteria);
-
-        Task InsertNewTicketMatchNotification(InsertNewTicketMatchNotificationCriteria criteria);
-
-        Task InsertNewTicketOtherNotification(InsertNewTicketOtherNotificationCriteria criteria);
-
-        Task InsertNewTicketSupportNotification(InsertNewTicketSupportNotificationCriteria criteria);
-
-        Task InsertNewRecipientNotification(InsertNewRecipientNotificationCriteria criteria);
-
-        Task InsertNewMessageNotification(InsertNewMessageNotificationCriteria criteria);
-
-        Task UpdateTicketStatus(UpdateTicketStatusCriteria criteria);
-
-        Task UpdateTicketSubType(UpdateTicketSubTypeCriteria criteria);
-
-        Task<IEnumerable<StatusHistory>> GetStatusHistory(int ticketId);
-
-        Task PinTicket(PinTicketCriteria criteria);
-
-        Task DeleteTicket(DeleteTicketCriteria criteria);
-
-        Task<IEnumerable<MessageUnreadCounter>> GetMessageUnreadByMultipleUserId(IList<int> userIds);
-
-        Task<IEnumerable<SubTypeModel>> GetSubTypeByTicketTypeId(int ticketTypeId);
-
-        Task<bool> QueryExistedTicketId(int ticketId);
-
-        Task UpdateIsSavedMessage(SaveMessageRequest request);
-
-        Task UpdateTicketsAsRead(int actorId);
-
-        Task<IEnumerable<MessageInfoModel>> GetTwoLastComment(IList<int> ticketIds);
-
-        Task<(bool, IEnumerable<MessageDetailViewModel>)> GetMessageInLastTwoDays(int ticketId);
-
-        Task<IList<int>> GetTicketIdHaveSavedMessage();
-
-        Task<TicketInfoLgaModel> GetTicketInfoLga(int ticketId);
-
-        Task<(bool, IEnumerable<MessageDetailViewModel>)> GetNextListMessages(GetNextListMessageCriteria criteria);
-
-        Task<(bool canShowMoreMessage, List<MessageDetailViewModel> messages)> GetMessageListByGreaterMessageId(int ticketId, int messageId);
+        this.dynamicRepository = dynamicRepository;
+        this.mapper = mapper;
+        this.session = session;
     }
 
-    public class RepositoryImp : Repository
+    public async Task<IList<EventCheckingOption>> GetEventOptionInfo(string keyword)
     {
-        private readonly IDynamicRepository dynamicRepository;
-
-        private readonly IMapper mapper;
-
-        private readonly INapSession session;
-
-        public RepositoryImp(IDynamicRepository dynamicRepository, IMapper mapper, INapSession session)
+        var criteria = new GetEventCriteria
         {
-            this.dynamicRepository = dynamicRepository;
-            this.mapper = mapper;
-            this.session = session;
-        }
-
-        public async Task<IList<EventCheckingOption>> GetEventOptionInfo(string keyword)
+            Keyword = keyword
+        };
+        criteria.ThrowExceptionIfInvalid();
+        return (await dynamicRepository.FetchAsync<EventCheckingOption>(new GetEventCriteria
         {
-            var criteria = new GetEventCriteria()
-            {
-                Keyword = keyword
-            };
-            criteria.ThrowExceptionIfInvalid();
-            return (await dynamicRepository.FetchAsync<EventCheckingOption>(new GetEventCriteria
-            {
-                Keyword = keyword
-            })).ToList();
-        }
+            Keyword = keyword
+        })).ToList();
+    }
 
-        public async Task<IList<EventLGAOption>> GetEventOptionLGAInfo(string keyword)
+    public async Task<IList<EventLGAOption>> GetEventOptionLGAInfo(string keyword)
+    {
+        var criteria = new GetEventLGACriteria
         {
-            var criteria = new GetEventLGACriteria()
-            {
-                Keyword = keyword
-            };
-            criteria.ThrowExceptionIfInvalid();
-            return (await dynamicRepository.FetchAsync<EventLGAOption>(criteria)).ToList();
-        }
+            Keyword = keyword
+        };
+        criteria.ThrowExceptionIfInvalid();
+        return (await dynamicRepository.FetchAsync<EventLGAOption>(criteria)).ToList();
+    }
 
-        public async Task<IList<ParentType>> GetTicketTypes()
-           => (await dynamicRepository.FetchAsync<ParentType>(new GetTicketTypeCriteria()))
-                       .ToList();
+    public async Task<IList<ParentType>> GetTicketTypes()
+        => (await dynamicRepository.FetchAsync<ParentType>(new GetTicketTypeCriteria()))
+            .ToList();
 
-        public async Task<IList<SubType>> GetAllTicketSubTypes()
-           => (await dynamicRepository.FetchAsync<SubType>(new GetAllTicketSubTypeCriteria()))
-               .ToList();
+    public async Task<IList<SubType>> GetAllTicketSubTypes()
+        => (await dynamicRepository.FetchAsync<SubType>(new GetAllTicketSubTypeCriteria()))
+            .ToList();
 
-        public async Task<int> BuildTicketId(int ticketType, int subType)
-            => (await dynamicRepository.FetchAsync<int>(new BuildNewTicketIdCriteria
-            {
-                TicketType = ticketType,
-                SubType = subType
-            })).FirstOrDefault();
-        public async Task AddNewTicketIssueLiveIncident(NewTicketIssueLiveIncidentRequest request)
+    public async Task<int> BuildTicketId(int ticketType, int subType)
+        => (await dynamicRepository.FetchAsync<int>(new BuildNewTicketIdCriteria
         {
-            var criteria = mapper.Map<AddNewTicketIssueLiveIncidentCriteria>(request);
-            criteria.ThrowExceptionIfInvalid();
-            await dynamicRepository.ExecuteAsync(criteria);
-        }
-        public async Task AddNewTicketIssueEvent(NewTicketIssueEventRequest request)
+            TicketType = ticketType,
+            SubType = subType
+        })).FirstOrDefault();
+    public async Task AddNewTicketIssueLiveIncident(NewTicketIssueLiveIncidentRequest request)
+    {
+        var criteria = mapper.Map<AddNewTicketIssueLiveIncidentCriteria>(request);
+        criteria.ThrowExceptionIfInvalid();
+        await dynamicRepository.ExecuteAsync(criteria);
+    }
+    public async Task AddNewTicketIssueEvent(NewTicketIssueEventRequest request)
+    {
+        var criteria = mapper.Map<AddNewTicketIssueEventCriteria>(request);
+        criteria.ThrowExceptionIfInvalid();
+        await dynamicRepository.ExecuteAsync(criteria);
+    }
+
+    public async Task AddNewTicketIssueOther(NewTicketIssueOtherRequest request)
+    {
+        var criteria = mapper.Map<AddNewTicketIssueOtherCriteria>(request);
+        criteria.ThrowExceptionIfInvalid();
+        await dynamicRepository.ExecuteAsync(criteria);
+    }
+
+    public async Task AddNewTicketIssueSupport(NewTicketIssueSupportRequest request)
+    {
+        var criteria = mapper.Map<AddNewTicketIssueSupportCriteria>(request);
+        criteria.ThrowExceptionIfInvalid();
+        await dynamicRepository.ExecuteAsync(criteria);
+    }
+
+    public async Task AddNewTicketIssueLeague(NewTicketIssueLeagueRequest request)
+    {
+        var criteria = mapper.Map<AddNewTicketIssueLeagueCriteria>(request);
+        criteria.ThrowExceptionIfInvalid();
+        await dynamicRepository.ExecuteAsync(criteria);
+    }
+
+    public async Task AddManyRecipients(AddManyRecipientCriteria criteria)
+    {
+        criteria.ThrowExceptionIfInvalid();
+        await dynamicRepository.ExecuteAsync(criteria);
+    }
+
+    public async Task<IEnumerable<int>> GetUserIdsByTicketId(int ticketId)
+    {
+        var criteria = new GetUserIdsByTicketIdCriteria
         {
-            var criteria = mapper.Map<AddNewTicketIssueEventCriteria>(request);
-            criteria.ThrowExceptionIfInvalid();
-            await dynamicRepository.ExecuteAsync(criteria);
-        }
+            TicketId = ticketId
+        };
+        criteria.ThrowExceptionIfInvalid();
+        return await dynamicRepository.FetchAsync<int>(criteria);
+    }
 
-        public async Task AddNewTicketIssueOther(NewTicketIssueOtherRequest request)
-        {
-            var criteria = mapper.Map<AddNewTicketIssueOtherCriteria>(request);
-            criteria.ThrowExceptionIfInvalid();
-            await dynamicRepository.ExecuteAsync(criteria);
-        }
+    public async Task<int> AddSingleRecipient(InsertSingleRecipientRequest request)
+    {
+        var criteria = mapper.Map<AddSingleRecipientCriteria>(request);
+        criteria.ThrowExceptionIfInvalid();
+        return (await dynamicRepository.FetchAsync<int>(criteria)).FirstOrDefault();
+    }
 
-        public async Task AddNewTicketIssueSupport(NewTicketIssueSupportRequest request)
-        {
-            var criteria = mapper.Map<AddNewTicketIssueSupportCriteria>(request);
-            criteria.ThrowExceptionIfInvalid();
-            await dynamicRepository.ExecuteAsync(criteria);
-        }
-
-        public async Task AddNewTicketIssueLeague(NewTicketIssueLeagueRequest request)
-        {
-            var criteria = mapper.Map<AddNewTicketIssueLeagueCriteria>(request);
-            criteria.ThrowExceptionIfInvalid();
-            await dynamicRepository.ExecuteAsync(criteria);
-        }
-
-        public async Task AddManyRecipients(AddManyRecipientCriteria criteria)
-        {
-            criteria.ThrowExceptionIfInvalid();
-            await dynamicRepository.ExecuteAsync(criteria);
-        }
-
-        public async Task<IEnumerable<int>> GetUserIdsByTicketId(int ticketId)
-        {
-            var criteria = new GetUserIdsByTicketIdCriteria
-            {
-                TicketId = ticketId
-            };
-            criteria.ThrowExceptionIfInvalid();
-            return await dynamicRepository.FetchAsync<int>(criteria);
-        }
-
-        public async Task<int> AddSingleRecipient(InsertSingleRecipientRequest request)
-        {
-            var criteria = mapper.Map<AddSingleRecipientCriteria>(request);
-            criteria.ThrowExceptionIfInvalid();
-            return (await dynamicRepository.FetchAsync<int>(criteria)).FirstOrDefault();
-        }
-
-        public async Task RemoveManyRecipientReader(RemoveManyRecipientReaderCriteria criteria)
-            => await dynamicRepository.ExecuteAsync(criteria);
-
-        public async Task<int> RemoveSingleRecipient(RemoveSingleRecipientRequest request)
-        {
-            var criteria = mapper.Map<RemoveSingleRecipientCriteria>(request);
-            criteria.ThrowExceptionIfInvalid();
-            return (await dynamicRepository.FetchAsync<int>(criteria)).FirstOrDefault();
-        }
-
-        public async Task<MessageDetailViewModel> AddNewMessage(NewMessageRequestModel message)
-        {
-            var criteria = new AddNewTicketIssueMessageCriteria()
-            {
-                TicketId = message.TicketId,
-                UserId = message.CreatorId,
-                FileId = message.FileId,
-                Message = message.Message ?? "Please add"
-            };
-            criteria.ThrowExceptionIfInvalid();
-            var result = (await dynamicRepository.FetchAsync<MessageDetailViewModel>(criteria)).FirstOrDefault();
-
-            return result;
-        }
-
-        public async Task<IEnumerable<TicketMatchInfo>> GetEventTicketMatch(QueryEventTicketsRequest request)
-        {
-            var criteria = mapper.Map<GetEventTicketMatchCriteria>(request);
-            criteria.ThrowExceptionIfInvalid();
-            return await dynamicRepository.FetchAsync<TicketMatchInfo>(criteria);
-        }
-
-        public async Task<IEnumerable<TicketOtherInfo>> GetEventTicketOther(QueryEventTicketsRequest request)
-        {
-            var criteria = mapper.Map<GetEventTicketOtherCriteria>(request);
-            criteria.ThrowExceptionIfInvalid();
-            return await dynamicRepository.FetchAsync<TicketOtherInfo>(criteria);
-        }
-
-        public async Task<IEnumerable<TicketSupportInfo>> GetEventTicketSupport(QueryEventTicketsRequest request)
-        {
-            var criteria = mapper.Map<GetEventTicketSupportCriteria>(request);
-            criteria.ThrowExceptionIfInvalid();
-            return await dynamicRepository.FetchAsync<TicketSupportInfo>(criteria);
-        }
-
-        public async Task<IEnumerable<TicketMatchInfo>> GetEventTicketLiveIncident(QueryEventTicketsRequest request)
-        {
-            var criteria = mapper.Map<GetEventTicketLiveIncidentCriteria>(request);
-            var result = await dynamicRepository.FetchAsync<TicketMatchInfo>(criteria);
-
-            result.ToList().ForEach(x => { x.EventType = 5; });
-            return result;
-        }
-
-        public async Task<IEnumerable<TicketLeagueInfo>> GetEventTicketLeague(QueryEventTicketsRequest request)
-        {
-            var criteria = mapper.Map<GetEventTicketLeagueCriteria>(request);
-
-            criteria.ThrowExceptionIfInvalid();
-            return await dynamicRepository.FetchAsync<TicketLeagueInfo>(criteria);
-        }
-
-        public async Task<EventTicketMatchModel> GetTicketMatchDetail(int ticketId)
-        {
-            var criteria = new TicketDetailMatchCriteria
-            {
-                TicketId = ticketId
-            };
-
-            return await dynamicRepository.GetAsync<EventTicketMatchModel>(criteria);
-        }
-
-        public async Task<EventTicketMatchModel> GetTicketLiveIncidentDetail(int ticketId)
-        {
-            var criteria = new TicketDetailLiveIncidentCriteria { TicketId = ticketId };
-            return await dynamicRepository.GetAsync<EventTicketMatchModel>(criteria);
-        }
-
-        public async Task<EventTicketLeagueModel> GetTicketLeagueDetail(int ticketId)
-        {
-            var criteria = new TicketDetailLeagueCriteria { TicketId = ticketId };
-            return await dynamicRepository.GetAsync<EventTicketLeagueModel>(criteria);
-        }
-
-        public async Task<EventTicketOtherModel> GetTicketOtherDetail(int ticketId)
-        {
-            var criteria = new TicketDetailOtherCriteria { TicketId = ticketId };
-            return await dynamicRepository.GetAsync<EventTicketOtherModel>(criteria);
-        }
-
-        public async Task<EventTicketSupportModel> GetTicketSupportDetail(int ticketId)
-        {
-            var criteria = new TicketDetailSupportCriteria { TicketId = ticketId };
-            return await dynamicRepository.GetAsync<EventTicketSupportModel>(criteria);
-        }
-
-        public async Task<IEnumerable<RecipientResponseModel>> GetRecipientByTicketId(int ticketId)
-        {
-            var criteria = new GetRecipientByTicketIdCriteria
-            {
-                TicketId = ticketId
-            };
-            criteria.ThrowExceptionIfInvalid();
-            return await dynamicRepository.FetchAsync<RecipientResponseModel>(criteria);
-        }
-
-        public async Task InsertIssueCreator(InsertIssueCreatorCriteria criteria)
-        {
-            await dynamicRepository.ExecuteAsync(criteria);
-        }
-
-        public async Task<IssueCreatorModel> GetIssueCreator(int ticketId)
-        {
-            var creator = new QueryIssueCreatorCriteria()
-            {
-                TicketId = ticketId
-            };
-            return (await dynamicRepository.FetchAsync<IssueCreatorModel>(creator))?.FirstOrDefault();
-        }
-
-        public async Task InsertManyRecipientReader(InsertManyRecipientReaderCriteria criteria)
-            => await dynamicRepository.ExecuteAsync(criteria);
-
-        public async Task UpdateManyRecipientReader(UpdateManyRecipientReaderCriteria criteria)
-            => await dynamicRepository.ExecuteAsync(criteria);
-
-        public async Task UpdateSingleRecipientReader(UpdateSingleRecipientReaderCriteria criteria)
-        {
-            await dynamicRepository.ExecuteAsync(criteria);
-        }
-
-        public async Task InsertNewTicketLeagueNotification(InsertNewTicketLeagueNotificationCriteria criteria)
+    public async Task RemoveManyRecipientReader(RemoveManyRecipientReaderCriteria criteria)
         => await dynamicRepository.ExecuteAsync(criteria);
 
-        public async Task InsertNewTicketMatchNotification(InsertNewTicketMatchNotificationCriteria criteria)
-            => await dynamicRepository.ExecuteAsync(criteria);
+    public async Task<int> RemoveSingleRecipient(RemoveSingleRecipientRequest request)
+    {
+        var criteria = mapper.Map<RemoveSingleRecipientCriteria>(request);
+        criteria.ThrowExceptionIfInvalid();
+        return (await dynamicRepository.FetchAsync<int>(criteria)).FirstOrDefault();
+    }
 
-        public async Task InsertNewTicketOtherNotification(InsertNewTicketOtherNotificationCriteria criteria)
-            => await dynamicRepository.ExecuteAsync(criteria);
-
-        public async Task InsertNewTicketSupportNotification(InsertNewTicketSupportNotificationCriteria criteria)
-            => await dynamicRepository.ExecuteAsync(criteria);
-
-        public async Task InsertNewRecipientNotification(InsertNewRecipientNotificationCriteria criteria)
-            => await dynamicRepository.ExecuteAsync(criteria);
-
-        public async Task InsertNewMessageNotification(InsertNewMessageNotificationCriteria criteria)
-            => await dynamicRepository.ExecuteAsync(criteria);
-
-        public async Task UpdateTicketStatus(UpdateTicketStatusCriteria criteria)
+    public async Task<MessageDetailViewModel> AddNewMessage(NewMessageRequestModel message)
+    {
+        var criteria = new AddNewTicketIssueMessageCriteria
         {
-            criteria.ThrowExceptionIfInvalid();
-            await dynamicRepository.ExecuteAsync(criteria);
-        }
+            TicketId = message.TicketId,
+            UserId = message.CreatorId,
+            FileId = message.FileId,
+            Message = message.Message ?? "Please add"
+        };
+        criteria.ThrowExceptionIfInvalid();
+        var result = (await dynamicRepository.FetchAsync<MessageDetailViewModel>(criteria)).FirstOrDefault();
 
-        public async Task UpdateTicketSubType(UpdateTicketSubTypeCriteria criteria)
-        {
-            criteria.ThrowExceptionIfInvalid();
-            await dynamicRepository.ExecuteAsync(criteria);
-        }
+        return result;
+    }
 
-        public async Task<IEnumerable<StatusHistory>> GetStatusHistory(int ticketId)
+    public async Task<IEnumerable<TicketMatchInfo>> GetEventTicketMatch(QueryEventTicketsRequest request)
+    {
+        var criteria = mapper.Map<GetEventTicketMatchCriteria>(request);
+        criteria.ThrowExceptionIfInvalid();
+        return await dynamicRepository.FetchAsync<TicketMatchInfo>(criteria);
+    }
+
+    public async Task<IEnumerable<TicketOtherInfo>> GetEventTicketOther(QueryEventTicketsRequest request)
+    {
+        var criteria = mapper.Map<GetEventTicketOtherCriteria>(request);
+        criteria.ThrowExceptionIfInvalid();
+        return await dynamicRepository.FetchAsync<TicketOtherInfo>(criteria);
+    }
+
+    public async Task<IEnumerable<TicketSupportInfo>> GetEventTicketSupport(QueryEventTicketsRequest request)
+    {
+        var criteria = mapper.Map<GetEventTicketSupportCriteria>(request);
+        criteria.ThrowExceptionIfInvalid();
+        return await dynamicRepository.FetchAsync<TicketSupportInfo>(criteria);
+    }
+
+    public async Task<IEnumerable<TicketMatchInfo>> GetEventTicketLiveIncident(QueryEventTicketsRequest request)
+    {
+        var criteria = mapper.Map<GetEventTicketLiveIncidentCriteria>(request);
+        var result = await dynamicRepository.FetchAsync<TicketMatchInfo>(criteria);
+
+        result.ToList().ForEach(x => { x.EventType = 5; });
+        return result;
+    }
+
+    public async Task<IEnumerable<TicketLeagueInfo>> GetEventTicketLeague(QueryEventTicketsRequest request)
+    {
+        var criteria = mapper.Map<GetEventTicketLeagueCriteria>(request);
+
+        criteria.ThrowExceptionIfInvalid();
+        return await dynamicRepository.FetchAsync<TicketLeagueInfo>(criteria);
+    }
+
+    public async Task<EventTicketMatchModel> GetTicketMatchDetail(int ticketId)
+    {
+        var criteria = new TicketDetailMatchCriteria
         {
-            var criteria = new GetStatusHistoryCriteria
+            TicketId = ticketId
+        };
+
+        return await dynamicRepository.GetAsync<EventTicketMatchModel>(criteria);
+    }
+
+    public async Task<EventTicketMatchModel> GetTicketLiveIncidentDetail(int ticketId)
+    {
+        var criteria = new TicketDetailLiveIncidentCriteria { TicketId = ticketId };
+        return await dynamicRepository.GetAsync<EventTicketMatchModel>(criteria);
+    }
+
+    public async Task<EventTicketLeagueModel> GetTicketLeagueDetail(int ticketId)
+    {
+        var criteria = new TicketDetailLeagueCriteria { TicketId = ticketId };
+        return await dynamicRepository.GetAsync<EventTicketLeagueModel>(criteria);
+    }
+
+    public async Task<EventTicketOtherModel> GetTicketOtherDetail(int ticketId)
+    {
+        var criteria = new TicketDetailOtherCriteria { TicketId = ticketId };
+        return await dynamicRepository.GetAsync<EventTicketOtherModel>(criteria);
+    }
+
+    public async Task<EventTicketSupportModel> GetTicketSupportDetail(int ticketId)
+    {
+        var criteria = new TicketDetailSupportCriteria { TicketId = ticketId };
+        return await dynamicRepository.GetAsync<EventTicketSupportModel>(criteria);
+    }
+
+    public async Task<IEnumerable<RecipientResponseModel>> GetRecipientByTicketId(int ticketId)
+    {
+        var criteria = new GetRecipientByTicketIdCriteria
+        {
+            TicketId = ticketId
+        };
+        criteria.ThrowExceptionIfInvalid();
+        return await dynamicRepository.FetchAsync<RecipientResponseModel>(criteria);
+    }
+
+    public async Task InsertIssueCreator(InsertIssueCreatorCriteria criteria)
+    {
+        await dynamicRepository.ExecuteAsync(criteria);
+    }
+
+    public async Task<IssueCreatorModel> GetIssueCreator(int ticketId)
+    {
+        var creator = new QueryIssueCreatorCriteria
+        {
+            TicketId = ticketId
+        };
+        return (await dynamicRepository.FetchAsync<IssueCreatorModel>(creator))?.FirstOrDefault();
+    }
+
+    public async Task InsertManyRecipientReader(InsertManyRecipientReaderCriteria criteria)
+        => await dynamicRepository.ExecuteAsync(criteria);
+
+    public async Task UpdateManyRecipientReader(UpdateManyRecipientReaderCriteria criteria)
+        => await dynamicRepository.ExecuteAsync(criteria);
+
+    public async Task UpdateSingleRecipientReader(UpdateSingleRecipientReaderCriteria criteria)
+    {
+        await dynamicRepository.ExecuteAsync(criteria);
+    }
+
+    public async Task InsertNewTicketLeagueNotification(InsertNewTicketLeagueNotificationCriteria criteria)
+        => await dynamicRepository.ExecuteAsync(criteria);
+
+    public async Task InsertNewTicketMatchNotification(InsertNewTicketMatchNotificationCriteria criteria)
+        => await dynamicRepository.ExecuteAsync(criteria);
+
+    public async Task InsertNewTicketOtherNotification(InsertNewTicketOtherNotificationCriteria criteria)
+        => await dynamicRepository.ExecuteAsync(criteria);
+
+    public async Task InsertNewTicketSupportNotification(InsertNewTicketSupportNotificationCriteria criteria)
+        => await dynamicRepository.ExecuteAsync(criteria);
+
+    public async Task InsertNewRecipientNotification(InsertNewRecipientNotificationCriteria criteria)
+        => await dynamicRepository.ExecuteAsync(criteria);
+
+    public async Task InsertNewMessageNotification(InsertNewMessageNotificationCriteria criteria)
+        => await dynamicRepository.ExecuteAsync(criteria);
+
+    public async Task UpdateTicketStatus(UpdateTicketStatusCriteria criteria)
+    {
+        criteria.ThrowExceptionIfInvalid();
+        await dynamicRepository.ExecuteAsync(criteria);
+    }
+
+    public async Task UpdateTicketSubType(UpdateTicketSubTypeCriteria criteria)
+    {
+        criteria.ThrowExceptionIfInvalid();
+        await dynamicRepository.ExecuteAsync(criteria);
+    }
+
+    public async Task<IEnumerable<StatusHistory>> GetStatusHistory(int ticketId)
+    {
+        var criteria = new GetStatusHistoryCriteria
+        {
+            TicketId = ticketId
+        };
+
+        return await dynamicRepository.FetchAsync<StatusHistory>(criteria);
+    }
+
+    public async Task PinTicket(PinTicketCriteria criteria)
+        => await dynamicRepository.ExecuteAsync(criteria);
+
+    public async Task DeleteTicket(DeleteTicketCriteria criteria)
+        => await dynamicRepository.ExecuteAsync(criteria);
+
+    public async Task<bool> QueryExistedTicketId(int ticketId)
+    {
+        var criteria = new GetExistedTicketIdCriteria
+        {
+            TicketId = ticketId
+        };
+        var existedTicketId = (await dynamicRepository.FetchAsync<int?>(criteria)).FirstOrDefault();
+
+        return existedTicketId.HasValue;
+    }
+    public async Task<IEnumerable<MessageUnreadCounter>> GetMessageUnreadByMultipleUserId(IList<int> userIds)
+    {
+        var messageUnread = new List<MessageUnreadCounter>();
+        foreach (var userId in userIds)
+        {
+            var result = await dynamicRepository.FetchAsync<int>(new CountUnreadMessageCriteria
             {
-                TicketId = ticketId
-            };
-
-            return await dynamicRepository.FetchAsync<StatusHistory>(criteria);
-        }
-
-        public async Task PinTicket(PinTicketCriteria criteria)
-            => await dynamicRepository.ExecuteAsync(criteria);
-
-        public async Task DeleteTicket(DeleteTicketCriteria criteria)
-            => await dynamicRepository.ExecuteAsync(criteria);
-
-        public async Task<bool> QueryExistedTicketId(int ticketId)
-        {
-            var criteria = new GetExistedTicketIdCriteria
+                UserId = userId
+            });
+            var totalUnreadMessage = result.FirstOrDefault();
+            messageUnread.Add(new MessageUnreadCounter
             {
-                TicketId = ticketId
-            };
-            var existedTicketId = (await dynamicRepository.FetchAsync<int?>(criteria)).FirstOrDefault();
-
-            return existedTicketId.HasValue;
+                UserId = userId,
+                Total = totalUnreadMessage
+            });
         }
-        public async Task<IEnumerable<MessageUnreadCounter>> GetMessageUnreadByMultipleUserId(IList<int> userIds)
+        return messageUnread;
+    }
+
+    public async Task<IEnumerable<SubTypeModel>> GetSubTypeByTicketTypeId(int ticketTypeId)
+    {
+        var criteria = new GetSubTypeCriteria
         {
-            var messageUnread = new List<MessageUnreadCounter>();
-            foreach (var userId in userIds)
-            {
-                var result = await dynamicRepository.FetchAsync<int>(new CountUnreadMessageCriteria
-                {
-                    UserId = userId
-                });
-                var totalUnreadMessage = result.FirstOrDefault();
-                messageUnread.Add(new MessageUnreadCounter
-                {
-                    UserId = userId,
-                    Total = totalUnreadMessage
-                });
-            }
-            return messageUnread;
-        }
+            TicketTypeId = ticketTypeId
+        };
+        return await dynamicRepository.FetchAsync<SubTypeModel>(criteria);
+    }
 
-        public async Task<IEnumerable<SubTypeModel>> GetSubTypeByTicketTypeId(int ticketTypeId)
+    public async Task UpdateIsSavedMessage(SaveMessageRequest request)
+    {
+        var criteria = new SaveMessageCriteria
         {
-            var criteria = new GetSubTypeCriteria
-            {
-                TicketTypeId = ticketTypeId
-            };
-            return await dynamicRepository.FetchAsync<SubTypeModel>(criteria);
-        }
+            MessageId = request.MessageId,
+            IsSaved = request.IsSaved
+        };
+        await dynamicRepository.ExecuteAsync(criteria);
+    }
 
-        public async Task UpdateIsSavedMessage(SaveMessageRequest request)
+    public async Task UpdateTicketsAsRead(int actorId)
+    {
+        var criteria = new MarkAllTicketsCriteria
         {
-            var criteria = new SaveMessageCriteria
-            {
-                MessageId = request.MessageId,
-                IsSaved = request.IsSaved,
-            };
-            await dynamicRepository.ExecuteAsync(criteria);
-        }
+            ActorId = actorId
+        };
+        await dynamicRepository.ExecuteAsync(criteria);
+    }
 
-        public async Task UpdateTicketsAsRead(int actorId)
+    public async Task<IEnumerable<MessageInfoModel>> GetTwoLastComment(IList<int> ticketIds)
+    {
+        var criteria = new GetTwoLastCommentCriteria
         {
-            var criteria = new MarkAllTicketsCriteria
-            {
-                ActorId = actorId
-            };
-            await dynamicRepository.ExecuteAsync(criteria);
-        }
+            TicketId = string.Join(',', ticketIds)
+        };
 
-        public async Task<IEnumerable<MessageInfoModel>> GetTwoLastComment(IList<int> ticketIds)
+        return await dynamicRepository.FetchAsync<MessageInfoModel>(criteria);
+    }
+
+    public async Task<(bool, IEnumerable<MessageDetailViewModel>)> GetMessageInLastTwoDays(int ticketId)
+    {
+        var criteria = new GetMessageInLast2DaysCriteria { TicketId = ticketId };
+        var messages = await dynamicRepository.FetchAsync<MessageDetailViewModel>(criteria);
+        return (criteria.CanShowMoreMessage, messages);
+    }
+
+    public async Task<IList<int>> GetTicketIdHaveSavedMessage()
+        => (await dynamicRepository.FetchAsync<int>(new GetTicketIdHaveSavedMessageCriteria())).ToList();
+
+    public async Task<TicketInfoLgaModel> GetTicketInfoLga(int ticketId)
+    {
+        var criteria = new GetInfoTicketLgaCriteria
         {
-            var criteria = new GetTwoLastCommentCriteria
-            {
-                TicketId = String.Join(',', ticketIds)
-            };
+            TicketId = ticketId
+        };
+        return (await dynamicRepository.FetchAsync<TicketInfoLgaModel>(criteria)).FirstOrDefault();
+    }
 
-            return await dynamicRepository.FetchAsync<MessageInfoModel>(criteria);
-        }
+    public async Task<(bool, IEnumerable<MessageDetailViewModel>)> GetNextListMessages(GetNextListMessageCriteria criteria)
+    {
+        var messages = await dynamicRepository.FetchAsync<MessageDetailViewModel>(criteria);
+        return (criteria.CanShowMoreMessage, messages);
+    }
 
-        public async Task<(bool, IEnumerable<MessageDetailViewModel>)> GetMessageInLastTwoDays(int ticketId)
+    public async Task<(bool, List<MessageDetailViewModel>)> GetMessageListByGreaterMessageId(int ticketId, int messageId)
+    {
+        var criteria = new GetMessageByGreaterMessageIdCriteria
         {
-            var criteria = new GetMessageInLast2DaysCriteria { TicketId = ticketId };
-            var messages = await dynamicRepository.FetchAsync<MessageDetailViewModel>(criteria);
-            return (criteria.CanShowMoreMessage, messages);
-        }
-
-        public async Task<IList<int>> GetTicketIdHaveSavedMessage()
-           => (await dynamicRepository.FetchAsync<int>(new GetTicketIdHaveSavedMessageCriteria())).ToList();
-
-        public async Task<TicketInfoLgaModel> GetTicketInfoLga(int ticketId)
-        {
-            var criteria = new GetInfoTicketLgaCriteria
-            {
-                TicketId = ticketId
-            };
-            return (await dynamicRepository.FetchAsync<TicketInfoLgaModel>(criteria)).FirstOrDefault();
-        }
-
-        public async Task<(bool, IEnumerable<MessageDetailViewModel>)> GetNextListMessages(GetNextListMessageCriteria criteria)
-        {
-            var messages = await dynamicRepository.FetchAsync<MessageDetailViewModel>(criteria);
-            return (criteria.CanShowMoreMessage, messages);
-        }
-
-        public async Task<(bool, List<MessageDetailViewModel>)> GetMessageListByGreaterMessageId(int ticketId, int messageId)
-        {
-            var criteria = new GetMessageByGreaterMessageIdCriteria
-            {
-                TicketId = ticketId,
-                MessageId = messageId
-            };
-            var messages = await dynamicRepository.FetchAsync<MessageDetailViewModel>(criteria);
-            return (criteria.CanShowMoreMessage, messages.ToList());
-        }
+            TicketId = ticketId,
+            MessageId = messageId
+        };
+        var messages = await dynamicRepository.FetchAsync<MessageDetailViewModel>(criteria);
+        return (criteria.CanShowMoreMessage, messages.ToList());
     }
 }

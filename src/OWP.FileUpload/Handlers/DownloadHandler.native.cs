@@ -1,36 +1,35 @@
-﻿using Fanex.Data.Repository;
-using MediatR;
-using OWP.FileUpload.Criteria;
-using OWP.FileUpload.Models;
+﻿namespace OWP.FileUpload.Handlers;
 
-namespace OWP.FileUpload.Handlers
+using Criteria;
+using Fanex.Data.Repository;
+using MediatR;
+using Models;
+
+public class DownloadHandler
 {
-    public class DownloadHandler
+    public class DownloadRequest : IRequest<FileModel>
     {
-        public class DownloadRequest : IRequest<FileModel>
+        public int FileId { get; set; }
+    }
+
+    public class Handler : IRequestHandler<DownloadRequest, FileModel>
+    {
+        private readonly IDynamicRepository dynamicRepo;
+
+        public Handler(IDynamicRepository dynamicRepo)
         {
-            public int FileId { get; set; }
+            this.dynamicRepo = dynamicRepo;
         }
 
-        public class Handler : IRequestHandler<DownloadRequest, FileModel>
+        public async Task<FileModel> Handle(DownloadRequest request, CancellationToken cancellationToken)
         {
-            private readonly IDynamicRepository dynamicRepo;
-
-            public Handler(IDynamicRepository dynamicRepo)
+            var criteria = new DownloadCriteria
             {
-                this.dynamicRepo = dynamicRepo;
-            }
+                FileId = request.FileId
+            };
 
-            public async Task<FileModel> Handle(DownloadRequest request, CancellationToken cancellationToken)
-            {
-                var criteria = new DownloadCriteria
-                {
-                    FileId = request.FileId
-                };
-
-                var data = await dynamicRepo.FetchAsync<FileModel>(criteria);
-                return data.FirstOrDefault();
-            }
+            var data = await dynamicRepo.FetchAsync<FileModel>(criteria);
+            return data.FirstOrDefault();
         }
     }
 }

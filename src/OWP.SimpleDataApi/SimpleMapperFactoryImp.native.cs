@@ -1,13 +1,12 @@
-﻿using Olympus.SimpleDataApi;
-using OWP.SimpleDataApi.Mapper;
+﻿namespace OWP.SimpleDataApi;
 
-namespace OWP.SimpleDataApi
+using Mapper;
+using Olympus.SimpleDataApi;
+
+public class SimpleMapperFactoryImp : SimpleMapperFactoryBase
 {
-    public class SimpleMapperFactoryImp : SimpleMapperFactoryBase
+    static SimpleMapperFactoryImp()
     {
-        static SimpleMapperFactoryImp()
-        {
-            AddSimpleMapperService("soccer-early-get-match", typeof(GoalIconMapperService));
-        }
+        AddSimpleMapperService("soccer-early-get-match", typeof(GoalIconMapperService));
     }
 }

@@ -1,10 +1,9 @@
-﻿using OWP.OSLeagueSetting.Helper;
-using OWP.OSLeagueSetting.Misc;
-using OWP.OSLeagueSetting.Models;
+﻿namespace OWP.OSLeagueSetting.UnitTests.Helper;
+
+using Models;
+using OSLeagueSetting.Helper;
 using Xunit;
 using Xunit.Asserts.Compare;
-
-namespace OWP.OSLeagueSetting.UnitTests.Helper;
 
 public class OSLeagueSettingHelperUnitTests
 {
@@ -31,17 +30,17 @@ public class OSLeagueSettingHelperUnitTests
     private List<SummaryDetail> GetExpectedSummaryInfos()
         => new()
         {
-            new() { Text = "1 line/2 line", Style = "offer-lines" },
-            new() { Text = "1 Bet Types", Style = "bet-type" },
-            new() { Text = "Manual Update Score", Style = "update-score" },
+            new SummaryDetail { Text = "1 line/2 line", Style = "offer-lines" },
+            new SummaryDetail { Text = "1 Bet Types", Style = "bet-type" },
+            new SummaryDetail { Text = "Manual Update Score", Style = "update-score" }
         };
 
     private List<SummaryDetail> GetExpectedSummaryRemark()
         => new()
         {
-            new() { Text = "abc/cde", Style = "week-match" },
-            new() { Text = "00:03 - 00:04", Style = "time-range" },
-            new() { Text = "IPTV Only", Style = "Iptv-only" }
+            new SummaryDetail { Text = "abc/cde", Style = "week-match" },
+            new SummaryDetail { Text = "00:03 - 00:04", Style = "time-range" },
+            new SummaryDetail { Text = "IPTV Only", Style = "Iptv-only" }
         };
 
     private IList<LeagueSettingInfo> GetLeagueSettingInfosRaw()
@@ -67,6 +66,6 @@ public class OSLeagueSettingHelperUnitTests
                 KOToTime = new TimeSpan(0,4,20),
                 OfferLines = "2 line",
                 WeekMatch = "cde"
-            },
+            }
         };
 }

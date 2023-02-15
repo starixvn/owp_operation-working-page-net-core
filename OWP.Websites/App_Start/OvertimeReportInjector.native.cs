@@ -1,6 +1,6 @@
-﻿using OWP.Report.OvertimeReport.Services;
+﻿namespace OWP.Websites;
 
-namespace OWP.Websites;
+using Report.OvertimeReport.Services;
 
 public static class OvertimeReportInjector
 {

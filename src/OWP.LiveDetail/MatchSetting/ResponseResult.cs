@@ -1,9 +1,8 @@
-﻿namespace OWP.LiveDetail.MatchSetting
-{
-    using OWP.Model;
+﻿namespace OWP.LiveDetail.MatchSetting;
 
-    public class ResponseResult : OWPCommandResult
-    {
-        public string SessionId { get; set; }
-    }
+using Model;
+
+public class ResponseResult : OWPCommandResult
+{
+    public string SessionId { get; set; }
 }

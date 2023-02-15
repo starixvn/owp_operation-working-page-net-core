@@ -1,9 +1,9 @@
-using AutoMapper;
-using OWP.Report.PreMatchReport.Constants;
-using OWP.Report.PreMatchReport.Helper;
-using OWP.Report.PreMatchReport.Models;
-
 namespace OWP.Report.PreMatchReport.Services;
+
+using AutoMapper;
+using Constants;
+using Helper;
+using Models;
 
 public interface GetPreMatchReportService
 {
@@ -40,7 +40,7 @@ public class GetPreMatchReportServiceImp : GetPreMatchReportService
             element.TotalMatches = findTrader.TotalMatches;
         }
 
-        List<int> assignmentUserId = reportLeague.Select(x => x.UserId).ToList();
+        var assignmentUserId = reportLeague.Select(x => x.UserId).ToList();
 
         var userAssigned = await repository.GetUnAssigned(assignmentUserId, queryModel.KeyWord);
 

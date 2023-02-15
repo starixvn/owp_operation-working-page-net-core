@@ -1,9 +1,8 @@
-﻿namespace OWP.Maxbet.Models
-{
-    public class MinorMatchInfo
-    {
-        public int MinorMatchId { get; set; }
+﻿namespace OWP.Maxbet.Models;
 
-        public int ParentMatchId { get; set; }
-    }
+public class MinorMatchInfo
+{
+    public int MinorMatchId { get; set; }
+
+    public int ParentMatchId { get; set; }
 }

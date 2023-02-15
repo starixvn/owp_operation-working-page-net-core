@@ -1,17 +1,16 @@
-﻿namespace OWP.OtherSport.Validation.Exceptions
+﻿namespace OWP.OtherSport.Validation.Exceptions;
+
+using System.Runtime.Serialization;
+using Constants;
+
+[Serializable]
+public class DataLengthExceedsMaximumException : CriticalValidationException
 {
-    using Constants;
-    using System.Runtime.Serialization;
-
-    [Serializable]
-    public class DataLengthExceedsMaximumException : CriticalValidationException
+    public DataLengthExceedsMaximumException() : base($"Excel data exceeds {ExcelDataLength.MaximumDataLength} records")
     {
-        public DataLengthExceedsMaximumException() : base($"Excel data exceeds {ExcelDataLength.MaximumDataLength} records")
-        {
-        }
+    }
 
-        protected DataLengthExceedsMaximumException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
+    protected DataLengthExceedsMaximumException(SerializationInfo info, StreamingContext context) : base(info, context)
+    {
     }
 }

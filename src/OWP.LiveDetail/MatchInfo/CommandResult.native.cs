@@ -1,12 +1,11 @@
-﻿namespace OWP.LiveDetail.MatchInfo
+﻿namespace OWP.LiveDetail.MatchInfo;
+
+using Common;
+using Model;
+
+public class CommandResult : OWPCommandResult
 {
-    using Common;
-    using OWP.Model;
+    public string SessionId { get; set; }
 
-    public class CommandResult : OWPCommandResult
-    {
-        public string SessionId { get; set; }
-
-        public ValidateResult ValidateResult { get; set; }
-    }
+    public ValidateResult ValidateResult { get; set; }
 }

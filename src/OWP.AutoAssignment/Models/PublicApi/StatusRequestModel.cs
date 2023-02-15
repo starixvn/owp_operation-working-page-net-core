@@ -1,11 +1,10 @@
-﻿using OWP.AutoAssignment.Enum;
+﻿namespace OWP.AutoAssignment.Models.PublicApi;
 
-namespace OWP.AutoAssignment.Models.PublicApi
+using Enum;
+
+public class StatusRequestModel
 {
-    public class StatusRequestModel
-    {
-        public string RequestId { get; set; }
+    public string RequestId { get; set; }
 
-        public StatusRequest Status { get; set; }
-    }
+    public StatusRequest Status { get; set; }
 }

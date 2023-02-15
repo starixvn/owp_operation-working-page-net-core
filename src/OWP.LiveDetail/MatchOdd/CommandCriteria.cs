@@ -1,14 +1,12 @@
-﻿namespace OWP.LiveDetail.MatchOdd
+﻿namespace OWP.LiveDetail.MatchOdd;
+
+using System.Globalization;
+
+public abstract class CommandCriteria : Criteria.CommandCriteria
 {
-    using System;
-    using System.Globalization;
+    public int UserId { get; set; }
 
-    public abstract class CommandCriteria : OWP.Criteria.CommandCriteria
-    {
-        public int UserId { get; set; }
+    public string SessionId { get; } = Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture);
 
-        public string SessionId { get; private set; } = Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture);
-
-        public override bool IsValid() => UserId > 0;
-    }
+    public override bool IsValid() => UserId > 0;
 }

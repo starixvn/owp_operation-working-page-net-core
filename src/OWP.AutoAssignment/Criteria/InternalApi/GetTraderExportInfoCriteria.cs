@@ -1,9 +1,8 @@
-﻿namespace OWP.AutoAssignment.Criteria.InternalApi
-{
-    public class GetTraderExportInfoCriteria : ExportInfoCriteriaBase
-    {
-        public override string GetSettingKey() => "OWP_AutoAssignment_Export_GetTraderInfo";
+﻿namespace OWP.AutoAssignment.Criteria.InternalApi;
 
-        public override bool IsValid() => true;
-    }
+public class GetTraderExportInfoCriteria : ExportInfoCriteriaBase
+{
+    public override string GetSettingKey() => "OWP_AutoAssignment_Export_GetTraderInfo";
+
+    public override bool IsValid() => true;
 }

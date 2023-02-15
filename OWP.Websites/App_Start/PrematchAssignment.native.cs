@@ -1,7 +1,7 @@
-﻿using OWP.PreMatchAssignment.Misc;
-using OWP.PreMatchAssignment.Services;
+﻿namespace OWP.Websites;
 
-namespace OWP.Websites;
+using PreMatchAssignment.Misc;
+using PreMatchAssignment.Services;
 
 public static class PreMatchAssignmentInjector
 {
@@ -12,7 +12,6 @@ public static class PreMatchAssignmentInjector
         services.AddScoped<QueryLogService, QueryLogServiceImp>();
         services.AddScoped<LogFactory, LogFactoryImp>();
 
-        //services.AddScoped<NotificationService, NotificationServiceImp>();
         services.AddScoped<NoteService, NoteServiceImp>();
         services.AddScoped<MaxbetSpreadService, MaxbetSpreadServiceImp>();
         services.AddScoped<ShiftAssignmentService, ShiftAssignmentServiceImp>();

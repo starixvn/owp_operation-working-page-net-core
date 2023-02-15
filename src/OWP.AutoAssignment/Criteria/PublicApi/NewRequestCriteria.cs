@@ -1,11 +1,10 @@
-﻿using Fanex.Data.Repository;
+﻿namespace OWP.AutoAssignment.Criteria.PublicApi;
 
-namespace OWP.AutoAssignment.Criteria.PublicApi
+using Fanex.Data.Repository;
+
+internal class NewRequestCriteria : CriteriaBase
 {
-    internal class NewRequestCriteria : CriteriaBase
-    {
-        public override bool IsValid() => true;
+    public override bool IsValid() => true;
 
-        public override string GetSettingKey() => "OWP_AutoAssignment_GetRequestNew";
-    }
+    public override string GetSettingKey() => "OWP_AutoAssignment_GetRequestNew";
 }

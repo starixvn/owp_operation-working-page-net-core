@@ -1,13 +1,12 @@
-﻿namespace OWP.PrematchAssignment.Models
+﻿namespace OWP.PrematchAssignment.Models;
+
+public class TicketAssignee
 {
-    public class TicketAssignee
-    {
-        public string NickName { get; set; }
+    public string NickName { get; set; }
 
-        public int? RecipientId { get; set; }
+    public int? RecipientId { get; set; }
 
-        public int RecipientType => (int)Enum.RecipientType.Individual;
+    public int RecipientType => (int)Enum.RecipientType.Individual;
 
-        public string UserName { get; set; }
-    }
+    public string UserName { get; set; }
 }

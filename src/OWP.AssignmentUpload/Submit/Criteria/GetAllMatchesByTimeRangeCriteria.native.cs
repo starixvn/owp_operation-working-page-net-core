@@ -1,14 +1,12 @@
-﻿namespace OWP.AssignmentUpload.Submit.Criteria
+﻿namespace OWP.AssignmentUpload.Submit.Criteria;
+
+using Fanex.Data.Repository;
+
+public class GetAllMatchesByTimeRangeCriteria : CriteriaBase
 {
-    using System;
-    using Fanex.Data.Repository;
+    public DateTime EventDate { get; set; }
 
-    public class GetAllMatchesByTimeRangeCriteria : CriteriaBase
-    {
-        public DateTime EventDate { get; set; }
+    public override string GetSettingKey() => "OWP_AssignmentUpload_AllMatchesByTimeRange";
 
-        public override string GetSettingKey() => "OWP_AssignmentUpload_AllMatchesByTimeRange";
-
-        public override bool IsValid() => true;
-    }
+    public override bool IsValid() => true;
 }

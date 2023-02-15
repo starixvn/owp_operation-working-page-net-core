@@ -1,16 +1,15 @@
+namespace OWP.AssignmentUpload.Validation.Exceptions;
+
 using System.Runtime.Serialization;
 
-namespace OWP.AssignmentUpload.Validation.Exceptions
+[Serializable]
+public class InvalidExcelFormatException : CriticalValidationException
 {
-    [Serializable]
-    public class InvalidExcelFormatException : CriticalValidationException
+    public InvalidExcelFormatException() : base("Incorrect template")
     {
-        public InvalidExcelFormatException() : base("Incorrect template")
-        {
-        }
+    }
 
-        protected InvalidExcelFormatException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
+    protected InvalidExcelFormatException(SerializationInfo info, StreamingContext context) : base(info, context)
+    {
     }
 }

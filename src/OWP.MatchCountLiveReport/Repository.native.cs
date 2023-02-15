@@ -1,7 +1,7 @@
-using Fanex.Data.Repository;
-using OWP.MatchCountLiveReport.Models;
-
 namespace OWP.MatchCountLiveReport;
+
+using Fanex.Data.Repository;
+using Models;
 
 public interface Repository
 {

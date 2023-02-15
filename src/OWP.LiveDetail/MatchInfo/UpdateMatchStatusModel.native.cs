@@ -1,9 +1,8 @@
-﻿namespace OWP.LiveDetail.MatchInfo
-{
-    public class UpdateMatchStatusModel
-    {
-        public int OWPMatchId { get; set; }
+﻿namespace OWP.LiveDetail.MatchInfo;
 
-        public string MatchStatus { get; set; }
-    }
+public class UpdateMatchStatusModel
+{
+    public int OWPMatchId { get; set; }
+
+    public string MatchStatus { get; set; }
 }

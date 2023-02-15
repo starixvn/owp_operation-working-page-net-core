@@ -1,7 +1,6 @@
-﻿namespace OWP.LiveDetail.Assignment
+﻿namespace OWP.LiveDetail.Assignment;
+
+public class QueryModel
 {
-    public class QueryModel
-    {
-        public int OWPMatchId { get; set; }
-    }
+    public int OWPMatchId { get; set; }
 }

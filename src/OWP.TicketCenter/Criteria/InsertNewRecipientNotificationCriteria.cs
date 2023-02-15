@@ -1,14 +1,13 @@
-﻿namespace OWP.TicketCenter.Criteria
+﻿namespace OWP.TicketCenter.Criteria;
+
+public class InsertNewRecipientNotificationCriteria : InsertNotificationMessageCriteria
 {
-    public class InsertNewRecipientNotificationCriteria : InsertNotificationMessageCriteria
-    {
-        public int ReceivedUserId { get; set; }
+    public int ReceivedUserId { get; set; }
 
-        public int ReceivedUserType { get; set; }
+    public int ReceivedUserType { get; set; }
 
-        public override string GetSettingKey() => "OWP_TicketCenter_InsertNewRecipientNotification";
+    public override string GetSettingKey() => "OWP_TicketCenter_InsertNewRecipientNotification";
 
-        public override bool IsValid()
-            => NotificationContent.Length > 0 && ReceivedUserId > 0;
-    }
+    public override bool IsValid()
+        => NotificationContent.Length > 0 && ReceivedUserId > 0;
 }

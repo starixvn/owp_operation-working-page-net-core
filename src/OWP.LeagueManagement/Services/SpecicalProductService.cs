@@ -1,9 +1,8 @@
 namespace OWP.LeagueManagement.Service;
 
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Models;
 using Fanex.NAP.Client.Helpers.Web;
+using Models;
+
 public interface SpecialProductService
 {
     Task<IList<LogDisplayModel>> BuildLog(QueryLogModel model);

@@ -1,9 +1,8 @@
-﻿namespace OWP.PrematchAssignment.Enum
+﻿namespace OWP.PrematchAssignment.Enum;
+
+public enum EventType
 {
-    public enum EventType
-    {
-        League = 1,
-        Match = 2,
-        Other = 3
-    }
+    League = 1,
+    Match = 2,
+    Other = 3
 }

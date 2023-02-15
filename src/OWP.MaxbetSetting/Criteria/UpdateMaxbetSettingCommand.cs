@@ -1,6 +1,6 @@
-﻿using Fanex.Data.Repository;
+﻿namespace OWP.MaxbetSetting.Criteria;
 
-namespace OWP.MaxbetSetting.Criteria;
+using Fanex.Data.Repository;
 
 public class UpdateMaxbetSettingCriteria : NonQueryCommand
 {

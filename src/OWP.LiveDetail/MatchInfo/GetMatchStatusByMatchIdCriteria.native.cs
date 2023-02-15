@@ -1,13 +1,12 @@
-﻿namespace OWP.LiveDetail.MatchInfo
+﻿namespace OWP.LiveDetail.MatchInfo;
+
+using Fanex.Data.Repository;
+
+public class GetMatchStatusByMatchIdCriteria : CriteriaBase
 {
-    using Fanex.Data.Repository;
+    public int OWPMatchId { get; set; }
 
-    public class GetMatchStatusByMatchIdCriteria : CriteriaBase
-    {
-        public int OWPMatchId { get; set; }
+    public override bool IsValid() => OWPMatchId > 0;
 
-        public override bool IsValid() => OWPMatchId > 0;
-
-        public override string GetSettingKey() => "OWP_LiveDetail_MatchStatus_GetByMatchId";
-    }
+    public override string GetSettingKey() => "OWP_LiveDetail_MatchStatus_GetByMatchId";
 }

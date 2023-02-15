@@ -1,55 +1,50 @@
-namespace OWP.AssignmentUpload.Validation.Services
-{
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Models;
-    using SyncInfoSite.Services;
-    using System;
-    using SyncInfoSite.Helper;
+namespace OWP.AssignmentUpload.Validation.Services;
 
-    public interface InfoSiteMatchUpdater
+using Models;
+using SyncInfoSite.Helper;
+using SyncInfoSite.Services;
+
+public interface InfoSiteMatchUpdater
+{
+    Task UpdateInfoSiteMatchToOwpMatch(List<AssignmentModel> owpMatch, DateTime eventDateTime);
+}
+
+public class InfoSiteMatchUpdaterImp : InfoSiteMatchUpdater
+{
+    private readonly SyncInfoSiteService syncInfoSiteService;
+
+    private static readonly List<MainMatchBackupModel> mainMatchBackupModel = new();
+
+    public InfoSiteMatchUpdaterImp(
+        Repository repository,
+        SyncInfoSiteService syncInfoSiteIdService)
     {
-        Task UpdateInfoSiteMatchToOwpMatch(List<AssignmentModel> owpMatch, DateTime eventDateTime);
+        syncInfoSiteService = syncInfoSiteIdService;
     }
 
-    public class InfoSiteMatchUpdaterImp : InfoSiteMatchUpdater
+    public async Task UpdateInfoSiteMatchToOwpMatch(List<AssignmentModel> owpMatch, DateTime eventDateTime)
     {
-        private readonly SyncInfoSiteService syncInfoSiteService;
+        var mainMatch = InfoSiteHelper.GetMainMatch(owpMatch);
+        var minorMatch= InfoSiteHelper.GetMinorMatch(owpMatch);
 
-        private static List<MainMatchBackupModel> mainMatchBackupModel = new List<MainMatchBackupModel>();
+        BackupMainAssignmentInfo(mainMatch);
 
-        public InfoSiteMatchUpdaterImp(
-            Repository repository,
-            SyncInfoSiteService syncInfoSiteIdService)
+        await syncInfoSiteService.SyncInfoMainMatch(mainMatch, eventDateTime);
+        syncInfoSiteService.SyncInfoMinorMatch(minorMatch, mainMatchBackupModel, mainMatch);
+    }
+
+    public void BackupMainAssignmentInfo(List<AssignmentModel> mainMatch)
+    {
+        mainMatchBackupModel.Clear();
+        mainMatch.ForEach(assignment =>
         {
-            this.syncInfoSiteService = syncInfoSiteIdService;
-        }
-
-        public async Task UpdateInfoSiteMatchToOwpMatch(List<AssignmentModel> owpMatch, DateTime eventDateTime)
-        {
-            var mainMatch = InfoSiteHelper.GetMainMatch(owpMatch);
-            var minorMatch= InfoSiteHelper.GetMinorMatch(owpMatch);
-
-            BackupMainAssignmentInfo(mainMatch);
-
-            await syncInfoSiteService.SyncInfoMainMatch(mainMatch, eventDateTime);
-            syncInfoSiteService.SyncInfoMinorMatch(minorMatch, mainMatchBackupModel, mainMatch);
-        }
-
-        public void BackupMainAssignmentInfo(List<AssignmentModel> mainMatch)
-        {
-            mainMatchBackupModel.Clear();
-            mainMatch.ForEach(assignment =>
+            mainMatchBackupModel.Add(new MainMatchBackupModel
             {
-                mainMatchBackupModel.Add(new MainMatchBackupModel
-                {
-                    key = assignment.HashKey,
-                    League = assignment.League,
-                    Home = assignment.Home,
-                    Away = assignment.Away
-                });
+                key = assignment.HashKey,
+                League = assignment.League,
+                Home = assignment.Home,
+                Away = assignment.Away
             });
-        }
+        });
     }
 }

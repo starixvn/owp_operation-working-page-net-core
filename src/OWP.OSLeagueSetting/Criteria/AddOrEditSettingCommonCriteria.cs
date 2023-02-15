@@ -1,6 +1,6 @@
-using Fanex.Data.Repository;
-
 namespace OWP.OSLeagueSetting.Criteria;
+
+using Fanex.Data.Repository;
 
 public abstract class AddOrEditSettingCommonCriteria : NonQueryCommand
 {

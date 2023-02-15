@@ -1,16 +1,15 @@
-﻿namespace OWP.OtherSport.Validation.Exceptions
+﻿namespace OWP.OtherSport.Validation.Exceptions;
+
+using System.Runtime.Serialization;
+
+[Serializable]
+public class InvalidExcelCellFormatException : CriticalValidationException
 {
-    using System.Runtime.Serialization;
-
-    [Serializable]
-    public class InvalidExcelCellFormatException : CriticalValidationException
+    public InvalidExcelCellFormatException(string message) : base(message)
     {
-        public InvalidExcelCellFormatException(string message) : base(message)
-        {
-        }
+    }
 
-        protected InvalidExcelCellFormatException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
+    protected InvalidExcelCellFormatException(SerializationInfo info, StreamingContext context) : base(info, context)
+    {
     }
 }

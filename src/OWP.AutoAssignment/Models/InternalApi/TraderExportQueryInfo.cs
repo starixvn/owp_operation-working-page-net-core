@@ -1,20 +1,19 @@
-﻿using OWP.Extensions;
+﻿namespace OWP.AutoAssignment.Models.InternalApi;
 
-namespace OWP.AutoAssignment.Models.InternalApi
+using Extensions;
+
+[XMLName("Row")]
+public record TraderExportQueryInfo
 {
-    [XMLName("Row")]
-    public record TraderExportQueryInfo
-    {
-        public int InfoSiteMatchId { get; init; }
+    public int InfoSiteMatchId { get; init; }
 
-        public int? FTHDPAssingeeId { get; init; }
+    public int? FTHDPAssingeeId { get; init; }
 
-        public int? FIRSTHHDPAssingeeId { get; init; }
+    public int? FIRSTHHDPAssingeeId { get; init; }
 
-        public int? FTOUAssingeeId { get; init; }
+    public int? FTOUAssingeeId { get; init; }
 
-        public int? FIRSTHOUAssingeeId { get; init; }
+    public int? FIRSTHOUAssingeeId { get; init; }
 
-        public int Bettype { get; init; }
-    }
+    public int Bettype { get; init; }
 }

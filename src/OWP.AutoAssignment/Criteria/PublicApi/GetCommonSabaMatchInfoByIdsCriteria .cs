@@ -1,13 +1,12 @@
-﻿namespace OWP.AutoAssignment.Criteria.PublicApi
+﻿namespace OWP.AutoAssignment.Criteria.PublicApi;
+
+using Fanex.Data.Repository;
+
+internal class GetCommonSabaMatchInfoByIdsCriteria : CriteriaBase
 {
-    using Fanex.Data.Repository;
+    public string Ids { get; set; }
 
-    internal class GetCommonSabaMatchInfoByIdsCriteria : CriteriaBase
-    {
-        public string Ids { get; set; }
+    public override bool IsValid() => true;
 
-        public override bool IsValid() => true;
-
-        public override string GetSettingKey() => "OWP_AutoAssignment_GetCommonSabaMatchInfoByIds";
-    }
+    public override string GetSettingKey() => "OWP_AutoAssignment_GetCommonSabaMatchInfoByIds";
 }

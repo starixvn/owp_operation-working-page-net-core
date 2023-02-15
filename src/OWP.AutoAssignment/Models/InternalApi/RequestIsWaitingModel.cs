@@ -1,7 +1,6 @@
-﻿namespace OWP.AutoAssignment.Models.InternalApi
+﻿namespace OWP.AutoAssignment.Models.InternalApi;
+
+public class RequestIsWaitingModel
 {
-    public class RequestIsWaitingModel
-    {
-        public string RequestId { get; set; }
-    }
+    public string RequestId { get; set; }
 }

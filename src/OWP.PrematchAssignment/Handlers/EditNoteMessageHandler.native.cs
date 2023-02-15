@@ -1,28 +1,27 @@
-﻿namespace OWP.PreMatchAssignment.Handlers
+﻿namespace OWP.PreMatchAssignment.Handlers;
+
+using MediatR;
+using Models;
+using Services;
+
+public class EditNoteMessageRequest : IRequest<Note>
 {
-    using MediatR;
-    using Models;
-    using Services;
+    public int PreMatchNoteMessageId { get; set; }
 
-    public class EditNoteMessageRequest : IRequest<Note>
+    public string Message { get; set; }
+}
+
+public class EditNoteMessageHandler : IRequestHandler<EditNoteMessageRequest, Note>
+{
+    private readonly NoteService noteService;
+
+    public EditNoteMessageHandler(NoteService noteService)
     {
-        public int PreMatchNoteMessageId { get; set; }
-
-        public string Message { get; set; }
+        this.noteService = noteService;
     }
 
-    public class EditNoteMessageHandler : IRequestHandler<EditNoteMessageRequest, Note>
+    public async Task<Note> Handle(EditNoteMessageRequest request, CancellationToken cancellationToken)
     {
-        private readonly NoteService noteService;
-
-        public EditNoteMessageHandler(NoteService noteService)
-        {
-            this.noteService = noteService;
-        }
-
-        public async Task<Note> Handle(EditNoteMessageRequest request, CancellationToken cancellationToken)
-        {
-            return await noteService.EditNoteMessage(request);
-        }
+        return await noteService.EditNoteMessage(request);
     }
 }

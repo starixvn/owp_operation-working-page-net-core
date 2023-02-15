@@ -1,28 +1,27 @@
-﻿namespace OWP.PreMatchAssignment.Handlers
-{
-    using MediatR;
-    using Models;
-    using Services;
+﻿namespace OWP.PreMatchAssignment.Handlers;
 
-    public class QueryWorkingShiftRequest : IRequest<IEnumerable<WorkingShift>>
+using MediatR;
+using Models;
+using Services;
+
+public class QueryWorkingShiftRequest : IRequest<IEnumerable<WorkingShift>>
+{
+    public DateTime Date { get; set; }
+}
+
+public class WorkingShiftHandler : IRequestHandler<QueryWorkingShiftRequest, IEnumerable<WorkingShift>>
+{
+    private readonly QueryWorkingShift queryWorkingShift;
+
+    public WorkingShiftHandler(QueryWorkingShift queryWorkingShift)
     {
-        public DateTime Date { get; set; }
+        this.queryWorkingShift = queryWorkingShift;
     }
 
-    public class WorkingShiftHandler : IRequestHandler<QueryWorkingShiftRequest, IEnumerable<WorkingShift>>
+    public async Task<IEnumerable<WorkingShift>> Handle(QueryWorkingShiftRequest request, CancellationToken cancellationToken)
     {
-        private readonly QueryWorkingShift queryWorkingShift;
+        var result = await queryWorkingShift.QueryWorkingShift(request.Date);
 
-        public WorkingShiftHandler(QueryWorkingShift queryWorkingShift)
-        {
-            this.queryWorkingShift = queryWorkingShift;
-        }
-
-        public async Task<IEnumerable<WorkingShift>> Handle(QueryWorkingShiftRequest request, CancellationToken cancellationToken)
-        {
-            var result = await queryWorkingShift.QueryWorkingShift(request.Date);
-
-            return result;
-        }
+        return result;
     }
 }

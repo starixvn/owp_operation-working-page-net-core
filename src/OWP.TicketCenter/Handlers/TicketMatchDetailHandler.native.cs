@@ -1,22 +1,21 @@
-﻿using MediatR;
-using OWP.TicketCenter.Middleware.Models;
-using OWP.TicketCenter.Services;
-using OWP.TicketCenter.ViewModels;
+﻿namespace OWP.TicketCenter.Handlers;
 
-namespace OWP.TicketCenter.Handlers
+using MediatR;
+using Middleware.Models;
+using Services;
+using ViewModels;
+
+public class TicketMatchDetailRequest : PermissionCheckedModel, IRequest<TicketMatchDetailViewModel> { }
+
+public class TicketMatchDetailHandler : IRequestHandler<TicketMatchDetailRequest, TicketMatchDetailViewModel>
 {
-    public class TicketMatchDetailRequest : PermissionCheckedModel, IRequest<TicketMatchDetailViewModel> { }
+    private readonly TicketDetailService service;
 
-    public class TicketMatchDetailHandler : IRequestHandler<TicketMatchDetailRequest, TicketMatchDetailViewModel>
+    public TicketMatchDetailHandler(TicketDetailService service)
     {
-        private readonly TicketDetailService service;
-
-        public TicketMatchDetailHandler(TicketDetailService service)
-        {
-            this.service = service;
-        }
-
-        public async Task<TicketMatchDetailViewModel> Handle(TicketMatchDetailRequest request, CancellationToken cancellationToken)
-            => await service.GetTicketMatchDetail(request);
+        this.service = service;
     }
+
+    public async Task<TicketMatchDetailViewModel> Handle(TicketMatchDetailRequest request, CancellationToken cancellationToken)
+        => await service.GetTicketMatchDetail(request);
 }

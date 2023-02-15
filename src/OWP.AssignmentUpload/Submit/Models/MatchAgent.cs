@@ -1,9 +1,8 @@
-﻿namespace OWP.AssignmentUpload.Submit.Models
-{
-    public class MatchAgent
-    {
-        public int MatchId { get; set; }
+﻿namespace OWP.AssignmentUpload.Submit.Models;
 
-        public string Agent { get; set; }
-    }
+public class MatchAgent
+{
+    public int MatchId { get; set; }
+
+    public string Agent { get; set; }
 }

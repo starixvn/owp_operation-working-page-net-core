@@ -1,30 +1,27 @@
-﻿namespace OWP.LiveDetail.Agent
+﻿namespace OWP.LiveDetail.Agent;
+
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+
+[Route("api/live-detail/agent")]
+[ApiController]
+[Authorize]
+[EnableCors("AllowOrigin")]
+public class AgentController : ControllerBase
 {
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Cors;
-    using Microsoft.AspNetCore.Mvc;
-    using Newtonsoft.Json;
+    private readonly AgentRepository repository;
 
-    [Route("api/live-detail/agent")]
-    [ApiController]
-    [Authorize]
-    [EnableCors("AllowOrigin")]
-    public class AgentController : ControllerBase
+    public AgentController(AgentRepository repository)
     {
-        private readonly AgentRepository repository;
+        this.repository = repository;
+    }
 
-        public AgentController(AgentRepository repository)
-        {
-            this.repository = repository;
-        }
-
-        [Route("all")]
-        public async Task<IActionResult> GetAll()
-        {
-            var result = await repository.GetAll();
-            return Ok(JsonConvert.SerializeObject(result));
-        }
+    [Route("all")]
+    public async Task<IActionResult> GetAll()
+    {
+        var result = await repository.GetAll();
+        return Ok(JsonConvert.SerializeObject(result));
     }
 }

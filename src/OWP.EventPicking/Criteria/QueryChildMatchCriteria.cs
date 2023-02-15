@@ -1,6 +1,6 @@
-using Fanex.Data.Repository;
-
 namespace OWP.EventPicking.Criteria;
+
+using Fanex.Data.Repository;
 
 public class QueryChildMatchCriteria : CriteriaBase
 {

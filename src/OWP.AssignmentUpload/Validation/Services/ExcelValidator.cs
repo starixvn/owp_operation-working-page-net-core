@@ -1,64 +1,60 @@
-﻿namespace OWP.AssignmentUpload.Validation.Services
-{
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using Exceptions;
-    using Extensions;
-    using OfficeOpenXml;
+﻿namespace OWP.AssignmentUpload.Validation.Services;
 
-    public interface ExcelValidator
+using Exceptions;
+using Extensions;
+using OfficeOpenXml;
+
+public interface ExcelValidator
+{
+    void Validate(Stream stream);
+}
+
+public class ExcelValidatorImp : ExcelValidator
+{
+    public void Validate(Stream stream)
     {
-        void Validate(Stream stream);
+        stream.Seek(0, SeekOrigin.Begin);
+
+        using (var package = new ExcelPackage(stream))
+        {
+            var sheet = package.Workbook.Worksheets.First();
+            ValidateHeaders(sheet);
+            ValidateCellValues(sheet);
+        }
     }
 
-    public class ExcelValidatorImp : ExcelValidator
+    private static void ValidateHeaders(ExcelWorksheet sheet)
     {
-        public void Validate(Stream stream)
-        {
-            stream.Seek(0, SeekOrigin.Begin);
+        var headerMap = sheet.GetHeaderMap();
 
-            using (var package = new ExcelPackage(stream))
-            {
-                var sheet = package.Workbook.Worksheets.First();
-                ValidateHeaders(sheet);
-                ValidateCellValues(sheet);
-            }
+        var anyInvalidHeaderColumnIndex = headerMap.Any(i => i.Value <= 0);
+        if (anyInvalidHeaderColumnIndex)
+        {
+            throw new InvalidExcelFormatException();
         }
+    }
 
-        private static void ValidateHeaders(ExcelWorksheet sheet)
+    private static void ValidateCellValues(ExcelWorksheet sheet)
+    {
+        var errorCellAddresses = new List<string>();
+
+        for (var i = 3; i <= sheet.Dimension.End.Row; i++)
         {
-            var headerMap = sheet.GetHeaderMap();
-
-            var anyInvalidHeaderColumnIndex = headerMap.Any(i => i.Value <= 0);
-            if (anyInvalidHeaderColumnIndex)
+            for (var j = 1; j < sheet.Dimension.End.Column; j++)
             {
-                throw new InvalidExcelFormatException();
-            }
-        }
-
-        private static void ValidateCellValues(ExcelWorksheet sheet)
-        {
-            var errorCellAddresses = new List<string>();
-
-            for (var i = 3; i <= sheet.Dimension.End.Row; i++)
-            {
-                for (var j = 1; j < sheet.Dimension.End.Column; j++)
+                var cellValue = sheet.Cells[i, j].Value;
+                if (cellValue is ExcelErrorValue)
                 {
-                    var cellValue = sheet.Cells[i, j].Value;
-                    if (cellValue is ExcelErrorValue)
-                    {
-                        var excelAddress = new ExcelAddress(i, j, i, j).Address;
-                        errorCellAddresses.Add($"{excelAddress.Substring(0, 2)}-{i}");
-                    }
+                    var excelAddress = new ExcelAddress(i, j, i, j).Address;
+                    errorCellAddresses.Add($"{excelAddress.Substring(0, 2)}-{i}");
                 }
             }
+        }
 
-            if (errorCellAddresses.Any())
-            {
-                var message = $"資料不正確, 請查看列表: {string.Join(",", errorCellAddresses)}";
-                throw new InvalidExcelCellFormatException(message);
-            }
+        if (errorCellAddresses.Any())
+        {
+            var message = $"資料不正確, 請查看列表: {string.Join(",", errorCellAddresses)}";
+            throw new InvalidExcelCellFormatException(message);
         }
     }
 }

@@ -1,6 +1,6 @@
-using Fanex.Data.Repository;
-
 namespace OWP.MaxbetSetting.Criteria;
+
+using Fanex.Data.Repository;
 
 public class GetLogMaxBetSettingCriteria : CriteriaBase
 {

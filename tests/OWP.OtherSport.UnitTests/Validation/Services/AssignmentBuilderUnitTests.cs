@@ -1,112 +1,110 @@
-﻿namespace OWP.OtherSport.UnitTests.Validation.Services
+﻿namespace OWP.OtherSport.UnitTests.Validation.Services;
+
+using AutoMapper;
+using OtherSport.Validation.Models;
+using OtherSport.Validation.Services;
+using Xunit;
+using Xunit.Asserts.Compare;
+
+public class AssignmentBuilderUnitTests
 {
-    using AutoMapper;
-    using OWP.OtherSport.Validation.Models;
-    using OWP.OtherSport.Validation.Services;
+    private readonly AssignmentBuilderImp assignmentBuilder;
+    private readonly AssignmentMapper assignmentMapper;
 
-    using Xunit;
-    using Xunit.Asserts.Compare;
-
-    public class AssignmentBuilderUnitTests
+    public AssignmentBuilderUnitTests()
     {
-        private readonly AssignmentBuilderImp assignmentBuilder;
-        private readonly AssignmentMapper assignmentMapper;
-
-        public AssignmentBuilderUnitTests()
+        var config = new MapperConfiguration(cfg =>
         {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<AssignmentModelInExcel, AssignmentModel>()
-                   .ForMember(dest => dest.DateTime, opt => opt.Ignore());
-            });
-            var iMapper = config.CreateMapper();
+            cfg.CreateMap<AssignmentModelInExcel, AssignmentModel>()
+                .ForMember(dest => dest.DateTime, opt => opt.Ignore());
+        });
+        var iMapper = config.CreateMapper();
 
-            assignmentMapper = new AssignmentMapperImp(iMapper);
-            assignmentBuilder = new AssignmentBuilderImp(assignmentMapper);
-        }
+        assignmentMapper = new AssignmentMapperImp(iMapper);
+        assignmentBuilder = new AssignmentBuilderImp(assignmentMapper);
+    }
 
-        [Fact]
-        public void BuildAssignment_Always_ReturnAssignmentModels()
+    [Fact]
+    public void BuildAssignment_Always_ReturnAssignmentModels()
+    {
+        var traders = new List<Trader>
         {
-            var traders = new List<Trader>
-            {
-                new Trader{ UserId = 1, Username = "Esther"},
-                new Trader{ UserId = 10, Username = "Mira"},
-                new Trader{ UserId = 2, Username = "Lita"}
-            };
+            new() { UserId = 1, Username = "Esther"},
+            new() { UserId = 10, Username = "Mira"},
+            new() { UserId = 2, Username = "Lita"}
+        };
 
-            var assignmentModelInExcels = GetAssignmentModelInExcels();
+        var assignmentModelInExcels = GetAssignmentModelInExcels();
 
-            var expected = GetAssignmentModels();
-            var actual = assignmentBuilder.BuildAssignment(traders, assignmentModelInExcels);
+        var expected = GetAssignmentModels();
+        var actual = assignmentBuilder.BuildAssignment(traders, assignmentModelInExcels);
 
-            DeepAssert.Equal(expected, actual, "HashKey");
-        }
+        DeepAssert.Equal(expected, actual, "HashKey");
+    }
 
-        private static List<AssignmentModel> GetAssignmentModels()
+    private static List<AssignmentModel> GetAssignmentModels()
+    {
+        var model = new AssignmentModel
         {
-            var model = new AssignmentModel
-            {
-                Reporter = null,
-                Sport = "Basketball",
-                Home = "Golden State Warrior",
-                Away = "LA Laker",
-                MatchStatus = "Completed",
-                DateTime = DateTime.Parse("12/10/2020 12:00 AM"),
-                League = "NBA",
-                AutoLink = "YES"
-            };
+            Reporter = null,
+            Sport = "Basketball",
+            Home = "Golden State Warrior",
+            Away = "LA Laker",
+            MatchStatus = "Completed",
+            DateTime = DateTime.Parse("12/10/2020 12:00 AM"),
+            League = "NBA",
+            AutoLink = "YES"
+        };
 
-            var model2 = new AssignmentModel
-            {
-                Reporter = null,
-                Sport = "Ice Hookey",
-                Home = "Golden State Warrior",
-                Away = "LA Laker",
-                MatchStatus = "Completed",
-                DateTime = DateTime.Parse("12/10/2020 12:00 AM"),
-                League = "Hookey",
-                AutoLink = "YES"
-            };
-
-            var assignmentModels = new List<AssignmentModel>
-            {
-                model, model2
-            };
-
-            return assignmentModels;
-        }
-
-        private static List<AssignmentModelInExcel> GetAssignmentModelInExcels()
+        var model2 = new AssignmentModel
         {
-            var excelModel = new AssignmentModelInExcel
-            {
-                Sport = "Basketball",
-                Home = "Golden State Warrior",
-                Away = "LA Laker",
-                MatchStatus = "Completed",
-                DateTime = "44175",
-                League = "NBA",
-                AutoLink = "YES"
-            };
+            Reporter = null,
+            Sport = "Ice Hookey",
+            Home = "Golden State Warrior",
+            Away = "LA Laker",
+            MatchStatus = "Completed",
+            DateTime = DateTime.Parse("12/10/2020 12:00 AM"),
+            League = "Hookey",
+            AutoLink = "YES"
+        };
 
-            var excelModel2 = new AssignmentModelInExcel
-            {
-                Sport = "Ice Hookey",
-                Home = "Golden State Warrior",
-                Away = "LA Laker",
-                MatchStatus = "Completed",
-                DateTime = "44175",
-                League = "Hookey",
-                AutoLink = "YES"
-            };
+        var assignmentModels = new List<AssignmentModel>
+        {
+            model, model2
+        };
 
-            var assignmentModelInExcels = new List<AssignmentModelInExcel>
-            {
-                excelModel, excelModel2
-            };
+        return assignmentModels;
+    }
 
-            return assignmentModelInExcels;
-        }
+    private static List<AssignmentModelInExcel> GetAssignmentModelInExcels()
+    {
+        var excelModel = new AssignmentModelInExcel
+        {
+            Sport = "Basketball",
+            Home = "Golden State Warrior",
+            Away = "LA Laker",
+            MatchStatus = "Completed",
+            DateTime = "44175",
+            League = "NBA",
+            AutoLink = "YES"
+        };
+
+        var excelModel2 = new AssignmentModelInExcel
+        {
+            Sport = "Ice Hookey",
+            Home = "Golden State Warrior",
+            Away = "LA Laker",
+            MatchStatus = "Completed",
+            DateTime = "44175",
+            League = "Hookey",
+            AutoLink = "YES"
+        };
+
+        var assignmentModelInExcels = new List<AssignmentModelInExcel>
+        {
+            excelModel, excelModel2
+        };
+
+        return assignmentModelInExcels;
     }
 }

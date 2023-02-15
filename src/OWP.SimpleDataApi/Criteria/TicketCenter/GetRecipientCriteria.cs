@@ -1,17 +1,16 @@
-﻿using Fanex.Data.Repository;
+﻿namespace OWP.SimpleDataApi.Criteria.TicketCenter;
 
-namespace OWP.SimpleDataApi.Criteria.TicketCenter
+using Fanex.Data.Repository;
+
+public class GetRecipientCriteria : CriteriaBase
 {
-    public class GetRecipientCriteria : CriteriaBase
-    {
-        public string Keyword { get; set; }
+    public string Keyword { get; set; }
 
-        public bool IncludeGroup { get; set; }
+    public bool IncludeGroup { get; set; }
 
-        public bool IncludeSection { get; set; }
+    public bool IncludeSection { get; set; }
 
-        public override string GetSettingKey() => "OWP_TicketCenter_GetRecipient";
+    public override string GetSettingKey() => "OWP_TicketCenter_GetRecipient";
 
-        public override bool IsValid() => true;
-    }
+    public override bool IsValid() => true;
 }

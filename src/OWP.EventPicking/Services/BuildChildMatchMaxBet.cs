@@ -1,10 +1,10 @@
-using OWP.Constants;
-using OWP.EventPicking.Models;
-using OWP.Extensions;
-using OWP.MaxbetSetting.Models;
-using OWP.Utils;
-
 namespace OWP.EventPicking.Services;
+
+using Constants;
+using Extensions;
+using MaxbetSetting.Models;
+using Models;
+using Utils;
 
 public interface BuildChildMatchMaxBet
 {
@@ -57,7 +57,7 @@ public class BuildChildMatchMaxBetImp : BuildChildMatchMaxBet
         {
             return maxBetDefault.ContainsKey((decimal)parentMaxBet.MaxBetHDPNumber)
                 ? maxBetDefault.GetValue((decimal)parentMaxBet.MaxBetHDPNumber)
-                : maxBetDefault.GetValue((-1000m));
+                : maxBetDefault.GetValue(-1000m);
         }
 
         return null;

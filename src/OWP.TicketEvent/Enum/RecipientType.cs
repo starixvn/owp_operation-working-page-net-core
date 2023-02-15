@@ -1,8 +1,7 @@
-﻿namespace OWP.TicketEvent.Enum
+﻿namespace OWP.TicketEvent.Enum;
+
+public enum RecipientType
 {
-    public enum RecipientType
-    {
-        Individual = 1,
-        Group = 2
-    }
+    Individual = 1,
+    Group = 2
 }

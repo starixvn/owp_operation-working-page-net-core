@@ -1,15 +1,15 @@
+namespace OWP.EventPicking.Handlers;
+
+using System.Drawing;
 using Epplus.Mapper.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Misc;
+using Models;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
-using OWP.EventPicking.Misc;
-using OWP.EventPicking.Models;
-using OWP.EventPicking.Services;
 using OWP.Services;
-using System.Drawing;
-
-namespace OWP.EventPicking.Handlers;
+using Services;
 
 public class ExportMiscMatchRequest : IRequest<FileResult>
 {
@@ -58,7 +58,7 @@ public class ExportMiscMatchHandler : IRequestHandler<ExportMiscMatchRequest, Fi
         for (int i = 0, row = 2; i < matches.Count; i++, row++)
         {
             var match = matches[i];
-            for (int column = 1; column <= 90; column++)
+            for (var column = 1; column <= 90; column++)
             {
                 if (match.RowColorHex != null && match.RowColorHex != Constant.ColorWhiteHex)
                 {
@@ -78,7 +78,7 @@ public class ExportMiscMatchHandler : IRequestHandler<ExportMiscMatchRequest, Fi
 
     private string GetReportTemplate()
     {
-        const string templatePath = @$"App_Data/Templates/EventPickingNewFormat.xlsx";
+        const string templatePath = @"App_Data/Templates/EventPickingNewFormat.xlsx";
         return $"{configurationService.CurrentDirectory}{Path.DirectorySeparatorChar}{templatePath}";
     }
 

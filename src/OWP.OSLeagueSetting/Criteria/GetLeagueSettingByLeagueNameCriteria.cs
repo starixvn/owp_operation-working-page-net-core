@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Fanex.Data.Repository;
+﻿namespace OWP.OSLeagueSetting.Criteria;
 
-namespace OWP.OSLeagueSetting.Criteria;
+using Fanex.Data.Repository;
 
 public class GetLeagueSettingByLeagueNameCriteria : CriteriaBase
 {

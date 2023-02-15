@@ -1,11 +1,10 @@
-﻿namespace OWP.PreMatchAssignment.Models
+﻿namespace OWP.PreMatchAssignment.Models;
+
+public class LinkedMatch
 {
-    public class LinkedMatch
-    {
-        public int InfositeMatchId { get; set; }
+    public int InfositeMatchId { get; set; }
 
-        public int OWPMatchId { get; set; }
+    public int OWPMatchId { get; set; }
 
-        public string MatchStatus { get; set; } = string.Empty;
-    }
+    public string MatchStatus { get; set; } = string.Empty;
 }

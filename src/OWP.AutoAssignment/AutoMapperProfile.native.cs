@@ -1,13 +1,12 @@
-﻿using AutoMapper;
-using OWP.AutoAssignment.Models.InternalApi;
+﻿namespace OWP.AutoAssignment;
 
-namespace OWP.AutoAssignment
+using AutoMapper;
+using Models.InternalApi;
+
+public class AutoMapperProfile : Profile
 {
-    public class AutoMapperProfile : Profile
+    public AutoMapperProfile()
     {
-        public AutoMapperProfile()
-        {
-            CreateMap<InfoSiteMatchModel, ExportMatchModel>();
-        }
+        CreateMap<InfoSiteMatchModel, ExportMatchModel>();
     }
 }

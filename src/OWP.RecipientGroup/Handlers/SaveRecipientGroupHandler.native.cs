@@ -1,80 +1,79 @@
-﻿namespace OWP.RecipientGroup.Handlers
+﻿namespace OWP.RecipientGroup.Handlers;
+
+using Criteria;
+using MediatR;
+using Models;
+using Services;
+
+public class SaveRecipientGroupRequest : IRequest<string>
 {
-    using MediatR;
-    using Models;
-    using OWP.RecipientGroup.Criteria;
-    using Services;
+    public int GroupId { get; set; }
 
-    public class SaveRecipientGroupRequest : IRequest<string>
+    public string GroupName { get; set; }
+
+    public IEnumerable<Recipient> Recipients { get; set; }
+}
+
+public class SaveRecipientGroupHandler : IRequestHandler<SaveRecipientGroupRequest, string>
+{
+    private readonly CommandRepository commandRepository;
+
+    public SaveRecipientGroupHandler(CommandRepository commandRepository)
     {
-        public int GroupId { get; set; }
-
-        public string GroupName { get; set; }
-
-        public IEnumerable<Recipient> Recipients { get; set; }
+        this.commandRepository = commandRepository;
     }
 
-    public class SaveRecipientGroupHandler : IRequestHandler<SaveRecipientGroupRequest, string>
+    public async Task<string> Handle(SaveRecipientGroupRequest request, CancellationToken cancellationToken)
     {
-        private readonly CommandRepository commandRepository;
+        var recipientOldIds = await GetRecipientIdOldInGroup(request.GroupId);
+        var recipientNewIds = request.Recipients.Select(r => r.RecipientId);
 
-        public SaveRecipientGroupHandler(CommandRepository commandRepository)
+        var recipientDiff = DetectNewRecipient(recipientNewIds.ToList(), recipientOldIds);
+
+        await InsertRecipientToMessageReader(recipientDiff, request.GroupId);
+
+        await commandRepository.SaveRecipientGroup(request);
+
+        await RemoveToMessageReader(request);
+        return string.Empty;
+    }
+
+    private async Task<IList<int>> GetRecipientIdOldInGroup(int groupId)
+    {
+        var allGroup = await commandRepository.GetRecipientGroup();
+        var group = allGroup.Where(g => g.GroupId == groupId);
+        return group != null
+            ? group.Select(g => g.UserId).ToList()
+            : new List<int>();
+    }
+
+    private IList<int> DetectNewRecipient(IList<int> recipientIdSource, IList<int> recipientIdDest)
+        => recipientIdSource.Except(recipientIdDest).ToList();
+
+    public async Task InsertRecipientToMessageReader(IList<int> userIds, int groupId)
+    {
+        if (userIds.Any())
         {
-            this.commandRepository = commandRepository;
-        }
-
-        public async Task<string> Handle(SaveRecipientGroupRequest request, CancellationToken cancellationToken)
-        {
-            var recipientOldIds = await GetRecipientIdOldInGroup(request.GroupId);
-            var recipientNewIds = request.Recipients.Select(r => r.RecipientId);
-
-            var recipientDiff = DetectNewRecipient(recipientNewIds.ToList(), recipientOldIds);
-
-            await InsertRecipientToMessageReader(recipientDiff, request.GroupId);
-
-            await commandRepository.SaveRecipientGroup(request);
-
-            await RemoveToMessageReader(request);
-            return string.Empty;
-        }
-
-        private async Task<IList<int>> GetRecipientIdOldInGroup(int groupId)
-        {
-            var allGroup = await commandRepository.GetRecipientGroup();
-            var group = allGroup.Where(g => g.GroupId == groupId);
-            return group != null
-                ? group.Select(g => g.UserId).ToList()
-                : new List<int>();
-        }
-
-        private IList<int> DetectNewRecipient(IList<int> recipientIdSource, IList<int> recipientIdDest)
-            => recipientIdSource.Except(recipientIdDest).ToList();
-
-        public async Task InsertRecipientToMessageReader(IList<int> userIds, int groupId)
-        {
-            if (userIds.Any())
+            var criteria = new InsertMessageReaderCriteria
             {
-                var criteria = new InsertMessageReaderCriteria
-                {
-                    GroupId = groupId,
-                    UserIds = string.Join(",", userIds)
-                };
-
-                await commandRepository.InsertRecipientToMessageReader(criteria);
-            }
-        }
-
-        public async Task RemoveToMessageReader(SaveRecipientGroupRequest request)
-        {
-            var userId = request.Recipients.Select(x => x.RecipientId);
-
-            var criteria = new RemoveMessageReaderCriteria()
-            {
-                GroupId = request.GroupId,
-                UserIds = string.Join(",", userId)
+                GroupId = groupId,
+                UserIds = string.Join(",", userIds)
             };
 
-            await commandRepository.RemoveRecipientToMessageReader(criteria);
+            await commandRepository.InsertRecipientToMessageReader(criteria);
         }
+    }
+
+    public async Task RemoveToMessageReader(SaveRecipientGroupRequest request)
+    {
+        var userId = request.Recipients.Select(x => x.RecipientId);
+
+        var criteria = new RemoveMessageReaderCriteria
+        {
+            GroupId = request.GroupId,
+            UserIds = string.Join(",", userId)
+        };
+
+        await commandRepository.RemoveRecipientToMessageReader(criteria);
     }
 }

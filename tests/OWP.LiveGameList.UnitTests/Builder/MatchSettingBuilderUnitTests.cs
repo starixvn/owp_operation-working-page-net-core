@@ -1,9 +1,9 @@
-﻿using OWP.LiveGameList.Builder;
-using OWP.LiveGameList.Models;
+﻿namespace OWP.LiveGameList.UnitTests.Builder;
+
+using LiveGameList.Builder;
+using Models;
 using Xunit;
 using Xunit.Asserts.Compare;
-
-namespace OWP.LiveGameList.UnitTests.Builder;
 
 public class MatchSettingBuilderUnitTests
 {
@@ -50,13 +50,13 @@ public class MatchSettingBuilderUnitTests
     public List<MatchSetting> MockMatchSetting()
         => new()
         {
-            new() { BettypeId = 1, Maxbet = 1, MinorBettypeId = 1, OWPMatchId = 117, ParentMatchId = 100, Spread = 10 },
-            new () { BettypeId = 3, Maxbet = 2 ,MinorBettypeId = 3, OWPMatchId = 117, ParentMatchId = 200, Spread = 20},
+            new MatchSetting { BettypeId = 1, Maxbet = 1, MinorBettypeId = 1, OWPMatchId = 117, ParentMatchId = 100, Spread = 10 },
+            new MatchSetting { BettypeId = 3, Maxbet = 2 ,MinorBettypeId = 3, OWPMatchId = 117, ParentMatchId = 200, Spread = 20}
         };
 
     public List<MatchSetting> MockMinorMatchSetting()
         => new()
         {
-            new() { BettypeId = 1, Maxbet = 1, MinorBettypeId = 1, OWPMatchId = 117, ParentMatchId = 100, Spread = 10 },
+            new MatchSetting { BettypeId = 1, Maxbet = 1, MinorBettypeId = 1, OWPMatchId = 117, ParentMatchId = 100, Spread = 10 }
         };
 }

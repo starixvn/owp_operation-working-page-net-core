@@ -1,23 +1,22 @@
-﻿using Newtonsoft.Json;
+﻿namespace OWP.AutoAssignment.Models.PublicApi;
 
-namespace OWP.AutoAssignment.Models.PublicApi
+using Newtonsoft.Json;
+
+public class SchedulingTraderInfo
 {
-    public class SchedulingTraderInfo
-    {
-        public int TraderId { get; set; }
+    public int TraderId { get; set; }
 
-        [JsonProperty("Lvl")]
-        public int Level { get; set; }
+    [JsonProperty("Lvl")]
+    public int Level { get; set; }
 
-        public string Role { get; set; }
+    public string Role { get; set; }
 
-        public string BettypesPreferences { get; set; }
+    public string BettypesPreferences { get; set; }
 
-        [JsonIgnore]
-        public string MultipleGames { get; set; }
+    [JsonIgnore]
+    public string MultipleGames { get; set; }
 
-        public int? MaxGames { get; set; }
+    public int? MaxGames { get; set; }
 
-        public SchedulingWorkingShift[] WorkingShifts { get; set; }
-    }
+    public SchedulingWorkingShift[] WorkingShifts { get; set; }
 }

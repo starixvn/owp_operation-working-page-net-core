@@ -1,10 +1,9 @@
-﻿using OWP.OSLeagueSetting.Constants;
-using OWP.OSLeagueSetting.Handlers;
-using OWP.OSLeagueSetting.Models;
-using AutoMapper;
-using OWP.OSLeagueSetting.Helper;
+﻿namespace OWP.OSLeagueSetting.Services;
 
-namespace OWP.OSLeagueSetting.Services;
+using AutoMapper;
+using Handlers;
+using Helper;
+using Models;
 
 public interface GetLeagueSettingService
 {

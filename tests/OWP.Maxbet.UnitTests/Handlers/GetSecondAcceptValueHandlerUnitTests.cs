@@ -1,82 +1,80 @@
-﻿namespace OWP.Maxbet.UnitTests.Handlers
+﻿namespace OWP.Maxbet.UnitTests.Handlers;
+
+using Enums;
+using Maxbet.Handlers;
+using Models;
+using NSubstitute;
+using Xunit;
+
+public class GetSecondAcceptValueHandlerUnitTests
 {
-    using NSubstitute;
-    using OWP.Enums;
+    private MaxbetRepository dynamicRepository;
 
-    using OWP.Maxbet.Handlers;
-    using OWP.Maxbet.Models;
-    using Xunit;
+    private GetSecondAcceptValueHandler.Handler handler;
 
-    public class GetSecondAcceptValueHandlerUnitTests
+    [Theory]
+    [InlineData((int)EnumMatchOffer.Accept5s, 5)]
+    [InlineData((int)EnumMatchOffer.Accept10s, 10)]
+    [InlineData((int)EnumMatchOffer.Accept20s, 20)]
+    [InlineData((int)EnumMatchOffer.Accept30s, 30)]
+    [InlineData((int)EnumMatchOffer.Accept15s, 15)]
+    [InlineData((int)EnumMatchOffer.Accept6s, 6)]
+    [InlineData((int)EnumMatchOffer.FastMarket, null)]
+    public async Task Handler_MatchWith5sAcceptMatchOffer_Return5(int matchOfferId, int? expected)
     {
-        private MaxbetRepository dynamicRepository;
+        Setup();
+        IEnumerable<MatchResource> matchOffer = new List<MatchResource> { new() { ResourceId = matchOfferId } };
+        dynamicRepository.GetMatchOfferId(Arg.Compat.Any<int>()).Returns(matchOffer);
 
-        private GetSecondAcceptValueHandler.Handler handler;
+        var actual = await handler.Handle(new GetSecondAcceptValueHandler.Request { OWPMatchId = 123 }, new CancellationToken(false));
 
-        [Theory]
-        [InlineData((int)EnumMatchOffer.Accept5s, 5)]
-        [InlineData((int)EnumMatchOffer.Accept10s, 10)]
-        [InlineData((int)EnumMatchOffer.Accept20s, 20)]
-        [InlineData((int)EnumMatchOffer.Accept30s, 30)]
-        [InlineData((int)EnumMatchOffer.Accept15s, 15)]
-        [InlineData((int)EnumMatchOffer.Accept6s, 6)]
-        [InlineData((int)EnumMatchOffer.FastMarket, null)]
-        public async Task Handler_MatchWith5sAcceptMatchOffer_Return5(int matchOfferId, int? expected)
-        {
-            Setup();
-            IEnumerable<MatchResource> matchOffer = new List<MatchResource> { new MatchResource { ResourceId = matchOfferId } };
-            dynamicRepository.GetMatchOfferId(Arg.Compat.Any<int>()).Returns(matchOffer);
+        Assert.Equal(expected, actual);
+    }
 
-            var actual = await handler.Handle(new GetSecondAcceptValueHandler.Request { OWPMatchId = 123 }, new CancellationToken(false));
+    [Fact]
+    public async Task Handler_MatchWith5sAnd10sAcceptMatchOffer_ReturnNull()
+    {
+        Setup();
 
-            Assert.Equal(expected, actual);
-        }
+        dynamicRepository.GetMatchOfferId(Arg.Compat.Any<int>()).Returns(new List<MatchResource> { new() { ResourceId = 1 } });
 
-        [Fact]
-        public async Task Handler_MatchWith5sAnd10sAcceptMatchOffer_ReturnNull()
-        {
-            Setup();
+        var actual = await handler.Handle(new GetSecondAcceptValueHandler.Request { OWPMatchId = 123 }, new CancellationToken(false));
 
-            dynamicRepository.GetMatchOfferId(Arg.Compat.Any<int>()).Returns(new List<MatchResource>() { new MatchResource() { ResourceId = 1 } });
+        Assert.Null(actual);
+    }
 
-            var actual = await handler.Handle(new GetSecondAcceptValueHandler.Request { OWPMatchId = 123 }, new CancellationToken(false));
+    [Fact]
+    public async Task Handler_MatchWith8sAcceptMatchOffer_Return8()
+    {
+        Setup();
+        IEnumerable<MatchResource> matchOffer = new List<MatchResource> {
+            new() { ResourceId = (int)EnumMatchOffer.Accept8s }
+        };
+        dynamicRepository.GetMatchOfferId(Arg.Compat.Any<int>()).Returns(matchOffer);
 
-            Assert.Null(actual);
-        }
+        var actual = await handler.Handle(new GetSecondAcceptValueHandler.Request { OWPMatchId = 123 }, new CancellationToken(false));
 
-        [Fact]
-        public async Task Handler_MatchWith8sAcceptMatchOffer_Return8()
-        {
-            Setup();
-            IEnumerable<MatchResource> matchOffer = new List<MatchResource> {
-                new MatchResource { ResourceId = (int)EnumMatchOffer.Accept8s }
-            };
-            dynamicRepository.GetMatchOfferId(Arg.Compat.Any<int>()).Returns(matchOffer);
+        Assert.Equal(8, actual);
+    }
 
-            var actual = await handler.Handle(new GetSecondAcceptValueHandler.Request { OWPMatchId = 123 }, new CancellationToken(false));
+    [Fact]
+    public async Task Handler_MatchWithNoMatchOffer_ReturnOfferLineDefault()
+    {
+        Setup();
+        IEnumerable<MatchResource> matchOffer = new List<MatchResource>();
+        dynamicRepository.GetMatchOfferId(Arg.Compat.Any<int>()).Returns(matchOffer);
+        dynamicRepository.GetSecondAcceptValueDefaultInfo(Arg.Compat.Any<decimal?>(), Arg.Compat.Any<int>())
+            .Returns(
+                (new SecondAcceptDefault { Main = 3, Corner = 4, Fantasy = 5, TotalBooking = 6 }, "hello"));
 
-            Assert.Equal(8, actual);
-        }
+        var actual = await handler.Handle(new GetSecondAcceptValueHandler.Request { OWPMatchId = 123, Bettype = 0, MaxbetHdp = 5000 }, new CancellationToken(false));
 
-        [Fact]
-        public async Task Handler_MatchWithNoMatchOffer_ReturnOfferLineDefault()
-        {
-            Setup();
-            IEnumerable<MatchResource> matchOffer = new List<MatchResource>() { };
-            dynamicRepository.GetMatchOfferId(Arg.Compat.Any<int>()).Returns(matchOffer);
-            dynamicRepository.GetSecondAcceptValueDefaultInfo(Arg.Compat.Any<decimal?>(), Arg.Compat.Any<int>())
-                .Returns(
-                    (new SecondAcceptDefault { Main = 3, Corner = 4, Fantasy = 5, TotalBooking = 6 }, "hello"));
+        Assert.Equal(10, actual);
+    }
 
-            var actual = await handler.Handle(new GetSecondAcceptValueHandler.Request { OWPMatchId = 123, Bettype = 0, MaxbetHdp = 5000 }, new CancellationToken(false));
-
-            Assert.Equal(10, actual);
-        }
-
-        private void Setup()
-        {
-            dynamicRepository = Substitute.For<MaxbetRepository>();
-            handler = new GetSecondAcceptValueHandler.Handler(dynamicRepository);
-        }
+    private void Setup()
+    {
+        dynamicRepository = Substitute.For<MaxbetRepository>();
+        handler = new GetSecondAcceptValueHandler.Handler(dynamicRepository);
     }
 }

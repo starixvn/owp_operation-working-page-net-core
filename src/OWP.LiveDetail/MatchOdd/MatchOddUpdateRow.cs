@@ -1,12 +1,11 @@
-﻿namespace OWP.LiveDetail.MatchOdd
+﻿namespace OWP.LiveDetail.MatchOdd;
+
+using Extensions;
+
+[XMLName("Row")]
+public class MatchOddUpdateRow
 {
-    using OWP.Extensions;
+    public int Choice { get; set; }
 
-    [XMLName("Row")]
-    public class MatchOddUpdateRow
-    {
-        public int Choice { get; set; }
-
-        public double Odds { get; set; }
-    }
+    public double Odds { get; set; }
 }

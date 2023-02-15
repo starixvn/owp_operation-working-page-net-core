@@ -1,9 +1,8 @@
-namespace OWP.LeagueManagement.Models
-{
-    public class QueryLogModel
-    {
-        public int ObjectId { get; set; }
+namespace OWP.LeagueManagement.Models;
 
-        public int PageSize { get; set; }
-    }
+public class QueryLogModel
+{
+    public int ObjectId { get; set; }
+
+    public int PageSize { get; set; }
 }

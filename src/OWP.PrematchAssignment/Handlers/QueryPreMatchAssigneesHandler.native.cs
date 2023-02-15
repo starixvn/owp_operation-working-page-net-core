@@ -1,28 +1,27 @@
-﻿namespace OWP.PrematchAssignment.Handlers
-{
-    using MediatR;
-    using Models;
-    using PreMatchAssignment.Services;
+﻿namespace OWP.PrematchAssignment.Handlers;
 
-    public class QueryAssigneesRequest : IRequest<IEnumerable<TicketAssignee>>
+using MediatR;
+using Models;
+using PreMatchAssignment.Services;
+
+public class QueryAssigneesRequest : IRequest<IEnumerable<TicketAssignee>>
+{
+    public int Id { get; set; }
+}
+
+public class QueryPreMatchAssigneesHandler : IRequestHandler<QueryAssigneesRequest, IEnumerable<TicketAssignee>>
+{
+    private readonly PreMatchAssignmentService preMatchAssignmentService;
+
+    public QueryPreMatchAssigneesHandler(PreMatchAssignmentService preMatchAssignmentService)
     {
-        public int Id { get; set; }
+        this.preMatchAssignmentService = preMatchAssignmentService;
     }
 
-    public class QueryPreMatchAssigneesHandler : IRequestHandler<QueryAssigneesRequest, IEnumerable<TicketAssignee>>
+    public async Task<IEnumerable<TicketAssignee>> Handle(QueryAssigneesRequest request, CancellationToken cancellationToken)
     {
-        private readonly PreMatchAssignmentService preMatchAssignmentService;
+        var result = await preMatchAssignmentService.QueryAssigneesByLeagueId(request.Id);
 
-        public QueryPreMatchAssigneesHandler(PreMatchAssignmentService preMatchAssignmentService)
-        {
-            this.preMatchAssignmentService = preMatchAssignmentService;
-        }
-
-        public async Task<IEnumerable<TicketAssignee>> Handle(QueryAssigneesRequest request, CancellationToken cancellationToken)
-        {
-            var result = await preMatchAssignmentService.QueryAssigneesByLeagueId(request.Id);
-
-            return result.ToList();
-        }
+        return result.ToList();
     }
 }

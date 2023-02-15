@@ -1,11 +1,10 @@
-﻿using OWP.Model;
+﻿namespace OWP.LiveDetail.Assignment;
 
-namespace OWP.LiveDetail.Assignment
+using Model;
+
+public class CommandResult : OWPCommandResult
 {
-    public class CommandResult : OWPCommandResult
-    {
-        public string SessionId { get; set; }
+    public string SessionId { get; set; }
 
-        public int AssignmentId { get; set; }
-    }
+    public int AssignmentId { get; set; }
 }

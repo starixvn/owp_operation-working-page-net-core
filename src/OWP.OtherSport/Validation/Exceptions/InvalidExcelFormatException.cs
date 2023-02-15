@@ -1,16 +1,15 @@
-﻿namespace OWP.OtherSport.Validation.Exceptions
+﻿namespace OWP.OtherSport.Validation.Exceptions;
+
+using System.Runtime.Serialization;
+
+[Serializable]
+public class InvalidExcelFormatException : CriticalValidationException
 {
-    using System.Runtime.Serialization;
-
-    [Serializable]
-    public class InvalidExcelFormatException : CriticalValidationException
+    public InvalidExcelFormatException() : base("Incorrect template")
     {
-        public InvalidExcelFormatException() : base("Incorrect template")
-        {
-        }
+    }
 
-        protected InvalidExcelFormatException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
+    protected InvalidExcelFormatException(SerializationInfo info, StreamingContext context) : base(info, context)
+    {
     }
 }

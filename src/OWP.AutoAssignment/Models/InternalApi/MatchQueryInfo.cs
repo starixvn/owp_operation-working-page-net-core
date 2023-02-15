@@ -1,12 +1,11 @@
-﻿using OWP.Extensions;
+﻿namespace OWP.AutoAssignment.Models.InternalApi;
 
-namespace OWP.AutoAssignment.Models.InternalApi
+using Extensions;
+
+[XMLName("Row")]
+public class MatchQueryInfo
 {
-    [XMLName("Row")]
-    public class MatchQueryInfo
-    {
-        public int InfoSiteMatchId { get; set; }
+    public int InfoSiteMatchId { get; set; }
 
-        public int BetType { get; set; }
-    }
+    public int BetType { get; set; }
 }

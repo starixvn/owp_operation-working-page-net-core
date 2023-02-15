@@ -1,13 +1,10 @@
-﻿namespace OWP.AssignmentUpload.Submit.Models
+﻿namespace OWP.AssignmentUpload.Submit.Models;
+
+public class MatchKickoffDate
 {
-    using System;
+    public int MatchId { get; set; }
 
-    public class MatchKickoffDate
-    {
-        public int MatchId { get; set; }
+    public DateTime KickoffDate { get; set; }
 
-        public DateTime KickoffDate { get; set; }
-
-        public int? MinorBettypeId { get; set; }
-    }
+    public int? MinorBettypeId { get; set; }
 }

@@ -1,9 +1,8 @@
-﻿namespace OWP.OtherSport.Submit.Models
-{
-    public class LastUpdateInfo
-    {
-        public DateTime? Date { get; set; }
+﻿namespace OWP.OtherSport.Submit.Models;
 
-        public string Username { get; set; }
-    }
+public class LastUpdateInfo
+{
+    public DateTime? Date { get; set; }
+
+    public string Username { get; set; }
 }

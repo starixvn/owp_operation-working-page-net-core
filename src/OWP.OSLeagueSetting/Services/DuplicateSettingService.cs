@@ -1,8 +1,8 @@
-﻿using OWP.OSLeagueSetting.Constants;
-using OWP.OSLeagueSetting.Factory;
-using OWP.OSLeagueSetting.Models;
+﻿namespace OWP.OSLeagueSetting.Services;
 
-namespace OWP.OSLeagueSetting.Services;
+using Constants;
+using Factory;
+using Models;
 
 public interface DuplicateSettingService
 {

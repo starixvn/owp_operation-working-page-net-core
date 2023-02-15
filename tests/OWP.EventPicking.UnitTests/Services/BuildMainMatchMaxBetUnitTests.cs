@@ -1,10 +1,10 @@
+namespace OWP.EventPicking.UnitTests.Services;
+
+using EventPicking.Services;
+using Models;
 using NSubstitute;
-using OWP.EventPicking.Models;
-using OWP.EventPicking.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
-
-namespace OWP.EventPicking.UnitTests.Services;
 
 public class BuildMainMatchMaxBetUnitTests
 {
@@ -47,12 +47,12 @@ public class BuildMainMatchMaxBetUnitTests
                 MaxbetWD_NoOfHDP = "No 1"
                 }
             } },
-            { 333, new List<LeagueSetting> { new() { LeagueName = "LeagueB", HasTV = false } } },
+            { 333, new List<LeagueSetting> { new() { LeagueName = "LeagueB", HasTV = false } } }
         };
         var tvList = new List<Condition>
         {
             new() { Type = "Contains", Value="TV" },
-            new() { Type = "Contains", Value="Local" },
+            new() { Type = "Contains", Value="Local" }
         };
         repository.GetLeagueSettings().Returns(leagueSetting);
         repository.GetTVList().Returns(tvList);
@@ -65,9 +65,9 @@ public class BuildMainMatchMaxBetUnitTests
     }
 
     public List<EventPickingModel> MockMainMatches()
-        => new List<EventPickingModel>
+        => new()
         {
-            new()
+            new EventPickingModel
             {
                 OWPLeagueId = 111,
                 InfoSiteMatchId = 3333,
@@ -77,7 +77,7 @@ public class BuildMainMatchMaxBetUnitTests
                 Round = "Round",
                 OutSide = "Outside"
             },
-            new()
+            new EventPickingModel
             {
                 OWPLeagueId = 222,
                 InfoSiteMatchId = 4444,
@@ -87,7 +87,7 @@ public class BuildMainMatchMaxBetUnitTests
                 Round = "Round",
                 OutSide = "Outside"
             },
-            new()
+            new EventPickingModel
             {
                 OWPLeagueId = 333,
                 InfoSiteMatchId = 5555,
@@ -97,7 +97,7 @@ public class BuildMainMatchMaxBetUnitTests
                 Round = "Round",
                 OutSide = "Outside"
             },
-            new()
+            new EventPickingModel
             {
                 OWPLeagueId = 444,
                 InfoSiteMatchId = 5555,
@@ -110,9 +110,9 @@ public class BuildMainMatchMaxBetUnitTests
         };
 
     public List<EventPickingModel> MockExpectedMatches()
-        => new List<EventPickingModel>
+        => new()
         {
-            new()
+            new EventPickingModel
             {
                 OWPLeagueId = 111,
                 MaxBetHDPNumber = 2000,
@@ -130,7 +130,7 @@ public class BuildMainMatchMaxBetUnitTests
                 MaxBetOU = "0.1K",
                 SpreadOU = "1%"
             },
-            new()
+            new EventPickingModel
             {
                 OWPLeagueId = 222,
                 MaxBetHDPNumber = 1000,
@@ -148,7 +148,7 @@ public class BuildMainMatchMaxBetUnitTests
                 SpreadOU = "3%",
                 NoHDP = "No 1"
             },
-            new()
+            new EventPickingModel
             {
                 OWPLeagueId = 333,
                 InfoSiteMatchId = 5555,
@@ -163,7 +163,7 @@ public class BuildMainMatchMaxBetUnitTests
                 SpreadHDP = "",
                 SpreadOU = ""
             },
-            new()
+            new EventPickingModel
             {
                 OWPLeagueId = 444,
                 InfoSiteMatchId = 5555,
@@ -171,7 +171,7 @@ public class BuildMainMatchMaxBetUnitTests
                 LiveTV = "",
                 LocalTV= "",
                 Round = "",
-                OutSide = "",
+                OutSide = ""
             }
         };
 }

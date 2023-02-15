@@ -1,27 +1,26 @@
-﻿namespace OWP.Report.OvertimeReport.Handlers
-{
-    using MediatR;
-    using OWP.Report.OvertimeReport.Models;
-    using OWP.Services;
+﻿namespace OWP.Report.OvertimeReport.Handlers;
 
-    public class GetLocationsRequest : IRequest<IEnumerable<Location>>
+using MediatR;
+using Models;
+using OWP.Services;
+
+public class GetLocationsRequest : IRequest<IEnumerable<Location>>
+{
+}
+
+public class GetLocationsHandler : IRequestHandler<GetLocationsRequest, IEnumerable<Location>>
+{
+    private readonly RefResourceService refResourceService;
+
+    public GetLocationsHandler(RefResourceService refResourceService)
     {
+        this.refResourceService = refResourceService;
     }
 
-    public class GetLocationsHandler : IRequestHandler<GetLocationsRequest, IEnumerable<Location>>
+    public async Task<IEnumerable<Location>> Handle(GetLocationsRequest request, CancellationToken cancellationToken)
     {
-        private readonly RefResourceService refResourceService;
+        var resource = await refResourceService.GetRefResourcesByName("LocationCode");
 
-        public GetLocationsHandler(RefResourceService refResourceService)
-        {
-            this.refResourceService = refResourceService;
-        }
-
-        public async Task<IEnumerable<Location>> Handle(GetLocationsRequest request, CancellationToken cancellationToken)
-        {
-            var resource = await refResourceService.GetRefResourcesByName("LocationCode");
-
-            return resource.Select(x => new Location { Label = x.Value, Value = x.Value });
-        }
+        return resource.Select(x => new Location { Label = x.Value, Value = x.Value });
     }
 }

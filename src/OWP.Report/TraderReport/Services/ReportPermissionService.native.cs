@@ -1,34 +1,32 @@
-﻿namespace OWP.Report.TraderReport.Services
-{
-    using Constants;
-    using Models;
-    using OWP.Extensions;
-    using OWP.Services;
-    using Utils;
+﻿namespace OWP.Report.TraderReport.Services;
 
-    public interface ReportPermissionService
+using Constants;
+using Extensions;
+using Models;
+using OWP.Services;
+
+public interface ReportPermissionService
+{
+    ExcelPermissionModel BuildPermission();
+}
+
+public class ReportPermissionServiceImp : ReportPermissionService
+{
+    private readonly PermissionService permissionService;
+
+    public ReportPermissionServiceImp(PermissionService permissionService)
     {
-        ExcelPermissionModel BuildPermission();
+        this.permissionService = permissionService;
     }
 
-    public class ReportPermissionServiceImp : ReportPermissionService
+    public ExcelPermissionModel BuildPermission()
     {
-        private readonly PermissionService permissionService;
+        var reportFunctionPolicies = permissionService.GetPermissions(FunctionKeys.TraderReport);
 
-        public ReportPermissionServiceImp(PermissionService permissionService)
+        return new ExcelPermissionModel
         {
-            this.permissionService = permissionService;
-        }
-
-        public ExcelPermissionModel BuildPermission()
-        {
-            var reportFunctionPolicies = permissionService.GetPermissions(FunctionKeys.TraderReport);
-
-            return new ExcelPermissionModel
-            {
-                TraderAssignment = reportFunctionPolicies.GetPermissionModel(FunctionKeys.TraderReport_TraderAssignment),
-                TraderPerformace = reportFunctionPolicies.GetPermissionModel(FunctionKeys.TraderReport_TraderPerformance)
-            };
-        }
+            TraderAssignment = reportFunctionPolicies.GetPermissionModel(FunctionKeys.TraderReport_TraderAssignment),
+            TraderPerformace = reportFunctionPolicies.GetPermissionModel(FunctionKeys.TraderReport_TraderPerformance)
+        };
     }
 }

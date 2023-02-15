@@ -1,8 +1,8 @@
-﻿using AutoMapper;
-using OWP.Extensions;
-using OWP.Report.PreMatchReport.Models;
+﻿namespace OWP.Report.PreMatchReport;
 
-namespace OWP.Report.PreMatchReport;
+using AutoMapper;
+using Extensions;
+using Models;
 
 public class AutoMapperProfile : Profile
 {

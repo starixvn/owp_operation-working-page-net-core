@@ -1,11 +1,10 @@
-namespace OWP.Report.PreMatchReport.Models
+namespace OWP.Report.PreMatchReport.Models;
+
+public class QueryPrematchReportModel
 {
-    public class QueryPrematchReportModel
-    {
-        public int UserId { get; set; }
-        public string TraderName { get; set; }
-        public int GroupId { get; set; }
-        public int Bettype { get; set; }
-        public int Amount { get; set; }
-    }
+    public int UserId { get; set; }
+    public string TraderName { get; set; }
+    public int GroupId { get; set; }
+    public int Bettype { get; set; }
+    public int Amount { get; set; }
 }

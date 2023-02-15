@@ -1,9 +1,9 @@
-﻿using MediatR;
-using OWP.TicketCenter.Criteria;
-using OWP.TicketCenter.Middleware.Models;
-using OWP.TicketCenter.Notification.Services;
+﻿namespace OWP.TicketCenter.Handlers;
 
-namespace OWP.TicketCenter.Handlers;
+using Criteria;
+using MediatR;
+using Middleware.Models;
+using Notification.Services;
 
 public class UpdateTicketSubTypeRequest : PermissionCheckedModel, IRequest<Unit>
 {
@@ -23,11 +23,11 @@ public class UpdateTicketSubTypeHandler : IRequestHandler<UpdateTicketSubTypeReq
 
     public async Task<Unit> Handle(UpdateTicketSubTypeRequest request, CancellationToken cancellationToken)
     {
-        await repository.UpdateTicketSubType((new UpdateTicketSubTypeCriteria
+        await repository.UpdateTicketSubType(new UpdateTicketSubTypeCriteria
         {
             TicketId = request.TicketId,
             TicketSubTypeId = request.TicketSubTypeId
-        }));
+        });
 
         await notificationService.NotifyChangeSubTypeIncome(request.TicketId);
 

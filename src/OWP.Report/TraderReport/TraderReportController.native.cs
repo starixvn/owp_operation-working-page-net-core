@@ -1,13 +1,11 @@
 ﻿namespace OWP.Report.TraderReport;
 
+using Handlers;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System;
-using System.Threading.Tasks;
-using TraderReport.Handlers;
 
 [Route("api/report")]
 [ApiController]

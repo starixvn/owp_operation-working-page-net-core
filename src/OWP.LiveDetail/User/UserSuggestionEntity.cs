@@ -1,7 +1,6 @@
-﻿namespace OWP.LiveDetail.User
+﻿namespace OWP.LiveDetail.User;
+
+public class UserSuggestionEntity : ShortUserInfo
 {
-    public class UserSuggestionEntity : ShortUserInfo
-    {
-        public bool IsAssigned { get; set; }
-    }
+    public bool IsAssigned { get; set; }
 }

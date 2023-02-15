@@ -1,12 +1,11 @@
-﻿namespace OWP.TicketCenter.Criteria
+﻿namespace OWP.TicketCenter.Criteria;
+
+using Fanex.Data.Repository;
+
+public class GetTicketTypeCriteria : CriteriaBase
 {
-    using Fanex.Data.Repository;
+    public override string GetSettingKey() => "OWP_TicketCenter_GetTicketType";
 
-    public class GetTicketTypeCriteria : CriteriaBase
-    {
-        public override string GetSettingKey() => "OWP_TicketCenter_GetTicketType";
-
-        public override bool IsValid()
-            => true;
-    }
+    public override bool IsValid()
+        => true;
 }

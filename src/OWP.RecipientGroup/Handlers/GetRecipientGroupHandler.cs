@@ -1,32 +1,32 @@
-﻿namespace OWP.RecipientGroup.Handlers
+﻿namespace OWP.RecipientGroup.Handlers;
+
+using Enums;
+using MediatR;
+using Models;
+using Services;
+
+public class QueryRecipientGroupRequest : IRequest<IEnumerable<TicketGroup>>
+{ }
+
+public class GetRecipientGroupHandler : IRequestHandler<QueryRecipientGroupRequest, IEnumerable<TicketGroup>>
 {
-    using Enums;
-    using MediatR;
-    using Models;
-    using Services;
+    private readonly CommandRepository commandRepository;
 
-    public class QueryRecipientGroupRequest : IRequest<IEnumerable<TicketGroup>>
-    { }
-
-    public class GetRecipientGroupHandler : IRequestHandler<QueryRecipientGroupRequest, IEnumerable<TicketGroup>>
+    public GetRecipientGroupHandler(CommandRepository commandRepository)
     {
-        private readonly CommandRepository commandRepository;
+        this.commandRepository = commandRepository;
+    }
 
-        public GetRecipientGroupHandler(CommandRepository commandRepository)
-        {
-            this.commandRepository = commandRepository;
-        }
+    public async Task<IEnumerable<TicketGroup>> Handle(QueryRecipientGroupRequest request, CancellationToken cancellationToken)
+    {
+        var result = await commandRepository.GetRecipientGroup();
 
-        public async Task<IEnumerable<TicketGroup>> Handle(QueryRecipientGroupRequest request, CancellationToken cancellationToken)
-        {
-            var result = await commandRepository.GetRecipientGroup();
-
-            return result.GroupBy(x => new { x.GroupId, x.GroupName }, (key, values) =>
-                new TicketGroup
-                {
-                    GroupId = key.GroupId,
-                    GroupName = key.GroupName,
-                    Recipients = values.Select(x => new Recipient
+        return result.GroupBy(x => new { x.GroupId, x.GroupName }, (key, values) =>
+            new TicketGroup
+            {
+                GroupId = key.GroupId,
+                GroupName = key.GroupName,
+                Recipients = values.Select(x => new Recipient
                     {
                         RecipientGroupId = x.RecipientGroupId,
                         RecipientId = x.UserId,
@@ -35,8 +35,7 @@
                     })
                     .OrderBy(x => x.RecipientName)
                     .ToList()
-                }
-            ).OrderBy(x => x.GroupName);
-        }
+            }
+        ).OrderBy(x => x.GroupName);
     }
 }

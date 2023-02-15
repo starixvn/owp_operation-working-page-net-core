@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿namespace OWP.EventPicking.Models;
 
-namespace OWP.EventPicking.Models;
+using Newtonsoft.Json;
 
 public class LeagueSetting
 {
@@ -12,10 +12,7 @@ public class LeagueSetting
 
     public string LSTNote { get; set; }
 
-    public string FormatedLSTNote
-    {
-        get { return ConvertNullToEmpty(LSTNote); }
-    }
+    public string FormatedLSTNote => ConvertNullToEmpty(LSTNote);
 
     public bool HasTV { get; set; }
 

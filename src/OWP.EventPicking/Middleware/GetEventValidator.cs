@@ -1,7 +1,8 @@
-using OWP.EventPicking.Middleware.Models;
+namespace OWP.EventPicking.Middleware;
+
+using Models;
 using OWP.Middleware;
 
-namespace OWP.EventPicking.Middleware;
 public class GetEventValidator : AsyncFilter<EventPickingRequest>
 {
     public override (bool, int, string) Execute(EventPickingRequest model)

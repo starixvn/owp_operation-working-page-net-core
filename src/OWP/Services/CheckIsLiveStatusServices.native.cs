@@ -1,73 +1,68 @@
-namespace OWP.Services
+namespace OWP.Services;
+
+using Criteria;
+using Fanex.Data.Repository;
+using Models;
+using Olympus.OWP.Constants;
+using Utils;
+
+public interface CheckIsLiveStatusServices
 {
-    using Fanex.Data.Repository;
-    using Models;
-    using Olympus.OWP.Constants;
-    using OWP.Criteria;
-    using OWP.Utils;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
+    Task<List<IsLiveMatchInfo>> GetOfferLiveStatusFromMainDB(string adminSiteIds);
 
-    public interface CheckIsLiveStatusServices
+    bool GetOfferLiveStatus(int? minorBettypeId, int parentAdminSiteId, List<IsLiveMatchInfo> mainDBResult);
+}
+
+public class CheckIsLiveStatusServicesImp : CheckIsLiveStatusServices
+{
+    private readonly IDynamicRepository dynamicRepository;
+
+    public CheckIsLiveStatusServicesImp(IDynamicRepository dynamicRepository)
     {
-        Task<List<IsLiveMatchInfo>> GetOfferLiveStatusFromMainDB(string adminSiteIds);
-
-        bool GetOfferLiveStatus(int? minorBettypeId, int parentAdminSiteId, List<IsLiveMatchInfo> mainDBResult);
+        this.dynamicRepository = dynamicRepository;
     }
 
-    public class CheckIsLiveStatusServicesImp : CheckIsLiveStatusServices
+    public bool GetOfferLiveStatus(int? minorBettypeId, int parentAdminSiteId, List<IsLiveMatchInfo> mainDBResult)
     {
-        private readonly IDynamicRepository dynamicRepository;
+        var matchByAdminSiteSubtypes = minorBettypeId == null
+            ? GetOfferLiveMainMatch(parentAdminSiteId, mainDBResult)
+            : GetOfferLiveMinorMatch(minorBettypeId, parentAdminSiteId, mainDBResult);
 
-        public CheckIsLiveStatusServicesImp(IDynamicRepository dynamicRepository)
+        return GetIsLiveStatus(matchByAdminSiteSubtypes);
+    }
+
+    private static IEnumerable<IsLiveMatchInfo> GetOfferLiveMinorMatch(int? minorBettypeId, int parentAdminSiteId, List<IsLiveMatchInfo> mainDBResult)
+    {
+        var subType = GetSubtypes(minorBettypeId);
+        if (subType == 0)
         {
-            this.dynamicRepository = dynamicRepository;
+            return new List<IsLiveMatchInfo>();
         }
 
-        public bool GetOfferLiveStatus(int? minorBettypeId, int parentAdminSiteId, List<IsLiveMatchInfo> mainDBResult)
+        var (fromIndex, toIndex) = OneManyMapping.GetRangeOneManyMatch(minorBettypeId);
+
+        return mainDBResult.Where(x =>
+            x.ParentId == parentAdminSiteId &&
+            x.SubType >= subType + fromIndex &&
+            x.SubType <= subType + toIndex);
+    }
+
+    private static IEnumerable<IsLiveMatchInfo> GetOfferLiveMainMatch(int parentAdminSiteId, List<IsLiveMatchInfo> mainDBResult)
+        => mainDBResult.Where(x => x.MatchId == parentAdminSiteId);
+
+    public static bool GetIsLiveStatus(IEnumerable<IsLiveMatchInfo> matches)
+        => matches.Any() && !matches.Any(x => !x.OfferLive);
+
+    public static int GetSubtypes(int? minorBettypeId)
+        => MinorBettype.GetRepresentativeSubtype(minorBettypeId ?? 0);
+
+    public async Task<List<IsLiveMatchInfo>> GetOfferLiveStatusFromMainDB(string adminSiteIds)
+    {
+        var criteria = new GetOfferLiveFromMainDBCriteria
         {
-            var matchByAdminSiteSubtypes = minorBettypeId == null
-                ? GetOfferLiveMainMatch(parentAdminSiteId, mainDBResult)
-                : GetOfferLiveMinorMatch(minorBettypeId, parentAdminSiteId, mainDBResult);
+            AdminSiteIds = adminSiteIds
+        };
 
-            return GetIsLiveStatus(matchByAdminSiteSubtypes);
-        }
-
-        private static IEnumerable<IsLiveMatchInfo> GetOfferLiveMinorMatch(int? minorBettypeId, int parentAdminSiteId, List<IsLiveMatchInfo> mainDBResult)
-        {
-            var subType = GetSubtypes(minorBettypeId);
-            if (subType == 0)
-            {
-                return new List<IsLiveMatchInfo>();
-            }
-
-            var (fromIndex, toIndex) = OneManyMapping.GetRangeOneManyMatch(minorBettypeId);
-
-            return mainDBResult.Where(x =>
-                x.ParentId == parentAdminSiteId &&
-                x.SubType >= (subType + fromIndex) &&
-                x.SubType <= (subType + toIndex));
-        }
-
-        private static IEnumerable<IsLiveMatchInfo> GetOfferLiveMainMatch(int parentAdminSiteId, List<IsLiveMatchInfo> mainDBResult)
-            => mainDBResult.Where(x => x.MatchId == parentAdminSiteId);
-
-        public static bool GetIsLiveStatus(IEnumerable<IsLiveMatchInfo> matches)
-            => matches.Any() && !matches.Any(x => !x.OfferLive);
-
-        public static int GetSubtypes(int? minorBettypeId)
-            => MinorBettype.GetRepresentativeSubtype(minorBettypeId ?? 0);
-
-        public async Task<List<IsLiveMatchInfo>> GetOfferLiveStatusFromMainDB(string adminSiteIds)
-        {
-            var criteria = new GetOfferLiveFromMainDBCriteria
-            {
-                AdminSiteIds = adminSiteIds
-            };
-
-            return (await dynamicRepository.FetchAsync<IsLiveMatchInfo>(criteria)).ToList();
-        }
+        return (await dynamicRepository.FetchAsync<IsLiveMatchInfo>(criteria)).ToList();
     }
 }

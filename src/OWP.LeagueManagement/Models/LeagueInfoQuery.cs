@@ -1,13 +1,12 @@
-namespace OWP.LeagueManagement.Models
+namespace OWP.LeagueManagement.Models;
+
+public class LeagueInfoQuery
 {
-    public class LeagueInfoQuery
-    {
-        public string League { get; set; }
+    public string League { get; set; }
 
-        public int LeagueGroupId { get; set; }
+    public int LeagueGroupId { get; set; }
 
-        public string Category { get; set; }
+    public string Category { get; set; }
 
-        public bool IsActive { get; set; }
-    }
+    public bool IsActive { get; set; }
 }

@@ -1,13 +1,12 @@
-﻿using AutoMapper;
-using Fanex.Data.Repository;
+﻿namespace OWP.OSLeagueSetting.UnitTests.Services;
+
+using AutoMapper;
+using Handlers;
+using Models;
 using NSubstitute;
-using OWP.OSLeagueSetting.Handlers;
-using OWP.OSLeagueSetting.Models;
-using OWP.OSLeagueSetting.Services;
+using OSLeagueSetting.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
-
-namespace OWP.OSLeagueSetting.UnitTests.Services;
 
 public class GetLeagueSettingServiceUnitTest
 {
@@ -58,7 +57,7 @@ public class GetLeagueSettingServiceUnitTest
                 MaxBetOU = 40,
                 RoundName= string.Empty,
                 SummaryInfo = new List<SummaryDetail>(),
-                SummaryRemark = new List<SummaryDetail>(),
+                SummaryRemark = new List<SummaryDetail>()
             },
             new()
             {
@@ -118,7 +117,7 @@ public class GetLeagueSettingServiceUnitTest
                 MaxBetHDP = 50,
                 MaxBetOU = 40,
                 KOFromTime = null,
-                KOToTime = null,
+                KOToTime = null
             },
             new()
             {

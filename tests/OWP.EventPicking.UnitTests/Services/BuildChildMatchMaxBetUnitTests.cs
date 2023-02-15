@@ -1,10 +1,10 @@
-using OWP.EventPicking.Models;
-using OWP.EventPicking.Services;
-using OWP.MaxbetSetting.Models;
+namespace OWP.EventPicking.UnitTests.Services;
+
+using EventPicking.Services;
+using MaxbetSetting.Models;
+using Models;
 using Xunit;
 using Xunit.Asserts.Compare;
-
-namespace OWP.EventPicking.UnitTests.Services;
 
 public class BuildChildMatchMaxBetUnitTests
 {
@@ -39,86 +39,86 @@ public class BuildChildMatchMaxBetUnitTests
     }
 
     public List<EventPickingModel> MockChildMatches()
-        => new List<EventPickingModel>
+        => new()
         {
-            new()
+            new EventPickingModel
             {
                 InfoSiteMatchId = 3333,
-                MinorBettypeId = -3,
+                MinorBettypeId = -3
             },
-            new()
+            new EventPickingModel
             {
                 InfoSiteMatchId = 3333,
-                MinorBettypeId = -4,
+                MinorBettypeId = -4
             },
-            new()
+            new EventPickingModel
             {
                 InfoSiteMatchId = 4444,
-                MinorBettypeId = -6,
+                MinorBettypeId = -6
             },
-            new()
+            new EventPickingModel
             {
                 InfoSiteMatchId = 5555,
-                MinorBettypeId = -7,
+                MinorBettypeId = -7
             },
-            new()
+            new EventPickingModel
             {
                 InfoSiteMatchId = 4444,
-                MinorBettypeId = -99,
+                MinorBettypeId = -99
             }
         };
 
     public List<EventPickingModel> MockMainMatches()
-        => new List<EventPickingModel>
+        => new()
         {
-            new() { MaxBetHDP = null },
-            new()
+            new EventPickingModel { MaxBetHDP = null },
+            new EventPickingModel
             {
                 MaxBetHDPNumber = 5000,
-                InfoSiteMatchId = 3333,
+                InfoSiteMatchId = 3333
             },
-            new()
+            new EventPickingModel
             {
                 MaxBetHDPNumber = 3000,
-                InfoSiteMatchId = 4444,
+                InfoSiteMatchId = 4444
             },
-            new()
+            new EventPickingModel
             {
                 MaxBetHDPNumber = 100,
-                InfoSiteMatchId = 5555,
+                InfoSiteMatchId = 5555
             }
         };
 
     public List<EventPickingModel> MockExpectedMatches()
-        => new List<EventPickingModel>
+        => new()
         {
-            new()
+            new EventPickingModel
             {
                 InfoSiteMatchId = 3333,
                 MinorBettypeId = -3,
                 MaxBetHDP = "2K",
-                MaxBetOU = "0.1K",
+                MaxBetOU = "0.1K"
             },
-            new()
+            new EventPickingModel
             {
                 InfoSiteMatchId = 3333,
                 MinorBettypeId = -4,
-                MaxBetHDP = "12K",
+                MaxBetHDP = "12K"
             },
-            new()
+            new EventPickingModel
             {
                 InfoSiteMatchId = 4444,
                 MinorBettypeId = -6,
                 MaxBetHDP = "0.3K",
                 MaxBetOU = "0.1K"
             },
-            new()
+            new EventPickingModel
             {
                 InfoSiteMatchId = 5555,
                 MinorBettypeId = -7,
-                MaxBetHDP = "0.333K",
+                MaxBetHDP = "0.333K"
             },
-            new()
+            new EventPickingModel
             {
                 InfoSiteMatchId = 4444,
                 MinorBettypeId = -99,

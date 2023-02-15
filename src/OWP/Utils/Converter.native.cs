@@ -1,122 +1,120 @@
-namespace OWP.Utils
+namespace OWP.Utils;
+
+using System.Diagnostics;
+
+public static class Converter
 {
-    using System;
-    using System.Diagnostics;
-
-    public static class Converter
+    [DebuggerStepThrough]
+    public static T To<T>(object item)
     {
-        [DebuggerStepThrough]
-        public static T To<T>(object item)
+        if (!ReferenceEquals(item, null) && item != DBNull.Value)
         {
-            if (!ReferenceEquals(item, null) && item != DBNull.Value)
-            {
-                return (T)Convert.ChangeType(item, typeof(T));
-            }
-
-            return default(T);
+            return (T)Convert.ChangeType(item, typeof(T));
         }
 
-        [DebuggerStepThrough]
-        public static int ToInt(object item, int defaultValue = 0)
+        return default;
+    }
+
+    [DebuggerStepThrough]
+    public static int ToInt(object item, int defaultValue = 0)
+    {
+        var result = defaultValue;
+        var b = false;
+
+        if (!ReferenceEquals(item, null) && item != DBNull.Value)
         {
-            int result = defaultValue;
-            bool b = false;
-
-            if (!ReferenceEquals(item, null) && item != DBNull.Value)
-            {
-                b = int.TryParse(item.ToString(), out result);
-            }
-
-            return b ? result : defaultValue;
+            b = int.TryParse(item.ToString(), out result);
         }
 
-        [DebuggerStepThrough]
-        public static bool ToBool(object item, bool defaultValue = false)
+        return b ? result : defaultValue;
+    }
+
+    [DebuggerStepThrough]
+    public static bool ToBool(object item, bool defaultValue = false)
+    {
+        var result = defaultValue;
+        var b = false;
+
+        if (!ReferenceEquals(item, null) && item != DBNull.Value)
         {
-            bool result = defaultValue;
-            bool b = false;
-
-            if (!ReferenceEquals(item, null) && item != DBNull.Value)
-            {
-                b = bool.TryParse(item.ToString(), out result);
-            }
-
-            return b ? result : defaultValue;
+            b = bool.TryParse(item.ToString(), out result);
         }
 
-        [DebuggerStepThrough]
-        public static decimal ToDecimal(object item, decimal defaultValue = 0)
+        return b ? result : defaultValue;
+    }
+
+    [DebuggerStepThrough]
+    public static decimal ToDecimal(object item, decimal defaultValue = 0)
+    {
+        var result = defaultValue;
+        var b = false;
+
+        if (!ReferenceEquals(item, null) && item != DBNull.Value)
         {
-            decimal result = defaultValue;
-            bool b = false;
-
-            if (!ReferenceEquals(item, null) && item != DBNull.Value)
-            {
-                b = decimal.TryParse(item.ToString(), out result);
-            }
-
-            return b ? result : defaultValue;
+            b = decimal.TryParse(item.ToString(), out result);
         }
 
-        [DebuggerStepThrough]
-        public static Guid ToGuid(object item)
-        {
-            if (!ReferenceEquals(item, null) && item != DBNull.Value)
-            {
-                return Guid.Parse(item.ToString());
-            }
+        return b ? result : defaultValue;
+    }
 
-            return Guid.NewGuid();
+    [DebuggerStepThrough]
+    public static Guid ToGuid(object item)
+    {
+        if (!ReferenceEquals(item, null) && item != DBNull.Value)
+        {
+            return Guid.Parse(item.ToString());
         }
 
-        [DebuggerStepThrough]
-        public static DateTime ToDateTime(object item)
+        return Guid.NewGuid();
+    }
+
+    [DebuggerStepThrough]
+    public static DateTime ToDateTime(object item)
+    {
+        return ToDateTime(item, DateTime.MinValue);
+    }
+
+    public static DateTime ToDateTime(object item, DateTime defaultValue)
+    {
+        var result = defaultValue;
+        var b = false;
+
+        if (!ReferenceEquals(item, null) && item != DBNull.Value)
         {
-            return ToDateTime(item, DateTime.MinValue);
+            b = DateTime.TryParse(item.ToString(), out result);
         }
 
-        public static DateTime ToDateTime(object item, DateTime defaultValue)
+        return b ? result : defaultValue;
+    }
+
+    [DebuggerStepThrough]
+    public static char ToChar(object item, char defaultValue = char.MinValue)
+    {
+        var result = defaultValue;
+        var b = false;
+
+        if (!ReferenceEquals(item, null) && item != DBNull.Value)
         {
-            DateTime result = defaultValue;
-            bool b = false;
-
-            if (!ReferenceEquals(item, null) && item != DBNull.Value)
-            {
-                b = DateTime.TryParse(item.ToString(), out result);
-            }
-
-            return b ? result : defaultValue;
+            b = char.TryParse(item.ToString(), out result);
         }
 
-        [DebuggerStepThrough]
-        public static char ToChar(object item, char defaultValue = char.MinValue)
+        return b ? result : defaultValue;
+    }
+
+    [DebuggerStepThrough]
+    public static byte[] ToByteArray(object item)
+    {
+        return To<byte[]>(item);
+    }
+
+    [DebuggerStepThrough]
+    public static string ToString2(object item)
+    {
+        if (!ReferenceEquals(item, null) && item != DBNull.Value)
         {
-            char result = defaultValue;
-            bool b = false;
-
-            if (!ReferenceEquals(item, null) && item != DBNull.Value)
-            {
-                b = char.TryParse(item.ToString(), out result);
-            }
-
-            return b ? result : defaultValue;
+            return item.ToString();
         }
 
-        [DebuggerStepThrough]
-        public static byte[] ToByteArray(object item)
-        {
-            return To<byte[]>(item);
-        }
-
-        [DebuggerStepThrough]
-        public static string ToString2(object item)
-        {
-            if (!ReferenceEquals(item, null) && item != DBNull.Value)
-            {
-                return item.ToString();
-            }
-
-            return string.Empty;
-        }
+        return string.Empty;
     }
 }

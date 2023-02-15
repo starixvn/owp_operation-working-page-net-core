@@ -1,13 +1,12 @@
-﻿using System.Xml.Serialization;
+﻿namespace OWP.Maxbet.Models;
+
 using Newtonsoft.Json;
 
-namespace OWP.Maxbet.Models
+public class MaxbetInfo
 {
-  public class MaxbetInfo
-  {
     public int AdminsiteID { get; set; }
 
-    public TraderAssignmentSender Traders { get; set; } = new TraderAssignmentSender();
+    public TraderAssignmentSender Traders { get; set; } = new();
 
     public int? SecondAcceptValue { get; set; }
 
@@ -21,5 +20,4 @@ namespace OWP.Maxbet.Models
 
     [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
     public int? Ft1stLineHandicap { get; set; }
-  }
 }

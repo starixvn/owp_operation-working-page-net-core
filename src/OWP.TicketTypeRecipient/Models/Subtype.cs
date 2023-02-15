@@ -1,11 +1,10 @@
-namespace OWP.TicketTypeRecipient.Models
+namespace OWP.TicketTypeRecipient.Models;
+
+public class Subtype
 {
-    public class Subtype
-    {
-        public int SubtypeId { get; set; }
+    public int SubtypeId { get; set; }
 
-        public int TypeId { get; set; }
+    public int TypeId { get; set; }
 
-        public string SubtypeName { get; set; }
-    }
+    public string SubtypeName { get; set; }
 }

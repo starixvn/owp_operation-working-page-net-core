@@ -1,11 +1,10 @@
-﻿using Fanex.Data.Repository;
+﻿namespace OWP.AutoAssignment.Criteria.PublicApi;
 
-namespace OWP.AutoAssignment.Criteria.PublicApi
+using Fanex.Data.Repository;
+
+public class GetCustInfoFromDB02Criteria : CriteriaBase
 {
-    public class GetCustInfoFromDB02Criteria : CriteriaBase
-    {
-        public override string GetSettingKey() => "OWP_AutoAssignment_GetCustInfoFromDB02";
+    public override string GetSettingKey() => "OWP_AutoAssignment_GetCustInfoFromDB02";
 
-        public override bool IsValid() => true;
-    }
+    public override bool IsValid() => true;
 }

@@ -1,13 +1,12 @@
-﻿namespace OWP.SimpleDataApi.Criteria
+﻿namespace OWP.SimpleDataApi.Criteria;
+
+using Fanex.Data.Repository;
+
+public class GetProviderSuggestionCriteria : CriteriaBase
 {
-    using Fanex.Data.Repository;
+    public override string GetSettingKey() => "OWP_Provider_GetSuggestion";
 
-    public class GetProviderSuggestionCriteria : CriteriaBase
-    {
-        public override string GetSettingKey() => "OWP_Provider_GetSuggestion";
+    public string Keyword { get; set; }
 
-        public string Keyword { get; set; }
-
-        public override bool IsValid() => true;
-    }
+    public override bool IsValid() => true;
 }

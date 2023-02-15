@@ -1,35 +1,32 @@
-﻿namespace OWP.Report.TraderReport.Services
-{
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using Criteria;
-    using Fanex.Data.Repository;
-    using Models;
-    using Report.Models;
+﻿namespace OWP.Report.TraderReport.Services;
 
-    public interface RepositoryService
+using Criteria;
+using Fanex.Data.Repository;
+using Models;
+using Report.Models;
+
+public interface RepositoryService
+{
+    Task<IEnumerable<ReportModel>> GetLstReportDataByDate(QueryModel queryModel);
+}
+
+public class RepositoryServiceImp : RepositoryService
+{
+    private readonly IDynamicRepository dynamicRepository;
+
+    public RepositoryServiceImp(IDynamicRepository dynamicRepository)
     {
-        Task<IEnumerable<ReportModel>> GetLstReportDataByDate(QueryModel queryModel);
+        this.dynamicRepository = dynamicRepository;
     }
 
-    public class RepositoryServiceImp : RepositoryService
+    public async Task<IEnumerable<ReportModel>> GetLstReportDataByDate(QueryModel queryModel)
     {
-        private readonly IDynamicRepository dynamicRepository;
-
-        public RepositoryServiceImp(IDynamicRepository dynamicRepository)
+        var criteria = new GetTraderReportCriteria
         {
-            this.dynamicRepository = dynamicRepository;
-        }
+            FromDate = queryModel.FromDate,
+            ToDate = queryModel.ToDate
+        };
 
-        public async Task<IEnumerable<ReportModel>> GetLstReportDataByDate(QueryModel queryModel)
-        {
-            var criteria = new GetTraderReportCriteria
-            {
-                FromDate = queryModel.FromDate,
-                ToDate = queryModel.ToDate
-            };
-
-            return await dynamicRepository.FetchAsync<ReportModel>(criteria);
-        }
+        return await dynamicRepository.FetchAsync<ReportModel>(criteria);
     }
 }

@@ -1,7 +1,6 @@
-namespace OWP.Models
+namespace OWP.Models;
+
+public class PreMatchIssueNotificationMessage : Message
 {
-    public class PreMatchIssueNotificationMessage : Message
-    {
-        public int PreMatchIssueId { get; set; }
-    }
+    public int PreMatchIssueId { get; set; }
 }

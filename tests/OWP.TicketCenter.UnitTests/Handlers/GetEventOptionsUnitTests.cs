@@ -1,110 +1,109 @@
-﻿using NSubstitute;
-using OWP.TicketCenter.Handlers;
-using OWP.TicketCenter.Models;
-using OWP.TicketCenter.ViewModels;
+﻿namespace OWP.TicketCenter.UnitTests.Handlers;
+
+using Models;
+using NSubstitute;
+using TicketCenter.Handlers;
+using ViewModels;
 using Xunit;
 using Xunit.Asserts.Compare;
 
-namespace OWP.TicketCenter.UnitTests.Handlers
+public class GetEventOptionsUnitTests
 {
-    public class GetEventOptionsUnitTests
+    private readonly GetEventOptionHandler eventOptionHandler;
+
+    private readonly Repository repository;
+
+    public GetEventOptionsUnitTests()
     {
-        private readonly GetEventOptionHandler eventOptionHandler;
+        repository = Substitute.For<Repository>();
+        eventOptionHandler = new GetEventOptionHandler(repository);
+    }
 
-        private readonly Repository repository;
-
-        public GetEventOptionsUnitTests()
+    [Fact]
+    public async void GetEventOption_Keyword_ReturnListOption()
+    {
+        // Arrange
+        var request = new GetTicketEventOptionRequest
         {
-            repository = Substitute.For<Repository>();
-            eventOptionHandler = new GetEventOptionHandler(repository);
-        }
+            Keyword = "league"
+        };
 
-        [Fact]
-        public async void GetEventOption_Keyword_ReturnListOption()
+        var eventOptionInfoModel = new List<EventCheckingOption>
         {
-            // Arrange
-            var request = new GetTicketEventOptionRequest
+            new ()
             {
-                Keyword = "league"
-            };
+                InfoSiteMatchId = 123,
 
-            var eventOptionInfoModel = new List<EventCheckingOption>()
+                OwpLeagueId = 123,
+
+                LeagueName = "V-league",
+
+                HomeId = 111,
+
+                AwayId = 112,
+
+                HomeName = "VN",
+
+                AwayName = "TL",
+
+                EventDateTimeGmt8 = DateTime.Parse("2021/10/27"),
+
+                RecipientId = 19,
+
+                UserName = "sa",
+
+                NickName = "sa_nickname",
+
+                HasAssignee = true
+            }
+        };
+
+        repository
+            .GetEventOptionInfo("League")
+            .ReturnsForAnyArgs(x => eventOptionInfoModel);
+
+        // Act
+        var actual = await eventOptionHandler.Handle(request, CancellationToken.None);
+
+        // Assert
+        var expected = new List<EventCheckingOptionInfoSender>
+        {
+            new ()
             {
-                new ()
+                EventInfoViewModel = new List<EventCheckingOptionInfoViewModel>
                 {
-                    InfoSiteMatchId = 123,
+                    new ()
+                    {
+                        InfoSiteMatchId = 123,
 
-                    OwpLeagueId = 123,
+                        OwpLeagueId = 123,
 
-                    LeagueName = "V-league",
+                        LeagueName = "V-league",
 
-                    HomeId = 111,
+                        HomeId = 111,
 
-                    AwayId = 112,
+                        AwayId = 112,
 
-                    HomeName = "VN",
+                        HomeName = "VN",
 
-                    AwayName = "TL",
+                        AwayName = "TL",
 
-                    EventDateTimeGmt8 = DateTime.Parse("2021/10/27"),
-
-                    RecipientId = 19,
-
-                    UserName = "sa",
-
-                    NickName = "sa_nickname",
-
-                    HasAssignee = true
-                }
-            };
-
-            repository
-                .GetEventOptionInfo("League")
-                .ReturnsForAnyArgs(x => eventOptionInfoModel);
-
-            // Act
-            var actual = await eventOptionHandler.Handle(request, CancellationToken.None);
-
-            // Assert
-            var expected = new List<EventCheckingOptionInfoSender>
-            {
-                new ()
+                        EventDateTimeGmt8 = DateTime.Parse("2021/10/27")
+                    }
+                },
+                UserViewModel = new List<UserViewModel>
                 {
-                    EventInfoViewModel = new List<EventCheckingOptionInfoViewModel>
+                    new ()
                     {
-                        new ()
-                        {
-                            InfoSiteMatchId = 123,
+                        RecipientId = 19,
 
-                            OwpLeagueId = 123,
+                        UserName = "sa",
 
-                            LeagueName = "V-league",
-
-                            HomeId = 111,
-
-                            AwayId = 112,
-
-                            HomeName = "VN",
-
-                            AwayName = "TL",
-
-                            EventDateTimeGmt8 = DateTime.Parse("2021/10/27"),
-                        }
-                    },
-                    UserViewModel = new List<UserViewModel>
-                    {
-                        new ()
-                        {
-                            RecipientId = 19,
-
-                            UserName = "sa",
-
-                            NickName = "sa_nickname",
-                        }
+                        NickName = "sa_nickname"
                     }
                 }
-            };
-            DeepAssert.Equal(expected, actual);
-        }
+            }
+        };
+        DeepAssert.Equal(expected, actual);
     }
 }

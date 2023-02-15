@@ -1,8 +1,7 @@
 
-namespace OWP.TicketTypeRecipient.Middleware.Models
+namespace OWP.TicketTypeRecipient.Middleware.Models;
+
+public class SubtypeChecker
 {
-    public class SubtypeChecker
-    {
-        public string SubtypeName { get; set; }
-    }
+    public string SubtypeName { get; set; }
 }

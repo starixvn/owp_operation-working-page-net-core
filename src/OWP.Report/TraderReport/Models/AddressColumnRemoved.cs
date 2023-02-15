@@ -1,9 +1,8 @@
-﻿namespace OWP.Report.TraderReport.Models
-{
-    public class AddressColumnRemoved
-    {
-        public int ColumnFrom { get; set; }
+﻿namespace OWP.Report.TraderReport.Models;
 
-        public int Columns { get; set; }
-    }
+public class AddressColumnRemoved
+{
+    public int ColumnFrom { get; set; }
+
+    public int Columns { get; set; }
 }

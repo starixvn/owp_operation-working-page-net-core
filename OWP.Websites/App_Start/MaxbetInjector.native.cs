@@ -1,9 +1,9 @@
-﻿using OWP.Maxbet;
-using OWP.Maxbet.Builder;
-using OWP.Maxbet.Selector;
-using OWP.Maxbet.Services;
+﻿namespace OWP.Websites;
 
-namespace OWP.Websites;
+using Maxbet;
+using Maxbet.Builder;
+using Maxbet.Selector;
+using Maxbet.Services;
 
 public static class MaxbetInjector
 {

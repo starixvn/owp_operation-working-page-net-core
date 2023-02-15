@@ -1,15 +1,12 @@
-﻿namespace OWP.Report.TraderReport.Criteria
+﻿namespace OWP.Report.TraderReport.Criteria;
+
+public class GetPerformanceDetailsCriteria
 {
-    using System;
+    public DateTime FromDate { get; set; }
 
-    public class GetPerformanceDetailsCriteria
-    {
-        public DateTime FromDate { get; set; }
+    public DateTime ToDate { get; set; }
 
-        public DateTime ToDate { get; set; }
+    public string TraderIds { get; set; }
 
-        public string TraderIds { get; set; }
-
-        public string MajorBettypeIds { get; set; }
-    }
+    public string MajorBettypeIds { get; set; }
 }

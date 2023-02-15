@@ -1,9 +1,9 @@
+namespace OWP.MatchCountLiveReport.Criteria;
+
 using Fanex.Data.Repository;
 
-namespace OWP.MatchCountLiveReport.Criteria
+public class QueryReportInfoCriteria : CriteriaBase
 {
-  public class QueryReportInfoCriteria : CriteriaBase
-  {
     public DateTime FromDate { get; set; }
 
     public DateTime ToDate { get; set; }
@@ -11,7 +11,5 @@ namespace OWP.MatchCountLiveReport.Criteria
     public override string GetSettingKey() => "OWP_MatchLiveReport_GetByTimeRange";
 
     public override bool IsValid()
-    => true;
-  }
+        => true;
 }
-

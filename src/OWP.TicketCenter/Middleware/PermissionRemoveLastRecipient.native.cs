@@ -1,47 +1,46 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿namespace OWP.TicketCenter.Middleware;
+
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using OWP.TicketCenter.Middleware.Models;
-using OWP.TicketCenter.Services;
+using Models;
+using Services;
 
-namespace OWP.TicketCenter.Middleware
+public class PermissionRemoveLastRecipient : IAsyncActionFilter
 {
-    public class PermissionRemoveLastRecipient : IAsyncActionFilter
+    private readonly PermissionService permissionService;
+
+    public PermissionRemoveLastRecipient(PermissionService permissionService)
     {
-        private readonly PermissionService permissionService;
+        this.permissionService = permissionService;
+    }
 
-        public PermissionRemoveLastRecipient(PermissionService permissionService)
+    public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+    {
+        var param = context
+            .ActionArguments
+            .SingleOrDefault(p => p.Value is PermissionCheckedModel)
+            .Value;
+
+        if (param is PermissionCheckedModel model)
         {
-            this.permissionService = permissionService;
-        }
+            var hasPermission =
+                await permissionService.HasPermissionRemoveLastRecipient(model.TicketId);
 
-        public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
-        {
-            var param = context
-                .ActionArguments
-                .SingleOrDefault(p => p.Value is PermissionCheckedModel)
-                .Value;
-
-            if (param is PermissionCheckedModel model)
+            if (hasPermission)
             {
-                var hasPermission =
-                    await permissionService.HasPermissionRemoveLastRecipient(model.TicketId);
-
-                if (hasPermission)
-                {
-                    await next();
-                }
-                else
-                {
-                    context.HttpContext.Response.StatusCode = 400;
-                    context.Result = new ContentResult
-                    {
-                        Content = "Please select at least one recipient"
-                    };
-                }
-                return;
+                await next();
             }
-
-            await next();
+            else
+            {
+                context.HttpContext.Response.StatusCode = 400;
+                context.Result = new ContentResult
+                {
+                    Content = "Please select at least one recipient"
+                };
+            }
+            return;
         }
+
+        await next();
     }
 }

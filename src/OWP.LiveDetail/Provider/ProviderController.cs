@@ -1,30 +1,27 @@
-﻿namespace OWP.LiveDetail.Provider
+﻿namespace OWP.LiveDetail.Provider;
+
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+
+[Route("api/live-detail/provider")]
+[ApiController]
+[Authorize]
+[EnableCors("AllowOrigin")]
+public class ProviderController : ControllerBase
 {
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Cors;
-    using Microsoft.AspNetCore.Mvc;
-    using Newtonsoft.Json;
+    private readonly ProviderRepository repository;
 
-    [Route("api/live-detail/provider")]
-    [ApiController]
-    [Authorize]
-    [EnableCors("AllowOrigin")]
-    public class ProviderController : ControllerBase
+    public ProviderController(ProviderRepository repository)
     {
-        private readonly ProviderRepository repository;
+        this.repository = repository;
+    }
 
-        public ProviderController(ProviderRepository repository)
-        {
-            this.repository = repository;
-        }
-
-        [Route("all")]
-        public async Task<IActionResult> GetAll()
-        {
-            var result = await repository.GetAll();
-            return Ok(JsonConvert.SerializeObject(result));
-        }
+    [Route("all")]
+    public async Task<IActionResult> GetAll()
+    {
+        var result = await repository.GetAll();
+        return Ok(JsonConvert.SerializeObject(result));
     }
 }

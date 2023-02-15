@@ -1,10 +1,10 @@
+namespace OWP.Websites.Controllers;
+
+using Extensions;
 using Fanex.Caching;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using OWP.Extensions;
 using StackExchange.Redis;
-
-namespace OWP.Websites.Controllers;
 
 public class AdministratorController : Controller
 {
@@ -28,7 +28,7 @@ public class AdministratorController : Controller
         var appName = configuration.GetSection("fanex.caching.redis:ApplicationName").Value;
         var keyPrefix = $"{{{appName}}}:{{";
 
-        var keys = endPoints.Select(e => redis.GetServer(e).Keys(11, pattern: $"{{{appName}}}:*"))
+        var keys = endPoints.Select(e => redis.GetServer(e).Keys(11, $"{{{appName}}}:*"))
             .SelectMany(k => k)
             .Select(k => k.ToString().Replace(keyPrefix, string.Empty))
             .Select(k => k.Remove(k.Length - 1))
@@ -101,7 +101,7 @@ public class AdministratorController : Controller
         var files = directory.GetFiles("*.xlsx").OrderByDescending(p => p.CreationTime).ToArray();
         var fileInfos = new List<object>();
 
-        foreach (FileInfo file in files)
+        foreach (var file in files)
         {
             fileInfos.Add(new
             {

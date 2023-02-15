@@ -1,9 +1,8 @@
-﻿namespace OWP.LiveDetail.User
-{
-    public class GetSuggestionModel
-    {
-        public string Keyword { get; set; }
+﻿namespace OWP.LiveDetail.User;
 
-        public int OWPMatchId { get; set; }
-    }
+public class GetSuggestionModel
+{
+    public string Keyword { get; set; }
+
+    public int OWPMatchId { get; set; }
 }

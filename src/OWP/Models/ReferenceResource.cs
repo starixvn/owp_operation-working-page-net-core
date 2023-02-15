@@ -1,10 +1,8 @@
-namespace OWP.Models
+namespace OWP.Models;
+
+public class ReferenceResource
 {
-    using Newtonsoft.Json;
-    public class ReferenceResource
-    {
-        public int ResourceId { get; set; }
-        public string Value { get; set; }
-        public string Name { get; set; }
-    }
+    public int ResourceId { get; set; }
+    public string Value { get; set; }
+    public string Name { get; set; }
 }

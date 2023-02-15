@@ -1,12 +1,12 @@
-﻿using System.Globalization;
+﻿namespace OWP.Report.PreMatchReport.Services;
+
+using System.Globalization;
+using Constants;
+using Extensions;
+using Models;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
-using OWP.Extensions;
-using OWP.Report.PreMatchReport.Constants;
-using OWP.Report.PreMatchReport.Models;
 using OWP.Services;
-
-namespace OWP.Report.PreMatchReport.Services;
 
 public interface PreMatchReportExportService
 {

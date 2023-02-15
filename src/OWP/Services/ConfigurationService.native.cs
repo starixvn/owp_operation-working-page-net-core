@@ -1,21 +1,20 @@
-﻿namespace OWP.Services
+﻿namespace OWP.Services;
+
+using Microsoft.AspNetCore.Hosting;
+
+public interface ConfigurationService
 {
-    using Microsoft.AspNetCore.Hosting;
+    string CurrentDirectory { get; }
+}
 
-    public interface ConfigurationService
+public class ConfigurationServiceImp : ConfigurationService
+{
+    private readonly IWebHostEnvironment hostEnvironment;
+
+    public ConfigurationServiceImp(IWebHostEnvironment hostEnvironment)
     {
-        string CurrentDirectory { get; }
+        this.hostEnvironment = hostEnvironment;
     }
 
-    public class ConfigurationServiceImp : ConfigurationService
-    {
-        private readonly IWebHostEnvironment hostEnvironment;
-
-        public ConfigurationServiceImp(IWebHostEnvironment hostEnvironment)
-        {
-            this.hostEnvironment = hostEnvironment;
-        }
-
-        public string CurrentDirectory => hostEnvironment.ContentRootPath;
-    }
+    public string CurrentDirectory => hostEnvironment.ContentRootPath;
 }

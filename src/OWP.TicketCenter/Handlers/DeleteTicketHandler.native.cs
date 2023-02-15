@@ -1,30 +1,27 @@
-namespace OWP.TicketCenter.Handlers
+namespace OWP.TicketCenter.Handlers;
+
+using Criteria;
+using MediatR;
+using Middleware.Models;
+
+public class DeleteTicketRequest : PermissionCheckedModel, IRequest<bool>
 {
-    using MediatR;
-    using OWP.TicketCenter.Middleware.Models;
-    using System;
-    using System.Threading;
-    using System.Threading.Tasks;
 
-    public class DeleteTicketRequest : PermissionCheckedModel, IRequest<bool>
+}
+
+public class DeleteTicketHandler : IRequestHandler<DeleteTicketRequest, bool>
+{
+    private readonly Repository repository;
+
+    public DeleteTicketHandler(Repository repository)
     {
-
+        this.repository = repository;
     }
 
-    public class DeleteTicketHandler : IRequestHandler<DeleteTicketRequest, bool>
+    public async Task<bool> Handle(DeleteTicketRequest request, CancellationToken cancellationToken)
     {
-        private readonly Repository repository;
+        await repository.DeleteTicket(new DeleteTicketCriteria { UserId = request.ActorId, TicketId = request.TicketId, EventDate = DateTime.Now });
 
-        public DeleteTicketHandler(Repository repository)
-        {
-            this.repository = repository;
-        }
-
-        public async Task<bool> Handle(DeleteTicketRequest request, CancellationToken cancellationToken)
-        {
-            await repository.DeleteTicket(new Criteria.DeleteTicketCriteria { UserId = request.ActorId, TicketId = request.TicketId, EventDate = DateTime.Now });
-
-            return await Task.FromResult(true);
-        }
+        return await Task.FromResult(true);
     }
 }

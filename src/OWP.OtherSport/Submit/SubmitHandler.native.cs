@@ -1,171 +1,170 @@
-﻿namespace OWP.OtherSport.Submit
+﻿namespace OWP.OtherSport.Submit;
+
+using Extensions;
+using Fanex.NAP.Client.Helpers.Web;
+using Hubs;
+using MediatR;
+using Microsoft.AspNetCore.SignalR;
+using Models;
+using RabbitMQ;
+using RabbitMQ.Constants;
+using Services;
+using Validation.Models;
+
+public class SubmitRequest : IRequest<SubmitResponse>
 {
-    using Fanex.NAP.Client.Helpers.Web;
-    using MediatR;
-    using Microsoft.AspNetCore.SignalR;
-    using OWP.Extensions;
-    using OWP.OtherSport.Hubs;
-    using OWP.OtherSport.Submit.Models;
-    using OWP.OtherSport.Submit.Services;
-    using OWP.OtherSport.Validation.Models;
-    using OWP.RabbitMQ;
-    using OWP.RabbitMQ.Constants;
+    public string SessionId { get; set; }
 
-    public class SubmitRequest : IRequest<SubmitResponse>
+    public DateTime FromDate { get; set; }
+
+    public DateTime ToDate { get; set; }
+}
+
+public class SubmitResponse
+{
+    public SubmitResponse()
     {
-        public string SessionId { get; set; }
-
-        public DateTime FromDate { get; set; }
-
-        public DateTime ToDate { get; set; }
+        Message = string.Empty;
+        IsSuccessful = true;
     }
 
-    public class SubmitResponse
+    public string Message { get; set; }
+
+    public bool IsSuccessful { get; set; }
+}
+
+public class SubmitHandler : IRequestHandler<SubmitRequest, SubmitResponse>
+{
+    private readonly CacheManipulator cacheManipulator;
+    private readonly CommandRepository commandRepository;
+    private readonly INapSession session;
+    private readonly IHubContext<NewDataUploadNotifyHubImp, NewDataUploadNotifyHub> notifyHub;
+    private readonly MessageClient messageClient;
+    private readonly AssignmentAnalyzer assignmentAnalyzer;
+
+
+    public SubmitHandler(
+        CacheManipulator cacheManipulator,
+        CommandRepository commandRepository,
+        INapSession session,
+        IHubContext<NewDataUploadNotifyHubImp, NewDataUploadNotifyHub> notifyHub,
+        MessageClient messageClient,
+        AssignmentAnalyzer assignmentAnalyzer)
+
     {
-        public SubmitResponse()
-        {
-            Message = string.Empty;
-            IsSuccessful = true;
-        }
-
-        public string Message { get; set; }
-
-        public bool IsSuccessful { get; set; }
+        this.cacheManipulator = cacheManipulator;
+        this.commandRepository = commandRepository;
+        this.session = session;
+        this.notifyHub = notifyHub;
+        this.messageClient = messageClient;
+        this.assignmentAnalyzer = assignmentAnalyzer;
     }
 
-    public class SubmitHandler : IRequestHandler<SubmitRequest, SubmitResponse>
+    public async Task<SubmitResponse> Handle(SubmitRequest request, CancellationToken cancellationToken)
     {
-        private readonly CacheManipulator cacheManipulator;
-        private readonly CommandRepository commandRepository;
-        private readonly INapSession session;
-        private readonly IHubContext<NewDataUploadNotifyHubImp, NewDataUploadNotifyHub> notifyHub;
-        private readonly MessageClient messageClient;
-        private readonly AssignmentAnalyzer assignmentAnalyzer;
+        var newAssignments = await cacheManipulator.GetNewAssignments(request.SessionId);
+        var eventDates = new List<DateTime>();
+        var diffDays = request.ToDate - request.FromDate;
 
-
-        public SubmitHandler(
-            CacheManipulator cacheManipulator,
-            CommandRepository commandRepository,
-            INapSession session,
-            IHubContext<NewDataUploadNotifyHubImp, NewDataUploadNotifyHub> notifyHub,
-            MessageClient messageClient,
-            AssignmentAnalyzer assignmentAnalyzer)
-
+        for (var i = 0; i <= diffDays.TotalDays; i++)
         {
-            this.cacheManipulator = cacheManipulator;
-            this.commandRepository = commandRepository;
-            this.session = session;
-            this.notifyHub = notifyHub;
-            this.messageClient = messageClient;
-            this.assignmentAnalyzer = assignmentAnalyzer;
+            eventDates.Add(request.FromDate.AddDays(i));
         }
 
-        public async Task<SubmitResponse> Handle(SubmitRequest request, CancellationToken cancellationToken)
+        var userWhoIsUploadingAssignment = await GetUserWhoIsUploadingAssignment(eventDates);
+        if (!userWhoIsUploadingAssignment.IsSuccessful)
         {
-            var newAssignments = await cacheManipulator.GetNewAssignments(request.SessionId);
-            var eventDates = new List<DateTime>();
-            var diffDays = request.ToDate - request.FromDate;
-
-            for (int i = 0; i <= diffDays.TotalDays; i++)
-            {
-                eventDates.Add(request.FromDate.AddDays(i));
-            }
-
-            var userWhoIsUploadingAssignment = await GetUserWhoIsUploadingAssignment(eventDates);
-            if (!userWhoIsUploadingAssignment.IsSuccessful)
-            {
-                return userWhoIsUploadingAssignment;
-            }
-
-            await TryHandle(eventDates, newAssignments, request);
-            await notifyHub.Clients.All.NotifyUploadedNewData();
-
-            messageClient.SendMessage(new
-            {
-                SessionId = request.SessionId,
-                FromDate = request.FromDate,
-                ToDate = request.ToDate,
-                ActorId = session.UserId,
-                UserName = session.UserName
-            }, RoutingKey.OtherSport);
-
-
-            return new SubmitResponse
-            {
-                IsSuccessful = true,
-                Message = "Other sport assignment is successfully submitted!"
-            };
+            return userWhoIsUploadingAssignment;
         }
 
-        private async Task<SubmitResponse> GetUserWhoIsUploadingAssignment(List<DateTime> eventDates)
+        await TryHandle(eventDates, newAssignments, request);
+        await notifyHub.Clients.All.NotifyUploadedNewData();
+
+        messageClient.SendMessage(new
         {
-            foreach (var eventDate in eventDates)
+            request.SessionId,
+            request.FromDate,
+            request.ToDate,
+            ActorId = session.UserId,
+            session.UserName
+        }, RoutingKey.OtherSport);
+
+
+        return new SubmitResponse
+        {
+            IsSuccessful = true,
+            Message = "Other sport assignment is successfully submitted!"
+        };
+    }
+
+    private async Task<SubmitResponse> GetUserWhoIsUploadingAssignment(List<DateTime> eventDates)
+    {
+        foreach (var eventDate in eventDates)
+        {
+            var userWhoIsUploadingAssignment = await cacheManipulator.GetUserWhoIsUploadingAssignment(eventDate);
+            if (!string.IsNullOrEmpty(userWhoIsUploadingAssignment))
             {
-                var userWhoIsUploadingAssignment = await cacheManipulator.GetUserWhoIsUploadingAssignment(eventDate);
-                if (!string.IsNullOrEmpty(userWhoIsUploadingAssignment))
+                return new SubmitResponse
                 {
-                    return new SubmitResponse
-                    {
-                        IsSuccessful = false,
-                        Message = $"User {userWhoIsUploadingAssignment} is uploading another assignment file for date {eventDate:MMM dd, yyyy}. Please try again later!"
-                    };
-                }
-            }
-
-            return new SubmitResponse();
-        }
-
-        private async Task TryHandle(List<DateTime> eventDates, List<AssignmentModel> assignments, SubmitRequest request)
-        {
-            try
-            {
-                await cacheManipulator.SaveUserWhoIsUploadingAssignment(eventDates, session.UserName);
-
-                await SaveDataAndCleanupCache(request, assignments);
-
-                await cacheManipulator.SaveLastUpdate(
-                    new LastUpdateInfo
-                    {
-                        Username = session.UserName,
-                        Date = DateTimeExtensions.ToGmt8(DateTime.Now)
-                    });
-            }
-            finally
-            {
-                await cacheManipulator.DeleteUserWhoIsUploadingAssignment(eventDates);
+                    IsSuccessful = false,
+                    Message = $"User {userWhoIsUploadingAssignment} is uploading another assignment file for date {eventDate:MMM dd, yyyy}. Please try again later!"
+                };
             }
         }
 
-        private async Task SaveDataAndCleanupCache(SubmitRequest request, List<AssignmentModel> assignments)
-        {
-            await SaveOldAssignmentsToSnapshot(request.FromDate, request.ToDate, request.SessionId);
-
-            var oldMatch = await commandRepository.GetOldMatchInfo(request.FromDate, request.ToDate);
-            var oldMatchIds = oldMatch.Select(x => x.OSMatchId).Distinct().ToList();
-            var hashKeyMap = await commandRepository.InsertOrUpdateMatch(assignments);
-            var newMatchIds = hashKeyMap.Select(h => h.OSMatchId).Distinct().ToList();
-
-            assignmentAnalyzer.ReassignOSMatchId(hashKeyMap, assignments);
-
-            var deletedMatchIds = oldMatchIds.Except(newMatchIds);
-            var deletedInfo = oldMatch.Where(x => deletedMatchIds.Any(y => x.OSMatchId.Equals(y))).ToList();
-            var deletedMatchIdsInString = string.Join(",", deletedInfo.Select(i => i.OSMatchId));
-
-            await SaveDeletedMatchesToSnapshot(deletedInfo);
-            await SaveAssignmentsToDatabase(assignments, deletedMatchIdsInString, string.Join(',', newMatchIds));
-            await cacheManipulator.DeleteAssignments(request.SessionId);
-        }
-
-        public async Task SaveOldAssignmentsToSnapshot(DateTime fromDate, DateTime toDate, string sessionId)
-        {
-            var oldSnapshot = await commandRepository.Query(fromDate, toDate);
-            await cacheManipulator.SaveOldAssignmentSnapshot(oldSnapshot, sessionId);
-        }
-
-        public async Task SaveAssignmentsToDatabase(List<AssignmentModel> newAssignments, string deletedMatchIds, string newMatchIdsInString)
-            => await commandRepository.Update(deletedMatchIds, newAssignments, newMatchIdsInString);
-
-        public async Task SaveDeletedMatchesToSnapshot(List<DeletedMatch> deletedMatches)
-            => await cacheManipulator.SaveDeletedMatchesSnapshot(deletedMatches);
+        return new SubmitResponse();
     }
+
+    private async Task TryHandle(List<DateTime> eventDates, List<AssignmentModel> assignments, SubmitRequest request)
+    {
+        try
+        {
+            await cacheManipulator.SaveUserWhoIsUploadingAssignment(eventDates, session.UserName);
+
+            await SaveDataAndCleanupCache(request, assignments);
+
+            await cacheManipulator.SaveLastUpdate(
+                new LastUpdateInfo
+                {
+                    Username = session.UserName,
+                    Date = DateTime.Now.ToGmt8()
+                });
+        }
+        finally
+        {
+            await cacheManipulator.DeleteUserWhoIsUploadingAssignment(eventDates);
+        }
+    }
+
+    private async Task SaveDataAndCleanupCache(SubmitRequest request, List<AssignmentModel> assignments)
+    {
+        await SaveOldAssignmentsToSnapshot(request.FromDate, request.ToDate, request.SessionId);
+
+        var oldMatch = await commandRepository.GetOldMatchInfo(request.FromDate, request.ToDate);
+        var oldMatchIds = oldMatch.Select(x => x.OSMatchId).Distinct().ToList();
+        var hashKeyMap = await commandRepository.InsertOrUpdateMatch(assignments);
+        var newMatchIds = hashKeyMap.Select(h => h.OSMatchId).Distinct().ToList();
+
+        assignmentAnalyzer.ReassignOSMatchId(hashKeyMap, assignments);
+
+        var deletedMatchIds = oldMatchIds.Except(newMatchIds);
+        var deletedInfo = oldMatch.Where(x => deletedMatchIds.Any(y => x.OSMatchId.Equals(y))).ToList();
+        var deletedMatchIdsInString = string.Join(",", deletedInfo.Select(i => i.OSMatchId));
+
+        await SaveDeletedMatchesToSnapshot(deletedInfo);
+        await SaveAssignmentsToDatabase(assignments, deletedMatchIdsInString, string.Join(',', newMatchIds));
+        await cacheManipulator.DeleteAssignments(request.SessionId);
+    }
+
+    public async Task SaveOldAssignmentsToSnapshot(DateTime fromDate, DateTime toDate, string sessionId)
+    {
+        var oldSnapshot = await commandRepository.Query(fromDate, toDate);
+        await cacheManipulator.SaveOldAssignmentSnapshot(oldSnapshot, sessionId);
+    }
+
+    public async Task SaveAssignmentsToDatabase(List<AssignmentModel> newAssignments, string deletedMatchIds, string newMatchIdsInString)
+        => await commandRepository.Update(deletedMatchIds, newAssignments, newMatchIdsInString);
+
+    public async Task SaveDeletedMatchesToSnapshot(List<DeletedMatch> deletedMatches)
+        => await cacheManipulator.SaveDeletedMatchesSnapshot(deletedMatches);
 }

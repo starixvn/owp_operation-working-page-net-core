@@ -1,14 +1,13 @@
-﻿using Fanex.Data.Repository;
+﻿namespace OWP.TicketCenter.Criteria;
 
-namespace OWP.TicketCenter.Criteria
+using Fanex.Data.Repository;
+
+public class GetTwoLastCommentCriteria : NonQueryCommand
 {
-    public class GetTwoLastCommentCriteria : NonQueryCommand
-    {
-        public string TicketId { get; set; }
+    public string TicketId { get; set; }
 
-        public override string GetSettingKey() => "OWP_TicketCenter_GetTwoLastComment";
+    public override string GetSettingKey() => "OWP_TicketCenter_GetTwoLastComment";
 
-        public override bool IsValid()
-            => true;
-    }
+    public override bool IsValid()
+        => true;
 }

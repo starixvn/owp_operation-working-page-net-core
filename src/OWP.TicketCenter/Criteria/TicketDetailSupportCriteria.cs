@@ -1,7 +1,6 @@
-﻿namespace OWP.TicketCenter.Criteria
+﻿namespace OWP.TicketCenter.Criteria;
+
+internal class TicketDetailSupportCriteria : TicketDetailCriteriaBase
 {
-    internal class TicketDetailSupportCriteria : TicketDetailCriteriaBase
-    {
-        public override string GetSettingKey() => "OWP_TicketSupportDetail_Get";
-    }
+    public override string GetSettingKey() => "OWP_TicketSupportDetail_Get";
 }

@@ -1,7 +1,6 @@
-﻿namespace OWP.LiveDetail.MatchOdd
+﻿namespace OWP.LiveDetail.MatchOdd;
+
+public class DeleteModel  
 {
-    public class DeleteModel  
-    {
-        public int Id { get; set; }
-    }
+    public int Id { get; set; }
 }

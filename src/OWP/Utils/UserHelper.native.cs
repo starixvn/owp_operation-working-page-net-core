@@ -1,20 +1,19 @@
-﻿namespace OWP.Utils
+﻿namespace OWP.Utils;
+
+public static class UserHelper
 {
-    public static class UserHelper
+    public static string GetFlagCodeFromLocationCode(string locationCode)
     {
-        public static string GetFlagCodeFromLocationCode(string locationCode)
+        if (string.IsNullOrEmpty(locationCode))
         {
-            if (string.IsNullOrEmpty(locationCode))
-            {
-                return string.Empty;
-            }
-
-            if (locationCode.Equals("SMS", StringComparison.CurrentCultureIgnoreCase))
-            {
-                return "vn";
-            }
-
-            return locationCode.Equals("CTI", StringComparison.CurrentCultureIgnoreCase) ? "ph" : string.Empty;
+            return string.Empty;
         }
+
+        if (locationCode.Equals("SMS", StringComparison.CurrentCultureIgnoreCase))
+        {
+            return "vn";
+        }
+
+        return locationCode.Equals("CTI", StringComparison.CurrentCultureIgnoreCase) ? "ph" : string.Empty;
     }
 }

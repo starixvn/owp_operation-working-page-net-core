@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿namespace OWP.Models;
 
-namespace OWP.Models;
+using Newtonsoft.Json;
 
 public class ResultDataObject
 {
@@ -21,7 +21,7 @@ public class ResultDataObject
     [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
     public string Message { get; set; }
 
-    public static ResultDataObject Ok => new ResultDataObject
+    public static ResultDataObject Ok => new()
     {
         Code = (int)ErrorCode.Ok
     };

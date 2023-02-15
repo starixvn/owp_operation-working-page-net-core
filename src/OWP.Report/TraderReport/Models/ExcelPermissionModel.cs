@@ -1,11 +1,10 @@
-﻿namespace OWP.Report.TraderReport.Models
+﻿namespace OWP.Report.TraderReport.Models;
+
+using OWP.Models;
+
+public class ExcelPermissionModel
 {
-    using OWP.Models;
+    public PermissionModel TraderAssignment { get; set; } = new();
 
-    public class ExcelPermissionModel
-    {
-        public PermissionModel TraderAssignment { get; set; } = new PermissionModel();
-
-        public PermissionModel TraderPerformace { get; set; } = new PermissionModel();
-    }
+    public PermissionModel TraderPerformace { get; set; } = new();
 }

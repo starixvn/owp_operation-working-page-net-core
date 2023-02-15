@@ -1,46 +1,45 @@
-﻿namespace OWP.PreMatchAssignment.Services
-{
-    using Criteria;
-    using Fanex.Data.Repository;
-    using Handlers;
-    using Misc;
-    using Models;
+﻿namespace OWP.PreMatchAssignment.Services;
 
-    public interface QueryLogService
+using Criteria;
+using Fanex.Data.Repository;
+using Handlers;
+using Misc;
+using Models;
+
+public interface QueryLogService
+{
+    Task<QueryLogViewModel> Query(QueryLogRequest request);
+}
+
+public class QueryLogServiceImp : QueryLogService
+{
+    private readonly IDynamicRepository dynamicRepo;
+
+    private readonly LogFactory logFactory;
+
+    public QueryLogServiceImp(IDynamicRepository dynamicRepo, LogFactory logFactory)
     {
-        Task<QueryLogViewModel> Query(QueryLogRequest request);
+        this.dynamicRepo = dynamicRepo;
+        this.logFactory = logFactory;
     }
 
-    public class QueryLogServiceImp : QueryLogService
+    public async Task<QueryLogViewModel> Query(QueryLogRequest request)
     {
-        private readonly IDynamicRepository dynamicRepo;
+        var queryLogCriteria = new QueryLogCriteria { PageNumber = request.PageNumber, PageSize = request.PageSize, IsDay = request.IsDay };
+        var logs = await dynamicRepo.FetchMultipleAsync<Log, bool>(queryLogCriteria);
 
-        private readonly LogFactory logFactory;
-
-        public QueryLogServiceImp(IDynamicRepository dynamicRepo, LogFactory logFactory)
+        foreach (var log in logs.Item1)
         {
-            this.dynamicRepo = dynamicRepo;
-            this.logFactory = logFactory;
+            var modifiedDate = log.LastModified.AddHours(12).ToString("MM/dd/yyyy hh:mm tt");
+            var newData = logFactory.BuildColumn(log.Action, log.NewValue);
+            var oldData = logFactory.BuildColumn(log.Action, log.OldValue);
+
+            log.LastModifiedInString = modifiedDate;
+            log.Action = logFactory.GetLogType(log.Action, string.IsNullOrEmpty(log.NewValue) ? log.OldValue : log.NewValue);
+            log.NewValue = newData;
+            log.OldValue = oldData;
         }
 
-        public async Task<QueryLogViewModel> Query(QueryLogRequest request)
-        {
-            var queryLogCriteria = new QueryLogCriteria { PageNumber = request.PageNumber, PageSize = request.PageSize, IsDay = request.IsDay };
-            var logs = await dynamicRepo.FetchMultipleAsync<Log, bool>(queryLogCriteria);
-
-            foreach (var log in logs.Item1)
-            {
-                var modifiedDate = log.LastModified.AddHours(12).ToString("MM/dd/yyyy hh:mm tt");
-                var newData = logFactory.BuildColumn(log.Action, log.NewValue);
-                var oldData = logFactory.BuildColumn(log.Action, log.OldValue);
-
-                log.LastModifiedInString = modifiedDate;
-                log.Action = logFactory.GetLogType(log.Action, string.IsNullOrEmpty(log.NewValue) ? log.OldValue : log.NewValue);
-                log.NewValue = newData;
-                log.OldValue = oldData;
-            }
-
-            return new QueryLogViewModel { Logs = logs.Item1, IsLastPage = logs.Item2.First() };
-        }
+        return new QueryLogViewModel { Logs = logs.Item1, IsLastPage = logs.Item2.First() };
     }
 }

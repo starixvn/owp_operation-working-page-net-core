@@ -1,16 +1,14 @@
-﻿namespace OWP.Report.LAReport.Criteria
+﻿namespace OWP.Report.LAReport.Criteria;
+
+using Fanex.Data.Repository;
+
+public class GetLAReportCriteria : CriteriaBase
 {
-    using System;
-    using Fanex.Data.Repository;
+    public DateTime FromDate { get; set; }
 
-    public class GetLAReportCriteria : CriteriaBase
-    {
-        public DateTime FromDate { get; set; }
+    public DateTime ToDate { get; set; }
 
-        public DateTime ToDate { get; set; }
+    public override string GetSettingKey() => "OWP_LAReports";
 
-        public override string GetSettingKey() => "OWP_LAReports";
-
-        public override bool IsValid() => true;
-    }
+    public override bool IsValid() => true;
 }

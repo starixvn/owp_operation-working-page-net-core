@@ -1,18 +1,16 @@
-﻿namespace OWP.AssignmentUpload.Submit.Criteria
+﻿namespace OWP.AssignmentUpload.Submit.Criteria;
+
+using Fanex.Data.Repository;
+
+public class InsertOrUpdateMatchCriteria : CriteriaBase
 {
-    using System;
-    using Fanex.Data.Repository;
+    public string Assignments { get; set; }
 
-    public class InsertOrUpdateMatchCriteria : CriteriaBase
-    {
-        public string Assignments { get; set; }
+    public DateTime EventDate { get; set; }
 
-        public DateTime EventDate { get; set; }
+    public int UserId { get; set; }
 
-        public int UserId { get; set; }
+    public override string GetSettingKey() => "OWP_AssignmentUpload_MatchInsertOrUpdate";
 
-        public override string GetSettingKey() => "OWP_AssignmentUpload_MatchInsertOrUpdate";
-
-        public override bool IsValid() => true;
-    }
+    public override bool IsValid() => true;
 }

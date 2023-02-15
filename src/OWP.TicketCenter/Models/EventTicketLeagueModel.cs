@@ -1,9 +1,8 @@
-﻿namespace OWP.TicketCenter.Models
-{
-    public class EventTicketLeagueModel : EventTicketModelBase
-    {
-        public int OwpLeagueId { get; set; }
+﻿namespace OWP.TicketCenter.Models;
 
-        public string OwpLeagueName { get; set; }
-    }
+public class EventTicketLeagueModel : EventTicketModelBase
+{
+    public int OwpLeagueId { get; set; }
+
+    public string OwpLeagueName { get; set; }
 }

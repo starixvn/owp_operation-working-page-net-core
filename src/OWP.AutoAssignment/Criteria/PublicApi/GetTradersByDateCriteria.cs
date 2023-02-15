@@ -1,15 +1,14 @@
-﻿using Fanex.Data.Repository;
+﻿namespace OWP.AutoAssignment.Criteria.PublicApi;
 
-namespace OWP.AutoAssignment.Criteria.PublicApi
+using Fanex.Data.Repository;
+
+public class GetTradersByDateCriteria : CriteriaBase
 {
-    public class GetTradersByDateCriteria : CriteriaBase
-    {
-        public DateTime EventDate { get; set; }
+    public DateTime EventDate { get; set; }
 
-        public int SiteId { get; set; }
+    public int SiteId { get; set; }
 
-        public override bool IsValid() => true;
+    public override bool IsValid() => true;
 
-        public override string GetSettingKey() => "OWP_AutoAssignment_GetTradersByDate";
-    }
+    public override string GetSettingKey() => "OWP_AutoAssignment_GetTradersByDate";
 }

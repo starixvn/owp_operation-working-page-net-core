@@ -1,53 +1,52 @@
-﻿namespace OWP.RecipientGroup.Services
+﻿namespace OWP.RecipientGroup.Services;
+
+using Criteria;
+using Fanex.Data.Repository;
+using Handlers;
+using Models;
+
+public interface CommandRepository
 {
-    using Criteria;
-    using Fanex.Data.Repository;
-    using Handlers;
-    using Models;
+    Task<IEnumerable<RecipientGroupModel>> GetRecipientGroup();
 
-    public interface CommandRepository
+    Task SaveRecipientGroup(SaveRecipientGroupRequest model);
+
+    Task InsertRecipientToMessageReader(InsertMessageReaderCriteria criteria);
+
+    Task RemoveRecipientToMessageReader(RemoveMessageReaderCriteria criteria);
+}
+
+public class CommandRepositoryImp : CommandRepository
+{
+    private readonly IDynamicRepository repository;
+
+    public CommandRepositoryImp(IDynamicRepository repository)
     {
-        Task<IEnumerable<RecipientGroupModel>> GetRecipientGroup();
-
-        Task SaveRecipientGroup(SaveRecipientGroupRequest model);
-
-        Task InsertRecipientToMessageReader(InsertMessageReaderCriteria criteria);
-
-        Task RemoveRecipientToMessageReader(RemoveMessageReaderCriteria criteria);
+        this.repository = repository;
     }
 
-    public class CommandRepositoryImp : CommandRepository
+    public async Task<IEnumerable<RecipientGroupModel>> GetRecipientGroup()
     {
-        private readonly IDynamicRepository repository;
+        var criteria = new GetRecipientGroupCriteria();
 
-        public CommandRepositoryImp(IDynamicRepository repository)
+        return await repository.FetchAsync<RecipientGroupModel>(criteria);
+    }
+
+    public async Task InsertRecipientToMessageReader(InsertMessageReaderCriteria criteria)
+        => await repository.ExecuteAsync(criteria);
+
+    public async Task RemoveRecipientToMessageReader(RemoveMessageReaderCriteria criteria)
+        => await repository.ExecuteAsync(criteria);
+
+    public async Task SaveRecipientGroup(SaveRecipientGroupRequest model)
+    {
+        var criteria = new SaveRecipientGroupCommand
         {
-            this.repository = repository;
-        }
+            GroupId = model.GroupId,
+            GroupName = model.GroupName,
+            Recipients = string.Join(',', model.Recipients.Select(x => x.RecipientId))
+        };
 
-        public async Task<IEnumerable<RecipientGroupModel>> GetRecipientGroup()
-        {
-            var criteria = new GetRecipientGroupCriteria();
-
-            return await repository.FetchAsync<RecipientGroupModel>(criteria);
-        }
-
-        public async Task InsertRecipientToMessageReader(InsertMessageReaderCriteria criteria)
-            => await repository.ExecuteAsync(criteria);
-
-        public async Task RemoveRecipientToMessageReader(RemoveMessageReaderCriteria criteria)
-            => await repository.ExecuteAsync(criteria);
-
-        public async Task SaveRecipientGroup(SaveRecipientGroupRequest model)
-        {
-            var criteria = new SaveRecipientGroupCommand
-            {
-                GroupId = model.GroupId,
-                GroupName = model.GroupName,
-                Recipients = string.Join(',', model.Recipients.Select(x => x.RecipientId))
-            };
-
-            await repository.ExecuteAsync(criteria);
-        }
+        await repository.ExecuteAsync(criteria);
     }
 }

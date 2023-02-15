@@ -1,43 +1,41 @@
-﻿using System.Collections.Generic;
-using OWP.AssignmentUpload.Validation.Models;
+﻿namespace OWP.AssignmentUpload.Validation.Services;
 
-namespace OWP.AssignmentUpload.Validation.Services
+using Models;
+
+public interface AssignmentBuilder
 {
-    public interface AssignmentBuilder
+    List<AssignmentModel> BuildAssignment(
+        List<Trader> traders,
+        ValidationRequest request,
+        List<AssignmentModelInExcel> assignmentInExcels);
+}
+
+public class AssignmentBuilderImp : AssignmentBuilder
+{
+    private readonly AssignmentMapper assignmentMapper;
+    private readonly MinorMatchDetector minorMatchDetector;
+    private readonly ImplicitMinorMatchGenerater minorMatchGenerater;
+
+    public AssignmentBuilderImp(
+        AssignmentMapper assignmentMapper,
+        MinorMatchDetector minorMatchDetector,
+        ImplicitMinorMatchGenerater minorMatchGenerater)
     {
-        List<AssignmentModel> BuildAssignment(
-            List<Trader> traders,
-            ValidationRequest request,
-            List<AssignmentModelInExcel> assignmentInExcels);
+        this.assignmentMapper = assignmentMapper;
+        this.minorMatchDetector = minorMatchDetector;
+        this.minorMatchGenerater = minorMatchGenerater;
     }
 
-    public class AssignmentBuilderImp : AssignmentBuilder
+    public List<AssignmentModel> BuildAssignment(
+        List<Trader> traders,
+        ValidationRequest request,
+        List<AssignmentModelInExcel> assignmentInExcels)
     {
-        private readonly AssignmentMapper assignmentMapper;
-        private readonly MinorMatchDetector minorMatchDetector;
-        private readonly ImplicitMinorMatchGenerater minorMatchGenerater;
+        assignmentMapper.Traders = traders;
+        var assignmentModels = assignmentMapper.Map(request, assignmentInExcels);
+        assignmentModels = minorMatchDetector.Detect(assignmentModels);
+        assignmentModels = minorMatchGenerater.GenerateMinorMatch(assignmentModels);
 
-        public AssignmentBuilderImp(
-            AssignmentMapper assignmentMapper,
-             MinorMatchDetector minorMatchDetector,
-             ImplicitMinorMatchGenerater minorMatchGenerater)
-        {
-            this.assignmentMapper = assignmentMapper;
-            this.minorMatchDetector = minorMatchDetector;
-            this.minorMatchGenerater = minorMatchGenerater;
-        }
-
-        public List<AssignmentModel> BuildAssignment(
-            List<Trader> traders,
-            ValidationRequest request,
-            List<AssignmentModelInExcel> assignmentInExcels)
-        {
-            assignmentMapper.Traders = traders;
-            var assignmentModels = assignmentMapper.Map(request, assignmentInExcels);
-            assignmentModels = minorMatchDetector.Detect(assignmentModels);
-            assignmentModels = minorMatchGenerater.GenerateMinorMatch(assignmentModels);
-
-            return assignmentModels;
-        }
+        return assignmentModels;
     }
 }

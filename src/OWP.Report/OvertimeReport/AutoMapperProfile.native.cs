@@ -1,17 +1,16 @@
-﻿using AutoMapper;
-using OWP.Report.OvertimeReport.Handlers;
-using OWP.Report.OvertimeReport.Models;
+﻿namespace OWP.Report.OvertimeReport;
 
-namespace OWP.Report.OvertimeReport
+using AutoMapper;
+using Handlers;
+using Models;
+
+public class AutoMapperProfile : Profile
 {
-    public class AutoMapperProfile : Profile
+    public AutoMapperProfile()
     {
-        public AutoMapperProfile()
-        {
-            CreateMap<QueryReportByMonthRequest, OverTimeRequest>();
-            CreateMap<QueryReportByYearRequest, OverTimeRequest>();
-            CreateMap<ExportReportByMonthRequest, OverTimeRequest>();
-            CreateMap<ExportReportByYearRequest, QueryReportByYearRequest>();
-        }
+        CreateMap<QueryReportByMonthRequest, OverTimeRequest>();
+        CreateMap<QueryReportByYearRequest, OverTimeRequest>();
+        CreateMap<ExportReportByMonthRequest, OverTimeRequest>();
+        CreateMap<ExportReportByYearRequest, QueryReportByYearRequest>();
     }
 }

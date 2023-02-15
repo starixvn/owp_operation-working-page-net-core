@@ -1,6 +1,5 @@
-namespace OWP.Report.PreMatchReport.Models
+namespace OWP.Report.PreMatchReport.Models;
+
+public class ReportOULeagueModel : ReportBaseModel
 {
-    public class ReportOULeagueModel : ReportBaseModel
-    {
-    }
 }

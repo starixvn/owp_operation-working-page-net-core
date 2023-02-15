@@ -1,8 +1,8 @@
-﻿using OWP.OSLeagueSetting.Models;
-using AutoMapper;
-using OWP.OSLeagueSetting.Criteria;
+﻿namespace OWP.OSLeagueSetting.Services;
 
-namespace OWP.OSLeagueSetting.Services;
+using AutoMapper;
+using Criteria;
+using Models;
 
 public interface EditSettingService
 {

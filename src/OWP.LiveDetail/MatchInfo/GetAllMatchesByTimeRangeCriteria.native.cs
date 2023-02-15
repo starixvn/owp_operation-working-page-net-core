@@ -1,14 +1,12 @@
-﻿using System;
+﻿namespace OWP.LiveDetail.MatchInfo;
+
 using Fanex.Data.Repository;
 
-namespace OWP.LiveDetail.MatchInfo
+public class GetAllMatchesByTimeRangeCriteria : CriteriaBase
 {
-    public class GetAllMatchesByTimeRangeCriteria : CriteriaBase
-    {
-        public DateTime EventDate { get; set; }
+    public DateTime EventDate { get; set; }
 
-        public override string GetSettingKey() => "OWP_AssignmentUpload_AllMatchesByTimeRange";
+    public override string GetSettingKey() => "OWP_AssignmentUpload_AllMatchesByTimeRange";
 
-        public override bool IsValid() => true;
-    }
+    public override bool IsValid() => true;
 }

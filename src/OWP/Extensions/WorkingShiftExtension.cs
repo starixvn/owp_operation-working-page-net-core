@@ -1,13 +1,12 @@
-﻿using System.ComponentModel;
+﻿namespace OWP.Extensions;
 
-namespace OWP.Extensions
+using System.ComponentModel;
+
+public enum WorkingShiftExtension
 {
-    public enum WorkingShiftExtension
-    {
-        [Description("(REAL)")]
-        Real = 1,
+    [Description("(REAL)")]
+    Real = 1,
 
-        [Description("(SPECIAL)")]
-        Special = 2
-    }
+    [Description("(SPECIAL)")]
+    Special = 2
 }

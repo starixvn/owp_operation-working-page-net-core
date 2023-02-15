@@ -1,13 +1,12 @@
+namespace OWP.TicketCenter.Criteria;
+
 using Fanex.Data.Repository;
 
-namespace OWP.TicketCenter.Criteria
+public class GetEventLGACriteria : CriteriaBase
 {
-    public class GetEventLGACriteria : CriteriaBase
-    {
-        public string Keyword { get; set; }
+    public string Keyword { get; set; }
 
-        public override string GetSettingKey() => "OWP_TicketCenter_NewTicket_GetEventForLiveGameAsssignment";
+    public override string GetSettingKey() => "OWP_TicketCenter_NewTicket_GetEventForLiveGameAsssignment";
 
-        public override bool IsValid() => Keyword.Length > 1;
-    }
+    public override bool IsValid() => Keyword.Length > 1;
 }

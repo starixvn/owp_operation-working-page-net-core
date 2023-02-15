@@ -1,8 +1,8 @@
-using OWP.EventPicking.Misc;
-using OWP.EventPicking.Models;
-using OWP.Extensions;
-
 namespace OWP.EventPicking.Services;
+
+using Extensions;
+using Misc;
+using Models;
 
 public interface BuildMainMatchMaxBet
 {
@@ -36,7 +36,7 @@ public class BuildMainMatchMaxBetImp : BuildMainMatchMaxBet
     private static void SyncMaxbetToInfoSiteMatch(EventPickingModel match, List<LeagueSetting> leagueSettings, IEnumerable<Condition> tvList)
     {
         var truthTables = new List<TruthTable>();
-        bool isWeekend = IsWeekend(match.EventDateTime);
+        var isWeekend = IsWeekend(match.EventDateTime);
 
         foreach (var setting in leagueSettings)
         {

@@ -1,10 +1,10 @@
-using AutoMapper;
-using NSubstitute;
-using OWP.Report.PreMatchReport.Models;
-using OWP.Report.PreMatchReport.Services;
-using Xunit;
-
 namespace OWP.Report.PreMatchReport.UnitTests.Services;
+
+using AutoMapper;
+using Models;
+using NSubstitute;
+using PreMatchReport.Services;
+using Xunit;
 
 public class GetPreMatchReportServiceUnitTests
 {
@@ -86,7 +86,7 @@ public class GetPreMatchReportServiceUnitTests
     [Fact]
     public async Task GetPreMatchReport_Always_ShouldReturn()
     {
-        var request = new QueryModel()
+        var request = new QueryModel
         {
             FromDate = DateTime.Parse("2021-12-08"),
             ToDate = DateTime.Parse("2021-12-08"),
@@ -112,12 +112,12 @@ public class GetPreMatchReportServiceUnitTests
     public List<UserInfo> mockReturnUsers()
     => new()
     {
-        new()
+        new UserInfo
         {
             UserId = 1,
             UserName = "sa"
         },
-        new()
+        new UserInfo
         {
             UserId = 2,
             UserName = "sa2"
@@ -127,7 +127,7 @@ public class GetPreMatchReportServiceUnitTests
     public List<ExportPreMatchModel> Expected()
     => new()
     {
-        new()
+        new ExportPreMatchModel
         {
             TraderName = "sa",
             TotalMatches = "14",
@@ -142,7 +142,7 @@ public class GetPreMatchReportServiceUnitTests
     public List<QueryPrematchReportModel> MockReportForLeague()
     => new()
     {
-        new()
+        new QueryPrematchReportModel
         {
             UserId = 1,
             TraderName = "sa",
@@ -150,7 +150,7 @@ public class GetPreMatchReportServiceUnitTests
             Bettype = 1,
             Amount = 7
         },
-        new()
+        new QueryPrematchReportModel
         {
             UserId = 1,
             TraderName = "sa",
@@ -163,7 +163,7 @@ public class GetPreMatchReportServiceUnitTests
     public List<QueryPrematchReportModel> MockReportForMatches()
     => new()
     {
-        new()
+        new QueryPrematchReportModel
         {
             UserId = 1,
             TraderName = "sa",
@@ -171,7 +171,7 @@ public class GetPreMatchReportServiceUnitTests
             Bettype = 1,
             Amount = 7
         },
-        new()
+        new QueryPrematchReportModel
         {
             UserId = 1,
             TraderName = "sa",

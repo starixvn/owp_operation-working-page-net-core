@@ -1,13 +1,12 @@
-﻿using Fanex.Data.Repository;
+﻿namespace OWP.AutoAssignment.Criteria.InternalApi;
 
-namespace OWP.AutoAssignment.Criteria.InternalApi
+using Fanex.Data.Repository;
+
+public class GetInfoSiteMatchByIdAndBetTypeCriteria : CriteriaBase
 {
-    public class GetInfoSiteMatchByIdAndBetTypeCriteria : CriteriaBase
-    {
-        public string Xml { get; set; }
+    public string Xml { get; set; }
 
-        public override bool IsValid() => true;
+    public override bool IsValid() => true;
 
-        public override string GetSettingKey() => "OWP_AutoAssignment_GetInfoSiteMatchByIdAndBetType";
-    }
+    public override string GetSettingKey() => "OWP_AutoAssignment_GetInfoSiteMatchByIdAndBetType";
 }

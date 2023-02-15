@@ -1,13 +1,12 @@
-namespace OWP.TaskList.Models
+namespace OWP.TaskList.Models;
+
+public class IPTVModel
 {
-    public class IPTVModel
-    {
-        public string TeleVision { get; set; }
+    public string TeleVision { get; set; }
 
-        public string IpTv { get; set; }
+    public string IpTv { get; set; }
 
-        public string Channel { get; set; }
+    public string Channel { get; set; }
 
-        public string Stream { get; set; }
-    }
+    public string Stream { get; set; }
 }

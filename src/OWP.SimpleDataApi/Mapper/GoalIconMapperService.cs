@@ -1,12 +1,11 @@
-﻿using Olympus.SimpleDataApi;
+﻿namespace OWP.SimpleDataApi.Mapper;
 
-namespace OWP.SimpleDataApi.Mapper
+using Olympus.SimpleDataApi;
+
+public class GoalIconMapperService : SimpleMapperService
 {
-    public class GoalIconMapperService : SimpleMapperService
+    public void Decorate(dynamic obj)
     {
-        public void Decorate(dynamic obj)
-        {
-            // Method intentionally left empty.
-        }
+        // Method intentionally left empty.
     }
 }

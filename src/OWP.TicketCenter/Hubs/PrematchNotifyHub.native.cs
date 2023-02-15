@@ -1,19 +1,18 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿namespace OWP.TicketCenter.Hubs;
 
-namespace OWP.TicketCenter.Hubs
+using Microsoft.AspNetCore.SignalR;
+
+public interface PreMatchNotifyHub
 {
-    public interface PreMatchNotifyHub
-    {
-        Task NotifyNewMessageIncome();
+    Task NotifyNewMessageIncome();
 
-        Task NotifyNewAddRecipient();
+    Task NotifyNewAddRecipient();
 
-        Task NotifyChangeStatusIncome();
+    Task NotifyChangeStatusIncome();
 
-        Task NotifyUserOnClickToast(int ticketId, int eventType);
-    }
+    Task NotifyUserOnClickToast(int ticketId, int eventType);
+}
 
-    public class PreMatchNotifyHubImp : Hub<PreMatchNotifyHub>
-    {
-    }
+public class PreMatchNotifyHubImp : Hub<PreMatchNotifyHub>
+{
 }

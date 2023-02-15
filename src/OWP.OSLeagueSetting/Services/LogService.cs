@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.VisualBasic;
-using OWP.Extensions;
-using OWP.OSLeagueSetting.Models;
-using OWP.Utils;
+﻿namespace OWP.OSLeagueSetting.Services;
 
-namespace OWP.OSLeagueSetting.Services;
+using AutoMapper;
+using Extensions;
+using Models;
+using Utils;
 
 public interface LogService
 {

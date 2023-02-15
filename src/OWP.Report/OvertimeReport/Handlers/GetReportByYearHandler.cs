@@ -1,92 +1,91 @@
-﻿namespace OWP.Report.OvertimeReport.Handlers
+﻿namespace OWP.Report.OvertimeReport.Handlers;
+
+using AutoMapper;
+using MediatR;
+using Models;
+using Services;
+
+public class QueryReportByYearRequest : IRequest<IEnumerable<OvertimeByYear>>
 {
-    using AutoMapper;
-    using MediatR;
-    using Models;
-    using Services;
+    public string Location { get; set; }
 
-    public class QueryReportByYearRequest : IRequest<IEnumerable<OvertimeByYear>>
+    public string Trader { get; set; }
+
+    public int Year { get; set; }
+}
+
+public class GetReportByYearHandler : IRequestHandler<QueryReportByYearRequest, IEnumerable<OvertimeByYear>>
+{
+    private readonly CommandRepository commandRepository;
+
+    private readonly IMapper mapper;
+
+    public GetReportByYearHandler(CommandRepository commandRepository, IMapper mapper)
     {
-        public string Location { get; set; }
-
-        public string Trader { get; set; }
-
-        public int Year { get; set; }
+        this.commandRepository = commandRepository;
+        this.mapper = mapper;
     }
 
-    public class GetReportByYearHandler : IRequestHandler<QueryReportByYearRequest, IEnumerable<OvertimeByYear>>
+    public async Task<IEnumerable<OvertimeByYear>> Handle(QueryReportByYearRequest request, CancellationToken cancellationToken)
     {
-        private readonly CommandRepository commandRepository;
+        var getRequest = mapper.Map<OverTimeRequest>(request);
+        var (users, overtimeData) = await commandRepository.GetReportByYear(getRequest);
+        var dataGroupedByTrader = overtimeData.GroupBy(x => x.UserId, (key, g) =>
+            new GroupedData { UserId = key, Data = g.ToList() });
 
-        private readonly IMapper mapper;
+        var res = CalculateMonthlyReport(dataGroupedByTrader, users);
 
-        public GetReportByYearHandler(CommandRepository commandRepository, IMapper mapper)
+        return res;
+    }
+
+    private IEnumerable<OvertimeByYear> CalculateMonthlyReport(IEnumerable<GroupedData> dataGroupedByTrader, IEnumerable<User> users)
+    {
+        var result = new List<OvertimeByYear>();
+
+        foreach (var trader in users)
         {
-            this.commandRepository = commandRepository;
-            this.mapper = mapper;
-        }
+            var traderData = dataGroupedByTrader.FirstOrDefault(x => x.UserId == trader.UserId);
 
-        public async Task<IEnumerable<OvertimeByYear>> Handle(QueryReportByYearRequest request, CancellationToken cancellationToken)
-        {
-            var getRequest = mapper.Map<OverTimeRequest>(request);
-            var (users, overtimeData) = await commandRepository.GetReportByYear(getRequest);
-            var dataGroupedByTrader = overtimeData.GroupBy(x => x.UserId, (key, g) =>
-                new GroupedData { UserId = key, Data = g.ToList() });
-
-            var res = CalculateMonthlyReport(dataGroupedByTrader, users);
-
-            return res;
-        }
-
-        private IEnumerable<OvertimeByYear> CalculateMonthlyReport(IEnumerable<GroupedData> dataGroupedByTrader, IEnumerable<User> users)
-        {
-            var result = new List<OvertimeByYear>();
-
-            foreach (var trader in users)
+            if (traderData != null)
             {
-                var traderData = dataGroupedByTrader.FirstOrDefault(x => x.UserId == trader.UserId);
+                var traderOvertimeData = CalculateTraderMonthlyHours(traderData.Data);
+                var user = users.FirstOrDefault(x => x.UserId == traderData.UserId);
 
-                if (traderData != null)
+                result.Add(new OvertimeByYear
                 {
-                    var traderOvertimeData = CalculateTraderMonthlyHours(traderData.Data);
-                    var user = users.FirstOrDefault(x => x.UserId == traderData.UserId);
-
-                    result.Add(new OvertimeByYear
-                    {
-                        Trader = user?.Username,
-                        OvertimeData = traderOvertimeData.ToList(),
-                        Total = traderOvertimeData.Sum(),
-                        Location = user?.Location
-                    });
-                }
-                else
-                {
-                    result.Add(new OvertimeByYear
-                    {
-                        Location = trader.Location,
-                        OvertimeData = new List<decimal?> { null, null, null, null, null, null, null, null, null, null, null, null },
-                        Total = null,
-                        Trader = trader.Username
-                    });
-                }
+                    Trader = user?.Username,
+                    OvertimeData = traderOvertimeData.ToList(),
+                    Total = traderOvertimeData.Sum(),
+                    Location = user?.Location
+                });
             }
-
-            return result.OrderBy(x => x.Location).ThenBy(x => x.Trader).ToList();
-        }
-
-        private IEnumerable<decimal?> CalculateTraderMonthlyHours(IEnumerable<OvertimeData> data)
-        {
-            for (var i = 1; i <= 12; i++)
+            else
             {
-                yield return data.Any(x => x.ReportDate.Month == i) ? data.Where(x => x.ReportDate.Month == i).Sum(x => x.Hour) : null;
+                result.Add(new OvertimeByYear
+                {
+                    Location = trader.Location,
+                    OvertimeData = new List<decimal?> { null, null, null, null, null, null, null, null, null, null, null, null },
+                    Total = null,
+                    Trader = trader.Username
+                });
             }
         }
 
-        private class GroupedData
-        {
-            public int UserId { get; set; }
+        return result.OrderBy(x => x.Location).ThenBy(x => x.Trader).ToList();
+    }
 
-            public List<OvertimeData> Data { get; set; }
+    private IEnumerable<decimal?> CalculateTraderMonthlyHours(IEnumerable<OvertimeData> data)
+    {
+        for (var i = 1; i <= 12; i++)
+        {
+            yield return data.Any(x => x.ReportDate.Month == i) ? data.Where(x => x.ReportDate.Month == i).Sum(x => x.Hour) : null;
         }
+    }
+
+    private class GroupedData
+    {
+        public int UserId { get; set; }
+
+        public List<OvertimeData> Data { get; set; }
     }
 }

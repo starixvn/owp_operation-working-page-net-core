@@ -1,9 +1,9 @@
-using Epplus.Mapper.Annotations;
-using OWP.EventPicking.Misc;
-using OWP.Utils;
-using System.Globalization;
-
 namespace OWP.EventPicking.Models;
+
+using System.Globalization;
+using Epplus.Mapper.Annotations;
+using Misc;
+using Utils;
 
 public class EventPickingModel
 {
@@ -265,11 +265,11 @@ public class EventPickingModel
     // MaxBet & Spread
     public decimal? MaxBetHDPNumber { get; set; }
 
-    public string HasProvider => !string.IsNullOrWhiteSpace(this.Provider)
+    public string HasProvider => !string.IsNullOrWhiteSpace(Provider)
     ? "yes"
     : "no";
 
-    public string HasOtherProvider => !string.IsNullOrWhiteSpace(this.OtherProvider)
+    public string HasOtherProvider => !string.IsNullOrWhiteSpace(OtherProvider)
     ? "yes"
     : "no";
 
@@ -278,19 +278,19 @@ public class EventPickingModel
         MatchOffer = leagueSetting.MaxbetWK_MatchOffer;
         LstNote = leagueSetting.FormatedLSTNote;
         MaxBetHDPNumber = leagueSetting.MaxbetWK_HDP;
-        MaxBetHDP = ConvertTypeService.ToOWPMaxBetFormat(leagueSetting.MaxbetWK_HDP);
-        SpreadHDP = ConvertTypeService.ToOWPSpreadFormatPercent(leagueSetting.Spread_HDP);
+        MaxBetHDP = leagueSetting.MaxbetWK_HDP.ToOWPMaxBetFormat();
+        SpreadHDP = leagueSetting.Spread_HDP.ToOWPSpreadFormatPercent();
         NoHDP = leagueSetting.MaxbetWK_NoOfHDP;
-        MaxBetOU = ConvertTypeService.ToOWPMaxBetFormat(leagueSetting.MaxbetWK_OU);
-        SpreadOU = ConvertTypeService.ToOWPSpreadFormatPercent(leagueSetting.Spread_OU);
-        MaxBet1HHDP = ConvertTypeService.ToOWPMaxBetFormat(leagueSetting.MaxbetWK_1HHDP);
-        MaxBet1HOU = ConvertTypeService.ToOWPMaxBetFormat(leagueSetting.MaxbetWK_1HOU);
-        Spread1HHDP = ConvertTypeService.ToOWPSpreadFormatPercent(leagueSetting.Spread_1HHDP);
-        Spread1HOU = ConvertTypeService.ToOWPSpreadFormatPercent(leagueSetting.Spread_1HOU);
-        MaxBetFT1X2 = ConvertTypeService.ToOWPMaxBetFormat(leagueSetting.MaxBet_FT1X2);
-        Spread1X2 = ConvertTypeService.ToOWPSpreadFormatPercent(leagueSetting.MaxBet_1X2Spread);
-        MaxBet1H1X2 = ConvertTypeService.ToOWPMaxBetFormat(leagueSetting.MaxBet_1H1X2);
-        Spread1H1X2 = ConvertTypeService.ToOWPSpreadFormatPercent(leagueSetting.Spread_1H1X2);
+        MaxBetOU = leagueSetting.MaxbetWK_OU.ToOWPMaxBetFormat();
+        SpreadOU = leagueSetting.Spread_OU.ToOWPSpreadFormatPercent();
+        MaxBet1HHDP = leagueSetting.MaxbetWK_1HHDP.ToOWPMaxBetFormat();
+        MaxBet1HOU = leagueSetting.MaxbetWK_1HOU.ToOWPMaxBetFormat();
+        Spread1HHDP = leagueSetting.Spread_1HHDP.ToOWPSpreadFormatPercent();
+        Spread1HOU = leagueSetting.Spread_1HOU.ToOWPSpreadFormatPercent();
+        MaxBetFT1X2 = leagueSetting.MaxBet_FT1X2.ToOWPMaxBetFormat();
+        Spread1X2 = leagueSetting.MaxBet_1X2Spread.ToOWPSpreadFormatPercent();
+        MaxBet1H1X2 = leagueSetting.MaxBet_1H1X2.ToOWPMaxBetFormat();
+        Spread1H1X2 = leagueSetting.Spread_1H1X2.ToOWPSpreadFormatPercent();
     }
 
     public void MapWeekdaySettings(LeagueSetting leagueSetting)
@@ -298,19 +298,19 @@ public class EventPickingModel
         MatchOffer = leagueSetting.MaxbetWD_MatchOffer;
         LstNote = leagueSetting.FormatedLSTNote;
         MaxBetHDPNumber = leagueSetting.MaxbetWD_HDP;
-        MaxBetHDP = ConvertTypeService.ToOWPMaxBetFormat(leagueSetting.MaxbetWD_HDP);
-        SpreadHDP = ConvertTypeService.ToOWPSpreadFormatPercent(leagueSetting.Spread_HDP);
-        MaxBetOU = ConvertTypeService.ToOWPMaxBetFormat(leagueSetting.MaxbetWD_OU);
-        SpreadOU = ConvertTypeService.ToOWPSpreadFormatPercent(leagueSetting.Spread_OU);
+        MaxBetHDP = leagueSetting.MaxbetWD_HDP.ToOWPMaxBetFormat();
+        SpreadHDP = leagueSetting.Spread_HDP.ToOWPSpreadFormatPercent();
+        MaxBetOU = leagueSetting.MaxbetWD_OU.ToOWPMaxBetFormat();
+        SpreadOU = leagueSetting.Spread_OU.ToOWPSpreadFormatPercent();
         NoHDP = leagueSetting.MaxbetWD_NoOfHDP;
-        MaxBet1HHDP = ConvertTypeService.ToOWPMaxBetFormat(leagueSetting.MaxbetWD_1HHDP);
-        MaxBet1HOU = ConvertTypeService.ToOWPMaxBetFormat(leagueSetting.MaxbetWD_1HOU);
-        Spread1HHDP = ConvertTypeService.ToOWPSpreadFormatPercent(leagueSetting.Spread_1HHDP);
-        Spread1HOU = ConvertTypeService.ToOWPSpreadFormatPercent(leagueSetting.Spread_1HOU);
-        MaxBetFT1X2 = ConvertTypeService.ToOWPMaxBetFormat(leagueSetting.MaxBet_FT1X2);
-        Spread1X2 = ConvertTypeService.ToOWPSpreadFormatPercent(leagueSetting.MaxBet_1X2Spread);
-        MaxBet1H1X2 = ConvertTypeService.ToOWPMaxBetFormat(leagueSetting.MaxBet_1H1X2);
-        Spread1H1X2 = ConvertTypeService.ToOWPSpreadFormatPercent(leagueSetting.Spread_1H1X2);
+        MaxBet1HHDP = leagueSetting.MaxbetWD_1HHDP.ToOWPMaxBetFormat();
+        MaxBet1HOU = leagueSetting.MaxbetWD_1HOU.ToOWPMaxBetFormat();
+        Spread1HHDP = leagueSetting.Spread_1HHDP.ToOWPSpreadFormatPercent();
+        Spread1HOU = leagueSetting.Spread_1HOU.ToOWPSpreadFormatPercent();
+        MaxBetFT1X2 = leagueSetting.MaxBet_FT1X2.ToOWPMaxBetFormat();
+        Spread1X2 = leagueSetting.MaxBet_1X2Spread.ToOWPSpreadFormatPercent();
+        MaxBet1H1X2 = leagueSetting.MaxBet_1H1X2.ToOWPMaxBetFormat();
+        Spread1H1X2 = leagueSetting.Spread_1H1X2.ToOWPSpreadFormatPercent();
 
     }
 }

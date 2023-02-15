@@ -1,11 +1,10 @@
-﻿namespace OWP.AutoAssignment.Models.PublicApi
+﻿namespace OWP.AutoAssignment.Models.PublicApi;
+
+public class MatchQueried
 {
-    public class MatchQueried
-    {
-        public int InfositeMatchId { get; set; }
+    public int InfositeMatchId { get; set; }
 
-        public int? SabaType { get; set; }
+    public int? SabaType { get; set; }
 
-        public bool IsSaba => SabaType.HasValue;
-    }
+    public bool IsSaba => SabaType.HasValue;
 }

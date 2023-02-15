@@ -1,105 +1,103 @@
-﻿using NSubstitute;
-using OWP.AutoAssignment.Models.PublicApi;
-using OWP.AutoAssignment.Services.PublicApi;
+﻿namespace OWP.AutoAssignment.UnitTests.Services.PublicApi;
 
+using AutoAssignment.Services.PublicApi;
+using Models.PublicApi;
+using NSubstitute;
 using Xunit;
 using Xunit.Asserts.Compare;
 
-namespace OWP.AutoAssignment.UnitTests.Services.PublicApi
+public class SchedulingMatchBuilderServiceUnitTests
 {
-    public class SchedulingMatchBuilderServiceUnitTests
+    private readonly Repository repository;
+
+    private readonly SabaMatchService sabaMatchService;
+
+    private readonly RealMatchService realMatchService;
+
+    public SchedulingMatchBuilderServiceUnitTests()
     {
-        private readonly Repository repository;
+        repository = Substitute.For<Repository>();
+        sabaMatchService = Substitute.For<SabaMatchService>();
+        realMatchService = Substitute.For<RealMatchService>();
+    }
 
-        private readonly SabaMatchService sabaMatchService;
+    [Fact]
+    public async Task GetMatchesInfo_EventDate_ReturnMatchInfo()
+    {
+        // Arrange
+        MockRepository();
+        var KOTine = DateTime.Parse("2021-12-08").ToString();
 
-        private readonly RealMatchService realMatchService;
-
-        public SchedulingMatchBuilderServiceUnitTests()
+        var sabaMatchInfo = new List<SabaMatchSender>
         {
-            repository = Substitute.For<Repository>();
-            sabaMatchService = Substitute.For<SabaMatchService>();
-            realMatchService = Substitute.For<RealMatchService>();
-        }
+            new()
+            {
+                SabaType=1,
+                MatchId=9999,
+                MaxBet=12000,
+                KOTime= KOTine
+            }
+        };
 
-        [Fact]
-        public async Task GetMatchesInfo_EventDate_ReturnMatchInfo()
+        var realMatchInfo = new List<RealMatchSender>
         {
-            // Arrange
-            MockRepository();
-            var KOTine = DateTime.Parse("2021-12-08").ToString();
-
-            var sabaMatchInfo = new List<SabaMatchSender>
+            new()
             {
-                new SabaMatchSender
-                {
-                    SabaType=1,
-                    MatchId=9999,
-                    MaxBet=12000,
-                    KOTime= KOTine
-                }
-            };
+                MatchId=1234,
+                MaxBetMainMatch=12000,
+                KOTime= KOTine
+            }
+        };
 
-            var realMatchInfo = new List<RealMatchSender>
+        sabaMatchService.BuildSabaMatchInfo(Arg.Compat.Any<IList<MatchQueried>>()).ReturnsForAnyArgs(r => sabaMatchInfo);
+        realMatchService.BuildRealMatchInfo(Arg.Compat.Any<IList<MatchQueried>>()).ReturnsForAnyArgs(r => realMatchInfo);
+
+        // Act
+        var service = new SchedulingMatchBuilderServiceImp(repository, sabaMatchService, realMatchService);
+        var actual = await service.GetMatchesInfo(DateTime.Parse("2021-12-8"));
+
+        var expected = new SchedulingMatch
+        {
+            Real = new List<RealMatchSender>
             {
-                new RealMatchSender
+                new()
                 {
+                    KOTime= KOTine,
                     MatchId=1234,
-                    MaxBetMainMatch=12000,
-                    KOTime= KOTine
+                    MaxBetMainMatch=12000
                 }
-            };
-
-            sabaMatchService.BuildSabaMatchInfo(Arg.Compat.Any<IList<MatchQueried>>()).ReturnsForAnyArgs(r => sabaMatchInfo);
-            realMatchService.BuildRealMatchInfo(Arg.Compat.Any<IList<MatchQueried>>()).ReturnsForAnyArgs(r => realMatchInfo);
-
-            // Act
-            var service = new SchedulingMatchBuilderServiceImp(repository, sabaMatchService, realMatchService);
-            var actual = await service.GetMatchesInfo(DateTime.Parse("2021-12-8"));
-
-            var expected = new SchedulingMatch
+            },
+            Saba = new List<SabaMatchSender>
             {
-                Real = new List<RealMatchSender>
+                new()
                 {
-                    new RealMatchSender
-                    {
-                        KOTime= KOTine,
-                        MatchId=1234,
-                        MaxBetMainMatch=12000
-                    }
-                },
-                Saba = new List<SabaMatchSender>
-                {
-                    new SabaMatchSender
-                    {
-                        KOTime= KOTine,
-                        MatchId=9999,
-                        SabaType=1,
-                        MaxBet=12000
-                    }
+                    KOTime= KOTine,
+                    MatchId=9999,
+                    SabaType=1,
+                    MaxBet=12000
                 }
-            };
+            }
+        };
 
-            // Assert
-            DeepAssert.Equal(expected, actual);
-        }
+        // Assert
+        DeepAssert.Equal(expected, actual);
+    }
 
-        private void MockRepository()
+    private void MockRepository()
+    {
+        var matchQueried = new List<MatchQueried>
         {
-            var matchQueried = new List<MatchQueried>
+            new()
             {
-                new MatchQueried
-                {
-                    InfositeMatchId=9999,
-                    SabaType=1
-                },
-                 new MatchQueried
-                {
-                    InfositeMatchId=1234,
-                }
-            };
+                InfositeMatchId=9999,
+                SabaType=1
+            },
+            new()
+            {
+                InfositeMatchId=1234
+            }
+        };
 
-            repository.GetMatchByDate(Arg.Compat.Any<DateTime>()).ReturnsForAnyArgs(r => matchQueried);
-        }
+        repository.GetMatchByDate(Arg.Compat.Any<DateTime>()).ReturnsForAnyArgs(r => matchQueried);
     }
 }

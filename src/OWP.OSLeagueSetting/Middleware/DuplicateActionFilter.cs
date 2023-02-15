@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using OWP.OSLeagueSetting.Models;
-using OWP.OSLeagueSetting.Services;
-using OWP.Services;
+﻿namespace OWP.OSLeagueSetting.Middleware;
 
-namespace OWP.OSLeagueSetting.Middleware;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Models;
+using Services;
 
 public class DuplicateActionFilter : IAsyncActionFilter
 {

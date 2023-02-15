@@ -1,8 +1,8 @@
-﻿using MediatR;
-using OWP.TicketCenter.Criteria;
-using OWP.TicketCenter.ViewModels;
+﻿namespace OWP.TicketCenter.Handlers;
 
-namespace OWP.TicketCenter.Handlers;
+using Criteria;
+using MediatR;
+using ViewModels;
 
 public class GetNextListMessagesRequest : IRequest<(bool, IEnumerable<MessageDetailViewModel>)>
 {

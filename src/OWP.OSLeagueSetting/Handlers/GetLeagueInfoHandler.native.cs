@@ -1,9 +1,8 @@
-using Fanex.Data.Repository;
-using MediatR;
-using OWP.OSLeagueSetting.Models;
-using OWP.OSLeagueSetting.Services;
-
 namespace OWP.OSLeagueSetting.Handlers;
+
+using MediatR;
+using Models;
+using Services;
 
 public class GetLeagueInfoHandler
 {

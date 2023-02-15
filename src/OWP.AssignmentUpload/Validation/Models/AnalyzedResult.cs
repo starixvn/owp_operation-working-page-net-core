@@ -1,11 +1,8 @@
-﻿namespace OWP.AssignmentUpload.Validation.Models
+﻿namespace OWP.AssignmentUpload.Validation.Models;
+
+public class AnalyzedResult
 {
-    using System.Collections.Generic;
+    public List<AssignmentModel> Assignments { get; set; }
 
-    public class AnalyzedResult
-    {
-        public List<AssignmentModel> Assignments { get; set; }
-
-        public int OriginalRecordCount { get; set; }
-    }
+    public int OriginalRecordCount { get; set; }
 }

@@ -1,25 +1,23 @@
-﻿namespace OWP.TicketCenter.Models
+﻿namespace OWP.TicketCenter.Models;
+
+public class MessageResponseModel
 {
-    public class MessageResponseModel
-    {
-        public int UserId { get; set; }
+    public int UserId { get; set; }
 
-        public string Username { get; set; }
+    public string Username { get; set; }
 
-        public DateTime? CreatedDate { get; set; }
+    public DateTime? CreatedDate { get; set; }
 
-        public string Message { get; set; }
+    public string Message { get; set; }
 
-        public int MessageId { get; set; }
+    public int MessageId { get; set; }
 
-        public bool IsFile => FileId.HasValue;
+    public bool IsFile => FileId.HasValue;
 
-        public int? FileId { get; set; }
-    }
+    public int? FileId { get; set; }
+}
 
-    public class MessageInfoModel : MessageResponseModel
-    {
-        public int TicketId { get; set; }
-    }
-
+public class MessageInfoModel : MessageResponseModel
+{
+    public int TicketId { get; set; }
 }

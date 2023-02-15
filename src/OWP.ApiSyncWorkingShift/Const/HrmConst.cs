@@ -1,9 +1,8 @@
-﻿namespace OWP.ApiSyncWorkingShift.Const
-{
-    public static class HrmConst
-    {
-        public const string OFF = "OFF";
+﻿namespace OWP.ApiSyncWorkingShift.Const;
 
-        public const string PUBLIC_HOLIDAY = "PH";
-    }
+public static class HrmConst
+{
+    public const string OFF = "OFF";
+
+    public const string PUBLIC_HOLIDAY = "PH";
 }

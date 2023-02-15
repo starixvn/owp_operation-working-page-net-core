@@ -1,15 +1,14 @@
-namespace OWP.LeagueManagement
-{
-    using AutoMapper;
-    using Criteria;
-    using Models;
+namespace OWP.LeagueManagement;
 
-    public class AutoMapperProfile : Profile
+using AutoMapper;
+using Criteria;
+using Models;
+
+public class AutoMapperProfile : Profile
+{
+    public AutoMapperProfile()
     {
-        public AutoMapperProfile()
-        {
-            CreateMap<SpecialProduct, UpdateSpecialProductCriteria>();
-            CreateMap<LeagueInfoQuery, GetAllLeagueInfoCriteria>();
-        }
+        CreateMap<SpecialProduct, UpdateSpecialProductCriteria>();
+        CreateMap<LeagueInfoQuery, GetAllLeagueInfoCriteria>();
     }
 }

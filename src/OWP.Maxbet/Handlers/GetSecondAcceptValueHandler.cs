@@ -1,11 +1,11 @@
 ﻿namespace OWP.Maxbet.Handlers;
 
-using MediatR;
-using OWP.Enums;
-using OWP.Extensions;
-using OWP.Maxbet.Constants;
-using OWP.Maxbet.Models;
 using System.Collections.ObjectModel;
+using Constants;
+using Enums;
+using Extensions;
+using MediatR;
+using Models;
 
 public class GetSecondAcceptValueHandler
 {
@@ -20,7 +20,7 @@ public class GetSecondAcceptValueHandler
 
     public class Handler : IRequestHandler<Request, int?>
     {
-        private static readonly ReadOnlyDictionary<EnumMatchOffer, int> numberOfLinesDict = new ReadOnlyDictionary<EnumMatchOffer, int>(
+        private static readonly ReadOnlyDictionary<EnumMatchOffer, int> numberOfLinesDict = new(
             new Dictionary<EnumMatchOffer, int>
             {
                     { EnumMatchOffer.Accept10s, 10 },
@@ -60,7 +60,7 @@ public class GetSecondAcceptValueHandler
 
         private static int? GetSecondAcceptValue(int matchOfferId)
         {
-            if (!numberOfLinesDict.TryGetValue((EnumMatchOffer)matchOfferId, out int result))
+            if (!numberOfLinesDict.TryGetValue((EnumMatchOffer)matchOfferId, out var result))
             {
                 return null;
             }

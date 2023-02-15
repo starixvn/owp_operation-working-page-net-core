@@ -1,15 +1,14 @@
-﻿namespace OWP.PreMatchAssignment.Models
+﻿namespace OWP.PreMatchAssignment.Models;
+
+public class Note
 {
-    public class Note
-    {
-        public int PreMatchNoteId { get; set; }
+    public int PreMatchNoteId { get; set; }
 
-        public int PreMatchNoteMessageId { get; set; }
+    public int PreMatchNoteMessageId { get; set; }
 
-        public string Message { get; set; }
+    public string Message { get; set; }
 
-        public DateTime CreatedDate { get; set; }
+    public DateTime CreatedDate { get; set; }
 
-        public string Username { get; set; }
-    }
+    public string Username { get; set; }
 }

@@ -1,13 +1,12 @@
-﻿namespace OWP.TicketCenter.ViewModels
+﻿namespace OWP.TicketCenter.ViewModels;
+
+public class TicketLeagueDetailViewModel : TicketDetailBaseViewModel
 {
-    public class TicketLeagueDetailViewModel : TicketDetailBaseViewModel
-    {
-        public int OwpLeagueId { get; set; }
+    public int OwpLeagueId { get; set; }
 
-        public string OwpLeagueName { get; set; }
+    public string OwpLeagueName { get; set; }
 
-        public string EventName => OwpLeagueName;
+    public string EventName => OwpLeagueName;
 
-        public int EventType => (int)Enum.EventType.League;
-    }
+    public int EventType => (int)Enum.EventType.League;
 }

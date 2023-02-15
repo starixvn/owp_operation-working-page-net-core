@@ -1,11 +1,10 @@
-﻿namespace OWP.TicketCenter.Enum
+﻿namespace OWP.TicketCenter.Enum;
+
+public enum EventType
 {
-    public enum EventType
-    {
-        League = 1,
-        Match = 2,
-        Other = 3,
-        Support = 4,
-        LiveIncident = 5
-    }
+    League = 1,
+    Match = 2,
+    Other = 3,
+    Support = 4,
+    LiveIncident = 5
 }

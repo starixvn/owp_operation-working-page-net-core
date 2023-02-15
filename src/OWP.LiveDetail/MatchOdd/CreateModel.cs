@@ -1,9 +1,6 @@
-﻿namespace OWP.LiveDetail.MatchOdd
-{
-    using System.Collections.Generic;
+﻿namespace OWP.LiveDetail.MatchOdd;
 
-    public class CreateModel : CommandModel
-    {
-        public List<MatchOddUpdateRow> RecommendOdds { get; set; }
-    }
+public class CreateModel : CommandModel
+{
+    public List<MatchOddUpdateRow> RecommendOdds { get; set; }
 }

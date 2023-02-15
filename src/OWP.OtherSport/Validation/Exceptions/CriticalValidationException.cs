@@ -1,16 +1,15 @@
-﻿namespace OWP.OtherSport.Validation.Exceptions
+﻿namespace OWP.OtherSport.Validation.Exceptions;
+
+using System.Runtime.Serialization;
+
+[Serializable]
+public class CriticalValidationException : Exception
 {
-    using System.Runtime.Serialization;
-
-    [Serializable]
-    public class CriticalValidationException : Exception
+    public CriticalValidationException(string message) : base(message)
     {
-        public CriticalValidationException(string message) : base(message)
-        {
-        }
+    }
 
-        protected CriticalValidationException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
+    protected CriticalValidationException(SerializationInfo info, StreamingContext context) : base(info, context)
+    {
     }
 }

@@ -1,34 +1,26 @@
-﻿using Fanex.Data.Repository;
+﻿namespace OWP.TicketEvent.Handlers;
+
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Models;
 
-namespace OWP.TicketEvent.Handlers
+public class QueryAssigneesLgaRequest: IRequest<IEnumerable<TicketAssignees>>
 {
-    using Models;
+    public int OwpMatchId { get; set; }
+}
 
-    public class QueryAssigneesLgaRequest: IRequest<IEnumerable<TicketAssignees>>
+public class QueryAssigneesLgaHandler : IRequestHandler<QueryAssigneesLgaRequest, IEnumerable<TicketAssignees>>
+{
+    private readonly Repository repository;
+
+    public QueryAssigneesLgaHandler(Repository repository)
     {
-        public int OwpMatchId { get; set; }
+        this.repository = repository;
     }
 
-    public class QueryAssigneesLgaHandler : IRequestHandler<QueryAssigneesLgaRequest, IEnumerable<TicketAssignees>>
+    public async Task<IEnumerable<TicketAssignees>> Handle(QueryAssigneesLgaRequest request, CancellationToken cancellationToken)
     {
-        private readonly Repository repository;
+        var result = await repository.QueryAssigneesByLeagueId(request.OwpMatchId);
 
-        public QueryAssigneesLgaHandler(Repository repository)
-        {
-            this.repository = repository;
-        }
-
-        public async Task<IEnumerable<TicketAssignees>> Handle(QueryAssigneesLgaRequest request, CancellationToken cancellationToken)
-        {
-            var result = await repository.QueryAssigneesByLeagueId(request.OwpMatchId);
-
-            return result;
-        }
+        return result;
     }
 }

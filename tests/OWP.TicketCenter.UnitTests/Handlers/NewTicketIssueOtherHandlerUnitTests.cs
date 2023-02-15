@@ -1,95 +1,93 @@
-﻿using AutoMapper;
-using NSubstitute;
-using OWP.RabbitMQ;
-using OWP.TicketCenter.Criteria;
-using OWP.TicketCenter.Handlers;
-using OWP.TicketCenter.Models;
-using OWP.TicketCenter.Notification.Services;
-using OWP.TicketCenter.Services;
+﻿namespace OWP.TicketCenter.UnitTests.Handlers;
 
+using AutoMapper;
+using Criteria;
+using Models;
+using Notification.Services;
+using NSubstitute;
+using RabbitMQ;
+using TicketCenter.Handlers;
+using TicketCenter.Services;
 using Xunit;
 
-namespace OWP.TicketCenter.UnitTests.Handlers
+public class NewTicketIssueOtherHandlerUnitTests
 {
-    public class NewTicketIssueOtherHandlerUnitTests
+    private readonly Repository repository;
+
+    private readonly IMapper mapper;
+
+    private readonly NotificationService notificationService;
+
+    private readonly RecipientService recipientService;
+
+    private readonly MessageClient messageClient;
+
+    private readonly MessageService messageService;
+
+
+    public NewTicketIssueOtherHandlerUnitTests()
     {
-        private readonly Repository repository;
-
-        private readonly IMapper mapper;
-
-        private readonly NotificationService notificationService;
-
-        private readonly RecipientService recipientService;
-
-        private readonly MessageClient messageClient;
-
-        private readonly MessageService messageService;
+        repository = Substitute.For<Repository>();
+        mapper = Substitute.For<IMapper>();
+        messageService = Substitute.For<MessageService>();
+        notificationService = Substitute.For<NotificationService>();
+        recipientService = Substitute.For<RecipientService>();
+        messageClient = Substitute.For<MessageClient>();
 
 
-        public NewTicketIssueOtherHandlerUnitTests()
-        {
-            repository = Substitute.For<Repository>();
-            mapper = Substitute.For<IMapper>();
-            messageService = Substitute.For<MessageService>();
-            notificationService = Substitute.For<NotificationService>();
-            recipientService = Substitute.For<RecipientService>();
-            messageClient = Substitute.For<MessageClient>();
+    }
 
+    [Fact]
+    public async void InsertNewOtherIssue_IssueInfo_ReturnTicketId()
+    {
+        // Arrange
+        var request = new NewTicketIssueOtherRequest();
 
-        }
+        repository
+            .BuildTicketId(request.TicketType, request.SubType)
+            .Returns(Task.FromResult(111));
 
-        [Fact]
-        public async void InsertNewOtherIssue_IssueInfo_ReturnTicketId()
-        {
-            // Arrange
-            var request = new NewTicketIssueOtherRequest();
+        await repository
+            .AddNewTicketIssueOther(request);
 
-            repository
-                .BuildTicketId(request.TicketType, request.SubType)
-                .Returns(Task.FromResult(111));
+        await repository.AddNewMessage(Arg.Compat.Any<NewMessageRequestModel>());
 
-            await repository
-                .AddNewTicketIssueOther(request);
+        await repository.InsertIssueCreator(Arg.Compat.Any<InsertIssueCreatorCriteria>());
 
-            await repository.AddNewMessage(Arg.Compat.Any<NewMessageRequestModel>());
+        recipientService.InsertManyRecipient(
+                Arg.Compat.Any<IList<InsertOrRemoveManyRecipientModel>>(),
+                Arg.Compat.Any<int>())
+            .ReturnsForAnyArgs(Task.FromResult(true));
 
-            await repository.InsertIssueCreator(Arg.Compat.Any<InsertIssueCreatorCriteria>());
+        recipientService.InsertManyRecipientReader(
+                Arg.Compat.Any<IList<InsertOrRemoveManyRecipientModel>>(),
+                Arg.Compat.Any<int>(),
+                Arg.Compat.Any<int>())
+            .ReturnsForAnyArgs(Task.FromResult(true));
 
-            recipientService.InsertManyRecipient(
-                    Arg.Compat.Any<IList<InsertOrRemoveManyRecipientModel>>(),
-                    Arg.Compat.Any<int>())
-                .ReturnsForAnyArgs(Task.FromResult(true));
-
-            recipientService.InsertManyRecipientReader(
-                    Arg.Compat.Any<IList<InsertOrRemoveManyRecipientModel>>(),
-                    Arg.Compat.Any<int>(),
-                    Arg.Compat.Any<int>())
-                .ReturnsForAnyArgs(Task.FromResult(true));
-
-            mapper
-                .Map<NewMessageRequestModel>(request)
-                .Returns(x => new NewMessageRequestModel
+        mapper
+            .Map<NewMessageRequestModel>(request)
+            .Returns(x => new NewMessageRequestModel
                 {
                     Message = "abc"
                 }
-                );
+            );
 
-            messageService.InsertMessage(request, Arg.Any<int>()).Returns(new NewMessageRequestModel());
+        messageService.InsertMessage(request, Arg.Any<int>()).Returns(new NewMessageRequestModel());
 
-            await notificationService.NotifyNewMessageIncome(Arg.Compat.Any<int>());
+        await notificationService.NotifyNewMessageIncome(Arg.Compat.Any<int>());
 
-            var handler = new NewTicketIssueOtherHandler(
-                            repository,
-                            messageService,
-                            notificationService,
-                            recipientService,
-                            messageClient
-                            );
-            var actual = await handler.Handle(request, CancellationToken.None);
+        var handler = new NewTicketIssueOtherHandler(
+            repository,
+            messageService,
+            notificationService,
+            recipientService,
+            messageClient
+        );
+        var actual = await handler.Handle(request, CancellationToken.None);
 
-            //Assert
-            var expected = 111;
-            Assert.Equal(actual, expected);
-        }
+        //Assert
+        var expected = 111;
+        Assert.Equal(actual, expected);
     }
 }

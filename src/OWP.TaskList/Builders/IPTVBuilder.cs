@@ -1,6 +1,6 @@
-using OWP.TaskList.Models;
-
 namespace OWP.TaskList;
+
+using Models;
 
 public static class IPTVBuilder
 {

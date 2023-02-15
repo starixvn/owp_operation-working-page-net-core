@@ -1,15 +1,14 @@
-﻿namespace OWP.OtherSport.Submit.Criteria
+﻿namespace OWP.OtherSport.Submit.Criteria;
+
+using Fanex.Data.Repository;
+
+public class GetAllMatchesByDateTimeListCriteria : CriteriaBase
 {
-    using Fanex.Data.Repository;
+    public DateTime FromDate { get; set; }
 
-    public class GetAllMatchesByDateTimeListCriteria : CriteriaBase
-    {
-        public DateTime FromDate { get; set; }
+    public DateTime ToDate { get; set; }
 
-        public DateTime ToDate { get; set; }
+    public override string GetSettingKey() => "OWP_OSAssignmentUpload_GetAllMatchesByDateList";
 
-        public override string GetSettingKey() => "OWP_OSAssignmentUpload_GetAllMatchesByDateList";
-
-        public override bool IsValid() => true;
-    }
+    public override bool IsValid() => true;
 }

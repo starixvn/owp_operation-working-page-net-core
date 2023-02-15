@@ -1,80 +1,79 @@
-﻿using Fanex.NAP.Client.Helpers.Web;
+﻿namespace OWP.TicketCenter.Handlers;
+
+using Criteria;
+using Enum;
+using Fanex.NAP.Client.Helpers.Web;
 using MediatR;
-using OWP.RabbitMQ;
-using OWP.RabbitMQ.Constants;
-using OWP.TicketCenter.Criteria;
-using OWP.TicketCenter.Enum;
-using OWP.TicketCenter.Middleware.Models;
-using OWP.TicketCenter.Models;
-using OWP.TicketCenter.Notification.Services;
-using OWP.TicketCenter.ViewModels;
+using Middleware.Models;
+using Models;
+using Notification.Services;
+using RabbitMQ;
+using RabbitMQ.Constants;
+using ViewModels;
 
-namespace OWP.TicketCenter.Handlers
+public class NewMessageRequest : PermissionCheckedModel, IRequest<MessageDetailViewModel>
 {
-    public class NewMessageRequest : PermissionCheckedModel, IRequest<MessageDetailViewModel>
+    public string Message { get; set; }
+
+    public int? FileId { get; set; }
+
+    public int TicketEventType { get; set; }
+
+    public string TicketTitle { get; set; }
+}
+
+public class NewMessageHandler : IRequestHandler<NewMessageRequest, MessageDetailViewModel>
+{
+    private readonly Repository repository;
+    private readonly NotificationService notification;
+    private readonly MessageClient messageClient;
+    private readonly INapSession napSession;
+
+    public NewMessageHandler(
+        Repository repository,
+        NotificationService notification,
+        INapSession napSession,
+        MessageClient messageClient)
     {
-        public string Message { get; set; }
-
-        public int? FileId { get; set; }
-
-        public int TicketEventType { get; set; }
-
-        public string TicketTitle { get; set; }
+        this.repository = repository;
+        this.notification = notification;
+        this.napSession = napSession;
+        this.messageClient = messageClient;
     }
 
-    public class NewMessageHandler : IRequestHandler<NewMessageRequest, MessageDetailViewModel>
+    public async Task<MessageDetailViewModel> Handle(NewMessageRequest request, CancellationToken cancellationToken)
     {
-        private readonly Repository repository;
-        private readonly NotificationService notification;
-        private readonly MessageClient messageClient;
-        private readonly INapSession napSession;
-
-        public NewMessageHandler(
-            Repository repository,
-            NotificationService notification,
-            INapSession napSession,
-            MessageClient messageClient)
+        var user = napSession?.UserId;
+        var message = new NewMessageRequestModel
         {
-            this.repository = repository;
-            this.notification = notification;
-            this.napSession = napSession;
-            this.messageClient = messageClient;
+            TicketId = request.TicketId,
+            Message = request.Message,
+            CreatorId = request.ActorId,
+            FileId = request.FileId
+        };
+
+        var criteria = new UpdateManyRecipientReaderCriteria
+        {
+            TicketId = request.TicketId,
+            IsRead = false,
+            ActorId = request.ActorId
+        };
+
+        await repository.UpdateManyRecipientReader(criteria);
+
+
+        var result = await repository.AddNewMessage(message);
+
+        messageClient.SendMessage(request, RoutingKey.TicketCenterNewMessage);
+
+        await notification.NotifyNewMessageIncome(request.TicketId);
+
+        if (request.TicketEventType == (int)EventType.LiveIncident)
+        {
+            var ticketInfoLga = await repository.GetTicketInfoLga(request.TicketId);
+            await notification.NotifyNewMessageLga(request.TicketId, ticketInfoLga.OwpMatchId, request.ActorId);
         }
 
-        public async Task<MessageDetailViewModel> Handle(NewMessageRequest request, CancellationToken cancellationToken)
-        {
-            var user = napSession?.UserId;
-            var message = new NewMessageRequestModel
-            {
-                TicketId = request.TicketId,
-                Message = request.Message,
-                CreatorId = request.ActorId,
-                FileId = request.FileId
-            };
-
-            var criteria = new UpdateManyRecipientReaderCriteria
-            {
-                TicketId = request.TicketId,
-                IsRead = false,
-                ActorId = request.ActorId
-            };
-
-            await repository.UpdateManyRecipientReader(criteria);
-
-
-            var result = await repository.AddNewMessage(message);
-
-            messageClient.SendMessage(request, RoutingKey.TicketCenterNewMessage);
-
-            await notification.NotifyNewMessageIncome(request.TicketId);
-
-            if (request.TicketEventType == (int)EventType.LiveIncident)
-            {
-                var ticketInfoLga = await repository.GetTicketInfoLga(request.TicketId);
-                await notification.NotifyNewMessageLga(request.TicketId, ticketInfoLga.OwpMatchId, request.ActorId);
-            }
-
-            return result;
-        }
+        return result;
     }
 }

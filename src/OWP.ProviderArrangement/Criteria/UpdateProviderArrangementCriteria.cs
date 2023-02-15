@@ -1,6 +1,6 @@
-﻿using Fanex.Data.Repository;
+﻿namespace OWP.ProviderArrangement.Criteria;
 
-namespace OWP.ProviderArrangement.Criteria;
+using Fanex.Data.Repository;
 
 public class UpdateProviderArrangementCriteria : NonQueryCommand
 {

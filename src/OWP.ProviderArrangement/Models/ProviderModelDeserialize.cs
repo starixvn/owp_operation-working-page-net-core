@@ -1,6 +1,6 @@
-using System.Xml.Serialization;
-
 namespace OWP.ProviderArrangement.Models;
+
+using System.Xml.Serialization;
 
 [XmlRoot(ElementName = "z")]
 public class ProviderModelDeserialize

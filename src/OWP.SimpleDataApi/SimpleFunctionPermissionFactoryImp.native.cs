@@ -1,13 +1,12 @@
-﻿using Fanex.NAP.Core.Business;
+﻿namespace OWP.SimpleDataApi;
+
+using Fanex.NAP.Core.Business;
 using Olympus.SimpleDataApi;
 
-namespace OWP.SimpleDataApi
+public class SimpleFunctionPermissionFactoryImp : SimpleFunctionPermissionFactoryBase
 {
-    public class SimpleFunctionPermissionFactoryImp : SimpleFunctionPermissionFactoryBase
+    static SimpleFunctionPermissionFactoryImp()
     {
-        static SimpleFunctionPermissionFactoryImp()
-        {
-            AddFunctionPermission(ConstantApiKey.TicketCenterGetRecipient, FunctionKeys.TicketCenter, Constant.Policy.Read);
-        }
+        AddFunctionPermission(ConstantApiKey.TicketCenterGetRecipient, FunctionKeys.TicketCenter, Constant.Policy.Read);
     }
 }

@@ -1,88 +1,85 @@
-﻿namespace OWP.LiveDetail.UnitTests.User
+﻿namespace OWP.LiveDetail.UnitTests.User;
+
+using Fanex.Data.Repository;
+using LiveDetail.User;
+using NSubstitute;
+using Xunit;
+
+public class RepositoryUnitTests
 {
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using Fanex.Data.Repository;
-    using LiveDetail.User;
-    using NSubstitute;
-    using Xunit;
+    private readonly IDynamicRepository dynamicRepository;
+    private readonly UserRepository repository;
 
-    public class RepositoryUnitTests
+    public RepositoryUnitTests()
     {
-        private readonly IDynamicRepository dynamicRepository;
-        private readonly UserRepository repository;
+        dynamicRepository = Substitute.For<IDynamicRepository>();
+        repository = new UserRepositoryImp(dynamicRepository);
+    }
 
-        public RepositoryUnitTests()
+    [Fact]
+    public async Task GetAll_Always_ReturnsData()
+    {
+        // Arrange
+        var userInfos = new List<UserInfoModel>();
+
+        dynamicRepository.FetchAsync<UserInfoModel>(Arg.Compat.Any<GetUserListCriteria>()).Returns(userInfos);
+
+        // Act
+        var result = await repository.GetAll();
+
+        // Assert
+        Assert.Equal(userInfos, result);
+    }
+
+    [Fact]
+    public async Task GetSuggestion_Always_ReturnsData()
+    {
+        // Arrange
+        var userSuggestions = new List<UserSuggestionEntity>
         {
-            dynamicRepository = Substitute.For<IDynamicRepository>();
-            repository = new UserRepositoryImp(dynamicRepository);
-        }
-
-        [Fact]
-        public async Task GetAll_Always_ReturnsData()
-        {
-            // Arrange
-            var userInfos = new List<UserInfoModel>();
-
-            dynamicRepository.FetchAsync<UserInfoModel>(Arg.Compat.Any<GetUserListCriteria>()).Returns(userInfos);
-
-            // Act
-            var result = await repository.GetAll();
-
-            // Assert
-            Assert.Equal(userInfos, result);
-        }
-
-        [Fact]
-        public async Task GetSuggestion_Always_ReturnsData()
-        {
-            // Arrange
-            var userSuggestions = new List<UserSuggestionEntity>
+            new()
             {
-                 new UserSuggestionEntity
-                 {
-                      IsAssigned=false,
-                      NickName="superman",
-                      UserId=8,
-                      UserName="sa"
-                 }
-            };
+                IsAssigned=false,
+                NickName="superman",
+                UserId=8,
+                UserName="sa"
+            }
+        };
 
-            dynamicRepository.FetchAsync<UserSuggestionEntity>(Arg.Compat.Any<GetSuggestionCriteria>()).Returns(userSuggestions);
+        dynamicRepository.FetchAsync<UserSuggestionEntity>(Arg.Compat.Any<GetSuggestionCriteria>()).Returns(userSuggestions);
 
-            // Act
-            var model = new GetSuggestionModel
-            {
-                OWPMatchId = 1,
-                Keyword = "sa"
-            };
-            var result = await repository.GetSuggestion(model);
-
-            // Assert
-            Assert.Equal(userSuggestions, result);
-        }
-
-        [Fact]
-        public async Task GetUserInfo_Name_ReturnUserInfo()
+        // Act
+        var model = new GetSuggestionModel
         {
-            var userInfo = new UserInfoModel
-            {
-                NickName = "superman",
-                UserName = "sa",
-                UserId = 8,
-                Phone = "123456789",
-                Skype = "super",
-                Extension = "123"
-            };
-            const string name = "sa";
+            OWPMatchId = 1,
+            Keyword = "sa"
+        };
+        var result = await repository.GetSuggestion(model);
 
-            dynamicRepository.GetAsync<UserInfoModel>(Arg.Compat.Is<GetInfoByNameCriteria>(x => x.Name == name)).Returns(Task.FromResult(userInfo));
+        // Assert
+        Assert.Equal(userSuggestions, result);
+    }
 
-            // Act
-            var result = await repository.GetUserInfo(name);
+    [Fact]
+    public async Task GetUserInfo_Name_ReturnUserInfo()
+    {
+        var userInfo = new UserInfoModel
+        {
+            NickName = "superman",
+            UserName = "sa",
+            UserId = 8,
+            Phone = "123456789",
+            Skype = "super",
+            Extension = "123"
+        };
+        const string name = "sa";
 
-            // Assert
-            Assert.Equal(userInfo, result);
-        }
+        dynamicRepository.GetAsync<UserInfoModel>(Arg.Compat.Is<GetInfoByNameCriteria>(x => x.Name == name)).Returns(Task.FromResult(userInfo));
+
+        // Act
+        var result = await repository.GetUserInfo(name);
+
+        // Assert
+        Assert.Equal(userInfo, result);
     }
 }

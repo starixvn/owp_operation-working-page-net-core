@@ -1,31 +1,30 @@
-﻿namespace OWP.OtherSport.Validation.Services
-{
-    using OWP.OtherSport.Validation.Models;
+﻿namespace OWP.OtherSport.Validation.Services;
 
-    public interface AssignmentBuilder
+using Models;
+
+public interface AssignmentBuilder
+{
+    List<AssignmentModel> BuildAssignment(
+        List<Trader> traders,
+        List<AssignmentModelInExcel> assignmentInExcels);
+}
+
+public class AssignmentBuilderImp : AssignmentBuilder
+{
+    private readonly AssignmentMapper assignmentMapper;
+
+    public AssignmentBuilderImp(AssignmentMapper assignmentMapper)
     {
-        List<AssignmentModel> BuildAssignment(
-            List<Trader> traders,
-            List<AssignmentModelInExcel> assignmentInExcels);
+        this.assignmentMapper = assignmentMapper;
     }
 
-    public class AssignmentBuilderImp : AssignmentBuilder
+    public List<AssignmentModel> BuildAssignment(
+        List<Trader> traders,
+        List<AssignmentModelInExcel> assignmentInExcels)
     {
-        private readonly AssignmentMapper assignmentMapper;
+        assignmentMapper.Traders = traders;
+        var assignmentModels = assignmentMapper.Map(assignmentInExcels);
 
-        public AssignmentBuilderImp(AssignmentMapper assignmentMapper)
-        {
-            this.assignmentMapper = assignmentMapper;
-        }
-
-        public List<AssignmentModel> BuildAssignment(
-            List<Trader> traders,
-            List<AssignmentModelInExcel> assignmentInExcels)
-        {
-            assignmentMapper.Traders = traders;
-            var assignmentModels = assignmentMapper.Map(assignmentInExcels);
-
-            return assignmentModels;
-        }
+        return assignmentModels;
     }
 }

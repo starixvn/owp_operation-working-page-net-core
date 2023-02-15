@@ -1,15 +1,14 @@
-﻿namespace OWP.Report
-{
-    using AutoMapper;
-    using LAReport.Models;
-    using TraderReport.Models;
+﻿namespace OWP.Report;
 
-    public class AutoMapperProfile : Profile
+using AutoMapper;
+using LAReport.Models;
+using TraderReport.Models;
+
+public class AutoMapperProfile : Profile
+{
+    public AutoMapperProfile()
     {
-        public AutoMapperProfile()
-        {
-            CreateMap<ReportModel, ExcelReportModel>();
-            CreateMap<LAReportModel, LAExcelReportModel>();
-        }
+        CreateMap<ReportModel, ExcelReportModel>();
+        CreateMap<LAReportModel, LAExcelReportModel>();
     }
 }

@@ -1,11 +1,11 @@
 ﻿namespace OWP.OtherSport.Validation.Services;
-using OWP.OtherSport.Validation.Exceptions;
-using OWP.OtherSport.Validation.Helpers;
-using OWP.OtherSport.Validation.Models;
 
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using Exceptions;
+using Helpers;
+using Models;
 
 public interface AssignmentValidator
 {
@@ -65,7 +65,7 @@ public class AssignmentValidatorImp : AssignmentValidator
 
     public void ValidateDuplicatedAdminSiteId(AssignmentModelInExcel assignment, List<AssignmentModelInExcel> assignments, List<ValidationResult> results)
     {
-        if (int.TryParse(assignment.AdminSiteId, out int _))
+        if (int.TryParse(assignment.AdminSiteId, out _))
         {
             var duplicatedAdminSiteId = assignments
                     .Where(x => string.Equals(x.AdminSiteId?.Trim(), assignment.AdminSiteId?.Trim()))
@@ -95,7 +95,7 @@ public class AssignmentValidatorImp : AssignmentValidator
         }
         else
         {
-            if (!double.TryParse(assignment.MatchNo, out double _))
+            if (!double.TryParse(assignment.MatchNo, out _))
             {
                 results.Add(new ValidationResult("Match No must be number"));
             }
@@ -212,7 +212,7 @@ public class AssignmentValidatorImp : AssignmentValidator
             var duplicateRow = duplicateMatch.Select(x => x.Row).ToList();
             var rowNumber = duplicateMatch.FirstOrDefault().Row;
             duplicateRow.RemoveAt(0);
-            validationResults.Add(new()
+            validationResults.Add(new AssignmentValidationRowResult
             {
                 Row = rowNumber,
                 Message = $"{duplicateMatch.FirstOrDefault().Message} (with row {string.Join(',', duplicateRow)})"

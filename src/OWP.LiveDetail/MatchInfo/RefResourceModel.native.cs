@@ -1,13 +1,12 @@
-﻿namespace OWP.LiveDetail.MatchInfo
+﻿namespace OWP.LiveDetail.MatchInfo;
+
+public class RefResourceModel
 {
-    public class RefResourceModel
-    {
-        public string RefName { get; set; }
+    public string RefName { get; set; }
 
-        public int Id { get; set; }
+    public int Id { get; set; }
 
-        public string Value { get; set; }
+    public string Value { get; set; }
 
-        public bool IsSelected { get; set; }
-    }
+    public bool IsSelected { get; set; }
 }

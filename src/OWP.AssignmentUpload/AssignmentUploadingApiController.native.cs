@@ -3,17 +3,14 @@
 namespace OWP.AssignmentUpload;
 
 using Fanex.NAP.Client.Helpers.Web;
+using Helpers;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using OWP.Helpers;
-using OWP.RabbitMQ;
-using OWP.RabbitMQ.Constants;
+using RabbitMQ;
+using RabbitMQ.Constants;
 using Submit;
-using System;
-using System.IO;
-using System.Threading.Tasks;
 using Validation;
 
 [Route("api/event-assignment-uploading")]
@@ -84,17 +81,16 @@ public class AssignmentUploadingApiController : ControllerBase
     private void NotifyForAssignmentUpload(SubmitRequest request)
         => rabbitMqClient.SendMessage(new
         {
-            EventDate = request.EventDate,
-            SessionId = request.SessionId,
-            IsUploadFMAndAIO = request.IsUploadFMAndAIO,
+            request.EventDate,
+            request.SessionId,
+            request.IsUploadFMAndAIO,
             ActorId = currentSession.UserId,
-            UserName = currentSession.UserName
+            currentSession.UserName
         }, RoutingKey.AssignmentUpload);
 
     private void NotifyForPrematch(SubmitRequest request)
         => rabbitMqClient.SendMessage(new
         {
-            EventDate = request.EventDate.Date,
-            SessionId = request.SessionId
+            EventDate = request.EventDate.Date, request.SessionId
         }, RoutingKey.LinkedLgaMatch);
 }

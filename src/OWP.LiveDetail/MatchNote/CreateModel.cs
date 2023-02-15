@@ -1,9 +1,8 @@
-﻿namespace OWP.LiveDetail.MatchNote
-{
-    public class CreateModel
-    {
-        public int OWPMatchId { get; set; }
+﻿namespace OWP.LiveDetail.MatchNote;
 
-        public string Note { get; set; }
-    }
+public class CreateModel
+{
+    public int OWPMatchId { get; set; }
+
+    public string Note { get; set; }
 }

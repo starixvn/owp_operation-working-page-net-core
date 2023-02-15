@@ -1,17 +1,16 @@
-﻿namespace OWP.AssignmentUpload.Submit.Criteria
+﻿namespace OWP.AssignmentUpload.Submit.Criteria;
+
+using Fanex.Data.Repository;
+
+public class InsertOrUpdateMatchNotesCommand : NonQueryCommand
 {
-    using Fanex.Data.Repository;
+    public string MatchNotes { get; set; }
 
-    public class InsertOrUpdateMatchNotesCommand : NonQueryCommand
-    {
-        public string MatchNotes { get; set; }
+    public int UserId { get; set; }
 
-        public int UserId { get; set; }
+    public string MatchIds { get; set; }
 
-        public string MatchIds { get; set; }
+    public override string GetSettingKey() => "OWP_AssignmentUpload_MatchNotesInsertOrUpdate";
 
-        public override string GetSettingKey() => "OWP_AssignmentUpload_MatchNotesInsertOrUpdate";
-
-        public override bool IsValid() => true;
-    }
+    public override bool IsValid() => true;
 }

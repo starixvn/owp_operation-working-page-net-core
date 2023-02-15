@@ -1,4 +1,11 @@
+namespace OWP.Websites;
+
+using System.Reflection;
+using ApiSyncWorkingShift;
+using App_Start;
+using AssignmentUpload;
 using AutoMapper;
+using EventPicking;
 using Fanex.Caching.Redis;
 using Fanex.Data;
 using Fanex.Data.Repository;
@@ -13,6 +20,11 @@ using Fanex.NAP.Client.AspNetCore.Session;
 using Fanex.NAP.Client.Configuration;
 using Fanex.NAP.Client.Helpers.Web;
 using Fanex.NAP.Client.Services;
+using FileUpload;
+using LeagueManagement;
+using MatchCountLiveReport;
+using Maxbet;
+using MaxbetSetting;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -21,38 +33,27 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Newtonsoft.Json;
 using Olympus.SimpleDataApi;
-using OWP.ApiSyncWorkingShift;
-using OWP.AssignmentUpload;
-using OWP.EventPicking;
-using OWP.FileUpload;
-using OWP.LeagueManagement;
-using OWP.MatchCountLiveReport;
-using OWP.Maxbet;
-using OWP.MaxbetSetting;
-using OWP.OSLeagueSetting;
-using OWP.OtherSport;
-using OWP.OtherSport.Hubs;
-using OWP.PreMatchAssignment;
-using OWP.ProviderArrangement;
-using OWP.RabbitMQ;
-using OWP.RecipientGroup;
-using OWP.Report;
-using OWP.Report.OvertimeReport;
-using OWP.Report.PreMatchReport;
-using OWP.Report.TraderReport;
-using OWP.Services;
-using OWP.SimpleDataApi;
-using OWP.TaskList;
-using OWP.TicketCenter;
-using OWP.TicketCenter.Hubs;
-using OWP.TicketEvent;
-using OWP.TicketTypeRecipient;
-using OWP.Websites.App_Start;
+using OSLeagueSetting;
+using OtherSport;
+using OtherSport.Hubs;
+using PreMatchAssignment;
+using ProviderArrangement;
+using RabbitMQ;
+using RecipientGroup;
+using Report;
+using Report.OvertimeReport;
+using Report.PreMatchReport;
+using Report.TraderReport;
+using Services;
 using SharpRaven;
+using SimpleDataApi;
 using StackExchange.Redis;
-using System.Reflection;
-
-namespace OWP.Websites;
+using TaskList;
+using TicketCenter;
+using TicketCenter.Hubs;
+using TicketEvent;
+using TicketTypeRecipient;
+using AutoMapperProfile = OtherSport.AutoMapperProfile;
 
 public static class ServiceCollectionExtensions
 {
@@ -60,7 +61,7 @@ public static class ServiceCollectionExtensions
     {
         var mapperConfig = new MapperConfiguration(mc =>
         {
-            mc.AddProfile(new OtherSport.AutoMapperProfile());
+            mc.AddProfile(new AutoMapperProfile());
             mc.AddProfile(new TicketCenter.AutoMapperProfile());
             mc.AddProfile(new Report.OvertimeReport.AutoMapperProfile());
             mc.AddProfile(new Report.PreMatchReport.AutoMapperProfile());
@@ -187,7 +188,7 @@ public static class ServiceCollectionExtensions
           .StartNewSession()
           .Use(connections)
           .WithSqlServer()
-              .UseDefaultDbSettingProvider(resourcePath: storedProcedurePath)
+              .UseDefaultDbSettingProvider(storedProcedurePath)
           .Run();
 
         LogManager
@@ -262,7 +263,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddNapServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-        services.AddTransient<Fanex.Logging.ILogger, Logger>();
+        services.AddTransient<ILogger, Logger>();
         services.AddSingleton<INapSettings>(new NapSettings(configuration));
         services.AddSingleton<INapSession, NapSession>();
 
