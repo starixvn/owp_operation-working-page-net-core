@@ -6,6 +6,8 @@ using Newtonsoft.Json;
 using OWP.Models;
 using OWP.Services;
 
+    using System.Collections.Immutable;
+
 public interface ProductAssignmentService
 {
     Task<IList<UserInfo>> QueryUser(QueryUserInfo queryInfo);
@@ -96,7 +98,34 @@ public class ProductAssignmentServiceImp : ProductAssignmentService
 
 
         public async Task<IList<UserInfo>> QueryUser(QueryUserInfo queryInfo)
-            => await repository.QueryUser(queryInfo);
+        {
+            var infoUser = await repository.QueryUser(queryInfo);
+            foreach (var item in infoUser)
+            {
+                item.BetTypePreferencesValues = await BuildBetTypePreferencesValueBySection(item);
+            }
+
+            return infoUser.ToList();
+        }
+
+        public async Task<List<MainBetTypePreferences>> BuildBetTypePreferencesValueBySection(UserInfo user)
+        {
+            if (user.BetTypePreferencesId != null)
+            {
+                var levelOption = await repository.GetMainBettypeBySectionId(user.SectionId);
+                var betTypeArr = user.BetTypePreferencesId.Split(',').Select(x => int.Parse(x.Trim())).ToList();
+                var result = levelOption.Where(item=>betTypeArr.Contains(item.ResourceId)).Select(x=> new MainBetTypePreferences()
+                {
+                    Label = x.Value,
+                    Value = x.ResourceId
+                }).ToList();
+                return result;
+            }
+            else
+            {
+                return new List<MainBetTypePreferences>();
+            }
+        }
 
         public async Task UpdateUserInfo(UserInfoEditor info)
         {
