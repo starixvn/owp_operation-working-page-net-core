@@ -110,21 +110,19 @@ public class ProductAssignmentServiceImp : ProductAssignmentService
 
         public async Task<List<MainBetTypePreferences>> BuildBetTypePreferencesValueBySection(UserInfo user)
         {
+            var result = new List<MainBetTypePreferences>();
             if (user.BetTypePreferencesId != null)
             {
                 var levelOption = await repository.GetMainBettypeBySectionId(user.SectionId);
                 var betTypeArr = user.BetTypePreferencesId.Split(',').Select(x => int.Parse(x.Trim())).ToList();
-                var result = levelOption.Where(item=>betTypeArr.Contains(item.ResourceId)).Select(x=> new MainBetTypePreferences()
+                result = levelOption.Where(item=>betTypeArr.Contains(item.ResourceId)).Select(x=> new MainBetTypePreferences()
                 {
                     Label = x.Value,
                     Value = x.ResourceId
                 }).ToList();
-                return result;
             }
-            else
-            {
-                return new List<MainBetTypePreferences>();
-            }
+
+            return result;
         }
 
         public async Task UpdateUserInfo(UserInfoEditor info)
