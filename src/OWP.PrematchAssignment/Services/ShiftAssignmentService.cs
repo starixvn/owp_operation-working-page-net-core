@@ -203,7 +203,10 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
         var (leaguesContainsHint, leaguesRest) = SplitPrematchLeagues(leagues?.ToList());
         var preMatchLeagues = SortByHint(leaguesContainsHint);
         preMatchLeagues.AddRange(SortAndAddNo(leaguesRest));
-
+        for (var i = 0; i < preMatchLeagues.Count; i++)
+        {
+            preMatchLeagues[i].No = i + 1;
+        }
         return new QueryPreMatchLeagueViewModel
         {
             InfoSiteMatches = nightShiftWithRequestStartTime.Matches.ToList(),
@@ -240,7 +243,10 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
         var (leaguesContainsHint, leaguesRest) = SplitPrematchLeagues(leagues?.ToList());
         var preMatchLeagues = SortByHint(leaguesContainsHint);
         preMatchLeagues.AddRange(SortAndAddNo(leaguesRest));
-
+        for (var i = 0; i < preMatchLeagues.Count; i++)
+        {
+            preMatchLeagues[i].No = i + 1;
+        }
         return new QueryPreMatchLeagueViewModel
         {
             PreMatchLeagues = mapper.Map<IList<LeagueAssignment>>(preMatchLeagues),
@@ -378,21 +384,40 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
 
     private (IList<PreMatchLeague>, IList<PreMatchLeague>) SplitPrematchLeagues(IList<PreMatchLeague> leagues)
     {
-        var leaguesContainsHint = leagues?.Where(x => !string.IsNullOrWhiteSpace(x.HDPHint)
-                              && !string.IsNullOrWhiteSpace(x.OUHint)
-                              && !string.IsNullOrWhiteSpace(x.HDPTakeOverHint)
-                              && !string.IsNullOrWhiteSpace(x.OUTakeOverHint))
-                              .ToList();
-        var leaguesRest = leagues?.Except(leaguesContainsHint).ToList();
+        var leaguesContainsHint = new List<PreMatchLeague>();
+        var leaguesRest = new List<PreMatchLeague>();
+        foreach (var league in leagues)
+        {
+            if (!string.IsNullOrWhiteSpace(league.HDP) ||
+            !string.IsNullOrWhiteSpace(league.OU)
+
+             || !string.IsNullOrWhiteSpace(league.HDPTakeOver)
+
+              || !string.IsNullOrWhiteSpace(league.OUTakeOver))
+            {
+                leaguesRest.Add(league);
+            }
+            else
+            {
+
+                leaguesContainsHint.Add(league);
+            }
+        }
+
         return (leaguesContainsHint, leaguesRest);
     }
 
     private static List<PreMatchLeague> SortByHint(IEnumerable<PreMatchLeague> leagues)
-    => leagues.OrderByDescending(x => x.HDPHint)
-    .ThenBy(x => x.OUHint)
-    .ThenBy(x => x.HDPTakeOverHint)
-    .ThenBy(x => x.OUTakeOverHint)
-    .ToList();
+    {
+        var sortedLeagues = leagues.OrderByDescending(x => x.HDPHint)
+            .ThenBy(x => x.OUHint)
+            .ThenBy(x => x.HDPTakeOverHint)
+            .ThenBy(x => x.OUTakeOverHint)
+            .ThenBy(x => x.LeagueName)
+            .ThenBy(x => x.LeagueName)
+            .ToList();
+        return sortedLeagues;
+    }
 
     private static IList<PreMatchLeague> SortAndAddNo(IEnumerable<PreMatchLeague> leagues)
     {
