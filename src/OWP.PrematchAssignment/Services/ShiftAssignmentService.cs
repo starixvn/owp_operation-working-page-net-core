@@ -189,19 +189,20 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
         AssignmentShift dayShift,
         TimeSpan? startTime)
     {
-        var nightShiftWithRequestStartTimeLeagues = nightShiftWithRequestStartTime.Leagues;
+        var leagues = nightShiftWithRequestStartTime.Leagues;
 
         if (!startTime.HasValue)
         {
             var dayShiftLeagues = dayShift.Leagues;
             var dayShiftLeaguesPair = dayShiftLeagues.ToDictionary(x => x.LeagueId);
 
-            nightShiftWithRequestStartTimeLeagues = nightShiftWithRequestStartTimeLeagues
+            leagues = leagues
                 .Select(x => UpdateAssignmentHint(x, dayShiftLeaguesPair[x.LeagueId]));
         }
-        UpdateAssignmentHintNightShift(nightShiftWithRequestStartTimeLeagues, dayShift.Leagues);
-        var preMatchLeagues = SortAndAddNo(nightShiftWithRequestStartTimeLeagues);
-
+        UpdateAssignmentHintNightShift(leagues, dayShift.Leagues);
+        var (leaguesContainsHint, leaguesRest) = SplitPrematchLeagues(leagues?.ToList());
+        var preMatchLeagues = SortByHint(leaguesContainsHint);
+        preMatchLeagues.AddRange(SortAndAddNo(leaguesRest));
 
         return new QueryPreMatchLeagueViewModel
         {
@@ -216,27 +217,29 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
         AssignmentShift nightShiftWithDBStartTime
     )
     {
-        var nightShiftWithRequestStartTimeLeagues = nightShiftWithRequestStartTime.Leagues;
+        var leagues = nightShiftWithRequestStartTime.Leagues;
         var dayShiftLeagues = dayShift.Leagues;
         var nightShiftWithDbStartTimeLeagues = nightShiftWithDBStartTime.Leagues;
 
         var newLeagues = dayShiftLeagues
             .Where(x => nightShiftWithDbStartTimeLeagues
                             .All(y => y.LeagueId != x.LeagueId) &&
-                        nightShiftWithRequestStartTimeLeagues.Any(z => z.LeagueId == x.LeagueId)).ToList();
+                        leagues.Any(z => z.LeagueId == x.LeagueId)).ToList();
 
-        UpdateAssignmentHintNightShift(nightShiftWithRequestStartTimeLeagues, dayShiftLeagues);
+        UpdateAssignmentHintNightShift(leagues, dayShiftLeagues);
 
         foreach (var league in newLeagues)
         {
-            nightShiftWithRequestStartTimeLeagues = nightShiftWithRequestStartTimeLeagues
+            leagues = leagues
                 .Select(x => x.LeagueId == league.LeagueId
                     ? UpdateAssignmentHint(x, league)
                     : x
                 );
         }
 
-        var preMatchLeagues = SortAndAddNo(nightShiftWithRequestStartTimeLeagues);
+        var (leaguesContainsHint, leaguesRest) = SplitPrematchLeagues(leagues?.ToList());
+        var preMatchLeagues = SortByHint(leaguesContainsHint);
+        preMatchLeagues.AddRange(SortAndAddNo(leaguesRest));
 
         return new QueryPreMatchLeagueViewModel
         {
@@ -372,6 +375,24 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
 
         return assignments.Any(x => x.IsContains(employee));
     }
+
+    private (IList<PreMatchLeague>, IList<PreMatchLeague>) SplitPrematchLeagues(IList<PreMatchLeague> leagues)
+    {
+        var leaguesContainsHint = leagues?.Where(x => !string.IsNullOrWhiteSpace(x.HDPHint)
+                              && !string.IsNullOrWhiteSpace(x.OUHint)
+                              && !string.IsNullOrWhiteSpace(x.HDPTakeOverHint)
+                              && !string.IsNullOrWhiteSpace(x.OUTakeOverHint))
+                              .ToList();
+        var leaguesRest = leagues?.Except(leaguesContainsHint).ToList();
+        return (leaguesContainsHint, leaguesRest);
+    }
+
+    private static List<PreMatchLeague> SortByHint(IEnumerable<PreMatchLeague> leagues)
+    => leagues.OrderByDescending(x => x.HDPHint)
+    .ThenBy(x => x.OUHint)
+    .ThenBy(x => x.HDPTakeOverHint)
+    .ThenBy(x => x.OUTakeOverHint)
+    .ToList();
 
     private static IList<PreMatchLeague> SortAndAddNo(IEnumerable<PreMatchLeague> leagues)
     {
