@@ -4,6 +4,7 @@ using Criteria;
 using Fanex.Data.Repository;
 using Fanex.NAP.Client.Configuration;
 using OWP.Models;
+using OWP.ProductAssignmentReference.Models;
 
 public interface ProductAssignmentRepository
 {
@@ -11,9 +12,9 @@ public interface ProductAssignmentRepository
 
     Task UpdateUserInfo(UserInfoEditor info);
 
-        Task<IList<ReferenceResource>> GetLevelBySectionId(int? sectionId);
+    Task<IList<ReferenceResource>> GetLevelBySectionId(int? sectionId);
 
-        Task<IList<ReferenceResource>> GetMainBettypeBySectionId(int? sectionId);
+    Task<IList<ReferenceResource>> GetMainBettypeBySectionId(int? sectionId);
 }
 
 public class ProductAssignmentRepositoryImp : ProductAssignmentRepository
@@ -35,33 +36,33 @@ public class ProductAssignmentRepositoryImp : ProductAssignmentRepository
         {
             RoleId = queryInfo.RoleId,
             User = queryInfo.User,
-                SectionId = queryInfo.SectionId,
-                LocationId = queryInfo.LocationId,
-                SiteId = napSettings.SiteId,
+            SectionId = queryInfo.SectionId,
+            LocationId = queryInfo.LocationId,
+            SiteId = napSettings.SiteId,
 
         };
         return (await dynamicRepository.FetchAsync<UserInfo>(criteria)).ToList();
     }
 
-        public async Task<IList<ReferenceResource>> GetLevelBySectionId(int? sectionId)
+    public async Task<IList<ReferenceResource>> GetLevelBySectionId(int? sectionId)
+    {
+        var criteria = new GetLevelBySectionIdCriteria
         {
-            var criteria = new GetLevelBySectionIdCriteria
-            {
-                SectionId = sectionId
-            };
+            SectionId = sectionId
+        };
 
-            return (await dynamicRepository.FetchAsync<ReferenceResource>(criteria)).ToList();
-        }
+        return (await dynamicRepository.FetchAsync<ReferenceResource>(criteria)).ToList();
+    }
 
-        public async Task<IList<ReferenceResource>> GetMainBettypeBySectionId(int? sectionId)
+    public async Task<IList<ReferenceResource>> GetMainBettypeBySectionId(int? sectionId)
+    {
+        var criteria = new GetMainBettypeBySectionIdCriteria
         {
-            var criteria = new GetMainBettypeBySectionIdCriteria
-            {
-                SectionId = sectionId
-            };
+            SectionId = sectionId
+        };
 
-            return (await dynamicRepository.FetchAsync<ReferenceResource>(criteria)).ToList();
-        }
+        return (await dynamicRepository.FetchAsync<ReferenceResource>(criteria)).ToList();
+    }
 
     public async Task UpdateUserInfo(UserInfoEditor info)
     {
