@@ -64,14 +64,6 @@ public class SpecialProductServiceImp : SpecialProductService
             maxbetInfo.SecondAcceptValue,
             maxbetInfo.NumberOfLines);
 
-        var maxbetCN88 = new MaxbetSpread
-        {
-            FirstHalfHandicap = 0,
-            FirstHalfOverUnder = 0,
-            Handicap = 0,
-            OverUnder = 0
-        };
-
         return maxbetInfo;
     }
 
@@ -84,13 +76,6 @@ public class SpecialProductServiceImp : SpecialProductService
             .FirstOrDefault(m => m.BettypeId.Equals((int)EnumBettype.Handicap));
         var secondAcceptValue = await specialProductSelector.SelectSecondAcceptedValues(owpMatch.MinorMatchId, bettypeId, maxbetMainMatch?.Value);
 
-        var maxbetCN88 = new MaxbetSpread
-        {
-            FirstHalfHandicap = 0,
-            FirstHalfOverUnder = 0,
-            Handicap = 0,
-            OverUnder = 0
-        };
 
         return new MaxbetInfo
         {
@@ -98,7 +83,6 @@ public class SpecialProductServiceImp : SpecialProductService
             Traders = traders,
             Spread = spread,
             Maxbet = maxbet,
-            MaxbetCN88 = maxbetCN88,
             SecondAcceptValue = secondAcceptValue
         };
     }

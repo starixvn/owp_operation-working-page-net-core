@@ -6,77 +6,84 @@ using Helpers;
 using MediatR;
 using Models;
 
-public interface MainMatchService
-{
-    Task<int> GetMatchIdByAdminSiteId(int adminsiteId);
-
-    Task<MaxbetInfo> GetMaxbetInfo(int owpMatchId, int adminsiteId);
-
-    Task<MaxbetInfo> GetMaxbetInfoET(int owpMatchId, int adminsiteId);
-
-    Task<MaxbetInfo> GetMaxbetInfoPEN(int owpMatchId, int adminsiteId);
-
-}
-
-public class MainMatchServiceImp : MainMatchService
-{
-    private readonly MaxbetRepository syncMaxbetRepository;
-
-    private readonly IMediator mediator;
-
-    private readonly ServiceCommon serviceCommon;
-
-    public MainMatchServiceImp(MaxbetRepository syncMaxbetRepository,
-        IMediator mediator,
-        ServiceCommon serviceCommon)
+    public interface MainMatchService
     {
-        this.syncMaxbetRepository = syncMaxbetRepository;
-        this.mediator = mediator;
-        this.serviceCommon = serviceCommon;
-    }
-    public async Task<int> GetMatchIdByAdminSiteId(int adminsiteId)
-        => await syncMaxbetRepository.GetMatchIdByAdminSiteId(adminsiteId);
+        Task<int> GetMatchIdByAdminSiteId(int adminsiteId);
 
-    public async Task<MaxbetInfo> GetMaxbetInfo(int owpMatchId, int adminsiteId)
-    {
-        var maxbetInfo = await serviceCommon.BuildMatchInfoExcludeNumberOfLines(owpMatchId, adminsiteId);
+        Task<MaxbetInfo> GetMaxbetInfo(int owpMatchId, int adminsiteId);
 
-        var numberOfLines = await mediator.Send(new GetNumberOfLinesHandler.Request { OWPMatchId = owpMatchId });
+        Task<MaxbetInfo> GetMaxbetInfoET(int owpMatchId, int adminsiteId);
 
-        maxbetInfo.NumberOfLines = numberOfLines;
-        return maxbetInfo;
+        Task<MaxbetInfo> GetMaxbetInfoPEN(int owpMatchId, int adminsiteId);
+
     }
 
-    public async Task<MaxbetInfo> GetMaxbetInfoET(int owpMatchId, int adminsiteId)
+    public class MainMatchServiceImp : MainMatchService
     {
-        var maxbetInfo = await serviceCommon.BuildMatchInfoExcludeNumberOfLines(owpMatchId, adminsiteId);
+        private readonly MaxbetRepository syncMaxbetRepository;
 
-        UpdateMaxbetET(maxbetInfo.Maxbet);
-        maxbetInfo.NumberOfLines = NumberOfLineHelper.UpdateNumberOfLine();
-        maxbetInfo.Ft1stLineHandicap = Ft1stLineHandicapHelper.BuildFt1stLineHandicap();
-        return maxbetInfo;
-    }
+        private readonly OddService oddService;
 
-    public async Task<MaxbetInfo> GetMaxbetInfoPEN(int owpMatchId, int adminsiteId)
-    {
-        var maxbetInfo = await serviceCommon.BuildMatchInfoExcludeNumberOfLines(owpMatchId, adminsiteId);
+        private readonly IMediator mediator;
 
-        MaxbetHelper.SetDefaultMaxbetInfo(maxbetInfo);
+        private readonly ServiceCommon serviceCommon;
 
-        MaxbetHelper.UpdateMaxbetPEN(maxbetInfo.Maxbet);
-
-        MaxbetHelper.UpdateSpreadPEN(maxbetInfo.Spread, MaxBetSetting.SPREAD_HDP_PEN, MaxBetSetting.SPREAD_OU_PEN);
-        return maxbetInfo;
-    }
-
-    private static void UpdateMaxbetET(MaxbetSpread maxbet)
-    {
-        if (maxbet.Handicap == MaxBetSetting.MAXBET_HDP)
+        public MainMatchServiceImp(MaxbetRepository syncMaxbetRepository,
+            IMediator mediator,
+            ServiceCommon serviceCommon,
+            OddService oddService)
         {
-            maxbet.Handicap = MaxBetSetting.MAXBET_ET;
-            maxbet.OverUnder = MaxBetSetting.MAXBET_ET;
+            this.syncMaxbetRepository = syncMaxbetRepository;
+            this.mediator = mediator;
+            this.serviceCommon = serviceCommon;
+            this.oddService = oddService;
         }
+        public async Task<int> GetMatchIdByAdminSiteId(int adminsiteId)
+                => await syncMaxbetRepository.GetMatchIdByAdminSiteId(adminsiteId);
+
+        public async Task<MaxbetInfo> GetMaxbetInfo(int owpMatchId, int adminsiteId)
+        {
+            var maxbetInfo = await serviceCommon.BuildMatchInfoExcludeNumberOfLines(owpMatchId, adminsiteId);
+
+            await oddService.BuildOdd(maxbetInfo, owpMatchId);
+
+            var numberOfLines = await mediator.Send(new GetNumberOfLinesHandler.Request { OWPMatchId = owpMatchId });
+
+            maxbetInfo.NumberOfLines = numberOfLines;
+            return maxbetInfo;
+        }
+
+        public async Task<MaxbetInfo> GetMaxbetInfoET(int owpMatchId, int adminsiteId)
+        {
+            var maxbetInfo = await serviceCommon.BuildMatchInfoExcludeNumberOfLines(owpMatchId, adminsiteId);
+
+            MaxbetHelper.SetDefaultMaxbetInfo(maxbetInfo);
+            UpdateMaxbetET(maxbetInfo.Maxbet);
+        maxbetInfo.NumberOfLines = NumberOfLineHelper.UpdateNumberOfLine();
+            maxbetInfo.Ft1stLineHandicap = Ft1stLineHandicapHelper.BuildFt1stLineHandicap();
+            return maxbetInfo;
+        }
+
+        public async Task<MaxbetInfo> GetMaxbetInfoPEN(int owpMatchId, int adminsiteId)
+        {
+            var maxbetInfo = await serviceCommon.BuildMatchInfoExcludeNumberOfLines(owpMatchId, adminsiteId);
+
+            MaxbetHelper.SetDefaultMaxbetInfo(maxbetInfo);
+
+            MaxbetHelper.UpdateMaxbetPEN(maxbetInfo.Maxbet);
+
+            MaxbetHelper.UpdateSpreadPEN(maxbetInfo.Spread, MaxBetSetting.SPREAD_HDP_PEN, MaxBetSetting.SPREAD_OU_PEN);
+            return maxbetInfo;
+        }
+
+        private static void UpdateMaxbetET(MaxbetSpread maxbet)
+        {
+            if (maxbet.Handicap == MaxBetSetting.MAXBET_HDP)
+            {
+                maxbet.Handicap = MaxBetSetting.MAXBET_ET;
+                maxbet.OverUnder = MaxBetSetting.MAXBET_ET;
+            }
+        }
+
+
     }
-
-
-}

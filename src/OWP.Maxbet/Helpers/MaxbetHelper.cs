@@ -21,6 +21,9 @@ public static class MaxbetHelper
         spread.OverUnder = newValueOU;
     }
 
+        public static T FindOddByKey<T>(IList<T> odds, string key) where T : Models.KeyValuePair
+        => odds?.FirstOrDefault(a => string.Equals(a.Key, key, StringComparison.OrdinalIgnoreCase));
+
     public static void UpdateMaxbetPEN(MaxbetSpread maxbet)
     {
         var hdp = maxbet.Handicap;
@@ -42,9 +45,6 @@ public static class MaxbetHelper
 
         maxbetInfo.Traders.FirstHalfHandicap = null;
         maxbetInfo.Traders.FirstHalfOverUnder = null;
-
-        maxbetInfo.MaxbetCN88.FirstHalfHandicap = null;
-        maxbetInfo.MaxbetCN88.FirstHalfOverUnder = null;
 
         maxbetInfo.NumberOfLines = NumberOfLineHelper.UpdateNumberOfLine();
     }

@@ -1,6 +1,4 @@
-﻿namespace OWP.Maxbet.Models;
-
-public class MatchInfo
+﻿public class MatchInfo
 {
     public int owpMatchId { get; set; }
 

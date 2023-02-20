@@ -31,10 +31,10 @@ public class SabaMatchServiceImp : SabaMatchService
         var traderAssignmentsSender = await traderAssignmentBuilder.BuildTraderAssignmentSender(owpMatchId);
 
         var maxbetMainMatch = (await maxbetRepository.GetMaxbetByOwpMatchId(owpMatchId))
-            .FirstOrDefault(m => m.BettypeId.Equals((int)EnumBettype.Handicap));
+        .FirstOrDefault(m => m.BettypeId.Equals((int)EnumBettype.Handicap));
 
         var secondAcceptValue = await mediator.Send(new GetSecondAcceptValueHandler.Request
-            { OWPMatchId = owpMatchId, Bettype = SpecialBettype.BETTYPE_ID_MAIN_MATCH, MaxbetHdp = maxbetMainMatch?.Value });
+        { OWPMatchId = owpMatchId, Bettype = SpecialBettype.BETTYPE_ID_MAIN_MATCH, MaxbetHdp = maxbetMainMatch?.Value });
 
         var spread = new MaxbetSpread
         {
@@ -48,19 +48,12 @@ public class SabaMatchServiceImp : SabaMatchService
             OverUnder = MaxBetSetting.MAXBET_SABA
         };
 
-        var cn88Maxbet = new MaxbetSpread
-        {
-            Handicap = 0,
-            OverUnder = 0
-        };
-
         var maxbetInfo = new MaxbetInfo
         {
             AdminsiteID = adminsiteId,
             Traders = traderAssignmentsSender,
             Spread = spread,
             Maxbet = maxbet,
-            MaxbetCN88 = cn88Maxbet,
             NumberOfLines = new NumberOfLines(),
             SecondAcceptValue = secondAcceptValue
         };

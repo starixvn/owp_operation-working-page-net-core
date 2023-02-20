@@ -1,6 +1,4 @@
-﻿namespace OWP.Maxbet.Constants;
-
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
 
 public static class SubTypeETPK
 {
