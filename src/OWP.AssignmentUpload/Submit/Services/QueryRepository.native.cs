@@ -24,7 +24,7 @@ public class QueryRepositoryImp : QueryRepository
     {
         var matchesTask = repository.FetchAsync<GeneralMatch>(new GetAllMatchesByTimeRangeCriteria { EventDate = eventDate });
         var assignmentsTask = repository.FetchAsync<MatchAssignment>(new GetAllAssignmentsByTimeRangeCriteria { EventDate = eventDate });
-        var matchSettingsTask = repository.FetchAsync<MatchSetting>(new GetAllMatcheSettingsByTimeRangeCriteria { EventDate = eventDate });
+        var matchSettingsTask = repository.FetchAsync<MatchSetting>(new GetAllMatchesSettingsByTimeRangeCriteria { EventDate = eventDate });
 
         return new AssignmentSnapshot
         {

@@ -26,7 +26,7 @@ public class SpreadBuilderUnitTests
     [Fact]
     public async Task BuildSpread_NotFound_HDP_OU_1HHDP_1HOU_ReturnDefaultMaxbetSpread()
     {
-        var spreadTupple = new ValueTuple<IEnumerable<SpreadModel>, IEnumerable<LeagueGroup>>
+        var spreadTuple = new ValueTuple<IEnumerable<SpreadModel>, IEnumerable<LeagueGroup>>
         {
             Item1 = new List<SpreadModel>(),
             Item2 = new List<LeagueGroup>()
@@ -34,7 +34,7 @@ public class SpreadBuilderUnitTests
 
         syncMaxbetRepository
             .GetSpreadByOwpMatchId(123)
-            .ReturnsForAnyArgs(Task.FromResult(spreadTupple));
+            .ReturnsForAnyArgs(Task.FromResult(spreadTuple));
 
         var expectedResult = await spreadBuilder.BuildSpreadMainMatch(123);
 
@@ -44,7 +44,7 @@ public class SpreadBuilderUnitTests
     [Fact]
     public async Task BuildSpread_Found_HDP_OU_1HHDP_1HOU_ReturnMaxbetSpreadCorrect()
     {
-        var spreadTupple = new ValueTuple<IEnumerable<SpreadModel>, IEnumerable<LeagueGroup>>
+        var spreadTuple = new ValueTuple<IEnumerable<SpreadModel>, IEnumerable<LeagueGroup>>
         {
             Item1 = new List<SpreadModel>
             {
@@ -80,7 +80,7 @@ public class SpreadBuilderUnitTests
 
         syncMaxbetRepository
             .GetSpreadByOwpMatchId(123)
-            .ReturnsForAnyArgs(Task.FromResult(spreadTupple));
+            .ReturnsForAnyArgs(Task.FromResult(spreadTuple));
 
         var result = await spreadBuilder.BuildSpreadMainMatch(123);
 
@@ -98,7 +98,7 @@ public class SpreadBuilderUnitTests
     [Fact]
     public async Task BuildSpread_ForGroupMJ_NotExists_1HHDP_1HOU_ReturnSpreadHasSpread_1HHDP_1HOU_Follow_HDP_OU()
     {
-        var spreadTupple = new ValueTuple<IEnumerable<SpreadModel>, IEnumerable<LeagueGroup>>
+        var valueTuple = new ValueTuple<IEnumerable<SpreadModel>, IEnumerable<LeagueGroup>>
         {
             Item1 = new List<SpreadModel>
             {
@@ -124,7 +124,7 @@ public class SpreadBuilderUnitTests
 
         syncMaxbetRepository
             .GetSpreadByOwpMatchId(123)
-            .ReturnsForAnyArgs(Task.FromResult(spreadTupple));
+            .ReturnsForAnyArgs(Task.FromResult(valueTuple));
 
         var result = await spreadBuilder.BuildSpreadMainMatch(123);
         var expected = new MaxbetSpread
@@ -141,7 +141,7 @@ public class SpreadBuilderUnitTests
     [Fact]
     public async Task BuildSpread_ForGroupNotMJ_NotExists_1HHDP_1HOU_ReturnSpreadHasSpread_1HHDP_1HOU_Follow_HDP_OU()
     {
-        var spreadTupple = new ValueTuple<IEnumerable<SpreadModel>, IEnumerable<LeagueGroup>>
+        var spreadTuple = new ValueTuple<IEnumerable<SpreadModel>, IEnumerable<LeagueGroup>>
         {
             Item1 = new List<SpreadModel>
             {
@@ -167,7 +167,7 @@ public class SpreadBuilderUnitTests
 
         syncMaxbetRepository
             .GetSpreadByOwpMatchId(123)
-            .ReturnsForAnyArgs(Task.FromResult(spreadTupple));
+            .ReturnsForAnyArgs(Task.FromResult(spreadTuple));
 
         var result = await spreadBuilder.BuildSpreadMainMatch(123);
         var expected = new MaxbetSpread

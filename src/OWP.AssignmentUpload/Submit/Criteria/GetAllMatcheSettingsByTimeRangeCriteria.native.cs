@@ -2,7 +2,7 @@
 
 using Fanex.Data.Repository;
 
-public class GetAllMatcheSettingsByTimeRangeCriteria : CriteriaBase
+public class GetAllMatchesSettingsByTimeRangeCriteria : CriteriaBase
 {
     public DateTime EventDate { get; set; }
 

@@ -80,7 +80,7 @@ public class AssignmentBuilderUnitTest
     }
 
     [Fact]
-    public void CreateAssignment_WhenExistsUserName_BuilAssignmentHasTraderMaxbetModels()
+    public void CreateAssignment_WhenExistsUserName_BuildAssignmentHasTraderMaxbetModels()
     {
         var matchAssignments = new List<MatchAssignment>
         {
@@ -94,7 +94,7 @@ public class AssignmentBuilderUnitTest
             },
             new()
             {
-                AssignmentNote="#<user> helloword",
+                AssignmentNote="#<user> HelloWorld",
                 BetTypeName = "1Q & 3Q (OU/OE)",
                 Username= "starix15",
                 AssignmentType = 2,
@@ -114,7 +114,7 @@ public class AssignmentBuilderUnitTest
             Sport = "Basketball",
             TraderMaxbetModels = new List<TraderMaxBetModel>
             {
-                new(){ BetTypeName = "1Q & 3Q (OU/OE)", TraderAssignment = new TraderAssignment{MainTrader="#starix12",AssignmentNote="#starix15 helloword"} }
+                new(){ BetTypeName = "1Q & 3Q (OU/OE)", TraderAssignment = new TraderAssignment{MainTrader="#starix12",AssignmentNote="#starix15 HelloWorld"} }
             }
         };
 

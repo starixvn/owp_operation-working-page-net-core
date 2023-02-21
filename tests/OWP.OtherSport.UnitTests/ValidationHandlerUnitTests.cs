@@ -100,7 +100,7 @@ public class ValidationHandlerUnitTests
                 {
                     Sport = "Basketball",
                     Home = "Golden State Warrior",
-                    Away = "LA Laker",
+                    Away = "LA Lake",
                     MatchStatus = "Completed",
                     DateTime = new DateTime(2020, 12, 29),
                     League = "NBA",

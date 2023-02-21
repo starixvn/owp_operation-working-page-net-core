@@ -28,15 +28,15 @@ public static class FilterHelper
         return matches;
     }
 
-    public static Dictionary<int, MatchInfo> FilterMatchesByMatchStatus(IList<string> matchStatuses, Dictionary<int, MatchInfo> matchsInfos)
+    public static Dictionary<int, MatchInfo> FilterMatchesByMatchStatus(IList<string> matchStatuses, Dictionary<int, MatchInfo> matchInfos)
     {
         var matches = new Dictionary<int, MatchInfo>();
-        foreach (var key in matchsInfos.Keys)
+        foreach (var key in matchInfos.Keys)
         {
-            var match = matchsInfos[key];
+            var match = matchInfos[key];
             if (matchStatuses.Contains(match.MatchStatus, StringComparer.OrdinalIgnoreCase))
             {
-                matches.Add(key, matchsInfos[key]);
+                matches.Add(key, matchInfos[key]);
             }
         }
 

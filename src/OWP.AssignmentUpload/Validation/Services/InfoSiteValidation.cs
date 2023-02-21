@@ -9,12 +9,12 @@ public interface InfoSiteValidation
 {
     void ValidateDuplicatedMatches(
         AssignmentModel owpMatch,
-        List<AssignmentModel> owpMatchs,
+        List<AssignmentModel> owpMatches,
         List<ValidationResult> results);
 
     void ValidateDuplicatedInfoSiteId(
         AssignmentModel owpMatch,
-        List<AssignmentModel> owpMatchs,
+        List<AssignmentModel> owpMatches,
         List<ValidationResult> results);
 
     void ValidateDuplicatedAdminSiteId(
@@ -24,18 +24,18 @@ public interface InfoSiteValidation
 
     List<ValidationResult> CustomValidateInfoSiteMatch(
         AssignmentModel owpMatch,
-        List<AssignmentModel> owpMatchs);
+        List<AssignmentModel> owpMatches);
 
-    void Validate(List<AssignmentModel> owpMatchs);
+    void Validate(List<AssignmentModel> owpMatches);
 }
 
 public class InfoSiteValidationImp : InfoSiteValidation
 {
-    public void Validate(List<AssignmentModel> owpMatchs)
+    public void Validate(List<AssignmentModel> owpMatches)
     {
         var validationResults = new List<AssignmentValidationRowResult>();
 
-        var matchValidator = ValidationHelper.RemoveMatchGenerateBySystem(owpMatchs);
+        var matchValidator = ValidationHelper.RemoveMatchGenerateBySystem(owpMatches);
         for (var i = 0; i < matchValidator.Count; i++)
         {
             var rowIndex = i;
@@ -54,20 +54,20 @@ public class InfoSiteValidationImp : InfoSiteValidation
 
     public List<ValidationResult> CustomValidateInfoSiteMatch(
         AssignmentModel owpMatch,
-        List<AssignmentModel> owpMatchs)
+        List<AssignmentModel> owpMatches)
     {
         var validationResults = new List<ValidationResult>();
-        ValidateDuplicatedMatches(owpMatch, owpMatchs, validationResults);
-        ValidateDuplicatedInfoSiteId(owpMatch, owpMatchs, validationResults);
-        ValidateDuplicatedAdminSiteId(owpMatch, owpMatchs, validationResults);
+        ValidateDuplicatedMatches(owpMatch, owpMatches, validationResults);
+        ValidateDuplicatedInfoSiteId(owpMatch, owpMatches, validationResults);
+        ValidateDuplicatedAdminSiteId(owpMatch, owpMatches, validationResults);
         return validationResults;
     }
 
-    public void ValidateDuplicatedMatches(AssignmentModel owpMatch, List<AssignmentModel> owpMatchs, List<ValidationResult> results)
+    public void ValidateDuplicatedMatches(AssignmentModel owpMatch, List<AssignmentModel> owpMatches, List<ValidationResult> results)
     {
         var isDuplicated = owpMatch.IsSaba
-            ? ValidationHelper.CountMatchSameLeagueHomeAwayKOTime(owpMatchs, owpMatch) > 1
-            : ValidationHelper.CountMatchSameLeagueHomeAway(owpMatchs, owpMatch) > 1;
+            ? ValidationHelper.CountMatchSameLeagueHomeAwayKOTime(owpMatches, owpMatch) > 1
+            : ValidationHelper.CountMatchSameLeagueHomeAway(owpMatches, owpMatch) > 1;
 
         if (isDuplicated)
         {
@@ -77,11 +77,11 @@ public class InfoSiteValidationImp : InfoSiteValidation
 
     public void ValidateDuplicatedInfoSiteId(
         AssignmentModel owpMatch,
-        List<AssignmentModel> owpMatchs,
+        List<AssignmentModel> owpMatches,
         List<ValidationResult> results)
     {
         var isDuplicated = owpMatch.InfoSiteMatchId > 0
-                           && owpMatchs.Count(a => a.InfoSiteMatchId == owpMatch.InfoSiteMatchId) > 1;
+                           && owpMatches.Count(a => a.InfoSiteMatchId == owpMatch.InfoSiteMatchId) > 1;
 
         if (isDuplicated)
         {

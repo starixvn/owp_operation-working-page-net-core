@@ -97,11 +97,9 @@ public class Handler : IRequestHandler<ValidationRequest, AssignmentValidationRe
 
             var fileName = $"{sessionId}-{currentSession.UserName}-New.xlsx";
             var fullPath = Path.Combine(absoluteFolderPath, fileName);
-            using (var stream = File.Create(fullPath))
-            {
-                file.Seek(0, SeekOrigin.Begin);
-                await file.CopyToAsync(stream);
-            }
+            await using var stream = File.Create(fullPath);
+            file.Seek(0, SeekOrigin.Begin);
+            await file.CopyToAsync(stream);
         }
         catch
         {

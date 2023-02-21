@@ -475,9 +475,9 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
     private static string CalculateOddStatus(bool openedHDP, bool openedOU)
         => (openedHDP, openedOU) switch
         {
-            (true, true) => MatchOffferStatus.Opened,
-            (false, true) => MatchOffferStatus.Hdp,
-            (true, false) => MatchOffferStatus.Ou,
+            (true, true) => MatchOfferStatus.Opened,
+            (false, true) => MatchOfferStatus.Hdp,
+            (true, false) => MatchOfferStatus.Ou,
             _ => string.Empty
         };
 }

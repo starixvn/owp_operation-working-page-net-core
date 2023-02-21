@@ -19,7 +19,7 @@ public static class AssignmentUploadInjector
         services.Add(new ServiceDescriptor(typeof(ExcelValidator), typeof(ExcelValidatorImp), ServiceLifetime.Transient));
         services.Add(new ServiceDescriptor(typeof(MinorMatchDetector), typeof(MinorMatchDetectorImp), ServiceLifetime.Transient));
         services.Add(new ServiceDescriptor(typeof(MatchStatusValidator), typeof(MatchStatusValidatorImp), ServiceLifetime.Transient));
-        services.Add(new ServiceDescriptor(typeof(ImplicitMinorMatchGenerater), typeof(GenerateImplicitMinorMatchImp), ServiceLifetime.Transient));
+        services.Add(new ServiceDescriptor(typeof(ImplicitMinorMatchGenerator), typeof(GenerateImplicitMinorMatchImp), ServiceLifetime.Transient));
         services.Add(new ServiceDescriptor(typeof(AssignmentBuilder), typeof(AssignmentBuilderImp), ServiceLifetime.Transient));
         services.Add(new ServiceDescriptor(typeof(CacheManipulator), typeof(CacheManipulatorImp), ServiceLifetime.Transient));
         services.Add(new ServiceDescriptor(typeof(Analyzer), typeof(AnalyzerImp), ServiceLifetime.Transient));

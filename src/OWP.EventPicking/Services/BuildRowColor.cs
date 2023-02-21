@@ -18,14 +18,14 @@ public class BuildRowColorImp : BuildRowColor
     {
         var provider = StringExtension.RemoveNonAlphaCharacters(match.OtherProvider);
         var conditionMatch = string.IsNullOrWhiteSpace(provider);
-        var smallorNoMaxBet = match.MaxBetHDPNumber < 6000 || !match.MaxBetHDPNumber.HasValue;
+        var smallerNoMaxBet = match.MaxBetHDPNumber < 6000 || !match.MaxBetHDPNumber.HasValue;
         var exceptMatches = match.IsChildMatch || IsSaBaGame(match.LeagueName);
 
         if (match.IsBlackList)
         {
             return Constant.ColorGray;
         }
-        if (conditionMatch && smallorNoMaxBet && !exceptMatches)
+        if (conditionMatch && smallerNoMaxBet && !exceptMatches)
         {
             return Constant.ColorRed;
         }

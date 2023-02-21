@@ -44,7 +44,7 @@ public static class AutoConstant
 
     public const string Pk = "PK";
 
-    public const string Nomal = "NM";
+    public const string Normal = "NM";
 
     public const string Futsal = "FUTSAL";
 

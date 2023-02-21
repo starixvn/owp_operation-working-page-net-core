@@ -23,7 +23,7 @@ public class AssignmentAnalyzerUnitTests
             HashKey = "d8a864fbe77108d7cfb0dfe6d9bd0a98d98bdae4e8099adcf47b0fe843cb9f",
             Away = "Liverpool",
             Home = "Arsenal",
-            League = "PremeirLeague",
+            League = "PremierLeague",
             Agent = "IPSD",
             InfoSiteMatchId = 0,
             AdminSiteId = 0,
@@ -53,7 +53,7 @@ public class AssignmentAnalyzerUnitTests
             HashKey = "d8a864fbe77108d7cfb0dfe6d9bd0a98d98bdae4e8099adcf47b0fe843cb9f",
             Away = "Liverpool",
             Home = "Arsenal",
-            League = "PremeirLeague",
+            League = "PremierLeague",
             Agent = "IPSD",
             InfoSiteMatchId = 0,
             AdminSiteId = 0,
@@ -156,7 +156,7 @@ public class AssignmentAnalyzerUnitTests
             HashKey = "h2",
             Away = "Liverpool",
             Home = "Arsenal",
-            League = "PremeirLeague",
+            League = "PremierLeague",
             Agent = "IPSD",
             Channel = "",
             IPTV = "",
@@ -182,7 +182,7 @@ public class AssignmentAnalyzerUnitTests
             OtherTradersHDP = "123,starix1 abc<o>456,starix16 abc",
             OtherTraders1H1X2 = "0,starix1",
             OtherTraders1HHDP = "122,#<user> trader1h",
-            OtherTraders1HOU = "0,aaaa",
+            OtherTraders1HOU = "0,trader",
             OtherTraders1X2 = "0,ET Same",
             OtherTradersOU = "193,#<user>",
             OtherTradersLA = "0,traderLa"
@@ -206,7 +206,7 @@ public class AssignmentAnalyzerUnitTests
             HashKey = "h2",
             Away = "Liverpool",
             Home = "Arsenal",
-            League = "PremeirLeague",
+            League = "PremierLeague",
             Agent = "IPSD",
             Channel = "",
             IPTV = "",
@@ -232,7 +232,7 @@ public class AssignmentAnalyzerUnitTests
             OtherTradersHDP = "123,starix1 abc<o>456,starix16 abc",
             OtherTraders1H1X2 = "0,starix1",
             OtherTraders1HHDP = "122,#<user> trader1h",
-            OtherTraders1HOU = "0,aaaa",
+            OtherTraders1HOU = "0,trader",
             OtherTraders1X2 = "0,ET Same",
             OtherTradersOU = "193,#<user>",
             OtherTradersLA = "0,traderLa",
@@ -461,7 +461,7 @@ public class AssignmentAnalyzerUnitTests
             BetType = 8,
             UserId = 0,
             AssignmentType = 2,
-            AssignmentNote = "aaaa"
+            AssignmentNote = "trader"
         };
 
         var matchAssignment25 = new MatchAssignment
@@ -639,7 +639,7 @@ public class AssignmentAnalyzerUnitTests
                 Away = "Liverpool",
                 HashKey = "h1",
                 Home = "Arsenal",
-                League = "PremeirLeague",
+                League = "PremierLeague",
                 Agent = "IPSD"
             },
 
@@ -648,7 +648,7 @@ public class AssignmentAnalyzerUnitTests
                 OWPMatchId = 2345,
                 Away = "Chelsea",
                 Home = "MC",
-                League = "PremeirLeague",
+                League = "PremierLeague",
                 HashKey = "h2"
             }
         };
@@ -676,7 +676,7 @@ public class AssignmentAnalyzerUnitTests
                 Away = "Liverpool",
                 HashKey = "h1",
                 Home = "Arsenal",
-                League = "PremeirLeague",
+                League = "PremierLeague",
                 Agent = "IPSD"
             },
 
@@ -685,7 +685,7 @@ public class AssignmentAnalyzerUnitTests
                 OWPMatchId = 2345,
                 Away = "Chelsea",
                 Home = "MC",
-                League = "PremeirLeague",
+                League = "PremierLeague",
                 HashKey = "h2"
             }
         };

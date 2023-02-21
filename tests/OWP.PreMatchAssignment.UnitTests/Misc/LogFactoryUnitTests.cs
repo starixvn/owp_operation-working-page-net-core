@@ -53,8 +53,8 @@ public class LogFactoryUnitTests
         //Arrange
         var logFactory = new LogFactoryImp();
 
-        var data = "<r><z plid=\"2019\" rm=\"cdcd\"/></r>";
-        var expected = "cdcd";
+        var data = "<r><z plid=\"2019\" rm=\"data\"/></r>";
+        var expected = "data";
 
         //Act
         var actual = logFactory.BuildColumn(LogActionConst.UpdateRemark, data);

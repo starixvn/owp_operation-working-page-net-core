@@ -13,14 +13,14 @@ public class InfoSiteHelperUnitTest
     {
         var owpMatch = new AssignmentModel
         {
-            League = "Seagame",
+            League = "SeaGame",
             Home = "VN",
             Away = "Singapore"
         };
 
         var infoSiteMatch = new InfositeMatch
         {
-            LeagueName = "Seagame",
+            LeagueName = "SeaGame",
             HomeName = "VN",
             AwayName = "Singapore"
         };
@@ -41,7 +41,7 @@ public class InfoSiteHelperUnitTest
 
         var infoSiteMatch = new InfositeMatch
         {
-            LeagueName = "Seagame",
+            LeagueName = "SeaGame",
             HomeName = "VN",
             AwayName = "Singapore"
         };

@@ -50,14 +50,14 @@ public class AssignmentValidatorImp : AssignmentValidator
         }
     }
 
-    public List<ValidationResult> CustomValidateAssignment(AssignmentModelInExcel assignment, List<AssignmentModelInExcel> assigments, List<Trader> traders)
+    public List<ValidationResult> CustomValidateAssignment(AssignmentModelInExcel assignment, List<AssignmentModelInExcel> assignments, List<Trader> traders)
     {
         var results = new List<ValidationResult>();
         ValidateMatchNo(assignment, results);
         ValidateTraders(assignment, results, traders);
-        ValidateDataAnotation(assignment, results);
-        ValidateDuplicatedMatch(assignment, assigments, results);
-        ValidateDuplicatedAdminSiteId(assignment, assigments, results);
+        ValidateDataAnnotation(assignment, results);
+        ValidateDuplicatedMatch(assignment, assignments, results);
+        ValidateDuplicatedAdminSiteId(assignment, assignments, results);
         ValidateMaxbetAndSpreadInString(assignment, results);
 
         return results;
@@ -150,7 +150,7 @@ public class AssignmentValidatorImp : AssignmentValidator
         }
     }
 
-    public static void ValidateDataAnotation(AssignmentModelInExcel assignment, List<ValidationResult> results)
+    public static void ValidateDataAnnotation(AssignmentModelInExcel assignment, List<ValidationResult> results)
     {
         var context = new ValidationContext(assignment, null, null);
         Validator.TryValidateObject(assignment, context, results, true);

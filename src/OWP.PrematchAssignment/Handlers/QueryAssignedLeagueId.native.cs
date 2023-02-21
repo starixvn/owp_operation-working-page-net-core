@@ -33,20 +33,20 @@ public class QueryAssignedLeagueIdHandler : IRequestHandler<QueryAssignedLeagueI
     public async Task<AssignedLeagueId> Handle(QueryAssignedLeagueIdRequest request, CancellationToken cancellationToken)
     {
         var prematchLeagueIds = await GetTodayPrematchLeague(request.IsDay);
-        var owpLeageNames = await QueryAssignedLeagueNames(request, prematchLeagueIds);
-        var mainDbLeagueIds = await QueryAssignedLeagueIdsFromMainDB(owpLeageNames);
+        var owpLeagueNames = await QueryAssignedLeagueNames(request, prematchLeagueIds);
+        var mainDbLeagueIds = await QueryAssignedLeagueIdsFromMainDB(owpLeagueNames);
         var unSupportedLeagueNames = new List<string>();
 
-        if (owpLeageNames.Count() > mainDbLeagueIds.Count())
+        if (owpLeagueNames.Count() > mainDbLeagueIds.Count())
         {
-            unSupportedLeagueNames = owpLeageNames.Except(mainDbLeagueIds.Select(x => x.LeagueName)).ToList();
+            unSupportedLeagueNames = owpLeagueNames.Except(mainDbLeagueIds.Select(x => x.LeagueName)).ToList();
         }
 
         return new AssignedLeagueId
         {
             LeagueIds = string.Join(",", mainDbLeagueIds.Select(x => x.LeagueId)),
             UnSupportedLeagueNames = unSupportedLeagueNames,
-            TodayLeagueCount = owpLeageNames.Count()
+            TodayLeagueCount = owpLeagueNames.Count()
         };
     }
 

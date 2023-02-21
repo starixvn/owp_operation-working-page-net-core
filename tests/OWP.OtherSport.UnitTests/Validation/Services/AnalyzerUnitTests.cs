@@ -53,7 +53,7 @@ public class AnalyzerUnitTests
             {
                 Sport = "Basketball",
                 Home = "Golden State Warrior",
-                Away = "LA Laker",
+                Away = "LA Lake",
                 MatchStatus = "Completed",
                 DateTime = "44771.5104166667",
                 League = "NBA",
@@ -64,7 +64,7 @@ public class AnalyzerUnitTests
             {
                 Sport = "Ice Hookey",
                 Home = "Golden State Warrior",
-                Away = "LA Laker",
+                Away = "LA Lake",
                 MatchStatus = "Completed",
                 DateTime = "44771.5104166667",
                 League = "Hookey",
@@ -106,7 +106,7 @@ public class AnalyzerUnitTests
         {
             Sport = "Basketball",
             Home = "Golden State Warrior",
-            Away = "LA Laker",
+            Away = "LA Lake",
             MatchStatus = "Completed",
             DateTime = DateTime.Parse("12/10/2020 12:00 AM"),
             League = "NBA",
@@ -117,7 +117,7 @@ public class AnalyzerUnitTests
         {
             Sport = "Ice Hookey",
             Home = "Golden State Warrior",
-            Away = "LA Laker",
+            Away = "LA Lake",
             MatchStatus = "Completed",
             DateTime = DateTime.Parse("12/10/2020 12:00 AM"),
             League = "Hookey",

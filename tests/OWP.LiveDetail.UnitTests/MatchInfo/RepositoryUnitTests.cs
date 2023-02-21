@@ -48,7 +48,7 @@ public class RepositoryUnitTests
             NoOfHDPId = 1,
             IsSoloMatch = true,
             Round = "round",
-            Division = "divi",
+            Division = "division",
             Venue = "venue",
             OtherTime = TimeSpan.Parse("23:00"),
             LeagueName = "league",

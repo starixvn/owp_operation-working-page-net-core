@@ -11,7 +11,7 @@ public class ExtraTimeDetectorServiceImp : ExtraTimeDetectorService
 {
     public string DetectExtraTime(string remark)
     {
-        var extraTime = AutoConstant.Nomal;
+        var extraTime = AutoConstant.Normal;
         if (IsEtPkMatch(remark))
         {
             extraTime = AutoConstant.EtPk;

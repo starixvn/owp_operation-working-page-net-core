@@ -20,7 +20,7 @@ public class MaxbetBuilderUnitTests
     }
 
     [Fact]
-    public async Task BuildMaxbet_OwpmatchId_NotFoundMaxbet_ReturnDefaultmaxbetInfo()
+    public async Task BuildMaxbet_OwpMatchId_NotFoundMaxbet_ReturnDefaultMaxbetInfo()
     {
         var matchId = 123;
         IEnumerable<MaxbetModel> maxbet = new List<MaxbetModel>();
@@ -310,7 +310,7 @@ public class MaxbetBuilderUnitTests
     }
 
     [Fact]
-    public async Task BuildMaxbet_FirstHalfOverUnder_NotFound_ReturnMaxbetSpreadIncludeFirstHaflOverUnder()
+    public async Task BuildMaxbet_FirstHalfOverUnder_NotFound_ReturnMaxbetSpreadIncludeFirstHalfOverUnder()
     {
         var matchId = 123;
         IEnumerable<MaxbetModel> maxbet = new List<MaxbetModel>

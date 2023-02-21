@@ -31,7 +31,7 @@ public class EventAssignmentBuilderUnitTest
     }
 
     [Fact]
-    public void RemoveInvalidNote_Alway_MapMatchSetting()
+    public void RemoveInvalidNote_Always_MapMatchSetting()
     {
         var matchAssignment = new Dictionary<int, List<MatchAssignment>>
         {

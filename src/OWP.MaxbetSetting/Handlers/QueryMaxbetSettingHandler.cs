@@ -7,11 +7,11 @@ using Models;
 
 public class QueryMaxbetSettingRequest : IRequest<List<MaxBetSettingModel>> { }
 
-public class QueryMaxbetSettingHanler : IRequestHandler<QueryMaxbetSettingRequest, List<MaxBetSettingModel>>
+public class QueryMaxbetSettingHandler : IRequestHandler<QueryMaxbetSettingRequest, List<MaxBetSettingModel>>
 {
     private readonly IDynamicRepository dynamicRepository;
 
-    public QueryMaxbetSettingHanler(IDynamicRepository dynamicRepository)
+    public QueryMaxbetSettingHandler(IDynamicRepository dynamicRepository)
     {
         this.dynamicRepository = dynamicRepository;
     }

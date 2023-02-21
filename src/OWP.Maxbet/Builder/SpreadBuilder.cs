@@ -125,13 +125,13 @@ public class SpreadBuilderImp : SpreadBuilder
     public static MaxbetSpread BuildSpreadSender(List<SpreadModel> spread)
     {
         var handicap = MaxbetHelper.FindSpreadByBettype(spread, (int)EnumBettype.Handicap) ?? new SpreadModel();
-        var overunder = MaxbetHelper.FindSpreadByBettype(spread, (int)EnumBettype.OverUnder) ?? new SpreadModel();
+        var overUnder = MaxbetHelper.FindSpreadByBettype(spread, (int)EnumBettype.OverUnder) ?? new SpreadModel();
         var firstHalfHandicap = MaxbetHelper.FindSpreadByBettype(spread, (int)EnumBettype.FirstHalfHandicap) ?? new SpreadModel();
         var firstHalfOverUnder = MaxbetHelper.FindSpreadByBettype(spread, (int)EnumBettype.FirstHalfOverUnder) ?? new SpreadModel();
         return new MaxbetSpread
         {
             Handicap = handicap.Spread,
-            OverUnder = overunder.Spread,
+            OverUnder = overUnder.Spread,
             FirstHalfHandicap = firstHalfHandicap.Spread,
             FirstHalfOverUnder = firstHalfOverUnder.Spread
         };

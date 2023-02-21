@@ -2,7 +2,7 @@
 
 using Microsoft.AspNetCore.SignalR;
 
-public interface ChangedInfoNotifyHub // Redis backplane
+public interface ChangedInfoNotifyHub
 {
     Task notifyChangedInformationData(object messageInfo);
 }

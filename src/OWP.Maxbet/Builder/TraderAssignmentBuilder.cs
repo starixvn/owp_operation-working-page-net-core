@@ -27,13 +27,13 @@ public class TraderAssignmentBuilderImp : TraderAssignmentBuilder
         await logServiceWrapper.Log("====BuildTraderAssignmentSender======", traderAssignments);
 
         var handicap = MaxbetHelper.FindTraderAssignmentByBettype(traderAssignments, (int)EnumBettype.Handicap) ?? new TraderAssignment();
-        var overunder = MaxbetHelper.FindTraderAssignmentByBettype(traderAssignments, (int)EnumBettype.OverUnder) ?? new TraderAssignment();
+        var overUnder = MaxbetHelper.FindTraderAssignmentByBettype(traderAssignments, (int)EnumBettype.OverUnder) ?? new TraderAssignment();
         var firstHalfHandicap = MaxbetHelper.FindTraderAssignmentByBettype(traderAssignments, (int)EnumBettype.FirstHalfHandicap) ?? new TraderAssignment();
         var firstHalfOverUnder = MaxbetHelper.FindTraderAssignmentByBettype(traderAssignments, (int)EnumBettype.FirstHalfOverUnder) ?? new TraderAssignment();
         return new TraderAssignmentSender
         {
             Handicap = handicap.UserId,
-            OverUnder = overunder.UserId,
+            OverUnder = overUnder.UserId,
             FirstHalfHandicap = firstHalfHandicap.UserId,
             FirstHalfOverUnder = firstHalfOverUnder.UserId
         };

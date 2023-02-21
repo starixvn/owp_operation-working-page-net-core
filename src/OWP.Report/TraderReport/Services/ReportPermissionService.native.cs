@@ -26,7 +26,7 @@ public class ReportPermissionServiceImp : ReportPermissionService
         return new ExcelPermissionModel
         {
             TraderAssignment = reportFunctionPolicies.GetPermissionModel(FunctionKeys.TraderReport_TraderAssignment),
-            TraderPerformace = reportFunctionPolicies.GetPermissionModel(FunctionKeys.TraderReport_TraderPerformance)
+            TraderPerformance = reportFunctionPolicies.GetPermissionModel(FunctionKeys.TraderReport_TraderPerformance)
         };
     }
 }

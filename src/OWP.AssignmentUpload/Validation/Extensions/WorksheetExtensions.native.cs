@@ -3,7 +3,7 @@ namespace OWP.AssignmentUpload.Validation.Extensions;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Reflection;
-using Anotations;
+using Annotations;
 using Constants;
 using Exceptions;
 using Models;

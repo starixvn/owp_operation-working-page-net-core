@@ -13,7 +13,7 @@ public class GetTicketTypeRecipientHandlerUnitTests
     [Fact]
     public async Task Handle_ReturnRecipientDataAsync()
     {
-        var handler = MockHander();
+        var handler = MockHandler();
         var expected = new List<TicketTypeRecipient>
         {
             new()
@@ -96,7 +96,7 @@ public class GetTicketTypeRecipientHandlerUnitTests
         DeepAssert.Equal(expected, actual.ToList());
     }
 
-    private GetTicketTypeRecipientHandler MockHander()
+    private GetTicketTypeRecipientHandler MockHandler()
     {
         var mockTicketTypes = new List<TicketType>
         {

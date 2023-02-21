@@ -67,8 +67,8 @@ public class BuildExcelModelServiceUnitTests
                 { 111, new List<ExcelMatchAssignment> {
                     new() { ColumnIndex=20,Value="", AssignmentType = 1, BetTypeName = Bettype.FTHDP, UserId = 8, Username="sa" },
                     new()
-                    { ColumnIndex=88,Value="#starix15 mynote", AssignmentType = 2, BetTypeName = Bettype.FirstHHDP,
-                        UserId = 123, Username="starix15", AssignmentNote = "#<user> mynote" }
+                    { ColumnIndex=88,Value="#starix15 note", AssignmentType = 2, BetTypeName = Bettype.FirstHHDP,
+                        UserId = 123, Username="starix15", AssignmentNote = "#<user> note" }
                 } }
             },
             MaxBetSpread = new Dictionary<int, List<ExcelMatchMaxBetSpread>>
@@ -124,7 +124,7 @@ public class BuildExcelModelServiceUnitTests
                     new() { AssignmentType = 1, BetTypeName = Bettype.FTHDP, UserId = 8, Username="sa" },
                     new()
                     { AssignmentType = 2, BetTypeName = Bettype.FirstHHDP, UserId = 123, Username="starix15",
-                        AssignmentNote = "#<user> mynote" }
+                        AssignmentNote = "#<user> note" }
                 } },
                 { 222, new List<MatchAssignment> {
                     new() { AssignmentType = 1, BetTypeName = Bettype.FTHDP, UserId = 2228, Username="tr", Nickname="abc" }

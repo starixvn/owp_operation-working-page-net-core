@@ -24,7 +24,7 @@ public class TraderAssignmentBuilderUnitTests
     }
 
     [Fact]
-    public async Task BuildTraderAssignmentSender_OwpmatchId_TraderAssignment_Has_Full_Bettype_ReturnTraderInfoFullBettype()
+    public async Task BuildTraderAssignmentSender_OwpMatchId_TraderAssignment_Has_Full_Bettype_ReturnTraderInfoFullBettype()
     {
         var matchId = 123;
         var traders = new List<TraderAssignment>
@@ -69,7 +69,7 @@ public class TraderAssignmentBuilderUnitTests
     }
 
     [Fact]
-    public async Task BuildTraderAssignmentSender_OwpmatchId_TraderAssignment_NotFound_Bettype_ReturnTraderDefault()
+    public async Task BuildTraderAssignmentSender_OwpMatchId_TraderAssignment_NotFound_Bettype_ReturnTraderDefault()
     {
         var matchId = 123;
 

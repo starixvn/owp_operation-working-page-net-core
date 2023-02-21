@@ -10,15 +10,15 @@ public static class InfoSiteHelper
            string.Equals(infoSiteMatch.HomeName, owpMatch.Home, StringComparison.CurrentCultureIgnoreCase) &&
            string.Equals(infoSiteMatch.AwayName, owpMatch.Away, StringComparison.CurrentCultureIgnoreCase);
 
-    public static bool IsSameLeagueHomeAwayKOtime(AssignmentModel owpMatch, InfositeMatch infoSiteMatch)
+    public static bool IsSameLeagueHomeAwayKoTime(AssignmentModel owpMatch, InfositeMatch infoSiteMatch)
         => IsSameLeagueHomeAway(owpMatch, infoSiteMatch) &&
            owpMatch.EventDate.Add(owpMatch.KickOffTime) == infoSiteMatch.EventDateTime;
 
     public static List<AssignmentModel> GetMainMatch(List<AssignmentModel> owpMatch)
         => owpMatch.Where(a => string.IsNullOrWhiteSpace(a.ParentHashKey)).ToList();
 
-    public static List<AssignmentModel> GetMinorMatch(List<AssignmentModel> owpmatch)
-        => owpmatch.Where(a => !string.IsNullOrWhiteSpace(a.ParentHashKey)).ToList();
+    public static List<AssignmentModel> GetMinorMatch(List<AssignmentModel> owpMatch)
+        => owpMatch.Where(a => !string.IsNullOrWhiteSpace(a.ParentHashKey)).ToList();
 
     public static List<AssignmentModel> GetMainMatchNotExistsInfoSiteId(List<AssignmentModel> owpMatch)
         => owpMatch.Where(a => a.InfoSiteMatchId <= 0).ToList();

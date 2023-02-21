@@ -22,7 +22,7 @@ public class MatchSettingBuilderUnitTests
     }
 
     [Fact]
-    public void Build_MinorMatchNoofConner_ReturnExpect()
+    public void Build_MinorMatchNoOfConner_ReturnExpect()
     {
         var matchSettings = MockMinorMatchSetting();
         var expected = new MatchSettingModel

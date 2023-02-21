@@ -52,7 +52,7 @@ public class AssignmentValidatorUnitTests
                     League = "NBA",
                     Sport = "Basketball",
                     TraderBadmintonAllProductPointWinner = "starix3",
-                    OtherTraderBadmintonRacetoPoints7911 = "#starix3"
+                    OtherTraderBadmintonRaceToPoints7911 = "#starix3"
                 }
             }
         };
@@ -79,7 +79,7 @@ public class AssignmentValidatorUnitTests
             League = "NBA",
             Sport = "Basketball",
             TraderBadmintonAllProductPointWinner = "starix3",
-            OtherTraderBadmintonRacetoPoints7911 = "#starix3"
+            OtherTraderBadmintonRaceToPoints7911 = "#starix3"
         };
         assignmentValidator.ValidateMatchNo(assignmentModelInExcel, actual);
         Assert.Empty(actual);
@@ -97,7 +97,7 @@ public class AssignmentValidatorUnitTests
             League = "NBA",
             Sport = "Basketball",
             TraderBadmintonAllProductPointWinner = "starix3",
-            OtherTraderBadmintonRacetoPoints7911 = "#starix3"
+            OtherTraderBadmintonRaceToPoints7911 = "#starix3"
         };
         var expected = new List<ValidationResult>
         {
@@ -108,7 +108,7 @@ public class AssignmentValidatorUnitTests
     }
 
     [Fact]
-    public void ValidateInvalidTraders_ValidTrader_ResulstIsEmpty()
+    public void ValidateInvalidTraders_ValidTrader_ResultIsEmpty()
     {
         var actual = new List<ValidationResult>();
         var invalidTrader = new List<Trader> {
@@ -140,7 +140,7 @@ public class AssignmentValidatorUnitTests
     }
 
     [Fact]
-    public void ValidateMaxbet_ValidMaxbet_ResulstIsEmpt()
+    public void ValidateMaxbet_ValidMaxbet_ResultsIsEmpty()
     {
         var actual = new List<ValidationResult>();
         var assignmentModelList = new List<AssignmentModelInExcel>
@@ -155,7 +155,7 @@ public class AssignmentValidatorUnitTests
     }
 
     [Fact]
-    public void ValidateMaxbet_InValidMaxbetAndSpread_ResulstIsEmpt()
+    public void ValidateMaxbet_InValidMaxbetAndSpread_ResultsIsEmpty()
     {
         var actual = new List<ValidationResult>();
         var assignmentModelList = new List<AssignmentModelInExcel>
@@ -361,12 +361,12 @@ public class AssignmentValidatorUnitTests
                 TraderBaseball1H1st5inningsOU = "Carlos",
                 TraderBaseballInningHitsRuns = "Jacob",
                 TraderBasketball1HOUOE = "Mira",
-                TraderBadmintonRacetoPoints7911 = "Jacob",
+                TraderBadmintonRaceToPoints7911 = "Jacob",
                 TraderBasketball1Q3QHDP = "#Tyler",
                 TraderBasketballFTHDP = "#Tyler",
                 OtherTraderBadmintonAllProductSetWinner = "#Lita",
                 OtherTraderBaseball1H1st5inningsHDP = "#Tyler",
-                OtherTraderBadmintonRacetoPoints7911 = "#Carlos",
+                OtherTraderBadmintonRaceToPoints7911 = "#Carlos",
                 OtherTraderBaseball1H1st5inningsOU = "#Carlos",
                 OtherTraderBasketball1HOUOE = "#Esther",
                 OtherTraderBasketballFTOUOE = "#Jack",
@@ -437,7 +437,7 @@ public class AssignmentValidatorUnitTests
                 MaxBetBaseballInningHitsRuns = "",
                 MaxBetBadmintonAllProductSetWinner = "",
                 MaxBetBadmintonAllProductPointWinner = "",
-                MaxBetBadmintonRacetoPoints7911 = "",
+                MaxBetBadmintonRaceToPoints7911 = "",
                 MaxBetBadmintonNextPointWinner = "",
                 MaxBetBadmintonMatchHandicap = "",
                 MaxBetTennisAllProductLS = "",
@@ -508,7 +508,7 @@ public class AssignmentValidatorUnitTests
                 SpreadBaseballInningHitsRuns = "",
                 SpreadBadmintonAllProductSetWinner = "",
                 SpreadBadmintonAllProductPointWinner = "",
-                SpreadBadmintonRacetoPoints7911 = "",
+                SpreadBadmintonRaceToPoints7911 = "",
                 SpreadBadmintonNextPointWinner = "",
                 SpreadBadmintonMatchHandicap = "",
                 SpreadTennisAllProductLS = "",
@@ -539,12 +539,12 @@ public class AssignmentValidatorUnitTests
             TraderBaseball1H1st5inningsOU = "Carlos",
             TraderBaseballInningHitsRuns = "Jacob",
             TraderBasketball1HOUOE = "Mira",
-            TraderBadmintonRacetoPoints7911 = "Jacob",
+            TraderBadmintonRaceToPoints7911 = "Jacob",
             TraderBasketball1Q3QHDP = "#Tyler",
             TraderBasketballFTHDP = "#Tyler",
             OtherTraderBadmintonAllProductSetWinner = "#Lita",
             OtherTraderBaseball1H1st5inningsHDP = "#Tyler",
-            OtherTraderBadmintonRacetoPoints7911 = "#Carlos",
+            OtherTraderBadmintonRaceToPoints7911 = "#Carlos",
             OtherTraderBaseball1H1st5inningsOU = "#Carlos",
             OtherTraderBasketball1HOUOE = "#Esther",
             OtherTraderBasketballFTOUOE = "#Jack",
@@ -615,7 +615,7 @@ public class AssignmentValidatorUnitTests
             MaxBetBaseballInningHitsRuns = "",
             MaxBetBadmintonAllProductSetWinner = "",
             MaxBetBadmintonAllProductPointWinner = "",
-            MaxBetBadmintonRacetoPoints7911 = "",
+            MaxBetBadmintonRaceToPoints7911 = "",
             MaxBetBadmintonNextPointWinner = "",
             MaxBetBadmintonMatchHandicap = "",
             MaxBetTennisAllProductLS = "",
@@ -686,7 +686,7 @@ public class AssignmentValidatorUnitTests
             SpreadBaseballInningHitsRuns = "",
             SpreadBadmintonAllProductSetWinner = "",
             SpreadBadmintonAllProductPointWinner = "",
-            SpreadBadmintonRacetoPoints7911 = "",
+            SpreadBadmintonRaceToPoints7911 = "",
             SpreadBadmintonNextPointWinner = "",
             SpreadBadmintonMatchHandicap = "",
             SpreadTennisAllProductLS = "",

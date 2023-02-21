@@ -1,4 +1,4 @@
-namespace OWP.AssignmentUpload.Validation.Anotations;
+namespace OWP.AssignmentUpload.Validation.Annotations;
 
 using System.ComponentModel.DataAnnotations;
 

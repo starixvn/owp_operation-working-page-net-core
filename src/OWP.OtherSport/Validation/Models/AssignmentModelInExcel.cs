@@ -406,7 +406,7 @@ public class AssignmentModelInExcel
     [Display(Name = "Trader Badminton Race to Points (7, 9, 11)")]
     [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
     [RegularExpression(@"^[^,]*$", ErrorMessage = "[Column: {0}] - Error: Trader name must not contain character ','")]
-    public string TraderBadmintonRacetoPoints7911 { get; set; }
+    public string TraderBadmintonRaceToPoints7911 { get; set; }
 
     [Display(Name = "Trader Badminton Next Point Winner")]
     [StringLength(EventUploadingPropertyMaxLength.Trader, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
@@ -619,7 +619,7 @@ public class AssignmentModelInExcel
     public string OtherTraderBadmintonAllProductPointWinner { get; set; }
 
     [Display(Name = "Other Trader Badminton Race to Points (7, 9, 11)")]
-    public string OtherTraderBadmintonRacetoPoints7911 { get; set; }
+    public string OtherTraderBadmintonRaceToPoints7911 { get; set; }
 
     [Display(Name = "Other Trader Badminton Next Point Winner")]
     public string OtherTraderBadmintonNextPointWinner { get; set; }
@@ -832,7 +832,7 @@ public class AssignmentModelInExcel
     public string MaxBetBadmintonAllProductPointWinner { get; set; }
 
     [Display(Name = "Max Bet Badminton Race to Points (7, 9, 11)")]
-    public string MaxBetBadmintonRacetoPoints7911 { get; set; }
+    public string MaxBetBadmintonRaceToPoints7911 { get; set; }
 
     [Display(Name = "Max Bet Badminton Next Point Winner")]
     public string MaxBetBadmintonNextPointWinner { get; set; }
@@ -1045,7 +1045,7 @@ public class AssignmentModelInExcel
     public string SpreadBadmintonAllProductPointWinner { get; set; }
 
     [Display(Name = "Spread Badminton Race to Points (7, 9, 11)")]
-    public string SpreadBadmintonRacetoPoints7911 { get; set; }
+    public string SpreadBadmintonRaceToPoints7911 { get; set; }
 
     [Display(Name = "Spread Badminton Next Point Winner")]
     public string SpreadBadmintonNextPointWinner { get; set; }

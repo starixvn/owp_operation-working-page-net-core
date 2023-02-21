@@ -139,12 +139,12 @@ public class CommandRepositoryImp : CommandRepository
 
     public async Task InsertOrUpdateMatchAssignments(List<AssignmentModel> assignments, bool isUploadFMAndAIO, string matchIds)
     {
-        var matchAssigments = assignments.Select(a => assignmentAnalyzer.GetAssignmentOfMatch(a))
+        var matchAssignments = assignments.Select(a => assignmentAnalyzer.GetAssignmentOfMatch(a))
             .SelectMany(a => a);
 
         var command = new InsertOrUpdateMatchAssignmentsCommand
         {
-            MatchAssignments = XmlConverter.Serialize(matchAssigments),
+            MatchAssignments = XmlConverter.Serialize(matchAssignments),
             IsUploadFMAndAIO = isUploadFMAndAIO,
             MatchIds = matchIds
         };

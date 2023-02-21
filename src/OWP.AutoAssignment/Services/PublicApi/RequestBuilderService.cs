@@ -95,10 +95,10 @@ public class RequestBuilderImp : RequestBuilder
             Traders = traderInfos
         };
 
-    private async Task SaveEventSender(RequestModel requestModel, IList<RealMatchSender> realMatchs, IList<SabaMatchSender> sabaMatchs)
+    private async Task SaveEventSender(RequestModel requestModel, IList<RealMatchSender> realMatches, IList<SabaMatchSender> sabaMatches)
     {
         var events = new List<AutoAssignmentHistory>();
-        var realHistory = realMatchs.Select(i => new AutoAssignmentHistory
+        var realHistory = realMatches.Select(i => new AutoAssignmentHistory
         {
             InfoSiteMatchId = i.MatchId,
             LeagueSettingId = i.LeagueSettingId,
@@ -107,7 +107,7 @@ public class RequestBuilderImp : RequestBuilder
             MaxBetNextCorner = i.MaxBetNextCorner,
             MaxBetNoOfCorner = i.MaxBetNoOfCorner
         });
-        var sabaHistory = sabaMatchs.Select(x => new AutoAssignmentHistory
+        var sabaHistory = sabaMatches.Select(x => new AutoAssignmentHistory
         {
             InfoSiteMatchId = x.MatchId,
             MaxBetFTHDP = x.MaxBet,

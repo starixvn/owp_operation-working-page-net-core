@@ -61,7 +61,7 @@ public class InfositeMappingServiceImp : InfositeMappingService
         foreach (var match in owpMatch)
         {
             var infoSiteMatch = match.IsSaba
-                ? infositeMatches.FirstOrDefault(infoSite => InfoSiteHelper.IsSameLeagueHomeAwayKOtime(match, infoSite))
+                ? infositeMatches.FirstOrDefault(infoSite => InfoSiteHelper.IsSameLeagueHomeAwayKoTime(match, infoSite))
                 : infositeMatches.FirstOrDefault(infoSite => InfoSiteHelper.IsSameLeagueHomeAway(match, infoSite));
 
             if (infoSiteMatch != null)

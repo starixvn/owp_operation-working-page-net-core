@@ -48,7 +48,7 @@ public class ExportMiscMatchHandler : IRequestHandler<ExportMiscMatchRequest, Fi
         fileStream.Position = 0;
         const string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
         var fileStreamResult = new FileStreamResult(fileStream, contentType);
-        fileStreamResult.FileDownloadName = $"Event Picking-{request.Date.ToString("yyyy-MM-dd")}.xlsx";
+        fileStreamResult.FileDownloadName = $"Event Picking-{request.Date:yyyy-MM-dd}.xlsx";
 
         return fileStreamResult;
     }

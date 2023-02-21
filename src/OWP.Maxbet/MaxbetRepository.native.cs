@@ -52,12 +52,12 @@ public class MaxbetRepositoryImp : MaxbetRepository
             OwpMatchId = owpMatchId
         };
         var (firstResultSet, secondResultSet) = await dynamicRepository.FetchMultipleAsync<SpreadModel, LeagueGroup>(criteria);
-        var valueTupple = new ValueTuple<IEnumerable<SpreadModel>, IEnumerable<LeagueGroup>>
+        var valueTuple = new ValueTuple<IEnumerable<SpreadModel>, IEnumerable<LeagueGroup>>
         {
             Item1 = firstResultSet,
             Item2 = secondResultSet
         };
-        return valueTupple;
+        return valueTuple;
     }
 
     public async Task<List<TraderAssignment>> GetTradersByOwpMatchId(int owpMatchId)
@@ -123,12 +123,12 @@ public class MaxbetRepositoryImp : MaxbetRepository
             OwpMatchId = owpMatchId
         };
         var (firstResultSet, secondResultSet) = await dynamicRepository.FetchMultipleAsync<SpreadModel, LeagueGroup>(criteria);
-        var valueTupple = new ValueTuple<IEnumerable<SpreadModel>, IEnumerable<LeagueGroup>>
+        var valueTuple = new ValueTuple<IEnumerable<SpreadModel>, IEnumerable<LeagueGroup>>
         {
             Item1 = firstResultSet,
             Item2 = secondResultSet
         };
-        return valueTupple;
+        return valueTuple;
     }
 
     public async Task<MatchInfo> GetMatchInfoByAdminSiteId(int adminSiteId)

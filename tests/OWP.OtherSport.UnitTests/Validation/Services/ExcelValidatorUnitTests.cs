@@ -98,7 +98,7 @@ public class ExcelValidatorUnitTests
         worksheet.Cells[2, 9].Value = "3HDP";
         worksheet.Cells[2, 10].Value = "15s Accept";
         worksheet.Cells[2, 11].Value = "YES";
-        worksheet.Cells[2, 12].Value = "TV/BGTV/Glive53";
+        worksheet.Cells[2, 12].Value = "TV/BGTV/Live53";
         worksheet.Cells[2, 13].Value = "BGtv/RB2tv/BETtv/";
         worksheet.Cells[2, 14].Value = "InPlay";
         worksheet.Cells[2, 15].Value = "Euro40";

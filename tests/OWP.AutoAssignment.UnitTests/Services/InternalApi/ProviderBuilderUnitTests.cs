@@ -28,9 +28,9 @@ public class ProviderBuilderUnitTests
         };
         IList<AutoAssignmentResultModel> autoAssignModels = new List<AutoAssignmentResultModel>
         {
-            new (){InfoSiteMatchId = 1,IsSaba = false,IsFutsal = true,PcCode = "hihi"},
-            new (){InfoSiteMatchId = 2,IsSaba = false,IsFutsal = false,PcCode = "hehe"},
-            new() {InfoSiteMatchId = 3, IsSaba = false,IsFutsal = false,PcCode = "hoho"}
+            new (){InfoSiteMatchId = 1,IsSaba = false,IsFutsal = true,PcCode = "code1"},
+            new (){InfoSiteMatchId = 2,IsSaba = false,IsFutsal = false,PcCode = "code2"},
+            new() {InfoSiteMatchId = 3, IsSaba = false,IsFutsal = false,PcCode = "code3"}
         };
 
         var requestId = "ten ten";
@@ -77,7 +77,7 @@ public class ProviderBuilderUnitTests
             {
                 InfoSiteMatchId = 1,
                 OtherProvider = "TV/BGTV/RB2TV/BETTV/RTSTV",
-                Provider = "TV/BGTV/(WOO)/hihi"
+                Provider = "TV/BGTV/(WOO)/code1"
             },
             new ExportMatchModel
             {

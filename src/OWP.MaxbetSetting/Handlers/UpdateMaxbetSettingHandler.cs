@@ -12,12 +12,12 @@ public class UpdateMaxbetSettingRequest : IRequest<Unit>
     public decimal? Value { get; set; }
 }
 
-public class UpdateMaxbetSettingHanler : IRequestHandler<UpdateMaxbetSettingRequest, Unit>
+public class UpdateMaxbetSettingHandler : IRequestHandler<UpdateMaxbetSettingRequest, Unit>
 {
     private readonly IDynamicRepository dynamicRepository;
     private readonly INapSession session;
 
-    public UpdateMaxbetSettingHanler(IDynamicRepository dynamicRepository, INapSession session)
+    public UpdateMaxbetSettingHandler(IDynamicRepository dynamicRepository, INapSession session)
     {
         this.dynamicRepository = dynamicRepository;
         this.session = session;

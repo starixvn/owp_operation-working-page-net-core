@@ -11,7 +11,7 @@ using Xunit.Asserts.Compare;
 public class GetReportByYearHandlerUnitTests
 {
     [Fact]
-    public async Task Handle_WithCorrectReuestModel_ReturnData()
+    public async Task Handle_WithCorrectRequestModel_ReturnData()
     {
         var config = new MapperConfiguration(cfg =>
         {

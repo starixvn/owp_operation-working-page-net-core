@@ -18,13 +18,13 @@ public class SabaMatchServiceUnitTests
     [Fact]
     public async Task BuildSabaMatch_Always_ReturnListSaBaMatch()
     {
-        var matchsQueried = MockListMatchsQueried();
+        var matchQueries = MockListMatchQueries();
         repository.GetSabaMatchCommonInfoByIds(Arg.Compat.Any<List<int>>())
             .Returns(MockListSabaMatchInfo());
         var expected = GetExpected();
         var service = new SabaMatchServiceImp(repository);
 
-        var actual = await service.BuildSabaMatchInfo(matchsQueried);
+        var actual = await service.BuildSabaMatchInfo(matchQueries);
 
         DeepAssert.Equal(expected, actual);
     }
@@ -66,7 +66,7 @@ public class SabaMatchServiceUnitTests
             }
         };
 
-    public List<MatchQueried> MockListMatchsQueried()
+    public List<MatchQueried> MockListMatchQueries()
         => new()
         {
             new MatchQueried

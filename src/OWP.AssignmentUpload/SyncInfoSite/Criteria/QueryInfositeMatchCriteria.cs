@@ -1,4 +1,4 @@
-﻿namespace OWP.InfositeIdSync.Criteria;
+﻿namespace OWP.AssignmentUpload.SyncInfoSite.Criteria;
 
 using Fanex.Data.Repository;
 

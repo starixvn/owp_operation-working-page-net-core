@@ -35,7 +35,7 @@ public class RepositoryUnitTests
         var queryModel = new QueryModel { OWPMatchId = 22 };
         var matchNotes = new List<MatchNoteModel>
         {
-            new() { MatchNoteId = 1, Username = "sa", Note="ahihi" }
+            new() { MatchNoteId = 1, Username = "sa", Note="note" }
         };
 
         dynamicRepository.FetchAsync<MatchNoteModel>(Arg.Compat.Any<QueryCriteria>()).Returns(matchNotes);
@@ -55,7 +55,7 @@ public class RepositoryUnitTests
         var model = new CreateModel
         {
             OWPMatchId = 1,
-            Note = "ahihi"
+            Note = "note"
         };
         const int commandResult = 0;
         var sessionId = string.Empty;
@@ -93,7 +93,7 @@ public class RepositoryUnitTests
         var model = new UpdateModel
         {
             MatchNoteId = 1,
-            Note = "ahihi"
+            Note = "note"
         };
         const int commandResult = 0;
         var sessionId = string.Empty;

@@ -44,7 +44,7 @@ public class ExportExcelServiceUnitTests
         var reportSheet = actual.Workbook.Worksheets[ExcelConst.SheetName];
 
         DeepAssert.Equal(reportSheet.Cells[3, 19].Value, "sa");
-        DeepAssert.Equal(reportSheet.Cells[3, 83].Value, "#starix15 mynote");
+        DeepAssert.Equal(reportSheet.Cells[3, 83].Value, "#starix15 note");
         DeepAssert.Equal(reportSheet.Cells[3, 145].Value, "1234");
         DeepAssert.Equal(reportSheet.Cells[3, 146].Value, "222.05");
     }
@@ -72,8 +72,8 @@ public class ExportExcelServiceUnitTests
                     { 111, new List<ExcelMatchAssignment> {
                         new() { ColumnIndex=19,Value="sa", AssignmentType = 1, BetTypeName = Bettype.FTHDP, UserId = 8, Username="sa" },
                         new()
-                        { ColumnIndex=83,Value="#starix15 mynote", AssignmentType = 2, BetTypeName = Bettype.FirstHHDP,
-                            UserId = 123, Username="starix15", AssignmentNote = "#<user> mynote" }
+                        { ColumnIndex=83,Value="#starix15 note", AssignmentType = 2, BetTypeName = Bettype.FirstHHDP,
+                            UserId = 123, Username="starix15", AssignmentNote = "#<user> note" }
                     } }
                 },
                 MaxBetSpread = new Dictionary<int, List<ExcelMatchMaxBetSpread>>
