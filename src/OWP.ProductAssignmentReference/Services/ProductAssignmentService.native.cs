@@ -163,10 +163,6 @@ public class ProductAssignmentServiceImp : ProductAssignmentService
         var mainBettypeOptionDefault = await repository.GetMainBettypeBySectionId(null);
         var mainBettypeOptionLiveTrading = await repository.GetMainBettypeBySectionId(SectionLiveTrading);
         var mainBettypeOptionLiveAssistant = await repository.GetMainBettypeBySectionId(SectionLiveAssistantPh);
-        AddEmptyOption(mainBettypeOptionDefault);
-        AddEmptyOption(mainBettypeOptionLiveTrading);
-        AddEmptyOption(mainBettypeOptionLiveAssistant);
-
         return new
         {
             mainBettypeOptionDefault,
