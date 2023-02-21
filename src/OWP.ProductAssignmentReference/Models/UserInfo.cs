@@ -1,5 +1,4 @@
-﻿using OWP.Models;
-using OWP.ProductAssignmentReference.Models;
+﻿namespace OWP.ProductAssignmentReference.Models;
 
 public class UserInfo
 {

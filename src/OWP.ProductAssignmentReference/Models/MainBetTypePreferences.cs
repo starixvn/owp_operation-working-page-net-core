@@ -1,9 +1,8 @@
-﻿namespace OWP.ProductAssignmentReference.Models
-{
-    public class MainBetTypePreferences
-    {
-        public string Label { get; set; }
+﻿namespace OWP.ProductAssignmentReference.Models;
 
-        public int Value { get; set; }
-    }
+public class MainBetTypePreferences
+{
+    public string Label { get; set; }
+
+    public int Value { get; set; }
 }

@@ -1,13 +1,12 @@
-namespace OWP.ProductAssignmentReference.Criteria
+namespace OWP.ProductAssignmentReference.Criteria;
+
+using Fanex.Data.Repository;
+
+public class GetMainBettypeBySectionIdCriteria : CriteriaBase
 {
-    using Fanex.Data.Repository;
+    public int? SectionId { get; set; }
 
-    public class GetMainBettypeBySectionIdCriteria : CriteriaBase
-    {
-        public int? SectionId { get; set; }
+    public override bool IsValid() => true;
 
-        public override bool IsValid() => true;
-
-        public override string GetSettingKey() => "OWP_RefResource_GetMainBettypeBySectionId";
-    }
+    public override string GetSettingKey() => "OWP_RefResource_GetMainBettypeBySectionId";
 }

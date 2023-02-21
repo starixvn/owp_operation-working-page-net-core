@@ -3,8 +3,8 @@
 using Criteria;
 using Fanex.Data.Repository;
 using Fanex.NAP.Client.Configuration;
+using Models;
 using OWP.Models;
-using OWP.ProductAssignmentReference.Models;
 
 public interface ProductAssignmentRepository
 {
@@ -38,7 +38,7 @@ public class ProductAssignmentRepositoryImp : ProductAssignmentRepository
             User = queryInfo.User,
             SectionId = queryInfo.SectionId,
             LocationId = queryInfo.LocationId,
-            SiteId = napSettings.SiteId,
+            SiteId = napSettings.SiteId
 
         };
         return (await dynamicRepository.FetchAsync<UserInfo>(criteria)).ToList();

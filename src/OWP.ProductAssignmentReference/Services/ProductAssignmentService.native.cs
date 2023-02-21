@@ -6,8 +6,6 @@ using Newtonsoft.Json;
 using OWP.Models;
 using OWP.Services;
 
-    using System.Collections.Immutable;
-
 public interface ProductAssignmentService
 {
     Task<IList<UserInfo>> QueryUser(QueryUserInfo queryInfo);
@@ -16,39 +14,37 @@ public interface ProductAssignmentService
 
     Task<LastUpdateInfo> GetLastUpdate();
 
-        Task<object> GetDropdownOption();
+    Task<object> GetDropdownOption();
 }
 
 public class ProductAssignmentServiceImp : ProductAssignmentService
 {
-    private const string KEY_ASSIGNMENT_CONFIGURATION = "OWP-assignment-configuration";
-    private const int CACHE_EXPIRED_IN_DAYS = 36500;
+    private const string KeyAssignmentConfiguration = "OWP-assignment-configuration";
+    private const int CacheExpiredInDays = 36500;
     private readonly ICache cache;
     private readonly ProductAssignmentRepository repository;
-        private readonly RefResourceService refResourceService;
+    private readonly RefResourceService refResourceService;
 
-        public const string USER_ROLE = "UserRole";
-        public const string SECTION = "Section";
-        public const string LOCATION = "LocationCode";
-        public const string LEVEL = "UserLevel";
-        public const string MAIN_BETTYPE = "BetTypePreferences";
-        public const string MAX_MULTIPLE_GAME = "MultipleGames";
-        public const int SECTION_LIVE_ASSISTANT_VN = 2;
-        public const int SECTION_LIVE_ASSISTANT_PH = 30;
-        public const int SECTION_LIVE_TRADING = 3;
-        public const int LOCATION_CTI = 2;
-        public const int LOCATION_SMS = 1;
+    public const string UserRole = "UserRole";
+    public const string Section = "Section";
+    public const string Location = "LocationCode";
+    public const string MaxMultipleGame = "MultipleGames";
+    public const int SectionLiveAssistantVn = 2;
+    public const int SectionLiveAssistantPh = 30;
+    public const int SectionLiveTrading = 3;
+    public const int LocationCti = 2;
+    public const int LocationSms = 1;
 
-        public readonly int[] sectionId = new int[] {
-            SECTION_LIVE_ASSISTANT_VN,
-            SECTION_LIVE_ASSISTANT_PH,
-            SECTION_LIVE_TRADING
-            };
+    public readonly int[] SectionId = {
+        SectionLiveAssistantVn,
+        SectionLiveAssistantPh,
+        SectionLiveTrading
+    };
 
-        public readonly int[] locationId = new int[] {
-            LOCATION_CTI,
-            LOCATION_SMS
-            };
+    public readonly int[] LocationId = {
+        LocationCti,
+        LocationSms
+    };
 
     public ProductAssignmentServiceImp(
         ProductAssignmentRepository repository,
@@ -57,13 +53,12 @@ public class ProductAssignmentServiceImp : ProductAssignmentService
     {
         this.repository = repository;
         this.cache = cache;
-            this.refResourceService = refResourceService;
+        this.refResourceService = refResourceService;
     }
 
     public async Task<LastUpdateInfo> GetLastUpdate()
     {
-        var cacheKey = KEY_ASSIGNMENT_CONFIGURATION;
-        var (_, value) = await cache.TryGetAsync<string>(cacheKey);
+        var (_, value) = await cache.TryGetAsync<string>(KeyAssignmentConfiguration);
 
         var assignments = string.IsNullOrEmpty(value)
             ? new LastUpdateInfo()
@@ -72,115 +67,111 @@ public class ProductAssignmentServiceImp : ProductAssignmentService
         return assignments;
     }
 
-        public async Task<object> GetDropdownOption()
+    public async Task<object> GetDropdownOption()
+    {
+        var allResource = await refResourceService.GetAllReferenceResource();
+        var roleOption = allResource.Where(r => string.Equals(r.Name, UserRole)).ToList();
+        var sectionOption = allResource.Where(r => string.Equals(r.Name, Section) && SectionId.Any(id => id == r.ResourceId));
+        var locationOption = allResource.Where(r => string.Equals(r.Name, Location) && LocationId.Any(id => id == r.ResourceId));
+        var levelOption = await BuildLevelBySectionId();
+        var mainBettypeOption = await BuildMainBettypeBySectionId();
+        var multipleMaxGamesOption = allResource.Where(r => string.Equals(r.Name, MaxMultipleGame)).ToList();
+        AddEmptyOption(roleOption);
+        AddEmptyOption(multipleMaxGamesOption);
+        return new
         {
-            var allResource = await refResourceService.GetAllReferenceResource(); ;
-            var roleOption = allResource.Where(r => string.Equals(r.Name, USER_ROLE)).ToList();
-            var sectionOption = allResource.Where(r => string.Equals(r.Name, SECTION) && sectionId.Any(id => id == r.ResourceId));
-            var locationOption = allResource.Where(r => string.Equals(r.Name, LOCATION) && locationId.Any(id => id == r.ResourceId));
-            var levelOption = await BuildLevelBySectionId();
-            var mainBettypeOption = await BuildMainBettypeBySectionId();
-            var multipleMaxGamesOption = allResource.Where(r => string.Equals(r.Name, MAX_MULTIPLE_GAME)).ToList();
-            AddEmptyOption(roleOption);
-            AddEmptyOption(multipleMaxGamesOption);
-            return new
-            {
-                roleOption,
-                sectionOption,
-                locationOption,
-                levelOption,
-                mainBettypeOption,
-                multipleMaxGamesOption
-            };
+            roleOption,
+            sectionOption,
+            locationOption,
+            levelOption,
+            mainBettypeOption,
+            multipleMaxGamesOption
+        };
+    }
+
+    public async Task<IList<UserInfo>> QueryUser(QueryUserInfo queryInfo)
+    {
+        var infoUser = await repository.QueryUser(queryInfo);
+        foreach (var item in infoUser)
+        {
+            item.BetTypePreferencesValues = await BuildBetTypePreferencesValueBySection(item);
         }
 
+        return infoUser.ToList();
+    }
 
-
-
-        public async Task<IList<UserInfo>> QueryUser(QueryUserInfo queryInfo)
+    public async Task<List<MainBetTypePreferences>> BuildBetTypePreferencesValueBySection(UserInfo user)
+    {
+        var result = new List<MainBetTypePreferences>();
+        if (user.BetTypePreferencesId == null)
         {
-            var infoUser = await repository.QueryUser(queryInfo);
-            foreach (var item in infoUser)
-            {
-                item.BetTypePreferencesValues = await BuildBetTypePreferencesValueBySection(item);
-            }
-
-            return infoUser.ToList();
-        }
-
-        public async Task<List<MainBetTypePreferences>> BuildBetTypePreferencesValueBySection(UserInfo user)
-        {
-            var result = new List<MainBetTypePreferences>();
-            if (user.BetTypePreferencesId != null)
-            {
-                var levelOption = await repository.GetMainBettypeBySectionId(user.SectionId);
-                var betTypeArr = user.BetTypePreferencesId.Split(',').Select(x => int.Parse(x.Trim())).ToList();
-                result = levelOption.Where(item=>betTypeArr.Contains(item.ResourceId)).Select(x=> new MainBetTypePreferences()
-                {
-                    Label = x.Value,
-                    Value = x.ResourceId
-                }).ToList();
-            }
-
             return result;
         }
-
-        public async Task UpdateUserInfo(UserInfoEditor info)
+        var levelOption = await repository.GetMainBettypeBySectionId(user.SectionId);
+        var betTypeArr = user.BetTypePreferencesId.Split(',').Select(x => int.Parse(x.Trim())).ToList();
+        result = levelOption.Where(item => betTypeArr.Contains(item.ResourceId)).Select(x => new MainBetTypePreferences
         {
-            await repository.UpdateUserInfo(info);
-            await SaveLastUpdate(new LastUpdateInfo
-            {
-                Username = info.ActorName,
-                Date = DateTime.Now
-            });
-        }
+            Label = x.Value,
+            Value = x.ResourceId
+        }).ToList();
 
-        private async Task SaveLastUpdate(LastUpdateInfo info)
+        return result;
+    }
+
+    public async Task UpdateUserInfo(UserInfoEditor info)
+    {
+        await repository.UpdateUserInfo(info);
+        await SaveLastUpdate(new LastUpdateInfo
         {
-            var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromDays(CACHE_EXPIRED_IN_DAYS));
-            var assignmentSnapshotInJson = JsonConvert.SerializeObject(info);
-            var cacheKey = KEY_ASSIGNMENT_CONFIGURATION;
-            await cache.SetAsync(cacheKey, assignmentSnapshotInJson, cachePolicy);
-        }
+            Username = info.ActorName,
+            Date = DateTime.Now
+        });
+    }
 
-        private async Task<object> BuildLevelBySectionId()
+    private async Task SaveLastUpdate(LastUpdateInfo info)
+    {
+        var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromDays(CacheExpiredInDays));
+        var assignmentSnapshotInJson = JsonConvert.SerializeObject(info);
+        await cache.SetAsync(KeyAssignmentConfiguration, assignmentSnapshotInJson, cachePolicy);
+    }
+
+    private async Task<object> BuildLevelBySectionId()
+    {
+        var levelOptionDefault = await repository.GetLevelBySectionId(null);
+        var levelOptionLiveTrading = await repository.GetLevelBySectionId(SectionLiveTrading);
+        var levelOptionLiveAssistant = await repository.GetLevelBySectionId(SectionLiveAssistantPh);
+        AddEmptyOption(levelOptionDefault);
+        AddEmptyOption(levelOptionLiveTrading);
+        AddEmptyOption(levelOptionLiveAssistant);
+        return new
         {
-            var levelOptionDefault = await repository.GetLevelBySectionId(null);
-            var levelOptionLiveTrading = await repository.GetLevelBySectionId(SECTION_LIVE_TRADING);
-            var levelOptionLiveAssistant = await repository.GetLevelBySectionId(SECTION_LIVE_ASSISTANT_PH);
-            AddEmptyOption(levelOptionDefault);
-            AddEmptyOption(levelOptionLiveTrading);
-            AddEmptyOption(levelOptionLiveAssistant);
-            return new
-            {
-                levelOptionDefault,
-                levelOptionLiveTrading,
-                levelOptionLiveAssistant
-            };
-        }
+            levelOptionDefault,
+            levelOptionLiveTrading,
+            levelOptionLiveAssistant
+        };
+    }
 
-
-        private void AddEmptyOption(IList<ReferenceResource> options)
-            => options.Add(new()
+    private static void AddEmptyOption(ICollection<ReferenceResource> options)
+        => options.Add(new ReferenceResource
         {
-                ResourceId = 0,
-                Value = string.Empty
+            ResourceId = 0,
+            Value = string.Empty
         });
 
-        private async Task<object> BuildMainBettypeBySectionId()
+    private async Task<object> BuildMainBettypeBySectionId()
     {
-            var mainBettypeOptionDefault = await repository.GetMainBettypeBySectionId(null);
-            var mainBettypeOptionLiveTrading = await repository.GetMainBettypeBySectionId(SECTION_LIVE_TRADING);
-            var mainBettypeOptionLiveAssistant = await repository.GetMainBettypeBySectionId(SECTION_LIVE_ASSISTANT_PH);
-            AddEmptyOption(mainBettypeOptionDefault);
-            AddEmptyOption(mainBettypeOptionLiveTrading);
-            AddEmptyOption(mainBettypeOptionLiveAssistant);
+        var mainBettypeOptionDefault = await repository.GetMainBettypeBySectionId(null);
+        var mainBettypeOptionLiveTrading = await repository.GetMainBettypeBySectionId(SectionLiveTrading);
+        var mainBettypeOptionLiveAssistant = await repository.GetMainBettypeBySectionId(SectionLiveAssistantPh);
+        AddEmptyOption(mainBettypeOptionDefault);
+        AddEmptyOption(mainBettypeOptionLiveTrading);
+        AddEmptyOption(mainBettypeOptionLiveAssistant);
 
-            return new
-            {
-                mainBettypeOptionDefault,
-                mainBettypeOptionLiveTrading,
-                mainBettypeOptionLiveAssistant
-            };
+        return new
+        {
+            mainBettypeOptionDefault,
+            mainBettypeOptionLiveTrading,
+            mainBettypeOptionLiveAssistant
+        };
     }
 }
