@@ -70,17 +70,20 @@ public class PreMatchLeague
 
     public bool IsDeleted { get; set; }
 
-    public bool Equals(PreMatchLeague other)
+    public bool IsEquals(PreMatchLeague other)
     {
         if (other is null)
+        {
             return false;
+        }
 
-        return this.HDPHint == other.HDPHint &&
-        this.OUHint == other.OUHint &&
-        this.HDPTakeOverHint == other.HDPTakeOverHint &&
-        this.OUTakeOverHint == other.OUTakeOverHint;
+        return HDPHint == other.HDPHint &&
+        OUHint == other.OUHint &&
+        HDPTakeOverHint == other.HDPTakeOverHint &&
+        OUTakeOverHint == other.OUTakeOverHint;
     }
 
-    public override bool Equals(object obj) => Equals(obj as PreMatchLeague);
+    public override bool Equals(object obj) => IsEquals(obj as PreMatchLeague);
+
     public override int GetHashCode() => (HDPHint, OUHint, HDPTakeOverHint, OUTakeOverHint).GetHashCode();
 }

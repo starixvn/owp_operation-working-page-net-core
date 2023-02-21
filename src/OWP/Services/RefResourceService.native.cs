@@ -1,4 +1,5 @@
 ﻿using Fanex.Data.Repository;
+using OWP.Criteria;
 using OWP.Models;
 
 namespace OWP.Services;
@@ -6,6 +7,8 @@ namespace OWP.Services;
 public interface RefResourceService
 {
     Task<IEnumerable<ReferenceResource>> GetRefResourcesByName(string name);
+
+    Task<IList<ReferenceResource>> GetAllReferenceResource();
 }
 
 public class RefResourceServiceImp : RefResourceService
@@ -16,6 +19,9 @@ public class RefResourceServiceImp : RefResourceService
     {
         this.dynamicRepository = dynamicRepository;
     }
+
+    public async Task<IList<ReferenceResource>> GetAllReferenceResource()
+        => (await dynamicRepository.FetchAsync<ReferenceResource>(new GetAllRefResourceCriteria())).ToList();
 
     public async Task<IEnumerable<ReferenceResource>> GetRefResourcesByName(string refName)
         => await dynamicRepository.FetchAsync<ReferenceResource>(new GetRefResourceByNameCriteria { RefName = refName });

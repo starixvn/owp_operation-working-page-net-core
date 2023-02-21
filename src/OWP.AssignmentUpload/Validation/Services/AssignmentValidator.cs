@@ -8,6 +8,7 @@ namespace OWP.AssignmentUpload.Validation.Services
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.Globalization;
     using System.Linq;
     using System.Text.RegularExpressions;
 
@@ -163,13 +164,18 @@ namespace OWP.AssignmentUpload.Validation.Services
             }
         }
 
-        public List<ValidationResult> CustomValidateAssignment(AssignmentModelInExcel assignment, List<AssignmentModelInExcel> assignments, bool IsUploadFMAndAIO, List<Trader> traders, List<ReferenceResource> matchOffers)
+        public List<ValidationResult> CustomValidateAssignment(
+            AssignmentModelInExcel assignment,
+            List<AssignmentModelInExcel> assignments,
+            bool isUploadFmAndAio,
+            List<Trader> traders,
+            List<ReferenceResource> matchOffers)
         {
             var results = new List<ValidationResult>();
 
             ValidateTraders(assignment, results, traders);
             ValidateMatchOffers(assignment, matchOffers, results);
-            ValidateOtherAssignment(assignment, results, IsUploadFMAndAIO);
+            ValidateOtherAssignment(assignment, results, isUploadFmAndAio);
             ValidateDataAnotation(assignment, results);
             ValidateDuplicatedMatchNo(assignment, assignments, results);
             ValidateInvalidTime(assignment, results);
@@ -177,7 +183,7 @@ namespace OWP.AssignmentUpload.Validation.Services
             return results;
         }
 
-        public void ValidateOtherAssignment(AssignmentModelInExcel assignment, List<ValidationResult> results, bool IsUploadFMAndAIO)
+        public void ValidateOtherAssignment(AssignmentModelInExcel assignment, List<ValidationResult> results, bool isUploadFmAndAio)
         {
             var listTraderError = new List<string>
             {
@@ -188,7 +194,7 @@ namespace OWP.AssignmentUpload.Validation.Services
                 ValidateOtherAssignment(assignment.OtherTraders1HOU, assignment.Trader1HOUName, "1H O/U"),
                 ValidateOtherAssignment(assignment.OtherTraders1X2, assignment.Trader1X2Name, "1X2")
             };
-            if (IsUploadFMAndAIO)
+            if (isUploadFmAndAio)
             {
                 listTraderError.Add(ValidateOtherAssignment(assignment.OtherTradersAIO, assignment.TraderAIOName, "AIO"));
                 listTraderError.Add(ValidateOtherAssignment(assignment.OtherTradersFM, assignment.TraderFMName, "FM"));
@@ -242,8 +248,8 @@ namespace OWP.AssignmentUpload.Validation.Services
             var excelMatchOffers = assignment.MatchOffer
                 .Split(',')
                 .Where((x => !string.IsNullOrEmpty(x))).ToList();
-            var matchOfferValues = matchOffers.Select(y => y.Value.ToLower());
-            var isInValid = excelMatchOffers.Any(x => !matchOfferValues.Contains(x.Trim().ToLower()));
+            var matchOfferValues = matchOffers.Select(y => y.Value.ToLower(CultureInfo.InvariantCulture));
+            var isInValid = excelMatchOffers.Any(x => !matchOfferValues.Contains(x.Trim().ToLower(CultureInfo.InvariantCulture)));
 
             if (isInValid)
             {
