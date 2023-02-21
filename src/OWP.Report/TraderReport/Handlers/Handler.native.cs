@@ -1,10 +1,10 @@
-﻿namespace OWP.Report.TraderReport.Handlers;
+﻿using MediatR;
+using OWP.Constants;
+using OWP.Report.Models;
+using OWP.Report.TraderReport.Models;
+using OWP.Report.TraderReport.Services;
 
-using Constants;
-using MediatR;
-using Models;
-using Report.Models;
-using Services;
+namespace OWP.Report.TraderReport.Handlers;
 
 public class ReportRequest : QueryModel, IRequest<IEnumerable<ReportModel>>
 {

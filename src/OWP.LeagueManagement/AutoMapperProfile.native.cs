@@ -1,8 +1,8 @@
-namespace OWP.LeagueManagement;
-
 using AutoMapper;
-using Criteria;
-using Models;
+using OWP.LeagueManagement.Criteria;
+using OWP.LeagueManagement.Models;
+
+namespace OWP.LeagueManagement;
 
 public class AutoMapperProfile : Profile
 {

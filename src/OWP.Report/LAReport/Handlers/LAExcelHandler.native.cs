@@ -1,13 +1,13 @@
-﻿namespace OWP.Report.LAReport.Handlers;
-
-using AutoMapper;
+﻿using AutoMapper;
 using Fanex.NAP.Client.Helpers.Web;
 using MediatR;
-using Models;
 using OfficeOpenXml;
+using OWP.Report.LAReport.Models;
+using OWP.Report.LAReport.Services;
+using OWP.Report.Models;
 using OWP.Services;
-using Report.Models;
-using Services;
+
+namespace OWP.Report.LAReport.Handlers;
 
 public class LAExcelRequest : IRequest<ExcelPackage>
 {

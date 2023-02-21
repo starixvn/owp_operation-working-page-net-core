@@ -1,10 +1,10 @@
-namespace OWP.EventPicking.Services;
+using OWP.Constants;
+using OWP.EventPicking.Models;
+using OWP.Extensions;
+using OWP.MaxbetSetting.Models;
+using OWP.Utils;
 
-using Constants;
-using Extensions;
-using MaxbetSetting.Models;
-using Models;
-using Utils;
+namespace OWP.EventPicking.Services;
 
 public interface BuildChildMatchMaxBet
 {

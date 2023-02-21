@@ -1,9 +1,9 @@
-﻿namespace OWP.OSLeagueSetting.UnitTests.Helper;
-
-using Models;
-using OSLeagueSetting.Helper;
+﻿using OWP.OSLeagueSetting.Helper;
+using OWP.OSLeagueSetting.Models;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.OSLeagueSetting.UnitTests.Helper;
 
 public class OSLeagueSettingHelperUnitTests
 {

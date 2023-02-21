@@ -1,9 +1,9 @@
-﻿namespace OWP.Report.TraderReport.Services;
-
-using Constant;
-using Epplus.Mapper.Extensions;
-using Models;
+﻿using Epplus.Mapper.Extensions;
 using OfficeOpenXml;
+using OWP.Report.Constant;
+using OWP.Report.TraderReport.Models;
+
+namespace OWP.Report.TraderReport.Services;
 
 public interface ExportExcelService
 {

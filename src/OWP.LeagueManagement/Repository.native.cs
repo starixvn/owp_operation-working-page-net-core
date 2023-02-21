@@ -1,13 +1,10 @@
-namespace OWP.LeagueManagement;
-
 using AutoMapper;
-using Criteria;
 using Fanex.Data.Repository;
-using Models;
+using OWP.LeagueManagement.Criteria;
+using OWP.LeagueManagement.Models;
 using OWP.Models;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
+namespace OWP.LeagueManagement;
 
 public interface Repository
 {

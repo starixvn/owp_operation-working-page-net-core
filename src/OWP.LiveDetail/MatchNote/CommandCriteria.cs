@@ -1,6 +1,6 @@
-﻿namespace OWP.LiveDetail.MatchNote;
+﻿using System.Globalization;
 
-using System.Globalization;
+namespace OWP.LiveDetail.MatchNote;
 
 public abstract class CommandCriteria : Criteria.CommandCriteria
 {

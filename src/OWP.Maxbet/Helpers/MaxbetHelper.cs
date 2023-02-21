@@ -1,8 +1,9 @@
-﻿namespace OWP.Maxbet.Helpers;
+﻿using OWP.Enums;
+using OWP.Maxbet.Constants;
+using OWP.Maxbet.Models;
+using KeyValuePair = OWP.Maxbet.Models.KeyValuePair;
 
-using Constants;
-using Enums;
-using Models;
+namespace OWP.Maxbet.Helpers;
 
 public static class MaxbetHelper
 {
@@ -21,7 +22,7 @@ public static class MaxbetHelper
         spread.OverUnder = newValueOU;
     }
 
-        public static T FindOddByKey<T>(IList<T> odds, string key) where T : Models.KeyValuePair
+        public static T FindOddByKey<T>(IList<T> odds, string key) where T : KeyValuePair
         => odds?.FirstOrDefault(a => string.Equals(a.Key, key, StringComparison.OrdinalIgnoreCase));
 
     public static void UpdateMaxbetPEN(MaxbetSpread maxbet)

@@ -1,8 +1,8 @@
-﻿namespace OWP.LiveGameList.Builder;
+﻿using OWP.Enums;
+using OWP.LiveGameList.Enum;
+using OWP.LiveGameList.Models;
 
-using Enum;
-using Enums;
-using Models;
+namespace OWP.LiveGameList.Builder;
 
 public static class AssignmentBuilder
 {

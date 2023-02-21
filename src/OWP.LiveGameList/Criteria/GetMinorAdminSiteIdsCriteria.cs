@@ -1,6 +1,6 @@
-﻿namespace OWP.LiveGameList.Criteria;
+﻿using Fanex.Data.Repository;
 
-using Fanex.Data.Repository;
+namespace OWP.LiveGameList.Criteria;
 
 public class GetMinorAdminSiteIdsCriteria : CriteriaBase
 {

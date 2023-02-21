@@ -1,9 +1,9 @@
-﻿namespace OWP.Report.PreMatchReport.Handlers;
-
-using MediatR;
-using Models;
+﻿using MediatR;
 using OWP.Models;
-using Services;
+using OWP.Report.PreMatchReport.Models;
+using OWP.Report.PreMatchReport.Services;
+
+namespace OWP.Report.PreMatchReport.Handlers;
 
 public class ExportPreMatchReportRequest : IRequest<FileExport>
 {

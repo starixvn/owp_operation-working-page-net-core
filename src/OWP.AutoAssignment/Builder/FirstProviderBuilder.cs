@@ -1,6 +1,6 @@
-﻿namespace OWP.AutoAssignment.Builder;
+﻿using OWP.AutoAssignment.Constant;
 
-using Constant;
+namespace OWP.AutoAssignment.Builder;
 
 public static class FirstProviderBuilder
 {

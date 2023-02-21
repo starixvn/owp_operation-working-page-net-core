@@ -1,9 +1,8 @@
-﻿using OWP.PrematchAssignment.Models;
+﻿using MediatR;
+using OWP.PrematchAssignment.Models;
 using OWP.PrematchAssignment.Services;
 
 namespace OWP.PrematchAssignment.Handlers;
-
-using MediatR;
 
 public class QueryInfoMatchRequest : IRequest<InfoMatchQueried>
 {

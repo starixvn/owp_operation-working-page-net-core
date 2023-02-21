@@ -1,13 +1,13 @@
-﻿namespace OWP.LiveGameList.Services;
-
-using Builder;
-using Constants;
-using Criteria;
+﻿using System.Net;
 using Fanex.NAP.Client.Helpers.Web;
 using Fanex.NAP.Core.Business;
-using Models;
+using OWP.Constants;
+using OWP.LiveGameList.Builder;
+using OWP.LiveGameList.Criteria;
+using OWP.LiveGameList.Models;
 using OWP.Services;
-using System.Net;
+
+namespace OWP.LiveGameList.Services;
 
 public interface EventInformationService
 {

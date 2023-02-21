@@ -1,9 +1,8 @@
+using MediatR;
+using OWP.LeagueManagement.Models;
 using OWP.LeagueManagement.Services;
 
 namespace OWP.LeagueManagement.Handlers;
-
-using MediatR;
-using Models;
 
 public class UpdateSpecialProductRequest : IRequest<ProductInfo>
 {

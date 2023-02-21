@@ -1,8 +1,8 @@
-﻿namespace OWP.OtherSport.Download;
-
-using MediatR;
+﻿using MediatR;
 using OfficeOpenXml;
-using Services;
+using OWP.OtherSport.Download.Services;
+
+namespace OWP.OtherSport.Download;
 
 public class DownloadAssignmentRequest : IRequest<ExcelPackage>
 {

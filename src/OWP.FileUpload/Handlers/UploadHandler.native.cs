@@ -1,9 +1,9 @@
-﻿namespace OWP.FileUpload.Handlers;
-
-using Criteria;
-using Fanex.Data.Repository;
+﻿using Fanex.Data.Repository;
 using MediatR;
-using Models;
+using OWP.FileUpload.Criteria;
+using OWP.FileUpload.Models;
+
+namespace OWP.FileUpload.Handlers;
 
 public class UploadHandler
 {

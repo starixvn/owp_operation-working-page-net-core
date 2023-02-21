@@ -1,11 +1,11 @@
-﻿namespace OWP.OtherSport.Validation.Services;
-
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using Exceptions;
-using Helpers;
-using Models;
+using OWP.OtherSport.Validation.Exceptions;
+using OWP.OtherSport.Validation.Helpers;
+using OWP.OtherSport.Validation.Models;
+
+namespace OWP.OtherSport.Validation.Services;
 
 public interface AssignmentValidator
 {

@@ -1,7 +1,7 @@
-﻿namespace OWP.AutoAssignment.Services.PublicApi;
+﻿using OWP.AutoAssignment.Constant;
+using OWP.AutoAssignment.Models.PublicApi;
 
-using Constant;
-using Models.PublicApi;
+namespace OWP.AutoAssignment.Services.PublicApi;
 
 public interface RealMatchService
 {

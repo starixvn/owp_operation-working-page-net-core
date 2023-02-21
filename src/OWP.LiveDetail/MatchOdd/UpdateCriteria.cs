@@ -1,6 +1,6 @@
-﻿namespace OWP.LiveDetail.MatchOdd;
+﻿using System.Globalization;
 
-using System.Globalization;
+namespace OWP.LiveDetail.MatchOdd;
 
 public class UpdateCriteria : Criteria.CommandCriteria
 {

@@ -1,9 +1,9 @@
-﻿namespace OWP.OtherSport.EventAssignment;
+﻿using MediatR;
+using OWP.OtherSport.EventAssignment.Models;
+using OWP.OtherSport.EventAssignment.Services;
+using OWP.OtherSport.Shared.Services;
 
-using MediatR;
-using Models;
-using Services;
-using Shared.Services;
+namespace OWP.OtherSport.EventAssignment;
 
 public class QueryEventAssignmentRequest : IRequest<IEnumerable<EventAssignmentModel>>
 {

@@ -1,12 +1,12 @@
-﻿namespace OWP.LiveDetail.UnitTests.MatchNote;
-
-using AutoMapper;
+﻿using AutoMapper;
 using Fanex.Data.Repository;
 using Fanex.NAP.Client.Helpers.Web;
-using LiveDetail.MatchNote;
 using NSubstitute;
+using OWP.LiveDetail.MatchNote;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.LiveDetail.UnitTests.MatchNote;
 
 public class RepositoryUnitTests
 {

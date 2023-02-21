@@ -1,14 +1,13 @@
-﻿using OWP.OtherSport.Submit.Constants;
+﻿using AutoMapper;
+using OWP.Extensions;
+using OWP.OtherSport.Download.Constants;
+using OWP.OtherSport.Download.Models;
+using OWP.OtherSport.Shared.Helper;
+using OWP.OtherSport.Shared.Services;
+using OWP.OtherSport.Submit.Constants;
+using OWP.OtherSport.Submit.Models;
 
 namespace OWP.OtherSport.Download.Services;
-
-using AutoMapper;
-using Constants;
-using Extensions;
-using Models;
-using Shared.Helper;
-using Shared.Services;
-using Submit.Models;
 
 public interface BuildExcelModelService
 {

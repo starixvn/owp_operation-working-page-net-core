@@ -1,6 +1,6 @@
-﻿namespace OWP.ApiSyncWorkingShift.Utils;
+﻿using System.ComponentModel;
 
-using System.ComponentModel;
+namespace OWP.ApiSyncWorkingShift.Utils;
 
 public enum WorkingShiftExtension
 {

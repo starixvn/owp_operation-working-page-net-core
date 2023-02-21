@@ -1,9 +1,9 @@
-﻿namespace OWP.AssignmentUpload.SyncInfoSite.Services;
+﻿using OWP.AssignmentUpload.SyncInfoSite.Helper;
+using OWP.AssignmentUpload.SyncInfoSite.Models;
+using OWP.AssignmentUpload.Validation.Models;
+using OWP.AssignmentUpload.Validation.Services;
 
-using Helper;
-using Models;
-using Validation.Models;
-using Validation.Services;
+namespace OWP.AssignmentUpload.SyncInfoSite.Services;
 
 public interface InfositeMappingService
 {

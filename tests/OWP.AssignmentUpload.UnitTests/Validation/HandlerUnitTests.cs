@@ -1,15 +1,15 @@
-﻿namespace OWP.AssignmentUpload.UnitTests.Validation;
-
-using AssignmentUpload.Validation;
-using AssignmentUpload.Validation.Exceptions;
-using AssignmentUpload.Validation.Models;
-using AssignmentUpload.Validation.Services;
-using Fanex.NAP.Client.Helpers.Web;
+﻿using Fanex.NAP.Client.Helpers.Web;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
 using OfficeOpenXml;
+using OWP.AssignmentUpload.Validation;
+using OWP.AssignmentUpload.Validation.Exceptions;
+using OWP.AssignmentUpload.Validation.Models;
+using OWP.AssignmentUpload.Validation.Services;
 using OWP.Services;
 using Xunit;
+
+namespace OWP.AssignmentUpload.UnitTests.Validation;
 
 public class HandlerUnitTests
 {

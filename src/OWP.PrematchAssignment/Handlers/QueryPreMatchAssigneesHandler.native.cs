@@ -1,9 +1,8 @@
-﻿using OWP.PrematchAssignment.Services;
+﻿using MediatR;
+using OWP.PrematchAssignment.Models;
+using OWP.PrematchAssignment.Services;
 
 namespace OWP.PrematchAssignment.Handlers;
-
-using MediatR;
-using Models;
 
 public class QueryAssigneesRequest : IRequest<IEnumerable<TicketAssignee>>
 {

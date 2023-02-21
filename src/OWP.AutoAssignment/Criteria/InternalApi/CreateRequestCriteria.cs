@@ -1,7 +1,7 @@
-﻿namespace OWP.AutoAssignment.Criteria.InternalApi;
+﻿using Fanex.Data.Repository;
+using OWP.AutoAssignment.Enum;
 
-using Enum;
-using Fanex.Data.Repository;
+namespace OWP.AutoAssignment.Criteria.InternalApi;
 
 public class CreateRequestCriteria : NonQueryCommand
 {

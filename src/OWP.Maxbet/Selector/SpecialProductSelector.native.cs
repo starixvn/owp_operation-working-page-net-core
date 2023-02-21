@@ -1,11 +1,11 @@
-﻿namespace OWP.Maxbet.Selector;
-
-using Builder;
-using Constants;
-using Handlers;
-using MediatR;
-using Models;
+﻿using MediatR;
+using OWP.Maxbet.Builder;
+using OWP.Maxbet.Constants;
+using OWP.Maxbet.Handlers;
+using OWP.Maxbet.Models;
 using OWP.Services;
+
+namespace OWP.Maxbet.Selector;
 
 public interface SpecialProductSelector
 {

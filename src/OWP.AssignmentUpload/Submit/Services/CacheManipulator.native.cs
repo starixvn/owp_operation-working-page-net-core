@@ -1,9 +1,9 @@
-﻿namespace OWP.AssignmentUpload.Submit.Services;
-
-using Fanex.Caching;
-using Models;
+﻿using Fanex.Caching;
 using Newtonsoft.Json;
-using Validation.Models;
+using OWP.AssignmentUpload.Submit.Models;
+using OWP.AssignmentUpload.Validation.Models;
+
+namespace OWP.AssignmentUpload.Submit.Services;
 
 public interface CacheManipulator
 {

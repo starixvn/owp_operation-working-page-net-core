@@ -1,7 +1,7 @@
-﻿namespace OWP.OtherSport.Shared.Helper;
+﻿using OWP.Extensions;
+using OWP.OtherSport.Submit.Models;
 
-using Extensions;
-using Submit.Models;
+namespace OWP.OtherSport.Shared.Helper;
 
 public static class FilterHelper
 {

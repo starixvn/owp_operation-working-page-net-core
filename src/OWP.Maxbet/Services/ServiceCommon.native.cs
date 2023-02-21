@@ -1,10 +1,10 @@
-namespace OWP.Maxbet.Services;
-
-using Builder;
-using Constants;
-using Handlers;
 using MediatR;
-using Models;
+using OWP.Maxbet.Builder;
+using OWP.Maxbet.Constants;
+using OWP.Maxbet.Handlers;
+using OWP.Maxbet.Models;
+
+namespace OWP.Maxbet.Services;
 
 public interface ServiceCommon
 {
@@ -43,8 +43,7 @@ public class ServiceCommonImp : ServiceCommon
         var maxbet = await maxbetBuilder.BuildMaxbet(owpMatchId);
 
 
-        var secondAcceptValue = await mediator.Send(new GetSecondAcceptValueHandler.Request()
-        { OWPMatchId = owpMatchId, MaxbetHdp = maxbet.Handicap, Bettype = SpecialBettype.BETTYPE_ID_MAIN_MATCH });
+        var secondAcceptValue = await mediator.Send(new GetSecondAcceptValueHandler.Request { OWPMatchId = owpMatchId, MaxbetHdp = maxbet.Handicap, Bettype = SpecialBettype.BETTYPE_ID_MAIN_MATCH });
 
         return new MaxbetInfo
         {

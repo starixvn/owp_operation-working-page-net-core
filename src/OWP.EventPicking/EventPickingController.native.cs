@@ -1,11 +1,11 @@
-﻿namespace OWP.EventPicking;
-
-using Handlers;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using Middleware;
+using OWP.EventPicking.Handlers;
+using OWP.EventPicking.Middleware;
+
+namespace OWP.EventPicking;
 
 [Route("api/[controller]")]
 [ApiController]

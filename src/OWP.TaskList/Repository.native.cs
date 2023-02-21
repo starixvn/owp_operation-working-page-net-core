@@ -1,10 +1,10 @@
-﻿namespace OWP.TaskList;
-
-using Criteria;
-using Fanex.Data;
+﻿using Fanex.Data;
 using Fanex.Data.Repository;
 using Fanex.NAP.Client.Helpers.Web;
-using Models;
+using OWP.TaskList.Criteria;
+using OWP.TaskList.Models;
+
+namespace OWP.TaskList;
 
 public interface Repository
 {

@@ -1,7 +1,7 @@
-﻿namespace OWP.OtherSport.Validation.Exceptions;
+﻿using System.Runtime.Serialization;
+using OWP.OtherSport.Validation.Constants;
 
-using System.Runtime.Serialization;
-using Constants;
+namespace OWP.OtherSport.Validation.Exceptions;
 
 [Serializable]
 public class DataLengthExceedsMaximumException : CriticalValidationException

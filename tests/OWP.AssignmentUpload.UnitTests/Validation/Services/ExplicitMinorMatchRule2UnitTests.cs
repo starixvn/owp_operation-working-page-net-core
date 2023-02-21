@@ -1,9 +1,9 @@
-﻿namespace OWP.AssignmentUpload.UnitTests.Validation.Services;
-
-using AssignmentUpload.Validation.Constants;
-using AssignmentUpload.Validation.Models;
-using AssignmentUpload.Validation.Services;
+﻿using OWP.AssignmentUpload.Validation.Constants;
+using OWP.AssignmentUpload.Validation.Models;
+using OWP.AssignmentUpload.Validation.Services;
 using Xunit;
+
+namespace OWP.AssignmentUpload.UnitTests.Validation.Services;
 
 public class ExplicitMinorMatchRule2UnitTests
 {

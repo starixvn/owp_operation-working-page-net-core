@@ -1,6 +1,6 @@
-﻿namespace OWP.SimpleDataApi.Criteria.LiveDetail;
+﻿using Fanex.Data.Repository;
 
-using Fanex.Data.Repository;
+namespace OWP.SimpleDataApi.Criteria.LiveDetail;
 
 public class GetOtherProviderSuggestionCriteria : CriteriaBase
 {

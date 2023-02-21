@@ -1,8 +1,8 @@
-namespace OWP.AssignmentUpload.Validation.Services;
+using OWP.AssignmentUpload.SyncInfoSite.Helper;
+using OWP.AssignmentUpload.SyncInfoSite.Services;
+using OWP.AssignmentUpload.Validation.Models;
 
-using Models;
-using SyncInfoSite.Helper;
-using SyncInfoSite.Services;
+namespace OWP.AssignmentUpload.Validation.Services;
 
 public interface InfoSiteMatchUpdater
 {

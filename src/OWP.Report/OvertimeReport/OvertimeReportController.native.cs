@@ -1,11 +1,11 @@
-﻿namespace OWP.Report.OvertimeReport;
-
-using Handlers;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using Models;
+using OWP.Report.OvertimeReport.Handlers;
+using OWP.Report.OvertimeReport.Models;
+
+namespace OWP.Report.OvertimeReport;
 
 [Route("api/[controller]")]
 [ApiController]

@@ -1,10 +1,10 @@
-﻿namespace OWP.OtherSport.UnitTests.Validation.Services;
-
-using System.ComponentModel.DataAnnotations;
-using OtherSport.Validation.Models;
-using OtherSport.Validation.Services;
+﻿using System.ComponentModel.DataAnnotations;
+using OWP.OtherSport.Validation.Models;
+using OWP.OtherSport.Validation.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.OtherSport.UnitTests.Validation.Services;
 
 public class AssignmentValidatorUnitTests
 {

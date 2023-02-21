@@ -1,10 +1,10 @@
-﻿namespace OWP.OtherSport.UnitTests.Validation.Helpers;
-
-using System.ComponentModel.DataAnnotations;
-using OtherSport.Validation.Helpers;
-using OtherSport.Validation.Models;
+﻿using System.ComponentModel.DataAnnotations;
+using OWP.OtherSport.Validation.Helpers;
+using OWP.OtherSport.Validation.Models;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.OtherSport.UnitTests.Validation.Helpers;
 
 public class ValidationHelperUnitTests
 {

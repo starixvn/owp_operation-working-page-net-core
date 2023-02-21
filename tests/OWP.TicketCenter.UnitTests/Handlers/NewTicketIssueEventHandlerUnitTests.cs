@@ -1,14 +1,14 @@
-﻿namespace OWP.TicketCenter.UnitTests.Handlers;
-
-using AutoMapper;
-using Criteria;
-using Models;
-using Notification.Services;
+﻿using AutoMapper;
 using NSubstitute;
-using RabbitMQ;
-using TicketCenter.Handlers;
-using TicketCenter.Services;
+using OWP.RabbitMQ;
+using OWP.TicketCenter.Criteria;
+using OWP.TicketCenter.Handlers;
+using OWP.TicketCenter.Models;
+using OWP.TicketCenter.Notification.Services;
+using OWP.TicketCenter.Services;
 using Xunit;
+
+namespace OWP.TicketCenter.UnitTests.Handlers;
 
 public class NewTicketIssueEventHandlerUnitTests
 {

@@ -1,16 +1,15 @@
-﻿using Xunit;
+﻿using AutoMapper;
+using Fanex.Data.Repository;
+using Fanex.NAP.Client.Helpers.Web;
+using NSubstitute;
+using OWP.LiveDetail.Assignment;
+using OWP.LiveDetail.Common;
+using Xunit;
+using Xunit.Asserts.Compare;
 
 [assembly: CollectionBehavior(MaxParallelThreads = 1)]
 
 namespace OWP.LiveDetail.UnitTests.Assignment;
-
-using AutoMapper;
-using Common;
-using Fanex.Data.Repository;
-using Fanex.NAP.Client.Helpers.Web;
-using LiveDetail.Assignment;
-using NSubstitute;
-using Xunit.Asserts.Compare;
 
 public class RepositoryUnitTests
 {
@@ -35,7 +34,7 @@ public class RepositoryUnitTests
     public async Task Query_Always_ReturnsData()
     {
         // Arrange
-        var assignments = new List<Assignment>
+        var assignments = new List<LiveDetail.Assignment.Assignment>
         {
             new()
             {
@@ -50,7 +49,7 @@ public class RepositoryUnitTests
                 Username="sa"
             }
         };
-        dynamicRepository.FetchAsync<Assignment>(Arg.Compat.Any<QueryCriteria>()).Returns(assignments);
+        dynamicRepository.FetchAsync<LiveDetail.Assignment.Assignment>(Arg.Compat.Any<QueryCriteria>()).Returns(assignments);
 
         // Act
         var queryModel = new QueryModel

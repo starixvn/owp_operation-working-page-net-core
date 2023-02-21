@@ -1,12 +1,12 @@
-﻿namespace OWP.FileUpload;
-
-using Handlers;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Models;
+using OWP.FileUpload.Handlers;
+using OWP.FileUpload.Models;
+
+namespace OWP.FileUpload;
 
 [Route("api/[controller]")]
 [ApiController]

@@ -1,16 +1,12 @@
+using System.ComponentModel.DataAnnotations;
+using System.Globalization;
+using System.Text.RegularExpressions;
+using OWP.AssignmentUpload.Validation.Exceptions;
+using OWP.AssignmentUpload.Validation.Helper;
+using OWP.AssignmentUpload.Validation.Models;
 using OWP.Models;
 
 namespace OWP.AssignmentUpload.Validation.Services;
-
-using Exceptions;
-using Helper;
-using Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-    using System.Globalization;
-using System.Linq;
-using System.Text.RegularExpressions;
 
 public interface AssignmentValidator
 {

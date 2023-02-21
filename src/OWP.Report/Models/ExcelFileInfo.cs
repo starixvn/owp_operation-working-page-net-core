@@ -1,6 +1,6 @@
-﻿namespace OWP.Report.Models;
+﻿using Epplus.Mapper.Annotations;
 
-using Epplus.Mapper.Annotations;
+namespace OWP.Report.Models;
 
 public class ExcelFileInfo
 {

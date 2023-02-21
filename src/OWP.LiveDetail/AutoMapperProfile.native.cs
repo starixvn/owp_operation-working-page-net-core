@@ -1,9 +1,9 @@
-﻿namespace OWP.LiveDetail;
+﻿using AutoMapper;
+using OWP.LiveDetail.Assignment;
+using OWP.LiveDetail.MatchInfo;
+using QueryCriteria = OWP.LiveDetail.Assignment.QueryCriteria;
 
-using Assignment;
-using AutoMapper;
-using MatchInfo;
-using QueryCriteria = Assignment.QueryCriteria;
+namespace OWP.LiveDetail;
 
 public class AutoMapperProfile : Profile
 {

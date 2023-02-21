@@ -1,7 +1,7 @@
-﻿namespace OWP.TicketCenter.Notification.Services;
+﻿using Microsoft.AspNetCore.SignalR;
+using OWP.TicketCenter.Hubs;
 
-using Hubs;
-using Microsoft.AspNetCore.SignalR;
+namespace OWP.TicketCenter.Notification.Services;
 
 public interface NotificationService
 {

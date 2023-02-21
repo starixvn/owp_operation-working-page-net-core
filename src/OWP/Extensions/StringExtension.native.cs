@@ -1,7 +1,7 @@
-﻿namespace OWP.Extensions;
-
-using System.Globalization;
+﻿using System.Globalization;
 using System.Text.RegularExpressions;
+
+namespace OWP.Extensions;
 
 public static class StringExtension
 {

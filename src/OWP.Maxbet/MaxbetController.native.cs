@@ -1,11 +1,11 @@
-﻿namespace OWP.Maxbet;
-
-using Constants;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Olympus.OWP.Constants;
-using Services;
+using OWP.Maxbet.Constants;
+using OWP.Maxbet.Services;
+
+namespace OWP.Maxbet;
 
 [Route("api/[controller]")]
 [ApiController]

@@ -1,6 +1,6 @@
-﻿namespace OWP.AssignmentUpload.SyncInfoSite.Criteria;
+﻿using Fanex.Data.Repository;
 
-using Fanex.Data.Repository;
+namespace OWP.AssignmentUpload.SyncInfoSite.Criteria;
 
 public class QueryInfositeMatchCriteria : CriteriaBase
 {

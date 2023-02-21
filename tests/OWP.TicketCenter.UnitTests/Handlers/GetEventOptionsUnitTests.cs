@@ -1,11 +1,11 @@
-﻿namespace OWP.TicketCenter.UnitTests.Handlers;
-
-using Models;
-using NSubstitute;
-using TicketCenter.Handlers;
-using ViewModels;
+﻿using NSubstitute;
+using OWP.TicketCenter.Handlers;
+using OWP.TicketCenter.Models;
+using OWP.TicketCenter.ViewModels;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.TicketCenter.UnitTests.Handlers;
 
 public class GetEventOptionsUnitTests
 {

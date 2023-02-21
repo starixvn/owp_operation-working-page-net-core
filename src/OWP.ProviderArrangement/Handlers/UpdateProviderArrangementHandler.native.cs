@@ -1,11 +1,11 @@
-namespace OWP.ProviderArrangement.Handlers;
-
-using Criteria;
 using Fanex.Data.Repository;
 using Fanex.NAP.Client.Helpers.Web;
 using MediatR;
-using Models;
 using Newtonsoft.Json;
+using OWP.ProviderArrangement.Criteria;
+using OWP.ProviderArrangement.Models;
+
+namespace OWP.ProviderArrangement.Handlers;
 
 public class UpdateProviderArrangementRequest : IRequest<Unit>
 {

@@ -1,8 +1,8 @@
-namespace OWP.AssignmentUpload.Validation.Models;
-
-using Constants;
 using System.ComponentModel.DataAnnotations;
-using Annotations;
+using OWP.AssignmentUpload.Validation.Annotations;
+using OWP.AssignmentUpload.Validation.Constants;
+
+namespace OWP.AssignmentUpload.Validation.Models;
 
 public class AssignmentModelInExcel
 {

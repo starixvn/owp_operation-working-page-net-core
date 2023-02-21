@@ -1,15 +1,15 @@
-namespace OWP.EventPicking.Handlers;
-
 using System.Drawing;
 using Epplus.Mapper.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Misc;
-using Models;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
+using OWP.EventPicking.Misc;
+using OWP.EventPicking.Models;
+using OWP.EventPicking.Services;
 using OWP.Services;
-using Services;
+
+namespace OWP.EventPicking.Handlers;
 
 public class ExportMiscMatchRequest : IRequest<FileResult>
 {

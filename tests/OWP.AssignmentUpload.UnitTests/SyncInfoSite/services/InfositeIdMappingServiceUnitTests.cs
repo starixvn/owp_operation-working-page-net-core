@@ -1,10 +1,10 @@
-﻿namespace OWP.AssignmentUpload.UnitTests.SyncInfoSite.services;
-
-using AssignmentUpload.SyncInfoSite.Models;
-using AssignmentUpload.SyncInfoSite.Services;
-using AssignmentUpload.Validation.Models;
+﻿using OWP.AssignmentUpload.SyncInfoSite.Models;
+using OWP.AssignmentUpload.SyncInfoSite.Services;
+using OWP.AssignmentUpload.Validation.Models;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.AssignmentUpload.UnitTests.SyncInfoSite.services;
 
 public class InfositeIdMappingServiceUnitTests
 {

@@ -1,6 +1,6 @@
-﻿namespace OWP.Report.LAReport.Models;
+﻿using Epplus.Mapper.Annotations;
 
-using Epplus.Mapper.Annotations;
+namespace OWP.Report.LAReport.Models;
 
 public class LAExcelReportModel
 {

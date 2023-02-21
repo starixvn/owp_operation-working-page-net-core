@@ -1,9 +1,9 @@
-﻿namespace OWP.AutoAssignment.Services.InternalApi;
-
-using System.Globalization;
+﻿using System.Globalization;
 using AutoMapper;
-using Constant;
-using Models.InternalApi;
+using OWP.AutoAssignment.Constant;
+using OWP.AutoAssignment.Models.InternalApi;
+
+namespace OWP.AutoAssignment.Services.InternalApi;
 
 public interface MatchInfoBuilderService
 {

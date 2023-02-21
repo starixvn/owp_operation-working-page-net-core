@@ -1,6 +1,6 @@
-﻿namespace OWP.Hubs;
+﻿using Microsoft.AspNetCore.SignalR;
 
-using Microsoft.AspNetCore.SignalR;
+namespace OWP.Hubs;
 
 public interface ChangedInfoNotifyHub
 {

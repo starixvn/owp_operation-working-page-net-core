@@ -1,8 +1,8 @@
-﻿namespace OWP.AssignmentUpload.Validation.Constants;
-
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
+
+namespace OWP.AssignmentUpload.Validation.Constants;
 
 [SuppressMessage("Microsoft.Design", "CA1008:EnumsShouldHaveZeroValue", Justification = "Reviewed.")]
 public enum MinorBettype

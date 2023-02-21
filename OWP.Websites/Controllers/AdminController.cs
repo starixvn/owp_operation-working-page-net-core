@@ -1,10 +1,10 @@
-namespace OWP.Websites.Controllers;
-
-using Extensions;
 using Fanex.Caching;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using OWP.Extensions;
 using StackExchange.Redis;
+
+namespace OWP.Websites.Controllers;
 
 public class AdministratorController : Controller
 {

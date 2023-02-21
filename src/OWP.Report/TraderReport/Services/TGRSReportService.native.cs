@@ -1,12 +1,12 @@
-﻿namespace OWP.Report.TraderReport.Services;
-
-using Constants;
-using Criteria;
-using Fanex.Logging;
+﻿using Fanex.Logging;
 using Microsoft.Extensions.Configuration;
-using Models;
+using OWP.Constants;
+using OWP.Report.Models;
+using OWP.Report.TraderReport.Criteria;
+using OWP.Report.TraderReport.Models;
 using OWP.Services;
-using Report.Models;
+
+namespace OWP.Report.TraderReport.Services;
 
 public interface TGRSReportService
 {

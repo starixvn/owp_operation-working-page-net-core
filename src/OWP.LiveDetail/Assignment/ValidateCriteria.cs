@@ -1,6 +1,6 @@
-﻿namespace OWP.LiveDetail.Assignment;
+﻿using Fanex.Data.Repository;
 
-using Fanex.Data.Repository;
+namespace OWP.LiveDetail.Assignment;
 
 public class ValidateCriteria : CriteriaBase
 {

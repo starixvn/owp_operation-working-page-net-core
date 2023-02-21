@@ -1,12 +1,12 @@
-﻿namespace OWP.MatchCountLiveReport;
-
-using Handlers;
-using Helper;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using Models;
+using OWP.MatchCountLiveReport.Handlers;
+using OWP.MatchCountLiveReport.Helper;
+using OWP.MatchCountLiveReport.Models;
+
+namespace OWP.MatchCountLiveReport;
 
 [Route("api/[controller]")]
 [ApiController]

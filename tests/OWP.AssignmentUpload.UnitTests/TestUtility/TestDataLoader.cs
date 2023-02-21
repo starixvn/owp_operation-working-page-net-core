@@ -1,6 +1,6 @@
-﻿namespace OWP.AssignmentUpload.UnitTests.TestUtility;
+﻿using Newtonsoft.Json;
 
-using Newtonsoft.Json;
+namespace OWP.AssignmentUpload.UnitTests.TestUtility;
 
 internal static class TestDataLoader
 {

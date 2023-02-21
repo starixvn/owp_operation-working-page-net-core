@@ -1,7 +1,7 @@
-﻿namespace OWP.LiveDetail.MatchInfo;
+﻿using System.Globalization;
+using OWP.Criteria;
 
-using System.Globalization;
-using Criteria;
+namespace OWP.LiveDetail.MatchInfo;
 
 public class UpdateProviderInfoCriteria : CommandCriteria
 {

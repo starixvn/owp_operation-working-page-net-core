@@ -1,8 +1,8 @@
-namespace OWP.TicketEvent.Handlers;
-
 using Fanex.NAP.Client.Helpers.Web;
 using MediatR;
-using Models;
+using OWP.TicketEvent.Models;
+
+namespace OWP.TicketEvent.Handlers;
 
 public class GetTicketListRequest : IRequest<IList<TicketListModel>>
 {

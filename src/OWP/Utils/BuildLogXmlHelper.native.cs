@@ -1,7 +1,7 @@
-namespace OWP.Utils;
-
 using System.Xml;
 using System.Xml.Serialization;
+
+namespace OWP.Utils;
 
 public static class BuildLogXmlHelper
 {

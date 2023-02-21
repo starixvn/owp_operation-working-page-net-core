@@ -1,6 +1,6 @@
-﻿namespace OWP.SimpleDataApi.Mapper;
+﻿using Olympus.SimpleDataApi;
 
-using Olympus.SimpleDataApi;
+namespace OWP.SimpleDataApi.Mapper;
 
 public class GoalIconMapperService : SimpleMapperService
 {

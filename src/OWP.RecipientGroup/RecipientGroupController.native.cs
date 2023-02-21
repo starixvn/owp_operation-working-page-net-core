@@ -1,11 +1,11 @@
-﻿namespace OWP.RecipientGroup;
-
-using Handlers;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using Models;
+using OWP.RecipientGroup.Handlers;
+using OWP.RecipientGroup.Models;
+
+namespace OWP.RecipientGroup;
 
 [Route("api/[controller]")]
 [ApiController]

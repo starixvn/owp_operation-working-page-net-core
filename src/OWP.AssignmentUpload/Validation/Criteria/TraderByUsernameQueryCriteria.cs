@@ -1,6 +1,6 @@
-namespace OWP.AssignmentUpload.Validation.Criteria;
-
 using Fanex.Data.Repository;
+
+namespace OWP.AssignmentUpload.Validation.Criteria;
 
 public class TraderByUsernameQueryCriteria : CriteriaBase
 {

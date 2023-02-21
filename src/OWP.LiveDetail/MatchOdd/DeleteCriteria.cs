@@ -1,7 +1,7 @@
-﻿namespace OWP.LiveDetail.MatchOdd;
-
-using System.Globalization;
+﻿using System.Globalization;
 using Fanex.Data.Repository;
+
+namespace OWP.LiveDetail.MatchOdd;
 
 public class DeleteCriteria : NonQueryCommand
 {

@@ -1,10 +1,10 @@
-﻿namespace OWP.TicketCenter.UnitTests.Services;
-
-using Criteria;
-using Models;
-using NSubstitute;
-using TicketCenter.Services;
+﻿using NSubstitute;
+using OWP.TicketCenter.Criteria;
+using OWP.TicketCenter.Models;
+using OWP.TicketCenter.Services;
 using Xunit;
+
+namespace OWP.TicketCenter.UnitTests.Services;
 
 public class RecipientServiceUnitTests
 {

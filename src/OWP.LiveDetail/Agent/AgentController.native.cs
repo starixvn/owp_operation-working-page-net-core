@@ -1,9 +1,9 @@
-﻿namespace OWP.LiveDetail.Agent;
-
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+
+namespace OWP.LiveDetail.Agent;
 
 [Route("api/live-detail/agent")]
 [ApiController]

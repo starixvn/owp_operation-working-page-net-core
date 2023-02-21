@@ -1,9 +1,8 @@
-﻿using OWP.PrematchAssignment.Criteria;
+﻿using AutoMapper;
+using OWP.PrematchAssignment.Criteria;
 using OWP.PrematchAssignment.Models;
 
 namespace OWP.PrematchAssignment;
-
-using AutoMapper;
 
 public class AutoMapperProfile : Profile
 {

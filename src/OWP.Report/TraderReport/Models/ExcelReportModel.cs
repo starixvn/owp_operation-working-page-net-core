@@ -1,6 +1,6 @@
-﻿namespace OWP.Report.TraderReport.Models;
+﻿using Epplus.Mapper.Annotations;
 
-using Epplus.Mapper.Annotations;
+namespace OWP.Report.TraderReport.Models;
 
 public class ExcelReportModel
 {

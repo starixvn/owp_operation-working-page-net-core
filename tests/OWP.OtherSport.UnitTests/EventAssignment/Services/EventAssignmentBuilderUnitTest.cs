@@ -1,15 +1,14 @@
-﻿using OWP.OtherSport.Submit.Constants;
-
-namespace OWP.OtherSport.UnitTests.EventAssignment.Services;
-
-using AutoMapper;
+﻿using AutoMapper;
 using NSubstitute;
-using OtherSport.EventAssignment;
-using OtherSport.EventAssignment.Models;
-using OtherSport.EventAssignment.Services;
-using OtherSport.Submit.Models;
+using OWP.OtherSport.EventAssignment;
+using OWP.OtherSport.EventAssignment.Models;
+using OWP.OtherSport.EventAssignment.Services;
+using OWP.OtherSport.Submit.Constants;
+using OWP.OtherSport.Submit.Models;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.OtherSport.UnitTests.EventAssignment.Services;
 
 public class EventAssignmentBuilderUnitTest
 {

@@ -1,10 +1,10 @@
-﻿namespace OWP.LiveGameList.Services;
-
-using Criteria;
-using Fanex.Data.Repository;
-using Models;
+﻿using Fanex.Data.Repository;
 using Newtonsoft.Json;
 using Olympus.OWP.Constants;
+using OWP.LiveGameList.Criteria;
+using OWP.LiveGameList.Models;
+
+namespace OWP.LiveGameList.Services;
 
 public interface GetAdminSiteMatchIdService
 {

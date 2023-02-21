@@ -1,6 +1,6 @@
-﻿namespace OWP.LiveGameList.Builder;
+﻿using OWP.LiveGameList.Models;
 
-using Models;
+namespace OWP.LiveGameList.Builder;
 
 public static class LengthPropertyBuilder
 {

@@ -1,6 +1,6 @@
-﻿namespace OWP.OtherSport.Download.Models;
+﻿using Epplus.Mapper.Annotations;
 
-using Epplus.Mapper.Annotations;
+namespace OWP.OtherSport.Download.Models;
 
 public class ExcelHeaderInfoModel
 {

@@ -1,13 +1,13 @@
-﻿namespace OWP.LiveDetail.UnitTests.MatchOdd;
-
-using AutoMapper;
+﻿using AutoMapper;
 using Fanex.Data.Repository;
 using Fanex.NAP.Client.Helpers.Web;
 using KellermanSoftware.CompareNetObjects;
-using LiveDetail.MatchOdd;
 using NSubstitute;
+using OWP.LiveDetail.MatchOdd;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.LiveDetail.UnitTests.MatchOdd;
 
 public class RepositoryUnitTests
 {
@@ -34,19 +34,19 @@ public class RepositoryUnitTests
     {
         // Arrange
         var queryModel = new QueryModel { OWPMatchId = 22 };
-        var matchOdds = new List<MatchOdd>
+        var matchOdds = new List<LiveDetail.MatchOdd.MatchOdd>
         {
             new() { Id = 1, Bettype = 1, TeamChoice = 1, HDP = 1, Choice = 1, Odds = 1 }
         };
 
-        dynamicRepository.FetchAsync<MatchOdd>(Arg.Compat.Any<QueryCriteria>()).Returns(matchOdds);
+        dynamicRepository.FetchAsync<LiveDetail.MatchOdd.MatchOdd>(Arg.Compat.Any<QueryCriteria>()).Returns(matchOdds);
 
         // Act
         var actual = await repository.Query(queryModel);
 
         // Assert
         Assert.Equal(matchOdds, actual);
-        await dynamicRepository.Received().FetchAsync<MatchOdd>(Arg.Compat.Is<QueryCriteria>(x => x.OWPMatchId == queryModel.OWPMatchId));
+        await dynamicRepository.Received().FetchAsync<LiveDetail.MatchOdd.MatchOdd>(Arg.Compat.Is<QueryCriteria>(x => x.OWPMatchId == queryModel.OWPMatchId));
     }
     [Fact]
     public async Task Delete_Always_ReturnResult()

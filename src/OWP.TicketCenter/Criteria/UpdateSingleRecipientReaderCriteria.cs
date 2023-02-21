@@ -1,6 +1,6 @@
-﻿namespace OWP.TicketCenter.Criteria;
+﻿using Fanex.Data.Repository;
 
-using Fanex.Data.Repository;
+namespace OWP.TicketCenter.Criteria;
 
 public class UpdateSingleRecipientReaderCriteria : NonQueryCommand
 {

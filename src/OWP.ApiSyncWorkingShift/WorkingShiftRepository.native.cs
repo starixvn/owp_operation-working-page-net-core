@@ -1,9 +1,9 @@
-﻿namespace OWP.ApiSyncWorkingShift;
+﻿using Fanex.Data.Repository;
+using OWP.ApiSyncWorkingShift.Criteria;
+using OWP.ApiSyncWorkingShift.Handlers;
+using OWP.ApiSyncWorkingShift.Models;
 
-using Criteria;
-using Fanex.Data.Repository;
-using Handlers;
-using Models;
+namespace OWP.ApiSyncWorkingShift;
 
 public interface WorkingShiftRepository
 {

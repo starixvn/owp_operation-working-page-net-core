@@ -1,7 +1,7 @@
-﻿namespace OWP.EventPicking.Misc;
+﻿using OWP.EventPicking.Models;
+using OWP.Extensions;
 
-using Extensions;
-using Models;
+namespace OWP.EventPicking.Misc;
 
 public class TruthLeagueRule
 {

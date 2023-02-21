@@ -1,6 +1,6 @@
-﻿namespace OWP.TicketCenter.Handlers;
+﻿using MediatR;
 
-using MediatR;
+namespace OWP.TicketCenter.Handlers;
 
 public class MarkAllTicketsRequest : IRequest<Unit>
 {

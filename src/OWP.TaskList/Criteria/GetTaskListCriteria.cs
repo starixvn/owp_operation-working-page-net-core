@@ -1,6 +1,6 @@
-﻿namespace OWP.TaskList.Criteria;
+﻿using Fanex.Data.Repository;
 
-using Fanex.Data.Repository;
+namespace OWP.TaskList.Criteria;
 
 public class GetTaskListCriteria : CriteriaBase
 {

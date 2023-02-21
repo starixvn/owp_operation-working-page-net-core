@@ -1,10 +1,10 @@
-﻿namespace OWP.Report.UnitTests.OvertimeReport.Services;
-
-using NSubstitute;
-using Report.OvertimeReport.Models;
-using Report.OvertimeReport.Services;
+﻿using NSubstitute;
+using OWP.Report.OvertimeReport.Models;
+using OWP.Report.OvertimeReport.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.Report.UnitTests.OvertimeReport.Services;
 
 public class ReportByMonthServicesUnitTests
 {

@@ -1,6 +1,6 @@
-namespace OWP.OSLeagueSetting.Models;
-
 using System.Xml.Serialization;
+
+namespace OWP.OSLeagueSetting.Models;
 
 [XmlRoot(ElementName = "z")]
 public class SettingModelDeserialize

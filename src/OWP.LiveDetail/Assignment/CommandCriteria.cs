@@ -1,6 +1,6 @@
-﻿namespace OWP.LiveDetail.Assignment;
+﻿using System.Globalization;
 
-using System.Globalization;
+namespace OWP.LiveDetail.Assignment;
 
 public abstract class CommandCriteria : Criteria.CommandCriteria
 {

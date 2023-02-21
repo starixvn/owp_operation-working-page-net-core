@@ -1,9 +1,9 @@
-namespace OWP.EventPicking.Models;
-
 using System.Globalization;
 using Epplus.Mapper.Annotations;
-using Misc;
-using Utils;
+using OWP.EventPicking.Misc;
+using OWP.Utils;
+
+namespace OWP.EventPicking.Models;
 
 public class EventPickingModel
 {

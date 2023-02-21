@@ -1,11 +1,11 @@
-﻿namespace OWP.TicketCenter.UnitTests.Services;
-
-using Models;
-using NSubstitute;
-using TicketCenter.Handlers;
-using TicketCenter.Services;
+﻿using NSubstitute;
+using OWP.TicketCenter.Handlers;
+using OWP.TicketCenter.Models;
+using OWP.TicketCenter.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.TicketCenter.UnitTests.Services;
 
 public class GetEventTicketsServiceUnitTests
 {

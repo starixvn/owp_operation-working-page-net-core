@@ -1,7 +1,7 @@
-﻿namespace OWP.TicketCenter.Criteria;
-
-using System.Globalization;
+﻿using System.Globalization;
 using Fanex.Data.Repository;
+
+namespace OWP.TicketCenter.Criteria;
 
 public abstract class InsertNotificationMessageCriteria : NonQueryCommand
 {

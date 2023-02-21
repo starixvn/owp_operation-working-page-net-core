@@ -1,9 +1,9 @@
-﻿namespace OWP.EventPicking.UnitTests.Services;
-
-using EventPicking.Services;
-using Models;
-using NSubstitute;
+﻿using NSubstitute;
+using OWP.EventPicking.Models;
+using OWP.EventPicking.Services;
 using Xunit;
+
+namespace OWP.EventPicking.UnitTests.Services;
 
 public class BuildProviderUnitTests
 {

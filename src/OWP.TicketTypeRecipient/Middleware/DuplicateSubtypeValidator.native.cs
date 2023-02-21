@@ -1,11 +1,11 @@
-namespace OWP.TicketTypeRecipient.Middleware;
-
 using Fanex.Data.Repository;
-using Handlers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Models;
 using Olympus.Xml;
+using OWP.TicketTypeRecipient.Handlers;
+using OWP.TicketTypeRecipient.Middleware.Models;
+
+namespace OWP.TicketTypeRecipient.Middleware;
 
 public class DuplicateSubtypeValidator : IAsyncActionFilter
 {

@@ -1,7 +1,7 @@
-namespace OWP.Middleware;
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+
+namespace OWP.Middleware;
 
 public abstract class AsyncFilter<T> : IAsyncActionFilter where T : class
 {

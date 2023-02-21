@@ -1,6 +1,6 @@
-﻿namespace OWP.Websites;
+﻿using OWP.TicketEvent;
 
-using TicketEvent;
+namespace OWP.Websites;
 
 public static class TicketEventInjector
 {

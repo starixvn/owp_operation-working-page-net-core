@@ -1,8 +1,8 @@
-namespace OWP.Services;
-
-using Criteria;
 using Fanex.Data.Repository;
 using Olympus.OWP.Constants;
+using OWP.Criteria;
+
+namespace OWP.Services;
 
 public interface GetAdminSiteMatchIdService
 {

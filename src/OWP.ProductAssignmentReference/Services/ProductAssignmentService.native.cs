@@ -1,10 +1,10 @@
-﻿namespace OWP.ProductAssignmentReference.Services;
-
-using Fanex.Caching;
-using Models;
+﻿using Fanex.Caching;
 using Newtonsoft.Json;
 using OWP.Models;
+using OWP.ProductAssignmentReference.Models;
 using OWP.Services;
+
+namespace OWP.ProductAssignmentReference.Services;
 
 public interface ProductAssignmentService
 {

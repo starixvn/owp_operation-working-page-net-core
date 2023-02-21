@@ -1,6 +1,6 @@
-namespace OWP.EventPicking.Criteria;
-
 using Fanex.Data.Repository;
+
+namespace OWP.EventPicking.Criteria;
 
 public class InsertOrDeleteNoOfferMatchCriteria : NonQueryCommand
 {

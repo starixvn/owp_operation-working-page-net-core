@@ -1,6 +1,6 @@
-﻿namespace OWP.LiveDetail.Agent;
+﻿using Fanex.Data.Repository;
 
-using Fanex.Data.Repository;
+namespace OWP.LiveDetail.Agent;
 
 public class GetAllCriteria : CriteriaBase
 {

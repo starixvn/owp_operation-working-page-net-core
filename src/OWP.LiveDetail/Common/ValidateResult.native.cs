@@ -2,8 +2,6 @@
 
 namespace OWP.LiveDetail.Common;
 
-using Constants;
-
 public class ValidateResult
 
 {

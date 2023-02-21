@@ -1,11 +1,11 @@
-﻿namespace OWP.Maxbet.UnitTests.Builder;
-
-using Enums;
-using Maxbet.Builder;
-using Models;
-using NSubstitute;
+﻿using NSubstitute;
+using OWP.Enums;
+using OWP.Maxbet.Builder;
+using OWP.Maxbet.Models;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.Maxbet.UnitTests.Builder;
 
 public class MaxbetBuilderUnitTests
 {

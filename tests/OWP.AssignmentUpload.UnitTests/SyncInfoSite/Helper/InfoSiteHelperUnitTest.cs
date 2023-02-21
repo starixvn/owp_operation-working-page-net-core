@@ -1,10 +1,10 @@
-﻿namespace OWP.AssignmentUpload.UnitTests.SyncInfoSite.Helper;
-
-using AssignmentUpload.SyncInfoSite.Helper;
-using AssignmentUpload.SyncInfoSite.Models;
-using AssignmentUpload.Validation.Models;
+﻿using OWP.AssignmentUpload.SyncInfoSite.Helper;
+using OWP.AssignmentUpload.SyncInfoSite.Models;
+using OWP.AssignmentUpload.Validation.Models;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.AssignmentUpload.UnitTests.SyncInfoSite.Helper;
 
 public class InfoSiteHelperUnitTest
 {

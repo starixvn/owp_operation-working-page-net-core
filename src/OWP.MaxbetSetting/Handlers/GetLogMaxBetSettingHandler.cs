@@ -1,11 +1,11 @@
-namespace OWP.MaxbetSetting.Handlers;
-
 using AutoMapper;
-using Criteria;
 using Fanex.Data.Repository;
-using Helpers;
 using MediatR;
-using Models;
+using OWP.MaxbetSetting.Criteria;
+using OWP.MaxbetSetting.Helpers;
+using OWP.MaxbetSetting.Models;
+
+namespace OWP.MaxbetSetting.Handlers;
 
 public class GetLogMaxbetSettingRequest : IRequest<IList<LogDisplayModel>>
 {

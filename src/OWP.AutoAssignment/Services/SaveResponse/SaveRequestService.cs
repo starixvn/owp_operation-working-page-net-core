@@ -1,7 +1,7 @@
-﻿namespace OWP.AutoAssignment.Services.SaveResponse;
-
-using Models.InternalApi;
+﻿using OWP.AutoAssignment.Models.InternalApi;
 using OWP.Models;
+
+namespace OWP.AutoAssignment.Services.SaveResponse;
 
 public interface SaveRequestService
 {

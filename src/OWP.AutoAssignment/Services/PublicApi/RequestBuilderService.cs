@@ -1,8 +1,8 @@
-﻿namespace OWP.AutoAssignment.Services.PublicApi;
+﻿using OWP.AutoAssignment.Enum;
+using OWP.AutoAssignment.Models.InternalApi;
+using OWP.AutoAssignment.Models.PublicApi;
 
-using Enum;
-using Models.InternalApi;
-using Models.PublicApi;
+namespace OWP.AutoAssignment.Services.PublicApi;
 
 public interface RequestBuilder
 {

@@ -1,7 +1,7 @@
-﻿namespace OWP.LiveDetail.MatchSetting;
-
-using System.Globalization;
+﻿using System.Globalization;
 using Fanex.Data.Repository;
+
+namespace OWP.LiveDetail.MatchSetting;
 
 public class CreateCriteria : NonQueryCommand
 {

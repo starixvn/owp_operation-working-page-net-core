@@ -1,10 +1,10 @@
-﻿namespace OWP.Maxbet.Handlers;
-
-using MediatR;
+﻿using MediatR;
 using OWP.Extensions;
 using OWP.Maxbet.Constants;
 using OWP.Maxbet.Models;
 using System.Text.RegularExpressions;
+
+namespace OWP.Maxbet.Handlers;
 
 public class GetSecondAcceptValueHandler
 {

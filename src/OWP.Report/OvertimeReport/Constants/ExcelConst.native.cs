@@ -1,6 +1,6 @@
-﻿namespace OWP.Report.OvertimeReport.Constants;
+﻿using System.Drawing;
 
-using System.Drawing;
+namespace OWP.Report.OvertimeReport.Constants;
 
 public static class ExcelConst
 {

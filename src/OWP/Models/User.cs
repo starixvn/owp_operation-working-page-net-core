@@ -1,7 +1,7 @@
-﻿namespace OWP.Models;
+﻿using Newtonsoft.Json;
+using OWP.Utils;
 
-using Newtonsoft.Json;
-using Utils;
+namespace OWP.Models;
 
 public class User
 {

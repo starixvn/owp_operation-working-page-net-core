@@ -1,9 +1,8 @@
 ﻿using OWP.OtherSport.Submit.Constants;
+using OWP.OtherSport.Submit.Models;
+using OWP.OtherSport.Validation.Models;
 
 namespace OWP.OtherSport.Submit.Services;
-
-using Models;
-using Validation.Models;
 
 public interface AssignmentAnalyzer
 {

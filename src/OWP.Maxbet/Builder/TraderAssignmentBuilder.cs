@@ -1,9 +1,9 @@
-﻿namespace OWP.Maxbet.Builder;
-
-using Enums;
-using Helpers;
-using Models;
+﻿using OWP.Enums;
+using OWP.Maxbet.Helpers;
+using OWP.Maxbet.Models;
 using OWP.Services;
+
+namespace OWP.Maxbet.Builder;
 
 public interface TraderAssignmentBuilder
 {

@@ -1,10 +1,10 @@
-namespace OWP.Maxbet.Services;
-
-using Enums;
-using Helpers;
-using Models;
+using OWP.Enums;
+using OWP.Maxbet.Helpers;
+using OWP.Maxbet.Models;
+using OWP.Maxbet.Selector;
 using OWP.Services;
-using Selector;
+
+namespace OWP.Maxbet.Services;
 
 public interface SpecialProductService
 {

@@ -1,10 +1,9 @@
-﻿namespace OWP.Maxbet.UnitTests.Handlers;
-
-using NSubstitute;
-
+﻿using NSubstitute;
 using OWP.Maxbet.Handlers;
 using OWP.Maxbet.Models;
 using Xunit;
+
+namespace OWP.Maxbet.UnitTests.Handlers;
 
 public class GetSecondAcceptValueHandlerUnitTests
 {
@@ -34,7 +33,7 @@ public class GetSecondAcceptValueHandlerUnitTests
     public async Task Handler_MatchWith2MatchOffer_ReturnNull()
     {
         Setup();
-        IEnumerable<MatchResource> matchOffer = new List<MatchResource>()
+        IEnumerable<MatchResource> matchOffer = new List<MatchResource>
         {
             new() {Value = "1s Accept"},
             new() {Value = "10s Accept"},
@@ -58,7 +57,7 @@ public class GetSecondAcceptValueHandlerUnitTests
     public async Task Handler_MatchWithNoMatchOffer_ReturnOfferLineDefault(string matchOfferValue, string leagueName, int betType, int? expected)
     {
         Setup();
-        IEnumerable<MatchResource> matchOffer = new List<MatchResource>() { new() { Value = matchOfferValue } };
+        IEnumerable<MatchResource> matchOffer = new List<MatchResource> { new() { Value = matchOfferValue } };
         dynamicRepository.GetMatchOfferId(Arg.Compat.Any<int>()).Returns(matchOffer);
         dynamicRepository.GetSecondAcceptValueDefaultInfo(Arg.Any<decimal?>(), Arg.Any<int>())
             .Returns((new SecondAcceptDefault

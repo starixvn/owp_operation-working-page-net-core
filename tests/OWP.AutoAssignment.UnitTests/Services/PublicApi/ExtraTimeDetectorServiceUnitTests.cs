@@ -1,7 +1,7 @@
-﻿namespace OWP.AutoAssignment.UnitTests.Services.PublicApi;
-
-using AutoAssignment.Services.PublicApi;
+﻿using OWP.AutoAssignment.Services.PublicApi;
 using Xunit;
+
+namespace OWP.AutoAssignment.UnitTests.Services.PublicApi;
 
 public class ExtraTimeDetectorServiceUnitTests
 {

@@ -1,9 +1,9 @@
-﻿namespace OWP.TicketCenter.Handlers;
+﻿using MediatR;
+using OWP.TicketCenter.Middleware.Models;
+using OWP.TicketCenter.Services;
+using OWP.TicketCenter.ViewModels;
 
-using MediatR;
-using Middleware.Models;
-using Services;
-using ViewModels;
+namespace OWP.TicketCenter.Handlers;
 
 public class TicketMatchDetailRequest : PermissionCheckedModel, IRequest<TicketMatchDetailViewModel> { }
 

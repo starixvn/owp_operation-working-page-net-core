@@ -1,12 +1,12 @@
-﻿namespace OWP.Maxbet.UnitTests.Helpers;
-
-using Enums;
-using Maxbet.Helpers;
-using Models;
+﻿using OWP.Enums;
+using OWP.Maxbet.Helpers;
+using OWP.Maxbet.Models;
 using Xunit;
 using Xunit.Asserts.Compare;
 
-    public class MaxbetHelperUnitTests
+namespace OWP.Maxbet.UnitTests.Helpers;
+
+public class MaxbetHelperUnitTests
     {
         #region trader assignment
 

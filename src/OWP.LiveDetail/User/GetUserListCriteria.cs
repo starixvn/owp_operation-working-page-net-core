@@ -1,6 +1,6 @@
-﻿namespace OWP.LiveDetail.User;
+﻿using Fanex.Data.Repository;
 
-using Fanex.Data.Repository;
+namespace OWP.LiveDetail.User;
 
 public class GetUserListCriteria : CriteriaBase
 {

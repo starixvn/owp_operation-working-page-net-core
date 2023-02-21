@@ -1,8 +1,8 @@
-namespace OWP.AssignmentUpload.Submit.Services;
-
-using Criteria;
 using Fanex.Data.Repository;
-using Models;
+using OWP.AssignmentUpload.Submit.Criteria;
+using OWP.AssignmentUpload.Submit.Models;
+
+namespace OWP.AssignmentUpload.Submit.Services;
 
 public interface QueryRepository
 {

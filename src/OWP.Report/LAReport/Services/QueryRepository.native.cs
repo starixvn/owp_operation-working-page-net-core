@@ -1,9 +1,9 @@
-﻿namespace OWP.Report.LAReport.Services;
+﻿using Fanex.Data.Repository;
+using OWP.Report.LAReport.Criteria;
+using OWP.Report.LAReport.Models;
+using OWP.Report.Models;
 
-using Criteria;
-using Fanex.Data.Repository;
-using Models;
-using Report.Models;
+namespace OWP.Report.LAReport.Services;
 
 public interface QueryRepository
 {

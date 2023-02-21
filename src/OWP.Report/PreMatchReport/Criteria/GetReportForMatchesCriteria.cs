@@ -1,6 +1,6 @@
-namespace OWP.Report.PreMatchReport.Criteria;
-
 using Fanex.Data.Repository;
+
+namespace OWP.Report.PreMatchReport.Criteria;
 
 public class GetReportForMatchesCriteria : CriteriaBase
 {

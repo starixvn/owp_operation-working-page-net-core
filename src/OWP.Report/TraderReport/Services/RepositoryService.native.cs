@@ -1,9 +1,9 @@
-﻿namespace OWP.Report.TraderReport.Services;
+﻿using Fanex.Data.Repository;
+using OWP.Report.Models;
+using OWP.Report.TraderReport.Criteria;
+using OWP.Report.TraderReport.Models;
 
-using Criteria;
-using Fanex.Data.Repository;
-using Models;
-using Report.Models;
+namespace OWP.Report.TraderReport.Services;
 
 public interface RepositoryService
 {

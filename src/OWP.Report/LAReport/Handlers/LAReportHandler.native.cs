@@ -1,9 +1,9 @@
-﻿namespace OWP.Report.LAReport.Handlers;
+﻿using MediatR;
+using OWP.Report.LAReport.Models;
+using OWP.Report.LAReport.Services;
+using OWP.Report.Models;
 
-using MediatR;
-using Models;
-using Report.Models;
-using Services;
+namespace OWP.Report.LAReport.Handlers;
 
 public class LAReportRequest : QueryModel, IRequest<IEnumerable<LAReportModel>>
 {

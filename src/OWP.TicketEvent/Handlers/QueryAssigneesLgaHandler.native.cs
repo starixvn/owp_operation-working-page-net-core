@@ -1,7 +1,7 @@
-﻿namespace OWP.TicketEvent.Handlers;
+﻿using MediatR;
+using OWP.TicketEvent.Models;
 
-using MediatR;
-using Models;
+namespace OWP.TicketEvent.Handlers;
 
 public class QueryAssigneesLgaRequest: IRequest<IEnumerable<TicketAssignees>>
 {

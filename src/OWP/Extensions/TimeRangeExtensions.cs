@@ -1,6 +1,6 @@
-namespace OWP.Extensions;
+using OWP.Models;
 
-using Models;
+namespace OWP.Extensions;
 
 public static class TimeRangeExtensions
 {

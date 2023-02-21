@@ -1,8 +1,8 @@
-﻿namespace OWP.OSLeagueSetting.Services;
+﻿using AutoMapper;
+using OWP.OSLeagueSetting.Criteria;
+using OWP.OSLeagueSetting.Models;
 
-using AutoMapper;
-using Criteria;
-using Models;
+namespace OWP.OSLeagueSetting.Services;
 
 public interface AddSettingService
 {

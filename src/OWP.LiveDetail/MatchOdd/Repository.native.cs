@@ -1,10 +1,10 @@
-﻿namespace OWP.LiveDetail.MatchOdd;
-
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 using AutoMapper;
-using Extensions;
 using Fanex.Data.Repository;
 using Fanex.NAP.Client.Helpers.Web;
+using OWP.Extensions;
+
+namespace OWP.LiveDetail.MatchOdd;
 
 public interface MatchOddRepository
 {

@@ -1,6 +1,6 @@
-﻿namespace OWP.Report.TraderReport.Models;
+﻿using OWP.Models;
 
-using OWP.Models;
+namespace OWP.Report.TraderReport.Models;
 
 public class ExcelPermissionModel
 {

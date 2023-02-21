@@ -1,6 +1,6 @@
-namespace OWP.AssignmentUpload.Validation.Exceptions;
-
 using System.Runtime.Serialization;
+
+namespace OWP.AssignmentUpload.Validation.Exceptions;
 
 [Serializable]
 public class InvalidExcelFormatException : CriticalValidationException

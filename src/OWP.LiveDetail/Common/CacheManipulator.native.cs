@@ -1,9 +1,9 @@
-﻿namespace OWP.LiveDetail.Common;
-
-using Fanex.Caching;
-using MatchInfo;
+﻿using Fanex.Caching;
 using Newtonsoft.Json;
-using Services;
+using OWP.LiveDetail.MatchInfo;
+using OWP.Services;
+
+namespace OWP.LiveDetail.Common;
 
 public interface LiveDetailCacheManipulator
 {

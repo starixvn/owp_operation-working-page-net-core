@@ -1,10 +1,9 @@
-﻿using OWP.Models;
+﻿using Fanex.Data.Repository;
+using Newtonsoft.Json;
+using OWP.Criteria;
+using OWP.Models;
 
 namespace OWP.Extensions;
-
-using Criteria;
-using Fanex.Data.Repository;
-using Newtonsoft.Json;
 
 public static class FanexDataExtensions
 {

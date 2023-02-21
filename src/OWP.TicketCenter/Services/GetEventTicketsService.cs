@@ -1,7 +1,7 @@
-﻿namespace OWP.TicketCenter.Services;
+﻿using OWP.TicketCenter.Handlers;
+using OWP.TicketCenter.Models;
 
-using Handlers;
-using Models;
+namespace OWP.TicketCenter.Services;
 
 public interface GetEventTicketsService
 {

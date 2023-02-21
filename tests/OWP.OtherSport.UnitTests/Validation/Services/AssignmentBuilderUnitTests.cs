@@ -1,10 +1,10 @@
-﻿namespace OWP.OtherSport.UnitTests.Validation.Services;
-
-using AutoMapper;
-using OtherSport.Validation.Models;
-using OtherSport.Validation.Services;
+﻿using AutoMapper;
+using OWP.OtherSport.Validation.Models;
+using OWP.OtherSport.Validation.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.OtherSport.UnitTests.Validation.Services;
 
 public class AssignmentBuilderUnitTests
 {

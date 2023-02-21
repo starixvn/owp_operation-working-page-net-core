@@ -1,12 +1,12 @@
-namespace OWP.MaxbetSetting.UnitTests.Handlers;
-
 using AutoMapper;
-using Criteria;
 using Fanex.Data.Repository;
-using MaxbetSetting.Handlers;
-using Models;
 using NSubstitute;
+using OWP.MaxbetSetting.Criteria;
+using OWP.MaxbetSetting.Handlers;
+using OWP.MaxbetSetting.Models;
 using Xunit;
+
+namespace OWP.MaxbetSetting.UnitTests.Handlers;
 
 public class GetLogMaxbetSettingHandlerUnitTests
 {

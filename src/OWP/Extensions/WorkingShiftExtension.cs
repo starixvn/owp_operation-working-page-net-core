@@ -1,6 +1,6 @@
-﻿namespace OWP.Extensions;
+﻿using System.ComponentModel;
 
-using System.ComponentModel;
+namespace OWP.Extensions;
 
 public enum WorkingShiftExtension
 {

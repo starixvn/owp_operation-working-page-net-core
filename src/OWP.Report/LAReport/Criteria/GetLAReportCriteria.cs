@@ -1,6 +1,6 @@
-﻿namespace OWP.Report.LAReport.Criteria;
+﻿using Fanex.Data.Repository;
 
-using Fanex.Data.Repository;
+namespace OWP.Report.LAReport.Criteria;
 
 public class GetLAReportCriteria : CriteriaBase
 {

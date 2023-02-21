@@ -1,7 +1,7 @@
-﻿namespace OWP.AutoAssignment.Models.InternalApi;
-
-using Epplus.Mapper.Annotations;
+﻿using Epplus.Mapper.Annotations;
 using OfficeOpenXml.Attributes;
+
+namespace OWP.AutoAssignment.Models.InternalApi;
 
 [EpplusTable]
 public record ExportExcelModel

@@ -1,15 +1,14 @@
-﻿using OWP.PrematchAssignment.Criteria;
+﻿using Fanex.Data.Repository;
+using NSubstitute;
+using OWP.PrematchAssignment.Criteria;
 using OWP.PrematchAssignment.Handlers;
 using OWP.PrematchAssignment.Misc;
 using OWP.PrematchAssignment.Models;
 using OWP.PrematchAssignment.Services;
-
-namespace OWP.PreMatchAssignment.UnitTests.Services;
-
-using Fanex.Data.Repository;
-using NSubstitute;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.PreMatchAssignment.UnitTests.Services;
 
 public class QueryLogServiceUnitTests
 {

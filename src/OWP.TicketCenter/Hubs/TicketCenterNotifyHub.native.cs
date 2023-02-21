@@ -1,6 +1,6 @@
-﻿namespace OWP.TicketCenter.Hubs;
+﻿using Microsoft.AspNetCore.SignalR;
 
-using Microsoft.AspNetCore.SignalR;
+namespace OWP.TicketCenter.Hubs;
 
 public interface TicketCenterNotifyHub
 {

@@ -1,15 +1,12 @@
-﻿using OWP.Models;
-
-namespace OWP.AssignmentUpload.UnitTests.Validation.Services;
-
+﻿using System.ComponentModel.DataAnnotations;
 using OWP.AssignmentUpload.Validation.Exceptions;
 using OWP.AssignmentUpload.Validation.Models;
 using OWP.AssignmentUpload.Validation.Services;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+using OWP.Models;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.AssignmentUpload.UnitTests.Validation.Services;
 
 public class AssignmentValidatorImpUnitTests
 {

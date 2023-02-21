@@ -1,15 +1,15 @@
-﻿namespace OWP.AssignmentUpload.UnitTests.Submit.Services;
-
-using AssignmentUpload.Submit;
-using AssignmentUpload.Submit.Criteria;
-using AssignmentUpload.Submit.Models;
-using AssignmentUpload.Submit.Services;
-using AssignmentUpload.Validation.Models;
-using Fanex.Data.Repository;
+﻿using Fanex.Data.Repository;
 using Fanex.NAP.Client.Helpers.Web;
 using NSubstitute;
+using OWP.AssignmentUpload.Submit;
+using OWP.AssignmentUpload.Submit.Criteria;
+using OWP.AssignmentUpload.Submit.Models;
+using OWP.AssignmentUpload.Submit.Services;
+using OWP.AssignmentUpload.Validation.Models;
 using OWP.Services;
 using Xunit;
+
+namespace OWP.AssignmentUpload.UnitTests.Submit.Services;
 
 public class CommandRepositoryIntegrationTest
 {

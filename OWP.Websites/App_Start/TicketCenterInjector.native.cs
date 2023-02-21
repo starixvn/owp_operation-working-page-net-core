@@ -1,9 +1,9 @@
-﻿namespace OWP.Websites;
+﻿using OWP.TicketCenter;
+using OWP.TicketCenter.Middleware;
+using OWP.TicketCenter.Notification.Services;
+using OWP.TicketCenter.Services;
 
-using TicketCenter;
-using TicketCenter.Middleware;
-using TicketCenter.Notification.Services;
-using TicketCenter.Services;
+namespace OWP.Websites;
 
 public static class TicketCenterInjector
 {

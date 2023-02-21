@@ -1,9 +1,9 @@
-﻿namespace OWP.OSLeagueSetting.Services;
+﻿using AutoMapper;
+using OWP.Extensions;
+using OWP.OSLeagueSetting.Models;
+using OWP.Utils;
 
-using AutoMapper;
-using Extensions;
-using Models;
-using Utils;
+namespace OWP.OSLeagueSetting.Services;
 
 public interface LogService
 {

@@ -1,6 +1,6 @@
-namespace OWP.Utils;
-
 using System.Diagnostics;
+
+namespace OWP.Utils;
 
 public static class Converter
 {

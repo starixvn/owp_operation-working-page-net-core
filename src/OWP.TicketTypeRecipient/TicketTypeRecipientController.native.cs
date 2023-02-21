@@ -1,10 +1,9 @@
-﻿namespace OWP.TicketTypeRecipient;
-
-using Handlers;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Middleware;
-using Models;
+using OWP.TicketTypeRecipient.Handlers;
+using OWP.TicketTypeRecipient.Middleware;
+
+namespace OWP.TicketTypeRecipient;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -18,7 +17,7 @@ public class TicketTypeRecipientController : ControllerBase
     }
 
     [HttpGet("get-ticket-recipients")]
-    public async Task<IEnumerable<TicketTypeRecipient>> GetTicketTypeRecipients() => await mediator.Send(new GetTicketTypeRecipientRequest());
+    public async Task<IEnumerable<Models.TicketTypeRecipient>> GetTicketTypeRecipients() => await mediator.Send(new GetTicketTypeRecipientRequest());
 
     [HttpPost("save-ticket-recipients")]
     [ServiceFilter(typeof(DuplicateSubtypeValidator))]

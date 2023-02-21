@@ -1,10 +1,10 @@
-﻿namespace OWP.AssignmentUpload.UnitTests.Submit.Services;
-
-using AssignmentUpload.Submit.Models;
-using AssignmentUpload.Submit.Services;
-using AssignmentUpload.Validation.Models;
+﻿using OWP.AssignmentUpload.Submit.Models;
+using OWP.AssignmentUpload.Submit.Services;
+using OWP.AssignmentUpload.Validation.Models;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.AssignmentUpload.UnitTests.Submit.Services;
 
 public class AssignmentAnalyzerUnitTests
 {

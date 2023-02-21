@@ -1,6 +1,6 @@
-﻿namespace OWP.Report.OvertimeReport.Criteria;
+﻿using Fanex.Data.Repository;
 
-using Fanex.Data.Repository;
+namespace OWP.Report.OvertimeReport.Criteria;
 
 public class GetReportByDateRangeCriteria : CriteriaBase
 {

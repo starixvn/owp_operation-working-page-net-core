@@ -1,6 +1,6 @@
-﻿namespace OWP.Services;
+﻿using Microsoft.AspNetCore.Hosting;
 
-using Microsoft.AspNetCore.Hosting;
+namespace OWP.Services;
 
 public interface ConfigurationService
 {

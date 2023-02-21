@@ -1,8 +1,8 @@
-﻿namespace OWP.AutoAssignment.Services.InternalApi;
+﻿using OWP.AutoAssignment.Builder;
+using OWP.AutoAssignment.Constant;
+using OWP.AutoAssignment.Models.InternalApi;
 
-using Builder;
-using Constant;
-using Models.InternalApi;
+namespace OWP.AutoAssignment.Services.InternalApi;
 
 public interface ProviderBuilderService
 {

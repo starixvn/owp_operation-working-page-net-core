@@ -1,8 +1,8 @@
-﻿namespace OWP.AssignmentUpload.Validation.Helper;
+﻿using System.ComponentModel.DataAnnotations;
+using OWP.AssignmentUpload.Validation.Constants;
+using OWP.AssignmentUpload.Validation.Models;
 
-using System.ComponentModel.DataAnnotations;
-using Constants;
-using Models;
+namespace OWP.AssignmentUpload.Validation.Helper;
 
 public static class ValidationHelper
 {

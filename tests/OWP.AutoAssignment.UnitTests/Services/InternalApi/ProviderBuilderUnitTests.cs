@@ -1,10 +1,10 @@
-﻿namespace OWP.AutoAssignment.UnitTests.Services.InternalApi;
-
-using AutoAssignment.Services.InternalApi;
-using Models.InternalApi;
-using NSubstitute;
+﻿using NSubstitute;
+using OWP.AutoAssignment.Models.InternalApi;
+using OWP.AutoAssignment.Services.InternalApi;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.AutoAssignment.UnitTests.Services.InternalApi;
 
 public class ProviderBuilderUnitTests
 {

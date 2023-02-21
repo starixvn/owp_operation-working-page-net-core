@@ -1,8 +1,8 @@
-namespace OWP.TicketCenter.Handlers;
-
-using Criteria;
 using MediatR;
-using Middleware.Models;
+using OWP.TicketCenter.Criteria;
+using OWP.TicketCenter.Middleware.Models;
+
+namespace OWP.TicketCenter.Handlers;
 
 public class DeleteTicketRequest : PermissionCheckedModel, IRequest<bool>
 {

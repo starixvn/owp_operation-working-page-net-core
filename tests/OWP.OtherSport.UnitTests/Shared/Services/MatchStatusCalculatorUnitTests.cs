@@ -1,11 +1,11 @@
-﻿namespace OWP.OtherSport.UnitTests.Shared.Services;
-
-using Extensions;
-using Fanex.Data.Repository;
+﻿using Fanex.Data.Repository;
 using NSubstitute;
-using OtherSport.Shared.Services;
-using OtherSport.Submit.Models;
+using OWP.Extensions;
+using OWP.OtherSport.Shared.Services;
+using OWP.OtherSport.Submit.Models;
 using Xunit;
+
+namespace OWP.OtherSport.UnitTests.Shared.Services;
 
 public class MatchStatusCalculatorUnitTests
 {

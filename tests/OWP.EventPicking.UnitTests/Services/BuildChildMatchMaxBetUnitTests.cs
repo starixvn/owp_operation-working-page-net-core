@@ -1,10 +1,10 @@
-namespace OWP.EventPicking.UnitTests.Services;
-
-using EventPicking.Services;
-using MaxbetSetting.Models;
-using Models;
+using OWP.EventPicking.Models;
+using OWP.EventPicking.Services;
+using OWP.MaxbetSetting.Models;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.EventPicking.UnitTests.Services;
 
 public class BuildChildMatchMaxBetUnitTests
 {

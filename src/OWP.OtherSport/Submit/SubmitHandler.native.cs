@@ -1,15 +1,15 @@
-﻿namespace OWP.OtherSport.Submit;
-
-using Extensions;
-using Fanex.NAP.Client.Helpers.Web;
-using Hubs;
+﻿using Fanex.NAP.Client.Helpers.Web;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
-using Models;
-using RabbitMQ;
-using RabbitMQ.Constants;
-using Services;
-using Validation.Models;
+using OWP.Extensions;
+using OWP.OtherSport.Hubs;
+using OWP.OtherSport.Submit.Models;
+using OWP.OtherSport.Submit.Services;
+using OWP.OtherSport.Validation.Models;
+using OWP.RabbitMQ;
+using OWP.RabbitMQ.Constants;
+
+namespace OWP.OtherSport.Submit;
 
 public class SubmitRequest : IRequest<SubmitResponse>
 {

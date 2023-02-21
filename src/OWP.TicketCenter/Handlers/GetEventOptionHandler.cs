@@ -1,7 +1,7 @@
-﻿namespace OWP.TicketCenter.Handlers;
+﻿using MediatR;
+using OWP.TicketCenter.ViewModels;
 
-using MediatR;
-using ViewModels;
+namespace OWP.TicketCenter.Handlers;
 
 public class GetTicketEventOptionRequest : IRequest<IList<EventCheckingOptionInfoSender>>
 {

@@ -1,8 +1,8 @@
-﻿namespace OWP.Report.TraderReport.Services;
+﻿using OfficeOpenXml;
+using OWP.Report.Constant;
+using OWP.Report.TraderReport.Models;
 
-using Constant;
-using Models;
-using OfficeOpenXml;
+namespace OWP.Report.TraderReport.Services;
 
 public interface ExcelPermissionService
 {

@@ -1,9 +1,9 @@
-﻿namespace OWP.TicketCenter.UnitTests.Services;
-
-using Models;
-using NSubstitute;
-using TicketCenter.Services;
+﻿using NSubstitute;
+using OWP.TicketCenter.Models;
+using OWP.TicketCenter.Services;
 using Xunit;
+
+namespace OWP.TicketCenter.UnitTests.Services;
 
 public class PermissionServiceUnitTests
 {

@@ -1,11 +1,11 @@
-namespace OWP.Services;
-
 using Fanex.NAP.Client.Configuration;
 using Fanex.NAP.Client.Helpers.Web;
 using Fanex.NAP.Client.Models.ValueObject;
 using Fanex.NAP.Client.Services;
 using Fanex.NAP.Core.Business;
-using Models;
+using OWP.Models;
+
+namespace OWP.Services;
 
 public interface PermissionService
 {

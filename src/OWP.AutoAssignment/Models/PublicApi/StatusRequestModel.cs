@@ -1,6 +1,6 @@
-﻿namespace OWP.AutoAssignment.Models.PublicApi;
+﻿using OWP.AutoAssignment.Enum;
 
-using Enum;
+namespace OWP.AutoAssignment.Models.PublicApi;
 
 public class StatusRequestModel
 {

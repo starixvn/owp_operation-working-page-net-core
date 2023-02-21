@@ -1,7 +1,7 @@
-﻿namespace OWP.Websites;
+﻿using OWP.TaskList;
+using OWP.TaskList.Services;
 
-using TaskList;
-using TaskList.Services;
+namespace OWP.Websites;
 
 public static class TaskListInjector
 {

@@ -1,9 +1,8 @@
 ﻿using OWP.PrematchAssignment.Misc;
 using OWP.PrematchAssignment.Models;
+using Xunit;
 
 namespace OWP.PreMatchAssignment.UnitTests.Misc;
-
-using Xunit;
 
 public class LogFactoryUnitTests
 {

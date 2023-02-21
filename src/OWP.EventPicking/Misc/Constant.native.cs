@@ -1,6 +1,6 @@
-﻿namespace OWP.EventPicking.Misc;
+﻿using System.Collections.Immutable;
 
-using System.Collections.Immutable;
+namespace OWP.EventPicking.Misc;
 
 public static class Constant
 {

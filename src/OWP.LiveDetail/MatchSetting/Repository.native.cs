@@ -1,9 +1,9 @@
-﻿namespace OWP.LiveDetail.MatchSetting;
-
-using AutoMapper;
-using Extensions;
+﻿using AutoMapper;
 using Fanex.Data.Repository;
 using Fanex.NAP.Client.Helpers.Web;
+using OWP.Extensions;
+
+namespace OWP.LiveDetail.MatchSetting;
 
 public interface MatchSettingRepository
 {

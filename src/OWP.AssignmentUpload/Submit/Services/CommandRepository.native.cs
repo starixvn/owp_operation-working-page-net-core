@@ -1,12 +1,12 @@
-﻿namespace OWP.AssignmentUpload.Submit.Services;
-
-using Criteria;
-using Fanex.Data.Repository;
+﻿using Fanex.Data.Repository;
 using Fanex.NAP.Client.Helpers.Web;
-using Models;
 using Olympus.Xml;
+using OWP.AssignmentUpload.Submit.Criteria;
+using OWP.AssignmentUpload.Submit.Models;
+using OWP.AssignmentUpload.Validation.Models;
 using OWP.Services;
-using Validation.Models;
+
+namespace OWP.AssignmentUpload.Submit.Services;
 
 public interface CommandRepository
 {

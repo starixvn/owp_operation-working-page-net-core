@@ -1,10 +1,10 @@
-﻿namespace OWP.TicketCenter;
+﻿using AutoMapper;
+using OWP.TicketCenter.Criteria;
+using OWP.TicketCenter.Handlers;
+using OWP.TicketCenter.Models;
+using OWP.TicketCenter.ViewModels;
 
-using AutoMapper;
-using Criteria;
-using Handlers;
-using Models;
-using ViewModels;
+namespace OWP.TicketCenter;
 
 public class AutoMapperProfile : Profile
 {

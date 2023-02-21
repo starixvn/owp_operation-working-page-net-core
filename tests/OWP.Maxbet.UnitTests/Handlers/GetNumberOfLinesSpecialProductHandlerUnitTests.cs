@@ -1,11 +1,11 @@
-﻿namespace OWP.Maxbet.UnitTests.Handlers;
-
-using Criteria;
-using Fanex.Data.Repository;
-using Maxbet.Handlers;
-using Models;
+﻿using Fanex.Data.Repository;
 using NSubstitute;
+using OWP.Maxbet.Criteria;
+using OWP.Maxbet.Handlers;
+using OWP.Maxbet.Models;
 using Xunit;
+
+namespace OWP.Maxbet.UnitTests.Handlers;
 
 public class GetNumberOfLinesSpecialProductHandlerUnitTests
 {

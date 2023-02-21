@@ -1,6 +1,6 @@
-﻿namespace OWP.AssignmentUpload.Validation.Exceptions;
+﻿using System.Runtime.Serialization;
 
-using System.Runtime.Serialization;
+namespace OWP.AssignmentUpload.Validation.Exceptions;
 
 [Serializable]
 public class CriticalValidationException : Exception

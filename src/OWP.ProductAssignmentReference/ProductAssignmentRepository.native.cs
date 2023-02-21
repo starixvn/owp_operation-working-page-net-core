@@ -1,10 +1,10 @@
-﻿namespace OWP.ProductAssignmentReference;
-
-using Criteria;
-using Fanex.Data.Repository;
+﻿using Fanex.Data.Repository;
 using Fanex.NAP.Client.Configuration;
-using Models;
 using OWP.Models;
+using OWP.ProductAssignmentReference.Criteria;
+using OWP.ProductAssignmentReference.Models;
+
+namespace OWP.ProductAssignmentReference;
 
 public interface ProductAssignmentRepository
 {

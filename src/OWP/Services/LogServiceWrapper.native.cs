@@ -1,8 +1,8 @@
-﻿namespace OWP.Services;
-
-using System.Text;
+﻿using System.Text;
 using Fanex.Logging;
 using Newtonsoft.Json;
+
+namespace OWP.Services;
 
 public interface LogServiceWrapper
 {

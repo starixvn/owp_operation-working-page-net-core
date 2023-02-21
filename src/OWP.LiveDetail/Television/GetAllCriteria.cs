@@ -1,6 +1,6 @@
-﻿namespace OWP.LiveDetail.Television;
+﻿using Fanex.Data.Repository;
 
-using Fanex.Data.Repository;
+namespace OWP.LiveDetail.Television;
 
 public class GetAllCriteria : CriteriaBase
 {

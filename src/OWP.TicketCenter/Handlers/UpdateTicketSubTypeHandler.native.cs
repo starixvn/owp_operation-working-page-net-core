@@ -1,9 +1,9 @@
-﻿namespace OWP.TicketCenter.Handlers;
+﻿using MediatR;
+using OWP.TicketCenter.Criteria;
+using OWP.TicketCenter.Middleware.Models;
+using OWP.TicketCenter.Notification.Services;
 
-using Criteria;
-using MediatR;
-using Middleware.Models;
-using Notification.Services;
+namespace OWP.TicketCenter.Handlers;
 
 public class UpdateTicketSubTypeRequest : PermissionCheckedModel, IRequest<Unit>
 {

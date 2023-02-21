@@ -1,9 +1,9 @@
-﻿namespace OWP.OtherSport.UnitTests.Validation.Services;
-
-using OfficeOpenXml;
-using OtherSport.Validation.Exceptions;
-using OtherSport.Validation.Services;
+﻿using OfficeOpenXml;
+using OWP.OtherSport.Validation.Exceptions;
+using OWP.OtherSport.Validation.Services;
 using Xunit;
+
+namespace OWP.OtherSport.UnitTests.Validation.Services;
 
 public class ExcelValidatorUnitTests
 {

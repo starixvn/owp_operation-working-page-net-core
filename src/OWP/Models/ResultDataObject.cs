@@ -1,6 +1,6 @@
-﻿namespace OWP.Models;
+﻿using Newtonsoft.Json;
 
-using Newtonsoft.Json;
+namespace OWP.Models;
 
 public class ResultDataObject
 {

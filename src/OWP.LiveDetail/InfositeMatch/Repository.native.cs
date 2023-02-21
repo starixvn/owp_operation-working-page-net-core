@@ -1,10 +1,8 @@
-﻿namespace OWP.LiveDetail.InfositeMatch;
+﻿using Fanex.Data.Repository;
+using OWP.Extensions;
+using OWP.Models;
 
-using Agent;
-using Extensions;
-using Fanex.Data.Repository;
-using Models;
-using Television;
+namespace OWP.LiveDetail.InfositeMatch;
 
 public interface InfositeMatchRepository
 {
@@ -29,7 +27,7 @@ public class InfositeMatchRepositoryImp : InfositeMatchRepository
         };
 
         criteria.ThrowExceptionIfInvalid();
-        var tuple = await repository.FetchMultipleAsync<InfositeMatchModel, Agent, Television>(criteria);
+        var tuple = await repository.FetchMultipleAsync<InfositeMatchModel, Agent.Agent, Television.Television>(criteria);
         var infositeMatch = tuple.Item1.FirstOrDefault();
         if (infositeMatch != null)
         {

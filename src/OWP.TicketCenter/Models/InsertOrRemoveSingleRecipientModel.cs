@@ -1,6 +1,6 @@
-﻿namespace OWP.TicketCenter.Models;
+﻿using OWP.TicketCenter.Middleware.Models;
 
-using Middleware.Models;
+namespace OWP.TicketCenter.Models;
 
 public class InsertOrRemoveSingleRecipientModel : PermissionCheckedModel
 {

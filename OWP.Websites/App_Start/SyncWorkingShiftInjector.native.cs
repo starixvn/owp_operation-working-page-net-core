@@ -1,6 +1,6 @@
-﻿namespace OWP.Websites;
+﻿using OWP.ApiSyncWorkingShift;
 
-using ApiSyncWorkingShift;
+namespace OWP.Websites;
 
 public static class SyncWorkingShiftInjector
 {

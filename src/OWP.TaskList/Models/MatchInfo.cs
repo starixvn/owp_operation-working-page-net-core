@@ -1,7 +1,7 @@
-﻿namespace OWP.TaskList.Models;
+﻿using Newtonsoft.Json;
+using OWP.Utils;
 
-using Newtonsoft.Json;
-using Utils;
+namespace OWP.TaskList.Models;
 
 public class MatchInfo
 {

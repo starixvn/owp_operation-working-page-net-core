@@ -1,6 +1,6 @@
-﻿namespace OWP.AutoAssignment.Models.PublicApi;
+﻿using Newtonsoft.Json;
 
-using Newtonsoft.Json;
+namespace OWP.AutoAssignment.Models.PublicApi;
 
 public class RealMatchSender : CommonMatchSender
 {

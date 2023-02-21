@@ -1,16 +1,15 @@
-﻿using OWP.OtherSport.Submit.Constants;
-
-namespace OWP.OtherSport.UnitTests.Download.Services;
-
-using AutoMapper;
+﻿using AutoMapper;
 using NSubstitute;
-using OtherSport.Download;
-using OtherSport.Download.Models;
-using OtherSport.Download.Services;
-using OtherSport.Shared.Services;
-using OtherSport.Submit.Models;
+using OWP.OtherSport.Download;
+using OWP.OtherSport.Download.Models;
+using OWP.OtherSport.Download.Services;
+using OWP.OtherSport.Shared.Services;
+using OWP.OtherSport.Submit.Constants;
+using OWP.OtherSport.Submit.Models;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.OtherSport.UnitTests.Download.Services;
 
 public class BuildExcelModelServiceUnitTests
 {

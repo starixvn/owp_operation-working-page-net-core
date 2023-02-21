@@ -1,6 +1,6 @@
-namespace OWP.MatchCountLiveReport.Helper;
+using OWP.MatchCountLiveReport.Handlers;
 
-using Handlers;
+namespace OWP.MatchCountLiveReport.Helper;
 
 public static class LiveReportHelper
 {

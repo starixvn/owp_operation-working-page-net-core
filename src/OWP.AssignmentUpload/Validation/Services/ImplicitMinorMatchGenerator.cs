@@ -1,7 +1,7 @@
-﻿namespace OWP.AssignmentUpload.Validation.Services;
+﻿using OWP.AssignmentUpload.Validation.Constants;
+using OWP.AssignmentUpload.Validation.Models;
 
-using Constants;
-using Models;
+namespace OWP.AssignmentUpload.Validation.Services;
 
 public interface ImplicitMinorMatchGenerator
 {

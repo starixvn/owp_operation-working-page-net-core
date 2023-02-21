@@ -1,12 +1,12 @@
-namespace OWP.MatchCountLiveReport.Handlers;
-
 using System.Drawing;
 using Epplus.Mapper.Extensions;
 using MediatR;
-using Models;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
-using Services;
+using OWP.MatchCountLiveReport.Models;
+using OWP.Services;
+
+namespace OWP.MatchCountLiveReport.Handlers;
 
 public class ExportRequest : IRequest<ExcelPackage>
 {

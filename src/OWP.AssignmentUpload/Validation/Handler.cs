@@ -1,12 +1,12 @@
-﻿namespace OWP.AssignmentUpload.Validation;
-
-using System.Globalization;
-using Exceptions;
+﻿using System.Globalization;
 using Fanex.NAP.Client.Helpers.Web;
 using MediatR;
-using Models;
+using OWP.AssignmentUpload.Validation.Exceptions;
+using OWP.AssignmentUpload.Validation.Models;
+using OWP.AssignmentUpload.Validation.Services;
 using OWP.Services;
-using Services;
+
+namespace OWP.AssignmentUpload.Validation;
 
 public class ValidationRequest : IRequest<AssignmentValidationResult>
 {

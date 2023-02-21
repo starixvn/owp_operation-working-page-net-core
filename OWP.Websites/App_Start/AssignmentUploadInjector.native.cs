@@ -1,11 +1,10 @@
 using OWP.AssignmentUpload.Submit.Services;
 using OWP.AssignmentUpload.SyncInfoSite.Services;
 using OWP.AssignmentUpload.Validation.Services;
+using CacheManipulator = OWP.AssignmentUpload.Validation.Services.CacheManipulator;
+using CacheManipulatorImp = OWP.AssignmentUpload.Validation.Services.CacheManipulatorImp;
 
 namespace OWP.Websites;
-
-using CacheManipulator = AssignmentUpload.Validation.Services.CacheManipulator;
-using CacheManipulatorImp = AssignmentUpload.Validation.Services.CacheManipulatorImp;
 
 public static class AssignmentUploadInjector
 {

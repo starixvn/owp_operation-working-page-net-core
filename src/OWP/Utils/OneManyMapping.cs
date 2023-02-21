@@ -1,6 +1,6 @@
-namespace OWP.Utils;
+using OWP.Extensions;
 
-using Extensions;
+namespace OWP.Utils;
 
 public static class OneManyMapping
 {
