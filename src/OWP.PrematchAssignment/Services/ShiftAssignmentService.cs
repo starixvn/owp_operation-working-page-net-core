@@ -454,10 +454,11 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
 
     public async Task AddOddStatusNo(IEnumerable<InfoSiteMatch> infositeMatches)
     {
-        var oddStatuses = await QueryOddStatusFromMainDb(infositeMatches);
+        var infoSiteMatches = infositeMatches.ToList();
+        var oddStatuses = await QueryOddStatusFromMainDb(infoSiteMatches);
         var oddStatusesDict = oddStatuses.GroupBy(x => x.AdminSiteMatchId).ToDictionary(x => x.Key, x => x.ToList());
 
-        foreach (var infositeMatch in infositeMatches)
+        foreach (var infositeMatch in infoSiteMatches)
         {
             var oddStatusByMatchId = oddStatusesDict.GetValue(infositeMatch.AdminSiteMatchId, new List<OddStatus>());
             var openedHDP = IsRunning(oddStatusByMatchId.Where(x => x.Bettype == 1));

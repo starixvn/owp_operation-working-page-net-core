@@ -73,7 +73,7 @@ public class GetEventByDayServiceImp : GetEventByDayService
             var tvCode = match.Televisions.Select(t => t.TVCode);
             match.IPTVCopy = IPTVBuilder.Build(new IPTVModel
             {
-                TeleVision = string.Join("/", tvCode),
+                Television = string.Join("/", tvCode),
                 IpTv = match.IPTV,
                 Channel = match.Channel,
                 Stream = match.WatchBet

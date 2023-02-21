@@ -1,6 +1,5 @@
 ﻿namespace OWP.LiveGameList.Services;
 
-using System.Net;
 using Builder;
 using Constants;
 using Criteria;
@@ -8,6 +7,7 @@ using Fanex.NAP.Client.Helpers.Web;
 using Fanex.NAP.Core.Business;
 using Models;
 using OWP.Services;
+using System.Net;
 
 public interface EventInformationService
 {
@@ -73,7 +73,7 @@ public class EventInformationServiceImp : EventInformationService
                 });
             matchInfo.IPTVCopy = IPTVBuilder.Build(new IPTVModel
             {
-                TeleVision = string.Join("/", matchInfo.Televisions.Select(t => t.TVCode)),
+                Television = string.Join("/", matchInfo.Televisions.Select(t => t.TVCode)),
                 IpTv = matchInfo.IPTV,
                 Channel = matchInfo.Channel,
                 Stream = matchInfo.WatchBet
