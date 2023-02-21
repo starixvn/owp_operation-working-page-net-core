@@ -1,7 +1,7 @@
-namespace OWP.LeagueManagement.Service;
-
 using Fanex.NAP.Client.Helpers.Web;
-using Models;
+using OWP.LeagueManagement.Models;
+
+namespace OWP.LeagueManagement.Services;
 
 public interface SpecialProductService
 {

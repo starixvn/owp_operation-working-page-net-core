@@ -1,7 +1,5 @@
 namespace OWP.PrematchAssignment.Models;
 
-using PreMatchAssignment.Models;
-
 public class AssignmentShift
 {
     public IEnumerable<PreMatchLeague> Leagues { get; set; }

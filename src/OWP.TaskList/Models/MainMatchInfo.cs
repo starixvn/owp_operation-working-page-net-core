@@ -1,4 +1,4 @@
-namespace OWP.TaskList;
+namespace OWP.TaskList.Models;
 
 public class MainMatchInfo
 {

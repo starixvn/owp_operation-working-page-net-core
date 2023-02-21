@@ -1,15 +1,15 @@
-namespace OWP.LeagueManagement.UnitTests;
-
-using Criteria;
 using Fanex.NAP.Client.Helpers.Web;
-using Models;
 using Newtonsoft.Json;
 using NSubstitute;
 using Olympus.Xml;
+using OWP.LeagueManagement.Criteria;
+using OWP.LeagueManagement.Models;
+using OWP.LeagueManagement.Services;
 using OWP.Models;
-using Service;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.LeagueManagement.UnitTests.Services;
 
 public class LeagueManagementUnitTests
 {

@@ -1,6 +1,6 @@
-﻿namespace OWP.Websites.App_Start;
+﻿using OWP.RabbitMQ;
 
-using RabbitMQ;
+namespace OWP.Websites;
 
 public static class AppExtensions
 {

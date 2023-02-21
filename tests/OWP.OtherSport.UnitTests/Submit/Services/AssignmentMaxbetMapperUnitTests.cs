@@ -1,6 +1,7 @@
-﻿namespace OWP.OtherSport.UnitTests.Submit.Services;
+﻿using OWP.OtherSport.Submit.Constants;
 
-using OtherSport.Submit.Contants;
+namespace OWP.OtherSport.UnitTests.Submit.Services;
+
 using OtherSport.Submit.Models;
 using OtherSport.Submit.Services;
 using OtherSport.Validation.Models;

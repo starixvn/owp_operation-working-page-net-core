@@ -1,10 +1,11 @@
-namespace OWP.Report.PreMatchReport.UnitTests.Services;
-
 using AutoMapper;
-using Models;
 using NSubstitute;
-using PreMatchReport.Services;
+using OWP.Report.PreMatchReport;
+using OWP.Report.PreMatchReport.Models;
+using OWP.Report.PreMatchReport.Services;
 using Xunit;
+
+namespace OWP.Report.UnitTests.PreMatchReport.Services;
 
 public class GetPreMatchReportServiceUnitTests
 {

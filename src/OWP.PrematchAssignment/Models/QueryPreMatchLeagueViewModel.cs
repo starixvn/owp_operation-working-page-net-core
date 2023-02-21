@@ -1,6 +1,6 @@
-﻿namespace OWP.PreMatchAssignment.Models;
+﻿using Newtonsoft.Json;
 
-using Newtonsoft.Json;
+namespace OWP.PrematchAssignment.Models;
 
 public class QueryPreMatchLeagueViewModel
 {

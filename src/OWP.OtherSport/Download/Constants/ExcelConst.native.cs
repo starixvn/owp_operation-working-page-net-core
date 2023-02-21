@@ -1,6 +1,6 @@
-﻿namespace OWP.OtherSport.Download.Constants;
+﻿using OWP.OtherSport.Submit.Constants;
 
-using Submit.Contants;
+namespace OWP.OtherSport.Download.Constants;
 
 public static class ExcelConst
 {

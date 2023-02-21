@@ -1,7 +1,7 @@
-namespace OWP.TaskList;
-
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
+
+namespace OWP.TaskList.Enumerations;
 
 [SuppressMessage("Microsoft.Design", "CA1008:EnumsShouldHaveZeroValue", Justification = "Reviewed.")]
 public enum MinorBettype

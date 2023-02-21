@@ -1,4 +1,6 @@
-﻿namespace OWP.TaskList.Models;
+﻿using OWP.TaskList.Builders;
+
+namespace OWP.TaskList.Models;
 
 using System.Text.Json.Serialization;
 

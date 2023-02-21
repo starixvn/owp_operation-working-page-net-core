@@ -1,4 +1,6 @@
-﻿namespace OWP.LiveDetail.Common;
+﻿using OWP.Enums;
+
+namespace OWP.LiveDetail.Common;
 
 using Constants;
 

@@ -1,14 +1,14 @@
-﻿namespace OWP.PreMatchAssignment.UnitTests.Services;
+﻿using OWP.PrematchAssignment.Criteria;
+using OWP.PrematchAssignment.Handlers;
+using OWP.PrematchAssignment.Services;
+
+namespace OWP.PreMatchAssignment.UnitTests.Services;
 
 using AutoMapper;
-using Criteria;
 using Fanex.Data.Repository;
 using Fanex.NAP.Client.Helpers.Web;
-using Handlers;
-using Models;
 using NSubstitute;
 using PrematchAssignment.Models;
-using PreMatchAssignment.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
 

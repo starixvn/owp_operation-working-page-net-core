@@ -1,8 +1,9 @@
-﻿namespace OWP.Websites.App_Start;
+﻿using OWP.Report.LAReport.Services;
+using OWP.Report.TraderReport.Services;
+using OWP.Services;
 
-using Report.LAReport.Services;
-using Report.TraderReport.Services;
-using Services;
+namespace OWP.Websites;
+
 using ExportExcelService = Report.TraderReport.Services.ExportExcelService;
 using ExportExcelServiceImp = Report.TraderReport.Services.ExportExcelServiceImp;
 

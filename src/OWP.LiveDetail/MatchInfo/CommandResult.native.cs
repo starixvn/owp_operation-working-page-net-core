@@ -1,7 +1,8 @@
-﻿namespace OWP.LiveDetail.MatchInfo;
+﻿using OWP.Models;
+
+namespace OWP.LiveDetail.MatchInfo;
 
 using Common;
-using Model;
 
 public class CommandResult : OWPCommandResult
 {

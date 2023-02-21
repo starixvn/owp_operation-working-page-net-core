@@ -1,5 +1,7 @@
 ﻿using System.Collections.Immutable;
 
+namespace OWP.Maxbet.Constants;
+
 public static class SubTypeETPK
 {
     public const int MainMatchET = 100;

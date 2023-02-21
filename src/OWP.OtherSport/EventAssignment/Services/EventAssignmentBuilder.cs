@@ -1,9 +1,10 @@
-﻿namespace OWP.OtherSport.EventAssignment.Services;
+﻿using OWP.OtherSport.Submit.Constants;
+
+namespace OWP.OtherSport.EventAssignment.Services;
 
 using AutoMapper;
 using Models;
 using Shared.Helper;
-using Submit.Contants;
 using Submit.Models;
 
 public interface EventAssignmentBuilder

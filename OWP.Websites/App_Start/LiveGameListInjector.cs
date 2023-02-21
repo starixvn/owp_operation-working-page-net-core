@@ -1,9 +1,9 @@
 ﻿
 
-namespace OWP.Websites.App_Start;
+using OWP.LiveGameList;
+using OWP.LiveGameList.Services;
 
-using LiveGameList;
-using LiveGameList.Services;
+namespace OWP.Websites;
 
 public static class LiveGameListInjector
 {

@@ -1,11 +1,12 @@
-﻿namespace OWP.OtherSport.UnitTests.Download.Services;
+﻿using OWP.OtherSport.Submit.Constants;
+
+namespace OWP.OtherSport.UnitTests.Download.Services;
 
 using NSubstitute;
 using OtherSport.Download;
 using OtherSport.Download.Constants;
 using OtherSport.Download.Models;
 using OtherSport.Download.Services;
-using OtherSport.Submit.Contants;
 using OtherSport.Submit.Models;
 using OWP.Services;
 using Xunit;

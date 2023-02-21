@@ -1,7 +1,8 @@
-﻿namespace OWP.PreMatchAssignment.UnitTests.Misc;
+﻿using OWP.PrematchAssignment.Misc;
+using OWP.PrematchAssignment.Models;
 
-using Models;
-using PreMatchAssignment.Misc;
+namespace OWP.PreMatchAssignment.UnitTests.Misc;
+
 using Xunit;
 
 public class LogFactoryUnitTests

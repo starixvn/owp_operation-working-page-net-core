@@ -1,9 +1,9 @@
-namespace OWP.Websites.App_Start;
+using OWP.AssignmentUpload.Submit.Services;
+using OWP.AssignmentUpload.SyncInfoSite.Services;
+using OWP.AssignmentUpload.Validation.Services;
 
-using AssignmentUpload.Submit.Services;
-using AssignmentUpload.SyncInfoSite;
-using AssignmentUpload.SyncInfoSite.Services;
-using AssignmentUpload.Validation.Services;
+namespace OWP.Websites;
+
 using CacheManipulator = AssignmentUpload.Validation.Services.CacheManipulator;
 using CacheManipulatorImp = AssignmentUpload.Validation.Services.CacheManipulatorImp;
 

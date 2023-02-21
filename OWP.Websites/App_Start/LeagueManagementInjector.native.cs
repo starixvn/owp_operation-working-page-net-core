@@ -1,7 +1,8 @@
+using OWP.LeagueManagement.Services;
+
 namespace OWP.Websites;
 
 using LeagueManagement;
-using LeagueManagement.Service;
 
 public static class LeagueManagementInjector
 {

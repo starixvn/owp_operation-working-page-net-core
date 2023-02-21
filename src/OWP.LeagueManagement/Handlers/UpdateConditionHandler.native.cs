@@ -1,9 +1,10 @@
+using OWP.LeagueManagement.Services;
+
 namespace OWP.LeagueManagement.Handlers;
 
 using MediatR;
 using Models;
 using OWP.Models;
-using Service;
 
 public class UpdateConditionRequest : IRequest<ResultDataObject>
 {

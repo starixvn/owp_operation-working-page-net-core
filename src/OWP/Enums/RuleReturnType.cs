@@ -1,4 +1,4 @@
-namespace OWP.Constants;
+namespace OWP.Enums;
 
 public enum RuleReturnType
 {

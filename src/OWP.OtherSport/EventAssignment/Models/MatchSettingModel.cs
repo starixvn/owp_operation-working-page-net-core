@@ -1,7 +1,8 @@
-﻿namespace OWP.OtherSport.EventAssignment.Models;
+﻿using OWP.OtherSport.Submit.Constants;
+
+namespace OWP.OtherSport.EventAssignment.Models;
 
 using Extensions;
-using Submit.Contants;
 
 public class MatchSettingModel
 {

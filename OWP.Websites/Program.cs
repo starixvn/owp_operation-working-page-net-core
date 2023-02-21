@@ -11,7 +11,6 @@ using OWP.OtherSport.Hubs;
 using OWP.RabbitMQ.Model;
 using OWP.TicketCenter.Hubs;
 using OWP.Websites;
-using OWP.Websites.App_Start;
 using OWP.Websites.CrossCuttingConcern;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions

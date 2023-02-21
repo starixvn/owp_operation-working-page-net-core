@@ -1,8 +1,8 @@
-﻿namespace OWP.Websites.App_Start;
+﻿using OWP.OSLeagueSetting;
+using OWP.OSLeagueSetting.Factory;
+using OWP.OSLeagueSetting.Services;
 
-using OSLeagueSetting;
-using OSLeagueSetting.Factory;
-using OSLeagueSetting.Services;
+namespace OWP.Websites;
 
 public static class OSLeagueSettingInjectior
 {

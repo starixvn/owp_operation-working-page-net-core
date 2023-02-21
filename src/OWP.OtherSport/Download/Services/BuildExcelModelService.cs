@@ -1,4 +1,6 @@
-﻿namespace OWP.OtherSport.Download.Services;
+﻿using OWP.OtherSport.Submit.Constants;
+
+namespace OWP.OtherSport.Download.Services;
 
 using AutoMapper;
 using Constants;
@@ -6,7 +8,6 @@ using Extensions;
 using Models;
 using Shared.Helper;
 using Shared.Services;
-using Submit.Contants;
 using Submit.Models;
 
 public interface BuildExcelModelService

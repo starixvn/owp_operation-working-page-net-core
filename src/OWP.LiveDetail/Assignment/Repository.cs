@@ -1,4 +1,6 @@
-﻿namespace OWP.LiveDetail.Assignment;
+﻿using OWP.Enums;
+
+namespace OWP.LiveDetail.Assignment;
 
 using AutoMapper;
 using Common;

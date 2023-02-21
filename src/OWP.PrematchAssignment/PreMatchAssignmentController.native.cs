@@ -1,13 +1,12 @@
-﻿namespace OWP.PreMatchAssignment;
-
-using Handlers;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using PrematchAssignment.Handlers;
-using PrematchAssignment.Models;
+using OWP.PrematchAssignment.Handlers;
+using OWP.PrematchAssignment.Models;
+
+namespace OWP.PrematchAssignment;
 
 [Route("api/[controller]")]
 [ApiController]

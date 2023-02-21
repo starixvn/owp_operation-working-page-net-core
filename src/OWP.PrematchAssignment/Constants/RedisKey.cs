@@ -1,4 +1,4 @@
-﻿namespace OWP.PreMatchAssignment.Constants;
+﻿namespace OWP.PrematchAssignment.Constants;
 
 public static class RedisKey
 {

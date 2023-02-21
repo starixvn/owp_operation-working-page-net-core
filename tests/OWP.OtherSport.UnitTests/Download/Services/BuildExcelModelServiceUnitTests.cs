@@ -1,4 +1,6 @@
-﻿namespace OWP.OtherSport.UnitTests.Download.Services;
+﻿using OWP.OtherSport.Submit.Constants;
+
+namespace OWP.OtherSport.UnitTests.Download.Services;
 
 using AutoMapper;
 using NSubstitute;
@@ -6,7 +8,6 @@ using OtherSport.Download;
 using OtherSport.Download.Models;
 using OtherSport.Download.Services;
 using OtherSport.Shared.Services;
-using OtherSport.Submit.Contants;
 using OtherSport.Submit.Models;
 using Xunit;
 using Xunit.Asserts.Compare;

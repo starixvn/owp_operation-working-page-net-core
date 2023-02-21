@@ -1,4 +1,6 @@
-﻿namespace OWP.SimpleDataApi;
+﻿using OWP.SimpleDataApi.Criteria.TicketSetting;
+
+namespace OWP.SimpleDataApi;
 
 using Criteria;
 using Criteria.LeagueManagement;
