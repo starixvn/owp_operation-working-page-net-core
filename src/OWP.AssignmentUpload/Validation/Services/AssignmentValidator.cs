@@ -172,7 +172,7 @@ public class AssignmentValidatorImp : AssignmentValidator
         ValidateTraders(assignment, results, traders);
         ValidateMatchOffers(assignment, matchOffers, results);
             ValidateOtherAssignment(assignment, results, isUploadFmAndAio);
-        ValidateDataAnnotation(assignment, results);
+            ValidateDataAnnotation(assignment, results);
         ValidateDuplicatedMatchNo(assignment, assignments, results);
         ValidateInvalidTime(assignment, results);
 
@@ -222,7 +222,7 @@ public class AssignmentValidatorImp : AssignmentValidator
         return null;
     }
 
-    public void ValidateDataAnnotation(AssignmentModelInExcel assignment, List<ValidationResult> results)
+        public void ValidateDataAnnotation(AssignmentModelInExcel assignment, List<ValidationResult> results)
     {
         var context = new ValidationContext(assignment, null, null);
         Validator.TryValidateObject(assignment, context, results, true);

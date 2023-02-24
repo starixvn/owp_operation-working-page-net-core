@@ -12,7 +12,7 @@ public interface ExplicitMinorMatchRule1
 
 public class ExplicitMinorMatchRule1Imp : ExplicitMinorMatchRule1
 {
-    public static readonly ImmutableList<MinorMatch> minorMatches = ExplicitMinorMatchRuleConstants.MinorMatchRules1;
+    public static readonly ImmutableList<MinorMatch> minorMatches = ExplicitMinorMatchRuleConstants.MinorMatchedRules1;
 
     public bool DetectMinorBettypeIdRule(AssignmentModel assignment, List<AssignmentModel> assignments)
     {

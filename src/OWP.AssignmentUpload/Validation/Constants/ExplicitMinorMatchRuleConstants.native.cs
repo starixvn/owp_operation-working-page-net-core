@@ -7,7 +7,7 @@ public static class ExplicitMinorMatchRuleConstants
 {
     private const string corners = "CORNERS";
 
-    public static readonly ImmutableList<MinorMatch> MinorMatchRules1 = ImmutableList<MinorMatch>.Empty.AddRange(new[]
+    public static readonly ImmutableList<MinorMatch> MinorMatchedRules1 = ImmutableList<MinorMatch>.Empty.AddRange(new[]
     {
         new MinorMatch
         {
