@@ -7,7 +7,22 @@ public static class ExplicitMinorMatchRuleConstants
 {
     private const string corners = "CORNERS";
 
-    public static readonly ImmutableList<MinorMatch> MinorMatchedRules1 = ImmutableList<MinorMatch>.Empty.AddRange(new[]
+    private const string ERROR_MESSAGE_MISSING_S = "[Column: {0}] - The {1} name is missing 's' at the end";
+    private const string ERROR_MESSAGE_REDUNDANT_S = "[Column: {0}] - The {1} name is redundant 's' at the end";
+
+    public static readonly IDictionary<string, string> MinorMatchedWrongGrammar = new Dictionary<string, string>(){
+            {"No.of Corner",ERROR_MESSAGE_MISSING_S},
+            {"Total Booking",ERROR_MESSAGE_MISSING_S},
+            {"Next Corner",ERROR_MESSAGE_MISSING_S},
+            {"Next Bookings",ERROR_MESSAGE_REDUNDANT_S}
+    };
+
+    public static readonly IDictionary<string, string> MinorLeagueWrongGrammar = new Dictionary<string, string>(){
+            {"CORNER",ERROR_MESSAGE_MISSING_S},
+            {"BOOKINGS",ERROR_MESSAGE_REDUNDANT_S}
+    };
+
+    public static readonly ImmutableList<MinorMatch> MinorMatchesRules1 = ImmutableList<MinorMatch>.Empty.AddRange(new[]
     {
         new MinorMatch
         {

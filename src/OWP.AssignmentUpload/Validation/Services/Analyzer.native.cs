@@ -37,6 +37,7 @@ public class AnalyzerImp : Analyzer
         this.assignmentBuilder = assignmentBuilder;
         this.infoSiteValidation = infoSiteValidation;
         this.refResourceService = refResourceService;
+
     }
 
     public async Task<AnalyzedResult> Analyze(ValidationRequest request)
@@ -55,6 +56,8 @@ public class AnalyzerImp : Analyzer
         matchStatusValidator.Validate(assignments);
 
         infoSiteValidation.Validate(assignments);
+
+
 
         return new AnalyzedResult
         {

@@ -1,5 +1,8 @@
+    using OWP.AssignmentUpload.Validation.Constants;
+    using System.Collections.Immutable;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
+    using System.Text;
 using System.Text.RegularExpressions;
 using OWP.AssignmentUpload.Validation.Exceptions;
 using OWP.AssignmentUpload.Validation.Helper;
@@ -29,6 +32,9 @@ public interface AssignmentValidator
 
 public class AssignmentValidatorImp : AssignmentValidator
 {
+        private static readonly IDictionary<string, string> minorMatchedWrongGrammar = ExplicitMinorMatchRuleConstants.MinorMatchedWrongGrammar;
+        private static readonly IDictionary<string, string> minorLeagueWrongGrammar = ExplicitMinorMatchRuleConstants.MinorLeagueWrongGrammar;
+
     public void Validate(DateTime eventDate, UploadingDataFromExcel uploadingDataFromExcel, List<Trader> traders, bool IsUploadFMAndAIO, List<ReferenceResource> matchOffers)
     {
         ValidateEventDate(eventDate, uploadingDataFromExcel);
@@ -175,8 +181,32 @@ public class AssignmentValidatorImp : AssignmentValidator
             ValidateDataAnnotation(assignment, results);
         ValidateDuplicatedMatchNo(assignment, assignments, results);
         ValidateInvalidTime(assignment, results);
-
+            ValidateMinorMatchIsWrongGrammar(assignment, results);
         return results;
+        }
+
+        public void ValidateMinorMatchIsWrongGrammar(AssignmentModelInExcel assignment, IList<ValidationResult> validationResults)
+        {
+            foreach (var key in minorLeagueWrongGrammar.Keys)
+            {
+                if (assignment.League.EndsWith(key, StringComparison.OrdinalIgnoreCase))
+                {
+                    validationResults.Add(new(string.Format(minorLeagueWrongGrammar[key], "League", "league")));
+                }
+            }
+            foreach (var key in minorMatchedWrongGrammar.Keys)
+            {
+                if (assignment.Home.EndsWith(key, StringComparison.OrdinalIgnoreCase))
+                {
+                    validationResults.Add(new(string.Format(minorMatchedWrongGrammar[key], "Home", "home")));
+                }
+
+                if (assignment.Away.EndsWith(key, StringComparison.OrdinalIgnoreCase))
+                {
+                    validationResults.Add(new(string.Format(minorMatchedWrongGrammar[key], "Away", "away")));
+                }
+
+            }
     }
 
         public void ValidateOtherAssignment(AssignmentModelInExcel assignment, List<ValidationResult> results, bool isUploadFmAndAio)
