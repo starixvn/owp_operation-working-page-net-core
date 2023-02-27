@@ -728,9 +728,9 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
             new()
             {
                 Bettype = Bettype.RacetoPoints7911,
-                Trader = assignment.TraderBadmintonRacetoPoints7911,
-                OtherTrader = assignment.OtherTraderBadmintonRacetoPoints7911,
-                Spread = assignment.SpreadBadmintonRacetoPoints7911
+                Trader = assignment.TraderBadmintonRaceToPoints7911,
+                OtherTrader = assignment.OtherTraderBadmintonRaceToPoints7911,
+                Spread = assignment.SpreadBadmintonRaceToPoints7911
             },
             new()
             {
