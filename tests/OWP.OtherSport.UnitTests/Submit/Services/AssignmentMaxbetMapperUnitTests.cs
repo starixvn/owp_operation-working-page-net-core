@@ -1002,8 +1002,8 @@ public class AssignmentMaxbetMapperUnitTests
             new()
             {
                 Bettype = Bettype.RacetoPoints7911,
-                Trader = assignment.TraderBadmintonRacetoPoints7911,
-                OtherTrader = assignment.OtherTraderBadmintonRacetoPoints7911,
+                Trader = assignment.TraderBadmintonRaceToPoints7911,
+                OtherTrader = assignment.OtherTraderBadmintonRaceToPoints7911,
                 Spread = 10
             },
             new()
@@ -1168,7 +1168,7 @@ public class AssignmentMaxbetMapperUnitTests
             TraderBaseballInningHitsRuns = "TraderBaseballInningHitsRuns",
             TraderBadmintonAllProductSetWinner = "TraderBadmintonAllProductSetWinner",
             TraderBadmintonAllProductPointWinner = "TraderBadmintonAllProductPointWinner",
-            TraderBadmintonRacetoPoints7911 = "TraderBadmintonRaceToPoints7911",
+            TraderBadmintonRaceToPoints7911 = "TraderBadmintonRaceToPoints7911",
             TraderBadmintonNextPointWinner = "TraderBadmintonNextPointWinner",
             TraderBadmintonMatchHandicap = "TraderBadmintonMatchHandicap",
             TraderTennisAllProductLS = "TraderTennisAllProductLS",
@@ -1179,7 +1179,7 @@ public class AssignmentMaxbetMapperUnitTests
             OtherTraderBadmintonAllProductSetWinner = "OtherTraderBadmintonAllProductSetWinner",
             OtherTraderBadmintonMatchHandicap = "OtherTraderBadmintonMatchHandicap",
             OtherTraderBadmintonNextPointWinner = "OtherTraderBadmintonNextPointWinner",
-            OtherTraderBadmintonRacetoPoints7911 = "OtherTraderBadmintonRaceToPoints7911",
+            OtherTraderBadmintonRaceToPoints7911 = "OtherTraderBadmintonRaceToPoints7911",
             OtherTraderBaseball1H1st5inningsHDP = "OtherTraderBaseball1H1st5inningsHDP",
             OtherTraderBaseball1H1st5inningsOU = "OtherTraderBaseball1H1st5inningsOU",
             OtherTraderBaseballFTRunLineHDP = "OtherTraderBaseballFTRunLineHDP",
@@ -1306,7 +1306,7 @@ public class AssignmentMaxbetMapperUnitTests
             MaxBetBaseballInningHitsRuns = 1200,
             MaxBetBadmintonAllProductSetWinner = 1200,
             MaxBetBadmintonAllProductPointWinner = 1200,
-            MaxBetBadmintonRacetoPoints7911 = 1200,
+            MaxBetBadmintonRaceToPoints7911 = 1200,
             MaxBetBadmintonNextPointWinner = 1200,
             MaxBetBadmintonMatchHandicap = 1200,
             MaxBetTennisAllProductLS = 1200,
@@ -1377,7 +1377,7 @@ public class AssignmentMaxbetMapperUnitTests
             SpreadBaseballInningHitsRuns = 10,
             SpreadBadmintonAllProductSetWinner = 10,
             SpreadBadmintonAllProductPointWinner = 10,
-            SpreadBadmintonRacetoPoints7911 = 10,
+            SpreadBadmintonRaceToPoints7911 = 10,
             SpreadBadmintonNextPointWinner = 10,
             SpreadBadmintonMatchHandicap = 10,
             SpreadTennisAllProductLS = 10,

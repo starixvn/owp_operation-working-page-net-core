@@ -26,7 +26,7 @@ public class AssignmentModel
         TraderBadmintonAllProductSetWinner = string.Empty;
         TraderBadmintonMatchHandicap = string.Empty;
         TraderBadmintonNextPointWinner = string.Empty;
-        TraderBadmintonRacetoPoints7911 = string.Empty;
+        TraderBadmintonRaceToPoints7911 = string.Empty;
         TraderBaseball1H1st5inningsHDP = string.Empty;
         TraderBaseball1H1st5inningsOU = string.Empty;
         TraderBaseballFTRunLineHDP = string.Empty;
@@ -97,7 +97,7 @@ public class AssignmentModel
         OtherTraderBadmintonAllProductSetWinner = string.Empty;
         OtherTraderBadmintonMatchHandicap = string.Empty;
         OtherTraderBadmintonNextPointWinner = string.Empty;
-        OtherTraderBadmintonRacetoPoints7911 = string.Empty;
+        OtherTraderBadmintonRaceToPoints7911 = string.Empty;
         OtherTraderBaseball1H1st5inningsHDP = string.Empty;
         OtherTraderBaseball1H1st5inningsOU = string.Empty;
         OtherTraderBaseballFTRunLineHDP = string.Empty;
@@ -336,7 +336,7 @@ public class AssignmentModel
 
     public string TraderBadmintonAllProductPointWinner { get; set; }
 
-    public string TraderBadmintonRacetoPoints7911 { get; set; }
+    public string TraderBadmintonRaceToPoints7911 { get; set; }
 
     public string TraderBadmintonNextPointWinner { get; set; }
 
@@ -470,7 +470,7 @@ public class AssignmentModel
 
     public string OtherTraderBadmintonAllProductPointWinner { get; set; }
 
-    public string OtherTraderBadmintonRacetoPoints7911 { get; set; }
+    public string OtherTraderBadmintonRaceToPoints7911 { get; set; }
 
     public string OtherTraderBadmintonNextPointWinner { get; set; }
 
@@ -612,7 +612,7 @@ public class AssignmentModel
 
     public decimal? MaxBetBadmintonAllProductPointWinner { get; set; }
 
-    public decimal? MaxBetBadmintonRacetoPoints7911 { get; set; }
+    public decimal? MaxBetBadmintonRaceToPoints7911 { get; set; }
 
     public decimal? MaxBetBadmintonNextPointWinner { get; set; }
 
@@ -754,7 +754,7 @@ public class AssignmentModel
 
     public decimal? SpreadBadmintonAllProductPointWinner { get; set; }
 
-    public decimal? SpreadBadmintonRacetoPoints7911 { get; set; }
+    public decimal? SpreadBadmintonRaceToPoints7911 { get; set; }
 
     public decimal? SpreadBadmintonNextPointWinner { get; set; }
 
