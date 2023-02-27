@@ -1,8 +1,8 @@
-﻿namespace OWP.OtherSport.Validation.Services;
-
-using Fanex.Caching;
-using Models;
+﻿using Fanex.Caching;
 using Newtonsoft.Json;
+using OWP.OtherSport.Validation.Models;
+
+namespace OWP.OtherSport.Validation.Services;
 
 public interface CacheManipulator
 {

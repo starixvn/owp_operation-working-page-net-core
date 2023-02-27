@@ -1,6 +1,6 @@
-namespace OWP.MaxbetSetting.Models;
-
 using System.Xml.Serialization;
+
+namespace OWP.MaxbetSetting.Models;
 
 [XmlRoot(ElementName = "z")]
 public class LogModelDeserialize

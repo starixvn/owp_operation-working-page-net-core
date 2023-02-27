@@ -1,10 +1,10 @@
-namespace OWP.EventPicking.Services;
-
-using Extensions;
-using MaxbetSetting.Handlers;
-using MaxbetSetting.Models;
 using MediatR;
-using Models;
+using OWP.EventPicking.Models;
+using OWP.Extensions;
+using OWP.MaxbetSetting.Handlers;
+using OWP.MaxbetSetting.Models;
+
+namespace OWP.EventPicking.Services;
 
 public interface BuildMainAndChildMatches
 {

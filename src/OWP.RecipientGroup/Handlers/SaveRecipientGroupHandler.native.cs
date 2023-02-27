@@ -1,9 +1,9 @@
-﻿namespace OWP.RecipientGroup.Handlers;
+﻿using MediatR;
+using OWP.RecipientGroup.Criteria;
+using OWP.RecipientGroup.Models;
+using OWP.RecipientGroup.Services;
 
-using Criteria;
-using MediatR;
-using Models;
-using Services;
+namespace OWP.RecipientGroup.Handlers;
 
 public class SaveRecipientGroupRequest : IRequest<string>
 {

@@ -1,15 +1,15 @@
-﻿namespace OWP.TicketCenter.Handlers;
-
-using Criteria;
-using Enum;
-using Fanex.NAP.Client.Helpers.Web;
+﻿using Fanex.NAP.Client.Helpers.Web;
 using MediatR;
-using Middleware.Models;
-using Models;
-using Notification.Services;
-using RabbitMQ;
-using RabbitMQ.Constants;
-using ViewModels;
+using OWP.RabbitMQ;
+using OWP.RabbitMQ.Constants;
+using OWP.TicketCenter.Criteria;
+using OWP.TicketCenter.Enum;
+using OWP.TicketCenter.Middleware.Models;
+using OWP.TicketCenter.Models;
+using OWP.TicketCenter.Notification.Services;
+using OWP.TicketCenter.ViewModels;
+
+namespace OWP.TicketCenter.Handlers;
 
 public class NewMessageRequest : PermissionCheckedModel, IRequest<MessageDetailViewModel>
 {

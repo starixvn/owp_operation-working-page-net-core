@@ -1,12 +1,12 @@
-namespace OWP.LeagueManagement.Service;
-
-using Criteria;
 using Fanex.NAP.Client.Helpers.Web;
-using Misc;
-using Models;
 using Newtonsoft.Json;
 using Olympus.Xml;
+using OWP.LeagueManagement.Criteria;
+using OWP.LeagueManagement.Misc;
+using OWP.LeagueManagement.Models;
 using OWP.Models;
+
+namespace OWP.LeagueManagement.Services;
 
 public interface LeagueManagementService
 {

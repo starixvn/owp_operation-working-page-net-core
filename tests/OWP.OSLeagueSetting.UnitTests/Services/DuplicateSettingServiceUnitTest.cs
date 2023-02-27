@@ -1,11 +1,11 @@
-﻿namespace OWP.OSLeagueSetting.UnitTests.Services;
-
-using Factory;
-using Models;
-using NSubstitute;
-using OSLeagueSetting.Services;
+﻿using NSubstitute;
+using OWP.OSLeagueSetting.Factory;
+using OWP.OSLeagueSetting.Models;
+using OWP.OSLeagueSetting.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.OSLeagueSetting.UnitTests.Services;
 
 public class DuplicateSettingServiceUnitTest
 {

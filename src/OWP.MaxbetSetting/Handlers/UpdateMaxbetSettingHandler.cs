@@ -1,9 +1,9 @@
-﻿namespace OWP.MaxbetSetting.Handlers;
-
-using Criteria;
-using Fanex.Data.Repository;
+﻿using Fanex.Data.Repository;
 using Fanex.NAP.Client.Helpers.Web;
 using MediatR;
+using OWP.MaxbetSetting.Criteria;
+
+namespace OWP.MaxbetSetting.Handlers;
 
 public class UpdateMaxbetSettingRequest : IRequest<Unit>
 {
@@ -12,12 +12,12 @@ public class UpdateMaxbetSettingRequest : IRequest<Unit>
     public decimal? Value { get; set; }
 }
 
-public class UpdateMaxbetSettingHanler : IRequestHandler<UpdateMaxbetSettingRequest, Unit>
+public class UpdateMaxbetSettingHandler : IRequestHandler<UpdateMaxbetSettingRequest, Unit>
 {
     private readonly IDynamicRepository dynamicRepository;
     private readonly INapSession session;
 
-    public UpdateMaxbetSettingHanler(IDynamicRepository dynamicRepository, INapSession session)
+    public UpdateMaxbetSettingHandler(IDynamicRepository dynamicRepository, INapSession session)
     {
         this.dynamicRepository = dynamicRepository;
         this.session = session;

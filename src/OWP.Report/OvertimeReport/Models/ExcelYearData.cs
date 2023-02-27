@@ -1,6 +1,6 @@
-﻿namespace OWP.Report.OvertimeReport.Models;
+﻿using Epplus.Mapper.Annotations;
 
-using Epplus.Mapper.Annotations;
+namespace OWP.Report.OvertimeReport.Models;
 
 public class ExcelYearModel
 {

@@ -1,12 +1,12 @@
-﻿namespace OWP.AssignmentUpload.Submit.Services;
-
-using Criteria;
-using Fanex.Data.Repository;
+﻿using Fanex.Data.Repository;
 using Fanex.NAP.Client.Helpers.Web;
-using Models;
 using Olympus.Xml;
+using OWP.AssignmentUpload.Submit.Criteria;
+using OWP.AssignmentUpload.Submit.Models;
+using OWP.AssignmentUpload.Validation.Models;
 using OWP.Services;
-using Validation.Models;
+
+namespace OWP.AssignmentUpload.Submit.Services;
 
 public interface CommandRepository
 {
@@ -139,12 +139,12 @@ public class CommandRepositoryImp : CommandRepository
 
     public async Task InsertOrUpdateMatchAssignments(List<AssignmentModel> assignments, bool isUploadFMAndAIO, string matchIds)
     {
-        var matchAssigments = assignments.Select(a => assignmentAnalyzer.GetAssignmentOfMatch(a))
+        var matchAssignments = assignments.Select(a => assignmentAnalyzer.GetAssignmentOfMatch(a))
             .SelectMany(a => a);
 
         var command = new InsertOrUpdateMatchAssignmentsCommand
         {
-            MatchAssignments = XmlConverter.Serialize(matchAssigments),
+            MatchAssignments = XmlConverter.Serialize(matchAssignments),
             IsUploadFMAndAIO = isUploadFMAndAIO,
             MatchIds = matchIds
         };

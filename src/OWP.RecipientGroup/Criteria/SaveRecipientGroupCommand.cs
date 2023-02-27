@@ -1,6 +1,6 @@
-﻿namespace OWP.RecipientGroup.Criteria;
+﻿using Fanex.Data.Repository;
 
-using Fanex.Data.Repository;
+namespace OWP.RecipientGroup.Criteria;
 
 public class SaveRecipientGroupCommand : NonQueryCommand
 {

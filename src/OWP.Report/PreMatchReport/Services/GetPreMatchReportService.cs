@@ -1,9 +1,9 @@
-namespace OWP.Report.PreMatchReport.Services;
-
 using AutoMapper;
-using Constants;
-using Helper;
-using Models;
+using OWP.Report.PreMatchReport.Constants;
+using OWP.Report.PreMatchReport.Helper;
+using OWP.Report.PreMatchReport.Models;
+
+namespace OWP.Report.PreMatchReport.Services;
 
 public interface GetPreMatchReportService
 {

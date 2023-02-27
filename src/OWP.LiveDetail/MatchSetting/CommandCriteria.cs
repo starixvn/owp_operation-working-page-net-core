@@ -1,6 +1,6 @@
-﻿namespace OWP.LiveDetail.MatchSetting;
+﻿using System.Globalization;
 
-using System.Globalization;
+namespace OWP.LiveDetail.MatchSetting;
 
 public abstract class CommandCriteria : Criteria.CommandCriteria
 {

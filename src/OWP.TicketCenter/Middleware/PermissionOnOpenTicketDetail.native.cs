@@ -1,9 +1,9 @@
-﻿namespace OWP.TicketCenter.Middleware;
-
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Models;
-using Services;
+using OWP.TicketCenter.Middleware.Models;
+using OWP.TicketCenter.Services;
+
+namespace OWP.TicketCenter.Middleware;
 
 public class PermissionOnOpenTicketDetail : IAsyncActionFilter
 {

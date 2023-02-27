@@ -1,13 +1,13 @@
-﻿namespace OWP.LiveGameList.UnitTests.Services;
-
-using Criteria;
-using Fanex.NAP.Client.Helpers.Web;
-using LiveGameList.Services;
-using Models;
+﻿using Fanex.NAP.Client.Helpers.Web;
 using NSubstitute;
+using OWP.LiveGameList.Criteria;
+using OWP.LiveGameList.Models;
+using OWP.LiveGameList.Services;
 using OWP.Services;
 using Xunit;
-using GetAdminSiteMatchIdService = LiveGameList.Services.GetAdminSiteMatchIdService;
+using GetAdminSiteMatchIdService = OWP.LiveGameList.Services.GetAdminSiteMatchIdService;
+
+namespace OWP.LiveGameList.UnitTests.Services;
 
 public class EventInformationServiceUnitTest
 {

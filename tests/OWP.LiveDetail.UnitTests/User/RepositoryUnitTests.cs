@@ -1,9 +1,9 @@
-﻿namespace OWP.LiveDetail.UnitTests.User;
-
-using Fanex.Data.Repository;
-using LiveDetail.User;
+﻿using Fanex.Data.Repository;
 using NSubstitute;
+using OWP.LiveDetail.User;
 using Xunit;
+
+namespace OWP.LiveDetail.UnitTests.User;
 
 public class RepositoryUnitTests
 {

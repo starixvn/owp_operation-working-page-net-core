@@ -1,12 +1,12 @@
-﻿namespace OWP.TicketCenter.Handlers;
+﻿using MediatR;
+using OWP.RabbitMQ;
+using OWP.RabbitMQ.Constants;
+using OWP.TicketCenter.Enum;
+using OWP.TicketCenter.Models;
+using OWP.TicketCenter.Notification.Services;
+using OWP.TicketCenter.Services;
 
-using Enum;
-using MediatR;
-using Models;
-using Notification.Services;
-using RabbitMQ;
-using RabbitMQ.Constants;
-using Services;
+namespace OWP.TicketCenter.Handlers;
 
 public class InsertSingleRecipientRequest : InsertOrRemoveSingleRecipientModel, IRequest<int>
 {

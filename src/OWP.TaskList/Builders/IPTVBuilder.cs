@@ -1,6 +1,6 @@
-namespace OWP.TaskList;
+using OWP.TaskList.Models;
 
-using Models;
+namespace OWP.TaskList.Builders;
 
 public static class IPTVBuilder
 {
@@ -8,9 +8,9 @@ public static class IPTVBuilder
     {
         var ipTv = new List<string>();
 
-        if (!string.IsNullOrWhiteSpace(iPTVModel.TeleVision))
+        if (!string.IsNullOrWhiteSpace(iPTVModel.Television))
         {
-            ipTv.Add(iPTVModel.TeleVision);
+            ipTv.Add(iPTVModel.Television);
         }
 
         if (!string.IsNullOrWhiteSpace(iPTVModel.IpTv))

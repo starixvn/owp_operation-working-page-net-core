@@ -1,8 +1,8 @@
-﻿namespace OWP.AssignmentUpload.Validation.Helper;
+﻿using System.ComponentModel.DataAnnotations;
+using OWP.AssignmentUpload.Validation.Constants;
+using OWP.AssignmentUpload.Validation.Models;
 
-using System.ComponentModel.DataAnnotations;
-using Constants;
-using Models;
+namespace OWP.AssignmentUpload.Validation.Helper;
 
 public static class ValidationHelper
 {
@@ -19,12 +19,12 @@ public static class ValidationHelper
         => (string.IsNullOrEmpty(likePattern) || parentContainer.IndexOf(likePattern, StringComparison.CurrentCultureIgnoreCase) >= 0)
            && (string.IsNullOrEmpty(noneLikePattern) || parentContainer.IndexOf(noneLikePattern, StringComparison.CurrentCultureIgnoreCase) < 0);
 
-    public static int CountMatchSameLeagueHomeAway(List<AssignmentModel> owpMatchs, AssignmentModel owpMatch)
-        => owpMatchs.Count(a => string.Equals(a.Home, owpMatch.Home, StringComparison.CurrentCultureIgnoreCase) &&
+    public static int CountMatchSameLeagueHomeAway(List<AssignmentModel> owpMatches, AssignmentModel owpMatch)
+        => owpMatches.Count(a => string.Equals(a.Home, owpMatch.Home, StringComparison.CurrentCultureIgnoreCase) &&
                                 string.Equals(a.Away, owpMatch.Away, StringComparison.CurrentCultureIgnoreCase) &&
                                 string.Equals(a.League, owpMatch.League, StringComparison.CurrentCultureIgnoreCase));
-    public static int CountMatchSameLeagueHomeAwayKOTime(List<AssignmentModel> owpMatchs, AssignmentModel owpMatch)
-        => owpMatchs.Count(a => string.Equals(a.Home, owpMatch.Home, StringComparison.CurrentCultureIgnoreCase) &&
+    public static int CountMatchSameLeagueHomeAwayKOTime(List<AssignmentModel> owpMatches, AssignmentModel owpMatch)
+        => owpMatches.Count(a => string.Equals(a.Home, owpMatch.Home, StringComparison.CurrentCultureIgnoreCase) &&
                                 string.Equals(a.Away, owpMatch.Away, StringComparison.CurrentCultureIgnoreCase) &&
                                 string.Equals(a.League, owpMatch.League, StringComparison.CurrentCultureIgnoreCase) &&
                                 Equals(a.KickOffTime, owpMatch.KickOffTime));
@@ -43,7 +43,7 @@ public static class ValidationHelper
         validationRowResult.AddRange(validationResultsRow);
     }
 
-    public static List<AssignmentModel> RemoveMatchGenerateBySystem(List<AssignmentModel> owpMatchs)
-        => owpMatchs.Where(o => !MinorBettypeConst.MinorBettypeIdGenerateBySystem
+    public static List<AssignmentModel> RemoveMatchGenerateBySystem(List<AssignmentModel> owpMatches)
+        => owpMatches.Where(o => !MinorBettypeConst.MinorBettypeIdGenerateBySystem
             .Exists(m => m == o.MinorBettypeId)).ToList();
 }

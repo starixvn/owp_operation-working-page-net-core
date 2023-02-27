@@ -1,6 +1,6 @@
-namespace OWP.Maxbet.Helpers;
+using OWP.Maxbet.Models;
 
-using Models;
+namespace OWP.Maxbet.Helpers;
 
 public enum NumberOfLinesEtPen
 {

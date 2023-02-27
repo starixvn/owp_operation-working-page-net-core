@@ -1,12 +1,12 @@
-﻿namespace OWP.LiveDetail.Assignment;
-
-using AutoMapper;
-using Common;
-using Constants;
-using Extensions;
+﻿using AutoMapper;
 using Fanex.Data.Repository;
 using Fanex.NAP.Client.Helpers.Web;
-using Utils;
+using OWP.Enums;
+using OWP.Extensions;
+using OWP.LiveDetail.Common;
+using OWP.Utils;
+
+namespace OWP.LiveDetail.Assignment;
 
 public interface AssignmentRepository
 {

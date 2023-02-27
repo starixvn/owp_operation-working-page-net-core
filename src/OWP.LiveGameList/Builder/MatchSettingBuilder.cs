@@ -1,7 +1,7 @@
-﻿namespace OWP.LiveGameList.Builder;
+﻿using OWP.LiveGameList.Enum;
+using OWP.LiveGameList.Models;
 
-using Enum;
-using Models;
+namespace OWP.LiveGameList.Builder;
 
 public static class MatchSettingBuilder
 {

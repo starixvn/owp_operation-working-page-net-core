@@ -1,6 +1,6 @@
-namespace OWP.AssignmentUpload.Validation.Anotations;
-
 using System.ComponentModel.DataAnnotations;
+
+namespace OWP.AssignmentUpload.Validation.Annotations;
 
 [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
 public class StringLengthOfListStringAttribute : ValidationAttribute

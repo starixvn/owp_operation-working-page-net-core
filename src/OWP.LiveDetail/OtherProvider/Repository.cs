@@ -1,7 +1,7 @@
-﻿namespace OWP.LiveDetail.OtherProvider;
+﻿using Fanex.Data.Repository;
+using OWP.Extensions;
 
-using Extensions;
-using Fanex.Data.Repository;
+namespace OWP.LiveDetail.OtherProvider;
 
 public interface OtherProviderRepository
 {

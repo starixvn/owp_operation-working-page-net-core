@@ -1,9 +1,9 @@
-﻿namespace OWP.ApiSyncWorkingShift.Models;
-
-using System.Xml.Serialization;
-using Const;
+﻿using System.Xml.Serialization;
 using Newtonsoft.Json;
-using Utils;
+using OWP.ApiSyncWorkingShift.Const;
+using OWP.ApiSyncWorkingShift.Utils;
+
+namespace OWP.ApiSyncWorkingShift.Models;
 
 [Serializable]
 public class WorkingShiftModel

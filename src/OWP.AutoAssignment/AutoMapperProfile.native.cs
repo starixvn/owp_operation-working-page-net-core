@@ -1,7 +1,7 @@
-﻿namespace OWP.AutoAssignment;
+﻿using AutoMapper;
+using OWP.AutoAssignment.Models.InternalApi;
 
-using AutoMapper;
-using Models.InternalApi;
+namespace OWP.AutoAssignment;
 
 public class AutoMapperProfile : Profile
 {

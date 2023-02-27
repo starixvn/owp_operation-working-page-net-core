@@ -1,7 +1,7 @@
-﻿namespace OWP.OSLeagueSetting.Helper;
+﻿using OWP.OSLeagueSetting.Constants;
+using OWP.OSLeagueSetting.Models;
 
-using Constants;
-using Models;
+namespace OWP.OSLeagueSetting.Helper;
 
 public static class OSLeagueSettingHelper
 {

@@ -1,8 +1,8 @@
-namespace OWP.AssignmentUpload.Submit.Services;
-
-using Criteria;
 using Fanex.Data.Repository;
-using Models;
+using OWP.AssignmentUpload.Submit.Criteria;
+using OWP.AssignmentUpload.Submit.Models;
+
+namespace OWP.AssignmentUpload.Submit.Services;
 
 public interface QueryRepository
 {
@@ -24,7 +24,7 @@ public class QueryRepositoryImp : QueryRepository
     {
         var matchesTask = repository.FetchAsync<GeneralMatch>(new GetAllMatchesByTimeRangeCriteria { EventDate = eventDate });
         var assignmentsTask = repository.FetchAsync<MatchAssignment>(new GetAllAssignmentsByTimeRangeCriteria { EventDate = eventDate });
-        var matchSettingsTask = repository.FetchAsync<MatchSetting>(new GetAllMatcheSettingsByTimeRangeCriteria { EventDate = eventDate });
+        var matchSettingsTask = repository.FetchAsync<MatchSetting>(new GetAllMatchesSettingsByTimeRangeCriteria { EventDate = eventDate });
 
         return new AssignmentSnapshot
         {

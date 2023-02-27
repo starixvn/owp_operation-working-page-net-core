@@ -1,6 +1,6 @@
-﻿namespace OWP.OtherSport.Validation.Exceptions;
+﻿using System.Runtime.Serialization;
 
-using System.Runtime.Serialization;
+namespace OWP.OtherSport.Validation.Exceptions;
 
 [Serializable]
 public class InvalidExcelFormatException : CriticalValidationException

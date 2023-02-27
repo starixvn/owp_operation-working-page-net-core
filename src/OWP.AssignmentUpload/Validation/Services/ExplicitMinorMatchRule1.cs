@@ -1,9 +1,9 @@
-﻿namespace OWP.AssignmentUpload.Validation.Services;
+﻿using System.Collections.Immutable;
+using OWP.AssignmentUpload.Validation.Constants;
+using OWP.AssignmentUpload.Validation.Helper;
+using OWP.AssignmentUpload.Validation.Models;
 
-using System.Collections.Immutable;
-using Constants;
-using Helper;
-using Models;
+namespace OWP.AssignmentUpload.Validation.Services;
 
 public interface ExplicitMinorMatchRule1
 {
@@ -12,7 +12,7 @@ public interface ExplicitMinorMatchRule1
 
 public class ExplicitMinorMatchRule1Imp : ExplicitMinorMatchRule1
 {
-    public static readonly ImmutableList<MinorMatch> minorMatches = ExplicitMinorMatchRuleConstants.MinorMatcheRules1;
+    public static readonly ImmutableList<MinorMatch> minorMatches = ExplicitMinorMatchRuleConstants.MinorMatchRules1;
 
     public bool DetectMinorBettypeIdRule(AssignmentModel assignment, List<AssignmentModel> assignments)
     {

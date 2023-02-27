@@ -1,7 +1,7 @@
-﻿namespace OWP.OtherSport.Validation.Helpers;
+﻿using System.ComponentModel.DataAnnotations;
+using OWP.OtherSport.Validation.Models;
 
-using System.ComponentModel.DataAnnotations;
-using Models;
+namespace OWP.OtherSport.Validation.Helpers;
 
 public static class ValidationHelper
 {

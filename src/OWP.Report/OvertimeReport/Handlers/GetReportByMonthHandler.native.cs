@@ -1,9 +1,9 @@
-﻿namespace OWP.Report.OvertimeReport.Handlers;
-
-using AutoMapper;
+﻿using AutoMapper;
 using MediatR;
-using Models;
-using Services;
+using OWP.Report.OvertimeReport.Models;
+using OWP.Report.OvertimeReport.Services;
+
+namespace OWP.Report.OvertimeReport.Handlers;
 
 public class QueryReportByMonthRequest : IRequest<OvertimeByMonth>
 {

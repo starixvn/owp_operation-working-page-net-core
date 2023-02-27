@@ -1,9 +1,9 @@
-﻿namespace OWP.LiveDetail.InfositeMatch;
-
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+
+namespace OWP.LiveDetail.InfositeMatch;
 
 [Route("api/live-detail/infosite-match")]
 [ApiController]

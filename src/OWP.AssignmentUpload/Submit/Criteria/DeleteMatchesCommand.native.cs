@@ -1,6 +1,6 @@
-﻿namespace OWP.AssignmentUpload.Submit.Criteria;
+﻿using Fanex.Data.Repository;
 
-using Fanex.Data.Repository;
+namespace OWP.AssignmentUpload.Submit.Criteria;
 
 public class DeleteMatchesCommand : NonQueryCommand
 {

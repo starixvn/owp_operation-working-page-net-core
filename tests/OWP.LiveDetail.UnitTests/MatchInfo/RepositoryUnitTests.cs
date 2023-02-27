@@ -1,13 +1,14 @@
-﻿namespace OWP.LiveDetail.UnitTests.MatchInfo;
-
-using AutoMapper;
-using Common;
+﻿using AutoMapper;
 using Fanex.Data.Repository;
 using Fanex.NAP.Client.Helpers.Web;
-using LiveDetail.MatchInfo;
 using NSubstitute;
+using OWP.LiveDetail.Common;
+using OWP.LiveDetail.MatchInfo;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.LiveDetail.UnitTests.MatchInfo;
+
 using AgentSpace = LiveDetail.Agent;
 using OtherProviderSpace = LiveDetail.OtherProvider;
 using ProviderSpace = LiveDetail.Provider;
@@ -48,7 +49,7 @@ public class RepositoryUnitTests
             NoOfHDPId = 1,
             IsSoloMatch = true,
             Round = "round",
-            Division = "divi",
+            Division = "division",
             Venue = "venue",
             OtherTime = TimeSpan.Parse("23:00"),
             LeagueName = "league",

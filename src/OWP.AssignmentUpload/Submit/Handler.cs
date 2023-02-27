@@ -1,10 +1,10 @@
 ﻿
-namespace OWP.AssignmentUpload.Submit;
-
 using Fanex.NAP.Client.Helpers.Web;
 using MediatR;
-using Models;
-using Services;
+using OWP.AssignmentUpload.Submit.Models;
+using OWP.AssignmentUpload.Submit.Services;
+
+namespace OWP.AssignmentUpload.Submit;
 
 public class SubmitRequest : IRequest<SubmitResponse>
 {

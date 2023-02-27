@@ -1,9 +1,9 @@
-﻿namespace OWP.TicketCenter.Handlers;
-
-using MediatR;
-using Models;
+﻿using MediatR;
 using Olympus.Xml;
-using Services;
+using OWP.TicketCenter.Models;
+using OWP.TicketCenter.Services;
+
+namespace OWP.TicketCenter.Handlers;
 
 public class QueryEventTicketsRequest : IRequest<IList<TicketBaseInfo>>
 {

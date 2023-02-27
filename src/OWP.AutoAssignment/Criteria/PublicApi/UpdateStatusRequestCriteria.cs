@@ -1,7 +1,7 @@
-﻿namespace OWP.AutoAssignment.Criteria.PublicApi;
+﻿using Fanex.Data.Repository;
+using OWP.AutoAssignment.Enum;
 
-using Enum;
-using Fanex.Data.Repository;
+namespace OWP.AutoAssignment.Criteria.PublicApi;
 
 public class UpdateStatusRequestCriteria : NonQueryCommand
 {

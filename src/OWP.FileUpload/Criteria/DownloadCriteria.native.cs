@@ -1,6 +1,6 @@
-﻿namespace OWP.FileUpload.Criteria;
+﻿using Fanex.Data.Repository;
 
-using Fanex.Data.Repository;
+namespace OWP.FileUpload.Criteria;
 
 public class DownloadCriteria : CriteriaBase
 {

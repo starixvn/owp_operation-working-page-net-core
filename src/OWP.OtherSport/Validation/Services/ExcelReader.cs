@@ -1,9 +1,9 @@
-﻿namespace OWP.OtherSport.Validation.Services;
-
-using System.Text.RegularExpressions;
-using Extensions;
-using Models;
+﻿using System.Text.RegularExpressions;
 using OfficeOpenXml;
+using OWP.OtherSport.Validation.Extensions;
+using OWP.OtherSport.Validation.Models;
+
+namespace OWP.OtherSport.Validation.Services;
 
 public interface ExcelReader
 {

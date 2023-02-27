@@ -10,9 +10,9 @@ public static class ReportConst
 
     public const int ColumnRemovedAssignment = 10;
 
-    public const int ColumnFromRemovedPerformace = 4;
+    public const int ColumnFromRemovedPerformance = 4;
 
-    public const int ColumnRemovedPerformace = 35;
+    public const int ColumnRemovedPerformance = 35;
 
     public const int StartRowIndex = 7;
 

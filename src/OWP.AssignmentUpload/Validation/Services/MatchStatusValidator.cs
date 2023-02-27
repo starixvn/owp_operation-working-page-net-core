@@ -1,10 +1,10 @@
-﻿namespace OWP.AssignmentUpload.Validation.Services;
+﻿using System.ComponentModel.DataAnnotations;
+using OWP.AssignmentUpload.Validation.Constants;
+using OWP.AssignmentUpload.Validation.Exceptions;
+using OWP.AssignmentUpload.Validation.Helper;
+using OWP.AssignmentUpload.Validation.Models;
 
-using System.ComponentModel.DataAnnotations;
-using Constants;
-using Exceptions;
-using Helper;
-using Models;
+namespace OWP.AssignmentUpload.Validation.Services;
 
 public interface MatchStatusValidator
 {

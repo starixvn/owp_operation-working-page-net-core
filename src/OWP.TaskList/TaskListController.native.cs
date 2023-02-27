@@ -1,11 +1,11 @@
-﻿namespace OWP.TaskList;
-
-using Handlers;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using OWP.TaskList.Handlers;
+
+namespace OWP.TaskList;
 
 [Route("api/[controller]")]
 [ApiController]

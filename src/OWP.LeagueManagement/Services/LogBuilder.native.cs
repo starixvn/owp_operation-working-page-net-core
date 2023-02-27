@@ -1,9 +1,9 @@
-namespace OWP.LeagueManagement.Service;
-
 using System.Xml.Serialization;
-using Extensions;
-using Models;
-using Utils;
+using OWP.Extensions;
+using OWP.LeagueManagement.Models;
+using OWP.Utils;
+
+namespace OWP.LeagueManagement.Services;
 
 public static class LogBuilder
 {

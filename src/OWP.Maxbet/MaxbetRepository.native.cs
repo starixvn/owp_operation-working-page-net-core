@@ -1,8 +1,9 @@
-﻿namespace OWP.Maxbet;
+﻿using Fanex.Data.Repository;
+using OWP.Maxbet.Criteria;
+using OWP.Maxbet.Models;
+using KeyValuePair = OWP.Maxbet.Models.KeyValuePair;
 
-using Criteria;
-using Fanex.Data.Repository;
-using Models;
+namespace OWP.Maxbet;
 
 public interface MaxbetRepository
 {
@@ -26,7 +27,7 @@ public interface MaxbetRepository
 
     public Task<IEnumerable<decimal?>> GetMaxbetXMins(int owpMatchId);
 
-        public Task<IEnumerable<Models.KeyValuePair>> GetOddByOwpId(int owpMatchId);
+        public Task<IEnumerable<KeyValuePair>> GetOddByOwpId(int owpMatchId);
         
          public Task<IEnumerable<MaxbetSetting>> GetMaxbetSettingDefault();
 
@@ -52,12 +53,12 @@ public class MaxbetRepositoryImp : MaxbetRepository
             OwpMatchId = owpMatchId
         };
         var (firstResultSet, secondResultSet) = await dynamicRepository.FetchMultipleAsync<SpreadModel, LeagueGroup>(criteria);
-        var valueTupple = new ValueTuple<IEnumerable<SpreadModel>, IEnumerable<LeagueGroup>>
+        var valueTuple = new ValueTuple<IEnumerable<SpreadModel>, IEnumerable<LeagueGroup>>
         {
             Item1 = firstResultSet,
             Item2 = secondResultSet
         };
-        return valueTupple;
+        return valueTuple;
     }
 
     public async Task<List<TraderAssignment>> GetTradersByOwpMatchId(int owpMatchId)
@@ -123,12 +124,12 @@ public class MaxbetRepositoryImp : MaxbetRepository
             OwpMatchId = owpMatchId
         };
         var (firstResultSet, secondResultSet) = await dynamicRepository.FetchMultipleAsync<SpreadModel, LeagueGroup>(criteria);
-        var valueTupple = new ValueTuple<IEnumerable<SpreadModel>, IEnumerable<LeagueGroup>>
+        var valueTuple = new ValueTuple<IEnumerable<SpreadModel>, IEnumerable<LeagueGroup>>
         {
             Item1 = firstResultSet,
             Item2 = secondResultSet
         };
-        return valueTupple;
+        return valueTuple;
     }
 
     public async Task<MatchInfo> GetMatchInfoByAdminSiteId(int adminSiteId)
@@ -140,9 +141,9 @@ public class MaxbetRepositoryImp : MaxbetRepository
         return (await dynamicRepository.FetchAsync<MatchInfo>(criteria)).FirstOrDefault();
         }
 
-        public async Task<IEnumerable<Models.KeyValuePair>> GetOddByOwpId(int owpMatchId)
+        public async Task<IEnumerable<KeyValuePair>> GetOddByOwpId(int owpMatchId)
         {
-            return await dynamicRepository.FetchAsync<Models.KeyValuePair>(new OddGetCriteria
+            return await dynamicRepository.FetchAsync<KeyValuePair>(new OddGetCriteria
             {
                 OwpMatchId = owpMatchId
             });

@@ -1,7 +1,7 @@
 ﻿
-namespace OWP.Websites;
+using OWP.MatchCountLiveReport;
 
-using MatchCountLiveReport;
+namespace OWP.Websites;
 
 public static class MatchLiveReportInjector
 {

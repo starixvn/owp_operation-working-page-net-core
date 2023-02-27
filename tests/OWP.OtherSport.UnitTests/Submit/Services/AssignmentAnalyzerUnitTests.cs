@@ -1,11 +1,11 @@
-﻿namespace OWP.OtherSport.UnitTests.Submit.Services;
-
-using OtherSport.Submit.Contants;
-using OtherSport.Submit.Models;
-using OtherSport.Submit.Services;
-using OtherSport.Validation.Models;
+﻿using OWP.OtherSport.Submit.Constants;
+using OWP.OtherSport.Submit.Models;
+using OWP.OtherSport.Submit.Services;
+using OWP.OtherSport.Validation.Models;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.OtherSport.UnitTests.Submit.Services;
 
 public class AssignmentAnalyzerUnitTests
 {

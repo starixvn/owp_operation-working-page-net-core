@@ -1,11 +1,11 @@
-﻿namespace OWP.Maxbet.Handlers;
-
-using System.Collections.ObjectModel;
-using Criteria;
-using Enums;
+﻿using System.Collections.ObjectModel;
 using Fanex.Data.Repository;
 using MediatR;
-using Models;
+using OWP.Enums;
+using OWP.Maxbet.Criteria;
+using OWP.Maxbet.Models;
+
+namespace OWP.Maxbet.Handlers;
 
 public class GetNumberOfLinesHandler
 {

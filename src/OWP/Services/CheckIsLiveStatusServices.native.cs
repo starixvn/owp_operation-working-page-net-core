@@ -1,10 +1,10 @@
-namespace OWP.Services;
-
-using Criteria;
 using Fanex.Data.Repository;
-using Models;
 using Olympus.OWP.Constants;
-using Utils;
+using OWP.Criteria;
+using OWP.Models;
+using OWP.Utils;
+
+namespace OWP.Services;
 
 public interface CheckIsLiveStatusServices
 {

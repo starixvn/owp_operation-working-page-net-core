@@ -1,8 +1,8 @@
-﻿namespace OWP.TicketCenter.Handlers;
+﻿using MediatR;
+using OWP.TicketCenter.Criteria;
+using OWP.TicketCenter.Middleware.Models;
 
-using Criteria;
-using MediatR;
-using Middleware.Models;
+namespace OWP.TicketCenter.Handlers;
 
 public class PinTicketRequest : PermissionCheckedModel, IRequest<Unit>
 {

@@ -1,6 +1,6 @@
-﻿namespace OWP.AutoAssignment.Services.PublicApi;
+﻿using OWP.AutoAssignment.Models.PublicApi;
 
-using Models.PublicApi;
+namespace OWP.AutoAssignment.Services.PublicApi;
 
 public interface SchedulingMatchBuilderService
 {
@@ -29,26 +29,26 @@ public class SchedulingMatchBuilderServiceImp : SchedulingMatchBuilderService
     public async Task<SchedulingMatch> GetMatchesInfo(DateTime eventDate)
     {
         var schedulingMatch = new SchedulingMatch();
-        var matchQueried = await repository.GetMatchByDate(eventDate);
+        var matchQueries = await repository.GetMatchByDate(eventDate);
 
-        var realMatchIds = SelectMatchIds(matchQueried.ToList(), false);
-        var sabaMatchIds = SelectMatchIds(matchQueried.ToList(), true);
+        var realMatchIds = SelectMatchIds(matchQueries.ToList(), false);
+        var sabaMatchIds = SelectMatchIds(matchQueries.ToList(), true);
 
         var sabaMatch = await sabaMatchService.BuildSabaMatchInfo(sabaMatchIds);
-        var realmatch = await realMatchService.BuildRealMatchInfo(realMatchIds);
+        var realMatch = await realMatchService.BuildRealMatchInfo(realMatchIds);
 
         schedulingMatch.Saba.AddRange(sabaMatch);
-        schedulingMatch.Real.AddRange(realmatch);
+        schedulingMatch.Real.AddRange(realMatch);
         return schedulingMatch;
     }
 
-    internal IEnumerable<SchedulingMatch> BuildListSchedulingMatch(object mainMatchs, object matches)
+    internal IEnumerable<SchedulingMatch> BuildListSchedulingMatch(object mainMatches, object matches)
     {
         throw new NotImplementedException();
     }
 
-    private IList<MatchQueried> SelectMatchIds(IList<MatchQueried> matchQuerieds, bool isSaba)
-        => matchQuerieds
+    private IList<MatchQueried> SelectMatchIds(IList<MatchQueried> matchQueries, bool isSaba)
+        => matchQueries
             .Where(m => m.IsSaba == isSaba)
             .ToList();
 }

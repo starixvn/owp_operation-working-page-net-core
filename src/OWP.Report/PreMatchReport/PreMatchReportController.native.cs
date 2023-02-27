@@ -1,11 +1,11 @@
-namespace OWP.Report.PreMatchReport;
-
-using Handlers;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using Models;
+using OWP.Report.PreMatchReport.Handlers;
+using OWP.Report.PreMatchReport.Models;
+
+namespace OWP.Report.PreMatchReport;
 
 [Route("api/[controller]")]
 [ApiController]

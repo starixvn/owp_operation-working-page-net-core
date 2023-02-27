@@ -1,13 +1,13 @@
-﻿namespace OWP.TicketCenter.UnitTests.Services;
-
-using AutoMapper;
-using Models;
+﻿using AutoMapper;
 using NSubstitute;
-using TicketCenter.Handlers;
-using TicketCenter.Services;
-using ViewModels;
+using OWP.TicketCenter.Handlers;
+using OWP.TicketCenter.Models;
+using OWP.TicketCenter.Services;
+using OWP.TicketCenter.ViewModels;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.TicketCenter.UnitTests.Services;
 
 public class TicketDetailServiceUnitTests
 {

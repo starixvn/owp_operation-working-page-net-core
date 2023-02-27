@@ -1,10 +1,10 @@
-﻿namespace OWP.PreMatchAssignment.Services;
-
-using Criteria;
-using Fanex.Data.Repository;
+﻿using Fanex.Data.Repository;
 using Fanex.NAP.Client.Helpers.Web;
-using Handlers;
-using Models;
+using OWP.PrematchAssignment.Criteria;
+using OWP.PrematchAssignment.Handlers;
+using OWP.PrematchAssignment.Models;
+
+namespace OWP.PrematchAssignment.Services;
 
 public interface NoteService
 {

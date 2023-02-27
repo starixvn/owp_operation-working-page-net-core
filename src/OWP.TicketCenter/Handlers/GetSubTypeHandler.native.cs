@@ -1,7 +1,7 @@
-namespace OWP.TicketCenter.Handlers;
-
 using MediatR;
-using Models;
+using OWP.TicketCenter.Models;
+
+namespace OWP.TicketCenter.Handlers;
 
 public class GetSubTypeRequest : IRequest<IEnumerable<SubTypeModel>>
 {

@@ -1,9 +1,9 @@
-namespace OWP.Report.PreMatchReport;
-
-using Criteria;
 using Fanex.Data.Repository;
 using Fanex.NAP.Client.Configuration;
-using Models;
+using OWP.Report.PreMatchReport.Criteria;
+using OWP.Report.PreMatchReport.Models;
+
+namespace OWP.Report.PreMatchReport;
 
 public interface Repository
 {

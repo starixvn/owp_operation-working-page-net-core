@@ -1,6 +1,6 @@
-﻿namespace OWP.LiveDetail.Common;
+﻿using OWP.Enums;
 
-using Constants;
+namespace OWP.LiveDetail.Common;
 
 public class ValidateResult
 

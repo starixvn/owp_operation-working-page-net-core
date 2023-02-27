@@ -1,6 +1,6 @@
-﻿namespace OWP.AutoAssignment.Criteria.PublicApi;
+﻿using Fanex.Data.Repository;
 
-using Fanex.Data.Repository;
+namespace OWP.AutoAssignment.Criteria.PublicApi;
 
 internal class NewRequestCriteria : CriteriaBase
 {

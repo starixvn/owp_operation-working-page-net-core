@@ -1,9 +1,9 @@
-﻿namespace OWP.LiveGameList;
-
-using Microsoft.AspNetCore.Cors;
+﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Services;
+using OWP.LiveGameList.Services;
+
+namespace OWP.LiveGameList;
 
 [Route("api/[controller]")]
 [ApiController]

@@ -1,6 +1,6 @@
-﻿namespace OWP.AssignmentUpload.Validation.Services;
+﻿using OWP.AssignmentUpload.Validation.Models;
 
-using Models;
+namespace OWP.AssignmentUpload.Validation.Services;
 
 public interface MinorMatchDetector
 {

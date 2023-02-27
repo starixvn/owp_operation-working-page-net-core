@@ -1,14 +1,14 @@
-﻿namespace OWP.TicketTypeRecipient.Handlers;
-
-using Fanex.Data.Repository;
+﻿using Fanex.Data.Repository;
 using MediatR;
-using Models;
+using OWP.TicketTypeRecipient.Models;
 
-public class GetTicketTypeRecipientRequest : IRequest<IEnumerable<TicketTypeRecipient>>
+namespace OWP.TicketTypeRecipient.Handlers;
+
+public class GetTicketTypeRecipientRequest : IRequest<IEnumerable<Models.TicketTypeRecipient>>
 {
 }
 
-public class GetTicketTypeRecipientHandler : IRequestHandler<GetTicketTypeRecipientRequest, IEnumerable<TicketTypeRecipient>>
+public class GetTicketTypeRecipientHandler : IRequestHandler<GetTicketTypeRecipientRequest, IEnumerable<Models.TicketTypeRecipient>>
 {
     private readonly IDynamicRepository repository;
 
@@ -17,20 +17,20 @@ public class GetTicketTypeRecipientHandler : IRequestHandler<GetTicketTypeRecipi
         repository = dynamicRepository;
     }
 
-    public async Task<IEnumerable<TicketTypeRecipient>> Handle(GetTicketTypeRecipientRequest request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<Models.TicketTypeRecipient>> Handle(GetTicketTypeRecipientRequest request, CancellationToken cancellationToken)
     {
         var (ticketTypes, recipients, subtypes) = await repository.FetchMultipleAsync<TicketType, RecipientData, Subtype>(new GetRecipientDataCriteria());
 
         return GetResult(ticketTypes, recipients, subtypes);
     }
 
-    private static IEnumerable<TicketTypeRecipient> GetResult(IEnumerable<TicketType> ticketTypes, IEnumerable<RecipientData> recipients, IEnumerable<Subtype> subtypes)
+    private static IEnumerable<Models.TicketTypeRecipient> GetResult(IEnumerable<TicketType> ticketTypes, IEnumerable<RecipientData> recipients, IEnumerable<Subtype> subtypes)
     {
         var sortedTicketTypes = ticketTypes.OrderBy(x => x.TypeName);
 
         foreach (var type in sortedTicketTypes)
         {
-            yield return new TicketTypeRecipient
+            yield return new Models.TicketTypeRecipient
             {
                 TicketType = type,
                 Recipients = recipients.Where(x => x.TypeId == type.TypeId)

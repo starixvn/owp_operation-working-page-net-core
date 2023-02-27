@@ -1,11 +1,10 @@
-namespace OWP.Websites.App_Start;
+using OWP.AssignmentUpload.Submit.Services;
+using OWP.AssignmentUpload.SyncInfoSite.Services;
+using OWP.AssignmentUpload.Validation.Services;
+using CacheManipulator = OWP.AssignmentUpload.Validation.Services.CacheManipulator;
+using CacheManipulatorImp = OWP.AssignmentUpload.Validation.Services.CacheManipulatorImp;
 
-using AssignmentUpload.Submit.Services;
-using AssignmentUpload.SyncInfoSite;
-using AssignmentUpload.SyncInfoSite.Services;
-using AssignmentUpload.Validation.Services;
-using CacheManipulator = AssignmentUpload.Validation.Services.CacheManipulator;
-using CacheManipulatorImp = AssignmentUpload.Validation.Services.CacheManipulatorImp;
+namespace OWP.Websites;
 
 public static class AssignmentUploadInjector
 {
@@ -19,7 +18,7 @@ public static class AssignmentUploadInjector
         services.Add(new ServiceDescriptor(typeof(ExcelValidator), typeof(ExcelValidatorImp), ServiceLifetime.Transient));
         services.Add(new ServiceDescriptor(typeof(MinorMatchDetector), typeof(MinorMatchDetectorImp), ServiceLifetime.Transient));
         services.Add(new ServiceDescriptor(typeof(MatchStatusValidator), typeof(MatchStatusValidatorImp), ServiceLifetime.Transient));
-        services.Add(new ServiceDescriptor(typeof(ImplicitMinorMatchGenerater), typeof(GenerateImplicitMinorMatchImp), ServiceLifetime.Transient));
+        services.Add(new ServiceDescriptor(typeof(ImplicitMinorMatchGenerator), typeof(GenerateImplicitMinorMatchImp), ServiceLifetime.Transient));
         services.Add(new ServiceDescriptor(typeof(AssignmentBuilder), typeof(AssignmentBuilderImp), ServiceLifetime.Transient));
         services.Add(new ServiceDescriptor(typeof(CacheManipulator), typeof(CacheManipulatorImp), ServiceLifetime.Transient));
         services.Add(new ServiceDescriptor(typeof(Analyzer), typeof(AnalyzerImp), ServiceLifetime.Transient));

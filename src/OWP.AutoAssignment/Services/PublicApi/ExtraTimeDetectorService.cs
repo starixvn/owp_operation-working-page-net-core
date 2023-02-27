@@ -1,6 +1,6 @@
-﻿namespace OWP.AutoAssignment.Services.PublicApi;
+﻿using OWP.AutoAssignment.Constant;
 
-using Constant;
+namespace OWP.AutoAssignment.Services.PublicApi;
 
 public interface ExtraTimeDetectorService
 {
@@ -11,7 +11,7 @@ public class ExtraTimeDetectorServiceImp : ExtraTimeDetectorService
 {
     public string DetectExtraTime(string remark)
     {
-        var extraTime = AutoConstant.Nomal;
+        var extraTime = AutoConstant.Normal;
         if (IsEtPkMatch(remark))
         {
             extraTime = AutoConstant.EtPk;

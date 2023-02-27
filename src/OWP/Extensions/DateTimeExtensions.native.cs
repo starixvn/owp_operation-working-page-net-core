@@ -1,6 +1,6 @@
-﻿namespace OWP.Extensions;
+﻿using System.Globalization;
 
-using System.Globalization;
+namespace OWP.Extensions;
 
 public static class DateTimeExtensions
 {

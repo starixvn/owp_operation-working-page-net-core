@@ -1,9 +1,9 @@
-﻿namespace OWP.AssignmentUpload.UnitTests.Validation.Services;
-
-using AssignmentUpload.Validation.Models;
-using AssignmentUpload.Validation.Services;
+﻿using OWP.AssignmentUpload.Validation.Models;
+using OWP.AssignmentUpload.Validation.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.AssignmentUpload.UnitTests.Validation.Services;
 
 public class GenerateImplicitMinorMatchUnitTests
 {
@@ -200,7 +200,7 @@ public class GenerateImplicitMinorMatchUnitTests
             Away = "Away No.of Corners",
 
             SessionId = "sesionId1234",
-            ParentHashKey = "parentHashkey12",
+            ParentHashKey = "parentHashKey12",
             HashKey = "hashkey12345",
             MatchStatus = "Live",
             EventDate = new DateTime(2020, 08, 19),
@@ -214,7 +214,7 @@ public class GenerateImplicitMinorMatchUnitTests
         var expected = new AssignmentModel
         {
             MinorBettypeId = -5,
-            ParentHashKey = "parentHashkey12",
+            ParentHashKey = "parentHashKey12",
             SessionId = "sesionId1234",
 
             MatchStatus = "Live",
@@ -246,7 +246,7 @@ public class GenerateImplicitMinorMatchUnitTests
             Away = "Away Total Bookings",
 
             SessionId = "sesionId1234",
-            ParentHashKey = "parentHashkey12",
+            ParentHashKey = "parentHashKey12",
             HashKey = "hashkey12345",
             MatchStatus = "Live",
             EventDate = new DateTime(2020, 08, 19),
@@ -260,7 +260,7 @@ public class GenerateImplicitMinorMatchUnitTests
         var expected = new AssignmentModel
         {
             MinorBettypeId = -8,
-            ParentHashKey = "parentHashkey12",
+            ParentHashKey = "parentHashKey12",
             SessionId = "sesionId1234",
 
             MatchStatus = "Live",
@@ -292,7 +292,7 @@ public class GenerateImplicitMinorMatchUnitTests
             Away = "Away",
 
             SessionId = "sesionId1234",
-            ParentHashKey = "parentHashkey12",
+            ParentHashKey = "parentHashKey12",
             HashKey = "hashkey12345",
             MatchStatus = "Live",
             EventDate = new DateTime(2020, 08, 19),
@@ -413,7 +413,7 @@ public class GenerateImplicitMinorMatchUnitTests
             Away = "Away No.of Corners",
 
             SessionId = "sesionId1234",
-            ParentHashKey = "parentHashkey12",
+            ParentHashKey = "parentHashKey12",
             HashKey = "hashkey12345",
             MatchStatus = "Live",
             EventDate = new DateTime(2020, 08, 19),
@@ -427,7 +427,7 @@ public class GenerateImplicitMinorMatchUnitTests
         var expected = new AssignmentModel
         {
             MinorBettypeId = -5,
-            ParentHashKey = "parentHashkey12",
+            ParentHashKey = "parentHashKey12",
             SessionId = "sesionId1234",
 
             MatchStatus = "Live",
@@ -451,7 +451,7 @@ public class GenerateImplicitMinorMatchUnitTests
     }
 
     [Fact]
-    public void GenerateMinorMatch_MainMatchandMinorMatch_Return7Match()
+    public void GenerateMinorMatch_MainMatchAndMinorMatch_Return7Match()
     {
         var assignments = new List<AssignmentModel>
         {

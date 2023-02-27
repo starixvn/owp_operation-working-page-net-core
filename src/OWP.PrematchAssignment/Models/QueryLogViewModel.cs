@@ -1,4 +1,4 @@
-﻿namespace OWP.PreMatchAssignment.Models;
+﻿namespace OWP.PrematchAssignment.Models;
 
 public class QueryLogViewModel
 {

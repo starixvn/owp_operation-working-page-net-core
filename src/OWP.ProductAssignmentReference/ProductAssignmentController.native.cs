@@ -1,10 +1,10 @@
-﻿namespace OWP.ProductAssignmentReference;
-
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using Models;
-using Services;
+using OWP.ProductAssignmentReference.Models;
+using OWP.ProductAssignmentReference.Services;
+
+namespace OWP.ProductAssignmentReference;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -14,13 +14,15 @@ public class ProductAssignmentController : ControllerBase
 {
     private readonly ProductAssignmentService service;
 
+
     public ProductAssignmentController(ProductAssignmentService service)
     {
         this.service = service;
     }
 
-    [HttpGet("ref-resource/{name}")]
-    public async Task<IEnumerable<object>> GetRefResourceByName(string name) => await service.GetResourceByName(name);
+        [HttpGet("get-dropdown-option")]
+        public async Task<object> GetDropdownOption()
+        => await service.GetDropdownOption();
 
     [HttpGet("last-update")]
     public async Task<object> GetLastUpdate()

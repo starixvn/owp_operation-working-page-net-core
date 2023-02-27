@@ -1,8 +1,8 @@
-namespace OWP.Services;
-
 using System.Net.Http.Headers;
 using System.Text;
 using Newtonsoft.Json;
+
+namespace OWP.Services;
 
 public interface RichHttpClient
 {

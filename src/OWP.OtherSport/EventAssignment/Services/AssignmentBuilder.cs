@@ -1,9 +1,9 @@
-﻿namespace OWP.OtherSport.EventAssignment.Services;
+﻿using OWP.Extensions;
+using OWP.OtherSport.EventAssignment.Models;
+using OWP.OtherSport.Submit.Constants;
+using OWP.OtherSport.Submit.Models;
 
-using Extensions;
-using Models;
-using Submit.Contants;
-using Submit.Models;
+namespace OWP.OtherSport.EventAssignment.Services;
 
 public interface AssignmentBuilder
 {

@@ -1,9 +1,9 @@
-﻿namespace OWP.Report.TraderReport.Services;
-
-using Constants;
-using Extensions;
-using Models;
+﻿using OWP.Constants;
+using OWP.Extensions;
+using OWP.Report.TraderReport.Models;
 using OWP.Services;
+
+namespace OWP.Report.TraderReport.Services;
 
 public interface ReportPermissionService
 {
@@ -26,7 +26,7 @@ public class ReportPermissionServiceImp : ReportPermissionService
         return new ExcelPermissionModel
         {
             TraderAssignment = reportFunctionPolicies.GetPermissionModel(FunctionKeys.TraderReport_TraderAssignment),
-            TraderPerformace = reportFunctionPolicies.GetPermissionModel(FunctionKeys.TraderReport_TraderPerformance)
+            TraderPerformance = reportFunctionPolicies.GetPermissionModel(FunctionKeys.TraderReport_TraderPerformance)
         };
     }
 }

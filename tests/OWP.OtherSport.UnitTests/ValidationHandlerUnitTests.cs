@@ -1,14 +1,14 @@
-﻿namespace OWP.OtherSport.UnitTests.Validation;
-
-using Fanex.NAP.Client.Helpers.Web;
+﻿using Fanex.NAP.Client.Helpers.Web;
 using NSubstitute;
 using OfficeOpenXml;
-using OtherSport.Validation;
-using OtherSport.Validation.Exceptions;
-using OtherSport.Validation.Models;
-using OtherSport.Validation.Services;
+using OWP.OtherSport.Validation;
+using OWP.OtherSport.Validation.Exceptions;
+using OWP.OtherSport.Validation.Models;
+using OWP.OtherSport.Validation.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.OtherSport.UnitTests;
 
 public class ValidationHandlerUnitTests
 {
@@ -100,7 +100,7 @@ public class ValidationHandlerUnitTests
                 {
                     Sport = "Basketball",
                     Home = "Golden State Warrior",
-                    Away = "LA Laker",
+                    Away = "LA Lake",
                     MatchStatus = "Completed",
                     DateTime = new DateTime(2020, 12, 29),
                     League = "NBA",

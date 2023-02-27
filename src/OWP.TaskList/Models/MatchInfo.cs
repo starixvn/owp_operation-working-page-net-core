@@ -1,7 +1,7 @@
-﻿namespace OWP.TaskList.Models;
+﻿using Newtonsoft.Json;
+using OWP.Utils;
 
-using Newtonsoft.Json;
-using Utils;
+namespace OWP.TaskList.Models;
 
 public class MatchInfo
 {
@@ -41,7 +41,7 @@ public class MatchInfo
     public bool IsFIFA => League.IndexOf("SABA ", StringComparison.CurrentCultureIgnoreCase) >= 0 &&
                           League.IndexOf("FIFA", StringComparison.CurrentCultureIgnoreCase) >= 0;
 
-        public bool IsSaBa => League.IndexOf("SABA ", StringComparison.CurrentCultureIgnoreCase) >= 0;
+    public bool IsSaBa => League.IndexOf("SABA ", StringComparison.CurrentCultureIgnoreCase) >= 0;
 
     public string NoOfHDP { get; set; }
 
@@ -107,29 +107,29 @@ public class MatchInfo
     {
         get
         {
-            var rowspan = 2;
+            var rowSpan = 2;
 
             if (Assignment.FastMarket.Any() || MatchSetting.FastMarket.IsHasMaxbetSpread)
             {
-                rowspan++;
+                rowSpan++;
             }
 
             if (Assignment.AllInOne.Any())
             {
-                rowspan++;
+                rowSpan++;
             }
 
             if (Assignment.Specific15Mins.Any() || MatchSetting.Specific15Mins.IsHasMaxbetSpread)
             {
-                rowspan++;
+                rowSpan++;
             }
 
             if (Assignment.Specific10Mins.Any() || MatchSetting.Specific10Mins.IsHasMaxbetSpread)
             {
-                rowspan++;
+                rowSpan++;
             }
 
-            return rowspan;
+            return rowSpan;
         }
     }
 

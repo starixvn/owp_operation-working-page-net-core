@@ -1,9 +1,9 @@
-﻿namespace OWP.Report.PreMatchReport.Handlers;
-
-using MediatR;
-using Models;
+﻿using MediatR;
 using OWP.Models;
-using Services;
+using OWP.Report.PreMatchReport.Models;
+using OWP.Report.PreMatchReport.Services;
+
+namespace OWP.Report.PreMatchReport.Handlers;
 
 public class ExportPreMatchReportRequest : IRequest<FileExport>
 {
@@ -22,7 +22,7 @@ public class ExportPreMatchReportHandler : IRequestHandler<ExportPreMatchReportR
     public async Task<FileExport> Handle(ExportPreMatchReportRequest request, CancellationToken cancellationToken)
     {
         var content = await reportExportService.Export(request.Query);
-        var fileName = $"Prematch Assigment Record {request.Query.FromDate.ToString("ddMMMyyyy")}-{request.Query.ToDate.ToString("ddMMMyyyy")}.xlsx";
+        var fileName = $"Prematch Assignment Record {request.Query.FromDate.ToString("ddMMMyyyy")}-{request.Query.ToDate.ToString("ddMMMyyyy")}.xlsx";
 
         return new FileExport(fileName, content);
     }

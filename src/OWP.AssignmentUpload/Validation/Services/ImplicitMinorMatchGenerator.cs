@@ -1,9 +1,9 @@
-﻿namespace OWP.AssignmentUpload.Validation.Services;
+﻿using OWP.AssignmentUpload.Validation.Constants;
+using OWP.AssignmentUpload.Validation.Models;
 
-using Constants;
-using Models;
+namespace OWP.AssignmentUpload.Validation.Services;
 
-public interface ImplicitMinorMatchGenerater
+public interface ImplicitMinorMatchGenerator
 {
     IEnumerable<AssignmentModel> GenerateImplicitMinorMatchForExplicitMinorMatch(AssignmentModel mainMatch);
 
@@ -24,7 +24,7 @@ public interface ImplicitMinorMatchGenerater
     AssignmentModel GetSpecific15MinsTotalBookingsMatch(AssignmentModel mainMatch);
 }
 
-public class GenerateImplicitMinorMatchImp : ImplicitMinorMatchGenerater
+public class GenerateImplicitMinorMatchImp : ImplicitMinorMatchGenerator
 {
     private const string SPECIFIC_15_MINS = " (SPECIFIC 15 MINS)";
     private const string SPECIFIC_10_MINS = " (SPECIFIC 10 MINS)";

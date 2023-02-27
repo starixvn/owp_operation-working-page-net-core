@@ -1,10 +1,10 @@
-﻿namespace OWP.AssignmentUpload.UnitTests.Validation.Services;
-
-using AssignmentUpload.Validation.Exceptions;
-using AssignmentUpload.Validation.Models;
-using AssignmentUpload.Validation.Services;
+﻿using OWP.AssignmentUpload.Validation.Exceptions;
+using OWP.AssignmentUpload.Validation.Models;
+using OWP.AssignmentUpload.Validation.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.AssignmentUpload.UnitTests.Validation.Services;
 
 public class MatchStatusValidatorUnitTests
 {
@@ -25,7 +25,7 @@ public class MatchStatusValidatorUnitTests
                 League = "VIETNAM CHAMPIONSHIP U19 QUALIFIERS",
                 Home = "Ha Noi FC U19 (N)",
                 Away = "Than Quang Ninh U19",
-                HashKey = "ahihi",
+                HashKey = "hash key",
                 MatchStatus = "Cancel",
                 ParentHashKey= ""
             },
@@ -34,7 +34,7 @@ public class MatchStatusValidatorUnitTests
                 League = "VIETNAM CHAMPIONSHIP U19 QUALIFIERS - CORNERS",
                 Home = "Ha Noi FC U19 (N) Next Corners",
                 Away = "Than Quang Ninh U19 Next Corners",
-                ParentHashKey = "ahihi",
+                ParentHashKey = "hash key",
                 MatchStatus = "Live"
             },
             new()
@@ -42,7 +42,7 @@ public class MatchStatusValidatorUnitTests
                 League = "VIETNAM CHAMPIONSHIP U19 QUALIFIERS - CORNERS",
                 Home = "Ha Noi FC U19 (N) No.of Corners",
                 Away = "Than Quang Ninh U19 No.of Corners",
-                ParentHashKey = "ahihi",
+                ParentHashKey = "hash key",
                 MatchStatus = "Suspended"
             },
             new()
@@ -50,7 +50,7 @@ public class MatchStatusValidatorUnitTests
                 League = "VIETNAM CHAMPIONSHIP U19 QUALIFIERS - CORNERS",
                 Home = "Ha Noi FC U19 (N) No.of Corners",
                 Away = "Than Quang Ninh U19 No.of Corners",
-                ParentHashKey = "ahihi",
+                ParentHashKey = "hash key",
                 MatchStatus = "Postponed"
             }
         };
@@ -87,7 +87,7 @@ public class MatchStatusValidatorUnitTests
                 League = "VIETNAM CHAMPIONSHIP U19 QUALIFIERS",
                 Home = "Ha Noi FC U19 (N)",
                 Away = "Than Quang Ninh U19",
-                HashKey = "ahihi",
+                HashKey = "hash key",
                 MatchStatus = "Suspended",
                 ParentHashKey= ""
             },
@@ -96,7 +96,7 @@ public class MatchStatusValidatorUnitTests
                 League = "VIETNAM CHAMPIONSHIP U19 QUALIFIERS - CORNERS",
                 Home = "Ha Noi FC U19 (N) Next Corners",
                 Away = "Than Quang Ninh U19 Next Corners",
-                ParentHashKey = "ahihi",
+                ParentHashKey = "hash key",
                 MatchStatus = "Suspended"
             }
         };
@@ -115,7 +115,7 @@ public class MatchStatusValidatorUnitTests
                 League = "VIETNAM CHAMPIONSHIP U19 QUALIFIERS",
                 Home = "Ha Noi FC U19 (N)",
                 Away = "Than Quang Ninh U19",
-                HashKey = "ahihi",
+                HashKey = "hash key",
                 MatchStatus = "Live",
                 ParentHashKey= ""
             },
@@ -124,7 +124,7 @@ public class MatchStatusValidatorUnitTests
                 League = "VIETNAM CHAMPIONSHIP U19 QUALIFIERS - CORNERS",
                 Home = "Ha Noi FC U19 (N) Next Corners",
                 Away = "Than Quang Ninh U19 Next Corners",
-                ParentHashKey = "ahihi",
+                ParentHashKey = "hash key",
                 MatchStatus = "Live"
             },
             new()
@@ -132,7 +132,7 @@ public class MatchStatusValidatorUnitTests
                 League = "VIETNAM CHAMPIONSHIP U19 QUALIFIERS - CORNERS",
                 Home = "Ha Noi FC U19 (N) No.of Corners",
                 Away = "Than Quang Ninh U19 No.of Corners",
-                ParentHashKey = "ahihi",
+                ParentHashKey = "hash key",
                 MatchStatus = "Suspended"
             },
             new()
@@ -140,7 +140,7 @@ public class MatchStatusValidatorUnitTests
                 League = "VIETNAM CHAMPIONSHIP U19 QUALIFIERS - CORNERS",
                 Home = "Ha Noi FC U19 (N) No.of Corners",
                 Away = "Than Quang Ninh U19 No.of Corners",
-                ParentHashKey = "ahihi",
+                ParentHashKey = "hash key",
                 MatchStatus = "Postponed"
             }
         };

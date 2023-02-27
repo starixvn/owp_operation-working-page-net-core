@@ -1,6 +1,6 @@
-namespace OWP.Criteria;
-
 using Fanex.Data.Repository;
+
+namespace OWP.Criteria;
 
 public class GetMinorAdminSiteMatchCriteria : CriteriaBase
 {

@@ -2,7 +2,6 @@
 
 public enum StatusRequest
 {
-    Error = -1,
 
     Success = 0,
 

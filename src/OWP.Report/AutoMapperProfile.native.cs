@@ -1,8 +1,8 @@
-﻿namespace OWP.Report;
+﻿using AutoMapper;
+using OWP.Report.LAReport.Models;
+using OWP.Report.TraderReport.Models;
 
-using AutoMapper;
-using LAReport.Models;
-using TraderReport.Models;
+namespace OWP.Report;
 
 public class AutoMapperProfile : Profile
 {

@@ -1,10 +1,10 @@
-namespace OWP.LeagueManagement.UnitTests;
-
 using Fanex.NAP.Client.Helpers.Web;
-using Models;
 using NSubstitute;
-using Service;
+using OWP.LeagueManagement.Models;
+using OWP.LeagueManagement.Services;
 using Xunit;
+
+namespace OWP.LeagueManagement.UnitTests.Services;
 
 public class SpecialProductUnitTests
 {

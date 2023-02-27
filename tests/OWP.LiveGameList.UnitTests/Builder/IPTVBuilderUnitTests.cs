@@ -1,9 +1,9 @@
-﻿namespace OWP.LiveGameList.UnitTests.Builder;
-
-using LiveGameList.Builder;
-using Models;
+﻿using OWP.LiveGameList.Builder;
+using OWP.LiveGameList.Models;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.LiveGameList.UnitTests.Builder;
 
 public class IPTVBuilderUnitTests
 {
@@ -12,7 +12,7 @@ public class IPTVBuilderUnitTests
     {
         var expected = "PTQ/IPTV/Liam/stream76";
         var result = IPTVBuilder.Build(new IPTVModel
-        { Channel = "Liam", IpTv = "IPTV", Stream = "stream76", TeleVision = "PTQ" });
+        { Channel = "Liam", IpTv = "IPTV", Stream = "stream76", Television = "PTQ" });
         DeepAssert.Equal(result, expected);
 
     }

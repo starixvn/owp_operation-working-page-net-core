@@ -1,6 +1,6 @@
-﻿namespace OWP.OtherSport.Download.Models;
+﻿using OWP.OtherSport.Submit.Models;
 
-using Submit.Models;
+namespace OWP.OtherSport.Download.Models;
 
 public class ExcelModel
 {

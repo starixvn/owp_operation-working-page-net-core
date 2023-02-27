@@ -2,7 +2,7 @@
 
 public class IPTVModel
 {
-    public string TeleVision { get; set; }
+    public string Television { get; set; }
 
     public string IpTv { get; set; }
 

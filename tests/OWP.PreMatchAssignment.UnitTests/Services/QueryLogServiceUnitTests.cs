@@ -1,14 +1,14 @@
-﻿namespace OWP.PreMatchAssignment.UnitTests.Services;
-
-using Criteria;
-using Fanex.Data.Repository;
-using Handlers;
-using Models;
+﻿using Fanex.Data.Repository;
 using NSubstitute;
-using PreMatchAssignment.Misc;
-using PreMatchAssignment.Services;
+using OWP.PrematchAssignment.Criteria;
+using OWP.PrematchAssignment.Handlers;
+using OWP.PrematchAssignment.Misc;
+using OWP.PrematchAssignment.Models;
+using OWP.PrematchAssignment.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.PreMatchAssignment.UnitTests.Services;
 
 public class QueryLogServiceUnitTests
 {
@@ -23,7 +23,7 @@ public class QueryLogServiceUnitTests
         logFactory.BuildColumn(LogActionConst.UpdateAssignment, "<r><z plid=\"2047\" uid=\"8\" un=\"sa\" bt=\"1\" ito=\"1\" at=\"1\" /></r>").Returns("HDP T.Over: #sa");
         logFactory.BuildColumn(LogActionConst.UpdateAssignment, string.Empty).Returns(string.Empty);
         logFactory.BuildColumn(LogActionConst.UpdateRemark, "<r><z plid=\"2019\" rm=\"\"/></r>").Returns(string.Empty);
-        logFactory.BuildColumn(LogActionConst.UpdateRemark, "<r><z plid=\"2019\" rm=\"cdcd\"/></r>").Returns("cdcd");
+        logFactory.BuildColumn(LogActionConst.UpdateRemark, "<r><z plid=\"2019\" rm=\"data\"/></r>").Returns("data");
         logFactory.BuildColumn(LogActionConst.ChangeStartTime, "<r><z d=\"2020-08-20\" t=\"14:20\"/></r>").Returns("Date: 08/20/2020, Start Time: 02:20 PM");
 
         logFactory.GetLogType(LogActionConst.ChangeStartTime, "<r><z d=\"2020-08-20\" t=\"14:20\"/></r>").Returns(LogActionConst.ChangeStartTime);
@@ -70,7 +70,7 @@ public class QueryLogServiceUnitTests
                 LeagueName = "BRAZIL CAMPEONATO POTIGUAR",
                 ModifiedBy = "sa",
                 NewValue = "<r><z plid=\"2019\" rm=\"\"/></r>",
-                OldValue = "<r><z plid=\"2019\" rm=\"cdcd\"/></r>"
+                OldValue = "<r><z plid=\"2019\" rm=\"data\"/></r>"
             },
 
             new()
@@ -130,7 +130,7 @@ public class QueryLogServiceUnitTests
                 LeagueName = "BRAZIL CAMPEONATO POTIGUAR",
                 ModifiedBy = "sa",
                 NewValue = string.Empty,
-                OldValue = "cdcd",
+                OldValue = "data",
                 LastModifiedInString = "08/20/2020 04:03 PM"
             },
 

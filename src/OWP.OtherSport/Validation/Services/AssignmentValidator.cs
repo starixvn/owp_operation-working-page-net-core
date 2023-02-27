@@ -1,11 +1,11 @@
-﻿namespace OWP.OtherSport.Validation.Services;
-
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using Exceptions;
-using Helpers;
-using Models;
+using OWP.OtherSport.Validation.Exceptions;
+using OWP.OtherSport.Validation.Helpers;
+using OWP.OtherSport.Validation.Models;
+
+namespace OWP.OtherSport.Validation.Services;
 
 public interface AssignmentValidator
 {
@@ -50,14 +50,14 @@ public class AssignmentValidatorImp : AssignmentValidator
         }
     }
 
-    public List<ValidationResult> CustomValidateAssignment(AssignmentModelInExcel assignment, List<AssignmentModelInExcel> assigments, List<Trader> traders)
+    public List<ValidationResult> CustomValidateAssignment(AssignmentModelInExcel assignment, List<AssignmentModelInExcel> assignments, List<Trader> traders)
     {
         var results = new List<ValidationResult>();
         ValidateMatchNo(assignment, results);
         ValidateTraders(assignment, results, traders);
-        ValidateDataAnotation(assignment, results);
-        ValidateDuplicatedMatch(assignment, assigments, results);
-        ValidateDuplicatedAdminSiteId(assignment, assigments, results);
+        ValidateDataAnnotation(assignment, results);
+        ValidateDuplicatedMatch(assignment, assignments, results);
+        ValidateDuplicatedAdminSiteId(assignment, assignments, results);
         ValidateMaxbetAndSpreadInString(assignment, results);
 
         return results;
@@ -150,7 +150,7 @@ public class AssignmentValidatorImp : AssignmentValidator
         }
     }
 
-    public static void ValidateDataAnotation(AssignmentModelInExcel assignment, List<ValidationResult> results)
+    public static void ValidateDataAnnotation(AssignmentModelInExcel assignment, List<ValidationResult> results)
     {
         var context = new ValidationContext(assignment, null, null);
         Validator.TryValidateObject(assignment, context, results, true);

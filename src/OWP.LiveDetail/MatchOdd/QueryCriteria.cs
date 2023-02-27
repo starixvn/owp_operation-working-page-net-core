@@ -1,6 +1,6 @@
-﻿namespace OWP.LiveDetail.MatchOdd;
+﻿using Fanex.Data.Repository;
 
-using Fanex.Data.Repository;
+namespace OWP.LiveDetail.MatchOdd;
 
 public class QueryCriteria : CriteriaBase
 {

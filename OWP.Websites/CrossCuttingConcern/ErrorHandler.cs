@@ -1,8 +1,8 @@
-﻿namespace OWP.Websites.CrossCuttingConcern;
-
-using Fanex.Logging;
-using Fanex.Logging.Extensions;
+﻿using Fanex.Logging.Extensions;
 using Fanex.Logging.Extensions.Database;
+using ILogger = Fanex.Logging.ILogger;
+
+namespace OWP.Websites.CrossCuttingConcern;
 
 public class ErrorHandler
 {

@@ -1,11 +1,11 @@
-﻿namespace OWP.AutoAssignment.Services.PublicApi;
+﻿using OWP.AutoAssignment.Constant;
+using OWP.AutoAssignment.Models.PublicApi;
 
-using Constant;
-using Models.PublicApi;
+namespace OWP.AutoAssignment.Services.PublicApi;
 
 public interface SabaMatchService
 {
-    Task<IList<SabaMatchSender>> BuildSabaMatchInfo(IList<MatchQueried> matchsQueried);
+    Task<IList<SabaMatchSender>> BuildSabaMatchInfo(IList<MatchQueried> matchesQueried);
 }
 
 public class SabaMatchServiceImp : SabaMatchService
@@ -17,9 +17,9 @@ public class SabaMatchServiceImp : SabaMatchService
         this.repository = repository;
     }
 
-    public async Task<IList<SabaMatchSender>> BuildSabaMatchInfo(IList<MatchQueried> matchsQueried)
+    public async Task<IList<SabaMatchSender>> BuildSabaMatchInfo(IList<MatchQueried> matchesQueried)
     {
-        var matchIds = matchsQueried.Select(i => i.InfositeMatchId).ToList();
+        var matchIds = matchesQueried.Select(i => i.InfositeMatchId).ToList();
         var matchInfos = await GetSabaMatchInfo(matchIds);
         var maxBetInfos = (await GetSabaMaxbet(matchIds)).ToList();
 
@@ -27,7 +27,7 @@ public class SabaMatchServiceImp : SabaMatchService
         {
             MatchId = i.InfositeId,
             KOTime = i.KOTime.ToString(AutoConstant.FormatDateTime),
-            SabaType = GetSabaType(matchsQueried, i.InfositeId),
+            SabaType = GetSabaType(matchesQueried, i.InfositeId),
             LeagueSettingId = GetMaxBetValue(maxBetInfos, i.InfositeId)?.LeagueSettingId,
             MaxBet = GetMaxBetValue(maxBetInfos, i.InfositeId)?.MaxBetFTHDP,
             AwayId = i.AwayId,
@@ -35,8 +35,8 @@ public class SabaMatchServiceImp : SabaMatchService
         }).ToList();
     }
 
-    private static int? GetSabaType(IList<MatchQueried> matchsQueried, int infositeId)
-        => matchsQueried
+    private static int? GetSabaType(IList<MatchQueried> matchesQueried, int infositeId)
+        => matchesQueried
             .FirstOrDefault(i => i.InfositeMatchId == infositeId)?
             .SabaType;
 

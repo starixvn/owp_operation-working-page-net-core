@@ -1,4 +1,4 @@
-namespace OWP.Model;
+namespace OWP.Models;
 
 public class OWPCommandResult
 {

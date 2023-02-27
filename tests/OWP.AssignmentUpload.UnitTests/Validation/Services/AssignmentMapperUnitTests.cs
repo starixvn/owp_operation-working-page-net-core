@@ -1,11 +1,11 @@
-﻿namespace OWP.AssignmentUpload.UnitTests.Validation.Services;
-
-using AssignmentUpload.Validation;
-using AssignmentUpload.Validation.Models;
-using AssignmentUpload.Validation.Services;
-using AutoMapper;
+﻿using AutoMapper;
+using OWP.AssignmentUpload.Validation;
+using OWP.AssignmentUpload.Validation.Models;
+using OWP.AssignmentUpload.Validation.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.AssignmentUpload.UnitTests.Validation.Services;
 
 public class AssignmentMapperImpUnitTests
 {
@@ -57,8 +57,8 @@ public class AssignmentMapperImpUnitTests
         {
             new()
             {
-                Agent = "Sori",
-                Away = "TPHCM",
+                Agent = "Sorry",
+                Away = "HCM",
                 Channel = "vtv1",
                 IPTV = "vtv1",
                 Division = "h1",
@@ -132,14 +132,14 @@ public class AssignmentMapperImpUnitTests
         var result = assignmentMapper.Map(request, excelModels);
         Assert.Equal("V-League", result[0].League);
         Assert.Equal("HN", result[0].Home);
-        Assert.Equal("TPHCM", result[0].Away);
+        Assert.Equal("HCM", result[0].Away);
     }
 
     [Fact]
-    public void ExtractNote_MutipleTextIsMatchRegex_ReturnIsUserText()
+    public void ExtractNote_MultipleTextIsMatchRegex_ReturnIsUserText()
     {
-        const string otherTraders = "#Mira #Miraaa #Lina";
-        const string expected = " #<user> #Miraaa #Lina";
+        const string otherTraders = "#Mira #Mira #Lina";
+        const string expected = " #<user> #Mira #Lina";
         var actual = assignmentMapper.ExtractNote(otherTraders);
         Assert.Equal(expected, actual);
     }
@@ -147,8 +147,8 @@ public class AssignmentMapperImpUnitTests
     [Fact]
     public void ExtractNote_TextIsNotMatchRegex_ReturnInputText()
     {
-        const string otherTraders = "Liii3o";
-        const string expected = "Liii3o";
+        const string otherTraders = "Lita";
+        const string expected = "Lita";
         var actual = assignmentMapper.ExtractNote(otherTraders);
 
         Assert.Equal(expected, actual);
@@ -177,7 +177,7 @@ public class AssignmentMapperImpUnitTests
     [Fact]
     public void ExtractTrader_TextIsNotMatchRegex_ReturnInputText()
     {
-        const string otherTraders = "Liii3o";
+        const string otherTraders = "Lita";
         const int expected = 0;
         var actual = assignmentMapper.ExtractTrader(otherTraders);
 
@@ -187,7 +187,7 @@ public class AssignmentMapperImpUnitTests
     [Fact]
     public void ExtractTrader_TextIsMatchRegex_Return0()
     {
-        const string otherTraders = "#Helen#Nini";
+        const string otherTraders = "#Helen#Nina";
         const int expected = 3;
         var actual = assignmentMapper.ExtractTrader(otherTraders);
 
@@ -197,9 +197,9 @@ public class AssignmentMapperImpUnitTests
     [Fact]
     public void GetOtherTradersInXml_TraderIsNotMatchRegex_TraderIdShouldBe0andNoteShouldBeInputText()
     {
-        const string otherTraders = "Nikii";
+        const string otherTraders = "Nam";
 
-        const string expected = "0,Nikii";
+        const string expected = "0,Nam";
         var actual = assignmentMapper.ParseOtherTraders(otherTraders);
 
         Assert.Equal(expected, actual);
@@ -217,7 +217,7 @@ public class AssignmentMapperImpUnitTests
     }
 
     [Fact]
-    public void GetOtherTradersInXml_TraderIsMatchRegex_TraderIdShouldBeUserIdandNoteShouldBeUserXml()
+    public void GetOtherTradersInXml_TraderIsMatchRegex_TraderIdShouldBeUserIdAndNoteShouldBeUserXml()
     {
         const string otherTraders = "#Mira";
 
@@ -228,7 +228,7 @@ public class AssignmentMapperImpUnitTests
     }
 
     [Fact]
-    public void GetOtherTradersInXml_MutipleTraderConcludeMatchAndNotMatchRegex_ReturnXmlTraders()
+    public void GetOtherTradersInXml_MultipleTraderConcludeMatchAndNotMatchRegex_ReturnXmlTraders()
     {
         const string otherTraders = "#Helen,   #Mira, Winner";
 
@@ -393,7 +393,7 @@ public class AssignmentMapperImpUnitTests
     {
         var excelModel = new AssignmentModelInExcel
         {
-            Agent = "Sori",
+            Agent = "Sorry",
             Away = "a",
             Channel = "vtv1",
             IPTV = "vtv1",
@@ -460,7 +460,7 @@ public class AssignmentMapperImpUnitTests
         };
         var expected = new AssignmentModel
         {
-            Agent = "Sori",
+            Agent = "Sorry",
             Away = "a",
             Channel = "vtv1",
             IPTV = "vtv1",
@@ -549,7 +549,7 @@ public class AssignmentMapperImpUnitTests
     [InlineData("A(n)B ", "A B")]
     [InlineData("A (N) B ", "A B")]
     [InlineData("OC (N) Next Corners", "OC Next Corners")]
-    public void RemoveNeutralSign_AlwaysRemoveIngnoreCase(string input, string expected)
+    public void RemoveNeutralSign_AlwaysRemoveIgnoredCase(string input, string expected)
     {
         var actual = AssignmentMapperImp.RemoveNeutralSign(input);
 
@@ -563,7 +563,7 @@ public class AssignmentMapperImpUnitTests
         var excelModels = new AssignmentModelInExcel
         {
             MatchNo = "123",
-            League = "Seagame",
+            League = "SeaGame",
             Home = "VN(N)",
             Away = "Thai lan",
             Time = "2020-10-29"

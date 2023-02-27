@@ -1,9 +1,9 @@
-﻿namespace OWP.AssignmentUpload.SyncInfoSite.Services;
+﻿using OWP.AssignmentUpload.SyncInfoSite.Helper;
+using OWP.AssignmentUpload.SyncInfoSite.Models;
+using OWP.AssignmentUpload.Validation.Models;
+using OWP.AssignmentUpload.Validation.Services;
 
-using Helper;
-using Models;
-using Validation.Models;
-using Validation.Services;
+namespace OWP.AssignmentUpload.SyncInfoSite.Services;
 
 public interface InfositeMappingService
 {
@@ -61,7 +61,7 @@ public class InfositeMappingServiceImp : InfositeMappingService
         foreach (var match in owpMatch)
         {
             var infoSiteMatch = match.IsSaba
-                ? infositeMatches.FirstOrDefault(infoSite => InfoSiteHelper.IsSameLeagueHomeAwayKOtime(match, infoSite))
+                ? infositeMatches.FirstOrDefault(infoSite => InfoSiteHelper.IsSameLeagueHomeAwayKoTime(match, infoSite))
                 : infositeMatches.FirstOrDefault(infoSite => InfoSiteHelper.IsSameLeagueHomeAway(match, infoSite));
 
             if (infoSiteMatch != null)

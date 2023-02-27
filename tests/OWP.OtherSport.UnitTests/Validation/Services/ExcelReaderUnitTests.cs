@@ -1,10 +1,10 @@
-﻿namespace OWP.OtherSport.UnitTests.Validation.Services;
-
-using OfficeOpenXml;
-using OtherSport.Validation.Models;
-using OtherSport.Validation.Services;
+﻿using OfficeOpenXml;
+using OWP.OtherSport.Validation.Models;
+using OWP.OtherSport.Validation.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.OtherSport.UnitTests.Validation.Services;
 
 public class ExcelReaderUnitTests
 {
@@ -28,12 +28,12 @@ public class ExcelReaderUnitTests
         worksheet.Cells[2, 10].Value = "3HDP";
         worksheet.Cells[2, 11].Value = "15s Accept";
         worksheet.Cells[2, 12].Value = "YES";
-        worksheet.Cells[2, 13].Value = "TV/BGTV/Glive53";
+        worksheet.Cells[2, 13].Value = "TV/BGTV/Live53";
         worksheet.Cells[2, 14].Value = "BGtv/RB2tv/BETtv/";
         worksheet.Cells[2, 15].Value = "InPlay";
         worksheet.Cells[2, 16].Value = "Euro40";
         worksheet.Cells[2, 20].Value = "#starix1 note";
-        worksheet.Cells[2, 21].Value = "#starix2 mynote";
+        worksheet.Cells[2, 21].Value = "#starix2 note";
         worksheet.Cells[2, 152].Value = "other note";
         worksheet.Cells[2, 153].Value = "#starix14 other";
         worksheet.Cells[2, 160].Value = "50000";
@@ -61,7 +61,7 @@ public class ExcelReaderUnitTests
                     NoHDP = "3HDP",
                     MatchOffer = "15s Accept",
                     AutoLink = "YES",
-                    Provider = "TV/BGTV/Glive53",
+                    Provider = "TV/BGTV/Live53",
                     OtherProvider = "BGtv/RB2tv/BETtv/",
                     Service = "InPlay",
                     IPTV = "Euro40",
@@ -69,7 +69,7 @@ public class ExcelReaderUnitTests
                     WB = string.Empty,
                     Remark = string.Empty,
                     TraderBasketballFTHDP = "#starix1 note",
-                    TraderBasketball1HHDP = "#starix2 mynote",
+                    TraderBasketball1HHDP = "#starix2 note",
                     TraderBasketball1Q3QHDP = string.Empty,
                     TraderBasketballFTOUOE = string.Empty,
                     TraderBasketball1HOUOE = string.Empty,
@@ -118,7 +118,7 @@ public class ExcelReaderUnitTests
                     TraderBaseballInningHitsRuns = string.Empty,
                     TraderBadmintonAllProductSetWinner = string.Empty,
                     TraderBadmintonAllProductPointWinner = string.Empty,
-                    TraderBadmintonRacetoPoints7911 = string.Empty,
+                    TraderBadmintonRaceToPoints7911 = string.Empty,
                     TraderBadmintonNextPointWinner = string.Empty,
                     TraderBadmintonMatchHandicap = string.Empty,
                     TraderTennisAllProductLS = string.Empty,
@@ -195,7 +195,7 @@ public class ExcelReaderUnitTests
                     OtherTraderBaseballInningHitsRuns = string.Empty,
                     OtherTraderBadmintonAllProductSetWinner = string.Empty,
                     OtherTraderBadmintonAllProductPointWinner = string.Empty,
-                    OtherTraderBadmintonRacetoPoints7911 = string.Empty,
+                    OtherTraderBadmintonRaceToPoints7911 = string.Empty,
                     OtherTraderBadmintonNextPointWinner = string.Empty,
                     OtherTraderBadmintonMatchHandicap = string.Empty,
                     OtherTraderTennisAllProductLS = string.Empty,
@@ -266,7 +266,7 @@ public class ExcelReaderUnitTests
                     MaxBetBaseballInningHitsRuns = string.Empty,
                     MaxBetBadmintonAllProductSetWinner = string.Empty,
                     MaxBetBadmintonAllProductPointWinner = string.Empty,
-                    MaxBetBadmintonRacetoPoints7911 = string.Empty,
+                    MaxBetBadmintonRaceToPoints7911 = string.Empty,
                     MaxBetBadmintonNextPointWinner = string.Empty,
                     MaxBetBadmintonMatchHandicap = string.Empty,
                     MaxBetTennisAllProductLS = string.Empty,
@@ -337,7 +337,7 @@ public class ExcelReaderUnitTests
                     SpreadBaseballInningHitsRuns = string.Empty,
                     SpreadBadmintonAllProductSetWinner = string.Empty,
                     SpreadBadmintonAllProductPointWinner = string.Empty,
-                    SpreadBadmintonRacetoPoints7911 = string.Empty,
+                    SpreadBadmintonRaceToPoints7911 = string.Empty,
                     SpreadBadmintonNextPointWinner = string.Empty,
                     SpreadBadmintonMatchHandicap = string.Empty,
                     SpreadTennisAllProductLS = string.Empty,

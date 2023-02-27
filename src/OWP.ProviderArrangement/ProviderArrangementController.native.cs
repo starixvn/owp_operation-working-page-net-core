@@ -1,15 +1,14 @@
-﻿using static Fanex.NAP.Core.Business.Constant;
-
-namespace OWP.ProviderArrangement;
-
-using Constants;
-using Fanex.NAP.Client.AspNetCore.Attributes;
-using Handlers;
+﻿using Fanex.NAP.Client.AspNetCore.Attributes;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using Models;
+using OWP.Constants;
+using OWP.ProviderArrangement.Handlers;
+using OWP.ProviderArrangement.Models;
+using static Fanex.NAP.Core.Business.Constant;
+
+namespace OWP.ProviderArrangement;
 
 [Route("api/[controller]")]
 [ApiController]

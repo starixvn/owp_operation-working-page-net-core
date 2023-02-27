@@ -13,8 +13,6 @@
 
 namespace OWP.Constants
 {
-    using System.Diagnostics.CodeAnalysis;
-
     /// <summary>
     /// Function keys.
     /// </summary>

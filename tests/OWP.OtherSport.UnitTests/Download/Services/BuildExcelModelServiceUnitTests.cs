@@ -1,15 +1,15 @@
-﻿namespace OWP.OtherSport.UnitTests.Download.Services;
-
-using AutoMapper;
+﻿using AutoMapper;
 using NSubstitute;
-using OtherSport.Download;
-using OtherSport.Download.Models;
-using OtherSport.Download.Services;
-using OtherSport.Shared.Services;
-using OtherSport.Submit.Contants;
-using OtherSport.Submit.Models;
+using OWP.OtherSport.Download;
+using OWP.OtherSport.Download.Models;
+using OWP.OtherSport.Download.Services;
+using OWP.OtherSport.Shared.Services;
+using OWP.OtherSport.Submit.Constants;
+using OWP.OtherSport.Submit.Models;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.OtherSport.UnitTests.Download.Services;
 
 public class BuildExcelModelServiceUnitTests
 {
@@ -67,8 +67,8 @@ public class BuildExcelModelServiceUnitTests
                 { 111, new List<ExcelMatchAssignment> {
                     new() { ColumnIndex=20,Value="", AssignmentType = 1, BetTypeName = Bettype.FTHDP, UserId = 8, Username="sa" },
                     new()
-                    { ColumnIndex=88,Value="#starix15 mynote", AssignmentType = 2, BetTypeName = Bettype.FirstHHDP,
-                        UserId = 123, Username="starix15", AssignmentNote = "#<user> mynote" }
+                    { ColumnIndex=88,Value="#starix15 note", AssignmentType = 2, BetTypeName = Bettype.FirstHHDP,
+                        UserId = 123, Username="starix15", AssignmentNote = "#<user> note" }
                 } }
             },
             MaxBetSpread = new Dictionary<int, List<ExcelMatchMaxBetSpread>>
@@ -124,7 +124,7 @@ public class BuildExcelModelServiceUnitTests
                     new() { AssignmentType = 1, BetTypeName = Bettype.FTHDP, UserId = 8, Username="sa" },
                     new()
                     { AssignmentType = 2, BetTypeName = Bettype.FirstHHDP, UserId = 123, Username="starix15",
-                        AssignmentNote = "#<user> mynote" }
+                        AssignmentNote = "#<user> note" }
                 } },
                 { 222, new List<MatchAssignment> {
                     new() { AssignmentType = 1, BetTypeName = Bettype.FTHDP, UserId = 2228, Username="tr", Nickname="abc" }

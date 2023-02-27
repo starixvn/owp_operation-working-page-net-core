@@ -1,9 +1,9 @@
-﻿namespace OWP.OtherSport.Validation.Services;
+﻿using OfficeOpenXml;
+using OWP.OtherSport.Validation.Constants;
+using OWP.OtherSport.Validation.Exceptions;
+using OWP.OtherSport.Validation.Extensions;
 
-using Constants;
-using Exceptions;
-using Extensions;
-using OfficeOpenXml;
+namespace OWP.OtherSport.Validation.Services;
 
 public interface ExcelValidator
 {

@@ -1,6 +1,6 @@
-﻿namespace OWP.Report.TraderReport.Models;
+﻿using OWP.Report.Models;
 
-using Report.Models;
+namespace OWP.Report.TraderReport.Models;
 
 public class ExcelModel
 {

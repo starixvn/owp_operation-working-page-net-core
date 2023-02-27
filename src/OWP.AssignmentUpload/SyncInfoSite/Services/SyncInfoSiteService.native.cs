@@ -1,7 +1,7 @@
 ﻿
-namespace OWP.AssignmentUpload.SyncInfoSite.Services;
+using OWP.AssignmentUpload.Validation.Models;
 
-using Validation.Models;
+namespace OWP.AssignmentUpload.SyncInfoSite.Services;
 
 public interface SyncInfoSiteService
 {

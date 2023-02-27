@@ -1,17 +1,15 @@
-﻿namespace OWP.PreMatchAssignment.Services;
-
-using AutoMapper;
-using Constants;
-using Criteria;
-using Extensions;
+﻿using AutoMapper;
 using Fanex.Caching;
 using Fanex.Data.Repository;
 using Fanex.NAP.Client.Helpers.Web;
-using Handlers;
-using Models;
 using Newtonsoft.Json;
-using PrematchAssignment.Criteria;
-using PrematchAssignment.Models;
+using OWP.Extensions;
+using OWP.PrematchAssignment.Constants;
+using OWP.PrematchAssignment.Criteria;
+using OWP.PrematchAssignment.Handlers;
+using OWP.PrematchAssignment.Models;
+
+namespace OWP.PrematchAssignment.Services;
 
 public interface PreMatchAssignmentService
 {

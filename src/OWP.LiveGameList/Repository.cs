@@ -1,8 +1,8 @@
-﻿namespace OWP.LiveGameList;
+﻿using Fanex.Data;
+using OWP.LiveGameList.Criteria;
+using OWP.LiveGameList.Models;
 
-using Criteria;
-using Fanex.Data;
-using Models;
+namespace OWP.LiveGameList;
 
 public interface Repository
 {

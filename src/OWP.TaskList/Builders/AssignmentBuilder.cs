@@ -1,8 +1,9 @@
 ﻿
-namespace OWP.TaskList.Builders;
+using OWP.Enums;
+using OWP.TaskList.Enumerations;
+using OWP.TaskList.Models;
 
-using Enums;
-using Models;
+namespace OWP.TaskList.Builders;
 
 public static class AssignmentBuilder
 {

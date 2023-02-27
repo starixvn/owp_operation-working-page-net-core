@@ -1,6 +1,6 @@
-﻿namespace OWP.Report.LAReport.Models;
+﻿using OWP.Report.Models;
 
-using Report.Models;
+namespace OWP.Report.LAReport.Models;
 
 public class LAExcelModel
 {

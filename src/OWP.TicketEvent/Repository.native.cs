@@ -1,9 +1,9 @@
-﻿namespace OWP.TicketEvent;
+﻿using Fanex.Data.Repository;
+using OWP.TicketEvent.Criteria;
+using OWP.TicketEvent.Handlers;
+using OWP.TicketEvent.Models;
 
-using Criteria;
-using Fanex.Data.Repository;
-using Handlers;
-using Models;
+namespace OWP.TicketEvent;
 
 public interface Repository
 {

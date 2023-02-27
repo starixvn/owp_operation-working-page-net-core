@@ -1,8 +1,8 @@
-namespace OWP.EventPicking.UnitTests.Mics;
-
-using Misc;
-using Models;
+using OWP.EventPicking.Misc;
+using OWP.EventPicking.Models;
 using Xunit;
+
+namespace OWP.EventPicking.UnitTests.Mics;
 
 public class TruthLeagueRuleUnitTests
 {

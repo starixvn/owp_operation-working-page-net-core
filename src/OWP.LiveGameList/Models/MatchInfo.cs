@@ -1,6 +1,6 @@
-﻿namespace OWP.LiveGameList.Models;
+﻿using OWP.Extensions;
 
-using Extensions;
+namespace OWP.LiveGameList.Models;
 
 public class MatchInfo
 {

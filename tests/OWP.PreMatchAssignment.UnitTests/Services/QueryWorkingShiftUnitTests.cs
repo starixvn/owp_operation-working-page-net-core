@@ -1,13 +1,13 @@
-﻿namespace OWP.PreMatchAssignment.UnitTests.Services;
-
-using Criteria;
-using Fanex.Data.Repository;
+﻿using Fanex.Data.Repository;
 using Fanex.NAP.Client.Helpers.Web;
-using Models;
 using NSubstitute;
-using PreMatchAssignment.Services;
+using OWP.PrematchAssignment.Criteria;
+using OWP.PrematchAssignment.Models;
+using OWP.PrematchAssignment.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.PreMatchAssignment.UnitTests.Services;
 
 public class QueryWorkingShiftUnitTests
 {

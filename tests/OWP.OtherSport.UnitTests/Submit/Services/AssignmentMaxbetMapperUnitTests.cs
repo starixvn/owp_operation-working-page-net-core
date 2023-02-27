@@ -1,11 +1,11 @@
-﻿namespace OWP.OtherSport.UnitTests.Submit.Services;
-
-using OtherSport.Submit.Contants;
-using OtherSport.Submit.Models;
-using OtherSport.Submit.Services;
-using OtherSport.Validation.Models;
+﻿using OWP.OtherSport.Submit.Constants;
+using OWP.OtherSport.Submit.Models;
+using OWP.OtherSport.Submit.Services;
+using OWP.OtherSport.Validation.Models;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.OtherSport.UnitTests.Submit.Services;
 
 public class AssignmentMaxbetMapperUnitTests
 {
@@ -1168,7 +1168,7 @@ public class AssignmentMaxbetMapperUnitTests
             TraderBaseballInningHitsRuns = "TraderBaseballInningHitsRuns",
             TraderBadmintonAllProductSetWinner = "TraderBadmintonAllProductSetWinner",
             TraderBadmintonAllProductPointWinner = "TraderBadmintonAllProductPointWinner",
-            TraderBadmintonRacetoPoints7911 = "TraderBadmintonRacetoPoints7911",
+            TraderBadmintonRacetoPoints7911 = "TraderBadmintonRaceToPoints7911",
             TraderBadmintonNextPointWinner = "TraderBadmintonNextPointWinner",
             TraderBadmintonMatchHandicap = "TraderBadmintonMatchHandicap",
             TraderTennisAllProductLS = "TraderTennisAllProductLS",
@@ -1179,7 +1179,7 @@ public class AssignmentMaxbetMapperUnitTests
             OtherTraderBadmintonAllProductSetWinner = "OtherTraderBadmintonAllProductSetWinner",
             OtherTraderBadmintonMatchHandicap = "OtherTraderBadmintonMatchHandicap",
             OtherTraderBadmintonNextPointWinner = "OtherTraderBadmintonNextPointWinner",
-            OtherTraderBadmintonRacetoPoints7911 = "OtherTraderBadmintonRacetoPoints7911",
+            OtherTraderBadmintonRacetoPoints7911 = "OtherTraderBadmintonRaceToPoints7911",
             OtherTraderBaseball1H1st5inningsHDP = "OtherTraderBaseball1H1st5inningsHDP",
             OtherTraderBaseball1H1st5inningsOU = "OtherTraderBaseball1H1st5inningsOU",
             OtherTraderBaseballFTRunLineHDP = "OtherTraderBaseballFTRunLineHDP",

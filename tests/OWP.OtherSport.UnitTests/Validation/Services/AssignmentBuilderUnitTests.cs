@@ -1,10 +1,10 @@
-﻿namespace OWP.OtherSport.UnitTests.Validation.Services;
-
-using AutoMapper;
-using OtherSport.Validation.Models;
-using OtherSport.Validation.Services;
+﻿using AutoMapper;
+using OWP.OtherSport.Validation.Models;
+using OWP.OtherSport.Validation.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.OtherSport.UnitTests.Validation.Services;
 
 public class AssignmentBuilderUnitTests
 {
@@ -49,7 +49,7 @@ public class AssignmentBuilderUnitTests
             Reporter = null,
             Sport = "Basketball",
             Home = "Golden State Warrior",
-            Away = "LA Laker",
+            Away = "LA Lake",
             MatchStatus = "Completed",
             DateTime = DateTime.Parse("12/10/2020 12:00 AM"),
             League = "NBA",
@@ -61,7 +61,7 @@ public class AssignmentBuilderUnitTests
             Reporter = null,
             Sport = "Ice Hookey",
             Home = "Golden State Warrior",
-            Away = "LA Laker",
+            Away = "LA Lake",
             MatchStatus = "Completed",
             DateTime = DateTime.Parse("12/10/2020 12:00 AM"),
             League = "Hookey",
@@ -82,7 +82,7 @@ public class AssignmentBuilderUnitTests
         {
             Sport = "Basketball",
             Home = "Golden State Warrior",
-            Away = "LA Laker",
+            Away = "LA Lake",
             MatchStatus = "Completed",
             DateTime = "44175",
             League = "NBA",
@@ -93,7 +93,7 @@ public class AssignmentBuilderUnitTests
         {
             Sport = "Ice Hookey",
             Home = "Golden State Warrior",
-            Away = "LA Laker",
+            Away = "LA Lake",
             MatchStatus = "Completed",
             DateTime = "44175",
             League = "Hookey",

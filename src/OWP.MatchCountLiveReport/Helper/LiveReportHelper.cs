@@ -1,6 +1,6 @@
-namespace OWP.MatchCountLiveReport.Helper;
+using OWP.MatchCountLiveReport.Handlers;
 
-using Handlers;
+namespace OWP.MatchCountLiveReport.Helper;
 
 public static class LiveReportHelper
 {
@@ -11,7 +11,7 @@ public static class LiveReportHelper
     var dateTime = fromDate.ToString("ddMMMyyyy");
     if (DateTime.Compare(fromDate, toDate) != 0)
     {
-      dateTime = $"{dateTime} - {toDate.ToString("ddMMMyyyy")}";
+      dateTime = $"{dateTime} - {toDate:ddMMMyyyy}";
     }
     return $"Match Count Live Report {dateTime}.xlsx";
   }

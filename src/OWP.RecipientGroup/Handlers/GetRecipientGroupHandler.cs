@@ -1,9 +1,9 @@
-﻿namespace OWP.RecipientGroup.Handlers;
+﻿using MediatR;
+using OWP.Enums;
+using OWP.RecipientGroup.Models;
+using OWP.RecipientGroup.Services;
 
-using Enums;
-using MediatR;
-using Models;
-using Services;
+namespace OWP.RecipientGroup.Handlers;
 
 public class QueryRecipientGroupRequest : IRequest<IEnumerable<TicketGroup>>
 { }

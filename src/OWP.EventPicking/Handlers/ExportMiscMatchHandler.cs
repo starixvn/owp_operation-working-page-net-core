@@ -1,15 +1,15 @@
-namespace OWP.EventPicking.Handlers;
-
 using System.Drawing;
 using Epplus.Mapper.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Misc;
-using Models;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
+using OWP.EventPicking.Misc;
+using OWP.EventPicking.Models;
+using OWP.EventPicking.Services;
 using OWP.Services;
-using Services;
+
+namespace OWP.EventPicking.Handlers;
 
 public class ExportMiscMatchRequest : IRequest<FileResult>
 {
@@ -48,7 +48,7 @@ public class ExportMiscMatchHandler : IRequestHandler<ExportMiscMatchRequest, Fi
         fileStream.Position = 0;
         const string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
         var fileStreamResult = new FileStreamResult(fileStream, contentType);
-        fileStreamResult.FileDownloadName = $"Event Picking-{request.Date.ToString("yyyy-MM-dd")}.xlsx";
+        fileStreamResult.FileDownloadName = $"Event Picking-{request.Date:yyyy-MM-dd}.xlsx";
 
         return fileStreamResult;
     }

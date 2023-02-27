@@ -1,8 +1,8 @@
-﻿namespace OWP.PreMatchAssignment.Handlers;
+﻿using MediatR;
+using OWP.PrematchAssignment.Models;
+using OWP.PrematchAssignment.Services;
 
-using MediatR;
-using Models;
-using Services;
+namespace OWP.PrematchAssignment.Handlers;
 
 public class QueryDayShiftPreMatchRequest : IRequest<QueryPreMatchLeagueViewModel>
 {

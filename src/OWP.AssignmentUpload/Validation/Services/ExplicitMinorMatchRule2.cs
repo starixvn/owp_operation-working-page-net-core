@@ -1,9 +1,9 @@
-﻿namespace OWP.AssignmentUpload.Validation.Services;
+﻿using System.Collections.Immutable;
+using OWP.AssignmentUpload.Validation.Constants;
+using OWP.AssignmentUpload.Validation.Helper;
+using OWP.AssignmentUpload.Validation.Models;
 
-using System.Collections.Immutable;
-using Constants;
-using Helper;
-using Models;
+namespace OWP.AssignmentUpload.Validation.Services;
 
 public interface ExplicitMinorMatchRule2
 {

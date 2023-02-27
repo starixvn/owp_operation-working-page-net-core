@@ -1,6 +1,6 @@
-namespace OWP.LeagueManagement.Criteria;
-
 using Fanex.Data.Repository;
+
+namespace OWP.LeagueManagement.Criteria;
 
 public class SpecialProductGetLogCriteria : CriteriaBase
 {

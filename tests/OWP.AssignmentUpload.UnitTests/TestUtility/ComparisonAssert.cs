@@ -1,7 +1,7 @@
-﻿namespace OWP.AssignmentUpload.UnitTests.TestUtility;
-
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Xunit;
+
+namespace OWP.AssignmentUpload.UnitTests.TestUtility;
 
 internal static class ComparisonAssert
 {

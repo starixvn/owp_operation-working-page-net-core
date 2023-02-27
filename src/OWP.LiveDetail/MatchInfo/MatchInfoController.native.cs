@@ -1,18 +1,18 @@
-﻿namespace OWP.LiveDetail.MatchInfo;
-
-using Common;
-using Constants;
-using Extensions;
-using Fanex.NAP.Client.AspNetCore.Attributes;
+﻿using Fanex.NAP.Client.AspNetCore.Attributes;
 using Fanex.NAP.Core.Business;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using Models;
 using Newtonsoft.Json;
-using RabbitMQ;
-using RabbitMQ.Constants;
-using Services;
+using OWP.Constants;
+using OWP.Extensions;
+using OWP.LiveDetail.Common;
+using OWP.Models;
+using OWP.RabbitMQ;
+using OWP.RabbitMQ.Constants;
+using OWP.Services;
+
+namespace OWP.LiveDetail.MatchInfo;
 
 [Route("api/live-detail/match-info")]
 [ApiController]

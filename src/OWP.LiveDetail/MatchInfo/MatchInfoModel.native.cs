@@ -1,15 +1,11 @@
-﻿namespace OWP.LiveDetail.MatchInfo;
+﻿using Newtonsoft.Json;
+using OWP.Utils;
 
-using Agent;
-using Newtonsoft.Json;
-using OtherProvider;
-using Provider;
-using Television;
-using Utils;
+namespace OWP.LiveDetail.MatchInfo;
 
 public class MatchInfoModel
 {
-    public IEnumerable<Television> TVs { get; set; }
+    public IEnumerable<Television.Television> TVs { get; set; }
 
     public string Channel { get; set; }
 
@@ -18,15 +14,15 @@ public class MatchInfoModel
 
     public string WB { get; set; }
 
-    public IEnumerable<OtherProvider> OtherProviders { get; set; }
+    public IEnumerable<OtherProvider.OtherProvider> OtherProviders { get; set; }
 
     public string OtherProvider => OtherProviders.Any() ? string.Join(", ", OtherProviders.Select(x => x.OtherProviderName)) : string.Empty;
 
-    public IEnumerable<Provider> Providers { get; set; }
+    public IEnumerable<Provider.Provider> Providers { get; set; }
 
     public string Provider => Providers.Any() ? string.Join(", ", Providers.Select(x => x.ProviderName)) : string.Empty;
 
-    public IEnumerable<Agent> Agents { get; set; }
+    public IEnumerable<Agent.Agent> Agents { get; set; }
 
     public IEnumerable<MatchOfferModel> MatchOffers { get; set; }
 

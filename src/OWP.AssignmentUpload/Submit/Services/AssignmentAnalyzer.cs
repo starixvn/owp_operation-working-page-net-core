@@ -1,10 +1,8 @@
-﻿namespace OWP.AssignmentUpload.Submit.Services;
+﻿using OWP.AssignmentUpload.Submit.Constants;
+using OWP.AssignmentUpload.Submit.Models;
+using OWP.AssignmentUpload.Validation.Models;
 
-    using Constants;
-    using Models;
-using Constants;
-using Models;
-using Validation.Models;
+namespace OWP.AssignmentUpload.Submit.Services; 
 
 public interface AssignmentAnalyzer
 {

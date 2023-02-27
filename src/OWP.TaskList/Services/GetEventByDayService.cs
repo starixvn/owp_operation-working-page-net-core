@@ -1,10 +1,10 @@
-﻿namespace OWP.TaskList.Services;
-
-using Builders;
-using Criteria;
-using Fanex.NAP.Client.Helpers.Web;
-using Models;
+﻿using Fanex.NAP.Client.Helpers.Web;
 using OWP.Services;
+using OWP.TaskList.Builders;
+using OWP.TaskList.Criteria;
+using OWP.TaskList.Models;
+
+namespace OWP.TaskList.Services;
 
 public interface GetEventByDayService
 {
@@ -73,7 +73,7 @@ public class GetEventByDayServiceImp : GetEventByDayService
             var tvCode = match.Televisions.Select(t => t.TVCode);
             match.IPTVCopy = IPTVBuilder.Build(new IPTVModel
             {
-                TeleVision = string.Join("/", tvCode),
+                Television = string.Join("/", tvCode),
                 IpTv = match.IPTV,
                 Channel = match.Channel,
                 Stream = match.WatchBet

@@ -1,11 +1,11 @@
-﻿namespace OWP.OSLeagueSetting;
-
-using Criteria;
-using Extensions;
-using Fanex.Data.Repository;
+﻿using Fanex.Data.Repository;
 using Fanex.NAP.Client.Helpers.Web;
-using Handlers;
-using Models;
+using OWP.Extensions;
+using OWP.OSLeagueSetting.Criteria;
+using OWP.OSLeagueSetting.Handlers;
+using OWP.OSLeagueSetting.Models;
+
+namespace OWP.OSLeagueSetting;
 
 public interface Repository
 {

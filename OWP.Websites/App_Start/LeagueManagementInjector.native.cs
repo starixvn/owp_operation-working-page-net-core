@@ -1,7 +1,7 @@
-namespace OWP.Websites;
+using OWP.LeagueManagement;
+using OWP.LeagueManagement.Services;
 
-using LeagueManagement;
-using LeagueManagement.Service;
+namespace OWP.Websites;
 
 public static class LeagueManagementInjector
 {

@@ -1,9 +1,9 @@
-﻿namespace OWP.LiveDetail.MatchNote;
-
-using AutoMapper;
-using Extensions;
+﻿using AutoMapper;
 using Fanex.Data.Repository;
 using Fanex.NAP.Client.Helpers.Web;
+using OWP.Extensions;
+
+namespace OWP.LiveDetail.MatchNote;
 
 public interface MatchNoteRepository
 {

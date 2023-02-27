@@ -1,7 +1,7 @@
-namespace OWP.AssignmentUpload.Validation.Exceptions;
-
 using System.Runtime.Serialization;
-using Models;
+using OWP.AssignmentUpload.Validation.Models;
+
+namespace OWP.AssignmentUpload.Validation.Exceptions;
 
 [Serializable]
 public class InvalidAssignmentRowException : Exception

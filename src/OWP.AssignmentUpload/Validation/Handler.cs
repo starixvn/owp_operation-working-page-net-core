@@ -1,12 +1,12 @@
-﻿namespace OWP.AssignmentUpload.Validation;
-
-using System.Globalization;
-using Exceptions;
+﻿using System.Globalization;
 using Fanex.NAP.Client.Helpers.Web;
 using MediatR;
-using Models;
+using OWP.AssignmentUpload.Validation.Exceptions;
+using OWP.AssignmentUpload.Validation.Models;
+using OWP.AssignmentUpload.Validation.Services;
 using OWP.Services;
-using Services;
+
+namespace OWP.AssignmentUpload.Validation;
 
 public class ValidationRequest : IRequest<AssignmentValidationResult>
 {
@@ -97,11 +97,9 @@ public class Handler : IRequestHandler<ValidationRequest, AssignmentValidationRe
 
             var fileName = $"{sessionId}-{currentSession.UserName}-New.xlsx";
             var fullPath = Path.Combine(absoluteFolderPath, fileName);
-            using (var stream = File.Create(fullPath))
-            {
-                file.Seek(0, SeekOrigin.Begin);
-                await file.CopyToAsync(stream);
-            }
+            await using var stream = File.Create(fullPath);
+            file.Seek(0, SeekOrigin.Begin);
+            await file.CopyToAsync(stream);
         }
         catch
         {

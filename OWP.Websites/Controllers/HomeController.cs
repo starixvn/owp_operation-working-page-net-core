@@ -1,6 +1,4 @@
-﻿namespace OWP.Websites.Controllers;
-
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Security.Claims;
@@ -13,8 +11,10 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Models;
 using ONEbook.UM.AspNetCore.Filters;
+using OWP.Websites.Models;
+
+namespace OWP.Websites.Controllers;
 
 public class HomeController : Controller
 {

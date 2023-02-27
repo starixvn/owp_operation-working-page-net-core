@@ -1,11 +1,11 @@
-﻿namespace OWP.RecipientGroup.UnitTests.Handlers;
-
-using Models;
-using NSubstitute;
-using RecipientGroup.Handlers;
-using Services;
+﻿using NSubstitute;
+using OWP.RecipientGroup.Handlers;
+using OWP.RecipientGroup.Models;
+using OWP.RecipientGroup.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.RecipientGroup.UnitTests.Handlers;
 
 public class GetRecipientGroupHandlerUnitTests
 {

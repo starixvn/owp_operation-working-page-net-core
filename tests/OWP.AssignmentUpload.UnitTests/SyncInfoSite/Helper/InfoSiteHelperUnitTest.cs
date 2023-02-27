@@ -1,10 +1,10 @@
-﻿namespace OWP.AssignmentUpload.UnitTests.SyncInfoSite.Helper;
-
-using AssignmentUpload.SyncInfoSite.Helper;
-using AssignmentUpload.SyncInfoSite.Models;
-using AssignmentUpload.Validation.Models;
+﻿using OWP.AssignmentUpload.SyncInfoSite.Helper;
+using OWP.AssignmentUpload.SyncInfoSite.Models;
+using OWP.AssignmentUpload.Validation.Models;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.AssignmentUpload.UnitTests.SyncInfoSite.Helper;
 
 public class InfoSiteHelperUnitTest
 {
@@ -13,14 +13,14 @@ public class InfoSiteHelperUnitTest
     {
         var owpMatch = new AssignmentModel
         {
-            League = "Seagame",
+            League = "SeaGame",
             Home = "VN",
             Away = "Singapore"
         };
 
         var infoSiteMatch = new InfositeMatch
         {
-            LeagueName = "Seagame",
+            LeagueName = "SeaGame",
             HomeName = "VN",
             AwayName = "Singapore"
         };
@@ -41,7 +41,7 @@ public class InfoSiteHelperUnitTest
 
         var infoSiteMatch = new InfositeMatch
         {
-            LeagueName = "Seagame",
+            LeagueName = "SeaGame",
             HomeName = "VN",
             AwayName = "Singapore"
         };

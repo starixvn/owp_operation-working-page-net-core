@@ -1,9 +1,9 @@
-﻿namespace OWP.EventPicking.UnitTests.Services;
-
-using EventPicking.Services;
-using MaxbetSetting.Models;
-using Models;
+﻿using OWP.EventPicking.Models;
+using OWP.EventPicking.Services;
+using OWP.MaxbetSetting.Models;
 using Xunit;
+
+namespace OWP.EventPicking.UnitTests.Services;
 
 public class BuildMatchOfferByLiveSettingUnitTests
 {

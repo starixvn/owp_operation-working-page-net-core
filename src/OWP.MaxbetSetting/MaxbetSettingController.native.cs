@@ -1,10 +1,10 @@
-﻿namespace OWP.MaxbetSetting;
-
-using Handlers;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using OWP.MaxbetSetting.Handlers;
+
+namespace OWP.MaxbetSetting;
 
 [Route("api/[controller]")]
 [ApiController]

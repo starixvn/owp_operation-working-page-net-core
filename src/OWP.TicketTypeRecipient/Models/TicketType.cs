@@ -1,6 +1,6 @@
-﻿namespace OWP.TicketTypeRecipient.Models;
+﻿using System.Diagnostics.CodeAnalysis;
 
-using System.Diagnostics.CodeAnalysis;
+namespace OWP.TicketTypeRecipient.Models;
 
 public class TicketType : IEqualityComparer<TicketType>
 {

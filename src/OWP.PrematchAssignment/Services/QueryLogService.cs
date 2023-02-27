@@ -1,10 +1,10 @@
-﻿namespace OWP.PreMatchAssignment.Services;
+﻿using Fanex.Data.Repository;
+using OWP.PrematchAssignment.Criteria;
+using OWP.PrematchAssignment.Handlers;
+using OWP.PrematchAssignment.Misc;
+using OWP.PrematchAssignment.Models;
 
-using Criteria;
-using Fanex.Data.Repository;
-using Handlers;
-using Misc;
-using Models;
+namespace OWP.PrematchAssignment.Services;
 
 public interface QueryLogService
 {

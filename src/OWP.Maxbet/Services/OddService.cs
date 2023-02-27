@@ -1,6 +1,7 @@
 ﻿using OWP.Maxbet.Constants;
 using OWP.Maxbet.Helpers;
 using OWP.Maxbet.Models;
+using KeyValuePair = OWP.Maxbet.Models.KeyValuePair;
 
 namespace OWP.Maxbet.Services;
 public interface OddService
@@ -25,7 +26,7 @@ public class OddServiceImp : OddService
         BuildOddOverUnder(maxbetInfo, odd);
     }
 
-    private void BuildOddHandicap(MaxbetInfo maxbetInfo, IList<Models.KeyValuePair> oddInfo)
+    private void BuildOddHandicap(MaxbetInfo maxbetInfo, IList<KeyValuePair> oddInfo)
     {
         maxbetInfo.OddsHandicap = new OddHandicapInfo
         {
@@ -36,7 +37,7 @@ public class OddServiceImp : OddService
         };
     }
 
-    private void BuildOddOverUnder(MaxbetInfo maxbetInfo, IList<Models.KeyValuePair> oddInfo)
+    private void BuildOddOverUnder(MaxbetInfo maxbetInfo, IList<KeyValuePair> oddInfo)
     {
         maxbetInfo.OddsOverUnder = new OddOverUnderInfo
         {

@@ -1,10 +1,10 @@
-﻿namespace OWP.OtherSport.EventAssignment.Services;
+﻿using System.Globalization;
+using OWP.Extensions;
+using OWP.OtherSport.EventAssignment.Models;
+using OWP.OtherSport.Submit.Constants;
+using OWP.OtherSport.Submit.Models;
 
-using System.Globalization;
-using Extensions;
-using Models;
-using Submit.Contants;
-using Submit.Models;
+namespace OWP.OtherSport.EventAssignment.Services;
 
 public interface MatchSettingBuilder
 {

@@ -1,20 +1,20 @@
-namespace OWP.TicketTypeRecipient.UnitTests.Handlers;
-
-using Enums;
 using Fanex.Data.Repository;
-using Models;
 using NSubstitute;
-using TicketTypeRecipient.Handlers;
+using OWP.Enums;
+using OWP.TicketTypeRecipient.Handlers;
+using OWP.TicketTypeRecipient.Models;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.TicketTypeRecipient.UnitTests.Handlers;
 
 public class GetTicketTypeRecipientHandlerUnitTests
 {
     [Fact]
     public async Task Handle_ReturnRecipientDataAsync()
     {
-        var handler = MockHander();
-        var expected = new List<TicketTypeRecipient>
+        var handler = MockHandler();
+        var expected = new List<Models.TicketTypeRecipient>
         {
             new()
             {
@@ -96,7 +96,7 @@ public class GetTicketTypeRecipientHandlerUnitTests
         DeepAssert.Equal(expected, actual.ToList());
     }
 
-    private GetTicketTypeRecipientHandler MockHander()
+    private GetTicketTypeRecipientHandler MockHandler()
     {
         var mockTicketTypes = new List<TicketType>
         {

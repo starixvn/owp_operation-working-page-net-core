@@ -1,7 +1,7 @@
 ﻿
-namespace OWP.Websites;
+using OWP.TicketTypeRecipient.Middleware;
 
-using TicketTypeRecipient.Middleware;
+namespace OWP.Websites;
 
 public static class TicketTypeRecipientInjector
 {

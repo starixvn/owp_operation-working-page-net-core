@@ -1,10 +1,10 @@
-﻿namespace OWP.AutoAssignment.UnitTests.Services.PublicApi;
-
-using AutoAssignment.Services.PublicApi;
-using Models.PublicApi;
-using NSubstitute;
+﻿using NSubstitute;
+using OWP.AutoAssignment.Models.PublicApi;
+using OWP.AutoAssignment.Services.PublicApi;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.AutoAssignment.UnitTests.Services.PublicApi;
 
 public class LAUserServicesUnitTests
 {

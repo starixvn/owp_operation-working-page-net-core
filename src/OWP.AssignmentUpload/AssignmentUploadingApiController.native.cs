@@ -1,17 +1,17 @@
 ﻿
 
-namespace OWP.AssignmentUpload;
-
 using Fanex.NAP.Client.Helpers.Web;
-using Helpers;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using RabbitMQ;
-using RabbitMQ.Constants;
-using Submit;
-using Validation;
+using OWP.AssignmentUpload.Submit;
+using OWP.AssignmentUpload.Validation;
+using OWP.Helpers;
+using OWP.RabbitMQ;
+using OWP.RabbitMQ.Constants;
+
+namespace OWP.AssignmentUpload;
 
 [Route("api/event-assignment-uploading")]
 [ApiController]

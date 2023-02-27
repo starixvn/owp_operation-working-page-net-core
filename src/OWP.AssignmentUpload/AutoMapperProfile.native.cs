@@ -1,7 +1,7 @@
-﻿namespace OWP.AssignmentUpload;
+﻿using AutoMapper;
+using OWP.AssignmentUpload.Validation.Models;
 
-using AutoMapper;
-using Validation.Models;
+namespace OWP.AssignmentUpload;
 
 public class AutoMapperProfile : Profile
 {

@@ -1,6 +1,4 @@
 ﻿
-namespace OWP.Websites.App_Start;
-
 using Fanex.Caching;
 using ONEbook.UM;
 using ONEbook.UM.AspNetCore;
@@ -9,6 +7,8 @@ using ONEbook.UM.Configurations;
 using ONEbook.UM.Helpers;
 using ONEbook.UM.Services;
 using ONEbook.UM.Transport;
+
+namespace OWP.Websites;
 
 public static class OnebookUMInitializer
 {

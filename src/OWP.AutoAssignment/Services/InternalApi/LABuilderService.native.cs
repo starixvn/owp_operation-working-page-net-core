@@ -1,8 +1,8 @@
-﻿namespace OWP.AutoAssignment.Services.InternalApi;
+﻿using Olympus.Xml;
+using OWP.AutoAssignment.Criteria.InternalApi;
+using OWP.AutoAssignment.Models.InternalApi;
 
-using Criteria.InternalApi;
-using Models.InternalApi;
-using Olympus.Xml;
+namespace OWP.AutoAssignment.Services.InternalApi;
 
 public interface LABuilderService
 {

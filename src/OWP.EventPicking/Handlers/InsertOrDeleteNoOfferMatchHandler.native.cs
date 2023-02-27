@@ -1,7 +1,7 @@
-namespace OWP.EventPicking.Handlers;
-
 using MediatR;
-using Models;
+using OWP.EventPicking.Models;
+
+namespace OWP.EventPicking.Handlers;
 
 public class InsertOrDeleteNoOfferMatchRequest : IRequest<Unit>
 {

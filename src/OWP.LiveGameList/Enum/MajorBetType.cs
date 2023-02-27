@@ -1,6 +1,6 @@
-﻿namespace OWP.LiveGameList.Enum;
+﻿using System.ComponentModel;
 
-using System.ComponentModel;
+namespace OWP.LiveGameList.Enum;
 
 public enum MajorBetType
 {

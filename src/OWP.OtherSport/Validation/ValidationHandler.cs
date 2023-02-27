@@ -1,12 +1,12 @@
-﻿namespace OWP.OtherSport.Validation;
-
-using System.Globalization;
-using Exceptions;
+﻿using System.Globalization;
 using Fanex.NAP.Client.Helpers.Web;
 using MediatR;
-using Models;
 using OWP.Extensions;
-using Services;
+using OWP.OtherSport.Validation.Exceptions;
+using OWP.OtherSport.Validation.Models;
+using OWP.OtherSport.Validation.Services;
+
+namespace OWP.OtherSport.Validation;
 
 public class ValidationHandler
 {
@@ -112,16 +112,16 @@ public class ValidationHandler
         private async Task LogExcelFile(Request request)
         {
             var folderPath = @$"App_Data{Path.DirectorySeparatorChar}Files";
-            var absolutedFolderPath = $"{AppDomain.CurrentDomain.BaseDirectory}{Path.DirectorySeparatorChar}{folderPath}";
+            var absoluteFolderPath = $"{AppDomain.CurrentDomain.BaseDirectory}{Path.DirectorySeparatorChar}{folderPath}";
 
-            if (!Directory.Exists(absolutedFolderPath))
+            if (!Directory.Exists(absoluteFolderPath))
             {
-                Directory.CreateDirectory(absolutedFolderPath);
+                Directory.CreateDirectory(absoluteFolderPath);
             }
 
             var currentTime = DateTime.Now.ToGmt8().ToString("yyyyMMdd-HH'h'mm'm'ss-'GMT8'");
             var fileName = $"({request.FromDate.ToString("yyyyMMdd")}-{request.ToDate.ToString("yyyyMMdd")})-{session.UserName}-({currentTime})-New-OS.xlsx";
-            var fullPath = Path.Combine(absolutedFolderPath, fileName);
+            var fullPath = Path.Combine(absoluteFolderPath, fileName);
 
             using var stream = File.Create(fullPath);
             request.Stream.Seek(0, SeekOrigin.Begin);

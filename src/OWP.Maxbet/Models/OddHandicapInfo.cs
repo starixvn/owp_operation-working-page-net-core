@@ -1,9 +1,8 @@
-namespace OWP.Maxbet.Models
-{
-    public class OddHandicapInfo : OddHdpCommon
-    {
-        public decimal? OddsHome { get; set; }
+namespace OWP.Maxbet.Models;
 
-        public decimal? OddsAway { get; set; }
-    }
+public class OddHandicapInfo : OddHdpCommon
+{
+    public decimal? OddsHome { get; set; }
+
+    public decimal? OddsAway { get; set; }
 }

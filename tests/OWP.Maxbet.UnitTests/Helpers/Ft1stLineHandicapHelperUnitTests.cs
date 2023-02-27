@@ -1,7 +1,7 @@
-namespace OWP.Maxbet.UnitTests.Helpers;
-
-using Maxbet.Helpers;
+using OWP.Maxbet.Helpers;
 using Xunit;
+
+namespace OWP.Maxbet.UnitTests.Helpers;
 
 public class Ft1stLineHandicapHelperUnitTests
 {

@@ -1,6 +1,7 @@
-﻿namespace OWP.TaskList.Models;
+﻿using System.Text.Json.Serialization;
+using OWP.TaskList.Builders;
 
-using System.Text.Json.Serialization;
+namespace OWP.TaskList.Models;
 
 [Serializable]
 public class MatchSetting

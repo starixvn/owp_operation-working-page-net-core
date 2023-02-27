@@ -1,8 +1,8 @@
-﻿namespace OWP.AssignmentUpload.SyncInfoSite;
+﻿using Fanex.Data.Repository;
+using OWP.AssignmentUpload.SyncInfoSite.Criteria;
+using OWP.AssignmentUpload.SyncInfoSite.Models;
 
-using Fanex.Data.Repository;
-using InfositeIdSync.Criteria;
-using Models;
+namespace OWP.AssignmentUpload.SyncInfoSite.Services;
 
 public interface SyncInfoSiteRepository
 {

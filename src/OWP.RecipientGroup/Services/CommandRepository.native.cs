@@ -1,9 +1,9 @@
-﻿namespace OWP.RecipientGroup.Services;
+﻿using Fanex.Data.Repository;
+using OWP.RecipientGroup.Criteria;
+using OWP.RecipientGroup.Handlers;
+using OWP.RecipientGroup.Models;
 
-using Criteria;
-using Fanex.Data.Repository;
-using Handlers;
-using Models;
+namespace OWP.RecipientGroup.Services;
 
 public interface CommandRepository
 {

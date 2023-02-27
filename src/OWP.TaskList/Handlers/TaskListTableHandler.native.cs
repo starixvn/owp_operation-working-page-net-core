@@ -1,8 +1,8 @@
-﻿namespace OWP.TaskList.Handlers;
+﻿using MediatR;
+using OWP.TaskList.Models;
+using OWP.TaskList.Services;
 
-using MediatR;
-using Models;
-using Services;
+namespace OWP.TaskList.Handlers;
 
 public class TaskListTableRequest : IRequest<TaskListModel>
 {

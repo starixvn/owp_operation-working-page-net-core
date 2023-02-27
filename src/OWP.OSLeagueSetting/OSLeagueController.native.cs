@@ -1,13 +1,13 @@
-namespace OWP.OSLeagueSetting;
-
-using Handlers;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using Middleware;
-using Models;
-using Services;
+using OWP.OSLeagueSetting.Handlers;
+using OWP.OSLeagueSetting.Middleware;
+using OWP.OSLeagueSetting.Models;
+using OWP.OSLeagueSetting.Services;
+
+namespace OWP.OSLeagueSetting;
 
 [Route("api/[controller]")]
 [ApiController]

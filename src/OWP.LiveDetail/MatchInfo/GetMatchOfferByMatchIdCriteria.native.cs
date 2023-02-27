@@ -1,6 +1,6 @@
-﻿namespace OWP.LiveDetail.MatchInfo;
+﻿using Fanex.Data.Repository;
 
-using Fanex.Data.Repository;
+namespace OWP.LiveDetail.MatchInfo;
 
 public class GetMatchOfferByMatchIdCriteria : CriteriaBase
 {

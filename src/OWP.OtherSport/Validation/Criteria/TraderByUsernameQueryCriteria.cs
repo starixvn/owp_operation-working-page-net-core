@@ -1,6 +1,6 @@
-﻿namespace OWP.OtherSport.Validation.Criteria;
+﻿using Fanex.Data.Repository;
 
-using Fanex.Data.Repository;
+namespace OWP.OtherSport.Validation.Criteria;
 
 public class TraderByUsernameQueryCriteria : CriteriaBase
 {

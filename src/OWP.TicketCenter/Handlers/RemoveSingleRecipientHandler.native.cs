@@ -1,8 +1,8 @@
-﻿namespace OWP.TicketCenter.Handlers;
+﻿using MediatR;
+using OWP.TicketCenter.Models;
+using OWP.TicketCenter.Services;
 
-using MediatR;
-using Models;
-using Services;
+namespace OWP.TicketCenter.Handlers;
 
 public class RemoveSingleRecipientRequest : InsertOrRemoveSingleRecipientModel, IRequest<int>
 {

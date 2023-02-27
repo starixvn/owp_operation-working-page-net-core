@@ -1,5 +1,7 @@
 ﻿using System.Collections.Immutable;
 
+namespace OWP.Maxbet.Constants;
+
 public static class SubTypeETPK
 {
     public const int MainMatchET = 100;
@@ -42,9 +44,9 @@ public static class SubTypeETPK
 
     public const int NextGoalKick = 3900;
 
-    public const int FirstPenatyScore = 5800;
+    public const int FirstPenaltyScore = 5800;
 
-    public const int FirstPenatyAwarded = 5700;
+    public const int FirstPenaltyAwarded = 5700;
 
     public const int SpecialGoal = 400;
 
@@ -77,8 +79,8 @@ public static class SubTypeETPK
         {TotalBookingET, TotalBooking },
         {NextBookingET, NextBooking },
         {NextGoalKickET, NextGoalKick },
-        {FirstPenatyScoreET, FirstPenatyScore },
-        {FirstPenatyAwardedET, FirstPenatyAwarded },
+        {FirstPenatyScoreET, FirstPenaltyScore },
+        {FirstPenatyAwardedET, FirstPenaltyAwarded },
         {SpecialGoalET, SpecialGoal },
         {HomeSingleTeamET, HomeSingleTeam },
         {AwaySingleTeamET, AwaySingleTeam }

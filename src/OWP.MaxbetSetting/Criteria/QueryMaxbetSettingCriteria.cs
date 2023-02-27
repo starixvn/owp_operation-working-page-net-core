@@ -1,6 +1,6 @@
-﻿namespace OWP.MaxbetSetting.Criteria;
+﻿using Fanex.Data.Repository;
 
-using Fanex.Data.Repository;
+namespace OWP.MaxbetSetting.Criteria;
 
 public class QueryMaxbetSettingCriteria : CriteriaBase
 {

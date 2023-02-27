@@ -1,9 +1,9 @@
-﻿namespace OWP.OSLeagueSetting.Services;
+﻿using AutoMapper;
+using OWP.OSLeagueSetting.Handlers;
+using OWP.OSLeagueSetting.Helper;
+using OWP.OSLeagueSetting.Models;
 
-using AutoMapper;
-using Handlers;
-using Helper;
-using Models;
+namespace OWP.OSLeagueSetting.Services;
 
 public interface GetLeagueSettingService
 {

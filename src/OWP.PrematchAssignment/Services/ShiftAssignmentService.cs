@@ -1,15 +1,13 @@
-﻿namespace OWP.PreMatchAssignment.Services;
-
-using System.Globalization;
+﻿using System.Globalization;
 using AutoMapper;
-using Constants;
-using Criteria;
-using Extensions;
 using Fanex.Data.Repository;
-using Handlers;
-using Models;
-using PrematchAssignment.Constants;
-using PrematchAssignment.Models;
+using OWP.Extensions;
+using OWP.PrematchAssignment.Constants;
+using OWP.PrematchAssignment.Criteria;
+using OWP.PrematchAssignment.Handlers;
+using OWP.PrematchAssignment.Models;
+
+namespace OWP.PrematchAssignment.Services;
 
 public interface ShiftAssignmentService
 {
@@ -456,10 +454,11 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
 
     public async Task AddOddStatusNo(IEnumerable<InfoSiteMatch> infositeMatches)
     {
-        var oddStatuses = await QueryOddStatusFromMainDb(infositeMatches);
+        var infoSiteMatches = infositeMatches.ToList();
+        var oddStatuses = await QueryOddStatusFromMainDb(infoSiteMatches);
         var oddStatusesDict = oddStatuses.GroupBy(x => x.AdminSiteMatchId).ToDictionary(x => x.Key, x => x.ToList());
 
-        foreach (var infositeMatch in infositeMatches)
+        foreach (var infositeMatch in infoSiteMatches)
         {
             var oddStatusByMatchId = oddStatusesDict.GetValue(infositeMatch.AdminSiteMatchId, new List<OddStatus>());
             var openedHDP = IsRunning(oddStatusByMatchId.Where(x => x.Bettype == 1));
@@ -475,9 +474,9 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
     private static string CalculateOddStatus(bool openedHDP, bool openedOU)
         => (openedHDP, openedOU) switch
         {
-            (true, true) => MatchOffferStatus.Opened,
-            (false, true) => MatchOffferStatus.Hdp,
-            (true, false) => MatchOffferStatus.Ou,
+            (true, true) => MatchOfferStatus.Opened,
+            (false, true) => MatchOfferStatus.Hdp,
+            (true, false) => MatchOfferStatus.Ou,
             _ => string.Empty
         };
 }

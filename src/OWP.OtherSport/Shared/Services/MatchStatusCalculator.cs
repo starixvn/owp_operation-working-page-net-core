@@ -1,8 +1,8 @@
-﻿namespace OWP.OtherSport.Shared.Services;
+﻿using Fanex.Data.Repository;
+using OWP.Extensions;
+using OWP.OtherSport.Submit.Models;
 
-using Extensions;
-using Fanex.Data.Repository;
-using Submit.Models;
+namespace OWP.OtherSport.Shared.Services;
 
 public interface MatchStatusCalculator
 {

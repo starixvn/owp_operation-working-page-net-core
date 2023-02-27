@@ -1,7 +1,7 @@
-﻿namespace OWP.LiveGameList.Models;
+﻿using Newtonsoft.Json;
+using OWP.LiveGameList.Helper;
 
-using Helper;
-using Newtonsoft.Json;
+namespace OWP.LiveGameList.Models;
 
 public class MatchSetting
 {

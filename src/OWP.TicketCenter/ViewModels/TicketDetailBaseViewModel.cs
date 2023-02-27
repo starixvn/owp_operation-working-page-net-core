@@ -1,6 +1,6 @@
-﻿namespace OWP.TicketCenter.ViewModels;
+﻿using OWP.TicketCenter.Models;
 
-using Models;
+namespace OWP.TicketCenter.ViewModels;
 
 public class TicketDetailBaseViewModel
 {

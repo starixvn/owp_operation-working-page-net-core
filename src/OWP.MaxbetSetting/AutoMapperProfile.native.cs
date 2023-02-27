@@ -1,7 +1,7 @@
-namespace OWP.MaxbetSetting;
-
 using AutoMapper;
-using Models;
+using OWP.MaxbetSetting.Models;
+
+namespace OWP.MaxbetSetting;
 
 public class AutoMapperProfile : Profile
 {

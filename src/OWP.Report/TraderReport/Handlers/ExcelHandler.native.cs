@@ -1,13 +1,13 @@
-﻿namespace OWP.Report.TraderReport.Handlers;
-
-using AutoMapper;
+﻿using AutoMapper;
 using Fanex.NAP.Client.Helpers.Web;
 using MediatR;
-using Models;
 using OfficeOpenXml;
+using OWP.Report.Models;
+using OWP.Report.TraderReport.Models;
+using OWP.Report.TraderReport.Services;
 using OWP.Services;
-using Report.Models;
-using Services;
+
+namespace OWP.Report.TraderReport.Handlers;
 
 public class ExcelRequest : IRequest<ExcelPackage>
 {

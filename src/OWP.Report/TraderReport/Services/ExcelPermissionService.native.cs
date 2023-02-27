@@ -1,8 +1,8 @@
-﻿namespace OWP.Report.TraderReport.Services;
+﻿using OfficeOpenXml;
+using OWP.Report.Constant;
+using OWP.Report.TraderReport.Models;
 
-using Constant;
-using Models;
-using OfficeOpenXml;
+namespace OWP.Report.TraderReport.Services;
 
 public interface ExcelPermissionService
 {
@@ -21,8 +21,8 @@ public class ExcelPermissionServiceImp : ExcelPermissionService
     {
         var addressColumnRemoved = new AddressColumnRemoved();
         var assignmentHasRead = permission.TraderAssignment.IsRead;
-        var performaceHasRead = permission.TraderPerformace.IsRead;
-        if (assignmentHasRead && performaceHasRead)
+        var performanceHasRead = permission.TraderPerformance.IsRead;
+        if (assignmentHasRead && performanceHasRead)
         {
             return addressColumnRemoved;
         }
@@ -31,10 +31,10 @@ public class ExcelPermissionServiceImp : ExcelPermissionService
             addressColumnRemoved.ColumnFrom = ReportConst.ColumnFromRemovedAssignment;
             addressColumnRemoved.Columns = ReportConst.ColumnRemovedAssignment;
         }
-        if (performaceHasRead)
+        if (performanceHasRead)
         {
-            addressColumnRemoved.ColumnFrom = ReportConst.ColumnFromRemovedPerformace;
-            addressColumnRemoved.Columns = ReportConst.ColumnRemovedPerformace;
+            addressColumnRemoved.ColumnFrom = ReportConst.ColumnFromRemovedPerformance;
+            addressColumnRemoved.Columns = ReportConst.ColumnRemovedPerformance;
         }
 
         return addressColumnRemoved;

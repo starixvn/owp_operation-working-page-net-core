@@ -1,9 +1,8 @@
-namespace OWP.Maxbet.Models
-{
-    public class KeyValuePair
-    {
-        public string Key { get; set; }
+namespace OWP.Maxbet.Models;
 
-        public decimal? Value { get; set; }
-    }
+public class KeyValuePair
+{
+    public string Key { get; set; }
+
+    public decimal? Value { get; set; }
 }

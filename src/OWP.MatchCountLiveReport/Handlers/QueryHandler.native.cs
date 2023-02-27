@@ -1,8 +1,8 @@
-namespace OWP.MatchCountLiveReport.Handlers;
-
-using Criteria;
 using MediatR;
-using Models;
+using OWP.MatchCountLiveReport.Criteria;
+using OWP.MatchCountLiveReport.Models;
+
+namespace OWP.MatchCountLiveReport.Handlers;
 
 public class QueryRequest : IRequest<IList<ReportInfo>>
 {

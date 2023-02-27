@@ -1,7 +1,7 @@
-namespace OWP.Websites;
+using OWP.Report.PreMatchReport;
+using OWP.Report.PreMatchReport.Services;
 
-using Report.PreMatchReport;
-using Report.PreMatchReport.Services;
+namespace OWP.Websites;
 
 public static class PreMatchReportInjector
 {

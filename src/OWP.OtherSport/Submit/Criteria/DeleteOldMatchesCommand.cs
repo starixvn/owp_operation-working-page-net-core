@@ -1,6 +1,6 @@
-﻿namespace OWP.OtherSport.Submit.Criteria;
+﻿using Fanex.Data.Repository;
 
-using Fanex.Data.Repository;
+namespace OWP.OtherSport.Submit.Criteria;
 
 public class DeleteOldMatchesCommand : NonQueryCommand
 {

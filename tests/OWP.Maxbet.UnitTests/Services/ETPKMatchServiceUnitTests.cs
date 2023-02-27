@@ -1,10 +1,10 @@
-﻿namespace OWP.Maxbet.UnitTests.Services;
-
-using Maxbet.Services;
-using Models;
-using NSubstitute;
+﻿using NSubstitute;
+using OWP.Maxbet.Models;
+using OWP.Maxbet.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.Maxbet.UnitTests.Services;
 
 public class ETPKMatchServiceUnitTests
 {

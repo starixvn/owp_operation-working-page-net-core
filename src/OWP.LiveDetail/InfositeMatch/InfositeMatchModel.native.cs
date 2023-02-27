@@ -1,8 +1,5 @@
 ﻿namespace OWP.LiveDetail.InfositeMatch;
 
-using Agent;
-using Television;
-
 public class InfositeMatchModel
 {
     public TimeSpan KOTime { get; set; }
@@ -29,7 +26,7 @@ public class InfositeMatchModel
 
     public string Website4 { get; set; }
 
-    public List<Agent> Agents { get; set; }
+    public List<Agent.Agent> Agents { get; set; }
 
-    public List<Television> Televisions { get; set; }
+    public List<Television.Television> Televisions { get; set; }
 }

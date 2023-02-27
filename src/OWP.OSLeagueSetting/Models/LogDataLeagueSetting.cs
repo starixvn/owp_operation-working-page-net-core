@@ -1,6 +1,6 @@
-namespace OWP.OSLeagueSetting.Models;
+using OWP.Extensions;
 
-using Extensions;
+namespace OWP.OSLeagueSetting.Models;
 
 public class LogDataLeagueSetting
 {

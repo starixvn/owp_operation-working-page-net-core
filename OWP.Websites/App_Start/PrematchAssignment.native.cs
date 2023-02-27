@@ -1,7 +1,7 @@
-﻿namespace OWP.Websites;
+﻿using OWP.PrematchAssignment.Misc;
+using OWP.PrematchAssignment.Services;
 
-using PreMatchAssignment.Misc;
-using PreMatchAssignment.Services;
+namespace OWP.Websites;
 
 public static class PreMatchAssignmentInjector
 {

@@ -1,11 +1,11 @@
-﻿namespace OWP.OtherSport.UnitTests.EventAssignment.Services;
-
-using OtherSport.EventAssignment.Models;
-using OtherSport.EventAssignment.Services;
-using OtherSport.Submit.Contants;
-using OtherSport.Submit.Models;
+﻿using OWP.OtherSport.EventAssignment.Models;
+using OWP.OtherSport.EventAssignment.Services;
+using OWP.OtherSport.Submit.Constants;
+using OWP.OtherSport.Submit.Models;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.OtherSport.UnitTests.EventAssignment.Services;
 
 public class MatchSettingBuilderUnitTests
 {

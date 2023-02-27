@@ -1,9 +1,9 @@
-﻿namespace OWP.LiveDetail.User;
-
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+
+namespace OWP.LiveDetail.User;
 
 [Route("api/live-detail/user")]
 [ApiController]

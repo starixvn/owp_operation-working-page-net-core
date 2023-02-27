@@ -1,6 +1,6 @@
-﻿namespace OWP.ApiSyncWorkingShift.Criteria;
+﻿using Fanex.Data.Repository;
 
-using Fanex.Data.Repository;
+namespace OWP.ApiSyncWorkingShift.Criteria;
 
 public class GetEmployeeWorkingShiftHRPPCriteria : CriteriaBase
 {

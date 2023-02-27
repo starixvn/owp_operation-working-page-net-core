@@ -1,7 +1,7 @@
-﻿namespace OWP.TicketCenter.Handlers;
+﻿using MediatR;
+using OWP.TicketCenter.Models;
 
-using MediatR;
-using Models;
+namespace OWP.TicketCenter.Handlers;
 
 public class GetStatusHistoryRequest : IRequest<IEnumerable<StatusHistory>>
 {

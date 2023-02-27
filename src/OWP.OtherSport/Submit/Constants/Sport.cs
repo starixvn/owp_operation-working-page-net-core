@@ -1,4 +1,4 @@
-﻿namespace OWP.OtherSport.Submit.Contants;
+﻿namespace OWP.OtherSport.Submit.Constants;
 
 public static class Sport
 {

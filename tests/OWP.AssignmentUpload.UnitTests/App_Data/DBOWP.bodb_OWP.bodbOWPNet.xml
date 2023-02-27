@@ -201,9 +201,7 @@
     <Setting Key="OWP_AutoAssignmentRequest_Api_UpdateStatusRequestId" SpName="OWP_AutoAssignmentRequest_Api_UpdateStatusRequestId" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
   </Function>
   <Function Name="LSTReport">
-    <Setting Key="Task_OWP_LSTReport_GetDataByDate" SpName="Task_OWP_LSTReport_GetDataByDate" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
-    <Setting Key="OWP_LSTReport_ListTraderAssigmmentsX3" SpName="OWP_LSTReport_ListTraderAssigmmentsX3" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
-    <Setting Key="OWP_LSTReport_ListTraderAssigmmentsX5" SpName="OWP_LSTReport_ListTraderAssigmmentsX5" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
+    <Setting Key="OWP_TraderReports" SpName="OWP_TraderReports" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
   </Function>
   <Function Name="LeagueManagement">
     <Setting Key="OWP_LeagueManagement_GetAllTVCondition" SpName="OWP_LeagueManagement_GetAllTVCondition" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>

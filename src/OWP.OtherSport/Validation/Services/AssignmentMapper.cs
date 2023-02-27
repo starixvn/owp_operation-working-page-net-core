@@ -1,10 +1,10 @@
-﻿namespace OWP.OtherSport.Validation.Services;
-
-using System.Globalization;
+﻿using System.Globalization;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using AutoMapper;
-using Models;
+using OWP.OtherSport.Validation.Models;
+
+namespace OWP.OtherSport.Validation.Services;
 
 public interface AssignmentMapper
 {

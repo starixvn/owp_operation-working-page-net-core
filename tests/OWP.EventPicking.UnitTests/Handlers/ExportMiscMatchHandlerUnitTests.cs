@@ -1,13 +1,13 @@
-namespace OWP.EventPicking.UnitTests.Handlers;
-
-using EventPicking.Handlers;
-using EventPicking.Services;
-using Models;
 using NSubstitute;
 using OfficeOpenXml;
+using OWP.EventPicking.Handlers;
+using OWP.EventPicking.Models;
+using OWP.EventPicking.Services;
 using OWP.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.EventPicking.UnitTests.Handlers;
 
 public class ExportMiscMatchHandlerUnitTests
 {

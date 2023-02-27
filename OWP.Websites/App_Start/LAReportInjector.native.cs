@@ -1,10 +1,10 @@
-﻿namespace OWP.Websites.App_Start;
+﻿using OWP.Report.LAReport.Services;
+using OWP.Report.TraderReport.Services;
+using OWP.Services;
+using ExportExcelService = OWP.Report.TraderReport.Services.ExportExcelService;
+using ExportExcelServiceImp = OWP.Report.TraderReport.Services.ExportExcelServiceImp;
 
-using Report.LAReport.Services;
-using Report.TraderReport.Services;
-using Services;
-using ExportExcelService = Report.TraderReport.Services.ExportExcelService;
-using ExportExcelServiceImp = Report.TraderReport.Services.ExportExcelServiceImp;
+namespace OWP.Websites;
 
 public static class LAReportInjector
 {

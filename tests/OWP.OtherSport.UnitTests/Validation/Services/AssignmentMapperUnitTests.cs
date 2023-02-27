@@ -1,10 +1,10 @@
-﻿namespace OWP.OtherSport.UnitTests.Validation.Services;
-
-using AutoMapper;
-using OtherSport.Validation.Models;
-using OtherSport.Validation.Services;
+﻿using AutoMapper;
+using OWP.OtherSport.Validation.Models;
+using OWP.OtherSport.Validation.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.OtherSport.UnitTests.Validation.Services;
 
 public class AssignmentMapperUnitTests
 {
@@ -54,7 +54,7 @@ public class AssignmentMapperUnitTests
     [Fact]
     public void ExtractTrader_TextIsNotMatchRegex_ReturnInputText()
     {
-        const string otherTraders = "keanu";
+        const string otherTraders = "ken";
         const int expected = 0;
         var actual = assignmentMapper.ExtractTrader(otherTraders);
 
@@ -82,7 +82,7 @@ public class AssignmentMapperUnitTests
     }
 
     [Fact]
-    public void ExtractNote_MutipleTextIsMatchRegex_ReturnIsUserText()
+    public void ExtractNote_MultipleTextIsMatchRegex_ReturnIsUserText()
     {
         const string otherTraders = "#esther #halo #mira";
         const string expected = " #<user> #halo #mira";
@@ -104,8 +104,8 @@ public class AssignmentMapperUnitTests
     [Fact]
     public void ExtractNote_TextIsMatchRegex_ReturnText()
     {
-        const string otherTraders = "ahihi #esther";
-        const string expected = "ahihi #<user> ";
+        const string otherTraders = "text #esther";
+        const string expected = "text #<user> ";
 
         var actual = assignmentMapper.ExtractNote(otherTraders);
         Assert.Equal(expected, actual);
@@ -124,9 +124,9 @@ public class AssignmentMapperUnitTests
     [Fact]
     public void GetOtherTradersInXml_TraderIsNotMatchRegex_TraderIdShouldBe0andNoteShouldBeInputText()
     {
-        const string otherTrader = "Nikii";
+        const string otherTrader = "Maria";
 
-        const string expected = "0,Nikii";
+        const string expected = "0,Maria";
         var actual = assignmentMapper.ParseOtherTrader(otherTrader);
 
         Assert.Equal(expected, actual);
@@ -144,7 +144,7 @@ public class AssignmentMapperUnitTests
     }
 
     [Fact]
-    public void GetOtherTradersInXml_TraderIsMatchRegex_TraderIdShouldBeUserIdandNoteShouldBeUserXml()
+    public void GetOtherTradersInXml_TraderIsMatchRegex_TraderIdShouldBeUserIdAndNoteShouldBeUserXml()
     {
         const string otherTrader = "#esther";
 

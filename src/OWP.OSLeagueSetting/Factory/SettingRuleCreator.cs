@@ -1,7 +1,7 @@
-﻿namespace OWP.OSLeagueSetting.Factory;
+﻿using OWP.OSLeagueSetting.Constants;
+using OWP.OSLeagueSetting.Misc;
 
-using Constants;
-using Misc;
+namespace OWP.OSLeagueSetting.Factory;
 
 public interface SettingRuleCreator
 {

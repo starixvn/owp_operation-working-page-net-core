@@ -1,8 +1,8 @@
-﻿namespace OWP.TicketCenter.Services;
+﻿using AutoMapper;
+using OWP.TicketCenter.Models;
+using OWP.TicketCenter.ViewModels;
 
-using AutoMapper;
-using Models;
-using ViewModels;
+namespace OWP.TicketCenter.Services;
 
 public interface MessageService
 {

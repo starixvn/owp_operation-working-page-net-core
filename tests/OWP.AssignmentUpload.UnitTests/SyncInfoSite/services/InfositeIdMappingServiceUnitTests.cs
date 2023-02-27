@@ -1,10 +1,10 @@
-﻿namespace OWP.AssignmentUpload.UnitTests.SyncInfoSite.services;
-
-using AssignmentUpload.SyncInfoSite.Models;
-using AssignmentUpload.SyncInfoSite.Services;
-using AssignmentUpload.Validation.Models;
+﻿using OWP.AssignmentUpload.SyncInfoSite.Models;
+using OWP.AssignmentUpload.SyncInfoSite.Services;
+using OWP.AssignmentUpload.Validation.Models;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.AssignmentUpload.UnitTests.SyncInfoSite.services;
 
 public class InfositeIdMappingServiceUnitTests
 {
@@ -19,13 +19,13 @@ public class InfositeIdMappingServiceUnitTests
     public void MapMainInfoToMinorMatch_Successfully()
     {
         var parentKey = Guid.NewGuid().ToString();
-        var hashkey = Guid.NewGuid().ToString();
+        var hashKey = Guid.NewGuid().ToString();
         var mainMatchOriginModel = new List<MainMatchBackupModel>
         {
             new()
             {
                 key= parentKey,
-                League="Seagame",
+                League="SeaGame",
                 Home= "VN",
                 Away="Thai Lan"
             }
@@ -35,9 +35,9 @@ public class InfositeIdMappingServiceUnitTests
         {
             new()
             {
-                HashKey= hashkey,
+                HashKey= hashKey,
                 ParentHashKey= parentKey,
-                League="Seagame",
+                League="SeaGame",
                 Home="VN Total Booking",
                 Away="Thai Lan Total Booking"
             }
@@ -57,7 +57,7 @@ public class InfositeIdMappingServiceUnitTests
         {
             new()
             {
-                HashKey= hashkey,
+                HashKey= hashKey,
                 ParentHashKey= parentKey,
                 League="V_league",
                 Home="Ha Noi Total Booking",
@@ -77,13 +77,13 @@ public class InfositeIdMappingServiceUnitTests
         {
             new()
             {
-                League= "Seagame",
+                League= "SeaGame",
                 Home="VN",
                 Away="TL"
             }
         };
 
-        var infoSiteMatchs = new List<InfositeMatch>
+        var infoSiteMatches = new List<InfositeMatch>
         {
             new()
             {
@@ -98,24 +98,24 @@ public class InfositeIdMappingServiceUnitTests
         {
             new()
             {
-                League= "Seagame",
+                League= "SeaGame",
                 Home="VN",
                 Away="TL"
             }
         };
 
-        InfositeMappingServiceImp.MapMainMatchNotExistInfoSiteId(owpMainMatch, infoSiteMatchs);
+        InfositeMappingServiceImp.MapMainMatchNotExistInfoSiteId(owpMainMatch, infoSiteMatches);
         DeepAssert.Equal(expected, owpMainMatch);
     }
 
     [Fact]
-    public void MapMainMatch_CompareLeagueHomeWayKOtimeWithInfoSite_MapSuccessfully()
+    public void MapMainMatch_CompareLeagueHomeWayKoTimeWithInfoSite_MapSuccessfully()
     {
         var owpMainMatch = new List<AssignmentModel>
         {
             new()
             {
-                League= "Seagame",
+                League= "SeaGame",
                 Home="VN",
                 Away="TL",
                 IsSaba= true,
@@ -124,11 +124,11 @@ public class InfositeIdMappingServiceUnitTests
             }
         };
 
-        var infoSiteMatchs = new List<InfositeMatch>
+        var infoSiteMatches = new List<InfositeMatch>
         {
             new()
             {
-                LeagueName= "Seagame",
+                LeagueName= "SeaGame",
                 HomeName="VN",
                 AwayName="TL",
                 Website1 = "web",
@@ -140,7 +140,7 @@ public class InfositeIdMappingServiceUnitTests
         {
             new()
             {
-                League= "Seagame",
+                League= "SeaGame",
                 Home="VN",
                 Away="TL",
                 Agent = "abc",
@@ -149,19 +149,19 @@ public class InfositeIdMappingServiceUnitTests
             }
         };
 
-        InfositeMappingServiceImp.MapMainMatchNotExistInfoSiteId(owpMainMatch, infoSiteMatchs);
+        InfositeMappingServiceImp.MapMainMatchNotExistInfoSiteId(owpMainMatch, infoSiteMatches);
         Assert.Equal(expected[0].Agent, owpMainMatch[0].Agent);
         Assert.Equal(expected[0].Website1, owpMainMatch[0].Website1);
     }
 
     [Fact]
-    public void MapMainMatch_NotSameLeagueHomeWayKOtimeWithInfoSite_NoMap()
+    public void MapMainMatch_NotSameLeagueHomeWayKoTimeWithInfoSite_NoMap()
     {
         var owpMainMatch = new List<AssignmentModel>
         {
             new()
             {
-                League= "Seagame",
+                League= "SeaGame",
                 Home="VN",
                 Away="TL",
                 IsSaba=true,
@@ -169,11 +169,11 @@ public class InfositeIdMappingServiceUnitTests
             }
         };
 
-        var infoSiteMatchs = new List<InfositeMatch>
+        var infoSiteMatches = new List<InfositeMatch>
         {
             new()
             {
-                LeagueName= "Seagame",
+                LeagueName= "SeaGame",
                 HomeName="VN",
                 AwayName="TL",
                 Agent = "abc",
@@ -185,14 +185,14 @@ public class InfositeIdMappingServiceUnitTests
         {
             new()
             {
-                League= "Seagame",
+                League= "SeaGame",
                 Home="VN",
                 Away="TL",
                 KickOffTime = new TimeSpan(3,20,0)
             }
         };
 
-        InfositeMappingServiceImp.MapMainMatchNotExistInfoSiteId(owpMainMatch, infoSiteMatchs);
+        InfositeMappingServiceImp.MapMainMatchNotExistInfoSiteId(owpMainMatch, infoSiteMatches);
         Assert.Empty(owpMainMatch[0].Agent);
     }
 
@@ -203,19 +203,19 @@ public class InfositeIdMappingServiceUnitTests
         {
             new()
             {
-                League= "Seagame",
+                League= "SeaGame",
                 Home="Ha Noi",
                 Away="Hai Phong",
                 WB="WB"
             }
         };
 
-        var infoSiteMatchs = new List<InfositeMatch>
+        var infoSiteMatches = new List<InfositeMatch>
         {
             new()
             {
                 InfoSiteMatchId= 123,
-                LeagueName= "Seagame",
+                LeagueName= "SeaGame",
                 HomeName="Ha Noi",
                 AwayName="Hai Phong",
                 AdminSiteMatchId= 456,
@@ -238,7 +238,7 @@ public class InfositeIdMappingServiceUnitTests
             new()
             {
                 InfoSiteMatchId= 123,
-                League= "Seagame",
+                League= "SeaGame",
                 Home="Ha Noi",
                 Away="Hai Phong",
                 WB="WB",
@@ -248,7 +248,7 @@ public class InfositeIdMappingServiceUnitTests
                 Website3= "www.w3.com"
             }
         };
-        InfositeMappingServiceImp.MapMainMatchNotExistInfoSiteId(owpMainMatch, infoSiteMatchs);
+        InfositeMappingServiceImp.MapMainMatchNotExistInfoSiteId(owpMainMatch, infoSiteMatches);
         DeepAssert.Equal(expected, owpMainMatch);
     }
 
@@ -271,7 +271,7 @@ public class InfositeIdMappingServiceUnitTests
             new()
             {
                 InfoSiteMatchId=345,
-                LeagueName="Seagame",
+                LeagueName="SeaGame",
                 HomeName="VN",
                 AwayName="TL",
                 AdminSiteMatchId=1111
@@ -312,7 +312,7 @@ public class InfositeIdMappingServiceUnitTests
             new()
             {
                 InfoSiteMatchId=345,
-                LeagueName="Seagame",
+                LeagueName="SeaGame",
                 HomeName="VN",
                 AwayName="TL",
                 AdminSiteMatchId=11113,
@@ -335,7 +335,7 @@ public class InfositeIdMappingServiceUnitTests
             new()
             {
                 InfoSiteMatchId=345,
-                League="Seagame",
+                League="SeaGame",
                 Home="VN",
                 Away="TL",
                 AdminSiteId=11113
@@ -354,13 +354,13 @@ public class InfositeIdMappingServiceUnitTests
         {
             new()
             {
-                League= "Seagame",
+                League= "SeaGame",
                 Home="VN",
                 Away="TL"
             }
         };
 
-        var infoSiteMatchs = new List<InfositeMatch>
+        var infoSiteMatches = new List<InfositeMatch>
         {
             new()
             {
@@ -375,13 +375,13 @@ public class InfositeIdMappingServiceUnitTests
         {
             new()
             {
-                League= "Seagame",
+                League= "SeaGame",
                 Home="VN",
                 Away="TL"
             }
         };
 
-        infositeMappingService.MapInfoSiteToMainMatch(owpMainMatch, infoSiteMatchs);
+        infositeMappingService.MapInfoSiteToMainMatch(owpMainMatch, infoSiteMatches);
         DeepAssert.Equal(expected, owpMainMatch);
     }
 }

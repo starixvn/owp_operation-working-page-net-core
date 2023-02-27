@@ -1,7 +1,7 @@
-﻿namespace OWP.Report.OvertimeReport.Services;
+﻿using OWP.Extensions;
+using OWP.Report.OvertimeReport.Models;
 
-using Extensions;
-using Models;
+namespace OWP.Report.OvertimeReport.Services;
 
 public interface ReportByMonthServices
 {

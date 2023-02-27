@@ -1,10 +1,10 @@
-﻿namespace OWP.TicketCenter.Services;
+﻿using AutoMapper;
+using OWP.TicketCenter.Criteria;
+using OWP.TicketCenter.Handlers;
+using OWP.TicketCenter.Middleware.Models;
+using OWP.TicketCenter.ViewModels;
 
-using AutoMapper;
-using Criteria;
-using Handlers;
-using Middleware.Models;
-using ViewModels;
+namespace OWP.TicketCenter.Services;
 
 public interface TicketDetailService
 {

@@ -1,6 +1,6 @@
-﻿namespace OWP.TaskList.Handlers;
+﻿using MediatR;
 
-using MediatR;
+namespace OWP.TaskList.Handlers;
 
 public class UpdateReadyTradeStatusRequest : IRequest<string>
 {

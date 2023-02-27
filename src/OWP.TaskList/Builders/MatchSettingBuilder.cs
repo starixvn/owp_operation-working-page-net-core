@@ -1,7 +1,8 @@
 ﻿
-namespace OWP.TaskList.Builders;
+using OWP.TaskList.Enumerations;
+using OWP.TaskList.Models;
 
-using Models;
+namespace OWP.TaskList.Builders;
 
 public static class MatchSettingBuilder
 {

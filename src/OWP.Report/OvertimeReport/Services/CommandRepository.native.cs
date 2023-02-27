@@ -1,9 +1,9 @@
-﻿namespace OWP.Report.OvertimeReport.Services;
-
-using Criteria;
-using Fanex.Data.Repository;
+﻿using Fanex.Data.Repository;
 using Fanex.NAP.Client.Configuration;
-using Models;
+using OWP.Report.OvertimeReport.Criteria;
+using OWP.Report.OvertimeReport.Models;
+
+namespace OWP.Report.OvertimeReport.Services;
 
 public interface CommandRepository
 {

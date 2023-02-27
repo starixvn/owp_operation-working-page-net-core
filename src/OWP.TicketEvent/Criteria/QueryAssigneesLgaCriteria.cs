@@ -1,6 +1,6 @@
-﻿namespace OWP.TicketEvent.Criteria;
+﻿using Fanex.Data.Repository;
 
-using Fanex.Data.Repository;
+namespace OWP.TicketEvent.Criteria;
 
 public class QueryAssigneesLgaCriteria : CriteriaBase
 {

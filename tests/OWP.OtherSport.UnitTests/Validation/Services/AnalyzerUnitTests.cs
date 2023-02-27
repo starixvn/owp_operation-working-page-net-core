@@ -1,11 +1,11 @@
-﻿namespace OWP.OtherSport.UnitTests.Validation.Services;
-
-using NSubstitute;
-using OtherSport.Validation;
-using OtherSport.Validation.Models;
-using OtherSport.Validation.Services;
+﻿using NSubstitute;
+using OWP.OtherSport.Validation;
+using OWP.OtherSport.Validation.Models;
+using OWP.OtherSport.Validation.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.OtherSport.UnitTests.Validation.Services;
 
 public class AnalyzerUnitTests
 {
@@ -53,7 +53,7 @@ public class AnalyzerUnitTests
             {
                 Sport = "Basketball",
                 Home = "Golden State Warrior",
-                Away = "LA Laker",
+                Away = "LA Lake",
                 MatchStatus = "Completed",
                 DateTime = "44771.5104166667",
                 League = "NBA",
@@ -64,7 +64,7 @@ public class AnalyzerUnitTests
             {
                 Sport = "Ice Hookey",
                 Home = "Golden State Warrior",
-                Away = "LA Laker",
+                Away = "LA Lake",
                 MatchStatus = "Completed",
                 DateTime = "44771.5104166667",
                 League = "Hookey",
@@ -106,7 +106,7 @@ public class AnalyzerUnitTests
         {
             Sport = "Basketball",
             Home = "Golden State Warrior",
-            Away = "LA Laker",
+            Away = "LA Lake",
             MatchStatus = "Completed",
             DateTime = DateTime.Parse("12/10/2020 12:00 AM"),
             League = "NBA",
@@ -117,7 +117,7 @@ public class AnalyzerUnitTests
         {
             Sport = "Ice Hookey",
             Home = "Golden State Warrior",
-            Away = "LA Laker",
+            Away = "LA Lake",
             MatchStatus = "Completed",
             DateTime = DateTime.Parse("12/10/2020 12:00 AM"),
             League = "Hookey",

@@ -1,8 +1,8 @@
-namespace OWP.AssignmentUpload.Validation.Services;
-
-using Criteria;
 using Fanex.Data.Repository;
-using Models;
+using OWP.AssignmentUpload.Validation.Criteria;
+using OWP.AssignmentUpload.Validation.Models;
+
+namespace OWP.AssignmentUpload.Validation.Services;
 
 public interface Repository
 {

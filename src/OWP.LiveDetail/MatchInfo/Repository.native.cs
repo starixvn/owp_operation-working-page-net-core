@@ -1,18 +1,14 @@
 ﻿
-namespace OWP.LiveDetail.MatchInfo;
-
-using Agent;
 using AutoMapper;
-using Common;
-using Constants;
-using Extensions;
 using Fanex.Data.Repository;
 using Fanex.NAP.Client.Helpers.Web;
-using Models;
-using OtherProvider;
-using Provider;
-using Television;
-using Utils;
+using OWP.Enums;
+using OWP.Extensions;
+using OWP.LiveDetail.Common;
+using OWP.Models;
+using OWP.Utils;
+
+namespace OWP.LiveDetail.MatchInfo;
 
 public interface MatchInfoRepository
 {
@@ -28,13 +24,13 @@ public interface MatchInfoRepository
 
     Task<ResultDataObject> UpdateTradingInfo(UpdateTradingInfoModel model);
 
-    Task<IEnumerable<Television>> GetTelevisionsByMatchId(int owpMatchId);
+    Task<IEnumerable<Television.Television>> GetTelevisionsByMatchId(int owpMatchId);
 
-    Task<IEnumerable<OtherProvider>> GetOtherProvidersByMatchId(int owpMatchId);
+    Task<IEnumerable<OtherProvider.OtherProvider>> GetOtherProvidersByMatchId(int owpMatchId);
 
-    Task<IEnumerable<Provider>> GetProvidersByMatchId(int owpMatchId);
+    Task<IEnumerable<Provider.Provider>> GetProvidersByMatchId(int owpMatchId);
 
-    Task<IEnumerable<Agent>> GetAgentsByMatchId(int owpMatchId);
+    Task<IEnumerable<Agent.Agent>> GetAgentsByMatchId(int owpMatchId);
 
     Task<IEnumerable<MatchStatusModel>> GetMatchStatusByMatchId(int owpMatchId);
 
@@ -146,7 +142,7 @@ public class MatchInfoRepositoryImp : MatchInfoRepository
         };
     }
 
-    public async Task<IEnumerable<Television>> GetTelevisionsByMatchId(int owpMatchId)
+    public async Task<IEnumerable<Television.Television>> GetTelevisionsByMatchId(int owpMatchId)
     {
         var criteria = new GetTelevisionsByMatchIdCriteria
         {
@@ -154,10 +150,10 @@ public class MatchInfoRepositoryImp : MatchInfoRepository
         };
         criteria.ThrowExceptionIfInvalid();
 
-        return await repository.FetchAsync<Television>(criteria);
+        return await repository.FetchAsync<Television.Television>(criteria);
     }
 
-    public async Task<IEnumerable<OtherProvider>> GetOtherProvidersByMatchId(int owpMatchId)
+    public async Task<IEnumerable<OtherProvider.OtherProvider>> GetOtherProvidersByMatchId(int owpMatchId)
     {
         var criteria = new GetOtherProvidersByMatchIdCriteria
         {
@@ -165,10 +161,10 @@ public class MatchInfoRepositoryImp : MatchInfoRepository
         };
         criteria.ThrowExceptionIfInvalid();
 
-        return await repository.FetchAsync<OtherProvider>(criteria);
+        return await repository.FetchAsync<OtherProvider.OtherProvider>(criteria);
     }
 
-    public async Task<IEnumerable<Provider>> GetProvidersByMatchId(int owpMatchId)
+    public async Task<IEnumerable<Provider.Provider>> GetProvidersByMatchId(int owpMatchId)
     {
         var criteria = new GetProvidersByMatchIdCriteria
         {
@@ -176,10 +172,10 @@ public class MatchInfoRepositoryImp : MatchInfoRepository
         };
         criteria.ThrowExceptionIfInvalid();
 
-        return await repository.FetchAsync<Provider>(criteria);
+        return await repository.FetchAsync<Provider.Provider>(criteria);
     }
 
-    public async Task<IEnumerable<Agent>> GetAgentsByMatchId(int owpMatchId)
+    public async Task<IEnumerable<Agent.Agent>> GetAgentsByMatchId(int owpMatchId)
     {
         var criteria = new GetAgentsByMatchIdCriteria
         {
@@ -187,7 +183,7 @@ public class MatchInfoRepositoryImp : MatchInfoRepository
         };
         criteria.ThrowExceptionIfInvalid();
 
-        return await repository.FetchAsync<Agent>(criteria);
+        return await repository.FetchAsync<Agent.Agent>(criteria);
     }
 
     public async Task<IEnumerable<MatchStatusModel>> GetMatchStatusByMatchId(int owpMatchId)

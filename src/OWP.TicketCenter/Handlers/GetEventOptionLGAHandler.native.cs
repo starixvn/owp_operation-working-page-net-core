@@ -1,7 +1,7 @@
-namespace OWP.TicketCenter.Handlers;
-
 using MediatR;
-using ViewModels;
+using OWP.TicketCenter.ViewModels;
+
+namespace OWP.TicketCenter.Handlers;
 
 public class GetTicketEventOptionLGARequest : IRequest<IList<EventLGAOptionInfoSender>>
 {

@@ -1,13 +1,13 @@
-﻿namespace OWP.TicketCenter;
-
-using AutoMapper;
-using Criteria;
-using Extensions;
+﻿using AutoMapper;
 using Fanex.Data.Repository;
 using Fanex.NAP.Client.Helpers.Web;
-using Handlers;
-using Models;
-using ViewModels;
+using OWP.Extensions;
+using OWP.TicketCenter.Criteria;
+using OWP.TicketCenter.Handlers;
+using OWP.TicketCenter.Models;
+using OWP.TicketCenter.ViewModels;
+
+namespace OWP.TicketCenter;
 
 public interface Repository
 {

@@ -1,11 +1,11 @@
-﻿namespace OWP.AutoAssignment.Services.PublicApi;
+﻿using OWP.AutoAssignment.Constant;
+using OWP.AutoAssignment.Models.PublicApi;
 
-using Constant;
-using Models.PublicApi;
+namespace OWP.AutoAssignment.Services.PublicApi;
 
 public interface RealMatchService
 {
-    Task<IList<RealMatchSender>> BuildRealMatchInfo(IList<MatchQueried> matchsQueried);
+    Task<IList<RealMatchSender>> BuildRealMatchInfo(IList<MatchQueried> matchQueried);
 }
 
 public class RealMatchServiceImp : RealMatchService
@@ -26,9 +26,9 @@ public class RealMatchServiceImp : RealMatchService
         this.providerService = providerService;
     }
 
-    public async Task<IList<RealMatchSender>> BuildRealMatchInfo(IList<MatchQueried> matchsQueried)
+    public async Task<IList<RealMatchSender>> BuildRealMatchInfo(IList<MatchQueried> matchQueried)
     {
-        var matchIds = matchsQueried.Select(i => i.InfositeMatchId).ToList();
+        var matchIds = matchQueried.Select(i => i.InfositeMatchId).ToList();
 
         var realMatchSenders = new List<RealMatchSender>();
 

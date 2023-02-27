@@ -1,9 +1,9 @@
-namespace OWP.LeagueManagement.Handlers;
-
 using MediatR;
-using Models;
+using OWP.LeagueManagement.Models;
+using OWP.LeagueManagement.Services;
 using OWP.Models;
-using Service;
+
+namespace OWP.LeagueManagement.Handlers;
 
 public class UpdateTvListRequest : IRequest<ResultDataObject>
 {

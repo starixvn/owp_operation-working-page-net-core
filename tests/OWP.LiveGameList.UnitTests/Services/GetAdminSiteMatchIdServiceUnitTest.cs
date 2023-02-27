@@ -1,11 +1,11 @@
-﻿namespace OWP.LiveGameList.UnitTests.Services;
-
-using Criteria;
-using Fanex.Data.Repository;
-using LiveGameList.Services;
-using Models;
+﻿using Fanex.Data.Repository;
 using NSubstitute;
+using OWP.LiveGameList.Criteria;
+using OWP.LiveGameList.Models;
+using OWP.LiveGameList.Services;
 using Xunit;
+
+namespace OWP.LiveGameList.UnitTests.Services;
 
 public class GetAdminSiteMatchIdServiceUnitTest
 {

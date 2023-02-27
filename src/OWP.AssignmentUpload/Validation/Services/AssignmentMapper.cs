@@ -1,9 +1,9 @@
-namespace OWP.AssignmentUpload.Validation.Services;
-
 using System.Globalization;
 using System.Text.RegularExpressions;
 using AutoMapper;
-using Models;
+using OWP.AssignmentUpload.Validation.Models;
+
+namespace OWP.AssignmentUpload.Validation.Services;
 
 public interface AssignmentMapper
 {

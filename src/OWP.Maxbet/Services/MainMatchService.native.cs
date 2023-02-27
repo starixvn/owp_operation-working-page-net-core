@@ -1,12 +1,12 @@
+using MediatR;
+using OWP.Maxbet.Constants;
+using OWP.Maxbet.Handlers;
+using OWP.Maxbet.Helpers;
+using OWP.Maxbet.Models;
+
 namespace OWP.Maxbet.Services;
 
-using Constants;
-using Handlers;
-using Helpers;
-using MediatR;
-using Models;
-
-    public interface MainMatchService
+public interface MainMatchService
     {
         Task<int> GetMatchIdByAdminSiteId(int adminsiteId);
 

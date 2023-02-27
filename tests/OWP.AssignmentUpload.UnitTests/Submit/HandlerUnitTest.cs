@@ -1,13 +1,13 @@
-﻿namespace OWP.AssignmentUpload.UnitTests.Submit;
-
-using AssignmentUpload.Submit;
-using AssignmentUpload.Submit.Models;
-using AssignmentUpload.Submit.Services;
-using AssignmentUpload.Validation.Models;
-using Fanex.NAP.Client.Helpers.Web;
+﻿using Fanex.NAP.Client.Helpers.Web;
 using NSubstitute;
+using OWP.AssignmentUpload.Submit;
+using OWP.AssignmentUpload.Submit.Models;
+using OWP.AssignmentUpload.Submit.Services;
+using OWP.AssignmentUpload.Validation.Models;
 using Xunit;
 using Xunit.Asserts.Compare;
+
+namespace OWP.AssignmentUpload.UnitTests.Submit;
 
 public class HandlerUnitTest
 {

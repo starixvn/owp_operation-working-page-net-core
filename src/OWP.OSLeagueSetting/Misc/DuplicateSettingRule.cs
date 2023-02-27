@@ -1,7 +1,7 @@
-﻿namespace OWP.OSLeagueSetting.Misc;
+﻿using OWP.Extensions;
+using OWP.OSLeagueSetting.Models;
 
-using Extensions;
-using Models;
+namespace OWP.OSLeagueSetting.Misc;
 
 public class DuplicateRule
 {
