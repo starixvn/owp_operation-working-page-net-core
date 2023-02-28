@@ -11,7 +11,6 @@ namespace OWP.TicketCenter;
 
 [Route("api/[controller]")]
 [ApiController]
-[AllowAnonymous]
 [EnableCors("AllowOrigin")]
 public class TicketCenterController : ControllerBase
 {

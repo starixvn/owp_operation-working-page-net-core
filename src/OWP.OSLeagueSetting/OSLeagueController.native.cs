@@ -12,7 +12,6 @@ namespace OWP.OSLeagueSetting;
 [Route("api/[controller]")]
 [ApiController]
 [EnableCors("AllowOrigin")]
-[AllowAnonymous]
 public class OSLeagueController : ControllerBase
 {
     private readonly IMediator mediator;
