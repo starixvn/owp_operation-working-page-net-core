@@ -47,17 +47,15 @@ public class AnalyzerImp : Analyzer
         var traders = await repository.GetTraders(rawDataFromExcel.Traders);
         var matchOffers = (await refResourceService.GetRefResourcesByName(RefName.MatchOffer)).ToList();
 
+        assignmentValidator.Validate(request.EventDate, rawDataFromExcel, traders, request.IsUploadFMAndAIO, matchOffers);
+
         var assignments = assignmentBuilder.BuildAssignment(traders, request, rawDataFromExcel.Assignments);
 
         await infoSiteMatchUpdater.UpdateInfoSiteMatchToOwpMatch(assignments, request.EventDate);
 
-        assignmentValidator.Validate(request.EventDate, rawDataFromExcel, traders, request.IsUploadFMAndAIO, matchOffers);
-
         matchStatusValidator.Validate(assignments);
 
         infoSiteValidation.Validate(assignments);
-
-
 
         return new AnalyzedResult
         {

@@ -14,7 +14,7 @@ public class AssignmentBuilderImp : AssignmentBuilder
 {
     private readonly AssignmentMapper assignmentMapper;
     private readonly MinorMatchDetector minorMatchDetector;
-        private readonly ImplicitMinorMatchGenerator minorMatchGenerator;
+    private readonly ImplicitMinorMatchGenerator minorMatchGenerator;
 
     public AssignmentBuilderImp(
         AssignmentMapper assignmentMapper,
@@ -23,7 +23,7 @@ public class AssignmentBuilderImp : AssignmentBuilder
     {
         this.assignmentMapper = assignmentMapper;
         this.minorMatchDetector = minorMatchDetector;
-            this.minorMatchGenerator = minorMatchGenerator;
+        this.minorMatchGenerator = minorMatchGenerator;
     }
 
     public List<AssignmentModel> BuildAssignment(
@@ -34,7 +34,7 @@ public class AssignmentBuilderImp : AssignmentBuilder
         assignmentMapper.Traders = traders;
         var assignmentModels = assignmentMapper.Map(request, assignmentInExcels);
         assignmentModels = minorMatchDetector.Detect(assignmentModels);
-            assignmentModels = minorMatchGenerator.GenerateMinorMatch(assignmentModels);
+        assignmentModels = minorMatchGenerator.GenerateMinorMatch(assignmentModels);
 
         return assignmentModels;
     }
