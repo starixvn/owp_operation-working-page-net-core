@@ -9,6 +9,7 @@ namespace OWP.Maxbet;
 
 [Route("api/[controller]")]
 [ApiController]
+[AllowAnonymous]
 [EnableCors("AllowOrigin")]
 public class MaxbetController : ControllerBase
 {
