@@ -42,6 +42,8 @@ public class ReportModel
 
     public int Type4_Fantasy { get; set; }
 
+    public int Type4_FT_Other { get; set; }
+
     public int Type4_Corner_NextCorner { get; set; }
 
     public int Type4_15M { get; set; }
