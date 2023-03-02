@@ -1,4 +1,5 @@
 ﻿using OWP.Extensions;
+using OWP.Utils;
 
 namespace OWP.LiveGameList.Models;
 
@@ -107,6 +108,8 @@ public class MatchInfo
     public int LengthOtherProductTenMinutes { get; set; }
 
     public int LengthOtherProductFifteenMinutes { get; set; }
+
+    public string KickOffTimeDisplay => KickOffTime.ToOWPTimeFormat();
 
     public int RowSpan
     {
