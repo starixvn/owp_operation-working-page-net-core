@@ -19,7 +19,7 @@ public class AssignmentBuilderImp : AssignmentBuilder
     public AssignmentBuilderImp(
         AssignmentMapper assignmentMapper,
         MinorMatchDetector minorMatchDetector,
-        ImplicitMinorMatchGenerator minorMatchGenerator)
+             ImplicitMinorMatchGenerator minorMatchGenerator)
     {
         this.assignmentMapper = assignmentMapper;
         this.minorMatchDetector = minorMatchDetector;

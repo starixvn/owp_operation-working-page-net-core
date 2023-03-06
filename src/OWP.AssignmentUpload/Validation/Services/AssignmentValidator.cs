@@ -1,16 +1,18 @@
-using System.ComponentModel.DataAnnotations;
-using System.Globalization;
-using System.Text.RegularExpressions;
+using OWP.AssignmentUpload.Validation.Constants;
 using OWP.AssignmentUpload.Validation.Exceptions;
 using OWP.AssignmentUpload.Validation.Helper;
 using OWP.AssignmentUpload.Validation.Models;
 using OWP.Models;
+using System.Collections.Immutable;
+using System.ComponentModel.DataAnnotations;
+using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace OWP.AssignmentUpload.Validation.Services;
 
 public interface AssignmentValidator
 {
-    void Validate(DateTime eventDate, UploadingDataFromExcel uploadingDataFromExcel, List<Trader> traders, bool IsUploadFMAndAIO, List<ReferenceResource> matchOffers);
+    void Validate(DateTime eventDate, UploadingDataFromExcel uploadingDataFromExcel, List<Trader> traders, bool isUploadFmAndAio, List<ReferenceResource> matchOffers);
 
     void ValidateEventDate(DateTime eventDate, UploadingDataFromExcel uploadingDataFromExcel);
 
@@ -22,17 +24,20 @@ public interface AssignmentValidator
 
     void ValidateDataAnnotation(AssignmentModelInExcel assignment, List<ValidationResult> results);
 
-    void ValidateOtherAssignment(AssignmentModelInExcel assignment, List<ValidationResult> results, bool IsUploadFMAndAIO);
+    void ValidateOtherAssignment(AssignmentModelInExcel assignment, List<ValidationResult> results, bool isUploadFmAndAio);
 
     void ValidateDuplicatedMatchNo(AssignmentModelInExcel assignment, List<AssignmentModelInExcel> assignments, List<ValidationResult> results);
 }
 
 public class AssignmentValidatorImp : AssignmentValidator
 {
-    public void Validate(DateTime eventDate, UploadingDataFromExcel uploadingDataFromExcel, List<Trader> traders, bool IsUploadFMAndAIO, List<ReferenceResource> matchOffers)
+    private static readonly IDictionary<string, string> minorMatchedWrongGrammar = ExplicitMinorMatchRuleConstants.MinorMatchedWrongGrammar;
+    private static readonly IDictionary<string, string> minorLeagueWrongGrammar = ExplicitMinorMatchRuleConstants.MinorLeagueWrongGrammar;
+
+    public void Validate(DateTime eventDate, UploadingDataFromExcel uploadingDataFromExcel, List<Trader> traders, bool isUploadFmAndAio, List<ReferenceResource> matchOffers)
     {
         ValidateEventDate(eventDate, uploadingDataFromExcel);
-        CustomValidateAssignment(uploadingDataFromExcel.Assignments, IsUploadFMAndAIO, traders, matchOffers);
+        CustomValidateAssignment(uploadingDataFromExcel.Assignments, isUploadFmAndAio, traders, matchOffers);
     }
 
     public void ValidateEventDate(DateTime eventDate, UploadingDataFromExcel uploadingDataFromExcel)
@@ -139,14 +144,14 @@ public class AssignmentValidatorImp : AssignmentValidator
         }
     }
 
-    public void CustomValidateAssignment(List<AssignmentModelInExcel> assignments, bool IsUploadFMAndAIO, List<Trader> traders, List<ReferenceResource> matchOffers)
+    public void CustomValidateAssignment(List<AssignmentModelInExcel> assignments, bool isUploadFmAndAio, List<Trader> traders, List<ReferenceResource> matchOffers)
     {
         var validationResults = new List<AssignmentValidationRowResult>();
 
         for (var i = 0; i < assignments.Count; i++)
         {
             var rowIndex = i;
-            var validationResultsOfAssignment = CustomValidateAssignment(assignments[i], assignments, IsUploadFMAndAIO, traders, matchOffers);
+            var validationResultsOfAssignment = CustomValidateAssignment(assignments[i], assignments, isUploadFmAndAio, traders, matchOffers);
             ValidationHelper.BuildValidationRowResult(
                 validationResultsOfAssignment,
                 validationResults,
@@ -160,26 +165,50 @@ public class AssignmentValidatorImp : AssignmentValidator
         }
     }
 
-        public List<ValidationResult> CustomValidateAssignment(
-            AssignmentModelInExcel assignment,
-            List<AssignmentModelInExcel> assignments,
-            bool isUploadFmAndAio,
-            List<Trader> traders,
-            List<ReferenceResource> matchOffers)
+    public List<ValidationResult> CustomValidateAssignment(
+        AssignmentModelInExcel assignment,
+        List<AssignmentModelInExcel> assignments,
+        bool isUploadFmAndAio,
+        List<Trader> traders,
+        List<ReferenceResource> matchOffers)
     {
         var results = new List<ValidationResult>();
 
         ValidateTraders(assignment, results, traders);
         ValidateMatchOffers(assignment, matchOffers, results);
-            ValidateOtherAssignment(assignment, results, isUploadFmAndAio);
+        ValidateOtherAssignment(assignment, results, isUploadFmAndAio);
         ValidateDataAnnotation(assignment, results);
         ValidateDuplicatedMatchNo(assignment, assignments, results);
         ValidateInvalidTime(assignment, results);
-
+        ValidateMinorMatchIsWrongGrammar(assignment, results);
         return results;
     }
 
-        public void ValidateOtherAssignment(AssignmentModelInExcel assignment, List<ValidationResult> results, bool isUploadFmAndAio)
+    public void ValidateMinorMatchIsWrongGrammar(AssignmentModelInExcel assignment, IList<ValidationResult> validationResults)
+    {
+        foreach (var key in minorLeagueWrongGrammar.Keys)
+        {
+            if (assignment.League.EndsWith(key, StringComparison.OrdinalIgnoreCase))
+            {
+                validationResults.Add(new(string.Format(minorLeagueWrongGrammar[key], "League", "league")));
+            }
+        }
+        foreach (var key in minorMatchedWrongGrammar.Keys)
+        {
+            if (assignment.Home.EndsWith(key, StringComparison.OrdinalIgnoreCase))
+            {
+                validationResults.Add(new(string.Format(minorMatchedWrongGrammar[key], "Home", "home")));
+            }
+
+            if (assignment.Away.EndsWith(key, StringComparison.OrdinalIgnoreCase))
+            {
+                validationResults.Add(new(string.Format(minorMatchedWrongGrammar[key], "Away", "away")));
+            }
+
+        }
+    }
+
+    public void ValidateOtherAssignment(AssignmentModelInExcel assignment, List<ValidationResult> results, bool isUploadFmAndAio)
     {
         var listTraderError = new List<string>
         {
@@ -190,7 +219,7 @@ public class AssignmentValidatorImp : AssignmentValidator
             ValidateOtherAssignment(assignment.OtherTraders1HOU, assignment.Trader1HOUName, "1H O/U"),
             ValidateOtherAssignment(assignment.OtherTraders1X2, assignment.Trader1X2Name, "1X2")
         };
-            if (isUploadFmAndAio)
+        if (isUploadFmAndAio)
         {
             listTraderError.Add(ValidateOtherAssignment(assignment.OtherTradersAIO, assignment.TraderAIOName, "AIO"));
             listTraderError.Add(ValidateOtherAssignment(assignment.OtherTradersFM, assignment.TraderFMName, "FM"));
@@ -244,8 +273,8 @@ public class AssignmentValidatorImp : AssignmentValidator
         var excelMatchOffers = assignment.MatchOffer
             .Split(',')
             .Where((x => !string.IsNullOrEmpty(x))).ToList();
-            var matchOfferValues = matchOffers.Select(y => y.Value.ToLower(CultureInfo.InvariantCulture));
-            var isInValid = excelMatchOffers.Any(x => !matchOfferValues.Contains(x.Trim().ToLower(CultureInfo.InvariantCulture)));
+        var matchOfferValues = matchOffers.Select(y => y.Value.ToLower(CultureInfo.InvariantCulture));
+        var isInValid = excelMatchOffers.Any(x => !matchOfferValues.Contains(x.Trim().ToLower(CultureInfo.InvariantCulture)));
 
         if (isInValid)
         {
