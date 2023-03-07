@@ -156,6 +156,8 @@ public class AssignmentValidatorImpUnitTests
         {
             new AssignmentModelInExcel
             {
+                League = "League",
+                Home = "homemar27",
                 Away = "awaymar27",
                 InfoSiteMatchId = 1,
                 MatchNo = "match1",
@@ -164,6 +166,9 @@ public class AssignmentValidatorImpUnitTests
             },
             new AssignmentModelInExcel
             {
+                League = "League",
+                Home = "homemar27",
+                Away = "awaymar27",
                 Time = "01:00 PM",
                 InfoSiteMatchId = 1,
                 MatchNo = "match1",
@@ -196,12 +201,17 @@ public class AssignmentValidatorImpUnitTests
         {
             new AssignmentModelInExcel
             {
+                League = "League",
+                Home = "homemar27",
                 Away = "awaymar27",
                 Time = "01:00 PM",
                 MatchOffer = ""
             },
             new AssignmentModelInExcel
             {
+                League = "League",
+                Home = "homemar27",
+                Away = "awaymar27",
                 Time = "01:00 PM",
                 MatchOffer = ""
             }
@@ -221,12 +231,17 @@ public class AssignmentValidatorImpUnitTests
             {
                 new AssignmentModelInExcel
                 {
+                    League = "League",
+                    Home = "homemar27",
                     Away = "awaymar27",
                     Time = "01:00 PM",
                     MatchOffer = ""
                 },
                 new AssignmentModelInExcel
                 {
+                    League = "League",
+                    Home = "homemar27",
+                    Away = "awaymar27",
                     Time = "01:00 PM",
                     MatchOffer = ""
                 }
