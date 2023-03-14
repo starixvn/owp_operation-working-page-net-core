@@ -2,6 +2,7 @@
 using OWP.SimpleDataApi.Criteria.LeagueManagement;
 using OWP.SimpleDataApi.Criteria.LiveDetail;
 using OWP.SimpleDataApi.Criteria.OsLeagueSetting;
+using OWP.SimpleDataApi.Criteria.PreMatchAssignment;
 using OWP.SimpleDataApi.Criteria.TicketCenter;
 using OWP.SimpleDataApi.Criteria.TicketSetting;
 
@@ -15,6 +16,7 @@ public class SimpleCriteriaFactoryImp : SimpleCriteriaFactoryBase
         RegisterOsLeagueSetting();
         RegisterLeagueManagement();
         RegisterLiveDetail();
+        RegisterPreMatchAssignment();
     }
 
     private static void RegisterLiveDetail()
@@ -65,17 +67,36 @@ public class SimpleCriteriaFactoryImp : SimpleCriteriaFactoryBase
         CriteriaTypes.Add(ConstantApiKey.OsLeagueSettingGetRoundOption, typeof(GetRoundOptionCriteria));
         CriteriaTypes.Add(ConstantApiKey.OsLeagueSettingGetBetTypesOption, typeof(GetBetTypesOptionCriteria));
         CriteriaTypes.Add(ConstantApiKey.OsLeagueSettingGetDetail, typeof(QueryLeagueSettingDetailCriteria));
-
         CriteriaTypes.Add(ConstantApiKey.OsLeagueSettingGetBetDelayOption, typeof(GetBetDelayOptionCriteria));
         CriteriaTypes.Add(ConstantApiKey.OsLeagueSettingGetOfferLiveOption, typeof(GetOfferLineOptionCriteria));
         CriteriaTypes.Add(ConstantApiKey.OsLeagueSettingGetProviderOption, typeof(GetProviderOptionCriteria));
         CriteriaTypes.Add(ConstantApiKey.OsLeagueSettingGetRegionOption, typeof(GetRegionOptionCriteria));
         CriteriaTypes.Add(ConstantApiKey.OsLeagueSettingGetWeekMatchOption, typeof(GetWeekMatchOptionCriteria));
     }
+
     private static void RegisterTicketCenter()
     {
         CriteriaTypes.Add(ConstantApiKey.TicketCenterGetRecipient, typeof(GetRecipientCriteria));
         CriteriaTypes.Add(ConstantApiKey.TicketCenterGetDefaultRecipient, typeof(GetDefaultRecipientCriteria));
         CriteriaTypes.Add(ConstantApiKey.TicketSettingGetAllRecipients, typeof(GetAllRecipientCriteria));
+    }
+
+    private static void RegisterPreMatchAssignment()
+    {
+        CriteriaTypes.Add(ConstantApiKey.GetStartTime, typeof(GetStartTimeCriteria));
+
+        CriteriaTypes.Add(ConstantApiKey.PreMatchAssignmentValidateAssignment, typeof(ValidateAssignmentCriteria));
+
+        CriteriaTypes.Add(ConstantApiKey.GetDeletedLeaguesPreMatchAssignment, typeof(GetDeletedLeaguesCriteria));
+
+        CommandTypes.Add(ConstantApiKey.PreMatchAssignmentRecover, typeof(RecoverPreMatchAssignmentCriteria));
+
+        CriteriaTypes.Add(ConstantApiKey.GetLastUpdatedPreMatchAssignment, typeof(GetLastUpdatedPreMatchAssignmentCriteria));
+
+        CriteriaTypes.Add(ConstantApiKey.CheckLeagueContainsAssignment, typeof(CheckLeagueContainsAnyAssignmentCriteria));
+
+        CriteriaTypes.Add(ConstantApiKey.PreMatchAssignmentGetNoteMessages, typeof(QueryNoteMessagesCriteria));
+
+        CommandTypes.Add(ConstantApiKey.PreMatchAssignmentDeleteNoteMessages, typeof(DeleteNoteMessageCriteria));
     }
 }

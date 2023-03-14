@@ -2,19 +2,23 @@
 
 public static class ConstantApiKey
 {
+    #region TicketCenter
+
     public const string TicketCenterGetRecipient = "ticket-center-get-recipient";
 
     public const string TicketCenterGetDefaultRecipient = "ticket-center-get-default-recipient";
 
     public const string TicketSettingGetAllRecipients = "ticket-setting-get-all-recipients";
 
+    #endregion
+
+    #region OSLeagueSetting
+
     public const string OsLeagueSettingGetCategoryOption = "os-league-setting-get-category-option";
 
     public const string OsLeagueSettingGetRoundOption = "os-league-setting-get-round-option";
 
     public const string OsLeagueSettingGetDetail = "os-league-setting-get-detail";
-
-    public const string OsLeagueSettingGetStatusOption = "os-league-setting-get-status-option";
 
     public const string OsLeagueSettingGetBetTypesOption = "os-league-setting-get-bet-types-option";
 
@@ -27,6 +31,10 @@ public static class ConstantApiKey
     public const string OsLeagueSettingGetRegionOption = "os-league-setting-get-region-option";
 
     public const string OsLeagueSettingGetWeekMatchOption = "os-league-setting-get-week-match-option";
+
+    #endregion
+
+    #region LeagueManagement
 
     public const string LeagueManagementGetAllLeagueInfo = "league-management-get-all-league";
 
@@ -64,4 +72,18 @@ public static class ConstantApiKey
 
     public const string GetTelevisionSuggestion = "get-television-suggestion";
 
+    #endregion
+
+    #region PreMatchAssignment 
+
+    public const string GetLastUpdatedPreMatchAssignment = "pre-match-assignment-get-last-updated";
+    public const string GetStartTime = "pre-match-assignment-get-start-time";
+    public const string GetDeletedLeaguesPreMatchAssignment = "pre-match-assignment-get-deleted-leagues";
+    public const string PreMatchAssignmentRecover = "pre-match-assignment-recover";
+    public const string CheckLeagueContainsAssignment = "pre-match-assignment-check-league-contains-assignment";
+    public const string PreMatchAssignmentValidateAssignment = "pre-match-assignment-validate-assignment";
+    public const string PreMatchAssignmentGetNoteMessages = "pre-match-assignment-get-note-messages";
+    public const string PreMatchAssignmentDeleteNoteMessages = "pre-match-assignment-delete-note-messages";
+
+    #endregion
 }
