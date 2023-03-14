@@ -25,7 +25,7 @@
                     <tr>
                         <td>@file.fileName</td>
                         <td>@file.createdTime</td>
-                        <td>@Html.ActionLink("Download", "DownloadFile", new { file.fileName })</td>
+                        <td><a href="DownloadFile?fileName=@file.fileName">Download</a></td>
                     </tr>
                 }
             </tbody>

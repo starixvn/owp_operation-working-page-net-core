@@ -22,13 +22,13 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var key in ViewBag.CacheKeys)
-                {
-                    <tr>
-                        <td>@key</td>
-                        <td>@Html.ActionLink("Delete", "DeleteCache", new { cacheKey = key }) - @Html.ActionLink("View", "CacheContent", new { cacheKey = key })</td>
-                    </tr>
-                }
+            @foreach (var key in ViewBag.CacheKeys)
+            {
+                <tr>
+                    <td>@key</td>
+                    <td><a href="DeleteCache?cacheKey=@key">Delete</a> - <a href="CacheContent?cacheKey=@key">View</a></td>
+                </tr>
+            }
             </tbody>
 
         </table>

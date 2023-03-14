@@ -44,7 +44,7 @@ public class AdministratorController : Controller
     {
         cache.Remove(cacheKey);
 
-        return RedirectToAction("Cache");
+        return Redirect("Cache");
     }
 
     public async Task<ActionResult> SaveLastDateForRegenerateReport(string functionName, DateTime lastDate)
@@ -60,7 +60,7 @@ public class AdministratorController : Controller
         var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromDays(1));
 
         await cache.SetAsync(cacheKey, lastDate.ToString("yyyy-MM-dd"), cachePolicy);
-        return RedirectToAction("Cache");
+        return Redirect("Cache");
     }
 
     public ActionResult CacheContent(string cacheKey, string typeName = null)
