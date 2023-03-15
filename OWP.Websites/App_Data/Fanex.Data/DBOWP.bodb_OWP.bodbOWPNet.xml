@@ -371,7 +371,13 @@
 	</Function>
     <Function Name="ProviderArrangement">
 		<Setting Key="OWP_ProviderArrangement_GetAllProvider" SpName="OWP_ProviderArrangement_GetAllProvider" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_ProviderArrangement_UpdateOderProvider" SpName="OWP_ProviderArrangement_UpdateOderProvider" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    <Setting Key="OWP_ProviderArrangement_GetLogProvider" SpName="OWP_ProviderArrangement_GetLogProvider" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+	    <Setting Key="OWP_ProviderArrangement_UpdateOderProvider" SpName="OWP_ProviderArrangement_UpdateOderProvider" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+	    <Setting Key="OWP_ProviderArrangement_GetLogProvider" SpName="OWP_ProviderArrangement_GetLogProvider" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     </Function>
+
+	<Function Name="ResourceManagement">
+		<Setting Key="OWP_RefResourceGetByName" SpName="OWP_RefResourceGetByName" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_RefResource_Update" SpName="OWP_RefResource_Update" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_RefResource_Insert" SpName="OWP_RefResource_Insert" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+	</Function>
 </Functions>

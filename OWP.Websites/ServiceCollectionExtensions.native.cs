@@ -1,4 +1,3 @@
-using System.Reflection;
 using AutoMapper;
 using Fanex.Caching.Redis;
 using Fanex.Data;
@@ -50,6 +49,7 @@ using OWP.TicketEvent;
 using OWP.TicketTypeRecipient;
 using SharpRaven;
 using StackExchange.Redis;
+using System.Reflection;
 using AutoMapperProfile = OWP.OtherSport.AutoMapperProfile;
 using ILogger = Fanex.Logging.ILogger;
 
@@ -231,6 +231,7 @@ public static class ServiceCollectionExtensions
         services.AddEventPicking();
         services.AddLiveGameListService();
         services.AddTaskListService();
+        services.AddResourceManagement();
         return services;
     }
 
