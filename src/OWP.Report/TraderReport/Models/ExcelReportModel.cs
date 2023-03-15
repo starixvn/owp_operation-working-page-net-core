@@ -59,92 +59,95 @@ public class ExcelReportModel
     public int Type4_Minor3 { get; set; }
 
     [Cell("S7")]
-    public int Type4_1ST_Major { get; set; }
+    public int Type4_FT_Other { get; set; }
 
     [Cell("T7")]
-    public int Type4_1ST_Other { get; set; }
+    public int Type4_1ST_Major { get; set; }
 
     [Cell("U7")]
-    public int Type4_Fantasy { get; set; }
+    public int Type4_1ST_Other { get; set; }
 
     [Cell("V7")]
-    public int Type4_Corner_NextCorner { get; set; }
+    public int Type4_Fantasy { get; set; }
 
     [Cell("W7")]
-    public int Type4_15M { get; set; }
+    public int Type4_Corner_NextCorner { get; set; }
 
     [Cell("X7")]
-    public int Type4_10M { get; set; }
+    public int Type4_15M { get; set; }
 
     [Cell("Y7")]
-    public int Type4_TotalBooking { get; set; }
+    public int Type4_10M { get; set; }
 
     [Cell("Z7")]
-    public int Type4_PKSO { get; set; }
+    public int Type4_TotalBooking { get; set; }
 
     [Cell("AA7")]
-    public int Type4_Winner { get; set; }
+    public int Type4_PKSO { get; set; }
 
     [Cell("AB7")]
-    public int PH_1X2_Major { get; set; }
+    public int Type4_Winner { get; set; }
 
     [Cell("AC7")]
-    public int PH_1X2_Minor1 { get; set; }
+    public int PH_1X2_Major { get; set; }
 
     [Cell("AD7")]
-    public int PH_1X2_Minor2 { get; set; }
+    public int PH_1X2_Minor1 { get; set; }
 
     [Cell("AE7")]
-    public int PH_1X2_Minor3 { get; set; }
+    public int PH_1X2_Minor2 { get; set; }
 
     [Cell("AF7")]
-    public int PH_1X2_Others { get; set; }
+    public int PH_1X2_Minor3 { get; set; }
 
     [Cell("AG7")]
-    public int X5 { get; set; }
+    public int PH_1X2_Others { get; set; }
 
     [Cell("AH7")]
-    public int ESoccer_5Mins { get; set; }
+    public int X5 { get; set; }
 
     [Cell("AI7")]
-    public int ESoccer_6Mins { get; set; }
+    public int ESoccer_5Mins { get; set; }
 
     [Cell("AJ7")]
-    public int ESoccer_15Mins { get; set; }
+    public int ESoccer_6Mins { get; set; }
 
     [Cell("AK7")]
-    public int ESoccer_16Mins { get; set; }
+    public int ESoccer_15Mins { get; set; }
 
     [Cell("AL7")]
-    public int ESoccer_20Mins { get; set; }
+    public int ESoccer_16Mins { get; set; }
 
     [Cell("AM7")]
-    public decimal TurnOver_FT_HDP { get; set; }
+    public int ESoccer_20Mins { get; set; }
 
     [Cell("AN7")]
-    public decimal TurnOver_FT_OU { get; set; }
+    public decimal TurnOver_FT_HDP { get; set; }
 
     [Cell("AO7")]
-    public decimal TurnOver_1H_HDP { get; set; }
+    public decimal TurnOver_FT_OU { get; set; }
 
     [Cell("AP7")]
-    public decimal TurnOver_1H_OU { get; set; }
+    public decimal TurnOver_1H_HDP { get; set; }
 
     [Cell("AQ7")]
-    public decimal TurnOver_Others { get; set; }
+    public decimal TurnOver_1H_OU { get; set; }
 
     [Cell("AR7")]
-    public decimal WinLoss_FT_HDP { get; set; }
+    public decimal TurnOver_Others { get; set; }
 
     [Cell("AS7")]
-    public decimal Winloss_FT_OU { get; set; }
+    public decimal WinLoss_FT_HDP { get; set; }
 
     [Cell("AT7")]
-    public decimal Winloss_1H_HDP { get; set; }
+    public decimal Winloss_FT_OU { get; set; }
 
     [Cell("AU7")]
-    public decimal Winloss_1H_OU { get; set; }
+    public decimal Winloss_1H_HDP { get; set; }
 
     [Cell("AV7")]
+    public decimal Winloss_1H_OU { get; set; }
+
+    [Cell("AW7")]
     public decimal Winloss_Others { get; set; }
 }
