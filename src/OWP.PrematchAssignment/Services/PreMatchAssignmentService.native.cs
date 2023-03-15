@@ -8,6 +8,8 @@ using OWP.PrematchAssignment.Constants;
 using OWP.PrematchAssignment.Criteria;
 using OWP.PrematchAssignment.Handlers;
 using OWP.PrematchAssignment.Models;
+using OWP.PreMatchAssignment.Criteria;
+using OWP.PreMatchAssignment.Handlers;
 
 namespace OWP.PrematchAssignment.Services;
 
@@ -24,6 +26,8 @@ public interface PreMatchAssignmentService
     Task UpdateStartTime(UpdateLeagueAssignmentRequest request);
 
     Task SaveOldPreMatchAssignment(List<int> preMatchId);
+
+    Task<QueryPreMatchLeagueViewModel> QueryById(QueryPreMatchLeagueByIdRequest request);
 }
 
 public class PreMatchAssignmentServiceImp : PreMatchAssignmentService
@@ -88,10 +92,10 @@ public class PreMatchAssignmentServiceImp : PreMatchAssignmentService
     public async Task Delete(UpdateLeagueAssignmentRequest request)
     {
         var deleteTasks = request.PrematchIdDeleted.Select(leagueId => new DeleteLeagueCriteria
-            {
-                PreMatchLeagueId = leagueId,
-                ActorId = currentSession.UserId
-            })
+        {
+            PreMatchLeagueId = leagueId,
+            ActorId = currentSession.UserId
+        })
             .Select(deleteCriteria => dynamicRepository.ExecuteAsync(deleteCriteria))
             .Cast<Task>()
             .ToArray();
@@ -131,5 +135,24 @@ public class PreMatchAssignmentServiceImp : PreMatchAssignmentService
             assignmentOldValue.Add(assignmentResult.FirstOrDefault());
         }
         return assignmentOldValue;
+    }
+
+    public async Task<QueryPreMatchLeagueViewModel> QueryById(QueryPreMatchLeagueByIdRequest request)
+    {
+        var criteria = new QueryByPreMatchLeagueIdCriteria
+        {
+            ActorId = currentSession.UserId,
+            PreMatchLeagueId = request.PreMatchLeagueId,
+            StartTime = request.StartTime
+        };
+
+        var result = await dynamicRepository.FetchMultipleAsync<PreMatchLeague, InfoSiteMatch>(criteria);
+
+        var viewModel = new QueryPreMatchLeagueViewModel
+        {
+            InfoSiteMatches = result.Item2,
+            PreMatchLeagues = mapper.Map<IList<LeagueAssignment>>(result.Item1)
+        };
+        return viewModel;
     }
 }
