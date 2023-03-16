@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using OWP.PrematchAssignment.Handlers;
 using OWP.PrematchAssignment.Models;
+using OWP.PreMatchAssignment.Handlers;
 
 namespace OWP.PrematchAssignment;
 
@@ -107,7 +108,16 @@ public class PreMatchAssignmentController : ControllerBase
 
     [Route("get-assigned-league-id")]
     [HttpGet]
-    public async Task<IActionResult> QueryAssignedLeagueId([FromQuery]QueryAssignedLeagueIdRequest request)
+    public async Task<IActionResult> QueryAssignedLeagueId([FromQuery] QueryAssignedLeagueIdRequest request)
+    {
+        var result = await mediator.Send(request);
+
+        return Ok(JsonConvert.SerializeObject(result));
+    }
+
+    [Route("query-league-by-id")]
+    [HttpPost]
+    public async Task<IActionResult> QueryById(QueryPreMatchLeagueByIdRequest request)
     {
         var result = await mediator.Send(request);
 

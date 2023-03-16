@@ -239,7 +239,19 @@
         <Setting Key="OWP_PreMatchAssignment_GetAssigneeByPreMatchLeagueId" SpName="OWP_PreMatchAssignment_GetAssigneeByPreMatchLeagueId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_PrematchAssignment_GetOddStatusFromMainDB" SpName="OWP_PrematchAssignment_GetOddStatusFromMainDB" DbName="DBACC.bodb02.bodbAdminNet" />
         <Setting Key="OWP_PreMatchAssignment_QueryAssignedLeagueIdFromMainDB" SpName="OWP_PreMatchAssignment_QueryAssignedLeagueIdFromMainDB" DbName="DBACC.bodb02.bodbAdminNet" />
-        <Setting Key="OWP_PreMatchAssignment_QueryAssignedLeagueNames" SpName="OWP_PreMatchAssignment_QueryAssignedLeagueNames" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<Setting Key="OWP_PreMatchAssignment_QueryAssignedLeagueNames" SpName="OWP_PreMatchAssignment_QueryAssignedLeagueNames" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+        <Setting Key=" OWP_PreMatchAssignment_QueryByPreMatchLeagueId" SpName=" OWP_PreMatchAssignment_QueryByPreMatchLeagueId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+		<!--SimpleAPI-->
+        <Setting Key="OWP_PreMatchAssignment_CheckLeagueContainsAnyAssignment" SpName="OWP_PreMatchAssignment_CheckLeagueContainsAnyAssignment" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+        <Setting Key="OWP_PreMatchAssignment_DeleteNoteMessage" SpName="OWP_PreMatchAssignment_DeleteNoteMessage" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+        <Setting Key="OWP_PreMatchAssignment_GetDeletedLeagues" SpName="OWP_PreMatchAssignment_GetDeletedLeagues" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+        <Setting Key="OWP_PreMatchAssignment_GetLastUpdated" SpName="OWP_PreMatchAssignment_GetLastUpdated" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+        <Setting Key="OWP_PreMatchAssignment_GetStartTimeForNightShift" SpName="OWP_PreMatchAssignment_GetStartTimeForNightShift" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+        <Setting Key="OWP_PreMatchAssignment_QueryNoteMessages" SpName="OWP_PreMatchAssignment_QueryNoteMessages" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+        <Setting Key="OWP_PreMatchAssignment_Recover" SpName="OWP_PreMatchAssignment_Recover" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+        <Setting Key="OWP_PreMatchAssignment_UpdateIsSavedMessage" SpName="OWP_PreMatchAssignment_UpdateIsSavedMessage" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+        <Setting Key="OWP_PreMatchAssignment_UpdateIssueIsRead" SpName="OWP_PreMatchAssignment_UpdateIssueIsRead" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+        <Setting Key="OWP_PreMatchAssignment_ValidateAssignment" SpName="OWP_PreMatchAssignment_ValidateAssignment" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     </Function>
     <Function Name="PreMatchReport">
         <Setting Key="OWP_PreMatchReport_GetReportForLeagueByDateRange" SpName="OWP_PreMatchReport_GetReportForLeagueByDateRange" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
