@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using OWP.ResourceManagement.Models;
 using OWP.Services;
 
@@ -23,39 +24,46 @@ public class ResourceManagementController : ControllerBase
 
     [Route("")]
     [HttpGet]
-    public async Task<List<RefResourceModel>> Get(string refName)
+    public async Task<IActionResult> Get(string refName)
     {
         var data = await refResourceService.GetRefResourcesByName(refName);
 
-        return data.Select(x => new RefResourceModel
+        var result = data.Select(x => new RefResourceModel
         {
             RefName = refName,
             Id = x.ResourceId,
             Value = x.Value
         }).ToList();
+
+        return Ok(JsonConvert.SerializeObject(result));
     }
 
     [Route("")]
     [HttpPost]
-    public async Task<RefResourceModel> Post(RefResourceModel model)
+    public async Task<IActionResult> Post(RefResourceModel model)
     {
-        if (!string.IsNullOrWhiteSpace(model.RefName) && !string.IsNullOrWhiteSpace(model.Value))
+        if (string.IsNullOrWhiteSpace(model.RefName) || string.IsNullOrWhiteSpace(model.Value))
         {
-            return await repository.Insert(model);
+            return Ok();
         }
 
-        return await Task.FromResult(model);
+        var result = await repository.Insert(model);
+        return Ok(JsonConvert.SerializeObject(result));
+
     }
 
     [Route("")]
     [HttpPut]
-    public async Task<RefResourceModel> Put(RefResourceModel model)
+    public async Task<IActionResult> Put(RefResourceModel model)
     {
-        if (model.Id > 0 && !string.IsNullOrWhiteSpace(model.RefName) && !string.IsNullOrWhiteSpace(model.Value))
+        if (model.Id <= 0 || string.IsNullOrWhiteSpace(model.RefName) ||
+            string.IsNullOrWhiteSpace(model.Value))
         {
-            return await repository.Update(model);
+            return Ok();
         }
 
-        return await Task.FromResult(model);
+        var result = await repository.Update(model);
+        return Ok(JsonConvert.SerializeObject(result));
+
     }
 }
