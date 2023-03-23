@@ -50,6 +50,8 @@ using OWP.TicketTypeRecipient;
 using SharpRaven;
 using StackExchange.Redis;
 using System.Reflection;
+using OWP.TodaySuggestionList;
+using OWP.Websites.App_Start;
 using AutoMapperProfile = OWP.OtherSport.AutoMapperProfile;
 using ILogger = Fanex.Logging.ILogger;
 
@@ -232,6 +234,7 @@ public static class ServiceCollectionExtensions
         services.AddLiveGameListService();
         services.AddTaskListService();
         services.AddResourceManagement();
+        services.AddSuggestionList();
         return services;
     }
 
@@ -258,6 +261,7 @@ public static class ServiceCollectionExtensions
         services.AddMediatR(typeof(AssignmentUploadingApiController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(TaskListController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(ProviderArrangementController).GetTypeInfo().Assembly);
+        services.AddMediatR(typeof(TodaySuggestionController).GetTypeInfo().Assembly);
         return services;
     }
 
@@ -267,7 +271,6 @@ public static class ServiceCollectionExtensions
         services.AddTransient<ILogger, Logger>();
         services.AddSingleton<INapSettings>(new NapSettings(configuration));
         services.AddSingleton<INapSession, NapSession>();
-
         services.AddSingleton<IGroupService, GroupService>();
         services.AddSingleton<IUserService, UserService>();
         services.AddSingleton<ISecurityService, SecurityService>();
