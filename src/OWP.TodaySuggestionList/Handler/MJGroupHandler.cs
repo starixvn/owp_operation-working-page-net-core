@@ -1,6 +1,4 @@
-using Fanex.Data.Repository;
 using MediatR;
-using OWP.TodaySuggestionList.Criteria;
 using OWP.TodaySuggestionList.Models;
 
 namespace OWP.TodaySuggestionList.Handler
@@ -14,7 +12,9 @@ namespace OWP.TodaySuggestionList.Handler
     {
         public async Task<Unit> Handle(MJGroupRequest request, CancellationToken cancellationToken)
         {
-            request?.Assignments.Where(a => a.IsMajorLeague);
+            var mJGroup = request.Assignments?.Where(a => a.IsMajorLeague);
+            request.Assignments = request.Assignments?.Except(mJGroup, new AssignmentComparer())?.ToList();
+            return Unit.Value;
         }
     }
 }

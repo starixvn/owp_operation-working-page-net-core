@@ -1,7 +1,7 @@
 
 namespace OWP.TodaySuggestionList.Models
 {
-    public class MaxbetModel
+    public record MaxbetModel
     {
         public int OWPMatchId { get; set; }
 

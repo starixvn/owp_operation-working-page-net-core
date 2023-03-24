@@ -46,5 +46,6 @@ public class WorkingSchedule : UserInfo
 public class AssignmentCell
 {
     public string Text { get; set; }
+
     public string Color { get; set; }
 }
