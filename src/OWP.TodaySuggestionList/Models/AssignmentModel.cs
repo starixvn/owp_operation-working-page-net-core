@@ -22,6 +22,10 @@ namespace OWP.TodaySuggestionList.Models
         public bool IsMainMatch { get; set; }
 
         public bool IsFantasyMatch { get; set; }
+
+        public bool IsCornerMatch { get; set; }
+
+        public bool Is15Mins { get; set; }
     }
 
     public class AssignmentComparer : IEqualityComparer<AssignmentModel>
