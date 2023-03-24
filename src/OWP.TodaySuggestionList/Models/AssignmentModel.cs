@@ -1,7 +1,7 @@
 
 namespace OWP.TodaySuggestionList.Models
 {
-    public class AssignmentModel
+    public record AssignmentModel
     {
         public int OWPMatchId { get; set; }
 
@@ -16,5 +16,7 @@ namespace OWP.TodaySuggestionList.Models
         public int LeagueName { get; set; }
 
         public int UserId { get; set; }
+
+        public bool IsMajorLeague { get; set; }
     }
 }
