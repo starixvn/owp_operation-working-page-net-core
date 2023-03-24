@@ -13,8 +13,11 @@ namespace OWP.TodaySuggestionList.Handler
     {
         public async Task<Unit> Handle(FirstHalfRequest request, CancellationToken cancellationToken)
         {
-            var firstHalfMatchGroup = request.Assignments?.Where(a => Equals(a.BettypeId, EnumBettype.FirstHalfHandicap)
-                    || Equals(a.BettypeId, EnumBettype.FirstHalfHandicap));
+            var firstHalfMatchGroup = request.Assignments?.Where(a =>
+                    (Equals(a.BettypeId, EnumBettype.FirstHalfHandicap)
+                    || Equals(a.BettypeId, EnumBettype.FirstHalfHandicap))
+                    && !Equals(a.BettypeId, EnumBettype.Handicap)
+                    && !Equals(a.BettypeId, EnumBettype.OverUnder));
 
             request.Assignments = request.Assignments?.Except(firstHalfMatchGroup, new AssignmentComparer())?.ToList();
             return Unit.Value;

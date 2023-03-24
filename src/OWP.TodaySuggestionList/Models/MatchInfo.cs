@@ -11,4 +11,5 @@ public class MatchInfo
     public string MatchNo { get; set; }
     public string MaxbetHDP { get; set; }
     public string SuggestionBetType { get; set; }
+    public int MinorBettypeId { get; set; }
 }
