@@ -27,6 +27,8 @@ namespace OWP.AssigneeSuggestionList.Models
 
         public bool Is15Mins { get; set; }
 
+        public int? ParentMatchId { get; set; }
+
         public string ColorCode { get; set; }
     }
 
