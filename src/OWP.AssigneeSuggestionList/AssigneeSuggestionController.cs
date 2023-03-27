@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using OWP.AssigneeSuggestionList.Handlers;
 
 namespace OWP.AssigneeSuggestionList;
 
@@ -21,5 +22,17 @@ public class AssigneeSuggestionController : ControllerBase
     public async Task<IActionResult> GetTraderSuggestion([FromQuery] int owpMatchId, [FromQuery] string betType)
     {
         return Ok("Suggestion List");
+    }
+
+    [HttpGet("get-match-info")]
+    public async Task<IActionResult> GetMatchInfo([FromQuery] int owpMatchId, [FromQuery] string betType)
+    {
+        var result = await mediator.Send(new QueryMatchInfoRequest
+        {
+            OwpMatchId = owpMatchId,
+            BetType = betType
+        });
+
+        return Ok(result);
     }
 }
