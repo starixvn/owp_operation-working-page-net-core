@@ -5,26 +5,26 @@ using OWP.AssigneeSuggestionList.Models;
 using OWP.Enums;
 
 
-namespace OWP.AssigneeSuggestionList.Handler
+namespace OWP.AssigneeSuggestionList.Services
 {
-    public class FirstHalfRequest : IRequest<Unit>
+    public interface FirstHalfService : IRequest<Unit>
     {
-        public IList<AssignmentModel> Assignments { get; set; }
+        Task<Unit> Group(IList<AssignmentModel> assignments, IList<MaxbetModel> maxbetModels);
+
     }
 
-    public class FirstHalfHandler : IRequestHandler<FirstHalfRequest, Unit>
+    public class FirstHalfServiceImp : FirstHalfService
     {
         private readonly ILogger logger;
 
-        public FirstHalfHandler(ILogger logger)
+        public FirstHalfServiceImp(ILogger logger)
         {
             this.logger = logger;
         }
 
-
-        public async Task<Unit> Handle(FirstHalfRequest request, CancellationToken cancellationToken)
+        public async Task<Unit> Group(IList<AssignmentModel> assignments, IList<MaxbetModel> maxbetModels)
         {
-            var firstHalfMatchGroupPair = request.Assignments?
+            var firstHalfMatchGroupPair = assignments?
                 .GroupBy(x => x.OWPMatchId)
                 .Where(x => x.All(a =>
                         Equals(a.BettypeId, EnumBettype.FirstHalfHandicap)
@@ -41,7 +41,6 @@ namespace OWP.AssigneeSuggestionList.Handler
                 item.ColorCode = ColorCodeConst.FIRST_HALF;
             }
             await logger.InfoAsync("[firstHalfMatchGroup]" + firstHalfMatchGroup?.Select(x => x.OWPMatchId));
-            request.Assignments = request.Assignments?.Except(firstHalfMatchGroup, new AssignmentComparer())?.ToList();
             return Unit.Value;
         }
     }
