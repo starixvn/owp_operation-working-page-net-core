@@ -1,6 +1,7 @@
 using Fanex.Logging;
 using MediatR;
 using OWP.Enums;
+using OWP.TodaySuggestionList.Constant;
 using OWP.TodaySuggestionList.Models;
 
 namespace OWP.TodaySuggestionList.Handler
@@ -31,6 +32,10 @@ namespace OWP.TodaySuggestionList.Handler
             && request.MaxbetModels.Any(m => Equals(m.OWPMatchId, a.OWPMatchId)
                                             && Equals(m.BettypeId, a.BettypeId)
                                             && m.Maxbet > MIN_MAXBET));
+            foreach (var item in oneGameGroup)
+            {
+                item.ColorCode = ColorCodeConst.ONE_GAME;
+            }
             await logger.InfoAsync("[oneGameGroup]" + oneGameGroup.Select(x => x.OWPMatchId));
             request.Assignments = request.Assignments?.Except(oneGameGroup, new AssignmentComparer())?.ToList();
             return Unit.Value;

@@ -1,5 +1,6 @@
 using Fanex.Logging;
 using MediatR;
+using OWP.TodaySuggestionList.Constant;
 using OWP.TodaySuggestionList.Models;
 
 namespace OWP.TodaySuggestionList.Handler
@@ -21,6 +22,10 @@ namespace OWP.TodaySuggestionList.Handler
         public async Task<Unit> Handle(FantasyRequest request, CancellationToken cancellationToken)
         {
             var fantasyMatchGroup = request.Assignments?.Where(a => a.IsFantasyMatch);
+            foreach (var item in fantasyMatchGroup)
+            {
+                item.ColorCode = ColorCodeConst.FANTASY;
+            }
             await logger.InfoAsync("[fantasyMatchGroup]" + fantasyMatchGroup.Select(x => x.OWPMatchId));
             request.Assignments = request.Assignments?.Except(fantasyMatchGroup, new AssignmentComparer())?.ToList();
             return Unit.Value;

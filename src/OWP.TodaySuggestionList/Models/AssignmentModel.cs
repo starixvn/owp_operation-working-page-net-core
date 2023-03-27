@@ -26,6 +26,8 @@ namespace OWP.TodaySuggestionList.Models
         public bool IsCornerMatch { get; set; }
 
         public bool Is15Mins { get; set; }
+
+        public string ColorCode { get; set; }
     }
 
     public class AssignmentComparer : IEqualityComparer<AssignmentModel>

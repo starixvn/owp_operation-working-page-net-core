@@ -1,5 +1,6 @@
 using Fanex.Logging;
 using MediatR;
+using OWP.TodaySuggestionList.Constant;
 using OWP.TodaySuggestionList.Models;
 
 namespace OWP.TodaySuggestionList.Handler
@@ -20,6 +21,10 @@ namespace OWP.TodaySuggestionList.Handler
         public async Task<Unit> Handle(MJGroupRequest request, CancellationToken cancellationToken)
         {
             var mJGroup = request.Assignments?.Where(a => a.IsMajorLeague);
+            foreach (var item in mJGroup)
+            {
+                item.ColorCode = ColorCodeConst.MJ;
+            }
             await logger.InfoAsync("[mJGroup]" + mJGroup?.Select(x => x.OWPMatchId));
             request.Assignments = request.Assignments?.Except(mJGroup, new AssignmentComparer())?.ToList();
             return Unit.Value;

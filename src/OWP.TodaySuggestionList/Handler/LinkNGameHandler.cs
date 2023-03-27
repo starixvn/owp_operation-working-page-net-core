@@ -10,6 +10,8 @@ namespace OWP.TodaySuggestionList.Handler
         public IList<AssignmentModel> Assignments { get; set; }
 
         public int NumberGame { get; set; }
+
+        public string ColorCode { get; set; }
     }
 
     public class LinkNGameHandler : IRequestHandler<LinkNGameRequest, Unit>
@@ -30,14 +32,18 @@ namespace OWP.TodaySuggestionList.Handler
                 .Where(g => Equals(g.Count(), request.NumberGame))?
                 .ToDictionary(x => x.Key, x => x.ToList());
 
-            var matchExclude = new List<AssignmentModel>();
+            var matchValid = new List<AssignmentModel>();
 
             foreach (var linkNMatch in linkNMatchPair)
             {
-                matchExclude.AddRange(linkNMatch.Value);
+                matchValid.AddRange(linkNMatch.Value);
             }
-            await logger.InfoAsync("[LinkNGame]" + matchExclude?.Select(x => x.OWPMatchId));
-            request.Assignments = request.Assignments?.Except(matchExclude, new AssignmentComparer())?.ToList();
+            foreach (var item in matchValid)
+            {
+                item.ColorCode = request.ColorCode;
+            }
+            await logger.InfoAsync("[LinkNGame]" + matchValid?.Select(x => x.OWPMatchId));
+            request.Assignments = request.Assignments?.Except(matchValid, new AssignmentComparer())?.ToList();
             return Unit.Value;
         }
     }

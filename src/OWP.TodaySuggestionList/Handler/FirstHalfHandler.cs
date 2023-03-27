@@ -1,6 +1,7 @@
 using Fanex.Logging;
 using MediatR;
 using OWP.Enums;
+using OWP.TodaySuggestionList.Constant;
 using OWP.TodaySuggestionList.Models;
 
 namespace OWP.TodaySuggestionList.Handler
@@ -34,7 +35,10 @@ namespace OWP.TodaySuggestionList.Handler
             {
                 firstHalfMatchGroup.AddRange(item.Value);
             }
-
+            foreach (var item in firstHalfMatchGroup)
+            {
+                item.ColorCode = ColorCodeConst.FIRST_HALF;
+            }
             await logger.InfoAsync("[firstHalfMatchGroup]" + firstHalfMatchGroup?.Select(x => x.OWPMatchId));
             request.Assignments = request.Assignments?.Except(firstHalfMatchGroup, new AssignmentComparer())?.ToList();
             return Unit.Value;
