@@ -1,3 +1,4 @@
+using Fanex.Logging;
 using MediatR;
 using OWP.TodaySuggestionList.Models;
 
@@ -10,10 +11,17 @@ namespace OWP.TodaySuggestionList.Handler
 
     public class CornerHandlerHandler : IRequestHandler<CornerHandlerRequest, Unit>
     {
+        private readonly ILogger logger;
+
+        public CornerHandlerHandler(ILogger logger)
+        {
+            this.logger = logger;
+        }
+
         public async Task<Unit> Handle(CornerHandlerRequest request, CancellationToken cancellationToken)
         {
             var cornerMatchGroup = request.Assignments?.Where(a => a.IsCornerMatch);
-
+            await logger.InfoAsync("[cornerMatchGroup]" + cornerMatchGroup.Select(x => x.OWPMatchId));
             request.Assignments = request.Assignments?.Except(cornerMatchGroup, new AssignmentComparer())?.ToList();
             return Unit.Value;
         }

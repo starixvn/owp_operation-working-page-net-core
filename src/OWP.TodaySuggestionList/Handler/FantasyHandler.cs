@@ -1,3 +1,4 @@
+using Fanex.Logging;
 using MediatR;
 using OWP.TodaySuggestionList.Models;
 
@@ -10,10 +11,17 @@ namespace OWP.TodaySuggestionList.Handler
 
     public class FantasyHandler : IRequestHandler<FantasyRequest, Unit>
     {
+        private readonly ILogger logger;
+
+        public FantasyHandler(ILogger logger)
+        {
+            this.logger = logger;
+        }
+
         public async Task<Unit> Handle(FantasyRequest request, CancellationToken cancellationToken)
         {
             var fantasyMatchGroup = request.Assignments?.Where(a => a.IsFantasyMatch);
-
+            await logger.InfoAsync("[fantasyMatchGroup]" + fantasyMatchGroup.Select(x => x.OWPMatchId));
             request.Assignments = request.Assignments?.Except(fantasyMatchGroup, new AssignmentComparer())?.ToList();
             return Unit.Value;
         }

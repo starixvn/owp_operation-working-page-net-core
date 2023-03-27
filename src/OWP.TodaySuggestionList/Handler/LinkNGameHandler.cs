@@ -1,3 +1,4 @@
+using Fanex.Logging;
 using MediatR;
 using OWP.Enums;
 using OWP.TodaySuggestionList.Models;
@@ -13,6 +14,13 @@ namespace OWP.TodaySuggestionList.Handler
 
     public class LinkNGameHandler : IRequestHandler<LinkNGameRequest, Unit>
     {
+        private readonly ILogger logger;
+
+        public LinkNGameHandler(ILogger logger)
+        {
+            this.logger = logger;
+        }
+
         public async Task<Unit> Handle(LinkNGameRequest request, CancellationToken cancellationToken)
         {
             var linkNMatchPair = request.Assignments?.Where(a => a.IsMainMatch
@@ -28,7 +36,7 @@ namespace OWP.TodaySuggestionList.Handler
             {
                 matchExclude.AddRange(linkNMatch.Value);
             }
-
+            await logger.InfoAsync("[LinkNGame]" + matchExclude?.Select(x => x.OWPMatchId));
             request.Assignments = request.Assignments?.Except(matchExclude, new AssignmentComparer())?.ToList();
             return Unit.Value;
         }
