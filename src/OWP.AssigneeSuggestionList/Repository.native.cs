@@ -1,8 +1,8 @@
 ﻿using Fanex.Data.Repository;
-using OWP.TodaySuggestionList.Criteria;
-using OWP.TodaySuggestionList.Models;
+using OWP.AssigneeSuggestionList.Criteria;
+using OWP.AssigneeSuggestionList.Models;
 
-namespace OWP.TodaySuggestionList;
+namespace OWP.AssigneeSuggestionList;
 
 public interface Repository
 {

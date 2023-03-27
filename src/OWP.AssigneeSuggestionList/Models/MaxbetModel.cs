@@ -1,5 +1,5 @@
 
-namespace OWP.TodaySuggestionList.Models
+namespace OWP.AssigneeSuggestionList.Models
 {
     public record MaxbetModel
     {

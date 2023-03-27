@@ -50,7 +50,7 @@ using OWP.TicketTypeRecipient;
 using SharpRaven;
 using StackExchange.Redis;
 using System.Reflection;
-using OWP.TodaySuggestionList;
+using OWP.AssigneeSuggestionList;
 using OWP.Websites.App_Start;
 using AutoMapperProfile = OWP.OtherSport.AutoMapperProfile;
 using ILogger = Fanex.Logging.ILogger;
@@ -261,7 +261,7 @@ public static class ServiceCollectionExtensions
         services.AddMediatR(typeof(AssignmentUploadingApiController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(TaskListController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(ProviderArrangementController).GetTypeInfo().Assembly);
-        services.AddMediatR(typeof(TodaySuggestionController).GetTypeInfo().Assembly);
+        services.AddMediatR(typeof(AssigneeSuggestionController).GetTypeInfo().Assembly);
         return services;
     }
 

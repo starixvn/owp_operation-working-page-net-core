@@ -1,9 +1,9 @@
 using Fanex.Logging;
 using MediatR;
+using OWP.AssigneeSuggestionList.Models;
 using OWP.Enums;
-using OWP.TodaySuggestionList.Models;
 
-namespace OWP.TodaySuggestionList.Handler
+namespace OWP.AssigneeSuggestionList.Handler
 {
     public class LinkNGameRequest : IRequest<Unit>
     {

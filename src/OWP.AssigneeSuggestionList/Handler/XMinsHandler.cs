@@ -1,9 +1,10 @@
 using Fanex.Logging;
 using MediatR;
-using OWP.TodaySuggestionList.Constant;
-using OWP.TodaySuggestionList.Models;
+using OWP.AssigneeSuggestionList.Constant;
+using OWP.AssigneeSuggestionList.Models;
 
-namespace OWP.TodaySuggestionList.Handler
+
+namespace OWP.AssigneeSuggestionList.Handler
 {
     public class XMinsHandlerRequest : IRequest<Unit>
     {

@@ -3,16 +3,16 @@ using MediatR;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
-namespace OWP.TodaySuggestionList;
+namespace OWP.AssigneeSuggestionList;
 
 [Route("api/[controller]")]
 [ApiController]
 [EnableCors("AllowOrigin")]
-public class TodaySuggestionController : ControllerBase
+public class AssigneeSuggestionController : ControllerBase
 {
     private readonly IMediator mediator;
 
-    public TodaySuggestionController(IMediator mediator)
+    public AssigneeSuggestionController(IMediator mediator)
     {
         this.mediator = mediator;
     }

@@ -1,6 +1,6 @@
 using Fanex.Data.Repository;
 
-namespace OWP.TodaySuggestionList.Criteria;
+namespace OWP.AssigneeSuggestionList.Criteria;
 
 public class QueryMatchInfoCriteria : CriteriaBase
 {

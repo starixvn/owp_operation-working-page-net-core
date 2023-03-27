@@ -1,10 +1,11 @@
 using Fanex.Logging;
 using MediatR;
+using OWP.AssigneeSuggestionList.Constant;
+using OWP.AssigneeSuggestionList.Models;
 using OWP.Enums;
-using OWP.TodaySuggestionList.Constant;
-using OWP.TodaySuggestionList.Models;
 
-namespace OWP.TodaySuggestionList.Handler
+
+namespace OWP.AssigneeSuggestionList.Handler
 {
     public class FirstHalfRequest : IRequest<Unit>
     {
