@@ -24,10 +24,10 @@ namespace OWP.TodaySuggestionList.Handler
         {
             var firstHalfMatchGroupPair = request.Assignments?
                 .GroupBy(x => x.OWPMatchId)
-                .ToDictionary(a => a.Key, a => a.ToList())
-                .Where(x => x.Value.All(a =>
+                .Where(x => x.All(a =>
                         Equals(a.BettypeId, EnumBettype.FirstHalfHandicap)
-                        || Equals(a.BettypeId, EnumBettype.FirstHalfHandicap)));
+                        || Equals(a.BettypeId, EnumBettype.FirstHalfOverUnder)))
+                .ToDictionary(a => a.Key, a => a.ToList());
 
             var firstHalfMatchGroup = new List<AssignmentModel>();
             foreach (var item in firstHalfMatchGroupPair)
