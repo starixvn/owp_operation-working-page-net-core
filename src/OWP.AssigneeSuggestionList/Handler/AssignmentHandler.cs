@@ -14,9 +14,12 @@ public class AssignmentHandler : IRequestHandler<AssignmentRequest, Unit>
 {
     private readonly IDynamicRepository repository;
 
-    public AssignmentHandler(IDynamicRepository repository)
+    private readonly IMediator mediator;
+
+    public AssignmentHandler(IDynamicRepository repository, IMediator mediator)
     {
         this.repository = repository;
+        this.mediator = mediator;
     }
 
     public async Task<Unit> Handle(AssignmentRequest request, CancellationToken cancellationToken)
@@ -25,6 +28,8 @@ public class AssignmentHandler : IRequestHandler<AssignmentRequest, Unit>
         {
             EventDate = request.EventDate
         });
+
+
         return Unit.Value;
     }
 }

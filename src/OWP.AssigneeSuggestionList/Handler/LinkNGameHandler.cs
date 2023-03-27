@@ -1,7 +1,7 @@
 using Fanex.Logging;
 using MediatR;
+using OWP.AssigneeSuggestionList.Helper;
 using OWP.AssigneeSuggestionList.Models;
-using OWP.Enums;
 
 namespace OWP.AssigneeSuggestionList.Handler
 {
@@ -9,9 +9,15 @@ namespace OWP.AssigneeSuggestionList.Handler
     {
         public IList<AssignmentModel> Assignments { get; set; }
 
+        public IList<MaxbetModel> MaxbetModels { get; set; }
+
         public int NumberGame { get; set; }
 
+        public decimal Maxbet { get; set; }
+
         public string ColorCode { get; set; }
+
+        public Func<decimal, bool> MaxbetComparerFunc { get; set; }
     }
 
     public class LinkNGameHandler : IRequestHandler<LinkNGameRequest, Unit>
@@ -25,9 +31,7 @@ namespace OWP.AssigneeSuggestionList.Handler
 
         public async Task<Unit> Handle(LinkNGameRequest request, CancellationToken cancellationToken)
         {
-            var linkNMatchPair = request.Assignments?.Where(a => a.IsMainMatch
-                    && (Equals(a.BettypeId, EnumBettype.Handicap)
-                    || Equals(a.BettypeId, EnumBettype.OverUnder)))?
+            var linkNMatchPair = request.Assignments?.Where(a => LinkGameConditionHelper.CanGroupNGame(a, request.MaxbetModels, request.MaxbetComparerFunc))
                 .GroupBy(a => a.EventDateTime)?
                 .Where(g => Equals(g.Count(), request.NumberGame))?
                 .ToDictionary(x => x.Key, x => x.ToList());
