@@ -4,6 +4,6 @@ namespace OWP.AssigneeSuggestionList.Models
     {
         public IList<string> PropertiesName { get; set; }
 
-        public required AssignmentCell AssignmentCell { get; set; }
+        public AssignmentCell AssignmentCell { get; set; }
     }
 }

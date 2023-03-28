@@ -1,4 +1,5 @@
 ﻿using Fanex.Data.Repository;
+using Fanex.NAP.Client.Configuration;
 using OWP.AssigneeSuggestionList.Criteria;
 using OWP.AssigneeSuggestionList.Models;
 
@@ -9,15 +10,21 @@ public interface Repository
     Task<MatchInfo> QueryMatchInfo(int owpMatchId);
 
     Task<IEnumerable<UserInfo>> QueryTraderInfo(DateTime date);
+
+    Task<IEnumerable<int>> GetUserInfoFromNAPUserControl();
+
+    Task<IEnumerable<int>> GetCustInfoFromDB02();
 }
 
 public class RepositoryImp
 {
     private readonly IDynamicRepository dynamicRepository;
+    private readonly INapSettings napSettings;
 
-    public RepositoryImp(IDynamicRepository dynamicRepository)
+    public RepositoryImp(IDynamicRepository dynamicRepository, INapSettings napSettings)
     {
         this.dynamicRepository = dynamicRepository;
+        this.napSettings = napSettings;
     }
 
     public async Task<MatchInfo> QueryMatchInfo(int owpMatchId)
@@ -39,4 +46,10 @@ public class RepositoryImp
 
         return await dynamicRepository.FetchAsync<UserInfo>(criteria);
     }
+
+    public async Task<IEnumerable<int>> GetCustInfoFromDB02()
+        => await dynamicRepository.FetchAsync<int>(new GetCustInfoFromDB02Criteria());
+
+    public async Task<IEnumerable<int>> GetUserInfoFromNAPUserControl()
+        => await dynamicRepository.FetchAsync<int>(new GetUserInfoFromNAPUserControlCriteria { SiteId = napSettings.SiteId });
 }
