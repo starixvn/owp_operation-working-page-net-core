@@ -23,9 +23,9 @@ public static class ETPk
     public const string EtPkConfirm = "Pls cfm this game have ET, PK or not";
 }
 
-public class WorkingShiftConst
+public static class WorkingShiftConst
 {
-    public readonly Dictionary<int, string> PropertyDict = new Dictionary<int, string>
+    public static readonly Dictionary<int, string> PropertyDict = new Dictionary<int, string>
     {
         {0,"Yesterday_02h"},
         {1,"Yesterday_03h"},

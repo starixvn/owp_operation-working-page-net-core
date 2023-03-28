@@ -1,0 +1,22 @@
+﻿using OWP.AssigneeSuggestionList.Helper;
+using Xunit;
+using Xunit.Asserts.Compare;
+
+namespace OWP.AssigneeSuggestionList.UnitTests.Helper;
+
+public class AssigneeSuggestionHelperUnitTest
+{
+    [Fact]
+    public void Build_GetValidProperties_ReturnExpect()
+    {
+        var eventTime = new DateTime(2023, 3, 28, 2, 33, 00);
+        var fromTime = new DateTime(2023, 3, 28, 1, 33, 00);
+        var toTime = new DateTime(2023, 3, 28, 3, 33, 00);
+
+        var result = AssigneeSuggestionHelper.GetValidProperties(eventTime, fromTime, toTime);
+
+        DeepAssert.Equal(new List<string> { "Today_01h", "Today_02h", "Today_03h" }, result);
+
+    }
+}
+
