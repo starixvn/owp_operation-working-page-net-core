@@ -7,6 +7,8 @@ namespace OWP.AssigneeSuggestionList;
 public interface Repository
 {
     Task<MatchInfo> QueryMatchInfo(int owpMatchId);
+
+    Task<IEnumerable<UserInfo>> QueryTraderInfo(DateTime date);
 }
 
 public class RepositoryImp
@@ -26,5 +28,15 @@ public class RepositoryImp
         };
 
         return (await dynamicRepository.FetchAsync<MatchInfo>(criteria)).FirstOrDefault();
+    }
+
+    public async Task<IEnumerable<UserInfo>> QueryTraderInfo(DateTime date)
+    {
+        var criteria = new QueryTraderInfoCriteria
+        {
+            EventDate = date,
+        };
+
+        return await dynamicRepository.FetchAsync<UserInfo>(criteria);
     }
 }

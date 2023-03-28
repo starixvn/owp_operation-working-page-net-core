@@ -1,7 +1,8 @@
 ﻿namespace OWP.AssigneeSuggestionList.Models;
 
-public class WorkingSchedule : UserInfo
+public class WorkingSchedule
 {
+    public UserInfo UserInfo { get; set; }
     public AssignmentCell Yesterday_02h { get; set; }
     public AssignmentCell Yesterday_03h { get; set; }
     public AssignmentCell Yesterday_04h { get; set; }
