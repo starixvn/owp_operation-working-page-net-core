@@ -1,3 +1,4 @@
+using MatchType = OWP.AssigneeSuggestionList.Constant.MatchType;
 
 namespace OWP.AssigneeSuggestionList.Models
 {
@@ -30,6 +31,12 @@ namespace OWP.AssigneeSuggestionList.Models
         public int? ParentMatchId { get; set; }
 
         public string ColorCode { get; set; }
+
+        public MatchType MatchType { get; set; }
+
+        public string HomeName { get; set; }
+
+        public string AwayName { get; set; }
     }
 
     public class AssignmentComparer : IEqualityComparer<AssignmentModel>
