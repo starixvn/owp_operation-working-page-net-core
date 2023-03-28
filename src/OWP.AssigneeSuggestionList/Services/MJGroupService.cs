@@ -30,12 +30,20 @@ namespace OWP.AssigneeSuggestionList.Services
             {
                 var eventDate = mJGroupPair[key].First().EventDateTime;
                 var bettypeIds = mJGroupPair[key].Select(x => x.BettypeId).ToList();
-                var timeRange = CalculateTimeRangeHelper.CalculateTimeRange(eventDate, bettypeIds, true);
-                schedules.Add(new WorkingSchedule
-                {
-                    UserId = key.UserId,
+                var (startTime, endTime) = CalculateTimeRangeHelper.CalculateTimeRange(eventDate, bettypeIds, true);
+                var scheduleProperties = AssigneeSuggestionHelper.GetValidProperties(eventDate, startTime, endTime);
 
+                var schedule = CreateWorkingScheduleHelper.CreateWorkingSchedule(new()
+                {
+                    PropertiesName = scheduleProperties,
+                    AssignmentCell = new AssignmentCell
+                    {
+                        Color = ColorCodeConst.MJ,
+                        Text = "MJ"
+                    },
+                    UserId = key.UserId
                 });
+                schedules.Add(schedule);
             }
             await logger.InfoAsync("[mJGroup]" + mJGroup?.Select(x => x.OWPMatchId));
 
