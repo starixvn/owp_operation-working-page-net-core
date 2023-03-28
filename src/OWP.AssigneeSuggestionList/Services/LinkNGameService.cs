@@ -25,10 +25,8 @@ namespace OWP.AssigneeSuggestionList.Services
 
         public async Task<Unit> Group(LinkNGameModel models, WorkingSchedule schedules)
         {
-            var linkNGamePair = models.Assignments?.Where(a => LinkGameConditionHelper.CanGroupNGame(a, models.MaxbetModels, maxbet => maxbet <= 12000)
-                && a.UserId == schedules.UserInfo.UserId
-                && DateTime.Compare(a.EventDateTime, schedules.UserInfo.EventDate) == 0)
-                ?.GroupBy(a => new { a.EventDateTime, a.UserId })
+            var linkNGamePair = models.Assignments?.Where(a => LinkGameConditionHelper.CanGroupNGame(a, models.MaxbetModels, maxbet => maxbet <= 12000))
+                ?.GroupBy(a => new { a.EventDateTime })
                 .Where(g => g.Select(x => x.OWPMatchId).Distinct().Count() == models.NumberGame)?
                 .ToDictionary(x => x.Key, x => x.ToList());
 

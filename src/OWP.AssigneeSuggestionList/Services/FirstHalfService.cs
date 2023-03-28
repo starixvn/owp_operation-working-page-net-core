@@ -23,9 +23,7 @@ namespace OWP.AssigneeSuggestionList.Services
         public async Task<Unit> Group(IList<AssignmentModel> assignments, WorkingSchedule schedule)
         {
             var firstHalfMatchGroupPair = assignments?
-            .Where(a => a.UserId == schedule.UserInfo.UserId
-                && DateTime.Compare(a.EventDateTime, schedule.UserInfo.EventDate) == 0)
-            .GroupBy(x => new { x.UserId, x.OWPMatchId })
+            .GroupBy(x => new { x.OWPMatchId })
             .Where(x => x.All(a =>
                         Equals(a.BettypeId, EnumBettype.FirstHalfHandicap)
                         || Equals(a.BettypeId, EnumBettype.FirstHalfOverUnder)))

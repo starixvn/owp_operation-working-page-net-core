@@ -14,6 +14,8 @@ public interface Repository
     Task<IEnumerable<int>> GetUserInfoFromNAPUserControl();
 
     Task<IEnumerable<int>> GetCustInfoFromDB02();
+
+    Task<(IList<MaxbetModel>, IList<AssignmentModel>)> QueryAssignments(DateTime eventDate);
 }
 
 public class RepositoryImp
@@ -45,6 +47,15 @@ public class RepositoryImp
         };
 
         return await dynamicRepository.FetchAsync<UserInfo>(criteria);
+    }
+
+    public async Task<(IList<MaxbetModel>, IList<AssignmentModel>)> QueryAssignments(DateTime eventDate)
+    {
+        var (assignmentModel, maxbetModel) = await dynamicRepository.FetchMultipleAsync<MaxbetModel, AssignmentModel>(new QueryAssignmentCriteria
+        {
+            EventDate = eventDate
+        });
+        return (assignmentModel.ToList(), maxbetModel.ToList());
     }
 
     public async Task<IEnumerable<int>> GetCustInfoFromDB02()

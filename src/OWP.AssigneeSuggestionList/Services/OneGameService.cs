@@ -27,9 +27,7 @@ namespace OWP.AssigneeSuggestionList.Services
         public async Task<Unit> Group(IList<AssignmentModel> assignments, IList<MaxbetModel> maxbetModels, WorkingSchedule schedules)
         {
             var oneGameGroup = assignments
-            ?.Where(a => LinkGameConditionHelper.CanGroupNGame(a, maxbetModels, maxbet => maxbet > MIN_MAXBET)
-                && a.UserId == schedules.UserInfo.UserId
-                && DateTime.Compare(a.EventDateTime, schedules.UserInfo.EventDate) == 0)
+            ?.Where(a => LinkGameConditionHelper.CanGroupNGame(a, maxbetModels, maxbet => maxbet > MIN_MAXBET))
             .ToList();
 
             await workingSchedule.Group(oneGameGroup, schedules, new AssignmentCell

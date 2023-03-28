@@ -23,9 +23,7 @@ namespace OWP.AssigneeSuggestionList.Services
 
         public async Task<Unit> Group(IList<AssignmentModel> assignments, WorkingSchedule schedules)
         {
-            var cornerMatchGroup = assignments?.Where(a => a.IsCornerMatch
-            && a.UserId == schedules.UserInfo.UserId
-             && DateTime.Compare(a.EventDateTime, schedules.UserInfo.EventDate) == 0)
+            var cornerMatchGroup = assignments?.Where(a => a.IsCornerMatch)
              ?.ToList();
             await workingSchedule.Group(cornerMatchGroup, schedules, new AssignmentCell
             {

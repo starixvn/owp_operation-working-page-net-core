@@ -20,9 +20,7 @@ namespace OWP.AssigneeSuggestionList.Services
         }
         public async Task<Unit> Group(IList<AssignmentModel> assignments, WorkingSchedule schedules)
         {
-            var mJGroup = assignments?.Where(a => a.IsMajorLeague
-            && a.UserId == schedules.UserInfo.UserId
-             && DateTime.Compare(a.EventDateTime, schedules.UserInfo.EventDate) == 0)
+            var mJGroup = assignments?.Where(a => a.IsMajorLeague)
             ?.ToList();
             await workingSchedule.Group(mJGroup, schedules, new AssignmentCell
             {

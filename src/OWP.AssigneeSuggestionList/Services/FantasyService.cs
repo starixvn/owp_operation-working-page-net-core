@@ -24,9 +24,7 @@ namespace OWP.AssigneeSuggestionList.Services
             )
         {
             var fantasyMatchGroup = assignments
-            ?.Where(a => a.IsFantasyMatch
-            && a.UserId == schedule.UserInfo.UserId
-             && DateTime.Compare(a.EventDateTime, schedule.UserInfo.EventDate) == 0)
+            ?.Where(a => a.IsFantasyMatch)
             ?.ToList();
 
             await workingSchedule.Group(fantasyMatchGroup, schedule, new AssignmentCell

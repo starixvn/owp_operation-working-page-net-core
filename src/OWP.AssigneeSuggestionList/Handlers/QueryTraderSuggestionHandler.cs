@@ -27,7 +27,21 @@ public class QueryTraderSuggestionHandler : IRequestHandler<QueryTraderSuggestio
         var matchInfo = await repository.QueryMatchInfo(request.OwpMatchId);
 
         var workingShift = await workingShiftService.Calculate(matchInfo.EventDate);
+        var (assignmentModel, maxbetModel) = await repository.QueryAssignments(matchInfo.EventDate);
 
         return (matchInfo, workingShift);
+    }
+
+    private async Task GroupGame(IList<WorkingSchedule> schedules,
+    IList<AssignmentModel> assignmentModels,
+    IList<MaxbetModel> maxbetModels)
+    {
+        foreach (var schedule in schedules)
+        {
+            var assignments = assignmentModels.Where(x => x.UserId == schedule.UserInfo.UserId
+            && x.EventDateTime >= schedule.UserInfo.ShiftStartTime
+            && x.EventDateTime <= schedule.UserInfo.ShiftStartTime);
+
+        }
     }
 }

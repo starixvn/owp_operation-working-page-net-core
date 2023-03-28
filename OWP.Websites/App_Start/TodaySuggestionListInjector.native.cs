@@ -6,7 +6,6 @@ public static class TodaySuggestionListInjector
 {
     public static void AddSuggestionList(this IServiceCollection services)
     {
-        services.AddScoped<AssignmentService, AssignmentServiceImp>();
         services.AddScoped<MJGroupService, MJGroupServiceImp>();
         services.AddScoped<OneGameService, OneGameServiceImp>();
         services.AddScoped<LinkNGameService, LinkNGameServiceImp>();

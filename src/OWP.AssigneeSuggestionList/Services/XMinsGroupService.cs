@@ -21,9 +21,7 @@ namespace OWP.AssigneeSuggestionList.Services
 
         public async Task<Unit> Group(IList<AssignmentModel> assignments, WorkingSchedule schedule)
         {
-            var xMinsMatchGroup = assignments?.Where(a => a.Is15Mins
-            && a.UserId == schedule.UserInfo.UserId
-                && DateTime.Compare(a.EventDateTime, schedule.UserInfo.EventDate) == 0)
+            var xMinsMatchGroup = assignments?.Where(a => a.Is15Mins)
                 ?.ToList();
             await workingSchedule.Group(xMinsMatchGroup, schedule, new AssignmentCell
             {
