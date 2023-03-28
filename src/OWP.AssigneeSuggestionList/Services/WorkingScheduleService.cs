@@ -3,7 +3,7 @@ using OWP.AssigneeSuggestionList.Models;
 
 namespace OWP.AssigneeSuggestionList.Services
 {
-    public interface WorkingScheduleCreatorService
+    public interface WorkingScheduleService
     {
         void UpdateWorkingSchedule(
                     DateTime eventDate,
@@ -11,7 +11,7 @@ namespace OWP.AssigneeSuggestionList.Services
                     AssignmentCell assignmentCell,
                     WorkingSchedule schedule);
     }
-    public class WorkingScheduleCreatorServiceImp : WorkingScheduleCreatorService
+    public class WorkingScheduleServiceImp : WorkingScheduleService
     {
         public void UpdateWorkingSchedule(
             DateTime eventDate,

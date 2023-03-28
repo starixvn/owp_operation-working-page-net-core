@@ -16,9 +16,9 @@ namespace OWP.AssigneeSuggestionList.Services
     {
         private readonly ILogger logger;
 
-        private readonly WorkingScheduleCreatorService workingSchedule;
+        private readonly WorkingScheduleService workingSchedule;
 
-        public SingleGameGroupServiceImp(ILogger logger, WorkingScheduleCreatorService workingSchedule)
+        public SingleGameGroupServiceImp(ILogger logger, WorkingScheduleService workingSchedule)
         {
             this.logger = logger;
             this.workingSchedule = workingSchedule;
