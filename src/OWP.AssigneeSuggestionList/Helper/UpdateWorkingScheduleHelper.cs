@@ -3,18 +3,10 @@ using OWP.AssigneeSuggestionList.Models;
 
 namespace OWP.AssigneeSuggestionList.Helper
 {
-    public static class CreateWorkingScheduleHelper
+    public static class UpdateWorkingScheduleHelper
     {
-        public static WorkingSchedule CreateWorkingSchedule(WorkingScheduleCreatorModel creatorModel)
+        public static WorkingSchedule UpdateWorkingSchedule(WorkingSchedule schedule, WorkingScheduleUpdateModel creatorModel)
         {
-            var schedule = new WorkingSchedule
-            {
-                UserInfo = new()
-                {
-                    UserId = creatorModel.UserId
-                },
-            };
-
             var objType = schedule.GetType();
             foreach (var name in creatorModel.PropertiesName)
             {

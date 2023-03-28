@@ -1,4 +1,3 @@
-using Fanex.Logging;
 using MediatR;
 using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Models;
@@ -9,38 +8,40 @@ namespace OWP.AssigneeSuggestionList.Services
 {
     public interface FirstHalfService : IRequest<Unit>
     {
-        Task<Unit> Group(IList<AssignmentModel> assignments, IList<MaxbetModel> maxbetModels);
-
+        Task<Unit> Group(IList<AssignmentModel> assignments, WorkingSchedule schedules);
     }
 
     public class FirstHalfServiceImp : FirstHalfService
     {
-        private readonly ILogger logger;
+        private readonly SingleGameGroupService workingSchedule;
 
-        public FirstHalfServiceImp(ILogger logger)
+        public FirstHalfServiceImp(SingleGameGroupService workingSchedule)
         {
-            this.logger = logger;
+            this.workingSchedule = workingSchedule;
         }
 
-        public async Task<Unit> Group(IList<AssignmentModel> assignments, IList<MaxbetModel> maxbetModels)
+        public async Task<Unit> Group(IList<AssignmentModel> assignments, WorkingSchedule schedule)
         {
             var firstHalfMatchGroupPair = assignments?
-                .GroupBy(x => x.OWPMatchId)
-                .Where(x => x.All(a =>
+            .Where(a => a.UserId == schedule.UserInfo.UserId
+                && DateTime.Compare(a.EventDateTime, schedule.UserInfo.EventDate) == 0)
+            .GroupBy(x => new { x.UserId, x.OWPMatchId })
+            .Where(x => x.All(a =>
                         Equals(a.BettypeId, EnumBettype.FirstHalfHandicap)
                         || Equals(a.BettypeId, EnumBettype.FirstHalfOverUnder)))
-                .ToDictionary(a => a.Key, a => a.ToList());
+            .ToDictionary(a => a.Key, a => a.ToList());
 
             var firstHalfMatchGroup = new List<AssignmentModel>();
             foreach (var item in firstHalfMatchGroupPair)
             {
                 firstHalfMatchGroup.AddRange(item.Value);
             }
-            foreach (var item in firstHalfMatchGroup)
+
+            await workingSchedule.Group(firstHalfMatchGroup, schedule, new AssignmentCell
             {
-                item.ColorCode = ColorCodeConst.FIRST_HALF;
-            }
-            await logger.InfoAsync("[firstHalfMatchGroup]" + firstHalfMatchGroup?.Select(x => x.OWPMatchId));
+                Color = ColorCodeConst.FIRST_HALF,
+                Text = "FIRST_HALF"
+            }, "[FIRST_HALF]");
             return Unit.Value;
         }
     }

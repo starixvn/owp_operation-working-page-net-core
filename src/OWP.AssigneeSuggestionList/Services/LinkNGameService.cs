@@ -7,7 +7,7 @@ namespace OWP.AssigneeSuggestionList.Services
 {
     public interface LinkNGameService
     {
-        Task<Unit> Group(LinkNGameModel models);
+        Task<Unit> Group(LinkNGameModel models, WorkingSchedule schedules);
 
     }
 
@@ -15,29 +15,38 @@ namespace OWP.AssigneeSuggestionList.Services
     {
         private readonly ILogger logger;
 
-        public LinkNGameServiceImp(ILogger logger)
+        private readonly WorkingScheduleCreatorService workingSchedule;
+
+        public LinkNGameServiceImp(ILogger logger, WorkingScheduleCreatorService workingSchedule)
         {
             this.logger = logger;
+            this.workingSchedule = workingSchedule;
         }
 
-        public async Task<Unit> Group(LinkNGameModel models)
+        public async Task<Unit> Group(LinkNGameModel models, WorkingSchedule schedules)
         {
-            var linkNMatchPair = models.Assignments?.Where(a => LinkGameConditionHelper.CanGroupNGame(a, models.MaxbetModels, maxbet => maxbet <= 12000))
-                .GroupBy(a => a.EventDateTime)?
-                .Where(g => Equals(g.Count(), models.NumberGame))?
+            var linkNGamePair = models.Assignments?.Where(a => LinkGameConditionHelper.CanGroupNGame(a, models.MaxbetModels, maxbet => maxbet <= 12000)
+                && a.UserId == schedules.UserInfo.UserId
+                && DateTime.Compare(a.EventDateTime, schedules.UserInfo.EventDate) == 0)
+                ?.GroupBy(a => new { a.EventDateTime, a.UserId })
+                .Where(g => g.Select(x => x.OWPMatchId).Distinct().Count() == models.NumberGame)?
                 .ToDictionary(x => x.Key, x => x.ToList());
 
-            var matchValid = new List<AssignmentModel>();
+            foreach (var key in linkNGamePair.Keys)
+            {
+                var bettypeIds = linkNGamePair[key].Select(x => x.BettypeId).ToList();
+                workingSchedule.UpdateWorkingSchedule(key.EventDateTime,
+                 bettypeIds,
+                 new AssignmentCell
+                 {
+                     Color = models.ColorCode,
+                     Text = "NGame"
+                 }, schedules);
 
-            foreach (var linkNMatch in linkNMatchPair)
-            {
-                matchValid.AddRange(linkNMatch.Value);
+                await logger.InfoAsync("[LinkNGame]" + string.Join(",", linkNGamePair[key]?.Select(x => x.OWPMatchId)));
+                await logger.InfoAsync("[LinkNGame]" + string.Join(",", linkNGamePair[key]?.Select(x => x.BettypeId)));
             }
-            foreach (var item in matchValid)
-            {
-                item.ColorCode = models.ColorCode;
-            }
-            await logger.InfoAsync("[LinkNGame]" + matchValid?.Select(x => x.OWPMatchId));
+
             return Unit.Value;
         }
     }

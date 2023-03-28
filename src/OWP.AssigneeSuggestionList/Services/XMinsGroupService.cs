@@ -1,4 +1,3 @@
-using Fanex.Logging;
 using MediatR;
 using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Models;
@@ -7,26 +6,30 @@ namespace OWP.AssigneeSuggestionList.Services
 {
     public interface XMinsGroupService
     {
-        Task<Unit> Group(IList<AssignmentModel> assignments, IList<MaxbetModel> maxbetModels);
+        Task<Unit> Group(IList<AssignmentModel> assignments, WorkingSchedule schedule);
     }
 
     public class XMinsGroupServiceImp : XMinsGroupService
     {
-        private readonly ILogger logger;
 
-        public XMinsGroupServiceImp(ILogger logger)
+        private readonly SingleGameGroupService workingSchedule;
+
+        public XMinsGroupServiceImp(SingleGameGroupService workingSchedule)
         {
-            this.logger = logger;
+            this.workingSchedule = workingSchedule;
         }
 
-        public async Task<Unit> Group(IList<AssignmentModel> assignments, IList<MaxbetModel> maxbetModels)
+        public async Task<Unit> Group(IList<AssignmentModel> assignments, WorkingSchedule schedule)
         {
-            var xMinsMatchGroup = assignments?.Where(a => a.Is15Mins);
-            foreach (var item in xMinsMatchGroup)
+            var xMinsMatchGroup = assignments?.Where(a => a.Is15Mins
+            && a.UserId == schedule.UserInfo.UserId
+                && DateTime.Compare(a.EventDateTime, schedule.UserInfo.EventDate) == 0)
+                ?.ToList();
+            await workingSchedule.Group(xMinsMatchGroup, schedule, new AssignmentCell
             {
-                item.ColorCode = ColorCodeConst.X_MINS;
-            }
-            await logger.InfoAsync("[xMinsMatchGroup]" + xMinsMatchGroup?.Select(x => x.OWPMatchId));
+                Color = ColorCodeConst.X_MINS,
+                Text = "X_MINS"
+            }, "[X_MINS]");
             return Unit.Value;
         }
     }

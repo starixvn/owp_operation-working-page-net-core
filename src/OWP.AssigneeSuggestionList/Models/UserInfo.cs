@@ -1,4 +1,6 @@
-﻿namespace OWP.AssigneeSuggestionList.Models;
+﻿using System.Text.Json.Serialization;
+
+namespace OWP.AssigneeSuggestionList.Models;
 
 public class UserInfo
 {
@@ -21,4 +23,7 @@ public class UserInfo
     public string MaxMultipleGames { get; set; }
 
     public string Explanation { get; set; }
+
+    [JsonIgnore]
+    public DateTime EventDate { get; set; }
 }

@@ -19,7 +19,7 @@ namespace OWP.AssigneeSuggestionList.Helper
                 {
                     increaseHourPair.TryAdd("FT", INCREASE_HOUR_BY_TWO);
                 }
-                if (bettypeId == (int)EnumBettype.FirstHalfHandicap
+                else if (bettypeId == (int)EnumBettype.FirstHalfHandicap
                 || bettypeId == (int)EnumBettype.FirstHalfOverUnder)
                 {
                     increaseHourPair.TryAdd("FIRST_HALF", INCREASE_HOUR_BY_ONE);

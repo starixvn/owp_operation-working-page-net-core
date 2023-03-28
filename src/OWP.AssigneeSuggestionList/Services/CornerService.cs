@@ -8,27 +8,30 @@ namespace OWP.AssigneeSuggestionList.Services
 {
     public interface CornerService
     {
-        Task<Unit> Group(IList<AssignmentModel> assignments, IList<MaxbetModel> maxbetModels);
+        Task<Unit> Group(IList<AssignmentModel> assignments, WorkingSchedule schedules);
 
     }
 
     public class CornerServiceImp : CornerService
     {
-        private readonly ILogger logger;
+        private readonly SingleGameGroupService workingSchedule;
 
-        public CornerServiceImp(ILogger logger)
+        public CornerServiceImp(SingleGameGroupService workingSchedule)
         {
-            this.logger = logger;
+            this.workingSchedule = workingSchedule;
         }
 
-        public async Task<Unit> Group(IList<AssignmentModel> assignments, IList<MaxbetModel> maxbetModels)
+        public async Task<Unit> Group(IList<AssignmentModel> assignments, WorkingSchedule schedules)
         {
-            var cornerMatchGroup = assignments?.Where(a => a.IsCornerMatch);
-            foreach (var item in cornerMatchGroup)
+            var cornerMatchGroup = assignments?.Where(a => a.IsCornerMatch
+            && a.UserId == schedules.UserInfo.UserId
+             && DateTime.Compare(a.EventDateTime, schedules.UserInfo.EventDate) == 0)
+             ?.ToList();
+            await workingSchedule.Group(cornerMatchGroup, schedules, new AssignmentCell
             {
-                item.ColorCode = ColorCodeConst.CORNER;
-            }
-            await logger.InfoAsync("[cornerMatchGroup]" + cornerMatchGroup.Select(x => x.OWPMatchId));
+                Color = ColorCodeConst.CORNER,
+                Text = "CORNER"
+            }, "[CORNER]");
             return Unit.Value;
         }
     }

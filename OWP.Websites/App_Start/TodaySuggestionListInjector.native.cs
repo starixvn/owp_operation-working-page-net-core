@@ -14,5 +14,7 @@ public static class TodaySuggestionListInjector
         services.AddScoped<FantasyService, FantasyServiceImp>();
         services.AddScoped<CornerService, CornerServiceImp>();
         services.AddScoped<XMinsGroupService, XMinsGroupServiceImp>();
+        services.AddScoped<WorkingScheduleCreatorService, WorkingScheduleCreatorServiceImp>();
+        services.AddScoped<SingleGameGroupService, SingleGameGroupServiceImp>();
     }
 }

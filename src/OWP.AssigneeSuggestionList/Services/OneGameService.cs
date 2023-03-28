@@ -1,4 +1,3 @@
-using Fanex.Logging;
 using MediatR;
 using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Helper;
@@ -8,28 +7,36 @@ namespace OWP.AssigneeSuggestionList.Services
 {
     public interface OneGameService
     {
-        Task<Unit> Group(IList<AssignmentModel> assignments, IList<MaxbetModel> maxbetModels);
+        Task<Unit> Group(
+            IList<AssignmentModel> assignments,
+             IList<MaxbetModel> maxbetModels,
+             WorkingSchedule schedules);
     }
 
     public class OneGameServiceImp : OneGameService
     {
         private const decimal MIN_MAXBET = 12000;
 
-        private readonly ILogger logger;
+        private readonly SingleGameGroupService workingSchedule;
 
-        public OneGameServiceImp(ILogger logger)
+        public OneGameServiceImp(SingleGameGroupService workingSchedule)
         {
-            this.logger = logger;
+            this.workingSchedule = workingSchedule;
         }
 
-        public async Task<Unit> Group(IList<AssignmentModel> assignments, IList<MaxbetModel> maxbetModels)
+        public async Task<Unit> Group(IList<AssignmentModel> assignments, IList<MaxbetModel> maxbetModels, WorkingSchedule schedules)
         {
-            var oneGameGroup = assignments?.Where(a => LinkGameConditionHelper.CanGroupNGame(a, maxbetModels, maxbet => maxbet > MIN_MAXBET));
-            foreach (var item in oneGameGroup)
+            var oneGameGroup = assignments
+            ?.Where(a => LinkGameConditionHelper.CanGroupNGame(a, maxbetModels, maxbet => maxbet > MIN_MAXBET)
+                && a.UserId == schedules.UserInfo.UserId
+                && DateTime.Compare(a.EventDateTime, schedules.UserInfo.EventDate) == 0)
+            .ToList();
+
+            await workingSchedule.Group(oneGameGroup, schedules, new AssignmentCell
             {
-                item.ColorCode = ColorCodeConst.ONE_GAME;
-            }
-            await logger.InfoAsync("[oneGameGroup]" + oneGameGroup.Select(x => x.OWPMatchId));
+                Color = ColorCodeConst.ONE_GAME,
+                Text = "ONE_GAME"
+            }, "[oneGameGroup]");
             return Unit.Value;
         }
     }

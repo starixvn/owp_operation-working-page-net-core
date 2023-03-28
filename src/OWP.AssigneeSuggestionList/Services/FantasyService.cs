@@ -1,4 +1,3 @@
-using Fanex.Logging;
 using MediatR;
 using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Models;
@@ -7,26 +6,34 @@ namespace OWP.AssigneeSuggestionList.Services
 {
     public interface FantasyService
     {
-        Task<Unit> Group(IList<AssignmentModel> assignments, IList<MaxbetModel> maxbetModels);
+        Task<Unit> Group(IList<AssignmentModel> assignments, WorkingSchedule schedule);
     }
 
     public class FantasyServiceImp : FantasyService
     {
-        private readonly ILogger logger;
+        private readonly SingleGameGroupService workingSchedule;
 
-        public FantasyServiceImp(ILogger logger)
+        public FantasyServiceImp(SingleGameGroupService workingSchedule)
         {
-            this.logger = logger;
+            this.workingSchedule = workingSchedule;
         }
 
-        public async Task<Unit> Group(IList<AssignmentModel> assignments, IList<MaxbetModel> maxbetModels)
+        public async Task<Unit> Group(
+            IList<AssignmentModel> assignments,
+            WorkingSchedule schedule
+            )
         {
-            var fantasyMatchGroup = assignments?.Where(a => a.IsFantasyMatch);
-            foreach (var item in fantasyMatchGroup)
+            var fantasyMatchGroup = assignments
+            ?.Where(a => a.IsFantasyMatch
+            && a.UserId == schedule.UserInfo.UserId
+             && DateTime.Compare(a.EventDateTime, schedule.UserInfo.EventDate) == 0)
+            ?.ToList();
+
+            await workingSchedule.Group(fantasyMatchGroup, schedule, new AssignmentCell
             {
-                item.ColorCode = ColorCodeConst.FANTASY;
-            }
-            await logger.InfoAsync("[fantasyMatchGroup]" + fantasyMatchGroup.Select(x => x.OWPMatchId));
+                Color = ColorCodeConst.FANTASY,
+                Text = "FANTASY"
+            }, "[FANTASY]");
             return Unit.Value;
         }
     }
