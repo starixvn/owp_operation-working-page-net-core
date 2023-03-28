@@ -12,6 +12,17 @@ public static class ColorCodeConst
     public const string X_MINS = "0070C0";
 }
 
+public static class ETPk
+{
+    public const string EtPk = "ETPK";
+
+    public const string Et = "ET";
+
+    public const string Pk = "PK";
+
+    public const string EtPkConfirm = "Pls cfm this game have ET, PK or not";
+}
+
 public class WorkingShiftConst
 {
     public readonly Dictionary<int, string> PropertyDict = new Dictionary<int, string>

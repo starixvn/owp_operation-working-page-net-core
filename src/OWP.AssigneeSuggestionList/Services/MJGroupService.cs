@@ -1,6 +1,7 @@
 using Fanex.Logging;
 using MediatR;
 using OWP.AssigneeSuggestionList.Constant;
+using OWP.AssigneeSuggestionList.Helper;
 using OWP.AssigneeSuggestionList.Models;
 
 
@@ -8,7 +9,7 @@ namespace OWP.AssigneeSuggestionList.Services
 {
     public interface MJGroupService
     {
-        Task<Unit> Group(IList<AssignmentModel> assignments);
+        Task<Unit> Group(IList<AssignmentModel> assignments, IList<WorkingSchedule> schedules);
     }
 
     public class MJGroupServiceImp : MJGroupService
@@ -19,15 +20,28 @@ namespace OWP.AssigneeSuggestionList.Services
         {
             this.logger = logger;
         }
-        public async Task<Unit> Group(IList<AssignmentModel> assignments)
+        public async Task<Unit> Group(IList<AssignmentModel> assignments, IList<WorkingSchedule> schedules)
         {
             var mJGroup = assignments?.Where(a => a.IsMajorLeague);
-            foreach (var item in mJGroup)
+            var mJGroupPair = mJGroup
+                ?.GroupBy(a => new { a.UserId, a.OWPMatchId })
+                .ToDictionary(b => b.Key, b => b.ToList());
+            foreach (var key in mJGroupPair.Keys)
             {
-                item.ColorCode = ColorCodeConst.MJ;
+                var eventDate = mJGroupPair[key].First().EventDateTime;
+                var bettypeIds = mJGroupPair[key].Select(x => x.BettypeId).ToList();
+                var timeRange = CalculateTimeRangeHelper.CalculateTimeRange(eventDate, bettypeIds, true);
+                schedules.Add(new WorkingSchedule
+                {
+                    UserId = key.UserId,
+
+                });
             }
             await logger.InfoAsync("[mJGroup]" + mJGroup?.Select(x => x.OWPMatchId));
+
             return Unit.Value;
         }
+
+
     }
 }
