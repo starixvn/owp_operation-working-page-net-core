@@ -65,7 +65,7 @@ namespace OWP.AssigneeSuggestionList.Services
             var gameInfo = assignments.First();
             var eventDate = gameInfo.EventDateTime;
             var owpMatchId = gameInfo.OWPMatchId;
-            var bettypeIds = assignments.Select(x => x.BettypeId).ToList();
+            var bettypeIds = assignments.Select(x => x.BettypeId).Distinct().ToList();
             return (eventDate, owpMatchId, bettypeIds);
         }
 
@@ -80,7 +80,7 @@ namespace OWP.AssigneeSuggestionList.Services
                 : string.Empty;
             return assignment.KOTime.Minutes == 0
             ? $"V/{maxbet}"
-            : assignment.KOTime.ToString(@"hh\:mm");
+            : $"{assignment.KOTime.ToString(@"hh\:mm")}/{maxbet}";
         }
     }
 }

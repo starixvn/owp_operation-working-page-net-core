@@ -1,4 +1,5 @@
 using System.Reflection;
+using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Helper;
 using OWP.AssigneeSuggestionList.Models;
 
@@ -55,7 +56,7 @@ namespace OWP.AssigneeSuggestionList.Services
                     if (etPk.IsHasEtPk && index == propertiesLength - 1)
                     {
                         assignmentCell.Text = etPk.EtPkValue;
-
+                        assignmentCell.Color = ColorCodeConst.ET_PK;
                     }
                     propertyInfo.SetValue(schedule, assignmentCell);
                 }
