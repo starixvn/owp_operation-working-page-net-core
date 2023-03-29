@@ -1,3 +1,4 @@
+using OWP.Extensions;
 using MatchType = OWP.AssigneeSuggestionList.Constant.MatchType;
 
 namespace OWP.AssigneeSuggestionList.Models
@@ -28,14 +29,12 @@ namespace OWP.AssigneeSuggestionList.Models
 
         public bool Is15Mins { get; set; }
 
-        public int? ParentMatchId { get; set; }
-
-        public string ColorCode { get; set; }
-
         public MatchType MatchType { get; set; }
 
         public string HomeName { get; set; }
 
         public string AwayName { get; set; }
+
+        public bool IsSaba => LeagueName.IsContains("SABA ");
     }
 }

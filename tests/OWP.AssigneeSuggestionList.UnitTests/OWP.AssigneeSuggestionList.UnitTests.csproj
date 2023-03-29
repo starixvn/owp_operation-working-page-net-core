@@ -23,7 +23,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\OWP.AssigneeSuggestionList\OWP.AssigneeSuggestionList.csproj" />
-    <ProjectReference Include="..\..\src\OWP.LiveGameList\OWP.LiveGameList.csproj" />
   </ItemGroup>
 
 </Project>
