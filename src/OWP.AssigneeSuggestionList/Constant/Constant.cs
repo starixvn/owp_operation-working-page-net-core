@@ -13,6 +13,7 @@ public static class ColorCodeConst
     public const string CORNER = "C00000";
     public const string X_MINS = "0070C0";
     public const string ET_PK = "000000";
+    public const string SHIFT = "BFBFBF";
 }
 
 public static class ETPk
@@ -71,6 +72,7 @@ public static class WorkingShiftConst
         {38,"Tomorrow_16h"}
     }.ToImmutableDictionary();
 
+    public static readonly string[] ManagementRole = { "Section Head", "Management", "Supervisor", "Leader" };
 }
 
 

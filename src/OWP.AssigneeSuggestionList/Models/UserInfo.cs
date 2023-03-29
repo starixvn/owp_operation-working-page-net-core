@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+﻿using OWP.AssigneeSuggestionList.Constant;
 
 namespace OWP.AssigneeSuggestionList.Models;
 
@@ -7,8 +7,6 @@ public class UserInfo
     public int UserId { get; set; }
 
     public string Username { get; set; }
-
-    public string IsManagementRole { get; set; }
 
     public string Role { get; set; }
 
@@ -27,4 +25,9 @@ public class UserInfo
     public DateTime ShiftStartTime { get; set; }
 
     public DateTime ShiftEndTime { get; set; }
+
+    public string Shift => ShiftStartTime.ToString("HH:mm")
+                           + ">" + ShiftEndTime.ToString("HH:mm");
+
+    public bool IsManagementRole => WorkingShiftConst.ManagementRole.Any(x => x.Equals(x));
 }

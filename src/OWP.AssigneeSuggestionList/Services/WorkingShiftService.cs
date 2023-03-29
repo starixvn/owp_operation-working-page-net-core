@@ -1,4 +1,5 @@
-﻿using OWP.AssigneeSuggestionList.Helper;
+﻿using OWP.AssigneeSuggestionList.Constant;
+using OWP.AssigneeSuggestionList.Helper;
 using OWP.AssigneeSuggestionList.Models;
 
 namespace OWP.AssigneeSuggestionList.Services;
@@ -39,9 +40,8 @@ public class WorkingShiftServiceImp : WorkingShiftService
             var propertyInfo = type.GetProperty(property);
             if (propertyInfo != null)
             {
-                propertyInfo.SetValue(shift, new AssignmentCell { Color = "BFBFBF", Text = string.Empty });
+                propertyInfo.SetValue(shift, new AssignmentCell { Color = ColorCodeConst.SHIFT, Text = string.Empty });
             }
-
         }
         return shift;
     }
