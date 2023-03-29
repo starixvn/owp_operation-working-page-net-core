@@ -41,9 +41,9 @@ namespace OWP.AssigneeSuggestionList.Services
             foreach (var key in mJGroupPair.Keys)
             {
                 var gameInfo = mJGroupPair[key].First();
-                var eventDate = gameInfo.EventDateTime;
-                var owpMatchId = gameInfo.OWPMatchId;
-                var bettypeIds = mJGroupPair[key].Select(x => x.BettypeId).ToList();
+                var (eventDate, owpMatchId, bettypeIds) = GetGameInfo(mJGroupPair[key]);
+                assignmentCell.Text = BuildDisplayText(gameInfo, assignments.Item2);
+
                 assignmentCell.Text = BuildDisplayText(gameInfo, assignments.Item2);
 
                 // LOS: TODO
@@ -60,6 +60,15 @@ namespace OWP.AssigneeSuggestionList.Services
                 await logger.InfoAsync(groupType + string.Join(",", mJGroupPair[key]?.Select(x => x.OWPMatchId)));
                 await logger.InfoAsync(groupType + string.Join(",", mJGroupPair[key]?.Select(x => x.BettypeId)));
             }
+        }
+
+        private (DateTime, int, IList<int>) GetGameInfo(IList<AssignmentModel> assignments)
+        {
+            var gameInfo = assignments.First();
+            var eventDate = gameInfo.EventDateTime;
+            var owpMatchId = gameInfo.OWPMatchId;
+            var bettypeIds = assignments.Select(x => x.BettypeId).ToList();
+            return (eventDate, owpMatchId, bettypeIds);
         }
 
         private string BuildDisplayText(AssignmentModel assignment, IList<MaxbetModel> maxbetModels)

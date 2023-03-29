@@ -38,36 +38,4 @@ namespace OWP.AssigneeSuggestionList.Models
 
         public string AwayName { get; set; }
     }
-
-    public class AssignmentComparer : IEqualityComparer<AssignmentModel>
-    {
-        public bool Equals(AssignmentModel source, AssignmentModel dest)
-        {
-            if (object.ReferenceEquals(source, dest))
-            {
-                return true;
-            }
-
-            if (object.ReferenceEquals(source, null) || object.ReferenceEquals(dest, null))
-            {
-                return false;
-            }
-
-            return source.OWPMatchId == dest.OWPMatchId && source.LeagueName == dest.LeagueName;
-        }
-
-        public int GetHashCode(AssignmentModel obj)
-        {
-            if (obj is null)
-            {
-                return 0;
-            }
-
-            int idHashCode = obj.OWPMatchId.GetHashCode();
-
-            int leagueNameHashCode = obj.LeagueName is null ? 0 : obj.LeagueName.GetHashCode();
-
-            return idHashCode ^ leagueNameHashCode;
-        }
-    }
 }
