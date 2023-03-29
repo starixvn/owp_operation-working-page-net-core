@@ -5,7 +5,6 @@ namespace OWP.AssigneeSuggestionList.Services;
 public interface WorkingShiftService
 {
     Task<List<WorkingSchedule>> Calculate(DateTime eventDate);
-
 }
 
 public class WorkingShiftServiceImp : WorkingShiftService
@@ -38,7 +37,11 @@ public class WorkingShiftServiceImp : WorkingShiftService
         foreach (var property in properties)
         {
             var propertyInfo = type.GetProperty(property);
-            if (propertyInfo != null) propertyInfo.SetValue(shift, new AssignmentCell { Color = "BFBFBF", Text = string.Empty });
+            if (propertyInfo != null)
+            {
+                propertyInfo.SetValue(shift, new AssignmentCell { Color = "BFBFBF", Text = string.Empty });
+            }
+
         }
         return shift;
     }

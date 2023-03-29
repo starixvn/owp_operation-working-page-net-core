@@ -18,5 +18,6 @@ public static class AssigneeSuggestionListInjector
         services.AddScoped<WorkingScheduleService, WorkingScheduleServiceImp>();
         services.AddScoped<SingleGameGroupService, SingleGameGroupServiceImp>();
         services.AddScoped<SabaMatchesServices, SabaMatchesServicesImp>();
+        services.AddScoped<WorkingShiftService, WorkingShiftServiceImp>();
     }
 }

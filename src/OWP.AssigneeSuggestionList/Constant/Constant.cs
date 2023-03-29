@@ -1,4 +1,6 @@
-﻿namespace OWP.AssigneeSuggestionList.Constant;
+﻿using System.Collections.Immutable;
+
+namespace OWP.AssigneeSuggestionList.Constant;
 
 public static class ColorCodeConst
 {
@@ -25,7 +27,7 @@ public static class ETPk
 
 public static class WorkingShiftConst
 {
-    public static readonly Dictionary<int, string> PropertyDict = new Dictionary<int, string>
+    public static readonly ImmutableDictionary<int, string> PropertyDict = new Dictionary<int, string>
     {
         {0,"Yesterday_02h"},
         {1,"Yesterday_03h"},
@@ -66,7 +68,7 @@ public static class WorkingShiftConst
         {36,"Tomorrow_14h"},
         {37,"Tomorrow_15h"},
         {38,"Tomorrow_16h"}
-    };
+    }.ToImmutableDictionary();
 
 }
 

@@ -25,9 +25,9 @@ public class WorkingShiftServiceUnitTest
         var actual = await service.Calculate(new DateTime(2023, 3, 28, 15, 00, 00));
 
         Assert.NotNull(actual);
-        Assert.Equal(actual[0].Today_10h.Color, "BFBFBF");
-        Assert.Equal(actual[0].Today_11h.Color, "BFBFBF");
-        Assert.Equal(actual[0].Tomorrow_12h.Color, "BFBFBF");
+        Assert.Equal("BFBFBF", actual[0].Today_10h.Color);
+        Assert.Equal("BFBFBF", actual[0].Today_11h.Color);
+        Assert.Equal("BFBFBF", actual[0].Tomorrow_12h.Color);
     }
 
     public List<UserInfo> MockUserInfo()
