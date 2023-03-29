@@ -32,6 +32,7 @@ namespace OWP.AssigneeSuggestionList.Services
 
             foreach (var key in linkNGamePair.Keys)
             {
+                // LOS: TODO
                 var bettypeIds = linkNGamePair[key].Select(x => x.BettypeId).ToList();
                 workingSchedule.UpdateWorkingSchedule(key.EventDateTime,
                  bettypeIds,
@@ -39,7 +40,12 @@ namespace OWP.AssigneeSuggestionList.Services
                  {
                      Color = models.ColorCode,
                      Text = "NGame"
-                 }, schedules);
+                 }, schedules,
+                 new ETPKUpdateSchedule
+                 {
+                     IsHasEtPk = true,
+                     EtPkValue = ""
+                 });
 
                 await logger.InfoAsync("[LinkNGame]" + string.Join(",", linkNGamePair[key]?.Select(x => x.OWPMatchId)));
                 await logger.InfoAsync("[LinkNGame]" + string.Join(",", linkNGamePair[key]?.Select(x => x.BettypeId)));

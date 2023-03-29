@@ -6,7 +6,7 @@ namespace OWP.AssigneeSuggestionList.Models
     {
         public int OWPMatchId { get; set; }
 
-        public DateTime KOTime { get; set; }
+        public TimeSpan KOTime { get; set; }
 
         public DateTime EventDateTime { get; set; }
 

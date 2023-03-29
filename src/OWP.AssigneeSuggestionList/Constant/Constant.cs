@@ -12,6 +12,7 @@ public static class ColorCodeConst
     public const string FANTASY = "E6B8B7";
     public const string CORNER = "C00000";
     public const string X_MINS = "0070C0";
+    public const string ET_PK = "000000";
 }
 
 public static class ETPk

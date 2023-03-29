@@ -8,8 +8,6 @@ namespace OWP.AssigneeSuggestionList.Models
 
         public int NumberGame { get; set; }
 
-        public decimal Maxbet { get; set; }
-
         public string ColorCode { get; set; }
     }
 }

@@ -51,11 +51,11 @@ public class RepositoryImp : Repository
 
     public async Task<(IList<MaxbetModel>, IList<AssignmentModel>)> QueryAssignments(DateTime eventDate)
     {
-        var (assignmentModel, maxbetModel) = await dynamicRepository.FetchMultipleAsync<MaxbetModel, AssignmentModel>(new QueryAssignmentCriteria
+        var (assignmentModel, maxbetModel) = await dynamicRepository.FetchMultipleAsync<AssignmentModel, MaxbetModel>(new QueryAssignmentCriteria
         {
             EventDate = eventDate
         });
-        return (assignmentModel.ToList(), maxbetModel.ToList());
+        return (maxbetModel.ToList(), assignmentModel.ToList());
     }
 
     public async Task<IEnumerable<int>> GetCustInfoFromDB02()

@@ -25,7 +25,7 @@ namespace OWP.AssigneeSuggestionList.Services
             await workingSchedule.Group(mJGroup, schedules, new AssignmentCell
             {
                 Color = ColorCodeConst.MJ,
-                Text = "MJ"
+                Text = string.Empty
             }, "[LinkNGame]");
             return Unit.Value;
         }

@@ -37,10 +37,16 @@ namespace OWP.AssigneeSuggestionList.Services
             {
                 var eventDate = mJGroupPair[key].First().EventDateTime;
                 var bettypeIds = mJGroupPair[key].Select(x => x.BettypeId).ToList();
+                // LOS: TODO
                 workingSchedule.UpdateWorkingSchedule(eventDate,
                  bettypeIds,
                  assignmentCell,
-                    schedule);
+                    schedule,
+                    new ETPKUpdateSchedule
+                    {
+                        EtPkValue = "",
+                        IsHasEtPk = true,
+                    });
 
                 await logger.InfoAsync(groupType + string.Join(",", mJGroupPair[key]?.Select(x => x.OWPMatchId)));
                 await logger.InfoAsync(groupType + string.Join(",", mJGroupPair[key]?.Select(x => x.BettypeId)));
