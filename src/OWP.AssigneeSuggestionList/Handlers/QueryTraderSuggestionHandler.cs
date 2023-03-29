@@ -66,8 +66,8 @@ public class QueryTraderSuggestionHandler : IRequestHandler<QueryTraderSuggestio
             && DateTime.Compare(x.EventDateTime, schedule.UserInfo.ShiftStartTime) >= 0
             && DateTime.Compare(x.EventDateTime, schedule.UserInfo.ShiftEndTime) <= 0)
             ?.ToList();
-            await mJGroupService.Group(assignments, schedule);
-            await oneGameService.Group(assignments, maxbetModels, schedule);
+            await mJGroupService.Group((assignments, maxbetModels), schedule);
+            await oneGameService.Group((assignments, maxbetModels), schedule);
             await linkNGameService.Group(new LinkNGameModel
             {
                 Assignments = assignments,
@@ -82,10 +82,10 @@ public class QueryTraderSuggestionHandler : IRequestHandler<QueryTraderSuggestio
                 ColorCode = ColorCodeConst.THREE_GAME,
                 NumberGame = 3
             }, schedule);
-            await firstHalfService.Group(assignments, schedule);
-            await fantasyService.Group(assignments, schedule);
-            await cornerService.Group(assignments, schedule);
-            await xMinsGroupService.Group(assignments, schedule);
+            await firstHalfService.Group((assignments, maxbetModels), schedule);
+            await fantasyService.Group((assignments, maxbetModels), schedule);
+            await cornerService.Group((assignments, maxbetModels), schedule);
+            await xMinsGroupService.Group((assignments, maxbetModels), schedule);
         }
     }
 }

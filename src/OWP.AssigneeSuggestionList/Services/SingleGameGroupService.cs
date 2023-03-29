@@ -1,15 +1,16 @@
+using System.Globalization;
 using Fanex.Logging;
-using MediatR;
 using OWP.AssigneeSuggestionList.Models;
+using OWP.Enums;
 
 namespace OWP.AssigneeSuggestionList.Services
 {
     public interface SingleGameGroupService
     {
-        Task<Unit> Group(
-                    IList<AssignmentModel> assignments,
+        Task Group(
+                     (IList<AssignmentModel>, IList<MaxbetModel>) assignments,
                     WorkingSchedule schedule,
-                    AssignmentCell assignmentCell,
+                    string colorCode,
                     string groupType);
     }
     public class SingleGameGroupServiceImp : SingleGameGroupService
@@ -24,19 +25,27 @@ namespace OWP.AssigneeSuggestionList.Services
             this.workingSchedule = workingSchedule;
         }
 
-        public async Task<Unit> Group(
-            IList<AssignmentModel> assignments,
+        public async Task Group(
+            (IList<AssignmentModel>, IList<MaxbetModel>) assignments,
             WorkingSchedule schedule,
-            AssignmentCell assignmentCell,
+            string colorCode,
             string groupType)
         {
-            var mJGroupPair = assignments
+            var mJGroupPair = assignments.Item1
                 ?.GroupBy(a => a.OWPMatchId)
                 .ToDictionary(b => b.Key, b => b.ToList());
+            var assignmentCell = new AssignmentCell
+            {
+                Color = colorCode
+            };
             foreach (var key in mJGroupPair.Keys)
             {
-                var eventDate = mJGroupPair[key].First().EventDateTime;
+                var gameInfo = mJGroupPair[key].First();
+                var eventDate = gameInfo.EventDateTime;
+                var owpMatchId = gameInfo.OWPMatchId;
                 var bettypeIds = mJGroupPair[key].Select(x => x.BettypeId).ToList();
+                assignmentCell.Text = BuildDisplayText(gameInfo, assignments.Item2);
+
                 // LOS: TODO
                 workingSchedule.UpdateWorkingSchedule(eventDate,
                  bettypeIds,
@@ -51,7 +60,20 @@ namespace OWP.AssigneeSuggestionList.Services
                 await logger.InfoAsync(groupType + string.Join(",", mJGroupPair[key]?.Select(x => x.OWPMatchId)));
                 await logger.InfoAsync(groupType + string.Join(",", mJGroupPair[key]?.Select(x => x.BettypeId)));
             }
-            return Unit.Value;
+        }
+
+        private string BuildDisplayText(AssignmentModel assignment, IList<MaxbetModel> maxbetModels)
+        {
+            var maxbet = maxbetModels
+                            ?.FirstOrDefault(x => x.BettypeId == (int)EnumBettype.Handicap
+                            && x.OWPMatchId == assignment.OWPMatchId)
+                            ?.Maxbet;
+            var maxbetDisplay = maxbet.HasValue
+                ? $"{(maxbet.Value / 1000).ToString("0.####", CultureInfo.InvariantCulture)}K"
+                : string.Empty;
+            return assignment.KOTime.Minutes == 0
+            ? $"V/{maxbet}"
+            : assignment.KOTime.ToString(@"hh\:mm");
         }
     }
 }

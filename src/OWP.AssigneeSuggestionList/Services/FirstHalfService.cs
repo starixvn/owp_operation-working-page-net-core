@@ -8,7 +8,7 @@ namespace OWP.AssigneeSuggestionList.Services
 {
     public interface FirstHalfService : IRequest<Unit>
     {
-        Task<Unit> Group(IList<AssignmentModel> assignments, WorkingSchedule schedules);
+        Task Group((IList<AssignmentModel>, IList<MaxbetModel>) assignments, WorkingSchedule schedule);
     }
 
     public class FirstHalfServiceImp : FirstHalfService
@@ -20,9 +20,9 @@ namespace OWP.AssigneeSuggestionList.Services
             this.workingSchedule = workingSchedule;
         }
 
-        public async Task<Unit> Group(IList<AssignmentModel> assignments, WorkingSchedule schedule)
+        public async Task Group((IList<AssignmentModel>, IList<MaxbetModel>) assignments, WorkingSchedule schedule)
         {
-            var firstHalfMatchGroupPair = assignments?
+            var gameGroupPair = assignments.Item1?
             .GroupBy(x => new { x.OWPMatchId })
             .Where(x => x.All(a =>
                         Equals(a.BettypeId, EnumBettype.FirstHalfHandicap)
@@ -30,17 +30,12 @@ namespace OWP.AssigneeSuggestionList.Services
             .ToDictionary(a => a.Key, a => a.ToList());
 
             var firstHalfMatchGroup = new List<AssignmentModel>();
-            foreach (var item in firstHalfMatchGroupPair)
+            foreach (var item in gameGroupPair)
             {
                 firstHalfMatchGroup.AddRange(item.Value);
             }
 
-            await workingSchedule.Group(firstHalfMatchGroup, schedule, new AssignmentCell
-            {
-                Color = ColorCodeConst.FIRST_HALF,
-                Text = "FIRST_HALF"
-            }, "[FIRST_HALF]");
-            return Unit.Value;
+            await workingSchedule.Group((firstHalfMatchGroup, assignments.Item2), schedule, ColorCodeConst.FIRST_HALF, "[FIRST_HALF]");
         }
     }
 }

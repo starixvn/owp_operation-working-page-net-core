@@ -1,5 +1,4 @@
 using System.Reflection;
-using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Helper;
 using OWP.AssigneeSuggestionList.Models;
 

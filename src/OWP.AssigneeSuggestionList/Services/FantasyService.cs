@@ -1,4 +1,3 @@
-using MediatR;
 using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Models;
 
@@ -6,7 +5,10 @@ namespace OWP.AssigneeSuggestionList.Services
 {
     public interface FantasyService
     {
-        Task<Unit> Group(IList<AssignmentModel> assignments, WorkingSchedule schedule);
+        Task Group(
+            (IList<AssignmentModel>, IList<MaxbetModel>) assignments,
+            WorkingSchedule schedule
+            );
     }
 
     public class FantasyServiceImp : FantasyService
@@ -18,21 +20,16 @@ namespace OWP.AssigneeSuggestionList.Services
             this.workingSchedule = workingSchedule;
         }
 
-        public async Task<Unit> Group(
-            IList<AssignmentModel> assignments,
+        public async Task Group(
+            (IList<AssignmentModel>, IList<MaxbetModel>) assignments,
             WorkingSchedule schedule
             )
         {
-            var fantasyMatchGroup = assignments
+            var matchGroup = assignments.Item1
             ?.Where(a => a.IsFantasyMatch)
             ?.ToList();
 
-            await workingSchedule.Group(fantasyMatchGroup, schedule, new AssignmentCell
-            {
-                Color = ColorCodeConst.FANTASY,
-                Text = "FANTASY"
-            }, "[FANTASY]");
-            return Unit.Value;
+            await workingSchedule.Group((matchGroup, assignments.Item2), schedule, ColorCodeConst.FANTASY, "[FANTASY]");
         }
     }
 }

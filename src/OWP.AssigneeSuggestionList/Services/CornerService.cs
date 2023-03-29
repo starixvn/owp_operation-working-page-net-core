@@ -8,7 +8,7 @@ namespace OWP.AssigneeSuggestionList.Services
 {
     public interface CornerService
     {
-        Task<Unit> Group(IList<AssignmentModel> assignments, WorkingSchedule schedules);
+        Task Group((IList<AssignmentModel>, IList<MaxbetModel>) assignments, WorkingSchedule schedules);
 
     }
 
@@ -21,16 +21,13 @@ namespace OWP.AssigneeSuggestionList.Services
             this.workingSchedule = workingSchedule;
         }
 
-        public async Task<Unit> Group(IList<AssignmentModel> assignments, WorkingSchedule schedules)
+        public async Task Group(
+             (IList<AssignmentModel>, IList<MaxbetModel>) assignments,
+            WorkingSchedule schedules)
         {
-            var cornerMatchGroup = assignments?.Where(a => a.IsCornerMatch)
+            var cornerMatchGroup = assignments.Item1?.Where(a => a.IsCornerMatch)
              ?.ToList();
-            await workingSchedule.Group(cornerMatchGroup, schedules, new AssignmentCell
-            {
-                Color = ColorCodeConst.CORNER,
-                Text = "CORNER"
-            }, "[CORNER]");
-            return Unit.Value;
+            await workingSchedule.Group((cornerMatchGroup, assignments.Item2), schedules, ColorCodeConst.CORNER, "[CORNER]");
         }
     }
 }
