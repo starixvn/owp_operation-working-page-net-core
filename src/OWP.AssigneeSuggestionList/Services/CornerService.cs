@@ -1,14 +1,11 @@
-using Fanex.Logging;
-using MediatR;
 using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Models;
-
 
 namespace OWP.AssigneeSuggestionList.Services
 {
     public interface CornerService
     {
-        Task Group((IList<AssignmentModel>, IList<MaxbetModel>) assignments, WorkingSchedule schedules);
+        Task Group(IList<AssignmentModel> assignments, WorkingSchedule schedules);
 
     }
 
@@ -22,12 +19,12 @@ namespace OWP.AssigneeSuggestionList.Services
         }
 
         public async Task Group(
-             (IList<AssignmentModel>, IList<MaxbetModel>) assignments,
+             IList<AssignmentModel> assignments,
             WorkingSchedule schedules)
         {
-            var cornerMatchGroup = assignments.Item1?.Where(a => a.IsCornerMatch)
+            var cornerMatchGroup = assignments?.Where(a => a.IsCornerMatch)
              ?.ToList();
-            await workingSchedule.Group((cornerMatchGroup, assignments.Item2), schedules, ColorCodeConst.CORNER, "[CORNER]");
+            await workingSchedule.Group(cornerMatchGroup, schedules, ColorCodeConst.CORNER, "[CORNER]");
         }
     }
 }

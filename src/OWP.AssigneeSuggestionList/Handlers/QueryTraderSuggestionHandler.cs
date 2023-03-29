@@ -51,26 +51,25 @@ public class QueryTraderSuggestionHandler : IRequestHandler<QueryTraderSuggestio
         var matchInfo = await repository.QueryMatchInfo(request.OwpMatchId);
 
         var workingShift = await workingShiftService.Calculate(matchInfo.EventDate);
-        var (maxbetModels, assignmentModels) = await repository.QueryAssignments(matchInfo.EventDate);
-        await GroupGame(workingShift, assignmentModels, maxbetModels);
+        var assignmentModels = await repository.QueryAssignments(matchInfo.EventDate);
+        await GroupGame(workingShift, assignmentModels);
         return (matchInfo, workingShift);
     }
 
     private async Task GroupGame(IList<WorkingSchedule> schedules,
-    IList<AssignmentModel> assignmentModels,
-    IList<MaxbetModel> maxbetModels)
+    IList<AssignmentModel> assignmentModels)
     {
         foreach (var schedule in schedules)
         {
             var assignments = GetAssignmentsBelongWs(assignmentModels, schedule);
-            await mJGroupService.Group((assignments, maxbetModels), schedule);
-            await oneGameService.Group((assignments, maxbetModels), schedule);
-            await linkNGameService.Group((assignments, maxbetModels), schedule);
-            await linkNGameService.Group((assignments, maxbetModels), schedule);
-            await firstHalfService.Group((assignments, maxbetModels), schedule);
-            await fantasyService.Group((assignments, maxbetModels), schedule);
-            await cornerService.Group((assignments, maxbetModels), schedule);
-            await xMinsGroupService.Group((assignments, maxbetModels), schedule);
+            await mJGroupService.Group(assignments, schedule);
+            await oneGameService.Group(assignments, schedule);
+            await linkNGameService.Group(assignments, schedule);
+            await linkNGameService.Group(assignments, schedule);
+            await firstHalfService.Group(assignments, schedule);
+            await fantasyService.Group(assignments, schedule);
+            await cornerService.Group(assignments, schedule);
+            await xMinsGroupService.Group(assignments, schedule);
         }
     }
 

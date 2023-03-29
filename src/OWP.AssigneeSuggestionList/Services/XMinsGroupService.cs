@@ -6,7 +6,7 @@ namespace OWP.AssigneeSuggestionList.Services
 {
     public interface XMinsGroupService
     {
-        Task Group((IList<AssignmentModel>, IList<MaxbetModel>) assignments, WorkingSchedule schedule);
+        Task Group(IList<AssignmentModel> assignments, WorkingSchedule schedule);
     }
 
     public class XMinsGroupServiceImp : XMinsGroupService
@@ -19,11 +19,11 @@ namespace OWP.AssigneeSuggestionList.Services
             this.workingSchedule = workingSchedule;
         }
 
-        public async Task Group((IList<AssignmentModel>, IList<MaxbetModel>) assignments, WorkingSchedule schedule)
+        public async Task Group(IList<AssignmentModel> assignments, WorkingSchedule schedule)
         {
-            var gameGroup = assignments.Item1?.Where(a => a.Is15Mins)
+            var gameGroup = assignments?.Where(a => a.Is15Mins)
                 ?.ToList();
-            await workingSchedule.Group((gameGroup, assignments.Item2), schedule, ColorCodeConst.X_MINS, "[X_MINS]");
+            await workingSchedule.Group(gameGroup, schedule, ColorCodeConst.X_MINS, "[X_MINS]");
         }
     }
 }

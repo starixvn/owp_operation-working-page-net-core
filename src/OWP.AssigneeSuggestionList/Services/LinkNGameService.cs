@@ -1,15 +1,13 @@
-﻿using System.Globalization;
-using Fanex.Logging;
+﻿using Fanex.Logging;
 using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Helper;
 using OWP.AssigneeSuggestionList.Models;
-using OWP.Enums;
 
 namespace OWP.AssigneeSuggestionList.Services
 {
     public interface LinkNGameService
     {
-        Task Group((IList<AssignmentModel>, IList<MaxbetModel>) assignments, WorkingSchedule schedules);
+        Task Group(IList<AssignmentModel> assignments, WorkingSchedule schedules);
 
     }
 
@@ -25,26 +23,25 @@ namespace OWP.AssigneeSuggestionList.Services
             this.workingSchedule = workingSchedule;
         }
 
-        public async Task Group((IList<AssignmentModel>, IList<MaxbetModel>) assignments, WorkingSchedule schedules)
+        public async Task Group(IList<AssignmentModel> assignments, WorkingSchedule schedules)
         {
             await LinkTwoGame(assignments, schedules);
             await LinkThreeGame(assignments, schedules);
         }
 
-        private async Task LinkTwoGame((IList<AssignmentModel>, IList<MaxbetModel>) assignment, WorkingSchedule schedules)
+        private async Task LinkTwoGame(IList<AssignmentModel> assignment, WorkingSchedule schedules)
         {
             var linkNGamePair = GetValidGame(assignment, 2);
-            await UpdateSchedule(assignment.Item2, linkNGamePair, schedules, ColorCodeConst.TWO_GAME);
+            await UpdateSchedule(linkNGamePair, schedules, ColorCodeConst.TWO_GAME);
         }
 
-        private async Task LinkThreeGame((IList<AssignmentModel>, IList<MaxbetModel>) assignment, WorkingSchedule schedules)
+        private async Task LinkThreeGame(IList<AssignmentModel> assignment, WorkingSchedule schedules)
         {
             var linkNGamePair = GetValidGame(assignment, 3);
-            await UpdateSchedule(assignment.Item2, linkNGamePair, schedules, ColorCodeConst.THREE_GAME);
+            await UpdateSchedule(linkNGamePair, schedules, ColorCodeConst.THREE_GAME);
         }
 
         private async Task UpdateSchedule(
-            IList<MaxbetModel> maxbetModels,
             IDictionary<DateTime, List<AssignmentModel>> linkNGamePair,
             WorkingSchedule schedules,
              string colorCode)
@@ -55,8 +52,8 @@ namespace OWP.AssigneeSuggestionList.Services
             };
             foreach (var eventDate in linkNGamePair.Keys)
             {
-                var (owpMatchIds, bettypeIds) = SelectGameInfo(linkNGamePair[eventDate]);
-                assignmentCell.Text = ScheduleTextHelper.BuildScheduleTextGroupGame(eventDate, owpMatchIds, maxbetModels);
+                var bettypeIds = linkNGamePair[eventDate].Select(x => x.BettypeId).Distinct().ToList();
+                assignmentCell.Text = ScheduleTextHelper.BuildScheduleTextGroupGame(eventDate, linkNGamePair[eventDate]);
                 // LOS: TODO
                 workingSchedule.UpdateWorkingSchedule(eventDate,
                  bettypeIds,
@@ -73,15 +70,8 @@ namespace OWP.AssigneeSuggestionList.Services
             }
         }
 
-        private static (IList<int>, IList<int>) SelectGameInfo(IList<AssignmentModel> assignments)
-        {
-            var owpMatchIds = assignments.Select(x => x.OWPMatchId).Distinct().ToList();
-            var bettypeIds = assignments.Select(x => x.BettypeId).Distinct().ToList();
-            return (owpMatchIds, bettypeIds);
-        }
-
-        private IDictionary<DateTime, List<AssignmentModel>> GetValidGame((IList<AssignmentModel>, IList<MaxbetModel>) models, int numberGame)
-        => models.Item1?.Where(a => LinkGameConditionHelper.CanGroupNGame(a, models.Item2, maxbet => maxbet <= 12000))
+        private IDictionary<DateTime, List<AssignmentModel>> GetValidGame(IList<AssignmentModel> models, int numberGame)
+        => models.Where(a => LinkGameConditionHelper.CanGroupNGame(a, maxbet => maxbet <= 12000))
                 ?.GroupBy(a => a.EventDateTime)
                 .Where(g => g.Select(x => x.OWPMatchId).Distinct().Count() == numberGame)?
                 .ToDictionary(x => x.Key, x => x.ToList());

@@ -1,23 +1,19 @@
 using System.Globalization;
 using OWP.AssigneeSuggestionList.Models;
-using OWP.Enums;
 
 namespace OWP.AssigneeSuggestionList.Helper
 {
     public static class ScheduleTextHelper
     {
-        public static string BuildScheduleTextGroupGame(DateTime eventDateTime, IList<int> owpMatchId, IList<MaxbetModel> maxbetModels)
+        public static string BuildScheduleTextGroupGame(DateTime eventDateTime, IList<AssignmentModel> assignments)
         {
+            var owpMatchId = assignments?.Select(x => x.OWPMatchId).Distinct();
             var listMaxbet = new List<string>();
-            foreach (var id in owpMatchId)
+            foreach (var assignment in assignments)
             {
-                var maxbet = maxbetModels
-                                            ?.FirstOrDefault(x => x.BettypeId == (int)EnumBettype.Handicap
-                                            && x.OWPMatchId == id)
-                                            ?.Maxbet;
-                if (maxbet.HasValue)
+                if (assignment.Maxbet.HasValue)
                 {
-                    listMaxbet.Add($"{(maxbet.Value / 1000).ToString("0.####", CultureInfo.InvariantCulture)}K");
+                    listMaxbet.Add($"{(assignment.Maxbet.Value / 1000).ToString("0.####", CultureInfo.InvariantCulture)}K");
                 }
             }
 
@@ -26,18 +22,14 @@ namespace OWP.AssigneeSuggestionList.Helper
             : $"{eventDateTime.ToString(@"hh\:mm")}/{listMaxbet}";
         }
 
-        public static string BuildScheduleTextSingleGame(AssignmentModel assignment, IList<MaxbetModel> maxbetModels)
+        public static string BuildScheduleTextSingleGame(AssignmentModel assignment)
         {
-            var maxbet = maxbetModels
-                            ?.FirstOrDefault(x => x.BettypeId == (int)EnumBettype.Handicap
-                            && x.OWPMatchId == assignment.OWPMatchId)
-                            ?.Maxbet;
-            var maxbetDisplay = maxbet.HasValue
-                ? $"{(maxbet.Value / 1000).ToString("0.####", CultureInfo.InvariantCulture)}K"
+            var maxbetDisplay = assignment.Maxbet.HasValue
+                ? $"{(assignment.Maxbet.Value / 1000).ToString("0.####", CultureInfo.InvariantCulture)}K"
                 : string.Empty;
             return assignment.KOTime.Minutes == 0
-            ? $"V/{maxbet}"
-            : $"{assignment.KOTime.ToString(@"hh\:mm")}/{maxbet}";
+            ? $"V/{assignment.Maxbet.Value}"
+            : $"{assignment.KOTime.ToString(@"hh\:mm")}/{assignment.Maxbet.Value}";
         }
     }
 }

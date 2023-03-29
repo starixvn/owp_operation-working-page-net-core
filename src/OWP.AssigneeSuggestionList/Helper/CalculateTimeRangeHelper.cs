@@ -24,11 +24,15 @@ namespace OWP.AssigneeSuggestionList.Helper
                 {
                     increaseHourPair.TryAdd("FIRST_HALF", INCREASE_HOUR_BY_ONE);
                 }
+                else
+                {
+
+                }
             }
 
             if (isEtPK)
             {
-                increaseHourPair.TryAdd("ET_PK", INCREASE_HOUR_BY_ONE); ;
+                increaseHourPair.TryAdd("ET_PK", INCREASE_HOUR_BY_ONE);
             }
 
             foreach (var value in increaseHourPair.Values)

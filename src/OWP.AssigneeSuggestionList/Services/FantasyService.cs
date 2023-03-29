@@ -6,7 +6,7 @@ namespace OWP.AssigneeSuggestionList.Services
     public interface FantasyService
     {
         Task Group(
-            (IList<AssignmentModel>, IList<MaxbetModel>) assignments,
+            IList<AssignmentModel> assignments,
             WorkingSchedule schedule
             );
     }
@@ -21,15 +21,15 @@ namespace OWP.AssigneeSuggestionList.Services
         }
 
         public async Task Group(
-            (IList<AssignmentModel>, IList<MaxbetModel>) assignments,
+            IList<AssignmentModel> assignments,
             WorkingSchedule schedule
             )
         {
-            var matchGroup = assignments.Item1
+            var matchGroup = assignments
             ?.Where(a => a.IsFantasyMatch)
             ?.ToList();
 
-            await workingSchedule.Group((matchGroup, assignments.Item2), schedule, ColorCodeConst.FANTASY, "[FANTASY]");
+            await workingSchedule.Group(matchGroup, schedule, ColorCodeConst.FANTASY, "[FANTASY]");
         }
     }
 }

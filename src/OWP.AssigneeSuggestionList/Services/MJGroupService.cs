@@ -7,7 +7,7 @@ namespace OWP.AssigneeSuggestionList.Services
 {
     public interface MJGroupService
     {
-        Task<Unit> Group((IList<AssignmentModel>, IList<MaxbetModel>) assignments,
+        Task<Unit> Group(IList<AssignmentModel> assignments,
             WorkingSchedule schedules);
     }
 
@@ -20,14 +20,14 @@ namespace OWP.AssigneeSuggestionList.Services
             this.workingSchedule = workingSchedule;
         }
         public async Task<Unit> Group(
-            (IList<AssignmentModel>, IList<MaxbetModel>) assignments,
+            IList<AssignmentModel> assignments,
             WorkingSchedule schedules
             )
         {
-            var mJGroup = assignments.Item1?.Where(a => a.IsMajorLeague)
+            var mJGroup = assignments.Where(a => a.IsMajorLeague)
             ?.ToList();
             await workingSchedule.Group(
-                (mJGroup, assignments.Item2),
+                mJGroup,
                  schedules, ColorCodeConst.MJ, "[LinkNGame]");
             return Unit.Value;
         }

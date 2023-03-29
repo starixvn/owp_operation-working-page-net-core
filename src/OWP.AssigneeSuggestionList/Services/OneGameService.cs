@@ -6,7 +6,7 @@ namespace OWP.AssigneeSuggestionList.Services
 {
     public interface OneGameService
     {
-        Task Group((IList<AssignmentModel>, IList<MaxbetModel>) assignments, WorkingSchedule schedules);
+        Task Group(IList<AssignmentModel> assignments, WorkingSchedule schedules);
     }
 
     public class OneGameServiceImp : OneGameService
@@ -20,13 +20,13 @@ namespace OWP.AssigneeSuggestionList.Services
             this.workingSchedule = workingSchedule;
         }
 
-        public async Task Group((IList<AssignmentModel>, IList<MaxbetModel>) assignments, WorkingSchedule schedules)
+        public async Task Group(IList<AssignmentModel> assignments, WorkingSchedule schedules)
         {
-            var oneGameGroup = assignments.Item1
-            ?.Where(a => LinkGameConditionHelper.CanGroupNGame(a, assignments.Item2, maxbet => maxbet > MIN_MAXBET))
+            var oneGameGroup = assignments
+            ?.Where(a => LinkGameConditionHelper.CanGroupNGame(a, maxbet => maxbet > MIN_MAXBET))
             .ToList();
 
-            await workingSchedule.Group((oneGameGroup, assignments.Item2), schedules, ColorCodeConst.ONE_GAME, "[oneGameGroup]");
+            await workingSchedule.Group(oneGameGroup, schedules, ColorCodeConst.ONE_GAME, "[oneGameGroup]");
         }
     }
 }

@@ -4,7 +4,7 @@ namespace OWP.TodaySuggestionList.Helper
 {
     public class LinkGameConditionHelper
     {
-        public static bool CanGroupNGame(AssignmentModel a, IList<MaxbetModel> maxbetModels) =>
+        public static bool CanGroupNGame(AssignmentModel a) =>
                 a.IsMainMatch
                 && !a.IsMajorLeague
                 && (Equals(a.BettypeId, EnumBettype.Handicap)
@@ -12,6 +12,6 @@ namespace OWP.TodaySuggestionList.Helper
                 && maxbetModels is not null
                 && maxbetModels.Any(m => Equals(m.OWPMatchId, a.OWPMatchId)
                                             && Equals(m.BettypeId, a.BettypeId)
-                                            && m.Maxbet <= MAX_MAXBET)
+                                            && m.Maxbet <= MAX_MAXBET);
     }
 }

@@ -12,8 +12,6 @@ namespace OWP.TodaySuggestionList.Handler
         public int NumberGame { get; set; }
 
         public string ColorCode { get; set; }
-
-        public IList<MaxbetModel> MaxbetModels { get; set; }
     }
 
     public class LinkNGameHandler : IRequestHandler<LinkNGameRequest, Unit>

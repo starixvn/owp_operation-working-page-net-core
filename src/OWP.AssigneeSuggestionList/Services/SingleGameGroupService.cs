@@ -7,7 +7,7 @@ namespace OWP.AssigneeSuggestionList.Services
     public interface SingleGameGroupService
     {
         Task Group(
-                     (IList<AssignmentModel>, IList<MaxbetModel>) assignments,
+                     IList<AssignmentModel> assignments,
                     WorkingSchedule schedule,
                     string colorCode,
                     string groupType);
@@ -25,12 +25,12 @@ namespace OWP.AssigneeSuggestionList.Services
         }
 
         public async Task Group(
-            (IList<AssignmentModel>, IList<MaxbetModel>) assignments,
+            IList<AssignmentModel> assignments,
             WorkingSchedule schedule,
             string colorCode,
             string groupType)
         {
-            var mJGroupPair = assignments.Item1
+            var mJGroupPair = assignments
                 ?.GroupBy(a => a.OWPMatchId)
                 .ToDictionary(b => b.Key, b => b.ToList());
             var assignmentCell = new AssignmentCell
@@ -41,7 +41,7 @@ namespace OWP.AssigneeSuggestionList.Services
             {
                 var gameInfo = mJGroupPair[key].First();
                 var (eventDate, owpMatchId, bettypeIds) = GetGameInfo(mJGroupPair[key]);
-                assignmentCell.Text = ScheduleTextHelper.BuildScheduleTextSingleGame(gameInfo, assignments.Item2);
+                assignmentCell.Text = ScheduleTextHelper.BuildScheduleTextSingleGame(gameInfo);
 
                 // LOS: TODO
                 workingSchedule.UpdateWorkingSchedule(eventDate,
