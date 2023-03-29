@@ -56,7 +56,7 @@ namespace OWP.AssigneeSuggestionList.Services
             foreach (var eventDate in linkNGamePair.Keys)
             {
                 var (owpMatchIds, bettypeIds) = SelectGameInfo(linkNGamePair[eventDate]);
-                assignmentCell.Text = BuildDisplayText(eventDate, owpMatchIds, maxbetModels);
+                assignmentCell.Text = ScheduleTextHelper.BuildScheduleTextGroupGame(eventDate, owpMatchIds, maxbetModels);
                 // LOS: TODO
                 workingSchedule.UpdateWorkingSchedule(eventDate,
                  bettypeIds,
@@ -78,25 +78,6 @@ namespace OWP.AssigneeSuggestionList.Services
             var owpMatchIds = assignments.Select(x => x.OWPMatchId).Distinct().ToList();
             var bettypeIds = assignments.Select(x => x.BettypeId).Distinct().ToList();
             return (owpMatchIds, bettypeIds);
-        }
-        private string BuildDisplayText(DateTime eventDateTime, IList<int> owpMatchId, IList<MaxbetModel> maxbetModels)
-        {
-            var listMaxbet = new List<string>();
-            foreach (var id in owpMatchId)
-            {
-                var maxbet = maxbetModels
-                                            ?.FirstOrDefault(x => x.BettypeId == (int)EnumBettype.Handicap
-                                            && x.OWPMatchId == id)
-                                            ?.Maxbet;
-                if (maxbet.HasValue)
-                {
-                    listMaxbet.Add($"{(maxbet.Value / 1000).ToString("0.####", CultureInfo.InvariantCulture)}K");
-                }
-            }
-
-            return eventDateTime.Minute == 0
-            ? $"V/{string.Join("+", listMaxbet)}"
-            : $"{eventDateTime.ToString(@"hh\:mm")}/{listMaxbet}";
         }
 
         private IDictionary<DateTime, List<AssignmentModel>> GetValidGame((IList<AssignmentModel>, IList<MaxbetModel>) models, int numberGame)
