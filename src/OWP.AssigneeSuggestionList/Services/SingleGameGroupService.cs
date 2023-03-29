@@ -37,25 +37,28 @@ namespace OWP.AssigneeSuggestionList.Services
             {
                 Color = colorCode
             };
-            foreach (var key in mJGroupPair.Keys)
+            if (mJGroupPair is not null)
             {
-                var gameInfo = mJGroupPair[key].First();
-                var (eventDate, owpMatchId, bettypeIds) = GetGameInfo(mJGroupPair[key]);
-                assignmentCell.Text = ScheduleTextHelper.BuildScheduleTextSingleGame(gameInfo);
+                foreach (var key in mJGroupPair.Keys)
+                {
+                    var gameInfo = mJGroupPair[key].First();
+                    var (eventDate, owpMatchId, bettypeIds) = GetGameInfo(mJGroupPair[key]);
+                    assignmentCell.Text = ScheduleTextHelper.BuildScheduleTextSingleGame(gameInfo);
 
-                // LOS: TODO
-                workingSchedule.UpdateWorkingSchedule(eventDate,
-                 bettypeIds,
-                 assignmentCell,
-                    schedule,
-                    new ETPKUpdateSchedule
-                    {
-                        EtPkValue = "",
-                        IsHasEtPk = true,
-                    });
+                    // LOS: TODO
+                    workingSchedule.UpdateWorkingSchedule(eventDate,
+                     bettypeIds,
+                     assignmentCell,
+                        schedule,
+                        new ETPKUpdateSchedule
+                        {
+                            EtPkValue = "",
+                            IsHasEtPk = true,
+                        });
 
-                await logger.InfoAsync(groupType + string.Join(",", mJGroupPair[key]?.Select(x => x.OWPMatchId)));
-                await logger.InfoAsync(groupType + string.Join(",", mJGroupPair[key]?.Select(x => x.BettypeId)));
+                    await logger.InfoAsync(groupType + string.Join(",", mJGroupPair[key]?.Select(x => x.OWPMatchId)));
+                    await logger.InfoAsync(groupType + string.Join(",", mJGroupPair[key]?.Select(x => x.BettypeId)));
+                }
             }
         }
 

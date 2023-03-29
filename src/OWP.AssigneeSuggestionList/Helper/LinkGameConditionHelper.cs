@@ -3,13 +3,16 @@ using OWP.Enums;
 
 namespace OWP.AssigneeSuggestionList.Helper
 {
-    public class LinkGameConditionHelper
+    public static class LinkGameConditionHelper
     {
         public static bool CanGroupNGame(AssignmentModel assignment, Func<decimal?, bool> maxbetComparerFunc) =>
                 assignment.IsMainMatch
                 && !assignment.IsMajorLeague
-                && (Equals(assignment.BettypeId, EnumBettype.Handicap)
-                || Equals(assignment.BettypeId, EnumBettype.OverUnder))
+                && IsValidBetType(assignment.BettypeId)
                 && maxbetComparerFunc.Invoke(assignment.Maxbet);
+
+        private static bool IsValidBetType(int bettypeId)
+        => Equals(bettypeId, EnumBettype.Handicap)
+                || Equals(bettypeId, EnumBettype.OverUnder);
     }
 }

@@ -23,19 +23,22 @@ namespace OWP.AssigneeSuggestionList.Services
         public async Task Group(IList<AssignmentModel> assignments, WorkingSchedule schedule)
         {
             var gameGroupPair = assignments
-            .GroupBy(x => new { x.OWPMatchId })
+            ?.GroupBy(x => new { x.OWPMatchId })
             .Where(x => x.All(a =>
                         Equals(a.BettypeId, EnumBettype.FirstHalfHandicap)
                         || Equals(a.BettypeId, EnumBettype.FirstHalfOverUnder)))
-            .ToDictionary(a => a.Key, a => a.ToList());
+            ?.ToDictionary(a => a.Key, a => a.ToList());
 
             var firstHalfMatchGroup = new List<AssignmentModel>();
-            foreach (var item in gameGroupPair)
+            if (gameGroupPair is not null)
             {
-                firstHalfMatchGroup.AddRange(item.Value);
-            }
+                foreach (var item in gameGroupPair)
+                {
+                    firstHalfMatchGroup.AddRange(item.Value);
+                }
 
-            await workingSchedule.Group(firstHalfMatchGroup, schedule, ColorCodeConst.FIRST_HALF, "[FIRST_HALF]");
+                await workingSchedule.Group(firstHalfMatchGroup, schedule, ColorCodeConst.FIRST_HALF, "[FIRST_HALF]");
+            }
         }
     }
 }
