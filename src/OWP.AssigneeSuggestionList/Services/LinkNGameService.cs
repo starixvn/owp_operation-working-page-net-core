@@ -1,5 +1,5 @@
 ﻿using Fanex.Logging;
-using MediatR;
+using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Helper;
 using OWP.AssigneeSuggestionList.Models;
 
@@ -7,7 +7,7 @@ namespace OWP.AssigneeSuggestionList.Services
 {
     public interface LinkNGameService
     {
-        Task<Unit> Group(LinkNGameModel models, WorkingSchedule schedules);
+        Task Group((IList<AssignmentModel>, IList<MaxbetModel>) assignments, WorkingSchedule schedules);
 
     }
 
@@ -23,22 +23,37 @@ namespace OWP.AssigneeSuggestionList.Services
             this.workingSchedule = workingSchedule;
         }
 
-        public async Task<Unit> Group(LinkNGameModel models, WorkingSchedule schedules)
+        public async Task Group((IList<AssignmentModel>, IList<MaxbetModel>) assignments, WorkingSchedule schedules)
         {
-            var linkNGamePair = models.Assignments?.Where(a => LinkGameConditionHelper.CanGroupNGame(a, models.MaxbetModels, maxbet => maxbet <= 12000))
-                ?.GroupBy(a => new { a.EventDateTime })
-                .Where(g => g.Select(x => x.OWPMatchId).Distinct().Count() == models.NumberGame)?
-                .ToDictionary(x => x.Key, x => x.ToList());
+            await LinkTwoGame(assignments, schedules);
+            await LinkThreeGame(assignments, schedules);
+        }
 
+        private async Task LinkTwoGame((IList<AssignmentModel>, IList<MaxbetModel>) assignment, WorkingSchedule schedules)
+        {
+            var linkNGamePair = FilterGroupNGame(assignment, 2);
+            await UpdateSchedule(linkNGamePair, schedules, ColorCodeConst.TWO_GAME);
+        }
+
+        private async Task LinkThreeGame((IList<AssignmentModel>, IList<MaxbetModel>) assignment, WorkingSchedule schedules)
+        {
+            var linkNGamePair = FilterGroupNGame(assignment, 3);
+            await UpdateSchedule(linkNGamePair, schedules, ColorCodeConst.THREE_GAME);
+        }
+
+        private async Task UpdateSchedule(
+            IDictionary<DateTime, List<AssignmentModel>> linkNGamePair,
+            WorkingSchedule schedules, string colorCode)
+        {
             foreach (var key in linkNGamePair.Keys)
             {
                 // LOS: TODO
                 var bettypeIds = linkNGamePair[key].Select(x => x.BettypeId).ToList();
-                workingSchedule.UpdateWorkingSchedule(key.EventDateTime,
+                workingSchedule.UpdateWorkingSchedule(key,
                  bettypeIds,
                  new AssignmentCell
                  {
-                     Color = models.ColorCode,
+                     Color = colorCode,
                      Text = "NGame"
                  }, schedules,
                  new ETPKUpdateSchedule
@@ -50,8 +65,12 @@ namespace OWP.AssigneeSuggestionList.Services
                 await logger.InfoAsync("[LinkNGame]" + string.Join(",", linkNGamePair[key]?.Select(x => x.OWPMatchId)));
                 await logger.InfoAsync("[LinkNGame]" + string.Join(",", linkNGamePair[key]?.Select(x => x.BettypeId)));
             }
-
-            return Unit.Value;
         }
+
+        private IDictionary<DateTime, List<AssignmentModel>> FilterGroupNGame((IList<AssignmentModel>, IList<MaxbetModel>) models, int numberGame)
+        => models.Item1?.Where(a => LinkGameConditionHelper.CanGroupNGame(a, models.Item2, maxbet => maxbet <= 12000))
+                ?.GroupBy(a => a.EventDateTime)
+                .Where(g => g.Select(x => x.OWPMatchId).Distinct().Count() == numberGame)?
+                .ToDictionary(x => x.Key, x => x.ToList());
     }
 }

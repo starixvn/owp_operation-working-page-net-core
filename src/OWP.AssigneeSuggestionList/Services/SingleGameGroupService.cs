@@ -44,8 +44,6 @@ namespace OWP.AssigneeSuggestionList.Services
                 var (eventDate, owpMatchId, bettypeIds) = GetGameInfo(mJGroupPair[key]);
                 assignmentCell.Text = BuildDisplayText(gameInfo, assignments.Item2);
 
-                assignmentCell.Text = BuildDisplayText(gameInfo, assignments.Item2);
-
                 // LOS: TODO
                 workingSchedule.UpdateWorkingSchedule(eventDate,
                  bettypeIds,

@@ -62,30 +62,21 @@ public class QueryTraderSuggestionHandler : IRequestHandler<QueryTraderSuggestio
     {
         foreach (var schedule in schedules)
         {
-            var assignments = assignmentModels.Where(x => x.UserId == schedule.UserInfo.UserId
-            && DateTime.Compare(x.EventDateTime, schedule.UserInfo.ShiftStartTime) >= 0
-            && DateTime.Compare(x.EventDateTime, schedule.UserInfo.ShiftEndTime) <= 0)
-            ?.ToList();
+            var assignments = GetAssignmentsBelongWs(assignmentModels, schedule);
             await mJGroupService.Group((assignments, maxbetModels), schedule);
             await oneGameService.Group((assignments, maxbetModels), schedule);
-            await linkNGameService.Group(new LinkNGameModel
-            {
-                Assignments = assignments,
-                MaxbetModels = maxbetModels,
-                ColorCode = ColorCodeConst.TWO_GAME,
-                NumberGame = 2
-            }, schedule);
-            await linkNGameService.Group(new LinkNGameModel
-            {
-                Assignments = assignments,
-                MaxbetModels = maxbetModels,
-                ColorCode = ColorCodeConst.THREE_GAME,
-                NumberGame = 3
-            }, schedule);
+            await linkNGameService.Group((assignments, maxbetModels), schedule);
+            await linkNGameService.Group((assignments, maxbetModels), schedule);
             await firstHalfService.Group((assignments, maxbetModels), schedule);
             await fantasyService.Group((assignments, maxbetModels), schedule);
             await cornerService.Group((assignments, maxbetModels), schedule);
             await xMinsGroupService.Group((assignments, maxbetModels), schedule);
         }
     }
+
+    private IList<AssignmentModel> GetAssignmentsBelongWs(IList<AssignmentModel> assignments, WorkingSchedule schedule)
+    => assignments.Where(x => x.UserId == schedule.UserInfo.UserId
+            && DateTime.Compare(x.EventDateTime, schedule.UserInfo.ShiftStartTime) >= 0
+            && DateTime.Compare(x.EventDateTime, schedule.UserInfo.ShiftEndTime) <= 0)
+            ?.ToList();
 }
