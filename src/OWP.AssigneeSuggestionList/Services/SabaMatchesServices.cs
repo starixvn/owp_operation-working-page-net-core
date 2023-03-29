@@ -4,12 +4,12 @@ using MatchType = OWP.AssigneeSuggestionList.Constant.MatchType;
 
 namespace OWP.AssigneeSuggestionList.Services;
 
-public interface CategorizeSabaMatchServices
+public interface SabaMatchesServices
 {
     IEnumerable<AssignmentModel> CategorizeAndGroupSabaMatches(IEnumerable<AssignmentModel> matches);
 }
 
-public class CategorizeSabaMatchServicesImp : CategorizeSabaMatchServices
+public class SabaMatchesServicesImp : SabaMatchesServices
 {
     public IEnumerable<AssignmentModel> CategorizeAndGroupSabaMatches(IEnumerable<AssignmentModel> matches)
     {

@@ -18,7 +18,7 @@ public interface Repository
     Task<(IList<MaxbetModel>, IList<AssignmentModel>)> QueryAssignments(DateTime eventDate);
 }
 
-public class RepositoryImp
+public class RepositoryImp : Repository
 {
     private readonly IDynamicRepository dynamicRepository;
     private readonly INapSettings napSettings;

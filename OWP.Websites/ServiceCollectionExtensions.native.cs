@@ -22,6 +22,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Newtonsoft.Json;
 using Olympus.SimpleDataApi;
 using OWP.ApiSyncWorkingShift;
+using OWP.AssigneeSuggestionList;
 using OWP.AssignmentUpload;
 using OWP.EventPicking;
 using OWP.FileUpload;
@@ -50,8 +51,6 @@ using OWP.TicketTypeRecipient;
 using SharpRaven;
 using StackExchange.Redis;
 using System.Reflection;
-using OWP.AssigneeSuggestionList;
-using OWP.Websites.App_Start;
 using AutoMapperProfile = OWP.OtherSport.AutoMapperProfile;
 using ILogger = Fanex.Logging.ILogger;
 
