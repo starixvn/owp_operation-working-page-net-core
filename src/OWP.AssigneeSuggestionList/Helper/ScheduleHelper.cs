@@ -1,5 +1,5 @@
-using System.Globalization;
 using OWP.AssigneeSuggestionList.Models;
+using System.Globalization;
 
 namespace OWP.AssigneeSuggestionList.Helper
 {
@@ -11,9 +11,9 @@ namespace OWP.AssigneeSuggestionList.Helper
             var listMaxbet = new List<string>();
             foreach (var assignment in assignments)
             {
-                if (assignment.Maxbet.HasValue)
+                if (assignment.MaxbetHDP.HasValue)
                 {
-                    listMaxbet.Add($"{(assignment.Maxbet.Value / 1000).ToString("0.####", CultureInfo.InvariantCulture)}K");
+                    listMaxbet.Add($"{(assignment.MaxbetHDP.Value / 1000).ToString("0.####", CultureInfo.InvariantCulture)}K");
                 }
             }
 
@@ -24,12 +24,12 @@ namespace OWP.AssigneeSuggestionList.Helper
 
         public static string BuildScheduleTextSingleGame(AssignmentModel assignment)
         {
-            var maxbetDisplay = assignment.Maxbet.HasValue
-                ? $"{(assignment.Maxbet.Value / 1000).ToString("0.####", CultureInfo.InvariantCulture)}K"
+            var maxbetDisplay = assignment.MaxbetHDP.HasValue
+                ? $"{(assignment.MaxbetHDP.Value / 1000).ToString("0.####", CultureInfo.InvariantCulture)}K"
                 : string.Empty;
             return assignment.KOTime.Minutes == 0
-            ? $"V/{assignment.Maxbet.Value}"
-            : $"{assignment.KOTime.ToString(@"hh\:mm")}/{assignment.Maxbet.Value}";
+            ? $"V/{assignment.MaxbetHDP.Value}"
+            : $"{assignment.KOTime.ToString(@"hh\:mm")}/{assignment.MaxbetHDP.Value}";
         }
 
         public static (DateTime eventDate, int owpMatchId, IList<int> bettypeIds, string remark) GetGameInfo(IList<AssignmentModel> assignments)

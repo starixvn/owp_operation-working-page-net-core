@@ -9,7 +9,7 @@ namespace OWP.AssigneeSuggestionList.Helper
                 assignment.IsMainMatch
                 && !assignment.IsMajorLeague
                 && IsValidBetType(assignment.BettypeId)
-                && maxbetComparerFunc.Invoke(assignment.Maxbet);
+                && maxbetComparerFunc.Invoke(assignment.MaxbetHDP);
 
         private static bool IsValidBetType(int bettypeId)
         => Equals(bettypeId, EnumBettype.Handicap)

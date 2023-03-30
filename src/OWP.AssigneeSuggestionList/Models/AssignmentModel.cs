@@ -23,7 +23,7 @@ namespace OWP.AssigneeSuggestionList.Models
 
         public bool IsMainMatch { get; set; }
 
-        public bool IsFantasyMatch { get; set; }
+        public bool IsFantasyMatch => LeagueName.IsContains("FANTASY MATCH");
 
         public bool IsCornerMatch { get; set; }
 
@@ -39,6 +39,6 @@ namespace OWP.AssigneeSuggestionList.Models
 
         public bool IsSaba => LeagueName.IsContains("SABA ");
 
-        public decimal? Maxbet { get; set; }
+        public decimal? MaxbetHDP { get; set; }
     }
 }
