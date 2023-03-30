@@ -25,8 +25,16 @@ namespace OWP.AssigneeSuggestionList.Services
             var oneGameGroup = assignments
             ?.Where(a => LinkGameConditionHelper.CanGroupNGame(a, maxbet => maxbet > MIN_MAXBET))
             .ToList();
-
-            await workingSchedule.Group(oneGameGroup, schedules, ColorCodeConst.ONE_GAME, "[oneGameGroup]");
+            var assignmentCell = new AssignmentCell
+            {
+                Color = ColorCodeConst.ONE_GAME,
+                TextColor = ColorCodeConst.TEXT_ONE_GAME
+            };
+            await workingSchedule.Group(
+                oneGameGroup,
+                schedules,
+                assignmentCell,
+                "[oneGameGroup]");
         }
     }
 }

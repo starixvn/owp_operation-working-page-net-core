@@ -9,7 +9,7 @@ namespace OWP.AssigneeSuggestionList.Services
         Task Group(
                      IList<AssignmentModel> assignments,
                     WorkingSchedule schedule,
-                    string colorCode,
+                    AssignmentCell cell,
                     string groupType);
     }
     public class SingleGameGroupServiceImp : SingleGameGroupService
@@ -27,16 +27,12 @@ namespace OWP.AssigneeSuggestionList.Services
         public async Task Group(
             IList<AssignmentModel> assignments,
             WorkingSchedule schedule,
-            string colorCode,
+            AssignmentCell assignmentCell,
             string groupType)
         {
             var mJGroupPair = assignments
                 ?.GroupBy(a => a.OWPMatchId)
                 .ToDictionary(b => b.Key, b => b.ToList());
-            var assignmentCell = new AssignmentCell
-            {
-                Color = colorCode
-            };
             if (mJGroupPair is not null)
             {
                 foreach (var key in mJGroupPair.Keys)

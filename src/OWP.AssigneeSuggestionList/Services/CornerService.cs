@@ -22,9 +22,19 @@ namespace OWP.AssigneeSuggestionList.Services
              IList<AssignmentModel> assignments,
             WorkingSchedule schedules)
         {
-            var cornerMatchGroup = assignments?.Where(a => a.IsCornerMatch)
+            var gameGroup = assignments
+            ?.Where(a => a.IsCornerMatch)
              ?.ToList();
-            await workingSchedule.Group(cornerMatchGroup, schedules, ColorCodeConst.CORNER, "[CORNER]");
+            var assignmentCell = new AssignmentCell
+            {
+                Color = ColorCodeConst.CORNER,
+                TextColor = ColorCodeConst.TEXT_CORNER
+            };
+            await workingSchedule.Group(
+                gameGroup,
+                schedules,
+                assignmentCell,
+                 "[CORNER]");
         }
     }
 }

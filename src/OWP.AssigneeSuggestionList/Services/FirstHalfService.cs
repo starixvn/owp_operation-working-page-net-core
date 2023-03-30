@@ -29,15 +29,22 @@ namespace OWP.AssigneeSuggestionList.Services
                         || Equals(a.BettypeId, EnumBettype.FirstHalfOverUnder)))
             ?.ToDictionary(a => a.Key, a => a.ToList());
 
-            var firstHalfMatchGroup = new List<AssignmentModel>();
+            var gameGroup = new List<AssignmentModel>();
             if (gameGroupPair is not null)
             {
                 foreach (var item in gameGroupPair)
                 {
-                    firstHalfMatchGroup.AddRange(item.Value);
+                    gameGroup.AddRange(item.Value);
                 }
-
-                await workingSchedule.Group(firstHalfMatchGroup, schedule, ColorCodeConst.FIRST_HALF, "[FIRST_HALF]");
+                var assignmentCell = new AssignmentCell
+                {
+                    Color = ColorCodeConst.FIRST_HALF,
+                    TextColor = ColorCodeConst.TEXT_FIRST_HALF
+                };
+                await workingSchedule.Group(gameGroup,
+                 schedule,
+                 assignmentCell,
+                  "[FIRST_HALF]");
             }
         }
     }

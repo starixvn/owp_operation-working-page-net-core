@@ -23,7 +23,16 @@ namespace OWP.AssigneeSuggestionList.Services
         {
             var gameGroup = assignments?.Where(a => a.Is15Mins)
                 ?.ToList();
-            await workingSchedule.Group(gameGroup, schedule, ColorCodeConst.X_MINS, "[X_MINS]");
+            var assignmentCell = new AssignmentCell
+            {
+                Color = ColorCodeConst.X_MINS,
+                TextColor = ColorCodeConst.TEXT_X_MINS
+            };
+            await workingSchedule.Group(
+                gameGroup,
+                schedule,
+                assignmentCell,
+                "[X_MINS]");
         }
     }
 }

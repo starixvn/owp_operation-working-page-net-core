@@ -8,12 +8,24 @@ public static class ColorCodeConst
     public const string ONE_GAME = "92D050";
     public const string TWO_GAME = "FF6699";
     public const string THREE_GAME = "F79646";
+    public const string ERROR = "FFFFFF";
     public const string FIRST_HALF = "B1A0C7";
     public const string FANTASY = "E6B8B7";
     public const string CORNER = "C00000";
     public const string X_MINS = "0070C0";
     public const string ET_PK = "000000";
     public const string SHIFT = "BFBFBF";
+
+    public const string TEXT_MJ = "444444";
+    public const string TEXT_ONE_GAME = "444444";
+    public const string TEXT_TWO_GAME = "444444";
+    public const string TEXT_THREE_GAME = "444444";
+    public const string TEXT_ERROR = "FF0000";
+    public const string TEXT_FIRST_HALF = "444444";
+    public const string TEXT_FANTASY = "444444";
+    public const string TEXT_CORNER = "FFFFFF";
+    public const string TEXT_X_MINS = "FFFFFF";
+    public const string TEXT_ET_PK = "FFEA29";
 }
 
 public static class ETPk

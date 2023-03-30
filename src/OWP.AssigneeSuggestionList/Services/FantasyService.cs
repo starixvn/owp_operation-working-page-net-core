@@ -29,7 +29,16 @@ namespace OWP.AssigneeSuggestionList.Services
             ?.Where(a => a.IsFantasyMatch)
             ?.ToList();
 
-            await workingSchedule.Group(matchGroup, schedule, ColorCodeConst.FANTASY, "[FANTASY]");
+            var assignmentCell = new AssignmentCell
+            {
+                Color = ColorCodeConst.FANTASY,
+                TextColor = ColorCodeConst.TEXT_FANTASY
+            };
+            await workingSchedule.Group(
+                matchGroup,
+                schedule,
+                assignmentCell,
+                "[FANTASY]");
         }
     }
 }
