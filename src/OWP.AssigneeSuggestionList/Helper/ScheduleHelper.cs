@@ -13,7 +13,7 @@ namespace OWP.AssigneeSuggestionList.Helper
             {
                 if (assignment.MaxbetHDP.HasValue)
                 {
-                    listMaxbet.Add($"{(assignment.MaxbetHDP.Value / 1000).ToString("0.####", CultureInfo.InvariantCulture)}K");
+                    listMaxbet.Add($"{FormatMaxbet(assignment.MaxbetHDP.Value)}");
                 }
             }
 
@@ -25,7 +25,7 @@ namespace OWP.AssigneeSuggestionList.Helper
         public static string BuildScheduleTextSingleGame(AssignmentModel assignment)
         {
             var maxbetDisplay = assignment.MaxbetHDP.HasValue
-                ? $"{(assignment.MaxbetHDP.Value / 1000).ToString("0.####", CultureInfo.InvariantCulture)}K"
+                ? $"{FormatMaxbet(assignment.MaxbetHDP.Value)}"
                 : string.Empty;
             return assignment.KOTime.Minutes == 0
             ? $"V/{maxbetDisplay}"
@@ -54,5 +54,8 @@ namespace OWP.AssigneeSuggestionList.Helper
                    parentMatchId,
                    gameInfo.remark);
         }
+
+        public static string FormatMaxbet(decimal maxbet)
+        => $"{(maxbet / 1000).ToString("0.####", CultureInfo.InvariantCulture)}K";
     }
 }
