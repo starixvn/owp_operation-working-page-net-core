@@ -54,16 +54,17 @@ namespace OWP.AssigneeSuggestionList.Services
             {
                 var bettypeIds = linkNGamePair[eventDate].Select(x => x.BettypeId).Distinct().ToList();
                 assignmentCell.Text = ScheduleTextHelper.BuildScheduleTextGroupGame(eventDate, linkNGamePair[eventDate]);
+
+                var scheduleUpdateModel = new ScheduleUpdateModel
+                {
+                    EventDate = eventDate,
+                    BettypeIds = bettypeIds,
+                    EtPk = new ETPKUpdateSchedule(),
+                    AssignmentCell = assignmentCell
+                };
                 // LOS: TODO
-                workingSchedule.UpdateWorkingSchedule(eventDate,
-                 bettypeIds,
-                 assignmentCell,
-                  schedules,
-                 new ETPKUpdateSchedule
-                 {
-                     IsHasEtPk = true,
-                     EtPkValue = ""
-                 });
+                workingSchedule.UpdateWorkingSchedule(scheduleUpdateModel,
+                  schedules);
 
                 await logger.InfoAsync("[LinkNGame]" + string.Join(",", linkNGamePair[eventDate]?.Select(x => x.OWPMatchId)));
                 await logger.InfoAsync("[LinkNGame]" + string.Join(",", linkNGamePair[eventDate]?.Select(x => x.BettypeId)));

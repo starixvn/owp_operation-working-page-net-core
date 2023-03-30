@@ -42,19 +42,19 @@ namespace OWP.AssigneeSuggestionList.Services
                 foreach (var key in mJGroupPair.Keys)
                 {
                     var gameInfo = mJGroupPair[key].First();
-                    var (eventDate, owpMatchId, bettypeIds) = GetGameInfo(mJGroupPair[key]);
+                    var (eventDate, owpMatchId, bettypeIds, is15Mins) = GetGameInfo(mJGroupPair[key]);
                     assignmentCell.Text = ScheduleTextHelper.BuildScheduleTextSingleGame(gameInfo);
 
+                    var scheduleUpdateModel = new ScheduleUpdateModel
+                    {
+                        EventDate = eventDate,
+                        BettypeIds = bettypeIds,
+                        EtPk = new ETPKUpdateSchedule(),
+                        Is15Mins = is15Mins,
+                        AssignmentCell = assignmentCell
+                    };
                     // LOS: TODO
-                    workingSchedule.UpdateWorkingSchedule(eventDate,
-                     bettypeIds,
-                     assignmentCell,
-                        schedule,
-                        new ETPKUpdateSchedule
-                        {
-                            EtPkValue = "",
-                            IsHasEtPk = true,
-                        });
+                    workingSchedule.UpdateWorkingSchedule(scheduleUpdateModel, schedule);
 
                     await logger.InfoAsync(groupType + string.Join(",", mJGroupPair[key]?.Select(x => x.OWPMatchId)));
                     await logger.InfoAsync(groupType + string.Join(",", mJGroupPair[key]?.Select(x => x.BettypeId)));
@@ -62,13 +62,14 @@ namespace OWP.AssigneeSuggestionList.Services
             }
         }
 
-        private (DateTime, int, IList<int>) GetGameInfo(IList<AssignmentModel> assignments)
+        private (DateTime eventDate, int owpMatchId, IList<int> bettypeIds, bool Is15Mins) GetGameInfo(IList<AssignmentModel> assignments)
         {
             var gameInfo = assignments.First();
             var eventDate = gameInfo.EventDateTime;
             var owpMatchId = gameInfo.OWPMatchId;
+            var is15Mins = gameInfo.Is15Mins;
             var bettypeIds = assignments.Select(x => x.BettypeId).Distinct().ToList();
-            return (eventDate, owpMatchId, bettypeIds);
+            return (eventDate, owpMatchId, bettypeIds, is15Mins);
         }
 
 

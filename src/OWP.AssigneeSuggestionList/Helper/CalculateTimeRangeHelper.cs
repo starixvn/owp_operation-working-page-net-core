@@ -1,3 +1,4 @@
+using OWP.AssigneeSuggestionList.Models;
 using OWP.Enums;
 
 namespace OWP.AssigneeSuggestionList.Helper
@@ -5,22 +6,32 @@ namespace OWP.AssigneeSuggestionList.Helper
     public static class CalculateTimeRangeHelper
     {
         private const int INCREASE_HOUR_DEFAULT = 0;
+
         private const int INCREASE_HOUR_BY_TWO = 2;
+
         private const int INCREASE_HOUR_BY_ONE = 1;
 
-        public static (DateTime, DateTime) CalculateTimeRange(DateTime eventDate, IList<int> bettypeIds, bool isEtPK)
+        public static (DateTime startTime, DateTime endTime) CalculateTimeRange(ScheduleUpdateModel updateModel)
         {
             var increaseHour = INCREASE_HOUR_DEFAULT;
             var increaseHourPair = new Dictionary<string, int>();
-            foreach (var bettypeId in bettypeIds)
+
+            var hdp = (int)EnumBettype.Handicap;
+            var ou = (int)EnumBettype.OverUnder;
+            var fhHdp = (int)EnumBettype.FirstHalfHandicap;
+            var fhOu = (int)EnumBettype.FirstHalfOverUnder;
+
+            foreach (var bettypeId in updateModel.BettypeIds)
             {
-                if (bettypeId == (int)EnumBettype.Handicap
-                || bettypeId == (int)EnumBettype.OverUnder)
+                if (!updateModel.Is15Mins
+                 && (bettypeId == hdp
+                || bettypeId == ou))
                 {
                     increaseHourPair.TryAdd("FT", INCREASE_HOUR_BY_TWO);
                 }
-                else if (bettypeId == (int)EnumBettype.FirstHalfHandicap
-                || bettypeId == (int)EnumBettype.FirstHalfOverUnder)
+                else if (updateModel.Is15Mins
+                || bettypeId == fhHdp
+                || bettypeId == fhOu)
                 {
                     increaseHourPair.TryAdd("FIRST_HALF", INCREASE_HOUR_BY_ONE);
                 }
@@ -30,7 +41,7 @@ namespace OWP.AssigneeSuggestionList.Helper
                 }
             }
 
-            if (isEtPK)
+            if (updateModel.EtPk.IsHasEtPk)
             {
                 increaseHourPair.TryAdd("ET_PK", INCREASE_HOUR_BY_ONE);
             }
@@ -39,8 +50,8 @@ namespace OWP.AssigneeSuggestionList.Helper
             {
                 increaseHour += value;
             }
-            var endDate = eventDate.AddDays(increaseHour);
-            return (eventDate, endDate);
+            var endDate = updateModel.EventDate.AddDays(increaseHour);
+            return (updateModel.EventDate, endDate);
         }
     }
 }

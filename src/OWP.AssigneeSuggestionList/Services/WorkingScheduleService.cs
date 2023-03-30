@@ -8,37 +8,24 @@ namespace OWP.AssigneeSuggestionList.Services
     public interface WorkingScheduleService
     {
         void UpdateWorkingSchedule(
-                    DateTime eventDate,
-                    IList<int> bettypeIds,
-                    AssignmentCell assignmentCell,
-                    WorkingSchedule schedule,
-                    ETPKUpdateSchedule etPk);
+           ScheduleUpdateModel updateModel,
+            WorkingSchedule schedule);
     }
     public class WorkingScheduleServiceImp : WorkingScheduleService
     {
         public void UpdateWorkingSchedule(
-            DateTime eventDate,
-            IList<int> bettypeIds,
-            AssignmentCell assignmentCell,
-            WorkingSchedule schedule,
-            ETPKUpdateSchedule etPk)
+           ScheduleUpdateModel updateModel,
+            WorkingSchedule schedule)
         {
-            var (startTime, endTime) = CalculateTimeRangeHelper.CalculateTimeRange(eventDate, bettypeIds, etPk.IsHasEtPk);
-            var scheduleProperties = AssigneeSuggestionHelper.GetValidProperties(eventDate, startTime, endTime);
-
-            UpdateWorkingSchedule(schedule,
-            new()
-            {
-                PropertiesName = scheduleProperties,
-                AssignmentCell = assignmentCell
-            },
-            etPk);
+            var (startTime, endTime) = CalculateTimeRangeHelper.CalculateTimeRange(updateModel);
+            var scheduleProperties = AssigneeSuggestionHelper.GetValidProperties(updateModel.EventDate, startTime, endTime);
+            updateModel.PropertiesName = scheduleProperties;
+            UpdateWorkingSchedule(schedule, updateModel);
         }
 
         private static void UpdateWorkingSchedule(
             WorkingSchedule schedule,
-            WorkingScheduleUpdateModel updateModel,
-            ETPKUpdateSchedule etPk)
+            ScheduleUpdateModel updateModel)
         {
             var objType = schedule.GetType();
             var assignmentCell = updateModel.AssignmentCell;
@@ -53,9 +40,9 @@ namespace OWP.AssigneeSuggestionList.Services
                     {
                         assignmentCell.Text = string.Empty;
                     }
-                    if (etPk.IsHasEtPk && index == propertiesLength - 1)
+                    if (updateModel.EtPk.IsHasEtPk && index == propertiesLength - 1)
                     {
-                        assignmentCell.Text = etPk.EtPkValue;
+                        assignmentCell.Text = updateModel.EtPk.EtPkValue;
                         assignmentCell.Color = ColorCodeConst.ET_PK;
                     }
                     propertyInfo.SetValue(schedule, assignmentCell);
