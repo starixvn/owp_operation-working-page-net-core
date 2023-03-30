@@ -19,9 +19,15 @@ public class AssigneeSuggestionController : ControllerBase
     }
 
     [HttpGet("get-trader-suggestion")]
-    public async Task<IActionResult> GetTraderSuggestion([FromQuery] int owpMatchId, [FromQuery] string betType)
+    public async Task<IActionResult> GetTraderSuggestion([FromQuery] int owpMatchId, [FromQuery] int betTypeId)
     {
-        return Ok("Suggestion List");
+        var result = await mediator.Send(new QueryTraderSuggestionRequest
+        {
+            OwpMatchId = owpMatchId,
+            BetTypeId = betTypeId
+        });
+
+        return Ok(result);
     }
 
     [HttpGet("get-match-info")]

@@ -1,18 +1,17 @@
 ﻿using MediatR;
-using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Models;
 using OWP.AssigneeSuggestionList.Services;
 
 namespace OWP.AssigneeSuggestionList.Handlers;
 
-public class QueryTraderSuggestionRequest : IRequest<(MatchInfo, List<WorkingSchedule>)>
+public class QueryTraderSuggestionRequest : IRequest<SuggestionInfo>
 {
     public int OwpMatchId { get; set; }
 
-    public string BetType { get; set; }
+    public int BetTypeId { get; set; }
 }
 
-public class QueryTraderSuggestionHandler : IRequestHandler<QueryTraderSuggestionRequest, (MatchInfo, List<WorkingSchedule>)>
+public class QueryTraderSuggestionHandler : IRequestHandler<QueryTraderSuggestionRequest, SuggestionInfo>
 {
     private readonly Repository repository;
     private readonly WorkingShiftService workingShiftService;
@@ -46,14 +45,14 @@ public class QueryTraderSuggestionHandler : IRequestHandler<QueryTraderSuggestio
         this.xMinsGroupService = xMinsGroupService;
     }
 
-    public async Task<(MatchInfo, List<WorkingSchedule>)> Handle(QueryTraderSuggestionRequest request, CancellationToken cancellationToken)
+    public async Task<SuggestionInfo> Handle(QueryTraderSuggestionRequest request, CancellationToken cancellationToken)
     {
         var matchInfo = await repository.QueryMatchInfo(request.OwpMatchId);
 
-        var workingShift = await workingShiftService.Calculate(matchInfo.EventDate);
+        var workingShifts = await workingShiftService.Calculate(matchInfo.EventDate);
         var assignmentModels = await repository.QueryAssignments(matchInfo.EventDate);
-        await GroupGame(workingShift, assignmentModels);
-        return (matchInfo, workingShift);
+        await GroupGame(workingShifts, assignmentModels);
+        return new SuggestionInfo { MatchInfo = matchInfo, WorkingSchedules = workingShifts };
     }
 
     private async Task GroupGame(IList<WorkingSchedule> schedules,
