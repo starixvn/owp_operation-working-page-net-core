@@ -3,7 +3,7 @@ using OWP.AssigneeSuggestionList.Models;
 
 namespace OWP.AssigneeSuggestionList.Helper
 {
-    public static class ScheduleTextHelper
+    public static class ScheduleHelper
     {
         public static string BuildScheduleTextGroupGame(DateTime eventDateTime, IList<AssignmentModel> assignments)
         {
@@ -30,6 +30,16 @@ namespace OWP.AssigneeSuggestionList.Helper
             return assignment.KOTime.Minutes == 0
             ? $"V/{assignment.Maxbet.Value}"
             : $"{assignment.KOTime.ToString(@"hh\:mm")}/{assignment.Maxbet.Value}";
+        }
+
+        public static (DateTime eventDate, int owpMatchId, IList<int> bettypeIds) GetGameInfo(IList<AssignmentModel> assignments)
+        {
+            var gameInfo = assignments.First();
+            var eventDate = gameInfo.EventDateTime;
+            var owpMatchId = gameInfo.OWPMatchId;
+
+            var bettypeIds = assignments.Select(x => x.BettypeId).Distinct().ToList();
+            return (eventDate, owpMatchId, bettypeIds);
         }
     }
 }

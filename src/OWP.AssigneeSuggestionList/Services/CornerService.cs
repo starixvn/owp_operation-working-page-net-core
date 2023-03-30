@@ -1,4 +1,5 @@
 using OWP.AssigneeSuggestionList.Constant;
+using OWP.AssigneeSuggestionList.Helper;
 using OWP.AssigneeSuggestionList.Models;
 
 namespace OWP.AssigneeSuggestionList.Services
@@ -25,6 +26,7 @@ namespace OWP.AssigneeSuggestionList.Services
             var gameGroup = assignments
             ?.Where(a => a.IsCornerMatch)
              ?.ToList();
+
             var assignmentCell = new AssignmentCell
             {
                 Color = ColorCodeConst.CORNER,
@@ -33,8 +35,28 @@ namespace OWP.AssigneeSuggestionList.Services
             await workingSchedule.Group(
                 gameGroup,
                 schedules,
-                assignmentCell,
-                 "[CORNER]");
+                 "[CORNER]",
+                 BuildScheduleUpdateModel);
+        }
+
+        private static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignments)
+        {
+            var assignmentCell = new AssignmentCell
+            {
+                Color = ColorCodeConst.CORNER,
+                TextColor = ColorCodeConst.TEXT_CORNER,
+                Text = ScheduleHelper.BuildScheduleTextSingleGame(assignments.First())
+            };
+            var (eventDate, owpMatchId, bettypeIds) = ScheduleHelper.GetGameInfo(assignments);
+
+            // TODO
+            return new ScheduleUpdateModel
+            {
+                EventDate = eventDate,
+                EtPk = new ETPKUpdateSchedule(),
+                AssignmentCell = assignmentCell,
+                TimeRange = TimeRangeHelper.CalculateTimeRangeSingleGame(eventDate, bettypeIds, true)
+            };
         }
     }
 }

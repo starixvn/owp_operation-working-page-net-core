@@ -1,4 +1,5 @@
 using OWP.AssigneeSuggestionList.Constant;
+using OWP.AssigneeSuggestionList.Helper;
 using OWP.AssigneeSuggestionList.Models;
 
 
@@ -33,7 +34,28 @@ namespace OWP.AssigneeSuggestionList.Services
             await workingSchedule.Group(
                 mJGroup,
                 schedules,
-                 assignmentCell, "[LinkNGame]");
+                "[LinkNGame]",
+                BuildScheduleUpdateModel);
+        }
+
+        private ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignments)
+        {
+            var assignmentCell = new AssignmentCell
+            {
+                Color = ColorCodeConst.ONE_GAME,
+                TextColor = ColorCodeConst.TEXT_ONE_GAME,
+                Text = ScheduleHelper.BuildScheduleTextSingleGame(assignments.First())
+            };
+            var (eventDate, owpMatchId, bettypeIds) = ScheduleHelper.GetGameInfo(assignments);
+
+            // TODO
+            return new ScheduleUpdateModel
+            {
+                EventDate = eventDate,
+                EtPk = new ETPKUpdateSchedule(),
+                AssignmentCell = assignmentCell,
+                TimeRange = TimeRangeHelper.CalculateTimeRangeSingleGame(eventDate, bettypeIds, true)
+            };
         }
     }
 }

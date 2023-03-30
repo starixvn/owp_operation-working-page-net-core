@@ -53,15 +53,17 @@ namespace OWP.AssigneeSuggestionList.Services
             foreach (var eventDate in linkNGamePair.Keys)
             {
                 var bettypeIds = linkNGamePair[eventDate].Select(x => x.BettypeId).Distinct().ToList();
-                assignmentCell.Text = ScheduleTextHelper.BuildScheduleTextGroupGame(eventDate, linkNGamePair[eventDate]);
+                assignmentCell.Text = ScheduleHelper.BuildScheduleTextGroupGame(eventDate, linkNGamePair[eventDate]);
 
+                var timeRange = TimeRangeHelper.CalculateTimeRangeFT(eventDate, hasEtpk: true);
                 var scheduleUpdateModel = new ScheduleUpdateModel
                 {
                     EventDate = eventDate,
-                    BettypeIds = bettypeIds,
                     EtPk = new ETPKUpdateSchedule(),
-                    AssignmentCell = assignmentCell
+                    AssignmentCell = assignmentCell,
+                    TimeRange = timeRange
                 };
+
                 // LOS: TODO
                 workingSchedule.UpdateWorkingSchedule(scheduleUpdateModel,
                   schedules);

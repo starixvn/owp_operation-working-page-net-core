@@ -17,8 +17,12 @@ namespace OWP.AssigneeSuggestionList.Services
            ScheduleUpdateModel updateModel,
             WorkingSchedule schedule)
         {
-            var (startTime, endTime) = CalculateTimeRangeHelper.CalculateTimeRange(updateModel);
-            var scheduleProperties = AssigneeSuggestionHelper.GetValidProperties(updateModel.EventDate, startTime, endTime);
+
+            var scheduleProperties = AssigneeSuggestionHelper.GetValidProperties(
+                updateModel.EventDate,
+                updateModel.TimeRange.Item1,
+                updateModel.TimeRange.Item2);
+
             updateModel.PropertiesName = scheduleProperties;
             UpdateWorkingSchedule(schedule, updateModel);
         }

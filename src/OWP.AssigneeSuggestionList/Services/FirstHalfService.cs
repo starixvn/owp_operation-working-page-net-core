@@ -1,5 +1,6 @@
 using MediatR;
 using OWP.AssigneeSuggestionList.Constant;
+using OWP.AssigneeSuggestionList.Helper;
 using OWP.AssigneeSuggestionList.Models;
 using OWP.Enums;
 
@@ -43,9 +44,29 @@ namespace OWP.AssigneeSuggestionList.Services
                 };
                 await workingSchedule.Group(gameGroup,
                  schedule,
-                 assignmentCell,
-                  "[FIRST_HALF]");
+                  "[FIRST_HALF]",
+                  BuildScheduleUpdateModel);
             }
+        }
+
+        private static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignments)
+        {
+            var assignmentCell = new AssignmentCell
+            {
+                Color = ColorCodeConst.FIRST_HALF,
+                TextColor = ColorCodeConst.TEXT_FIRST_HALF,
+                Text = ScheduleHelper.BuildScheduleTextSingleGame(assignments.First())
+            };
+            var (eventDate, owpMatchId, bettypeIds) = ScheduleHelper.GetGameInfo(assignments);
+
+            // TODO
+            return new ScheduleUpdateModel
+            {
+                EventDate = eventDate,
+                EtPk = new ETPKUpdateSchedule(),
+                AssignmentCell = assignmentCell,
+                TimeRange = TimeRangeHelper.CalculateTimeRangeSingleGame(eventDate, bettypeIds, true)
+            };
         }
     }
 }
