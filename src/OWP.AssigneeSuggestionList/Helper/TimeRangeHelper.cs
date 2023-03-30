@@ -26,24 +26,20 @@ namespace OWP.AssigneeSuggestionList.Helper
             var increaseHour = INCREASE_HOUR_DEFAULT;
             var increaseHourPair = new Dictionary<string, int>();
 
-            var hdp = (int)EnumBettype.Handicap;
-            var ou = (int)EnumBettype.OverUnder;
-            var fhHdp = (int)EnumBettype.FirstHalfHandicap;
-            var fhOu = (int)EnumBettype.FirstHalfOverUnder;
+            const int HDP = (int)EnumBettype.Handicap;
+            const int OU = (int)EnumBettype.OverUnder;
+            const int FT_HDP = (int)EnumBettype.FirstHalfHandicap;
+            const int FT_OU = (int)EnumBettype.FirstHalfOverUnder;
 
             foreach (var bettypeId in bettypeIds)
             {
-                if ((bettypeId == hdp || bettypeId == ou))
+                if ((bettypeId == HDP || bettypeId == OU))
                 {
                     increaseHourPair.TryAdd("FT", INCREASE_HOUR_BY_TWO);
                 }
-                else if (bettypeId == fhHdp || bettypeId == fhOu)
+                if (bettypeId == FT_HDP || bettypeId == FT_OU)
                 {
                     increaseHourPair.TryAdd("FH", INCREASE_HOUR_BY_ONE);
-                }
-                else
-                {
-
                 }
             }
 
@@ -52,6 +48,10 @@ namespace OWP.AssigneeSuggestionList.Helper
                 increaseHourPair.TryAdd("ET_PK", INCREASE_HOUR_BY_ONE);
             }
 
+            if (increaseHourPair.ContainsKey("FT"))
+            {
+                increaseHourPair.Remove("FH");
+            }
             foreach (var value in increaseHourPair.Values)
             {
                 increaseHour += value;

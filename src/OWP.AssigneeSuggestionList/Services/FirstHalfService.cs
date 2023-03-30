@@ -37,11 +37,6 @@ namespace OWP.AssigneeSuggestionList.Services
                 {
                     gameGroup.AddRange(item.Value);
                 }
-                var assignmentCell = new AssignmentCell
-                {
-                    Color = ColorCodeConst.FIRST_HALF,
-                    TextColor = ColorCodeConst.TEXT_FIRST_HALF
-                };
                 await workingSchedule.Group(gameGroup,
                  schedule,
                   "[FIRST_HALF]",
@@ -60,7 +55,6 @@ namespace OWP.AssigneeSuggestionList.Services
             var gameInfo = ScheduleHelper.GetGameInfo(assignments);
             var etPkValue = ETPKHelper.DetectExtraTime(gameInfo.remark);
 
-            // TODO
             return new ScheduleUpdateModel
             {
                 EventDate = gameInfo.eventDate,

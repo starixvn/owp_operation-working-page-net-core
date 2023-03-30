@@ -1,4 +1,3 @@
-using MediatR;
 using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Helper;
 using OWP.AssigneeSuggestionList.Models;
@@ -46,7 +45,6 @@ namespace OWP.AssigneeSuggestionList.Services
             };
             var etPkValue = ETPKHelper.DetectExtraTime(parentGame.Remark);
 
-            // TODO
             return new()
             {
                 EventDate = gameInfo.eventDate,
@@ -56,7 +54,7 @@ namespace OWP.AssigneeSuggestionList.Services
                     EtPkValue = etPkValue
                 },
                 AssignmentCell = assignmentCell,
-                TimeRange = (gameInfo.eventDate, gameInfo.eventDate)
+                TimeRange = (gameInfo.eventDate, gameInfo.eventDate.AddHours(1))
             };
         }
     }

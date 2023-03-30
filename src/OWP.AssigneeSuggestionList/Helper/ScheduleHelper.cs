@@ -28,8 +28,8 @@ namespace OWP.AssigneeSuggestionList.Helper
                 ? $"{(assignment.MaxbetHDP.Value / 1000).ToString("0.####", CultureInfo.InvariantCulture)}K"
                 : string.Empty;
             return assignment.KOTime.Minutes == 0
-            ? $"V/{assignment.MaxbetHDP.Value}"
-            : $"{assignment.KOTime.ToString(@"hh\:mm")}/{assignment.MaxbetHDP.Value}";
+            ? $"V/{maxbetDisplay}"
+            : $"{assignment.KOTime.ToString(@"hh\:mm")}/{maxbetDisplay}";
         }
 
         public static (DateTime eventDate, int owpMatchId, IList<int> bettypeIds, string remark) GetGameInfo(IList<AssignmentModel> assignments)

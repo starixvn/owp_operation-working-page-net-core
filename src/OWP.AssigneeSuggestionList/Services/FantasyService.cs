@@ -30,11 +30,6 @@ namespace OWP.AssigneeSuggestionList.Services
             ?.Where(a => a.IsFantasyMatch)
             ?.ToList();
 
-            var assignmentCell = new AssignmentCell
-            {
-                Color = ColorCodeConst.FANTASY,
-                TextColor = ColorCodeConst.TEXT_FANTASY
-            };
             await workingSchedule.Group(
                 matchGroup,
                 schedule,
@@ -53,7 +48,6 @@ namespace OWP.AssigneeSuggestionList.Services
             var gameInfo = ScheduleHelper.GetGameInfo(assignments);
             var etPkValue = ETPKHelper.DetectExtraTime(gameInfo.remark);
 
-            // TODO
             return new ScheduleUpdateModel
             {
                 EventDate = gameInfo.eventDate,

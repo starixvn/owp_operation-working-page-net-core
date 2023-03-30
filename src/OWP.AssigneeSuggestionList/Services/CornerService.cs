@@ -27,11 +27,6 @@ namespace OWP.AssigneeSuggestionList.Services
             ?.Where(a => a.IsCornerMatch)
              ?.ToList();
 
-            var assignmentCell = new AssignmentCell
-            {
-                Color = ColorCodeConst.CORNER,
-                TextColor = ColorCodeConst.TEXT_CORNER
-            };
             await workingSchedule.Group(
                 gameGroup,
                 schedules,
@@ -45,9 +40,9 @@ namespace OWP.AssigneeSuggestionList.Services
             {
                 Color = ColorCodeConst.CORNER,
                 TextColor = ColorCodeConst.TEXT_CORNER,
-                Text = ScheduleHelper.BuildScheduleTextSingleGame(assignments.First())
+                Text = ScheduleHelper.BuildScheduleTextSingleGame(assignmentsCorner.First())
             };
-            var gameInfo = ScheduleHelper.GetGameInfoMinor(assignments);
+            var gameInfo = ScheduleHelper.GetGameInfoMinor(assignmentsCorner);
             var parentGame = assignments.FirstOrDefault(g => g.OWPMatchId == gameInfo.parentMatchId);
             var etPkValue = ETPKHelper.DetectExtraTimeCorner(parentGame?.Remark, gameInfo.remark);
 

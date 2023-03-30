@@ -22,6 +22,7 @@ public class QueryTraderSuggestionHandler : IRequestHandler<QueryTraderSuggestio
     private readonly FantasyService fantasyService;
     private readonly CornerService cornerService;
     private readonly XMinsGroupService xMinsGroupService;
+    private readonly LinkErrorService linkErrorService;
 
     public QueryTraderSuggestionHandler(
         Repository repository,
@@ -32,7 +33,8 @@ public class QueryTraderSuggestionHandler : IRequestHandler<QueryTraderSuggestio
              FirstHalfService firstHalfService,
               FantasyService fantasyService,
                CornerService cornerService,
-                XMinsGroupService xMinsGroupService)
+                XMinsGroupService xMinsGroupService,
+                LinkErrorService linkErrorService)
     {
         this.repository = repository;
         this.workingShiftService = workingShiftService;
@@ -43,6 +45,7 @@ public class QueryTraderSuggestionHandler : IRequestHandler<QueryTraderSuggestio
         this.fantasyService = fantasyService;
         this.cornerService = cornerService;
         this.xMinsGroupService = xMinsGroupService;
+        this.linkErrorService = linkErrorService;
     }
 
     public async Task<SuggestionInfo> Handle(QueryTraderSuggestionRequest request, CancellationToken cancellationToken)
@@ -69,6 +72,7 @@ public class QueryTraderSuggestionHandler : IRequestHandler<QueryTraderSuggestio
             await fantasyService.Group(assignments, schedule);
             await cornerService.Group(assignments, schedule);
             await xMinsGroupService.Group(assignments, schedule);
+            await linkErrorService.Group(assignments, schedule);
         }
     }
 

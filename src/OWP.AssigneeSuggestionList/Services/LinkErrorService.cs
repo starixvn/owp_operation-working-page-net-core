@@ -35,7 +35,6 @@ namespace OWP.AssigneeSuggestionList.Services
             };
             foreach (var eventDate in linkNGamePair.Keys)
             {
-                var bettypeIds = linkNGamePair[eventDate].Select(x => x.BettypeId).Distinct().ToList();
                 assignmentCell.Text = "Error";
 
                 var scheduleUpdateModel = new ScheduleUpdateModel

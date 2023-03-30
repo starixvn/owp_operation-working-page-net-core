@@ -43,7 +43,7 @@ namespace OWP.AssigneeSuggestionList.Services
             };
             var gameInfo = ScheduleHelper.GetGameInfo(assignments);
             var etPkValue = ETPKHelper.DetectExtraTime(gameInfo.remark);
-            // TODO
+
             return new ScheduleUpdateModel
             {
                 EventDate = gameInfo.eventDate,

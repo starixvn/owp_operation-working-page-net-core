@@ -26,11 +26,7 @@ namespace OWP.AssigneeSuggestionList.Services
         {
             var mJGroup = assignments.Where(a => a.IsMajorLeague)
             ?.ToList();
-            var assignmentCell = new AssignmentCell
-            {
-                Color = ColorCodeConst.MJ,
-                TextColor = ColorCodeConst.TEXT_MJ
-            };
+
             await workingSchedule.Group(
                 mJGroup,
                 schedules,
@@ -42,8 +38,8 @@ namespace OWP.AssigneeSuggestionList.Services
         {
             var assignmentCell = new AssignmentCell
             {
-                Color = ColorCodeConst.ONE_GAME,
-                TextColor = ColorCodeConst.TEXT_ONE_GAME,
+                Color = ColorCodeConst.MJ,
+                TextColor = ColorCodeConst.TEXT_MJ,
                 Text = ScheduleHelper.BuildScheduleTextSingleGame(assignments.First())
             };
             var gameInfo = ScheduleHelper.GetGameInfo(assignments);
