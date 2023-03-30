@@ -52,14 +52,21 @@ namespace OWP.AssigneeSuggestionList.Services
             };
             foreach (var eventDate in linkNGamePair.Keys)
             {
-                var bettypeIds = linkNGamePair[eventDate].Select(x => x.BettypeId).Distinct().ToList();
-                assignmentCell.Text = ScheduleHelper.BuildScheduleTextGroupGame(eventDate, linkNGamePair[eventDate]);
+                var remark = linkNGamePair[eventDate].Select(x => x.Remark).ToList();
+                assignmentCell.Text = ScheduleHelper.BuildScheduleTextGroupGame(linkNGamePair[eventDate]);
 
-                var timeRange = TimeRangeHelper.CalculateTimeRangeFT(eventDate, hasEtpk: true);
+                var etpkValue = ETPKHelper.BuildEtPkTextDisplay(remark);
+                var timeRange = TimeRangeHelper.CalculateTimeRangeFT(eventDate, hasEtpk: string.IsNullOrWhiteSpace(etpkValue));
+
+
                 var scheduleUpdateModel = new ScheduleUpdateModel
                 {
                     EventDate = eventDate,
-                    EtPk = new ETPKUpdateSchedule(),
+                    EtPk = new ETPKUpdateSchedule
+                    {
+                        IsHasEtPk = string.IsNullOrWhiteSpace(etpkValue),
+                        EtPkValue = etpkValue
+                    },
                     AssignmentCell = assignmentCell,
                     TimeRange = timeRange
                 };
@@ -73,7 +80,9 @@ namespace OWP.AssigneeSuggestionList.Services
             }
         }
 
-        private IDictionary<DateTime, List<AssignmentModel>> GetValidGame(IList<AssignmentModel> models, int numberGame)
+
+
+        private static IDictionary<DateTime, List<AssignmentModel>> GetValidGame(IList<AssignmentModel> models, int numberGame)
         => models.Where(a => LinkGameConditionHelper.CanGroupNGame(a, maxbet => maxbet <= 12000))
                 ?.GroupBy(a => a.EventDateTime)
                 .Where(g => g.Select(x => x.OWPMatchId).Distinct().Count() == numberGame)?

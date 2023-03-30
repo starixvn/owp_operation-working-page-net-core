@@ -5,9 +5,9 @@ namespace OWP.AssigneeSuggestionList.Helper
 {
     public static class ScheduleHelper
     {
-        public static string BuildScheduleTextGroupGame(DateTime eventDateTime, IList<AssignmentModel> assignments)
+        public static string BuildScheduleTextGroupGame(IList<AssignmentModel> assignments)
         {
-            var owpMatchId = assignments?.Select(x => x.OWPMatchId).Distinct();
+            var eventDateTime = assignments.First().EventDateTime;
             var listMaxbet = new List<string>();
             foreach (var assignment in assignments)
             {
@@ -32,21 +32,27 @@ namespace OWP.AssigneeSuggestionList.Helper
             : $"{assignment.KOTime.ToString(@"hh\:mm")}/{assignment.Maxbet.Value}";
         }
 
-        public static (DateTime eventDate, int owpMatchId, IList<int> bettypeIds) GetGameInfo(IList<AssignmentModel> assignments)
+        public static (DateTime eventDate, int owpMatchId, IList<int> bettypeIds, string remark) GetGameInfo(IList<AssignmentModel> assignments)
         {
             var gameInfo = assignments.First();
             var eventDate = gameInfo.EventDateTime;
             var owpMatchId = gameInfo.OWPMatchId;
+            var Remark = gameInfo.Remark;
 
             var bettypeIds = assignments.Select(x => x.BettypeId).Distinct().ToList();
-            return (eventDate, owpMatchId, bettypeIds);
+            return (eventDate, owpMatchId, bettypeIds, Remark);
         }
 
-        public static (DateTime eventDate, int owpMatchId, IList<int> bettypeIds, int? ParentMatchId) GetGameInfo15Mins(IList<AssignmentModel> assignments)
+        public static (DateTime eventDate, int owpMatchId, IList<int> bettypeIds, int? parentMatchId, string remark) GetGameInfoMinor(IList<AssignmentModel> assignments)
         {
             var parentMatchId = assignments.First().ParentMatchId;
-            var (eventDate, owpMatchId, bettypeIds) = GetGameInfo(assignments);
-            return (eventDate, owpMatchId, bettypeIds, parentMatchId);
+            var gameInfo = GetGameInfo(assignments);
+            return (
+                gameInfo.eventDate,
+                 gameInfo.owpMatchId,
+                  gameInfo.bettypeIds,
+                   parentMatchId,
+                   gameInfo.remark);
         }
     }
 }

@@ -2,9 +2,9 @@ using OWP.AssigneeSuggestionList.Constant;
 
 namespace OWP.AssigneeSuggestionList.Helper
 {
-    public class DetectETPKHelper
+    public static class ETPKHelper
     {
-        public string DetectExtraTime(string remark)
+        public static string DetectExtraTime(string remark)
         {
             var extraTime = string.Empty;
             if (IsEtPkMatch(remark))
@@ -15,11 +15,32 @@ namespace OWP.AssigneeSuggestionList.Helper
             {
                 extraTime = ETPk.Pk;
             }
-            if (IsEtMatch(remark))
-            {
-                extraTime = ETPk.Et;
-            }
             return extraTime;
+        }
+
+        public static string DetectExtraTimeCorner(string parentRemark, string remark)
+        {
+            var extraTimeCorner = DetectExtraTime(remark);
+            if (string.IsNullOrWhiteSpace(extraTimeCorner)
+            && IsEtPkMatch(parentRemark))
+            {
+                extraTimeCorner = ETPk.Et;
+            }
+            return extraTimeCorner;
+        }
+
+        public static string BuildEtPkTextDisplay(IList<string> remark)
+        {
+            var etpkValues = new List<string>();
+            foreach (var item in remark)
+            {
+                var value = ETPKHelper.DetectExtraTime(item);
+                if (!string.IsNullOrEmpty(value))
+                {
+                    etpkValues.Add(value);
+                }
+            }
+            return string.Join("+", etpkValues);
         }
 
         private static bool IsEtPkMatch(string remark)

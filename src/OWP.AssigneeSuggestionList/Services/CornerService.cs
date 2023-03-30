@@ -36,10 +36,10 @@ namespace OWP.AssigneeSuggestionList.Services
                 gameGroup,
                 schedules,
                  "[CORNER]",
-                 BuildScheduleUpdateModel);
+                assignmentsCorner => BuildScheduleUpdateModel(assignmentsCorner, assignments));
         }
 
-        private static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignments)
+        private static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignmentsCorner, IList<AssignmentModel> assignments)
         {
             var assignmentCell = new AssignmentCell
             {
@@ -47,15 +47,20 @@ namespace OWP.AssigneeSuggestionList.Services
                 TextColor = ColorCodeConst.TEXT_CORNER,
                 Text = ScheduleHelper.BuildScheduleTextSingleGame(assignments.First())
             };
-            var (eventDate, owpMatchId, bettypeIds) = ScheduleHelper.GetGameInfo(assignments);
+            var gameInfo = ScheduleHelper.GetGameInfoMinor(assignments);
+            var parentGame = assignments.FirstOrDefault(g => g.OWPMatchId == gameInfo.parentMatchId);
+            var etPkValue = ETPKHelper.DetectExtraTimeCorner(parentGame?.Remark, gameInfo.remark);
 
-            // TODO
-            return new ScheduleUpdateModel
+            return new()
             {
-                EventDate = eventDate,
-                EtPk = new ETPKUpdateSchedule(),
+                EventDate = gameInfo.eventDate,
+                EtPk = new ETPKUpdateSchedule
+                {
+                    IsHasEtPk = !string.IsNullOrEmpty(etPkValue),
+                    EtPkValue = etPkValue
+                },
                 AssignmentCell = assignmentCell,
-                TimeRange = TimeRangeHelper.CalculateTimeRangeSingleGame(eventDate, bettypeIds, true)
+                TimeRange = TimeRangeHelper.CalculateTimeRangeSingleGame(gameInfo.eventDate, gameInfo.bettypeIds, !string.IsNullOrEmpty(etPkValue))
             };
         }
     }

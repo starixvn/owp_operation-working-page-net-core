@@ -50,15 +50,20 @@ namespace OWP.AssigneeSuggestionList.Services
                 TextColor = ColorCodeConst.TEXT_FANTASY,
                 Text = ScheduleHelper.BuildScheduleTextSingleGame(assignments.First())
             };
-            var (eventDate, owpMatchId, bettypeIds) = ScheduleHelper.GetGameInfo(assignments);
+            var gameInfo = ScheduleHelper.GetGameInfo(assignments);
+            var etPkValue = ETPKHelper.DetectExtraTime(gameInfo.remark);
 
             // TODO
             return new ScheduleUpdateModel
             {
-                EventDate = eventDate,
-                EtPk = new ETPKUpdateSchedule(),
+                EventDate = gameInfo.eventDate,
+                EtPk = new ETPKUpdateSchedule
+                {
+                    IsHasEtPk = !string.IsNullOrEmpty(etPkValue),
+                    EtPkValue = etPkValue
+                },
                 AssignmentCell = assignmentCell,
-                TimeRange = TimeRangeHelper.CalculateTimeRangeSingleGame(eventDate, bettypeIds, true)
+                TimeRange = TimeRangeHelper.CalculateTimeRangeSingleGame(gameInfo.eventDate, gameInfo.bettypeIds, !string.IsNullOrEmpty(etPkValue))
             };
         }
     }

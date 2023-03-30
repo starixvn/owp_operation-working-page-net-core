@@ -36,22 +36,27 @@ namespace OWP.AssigneeSuggestionList.Services
             IList<AssignmentModel> assignments15Mins,
             IList<AssignmentModel> assignments)
         {
-            var (eventDate, owpMatchId, _, parentMatchId) = ScheduleHelper.GetGameInfo15Mins(assignments15Mins);
-            var parentGame = assignments.FirstOrDefault(g => g.OWPMatchId == parentMatchId);
+            var gameInfo = ScheduleHelper.GetGameInfoMinor(assignments15Mins);
+            var parentGame = assignments.FirstOrDefault(g => g.OWPMatchId == gameInfo.parentMatchId);
             var assignmentCell = new AssignmentCell
             {
                 Color = ColorCodeConst.X_MINS,
                 TextColor = ColorCodeConst.TEXT_X_MINS,
                 Text = ScheduleHelper.BuildScheduleTextSingleGame(parentGame)
             };
+            var etPkValue = ETPKHelper.DetectExtraTime(parentGame.Remark);
 
             // TODO
             return new()
             {
-                EventDate = eventDate,
-                EtPk = new ETPKUpdateSchedule(),
+                EventDate = gameInfo.eventDate,
+                EtPk = new ETPKUpdateSchedule
+                {
+                    IsHasEtPk = !string.IsNullOrEmpty(etPkValue),
+                    EtPkValue = etPkValue
+                },
                 AssignmentCell = assignmentCell,
-                TimeRange = (eventDate, eventDate)
+                TimeRange = (gameInfo.eventDate, gameInfo.eventDate)
             };
         }
     }

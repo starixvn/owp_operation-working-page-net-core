@@ -20,7 +20,8 @@ namespace OWP.AssigneeSuggestionList.Helper
         public static (DateTime startTime, DateTime endTime) CalculateTimeRangeSingleGame(
             DateTime eventDate,
             IList<int> bettypeIds,
-            bool hasEtpk)
+            bool hasEtpk
+            )
         {
             var increaseHour = INCREASE_HOUR_DEFAULT;
             var increaseHourPair = new Dictionary<string, int>();
