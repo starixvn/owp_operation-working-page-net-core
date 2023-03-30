@@ -29,26 +29,29 @@ namespace OWP.AssigneeSuggestionList.Services
                 gameGroup,
                 schedule,
                 "[X_MINS]"
-             , BuildScheduleUpdateModel);
+             , assignments15Mins => BuildScheduleUpdateModel(assignments15Mins, assignments));
         }
 
-        private ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignments)
+        private ScheduleUpdateModel BuildScheduleUpdateModel(
+            IList<AssignmentModel> assignments15Mins,
+            IList<AssignmentModel> assignments)
         {
+            var (eventDate, owpMatchId, _, parentMatchId) = ScheduleHelper.GetGameInfo15Mins(assignments15Mins);
+            var parentGame = assignments.FirstOrDefault(g => g.OWPMatchId == parentMatchId);
             var assignmentCell = new AssignmentCell
             {
                 Color = ColorCodeConst.X_MINS,
                 TextColor = ColorCodeConst.TEXT_X_MINS,
-                //Text = ScheduleHelper.BuildScheduleTextSingleGame(assignments.First())
+                Text = ScheduleHelper.BuildScheduleTextSingleGame(parentGame)
             };
-            var (eventDate, owpMatchId, bettypeIds) = ScheduleHelper.GetGameInfo(assignments);
 
             // TODO
-            return new ScheduleUpdateModel
+            return new()
             {
                 EventDate = eventDate,
                 EtPk = new ETPKUpdateSchedule(),
                 AssignmentCell = assignmentCell,
-                //TimeRange = timeRange
+                TimeRange = (eventDate, eventDate)
             };
         }
     }

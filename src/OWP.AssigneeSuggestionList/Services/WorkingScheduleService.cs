@@ -20,8 +20,8 @@ namespace OWP.AssigneeSuggestionList.Services
 
             var scheduleProperties = AssigneeSuggestionHelper.GetValidProperties(
                 updateModel.EventDate,
-                updateModel.TimeRange.Item1,
-                updateModel.TimeRange.Item2);
+                updateModel.TimeRange.startDate,
+                updateModel.TimeRange.endDate);
 
             updateModel.PropertiesName = scheduleProperties;
             UpdateWorkingSchedule(schedule, updateModel);

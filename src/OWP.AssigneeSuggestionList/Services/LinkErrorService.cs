@@ -38,14 +38,12 @@ namespace OWP.AssigneeSuggestionList.Services
                 var bettypeIds = linkNGamePair[eventDate].Select(x => x.BettypeId).Distinct().ToList();
                 assignmentCell.Text = "Error";
 
-                var (startTime, endTime) = TimeRangeHelper.CalculateTimeRangeErrorGroup(eventDate);
-
                 var scheduleUpdateModel = new ScheduleUpdateModel
                 {
                     EventDate = eventDate,
                     EtPk = new ETPKUpdateSchedule(),
                     AssignmentCell = assignmentCell,
-                    TimeRange = (startTime, endTime)
+                    TimeRange = (eventDate, eventDate)
                 };
 
                 workingSchedule.UpdateWorkingSchedule(scheduleUpdateModel,

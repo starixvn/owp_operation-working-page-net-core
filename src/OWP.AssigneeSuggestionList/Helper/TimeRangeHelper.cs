@@ -12,9 +12,6 @@ namespace OWP.AssigneeSuggestionList.Helper
 
         private const int INCREASE_HOUR_BY_THREE = 3;
 
-        public static (DateTime startTime, DateTime endTime) CalculateTimeRangeErrorGroup(DateTime startTime)
-       => (startTime, startTime);
-
         public static (DateTime startTime, DateTime endTime) CalculateTimeRangeFT(DateTime eventDate, bool hasEtpk)
         => hasEtpk
         ? (eventDate, eventDate.AddHours(INCREASE_HOUR_BY_THREE))

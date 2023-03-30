@@ -41,5 +41,12 @@ namespace OWP.AssigneeSuggestionList.Helper
             var bettypeIds = assignments.Select(x => x.BettypeId).Distinct().ToList();
             return (eventDate, owpMatchId, bettypeIds);
         }
+
+        public static (DateTime eventDate, int owpMatchId, IList<int> bettypeIds, int? ParentMatchId) GetGameInfo15Mins(IList<AssignmentModel> assignments)
+        {
+            var parentMatchId = assignments.First().ParentMatchId;
+            var (eventDate, owpMatchId, bettypeIds) = GetGameInfo(assignments);
+            return (eventDate, owpMatchId, bettypeIds, parentMatchId);
+        }
     }
 }

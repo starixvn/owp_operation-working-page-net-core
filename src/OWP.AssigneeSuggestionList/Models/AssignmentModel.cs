@@ -35,6 +35,8 @@ namespace OWP.AssigneeSuggestionList.Models
 
         public string AwayName { get; set; }
 
+        public int? ParentMatchId { get; set; }
+
         public bool IsSaba => LeagueName.IsContains("SABA ");
 
         public decimal? Maxbet { get; set; }

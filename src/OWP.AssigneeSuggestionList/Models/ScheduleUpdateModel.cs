@@ -10,6 +10,6 @@ namespace OWP.AssigneeSuggestionList.Models
 
         public AssignmentCell AssignmentCell { get; set; }
 
-        public (DateTime, DateTime) TimeRange { get; set; }
+        public (DateTime startDate, DateTime endDate) TimeRange { get; set; }
     }
 }
