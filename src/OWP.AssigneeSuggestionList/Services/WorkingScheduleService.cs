@@ -48,6 +48,7 @@ namespace OWP.AssigneeSuggestionList.Services
                     {
                         assignmentCell.Text = updateModel.EtPk.EtPkValue;
                         assignmentCell.Color = ColorCodeConst.ET_PK;
+                        assignmentCell.TextColor = ColorCodeConst.TEXT_ET_PK;
                     }
                     propertyInfo.SetValue(schedule, assignmentCell);
                 }

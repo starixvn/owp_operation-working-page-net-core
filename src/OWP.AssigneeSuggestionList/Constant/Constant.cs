@@ -16,13 +16,15 @@ public static class ColorCodeConst
     public const string ET_PK = "000000";
     public const string SHIFT = "BFBFBF";
 
-    public const string TEXT_MJ = "444444";
-    public const string TEXT_ONE_GAME = "444444";
-    public const string TEXT_TWO_GAME = "444444";
-    public const string TEXT_THREE_GAME = "444444";
+    public const string TEXT_COLOR_BLACK = "444444";
+
+    public const string TEXT_MJ = TEXT_COLOR_BLACK;
+    public const string TEXT_ONE_GAME = TEXT_COLOR_BLACK;
+    public const string TEXT_TWO_GAME = TEXT_COLOR_BLACK;
+    public const string TEXT_THREE_GAME = TEXT_COLOR_BLACK;
     public const string TEXT_ERROR = "FF0000";
-    public const string TEXT_FIRST_HALF = "444444";
-    public const string TEXT_FANTASY = "444444";
+    public const string TEXT_FIRST_HALF = TEXT_COLOR_BLACK;
+    public const string TEXT_FANTASY = TEXT_COLOR_BLACK;
     public const string TEXT_CORNER = "FFFFFF";
     public const string TEXT_X_MINS = "FFFFFF";
     public const string TEXT_ET_PK = "FFEA29";

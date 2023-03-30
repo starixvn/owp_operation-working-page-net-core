@@ -32,24 +32,31 @@ namespace OWP.AssigneeSuggestionList.Services
         private async Task LinkTwoGame(IList<AssignmentModel> assignment, WorkingSchedule schedules)
         {
             var linkNGamePair = GetValidGame(assignment, 2);
-            await UpdateSchedule(linkNGamePair, schedules, ColorCodeConst.TWO_GAME);
+            var assignmentCell = new AssignmentCell
+            {
+                Color = ColorCodeConst.TWO_GAME,
+                TextColor = ColorCodeConst.TEXT_TWO_GAME
+            };
+            await UpdateSchedule(linkNGamePair, schedules, assignmentCell);
         }
 
         private async Task LinkThreeGame(IList<AssignmentModel> assignment, WorkingSchedule schedules)
         {
             var linkNGamePair = GetValidGame(assignment, 3);
-            await UpdateSchedule(linkNGamePair, schedules, ColorCodeConst.THREE_GAME);
+            var assignmentCell = new AssignmentCell
+            {
+                Color = ColorCodeConst.THREE_GAME,
+                TextColor = ColorCodeConst.TEXT_THREE_GAME
+            };
+            await UpdateSchedule(linkNGamePair, schedules, assignmentCell);
         }
 
         private async Task UpdateSchedule(
             IDictionary<DateTime, List<AssignmentModel>> linkNGamePair,
             WorkingSchedule schedules,
-             string colorCode)
+             AssignmentCell assignmentCell)
         {
-            var assignmentCell = new AssignmentCell
-            {
-                Color = colorCode
-            };
+
             foreach (var eventDate in linkNGamePair.Keys)
             {
                 var remark = linkNGamePair[eventDate].Select(x => x.Remark).ToList();
