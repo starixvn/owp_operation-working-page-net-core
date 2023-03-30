@@ -49,8 +49,5 @@ namespace OWP.AssigneeSuggestionList.Helper
 
         private static bool IsPkMatch(string remark)
             => !remark.Contains(ETPk.Et, StringComparison.OrdinalIgnoreCase) && remark.Contains(ETPk.Pk, StringComparison.OrdinalIgnoreCase);
-
-        private static bool IsEtMatch(string remark)
-        => remark.Contains(ETPk.Et, StringComparison.OrdinalIgnoreCase) && !remark.Contains(ETPk.Pk, StringComparison.OrdinalIgnoreCase);
     }
 }
