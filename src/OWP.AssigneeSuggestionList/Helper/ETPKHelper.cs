@@ -44,10 +44,10 @@ namespace OWP.AssigneeSuggestionList.Helper
         }
 
         private static bool IsEtPkMatch(string remark)
-            => (remark.Contains(ETPk.Et, StringComparison.OrdinalIgnoreCase) && remark.Contains(ETPk.Pk, StringComparison.OrdinalIgnoreCase))
+            => remark is not null && (remark.Contains(ETPk.Et, StringComparison.OrdinalIgnoreCase) && remark.Contains(ETPk.Pk, StringComparison.OrdinalIgnoreCase))
                || string.Equals(remark, ETPk.EtPkConfirm, StringComparison.OrdinalIgnoreCase);
 
         private static bool IsPkMatch(string remark)
-            => !remark.Contains(ETPk.Et, StringComparison.OrdinalIgnoreCase) && remark.Contains(ETPk.Pk, StringComparison.OrdinalIgnoreCase);
+            => remark is not null && !remark.Contains(ETPk.Et, StringComparison.OrdinalIgnoreCase) && remark.Contains(ETPk.Pk, StringComparison.OrdinalIgnoreCase);
     }
 }
