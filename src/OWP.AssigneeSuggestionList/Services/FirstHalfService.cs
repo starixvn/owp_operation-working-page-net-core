@@ -44,7 +44,7 @@ namespace OWP.AssigneeSuggestionList.Services
             }
         }
 
-        private static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignments)
+        public static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignments)
         {
             var assignmentCell = new AssignmentCell
             {

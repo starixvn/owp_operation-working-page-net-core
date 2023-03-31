@@ -9,8 +9,6 @@ namespace OWP.AssigneeSuggestionList.UnitTests.Services
 {
     public class CornerServiceUnitTests
     {
-        private WorkingSchedule schedules = new WorkingSchedule();
-
         private List<AssignmentModel> assignments = new List<AssignmentModel>();
 
         private List<AssignmentModel> assignmentsCorner = new List<AssignmentModel>();
@@ -54,13 +52,12 @@ namespace OWP.AssigneeSuggestionList.UnitTests.Services
         {
             // Arrange
             Initialize();
-            var service = new CornerServiceImp(singleGameGroupService);
 
             var result = CornerServiceImp.BuildScheduleUpdateModel(assignmentsCorner, assignments);
 
             var expect = new ScheduleUpdateModel
             {
-                EventDate = DateTime.Parse("2023-3-31 18:00:00"),
+                EventDate = DateTime.Parse("2023-3-31 18:05:00"),
                 EtPk = new ETPKUpdateSchedule
                 {
                     IsHasEtPk = true,
@@ -70,11 +67,11 @@ namespace OWP.AssigneeSuggestionList.UnitTests.Services
                 {
                     Color = ColorCodeConst.CORNER,
                     TextColor = ColorCodeConst.TEXT_CORNER,
-                    Text = "V"
+                    Text = "18:05"
                 },
                 TimeRange = (DateTime.Parse("2023-3-31 18:05:00"), DateTime.Parse("2023-3-31 21:05:00"))
             };
-            DeepAssert.ReferenceEquals(expect, result);
+            DeepAssert.Equal(expect, result);
         }
     }
 }

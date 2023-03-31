@@ -33,7 +33,7 @@ namespace OWP.AssigneeSuggestionList.Services
                 BuildScheduleUpdateModel);
         }
 
-        private ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignments)
+        public static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignments)
         {
             var assignmentCell = new AssignmentCell
             {
@@ -44,7 +44,7 @@ namespace OWP.AssigneeSuggestionList.Services
             var gameInfo = ScheduleHelper.GetGameInfo(assignments);
             var etPkValue = ETPKHelper.DetectExtraTime(gameInfo.remark);
 
-            return new ScheduleUpdateModel
+            return new ()
             {
                 EventDate = gameInfo.eventDate,
                 EtPk = new ETPKUpdateSchedule

@@ -78,7 +78,6 @@ namespace OWP.AssigneeSuggestionList.Services
                     TimeRange = timeRange
                 };
 
-                // LOS: TODO
                 workingSchedule.UpdateWorkingSchedule(scheduleUpdateModel,
                   schedules);
 

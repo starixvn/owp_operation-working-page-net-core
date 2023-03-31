@@ -31,7 +31,7 @@ namespace OWP.AssigneeSuggestionList.Services
              , assignments15Mins => BuildScheduleUpdateModel(assignments15Mins, assignments));
         }
 
-        private ScheduleUpdateModel BuildScheduleUpdateModel(
+        public static ScheduleUpdateModel BuildScheduleUpdateModel(
             IList<AssignmentModel> assignments15Mins,
             IList<AssignmentModel> assignments)
         {
