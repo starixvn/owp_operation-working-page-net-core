@@ -28,30 +28,23 @@ namespace OWP.AssigneeSuggestionList.UnitTests.Services
             {
                 new AssignmentModel(){
                     OWPMatchId=1,
-                    KOTime=DateTime.Now.TimeOfDay,
-                    EventDateTime=DateTime.Now,
+                    KOTime=DateTime.Parse("2023-3-31 18:00:00").TimeOfDay,
+                    EventDateTime=DateTime.Parse("2023-3-31 18:00:00"),
                     BettypeId= 1,
                     UserId=123,
                     Remark="ETPK"
-                },
-                new AssignmentModel(){
-                    OWPMatchId=2,
-                    KOTime=DateTime.Now.TimeOfDay,
-                    EventDateTime=DateTime.Now,
-                    IsCornerMatch=true,
-                    BettypeId= 1,
-                    UserId=123
                 }
             };
             assignmentsCorner = new List<AssignmentModel>()
             {
                 new AssignmentModel(){
                     OWPMatchId=2,
-                    KOTime=DateTime.Now.TimeOfDay,
-                    EventDateTime=DateTime.Now,
+                    KOTime=DateTime.Parse("2023-3-31 18:05:00").TimeOfDay,
+                    EventDateTime=DateTime.Parse("2023-3-31 18:05:00"),
                     IsCornerMatch=true,
                     BettypeId= 1,
-                    UserId=123
+                    UserId=123,
+                    ParentMatchId=1
                 }
             };
         }
@@ -62,27 +55,26 @@ namespace OWP.AssigneeSuggestionList.UnitTests.Services
             // Arrange
             Initialize();
             var service = new CornerServiceImp(singleGameGroupService);
-            var expect = new WorkingSchedule
+
+            var result = CornerServiceImp.BuildScheduleUpdateModel(assignmentsCorner, assignments);
+
+            var expect = new ScheduleUpdateModel
             {
-                UserInfo = new UserInfo
+                EventDate = DateTime.Parse("2023-3-31 18:00:00"),
+                EtPk = new ETPKUpdateSchedule
                 {
-                    UserId = 123,
-                    Username = "sa",
-                    Role = "Administrator",
-                    ShiftStartTime = DateTime.Now,
-                    ShiftEndTime = DateTime.Now.AddHours(12)
+                    IsHasEtPk = true,
+                    EtPkValue = "ET"
                 },
-                Today_00h = new AssignmentCell
+                AssignmentCell = new AssignmentCell
                 {
                     Color = ColorCodeConst.CORNER,
                     TextColor = ColorCodeConst.TEXT_CORNER,
                     Text = "V"
-                }
+                },
+                TimeRange = (DateTime.Parse("2023-3-31 18:05:00"), DateTime.Parse("2023-3-31 21:05:00"))
             };
-            var result = CornerServiceImp.BuildScheduleUpdateModel(assignmentsCorner, assignments);
-
-            var expect1 = expect;
-            //DeepAssert.ReferenceEquals(expect,)
+            DeepAssert.ReferenceEquals(expect, result);
         }
     }
 }

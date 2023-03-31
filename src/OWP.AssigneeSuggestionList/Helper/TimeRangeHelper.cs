@@ -56,7 +56,7 @@ namespace OWP.AssigneeSuggestionList.Helper
             {
                 increaseHour += value;
             }
-            var endDate = eventDate.AddDays(increaseHour);
+            var endDate = eventDate.AddHours(increaseHour);
             return (eventDate, endDate);
         }
     }
