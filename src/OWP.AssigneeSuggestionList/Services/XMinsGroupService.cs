@@ -48,13 +48,13 @@ namespace OWP.AssigneeSuggestionList.Services
             return new()
             {
                 EventDate = gameInfo.eventDate,
-                EtPk = new ETPKUpdateSchedule
+                EtPk = new()
                 {
                     IsHasEtPk = !string.IsNullOrEmpty(etPkValue),
                     EtPkValue = etPkValue
                 },
                 AssignmentCell = assignmentCell,
-                TimeRange = (gameInfo.eventDate, gameInfo.eventDate.AddHours(1))
+                TimeRange = TimeRangeHelper.CalculateTimeRangeFT(gameInfo.eventDate, !string.IsNullOrEmpty(etPkValue))
             };
         }
     }
