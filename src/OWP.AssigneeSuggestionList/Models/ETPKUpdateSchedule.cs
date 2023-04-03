@@ -1,9 +1,8 @@
-namespace OWP.AssigneeSuggestionList.Models
-{
-    public class ETPKUpdateSchedule
-    {
-        public bool IsHasEtPk { get; set; }
+namespace OWP.AssigneeSuggestionList.Models;
 
-        public string EtPkValue { get; set; }
-    }
+public class ETPKUpdateSchedule
+{
+    public bool IsHasEtPk { get; set; }
+
+    public string EtPkValue { get; set; }
 }

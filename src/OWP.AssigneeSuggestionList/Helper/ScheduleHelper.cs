@@ -27,7 +27,7 @@ public static class ScheduleHelper
         if (string.IsNullOrWhiteSpace(maxbetListText))
         {
             text = eventDateTime.Minute == 0
-            ? $"V"
+            ? "V"
             : $"{kOTimeText}";
         }
         else
@@ -49,7 +49,7 @@ public static class ScheduleHelper
         if (string.IsNullOrWhiteSpace(maxbetDisplay))
         {
             text = assignment.KOTime.Minutes == 0
-            ? $"V"
+            ? "V"
             : $"{kOTimeText}";
         }
         else

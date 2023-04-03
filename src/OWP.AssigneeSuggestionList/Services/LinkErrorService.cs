@@ -3,60 +3,58 @@ using MediatR;
 using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Helper;
 using OWP.AssigneeSuggestionList.Models;
-using OWP.Enums;
 
 
-namespace OWP.AssigneeSuggestionList.Services
+namespace OWP.AssigneeSuggestionList.Services;
+
+public interface LinkErrorService : IRequest<Unit>
 {
-    public interface LinkErrorService : IRequest<Unit>
+    Task Group(IList<AssignmentModel> assignments, WorkingSchedule schedule);
+}
+
+public class LinkErrorServiceImp : LinkErrorService
+{
+    private readonly WorkingScheduleService workingSchedule;
+
+    private readonly ILogger logger;
+
+    public LinkErrorServiceImp(WorkingScheduleService workingSchedule, ILogger logger)
     {
-        Task Group(IList<AssignmentModel> assignments, WorkingSchedule schedule);
+        this.workingSchedule = workingSchedule;
+        this.logger = logger;
     }
 
-    public class LinkErrorServiceImp : LinkErrorService
+    public async Task Group(IList<AssignmentModel> assignments, WorkingSchedule schedule)
     {
-        private readonly WorkingScheduleService workingSchedule;
-
-        private readonly ILogger logger;
-
-        public LinkErrorServiceImp(WorkingScheduleService workingSchedule, ILogger logger)
+        var linkNGamePair = GetValidGame(assignments);
+        var assignmentCell = new AssignmentCell
         {
-            this.workingSchedule = workingSchedule;
-            this.logger = logger;
-        }
-
-        public async Task Group(IList<AssignmentModel> assignments, WorkingSchedule schedule)
+            Color = ColorCodeConst.ERROR,
+            TextColor = ColorCodeConst.TEXT_ERROR
+        };
+        foreach (var eventDate in linkNGamePair.Keys)
         {
-            var linkNGamePair = GetValidGame(assignments);
-            var assignmentCell = new AssignmentCell
+            assignmentCell.Text = "Error";
+
+            var scheduleUpdateModel = new ScheduleUpdateModel
             {
-                Color = ColorCodeConst.ERROR,
-                TextColor = ColorCodeConst.TEXT_ERROR
+                EventDate = eventDate,
+                EtPk = new ETPKUpdateSchedule(),
+                AssignmentCell = assignmentCell,
+                TimeRange = (eventDate, eventDate)
             };
-            foreach (var eventDate in linkNGamePair.Keys)
-            {
-                assignmentCell.Text = "Error";
 
-                var scheduleUpdateModel = new ScheduleUpdateModel
-                {
-                    EventDate = eventDate,
-                    EtPk = new ETPKUpdateSchedule(),
-                    AssignmentCell = assignmentCell,
-                    TimeRange = (eventDate, eventDate)
-                };
+            workingSchedule.UpdateWorkingSchedule(scheduleUpdateModel,
+                schedule);
 
-                workingSchedule.UpdateWorkingSchedule(scheduleUpdateModel,
-                  schedule);
-
-                await logger.InfoAsync("[Error]" + string.Join(",", linkNGamePair[eventDate]?.Select(x => x.OWPMatchId)));
-                await logger.InfoAsync("[Error]" + string.Join(",", linkNGamePair[eventDate]?.Select(x => x.BettypeId)));
-            }
+            await logger.InfoAsync("[Error]" + string.Join(",", linkNGamePair[eventDate].Select(x => x.OWPMatchId)));
+            await logger.InfoAsync("[Error]" + string.Join(",", linkNGamePair[eventDate].Select(x => x.BettypeId)));
         }
-
-        private IDictionary<DateTime, List<AssignmentModel>> GetValidGame(IList<AssignmentModel> models)
-        => models.Where(a => LinkGameConditionHelper.CanGroupNGame(a, maxbet => true))
-                ?.GroupBy(a => a.EventDateTime)
-                .Where(g => g.Select(x => x.OWPMatchId).Distinct().Count() > 3)?
-                .ToDictionary(x => x.Key, x => x.ToList());
     }
+
+    private static IDictionary<DateTime, List<AssignmentModel>> GetValidGame(IEnumerable<AssignmentModel> models)
+        => models.Where(a => LinkGameConditionHelper.CanGroupNGame(a, _ => true))
+            .GroupBy(a => a.EventDateTime)
+            .Where(g => g.Select(x => x.OWPMatchId).Distinct().Count() > 3)
+            .ToDictionary(x => x.Key, x => x.ToList());
 }

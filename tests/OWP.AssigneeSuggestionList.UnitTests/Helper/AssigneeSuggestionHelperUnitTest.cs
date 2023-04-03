@@ -13,7 +13,7 @@ public class AssigneeSuggestionHelperUnitTest
         var fromTime = new DateTime(2023, 3, 28, 1, 33, 00);
         var toTime = new DateTime(2023, 3, 28, 3, 33, 00);
 
-        var result = AssigneeSuggestionHelper.GetValidProperties(eventTime, fromTime, toTime);
+        var result = PropertyScheduleHelper.GetValidProperties(eventTime, fromTime, toTime);
 
         DeepAssert.Equal(new List<string> { "Today_01h", "Today_02h", "Today_03h" }, result);
 

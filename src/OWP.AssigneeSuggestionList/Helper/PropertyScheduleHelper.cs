@@ -2,7 +2,8 @@
 using OWP.AssigneeSuggestionList.Models;
 
 namespace OWP.AssigneeSuggestionList.Helper;
-public static class AssigneeSuggestionHelper
+
+public static class PropertyScheduleHelper
 {
     public static List<string> GetValidProperties(DateTime eventTime, DateTime fromTime, DateTime toTime)
     {

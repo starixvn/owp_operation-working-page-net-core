@@ -67,8 +67,7 @@ public class QueryTraderSuggestionHandler : IRequestHandler<QueryTraderSuggestio
         };
     }
 
-    private async Task GroupGame(IList<WorkingSchedule> schedules,
-    IList<AssignmentModel> assignmentModels)
+    private async Task GroupGame(IEnumerable<WorkingSchedule> schedules, IList<AssignmentModel> assignmentModels)
     {
         foreach (var schedule in schedules)
         {
@@ -85,9 +84,9 @@ public class QueryTraderSuggestionHandler : IRequestHandler<QueryTraderSuggestio
         }
     }
 
-    private IList<AssignmentModel> GetAssignmentsBelongWs(IList<AssignmentModel> assignments, WorkingSchedule schedule)
+    private static IList<AssignmentModel> GetAssignmentsBelongWs(IEnumerable<AssignmentModel> assignments, WorkingSchedule schedule)
     => assignments.Where(x => x.UserId == schedule.UserInfo.UserId
             && DateTime.Compare(x.EventDateTime, schedule.UserInfo.ShiftStartTime) >= 0
             && DateTime.Compare(x.EventDateTime, schedule.UserInfo.ShiftEndTime) <= 0)
-            ?.ToList();
+            .ToList();
 }

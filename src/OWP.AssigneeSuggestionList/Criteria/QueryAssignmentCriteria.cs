@@ -1,12 +1,11 @@
 using Fanex.Data.Repository;
 
-namespace OWP.AssigneeSuggestionList.Criteria
-{
-    public class QueryAssignmentCriteria : CriteriaBase
-    {
-        public DateTime EventDate { get; set; }
-        public override string GetSettingKey() => "OWP_TodaySuggestionList_GetAssignmentByDate";
+namespace OWP.AssigneeSuggestionList.Criteria;
 
-        public override bool IsValid() => true;
-    }
+public class QueryAssignmentCriteria : CriteriaBase
+{
+    public DateTime EventDate { get; set; }
+    public override string GetSettingKey() => "OWP_TodaySuggestionList_GetAssignmentByDate";
+
+    public override bool IsValid() => true;
 }

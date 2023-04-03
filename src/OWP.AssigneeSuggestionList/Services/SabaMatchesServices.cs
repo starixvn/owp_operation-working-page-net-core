@@ -48,7 +48,7 @@ public class SabaMatchesServicesImp : SabaMatchesServices
             _ when leagueName.IsContains("- 15 Mins Play") => MatchType.Saba15Mins,
             _ when leagueName.IsContains("PES ") && leagueName.IsContains("- 5 Mins Play") => MatchType.Saba5Mins,
             _ when leagueName.IsContains("- 20 Mins Play") => MatchType.Saba20Mins,
-            _ => MatchType.SabaOther,
+            _ => MatchType.SabaOther
         };
 
     public static void GroupSaba5Mins(List<AssignmentModel> sabaMatches)

@@ -3,62 +3,61 @@ using OWP.AssigneeSuggestionList.Helper;
 using OWP.AssigneeSuggestionList.Models;
 
 
-namespace OWP.AssigneeSuggestionList.Services
+namespace OWP.AssigneeSuggestionList.Services;
+
+public interface MJGroupService
 {
-    public interface MJGroupService
+    Task Group(IList<AssignmentModel> assignments,
+        WorkingSchedule schedules);
+}
+
+public class MJGroupServiceImp : MJGroupService
+{
+    private readonly SingleGameGroupService workingSchedule;
+
+    public MJGroupServiceImp(SingleGameGroupService workingSchedule)
     {
-        Task Group(IList<AssignmentModel> assignments,
-            WorkingSchedule schedules);
+        this.workingSchedule = workingSchedule;
+    }
+    public async Task Group(
+        IList<AssignmentModel> assignments,
+        WorkingSchedule schedules
+    )
+    {
+        var mJGroup = assignments.Where(a => a.IsMajorLeague)
+            .ToList();
+
+        await workingSchedule.Group(
+            mJGroup,
+            schedules,
+            "[LinkNGame]",
+            BuildScheduleUpdateModel);
     }
 
-    public class MJGroupServiceImp : MJGroupService
+    public static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignments)
     {
-        private readonly SingleGameGroupService workingSchedule;
-
-        public MJGroupServiceImp(SingleGameGroupService workingSchedule)
+        var assignmentCell = new AssignmentCell
         {
-            this.workingSchedule = workingSchedule;
-        }
-        public async Task Group(
-            IList<AssignmentModel> assignments,
-            WorkingSchedule schedules
-            )
-        {
-            var mJGroup = assignments.Where(a => a.IsMajorLeague)
-            ?.ToList();
+            Color = ColorCodeConst.MJ,
+            TextColor = ColorCodeConst.TEXT_MJ,
+            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignments.First())
+        };
+        var gameInfo = ScheduleHelper.GetGameInfo(assignments);
+        var etPkValue = ETPKHelper.DetectExtraTime(gameInfo.remark);
 
-            await workingSchedule.Group(
-                mJGroup,
-                schedules,
-                "[LinkNGame]",
-                BuildScheduleUpdateModel);
-        }
-
-        public static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignments)
+        return new ScheduleUpdateModel
         {
-            var assignmentCell = new AssignmentCell
+            EventDate = gameInfo.eventDate,
+            EtPk = new ETPKUpdateSchedule
             {
-                Color = ColorCodeConst.MJ,
-                TextColor = ColorCodeConst.TEXT_MJ,
-                Text = ScheduleHelper.BuildScheduleTextSingleGame(assignments.First())
-            };
-            var gameInfo = ScheduleHelper.GetGameInfo(assignments);
-            var etPkValue = ETPKHelper.DetectExtraTime(gameInfo.remark);
-
-            return new()
-            {
-                EventDate = gameInfo.eventDate,
-                EtPk = new ETPKUpdateSchedule
-                {
-                    IsHasEtPk = !string.IsNullOrEmpty(etPkValue),
-                    EtPkValue = etPkValue
-                },
-                AssignmentCell = assignmentCell,
-                TimeRange = TimeRangeHelper.CalculateTimeRangeSingleGame(
-                    gameInfo.eventDate,
-                    gameInfo.bettypeIds,
-                     !string.IsNullOrEmpty(etPkValue))
-            };
-        }
+                IsHasEtPk = !string.IsNullOrEmpty(etPkValue),
+                EtPkValue = etPkValue
+            },
+            AssignmentCell = assignmentCell,
+            TimeRange = TimeRangeHelper.CalculateTimeRangeSingleGame(
+                gameInfo.eventDate,
+                gameInfo.bettypeIds,
+                !string.IsNullOrEmpty(etPkValue))
+        };
     }
 }

@@ -33,7 +33,7 @@ public class RepositoryImp : Repository
     {
         var criteria = new QueryMatchInfoCriteria
         {
-            OwpMatchId = owpMatchId,
+            OwpMatchId = owpMatchId
         };
 
         return (await dynamicRepository.FetchAsync<MatchInfo>(criteria)).FirstOrDefault();
@@ -43,7 +43,7 @@ public class RepositoryImp : Repository
     {
         var criteria = new QueryTraderInfoCriteria
         {
-            EventDate = date,
+            EventDate = date
         };
 
         return await dynamicRepository.FetchAsync<UserInfo>(criteria);

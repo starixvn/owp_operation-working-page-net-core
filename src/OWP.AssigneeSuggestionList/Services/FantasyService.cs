@@ -2,63 +2,61 @@ using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Helper;
 using OWP.AssigneeSuggestionList.Models;
 
-namespace OWP.AssigneeSuggestionList.Services
+namespace OWP.AssigneeSuggestionList.Services;
+
+public interface FantasyService
 {
-    public interface FantasyService
+    Task Group(
+        IList<AssignmentModel> assignments,
+        WorkingSchedule schedule
+    );
+}
+
+public class FantasyServiceImp : FantasyService
+{
+    private readonly SingleGameGroupService workingSchedule;
+
+    public FantasyServiceImp(SingleGameGroupService workingSchedule)
     {
-        Task Group(
-            IList<AssignmentModel> assignments,
-            WorkingSchedule schedule
-            );
+        this.workingSchedule = workingSchedule;
     }
 
-    public class FantasyServiceImp : FantasyService
+    public async Task Group(
+        IList<AssignmentModel> assignments,
+        WorkingSchedule schedule
+    )
     {
-        private readonly SingleGameGroupService workingSchedule;
+        var matchGroup = assignments
+            ?.Where(a => a.IsFantasyMatch).ToList();
 
-        public FantasyServiceImp(SingleGameGroupService workingSchedule)
+        await workingSchedule.Group(
+            matchGroup,
+            schedule,
+            "[FANTASY]",
+            BuildScheduleUpdateModel);
+    }
+
+    public static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignments)
+    {
+        var assignmentCell = new AssignmentCell
         {
-            this.workingSchedule = workingSchedule;
-        }
+            Color = ColorCodeConst.FANTASY,
+            TextColor = ColorCodeConst.TEXT_FANTASY,
+            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignments.First())
+        };
+        var gameInfo = ScheduleHelper.GetGameInfo(assignments);
+        var etPkValue = ETPKHelper.DetectExtraTime(gameInfo.remark);
 
-        public async Task Group(
-            IList<AssignmentModel> assignments,
-            WorkingSchedule schedule
-            )
+        return new ScheduleUpdateModel
         {
-            var matchGroup = assignments
-            ?.Where(a => a.IsFantasyMatch)
-            ?.ToList();
-
-            await workingSchedule.Group(
-                matchGroup,
-                schedule,
-                "[FANTASY]",
-                BuildScheduleUpdateModel);
-        }
-
-        public static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignments)
-        {
-            var assignmentCell = new AssignmentCell
+            EventDate = gameInfo.eventDate,
+            EtPk = new ETPKUpdateSchedule
             {
-                Color = ColorCodeConst.FANTASY,
-                TextColor = ColorCodeConst.TEXT_FANTASY,
-                Text = ScheduleHelper.BuildScheduleTextSingleGame(assignments.First())
-            };
-            var gameInfo = ScheduleHelper.GetGameInfo(assignments);
-            var etPkValue = ETPKHelper.DetectExtraTime(gameInfo.remark);
-
-            return new ScheduleUpdateModel
-            {
-                EventDate = gameInfo.eventDate,
-                EtPk = new ETPKUpdateSchedule
-                {
-                    IsHasEtPk = !string.IsNullOrEmpty(etPkValue),
-                    EtPkValue = etPkValue
-                },
-                AssignmentCell = assignmentCell,
-                TimeRange = TimeRangeHelper.CalculateTimeRangeSingleGame(gameInfo.eventDate, gameInfo.bettypeIds, !string.IsNullOrEmpty(etPkValue))
-            };
-        }
+                IsHasEtPk = !string.IsNullOrEmpty(etPkValue),
+                EtPkValue = etPkValue
+            },
+            AssignmentCell = assignmentCell,
+            TimeRange = TimeRangeHelper.CalculateTimeRangeSingleGame(gameInfo.eventDate, gameInfo.bettypeIds, !string.IsNullOrEmpty(etPkValue))
+        };
     }
 }

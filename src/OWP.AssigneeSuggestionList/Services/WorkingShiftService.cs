@@ -20,28 +20,21 @@ public class WorkingShiftServiceImp : WorkingShiftService
     public async Task<List<WorkingSchedule>> Calculate(DateTime eventDate)
     {
         var userInfos = await GetValidUsers(eventDate);
-        var workingSchedules = new List<WorkingSchedule>();
-        foreach (var user in userInfos)
-        {
-            workingSchedules.Add(FillWorkingShift(user, eventDate));
-        }
 
-        return workingSchedules;
+        return userInfos.Select(user => FillWorkingShift(user, eventDate)).ToList();
     }
 
-    private WorkingSchedule FillWorkingShift(UserInfo user, DateTime eventDate)
+    private static WorkingSchedule FillWorkingShift(UserInfo user, DateTime eventDate)
     {
         var shift = new WorkingSchedule { UserInfo = user };
-        Type type = shift.GetType();
-        var properties = AssigneeSuggestionHelper
+        var type = shift.GetType();
+        var properties = PropertyScheduleHelper
             .GetValidProperties(eventDate, user.ShiftStartTime, user.ShiftEndTime);
         foreach (var property in properties)
         {
             var propertyInfo = type.GetProperty(property);
-            if (propertyInfo != null)
-            {
-                propertyInfo.SetValue(shift, new AssignmentCell { Color = ColorCodeConst.SHIFT, Text = string.Empty });
-            }
+            if (propertyInfo == null) continue;
+            propertyInfo.SetValue(shift, new AssignmentCell { Color = ColorCodeConst.SHIFT, Text = string.Empty });
         }
         return shift;
     }

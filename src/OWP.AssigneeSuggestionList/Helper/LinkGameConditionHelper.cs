@@ -1,18 +1,17 @@
 using OWP.AssigneeSuggestionList.Models;
 using OWP.Enums;
 
-namespace OWP.AssigneeSuggestionList.Helper
-{
-    public static class LinkGameConditionHelper
-    {
-        public static bool CanGroupNGame(AssignmentModel assignment, Func<decimal?, bool> maxbetComparerFunc) =>
-                assignment.IsMainMatch
-                && !assignment.IsMajorLeague
-                && IsValidBetType(assignment.BettypeId)
-                && maxbetComparerFunc.Invoke(assignment.MaxbetHDP);
+namespace OWP.AssigneeSuggestionList.Helper;
 
-        private static bool IsValidBetType(int bettypeId)
+public static class LinkGameConditionHelper
+{
+    public static bool CanGroupNGame(AssignmentModel assignment, Func<decimal?, bool> maxbetComparerFunc) =>
+        assignment.IsMainMatch
+        && !assignment.IsMajorLeague
+        && IsValidBetType(assignment.BettypeId)
+        && maxbetComparerFunc.Invoke(assignment.MaxbetHDP);
+
+    private static bool IsValidBetType(int bettypeId)
         => Equals(bettypeId, EnumBettype.Handicap)
-                || Equals(bettypeId, EnumBettype.OverUnder);
-    }
+           || Equals(bettypeId, EnumBettype.OverUnder);
 }
