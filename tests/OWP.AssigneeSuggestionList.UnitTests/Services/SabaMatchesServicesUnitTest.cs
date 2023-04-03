@@ -229,4 +229,11 @@ public class SabaMatchesServicesUnitTest
 
         Assert.Equal(expected, actual);
     }
+
+    [Fact]
+    public void MapAssignmentToWorkingSchedule()
+    {
+        var w = new WorkingSchedule();
+        SabaMatchesServicesImp.MapAssignmentToWorkingSchedule();
+    }
 }

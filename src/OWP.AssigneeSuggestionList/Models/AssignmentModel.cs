@@ -11,6 +11,8 @@ namespace OWP.AssigneeSuggestionList.Models
 
         public DateTime EventDateTime { get; set; }
 
+        public DateTime EventDate { get; set; }
+
         public int BettypeId { get; set; }
 
         public string Remark { get; set; }

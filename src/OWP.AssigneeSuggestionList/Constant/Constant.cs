@@ -17,6 +17,7 @@ public static class ColorCodeConst
     public const string SHIFT = "#BFBFBF";
 
     public const string TEXT_COLOR_BLACK = "#444444";
+    public const string TEXT_COLOR_WHITE = "#FFFFFF";
 
     public const string TEXT_MJ = TEXT_COLOR_BLACK;
     public const string TEXT_ONE_GAME = TEXT_COLOR_BLACK;
@@ -25,9 +26,32 @@ public static class ColorCodeConst
     public const string TEXT_ERROR = "#FF0000";
     public const string TEXT_FIRST_HALF = TEXT_COLOR_BLACK;
     public const string TEXT_FANTASY = TEXT_COLOR_BLACK;
-    public const string TEXT_CORNER = "#FFFFFF";
-    public const string TEXT_X_MINS = "#FFFFFF";
+    public const string TEXT_CORNER = TEXT_COLOR_WHITE;
+    public const string TEXT_X_MINS = TEXT_COLOR_WHITE;
     public const string TEXT_ET_PK = "#FFEA29";
+
+    // Saba
+    public const string SABA_5MINS = "#7030A0";
+    public const string SABA_FUTSAL = "#00FFCC";
+    public const string SABA_M88 = "#FCD5B4";
+    public const string SABA_1G = "#FFFFCC";
+    public const string SABA_2G = "#A34262";
+    public const string SABA_3G = "#FFC000";
+    public const string SABA_4G = "#33CCCC";
+    public const string SABA_16MINS = "#00B050";
+
+    public static (string, string) ErrorColor = (TEXT_COLOR_WHITE, TEXT_ERROR);
+    public static readonly ImmutableDictionary<MatchType, (string, string)> ColorByGroupName = new Dictionary<MatchType, (string, string)>
+    {
+        { MatchType.Saba5Mins, (SABA_5MINS, TEXT_COLOR_WHITE) },
+        { MatchType.SabaFutsal6Mins, (SABA_FUTSAL, TEXT_COLOR_BLACK) },
+        { MatchType.SabaM8816Mins, (SABA_M88, TEXT_COLOR_BLACK) },
+        { MatchType.SabaLink1G, (SABA_1G, TEXT_COLOR_BLACK) },
+        { MatchType.SabaLink2G, (SABA_2G, TEXT_COLOR_BLACK) },
+        { MatchType.SabaLink3G, (SABA_3G, TEXT_COLOR_BLACK) },
+        { MatchType.SabaLink4G, (SABA_4G, TEXT_COLOR_BLACK) },
+        { MatchType.Saba16Mins, (SABA_16MINS, TEXT_COLOR_WHITE) },
+    }.ToImmutableDictionary();
 }
 
 public static class ETPk

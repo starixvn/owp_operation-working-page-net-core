@@ -1,4 +1,5 @@
-﻿using OWP.AssigneeSuggestionList.Models;
+﻿using OWP.AssigneeSuggestionList.Helper;
+using OWP.AssigneeSuggestionList.Models;
 using OWP.Extensions;
 using MatchType = OWP.AssigneeSuggestionList.Constant.MatchType;
 
@@ -6,7 +7,7 @@ namespace OWP.AssigneeSuggestionList.Services;
 
 public interface SabaMatchesServices
 {
-    //IEnumerable<AssignmentModel> CategorizeAndGroupSabaMatches(IEnumerable<AssignmentModel> matches);
+    void CalculateWorkingSchedule(IList<WorkingSchedule> workingShifts, IList<AssignmentModel> assignmentModels);
 }
 
 public class SabaMatchesServicesImp : SabaMatchesServices
@@ -19,6 +20,8 @@ public class SabaMatchesServicesImp : SabaMatchesServices
             var sabaAssignments = userAssignments.Where(x => x.IsSaba).ToList();
 
             var newSabaAssignments = CategorizeAndGroupSabaMatches(sabaAssignments);
+
+            MapAssignmentToWorkingSchedule(workingShift, newSabaAssignments);
         }
     }
 
@@ -97,4 +100,24 @@ public class SabaMatchesServicesImp : SabaMatchesServices
             (4, _) => MatchType.SabaLink4G,
             _ => MatchType.SabaOther
         };
+
+    public static void MapAssignmentToWorkingSchedule(WorkingSchedule schedule, List<AssignmentModel> assignments)
+    {
+        foreach (var assignment in assignments)
+        {
+            var isMultipleMatch =
+                assignment.MatchType is MatchType.SabaLink2G or MatchType.SabaLink3G or MatchType.SabaLink4G;
+            var (backgroundColor, textColor) = ScheduleHelper.GetBackgroundAndTextColor(assignment.MatchType);
+            var assignmentCell = new AssignmentCell
+            {
+                Text = isMultipleMatch
+                    ? ScheduleHelper.BuildScheduleTextGroupGame(assignment.GroupAssignmentModels)
+                    : ScheduleHelper.BuildScheduleTextSingleGame(assignment),
+                TextColor = textColor,
+                Color = backgroundColor
+            };
+
+            schedule.UpdateWorkingSchedule(assignment, assignmentCell);
+        }
+    }
 }

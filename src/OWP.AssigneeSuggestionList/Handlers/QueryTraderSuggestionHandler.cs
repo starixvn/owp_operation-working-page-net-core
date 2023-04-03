@@ -15,6 +15,7 @@ public class QueryTraderSuggestionHandler : IRequestHandler<QueryTraderSuggestio
 {
     private readonly Repository repository;
     private readonly WorkingShiftService workingShiftService;
+    private readonly SabaMatchesServices sabaMatchesServices;
     private readonly MJGroupService mJGroupService;
     private readonly OneGameService oneGameService;
     private readonly LinkNGameService linkNGameService;
@@ -26,8 +27,9 @@ public class QueryTraderSuggestionHandler : IRequestHandler<QueryTraderSuggestio
 
     public QueryTraderSuggestionHandler(
         Repository repository,
-         WorkingShiftService workingShiftService,
-          MJGroupService mJGroupService,
+        WorkingShiftService workingShiftService,
+        SabaMatchesServices sabaMatchesServices,
+        MJGroupService mJGroupService,
            OneGameService oneGameService,
             LinkNGameService linkNGameService,
              FirstHalfService firstHalfService,
@@ -38,6 +40,7 @@ public class QueryTraderSuggestionHandler : IRequestHandler<QueryTraderSuggestio
     {
         this.repository = repository;
         this.workingShiftService = workingShiftService;
+        this.sabaMatchesServices = sabaMatchesServices;
         this.mJGroupService = mJGroupService;
         this.oneGameService = oneGameService;
         this.linkNGameService = linkNGameService;
@@ -55,7 +58,13 @@ public class QueryTraderSuggestionHandler : IRequestHandler<QueryTraderSuggestio
         var workingShifts = await workingShiftService.Calculate(matchInfo.EventDate);
         var assignmentModels = await repository.QueryAssignments(matchInfo.EventDate);
         await GroupGame(workingShifts, assignmentModels);
-        return new SuggestionInfo { MatchInfo = matchInfo, WorkingSchedules = workingShifts };
+        sabaMatchesServices.CalculateWorkingSchedule(workingShifts, assignmentModels);
+
+        return new SuggestionInfo
+        {
+            MatchInfo = matchInfo,
+            WorkingSchedules = workingShifts
+        };
     }
 
     private async Task GroupGame(IList<WorkingSchedule> schedules,

@@ -1,5 +1,8 @@
+using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Models;
+using System.Collections.Immutable;
 using System.Globalization;
+using MatchType = OWP.AssigneeSuggestionList.Constant.MatchType;
 
 namespace OWP.AssigneeSuggestionList.Helper;
 
@@ -17,10 +20,10 @@ public static class ScheduleHelper
             }
         }
 
-        var kOTimeText = $"{eventDateTime.ToString(@"hh\:mm")}";
+        var kOTimeText = $"{eventDateTime:hh\\:mm}";
         var maxbetListText = string.Join("+", listMaxbet);
 
-        var text = string.Empty;
+        string text;
         if (string.IsNullOrWhiteSpace(maxbetListText))
         {
             text = eventDateTime.Minute == 0
@@ -41,8 +44,8 @@ public static class ScheduleHelper
         var maxbetDisplay = assignment.MaxbetHDP.HasValue
                 ? $"{FormatMaxbet(assignment.MaxbetHDP.Value)}"
             : string.Empty;
-        var kOTimeText = $"{assignment.KOTime.ToString(@"hh\:mm")}";
-        var text = string.Empty;
+        var kOTimeText = $"{assignment.KOTime:hh\\:mm}";
+        string text;
         if (string.IsNullOrWhiteSpace(maxbetDisplay))
         {
             text = assignment.KOTime.Minutes == 0
@@ -83,4 +86,7 @@ public static class ScheduleHelper
 
     public static string FormatMaxbet(decimal maxbet)
         => $"{(maxbet / 1000).ToString("0.####", CultureInfo.InvariantCulture)}K";
+
+    public static (string, string) GetBackgroundAndTextColor(MatchType matchType)
+        => ColorCodeConst.ColorByGroupName.GetValueOrDefault(matchType, ColorCodeConst.ErrorColor);
 }

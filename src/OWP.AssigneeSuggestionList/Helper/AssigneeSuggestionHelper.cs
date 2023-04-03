@@ -1,4 +1,5 @@
 ﻿using OWP.AssigneeSuggestionList.Constant;
+using OWP.AssigneeSuggestionList.Models;
 
 namespace OWP.AssigneeSuggestionList.Helper;
 public static class AssigneeSuggestionHelper
@@ -24,5 +25,21 @@ public static class AssigneeSuggestionHelper
         return properties
             .Where(x => !string.IsNullOrEmpty(x))
             .ToList();
+    }
+
+    public static void UpdateWorkingSchedule(this WorkingSchedule schedule, AssignmentModel assignment, AssignmentCell assignmentCell)
+    {
+        var propertyName = GetPropertyName(assignment.EventDateTime, assignment.EventDate);
+        typeof(WorkingSchedule).GetProperty(propertyName)?.SetValue(schedule, assignmentCell);
+    }
+
+    public static string GetPropertyName(DateTime eventDateTime, DateTime eventDate)
+    {
+        var assignmentDateTime = eventDate.Date.AddHours(12);
+        var prefix = eventDateTime >= assignmentDateTime
+            ? eventDateTime < assignmentDateTime.AddDays(1) ? "Today" : "Tomorrow"
+            : "Yesterday";
+
+        return $"{prefix}_{eventDateTime.Hour:HH}h";
     }
 }
