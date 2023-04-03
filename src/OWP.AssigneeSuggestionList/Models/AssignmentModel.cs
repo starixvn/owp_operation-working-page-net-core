@@ -40,5 +40,7 @@ namespace OWP.AssigneeSuggestionList.Models
         public bool IsSaba => LeagueName.IsContains("SABA ");
 
         public decimal? MaxbetHDP { get; set; }
+
+        public List<AssignmentModel> GroupAssignmentModels { get; set; }
     }
 }

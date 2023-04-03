@@ -148,15 +148,6 @@ public class SabaMatchesServicesUnitTest
                 AwayName = "C",
                 EventDateTime = new DateTime(2022, 03, 29, 1, 0, 0)
             },
-            // Real match
-            new()
-            {
-                OWPMatchId = 22,
-                LeagueName = "Real match",
-                HomeName = "B",
-                AwayName = "C",
-                EventDateTime = new DateTime(2022, 03, 29, 1, 0, 0)
-            },
         };
 
         var expected = new List<AssignmentModel>
@@ -222,7 +213,7 @@ public class SabaMatchesServicesUnitTest
 
         var actual = new SabaMatchesServicesImp().CategorizeAndGroupSabaMatches(mockedAssignment);
 
-        DeepAssert.Equal(expected, actual);
+        DeepAssert.Equal(expected, actual, "GroupAssignmentModels");
     }
 
     [Theory]
