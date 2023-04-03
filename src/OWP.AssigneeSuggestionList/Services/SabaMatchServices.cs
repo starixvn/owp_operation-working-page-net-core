@@ -5,14 +5,14 @@ using MatchType = OWP.AssigneeSuggestionList.Constant.MatchType;
 
 namespace OWP.AssigneeSuggestionList.Services;
 
-public interface SabaMatchesServices
+public interface SabaMatchServices
 {
-    void CalculateWorkingSchedule(IList<WorkingSchedule> workingShifts, IList<AssignmentModel> assignmentModels);
+    void MapAssignmentsToWorkingSchedule(IList<WorkingSchedule> workingShifts, IList<AssignmentModel> assignmentModels);
 }
 
-public class SabaMatchesServicesImp : SabaMatchesServices
+public class SabaMatchesServicesImp : SabaMatchServices
 {
-    public void CalculateWorkingSchedule(IList<WorkingSchedule> workingShifts, IList<AssignmentModel> assignmentModels)
+    public void MapAssignmentsToWorkingSchedule(IList<WorkingSchedule> workingShifts, IList<AssignmentModel> assignmentModels)
     {
         foreach (var workingShift in workingShifts)
         {

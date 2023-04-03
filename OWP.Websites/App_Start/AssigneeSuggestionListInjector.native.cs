@@ -1,5 +1,6 @@
 ﻿using OWP.AssigneeSuggestionList;
 using OWP.AssigneeSuggestionList.Services;
+using OWP.AssigneeSuggestionList.Services.RealMatch;
 
 namespace OWP.Websites;
 
@@ -17,7 +18,8 @@ public static class AssigneeSuggestionListInjector
         services.AddScoped<XMinsGroupService, XMinsGroupServiceImp>();
         services.AddScoped<WorkingScheduleService, WorkingScheduleServiceImp>();
         services.AddScoped<SingleGameGroupService, SingleGameGroupServiceImp>();
-        services.AddScoped<SabaMatchesServices, SabaMatchesServicesImp>();
+        services.AddScoped<SabaMatchServices, SabaMatchesServicesImp>();
+        services.AddScoped<RealMatchServices, RealMatchServicesImp>();
         services.AddScoped<WorkingShiftService, WorkingShiftServiceImp>();
         services.AddScoped<LinkErrorService, LinkErrorServiceImp>();
     }

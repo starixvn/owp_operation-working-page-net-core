@@ -2,37 +2,35 @@ using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Helper;
 using OWP.AssigneeSuggestionList.Models;
 
-namespace OWP.AssigneeSuggestionList.Services;
 
-public interface FantasyService
+namespace OWP.AssigneeSuggestionList.Services.RealMatch;
+
+public interface MJGroupService
 {
-    Task Group(
-        IList<AssignmentModel> assignments,
-        WorkingSchedule schedule
-    );
+    Task Group(IList<AssignmentModel> assignments,
+        WorkingSchedule schedules);
 }
 
-public class FantasyServiceImp : FantasyService
+public class MJGroupServiceImp : MJGroupService
 {
     private readonly SingleGameGroupService workingSchedule;
 
-    public FantasyServiceImp(SingleGameGroupService workingSchedule)
+    public MJGroupServiceImp(SingleGameGroupService workingSchedule)
     {
         this.workingSchedule = workingSchedule;
     }
-
     public async Task Group(
         IList<AssignmentModel> assignments,
-        WorkingSchedule schedule
+        WorkingSchedule schedules
     )
     {
-        var matchGroup = assignments
-            ?.Where(a => a.IsFantasyMatch).ToList();
+        var mJGroup = assignments.Where(a => a.IsMajorLeague)
+            .ToList();
 
         await workingSchedule.Group(
-            matchGroup,
-            schedule,
-            "[FANTASY]",
+            mJGroup,
+            schedules,
+            "[LinkNGame]",
             BuildScheduleUpdateModel);
     }
 
@@ -40,8 +38,8 @@ public class FantasyServiceImp : FantasyService
     {
         var assignmentCell = new AssignmentCell
         {
-            Color = ColorCodeConst.FANTASY,
-            TextColor = ColorCodeConst.TEXT_FANTASY,
+            Color = ColorCodeConst.MJ,
+            TextColor = ColorCodeConst.TEXT_MJ,
             Text = ScheduleHelper.BuildScheduleTextSingleGame(assignments.First())
         };
         var gameInfo = ScheduleHelper.GetGameInfo(assignments);
@@ -56,7 +54,10 @@ public class FantasyServiceImp : FantasyService
                 EtPkValue = etPkValue
             },
             AssignmentCell = assignmentCell,
-            TimeRange = TimeRangeHelper.CalculateTimeRangeSingleGame(gameInfo.eventDate, gameInfo.bettypeIds, !string.IsNullOrEmpty(etPkValue))
+            TimeRange = TimeRangeHelper.CalculateTimeRangeSingleGame(
+                gameInfo.eventDate,
+                gameInfo.bettypeIds,
+                !string.IsNullOrEmpty(etPkValue))
         };
     }
 }

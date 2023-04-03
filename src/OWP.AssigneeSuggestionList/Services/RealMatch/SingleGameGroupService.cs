@@ -1,7 +1,7 @@
 using Fanex.Logging;
 using OWP.AssigneeSuggestionList.Models;
 
-namespace OWP.AssigneeSuggestionList.Services;
+namespace OWP.AssigneeSuggestionList.Services.RealMatch;
 
 public interface SingleGameGroupService
 {

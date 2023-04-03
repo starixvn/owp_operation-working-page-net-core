@@ -1,7 +1,7 @@
 using NSubstitute;
 using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Models;
-using OWP.AssigneeSuggestionList.Services;
+using OWP.AssigneeSuggestionList.Services.RealMatch;
 using Xunit;
 using Xunit.Asserts.Compare;
 

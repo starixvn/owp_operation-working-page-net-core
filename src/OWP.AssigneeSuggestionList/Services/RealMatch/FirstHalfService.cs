@@ -5,7 +5,7 @@ using OWP.AssigneeSuggestionList.Models;
 using OWP.Enums;
 
 
-namespace OWP.AssigneeSuggestionList.Services;
+namespace OWP.AssigneeSuggestionList.Services.RealMatch;
 
 public interface FirstHalfService : IRequest<Unit>
 {
