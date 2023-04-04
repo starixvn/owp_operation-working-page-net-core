@@ -37,9 +37,15 @@ public static class PropertyScheduleHelper
     public static string GetPropertyName(DateTime eventDateTime, DateTime eventDate)
     {
         var assignmentDateTime = eventDate.Date.AddHours(12);
-        var prefix = eventDateTime >= assignmentDateTime
-            ? eventDateTime < assignmentDateTime.AddDays(1) ? "Today" : "Tomorrow"
-            : "Yesterday";
+        string prefix;
+        if (eventDateTime >= assignmentDateTime)
+        {
+            prefix = eventDateTime < assignmentDateTime.AddDays(1) ? "Today" : "Tomorrow";
+        }
+        else
+        {
+            prefix = "Yesterday";
+        }
 
         return $"{prefix}_{eventDateTime.Hour:HH}h";
     }

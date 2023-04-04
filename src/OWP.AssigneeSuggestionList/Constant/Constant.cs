@@ -40,7 +40,7 @@ public static class ColorCodeConst
     private const string SABA_4G = "#33CCCC";
     private const string SABA_16MINS = "#00B050";
 
-    public static (string, string) ErrorColor = (TEXT_COLOR_WHITE, TEXT_ERROR);
+    public static readonly (string, string) ErrorColor = (TEXT_COLOR_WHITE, TEXT_ERROR);
     public static readonly ImmutableDictionary<MatchType, (string, string)> ColorByGroupName = new Dictionary<MatchType, (string, string)>
     {
         { MatchType.Saba5Mins, (SABA_5MINS, TEXT_COLOR_WHITE) },

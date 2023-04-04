@@ -38,7 +38,11 @@ public class WorkingScheduleServiceImp : WorkingScheduleService
         for (var index = 1; index < propertiesLength; index++)
         {
             var propertyInfo = objType.GetProperty(propertiesName[index], BindingFlags.Public);
-            if (propertyInfo is null) continue;
+            if (propertyInfo is null)
+            {
+                continue;
+            }
+
             if (index < propertiesLength - 1)
             {
                 assignmentCell.Text = string.Empty;

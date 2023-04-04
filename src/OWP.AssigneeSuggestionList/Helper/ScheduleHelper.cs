@@ -23,19 +23,13 @@ public static class ScheduleHelper
         var kOTimeText = $"{eventDateTime:hh\\:mm}";
         var maxbetListText = string.Join("+", listMaxbet);
 
-        string text;
-        if (string.IsNullOrWhiteSpace(maxbetListText))
-        {
-            text = eventDateTime.Minute == 0
-            ? "V"
-            : $"{kOTimeText}";
-        }
-        else
-        {
-            text = eventDateTime.Minute == 0
-            ? $"V/{maxbetListText}"
-            : $"{kOTimeText}/{maxbetListText}";
-        }
+        var text = string.IsNullOrWhiteSpace(maxbetListText)
+            ? eventDateTime.Minute == 0
+                ? "V"
+                : $"{kOTimeText}"
+            : eventDateTime.Minute == 0
+                ? $"V/{maxbetListText}"
+                : $"{kOTimeText}/{maxbetListText}";
         return assignments.First().IsSaba ? $"*{text}" : text;
     }
 
@@ -45,19 +39,13 @@ public static class ScheduleHelper
                 ? $"{FormatMaxbet(assignment.MaxbetHDP.Value)}"
             : string.Empty;
         var kOTimeText = $"{assignment.KOTime:hh\\:mm}";
-        string text;
-        if (string.IsNullOrWhiteSpace(maxbetDisplay))
-        {
-            text = assignment.KOTime.Minutes == 0
-            ? "V"
-            : $"{kOTimeText}";
-        }
-        else
-        {
-            text = assignment.KOTime.Minutes == 0
-                        ? $"V/{maxbetDisplay}"
-                        : $"{kOTimeText}/{maxbetDisplay}";
-        }
+        var text = string.IsNullOrWhiteSpace(maxbetDisplay)
+            ? assignment.KOTime.Minutes == 0
+                ? "V"
+                : $"{kOTimeText}"
+            : assignment.KOTime.Minutes == 0
+                ? $"V/{maxbetDisplay}"
+                : $"{kOTimeText}/{maxbetDisplay}";
         return assignment.IsSaba ? $"*{text}" : text;
     }
 

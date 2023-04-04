@@ -4,8 +4,6 @@ namespace OWP.AssigneeSuggestionList.Helper;
 
 public static class TimeRangeHelper
 {
-    private const int INCREASE_HOUR_DEFAULT = 0;
-
     private const int INCREASE_HOUR_BY_TWO = 2;
 
     private const int INCREASE_HOUR_BY_ONE = 1;
@@ -42,6 +40,7 @@ public static class TimeRangeHelper
                 case FT_OU:
                     increaseHourPair.TryAdd("FH", INCREASE_HOUR_BY_ONE);
                     break;
+                default: break;
             }
         }
 
