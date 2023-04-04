@@ -1,3 +1,4 @@
+using System;
 using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Helper;
 using OWP.AssigneeSuggestionList.Models;
@@ -27,7 +28,7 @@ public class WorkingScheduleServiceImp : WorkingScheduleService
         UpdateWorkingSchedule(schedule, updateModel);
     }
 
-    private static void UpdateWorkingSchedule(
+        public static void UpdateWorkingSchedule(
         WorkingSchedule schedule,
         ScheduleUpdateModel updateModel)
     {
@@ -35,25 +36,33 @@ public class WorkingScheduleServiceImp : WorkingScheduleService
         var assignmentCell = updateModel.AssignmentCell;
         var propertiesName = updateModel.PropertiesName;
         var propertiesLength = propertiesName.Count;
+            objType.GetProperty(propertiesName[0])?.SetValue(schedule, assignmentCell);
         for (var index = 1; index < propertiesLength; index++)
         {
-            var propertyInfo = objType.GetProperty(propertiesName[index], BindingFlags.Public);
-            if (propertyInfo is null)
+                var propertyInfo = objType.GetProperty(propertiesName[index]);
+
+                if (index <= propertiesLength - 1)
             {
-                continue;
+                    propertyInfo?.SetValue(schedule, new AssignmentCell
             }
 
-            if (index < propertiesLength - 1)
             {
-                assignmentCell.Text = string.Empty;
-            }
-            if (updateModel.EtPk.IsHasEtPk && index == propertiesLength - 1)
-            {
-                assignmentCell.Text = updateModel.EtPk.EtPkValue;
-                assignmentCell.Color = ColorCodeConst.ET_PK;
-                assignmentCell.TextColor = ColorCodeConst.TEXT_ET_PK;
-            }
-            propertyInfo.SetValue(schedule, assignmentCell);
+                        Text = string.Empty,
+                        Color = assignmentCell.Color,
+                        TextColor = assignmentCell.TextColor
+                    });
+                }
+
+                if (updateModel.EtPk.IsHasEtPk && index == propertiesLength - 1)
+                {
+                    propertyInfo?.SetValue(schedule, new AssignmentCell
+                    {
+                        Text = updateModel.EtPk.EtPkValue,
+                        Color = ColorCodeConst.ET_PK,
+                        TextColor = ColorCodeConst.TEXT_ET_PK
+                    });
         }
+
     }
+
 }
