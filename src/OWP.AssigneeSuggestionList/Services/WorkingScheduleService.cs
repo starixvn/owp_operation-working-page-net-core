@@ -1,8 +1,6 @@
-using System;
 using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Helper;
 using OWP.AssigneeSuggestionList.Models;
-using System.Reflection;
 
 namespace OWP.AssigneeSuggestionList.Services;
 
@@ -42,7 +40,7 @@ public class WorkingScheduleServiceImp : WorkingScheduleService
             var propertyInfo = objType.GetProperty(propertiesName[index]);
             if (index <= propertiesLength - 1)
             {
-                propertyInfo?.SetValue(schedule, new AssignmentCell()
+                propertyInfo?.SetValue(schedule, new AssignmentCell
                 {
 
                     Text = string.Empty,

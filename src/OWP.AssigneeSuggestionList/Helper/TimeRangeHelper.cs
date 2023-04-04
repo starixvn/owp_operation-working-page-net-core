@@ -32,15 +32,14 @@ public static class TimeRangeHelper
         {
             switch (bettypeId)
             {
-                case HDP:
-                case OU:
+                case HDP or OU:
                     increaseHourPair.TryAdd("FT", INCREASE_HOUR_BY_TWO);
                     break;
-                case FT_HDP:
-                case FT_OU:
+                case FT_HDP or FT_OU:
                     increaseHourPair.TryAdd("FH", INCREASE_HOUR_BY_ONE);
                     break;
-                default: break;
+                default:
+                    continue;
             }
         }
 
@@ -49,10 +48,7 @@ public static class TimeRangeHelper
             increaseHourPair.TryAdd("ET_PK", INCREASE_HOUR_BY_ONE);
         }
 
-        if (increaseHourPair.ContainsKey("FT"))
-        {
-            increaseHourPair.Remove("FH");
-        }
+        increaseHourPair.Remove("FH");
 
         var increaseHour = increaseHourPair.Values.Sum();
         var endDate = eventDate.AddHours(increaseHour);
