@@ -1,7 +1,9 @@
 ﻿
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Handlers;
 
 namespace OWP.AssigneeSuggestionList;
@@ -9,6 +11,7 @@ namespace OWP.AssigneeSuggestionList;
 [Route("api/[controller]")]
 [ApiController]
 [EnableCors("AllowOrigin")]
+[AllowAnonymous]
 public class AssigneeSuggestionController : ControllerBase
 {
     private readonly IMediator mediator;
@@ -30,6 +33,8 @@ public class AssigneeSuggestionController : ControllerBase
         return Ok(result);
     }
 
+
+
     [HttpGet("get-match-info")]
     public async Task<IActionResult> GetMatchInfo([FromQuery] int owpMatchId, [FromQuery] string betType)
     {
@@ -41,4 +46,8 @@ public class AssigneeSuggestionController : ControllerBase
 
         return Ok(result);
     }
+
+    [HttpGet("get-color-explain")]
+    public IActionResult GetColorExplain()
+    => Ok(ColorCodeConst.ColorExplain);
 }

@@ -36,11 +36,17 @@ public class XMinsGroupServiceImp : XMinsGroupService
     {
         var gameInfo = ScheduleHelper.GetGameInfoMinor(assignments15Mins);
         var parentGame = assignments.FirstOrDefault(g => g.OWPMatchId == gameInfo.parentMatchId);
+        var assignment = new AssignmentModel
+        {
+            KOTime = parentGame.KOTime,
+            MaxbetHDP = gameInfo.maxbetHdp
+        };
+
         var assignmentCell = new AssignmentCell
         {
             Color = ColorCodeConst.X_MINS,
             TextColor = ColorCodeConst.TEXT_X_MINS,
-            Text = ScheduleHelper.BuildScheduleTextSingleGame(parentGame)
+            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignment)
         };
         var etPkValue = ETPKHelper.DetectExtraTime(parentGame?.Remark);
 

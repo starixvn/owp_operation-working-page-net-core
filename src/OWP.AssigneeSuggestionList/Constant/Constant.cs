@@ -1,4 +1,5 @@
 ﻿using System.Collections.Immutable;
+using OWP.AssigneeSuggestionList.Models;
 
 namespace OWP.AssigneeSuggestionList.Constant;
 
@@ -39,6 +40,27 @@ public static class ColorCodeConst
     private const string SABA_3G = "#FFC000";
     private const string SABA_4G = "#33CCCC";
     private const string SABA_16MINS = "#00B050";
+
+    public static IList<ColorExplainModel> ColorExplain => new List<ColorExplainModel>
+    {
+        new ColorExplainModel("MJ", MJ, TEXT_COLOR_BLACK),
+         new ColorExplainModel("1G", ONE_GAME, TEXT_COLOR_BLACK),
+         new ColorExplainModel("2G", TWO_GAME, TEXT_COLOR_BLACK),
+         new ColorExplainModel("3G", THREE_GAME, TEXT_COLOR_BLACK),
+         new ColorExplainModel("1st half", FIRST_HALF, TEXT_COLOR_BLACK),
+         new ColorExplainModel("Fantasy", FANTASY, TEXT_COLOR_BLACK),
+         new ColorExplainModel("CR/NCR", CORNER, TEXT_COLOR_WHITE),
+         new ColorExplainModel("15M OU", X_MINS, TEXT_COLOR_WHITE),
+         new ColorExplainModel("5M", SABA_5MINS, TEXT_COLOR_WHITE),
+         new ColorExplainModel("Saba Futsal", SABA_FUTSAL, TEXT_COLOR_BLACK),
+         new ColorExplainModel("M88", SABA_M88, TEXT_COLOR_BLACK),
+         new ColorExplainModel("16M", SABA_16MINS, TEXT_COLOR_WHITE),
+         new ColorExplainModel("*1G", SABA_1G, TEXT_COLOR_BLACK),
+         new ColorExplainModel("*2G", SABA_2G, TEXT_COLOR_WHITE),
+         new ColorExplainModel("*3G", SABA_3G, TEXT_COLOR_BLACK),
+         new ColorExplainModel("*4G", SABA_4G, TEXT_COLOR_BLACK)
+    };
+
 
     public static readonly (string, string) ErrorColor = (TEXT_COLOR_WHITE, TEXT_ERROR);
     public static readonly ImmutableDictionary<MatchType, (string, string)> ColorByGroupName = new Dictionary<MatchType, (string, string)>
