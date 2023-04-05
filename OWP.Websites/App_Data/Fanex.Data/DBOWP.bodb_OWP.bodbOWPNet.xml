@@ -384,6 +384,6 @@
 	<Function Name="AssigneeSuggestionList">
 		<Setting Key="OWP_AssigneeSuggestionList_GetMatchInfo" SpName="OWP_AssigneeSuggestionList_GetMatchInfo" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_AssigneeSuggestionList_GetTraderByDate" SpName="OWP_AssigneeSuggestionList_GetTraderByDate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-        <Setting Key="OWP_TodaySuggestionList_GetAssignmentByDate" SpName="OWP_TodaySuggestionList_GetAssignmentByDate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+        <Setting Key="OWP_AssigneeSuggestionList_GetAssignmentByDate" SpName="OWP_AssigneeSuggestionList_GetAssignmentByDate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 	</Function>
 </Functions>
