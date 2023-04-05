@@ -28,23 +28,23 @@ public static class PropertyScheduleHelper
             .ToList();
     }
 
-    public static void UpdateWorkingSchedule(this WorkingSchedule schedule, AssignmentModel assignment, AssignmentCell assignmentCell)
+    public static void UpdateWorkingSchedule(this WorkingSchedule schedule, AssignmentModel assignment, AssignmentCell assignmentCell, DateTime eventDate)
     {
-        var propertyName = GetPropertyName(assignment.EventDateTime, assignment.EventDate);
+        var propertyName = GetPropertyName(assignment.EventDateTime, eventDate);
         typeof(WorkingSchedule).GetProperty(propertyName)?.SetValue(schedule, assignmentCell);
     }
 
     public static string GetPropertyName(DateTime eventDateTime, DateTime eventDate)
     {
-        var assignmentDateTime = eventDate.Date.AddHours(12);
+        var todayFromDateTime = eventDate.Date.AddHours(12);
+        var todayToDateTime = todayFromDateTime.AddDays(1);
 
         string prefix;
-
-        if (eventDateTime < assignmentDateTime)
+        if (eventDateTime.CompareTo(todayFromDateTime) < 0)
         {
             prefix = "Yesterday";
         }
-        else if (eventDateTime < assignmentDateTime.AddDays(1))
+        else if (eventDateTime.CompareTo(todayToDateTime) < 0)
         {
             prefix = "Today";
         }
@@ -53,6 +53,6 @@ public static class PropertyScheduleHelper
             prefix = "Tomorrow";
         }
 
-        return $"{prefix}_{eventDateTime.Hour:HH}h";
+        return $"{prefix}_{eventDateTime:HH}h";
     }
 }

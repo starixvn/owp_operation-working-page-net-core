@@ -61,5 +61,5 @@ public class RealMatchServicesImp : RealMatchServices
         => assignments.Where(x =>
             x.UserId == schedule.UserInfo.UserId &&
             DateTime.Compare(x.EventDateTime, schedule.UserInfo.ShiftStartTime) >= 0 &&
-            DateTime.Compare(x.EventDateTime, schedule.UserInfo.ShiftEndTime) <= 0).ToList();
+            DateTime.Compare(x.EventDateTime, schedule.UserInfo.ShiftEndTime) < 0).ToList();
 }

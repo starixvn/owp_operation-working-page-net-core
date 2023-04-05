@@ -233,7 +233,122 @@ public class SabaMatchesServicesUnitTest
     [Fact]
     public void MapAssignmentToWorkingSchedule()
     {
-        var w = new WorkingSchedule();
-        //SabaMatchesServicesImp.MapAssignmentToWorkingSchedule();
+        var eventDate = new DateTime(2023, 03, 10);
+        var workingSchedule = new WorkingSchedule();
+        var assignmentModels = new List<AssignmentModel>
+        {
+            new()
+            {
+                OWPMatchId = 20,
+                LeagueName = "Saba A",
+                EventDateTime = new DateTime(2023, 03, 10, 14, 0, 0),
+                MatchType = MatchType.SabaM8816Mins,
+            },
+            new()
+            {
+                LeagueName = "Saba A",
+                EventDateTime = new DateTime(2023, 03, 10, 2, 0, 0),
+                MatchType = MatchType.Saba5Mins,
+                MaxbetHDP = 3333
+            },
+            new()
+            {
+                LeagueName = "Saba A",
+                EventDateTime = new DateTime(2023, 03, 11, 2, 0, 0),
+                MatchType = MatchType.SabaLink2G,
+                GroupAssignmentModels = new List<AssignmentModel>
+                {
+                    new(){ MaxbetHDP = 100000, LeagueName = "Saba A" },
+                    new(){ MaxbetHDP = 200000, LeagueName = "Saba A" },
+                }
+            },
+            new()
+            {
+                LeagueName = "Saba B",
+                EventDateTime = new DateTime(2023, 03, 11, 15, 30, 0),
+                MaxbetHDP = 3000,
+                KOTime = new TimeSpan(15, 30, 0),
+                MatchType = MatchType.SabaOther
+            }
+        };
+        var expected = new WorkingSchedule
+        {
+            Today_14h = new AssignmentCell { Text = "*V", TextColor = "#444444", Color = "#FCD5B4" },
+            Yesterday_02h = new AssignmentCell { Text = "*V/3.333K", TextColor = "#FFFFFF", Color = "#7030A0" },
+            Today_02h = new AssignmentCell { Text = "*V/100K+200K", TextColor = "#444444", Color = "#A34262" },
+            Tomorrow_15h = new AssignmentCell { Text = "*15:30/3K", TextColor = "#FF0000", Color = "#FFFFFF" },
+        };
+
+        SabaMatchesServicesImp.MapAssignmentsToWorkingSchedule(workingSchedule, assignmentModels, eventDate);
+
+        DeepAssert.Equal(expected, workingSchedule);
+    }
+
+    [Fact]
+    public void MapAssignmentsToWorkingSchedule()
+    {
+        var eventDate = new DateTime(2023, 03, 10);
+        var workingSchedules = new List<WorkingSchedule>
+        {
+            new()
+            {
+                UserInfo = new UserInfo
+                {
+                    UserId = 111,
+                    ShiftStartTime = new DateTime(2023,03,10,14, 0, 0),
+                    ShiftEndTime = new DateTime(2023,03,11,13, 0, 0),
+                },
+            }
+        };
+        var assignmentModels = new List<AssignmentModel>
+        {
+            new()
+            {
+                UserId = 111,
+                OWPMatchId = 20,
+                LeagueName = "M88 SABA - 16 Mins Play",
+                EventDateTime = new DateTime(2023, 03, 10, 14, 0, 0),
+            },
+            new()
+            {
+                UserId = 111,
+                LeagueName = "Saba PES - 5 Mins Play",
+                EventDateTime = new DateTime(2023, 03, 10, 2, 0, 0),
+                MaxbetHDP = 3333
+            },
+            new()
+            {
+                UserId = 111,
+                LeagueName = "SABA - 16 Mins Play",
+                EventDateTime = new DateTime(2023, 03, 11, 2, 0, 0),
+                MaxbetHDP = 100000
+            },
+            new()
+            {
+                UserId = 111,
+                LeagueName = "SABA - 20 Mins Play",
+                EventDateTime = new DateTime(2023, 03, 11, 2, 0, 0),
+                MaxbetHDP = 200000
+            },
+            new()
+            {
+                UserId = 111,
+                LeagueName = "Saba B",
+                EventDateTime = new DateTime(2023, 03, 11, 15, 30, 0),
+                MaxbetHDP = 3000,
+                KOTime = new TimeSpan(15, 30, 0),
+            }
+        };
+        var expected = new WorkingSchedule
+        {
+            Today_14h = new AssignmentCell { Text = "*V", TextColor = "#444444", Color = "#FCD5B4" },
+            Yesterday_02h = null,
+            Today_02h = new AssignmentCell { Text = "*V/100K+200K", TextColor = "#444444", Color = "#A34262" },
+            Tomorrow_15h = null
+        };
+
+        new SabaMatchesServicesImp().MapAssignmentsToWorkingSchedules(workingSchedules, assignmentModels, eventDate);
+
+        DeepAssert.Equal(expected, workingSchedules[0], "UserInfo");
     }
 }

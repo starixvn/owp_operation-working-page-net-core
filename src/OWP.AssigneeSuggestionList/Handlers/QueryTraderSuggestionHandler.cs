@@ -38,7 +38,7 @@ public class QueryTraderSuggestionHandler : IRequestHandler<QueryTraderSuggestio
         var assignmentModels = await repository.QueryAssignments(matchInfo.EventDate);
 
         await realMatchServices.MapAssignmentsToWorkingSchedule(workingShifts, assignmentModels);
-        sabaMatchesServices.MapAssignmentsToWorkingSchedule(workingShifts, assignmentModels);
+        sabaMatchesServices.MapAssignmentsToWorkingSchedules(workingShifts, assignmentModels, matchInfo.EventDate);
 
         return new SuggestionInfo
         {

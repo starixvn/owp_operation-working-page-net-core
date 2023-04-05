@@ -7,21 +7,24 @@ namespace OWP.AssigneeSuggestionList.Services;
 
 public interface SabaMatchServices
 {
-    void MapAssignmentsToWorkingSchedule(IList<WorkingSchedule> workingShifts, IList<AssignmentModel> assignmentModels);
+    void MapAssignmentsToWorkingSchedules(IList<WorkingSchedule> workingShifts, IList<AssignmentModel> assignmentModels, DateTime eventDate);
 }
 
 public class SabaMatchesServicesImp : SabaMatchServices
 {
-    public void MapAssignmentsToWorkingSchedule(IList<WorkingSchedule> workingShifts, IList<AssignmentModel> assignmentModels)
+    public void MapAssignmentsToWorkingSchedules(IList<WorkingSchedule> workingShifts, IList<AssignmentModel> assignmentModels, DateTime eventDate)
     {
         foreach (var workingShift in workingShifts)
         {
-            var userAssignments = assignmentModels.Where(x => x.UserId == workingShift.UserInfo.UserId).ToList();
+            var userAssignments = assignmentModels.Where(x =>
+                x.UserId == workingShift.UserInfo.UserId &&
+                x.EventDateTime.CompareTo(workingShift.UserInfo.ShiftStartTime) >= 0 &&
+                x.EventDateTime.CompareTo(workingShift.UserInfo.ShiftEndTime) < 0);
             var sabaAssignments = userAssignments.Where(x => x.IsSaba).ToList();
 
             var newSabaAssignments = CategorizeAndGroupSabaMatches(sabaAssignments);
 
-            MapAssignmentToWorkingSchedule(workingShift, newSabaAssignments);
+            MapAssignmentsToWorkingSchedule(workingShift, newSabaAssignments, eventDate);
         }
     }
 
@@ -101,7 +104,7 @@ public class SabaMatchesServicesImp : SabaMatchServices
             _ => MatchType.SabaOther
         };
 
-    public static void MapAssignmentToWorkingSchedule(WorkingSchedule schedule, List<AssignmentModel> assignments)
+    public static void MapAssignmentsToWorkingSchedule(WorkingSchedule schedule, List<AssignmentModel> assignments, DateTime eventDate)
     {
         foreach (var assignment in assignments)
         {
@@ -117,7 +120,7 @@ public class SabaMatchesServicesImp : SabaMatchServices
                 Color = backgroundColor
             };
 
-            schedule.UpdateWorkingSchedule(assignment, assignmentCell);
+            schedule.UpdateWorkingSchedule(assignment, assignmentCell, eventDate);
         }
     }
 }
