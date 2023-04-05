@@ -5,7 +5,7 @@ namespace OWP.AssigneeSuggestionList.Constant;
 
 public static class ColorCodeConst
 {
-    public const string MJ = "#99CCFF0";
+    public const string MJ = "#99CCFF";
     public const string ONE_GAME = "#92D050";
     public const string TWO_GAME = "#FF6699";
     public const string THREE_GAME = "#F79646";
