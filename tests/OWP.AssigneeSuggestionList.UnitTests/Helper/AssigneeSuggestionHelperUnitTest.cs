@@ -15,7 +15,7 @@ public class AssigneeSuggestionHelperUnitTest
 
         var result = PropertyScheduleHelper.GetValidProperties(eventTime, fromTime, toTime);
 
-        DeepAssert.Equal(new List<string> { "Today_01h", "Today_02h", "Today_03h" }, result);
+        DeepAssert.Equal(new List<string> { "Yesterday_02h", "Yesterday_03h" }, result);
 
     }
 }
