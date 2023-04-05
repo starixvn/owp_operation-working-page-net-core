@@ -33,6 +33,10 @@ public class QueryTraderSuggestionHandler : IRequestHandler<QueryTraderSuggestio
     public async Task<SuggestionInfo> Handle(QueryTraderSuggestionRequest request, CancellationToken cancellationToken)
     {
         var matchInfo = await repository.QueryMatchInfo(request.OwpMatchId);
+        if (matchInfo == null)
+        {
+            return new SuggestionInfo();
+        }
 
         var workingShifts = await workingShiftService.Calculate(matchInfo.EventDate);
         var assignmentModels = await repository.QueryAssignments(matchInfo.EventDate);
