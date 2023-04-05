@@ -31,7 +31,7 @@ public record AssignmentModel
 
     public bool Is15Mins { get; set; }
 
-    public MatchType MatchType { get; set; }
+    public MatchType MatchType { get; set; } = MatchType.Other;
 
     public string HomeName { get; set; }
 
