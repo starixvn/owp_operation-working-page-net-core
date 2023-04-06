@@ -9,6 +9,8 @@ public class QueryTraderSuggestionRequest : IRequest<SuggestionInfo>
     public int OwpMatchId { get; set; }
 
     public int BetTypeId { get; set; }
+
+    public DateTime FilterDate { get; set; }
 }
 
 public class QueryTraderSuggestionHandler : IRequestHandler<QueryTraderSuggestionRequest, SuggestionInfo>
@@ -38,11 +40,11 @@ public class QueryTraderSuggestionHandler : IRequestHandler<QueryTraderSuggestio
             return new SuggestionInfo();
         }
 
-        var workingShifts = await workingShiftService.Calculate(matchInfo.EventDate);
-        var assignmentModels = await repository.QueryAssignments(matchInfo.EventDate);
+        var workingShifts = await workingShiftService.Calculate(request.FilterDate);
+        var assignmentModels = await repository.QueryAssignments(request.FilterDate);
 
         await realMatchServices.MapAssignmentsToWorkingSchedule(workingShifts, assignmentModels);
-        sabaMatchesServices.MapAssignmentsToWorkingSchedules(workingShifts, assignmentModels, matchInfo.EventDate);
+        sabaMatchesServices.MapAssignmentsToWorkingSchedules(workingShifts, assignmentModels, request.FilterDate);
 
         return new SuggestionInfo
         {

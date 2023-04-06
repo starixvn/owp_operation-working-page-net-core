@@ -1,5 +1,4 @@
-﻿
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -22,18 +21,12 @@ public class AssigneeSuggestionController : ControllerBase
     }
 
     [HttpGet("get-trader-suggestion")]
-    public async Task<IActionResult> GetTraderSuggestion([FromQuery] int owpMatchId, [FromQuery] int betTypeId)
+    public async Task<IActionResult> GetTraderSuggestion([FromQuery] QueryTraderSuggestionRequest request)
     {
-        var result = await mediator.Send(new QueryTraderSuggestionRequest
-        {
-            OwpMatchId = owpMatchId,
-            BetTypeId = betTypeId
-        });
+        var result = await mediator.Send(request);
 
         return Ok(result);
     }
-
-
 
     [HttpGet("get-match-info")]
     public async Task<IActionResult> GetMatchInfo([FromQuery] int owpMatchId, [FromQuery] string betType)
