@@ -110,12 +110,13 @@ public class SabaMatchesServicesImp : SabaMatchServices
         {
             var isMultipleMatch =
                 assignment.MatchType is MatchType.SabaLink2G or MatchType.SabaLink3G or MatchType.SabaLink4G;
+            var text = isMultipleMatch
+                ? ScheduleHelper.BuildScheduleTextGroupGame(assignment.GroupAssignmentModels)
+                : ScheduleHelper.BuildScheduleTextSingleGame(assignment);
             var (backgroundColor, textColor) = ScheduleHelper.GetBackgroundAndTextColor(assignment.MatchType);
             var assignmentCell = new AssignmentCell
             {
-                Text = isMultipleMatch
-                    ? ScheduleHelper.BuildScheduleTextGroupGame(assignment.GroupAssignmentModels)
-                    : ScheduleHelper.BuildScheduleTextSingleGame(assignment),
+                Text = assignment.MatchType is MatchType.SabaOther ? "Error!" : text,
                 TextColor = textColor,
                 Color = backgroundColor
             };
