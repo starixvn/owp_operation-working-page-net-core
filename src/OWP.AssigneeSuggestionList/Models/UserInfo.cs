@@ -25,7 +25,7 @@ public class UserInfo
     public DateTime ShiftEndTime { get; set; }
 
     public string Shift => ShiftStartTime.ToString("HH:mm")
-                           + ">" + ShiftEndTime.ToString("HH:mm");
+                           + " > " + ShiftEndTime.ToString("HH:mm");
 
     public bool IsManagementRole => WorkingShiftConst.ManagementRole.Any(x => x.Equals(Role));
 }

@@ -6,7 +6,7 @@ namespace OWP.AssigneeSuggestionList.Services.RealMatch;
 
 public interface XMinsGroupService
 {
-    Task Group(IList<AssignmentModel> assignments, WorkingSchedule schedule);
+    Task Group(IList<AssignmentModel> assignments, WorkingSchedule schedule, DateTime filterDate);
 }
 
 public class XMinsGroupServiceImp : XMinsGroupService
@@ -19,7 +19,7 @@ public class XMinsGroupServiceImp : XMinsGroupService
         this.workingSchedule = workingSchedule;
     }
 
-    public async Task Group(IList<AssignmentModel> assignments, WorkingSchedule schedule)
+    public async Task Group(IList<AssignmentModel> assignments, WorkingSchedule schedule, DateTime filterDate)
     {
         var gameGroup = assignments?.Where(a => a.Is15Mins).ToList();
 
@@ -27,12 +27,13 @@ public class XMinsGroupServiceImp : XMinsGroupService
             gameGroup,
             schedule,
             "[X_MINS]"
-            , assignments15Mins => BuildScheduleUpdateModel(assignments15Mins, assignments));
+            , assignments15Mins => BuildScheduleUpdateModel(assignments15Mins, assignments, filterDate));
     }
 
     public static ScheduleUpdateModel BuildScheduleUpdateModel(
         IList<AssignmentModel> assignments15Mins,
-        IList<AssignmentModel> assignments)
+        IList<AssignmentModel> assignments,
+        DateTime filterDate)
     {
         var gameInfo = ScheduleHelper.GetGameInfoMinor(assignments15Mins);
         var parentGame = assignments.FirstOrDefault(g => g.OWPMatchId == gameInfo.parentMatchId);
@@ -52,7 +53,7 @@ public class XMinsGroupServiceImp : XMinsGroupService
 
         return new ScheduleUpdateModel
         {
-            EventDate = gameInfo.eventDate,
+            FilterDate = filterDate,
             EtPk = new ETPKUpdateSchedule
             {
                 IsHasEtPk = !string.IsNullOrEmpty(etPkValue),

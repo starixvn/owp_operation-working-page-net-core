@@ -6,7 +6,7 @@ namespace OWP.AssigneeSuggestionList.Services.RealMatch;
 
 public interface OneGameService
 {
-    Task Group(IList<AssignmentModel> assignments, WorkingSchedule schedules);
+    Task Group(IList<AssignmentModel> assignments, WorkingSchedule schedules, DateTime filterDate);
 }
 
 public class OneGameServiceImp : OneGameService
@@ -20,7 +20,7 @@ public class OneGameServiceImp : OneGameService
         this.workingSchedule = workingSchedule;
     }
 
-    public async Task Group(IList<AssignmentModel> assignments, WorkingSchedule schedules)
+    public async Task Group(IList<AssignmentModel> assignments, WorkingSchedule schedules, DateTime filterDate)
     {
         var oneGameGroup = assignments
             ?.Where(a => LinkGameConditionHelper.CanGroupNGame(a, maxbet => maxbet > MIN_MAXBET))
@@ -30,10 +30,10 @@ public class OneGameServiceImp : OneGameService
             oneGameGroup,
             schedules,
             "[oneGameGroup]",
-            BuildScheduleUpdateModel);
+            assignments => BuildScheduleUpdateModel(assignments, filterDate));
     }
 
-    public static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignments)
+    public static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignments, DateTime filterDate)
     {
         var assignmentCell = new AssignmentCell
         {
@@ -46,7 +46,7 @@ public class OneGameServiceImp : OneGameService
 
         return new ScheduleUpdateModel
         {
-            EventDate = gameInfo.eventDate,
+            FilterDate = filterDate,
             EtPk = new ETPKUpdateSchedule
             {
                 IsHasEtPk = !string.IsNullOrEmpty(etPkValue),

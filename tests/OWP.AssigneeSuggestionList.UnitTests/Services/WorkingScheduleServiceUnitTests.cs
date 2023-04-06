@@ -19,10 +19,10 @@ public class WorkingScheduleServiceUnitTests
         // Arrange
         var updateModel = new ScheduleUpdateModel
         {
-            EventDate = DateTime.Parse("2023-04-04 13:00:00"),
+            FilterDate = DateTime.Parse("2023-04-04 13:00:00"),
             EtPk = new ETPKUpdateSchedule(),
             PropertiesName = new List<string>(),
-            AssignmentCell= new AssignmentCell()
+            AssignmentCell = new AssignmentCell()
             {
                 Text = "V/15K",
                 TextColor = "#444444",
@@ -74,10 +74,10 @@ public class WorkingScheduleServiceUnitTests
         // Arrange
         var updateModel = new ScheduleUpdateModel
         {
-            EventDate = DateTime.Parse("2023-04-04 13:00:00"),
+            FilterDate = DateTime.Parse("2023-04-04 13:00:00"),
             EtPk = new ETPKUpdateSchedule()
             {
-                IsHasEtPk=true,
+                IsHasEtPk = true,
                 EtPkValue = "ETPK"
             },
             PropertiesName = new List<string>(),

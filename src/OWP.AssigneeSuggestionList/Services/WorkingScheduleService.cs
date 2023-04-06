@@ -18,7 +18,7 @@ public class WorkingScheduleServiceImp : WorkingScheduleService
     {
 
         var scheduleProperties = PropertyScheduleHelper.GetValidProperties(
-            updateModel.EventDate,
+            updateModel.FilterDate,
             updateModel.TimeRange.startDate,
             updateModel.TimeRange.endDate);
 

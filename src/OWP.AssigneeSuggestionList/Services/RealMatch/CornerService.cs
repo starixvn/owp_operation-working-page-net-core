@@ -6,7 +6,7 @@ namespace OWP.AssigneeSuggestionList.Services.RealMatch;
 
 public interface CornerService
 {
-    Task Group(IList<AssignmentModel> assignments, WorkingSchedule schedules);
+    Task Group(IList<AssignmentModel> assignments, WorkingSchedule schedules, DateTime filterDate);
 
 }
 
@@ -21,7 +21,8 @@ public class CornerServiceImp : CornerService
 
     public async Task Group(
         IList<AssignmentModel> assignments,
-        WorkingSchedule schedules)
+        WorkingSchedule schedules,
+        DateTime filterDate)
     {
         var gameGroup = assignments
             ?.Where(a => a.IsCornerMatch)
@@ -31,10 +32,10 @@ public class CornerServiceImp : CornerService
             gameGroup,
             schedules,
             "[CORNER]",
-            assignmentsCorner => BuildScheduleUpdateModel(assignmentsCorner, assignments));
+            assignmentsCorner => BuildScheduleUpdateModel(assignmentsCorner, assignments, filterDate));
     }
 
-    public static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignmentsCorner, IList<AssignmentModel> assignments)
+    public static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignmentsCorner, IList<AssignmentModel> assignments, DateTime filterDate)
     {
         var assignmentCell = new AssignmentCell
         {
@@ -48,7 +49,7 @@ public class CornerServiceImp : CornerService
 
         return new ScheduleUpdateModel
         {
-            EventDate = gameInfo.eventDate,
+            FilterDate = filterDate,
             EtPk = new ETPKUpdateSchedule
             {
                 IsHasEtPk = !string.IsNullOrEmpty(etPkValue),

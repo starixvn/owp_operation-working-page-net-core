@@ -20,7 +20,7 @@ namespace OWP.AssigneeSuggestionList.UnitTests.Services
             this.singleGameGroupService = Substitute.For<SingleGameGroupService>(); ;
         }
 
-        public void Initialize()
+        private void Initialize()
         {
             assignments = new List<AssignmentModel>()
             {
@@ -44,11 +44,11 @@ namespace OWP.AssigneeSuggestionList.UnitTests.Services
             Initialize();
 
             // Act
-            var result = FantasyServiceImp.BuildScheduleUpdateModel(assignments);
+            var result = FantasyServiceImp.BuildScheduleUpdateModel(assignments, DateTime.Parse("2023-3-31 18:00:00"));
 
             var expect = new ScheduleUpdateModel
             {
-                EventDate = DateTime.Parse("2023-3-31 18:00:00"),
+                FilterDate = DateTime.Parse("2023-3-31 18:00:00"),
                 EtPk = new ETPKUpdateSchedule
                 {
                     IsHasEtPk = true,

@@ -9,7 +9,8 @@ public interface FantasyService
     Task Group(
         IList<AssignmentModel> assignments,
         WorkingSchedule schedule
-    );
+,
+        DateTime filterDate);
 }
 
 public class FantasyServiceImp : FantasyService
@@ -23,8 +24,8 @@ public class FantasyServiceImp : FantasyService
 
     public async Task Group(
         IList<AssignmentModel> assignments,
-        WorkingSchedule schedule
-    )
+        WorkingSchedule schedule,
+        DateTime filterDate)
     {
         var matchGroup = assignments
             ?.Where(a => a.IsFantasyMatch).ToList();
@@ -33,10 +34,10 @@ public class FantasyServiceImp : FantasyService
             matchGroup,
             schedule,
             "[FANTASY]",
-            BuildScheduleUpdateModel);
+            assignments => BuildScheduleUpdateModel(assignments, filterDate));
     }
 
-    public static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignments)
+    public static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignments, DateTime filterDate)
     {
         var assignmentCell = new AssignmentCell
         {
@@ -49,7 +50,7 @@ public class FantasyServiceImp : FantasyService
 
         return new ScheduleUpdateModel
         {
-            EventDate = gameInfo.eventDate,
+            FilterDate = filterDate,
             EtPk = new ETPKUpdateSchedule
             {
                 IsHasEtPk = !string.IsNullOrEmpty(etPkValue),

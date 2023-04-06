@@ -7,7 +7,7 @@ namespace OWP.AssigneeSuggestionList.Services.RealMatch;
 
 public interface LinkNGameService
 {
-    Task Group(IList<AssignmentModel> assignments, WorkingSchedule schedules);
+    Task Group(IList<AssignmentModel> assignments, WorkingSchedule schedules, DateTime filterDate);
 
 }
 
@@ -23,13 +23,13 @@ public class LinkNGameServiceImp : LinkNGameService
         this.workingSchedule = workingSchedule;
     }
 
-    public async Task Group(IList<AssignmentModel> assignments, WorkingSchedule schedules)
+    public async Task Group(IList<AssignmentModel> assignments, WorkingSchedule schedules, DateTime filterDate)
     {
-        await LinkTwoGame(assignments, schedules);
-        await LinkThreeGame(assignments, schedules);
+        await LinkTwoGame(assignments, schedules, filterDate);
+        await LinkThreeGame(assignments, schedules, filterDate);
     }
 
-    private async Task LinkTwoGame(IEnumerable<AssignmentModel> assignment, WorkingSchedule schedules)
+    private async Task LinkTwoGame(IEnumerable<AssignmentModel> assignment, WorkingSchedule schedules, DateTime filterDate)
     {
         var linkNGamePair = GetValidGame(assignment, 2);
         var assignmentCell = new AssignmentCell
@@ -37,10 +37,10 @@ public class LinkNGameServiceImp : LinkNGameService
             Color = ColorCodeConst.TWO_GAME,
             TextColor = ColorCodeConst.TEXT_TWO_GAME
         };
-        await UpdateSchedule(linkNGamePair, schedules, assignmentCell);
+        await UpdateSchedule(linkNGamePair, schedules, assignmentCell, filterDate);
     }
 
-    private async Task LinkThreeGame(IEnumerable<AssignmentModel> assignment, WorkingSchedule schedules)
+    private async Task LinkThreeGame(IEnumerable<AssignmentModel> assignment, WorkingSchedule schedules, DateTime filterDate)
     {
         var linkNGamePair = GetValidGame(assignment, 3);
         var assignmentCell = new AssignmentCell
@@ -48,13 +48,14 @@ public class LinkNGameServiceImp : LinkNGameService
             Color = ColorCodeConst.THREE_GAME,
             TextColor = ColorCodeConst.TEXT_THREE_GAME
         };
-        await UpdateSchedule(linkNGamePair, schedules, assignmentCell);
+        await UpdateSchedule(linkNGamePair, schedules, assignmentCell, filterDate);
     }
 
     private async Task UpdateSchedule(
         IDictionary<DateTime, List<AssignmentModel>> linkNGamePair,
         WorkingSchedule schedules,
-        AssignmentCell assignmentCell)
+        AssignmentCell assignmentCell,
+        DateTime filterDate)
     {
 
         foreach (var eventDate in linkNGamePair.Keys)
@@ -68,7 +69,7 @@ public class LinkNGameServiceImp : LinkNGameService
 
             var scheduleUpdateModel = new ScheduleUpdateModel
             {
-                EventDate = eventDate,
+                FilterDate = filterDate,
                 EtPk = new ETPKUpdateSchedule
                 {
                     IsHasEtPk = string.IsNullOrWhiteSpace(etpkValue),

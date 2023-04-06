@@ -8,7 +8,8 @@ namespace OWP.AssigneeSuggestionList.Services.RealMatch;
 public interface MJGroupService
 {
     Task Group(IList<AssignmentModel> assignments,
-        WorkingSchedule schedules);
+        WorkingSchedule schedules,
+        DateTime filterDate);
 }
 
 public class MJGroupServiceImp : MJGroupService
@@ -21,7 +22,8 @@ public class MJGroupServiceImp : MJGroupService
     }
     public async Task Group(
         IList<AssignmentModel> assignments,
-        WorkingSchedule schedules
+        WorkingSchedule schedules,
+        DateTime filterDate
     )
     {
         var mJGroup = assignments.Where(a => a.IsMajorLeague)
@@ -31,10 +33,10 @@ public class MJGroupServiceImp : MJGroupService
             mJGroup,
             schedules,
             "[LinkNGame]",
-            BuildScheduleUpdateModel);
+            assignments => BuildScheduleUpdateModel(assignments, filterDate));
     }
 
-    public static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignments)
+    public static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignments, DateTime filterDate)
     {
         var assignmentCell = new AssignmentCell
         {
@@ -47,7 +49,7 @@ public class MJGroupServiceImp : MJGroupService
 
         return new ScheduleUpdateModel
         {
-            EventDate = gameInfo.eventDate,
+            FilterDate = filterDate,
             EtPk = new ETPKUpdateSchedule
             {
                 IsHasEtPk = !string.IsNullOrEmpty(etPkValue),

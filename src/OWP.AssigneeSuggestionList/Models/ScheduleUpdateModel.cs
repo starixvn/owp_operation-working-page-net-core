@@ -2,7 +2,7 @@ namespace OWP.AssigneeSuggestionList.Models;
 
 public class ScheduleUpdateModel
 {
-    public DateTime EventDate { get; set; }
+    public DateTime FilterDate { get; set; }
 
     public ETPKUpdateSchedule EtPk { get; set; } = new();
 

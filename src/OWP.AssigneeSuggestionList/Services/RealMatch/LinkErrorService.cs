@@ -9,7 +9,7 @@ namespace OWP.AssigneeSuggestionList.Services.RealMatch;
 
 public interface LinkErrorService : IRequest<Unit>
 {
-    Task Group(IList<AssignmentModel> assignments, WorkingSchedule schedule);
+    Task Group(IList<AssignmentModel> assignments, WorkingSchedule schedule, DateTime filterDate);
 }
 
 public class LinkErrorServiceImp : LinkErrorService
@@ -24,7 +24,7 @@ public class LinkErrorServiceImp : LinkErrorService
         this.logger = logger;
     }
 
-    public async Task Group(IList<AssignmentModel> assignments, WorkingSchedule schedule)
+    public async Task Group(IList<AssignmentModel> assignments, WorkingSchedule schedule, DateTime filterDate)
     {
         var linkNGamePair = GetValidGame(assignments);
         var assignmentCell = new AssignmentCell
@@ -38,7 +38,7 @@ public class LinkErrorServiceImp : LinkErrorService
 
             var scheduleUpdateModel = new ScheduleUpdateModel
             {
-                EventDate = eventDate,
+                FilterDate = filterDate,
                 EtPk = new ETPKUpdateSchedule(),
                 AssignmentCell = assignmentCell,
                 TimeRange = (eventDate, eventDate)
