@@ -1,5 +1,5 @@
-﻿using System.Collections.Immutable;
-using OWP.AssigneeSuggestionList.Models;
+﻿using OWP.AssigneeSuggestionList.Models;
+using System.Collections.Immutable;
 
 namespace OWP.AssigneeSuggestionList.Constant;
 
@@ -69,7 +69,7 @@ public static class ColorCodeConst
         { MatchType.SabaFutsal6Mins, (SABA_FUTSAL, TEXT_COLOR_BLACK) },
         { MatchType.SabaM8816Mins, (SABA_M88, TEXT_COLOR_BLACK) },
         { MatchType.SabaLink1G, (SABA_1G, TEXT_COLOR_BLACK) },
-        { MatchType.SabaLink2G, (SABA_2G, TEXT_COLOR_BLACK) },
+        { MatchType.SabaLink2G, (SABA_2G, TEXT_COLOR_WHITE) },
         { MatchType.SabaLink3G, (SABA_3G, TEXT_COLOR_BLACK) },
         { MatchType.SabaLink4G, (SABA_4G, TEXT_COLOR_BLACK) },
         { MatchType.Saba16Mins, (SABA_16MINS, TEXT_COLOR_WHITE) }
