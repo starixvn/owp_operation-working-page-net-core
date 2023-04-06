@@ -1,4 +1,5 @@
 ﻿using OWP.AssigneeSuggestionList.Helper;
+using OWP.Constants;
 
 namespace OWP.AssigneeSuggestionList.Models;
 
@@ -15,4 +16,13 @@ public class MatchInfo
     public string MaxbetHDPInString => ScheduleHelper.FormatMaxbet(MaxbetHDP);
     public string SuggestionBetType { get; set; }
     public int MinorBettypeId { get; set; }
+    public int BettypeId { get; set; }
+    public string BettypeName => BettypeId switch
+    {
+        Bettype.Handicap => "FT HDP",
+        Bettype.OverUnder => "FT OU",
+        Bettype.FirstHalfHandicap => "1H HDP",
+        Bettype.FirstHalfOverUnder => "1H OU",
+        _ => ""
+    };
 }
