@@ -12,6 +12,6 @@ public static class LinkGameConditionHelper
         && maxbetComparerFunc.Invoke(assignment.MaxbetHDP);
 
     private static bool IsValidBetType(int bettypeId)
-        => Equals(bettypeId, EnumBettype.Handicap)
-           || Equals(bettypeId, EnumBettype.OverUnder);
+        => bettypeId == (int)EnumBettype.Handicap
+           || bettypeId == (int)EnumBettype.OverUnder;
 }
