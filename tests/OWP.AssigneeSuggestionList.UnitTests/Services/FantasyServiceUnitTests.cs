@@ -60,7 +60,7 @@ namespace OWP.AssigneeSuggestionList.UnitTests.Services
                     TextColor = ColorCodeConst.TEXT_FANTASY,
                     Text = "V"
                 },
-                TimeRange = (DateTime.Parse("2023-3-31 18:00:00"), DateTime.Parse("2023-3-31 21:00:00"))
+                TimeRange = (DateTime.Parse("2023-3-31 18:00:00"), DateTime.Parse("2023-3-31 20:00:00"))
             };
 
             //Assert

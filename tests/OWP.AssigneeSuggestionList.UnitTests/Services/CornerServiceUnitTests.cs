@@ -69,7 +69,7 @@ namespace OWP.AssigneeSuggestionList.UnitTests.Services
                     TextColor = ColorCodeConst.TEXT_CORNER,
                     Text = "18:05"
                 },
-                TimeRange = (DateTime.Parse("2023-3-31 18:05:00"), DateTime.Parse("2023-3-31 21:05:00"))
+                TimeRange = (DateTime.Parse("2023-3-31 18:05:00"), DateTime.Parse("2023-3-31 20:05:00"))
             };
             DeepAssert.Equal(expect, result);
         }

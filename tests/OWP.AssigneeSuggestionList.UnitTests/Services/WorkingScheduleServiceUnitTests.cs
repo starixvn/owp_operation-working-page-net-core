@@ -28,7 +28,7 @@ public class WorkingScheduleServiceUnitTests
                 TextColor = "#444444",
                 Color = "#C00000"
             },
-            TimeRange = (DateTime.Parse("2023-04-03 13:00:00"), DateTime.Parse("2023-04-03 14:00:00"))
+            TimeRange = (DateTime.Parse("2023-04-04 10:00:00"), DateTime.Parse("2023-04-04 11:00:00"))
         };
 
         var schedule = new WorkingSchedule
@@ -51,13 +51,13 @@ public class WorkingScheduleServiceUnitTests
                 UserId = 123,
                 Username = "Los"
             },
-            Today_13h = new AssignmentCell()
+            Yesterday_10h = new AssignmentCell()
             {
                 Text = "V/15K",
                 TextColor = "#444444",
                 Color = "#C00000"
             },
-            Today_14h = new AssignmentCell()
+            Yesterday_11h = new AssignmentCell()
             {
                 Text = "",
                 TextColor = "#444444",
@@ -87,7 +87,7 @@ public class WorkingScheduleServiceUnitTests
                 TextColor = "#444444",
                 Color = "#C00000"
             },
-            TimeRange = (DateTime.Parse("2023-04-03 13:00:00"), DateTime.Parse("2023-04-03 15:00:00"))
+            TimeRange = (DateTime.Parse("2023-04-04 9:00:00"), DateTime.Parse("2023-04-04 10:00:00"))
         };
 
         var schedule = new WorkingSchedule
@@ -110,23 +110,17 @@ public class WorkingScheduleServiceUnitTests
                 UserId = 123,
                 Username = "Los"
             },
-            Today_13h = new AssignmentCell()
+            Yesterday_09h = new AssignmentCell()
             {
                 Text = "V/15K",
                 TextColor = "#444444",
                 Color = "#C00000"
             },
-            Today_14h = new AssignmentCell()
-            {
-                Text = "",
-                TextColor = "#444444",
-                Color = "#C00000"
-            },
-            Today_15h = new AssignmentCell()
+            Yesterday_10h = new AssignmentCell()
             {
                 Text = "ETPK",
-                Color = ColorCodeConst.ET_PK,
-                TextColor = ColorCodeConst.TEXT_ET_PK
+                TextColor = "#FFEA29",
+                Color = "#000000"
             }
         };
 

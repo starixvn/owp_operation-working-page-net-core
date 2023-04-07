@@ -23,7 +23,11 @@ public class WorkingScheduleServiceImp : WorkingScheduleService
             updateModel.TimeRange.endDate);
 
         updateModel.PropertiesName = scheduleProperties;
-        UpdateWorkingSchedule(schedule, updateModel);
+        if (scheduleProperties.Any())
+        {
+            UpdateWorkingSchedule(schedule, updateModel);
+        }
+      
     }
 
     public static void UpdateWorkingSchedule(
