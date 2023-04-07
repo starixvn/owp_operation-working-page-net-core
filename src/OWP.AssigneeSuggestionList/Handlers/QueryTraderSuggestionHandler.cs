@@ -40,6 +40,7 @@ public class QueryTraderSuggestionHandler : IRequestHandler<QueryTraderSuggestio
             return new SuggestionInfo();
         }
         matchInfo.BettypeId = request.BetTypeId;
+        matchInfo.FilterDate = request.FilterDate;
 
         var workingShifts = await workingShiftService.Calculate(request.FilterDate);
         var assignmentModels = await repository.QueryAssignments(request.FilterDate);

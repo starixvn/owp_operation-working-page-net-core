@@ -43,9 +43,9 @@ public class SabaMatchesServicesUnitTest
 
         var expected = new List<AssignmentModel>
         {
+            new() { OWPMatchId = 4, LeagueName = "ABC", EventDateTime = new DateTime(2022, 03, 29, 15, 30, 00) },
             new() { MatchType = MatchType.Saba16Mins },
             new() { OWPMatchId = 2, UserId = 11, LeagueName = "A", HomeName = "B", AwayName="C", MatchType=MatchType.Saba5Mins, EventDateTime = new DateTime(2022, 03, 29, 02, 00, 00) },
-            new() { OWPMatchId = 4, LeagueName = "ABC", EventDateTime = new DateTime(2022, 03, 29, 15, 30, 00) },
             new() { MatchType=MatchType.Saba5Mins, OWPMatchId = 1, LeagueName = "A", EventDateTime = new DateTime(2022, 03, 29, 15, 00, 00) },
         };
 
@@ -275,8 +275,8 @@ public class SabaMatchesServicesUnitTest
         {
             Today_14h = new AssignmentCell { Text = "*V", TextColor = "#444444", Color = "#FCD5B4" },
             Yesterday_02h = new AssignmentCell { Text = "*V/3.333K", TextColor = "#FFFFFF", Color = "#7030A0" },
-            Today_02h = new AssignmentCell { Text = "*V/100K+200K", TextColor = "#444444", Color = "#A34262" },
-            Tomorrow_15h = new AssignmentCell { Text = "*15:30/3K", TextColor = "#FF0000", Color = "#FFFFFF" },
+            Today_02h = new AssignmentCell { Text = "*V/100K+200K", TextColor = "#FFFFFF", Color = "#A34262" },
+            Tomorrow_15h = new AssignmentCell { Text = "Error!", TextColor = "#FF0000", Color = "#FFFFFF" },
         };
 
         SabaMatchesServicesImp.MapAssignmentsToWorkingSchedule(workingSchedule, assignmentModels, eventDate);
@@ -343,7 +343,7 @@ public class SabaMatchesServicesUnitTest
         {
             Today_14h = new AssignmentCell { Text = "*V", TextColor = "#444444", Color = "#FCD5B4" },
             Yesterday_02h = null,
-            Today_02h = new AssignmentCell { Text = "*V/100K+200K", TextColor = "#444444", Color = "#A34262" },
+            Today_02h = new AssignmentCell { Text = "*V/100K+200K", TextColor = "#FFFFFF", Color = "#A34262" },
             Tomorrow_15h = null
         };
 

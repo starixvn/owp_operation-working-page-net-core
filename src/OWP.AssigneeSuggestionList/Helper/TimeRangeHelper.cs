@@ -26,13 +26,9 @@ public static class TimeRangeHelper
 
         foreach (var bettypeId in bettypeIds)
         {
-            switch (bettypeId)
+            if (bettypeId is HDP or OU)
             {
-                case HDP or OU:
-                    increaseHourPair.TryAdd("FT", INCREASE_HOUR_BY_ONE);
-                    break;
-                default:
-                    continue;
+                increaseHourPair.TryAdd("FT", INCREASE_HOUR_BY_ONE);
             }
         }
 

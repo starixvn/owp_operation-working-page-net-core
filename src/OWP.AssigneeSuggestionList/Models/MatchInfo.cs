@@ -25,4 +25,5 @@ public class MatchInfo
         Bettype.FirstHalfOverUnder => "1H OU",
         _ => ""
     };
+    public DateTime FilterDate { get; set; }
 }
