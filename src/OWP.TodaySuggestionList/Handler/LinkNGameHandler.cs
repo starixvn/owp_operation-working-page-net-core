@@ -29,7 +29,7 @@ namespace OWP.TodaySuggestionList.Handler
         {
             var linkNMatchPair = request.Assignments?.Where()?
                 .GroupBy(a => a.EventDateTime)?
-                .Where(g => Equals(g.Count(), request.NumberGame))?
+                .Where(g => g.Count()==request.NumberGame)?
                 .ToDictionary(x => x.Key, x => x.ToList());
 
             var matchValid = new List<AssignmentModel>();

@@ -64,7 +64,7 @@ public class LinkNGameServiceImp : LinkNGameService
             assignmentCell.Text = ScheduleHelper.BuildScheduleTextGroupGame(linkNGamePair[eventDate]);
 
             var etpkValue = ETPKHelper.BuildEtPkTextDisplay(remark);
-            var timeRange = TimeRangeHelper.CalculateTimeRangeFT(eventDate, hasEtpk: string.IsNullOrWhiteSpace(etpkValue));
+            var timeRange = TimeRangeHelper.CalculateTimeRangeFT(eventDate, hasEtpk: !string.IsNullOrWhiteSpace(etpkValue));
 
 
             var scheduleUpdateModel = new ScheduleUpdateModel
@@ -90,7 +90,7 @@ public class LinkNGameServiceImp : LinkNGameService
 
 
     private static IDictionary<DateTime, List<AssignmentModel>> GetValidGame(IEnumerable<AssignmentModel> models, int numberGame)
-        => models.Where(a => LinkGameConditionHelper.CanGroupNGame(a, maxbet => maxbet <= 12000))
+        => models.Where(a => LinkGameConditionHelper.CanGroupNGame(a, maxbet => !maxbet.HasValue || maxbet.Value <= 12000))
             .GroupBy(a => a.EventDateTime)
             .Where(g => g.Select(x => x.OWPMatchId).Distinct().Count() == numberGame)
             .ToDictionary(x => x.Key, x => x.ToList());

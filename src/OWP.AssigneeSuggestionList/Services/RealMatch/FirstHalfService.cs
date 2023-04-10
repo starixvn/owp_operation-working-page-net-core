@@ -26,11 +26,12 @@ public class FirstHalfServiceImp : FirstHalfService
          WorkingSchedule schedule,
          DateTime filterDate)
     {
+
         var gameGroupPair = assignments
             ?.GroupBy(x => new { x.OWPMatchId })
             .Where(x => x.All(a =>
-                Equals(a.BettypeId, EnumBettype.FirstHalfHandicap)
-                || Equals(a.BettypeId, EnumBettype.FirstHalfOverUnder)))
+                a.BettypeId==(int)EnumBettype.FirstHalfHandicap
+                || a.BettypeId==(int)EnumBettype.FirstHalfOverUnder))
             .ToDictionary(a => a.Key, a => a.ToList());
 
         var gameGroup = new List<AssignmentModel>();
