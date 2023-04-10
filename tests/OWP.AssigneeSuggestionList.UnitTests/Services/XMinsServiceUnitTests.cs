@@ -11,6 +11,8 @@ namespace OWP.AssigneeSuggestionList.UnitTests.Services
     {
         private List<AssignmentModel> assignments = new List<AssignmentModel>();
 
+        private List<ParentMatchInfo> parentMatchInfo = new List<ParentMatchInfo>();
+
         private List<AssignmentModel> assignmentsCorner = new List<AssignmentModel>();
 
         private readonly SingleGameGroupService singleGameGroupService;
@@ -22,6 +24,14 @@ namespace OWP.AssigneeSuggestionList.UnitTests.Services
 
         private void Initialize()
         {
+            parentMatchInfo = new List<ParentMatchInfo>()
+            {
+                new ParentMatchInfo{
+                    OwpMatchId=1,
+                    Remark="ETPK",
+                    KOTime=DateTime.Parse("2023-3-31 18:05:00").TimeOfDay
+                }
+            };
             assignments = new List<AssignmentModel>()
             {
                 new AssignmentModel(){
@@ -53,7 +63,7 @@ namespace OWP.AssigneeSuggestionList.UnitTests.Services
             // Arrange
             Initialize();
 
-            var result = XMinsGroupServiceImp.BuildScheduleUpdateModel(assignmentsCorner, assignments, DateTime.Parse("2023-3-31 18:05:00"));
+            var result = XMinsGroupServiceImp.BuildScheduleUpdateModel(assignmentsCorner, parentMatchInfo, DateTime.Parse("2023-3-31 18:05:00"));
 
             var expect = new ScheduleUpdateModel
             {

@@ -9,6 +9,7 @@ namespace OWP.AssigneeSuggestionList.UnitTests.Services
 {
     public class CornerServiceUnitTests
     {
+        private List<ParentMatchInfo> parentMatchInfo = new List<ParentMatchInfo>();
         private List<AssignmentModel> assignments = new List<AssignmentModel>();
 
         private List<AssignmentModel> assignmentsCorner = new List<AssignmentModel>();
@@ -22,6 +23,15 @@ namespace OWP.AssigneeSuggestionList.UnitTests.Services
 
         private void Initialize()
         {
+            parentMatchInfo = new List<ParentMatchInfo>()
+            {
+                new ParentMatchInfo{
+                    OwpMatchId=1,
+                    Remark="ETPK",
+                    KOTime=DateTime.Parse("2023-3-31 18:05:00").TimeOfDay
+                }
+            };
+
             assignments = new List<AssignmentModel>()
             {
                 new AssignmentModel(){
@@ -53,7 +63,7 @@ namespace OWP.AssigneeSuggestionList.UnitTests.Services
             // Arrange
             Initialize();
 
-            var result = CornerServiceImp.BuildScheduleUpdateModel(assignmentsCorner, assignments, DateTime.Parse("2023-3-31 18:05:00"));
+            var result = CornerServiceImp.BuildScheduleUpdateModel(assignmentsCorner, DateTime.Parse("2023-3-31 18:05:00"), parentMatchInfo);
 
             var expect = new ScheduleUpdateModel
             {
