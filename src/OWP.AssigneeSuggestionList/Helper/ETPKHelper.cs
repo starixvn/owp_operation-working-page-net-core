@@ -21,7 +21,7 @@ public static class ETPKHelper
     public static string DetectExtraTimeCorner(string parentRemark, string remark)
     {
         var extraTimeCorner = DetectExtraTime(remark);
-        if (string.IsNullOrWhiteSpace(extraTimeCorner)
+        if (string.IsNullOrEmpty(extraTimeCorner)
             && IsEtPkMatch(parentRemark))
         {
             extraTimeCorner = ETPk.Et;

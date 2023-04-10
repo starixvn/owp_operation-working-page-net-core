@@ -23,7 +23,7 @@ public static class ScheduleHelper
         var kOTimeText = $"{eventDateTime:hh\\:mm}";
         var maxbetListText = string.Join("+", listMaxbet);
 
-        var text = (eventDateTime.Minute == 0, string.IsNullOrWhiteSpace(maxbetListText)) switch
+        var text = (eventDateTime.Minute == 0, string.IsNullOrEmpty(maxbetListText)) switch
         {
             (true, true) => "V",
             (true, false) => $"V/{maxbetListText}",
@@ -40,7 +40,7 @@ public static class ScheduleHelper
                 ? $"{FormatMaxbet(assignment.MaxbetHDP.Value)}"
             : string.Empty;
         var kOTimeText = $"{assignment.KOTime:hh\\:mm}";
-        var text = (assignment.KOTime.Minutes == 0, string.IsNullOrWhiteSpace(maxbetDisplay)) switch
+        var text = (assignment.KOTime.Minutes == 0, string.IsNullOrEmpty(maxbetDisplay)) switch
         {
             (true, true) => "V",
             (false, true) => $"{kOTimeText}",

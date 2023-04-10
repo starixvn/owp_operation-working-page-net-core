@@ -64,7 +64,7 @@ public class LinkNGameServiceImp : LinkNGameService
             assignmentCell.Text = ScheduleHelper.BuildScheduleTextGroupGame(linkNGamePair[eventDate]);
 
             var etpkValue = ETPKHelper.BuildEtPkTextDisplay(remark);
-            var timeRange = TimeRangeHelper.CalculateTimeRangeFT(eventDate, hasEtpk: !string.IsNullOrWhiteSpace(etpkValue));
+            var timeRange = TimeRangeHelper.CalculateTimeRangeFT(eventDate, !string.IsNullOrEmpty(etpkValue));
 
 
             var scheduleUpdateModel = new ScheduleUpdateModel
@@ -72,7 +72,7 @@ public class LinkNGameServiceImp : LinkNGameService
                 FilterDate = filterDate,
                 EtPk = new ETPKUpdateSchedule
                 {
-                    IsHasEtPk = string.IsNullOrWhiteSpace(etpkValue),
+                    IsHasEtPk = !string.IsNullOrEmpty(etpkValue),
                     EtPkValue = etpkValue
                 },
                 AssignmentCell = assignmentCell,
