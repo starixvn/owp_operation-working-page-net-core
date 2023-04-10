@@ -61,7 +61,7 @@ public static class ScheduleHelper
         return (eventDate, owpMatchId, bettypeIds, Remark);
     }
 
-    public static (DateTime eventDate, int owpMatchId, IList<int> bettypeIds, int? parentMatchId, string remark, decimal? maxbetHdp) GetGameInfoMinor(IList<AssignmentModel> assignments)
+    public static (DateTime eventDate, int owpMatchId, IList<int> bettypeIds, int? parentMatchId, string remark, decimal? maxbetHdp) GetMinorGameInfo(IList<AssignmentModel> assignments)
     {
         var parentMatchId = assignments.First().ParentMatchId;
         var maxbetHdp = assignments.First().MaxbetHDP;

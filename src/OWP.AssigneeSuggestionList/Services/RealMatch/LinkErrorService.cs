@@ -9,7 +9,11 @@ namespace OWP.AssigneeSuggestionList.Services.RealMatch;
 
 public interface LinkErrorService : IRequest<Unit>
 {
-    Task Group(IList<AssignmentModel> assignments, WorkingSchedule schedule, DateTime filterDate);
+    Task Group(
+        IList<AssignmentModel> assignments,
+        WorkingSchedule schedule,
+         DateTime filterDate,
+        List<int> owpIdExclude);
 }
 
 public class LinkErrorServiceImp : LinkErrorService
@@ -24,7 +28,11 @@ public class LinkErrorServiceImp : LinkErrorService
         this.logger = logger;
     }
 
-    public async Task Group(IList<AssignmentModel> assignments, WorkingSchedule schedule, DateTime filterDate)
+    public async Task Group(
+        IList<AssignmentModel> assignments,
+        WorkingSchedule schedule,
+        DateTime filterDate,
+        List<int> owpIdExclude)
     {
         var linkNGamePair = GetValidGame(assignments);
         var assignmentCell = new AssignmentCell
@@ -34,6 +42,8 @@ public class LinkErrorServiceImp : LinkErrorService
         };
         foreach (var eventDate in linkNGamePair.Keys)
         {
+            var owpMatchId = linkNGamePair[eventDate].Select(x => x.OWPMatchId).ToList().Distinct();
+            owpIdExclude.AddRange(owpMatchId);
             assignmentCell.Text = "Error";
 
             var scheduleUpdateModel = new ScheduleUpdateModel

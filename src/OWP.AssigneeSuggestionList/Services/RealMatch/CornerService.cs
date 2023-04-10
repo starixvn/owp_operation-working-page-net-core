@@ -10,7 +10,8 @@ public interface CornerService
         IList<AssignmentModel> assignments,
          WorkingSchedule schedules,
           DateTime filterDate,
-          IList<ParentMatchInfo> parentMatchInfo);
+          IList<ParentMatchInfo> parentMatchInfo,
+        List<int> owpIdExclude);
 }
 
 public class CornerServiceImp : CornerService
@@ -26,11 +27,13 @@ public class CornerServiceImp : CornerService
         IList<AssignmentModel> assignments,
         WorkingSchedule schedules,
         DateTime filterDate,
-        IList<ParentMatchInfo> parentMatchInfo)
+        IList<ParentMatchInfo> parentMatchInfo,
+        List<int> owpIdExclude)
     {
         var gameGroup = assignments
             ?.Where(a => a.IsCornerMatch)
             .ToList();
+        owpIdExclude.AddRange(gameGroup?.Select(x => x.OWPMatchId).Distinct());
 
         await workingSchedule.Group(
             gameGroup,
@@ -50,7 +53,7 @@ public class CornerServiceImp : CornerService
             TextColor = ColorCodeConst.TEXT_CORNER,
             Text = ScheduleHelper.BuildScheduleTextSingleGame(assignmentsCorner.First())
         };
-        var gameInfo = ScheduleHelper.GetGameInfoMinor(assignmentsCorner);
+        var gameInfo = ScheduleHelper.GetMinorGameInfo(assignmentsCorner);
         var parentGame = parentMatchInfo?.FirstOrDefault(g => g.OwpMatchId == gameInfo.parentMatchId);
         var etPkValue = ETPKHelper.DetectExtraTimeCorner(parentGame?.Remark, gameInfo.remark);
 

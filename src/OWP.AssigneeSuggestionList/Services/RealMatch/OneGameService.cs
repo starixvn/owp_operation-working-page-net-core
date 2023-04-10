@@ -6,7 +6,11 @@ namespace OWP.AssigneeSuggestionList.Services.RealMatch;
 
 public interface OneGameService
 {
-    Task Group(IList<AssignmentModel> assignments, WorkingSchedule schedules, DateTime filterDate);
+    Task Group(
+        IList<AssignmentModel> assignments,
+         WorkingSchedule schedules,
+          DateTime filterDate,
+          List<int> owpIdExclude);
 }
 
 public class OneGameServiceImp : OneGameService
@@ -20,11 +24,16 @@ public class OneGameServiceImp : OneGameService
         this.workingSchedule = workingSchedule;
     }
 
-    public async Task Group(IList<AssignmentModel> assignments, WorkingSchedule schedules, DateTime filterDate)
+    public async Task Group(
+        IList<AssignmentModel> assignments,
+         WorkingSchedule schedules,
+          DateTime filterDate,
+        List<int> owpIdExclude)
     {
         var oneGameGroup = assignments
             ?.Where(a => LinkGameConditionHelper.CanGroupNGame(a, maxbet => maxbet > MIN_MAXBET))
             .ToList();
+        owpIdExclude.AddRange(oneGameGroup?.Select(x => x.OWPMatchId).Distinct());
 
         await workingSchedule.Group(
             oneGameGroup,
@@ -44,7 +53,7 @@ public class OneGameServiceImp : OneGameService
         var gameInfo = ScheduleHelper.GetGameInfo(assignments);
         var etPkValue = ETPKHelper.DetectExtraTime(gameInfo.remark);
 
-        return new ScheduleUpdateModel
+        return new()
         {
             FilterDate = filterDate,
             EtPk = new ETPKUpdateSchedule

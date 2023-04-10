@@ -9,7 +9,11 @@ namespace OWP.AssigneeSuggestionList.Services.RealMatch;
 
 public interface FirstHalfService : IRequest<Unit>
 {
-    Task Group(IList<AssignmentModel> assignments, WorkingSchedule schedule, DateTime filterDate);
+    Task Group(
+        IList<AssignmentModel> assignments,
+         WorkingSchedule schedule,
+          DateTime filterDate,
+        List<int> owpIdExclude);
 }
 
 public class FirstHalfServiceImp : FirstHalfService
@@ -24,22 +28,24 @@ public class FirstHalfServiceImp : FirstHalfService
     public async Task Group(
         IList<AssignmentModel> assignments,
          WorkingSchedule schedule,
-         DateTime filterDate)
+         DateTime filterDate,
+        List<int> owpIdExclude)
     {
-
         var gameGroupPair = assignments
-            ?.GroupBy(x => new { x.OWPMatchId })
+            ?.GroupBy(x => x.OWPMatchId)
             .Where(x => x.All(a =>
-                a.BettypeId==(int)EnumBettype.FirstHalfHandicap
-                || a.BettypeId==(int)EnumBettype.FirstHalfOverUnder))
+                a.BettypeId == (int)EnumBettype.FirstHalfHandicap
+                || a.BettypeId == (int)EnumBettype.FirstHalfOverUnder))
             .ToDictionary(a => a.Key, a => a.ToList());
 
         var gameGroup = new List<AssignmentModel>();
         if (gameGroupPair is not null)
         {
+            owpIdExclude.AddRange(gameGroupPair.Keys);
             foreach (var item in gameGroupPair)
             {
                 gameGroup.AddRange(item.Value);
+
             }
             await workingSchedule.Group(gameGroup,
                 schedule,

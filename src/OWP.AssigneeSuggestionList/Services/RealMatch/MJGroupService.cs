@@ -9,7 +9,8 @@ public interface MJGroupService
 {
     Task Group(IList<AssignmentModel> assignments,
         WorkingSchedule schedules,
-        DateTime filterDate);
+        DateTime filterDate,
+         List<int> owpIdExclude);
 }
 
 public class MJGroupServiceImp : MJGroupService
@@ -23,12 +24,13 @@ public class MJGroupServiceImp : MJGroupService
     public async Task Group(
         IList<AssignmentModel> assignments,
         WorkingSchedule schedules,
-        DateTime filterDate
+        DateTime filterDate,
+        List<int> owpIdExclude
     )
     {
         var mJGroup = assignments.Where(a => a.IsMajorLeague)
             .ToList();
-
+        owpIdExclude.AddRange(mJGroup?.Select(x => x.OWPMatchId).Distinct());
         await workingSchedule.Group(
             mJGroup,
             schedules,

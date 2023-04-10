@@ -8,9 +8,9 @@ public interface FantasyService
 {
     Task Group(
         IList<AssignmentModel> assignments,
-        WorkingSchedule schedule
-,
-        DateTime filterDate);
+        WorkingSchedule schedule,
+        DateTime filterDate,
+        List<int> owpIdExclude);
 }
 
 public class FantasyServiceImp : FantasyService
@@ -25,10 +25,12 @@ public class FantasyServiceImp : FantasyService
     public async Task Group(
         IList<AssignmentModel> assignments,
         WorkingSchedule schedule,
-        DateTime filterDate)
+        DateTime filterDate,
+        List<int> owpIdExclude)
     {
         var matchGroup = assignments
             ?.Where(a => a.IsFantasyMatch).ToList();
+        owpIdExclude.AddRange(matchGroup?.Select(x => x.OWPMatchId).Distinct());
 
         await workingSchedule.Group(
             matchGroup,

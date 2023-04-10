@@ -10,7 +10,8 @@ public interface XMinsGroupService
         IList<AssignmentModel> assignments,
         WorkingSchedule schedule,
         DateTime filterDate,
-        IList<ParentMatchInfo> parentMatchInfo);
+        IList<ParentMatchInfo> parentMatchInfo,
+        List<int> owpIdExclude);
 }
 
 public class XMinsGroupServiceImp : XMinsGroupService
@@ -23,9 +24,15 @@ public class XMinsGroupServiceImp : XMinsGroupService
         this.workingSchedule = workingSchedule;
     }
 
-    public async Task Group(IList<AssignmentModel> assignments, WorkingSchedule schedule, DateTime filterDate, IList<ParentMatchInfo> parentMatchInfo)
+    public async Task Group(
+        IList<AssignmentModel> assignments,
+         WorkingSchedule schedule,
+          DateTime filterDate,
+           IList<ParentMatchInfo> parentMatchInfo,
+        List<int> owpIdExclude)
     {
         var gameGroup = assignments?.Where(a => a.Is15Mins).ToList();
+        owpIdExclude.AddRange(gameGroup?.Select(x => x.OWPMatchId).Distinct());
 
         await workingSchedule.Group(
             gameGroup,
@@ -39,7 +46,7 @@ public class XMinsGroupServiceImp : XMinsGroupService
         IList<ParentMatchInfo> parentMatchInfo,
         DateTime filterDate)
     {
-        var gameInfo = ScheduleHelper.GetGameInfoMinor(assignments15Mins);
+        var gameInfo = ScheduleHelper.GetMinorGameInfo(assignments15Mins);
         var parentGame = parentMatchInfo.FirstOrDefault(g => g.OwpMatchId == gameInfo.parentMatchId);
         var assignment = new AssignmentModel
         {

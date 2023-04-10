@@ -7,7 +7,11 @@ namespace OWP.AssigneeSuggestionList.Services.RealMatch;
 
 public interface LinkNGameService
 {
-    Task Group(IList<AssignmentModel> assignments, WorkingSchedule schedules, DateTime filterDate);
+    Task Group(
+        IList<AssignmentModel> assignments,
+         WorkingSchedule schedules,
+         DateTime filterDate,
+         List<int> owpIdExclude);
 
 }
 
@@ -23,13 +27,21 @@ public class LinkNGameServiceImp : LinkNGameService
         this.workingSchedule = workingSchedule;
     }
 
-    public async Task Group(IList<AssignmentModel> assignments, WorkingSchedule schedules, DateTime filterDate)
+    public async Task Group(
+        IList<AssignmentModel> assignments,
+        WorkingSchedule schedules,
+         DateTime filterDate,
+         List<int> owpIdExclude)
     {
-        await LinkTwoGame(assignments, schedules, filterDate);
-        await LinkThreeGame(assignments, schedules, filterDate);
+        await LinkTwoGame(assignments, schedules, filterDate, owpIdExclude);
+        await LinkThreeGame(assignments, schedules, filterDate, owpIdExclude);
     }
 
-    private async Task LinkTwoGame(IEnumerable<AssignmentModel> assignment, WorkingSchedule schedules, DateTime filterDate)
+    private async Task LinkTwoGame(
+        IEnumerable<AssignmentModel> assignment,
+        WorkingSchedule schedules,
+         DateTime filterDate,
+         List<int> owpIdExclude)
     {
         var linkNGamePair = GetValidGame(assignment, 2);
         var assignmentCell = new AssignmentCell
@@ -37,10 +49,15 @@ public class LinkNGameServiceImp : LinkNGameService
             Color = ColorCodeConst.TWO_GAME,
             TextColor = ColorCodeConst.TEXT_TWO_GAME
         };
+        GetOwpMatchIdExclude(linkNGamePair, owpIdExclude);
         await UpdateSchedule(linkNGamePair, schedules, assignmentCell, filterDate);
     }
 
-    private async Task LinkThreeGame(IEnumerable<AssignmentModel> assignment, WorkingSchedule schedules, DateTime filterDate)
+    private async Task LinkThreeGame(
+        IEnumerable<AssignmentModel> assignment,
+        WorkingSchedule schedules,
+        DateTime filterDate,
+        List<int> owpIdExclude)
     {
         var linkNGamePair = GetValidGame(assignment, 3);
         var assignmentCell = new AssignmentCell
@@ -48,9 +65,19 @@ public class LinkNGameServiceImp : LinkNGameService
             Color = ColorCodeConst.THREE_GAME,
             TextColor = ColorCodeConst.TEXT_THREE_GAME
         };
+        GetOwpMatchIdExclude(linkNGamePair, owpIdExclude);
         await UpdateSchedule(linkNGamePair, schedules, assignmentCell, filterDate);
     }
 
+    private static void GetOwpMatchIdExclude(IDictionary<DateTime, List<AssignmentModel>> linkNGamePair
+       , List<int> owpIdExclude)
+    {
+        foreach (var eventDate in linkNGamePair.Keys)
+        {
+            var owpMatchId = linkNGamePair[eventDate].Select(x => x.OWPMatchId).ToList().Distinct();
+            owpIdExclude.AddRange(owpMatchId);
+        }
+    }
     private async Task UpdateSchedule(
         IDictionary<DateTime, List<AssignmentModel>> linkNGamePair,
         WorkingSchedule schedules,
@@ -65,7 +92,6 @@ public class LinkNGameServiceImp : LinkNGameService
 
             var etpkValue = ETPKHelper.BuildEtPkTextDisplay(remark);
             var timeRange = TimeRangeHelper.CalculateTimeRangeFT(eventDate, !string.IsNullOrEmpty(etpkValue));
-
 
             var scheduleUpdateModel = new ScheduleUpdateModel
             {
@@ -86,8 +112,6 @@ public class LinkNGameServiceImp : LinkNGameService
             await logger.InfoAsync("[LinkNGame]" + string.Join(",", linkNGamePair[eventDate]?.Select(x => x.BettypeId) ?? Array.Empty<int>()));
         }
     }
-
-
 
     private static IDictionary<DateTime, List<AssignmentModel>> GetValidGame(IEnumerable<AssignmentModel> models, int numberGame)
         => models.Where(a => LinkGameConditionHelper.CanGroupNGame(a, maxbet => !maxbet.HasValue || maxbet.Value <= 12000))
