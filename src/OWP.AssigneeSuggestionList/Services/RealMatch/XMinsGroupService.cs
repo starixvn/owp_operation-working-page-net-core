@@ -6,7 +6,11 @@ namespace OWP.AssigneeSuggestionList.Services.RealMatch;
 
 public interface XMinsGroupService
 {
-    Task Group(IList<AssignmentModel> assignments, WorkingSchedule schedule, DateTime filterDate);
+    Task Group(
+        IList<AssignmentModel> assignments,
+        WorkingSchedule schedule,
+        DateTime filterDate,
+        IList<ParentMatchInfo> parentMatchInfo);
 }
 
 public class XMinsGroupServiceImp : XMinsGroupService
@@ -19,7 +23,7 @@ public class XMinsGroupServiceImp : XMinsGroupService
         this.workingSchedule = workingSchedule;
     }
 
-    public async Task Group(IList<AssignmentModel> assignments, WorkingSchedule schedule, DateTime filterDate)
+    public async Task Group(IList<AssignmentModel> assignments, WorkingSchedule schedule, DateTime filterDate, IList<ParentMatchInfo> parentMatchInfo)
     {
         var gameGroup = assignments?.Where(a => a.Is15Mins).ToList();
 
@@ -27,16 +31,16 @@ public class XMinsGroupServiceImp : XMinsGroupService
             gameGroup,
             schedule,
             "[X_MINS]"
-            , assignments15Mins => BuildScheduleUpdateModel(assignments15Mins, assignments, filterDate));
+            , assignments15Mins => BuildScheduleUpdateModel(assignments15Mins, parentMatchInfo, filterDate));
     }
 
     public static ScheduleUpdateModel BuildScheduleUpdateModel(
         IList<AssignmentModel> assignments15Mins,
-        IList<AssignmentModel> assignments,
+        IList<ParentMatchInfo> parentMatchInfo,
         DateTime filterDate)
     {
         var gameInfo = ScheduleHelper.GetGameInfoMinor(assignments15Mins);
-        var parentGame = assignments.FirstOrDefault(g => g.OWPMatchId == gameInfo.parentMatchId);
+        var parentGame = parentMatchInfo.FirstOrDefault(g => g.OwpMatchId == gameInfo.parentMatchId);
         var assignment = new AssignmentModel
         {
             KOTime = parentGame.KOTime,

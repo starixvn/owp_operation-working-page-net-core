@@ -6,8 +6,11 @@ namespace OWP.AssigneeSuggestionList.Services.RealMatch;
 
 public interface CornerService
 {
-    Task Group(IList<AssignmentModel> assignments, WorkingSchedule schedules, DateTime filterDate);
-
+    Task Group(
+        IList<AssignmentModel> assignments,
+         WorkingSchedule schedules,
+          DateTime filterDate,
+          IList<ParentMatchInfo> parentMatchInfo);
 }
 
 public class CornerServiceImp : CornerService
@@ -22,7 +25,8 @@ public class CornerServiceImp : CornerService
     public async Task Group(
         IList<AssignmentModel> assignments,
         WorkingSchedule schedules,
-        DateTime filterDate)
+        DateTime filterDate,
+        IList<ParentMatchInfo> parentMatchInfo)
     {
         var gameGroup = assignments
             ?.Where(a => a.IsCornerMatch)
@@ -32,10 +36,13 @@ public class CornerServiceImp : CornerService
             gameGroup,
             schedules,
             "[CORNER]",
-            assignmentsCorner => BuildScheduleUpdateModel(assignmentsCorner, assignments, filterDate));
+            assignmentsCorner => BuildScheduleUpdateModel(assignmentsCorner, filterDate, parentMatchInfo));
     }
 
-    public static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignmentsCorner, IList<AssignmentModel> assignments, DateTime filterDate)
+    public static ScheduleUpdateModel BuildScheduleUpdateModel(
+        IList<AssignmentModel> assignmentsCorner,
+          DateTime filterDate,
+           IList<ParentMatchInfo> parentMatchInfo)
     {
         var assignmentCell = new AssignmentCell
         {
@@ -44,7 +51,7 @@ public class CornerServiceImp : CornerService
             Text = ScheduleHelper.BuildScheduleTextSingleGame(assignmentsCorner.First())
         };
         var gameInfo = ScheduleHelper.GetGameInfoMinor(assignmentsCorner);
-        var parentGame = assignments.FirstOrDefault(g => g.OWPMatchId == gameInfo.parentMatchId);
+        var parentGame = parentMatchInfo?.FirstOrDefault(g => g.OwpMatchId == gameInfo.parentMatchId);
         var etPkValue = ETPKHelper.DetectExtraTimeCorner(parentGame?.Remark, gameInfo.remark);
 
         return new ScheduleUpdateModel

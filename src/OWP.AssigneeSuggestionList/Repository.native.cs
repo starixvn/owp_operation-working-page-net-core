@@ -15,6 +15,7 @@ public interface Repository
 
     Task<IEnumerable<int>> GetCustInfoFromDB02();
 
+    Task<IEnumerable<ParentMatchInfo>> QueryParentMatchInfo(string owpMatchId);
     Task<IList<AssignmentModel>> QueryAssignments(DateTime eventDate);
 }
 
@@ -63,4 +64,7 @@ public class RepositoryImp : Repository
 
     public async Task<IEnumerable<int>> GetUserInfoFromNAPUserControl()
         => await dynamicRepository.FetchAsync<int>(new GetUserInfoFromNAPUserControlCriteria { SiteId = napSettings.SiteId });
+
+    public async Task<IEnumerable<ParentMatchInfo>> QueryParentMatchInfo(string owpMatchId)
+    => await dynamicRepository.FetchAsync<ParentMatchInfo>(new QueryParentMatchInfoCriteria { OwpMatchId = owpMatchId });
 }

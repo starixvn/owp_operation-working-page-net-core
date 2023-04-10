@@ -21,6 +21,8 @@ public class RealMatchServicesImp : RealMatchServices
     private readonly XMinsGroupService xMinsGroupService;
     private readonly LinkErrorService linkErrorService;
 
+    private readonly Repository repository;
+
     public RealMatchServicesImp(
         MJGroupService mJGroupService,
         OneGameService oneGameService,
@@ -29,7 +31,8 @@ public class RealMatchServicesImp : RealMatchServices
         FantasyService fantasyService,
         CornerService cornerService,
         XMinsGroupService xMinsGroupService,
-        LinkErrorService linkErrorService)
+        LinkErrorService linkErrorService,
+        Repository repository)
     {
         this.mJGroupService = mJGroupService;
         this.oneGameService = oneGameService;
@@ -39,6 +42,7 @@ public class RealMatchServicesImp : RealMatchServices
         this.cornerService = cornerService;
         this.xMinsGroupService = xMinsGroupService;
         this.linkErrorService = linkErrorService;
+        this.repository = repository;
     }
 
     public async Task MapAssignmentsToWorkingSchedule(
@@ -47,7 +51,12 @@ public class RealMatchServicesImp : RealMatchServices
         DateTime filterDate)
     {
         var fromDate = filterDate.Date.AddHours(12);
+        var owpMatchId = assignmentModels
+        ?.Where(a => a.ParentMatchId.HasValue)
+        .Select(a => a.OWPMatchId)
+        ?? new List<int>();
 
+        var parentMatchInfo = (await repository.QueryParentMatchInfo(string.Join(",", owpMatchId)))?.ToList();
         foreach (var schedule in schedules)
         {
             var assignments = GetAssignmentsBelongWs(assignmentModels, schedule);
@@ -56,8 +65,8 @@ public class RealMatchServicesImp : RealMatchServices
             await linkNGameService.Group(assignments, schedule, fromDate);
             await firstHalfService.Group(assignments, schedule, fromDate);
             await fantasyService.Group(assignments, schedule, fromDate);
-            await cornerService.Group(assignments, schedule, fromDate);
-            await xMinsGroupService.Group(assignments, schedule, fromDate);
+            await cornerService.Group(assignments, schedule, fromDate, parentMatchInfo);
+            await xMinsGroupService.Group(assignments, schedule, fromDate, parentMatchInfo);
             await linkErrorService.Group(assignments, schedule, fromDate);
         }
     }

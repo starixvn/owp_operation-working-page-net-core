@@ -19,7 +19,9 @@ public static class TimeRangeHelper
         bool hasEtpk
     )
     {
-        var increaseHourPair = new Dictionary<string, int>();
+        var increaseHourPair = new Dictionary<string, int>(){
+            {"INIT", 0}
+        };
 
         const int HDP = (int)EnumBettype.Handicap;
         const int OU = (int)EnumBettype.OverUnder;
