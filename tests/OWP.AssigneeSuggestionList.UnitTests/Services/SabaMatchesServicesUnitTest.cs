@@ -319,13 +319,25 @@ public class SabaMatchesServicesUnitTest
             new()
             {
                 UserId = 111,
+                OWPMatchId = 11,
                 LeagueName = "SABA - 16 Mins Play",
                 EventDateTime = new DateTime(2023, 03, 11, 2, 0, 0),
-                MaxbetHDP = 100000
+                MaxbetHDP = 100000,
+                BettypeId = 1,
             },
             new()
             {
                 UserId = 111,
+                OWPMatchId = 11,
+                LeagueName = "SABA - 16 Mins Play",
+                EventDateTime = new DateTime(2023, 03, 11, 2, 0, 0),
+                MaxbetHDP = 100000,
+                BettypeId = 3
+            },
+            new()
+            {
+                UserId = 111,
+                OWPMatchId = 12,
                 LeagueName = "SABA - 20 Mins Play",
                 EventDateTime = new DateTime(2023, 03, 11, 2, 0, 0),
                 MaxbetHDP = 200000
