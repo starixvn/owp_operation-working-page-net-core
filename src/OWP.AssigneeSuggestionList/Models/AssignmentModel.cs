@@ -3,7 +3,7 @@ using MatchType = OWP.AssigneeSuggestionList.Constant.MatchType;
 
 namespace OWP.AssigneeSuggestionList.Models;
 
-public record AssignmentModel
+public class AssignmentModel
 {
     public int OWPMatchId { get; set; }
 
@@ -43,5 +43,8 @@ public record AssignmentModel
 
     public decimal? MaxbetHDP { get; set; }
 
+    public DateTime EndTime { get; set; }
+
     public List<AssignmentModel> GroupAssignmentModels { get; set; }
+
 }

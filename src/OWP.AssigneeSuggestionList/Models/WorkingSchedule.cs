@@ -42,6 +42,7 @@ public class WorkingSchedule
     public AssignmentCell Tomorrow_14h { get; set; }
     public AssignmentCell Tomorrow_15h { get; set; }
     public AssignmentCell Tomorrow_16h { get; set; }
+    public List<AssignmentModel> AssignmentModels { get; set; }
 }
 
 public class AssignmentCell

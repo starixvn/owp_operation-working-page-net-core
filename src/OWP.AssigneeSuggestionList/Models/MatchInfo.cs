@@ -11,6 +11,7 @@ public class MatchInfo
     public string AwayName { get; set; }
     public DateTime KOTime { get; set; }
     public DateTime EventDate { get; set; }
+    public DateTime EndTime { get; set; }
     public string MatchNo { get; set; }
     public decimal MaxbetHDP { get; set; }
     public string MaxbetHDPInString => ScheduleHelper.FormatMaxbet(MaxbetHDP);
