@@ -51,7 +51,7 @@ public class QueryTraderSuggestionHandler : IRequestHandler<QueryTraderSuggestio
         return new SuggestionInfo
         {
             MatchInfo = matchInfo,
-            WorkingSchedules = workingShifts
+            WorkingSchedules = workingShifts.OrderBy(x => x.UserInfo.Username).ToList()
         };
     }
 }
