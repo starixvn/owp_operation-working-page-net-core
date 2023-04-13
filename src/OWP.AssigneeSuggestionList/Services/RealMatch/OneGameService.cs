@@ -15,8 +15,6 @@ public interface OneGameService
 
 public class OneGameServiceImp : OneGameService
 {
-    private const decimal MIN_MAXBET = 12000;
-
     private readonly SingleGameGroupService workingSchedule;
 
     public OneGameServiceImp(SingleGameGroupService workingSchedule)
@@ -30,10 +28,16 @@ public class OneGameServiceImp : OneGameService
           DateTime filterDate,
         List<int> owpIdExclude)
     {
-        var oneGameGroup = assignments
-            ?.Where(a => LinkGameConditionHelper.CanGroupNGame(a, maxbet => maxbet > MIN_MAXBET))
-            .ToList();
+        var oneGameGroupPair = LinkGameConditionHelper.GroupGame(assignments, numberGameInGroup => numberGameInGroup == 1);
+
+        var oneGameGroup = new List<AssignmentModel>();
+        foreach (var assignment in oneGameGroupPair.Values)
+        {
+            oneGameGroup.AddRange(assignment);
+        }
+
         owpIdExclude.AddRange(oneGameGroup?.Select(x => x.OWPMatchId).Distinct());
+
 
         await workingSchedule.Group(
             oneGameGroup,

@@ -38,12 +38,12 @@ public class LinkNGameServiceImp : LinkNGameService
     }
 
     private async Task LinkTwoGame(
-        IEnumerable<AssignmentModel> assignment,
+        IEnumerable<AssignmentModel> assignments,
         WorkingSchedule schedules,
          DateTime filterDate,
          List<int> owpIdExclude)
     {
-        var linkNGamePair = GetValidGame(assignment, 2);
+        var linkNGamePair = LinkGameConditionHelper.GroupGame(assignments, numberGameInGroup => numberGameInGroup == 2);
         var assignmentCell = new AssignmentCell
         {
             Color = ColorCodeConst.TWO_GAME,
@@ -54,12 +54,12 @@ public class LinkNGameServiceImp : LinkNGameService
     }
 
     private async Task LinkThreeGame(
-        IEnumerable<AssignmentModel> assignment,
+        IEnumerable<AssignmentModel> assignments,
         WorkingSchedule schedules,
         DateTime filterDate,
         List<int> owpIdExclude)
     {
-        var linkNGamePair = GetValidGame(assignment, 3);
+        var linkNGamePair = LinkGameConditionHelper.GroupGame(assignments, numberGameInGroup => numberGameInGroup == 3);
         var assignmentCell = new AssignmentCell
         {
             Color = ColorCodeConst.THREE_GAME,
@@ -112,10 +112,4 @@ public class LinkNGameServiceImp : LinkNGameService
             await logger.InfoAsync("[LinkNGame]" + string.Join(",", linkNGamePair[eventDate]?.Select(x => x.BettypeId) ?? Array.Empty<int>()));
         }
     }
-
-    private static IDictionary<DateTime, List<AssignmentModel>> GetValidGame(IEnumerable<AssignmentModel> models, int numberGame)
-        => models.Where(a => LinkGameConditionHelper.CanGroupNGame(a, maxbet => !maxbet.HasValue || maxbet.Value <= 12000))
-            .GroupBy(a => a.EventDateTime)
-            .Where(g => g.Select(x => x.OWPMatchId).Distinct().Count() == numberGame)
-            .ToDictionary(x => x.Key, x => x.ToList());
 }

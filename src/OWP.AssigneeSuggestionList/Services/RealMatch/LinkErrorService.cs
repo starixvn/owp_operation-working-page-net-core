@@ -34,7 +34,7 @@ public class LinkErrorServiceImp : LinkErrorService
         DateTime filterDate,
         List<int> owpIdExclude)
     {
-        var linkNGamePair = GetValidGame(assignments);
+        var linkNGamePair = LinkGameConditionHelper.GroupGame(assignments, numberGameInGroup => numberGameInGroup > 3);
         var assignmentCell = new AssignmentCell
         {
             Color = ColorCodeConst.ERROR,
@@ -61,10 +61,4 @@ public class LinkErrorServiceImp : LinkErrorService
             await logger.InfoAsync("[Error]" + string.Join(",", linkNGamePair[eventDate].Select(x => x.BettypeId)));
         }
     }
-
-    private static IDictionary<DateTime, List<AssignmentModel>> GetValidGame(IEnumerable<AssignmentModel> models)
-        => models.Where(a => LinkGameConditionHelper.CanGroupNGame(a, _ => true))
-            .GroupBy(a => a.EventDateTime)
-            .Where(g => g.Select(x => x.OWPMatchId).Distinct().Count() > 3)
-            .ToDictionary(x => x.Key, x => x.ToList());
 }
