@@ -74,7 +74,7 @@ public class LinkNGameServiceImp : LinkNGameService
     {
         foreach (var eventDate in linkNGamePair.Keys)
         {
-            var owpMatchId = linkNGamePair[eventDate].Select(x => x.OWPMatchId).ToList().Distinct();
+            var owpMatchId = linkNGamePair[eventDate].Select(x => x.OWPMatchId).Distinct();
             owpIdExclude.AddRange(owpMatchId);
         }
     }

@@ -12,40 +12,25 @@ public interface RealMatchServices
 
 public class RealMatchServicesImp : RealMatchServices
 {
-    private readonly MJGroupService mJGroupService;
-    private readonly OneGameService oneGameService;
-    private readonly LinkNGameService linkNGameService;
-    private readonly FirstHalfService firstHalfService;
-    private readonly FantasyService fantasyService;
-    private readonly CornerService cornerService;
-    private readonly XMinsGroupService xMinsGroupService;
-    private readonly LinkErrorService linkErrorService;
     private readonly EtPkService etPkService;
+    private readonly MainGameService mainGameServices;
+    private readonly LinkGameService linkGameService;
+    private readonly SpecialGameService specialGameService;
 
     private readonly Repository repository;
 
     public RealMatchServicesImp(
-        MJGroupService mJGroupService,
-        OneGameService oneGameService,
-        LinkNGameService linkNGameService,
-        FirstHalfService firstHalfService,
-        FantasyService fantasyService,
-        CornerService cornerService,
-        XMinsGroupService xMinsGroupService,
-        LinkErrorService linkErrorService,
         Repository repository,
-        EtPkService etPkService)
+        EtPkService etPkService,
+        MainGameService mainGameServices,
+        LinkGameService linkGameService,
+        SpecialGameService specialGameService)
     {
-        this.mJGroupService = mJGroupService;
-        this.oneGameService = oneGameService;
-        this.linkNGameService = linkNGameService;
-        this.firstHalfService = firstHalfService;
-        this.fantasyService = fantasyService;
-        this.cornerService = cornerService;
-        this.xMinsGroupService = xMinsGroupService;
-        this.linkErrorService = linkErrorService;
         this.repository = repository;
         this.etPkService = etPkService;
+        this.mainGameServices = mainGameServices;
+        this.linkGameService = linkGameService;
+        this.specialGameService = specialGameService;
     }
 
     public async Task MapAssignmentsToWorkingSchedule(
@@ -65,14 +50,9 @@ public class RealMatchServicesImp : RealMatchServices
         {
             var owpIdExclude = new List<int>();
             var assignments = GetAssignmentsBelongWs(assignmentModels, schedule);
-            await mJGroupService.Group(assignments, schedule, fromDate, owpIdExclude);
-            await oneGameService.Group(assignments, schedule, fromDate, owpIdExclude);
-            await linkNGameService.Group(assignments, schedule, fromDate, owpIdExclude);
-            await firstHalfService.Group(assignments, schedule, fromDate, owpIdExclude);
-            await fantasyService.Group(assignments, schedule, fromDate, owpIdExclude);
-            await cornerService.Group(assignments, schedule, fromDate, parentMatchInfo, owpIdExclude);
-            await xMinsGroupService.Group(assignments, schedule, fromDate, parentMatchInfo, owpIdExclude);
-            await linkErrorService.Group(assignments, schedule, fromDate, owpIdExclude);
+            await mainGameServices.MapAssignmentsToWorkingSchedule(schedule, assignments, fromDate, owpIdExclude);
+            await specialGameService.MapAssignmentsToWorkingSchedule(schedule, assignments, parentMatchInfo, fromDate, owpIdExclude);
+            await linkGameService.MapAssignmentsToWorkingSchedule(schedule, assignments, fromDate, owpIdExclude);
             await etPkService.Group(assignments, schedule, fromDate, owpIdExclude);
         }
     }

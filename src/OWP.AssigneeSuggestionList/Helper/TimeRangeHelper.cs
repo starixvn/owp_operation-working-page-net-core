@@ -19,7 +19,7 @@ public static class TimeRangeHelper
         bool hasEtpk
     )
     {
-        var increaseHourPair = new Dictionary<string, int>(){
+        var increaseHourPair = new Dictionary<string, int>{
             {"INIT", 0}
         };
 

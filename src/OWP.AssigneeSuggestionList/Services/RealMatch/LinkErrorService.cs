@@ -42,7 +42,7 @@ public class LinkErrorServiceImp : LinkErrorService
         };
         foreach (var eventDate in linkNGamePair.Keys)
         {
-            var owpMatchId = linkNGamePair[eventDate].Select(x => x.OWPMatchId).ToList().Distinct();
+            var owpMatchId = linkNGamePair[eventDate].Select(x => x.OWPMatchId).Distinct();
             owpIdExclude.AddRange(owpMatchId);
             assignmentCell.Text = "Error";
 

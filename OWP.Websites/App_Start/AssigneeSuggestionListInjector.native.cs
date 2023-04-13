@@ -23,5 +23,8 @@ public static class AssigneeSuggestionListInjector
         services.AddScoped<WorkingShiftService, WorkingShiftServiceImp>();
         services.AddScoped<LinkErrorService, LinkErrorServiceImp>();
         services.AddScoped<EtPkService, EtPkServiceImp>();
+        services.AddScoped<MainGameService, MainGameServiceImp>();
+        services.AddScoped<SpecialGameService, SpecialGameServiceImp>();
+        services.AddScoped<LinkGameService, LinkGameServiceImp>();
     }
 }
