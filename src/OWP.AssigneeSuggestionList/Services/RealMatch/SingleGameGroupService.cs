@@ -1,4 +1,3 @@
-using Fanex.Logging;
 using OWP.AssigneeSuggestionList.Models;
 
 namespace OWP.AssigneeSuggestionList.Services.RealMatch;
@@ -13,13 +12,10 @@ public interface SingleGameGroupService
 }
 public class SingleGameGroupServiceImp : SingleGameGroupService
 {
-    private readonly ILogger logger;
-
     private readonly WorkingScheduleService workingSchedule;
 
-    public SingleGameGroupServiceImp(ILogger logger, WorkingScheduleService workingSchedule)
+    public SingleGameGroupServiceImp(WorkingScheduleService workingSchedule)
     {
-        this.logger = logger;
         this.workingSchedule = workingSchedule;
     }
 
@@ -38,9 +34,6 @@ public class SingleGameGroupServiceImp : SingleGameGroupService
             {
                 var scheduleUpdateModel = buildUpdateScheduleFunc.Invoke(groupGamePair[key]);
                 workingSchedule.UpdateWorkingSchedule(scheduleUpdateModel, schedule);
-
-                await logger.InfoAsync(groupType + string.Join(",", groupGamePair[key].Select(x => x.OWPMatchId)));
-                await logger.InfoAsync(groupType + string.Join(",", groupGamePair[key].Select(x => x.BettypeId)));
             }
         }
     }

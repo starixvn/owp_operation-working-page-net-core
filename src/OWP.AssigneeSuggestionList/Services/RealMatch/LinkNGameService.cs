@@ -1,5 +1,4 @@
-﻿using Fanex.Logging;
-using OWP.AssigneeSuggestionList.Constant;
+﻿using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Helper;
 using OWP.AssigneeSuggestionList.Models;
 
@@ -17,13 +16,11 @@ public interface LinkNGameService
 
 public class LinkNGameServiceImp : LinkNGameService
 {
-    private readonly ILogger logger;
 
     private readonly WorkingScheduleService workingSchedule;
 
-    public LinkNGameServiceImp(ILogger logger, WorkingScheduleService workingSchedule)
+    public LinkNGameServiceImp(WorkingScheduleService workingSchedule)
     {
-        this.logger = logger;
         this.workingSchedule = workingSchedule;
     }
 
@@ -109,8 +106,6 @@ public class LinkNGameServiceImp : LinkNGameService
             workingSchedule.UpdateWorkingSchedule(scheduleUpdateModel,
                 schedules);
 
-            await logger.InfoAsync("[LinkNGame]" + string.Join(",", linkNGamePair[eventDate]?.Select(x => x.OWPMatchId) ?? Array.Empty<int>()));
-            await logger.InfoAsync("[LinkNGame]" + string.Join(",", linkNGamePair[eventDate]?.Select(x => x.BettypeId) ?? Array.Empty<int>()));
         }
     }
 }

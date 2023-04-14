@@ -1,4 +1,3 @@
-using Fanex.Logging;
 using MediatR;
 using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Helper;
@@ -20,12 +19,9 @@ public class LinkErrorServiceImp : LinkErrorService
 {
     private readonly WorkingScheduleService workingSchedule;
 
-    private readonly ILogger logger;
-
-    public LinkErrorServiceImp(WorkingScheduleService workingSchedule, ILogger logger)
+    public LinkErrorServiceImp(WorkingScheduleService workingSchedule)
     {
         this.workingSchedule = workingSchedule;
-        this.logger = logger;
     }
 
     public async Task Group(
@@ -56,9 +52,6 @@ public class LinkErrorServiceImp : LinkErrorService
 
             workingSchedule.UpdateWorkingSchedule(scheduleUpdateModel,
                 schedule);
-
-            await logger.InfoAsync("[Error]" + string.Join(",", linkNGamePair[eventDate].Select(x => x.OWPMatchId)));
-            await logger.InfoAsync("[Error]" + string.Join(",", linkNGamePair[eventDate].Select(x => x.BettypeId)));
         }
     }
 }
