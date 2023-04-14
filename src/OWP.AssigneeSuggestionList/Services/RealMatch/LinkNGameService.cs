@@ -87,8 +87,9 @@ public class LinkNGameServiceImp : LinkNGameService
 
         foreach (var eventDate in linkNGamePair.Keys)
         {
-            var remark = linkNGamePair[eventDate].Select(x => x.Remark).ToList();
-            assignmentCell.Text = ScheduleHelper.BuildScheduleTextGroupGame(linkNGamePair[eventDate]);
+            var assignmentPresent = linkNGamePair[eventDate].DistinctBy(a => a.OWPMatchId).ToList();
+            var remark = assignmentPresent.Select(x => x.Remark).ToList();
+            assignmentCell.Text = ScheduleHelper.BuildScheduleTextGroupGame(assignmentPresent);
 
             var etpkValue = ETPKHelper.BuildEtPkTextDisplay(remark);
             var timeRange = TimeRangeHelper.CalculateTimeRangeFT(eventDate, !string.IsNullOrEmpty(etpkValue));
