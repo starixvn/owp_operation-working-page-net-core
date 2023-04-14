@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using OWP.AssigneeSuggestionList.Helper;
 using OWP.AssigneeSuggestionList.Models;
 using OWP.AssigneeSuggestionList.Services;
 
@@ -43,10 +44,15 @@ public class QueryTraderSuggestionHandler : IRequestHandler<QueryTraderSuggestio
         matchInfo.FilterDate = request.FilterDate;
 
         var workingShifts = await workingShiftService.Calculate(request.FilterDate);
-        var assignmentModels = await repository.QueryAssignments(request.FilterDate);
+        var assignmentRaw = await repository.QueryAssignments(request.FilterDate);
+        var parentMatchInfos = await GetParentMatchInfo(assignmentRaw);
 
-        await realMatchServices.MapAssignmentsToWorkingSchedule(workingShifts, assignmentModels, request.FilterDate);
-        sabaMatchesServices.MapAssignmentsToWorkingSchedules(workingShifts, assignmentModels, request.FilterDate);
+        var sabaAssignments = assignmentRaw.Where(x => x.IsSaba).ToList();
+        var realAssignmentRaw = assignmentRaw.Except(sabaAssignments).ToList();
+        var realAssignments = EndTimeHelper.Update(realAssignmentRaw, parentMatchInfos).ToList();
+
+        await realMatchServices.MapAssignmentsToWorkingSchedule(workingShifts, realAssignments, parentMatchInfos, request.FilterDate);
+        sabaMatchesServices.MapAssignmentsToWorkingSchedules(workingShifts, sabaAssignments, request.FilterDate);
 
         return new SuggestionInfo
         {
@@ -54,4 +60,15 @@ public class QueryTraderSuggestionHandler : IRequestHandler<QueryTraderSuggestio
             WorkingSchedules = workingShifts.OrderBy(x => x.UserInfo.Username).ToList()
         };
     }
+
+    public async Task<IList<ParentMatchInfo>> GetParentMatchInfo(IList<AssignmentModel> assignmentModels)
+    {
+        var owpMatchId = assignmentModels
+                             ?.Where(a => a.ParentMatchId.HasValue)
+                             .Select(a => a.OWPMatchId)
+                         ?? new List<int>();
+
+        return (await repository.QueryParentMatchInfo(string.Join(",", owpMatchId)))?.ToList();
+    }
+
 }

@@ -20,7 +20,7 @@ public class SabaMatchesServicesImp : SabaMatchServices
                 x.UserId == workingShift.UserInfo.UserId &&
                 x.EventDateTime.CompareTo(workingShift.UserInfo.ShiftStartTime) >= 0 &&
                 x.EventDateTime.CompareTo(workingShift.UserInfo.ShiftEndTime) < 0);
-            var sabaAssignments = userAssignments.Where(x => x.IsSaba)
+            var sabaAssignments = userAssignments
                 .OrderBy(x => x.EventDateTime).ThenBy(x => x.OWPMatchId).ThenBy(x => x.BettypeId)
                 .DistinctBy(x => x.OWPMatchId)
                 .ToList();

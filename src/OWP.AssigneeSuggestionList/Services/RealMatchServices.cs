@@ -7,6 +7,7 @@ public interface RealMatchServices
 {
     Task MapAssignmentsToWorkingSchedule(IEnumerable<WorkingSchedule> schedules,
         IList<AssignmentModel> assignmentModels,
+        IList<ParentMatchInfo> parentMatchInfo,
         DateTime filterDate);
 }
 
@@ -36,15 +37,11 @@ public class RealMatchServicesImp : RealMatchServices
     public async Task MapAssignmentsToWorkingSchedule(
         IEnumerable<WorkingSchedule> schedules,
         IList<AssignmentModel> assignmentModels,
+        IList<ParentMatchInfo> parentMatchInfo,
         DateTime filterDate)
     {
         var fromDate = filterDate.Date.AddHours(12);
-        var owpMatchId = assignmentModels
-        ?.Where(a => a.ParentMatchId.HasValue)
-        .Select(a => a.OWPMatchId)
-        ?? new List<int>();
 
-        var parentMatchInfo = (await repository.QueryParentMatchInfo(string.Join(",", owpMatchId)))?.ToList();
 
         foreach (var schedule in schedules)
         {
@@ -60,7 +57,6 @@ public class RealMatchServicesImp : RealMatchServices
     private static IList<AssignmentModel> GetAssignmentsBelongWs(IEnumerable<AssignmentModel> assignments, WorkingSchedule schedule)
         => assignments.Where(x =>
             x.UserId == schedule.UserInfo.UserId &&
-            !x.IsSaba &&
             DateTime.Compare(x.EventDateTime, schedule.UserInfo.ShiftStartTime) >= 0 &&
             DateTime.Compare(x.EventDateTime, schedule.UserInfo.ShiftEndTime) < 0).ToList();
 }
