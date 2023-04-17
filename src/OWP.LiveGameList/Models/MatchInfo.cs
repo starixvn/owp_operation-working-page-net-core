@@ -141,4 +141,7 @@ public class MatchInfo
         }
     }
 
+    public TimeSpan? InfoSiteTime { get; set; }
+
+    public string InfoSiteTimeDisplay { get; set; }
 }

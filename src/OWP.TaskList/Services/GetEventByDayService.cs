@@ -20,19 +20,22 @@ public class GetEventByDayServiceImp : GetEventByDayService
 
     private readonly GetAdminSiteMatchIdService getAdminSiteMatchIdService;
 
-    public GetEventByDayServiceImp(Repository repository, INapSession session, PermissionService permissionService, GetAdminSiteMatchIdService getAdminSiteMatchIdService)
+    private readonly GetInfoSiteTimeService getInfoSiteTimeService;
+
+    public GetEventByDayServiceImp(Repository repository, INapSession session, PermissionService permissionService, GetAdminSiteMatchIdService getAdminSiteMatchIdService, GetInfoSiteTimeService getInfoSiteTimeService)
     {
         this.repository = repository;
         this.session = session;
         this.permissionService = permissionService;
         this.getAdminSiteMatchIdService = getAdminSiteMatchIdService;
+        this.getInfoSiteTimeService = getInfoSiteTimeService;
     }
 
     public async Task<TaskListModel> GetEventByDay(DateTime eventDate)
     {
         var criteria = new GetTaskListCriteria
         {
-            UserId = session.UserId,
+            UserId = 360418,
             EventDate = eventDate
         };
 
@@ -52,11 +55,24 @@ public class GetEventByDayServiceImp : GetEventByDayService
             matchInfo = GetEvents(criteria).ToList();
         }
         BuildIPTVCopy(matchInfo);
+        BuildInfoSiteTime(matchInfo);
         await BuildAdminSiteId(matchInfo);
         return matchInfo;
     }
 
+    public async void BuildInfoSiteTime(IList<MatchInfo> matches)
+    {
+        var parentMatchIds = string.Join(',', matches.Select(x => x.ParentMatchId).Distinct());
 
+        var result = await getInfoSiteTimeService.GetInfoSiteTime(parentMatchIds);
+
+        foreach (var matchInfo in matches)
+        {
+            var matchParent = result.FirstOrDefault(x => x.ParentMatchId == matchInfo.ParentMatchId);
+            matchInfo.InfoSiteTime = matchParent?.KickOffTime;
+            matchInfo.InfoSiteTimeDisplay = matchParent?.KichOffTimeDisplay;
+        }
+    }
     private async Task BuildAdminSiteId(IList<MatchInfo> matches)
     {
         foreach (var match in matches)

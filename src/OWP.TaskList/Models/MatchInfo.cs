@@ -143,6 +143,10 @@ public class MatchInfo
 
     public string ReadyDateTimeDisplay => ReadyDateTime.ToString("hh:mm tt MMM dd, yyyy");
 
+    public TimeSpan? InfoSiteTime { get; set; }
+
+    public string InfoSiteTimeDisplay { get; set; }
+
     public MatchInfo Clone()
     {
         var serialized = JsonConvert.SerializeObject(this);

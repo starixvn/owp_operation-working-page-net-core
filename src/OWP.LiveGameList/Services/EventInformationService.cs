@@ -20,18 +20,34 @@ public class EventInformationServiceImp : EventInformationService
     private readonly GetAdminSiteMatchIdService getAdminSiteMatchIdService;
     private readonly PermissionService permissionService;
     private readonly Repository repository;
+    private readonly GetInfoSiteTimeService getInfoSiteTimeService;
 
     private List<MatchInfo> matchInfos = new();
 
 
     public EventInformationServiceImp(Repository repository, INapSession currentSession,
-        GetAdminSiteMatchIdService getAdminSiteMatchIdService, PermissionService permissionService)
+        GetAdminSiteMatchIdService getAdminSiteMatchIdService, PermissionService permissionService, GetInfoSiteTimeService getInfoSiteTimeService)
     {
         this.repository = repository;
         this.currentSession = currentSession;
         this.getAdminSiteMatchIdService = getAdminSiteMatchIdService;
         this.permissionService = permissionService;
+        this.getInfoSiteTimeService = getInfoSiteTimeService;
     }
+
+    public async void BuildInfoSiteTime()
+    {
+        var parentMatchIds = string.Join(',', matchInfos.Select(x => x.ParentMatchId).Distinct());
+
+        var result = await getInfoSiteTimeService.GetInfoSiteTime(parentMatchIds);
+
+        foreach (var matchInfo in matchInfos)
+        {
+            var matchParent = result.FirstOrDefault(x => x.ParentMatchId == matchInfo.ParentMatchId);
+            matchInfo.InfoSiteTime = matchParent?.KickOffTime;
+            matchInfo.InfoSiteTimeDisplay = matchParent?.KichOffTimeDisplay;
+        }    
+    }    
 
     public async Task<IEnumerable<MatchInfo>> GetEvents(DateTime eventDate, string statusId)
     {
@@ -50,6 +66,7 @@ public class EventInformationServiceImp : EventInformationService
             tickets.ToList());
 
         await getAdminSiteMatchIdService.UpdateMinorAdminMatchId(matchInfos);
+        BuildInfoSiteTime();
         return matchInfos;
     }
 
