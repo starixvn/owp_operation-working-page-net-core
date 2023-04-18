@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using OWP.Extensions;
 using MatchType = OWP.AssigneeSuggestionList.Constant.MatchType;
 
@@ -45,6 +46,7 @@ public class AssignmentModel
 
     public DateTime EndTime { get; set; }
 
+    [JsonIgnore]
     public List<AssignmentModel> GroupAssignmentModels { get; set; }
 
 }

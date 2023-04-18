@@ -1,4 +1,5 @@
-﻿using OWP.AssigneeSuggestionList.Helper;
+﻿using Newtonsoft.Json;
+using OWP.AssigneeSuggestionList.Helper;
 using OWP.Constants;
 
 namespace OWP.AssigneeSuggestionList.Models;
@@ -26,5 +27,7 @@ public class MatchInfo
         Bettype.FirstHalfOverUnder => "1H OU",
         _ => ""
     };
+    [JsonIgnore]
+    public bool IsSingleMatch { get; set; }
     public DateTime FilterDate { get; set; }
 }

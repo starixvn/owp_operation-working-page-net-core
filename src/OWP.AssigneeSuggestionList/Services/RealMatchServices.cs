@@ -18,16 +18,12 @@ public class RealMatchServicesImp : RealMatchServices
     private readonly LinkGameService linkGameService;
     private readonly SpecialGameService specialGameService;
 
-    private readonly Repository repository;
-
     public RealMatchServicesImp(
-        Repository repository,
         EtPkService etPkService,
         MainGameService mainGameServices,
         LinkGameService linkGameService,
         SpecialGameService specialGameService)
     {
-        this.repository = repository;
         this.etPkService = etPkService;
         this.mainGameServices = mainGameServices;
         this.linkGameService = linkGameService;

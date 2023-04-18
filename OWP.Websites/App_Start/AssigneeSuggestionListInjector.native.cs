@@ -26,5 +26,8 @@ public static class AssigneeSuggestionListInjector
         services.AddScoped<MainGameService, MainGameServiceImp>();
         services.AddScoped<SpecialGameService, SpecialGameServiceImp>();
         services.AddScoped<LinkGameService, LinkGameServiceImp>();
+
+        // categorize
+        services.AddScoped<CategorizeRealMatchServices, CategorizeRealMatchServicesImp>();
     }
 }
