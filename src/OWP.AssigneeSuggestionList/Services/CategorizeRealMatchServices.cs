@@ -7,7 +7,7 @@ namespace OWP.AssigneeSuggestionList.Services;
 
 public interface CategorizeRealMatchServices
 {
-
+    void Categorize(IEnumerable<WorkingSchedule> schedules, MatchInfo matchInfo);
 }
 
 public class CategorizeRealMatchServicesImp : CategorizeRealMatchServices
@@ -16,110 +16,115 @@ public class CategorizeRealMatchServicesImp : CategorizeRealMatchServices
     {
         foreach (var schedule in schedules)
         {
-            var (type, explanation) = GetCategoryType(schedule, matchInfo);
-            schedule.CategoryType = type;
+            var realAssignments = schedule.CategorizedAssignments.Where(x => !x.IsSaba).ToList();
+            var assigneeType = GetAssigneeType(schedule.UserInfo, realAssignments, matchInfo);
+            var (categoryType, explanation) = GetCategoryTypeAndExplanation(assigneeType, matchInfo);
+
+            schedule.CategoryType = categoryType;
             schedule.Explanation = explanation;
         }
     }
 
-    public (CategoryType, string) GetCategoryType(WorkingSchedule schedule, MatchInfo matchInfo)
+    public AssigneeCategory GetAssigneeType(UserInfo userInfo, List<AssignmentModel> assignments, MatchInfo matchInfo)
     {
-        var userInfo = schedule.UserInfo;
-        if (!IsHaveWorkingShiftInRangeTime(userInfo, matchInfo))
+        var kOTime = matchInfo.KOTime;
+        var endTime = matchInfo.EndTime;
+
+        if (!IsHaveWorkingShiftInRangeTime(userInfo, kOTime, endTime))
         {
-            return (CategoryType.Busy, "Busy");
+            return AssigneeCategory.Busy;
         }
 
-        if (IsFreeInRangeTime(schedule, matchInfo))
+        if (IsFreeInRangeTime(assignments, kOTime, endTime))
         {
-            return (CategoryType.FullyAvailable, $"100% free from {matchInfo.KOTime} to {matchInfo.EndTime}");
+            return AssigneeCategory.Free;
+        }
+
+        if (IsPartiallyFreeInRangeTime(assignments, kOTime, matchInfo.BettypeId))
+        {
+            return AssigneeCategory.PartiallyFree;
         }
 
         if (!matchInfo.IsSingleMatch)
         {
-            return (CategoryType.Busy, "Busy");
+            IsHaveAssignmentLinkNGame(userInfo, assignments, matchInfo);
         }
 
-        var sameKOTimeAssignments = schedule.CategorizedAssignments.Where(x => x.KOTime.CompareTo(matchInfo.KOTime) == 0).ToList();
-        if (!sameKOTimeAssignments.Any())
-        {
-            return (CategoryType.Busy, "Busy");
-        }
-
-        var (isHaveLinkNGame, explanation) = IsHaveAssignmentLinkNGame(sameKOTimeAssignments, userInfo);
-        if (isHaveLinkNGame)
-        {
-            return (CategoryType.FullyAvailable, explanation);
-        }
-
-        return (CategoryType.Busy, "Busy");
+        return AssigneeCategory.Busy;
     }
 
-    public bool IsHaveWorkingShiftInRangeTime(UserInfo userInfo, MatchInfo matchInfo)
-        => userInfo.ShiftStartTime <= matchInfo.KOTime && userInfo.ShiftEndTime >= matchInfo.EndTime;
+    public static bool IsHaveWorkingShiftInRangeTime(UserInfo userInfo, DateTime kOTime, DateTime endTime)
+        => userInfo.ShiftStartTime <= kOTime && userInfo.ShiftEndTime >= endTime;
 
-    public bool IsFreeInRangeTime(WorkingSchedule schedule, MatchInfo matchInfo)
+    public static bool IsFreeInRangeTime(List<AssignmentModel> assignments, DateTime kOTime, DateTime endTime)
     {
-        var fromTime = matchInfo.KOTime;
-        var toTime = matchInfo.EndTime;
-
-        var isFreeInRangeTime = !schedule.CategorizedAssignments.Any(x =>
-            (x.EventDateTime < fromTime && x.EndTime < fromTime) ||
-            (x.EventDateTime > toTime && x.EndTime > toTime));
+        var isFreeInRangeTime = !assignments.Any(x =>
+            (x.EventDateTime < kOTime && x.EndTime < kOTime) ||
+            (x.EventDateTime > endTime && x.EndTime > endTime));
 
         return isFreeInRangeTime;
     }
 
-    public bool IsPartiallyFreeInRangeTime(WorkingSchedule schedule, MatchInfo matchInfo)
+    public static bool IsPartiallyFreeInRangeTime(List<AssignmentModel> assignments, DateTime kOTime, int bettypeId)
     {
-        var fromTime = matchInfo.KOTime;
-        var toTime = matchInfo.EndTime;
-        if (matchInfo.BettypeId is Bettype.FirstHalfHandicap or Bettype.FirstHalfOverUnder)
+        var minToTime = kOTime.AddMinutes(60);
+        if (bettypeId is Bettype.Handicap or Bettype.OverUnder)
         {
-
+            return !assignments.Any(x =>
+                (x.EventDateTime < kOTime && x.EndTime < kOTime) ||
+                (x.EventDateTime > minToTime && x.EndTime > minToTime));
         }
-
-        var isFreeInRangeTime = !schedule.CategorizedAssignments.Any(x =>
-            (x.EventDateTime < fromTime && x.EndTime < fromTime) ||
-            (x.EventDateTime > toTime && x.EndTime > toTime));
 
         return false;
     }
 
-    public static (bool, string) IsHaveAssignmentLinkNGame(List<AssignmentModel> assignments, UserInfo userInfo)
+    public static AssigneeCategory IsHaveAssignmentLinkNGame(UserInfo userInfo, List<AssignmentModel> assignments, MatchInfo matchInfo)
     {
-        var busy = (false, "busy");
+        var sameKOTimeAssignments = assignments
+            .Where(x => x.EventDateTime.CompareTo(matchInfo.KOTime) == 0).ToList();
+        if (!sameKOTimeAssignments.Any())
+        {
+            return AssigneeCategory.Busy;
+        }
+
         switch (userInfo.MixMatchCapacity)
         {
             case MixMatchCapacity.MaxGame2G:
                 {
-                    var linkNGames = assignments.Any(x => x.MatchType is MatchType.RealMatchLink1G);
-                    return linkNGames ? (true, "doing 1 of 2 games in capacity") : busy;
+                    return sameKOTimeAssignments.Any(x => x.MatchType is MatchType.RealMatchLink1G)
+                        ? AssigneeCategory.Capacity2GDoing1G
+                        : AssigneeCategory.Busy;
                 }
             case MixMatchCapacity.MaxGame3G:
                 {
-                    var linkNGames = assignments.Any(x => x.MatchType is MatchType.RealMatchLink2G);
-                    if (linkNGames)
+                    if (matchInfo.MaxbetHDP <= CategoryConstants.MAX_BET_5K &&
+                        sameKOTimeAssignments.Any(x => x.MatchType is MatchType.RealMatchLink2G))
                     {
-                        return (true, "doing 2 of 3 games in capacity");
+                        return AssigneeCategory.Capacity3GDoing2G;
                     }
 
-                    linkNGames = assignments.Any(x => x.MatchType is MatchType.RealMatchLink1G);
-                    return linkNGames ? (true, "doing 1 of 3 games in capacity") : busy;
+                    return sameKOTimeAssignments.Any(x => x.MatchType is MatchType.RealMatchLink1G)
+                        ? AssigneeCategory.Capacity3GDoing1G
+                        : AssigneeCategory.Busy;
                 }
             case MixMatchCapacity.MaxGame1G:
             case MixMatchCapacity.None:
             default:
-                return (false, "busy");
+                return AssigneeCategory.Busy;
         }
     }
 
-    //public string GetMixMatchExplanation(MixMatchCapacity mixMatchCapacity, MatchType? doingMatchType)
-    //    => (capacity: mixMatchCapacity, doingMatchType) switch
-    //    {
-    //        (MixMatchCapacity.MaxGame2G, MatchType.RealMatchLink1G) => "doing 1 of 2 games in capacity",
-    //        (MixMatchCapacity.MaxGame3G, MatchType.RealMatchLink1G) => "doing 1 of 3 games in capacity",
-    //        (MixMatchCapacity.MaxGame3G, MatchType.RealMatchLink2G) => "doing 2 of 3 games in capacity",
-    //        _ => string.Empty
-    //    };
+    public static (CategoryType, string) GetCategoryTypeAndExplanation(AssigneeCategory category, MatchInfo matchInfo)
+        => category switch
+        {
+            AssigneeCategory.Free => (CategoryType.FullyAvailable, FormatExplanation(ExplanationConstants.FREE, matchInfo)),
+            AssigneeCategory.Capacity2GDoing1G => (CategoryType.FullyAvailable, ExplanationConstants.CAPACITY_2G_DOING_1G),
+            AssigneeCategory.Capacity3GDoing2G => (CategoryType.FullyAvailable, ExplanationConstants.CAPACITY_3G_DOING_2G),
+            AssigneeCategory.Capacity3GDoing1G => (CategoryType.FullyAvailable, ExplanationConstants.CAPACITY_3G_DOING_1G),
+            AssigneeCategory.PartiallyFree => (CategoryType.FullyAvailable, FormatExplanation(ExplanationConstants.PARTIALLY_AVAILABLE, matchInfo)),
+            _ => (CategoryType.FullyAvailable, ExplanationConstants.BUSY),
+        };
+
+    public static string FormatExplanation(string explanationString, MatchInfo matchInfo)
+        => string.Format(explanationString, matchInfo.KOTime.ToString("hh:mm"), matchInfo.EndTime.ToString("hh:mm"));
 }

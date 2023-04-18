@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Helper;
 using OWP.AssigneeSuggestionList.Models;
 using OWP.AssigneeSuggestionList.Services;
@@ -56,7 +57,14 @@ public class QueryTraderSuggestionHandler : IRequestHandler<QueryTraderSuggestio
         return new SuggestionInfo
         {
             MatchInfo = matchInfo,
-            WorkingSchedules = workingShifts.OrderBy(x => x.UserInfo.Username).ToList()
+            FullyAvailable = GetWorkingSchedulesByType(CategoryType.FullyAvailable, workingShifts),
+            PartiallyAvailable = GetWorkingSchedulesByType(CategoryType.PartiallyAvailable, workingShifts),
+            Busy = GetWorkingSchedulesByType(CategoryType.Busy, workingShifts)
         };
     }
+
+    public List<WorkingSchedule> GetWorkingSchedulesByType(CategoryType type, List<WorkingSchedule> workingShifts)
+        => workingShifts.Where(x => x.CategoryType == type)
+                        .OrderBy(x => x.UserInfo.Username)
+                        .ToList();
 }
