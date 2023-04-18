@@ -6,7 +6,7 @@ namespace OWP.AssigneeSuggestionList.Services.RealMatch;
 
 public interface EtPkService
 {
-    Task Group(
+    void Group(
         IList<AssignmentModel> assignments,
         WorkingSchedule schedule,
         DateTime filterDate,
@@ -23,7 +23,7 @@ public class EtPkServiceImp : EtPkService
         this.workingSchedule = workingSchedule;
     }
 
-    public async Task Group(
+    public void Group(
         IList<AssignmentModel> assignments,
         WorkingSchedule schedule,
          DateTime filterDate,
@@ -33,11 +33,10 @@ public class EtPkServiceImp : EtPkService
             !string.IsNullOrEmpty(ETPKHelper.DetectExtraTime(a.Remark)) &&
             !owpMatchIdExclude.Contains(a.OWPMatchId)).ToList();
 
-        await workingSchedule.Group(
-            gameGroup,
-            schedule,
-            "[ETPK_Group]"
-            , assignments => BuildScheduleUpdateModel(assignments, filterDate));
+        workingSchedule.Group(
+           gameGroup,
+           schedule,
+           assignments => BuildScheduleUpdateModel(assignments, filterDate));
     }
 
     public static ScheduleUpdateModel BuildScheduleUpdateModel(

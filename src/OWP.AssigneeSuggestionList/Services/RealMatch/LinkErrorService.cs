@@ -8,7 +8,7 @@ namespace OWP.AssigneeSuggestionList.Services.RealMatch;
 
 public interface LinkErrorService : IRequest<Unit>
 {
-    Task Group(
+    void Group(
         IList<AssignmentModel> assignments,
         WorkingSchedule schedule,
          DateTime filterDate,
@@ -24,7 +24,7 @@ public class LinkErrorServiceImp : LinkErrorService
         this.workingSchedule = workingSchedule;
     }
 
-    public async Task Group(
+    public void Group(
         IList<AssignmentModel> assignments,
         WorkingSchedule schedule,
         DateTime filterDate,

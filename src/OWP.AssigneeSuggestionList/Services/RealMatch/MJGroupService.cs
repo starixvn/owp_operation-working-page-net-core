@@ -7,7 +7,7 @@ namespace OWP.AssigneeSuggestionList.Services.RealMatch;
 
 public interface MJGroupService
 {
-    Task Group(IList<AssignmentModel> assignments,
+    void Group(IList<AssignmentModel> assignments,
         WorkingSchedule schedules,
         DateTime filterDate,
          List<int> owpIdExclude);
@@ -21,7 +21,7 @@ public class MJGroupServiceImp : MJGroupService
     {
         this.workingSchedule = workingSchedule;
     }
-    public async Task Group(
+    public void Group(
         IList<AssignmentModel> assignments,
         WorkingSchedule schedules,
         DateTime filterDate,
@@ -31,11 +31,10 @@ public class MJGroupServiceImp : MJGroupService
         var mJGroup = assignments.Where(a => a.IsMajorLeague)
             .ToList();
         owpIdExclude.AddRange(mJGroup?.Select(x => x.OWPMatchId).Distinct());
-        await workingSchedule.Group(
-            mJGroup,
-            schedules,
-            "[LinkNGame]",
-            assignments => BuildScheduleUpdateModel(assignments, filterDate));
+        workingSchedule.Group(
+           mJGroup,
+           schedules,
+           assignments => BuildScheduleUpdateModel(assignments, filterDate));
     }
 
     public static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignments, DateTime filterDate)

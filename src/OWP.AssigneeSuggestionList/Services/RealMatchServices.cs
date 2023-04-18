@@ -5,7 +5,7 @@ namespace OWP.AssigneeSuggestionList.Services;
 
 public interface RealMatchServices
 {
-    Task MapAssignmentsToWorkingSchedule(IEnumerable<WorkingSchedule> schedules,
+    void MapAssignmentsToWorkingSchedule(IEnumerable<WorkingSchedule> schedules,
         IList<AssignmentModel> assignmentModels,
         IList<ParentMatchInfo> parentMatchInfo,
         DateTime filterDate);
@@ -30,7 +30,7 @@ public class RealMatchServicesImp : RealMatchServices
         this.specialGameService = specialGameService;
     }
 
-    public async Task MapAssignmentsToWorkingSchedule(
+    public void MapAssignmentsToWorkingSchedule(
         IEnumerable<WorkingSchedule> schedules,
         IList<AssignmentModel> assignmentModels,
         IList<ParentMatchInfo> parentMatchInfo,
@@ -38,15 +38,14 @@ public class RealMatchServicesImp : RealMatchServices
     {
         var fromDate = filterDate.Date.AddHours(12);
 
-
         foreach (var schedule in schedules)
         {
             var owpIdExclude = new List<int>();
             var assignments = GetAssignmentsBelongWs(assignmentModels, schedule);
-            await mainGameServices.MapAssignmentsToWorkingSchedule(schedule, assignments, fromDate, owpIdExclude);
-            await specialGameService.MapAssignmentsToWorkingSchedule(schedule, assignments, parentMatchInfo, fromDate, owpIdExclude);
-            await linkGameService.MapAssignmentsToWorkingSchedule(schedule, assignments, fromDate, owpIdExclude);
-            await etPkService.Group(assignments, schedule, fromDate, owpIdExclude);
+            mainGameServices.MapAssignmentsToWorkingSchedule(schedule, assignments, fromDate, owpIdExclude);
+            specialGameService.MapAssignmentsToWorkingSchedule(schedule, assignments, parentMatchInfo, fromDate, owpIdExclude);
+            linkGameService.MapAssignmentsToWorkingSchedule(schedule, assignments, fromDate, owpIdExclude);
+            etPkService.Group(assignments, schedule, fromDate, owpIdExclude);
         }
     }
 

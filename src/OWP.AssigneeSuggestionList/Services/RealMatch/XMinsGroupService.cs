@@ -6,7 +6,7 @@ namespace OWP.AssigneeSuggestionList.Services.RealMatch;
 
 public interface XMinsGroupService
 {
-    Task Group(
+    void Group(
         IList<AssignmentModel> assignments,
         WorkingSchedule schedule,
         DateTime filterDate,
@@ -24,7 +24,7 @@ public class XMinsGroupServiceImp : XMinsGroupService
         this.workingSchedule = workingSchedule;
     }
 
-    public async Task Group(
+    public void Group(
         IList<AssignmentModel> assignments,
          WorkingSchedule schedule,
           DateTime filterDate,
@@ -34,11 +34,10 @@ public class XMinsGroupServiceImp : XMinsGroupService
         var gameGroup = assignments?.Where(a => a.Is15Mins).ToList();
         owpIdExclude.AddRange(gameGroup?.Select(x => x.OWPMatchId).Distinct());
 
-        await workingSchedule.Group(
-            gameGroup,
-            schedule,
-            "[X_MINS]"
-            , assignments15Mins => BuildScheduleUpdateModel(assignments15Mins, parentMatchInfo, filterDate));
+        workingSchedule.Group(
+           gameGroup,
+           schedule,
+           assignments15Mins => BuildScheduleUpdateModel(assignments15Mins, parentMatchInfo, filterDate));
     }
 
     public static ScheduleUpdateModel BuildScheduleUpdateModel(

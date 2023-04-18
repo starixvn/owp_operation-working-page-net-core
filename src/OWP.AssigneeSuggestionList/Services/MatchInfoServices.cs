@@ -43,8 +43,7 @@ public class MatchInfoServicesImp : MatchInfoServices
     }
 
     private bool IsSingleMatchSpecialCase(MatchInfo matchInfo)
-    {
-        return matchInfo switch
+        => matchInfo switch
         {
             _ when matchInfo.LeagueName.IsContains("Fantasy ") => true,
             _ when matchInfo.LeagueName.IsContains("FUTSAL")
@@ -55,7 +54,6 @@ public class MatchInfoServicesImp : MatchInfoServices
                 => true,
             _ => false
         };
-    }
 
     public async Task<TimeSpan> GetEndTimeForRealMatch(MatchInfo matchInfo)
         => matchInfo.IsMainMatch ? GetEndTimeForFtMatch(matchInfo)

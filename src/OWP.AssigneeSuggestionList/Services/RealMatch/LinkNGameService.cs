@@ -6,7 +6,7 @@ namespace OWP.AssigneeSuggestionList.Services.RealMatch;
 
 public interface LinkNGameService
 {
-    Task Group(
+    void Group(
         IList<AssignmentModel> assignments,
          WorkingSchedule schedules,
          DateTime filterDate,
@@ -24,17 +24,17 @@ public class LinkNGameServiceImp : LinkNGameService
         this.workingSchedule = workingSchedule;
     }
 
-    public async Task Group(
+    public void Group(
         IList<AssignmentModel> assignments,
         WorkingSchedule schedules,
          DateTime filterDate,
          List<int> owpIdExclude)
     {
-        await LinkTwoGame(assignments, schedules, filterDate, owpIdExclude);
-        await LinkThreeGame(assignments, schedules, filterDate, owpIdExclude);
+        LinkTwoGame(assignments, schedules, filterDate, owpIdExclude);
+        LinkThreeGame(assignments, schedules, filterDate, owpIdExclude);
     }
 
-    private async Task LinkTwoGame(
+    private void LinkTwoGame(
         IEnumerable<AssignmentModel> assignments,
         WorkingSchedule schedules,
          DateTime filterDate,
@@ -47,10 +47,10 @@ public class LinkNGameServiceImp : LinkNGameService
             TextColor = ColorCodeConst.TEXT_TWO_GAME
         };
         GetOwpMatchIdExclude(linkNGamePair, owpIdExclude);
-        await UpdateSchedule(linkNGamePair, schedules, assignmentCell, filterDate);
+        UpdateSchedule(linkNGamePair, schedules, assignmentCell, filterDate);
     }
 
-    private async Task LinkThreeGame(
+    private void LinkThreeGame(
         IEnumerable<AssignmentModel> assignments,
         WorkingSchedule schedules,
         DateTime filterDate,
@@ -63,7 +63,7 @@ public class LinkNGameServiceImp : LinkNGameService
             TextColor = ColorCodeConst.TEXT_THREE_GAME
         };
         GetOwpMatchIdExclude(linkNGamePair, owpIdExclude);
-        await UpdateSchedule(linkNGamePair, schedules, assignmentCell, filterDate);
+        UpdateSchedule(linkNGamePair, schedules, assignmentCell, filterDate);
     }
 
     private static void GetOwpMatchIdExclude(IDictionary<DateTime, List<AssignmentModel>> linkNGamePair
@@ -75,7 +75,7 @@ public class LinkNGameServiceImp : LinkNGameService
             owpIdExclude.AddRange(owpMatchId);
         }
     }
-    private async Task UpdateSchedule(
+    private void UpdateSchedule(
         IDictionary<DateTime, List<AssignmentModel>> linkNGamePair,
         WorkingSchedule schedules,
         AssignmentCell assignmentCell,
@@ -105,7 +105,6 @@ public class LinkNGameServiceImp : LinkNGameService
 
             workingSchedule.UpdateWorkingSchedule(scheduleUpdateModel,
                 schedules);
-
         }
     }
 }

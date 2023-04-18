@@ -4,10 +4,9 @@ namespace OWP.AssigneeSuggestionList.Services.RealMatch;
 
 public interface SingleGameGroupService
 {
-    Task Group(
+    void Group(
         IList<AssignmentModel> assignments,
         WorkingSchedule schedule,
-        string groupType,
         Func<IList<AssignmentModel>, ScheduleUpdateModel> buildUpdateScheduleFunc);
 }
 public class SingleGameGroupServiceImp : SingleGameGroupService
@@ -19,10 +18,9 @@ public class SingleGameGroupServiceImp : SingleGameGroupService
         this.workingSchedule = workingSchedule;
     }
 
-    public async Task Group(
+    public void Group(
         IList<AssignmentModel> assignments,
         WorkingSchedule schedule,
-        string groupType,
         Func<IList<AssignmentModel>, ScheduleUpdateModel> buildUpdateScheduleFunc)
     {
         var groupGamePair = assignments

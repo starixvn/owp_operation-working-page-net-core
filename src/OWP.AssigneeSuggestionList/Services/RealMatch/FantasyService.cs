@@ -6,7 +6,7 @@ namespace OWP.AssigneeSuggestionList.Services.RealMatch;
 
 public interface FantasyService
 {
-    Task Group(
+    void Group(
         IList<AssignmentModel> assignments,
         WorkingSchedule schedule,
         DateTime filterDate,
@@ -22,7 +22,7 @@ public class FantasyServiceImp : FantasyService
         this.workingSchedule = workingSchedule;
     }
 
-    public async Task Group(
+    public void Group(
         IList<AssignmentModel> assignments,
         WorkingSchedule schedule,
         DateTime filterDate,
@@ -32,11 +32,10 @@ public class FantasyServiceImp : FantasyService
             ?.Where(a => a.IsFantasyMatch).ToList();
         owpIdExclude.AddRange(matchGroup?.Select(x => x.OWPMatchId).Distinct());
 
-        await workingSchedule.Group(
-            matchGroup,
-            schedule,
-            "[FANTASY]",
-            assignments => BuildScheduleUpdateModel(assignments, filterDate));
+        workingSchedule.Group(
+           matchGroup,
+           schedule,
+           assignments => BuildScheduleUpdateModel(assignments, filterDate));
     }
 
     public static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignments, DateTime filterDate)

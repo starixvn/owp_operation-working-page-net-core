@@ -6,7 +6,7 @@ namespace OWP.AssigneeSuggestionList.Services.RealMatch;
 
 public interface OneGameService
 {
-    Task Group(
+    void Group(
         IList<AssignmentModel> assignments,
          WorkingSchedule schedules,
           DateTime filterDate,
@@ -22,7 +22,7 @@ public class OneGameServiceImp : OneGameService
         this.workingSchedule = workingSchedule;
     }
 
-    public async Task Group(
+    public void Group(
         IList<AssignmentModel> assignments,
          WorkingSchedule schedules,
           DateTime filterDate,
@@ -39,11 +39,10 @@ public class OneGameServiceImp : OneGameService
         owpIdExclude.AddRange(oneGameGroup?.Select(x => x.OWPMatchId).Distinct());
 
 
-        await workingSchedule.Group(
-            oneGameGroup,
-            schedules,
-            "[oneGameGroup]",
-            assignments => BuildScheduleUpdateModel(assignments, filterDate));
+        workingSchedule.Group(
+           oneGameGroup,
+           schedules,
+           assignments => BuildScheduleUpdateModel(assignments, filterDate));
     }
 
     public static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignments, DateTime filterDate)

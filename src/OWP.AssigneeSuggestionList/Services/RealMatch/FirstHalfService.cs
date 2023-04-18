@@ -9,7 +9,7 @@ namespace OWP.AssigneeSuggestionList.Services.RealMatch;
 
 public interface FirstHalfService : IRequest<Unit>
 {
-    Task Group(
+    void Group(
         IList<AssignmentModel> assignments,
          WorkingSchedule schedule,
           DateTime filterDate,
@@ -25,7 +25,7 @@ public class FirstHalfServiceImp : FirstHalfService
         this.workingSchedule = workingSchedule;
     }
 
-    public async Task Group(
+    public void Group(
         IList<AssignmentModel> assignments,
          WorkingSchedule schedule,
          DateTime filterDate,
@@ -47,10 +47,9 @@ public class FirstHalfServiceImp : FirstHalfService
                 gameGroup.AddRange(item.Value);
 
             }
-            await workingSchedule.Group(gameGroup,
-                schedule,
-                "[FIRST_HALF]",
-                assignments => BuildScheduleUpdateModel(assignments, filterDate));
+            workingSchedule.Group(gameGroup,
+               schedule,
+               assignments => BuildScheduleUpdateModel(assignments, filterDate));
         }
     }
 

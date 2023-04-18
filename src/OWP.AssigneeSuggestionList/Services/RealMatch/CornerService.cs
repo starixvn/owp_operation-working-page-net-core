@@ -6,7 +6,7 @@ namespace OWP.AssigneeSuggestionList.Services.RealMatch;
 
 public interface CornerService
 {
-    Task Group(
+    void Group(
         IList<AssignmentModel> assignments,
          WorkingSchedule schedules,
           DateTime filterDate,
@@ -23,7 +23,7 @@ public class CornerServiceImp : CornerService
         this.workingSchedule = workingSchedule;
     }
 
-    public async Task Group(
+    public void Group(
         IList<AssignmentModel> assignments,
         WorkingSchedule schedules,
         DateTime filterDate,
@@ -35,11 +35,10 @@ public class CornerServiceImp : CornerService
             .ToList();
         owpIdExclude.AddRange(gameGroup?.Select(x => x.OWPMatchId).Distinct());
 
-        await workingSchedule.Group(
-            gameGroup,
-            schedules,
-            "[CORNER]",
-            assignmentsCorner => BuildScheduleUpdateModel(assignmentsCorner, filterDate, parentMatchInfo));
+        workingSchedule.Group(
+           gameGroup,
+           schedules,
+           assignmentsCorner => BuildScheduleUpdateModel(assignmentsCorner, filterDate, parentMatchInfo));
     }
 
     public static ScheduleUpdateModel BuildScheduleUpdateModel(

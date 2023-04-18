@@ -50,8 +50,8 @@ public class QueryTraderSuggestionHandler : IRequestHandler<QueryTraderSuggestio
         var sabaAssignments = assignments?.Where(x => x.IsSaba).ToList();
         var realAssignment = assignments?.Except(sabaAssignments).ToList();
 
-        await realMatchServices.MapAssignmentsToWorkingSchedule(workingShifts, realAssignment, parentMatchInfos,
-            request.FilterDate);
+        realMatchServices.MapAssignmentsToWorkingSchedule(workingShifts, realAssignment, parentMatchInfos,
+           request.FilterDate);
         sabaMatchesServices.MapAssignmentsToWorkingSchedules(workingShifts, sabaAssignments, request.FilterDate);
 
         return new SuggestionInfo
