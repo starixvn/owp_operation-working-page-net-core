@@ -27,6 +27,8 @@ public class MatchInfo
 
     public decimal MaxbetHDP { get; set; }
 
+    public decimal SpreadHDP { get; set; }
+
     public string MaxbetHDPInString => ScheduleHelper.FormatMaxbet(MaxbetHDP);
 
     public string SuggestionBetType { get; set; }

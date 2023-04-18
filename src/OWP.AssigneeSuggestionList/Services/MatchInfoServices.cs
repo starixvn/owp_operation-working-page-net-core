@@ -2,6 +2,7 @@
 using OWP.AssigneeSuggestionList.Helper;
 using OWP.AssigneeSuggestionList.Models;
 using OWP.Constants;
+using OWP.Extensions;
 
 namespace OWP.AssigneeSuggestionList.Services;
 public interface MatchInfoServices
@@ -24,6 +25,7 @@ public class MatchInfoServicesImp : MatchInfoServices
         matchInfo.BettypeId = request.BetTypeId;
         matchInfo.FilterDate = request.FilterDate;
         await UpdateEndTime(matchInfo);
+        UpdateSingleMatch(matchInfo);
 
         return matchInfo;
     }
@@ -33,6 +35,26 @@ public class MatchInfoServicesImp : MatchInfoServices
         matchInfo.EndTime = matchInfo.IsSaba
             ? matchInfo.EventDateTime.AddHours(1)
             : matchInfo.EventDateTime.Add(await GetEndTimeForRealMatch(matchInfo));
+    }
+
+    public void UpdateSingleMatch(MatchInfo matchInfo)
+    {
+        matchInfo.IsSingleMatch = matchInfo.MaxbetHDP > 12 || IsSingleMatchSpecialCase(matchInfo);
+    }
+
+    private bool IsSingleMatchSpecialCase(MatchInfo matchInfo)
+    {
+        return matchInfo switch
+        {
+            _ when matchInfo.LeagueName.IsContains("Fantasy ") => true,
+            _ when matchInfo.LeagueName.IsContains("FUTSAL")
+                   && !matchInfo.LeagueName.IsContains("SABA ") => true,
+            _ when matchInfo.MaxbetHDP == 10 && (matchInfo.SpreadHDP == 8 || matchInfo.SpreadHDP == 10)
+                => true,
+            _ when matchInfo.MaxbetHDP == 12 && (matchInfo.SpreadHDP == 8 || matchInfo.SpreadHDP == 10)
+                => true,
+            _ => false
+        };
     }
 
     public async Task<TimeSpan> GetEndTimeForRealMatch(MatchInfo matchInfo)
