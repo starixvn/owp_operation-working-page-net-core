@@ -6,6 +6,23 @@ namespace OWP.AssigneeSuggestionList.UnitTests.Helper;
 
 public class EndTimeHelperUnitTest
 {
+
+    [Fact]
+    public void Update_ForSaBaMatch_ReturnExpect()
+    {
+        var assignment = new List<AssignmentModel>
+        {
+            new () { IsMainMatch = true, EventDateTime = new DateTime(2023, 4, 14, 23, 0, 0),LeagueName = "saba "},
+
+        };
+
+        var parentMatch = new List<ParentMatchInfo>();
+
+        var actual = EndTimeHelper.Update(assignment, parentMatch);
+
+        Assert.Equal(new DateTime(2023, 4, 15, 0, 0, 0), actual[0].EndTime);
+    }
+
     [Fact]
     public void Update_ForFtMatch_ReturnExpect()
     {
@@ -32,11 +49,13 @@ public class EndTimeHelperUnitTest
         var assignment = new List<AssignmentModel>
         {
             new () { IsMainMatch = false ,ParentMatchId = 111,  EventDateTime = new DateTime(2023, 4, 14, 10, 0, 0),BettypeId = -3},
+            new () { IsMainMatch = false ,ParentMatchId = 111,  EventDateTime = new DateTime(2023, 4, 14, 10, 0, 0),BettypeId = -100},
         };
         var parentMatch = new List<ParentMatchInfo> { new() { OwpMatchId = 111, Remark = "ET" } };
 
         var actual = EndTimeHelper.Update(assignment, parentMatch);
 
         Assert.Equal(new DateTime(2023, 4, 14, 13, 0, 0), actual[0].EndTime);
+        Assert.Equal(new DateTime(2023, 4, 14, 12, 0, 0), actual[1].EndTime);
     }
 }

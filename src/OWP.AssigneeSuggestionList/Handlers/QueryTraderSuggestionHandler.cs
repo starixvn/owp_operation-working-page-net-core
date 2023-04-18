@@ -20,38 +20,37 @@ public class QueryTraderSuggestionHandler : IRequestHandler<QueryTraderSuggestio
     private readonly WorkingShiftService workingShiftService;
     private readonly SabaMatchServices sabaMatchesServices;
     private readonly RealMatchServices realMatchServices;
-
+    private readonly MatchInfoServices matchInfoServices;
     public QueryTraderSuggestionHandler(
         Repository repository,
         WorkingShiftService workingShiftService,
         SabaMatchServices sabaMatchesServices,
-        RealMatchServices realMatchServices)
+        RealMatchServices realMatchServices,
+        MatchInfoServices matchInfoServices)
     {
         this.repository = repository;
         this.workingShiftService = workingShiftService;
         this.sabaMatchesServices = sabaMatchesServices;
         this.realMatchServices = realMatchServices;
+        this.matchInfoServices = matchInfoServices;
     }
 
     public async Task<SuggestionInfo> Handle(QueryTraderSuggestionRequest request, CancellationToken cancellationToken)
     {
-        var matchInfo = await repository.QueryMatchInfo(request.OwpMatchId);
-        if (matchInfo == null)
-        {
-            return new SuggestionInfo();
-        }
-        matchInfo.BettypeId = request.BetTypeId;
-        matchInfo.FilterDate = request.FilterDate;
-
+        var matchInfo = await matchInfoServices.GetMatchInfo(request);
         var workingShifts = await workingShiftService.Calculate(request.FilterDate);
         var assignmentRaw = await repository.QueryAssignments(request.FilterDate);
-        var parentMatchInfos = await GetParentMatchInfo(assignmentRaw);
+        var childMatchIds = assignmentRaw
+            ?.Where(a => a.ParentMatchId.HasValue)
+            .Select(a => a.OWPMatchId).ToList();
+        var parentMatchInfos = (await repository
+            .QueryParentMatchInfo(childMatchIds)).ToList();
+        var assignments = EndTimeHelper.Update(assignmentRaw, parentMatchInfos).ToList();
+        var sabaAssignments = assignments?.Where(x => x.IsSaba).ToList();
+        var realAssignment = assignments?.Except(sabaAssignments).ToList();
 
-        var sabaAssignments = assignmentRaw.Where(x => x.IsSaba).ToList();
-        var realAssignmentRaw = assignmentRaw.Except(sabaAssignments).ToList();
-        var realAssignments = EndTimeHelper.Update(realAssignmentRaw, parentMatchInfos).ToList();
-
-        await realMatchServices.MapAssignmentsToWorkingSchedule(workingShifts, realAssignments, parentMatchInfos, request.FilterDate);
+        await realMatchServices.MapAssignmentsToWorkingSchedule(workingShifts, realAssignment, parentMatchInfos,
+            request.FilterDate);
         sabaMatchesServices.MapAssignmentsToWorkingSchedules(workingShifts, sabaAssignments, request.FilterDate);
 
         return new SuggestionInfo
@@ -60,15 +59,4 @@ public class QueryTraderSuggestionHandler : IRequestHandler<QueryTraderSuggestio
             WorkingSchedules = workingShifts.OrderBy(x => x.UserInfo.Username).ToList()
         };
     }
-
-    public async Task<IList<ParentMatchInfo>> GetParentMatchInfo(IList<AssignmentModel> assignmentModels)
-    {
-        var owpMatchId = assignmentModels
-                             ?.Where(a => a.ParentMatchId.HasValue)
-                             .Select(a => a.OWPMatchId)
-                         ?? new List<int>();
-
-        return (await repository.QueryParentMatchInfo(string.Join(",", owpMatchId)))?.ToList();
-    }
-
 }
