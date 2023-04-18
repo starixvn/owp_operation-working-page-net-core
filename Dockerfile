@@ -33,6 +33,7 @@ COPY ./src/OWP.EventPicking/. ./src/OWP.EventPicking
 COPY ./src/OWP.TaskList/. ./src/OWP.TaskList
 COPY ./src/OWP.ProviderArrangement/. ./src/OWP.ProviderArrangement
 COPY ./src/OWP.ResourceManagement/. ./src/OWP.ResourceManagement
+COPY ./src/OWP.AssigneeSuggestionList/. ./src/OWP.AssigneeSuggestionList
 COPY ./OWP.Websites/OWP.Websites.csproj ./OWP.Websites/OWP.Websites.csproj
 
 WORKDIR /src/OWP.Websites

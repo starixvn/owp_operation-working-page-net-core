@@ -380,4 +380,11 @@
 		<Setting Key="OWP_RefResource_Update" SpName="OWP_RefResource_Update" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_RefResource_Insert" SpName="OWP_RefResource_Insert" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 	</Function>
+
+	<Function Name="AssigneeSuggestionList">
+		<Setting Key="OWP_AssigneeSuggestionList_GetMatchInfo" SpName="OWP_AssigneeSuggestionList_GetMatchInfo" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+        <Setting Key="OWP_AssigneeSuggestionList_GetTraderByDate" SpName="OWP_AssigneeSuggestionList_GetTraderByDate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+        <Setting Key="OWP_AssigneeSuggestionList_GetAssignmentByDate" SpName="OWP_AssigneeSuggestionList_GetAssignmentByDate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+        <Setting Key="OWP_AssigneeSuggestionList_GetParentMatchInfo" SpName="OWP_AssigneeSuggestionList_GetParentMatchInfo" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+	</Function>
 </Functions>

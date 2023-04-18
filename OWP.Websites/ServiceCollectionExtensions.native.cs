@@ -22,6 +22,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Newtonsoft.Json;
 using Olympus.SimpleDataApi;
 using OWP.ApiSyncWorkingShift;
+using OWP.AssigneeSuggestionList;
 using OWP.AssignmentUpload;
 using OWP.EventPicking;
 using OWP.FileUpload;
@@ -232,6 +233,7 @@ public static class ServiceCollectionExtensions
         services.AddLiveGameListService();
         services.AddTaskListService();
         services.AddResourceManagement();
+        services.AddSuggestionList();
         return services;
     }
 
@@ -258,6 +260,7 @@ public static class ServiceCollectionExtensions
         services.AddMediatR(typeof(AssignmentUploadingApiController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(TaskListController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(ProviderArrangementController).GetTypeInfo().Assembly);
+        services.AddMediatR(typeof(AssigneeSuggestionController).GetTypeInfo().Assembly);
         return services;
     }
 
@@ -267,7 +270,6 @@ public static class ServiceCollectionExtensions
         services.AddTransient<ILogger, Logger>();
         services.AddSingleton<INapSettings>(new NapSettings(configuration));
         services.AddSingleton<INapSession, NapSession>();
-
         services.AddSingleton<IGroupService, GroupService>();
         services.AddSingleton<IUserService, UserService>();
         services.AddSingleton<ISecurityService, SecurityService>();

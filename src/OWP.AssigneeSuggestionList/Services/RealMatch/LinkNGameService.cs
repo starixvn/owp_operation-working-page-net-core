@@ -1,0 +1,111 @@
+﻿using OWP.AssigneeSuggestionList.Constant;
+using OWP.AssigneeSuggestionList.Helper;
+using OWP.AssigneeSuggestionList.Models;
+
+namespace OWP.AssigneeSuggestionList.Services.RealMatch;
+
+public interface LinkNGameService
+{
+    Task Group(
+        IList<AssignmentModel> assignments,
+         WorkingSchedule schedules,
+         DateTime filterDate,
+         List<int> owpIdExclude);
+
+}
+
+public class LinkNGameServiceImp : LinkNGameService
+{
+
+    private readonly WorkingScheduleService workingSchedule;
+
+    public LinkNGameServiceImp(WorkingScheduleService workingSchedule)
+    {
+        this.workingSchedule = workingSchedule;
+    }
+
+    public async Task Group(
+        IList<AssignmentModel> assignments,
+        WorkingSchedule schedules,
+         DateTime filterDate,
+         List<int> owpIdExclude)
+    {
+        await LinkTwoGame(assignments, schedules, filterDate, owpIdExclude);
+        await LinkThreeGame(assignments, schedules, filterDate, owpIdExclude);
+    }
+
+    private async Task LinkTwoGame(
+        IEnumerable<AssignmentModel> assignments,
+        WorkingSchedule schedules,
+         DateTime filterDate,
+         List<int> owpIdExclude)
+    {
+        var linkNGamePair = LinkGameConditionHelper.GroupGame(assignments, numberGameInGroup => numberGameInGroup == 2);
+        var assignmentCell = new AssignmentCell
+        {
+            Color = ColorCodeConst.TWO_GAME,
+            TextColor = ColorCodeConst.TEXT_TWO_GAME
+        };
+        GetOwpMatchIdExclude(linkNGamePair, owpIdExclude);
+        await UpdateSchedule(linkNGamePair, schedules, assignmentCell, filterDate);
+    }
+
+    private async Task LinkThreeGame(
+        IEnumerable<AssignmentModel> assignments,
+        WorkingSchedule schedules,
+        DateTime filterDate,
+        List<int> owpIdExclude)
+    {
+        var linkNGamePair = LinkGameConditionHelper.GroupGame(assignments, numberGameInGroup => numberGameInGroup == 3);
+        var assignmentCell = new AssignmentCell
+        {
+            Color = ColorCodeConst.THREE_GAME,
+            TextColor = ColorCodeConst.TEXT_THREE_GAME
+        };
+        GetOwpMatchIdExclude(linkNGamePair, owpIdExclude);
+        await UpdateSchedule(linkNGamePair, schedules, assignmentCell, filterDate);
+    }
+
+    private static void GetOwpMatchIdExclude(IDictionary<DateTime, List<AssignmentModel>> linkNGamePair
+       , List<int> owpIdExclude)
+    {
+        foreach (var eventDate in linkNGamePair.Keys)
+        {
+            var owpMatchId = linkNGamePair[eventDate].Select(x => x.OWPMatchId).Distinct();
+            owpIdExclude.AddRange(owpMatchId);
+        }
+    }
+    private async Task UpdateSchedule(
+        IDictionary<DateTime, List<AssignmentModel>> linkNGamePair,
+        WorkingSchedule schedules,
+        AssignmentCell assignmentCell,
+        DateTime filterDate)
+    {
+
+        foreach (var eventDate in linkNGamePair.Keys)
+        {
+            var assignmentPresent = linkNGamePair[eventDate].DistinctBy(a => a.OWPMatchId).ToList();
+            var remark = assignmentPresent.Select(x => x.Remark).ToList();
+            assignmentCell.Text = ScheduleHelper.BuildScheduleTextGroupGame(assignmentPresent);
+
+            var etpkValue = ETPKHelper.BuildEtPkTextDisplay(remark);
+            var timeRange = TimeRangeHelper.CalculateTimeRangeFT(eventDate, !string.IsNullOrEmpty(etpkValue));
+
+            var scheduleUpdateModel = new ScheduleUpdateModel
+            {
+                FilterDate = filterDate,
+                EtPk = new ETPKUpdateSchedule
+                {
+                    IsHasEtPk = !string.IsNullOrEmpty(etpkValue),
+                    EtPkValue = etpkValue
+                },
+                AssignmentCell = assignmentCell,
+                TimeRange = timeRange
+            };
+
+            workingSchedule.UpdateWorkingSchedule(scheduleUpdateModel,
+                schedules);
+
+        }
+    }
+}

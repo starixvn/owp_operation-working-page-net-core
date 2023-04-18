@@ -69,6 +69,7 @@
         <ProjectReference Include="..\src\OWP.RabbitMQ\OWP.RabbitMQ.csproj" />
         <ProjectReference Include="..\src\OWP.ResourceManagement\OWP.ResourceManagement.csproj" />
         <ProjectReference Include="..\src\OWP.TaskList\OWP.TaskList.csproj" />
+        <ProjectReference Include="..\src\OWP.AssigneeSuggestionList\OWP.AssigneeSuggestionList.csproj" />
         <ProjectReference Include="..\src\OWP\OWP.csproj" />
         <ProjectReference Include="..\src\OWP.ApiSyncWorkingShift\OWP.ApiSyncWorkingShift.csproj" />
         <ProjectReference Include="..\src\OWP.Maxbet\OWP.Maxbet.csproj" />
