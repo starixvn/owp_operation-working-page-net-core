@@ -3,7 +3,7 @@ using Fanex.NAP.Client.Helpers.Web;
 using Fanex.NAP.Core.Business;
 using OWP.Constants;
 using OWP.LiveGameList.Builder;
-using OWP.LiveGameList.Consts;
+using OWP.LiveGameList.Const;
 using OWP.LiveGameList.Criteria;
 using OWP.LiveGameList.Models;
 using OWP.Models;
@@ -40,7 +40,7 @@ public class EventInformationServiceImp : EventInformationService
         this.getAdminSiteInfoService = getAdminSiteInfoService;
     }
 
-    public async void BuildInfoMatch()
+    public async Task BuildInfoMatch()
     {
         var infoSiteInfo = await GetInfoSiteInfo();
 
@@ -66,7 +66,7 @@ public class EventInformationServiceImp : EventInformationService
     public async Task<IList<AdminSiteInfoModel>> GetAdminSiteInfo()
     {
         var parentMatchIds = string.Join(',', matchInfos
-            .Where(y => !LiveGameListConsts.StatusNotOffered.Contains(y.MatchStatus))
+            .Where(y => !LiveGameListConst.StatusNotOffered.Contains(y.MatchStatus))
             .Select(x => x.ParentMatchId)
             .Distinct());
 
@@ -90,7 +90,7 @@ public class EventInformationServiceImp : EventInformationService
             tickets.ToList());
 
         await getAdminSiteMatchIdService.UpdateMinorAdminMatchId(matchInfos);
-        BuildInfoMatch();
+        await BuildInfoMatch();
         return matchInfos;
     }
 

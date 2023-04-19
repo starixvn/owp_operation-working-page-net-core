@@ -2,7 +2,7 @@
 using OWP.Models;
 using OWP.Services;
 using OWP.TaskList.Builders;
-using OWP.TaskList.Consts;
+using OWP.TaskList.Const;
 using OWP.TaskList.Criteria;
 using OWP.TaskList.Models;
 
@@ -26,7 +26,9 @@ public class GetEventByDayServiceImp : GetEventByDayService
 
     private readonly GetAdminSiteInfoService getAdminSiteInfoService;
 
-    public GetEventByDayServiceImp(Repository repository, INapSession session, PermissionService permissionService, GetAdminSiteMatchIdService getAdminSiteMatchIdService, GetInfoSiteTimeService getInfoSiteTimeService, GetAdminSiteInfoService getAdminSiteInfoService)
+    public GetEventByDayServiceImp(Repository repository, INapSession session, PermissionService permissionService,
+        GetAdminSiteMatchIdService getAdminSiteMatchIdService, GetInfoSiteTimeService getInfoSiteTimeService,
+        GetAdminSiteInfoService getAdminSiteInfoService)
     {
         this.repository = repository;
         this.session = session;
@@ -60,12 +62,12 @@ public class GetEventByDayServiceImp : GetEventByDayService
             matchInfo = GetEvents(criteria).ToList();
         }
         BuildIPTVCopy(matchInfo);
-        BuildInfoMatch(matchInfo);
+        await BuildInfoMatch(matchInfo);
         await BuildAdminSiteId(matchInfo);
         return matchInfo;
     }
 
-    public async void BuildInfoMatch(IList<MatchInfo> matches)
+    public async Task BuildInfoMatch(IList<MatchInfo> matches)
     {
         var infoSiteInfo = await GetInfoSiteInfo(matches);
 
@@ -91,7 +93,7 @@ public class GetEventByDayServiceImp : GetEventByDayService
     public async Task<IList<AdminSiteInfoModel>> GetAdminSiteInfo(IList<MatchInfo> matches)
     {
         var parentMatchIds = string.Join(',', matches
-            .Where(y => !TaskListConsts.StatusNotOffered.Contains(y.MatchStatus))
+            .Where(y => !TaskListConst.StatusNotOffered.Contains(y.MatchStatus))
             .Select(x => x.ParentMatchId)
             .Distinct());
 
@@ -121,11 +123,11 @@ public class GetEventByDayServiceImp : GetEventByDayService
             });
         }
     }
+
     public IEnumerable<MatchInfo> GetEvents(GetTaskListCriteria criteria)
     {
         var (matchesRaw, assignments, matchSetting, televisions, matchOffers, mainMatchInfo, tickets) = repository
-            .GetTaskList(
-                criteria);
+            .GetTaskList(criteria);
 
         return GetInfo(matchesRaw, assignments, matchSetting, televisions, matchOffers,
             mainMatchInfo, tickets);
