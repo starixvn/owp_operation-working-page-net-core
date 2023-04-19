@@ -3,8 +3,10 @@ using Fanex.NAP.Client.Helpers.Web;
 using Fanex.NAP.Core.Business;
 using OWP.Constants;
 using OWP.LiveGameList.Builder;
+using OWP.LiveGameList.Consts;
 using OWP.LiveGameList.Criteria;
 using OWP.LiveGameList.Models;
+using OWP.Models;
 using OWP.Services;
 
 namespace OWP.LiveGameList.Services;
@@ -21,33 +23,55 @@ public class EventInformationServiceImp : EventInformationService
     private readonly PermissionService permissionService;
     private readonly Repository repository;
     private readonly GetInfoSiteTimeService getInfoSiteTimeService;
+    private readonly GetAdminSiteInfoService getAdminSiteInfoService;
+
 
     private List<MatchInfo> matchInfos = new();
 
 
     public EventInformationServiceImp(Repository repository, INapSession currentSession,
-        GetAdminSiteMatchIdService getAdminSiteMatchIdService, PermissionService permissionService, GetInfoSiteTimeService getInfoSiteTimeService)
+        GetAdminSiteMatchIdService getAdminSiteMatchIdService, PermissionService permissionService, GetInfoSiteTimeService getInfoSiteTimeService, GetAdminSiteInfoService getAdminSiteInfoService)
     {
         this.repository = repository;
         this.currentSession = currentSession;
         this.getAdminSiteMatchIdService = getAdminSiteMatchIdService;
         this.permissionService = permissionService;
         this.getInfoSiteTimeService = getInfoSiteTimeService;
+        this.getAdminSiteInfoService = getAdminSiteInfoService;
     }
 
-    public async void BuildInfoSiteTime()
+    public async void BuildInfoMatch()
     {
-        var parentMatchIds = string.Join(',', matchInfos.Select(x => x.ParentMatchId).Distinct());
+        var infoSiteInfo = await GetInfoSiteInfo();
 
-        var result = await getInfoSiteTimeService.GetInfoSiteTime(parentMatchIds);
+        var adminSiteInfo = await GetAdminSiteInfo();
 
         foreach (var matchInfo in matchInfos)
         {
-            var matchParent = result.FirstOrDefault(x => x.ParentMatchId == matchInfo.ParentMatchId);
-            matchInfo.InfoSiteTime = matchParent?.KickOffTime;
-            matchInfo.InfoSiteTimeDisplay = matchParent?.KichOffTimeDisplay;
+            var infoSite = infoSiteInfo.FirstOrDefault(x => x.ParentMatchId == matchInfo.ParentMatchId);
+            var adminSite = adminSiteInfo.FirstOrDefault(x => x.ParentMatchId == matchInfo.ParentMatchId);
+            matchInfo.InfoSiteTime = infoSite?.KickOffTime;
+            matchInfo.InfoSiteTimeDisplay = infoSite?.KichOffTimeDisplay;
+            matchInfo.IsShowAbsenceIcon = adminSite.IsShowAbsenceIcon;
         }    
-    }    
+    }
+    
+    public async Task<IEnumerable<InfoSiteTimeModel>> GetInfoSiteInfo()
+    {
+        var parentMatchIds = string.Join(',', matchInfos.Select(x => x.ParentMatchId).Distinct());
+
+        return await getInfoSiteTimeService.GetInfoSiteTime(parentMatchIds);
+    }
+
+    public async Task<IEnumerable<AdminSiteInfoModel>> GetAdminSiteInfo()
+    {
+        var parentMatchIds = string.Join(',', matchInfos
+            .Where(y => !LiveGameListConsts.StatusNotOffered.Contains(y.MatchStatus))
+            .Select(x => x.ParentMatchId)
+            .Distinct());
+
+        return await getAdminSiteInfoService.GetAdminSiteInfo(parentMatchIds);
+    }
 
     public async Task<IEnumerable<MatchInfo>> GetEvents(DateTime eventDate, string statusId)
     {
@@ -66,7 +90,7 @@ public class EventInformationServiceImp : EventInformationService
             tickets.ToList());
 
         await getAdminSiteMatchIdService.UpdateMinorAdminMatchId(matchInfos);
-        BuildInfoSiteTime();
+        BuildInfoMatch();
         return matchInfos;
     }
 

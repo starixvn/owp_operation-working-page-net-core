@@ -137,6 +137,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<GetAdminSiteMatchIdService, GetAdminSiteMatchIdServiceImp>();
         services.AddScoped<PermissionService, PermissionServiceImp>();
         services.AddScoped<GetInfoSiteTimeService, GetInfoSiteTimeServiceImp>();
+        services.AddScoped<GetAdminSiteInfoService, GetAdminSiteInfoServiceImp>();
         return services;
     }
 

@@ -71,8 +71,8 @@ public class AssignmentUploadingApiController : ControllerBase
 
         if (viewModel.IsSuccessful)
         {
-            //NotifyForAssignmentUpload(request);
-            //NotifyForPrematch(request);
+            NotifyForAssignmentUpload(request);
+            NotifyForPrematch(request);
         }
 
         return Ok(viewModel);
