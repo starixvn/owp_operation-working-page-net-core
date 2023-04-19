@@ -7,7 +7,6 @@ public interface SpecialGameService
     void MapAssignmentsToWorkingSchedule(
         WorkingSchedule schedule,
         IList<AssignmentModel> assignmentModels,
-        IList<ParentMatchInfo> parentMatchInfo,
         DateTime fromDate,
         List<int> owpIdExclude);
 }
@@ -27,13 +26,10 @@ public class SpecialGameServiceImp : SpecialGameService
     public void MapAssignmentsToWorkingSchedule(
         WorkingSchedule schedule,
         IList<AssignmentModel> assignmentModels,
-        IList<ParentMatchInfo> parentMatchInfo,
         DateTime fromDate,
         List<int> owpIdExclude)
     {
-
-
-        cornerService.Group(assignmentModels, schedule, fromDate, parentMatchInfo, owpIdExclude);
-        xMinsGroupService.Group(assignmentModels, schedule, fromDate, parentMatchInfo, owpIdExclude);
+        cornerService.Group(assignmentModels, schedule, fromDate, owpIdExclude);
+        xMinsGroupService.Group(assignmentModels, schedule, fromDate, owpIdExclude);
     }
 }

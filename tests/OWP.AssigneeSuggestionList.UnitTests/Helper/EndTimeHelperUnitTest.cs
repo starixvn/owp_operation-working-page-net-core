@@ -16,9 +16,7 @@ public class EndTimeHelperUnitTest
 
         };
 
-        var parentMatch = new List<ParentMatchInfo>();
-
-        var actual = EndTimeHelper.Update(assignment, parentMatch);
+        var actual = EndTimeHelper.Update(assignment);
 
         Assert.Equal(new DateTime(2023, 4, 15, 0, 0, 0), actual[0].EndTime);
     }
@@ -33,9 +31,8 @@ public class EndTimeHelperUnitTest
             new () { IsMainMatch = true, EventDateTime = new DateTime(2023, 4, 14, 10, 0, 0),BettypeId = 1,Remark = "aPKETaa"},
             new () { IsMainMatch = true, EventDateTime = new DateTime(2023, 4, 14, 10, 0, 0),BettypeId = 7},
         };
-        var parentMatch = new List<ParentMatchInfo>();
 
-        var actual = EndTimeHelper.Update(assignment, parentMatch);
+        var actual = EndTimeHelper.Update(assignment);
 
         Assert.Equal(new DateTime(2023, 4, 14, 12, 0, 0), actual[0].EndTime);
         Assert.Equal(new DateTime(2023, 4, 14, 12, 30, 0), actual[1].EndTime);
@@ -48,12 +45,11 @@ public class EndTimeHelperUnitTest
     {
         var assignment = new List<AssignmentModel>
         {
-            new () { IsMainMatch = false ,ParentMatchId = 111,  EventDateTime = new DateTime(2023, 4, 14, 10, 0, 0),BettypeId = -3},
-            new () { IsMainMatch = false ,ParentMatchId = 111,  EventDateTime = new DateTime(2023, 4, 14, 10, 0, 0),BettypeId = -100},
+            new () { IsMainMatch = false, EventDateTime = new DateTime(2023, 4, 14, 10, 0, 0), BettypeId = 1, MinorBettypeId = -3, Remark = "ETPK"},
+            new () { IsMainMatch = false, EventDateTime = new DateTime(2023, 4, 14, 10, 0, 0), BettypeId = -100},
         };
-        var parentMatch = new List<ParentMatchInfo> { new() { OwpMatchId = 111, Remark = "ET" } };
 
-        var actual = EndTimeHelper.Update(assignment, parentMatch);
+        var actual = EndTimeHelper.Update(assignment);
 
         Assert.Equal(new DateTime(2023, 4, 14, 13, 0, 0), actual[0].EndTime);
         Assert.Equal(new DateTime(2023, 4, 14, 12, 0, 0), actual[1].EndTime);

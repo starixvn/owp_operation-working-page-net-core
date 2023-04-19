@@ -22,6 +22,7 @@ public class QueryTraderSuggestionHandler : IRequestHandler<QueryTraderSuggestio
     private readonly SabaMatchServices sabaMatchesServices;
     private readonly RealMatchServices realMatchServices;
     private readonly MatchInfoServices matchInfoServices;
+
     public QueryTraderSuggestionHandler(
         Repository repository,
         WorkingShiftService workingShiftService,
@@ -41,19 +42,36 @@ public class QueryTraderSuggestionHandler : IRequestHandler<QueryTraderSuggestio
         var matchInfo = await matchInfoServices.GetMatchInfo(request);
         var workingShifts = await workingShiftService.Calculate(request.FilterDate);
         var assignmentRaw = await repository.QueryAssignments(request.FilterDate);
-        var childMatchIds = assignmentRaw
-            ?.Where(a => a.ParentMatchId.HasValue)
-            .Select(a => a.OWPMatchId).ToList();
-        var parentMatchInfos = (await repository
-            .QueryParentMatchInfo(childMatchIds)).ToList();
-        var assignments = EndTimeHelper.Update(assignmentRaw, parentMatchInfos).ToList();
-        var sabaAssignments = assignments?.Where(x => x.IsSaba).ToList();
-        var realAssignment = assignments?.Except(sabaAssignments).ToList();
 
-        realMatchServices.MapAssignmentsToWorkingSchedule(workingShifts, realAssignment, parentMatchInfos,
-           request.FilterDate);
+        MapAssignmentToWorkingSchedule(request, assignmentRaw, workingShifts);
+        return CategoryAssignees(matchInfo, workingShifts);
+    }
+
+    private void MapAssignmentToWorkingSchedule(
+        QueryTraderSuggestionRequest request,
+        IList<AssignmentModel> assignmentRaw,
+        IList<WorkingSchedule> workingShifts)
+    {
+        var assignments = EndTimeHelper.Update(assignmentRaw).ToList();
+        var sabaAssignments = assignments.Where(x => x.IsSaba).ToList();
+        var realAssignment = assignments.Except(sabaAssignments).ToList();
+
+        realMatchServices.MapAssignmentsToWorkingSchedule(workingShifts, realAssignment, request.FilterDate);
         sabaMatchesServices.MapAssignmentsToWorkingSchedules(workingShifts, sabaAssignments, request.FilterDate);
+    }
 
+    private SuggestionInfo CategoryAssignees(MatchInfo matchInfo, List<WorkingSchedule> workingShifts)
+    {
+        if (matchInfo.IsSaba)
+        {
+            return new SuggestionInfo
+            {
+                MatchInfo = matchInfo,
+                FullyAvailable = workingShifts
+            };
+        }
+
+        realMatchServices.CategoryAssignee(workingShifts, matchInfo);
         return new SuggestionInfo
         {
             MatchInfo = matchInfo,
@@ -63,7 +81,7 @@ public class QueryTraderSuggestionHandler : IRequestHandler<QueryTraderSuggestio
         };
     }
 
-    public List<WorkingSchedule> GetWorkingSchedulesByType(CategoryType type, List<WorkingSchedule> workingShifts)
+    private static List<WorkingSchedule> GetWorkingSchedulesByType(CategoryType type, IEnumerable<WorkingSchedule> workingShifts)
         => workingShifts.Where(x => x.CategoryType == type)
                         .OrderBy(x => x.UserInfo.Username)
                         .ToList();

@@ -46,6 +46,8 @@ public class AssignmentModel
 
     public DateTime EndTime { get; set; }
 
+    public int? MinorBettypeId { get; set; }
+
     [JsonIgnore]
     public List<AssignmentModel> GroupAssignmentModels { get; set; }
 

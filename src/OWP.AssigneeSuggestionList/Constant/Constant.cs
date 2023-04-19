@@ -76,15 +76,15 @@ public static class ColorCodeConst
     }.ToImmutableDictionary();
 }
 
-public static class ETPk
+public static class ETPKConstant
 {
-    public const string EtPk = "ETPK";
+    public const string ETPK = "ETPK";
 
-    public const string Et = "ET";
+    public const string ET = "ET";
 
-    public const string Pk = "PK";
+    public const string PK = "PK";
 
-    public const string EtPkConfirm = "Pls cfm this game have ET, PK or not";
+    public const string ETPK_Confirm = "Pls cfm this game have ET, PK or not";
 }
 
 public static class WorkingShiftConst

@@ -70,13 +70,12 @@ public class MatchInfoServicesUnitTests
                 MaxbetHDP = 11000,
                 IsMainMatch = false,
                 ParentMatchId = 12,
-
+                Remark = "ET",
+                MinorBettypeId = -3
             });
-        repository.QueryParentMatchInfo(Arg.Any<List<int>>()).Returns(new List<ParentMatchInfo>
-            { new() { OwpMatchId = 12, Remark = "ET" } });
-        var service = new MatchInfoServicesImp(repository);
 
-        var actual = await service.GetMatchInfo(new QueryTraderSuggestionRequest() { BetTypeId = -3 });
+        var service = new MatchInfoServicesImp(repository);
+        var actual = await service.GetMatchInfo(new QueryTraderSuggestionRequest() { BetTypeId = 1 });
 
         Assert.Equal(new DateTime(2023, 4, 19, 17, 0, 0, 0), actual?.EndTime);
         Assert.Equal(true, actual?.IsSingleMatch);

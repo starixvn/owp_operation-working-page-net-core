@@ -1,32 +1,29 @@
 using OWP.AssigneeSuggestionList.Constant;
+using OWP.Constants;
+using OWP.Extensions;
 
 namespace OWP.AssigneeSuggestionList.Helper;
 
 public static class ETPKHelper
 {
-    public static string DetectExtraTime(string remark)
+    public static string DetectExtraTime(string remark, int? minorMatchId = null)
     {
-        var extraTime = string.Empty;
-        if (IsEtPkMatch(remark))
-        {
-            extraTime = ETPk.EtPk;
-        }
-        if (IsPkMatch(remark))
-        {
-            extraTime = ETPk.Pk;
-        }
-        return extraTime;
-    }
+        var containsET = remark.IsContains(ETPKConstant.ET);
+        var containsPK = remark.IsContains(ETPKConstant.PK);
+        var isEqualETPK = string.Equals(remark, ETPKConstant.ETPK_Confirm, StringComparison.OrdinalIgnoreCase);
+        var isETPK = containsET && containsPK || isEqualETPK;
+        var canConsiderET = minorMatchId is Bettype.NextCorner or Bettype.NextBooking or Bettype.Corner or Bettype.TotalBooking;
 
-    public static string DetectExtraTimeCorner(string parentRemark, string remark)
-    {
-        var extraTimeCorner = DetectExtraTime(remark);
-        if (string.IsNullOrEmpty(extraTimeCorner)
-            && IsEtPkMatch(parentRemark))
+        if (isETPK)
         {
-            extraTimeCorner = ETPk.Et;
+            return canConsiderET ? ETPKConstant.ET : ETPKConstant.ETPK;
         }
-        return extraTimeCorner;
+        if (!containsET && containsPK)
+        {
+            return ETPKConstant.PK;
+        }
+
+        return string.Empty;
     }
 
     public static string BuildEtPkTextDisplay(IList<string> remark)
@@ -42,11 +39,4 @@ public static class ETPKHelper
         }
         return string.Join("+", etpkValues);
     }
-
-    private static bool IsEtPkMatch(string remark)
-        => remark is not null && remark.Contains(ETPk.Et, StringComparison.OrdinalIgnoreCase) && remark.Contains(ETPk.Pk, StringComparison.OrdinalIgnoreCase)
-           || string.Equals(remark, ETPk.EtPkConfirm, StringComparison.OrdinalIgnoreCase);
-
-    private static bool IsPkMatch(string remark)
-        => remark is not null && !remark.Contains(ETPk.Et, StringComparison.OrdinalIgnoreCase) && remark.Contains(ETPk.Pk, StringComparison.OrdinalIgnoreCase);
 }

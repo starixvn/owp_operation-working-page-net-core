@@ -7,8 +7,9 @@ public interface RealMatchServices
 {
     void MapAssignmentsToWorkingSchedule(IEnumerable<WorkingSchedule> schedules,
         IList<AssignmentModel> assignmentModels,
-        IList<ParentMatchInfo> parentMatchInfo,
         DateTime filterDate);
+
+    void CategoryAssignee(List<WorkingSchedule> schedules, MatchInfo matchInfo);
 }
 
 public class RealMatchServicesImp : RealMatchServices
@@ -17,23 +18,25 @@ public class RealMatchServicesImp : RealMatchServices
     private readonly MainGameService mainGameServices;
     private readonly LinkGameService linkGameService;
     private readonly SpecialGameService specialGameService;
+    private readonly CategorizeRealMatchServices categorizeRealMatchServices;
 
     public RealMatchServicesImp(
         EtPkService etPkService,
         MainGameService mainGameServices,
         LinkGameService linkGameService,
-        SpecialGameService specialGameService)
+        SpecialGameService specialGameService,
+        CategorizeRealMatchServices categorizeRealMatchServices)
     {
         this.etPkService = etPkService;
         this.mainGameServices = mainGameServices;
         this.linkGameService = linkGameService;
         this.specialGameService = specialGameService;
+        this.categorizeRealMatchServices = categorizeRealMatchServices;
     }
 
     public void MapAssignmentsToWorkingSchedule(
         IEnumerable<WorkingSchedule> schedules,
         IList<AssignmentModel> assignmentModels,
-        IList<ParentMatchInfo> parentMatchInfo,
         DateTime filterDate)
     {
         var fromDate = filterDate.Date.AddHours(12);
@@ -43,7 +46,7 @@ public class RealMatchServicesImp : RealMatchServices
             var owpIdExclude = new List<int>();
             var assignments = GetAssignmentsBelongWs(assignmentModels, schedule);
             mainGameServices.MapAssignmentsToWorkingSchedule(schedule, assignments, fromDate, owpIdExclude);
-            specialGameService.MapAssignmentsToWorkingSchedule(schedule, assignments, parentMatchInfo, fromDate, owpIdExclude);
+            specialGameService.MapAssignmentsToWorkingSchedule(schedule, assignments, fromDate, owpIdExclude);
             linkGameService.MapAssignmentsToWorkingSchedule(schedule, assignments, fromDate, owpIdExclude);
             etPkService.Group(assignments, schedule, fromDate, owpIdExclude);
         }
@@ -54,4 +57,9 @@ public class RealMatchServicesImp : RealMatchServices
             x.UserId == schedule.UserInfo.UserId &&
             DateTime.Compare(x.EventDateTime, schedule.UserInfo.ShiftStartTime) >= 0 &&
             DateTime.Compare(x.EventDateTime, schedule.UserInfo.ShiftEndTime) < 0).ToList();
+
+    public void CategoryAssignee(List<WorkingSchedule> schedules, MatchInfo matchInfo)
+    {
+        categorizeRealMatchServices.Categorize(schedules, matchInfo);
+    }
 }

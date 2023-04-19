@@ -1,4 +1,3 @@
-using NSubstitute;
 using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Models;
 using OWP.AssigneeSuggestionList.Services.RealMatch;
@@ -9,40 +8,10 @@ namespace OWP.AssigneeSuggestionList.UnitTests.Services
 {
     public class CornerServiceUnitTests
     {
-        private List<ParentMatchInfo> parentMatchInfo = new List<ParentMatchInfo>();
-        private List<AssignmentModel> assignments = new List<AssignmentModel>();
-
-        private List<AssignmentModel> assignmentsCorner = new List<AssignmentModel>();
-
-        private readonly SingleGameGroupService singleGameGroupService;
+        private readonly List<AssignmentModel> assignmentsCorner;
 
         public CornerServiceUnitTests()
         {
-            this.singleGameGroupService = Substitute.For<SingleGameGroupService>(); ;
-        }
-
-        private void Initialize()
-        {
-            parentMatchInfo = new List<ParentMatchInfo>()
-            {
-                new ParentMatchInfo{
-                    OwpMatchId=1,
-                    Remark="ETPK",
-                    KOTime=DateTime.Parse("2023-3-31 18:05:00").TimeOfDay
-                }
-            };
-
-            assignments = new List<AssignmentModel>()
-            {
-                new AssignmentModel(){
-                    OWPMatchId=1,
-                    KOTime=DateTime.Parse("2023-3-31 18:00:00").TimeOfDay,
-                    EventDateTime=DateTime.Parse("2023-3-31 18:00:00"),
-                    BettypeId= 1,
-                    UserId=123,
-                    Remark="ETPK"
-                }
-            };
             assignmentsCorner = new List<AssignmentModel>()
             {
                 new AssignmentModel(){
@@ -52,7 +21,9 @@ namespace OWP.AssigneeSuggestionList.UnitTests.Services
                     IsCornerMatch=true,
                     BettypeId= 1,
                     UserId=123,
-                    ParentMatchId=1
+                    ParentMatchId=1,
+                    MinorBettypeId = -4,
+                    Remark="ETPK",
                 }
             };
         }
@@ -60,10 +31,7 @@ namespace OWP.AssigneeSuggestionList.UnitTests.Services
         [Fact]
         public void BuildScheduleUpdateModel_ReturnScheduleUpdateModel()
         {
-            // Arrange
-            Initialize();
-
-            var result = CornerServiceImp.BuildScheduleUpdateModel(assignmentsCorner, DateTime.Parse("2023-3-31 18:05:00"), parentMatchInfo);
+            var result = CornerServiceImp.BuildScheduleUpdateModel(assignmentsCorner, DateTime.Parse("2023-3-31 18:05:00"));
 
             var expect = new ScheduleUpdateModel
             {

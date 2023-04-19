@@ -8,9 +8,8 @@ public interface CornerService
 {
     void Group(
         IList<AssignmentModel> assignments,
-         WorkingSchedule schedules,
-          DateTime filterDate,
-          IList<ParentMatchInfo> parentMatchInfo,
+        WorkingSchedule schedules,
+        DateTime filterDate,
         List<int> owpIdExclude);
 }
 
@@ -27,7 +26,6 @@ public class CornerServiceImp : CornerService
         IList<AssignmentModel> assignments,
         WorkingSchedule schedules,
         DateTime filterDate,
-        IList<ParentMatchInfo> parentMatchInfo,
         List<int> owpIdExclude)
     {
         var gameGroup = assignments
@@ -38,13 +36,10 @@ public class CornerServiceImp : CornerService
         workingSchedule.Group(
            gameGroup,
            schedules,
-           assignmentsCorner => BuildScheduleUpdateModel(assignmentsCorner, filterDate, parentMatchInfo));
+            assignmentsCorner => BuildScheduleUpdateModel(assignmentsCorner, filterDate));
     }
 
-    public static ScheduleUpdateModel BuildScheduleUpdateModel(
-        IList<AssignmentModel> assignmentsCorner,
-          DateTime filterDate,
-           IList<ParentMatchInfo> parentMatchInfo)
+    public static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignmentsCorner, DateTime filterDate)
     {
         var assignmentCell = new AssignmentCell
         {
@@ -52,9 +47,8 @@ public class CornerServiceImp : CornerService
             TextColor = ColorCodeConst.TEXT_CORNER,
             Text = ScheduleHelper.BuildScheduleTextSingleGame(assignmentsCorner.First())
         };
-        var gameInfo = ScheduleHelper.GetMinorGameInfo(assignmentsCorner);
-        var parentGame = parentMatchInfo?.FirstOrDefault(g => g.OwpMatchId == gameInfo.parentMatchId);
-        var etPkValue = ETPKHelper.DetectExtraTimeCorner(parentGame?.Remark, gameInfo.remark);
+        var gameInfo = ScheduleHelper.GetGameInfo(assignmentsCorner);
+        var etPkValue = ETPKHelper.DetectExtraTime(gameInfo.remark, gameInfo.minorBettypeId);
 
         return new ScheduleUpdateModel
         {
