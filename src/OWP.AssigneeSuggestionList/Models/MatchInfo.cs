@@ -18,9 +18,6 @@ public class MatchInfo
 
     public DateTime EventDate { get; set; }
 
-    public DateTime EventDateTime { get; set; }
-
-
     public DateTime EndTime { get; set; }
 
     public string MatchNo { get; set; }

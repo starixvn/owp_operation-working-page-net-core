@@ -33,13 +33,13 @@ public class MatchInfoServicesImp : MatchInfoServices
     public async Task UpdateEndTime(MatchInfo matchInfo)
     {
         matchInfo.EndTime = matchInfo.IsSaba
-            ? matchInfo.EventDateTime.AddHours(1)
-            : matchInfo.EventDateTime.Add(await GetEndTimeForRealMatch(matchInfo));
+            ? matchInfo.KOTime.AddHours(1)
+            : matchInfo.KOTime.Add(await GetEndTimeForRealMatch(matchInfo));
     }
 
     public void UpdateSingleMatch(MatchInfo matchInfo)
     {
-        matchInfo.IsSingleMatch = matchInfo.MaxbetHDP > 12 || IsSingleMatchSpecialCase(matchInfo);
+        matchInfo.IsSingleMatch = matchInfo.MaxbetHDP > 12_000 || IsSingleMatchSpecialCase(matchInfo);
     }
 
     private bool IsSingleMatchSpecialCase(MatchInfo matchInfo)
@@ -48,9 +48,9 @@ public class MatchInfoServicesImp : MatchInfoServices
             _ when matchInfo.LeagueName.IsContains("Fantasy ") => true,
             _ when matchInfo.LeagueName.IsContains("FUTSAL")
                    && !matchInfo.LeagueName.IsContains("SABA ") => true,
-            _ when matchInfo.MaxbetHDP == 10 && (matchInfo.SpreadHDP == 8 || matchInfo.SpreadHDP == 10)
+            _ when matchInfo.MaxbetHDP == 10_000 && (matchInfo.SpreadHDP == (decimal)0.08 || matchInfo.SpreadHDP == (decimal)0.10)
                 => true,
-            _ when matchInfo.MaxbetHDP == 12 && (matchInfo.SpreadHDP == 8 || matchInfo.SpreadHDP == 10)
+            _ when matchInfo.MaxbetHDP == 12_000 && (matchInfo.SpreadHDP == (decimal)0.08 || matchInfo.SpreadHDP == (decimal)0.10)
                 => true,
             _ => false
         };

@@ -1,5 +1,4 @@
-﻿using NSubstitute;
-using OWP.AssigneeSuggestionList.Models;
+﻿using OWP.AssigneeSuggestionList.Models;
 using OWP.AssigneeSuggestionList.Services;
 using OWP.AssigneeSuggestionList.Services.RealMatch;
 using Xunit;
@@ -8,15 +7,6 @@ using MatchType = OWP.AssigneeSuggestionList.Constant.MatchType;
 namespace OWP.AssigneeSuggestionList.UnitTests.Services;
 public class SingleGameGroupServiceUnitTests
 {
-    private readonly Repository repository;
-
-
-    public SingleGameGroupServiceUnitTests()
-    {
-        repository = Substitute.For<Repository>();
-
-
-    }
 
     [Fact]
     public void Calculate_Group_ReturnMatchTypeDefault()
