@@ -145,5 +145,5 @@ public class MatchInfo
 
     public string InfoSiteTimeDisplay { get; set; }
 
-    public bool IsShowAbsenceIcon { get; set; } = false;
+    public bool IsShowAbsenceIcon { get; set; }
 }

@@ -15,6 +15,9 @@ public class EventInformationServiceUnitTest
     private readonly GetAdminSiteMatchIdService getAdminSiteMatchIdService;
     private readonly PermissionService permissionService;
     private readonly Repository repository;
+    private readonly GetInfoSiteTimeService getInfoSiteTimeService;
+    private readonly GetAdminSiteInfoService getAdminSiteInfoService;
+
 
     public EventInformationServiceUnitTest()
     {
@@ -22,6 +25,8 @@ public class EventInformationServiceUnitTest
         getAdminSiteMatchIdService = Substitute.For<GetAdminSiteMatchIdService>();
         permissionService = Substitute.For<PermissionService>();
         repository = Substitute.For<Repository>();
+        getInfoSiteTimeService = Substitute.For<GetInfoSiteTimeService>();
+        getAdminSiteInfoService = Substitute.For<GetAdminSiteInfoService>();
     }
 
     [Fact]
@@ -47,7 +52,7 @@ public class EventInformationServiceUnitTest
             LengthLeague = 10
             }
         };
-        var service = new EventInformationServiceImp(repository, currentSession, getAdminSiteMatchIdService, permissionService);
+        var service = new EventInformationServiceImp(repository, currentSession, getAdminSiteMatchIdService, permissionService, getInfoSiteTimeService, getAdminSiteInfoService);
         var actual = await service.GetEvents(new DateTime(), "1,2,3,4");
 
         Assert.Equal(expected.First().IPTVCopy, actual.First().IPTVCopy);

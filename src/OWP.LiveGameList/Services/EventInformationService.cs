@@ -52,25 +52,25 @@ public class EventInformationServiceImp : EventInformationService
             var adminSite = adminSiteInfo.FirstOrDefault(x => x.ParentMatchId == matchInfo.ParentMatchId);
             matchInfo.InfoSiteTime = infoSite?.KickOffTime;
             matchInfo.InfoSiteTimeDisplay = infoSite?.KichOffTimeDisplay;
-            matchInfo.IsShowAbsenceIcon = adminSite.IsShowAbsenceIcon;
+            matchInfo.IsShowAbsenceIcon = adminSite?.IsShowAbsenceIcon ?? false;
         }    
     }
     
-    public async Task<IEnumerable<InfoSiteTimeModel>> GetInfoSiteInfo()
+    public async Task<IList<InfoSiteTimeModel>> GetInfoSiteInfo()
     {
         var parentMatchIds = string.Join(',', matchInfos.Select(x => x.ParentMatchId).Distinct());
 
-        return await getInfoSiteTimeService.GetInfoSiteTime(parentMatchIds);
+        return (await getInfoSiteTimeService.GetInfoSiteTime(parentMatchIds)).ToList();
     }
 
-    public async Task<IEnumerable<AdminSiteInfoModel>> GetAdminSiteInfo()
+    public async Task<IList<AdminSiteInfoModel>> GetAdminSiteInfo()
     {
         var parentMatchIds = string.Join(',', matchInfos
             .Where(y => !LiveGameListConsts.StatusNotOffered.Contains(y.MatchStatus))
             .Select(x => x.ParentMatchId)
             .Distinct());
 
-        return await getAdminSiteInfoService.GetAdminSiteInfo(parentMatchIds);
+        return (await getAdminSiteInfoService.GetAdminSiteInfo(parentMatchIds)).ToList();
     }
 
     public async Task<IEnumerable<MatchInfo>> GetEvents(DateTime eventDate, string statusId)
