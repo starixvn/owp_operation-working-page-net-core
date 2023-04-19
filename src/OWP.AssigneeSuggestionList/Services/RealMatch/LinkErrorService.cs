@@ -2,6 +2,7 @@ using MediatR;
 using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Helper;
 using OWP.AssigneeSuggestionList.Models;
+using MatchType = OWP.AssigneeSuggestionList.Constant.MatchType;
 
 
 namespace OWP.AssigneeSuggestionList.Services.RealMatch;
@@ -49,9 +50,13 @@ public class LinkErrorServiceImp : LinkErrorService
                 AssignmentCell = assignmentCell,
                 TimeRange = (eventDate, eventDate)
             };
-
+            var assignmentPresent = linkNGamePair[eventDate].MinBy(x => x.BettypeId);
+            if (assignmentPresent != null)
+            {
+                assignmentPresent.MatchType = MatchType.RealMatchLinkError;
+            }
             workingSchedule.UpdateWorkingSchedule(scheduleUpdateModel,
-                schedule);
+                schedule, assignmentPresent);
         }
     }
 }

@@ -30,8 +30,7 @@ public class FantasyServiceImp : FantasyService
     {
         var matchGroup = assignments
             ?.Where(a => a.IsFantasyMatch).ToList();
-        owpIdExclude.AddRange(matchGroup?.Select(x => x.OWPMatchId).Distinct());
-
+        owpIdExclude.AddRange(matchGroup?.Select(x => x.OWPMatchId).Distinct() ?? Array.Empty<int>());
         workingSchedule.Group(
            matchGroup,
            schedule,

@@ -1,6 +1,7 @@
 using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Helper;
 using OWP.AssigneeSuggestionList.Models;
+using MatchType = OWP.AssigneeSuggestionList.Constant.MatchType;
 
 namespace OWP.AssigneeSuggestionList.Services.RealMatch;
 
@@ -38,11 +39,11 @@ public class OneGameServiceImp : OneGameService
 
         owpIdExclude.AddRange(oneGameGroup?.Select(x => x.OWPMatchId).Distinct());
 
-
         workingSchedule.Group(
            oneGameGroup,
            schedules,
-           assignments => BuildScheduleUpdateModel(assignments, filterDate));
+           assignments => BuildScheduleUpdateModel(assignments, filterDate),
+           MatchType.RealMatchLink1G);
     }
 
     public static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignments, DateTime filterDate)

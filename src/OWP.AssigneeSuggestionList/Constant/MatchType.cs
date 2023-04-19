@@ -17,5 +17,6 @@ public enum MatchType
     RealMatchLink1G,
     RealMatchLink2G,
     RealMatchLink3G,
+    RealMatchLinkError,
     RealMatchOther
 }

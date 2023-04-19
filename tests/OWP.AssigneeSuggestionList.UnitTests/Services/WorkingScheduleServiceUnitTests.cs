@@ -1,11 +1,5 @@
-﻿using OWP.AssigneeSuggestionList.Constant;
-using OWP.AssigneeSuggestionList.Models;
+﻿using OWP.AssigneeSuggestionList.Models;
 using OWP.AssigneeSuggestionList.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 using Xunit.Asserts.Compare;
 
@@ -41,7 +35,7 @@ public class WorkingScheduleServiceUnitTests
         };
 
         // Act
-        new WorkingScheduleServiceImp().UpdateWorkingSchedule(updateModel, schedule);
+        new WorkingScheduleServiceImp().UpdateWorkingSchedule(updateModel, schedule, new AssignmentModel());
 
         // Assert
         var expect = new WorkingSchedule()
@@ -62,7 +56,8 @@ public class WorkingScheduleServiceUnitTests
                 Text = "",
                 TextColor = "#444444",
                 Color = "#C00000"
-            }
+            },
+            CategorizedAssignments = new List<AssignmentModel> { new AssignmentModel() }
         };
 
         DeepAssert.Equal(expect, schedule);
@@ -100,7 +95,7 @@ public class WorkingScheduleServiceUnitTests
         };
 
         // Act
-        new WorkingScheduleServiceImp().UpdateWorkingSchedule(updateModel, schedule);
+        new WorkingScheduleServiceImp().UpdateWorkingSchedule(updateModel, schedule, new AssignmentModel());
 
         // Assert
         var expect = new WorkingSchedule()
@@ -121,7 +116,8 @@ public class WorkingScheduleServiceUnitTests
                 Text = "ETPK",
                 TextColor = "#FFEA29",
                 Color = "#000000"
-            }
+            },
+            CategorizedAssignments = new List<AssignmentModel> { new AssignmentModel() }
         };
 
         DeepAssert.Equal(expect, schedule);
