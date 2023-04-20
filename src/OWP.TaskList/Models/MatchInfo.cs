@@ -133,9 +133,8 @@ public class MatchInfo
         }
     }
 
-    public string OtherTimeDisplay => OtherTime.HasValue ?
-        OtherTime.Value.ToOWPTimeFormat().Replace(" ", string.Empty)
-        : string.Empty;
+    public string OtherTimeDisplay => OtherTime?.ToOWPTimeFormat();
+       
 
     public string KickOffTimeDisplay => KickOffTime.ToOWPTimeFormat();
 
