@@ -43,17 +43,18 @@ public class MatchInfoServicesImp : MatchInfoServices
     }
 
     private static bool IsSingleMatchSpecialCase(MatchInfo matchInfo)
-        => matchInfo switch
+    {
+        switch (matchInfo)
         {
-            _ when matchInfo.LeagueName.IsContains("Fantasy ") => true,
-            _ when matchInfo.LeagueName.IsContains("FUTSAL")
-                   && !matchInfo.LeagueName.IsContains("SABA ") => true,
-            _ when matchInfo.MaxbetHDP == 10_000 && matchInfo.SpreadHDP is (decimal)0.08 or (decimal)0.10
-                => true,
-            _ when matchInfo.MaxbetHDP == 12_000 && matchInfo.SpreadHDP is (decimal)0.08 or (decimal)0.10
-                => true,
-            _ => false
-        };
+            case var _ when matchInfo.LeagueName.IsContains("Fantasy "):
+            case var _ when matchInfo.LeagueName.IsContains("FUTSAL") && !matchInfo.LeagueName.IsContains("SABA "):
+            case var _ when matchInfo.MaxbetHDP == 10_000 && matchInfo.SpreadHDP is 0.08m or 0.10m:
+            case var _ when matchInfo.MaxbetHDP == 12_000 && matchInfo.SpreadHDP is 0.08m or 0.10m:
+                return true;
+            default:
+                return false;
+        }
+    }
 
     public TimeSpan GetEndTimeForRealMatch(MatchInfo matchInfo)
         => matchInfo.IsMainMatch
