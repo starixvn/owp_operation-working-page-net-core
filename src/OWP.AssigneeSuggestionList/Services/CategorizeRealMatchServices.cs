@@ -56,8 +56,8 @@ public class CategorizeRealMatchServicesImp : CategorizeRealMatchServices
     public static bool IsFreeInRangeTime(List<AssignmentModel> assignments, DateTime kOTime, DateTime endTime)
     {
         var isFreeInRangeTime = !assignments.Any(x =>
-            (x.EventDateTime < kOTime && x.EndTime < kOTime) ||
-            (x.EventDateTime > endTime && x.EndTime > endTime));
+            (x.EventDateTime >= kOTime && x.EventDateTime < endTime) ||
+            (x.EndTime < endTime && x.EndTime >= kOTime));
 
         return isFreeInRangeTime;
     }
@@ -68,8 +68,8 @@ public class CategorizeRealMatchServicesImp : CategorizeRealMatchServices
         if (bettypeId is Bettype.Handicap or Bettype.OverUnder)
         {
             return !assignments.Any(x =>
-                (x.EventDateTime < kOTime && x.EndTime < kOTime) ||
-                (x.EventDateTime > minToTime && x.EndTime > minToTime));
+                (x.EventDateTime >= kOTime && x.EventDateTime < minToTime) ||
+                (x.EndTime < minToTime && x.EndTime >= kOTime));
         }
 
         return false;
@@ -110,5 +110,5 @@ public class CategorizeRealMatchServicesImp : CategorizeRealMatchServices
         };
 
     public static string FormatExplanation(string explanationString, MatchInfo matchInfo)
-        => string.Format(explanationString, matchInfo.KOTime.ToString("hh:mm"), matchInfo.EndTime.ToString("hh:mm"));
+        => string.Format(explanationString, matchInfo.KOTime.ToString("hh:mm tt"), matchInfo.EndTime.ToString("hh:mm tt"));
 }
