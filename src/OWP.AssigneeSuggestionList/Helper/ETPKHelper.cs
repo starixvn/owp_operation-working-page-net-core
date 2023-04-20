@@ -28,15 +28,10 @@ public static class ETPKHelper
 
     public static string BuildEtPkTextDisplay(IList<string> remark)
     {
-        var etpkValues = new List<string>();
-        foreach (var item in remark)
-        {
-            var value = DetectExtraTime(item);
-            if (!string.IsNullOrEmpty(value))
-            {
-                etpkValues.Add(value);
-            }
-        }
+        var etpkValues = remark
+            .Select(item => DetectExtraTime(item))
+            .Where(value => !string.IsNullOrEmpty(value))
+            .ToList();
         return string.Join("+", etpkValues);
     }
 }

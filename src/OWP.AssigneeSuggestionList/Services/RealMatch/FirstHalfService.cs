@@ -27,30 +27,25 @@ public class FirstHalfServiceImp : FirstHalfService
 
     public void Group(
         IList<AssignmentModel> assignments,
-         WorkingSchedule schedule,
-         DateTime filterDate,
+        WorkingSchedule schedule,
+        DateTime filterDate,
         List<int> owpIdExclude)
     {
         var gameGroupPair = assignments
-            ?.GroupBy(x => x.OWPMatchId)
-            .Where(x => x.All(a =>
-                a.BettypeId == (int)EnumBettype.FirstHalfHandicap
-                || a.BettypeId == (int)EnumBettype.FirstHalfOverUnder))
+            .GroupBy(x => x.OWPMatchId)
+            .Where(x => x.All(a => a.BettypeId is (int)EnumBettype.FirstHalfHandicap or (int)EnumBettype.FirstHalfOverUnder))
             .ToDictionary(a => a.Key, a => a.ToList());
 
         var gameGroup = new List<AssignmentModel>();
-        if (gameGroupPair is not null)
+        owpIdExclude.AddRange(gameGroupPair.Keys);
+        foreach (var item in gameGroupPair)
         {
-            owpIdExclude.AddRange(gameGroupPair.Keys);
-            foreach (var item in gameGroupPair)
-            {
-                gameGroup.AddRange(item.Value);
+            gameGroup.AddRange(item.Value);
 
-            }
-            workingSchedule.Group(gameGroup,
-               schedule,
-               assignments => BuildScheduleUpdateModel(assignments, filterDate));
         }
+        workingSchedule.Group(gameGroup,
+           schedule,
+           _ => BuildScheduleUpdateModel(assignments, filterDate));
     }
 
     public static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignments, DateTime filterDate)

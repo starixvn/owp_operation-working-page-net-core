@@ -25,11 +25,13 @@ public class WorkingScheduleServiceImp : WorkingScheduleService
             updateModel.TimeRange.endDate);
 
         updateModel.PropertiesName = scheduleProperties;
-        if (scheduleProperties.Any())
+        if (!scheduleProperties.Any())
         {
-            UpdateWorkingSchedule(schedule, updateModel);
-            schedule.CategorizedAssignments.Add(assignmentPresent);
+            return;
         }
+
+        UpdateWorkingSchedule(schedule, updateModel);
+        schedule.CategorizedAssignments.Add(assignmentPresent);
 
     }
 

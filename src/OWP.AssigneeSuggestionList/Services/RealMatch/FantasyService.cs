@@ -28,13 +28,12 @@ public class FantasyServiceImp : FantasyService
         DateTime filterDate,
         List<int> owpIdExclude)
     {
-        var matchGroup = assignments
-            ?.Where(a => a.IsFantasyMatch).ToList();
-        owpIdExclude.AddRange(matchGroup?.Select(x => x.OWPMatchId).Distinct() ?? Array.Empty<int>());
+        var matchGroup = assignments.Where(a => a.IsFantasyMatch).ToList();
+        owpIdExclude.AddRange(matchGroup.Select(x => x.OWPMatchId).Distinct());
         workingSchedule.Group(
            matchGroup,
            schedule,
-           assignments => BuildScheduleUpdateModel(assignments, filterDate));
+           _ => BuildScheduleUpdateModel(assignments, filterDate));
     }
 
     public static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignments, DateTime filterDate)

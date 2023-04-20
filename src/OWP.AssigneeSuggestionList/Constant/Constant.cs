@@ -43,22 +43,22 @@ public static class ColorCodeConst
 
     public static IList<ColorExplainModel> ColorExplain => new List<ColorExplainModel>
     {
-        new ColorExplainModel("MJ", MJ, TEXT_COLOR_BLACK),
-         new ColorExplainModel("1G", ONE_GAME, TEXT_COLOR_BLACK),
-         new ColorExplainModel("2G", TWO_GAME, TEXT_COLOR_BLACK),
-         new ColorExplainModel("3G", THREE_GAME, TEXT_COLOR_BLACK),
-         new ColorExplainModel("1st half", FIRST_HALF, TEXT_COLOR_BLACK),
-         new ColorExplainModel("Fantasy", FANTASY, TEXT_COLOR_BLACK),
-         new ColorExplainModel("CR/NCR", CORNER, TEXT_COLOR_WHITE),
-         new ColorExplainModel("15M OU", X_MINS, TEXT_COLOR_WHITE),
-         new ColorExplainModel("5M", SABA_5MINS, TEXT_COLOR_WHITE),
-         new ColorExplainModel("Saba Futsal", SABA_FUTSAL, TEXT_COLOR_BLACK),
-         new ColorExplainModel("M88", SABA_M88, TEXT_COLOR_BLACK),
-         new ColorExplainModel("16M", SABA_16MINS, TEXT_COLOR_WHITE),
-         new ColorExplainModel("*1G", SABA_1G, TEXT_COLOR_BLACK),
-         new ColorExplainModel("*2G", SABA_2G, TEXT_COLOR_WHITE),
-         new ColorExplainModel("*3G", SABA_3G, TEXT_COLOR_BLACK),
-         new ColorExplainModel("*4G", SABA_4G, TEXT_COLOR_BLACK)
+         new ("MJ", MJ, TEXT_COLOR_BLACK),
+         new ("1G", ONE_GAME, TEXT_COLOR_BLACK),
+         new ("2G", TWO_GAME, TEXT_COLOR_BLACK),
+         new ("3G", THREE_GAME, TEXT_COLOR_BLACK),
+         new ("1st half", FIRST_HALF, TEXT_COLOR_BLACK),
+         new ("Fantasy", FANTASY, TEXT_COLOR_BLACK),
+         new ("CR/NCR", CORNER, TEXT_COLOR_WHITE),
+         new ("15M OU", X_MINS, TEXT_COLOR_WHITE),
+         new ("5M", SABA_5MINS, TEXT_COLOR_WHITE),
+         new ("Saba Futsal", SABA_FUTSAL, TEXT_COLOR_BLACK),
+         new ("M88", SABA_M88, TEXT_COLOR_BLACK),
+         new ("16M", SABA_16MINS, TEXT_COLOR_WHITE),
+         new ("*1G", SABA_1G, TEXT_COLOR_BLACK),
+         new ("*2G", SABA_2G, TEXT_COLOR_WHITE),
+         new ("*3G", SABA_3G, TEXT_COLOR_BLACK),
+         new ("*4G", SABA_4G, TEXT_COLOR_BLACK)
     };
 
 

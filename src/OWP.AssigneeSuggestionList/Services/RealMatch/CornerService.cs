@@ -29,9 +29,9 @@ public class CornerServiceImp : CornerService
         List<int> owpIdExclude)
     {
         var gameGroup = assignments
-            ?.Where(a => a.IsCornerMatch)
+            .Where(a => a.IsCornerMatch)
             .ToList();
-        owpIdExclude.AddRange(gameGroup?.Select(x => x.OWPMatchId).Distinct());
+        owpIdExclude.AddRange(gameGroup.Select(x => x.OWPMatchId).Distinct());
 
         workingSchedule.Group(
            gameGroup,

@@ -30,11 +30,11 @@ public class MJGroupServiceImp : MJGroupService
     {
         var mJGroup = assignments.Where(a => a.IsMajorLeague)
             .ToList();
-        owpIdExclude.AddRange(mJGroup?.Select(x => x.OWPMatchId).Distinct());
+        owpIdExclude.AddRange(mJGroup.Select(x => x.OWPMatchId).Distinct());
         workingSchedule.Group(
            mJGroup,
            schedules,
-           assignments => BuildScheduleUpdateModel(assignments, filterDate));
+           _ => BuildScheduleUpdateModel(assignments, filterDate));
     }
 
     public static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignments, DateTime filterDate)

@@ -75,42 +75,6 @@ public class CategorizeRealMatchServicesImp : CategorizeRealMatchServices
         return false;
     }
 
-    //public static AssigneeCategory HasAssignmentLinkNGame(UserInfo userInfo, List<AssignmentModel> assignments, MatchInfo matchInfo)
-    //{
-    //    var sameKOTimeAssignments = assignments
-    //        .Where(x => x.EventDateTime.CompareTo(matchInfo.KOTime) == 0).ToList();
-    //    if (!sameKOTimeAssignments.Any())
-    //    {
-    //        return AssigneeCategory.Busy;
-    //    }
-
-    //    switch (userInfo.MixMatchCapacity)
-    //    {
-    //        case MixMatchCapacity.MaxGame2G:
-    //            {
-    //                return sameKOTimeAssignments.Any(x => x.MatchType is MatchType.RealMatchLink1G)
-    //                    ? AssigneeCategory.Capacity2GDoing1G
-    //                    : AssigneeCategory.Busy;
-    //            }
-    //        case MixMatchCapacity.MaxGame3G:
-    //            {
-    //                if (matchInfo.MaxbetHDP <= CategoryConstants.MAX_BET_5K &&
-    //                    sameKOTimeAssignments.Any(x => x.MatchType is MatchType.RealMatchLink2G))
-    //                {
-    //                    return AssigneeCategory.Capacity3GDoing2G;
-    //                }
-
-    //                return sameKOTimeAssignments.Any(x => x.MatchType is MatchType.RealMatchLink1G)
-    //                    ? AssigneeCategory.Capacity3GDoing1G
-    //                    : AssigneeCategory.Busy;
-    //            }
-    //        case MixMatchCapacity.MaxGame1G:
-    //        case MixMatchCapacity.None:
-    //        default:
-    //            return AssigneeCategory.Busy;
-    //    }
-    //}
-
     public static AssigneeCategory HasAssignmentLinkNGame(UserInfo userInfo, List<AssignmentModel> assignments, MatchInfo matchInfo)
     {
         var sameKOTimeAssignments = assignments
@@ -130,7 +94,7 @@ public class CategorizeRealMatchServicesImp : CategorizeRealMatchServices
             (MixMatchCapacity.MaxGame3G, false, true) => matchInfo.MaxbetHDP <= CategoryConstants.MAX_BET_5K
                 ? AssigneeCategory.Capacity3GDoing2G
                 : AssigneeCategory.Busy,
-            _ => AssigneeCategory.Busy,
+            _ => AssigneeCategory.Busy
         };
     }
 
@@ -142,7 +106,7 @@ public class CategorizeRealMatchServicesImp : CategorizeRealMatchServices
             AssigneeCategory.Capacity3GDoing2G => (CategoryType.FullyAvailable, ExplanationConstants.CAPACITY_3G_DOING_2G),
             AssigneeCategory.Capacity3GDoing1G => (CategoryType.FullyAvailable, ExplanationConstants.CAPACITY_3G_DOING_1G),
             AssigneeCategory.PartiallyFree => (CategoryType.PartiallyAvailable, FormatExplanation(ExplanationConstants.PARTIALLY_AVAILABLE, matchInfo)),
-            _ => (CategoryType.Busy, ExplanationConstants.BUSY),
+            _ => (CategoryType.Busy, ExplanationConstants.BUSY)
         };
 
     public static string FormatExplanation(string explanationString, MatchInfo matchInfo)

@@ -42,15 +42,15 @@ public class MatchInfoServicesImp : MatchInfoServices
         matchInfo.IsSingleMatch = matchInfo.MaxbetHDP > 12_000 || IsSingleMatchSpecialCase(matchInfo);
     }
 
-    private bool IsSingleMatchSpecialCase(MatchInfo matchInfo)
+    private static bool IsSingleMatchSpecialCase(MatchInfo matchInfo)
         => matchInfo switch
         {
             _ when matchInfo.LeagueName.IsContains("Fantasy ") => true,
             _ when matchInfo.LeagueName.IsContains("FUTSAL")
                    && !matchInfo.LeagueName.IsContains("SABA ") => true,
-            _ when matchInfo.MaxbetHDP == 10_000 && (matchInfo.SpreadHDP == (decimal)0.08 || matchInfo.SpreadHDP == (decimal)0.10)
+            _ when matchInfo.MaxbetHDP == 10_000 && matchInfo.SpreadHDP is (decimal)0.08 or (decimal)0.10
                 => true,
-            _ when matchInfo.MaxbetHDP == 12_000 && (matchInfo.SpreadHDP == (decimal)0.08 || matchInfo.SpreadHDP == (decimal)0.10)
+            _ when matchInfo.MaxbetHDP == 12_000 && matchInfo.SpreadHDP is (decimal)0.08 or (decimal)0.10
                 => true,
             _ => false
         };

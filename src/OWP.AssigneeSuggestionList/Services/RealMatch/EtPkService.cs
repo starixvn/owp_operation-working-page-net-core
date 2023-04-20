@@ -36,7 +36,7 @@ public class EtPkServiceImp : EtPkService
         workingSchedule.Group(
            gameGroup,
            schedule,
-           assignments => BuildScheduleUpdateModel(assignments, filterDate));
+           _ => BuildScheduleUpdateModel(assignments, filterDate));
     }
 
     public static ScheduleUpdateModel BuildScheduleUpdateModel(
@@ -54,7 +54,7 @@ public class EtPkServiceImp : EtPkService
             Text = etPkValue
         };
 
-        return new()
+        return new ScheduleUpdateModel
         {
             FilterDate = filterDate,
             EtPk = new ETPKUpdateSchedule

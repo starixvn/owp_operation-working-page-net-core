@@ -37,12 +37,12 @@ public class OneGameServiceImp : OneGameService
             oneGameGroup.AddRange(assignment);
         }
 
-        owpIdExclude.AddRange(oneGameGroup?.Select(x => x.OWPMatchId).Distinct());
+        owpIdExclude.AddRange(oneGameGroup.Select(x => x.OWPMatchId).Distinct());
 
         workingSchedule.Group(
            oneGameGroup,
            schedules,
-           assignments => BuildScheduleUpdateModel(assignments, filterDate),
+           _ => BuildScheduleUpdateModel(assignments, filterDate),
            MatchType.RealMatchLink1G);
     }
 
@@ -57,7 +57,7 @@ public class OneGameServiceImp : OneGameService
         var gameInfo = ScheduleHelper.GetGameInfo(assignments);
         var etPkValue = ETPKHelper.DetectExtraTime(gameInfo.remark);
 
-        return new()
+        return new ScheduleUpdateModel
         {
             FilterDate = filterDate,
             EtPk = new ETPKUpdateSchedule

@@ -36,12 +36,9 @@ public static class EndTimeHelper
 
     private static AssignmentModel UpdateEndTimeForCornerBooking(AssignmentModel assignment, string remarkType)
     {
-        assignment.EndTime = assignment.MinorBettypeId switch
-        {
-            Bettype.NextCorner or Bettype.NextBooking or Bettype.Corner or Bettype.TotalBooking
-                => assignment.EventDateTime.Add(CalculateCornerMatchEndTime(remarkType)),
-            _ => assignment.EventDateTime.Add(new TimeSpan(2, 0, 0))
-        };
+        assignment.EndTime = assignment.MinorBettypeId is Bettype.NextCorner or Bettype.NextBooking or Bettype.Corner or Bettype.TotalBooking
+            ? assignment.EventDateTime.Add(CalculateCornerMatchEndTime(remarkType))
+            : assignment.EventDateTime.Add(new TimeSpan(2, 0, 0));
 
         return assignment;
     }
