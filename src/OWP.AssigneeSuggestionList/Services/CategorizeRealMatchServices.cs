@@ -21,7 +21,7 @@ public class CategorizeRealMatchServicesImp : CategorizeRealMatchServices
             var (categoryType, explanation) = GetCategoryTypeAndExplanation(assigneeType, matchInfo);
 
             schedule.CategoryType = categoryType;
-            schedule.Explanation = explanation;
+            schedule.UserInfo.Explanation = explanation;
         }
     }
 

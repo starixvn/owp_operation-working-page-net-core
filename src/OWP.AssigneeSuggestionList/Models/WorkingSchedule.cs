@@ -49,8 +49,6 @@ public class WorkingSchedule
     [JsonIgnore] public List<AssignmentModel> CategorizedAssignments { get; set; } = new();
 
     public CategoryType CategoryType { get; set; }
-
-    public string Explanation { get; set; }
 }
 
 public class AssignmentCell
