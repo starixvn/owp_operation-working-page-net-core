@@ -32,7 +32,9 @@ public class CategorizeRealMatchServicesImp : CategorizeRealMatchServices
 
         if (!HasWorkingShiftInRangeTime(userInfo, kOTime, endTime))
         {
-            return AssigneeCategory.Busy;
+            return IsPartiallyFreeInRangeTime(userInfo, assignments, matchInfo)
+                ? AssigneeCategory.PartiallyFree
+                : AssigneeCategory.Busy;
         }
 
         if (IsFreeInRangeTime(assignments, kOTime, endTime))
@@ -40,7 +42,7 @@ public class CategorizeRealMatchServicesImp : CategorizeRealMatchServices
             return AssigneeCategory.Free;
         }
 
-        if (IsPartiallyFreeInRangeTime(assignments, kOTime, matchInfo.BettypeId))
+        if (IsPartiallyFreeInRangeTime(userInfo, assignments, matchInfo))
         {
             return AssigneeCategory.PartiallyFree;
         }
@@ -57,19 +59,22 @@ public class CategorizeRealMatchServicesImp : CategorizeRealMatchServices
     {
         var isFreeInRangeTime = !assignments.Any(x =>
             (x.EventDateTime >= kOTime && x.EventDateTime < endTime) ||
-            (x.EndTime < endTime && x.EndTime >= kOTime));
+            (x.EndTime <= endTime && x.EndTime > kOTime));
 
         return isFreeInRangeTime;
     }
 
-    public static bool IsPartiallyFreeInRangeTime(List<AssignmentModel> assignments, DateTime kOTime, int bettypeId)
+    public static bool IsPartiallyFreeInRangeTime(UserInfo userInfo, List<AssignmentModel> assignments, MatchInfo matchInfo)
     {
+        var kOTime = matchInfo.KOTime;
         var minToTime = kOTime.AddMinutes(60);
-        if (bettypeId is Bettype.Handicap or Bettype.OverUnder)
+
+        var hasWsInPartiallyRangeTime = userInfo.ShiftStartTime <= kOTime && userInfo.ShiftEndTime >= minToTime;
+        if (hasWsInPartiallyRangeTime && matchInfo.BettypeId is Bettype.Handicap or Bettype.OverUnder)
         {
             return !assignments.Any(x =>
                 (x.EventDateTime >= kOTime && x.EventDateTime < minToTime) ||
-                (x.EndTime < minToTime && x.EndTime >= kOTime));
+                (x.EndTime <= minToTime && x.EndTime > kOTime));
         }
 
         return false;

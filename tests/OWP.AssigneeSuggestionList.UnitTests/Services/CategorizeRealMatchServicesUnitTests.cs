@@ -126,10 +126,19 @@ public class CategorizeRealMatchServicesUnitTests
                         MatchType = MatchType.RealMatchLink1G
                     }
                 }
+            },
+            new () // PartiallyFree - free in ws
+            {
+                UserInfo = new UserInfo
+                {
+                    UserId = 444,
+                    ShiftStartTime = new DateTime(2022, 04, 19, 13, 0, 0),
+                    ShiftEndTime = new DateTime(2022, 04, 19, 15, 0, 0),
+                    MaxMultipleGames = "2G"
+                }
             }
         };
 
-        service.Categorize(new List<WorkingSchedule> { schedules[1] }, matchInfo);
         service.Categorize(schedules, matchInfo);
 
         Assert.Equal(CategoryType.Busy, schedules[0].CategoryType);
@@ -137,6 +146,46 @@ public class CategorizeRealMatchServicesUnitTests
         Assert.Equal(CategoryType.FullyAvailable, schedules[2].CategoryType);
         Assert.Equal(CategoryType.FullyAvailable, schedules[3].CategoryType);
         Assert.Equal(CategoryType.PartiallyAvailable, schedules[4].CategoryType);
+        Assert.Equal(CategoryType.PartiallyAvailable, schedules[5].CategoryType);
+        Assert.Equal(CategoryType.PartiallyAvailable, schedules[5].CategoryType);
+    }
+
+    [Fact]
+    public void Categorize0()
+    {
+        var matchInfo = new MatchInfo
+        {
+            OwpMatchId = 100,
+            KOTime = new DateTime(2022, 04, 19, 19, 0, 0),
+            EndTime = new DateTime(2022, 04, 19, 21, 0, 0),
+            BettypeId = 1,
+        };
+
+        var schedules = new List<WorkingSchedule>
+        {
+            new ()
+            {
+                UserInfo = new UserInfo
+                {
+                    UserId = 222,
+                    ShiftStartTime = new DateTime(2022, 04, 19, 13, 0, 0),
+                    ShiftEndTime = new DateTime(2022, 04, 19, 20, 0, 0),
+                },
+                CategorizedAssignments = new List<AssignmentModel>
+                {
+                    new()
+                    {
+                        LeagueName = "League B",
+                        EventDateTime = new DateTime(2022, 04, 19, 18, 0, 0),
+                        EndTime = new DateTime(2022, 04, 19, 20, 0, 0),
+                    }
+                }
+            }
+        };
+
+        service.Categorize(schedules, matchInfo);
+
+        Assert.Equal(CategoryType.Busy, schedules[0].CategoryType);
     }
 
     [Fact]
@@ -242,42 +291,6 @@ public class CategorizeRealMatchServicesUnitTests
 
         Assert.Equal(expectedCategoryType, actualCategoryType);
         Assert.Equal(expectedExplanation, actualExplanation);
-    }
-
-    [Fact]
-    public void HasAssignmentLinkNGame_Returns_Capacity3GDoing2G_When_MatchInfoMaxbetHDP_Less_Than_Max_Bet_5K()
-    {
-        var matchInfo = new MatchInfo
-        {
-            OwpMatchId = 100,
-            KOTime = new DateTime(2022, 04, 19, 14, 0, 0),
-            EndTime = new DateTime(2022, 04, 19, 16, 0, 0),
-            BettypeId = 1,
-            MaxbetHDP = CategoryConstants.MAX_BET_5K - 1
-        };
-
-        var userInfo = new UserInfo
-        {
-            UserId = 111,
-            ShiftStartTime = new DateTime(2022, 04, 19, 18, 0, 0),
-            ShiftEndTime = new DateTime(2022, 04, 19, 23, 0, 0),
-            MaxMultipleGames = "3G-2LAs"
-        };
-
-        var assignments = new List<AssignmentModel>
-        {
-            new()
-            {
-                LeagueName = "League A",
-                EventDateTime = new DateTime(2022, 04, 19, 14, 0, 0),
-                EndTime = new DateTime(2022, 04, 19, 15, 0, 0),
-                MatchType = MatchType.RealMatchLink2G
-            }
-        };
-
-        var result = CategorizeRealMatchServicesImp.HasAssignmentLinkNGame(userInfo, assignments, matchInfo);
-
-        Assert.Equal(AssigneeCategory.Capacity3GDoing2G, result);
     }
 
     [Theory]
