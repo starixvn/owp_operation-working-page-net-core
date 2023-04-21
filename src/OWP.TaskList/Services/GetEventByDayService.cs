@@ -69,9 +69,11 @@ public class GetEventByDayServiceImp : GetEventByDayService
 
     public async Task BuildInfoMatch(IList<MatchInfo> matches)
     {
-        var infoSiteInfo = await GetInfoSiteInfo(matches);
+        var parentMatchIds = string.Join(',', matches.Select(x => x.ParentMatchId).Distinct());
 
-        var adminSiteInfo = await GetAdminSiteInfo(matches);
+        var infoSiteInfo = (await getInfoSiteTimeService.GetInfoSiteTime(parentMatchIds)).ToList();
+
+        var adminSiteInfo = (await getAdminSiteInfoService.GetAdminSiteInfo(parentMatchIds)).ToList();
 
         foreach (var matchInfo in matches)
         {
@@ -79,25 +81,8 @@ public class GetEventByDayServiceImp : GetEventByDayService
             var adminSite = adminSiteInfo.FirstOrDefault(x => x.ParentMatchId == matchInfo.ParentMatchId);
             matchInfo.InfoSiteTime = infoSite?.KickOffTime;
             matchInfo.InfoSiteTimeDisplay = infoSite?.KichOffTimeDisplay;
-            matchInfo.IsShowAbsenceIcon = adminSite?.IsShowAbsenceIcon ?? false;
+            matchInfo.IsShowAbsenceIcon = !TaskListConst.StatusNotOffered.Contains(matchInfo.MatchStatus) && (adminSite?.IsShowAbsenceIcon ?? false);
         }
-    }
-
-    public async Task<IList<InfoSiteTimeModel>> GetInfoSiteInfo(IList<MatchInfo> matches)
-    {
-        var parentMatchIds = string.Join(',', matches.Select(x => x.ParentMatchId).Distinct());
-
-        return (await getInfoSiteTimeService.GetInfoSiteTime(parentMatchIds)).ToList();
-    }
-
-    public async Task<IList<AdminSiteInfoModel>> GetAdminSiteInfo(IList<MatchInfo> matches)
-    {
-        var parentMatchIds = string.Join(',', matches
-            .Where(y => !TaskListConst.StatusNotOffered.Contains(y.MatchStatus))
-            .Select(x => x.ParentMatchId)
-            .Distinct());
-
-        return (await getAdminSiteInfoService.GetAdminSiteInfo(parentMatchIds)).ToList();
     }
 
     private async Task BuildAdminSiteId(IList<MatchInfo> matches)
