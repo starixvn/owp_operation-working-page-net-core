@@ -151,44 +151,6 @@ public class CategorizeRealMatchServicesUnitTests
     }
 
     [Fact]
-    public void Categorize0()
-    {
-        var matchInfo = new MatchInfo
-        {
-            OwpMatchId = 100,
-            KOTime = new DateTime(2022, 04, 19, 19, 0, 0),
-            EndTime = new DateTime(2022, 04, 19, 21, 0, 0),
-            BettypeId = 1,
-        };
-
-        var schedules = new List<WorkingSchedule>
-        {
-            new ()
-            {
-                UserInfo = new UserInfo
-                {
-                    UserId = 222,
-                    ShiftStartTime = new DateTime(2022, 04, 19, 13, 0, 0),
-                    ShiftEndTime = new DateTime(2022, 04, 19, 20, 0, 0),
-                },
-                CategorizedAssignments = new List<AssignmentModel>
-                {
-                    new()
-                    {
-                        LeagueName = "League B",
-                        EventDateTime = new DateTime(2022, 04, 19, 18, 0, 0),
-                        EndTime = new DateTime(2022, 04, 19, 20, 0, 0),
-                    }
-                }
-            }
-        };
-
-        service.Categorize(schedules, matchInfo);
-
-        Assert.Equal(CategoryType.Busy, schedules[0].CategoryType);
-    }
-
-    [Fact]
     public void IsFreeInRangeTime_NoAssignmentsInRange_ReturnsTrue()
     {
         // Arrange

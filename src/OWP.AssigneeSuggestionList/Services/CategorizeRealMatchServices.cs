@@ -57,9 +57,7 @@ public class CategorizeRealMatchServicesImp : CategorizeRealMatchServices
 
     public static bool IsFreeInRangeTime(List<AssignmentModel> assignments, DateTime kOTime, DateTime endTime)
     {
-        var isFreeInRangeTime = !assignments.Any(x =>
-            (x.EventDateTime >= kOTime && x.EventDateTime < endTime) ||
-            (x.EndTime <= endTime && x.EndTime > kOTime));
+        var isFreeInRangeTime = !assignments.Any(x => x.EventDateTime < endTime && kOTime < x.EndTime);
 
         return isFreeInRangeTime;
     }
@@ -72,9 +70,7 @@ public class CategorizeRealMatchServicesImp : CategorizeRealMatchServices
         var hasWsInPartiallyRangeTime = userInfo.ShiftStartTime <= kOTime && userInfo.ShiftEndTime >= minToTime;
         if (hasWsInPartiallyRangeTime && matchInfo.BettypeId is Bettype.Handicap or Bettype.OverUnder)
         {
-            return !assignments.Any(x =>
-                (x.EventDateTime >= kOTime && x.EventDateTime < minToTime) ||
-                (x.EndTime <= minToTime && x.EndTime > kOTime));
+            return !assignments.Any(x => x.EventDateTime < minToTime && kOTime < x.EndTime);
         }
 
         return false;
