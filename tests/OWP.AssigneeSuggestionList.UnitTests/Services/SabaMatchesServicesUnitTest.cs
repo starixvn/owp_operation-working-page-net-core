@@ -352,6 +352,7 @@ public class SabaMatchesServicesUnitTest
                 UserId = 111,
                 LeagueName = "Saba B",
                 EventDateTime = new DateTime(2023, 03, 11, 15, 30, 0),
+                EndTime = new DateTime(2023, 03, 11, 17, 30, 0),
                 MaxbetHDP = 3000,
                 KOTime = new TimeSpan(15, 30, 0),
             }

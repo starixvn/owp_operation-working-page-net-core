@@ -45,7 +45,7 @@ namespace OWP.AssigneeSuggestionList.UnitTests.Services
                 {
                     Color = ColorCodeConst.CORNER,
                     TextColor = ColorCodeConst.TEXT_CORNER,
-                    Text = "18:05"
+                    Text = "06:05"
                 },
                 TimeRange = (DateTime.Parse("2023-3-31 18:05:00"), DateTime.Parse("2023-3-31 20:05:00"))
             };

@@ -1,5 +1,6 @@
 using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Models;
+using OWP.Extensions;
 using System.Collections.Immutable;
 using System.Globalization;
 using MatchType = OWP.AssigneeSuggestionList.Constant.MatchType;
@@ -34,7 +35,7 @@ public static class ScheduleHelper
         var maxbetDisplay = assignment.MaxbetHDP.HasValue
                 ? $"{FormatMaxbet(assignment.MaxbetHDP.Value)}"
             : string.Empty;
-        var kOTimeText = $"{assignment.KOTime:hh\\:mm}";
+        var kOTimeText = assignment.KOTime.ToKOTimeWithoutSuffix();
         var text = (assignment.KOTime.Minutes == 0, string.IsNullOrEmpty(maxbetDisplay)) switch
         {
             (true, true) => "V",
