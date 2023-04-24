@@ -1,4 +1,5 @@
 ﻿using Fanex.NAP.Client.Helpers.Web;
+using OWP.Helpers;
 using OWP.Models;
 using OWP.Services;
 using OWP.TaskList.Builders;
@@ -73,15 +74,19 @@ public class GetEventByDayServiceImp : GetEventByDayService
 
         var infoSiteInfo = (await getInfoSiteTimeService.GetInfoSiteTime(parentMatchIds)).ToList();
 
-        var adminSiteInfo = (await getAdminSiteInfoService.GetAdminSiteInfo(parentMatchIds)).ToList();
+        var adminSiteIdsWithOwpMatches = (await getAdminSiteInfoService.GetAdminSiteMatchId(parentMatchIds)).ToList();
+
+        var adminSitesIdsOdds = (await getAdminSiteInfoService.GetAdminSiteInfo()).ToList();
+
+        var adminSiteMatchInfo = LiveGameHelper.MergeAdminSiteInfo(adminSiteIdsWithOwpMatches, adminSitesIdsOdds);
 
         foreach (var matchInfo in matches)
         {
             var infoSite = infoSiteInfo.FirstOrDefault(x => x.ParentMatchId == matchInfo.ParentMatchId);
-            var adminSite = adminSiteInfo.FirstOrDefault(x => x.ParentMatchId == matchInfo.ParentMatchId);
+            var isShowAbsenceIcon = adminSiteMatchInfo.Any(x => x.ParentMatchId == matchInfo.ParentMatchId);
             matchInfo.InfoSiteTime = infoSite?.KickOffTime;
-            matchInfo.InfoSiteTimeDisplay = infoSite?.KichOffTimeDisplay;
-            matchInfo.IsShowAbsenceIcon = !TaskListConst.StatusNotOffered.Contains(matchInfo.MatchStatus) && (adminSite?.IsShowAbsenceIcon ?? false);
+            matchInfo.InfoSiteTimeDisplay = infoSite?.KickOffTimeDisplay;
+            matchInfo.IsShowAbsenceIcon = !TaskListConst.StatusNotOffered.Contains(matchInfo.MatchStatus) && isShowAbsenceIcon;
         }
     }
 
