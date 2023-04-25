@@ -34,6 +34,10 @@ public class UserInfo
 
     public DateTime ShiftEndTime { get; set; }
 
+    public int Extension { get; set; }
+
+    public string ShiftCode => WorkingShiftConst.ExtensionCode.GetValueOrDefault(Extension, "");
+
     public string Shift => ShiftStartTime.ToString("HH:mm")
                            + " > " + ShiftEndTime.ToString("HH:mm");
 

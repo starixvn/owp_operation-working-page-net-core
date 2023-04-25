@@ -132,6 +132,12 @@ public static class WorkingShiftConst
         {38,"Tomorrow_16h"}
     }.ToImmutableDictionary();
 
+    public static readonly ImmutableDictionary<int, string> ExtensionCode = new Dictionary<int, string>
+    {
+        {1,"REAL"},
+        {2,"SPECIAL"}
+    }.ToImmutableDictionary();
+
     public static readonly string[] ManagementRole = { "Section Head", "Management", "Supervisor", "Leader" };
 }
 
