@@ -102,14 +102,17 @@ public class CategorizeRealMatchServicesImp : CategorizeRealMatchServices
     public static (CategoryType, string) GetCategoryTypeAndExplanation(AssigneeCategory category, MatchInfo matchInfo)
         => category switch
         {
-            AssigneeCategory.Free => (CategoryType.FullyAvailable, FormatExplanation(ExplanationConstants.FREE, matchInfo)),
+            AssigneeCategory.Free => (CategoryType.FullyAvailable, FormatAvailableExplanation(ExplanationConstants.FREE, matchInfo)),
             AssigneeCategory.Capacity2GDoing1G => (CategoryType.FullyAvailable, ExplanationConstants.CAPACITY_2G_DOING_1G),
             AssigneeCategory.Capacity3GDoing2G => (CategoryType.FullyAvailable, ExplanationConstants.CAPACITY_3G_DOING_2G),
             AssigneeCategory.Capacity3GDoing1G => (CategoryType.FullyAvailable, ExplanationConstants.CAPACITY_3G_DOING_1G),
-            AssigneeCategory.PartiallyFree => (CategoryType.PartiallyAvailable, FormatExplanation(ExplanationConstants.PARTIALLY_AVAILABLE, matchInfo)),
+            AssigneeCategory.PartiallyFree => (CategoryType.PartiallyAvailable, FormatPartiallyAvailableExplanation(ExplanationConstants.PARTIALLY_AVAILABLE, matchInfo)),
             _ => (CategoryType.Busy, ExplanationConstants.BUSY)
         };
 
-    public static string FormatExplanation(string explanationString, MatchInfo matchInfo)
+    public static string FormatAvailableExplanation(string explanationString, MatchInfo matchInfo)
         => string.Format(explanationString, matchInfo.KOTime.ToString("hh:mm tt"), matchInfo.EndTime.ToString("hh:mm tt"));
+
+    public static string FormatPartiallyAvailableExplanation(string explanationString, MatchInfo matchInfo)
+        => string.Format(explanationString, matchInfo.KOTime.ToString("hh:mm tt"), matchInfo.KOTime.AddHours(1).ToString("hh:mm tt"));
 }

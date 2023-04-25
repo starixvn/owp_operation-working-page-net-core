@@ -236,7 +236,7 @@ public class CategorizeRealMatchServicesUnitTests
     [InlineData(AssigneeCategory.Capacity2GDoing1G, CategoryType.FullyAvailable, ExplanationConstants.CAPACITY_2G_DOING_1G)]
     [InlineData(AssigneeCategory.Capacity3GDoing2G, CategoryType.FullyAvailable, ExplanationConstants.CAPACITY_3G_DOING_2G)]
     [InlineData(AssigneeCategory.Capacity3GDoing1G, CategoryType.FullyAvailable, ExplanationConstants.CAPACITY_3G_DOING_1G)]
-    [InlineData(AssigneeCategory.PartiallyFree, CategoryType.PartiallyAvailable, "free in the first half of the match from 02:00 PM to 04:00 PM")]
+    [InlineData(AssigneeCategory.PartiallyFree, CategoryType.PartiallyAvailable, "free in the first half of the match from 02:00 PM to 03:00 PM")]
     [InlineData(AssigneeCategory.Busy, CategoryType.Busy, ExplanationConstants.BUSY)]
     public void GetCategoryTypeAndExplanation_ShouldReturnCorrectValues(
         AssigneeCategory category, CategoryType expectedCategoryType, string expectedExplanation)
