@@ -86,9 +86,9 @@ public class LinkNGameServiceImp : LinkNGameService
 
         foreach (var eventDate in linkNGamePair.Keys)
         {
-            var assignment = linkNGamePair[eventDate].DistinctBy(a => a.OWPMatchId).ToList();
-            var remark = assignment.Select(x => x.Remark).ToList();
-            assignmentCell.Text = ScheduleHelper.BuildScheduleTextGroupGame(assignment);
+            var assignments = linkNGamePair[eventDate].DistinctBy(a => a.OWPMatchId).ToList();
+            var remark = assignments.Select(x => x.Remark).ToList();
+            assignmentCell.Text = ScheduleHelper.BuildScheduleTextGroupGame(assignments);
 
             var etpkValue = ETPKHelper.BuildEtPkTextDisplay(remark);
             var timeRange = TimeRangeHelper.CalculateTimeRangeFT(eventDate, !string.IsNullOrEmpty(etpkValue));
@@ -104,11 +104,9 @@ public class LinkNGameServiceImp : LinkNGameService
                 AssignmentCell = assignmentCell,
                 TimeRange = timeRange
             };
-            var assignmentPresent = assignment.MinBy(x => x.BettypeId);
-            if (assignmentPresent != null)
-            {
-                assignmentPresent.MatchType = matchType;
-            }
+            var assignmentPresent = assignments.MinBy(x => x.BettypeId);
+            assignmentPresent.GroupAssignmentModels = assignments.ToList();
+            assignmentPresent.MatchType = matchType;
             workingSchedule.UpdateWorkingSchedule(scheduleUpdateModel,
                 schedules, assignmentPresent);
         }

@@ -44,6 +44,8 @@ public class AssignmentModel
 
     public decimal? MaxbetHDP { get; set; }
 
+    public decimal? SpreadHDP { get; set; }
+
     public DateTime EndTime { get; set; }
 
     public int? MinorBettypeId { get; set; }

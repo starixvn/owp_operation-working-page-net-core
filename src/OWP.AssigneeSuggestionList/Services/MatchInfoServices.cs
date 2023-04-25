@@ -2,7 +2,6 @@
 using OWP.AssigneeSuggestionList.Helper;
 using OWP.AssigneeSuggestionList.Models;
 using OWP.Constants;
-using OWP.Extensions;
 
 namespace OWP.AssigneeSuggestionList.Services;
 public interface MatchInfoServices
@@ -39,21 +38,7 @@ public class MatchInfoServicesImp : MatchInfoServices
 
     public void UpdateSingleMatch(MatchInfo matchInfo)
     {
-        matchInfo.IsSingleMatch = matchInfo.MaxbetHDP > 12_000 || IsSingleMatchSpecialCase(matchInfo);
-    }
-
-    private static bool IsSingleMatchSpecialCase(MatchInfo matchInfo)
-    {
-        switch (matchInfo)
-        {
-            case var _ when matchInfo.LeagueName.IsContains("Fantasy "):
-            case var _ when matchInfo.LeagueName.IsContains("FUTSAL") && !matchInfo.LeagueName.IsContains("SABA "):
-            case var _ when matchInfo.MaxbetHDP == 10_000 && matchInfo.SpreadHDP is 0.08m or 0.10m:
-            case var _ when matchInfo.MaxbetHDP == 12_000 && matchInfo.SpreadHDP is 0.08m or 0.10m:
-                return true;
-            default:
-                return false;
-        }
+        matchInfo.IsSingleMatch = SingleMatchHelper.IsSingleMatch(matchInfo.MaxbetHDP, matchInfo.SpreadHDP, matchInfo.LeagueName);
     }
 
     public TimeSpan GetEndTimeForRealMatch(MatchInfo matchInfo)
