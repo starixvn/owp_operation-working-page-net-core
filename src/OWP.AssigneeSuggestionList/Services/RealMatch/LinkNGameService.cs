@@ -105,10 +105,14 @@ public class LinkNGameServiceImp : LinkNGameService
                 TimeRange = timeRange
             };
             var assignmentPresent = assignments.MinBy(x => x.BettypeId);
+            if (assignmentPresent == null)
+            {
+                continue;
+            }
+
             assignmentPresent.GroupAssignmentModels = assignments.ToList();
             assignmentPresent.MatchType = matchType;
-            workingSchedule.UpdateWorkingSchedule(scheduleUpdateModel,
-                schedules, assignmentPresent);
+            workingSchedule.UpdateWorkingSchedule(scheduleUpdateModel, schedules, assignmentPresent);
         }
     }
 }

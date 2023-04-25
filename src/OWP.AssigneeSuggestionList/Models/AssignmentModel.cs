@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using OWP.AssigneeSuggestionList.Helper;
 using OWP.Extensions;
 using MatchType = OWP.AssigneeSuggestionList.Constant.MatchType;
 
@@ -52,4 +53,6 @@ public class AssignmentModel
 
     [JsonIgnore]
     public List<AssignmentModel> GroupAssignmentModels { get; set; } = new();
+
+    public bool IsSingleMatch => SingleMatchHelper.IsSingleMatch(MaxbetHDP, SpreadHDP, LeagueName);
 }

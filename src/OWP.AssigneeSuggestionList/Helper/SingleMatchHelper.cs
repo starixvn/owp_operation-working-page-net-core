@@ -3,10 +3,10 @@
 namespace OWP.AssigneeSuggestionList.Helper;
 public static class SingleMatchHelper
 {
-    public static bool IsSingleMatch(decimal maxbetHdp, decimal spreadHdp, string leagueName)
+    public static bool IsSingleMatch(decimal? maxbetHdp, decimal? spreadHdp, string leagueName)
      => maxbetHdp > 12_000 || IsSingleMatchSpecialCase(maxbetHdp, spreadHdp, leagueName);
 
-    private static bool IsSingleMatchSpecialCase(decimal maxbetHdp, decimal spreadHdp, string leagueName)
+    private static bool IsSingleMatchSpecialCase(decimal? maxbetHdp, decimal? spreadHdp, string leagueName)
     {
         switch (maxbetHdp, spreadHdp, leagueName)
         {
