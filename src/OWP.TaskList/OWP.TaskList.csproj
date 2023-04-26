@@ -4,7 +4,12 @@
       <TargetFramework>net7.0</TargetFramework>
         <Nullable>disable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <CodeAnalysisRuleSet>..\..\.sonarlint\nap-owp-netcorecsharp.ruleset</CodeAnalysisRuleSet>
     </PropertyGroup>
+
+    <ItemGroup>
+      <AdditionalFiles Include="..\..\.sonarlint\nap-owp-netcore\CSharp\SonarLint.xml" Link="SonarLint.xml" />
+    </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Fanex.Data.Repository" Version="4.2.2" />
         <PackageReference Include="Fanex.NAP.Client.AspNetCore" Version="2.0.0.1" />
