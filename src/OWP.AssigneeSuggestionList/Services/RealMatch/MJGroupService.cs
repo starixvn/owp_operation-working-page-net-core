@@ -25,8 +25,7 @@ public class MJGroupServiceImp : MJGroupService
         IList<AssignmentModel> assignments,
         WorkingSchedule schedules,
         DateTime filterDate,
-        List<int> owpIdExclude
-    )
+        List<int> owpIdExclude)
     {
         var mJGroup = assignments.Where(a => a.IsMajorLeague)
             .ToList();

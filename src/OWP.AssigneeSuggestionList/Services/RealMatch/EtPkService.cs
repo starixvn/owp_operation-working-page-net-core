@@ -15,7 +15,6 @@ public interface EtPkService
 
 public class EtPkServiceImp : EtPkService
 {
-
     private readonly SingleGameGroupService workingSchedule;
 
     public EtPkServiceImp(SingleGameGroupService workingSchedule)
@@ -26,8 +25,8 @@ public class EtPkServiceImp : EtPkService
     public void Group(
         IList<AssignmentModel> assignments,
         WorkingSchedule schedule,
-         DateTime filterDate,
-          IList<int> owpMatchIdExclude)
+        DateTime filterDate,
+        IList<int> owpMatchIdExclude)
     {
         var gameGroup = assignments?.Where(a =>
             !string.IsNullOrEmpty(ETPKHelper.DetectExtraTime(a.Remark)) &&

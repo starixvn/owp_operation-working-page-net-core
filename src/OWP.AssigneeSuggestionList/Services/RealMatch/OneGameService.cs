@@ -9,9 +9,9 @@ public interface OneGameService
 {
     void Group(
         IList<AssignmentModel> assignments,
-         WorkingSchedule schedules,
-          DateTime filterDate,
-          List<int> owpIdExclude);
+        WorkingSchedule schedules,
+        DateTime filterDate,
+        List<int> owpIdExclude);
 }
 
 public class OneGameServiceImp : OneGameService
@@ -25,8 +25,8 @@ public class OneGameServiceImp : OneGameService
 
     public void Group(
         IList<AssignmentModel> assignments,
-         WorkingSchedule schedules,
-          DateTime filterDate,
+        WorkingSchedule schedules,
+        DateTime filterDate,
         List<int> owpIdExclude)
     {
         var oneGameGroupPair = LinkGameConditionHelper.GroupGame(assignments, numberGameInGroup => numberGameInGroup == 1);

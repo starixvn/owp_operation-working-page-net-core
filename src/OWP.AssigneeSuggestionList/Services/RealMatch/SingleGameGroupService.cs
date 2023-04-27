@@ -24,8 +24,7 @@ public class SingleGameGroupServiceImp : SingleGameGroupService
         IList<AssignmentModel> assignments,
         WorkingSchedule schedule,
         Func<IList<AssignmentModel>, ScheduleUpdateModel> buildUpdateScheduleFunc,
-        MatchType matchType = MatchType.RealMatchOther
-    )
+        MatchType matchType = MatchType.RealMatchOther)
     {
         var groupGamePair = assignments
             .GroupBy(a => a.OWPMatchId)

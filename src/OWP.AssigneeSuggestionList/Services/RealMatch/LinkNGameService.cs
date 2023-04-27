@@ -9,10 +9,9 @@ public interface LinkNGameService
 {
     void Group(
         IList<AssignmentModel> assignments,
-         WorkingSchedule schedules,
-         DateTime filterDate,
-         List<int> owpIdExclude);
-
+        WorkingSchedule schedules,
+        DateTime filterDate,
+        List<int> owpIdExclude);
 }
 
 public class LinkNGameServiceImp : LinkNGameService
@@ -28,8 +27,8 @@ public class LinkNGameServiceImp : LinkNGameService
     public void Group(
         IList<AssignmentModel> assignments,
         WorkingSchedule schedules,
-         DateTime filterDate,
-         List<int> owpIdExclude)
+        DateTime filterDate,
+        List<int> owpIdExclude)
     {
         LinkTwoGame(assignments, schedules, filterDate, owpIdExclude);
         LinkThreeGame(assignments, schedules, filterDate, owpIdExclude);
@@ -67,8 +66,7 @@ public class LinkNGameServiceImp : LinkNGameService
         UpdateSchedule(linkNGamePair, schedules, assignmentCell, filterDate, MatchType.RealMatchLink3G);
     }
 
-    private static void GetOwpMatchIdExclude(IDictionary<DateTime, List<AssignmentModel>> linkNGamePair
-       , List<int> owpIdExclude)
+    private static void GetOwpMatchIdExclude(IDictionary<DateTime, List<AssignmentModel>> linkNGamePair, List<int> owpIdExclude)
     {
         foreach (var eventDate in linkNGamePair.Keys)
         {
@@ -83,7 +81,6 @@ public class LinkNGameServiceImp : LinkNGameService
         DateTime filterDate,
         MatchType matchType)
     {
-
         foreach (var eventDate in linkNGamePair.Keys)
         {
             var assignments = linkNGamePair[eventDate].DistinctBy(a => a.OWPMatchId).ToList();

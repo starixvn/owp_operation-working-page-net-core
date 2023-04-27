@@ -3,7 +3,7 @@ using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Helper;
 using OWP.AssigneeSuggestionList.Models;
 using OWP.Enums;
-
+using MatchType = OWP.AssigneeSuggestionList.Constant.MatchType;
 
 namespace OWP.AssigneeSuggestionList.Services.RealMatch;
 
@@ -11,8 +11,8 @@ public interface FirstHalfService : IRequest<Unit>
 {
     void Group(
         IList<AssignmentModel> assignments,
-         WorkingSchedule schedule,
-          DateTime filterDate,
+        WorkingSchedule schedule,
+        DateTime filterDate,
         List<int> owpIdExclude);
 }
 
@@ -45,7 +45,8 @@ public class FirstHalfServiceImp : FirstHalfService
         }
         workingSchedule.Group(gameGroup,
            schedule,
-           _ => BuildScheduleUpdateModel(assignments, filterDate));
+           _ => BuildScheduleUpdateModel(assignments, filterDate),
+           MatchType.RealMatchLink1G);
     }
 
     public static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignments, DateTime filterDate)
