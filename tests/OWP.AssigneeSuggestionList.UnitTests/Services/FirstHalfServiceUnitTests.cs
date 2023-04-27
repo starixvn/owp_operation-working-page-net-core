@@ -29,7 +29,7 @@ namespace OWP.AssigneeSuggestionList.UnitTests.Services
                     EventDateTime = DateTime.Parse("2023-3-31 18:00:00"),
                     BettypeId = 1,
                     UserId = 123,
-                    Remark = "ETPK"
+                    Remark = "ET/PK"
                 }
             };
         }
@@ -46,18 +46,14 @@ namespace OWP.AssigneeSuggestionList.UnitTests.Services
             var expect = new ScheduleUpdateModel
             {
                 FilterDate = DateTime.Parse("2023-3-31 18:00:00"),
-                EtPk = new ETPKUpdateSchedule
-                {
-                    IsHasEtPk = true,
-                    EtPkValue = "ETPK"
-                },
+                EtPk = new ETPKUpdateSchedule(),
                 AssignmentCell = new AssignmentCell
                 {
                     Color = ColorCodeConst.FIRST_HALF,
                     TextColor = ColorCodeConst.TEXT_FIRST_HALF,
                     Text = "V"
                 },
-                TimeRange = (DateTime.Parse("2023-3-31 18:00:00"), DateTime.Parse("2023-3-31 20:00:00"))
+                TimeRange = (DateTime.Parse("2023-3-31 18:00:00"), DateTime.Parse("2023-3-31 19:00:00"))
             };
 
             //Assert

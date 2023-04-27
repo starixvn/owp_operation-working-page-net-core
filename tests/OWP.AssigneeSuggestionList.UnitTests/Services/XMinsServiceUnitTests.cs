@@ -53,7 +53,7 @@ public class XMinsServiceUnitTests
                 BettypeId= 1,
                 UserId=123,
                 ParentMatchId=1,
-                Remark = "ETPK"
+                Remark = "ET/PK"
             }
         };
     }
@@ -72,7 +72,7 @@ public class XMinsServiceUnitTests
             EtPk = new ETPKUpdateSchedule
             {
                 IsHasEtPk = true,
-                EtPkValue = "ETPK"
+                EtPkValue = "ET/PK"
             },
             AssignmentCell = new AssignmentCell
             {

@@ -78,7 +78,7 @@ public static class ColorCodeConst
 
 public static class ETPKConstant
 {
-    public const string ETPK = "ETPK";
+    public const string ETPK = "ET/PK";
 
     public const string ET = "ET";
 

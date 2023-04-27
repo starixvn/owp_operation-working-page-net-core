@@ -47,8 +47,10 @@ public class CornerServiceImp : CornerService
             TextColor = ColorCodeConst.TEXT_CORNER,
             Text = ScheduleHelper.BuildScheduleTextSingleGame(assignmentsCorner.First())
         };
+
         var gameInfo = ScheduleHelper.GetGameInfo(assignmentsCorner);
-        var etPkValue = ETPKHelper.DetectExtraTime(gameInfo.remark, gameInfo.minorBettypeId);
+        var etPkValue = FirstHalfHelper.IsFirstHalf(assignmentsCorner) ? string.Empty
+            : ETPKHelper.DetectExtraTime(gameInfo.remark, gameInfo.minorBettypeId);
 
         return new ScheduleUpdateModel
         {

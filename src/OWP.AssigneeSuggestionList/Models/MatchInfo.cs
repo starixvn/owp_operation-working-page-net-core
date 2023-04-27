@@ -32,11 +32,11 @@ public class MatchInfo
 
     public string Remark { get; set; }
 
-    public bool IsMainMatch { get; set; }
+    public bool IsMainMatch => MinorBettypeId is null;
 
     public int ParentMatchId { get; set; }
 
-    public int MinorBettypeId { get; set; }
+    public int? MinorBettypeId { get; set; }
 
     public int BettypeId { get; set; }
 

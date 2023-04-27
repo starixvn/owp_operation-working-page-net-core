@@ -45,7 +45,7 @@ public class FantasyServiceImp : FantasyService
             Text = ScheduleHelper.BuildScheduleTextSingleGame(assignments.First())
         };
         var gameInfo = ScheduleHelper.GetGameInfo(assignments);
-        var etPkValue = ETPKHelper.DetectExtraTime(gameInfo.remark);
+        var etPkValue = FirstHalfHelper.IsFirstHalf(assignments) ? string.Empty : ETPKHelper.DetectExtraTime(gameInfo.remark);
 
         return new ScheduleUpdateModel
         {

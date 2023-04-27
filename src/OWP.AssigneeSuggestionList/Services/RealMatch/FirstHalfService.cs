@@ -58,18 +58,14 @@ public class FirstHalfServiceImp : FirstHalfService
             Text = ScheduleHelper.BuildScheduleTextSingleGame(assignments.First())
         };
         var gameInfo = ScheduleHelper.GetGameInfo(assignments);
-        var etPkValue = ETPKHelper.DetectExtraTime(gameInfo.remark);
+
 
         return new ScheduleUpdateModel
         {
             FilterDate = filterDate,
-            EtPk = new ETPKUpdateSchedule
-            {
-                IsHasEtPk = !string.IsNullOrEmpty(etPkValue),
-                EtPkValue = etPkValue
-            },
+            EtPk = new ETPKUpdateSchedule(),
             AssignmentCell = assignmentCell,
-            TimeRange = TimeRangeHelper.CalculateTimeRangeSingleGame(gameInfo.eventDate, gameInfo.bettypeIds, !string.IsNullOrEmpty(etPkValue))
+            TimeRange = TimeRangeHelper.CalculateTimeRangeSingleGame(gameInfo.eventDate, gameInfo.bettypeIds, false)
         };
     }
 }

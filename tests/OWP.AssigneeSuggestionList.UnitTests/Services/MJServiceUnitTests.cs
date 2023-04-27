@@ -29,7 +29,7 @@ namespace OWP.AssigneeSuggestionList.UnitTests.Services
                     EventDateTime = DateTime.Parse("2023-3-31 18:00:00"),
                     BettypeId = 1,
                     UserId = 123,
-                    Remark = "ETPK"
+                    Remark = "ET/PK"
                 }
             };
         }
@@ -49,7 +49,7 @@ namespace OWP.AssigneeSuggestionList.UnitTests.Services
                 EtPk = new ETPKUpdateSchedule
                 {
                     IsHasEtPk = true,
-                    EtPkValue = "ETPK"
+                    EtPkValue = "ET/PK"
                 },
                 AssignmentCell = new AssignmentCell
                 {
