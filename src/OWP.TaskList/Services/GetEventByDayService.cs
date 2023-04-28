@@ -83,7 +83,7 @@ public class GetEventByDayServiceImp : GetEventByDayService
         foreach (var matchInfo in matches)
         {
             var infoSite = infoSiteInfo.FirstOrDefault(x => x.ParentMatchId == matchInfo.ParentMatchId);
-            var isShowAbsenceIcon = adminSiteMatchInfo.Any(x => x.ParentMatchId == matchInfo.ParentMatchId);
+            var isShowAbsenceIcon = adminSiteMatchInfo.Any(x => x.ParentMatchId == matchInfo.OWPMatchId);
             matchInfo.InfoSiteTime = infoSite?.KickOffTime;
             matchInfo.InfoSiteTimeDisplay = infoSite?.KickOffTimeDisplay;
             matchInfo.IsShowAbsenceIcon = !TaskListConst.StatusNotOffered.Contains(matchInfo.MatchStatus) && isShowAbsenceIcon;

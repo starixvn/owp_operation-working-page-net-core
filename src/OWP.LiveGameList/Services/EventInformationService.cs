@@ -56,7 +56,7 @@ public class EventInformationServiceImp : EventInformationService
         foreach (var matchInfo in matchInfos)
         {
             var infoSite = infoSiteInfo.FirstOrDefault(x => x.ParentMatchId == matchInfo.ParentMatchId);
-            var isShowAbsenceIcon = adminSiteMatchInfo.Any(x => x.ParentMatchId == matchInfo.ParentMatchId);
+            var isShowAbsenceIcon = adminSiteMatchInfo.Any(x => x.ParentMatchId == matchInfo.OWPMatchId);
             matchInfo.InfoSiteTime = infoSite?.KickOffTime;
             matchInfo.InfoSiteTimeDisplay = infoSite?.KickOffTimeDisplay;
             matchInfo.IsShowAbsenceIcon = !LiveGameListConst.StatusNotOffered.Contains(matchInfo.MatchStatus) && isShowAbsenceIcon;
