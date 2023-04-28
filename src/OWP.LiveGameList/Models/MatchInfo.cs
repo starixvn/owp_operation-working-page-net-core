@@ -27,6 +27,8 @@ public class MatchInfo
 
     public TimeSpan? OtherTime { get; set; }
 
+    public string OtherTimeDisplay => OtherTime?.ToOWPTimeFormat();
+
     public string Home { get; set; }
 
     public string Away { get; set; }
@@ -141,4 +143,9 @@ public class MatchInfo
         }
     }
 
+    public TimeSpan? InfoSiteTime { get; set; }
+
+    public string InfoSiteTimeDisplay { get; set; }
+
+    public bool IsShowAbsenceIcon { get; set; }
 }

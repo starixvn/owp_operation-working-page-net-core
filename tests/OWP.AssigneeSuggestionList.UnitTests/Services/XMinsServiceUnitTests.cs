@@ -77,7 +77,7 @@ namespace OWP.AssigneeSuggestionList.UnitTests.Services
                 {
                     Color = ColorCodeConst.X_MINS,
                     TextColor = ColorCodeConst.TEXT_X_MINS,
-                    Text = "V"
+                    Text = "18:05"
                 },
                 TimeRange = (DateTime.Parse("2023-3-31 18:05:00"), DateTime.Parse("2023-3-31 20:05:00"))
             };

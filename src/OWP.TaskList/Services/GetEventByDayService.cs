@@ -1,6 +1,9 @@
 ﻿using Fanex.NAP.Client.Helpers.Web;
+using OWP.Helpers;
+using OWP.Models;
 using OWP.Services;
 using OWP.TaskList.Builders;
+using OWP.TaskList.Const;
 using OWP.TaskList.Criteria;
 using OWP.TaskList.Models;
 
@@ -20,12 +23,20 @@ public class GetEventByDayServiceImp : GetEventByDayService
 
     private readonly GetAdminSiteMatchIdService getAdminSiteMatchIdService;
 
-    public GetEventByDayServiceImp(Repository repository, INapSession session, PermissionService permissionService, GetAdminSiteMatchIdService getAdminSiteMatchIdService)
+    private readonly GetInfoSiteTimeService getInfoSiteTimeService;
+
+    private readonly GetAdminSiteInfoService getAdminSiteInfoService;
+
+    public GetEventByDayServiceImp(Repository repository, INapSession session, PermissionService permissionService,
+        GetAdminSiteMatchIdService getAdminSiteMatchIdService, GetInfoSiteTimeService getInfoSiteTimeService,
+        GetAdminSiteInfoService getAdminSiteInfoService)
     {
         this.repository = repository;
         this.session = session;
         this.permissionService = permissionService;
         this.getAdminSiteMatchIdService = getAdminSiteMatchIdService;
+        this.getInfoSiteTimeService = getInfoSiteTimeService;
+        this.getAdminSiteInfoService = getAdminSiteInfoService;
     }
 
     public async Task<TaskListModel> GetEventByDay(DateTime eventDate)
@@ -52,10 +63,32 @@ public class GetEventByDayServiceImp : GetEventByDayService
             matchInfo = GetEvents(criteria).ToList();
         }
         BuildIPTVCopy(matchInfo);
+        await BuildInfoMatch(matchInfo);
         await BuildAdminSiteId(matchInfo);
         return matchInfo;
     }
 
+    public async Task BuildInfoMatch(IList<MatchInfo> matches)
+    {
+        var parentMatchIds = string.Join(',', matches.Select(x => x.ParentMatchId).Distinct());
+
+        var infoSiteInfo = (await getInfoSiteTimeService.GetInfoSiteTime(parentMatchIds)).ToList();
+
+        var adminSiteIdsWithOwpMatches = (await getAdminSiteInfoService.GetAdminSiteMatchId(parentMatchIds)).ToList();
+
+        var adminSitesIdsOdds = (await getAdminSiteInfoService.GetAdminSiteInfo()).ToList();
+
+        var adminSiteMatchInfo = LiveGameHelper.MergeAdminSiteInfo(adminSiteIdsWithOwpMatches, adminSitesIdsOdds);
+
+        foreach (var matchInfo in matches)
+        {
+            var infoSite = infoSiteInfo.FirstOrDefault(x => x.ParentMatchId == matchInfo.ParentMatchId);
+            var isShowAbsenceIcon = adminSiteMatchInfo.Any(x => x.ParentMatchId == matchInfo.OWPMatchId);
+            matchInfo.InfoSiteTime = infoSite?.KickOffTime;
+            matchInfo.InfoSiteTimeDisplay = infoSite?.KickOffTimeDisplay;
+            matchInfo.IsShowAbsenceIcon = !TaskListConst.StatusNotOffered.Contains(matchInfo.MatchStatus) && isShowAbsenceIcon;
+        }
+    }
 
     private async Task BuildAdminSiteId(IList<MatchInfo> matches)
     {
@@ -80,11 +113,11 @@ public class GetEventByDayServiceImp : GetEventByDayService
             });
         }
     }
+
     public IEnumerable<MatchInfo> GetEvents(GetTaskListCriteria criteria)
     {
         var (matchesRaw, assignments, matchSetting, televisions, matchOffers, mainMatchInfo, tickets) = repository
-            .GetTaskList(
-                criteria);
+            .GetTaskList(criteria);
 
         return GetInfo(matchesRaw, assignments, matchSetting, televisions, matchOffers,
             mainMatchInfo, tickets);

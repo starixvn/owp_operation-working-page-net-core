@@ -136,6 +136,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<CheckIsLiveStatusServices, CheckIsLiveStatusServicesImp>();
         services.AddScoped<GetAdminSiteMatchIdService, GetAdminSiteMatchIdServiceImp>();
         services.AddScoped<PermissionService, PermissionServiceImp>();
+        services.AddScoped<GetInfoSiteTimeService, GetInfoSiteTimeServiceImp>();
+        services.AddScoped<GetAdminSiteInfoService, GetAdminSiteInfoServiceImp>();
         return services;
     }
 

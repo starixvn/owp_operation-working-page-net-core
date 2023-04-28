@@ -133,15 +133,20 @@ public class MatchInfo
         }
     }
 
-    public string OtherTimeDisplay => OtherTime.HasValue ?
-        OtherTime.Value.ToOWPTimeFormat().Replace(" ", string.Empty)
-        : string.Empty;
+    public string OtherTimeDisplay => OtherTime?.ToOWPTimeFormat();
+       
 
     public string KickOffTimeDisplay => KickOffTime.ToOWPTimeFormat();
 
     public string EventDateDisplay => EventDate.ToKOTimeDateFormat();
 
     public string ReadyDateTimeDisplay => ReadyDateTime.ToString("hh:mm tt MMM dd, yyyy");
+
+    public TimeSpan? InfoSiteTime { get; set; }
+
+    public string InfoSiteTimeDisplay { get; set; }
+
+    public bool IsShowAbsenceIcon { get; set; }
 
     public MatchInfo Clone()
     {
