@@ -31,8 +31,10 @@ public class LinkGameServiceImp : LinkGameService
         DateTime fromDate,
         List<int> owpIdExclude)
     {
-        oneGameService.Group(assignmentModels, schedule, fromDate, owpIdExclude);
-        linkNGameService.Group(assignmentModels, schedule, fromDate, owpIdExclude);
-        linkErrorService.Group(assignmentModels, schedule, fromDate, owpIdExclude);
+        var canLinkAssignments = assignmentModels.Where(x => !x.IsFantasyMatch).ToList();
+
+        oneGameService.Group(canLinkAssignments, schedule, fromDate, owpIdExclude);
+        linkNGameService.Group(canLinkAssignments, schedule, fromDate, owpIdExclude);
+        linkErrorService.Group(canLinkAssignments, schedule, fromDate, owpIdExclude);
     }
 }
