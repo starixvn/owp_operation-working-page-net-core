@@ -57,7 +57,8 @@ public class MatchInfoServicesImp : MatchInfoServices
 
         if (matchInfo.MinorBettypeId is Bettype.NextCorner or Bettype.NextBooking or Bettype.Corner or Bettype.TotalBooking)
         {
-            endTime = EndTimeHelper.CalculateCornerMatchEndTime(matchInfo.Remark);
+            var etpkType = ETPKHelper.DetectExtraTime(matchInfo.Remark, matchInfo.MinorBettypeId);
+            endTime = EndTimeHelper.CalculateCornerMatchEndTime(etpkType);
         }
 
         return endTime;

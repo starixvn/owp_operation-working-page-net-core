@@ -65,11 +65,10 @@ public class MatchInfoServicesUnitTests
                 OwpMatchId = 1,
                 IsSaba = false,
                 KOTime = new DateTime(2023, 4, 19, 14, 0, 0, 0),
-                LeagueName = "FUTSAL ",
+                LeagueName = "FUTSAL ",            
                 MaxbetHDP = 11000,
-
                 ParentMatchId = 12,
-                Remark = "ET",
+                Remark = "ET/PK",
                 MinorBettypeId = -3
             });
 
