@@ -42,7 +42,7 @@ public class OneGameServiceImp : OneGameService
         workingSchedule.Group(
            oneGameGroup,
            schedules,
-           _ => BuildScheduleUpdateModel(assignments, filterDate),
+           assignment => BuildScheduleUpdateModel(assignment, filterDate),
            MatchType.RealMatchLink1G);
     }
 

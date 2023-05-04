@@ -33,7 +33,7 @@ public class MJGroupServiceImp : MJGroupService
         workingSchedule.Group(
            mJGroup,
            schedules,
-           _ => BuildScheduleUpdateModel(assignments, filterDate));
+           assignment => BuildScheduleUpdateModel(assignment, filterDate));
     }
 
     public static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignments, DateTime filterDate)

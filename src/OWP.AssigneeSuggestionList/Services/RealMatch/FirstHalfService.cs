@@ -45,7 +45,7 @@ public class FirstHalfServiceImp : FirstHalfService
         }
         workingSchedule.Group(gameGroup,
            schedule,
-           _ => BuildScheduleUpdateModel(assignments, filterDate),
+           assignment => BuildScheduleUpdateModel(assignment, filterDate),
            MatchType.RealMatchLink1G);
     }
 

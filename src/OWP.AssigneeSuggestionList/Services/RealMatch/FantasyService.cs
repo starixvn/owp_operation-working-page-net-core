@@ -33,7 +33,7 @@ public class FantasyServiceImp : FantasyService
         workingSchedule.Group(
            matchGroup,
            schedule,
-           _ => BuildScheduleUpdateModel(assignments, filterDate));
+           assignment => BuildScheduleUpdateModel(assignment, filterDate));
     }
 
     public static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignments, DateTime filterDate)

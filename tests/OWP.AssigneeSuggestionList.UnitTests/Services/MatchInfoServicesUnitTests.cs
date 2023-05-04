@@ -45,7 +45,6 @@ public class MatchInfoServicesUnitTests
                 IsSaba = false,
                 KOTime = new DateTime(2023, 4, 19, 14, 0, 0, 0),
                 MaxbetHDP = 13000,
-                IsMainMatch = true,
             });
 
         var service = new MatchInfoServicesImp(repository);
@@ -68,7 +67,7 @@ public class MatchInfoServicesUnitTests
                 KOTime = new DateTime(2023, 4, 19, 14, 0, 0, 0),
                 LeagueName = "FUTSAL ",
                 MaxbetHDP = 11000,
-                IsMainMatch = false,
+
                 ParentMatchId = 12,
                 Remark = "ET",
                 MinorBettypeId = -3
