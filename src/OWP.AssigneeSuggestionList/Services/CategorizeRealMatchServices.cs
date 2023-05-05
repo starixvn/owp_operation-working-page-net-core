@@ -84,13 +84,14 @@ public class CategorizeRealMatchServicesImp : CategorizeRealMatchServices
             return AssigneeCategory.Busy;
         }
 
-        var hasLink1G = sameKOTimeAssignments.Any(x =>
-                x.MatchType is MatchType.RealMatchLink1G &&
-                !x.IsSingleMatch);
+        var hasLink1G = sameKOTimeAssignments.Any(x => x.MatchType is MatchType.RealMatchLink1G);
         var hasLink2G = matchInfo.MaxbetHDP <= CategoryConstants.MAX_BET_5K &&
             sameKOTimeAssignments.Any(x =>
                 x.MatchType is MatchType.RealMatchLink2G &&
-                x.GroupAssignmentModels.All(y => y.MaxbetHDP <= CategoryConstants.MAX_BET_5K && !y.IsSingleMatch));
+                x.GroupAssignmentModels.All(y =>
+                    y.MaxbetHDP is null or <= CategoryConstants.MAX_BET_5K &&
+                    !y.IsSingleMatch)
+                );
 
         return (userInfo.MixMatchCapacity, hasLink1G, hasLink2G) switch
         {
@@ -103,7 +104,10 @@ public class CategorizeRealMatchServicesImp : CategorizeRealMatchServices
 
     private static List<AssignmentModel> GetSameKOTimeAssignments(IEnumerable<AssignmentModel> assignments, MatchInfo matchInfo)
         => assignments
-            .Where(x => !x.IsSaba && x.EventDateTime.CompareTo(matchInfo.KOTime) == 0)
+            .Where(x =>
+                !x.IsSaba &&
+                x.EventDateTime.CompareTo(matchInfo.KOTime) == 0 &&
+                !x.IsSingleMatch)
             .ToList();
 
     public static (CategoryType, string) GetCategoryTypeAndExplanation(AssigneeCategory category, MatchInfo matchInfo)
