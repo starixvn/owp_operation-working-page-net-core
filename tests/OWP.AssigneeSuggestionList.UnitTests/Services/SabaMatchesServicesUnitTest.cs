@@ -367,6 +367,6 @@ public class SabaMatchesServicesUnitTest
 
         new SabaMatchesServicesImp().MapAssignmentsToWorkingSchedules(workingSchedules, assignmentModels, eventDate);
 
-        DeepAssert.Equal(expected, workingSchedules[0], "UserInfo");
+        DeepAssert.Equal(expected, workingSchedules[0], "UserInfo", "CategorizedAssignments");
     }
 }

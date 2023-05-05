@@ -26,6 +26,7 @@ public class SabaMatchesServicesImp : SabaMatchServices
                 .ToList();
 
             var newSabaAssignments = CategorizeAndGroupSabaMatches(sabaAssignments);
+            workingShift.CategorizedAssignments.AddRange(newSabaAssignments);
 
             MapAssignmentsToWorkingSchedule(workingShift, newSabaAssignments, eventDate);
         }

@@ -67,7 +67,7 @@ public class QueryTraderSuggestionHandler : IRequestHandler<QueryTraderSuggestio
             return new SuggestionInfo
             {
                 MatchInfo = matchInfo,
-                FullyAvailable = workingShifts
+                Busy = workingShifts
             };
         }
 

@@ -21,7 +21,6 @@ public class MatchInfoServicesUnitTests
             .Returns(new MatchInfo
             {
                 OwpMatchId = 1,
-                IsSaba = true,
                 KOTime = new DateTime(2023, 4, 19, 14, 0, 0, 0),
                 LeagueName = "saba  abc"
             });
@@ -42,7 +41,6 @@ public class MatchInfoServicesUnitTests
             .Returns(new MatchInfo
             {
                 OwpMatchId = 1,
-                IsSaba = false,
                 KOTime = new DateTime(2023, 4, 19, 14, 0, 0, 0),
                 MaxbetHDP = 13000,
             });
@@ -63,9 +61,8 @@ public class MatchInfoServicesUnitTests
             .Returns(new MatchInfo
             {
                 OwpMatchId = 1,
-                IsSaba = false,
                 KOTime = new DateTime(2023, 4, 19, 14, 0, 0, 0),
-                LeagueName = "FUTSAL ",            
+                LeagueName = "FUTSAL ",
                 MaxbetHDP = 11000,
                 ParentMatchId = 12,
                 Remark = "ET/PK",

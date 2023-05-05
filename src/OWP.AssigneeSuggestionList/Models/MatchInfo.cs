@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using OWP.AssigneeSuggestionList.Helper;
 using OWP.Constants;
+using OWP.Extensions;
 
 namespace OWP.AssigneeSuggestionList.Models;
 
@@ -40,7 +41,7 @@ public class MatchInfo
 
     public int BettypeId { get; set; }
 
-    public bool IsSaba { get; set; }
+    public bool IsSaba => LeagueName.IsContains("SABA ");
 
     public string BettypeName => BettypeId switch
     {
