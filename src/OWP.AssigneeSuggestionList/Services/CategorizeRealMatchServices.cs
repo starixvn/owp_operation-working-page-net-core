@@ -118,7 +118,7 @@ public class CategorizeRealMatchServicesImp : CategorizeRealMatchServices
             AssigneeCategory.Capacity3GDoing2G => (CategoryType.FullyAvailable, ExplanationConstants.CAPACITY_3G_DOING_2G),
             AssigneeCategory.Capacity3GDoing1G => (CategoryType.FullyAvailable, ExplanationConstants.CAPACITY_3G_DOING_1G),
             AssigneeCategory.PartiallyFree => (CategoryType.PartiallyAvailable, FormatExplanation(ExplanationConstants.PARTIALLY_AVAILABLE, matchInfo, true)),
-            _ => (CategoryType.Busy, ExplanationConstants.BUSY)
+            _ => (CategoryType.Busy, null)
         };
 
     public static string FormatExplanation(string text, MatchInfo matchInfo, bool isPartially = false)

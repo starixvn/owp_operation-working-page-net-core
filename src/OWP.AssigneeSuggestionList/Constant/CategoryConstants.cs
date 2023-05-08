@@ -32,7 +32,6 @@ public static class ExplanationConstants
     public const string CAPACITY_3G_DOING_1G = "doing 1 of 3 games in capacity";
     public const string CAPACITY_3G_DOING_2G = "doing 2 of 3 games in capacity";
     public const string PARTIALLY_AVAILABLE = "free in the first half of the match from {0} to {1}";
-    public const string BUSY = "busy";
 }
 
 public static class CategoryConstants
