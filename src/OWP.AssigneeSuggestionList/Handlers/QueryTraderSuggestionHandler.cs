@@ -83,6 +83,6 @@ public class QueryTraderSuggestionHandler : IRequestHandler<QueryTraderSuggestio
 
     private static List<WorkingSchedule> GetWorkingSchedulesByType(CategoryType type, IEnumerable<WorkingSchedule> workingShifts)
         => workingShifts.Where(x => x.CategoryType == type)
-                        .OrderBy(x => x.UserInfo.Username)
+                        .OrderBy(x => x.UserInfo.ShiftStartTime)
                         .ToList();
 }
