@@ -26,7 +26,7 @@ public class LAReportModel
 
     public int Link8Plus { get; set; }
 
-    public int TotalMultiMatches => Link2 + Link3 + Link4 + Link5 + Link6 + Link7 + Link8Plus;
+    public int TotalMultiMatches { get; set; }
 
     public int OnlyProvider { get; set; }
 
