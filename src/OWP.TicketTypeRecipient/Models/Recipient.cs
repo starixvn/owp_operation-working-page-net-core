@@ -9,4 +9,6 @@ public class Recipient
     public int RecipientType { get; set; }
 
     public string RecipientName { get; set; }
+
+    public string SubtypeName { get; set; }
 }

@@ -39,7 +39,8 @@ public class GetTicketTypeRecipientHandler : IRequestHandler<GetTicketTypeRecipi
                         RecipientId = y.RecipientId,
                         RecipientName = y.RecipientName,
                         RecipientType = y.RecipientType,
-                        TicketTypeRecipientId = y.TicketTypeRecipientId
+                        TicketTypeRecipientId = y.TicketTypeRecipientId,
+                        SubtypeName = y.SubtypeName
                     })
                     .OrderBy(x => x.RecipientName)
                     .ToList(),
@@ -69,5 +70,7 @@ public class GetTicketTypeRecipientHandler : IRequestHandler<GetTicketTypeRecipi
         public int RecipientType { get; set; }
 
         public string RecipientName { get; set; }
+
+        public string SubtypeName { get; set; }
     }
 }
