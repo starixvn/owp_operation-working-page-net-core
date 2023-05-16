@@ -38,14 +38,14 @@ public class ErrorHandler
             .ToString();
         await logger.ErrorAsync(logMessage);
 
-        var method = context.Request.Method.ToLowerInvariant();
         var requestedWith = context.Request.Headers["X-Requested-With"];
 
-        if ((method == "post" || method == "put" || method == "delete") && requestedWith == "XMLHttpRequest")
+        var isAjaxRequest = requestedWith == "XMLHttpRequest";
+        if(!context.Response.HasStarted && isAjaxRequest)
         {
             context.Response.StatusCode = StatusCodes.Status500InternalServerError;
         }
-
+        
         await context.Response.WriteAsync(exception.Message);
 
         var env = Configuration.GetSection("Fanex.NAP.Client:Environment").Value;
