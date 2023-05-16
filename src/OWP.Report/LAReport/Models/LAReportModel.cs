@@ -73,13 +73,7 @@ public class LAReportModel
     public int Others { get; set; }
 
     public int SumTotal()
-        => Link2 +
-           Link3 +
-           Link4 +
-           Link5 +
-           Link6 +
-           Link7 +
-           Link8Plus +
+        => TotalMultiMatches +
            OnlyProvider +
            OnlyTv +
            OnlyReporter +
