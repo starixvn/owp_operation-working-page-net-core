@@ -41,6 +41,8 @@ public class MatchInfo
 
     public int BettypeId { get; set; }
 
+    public bool IsSoloMatch { get; set; }
+
     public bool IsSaba => LeagueName.IsContains("SABA ");
 
     public string BettypeName => BettypeId switch

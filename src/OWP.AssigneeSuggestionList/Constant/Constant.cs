@@ -141,5 +141,15 @@ public static class WorkingShiftConst
     public static readonly string[] ManagementRole = { "Section Head", "Management", "Supervisor", "Leader" };
 }
 
+public static class OrderConstant
+{
+    public static string[] MainMatchLevel = { "1st", "2nd", "[OP]1st", "[OP]2nd", "BK CR", "Only SB", "none" };
+
+    public static string[] ChildMatchLevel = { "[OP]1st", "[OP]2nd", "BK CR", "1st", "2nd", "Only SB", "none" };
+
+    public static string[] RoleOrder = { "staff", "leader", "supervisor", "management" };
+}
+
+
 
 
