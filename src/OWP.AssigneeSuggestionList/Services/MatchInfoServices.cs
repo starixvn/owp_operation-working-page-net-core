@@ -47,9 +47,12 @@ public class MatchInfoServicesImp : MatchInfoServices
             : GetEndTimeForCornerBooking(matchInfo);
 
     public TimeSpan GetEndTimeForFtMatch(MatchInfo matchInfo)
-        => matchInfo.BettypeId is Bettype.FirstHalfHandicap or Bettype.FirstHalfOverUnder
-            ? new TimeSpan(1, 0, 0)
-            : EndTimeHelper.CalculateFtMatchEndTime(matchInfo.Remark);
+    {
+        var etpkType = ETPKHelper.DetectExtraTime(matchInfo.Remark, matchInfo.MinorBettypeId);
+        return matchInfo.BettypeId is Bettype.FirstHalfHandicap or Bettype.FirstHalfOverUnder
+              ? new TimeSpan(1, 0, 0)
+              : EndTimeHelper.CalculateFtMatchEndTime(etpkType);
+    }
 
     public TimeSpan GetEndTimeForCornerBooking(MatchInfo matchInfo)
     {
