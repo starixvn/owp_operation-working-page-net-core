@@ -69,17 +69,40 @@ public static class AssignmentBuilder
         MatchInfo matchInfo,
         int betTypeId,
         int assignmentType)
-        => (matchInfo.MinorBettypeId, betTypeId) switch
+    {
+        var parentMatchId = matchInfo.ParentMatchId;
+        //var refMinorBettypeId = matchInfo.MinorBettypeId switch
+        //{
+        //    (int)MinorBetType.NoOfCorner => (int)MinorBetType.Specific15MinsCorners,
+
+        //}
+        //{
+        //    {(int)MinorBetType.NoOfCorner, },
+        //    {(int)MinorBetType.TotalBooking, (int)MinorBetType.Specific15MinsTotalBookings}
+        //};
+
+        if (betTypeId is (int)MinorBetType.Specific15Mins)
         {
-            ((int)MinorBetType.NoOfCorner, (int)MinorBetType.Specific15Mins) => GetAssignmentForSpecific15MinsCorners(generatedAssignments, matchInfo, assignmentType),
-            ((int)MinorBetType.TotalBooking, (int)MinorBetType.Specific15Mins) => GetAssignmentForSpecific15MinsBookings(generatedAssignments, matchInfo, assignmentType),
+            return generatedAssignments.Where(x => x.MinorBettypeId == (int)MinorBetType.Specific15MinsCorners
+                                            && x.BettypeId == (int)MajorBetType.Handicap
+                                            && x.ParentMatchId == parentMatchId
+                                            && x.AssignmentType == assignmentType);
+        }
+
+        return (matchInfo.MinorBettypeId, betTypeId) switch
+        {
+            ((int)MinorBetType.NoOfCorner, (int)MinorBetType.Specific15Mins) => GetAssignmentForSpecific15MinsCorners(
+                generatedAssignments, parentMatchId, assignmentType),
+            ((int)MinorBetType.TotalBooking, (int)MinorBetType.Specific15Mins) =>
+                GetAssignmentForSpecific15MinsBookings(generatedAssignments, matchInfo, assignmentType),
             _ => new List<Assignment>()
         };
+    }
 
-    private static IEnumerable<Assignment> GetAssignmentForSpecific15MinsCorners(IEnumerable<Assignment> parentAssignments, MatchInfo matchInfo, int assignmentType)
+    private static IEnumerable<Assignment> GetAssignmentForSpecific15MinsCorners(IEnumerable<Assignment> parentAssignments, int parentMatchId, int assignmentType)
         => parentAssignments.Where(x => x.MinorBettypeId == (int)MinorBetType.Specific15MinsCorners
                                   && x.BettypeId == (int)MajorBetType.Handicap
-                                  && x.ParentMatchId == matchInfo.ParentMatchId
+                                  && x.ParentMatchId == parentMatchId
                                   && x.AssignmentType == assignmentType).ToList();
 
     private static IEnumerable<Assignment> GetAssignmentForSpecific15MinsBookings(IEnumerable<Assignment> assignments, MatchInfo matchInfo, int assignmentType)

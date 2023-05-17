@@ -19,13 +19,9 @@ public static class MatchSettingBuilder
             Specific10Mins =
                 GetMatchSettingForSpecialBettype(matchSettings, matchInfo, (int)MinorBetType.Specific10Mins),
             FastMarket = GetMatchSettingForSpecialBettype(matchSettings, matchInfo, (int)MinorBetType.FastMarket)
-
         };
 
-    private static MatchSetting GetMatchSetting(
-        IEnumerable<MatchSetting> matchSettings,
-        MatchInfo matchInfo,
-        int betTypeId)
+    private static MatchSetting GetMatchSetting(IEnumerable<MatchSetting> matchSettings, MatchInfo matchInfo, int betTypeId)
         => matchSettings.FirstOrDefault(x => x.OWPMatchId == matchInfo.OWPMatchId && x.BettypeId == betTypeId)
            ?? new MatchSetting();
 
@@ -41,31 +37,18 @@ public static class MatchSettingBuilder
         return result ?? new MatchSetting();
     }
 
-    private static MatchSetting GetMatchSettingForSpecific15Mins(
-        IEnumerable<MatchSetting> matchSettings,
-        MatchInfo matchInfo,
-        int bettypeId)
-    {
-        MatchSetting result;
-
-        if (matchInfo.MinorBettypeId == (int)MinorBetType.NoOfCorner && bettypeId == (int)MinorBetType.Specific15Mins)
+    private static MatchSetting GetMatchSettingForSpecific15Mins(IEnumerable<MatchSetting> matchSettings, MatchInfo matchInfo, int bettypeId)
+        => (matchInfo.MinorBettypeId, bettypeId) switch
         {
-            result = matchSettings.FirstOrDefault(x => x.MinorBettypeId == (int)MinorBetType.Specific15MinsCorners
-                                                       && x.BettypeId == (int)MajorBetType.Handicap
-                                                       && x.ParentMatchId == matchInfo.ParentMatchId);
-        }
-        else if (matchInfo.MinorBettypeId == (int)MinorBetType.TotalBooking && bettypeId == (int)MinorBetType.Specific15Mins)
-        {
-            result = matchSettings.FirstOrDefault(x => x.MinorBettypeId == (int)MinorBetType.Specific15MinsTotalBookings
-                                                       && x.BettypeId == (int)MajorBetType.Handicap
-                                                       && x.ParentMatchId == matchInfo.ParentMatchId);
-        }
-        else
-        {
-            result = new MatchSetting();
-        }
-
-        return result ?? new MatchSetting();
-    }
+            ((int)MinorBetType.NoOfCorner, (int)MinorBetType.Specific15Mins) =>
+                matchSettings.FirstOrDefault(x =>
+                    x.MinorBettypeId == (int)MinorBetType.Specific15MinsCorners &&
+                    x.BettypeId == (int)MajorBetType.Handicap && x.ParentMatchId == matchInfo.ParentMatchId),
+            ((int)MinorBetType.TotalBooking, (int)MinorBetType.Specific15Mins) =>
+                matchSettings.FirstOrDefault(x =>
+                    x.MinorBettypeId == (int)MinorBetType.Specific15MinsTotalBookings &&
+                    x.BettypeId == (int)MajorBetType.Handicap && x.ParentMatchId == matchInfo.ParentMatchId),
+            _ => new MatchSetting()
+        };
 }
 
