@@ -4,10 +4,9 @@ namespace OWP.AssigneeSuggestionList.Services.RealMatch;
 
 public interface SpecialGameService
 {
-    Task MapAssignmentsToWorkingSchedule(
+    void MapAssignmentsToWorkingSchedule(
         WorkingSchedule schedule,
         IList<AssignmentModel> assignmentModels,
-        IList<ParentMatchInfo> parentMatchInfo,
         DateTime fromDate,
         List<int> owpIdExclude);
 }
@@ -24,16 +23,13 @@ public class SpecialGameServiceImp : SpecialGameService
         this.xMinsGroupService = xMinsGroupService;
     }
 
-    public async Task MapAssignmentsToWorkingSchedule(
+    public void MapAssignmentsToWorkingSchedule(
         WorkingSchedule schedule,
         IList<AssignmentModel> assignmentModels,
-        IList<ParentMatchInfo> parentMatchInfo,
         DateTime fromDate,
         List<int> owpIdExclude)
     {
-
-
-        await cornerService.Group(assignmentModels, schedule, fromDate, parentMatchInfo, owpIdExclude);
-        await xMinsGroupService.Group(assignmentModels, schedule, fromDate, parentMatchInfo, owpIdExclude);
+        cornerService.Group(assignmentModels, schedule, fromDate, owpIdExclude);
+        xMinsGroupService.Group(assignmentModels, schedule, fromDate, owpIdExclude);
     }
 }

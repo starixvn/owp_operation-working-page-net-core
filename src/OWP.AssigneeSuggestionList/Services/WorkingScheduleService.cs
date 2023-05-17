@@ -8,13 +8,15 @@ public interface WorkingScheduleService
 {
     void UpdateWorkingSchedule(
         ScheduleUpdateModel updateModel,
-        WorkingSchedule schedule);
+        WorkingSchedule schedule,
+        AssignmentModel assignmentPresent);
 }
 public class WorkingScheduleServiceImp : WorkingScheduleService
 {
     public void UpdateWorkingSchedule(
         ScheduleUpdateModel updateModel,
-        WorkingSchedule schedule)
+        WorkingSchedule schedule,
+        AssignmentModel assignmentPresent)
     {
 
         var scheduleProperties = PropertyScheduleHelper.GetValidProperties(
@@ -23,11 +25,14 @@ public class WorkingScheduleServiceImp : WorkingScheduleService
             updateModel.TimeRange.endDate);
 
         updateModel.PropertiesName = scheduleProperties;
-        if (scheduleProperties.Any())
+        if (!scheduleProperties.Any())
         {
-            UpdateWorkingSchedule(schedule, updateModel);
+            return;
         }
-      
+
+        UpdateWorkingSchedule(schedule, updateModel);
+        schedule.CategorizedAssignments.Add(assignmentPresent);
+
     }
 
     public static void UpdateWorkingSchedule(

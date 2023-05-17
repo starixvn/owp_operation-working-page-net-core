@@ -6,7 +6,7 @@ namespace OWP.AssigneeSuggestionList.Services.RealMatch;
 
 public interface FantasyService
 {
-    Task Group(
+    void Group(
         IList<AssignmentModel> assignments,
         WorkingSchedule schedule,
         DateTime filterDate,
@@ -22,21 +22,18 @@ public class FantasyServiceImp : FantasyService
         this.workingSchedule = workingSchedule;
     }
 
-    public async Task Group(
+    public void Group(
         IList<AssignmentModel> assignments,
         WorkingSchedule schedule,
         DateTime filterDate,
         List<int> owpIdExclude)
     {
-        var matchGroup = assignments
-            ?.Where(a => a.IsFantasyMatch).ToList();
-        owpIdExclude.AddRange(matchGroup?.Select(x => x.OWPMatchId).Distinct());
-
-        await workingSchedule.Group(
-            matchGroup,
-            schedule,
-            "[FANTASY]",
-            assignments => BuildScheduleUpdateModel(assignments, filterDate));
+        var matchGroup = assignments.Where(a => a.IsFantasyMatch).ToList();
+        owpIdExclude.AddRange(matchGroup.Select(x => x.OWPMatchId).Distinct());
+        workingSchedule.Group(
+           matchGroup,
+           schedule,
+           assignment => BuildScheduleUpdateModel(assignment, filterDate));
     }
 
     public static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignments, DateTime filterDate)
@@ -48,7 +45,7 @@ public class FantasyServiceImp : FantasyService
             Text = ScheduleHelper.BuildScheduleTextSingleGame(assignments.First())
         };
         var gameInfo = ScheduleHelper.GetGameInfo(assignments);
-        var etPkValue = ETPKHelper.DetectExtraTime(gameInfo.remark);
+        var etPkValue = FirstHalfHelper.IsFirstHalf(assignments) ? string.Empty : ETPKHelper.DetectExtraTime(gameInfo.remark);
 
         return new ScheduleUpdateModel
         {

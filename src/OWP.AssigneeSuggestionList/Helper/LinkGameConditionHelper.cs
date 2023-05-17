@@ -12,13 +12,12 @@ public static class LinkGameConditionHelper
 
     public static IDictionary<DateTime, List<AssignmentModel>> GroupGame(
         IEnumerable<AssignmentModel> assignments,
-        Func<int, bool> numberGameInGroupFunc) =>
-       assignments?.Where(a => LinkGameConditionHelper.CanGroupNGame(a))
+        Func<int, bool> numberGameInGroupFunc)
+        => assignments.Where(CanGroupNGame)
             .GroupBy(a => a.EventDateTime)
             .Where(g => numberGameInGroupFunc.Invoke(g.Select(x => x.OWPMatchId).Distinct().Count()))
-            ?.ToDictionary(x => x.Key, x => x.ToList());
+            .ToDictionary(x => x.Key, x => x.ToList());
 
     private static bool IsValidBetType(int bettypeId)
-        => bettypeId == (int)EnumBettype.Handicap
-           || bettypeId == (int)EnumBettype.OverUnder;
+        => bettypeId is (int)EnumBettype.Handicap or (int)EnumBettype.OverUnder;
 }

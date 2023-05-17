@@ -13,5 +13,10 @@ public enum MatchType
     SabaLink4G,
     Saba15Mins,
     Saba20Mins,
-    SabaOther
+    SabaOther,
+    RealMatchLink1G,
+    RealMatchLink2G,
+    RealMatchLink3G,
+    RealMatchLinkError,
+    RealMatchOther
 }

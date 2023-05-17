@@ -308,12 +308,14 @@ public class SabaMatchesServicesUnitTest
                 OWPMatchId = 20,
                 LeagueName = "M88 SABA - 16 Mins Play",
                 EventDateTime = new DateTime(2023, 03, 10, 14, 0, 0),
+                EndTime = new DateTime(2023, 03, 10, 15, 0, 0),
             },
             new()
             {
                 UserId = 111,
                 LeagueName = "Saba PES - 5 Mins Play",
                 EventDateTime = new DateTime(2023, 03, 10, 2, 0, 0),
+                EndTime = new DateTime(2023, 03, 10, 3, 0, 0),
                 MaxbetHDP = 3333
             },
             new()
@@ -322,6 +324,7 @@ public class SabaMatchesServicesUnitTest
                 OWPMatchId = 11,
                 LeagueName = "SABA - 16 Mins Play",
                 EventDateTime = new DateTime(2023, 03, 11, 2, 0, 0),
+                EndTime = new DateTime(2023, 03, 11, 3, 0, 0),
                 MaxbetHDP = 100000,
                 BettypeId = 1,
             },
@@ -331,6 +334,7 @@ public class SabaMatchesServicesUnitTest
                 OWPMatchId = 11,
                 LeagueName = "SABA - 16 Mins Play",
                 EventDateTime = new DateTime(2023, 03, 11, 2, 0, 0),
+                EndTime = new DateTime(2023, 03, 11, 3, 0, 0),
                 MaxbetHDP = 100000,
                 BettypeId = 3
             },
@@ -340,6 +344,7 @@ public class SabaMatchesServicesUnitTest
                 OWPMatchId = 12,
                 LeagueName = "SABA - 20 Mins Play",
                 EventDateTime = new DateTime(2023, 03, 11, 2, 0, 0),
+                EndTime = new DateTime(2023, 03, 11, 3, 0, 0),
                 MaxbetHDP = 200000
             },
             new()
@@ -347,6 +352,7 @@ public class SabaMatchesServicesUnitTest
                 UserId = 111,
                 LeagueName = "Saba B",
                 EventDateTime = new DateTime(2023, 03, 11, 15, 30, 0),
+                EndTime = new DateTime(2023, 03, 11, 17, 30, 0),
                 MaxbetHDP = 3000,
                 KOTime = new TimeSpan(15, 30, 0),
             }
@@ -361,6 +367,6 @@ public class SabaMatchesServicesUnitTest
 
         new SabaMatchesServicesImp().MapAssignmentsToWorkingSchedules(workingSchedules, assignmentModels, eventDate);
 
-        DeepAssert.Equal(expected, workingSchedules[0], "UserInfo");
+        DeepAssert.Equal(expected, workingSchedules[0], "UserInfo", "CategorizedAssignments");
     }
 }

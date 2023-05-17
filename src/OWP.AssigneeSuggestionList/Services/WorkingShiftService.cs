@@ -27,18 +27,13 @@ public class WorkingShiftServiceImp : WorkingShiftService
     private static WorkingSchedule FillWorkingShift(UserInfo user, DateTime eventDate)
     {
         var shift = new WorkingSchedule { UserInfo = user };
-        var type = shift.GetType();
-        var properties = PropertyScheduleHelper
-            .GetValidProperties(eventDate, user.ShiftStartTime, user.ShiftEndTime);
-        foreach (var property in properties)
+        var properties = PropertyScheduleHelper.GetValidProperties(eventDate, user.ShiftStartTime, user.ShiftEndTime);
+
+        foreach (var propertyInfo in properties.Select(property => typeof(WorkingSchedule).GetProperty(property)))
         {
-            var propertyInfo = type.GetProperty(property);
-            if (propertyInfo == null)
-            {
-                continue;
-            }
-            propertyInfo.SetValue(shift, new AssignmentCell { Color = ColorCodeConst.SHIFT, Text = string.Empty });
+            propertyInfo?.SetValue(shift, new AssignmentCell { Color = ColorCodeConst.SHIFT, Text = string.Empty });
         }
+
         return shift;
     }
 

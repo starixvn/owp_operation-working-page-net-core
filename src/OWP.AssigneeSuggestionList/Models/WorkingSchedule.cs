@@ -1,4 +1,7 @@
-﻿namespace OWP.AssigneeSuggestionList.Models;
+﻿using Newtonsoft.Json;
+using OWP.AssigneeSuggestionList.Constant;
+
+namespace OWP.AssigneeSuggestionList.Models;
 
 public class WorkingSchedule
 {
@@ -42,6 +45,10 @@ public class WorkingSchedule
     public AssignmentCell Tomorrow_14h { get; set; }
     public AssignmentCell Tomorrow_15h { get; set; }
     public AssignmentCell Tomorrow_16h { get; set; }
+
+    [JsonIgnore] public List<AssignmentModel> CategorizedAssignments { get; set; } = new();
+
+    public CategoryType CategoryType { get; set; }
 }
 
 public class AssignmentCell

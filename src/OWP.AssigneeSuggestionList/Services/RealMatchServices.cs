@@ -5,9 +5,11 @@ namespace OWP.AssigneeSuggestionList.Services;
 
 public interface RealMatchServices
 {
-    Task MapAssignmentsToWorkingSchedule(IEnumerable<WorkingSchedule> schedules,
+    void MapAssignmentsToWorkingSchedule(IEnumerable<WorkingSchedule> schedules,
         IList<AssignmentModel> assignmentModels,
         DateTime filterDate);
+
+    void CategoryAssignee(List<WorkingSchedule> schedules, MatchInfo matchInfo);
 }
 
 public class RealMatchServicesImp : RealMatchServices
@@ -16,51 +18,48 @@ public class RealMatchServicesImp : RealMatchServices
     private readonly MainGameService mainGameServices;
     private readonly LinkGameService linkGameService;
     private readonly SpecialGameService specialGameService;
-
-    private readonly Repository repository;
+    private readonly CategorizeRealMatchServices categorizeRealMatchServices;
 
     public RealMatchServicesImp(
-        Repository repository,
         EtPkService etPkService,
         MainGameService mainGameServices,
         LinkGameService linkGameService,
-        SpecialGameService specialGameService)
+        SpecialGameService specialGameService,
+        CategorizeRealMatchServices categorizeRealMatchServices)
     {
-        this.repository = repository;
         this.etPkService = etPkService;
         this.mainGameServices = mainGameServices;
         this.linkGameService = linkGameService;
         this.specialGameService = specialGameService;
+        this.categorizeRealMatchServices = categorizeRealMatchServices;
     }
 
-    public async Task MapAssignmentsToWorkingSchedule(
+    public void MapAssignmentsToWorkingSchedule(
         IEnumerable<WorkingSchedule> schedules,
         IList<AssignmentModel> assignmentModels,
         DateTime filterDate)
     {
         var fromDate = filterDate.Date.AddHours(12);
-        var owpMatchId = assignmentModels
-        ?.Where(a => a.ParentMatchId.HasValue)
-        .Select(a => a.OWPMatchId)
-        ?? new List<int>();
-
-        var parentMatchInfo = (await repository.QueryParentMatchInfo(string.Join(",", owpMatchId)))?.ToList();
 
         foreach (var schedule in schedules)
         {
             var owpIdExclude = new List<int>();
             var assignments = GetAssignmentsBelongWs(assignmentModels, schedule);
-            await mainGameServices.MapAssignmentsToWorkingSchedule(schedule, assignments, fromDate, owpIdExclude);
-            await specialGameService.MapAssignmentsToWorkingSchedule(schedule, assignments, parentMatchInfo, fromDate, owpIdExclude);
-            await linkGameService.MapAssignmentsToWorkingSchedule(schedule, assignments, fromDate, owpIdExclude);
-            await etPkService.Group(assignments, schedule, fromDate, owpIdExclude);
+            mainGameServices.MapAssignmentsToWorkingSchedule(schedule, assignments, fromDate, owpIdExclude);
+            specialGameService.MapAssignmentsToWorkingSchedule(schedule, assignments, fromDate, owpIdExclude);
+            linkGameService.MapAssignmentsToWorkingSchedule(schedule, assignments, fromDate, owpIdExclude);
+            etPkService.Group(assignments, schedule, fromDate, owpIdExclude);
         }
     }
 
     private static IList<AssignmentModel> GetAssignmentsBelongWs(IEnumerable<AssignmentModel> assignments, WorkingSchedule schedule)
         => assignments.Where(x =>
             x.UserId == schedule.UserInfo.UserId &&
-            !x.IsSaba &&
-            DateTime.Compare(x.EventDateTime, schedule.UserInfo.ShiftStartTime) >= 0 &&
+            DateTime.Compare(x.EndTime, schedule.UserInfo.ShiftStartTime) >= 0 &&
             DateTime.Compare(x.EventDateTime, schedule.UserInfo.ShiftEndTime) < 0).ToList();
+
+    public void CategoryAssignee(List<WorkingSchedule> schedules, MatchInfo matchInfo)
+    {
+        categorizeRealMatchServices.Categorize(schedules, matchInfo);
+    }
 }

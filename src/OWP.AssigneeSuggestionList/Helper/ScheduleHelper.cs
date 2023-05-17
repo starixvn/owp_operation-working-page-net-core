@@ -1,5 +1,6 @@
 using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Models;
+using OWP.Extensions;
 using System.Collections.Immutable;
 using System.Globalization;
 using MatchType = OWP.AssigneeSuggestionList.Constant.MatchType;
@@ -11,14 +12,9 @@ public static class ScheduleHelper
     public static string BuildScheduleTextGroupGame(IList<AssignmentModel> assignments)
     {
         var eventDateTime = assignments.First().EventDateTime;
-        var listMaxbet = new List<string>();
-        foreach (var assignment in assignments)
-        {
-            if (assignment.MaxbetHDP.HasValue)
-            {
-                listMaxbet.Add($"{FormatMaxbet(assignment.MaxbetHDP.Value)}");
-            }
-        }
+        var listMaxbet = assignments
+            .Where(assignment => assignment.MaxbetHDP.HasValue)
+            .Select(assignment => $"{FormatMaxbet(assignment.MaxbetHDP.Value)}");
 
         var kOTimeText = $"{eventDateTime:hh\\:mm}";
         var maxbetListText = string.Join("+", listMaxbet);
@@ -39,7 +35,7 @@ public static class ScheduleHelper
         var maxbetDisplay = assignment.MaxbetHDP.HasValue
                 ? $"{FormatMaxbet(assignment.MaxbetHDP.Value)}"
             : string.Empty;
-        var kOTimeText = $"{assignment.KOTime:hh\\:mm}";
+        var kOTimeText = assignment.KOTime.ToKOTimeWithoutSuffix();
         var text = (assignment.KOTime.Minutes == 0, string.IsNullOrEmpty(maxbetDisplay)) switch
         {
             (true, true) => "V",
@@ -50,29 +46,17 @@ public static class ScheduleHelper
         return assignment.IsSaba ? $"*{text}" : text;
     }
 
-    public static (DateTime eventDate, int owpMatchId, IList<int> bettypeIds, string remark) GetGameInfo(IList<AssignmentModel> assignments)
+    public static (DateTime eventDate, IList<int> bettypeIds, int? minorBettypeId, string remark, decimal? maxbetHdp) GetGameInfo(IList<AssignmentModel> assignments)
     {
-        var gameInfo = assignments.First();
-        var eventDate = gameInfo.EventDateTime;
-        var owpMatchId = gameInfo.OWPMatchId;
-        var Remark = gameInfo.Remark;
-
+        var firstAssignment = assignments.First();
         var bettypeIds = assignments.Select(x => x.BettypeId).Distinct().ToList();
-        return (eventDate, owpMatchId, bettypeIds, Remark);
-    }
 
-    public static (DateTime eventDate, int owpMatchId, IList<int> bettypeIds, int? parentMatchId, string remark, decimal? maxbetHdp) GetMinorGameInfo(IList<AssignmentModel> assignments)
-    {
-        var parentMatchId = assignments.First().ParentMatchId;
-        var maxbetHdp = assignments.First().MaxbetHDP;
-        var gameInfo = GetGameInfo(assignments);
         return (
-            gameInfo.eventDate,
-            gameInfo.owpMatchId,
-            gameInfo.bettypeIds,
-            parentMatchId,
-            gameInfo.remark,
-            maxbetHdp);
+            firstAssignment.EventDateTime,
+            bettypeIds,
+            firstAssignment.MinorBettypeId,
+            firstAssignment.Remark,
+            firstAssignment.MaxbetHDP);
     }
 
     public static string FormatMaxbet(decimal maxbet)

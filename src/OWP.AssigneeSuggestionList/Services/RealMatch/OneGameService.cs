@@ -1,16 +1,17 @@
 using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Helper;
 using OWP.AssigneeSuggestionList.Models;
+using MatchType = OWP.AssigneeSuggestionList.Constant.MatchType;
 
 namespace OWP.AssigneeSuggestionList.Services.RealMatch;
 
 public interface OneGameService
 {
-    Task Group(
+    void Group(
         IList<AssignmentModel> assignments,
-         WorkingSchedule schedules,
-          DateTime filterDate,
-          List<int> owpIdExclude);
+        WorkingSchedule schedules,
+        DateTime filterDate,
+        List<int> owpIdExclude);
 }
 
 public class OneGameServiceImp : OneGameService
@@ -22,10 +23,10 @@ public class OneGameServiceImp : OneGameService
         this.workingSchedule = workingSchedule;
     }
 
-    public async Task Group(
+    public void Group(
         IList<AssignmentModel> assignments,
-         WorkingSchedule schedules,
-          DateTime filterDate,
+        WorkingSchedule schedules,
+        DateTime filterDate,
         List<int> owpIdExclude)
     {
         var oneGameGroupPair = LinkGameConditionHelper.GroupGame(assignments, numberGameInGroup => numberGameInGroup == 1);
@@ -36,14 +37,13 @@ public class OneGameServiceImp : OneGameService
             oneGameGroup.AddRange(assignment);
         }
 
-        owpIdExclude.AddRange(oneGameGroup?.Select(x => x.OWPMatchId).Distinct());
+        owpIdExclude.AddRange(oneGameGroup.Select(x => x.OWPMatchId).Distinct());
 
-
-        await workingSchedule.Group(
-            oneGameGroup,
-            schedules,
-            "[oneGameGroup]",
-            assignments => BuildScheduleUpdateModel(assignments, filterDate));
+        workingSchedule.Group(
+           oneGameGroup,
+           schedules,
+           assignment => BuildScheduleUpdateModel(assignment, filterDate),
+           MatchType.RealMatchLink1G);
     }
 
     public static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignments, DateTime filterDate)
@@ -55,9 +55,9 @@ public class OneGameServiceImp : OneGameService
             Text = ScheduleHelper.BuildScheduleTextSingleGame(assignments.First())
         };
         var gameInfo = ScheduleHelper.GetGameInfo(assignments);
-        var etPkValue = ETPKHelper.DetectExtraTime(gameInfo.remark);
+        var etPkValue = FirstHalfHelper.IsFirstHalf(assignments) ? string.Empty : ETPKHelper.DetectExtraTime(gameInfo.remark);
 
-        return new()
+        return new ScheduleUpdateModel
         {
             FilterDate = filterDate,
             EtPk = new ETPKUpdateSchedule

@@ -6,17 +6,15 @@ namespace OWP.AssigneeSuggestionList.Services.RealMatch;
 
 public interface XMinsGroupService
 {
-    Task Group(
+    void Group(
         IList<AssignmentModel> assignments,
         WorkingSchedule schedule,
         DateTime filterDate,
-        IList<ParentMatchInfo> parentMatchInfo,
         List<int> owpIdExclude);
 }
 
 public class XMinsGroupServiceImp : XMinsGroupService
 {
-
     private readonly SingleGameGroupService workingSchedule;
 
     public XMinsGroupServiceImp(SingleGameGroupService workingSchedule)
@@ -24,33 +22,27 @@ public class XMinsGroupServiceImp : XMinsGroupService
         this.workingSchedule = workingSchedule;
     }
 
-    public async Task Group(
+    public void Group(
         IList<AssignmentModel> assignments,
-         WorkingSchedule schedule,
-          DateTime filterDate,
-           IList<ParentMatchInfo> parentMatchInfo,
+        WorkingSchedule schedule,
+        DateTime filterDate,
         List<int> owpIdExclude)
     {
-        var gameGroup = assignments?.Where(a => a.Is15Mins).ToList();
-        owpIdExclude.AddRange(gameGroup?.Select(x => x.OWPMatchId).Distinct());
+        var gameGroup = assignments.Where(a => a.Is15Mins).ToList();
+        owpIdExclude.AddRange(gameGroup.Select(x => x.OWPMatchId).Distinct());
 
-        await workingSchedule.Group(
-            gameGroup,
-            schedule,
-            "[X_MINS]"
-            , assignments15Mins => BuildScheduleUpdateModel(assignments15Mins, parentMatchInfo, filterDate));
+        workingSchedule.Group(
+           gameGroup,
+           schedule,
+           assignments15Mins => BuildScheduleUpdateModel(assignments15Mins, filterDate));
     }
 
-    public static ScheduleUpdateModel BuildScheduleUpdateModel(
-        IList<AssignmentModel> assignments15Mins,
-        IList<ParentMatchInfo> parentMatchInfo,
-        DateTime filterDate)
+    public static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignments15Mins, DateTime filterDate)
     {
-        var gameInfo = ScheduleHelper.GetMinorGameInfo(assignments15Mins);
-        var parentGame = parentMatchInfo.FirstOrDefault(g => g.OwpMatchId == gameInfo.parentMatchId);
+        var gameInfo = ScheduleHelper.GetGameInfo(assignments15Mins);
         var assignment = new AssignmentModel
         {
-            KOTime = parentGame.KOTime,
+            KOTime = assignments15Mins.First().KOTime,
             MaxbetHDP = gameInfo.maxbetHdp
         };
 
@@ -60,7 +52,7 @@ public class XMinsGroupServiceImp : XMinsGroupService
             TextColor = ColorCodeConst.TEXT_X_MINS,
             Text = ScheduleHelper.BuildScheduleTextSingleGame(assignment)
         };
-        var etPkValue = ETPKHelper.DetectExtraTime(parentGame?.Remark);
+        var etPkValue = ETPKHelper.DetectExtraTime(gameInfo.remark);
 
         return new ScheduleUpdateModel
         {

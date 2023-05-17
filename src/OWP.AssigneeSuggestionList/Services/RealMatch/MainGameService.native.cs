@@ -4,7 +4,7 @@ namespace OWP.AssigneeSuggestionList.Services.RealMatch;
 
 public interface MainGameService
 {
-    Task MapAssignmentsToWorkingSchedule(
+    void MapAssignmentsToWorkingSchedule(
         WorkingSchedule schedule,
         IList<AssignmentModel> assignmentModels,
         DateTime fromDate,
@@ -29,14 +29,14 @@ public class MainGameServiceImp : MainGameService
         this.fantasyService = fantasyService;
     }
 
-    public async Task MapAssignmentsToWorkingSchedule(
+    public void MapAssignmentsToWorkingSchedule(
         WorkingSchedule schedule,
         IList<AssignmentModel> assignmentModels,
         DateTime fromDate,
         List<int> owpIdExclude)
     {
-        await mJGroupService.Group(assignmentModels, schedule, fromDate, owpIdExclude);
-        await firstHalfService.Group(assignmentModels, schedule, fromDate, owpIdExclude);
-        await fantasyService.Group(assignmentModels, schedule, fromDate, owpIdExclude);
+        mJGroupService.Group(assignmentModels, schedule, fromDate, owpIdExclude);
+        firstHalfService.Group(assignmentModels, schedule, fromDate, owpIdExclude);
+        fantasyService.Group(assignmentModels, schedule, fromDate, owpIdExclude);
     }
 }

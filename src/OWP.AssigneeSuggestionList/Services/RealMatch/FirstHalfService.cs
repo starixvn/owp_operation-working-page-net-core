@@ -3,16 +3,16 @@ using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Helper;
 using OWP.AssigneeSuggestionList.Models;
 using OWP.Enums;
-
+using MatchType = OWP.AssigneeSuggestionList.Constant.MatchType;
 
 namespace OWP.AssigneeSuggestionList.Services.RealMatch;
 
 public interface FirstHalfService : IRequest<Unit>
 {
-    Task Group(
+    void Group(
         IList<AssignmentModel> assignments,
-         WorkingSchedule schedule,
-          DateTime filterDate,
+        WorkingSchedule schedule,
+        DateTime filterDate,
         List<int> owpIdExclude);
 }
 
@@ -25,33 +25,28 @@ public class FirstHalfServiceImp : FirstHalfService
         this.workingSchedule = workingSchedule;
     }
 
-    public async Task Group(
+    public void Group(
         IList<AssignmentModel> assignments,
-         WorkingSchedule schedule,
-         DateTime filterDate,
+        WorkingSchedule schedule,
+        DateTime filterDate,
         List<int> owpIdExclude)
     {
         var gameGroupPair = assignments
-            ?.GroupBy(x => x.OWPMatchId)
-            .Where(x => x.All(a =>
-                a.BettypeId == (int)EnumBettype.FirstHalfHandicap
-                || a.BettypeId == (int)EnumBettype.FirstHalfOverUnder))
+            .GroupBy(x => x.OWPMatchId)
+            .Where(x => x.All(a => a.BettypeId is (int)EnumBettype.FirstHalfHandicap or (int)EnumBettype.FirstHalfOverUnder))
             .ToDictionary(a => a.Key, a => a.ToList());
 
         var gameGroup = new List<AssignmentModel>();
-        if (gameGroupPair is not null)
+        owpIdExclude.AddRange(gameGroupPair.Keys);
+        foreach (var item in gameGroupPair)
         {
-            owpIdExclude.AddRange(gameGroupPair.Keys);
-            foreach (var item in gameGroupPair)
-            {
-                gameGroup.AddRange(item.Value);
+            gameGroup.AddRange(item.Value);
 
-            }
-            await workingSchedule.Group(gameGroup,
-                schedule,
-                "[FIRST_HALF]",
-                assignments => BuildScheduleUpdateModel(assignments, filterDate));
         }
+        workingSchedule.Group(gameGroup,
+           schedule,
+           assignment => BuildScheduleUpdateModel(assignment, filterDate),
+           MatchType.RealMatchLink1G);
     }
 
     public static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignments, DateTime filterDate)
@@ -63,18 +58,14 @@ public class FirstHalfServiceImp : FirstHalfService
             Text = ScheduleHelper.BuildScheduleTextSingleGame(assignments.First())
         };
         var gameInfo = ScheduleHelper.GetGameInfo(assignments);
-        var etPkValue = ETPKHelper.DetectExtraTime(gameInfo.remark);
+
 
         return new ScheduleUpdateModel
         {
             FilterDate = filterDate,
-            EtPk = new ETPKUpdateSchedule
-            {
-                IsHasEtPk = !string.IsNullOrEmpty(etPkValue),
-                EtPkValue = etPkValue
-            },
+            EtPk = new ETPKUpdateSchedule(),
             AssignmentCell = assignmentCell,
-            TimeRange = TimeRangeHelper.CalculateTimeRangeSingleGame(gameInfo.eventDate, gameInfo.bettypeIds, !string.IsNullOrEmpty(etPkValue))
+            TimeRange = TimeRangeHelper.CalculateTimeRangeSingleGame(gameInfo.eventDate, gameInfo.bettypeIds, false)
         };
     }
 }

@@ -4,7 +4,7 @@ namespace OWP.AssigneeSuggestionList.Services.RealMatch;
 
 public interface LinkGameService
 {
-    Task MapAssignmentsToWorkingSchedule(
+    void MapAssignmentsToWorkingSchedule(
         WorkingSchedule schedule,
         IList<AssignmentModel> assignmentModels,
         DateTime fromDate,
@@ -25,14 +25,16 @@ public class LinkGameServiceImp : LinkGameService
         this.linkErrorService = linkErrorService;
     }
 
-    public async Task MapAssignmentsToWorkingSchedule(
+    public void MapAssignmentsToWorkingSchedule(
         WorkingSchedule schedule,
         IList<AssignmentModel> assignmentModels,
         DateTime fromDate,
         List<int> owpIdExclude)
     {
-        await oneGameService.Group(assignmentModels, schedule, fromDate, owpIdExclude);
-        await linkNGameService.Group(assignmentModels, schedule, fromDate, owpIdExclude);
-        await linkErrorService.Group(assignmentModels, schedule, fromDate, owpIdExclude);
+        var canLinkAssignments = assignmentModels.Where(x => !x.IsFantasyMatch).ToList();
+
+        oneGameService.Group(canLinkAssignments, schedule, fromDate, owpIdExclude);
+        linkNGameService.Group(canLinkAssignments, schedule, fromDate, owpIdExclude);
+        linkErrorService.Group(canLinkAssignments, schedule, fromDate, owpIdExclude);
     }
 }

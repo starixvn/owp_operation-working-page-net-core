@@ -36,6 +36,13 @@ public static class DateTimeExtensions
         return parsedTime.ToString("hh:mm tt", CultureInfo.InvariantCulture);
     }
 
+    public static string ToKOTimeWithoutSuffix(this TimeSpan koTime)
+    {
+        var parsedTime = new DateTime(1, 1, 1, koTime.Hours, koTime.Minutes, 0);
+
+        return parsedTime.ToString("hh:mm", CultureInfo.InvariantCulture);
+    }
+
     public static DateTime ToGmt8(this DateTime dateTime)
     {
         return dateTime.ToUniversalTime().AddHours(TimeZoneGMT8);

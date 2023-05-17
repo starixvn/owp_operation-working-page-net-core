@@ -1,4 +1,5 @@
-﻿using OWP.AssigneeSuggestionList.Constant;
+﻿using Newtonsoft.Json;
+using OWP.AssigneeSuggestionList.Constant;
 
 namespace OWP.AssigneeSuggestionList.Models;
 
@@ -18,11 +19,24 @@ public class UserInfo
 
     public string MaxMultipleGames { get; set; }
 
+    [JsonIgnore]
+    public MixMatchCapacity MixMatchCapacity => MaxMultipleGames switch
+    {
+        "1G" or "1G-no LA" => MixMatchCapacity.MaxGame1G,
+        "2G" or "2G-1LA" => MixMatchCapacity.MaxGame2G,
+        "3G" or "3G-2LAs" => MixMatchCapacity.MaxGame3G,
+        _ => MixMatchCapacity.None
+    };
+
     public string Explanation { get; set; }
 
     public DateTime ShiftStartTime { get; set; }
 
     public DateTime ShiftEndTime { get; set; }
+
+    public int Extension { get; set; }
+
+    public string ShiftCode => WorkingShiftConst.ExtensionCode.GetValueOrDefault(Extension, "");
 
     public string Shift => ShiftStartTime.ToString("HH:mm")
                            + " > " + ShiftEndTime.ToString("HH:mm");

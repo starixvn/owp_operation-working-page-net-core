@@ -1,9 +1,11 @@
+using Newtonsoft.Json;
+using OWP.AssigneeSuggestionList.Helper;
 using OWP.Extensions;
 using MatchType = OWP.AssigneeSuggestionList.Constant.MatchType;
 
 namespace OWP.AssigneeSuggestionList.Models;
 
-public record AssignmentModel
+public class AssignmentModel
 {
     public int OWPMatchId { get; set; }
 
@@ -25,7 +27,7 @@ public record AssignmentModel
 
     public bool IsMainMatch { get; set; }
 
-    public bool IsFantasyMatch => LeagueName.IsContains("FANTASY MATCH");
+    public bool IsFantasyMatch => LeagueName.IsContains("Fantasy ");
 
     public bool IsCornerMatch { get; set; }
 
@@ -43,5 +45,14 @@ public record AssignmentModel
 
     public decimal? MaxbetHDP { get; set; }
 
-    public List<AssignmentModel> GroupAssignmentModels { get; set; }
+    public decimal? SpreadHDP { get; set; }
+
+    public DateTime EndTime { get; set; }
+
+    public int? MinorBettypeId { get; set; }
+
+    [JsonIgnore]
+    public List<AssignmentModel> GroupAssignmentModels { get; set; } = new();
+
+    public bool IsSingleMatch => SingleMatchHelper.IsSingleMatch(MaxbetHDP, SpreadHDP, LeagueName);
 }
