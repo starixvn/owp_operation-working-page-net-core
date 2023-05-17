@@ -17,17 +17,26 @@ public class GetEventTicketsServiceImp : GetEventTicketsService
         this.repository = repository;
     }
 
+    //public async Task<IList<TicketBaseInfo>> GetAllTickets(QueryEventTicketsRequest request)
+    //{
+    //    var ticketIdSaved = await repository.GetTicketIdHaveSavedMessage();
+    //    var eventTickets = await GetEventTickets(request);
+
+    //    var ticketIsShowed = BuildTicketIsShowed(eventTickets, ticketIdSaved.ToHashSet());
+    //    var ticketIds = ticketIsShowed.Select(x => x.TicketId).ToList();
+
+    //    await SetLastComment(ticketIds, ticketIsShowed);
+
+    //    return SortEventTicketByCommentLatestDate(ticketIsShowed);
+    //}
     public async Task<IList<TicketBaseInfo>> GetAllTickets(QueryEventTicketsRequest request)
     {
-        var ticketIdSaved = await repository.GetTicketIdHaveSavedMessage();
         var eventTickets = await GetEventTickets(request);
+        var ticketIds = eventTickets.Select(x => x.TicketId).ToList();
 
-        var ticketIsShowed = BuildTicketIsShowed(eventTickets, ticketIdSaved.ToHashSet());
-        var ticketIds = ticketIsShowed.Select(x => x.TicketId).ToList();
+        await SetLastComment(ticketIds, eventTickets);
 
-        await SetLastComment(ticketIds, ticketIsShowed);
-
-        return SortEventTicketByCommentLatestDate(ticketIsShowed);
+        return SortEventTicketByCommentLatestDate(eventTickets);
     }
 
     private async Task<List<TicketBaseInfo>> GetEventTickets(QueryEventTicketsRequest request)
@@ -39,7 +48,6 @@ public class GetEventTicketsServiceImp : GetEventTicketsService
         var ticketLiveIncident = repository.GetEventTicketLiveIncident(request);
 
         await Task.WhenAll(ticketLeague, ticketMatch, ticketOthers, ticketSupport, ticketLiveIncident);
-
 
         var eventTickets = new List<TicketBaseInfo>();
         eventTickets.AddRange(ticketLeague.Result);
@@ -53,7 +61,7 @@ public class GetEventTicketsServiceImp : GetEventTicketsService
 
     private async Task SetLastComment(List<int> ticketIds, List<TicketBaseInfo> ticketIsShowed)
     {
-        var lastComments = (await repository.GetTwoLastComment(ticketIds)).ToArray();
+        var lastComments = (await repository.GetTwoLastComment(ticketIds)).ToList();
 
         foreach (var ticket in ticketIsShowed)
         {
