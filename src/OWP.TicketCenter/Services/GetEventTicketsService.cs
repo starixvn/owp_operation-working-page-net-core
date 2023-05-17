@@ -24,7 +24,7 @@ public class GetEventTicketsServiceImp : GetEventTicketsService
 
         var ticketIsShowed = BuildTicketIsShowed(eventTickets, ticketIdSaved.ToHashSet());
         var ticketIds = ticketIsShowed.Select(x => x.TicketId).ToList();
-        
+
         await SetLastComment(ticketIds, ticketIsShowed);
 
         return SortEventTicketByCommentLatestDate(ticketIsShowed);
@@ -36,7 +36,7 @@ public class GetEventTicketsServiceImp : GetEventTicketsService
         var ticketMatch = repository.GetEventTicketMatch(request);
         var ticketOthers = repository.GetEventTicketOther(request);
         var ticketSupport = repository.GetEventTicketSupport(request);
-        var ticketLiveIncident =  repository.GetEventTicketLiveIncident(request);
+        var ticketLiveIncident = repository.GetEventTicketLiveIncident(request);
 
         await Task.WhenAll(ticketLeague, ticketMatch, ticketOthers, ticketSupport, ticketLiveIncident);
 
@@ -71,13 +71,7 @@ public class GetEventTicketsServiceImp : GetEventTicketsService
 
     private static List<TicketBaseInfo> BuildTicketIsShowed(List<TicketBaseInfo> allTicket, IEnumerable<int> ticketId)
     {
-        var ticketSaved = new List<TicketBaseInfo>();
-
-        ticketId.ToList().ForEach(x =>
-        {
-            var findTicket = allTicket.Where(y => y.TicketId.Equals(x)).ToList();
-            ticketSaved.AddRange(findTicket);
-        });
+        var ticketSaved = allTicket.Where(t => ticketId.Contains(t.TicketId)).ToList();
 
         var ticketNotSaved = allTicket.Except(ticketSaved);
 
