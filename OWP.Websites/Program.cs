@@ -3,6 +3,7 @@ using System.Text;
 using Fanex.NAP.Client;
 using Fanex.NAP.Client.Configuration;
 using Fanex.NAP.Client.Helpers.Web;
+using Fanex.NAP.Signin.AspNetCore.Attribute;
 using Microsoft.AspNetCore.Mvc;
 using ONEbook.UM.AspNetCore.Filters;
 using OWP.Hubs;

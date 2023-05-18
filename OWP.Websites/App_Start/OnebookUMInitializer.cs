@@ -7,6 +7,7 @@ using ONEbook.UM.Configurations;
 using ONEbook.UM.Helpers;
 using ONEbook.UM.Services;
 using ONEbook.UM.Transport;
+using OWP.Websites.CrossCuttingConcern;
 
 namespace OWP.Websites;
 
@@ -29,7 +30,7 @@ public static class OnebookUMInitializer
     {
         services.AddSingleton(umConfig);
         services.AddSingleton<CheckUMFilterAttribute>();
-        services.AddSingleton<IUMCacheService, UMCacheService>();
+        services.AddSingleton<IUMCacheService, MemoryUMCacheService>();
         services.AddSingleton<IUMRestClient, UMRestClient>();
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         services.AddSingleton<IHttpContextHelper, HttpContextHelper>();

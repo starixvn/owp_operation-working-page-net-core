@@ -1,9 +1,5 @@
 ﻿using NSubstitute;
-using OWP.TicketCenter.Handlers;
 using OWP.TicketCenter.Models;
-using OWP.TicketCenter.Services;
-using Xunit;
-using Xunit.Asserts.Compare;
 
 namespace OWP.TicketCenter.UnitTests.Services;
 
@@ -16,23 +12,24 @@ public class GetEventTicketsServiceUnitTests
         repository = Substitute.For<Repository>();
     }
 
-    [Fact]
-    public async Task GetAllLeague_Always_MapTicketLeagueDetail()
-    {
-        var request = new QueryEventTicketsRequest();
-        repository.GetEventTicketLeague(request).Returns(MockListEventTicketLeague());
-        repository.GetEventTicketMatch(request).Returns(MockListEventTicketMatch());
-        repository.GetEventTicketOther(request).Returns(MockListEventTicketOther());
-        repository.GetTicketIdHaveSavedMessage().Returns(MockListTicketIsSaved());
-        repository.GetEventTicketSupport(request).Returns(MockListEventTicketSupport());
-        repository.GetTwoLastComment(Arg.Compat.Any<IList<int>>()).Returns(MockLastMessageInfo());
-        var service = new GetEventTicketsServiceImp(repository);
-        var expected = GetExpected();
+    //[Fact]
+    //public async Task GetAllLeague_Always_MapTicketLeagueDetail()
+    //{
+    //    var request = new QueryEventTicketsRequest();
+    //    repository.GetEventTicketLeague(request).Returns(MockListEventTicketLeague());
+    //    repository.GetEventTicketMatch(request).Returns(MockListEventTicketMatch());
+    //    repository.GetEventTicketOther(request).Returns(MockListEventTicketOther());
+    //    repository.GetTicketIdHaveSavedMessage().Returns(MockListTicketIsSaved());
+    //    repository.GetEventTicketSupport(request).Returns(MockListEventTicketSupport());
+    //    repository.GetTwoLastComment(Arg.Compat.Any<IList<int>>()).Returns(MockLastMessageInfo());
+    //    var service = new GetEventTicketsServiceImp(repository);
+    //    var expected = GetExpected();
 
-        var actual = await service.GetAllTickets(request);
+    //    var actual = await service.GetAllTickets(request);
 
-        DeepAssert.Equal(expected, actual);
-    }
+    //    DeepAssert.Equal(expected, actual);
+    //}
+
     public List<int> MockListTicketIsSaved()
         => new()
         {

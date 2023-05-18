@@ -97,8 +97,8 @@ public static class ServiceCollectionExtensions
             .AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            }
-        );
+                //options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+            });
 
         return services;
     }
