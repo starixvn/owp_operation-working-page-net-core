@@ -22,6 +22,7 @@ public class LiveGameListController : ControllerBase
     public async Task<IActionResult> Query(DateTime eventDate, string statusId)
     {
         var result = await service.GetEvents(eventDate, statusId);
+
         return Ok(JsonConvert.SerializeObject(result));
     }
 }

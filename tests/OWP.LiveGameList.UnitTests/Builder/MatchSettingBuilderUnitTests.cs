@@ -16,7 +16,9 @@ public class MatchSettingBuilderUnitTests
             Handicap = new MatchSetting { OWPMatchId = 117, ParentMatchId = 100, Maxbet = 1, MinorBettypeId = 1, Spread = 10, BettypeId = 1 },
             OverUnder = new MatchSetting { OWPMatchId = 117, ParentMatchId = 200, Maxbet = 2, MinorBettypeId = 3, Spread = 20, BettypeId = 3 }
         };
-        var result = MatchSettingBuilder.Build(new MatchInfo { OWPMatchId = 117 }, matchSettings);
+        var matchInfo = new MatchInfo { OWPMatchId = 117 };
+
+        var result = MatchSettingBuilder.Build(matchInfo, matchSettings, new List<MatchSetting>());
 
         DeepAssert.Equal(expected, result);
     }
@@ -29,7 +31,8 @@ public class MatchSettingBuilderUnitTests
         {
             Handicap = new MatchSetting { OWPMatchId = 117, ParentMatchId = 100, Maxbet = 1, MinorBettypeId = 1, Spread = 10, BettypeId = 1 }
         };
-        var result = MatchSettingBuilder.Build(new MatchInfo { OWPMatchId = 117, IsMinorMatch = true, MinorBettypeId = -3 }, matchSettings);
+        var matchInfo = new MatchInfo { OWPMatchId = 117, IsMinorMatch = true, MinorBettypeId = -3 };
+        var result = MatchSettingBuilder.Build(matchInfo, matchSettings, new List<MatchSetting>());
 
         DeepAssert.Equal(expected, result);
     }
@@ -42,7 +45,8 @@ public class MatchSettingBuilderUnitTests
         {
             Handicap = new MatchSetting { OWPMatchId = 117, ParentMatchId = 100, Maxbet = 1, MinorBettypeId = 1, Spread = 10, BettypeId = 1 }
         };
-        var result = MatchSettingBuilder.Build(new MatchInfo { OWPMatchId = 117, IsMinorMatch = true, MinorBettypeId = -6 }, matchSettings);
+        var matchInfo = new MatchInfo { OWPMatchId = 117, IsMinorMatch = true, MinorBettypeId = -6 };
+        var result = MatchSettingBuilder.Build(matchInfo, matchSettings, new List<MatchSetting>());
 
         DeepAssert.Equal(expected, result);
     }

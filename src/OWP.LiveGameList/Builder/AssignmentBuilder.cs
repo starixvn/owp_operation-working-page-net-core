@@ -1,5 +1,4 @@
 ﻿using OWP.Enums;
-using OWP.Extensions;
 using OWP.LiveGameList.Enum;
 using OWP.LiveGameList.Models;
 
@@ -7,47 +6,39 @@ namespace OWP.LiveGameList.Builder;
 
 public static class AssignmentBuilder
 {
-    public static AssignmentModel Build(MatchInfo matchInfo, IList<Assignment> assignments)
+    public static AssignmentModel Build(MatchInfo matchInfo, IList<Assignment> assignments, IList<Assignment> generatedAssignments)
     {
-        var owpMatchId = matchInfo.OWPMatchId;
-        var assignmentsDict = assignments.GroupBy(a => a.OWPMatchId).ToDictionary(a => a.Key, a => a.ToList());
-        var assignmentsOfMatch = assignmentsDict.GetValue(owpMatchId, new List<Assignment>());
-
-        var parentAssignmentsDict = assignments
-            .Where(x => x.ParentMatchId > 0)
-            .GroupBy(a => a.ParentMatchId).ToDictionary(a => a.Key, a => a.ToList());
-        var generatedAssignments = parentAssignmentsDict.GetValue(matchInfo.OWPMatchId, new List<Assignment>());
-
-        if (!assignmentsOfMatch.Any() && !generatedAssignments.Any())
+        if (!assignments.Any() && !generatedAssignments.Any())
         {
             return new AssignmentModel();
         }
 
         return new AssignmentModel
         {
-            Handicap = GetMainAssignmentByBetType(assignmentsOfMatch, (int)MajorBetType.Handicap),
-            HandicapOthers = GetOtherAssignmentByBetType(assignmentsOfMatch, (int)MajorBetType.Handicap),
-            OverUnder = GetMainAssignmentByBetType(assignmentsOfMatch, (int)MajorBetType.OverUnder),
-            OverUnderOthers = GetOtherAssignmentByBetType(assignmentsOfMatch, (int)MajorBetType.OverUnder),
-            OneXTwo = GetMainAssignmentByBetType(assignmentsOfMatch, (int)MajorBetType.OneXTwo),
-            OneXTwoOthers = GetOtherAssignmentByBetType(assignmentsOfMatch, (int)MajorBetType.OneXTwo),
-            Handicap1st = GetMainAssignmentByBetType(assignmentsOfMatch, (int)MajorBetType.Handicap1St),
-            Handicap1stOthers = GetOtherAssignmentByBetType(assignmentsOfMatch, (int)MajorBetType.Handicap1St),
-            OverUnder1st = GetMainAssignmentByBetType(assignmentsOfMatch, (int)MajorBetType.OverUnder1St),
-            OverUnder1stOthers = GetOtherAssignmentByBetType(assignmentsOfMatch, (int)MajorBetType.OverUnder1St),
-            OneXTwo1st = GetMainAssignmentByBetType(assignmentsOfMatch, (int)MajorBetType.OneXTwo1St),
-            OneXTwo1stOthers = GetOtherAssignmentByBetType(assignmentsOfMatch, (int)MajorBetType.OneXTwo1St),
-            LA = GetMainAssignmentByBetType(assignmentsOfMatch, (int)MajorBetType.La2Nd),
-            LAOthers = GetOtherAssignmentByBetType(assignmentsOfMatch, (int)MajorBetType.La2Nd),
-
-            Specific15Mins = GetAssignmentForSpecialBetType(generatedAssignments, matchInfo, (int)MinorBetType.Specific15Mins, (int)AssignmentType.Main),
-            Specific15MinsOthers = GetAssignmentForSpecialBetType(generatedAssignments, matchInfo, (int)MinorBetType.Specific15Mins, (int)AssignmentType.Others),
-            Specific10Mins = GetAssignmentForSpecialBetType(generatedAssignments, matchInfo, (int)MinorBetType.Specific10Mins, (int)AssignmentType.Main),
-            Specific10MinsOthers = GetAssignmentForSpecialBetType(generatedAssignments, matchInfo, (int)MinorBetType.Specific10Mins, (int)AssignmentType.Others),
-            FastMarket = GetAssignmentForSpecialBetType(generatedAssignments, matchInfo, (int)MinorBetType.FastMarket, (int)AssignmentType.Main),
-            FastMarketOthers = GetAssignmentForSpecialBetType(generatedAssignments, matchInfo, (int)MinorBetType.FastMarket, (int)AssignmentType.Others),
-            AllInOne = GetAssignmentForSpecialBetType(generatedAssignments, matchInfo, (int)MinorBetType.AllInOne, (int)AssignmentType.Main),
-            AllInOneOthers = GetAssignmentForSpecialBetType(generatedAssignments, matchInfo, (int)MinorBetType.AllInOne, (int)AssignmentType.Others)
+            Handicap = GetMainAssignmentByBetType(assignments, (int)MajorBetType.Handicap),
+            HandicapOthers = GetOtherAssignmentByBetType(assignments, (int)MajorBetType.Handicap),
+            OverUnder = GetMainAssignmentByBetType(assignments, (int)MajorBetType.OverUnder),
+            OverUnderOthers = GetOtherAssignmentByBetType(assignments, (int)MajorBetType.OverUnder),
+            OneXTwo = GetMainAssignmentByBetType(assignments, (int)MajorBetType.OneXTwo),
+            OneXTwoOthers = GetOtherAssignmentByBetType(assignments, (int)MajorBetType.OneXTwo),
+            Handicap1st = GetMainAssignmentByBetType(assignments, (int)MajorBetType.Handicap1St),
+            Handicap1stOthers = GetOtherAssignmentByBetType(assignments, (int)MajorBetType.Handicap1St),
+            OverUnder1st = GetMainAssignmentByBetType(assignments, (int)MajorBetType.OverUnder1St),
+            OverUnder1stOthers = GetOtherAssignmentByBetType(assignments, (int)MajorBetType.OverUnder1St),
+            OneXTwo1st = GetMainAssignmentByBetType(assignments, (int)MajorBetType.OneXTwo1St),
+            OneXTwo1stOthers = GetOtherAssignmentByBetType(assignments, (int)MajorBetType.OneXTwo1St),
+            LA = GetMainAssignmentByBetType(assignments, (int)MajorBetType.La2Nd),
+            LAOthers = GetOtherAssignmentByBetType(assignments, (int)MajorBetType.La2Nd),
+            // Special bettype
+            Specific10Mins = GetAssignmentForSpecialBetType(generatedAssignments, (int)MinorBetType.Specific10Mins, (int)AssignmentType.Main),
+            Specific10MinsOthers = GetAssignmentForSpecialBetType(generatedAssignments, (int)MinorBetType.Specific10Mins, (int)AssignmentType.Others),
+            FastMarket = GetAssignmentForSpecialBetType(generatedAssignments, (int)MinorBetType.FastMarket, (int)AssignmentType.Main),
+            FastMarketOthers = GetAssignmentForSpecialBetType(generatedAssignments, (int)MinorBetType.FastMarket, (int)AssignmentType.Others),
+            AllInOne = GetAssignmentForSpecialBetType(generatedAssignments, (int)MinorBetType.AllInOne, (int)AssignmentType.Main),
+            AllInOneOthers = GetAssignmentForSpecialBetType(generatedAssignments, (int)MinorBetType.AllInOne, (int)AssignmentType.Others),
+            // Specific 15 mins
+            Specific15Mins = GetAssignmentForSpecific15MinsBetType(generatedAssignments, matchInfo, (int)AssignmentType.Main),
+            Specific15MinsOthers = GetAssignmentForSpecific15MinsBetType(generatedAssignments, matchInfo, (int)AssignmentType.Others)
         };
     }
 
@@ -57,17 +48,25 @@ public static class AssignmentBuilder
     private static IEnumerable<Assignment> GetOtherAssignmentByBetType(IEnumerable<Assignment> assignments, int betType)
         => assignments.Where(x => x.BettypeId == betType && x.AssignmentType == (int)AssignmentType.Others);
 
-    private static IEnumerable<Assignment> GetAssignmentForSpecialBetType(IEnumerable<Assignment> generatedAssignments, MatchInfo matchInfo, int betTypeId, int assignmentType)
-        => !matchInfo.IsMinorMatch
-            ? generatedAssignments.Where(x => x.MinorBettypeId == betTypeId &&
-                                                       x.BettypeId == (int)MajorBetType.Handicap &&
-                                                       x.AssignmentType == assignmentType)
-            : GetAssignmentForSpecific15Mins(generatedAssignments, matchInfo, betTypeId, assignmentType);
+    private static IEnumerable<Assignment> GetAssignmentForSpecialBetType(IEnumerable<Assignment> generatedAssignments, int betTypeId, int assignmentType)
+        => GetGeneratedAssignmentForMainMatch(generatedAssignments, betTypeId, assignmentType);
 
-    private static IEnumerable<Assignment> GetAssignmentForSpecific15Mins(
+    private static IEnumerable<Assignment> GetAssignmentForSpecific15MinsBetType(IEnumerable<Assignment> generatedAssignments, MatchInfo matchInfo, int assignmentType)
+        => matchInfo.IsMinorMatch
+            ? GetAssignmentSpecific15MinsOfSpecialProduct(generatedAssignments, matchInfo, assignmentType)
+            : GetGeneratedAssignmentForMainMatch(generatedAssignments, (int)MinorBetType.Specific15Mins, assignmentType);
+
+    private static IEnumerable<Assignment> GetGeneratedAssignmentForMainMatch(IEnumerable<Assignment> generatedAssignments, int betTypeId, int assignmentType)
+    {
+        return generatedAssignments.Where(x =>
+            x.MinorBettypeId == betTypeId &&
+            x.BettypeId == (int)MajorBetType.Handicap &&
+            x.AssignmentType == assignmentType);
+    }
+
+    private static IEnumerable<Assignment> GetAssignmentSpecific15MinsOfSpecialProduct(
         IEnumerable<Assignment> generatedAssignments,
         MatchInfo matchInfo,
-        int betTypeId,
         int assignmentType)
     {
         var refMinorBettypeId = matchInfo.MinorBettypeId switch
@@ -77,7 +76,7 @@ public static class AssignmentBuilder
             _ => 0
         };
 
-        if (betTypeId is not (int)MinorBetType.Specific15Mins || refMinorBettypeId == 0)
+        if (refMinorBettypeId == 0)
         {
             return new List<Assignment>();
         }
