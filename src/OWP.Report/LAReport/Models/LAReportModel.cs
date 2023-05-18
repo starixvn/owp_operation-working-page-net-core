@@ -26,7 +26,7 @@ public class LAReportModel
 
     public int Link8Plus { get; set; }
 
-    public int TotalMultiMatches => Link2 + Link3 + Link4 + Link5 + Link6 + Link7 + Link8Plus;
+    public int TotalMultiMatches { get; set; }
 
     public int OnlyProvider { get; set; }
 
@@ -72,28 +72,12 @@ public class LAReportModel
 
     public int Others { get; set; }
 
-    public int SumTotal()
-        => Link2 +
-           Link3 +
-           Link4 +
-           Link5 +
-           Link6 +
-           Link7 +
-           Link8Plus +
-           OnlyProvider +
-           OnlyTv +
-           OnlyReporter +
-           MixedProviderTVReporter +
-           CornerPlus +
-           TBookingPlus +
-           Fantasy +
-           GoalKick +
-           OtherProducts +
-           FTCorner +
-           ESoccer5Mins +
-           ESoccer6Mins +
-           ESoccer15Mins +
-           ESoccer16Mins +
-           ESoccer20Mins +
+    public int SumTotal
+        => TotalMultiMatches +
+           TotalSingleMatches +
+           TotalSpecialProducts +
+           TotalMixedProduct +
+          TotalESoccer +
+          FiveML +
            Others;
 }
