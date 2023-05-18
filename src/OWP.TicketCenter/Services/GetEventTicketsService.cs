@@ -17,18 +17,6 @@ public class GetEventTicketsServiceImp : GetEventTicketsService
         this.repository = repository;
     }
 
-    //public async Task<IList<TicketBaseInfo>> GetAllTickets(QueryEventTicketsRequest request)
-    //{
-    //    var ticketIdSaved = await repository.GetTicketIdHaveSavedMessage();
-    //    var eventTickets = await GetEventTickets(request);
-
-    //    var ticketIsShowed = BuildTicketIsShowed(eventTickets, ticketIdSaved.ToHashSet());
-    //    var ticketIds = ticketIsShowed.Select(x => x.TicketId).ToList();
-
-    //    await SetLastComment(ticketIds, ticketIsShowed);
-
-    //    return SortEventTicketByCommentLatestDate(ticketIsShowed);
-    //}
     public async Task<IList<TicketBaseInfo>> GetAllTickets(QueryEventTicketsRequest request)
     {
         var eventTickets = await GetEventTickets(request);
@@ -75,18 +63,5 @@ public class GetEventTicketsServiceImp : GetEventTicketsService
             .OrderByDescending(x => x.IsPinned)
             .ThenByDescending(x => x.LastCommentDate)
             .ToList();
-    }
-
-    private static List<TicketBaseInfo> BuildTicketIsShowed(List<TicketBaseInfo> allTicket, IEnumerable<int> ticketId)
-    {
-        var ticketSaved = allTicket.Where(t => ticketId.Contains(t.TicketId)).ToList();
-
-        var ticketNotSaved = allTicket.Except(ticketSaved);
-
-        var ticketIsShowed = ticketNotSaved.Where(x => DateTime.Now.Subtract(x.LastCommentDate).Days <= 30);
-
-        ticketSaved.AddRange(ticketIsShowed);
-
-        return ticketSaved;
     }
 }
