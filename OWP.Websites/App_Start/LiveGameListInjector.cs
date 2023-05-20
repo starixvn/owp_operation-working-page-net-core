@@ -11,7 +11,7 @@ public static class LiveGameListInjector
     {
         services.AddScoped<Repository, RepositoryImp>();
         services.AddScoped<EventInformationService, EventInformationServiceImp>();
-        services.AddScoped<GetAdminSiteMatchIdService, GetAdminSiteMatchIdServiceImp>();
+        services.AddScoped<AdminSiteMatchServices, AdminSiteMatchServicesImp>();
+        services.AddScoped<InfoSiteTimeServices, InfoSiteTimeServicesImp>();
     }
-
 }

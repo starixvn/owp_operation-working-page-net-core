@@ -1,4 +1,5 @@
 ﻿using OWP.Enums;
+using OWP.Extensions;
 using OWP.LiveGameList.Enum;
 using OWP.LiveGameList.Models;
 
@@ -6,8 +7,11 @@ namespace OWP.LiveGameList.Builder;
 
 public static class AssignmentBuilder
 {
-    public static AssignmentModel Build(MatchInfo matchInfo, IList<Assignment> assignments, IList<Assignment> generatedAssignments)
+    public static AssignmentModel Build(MatchInfo matchInfo, Dictionary<int, List<Assignment>> assignmentsDict, Dictionary<int, List<Assignment>> minorAssignmentsDict)
     {
+        var assignments = assignmentsDict.GetValue(matchInfo.OWPMatchId, new List<Assignment>());
+        var generatedAssignments = minorAssignmentsDict.GetValue(matchInfo.OWPMatchId, new List<Assignment>());
+
         if (!assignments.Any() && !generatedAssignments.Any())
         {
             return new AssignmentModel();

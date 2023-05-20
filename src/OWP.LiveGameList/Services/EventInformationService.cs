@@ -2,11 +2,9 @@
 using Fanex.NAP.Core.Business;
 using OWP.Constants;
 using OWP.Extensions;
-using OWP.Helpers;
 using OWP.LiveGameList.Builder;
-using OWP.LiveGameList.Const;
-using OWP.LiveGameList.Criteria;
 using OWP.LiveGameList.Models;
+using OWP.Models;
 using OWP.Services;
 using System.Net;
 
@@ -20,149 +18,86 @@ public interface EventInformationService
 public class EventInformationServiceImp : EventInformationService
 {
     private readonly INapSession currentSession;
-    private readonly GetAdminSiteMatchIdService getAdminSiteMatchIdService;
+    private readonly AdminSiteMatchServices adminSiteMatchServices;
     private readonly PermissionService permissionService;
     private readonly Repository repository;
-    private readonly GetInfoSiteTimeService getInfoSiteTimeService;
-    private readonly GetAdminSiteInfoService getAdminSiteInfoService;
-
-    private List<MatchInfo> matchInfos = new();
+    private readonly InfoSiteTimeServices infoSiteTimeService;
 
     public EventInformationServiceImp(
         Repository repository,
         INapSession currentSession,
-        GetAdminSiteMatchIdService getAdminSiteMatchIdService,
-        PermissionService permissionService, GetInfoSiteTimeService getInfoSiteTimeService, GetAdminSiteInfoService getAdminSiteInfoService)
+        AdminSiteMatchServices adminSiteMatchServices,
+        PermissionService permissionService,
+        InfoSiteTimeServices infoSiteTimeService)
     {
         this.repository = repository;
         this.currentSession = currentSession;
-        this.getAdminSiteMatchIdService = getAdminSiteMatchIdService;
+        this.adminSiteMatchServices = adminSiteMatchServices;
         this.permissionService = permissionService;
-        this.getInfoSiteTimeService = getInfoSiteTimeService;
-        this.getAdminSiteInfoService = getAdminSiteInfoService;
-    }
-
-    public async Task BuildInfoMatch()
-    {
-        var parentMatchIds = string.Join(',', matchInfos.Select(x => x.ParentMatchId).Distinct());
-
-        var infoSiteInfo = (await getInfoSiteTimeService.GetInfoSiteTime(parentMatchIds)).ToList();
-
-        var adminSiteIdsWithOwpMatches = (await getAdminSiteInfoService.GetAdminSiteMatchId(parentMatchIds)).ToList();
-
-        var adminSitesIdsOdds = (await getAdminSiteInfoService.GetAdminSiteInfo()).ToList();
-
-        var adminSiteMatchInfo = LiveGameHelper.MergeAdminSiteInfo(adminSiteIdsWithOwpMatches, adminSitesIdsOdds);
-
-        foreach (var matchInfo in matchInfos)
-        {
-            var infoSite = infoSiteInfo.FirstOrDefault(x => x.ParentMatchId == matchInfo.ParentMatchId);
-            var isShowAbsenceIcon = adminSiteMatchInfo.Any(x => x.ParentMatchId == matchInfo.OWPMatchId);
-            matchInfo.InfoSiteTime = infoSite?.KickOffTime;
-            matchInfo.InfoSiteTimeDisplay = infoSite?.KickOffTimeDisplay;
-            matchInfo.IsShowAbsenceIcon = !LiveGameListConst.StatusNotOffered.Contains(matchInfo.MatchStatus) && isShowAbsenceIcon;
-        }
+        this.infoSiteTimeService = infoSiteTimeService;
     }
 
     public async Task<IEnumerable<MatchInfo>> GetEvents(DateTime eventDate, string statusId)
     {
-        var (matchesRaw, assignments, matchSetting, televisions, matchOffers, tickets) = repository
-            .GetEventInformation(
-                new GetEventsCriteria
-                {
-                    EventDate = eventDate,
-                    MatchStatusIds = statusId,
-                    ActorId = currentSession.UserId,
-                    ShowAll = IsShowFullEventInformation()
-                });
+        var eventInformation = repository.GetEventInformation(eventDate, statusId, currentSession.UserId, IsShowFullEventInformation());
+        var minorAdminSiteInfos = await adminSiteMatchServices.GetMinorAdminSiteIds(eventInformation.MatchInfos);
 
-        matchInfos = matchesRaw.ToList();
-        BuildEvent(assignments, matchSetting, televisions, matchOffers, tickets.ToList());
+        var parentMatchIds = string.Join(',', eventInformation.MatchInfos.Select(x => x.ParentMatchId).Distinct());
+        var infositeInfos = await infoSiteTimeService.GetInfositeInfo(parentMatchIds);
+        var adminsiteInfos = await adminSiteMatchServices.GetAdminSiteInfo(parentMatchIds);
 
-        await getAdminSiteMatchIdService.UpdateMinorAdminMatchId(matchInfos);
-        await BuildInfoMatch();
-
-        return matchInfos;
+        return BuildEvent(eventInformation, minorAdminSiteInfos.ToList(), infositeInfos, adminsiteInfos);
     }
 
-    private void BuildEvent(
-        IEnumerable<Assignment> assignments,
-        IEnumerable<MatchSetting> matchSettings,
-        IEnumerable<Television> televisions,
-        IEnumerable<MatchOffer> matchOffers,
-        IList<TicketInfo> tickets)
+    private IEnumerable<MatchInfo> BuildEvent(
+        EventInformation eventInfo,
+        IList<MinorMatchInfo> minorAdminSiteInfos,
+        List<InfoSiteTimeModel> infositeInfos,
+        List<AdminSiteMatchInfoModel> adminsiteInfos)
     {
-        var (assignmentsDict, minorAssignmentsDict) = GetAssignmentsInDict(assignments);
-        var (matchSettingsDict, minorMatchSettingsDict) = GetMatchSettingsInDict(matchSettings);
-        var televisionsDict = GetTelevisionsDict(televisions);
-        var matchOffersDict = GetMatchOffersDict(matchOffers);
-
-        foreach (var matchInfo in matchInfos)
+        foreach (var matchInfo in eventInfo.MatchInfos)
         {
             var owpMatchId = matchInfo.OWPMatchId;
-            var assignmentsOfMatch = assignmentsDict.GetValue(owpMatchId, new List<Assignment>());
-            var generatedAssignments = minorAssignmentsDict.GetValue(owpMatchId, new List<Assignment>());
-            var matchSettingsOfMatch = matchSettingsDict.GetValue(owpMatchId, new List<MatchSetting>());
-            var generatedMatchSettings = minorMatchSettingsDict.GetValue(owpMatchId, new List<MatchSetting>());
 
-            matchInfo.Assignment = AssignmentBuilder.Build(matchInfo, assignmentsOfMatch, generatedAssignments);
-            matchInfo.MatchSetting = MatchSettingBuilder.Build(matchInfo, matchSettingsOfMatch, generatedMatchSettings);
-            matchInfo.Televisions = televisionsDict.GetValue(owpMatchId, new List<Television>());
-            matchInfo.MatchOffers = matchOffersDict.GetValue(owpMatchId, new List<MatchOffer>())
-                .Select(x => new MatchOffer
-                {
-                    OWPMatchId = x.OWPMatchId,
-                    MatchOfferValue = WebUtility.HtmlEncode(x.MatchOfferValue)
-                });
-            matchInfo.IPTVCopy = IPTVBuilder.Build(new IPTVModel
-            {
-                Television = string.Join("/", matchInfo.Televisions.Select(t => t.TVCode)),
-                IpTv = matchInfo.IPTV,
-                Channel = matchInfo.Channel,
-                Stream = matchInfo.WatchBet
-            });
-            var ticketByMatchId = tickets
-                .Where(x => x.OwpMatchId == matchInfo.OWPMatchId)
-                .ToList();
-            matchInfo.TicketInfos = ticketByMatchId.OrderByDescending(x => x.LatestCreatedDate);
-            matchInfo.HasTicket = ticketByMatchId.Any();
-            matchInfo.IsRead = ticketByMatchId.All(x => x.IsRead);
+            matchInfo.Assignment = AssignmentBuilder.Build(matchInfo, eventInfo.AssignmentsDict, eventInfo.MinorAssignmentsDict);
+            matchInfo.MatchSetting = MatchSettingBuilder.Build(matchInfo, eventInfo.MatchSettingsDict, eventInfo.MinorMatchSettingsDict);
+            matchInfo.Televisions = BuildTelevisions(eventInfo, owpMatchId);
+            matchInfo.MatchOffers = BuildMatchOffers(eventInfo, owpMatchId);
+            matchInfo.IPTVCopy = BuildIptvCopy(matchInfo);
+            matchInfo.TicketInfos = BuildTicketInfos(eventInfo, owpMatchId);
+
+            adminSiteMatchServices.UpdateMinorAdminMatchId(matchInfo, minorAdminSiteInfos);
+            infoSiteTimeService.BuildInfoSiteTimeAndAbsenceIcon(matchInfo, infositeInfos, adminsiteInfos);
 
             LengthPropertyBuilder.BuildLengthProperty(matchInfo);
+
+            yield return matchInfo;
         }
     }
 
-    private static Dictionary<int, List<Television>> GetTelevisionsDict(IEnumerable<Television> televisions)
-        => televisions.GroupBy(a => a.OWPMatchId).ToDictionary(a => a.Key, a => a.ToList());
+    private static IEnumerable<Television> BuildTelevisions(EventInformation eventInfo, int owpMatchId)
+        => eventInfo.TelevisionsDict.GetValue(owpMatchId, new List<Television>());
 
-    private static Dictionary<int, List<MatchOffer>> GetMatchOffersDict(IEnumerable<MatchOffer> matchOffers)
-        => matchOffers.GroupBy(a => a.OWPMatchId).ToDictionary(a => a.Key, a => a.ToList());
+    private static IEnumerable<TicketInfo> BuildTicketInfos(EventInformation eventInfo, int owpMatchId)
+        => eventInfo.TicketInfosDict.GetValue(owpMatchId, new List<TicketInfo>())
+            .OrderByDescending(x => x.LatestCreatedDate);
 
-    private static (Dictionary<int, List<Assignment>>, Dictionary<int, List<Assignment>>) GetAssignmentsInDict(IEnumerable<Assignment> assignments)
-    {
-        var assignmentList = assignments.ToList();
-        var assignmentsDict = assignmentList
-            .GroupBy(a => a.OWPMatchId)
-            .ToDictionary(a => a.Key, a => a.ToList());
-        var minorAssignmentsDict = assignmentList
-            .Where(x => x.ParentMatchId > 0)
-            .GroupBy(a => a.ParentMatchId).ToDictionary(a => a.Key, a => a.ToList());
+    private static string BuildIptvCopy(MatchInfo matchInfo)
+        => IPTVBuilder.Build(new IPTVModel
+        {
+            Television = string.Join("/", matchInfo.Televisions.Select(t => t.TVCode)),
+            IpTv = matchInfo.IPTV,
+            Channel = matchInfo.Channel,
+            Stream = matchInfo.WatchBet
+        });
 
-        return (assignmentsDict, minorAssignmentsDict);
-    }
-
-    private static (Dictionary<int, List<MatchSetting>>, Dictionary<int, List<MatchSetting>>) GetMatchSettingsInDict(IEnumerable<MatchSetting> matchSettings)
-    {
-        var matchSettingList = matchSettings.ToList();
-        var matchSettingsDict = matchSettingList
-            .GroupBy(a => a.OWPMatchId)
-            .ToDictionary(a => a.Key, a => a.ToList());
-        var minorMatchSettingsDict = matchSettingList
-            .Where(x => x.ParentMatchId > 0)
-            .GroupBy(a => a.ParentMatchId).ToDictionary(a => a.Key, a => a.ToList());
-
-        return (matchSettingsDict, minorMatchSettingsDict);
-    }
+    private static IEnumerable<MatchOffer> BuildMatchOffers(EventInformation eventInfo, int owpMatchId)
+        => eventInfo.MatchOffersDict.GetValue(owpMatchId, new List<MatchOffer>())
+            .Select(x => new MatchOffer
+            {
+                OWPMatchId = x.OWPMatchId,
+                MatchOfferValue = WebUtility.HtmlEncode(x.MatchOfferValue)
+            });
 
     private bool IsShowFullEventInformation() => permissionService.HasRight(FunctionKeys.FullTimeView, Constant.Policy.Read);
 }

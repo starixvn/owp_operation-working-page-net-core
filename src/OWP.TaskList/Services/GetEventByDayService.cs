@@ -1,6 +1,5 @@
 ﻿using Fanex.NAP.Client.Helpers.Web;
 using OWP.Helpers;
-using OWP.Models;
 using OWP.Services;
 using OWP.TaskList.Builders;
 using OWP.TaskList.Const;
@@ -96,7 +95,6 @@ public class GetEventByDayServiceImp : GetEventByDayService
         {
             match.AdminSiteId = await getAdminSiteMatchIdService.GetAdminSiteMatchId(match.OWPMatchId,
                 match.ParentMatchId, match.MinorBettypeId);
-
         }
     }
     private void BuildIPTVCopy(IList<MatchInfo> matches)

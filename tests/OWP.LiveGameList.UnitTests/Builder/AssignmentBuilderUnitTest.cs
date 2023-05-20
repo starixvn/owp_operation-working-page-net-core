@@ -43,26 +43,37 @@ public class AssignmentBuilderUnitTest
         DeepAssert.Equal(expected.Specific15Mins, result.Specific15Mins.ToList());
     }
 
-    public List<Assignment> MockAssignment()
-        => new()
+    public Dictionary<int, List<Assignment>> MockAssignment()
+    {
+        return new Dictionary<int, List<Assignment>>
         {
-            new Assignment
             {
-                BettypeId = 1, MinorBettypeId = 1, AssignmentType = 1,OWPMatchId = 117
+                117, new List<Assignment>
+                {
+                    new() { BettypeId = 1, MinorBettypeId = 1, AssignmentType = 1, OWPMatchId = 117 }
+                }
             }
         };
+    }
 
-    public List<Assignment> MockGeneratedAssignment()
-        => new()
+    public Dictionary<int, List<Assignment>> MockGeneratedAssignment()
+    {
+        return new Dictionary<int, List<Assignment>>
         {
-            new Assignment
             {
-                BettypeId = 1, MinorBettypeId = -5, AssignmentType = 1,OWPMatchId = 1117, ParentMatchId = 117
-            },
-            new Assignment
-            {
-                BettypeId = 1, MinorBettypeId = -8, AssignmentType = 1,OWPMatchId = 1117, ParentMatchId = 117
+                117, new List<Assignment>
+                {
+                    new()
+                    {
+                        BettypeId = 1, MinorBettypeId = -5, AssignmentType = 1, OWPMatchId = 1117, ParentMatchId = 117
+                    },
+                    new()
+                    {
+                        BettypeId = 1, MinorBettypeId = -8, AssignmentType = 1, OWPMatchId = 1117, ParentMatchId = 117
+                    }
+                }
             }
         };
+    }
 }
 
