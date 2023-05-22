@@ -69,6 +69,7 @@ public static class OrderAssigneeHelper
         var mainBetTypeLst = mainBetType.Split(',');
         var mainBetTypeIndex = new List<int>();
 
+
         if (OrderConstant.HdpTypeIds.Contains(matchInfo.BettypeId))
         {
             mainBetTypeIndex = mainBetTypeLst.Select(x => Array.IndexOf(OrderConstant.MainBetTypesHdp, x)).ToList();
@@ -94,9 +95,10 @@ public static class OrderAssigneeHelper
     }
 
     public static int SortByWorkLoad(UserInfo userInfo)
-    {
-
-        return 1;
-    }
-       
+        => userInfo.CategoryType switch
+        {
+            CategoryType.FullyAvailable => userInfo.WorkLoadType,
+            CategoryType.Busy => (int)userInfo.MixMatchCapacity,
+            _ => -1
+        };
 }

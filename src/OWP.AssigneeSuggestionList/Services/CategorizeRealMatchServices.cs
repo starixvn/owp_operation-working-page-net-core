@@ -23,6 +23,7 @@ public class CategorizeRealMatchServicesImp : CategorizeRealMatchServices
             schedule.CategoryType = categoryType;
             schedule.UserInfo.Explanation = explanation;
             schedule.UserInfo.WorkLoadType = (int)assigneeType;
+            schedule.UserInfo.CategoryType = categoryType;
         }
     }
 
@@ -79,15 +80,15 @@ public class CategorizeRealMatchServicesImp : CategorizeRealMatchServices
 
     public static AssigneeCategory HasAssignmentLinkNGame(UserInfo userInfo, List<AssignmentModel> assignments, MatchInfo matchInfo)
     {
-        var sameKOTimeAssignments = GetSameKOTimeAssignments(assignments, matchInfo);
-        if (!sameKOTimeAssignments.Any())
+        var sameKoTimeAssignments = GetSameKoTimeAssignments(assignments, matchInfo);
+        if (!sameKoTimeAssignments.Any())
         {
             return AssigneeCategory.Busy;
         }
 
-        var hasLink1G = sameKOTimeAssignments.Any(x => x.MatchType is MatchType.RealMatchLink1G);
+        var hasLink1G = sameKoTimeAssignments.Any(x => x.MatchType is MatchType.RealMatchLink1G);
         var hasLink2G = matchInfo.MaxbetHDP <= CategoryConstants.MAX_BET_5K &&
-            sameKOTimeAssignments.Any(x =>
+            sameKoTimeAssignments.Any(x =>
                 x.MatchType is MatchType.RealMatchLink2G &&
                 x.GroupAssignmentModels.All(y =>
                     y.MaxbetHDP is null or <= CategoryConstants.MAX_BET_5K &&
@@ -103,7 +104,7 @@ public class CategorizeRealMatchServicesImp : CategorizeRealMatchServices
         };
     }
 
-    private static List<AssignmentModel> GetSameKOTimeAssignments(IEnumerable<AssignmentModel> assignments, MatchInfo matchInfo)
+    private static List<AssignmentModel> GetSameKoTimeAssignments(IEnumerable<AssignmentModel> assignments, MatchInfo matchInfo)
         => assignments
             .Where(x =>
                 !x.IsSaba &&
