@@ -113,6 +113,5 @@ public class AdminSiteMatchServicesImp : AdminSiteMatchServices
         return null;
     }
 
-    private int GetSubTypeSpecialProduct(int minorBetTypeId)
-        => specialMinorSubTypes.ContainsKey(minorBetTypeId) ? specialMinorSubTypes[minorBetTypeId] : 0;
+    private int GetSubTypeSpecialProduct(int minorBetTypeId) => specialMinorSubTypes[minorBetTypeId];
 }

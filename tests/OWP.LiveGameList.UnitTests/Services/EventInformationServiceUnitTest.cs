@@ -120,7 +120,11 @@ public class EventInformationServiceUnitTest
         return new Dictionary<int, List<TicketInfo>>
         {
             {
-                1, new List<TicketInfo> { new() { OwpMatchId = 1 } }
+                1, new List<TicketInfo>
+                {
+                    new() { OwpMatchId = 1, LatestCreatedDate = new DateTime(2023,5,20) },
+                    new() { OwpMatchId = 1, LatestCreatedDate = new DateTime(2023,5,22) }
+                }
             }
         };
     }
