@@ -15,7 +15,7 @@ public class UserInfo
 
     public string LevelLabel { get; set; }
 
-    public string MainBetType { get; set; }
+    public string MainBetType { get; set; } = "none";
 
     public string MaxMultipleGames { get; set; }
 
@@ -29,6 +29,8 @@ public class UserInfo
     };
 
     public string Explanation { get; set; }
+
+    public int WorkLoadType { get; set; }
 
     public DateTime ShiftStartTime { get; set; }
 

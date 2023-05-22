@@ -22,6 +22,7 @@ public class CategorizeRealMatchServicesImp : CategorizeRealMatchServices
 
             schedule.CategoryType = categoryType;
             schedule.UserInfo.Explanation = explanation;
+            schedule.UserInfo.WorkLoadType = (int)assigneeType;
         }
     }
 
@@ -114,9 +115,9 @@ public class CategorizeRealMatchServicesImp : CategorizeRealMatchServices
         => category switch
         {
             AssigneeCategory.Free => (CategoryType.FullyAvailable, FormatExplanation(ExplanationConstants.FREE, matchInfo)),
+            AssigneeCategory.Capacity3GDoing1G => (CategoryType.FullyAvailable, ExplanationConstants.CAPACITY_3G_DOING_1G),
             AssigneeCategory.Capacity2GDoing1G => (CategoryType.FullyAvailable, ExplanationConstants.CAPACITY_2G_DOING_1G),
             AssigneeCategory.Capacity3GDoing2G => (CategoryType.FullyAvailable, ExplanationConstants.CAPACITY_3G_DOING_2G),
-            AssigneeCategory.Capacity3GDoing1G => (CategoryType.FullyAvailable, ExplanationConstants.CAPACITY_3G_DOING_1G),
             AssigneeCategory.PartiallyFree => (CategoryType.PartiallyAvailable, FormatExplanation(ExplanationConstants.PARTIALLY_AVAILABLE, matchInfo, true)),
             _ => (CategoryType.Busy, null)
         };

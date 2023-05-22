@@ -1,5 +1,6 @@
 ﻿using OWP.AssigneeSuggestionList.Models;
 using System.Collections.Immutable;
+using System.Runtime.Intrinsics.Arm;
 
 namespace OWP.AssigneeSuggestionList.Constant;
 
@@ -148,6 +149,18 @@ public static class OrderConstant
     public static string[] ChildMatchLevel = { "[OP]1st", "[OP]2nd", "BK CR", "1st", "2nd", "Only SB", "none" };
 
     public static string[] RoleOrder = { "staff", "leader", "supervisor", "management" };
+
+    public static string[] MainBetTypesHdp = { "2", "2[HDP]", "2[OU]", "FS", "2[OP]", "SB", "5min", "6min", "none" };
+
+    public static string[] MainBetTypesOu = { "2", "2[OU]", "2[HDP]", "FS", "2[OP]", "SB", "5min", "6min", "none" };
+
+    public static string[] MainBetTypesFs = { "FS", "2", "2[HDP]", "2[OU]", "2[OP]", "SB", "5min", "6min", "none" };
+
+    public static string[] MainBetTypesChild = { "2[OP]", "2", "2[OU]", "2[HDP]", "FS", "SB", "5min", "6min", "none" };
+
+    public static int[] HdpTypeIds = { 1, 7 };
+
+    public static int[] OuTypeIds = { 3, 8 };
 }
 
 

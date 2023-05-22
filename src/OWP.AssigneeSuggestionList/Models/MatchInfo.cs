@@ -45,6 +45,8 @@ public class MatchInfo
 
     public bool IsSaba => LeagueName.IsContains("SABA ");
 
+    public bool IsFutsal => LeagueName.IsContains("FUTSAL");
+
     public string BettypeName => BettypeId switch
     {
         Bettype.Handicap => "FT HDP",
