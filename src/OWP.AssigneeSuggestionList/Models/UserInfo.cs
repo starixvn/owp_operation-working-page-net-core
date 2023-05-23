@@ -15,7 +15,7 @@ public class UserInfo
 
     public string LevelLabel { get; set; }
 
-    public string MainBetType { get; set; } = "none";
+    public string MainBetType { get; set; }
 
     public string MaxMultipleGames { get; set; }
 

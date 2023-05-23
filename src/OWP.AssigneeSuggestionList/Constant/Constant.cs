@@ -1,6 +1,5 @@
 ﻿using OWP.AssigneeSuggestionList.Models;
 using System.Collections.Immutable;
-using System.Runtime.Intrinsics.Arm;
 
 namespace OWP.AssigneeSuggestionList.Constant;
 
@@ -144,23 +143,43 @@ public static class WorkingShiftConst
 
 public static class OrderConstant
 {
-    public static string[] MainMatchLevel = { "1st", "2nd", "[OP]1st", "[OP]2nd", "BK CR", "Only SB", "none" };
+    public static readonly string[] MainMatchLevel = { "1st", "2nd", "[OP]1st", "[OP]2nd", "BK CR", "Only SB", null };
 
-    public static string[] ChildMatchLevel = { "[OP]1st", "[OP]2nd", "BK CR", "1st", "2nd", "Only SB", "none" };
+    public static readonly string[] ChildMatchLevel = { "[OP]1st", "[OP]2nd", "BK CR", "1st", "2nd", "Only SB", null };
 
-    public static string[] RoleOrder = { "staff", "leader", "supervisor", "management" };
+    public static readonly string[] RoleOrder = { "staff", "assistant leader", "leader", "supervisor", "section head", "management", "unit head", null };
 
-    public static string[] MainBetTypesHdp = { "2", "2[HDP]", "2[OU]", "FS", "2[OP]", "SB", "5min", "6min", "none" };
+    public const string BetType2 = "2";
 
-    public static string[] MainBetTypesOu = { "2", "2[OU]", "2[HDP]", "FS", "2[OP]", "SB", "5min", "6min", "none" };
+    public const string BetType2Hdp = "2[HDP]";
 
-    public static string[] MainBetTypesFs = { "FS", "2", "2[HDP]", "2[OU]", "2[OP]", "SB", "5min", "6min", "none" };
+    public const string BetType2Ou = "2[OU]";
 
-    public static string[] MainBetTypesChild = { "2[OP]", "2", "2[OU]", "2[HDP]", "FS", "SB", "5min", "6min", "none" };
+    public const string BetTypeFs = "FS";
 
-    public static int[] HdpTypeIds = { 1, 7 };
+    public const string BetType2Op = "2[OP]";
 
-    public static int[] OuTypeIds = { 3, 8 };
+    public const string BetTypeSb = "SB";
+
+    public const string BetType5Min = "5min";
+
+    public const string BetType6Min = "6min";
+
+    public static readonly string[] MainBetTypesHdp = { BetType2, BetType2Hdp, BetType2Ou, BetTypeFs, BetType2Op, BetTypeSb, BetType5Min, BetType6Min };
+
+    public static readonly string[] MainBetTypesOu = { BetType2, BetType2Ou, BetType2Hdp, BetTypeFs, BetType2Op, BetTypeSb, BetType5Min, BetType6Min };
+
+    public static readonly string[] MainBetTypesFs = { BetTypeFs, BetType2, BetType2Hdp, BetType2Ou, BetType2Op, BetTypeSb, BetType5Min, BetType6Min };
+
+    public static readonly string[] MainBetTypesChild = { BetType2Op, BetType2, BetType2Ou, BetType2Hdp, BetTypeFs, BetTypeSb, BetType5Min, BetType6Min };
+
+    public static readonly int[] HdpTypeIds = { 1, 7 };
+
+    public static readonly int[] OuTypeIds = { 3, 8 };
+
+    public const decimal LowerMaxBet = 35_000;
+
+    public const decimal UpperMaxBet = 80_000;
 }
 
 
