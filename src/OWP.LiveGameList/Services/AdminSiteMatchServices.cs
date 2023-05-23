@@ -84,10 +84,7 @@ public class AdminSiteMatchServicesImp : AdminSiteMatchServices
         }
 
         var minorMatch = minorAdminSiteIds.FirstOrDefault(x => x.OwpMatchId == matchInfo.OWPMatchId);
-        if (minorMatch is not null)
-        {
-            matchInfo.AdminSiteId = minorMatch.AdminMatchId;
-        }
+        matchInfo.AdminSiteId = minorMatch?.AdminMatchId;
     }
 
     public async Task<List<AdminSiteMatchInfoModel>> GetAdminSiteInfo(string parentMatchIds)
