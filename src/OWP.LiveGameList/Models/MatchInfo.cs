@@ -73,9 +73,9 @@ public class MatchInfo
 
     public string MatchCode { get; set; }
 
-    public bool IsRead { get; set; }
+    public bool IsRead => TicketInfos.All(x => x.IsRead);
 
-    public bool HasTicket { get; set; }
+    public bool HasTicket => TicketInfos.Any();
 
     public AssignmentModel Assignment { get; set; }
 

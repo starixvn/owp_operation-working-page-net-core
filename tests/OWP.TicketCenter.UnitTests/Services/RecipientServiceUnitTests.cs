@@ -66,7 +66,6 @@ public class RecipientServiceUnitTests
             })));
     }
 
-    [Fact]
     public List<InsertOrRemoveManyRecipientModel> MockListRecipients()
         => new()
         {

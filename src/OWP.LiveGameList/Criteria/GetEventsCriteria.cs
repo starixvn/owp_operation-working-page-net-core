@@ -18,5 +18,4 @@ public class GetEventsCriteria : CriteriaBase
     }
 
     public override string GetSettingKey() => "OWP_LiveGameList_QueryEvents";
-
 }
