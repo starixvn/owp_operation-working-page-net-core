@@ -6,7 +6,7 @@
 	    <CodeAnalysisRuleSet>..\..\.sonarlint\nap-owp-netcorecsharp.ruleset</CodeAnalysisRuleSet>
     </PropertyGroup>
     <ItemGroup>
-        <AdditionalFiles Include="..\..\.sonarlint\nap-owp\CSharp\SonarLint.xml" Link="SonarLint.xml" />
+      <AdditionalFiles Include="..\..\.sonarlint\nap-owp-netcore\CSharp\SonarLint.xml" Link="SonarLint.xml" />
     </ItemGroup>
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App" />

@@ -1,6 +1,7 @@
 ﻿using Olympus.OWP.Constants;
 using OWP.Helpers;
 using OWP.LiveGameList.Models;
+using OWP.Models;
 using OWP.Services;
 
 namespace OWP.LiveGameList.Services;

@@ -21,8 +21,5 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
     </ItemGroup>
-    <ItemGroup>
-        <ProjectReference Include="..\..\src\OWP.LiveGameList\OWP.LiveGameList.csproj" />
-    </ItemGroup>
 
 </Project>

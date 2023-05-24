@@ -1,5 +1,3 @@
-using System.Diagnostics;
-using System.Text;
 using Fanex.NAP.Client;
 using Fanex.NAP.Client.Configuration;
 using Fanex.NAP.Client.Helpers.Web;
@@ -36,7 +34,7 @@ builder.Services.AddCoreServices();
 builder.Services.AddMediator();
 builder.Services.AddAutoMapper();
 builder.Services.AddInternalServices();
-builder.Services.AddRabbitMQ(builder.Configuration);
+builder.Services.AddRabbitMQ();
 builder.Services.AddControllersWithViews(options =>
 {
     options.Filters.Add(new ServiceFilterAttribute(typeof(CheckUMFilterAttribute)));
