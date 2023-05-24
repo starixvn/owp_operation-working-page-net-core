@@ -60,8 +60,9 @@ public class BuildExcelModelServiceImp : BuildExcelModelService
     {
         var assignmentSnapshot = await commandRepository.Query(request);
         await matchStatusCalculator.Map(assignmentSnapshot.Matches);
-
-        assignmentSnapshot.Matches = FilterHelper.FilterMatchesByEmployee(request.Employee, assignmentSnapshot);
+        var matchStatus = request.MatchStatuses?.Split(',').ToList() ?? new List<string>();
+        var filteredMatchesByEmployee = FilterHelper.FilterMatchesByEmployee(request.Employee, assignmentSnapshot);
+        assignmentSnapshot.Matches = FilterHelper.FilterMatchesByMatchStatus(matchStatus, filteredMatchesByEmployee);
 
         var matchAssignments = BuildTraders(assignmentSnapshot);
         var matchMaxbets = BuildMatchSettings(assignmentSnapshot);
