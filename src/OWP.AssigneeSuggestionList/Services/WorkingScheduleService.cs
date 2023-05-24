@@ -43,7 +43,13 @@ public class WorkingScheduleServiceImp : WorkingScheduleService
         var assignmentCell = updateModel.AssignmentCell;
         var propertiesName = updateModel.PropertiesName;
         var propertiesLength = propertiesName.Count;
-        objType.GetProperty(propertiesName[0])?.SetValue(schedule, assignmentCell);
+        objType.GetProperty(propertiesName[0])?.SetValue(schedule, new AssignmentCell
+        {
+
+            Text = assignmentCell.Text,
+            Color = assignmentCell.Color,
+            TextColor = assignmentCell.TextColor
+        });
         for (var index = 1; index < propertiesLength; index++)
         {
             var propertyInfo = objType.GetProperty(propertiesName[index]);
