@@ -1,18 +1,20 @@
-﻿using Fanex.NAP.Client.Helpers.Web;
+﻿using Fanex.Data.Repository;
+using Fanex.NAP.Client.Helpers.Web;
 using NSubstitute;
-using OWP.LiveGameList.Models;
-using OWP.LiveGameList.Services;
+using OWP.Event.EventShared;
+using OWP.Event.EventShared.Models;
+using OWP.Event.EventShared.Services;
 using OWP.Services;
 using Xunit;
 
-namespace OWP.LiveGameList.UnitTests.Services;
+namespace OWP.Event.UnitTests.EventShared.Services;
 
 public class EventInformationServiceUnitTest
 {
     private readonly INapSession currentSession;
     private readonly AdminSiteMatchServices adminSiteMatchServices;
     private readonly PermissionService permissionService;
-    private readonly Repository repository;
+    private readonly EventRepository repository;
     private readonly InfoSiteTimeServices infoSiteTimeService;
 
     public EventInformationServiceUnitTest()
@@ -21,11 +23,11 @@ public class EventInformationServiceUnitTest
         adminSiteMatchServices = Substitute.For<AdminSiteMatchServices>();
         infoSiteTimeService = Substitute.For<InfoSiteTimeServices>();
         permissionService = Substitute.For<PermissionService>();
-        repository = Substitute.For<Repository>();
+        repository = Substitute.For<EventRepository>();
     }
 
     [Fact]
-    public async Task GetEvents_Always_ReturnExpect()
+    public void GetEvents_Always_ReturnExpect()
     {
         var eventInfo = new EventInformation
         {
@@ -38,7 +40,7 @@ public class EventInformationServiceUnitTest
             MatchOffersDict = MockMatchOffers(),
             TicketInfosDict = MockTicketInfo()
         };
-        repository.GetEventInformation(Arg.Any<DateTime>(), Arg.Any<string>(), Arg.Any<int>(), Arg.Any<bool>()).Returns(eventInfo);
+        repository.GetEventInformation(Arg.Any<CriteriaBase>()).Returns(eventInfo);
 
         var expected = new List<MatchInfo>
         {
@@ -55,14 +57,13 @@ public class EventInformationServiceUnitTest
             LengthLeague = 10
             }
         };
-        var service = new EventInformationServiceImp(repository, currentSession, adminSiteMatchServices, permissionService, infoSiteTimeService);
-        var actual = await service.GetEvents(new DateTime(), "1,2,3,4");
+        var service = new EventInformationServiceImp(adminSiteMatchServices, infoSiteTimeService);
+        var actual = service.BuildEvent(eventInfo, eventInfo.MatchInfos.First());
 
-        Assert.Equal(expected.First().IPTVCopy, actual.First().IPTVCopy);
-        Assert.Equal(expected.First().LengthLeague, actual.First().LengthLeague);
+        Assert.Equal(expected.First().IPTVCopy, actual.IPTVCopy);
     }
 
-    public IEnumerable<MatchInfo> MockMatchInfo()
+    public List<MatchInfo> MockMatchInfo()
         => new List<MatchInfo> { new () {
             OWPMatchId = 1,
             League = "V-league",

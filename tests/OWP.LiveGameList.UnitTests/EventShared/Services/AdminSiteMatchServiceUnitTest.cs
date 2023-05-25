@@ -1,22 +1,23 @@
 ﻿using NSubstitute;
-using OWP.LiveGameList.Models;
-using OWP.LiveGameList.Services;
+using OWP.Event.EventShared;
+using OWP.Event.EventShared.Models;
+using OWP.Event.EventShared.Services;
 using OWP.Models;
 using OWP.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
 
-namespace OWP.LiveGameList.UnitTests.Services;
+namespace OWP.Event.UnitTests.EventShared.Services;
 
 public class AdminSiteMatchServiceUnitTest
 {
-    private readonly Repository repository;
+    private readonly EventRepository repository;
     private readonly GetAdminSiteInfoService getAdminSiteInfoService;
     private readonly AdminSiteMatchServices service;
 
     public AdminSiteMatchServiceUnitTest()
     {
-        repository = Substitute.For<Repository>();
+        repository = Substitute.For<EventRepository>();
         getAdminSiteInfoService = Substitute.For<GetAdminSiteInfoService>();
         service = new AdminSiteMatchServicesImp(repository, getAdminSiteInfoService);
     }

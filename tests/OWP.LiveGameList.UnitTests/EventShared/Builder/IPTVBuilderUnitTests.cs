@@ -1,9 +1,9 @@
-﻿using OWP.LiveGameList.Builder;
-using OWP.LiveGameList.Models;
+﻿using OWP.Event.EventShared.Builder;
+using OWP.Event.EventShared.Models;
 using Xunit;
 using Xunit.Asserts.Compare;
 
-namespace OWP.LiveGameList.UnitTests.Builder;
+namespace OWP.Event.UnitTests.EventShared.Builder;
 
 public class IPTVBuilderUnitTests
 {

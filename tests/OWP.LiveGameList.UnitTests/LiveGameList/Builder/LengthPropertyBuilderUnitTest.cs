@@ -1,8 +1,8 @@
-﻿using OWP.LiveGameList.Builder;
-using OWP.LiveGameList.Models;
+﻿using OWP.Event.EventShared.Models;
+using OWP.Event.LiveGameList.Builder;
 using Xunit;
 
-namespace OWP.LiveGameList.UnitTests.Builder;
+namespace OWP.Event.UnitTests.LiveGameList.Builder;
 
 public class LengthPropertyBuilderUnitTest
 {

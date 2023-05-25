@@ -10,7 +10,7 @@ public interface EventInformationService
 {
     Task GetInfositeAndAdminsiteInfo(List<MatchInfo> matchInfos);
 
-    IEnumerable<MatchInfo> BuildEvent(EventInformation eventInfo, MatchInfo matchInfo);
+    MatchInfo BuildEvent(EventInformation eventInfo, MatchInfo matchInfo);
 }
 
 public class EventInformationServiceImp : EventInformationService
@@ -37,7 +37,7 @@ public class EventInformationServiceImp : EventInformationService
         adminsiteInfos = await adminSiteMatchServices.GetAdminSiteInfo(parentMatchIds);
     }
 
-    public IEnumerable<MatchInfo> BuildEvent(EventInformation eventInfo, MatchInfo matchInfo)
+    public MatchInfo BuildEvent(EventInformation eventInfo, MatchInfo matchInfo)
     {
         var owpMatchId = matchInfo.OWPMatchId;
 
@@ -51,7 +51,7 @@ public class EventInformationServiceImp : EventInformationService
         adminSiteMatchServices.UpdateMinorAdminMatchId(matchInfo, minorAdminSiteInfos);
         infoSiteTimeService.BuildInfoSiteTimeAndAbsenceIcon(matchInfo, infositeInfos, adminsiteInfos);
 
-        yield return matchInfo;
+        return matchInfo;
     }
 
     private static IEnumerable<Television> BuildTelevisions(EventInformation eventInfo, int owpMatchId)

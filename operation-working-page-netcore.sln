@@ -81,7 +81,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OWP.AssignmentUpload", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OWP.AssignmentUpload.UnitTests", "tests\OWP.AssignmentUpload.UnitTests\OWP.AssignmentUpload.UnitTests.csproj", "{27E6A844-2DE7-4A84-B95D-83083D3D459A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OWP.LiveGameList.UnitTests", "tests\OWP.LiveGameList.UnitTests\OWP.LiveGameList.UnitTests.csproj", "{39E3FF51-BBA5-4E32-A65E-AEFC88742386}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OWP.Event.UnitTests", "tests\OWP.LiveGameList.UnitTests\OWP.Event.UnitTests.csproj", "{39E3FF51-BBA5-4E32-A65E-AEFC88742386}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OWP.ProviderArrangement", "src\OWP.ProviderArrangement\OWP.ProviderArrangement.csproj", "{B9742687-6041-4A53-95A3-FCAD3E7C2107}"
 EndProject
