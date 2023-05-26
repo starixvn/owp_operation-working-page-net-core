@@ -143,9 +143,9 @@ public static class WorkingShiftConst
 
 public static class OrderConstant
 {
-    public static readonly string[] MainMatchLevel = { "1st", "2nd", "[OP]1st", "[OP]2nd", "BK CR", "Only SB", null };
+    public static readonly string[] MainMatchLevel = { "1st", "2nd", "[OP]1st", "[OP]2nd", "Only SB", null };
 
-    public static readonly string[] ChildMatchLevel = { "[OP]1st", "[OP]2nd", "BK CR", "1st", "2nd", "Only SB", null };
+    public static readonly string[] ChildMatchLevel = { "[OP]1st", "[OP]2nd", "1st", "2nd", "Only SB", null };
 
     public static readonly string[] RoleOrder = { "staff", "assistant leader", "leader", "supervisor", "section head", "management", "unit head", null };
 
@@ -165,13 +165,15 @@ public static class OrderConstant
 
     public const string BetType6Min = "6min";
 
-    public static readonly string[] MainBetTypesHdp = { BetType2, BetType2Hdp, BetType2Ou, BetTypeFs, BetType2Op, BetTypeSb, BetType5Min, BetType6Min };
+    public const string BetTypeBkCr = "BK CR";
 
-    public static readonly string[] MainBetTypesOu = { BetType2, BetType2Ou, BetType2Hdp, BetTypeFs, BetType2Op, BetTypeSb, BetType5Min, BetType6Min };
+    public static readonly string[] MainBetTypesHdp = { BetType2, BetType2Hdp, BetType2Ou, BetTypeFs, BetType2Op, BetTypeBkCr, BetTypeSb, BetType5Min, BetType6Min };
 
-    public static readonly string[] MainBetTypesFs = { BetTypeFs, BetType2, BetType2Hdp, BetType2Ou, BetType2Op, BetTypeSb, BetType5Min, BetType6Min };
+    public static readonly string[] MainBetTypesOu = { BetType2, BetType2Ou, BetType2Hdp, BetTypeFs, BetType2Op, BetTypeBkCr, BetTypeSb, BetType5Min, BetType6Min };
 
-    public static readonly string[] MainBetTypesChild = { BetType2Op, BetType2, BetType2Ou, BetType2Hdp, BetTypeFs, BetTypeSb, BetType5Min, BetType6Min };
+    public static readonly string[] MainBetTypesFs = { BetTypeFs, BetType2, BetType2Hdp, BetType2Ou, BetType2Op, BetTypeBkCr, BetTypeSb, BetType5Min, BetType6Min };
+
+    public static readonly string[] MainBetTypesChild = { BetType2Op, BetTypeBkCr, BetType2, BetType2Ou, BetType2Hdp, BetTypeFs, BetTypeSb, BetType5Min, BetType6Min };
 
     public static readonly int[] HdpTypeIds = { 1, 7 };
 
