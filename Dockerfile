@@ -28,12 +28,11 @@ COPY ./src/OWP.LeagueManagement/. ./src/OWP.LeagueManagement
 COPY ./src/OWP.LiveDetail/. ./src/OWP.LiveDetail
 COPY ./src/OWP.TicketEvent/. ./src/OWP.TicketEvent
 COPY ./src/OWP.AssignmentUpload/. ./src/OWP.AssignmentUpload
-COPY ./src/OWP.LiveGameList/. ./src/OWP.LiveGameList
 COPY ./src/OWP.EventPicking/. ./src/OWP.EventPicking
-COPY ./src/OWP.TaskList/. ./src/OWP.TaskList
 COPY ./src/OWP.ProviderArrangement/. ./src/OWP.ProviderArrangement
 COPY ./src/OWP.ResourceManagement/. ./src/OWP.ResourceManagement
 COPY ./src/OWP.AssigneeSuggestionList/. ./src/OWP.AssigneeSuggestionList
+COPY ./src/OWP.Event/. ./src/OWP.Event
 COPY ./OWP.Websites/OWP.Websites.csproj ./OWP.Websites/OWP.Websites.csproj
 
 WORKDIR /src/OWP.Websites
