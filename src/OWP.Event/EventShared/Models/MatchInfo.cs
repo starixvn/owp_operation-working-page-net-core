@@ -113,6 +113,36 @@ public class MatchInfo : TaskListMatchInfo
 
     public string KickOffTimeDisplay => KickOffTime.ToOWPTimeFormat();
 
+    public int Rowspan
+    {
+        get
+        {
+            var rowSpan = 2;
+
+            if (Assignment.FastMarket.Any() || MatchSetting.FastMarket.IsHasMaxbetSpread)
+            {
+                rowSpan++;
+            }
+
+            if (Assignment.AllInOne.Any())
+            {
+                rowSpan++;
+            }
+
+            if (Assignment.Specific15Mins.Any() || MatchSetting.Specific15Mins.IsHasMaxbetSpread)
+            {
+                rowSpan++;
+            }
+
+            if (Assignment.Specific10Mins.Any() || MatchSetting.Specific10Mins.IsHasMaxbetSpread)
+            {
+                rowSpan++;
+            }
+
+            return rowSpan;
+        }
+    }
+
     public int RowSpan
     {
         get
@@ -165,34 +195,4 @@ public class TaskListMatchInfo
     public bool IsCompletedMatch { get; set; }
 
     public DateTime ReadyDateTime { get; set; }
-
-    //public int Rowspan
-    //{
-    //    get
-    //    {
-    //        var rowSpan = 2;
-
-    //        if (Assignment.FastMarket.Any() || MatchSetting.FastMarket.IsHasMaxbetSpread)
-    //        {
-    //            rowSpan++;
-    //        }
-
-    //        if (Assignment.AllInOne.Any())
-    //        {
-    //            rowSpan++;
-    //        }
-
-    //        if (Assignment.Specific15Mins.Any() || MatchSetting.Specific15Mins.IsHasMaxbetSpread)
-    //        {
-    //            rowSpan++;
-    //        }
-
-    //        if (Assignment.Specific10Mins.Any() || MatchSetting.Specific10Mins.IsHasMaxbetSpread)
-    //        {
-    //            rowSpan++;
-    //        }
-
-    //        return rowSpan;
-    //    }
-    //}
 }
