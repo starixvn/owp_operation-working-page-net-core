@@ -343,7 +343,7 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddRabbitMQ(this IServiceCollection services)
+    public static IServiceCollection AddRabbitMQ(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddSingleton<MessageClient, MessageClientImp>();
 

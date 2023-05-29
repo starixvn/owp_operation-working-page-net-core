@@ -33,7 +33,10 @@ public class GetEventByDayServiceImp : GetEventByDayService
         var taskListInfo = taskListRepository.GetTaskListInfo(eventDate);
         await eventService.GetInfositeAndAdminsiteInfo(taskListInfo.MatchInfos.ToList());
 
-        var matchInfos = BuildEvents(taskListInfo);
+        var adminsiteIds = taskListInfo.MatchInfos.Select(x => x.AdminSiteId);
+        var completedMatchIds = await taskListRepository.GetCompletedMatchFromMainDb(adminsiteIds);
+
+        var matchInfos = BuildEvents(taskListInfo, completedMatchIds);
 
         return new TaskListModel
         {
@@ -42,7 +45,7 @@ public class GetEventByDayServiceImp : GetEventByDayService
         };
     }
 
-    public IEnumerable<MatchInfo> BuildEvents(EventInformation eventInfos)
+    public IEnumerable<MatchInfo> BuildEvents(EventInformation eventInfos, List<int> completedMatchIds)
     {
         foreach (var matchInfo in eventInfos.MatchInfos)
         {
@@ -51,21 +54,21 @@ public class GetEventByDayServiceImp : GetEventByDayService
             matchInfo.Phone = matchInfo.Assignment.LA.Any(x => x.IsCurrentUser && x.BettypeId < 0 && matchInfo.IsOneHourToKickOffTime)
                 ? matchInfo.Phone
                 : string.Empty;
-            matchInfo.IsCompletedMatch = GetMainMatchCompleteStatus(matchInfo, new List<MainMatchInfo>());
+            matchInfo.IsCompletedMatch = GetMainMatchCompleteStatus(matchInfo, completedMatchIds, eventInfos.MatchInfos);
 
             yield return matchInfo;
         }
     }
 
-    private static bool GetMainMatchCompleteStatus(MatchInfo matchInfo, IEnumerable<MainMatchInfo> mainMatchInfos)
+    private static bool GetMainMatchCompleteStatus(MatchInfo matchInfo, List<int> completedMatchIds, IEnumerable<MatchInfo> matchInfos)
     {
-        if (!matchInfo.MinorBettypeId.HasValue)
+        var adminsiteId = matchInfo.AdminSiteId;
+        if (matchInfo.MinorBettypeId.HasValue)
         {
-            return matchInfo.IsCompletedMatch;
+            var mainMatch = matchInfos.FirstOrDefault(x => x.OWPMatchId == matchInfo.ParentMatchId);
+            adminsiteId = mainMatch?.AdminSiteId;
         }
 
-        var mainMatch = mainMatchInfos.FirstOrDefault(x => x.OWPMatchId == matchInfo.ParentMatchId);
-
-        return mainMatch?.IsCompletedMatch ?? matchInfo.IsCompletedMatch;
+        return adminsiteId.HasValue && completedMatchIds.Contains((int)adminsiteId);
     }
 }

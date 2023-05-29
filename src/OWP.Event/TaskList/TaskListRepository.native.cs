@@ -11,6 +11,8 @@ public interface TaskListRepository
     EventInformation GetTaskListInfo(DateTime eventDate);
 
     public Task<DateTime> UpdateTradeStatus(int matchId);
+
+    Task<List<int>> GetCompletedMatchFromMainDb(IEnumerable<int?> adminsiteIds);
 }
 
 public class TaskListRepositoryImp : TaskListRepository
@@ -46,5 +48,15 @@ public class TaskListRepositoryImp : TaskListRepository
             UserId = session.UserId
         };
         return (await dynamicRepository.FetchAsync<DateTime>(criteria)).FirstOrDefault();
+    }
+
+    public async Task<List<int>> GetCompletedMatchFromMainDb(IEnumerable<int?> adminsiteIds)
+    {
+        var criteria = new GetCompletedMatchFromMainDBCriteria
+        {
+            AdminSiteIds = string.Join(",", adminsiteIds.Where(x => x.HasValue).Distinct()),
+        };
+
+        return (await dynamicRepository.FetchAsync<int>(criteria)).ToList();
     }
 }

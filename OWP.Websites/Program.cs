@@ -34,7 +34,7 @@ builder.Services.AddCoreServices();
 builder.Services.AddMediator();
 builder.Services.AddAutoMapper();
 builder.Services.AddInternalServices();
-builder.Services.AddRabbitMQ();
+builder.Services.AddRabbitMQ(builder.Configuration);
 builder.Services.AddControllersWithViews(options =>
 {
     options.Filters.Add(new ServiceFilterAttribute(typeof(CheckUMFilterAttribute)));
