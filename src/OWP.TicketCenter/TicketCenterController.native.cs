@@ -73,9 +73,9 @@ public class TicketCenterController : ControllerBase
     }
     [HttpGet("new-ticket/get-event-lga")]
     [Produces("application/json")]
-    public async Task<IActionResult> GetEventInfoLGA(string keyword)
+    public async Task<IActionResult> GetEventInfoLga(string keyword)
     {
-        var eventSender = await mediator.Send(new GetTicketEventOptionLGARequest
+        var eventSender = await mediator.Send(new GetTicketEventOptionLgaRequest
         {
             Keyword = keyword
         });
