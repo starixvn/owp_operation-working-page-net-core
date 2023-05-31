@@ -10,7 +10,7 @@ public class EventCheckingOptionInfoSender : EventOptionInfoSender
     public IList<EventCheckingOptionInfoViewModel> EventInfoViewModel { get; set; }
 }
 
-public class EventLGAOptionInfoSender : EventOptionInfoSender
+public class EventLgaOptionInfoSender : EventOptionInfoSender
 {
     public IList<EventLGAOptionInfoViewModel> EventInfoViewModel { get; set; }
 }
