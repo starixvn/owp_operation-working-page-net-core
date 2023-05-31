@@ -117,7 +117,7 @@ public class PreMatchAssignmentServiceImp : PreMatchAssignmentService
     public async Task SaveOldPreMatchAssignment(List<int> preMatchId)
     {
         var assignmentOldValue = await QueryAssignmentOldValue(preMatchId);
-        var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(RedisKey.CACHE_EXPIRED_IN_5_MINS));
+        var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(RedisKey.CACHE_EXPIRED_IN_30_MINS));
         var assignmentSnapshotInJson = JsonConvert.SerializeObject(assignmentOldValue);
         await cache.RemoveAsync(RedisKey.KEY_PREMATCH_ASSIGNMENT_OLD_VALUE_SNAPSHOT);
         await cache.SetAsync(RedisKey.KEY_PREMATCH_ASSIGNMENT_OLD_VALUE_SNAPSHOT, assignmentSnapshotInJson, cachePolicy);
