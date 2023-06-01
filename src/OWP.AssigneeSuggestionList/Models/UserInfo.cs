@@ -40,6 +40,8 @@ public class UserInfo
 
     public int Extension { get; set; }
 
+    public int MatchDoing { get; set; }
+
     public string ShiftCode => WorkingShiftConst.ExtensionCode.GetValueOrDefault(Extension, "");
 
     public string Shift => ShiftStartTime.ToString("HH:mm")

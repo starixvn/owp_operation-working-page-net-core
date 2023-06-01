@@ -11,8 +11,8 @@ public enum MixMatchCapacity
 public enum AssigneeCategory
 {
     Free,
-    Capacity3GDoing1G,
     Capacity2GDoing1G,
+    Capacity3GDoing1G,
     Capacity3GDoing2G,
     PartiallyFree,
     Busy

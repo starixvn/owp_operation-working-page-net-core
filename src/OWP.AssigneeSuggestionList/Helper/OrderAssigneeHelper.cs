@@ -18,7 +18,7 @@ public static class OrderAssigneeHelper
         => workingSchedules.OrderBy(x => x.UserInfo.ShiftStartTime)
             .ThenBy(x => SortByChildLevel(x.UserInfo.LevelLabel))
             .ThenBy(x => SortByMainBetTypeChildMatch(x.UserInfo.MainBetType))
-            .ThenBy(x => SortByWorkLoad(x.UserInfo))
+            .ThenBy(x => x.UserInfo.MatchDoing)
             .ToList();
 
     public static List<WorkingSchedule> SortAssigneeBySoloMatch(
@@ -26,7 +26,7 @@ public static class OrderAssigneeHelper
         => workingSchedules.OrderBy(x => x.UserInfo.ShiftStartTime)
             .ThenBy(x => SortByMainLevel(x.UserInfo.LevelLabel))
             .ThenBy(x => SortByMainBetTypeMainMatch(x.UserInfo.MainBetType, matchInfo))
-            .ThenBy(x => SortByWorkLoad(x.UserInfo))
+            .ThenBy(x => x.UserInfo.MatchDoing)
             .ToList();
 
     public static List<WorkingSchedule> SortAssigneeByMaxbet(List<WorkingSchedule> workingSchedules, MatchInfo matchInfo)
@@ -35,20 +35,20 @@ public static class OrderAssigneeHelper
           >= OrderConstant.UpperMaxBet => workingSchedules.OrderBy(x => x.UserInfo.ShiftStartTime)
                                       .ThenBy(x => SortByMainLevel(x.UserInfo.LevelLabel))
                                       .ThenBy(x => SortByMainBetTypeMainMatch(x.UserInfo.MainBetType, matchInfo))
-                                      .ThenBy(x => SortByWorkLoad(x.UserInfo))
+                                      .ThenBy(x => x.UserInfo.MatchDoing)
                                       .ToList(),
 
           <= OrderConstant.LowerMaxBet => workingSchedules.OrderBy(x => x.UserInfo.ShiftStartTime)
                                       .ThenBy(x => SortByMainLevel(x.UserInfo.LevelLabel))
                                       .ThenBy(x => SortByRole(x.UserInfo.Role))
-                                      .ThenBy(x => SortByWorkLoad(x.UserInfo))
+                                      .ThenBy(x => x.UserInfo.MatchDoing)
                                       .ToList(),
 
           _ => workingSchedules.OrderBy(x => x.UserInfo.ShiftStartTime)
                                       .ThenBy(x => SortByMainLevel(x.UserInfo.LevelLabel))
                                       .ThenBy(x => SortByMainBetTypeMainMatch(x.UserInfo.MainBetType, matchInfo))
                                       .ThenBy(x => SortByRole(x.UserInfo.Role))
-                                      .ThenBy(x => SortByWorkLoad(x.UserInfo))
+                                      .ThenBy(x => x.UserInfo.MatchDoing)
                                       .ToList()
       };
 
@@ -97,12 +97,4 @@ public static class OrderAssigneeHelper
         var mainBetTypeIndex = mainBetTypeLst.Select(x => Array.IndexOf(OrderConstant.MainBetTypesChild, x)).ToList();
         return mainBetTypeIndex.Min();
     }
-
-    public static int SortByWorkLoad(UserInfo userInfo)
-        => userInfo.CategoryType switch
-        {
-            CategoryType.FullyAvailable => userInfo.WorkLoadType,
-            CategoryType.Busy => (int)userInfo.MixMatchCapacity,
-            _ => -1
-        };
 }

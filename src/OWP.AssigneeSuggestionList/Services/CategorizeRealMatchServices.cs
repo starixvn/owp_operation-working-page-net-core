@@ -22,9 +22,42 @@ public class CategorizeRealMatchServicesImp : CategorizeRealMatchServices
 
             schedule.CategoryType = categoryType;
             schedule.UserInfo.Explanation = explanation;
-            schedule.UserInfo.WorkLoadType = (int)assigneeType;
-            schedule.UserInfo.CategoryType = categoryType;
+            schedule.UserInfo.MatchDoing = GetMatchOfTraderDoing(schedule.UserInfo, assignments, matchInfo);
+
         }
+    }
+
+    public static int GetMatchOfTraderDoing(UserInfo userInfo, List<AssignmentModel> categorizedAssignments,
+        MatchInfo matchInfo)
+    {
+        var kOTime = matchInfo.KOTime;
+        var endTime = matchInfo.EndTime;
+        var kOTimeAddOneHours = kOTime.AddHours(1);
+
+        if (!HasWorkingShiftInRangeTime(userInfo, kOTime, endTime))
+        {
+            return 7;
+        }
+
+        var assignmentInTimeRange = categorizedAssignments.Find(x =>
+            x.EventDateTime <= kOTime && kOTimeAddOneHours <= x.EndTime);
+
+        if (assignmentInTimeRange == null)
+        {
+            return 0;
+        }
+        
+        return assignmentInTimeRange.MatchType switch
+        {
+            
+            MatchType.RealMatchLink1G => 1,
+            MatchType.RealMatchOther => 1,
+            MatchType.RealMatchLink2G => 2,
+            MatchType.RealMatchLink3G => 3,
+            MatchType.Other => 4,
+            MatchType.RealMatchLinkError => 5,
+            _ => 6
+        };
     }
 
     public static AssigneeCategory GetAssigneeType(UserInfo userInfo, List<AssignmentModel> assignments, MatchInfo matchInfo)
@@ -116,9 +149,9 @@ public class CategorizeRealMatchServicesImp : CategorizeRealMatchServices
         => category switch
         {
             AssigneeCategory.Free => (CategoryType.FullyAvailable, FormatExplanation(ExplanationConstants.FREE, matchInfo)),
-            AssigneeCategory.Capacity3GDoing1G => (CategoryType.FullyAvailable, ExplanationConstants.CAPACITY_3G_DOING_1G),
             AssigneeCategory.Capacity2GDoing1G => (CategoryType.FullyAvailable, ExplanationConstants.CAPACITY_2G_DOING_1G),
             AssigneeCategory.Capacity3GDoing2G => (CategoryType.FullyAvailable, ExplanationConstants.CAPACITY_3G_DOING_2G),
+            AssigneeCategory.Capacity3GDoing1G => (CategoryType.FullyAvailable, ExplanationConstants.CAPACITY_3G_DOING_1G),
             AssigneeCategory.PartiallyFree => (CategoryType.PartiallyAvailable, FormatExplanation(ExplanationConstants.PARTIALLY_AVAILABLE, matchInfo, true)),
             _ => (CategoryType.Busy, null)
         };
