@@ -22,42 +22,8 @@ public class CategorizeRealMatchServicesImp : CategorizeRealMatchServices
 
             schedule.CategoryType = categoryType;
             schedule.UserInfo.Explanation = explanation;
-            schedule.UserInfo.MatchDoing = GetMatchOfTraderDoing(schedule.UserInfo, assignments, matchInfo);
 
         }
-    }
-
-    public static int GetMatchOfTraderDoing(UserInfo userInfo, List<AssignmentModel> categorizedAssignments,
-        MatchInfo matchInfo)
-    {
-        var kOTime = matchInfo.KOTime;
-        var endTime = matchInfo.EndTime;
-        var kOTimeAddOneHours = kOTime.AddHours(1);
-
-        if (!HasWorkingShiftInRangeTime(userInfo, kOTime, endTime))
-        {
-            return 7;
-        }
-
-        var assignmentInTimeRange = categorizedAssignments.Find(x =>
-            x.EventDateTime <= kOTime && kOTimeAddOneHours <= x.EndTime);
-
-        if (assignmentInTimeRange == null)
-        {
-            return 0;
-        }
-        
-        return assignmentInTimeRange.MatchType switch
-        {
-            
-            MatchType.RealMatchLink1G => 1,
-            MatchType.RealMatchOther => 1,
-            MatchType.RealMatchLink2G => 2,
-            MatchType.RealMatchLink3G => 3,
-            MatchType.Other => 4,
-            MatchType.RealMatchLinkError => 5,
-            _ => 6
-        };
     }
 
     public static AssigneeCategory GetAssigneeType(UserInfo userInfo, List<AssignmentModel> assignments, MatchInfo matchInfo)
