@@ -16,11 +16,11 @@ public class NewTicketIssueSupportRequest : NewTicketModelBase, IRequest<int>
 
 public class NewTicketIssueSupportHandler : IRequestHandler<NewTicketIssueSupportRequest, int>
 {
-    private readonly Repository repository;
+    private readonly MessageClient messageClient;
     private readonly MessageService messageService;
     private readonly NotificationService notificationService;
     private readonly RecipientService recipientService;
-    private readonly MessageClient messageClient;
+    private readonly Repository repository;
 
 
     public NewTicketIssueSupportHandler(

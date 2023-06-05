@@ -23,10 +23,10 @@ public class NewTicketIssueLiveIncidentRequest : NewTicketModelBase, IRequest<in
 public class NewTicketIssueLiveIncidentHandler : IRequestHandler<NewTicketIssueLiveIncidentRequest, int>
 {
     private readonly MessageClient messageClient;
+    private readonly MessageService messageService;
     private readonly NotificationService notificationService;
     private readonly RecipientService recipientService;
     private readonly Repository repository;
-    private readonly MessageService messageService;
 
     public NewTicketIssueLiveIncidentHandler(
         Repository repository,

@@ -23,11 +23,11 @@ public class NewTicketIssueEventRequest : NewTicketModelBase, IRequest<int>
 
 public class NewTicketIssueEventHandler : IRequestHandler<NewTicketIssueEventRequest, int>
 {
-    private readonly Repository repository;
+    private readonly MessageClient messageClient;
     private readonly MessageService messageService;
     private readonly NotificationService notificationService;
     private readonly RecipientService recipientService;
-    private readonly MessageClient messageClient;
+    private readonly Repository repository;
     private readonly PreMatchNotificationService preMatchNotification;
 
     public NewTicketIssueEventHandler(

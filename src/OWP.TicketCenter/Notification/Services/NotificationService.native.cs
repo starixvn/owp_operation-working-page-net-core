@@ -6,7 +6,6 @@ namespace OWP.TicketCenter.Notification.Services;
 public interface NotificationService
 {
     Task NotifyNewMessageIncome(List<string> userIds);
-
     Task NotifyNewAddRecipient(List<string> userIds);
 
     Task NotifyChangeStatusIncome(int ticketId);
@@ -22,7 +21,6 @@ public interface NotificationService
 
 public class NotificationServiceImp : NotificationService
 {
-
     private readonly IHubContext<TicketCenterNotifyHubImp, TicketCenterNotifyHub> notifyMyTicket;
 
     private readonly IHubContext<PreMatchNotifyHubImp, PreMatchNotifyHub> notifyPreMatch;
@@ -66,6 +64,7 @@ public class NotificationServiceImp : NotificationService
             .Users(userIds)
             .NotifyNewAddRecipientLga(owpMatchId, actorId);
     }
+    
     public async Task NotifyUserClickOnToast(int userId, int ticketId, int eventType)
     {
         await notifyMyTicket.Clients

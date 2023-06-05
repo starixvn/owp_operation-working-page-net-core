@@ -55,6 +55,10 @@ public class TicketCenterController : ControllerBase
     [HttpPost("new-ticket-issue-live-incident")]
     public async Task<int> NewTicketIssueLga(NewTicketIssueLiveIncidentRequest request)
         => await mediator.Send(request);
+
+    [HttpPost("new-ticket-issue-log-work")]
+    public async Task<int> NewTicketIssueLogWork(NewTicketIssueLogWorkRequest request)
+        => await mediator.Send(request);
     #endregion new ticket
 
     [HttpGet("new-ticket/get-event")]
@@ -110,6 +114,15 @@ public class TicketCenterController : ControllerBase
     [ServiceFilter(typeof(PermissionOnExistedTicket), Order = 0)]
     [ServiceFilter(typeof(PermissionFilter), Order = 1)]
     public async Task<IActionResult> GetTicketLiveIncidentDetail(TicketLiveIncidentDetailRequest request)
+    {
+        var result = await mediator.Send(request);
+        return Ok(result);
+    }
+
+    [HttpPost("ticket-detail/get-log-work")]
+    [ServiceFilter(typeof(PermissionOnExistedTicket), Order = 0)]
+    [ServiceFilter(typeof(PermissionFilter), Order = 1)]
+    public async Task<IActionResult> GetTicketLogWorkDetail(TicketLogWorkDetailRequest request)
     {
         var result = await mediator.Send(request);
         return Ok(result);

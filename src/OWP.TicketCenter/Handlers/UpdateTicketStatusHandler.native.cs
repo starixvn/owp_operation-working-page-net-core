@@ -12,9 +12,8 @@ public class UpdateTicketStatusRequest : PermissionCheckedModel, IRequest<string
 
 public class UpdateTicketStatusHandler : IRequestHandler<UpdateTicketStatusRequest, string>
 {
-    private readonly Repository repository;
-
     private readonly NotificationService notificationService;
+    private readonly Repository repository;
 
     public UpdateTicketStatusHandler(
         Repository repository,

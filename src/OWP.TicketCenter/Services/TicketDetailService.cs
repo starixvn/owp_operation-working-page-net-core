@@ -10,6 +10,7 @@ public interface TicketDetailService
 {
     Task<TicketMatchDetailViewModel> GetTicketMatchDetail(TicketMatchDetailRequest request);
     Task<TicketLiveIncidentDetailViewModel> GetTicketLiveIncidentDetail(TicketLiveIncidentDetailRequest request);
+    Task<TicketLogWorkDetailViewModel> GetTicketLogWorkDetail(TicketLogWorkDetailRequest request);
     Task<TicketLeagueDetailViewModel> GetTicketLeagueDetail(TicketLeagueDetailRequest request);
     Task<TicketOtherDetailViewModel> GetTicketOtherDetail(TicketOtherDetailRequest request);
     Task<TicketSupportDetailViewModel> GetTicketSupportDetail(TicketSupportDetailRequest request);
@@ -18,8 +19,8 @@ public interface TicketDetailService
 public class TicketDetailServiceImp : TicketDetailService
 {
     private readonly IMapper mapper;
-    private readonly Repository repository;
     private readonly MessageService messageService;
+    private readonly Repository repository;
 
     public TicketDetailServiceImp(IMapper mapper, Repository repository, MessageService messageService)
     {
@@ -42,6 +43,16 @@ public class TicketDetailServiceImp : TicketDetailService
     {
         var ticketMatch = await repository.GetTicketLiveIncidentDetail(request.TicketId);
         var viewModel = mapper.Map<TicketLiveIncidentDetailViewModel>(ticketMatch);
+
+        await BuildExtInfoTicketDetail(viewModel, request);
+
+        return viewModel;
+    }
+
+    public async Task<TicketLogWorkDetailViewModel> GetTicketLogWorkDetail(TicketLogWorkDetailRequest request)
+    {
+        var ticketMatch = await repository.GetTicketLogWorkDetail(request.TicketId);
+        var viewModel = mapper.Map<TicketLogWorkDetailViewModel>(ticketMatch);
 
         await BuildExtInfoTicketDetail(viewModel, request);
 

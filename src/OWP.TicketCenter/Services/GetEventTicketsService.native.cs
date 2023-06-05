@@ -34,8 +34,9 @@ public class GetEventTicketsServiceImp : GetEventTicketsService
         var ticketOthers = repository.GetEventTicketOther(request);
         var ticketSupport = repository.GetEventTicketSupport(request);
         var ticketLiveIncident = repository.GetEventTicketLiveIncident(request);
+        var ticketLogWork = repository.GetEventTicketLogWork(request);
 
-        await Task.WhenAll(ticketLeague, ticketMatch, ticketOthers, ticketSupport, ticketLiveIncident);
+        await Task.WhenAll(ticketLeague, ticketMatch, ticketOthers, ticketSupport, ticketLiveIncident, ticketLogWork);
 
         var eventTickets = new List<TicketBaseInfo>();
         eventTickets.AddRange(ticketLeague.Result);
@@ -43,6 +44,7 @@ public class GetEventTicketsServiceImp : GetEventTicketsService
         eventTickets.AddRange(ticketOthers.Result);
         eventTickets.AddRange(ticketSupport.Result);
         eventTickets.AddRange(ticketLiveIncident.Result);
+        eventTickets.AddRange(ticketLogWork.Result);
 
         return eventTickets;
     }

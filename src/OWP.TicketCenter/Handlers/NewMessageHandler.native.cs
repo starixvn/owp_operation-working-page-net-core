@@ -23,10 +23,10 @@ public class NewMessageRequest : PermissionCheckedModel, IRequest<MessageDetailV
 
 public class NewMessageHandler : IRequestHandler<NewMessageRequest, MessageDetailViewModel>
 {
-    private readonly Repository repository;
-    private readonly NotificationService notification;
     private readonly MessageClient messageClient;
     private readonly PreMatchNotificationService preMatchNotification;
+    private readonly NotificationService notification;
+    private readonly Repository repository;
 
     public NewMessageHandler(
         Repository repository,

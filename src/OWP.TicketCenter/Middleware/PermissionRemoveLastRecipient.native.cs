@@ -38,6 +38,7 @@ public class PermissionRemoveLastRecipient : IAsyncActionFilter
                     Content = "Please select at least one recipient"
                 };
             }
+
             return;
         }
 

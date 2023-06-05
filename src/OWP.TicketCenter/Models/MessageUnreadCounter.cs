@@ -2,7 +2,7 @@
 
 public class MessageUnreadCounter
 {
-    public int UserId { get; set; }  
+    public int UserId { get; set; }
 
-    public int Total { get; set; }  
+    public int Total { get; set; }
 }
