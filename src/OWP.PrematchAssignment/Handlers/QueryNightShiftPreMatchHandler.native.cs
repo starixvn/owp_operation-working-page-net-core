@@ -36,7 +36,7 @@ public class QueryNightShiftPreMatchHandler : IRequestHandler<QueryNightShiftPre
         var shiftAssignments = await shiftAssignmentService.QueryNightShift(request);
 
         await maxbetSpreadService.Build(shiftAssignments.InfoSiteMatches);
-        await shiftAssignmentService.MapTicketLists(shiftAssignments.PreMatchLeagues, shiftAssignments.InfoSiteMatches, request.ActorId);
+        await shiftAssignmentService.MapTicketLists(shiftAssignments.PreMatchLeagues.ToList(), shiftAssignments.InfoSiteMatches.ToList(), request.ActorId);
 
         return shiftAssignments;
     }

@@ -1,11 +1,11 @@
-﻿using System.Globalization;
-using AutoMapper;
+﻿using AutoMapper;
 using Fanex.Data.Repository;
 using OWP.Extensions;
 using OWP.PrematchAssignment.Constants;
 using OWP.PrematchAssignment.Criteria;
 using OWP.PrematchAssignment.Handlers;
 using OWP.PrematchAssignment.Models;
+using System.Globalization;
 
 namespace OWP.PrematchAssignment.Services;
 
@@ -15,7 +15,7 @@ public interface ShiftAssignmentService
 
     Task<QueryPreMatchLeagueViewModel> QueryNightShift(QueryNightShiftPreMatchRequest request);
 
-    Task MapTicketLists(IEnumerable<LeagueAssignment> preMatchLeagues, IEnumerable<InfoSiteMatch> infoSiteMatches, int actorId);
+    Task MapTicketLists(List<LeagueAssignment> preMatchLeagues, List<InfoSiteMatch> infoSiteMatches, int actorId);
 
     Task<TimeSpan?> QueryExistedStartTime(DateTime eventDate);
 
@@ -70,10 +70,10 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
 
         return IsRequestStartTimeGreaterThanDbStartTime(request, startTime)
             ? GetNightShiftResultWithoutDbStartTime(defaultShift.NightShift, defaultShift.DayShift, startTime)
-            : await QueryNightShiftWithDbStartTime(defaultShift, request, startTime);
+            : await QueryNightShiftWithDbStartTime(defaultShift, request, startTime.Value);
     }
 
-    public async Task MapTicketLists(IEnumerable<LeagueAssignment> preMatchLeagues, IEnumerable<InfoSiteMatch> infoSiteMatches, int actorId)
+    public async Task MapTicketLists(List<LeagueAssignment> preMatchLeagues, List<InfoSiteMatch> infoSiteMatches, int actorId)
     {
         var leagueIds = preMatchLeagues.Select(x => x.LeagueId);
         var infoSiteMatchIds = infoSiteMatches.Select(x => x.InfoSiteMatchId);
@@ -125,11 +125,11 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
     }
 
     private static bool IsRequestStartTimeGreaterThanDbStartTime(QueryNightShiftPreMatchRequest request, TimeSpan? startTime)
-        => !startTime.HasValue || IsDbStartTimeLowerThanRequestStartTime(startTime, request.StartTime);
+        => !startTime.HasValue || IsDbStartTimeLowerThanRequestStartTime(startTime.Value, request.StartTime);
 
-    private async Task<QueryPreMatchLeagueViewModel> QueryNightShiftWithDbStartTime(DefaultDayAndNightShift defaultShifts, QueryNightShiftPreMatchRequest request, TimeSpan? startTime)
+    private async Task<QueryPreMatchLeagueViewModel> QueryNightShiftWithDbStartTime(DefaultDayAndNightShift defaultShifts, QueryNightShiftPreMatchRequest request, TimeSpan startTime)
     {
-        var nightShiftWithDbStartTime = await QueryAssignmentShift(request, startTime.Value, false);
+        var nightShiftWithDbStartTime = await QueryAssignmentShift(request, startTime, false);
 
         return GetNightShiftResultWithDBStartTime(defaultShifts.NightShift, defaultShifts.DayShift, nightShiftWithDbStartTime);
     }
@@ -142,13 +142,13 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
         return new AssignmentShift { Leagues = result.Item1, Matches = result.Item2 };
     }
 
-    private static bool IsDbStartTimeLowerThanRequestStartTime(TimeSpan? dbStartTime, TimeSpan requestStartTime)
+    private static bool IsDbStartTimeLowerThanRequestStartTime(TimeSpan dbStartTime, TimeSpan requestStartTime)
     {
         var twelvePm = new TimeSpan(12, 00, 00);
 
-        var dbStartTimeDateTime = dbStartTime.Value.CompareTo(twelvePm) >= 0
-            ? DateTime.Now.Date.Add(dbStartTime.Value)
-            : DateTime.Now.AddDays(1).Date.Add(dbStartTime.Value);
+        var dbStartTimeDateTime = dbStartTime.CompareTo(twelvePm) >= 0
+            ? DateTime.Now.Date.Add(dbStartTime)
+            : DateTime.Now.AddDays(1).Date.Add(dbStartTime);
 
         var requestStartTimeDateTime = requestStartTime.CompareTo(twelvePm) >= 0
             ? DateTime.Now.Date.Add(requestStartTime)
@@ -163,15 +163,15 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
         {
             EventDate = eventDate
         };
-        var result = await dynamicRepository.FetchAsync<TimeSpan>(criteria);
+        var result = (await dynamicRepository.FetchAsync<TimeSpan>(criteria)).ToList();
 
         return result.Any() ? new TimeSpan?(result.FirstOrDefault()) : null;
     }
 
-    public CriteriaBase CreateNightShiftCriteria(DateTime eventDate, TimeSpan? startTime, bool isDay)
+    public static CriteriaBase CreateNightShiftCriteria(DateTime eventDate, TimeSpan startTime, bool isDay)
     {
         var eventToDateTime = eventDate.AddDays(1).AddHours(11).AddMinutes(59).AddSeconds(59);
-        var eventToRequestStartTime = CalculateQueryDateTime(startTime.Value, eventDate);
+        var eventToRequestStartTime = CalculateQueryDateTime(startTime, eventDate);
 
         return new QueryShiftPreMatchCriteria
         {
@@ -187,7 +187,7 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
         AssignmentShift dayShift,
         TimeSpan? startTime)
     {
-        var leagues = nightShiftWithRequestStartTime.Leagues;
+        var leagues = nightShiftWithRequestStartTime.Leagues.ToList();
 
         if (!startTime.HasValue)
         {
@@ -195,10 +195,11 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
             var dayShiftLeaguesPair = dayShiftLeagues.ToDictionary(x => x.LeagueId);
 
             leagues = leagues
-                .Select(x => UpdateAssignmentHint(x, dayShiftLeaguesPair[x.LeagueId]));
+                .Select(x => UpdateAssignmentHint(x, dayShiftLeaguesPair[x.LeagueId]))
+                .ToList();
         }
         UpdateAssignmentHintNightShift(leagues, dayShift.Leagues);
-        var (leaguesContainsHint, leaguesRest) = SplitPrematchLeagues(leagues?.ToList());
+        var (leaguesContainsHint, leaguesRest) = SplitPrematchLeagues(leagues.ToList());
         var preMatchLeagues = SortByHint(leaguesContainsHint);
         preMatchLeagues.AddRange(SortAndAddNo(leaguesRest));
         for (var i = 0; i < preMatchLeagues.Count; i++)
@@ -218,25 +219,21 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
         AssignmentShift nightShiftWithDBStartTime
     )
     {
-        var leagues = nightShiftWithRequestStartTime.Leagues;
-        var dayShiftLeagues = dayShift.Leagues;
+        var leagues = nightShiftWithRequestStartTime.Leagues.ToList();
+        var dayShiftLeagues = dayShift.Leagues.ToList();
         var nightShiftWithDbStartTimeLeagues = nightShiftWithDBStartTime.Leagues;
 
-        var newLeagues = dayShiftLeagues
-            .Where(x => nightShiftWithDbStartTimeLeagues
-                            .All(y => y.LeagueId != x.LeagueId) &&
-                        leagues.Any(z => z.LeagueId == x.LeagueId)).ToList();
+        var newLeagues = dayShiftLeagues.Where(x =>
+            nightShiftWithDbStartTimeLeagues.All(y => y.LeagueId != x.LeagueId) &&
+            leagues.Any(z => z.LeagueId == x.LeagueId)
+        ).ToList();
 
         UpdateAssignmentHintNightShift(leagues, dayShiftLeagues);
 
-        foreach (var league in newLeagues)
-        {
-            leagues = leagues
-                .Select(x => x.LeagueId == league.LeagueId
-                    ? UpdateAssignmentHint(x, league)
-                    : x
-                );
-        }
+        leagues = newLeagues.Aggregate(leagues, (current, newLeague) => current.Select(x => x.LeagueId == newLeague.LeagueId
+                ? UpdateAssignmentHint(x, newLeague)
+                : x
+            ).ToList());
 
         var (leaguesContainsHint, leaguesRest) = SplitPrematchLeagues(leagues?.ToList());
         var preMatchLeagues = SortByHint(leaguesContainsHint);
@@ -252,13 +249,11 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
         };
     }
 
-    private void UpdateAssignmentHintNightShift(IEnumerable<PreMatchLeague> nightShiftLeagues, IEnumerable<PreMatchLeague> dayShiftLeagues)
+    private static void UpdateAssignmentHintNightShift(IEnumerable<PreMatchLeague> nightShiftLeagues, List<PreMatchLeague> dayShiftLeagues)
     {
-
         foreach (var nightShiftLeague in nightShiftLeagues)
         {
-
-            var dayShiftLeague = dayShiftLeagues?.FirstOrDefault(x => Equals(x.LeagueId, nightShiftLeague.LeagueId));
+            var dayShiftLeague = dayShiftLeagues.FirstOrDefault(x => Equals(x.LeagueId, nightShiftLeague.LeagueId));
 
             if (dayShiftLeague is not null)
             {

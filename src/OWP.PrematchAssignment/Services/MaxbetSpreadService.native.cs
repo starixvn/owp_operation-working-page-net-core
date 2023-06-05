@@ -1,5 +1,4 @@
 ﻿using Fanex.Data.Repository;
-using Fanex.NAP.Client.Helpers.Web;
 using OWP.Constants;
 using OWP.Extensions;
 using OWP.PrematchAssignment.Criteria;
@@ -18,16 +17,17 @@ public class MaxbetSpreadServiceImp : MaxbetSpreadService
 
     private readonly IDynamicRepository dynamicRepo;
 
-    public MaxbetSpreadServiceImp(INapSession napSession, IDynamicRepository dynamicRepo)
+    public MaxbetSpreadServiceImp(IDynamicRepository dynamicRepo)
     {
         this.dynamicRepo = dynamicRepo;
     }
 
     public async Task Build(IEnumerable<InfoSiteMatch> infoSiteMatches)
     {
-        var adminSiteMatchIds = infoSiteMatches.Select(info => info.AdminSiteMatchId);
+        var infoSiteMatchList = infoSiteMatches.ToList();
+        var adminSiteMatchIds = infoSiteMatchList.Select(info => info.AdminSiteMatchId);
         var maxbetSpreads = await GetMaxbetSpreads(adminSiteMatchIds.ToList());
-        BuildMaxbetSpread(infoSiteMatches, maxbetSpreads);
+        BuildMaxbetSpread(infoSiteMatchList, maxbetSpreads);
     }
 
     private async Task<IList<MaxbetSpread>> GetMaxbetSpreads(IList<int> adminSiteMatchIds)
@@ -53,7 +53,7 @@ public class MaxbetSpreadServiceImp : MaxbetSpreadService
         }
     }
 
-    private void BuildMaxbetSpreadHdp(IList<MaxbetSpread> maxbetSpreadValue, InfoSiteMatch infoSiteMatch)
+    private static void BuildMaxbetSpreadHdp(IList<MaxbetSpread> maxbetSpreadValue, InfoSiteMatch infoSiteMatch)
     {
         var count = maxbetSpreadValue.Count(x => x.Bettype == Bettype.Handicap);
         if (count == FLAG_CAN_FILL_MAXBET_SPREAD)
