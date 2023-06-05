@@ -99,27 +99,41 @@ public static class OrderAssigneeHelper
         return mainBetTypeIndex.Min();
     }
 
-    public static int SortByWorkLoad(UserInfo userInfo, List<AssignmentModel> categorizedAssignments, MatchInfo matchInfo)  
+    public static int SortByWorkLoad(UserInfo userInfo, List<AssignmentModel> categorizedAssignments, MatchInfo matchInfo)
     {
         var kOTime = matchInfo.KOTime;
         var endTime = matchInfo.EndTime;
         var kOTimeAddOneHours = kOTime.AddHours(1);
-        var hasWorkingShiftInRangeTime = userInfo.ShiftStartTime <= kOTime && userInfo.ShiftEndTime >= endTime;
+        var hasWorkingShiftInRangeTime = IsWorkingShiftInRangeTime(userInfo, kOTime, endTime);
 
         if (!hasWorkingShiftInRangeTime)
         {
             return 7;
         }
 
-        var assignmentInTimeRange = categorizedAssignments.Find(x =>
-            x.EventDateTime <= kOTime && kOTimeAddOneHours <= x.EndTime);
+        var assignmentInTimeRange = FindAssignmentInTimeRange(categorizedAssignments, kOTime, kOTimeAddOneHours);
 
         if (assignmentInTimeRange == null)
         {
             return 0;
         }
 
-        return assignmentInTimeRange.MatchType switch
+        return GetAssignmentPriority(assignmentInTimeRange);
+    }
+
+    private static bool IsWorkingShiftInRangeTime(UserInfo userInfo, DateTime kOTime, DateTime endTime)
+    {
+        return userInfo.ShiftStartTime <= kOTime && userInfo.ShiftEndTime >= endTime;
+    }
+
+    private static AssignmentModel FindAssignmentInTimeRange(List<AssignmentModel> categorizedAssignments, DateTime kOTime, DateTime kOTimeAddOneHours)
+    {
+        return categorizedAssignments.Find(x => x.EventDateTime <= kOTime && kOTimeAddOneHours <= x.EndTime);
+    }
+
+    private static int GetAssignmentPriority(AssignmentModel assignment)
+    {
+        return assignment.MatchType switch
         {
 
             MatchType.RealMatchLink1G => 1,
