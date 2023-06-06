@@ -2,14 +2,16 @@ namespace OWP.PrematchAssignment.Models;
 
 public class AssignmentShift
 {
-    public IEnumerable<PreMatchLeague> Leagues { get; set; }
+    public Dictionary<int, PreMatchLeague> Leagues { get; set; }
 
-    public IEnumerable<InfoSiteMatch> Matches { get; set; }
+    public Dictionary<int, List<InfoSiteMatch>> Matches { get; set; }
 }
 
-public class DefaultDayAndNightShift
+public class NightShiftInfo
 {
-    public AssignmentShift DayShift { get; set; }
+    public AssignmentShift DayShifts { get; set; }
 
-    public AssignmentShift NightShift { get; set; }
+    public AssignmentShift NightShiftsRequestTime { get; set; }
+
+    public TimeSpan? DBStartTime { get; set; }
 }

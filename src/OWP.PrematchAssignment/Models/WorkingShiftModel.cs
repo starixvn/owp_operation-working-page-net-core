@@ -47,6 +47,6 @@ public class WorkingShiftModel
         ShiftCode = ShiftCode.TrimEnd();
     }
 
-    private string ToExtension(int extension)
+    private static string ToExtension(int extension)
         => EnumUtils<WorkingShiftExtension>.GetDescription(extension);
 }

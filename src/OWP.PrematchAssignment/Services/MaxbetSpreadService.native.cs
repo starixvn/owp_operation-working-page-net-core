@@ -30,13 +30,13 @@ public class MaxbetSpreadServiceImp : MaxbetSpreadService
         BuildMaxbetSpread(infoSiteMatchList, maxbetSpreads);
     }
 
-    private async Task<IList<MaxbetSpread>> GetMaxbetSpreads(IList<int> adminSiteMatchIds)
-    => (await dynamicRepo.FetchAsync<MaxbetSpread>(new GetMaxbetSpreadCriteria
-    {
-        AdminSiteMatchId = string.Join(",", adminSiteMatchIds)
-    })).ToList();
+    private async Task<IList<MaxbetSpread>> GetMaxbetSpreads(IEnumerable<int> adminSiteMatchIds)
+        => (await dynamicRepo.FetchAsync<MaxbetSpread>(new GetMaxbetSpreadCriteria
+        {
+            AdminSiteMatchId = string.Join(",", adminSiteMatchIds)
+        })).ToList();
 
-    private void BuildMaxbetSpread(IEnumerable<InfoSiteMatch> infoSiteMatches, IList<MaxbetSpread> maxbetSpreads)
+    private static void BuildMaxbetSpread(IEnumerable<InfoSiteMatch> infoSiteMatches, IEnumerable<MaxbetSpread> maxbetSpreads)
     {
         var maxbetSpreadPair = maxbetSpreads
         .GroupBy(s => s.AdminSiteMatchId)
@@ -64,7 +64,7 @@ public class MaxbetSpreadServiceImp : MaxbetSpreadService
         }
     }
 
-    private void BuildMaxbetSpreadOu(IList<MaxbetSpread> maxbetSpreadValue, InfoSiteMatch infoSiteMatch)
+    private static void BuildMaxbetSpreadOu(IList<MaxbetSpread> maxbetSpreadValue, InfoSiteMatch infoSiteMatch)
     {
         var count = maxbetSpreadValue.Count(x => x.Bettype == Bettype.OverUnder);
         if (count == FLAG_CAN_FILL_MAXBET_SPREAD)

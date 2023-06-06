@@ -4,19 +4,9 @@ using OWP.PrematchAssignment.Services;
 
 namespace OWP.PrematchAssignment.Handlers;
 
-public class QueryNightShiftPreMatchRequest : IRequest<QueryPreMatchLeagueViewModel>
+public class QueryNightShiftPreMatchRequest : QueryDayShiftPreMatchRequest//, IRequest<QueryPreMatchLeagueViewModel>
 {
-    public string Employee { get; set; }
-
-    public DateTime EventDate { get; set; }
-
     public TimeSpan StartTime { get; set; }
-
-    public string LeagueName { get; set; }
-
-    public int ActorId { get; set; }
-
-    public List<string> MatchOffers { get; set; }
 }
 
 public class QueryNightShiftPreMatchHandler : IRequestHandler<QueryNightShiftPreMatchRequest, QueryPreMatchLeagueViewModel>
