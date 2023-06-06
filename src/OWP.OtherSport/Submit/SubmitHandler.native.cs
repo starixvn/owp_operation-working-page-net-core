@@ -93,7 +93,7 @@ public class SubmitHandler : IRequestHandler<SubmitRequest, SubmitResponse>
         return new SubmitResponse
         {
             IsSuccessful = true,
-            Message = "Other sport assignment is successfully submitted!"
+            Message = "Successfully Upload Assignment"
         };
     }
 
