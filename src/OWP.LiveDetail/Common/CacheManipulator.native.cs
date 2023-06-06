@@ -14,7 +14,7 @@ public class LiveDetailCacheManipulatorImp : LiveDetailCacheManipulator
 {
     private readonly ICache cache;
     private const string KEY_ASSIGNMENT_SNAPSHOT = "OWP-ASSIGNMENT-SNAPSHOT";
-    private const int CACHE_EXPIRED_IN_DAYS = 1;
+    private const int CACHE_EXPIRED_IN_30_MINS = 30;
     private readonly LogServiceWrapper logService;
 
     public LiveDetailCacheManipulatorImp(ICache cache,
@@ -26,7 +26,7 @@ public class LiveDetailCacheManipulatorImp : LiveDetailCacheManipulator
 
     public async Task SaveOldAssignmentSnapshot(string sessionId, AssignmentSnapshot assignmentSnapshot)
     {
-        var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromDays(CACHE_EXPIRED_IN_DAYS));
+        var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(CACHE_EXPIRED_IN_30_MINS));
         var assignmentSnapshotInJson = JsonConvert.SerializeObject(assignmentSnapshot);
         var cacheKey = $"{KEY_ASSIGNMENT_SNAPSHOT}-{sessionId}";
 

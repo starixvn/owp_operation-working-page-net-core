@@ -27,11 +27,11 @@ public class CacheManipulatorImp : CacheManipulator
     private readonly ICache cache;
 
     private const string KEY_ASSIGNMENT = "OWP-AssignmentUpload";
-    private const string KEY_USER_WHO_IS_ULOADING_ASSIGNMENT = "OWP-User-Who-Is-Uploading-Assignemnt";
+    private const string KEY_USER_WHO_IS_UPLOADING_ASSIGNMENT = "OWP-User-Who-Is-Uploading-Assignemnt";
     private const string KEY_ASSIGNMENT_SNAPSHOT = "OWP-ASSIGNMENT-SNAPSHOT";
     private const string KEY_DELETED_INFO_SITE_MATCH_ID = "OWP-DELETED-INFO-SITE-MATCH-ID";
-    private const int CACHE_EXPIRED_IN_5_MINS = 5;
-    private const int CACHE_USER_WHO_IS_ULOADING_ASSIGNMENT_EXPIRED_IN_MINITE = 30;
+    private const int CACHE_EXPIRED_IN_30_MINS = 30;
+    private const int CACHE_USER_WHO_IS_UPLOADING_ASSIGNMENT_EXPIRED_IN_MINUTE = 30;
 
     public CacheManipulatorImp(ICache cache)
     {
@@ -40,7 +40,7 @@ public class CacheManipulatorImp : CacheManipulator
 
     public async Task SaveAssignmentSnapshot(string sessionId, AssignmentSnapshot assignmentSnapshot)
     {
-        var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(CACHE_EXPIRED_IN_5_MINS));
+        var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(CACHE_EXPIRED_IN_30_MINS));
         var assignmentSnapshotInJson = JsonConvert.SerializeObject(assignmentSnapshot);
         var cacheKey = $"{KEY_ASSIGNMENT_SNAPSHOT}-{sessionId}";
         await cache.SetAsync(cacheKey, assignmentSnapshotInJson, cachePolicy);
@@ -66,7 +66,7 @@ public class CacheManipulatorImp : CacheManipulator
 
     public async Task<string> GetUserWhoIsUploadingAssignment(DateTime eventDate)
     {
-        var cacheKey = $"{KEY_USER_WHO_IS_ULOADING_ASSIGNMENT}-{eventDate}";
+        var cacheKey = $"{KEY_USER_WHO_IS_UPLOADING_ASSIGNMENT}-{eventDate}";
         var cacheResult = await cache.TryGetAsync<string>(cacheKey);
 
         return cacheResult.Item2 ?? string.Empty;
@@ -74,14 +74,14 @@ public class CacheManipulatorImp : CacheManipulator
 
     public async Task SaveUserWhoIsUploadingAssignment(DateTime eventDate, string username)
     {
-        var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(CACHE_USER_WHO_IS_ULOADING_ASSIGNMENT_EXPIRED_IN_MINITE));
-        var cacheKey = $"{KEY_USER_WHO_IS_ULOADING_ASSIGNMENT}-{eventDate}";
+        var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(CACHE_USER_WHO_IS_UPLOADING_ASSIGNMENT_EXPIRED_IN_MINUTE));
+        var cacheKey = $"{KEY_USER_WHO_IS_UPLOADING_ASSIGNMENT}-{eventDate}";
         await cache.SetAsync(cacheKey, username, cachePolicy);
     }
 
     public async Task DeleteUserWhoIsUploadingAssignment(DateTime eventDate)
     {
-        var cacheKey = $"{KEY_USER_WHO_IS_ULOADING_ASSIGNMENT}-{eventDate}";
+        var cacheKey = $"{KEY_USER_WHO_IS_UPLOADING_ASSIGNMENT}-{eventDate}";
         await cache.RemoveAsync(cacheKey);
     }
 

@@ -1,9 +1,9 @@
-﻿using System.Text;
-using Fanex.Logging;
+﻿using Fanex.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using OWP.RabbitMQ.Model;
 using RabbitMQ.Client;
+using System.Text;
 
 namespace OWP.RabbitMQ;
 
@@ -55,11 +55,13 @@ public class MessageClientImp : MessageClient
 
     public void SendMessage(object message, string messageType)
     {
+        const int EXPIRATION_TIME = 1000 * 60 * 30;
         var json = JsonConvert.SerializeObject(message);
         var messageBytes = Encoding.UTF8.GetBytes(json);
 
         var props = channel.CreateBasicProperties();
         props.Type = messageType;
+        props.Expiration = EXPIRATION_TIME.ToString();
 
         channel.BasicPublish(
             string.Empty,
