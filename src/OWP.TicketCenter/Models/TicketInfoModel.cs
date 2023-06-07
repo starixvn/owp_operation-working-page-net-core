@@ -75,6 +75,8 @@ public class TicketSupportInfo : TicketBaseInfo
 
 public class TicketLogWorkInfo : TicketBaseInfo
 {
+    public string Subject { get; set; }
+
     public string LeagueName { get; set; }
 
     public string HomeName { get; set; }

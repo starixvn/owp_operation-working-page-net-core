@@ -16,6 +16,8 @@ public class AddNewTicketIssueLogWorkCriteria : NonQueryCommand
 
     public string AwayName { get; set; }
 
+    public DateTime EventDateTime { get; set; }
+
     public override string GetSettingKey() => "OWP_TicketIssueLogWork_Create";
     
     public override bool IsValid() => TicketId > 0 && AdminSiteId > 0;

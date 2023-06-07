@@ -18,6 +18,8 @@ public class NewTicketIssueLogWorkRequest : NewTicketModelBase, IRequest<int>
     public string AwayName { get; set; }
 
     public string Subject { get; set; }
+
+    public DateTime EventDateTime { get; set; }
 }
 
 public class NewTicketIssueLogWorkHandler : IRequestHandler<NewTicketIssueLogWorkRequest, int>

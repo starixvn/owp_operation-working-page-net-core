@@ -38,7 +38,7 @@ public class AutoMapperProfile : Profile
         CreateMap<QueryEventTicketsRequest, GetEventTicketOtherCriteria>();
         CreateMap<QueryEventTicketsRequest, GetEventTicketSupportCriteria>();
         CreateMap<QueryEventTicketsRequest, GetEventTicketLiveIncidentCriteria>();
-
+        CreateMap<QueryEventTicketsRequest, GetEventTicketLogWorkCriteria>();
         CreateMap<EventTicketLeagueModel, TicketLeagueDetailViewModel>()
             .ForMember(
                 m => m.Messages,
