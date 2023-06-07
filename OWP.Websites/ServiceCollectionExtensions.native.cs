@@ -43,7 +43,6 @@ using OWP.Report.PreMatchReport;
 using OWP.Report.TraderReport;
 using OWP.Services;
 using OWP.SimpleDataApi;
-using OWP.TaskList;
 using OWP.TicketCenter;
 using OWP.TicketCenter.Hubs;
 using OWP.TicketEvent;
@@ -97,7 +96,6 @@ public static class ServiceCollectionExtensions
             .AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                //options.SerializerSettings.ContractResolver = new DefaultContractResolver();
             });
 
         return services;
@@ -232,10 +230,9 @@ public static class ServiceCollectionExtensions
         services.AddTicKetEventService();
         services.AddAssignmentUploadService();
         services.AddEventPicking();
-        services.AddLiveGameListService();
-        services.AddTaskListService();
         services.AddResourceManagement();
         services.AddSuggestionList();
+        services.AddEventService();
         return services;
     }
 
@@ -260,7 +257,7 @@ public static class ServiceCollectionExtensions
         services.AddMediatR(typeof(LeagueApiController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(TicketEventController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(AssignmentUploadingApiController).GetTypeInfo().Assembly);
-        services.AddMediatR(typeof(TaskListController).GetTypeInfo().Assembly);
+        services.AddMediatR(typeof(Event.TaskList.TaskListController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(ProviderArrangementController).GetTypeInfo().Assembly);
         services.AddMediatR(typeof(AssigneeSuggestionController).GetTypeInfo().Assembly);
         return services;

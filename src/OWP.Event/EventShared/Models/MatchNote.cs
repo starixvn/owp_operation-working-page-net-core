@@ -1,0 +1,14 @@
+﻿namespace OWP.Event.EventShared.Models;
+
+public class MatchNote
+{
+    public int OWPMatchId { get; set; }
+
+    public string Username { get; set; }
+
+    public string Note { get; set; }
+
+    public bool IsViewed { get; set; }
+
+    public DateTime LastUpdated { get; set; }
+}

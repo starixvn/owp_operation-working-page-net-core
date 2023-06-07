@@ -1,5 +1,3 @@
-using System.Diagnostics;
-using System.Text;
 using Fanex.NAP.Client;
 using Fanex.NAP.Client.Configuration;
 using Fanex.NAP.Client.Helpers.Web;
