@@ -42,7 +42,8 @@ public class BuildExcelModelServiceUnitTests
             To = new DateTime(2021, 03, 25),
             Employee = "sa",
             Sports = "Basketball",
-            OfferLives = "Live"
+            OfferLives = "Live",
+            MatchStatuses = "test"
         };
         var assignmentSnapshot = GetAssignmentSnapshot();
         commandRepository.Query(request).Returns(assignmentSnapshot);
@@ -53,14 +54,15 @@ public class BuildExcelModelServiceUnitTests
             ToDate = "Mar 25, 2021",
             Employee = "sa",
             Sports = "Basketball",
-            OfferLive = "Live"
+            OfferLive = "Live",
+            MatchStatus = "test"
         };
 
         var expectedAssignments = new ExcelAssignmentModel
         {
             Matches = new List<MatchInfo>
             {
-                new() { OSMatchId = 111, Sport = Sport.Basketball, Home = "home111", League = "league111" }
+                new() { OSMatchId = 111, Sport = Sport.Basketball, Home = "home111", League = "league111",MatchStatus = "test"}
             },
             MatchAssignments = new Dictionary<int, List<ExcelMatchAssignment>>
             {
@@ -114,7 +116,7 @@ public class BuildExcelModelServiceUnitTests
         {
             Matches = new Dictionary<int, MatchInfo>
             {
-                { 111, new MatchInfo { OSMatchId = 111, Sport = Sport.Basketball, Home = "home111", League = "league111" } },
+                { 111, new MatchInfo { OSMatchId = 111, Sport = Sport.Basketball, Home = "home111", League = "league111", MatchStatus = "test"} },
                 { 222, new MatchInfo { OSMatchId = 222, Sport = Sport.Baseball, Home = "home222", League = "league222" } },
                 { 333, new MatchInfo { OSMatchId = 333, Sport = Sport.Tennis, Home = "home222", League = "league222" } }
             },
