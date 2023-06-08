@@ -11,7 +11,7 @@ public class NightShiftInfo
 {
     public AssignmentShift DayShifts { get; set; }
 
-    public AssignmentShift NightShiftsRequestTime { get; set; }
+    public AssignmentShift NightShifts { get; set; }
 
     public TimeSpan? DBStartTime { get; set; }
 }

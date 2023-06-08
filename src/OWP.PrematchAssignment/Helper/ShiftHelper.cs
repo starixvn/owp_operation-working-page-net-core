@@ -46,12 +46,4 @@ public static class ShiftHelper
             IsDay = isDay
         };
     }
-
-    public static bool IsDbStartTimeLowerThanRequestStartTime(TimeSpan dbStartTime, TimeSpan requestStartTime)
-    {
-        var dbStartTimeDateTime = ShiftHelper.CalculateStartTime(dbStartTime, DateTime.Now);
-        var requestStartTimeDateTime = ShiftHelper.CalculateStartTime(requestStartTime, DateTime.Now);
-
-        return dbStartTimeDateTime.CompareTo(requestStartTimeDateTime) <= 0;
-    }
 }

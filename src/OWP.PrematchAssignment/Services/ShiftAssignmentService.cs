@@ -61,16 +61,7 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
     {
         var nightShiftInfo = await QueryAssignmentsForNightShift(request);
 
-        return GetNightShiftWithRequestTime(nightShiftInfo.NightShiftsRequestTime, nightShiftInfo.DayShifts);
-
-        //if (!nightShiftInfo.DBStartTime.HasValue ||
-        //    ShiftHelper.IsDbStartTimeLowerThanRequestStartTime(nightShiftInfo.DBStartTime.Value, request.StartTime))
-        //{
-        //    return GetNightShiftWithRequestTime(nightShiftInfo.NightShiftsRequestTime, nightShiftInfo.DayShifts);
-        //}
-
-        // lose data
-        //return await GetNightShiftResultWithDBStartTime(nightShiftInfo);
+        return BuildNightShiftWithRequestTime(nightShiftInfo.NightShifts, nightShiftInfo.DayShifts);
     }
 
     private async Task<NightShiftInfo> QueryAssignmentsForNightShift(QueryNightShiftPreMatchRequest request)
@@ -87,17 +78,9 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
         var nightShiftInfo = new NightShiftInfo
         {
             DayShifts = dayAssignments.Result,
-            NightShiftsRequestTime = nightAssignmentsWithRequestTime.Result,
+            NightShifts = nightAssignmentsWithRequestTime.Result,
             DBStartTime = dbStartTime.Result
         };
-
-        //if (!dbStartTime.Result.HasValue)
-        //{
-        //    return nightShiftInfo;
-        //}
-
-        //var nightDbTimeCriteria = ShiftHelper.CreateShiftCriteria(request.EventDate, false, dbStartTime.Result.Value);
-        //nightShiftInfo.NightShiftsDBTime = await BuildPreMatchAssignments(request, nightDbTimeCriteria);
 
         return nightShiftInfo;
     }
@@ -107,23 +90,25 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
         var leagueIds = preMatchLeagues.Select(x => x.LeagueId);
         var infoSiteMatchIds = infoSiteMatches.Select(x => x.InfoSiteMatchId);
 
-        var leagueTickets = await repository.QueryAllLeaguesTicket(leagueIds, actorId);
-        var matchTickets = await repository.QueryAllMatchesTicket(infoSiteMatchIds, actorId);
+        var leagueTicketsTask = repository.QueryAllLeaguesTicket(leagueIds, actorId);
+        var matchTicketsTask = repository.QueryAllMatchesTicket(infoSiteMatchIds, actorId);
+
+        await Task.WhenAll(leagueTicketsTask, matchTicketsTask);
 
         foreach (var league in preMatchLeagues)
         {
-            var leagueTicket = leagueTickets.GetValue(league.LeagueId, new List<TicketLeagueBasicInfo>());
+            var leagueTicket = leagueTicketsTask.Result.GetValueOrDefault(league.LeagueId, new List<TicketLeagueBasicInfo>());
             league.TicketList = leagueTicket.OrderByDescending(x => x.LatestCreatedDate).ToList();
         }
 
         foreach (var match in infoSiteMatches)
         {
-            var matchTicket = matchTickets.GetValue(match.InfoSiteMatchId, new List<TicketMatchBasicInfo>());
+            var matchTicket = matchTicketsTask.Result.GetValueOrDefault(match.InfoSiteMatchId, new List<TicketMatchBasicInfo>());
             match.TicketList = matchTicket.OrderByDescending(x => x.LatestCreatedDate).ToList();
         }
     }
 
-    private QueryPreMatchLeagueViewModel GetNightShiftWithRequestTime(AssignmentShift nightShift, AssignmentShift dayShift)
+    private QueryPreMatchLeagueViewModel BuildNightShiftWithRequestTime(AssignmentShift nightShift, AssignmentShift dayShift)
     {
         UpdateAssignmentHintNightShift(nightShift.Leagues, dayShift.Leagues);
 
@@ -133,45 +118,6 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
 
         return CreateQueryPreMatchLeagueViewModel(preMatchLeagues, nightShift.Matches);
     }
-
-    //private QueryPreMatchLeagueViewModel GetNightShiftResultWithDBStartTime(NightShiftInfo nightShiftInfo)
-    //{
-    //    var leagues = nightShiftInfo.NightShiftsRequestTime.Leagues;
-    //    var dayShiftLeagues = nightShiftInfo.DayShifts.Leagues;
-    //    var nightShiftWithDbStartTimeLeagues = nightShiftInfo.NightShiftsDBTime.Leagues;
-
-    //    UpdateAssignmentHintNightShift(leagues, dayShiftLeagues);
-
-    //    var newLeagues = dayShiftLeagues
-    //        .Where(x =>
-    //            nightShiftWithDbStartTimeLeagues.All(y => y.Key != x.Key) &&
-    //            leagues.Any(z => z.Key == x.Key)
-    //        ).ToList();
-
-    //    foreach (var league in newLeagues)
-    //    {
-    //        leagues = leagues
-    //            .Select(x => x.LeagueId == league.LeagueId
-    //                ? UpdateAssignmentHint(x, league)
-    //                : x
-    //            );
-    //    }
-
-    //    //leagues = newLeagues.Aggregate(leagues, (current, newLeague) => current.Select(x => x.LeagueId == newLeague.LeagueId
-    //    //        ? UpdateAssignmentHint(x, newLeague)
-    //    //        : x
-    //    //    ).ToList());
-
-    //    var (leaguesContainsHint, leaguesRest) = SplitPrematchLeagues(leagues);
-    //    var preMatchLeagues = SortByHint(leaguesContainsHint);
-    //    preMatchLeagues.AddRange(SortPreMatchLeaguesAndAddNumber(leaguesRest));
-
-    //    return new QueryPreMatchLeagueViewModel
-    //    {
-    //        PreMatchLeagues = mapper.Map<IList<LeagueAssignment>>(preMatchLeagues),
-    //        InfoSiteMatches = nightShiftInfo.NightShiftsRequestTime.Matches.SelectMany(x => x.Value)
-    //    };
-    //}
 
     private static void UpdateAssignmentHintNightShift(Dictionary<int, PreMatchLeague> nightShiftLeagues, Dictionary<int, PreMatchLeague> dayShiftLeagues)
     {
@@ -206,10 +152,10 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
         var matchOffers = request.MatchOffers;
 
         var filteredLeagues = preMatchLeagues
+            .Where(x => x.LeagueName.IsContains(request.LeagueName))
             .Where(x => string.IsNullOrEmpty(employee) ||
-                                    CheckMainAssignmentContainsEmployee(x, employee) ||
-                                    CheckOtherAssignmentContainsEmployee(x, employee))
-            .Where(x => x.LeagueName.IsContains(request.LeagueName));
+                CheckMainAssignmentContainsEmployee(x, employee) ||
+                CheckOtherAssignmentContainsEmployee(x, employee));
 
         var filteredMatches = infoSiteMatches
             .Where(x => filteredLeagues.Any(y => y.PreMatchLeagueId == x.PreMatchLeagueId));
@@ -279,7 +225,7 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
         return assignments.Any(x => x.IsContains(employee));
     }
 
-    private static (IList<PreMatchLeague>, IList<PreMatchLeague>) SplitPrematchLeagues(IList<PreMatchLeague> leagues)
+    private static (IList<PreMatchLeague>, IList<PreMatchLeague>) SplitPrematchLeagues(IEnumerable<PreMatchLeague> leagues)
     {
         var leaguesOnlyContainsHint = new List<PreMatchLeague>();
         var leaguesRest = new List<PreMatchLeague>();
