@@ -147,7 +147,7 @@ public static class OrderConstant
 
     public static readonly string[] ChildMatchLevel = { "[OP]1st", "[OP]2nd", "1st", "2nd", "Only SB", null };
 
-    public static readonly string[] RoleOrder = { "staff", "assistant leader", "leader", "supervisor", "section head", "management", "unit head", null };
+    public static readonly string[] RoleOrder = { "Staff", "Assistant Leader", "Leader", "Supervisor", "Section Head", "Management", "Unit Head", null };
 
     public const string BetType2 = "2";
 

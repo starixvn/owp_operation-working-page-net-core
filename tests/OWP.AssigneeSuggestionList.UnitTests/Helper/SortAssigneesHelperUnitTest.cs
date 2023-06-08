@@ -47,7 +47,7 @@ public class SortAssigneesHelperUnitTest
         var sortWorkingShifts = OrderAssigneeHelper
             .SortAssignee(new MatchInfo { IsSoloMatch = false, MaxbetHDP = 34_000, MinorBettypeId = null, BettypeId = 1 }, workingShifts);
 
-        Assert.Equal("staff", sortWorkingShifts.First().UserInfo.Role);
+        Assert.Equal("leader", sortWorkingShifts.First().UserInfo.Role);
 
     }
 
