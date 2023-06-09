@@ -209,6 +209,7 @@
         <Setting Key="OWP_TicketCenterLogWork_Get" SpName="OWP_TicketCenterLogWork_Get" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_TicketIssueLogWork_Create" SpName="OWP_TicketIssueLogWork_Create" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_TicketLogWorkDetail_Get" SpName="OWP_TicketLogWorkDetail_Get" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+        <Setting Key="OWP_TicketCenter_GetMatchInfoByAdminSiteId" SpName="OWP_TicketCenter_GetMatchInfoByAdminSiteId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 
     </Function>
     <Function Name="TicketEvent">

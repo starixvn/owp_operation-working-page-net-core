@@ -106,6 +106,8 @@ public interface Repository
     Task<(bool, IEnumerable<MessageDetailViewModel>)> GetNextListMessages(GetNextListMessageCriteria criteria);
 
     Task<(bool canShowMoreMessage, List<MessageDetailViewModel> messages)> GetMessageListByGreaterMessageId(int ticketId, int messageId);
+
+    Task<MatchInfo> GetMatchInfoByAdminSiteId(int adminSiteId);
 }
 
 public class RepositoryImp : Repository
@@ -478,5 +480,15 @@ public class RepositoryImp : Repository
         };
         var messages = await dynamicRepository.FetchAsync<MessageDetailViewModel>(criteria);
         return (criteria.CanShowMoreMessage, messages.ToList());
+    }
+
+    public async Task<MatchInfo> GetMatchInfoByAdminSiteId(int adminsiteId)
+    {
+        var criteria = new GetMatchInfoCriteria()
+        {
+            AdminSiteId = adminsiteId
+        };
+        var matchInfos = await dynamicRepository.FetchAsync<MatchInfo>(criteria);
+        return matchInfos.FirstOrDefault();
     }
 }

@@ -224,4 +224,11 @@ public class TicketCenterController : ControllerBase
             messages
         };
     }
+
+    [HttpGet("get-match-info")]
+    public async Task<IActionResult> GetMatchInfo(int adminsiteId)
+    {
+        var result = await mediator.Send(new GetMatchInfoByAdminSiteIdRequest { AdminSiteId = adminsiteId });
+        return Ok(result);
+    }
 }
