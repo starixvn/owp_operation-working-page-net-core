@@ -11,15 +11,7 @@ public class NewTicketIssueLogWorkRequest : NewTicketModelBase, IRequest<int>
 {
     public int AdminSiteId { get; set; }
 
-    public string LeagueName { get; set; }
-
-    public string HomeName { get; set; }
-
-    public string AwayName { get; set; }
-
     public string Subject { get; set; }
-
-    public DateTime EventDateTime { get; set; }
 }
 
 public class NewTicketIssueLogWorkHandler : IRequestHandler<NewTicketIssueLogWorkRequest, int>
