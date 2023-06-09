@@ -12,7 +12,7 @@ public interface Repository
 {
     Task<IList<EventCheckingOption>> GetEventOptionInfo(string keyword);
 
-    Task<IList<EventLGAOption>> GetEventOptionLGAInfo(string keyword);
+    Task<IList<EventLgaOption>> GetEventOptionLgaInfo(string keyword);
 
     Task<IList<ParentType>> GetTicketTypes();
 
@@ -133,14 +133,14 @@ public class RepositoryImp : Repository
         })).ToList();
     }
 
-    public async Task<IList<EventLGAOption>> GetEventOptionLGAInfo(string keyword)
+    public async Task<IList<EventLgaOption>> GetEventOptionLgaInfo(string keyword)
     {
-        var criteria = new GetEventLGACriteria
+        var criteria = new GetEventLgaCriteria
         {
             Keyword = keyword
         };
         criteria.ThrowExceptionIfInvalid();
-        return (await dynamicRepository.FetchAsync<EventLGAOption>(criteria)).ToList();
+        return (await dynamicRepository.FetchAsync<EventLgaOption>(criteria)).ToList();
     }
 
     public async Task<IList<ParentType>> GetTicketTypes()
@@ -278,9 +278,8 @@ public class RepositoryImp : Repository
     public async Task<IEnumerable<TicketMatchInfo>> GetEventTicketLiveIncident(QueryEventTicketsRequest request)
     {
         var criteria = mapper.Map<GetEventTicketLiveIncidentCriteria>(request);
-        var result = await dynamicRepository.FetchAsync<TicketMatchInfo>(criteria);
-
-        var eventTicketLiveIncident = result.ToList();
+        var result = (await dynamicRepository.FetchAsync<TicketMatchInfo>(criteria)).ToList();
+        result.ForEach(x => { x.EventType = 5; });
         eventTicketLiveIncident.ToList().ForEach(x => { x.EventType = 5; });
 
         return eventTicketLiveIncident;

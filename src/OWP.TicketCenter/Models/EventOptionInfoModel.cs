@@ -32,7 +32,7 @@ public class EventCheckingOption : EventOptionInfoModel
     public int InfoSiteMatchId { get; set; }
 }
 
-public class EventLGAOption : EventOptionInfoModel
+public class EventLgaOption : EventOptionInfoModel
 {
     public int OwpMatchId { get; set; }
 }

@@ -48,7 +48,7 @@ public class TicketMatchInfo : TicketBaseInfo
 
     public string AwayName { get; set; }
 
-    public DateTime? KOTime { get; set; }
+    public DateTime? KoTime { get; set; }
 
     public int EventType { get; set; } = 2;
 
@@ -83,7 +83,7 @@ public class TicketLogWorkInfo : TicketBaseInfo
 
     public string AwayName { get; set; }
 
-    public DateTime? KOTime { get; set; }
+    public DateTime? KoTime { get; set; }
 
     public int EventType { get; set; } = 6;
 

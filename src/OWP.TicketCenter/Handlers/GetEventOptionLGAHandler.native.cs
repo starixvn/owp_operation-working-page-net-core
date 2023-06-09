@@ -20,13 +20,13 @@ public class GetEventOptionLgaHandler : IRequestHandler<GetTicketEventOptionLgaR
     public async Task<IList<EventLgaOptionInfoSender>> Handle(GetTicketEventOptionLgaRequest request,
         CancellationToken cancellationToken)
     {
-        var eventInfo = await repository.GetEventOptionLGAInfo(request.Keyword);
+        var eventInfo = await repository.GetEventOptionLgaInfo(request.Keyword);
 
         var eventInfoSender = new List<EventLgaOptionInfoSender>
         {
             new()
             {
-                EventInfoViewModel = eventInfo.Select(i => new EventLGAOptionInfoViewModel
+                EventInfoViewModel = eventInfo.Select(i => new EventLgaOptionInfoViewModel
                     {
                         OwpMatchId = i.OwpMatchId,
                         OwpLeagueId = i.OwpLeagueId,
