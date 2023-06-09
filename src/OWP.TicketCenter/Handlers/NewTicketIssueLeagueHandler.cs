@@ -21,19 +21,22 @@ public class NewTicketIssueLeagueHandler : IRequestHandler<NewTicketIssueLeagueR
     private readonly NotificationService notificationService;
     private readonly RecipientService recipientService;
     private readonly MessageClient messageClient;
+    private readonly PreMatchNotificationService preMatchNotification;
 
     public NewTicketIssueLeagueHandler(
         Repository repository,
         MessageService messageService,
         NotificationService notificationService,
         RecipientService recipientService,
-        MessageClient messageClient)
+        MessageClient messageClient,
+        PreMatchNotificationService preMatchNotification)
     {
         this.repository = repository;
         this.messageService = messageService;
         this.notificationService = notificationService;
         this.recipientService = recipientService;
         this.messageClient = messageClient;
+        this.preMatchNotification = preMatchNotification;
     }
 
     public async Task<int> Handle(NewTicketIssueLeagueRequest request, CancellationToken cancellationToken)
@@ -56,6 +59,13 @@ public class NewTicketIssueLeagueHandler : IRequestHandler<NewTicketIssueLeagueR
 
         await recipientService.InsertManyRecipientReader(request.Recipients, request.TicketId, request.CreatorId);
 
+        await NotifyToUsers(request, ticketId, newMessage);
+
+        return ticketId;
+    }
+
+    private async Task NotifyToUsers(NewTicketIssueLeagueRequest request, int ticketId, NewMessageRequestModel newMessage)
+    {
         var notificationMessage = new MessageTransform
         {
             TicketId = ticketId,
@@ -64,10 +74,10 @@ public class NewTicketIssueLeagueHandler : IRequestHandler<NewTicketIssueLeagueR
         };
         messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketLeague);
 
-        await notificationService.NotifyNewMessageIncome(ticketId);
+        var userIds = await repository.GetUserIdsByTicketId(ticketId);
+        await notificationService.NotifyNewMessageIncome(userIds);
+        await notificationService.NotifyNewAddRecipient(userIds);
 
-        await notificationService.NotifyNewAddRecipient(ticketId, request.CreatorId);
-
-        return ticketId;
+        await preMatchNotification.NotifyToReloadTicketInPrematchTable(request.TicketId, request.TicketType, userIds);
     }
 }

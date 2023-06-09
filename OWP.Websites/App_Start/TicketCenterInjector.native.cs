@@ -1,5 +1,6 @@
 ﻿using OWP.TicketCenter;
 using OWP.TicketCenter.Middleware;
+using OWP.TicketCenter.Notification;
 using OWP.TicketCenter.Notification.Services;
 using OWP.TicketCenter.Services;
 
@@ -21,6 +22,8 @@ public static class TicketCenterInjector
         services.AddScoped<GetEventTicketsService, GetEventTicketsServiceImp>();
 
         services.AddScoped<NotificationService, NotificationServiceImp>();
+        services.AddScoped<PreMatchNotificationService, PreMatchNotificationServiceImp>();
         services.AddScoped<PermissionService, PermissionServiceImp>();
+        services.AddScoped<NotificationRepository, NotificationRepositoryImp>();
     }
 }

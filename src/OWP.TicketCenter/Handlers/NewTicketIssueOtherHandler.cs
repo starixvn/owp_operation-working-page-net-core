@@ -67,9 +67,9 @@ public class NewTicketIssueOtherHandler : IRequestHandler<NewTicketIssueOtherReq
 
         messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketOther);
 
-        await notificationService.NotifyNewMessageIncome(ticketId);
-
-        await notificationService.NotifyNewAddRecipient(ticketId, request.CreatorId);
+        var userIds = await repository.GetUserIdsByTicketId(request.TicketId);
+        await notificationService.NotifyNewMessageIncome(userIds);
+        await notificationService.NotifyNewAddRecipient(userIds);
 
         return ticketId;
     }

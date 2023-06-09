@@ -5,20 +5,19 @@ namespace OWP.TicketCenter.Notification.Services;
 
 public interface NotificationService
 {
+    Task NotifyNewMessageIncome(List<string> userIds);
 
-    Task<bool> NotifyNewMessageIncome(int ticketId);
+    Task NotifyNewAddRecipient(List<string> userIds);
 
-    Task<bool> NotifyNewMessageLga(int ticketId, int owpMatchId, int actorId);
+    Task NotifyChangeStatusIncome(int ticketId);
 
-    Task<bool> NotifyNewAddRecipient(int ticketId, int actorId);
+    Task NotifyChangeSubTypeIncome(int ticketId);
 
-    Task<bool> NotifyNewAddRecipientLga(int ticketId, int owpMatchId, int actorId);
+    Task NotifyUserClickOnToast(int userId, int ticketId, int eventType);
 
-    Task<bool> NotifyChangeStatusIncome(int ticketId);
+    Task NotifyNewMessageLga(List<string> userIds, int owpMatchId, int actorId);
 
-    Task<bool> NotifyChangeSubTypeIncome(int ticketId);
-
-    Task<bool> NotifyUserClickOnToast(int userId, int ticketId, int eventType);
+    Task NotifyNewAddRecipientLga(List<string> userIds, int owpMatchId, int actorId);
 }
 
 public class NotificationServiceImp : NotificationService
@@ -40,54 +39,34 @@ public class NotificationServiceImp : NotificationService
         this.repository = repository;
     }
 
-    public async Task<bool> NotifyNewMessageIncome(int ticketId)
+    public async Task NotifyNewMessageIncome(List<string> userIds)
     {
-        var userIds = await repository.GetUserIdsByTicketId(ticketId);
-        var userIdsString = userIds.Distinct().Select(u => u.ToString()).ToList();
         await notifyMyTicket.Clients
-            .Users(userIdsString)
+            .Users(userIds)
             .NotifyNewMessageIncome();
-        await notifyPreMatch.Clients
-            .Users(userIdsString)
-            .NotifyNewMessageIncome();
-        return await Task.FromResult(true);
     }
 
-    public async Task<bool> NotifyNewMessageLga(int ticketId, int owpMatchId, int actorId)
+    public async Task NotifyNewMessageLga(List<string> userIds, int owpMatchId, int actorId)
     {
-        var userIds = await repository.GetUserIdsByTicketId(ticketId);
-        var userIdsString = userIds.Distinct().Select(u => u.ToString()).ToList();
         await notifyMyTicket.Clients
-            .Users(userIdsString)
+            .Users(userIds)
             .NotifyNewMessageLga(owpMatchId, actorId);
-        return await Task.FromResult(true);
     }
 
-    public async Task<bool> NotifyNewAddRecipient(int ticketId, int actorId)
+    public async Task NotifyNewAddRecipient(List<string> userIdsString)
     {
-        var userIds = await repository.GetUserIdsByTicketId(ticketId);
-        var userIdsString = userIds.Where(u => u != actorId)
-            .Distinct().Select(u => u.ToString()).ToList();
         await notifyMyTicket.Clients
             .Users(userIdsString)
             .NotifyNewAddRecipient();
-        await notifyPreMatch.Clients
-            .Users(userIdsString)
-            .NotifyNewAddRecipient();
-        return await Task.FromResult(true);
     }
 
-    public async Task<bool> NotifyNewAddRecipientLga(int ticketId, int owpMatchId, int actorId)
+    public async Task NotifyNewAddRecipientLga(List<string> userIds, int owpMatchId, int actorId)
     {
-        var userIds = await repository.GetUserIdsByTicketId(ticketId);
-        var userIdsString = userIds.Where(u => u != actorId)
-            .Distinct().Select(u => u.ToString()).ToList();
         await notifyMyTicket.Clients
-            .Users(userIdsString)
+            .Users(userIds)
             .NotifyNewAddRecipientLga(owpMatchId, actorId);
-        return await Task.FromResult(true);
     }
-    public async Task<bool> NotifyUserClickOnToast(int userId, int ticketId, int eventType)
+    public async Task NotifyUserClickOnToast(int userId, int ticketId, int eventType)
     {
         await notifyMyTicket.Clients
             .User(userId.ToString())
@@ -95,32 +74,34 @@ public class NotificationServiceImp : NotificationService
         await notifyPreMatch.Clients
             .User(userId.ToString())
             .NotifyUserOnClickToast(ticketId, eventType);
-        return await Task.FromResult(true);
     }
 
-    public async Task<bool> NotifyChangeStatusIncome(int ticketId)
+    public async Task NotifyChangeStatusIncome(int ticketId)
     {
-        var userIds = await repository.GetUserIdsByTicketId(ticketId);
-        var userIdsString = userIds.Distinct().Select(u => u.ToString()).ToList();
+        var userIdsString = await GetUserIdsInStringByTicketId(ticketId);
+
         await notifyMyTicket.Clients
             .Users(userIdsString)
             .NotifyChangeStatusIncome();
         await notifyPreMatch.Clients
             .Users(userIdsString)
             .NotifyChangeStatusIncome();
-        return await Task.FromResult(true);
     }
 
-    public async Task<bool> NotifyChangeSubTypeIncome(int ticketId)
+    public async Task NotifyChangeSubTypeIncome(int ticketId)
     {
-        var userIds = await repository.GetUserIdsByTicketId(ticketId);
-        var userIdsString = userIds.Distinct().Select(u => u.ToString()).ToList();
+        var userIdsString = await GetUserIdsInStringByTicketId(ticketId);
+
         await notifyMyTicket.Clients
             .Users(userIdsString)
             .NotifyChangeStatusIncome();
         await notifyPreMatch.Clients
             .Users(userIdsString)
             .NotifyChangeStatusIncome();
-        return await Task.FromResult(true);
+    }
+
+    private async Task<List<string>> GetUserIdsInStringByTicketId(int ticketId, int actorId = 0)
+    {
+        return await repository.GetUserIdsByTicketId(ticketId, actorId);
     }
 }

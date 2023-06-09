@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Fanex.Data.Repository;
-using Fanex.NAP.Client.Helpers.Web;
 using OWP.Extensions;
 using OWP.TicketCenter.Criteria;
 using OWP.TicketCenter.Handlers;
@@ -57,7 +56,7 @@ public interface Repository
 
     Task<IEnumerable<RecipientResponseModel>> GetRecipientByTicketId(int ticketId);
 
-    Task<IEnumerable<int>> GetUserIdsByTicketId(int ticketId);
+    Task<List<string>> GetUserIdsByTicketId(int ticketId, int actorId = 0);
 
     Task<int> AddSingleRecipient(InsertSingleRecipientRequest request);
 
@@ -75,18 +74,6 @@ public interface Repository
 
     Task UpdateSingleRecipientReader(UpdateSingleRecipientReaderCriteria criteria);
 
-    Task InsertNewTicketLeagueNotification(InsertNewTicketLeagueNotificationCriteria criteria);
-
-    Task InsertNewTicketMatchNotification(InsertNewTicketMatchNotificationCriteria criteria);
-
-    Task InsertNewTicketOtherNotification(InsertNewTicketOtherNotificationCriteria criteria);
-
-    Task InsertNewTicketSupportNotification(InsertNewTicketSupportNotificationCriteria criteria);
-
-    Task InsertNewRecipientNotification(InsertNewRecipientNotificationCriteria criteria);
-
-    Task InsertNewMessageNotification(InsertNewMessageNotificationCriteria criteria);
-
     Task UpdateTicketStatus(UpdateTicketStatusCriteria criteria);
 
     Task UpdateTicketSubType(UpdateTicketSubTypeCriteria criteria);
@@ -96,8 +83,6 @@ public interface Repository
     Task PinTicket(PinTicketCriteria criteria);
 
     Task DeleteTicket(DeleteTicketCriteria criteria);
-
-    Task<IEnumerable<MessageUnreadCounter>> GetMessageUnreadByMultipleUserId(IList<int> userIds);
 
     Task<IEnumerable<SubTypeModel>> GetSubTypeByTicketTypeId(int ticketTypeId);
 
@@ -111,10 +96,7 @@ public interface Repository
 
     Task<(bool, IEnumerable<MessageDetailViewModel>)> GetMessageInLastTwoDays(int ticketId);
 
-    Task<IList<int>> GetTicketIdHaveSavedMessage();
-
     Task<TicketInfoLgaModel> GetTicketInfoLga(int ticketId);
-
     Task<(bool, IEnumerable<MessageDetailViewModel>)> GetNextListMessages(GetNextListMessageCriteria criteria);
 
     Task<(bool canShowMoreMessage, List<MessageDetailViewModel> messages)> GetMessageListByGreaterMessageId(int ticketId, int messageId);
@@ -126,13 +108,10 @@ public class RepositoryImp : Repository
 
     private readonly IMapper mapper;
 
-    private readonly INapSession session;
-
-    public RepositoryImp(IDynamicRepository dynamicRepository, IMapper mapper, INapSession session)
+    public RepositoryImp(IDynamicRepository dynamicRepository, IMapper mapper)
     {
         this.dynamicRepository = dynamicRepository;
         this.mapper = mapper;
-        this.session = session;
     }
 
     public async Task<IList<EventCheckingOption>> GetEventOptionInfo(string keyword)
@@ -212,14 +191,14 @@ public class RepositoryImp : Repository
         await dynamicRepository.ExecuteAsync(criteria);
     }
 
-    public async Task<IEnumerable<int>> GetUserIdsByTicketId(int ticketId)
+    public async Task<List<string>> GetUserIdsByTicketId(int ticketId, int actorId = 0)
     {
-        var criteria = new GetUserIdsByTicketIdCriteria
-        {
-            TicketId = ticketId
-        };
-        criteria.ThrowExceptionIfInvalid();
-        return await dynamicRepository.FetchAsync<int>(criteria);
+        var criteria = new GetUserIdsByTicketIdCriteria { TicketId = ticketId };
+        var userIds = await dynamicRepository.FetchAsync<int>(criteria);
+
+        var selectedUserIds = actorId == 0 ? userIds.Where(u => u != actorId) : userIds;
+
+        return selectedUserIds.Distinct().Select(u => u.ToString()).ToList();
     }
 
     public async Task<int> AddSingleRecipient(InsertSingleRecipientRequest request)
@@ -361,24 +340,6 @@ public class RepositoryImp : Repository
         await dynamicRepository.ExecuteAsync(criteria);
     }
 
-    public async Task InsertNewTicketLeagueNotification(InsertNewTicketLeagueNotificationCriteria criteria)
-        => await dynamicRepository.ExecuteAsync(criteria);
-
-    public async Task InsertNewTicketMatchNotification(InsertNewTicketMatchNotificationCriteria criteria)
-        => await dynamicRepository.ExecuteAsync(criteria);
-
-    public async Task InsertNewTicketOtherNotification(InsertNewTicketOtherNotificationCriteria criteria)
-        => await dynamicRepository.ExecuteAsync(criteria);
-
-    public async Task InsertNewTicketSupportNotification(InsertNewTicketSupportNotificationCriteria criteria)
-        => await dynamicRepository.ExecuteAsync(criteria);
-
-    public async Task InsertNewRecipientNotification(InsertNewRecipientNotificationCriteria criteria)
-        => await dynamicRepository.ExecuteAsync(criteria);
-
-    public async Task InsertNewMessageNotification(InsertNewMessageNotificationCriteria criteria)
-        => await dynamicRepository.ExecuteAsync(criteria);
-
     public async Task UpdateTicketStatus(UpdateTicketStatusCriteria criteria)
     {
         criteria.ThrowExceptionIfInvalid();
@@ -416,24 +377,6 @@ public class RepositoryImp : Repository
         var existedTicketId = (await dynamicRepository.FetchAsync<int?>(criteria)).FirstOrDefault();
 
         return existedTicketId.HasValue;
-    }
-    public async Task<IEnumerable<MessageUnreadCounter>> GetMessageUnreadByMultipleUserId(IList<int> userIds)
-    {
-        var messageUnread = new List<MessageUnreadCounter>();
-        foreach (var userId in userIds)
-        {
-            var result = await dynamicRepository.FetchAsync<int>(new CountUnreadMessageCriteria
-            {
-                UserId = userId
-            });
-            var totalUnreadMessage = result.FirstOrDefault();
-            messageUnread.Add(new MessageUnreadCounter
-            {
-                UserId = userId,
-                Total = totalUnreadMessage
-            });
-        }
-        return messageUnread;
     }
 
     public async Task<IEnumerable<SubTypeModel>> GetSubTypeByTicketTypeId(int ticketTypeId)
@@ -481,8 +424,6 @@ public class RepositoryImp : Repository
         return (criteria.CanShowMoreMessage, messages);
     }
 
-    public async Task<IList<int>> GetTicketIdHaveSavedMessage()
-        => (await dynamicRepository.FetchAsync<int>(new GetTicketIdHaveSavedMessageCriteria())).ToList();
 
     public async Task<TicketInfoLgaModel> GetTicketInfoLga(int ticketId)
     {
@@ -492,7 +433,6 @@ public class RepositoryImp : Repository
         };
         return (await dynamicRepository.FetchAsync<TicketInfoLgaModel>(criteria)).FirstOrDefault();
     }
-
     public async Task<(bool, IEnumerable<MessageDetailViewModel>)> GetNextListMessages(GetNextListMessageCriteria criteria)
     {
         var messages = await dynamicRepository.FetchAsync<MessageDetailViewModel>(criteria);

@@ -64,6 +64,14 @@ public class NewTicketIssueLiveIncidentHandler : IRequestHandler<NewTicketIssueL
 
         await recipientService.InsertManyRecipientReader(request.Recipients, request.TicketId, request.CreatorId);
 
+        await NotifyToUsers(request, ticketId, newMessage);
+
+        return ticketId;
+    }
+
+    private async Task NotifyToUsers(NewTicketIssueLiveIncidentRequest request, int ticketId,
+        NewMessageRequestModel newMessage)
+    {
         var notificationMessage = new MessageLiveIncidentTransform
         {
             TicketId = ticketId,
@@ -76,14 +84,11 @@ public class NewTicketIssueLiveIncidentHandler : IRequestHandler<NewTicketIssueL
 
         messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketLiveIncident);
 
-        await notificationService.NotifyNewMessageIncome(ticketId);
+        var userIds = await repository.GetUserIdsByTicketId(ticketId);
+        await notificationService.NotifyNewMessageIncome(userIds);
+        await notificationService.NotifyNewMessageLga(userIds, request.OwpMatchId, request.CreatorId);
 
-        await notificationService.NotifyNewAddRecipient(ticketId, request.CreatorId);
-
-        await notificationService.NotifyNewMessageLga(ticketId, request.OwpMatchId, request.CreatorId);
-
-        await notificationService.NotifyNewAddRecipientLga(ticketId, request.OwpMatchId, request.CreatorId);
-
-        return ticketId;
+        await notificationService.NotifyNewAddRecipient(userIds);
+        await notificationService.NotifyNewAddRecipientLga(userIds, request.OwpMatchId, request.CreatorId);
     }
 }

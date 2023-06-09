@@ -18,18 +18,21 @@ public class InsertRecipientHandler : IRequestHandler<InsertSingleRecipientReque
     private readonly RecipientService recipientService;
     private readonly NotificationService notificationService;
     private readonly MessageClient messageClient;
+    private readonly PreMatchNotificationService preMatchNotification;
 
     public InsertRecipientHandler(
         Repository repository,
         RecipientService recipientService,
         NotificationService notificationService,
-        MessageClient messageClient
+        MessageClient messageClient,
+        PreMatchNotificationService preMatchNotification
     )
     {
         this.repository = repository;
         this.recipientService = recipientService;
         this.notificationService = notificationService;
         this.messageClient = messageClient;
+        this.preMatchNotification = preMatchNotification;
     }
 
     public async Task<int> Handle(InsertSingleRecipientRequest request, CancellationToken cancellationToken)
@@ -45,17 +48,23 @@ public class InsertRecipientHandler : IRequestHandler<InsertSingleRecipientReque
 
         await recipientService.InsertManyRecipientReader(recipients, request.TicketId, request.ActorId);
 
+        await NotifyToUsers(request);
+
+        return await repository.AddSingleRecipient(request);
+    }
+
+    private async Task NotifyToUsers(InsertSingleRecipientRequest request)
+    {
         // publish rabbit
         messageClient.SendMessage(request, RoutingKey.TicketCenterNewRecipient);
 
-        await notificationService.NotifyNewAddRecipient(request.TicketId, request.ActorId);
-
+        var userIds = await repository.GetUserIdsByTicketId(request.TicketId);
+        await notificationService.NotifyNewAddRecipient(userIds);
         if (request.TicketEventType == (int)EventType.LiveIncident)
         {
             var ticketInfoLga = await repository.GetTicketInfoLga(request.TicketId);
-            await notificationService.NotifyNewAddRecipientLga(request.TicketId, ticketInfoLga.OwpMatchId, request.ActorId);
+            await notificationService.NotifyNewAddRecipientLga(userIds, ticketInfoLga.OwpMatchId, request.ActorId);
         }
-
-        return await repository.AddSingleRecipient(request);
+        await preMatchNotification.NotifyToReloadTicketInPrematchTable(request.TicketId, request.TicketEventType, userIds);
     }
 }
