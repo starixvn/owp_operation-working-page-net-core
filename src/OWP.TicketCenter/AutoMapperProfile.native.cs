@@ -18,6 +18,9 @@ public class AutoMapperProfile : Profile
         CreateMap<NewTicketIssueLogWorkRequest, AddNewTicketIssueLogWorkCriteria>();
         CreateMap<EventTicketMatchModel, TicketLiveIncidentDetailViewModel>();
         CreateMap<EventTicketMatchOfLogWorkModel, TicketLogWorkDetailViewModel>();
+        CreateMap<NewTicketIssueLogWorkRequest, NewMessageRequestModel>().ForMember(
+            m => m.FileId,
+            opt => opt.Ignore());
         CreateMap<NewTicketIssueLiveIncidentRequest, NewMessageRequestModel>().ForMember(
             m => m.FileId,
             opt => opt.Ignore());

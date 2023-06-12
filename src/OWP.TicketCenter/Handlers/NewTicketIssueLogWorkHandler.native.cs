@@ -9,7 +9,7 @@ namespace OWP.TicketCenter.Handlers;
 
 public class NewTicketIssueLogWorkRequest : NewTicketModelBase, IRequest<int>
 {
-    public int AdminSiteId { get; set; }
+    public int? AdminSiteId { get; set; }
 
     public string Subject { get; set; }
 }
@@ -43,6 +43,8 @@ public class NewTicketIssueLogWorkHandler : IRequestHandler<NewTicketIssueLogWor
         request.TicketId = ticketId;
 
         await repository.AddNewTicketIssueLogWork(request);
+
+        var newMessage = await messageService.InsertMessage(request, ticketId);
 
         var criteria = new InsertIssueCreatorCriteria
         {
