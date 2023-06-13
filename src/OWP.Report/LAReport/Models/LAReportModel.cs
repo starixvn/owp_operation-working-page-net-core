@@ -2,7 +2,7 @@
 
 public class LAReportModel
 {
-    public int UserId { get; set; }
+    public double UserId { get; set; }
 
     public string Username { get; set; }
 
@@ -10,69 +10,69 @@ public class LAReportModel
 
     public string Section { get; set; }
 
-    public int TotalMatches { get; set; }
+    public double TotalMatches { get; set; }
 
-    public int Link2 { get; set; }
+    public double Link2 { get; set; }
 
-    public int Link3 { get; set; }
+    public double Link3 { get; set; }
 
-    public int Link4 { get; set; }
+    public double Link4 { get; set; }
 
-    public int Link5 { get; set; }
+    public double Link5 { get; set; }
 
-    public int Link6 { get; set; }
+    public double Link6 { get; set; }
 
-    public int Link7 { get; set; }
+    public double Link7 { get; set; }
 
-    public int Link8Plus { get; set; }
+    public double Link8Plus { get; set; }
 
-    public int TotalMultiMatches { get; set; }
+    public double TotalMultiMatches { get; set; }
 
-    public int OnlyProvider { get; set; }
+    public double OnlyProvider { get; set; }
 
-    public int OnlyTv { get; set; }
+    public double OnlyTv { get; set; }
 
-    public int OnlyReporter { get; set; }
+    public double OnlyReporter { get; set; }
 
-    public int MixedProviderTVReporter { get; set; }
+    public double MixedProviderTVReporter { get; set; }
 
-    public int TotalSingleMatches => OnlyProvider + OnlyTv + OnlyReporter + MixedProviderTVReporter;
+    public double TotalSingleMatches => OnlyProvider + OnlyTv + OnlyReporter + MixedProviderTVReporter;
 
-    public int CornerPlus { get; set; }
+    public double CornerPlus { get; set; }
 
-    public int TBookingPlus { get; set; }
+    public double TBookingPlus { get; set; }
 
-    public int Fantasy { get; set; }
+    public double Fantasy { get; set; }
 
-    public int GoalKick { get; set; }
+    public double GoalKick { get; set; }
 
-    public int OtherProducts { get; set; }
+    public double OtherProducts { get; set; }
 
-    public int TotalSpecialProducts => CornerPlus + TBookingPlus + Fantasy + OtherProducts + GoalKick;
+    public double TotalSpecialProducts => CornerPlus + TBookingPlus + Fantasy + OtherProducts + GoalKick;
 
-    public int FTCorner { get; set; }
+    public double FTCorner { get; set; }
 
-    public int FTCorner5ML { get; set; }
+    public double FTCorner5ML { get; set; }
 
-    public int TotalMixedProduct => FTCorner + FTCorner5ML;
+    public double TotalMixedProduct => FTCorner + FTCorner5ML;
 
-    public int FiveML { get; set; }
+    public double FiveML { get; set; }
 
-    public int ESoccer5Mins { get; set; }
+    public double ESoccer5Mins { get; set; }
 
-    public int ESoccer6Mins { get; set; }
+    public double ESoccer6Mins { get; set; }
 
-    public int ESoccer15Mins { get; set; }
+    public double ESoccer15Mins { get; set; }
 
-    public int ESoccer16Mins { get; set; }
+    public double ESoccer16Mins { get; set; }
 
-    public int ESoccer20Mins { get; set; }
+    public double ESoccer20Mins { get; set; }
 
-    public int TotalESoccer => ESoccer5Mins + ESoccer6Mins + ESoccer15Mins + ESoccer16Mins + ESoccer20Mins;
+    public double TotalESoccer => ESoccer5Mins + ESoccer6Mins + ESoccer15Mins + ESoccer16Mins + ESoccer20Mins;
 
-    public int Others { get; set; }
+    public double Others { get; set; }
 
-    public int SumTotal
+    public double SumTotal
         => TotalMultiMatches +
            TotalSingleMatches +
            TotalSpecialProducts +
