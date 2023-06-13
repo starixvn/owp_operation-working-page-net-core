@@ -1,5 +1,6 @@
 ﻿using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Models;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 using MatchType = OWP.AssigneeSuggestionList.Constant.MatchType;
 
 namespace OWP.AssigneeSuggestionList.Helper;
@@ -49,7 +50,7 @@ public static class OrderAssigneeHelper
                                       .ThenBy(x => SortByMainLevel(x.UserInfo.LevelLabel))
                                       .ThenBy(x => SortByMainBetTypeMainMatch(x.UserInfo.MainBetType, matchInfo))
                                       .ThenBy(x => SortByRole(x.UserInfo.Role))
-                                      .ThenBy(x => SortByWorkLoad(x.UserInfo,x.CategorizedAssignments,matchInfo))
+                                      .ThenBy(x => SortByWorkLoad(x.UserInfo, x.CategorizedAssignments, matchInfo))
                                       .ToList()
       };
 
@@ -103,15 +104,16 @@ public static class OrderAssigneeHelper
     {
         var kOTime = matchInfo.KOTime;
         var endTime = matchInfo.EndTime;
-        var kOTimeAddOneHours = kOTime.AddHours(1);
         var hasWorkingShiftInRangeTime = IsWorkingShiftInRangeTime(userInfo, kOTime, endTime);
 
         if (!hasWorkingShiftInRangeTime)
         {
             return 7;
         }
+        var kOTimeHadBeenRoundMinute = kOTime.Date.AddHours(kOTime.Hour).AddMinutes(0).AddSeconds(0);
+        var kOTimeHadBeenRoundMinuteAddOneHour = kOTimeHadBeenRoundMinute.AddHours(1);
 
-        var assignmentInTimeRange = FindAssignmentInTimeRange(categorizedAssignments, kOTime, kOTimeAddOneHours);
+        var assignmentInTimeRange = FindAssignmentInTimeRange(categorizedAssignments, kOTimeHadBeenRoundMinute, kOTimeHadBeenRoundMinuteAddOneHour);
 
         if (assignmentInTimeRange == null)
         {
@@ -126,9 +128,12 @@ public static class OrderAssigneeHelper
         return userInfo.ShiftStartTime <= kOTime && userInfo.ShiftEndTime >= endTime;
     }
 
-    private static AssignmentModel FindAssignmentInTimeRange(List<AssignmentModel> categorizedAssignments, DateTime kOTime, DateTime kOTimeAddOneHours)
+    private static AssignmentModel FindAssignmentInTimeRange(List<AssignmentModel> categorizedAssignments,
+        DateTime kOTime, DateTime kOTimeAddOneHours)
     {
-        return categorizedAssignments.Find(x => x.EventDateTime <= kOTime && kOTimeAddOneHours <= x.EndTime);
+        return categorizedAssignments.Find(x =>
+            x.EventDateTime.Date.AddHours(x.EventDateTime.Hour).AddMinutes(0).AddSeconds(0) <= kOTime &&
+            kOTimeAddOneHours <= x.EndTime.Date.AddHours(x.EndTime.Hour).AddMinutes(0).AddSeconds(0));
     }
 
     private static int GetAssignmentPriority(AssignmentModel assignment)
