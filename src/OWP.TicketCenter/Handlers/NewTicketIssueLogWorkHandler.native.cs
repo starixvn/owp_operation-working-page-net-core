@@ -1,7 +1,9 @@
 using MediatR;
 using OWP.RabbitMQ;
+using OWP.RabbitMQ.Constants;
 using OWP.TicketCenter.Criteria;
 using OWP.TicketCenter.Models;
+using OWP.TicketCenter.Notification.Models;
 using OWP.TicketCenter.Notification.Services;
 using OWP.TicketCenter.Services;
 
@@ -58,7 +60,14 @@ public class NewTicketIssueLogWorkHandler : IRequestHandler<NewTicketIssueLogWor
 
         await recipientService.InsertManyRecipientReader(request.Recipients, request.TicketId, request.CreatorId);
 
-        // Notify --> Liam
+        var notificationMessage = new MessageTransform
+        {
+            TicketId = ticketId,
+            Comment = newMessage.Message,
+            ActorId = request.CreatorId
+        };
+
+        messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketLogWork);
 
         await notificationService.NotifyNewMessageIncome(ticketId);
 
