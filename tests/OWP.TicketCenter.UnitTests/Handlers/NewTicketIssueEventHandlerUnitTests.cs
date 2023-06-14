@@ -24,8 +24,7 @@ public class NewTicketIssueEventHandlerUnitTests
 
     private readonly NewTicketIssueEventHandler handler;
 
-    private readonly MessageClient messageClient;
-
+    private readonly PreMatchNotificationService preMatchNotificationService;
 
     public NewTicketIssueEventHandlerUnitTests()
     {
@@ -34,19 +33,21 @@ public class NewTicketIssueEventHandlerUnitTests
         mapper = Substitute.For<IMapper>();
         notificationService = Substitute.For<NotificationService>();
         recipientService = Substitute.For<RecipientService>();
-        messageClient = Substitute.For<MessageClient>();
+        var messageClient = Substitute.For<MessageClient>();
+        preMatchNotificationService = Substitute.For<PreMatchNotificationService>();
 
         handler = new NewTicketIssueEventHandler(
             repository,
             messageService,
             notificationService,
             recipientService,
-            messageClient
+            messageClient,
+            preMatchNotificationService
         );
     }
 
     [Fact]
-    public async void InsertNewEventIssue_IssueInfo_ReturnTicketId()
+    public async Task InsertNewEventIssue_IssueInfo_ReturnTicketId()
     {
         // Arrange
         var request = new NewTicketIssueEventRequest();
@@ -72,23 +73,25 @@ public class NewTicketIssueEventHandlerUnitTests
                 Arg.Compat.Any<int>(),
                 Arg.Compat.Any<int>())
             .ReturnsForAnyArgs(Task.FromResult(true));
+        await preMatchNotificationService.NotifyToReloadTicketInPrematchTable(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<List<string>>());
 
         messageService.InsertMessage(request, Arg.Any<int>()).Returns(new NewMessageRequestModel());
 
         mapper
             .Map<NewMessageRequestModel>(request)
-            .Returns(x => new NewMessageRequestModel
-                {
-                    Message = "abc"
-                }
+            .Returns(_ => new NewMessageRequestModel
+            {
+                Message = "abc"
+            }
             );
 
-        await notificationService.NotifyNewMessageIncome(Arg.Compat.Any<int>());
+        await notificationService.NotifyNewMessageIncome(Arg.Compat.Any<List<string>>());
 
         var actual = await handler.Handle(request, CancellationToken.None);
+
         // Temp
         //Assert
-        var expected = 111;
-        Assert.Equal(actual, expected);
+        const int expected = 111;
+        Assert.Equal(expected, actual);
     }
 }

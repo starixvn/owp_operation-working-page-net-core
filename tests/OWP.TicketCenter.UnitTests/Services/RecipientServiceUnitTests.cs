@@ -20,7 +20,7 @@ public class RecipientServiceUnitTests
     {
         var service = new RecipientServiceImp(repository);
         var recipients = MockListRecipients();
-        var ticketId = 12;
+        const int ticketId = 12;
 
         await service.InsertManyRecipient(recipients, ticketId);
 
@@ -33,7 +33,7 @@ public class RecipientServiceUnitTests
     {
         var service = new RecipientServiceImp(repository);
         var recipients = MockListRecipients();
-        var ticketId = 12;
+        const int ticketId = 12;
 
         await service.RemoveManyRecipientReader(recipients, ticketId);
 
@@ -51,8 +51,8 @@ public class RecipientServiceUnitTests
     {
         var service = new RecipientServiceImp(repository);
         var recipients = MockListRecipients();
-        var ticketId = 10;
-        var creatorId = 8;
+        const int ticketId = 10;
+        const int creatorId = 8;
 
         await service.InsertManyRecipientReader(recipients, ticketId, creatorId);
 
