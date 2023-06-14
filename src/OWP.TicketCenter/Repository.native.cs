@@ -259,8 +259,10 @@ public class RepositoryImp : Repository
         var criteria = mapper.Map<GetEventTicketLiveIncidentCriteria>(request);
         var result = await dynamicRepository.FetchAsync<TicketMatchInfo>(criteria);
 
-        result.ToList().ForEach(x => { x.EventType = 5; });
-        return result;
+        var eventTicketLiveIncident = result.ToList();
+        eventTicketLiveIncident.ToList().ForEach(x => { x.EventType = 5; });
+
+        return eventTicketLiveIncident;
     }
 
     public async Task<IEnumerable<TicketLeagueInfo>> GetEventTicketLeague(QueryEventTicketsRequest request)

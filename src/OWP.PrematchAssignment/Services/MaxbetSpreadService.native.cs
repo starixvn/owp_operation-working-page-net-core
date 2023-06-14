@@ -56,22 +56,26 @@ public class MaxbetSpreadServiceImp : MaxbetSpreadService
     private static void BuildMaxbetSpreadHdp(IList<MaxbetSpread> maxbetSpreadValue, InfoSiteMatch infoSiteMatch)
     {
         var count = maxbetSpreadValue.Count(x => x.Bettype == Bettype.Handicap);
-        if (count == FLAG_CAN_FILL_MAXBET_SPREAD)
+        if (count != FLAG_CAN_FILL_MAXBET_SPREAD)
         {
-            var maxbetHdp = maxbetSpreadValue.First(x => x.Bettype == Bettype.Handicap);
-            infoSiteMatch.MaxBetHdp.Maxbet = maxbetHdp.Maxbet;
-            infoSiteMatch.MaxBetHdp.Spread = maxbetHdp.Spread;
+            return;
         }
+
+        var maxbetHdp = maxbetSpreadValue.First(x => x.Bettype == Bettype.Handicap);
+        infoSiteMatch.MaxBetHdp.Maxbet = maxbetHdp.Maxbet;
+        infoSiteMatch.MaxBetHdp.Spread = maxbetHdp.Spread;
     }
 
     private static void BuildMaxbetSpreadOu(IList<MaxbetSpread> maxbetSpreadValue, InfoSiteMatch infoSiteMatch)
     {
         var count = maxbetSpreadValue.Count(x => x.Bettype == Bettype.OverUnder);
-        if (count == FLAG_CAN_FILL_MAXBET_SPREAD)
+        if (count != FLAG_CAN_FILL_MAXBET_SPREAD)
         {
-            var maxbetOu = maxbetSpreadValue.First(x => x.Bettype == Bettype.OverUnder);
-            infoSiteMatch.MaxBetOu.Maxbet = maxbetOu.Maxbet;
-            infoSiteMatch.MaxBetOu.Spread = maxbetOu.Spread;
+            return;
         }
+
+        var maxbetOu = maxbetSpreadValue.First(x => x.Bettype == Bettype.OverUnder);
+        infoSiteMatch.MaxBetOu.Maxbet = maxbetOu.Maxbet;
+        infoSiteMatch.MaxBetOu.Spread = maxbetOu.Spread;
     }
 }

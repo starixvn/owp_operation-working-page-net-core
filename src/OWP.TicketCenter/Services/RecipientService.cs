@@ -87,7 +87,7 @@ public class RecipientServiceImp : RecipientService
         return await Task.FromResult(true);
     }
 
-    private string BuildRecipientIdsByType(IList<InsertOrRemoveManyRecipientModel> recipients, RecipientType recipientType)
+    private static string BuildRecipientIdsByType(IEnumerable<InsertOrRemoveManyRecipientModel> recipients, RecipientType recipientType)
     {
         var recipientsResult = recipients
             .FirstOrDefault(r => r.RecipientType == (int)recipientType);

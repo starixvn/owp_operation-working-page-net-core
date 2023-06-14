@@ -63,7 +63,7 @@ public class NewTicketIssueSupportHandler : IRequestHandler<NewTicketIssueSuppor
         return ticketId;
     }
 
-    private async Task NotifyToUsers(NewTicketIssueSupportRequest request, int ticketId, NewMessageRequestModel newMessage)
+    private async Task NotifyToUsers(NewTicketModelBase request, int ticketId, NewMessageRequestModel newMessage)
     {
         var notificationMessage = new MessageTransform
         {

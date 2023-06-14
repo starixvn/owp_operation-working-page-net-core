@@ -53,7 +53,7 @@ public class InsertRecipientHandler : IRequestHandler<InsertSingleRecipientReque
         return await repository.AddSingleRecipient(request);
     }
 
-    private async Task NotifyToUsers(InsertSingleRecipientRequest request)
+    private async Task NotifyToUsers(InsertOrRemoveSingleRecipientModel request)
     {
         // publish rabbit
         messageClient.SendMessage(request, RoutingKey.TicketCenterNewRecipient);

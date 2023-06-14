@@ -64,7 +64,7 @@ public class NewTicketIssueLeagueHandler : IRequestHandler<NewTicketIssueLeagueR
         return ticketId;
     }
 
-    private async Task NotifyToUsers(NewTicketIssueLeagueRequest request, int ticketId, NewMessageRequestModel newMessage)
+    private async Task NotifyToUsers(NewTicketModelBase request, int ticketId, NewMessageRequestModel newMessage)
     {
         var notificationMessage = new MessageTransform
         {

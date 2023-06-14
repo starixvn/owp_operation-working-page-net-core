@@ -71,7 +71,7 @@ public class NewTicketIssueEventHandler : IRequestHandler<NewTicketIssueEventReq
         return ticketId;
     }
 
-    private async Task NotifyToUsers(NewTicketIssueEventRequest request, int ticketId, NewMessageRequestModel newMessage)
+    private async Task NotifyToUsers(NewTicketModelBase request, int ticketId, NewMessageRequestModel newMessage)
     {
         var notificationMessage = new MessageTransform
         {
