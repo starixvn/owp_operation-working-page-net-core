@@ -14,6 +14,8 @@ public class NewTicketIssueLogWorkRequest : NewTicketModelBase, IRequest<int>
     public int? AdminSiteId { get; set; }
 
     public string Subject { get; set; }
+
+    public string Status { get; set; }
 }
 
 public class NewTicketIssueLogWorkHandler : IRequestHandler<NewTicketIssueLogWorkRequest, int>

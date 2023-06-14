@@ -10,6 +10,8 @@ public class AddNewTicketIssueLogWorkCriteria : NonQueryCommand
 
     public string Subject { get; set; }
 
+    public string Status { get; set; }
+
     public override string GetSettingKey() => "OWP_TicketIssueLogWork_Create";
     
     public override bool IsValid() => TicketId > 0;
