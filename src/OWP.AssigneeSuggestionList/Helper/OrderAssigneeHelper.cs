@@ -104,36 +104,33 @@ public static class OrderAssigneeHelper
     {
         var kOTime = matchInfo.KOTime;
         var endTime = matchInfo.EndTime;
-        var hasWorkingShiftInRangeTime = IsWorkingShiftInRangeTime(userInfo, kOTime, endTime);
+        
 
-        if (!hasWorkingShiftInRangeTime)
-        {
-            return 7;
-        }
-        var kOTimeHadBeenRoundMinute = kOTime.Date.AddHours(kOTime.Hour).AddMinutes(0).AddSeconds(0);
+        var kOTimeHadBeenRoundMinute = ResetMinuteToZero(kOTime);
         var kOTimeHadBeenRoundMinuteAddOneHour = kOTimeHadBeenRoundMinute.AddHours(1);
-
         var assignmentInTimeRange = FindAssignmentInTimeRange(categorizedAssignments, kOTimeHadBeenRoundMinute, kOTimeHadBeenRoundMinuteAddOneHour);
 
-        if (assignmentInTimeRange == null)
+        if (assignmentInTimeRange != null)
         {
-            return 0;
+            return GetAssignmentPriority(assignmentInTimeRange);
         }
 
-        return GetAssignmentPriority(assignmentInTimeRange);
+        var hasWorkingShiftInRangeTime = IsWorkingShiftInRangeTime(userInfo, kOTime, endTime);
+
+        return !hasWorkingShiftInRangeTime ? 7 : 0;
     }
 
-    private static bool IsWorkingShiftInRangeTime(UserInfo userInfo, DateTime kOTime, DateTime endTime)
-    {
-        return userInfo.ShiftStartTime <= kOTime && userInfo.ShiftEndTime >= endTime;
-    }
+    private static DateTime ResetMinuteToZero(DateTime time) 
+        => time.Date.AddHours(time.Hour).AddMinutes(0).AddSeconds(0);
 
-    private static AssignmentModel FindAssignmentInTimeRange(List<AssignmentModel> categorizedAssignments,
-        DateTime kOTime, DateTime kOTimeAddOneHours)
+    private static bool IsWorkingShiftInRangeTime(UserInfo userInfo, DateTime kOTime, DateTime endTime) 
+        => userInfo.ShiftStartTime <= kOTime && userInfo.ShiftEndTime >= endTime;
+
+    private static AssignmentModel FindAssignmentInTimeRange(List<AssignmentModel> categorizedAssignments, DateTime kOTime, DateTime kOTimeAddOneHours)
     {
         return categorizedAssignments.Find(x =>
-            x.EventDateTime.Date.AddHours(x.EventDateTime.Hour).AddMinutes(0).AddSeconds(0) <= kOTime &&
-            kOTimeAddOneHours <= x.EndTime.Date.AddHours(x.EndTime.Hour).AddMinutes(0).AddSeconds(0));
+            ResetMinuteToZero(x.EventDateTime) <= kOTime &&
+            kOTimeAddOneHours <= ResetMinuteToZero(x.EndTime));
     }
 
     private static int GetAssignmentPriority(AssignmentModel assignment)
