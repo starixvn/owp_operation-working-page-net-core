@@ -34,8 +34,10 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
     {
         var criteria = ShiftHelper.CreateShiftCriteria(request.EventDate, true);
         var assignmentShift = await BuildPreMatchAssignments(request, criteria);
+        var sortedLeagues = SortPreMatchLeagues(assignmentShift.Leagues.Values);
+        AddNumber(sortedLeagues);
 
-        return CreateQueryPreMatchLeagueViewModel(assignmentShift.Leagues.Values.ToList(), assignmentShift.Matches);
+        return CreateQueryPreMatchLeagueViewModel(sortedLeagues, assignmentShift.Matches);
     }
 
     private async Task<AssignmentShift> BuildPreMatchAssignments(QueryDayShiftPreMatchRequest request, QueryShiftPreMatchCriteria criteria)
@@ -46,7 +48,6 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
 
         await MapMatchStatusWhichLinkedOwp(filteredInfoSiteMatches, request.EventDate);
         await AddOddStatusNo(filteredInfoSiteMatches);
-        filteredLeagues = SortPreMatchLeaguesAndAddNumber(filteredLeagues);
 
         return new AssignmentShift
         {
@@ -114,7 +115,8 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
 
         var (leaguesContainsHint, leaguesRest) = SplitPrematchLeagues(nightShift.Leagues.Values.ToList());
         var preMatchLeagues = SortByHint(leaguesContainsHint);
-        preMatchLeagues.AddRange(SortPreMatchLeaguesAndAddNumber(leaguesRest));
+        preMatchLeagues.AddRange(SortPreMatchLeagues(leaguesRest));
+        AddNumber(preMatchLeagues);
 
         return CreateQueryPreMatchLeagueViewModel(preMatchLeagues, nightShift.Matches);
     }
@@ -259,9 +261,9 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
             .ToList();
     }
 
-    private static List<PreMatchLeague> SortPreMatchLeaguesAndAddNumber(IEnumerable<PreMatchLeague> leagues)
+    private static List<PreMatchLeague> SortPreMatchLeagues(IEnumerable<PreMatchLeague> leagues)
     {
-        var sortedLeagues = leagues.OrderByDescending(x =>
+        return leagues.OrderByDescending(x =>
                    string.IsNullOrEmpty(x.HDP) &&
                    string.IsNullOrEmpty(x.OU) &&
                    string.IsNullOrEmpty(x.HDPTakeOver) &&
@@ -272,13 +274,14 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
             .ThenBy(x => string.IsNullOrEmpty(x.OUTakeOver) ? string.Empty : x.OUTakeOver)
             .ThenBy(x => x.LeagueName)
             .ToList();
+    }
 
+    private static void AddNumber(List<PreMatchLeague> sortedLeagues)
+    {
         for (var i = 0; i < sortedLeagues.Count; i++)
         {
             sortedLeagues[i].No = i + 1;
         }
-
-        return sortedLeagues;
     }
 
     public async Task AddOddStatusNo(IEnumerable<InfoSiteMatch> infositeMatches)
