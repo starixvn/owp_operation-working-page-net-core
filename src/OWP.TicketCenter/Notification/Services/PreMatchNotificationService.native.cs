@@ -30,8 +30,7 @@ public class PreMatchNotificationServiceImp : PreMatchNotificationService
 
         await notifyPreMatch
             .Clients
-            .All
-            //.Users(userIdsInString)
+            .Users(userIdsInString)
             .NotifyNewMessageIncome(id, isTicketLeague);
     }
 
