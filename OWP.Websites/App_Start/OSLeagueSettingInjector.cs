@@ -4,7 +4,7 @@ using OWP.OSLeagueSetting.Services;
 
 namespace OWP.Websites;
 
-public static class OSLeagueSettingInjectior
+public static class OSLeagueSettingInjector
 {
     public static void AddOSLeagueSetting(this IServiceCollection services)
     {
