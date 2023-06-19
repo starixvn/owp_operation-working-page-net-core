@@ -138,7 +138,7 @@ public static class WorkingShiftConst
         {2,"SPECIAL"}
     }.ToImmutableDictionary();
 
-    public static readonly string[] ManagementRole = { "Section Head", "Management", "Supervisor", "Leader" };
+    public static readonly string[] ManagementRole = { "Section Head", "Management", "Supervisor", "Leader", "Assistant Leader", "Unit Head" };
 }
 
 public static class OrderConstant
