@@ -75,14 +75,17 @@ public class QueryTraderSuggestionHandler : IRequestHandler<QueryTraderSuggestio
         return new SuggestionInfo
         {
             MatchInfo = matchInfo,
-            FullyAvailable = GetWorkingSchedulesByType(CategoryType.FullyAvailable, workingShifts),
-            PartiallyAvailable = GetWorkingSchedulesByType(CategoryType.PartiallyAvailable, workingShifts),
-            Busy = GetWorkingSchedulesByType(CategoryType.Busy, workingShifts)
+            FullyAvailable = GetWorkingSchedulesByType(CategoryType.FullyAvailable, workingShifts, matchInfo),
+            PartiallyAvailable = GetWorkingSchedulesByType(CategoryType.PartiallyAvailable, workingShifts, matchInfo),
+            Busy = GetWorkingSchedulesByType(CategoryType.Busy, workingShifts, matchInfo)
         };
     }
 
-    private static List<WorkingSchedule> GetWorkingSchedulesByType(CategoryType type, IEnumerable<WorkingSchedule> workingShifts)
-        => workingShifts.Where(x => x.CategoryType == type)
-                        .OrderBy(x => x.UserInfo.ShiftStartTime)
-                        .ToList();
+    private static List<WorkingSchedule> GetWorkingSchedulesByType(CategoryType type,
+        IEnumerable<WorkingSchedule> workingShifts, MatchInfo matchInfo)
+    {
+        var workingShiftsByType = workingShifts.Where(x => x.CategoryType == type).ToList();
+        return OrderAssigneeHelper.SortAssignee(matchInfo, workingShiftsByType);
+    }
+
 }

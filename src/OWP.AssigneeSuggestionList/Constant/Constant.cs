@@ -138,8 +138,52 @@ public static class WorkingShiftConst
         {2,"SPECIAL"}
     }.ToImmutableDictionary();
 
-    public static readonly string[] ManagementRole = { "Section Head", "Management", "Supervisor", "Leader" };
+    public static readonly string[] ManagementRole = { "Section Head", "Management", "Supervisor", "Leader", "Assistant Leader", "Unit Head" };
 }
+
+public static class OrderConstant
+{
+    public static readonly string[] MainMatchLevel = { "1st", "2nd", "[OP]1st", "[OP]2nd", "Only SB", null };
+
+    public static readonly string[] ChildMatchLevel = { "[OP]1st", "[OP]2nd", "1st", "2nd", "Only SB", null };
+
+    public static readonly string[] RoleOrder = { "Staff", "Assistant Leader", "Leader", "Supervisor", "Section Head", "Management", "Unit Head", null };
+
+    public const string BetType2 = "2";
+
+    public const string BetType2Hdp = "2[HDP]";
+
+    public const string BetType2Ou = "2[OU]";
+
+    public const string BetTypeFs = "FS";
+
+    public const string BetType2Op = "2[OP]";
+
+    public const string BetTypeSb = "SB";
+
+    public const string BetType5Min = "5min";
+
+    public const string BetType6Min = "6min";
+
+    public const string BetTypeBkCr = "BK CR";
+
+    public static readonly string[] MainBetTypesHdp = { BetType2, BetType2Hdp, BetType2Ou, BetTypeFs, BetType2Op, BetTypeBkCr, BetTypeSb, BetType5Min, BetType6Min };
+
+    public static readonly string[] MainBetTypesOu = { BetType2, BetType2Ou, BetType2Hdp, BetTypeFs, BetType2Op, BetTypeBkCr, BetTypeSb, BetType5Min, BetType6Min };
+
+    public static readonly string[] MainBetTypesFs = { BetTypeFs, BetType2, BetType2Hdp, BetType2Ou, BetType2Op, BetTypeBkCr, BetTypeSb, BetType5Min, BetType6Min };
+
+    public static readonly string[] MainBetTypesChild = { BetType2Op, BetTypeBkCr, BetType2, BetType2Ou, BetType2Hdp, BetTypeFs, BetTypeSb, BetType5Min, BetType6Min };
+
+    public static readonly int[] HdpTypeIds = { 1, 7 };
+
+    public static readonly int[] OuTypeIds = { 3, 8 };
+
+    public const decimal LowerMaxBet = 35_000;
+
+    public const decimal UpperMaxBet = 80_000;
+}
+
 
 
 

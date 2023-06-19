@@ -30,6 +30,10 @@ public class UserInfo
 
     public string Explanation { get; set; }
 
+    public CategoryType CategoryType { get; set; }
+
+    public int WorkLoadType { get; set; }
+
     public DateTime ShiftStartTime { get; set; }
 
     public DateTime ShiftEndTime { get; set; }
