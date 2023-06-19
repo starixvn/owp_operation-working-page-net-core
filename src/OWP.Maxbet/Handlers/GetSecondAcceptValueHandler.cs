@@ -28,7 +28,7 @@ public class GetSecondAcceptValueHandler
 
         public async Task<int?> Handle(Request request, CancellationToken cancellationToken)
         {
-            var matchOffers = (await maxbetRepository.GetMatchOfferId(request.OWPMatchId));
+            var matchOffers = await maxbetRepository.GetMatchOfferId(request.OWPMatchId);
             var validOfferIds = matchOffers.Where(x => IsValidSecondAcceptValue(x.Value)).ToList();
 
             return validOfferIds.Count switch

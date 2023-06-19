@@ -10,14 +10,16 @@ public static class ExplicitMinorMatchRuleConstants
     private const string ERROR_MESSAGE_MISSING_S = "[Column: {0}] - The {1} name is missing 's' character at the end";
     private const string ERROR_MESSAGE_REDUNDANT_S = "[Column: {0}] - The 's' character at the end of {1} name is redundant";
 
-    public static readonly IDictionary<string, string> MinorMatchedWrongGrammar = new Dictionary<string, string>(){
+    public static readonly IDictionary<string, string> MinorMatchedWrongGrammar = new Dictionary<string, string>
+    {
         {"No.of Corner", ERROR_MESSAGE_MISSING_S},
         {"Total Booking", ERROR_MESSAGE_MISSING_S},
         {"Next Corner", ERROR_MESSAGE_MISSING_S},
         {"Next Bookings", ERROR_MESSAGE_REDUNDANT_S}
     };
 
-    public static readonly IDictionary<string, string> MinorLeagueWrongGrammar = new Dictionary<string, string>(){
+    public static readonly IDictionary<string, string> MinorLeagueWrongGrammar = new Dictionary<string, string>
+    {
         {"CORNER", ERROR_MESSAGE_MISSING_S},
         {"BOOKINGS", ERROR_MESSAGE_REDUNDANT_S}
     };

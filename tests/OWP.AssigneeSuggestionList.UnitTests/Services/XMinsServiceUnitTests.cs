@@ -24,7 +24,7 @@ public class XMinsServiceUnitTests
 
     private void Initialize()
     {
-        parentMatchInfo = new List<ParentMatchInfo>()
+        parentMatchInfo = new List<ParentMatchInfo>
         {
             new ParentMatchInfo{
                 OwpMatchId=1,
@@ -32,9 +32,10 @@ public class XMinsServiceUnitTests
                 KOTime=DateTime.Parse("2023-3-31 18:05:00").TimeOfDay
             }
         };
-        assignments = new List<AssignmentModel>()
+        assignments = new List<AssignmentModel>
         {
-            new AssignmentModel(){
+            new AssignmentModel
+            {
                 OWPMatchId=1,
                 KOTime=DateTime.Parse("2023-3-31 18:00:00").TimeOfDay,
                 EventDateTime=DateTime.Parse("2023-3-31 18:00:00"),
@@ -43,9 +44,10 @@ public class XMinsServiceUnitTests
                 Remark="ETPK"
             }
         };
-        assignmentsCorner = new List<AssignmentModel>()
+        assignmentsCorner = new List<AssignmentModel>
         {
-            new AssignmentModel(){
+            new AssignmentModel
+            {
                 OWPMatchId=2,
                 KOTime=DateTime.Parse("2023-3-31 18:05:00").TimeOfDay,
                 EventDateTime=DateTime.Parse("2023-3-31 18:05:00"),

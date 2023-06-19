@@ -16,7 +16,7 @@ public class WorkingScheduleServiceUnitTests
             FilterDate = DateTime.Parse("2023-04-04 13:00:00"),
             EtPk = new ETPKUpdateSchedule(),
             PropertiesName = new List<string>(),
-            AssignmentCell = new AssignmentCell()
+            AssignmentCell = new AssignmentCell
             {
                 Text = "V/15K",
                 TextColor = "#444444",
@@ -27,7 +27,7 @@ public class WorkingScheduleServiceUnitTests
 
         var schedule = new WorkingSchedule
         {
-            UserInfo = new UserInfo()
+            UserInfo = new UserInfo
             {
                 UserId = 123,
                 Username = "Los"
@@ -38,20 +38,20 @@ public class WorkingScheduleServiceUnitTests
         new WorkingScheduleServiceImp().UpdateWorkingSchedule(updateModel, schedule, new AssignmentModel());
 
         // Assert
-        var expect = new WorkingSchedule()
+        var expect = new WorkingSchedule
         {
-            UserInfo = new UserInfo()
+            UserInfo = new UserInfo
             {
                 UserId = 123,
                 Username = "Los"
             },
-            Yesterday_10h = new AssignmentCell()
+            Yesterday_10h = new AssignmentCell
             {
                 Text = "V/15K",
                 TextColor = "#444444",
                 Color = "#C00000"
             },
-            Yesterday_11h = new AssignmentCell()
+            Yesterday_11h = new AssignmentCell
             {
                 Text = "",
                 TextColor = "#444444",
@@ -70,13 +70,13 @@ public class WorkingScheduleServiceUnitTests
         var updateModel = new ScheduleUpdateModel
         {
             FilterDate = DateTime.Parse("2023-04-04 13:00:00"),
-            EtPk = new ETPKUpdateSchedule()
+            EtPk = new ETPKUpdateSchedule
             {
                 IsHasEtPk = true,
                 EtPkValue = "ETPK"
             },
             PropertiesName = new List<string>(),
-            AssignmentCell = new AssignmentCell()
+            AssignmentCell = new AssignmentCell
             {
                 Text = "V/15K",
                 TextColor = "#444444",
@@ -87,7 +87,7 @@ public class WorkingScheduleServiceUnitTests
 
         var schedule = new WorkingSchedule
         {
-            UserInfo = new UserInfo()
+            UserInfo = new UserInfo
             {
                 UserId = 123,
                 Username = "Los"
@@ -98,20 +98,20 @@ public class WorkingScheduleServiceUnitTests
         new WorkingScheduleServiceImp().UpdateWorkingSchedule(updateModel, schedule, new AssignmentModel());
 
         // Assert
-        var expect = new WorkingSchedule()
+        var expect = new WorkingSchedule
         {
-            UserInfo = new UserInfo()
+            UserInfo = new UserInfo
             {
                 UserId = 123,
                 Username = "Los"
             },
-            Yesterday_09h = new AssignmentCell()
+            Yesterday_09h = new AssignmentCell
             {
                 Text = "V/15K",
                 TextColor = "#444444",
                 Color = "#C00000"
             },
-            Yesterday_10h = new AssignmentCell()
+            Yesterday_10h = new AssignmentCell
             {
                 Text = "ETPK",
                 TextColor = "#FFEA29",
