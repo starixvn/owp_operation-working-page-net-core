@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.Extensions.Caching.Memory;
 using ONEbook.UM.Helpers;
 
 namespace OWP.Websites.CrossCuttingConcern;

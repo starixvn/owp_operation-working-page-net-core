@@ -3,7 +3,6 @@ using OWP.AssignmentUpload.Validation.Exceptions;
 using OWP.AssignmentUpload.Validation.Helper;
 using OWP.AssignmentUpload.Validation.Models;
 using OWP.Models;
-using System.Collections.Immutable;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Text.RegularExpressions;
@@ -272,7 +271,7 @@ public class AssignmentValidatorImp : AssignmentValidator
     {
         var excelMatchOffers = assignment.MatchOffer
             .Split(',')
-            .Where((x => !string.IsNullOrEmpty(x))).ToList();
+            .Where(x => !string.IsNullOrEmpty(x)).ToList();
         var matchOfferValues = matchOffers.Select(y => y.Value.ToLower(CultureInfo.InvariantCulture));
         var isInValid = excelMatchOffers.Any(x => !matchOfferValues.Contains(x.Trim().ToLower(CultureInfo.InvariantCulture)));
 

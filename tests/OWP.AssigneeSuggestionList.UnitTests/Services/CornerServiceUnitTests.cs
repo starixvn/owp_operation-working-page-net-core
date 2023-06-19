@@ -12,9 +12,10 @@ namespace OWP.AssigneeSuggestionList.UnitTests.Services
 
         public CornerServiceUnitTests()
         {
-            assignmentsCorner = new List<AssignmentModel>()
+            assignmentsCorner = new List<AssignmentModel>
             {
-                new AssignmentModel(){
+                new AssignmentModel
+                {
                     OWPMatchId=2,
                     KOTime=DateTime.Parse("2023-3-31 18:05:00").TimeOfDay,
                     EventDateTime=DateTime.Parse("2023-3-31 18:05:00"),

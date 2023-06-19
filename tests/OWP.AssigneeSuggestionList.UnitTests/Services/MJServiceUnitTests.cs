@@ -20,9 +20,9 @@ namespace OWP.AssigneeSuggestionList.UnitTests.Services
 
         private void Initialize()
         {
-            assignments = new List<AssignmentModel>()
+            assignments = new List<AssignmentModel>
             {
-                new AssignmentModel()
+                new AssignmentModel
                 {
                     OWPMatchId = 1,
                     KOTime = DateTime.Parse("2023-3-31 18:00:00").TimeOfDay,

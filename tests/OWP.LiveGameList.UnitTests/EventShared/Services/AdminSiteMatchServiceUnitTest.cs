@@ -84,7 +84,7 @@ public class AdminSiteMatchServiceUnitTest
             new () { AdminSiteMatchId = 11, ParentMatchId = 33},
             new () { AdminSiteMatchId = 22 },
         };
-        var adminSitesIdsOdds = new List<AdminSiteOddsModel>()
+        var adminSitesIdsOdds = new List<AdminSiteOddsModel>
         {
             new () { AdminSiteMatchId = 11, OddsStatus = "complete" },
             new () { AdminSiteMatchId = 22, OddsStatus = "running" },

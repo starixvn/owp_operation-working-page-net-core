@@ -19,7 +19,8 @@ public class LogServiceWrapperImp : LogServiceWrapper
         var index = 0;
         foreach (var parameter in parameters)
         {
-            stringBuilder.AppendFormat("Parameter {0}-{1}: {2}\r\n", index, parameter != null ? parameter.GetType() : string.Empty, JsonConvert.SerializeObject(parameter));
+            stringBuilder.Append(
+                $"Parameter {index}-{(parameter != null ? parameter.GetType() : string.Empty)}: {JsonConvert.SerializeObject(parameter)}\r\n");
             index++;
         }
 

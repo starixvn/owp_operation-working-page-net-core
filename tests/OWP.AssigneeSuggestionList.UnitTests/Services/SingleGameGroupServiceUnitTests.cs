@@ -14,7 +14,7 @@ public class SingleGameGroupServiceUnitTests
         SingleGameGroupService singleGameGroupService = new SingleGameGroupServiceImp(new WorkingScheduleServiceImp());
         var assignment = new List<AssignmentModel> { new() { OWPMatchId = 1 } };
         var schedule = new WorkingSchedule();
-        Func<IList<AssignmentModel>, ScheduleUpdateModel> buildUpdateScheduleFunc = ((list) => new ScheduleUpdateModel());
+        Func<IList<AssignmentModel>, ScheduleUpdateModel> buildUpdateScheduleFunc = (list) => new ScheduleUpdateModel();
 
         singleGameGroupService.Group(assignment, schedule, buildUpdateScheduleFunc);
 
@@ -27,7 +27,7 @@ public class SingleGameGroupServiceUnitTests
         SingleGameGroupService singleGameGroupService = new SingleGameGroupServiceImp(new WorkingScheduleServiceImp());
         var assignment = new List<AssignmentModel> { new() { OWPMatchId = 1 } };
         var schedule = new WorkingSchedule();
-        Func<IList<AssignmentModel>, ScheduleUpdateModel> buildUpdateScheduleFunc = ((list) => new ScheduleUpdateModel());
+        Func<IList<AssignmentModel>, ScheduleUpdateModel> buildUpdateScheduleFunc = (list) => new ScheduleUpdateModel();
 
         singleGameGroupService.Group(assignment, schedule, buildUpdateScheduleFunc, MatchType.RealMatchLink1G);
 
