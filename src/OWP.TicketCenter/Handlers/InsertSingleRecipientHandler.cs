@@ -58,8 +58,9 @@ public class InsertRecipientHandler : IRequestHandler<InsertSingleRecipientReque
         // publish rabbit
         messageClient.SendMessage(request, RoutingKey.TicketCenterNewRecipient);
 
-        var userIds = await repository.GetUserIdsByTicketId(request.TicketId);
+        var userIds = new List<string> { request.RecipientId.ToString() };
         await notificationService.NotifyNewAddRecipient(userIds);
+
         if (request.TicketEventType == (int)EventType.LiveIncident)
         {
             var ticketInfoLga = await repository.GetTicketInfoLga(request.TicketId);
