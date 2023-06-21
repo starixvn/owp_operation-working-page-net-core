@@ -14,7 +14,6 @@ public abstract class AsyncFilter<T> : IAsyncActionFilter where T : class
         .FirstOrDefault(p => p.Value is T)
         .Value;
 
-        var type = typeof(T);
         if (param is T model)
         {
             var (canNext, statusCode, contentResult) = Execute(model);

@@ -19,7 +19,7 @@ public class TGRSReportServiceImp : TGRSReportService
 
     private readonly RichHttpClient richHttpClient;
 
-    public TGRSReportServiceImp(RichHttpClient richHttpClient, IConfiguration configuration, ConfigurationService configurationService)
+    public TGRSReportServiceImp(RichHttpClient richHttpClient, IConfiguration configuration)
     {
         this.configuration = configuration;
         this.richHttpClient = richHttpClient;

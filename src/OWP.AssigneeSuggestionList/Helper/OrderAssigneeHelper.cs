@@ -1,6 +1,5 @@
 ﻿using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Models;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 using MatchType = OWP.AssigneeSuggestionList.Constant.MatchType;
 
 namespace OWP.AssigneeSuggestionList.Helper;

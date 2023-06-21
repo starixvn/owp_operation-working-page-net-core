@@ -15,13 +15,11 @@ public class QueryWorkingShiftUnitTests
 
     private readonly QueryWorkingShift queryWorkingShift;
 
-    private readonly INapSession currentSession;
-
     public QueryWorkingShiftUnitTests()
     {
         dynamicRepository = Substitute.For<IDynamicRepository>();
 
-        currentSession = Substitute.For<INapSession>();
+        var currentSession = Substitute.For<INapSession>();
 
         queryWorkingShift = new QueryWorkingShiftImp(dynamicRepository, currentSession);
     }

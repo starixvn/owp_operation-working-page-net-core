@@ -362,7 +362,7 @@ public class AssignmentAnalyzerUnitTests
         DeepAssert.Equal(actualExpected, actual);
     }
 
-    private static List<MatchAssignment> ExpectedData()
+    private static IEnumerable<MatchAssignment> ExpectedData()
     {
         var matchAssignment1002 = new MatchAssignment
         {
@@ -533,7 +533,7 @@ public class AssignmentAnalyzerUnitTests
             AssignmentNote = "#<user> my note",
             UserId = 122
         };
-        var actual = analyzer.GetOtherTraders(otherTrader, mainTrader);
+        var actual = analyzer.GetOtherTraders(otherTrader, mainTrader).ToList();
 
         Assert.Single(actual);
         DeepAssert.Equal(expected, actual.First());
@@ -557,7 +557,7 @@ public class AssignmentAnalyzerUnitTests
             UserId = 111
         };
 
-        var actual = analyzer.GetOtherTraders(otherTrader, mainTrader);
+        var actual = analyzer.GetOtherTraders(otherTrader, mainTrader).ToList();
 
         Assert.Single(actual);
         DeepAssert.Equal(expected, actual.First());
@@ -574,7 +574,7 @@ public class AssignmentAnalyzerUnitTests
             UserId = 0
         };
 
-        var actual = analyzer.GetOtherTraders(otherTrader, mainTrader);
+        var actual = analyzer.GetOtherTraders(otherTrader, mainTrader).ToList();
 
         Assert.Single(actual);
         DeepAssert.Equal(expected, actual.First());
@@ -591,7 +591,7 @@ public class AssignmentAnalyzerUnitTests
             UserId = 0
         };
 
-        var actual = analyzer.GetOtherTraders(otherTrader, mainTrader);
+        var actual = analyzer.GetOtherTraders(otherTrader, mainTrader).ToList();
 
         Assert.Single(actual);
         DeepAssert.Equal(expected, actual.First());

@@ -78,7 +78,7 @@ public class OtherSportController : ControllerBase
     public async Task<IActionResult> Download([FromQuery] DownloadAssignmentRequest request)
     {
         using var excelPackage = await mediator.Send(request);
-        var fileName = $"OS Live Game Assignment {request.From.ToString("MMddyyyy")} - {request.To.ToString("MMddyyyy")}.xlsx";
+        var fileName = $"OS Live Game Assignment {request.From:MMddyyyy} - {request.To:MMddyyyy}.xlsx";
         var bytes = await excelPackage.GetAsByteArrayAsync();
         return File(bytes, "application/octet-stream", fileName);
     }

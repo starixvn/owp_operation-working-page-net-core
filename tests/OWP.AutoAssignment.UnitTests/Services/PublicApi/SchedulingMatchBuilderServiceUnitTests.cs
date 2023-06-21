@@ -49,8 +49,8 @@ public class SchedulingMatchBuilderServiceUnitTests
             }
         };
 
-        sabaMatchService.BuildSabaMatchInfo(Arg.Compat.Any<IList<MatchQueried>>()).ReturnsForAnyArgs(r => sabaMatchInfo);
-        realMatchService.BuildRealMatchInfo(Arg.Compat.Any<IList<MatchQueried>>()).ReturnsForAnyArgs(r => realMatchInfo);
+        sabaMatchService.BuildSabaMatchInfo(Arg.Compat.Any<IList<MatchQueried>>()).ReturnsForAnyArgs(_ => sabaMatchInfo);
+        realMatchService.BuildRealMatchInfo(Arg.Compat.Any<IList<MatchQueried>>()).ReturnsForAnyArgs(_ => realMatchInfo);
 
         // Act
         var service = new SchedulingMatchBuilderServiceImp(repository, sabaMatchService, realMatchService);
@@ -98,6 +98,6 @@ public class SchedulingMatchBuilderServiceUnitTests
             }
         };
 
-        repository.GetMatchByDate(Arg.Compat.Any<DateTime>()).ReturnsForAnyArgs(r => matchQueried);
+        repository.GetMatchByDate(Arg.Compat.Any<DateTime>()).ReturnsForAnyArgs(_ => matchQueried);
     }
 }

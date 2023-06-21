@@ -64,8 +64,7 @@ public static class WorksheetExtensions
 
         if (cellValue is string)
         {
-            DateTime value;
-            if (!DateTime.TryParse(cellValue.ToString(), out value))
+            if (!DateTime.TryParse(cellValue.ToString(), out var value))
             {
                 throw new InvalidDateTimeException();
             }
@@ -205,8 +204,7 @@ public static class WorksheetExtensions
         if (property.PropertyType == typeof(int))
         {
             var cellValue = sheet.GetValue<string>(row, column);
-            int value;
-            int.TryParse(cellValue, out value);
+            int.TryParse(cellValue, out var value);
             property.PropertyInfo.SetValue(model, value);
             return true;
         }
@@ -251,7 +249,7 @@ public static class WorksheetExtensions
         const NumberStyles style = NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands;
         const int K_VALUE = 1000;
 
-        maxbet = maxbet ?? string.Empty;
+        maxbet ??= string.Empty;
         decimal tempValue;
         bool valid;
 
@@ -259,7 +257,7 @@ public static class WorksheetExtensions
         {
             maxbet = maxbet.Replace("K", "").Replace("k", "");
             valid = decimal.TryParse(maxbet, style, CultureInfo.InvariantCulture, out tempValue);
-            tempValue = tempValue * K_VALUE;
+            tempValue *= K_VALUE;
         }
         else
         {
@@ -274,8 +272,7 @@ public static class WorksheetExtensions
         const NumberStyles style = NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands;
         const decimal SPREAD_MULTIPLIER = 0.01m;
 
-        decimal tempValue;
-        var valid = decimal.TryParse(spread, style, CultureInfo.InvariantCulture, out tempValue);
+        var valid = decimal.TryParse(spread, style, CultureInfo.InvariantCulture, out var tempValue);
 
         return valid ? new decimal?(tempValue * SPREAD_MULTIPLIER) : null;
     }

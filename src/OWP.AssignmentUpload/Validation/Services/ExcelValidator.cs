@@ -15,12 +15,10 @@ public class ExcelValidatorImp : ExcelValidator
     {
         stream.Seek(0, SeekOrigin.Begin);
 
-        using (var package = new ExcelPackage(stream))
-        {
-            var sheet = package.Workbook.Worksheets.First();
-            ValidateHeaders(sheet);
-            ValidateCellValues(sheet);
-        }
+        using var package = new ExcelPackage(stream);
+        var sheet = package.Workbook.Worksheets.First();
+        ValidateHeaders(sheet);
+        ValidateCellValues(sheet);
     }
 
     private static void ValidateHeaders(ExcelWorksheet sheet)

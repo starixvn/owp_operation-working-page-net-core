@@ -30,9 +30,9 @@ public class RealMatchServiceUnitTests
         repository.GetMaxBetCorner(Arg.Compat.Any<List<MaxBetOfFTHDP>>())
             .Returns(MockListMaxBetConner());
         providerService.DetectProviderType(Arg.Compat.Any<string>())
-            .ReturnsForAnyArgs(x => new[] { 1 });
+            .ReturnsForAnyArgs(_ => new[] { 1 });
         extraTimeService.DetectExtraTime(Arg.Compat.Any<string>())
-            .ReturnsForAnyArgs(x => "ETPK");
+            .ReturnsForAnyArgs(_ => "ETPK");
 
         var expected = MockListRealMatchSender();
         var service = new RealMatchServiceImp(repository, extraTimeService, providerService);

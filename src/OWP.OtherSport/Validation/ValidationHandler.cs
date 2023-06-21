@@ -120,10 +120,10 @@ public class ValidationHandler
             }
 
             var currentTime = DateTime.Now.ToGmt8().ToString("yyyyMMdd-HH'h'mm'm'ss-'GMT8'");
-            var fileName = $"({request.FromDate.ToString("yyyyMMdd")}-{request.ToDate.ToString("yyyyMMdd")})-{session.UserName}-({currentTime})-New-OS.xlsx";
+            var fileName = $"({request.FromDate:yyyyMMdd}-{request.ToDate:yyyyMMdd})-{session.UserName}-({currentTime})-New-OS.xlsx";
             var fullPath = Path.Combine(absoluteFolderPath, fileName);
 
-            using var stream = File.Create(fullPath);
+            await using var stream = File.Create(fullPath);
             request.Stream.Seek(0, SeekOrigin.Begin);
             await request.Stream.CopyToAsync(stream);
         }

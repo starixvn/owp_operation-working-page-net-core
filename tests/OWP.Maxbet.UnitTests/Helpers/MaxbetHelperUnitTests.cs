@@ -211,9 +211,9 @@ public class MaxbetHelperUnitTests
                 FirstHalfOverUnder = 123
             };
 
-            var newHandicap = (decimal)0.2;
+            const decimal newHandicap = (decimal)0.2;
 
-            var newOverUnder = (decimal)0.2;
+            const decimal newOverUnder = (decimal)0.2;
 
             MaxbetHelper.UpdateSpreadPEN(spread, newHandicap, newOverUnder);
 
@@ -270,16 +270,6 @@ public class MaxbetHelperUnitTests
                 FirstHalfHandicap = 123,
                 FirstHalfOverUnder = 123
             };
-
-            var trader = new MaxbetSpread
-            {
-                Handicap = 3838,
-                OverUnder = 3838,
-                FirstHalfHandicap = 3838,
-                FirstHalfOverUnder = 3838
-            };
-
-
 
             var numberOfLines = new NumberOfLines
             {

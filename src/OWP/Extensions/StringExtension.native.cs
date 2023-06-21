@@ -36,8 +36,7 @@ public static class StringExtension
 
     public static int? ConvertNullableInt(this string text)
     {
-        int i;
-        if (int.TryParse(text, out i)) return i;
+        if (int.TryParse(text, out var i)) return i;
         return null;
     }
 

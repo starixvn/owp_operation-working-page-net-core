@@ -75,8 +75,8 @@ public class TraderUserServicesUnitTests
         };
         var userInfo = new ValueTuple<IEnumerable<SchedulingTraderInfo>, IEnumerable<UserWorkingShift>>(traderInfo, workingShift);
 
-        repository.GetTraders(Arg.Compat.Any<DateTime>()).ReturnsForAnyArgs(r => userInfo);
-        repository.GetUserInfoFromNAPUserControl().ReturnsForAnyArgs(r => new List<int> { 8 });
-        repository.GetCustInfoFromDB02().ReturnsForAnyArgs(r => new List<int> { 8 });
+        repository.GetTraders(Arg.Compat.Any<DateTime>()).ReturnsForAnyArgs(_ => userInfo);
+        repository.GetUserInfoFromNAPUserControl().ReturnsForAnyArgs(_ => new List<int> { 8 });
+        repository.GetCustInfoFromDB02().ReturnsForAnyArgs(_ => new List<int> { 8 });
     }
 }

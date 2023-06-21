@@ -42,9 +42,7 @@ public class SaveRecipientGroupHandler : IRequestHandler<SaveRecipientGroupReque
     {
         var allGroup = await commandRepository.GetRecipientGroup();
         var group = allGroup.Where(g => g.GroupId == groupId);
-        return group != null
-            ? group.Select(g => g.UserId).ToList()
-            : new List<int>();
+        return group.Select(g => g.UserId).ToList();
     }
 
     private IList<int> DetectNewRecipient(IList<int> recipientIdSource, IList<int> recipientIdDest)

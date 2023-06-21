@@ -5,14 +5,13 @@ using OWP.MaxbetSetting.Criteria;
 using OWP.MaxbetSetting.Handlers;
 using OWP.MaxbetSetting.Models;
 using Xunit;
+using Xunit.Asserts.Compare;
 
 namespace OWP.MaxbetSetting.UnitTests.Handlers;
 
 public class GetLogMaxbetSettingHandlerUnitTests
 {
     private readonly IDynamicRepository dynamicRepository;
-
-    private readonly IMapper mapper;
 
     private readonly GetLogMaxbetSettingHandler handler;
 
@@ -23,7 +22,7 @@ public class GetLogMaxbetSettingHandlerUnitTests
         {
             cfg.CreateMap<LogModelDeserialize, MaxBetLogSettingModel>();
         });
-        mapper = configuration.CreateMapper();
+        var mapper = configuration.CreateMapper();
 
         handler = new GetLogMaxbetSettingHandler(dynamicRepository, mapper);
     }
@@ -52,18 +51,18 @@ public class GetLogMaxbetSettingHandlerUnitTests
                 Action = 128,
                 OldValue = new MaxBetLogSettingModel
                 {
-                    SecondAccept_Corner = "4"
+                    SecondAccept_Corner = "4.00"
                 },
                 NewValue = new MaxBetLogSettingModel
                 {
-                    SecondAccept_Corner = "7"
+                    SecondAccept_Corner = "7.00"
                 },
-                ModifyDate= "2022-09-05 23:52:09",
-                ModifyBy="sa"
+                ModifyDate = "09/06/2022 12:52 AM",
+                ModifyBy = "sa"
             }
         };
 
         var actual = await handler.Handle(request, new CancellationToken(false));
-        Equals(expected[0].OldValue.SecondAccept_Corner, actual[0].OldValue.SecondAccept_Corner);
+        DeepAssert.Equal(expected[0].OldValue.SecondAccept_Corner, actual[0].OldValue.SecondAccept_Corner);
     }
 }

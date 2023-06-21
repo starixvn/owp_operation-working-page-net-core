@@ -48,7 +48,7 @@ public class LAUserServicesUnitTests
 
         repository
             .GetLAInfoByDate(Arg.Compat.Any<DateTime>())
-            .ReturnsForAnyArgs(r => userInfo);
+            .ReturnsForAnyArgs(_ => userInfo);
 
         // Act
         var service = new LAUserServiceImp(repository);

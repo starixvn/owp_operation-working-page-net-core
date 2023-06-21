@@ -15,12 +15,11 @@ public class LeagueManagementUnitTests
 {
     private readonly Repository repository;
     private readonly LeagueManagementService service;
-    private readonly INapSession session;
 
     public LeagueManagementUnitTests()
     {
         repository = Substitute.For<Repository>();
-        session = Substitute.For<INapSession>();
+        var session = Substitute.For<INapSession>();
         service = new LeagueManagementServiceImp(session, repository);
     }
     [Fact]

@@ -38,12 +38,11 @@ public class InfoSiteValidationImp : InfoSiteValidation
         var matchValidator = ValidationHelper.RemoveMatchGenerateBySystem(owpMatches);
         for (var i = 0; i < matchValidator.Count; i++)
         {
-            var rowIndex = i;
             var validationResultsOfMatch = CustomValidateInfoSiteMatch(matchValidator[i], matchValidator);
             ValidationHelper.BuildValidationRowResult(
                 validationResultsOfMatch,
                 validationResults,
-                rowIndex);
+                i);
         }
         var hasError = validationResults.Any();
         if (hasError)

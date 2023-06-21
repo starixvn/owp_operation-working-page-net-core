@@ -149,12 +149,11 @@ public class AssignmentValidatorImp : AssignmentValidator
 
         for (var i = 0; i < assignments.Count; i++)
         {
-            var rowIndex = i;
             var validationResultsOfAssignment = CustomValidateAssignment(assignments[i], assignments, isUploadFmAndAio, traders, matchOffers);
             ValidationHelper.BuildValidationRowResult(
                 validationResultsOfAssignment,
                 validationResults,
-                rowIndex);
+                i);
         }
 
         var hasError = validationResults.Any();
@@ -189,19 +188,19 @@ public class AssignmentValidatorImp : AssignmentValidator
         {
             if (assignment.League.EndsWith(key, StringComparison.OrdinalIgnoreCase))
             {
-                validationResults.Add(new(string.Format(minorLeagueWrongGrammar[key], "League", "league")));
+                validationResults.Add(new ValidationResult(string.Format(minorLeagueWrongGrammar[key], "League", "league")));
             }
         }
         foreach (var key in minorMatchedWrongGrammar.Keys)
         {
             if (assignment.Home.EndsWith(key, StringComparison.OrdinalIgnoreCase))
             {
-                validationResults.Add(new(string.Format(minorMatchedWrongGrammar[key], "Home", "home")));
+                validationResults.Add(new ValidationResult(string.Format(minorMatchedWrongGrammar[key], "Home", "home")));
             }
 
             if (assignment.Away.EndsWith(key, StringComparison.OrdinalIgnoreCase))
             {
-                validationResults.Add(new(string.Format(minorMatchedWrongGrammar[key], "Away", "away")));
+                validationResults.Add(new ValidationResult(string.Format(minorMatchedWrongGrammar[key], "Away", "away")));
             }
 
         }

@@ -14,11 +14,9 @@ public class TraderAssignmentBuilderUnitTests
 
     private readonly TraderAssignmentBuilderImp traderAssignment;
 
-    private readonly LogServiceWrapper logServiceWrapper;
-
     public TraderAssignmentBuilderUnitTests()
     {
-        logServiceWrapper = Substitute.For<LogServiceWrapper>();
+        var logServiceWrapper = Substitute.For<LogServiceWrapper>();
         syncMaxbetRepository = Substitute.For<MaxbetRepository>();
         traderAssignment = new TraderAssignmentBuilderImp(syncMaxbetRepository, logServiceWrapper);
     }
@@ -26,7 +24,7 @@ public class TraderAssignmentBuilderUnitTests
     [Fact]
     public async Task BuildTraderAssignmentSender_OwpMatchId_TraderAssignment_Has_Full_Bettype_ReturnTraderInfoFullBettype()
     {
-        var matchId = 123;
+        const int matchId = 123;
         var traders = new List<TraderAssignment>
         {
             new()
@@ -71,7 +69,7 @@ public class TraderAssignmentBuilderUnitTests
     [Fact]
     public async Task BuildTraderAssignmentSender_OwpMatchId_TraderAssignment_NotFound_Bettype_ReturnTraderDefault()
     {
-        var matchId = 123;
+        const int matchId = 123;
 
         syncMaxbetRepository
             .GetTradersByOwpMatchId(matchId)

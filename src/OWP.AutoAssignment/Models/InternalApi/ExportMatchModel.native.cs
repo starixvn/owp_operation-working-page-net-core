@@ -13,13 +13,9 @@ public record ExportMatchModel
     public string EventDateTime
     {
         get => _time;
-        set
-        {
-            DateTime time;
-
-            _time = DateTime.TryParse(value, CultureInfo.InvariantCulture, DateTimeStyles.None, out time)
+        set =>
+            _time = DateTime.TryParse(value, CultureInfo.InvariantCulture, DateTimeStyles.None, out var time)
                 ? time.ToString("hh:mm tt", CultureInfo.InvariantCulture) : value;
-        }
     }
 
     [EpplusIgnore]

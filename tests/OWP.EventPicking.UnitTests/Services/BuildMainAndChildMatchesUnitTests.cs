@@ -12,23 +12,18 @@ namespace OWP.EventPicking.UnitTests.Services;
 public class BuildMainAndChildMatchesUnitTests
 {
     private readonly Repository repository;
-    private readonly BuildMainMatchMaxBet buildMainMatchMaxBet;
-    private readonly BuildChildMatchMaxBet buildChildMatchMaxBet;
-    private readonly BuildRowColor buildRowColor;
     private readonly IMediator mediator;
-    private readonly BuildMatchOfferByLiveSetting buildMatchOffer;
     private readonly BuildMainAndChildMatchesImp services;
-    private readonly BuildProvider providerBuilder;
 
     public BuildMainAndChildMatchesUnitTests()
     {
         repository = Substitute.For<Repository>();
-        buildMainMatchMaxBet = Substitute.For<BuildMainMatchMaxBet>();
-        buildChildMatchMaxBet = Substitute.For<BuildChildMatchMaxBet>();
-        buildRowColor = Substitute.For<BuildRowColor>();
+        var buildMainMatchMaxBet = Substitute.For<BuildMainMatchMaxBet>();
+        var buildChildMatchMaxBet = Substitute.For<BuildChildMatchMaxBet>();
+        var buildRowColor = Substitute.For<BuildRowColor>();
         mediator = Substitute.For<IMediator>();
-        buildMatchOffer = Substitute.For<BuildMatchOfferByLiveSetting>();
-        providerBuilder = Substitute.For<BuildProvider>();
+        var buildMatchOffer = Substitute.For<BuildMatchOfferByLiveSetting>();
+        var providerBuilder = Substitute.For<BuildProvider>();
         services = new BuildMainAndChildMatchesImp(
             repository,
             buildMainMatchMaxBet,

@@ -24,7 +24,7 @@ public class CategorizeRealMatchServicesUnitTests
             OwpMatchId = 100,
             KOTime = new DateTime(2022, 04, 19, 14, 0, 0),
             EndTime = new DateTime(2022, 04, 19, 16, 0, 0),
-            BettypeId = 1,
+            BettypeId = 1
         };
 
         var schedules = new List<WorkingSchedule>
@@ -35,8 +35,8 @@ public class CategorizeRealMatchServicesUnitTests
                 {
                     UserId = 111,
                     ShiftStartTime = new DateTime(2022, 04, 19, 18, 0, 0),
-                    ShiftEndTime = new DateTime(2022, 04, 19, 23, 0, 0),
-                },
+                    ShiftEndTime = new DateTime(2022, 04, 19, 23, 0, 0)
+                }
             },
             new () // Busy
             {
@@ -44,7 +44,7 @@ public class CategorizeRealMatchServicesUnitTests
                 {
                     UserId = 222,
                     ShiftStartTime = new DateTime(2022, 04, 19, 13, 0, 0),
-                    ShiftEndTime = new DateTime(2022, 04, 19, 18, 0, 0),
+                    ShiftEndTime = new DateTime(2022, 04, 19, 18, 0, 0)
                 },
                 CategorizedAssignments = new List<AssignmentModel>
                 {
@@ -52,13 +52,13 @@ public class CategorizeRealMatchServicesUnitTests
                     {
                         LeagueName = "Saba A",
                         EventDateTime = new DateTime(2022, 04, 19, 14, 0, 0),
-                        EndTime = new DateTime(2022, 04, 19, 15, 0, 0),
+                        EndTime = new DateTime(2022, 04, 19, 15, 0, 0)
                     },
                     new()
                     {
                         LeagueName = "League B",
                         EventDateTime = new DateTime(2022, 04, 19, 13, 0, 0),
-                        EndTime = new DateTime(2022, 04, 19, 16, 0, 0),
+                        EndTime = new DateTime(2022, 04, 19, 16, 0, 0)
                     }
                 }
             },
@@ -68,7 +68,7 @@ public class CategorizeRealMatchServicesUnitTests
                 {
                     UserId = 333,
                     ShiftStartTime = new DateTime(2022, 04, 19, 13, 0, 0),
-                    ShiftEndTime = new DateTime(2022, 04, 19, 18, 0, 0),
+                    ShiftEndTime = new DateTime(2022, 04, 19, 18, 0, 0)
                 },
                 CategorizedAssignments = new List<AssignmentModel>
                 {
@@ -76,7 +76,7 @@ public class CategorizeRealMatchServicesUnitTests
                     {
                         LeagueName = "Saba A",
                         EventDateTime = new DateTime(2022, 04, 19, 17, 0, 0),
-                        EndTime = new DateTime(2022, 04, 19, 18, 0, 0),
+                        EndTime = new DateTime(2022, 04, 19, 18, 0, 0)
                     }
                 }
             },
@@ -103,7 +103,7 @@ public class CategorizeRealMatchServicesUnitTests
                         LeagueName = "Saba B",
                         EventDateTime = new DateTime(2022, 04, 19, 14, 0, 0),
                         EndTime = new DateTime(2022, 04, 19, 15, 0, 0),
-                        MatchType = MatchType.SabaLink1G,
+                        MatchType = MatchType.SabaLink1G
                     }
                 }
             },
@@ -165,7 +165,7 @@ public class CategorizeRealMatchServicesUnitTests
             {
                 EventDateTime = new DateTime(2023, 4, 21, 6, 0, 0),
                 EndTime = new DateTime(2023, 4, 21, 8, 0, 0)
-            },
+            }
         };
         var kOTime = new DateTime(2023, 4, 22, 8, 0, 0);
         var endTime = new DateTime(2023, 4, 22, 10, 0, 0);
@@ -219,7 +219,7 @@ public class CategorizeRealMatchServicesUnitTests
             {
                 EventDateTime = new DateTime(2023, 4, 21, 14, 0, 0),
                 EndTime = new DateTime(2023, 4, 21, 16, 0, 0)
-            },
+            }
         };
         var kOTime = new DateTime(2023, 4, 20, 10, 30, 0);
         var endTime = new DateTime(2023, 4, 21, 15, 0, 0);
@@ -281,7 +281,7 @@ public class CategorizeRealMatchServicesUnitTests
             UserId = 111,
             MaxMultipleGames = mixMatchCapacity,
             ShiftStartTime = new DateTime(2022, 04, 19, 18, 0, 0),
-            ShiftEndTime = new DateTime(2022, 04, 19, 23, 0, 0),
+            ShiftEndTime = new DateTime(2022, 04, 19, 23, 0, 0)
         };
 
         var assignments = new List<AssignmentModel>

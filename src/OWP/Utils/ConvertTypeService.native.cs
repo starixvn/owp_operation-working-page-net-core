@@ -68,7 +68,7 @@ public static class ConvertTypeService
 
     public static string ToOWPSpreadFormatPercent(this decimal? spread)
         => spread.HasValue
-            ? string.Format("{0}{1}", ToOWPSpreadFormat(spread), "%")
+            ? $"{ToOWPSpreadFormat(spread)}%"
             : string.Empty;
 
     public static string ToOWPSpreadFormat(this decimal? spread)

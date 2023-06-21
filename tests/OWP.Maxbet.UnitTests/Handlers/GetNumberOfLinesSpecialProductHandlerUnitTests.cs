@@ -4,6 +4,7 @@ using OWP.Maxbet.Criteria;
 using OWP.Maxbet.Handlers;
 using OWP.Maxbet.Models;
 using Xunit;
+using Xunit.Asserts.Compare;
 
 namespace OWP.Maxbet.UnitTests.Handlers;
 
@@ -27,6 +28,6 @@ public class GetNumberOfLinesSpecialProductHandlerUnitTests
 
         var actual = await handler.Handle(new GetNumberOfLinesSpecialProductHandler.Request { OWPMatchId = 3 }, new CancellationToken(false));
 
-        Equals(expected, actual);
+        DeepAssert.Equal(expected, actual);
     }
 }

@@ -71,7 +71,7 @@ public class GetLeagueSettingServiceUnitTest
             }
         };
 
-    private IList<LeagueSettingInfo> GetLeagueSettingInfosRaw()
+    private IEnumerable<LeagueSettingInfo> GetLeagueSettingInfosRaw()
         => new List<LeagueSettingInfo>
         {
             new()

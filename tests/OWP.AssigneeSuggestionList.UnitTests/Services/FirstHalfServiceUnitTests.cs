@@ -5,59 +5,56 @@ using OWP.AssigneeSuggestionList.Services.RealMatch;
 using Xunit;
 using Xunit.Asserts.Compare;
 
-namespace OWP.AssigneeSuggestionList.UnitTests.Services
+namespace OWP.AssigneeSuggestionList.UnitTests.Services;
+
+public class FirstHalfServiceUnitTests
 {
-    public class FirstHalfServiceUnitTests
+    private List<AssignmentModel> assignments = new();
+
+    public FirstHalfServiceUnitTests()
     {
-        private List<AssignmentModel> assignments = new List<AssignmentModel>();
+        Substitute.For<SingleGameGroupService>();
+    }
 
-        private readonly SingleGameGroupService singleGameGroupService;
-
-        public FirstHalfServiceUnitTests()
+    private void Initialize()
+    {
+        assignments = new List<AssignmentModel>
         {
-            this.singleGameGroupService = Substitute.For<SingleGameGroupService>(); ;
-        }
-
-        private void Initialize()
-        {
-            assignments = new List<AssignmentModel>
+            new()
             {
-                new AssignmentModel
-                {
-                    OWPMatchId = 1,
-                    KOTime = DateTime.Parse("2023-3-31 18:00:00").TimeOfDay,
-                    EventDateTime = DateTime.Parse("2023-3-31 18:00:00"),
-                    BettypeId = 1,
-                    UserId = 123,
-                    Remark = "ET/PK"
-                }
-            };
-        }
+                OWPMatchId = 1,
+                KOTime = DateTime.Parse("2023-3-31 18:00:00").TimeOfDay,
+                EventDateTime = DateTime.Parse("2023-3-31 18:00:00"),
+                BettypeId = 1,
+                UserId = 123,
+                Remark = "ET/PK"
+            }
+        };
+    }
 
-        [Fact]
-        public void BuildScheduleUpdateModel_ReturnScheduleUpdateModel()
+    [Fact]
+    public void BuildScheduleUpdateModel_ReturnScheduleUpdateModel()
+    {
+        // Arrange
+        Initialize();
+
+        // Act
+        var result = FirstHalfServiceImp.BuildScheduleUpdateModel(assignments, DateTime.Parse("2023-3-31 18:00:00"));
+
+        var expect = new ScheduleUpdateModel
         {
-            // Arrange
-            Initialize();
-
-            // Act
-            var result = FirstHalfServiceImp.BuildScheduleUpdateModel(assignments, DateTime.Parse("2023-3-31 18:00:00"));
-
-            var expect = new ScheduleUpdateModel
+            FilterDate = DateTime.Parse("2023-3-31 18:00:00"),
+            EtPk = new ETPKUpdateSchedule(),
+            AssignmentCell = new AssignmentCell
             {
-                FilterDate = DateTime.Parse("2023-3-31 18:00:00"),
-                EtPk = new ETPKUpdateSchedule(),
-                AssignmentCell = new AssignmentCell
-                {
-                    Color = ColorCodeConst.FIRST_HALF,
-                    TextColor = ColorCodeConst.TEXT_FIRST_HALF,
-                    Text = "V"
-                },
-                TimeRange = (DateTime.Parse("2023-3-31 18:00:00"), DateTime.Parse("2023-3-31 19:00:00"))
-            };
+                Color = ColorCodeConst.FIRST_HALF,
+                TextColor = ColorCodeConst.TEXT_FIRST_HALF,
+                Text = "V"
+            },
+            TimeRange = (DateTime.Parse("2023-3-31 18:00:00"), DateTime.Parse("2023-3-31 19:00:00"))
+        };
 
-            //Assert
-            DeepAssert.Equal(expect, result);
-        }
+        //Assert
+        DeepAssert.Equal(expect, result);
     }
 }

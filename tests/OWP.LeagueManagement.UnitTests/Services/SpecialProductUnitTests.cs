@@ -10,12 +10,11 @@ public class SpecialProductUnitTests
 {
     private readonly SpecialProductService service;
     private readonly Repository repository;
-    private readonly INapSession session;
 
     public SpecialProductUnitTests()
     {
         repository = Substitute.For<Repository>();
-        session = Substitute.For<INapSession>();
+        var session = Substitute.For<INapSession>();
         service = new SpecialProductServiceImp(repository, session);
     }
     [Fact]

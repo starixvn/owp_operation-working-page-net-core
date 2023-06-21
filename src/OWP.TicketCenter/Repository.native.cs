@@ -484,7 +484,7 @@ public class RepositoryImp : Repository
 
     public async Task<MatchInfo> GetMatchInfoByAdminSiteId(int adminsiteId)
     {
-        var criteria = new GetMatchInfoCriteria()
+        var criteria = new GetMatchInfoCriteria
         {
             AdminSiteId = adminsiteId
         };

@@ -5,30 +5,10 @@ namespace OWP.TicketCenter.UnitTests.Services;
 
 public class GetEventTicketsServiceUnitTests
 {
-    private readonly Repository repository;
-
     public GetEventTicketsServiceUnitTests()
     {
-        repository = Substitute.For<Repository>();
+        Substitute.For<Repository>();
     }
-
-    //[Fact]
-    //public async Task GetAllLeague_Always_MapTicketLeagueDetail()
-    //{
-    //    var request = new QueryEventTicketsRequest();
-    //    repository.GetEventTicketLeague(request).Returns(MockListEventTicketLeague());
-    //    repository.GetEventTicketMatch(request).Returns(MockListEventTicketMatch());
-    //    repository.GetEventTicketOther(request).Returns(MockListEventTicketOther());
-    //    repository.GetTicketIdHaveSavedMessage().Returns(MockListTicketIsSaved());
-    //    repository.GetEventTicketSupport(request).Returns(MockListEventTicketSupport());
-    //    repository.GetTwoLastComment(Arg.Compat.Any<IList<int>>()).Returns(MockLastMessageInfo());
-    //    var service = new GetEventTicketsServiceImp(repository);
-    //    var expected = GetExpected();
-
-    //    var actual = await service.GetAllTickets(request);
-
-    //    DeepAssert.Equal(expected, actual);
-    //}
 
     public List<int> MockListTicketIsSaved()
         => new()

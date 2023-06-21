@@ -34,10 +34,11 @@ public class BuildExcelModelServiceImp : BuildExcelModelService
 
     public async Task<ExcelModel> BuildExcelModel(DownloadAssignmentRequest request)
     {
-        var excelModel = new ExcelModel();
-
-        excelModel.HeaderInfo = BuildExcelHeader(request);
-        excelModel.ExcelAssignmentModels = await BuildExcelAssignments(request);
+        var excelModel = new ExcelModel
+        {
+            HeaderInfo = BuildExcelHeader(request),
+            ExcelAssignmentModels = await BuildExcelAssignments(request)
+        };
 
         return excelModel;
     }

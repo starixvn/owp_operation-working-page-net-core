@@ -7,7 +7,7 @@ using OWP.Report.LAReport.Handlers;
 
 namespace OWP.Report.LAReport;
 
-[Route("api/report")]
+[Route("api/report/la")]
 [ApiController]
 [Authorize]
 [EnableCors("AllowOrigin")]
@@ -20,7 +20,7 @@ public class LAReportController : ControllerBase
         this.mediator = mediator;
     }
 
-    [Route("la")]
+    [Route("")]
     [HttpPost]
     public async Task<IActionResult> GetDataLAReport(LAReportRequest request)
     {
@@ -28,7 +28,7 @@ public class LAReportController : ControllerBase
         return Ok(JsonConvert.SerializeObject(reportModel));
     }
 
-    [Route("la/export-excel")]
+    [Route("export-excel")]
     [HttpGet]
     public async Task<IActionResult> ExportLAExcel(string fromDate, string toDate)
     {
@@ -47,7 +47,7 @@ public class LAReportController : ControllerBase
         };
 
         using var excelPackage = await mediator.Send(request);
-        var fileName = $"LA Report {reportRequest.FromDate.ToString("ddMMMMyyyy")}-{reportRequest.ToDate.ToString("ddMMMMyyyy")}.xlsx";
+        var fileName = $"LA Report {reportRequest.FromDate:ddMMMMyyyy}-{reportRequest.ToDate:ddMMMMyyyy}.xlsx";
         var bytes = await excelPackage.GetAsByteArrayAsync();
         return File(bytes, "application/octet-stream", fileName);
     }

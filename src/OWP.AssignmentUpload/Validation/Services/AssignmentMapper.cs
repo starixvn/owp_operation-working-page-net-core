@@ -96,25 +96,20 @@ public class AssignmentMapperImp : AssignmentMapper
     public void MapEventDate(DateTime eventDate, AssignmentModelInExcel excelModel, AssignmentModel model)
     {
         const int twelfthHour = 12;
-        DateTime time;
-        if (DateTime.TryParse(excelModel.Time, CultureInfo.InvariantCulture, DateTimeStyles.None, out time))
+        if (DateTime.TryParse(excelModel.Time, CultureInfo.InvariantCulture, DateTimeStyles.None, out var time))
         {
-            var tempTime = time;
-            model.EventDate = tempTime.Hour < twelfthHour ? eventDate.AddDays(1) : eventDate;
+            model.EventDate = time.Hour < twelfthHour ? eventDate.AddDays(1) : eventDate;
         }
     }
 
     public void MapTime(AssignmentModelInExcel excelModel, AssignmentModel model)
     {
-        DateTime time;
-        DateTime otherTime;
-
-        if (DateTime.TryParse(excelModel.Time, CultureInfo.InvariantCulture, DateTimeStyles.None, out time))
+        if (DateTime.TryParse(excelModel.Time, CultureInfo.InvariantCulture, DateTimeStyles.None, out var time))
         {
             model.KickOffTime = time.TimeOfDay;
         }
         if (!string.IsNullOrWhiteSpace(excelModel.OtherOfTime) &&
-            DateTime.TryParse(excelModel.OtherOfTime, CultureInfo.InvariantCulture, DateTimeStyles.None, out otherTime))
+            DateTime.TryParse(excelModel.OtherOfTime, CultureInfo.InvariantCulture, DateTimeStyles.None, out var otherTime))
         {
             model.OtherTime = otherTime.TimeOfDay;
         }

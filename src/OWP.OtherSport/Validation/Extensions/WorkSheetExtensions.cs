@@ -108,9 +108,10 @@ public static class WorkSheetExtensions
         var methods = typeof(ExcelWorksheet).GetMethods(BindingFlags.Public | BindingFlags.Instance);
         var getValueMethod = methods.First(m => m.IsGenericMethod && m.Name == "GetValue");
 
-        var model = new AssignmentModelInExcel();
-
-        model.RowIndex = row;
+        var model = new AssignmentModelInExcel
+        {
+            RowIndex = row
+        };
 
         foreach (var property in properties)
         {

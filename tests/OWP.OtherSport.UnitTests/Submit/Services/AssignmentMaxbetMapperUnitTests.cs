@@ -69,8 +69,7 @@ public class AssignmentMaxbetMapperUnitTests
             }
         };
 
-        var expect = new Dictionary<int, List<AssignmentMaxbet>>();
-        expect.Add(0, assignmentMaxbets);
+        var expect = new Dictionary<int, List<AssignmentMaxbet>> { { 0, assignmentMaxbets } };
 
         //Act
         var actual = services.MapBySports(assignmentModels);

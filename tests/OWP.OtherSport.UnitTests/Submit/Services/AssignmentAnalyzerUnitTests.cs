@@ -48,7 +48,7 @@ public class AssignmentAnalyzerUnitTests
     {
         var oldMatchIds = new List<int> { 1, 2, 3, 4 };
         var newMatchIds = new List<int> { 1, 4, 5, 6, 7 };
-        var expected = "2,3";
+        const string expected = "2,3";
 
         var actual = services.DetectOldMatchIds(oldMatchIds, newMatchIds);
 

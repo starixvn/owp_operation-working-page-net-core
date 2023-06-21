@@ -2,7 +2,7 @@
 
 namespace OWP.SimpleDataApi.Criteria.PreMatchAssignment;
 
-class GetLastUpdatedPreMatchAssignmentCriteria : CriteriaBase
+internal class GetLastUpdatedPreMatchAssignmentCriteria : CriteriaBase
 {
     public bool IsDay { get; set; }
 

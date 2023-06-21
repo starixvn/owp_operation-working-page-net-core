@@ -21,19 +21,17 @@ public class ExcelReaderImp : ExcelReader
     {
         stream.Seek(0, SeekOrigin.Begin);
 
-        using (var package = new ExcelPackage(stream))
-        {
-            var sheet = package.Workbook.Worksheets.First();
-            var assignments = sheet.ReadAllAssignments(StartRow).ToList();
-            var eventDate = sheet.GetDateTime();
+        using var package = new ExcelPackage(stream);
+        var sheet = package.Workbook.Worksheets.First();
+        var assignments = sheet.ReadAllAssignments(StartRow).ToList();
+        var eventDate = sheet.GetDateTime();
 
-            return new UploadingDataFromExcel
-            {
-                EventDate = eventDate,
-                Assignments = assignments,
-                Traders = GetTraders(assignments)
-            };
-        }
+        return new UploadingDataFromExcel
+        {
+            EventDate = eventDate,
+            Assignments = assignments,
+            Traders = GetTraders(assignments)
+        };
     }
 
     public static List<string> GetTraders(List<AssignmentModelInExcel> assignments)

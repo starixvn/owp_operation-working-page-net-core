@@ -36,7 +36,7 @@ public class ExportMiscMatchHandler : IRequestHandler<ExportMiscMatchRequest, Fi
 
         var templatePath = GetReportTemplate();
 
-        using var stream = new FileStream(templatePath, FileMode.Open, FileAccess.Read);
+        await using var stream = new FileStream(templatePath, FileMode.Open, FileAccess.Read);
 
         excelPackage = new ExcelPackage(stream);
         var templateSheet = excelPackage.Workbook.Worksheets.First();
@@ -47,8 +47,10 @@ public class ExportMiscMatchHandler : IRequestHandler<ExportMiscMatchRequest, Fi
         excelPackage.SaveAs(fileStream);
         fileStream.Position = 0;
         const string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-        var fileStreamResult = new FileStreamResult(fileStream, contentType);
-        fileStreamResult.FileDownloadName = $"Event Picking-{request.Date:yyyy-MM-dd}.xlsx";
+        var fileStreamResult = new FileStreamResult(fileStream, contentType)
+        {
+            FileDownloadName = $"Event Picking-{request.Date:yyyy-MM-dd}.xlsx"
+        };
 
         return fileStreamResult;
     }

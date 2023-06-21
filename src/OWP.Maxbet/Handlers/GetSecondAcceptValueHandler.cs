@@ -35,7 +35,7 @@ public class GetSecondAcceptValueHandler
             {
                 0 => await BuildSecondAcceptValueDefault(request),
                 1 => GetSecondAcceptValue(validOfferIds.FirstOrDefault()!.Value),
-                _ => null,
+                _ => null
             };
         }
 

@@ -14,7 +14,6 @@ public class HandlerUnitTest
     private readonly CommandRepository commandRepository;
     private readonly QueryRepository queryRepository;
     private readonly CacheManipulator cacheManipulator;
-    private readonly INapSession currentSession;
     private readonly Handler handler;
 
     public HandlerUnitTest()
@@ -22,7 +21,7 @@ public class HandlerUnitTest
         commandRepository = Substitute.For<CommandRepository>();
         queryRepository = Substitute.For<QueryRepository>();
         cacheManipulator = Substitute.For<CacheManipulator>();
-        currentSession = Substitute.For<INapSession>();
+        var currentSession = Substitute.For<INapSession>();
 
         queryRepository.GetOldMatchIds(Arg.Compat.Any<DateTime>()).Returns(new List<OldMatch>());
         handler = new Handler(queryRepository, cacheManipulator, commandRepository, currentSession);
@@ -38,13 +37,6 @@ public class HandlerUnitTest
             SessionId = "sessionId"
         };
 
-        var emptyAssignments = new List<AssignmentModel>();
-        var emptySnapshot = new AssignmentSnapshot
-        {
-            Matches = new Dictionary<int, GeneralMatch>(),
-            Assignments = new Dictionary<int, List<MatchAssignment>>(),
-            MatchSettings = new Dictionary<int, List<MatchSetting>>()
-        };
         const string processingUser = "AnyUser";
         var expectedResponse = new SubmitResponse
         {

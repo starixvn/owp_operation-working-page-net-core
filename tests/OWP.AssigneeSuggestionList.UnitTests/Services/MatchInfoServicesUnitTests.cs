@@ -42,7 +42,7 @@ public class MatchInfoServicesUnitTests
             {
                 OwpMatchId = 1,
                 KOTime = new DateTime(2023, 4, 19, 14, 0, 0, 0),
-                MaxbetHDP = 13000,
+                MaxbetHDP = 13000
             });
 
         var service = new MatchInfoServicesImp(repository);

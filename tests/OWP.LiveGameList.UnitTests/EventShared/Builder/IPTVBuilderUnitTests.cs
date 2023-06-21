@@ -10,7 +10,7 @@ public class IPTVBuilderUnitTests
     [Fact]
     public void Build_Always_ReturnExpect()
     {
-        var expected = "PTQ/IPTV/Liam/stream76";
+        const string expected = "PTQ/IPTV/Liam/stream76";
         var result = IPTVBuilder.Build(new IPTVModel
         { Channel = "Liam", IpTv = "IPTV", Stream = "stream76", Television = "PTQ" });
         DeepAssert.Equal(result, expected);
@@ -20,7 +20,7 @@ public class IPTVBuilderUnitTests
     [Fact]
     public void Build_ModelNull_ReturnEmpty()
     {
-        var expected = "";
+        const string expected = "";
         var result = IPTVBuilder.Build(new IPTVModel());
         DeepAssert.Equal(result, expected);
     }
