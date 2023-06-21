@@ -1,9 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Reflection;
-using System.Text.RegularExpressions;
-using OWP.OtherSport.Validation.Exceptions;
+﻿using OWP.OtherSport.Validation.Exceptions;
 using OWP.OtherSport.Validation.Helpers;
 using OWP.OtherSport.Validation.Models;
+using System.ComponentModel.DataAnnotations;
+using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace OWP.OtherSport.Validation.Services;
 
@@ -180,12 +180,12 @@ public class AssignmentValidatorImp : AssignmentValidator
         }
     }
 
-    private static void ValidateDuplicatedMatch(AssignmentModelInExcel assignment, List<AssignmentModelInExcel> assignments, List<ValidationResult> results)
+    private static void ValidateDuplicatedMatch(AssignmentModelInExcel assignment, IEnumerable<AssignmentModelInExcel> assignments, List<ValidationResult> results)
     {
         var dupAssignmentInfo = assignments.Where(x => IsEquals(x.League, assignment.League) &&
-                                                IsEquals(x.Home.Replace("(N)", "").Trim(), assignment.Home.Replace("(N)", "").Trim()) &&
-                                                IsEquals(x.Away, assignment.Away) &&
-                                                IsEquals(x.DateTime, assignment.DateTime)).ToList();
+                                                                  IsEquals(x.Home.Replace("(N)", "").Trim(), assignment.Home.Replace("(N)", "").Trim()) &&
+                                                                  IsEquals(x.Away, assignment.Away) &&
+                                                                  IsEquals(x.DateTime, assignment.DateTime)).ToList();
 
         var isDuplicated = dupAssignmentInfo.Any(x => IsEquals(x.Sport, assignment.Sport));
         if (isDuplicated)

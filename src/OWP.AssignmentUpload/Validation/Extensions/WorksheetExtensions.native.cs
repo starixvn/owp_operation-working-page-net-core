@@ -1,11 +1,11 @@
-using System.ComponentModel.DataAnnotations;
-using System.Globalization;
-using System.Reflection;
 using OfficeOpenXml;
 using OWP.AssignmentUpload.Validation.Annotations;
 using OWP.AssignmentUpload.Validation.Constants;
 using OWP.AssignmentUpload.Validation.Exceptions;
 using OWP.AssignmentUpload.Validation.Models;
+using System.ComponentModel.DataAnnotations;
+using System.Globalization;
+using System.Reflection;
 
 namespace OWP.AssignmentUpload.Validation.Extensions;
 
@@ -235,7 +235,7 @@ public static class WorksheetExtensions
         return false;
     }
 
-    private static List<string> GetNotes(this ExcelWorksheet sheet, int row, List<int> columnIndices)
+    private static IEnumerable<string> GetNotes(this ExcelWorksheet sheet, int row, IEnumerable<int> columnIndices)
     {
         return columnIndices.Select(i =>
         {

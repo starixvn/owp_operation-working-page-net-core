@@ -31,7 +31,7 @@ public class UploadHandler
                 Title = request.FileName
             };
 
-            var result = await dynamicRepo.FetchAsync<int>(criteria);
+            var result = await dynamicRepo.FetchAsync<int>(criteria, cancellationToken);
 
             return new FileModel
             {

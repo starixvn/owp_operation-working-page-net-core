@@ -1,6 +1,6 @@
-﻿using System.Globalization;
-using OWP.AutoAssignment.Constant;
+﻿using OWP.AutoAssignment.Constant;
 using OWP.AutoAssignment.Models.InternalApi;
+using System.Globalization;
 
 namespace OWP.AutoAssignment.Services.InternalApi;
 
@@ -29,7 +29,7 @@ public class LeagueSettingBuilderServiceImp : LeagueSettingBuilderService
         BuildExportLeagueSetting(models, leagueSettings);
     }
 
-    private void BuildExportLeagueSetting(IList<ExportMatchModel> exportModels,
+    private void BuildExportLeagueSetting(IEnumerable<ExportMatchModel> exportModels,
         IList<LeagueSettingInfo> leagueSettings)
     {
         foreach (var exportMatchModel in exportModels)
@@ -72,12 +72,12 @@ public class LeagueSettingBuilderServiceImp : LeagueSettingBuilderService
     private async Task<IEnumerable<LeagueSettingInfo>> LeagueSettingInfo(IList<int> queryInfo, string requestId)
         => await repository.GetLeagueSettingInfo(queryInfo, requestId);
 
-    private LeagueSettingInfo GetInfoLeagueSettingById(IList<LeagueSettingInfo> leagueSettingExportModel, int id)
+    private LeagueSettingInfo GetInfoLeagueSettingById(IEnumerable<LeagueSettingInfo> leagueSettingExportModel, int id)
         => leagueSettingExportModel
                .FirstOrDefault(x => x.MatchId == id)
            ?? new LeagueSettingInfo();
 
-    private IList<int> GetMatchIdQueryInfo(IList<AutoAssignmentResultModel> autoAssignModels)
+    private static IList<int> GetMatchIdQueryInfo(IEnumerable<AutoAssignmentResultModel> autoAssignModels)
         => autoAssignModels
             .Select(i => i.InfoSiteMatchId).ToList();
 

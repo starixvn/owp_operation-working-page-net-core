@@ -47,7 +47,7 @@ public class RealMatchServiceImp : RealMatchService
         return realMatchSenders;
     }
 
-    private IList<int> SelectMaxBetFtHdpMatchIds(IList<MaxBetFTHDPInfo> maxBetHdpOptions)
+    private static IList<int> SelectMaxBetFtHdpMatchIds(IEnumerable<MaxBetFTHDPInfo> maxBetHdpOptions)
         => maxBetHdpOptions
             .Select(i => i.MatchId).Distinct()
             .ToList();

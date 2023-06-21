@@ -1,4 +1,3 @@
-using System.Drawing;
 using Epplus.Mapper.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +7,7 @@ using OWP.EventPicking.Misc;
 using OWP.EventPicking.Models;
 using OWP.EventPicking.Services;
 using OWP.Services;
+using System.Drawing;
 
 namespace OWP.EventPicking.Handlers;
 
@@ -44,7 +44,7 @@ public class ExportMiscMatchHandler : IRequestHandler<ExportMiscMatchRequest, Fi
         FillRowColor(matches, templateSheet);
 
         var fileStream = new MemoryStream();
-        excelPackage.SaveAs(fileStream);
+        await excelPackage.SaveAsAsync(fileStream, cancellationToken);
         fileStream.Position = 0;
         const string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
         var fileStreamResult = new FileStreamResult(fileStream, contentType)

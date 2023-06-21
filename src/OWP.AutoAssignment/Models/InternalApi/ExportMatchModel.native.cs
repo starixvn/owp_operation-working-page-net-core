@@ -1,6 +1,6 @@
-﻿using System.Globalization;
-using Epplus.Mapper.Annotations;
+﻿using Epplus.Mapper.Annotations;
 using OfficeOpenXml.Attributes;
+using System.Globalization;
 
 namespace OWP.AutoAssignment.Models.InternalApi;
 
@@ -100,7 +100,7 @@ public record ExportMatchModel
     public int InfoSiteMatchId { get; set; }
 
     [Cell("AO3")]
-    public int? InfoSiteMatchIdExport => Bettype == -3 || Bettype == -4
+    public int? InfoSiteMatchIdExport => Bettype is -3 or -4
         ? null
         : InfoSiteMatchId;
 

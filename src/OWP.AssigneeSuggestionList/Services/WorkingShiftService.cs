@@ -44,6 +44,6 @@ public class WorkingShiftServiceImp : WorkingShiftService
         var db02UserIds = await repository.GetCustInfoFromDB02();
 
         return userInfos.Where(x => napUserIds.Any(y => y == x.UserId)
-                                    && db02UserIds.Any(y => y == x.UserId)).ToList();
+                                               && db02UserIds.Any(y => y == x.UserId)).ToList();
     }
 }

@@ -1,4 +1,3 @@
-using NSubstitute;
 using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Models;
 using OWP.AssigneeSuggestionList.Services.RealMatch;
@@ -10,11 +9,6 @@ namespace OWP.AssigneeSuggestionList.UnitTests.Services;
 public class FirstHalfServiceUnitTests
 {
     private List<AssignmentModel> assignments = new();
-
-    public FirstHalfServiceUnitTests()
-    {
-        Substitute.For<SingleGameGroupService>();
-    }
 
     private void Initialize()
     {

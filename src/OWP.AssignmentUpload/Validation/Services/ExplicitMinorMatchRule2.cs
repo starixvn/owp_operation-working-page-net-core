@@ -78,12 +78,12 @@ public class ExplicitMinorMatchRule2Imp : ExplicitMinorMatchRule2
         {
             case TargetFinder.Home:
                 return assignments?.FirstOrDefault(p => string.Compare(p.League, league, StringComparison.CurrentCultureIgnoreCase) == 0
-                                                        && string.Compare(p.Home, home, StringComparison.CurrentCultureIgnoreCase) == 0
-                                                        && string.Compare(p.Home, away, StringComparison.CurrentCultureIgnoreCase) == 0);
+                                                                   && string.Compare(p.Home, home, StringComparison.CurrentCultureIgnoreCase) == 0
+                                                                   && string.Compare(p.Home, away, StringComparison.CurrentCultureIgnoreCase) == 0);
             case TargetFinder.Away:
                 return assignments?.FirstOrDefault(p => string.Compare(p.League, league, StringComparison.CurrentCultureIgnoreCase) == 0
-                                                        && string.Compare(p.Away, home, StringComparison.CurrentCultureIgnoreCase) == 0
-                                                        && string.Compare(p.Away, away, StringComparison.CurrentCultureIgnoreCase) == 0);
+                                                                   && string.Compare(p.Away, home, StringComparison.CurrentCultureIgnoreCase) == 0
+                                                                   && string.Compare(p.Away, away, StringComparison.CurrentCultureIgnoreCase) == 0);
             default:
                 return null;
         }

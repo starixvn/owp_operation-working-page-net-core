@@ -114,7 +114,7 @@ public class MaxbetBuilderImp : MaxbetBuilder
     }
 
     private MaxbetSpread BuildMaxbetNoOfCorner(List<MaxbetModel> maxbet,
-               List<MaxbetModel> maxbetMainMatch, List<MaxbetSetting> maxbetSettingDefault)
+            List<MaxbetModel> maxbetMainMatch, IEnumerable<MaxbetSetting> maxbetSettingDefault)
     {
         var handicapMainMatch = GetHandicapMainMatch(maxbetMainMatch);
         var canUpdateValueBettype = MaxbetHelper.CanUpdateValueBettype(maxbet);
@@ -147,7 +147,7 @@ public class MaxbetBuilderImp : MaxbetBuilder
     private MaxbetSpread BuildMaxbetTotalBooking(
         List<MaxbetModel> maxbet,
         List<MaxbetModel> maxbetMainMatch,
-        List<MaxbetSetting> maxbetSettingDefault)
+        IEnumerable<MaxbetSetting> maxbetSettingDefault)
     {
         var handicapMainMatch = GetHandicapMainMatch(maxbetMainMatch);
         var canUpdateValueBettype = MaxbetHelper.CanUpdateValueBettype(maxbet);
@@ -224,6 +224,6 @@ public class MaxbetBuilderImp : MaxbetBuilder
         };
     }
 
-    private MaxbetModel GetHandicapMainMatch(List<MaxbetModel> maxbetMainMatch)
+    private MaxbetModel GetHandicapMainMatch(IEnumerable<MaxbetModel> maxbetMainMatch)
         => maxbetMainMatch.FirstOrDefault(m => m.BettypeId.Equals((int)EnumBettype.Handicap)) ?? new MaxbetModel();
 }

@@ -1,7 +1,7 @@
-﻿using System.Text.RegularExpressions;
-using OfficeOpenXml;
+﻿using OfficeOpenXml;
 using OWP.OtherSport.Validation.Extensions;
 using OWP.OtherSport.Validation.Models;
+using System.Text.RegularExpressions;
 
 namespace OWP.OtherSport.Validation.Services;
 
@@ -42,7 +42,7 @@ public class ExcelReaderImp : ExcelReader
             .ToList();
     }
 
-    private static List<string> GetTraderWithNote(List<AssignmentModelInExcel> assignments, string type)
+    private static IEnumerable<string> GetTraderWithNote(IEnumerable<AssignmentModelInExcel> assignments, string type)
     {
         var otherTraderColumns = assignments.Select(a => GetTradersWithType(a, type))
             .SelectMany(l => l)
@@ -55,7 +55,7 @@ public class ExcelReaderImp : ExcelReader
             .ToList();
     }
 
-    private static List<string> GetTradersWithType(AssignmentModelInExcel assignment, string type)
+    private static IEnumerable<string> GetTradersWithType(AssignmentModelInExcel assignment, string type)
     {
         var properties = typeof(AssignmentModelInExcel).GetProperties();
         var result = new List<string>();
@@ -77,7 +77,7 @@ public class ExcelReaderImp : ExcelReader
         return matches.FirstOrDefault()?.Value.Remove(0, 1);
     }
 
-    private static List<AssignmentModelInExcel> GetValidAssignments(IList<AssignmentModelInExcel> assignment, DateTime fromDate, DateTime toDate)
+    private static List<AssignmentModelInExcel> GetValidAssignments(IEnumerable<AssignmentModelInExcel> assignment, DateTime fromDate, DateTime toDate)
     {
         var fromDateFormat = fromDate.AddHours(12);
         var toDateFormat = toDate.AddDays(1).AddHours(11).AddMinutes(59).AddSeconds(59);

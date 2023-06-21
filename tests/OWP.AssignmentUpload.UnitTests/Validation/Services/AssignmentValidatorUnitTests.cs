@@ -1,8 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using OWP.AssignmentUpload.Validation.Exceptions;
+﻿using OWP.AssignmentUpload.Validation.Exceptions;
 using OWP.AssignmentUpload.Validation.Models;
 using OWP.AssignmentUpload.Validation.Services;
 using OWP.Models;
+using System.ComponentModel.DataAnnotations;
 using Xunit;
 using Xunit.Asserts.Compare;
 

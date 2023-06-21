@@ -28,7 +28,7 @@ public class ProviderBuilderServiceImp : ProviderBuilderService
         BuildExportProvider(models, providerInfos, autoAssignModels);
     }
 
-    private void BuildExportProvider(IList<ExportMatchModel> exportModels,
+    private void BuildExportProvider(IEnumerable<ExportMatchModel> exportModels,
         IList<ProviderInfo> providerInfos, IList<AutoAssignmentResultModel> autoAssignModels)
     {
         foreach (var exportMatchModel in exportModels)
@@ -78,17 +78,17 @@ public class ProviderBuilderServiceImp : ProviderBuilderService
         return reporter;
     }
 
-    private AutoAssignmentResultModel GetMatchInfoById(IList<AutoAssignmentResultModel> autoAssignmentResult, int id)
+    private static AutoAssignmentResultModel GetMatchInfoById(IEnumerable<AutoAssignmentResultModel> autoAssignmentResult, int id)
         => autoAssignmentResult?
                .FirstOrDefault(x => x.InfoSiteMatchId == id)
            ?? new AutoAssignmentResultModel();
 
-    private ProviderInfo GetInfoProviderById(IList<ProviderInfo> providerExportModel, int id)
+    private ProviderInfo GetInfoProviderById(IEnumerable<ProviderInfo> providerExportModel, int id)
         => providerExportModel?
                .FirstOrDefault(x => x.MatchId == id)
            ?? new ProviderInfo();
 
-    private IList<int> GetMatchIdQueryInfo(IList<AutoAssignmentResultModel> autoAssignModels)
+    private IList<int> GetMatchIdQueryInfo(IEnumerable<AutoAssignmentResultModel> autoAssignModels)
         => autoAssignModels?
                .Select(i => i.InfoSiteMatchId).ToList()
            ?? new List<int>();

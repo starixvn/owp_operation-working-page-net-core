@@ -32,7 +32,7 @@ public class UpdateProviderArrangementHandler : IRequestHandler<UpdateProviderAr
             ActorId = session.UserId
         };
 
-        await dynamicRepository.ExecuteAsync(criteria);
+        await dynamicRepository.ExecuteAsync(criteria, cancellation);
 
         return Unit.Value;
     }

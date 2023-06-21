@@ -95,7 +95,7 @@ public class RequestBuilderImp : RequestBuilder
             Traders = traderInfos
         };
 
-    private async Task SaveEventSender(RequestModel requestModel, IList<RealMatchSender> realMatches, IList<SabaMatchSender> sabaMatches)
+    private async Task SaveEventSender(RequestModel requestModel, IEnumerable<RealMatchSender> realMatches, IEnumerable<SabaMatchSender> sabaMatches)
     {
         var events = new List<AutoAssignmentHistory>();
         var realHistory = realMatches.Select(i => new AutoAssignmentHistory

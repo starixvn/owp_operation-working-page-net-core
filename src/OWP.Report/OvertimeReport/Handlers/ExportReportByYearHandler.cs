@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-using System.Globalization;
-using AutoMapper;
+﻿using AutoMapper;
 using Epplus.Mapper.Extensions;
 using MediatR;
 using OfficeOpenXml;
@@ -8,6 +6,8 @@ using OfficeOpenXml.Style;
 using OWP.Report.OvertimeReport.Constants;
 using OWP.Report.OvertimeReport.Models;
 using OWP.Services;
+using System.Drawing;
+using System.Globalization;
 
 namespace OWP.Report.OvertimeReport.Handlers;
 
@@ -45,7 +45,7 @@ public class ExportReportByYearHandler : IRequestHandler<ExportReportByYearReque
     public async Task<ExcelPackage> Handle(ExportReportByYearRequest request, CancellationToken cancellationToken)
     {
         var exportRequest = mapper.Map<QueryReportByYearRequest>(request);
-        var result = await mediator.Send(exportRequest);
+        var result = await mediator.Send(exportRequest, cancellationToken);
 
         return CreateExcelPackage(request, result.ToList());
     }

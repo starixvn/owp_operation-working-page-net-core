@@ -23,6 +23,8 @@ public class GetProviderHandler : IRequestHandler<GetProviderRequest, IList<Prov
     public async Task<IList<ProviderModel>> Handle(GetProviderRequest request, CancellationToken cancellationToken)
     {
         var criteria = new GetProviderCriteria();
-        return (await dynamicRepository.FetchAsync<ProviderModel>(criteria)).ToList();
+        var result = await dynamicRepository.FetchAsync<ProviderModel>(criteria, cancellationToken);
+
+        return result.ToList();
     }
 }

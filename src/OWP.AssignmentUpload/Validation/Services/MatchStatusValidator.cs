@@ -1,8 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using OWP.AssignmentUpload.Validation.Constants;
+﻿using OWP.AssignmentUpload.Validation.Constants;
 using OWP.AssignmentUpload.Validation.Exceptions;
 using OWP.AssignmentUpload.Validation.Helper;
 using OWP.AssignmentUpload.Validation.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace OWP.AssignmentUpload.Validation.Services;
 
@@ -38,7 +38,7 @@ public class MatchStatusValidatorImp : MatchStatusValidator
         }
     }
 
-    private static List<ValidationResult> CheckMatchStatus(AssignmentModel minorMatch, List<AssignmentModel> matches)
+    private static IEnumerable<ValidationResult> CheckMatchStatus(AssignmentModel minorMatch, IEnumerable<AssignmentModel> matches)
     {
         var results = new List<ValidationResult>();
         if (string.IsNullOrEmpty(minorMatch.ParentHashKey))
@@ -46,10 +46,8 @@ public class MatchStatusValidatorImp : MatchStatusValidator
             return results;
         }
 
-        var mainMatch = matches.FirstOrDefault(x => x.HashKey == minorMatch.ParentHashKey);
-        if ((mainMatch.MatchStatus == MatchStatus.Cancel ||
-             mainMatch.MatchStatus == MatchStatus.Suspended ||
-             mainMatch.MatchStatus == MatchStatus.Postponed) &&
+        var mainMatch = matches.FirstOrDefault(x => x.HashKey == minorMatch.ParentHashKey) ?? new AssignmentModel();
+        if (mainMatch.MatchStatus is MatchStatus.Cancel or MatchStatus.Suspended or MatchStatus.Postponed &&
             minorMatch.MatchStatus != mainMatch.MatchStatus)
         {
             results.Add(new ValidationResult("The status of special events must be same as main match if main match is Cancel, Suspended, or Postponed"));

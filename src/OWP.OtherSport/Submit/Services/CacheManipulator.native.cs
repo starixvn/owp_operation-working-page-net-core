@@ -72,7 +72,7 @@ public class CacheManipulatorImp : CacheManipulator
     {
         var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromHours(1));
         var deletedMatchesSnapshotInJson = JsonConvert.SerializeObject(deletedMatches);
-        var cacheKey = $"{KEY_DELETED_MATCHES_SNAPSHOT}";
+        const string cacheKey = $"{KEY_DELETED_MATCHES_SNAPSHOT}";
         await cache.SetAsync(cacheKey, deletedMatchesSnapshotInJson, cachePolicy);
     }
 

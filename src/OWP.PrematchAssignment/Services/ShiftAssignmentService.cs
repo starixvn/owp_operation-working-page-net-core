@@ -156,8 +156,8 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
         var filteredLeagues = preMatchLeagues
             .Where(x => x.LeagueName.IsContains(request.LeagueName))
             .Where(x => string.IsNullOrEmpty(employee) ||
-                CheckMainAssignmentContainsEmployee(x, employee) ||
-                CheckOtherAssignmentContainsEmployee(x, employee));
+                                   CheckMainAssignmentContainsEmployee(x, employee) ||
+                                   CheckOtherAssignmentContainsEmployee(x, employee));
 
         var filteredMatches = infoSiteMatches
             .Where(x => filteredLeagues.Any(y => y.PreMatchLeagueId == x.PreMatchLeagueId));

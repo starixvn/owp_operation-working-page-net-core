@@ -7,8 +7,8 @@ namespace OWP.AutoAssignment.Services.InternalApi;
 public interface TraderBuilderService
 {
     Task Build(
-        IList<ExportMatchModel> models,
-        IList<AutoAssignmentResultModel> autoAssignModels);
+        IEnumerable<ExportMatchModel> models,
+        IEnumerable<AutoAssignmentResultModel> autoAssignModels);
 }
 
 public class TraderBuilderServiceImp : TraderBuilderService
@@ -21,15 +21,15 @@ public class TraderBuilderServiceImp : TraderBuilderService
     }
 
     public async Task Build(
-        IList<ExportMatchModel> models,
-        IList<AutoAssignmentResultModel> autoAssignModels)
+        IEnumerable<ExportMatchModel> models,
+        IEnumerable<AutoAssignmentResultModel> autoAssignModels)
     {
         var traderQueryInfo = BuildTraderExportQueryInfo(autoAssignModels);
         var traderExportInfo = await QueryTraderExportInfo(traderQueryInfo);
         BuildExportTraderModel(models, traderExportInfo.ToList());
     }
 
-    private IList<TraderExportQueryInfo> BuildTraderExportQueryInfo(IList<AutoAssignmentResultModel> autoAssignModels)
+    private IEnumerable<TraderExportQueryInfo> BuildTraderExportQueryInfo(IEnumerable<AutoAssignmentResultModel> autoAssignModels)
         => autoAssignModels
             .Select(model => new TraderExportQueryInfo
             {
@@ -41,7 +41,7 @@ public class TraderBuilderServiceImp : TraderBuilderService
                 Bettype = model.Bettype
             }).ToList();
 
-    private async Task<IEnumerable<TraderExportInfo>> QueryTraderExportInfo(IList<TraderExportQueryInfo> queryInfo)
+    private async Task<IEnumerable<TraderExportInfo>> QueryTraderExportInfo(IEnumerable<TraderExportQueryInfo> queryInfo)
     {
         var criteria = new GetTraderExportInfoCriteria
         {
@@ -51,8 +51,8 @@ public class TraderBuilderServiceImp : TraderBuilderService
         return await repository.GetTraderExportInfo(criteria);
     }
 
-    private void BuildExportTraderModel(IList<ExportMatchModel> exportModels,
-        IList<TraderExportInfo> traderExportModel)
+    private static void BuildExportTraderModel(IEnumerable<ExportMatchModel> exportModels,
+        List<TraderExportInfo> traderExportModel)
     {
         foreach (var exportMatchModel in exportModels)
         {
@@ -64,7 +64,7 @@ public class TraderBuilderServiceImp : TraderBuilderService
         }
     }
 
-    private TraderExportInfo GetSingleTraderInfoById(IList<TraderExportInfo> traderExportModel,
+    private static TraderExportInfo GetSingleTraderInfoById(IEnumerable<TraderExportInfo> traderExportModel,
         ExportMatchModel exportMatchModel)
     {
         var id = exportMatchModel.InfoSiteMatchId;

@@ -10,7 +10,7 @@ public class LogFactoryUnitTests
     {
         //Arrange
         var logFactory = new LogFactoryImp();
-        
+
         const string data = "<r><z plid=\"2047\" uid=\"8\" un=\"sa\" bt=\"1\" ito=\"1\" at=\"1\"/></r>";
         const string expected = "HDP T.Over: #sa";
 

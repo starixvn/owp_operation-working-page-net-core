@@ -61,7 +61,7 @@ public class BuildMainMatchMaxBetImp : BuildMainMatchMaxBet
     private static bool IsWeekend(DateTime eventDateTime)
     {
         var eventDate = DateTime.SpecifyKind(eventDateTime, DateTimeKind.Utc).AddHours(-4);
-        var isWeekend = eventDate.DayOfWeek == DayOfWeek.Saturday || eventDate.DayOfWeek == DayOfWeek.Sunday;
+        var isWeekend = eventDate.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday;
         return isWeekend;
     }
 

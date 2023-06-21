@@ -43,7 +43,7 @@ public class TGRSReportServiceImp : TGRSReportService
         }
         catch (Exception exception)
         {
-            Logger.Log.Error(exception.Message);
+            await Logger.Log.ErrorAsync(exception.Message);
             return new List<TraderPerformanceDetail>();
         }
     }

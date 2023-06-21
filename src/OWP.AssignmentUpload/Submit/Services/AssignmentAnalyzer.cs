@@ -2,7 +2,7 @@
 using OWP.AssignmentUpload.Submit.Models;
 using OWP.AssignmentUpload.Validation.Models;
 
-namespace OWP.AssignmentUpload.Submit.Services; 
+namespace OWP.AssignmentUpload.Submit.Services;
 
 public interface AssignmentAnalyzer
 {
@@ -82,7 +82,7 @@ public class AssignmentAnalyzerImp : AssignmentAnalyzer
         }
 
         return assignmentOfMatches.Where(a => a.UserId > 0 || !string.IsNullOrWhiteSpace(a.AssignmentNote))
-            .Where(a => a.BetType > 0 || a.BetType == (int)MajorBetType.LA)
+            .Where(a => a.BetType is > 0 or (int)MajorBetType.LA)
             .ToList();
     }
 
@@ -500,13 +500,13 @@ public class AssignmentAnalyzerImp : AssignmentAnalyzer
 
     public IEnumerable<MatchTelevision> GetTelevisionOfMatch(AssignmentModel assignment)
     {
-            var televisions = !string.IsNullOrEmpty(assignment.TV)
-                ? assignment.TV
-                    .Replace("/", ",")
-                    .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-                    .Select(a => a.Trim())
-                    .Distinct()
-                : new List<string>();
+        var televisions = !string.IsNullOrEmpty(assignment.TV)
+            ? assignment.TV
+                .Replace("/", ",")
+                .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(a => a.Trim())
+                .Distinct()
+            : new List<string>();
         return televisions.Select(a => new MatchTelevision { MatchId = assignment.OWPMatchId, TV = a });
     }
 

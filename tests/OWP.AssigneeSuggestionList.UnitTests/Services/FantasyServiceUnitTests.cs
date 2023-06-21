@@ -9,18 +9,18 @@ namespace OWP.AssigneeSuggestionList.UnitTests.Services;
 
 public class FantasyServiceUnitTests
 {
-    private List<AssignmentModel> assignments = new();
+        private List<AssignmentModel> assignments = new();
 
     public FantasyServiceUnitTests()
     {
-        Substitute.For<SingleGameGroupService>();
+            Substitute.For<SingleGameGroupService>();
     }
 
     private void Initialize()
     {
         assignments = new List<AssignmentModel>
         {
-            new()
+                new()
             {
                 OWPMatchId = 1,
                 KOTime = DateTime.Parse("2023-3-31 18:00:00").TimeOfDay,

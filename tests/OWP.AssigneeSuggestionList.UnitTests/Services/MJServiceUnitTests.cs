@@ -11,11 +11,6 @@ public class MJServiceUnitTests
 {
     private List<AssignmentModel> assignments = new();
 
-    public MJServiceUnitTests()
-    {
-        Substitute.For<SingleGameGroupService>();
-    }
-
     private void Initialize()
     {
         assignments = new List<AssignmentModel>

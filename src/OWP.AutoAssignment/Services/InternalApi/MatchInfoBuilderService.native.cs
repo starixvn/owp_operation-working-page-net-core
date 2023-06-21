@@ -1,7 +1,7 @@
-﻿using System.Globalization;
-using AutoMapper;
+﻿using AutoMapper;
 using OWP.AutoAssignment.Constant;
 using OWP.AutoAssignment.Models.InternalApi;
+using System.Globalization;
 
 namespace OWP.AutoAssignment.Services.InternalApi;
 
@@ -34,7 +34,7 @@ public class MatchInfoBuilderServiceImp : MatchInfoBuilderService
         BuildExportMatchModel(models, matchInfos);
     }
 
-    private IList<MatchQueryInfo> BuildMatchQueryInfo(IList<AutoAssignmentResultModel> autoAssignModels)
+    private IList<MatchQueryInfo> BuildMatchQueryInfo(IEnumerable<AutoAssignmentResultModel> autoAssignModels)
         => autoAssignModels
             .Select(model => new MatchQueryInfo
             {

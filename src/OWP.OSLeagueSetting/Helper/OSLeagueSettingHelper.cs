@@ -98,7 +98,7 @@ public static class OSLeagueSettingHelper
 
         return new SummaryDetail
         {
-            Text = $"{leagueInfo.KOFromTime?.ToString(@"hh\:mm")} - { leagueInfo.KOToTime?.ToString(@"hh\:mm")}",
+            Text = $"{leagueInfo.KOFromTime?.ToString(@"hh\:mm")} - {leagueInfo.KOToTime?.ToString(@"hh\:mm")}",
             Style = style
         };
     }
@@ -110,7 +110,7 @@ public static class OSLeagueSettingHelper
             Style = LeagueSettingConst.SummaryStyleOption.GetValueOrDefault(property)
         };
 
-    private static SummaryDetail FormatManualUpdate(IList<LeagueSettingInfo> leagueInfos, string property)
+    private static SummaryDetail FormatManualUpdate(IEnumerable<LeagueSettingInfo> leagueInfos, string property)
         => new()
         {
             Text = leagueInfos.Any(x => x.IsManualUpdateScore)
@@ -120,7 +120,7 @@ public static class OSLeagueSettingHelper
             Style = LeagueSettingConst.SummaryStyleOption.GetValueOrDefault(property)
         };
 
-    private static SummaryDetail FormatManualIpTv(IList<LeagueSettingInfo> leagueInfos, string property)
+    private static SummaryDetail FormatManualIpTv(IEnumerable<LeagueSettingInfo> leagueInfos, string property)
         => new()
         {
             Text = leagueInfos.Any(x => x.IsIptvOnly)

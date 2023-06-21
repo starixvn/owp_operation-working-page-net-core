@@ -39,7 +39,7 @@ public class AssignmentAnalyzerImp : AssignmentAnalyzer
         }
 
         return matchMaxBets.Where(a => (a.MaxBet != null && a.MaxBet != 0) ||
-                                       (a.Spread.HasValue && a.Spread.Value != 0)).ToList();
+                                                  (a.Spread.HasValue && a.Spread.Value != 0)).ToList();
     }
 
     public static MatchAssignment GetAssignmentByBettype(int matchId, AssignmentMaxbet assignmentMaxbet)

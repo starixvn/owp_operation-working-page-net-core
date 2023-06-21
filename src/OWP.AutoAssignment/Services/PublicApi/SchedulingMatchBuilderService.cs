@@ -47,7 +47,7 @@ public class SchedulingMatchBuilderServiceImp : SchedulingMatchBuilderService
         throw new NotImplementedException();
     }
 
-    private IList<MatchQueried> SelectMatchIds(IList<MatchQueried> matchQueries, bool isSaba)
+    private IList<MatchQueried> SelectMatchIds(IEnumerable<MatchQueried> matchQueries, bool isSaba)
         => matchQueries
             .Where(m => m.IsSaba == isSaba)
             .ToList();

@@ -1,6 +1,7 @@
 ﻿using NSubstitute;
 using OWP.AutoAssignment.Models.PublicApi;
 using OWP.AutoAssignment.Services.PublicApi;
+using System.Globalization;
 using Xunit;
 using Xunit.Asserts.Compare;
 
@@ -26,7 +27,7 @@ public class SchedulingMatchBuilderServiceUnitTests
     {
         // Arrange
         MockRepository();
-        var KOTine = DateTime.Parse("2021-12-08").ToString();
+        var KOTine = DateTime.Parse("2021-12-08").ToString(CultureInfo.InvariantCulture);
 
         var sabaMatchInfo = new List<SabaMatchSender>
         {

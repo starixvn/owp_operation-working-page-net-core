@@ -19,7 +19,7 @@ public class GetTicketTypeRecipientHandler : IRequestHandler<GetTicketTypeRecipi
 
     public async Task<IEnumerable<Models.TicketTypeRecipient>> Handle(GetTicketTypeRecipientRequest request, CancellationToken cancellationToken)
     {
-        var (ticketTypes, recipients, subtypes) = await repository.FetchMultipleAsync<TicketType, RecipientData, Subtype>(new GetRecipientDataCriteria());
+        var (ticketTypes, recipients, subtypes) = await repository.FetchMultipleAsync<TicketType, RecipientData, Subtype>(new GetRecipientDataCriteria(), cancellationToken);
 
         return GetResult(ticketTypes, recipients, subtypes);
     }

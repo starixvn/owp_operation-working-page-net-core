@@ -71,8 +71,7 @@ public class GetSecondAcceptValueHandler
         private int? BuildSecondAcceptValueSpecialDefault(int bettype,
             SecondAcceptDefault secondAccept)
         {
-            if (bettype == SpecialBettype.BETTYPE_ID_NEXT_CORNERS ||
-                bettype == SpecialBettype.BETTYPE_ID_NO_OF_CORNERS)
+            if (bettype is SpecialBettype.BETTYPE_ID_NEXT_CORNERS or SpecialBettype.BETTYPE_ID_NO_OF_CORNERS)
             {
                 return GetSecondAcceptValue(secondAccept.Corner);
             }

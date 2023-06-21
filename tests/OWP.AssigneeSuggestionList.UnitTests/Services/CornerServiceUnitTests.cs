@@ -14,7 +14,7 @@ public class CornerServiceUnitTests
     {
         assignmentsCorner = new List<AssignmentModel>
         {
-            new()
+                new()
             {
                 OWPMatchId=2,
                 KOTime=DateTime.Parse("2023-3-31 18:05:00").TimeOfDay,

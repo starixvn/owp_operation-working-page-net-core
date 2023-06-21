@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using OWP.OtherSport.Validation.Helpers;
+﻿using OWP.OtherSport.Validation.Helpers;
+using System.ComponentModel.DataAnnotations;
 using Xunit;
 
 namespace OWP.OtherSport.UnitTests.Validation.Helpers;
