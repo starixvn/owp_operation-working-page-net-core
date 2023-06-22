@@ -7,13 +7,13 @@ public record TraderExportQueryInfo
 {
     public int InfoSiteMatchId { get; init; }
 
-    public int? FTHDPAssingeeId { get; init; }
+    public int? FTHDPAssigneeId { get; init; }
 
-    public int? FIRSTHHDPAssingeeId { get; init; }
+    public int? FIRSTHHDPAssigneeId { get; init; }
 
-    public int? FTOUAssingeeId { get; init; }
+    public int? FTOUAssigneeId { get; init; }
 
-    public int? FIRSTHOUAssingeeId { get; init; }
+    public int? FIRSTHOUAssigneeId { get; init; }
 
     public int Bettype { get; init; }
 }

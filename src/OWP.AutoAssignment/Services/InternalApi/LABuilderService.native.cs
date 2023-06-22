@@ -35,7 +35,7 @@ public class LABuilderServiceImp : LABuilderService
             .Select(model => new LAExportQueryInfo
             {
                 InfoSiteMatchId = model.InfoSiteMatchId,
-                LAAssingeeId = model.UserId_LA,
+                LAAssigneeId = model.UserId_LA,
                 Bettype = model.Bettype
             }).ToList();
 

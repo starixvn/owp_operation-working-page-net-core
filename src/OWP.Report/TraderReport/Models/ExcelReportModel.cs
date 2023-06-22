@@ -1,7 +1,9 @@
 ﻿using Epplus.Mapper.Annotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace OWP.Report.TraderReport.Models;
 
+[SuppressMessage("ReSharper", "IdentifierTypo")]
 public class ExcelReportModel
 {
     [Cell("A7")]
