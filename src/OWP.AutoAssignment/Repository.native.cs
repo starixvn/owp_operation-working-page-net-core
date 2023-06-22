@@ -82,7 +82,7 @@ public class RepositoryImp : Repository
     public async Task<IEnumerable<SchedulingRequest>> GetRequestsInternal()
     {
         var criteria = new GetRequestsCriteria();
-        var allRequest = await dynamicRepository.FetchAsync<SchedulingRequest>(criteria);
+        var allRequest = (await dynamicRepository.FetchAsync<SchedulingRequest>(criteria)).ToList();
         return allRequest.Any()
             ? allRequest.OrderByDescending(r => r.CreatedDate).ToList()
             : new List<SchedulingRequest>();
@@ -180,7 +180,7 @@ public class RepositoryImp : Repository
         {
             EventDate = eventDate
         };
-        var result = await dynamicRepository.FetchAsync<RequestIsWaitingModel>(criteria);
+        var result = (await dynamicRepository.FetchAsync<RequestIsWaitingModel>(criteria)).ToList();
         return result.Any()
             ? string.Join(",", result.Select(req => req.RequestId))
             : string.Empty;

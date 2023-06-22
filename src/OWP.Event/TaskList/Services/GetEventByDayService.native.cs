@@ -1,7 +1,6 @@
 ﻿using OWP.Event.EventShared.Models;
 using OWP.Event.EventShared.Services;
 using OWP.Event.TaskList.Model;
-using OWP.Services;
 
 namespace OWP.Event.TaskList.Services;
 
@@ -16,16 +15,12 @@ public class GetEventByDayServiceImp : GetEventByDayService
 
     private readonly EventInformationService eventService;
 
-    private readonly GetAdminSiteMatchIdService getAdminSiteMatchIdService;
-
     public GetEventByDayServiceImp(
         TaskListRepository taskListRepository,
-        EventInformationService eventService,
-        GetAdminSiteMatchIdService getAdminSiteMatchIdService)
+        EventInformationService eventService)
     {
         this.taskListRepository = taskListRepository;
         this.eventService = eventService;
-        this.getAdminSiteMatchIdService = getAdminSiteMatchIdService;
     }
 
     public async Task<TaskListModel> GetEventByDay(DateTime eventDate)

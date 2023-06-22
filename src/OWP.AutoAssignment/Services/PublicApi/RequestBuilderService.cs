@@ -42,14 +42,13 @@ public class RequestBuilderImp : RequestBuilder
             schedulingMatch = await matchService.GetMatchesInfo(req.EventDate);
             schedulingLAUser = await laService.GetLAUsersInfo(req.EventDate);
             traderInfos = await traderService.GetTradersInfo(req.EventDate);
-            await BuildRequestSenderModel(req, schedulingMatch, sender);
+            await BuildRequestSenderModel(req, sender);
         }
         return sender;
     }
 
     private async Task BuildRequestSenderModel(
         RequestModel request,
-        SchedulingMatch schedulingMatch,
         IList<RequestSender> sender)
     {
         var realMatch = schedulingMatch.Real;

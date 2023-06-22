@@ -22,33 +22,35 @@ public class TraderUserServiceImp : TraderUserService
 
     public async Task<IList<SchedulingTraderInfo>> GetTradersInfo(DateTime eventDate)
     {
-        var traders = await repository.GetTraders(eventDate);
+        var (schedulingTraderInfos, workingShifts) = await repository.GetTraders(eventDate);
         var napUserIds = await repository.GetUserInfoFromNAPUserControl();
         var db02CustIds = await repository.GetCustInfoFromDB02();
-        var filteredUsers = traders.Item1.Where(x => napUserIds.Any(y => y == x.TraderId) && db02CustIds.Any(y => y == x.TraderId));
+        var filteredUsers = schedulingTraderInfos.Where(x =>
+            napUserIds.Any(y => y == x.TraderId) &&
+            db02CustIds.Any(y => y == x.TraderId)).ToList();
+
         MapMultipleGames(filteredUsers.ToList());
 
-        var workingShifts = traders.Item2;
-
-        return BuildTradersInfo(filteredUsers, workingShifts);
+        return BuildTradersInfo(filteredUsers, workingShifts.ToList());
     }
 
-    private IList<SchedulingTraderInfo> BuildTradersInfo(IEnumerable<SchedulingTraderInfo> users, IEnumerable<UserWorkingShift> workingShifts)
+    private static IList<SchedulingTraderInfo> BuildTradersInfo(IEnumerable<SchedulingTraderInfo> users, List<UserWorkingShift> workingShifts)
     {
         var userList = new List<SchedulingTraderInfo>();
         foreach (var user in users)
         {
-            var userWorkingShifts = workingShifts.Where(x => x.UserId == user.TraderId);
-            if (userWorkingShifts.Any())
+            var userWorkingShifts = workingShifts.Where(x => x.UserId == user.TraderId).ToList();
+            if (!userWorkingShifts.Any())
             {
-                user.WorkingShifts = userWorkingShifts.Select(ws => new SchedulingWorkingShift
-                {
-                    InTime = ws.ShiftStartTime.ToString(AutoConstant.FormatDateTime),
-                    OutTime = ws.ShiftEndTime.ToString(AutoConstant.FormatDateTime)
-                }).ToArray();
-
-                userList.Add(user);
+                continue;
             }
+            user.WorkingShifts = userWorkingShifts.Select(ws => new SchedulingWorkingShift
+            {
+                InTime = ws.ShiftStartTime.ToString(AutoConstant.FormatDateTime),
+                OutTime = ws.ShiftEndTime.ToString(AutoConstant.FormatDateTime)
+            }).ToArray();
+
+            userList.Add(user);
         }
 
         return userList;

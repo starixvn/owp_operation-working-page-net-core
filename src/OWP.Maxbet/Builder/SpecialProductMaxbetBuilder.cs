@@ -27,7 +27,7 @@ public class SpecialProductMaxbetBuilderImp : SpecialProductMaxbetBuilder
 
     public async Task<MaxbetSpread> BuildMaxbet(int owpMatchId)
     {
-        var maxbet = await syncMaxbetRepository.GetMaxbetByOwpMatchId(owpMatchId);
+        var maxbet = (await syncMaxbetRepository.GetMaxbetByOwpMatchId(owpMatchId)).ToList();
         await logServiceWrapper.Log("==BuildMaxbet=====", maxbet);
         return !maxbet.Any()
             ? new MaxbetSpread()

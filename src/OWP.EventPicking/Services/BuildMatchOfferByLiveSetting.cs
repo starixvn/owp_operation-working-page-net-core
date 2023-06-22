@@ -7,12 +7,12 @@ namespace OWP.EventPicking.Services;
 
 public interface BuildMatchOfferByLiveSetting
 {
-    void Build(IEnumerable<EventPickingModel> mainMatches, IEnumerable<EventPickingModel> childMatches, Dictionary<decimal, MaxBetSettingModel> settingDefault);
+    void Build(List<EventPickingModel> mainMatches, List<EventPickingModel> childMatches, Dictionary<decimal, MaxBetSettingModel> settingDefault);
 }
 
 public class BuildMatchOfferByLiveSettingImp : BuildMatchOfferByLiveSetting
 {
-    public void Build(IEnumerable<EventPickingModel> mainMatches, IEnumerable<EventPickingModel> childMatches, Dictionary<decimal, MaxBetSettingModel> settingDefault)
+    public void Build(List<EventPickingModel> mainMatches, List<EventPickingModel> childMatches, Dictionary<decimal, MaxBetSettingModel> settingDefault)
     {
         var hasMaxBetMainMatches = mainMatches.Where(x => x.MaxBetHDPNumber.HasValue).ToList();
         BuildMatchOfferMainMatches(hasMaxBetMainMatches, settingDefault);
@@ -29,7 +29,7 @@ public class BuildMatchOfferByLiveSettingImp : BuildMatchOfferByLiveSetting
         });
     }
 
-    private static void BuildMatchOfferChildMatches(IEnumerable<EventPickingModel> mainMatches, IEnumerable<EventPickingModel> childMatches, Dictionary<decimal, MaxBetSettingModel> settingDefault)
+    private static void BuildMatchOfferChildMatches(List<EventPickingModel> mainMatches, List<EventPickingModel> childMatches, Dictionary<decimal, MaxBetSettingModel> settingDefault)
     {
         foreach (var child in childMatches)
         {
@@ -46,10 +46,11 @@ public class BuildMatchOfferByLiveSettingImp : BuildMatchOfferByLiveSetting
         EventPickingModel match,
         decimal? maxBetHDP)
     {
-        var liveSettingDefault = liveSettingsDefault.ContainsKey((decimal)maxBetHDP)
-            ? liveSettingsDefault.GetValue((decimal)maxBetHDP)
+        var liveSettingDefault = liveSettingsDefault.ContainsKey(maxBetHDP ?? 0)
+            ? liveSettingsDefault.GetValue(maxBetHDP ?? 0)
             : liveSettingsDefault.GetValue(-1000m);
         var isFantasyMatch = match.LeagueName.IsContains("FANTASY");
+
         return (match.MinorBettypeId, isFantasyMatch) switch
         {
             (Bettype.Corner, _) => liveSettingDefault.SecondAccept_Corner,

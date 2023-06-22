@@ -71,7 +71,11 @@ public class AdminSiteMatchServiceUnitTest
 
         // Assert
         await repository.Received().GetMinorAdminSiteIds(Arg.Is<IEnumerable<MinorMatch>>(
-            x =>  x.First().SubType == 2000 && x.Last().SubType == 2101)
+            x => x.First().SubType == 2000)
+        );
+
+        await repository.Received().GetMinorAdminSiteIds(Arg.Is<IEnumerable<MinorMatch>>(
+            x => x.Last().SubType == 2101)
         );
     }
 

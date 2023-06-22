@@ -53,13 +53,13 @@ public static class WorksheetExtensions
             throw new InvalidDateTimeException();
         }
 
-        if (cellValue is double)
+        if (cellValue is double d)
         {
-            if ((double)cellValue < EncodeDate.MIN_VALUE || (double)cellValue > EncodeDate.MAX_VALUE)
+            if (d is < EncodeDate.MIN_VALUE or > EncodeDate.MAX_VALUE)
             {
                 throw new InvalidDateTimeException();
             }
-            return DateTime.FromOADate((double)cellValue);
+            return DateTime.FromOADate(d);
         }
 
         if (cellValue is string)

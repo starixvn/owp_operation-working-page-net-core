@@ -9,9 +9,9 @@ namespace OWP.EventPicking;
 
 public interface Repository
 {
-    Task<IEnumerable<EventPickingModel>> QueryMainMatch(DateTime date);
+    Task<List<EventPickingModel>> QueryMainMatch(DateTime date);
 
-    Task<IEnumerable<EventPickingModel>> QueryChildMatch(DateTime date);
+    Task<List<EventPickingModel>> QueryChildMatch(DateTime date);
 
     Task<Dictionary<int, List<LeagueSetting>>> GetLeagueSettings();
 
@@ -34,24 +34,28 @@ public class RepositoryImp : Repository
         this.session = session;
     }
 
-    public async Task<IEnumerable<EventPickingModel>> QueryMainMatch(DateTime date)
+    public async Task<List<EventPickingModel>> QueryMainMatch(DateTime date)
     {
         var criteria = new QueryMainMatchCriteria
         {
             Date = date
         };
 
-        return await dynamicRepository.FetchAsync<EventPickingModel>(criteria);
+        var result = await dynamicRepository.FetchAsync<EventPickingModel>(criteria);
+
+        return result.ToList();
     }
 
-    public async Task<IEnumerable<EventPickingModel>> QueryChildMatch(DateTime date)
+    public async Task<List<EventPickingModel>> QueryChildMatch(DateTime date)
     {
         var criteria = new QueryChildMatchCriteria
         {
             Date = date
         };
 
-        return await dynamicRepository.FetchAsync<EventPickingModel>(criteria);
+        var result = await dynamicRepository.FetchAsync<EventPickingModel>(criteria);
+
+        return result.ToList();
     }
 
     public async Task<Dictionary<int, List<LeagueSetting>>> GetLeagueSettings()

@@ -63,7 +63,7 @@ public class CommandRepositoryImp : CommandRepository
         var hashKeyMap = (await InsertOrUpdateMatches(assignments, request.EventDate)).ToList();
         assignmentAnalyzer.ReassignMatchId(assignments, hashKeyMap);
 
-        var newMatchIds = hashKeyMap.Select(h => h.OWPMatchId).Distinct();
+        var newMatchIds = hashKeyMap.Select(h => h.OWPMatchId).Distinct().ToList();
         var newMatchIdsInString = string.Join(",", newMatchIds);
         var deletedMatchIds = oldMatches.Select(m => m.OWPMatchId).Except(newMatchIds);
         var deletedMatchIdsInString = string.Join(",", deletedMatchIds);

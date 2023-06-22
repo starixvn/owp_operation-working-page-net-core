@@ -21,10 +21,10 @@ public class GetTicketTypeRecipientHandler : IRequestHandler<GetTicketTypeRecipi
     {
         var (ticketTypes, recipients, subtypes) = await repository.FetchMultipleAsync<TicketType, RecipientData, Subtype>(new GetRecipientDataCriteria(), cancellationToken);
 
-        return GetResult(ticketTypes, recipients, subtypes);
+        return GetResult(ticketTypes, recipients.ToList(), subtypes.ToList());
     }
 
-    private static IEnumerable<Models.TicketTypeRecipient> GetResult(IEnumerable<TicketType> ticketTypes, IEnumerable<RecipientData> recipients, IEnumerable<Subtype> subtypes)
+    private static IEnumerable<Models.TicketTypeRecipient> GetResult(IEnumerable<TicketType> ticketTypes, List<RecipientData> recipients, List<Subtype> subtypes)
     {
         var sortedTicketTypes = ticketTypes.OrderBy(x => x.TypeName);
 

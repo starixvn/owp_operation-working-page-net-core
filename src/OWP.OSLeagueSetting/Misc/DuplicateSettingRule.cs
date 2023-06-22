@@ -66,7 +66,7 @@ public class BetDelayRule : DuplicateRule
         return leaguesByBetDelay.Any() && base.IsDuplicate(model, leaguesByBetDelay);
     }
 
-    private static IEnumerable<DuplicateSettingModel> GetLeagueSettingByBetDelay(string betDelay,
+    private static List<DuplicateSettingModel> GetLeagueSettingByBetDelay(string betDelay,
         IEnumerable<DuplicateSettingModel> leagueSettings)
     {
         var betDelayIds = betDelay.Split(',').Select(i => i.ConvertNullableInt());
@@ -85,7 +85,7 @@ public class ProviderRule : DuplicateRule
         return leaguesByProvider.Any() && base.IsDuplicate(model, leaguesByProvider);
     }
 
-    private static IEnumerable<DuplicateSettingModel> GetLeagueSettingByProvider(string provider,
+    private static List<DuplicateSettingModel> GetLeagueSettingByProvider(string provider,
         IEnumerable<DuplicateSettingModel> leagueSettings)
     {
         var providerIds = provider.Split(',').Select(i => i.ConvertNullableInt());
@@ -140,7 +140,7 @@ public class IPTVRule : DuplicateRule
         return leaguesByIpTv.Any() && base.IsDuplicate(model, leaguesByIpTv);
     }
 
-    private static IEnumerable<DuplicateSettingModel> GetLeagueSettingByIPTV(bool isIptv,
+    private static List<DuplicateSettingModel> GetLeagueSettingByIPTV(bool isIptv,
         IEnumerable<DuplicateSettingModel> leagueSettings)
     {
         return leagueSettings.Where(x => x.IsIptvOnly == isIptv)

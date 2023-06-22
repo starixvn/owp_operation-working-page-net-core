@@ -1,9 +1,9 @@
-﻿using System.Collections.ObjectModel;
-using Fanex.Data.Repository;
+﻿using Fanex.Data.Repository;
 using MediatR;
 using OWP.Enums;
 using OWP.Maxbet.Criteria;
 using OWP.Maxbet.Models;
+using System.Collections.ObjectModel;
 
 namespace OWP.Maxbet.Handlers;
 
@@ -49,7 +49,7 @@ public class GetNumberOfLinesSpecialProductHandler
                 OWPMatchId = matchId
             };
 
-            var noOfHdp = await dynamicRepository.FetchAsync<MatchResource>(criteria);
+            var noOfHdp = (await dynamicRepository.FetchAsync<MatchResource>(criteria)).ToList();
 
             return noOfHdp.Any() ? noOfHdp.First().ResourceId : 0;
         }

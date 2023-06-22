@@ -29,7 +29,7 @@ public class SchedulingMatchBuilderServiceImp : SchedulingMatchBuilderService
     public async Task<SchedulingMatch> GetMatchesInfo(DateTime eventDate)
     {
         var schedulingMatch = new SchedulingMatch();
-        var matchQueries = await repository.GetMatchByDate(eventDate);
+        var matchQueries = (await repository.GetMatchByDate(eventDate)).ToList();
 
         var realMatchIds = SelectMatchIds(matchQueries.ToList(), false);
         var sabaMatchIds = SelectMatchIds(matchQueries.ToList(), true);

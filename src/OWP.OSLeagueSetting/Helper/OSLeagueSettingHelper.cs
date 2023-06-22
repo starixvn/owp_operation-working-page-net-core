@@ -49,10 +49,11 @@ public static class OSLeagueSettingHelper
 
     private static SummaryDetail FormatToString(IEnumerable<string> values, string property)
     {
+        var valueList = values.ToList();
         var totalOption = LeagueSettingConst.SummaryFullOption.GetValueOrDefault(property);
-        var text = values.Count() == totalOption
+        var text = valueList.Count == totalOption
             ? string.Empty
-            : $"{string.Join('/', values.Where(x => !string.IsNullOrEmpty(x)))}";
+            : $"{string.Join('/', valueList.Where(x => !string.IsNullOrEmpty(x)))}";
 
         return new SummaryDetail
         {

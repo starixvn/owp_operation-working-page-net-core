@@ -15,7 +15,6 @@ public class HandlerUnitTests
 {
     private readonly ValidationRequest request;
     private readonly ExcelValidator excelValidator;
-    private readonly ConfigurationService configurationService;
     private readonly CacheManipulator cacheManipulator;
     private readonly INapSession currentSession;
     private readonly Analyzer analyzer;
@@ -25,7 +24,7 @@ public class HandlerUnitTests
     {
         request = new ValidationRequest();
         excelValidator = Substitute.For<ExcelValidator>();
-        configurationService = Substitute.For<ConfigurationService>();
+        var configurationService = Substitute.For<ConfigurationService>();
         cacheManipulator = Substitute.For<CacheManipulator>();
         currentSession = Substitute.For<INapSession>();
         analyzer = Substitute.For<Analyzer>();
@@ -45,7 +44,7 @@ public class HandlerUnitTests
     {
         // Arrange
         excelValidator.When(x => x.Validate(request.Stream)).Do(_ => throw new InvalidExcelFormatException());
-        var handler = new Handler(analyzer, excelValidator, configurationService, cacheManipulator, currentSession);
+        var handler = new Handler(analyzer, excelValidator, cacheManipulator, currentSession);
 
         // Act
         var actual = await handler.Handle(request, new CancellationToken(false));
@@ -73,7 +72,7 @@ public class HandlerUnitTests
             }
         };
         analyzer.Analyze(Arg.Compat.Any<ValidationRequest>()).Throws(new InvalidAssignmentRowException(expected));
-        var handler = new Handler(analyzer, excelValidator, configurationService, cacheManipulator, currentSession);
+        var handler = new Handler(analyzer, excelValidator, cacheManipulator, currentSession);
 
         // Act
         var actual = await handler.Handle(request, new CancellationToken(false));
@@ -87,7 +86,7 @@ public class HandlerUnitTests
     public async Task Handle_RequestStreamWithCapacityIsZero_ResultIsSuccessful()
     {
         // Arrange
-        var handler = new Handler(analyzer, excelValidator, configurationService, cacheManipulator, currentSession);
+        var handler = new Handler(analyzer, excelValidator, cacheManipulator, currentSession);
 
         // Act
         var actual = await handler.Handle(request, new CancellationToken(false));
@@ -114,7 +113,7 @@ public class HandlerUnitTests
     {
         // Arrange
         var streamWithExcelPackageData = CreateStreamWithExcelPackageData();
-        var handler = new Handler(analyzer, excelValidator, configurationService, cacheManipulator, currentSession);
+        var handler = new Handler(analyzer, excelValidator, cacheManipulator, currentSession);
 
         // Act
         var actual = await handler.Handle(streamWithExcelPackageData, new CancellationToken(false));

@@ -21,7 +21,7 @@ public class BuildMainMatchMaxBetImp : BuildMainMatchMaxBet
     public async Task BuildMainMatchMaxbet(IEnumerable<EventPickingModel> matches)
     {
         var leagueSettings = await repository.GetLeagueSettings();
-        var tvList = await repository.GetTVList();
+        var tvList = (await repository.GetTVList()).ToList();
 
         foreach (var match in matches)
         {
@@ -33,7 +33,7 @@ public class BuildMainMatchMaxBetImp : BuildMainMatchMaxBet
         }
     }
 
-    private static void SyncMaxbetToInfoSiteMatch(EventPickingModel match, List<LeagueSetting> leagueSettings, IEnumerable<Condition> tvList)
+    private static void SyncMaxbetToInfoSiteMatch(EventPickingModel match, List<LeagueSetting> leagueSettings, List<Condition> tvList)
     {
         var truthTables = new List<TruthTable>();
         var isWeekend = IsWeekend(match.EventDateTime);
@@ -77,7 +77,7 @@ public class BuildMainMatchMaxBetImp : BuildMainMatchMaxBet
         }
     }
 
-    private static TruthTable GenerateTruthTable(EventPickingModel match, LeagueSetting leagueSettings, IEnumerable<Condition> tvList)
+    private static TruthTable GenerateTruthTable(EventPickingModel match, LeagueSetting leagueSettings, List<Condition> tvList)
     {
         var result = new TruthTable
         {
@@ -113,8 +113,8 @@ public class BuildMainMatchMaxBetImp : BuildMainMatchMaxBet
 
         var leagueSettingCondition = leagueSettings.GetFullConditionDes();
 
-        result.Round = firstRule.Execute(leagueSettingCondition.Rounds, match.Round);
-        result.Division = firstRule.Execute(leagueSettingCondition.Divisions, match.OutSide);
+        result.Round = firstRule.Execute(leagueSettingCondition.Rounds.ToList(), match.Round);
+        result.Division = firstRule.Execute(leagueSettingCondition.Divisions.ToList(), match.OutSide);
 
         result.NumberOfTrue += result.TV == 1 ? 1 : 0;
         result.NumberOfTrue += result.Division == 1 ? 1 : 0;

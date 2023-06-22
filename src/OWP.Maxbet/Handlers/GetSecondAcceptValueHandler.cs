@@ -34,7 +34,7 @@ public class GetSecondAcceptValueHandler
             return validOfferIds.Count switch
             {
                 0 => await BuildSecondAcceptValueDefault(request),
-                1 => GetSecondAcceptValue(validOfferIds.FirstOrDefault()!.Value),
+                1 => GetSecondAcceptValue(validOfferIds.FirstOrDefault()?.Value),
                 _ => null
             };
         }

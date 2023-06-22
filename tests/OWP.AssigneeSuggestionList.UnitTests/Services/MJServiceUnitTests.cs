@@ -1,4 +1,3 @@
-using NSubstitute;
 using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Models;
 using OWP.AssigneeSuggestionList.Services.RealMatch;

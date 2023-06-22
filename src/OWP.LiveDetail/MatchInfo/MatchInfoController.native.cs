@@ -79,7 +79,7 @@ public class MatchInfoController : ControllerBase
         matchInfo.MatchStatusList = await repository.GetMatchStatusByMatchId(owpMatchId);
         matchInfo.MatchOffers = await repository.GetMatchOfferByMatchId(owpMatchId);
         var noOfHDPs = await repository.GetAllByRefName("NoOfHDP");
-        matchInfo.NoOfHDPs = GetNoOfHDPsWithSelected(matchInfo.NoOfHDPId, noOfHDPs);
+        matchInfo.NoOfHDPs = GetNoOfHDPsWithSelected(matchInfo.NoOfHDPId, noOfHDPs.ToList());
         matchInfo.AdminSiteId = await getAdminSiteMatchIdService.GetAdminSiteMatchId(matchInfo.OWPMatchId,
             matchInfo.ParentMatchId ?? matchInfo.OWPMatchId, matchInfo.MinorBettypeId);
 
@@ -87,7 +87,7 @@ public class MatchInfoController : ControllerBase
     }
 
     private static IEnumerable<RefResourceModel> GetNoOfHDPsWithSelected(int? noOfHDP,
-        IEnumerable<RefResourceModel> noOfHDPs)
+        List<RefResourceModel> noOfHDPs)
     {
         foreach (var item in noOfHDPs)
         {

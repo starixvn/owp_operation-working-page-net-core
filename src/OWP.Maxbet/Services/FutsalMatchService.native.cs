@@ -1,4 +1,3 @@
-using MediatR;
 using OWP.Maxbet.Constants;
 using OWP.Maxbet.Helpers;
 using OWP.Maxbet.Models;
@@ -14,13 +13,10 @@ public interface FutsalMatchService
 
 public class FutsalMatchServiceImp : FutsalMatchService
 {
-    private readonly IMediator mediator;
-
     private readonly ServiceCommon serviceCommon;
 
-    public FutsalMatchServiceImp(IMediator mediator, ServiceCommon serviceCommon)
+    public FutsalMatchServiceImp(ServiceCommon serviceCommon)
     {
-        this.mediator = mediator;
         this.serviceCommon = serviceCommon;
     }
 

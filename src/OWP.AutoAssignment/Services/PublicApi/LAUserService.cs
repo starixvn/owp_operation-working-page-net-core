@@ -28,11 +28,11 @@ public class LAUserServiceImp : LAUserService
     private IList<SchedulingLAUser> BuildListSchedulingLAUser(ValueTuple<IEnumerable<LAUserInfo>, IEnumerable<UserWorkingShift>> userInfoTuple)
     {
         var users = userInfoTuple.Item1;
-        var workingShifts = userInfoTuple.Item2;
+        var workingShifts = userInfoTuple.Item2.ToList();
         var listSchedulingUser = new List<SchedulingLAUser>();
         foreach (var user in users)
         {
-            var userWorkingShifts = workingShifts.Where(x => x.UserId == user.UserId);
+            var userWorkingShifts = workingShifts.Where(x => x.UserId == user.UserId).ToList();
             if (userWorkingShifts.Any())
             {
                 listSchedulingUser.Add(BuildSchedulingLAUser(user, userWorkingShifts));
@@ -42,7 +42,7 @@ public class LAUserServiceImp : LAUserService
         return listSchedulingUser;
     }
 
-    private static SchedulingLAUser BuildSchedulingLAUser(LAUserInfo user, IEnumerable<UserWorkingShift> userWorkingShifts)
+    private static SchedulingLAUser BuildSchedulingLAUser(LAUserInfo user, List<UserWorkingShift> userWorkingShifts)
         => new()
         {
             UserId = user.UserId,

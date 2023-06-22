@@ -21,7 +21,7 @@ public class Handler : IRequestHandler<QueryWorkingShiftRequest, IEnumerable<Wor
 
     public async Task<IEnumerable<WorkingShiftModel>> Handle(QueryWorkingShiftRequest request, CancellationToken cancellationToken)
     {
-        var workingShiftModels = await commandRepository.Query(request);
+        var workingShiftModels = (await commandRepository.Query(request)).ToList();
         foreach (var shift in workingShiftModels)
         {
             shift.RecalculateShiftCode();

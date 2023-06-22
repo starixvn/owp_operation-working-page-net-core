@@ -56,7 +56,7 @@ public class BuildMainAndChildMatchesImp : BuildMainAndChildMatches
         return allMatches;
     }
 
-    private static List<EventPickingModel> CombineMainAndChildMatchEvent(IEnumerable<EventPickingModel> mainMatches, IEnumerable<EventPickingModel> childMatches)
+    private static List<EventPickingModel> CombineMainAndChildMatchEvent(IEnumerable<EventPickingModel> mainMatches, List<EventPickingModel> childMatches)
     {
         var matches = new List<EventPickingModel>();
 

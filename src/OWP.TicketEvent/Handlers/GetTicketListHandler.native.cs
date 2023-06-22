@@ -1,4 +1,3 @@
-using Fanex.NAP.Client.Helpers.Web;
 using MediatR;
 using OWP.TicketEvent.Models;
 
@@ -15,12 +14,9 @@ public class GetTicketListHandler : IRequestHandler<GetTicketListRequest, IList<
 {
     private readonly Repository repository;
 
-    private readonly INapSession currentSession;
-
-    public GetTicketListHandler(Repository repository, INapSession currentSession)
+    public GetTicketListHandler(Repository repository)
     {
         this.repository = repository;
-        this.currentSession = currentSession;
     }
 
     public async Task<IList<TicketListModel>> Handle(GetTicketListRequest request, CancellationToken cancellationToken)

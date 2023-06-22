@@ -23,16 +23,16 @@ public class Handler : IRequestHandler<ReportRequest, IEnumerable<ReportModel>>
 
     public async Task<IEnumerable<ReportModel>> Handle(ReportRequest request, CancellationToken cancellationToken)
     {
-        var dataReport = await repository.GetLstReportDataByDate(request);
+        var dataReport = (await repository.GetLstReportDataByDate(request)).ToList();
         var traderIds = dataReport.Select(x => x.UserId).Distinct().ToList();
         var traderPerformanceDetails = await tGRSReportService.GetTraderPerformanceDetails(traderIds, request);
 
-        AssignTraderPerformanceDetail(dataReport, traderPerformanceDetails);
+        AssignTraderPerformanceDetail(dataReport, traderPerformanceDetails.ToList());
 
         return dataReport.OrderBy(x => x.SectionName).ThenBy(y => y.Username);
     }
 
-    private static void AssignTraderPerformanceDetail(IEnumerable<ReportModel> dataReport, IEnumerable<TraderPerformanceDetail> traderPerformanceDetails)
+    private static void AssignTraderPerformanceDetail(IEnumerable<ReportModel> dataReport, List<TraderPerformanceDetail> traderPerformanceDetails)
     {
         foreach (var item in dataReport)
         {

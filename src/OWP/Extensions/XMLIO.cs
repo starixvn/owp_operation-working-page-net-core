@@ -11,7 +11,7 @@ public static class XMLIO
     {
         var lambda = GetElement<T>(typeof(T));
 
-        return new XElement("Root", source.Select(lambda).ToArray());
+        return new XElement("Root", source.Select(lambda).Cast<object>().ToArray());
     }
 
     private static XName GetElementName(Type t)

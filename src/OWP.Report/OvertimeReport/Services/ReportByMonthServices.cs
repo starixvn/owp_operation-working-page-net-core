@@ -20,7 +20,9 @@ public class ReportByMonthServicesImp : ReportByMonthServices
     public async Task<OvertimeByMonth> GetReportByMonth(OverTimeRequest request)
     {
         var (users, overtimeData) = await commandRepository.GetReportByMonth(request);
-        var dataGroupedByUserId = overtimeData.GroupBy(x => x.UserId)
+        var overtimeDataList = overtimeData.ToList();
+        var dataGroupedByUserId = overtimeDataList
+            .GroupBy(x => x.UserId)
             .ToDictionary(x => x.Key, value => value.ToList());
         var daysInMonth = DateTime.DaysInMonth(request.Year, request.Month);
 
@@ -40,7 +42,7 @@ public class ReportByMonthServicesImp : ReportByMonthServices
                 })
                 .OrderBy(x => x.Location)
                 .ThenBy(x => x.Trader),
-            TotalHoursByDate = CalculateHoursByDate(overtimeData, daysInMonth)
+            TotalHoursByDate = CalculateHoursByDate(overtimeDataList, daysInMonth)
         };
     }
 
@@ -56,16 +58,16 @@ public class ReportByMonthServicesImp : ReportByMonthServices
             .OrderBy(x => x.Key));
     }
 
-    public IEnumerable<decimal> CalculateHoursByDate(IEnumerable<OvertimeData> overtimeData, int daysInMonth)
+    public static IEnumerable<decimal> CalculateHoursByDate(List<OvertimeData> overtimeData, int daysInMonth)
     {
         for (var i = 1; i <= daysInMonth; i++)
         {
-            var overtimeByDate = overtimeData.Where(x => x.ReportDate.Day == i);
+            var overtimeByDate = overtimeData.Where(x => x.ReportDate.Day == i).ToList();
             yield return overtimeByDate.Sum(x => x.Hour);
         }
     }
 
-    public IEnumerable<DateColumnInfo> BuildDateColumnInfos(int month, int year, int daysInMonth)
+    public static IEnumerable<DateColumnInfo> BuildDateColumnInfos(int month, int year, int daysInMonth)
     {
         for (var i = 1; i <= daysInMonth; i++)
         {

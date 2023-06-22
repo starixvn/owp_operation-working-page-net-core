@@ -31,14 +31,14 @@ public class GetReportByYearHandler : IRequestHandler<QueryReportByYearRequest, 
         var getRequest = mapper.Map<OverTimeRequest>(request);
         var (users, overtimeData) = await commandRepository.GetReportByYear(getRequest);
         var dataGroupedByTrader = overtimeData.GroupBy(x => x.UserId, (key, g) =>
-            new GroupedData { UserId = key, Data = g.ToList() });
+            new GroupedData { UserId = key, Data = g.ToList() }).ToList();
 
-        var res = CalculateMonthlyReport(dataGroupedByTrader, users);
+        var res = CalculateMonthlyReport(dataGroupedByTrader, users.ToList());
 
         return res;
     }
 
-    private IEnumerable<OvertimeByYear> CalculateMonthlyReport(IEnumerable<GroupedData> dataGroupedByTrader, IEnumerable<User> users)
+    private IEnumerable<OvertimeByYear> CalculateMonthlyReport(List<GroupedData> dataGroupedByTrader, List<User> users)
     {
         var result = new List<OvertimeByYear>();
 
@@ -48,7 +48,7 @@ public class GetReportByYearHandler : IRequestHandler<QueryReportByYearRequest, 
 
             if (traderData != null)
             {
-                var traderOvertimeData = CalculateTraderMonthlyHours(traderData.Data);
+                var traderOvertimeData = CalculateTraderMonthlyHours(traderData.Data).ToList();
                 var user = users.FirstOrDefault(x => x.UserId == traderData.UserId);
 
                 result.Add(new OvertimeByYear
@@ -74,11 +74,13 @@ public class GetReportByYearHandler : IRequestHandler<QueryReportByYearRequest, 
         return result.OrderBy(x => x.Location).ThenBy(x => x.Trader).ToList();
     }
 
-    private IEnumerable<decimal?> CalculateTraderMonthlyHours(IEnumerable<OvertimeData> data)
+    private static IEnumerable<decimal?> CalculateTraderMonthlyHours(List<OvertimeData> data)
     {
         for (var i = 1; i <= 12; i++)
         {
-            yield return data.Any(x => x.ReportDate.Month == i) ? data.Where(x => x.ReportDate.Month == i).Sum(x => x.Hour) : null;
+            yield return data.Any(x => x.ReportDate.Month == i)
+                ? data.Where(x => x.ReportDate.Month == i).Sum(x => x.Hour)
+                : null;
         }
     }
 

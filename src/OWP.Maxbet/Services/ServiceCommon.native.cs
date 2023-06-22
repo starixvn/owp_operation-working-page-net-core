@@ -13,7 +13,6 @@ public interface ServiceCommon
 
 public class ServiceCommonImp : ServiceCommon
 {
-    private readonly MaxbetRepository syncMaxbetRepository;
     private readonly TraderAssignmentBuilder traderAssignmentBuilder;
 
     private readonly SpreadBuilder spreadBuilder;
@@ -22,13 +21,12 @@ public class ServiceCommonImp : ServiceCommon
 
     private readonly IMediator mediator;
 
-    public ServiceCommonImp(MaxbetRepository syncMaxbetRepository,
-    TraderAssignmentBuilder traderAssignmentBuilder,
+    public ServiceCommonImp(
+        TraderAssignmentBuilder traderAssignmentBuilder,
         SpreadBuilder spreadBuilder,
         MaxbetBuilder maxbetBuilder,
         IMediator mediator)
     {
-        this.syncMaxbetRepository = syncMaxbetRepository;
         this.traderAssignmentBuilder = traderAssignmentBuilder;
         this.spreadBuilder = spreadBuilder;
         this.maxbetBuilder = maxbetBuilder;
@@ -41,7 +39,6 @@ public class ServiceCommonImp : ServiceCommon
 
         var spread = await spreadBuilder.BuildSpreadMainMatch(owpMatchId);
         var maxbet = await maxbetBuilder.BuildMaxbet(owpMatchId);
-
 
         var secondAcceptValue = await mediator.Send(new GetSecondAcceptValueHandler.Request { OWPMatchId = owpMatchId, MaxbetHdp = maxbet.Handicap, Bettype = SpecialBettype.BETTYPE_ID_MAIN_MATCH });
 

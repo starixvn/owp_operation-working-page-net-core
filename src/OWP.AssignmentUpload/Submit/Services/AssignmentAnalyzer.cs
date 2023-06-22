@@ -72,7 +72,7 @@ public class AssignmentAnalyzerImp : AssignmentAnalyzer
     public List<MatchAssignment> GetAssignmentOfMatch(AssignmentModel assignmentModel)
     {
         var assignmentOfMatches = new List<MatchAssignment>();
-        var traderAssignments = GetTraderAssignmentOfMatch(assignmentModel);
+        var traderAssignments = GetTraderAssignmentOfMatch(assignmentModel).ToList();
         assignmentOfMatches.AddRange(traderAssignments);
         foreach (var trader in traderAssignments)
         {
