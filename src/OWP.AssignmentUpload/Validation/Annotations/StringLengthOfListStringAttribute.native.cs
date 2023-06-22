@@ -26,18 +26,13 @@ public class StringLengthOfListStringAttribute : ValidationAttribute
             return null;
         }
 
-        foreach (var item in listString)
+        if (!listString.Any(item => !string.IsNullOrWhiteSpace(item) && item.Length > MaximumLength))
         {
-            if (string.IsNullOrWhiteSpace(item) || item.Length <= MaximumLength)
-            {
-                continue;
-
-            }
-
-            var message = string.Format(ErrorMessage, MaximumLength);
-            return new ValidationResult(message);
+            return null;
         }
 
-        return null;
+        var message = string.Format(ErrorMessage, MaximumLength);
+        return new ValidationResult(message);
+
     }
 }

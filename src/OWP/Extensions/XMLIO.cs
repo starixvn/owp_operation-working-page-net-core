@@ -2,6 +2,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+// ReSharper disable InvertIf
 
 namespace OWP.Extensions;
 
@@ -61,7 +62,13 @@ public static class XMLIO
         {
             var name = GetPropertyName(p);
             return new[]
-                { Expression.Invoke(lambda, Expression.Constant(name), Expression.Convert(prop, typeof(object))) };
+            {
+                Expression.Invoke(
+                    lambda,
+                    Expression.Constant(name),
+                    Expression.Convert(prop, typeof(object))
+                )
+            };
         }
 
         return GetExpressions(p.PropertyType, prop, lambda);

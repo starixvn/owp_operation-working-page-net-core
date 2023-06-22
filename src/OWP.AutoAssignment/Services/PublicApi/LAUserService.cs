@@ -1,5 +1,6 @@
 ﻿using OWP.AutoAssignment.Constant;
 using OWP.AutoAssignment.Models.PublicApi;
+// ReSharper disable LoopCanBeConvertedToQuery
 
 namespace OWP.AutoAssignment.Services.PublicApi;
 

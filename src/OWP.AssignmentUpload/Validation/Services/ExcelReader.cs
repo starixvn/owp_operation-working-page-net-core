@@ -1,8 +1,8 @@
-using System.Text.RegularExpressions;
 using OfficeOpenXml;
 using OWP.AssignmentUpload.Validation.Constants;
 using OWP.AssignmentUpload.Validation.Extensions;
 using OWP.AssignmentUpload.Validation.Models;
+using System.Text.RegularExpressions;
 
 namespace OWP.AssignmentUpload.Validation.Services;
 
@@ -105,7 +105,7 @@ public class ExcelReaderImp : ExcelReader
                 return matches.Select(s => s.Value.Remove(0, 1)).FirstOrDefault();
             })
             .Where(n => !string.IsNullOrEmpty(n))
-            .Select(l => l.Length <= maxLength ? l : l.Substring(0, maxLength))
+            .Select(l => l.Length <= maxLength ? l : l[..maxLength])
             .ToList();
     }
 }

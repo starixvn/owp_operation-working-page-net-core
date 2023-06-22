@@ -13,7 +13,7 @@ public class UpdateCriteria : CommandCriteria
 #pragma warning disable S1067 // Expressions should not be too complex
         return base.IsValid()
                && AssignmentId > 0
-               && ((UserId != null && UserId.Value > 0) || !string.IsNullOrWhiteSpace(AssignmentNote));
+               && (UserId is > 0 || !string.IsNullOrWhiteSpace(AssignmentNote));
 #pragma warning restore S1067 // Expressions should not be too complex
     }
 

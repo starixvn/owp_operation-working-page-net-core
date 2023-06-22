@@ -2,6 +2,7 @@
 using OWP.OtherSport.Validation.Extensions;
 using OWP.OtherSport.Validation.Models;
 using System.Text.RegularExpressions;
+// ReSharper disable LoopCanBeConvertedToQuery
 
 namespace OWP.OtherSport.Validation.Services;
 

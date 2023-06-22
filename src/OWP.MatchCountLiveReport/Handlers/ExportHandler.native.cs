@@ -5,6 +5,7 @@ using OfficeOpenXml.Style;
 using OWP.MatchCountLiveReport.Models;
 using OWP.Services;
 using System.Drawing;
+// ReSharper disable InvertIf
 
 namespace OWP.MatchCountLiveReport.Handlers;
 

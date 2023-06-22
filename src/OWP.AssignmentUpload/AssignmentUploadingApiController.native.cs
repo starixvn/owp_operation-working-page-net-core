@@ -69,11 +69,13 @@ public class AssignmentUploadingApiController : ControllerBase
     {
         var viewModel = await mediator.Send(request);
 
-        if (viewModel.IsSuccessful)
+        if (!viewModel.IsSuccessful)
         {
-            NotifyForAssignmentUpload(request);
-            NotifyForPrematch(request);
+            return Ok(viewModel);
         }
+
+        NotifyForAssignmentUpload(request);
+        NotifyForPrematch(request);
 
         return Ok(viewModel);
     }

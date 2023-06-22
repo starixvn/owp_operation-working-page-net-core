@@ -11,6 +11,7 @@ using OWP.Models;
 using OWP.RabbitMQ;
 using OWP.RabbitMQ.Constants;
 using OWP.Services;
+// ReSharper disable InvertIf
 
 namespace OWP.LiveDetail.MatchInfo;
 
@@ -89,13 +90,11 @@ public class MatchInfoController : ControllerBase
     private static IEnumerable<RefResourceModel> GetNoOfHDPsWithSelected(int? noOfHDP,
         List<RefResourceModel> noOfHDPs)
     {
-        foreach (var item in noOfHDPs)
+        foreach (var item in noOfHDPs.Where(item => item.Id == noOfHDP))
         {
-            if (item.Id == noOfHDP)
-            {
-                item.IsSelected = true;
-            }
+            item.IsSelected = true;
         }
+
         return noOfHDPs;
     }
 

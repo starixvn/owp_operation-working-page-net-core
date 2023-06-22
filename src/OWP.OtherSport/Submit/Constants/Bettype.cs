@@ -48,7 +48,7 @@ public static class Bettype
     public const string InningHitsAndRuns = "Inning Hits & Runs";
     public const string AllProductSetWinner = "All Product (Set Winner)";
     public const string AllProductPointWinner = "All Product (Point Winner)";
-    public const string RacetoPoints7911 = "Race to Points (7, 9, 11)";
+    public const string RaceToPoints7911 = "Race to Points (7, 9, 11)";
     public const string NextPointWinner = "Next Point Winner";
     public const string MatchHandicap = "Match Handicap";
     public const string AllProductLS = "All Product (LS)";

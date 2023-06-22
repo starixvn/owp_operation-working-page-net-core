@@ -22,18 +22,20 @@ public static class MaxbetHelper
         spread.OverUnder = newValueOU;
     }
 
-        public static T FindOddByKey<T>(IList<T> odds, string key) where T : KeyValuePair
-        => odds?.FirstOrDefault(a => string.Equals(a.Key, key, StringComparison.OrdinalIgnoreCase));
+    public static T FindOddByKey<T>(IList<T> odds, string key) where T : KeyValuePair
+    => odds?.FirstOrDefault(a => string.Equals(a.Key, key, StringComparison.OrdinalIgnoreCase));
 
     public static void UpdateMaxbetPEN(MaxbetSpread maxbet)
     {
         var hdp = maxbet.Handicap;
-        if (hdp.HasValue)
+        if (!hdp.HasValue)
         {
-            var hdpPEN = hdp / 2;
-            maxbet.Handicap = hdpPEN;
-            maxbet.OverUnder = hdpPEN;
+            return;
         }
+
+        var hdpPEN = hdp / 2;
+        maxbet.Handicap = hdpPEN;
+        maxbet.OverUnder = hdpPEN;
     }
 
     public static void SetDefaultMaxbetInfo(MaxbetInfo maxbetInfo)

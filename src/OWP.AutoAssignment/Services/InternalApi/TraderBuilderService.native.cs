@@ -34,10 +34,10 @@ public class TraderBuilderServiceImp : TraderBuilderService
             .Select(model => new TraderExportQueryInfo
             {
                 InfoSiteMatchId = model.InfoSiteMatchId,
-                FTHDPAssingeeId = model.UserId_FTHDP,
-                FIRSTHHDPAssingeeId = model.UserId_1HHDP,
-                FTOUAssingeeId = model.UserId_FTOU,
-                FIRSTHOUAssingeeId = model.UserId_1HOU,
+                FTHDPAssigneeId = model.UserId_FTHDP,
+                FIRSTHHDPAssigneeId = model.UserId_1HHDP,
+                FTOUAssigneeId = model.UserId_FTOU,
+                FIRSTHOUAssigneeId = model.UserId_1HOU,
                 Bettype = model.Bettype
             }).ToList();
 

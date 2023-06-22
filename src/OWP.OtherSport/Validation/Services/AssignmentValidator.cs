@@ -4,6 +4,8 @@ using OWP.OtherSport.Validation.Models;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using System.Text.RegularExpressions;
+// ReSharper disable InvertIf
+// ReSharper disable LoopCanBeConvertedToQuery
 
 namespace OWP.OtherSport.Validation.Services;
 
@@ -173,7 +175,7 @@ public class AssignmentValidatorImp : AssignmentValidator
 
                 if (!match.Success)
                 {
-                    var colName = property.Name.Substring(0, 6);
+                    var colName = property.Name[..6];
                     results.Add(new ValidationResult($"[Column: {PropertyHelper.GetDisplayName(property)}] - Error: Invalid {colName} format"));
                 }
             }
@@ -226,14 +228,6 @@ public class AssignmentValidatorImp : AssignmentValidator
 
     private static bool HasStartWith(string source, params string[] childString)
     {
-        foreach (var child in childString)
-        {
-            if (source.StartsWith(child))
-            {
-                return true;
-            }
-        }
-        return false;
-
+        return childString.Any(source.StartsWith);
     }
 }

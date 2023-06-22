@@ -53,30 +53,25 @@ public static class WorksheetExtensions
             throw new InvalidDateTimeException();
         }
 
-        if (cellValue is double d)
+        switch (cellValue)
         {
-            if (d is < EncodeDate.MIN_VALUE or > EncodeDate.MAX_VALUE)
-            {
+            case double and (< EncodeDate.MIN_VALUE or > EncodeDate.MAX_VALUE):
                 throw new InvalidDateTimeException();
-            }
-            return DateTime.FromOADate(d);
-        }
-
-        if (cellValue is string)
-        {
-            if (!DateTime.TryParse(cellValue.ToString(), out var value))
-            {
+            case double d:
+                return DateTime.FromOADate(d);
+            case string:
+                {
+                    if (!DateTime.TryParse(cellValue.ToString(), out var value))
+                    {
+                        throw new InvalidDateTimeException();
+                    }
+                    return value;
+                }
+            case DateTime:
+                return sheet.GetValue<DateTime>(1, 2);
+            default:
                 throw new InvalidDateTimeException();
-            }
-            return value;
         }
-
-        if (cellValue is DateTime)
-        {
-            return sheet.GetValue<DateTime>(1, 2);
-        }
-
-        throw new InvalidDateTimeException();
     }
 
     public static IEnumerable<AssignmentModelInExcel> ReadAllAssignments(this ExcelWorksheet sheet, int row = 1)
@@ -224,6 +219,7 @@ public static class WorksheetExtensions
             return true;
         }
 
+        // ReSharper disable once InvertIf
         if (property.PropertyType == typeof(decimal?) && property.IsSpread)
         {
             var cellValue = sheet.GetValue<string>(row, column);

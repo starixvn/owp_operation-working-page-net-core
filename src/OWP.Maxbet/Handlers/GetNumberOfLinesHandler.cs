@@ -56,12 +56,7 @@ public class GetNumberOfLinesHandler
 
         private static NumberOfLines BuildNumberOfLines(int noOfHdpId)
         {
-            if (!numberOfLinesDict.TryGetValue((EnumNoOfHdp)noOfHdpId, out var result))
-            {
-                return new NumberOfLines();
-            }
-
-            return result;
+            return !numberOfLinesDict.TryGetValue((EnumNoOfHdp)noOfHdpId, out var result) ? new NumberOfLines() : result;
         }
     }
 }

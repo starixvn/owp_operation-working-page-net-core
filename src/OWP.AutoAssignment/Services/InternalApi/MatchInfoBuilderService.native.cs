@@ -29,7 +29,7 @@ public class MatchInfoBuilderServiceImp : MatchInfoBuilderService
     {
         var matchQueryInfo = BuildMatchQueryInfo(autoAssignModels);
         var matchInfos = (await QueryMatchInfo(matchQueryInfo))
-            .OrderBy(x => x.EventDateTime).ToList();
+            .OrderBy(x => x.EventDateTime);
 
         BuildExportMatchModel(models, matchInfos);
     }
@@ -46,11 +46,10 @@ public class MatchInfoBuilderServiceImp : MatchInfoBuilderService
         => await repository.GetInfoSiteMatchInfo(queryInfo);
 
     private void BuildExportMatchModel(IList<ExportMatchModel> models,
-        List<InfoSiteMatchModel> matchInfos)
+        IEnumerable<InfoSiteMatchModel> matchInfos)
     {
-        foreach (var match in matchInfos)
+        foreach (var matchModel in matchInfos.Select(BuildExportMatchInfo))
         {
-            var matchModel = BuildExportMatchInfo(match);
             models.Add(matchModel);
         }
     }
@@ -69,6 +68,5 @@ public class MatchInfoBuilderServiceImp : MatchInfoBuilderService
             };
 
     private int GetInfoSiteCornerMatchId(InfoSiteMatchModel matchInfo)
-        => matchInfo.InfoSiteMatchId.HasValue
-            ? matchInfo.InfoSiteMatchId.Value : 0;
+        => matchInfo.InfoSiteMatchId ?? 0;
 }

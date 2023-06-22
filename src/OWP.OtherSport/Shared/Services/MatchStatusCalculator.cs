@@ -43,12 +43,7 @@ public class MatchStatusCalculatorImp : MatchStatusCalculator
             return MatchStatus.Early;
         }
 
-        if (nowDateTime >= match.DateTime)
-        {
-            return MatchStatus.InPlay;
-        }
-
-        return MatchStatus.PreMatch;
+        return nowDateTime >= match.DateTime ? MatchStatus.InPlay : MatchStatus.PreMatch;
     }
 
     private async Task MapMatchStatusFromMainDb(Dictionary<int, MatchInfo> matchInfoDict)
@@ -58,9 +53,8 @@ public class MatchStatusCalculatorImp : MatchStatusCalculator
             .Select(x => x.AdminsiteMatchId).Distinct();
         var matchStatusFromMainDBs = await QueryMatchStatus(adminSiteMatchIds);
 
-        foreach (var key in matchInfoDict.Keys)
+        foreach (var match in matchInfoDict.Keys.Select(key => matchInfoDict[key]))
         {
-            var match = matchInfoDict[key];
             if (match.AdminsiteMatchId == null)
             {
                 match.MatchStatus = string.Empty;

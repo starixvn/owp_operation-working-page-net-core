@@ -1,7 +1,7 @@
-using System.Globalization;
-using System.Text.RegularExpressions;
 using AutoMapper;
 using OWP.AssignmentUpload.Validation.Models;
+using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace OWP.AssignmentUpload.Validation.Services;
 
@@ -192,7 +192,7 @@ public class AssignmentMapperImp : AssignmentMapper
             endIndex = text.Length;
         }
 
-        var note = text.Substring(0, startIndex).Trim() + " #<user> " + text.Substring(endIndex).Trim();
+        var note = text[..startIndex].Trim() + " #<user> " + text[endIndex..].Trim();
         return $"{note}";
     }
 
@@ -203,11 +203,13 @@ public class AssignmentMapperImp : AssignmentMapper
 
     public static void MapIsNeutral(AssignmentModelInExcel excelModel, AssignmentModel model)
     {
-        if (excelModel.Home.EndsWith("(N)", StringComparison.Ordinal))
+        if (!excelModel.Home.EndsWith("(N)", StringComparison.Ordinal))
         {
-            model.IsNeutral = true;
-            model.Home = excelModel.Home.Remove(excelModel.Home.Length - 3).TrimEnd();
+            return;
         }
+
+        model.IsNeutral = true;
+        model.Home = excelModel.Home.Remove(excelModel.Home.Length - 3).TrimEnd();
     }
 
     public string GetMatchStatus(string matchStatus)

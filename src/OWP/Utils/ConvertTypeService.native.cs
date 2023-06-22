@@ -49,13 +49,15 @@ public static class ConvertTypeService
     public static string GetCompanyFromLocationCode(string locationCode)
     {
         var company = string.Empty;
-        if (!string.IsNullOrEmpty(locationCode))
+        if (string.IsNullOrEmpty(locationCode))
         {
-            var codes = locationCode.Split('-');
-            if (codes.Length == 2)
-            {
-                company = codes[0].ToUpper(CultureInfo.InvariantCulture);
-            }
+            return company;
+        }
+
+        var codes = locationCode.Split('-');
+        if (codes.Length == 2)
+        {
+            company = codes[0].ToUpper(CultureInfo.InvariantCulture);
         }
 
         return company;
@@ -93,7 +95,7 @@ public static class ConvertTypeService
     {
         var temp = t;
 
-        if (t != null && t.IsGenericType && t.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+        if (t is { IsGenericType: true } && t.GetGenericTypeDefinition() == typeof(IEnumerable<>))
         {
             temp = t.GetGenericArguments()[0];
         }

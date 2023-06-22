@@ -64,26 +64,25 @@ public static class OrderAssigneeHelper
 
     public static int SortByMainBetTypeMainMatch(string mainBetType, MatchInfo matchInfo)
     {
-        if (!string.IsNullOrEmpty(mainBetType))
+        if (string.IsNullOrEmpty(mainBetType))
         {
-            var mainBetTypeLst = mainBetType.Split(',');
-            if (matchInfo.IsFutsal && !matchInfo.IsSaba)
-            {
-                return mainBetTypeLst.Select(x => Array.IndexOf(OrderConstant.MainBetTypesFs, x)).Min();
-            }
-
-            if (OrderConstant.OuTypeIds.Contains(matchInfo.BettypeId))
-            {
-                return mainBetTypeLst.Select(x => Array.IndexOf(OrderConstant.MainBetTypesOu, x)).Min();
-            }
-
-            if (OrderConstant.HdpTypeIds.Contains(matchInfo.BettypeId))
-            {
-                return mainBetTypeLst.Select(x => Array.IndexOf(OrderConstant.MainBetTypesHdp, x)).Min();
-            }
+            return int.MaxValue;
         }
 
-        return int.MaxValue;
+        var mainBetTypeLst = mainBetType.Split(',');
+        if (matchInfo.IsFutsal && !matchInfo.IsSaba)
+        {
+            return mainBetTypeLst.Select(x => Array.IndexOf(OrderConstant.MainBetTypesFs, x)).Min();
+        }
+
+        if (OrderConstant.OuTypeIds.Contains(matchInfo.BettypeId))
+        {
+            return mainBetTypeLst.Select(x => Array.IndexOf(OrderConstant.MainBetTypesOu, x)).Min();
+        }
+
+        return OrderConstant.HdpTypeIds.Contains(matchInfo.BettypeId)
+            ? mainBetTypeLst.Select(x => Array.IndexOf(OrderConstant.MainBetTypesHdp, x)).Min()
+            : int.MaxValue;
     }
 
 
@@ -103,7 +102,7 @@ public static class OrderAssigneeHelper
     {
         var kOTime = matchInfo.KOTime;
         var endTime = matchInfo.EndTime;
-        
+
 
         var kOTimeHadBeenRoundMinute = ResetMinuteToZero(kOTime);
         var kOTimeHadBeenRoundMinuteAddOneHour = kOTimeHadBeenRoundMinute.AddHours(1);
@@ -119,10 +118,10 @@ public static class OrderAssigneeHelper
         return !hasWorkingShiftInRangeTime ? 7 : 0;
     }
 
-    private static DateTime ResetMinuteToZero(DateTime time) 
+    private static DateTime ResetMinuteToZero(DateTime time)
         => time.Date.AddHours(time.Hour).AddMinutes(0).AddSeconds(0);
 
-    private static bool IsWorkingShiftInRangeTime(UserInfo userInfo, DateTime kOTime, DateTime endTime) 
+    private static bool IsWorkingShiftInRangeTime(UserInfo userInfo, DateTime kOTime, DateTime endTime)
         => userInfo.ShiftStartTime <= kOTime && userInfo.ShiftEndTime >= endTime;
 
     private static AssignmentModel FindAssignmentInTimeRange(List<AssignmentModel> categorizedAssignments, DateTime kOTime, DateTime kOTimeAddOneHours)

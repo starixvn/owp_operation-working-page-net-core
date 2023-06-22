@@ -30,11 +30,7 @@ public class SportAttribute : ValidationAttribute
 
     public override bool IsValid(object value)
     {
-        if (string.IsNullOrEmpty(value.ToString()) || !sports.Any(x => x.Equals(value.ToString(), StringComparison.CurrentCultureIgnoreCase)))
-        {
-            return false;
-        }
-
-        return true;
+        return !string.IsNullOrEmpty(value.ToString()) &&
+               sports.Any(x => x.Equals(value.ToString(), StringComparison.CurrentCultureIgnoreCase));
     }
 }

@@ -62,7 +62,7 @@ public class MatchAssignment
         { Bettype.InningHitsAndRuns, 36 },
         { Bettype.AllProductSetWinner, 37 },
         { Bettype.AllProductPointWinner, 38 },
-        { Bettype.RacetoPoints7911, 39 },
+        { Bettype.RaceToPoints7911, 39 },
         { Bettype.NextPointWinner, 40 },
         { Bettype.MatchHandicap, 41 },
         { Bettype.AllProductLS, 42 },

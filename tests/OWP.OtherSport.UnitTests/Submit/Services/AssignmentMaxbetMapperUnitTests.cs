@@ -1000,7 +1000,7 @@ public class AssignmentMaxbetMapperUnitTests
             },
             new()
             {
-                Bettype = Bettype.RacetoPoints7911,
+                Bettype = Bettype.RaceToPoints7911,
                 Trader = assignment.TraderBadmintonRaceToPoints7911,
                 OtherTrader = assignment.OtherTraderBadmintonRaceToPoints7911,
                 Spread = 10

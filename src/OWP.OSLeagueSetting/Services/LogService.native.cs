@@ -2,6 +2,7 @@
 using OWP.Extensions;
 using OWP.OSLeagueSetting.Models;
 using OWP.Utils;
+// ReSharper disable LoopCanBeConvertedToQuery
 
 namespace OWP.OSLeagueSetting.Services;
 

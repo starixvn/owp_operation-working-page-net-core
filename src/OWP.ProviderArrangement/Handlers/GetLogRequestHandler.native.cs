@@ -4,6 +4,7 @@ using OWP.Extensions;
 using OWP.ProviderArrangement.Criteria;
 using OWP.ProviderArrangement.Models;
 using OWP.Utils;
+// ReSharper disable LoopCanBeConvertedToQuery
 
 namespace OWP.ProviderArrangement.Handlers;
 

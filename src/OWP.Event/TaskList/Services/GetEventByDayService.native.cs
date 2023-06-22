@@ -58,11 +58,13 @@ public class GetEventByDayServiceImp : GetEventByDayService
     private static bool GetMainMatchCompleteStatus(MatchInfo matchInfo, List<int> completedMatchIds, IEnumerable<MatchInfo> matchInfos)
     {
         var adminsiteId = matchInfo.AdminSiteId;
-        if (matchInfo.MinorBettypeId.HasValue)
+        if (!matchInfo.MinorBettypeId.HasValue)
         {
-            var mainMatch = matchInfos.FirstOrDefault(x => x.OWPMatchId == matchInfo.ParentMatchId);
-            adminsiteId = mainMatch?.AdminSiteId;
+            return adminsiteId.HasValue && completedMatchIds.Contains((int)adminsiteId);
         }
+
+        var mainMatch = matchInfos.FirstOrDefault(x => x.OWPMatchId == matchInfo.ParentMatchId);
+        adminsiteId = mainMatch?.AdminSiteId;
 
         return adminsiteId.HasValue && completedMatchIds.Contains((int)adminsiteId);
     }

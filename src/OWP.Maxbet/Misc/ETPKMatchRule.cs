@@ -84,15 +84,11 @@ public class MainMatchRule : ETPKMatchRule
 
     public override async Task<MaxbetInfo> GetMaxBetETPK(MatchInfo matchInfo, int adminSiteId, int subtype)
     {
-        if (subtype == SubTypeETPK.MainMatchET)
+        return subtype switch
         {
-            return await mainMatchService.GetMaxbetInfoET(matchInfo.owpMatchId, adminSiteId);
-        }
-        if (subtype == SubTypeETPK.MainMatchPK)
-        {
-            return await mainMatchService.GetMaxbetInfoPEN(matchInfo.owpMatchId, adminSiteId);
-        }
-
-        return await base.GetMaxBetETPK(matchInfo, adminSiteId, subtype);
+            SubTypeETPK.MainMatchET => await mainMatchService.GetMaxbetInfoET(matchInfo.owpMatchId, adminSiteId),
+            SubTypeETPK.MainMatchPK => await mainMatchService.GetMaxbetInfoPEN(matchInfo.owpMatchId, adminSiteId),
+            _ => await base.GetMaxBetETPK(matchInfo, adminSiteId, subtype)
+        };
     }
 }

@@ -41,31 +41,31 @@ public class LeagueSettingBuilderServiceImp : LeagueSettingBuilderService
 
     private void BuildExportMaxBet(ExportMatchModel exportModel, LeagueSettingInfo leagueSetting)
     {
-        if (exportModel.Bettype == BetType.NoCorner)
+        switch (exportModel.Bettype)
         {
-            exportModel.MaxBetHDP = FormatMaxbet(leagueSetting.MaxbetNoOfCorner);
-            exportModel.MaxBetOU = FormatMaxbet(leagueSetting.MaxbetNoOfCorner);
-        }
-        else if (exportModel.Bettype == BetType.NextCorner)
-        {
-            exportModel.MaxBetHDP = FormatMaxbet(leagueSetting.MaxBetNextCorner);
-        }
-        else
-        {
-            exportModel.MatchOffer = leagueSetting.MatchOffer;
-            exportModel.LSTNote = leagueSetting.LSTNote;
-            exportModel.NoHDP = leagueSetting.NoHDP;
-            exportModel.MaxBetHDP = FormatMaxbet(leagueSetting.MaxBetHDP);
-            exportModel.SpreadHDP = FormatSpread(leagueSetting.SpreadHDP);
-            exportModel.SpreadOU = FormatSpread(leagueSetting.SpreadOU);
-            exportModel.MaxBetOU = FormatMaxbet(leagueSetting.MaxBetOU);
-            exportModel.MaxBet1HHDP = FormatMaxbet(leagueSetting.MaxBet1HHDP);
-            exportModel.MaxBet1HOU = FormatMaxbet(leagueSetting.MaxBet1HOU);
-            exportModel.Spread1HHDP = FormatSpread(leagueSetting.Spread1HHDP);
-            exportModel.Spread1HOU = FormatSpread(leagueSetting.Spread1HOU);
-            exportModel.MaxBet1X2 = FormatMaxbet(leagueSetting.MaxBet1X2);
-            exportModel.Spread1X2 = FormatSpread(leagueSetting.Spread1X2);
-            exportModel.MaxBet1H1X2 = FormatMaxbet(leagueSetting.MaxBet1H1X2);
+            case BetType.NoCorner:
+                exportModel.MaxBetHDP = FormatMaxbet(leagueSetting.MaxbetNoOfCorner);
+                exportModel.MaxBetOU = FormatMaxbet(leagueSetting.MaxbetNoOfCorner);
+                break;
+            case BetType.NextCorner:
+                exportModel.MaxBetHDP = FormatMaxbet(leagueSetting.MaxBetNextCorner);
+                break;
+            default:
+                exportModel.MatchOffer = leagueSetting.MatchOffer;
+                exportModel.LSTNote = leagueSetting.LSTNote;
+                exportModel.NoHDP = leagueSetting.NoHDP;
+                exportModel.MaxBetHDP = FormatMaxbet(leagueSetting.MaxBetHDP);
+                exportModel.SpreadHDP = FormatSpread(leagueSetting.SpreadHDP);
+                exportModel.SpreadOU = FormatSpread(leagueSetting.SpreadOU);
+                exportModel.MaxBetOU = FormatMaxbet(leagueSetting.MaxBetOU);
+                exportModel.MaxBet1HHDP = FormatMaxbet(leagueSetting.MaxBet1HHDP);
+                exportModel.MaxBet1HOU = FormatMaxbet(leagueSetting.MaxBet1HOU);
+                exportModel.Spread1HHDP = FormatSpread(leagueSetting.Spread1HHDP);
+                exportModel.Spread1HOU = FormatSpread(leagueSetting.Spread1HOU);
+                exportModel.MaxBet1X2 = FormatMaxbet(leagueSetting.MaxBet1X2);
+                exportModel.Spread1X2 = FormatSpread(leagueSetting.Spread1X2);
+                exportModel.MaxBet1H1X2 = FormatMaxbet(leagueSetting.MaxBet1H1X2);
+                break;
         }
     }
 

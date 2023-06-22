@@ -81,12 +81,7 @@ public class CacheManipulatorImp : CacheManipulator
         var cacheKey = $"{KEY_USER_WHO_IS_OS_UPLOADING_ASSIGNMENT}-{eventDate}";
         var (_, value) = await cache.TryGetAsync<string>(cacheKey);
 
-        if (!string.IsNullOrEmpty(value))
-        {
-            return value;
-        }
-
-        return string.Empty;
+        return !string.IsNullOrEmpty(value) ? value : string.Empty;
     }
 
     public async Task SaveLastUpdate(LastUpdateInfo info)
@@ -120,9 +115,8 @@ public class CacheManipulatorImp : CacheManipulator
 
     public async Task DeleteUserWhoIsUploadingAssignment(List<DateTime> eventDates)
     {
-        foreach (var eventDate in eventDates)
+        foreach (var cacheKey in eventDates.Select(eventDate => $"{KEY_USER_WHO_IS_OS_UPLOADING_ASSIGNMENT}-{eventDate}"))
         {
-            var cacheKey = $"{KEY_USER_WHO_IS_OS_UPLOADING_ASSIGNMENT}-{eventDate}";
             await cache.RemoveAsync(cacheKey);
         }
     }

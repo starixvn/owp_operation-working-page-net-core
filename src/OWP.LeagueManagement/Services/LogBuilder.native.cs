@@ -1,7 +1,8 @@
-using System.Xml.Serialization;
 using OWP.Extensions;
 using OWP.LeagueManagement.Models;
 using OWP.Utils;
+using System.Xml.Serialization;
+// ReSharper disable LoopCanBeConvertedToQuery
 
 namespace OWP.LeagueManagement.Services;
 

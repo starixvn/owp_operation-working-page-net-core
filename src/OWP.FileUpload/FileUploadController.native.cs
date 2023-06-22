@@ -75,7 +75,7 @@ public class FileUploadController : ControllerBase
 
         var file = await mediator.Send(request);
 
-        var fileExtension = file.Title.Substring(file.Title.LastIndexOf('.') + 1).ToLowerInvariant().Trim();
+        var fileExtension = file.Title[(file.Title.LastIndexOf('.') + 1)..].ToLowerInvariant().Trim();
         var isImage = IsImage(fileExtension);
         var mediaType = GetMediaType(isImage, fileExtension);
 

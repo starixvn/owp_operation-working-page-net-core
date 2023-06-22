@@ -1,5 +1,6 @@
 ﻿using OWP.AutoAssignment.Constant;
 using OWP.AutoAssignment.Models.PublicApi;
+// ReSharper disable LoopCanBeConvertedToQuery
 
 namespace OWP.AutoAssignment.Services.PublicApi;
 
@@ -124,7 +125,7 @@ public class RealMatchServiceImp : RealMatchService
         => provider.Contains(AutoConstant.Woo, StringComparison.OrdinalIgnoreCase)
            || provider.Contains(AutoConstant.Al, StringComparison.OrdinalIgnoreCase);
 
-    private bool RequireEnglish(string provider)
+    private static bool RequireEnglish(string provider)
         => provider.Contains(AutoConstant.Slr, StringComparison.OrdinalIgnoreCase);
 
     private bool IsFantasy(string leagueName)

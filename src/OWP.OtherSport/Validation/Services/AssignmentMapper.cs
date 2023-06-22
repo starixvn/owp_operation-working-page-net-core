@@ -1,8 +1,9 @@
-﻿using System.Globalization;
+﻿using AutoMapper;
+using OWP.OtherSport.Validation.Models;
+using System.Globalization;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using AutoMapper;
-using OWP.OtherSport.Validation.Models;
+// ReSharper disable InvertIf
 
 namespace OWP.OtherSport.Validation.Services;
 
@@ -46,7 +47,7 @@ public class AssignmentMapperImp : AssignmentMapper
 
     public List<AssignmentModel> Map(List<AssignmentModelInExcel> excelModels)
     {
-        return excelModels.Select(m => Map(m)).ToList();
+        return excelModels.Select(Map).ToList();
     }
 
     public AssignmentModel Map(AssignmentModelInExcel excelModel)
@@ -64,11 +65,13 @@ public class AssignmentMapperImp : AssignmentMapper
 
     public void MapIsNeutralMatch(AssignmentModelInExcel excelModel, AssignmentModel model)
     {
-        if (excelModel.Home.Trim().EndsWith("(N)"))
+        if (!excelModel.Home.Trim().EndsWith("(N)"))
         {
-            model.Home = excelModel.Home.Trim().Replace("(N)", "");
-            model.IsNeutral = true;
+            return;
         }
+
+        model.Home = excelModel.Home.Trim().Replace("(N)", "");
+        model.IsNeutral = true;
     }
 
     public void MapDateTime(AssignmentModelInExcel excelModel, AssignmentModel model)
@@ -140,12 +143,9 @@ public class AssignmentMapperImp : AssignmentMapper
 
         var endIndex = text.IndexOf(' ', startIndex);
 
-        if (endIndex == -1)
-        {
-            return $"{text.Substring(0, startIndex).Trim()} #<user> {text[text.Length..].Trim()}";
-        }
-
-        return $"{text.Substring(0, startIndex).Trim()} #<user> {text[endIndex..].Trim()}";
+        return endIndex == -1
+            ? $"{text[..startIndex].Trim()} #<user> {text[text.Length..].Trim()}"
+            : $"{text[..startIndex].Trim()} #<user> {text[endIndex..].Trim()}";
     }
 
     public int ExtractTrader(string text)

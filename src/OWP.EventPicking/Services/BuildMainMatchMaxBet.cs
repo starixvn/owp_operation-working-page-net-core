@@ -1,6 +1,7 @@
 using OWP.EventPicking.Misc;
 using OWP.EventPicking.Models;
 using OWP.Extensions;
+// ReSharper disable ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
 
 namespace OWP.EventPicking.Services;
 
@@ -51,11 +52,14 @@ public class BuildMainMatchMaxBetImp : BuildMainMatchMaxBet
                                         .ThenByDescending(x => isWeekend ? x.MaxbetWK_HDP : x.MaxbetWD_HDP)
                                         .FirstOrDefault();
 
-        if (chosenTruthTable != null)
+        if (chosenTruthTable == null)
         {
-            var chosenLeagueSetting = leagueSettings.FirstOrDefault(x => x.LeagueSettingId == chosenTruthTable.LeagueSettingId);
-            MapSettings(match, chosenLeagueSetting, isWeekend);
+            return;
         }
+
+        var chosenLeagueSetting =
+            leagueSettings.FirstOrDefault(x => x.LeagueSettingId == chosenTruthTable.LeagueSettingId);
+        MapSettings(match, chosenLeagueSetting, isWeekend);
     }
 
     private static bool IsWeekend(DateTime eventDateTime)

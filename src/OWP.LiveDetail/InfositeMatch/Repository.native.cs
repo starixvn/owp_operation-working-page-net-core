@@ -1,6 +1,7 @@
 ﻿using Fanex.Data.Repository;
 using OWP.Extensions;
 using OWP.Models;
+// ReSharper disable InvertIf
 
 namespace OWP.LiveDetail.InfositeMatch;
 
