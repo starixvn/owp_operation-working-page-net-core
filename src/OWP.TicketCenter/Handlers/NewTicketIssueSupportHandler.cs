@@ -58,19 +58,23 @@ public class NewTicketIssueSupportHandler : IRequestHandler<NewTicketIssueSuppor
 
         await recipientService.InsertManyRecipientReader(request.Recipients, request.TicketId, request.CreatorId);
 
+        await NotifyToUsers(request, ticketId, newMessage);
+
+        return ticketId;
+    }
+
+    private async Task NotifyToUsers(NewTicketModelBase request, int ticketId, NewMessageRequestModel newMessage)
+    {
         var notificationMessage = new MessageTransform
         {
             TicketId = ticketId,
             Comment = newMessage.Message,
             ActorId = request.CreatorId
         };
-
         messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketSupport);
 
-        await notificationService.NotifyNewMessageIncome(ticketId);
-
-        await notificationService.NotifyNewAddRecipient(ticketId, request.CreatorId);
-
-        return ticketId;
+        var userIds = await repository.GetUserIdsByTicketId(request.TicketId);
+        await notificationService.NotifyNewMessageIncome(userIds);
+        await notificationService.NotifyNewAddRecipient(userIds);
     }
 }

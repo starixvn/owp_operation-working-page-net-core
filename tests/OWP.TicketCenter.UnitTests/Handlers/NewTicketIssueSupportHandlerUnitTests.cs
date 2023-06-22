@@ -23,8 +23,6 @@ public class NewTicketIssueSupportHandlerUnitTests
 
     private readonly NewTicketIssueSupportHandler handler;
 
-    private readonly MessageClient messageClient;
-
     private readonly MessageService messageService;
 
     public NewTicketIssueSupportHandlerUnitTests()
@@ -33,7 +31,7 @@ public class NewTicketIssueSupportHandlerUnitTests
         mapper = Substitute.For<IMapper>();
         notificationService = Substitute.For<NotificationService>();
         recipientService = Substitute.For<RecipientService>();
-        messageClient = Substitute.For<MessageClient>();
+        var messageClient = Substitute.For<MessageClient>();
         messageService = Substitute.For<MessageService>();
 
         handler = new NewTicketIssueSupportHandler(
@@ -46,7 +44,7 @@ public class NewTicketIssueSupportHandlerUnitTests
     }
 
     [Fact]
-    public async void InsertNewSupportIssue_IssueInfo_ReturnTicketId()
+    public async Task InsertNewSupportIssue_IssueInfo_ReturnTicketId()
     {
         // Arrange
         var request = new NewTicketIssueSupportRequest();
@@ -77,19 +75,19 @@ public class NewTicketIssueSupportHandlerUnitTests
 
         mapper
             .Map<NewMessageRequestModel>(request)
-            .Returns(x => new NewMessageRequestModel
-                {
-                    Message = "abc"
-                }
+            .Returns(_ => new NewMessageRequestModel
+            {
+                Message = "abc"
+            }
             );
 
 
-        await notificationService.NotifyNewMessageIncome(Arg.Compat.Any<int>());
+        await notificationService.NotifyNewMessageIncome(Arg.Compat.Any<List<string>>());
 
         var actual = await handler.Handle(request, CancellationToken.None);
 
         //Assert
-        var expected = 111;
-        Assert.Equal(actual, expected);
+        const int expected = 111;
+        Assert.Equal(expected, actual);
     }
 }

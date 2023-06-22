@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using OWP.TicketCenter.Models;
+using OWP.TicketCenter.Notification.Services;
 using OWP.TicketCenter.Services;
 
 namespace OWP.TicketCenter.Handlers;
@@ -14,10 +15,13 @@ public class RemoveSingleRecipientHandler : IRequestHandler<RemoveSingleRecipien
 
     private readonly RecipientService recipientService;
 
-    public RemoveSingleRecipientHandler(Repository repository, RecipientService recipientService)
+    private readonly PreMatchNotificationService preMatchNotification;
+
+    public RemoveSingleRecipientHandler(Repository repository, RecipientService recipientService, PreMatchNotificationService preMatchNotification)
     {
         this.repository = repository;
         this.recipientService = recipientService;
+        this.preMatchNotification = preMatchNotification;
     }
 
     public async Task<int> Handle(RemoveSingleRecipientRequest request, CancellationToken cancellationToken)
@@ -31,6 +35,9 @@ public class RemoveSingleRecipientHandler : IRequestHandler<RemoveSingleRecipien
             }
         };
         await recipientService.RemoveManyRecipientReader(recipients, request.TicketId);
-        return await repository.RemoveSingleRecipient(request);
+        var result = repository.RemoveSingleRecipient(request);
+        await preMatchNotification.NotifyToReloadTicketInPrematchTable(request.TicketId, request.TicketEventType, new List<string> { request.RecipientId.ToString() });
+
+        return await result;
     }
 }

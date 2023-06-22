@@ -1,5 +1,4 @@
 ﻿using Fanex.Data.Repository;
-using Fanex.NAP.Client.Helpers.Web;
 using OWP.Constants;
 using OWP.Extensions;
 using OWP.PrematchAssignment.Criteria;
@@ -18,25 +17,26 @@ public class MaxbetSpreadServiceImp : MaxbetSpreadService
 
     private readonly IDynamicRepository dynamicRepo;
 
-    public MaxbetSpreadServiceImp(INapSession napSession, IDynamicRepository dynamicRepo)
+    public MaxbetSpreadServiceImp(IDynamicRepository dynamicRepo)
     {
         this.dynamicRepo = dynamicRepo;
     }
 
     public async Task Build(IEnumerable<InfoSiteMatch> infoSiteMatches)
     {
-        var adminSiteMatchIds = infoSiteMatches.Select(info => info.AdminSiteMatchId);
+        var infoSiteMatchList = infoSiteMatches.ToList();
+        var adminSiteMatchIds = infoSiteMatchList.Select(info => info.AdminSiteMatchId);
         var maxbetSpreads = await GetMaxbetSpreads(adminSiteMatchIds.ToList());
-        BuildMaxbetSpread(infoSiteMatches, maxbetSpreads);
+        BuildMaxbetSpread(infoSiteMatchList, maxbetSpreads);
     }
 
-    private async Task<IList<MaxbetSpread>> GetMaxbetSpreads(IList<int> adminSiteMatchIds)
-    => (await dynamicRepo.FetchAsync<MaxbetSpread>(new GetMaxbetSpreadCriteria
-    {
-        AdminSiteMatchId = string.Join(",", adminSiteMatchIds)
-    })).ToList();
+    private async Task<IList<MaxbetSpread>> GetMaxbetSpreads(IEnumerable<int> adminSiteMatchIds)
+        => (await dynamicRepo.FetchAsync<MaxbetSpread>(new GetMaxbetSpreadCriteria
+        {
+            AdminSiteMatchId = string.Join(",", adminSiteMatchIds)
+        })).ToList();
 
-    private void BuildMaxbetSpread(IEnumerable<InfoSiteMatch> infoSiteMatches, IList<MaxbetSpread> maxbetSpreads)
+    private static void BuildMaxbetSpread(IEnumerable<InfoSiteMatch> infoSiteMatches, IEnumerable<MaxbetSpread> maxbetSpreads)
     {
         var maxbetSpreadPair = maxbetSpreads
         .GroupBy(s => s.AdminSiteMatchId)
@@ -53,25 +53,29 @@ public class MaxbetSpreadServiceImp : MaxbetSpreadService
         }
     }
 
-    private void BuildMaxbetSpreadHdp(IList<MaxbetSpread> maxbetSpreadValue, InfoSiteMatch infoSiteMatch)
+    private static void BuildMaxbetSpreadHdp(IList<MaxbetSpread> maxbetSpreadValue, InfoSiteMatch infoSiteMatch)
     {
         var count = maxbetSpreadValue.Count(x => x.Bettype == Bettype.Handicap);
-        if (count == FLAG_CAN_FILL_MAXBET_SPREAD)
+        if (count != FLAG_CAN_FILL_MAXBET_SPREAD)
         {
-            var maxbetHdp = maxbetSpreadValue.First(x => x.Bettype == Bettype.Handicap);
-            infoSiteMatch.MaxBetHdp.Maxbet = maxbetHdp.Maxbet;
-            infoSiteMatch.MaxBetHdp.Spread = maxbetHdp.Spread;
+            return;
         }
+
+        var maxbetHdp = maxbetSpreadValue.First(x => x.Bettype == Bettype.Handicap);
+        infoSiteMatch.MaxBetHdp.Maxbet = maxbetHdp.Maxbet;
+        infoSiteMatch.MaxBetHdp.Spread = maxbetHdp.Spread;
     }
 
-    private void BuildMaxbetSpreadOu(IList<MaxbetSpread> maxbetSpreadValue, InfoSiteMatch infoSiteMatch)
+    private static void BuildMaxbetSpreadOu(IList<MaxbetSpread> maxbetSpreadValue, InfoSiteMatch infoSiteMatch)
     {
         var count = maxbetSpreadValue.Count(x => x.Bettype == Bettype.OverUnder);
-        if (count == FLAG_CAN_FILL_MAXBET_SPREAD)
+        if (count != FLAG_CAN_FILL_MAXBET_SPREAD)
         {
-            var maxbetOu = maxbetSpreadValue.First(x => x.Bettype == Bettype.OverUnder);
-            infoSiteMatch.MaxBetOu.Maxbet = maxbetOu.Maxbet;
-            infoSiteMatch.MaxBetOu.Spread = maxbetOu.Spread;
+            return;
         }
+
+        var maxbetOu = maxbetSpreadValue.First(x => x.Bettype == Bettype.OverUnder);
+        infoSiteMatch.MaxBetOu.Maxbet = maxbetOu.Maxbet;
+        infoSiteMatch.MaxBetOu.Spread = maxbetOu.Spread;
     }
 }

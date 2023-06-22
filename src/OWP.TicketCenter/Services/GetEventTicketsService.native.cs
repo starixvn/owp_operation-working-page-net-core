@@ -47,7 +47,7 @@ public class GetEventTicketsServiceImp : GetEventTicketsService
         return eventTickets;
     }
 
-    private async Task SetLastComment(List<int> ticketIds, List<TicketBaseInfo> ticketIsShowed)
+    private async Task SetLastComment(IList<int> ticketIds, List<TicketBaseInfo> ticketIsShowed)
     {
         var lastComments = (await repository.GetTwoLastComment(ticketIds)).ToList();
 
@@ -57,7 +57,7 @@ public class GetEventTicketsServiceImp : GetEventTicketsService
         }
     }
 
-    private static List<TicketBaseInfo> SortEventTicketByCommentLatestDate(List<TicketBaseInfo> tickets)
+    private static List<TicketBaseInfo> SortEventTicketByCommentLatestDate(IEnumerable<TicketBaseInfo> tickets)
     {
         return tickets
             .OrderByDescending(x => x.IsPinned)

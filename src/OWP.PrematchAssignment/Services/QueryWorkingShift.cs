@@ -44,16 +44,12 @@ public class QueryWorkingShiftImp : QueryWorkingShift
         }
         var workingShifts = workingShiftByDate.GroupBy(a => a.ShiftCode).ToDictionary(a => a.Key, a => a.Select(b => b.NickName).ToList());
 
-        var workingModel = new List<WorkingShift>();
-        foreach (var workingShift in workingShifts)
-        {
-            var shift = new WorkingShift
+        var workingModel = workingShifts.Select(workingShift =>
+            new WorkingShift
             {
                 Shifts = workingShift.Key,
                 Usernames = string.Join(", ", workingShift.Value.Distinct())
-            };
-            workingModel.Add(shift);
-        }
+            }).ToList();
 
         return workingModel.OrderBy(x => x.Shifts).ToList();
     }

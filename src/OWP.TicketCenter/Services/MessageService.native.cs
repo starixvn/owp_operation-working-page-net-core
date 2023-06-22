@@ -27,17 +27,14 @@ public class MessageServiceImp : MessageService
 
     public async Task<NewMessageRequestModel> InsertMessage(NewTicketModelBase request, int ticketId)
     {
-        var messages = new List<NewMessageRequestModel>();
-        foreach (var file in request.Files)
-        {
-            messages.Add(new NewMessageRequestModel
+        var messages = request.Files.Select(file =>
+            new NewMessageRequestModel
             {
                 TicketId = ticketId,
                 CreatorId = request.CreatorId,
                 Message = file.Title,
                 FileId = file.FileId
-            });
-        }
+            }).ToList();
 
         var newMessage = mapper.Map<NewMessageRequestModel>(request);
 

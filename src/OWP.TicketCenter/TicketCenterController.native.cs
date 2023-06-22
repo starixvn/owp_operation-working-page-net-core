@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using OWP.TicketCenter.Handlers;
 using OWP.TicketCenter.Middleware;
 using OWP.TicketCenter.Models;
-using OWP.TicketCenter.Services;
 
 namespace OWP.TicketCenter;
 
@@ -14,12 +13,10 @@ namespace OWP.TicketCenter;
 public class TicketCenterController : ControllerBase
 {
     private readonly IMediator mediator;
-    private readonly PermissionService permissionService;
 
-    public TicketCenterController(IMediator mediator, PermissionService permissionService)
+    public TicketCenterController(IMediator mediator)
     {
         this.mediator = mediator;
-        this.permissionService = permissionService;
     }
 
     [HttpPost("new-message")]

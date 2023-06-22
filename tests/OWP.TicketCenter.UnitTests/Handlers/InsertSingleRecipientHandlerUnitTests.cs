@@ -14,45 +14,45 @@ public class InsertSingleRecipientHandlerUnitTests
 
     private readonly RecipientService recipientService;
 
-    private readonly NotificationService notificationService;
-
     private readonly MessageClient messageClient;
+
+    private readonly InsertRecipientHandler handler;
 
     public InsertSingleRecipientHandlerUnitTests()
     {
         repository = Substitute.For<Repository>();
         recipientService = Substitute.For<RecipientService>();
-        notificationService = Substitute.For<NotificationService>();
+        var notificationService = Substitute.For<NotificationService>();
         messageClient = Substitute.For<MessageClient>();
-    }
+        var preMatchNotificationService = Substitute.For<PreMatchNotificationService>();
 
-    [Fact]
-    public async void InsertSingleRecipient_RecipientInfo_ReturnIdFromDB()
-    {
-        // Arrange
-        var handler = new InsertRecipientHandler(
+        handler = new InsertRecipientHandler(
             repository,
             recipientService,
             notificationService,
-            messageClient
+            messageClient, preMatchNotificationService
         );
+    }
 
+    [Fact]
+    public async Task InsertSingleRecipient_RecipientInfo_ReturnIdFromDB()
+    {
         var recipients = new List<InsertOrRemoveManyRecipientModel>();
 
         recipientService
             .InsertManyRecipientReader(recipients, 1, 3)
-            .Returns(x => true);
+            .Returns(_ => true);
 
         repository
             .AddSingleRecipient(Arg.Compat.Any<InsertSingleRecipientRequest>())
-            .ReturnsForAnyArgs(x => 1);
+            .ReturnsForAnyArgs(_ => 1);
 
         messageClient.SendMessage(Arg.Compat.Any<object>(), Arg.Compat.Any<string>());
 
         var actual = await handler.Handle(new InsertSingleRecipientRequest(), CancellationToken.None);
 
         //Assert
-        var expected = 1;
-        Assert.Equal(actual, expected);
+        const int expected = 1;
+        Assert.Equal(expected, actual);
     }
 }

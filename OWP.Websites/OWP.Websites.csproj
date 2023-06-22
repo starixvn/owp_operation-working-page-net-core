@@ -31,12 +31,10 @@
     </ItemGroup>
     <ItemGroup>
       <None Include="Views\Auth\AccessDenied.cshtml" />
-      <None Include="Views\Auth\ChangePassword.cshtml" />
       <None Include="Views\Auth\Error.cshtml" />
       <None Include="Views\Auth\Index.cshtml" />
       <None Include="Views\Auth\NotFound.cshtml" />
       <None Include="Views\Auth\Offline.cshtml" />
-      <None Include="Views\Auth\OtpLoginFlow.cshtml" />
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />

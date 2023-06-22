@@ -60,7 +60,7 @@ public class GetEventOptionsUnitTests
 
         repository
             .GetEventOptionInfo("League")
-            .ReturnsForAnyArgs(x => eventOptionInfoModel);
+            .ReturnsForAnyArgs(_ => eventOptionInfoModel);
 
         // Act
         var actual = await eventOptionHandler.Handle(request, CancellationToken.None);

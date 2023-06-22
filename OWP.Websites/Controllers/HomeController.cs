@@ -1,9 +1,4 @@
-﻿using System.Diagnostics;
-using System.Net;
-using System.Net.Sockets;
-using System.Security.Claims;
-using System.Text;
-using Fanex.NAP.Client.Configuration;
+﻿using Fanex.NAP.Client.Configuration;
 using Fanex.NAP.Client.Helpers.Web;
 using Fanex.NAP.Client.Models.ParameterObject;
 using Fanex.NAP.Client.Services;
@@ -12,7 +7,11 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ONEbook.UM.AspNetCore.Filters;
-using OWP.Websites.Models;
+using System.Diagnostics;
+using System.Net;
+using System.Net.Sockets;
+using System.Security.Claims;
+using System.Text;
 
 namespace OWP.Websites.Controllers;
 
@@ -81,12 +80,6 @@ public class HomeController : Controller
         return Content("Test");
     }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-    }
-
     [AllowAnonymous]
     public IActionResult ExpiredSession()
     {
@@ -146,7 +139,7 @@ public class HomeController : Controller
         };
 
         var securityService = new SecurityService();
-        var onUserId = securityService.Login(criteria);
+        var onUserId = await securityService.LoginAsync(criteria);
 
         await SaveUserSession(onUserId);
 

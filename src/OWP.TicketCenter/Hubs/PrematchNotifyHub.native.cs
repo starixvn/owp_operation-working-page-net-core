@@ -4,9 +4,9 @@ namespace OWP.TicketCenter.Hubs;
 
 public interface PreMatchNotifyHub
 {
-    Task NotifyNewMessageIncome();
+    Task NotifyNewMessageIncome(int id, bool isTicketLeague);
 
-    Task NotifyNewAddRecipient();
+    Task NotifyNewAddRecipient(int id, bool isTicketLeague);
 
     Task NotifyChangeStatusIncome();
 

@@ -21,7 +21,7 @@ public class PermissionServiceImp : PermissionService
     public async Task<bool> HasPermission(int ticketId, int creatorId)
     {
         var recipientsId = await repository.GetUserIdsByTicketId(ticketId);
-        return recipientsId.Any(i => i == creatorId);
+        return recipientsId.Any(i => i == creatorId.ToString());
     }
 
     public async Task<bool> HasPermissionRemoveLastRecipient(int ticketId)

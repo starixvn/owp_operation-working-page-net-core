@@ -1,6 +1,6 @@
-﻿using System.Xml.Serialization;
-using OWP.Extensions;
+﻿using OWP.Extensions;
 using OWP.Utils;
+using System.Xml.Serialization;
 
 namespace OWP.PrematchAssignment.Models;
 
@@ -29,21 +29,24 @@ public class WorkingShiftModel
 
     public void RecalculateShiftCode()
     {
-        if (IsTimeShift)
+        if (!IsTimeShift)
         {
-            var startTimeFormat = StartTime.Value.Minutes == 0 ? "hh" : @"hh\:mm";
-            var endTimeFormat = EndTime.Value.Minutes == 0 ? "hh" : @"hh\:mm";
-            ShiftCode = StartTime.Value.ToString(startTimeFormat) + " > " + EndTime.Value.ToString(endTimeFormat);
-            if (Extension.HasValue)
-            {
-                var getExtension = Extension.HasValue ? ToExtension(Extension.Value) : string.Empty;
-                ShiftCode = ShiftCode + " " + getExtension;
-            }
-
-            ShiftCode = ShiftCode.TrimEnd();
+            return;
         }
+
+        var startTimeFormat = StartTime is { Minutes: 0 } ? "hh" : @"hh\:mm";
+        var endTimeFormat = EndTime is { Minutes: 0 } ? "hh" : @"hh\:mm";
+        ShiftCode = StartTime?.ToString(startTimeFormat) + " > " + EndTime?.ToString(endTimeFormat);
+
+        if (Extension.HasValue)
+        {
+            var getExtension = Extension.HasValue ? ToExtension(Extension.Value) : string.Empty;
+            ShiftCode = ShiftCode + " " + getExtension;
+        }
+
+        ShiftCode = ShiftCode.TrimEnd();
     }
 
-    private string ToExtension(int extension)
+    private static string ToExtension(int extension)
         => EnumUtils<WorkingShiftExtension>.GetDescription(extension);
 }

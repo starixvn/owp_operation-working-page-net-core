@@ -2,6 +2,7 @@
 using MediatR;
 using OWP.Extensions;
 using OWP.PrematchAssignment.Criteria;
+using OWP.PrematchAssignment.Helper;
 using OWP.PrematchAssignment.Models;
 using OWP.PrematchAssignment.Services;
 
@@ -22,50 +23,50 @@ public class QueryAssignedLeagueIdHandler : IRequestHandler<QueryAssignedLeagueI
 {
     private readonly IDynamicRepository dynamicRepository;
 
-    private readonly ShiftAssignmentService shiftAssignmentService;
+    private readonly Repository repository;
 
-    public QueryAssignedLeagueIdHandler(IDynamicRepository dynamicRepository, ShiftAssignmentService shiftAssignmentService)
+    public QueryAssignedLeagueIdHandler(IDynamicRepository dynamicRepository, Repository repository)
     {
         this.dynamicRepository = dynamicRepository;
-        this.shiftAssignmentService = shiftAssignmentService;
+        this.repository = repository;
     }
 
     public async Task<AssignedLeagueId> Handle(QueryAssignedLeagueIdRequest request, CancellationToken cancellationToken)
     {
-        var prematchLeagueIds = await GetTodayPrematchLeague(request.IsDay);
-        var owpLeagueNames = await QueryAssignedLeagueNames(request, prematchLeagueIds);
-        var mainDbLeagueIds = await QueryAssignedLeagueIdsFromMainDB(owpLeagueNames);
+        var prematchLeagueIds = await GetTodayPrematchLeague(isDay: request.IsDay);
+        var owpLeagueNames = (await QueryAssignedLeagueNames(request: request, prematchLeagueIds: prematchLeagueIds)).ToList();
+        var mainDbLeagueIds = (await QueryAssignedLeagueIdsFromMainDB(leagueNames: owpLeagueNames)).ToList();
         var unSupportedLeagueNames = new List<string>();
 
-        if (owpLeagueNames.Count() > mainDbLeagueIds.Count())
+        if (owpLeagueNames.Count > mainDbLeagueIds.Count)
         {
-            unSupportedLeagueNames = owpLeagueNames.Except(mainDbLeagueIds.Select(x => x.LeagueName)).ToList();
+            unSupportedLeagueNames = owpLeagueNames.Except(second: mainDbLeagueIds.Select(selector: x => x.LeagueName)).ToList();
         }
 
         return new AssignedLeagueId
         {
-            LeagueIds = string.Join(",", mainDbLeagueIds.Select(x => x.LeagueId)),
+            LeagueIds = string.Join(separator: ",", values: mainDbLeagueIds.Select(selector: x => x.LeagueId)),
             UnSupportedLeagueNames = unSupportedLeagueNames,
-            TodayLeagueCount = owpLeagueNames.Count()
+            TodayLeagueCount = owpLeagueNames.Count
         };
     }
 
     public async Task<IEnumerable<int>> GetTodayPrematchLeague(bool isDay)
     {
-            var eventDate = DateTime.Now.ToGmt8().Date;
-        var startTime = await shiftAssignmentService.QueryExistedStartTime(eventDate);
+        var eventDate = DateTime.Now.ToGmt8().Date;
+        var startTime = await repository.QueryExistedStartTime(eventDate: eventDate);
         var criteria = isDay
             ? new QueryShiftPreMatchCriteria
             {
                 EventDate = eventDate,
-                EventFromDateTime = eventDate.AddHours(12),
-                EventToDateTime = eventDate.AddDays(1).AddHours(11).AddMinutes(59).AddSeconds(59),
-                IsDay = isDay
+                EventFromDateTime = eventDate.AddHours(value: 12),
+                EventToDateTime = eventDate.AddDays(value: 1).AddHours(value: 11).AddMinutes(value: 59).AddSeconds(value: 59),
+                IsDay = true
             }
-            : shiftAssignmentService.CreateNightShiftCriteria(eventDate, startTime, isDay);
+            : ShiftHelper.CreateShiftCriteria(eventDate: eventDate, isDay: false, startTime ?? new TimeSpan());
 
-        var (prematchLeague, _) = await dynamicRepository.FetchMultipleAsync<PreMatchLeague, InfoSiteMatch>(criteria);
-        return prematchLeague.Select(x => x.PreMatchLeagueId).Distinct();
+        var (prematchLeague, _) = await dynamicRepository.FetchMultipleAsync<PreMatchLeague, InfoSiteMatch>(criteria: criteria);
+        return prematchLeague.Select(selector: x => x.PreMatchLeagueId).Distinct();
     }
 
     public async Task<IEnumerable<string>> QueryAssignedLeagueNames(QueryAssignedLeagueIdRequest request, IEnumerable<int> prematchLeagueIds)
@@ -76,20 +77,20 @@ public class QueryAssignedLeagueIdHandler : IRequestHandler<QueryAssignedLeagueI
             BettypeId = request.BettypeId,
             IsTakeOver = request.IsTakeOver,
             IsDay = request.IsDay,
-            PrematchLeagueIds = string.Join(",", prematchLeagueIds)
+            PrematchLeagueIds = string.Join(separator: ",", values: prematchLeagueIds)
         };
 
-        return await dynamicRepository.FetchAsync<string>(criteria);
+        return await dynamicRepository.FetchAsync<string>(criteria: criteria);
     }
 
     public async Task<IEnumerable<LeagueInfo>> QueryAssignedLeagueIdsFromMainDB(IEnumerable<string> leagueNames)
     {
         var criteria = new QueryAssignedLeagueIdsFromMainDBCriteria
         {
-            LeagueNames = string.Join(",", leagueNames)
+            LeagueNames = string.Join(separator: ",", values: leagueNames)
         };
 
-        return await dynamicRepository.FetchAsync<LeagueInfo>(criteria);
+        return await dynamicRepository.FetchAsync<LeagueInfo>(criteria: criteria);
     }
 }
 

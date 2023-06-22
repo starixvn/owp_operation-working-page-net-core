@@ -141,31 +141,31 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddCorsPolicy(this IServiceCollection services)
     {
-        Action<CorsPolicyBuilder> corsPolicy = builder =>
-                 {
-                     builder.WithOrigins("https://localhost:44380",
-                                         "https://localhost:64193",
-                                         "http://localhost:64193",
-                                         "http://localhost:57420",
-                                         "https://owp.nexdev.net",
-                                         "https://owp-netcore-v1.nexdev.net",
-                                         "https://owp-netcore-v2.nexdev.net",
-                                         "https://owp-netcore-v3.nexdev.net",
-                                         "https://owp.starixuat.com",
-                                         "https://newowp1.starixuat.com",
-                                         "https://newowp2.starixuat.com",
-                                         "https://newowp3.starixuat.com",
-                                         "https://owp.oneops.net",
-                                         "https://newowp.oneops.net",
-                                         "https://owp1.oneops.net",
-                                         "http://localhost:3000",
-                                         "http://localhost:3001",
-                                         "https://owp.starixuat.com"
-                                         )
-                           .AllowAnyMethod()
-                           .AllowAnyHeader()
-                           .AllowCredentials();
-                 };
+        static void corsPolicy(CorsPolicyBuilder builder)
+        {
+            builder.WithOrigins("https://localhost:44380",
+                                "https://localhost:64193",
+                                "http://localhost:64193",
+                                "http://localhost:57420",
+                                "https://owp.nexdev.net",
+                                "https://owp-netcore-v1.nexdev.net",
+                                "https://owp-netcore-v2.nexdev.net",
+                                "https://owp-netcore-v3.nexdev.net",
+                                "https://owp.starixuat.com",
+                                "https://newowp1.starixuat.com",
+                                "https://newowp2.starixuat.com",
+                                "https://newowp3.starixuat.com",
+                                "https://owp.oneops.net",
+                                "https://newowp.oneops.net",
+                                "https://owp1.oneops.net",
+                                "http://localhost:3000",
+                                "http://localhost:3001",
+                                "https://owp.starixuat.com"
+                                )
+                  .AllowAnyMethod()
+                  .AllowAnyHeader()
+                  .AllowCredentials();
+        }
         services.AddCors(options =>
         {
             options.AddPolicy("AllowOrigin", corsPolicy);

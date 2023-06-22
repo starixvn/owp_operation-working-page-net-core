@@ -8,6 +8,8 @@ public class InfoSiteMatch
 
     public int AdminSiteMatchId { get; set; }
 
+    public int LeagueId { get; set; }
+
     public string LeagueName { get; set; }
 
     public string HomeName { get; set; }

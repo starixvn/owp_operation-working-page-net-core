@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using OWP.PrematchAssignment.Handlers;
 using OWP.PrematchAssignment.Models;
+using OWP.PrematchAssignment.Services;
 using OWP.PreMatchAssignment.Handlers;
 
 namespace OWP.PrematchAssignment;
@@ -17,9 +18,12 @@ public class PreMatchAssignmentController : ControllerBase
 {
     private readonly IMediator mediator;
 
-    public PreMatchAssignmentController(IMediator mediator)
+    private readonly Repository repository;
+
+    public PreMatchAssignmentController(IMediator mediator, Repository repository)
     {
         this.mediator = mediator;
+        this.repository = repository;
     }
 
     [Route("get-assignee-pre-match")]
@@ -122,5 +126,23 @@ public class PreMatchAssignmentController : ControllerBase
         var result = await mediator.Send(request);
 
         return Ok(JsonConvert.SerializeObject(result));
+    }
+
+    [HttpGet("get-ticket-list")]
+    public async Task<IActionResult> QueryTicketList(int id, int actorId, bool isTicketLeague)
+    {
+        List<TicketBasicInfo> tickets;
+        if (isTicketLeague)
+        {
+            var leagueTicketsTask = await repository.QueryAllLeaguesTicket(new List<int> { id }, actorId);
+            tickets = new List<TicketBasicInfo>(leagueTicketsTask.SelectMany(x => x.Value).ToList());
+        }
+        else
+        {
+            var matchTicketsTask = await repository.QueryAllMatchesTicket(new List<int> { id }, actorId);
+            tickets = new List<TicketBasicInfo>(matchTicketsTask.SelectMany(x => x.Value).ToList());
+        }
+
+        return Ok(JsonConvert.SerializeObject(tickets.OrderByDescending(x => x.LatestCreatedDate).ToList()));
     }
 }

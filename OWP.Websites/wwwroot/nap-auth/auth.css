@@ -155,12 +155,12 @@ body {
 
 #not-supported-browser-panel {
     background-color: #f9edbe;
-    left: 0px;
+    left: 0;
     padding: 20px;
     position: absolute;
-    right: 0px;
+    right: 0;
     text-align: center;
-    top: 0px;
+    top: 0;
     z-index: 9999;
 }
 

@@ -67,15 +67,15 @@ public class NewTicketIssueOtherHandlerUnitTests
 
         mapper
             .Map<NewMessageRequestModel>(request)
-            .Returns(x => new NewMessageRequestModel
-                {
-                    Message = "abc"
-                }
+            .Returns(_ => new NewMessageRequestModel
+            {
+                Message = "abc"
+            }
             );
 
         messageService.InsertMessage(request, Arg.Any<int>()).Returns(new NewMessageRequestModel());
 
-        await notificationService.NotifyNewMessageIncome(Arg.Compat.Any<int>());
+        await notificationService.NotifyNewMessageIncome(Arg.Compat.Any<List<string>>());
 
         var handler = new NewTicketIssueOtherHandler(
             repository,
@@ -87,7 +87,7 @@ public class NewTicketIssueOtherHandlerUnitTests
         var actual = await handler.Handle(request, CancellationToken.None);
 
         //Assert
-        var expected = 111;
-        Assert.Equal(actual, expected);
+        const int expected = 111;
+        Assert.Equal(expected, actual);
     }
 }

@@ -4,19 +4,9 @@ using OWP.PrematchAssignment.Services;
 
 namespace OWP.PrematchAssignment.Handlers;
 
-public class QueryNightShiftPreMatchRequest : IRequest<QueryPreMatchLeagueViewModel>
+public class QueryNightShiftPreMatchRequest : QueryDayShiftPreMatchRequest//, IRequest<QueryPreMatchLeagueViewModel>
 {
-    public string Employee { get; set; }
-
-    public DateTime EventDate { get; set; }
-
     public TimeSpan StartTime { get; set; }
-
-    public string LeagueName { get; set; }
-
-    public int ActorId { get; set; }
-
-    public List<string> MatchOffers { get; set; }
 }
 
 public class QueryNightShiftPreMatchHandler : IRequestHandler<QueryNightShiftPreMatchRequest, QueryPreMatchLeagueViewModel>
@@ -36,7 +26,7 @@ public class QueryNightShiftPreMatchHandler : IRequestHandler<QueryNightShiftPre
         var shiftAssignments = await shiftAssignmentService.QueryNightShift(request);
 
         await maxbetSpreadService.Build(shiftAssignments.InfoSiteMatches);
-        await shiftAssignmentService.MapTicketLists(shiftAssignments.PreMatchLeagues, shiftAssignments.InfoSiteMatches, request.ActorId);
+        await shiftAssignmentService.MapTicketLists(shiftAssignments.PreMatchLeagues.ToList(), shiftAssignments.InfoSiteMatches.ToList(), request.ActorId);
 
         return shiftAssignments;
     }

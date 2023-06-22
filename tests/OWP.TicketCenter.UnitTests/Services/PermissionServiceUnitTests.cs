@@ -20,7 +20,7 @@ public class PermissionServiceUnitTests
     [InlineData(17, 6, false)]
     public async Task HasPermission_Always_CheckPermission(int ticketId, int creatorId, bool expected)
     {
-        repository.GetUserIdsByTicketId(ticketId).Returns(new List<int> { 1, 2, 3, 4, 5 });
+        repository.GetUserIdsByTicketId(ticketId).Returns(new List<string> { "1", "2", "3", "4", "5" });
         var service = new PermissionServiceImp(repository);
 
         var actual = await service.HasPermission(ticketId, creatorId);
@@ -33,12 +33,11 @@ public class PermissionServiceUnitTests
     {
         repository.GetRecipientByTicketId(Arg.Any<int>())
             .Returns(new List<RecipientResponseModel> { new() { GroupName = "Liam", RecipientId = 10 } });
-        var expected = false;
         var service = new PermissionServiceImp(repository);
 
         var actual = await service.HasPermissionRemoveLastRecipient(5);
 
-        Assert.Equal(expected, actual);
+        Assert.False(actual);
     }
 
 
@@ -46,11 +45,10 @@ public class PermissionServiceUnitTests
     public async Task HasExistedTicket_Always_CheckPermission()
     {
         repository.QueryExistedTicketId(Arg.Any<int>()).Returns(true);
-        var expected = true;
         var service = new PermissionServiceImp(repository);
 
         var actual = await service.HasExistedTicket(5);
 
-        Assert.Equal(expected, actual);
+        Assert.True(actual);
     }
 }

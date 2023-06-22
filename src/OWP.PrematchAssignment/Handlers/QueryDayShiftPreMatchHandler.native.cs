@@ -33,7 +33,7 @@ public class QueryDayShiftPreMatchHandler : IRequestHandler<QueryDayShiftPreMatc
     {
         var shiftAssignments = await shiftAssignmentService.QueryDayShift(request);
         await maxbetSpreadService.Build(shiftAssignments.InfoSiteMatches);
-        await shiftAssignmentService.MapTicketLists(shiftAssignments.PreMatchLeagues, shiftAssignments.InfoSiteMatches, request.ActorId);
+        await shiftAssignmentService.MapTicketLists(shiftAssignments.PreMatchLeagues.ToList(), shiftAssignments.InfoSiteMatches.ToList(), request.ActorId);
 
         return shiftAssignments;
     }

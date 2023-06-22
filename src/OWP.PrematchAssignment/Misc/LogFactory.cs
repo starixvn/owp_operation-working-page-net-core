@@ -1,7 +1,7 @@
-﻿using System.Globalization;
+﻿using OWP.PrematchAssignment.Models;
+using System.Globalization;
 using System.Xml;
 using System.Xml.Serialization;
-using OWP.PrematchAssignment.Models;
 
 namespace OWP.PrematchAssignment.Misc;
 
@@ -50,12 +50,9 @@ public class LogFactoryImp : LogFactory
 
         var assignmentLog = Parse<UpdateAssignmentLogModel>(data).First();
 
-        if (assignmentLog.AssignmentType == 2)
-        {
-            return LogActionConst.UpdateOtherAssignment;
-        }
-
-        return LogActionConst.UpdateAssignment;
+        return assignmentLog.AssignmentType == 2
+            ? LogActionConst.UpdateOtherAssignment
+            : LogActionConst.UpdateAssignment;
     }
 
     private string BuildUpdateAssignment(string data)
@@ -80,10 +77,8 @@ public class LogFactoryImp : LogFactory
         var rootElement = xmlDoc.ChildNodes[0];
         foreach (XmlElement childElement in rootElement)
         {
-            using (var sr = new StringReader(childElement.OuterXml))
-            {
-                result.Add((T)serializer.Deserialize(sr));
-            }
+            using var sr = new StringReader(childElement.OuterXml);
+            result.Add((T)serializer.Deserialize(sr));
         }
 
         return result;

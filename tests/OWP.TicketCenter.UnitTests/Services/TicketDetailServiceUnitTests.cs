@@ -11,7 +11,6 @@ namespace OWP.TicketCenter.UnitTests.Services;
 
 public class TicketDetailServiceUnitTests
 {
-    private readonly IMapper mapper;
     private readonly Repository repository;
     private readonly MessageService messageService;
     private readonly TicketDetailServiceImp service;
@@ -28,7 +27,7 @@ public class TicketDetailServiceUnitTests
         });
         repository = Substitute.For<Repository>();
         messageService = Substitute.For<MessageService>();
-        mapper = configuration.CreateMapper();
+        var mapper = configuration.CreateMapper();
 
         service = new TicketDetailServiceImp(mapper, repository, messageService);
     }
@@ -36,7 +35,7 @@ public class TicketDetailServiceUnitTests
     [Fact]
     public async Task GetTicketMatchDetail_Always_ReturnTicketMatchDetailViewModel()
     {
-        var actorId = 8;
+        const int actorId = 8;
         var request = new TicketMatchDetailRequest { ActorId = actorId, TicketId = 145 };
         var ticketMatchDetail = new EventTicketMatchModel
         {
@@ -70,7 +69,7 @@ public class TicketDetailServiceUnitTests
     [Fact]
     public async Task GetTicketLeagueDetail_Always_ReturnTicketLeagueDetailViewModel()
     {
-        var actorId = 8;
+        const int actorId = 8;
         var request = new TicketLeagueDetailRequest { ActorId = actorId, TicketId = 145 };
         var ticketLeagueDetail = new EventTicketLeagueModel
         {
@@ -102,7 +101,7 @@ public class TicketDetailServiceUnitTests
     [Fact]
     public async Task GetTicketOtherDetail_Always_ReturnTicketOtherDetailViewModel()
     {
-        var actorId = 8;
+        const int actorId = 8;
         var request = new TicketOtherDetailRequest { ActorId = actorId, TicketId = 145 };
         var ticketOtherDetail = new EventTicketOtherModel
         {
@@ -134,7 +133,7 @@ public class TicketDetailServiceUnitTests
     [Fact]
     public async Task GetTicketLiveIncidentDetail_Always_ReturnTicketLiveIncidentDetailViewModel()
     {
-        var actorId = 8;
+        const int actorId = 8;
         var request = new TicketLiveIncidentDetailRequest { ActorId = actorId, TicketId = 145 };
         var ticketLiveIncidentDetail = new EventTicketMatchModel
         {
@@ -170,7 +169,7 @@ public class TicketDetailServiceUnitTests
     [Fact]
     public async Task GetTicketSupportDetail_Always_ReturnTicketSupportDetailViewModel()
     {
-        var actorId = 8;
+        const int actorId = 8;
         var request = new TicketSupportDetailRequest { ActorId = actorId, TicketId = 145 };
         var ticketSupportDetail = new EventTicketSupportModel
         {

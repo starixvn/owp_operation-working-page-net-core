@@ -1,11 +1,11 @@
-﻿using System.Globalization;
-using AutoMapper;
-using Fanex.Data.Repository;
+﻿using AutoMapper;
 using OWP.Extensions;
 using OWP.PrematchAssignment.Constants;
 using OWP.PrematchAssignment.Criteria;
 using OWP.PrematchAssignment.Handlers;
+using OWP.PrematchAssignment.Helper;
 using OWP.PrematchAssignment.Models;
+using System.Globalization;
 
 namespace OWP.PrematchAssignment.Services;
 
@@ -15,259 +15,125 @@ public interface ShiftAssignmentService
 
     Task<QueryPreMatchLeagueViewModel> QueryNightShift(QueryNightShiftPreMatchRequest request);
 
-    Task MapTicketLists(IEnumerable<LeagueAssignment> preMatchLeagues, IEnumerable<InfoSiteMatch> infoSiteMatches, int actorId);
-
-    Task<TimeSpan?> QueryExistedStartTime(DateTime eventDate);
-
-    CriteriaBase CreateNightShiftCriteria(DateTime eventDate, TimeSpan? startTime, bool isDay);
+    Task MapTicketLists(List<LeagueAssignment> preMatchLeagues, List<InfoSiteMatch> infoSiteMatches, int actorId);
 }
 
 public class ShiftAssignmentServiceImp : ShiftAssignmentService
 {
-    private readonly IDynamicRepository dynamicRepository;
+    private readonly Repository repository;
 
     private readonly IMapper mapper;
 
-    public ShiftAssignmentServiceImp(IDynamicRepository dynamicRepository, IMapper mapper)
+    public ShiftAssignmentServiceImp(Repository repository, IMapper mapper)
     {
-        this.dynamicRepository = dynamicRepository;
+        this.repository = repository;
         this.mapper = mapper;
     }
 
     public async Task<QueryPreMatchLeagueViewModel> QueryDayShift(QueryDayShiftPreMatchRequest request)
     {
-        var queryDayShiftCriteria = new QueryShiftPreMatchCriteria
+        var criteria = ShiftHelper.CreateShiftCriteria(request.EventDate, true);
+        var assignmentShift = await BuildPreMatchAssignments(request, criteria);
+        var sortedLeagues = SortPreMatchLeagues(assignmentShift.Leagues.Values);
+        AddNumber(sortedLeagues);
+
+        return CreateQueryPreMatchLeagueViewModel(sortedLeagues, assignmentShift.Matches);
+    }
+
+    private async Task<AssignmentShift> BuildPreMatchAssignments(QueryDayShiftPreMatchRequest request, QueryShiftPreMatchCriteria criteria)
+    {
+        var result = await repository.QueryDayShiftPreMatchAssignments(criteria);
+
+        var (filteredLeagues, filteredInfoSiteMatches) = FilterByRequest(result.Item1, result.Item2, request);
+
+        await MapMatchStatusWhichLinkedOwp(filteredInfoSiteMatches, request.EventDate);
+        await AddOddStatusNo(filteredInfoSiteMatches);
+
+        return new AssignmentShift
         {
-            EventDate = request.EventDate,
-            EventToDateTime = request.EventDate.AddDays(1).AddHours(11).AddMinutes(59).AddSeconds(59),
-            EventFromDateTime = request.EventDate.AddHours(12),
-            IsDay = true
-        };
-
-        var result = await QueryShift(queryDayShiftCriteria, request.Employee, request.LeagueName, request.MatchOffers, request.EventDate);
-
-        var preMatchLeagues = SortAndAddNo(result.Item1);
-
-        return new QueryPreMatchLeagueViewModel
-        {
-            InfoSiteMatches = result.Item2.ToList(),
-            PreMatchLeagues = mapper.Map<IList<LeagueAssignment>>(preMatchLeagues)
+            Leagues = filteredLeagues.ToDictionary(x => x.LeagueId),
+            Matches = filteredInfoSiteMatches
+                .GroupBy(x => x.LeagueId)
+                .ToDictionary(a => a.Key, b => b.ToList())
         };
     }
 
     public async Task<QueryPreMatchLeagueViewModel> QueryNightShift(QueryNightShiftPreMatchRequest request)
     {
-        var startTime = await QueryExistedStartTime(request.EventDate);
+        var nightShiftInfo = await QueryAssignmentsForNightShift(request);
 
-        var dayShift = await QueryAssignmentShift(request, request.StartTime, true);
-
-        var nightShiftWithRequestStartTime = await QueryAssignmentShift(request, request.StartTime, false);
-        var defaultShift = new DefaultDayAndNightShift
-        {
-            DayShift = dayShift,
-            NightShift = nightShiftWithRequestStartTime
-        };
-
-        return IsRequestStartTimeGreaterThanDbStartTime(request, startTime)
-            ? GetNightShiftResultWithoutDbStartTime(defaultShift.NightShift, defaultShift.DayShift, startTime)
-            : await QueryNightShiftWithDbStartTime(defaultShift, request, startTime);
+        return BuildNightShiftWithRequestTime(nightShiftInfo.NightShifts, nightShiftInfo.DayShifts);
     }
 
-    public async Task MapTicketLists(IEnumerable<LeagueAssignment> preMatchLeagues, IEnumerable<InfoSiteMatch> infoSiteMatches, int actorId)
+    private async Task<NightShiftInfo> QueryAssignmentsForNightShift(QueryNightShiftPreMatchRequest request)
+    {
+        var dayCriteria = ShiftHelper.CreateShiftCriteria(request.EventDate, true);
+        var nightRequestTimeCriteria = ShiftHelper.CreateShiftCriteria(request.EventDate, false, request.StartTime);
+
+        var dbStartTime = repository.QueryExistedStartTime(request.EventDate);
+        var dayAssignments = BuildPreMatchAssignments(request, dayCriteria);
+        var nightAssignmentsWithRequestTime = BuildPreMatchAssignments(request, nightRequestTimeCriteria);
+
+        await Task.WhenAll(dbStartTime, dayAssignments, nightAssignmentsWithRequestTime);
+
+        var nightShiftInfo = new NightShiftInfo
+        {
+            DayShifts = dayAssignments.Result,
+            NightShifts = nightAssignmentsWithRequestTime.Result,
+            DBStartTime = dbStartTime.Result
+        };
+
+        return nightShiftInfo;
+    }
+
+    public async Task MapTicketLists(List<LeagueAssignment> preMatchLeagues, List<InfoSiteMatch> infoSiteMatches, int actorId)
     {
         var leagueIds = preMatchLeagues.Select(x => x.LeagueId);
         var infoSiteMatchIds = infoSiteMatches.Select(x => x.InfoSiteMatchId);
 
-        var leagueTickets = await QueryAllLeaguesTicket(leagueIds, actorId);
-        var matchTickets = await QueryAllMatchesTicket(infoSiteMatchIds, actorId);
+        var leagueTicketsTask = repository.QueryAllLeaguesTicket(leagueIds, actorId);
+        var matchTicketsTask = repository.QueryAllMatchesTicket(infoSiteMatchIds, actorId);
+
+        await Task.WhenAll(leagueTicketsTask, matchTicketsTask);
 
         foreach (var league in preMatchLeagues)
         {
-            var leagueTicket = leagueTickets.GetValue(league.LeagueId, new List<TicketLeagueBasicInfo>());
+            var leagueTicket = leagueTicketsTask.Result.GetValueOrDefault(league.LeagueId, new List<TicketLeagueBasicInfo>());
             league.TicketList = leagueTicket.OrderByDescending(x => x.LatestCreatedDate).ToList();
         }
 
         foreach (var match in infoSiteMatches)
         {
-            var matchTicket = matchTickets.GetValue(match.InfoSiteMatchId, new List<TicketMatchBasicInfo>());
+            var matchTicket = matchTicketsTask.Result.GetValueOrDefault(match.InfoSiteMatchId, new List<TicketMatchBasicInfo>());
             match.TicketList = matchTicket.OrderByDescending(x => x.LatestCreatedDate).ToList();
         }
     }
 
-    public async Task<Dictionary<int, List<TicketLeagueBasicInfo>>> QueryAllLeaguesTicket(IEnumerable<int> owpLeagueIds, int actorId)
+    private QueryPreMatchLeagueViewModel BuildNightShiftWithRequestTime(AssignmentShift nightShift, AssignmentShift dayShift)
     {
-        var criteria = new QueryAllLeaguesTicketCriteria
-        {
-            OWPLeagueIds = string.Join(",", owpLeagueIds.Distinct()),
-            ActorId = actorId
-        };
+        UpdateAssignmentHintNightShift(nightShift.Leagues, dayShift.Leagues);
 
-        var result = await dynamicRepository.FetchAsync<TicketLeagueBasicInfo>(criteria);
-
-        return result
-            .GroupBy(x => x.OWPLeagueId)
-            .ToDictionary(x => x.Key, x => x.ToList());
-    }
-
-    public async Task<Dictionary<int, List<TicketMatchBasicInfo>>> QueryAllMatchesTicket(IEnumerable<int> infoSiteMatchIds, int actorId)
-    {
-        var criteria = new QueryAllMatchesTicketCriteria
-        {
-            InfoSiteMatchIds = string.Join(",", infoSiteMatchIds.Distinct()),
-            ActorId = actorId
-        };
-
-        var result = await dynamicRepository.FetchAsync<TicketMatchBasicInfo>(criteria);
-
-        return result
-            .GroupBy(x => x.InfoSiteMatchId)
-            .ToDictionary(x => x.Key, x => x.ToList());
-    }
-
-    private static bool IsRequestStartTimeGreaterThanDbStartTime(QueryNightShiftPreMatchRequest request, TimeSpan? startTime)
-        => !startTime.HasValue || IsDbStartTimeLowerThanRequestStartTime(startTime, request.StartTime);
-
-    private async Task<QueryPreMatchLeagueViewModel> QueryNightShiftWithDbStartTime(DefaultDayAndNightShift defaultShifts, QueryNightShiftPreMatchRequest request, TimeSpan? startTime)
-    {
-        var nightShiftWithDbStartTime = await QueryAssignmentShift(request, startTime.Value, false);
-
-        return GetNightShiftResultWithDBStartTime(defaultShifts.NightShift, defaultShifts.DayShift, nightShiftWithDbStartTime);
-    }
-
-    private async Task<AssignmentShift> QueryAssignmentShift(QueryNightShiftPreMatchRequest request, TimeSpan startTime, bool isDayShift)
-    {
-        var queryCriteria = CreateNightShiftCriteria(request.EventDate, startTime, isDayShift);
-        var result = await QueryShift(queryCriteria, request.Employee, request.LeagueName, request.MatchOffers, request.EventDate);
-
-        return new AssignmentShift { Leagues = result.Item1, Matches = result.Item2 };
-    }
-
-    private static bool IsDbStartTimeLowerThanRequestStartTime(TimeSpan? dbStartTime, TimeSpan requestStartTime)
-    {
-        var twelvePm = new TimeSpan(12, 00, 00);
-
-        var dbStartTimeDateTime = dbStartTime.Value.CompareTo(twelvePm) >= 0
-            ? DateTime.Now.Date.Add(dbStartTime.Value)
-            : DateTime.Now.AddDays(1).Date.Add(dbStartTime.Value);
-
-        var requestStartTimeDateTime = requestStartTime.CompareTo(twelvePm) >= 0
-            ? DateTime.Now.Date.Add(requestStartTime)
-            : DateTime.Now.AddDays(1).Date.Add(requestStartTime);
-
-        return dbStartTimeDateTime.CompareTo(requestStartTimeDateTime) <= 0;
-    }
-
-    public async Task<TimeSpan?> QueryExistedStartTime(DateTime eventDate)
-    {
-        var criteria = new GetStartTimeCriteria
-        {
-            EventDate = eventDate
-        };
-        var result = await dynamicRepository.FetchAsync<TimeSpan>(criteria);
-
-        return result.Any() ? new TimeSpan?(result.FirstOrDefault()) : null;
-    }
-
-    public CriteriaBase CreateNightShiftCriteria(DateTime eventDate, TimeSpan? startTime, bool isDay)
-    {
-        var eventToDateTime = eventDate.AddDays(1).AddHours(11).AddMinutes(59).AddSeconds(59);
-        var eventToRequestStartTime = CalculateQueryDateTime(startTime.Value, eventDate);
-
-        return new QueryShiftPreMatchCriteria
-        {
-            EventDate = eventDate,
-            EventToDateTime = eventToDateTime,
-            EventFromDateTime = eventToRequestStartTime,
-            IsDay = isDay
-        };
-    }
-
-    private QueryPreMatchLeagueViewModel GetNightShiftResultWithoutDbStartTime(
-        AssignmentShift nightShiftWithRequestStartTime,
-        AssignmentShift dayShift,
-        TimeSpan? startTime)
-    {
-        var leagues = nightShiftWithRequestStartTime.Leagues;
-
-        if (!startTime.HasValue)
-        {
-            var dayShiftLeagues = dayShift.Leagues;
-            var dayShiftLeaguesPair = dayShiftLeagues.ToDictionary(x => x.LeagueId);
-
-            leagues = leagues
-                .Select(x => UpdateAssignmentHint(x, dayShiftLeaguesPair[x.LeagueId]));
-        }
-        UpdateAssignmentHintNightShift(leagues, dayShift.Leagues);
-        var (leaguesContainsHint, leaguesRest) = SplitPrematchLeagues(leagues?.ToList());
+        var (leaguesContainsHint, leaguesRest) = SplitPrematchLeagues(nightShift.Leagues.Values.ToList());
         var preMatchLeagues = SortByHint(leaguesContainsHint);
-        preMatchLeagues.AddRange(SortAndAddNo(leaguesRest));
-        for (var i = 0; i < preMatchLeagues.Count; i++)
-        {
-            preMatchLeagues[i].No = i + 1;
-        }
-        return new QueryPreMatchLeagueViewModel
-        {
-            InfoSiteMatches = nightShiftWithRequestStartTime.Matches.ToList(),
-            PreMatchLeagues = mapper.Map<IList<LeagueAssignment>>(preMatchLeagues)
-        };
+        preMatchLeagues.AddRange(SortPreMatchLeagues(leaguesRest));
+        AddNumber(preMatchLeagues);
+
+        return CreateQueryPreMatchLeagueViewModel(preMatchLeagues, nightShift.Matches);
     }
 
-    private QueryPreMatchLeagueViewModel GetNightShiftResultWithDBStartTime(
-        AssignmentShift nightShiftWithRequestStartTime,
-        AssignmentShift dayShift,
-        AssignmentShift nightShiftWithDBStartTime
-    )
+    private static void UpdateAssignmentHintNightShift(Dictionary<int, PreMatchLeague> nightShiftLeagues, Dictionary<int, PreMatchLeague> dayShiftLeagues)
     {
-        var leagues = nightShiftWithRequestStartTime.Leagues;
-        var dayShiftLeagues = dayShift.Leagues;
-        var nightShiftWithDbStartTimeLeagues = nightShiftWithDBStartTime.Leagues;
-
-        var newLeagues = dayShiftLeagues
-            .Where(x => nightShiftWithDbStartTimeLeagues
-                            .All(y => y.LeagueId != x.LeagueId) &&
-                        leagues.Any(z => z.LeagueId == x.LeagueId)).ToList();
-
-        UpdateAssignmentHintNightShift(leagues, dayShiftLeagues);
-
-        foreach (var league in newLeagues)
-        {
-            leagues = leagues
-                .Select(x => x.LeagueId == league.LeagueId
-                    ? UpdateAssignmentHint(x, league)
-                    : x
-                );
-        }
-
-        var (leaguesContainsHint, leaguesRest) = SplitPrematchLeagues(leagues?.ToList());
-        var preMatchLeagues = SortByHint(leaguesContainsHint);
-        preMatchLeagues.AddRange(SortAndAddNo(leaguesRest));
-        for (var i = 0; i < preMatchLeagues.Count; i++)
-        {
-            preMatchLeagues[i].No = i + 1;
-        }
-        return new QueryPreMatchLeagueViewModel
-        {
-            PreMatchLeagues = mapper.Map<IList<LeagueAssignment>>(preMatchLeagues),
-            InfoSiteMatches = nightShiftWithRequestStartTime.Matches
-        };
-    }
-
-    private void UpdateAssignmentHintNightShift(IEnumerable<PreMatchLeague> nightShiftLeagues, IEnumerable<PreMatchLeague> dayShiftLeagues)
-    {
-
         foreach (var nightShiftLeague in nightShiftLeagues)
         {
-
-            var dayShiftLeague = dayShiftLeagues?.FirstOrDefault(x => Equals(x.LeagueId, nightShiftLeague.LeagueId));
-
+            var dayShiftLeague = dayShiftLeagues.GetValue(nightShiftLeague.Key, null);
             if (dayShiftLeague is not null)
             {
-                UpdateAssignmentHint(nightShiftLeague, dayShiftLeague);
+                UpdateAssignmentHint(nightShiftLeague.Value, dayShiftLeague);
             }
         }
     }
 
-    private static PreMatchLeague UpdateAssignmentHint(PreMatchLeague dest, PreMatchLeague source)
+    private static void UpdateAssignmentHint(PreMatchLeague dest, PreMatchLeague source)
     {
         dest.HDPHint = source.HDP;
         dest.OtherHDPHint = source.OtherHDP;
@@ -277,57 +143,49 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
         dest.OtherHDPTakeOverHint = source.OtherHDPTakeOver;
         dest.OUTakeOverHint = source.OUTakeOver;
         dest.OtherOUTakeOverHint = source.OtherOUTakeOver;
-        return dest;
     }
 
-    private static DateTime CalculateQueryDateTime(TimeSpan time, DateTime eventDate)
+    private static (List<PreMatchLeague>, List<InfoSiteMatch>) FilterByRequest(
+        IEnumerable<PreMatchLeague> preMatchLeagues,
+        IEnumerable<InfoSiteMatch> infoSiteMatches,
+        QueryDayShiftPreMatchRequest request)
     {
-        if (time.CompareTo(new TimeSpan(0, 0, 0)) >= 0 && time.CompareTo(new TimeSpan(11, 59, 59)) <= 0)
-        {
-            return eventDate.Date.AddDays(1).Add(time);
-        }
+        var employee = request.Employee;
+        var matchOffers = request.MatchOffers;
 
-        return eventDate.Date.Add(time);
+        var filteredLeagues = preMatchLeagues
+            .Where(x => x.LeagueName.IsContains(request.LeagueName))
+            .Where(x => string.IsNullOrEmpty(employee) ||
+                CheckMainAssignmentContainsEmployee(x, employee) ||
+                CheckOtherAssignmentContainsEmployee(x, employee));
+
+        var filteredMatches = infoSiteMatches
+            .Where(x => filteredLeagues.Any(y => y.PreMatchLeagueId == x.PreMatchLeagueId));
+
+        filteredMatches = matchOffers is null
+            ? filteredMatches
+            : filteredMatches.Where(m => matchOffers.Any(x => x.Equals(m.MatchOffer)));
+
+        return (filteredLeagues.ToList(), filteredMatches.ToList());
     }
 
-    private async Task<Tuple<IEnumerable<PreMatchLeague>, IEnumerable<InfoSiteMatch>>> QueryShift(CriteriaBase criteria,
-        string employee, string leagueName, List<string> matchOffers, DateTime eventDate)
-    {
-        var data = await dynamicRepository.FetchMultipleAsync<PreMatchLeague, InfoSiteMatch>(criteria);
-
-        var filterByEmployee = data.Item1.Where(x => string.IsNullOrEmpty(employee)
-                                                     || CheckMainAssignmentContainsEmployee(x, employee)
-                                                     || CheckOtherAssignmentContainsEmployee(x, employee));
-        var filterByLeagueName = filterByEmployee.Where(x => x.LeagueName.IsContains(leagueName));
-
-        var matches = data.Item2.Where(x => filterByLeagueName.Any(y => y.PreMatchLeagueId == x.PreMatchLeagueId));
-
-        await MapMatchStatusWhichLinkedOwp(matches, eventDate);
-
-        await AddOddStatusNo(matches);
-
-        var matchesFilterByMatchOffer = matchOffers is null ? matches : FilterByMatchOffer(matches, matchOffers);
-
-        var preMatchLeagueIds = matchesFilterByMatchOffer.Select(m => m.PreMatchLeagueId).Distinct().ToList();
-
-        var leaguesFilterByMatch = filterByLeagueName.Where(l => preMatchLeagueIds.Contains(l.PreMatchLeagueId));
-
-        return new Tuple<IEnumerable<PreMatchLeague>, IEnumerable<InfoSiteMatch>>(leaguesFilterByMatch, matchesFilterByMatchOffer);
-    }
-
-    private static IEnumerable<InfoSiteMatch> FilterByMatchOffer(IEnumerable<InfoSiteMatch> matches, List<string> matchOffers)
-        => matches?.Where(m => matchOffers.Any(x => x.Equals(m.MatchOffer)));
-
-    public async Task MapMatchStatusWhichLinkedOwp(IEnumerable<InfoSiteMatch> matches, DateTime dateTime)
+    public async Task MapMatchStatusWhichLinkedOwp(List<InfoSiteMatch> matches, DateTime dateTime)
     {
         var infositeIds = matches.Select(x => x.InfoSiteMatchId).ToList();
-        var linkedOWPMatches = await QueryLinkedOwpMatch(infositeIds, dateTime);
+        var linkedOWPMatches = await repository.QueryLinkedOwpMatch(infositeIds, dateTime);
         foreach (var match in matches)
         {
             var linkedMatch = linkedOWPMatches.FirstOrDefault(x => x.InfositeMatchId == match.InfoSiteMatchId) ?? new LinkedMatch();
             match.MatchStatus = GetMatchStatus(linkedMatch, match);
         }
     }
+
+    private QueryPreMatchLeagueViewModel CreateQueryPreMatchLeagueViewModel(List<PreMatchLeague> leagues, Dictionary<int, List<InfoSiteMatch>> matches)
+        => new()
+        {
+            InfoSiteMatches = matches.SelectMany(x => x.Value).ToList(),
+            PreMatchLeagues = mapper.Map<IEnumerable<LeagueAssignment>>(leagues)
+        };
 
     private static string GetMatchStatus(LinkedMatch linkedMatch, InfoSiteMatch match)
     {
@@ -337,17 +195,6 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
         }
 
         return linkedMatch.MatchStatus.ToUpper(CultureInfo.InvariantCulture);
-    }
-
-    private async Task<IEnumerable<LinkedMatch>> QueryLinkedOwpMatch(List<int> infositeIds, DateTime eventDate)
-    {
-        var criteria = new QueryLinkedOWPMatchCriteria
-        {
-            InfositeMatchIds = string.Join(",", infositeIds),
-            EventDate = eventDate
-        };
-
-        return await dynamicRepository.FetchAsync<LinkedMatch>(criteria);
     }
 
     private static bool CheckMainAssignmentContainsEmployee(PreMatchLeague league, string employee)
@@ -380,103 +227,76 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
         return assignments.Any(x => x.IsContains(employee));
     }
 
-    private (IList<PreMatchLeague>, IList<PreMatchLeague>) SplitPrematchLeagues(IList<PreMatchLeague> leagues)
+    private static (IList<PreMatchLeague>, IList<PreMatchLeague>) SplitPrematchLeagues(IEnumerable<PreMatchLeague> leagues)
     {
-        var leaguesContainsHint = new List<PreMatchLeague>();
+        var leaguesOnlyContainsHint = new List<PreMatchLeague>();
         var leaguesRest = new List<PreMatchLeague>();
         foreach (var league in leagues)
         {
-            if (!string.IsNullOrWhiteSpace(league.HDP) ||
-            !string.IsNullOrWhiteSpace(league.OU)
-
-             || !string.IsNullOrWhiteSpace(league.HDPTakeOver)
-
-              || !string.IsNullOrWhiteSpace(league.OUTakeOver))
+            if (string.IsNullOrWhiteSpace(league.HDP) &&
+                string.IsNullOrWhiteSpace(league.OU) &&
+                string.IsNullOrWhiteSpace(league.HDPTakeOver) &&
+                string.IsNullOrWhiteSpace(league.OUTakeOver))
             {
-                leaguesRest.Add(league);
+                leaguesOnlyContainsHint.Add(league);
             }
             else
             {
-
-                leaguesContainsHint.Add(league);
+                leaguesRest.Add(league);
             }
         }
 
-        return (leaguesContainsHint, leaguesRest);
+        return (leaguesOnlyContainsHint, leaguesRest);
     }
 
     private static List<PreMatchLeague> SortByHint(IEnumerable<PreMatchLeague> leagues)
     {
-        var sortedLeagues = leagues.OrderByDescending(x => x.HDPHint)
+        return leagues
+            .OrderByDescending(x => x.HDPHint)
             .ThenBy(x => x.OUHint)
             .ThenBy(x => x.HDPTakeOverHint)
             .ThenBy(x => x.OUTakeOverHint)
             .ThenBy(x => x.LeagueName)
             .ThenBy(x => x.LeagueName)
             .ToList();
-        return sortedLeagues;
     }
 
-    private static IList<PreMatchLeague> SortAndAddNo(IEnumerable<PreMatchLeague> leagues)
+    private static List<PreMatchLeague> SortPreMatchLeagues(IEnumerable<PreMatchLeague> leagues)
     {
-        var sortedLeagues = leagues.OrderByDescending(x => string.IsNullOrEmpty(x.HDP) &&
-                                                           string.IsNullOrEmpty(x.OU) &&
-                                                           string.IsNullOrEmpty(x.HDPTakeOver) &&
-                                                           string.IsNullOrEmpty(x.OUTakeOver))
-            .ThenBy(x => string.IsNullOrEmpty(x.HDP))
-            .ThenBy(x => x.HDP)
-            .ThenBy(x => string.IsNullOrEmpty(x.OU))
-            .ThenBy(x => x.OU)
-            .ThenBy(x => string.IsNullOrEmpty(x.HDPTakeOver))
-            .ThenBy(x => x.HDPTakeOver)
-            .ThenBy(x => string.IsNullOrEmpty(x.OUTakeOver))
-            .ThenBy(x => x.OUTakeOver)
-            .ThenBy(x => x.LeagueName).ToList();
+        return leagues.OrderByDescending(x =>
+                   string.IsNullOrEmpty(x.HDP) &&
+                   string.IsNullOrEmpty(x.OU) &&
+                   string.IsNullOrEmpty(x.HDPTakeOver) &&
+                   string.IsNullOrEmpty(x.OUTakeOver))
+            .ThenBy(x => string.IsNullOrEmpty(x.HDP) ? string.Empty : x.HDP)
+            .ThenBy(x => string.IsNullOrEmpty(x.OU) ? string.Empty : x.OU)
+            .ThenBy(x => string.IsNullOrEmpty(x.HDPTakeOver) ? string.Empty : x.HDPTakeOver)
+            .ThenBy(x => string.IsNullOrEmpty(x.OUTakeOver) ? string.Empty : x.OUTakeOver)
+            .ThenBy(x => x.LeagueName)
+            .ToList();
+    }
 
+    private static void AddNumber(List<PreMatchLeague> sortedLeagues)
+    {
         for (var i = 0; i < sortedLeagues.Count; i++)
         {
             sortedLeagues[i].No = i + 1;
         }
-
-        return sortedLeagues;
-    }
-
-    private async Task<IEnumerable<OddStatus>> QueryOddStatusFromMainDb(IEnumerable<InfoSiteMatch> infositeMatches)
-    {
-        var adminSiteMatchIds = infositeMatches.Select(x => x.AdminSiteMatchId).Distinct();
-        var criteria = new QueryOddStatusFromMainDBCriteria
-        {
-            AdminSiteMatchIds = string.Join(",", adminSiteMatchIds)
-        };
-
-        return await dynamicRepository.FetchAsync<OddStatus>(criteria);
     }
 
     public async Task AddOddStatusNo(IEnumerable<InfoSiteMatch> infositeMatches)
     {
         var infoSiteMatches = infositeMatches.ToList();
-        var oddStatuses = await QueryOddStatusFromMainDb(infoSiteMatches);
+        var oddStatuses = await repository.QueryOddStatusFromMainDb(infoSiteMatches);
         var oddStatusesDict = oddStatuses.GroupBy(x => x.AdminSiteMatchId).ToDictionary(x => x.Key, x => x.ToList());
 
         foreach (var infositeMatch in infoSiteMatches)
         {
             var oddStatusByMatchId = oddStatusesDict.GetValue(infositeMatch.AdminSiteMatchId, new List<OddStatus>());
-            var openedHDP = IsRunning(oddStatusByMatchId.Where(x => x.Bettype == 1));
-            var openedOU = IsRunning(oddStatusByMatchId.Where(x => x.Bettype == 3));
+            var openedHDP = ShiftHelper.IsRunning(oddStatusByMatchId.Where(x => x.Bettype == 1));
+            var openedOU = ShiftHelper.IsRunning(oddStatusByMatchId.Where(x => x.Bettype == 3));
 
-            infositeMatch.MatchOffer = CalculateOddStatus(openedHDP, openedOU);
+            infositeMatch.MatchOffer = ShiftHelper.CalculateOddStatus(openedHDP, openedOU);
         }
     }
-
-    private static bool IsRunning(IEnumerable<OddStatus> oddStatuses)
-        => oddStatuses.Any(x => string.Equals(x.OddsStatus, "running", StringComparison.OrdinalIgnoreCase));
-
-    private static string CalculateOddStatus(bool openedHDP, bool openedOU)
-        => (openedHDP, openedOU) switch
-        {
-            (true, true) => MatchOfferStatus.Opened,
-            (false, true) => MatchOfferStatus.Hdp,
-            (true, false) => MatchOfferStatus.Ou,
-            _ => string.Empty
-        };
 }
