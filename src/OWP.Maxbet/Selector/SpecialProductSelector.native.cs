@@ -3,7 +3,6 @@ using OWP.Maxbet.Builder;
 using OWP.Maxbet.Constants;
 using OWP.Maxbet.Handlers;
 using OWP.Maxbet.Models;
-using OWP.Services;
 
 namespace OWP.Maxbet.Selector;
 
@@ -28,7 +27,6 @@ public class SpecialProductSelectorImp : SpecialProductSelector
     private readonly SpecialProductSpreadBuilder specialProductSpreadBuilder;
     private readonly SpecialProductMaxbetBuilder specialProductMaxbetBuilder;
     private readonly IMediator mediator;
-    private readonly LogServiceWrapper logServiceWrapper;
 
     public SpecialProductSelectorImp(
         IMediator mediator,
@@ -36,8 +34,7 @@ public class SpecialProductSelectorImp : SpecialProductSelector
         SpecialProductTraderBuilder specialProductTraderBuilder,
         SpreadBuilder spreadBuilder,
         SpecialProductSpreadBuilder specialProductSpreadBuilder,
-        SpecialProductMaxbetBuilder specialProductMaxbetBuilder,
-        LogServiceWrapper logServiceWrapper
+        SpecialProductMaxbetBuilder specialProductMaxbetBuilder
     )
     {
         this.traderAssignmentBuilder = traderAssignmentBuilder;
@@ -46,7 +43,6 @@ public class SpecialProductSelectorImp : SpecialProductSelector
         this.specialProductSpreadBuilder = specialProductSpreadBuilder;
         this.specialProductMaxbetBuilder = specialProductMaxbetBuilder;
         this.mediator = mediator;
-        this.logServiceWrapper = logServiceWrapper;
     }
 
     public async Task<TraderAssignmentSender> SelectTrader(int specialProductId, int bettypeId)

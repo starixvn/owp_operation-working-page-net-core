@@ -14,7 +14,7 @@ public class TicketMatchDetailViewModel : TicketDetailBaseViewModel
 
     public string AwayName { get; set; }
 
-    public DateTime? KOTime { get; set; }
+    public DateTime? KoTime { get; set; }
 
     public string EventName => OwpLeagueName;
 

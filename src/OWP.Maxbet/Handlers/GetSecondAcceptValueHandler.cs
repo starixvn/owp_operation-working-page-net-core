@@ -34,8 +34,8 @@ public class GetSecondAcceptValueHandler
             return validOfferIds.Count switch
             {
                 0 => await BuildSecondAcceptValueDefault(request),
-                1 => GetSecondAcceptValue(validOfferIds.FirstOrDefault()!.Value),
-                _ => null,
+                1 => GetSecondAcceptValue(validOfferIds.FirstOrDefault()?.Value),
+                _ => null
             };
         }
 
@@ -60,34 +60,22 @@ public class GetSecondAcceptValueHandler
         {
             var (secondAccept, leagueName) =
                 await maxbetRepository.GetSecondAcceptValueDefaultInfo(request.MaxbetHdp, request.OWPMatchId);
-            if (leagueName.IsContains("FANTASY"))
-            {
-                return GetSecondAcceptValue(secondAccept.Fantasy);
-            }
-
-            return BuildSecondAcceptValueSpecialDefault(request.Bettype, secondAccept);
+            return leagueName.IsContains("FANTASY")
+                ? GetSecondAcceptValue(secondAccept.Fantasy)
+                : BuildSecondAcceptValueSpecialDefault(request.Bettype, secondAccept);
         }
 
-        private int? BuildSecondAcceptValueSpecialDefault(int bettype,
+        private static int? BuildSecondAcceptValueSpecialDefault(int bettype,
             SecondAcceptDefault secondAccept)
         {
-            if (bettype == SpecialBettype.BETTYPE_ID_NEXT_CORNERS ||
-                bettype == SpecialBettype.BETTYPE_ID_NO_OF_CORNERS)
+            return bettype switch
             {
-                return GetSecondAcceptValue(secondAccept.Corner);
-            }
-
-            if (bettype == SpecialBettype.BETTYPE_ID_TOTAL_BOOKINGS)
-            {
-                return GetSecondAcceptValue(secondAccept.TotalBooking);
-            }
-
-            if (bettype == SpecialBettype.BETTYPE_ID_MAIN_MATCH)
-            {
-                return GetSecondAcceptValue(secondAccept.Main);
-            }
-
-            return null;
+                SpecialBettype.BETTYPE_ID_NEXT_CORNERS or SpecialBettype.BETTYPE_ID_NO_OF_CORNERS =>
+                    GetSecondAcceptValue(secondAccept.Corner),
+                SpecialBettype.BETTYPE_ID_TOTAL_BOOKINGS => GetSecondAcceptValue(secondAccept.TotalBooking),
+                SpecialBettype.BETTYPE_ID_MAIN_MATCH => GetSecondAcceptValue(secondAccept.Main),
+                _ => null
+            };
         }
     }
 }

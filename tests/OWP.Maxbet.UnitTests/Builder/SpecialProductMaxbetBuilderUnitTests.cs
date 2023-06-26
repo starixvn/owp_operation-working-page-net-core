@@ -13,14 +13,12 @@ public class SpecialProductMaxbetBuilderUnitTests
 
     private readonly MaxbetRepository syncMaxbetRepository;
 
-    private readonly MaxbetBuilder maxbetBuilder;
-
     private readonly LogServiceWrapper logServiceWrapper;
 
     public SpecialProductMaxbetBuilderUnitTests()
     {
         syncMaxbetRepository = Substitute.For<MaxbetRepository>();
-        maxbetBuilder = Substitute.For<MaxbetBuilder>();
+        var maxbetBuilder = Substitute.For<MaxbetBuilder>();
         logServiceWrapper = Substitute.For<LogServiceWrapper>();
         specialProductMaxbetBuilder = new SpecialProductMaxbetBuilderImp(syncMaxbetRepository, maxbetBuilder, logServiceWrapper);
     }

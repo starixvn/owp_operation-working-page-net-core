@@ -35,12 +35,12 @@ public class SabaMatchServiceImp : SabaMatchService
         }).ToList();
     }
 
-    private static int? GetSabaType(IList<MatchQueried> matchesQueried, int infositeId)
+    private static int? GetSabaType(IEnumerable<MatchQueried> matchesQueried, int infositeId)
         => matchesQueried
             .FirstOrDefault(i => i.InfositeMatchId == infositeId)?
             .SabaType;
 
-    private MaxBetOfFTHDP GetMaxBetValue(List<MaxBetOfFTHDP> maxbetInfos, int infositeId)
+    private static MaxBetOfFTHDP GetMaxBetValue(IEnumerable<MaxBetOfFTHDP> maxbetInfos, int infositeId)
         => maxbetInfos
             .FirstOrDefault(m => m.InfoSiteMatchId == infositeId);
 

@@ -1,6 +1,7 @@
 ﻿using NSubstitute;
 using OWP.AutoAssignment.Models.PublicApi;
 using OWP.AutoAssignment.Services.PublicApi;
+using System.Globalization;
 using Xunit;
 using Xunit.Asserts.Compare;
 
@@ -60,7 +61,7 @@ public class RequestBuilderServiceUnitTests
                         {
                             new ()
                             {
-                                KOTime=  DateTime.Parse("2021-12-08").ToString(),
+                                KOTime=  DateTime.Parse("2021-12-08").ToString(CultureInfo.CurrentCulture),
                                 MatchId=1234,
                                 MaxBetMainMatch=12000
                             }
@@ -69,7 +70,7 @@ public class RequestBuilderServiceUnitTests
                         {
                             new ()
                             {
-                                KOTime=  DateTime.Parse("2021-12-08").ToString(),
+                                KOTime=  DateTime.Parse("2021-12-08").ToString(CultureInfo.CurrentCulture),
                                 MatchId=9999,
                                 SabaType=1,
                                 MaxBet=12000
@@ -126,7 +127,7 @@ public class RequestBuilderServiceUnitTests
             {
                 new ()
                 {
-                    KOTime=  DateTime.Parse("2021-12-08").ToString(),
+                    KOTime=  DateTime.Parse("2021-12-08").ToString(CultureInfo.CurrentCulture),
                     MatchId=1234,
                     MaxBetMainMatch=12000
                 }
@@ -135,7 +136,7 @@ public class RequestBuilderServiceUnitTests
             {
                 new ()
                 {
-                    KOTime=  DateTime.Parse("2021-12-08").ToString(),
+                    KOTime=  DateTime.Parse("2021-12-08").ToString(CultureInfo.CurrentCulture),
                     MatchId=9999,
                     SabaType=1,
                     MaxBet=12000

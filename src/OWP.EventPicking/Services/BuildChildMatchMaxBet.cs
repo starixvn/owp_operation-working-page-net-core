@@ -8,13 +8,13 @@ namespace OWP.EventPicking.Services;
 
 public interface BuildChildMatchMaxBet
 {
-    void Build(IEnumerable<EventPickingModel> mainMatches, IEnumerable<EventPickingModel> childMatches, Dictionary<decimal, MaxBetSettingModel> maxBetDefaults);
+    void Build(List<EventPickingModel> mainMatches, List<EventPickingModel> childMatches, Dictionary<decimal, MaxBetSettingModel> maxBetDefaults);
 }
 
 public class BuildChildMatchMaxBetImp : BuildChildMatchMaxBet
 {
-    public void Build(IEnumerable<EventPickingModel> mainMatches,
-        IEnumerable<EventPickingModel> childMatches,
+    public void Build(List<EventPickingModel> mainMatches,
+        List<EventPickingModel> childMatches,
         Dictionary<decimal, MaxBetSettingModel> maxBetDefaults)
     {
         foreach (var child in childMatches)
@@ -50,16 +50,17 @@ public class BuildChildMatchMaxBetImp : BuildChildMatchMaxBet
         }
     }
 
-    public static MaxBetSettingModel GetMaxBetSettingDefault(IEnumerable<EventPickingModel> mainMatches, int parentInfositeId, Dictionary<decimal, MaxBetSettingModel> maxBetDefault)
+    public static MaxBetSettingModel GetMaxBetSettingDefault(List<EventPickingModel> mainMatches, int parentInfositeId, Dictionary<decimal, MaxBetSettingModel> maxBetDefault)
     {
         var parentMaxBet = mainMatches.FirstOrDefault(x => x.InfoSiteMatchId == parentInfositeId);
-        if (parentMaxBet != null && parentMaxBet.MaxBetHDPNumber.HasValue)
+        if (parentMaxBet?.MaxBetHDPNumber == null)
         {
-            return maxBetDefault.ContainsKey((decimal)parentMaxBet.MaxBetHDPNumber)
-                ? maxBetDefault.GetValue((decimal)parentMaxBet.MaxBetHDPNumber)
-                : maxBetDefault.GetValue(-1000m);
+            return null;
         }
 
-        return null;
+        const decimal otherKey = -1000m;
+        return maxBetDefault.ContainsKey((decimal)parentMaxBet.MaxBetHDPNumber)
+            ? maxBetDefault.GetValue((decimal)parentMaxBet.MaxBetHDPNumber)
+            : maxBetDefault.GetValue(otherKey);
     }
 }

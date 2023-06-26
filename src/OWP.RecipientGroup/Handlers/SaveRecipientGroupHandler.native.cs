@@ -30,7 +30,7 @@ public class SaveRecipientGroupHandler : IRequestHandler<SaveRecipientGroupReque
 
         var recipientDiff = DetectNewRecipient(recipientNewIds.ToList(), recipientOldIds);
 
-        await InsertRecipientToMessageReader(recipientDiff, request.GroupId);
+        await InsertRecipientToMessageReader(recipientDiff.ToList(), request.GroupId);
 
         await commandRepository.SaveRecipientGroup(request);
 
@@ -38,19 +38,17 @@ public class SaveRecipientGroupHandler : IRequestHandler<SaveRecipientGroupReque
         return string.Empty;
     }
 
-    private async Task<IList<int>> GetRecipientIdOldInGroup(int groupId)
+    private async Task<IEnumerable<int>> GetRecipientIdOldInGroup(int groupId)
     {
         var allGroup = await commandRepository.GetRecipientGroup();
         var group = allGroup.Where(g => g.GroupId == groupId);
-        return group != null
-            ? group.Select(g => g.UserId).ToList()
-            : new List<int>();
+        return group.Select(g => g.UserId).ToList();
     }
 
-    private IList<int> DetectNewRecipient(IList<int> recipientIdSource, IList<int> recipientIdDest)
+    private static IEnumerable<int> DetectNewRecipient(IEnumerable<int> recipientIdSource, IEnumerable<int> recipientIdDest)
         => recipientIdSource.Except(recipientIdDest).ToList();
 
-    public async Task InsertRecipientToMessageReader(IList<int> userIds, int groupId)
+    public async Task InsertRecipientToMessageReader(List<int> userIds, int groupId)
     {
         if (userIds.Any())
         {

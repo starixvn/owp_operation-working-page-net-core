@@ -6,6 +6,7 @@ using OWP.Models;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Text.RegularExpressions;
+// ReSharper disable ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
 
 namespace OWP.AssignmentUpload.Validation.Services;
 
@@ -65,15 +66,19 @@ public class AssignmentValidatorImp : AssignmentValidator
     {
         var invalidTraders = traders.Where(t => t.UserId == 0).Select(t => t.Username).ToList();
 
-        if (invalidTraders.Count > 0)
+        if (invalidTraders.Count <= 0)
         {
-            var error = ValidateInvalidTrader(assignment, invalidTraders);
-            if (error.Count > 0)
-            {
-                var invalidTradersInString = string.Join("; ", error);
-                results.Add(new ValidationResult("Invalid " + invalidTradersInString));
-            }
+            return;
         }
+
+        var error = ValidateInvalidTrader(assignment, invalidTraders);
+        if (error.Count <= 0)
+        {
+            return;
+        }
+
+        var invalidTradersInString = string.Join("; ", error);
+        results.Add(new ValidationResult("Invalid " + invalidTradersInString));
     }
 
     public static List<string> ValidateInvalidTrader(AssignmentModelInExcel assignment, List<string> invalidTraders)
@@ -136,11 +141,13 @@ public class AssignmentValidatorImp : AssignmentValidator
     {
         var duplicatedTraders = traders.Where(t => t.IsDuplicate).Select(t => t.Username).ToArray();
 
-        if (duplicatedTraders.Length > 0)
+        if (duplicatedTraders.Length <= 0)
         {
-            var duplicatedTradersInString = string.Join("; ", duplicatedTraders);
-            throw new DuplicatedTraderException(duplicatedTradersInString);
+            return;
         }
+
+        var duplicatedTradersInString = string.Join("; ", duplicatedTraders);
+        throw new DuplicatedTraderException(duplicatedTradersInString);
     }
 
     public void CustomValidateAssignment(List<AssignmentModelInExcel> assignments, bool isUploadFmAndAio, List<Trader> traders, List<ReferenceResource> matchOffers)
@@ -149,12 +156,11 @@ public class AssignmentValidatorImp : AssignmentValidator
 
         for (var i = 0; i < assignments.Count; i++)
         {
-            var rowIndex = i;
             var validationResultsOfAssignment = CustomValidateAssignment(assignments[i], assignments, isUploadFmAndAio, traders, matchOffers);
             ValidationHelper.BuildValidationRowResult(
                 validationResultsOfAssignment,
                 validationResults,
-                rowIndex);
+                i);
         }
 
         var hasError = validationResults.Any();
@@ -189,19 +195,19 @@ public class AssignmentValidatorImp : AssignmentValidator
         {
             if (assignment.League.EndsWith(key, StringComparison.OrdinalIgnoreCase))
             {
-                validationResults.Add(new(string.Format(minorLeagueWrongGrammar[key], "League", "league")));
+                validationResults.Add(new ValidationResult(string.Format(minorLeagueWrongGrammar[key], "League", "league")));
             }
         }
         foreach (var key in minorMatchedWrongGrammar.Keys)
         {
             if (assignment.Home.EndsWith(key, StringComparison.OrdinalIgnoreCase))
             {
-                validationResults.Add(new(string.Format(minorMatchedWrongGrammar[key], "Home", "home")));
+                validationResults.Add(new ValidationResult(string.Format(minorMatchedWrongGrammar[key], "Home", "home")));
             }
 
             if (assignment.Away.EndsWith(key, StringComparison.OrdinalIgnoreCase))
             {
-                validationResults.Add(new(string.Format(minorMatchedWrongGrammar[key], "Away", "away")));
+                validationResults.Add(new ValidationResult(string.Format(minorMatchedWrongGrammar[key], "Away", "away")));
             }
 
         }
@@ -228,11 +234,13 @@ public class AssignmentValidatorImp : AssignmentValidator
         listTraderError.Add(ValidateOtherAssignment(assignment.OtherTradersOU, assignment.TraderOUName, "O/U"));
 
         var traderErrorList = listTraderError.Where(x => x != null).ToList();
-        if (traderErrorList.Count > 0)
+        if (traderErrorList.Count <= 0)
         {
-            var traderErrorInString = string.Join("; ", traderErrorList);
-            results.Add(new ValidationResult("Missing main assignment of " + traderErrorInString));
+            return;
         }
+
+        var traderErrorInString = string.Join("; ", traderErrorList);
+        results.Add(new ValidationResult("Missing main assignment of " + traderErrorInString));
     }
 
     public static string ValidateOtherAssignment(string otherTrader, string mainTrader, string errName)
@@ -242,12 +250,7 @@ public class AssignmentValidatorImp : AssignmentValidator
             return null;
         }
 
-        if (string.IsNullOrWhiteSpace(mainTrader))
-        {
-            return errName;
-        }
-
-        return null;
+        return string.IsNullOrWhiteSpace(mainTrader) ? errName : null;
     }
 
     public void ValidateDataAnnotation(AssignmentModelInExcel assignment, List<ValidationResult> results)
@@ -275,10 +278,12 @@ public class AssignmentValidatorImp : AssignmentValidator
         var matchOfferValues = matchOffers.Select(y => y.Value.ToLower(CultureInfo.InvariantCulture));
         var isInValid = excelMatchOffers.Any(x => !matchOfferValues.Contains(x.Trim().ToLower(CultureInfo.InvariantCulture)));
 
-        if (isInValid)
+        if (!isInValid)
         {
-            var matchOffersInString = string.Join(", ", matchOffers.Select(x => x.Value));
-            results.Add(new ValidationResult($"The Match Offer must be {matchOffersInString}"));
+            return;
         }
+
+        var matchOffersInString = string.Join(", ", matchOffers.Select(x => x.Value));
+        results.Add(new ValidationResult($"The Match Offer must be {matchOffersInString}"));
     }
 }

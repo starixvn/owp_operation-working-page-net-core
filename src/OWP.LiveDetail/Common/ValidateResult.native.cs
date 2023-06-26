@@ -9,8 +9,7 @@ public class ValidateResult
 
     public IEnumerable<ValidateEntity> FailedResults => Results.Where(x => x.ResultType == (int)RuleReturnType.Failed);
 
-    public IEnumerable<ValidateEntity> WarningResults => Results.Where(x => x.ResultType == (int)RuleReturnType.WarningMinor
-                                                                            || x.ResultType == (int)RuleReturnType.WarningMajor);
+    public IEnumerable<ValidateEntity> WarningResults => Results.Where(x => x.ResultType is (int)RuleReturnType.WarningMinor or (int)RuleReturnType.WarningMajor);
 
     public bool IsFailed => FailedResults.Any();
 

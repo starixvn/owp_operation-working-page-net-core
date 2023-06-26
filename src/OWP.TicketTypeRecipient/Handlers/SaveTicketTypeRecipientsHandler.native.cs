@@ -31,7 +31,7 @@ public class SaveTicketTypeRecipientsHandler : IRequestHandler<SaveTicketTypeRec
             Recipients = XmlConverter.Serialize(request.Recipients),
             Subtypes = XmlConverter.Serialize(request.Subtypes)
         };
-        await repository.ExecuteAsync(criteria);
+        await repository.ExecuteAsync(criteria, cancellationToken);
 
         return await Task.FromResult(Unit.Value);
     }

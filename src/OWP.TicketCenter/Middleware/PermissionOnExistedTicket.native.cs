@@ -38,6 +38,7 @@ public class PermissionOnExistedTicket : IAsyncActionFilter
                     Content = "This ticket was deleted, and cannot view any more"
                 };
             }
+
             return;
         }
 

@@ -181,17 +181,7 @@ public class InfositeIdMappingServiceUnitTests
                 EventDateTime = new DateTime(2020,01,01,10,20,0)
             }
         };
-        var expected = new List<AssignmentModel>
-        {
-            new()
-            {
-                League= "SeaGame",
-                Home="VN",
-                Away="TL",
-                KickOffTime = new TimeSpan(3,20,0)
-            }
-        };
-
+        
         InfositeMappingServiceImp.MapMainMatchNotExistInfoSiteId(owpMainMatch, infoSiteMatches);
         Assert.Empty(owpMainMatch[0].Agent);
     }

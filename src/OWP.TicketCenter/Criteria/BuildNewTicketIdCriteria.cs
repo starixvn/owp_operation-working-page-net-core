@@ -10,8 +10,6 @@ public class BuildNewTicketIdCriteria : CriteriaBase
         
     public override string GetSettingKey() => "OWP_TicketIssue_Create";
 
-
-
     public override bool IsValid()
         => true;
 }

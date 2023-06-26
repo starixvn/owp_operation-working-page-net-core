@@ -24,7 +24,7 @@ public class CreateCriteria : CommandCriteria
 
     private bool HasAssignment()
     {
-        var hasMainAssignment = AssignmentType == (int)AssignmentTypeEnum.Main && UserId != null && UserId.Value > 0;
+        var hasMainAssignment = AssignmentType == (int)AssignmentTypeEnum.Main && UserId is > 0;
         var hasOtherAssignment = AssignmentType == (int)AssignmentTypeEnum.Others && !string.IsNullOrWhiteSpace(AssignmentNote);
         return hasMainAssignment || hasOtherAssignment;
     }

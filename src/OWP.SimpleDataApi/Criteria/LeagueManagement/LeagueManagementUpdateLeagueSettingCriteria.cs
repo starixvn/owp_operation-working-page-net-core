@@ -1,4 +1,5 @@
 ﻿using Fanex.Data.Repository;
+using System.Diagnostics.CodeAnalysis;
 
 namespace OWP.SimpleDataApi.Criteria.LeagueManagement;
 
@@ -24,6 +25,7 @@ public class LeagueManagementUpdateLeagueSettingCriteria : NonQueryCommand
 
     public decimal? Spread_1HOU { get; set; }
 
+    [SuppressMessage("ReSharper", "IdentifierTypo")]
     public decimal? Speard_1X2 { get; set; }
 
     public decimal? MaxbetWD_HDP { get; set; }

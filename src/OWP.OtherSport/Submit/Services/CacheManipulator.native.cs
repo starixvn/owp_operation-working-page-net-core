@@ -33,7 +33,7 @@ public class CacheManipulatorImp : CacheManipulator
     private const string KEY_DELETED_MATCHES_SNAPSHOT = "OS-DELETED-MATCH";
     private const string KEY_USER_WHO_IS_OS_UPLOADING_ASSIGNMENT = "OWP-User-Who-Is-OS-Uploading-Assignemnt";
     private const int CACHE_EXPIRED_IN_DAYS = 36500;
-    private const int CACHE_USER_WHO_IS_ULOADING_ASSIGNMENT_EXPIRED_IN_MINUTE = 30;
+    private const int CACHE_USER_WHO_IS_UPLOADING_ASSIGNMENT_EXPIRED_IN_MINUTE = 30;
     private readonly ICache cache;
     private const string KEY_OS_UPLOAD_LAST_UPDATED = "OWP-OS-AssignmentUpload-Last-Updated";
 
@@ -72,7 +72,7 @@ public class CacheManipulatorImp : CacheManipulator
     {
         var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromHours(1));
         var deletedMatchesSnapshotInJson = JsonConvert.SerializeObject(deletedMatches);
-        var cacheKey = $"{KEY_DELETED_MATCHES_SNAPSHOT}";
+        const string cacheKey = $"{KEY_DELETED_MATCHES_SNAPSHOT}";
         await cache.SetAsync(cacheKey, deletedMatchesSnapshotInJson, cachePolicy);
     }
 
@@ -81,12 +81,7 @@ public class CacheManipulatorImp : CacheManipulator
         var cacheKey = $"{KEY_USER_WHO_IS_OS_UPLOADING_ASSIGNMENT}-{eventDate}";
         var (_, value) = await cache.TryGetAsync<string>(cacheKey);
 
-        if (!string.IsNullOrEmpty(value))
-        {
-            return value;
-        }
-
-        return string.Empty;
+        return !string.IsNullOrEmpty(value) ? value : string.Empty;
     }
 
     public async Task SaveLastUpdate(LastUpdateInfo info)
@@ -112,7 +107,7 @@ public class CacheManipulatorImp : CacheManipulator
     {
         foreach (var eventDate in eventDates)
         {
-            var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(CACHE_USER_WHO_IS_ULOADING_ASSIGNMENT_EXPIRED_IN_MINUTE));
+            var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(CACHE_USER_WHO_IS_UPLOADING_ASSIGNMENT_EXPIRED_IN_MINUTE));
             var cacheKey = $"{KEY_USER_WHO_IS_OS_UPLOADING_ASSIGNMENT}-{eventDate}";
             await cache.SetAsync(cacheKey, username, cachePolicy);
         }
@@ -120,9 +115,8 @@ public class CacheManipulatorImp : CacheManipulator
 
     public async Task DeleteUserWhoIsUploadingAssignment(List<DateTime> eventDates)
     {
-        foreach (var eventDate in eventDates)
+        foreach (var cacheKey in eventDates.Select(eventDate => $"{KEY_USER_WHO_IS_OS_UPLOADING_ASSIGNMENT}-{eventDate}"))
         {
-            var cacheKey = $"{KEY_USER_WHO_IS_OS_UPLOADING_ASSIGNMENT}-{eventDate}";
             await cache.RemoveAsync(cacheKey);
         }
     }

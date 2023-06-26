@@ -7,7 +7,7 @@ using OWP.Maxbet.Services;
 
 namespace OWP.Maxbet;
 
-[Route("api/[controller]")]
+[Route("api/[controller]/{matchId:int}")]
 [ApiController]
 [AllowAnonymous]
 [EnableCors("AllowOrigin")]
@@ -28,7 +28,7 @@ public class MaxbetController : ControllerBase
     }
 
     [HttpGet]
-    [Route("{matchId}")]
+    [Route("")]
     [Produces("application/json")]
     public async Task<IActionResult> GetMaxbet(int matchId)
     {
@@ -45,7 +45,7 @@ public class MaxbetController : ControllerBase
     }
 
     [HttpGet]
-    [Route("{matchId}/{subType}")]
+    [Route("{subType:int}")]
     [Produces("application/json")]
     public async Task<IActionResult> GetSpecialProduct(int matchId, int subType)
     {

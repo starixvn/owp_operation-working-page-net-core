@@ -108,7 +108,7 @@ public class ValidationHandlerUnitTests
                 }
             }
         });
-        excelValidator.When(x => x.Validate(request.Stream)).Do(call => { });
+        excelValidator.When(x => x.Validate(request.Stream)).Do(_ => { });
 
         return new ValidationHandler.Handler(excelValidator, analyzer, session, cacheManipulator);
     }
@@ -119,7 +119,7 @@ public class ValidationHandlerUnitTests
         var cacheManipulator = Substitute.For<CacheManipulator>();
         var analyzer = Substitute.For<Analyzer>();
         var session = Substitute.For<INapSession>();
-        excelValidator.When(x => x.Validate(request.Stream)).Do(call => { throw exception; });
+        excelValidator.When(x => x.Validate(request.Stream)).Do(_ => throw exception);
 
         return new ValidationHandler.Handler(excelValidator, analyzer, session, cacheManipulator);
     }

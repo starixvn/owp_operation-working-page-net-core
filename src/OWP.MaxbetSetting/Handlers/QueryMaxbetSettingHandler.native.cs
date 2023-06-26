@@ -19,7 +19,7 @@ public class QueryMaxbetSettingHandler : IRequestHandler<QueryMaxbetSettingReque
     public async Task<List<MaxBetSettingModel>> Handle(QueryMaxbetSettingRequest request, CancellationToken cancellationToken)
     {
         var criteria = new QueryMaxbetSettingCriteria();
-        var result = (await dynamicRepository.FetchAsync<MaxBetSettingModel>(criteria)).ToList();
+        var result = (await dynamicRepository.FetchAsync<MaxBetSettingModel>(criteria, cancellationToken)).ToList();
         result.ForEach(x => { x.MapsFollowFTHDP(); });
 
         return result;

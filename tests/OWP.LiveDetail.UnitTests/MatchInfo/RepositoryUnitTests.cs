@@ -72,8 +72,7 @@ public class RepositoryUnitTests
     {
         // Arrange
         const int owpMatchId = 1;
-        MatchInfoModel nullMatchInfo = null;
-        dynamicRepository.GetAsync<MatchInfoModel>(Arg.Compat.Any<QueryCriteria>()).Returns(Task.FromResult(nullMatchInfo));
+        dynamicRepository.GetAsync<MatchInfoModel>(Arg.Compat.Any<QueryCriteria>()).Returns(Task.FromResult((MatchInfoModel)null));
 
         // Act
         var result = await repository.Query(owpMatchId);

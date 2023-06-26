@@ -1,7 +1,7 @@
-﻿using System.Xml.Serialization;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using OWP.ApiSyncWorkingShift.Const;
 using OWP.ApiSyncWorkingShift.Utils;
+using System.Xml.Serialization;
 
 namespace OWP.ApiSyncWorkingShift.Models;
 
@@ -43,8 +43,8 @@ public class WorkingShiftModel
             return;
         }
 
-        var startTime = ShiftStartTime.Value.TimeOfDay;
-        var endTime = ShiftEndTime.Value.TimeOfDay;
+        var startTime = ShiftStartTime?.TimeOfDay ?? new TimeSpan();
+        var endTime = ShiftEndTime?.TimeOfDay ?? new TimeSpan();
 
         var startTimeFormat = startTime.Minutes == 0 ? "hh" : @"hh\:mm";
         var endTimeFormat = endTime.Minutes == 0 ? "hh" : @"hh\:mm";

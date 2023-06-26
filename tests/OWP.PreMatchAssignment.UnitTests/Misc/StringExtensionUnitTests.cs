@@ -9,7 +9,7 @@ public class StringExtensionUnitTests
     public void IsContains_WithEmptyToBeSearchedString_ReturnFalse()
     {
         var toBeSearchedString = string.Empty;
-        var searchString = "abc";
+        const string searchString = "abc";
 
         var actual = toBeSearchedString.IsContains(searchString);
 
@@ -19,7 +19,7 @@ public class StringExtensionUnitTests
     [Fact]
     public void IsContains_WithEmptySearchString_ReturnTrue()
     {
-        var toBeSearchedString = "abc";
+        const string toBeSearchedString = "abc";
         var searchString = string.Empty;
 
         var actual = toBeSearchedString.IsContains(searchString);
@@ -30,10 +30,9 @@ public class StringExtensionUnitTests
     [Fact]
     public void IsContains_WithNullSearchString_ReturnTrue()
     {
-        var toBeSearchedString = "abc";
-        string searchString = null;
+        const string toBeSearchedString = "abc";
 
-        var actual = toBeSearchedString.IsContains(searchString);
+        var actual = toBeSearchedString.IsContains(null);
 
         Assert.True(actual);
     }

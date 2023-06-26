@@ -18,7 +18,7 @@ public class SyncWorkingShiftController : ControllerBase
         this.mediator = mediator;
     }
 
-    [HttpGet("SyncWorkingShift/{from}/{to}")]
+    [HttpGet("SyncWorkingShift/{from:datetime}/{to:datetime}")]
     [Produces("application/json")]
     public async Task<IEnumerable<WorkingShiftModel>> GetWorkingShiftToHRM(DateTime from, DateTime to)
         => await mediator.Send(new QueryWorkingShiftRequest
@@ -27,7 +27,7 @@ public class SyncWorkingShiftController : ControllerBase
             To = to
         });
 
-    [HttpGet("SyncWorkingShiftToHRPP/{from}/{to}")]
+    [HttpGet("SyncWorkingShiftToHRPP/{from:datetime}/{to:datetime}")]
     [Produces("application/json")]
     public async Task<IEnumerable<WorkingShiftHRPPModel>> GetWorkingShiftToHRPP(DateTime from, DateTime to)
         => await mediator.Send(new QueryWorkingShiftToHRPPRequest

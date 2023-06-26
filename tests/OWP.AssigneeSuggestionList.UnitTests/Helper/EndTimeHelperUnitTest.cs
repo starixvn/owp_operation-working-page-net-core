@@ -12,7 +12,7 @@ public class EndTimeHelperUnitTest
     {
         var assignment = new List<AssignmentModel>
         {
-            new () { IsMainMatch = true, EventDateTime = new DateTime(2023, 4, 14, 23, 0, 0),LeagueName = "saba "},
+            new () { IsMainMatch = true, EventDateTime = new DateTime(2023, 4, 14, 23, 0, 0),LeagueName = "saba "}
 
         };
 
@@ -29,7 +29,7 @@ public class EndTimeHelperUnitTest
             new () { IsMainMatch = true, EventDateTime = new DateTime(2023, 4, 14, 10, 0, 0),BettypeId = 1},
             new () { IsMainMatch = true, EventDateTime = new DateTime(2023, 4, 14, 10, 0, 0),BettypeId = 1,Remark = "aPKaa"},
             new () { IsMainMatch = true, EventDateTime = new DateTime(2023, 4, 14, 10, 0, 0),BettypeId = 1,Remark = "aPKETaa"},
-            new () { IsMainMatch = true, EventDateTime = new DateTime(2023, 4, 14, 10, 0, 0),BettypeId = 7},
+            new () { IsMainMatch = true, EventDateTime = new DateTime(2023, 4, 14, 10, 0, 0),BettypeId = 7}
         };
 
         var actual = EndTimeHelper.Update(assignment);
@@ -46,7 +46,7 @@ public class EndTimeHelperUnitTest
         var assignment = new List<AssignmentModel>
         {
             new () { IsMainMatch = false, EventDateTime = new DateTime(2023, 4, 14, 10, 0, 0), BettypeId = 1, MinorBettypeId = -3, Remark = "ETPK"},
-            new () { IsMainMatch = false, EventDateTime = new DateTime(2023, 4, 14, 10, 0, 0), BettypeId = -100},
+            new () { IsMainMatch = false, EventDateTime = new DateTime(2023, 4, 14, 10, 0, 0), BettypeId = -100}
         };
 
         var actual = EndTimeHelper.Update(assignment);

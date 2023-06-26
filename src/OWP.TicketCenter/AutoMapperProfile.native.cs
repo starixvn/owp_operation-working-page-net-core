@@ -15,7 +15,12 @@ public class AutoMapperProfile : Profile
         CreateMap<NewTicketIssueOtherRequest, AddNewTicketIssueOtherCriteria>();
         CreateMap<NewTicketIssueLeagueRequest, AddNewTicketIssueLeagueCriteria>();
         CreateMap<NewTicketIssueSupportRequest, AddNewTicketIssueSupportCriteria>();
+        CreateMap<NewTicketIssueLogWorkRequest, AddNewTicketIssueLogWorkCriteria>();
         CreateMap<EventTicketMatchModel, TicketLiveIncidentDetailViewModel>();
+        CreateMap<EventTicketMatchOfLogWorkModel, TicketLogWorkDetailViewModel>();
+        CreateMap<NewTicketIssueLogWorkRequest, NewMessageRequestModel>().ForMember(
+            m => m.FileId,
+            opt => opt.Ignore());
         CreateMap<NewTicketIssueLiveIncidentRequest, NewMessageRequestModel>().ForMember(
             m => m.FileId,
             opt => opt.Ignore());
@@ -36,7 +41,7 @@ public class AutoMapperProfile : Profile
         CreateMap<QueryEventTicketsRequest, GetEventTicketOtherCriteria>();
         CreateMap<QueryEventTicketsRequest, GetEventTicketSupportCriteria>();
         CreateMap<QueryEventTicketsRequest, GetEventTicketLiveIncidentCriteria>();
-
+        CreateMap<QueryEventTicketsRequest, GetEventTicketLogWorkCriteria>();
         CreateMap<EventTicketLeagueModel, TicketLeagueDetailViewModel>()
             .ForMember(
                 m => m.Messages,

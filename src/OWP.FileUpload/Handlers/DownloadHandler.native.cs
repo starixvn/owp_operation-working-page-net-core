@@ -28,7 +28,7 @@ public class DownloadHandler
                 FileId = request.FileId
             };
 
-            var data = await dynamicRepo.FetchAsync<FileModel>(criteria);
+            var data = await dynamicRepo.FetchAsync<FileModel>(criteria, cancellationToken);
             return data.FirstOrDefault();
         }
     }

@@ -2,7 +2,7 @@ using Fanex.Data.Repository;
 
 namespace OWP.TicketCenter.Criteria;
 
-public class GetEventLGACriteria : CriteriaBase
+public class GetEventLgaCriteria : CriteriaBase
 {
     public string Keyword { get; set; }
 

@@ -26,11 +26,9 @@ public class ExportExcelServiceImp : ExportExcelService
 
     public void LoadTemplate(string templatePath)
     {
-        using (var stream = new FileStream(templatePath, FileMode.Open, FileAccess.Read))
-        {
-            excelPackage = new ExcelPackage(stream);
-            reportSheet = excelPackage.Workbook.Worksheets.Copy(ReportConst.TemplateName, ReportConst.SheetName);
-        }
+        using var stream = new FileStream(templatePath, FileMode.Open, FileAccess.Read);
+        excelPackage = new ExcelPackage(stream);
+        reportSheet = excelPackage.Workbook.Worksheets.Copy(ReportConst.TemplateName, ReportConst.SheetName);
     }
 
     public void BuildReportBody(ExcelModel model)

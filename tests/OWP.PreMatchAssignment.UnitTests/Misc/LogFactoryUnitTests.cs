@@ -1,5 +1,4 @@
 ﻿using OWP.PrematchAssignment.Misc;
-using OWP.PrematchAssignment.Models;
 using Xunit;
 
 namespace OWP.PreMatchAssignment.UnitTests.Misc;
@@ -11,19 +10,9 @@ public class LogFactoryUnitTests
     {
         //Arrange
         var logFactory = new LogFactoryImp();
-        var updateAssignments = new List<UpdateAssignmentLogModel>
-        {
-            new()
-            {
-                Bettype = 1,
-                IsTakeOver = true,
-                UserId = 8,
-                Username = "sa",
-                AssignmentType = 1
-            }
-        };
-        var data = "<r><z plid=\"2047\" uid=\"8\" un=\"sa\" bt=\"1\" ito=\"1\" at=\"1\"/></r>";
-        var expected = "HDP T.Over: #sa";
+
+        const string data = "<r><z plid=\"2047\" uid=\"8\" un=\"sa\" bt=\"1\" ito=\"1\" at=\"1\"/></r>";
+        const string expected = "HDP T.Over: #sa";
 
         //Act
         var actual = logFactory.BuildColumn(LogActionConst.UpdateAssignment, data);
@@ -53,8 +42,8 @@ public class LogFactoryUnitTests
         //Arrange
         var logFactory = new LogFactoryImp();
 
-        var data = "<r><z plid=\"2019\" rm=\"data\"/></r>";
-        var expected = "data";
+        const string data = "<r><z plid=\"2019\" rm=\"data\"/></r>";
+        const string expected = "data";
 
         //Act
         var actual = logFactory.BuildColumn(LogActionConst.UpdateRemark, data);
@@ -68,8 +57,8 @@ public class LogFactoryUnitTests
     {
         //Arrange
         var logFactory = new LogFactoryImp();
-        var data = "<r><z d=\"2020-08-20\" t=\"14:30:00\"/></r>";
-        var expected = "Date: 08/20/2020, Start Time: 02:30 PM";
+        const string data = "<r><z d=\"2020-08-20\" t=\"14:30:00\"/></r>";
+        const string expected = "Date: 08/20/2020, Start Time: 02:30 PM";
 
         //Act
         var actual = logFactory.BuildColumn(LogActionConst.ChangeStartTime, data);
@@ -98,7 +87,7 @@ public class LogFactoryUnitTests
     {
         //Arrange
         var logFactory = new LogFactoryImp();
-        var data = "<r><z plid=\"2007\"/></r>";
+        const string data = "<r><z plid=\"2007\"/></r>";
         var expected = string.Empty;
 
         //Act
@@ -113,8 +102,8 @@ public class LogFactoryUnitTests
     {
         //Arrange
         var logFactory = new LogFactoryImp();
-        var data = "<r><z plid=\"2047\" uid=\"8\" un=\"sa\" bt=\"1\" ito=\"1\" at=\"2\"/></r>";
-        var expected = "HDP T.Over: #sa";
+        const string data = "<r><z plid=\"2047\" uid=\"8\" un=\"sa\" bt=\"1\" ito=\"1\" at=\"2\"/></r>";
+        const string expected = "HDP T.Over: #sa";
 
         //Act
         var actual = logFactory.BuildColumn(LogActionConst.UpdateAssignment, data);

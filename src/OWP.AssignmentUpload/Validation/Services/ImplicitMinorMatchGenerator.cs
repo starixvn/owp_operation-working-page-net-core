@@ -138,14 +138,16 @@ public class GenerateImplicitMinorMatchImp : ImplicitMinorMatchGenerator
 
     public IEnumerable<AssignmentModel> GenerateImplicitMinorMatchForExplicitMinorMatch(AssignmentModel mainMatch)
     {
-        if (Equals(mainMatch.MinorBettypeId, (int)MinorBettype.NoOfCorner))
+        switch (mainMatch.MinorBettypeId)
         {
-            yield return GetSpecific15MinsCornersMatch(mainMatch);
-        }
-
-        if (Equals(mainMatch.MinorBettypeId, (int)MinorBettype.TotalBooking))
-        {
-            yield return GetSpecific15MinsTotalBookingsMatch(mainMatch);
+            case (int)MinorBettype.NoOfCorner:
+                yield return GetSpecific15MinsCornersMatch(mainMatch);
+                break;
+            case (int)MinorBettype.TotalBooking:
+                yield return GetSpecific15MinsTotalBookingsMatch(mainMatch);
+                break;
+            default:
+                yield break;
         }
     }
 

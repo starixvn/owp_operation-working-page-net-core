@@ -1,8 +1,8 @@
-using System.Text.RegularExpressions;
 using OfficeOpenXml;
 using OWP.AssignmentUpload.Validation.Constants;
 using OWP.AssignmentUpload.Validation.Extensions;
 using OWP.AssignmentUpload.Validation.Models;
+using System.Text.RegularExpressions;
 
 namespace OWP.AssignmentUpload.Validation.Services;
 
@@ -21,19 +21,17 @@ public class ExcelReaderImp : ExcelReader
     {
         stream.Seek(0, SeekOrigin.Begin);
 
-        using (var package = new ExcelPackage(stream))
-        {
-            var sheet = package.Workbook.Worksheets.First();
-            var assignments = sheet.ReadAllAssignments(StartRow).ToList();
-            var eventDate = sheet.GetDateTime();
+        using var package = new ExcelPackage(stream);
+        var sheet = package.Workbook.Worksheets.First();
+        var assignments = sheet.ReadAllAssignments(StartRow).ToList();
+        var eventDate = sheet.GetDateTime();
 
-            return new UploadingDataFromExcel
-            {
-                EventDate = eventDate,
-                Assignments = assignments,
-                Traders = GetTraders(assignments)
-            };
-        }
+        return new UploadingDataFromExcel
+        {
+            EventDate = eventDate,
+            Assignments = assignments,
+            Traders = GetTraders(assignments)
+        };
     }
 
     public static List<string> GetTraders(List<AssignmentModelInExcel> assignments)
@@ -107,7 +105,7 @@ public class ExcelReaderImp : ExcelReader
                 return matches.Select(s => s.Value.Remove(0, 1)).FirstOrDefault();
             })
             .Where(n => !string.IsNullOrEmpty(n))
-            .Select(l => l.Length <= maxLength ? l : l.Substring(0, maxLength))
+            .Select(l => l.Length <= maxLength ? l : l[..maxLength])
             .ToList();
     }
 }

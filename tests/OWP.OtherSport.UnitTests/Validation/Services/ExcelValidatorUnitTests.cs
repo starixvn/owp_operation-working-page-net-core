@@ -108,9 +108,12 @@ public class ExcelValidatorUnitTests
         worksheet.Cells[2, 159].Value = "50000";
 
         var data = excelPackage.GetAsByteArray();
-        using var excelMemoryStream = new MemoryStream(data);
-
-        var exception = Record.Exception(() => excelValidator.Validate(excelMemoryStream));
+        
+        var exception = Record.Exception(() =>
+        {
+            using var excelMemoryStream = new MemoryStream(data);
+            excelValidator.Validate(excelMemoryStream);
+        });
         Assert.Null(exception);
     }
 

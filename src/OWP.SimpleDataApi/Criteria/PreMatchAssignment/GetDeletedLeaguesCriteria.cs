@@ -2,7 +2,7 @@
 
 namespace OWP.SimpleDataApi.Criteria.PreMatchAssignment;
 
-class GetDeletedLeaguesCriteria : CriteriaBase
+internal class GetDeletedLeaguesCriteria : CriteriaBase
 {
     public DateTime EventDate { get; set; }
 

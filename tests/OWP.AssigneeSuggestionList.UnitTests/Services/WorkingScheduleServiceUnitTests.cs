@@ -31,7 +31,7 @@ public class WorkingScheduleServiceUnitTests
             {
                 UserId = 123,
                 Username = "Los"
-            },
+            }
         };
 
         // Act
@@ -57,7 +57,7 @@ public class WorkingScheduleServiceUnitTests
                 TextColor = "#444444",
                 Color = "#C00000"
             },
-            CategorizedAssignments = new List<AssignmentModel> { new AssignmentModel() }
+            CategorizedAssignments = new List<AssignmentModel> { new() }
         };
 
         DeepAssert.Equal(expect, schedule);
@@ -91,7 +91,7 @@ public class WorkingScheduleServiceUnitTests
             {
                 UserId = 123,
                 Username = "Los"
-            },
+            }
         };
 
         // Act
@@ -117,7 +117,7 @@ public class WorkingScheduleServiceUnitTests
                 TextColor = "#FFEA29",
                 Color = "#000000"
             },
-            CategorizedAssignments = new List<AssignmentModel> { new AssignmentModel() }
+            CategorizedAssignments = new List<AssignmentModel> { new() }
         };
 
         DeepAssert.Equal(expect, schedule);

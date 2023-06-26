@@ -10,7 +10,6 @@ namespace OWP.Report.UnitTests.PreMatchReport.Services;
 public class GetPreMatchReportServiceUnitTests
 {
     private readonly Repository repository;
-    private readonly IMapper mapper;
     private readonly GetPreMatchReportService service;
 
     public GetPreMatchReportServiceUnitTests()
@@ -80,7 +79,7 @@ public class GetPreMatchReportServiceUnitTests
                 .ForMember(dest => dest.MatchOuTotal, act => act.MapFrom(src => src.ReportOUMatches.Total));
             });
 
-        mapper = configuration.CreateMapper();
+        var mapper = configuration.CreateMapper();
         service = new GetPreMatchReportServiceImp(repository, mapper);
     }
 

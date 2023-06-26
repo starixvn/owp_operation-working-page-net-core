@@ -19,7 +19,7 @@ public class SaveRequestServiceImp : SaveRequestService
 
     public async Task<ResultDataObject> Save(SaveRequestModel model)
     {
-        if (model == null || model.Data == null)
+        if (model?.Data == null)
         {
             return new ResultDataObject
             {

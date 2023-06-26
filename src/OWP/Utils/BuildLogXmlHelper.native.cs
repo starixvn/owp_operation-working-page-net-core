@@ -14,10 +14,8 @@ public static class BuildLogXmlHelper
         var rootElement = xmlDoc.ChildNodes[0];
         foreach (XmlElement childElement in rootElement)
         {
-            using (var sr = new StringReader(childElement.OuterXml))
-            {
-                result.Add((T)serializer.Deserialize(sr));
-            }
+            using var sr = new StringReader(childElement.OuterXml);
+            result.Add((T)serializer.Deserialize(sr));
         }
 
         return result;

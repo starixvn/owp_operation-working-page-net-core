@@ -8,6 +8,8 @@ using Xunit;
 
 namespace OWP.Maxbet.UnitTests.Handlers;
 
+using Xunit.Asserts.Compare;
+
 public class GetNumberOfLinesHandlerUnitTests
 {
     private IDynamicRepository dynamicRepository;
@@ -23,7 +25,7 @@ public class GetNumberOfLinesHandlerUnitTests
 
         var actual = await handler.Handle(new GetNumberOfLinesHandler.Request { OWPMatchId = 123 }, new CancellationToken(false));
 
-        Equals(expected, actual);
+        DeepAssert.Equal(expected, actual);
     }
 
     [Fact]
@@ -36,7 +38,7 @@ public class GetNumberOfLinesHandlerUnitTests
 
         var actual = await handler.Handle(new GetNumberOfLinesHandler.Request { OWPMatchId = 123 }, new CancellationToken(false));
 
-        Equals(expected, actual);
+        DeepAssert.Equal(expected, actual);
     }
 
     [Fact]
@@ -49,7 +51,7 @@ public class GetNumberOfLinesHandlerUnitTests
 
         var actual = await handler.Handle(new GetNumberOfLinesHandler.Request { OWPMatchId = 123 }, new CancellationToken(false));
 
-        Equals(expected, actual);
+        DeepAssert.Equal(expected, actual);
     }
 
     [Fact]
@@ -62,7 +64,7 @@ public class GetNumberOfLinesHandlerUnitTests
 
         var actual = await handler.Handle(new GetNumberOfLinesHandler.Request { OWPMatchId = 123 }, new CancellationToken(false));
 
-        Equals(expected, actual);
+        DeepAssert.Equal(expected, actual);
     }
 
     [Fact]
@@ -75,7 +77,7 @@ public class GetNumberOfLinesHandlerUnitTests
 
         var actual = await handler.Handle(new GetNumberOfLinesHandler.Request { OWPMatchId = 123 }, new CancellationToken(false));
 
-        Equals(expected, actual);
+        DeepAssert.Equal(expected, actual);
     }
 
     [Fact]
@@ -88,7 +90,7 @@ public class GetNumberOfLinesHandlerUnitTests
 
         var actual = await handler.Handle(new GetNumberOfLinesHandler.Request { OWPMatchId = 123 }, new CancellationToken(false));
 
-        Equals(expected, actual);
+        DeepAssert.Equal(expected, actual);
     }
 
     [Fact]
@@ -101,7 +103,7 @@ public class GetNumberOfLinesHandlerUnitTests
 
         var actual = await handler.Handle(new GetNumberOfLinesHandler.Request { OWPMatchId = 123 }, new CancellationToken(false));
 
-        Equals(expected, actual);
+        DeepAssert.Equal(expected, actual);
     }
 
     [Fact]
@@ -114,7 +116,7 @@ public class GetNumberOfLinesHandlerUnitTests
 
         var actual = await handler.Handle(new GetNumberOfLinesHandler.Request { OWPMatchId = 123 }, new CancellationToken(false));
 
-        Equals(expected, actual);
+        DeepAssert.Equal(expected, actual);
     }
 
     private void Setup()

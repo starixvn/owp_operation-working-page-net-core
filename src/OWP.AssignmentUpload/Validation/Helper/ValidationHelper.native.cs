@@ -21,13 +21,13 @@ public static class ValidationHelper
 
     public static int CountMatchSameLeagueHomeAway(List<AssignmentModel> owpMatches, AssignmentModel owpMatch)
         => owpMatches.Count(a => string.Equals(a.Home, owpMatch.Home, StringComparison.CurrentCultureIgnoreCase) &&
-                                string.Equals(a.Away, owpMatch.Away, StringComparison.CurrentCultureIgnoreCase) &&
-                                string.Equals(a.League, owpMatch.League, StringComparison.CurrentCultureIgnoreCase));
+                                            string.Equals(a.Away, owpMatch.Away, StringComparison.CurrentCultureIgnoreCase) &&
+                                            string.Equals(a.League, owpMatch.League, StringComparison.CurrentCultureIgnoreCase));
     public static int CountMatchSameLeagueHomeAwayKOTime(List<AssignmentModel> owpMatches, AssignmentModel owpMatch)
         => owpMatches.Count(a => string.Equals(a.Home, owpMatch.Home, StringComparison.CurrentCultureIgnoreCase) &&
-                                string.Equals(a.Away, owpMatch.Away, StringComparison.CurrentCultureIgnoreCase) &&
-                                string.Equals(a.League, owpMatch.League, StringComparison.CurrentCultureIgnoreCase) &&
-                                Equals(a.KickOffTime, owpMatch.KickOffTime));
+                                            string.Equals(a.Away, owpMatch.Away, StringComparison.CurrentCultureIgnoreCase) &&
+                                            string.Equals(a.League, owpMatch.League, StringComparison.CurrentCultureIgnoreCase) &&
+                                            Equals(a.KickOffTime, owpMatch.KickOffTime));
 
     public static void BuildValidationRowResult(
         List<ValidationResult> validationResults,

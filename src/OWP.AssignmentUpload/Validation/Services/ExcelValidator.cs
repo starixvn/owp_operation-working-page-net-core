@@ -15,12 +15,10 @@ public class ExcelValidatorImp : ExcelValidator
     {
         stream.Seek(0, SeekOrigin.Begin);
 
-        using (var package = new ExcelPackage(stream))
-        {
-            var sheet = package.Workbook.Worksheets.First();
-            ValidateHeaders(sheet);
-            ValidateCellValues(sheet);
-        }
+        using var package = new ExcelPackage(stream);
+        var sheet = package.Workbook.Worksheets.First();
+        ValidateHeaders(sheet);
+        ValidateCellValues(sheet);
     }
 
     private static void ValidateHeaders(ExcelWorksheet sheet)
@@ -43,18 +41,22 @@ public class ExcelValidatorImp : ExcelValidator
             for (var j = 1; j < sheet.Dimension.End.Column; j++)
             {
                 var cellValue = sheet.Cells[i, j].Value;
-                if (cellValue is ExcelErrorValue)
+                if (cellValue is not ExcelErrorValue)
                 {
-                    var excelAddress = new ExcelAddress(i, j, i, j).Address;
-                    errorCellAddresses.Add($"{excelAddress.Substring(0, 2)}-{i}");
+                    continue;
                 }
+
+                var excelAddress = new ExcelAddress(i, j, i, j).Address;
+                errorCellAddresses.Add($"{excelAddress[..2]}-{i}");
             }
         }
 
-        if (errorCellAddresses.Any())
+        if (!errorCellAddresses.Any())
         {
-            var message = $"資料不正確, 請查看列表: {string.Join(",", errorCellAddresses)}";
-            throw new InvalidExcelCellFormatException(message);
+            return;
         }
+
+        var message = $"資料不正確, 請查看列表: {string.Join(",", errorCellAddresses)}";
+        throw new InvalidExcelCellFormatException(message);
     }
 }

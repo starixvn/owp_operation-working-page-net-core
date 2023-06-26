@@ -16,12 +16,12 @@ public class NewTicketIssueOtherRequest : NewTicketModelBase, IRequest<int>
 
 public class NewTicketIssueOtherHandler : IRequestHandler<NewTicketIssueOtherRequest, int>
 {
-    private readonly Repository repository;
-
-    private readonly RecipientService recipientService;
-    private readonly NotificationService notificationService;
     private readonly MessageClient messageClient;
     private readonly MessageService messageService;
+    private readonly NotificationService notificationService;
+
+    private readonly RecipientService recipientService;
+    private readonly Repository repository;
 
     public NewTicketIssueOtherHandler(
         Repository repository,

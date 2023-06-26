@@ -2,6 +2,7 @@
 using OWP.OtherSport.Validation.Constants;
 using OWP.OtherSport.Validation.Exceptions;
 using OWP.OtherSport.Validation.Extensions;
+// ReSharper disable InvertIf
 
 namespace OWP.OtherSport.Validation.Services;
 
@@ -54,7 +55,7 @@ public class ExcelValidatorImp : ExcelValidator
                 if (cellValue is ExcelErrorValue)
                 {
                     var excelAddress = new ExcelAddress(i, j, i, j).Address;
-                    errorCellAddresses.Add($"{excelAddress.Substring(0, rowAddressLength)}-{i}");
+                    errorCellAddresses.Add($"{excelAddress[..rowAddressLength]}-{i}");
                 }
             }
         }

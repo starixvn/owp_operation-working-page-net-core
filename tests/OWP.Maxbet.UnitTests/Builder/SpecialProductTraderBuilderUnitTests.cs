@@ -13,11 +13,9 @@ public class SpecialProductTraderBuilderUnitTests
 
     private readonly SpecialProductTraderBuilder specialProductTraderBuilderImp;
 
-    private readonly LogServiceWrapper logServiceWrapper;
-
     public SpecialProductTraderBuilderUnitTests()
     {
-        logServiceWrapper = Substitute.For<LogServiceWrapper>();
+        var logServiceWrapper = Substitute.For<LogServiceWrapper>();
         syncMaxbetRepository = Substitute.For<MaxbetRepository>();
         specialProductTraderBuilderImp = new SpecialProductTraderBuilderImp(syncMaxbetRepository, logServiceWrapper);
     }

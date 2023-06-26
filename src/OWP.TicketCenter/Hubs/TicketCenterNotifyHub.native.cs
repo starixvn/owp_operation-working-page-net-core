@@ -15,7 +15,6 @@ public interface TicketCenterNotifyHub
     Task NotifyNewMessageLga(int owpMatchId, int actorId);
 
     Task NotifyNewAddRecipientLga(int owpMatchId, int actorId);
-
 }
 
 public class TicketCenterNotifyHubImp : Hub<TicketCenterNotifyHub>

@@ -48,7 +48,7 @@ public class TicketMatchInfo : TicketBaseInfo
 
     public string AwayName { get; set; }
 
-    public DateTime? KOTime { get; set; }
+    public DateTime? KoTime { get; set; }
 
     public int EventType { get; set; } = 2;
 
@@ -71,4 +71,21 @@ public class TicketSupportInfo : TicketBaseInfo
     public int EventType { get; set; } = 4;
 
     public string EventName => Subject;
+}
+
+public class TicketLogWorkInfo : TicketBaseInfo
+{
+    public string Subject { get; set; }
+
+    public string LeagueName { get; set; }
+
+    public string HomeName { get; set; }
+
+    public string AwayName { get; set; }
+
+    public DateTime? KoTime { get; set; }
+
+    public int EventType { get; set; } = 6;
+
+    public string EventName => LeagueName;
 }

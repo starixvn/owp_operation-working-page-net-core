@@ -33,7 +33,7 @@ public class ProviderBuilderUnitTests
             new() {InfoSiteMatchId = 3, IsSaba = false,IsFutsal = false,PcCode = "code3"}
         };
 
-        var requestId = "ten ten";
+        const string requestId = "ten ten";
         var expected = MockExpected();
         var service = new ProviderBuilderServiceImp(repository);
 

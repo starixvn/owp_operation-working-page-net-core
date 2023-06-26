@@ -26,11 +26,9 @@ public class ExcelPackageCreatorServiceImp : ExcelPackageCreatorService
 
     public void LoadTemplate(string templatePath)
     {
-        using (var stream = new FileStream(templatePath, FileMode.Open, FileAccess.Read))
-        {
-            excelPackage = new ExcelPackage(stream);
-            reportSheet = excelPackage.Workbook.Worksheets.Copy(AutoConstant.TemplateName, AutoConstant.SheetName);
-        }
+        using var stream = new FileStream(templatePath, FileMode.Open, FileAccess.Read);
+        excelPackage = new ExcelPackage(stream);
+        reportSheet = excelPackage.Workbook.Worksheets.Copy(AutoConstant.TemplateName, AutoConstant.SheetName);
     }
 
     private void BuildReportBody(ExportExcelModel model)

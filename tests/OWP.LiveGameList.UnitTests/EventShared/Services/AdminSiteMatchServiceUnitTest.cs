@@ -63,7 +63,7 @@ public class AdminSiteMatchServiceUnitTest
             new () { MinorBettypeId = -3, AdminSiteId = 100, OWPMatchId = 200 },
             new () { MinorBettypeId = -100, AdminSiteId = 101, OWPMatchId = 201 },
             new () { MinorBettypeId = -4, AdminSiteId = 101, OWPMatchId = 201 },
-            new () { AdminSiteId = 102, OWPMatchId = 202 },
+            new () { AdminSiteId = 102, OWPMatchId = 202 }
         };
 
         // Act
@@ -71,7 +71,11 @@ public class AdminSiteMatchServiceUnitTest
 
         // Assert
         await repository.Received().GetMinorAdminSiteIds(Arg.Is<IEnumerable<MinorMatch>>(
-            x => x.First().SubType == 2000 && x.Last().SubType == 2101)
+            x => x.First().SubType == 2000)
+        );
+
+        await repository.Received().GetMinorAdminSiteIds(Arg.Is<IEnumerable<MinorMatch>>(
+            x => x.Last().SubType == 2101)
         );
     }
 
@@ -82,12 +86,12 @@ public class AdminSiteMatchServiceUnitTest
         var adminSiteIdsWithOwpMatches = new List<AdminSiteIdModel>
         {
             new () { AdminSiteMatchId = 11, ParentMatchId = 33},
-            new () { AdminSiteMatchId = 22 },
+            new () { AdminSiteMatchId = 22 }
         };
         var adminSitesIdsOdds = new List<AdminSiteOddsModel>
         {
             new () { AdminSiteMatchId = 11, OddsStatus = "complete" },
-            new () { AdminSiteMatchId = 22, OddsStatus = "running" },
+            new () { AdminSiteMatchId = 22, OddsStatus = "running" }
         };
 
         getAdminSiteInfoService.GetAdminSiteMatchId(parentMatchIds).Returns(adminSiteIdsWithOwpMatches);

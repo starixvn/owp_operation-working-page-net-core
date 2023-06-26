@@ -83,7 +83,7 @@ public class AutoAssignmentController : ControllerBase
         var absoluteTemplatePath = @$"App_Data{Path.DirectorySeparatorChar}Templates{Path.DirectorySeparatorChar}AutoAssignment.xlsx";
 
         using var excelPackage = excelPackageService.CreateExcelPackage(absoluteTemplatePath, exportExcelModel);
-        var fileContent = excelPackage.GetAsByteArray();
+        var fileContent = await excelPackage.GetAsByteArrayAsync();
 
         return BuildExcelPackageResponse(fileContent, eventDate);
     }

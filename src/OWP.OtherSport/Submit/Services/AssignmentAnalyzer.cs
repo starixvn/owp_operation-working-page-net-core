@@ -32,14 +32,9 @@ public class AssignmentAnalyzerImp : AssignmentAnalyzer
 
     public List<MatchSetting> GetMaxBets(AssignmentModel assignment, List<AssignmentMaxbet> assignmentMaxbets)
     {
-        var matchMaxBets = new List<MatchSetting>();
-        foreach (var assignmentMaxbet in assignmentMaxbets)
-        {
-            matchMaxBets.Add(GetMaxBetByBettype(assignment.OSMatchId, assignmentMaxbet));
-        }
-
-        return matchMaxBets.Where(a => (a.MaxBet != null && a.MaxBet != 0) ||
-                                       (a.Spread.HasValue && a.Spread.Value != 0)).ToList();
+        return assignmentMaxbets
+            .Select(assignmentMaxbet => GetMaxBetByBettype(assignment.OSMatchId, assignmentMaxbet))
+            .Where(a => (a.MaxBet != null && a.MaxBet != 0) || (a.Spread.HasValue && a.Spread.Value != 0)).ToList();
     }
 
     public static MatchAssignment GetAssignmentByBettype(int matchId, AssignmentMaxbet assignmentMaxbet)

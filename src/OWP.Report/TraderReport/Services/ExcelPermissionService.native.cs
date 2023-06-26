@@ -19,25 +19,24 @@ public class ExcelPermissionServiceImp : ExcelPermissionService
 
     public static AddressColumnRemoved BuildAddressColumnRemoved(ExcelPermissionModel permission)
     {
-        var addressColumnRemoved = new AddressColumnRemoved();
         var assignmentHasRead = permission.TraderAssignment.IsRead;
         var performanceHasRead = permission.TraderPerformance.IsRead;
-        if (assignmentHasRead && performanceHasRead)
-        {
-            return addressColumnRemoved;
-        }
-        if (assignmentHasRead)
-        {
-            addressColumnRemoved.ColumnFrom = ReportConst.ColumnFromRemovedAssignment;
-            addressColumnRemoved.Columns = ReportConst.ColumnRemovedAssignment;
-        }
-        if (performanceHasRead)
-        {
-            addressColumnRemoved.ColumnFrom = ReportConst.ColumnFromRemovedPerformance;
-            addressColumnRemoved.Columns = ReportConst.ColumnRemovedPerformance;
-        }
 
-        return addressColumnRemoved;
+        return (assignmentHasRead, performanceHasRead) switch
+        {
+            (true, true) => new AddressColumnRemoved(),
+            (true, false) => new AddressColumnRemoved
+            {
+                ColumnFrom = ReportConst.ColumnFromRemovedAssignment,
+                Columns = ReportConst.ColumnRemovedAssignment
+            },
+            (false, true) => new AddressColumnRemoved
+            {
+                ColumnFrom = ReportConst.ColumnFromRemovedPerformance,
+                Columns = ReportConst.ColumnRemovedPerformance
+            },
+            _ => new AddressColumnRemoved()
+        };
     }
 
     public static void Remove(ExcelPackage excelPackage, AddressColumnRemoved address)

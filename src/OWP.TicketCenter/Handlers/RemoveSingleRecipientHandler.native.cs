@@ -11,9 +11,8 @@ public class RemoveSingleRecipientRequest : InsertOrRemoveSingleRecipientModel, 
 
 public class RemoveSingleRecipientHandler : IRequestHandler<RemoveSingleRecipientRequest, int>
 {
-    private readonly Repository repository;
-
     private readonly RecipientService recipientService;
+    private readonly Repository repository;
 
     private readonly PreMatchNotificationService preMatchNotification;
 
@@ -28,9 +27,9 @@ public class RemoveSingleRecipientHandler : IRequestHandler<RemoveSingleRecipien
     {
         var recipients = new List<InsertOrRemoveManyRecipientModel>
         {
-            new ()
+            new()
             {
-                RecipientIds = new List<int> {request.RecipientId},
+                RecipientIds = new List<int> { request.RecipientId },
                 RecipientType = request.RecipientType
             }
         };

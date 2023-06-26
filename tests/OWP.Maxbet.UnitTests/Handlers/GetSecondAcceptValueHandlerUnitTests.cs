@@ -36,7 +36,7 @@ public class GetSecondAcceptValueHandlerUnitTests
         IEnumerable<MatchResource> matchOffer = new List<MatchResource>
         {
             new() {Value = "1s Accept"},
-            new() {Value = "10s Accept"},
+            new() {Value = "10s Accept"}
         };
         dynamicRepository.GetMatchOfferId(Arg.Compat.Any<int>()).Returns(matchOffer);
         dynamicRepository.GetSecondAcceptValueDefaultInfo(Arg.Compat.Any<decimal?>(), Arg.Compat.Any<int>())

@@ -17,8 +17,6 @@ public class BuildExcelModelServiceUnitTests
 
     private readonly CommandRepository commandRepository;
 
-    private readonly MatchStatusCalculator matchStatusCalculator;
-
     public BuildExcelModelServiceUnitTests()
     {
         var config = new MapperConfiguration(cfg =>
@@ -28,7 +26,7 @@ public class BuildExcelModelServiceUnitTests
         });
         var iMapper = config.CreateMapper();
         commandRepository = Substitute.For<CommandRepository>();
-        matchStatusCalculator = Substitute.For<MatchStatusCalculator>();
+        var matchStatusCalculator = Substitute.For<MatchStatusCalculator>();
 
         service = new BuildExcelModelServiceImp(commandRepository, matchStatusCalculator, iMapper);
     }

@@ -18,7 +18,7 @@ public class BuildRowColorImp : BuildRowColor
     {
         var provider = StringExtension.RemoveNonAlphaCharacters(match.OtherProvider);
         var conditionMatch = string.IsNullOrWhiteSpace(provider);
-        var smallerNoMaxBet = match.MaxBetHDPNumber < 6000 || !match.MaxBetHDPNumber.HasValue;
+        var smallerNoMaxBet = match.MaxBetHDPNumber is < 6000 or null;
         var exceptMatches = match.IsChildMatch || IsSaBaGame(match.LeagueName);
 
         if (match.IsBlackList)

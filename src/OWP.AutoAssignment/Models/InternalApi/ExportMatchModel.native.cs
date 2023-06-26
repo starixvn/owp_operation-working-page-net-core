@@ -1,6 +1,6 @@
-﻿using System.Globalization;
-using Epplus.Mapper.Annotations;
+﻿using Epplus.Mapper.Annotations;
 using OfficeOpenXml.Attributes;
+using System.Globalization;
 
 namespace OWP.AutoAssignment.Models.InternalApi;
 
@@ -13,13 +13,9 @@ public record ExportMatchModel
     public string EventDateTime
     {
         get => _time;
-        set
-        {
-            DateTime time;
-
-            _time = DateTime.TryParse(value, CultureInfo.InvariantCulture, DateTimeStyles.None, out time)
+        set =>
+            _time = DateTime.TryParse(value, CultureInfo.InvariantCulture, DateTimeStyles.None, out var time)
                 ? time.ToString("hh:mm tt", CultureInfo.InvariantCulture) : value;
-        }
     }
 
     [EpplusIgnore]
@@ -104,7 +100,7 @@ public record ExportMatchModel
     public int InfoSiteMatchId { get; set; }
 
     [Cell("AO3")]
-    public int? InfoSiteMatchIdExport => Bettype == -3 || Bettype == -4
+    public int? InfoSiteMatchIdExport => Bettype is -3 or -4
         ? null
         : InfoSiteMatchId;
 

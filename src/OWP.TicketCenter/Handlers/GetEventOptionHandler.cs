@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using OWP.TicketCenter.ViewModels;
+// ReSharper disable ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
 
 namespace OWP.TicketCenter.Handlers;
 

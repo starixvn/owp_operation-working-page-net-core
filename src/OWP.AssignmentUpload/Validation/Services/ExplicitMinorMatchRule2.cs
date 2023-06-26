@@ -1,7 +1,7 @@
-﻿using System.Collections.Immutable;
-using OWP.AssignmentUpload.Validation.Constants;
+﻿using OWP.AssignmentUpload.Validation.Constants;
 using OWP.AssignmentUpload.Validation.Helper;
 using OWP.AssignmentUpload.Validation.Models;
+using System.Collections.Immutable;
 
 namespace OWP.AssignmentUpload.Validation.Services;
 
@@ -25,20 +25,22 @@ public class ExplicitMinorMatchRule2Imp : ExplicitMinorMatchRule2
     {
         foreach (var minorMatch in minorMatchesHome)
         {
-            if (IsMinorMatch(assignment, minorMatch))
+            if (!IsMinorMatch(assignment, minorMatch))
             {
-                var mainMatch = FindMainMatchByHomeOrAway(assignment, assignments, minorMatch, TargetFinder.Home);
-                if (mainMatch == null)
-                {
-                    return false;
-                }
-
-                assignment.ParentHashKey = mainMatch.HashKey;
-                assignment.MinorBettypeId = minorMatch.MinorBettypeId;
-                assignment.IsNeutral = false;
-
-                return true;
+                continue;
             }
+
+            var mainMatch = FindMainMatchByHomeOrAway(assignment, assignments, minorMatch, TargetFinder.Home);
+            if (mainMatch == null)
+            {
+                return false;
+            }
+
+            assignment.ParentHashKey = mainMatch.HashKey;
+            assignment.MinorBettypeId = minorMatch.MinorBettypeId;
+            assignment.IsNeutral = false;
+
+            return true;
         }
         return false;
     }
@@ -56,15 +58,16 @@ public class ExplicitMinorMatchRule2Imp : ExplicitMinorMatchRule2
         var leagueLength = assignment.League.Length - minorMatch.LeagueChars;
         var homeLength = assignment.Home.Length - minorMatch.HomeChars;
         var awayLength = assignment.Away.Length - minorMatch.AwayChars;
-        if (leagueLength > 0 && homeLength > 0 && awayLength > 0)
+        if (leagueLength <= 0 || homeLength <= 0 || awayLength <= 0)
         {
-            var league = assignment.League.Substring(0, leagueLength).TrimEnd();
-            var home = assignment.Home.Substring(0, homeLength).TrimEnd();
-            var away = assignment.Away.Substring(0, awayLength).TrimEnd();
-            return FindMainMatchByHomeOrAway(assignments, league, home, away, finder);
+            return null;
         }
 
-        return null;
+        var league = assignment.League[..leagueLength].TrimEnd();
+        var home = assignment.Home[..homeLength].TrimEnd();
+        var away = assignment.Away[..awayLength].TrimEnd();
+        return FindMainMatchByHomeOrAway(assignments, league, home, away, finder);
+
     }
 
     public static AssignmentModel FindMainMatchByHomeOrAway(
@@ -74,38 +77,39 @@ public class ExplicitMinorMatchRule2Imp : ExplicitMinorMatchRule2
         string away,
         TargetFinder finder)
     {
-        switch (finder)
+        return finder switch
         {
-            case TargetFinder.Home:
-                return assignments?.FirstOrDefault(p => string.Compare(p.League, league, StringComparison.CurrentCultureIgnoreCase) == 0
-                                                        && string.Compare(p.Home, home, StringComparison.CurrentCultureIgnoreCase) == 0
-                                                        && string.Compare(p.Home, away, StringComparison.CurrentCultureIgnoreCase) == 0);
-            case TargetFinder.Away:
-                return assignments?.FirstOrDefault(p => string.Compare(p.League, league, StringComparison.CurrentCultureIgnoreCase) == 0
-                                                        && string.Compare(p.Away, home, StringComparison.CurrentCultureIgnoreCase) == 0
-                                                        && string.Compare(p.Away, away, StringComparison.CurrentCultureIgnoreCase) == 0);
-            default:
-                return null;
-        }
+            TargetFinder.Home => assignments?.FirstOrDefault(p =>
+                string.Compare(p.League, league, StringComparison.CurrentCultureIgnoreCase) == 0 &&
+                string.Compare(p.Home, home, StringComparison.CurrentCultureIgnoreCase) == 0 &&
+                string.Compare(p.Home, away, StringComparison.CurrentCultureIgnoreCase) == 0),
+            TargetFinder.Away => assignments?.FirstOrDefault(p =>
+                string.Compare(p.League, league, StringComparison.CurrentCultureIgnoreCase) == 0 &&
+                string.Compare(p.Away, home, StringComparison.CurrentCultureIgnoreCase) == 0 &&
+                string.Compare(p.Away, away, StringComparison.CurrentCultureIgnoreCase) == 0),
+            _ => null
+        };
     }
 
     public static bool DetectMinorBettypeIdRuleAway(AssignmentModel assignment, List<AssignmentModel> assignments)
     {
         foreach (var minorMatch in minorMatchesAway)
         {
-            if (IsMinorMatch(assignment, minorMatch))
+            if (!IsMinorMatch(assignment, minorMatch))
             {
-                var mainMatch = FindMainMatchByHomeOrAway(assignment, assignments, minorMatch, TargetFinder.Away);
-                if (mainMatch == null)
-                {
-                    return false;
-                }
-
-                assignment.ParentHashKey = mainMatch.HashKey;
-                assignment.MinorBettypeId = minorMatch.MinorBettypeId;
-
-                return true;
+                continue;
             }
+
+            var mainMatch = FindMainMatchByHomeOrAway(assignment, assignments, minorMatch, TargetFinder.Away);
+            if (mainMatch == null)
+            {
+                return false;
+            }
+
+            assignment.ParentHashKey = mainMatch.HashKey;
+            assignment.MinorBettypeId = minorMatch.MinorBettypeId;
+
+            return true;
         }
 
         return false;

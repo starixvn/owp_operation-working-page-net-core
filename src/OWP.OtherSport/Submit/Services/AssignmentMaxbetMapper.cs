@@ -12,7 +12,7 @@ public interface AssignmentMaxbetMapper
 public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
 {
     public Dictionary<int, List<AssignmentMaxbet>> MapBySports(List<AssignmentModel> assignments)
-        => assignments.ToDictionary(a => a.OSMatchId, a => MapBySport(a));
+        => assignments.ToDictionary(a => a.OSMatchId, MapBySport);
 
     public static List<AssignmentMaxbet> MapBySport(AssignmentModel assignment)
     {
@@ -727,7 +727,7 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
             },
             new()
             {
-                Bettype = Bettype.RacetoPoints7911,
+                Bettype = Bettype.RaceToPoints7911,
                 Trader = assignment.TraderBadmintonRaceToPoints7911,
                 OtherTrader = assignment.OtherTraderBadmintonRaceToPoints7911,
                 Spread = assignment.SpreadBadmintonRaceToPoints7911

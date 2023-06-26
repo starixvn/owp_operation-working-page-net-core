@@ -46,7 +46,7 @@ public class DuplicateSubtypeValidator : IAsyncActionFilter
         await next();
     }
 
-    private string BuildErrorMessage(IList<string> subtypeInvalid)
+    private static string BuildErrorMessage(IEnumerable<string> subtypeInvalid)
         => $"A subtype with this name <b>{string.Join(", ", subtypeInvalid)}</b> already exists. Please try again!";
 
     private bool DuplicateSubtypeInInternalTicketType(SaveTicketTypeRecipientsCommand model)
@@ -63,7 +63,7 @@ public class DuplicateSubtypeValidator : IAsyncActionFilter
             })
             .ToList();
 
-    private async Task<IList<string>> CheckExistsSubtype(IList<SubtypeChecker> subtypeNames, int ticketTypeId)
+    private async Task<IList<string>> CheckExistsSubtype(IEnumerable<SubtypeChecker> subtypeNames, int ticketTypeId)
     {
         var criteria = new CheckExistsSubtypeCriteria
         {

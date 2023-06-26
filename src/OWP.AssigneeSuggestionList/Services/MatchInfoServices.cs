@@ -54,15 +54,17 @@ public class MatchInfoServicesImp : MatchInfoServices
               : EndTimeHelper.CalculateFtMatchEndTime(etpkType);
     }
 
-    public TimeSpan GetEndTimeForCornerBooking(MatchInfo matchInfo)
+    public static TimeSpan GetEndTimeForCornerBooking(MatchInfo matchInfo)
     {
         var endTime = new TimeSpan(2, 0, 0);
 
-        if (matchInfo.MinorBettypeId is Bettype.NextCorner or Bettype.NextBooking or Bettype.Corner or Bettype.TotalBooking)
+        if (matchInfo.MinorBettypeId is not (Bettype.NextCorner or Bettype.NextBooking or Bettype.Corner or Bettype.TotalBooking))
         {
-            var etpkType = ETPKHelper.DetectExtraTime(matchInfo.Remark, matchInfo.MinorBettypeId);
-            endTime = EndTimeHelper.CalculateCornerMatchEndTime(etpkType);
+            return endTime;
         }
+
+        var etpkType = ETPKHelper.DetectExtraTime(matchInfo.Remark, matchInfo.MinorBettypeId);
+        endTime = EndTimeHelper.CalculateCornerMatchEndTime(etpkType);
 
         return endTime;
     }

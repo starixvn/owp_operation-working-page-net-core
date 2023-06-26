@@ -9,7 +9,6 @@ namespace OWP.OtherSport.UnitTests.Validation.Services;
 public class AssignmentBuilderUnitTests
 {
     private readonly AssignmentBuilderImp assignmentBuilder;
-    private readonly AssignmentMapper assignmentMapper;
 
     public AssignmentBuilderUnitTests()
     {
@@ -20,7 +19,7 @@ public class AssignmentBuilderUnitTests
         });
         var iMapper = config.CreateMapper();
 
-        assignmentMapper = new AssignmentMapperImp(iMapper);
+        AssignmentMapper assignmentMapper = new AssignmentMapperImp(iMapper);
         assignmentBuilder = new AssignmentBuilderImp(assignmentMapper);
     }
 

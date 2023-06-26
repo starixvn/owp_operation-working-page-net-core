@@ -1,9 +1,9 @@
-﻿using System.Reflection;
-using AutoMapper;
+﻿using AutoMapper;
 using OWP.OtherSport.Download.Models;
 using OWP.OtherSport.EventAssignment.Models;
 using OWP.OtherSport.Submit.Models;
 using OWP.OtherSport.Validation.Models;
+using System.Reflection;
 
 namespace OWP.OtherSport;
 
@@ -24,7 +24,7 @@ public class AutoMapperProfile : Profile
 
 public static class AutoMapperExtension
 {
-    public static IMappingExpression<AssignmentModelInExcel, AssignmentModel> IgnoreTraders<AssignmentModelInExcel, AssignmentModel>
+    public static IMappingExpression<AssignmentModelInExcel, AssignmentModel> IgnoreTraders
         (this IMappingExpression<AssignmentModelInExcel, AssignmentModel> expression)
     {
         const BindingFlags flags = BindingFlags.Public | BindingFlags.Instance;
@@ -41,7 +41,7 @@ public static class AutoMapperExtension
         return expression;
     }
 
-    public static IMappingExpression<AssignmentModelInExcel, AssignmentModel> IgnoreMaxbetsAndSpreads<AssignmentModelInExcel, AssignmentModel>
+    public static IMappingExpression<AssignmentModelInExcel, AssignmentModel> IgnoreMaxbetsAndSpreads
         (this IMappingExpression<AssignmentModelInExcel, AssignmentModel> expression)
     {
         const BindingFlags flags = BindingFlags.Public | BindingFlags.Instance;

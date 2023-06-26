@@ -70,9 +70,6 @@ app.MapHub<PreMatchNotifyHubImp>("/preMatchNotifyHub");
 
 ThreadPool.SetMinThreads(100, 100);
 
-#if DEBUG
 app.Run();
-#endif
 
-await app.RunAsync("http://0.0.0.0:5000");
 

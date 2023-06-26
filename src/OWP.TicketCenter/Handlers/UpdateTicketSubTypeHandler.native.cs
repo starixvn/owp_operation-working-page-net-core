@@ -12,8 +12,8 @@ public class UpdateTicketSubTypeRequest : PermissionCheckedModel, IRequest<Unit>
 
 public class UpdateTicketSubTypeHandler : IRequestHandler<UpdateTicketSubTypeRequest, Unit>
 {
-    private readonly Repository repository;
     private readonly NotificationService notificationService;
+    private readonly Repository repository;
 
     public UpdateTicketSubTypeHandler(Repository repository, NotificationService notificationService)
     {

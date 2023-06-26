@@ -40,7 +40,7 @@ public class GetLeagueSettingServiceImp : GetLeagueSettingService
         return SortLeagueSetting(leagueSettings);
     }
 
-    private static IList<LeagueSettingModel> SortLeagueSetting(List<LeagueSettingModel> leagueSetting)
+    private static IList<LeagueSettingModel> SortLeagueSetting(IEnumerable<LeagueSettingModel> leagueSetting)
         => leagueSetting
                 .OrderBy(x => x.OSLeagueName)
                 .ThenByDescending(x => x.MaxBetHDP)

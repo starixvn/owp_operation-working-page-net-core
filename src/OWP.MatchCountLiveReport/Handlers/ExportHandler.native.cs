@@ -1,10 +1,11 @@
-using System.Drawing;
 using Epplus.Mapper.Extensions;
 using MediatR;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using OWP.MatchCountLiveReport.Models;
 using OWP.Services;
+using System.Drawing;
+// ReSharper disable InvertIf
 
 namespace OWP.MatchCountLiveReport.Handlers;
 
@@ -79,7 +80,7 @@ public class ExportHandler : IRequestHandler<ExportRequest, ExcelPackage>, IDisp
 
     private string GetReportTemplate()
     {
-        var templatePath = @"App_Data/Templates/MatchCountLiveReportTemplate.xlsx";
+        const string templatePath = @"App_Data/Templates/MatchCountLiveReportTemplate.xlsx";
         return $"{configurationService.CurrentDirectory}{Path.DirectorySeparatorChar}{templatePath}";
     }
 

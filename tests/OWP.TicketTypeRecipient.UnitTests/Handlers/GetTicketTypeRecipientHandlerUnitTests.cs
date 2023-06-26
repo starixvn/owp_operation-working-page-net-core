@@ -168,7 +168,7 @@ public class GetTicketTypeRecipientHandlerUnitTests
         };
 
         var dynamicRepo = Substitute.For<IDynamicRepository>();
-        dynamicRepo.FetchMultipleAsync<TicketType, GetTicketTypeRecipientHandler.RecipientData, Subtype>(Arg.Any<GetTicketTypeRecipientHandler.GetRecipientDataCriteria>())
+        dynamicRepo.FetchMultipleAsync<TicketType, GetTicketTypeRecipientHandler.RecipientData, Subtype>(Arg.Any<GetTicketTypeRecipientHandler.GetRecipientDataCriteria>(), Arg.Any<CancellationToken>())
             .Returns((mockTicketTypes, mockRecipients, mockSubtype));
 
         return new GetTicketTypeRecipientHandler(dynamicRepo);

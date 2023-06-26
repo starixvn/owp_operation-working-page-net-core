@@ -1,10 +1,10 @@
-﻿using System.Drawing;
-using System.Globalization;
-using OfficeOpenXml;
+﻿using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using OWP.Extensions;
 using OWP.Report.OvertimeReport.Constants;
 using OWP.Report.OvertimeReport.Models;
+using System.Drawing;
+using System.Globalization;
 
 namespace OWP.Report.OvertimeReport.Services;
 
@@ -65,11 +65,13 @@ public class ExportReportByMonthServicesImp : ExportReportByMonthServices, IDisp
             reportSheet.Cells[1, colIndex].Value = dateColumn.DayOfWeek;
             reportSheet.Cells[2, colIndex].Value = dateColumn.Date;
 
-            if (dateColumn.IsWeekend)
+            if (!dateColumn.IsWeekend)
             {
-                SetStyleHeaderStyle(1, colIndex, ColorConst.Weekend);
-                SetStyleHeaderStyle(2, colIndex, ColorConst.Weekend);
+                continue;
             }
+
+            SetStyleHeaderStyle(1, colIndex, ColorConst.Weekend);
+            SetStyleHeaderStyle(2, colIndex, ColorConst.Weekend);
         }
     }
 

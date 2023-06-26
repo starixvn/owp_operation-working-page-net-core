@@ -1,5 +1,6 @@
 ﻿using OWP.Extensions;
 using OWP.OtherSport.Submit.Models;
+// ReSharper disable ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
 
 namespace OWP.OtherSport.Shared.Helper;
 

@@ -1,10 +1,9 @@
-﻿using System.Globalization;
-using Fanex.NAP.Client.Helpers.Web;
+﻿using Fanex.NAP.Client.Helpers.Web;
 using MediatR;
 using OWP.AssignmentUpload.Validation.Exceptions;
 using OWP.AssignmentUpload.Validation.Models;
 using OWP.AssignmentUpload.Validation.Services;
-using OWP.Services;
+using System.Globalization;
 
 namespace OWP.AssignmentUpload.Validation;
 
@@ -32,20 +31,16 @@ public class Handler : IRequestHandler<ValidationRequest, AssignmentValidationRe
 
     private readonly ExcelValidator excelValidator;
 
-    private readonly ConfigurationService configurationService;
-
     private readonly INapSession currentSession;
 
     public Handler(
         Analyzer analyzer,
         ExcelValidator excelValidator,
-        ConfigurationService configurationService,
         CacheManipulator cacheManipulator,
         INapSession currentSession)
     {
         this.analyzer = analyzer;
         this.cacheManipulator = cacheManipulator;
-        this.configurationService = configurationService;
         this.excelValidator = excelValidator;
         this.currentSession = currentSession;
     }

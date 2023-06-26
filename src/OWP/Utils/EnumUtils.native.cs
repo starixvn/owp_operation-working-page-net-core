@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+// ReSharper disable LoopCanBeConvertedToQuery
 
 namespace OWP.Utils;
 

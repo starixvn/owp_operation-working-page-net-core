@@ -1,6 +1,7 @@
 using OWP.EventPicking.Misc;
 using OWP.EventPicking.Models;
 using OWP.Extensions;
+// ReSharper disable ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
 
 namespace OWP.EventPicking.Services;
 
@@ -21,7 +22,7 @@ public class BuildMainMatchMaxBetImp : BuildMainMatchMaxBet
     public async Task BuildMainMatchMaxbet(IEnumerable<EventPickingModel> matches)
     {
         var leagueSettings = await repository.GetLeagueSettings();
-        var tvList = await repository.GetTVList();
+        var tvList = (await repository.GetTVList()).ToList();
 
         foreach (var match in matches)
         {
@@ -33,7 +34,7 @@ public class BuildMainMatchMaxBetImp : BuildMainMatchMaxBet
         }
     }
 
-    private static void SyncMaxbetToInfoSiteMatch(EventPickingModel match, List<LeagueSetting> leagueSettings, IEnumerable<Condition> tvList)
+    private static void SyncMaxbetToInfoSiteMatch(EventPickingModel match, List<LeagueSetting> leagueSettings, List<Condition> tvList)
     {
         var truthTables = new List<TruthTable>();
         var isWeekend = IsWeekend(match.EventDateTime);
@@ -51,17 +52,20 @@ public class BuildMainMatchMaxBetImp : BuildMainMatchMaxBet
                                         .ThenByDescending(x => isWeekend ? x.MaxbetWK_HDP : x.MaxbetWD_HDP)
                                         .FirstOrDefault();
 
-        if (chosenTruthTable != null)
+        if (chosenTruthTable == null)
         {
-            var chosenLeagueSetting = leagueSettings.FirstOrDefault(x => x.LeagueSettingId == chosenTruthTable.LeagueSettingId);
-            MapSettings(match, chosenLeagueSetting, isWeekend);
+            return;
         }
+
+        var chosenLeagueSetting =
+            leagueSettings.FirstOrDefault(x => x.LeagueSettingId == chosenTruthTable.LeagueSettingId);
+        MapSettings(match, chosenLeagueSetting, isWeekend);
     }
 
     private static bool IsWeekend(DateTime eventDateTime)
     {
         var eventDate = DateTime.SpecifyKind(eventDateTime, DateTimeKind.Utc).AddHours(-4);
-        var isWeekend = eventDate.DayOfWeek == DayOfWeek.Saturday || eventDate.DayOfWeek == DayOfWeek.Sunday;
+        var isWeekend = eventDate.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday;
         return isWeekend;
     }
 
@@ -77,7 +81,7 @@ public class BuildMainMatchMaxBetImp : BuildMainMatchMaxBet
         }
     }
 
-    private static TruthTable GenerateTruthTable(EventPickingModel match, LeagueSetting leagueSettings, IEnumerable<Condition> tvList)
+    private static TruthTable GenerateTruthTable(EventPickingModel match, LeagueSetting leagueSettings, List<Condition> tvList)
     {
         var result = new TruthTable
         {
@@ -113,8 +117,8 @@ public class BuildMainMatchMaxBetImp : BuildMainMatchMaxBet
 
         var leagueSettingCondition = leagueSettings.GetFullConditionDes();
 
-        result.Round = firstRule.Execute(leagueSettingCondition.Rounds, match.Round);
-        result.Division = firstRule.Execute(leagueSettingCondition.Divisions, match.OutSide);
+        result.Round = firstRule.Execute(leagueSettingCondition.Rounds.ToList(), match.Round);
+        result.Division = firstRule.Execute(leagueSettingCondition.Divisions.ToList(), match.OutSide);
 
         result.NumberOfTrue += result.TV == 1 ? 1 : 0;
         result.NumberOfTrue += result.Division == 1 ? 1 : 0;

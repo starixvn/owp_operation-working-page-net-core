@@ -54,7 +54,7 @@ public class TaskListRepositoryImp : TaskListRepository
     {
         var criteria = new GetCompletedMatchFromMainDBCriteria
         {
-            AdminSiteIds = string.Join(",", adminsiteIds.Where(x => x.HasValue).Distinct()),
+            AdminSiteIds = string.Join(",", adminsiteIds.Where(x => x.HasValue).Distinct())
         };
 
         return (await dynamicRepository.FetchAsync<int>(criteria)).ToList();

@@ -2,6 +2,7 @@ using AutoMapper;
 using OWP.Extensions;
 using OWP.MaxbetSetting.Models;
 using OWP.Utils;
+// ReSharper disable LoopCanBeConvertedToQuery
 
 namespace OWP.MaxbetSetting.Helpers;
 

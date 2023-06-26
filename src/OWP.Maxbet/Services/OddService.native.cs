@@ -33,7 +33,7 @@ public class OddServiceImp : OddService
             OddsHome = MaxbetHelper.FindOddByKey(oddInfo, OddConst.ODDS_HOME)?.Value,
             OddsAway = MaxbetHelper.FindOddByKey(oddInfo, OddConst.ODDS_AWAY)?.Value,
             Hdp1 = MaxbetHelper.FindOddByKey(oddInfo, OddConst.ODDS_HANDICAP_HDP1)?.Value,
-            Hdp2 = MaxbetHelper.FindOddByKey(oddInfo, OddConst.ODDS_HANDICAP_HDP2)?.Value,
+            Hdp2 = MaxbetHelper.FindOddByKey(oddInfo, OddConst.ODDS_HANDICAP_HDP2)?.Value
         };
     }
 
@@ -44,7 +44,7 @@ public class OddServiceImp : OddService
             OddsOver = MaxbetHelper.FindOddByKey(oddInfo, OddConst.ODDS_OVER)?.Value,
             OddsUnder = MaxbetHelper.FindOddByKey(oddInfo, OddConst.ODDS_UNDER)?.Value,
             Hdp1 = MaxbetHelper.FindOddByKey(oddInfo, OddConst.ODDS_OU_HDP1)?.Value,
-            Hdp2 = MaxbetHelper.FindOddByKey(oddInfo, OddConst.ODDS_OU_HDP2)?.Value,
+            Hdp2 = MaxbetHelper.FindOddByKey(oddInfo, OddConst.ODDS_OU_HDP2)?.Value
         };
     }
 }

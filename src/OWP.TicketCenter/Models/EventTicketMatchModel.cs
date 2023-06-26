@@ -14,5 +14,5 @@ public class EventTicketMatchModel : EventTicketModelBase
 
     public string AwayName { get; set; }
 
-    public DateTime? KOTime { get; set; }
+    public DateTime? KoTime { get; set; }
 }

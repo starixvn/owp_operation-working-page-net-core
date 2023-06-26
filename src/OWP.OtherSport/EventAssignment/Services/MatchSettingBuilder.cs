@@ -1,8 +1,8 @@
-﻿using System.Globalization;
-using OWP.Extensions;
+﻿using OWP.Extensions;
 using OWP.OtherSport.EventAssignment.Models;
 using OWP.OtherSport.Submit.Constants;
 using OWP.OtherSport.Submit.Models;
+using System.Globalization;
 
 namespace OWP.OtherSport.EventAssignment.Services;
 
@@ -35,16 +35,18 @@ public class MatchSettingBuilderImp : MatchSettingBuilder
                 : bettypeName;
 
             var eventAssignmentByBettype = traderMaxbetModels.FirstOrDefault(x => x.BetTypeName == mainBettypeName);
-            if (eventAssignmentByBettype != null)
+            if (eventAssignmentByBettype == null)
             {
-                var isSpecialBettype = MainBettypeHasMinorBettypes.ContainsKey(new Tuple<string, string>(bettypeName, sport));
-                eventAssignmentByBettype.MatchSettings.Add(new MatchSettingModel
-                {
-                    BetTypeName = isMinorBettype || isSpecialBettype ? DisplayBettypes[bettypeName] : string.Empty,
-                    MaxBet = matchSetting.MaxBet,
-                    Spread = FormatSpread(matchSetting.Spread)
-                });
+                continue;
             }
+
+            var isSpecialBettype = MainBettypeHasMinorBettypes.ContainsKey(new Tuple<string, string>(bettypeName, sport));
+            eventAssignmentByBettype.MatchSettings.Add(new MatchSettingModel
+            {
+                BetTypeName = isMinorBettype || isSpecialBettype ? DisplayBettypes[bettypeName] : string.Empty,
+                MaxBet = matchSetting.MaxBet,
+                Spread = FormatSpread(matchSetting.Spread)
+            });
         }
     }
 

@@ -69,8 +69,7 @@ public class AssignmentMaxbetMapperUnitTests
             }
         };
 
-        var expect = new Dictionary<int, List<AssignmentMaxbet>>();
-        expect.Add(0, assignmentMaxbets);
+        var expect = new Dictionary<int, List<AssignmentMaxbet>> { { 0, assignmentMaxbets } };
 
         //Act
         var actual = services.MapBySports(assignmentModels);
@@ -1001,7 +1000,7 @@ public class AssignmentMaxbetMapperUnitTests
             },
             new()
             {
-                Bettype = Bettype.RacetoPoints7911,
+                Bettype = Bettype.RaceToPoints7911,
                 Trader = assignment.TraderBadmintonRaceToPoints7911,
                 OtherTrader = assignment.OtherTraderBadmintonRaceToPoints7911,
                 Spread = 10

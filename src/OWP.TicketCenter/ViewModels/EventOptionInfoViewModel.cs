@@ -24,7 +24,7 @@ public class EventCheckingOptionInfoViewModel : EventOptionInfoViewModel
     public int InfoSiteMatchId { get; set; }
 }
 
-public class EventLGAOptionInfoViewModel : EventOptionInfoViewModel
+public class EventLgaOptionInfoViewModel : EventOptionInfoViewModel
 {
     public int OwpMatchId { get; set; }
 }

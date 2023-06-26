@@ -2,6 +2,7 @@
 using OWP.Extensions;
 using OWP.OSLeagueSetting.Models;
 using OWP.Utils;
+// ReSharper disable LoopCanBeConvertedToQuery
 
 namespace OWP.OSLeagueSetting.Services;
 
@@ -27,10 +28,10 @@ public class LogServiceImp : LogService
 
         var logInfoSort = logLeagueInfo.OrderByDescending(x => x.ModifiedDate);
 
-        return BuildLogs(logInfoSort, logSetting);
+        return BuildLogs(logInfoSort, logSetting.ToList());
     }
 
-    public IList<LogDisplayModel> BuildLogs(IEnumerable<UserLogModel> logInfos, IEnumerable<UserLogModel> logSettings)
+    public IList<LogDisplayModel> BuildLogs(IEnumerable<UserLogModel> logInfos, List<UserLogModel> logSettings)
     {
         var logDisplayModel = new List<LogDisplayModel>();
         foreach (var log in logInfos)

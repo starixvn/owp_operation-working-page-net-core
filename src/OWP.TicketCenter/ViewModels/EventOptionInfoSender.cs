@@ -12,5 +12,5 @@ public class EventCheckingOptionInfoSender : EventOptionInfoSender
 
 public class EventLgaOptionInfoSender : EventOptionInfoSender
 {
-    public IList<EventLGAOptionInfoViewModel> EventInfoViewModel { get; set; }
+    public IList<EventLgaOptionInfoViewModel> EventInfoViewModel { get; set; }
 }

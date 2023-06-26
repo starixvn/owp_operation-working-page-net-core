@@ -33,7 +33,7 @@ public class UpdateMaxbetSettingHandler : IRequestHandler<UpdateMaxbetSettingReq
             ActorId = session.UserId
         };
 
-        await dynamicRepository.ExecuteAsync(criteria);
+        await dynamicRepository.ExecuteAsync(criteria, cancellationToken);
 
         return Unit.Value;
     }

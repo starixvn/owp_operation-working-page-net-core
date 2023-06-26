@@ -36,7 +36,7 @@ public class SabaMatchesServicesUnitTest
             new() { OWPMatchId = 4, LeagueName = "ABC", EventDateTime = new DateTime(2022, 03, 29, 15, 30, 00) },
             new() { MatchType=MatchType.Saba16Mins },
             new() { MatchType=MatchType.Saba5Mins, OWPMatchId = 1, LeagueName = "A", EventDateTime = new DateTime(2022, 03, 29, 15, 30, 00) },
-            new() { MatchType=MatchType.Saba5Mins, OWPMatchId = 1, LeagueName = "A", EventDateTime = new DateTime(2022, 03, 29, 15, 00, 00) },
+            new() { MatchType=MatchType.Saba5Mins, OWPMatchId = 1, LeagueName = "A", EventDateTime = new DateTime(2022, 03, 29, 15, 00, 00) }
         };
 
         SabaMatchesServicesImp.GroupSaba5Mins(mockedSabaAssignment);
@@ -46,7 +46,7 @@ public class SabaMatchesServicesUnitTest
             new() { OWPMatchId = 4, LeagueName = "ABC", EventDateTime = new DateTime(2022, 03, 29, 15, 30, 00) },
             new() { MatchType = MatchType.Saba16Mins },
             new() { OWPMatchId = 2, UserId = 11, LeagueName = "A", HomeName = "B", AwayName="C", MatchType=MatchType.Saba5Mins, EventDateTime = new DateTime(2022, 03, 29, 02, 00, 00) },
-            new() { MatchType=MatchType.Saba5Mins, OWPMatchId = 1, LeagueName = "A", EventDateTime = new DateTime(2022, 03, 29, 15, 00, 00) },
+            new() { MatchType=MatchType.Saba5Mins, OWPMatchId = 1, LeagueName = "A", EventDateTime = new DateTime(2022, 03, 29, 15, 00, 00) }
         };
 
         DeepAssert.Equal(expected, mockedSabaAssignment);
@@ -147,7 +147,7 @@ public class SabaMatchesServicesUnitTest
                 HomeName = "B",
                 AwayName = "C",
                 EventDateTime = new DateTime(2022, 03, 29, 1, 0, 0)
-            },
+            }
         };
 
         var expected = new List<AssignmentModel>
@@ -208,7 +208,7 @@ public class SabaMatchesServicesUnitTest
                 AwayName = "C",
                 EventDateTime = new DateTime(2022, 03, 29, 1, 0, 0),
                 MatchType = MatchType.Saba16Mins
-            },
+            }
         };
 
         var actual = new SabaMatchesServicesImp().CategorizeAndGroupSabaMatches(mockedAssignment);
@@ -242,7 +242,7 @@ public class SabaMatchesServicesUnitTest
                 OWPMatchId = 20,
                 LeagueName = "Saba A",
                 EventDateTime = new DateTime(2023, 03, 10, 14, 0, 0),
-                MatchType = MatchType.SabaM8816Mins,
+                MatchType = MatchType.SabaM8816Mins
             },
             new()
             {
@@ -259,7 +259,7 @@ public class SabaMatchesServicesUnitTest
                 GroupAssignmentModels = new List<AssignmentModel>
                 {
                     new(){ MaxbetHDP = 100000, LeagueName = "Saba A" },
-                    new(){ MaxbetHDP = 200000, LeagueName = "Saba A" },
+                    new(){ MaxbetHDP = 200000, LeagueName = "Saba A" }
                 }
             },
             new()
@@ -276,7 +276,7 @@ public class SabaMatchesServicesUnitTest
             Today_14h = new AssignmentCell { Text = "*V", TextColor = "#444444", Color = "#FCD5B4" },
             Yesterday_02h = new AssignmentCell { Text = "*V/3.333K", TextColor = "#FFFFFF", Color = "#7030A0" },
             Today_02h = new AssignmentCell { Text = "*V/100K+200K", TextColor = "#FFFFFF", Color = "#A34262" },
-            Tomorrow_15h = new AssignmentCell { Text = "Error!", TextColor = "#FF0000", Color = "#FFFFFF" },
+            Tomorrow_15h = new AssignmentCell { Text = "Error!", TextColor = "#FF0000", Color = "#FFFFFF" }
         };
 
         SabaMatchesServicesImp.MapAssignmentsToWorkingSchedule(workingSchedule, assignmentModels, eventDate);
@@ -296,8 +296,8 @@ public class SabaMatchesServicesUnitTest
                 {
                     UserId = 111,
                     ShiftStartTime = new DateTime(2023,03,10,14, 0, 0),
-                    ShiftEndTime = new DateTime(2023,03,11,13, 0, 0),
-                },
+                    ShiftEndTime = new DateTime(2023,03,11,13, 0, 0)
+                }
             }
         };
         var assignmentModels = new List<AssignmentModel>
@@ -308,7 +308,7 @@ public class SabaMatchesServicesUnitTest
                 OWPMatchId = 20,
                 LeagueName = "M88 SABA - 16 Mins Play",
                 EventDateTime = new DateTime(2023, 03, 10, 14, 0, 0),
-                EndTime = new DateTime(2023, 03, 10, 15, 0, 0),
+                EndTime = new DateTime(2023, 03, 10, 15, 0, 0)
             },
             new()
             {
@@ -326,7 +326,7 @@ public class SabaMatchesServicesUnitTest
                 EventDateTime = new DateTime(2023, 03, 11, 2, 0, 0),
                 EndTime = new DateTime(2023, 03, 11, 3, 0, 0),
                 MaxbetHDP = 100000,
-                BettypeId = 1,
+                BettypeId = 1
             },
             new()
             {
@@ -354,7 +354,7 @@ public class SabaMatchesServicesUnitTest
                 EventDateTime = new DateTime(2023, 03, 11, 15, 30, 0),
                 EndTime = new DateTime(2023, 03, 11, 17, 30, 0),
                 MaxbetHDP = 3000,
-                KOTime = new TimeSpan(15, 30, 0),
+                KOTime = new TimeSpan(15, 30, 0)
             }
         };
         var expected = new WorkingSchedule

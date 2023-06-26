@@ -1,28 +1,22 @@
 ﻿using Fanex.Data.Repository;
-using Fanex.NAP.Client.Helpers.Web;
 using NSubstitute;
 using OWP.Event.EventShared;
 using OWP.Event.EventShared.Models;
 using OWP.Event.EventShared.Services;
-using OWP.Services;
 using Xunit;
 
 namespace OWP.Event.UnitTests.EventShared.Services;
 
 public class EventInformationServiceUnitTest
 {
-    private readonly INapSession currentSession;
     private readonly AdminSiteMatchServices adminSiteMatchServices;
-    private readonly PermissionService permissionService;
     private readonly EventRepository repository;
     private readonly InfoSiteTimeServices infoSiteTimeService;
 
     public EventInformationServiceUnitTest()
     {
-        currentSession = Substitute.For<INapSession>();
         adminSiteMatchServices = Substitute.For<AdminSiteMatchServices>();
         infoSiteTimeService = Substitute.For<InfoSiteTimeServices>();
-        permissionService = Substitute.For<PermissionService>();
         repository = Substitute.For<EventRepository>();
     }
 
@@ -64,15 +58,20 @@ public class EventInformationServiceUnitTest
     }
 
     public List<MatchInfo> MockMatchInfo()
-        => new List<MatchInfo> { new () {
-            OWPMatchId = 1,
-            League = "V-league",
-            Remark = "ok",
-            Round = "final",
-            Division = "job",
-            Provider = "provider",
-            WatchBet = "ok",
-            Phone = "ok none " } };
+        => new()
+        { 
+            new MatchInfo
+            {
+                OWPMatchId = 1,
+                League = "V-league",
+                Remark = "ok",
+                Round = "final",
+                Division = "job",
+                Provider = "provider",
+                WatchBet = "ok",
+                Phone = "ok none "
+            }
+        };
 
     public Dictionary<int, List<Assignment>> MockAssignment()
     {

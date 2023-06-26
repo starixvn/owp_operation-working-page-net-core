@@ -18,6 +18,6 @@ public static class LiveReportHelper
 
   public static string BuildCellValue(int? source)
   => source.HasValue
-  ? string.Format("{0:n0}", source.Value)
+  ? $"{source.Value:n0}"
   : "-";
 }

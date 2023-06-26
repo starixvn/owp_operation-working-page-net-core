@@ -14,9 +14,9 @@ public class SingleGameGroupServiceUnitTests
         SingleGameGroupService singleGameGroupService = new SingleGameGroupServiceImp(new WorkingScheduleServiceImp());
         var assignment = new List<AssignmentModel> { new() { OWPMatchId = 1 } };
         var schedule = new WorkingSchedule();
-        Func<IList<AssignmentModel>, ScheduleUpdateModel> buildUpdateScheduleFunc = (list) => new ScheduleUpdateModel();
+        ScheduleUpdateModel BuildUpdateScheduleFunc(IList<AssignmentModel> _) => new();
 
-        singleGameGroupService.Group(assignment, schedule, buildUpdateScheduleFunc);
+        singleGameGroupService.Group(assignment, schedule, BuildUpdateScheduleFunc);
 
         Assert.Equal(MatchType.RealMatchOther, assignment[0].MatchType);
     }
@@ -27,9 +27,9 @@ public class SingleGameGroupServiceUnitTests
         SingleGameGroupService singleGameGroupService = new SingleGameGroupServiceImp(new WorkingScheduleServiceImp());
         var assignment = new List<AssignmentModel> { new() { OWPMatchId = 1 } };
         var schedule = new WorkingSchedule();
-        Func<IList<AssignmentModel>, ScheduleUpdateModel> buildUpdateScheduleFunc = (list) => new ScheduleUpdateModel();
+        ScheduleUpdateModel BuildUpdateScheduleFunc(IList<AssignmentModel> _) => new();
 
-        singleGameGroupService.Group(assignment, schedule, buildUpdateScheduleFunc, MatchType.RealMatchLink1G);
+        singleGameGroupService.Group(assignment, schedule, BuildUpdateScheduleFunc, MatchType.RealMatchLink1G);
 
         Assert.Equal(MatchType.RealMatchLink1G, assignment[0].MatchType);
     }

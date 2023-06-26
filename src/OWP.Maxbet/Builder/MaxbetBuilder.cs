@@ -2,6 +2,7 @@
 using OWP.Maxbet.Constants;
 using OWP.Maxbet.Helpers;
 using OWP.Maxbet.Models;
+// ReSharper disable InvertIf
 
 namespace OWP.Maxbet.Builder;
 
@@ -64,41 +65,34 @@ public class MaxbetBuilderImp : MaxbetBuilder
         var maxbetMainMatch = (await syncMaxbetRepository.GetMaxbetByOwpMatchId(specialProduct.ParentMatchId)).ToList();
         var maxBetSpecialDefault = (await syncMaxbetRepository.GetMaxbetSettingDefault()).ToList();
 
-        switch (bettypeId)
+        return bettypeId switch
         {
-            case SpecialBettype.BETTYPE_ID_NO_OF_CORNERS:
-                return BuildMaxbetNoOfCorner(maxbet, maxbetMainMatch, maxBetSpecialDefault);
-
-            case SpecialBettype.BETTYPE_ID_NEXT_CORNERS:
-                return BuildMaxbetNextCorner(maxbet, maxbetMainMatch, maxBetSpecialDefault);
-
-            case SpecialBettype.BETTYPE_ID_NEXT_BOOKINGS:
-                return BuildMaxbetNextBooking(maxbet, maxbetMainMatch, maxBetSpecialDefault);
-
-            case SpecialBettype.BETTYPE_ID_TOTAL_BOOKINGS:
-                return BuildMaxbetTotalBooking(maxbet, maxbetMainMatch, maxBetSpecialDefault);
-
-            default:
-                return BuildMaxbetSender(maxbet);
-        }
+            SpecialBettype.BETTYPE_ID_NO_OF_CORNERS => BuildMaxbetNoOfCorner(maxbet, maxbetMainMatch, maxBetSpecialDefault),
+            SpecialBettype.BETTYPE_ID_NEXT_CORNERS => BuildMaxbetNextCorner(maxbet, maxbetMainMatch, maxBetSpecialDefault),
+            SpecialBettype.BETTYPE_ID_NEXT_BOOKINGS => BuildMaxbetNextBooking(maxbet, maxbetMainMatch, maxBetSpecialDefault),
+            SpecialBettype.BETTYPE_ID_TOTAL_BOOKINGS => BuildMaxbetTotalBooking(maxbet, maxbetMainMatch, maxBetSpecialDefault),
+            _ => BuildMaxbetSender(maxbet)
+        };
     }
 
-    private MaxbetSpread BuildMaxbetNextCorner(List<MaxbetModel> maxbet, List<MaxbetModel> maxbetMainMatch, List<MaxbetSetting> maxbetSettingDefault)
+    private MaxbetSpread BuildMaxbetNextCorner(List<MaxbetModel> maxbet, IEnumerable<MaxbetModel> maxbetMainMatch, IEnumerable<MaxbetSetting> maxbetSettingDefault)
     {
         var hasExistsHdp = maxbet.Any(s => s.BettypeId.Equals((int)EnumBettype.Handicap));
-        if (!hasExistsHdp)
+        if (hasExistsHdp)
         {
-            var handicapMainMatch = GetHandicapMainMatch(maxbetMainMatch);
-
-            var valueBettype = maxbetSettingDefault.FirstOrDefault(x => x.FT_HDP == handicapMainMatch.Value);
-
-            maxbet.Add(MaxbetHelper.Build((int)EnumBettype.Handicap, valueBettype?.NextCorner_FT_HDP, handicapMainMatch.Value));
+            return BuildMaxbetSender(maxbet);
         }
+
+        var handicapMainMatch = GetHandicapMainMatch(maxbetMainMatch);
+
+        var valueBettype = maxbetSettingDefault.FirstOrDefault(x => x.FT_HDP == handicapMainMatch.Value);
+
+        maxbet.Add(MaxbetHelper.Build((int)EnumBettype.Handicap, valueBettype?.NextCorner_FT_HDP, handicapMainMatch.Value));
 
         return BuildMaxbetSender(maxbet);
     }
 
-    private MaxbetSpread BuildMaxbetNextBooking(List<MaxbetModel> maxbet, List<MaxbetModel> maxbetMainMatch, List<MaxbetSetting> maxbetSettingDefault)
+    private MaxbetSpread BuildMaxbetNextBooking(List<MaxbetModel> maxbet, IEnumerable<MaxbetModel> maxbetMainMatch, IEnumerable<MaxbetSetting> maxbetSettingDefault)
     {
         var hasExistsHdp = maxbet.Any(s => s.BettypeId.Equals((int)EnumBettype.Handicap));
         if (!hasExistsHdp)
@@ -114,7 +108,7 @@ public class MaxbetBuilderImp : MaxbetBuilder
     }
 
     private MaxbetSpread BuildMaxbetNoOfCorner(List<MaxbetModel> maxbet,
-               List<MaxbetModel> maxbetMainMatch, List<MaxbetSetting> maxbetSettingDefault)
+            IEnumerable<MaxbetModel> maxbetMainMatch, IEnumerable<MaxbetSetting> maxbetSettingDefault)
     {
         var handicapMainMatch = GetHandicapMainMatch(maxbetMainMatch);
         var canUpdateValueBettype = MaxbetHelper.CanUpdateValueBettype(maxbet);
@@ -146,8 +140,8 @@ public class MaxbetBuilderImp : MaxbetBuilder
 
     private MaxbetSpread BuildMaxbetTotalBooking(
         List<MaxbetModel> maxbet,
-        List<MaxbetModel> maxbetMainMatch,
-        List<MaxbetSetting> maxbetSettingDefault)
+        IEnumerable<MaxbetModel> maxbetMainMatch,
+        IEnumerable<MaxbetSetting> maxbetSettingDefault)
     {
         var handicapMainMatch = GetHandicapMainMatch(maxbetMainMatch);
         var canUpdateValueBettype = MaxbetHelper.CanUpdateValueBettype(maxbet);
@@ -224,6 +218,6 @@ public class MaxbetBuilderImp : MaxbetBuilder
         };
     }
 
-    private MaxbetModel GetHandicapMainMatch(List<MaxbetModel> maxbetMainMatch)
+    private MaxbetModel GetHandicapMainMatch(IEnumerable<MaxbetModel> maxbetMainMatch)
         => maxbetMainMatch.FirstOrDefault(m => m.BettypeId.Equals((int)EnumBettype.Handicap)) ?? new MaxbetModel();
 }

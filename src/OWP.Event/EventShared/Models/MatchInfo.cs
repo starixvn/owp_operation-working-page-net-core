@@ -1,8 +1,10 @@
 ﻿using OWP.Extensions;
 using OWP.Utils;
+using System.Diagnostics.CodeAnalysis;
 
 namespace OWP.Event.EventShared.Models;
 
+[SuppressMessage("ReSharper", "IdentifierTypo")]
 public class MatchInfo : TaskListMatchInfo
 {
     public int OWPMatchId { get; set; }

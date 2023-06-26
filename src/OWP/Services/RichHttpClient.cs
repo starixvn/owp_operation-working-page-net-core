@@ -42,22 +42,16 @@ public class RichHttpClientImp : RichHttpClient
 
     public async Task<T> Get<T>(string requestUri) where T : class
     {
-        using (var response = await JsonHttpClient.GetAsync(new Uri(requestUri)).ConfigureAwait(false))
-        {
-            return await ReadObjectFromResponse<T>(response).ConfigureAwait(false);
-        }
+        using var response = await JsonHttpClient.GetAsync(new Uri(requestUri)).ConfigureAwait(false);
+        return await ReadObjectFromResponse<T>(response).ConfigureAwait(false);
     }
 
     public async Task<T> Post<T>(string requestUri, object postData) where T : class
     {
         var jsonRequest = JsonConvert.SerializeObject(postData);
-        using (var stringContent = new StringContent(jsonRequest, Encoding.UTF8, "application/json"))
-        {
-            using (var response = await JsonHttpClient.PostAsync(new Uri(requestUri), stringContent).ConfigureAwait(false))
-            {
-                return await ReadObjectFromResponse<T>(response).ConfigureAwait(false);
-            }
-        }
+        using var stringContent = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
+        using var response = await JsonHttpClient.PostAsync(new Uri(requestUri), stringContent).ConfigureAwait(false);
+        return await ReadObjectFromResponse<T>(response).ConfigureAwait(false);
     }
 
     private static async Task<T> ReadObjectFromResponse<T>(HttpResponseMessage response)

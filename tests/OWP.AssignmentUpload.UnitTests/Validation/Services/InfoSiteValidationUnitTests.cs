@@ -43,11 +43,10 @@ public class InfoSiteValidationUnitTests
 
         var actual = new List<ValidationResult>();
         var validationResult = new ValidationResult("There is duplicated match(es) in the list. Please check again");
-        var expected = validationResult;
 
 
         infoSiteValidator.ValidateDuplicatedMatches(owpMatches[0], owpMatches, actual);
-        DeepAssert.Equal(expected, actual[0]);
+        DeepAssert.Equal(validationResult, actual[0]);
     }
 
     [Fact]

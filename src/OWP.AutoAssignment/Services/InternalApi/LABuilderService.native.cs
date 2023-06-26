@@ -7,8 +7,8 @@ namespace OWP.AutoAssignment.Services.InternalApi;
 public interface LABuilderService
 {
     Task Build(
-        IList<ExportMatchModel> models,
-        IList<AutoAssignmentResultModel> autoAssignModels);
+        IEnumerable<ExportMatchModel> models,
+        IEnumerable<AutoAssignmentResultModel> autoAssignModels);
 }
 
 public class LABuilderServiceImp : LABuilderService
@@ -21,8 +21,8 @@ public class LABuilderServiceImp : LABuilderService
     }
 
     public async Task Build(
-        IList<ExportMatchModel> models,
-        IList<AutoAssignmentResultModel> autoAssignModels)
+        IEnumerable<ExportMatchModel> models,
+        IEnumerable<AutoAssignmentResultModel> autoAssignModels)
     {
         var lAQueryInfo = BuildLAExportQueryInfo(autoAssignModels);
         var lAExportInfo = await QueryLAExportInfo(lAQueryInfo);
@@ -30,16 +30,16 @@ public class LABuilderServiceImp : LABuilderService
         BuildExportLaModel(models, lAExportInfo.ToList());
     }
 
-    private IList<LAExportQueryInfo> BuildLAExportQueryInfo(IList<AutoAssignmentResultModel> autoAssignModels)
+    private IEnumerable<LAExportQueryInfo> BuildLAExportQueryInfo(IEnumerable<AutoAssignmentResultModel> autoAssignModels)
         => autoAssignModels
             .Select(model => new LAExportQueryInfo
             {
                 InfoSiteMatchId = model.InfoSiteMatchId,
-                LAAssingeeId = model.UserId_LA,
+                LAAssigneeId = model.UserId_LA,
                 Bettype = model.Bettype
             }).ToList();
 
-    private async Task<IEnumerable<LAExportInfo>> QueryLAExportInfo(IList<LAExportQueryInfo> queryInfo)
+    private async Task<IEnumerable<LAExportInfo>> QueryLAExportInfo(IEnumerable<LAExportQueryInfo> queryInfo)
     {
         var criteria = new GetLAExportInfoCriteria
         {
@@ -49,9 +49,10 @@ public class LABuilderServiceImp : LABuilderService
         return await repository.GetLAExportInfo(criteria);
     }
 
-    private void BuildExportLaModel(IList<ExportMatchModel> exportModels,
-        IList<LAExportInfo> laExportModel)
+    private void BuildExportLaModel(IEnumerable<ExportMatchModel> exportModels,
+        List<LAExportInfo> laExportModel)
     {
+        if (exportModels == null) throw new ArgumentNullException(nameof(exportModels));
         foreach (var exportMatchModel in exportModels)
         {
             var laInfo = GetSingleLaInfoById(laExportModel, exportMatchModel);
@@ -59,7 +60,7 @@ public class LABuilderServiceImp : LABuilderService
         }
     }
 
-    private LAExportInfo GetSingleLaInfoById(IList<LAExportInfo> laExportModel, ExportMatchModel exportMatchModel)
+    private LAExportInfo GetSingleLaInfoById(IEnumerable<LAExportInfo> laExportModel, ExportMatchModel exportMatchModel)
     {
         var bettype = exportMatchModel.Bettype;
         var id = exportMatchModel.InfoSiteMatchId;

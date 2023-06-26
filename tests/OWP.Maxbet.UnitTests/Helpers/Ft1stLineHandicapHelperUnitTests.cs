@@ -8,7 +8,7 @@ public class Ft1stLineHandicapHelperUnitTests
     [Fact]
     public void BuildFt1stLineHandicap_Return_Ft1stLineHandicap()
     {
-        var expected = 0;
+        const int expected = 0;
 
         var actual = Ft1stLineHandicapHelper.BuildFt1stLineHandicap();
 

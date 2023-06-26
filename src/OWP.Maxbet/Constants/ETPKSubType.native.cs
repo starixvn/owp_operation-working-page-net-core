@@ -24,9 +24,9 @@ public static class SubTypeETPK
 
     public const int NextGoalKickET = 4300;
 
-    public const int FirstPenatyScoreET = 6000;
+    public const int FirstPenaltyScoreET = 6000;
 
-    public const int FirstPenatyAwardedET = 5900;
+    public const int FirstPenaltyAwardedET = 5900;
 
     public const int SpecialGoalET = 500;
 
@@ -65,8 +65,8 @@ public static class SubTypeETPK
         TotalBookingET,
         NextBookingET,
         NextGoalKickET,
-        FirstPenatyScoreET,
-        FirstPenatyAwardedET,
+        FirstPenaltyScoreET,
+        FirstPenaltyAwardedET,
         SpecialGoalET,
         HomeSingleTeamET,
         AwaySingleTeamET
@@ -79,8 +79,8 @@ public static class SubTypeETPK
         {TotalBookingET, TotalBooking },
         {NextBookingET, NextBooking },
         {NextGoalKickET, NextGoalKick },
-        {FirstPenatyScoreET, FirstPenaltyScore },
-        {FirstPenatyAwardedET, FirstPenaltyAwarded },
+        {FirstPenaltyScoreET, FirstPenaltyScore },
+        {FirstPenaltyAwardedET, FirstPenaltyAwarded },
         {SpecialGoalET, SpecialGoal },
         {HomeSingleTeamET, HomeSingleTeam },
         {AwaySingleTeamET, AwaySingleTeam }

@@ -1,5 +1,8 @@
-﻿namespace OWP.Report.TraderReport.Models;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace OWP.Report.TraderReport.Models;
+
+[SuppressMessage("ReSharper", "IdentifierTypo")]
 public class ReportModel
 {
     public int UserId { get; set; }

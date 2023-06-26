@@ -87,8 +87,7 @@ public class CacheManipulatorImp : CacheManipulator
 
     public async Task SaveDeletedInfoSiteMatches(IEnumerable<MatchKickoffDate> matches)
     {
-        const string cacheKey = KEY_DELETED_INFO_SITE_MATCH_ID;
-        var cacheResult = await cache.TryGetAsync<List<MatchKickoffDate>>(cacheKey);
+        var cacheResult = await cache.TryGetAsync<List<MatchKickoffDate>>(KEY_DELETED_INFO_SITE_MATCH_ID);
         var currentMatches = cacheResult.Item2 ?? new List<MatchKickoffDate>();
 
         var allMatches = currentMatches
@@ -98,6 +97,6 @@ public class CacheManipulatorImp : CacheManipulator
 
         var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(DateTime.Today.AddYears(10));
 
-        await cache.SetAsync(cacheKey, allMatches, cachePolicy);
+        await cache.SetAsync(KEY_DELETED_INFO_SITE_MATCH_ID, allMatches, cachePolicy);
     }
 }

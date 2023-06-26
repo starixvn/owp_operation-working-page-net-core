@@ -49,10 +49,11 @@ public static class OSLeagueSettingHelper
 
     private static SummaryDetail FormatToString(IEnumerable<string> values, string property)
     {
+        var valueList = values.ToList();
         var totalOption = LeagueSettingConst.SummaryFullOption.GetValueOrDefault(property);
-        var text = values.Count() == totalOption
+        var text = valueList.Count == totalOption
             ? string.Empty
-            : $"{string.Join('/', values.Where(x => !string.IsNullOrEmpty(x)))}";
+            : $"{string.Join('/', valueList.Where(x => !string.IsNullOrEmpty(x)))}";
 
         return new SummaryDetail
         {
@@ -98,7 +99,7 @@ public static class OSLeagueSettingHelper
 
         return new SummaryDetail
         {
-            Text = $"{leagueInfo.KOFromTime?.ToString(@"hh\:mm")} - { leagueInfo.KOToTime?.ToString(@"hh\:mm")}",
+            Text = $"{leagueInfo.KOFromTime?.ToString(@"hh\:mm")} - {leagueInfo.KOToTime?.ToString(@"hh\:mm")}",
             Style = style
         };
     }
@@ -110,7 +111,7 @@ public static class OSLeagueSettingHelper
             Style = LeagueSettingConst.SummaryStyleOption.GetValueOrDefault(property)
         };
 
-    private static SummaryDetail FormatManualUpdate(IList<LeagueSettingInfo> leagueInfos, string property)
+    private static SummaryDetail FormatManualUpdate(IEnumerable<LeagueSettingInfo> leagueInfos, string property)
         => new()
         {
             Text = leagueInfos.Any(x => x.IsManualUpdateScore)
@@ -120,7 +121,7 @@ public static class OSLeagueSettingHelper
             Style = LeagueSettingConst.SummaryStyleOption.GetValueOrDefault(property)
         };
 
-    private static SummaryDetail FormatManualIpTv(IList<LeagueSettingInfo> leagueInfos, string property)
+    private static SummaryDetail FormatManualIpTv(IEnumerable<LeagueSettingInfo> leagueInfos, string property)
         => new()
         {
             Text = leagueInfos.Any(x => x.IsIptvOnly)

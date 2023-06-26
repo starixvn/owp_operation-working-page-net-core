@@ -14,11 +14,9 @@ public class SpreadBuilderUnitTests
 
     private readonly SpreadBuilderImp spreadBuilder;
 
-    private readonly LogServiceWrapper logServiceWrapper;
-
     public SpreadBuilderUnitTests()
     {
-        logServiceWrapper = Substitute.For<LogServiceWrapper>();
+        var logServiceWrapper = Substitute.For<LogServiceWrapper>();
         syncMaxbetRepository = Substitute.For<MaxbetRepository>();
         spreadBuilder = new SpreadBuilderImp(syncMaxbetRepository, logServiceWrapper);
     }

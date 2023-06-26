@@ -42,14 +42,13 @@ public class RequestBuilderImp : RequestBuilder
             schedulingMatch = await matchService.GetMatchesInfo(req.EventDate);
             schedulingLAUser = await laService.GetLAUsersInfo(req.EventDate);
             traderInfos = await traderService.GetTradersInfo(req.EventDate);
-            await BuildRequestSenderModel(req, schedulingMatch, sender);
+            await BuildRequestSenderModel(req, sender);
         }
         return sender;
     }
 
     private async Task BuildRequestSenderModel(
         RequestModel request,
-        SchedulingMatch schedulingMatch,
         IList<RequestSender> sender)
     {
         var realMatch = schedulingMatch.Real;
@@ -95,7 +94,7 @@ public class RequestBuilderImp : RequestBuilder
             Traders = traderInfos
         };
 
-    private async Task SaveEventSender(RequestModel requestModel, IList<RealMatchSender> realMatches, IList<SabaMatchSender> sabaMatches)
+    private async Task SaveEventSender(RequestModel requestModel, IEnumerable<RealMatchSender> realMatches, IEnumerable<SabaMatchSender> sabaMatches)
     {
         var events = new List<AutoAssignmentHistory>();
         var realHistory = realMatches.Select(i => new AutoAssignmentHistory

@@ -1,4 +1,3 @@
-using System.Drawing;
 using Epplus.Mapper.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +7,7 @@ using OWP.EventPicking.Misc;
 using OWP.EventPicking.Models;
 using OWP.EventPicking.Services;
 using OWP.Services;
+using System.Drawing;
 
 namespace OWP.EventPicking.Handlers;
 
@@ -36,7 +36,7 @@ public class ExportMiscMatchHandler : IRequestHandler<ExportMiscMatchRequest, Fi
 
         var templatePath = GetReportTemplate();
 
-        using var stream = new FileStream(templatePath, FileMode.Open, FileAccess.Read);
+        await using var stream = new FileStream(templatePath, FileMode.Open, FileAccess.Read);
 
         excelPackage = new ExcelPackage(stream);
         var templateSheet = excelPackage.Workbook.Worksheets.First();
@@ -44,11 +44,13 @@ public class ExportMiscMatchHandler : IRequestHandler<ExportMiscMatchRequest, Fi
         FillRowColor(matches, templateSheet);
 
         var fileStream = new MemoryStream();
-        excelPackage.SaveAs(fileStream);
+        await excelPackage.SaveAsAsync(fileStream, cancellationToken);
         fileStream.Position = 0;
         const string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-        var fileStreamResult = new FileStreamResult(fileStream, contentType);
-        fileStreamResult.FileDownloadName = $"Event Picking-{request.Date:yyyy-MM-dd}.xlsx";
+        var fileStreamResult = new FileStreamResult(fileStream, contentType)
+        {
+            FileDownloadName = $"Event Picking-{request.Date:yyyy-MM-dd}.xlsx"
+        };
 
         return fileStreamResult;
     }
@@ -60,12 +62,14 @@ public class ExportMiscMatchHandler : IRequestHandler<ExportMiscMatchRequest, Fi
             var match = matches[i];
             for (var column = 1; column <= 90; column++)
             {
-                if (match.RowColorHex != null && match.RowColorHex != Constant.ColorWhiteHex)
+                if (match.RowColorHex == null || match.RowColorHex == Constant.ColorWhiteHex)
                 {
-                    var colorTraderFromHex = ColorTranslator.FromHtml(match.RowColorHex);
-                    templateSheet.Cells[row, column].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                    templateSheet.Cells[row, column].Style.Fill.BackgroundColor.SetColor(colorTraderFromHex);
+                    continue;
                 }
+
+                var colorTraderFromHex = ColorTranslator.FromHtml(match.RowColorHex);
+                templateSheet.Cells[row, column].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                templateSheet.Cells[row, column].Style.Fill.BackgroundColor.SetColor(colorTraderFromHex);
             }
         }
     }

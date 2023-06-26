@@ -1,7 +1,7 @@
-﻿using System.Reflection;
-using OfficeOpenXml;
+﻿using OfficeOpenXml;
 using OWP.OtherSport.Validation.Helpers;
 using OWP.OtherSport.Validation.Models;
+using System.Reflection;
 
 namespace OWP.OtherSport.Validation.Extensions;
 
@@ -108,9 +108,10 @@ public static class WorkSheetExtensions
         var methods = typeof(ExcelWorksheet).GetMethods(BindingFlags.Public | BindingFlags.Instance);
         var getValueMethod = methods.First(m => m.IsGenericMethod && m.Name == "GetValue");
 
-        var model = new AssignmentModelInExcel();
-
-        model.RowIndex = row;
+        var model = new AssignmentModelInExcel
+        {
+            RowIndex = row
+        };
 
         foreach (var property in properties)
         {
@@ -137,14 +138,15 @@ public static class WorkSheetExtensions
 
     private static bool ReadSpecialProperty(this ExcelWorksheet sheet, AssignmentModelInExcel model, AssignmentModelInExcelPropertyInfo property, int row, int column)
     {
-        if (property.PropertyType == typeof(string))
+        if (property.PropertyType != typeof(string))
         {
-            var cellValue = sheet.GetValue<string>(row, column) ?? string.Empty;
-            property.PropertyInfo.SetValue(model, cellValue.Trim());
-            return true;
+            return false;
         }
 
-        return false;
+        var cellValue = sheet.GetValue<string>(row, column) ?? string.Empty;
+        property.PropertyInfo.SetValue(model, cellValue.Trim());
+        return true;
+
     }
 
     private static bool IsEmptyRow(this ExcelWorksheet sheet, int row = 1)

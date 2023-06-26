@@ -18,7 +18,7 @@ public class LeagueSettingBuilderServiceUnitTests
     [Fact]
     public async Task BuildLeagueSettingInfo_CompareWith_Model()
     {
-        var requestId = "abc-xyz";
+        const string requestId = "abc-xyz";
         var service = new LeagueSettingBuilderServiceImp(repository);
         var models = new List<ExportMatchModel>
         {

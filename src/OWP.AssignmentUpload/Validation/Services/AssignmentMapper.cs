@@ -1,7 +1,7 @@
-using System.Globalization;
-using System.Text.RegularExpressions;
 using AutoMapper;
 using OWP.AssignmentUpload.Validation.Models;
+using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace OWP.AssignmentUpload.Validation.Services;
 
@@ -96,25 +96,20 @@ public class AssignmentMapperImp : AssignmentMapper
     public void MapEventDate(DateTime eventDate, AssignmentModelInExcel excelModel, AssignmentModel model)
     {
         const int twelfthHour = 12;
-        DateTime time;
-        if (DateTime.TryParse(excelModel.Time, CultureInfo.InvariantCulture, DateTimeStyles.None, out time))
+        if (DateTime.TryParse(excelModel.Time, CultureInfo.InvariantCulture, DateTimeStyles.None, out var time))
         {
-            var tempTime = time;
-            model.EventDate = tempTime.Hour < twelfthHour ? eventDate.AddDays(1) : eventDate;
+            model.EventDate = time.Hour < twelfthHour ? eventDate.AddDays(1) : eventDate;
         }
     }
 
     public void MapTime(AssignmentModelInExcel excelModel, AssignmentModel model)
     {
-        DateTime time;
-        DateTime otherTime;
-
-        if (DateTime.TryParse(excelModel.Time, CultureInfo.InvariantCulture, DateTimeStyles.None, out time))
+        if (DateTime.TryParse(excelModel.Time, CultureInfo.InvariantCulture, DateTimeStyles.None, out var time))
         {
             model.KickOffTime = time.TimeOfDay;
         }
         if (!string.IsNullOrWhiteSpace(excelModel.OtherOfTime) &&
-            DateTime.TryParse(excelModel.OtherOfTime, CultureInfo.InvariantCulture, DateTimeStyles.None, out otherTime))
+            DateTime.TryParse(excelModel.OtherOfTime, CultureInfo.InvariantCulture, DateTimeStyles.None, out var otherTime))
         {
             model.OtherTime = otherTime.TimeOfDay;
         }
@@ -197,7 +192,7 @@ public class AssignmentMapperImp : AssignmentMapper
             endIndex = text.Length;
         }
 
-        var note = text.Substring(0, startIndex).Trim() + " #<user> " + text.Substring(endIndex).Trim();
+        var note = text[..startIndex].Trim() + " #<user> " + text[endIndex..].Trim();
         return $"{note}";
     }
 
@@ -208,11 +203,13 @@ public class AssignmentMapperImp : AssignmentMapper
 
     public static void MapIsNeutral(AssignmentModelInExcel excelModel, AssignmentModel model)
     {
-        if (excelModel.Home.EndsWith("(N)", StringComparison.Ordinal))
+        if (!excelModel.Home.EndsWith("(N)", StringComparison.Ordinal))
         {
-            model.IsNeutral = true;
-            model.Home = excelModel.Home.Remove(excelModel.Home.Length - 3).TrimEnd();
+            return;
         }
+
+        model.IsNeutral = true;
+        model.Home = excelModel.Home.Remove(excelModel.Home.Length - 3).TrimEnd();
     }
 
     public string GetMatchStatus(string matchStatus)

@@ -19,7 +19,7 @@ public class TGRSReportServiceImp : TGRSReportService
 
     private readonly RichHttpClient richHttpClient;
 
-    public TGRSReportServiceImp(RichHttpClient richHttpClient, IConfiguration configuration, ConfigurationService configurationService)
+    public TGRSReportServiceImp(RichHttpClient richHttpClient, IConfiguration configuration)
     {
         this.configuration = configuration;
         this.richHttpClient = richHttpClient;
@@ -43,7 +43,7 @@ public class TGRSReportServiceImp : TGRSReportService
         }
         catch (Exception exception)
         {
-            Logger.Log.Error(exception.Message);
+            await Logger.Log.ErrorAsync(exception.Message);
             return new List<TraderPerformanceDetail>();
         }
     }

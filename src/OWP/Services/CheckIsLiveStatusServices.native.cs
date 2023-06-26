@@ -28,10 +28,10 @@ public class CheckIsLiveStatusServicesImp : CheckIsLiveStatusServices
             ? GetOfferLiveMainMatch(parentAdminSiteId, mainDBResult)
             : GetOfferLiveMinorMatch(minorBettypeId, parentAdminSiteId, mainDBResult);
 
-        return GetIsLiveStatus(matchByAdminSiteSubtypes);
+        return GetIsLiveStatus(matchByAdminSiteSubtypes.ToList());
     }
 
-    private static IEnumerable<IsLiveMatchInfo> GetOfferLiveMinorMatch(int? minorBettypeId, int parentAdminSiteId, List<IsLiveMatchInfo> mainDBResult)
+    private static IEnumerable<IsLiveMatchInfo> GetOfferLiveMinorMatch(int? minorBettypeId, int parentAdminSiteId, IEnumerable<IsLiveMatchInfo> mainDBResult)
     {
         var subType = GetSubtypes(minorBettypeId);
         if (subType == 0)
@@ -47,11 +47,11 @@ public class CheckIsLiveStatusServicesImp : CheckIsLiveStatusServices
             x.SubType <= subType + toIndex);
     }
 
-    private static IEnumerable<IsLiveMatchInfo> GetOfferLiveMainMatch(int parentAdminSiteId, List<IsLiveMatchInfo> mainDBResult)
+    private static IEnumerable<IsLiveMatchInfo> GetOfferLiveMainMatch(int parentAdminSiteId, IEnumerable<IsLiveMatchInfo> mainDBResult)
         => mainDBResult.Where(x => x.MatchId == parentAdminSiteId);
 
-    public static bool GetIsLiveStatus(IEnumerable<IsLiveMatchInfo> matches)
-        => matches.Any() && !matches.Any(x => !x.OfferLive);
+    public static bool GetIsLiveStatus(List<IsLiveMatchInfo> matches)
+        => matches.Any() && matches.All(x => x.OfferLive);
 
     public static int GetSubtypes(int? minorBettypeId)
         => MinorBettype.GetRepresentativeSubtype(minorBettypeId ?? 0);

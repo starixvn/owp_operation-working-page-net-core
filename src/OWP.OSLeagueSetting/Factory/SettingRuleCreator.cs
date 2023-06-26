@@ -11,16 +11,14 @@ public interface SettingRuleCreator
 public class SettingRuleCreatorImp : SettingRuleCreator
 {
     public DuplicateRule Create(DuplicateType type)
-    {
-        switch (type)
+        => type switch
         {
-            case DuplicateType.Round: return new RoundRule();
-            case DuplicateType.OfferLine: return new OfferLinesRule();
-            case DuplicateType.BetDelay: return new BetDelayRule();
-            case DuplicateType.Provider: return new ProviderRule();
-            case DuplicateType.RangeTime: return new RangeTimeRule();
-            case DuplicateType.IPTV: return new IPTVRule();
-            default: return new RemarkRule();
-        }
-    }
+            DuplicateType.Round => new RoundRule(),
+            DuplicateType.OfferLine => new OfferLinesRule(),
+            DuplicateType.BetDelay => new BetDelayRule(),
+            DuplicateType.Provider => new ProviderRule(),
+            DuplicateType.RangeTime => new RangeTimeRule(),
+            DuplicateType.IPTV => new IPTVRule(),
+            _ => new RemarkRule()
+        };
 }

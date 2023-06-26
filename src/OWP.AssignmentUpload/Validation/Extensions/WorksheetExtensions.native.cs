@@ -1,11 +1,11 @@
-using System.ComponentModel.DataAnnotations;
-using System.Globalization;
-using System.Reflection;
 using OfficeOpenXml;
 using OWP.AssignmentUpload.Validation.Annotations;
 using OWP.AssignmentUpload.Validation.Constants;
 using OWP.AssignmentUpload.Validation.Exceptions;
 using OWP.AssignmentUpload.Validation.Models;
+using System.ComponentModel.DataAnnotations;
+using System.Globalization;
+using System.Reflection;
 
 namespace OWP.AssignmentUpload.Validation.Extensions;
 
@@ -53,31 +53,25 @@ public static class WorksheetExtensions
             throw new InvalidDateTimeException();
         }
 
-        if (cellValue is double)
+        switch (cellValue)
         {
-            if ((double)cellValue < EncodeDate.MIN_VALUE || (double)cellValue > EncodeDate.MAX_VALUE)
-            {
+            case double and (< EncodeDate.MIN_VALUE or > EncodeDate.MAX_VALUE):
                 throw new InvalidDateTimeException();
-            }
-            return DateTime.FromOADate((double)cellValue);
-        }
-
-        if (cellValue is string)
-        {
-            DateTime value;
-            if (!DateTime.TryParse(cellValue.ToString(), out value))
-            {
+            case double d:
+                return DateTime.FromOADate(d);
+            case string:
+                {
+                    if (!DateTime.TryParse(cellValue.ToString(), out var value))
+                    {
+                        throw new InvalidDateTimeException();
+                    }
+                    return value;
+                }
+            case DateTime:
+                return sheet.GetValue<DateTime>(1, 2);
+            default:
                 throw new InvalidDateTimeException();
-            }
-            return value;
         }
-
-        if (cellValue is DateTime)
-        {
-            return sheet.GetValue<DateTime>(1, 2);
-        }
-
-        throw new InvalidDateTimeException();
     }
 
     public static IEnumerable<AssignmentModelInExcel> ReadAllAssignments(this ExcelWorksheet sheet, int row = 1)
@@ -205,8 +199,7 @@ public static class WorksheetExtensions
         if (property.PropertyType == typeof(int))
         {
             var cellValue = sheet.GetValue<string>(row, column);
-            int value;
-            int.TryParse(cellValue, out value);
+            int.TryParse(cellValue, out var value);
             property.PropertyInfo.SetValue(model, value);
             return true;
         }
@@ -226,6 +219,7 @@ public static class WorksheetExtensions
             return true;
         }
 
+        // ReSharper disable once InvertIf
         if (property.PropertyType == typeof(decimal?) && property.IsSpread)
         {
             var cellValue = sheet.GetValue<string>(row, column);
@@ -237,7 +231,7 @@ public static class WorksheetExtensions
         return false;
     }
 
-    private static List<string> GetNotes(this ExcelWorksheet sheet, int row, List<int> columnIndices)
+    private static IEnumerable<string> GetNotes(this ExcelWorksheet sheet, int row, IEnumerable<int> columnIndices)
     {
         return columnIndices.Select(i =>
         {
@@ -251,7 +245,7 @@ public static class WorksheetExtensions
         const NumberStyles style = NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands;
         const int K_VALUE = 1000;
 
-        maxbet = maxbet ?? string.Empty;
+        maxbet ??= string.Empty;
         decimal tempValue;
         bool valid;
 
@@ -259,7 +253,7 @@ public static class WorksheetExtensions
         {
             maxbet = maxbet.Replace("K", "").Replace("k", "");
             valid = decimal.TryParse(maxbet, style, CultureInfo.InvariantCulture, out tempValue);
-            tempValue = tempValue * K_VALUE;
+            tempValue *= K_VALUE;
         }
         else
         {
@@ -274,8 +268,7 @@ public static class WorksheetExtensions
         const NumberStyles style = NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands;
         const decimal SPREAD_MULTIPLIER = 0.01m;
 
-        decimal tempValue;
-        var valid = decimal.TryParse(spread, style, CultureInfo.InvariantCulture, out tempValue);
+        var valid = decimal.TryParse(spread, style, CultureInfo.InvariantCulture, out var tempValue);
 
         return valid ? new decimal?(tempValue * SPREAD_MULTIPLIER) : null;
     }

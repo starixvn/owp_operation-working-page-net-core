@@ -1,6 +1,7 @@
 ﻿using NSubstitute;
 using OWP.AutoAssignment.Models.PublicApi;
 using OWP.AutoAssignment.Services.PublicApi;
+using System.Globalization;
 using Xunit;
 using Xunit.Asserts.Compare;
 
@@ -26,7 +27,7 @@ public class SchedulingMatchBuilderServiceUnitTests
     {
         // Arrange
         MockRepository();
-        var KOTine = DateTime.Parse("2021-12-08").ToString();
+        var KOTine = DateTime.Parse("2021-12-08").ToString(CultureInfo.InvariantCulture);
 
         var sabaMatchInfo = new List<SabaMatchSender>
         {
@@ -49,8 +50,8 @@ public class SchedulingMatchBuilderServiceUnitTests
             }
         };
 
-        sabaMatchService.BuildSabaMatchInfo(Arg.Compat.Any<IList<MatchQueried>>()).ReturnsForAnyArgs(r => sabaMatchInfo);
-        realMatchService.BuildRealMatchInfo(Arg.Compat.Any<IList<MatchQueried>>()).ReturnsForAnyArgs(r => realMatchInfo);
+        sabaMatchService.BuildSabaMatchInfo(Arg.Compat.Any<IList<MatchQueried>>()).ReturnsForAnyArgs(_ => sabaMatchInfo);
+        realMatchService.BuildRealMatchInfo(Arg.Compat.Any<IList<MatchQueried>>()).ReturnsForAnyArgs(_ => realMatchInfo);
 
         // Act
         var service = new SchedulingMatchBuilderServiceImp(repository, sabaMatchService, realMatchService);
@@ -98,6 +99,6 @@ public class SchedulingMatchBuilderServiceUnitTests
             }
         };
 
-        repository.GetMatchByDate(Arg.Compat.Any<DateTime>()).ReturnsForAnyArgs(r => matchQueried);
+        repository.GetMatchByDate(Arg.Compat.Any<DateTime>()).ReturnsForAnyArgs(_ => matchQueried);
     }
 }

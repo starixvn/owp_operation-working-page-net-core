@@ -40,6 +40,7 @@ public class PermissionOnOpenTicketDetail : IAsyncActionFilter
                     Content = "You have been removed from the recipient list, and cannot view this ticket any more"
                 };
             }
+
             return;
         }
 

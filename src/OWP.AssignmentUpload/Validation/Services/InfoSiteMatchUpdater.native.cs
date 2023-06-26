@@ -15,9 +15,7 @@ public class InfoSiteMatchUpdaterImp : InfoSiteMatchUpdater
 
     private static readonly List<MainMatchBackupModel> mainMatchBackupModel = new();
 
-    public InfoSiteMatchUpdaterImp(
-        Repository repository,
-        SyncInfoSiteService syncInfoSiteIdService)
+    public InfoSiteMatchUpdaterImp(SyncInfoSiteService syncInfoSiteIdService)
     {
         syncInfoSiteService = syncInfoSiteIdService;
     }

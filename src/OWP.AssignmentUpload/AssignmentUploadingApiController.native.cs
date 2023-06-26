@@ -36,7 +36,7 @@ public class AssignmentUploadingApiController : ControllerBase
     }
 
     [HttpPost]
-    [Route("validate/{eventDate}/{isUploadFMAndAIO}")]
+    [Route("validate/{eventDate:datetime}/{isUploadFMAndAIO:bool}")]
     public async Task<IActionResult> Validate(DateTime eventDate, bool isUploadFMAndAIO)
     {
         if (!MultipartRequestHelper.IsMultipartContentType(Request.ContentType))
@@ -69,11 +69,13 @@ public class AssignmentUploadingApiController : ControllerBase
     {
         var viewModel = await mediator.Send(request);
 
-        if (viewModel.IsSuccessful)
+        if (!viewModel.IsSuccessful)
         {
-            NotifyForAssignmentUpload(request);
-            NotifyForPrematch(request);
+            return Ok(viewModel);
         }
+
+        NotifyForAssignmentUpload(request);
+        NotifyForPrematch(request);
 
         return Ok(viewModel);
     }
@@ -91,6 +93,7 @@ public class AssignmentUploadingApiController : ControllerBase
     private void NotifyForPrematch(SubmitRequest request)
         => rabbitMqClient.SendMessage(new
         {
-            EventDate = request.EventDate.Date, request.SessionId
+            EventDate = request.EventDate.Date,
+            request.SessionId
         }, RoutingKey.LinkedLgaMatch);
 }

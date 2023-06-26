@@ -4,6 +4,7 @@ using OWP.Extensions;
 using OWP.ProviderArrangement.Criteria;
 using OWP.ProviderArrangement.Models;
 using OWP.Utils;
+// ReSharper disable LoopCanBeConvertedToQuery
 
 namespace OWP.ProviderArrangement.Handlers;
 
@@ -25,12 +26,12 @@ public class GetLogRequestHandler : IRequestHandler<GetLogRequest, IList<LogDisp
     public async Task<IList<LogDisplayModel>> Handle(GetLogRequest request, CancellationToken cancellationToken)
     {
         var criteria = new GetLogProviderCriteria();
-        var logModel = await repository.FetchAsync<UserLogModel>(criteria);
+        var logModel = await repository.FetchAsync<UserLogModel>(criteria, cancellationToken);
 
         return BuildLogs(logModel);
     }
 
-    public IList<LogDisplayModel> BuildLogs(IEnumerable<UserLogModel> logInfos)
+    public static IList<LogDisplayModel> BuildLogs(IEnumerable<UserLogModel> logInfos)
     {
         var logResult = new List<LogDisplayModel>();
 
@@ -46,7 +47,7 @@ public class GetLogRequestHandler : IRequestHandler<GetLogRequest, IList<LogDisp
                 ModifyDate = log?.ModifiedDate.ToGmt8().ToString("MM/dd/yyyy hh:mm tt"),
                 ModifyBy = log?.ModifiedBy
             });
-            
+
         }
 
         return logResult;
