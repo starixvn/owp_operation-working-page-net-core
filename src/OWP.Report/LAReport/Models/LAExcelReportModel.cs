@@ -11,95 +11,95 @@ public class LAExcelReportModel
     public string Section { get; set; }
 
     [Cell("C7")]
-    public int TotalMatches { get; set; }
+    public double TotalMatches { get; set; }
 
     [Cell("D7")]
-    public int Link2 { get; set; }
+    public double Link2 { get; set; }
 
     [Cell("E7")]
-    public int Link3 { get; set; }
+    public double Link3 { get; set; }
 
     [Cell("F7")]
-    public int Link4 { get; set; }
+    public double Link4 { get; set; }
 
     [Cell("G7")]
-    public int Link5 { get; set; }
+    public double Link5 { get; set; }
 
     [Cell("H7")]
-    public int Link6 { get; set; }
+    public double Link6 { get; set; }
 
     [Cell("I7")]
-    public int Link7 { get; set; }
+    public double Link7 { get; set; }
 
     [Cell("J7")]
-    public int Link8Plus { get; set; }
+    public double Link8Plus { get; set; }
 
     [Cell("K7")]
-    public int TotalMultiMatches { get; set; }
+    public double TotalMultiMatches { get; set; }
 
     [Cell("L7")]
-    public int OnlyProvider { get; set; }
+    public double OnlyProvider { get; set; }
 
     [Cell("M7")]
-    public int OnlyTv { get; set; }
+    public double OnlyTv { get; set; }
 
     [Cell("N7")]
-    public int OnlyReporter { get; set; }
+    public double OnlyReporter { get; set; }
 
     [Cell("O7")]
-    public int MixedProviderTVReporter { get; set; }
+    public double MixedProviderTVReporter { get; set; }
 
     [Cell("P7")]
-    public int TotalSingleMatches { get; set; }
+    public double TotalSingleMatches { get; set; }
 
     [Cell("Q7")]
-    public int CornerPlus { get; set; }
+    public double CornerPlus { get; set; }
 
     [Cell("R7")]
-    public int TBookingPlus { get; set; }
+    public double TBookingPlus { get; set; }
 
     [Cell("S7")]
-    public int Fantasy { get; set; }
+    public double Fantasy { get; set; }
 
     [Cell("T7")]
-    public int GoalKick { get; set; }
+    public double GoalKick { get; set; }
 
     [Cell("U7")]
-    public int OtherProducts { get; set; }
+    public double OtherProducts { get; set; }
 
     [Cell("V7")]
-    public int TotalSpecialProducts { get; set; }
+    public double TotalSpecialProducts { get; set; }
 
     [Cell("W7")]
-    public int FTCorner { get; set; }
+    public double FTCorner { get; set; }
 
     [Cell("X7")]
-    public int FTCorner5ML { get; set; }
+    public double FTCorner5ML { get; set; }
 
     [Cell("Y7")]
-    public int TotalMixedProduct { get; set; }
+    public double TotalMixedProduct { get; set; }
 
     [Cell("Z7")]
-    public int FiveML { get; set; }
+    public double FiveML { get; set; }
 
     [Cell("AA7")]
-    public int ESoccer5Mins { get; set; }
+    public double ESoccer5Mins { get; set; }
 
     [Cell("AB7")]
-    public int ESoccer6Mins { get; set; }
+    public double ESoccer6Mins { get; set; }
 
     [Cell("AC7")]
-    public int ESoccer15Mins { get; set; }
+    public double ESoccer15Mins { get; set; }
 
     [Cell("AD7")]
-    public int ESoccer16Mins { get; set; }
+    public double ESoccer16Mins { get; set; }
 
     [Cell("AE7")]
-    public int ESoccer20Mins { get; set; }
+    public double ESoccer20Mins { get; set; }
 
     [Cell("AF7")]
-    public int TotalESoccer { get; set; }
+    public double TotalESoccer { get; set; }
 
     [Cell("AG7")]
-    public int Others { get; set; }
+    public double Others { get; set; }
 }
