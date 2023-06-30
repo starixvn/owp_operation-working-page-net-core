@@ -20,6 +20,7 @@ public class SabaMatchesServicesImp : SabaMatchServices
                 x.UserId == workingShift.UserInfo.UserId &&
                 x.EndTime.CompareTo(workingShift.UserInfo.ShiftStartTime) >= 0 &&
                 x.EventDateTime.CompareTo(workingShift.UserInfo.ShiftEndTime) < 0);
+
             var sabaAssignments = userAssignments
                 .OrderBy(x => x.EventDateTime).ThenBy(x => x.OWPMatchId).ThenBy(x => x.BettypeId)
                 .DistinctBy(x => x.OWPMatchId)
@@ -115,8 +116,8 @@ public class SabaMatchesServicesImp : SabaMatchServices
             var isMultipleMatch =
                 assignment.MatchType is MatchType.SabaLink2G or MatchType.SabaLink3G or MatchType.SabaLink4G;
             var text = isMultipleMatch
-                ? ScheduleHelper.BuildScheduleTextGroupGame(assignment.GroupAssignmentModels)
-                : ScheduleHelper.BuildScheduleTextSingleGame(assignment);
+                ? ScheduleHelper.BuildScheduleTextSabaGroupGame(assignment.GroupAssignmentModels)
+                : ScheduleHelper.BuildScheduleTextSabaSingleGame(assignment);
             var (backgroundColor, textColor) = ScheduleHelper.GetBackgroundAndTextColor(assignment.MatchType);
             var assignmentCell = new AssignmentCell
             {

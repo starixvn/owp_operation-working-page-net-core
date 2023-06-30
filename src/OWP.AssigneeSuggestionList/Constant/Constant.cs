@@ -186,6 +186,19 @@ public static class OrderConstant
     public const decimal UpperMaxBet = 80_000;
 }
 
+public static class MatchTypeLabel
+{
+	public static ImmutableDictionary<int, string> MatchTypeMapLabel = ImmutableDictionary.CreateRange(
+		new[]
+		{
+			KeyValuePair.Create((int)MatchType.Saba5Mins, "5"),
+			KeyValuePair.Create((int)MatchType.Saba15Mins, "15"),
+			KeyValuePair.Create((int)MatchType.Saba16Mins, "16"),
+			KeyValuePair.Create((int)MatchType.Saba20Mins, "20"),
+		}
+	);
+}
+
 
 
 
