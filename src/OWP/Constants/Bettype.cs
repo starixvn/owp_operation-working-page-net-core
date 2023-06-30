@@ -21,4 +21,13 @@ public static class Bettype
     public const int TotalBooking = -6;
 
     public const int NextBooking = -7;
+
+    public const int Winner = -14;
+
+    public const int FifteenMinsBookings = -8;
+
+    public const int HomeSingleTeam = -92;
+
+    public const int AwaySingleTeam = -93;
+
 }

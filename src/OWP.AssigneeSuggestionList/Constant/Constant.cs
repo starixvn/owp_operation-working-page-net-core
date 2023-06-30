@@ -13,6 +13,7 @@ public static class ColorCodeConst
     public const string FIRST_HALF = "#B1A0C7";
     public const string FANTASY = "#E6B8B7";
     public const string CORNER = "#C00000";
+    public const string WINNER = "#036541";
     public const string X_MINS = "#0070C0";
     public const string ET_PK = "#000000";
     public const string SHIFT = "#BFBFBF";
@@ -28,6 +29,7 @@ public static class ColorCodeConst
     public const string TEXT_FIRST_HALF = TEXT_COLOR_BLACK;
     public const string TEXT_FANTASY = TEXT_COLOR_BLACK;
     public const string TEXT_CORNER = TEXT_COLOR_WHITE;
+    public const string TEXT_WINNER = TEXT_COLOR_WHITE;
     public const string TEXT_X_MINS = TEXT_COLOR_WHITE;
     public const string TEXT_ET_PK = "#FFEA29";
 
