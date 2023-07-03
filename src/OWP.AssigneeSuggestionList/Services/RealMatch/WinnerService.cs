@@ -37,20 +37,20 @@ public class WinnerServiceImp : WinnerService
         workingSchedule.Group(
            gameGroup,
            schedules,
-            assignmentsCorner => BuildScheduleUpdateModel(assignmentsCorner, filterDate));
+            assignmentWinner => BuildScheduleUpdateModel(assignmentWinner, filterDate));
     }
 
-    public static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignmentsCorner, DateTime filterDate)
+    public static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignmentsWinner, DateTime filterDate)
     {
         var assignmentCell = new AssignmentCell
         {
             Color = ColorCodeConst.WINNER,
             TextColor = ColorCodeConst.TEXT_WINNER,
-            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignmentsCorner.First())
+            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignmentsWinner.First())
         };
 
-        var gameInfo = ScheduleHelper.GetGameInfo(assignmentsCorner);
-        var etPkValue = FirstHalfHelper.IsFirstHalf(assignmentsCorner) ? string.Empty
+        var gameInfo = ScheduleHelper.GetGameInfo(assignmentsWinner);
+        var etPkValue = FirstHalfHelper.IsFirstHalf(assignmentsWinner) ? string.Empty
             : ETPKHelper.DetectExtraTime(gameInfo.remark, gameInfo.minorBettypeId);
 
         return new ScheduleUpdateModel

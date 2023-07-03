@@ -17,10 +17,16 @@ public class SpecialGameServiceImp : SpecialGameService
 
     private readonly XMinsGroupService xMinsGroupService;
 
-    public SpecialGameServiceImp(CornerService cornerService, XMinsGroupService xMinsGroupService)
+    private readonly SingleTeamService singleTeamService;
+
+    private readonly WinnerService winnerService;
+
+    public SpecialGameServiceImp(CornerService cornerService, XMinsGroupService xMinsGroupService, SingleTeamService singleTeamService, WinnerService winnerService)
     {
         this.cornerService = cornerService;
         this.xMinsGroupService = xMinsGroupService;
+        this.singleTeamService = singleTeamService;
+        this.winnerService = winnerService;
     }
 
     public void MapAssignmentsToWorkingSchedule(
@@ -31,5 +37,7 @@ public class SpecialGameServiceImp : SpecialGameService
     {
         cornerService.Group(assignmentModels, schedule, fromDate, owpIdExclude);
         xMinsGroupService.Group(assignmentModels, schedule, fromDate, owpIdExclude);
+        winnerService.Group(assignmentModels, schedule, fromDate, owpIdExclude);
+        singleTeamService.Group(assignmentModels, schedule, fromDate, owpIdExclude);
     }
 }
