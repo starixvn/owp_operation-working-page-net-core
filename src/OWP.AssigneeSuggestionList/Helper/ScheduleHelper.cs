@@ -24,22 +24,49 @@ public static class ScheduleHelper
 
     public static string BuildScheduleTextGroupGame(IList<AssignmentModel> assignments)
     {
-	    var eventDateTime = assignments.First().EventDateTime;
-	    var listMaxbet = assignments
-		    .Where(assignment => assignment.MaxbetHDP.HasValue)
-		    .Select(assignment => $"{FormatMaxbet(assignment.MaxbetHDP.Value)}");
+	    var assignmentsToDistinct = assignments
+		    .DistinctBy(x => x.MaxbetHDP)
+		    .ToList();
+
+	    return assignmentsToDistinct.Count() == 1
+		    ? BuildTextGameGroupSameMb(assignmentsToDistinct.First())
+		    : BuildTextGameGroupMixedMb(assignmentsToDistinct);
+    }
+
+    private static string BuildTextGameGroupMixedMb(IList<AssignmentModel> assignments)
+    {
+	    var assignment = assignments.First();
+		var listMaxbet = assignments
+			.Where(a => a.MaxbetHDP.HasValue)
+			.Select(a => $"{FormatMaxbet(a.MaxbetHDP.Value)}");
+
+		var maxbetListText = string.Join("+", listMaxbet);
+		var eventDateTime = assignment.EventDateTime;
+		var kOTimeText = $"{eventDateTime:hh\\:mm}";
+
+		return (eventDateTime.Minute == 0, string.IsNullOrEmpty(maxbetListText)) switch
+		{
+			(true, true) => "V",
+			(true, false) => $"V/{maxbetListText}",
+			(false, true) => $"{kOTimeText}",
+			(false, false) => $"{kOTimeText}/{maxbetListText}"
+		};
+    }
+
+	private static string BuildTextGameGroupSameMb(AssignmentModel assignment)
+    {
+	    var eventDateTime = assignment.EventDateTime;
+	    var maxbet = assignment.MaxbetHDP;
 
 	    var kOTimeText = $"{eventDateTime:hh\\:mm}";
-	    var maxbetListText = string.Join("+", listMaxbet);
-
-	    return (eventDateTime.Minute == 0, string.IsNullOrEmpty(maxbetListText)) switch
+		return (eventDateTime.Minute == 0, maxbet.HasValue) switch
 	    {
-		    (true, true) => "V",
-		    (true, false) => $"V/{maxbetListText}",
-		    (false, true) => $"{kOTimeText}",
-		    (false, false) => $"{kOTimeText}/{maxbetListText}"
+		    (true, false) => "V",
+		    (true, true) => $"V/{FormatMaxbet(maxbet.Value)}",
+		    (false, true) => $"{kOTimeText}/{FormatMaxbet(maxbet.Value)}",
+		    (false, false) => $"{kOTimeText}"
 	    };
-    }
+	}
 
 	public static string BuildScheduleTextSabaSingleGame(AssignmentModel assignment)
     => assignment.KOTime.Minutes == 0
