@@ -42,11 +42,12 @@ public class WinnerServiceImp : WinnerService
 
     public static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignmentsWinner, DateTime filterDate)
     {
+        // TODO
         var assignmentCell = new AssignmentCell
         {
             Color = ColorCodeConst.WINNER,
             TextColor = ColorCodeConst.TEXT_WINNER,
-            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignmentsWinner.First())
+            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignmentsWinner.First(), string.Empty)
         };
 
         var gameInfo = ScheduleHelper.GetGameInfo(assignmentsWinner);

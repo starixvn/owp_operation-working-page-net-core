@@ -50,7 +50,7 @@ public class XMinsGroupServiceImp : XMinsGroupService
         {
             Color = ColorCodeConst.X_MINS,
             TextColor = ColorCodeConst.TEXT_X_MINS,
-            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignment)
+            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignment, string.Empty)
         };
         var etPkValue = ETPKHelper.DetectExtraTime(gameInfo.remark);
 

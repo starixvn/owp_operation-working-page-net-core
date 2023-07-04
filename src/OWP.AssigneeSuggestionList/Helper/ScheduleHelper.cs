@@ -2,8 +2,11 @@ using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Models;
 using OWP.Extensions;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using System.Globalization;
+using OWP.Constants;
 using MatchType = OWP.AssigneeSuggestionList.Constant.MatchType;
+using System.Linq;
 
 namespace OWP.AssigneeSuggestionList.Helper;
 
@@ -73,19 +76,54 @@ public static class ScheduleHelper
         ? "*V"
         : $"*{assignment.KOTime.ToKOTimeWithoutSuffix()}";
 
-    public static string BuildScheduleTextSingleGame(AssignmentModel assignment)
+    public static string BuildScheduleTextSingleGame(AssignmentModel assignment, string textPostfix)
     {
         var maxbetDisplay = assignment.MaxbetHDP.HasValue
                 ? $"{FormatMaxbet(assignment.MaxbetHDP.Value)}"
             : string.Empty;
         var kOTimeText = assignment.KOTime.ToKOTimeWithoutSuffix();
-        return (assignment.KOTime.Minutes == 0, string.IsNullOrEmpty(maxbetDisplay)) switch
+        
+        return (
+                assignment.KOTime.Minutes == 0,
+                string.IsNullOrEmpty(maxbetDisplay),
+                string.IsNullOrEmpty(textPostfix)) switch
         {
-            (true, true) => "V",
-            (false, true) => $"{kOTimeText}",
-            (true, false) => $"V/{maxbetDisplay}",
-            (false, false) => $"{kOTimeText}/{maxbetDisplay}"
+            (true, true, false) => "V",
+            (false, true, false) => $"{kOTimeText}",
+            (true, false,true) => $"V/{maxbetDisplay}{textPostfix}",
+            (false, false,true) => $"{kOTimeText}/{maxbetDisplay}{textPostfix}",
+
+            (true, true, true) => $"V/{textPostfix}",
+            (false, true, true) => $"{kOTimeText}{textPostfix}",
+            (true, false, false) => $"V/{maxbetDisplay}",
+            (false, false, false) => $"{kOTimeText}/{maxbetDisplay}",
         };
+    }
+
+    public static string BuildTextSingleGamePostfixHdp(IDictionary<int, List<AssignmentModel>> gameMapGameId,
+        IList<AssignmentModel> assignments)
+    {
+        var assignmentHdp= assignments.FirstOrDefault(a => a.BettypeId == Bettype.Handicap);
+
+        return assignmentHdp is not null && gameMapGameId[assignmentHdp.OWPMatchId].Any(a =>
+            a.OWPMatchId == assignmentHdp.OWPMatchId
+               && a.BettypeId==Bettype.OverUnder
+               && a.UserId!=assignmentHdp.UserId)
+            ? "*H"
+            : string.Empty;
+    }
+
+    public static string BuildTextSingleGamePostfixOu(IDictionary<int, List<AssignmentModel>> gameMapGameId,
+        IList<AssignmentModel> assignments)
+    {
+        var assignmentOu = assignments.FirstOrDefault(a => a.BettypeId == Bettype.OverUnder);
+
+        return assignmentOu is not null && gameMapGameId[assignmentOu.OWPMatchId].Any(a =>
+           a.OWPMatchId == assignmentOu.OWPMatchId
+            && a.BettypeId == Bettype.Handicap
+            && a.UserId != assignmentOu.UserId)
+            ? "*O"
+            : string.Empty;
     }
 
     public static (DateTime eventDate, IList<int> bettypeIds, int? minorBettypeId, string remark, decimal? maxbetHdp) GetGameInfo(IList<AssignmentModel> assignments)

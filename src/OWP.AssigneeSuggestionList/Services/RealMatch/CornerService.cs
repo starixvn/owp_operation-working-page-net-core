@@ -10,7 +10,8 @@ public interface CornerService
         IList<AssignmentModel> assignments,
         WorkingSchedule schedules,
         DateTime filterDate,
-        List<int> owpIdExclude);
+        List<int> owpIdExclude,
+        IDictionary<int, List<AssignmentModel>> gameMapGameId);
 }
 
 public class CornerServiceImp : CornerService
@@ -26,7 +27,8 @@ public class CornerServiceImp : CornerService
         IList<AssignmentModel> assignments,
         WorkingSchedule schedules,
         DateTime filterDate,
-        List<int> owpIdExclude)
+        List<int> owpIdExclude,
+        IDictionary<int, List<AssignmentModel>> gameMapGameId)
     {
         var gameGroup = assignments
             .Where(a => a.IsCornerMatch)
@@ -36,16 +38,21 @@ public class CornerServiceImp : CornerService
         workingSchedule.Group(
            gameGroup,
            schedules,
-            assignmentsCorner => BuildScheduleUpdateModel(assignmentsCorner, filterDate));
+            assignmentsCorner => BuildScheduleUpdateModel(gameMapGameId, assignmentsCorner, filterDate));
     }
 
-    public static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignmentsCorner, DateTime filterDate)
+    public static ScheduleUpdateModel BuildScheduleUpdateModel(IDictionary<int, List<AssignmentModel>> gameMapGameId, IList<AssignmentModel> assignmentsCorner, DateTime filterDate)
     {
+        var textPostfix = ScheduleHelper.BuildTextSingleGamePostfixHdp(gameMapGameId, assignmentsCorner);
+        if (string.IsNullOrEmpty(textPostfix))
+        {
+            textPostfix= ScheduleHelper.BuildTextSingleGamePostfixOu(gameMapGameId, assignmentsCorner);
+        }
         var assignmentCell = new AssignmentCell
         {
             Color = ColorCodeConst.CORNER,
             TextColor = ColorCodeConst.TEXT_CORNER,
-            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignmentsCorner.First())
+            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignmentsCorner.First(), textPostfix)
         };
 
         var gameInfo = ScheduleHelper.GetGameInfo(assignmentsCorner);

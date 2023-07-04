@@ -8,7 +8,7 @@ public interface LinkGameService
         WorkingSchedule schedule,
         IList<AssignmentModel> assignmentModels,
         DateTime fromDate,
-        List<int> owpIdExclude);
+        List<int> owpIdExclude, IDictionary<int, List<AssignmentModel>> gameMapGameId);
 }
 
 public class LinkGameServiceImp : LinkGameService
@@ -29,11 +29,12 @@ public class LinkGameServiceImp : LinkGameService
         WorkingSchedule schedule,
         IList<AssignmentModel> assignmentModels,
         DateTime fromDate,
-        List<int> owpIdExclude)
+        List<int> owpIdExclude,
+        IDictionary<int, List<AssignmentModel>> gameMapGameId)
     {
         var canLinkAssignments = assignmentModels.Where(x => !x.IsFantasyMatch).ToList();
 
-        oneGameService.Group(canLinkAssignments, schedule, fromDate, owpIdExclude);
+        oneGameService.Group(canLinkAssignments, schedule, fromDate, owpIdExclude, gameMapGameId);
         linkNGameService.Group(canLinkAssignments, schedule, fromDate, owpIdExclude);
         linkErrorService.Group(canLinkAssignments, schedule, fromDate, owpIdExclude);
     }

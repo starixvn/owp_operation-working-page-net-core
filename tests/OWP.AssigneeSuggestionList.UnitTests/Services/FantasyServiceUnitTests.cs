@@ -10,6 +10,7 @@ namespace OWP.AssigneeSuggestionList.UnitTests.Services;
 public class FantasyServiceUnitTests
 {
         private List<AssignmentModel> assignments = new();
+        private IDictionary<int, List<AssignmentModel>>  gameMapGameId = new Dictionary<int, List<AssignmentModel>>();
 
     public FantasyServiceUnitTests()
     {
@@ -31,6 +32,8 @@ public class FantasyServiceUnitTests
                 LeagueName= "VN FANTASY MATCH"
             }
         };
+
+        gameMapGameId = assignments.GroupBy(x => x.OWPMatchId).ToDictionary(x => x.Key, x => x.ToList());
     }
 
     [Fact]
@@ -40,7 +43,7 @@ public class FantasyServiceUnitTests
         Initialize();
 
         // Act
-        var result = FantasyServiceImp.BuildScheduleUpdateModel(assignments, DateTime.Parse("2023-3-31 18:00:00"));
+        var result = FantasyServiceImp.BuildScheduleUpdateModel(gameMapGameId,assignments, DateTime.Parse("2023-3-31 18:00:00"));
 
         var expect = new ScheduleUpdateModel
         {

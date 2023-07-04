@@ -55,7 +55,7 @@ public class FirstHalfServiceImp : FirstHalfService
         {
             Color = ColorCodeConst.FIRST_HALF,
             TextColor = ColorCodeConst.TEXT_FIRST_HALF,
-            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignments.First())
+            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignments.First(), string.Empty)
         };
         var gameInfo = ScheduleHelper.GetGameInfo(assignments);
 
