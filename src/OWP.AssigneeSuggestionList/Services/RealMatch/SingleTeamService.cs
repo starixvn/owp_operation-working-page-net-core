@@ -11,7 +11,7 @@ public interface SingleTeamService
         IList<AssignmentModel> assignments,
         WorkingSchedule schedules,
         DateTime filterDate,
-        List<int> owpIdExclude);
+        List<int> owpIdExclude, IDictionary<int, List<AssignmentModel>> gameMapGameId);
 }
 
 public class SingleTeamServiceImp : SingleTeamService
@@ -27,7 +27,7 @@ public class SingleTeamServiceImp : SingleTeamService
         IList<AssignmentModel> assignments,
         WorkingSchedule schedules,
         DateTime filterDate,
-        List<int> owpIdExclude)
+        List<int> owpIdExclude, IDictionary<int, List<AssignmentModel>> gameMapGameId)
     {
         var gameGroup = assignments
             .Where(a => a.BettypeId is Bettype.HomeSingleTeam or Bettype.AwaySingleTeam )
@@ -37,16 +37,22 @@ public class SingleTeamServiceImp : SingleTeamService
         workingSchedule.Group(
            gameGroup,
            schedules,
-            assignment => BuildScheduleUpdateModel(assignment, filterDate));
+            assignment => BuildScheduleUpdateModel(gameMapGameId, assignment, filterDate));
     }
 
-    public static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignmentsSingleTeam, DateTime filterDate)
+    public static ScheduleUpdateModel BuildScheduleUpdateModel(IDictionary<int, List<AssignmentModel>> gameMapGameId,IList<AssignmentModel> assignmentsSingleTeam, DateTime filterDate)
     {
+        var textPostfix = ScheduleHelper.BuildTextSingleGamePostfixHdp(gameMapGameId, assignmentsSingleTeam);
+        if (string.IsNullOrEmpty(textPostfix))
+        {
+            textPostfix = ScheduleHelper.BuildTextSingleGamePostfixOu(gameMapGameId, assignmentsSingleTeam);
+        }
+
         var assignmentCell = new AssignmentCell
         {
             Color = ColorCodeConst.SINGLE_TEAM,
             TextColor = ColorCodeConst.TEXT_SINGLE_TEAM,
-            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignmentsSingleTeam.First())
+            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignmentsSingleTeam.First(),textPostfix)
         };
 
         var gameInfo = ScheduleHelper.GetGameInfo(assignmentsSingleTeam);

@@ -11,7 +11,8 @@ public interface BookingService
         IList<AssignmentModel> assignments,
         WorkingSchedule schedules,
         DateTime filterDate,
-        List<int> owpIdExclude);
+        List<int> owpIdExclude,
+        IDictionary<int, List<AssignmentModel>> gameMapGameId);
 }
 
 public class BookingServiceImp : BookingService
@@ -27,7 +28,8 @@ public class BookingServiceImp : BookingService
         IList<AssignmentModel> assignments,
         WorkingSchedule schedules,
         DateTime filterDate,
-        List<int> owpIdExclude)
+        List<int> owpIdExclude,
+        IDictionary<int, List<AssignmentModel>> gameMapGameId)
     {
         var gameGroup = assignments
             .Where(a => a.BettypeId is  Bettype.FifteenMinsBookings or Bettype.NextBooking or Bettype.TotalBooking )
@@ -37,16 +39,22 @@ public class BookingServiceImp : BookingService
         workingSchedule.Group(
            gameGroup,
            schedules,
-            assignmentBooking => BuildScheduleUpdateModel(assignmentBooking, filterDate));
+            assignmentBooking => BuildScheduleUpdateModel(gameMapGameId,assignmentBooking, filterDate));
     }
 
-    public static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignmentsBooking, DateTime filterDate)
+    public static ScheduleUpdateModel BuildScheduleUpdateModel(IDictionary<int, List<AssignmentModel>> gameMapGameId,IList<AssignmentModel> assignmentsBooking, DateTime filterDate)
     {
+        var textPostfix = ScheduleHelper.BuildTextSingleGamePostfixHdp(gameMapGameId, assignmentsBooking);
+        if (string.IsNullOrEmpty(textPostfix))
+        {
+            textPostfix = ScheduleHelper.BuildTextSingleGamePostfixOu(gameMapGameId, assignmentsBooking);
+        }
+
         var assignmentCell = new AssignmentCell
         {
             Color = ColorCodeConst.BOOKING,
             TextColor = ColorCodeConst.TEXT_BOOKING,
-            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignmentsBooking.First())
+            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignmentsBooking.First(), textPostfix)
         };
 
         var gameInfo = ScheduleHelper.GetGameInfo(assignmentsBooking);

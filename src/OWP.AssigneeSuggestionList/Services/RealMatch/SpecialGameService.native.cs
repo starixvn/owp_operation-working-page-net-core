@@ -41,8 +41,8 @@ public class SpecialGameServiceImp : SpecialGameService
     {
         cornerService.Group(assignmentModels, schedule, fromDate, owpIdExclude, gameMapGameId);
         xMinsGroupService.Group(assignmentModels, schedule, fromDate, owpIdExclude);
-        winnerService.Group(assignmentModels, schedule, fromDate, owpIdExclude);
-        singleTeamService.Group(assignmentModels, schedule, fromDate, owpIdExclude);
-        bookingService.Group(assignmentModels, schedule, fromDate, owpIdExclude);
+        winnerService.Group(assignmentModels, schedule, fromDate, owpIdExclude, gameMapGameId);
+        singleTeamService.Group(assignmentModels, schedule, fromDate, owpIdExclude, gameMapGameId);
+        bookingService.Group(assignmentModels, schedule, fromDate, owpIdExclude, gameMapGameId);
     }
 }

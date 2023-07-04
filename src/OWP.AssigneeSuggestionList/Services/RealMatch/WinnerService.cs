@@ -11,7 +11,7 @@ public interface WinnerService
         IList<AssignmentModel> assignments,
         WorkingSchedule schedules,
         DateTime filterDate,
-        List<int> owpIdExclude);
+        List<int> owpIdExclude, IDictionary<int, List<AssignmentModel>> gameMapGameId);
 }
 
 public class WinnerServiceImp : WinnerService
@@ -27,7 +27,7 @@ public class WinnerServiceImp : WinnerService
         IList<AssignmentModel> assignments,
         WorkingSchedule schedules,
         DateTime filterDate,
-        List<int> owpIdExclude)
+        List<int> owpIdExclude, IDictionary<int, List<AssignmentModel>> gameMapGameId)
     {
         var gameGroup = assignments
             .Where(a => a.BettypeId == Bettype.Winner)
@@ -37,17 +37,21 @@ public class WinnerServiceImp : WinnerService
         workingSchedule.Group(
            gameGroup,
            schedules,
-            assignmentWinner => BuildScheduleUpdateModel(assignmentWinner, filterDate));
+            assignmentWinner => BuildScheduleUpdateModel(gameMapGameId,assignmentWinner, filterDate));
     }
 
-    public static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignmentsWinner, DateTime filterDate)
+    public static ScheduleUpdateModel BuildScheduleUpdateModel(IDictionary<int, List<AssignmentModel>> gameMapGameId,IList<AssignmentModel> assignmentsWinner, DateTime filterDate)
     {
-        // TODO
+        var textPostfix = ScheduleHelper.BuildTextSingleGamePostfixHdp(gameMapGameId, assignmentsWinner);
+        if (string.IsNullOrEmpty(textPostfix))
+        {
+            textPostfix = ScheduleHelper.BuildTextSingleGamePostfixOu(gameMapGameId, assignmentsWinner);
+        }
         var assignmentCell = new AssignmentCell
         {
             Color = ColorCodeConst.WINNER,
             TextColor = ColorCodeConst.TEXT_WINNER,
-            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignmentsWinner.First(), string.Empty)
+            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignmentsWinner.First(), textPostfix)
         };
 
         var gameInfo = ScheduleHelper.GetGameInfo(assignmentsWinner);
