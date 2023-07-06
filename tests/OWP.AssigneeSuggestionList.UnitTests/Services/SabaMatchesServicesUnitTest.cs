@@ -180,14 +180,7 @@ public class SabaMatchesServicesUnitTest
                 HomeName = "B",
                 AwayName = "C",
                 EventDateTime = new DateTime(2022, 03, 29, 02, 00, 00),
-                MatchType = MatchType.Saba5Mins
-            },
-            new()
-            {
-                OWPMatchId = 4,
-                LeagueName = "SABA PES 20 - 5 Mins Play",
-                EventDateTime = new DateTime(2022, 03, 29, 02, 30, 00),
-                MatchType = MatchType.Saba5Mins
+                MatchType = MatchType.SabaMix5mins
             },
             // multiple game
             new()
@@ -258,8 +251,8 @@ public class SabaMatchesServicesUnitTest
                 MatchType = MatchType.SabaLink2G,
                 GroupAssignmentModels = new List<AssignmentModel>
                 {
-                    new(){ MaxbetHDP = 100000, LeagueName = "Saba A" },
-                    new(){ MaxbetHDP = 200000, LeagueName = "Saba A" }
+                    new(){ MaxbetHDP = 100000, LeagueName = "Saba A", MatchType = MatchType.Saba15Mins},
+                    new(){ MaxbetHDP = 200000, LeagueName = "Saba A" ,MatchType = MatchType.Saba15Mins}
                 }
             },
             new()
@@ -274,8 +267,8 @@ public class SabaMatchesServicesUnitTest
         var expected = new WorkingSchedule
         {
             Today_14h = new AssignmentCell { Text = "*V", TextColor = "#444444", Color = "#FCD5B4" },
-            Yesterday_02h = new AssignmentCell { Text = "*V/3.333K", TextColor = "#FFFFFF", Color = "#7030A0" },
-            Today_02h = new AssignmentCell { Text = "*V/100K+200K", TextColor = "#FFFFFF", Color = "#A34262" },
+            Yesterday_02h = new AssignmentCell { Text = "*V", TextColor = "#FFFFFF", Color = "#7030A0" },
+            Today_02h = new AssignmentCell { Text = "*V/15*2", TextColor = "#FFFFFF", Color = "#A34262" },
             Tomorrow_15h = new AssignmentCell { Text = "Error!", TextColor = "#FF0000", Color = "#FFFFFF" }
         };
 
@@ -361,7 +354,7 @@ public class SabaMatchesServicesUnitTest
         {
             Today_14h = new AssignmentCell { Text = "*V", TextColor = "#444444", Color = "#FCD5B4" },
             Yesterday_02h = null,
-            Today_02h = new AssignmentCell { Text = "*V/100K+200K", TextColor = "#FFFFFF", Color = "#A34262" },
+            Today_02h = new AssignmentCell { Text = "*V/16+20", TextColor = "#FFFFFF", Color = "#A34262" },
             Tomorrow_15h = null
         };
 

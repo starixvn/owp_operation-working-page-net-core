@@ -73,6 +73,7 @@ public static class ColorCodeConst
     public static readonly ImmutableDictionary<MatchType, (string, string)> ColorByGroupName = new Dictionary<MatchType, (string, string)>
     {
         { MatchType.Saba5Mins, (SABA_5MINS, TEXT_COLOR_WHITE) },
+        { MatchType.SabaMix5mins, (SABA_5MINS, TEXT_COLOR_WHITE) },
         { MatchType.SabaFutsal6Mins, (SABA_FUTSAL, TEXT_COLOR_BLACK) },
         { MatchType.SabaM8816Mins, (SABA_M88, TEXT_COLOR_BLACK) },
         { MatchType.SabaLink1G, (SABA_1G, TEXT_COLOR_BLACK) },
@@ -193,15 +194,13 @@ public static class OrderConstant
 
 public static class MatchTypeLabel
 {
-	public static ImmutableDictionary<int, string> MatchTypeMapLabel = ImmutableDictionary.CreateRange(
-		new[]
-		{
-			KeyValuePair.Create((int)MatchType.Saba5Mins, "5"),
-			KeyValuePair.Create((int)MatchType.Saba15Mins, "15"),
-			KeyValuePair.Create((int)MatchType.Saba16Mins, "16"),
-			KeyValuePair.Create((int)MatchType.Saba20Mins, "20"),
-		}
-	);
+	public static ImmutableDictionary<MatchType, string> MatchTypeMapLabel = new Dictionary<MatchType, string>
+    {
+        {MatchType.Saba5Mins, "5"},
+        {MatchType.Saba15Mins, "15"},
+        {MatchType.Saba16Mins, "16"},
+        {MatchType.Saba20Mins, "20"},
+    }.ToImmutableDictionary();
 }
 
 

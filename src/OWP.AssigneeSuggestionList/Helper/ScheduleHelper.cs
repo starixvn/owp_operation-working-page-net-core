@@ -17,10 +17,11 @@ public static class ScheduleHelper
         var eventDateTime = assignments.First().EventDateTime;
         var labelList = assignments.GroupBy(g => g.MatchType)
 	        .Select(g => g.Count() == 1
-		        ? $"{MatchTypeLabel.MatchTypeMapLabel[(int)g.Key]}"
-		        : $"{MatchTypeLabel.MatchTypeMapLabel[(int)g.Key]}*{g.Count()}");
+		        ? $"{MatchTypeLabel.MatchTypeMapLabel[g.Key]}"
+		        : $"{MatchTypeLabel.MatchTypeMapLabel[g.Key]}*{g.Count()}").ToList();
 
-		return eventDateTime.Minute == 0
+
+        return eventDateTime.Minute == 0
 		?$"*V/{string.Join("+",labelList)}"
 		: $"*{eventDateTime:hh\\:mm}/{string.Join("+", labelList)}";
     }

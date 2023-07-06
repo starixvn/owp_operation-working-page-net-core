@@ -4,6 +4,7 @@ public enum MatchType
 {
     Other,
     Saba5Mins,
+    SabaMix5mins,
     SabaFutsal6Mins,
     SabaM8816Mins,
     Saba16Mins,
