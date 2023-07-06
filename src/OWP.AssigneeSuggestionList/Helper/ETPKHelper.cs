@@ -20,19 +20,15 @@ public static class ETPKHelper
 
     public static string BuildEtPkTextDisplay(IList<AssignmentModel> assignments)
     {
-        var etpkValues = assignments.Select(a => DetectExtraTime(a))
+        var etpkValues = assignments.Select(DetectExtraTime)
             .Where(value => !string.IsNullOrEmpty(value))
             .ToList();
         return string.Join("+", etpkValues);
     }
 
     private static bool IsEt(AssignmentModel assignment)
-    => (assignment.MinorBettypeId.HasValue && assignment.MinorBettypeId is
-               Bettype.NextCorner
-            or Bettype.Corner
-            or Bettype.NextBooking
-            or Bettype.TotalBooking)
-        && IsEtPK(assignment);
+        => assignment.MinorBettypeId.HasValue && BetTypeSpecial.BetTypes.Contains(assignment.MinorBettypeId.Value) &&
+            IsEtPK(assignment);
 
 
     private static bool IsEtPK(AssignmentModel assignment)

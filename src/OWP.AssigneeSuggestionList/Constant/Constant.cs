@@ -1,5 +1,6 @@
 ﻿using OWP.AssigneeSuggestionList.Models;
 using System.Collections.Immutable;
+using OWP.Constants;
 
 namespace OWP.AssigneeSuggestionList.Constant;
 
@@ -203,6 +204,10 @@ public static class MatchTypeLabel
     }.ToImmutableDictionary();
 }
 
+public static class BetTypeSpecial
+{
+    public static readonly int[] BetTypes = {Bettype.NextCorner, Bettype.Corner, Bettype.NextBooking, Bettype.TotalBooking, Bettype.Winner, Bettype.AwaySingleTeam, Bettype.HomeSingleTeam }
+}
 
 
 

@@ -62,7 +62,8 @@ public class BookingServiceImp : BookingService
             : ETPKHelper.DetectExtraTime(new AssignmentModel
             {
                 Remark = gameInfo.remark,
-                AssignmentNote = gameInfo.assignmentNote
+                AssignmentNote = gameInfo.assignmentNote,
+                MinorBettypeId = gameInfo.minorBettypeId
             });
 
         return new ScheduleUpdateModel

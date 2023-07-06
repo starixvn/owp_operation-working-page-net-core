@@ -61,7 +61,8 @@ public class SingleTeamServiceImp : SingleTeamService
             : ETPKHelper.DetectExtraTime(new AssignmentModel
             {
                 Remark = gameInfo.remark,
-                AssignmentNote = gameInfo.assignmentNote
+                AssignmentNote = gameInfo.assignmentNote,
+                MinorBettypeId = gameInfo.minorBettypeId
             });
 
         return new ScheduleUpdateModel
@@ -70,7 +71,7 @@ public class SingleTeamServiceImp : SingleTeamService
             EtPk = new ETPKUpdateSchedule
             {
                 IsHasEtPk = !string.IsNullOrEmpty(etPkValue),
-                EtPkValue = etPkValue
+                EtPkValue = etPkValue,
             },
             AssignmentCell = assignmentCell,
             TimeRange = TimeRangeHelper.CalculateTimeRangeSingleGame(gameInfo.eventDate, gameInfo.bettypeIds, !string.IsNullOrEmpty(etPkValue))

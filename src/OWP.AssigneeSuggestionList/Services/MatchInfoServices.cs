@@ -1,4 +1,5 @@
-﻿using OWP.AssigneeSuggestionList.Handlers;
+﻿using OWP.AssigneeSuggestionList.Constant;
+using OWP.AssigneeSuggestionList.Handlers;
 using OWP.AssigneeSuggestionList.Helper;
 using OWP.AssigneeSuggestionList.Models;
 using OWP.Constants;
@@ -77,7 +78,7 @@ public class MatchInfoServicesImp : MatchInfoServices
     {
         var endTime = new TimeSpan(2, 0, 0);
 
-        if (matchInfo.MinorBettypeId is not (Bettype.NextCorner or Bettype.NextBooking or Bettype.Corner or Bettype.TotalBooking))
+        if (matchInfo.MinorBettypeId != null && !BetTypeSpecial.BetTypes.Contains(matchInfo.MinorBettypeId.Value))
         {
             return endTime;
         }
