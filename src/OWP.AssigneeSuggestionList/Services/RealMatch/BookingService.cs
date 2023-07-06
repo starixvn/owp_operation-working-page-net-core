@@ -58,7 +58,7 @@ public class BookingServiceImp : BookingService
         };
 
         var gameInfo = ScheduleHelper.GetGameInfo(assignmentsBooking);
-        var etPkValue = FirstHalfHelper.IsFirstHalf(assignmentsBooking) ? string.Empty
+        var etPkValue = (FirstHalfHelper.IsFirstHalf(assignmentsBooking) || assignmentsBooking.All(x => x.BettypeId is Bettype.FifteenMinsBookings)) ? string.Empty
             : ETPKHelper.DetectExtraTime(new AssignmentModel
             {
                 Remark = gameInfo.remark,

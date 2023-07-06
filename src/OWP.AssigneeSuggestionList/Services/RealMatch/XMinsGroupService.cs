@@ -52,22 +52,13 @@ public class XMinsGroupServiceImp : XMinsGroupService
             TextColor = ColorCodeConst.TEXT_X_MINS,
             Text = ScheduleHelper.BuildScheduleTextSingleGame(assignment, string.Empty)
         };
-        var etPkValue = ETPKHelper.DetectExtraTime(new AssignmentModel
-        {
-            Remark = gameInfo.remark,
-            AssignmentNote = gameInfo.assignmentNote
-        });
 
         return new ScheduleUpdateModel
         {
             FilterDate = filterDate,
-            EtPk = new ETPKUpdateSchedule
-            {
-                IsHasEtPk = !string.IsNullOrEmpty(etPkValue),
-                EtPkValue = etPkValue
-            },
+            EtPk = new ETPKUpdateSchedule(),
             AssignmentCell = assignmentCell,
-            TimeRange = TimeRangeHelper.CalculateTimeRangeFT(gameInfo.eventDate, !string.IsNullOrEmpty(etPkValue))
+            TimeRange = TimeRangeHelper.CalculateTimeRangeFT(gameInfo.eventDate, false)
         };
     }
 }
