@@ -4,6 +4,10 @@ namespace OWP.TicketCenter.Criteria;
 
 public abstract class GetEventTicketCriteriaBase : CriteriaBase
 {
+    public DateTime FromDateFilter { get; set; }
+
+    public DateTime ToDateFilter { get; set; }
+
     public int ActorId { get; set; }
 
     public string Keyword { get; set; }
