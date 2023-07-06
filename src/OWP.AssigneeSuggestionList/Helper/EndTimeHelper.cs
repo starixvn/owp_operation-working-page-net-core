@@ -20,7 +20,7 @@ public static class EndTimeHelper
 
     private static AssignmentModel UpdateEndTimeForRealMatch(AssignmentModel assignment)
     {
-        var etpkType = ETPKHelper.DetectExtraTime(assignment.Remark, assignment.MinorBettypeId);
+        var etpkType = ETPKHelper.DetectExtraTime(assignment);
         return assignment.IsMainMatch
             ? UpdateEndTimeForFtMatch(assignment, etpkType)
             : UpdateEndTimeForCornerBooking(assignment, etpkType);

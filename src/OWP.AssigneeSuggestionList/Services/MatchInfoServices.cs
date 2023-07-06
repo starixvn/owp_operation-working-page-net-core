@@ -20,6 +20,7 @@ public class MatchInfoServicesImp : MatchInfoServices
 
     public async Task<MatchInfo> GetMatchInfo(QueryTraderSuggestionRequest request)
     {
+        // TODO
         var matchInfo = await repository.QueryMatchInfo(request.OwpMatchId);
         matchInfo.BettypeId = request.BetTypeId;
         matchInfo.FilterDate = request.FilterDate;
@@ -62,7 +63,11 @@ public class MatchInfoServicesImp : MatchInfoServices
 
     public TimeSpan GetEndTimeForFtMatch(MatchInfo matchInfo)
     {
-        var etpkType = ETPKHelper.DetectExtraTime(matchInfo.Remark, matchInfo.MinorBettypeId);
+        var etpkType = ETPKHelper.DetectExtraTime(new AssignmentModel
+        {
+            Remark = matchInfo.Remark,
+            AssignmentNote = matchInfo.AssignmentNote
+        });
         return matchInfo.BettypeId is Bettype.FirstHalfHandicap or Bettype.FirstHalfOverUnder
               ? new TimeSpan(1, 0, 0)
               : EndTimeHelper.CalculateFtMatchEndTime(etpkType);
@@ -77,7 +82,11 @@ public class MatchInfoServicesImp : MatchInfoServices
             return endTime;
         }
 
-        var etpkType = ETPKHelper.DetectExtraTime(matchInfo.Remark, matchInfo.MinorBettypeId);
+        var etpkType = ETPKHelper.DetectExtraTime(new AssignmentModel
+        {
+            Remark = matchInfo.Remark,
+            AssignmentNote = matchInfo.AssignmentNote
+        });
         endTime = EndTimeHelper.CalculateCornerMatchEndTime(etpkType);
 
         return endTime;

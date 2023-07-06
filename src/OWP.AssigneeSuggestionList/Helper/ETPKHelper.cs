@@ -1,4 +1,5 @@
 using OWP.AssigneeSuggestionList.Constant;
+using OWP.AssigneeSuggestionList.Models;
 using OWP.Constants;
 using OWP.Extensions;
 
@@ -6,32 +7,45 @@ namespace OWP.AssigneeSuggestionList.Helper;
 
 public static class ETPKHelper
 {
-    public static string DetectExtraTime(string remark, int? minorMatchId = null)
-    {
-        var containsET = remark.IsContains(ETPKConstant.ET);
-        var containsPK = remark.IsContains(ETPKConstant.PK);
-        var isEqualETPK = string.Equals(remark, ETPKConstant.ETPK_Confirm, StringComparison.OrdinalIgnoreCase);
-        var isETPK = containsET && containsPK || isEqualETPK;
-        var canConsiderET = minorMatchId is Bettype.NextCorner or Bettype.NextBooking or Bettype.Corner or Bettype.TotalBooking;
-
-        if (isETPK)
+    public static string DetectExtraTime(AssignmentModel assignment)
+        => (IsEtPK(assignment),
+            IsEt(assignment),
+            IsPK(assignment)) switch
         {
-            return canConsiderET ? ETPKConstant.ET : ETPKConstant.ETPK;
-        }
-        if (!containsET && containsPK)
-        {
-            return ETPKConstant.PK;
-        }
+            (true, true, _) => ETPKConstant.ET,
+            (false, _, true) => ETPKConstant.PK,
+            (true, _, _) => ETPKConstant.ETPK,
+            _ => string.Empty
+        };
 
-        return string.Empty;
-    }
-
-    public static string BuildEtPkTextDisplay(IList<string> remark)
+    public static string BuildEtPkTextDisplay(IList<AssignmentModel> assignments)
     {
-        var etpkValues = remark
-            .Select(item => DetectExtraTime(item))
+        var etpkValues = assignments.Select(a => DetectExtraTime(a))
             .Where(value => !string.IsNullOrEmpty(value))
             .ToList();
         return string.Join("+", etpkValues);
     }
+
+    private static bool IsEt(AssignmentModel assignment)
+    => (assignment.MinorBettypeId.HasValue && assignment.MinorBettypeId is
+               Bettype.NextCorner
+            or Bettype.Corner
+            or Bettype.NextBooking
+            or Bettype.TotalBooking)
+        && IsEtPK(assignment);
+
+
+    private static bool IsEtPK(AssignmentModel assignment)
+    => assignment.Remark.IsContains(ETPKConstant.ET)
+        && assignment.Remark.IsContains(ETPKConstant.PK)
+        && (assignment.AssignmentNote is null
+            || (assignment.AssignmentNote.IsContains(ETPKConstant.ET)
+                && assignment.AssignmentNote.IsContains(ETPKConstant.PK)));
+
+    private static bool IsPK(AssignmentModel assignment)
+    => !assignment.Remark.IsContains(ETPKConstant.ET)
+        && assignment.Remark.IsContains(ETPKConstant.PK)
+        && (assignment.AssignmentNote is null
+            || (!assignment.AssignmentNote.IsContains(ETPKConstant.ET)
+                && assignment.AssignmentNote.IsContains(ETPKConstant.PK)));
 }

@@ -46,7 +46,7 @@ public class CornerServiceImp : CornerService
         var textPostfix = ScheduleHelper.BuildTextSingleGamePostfixHdp(gameMapGameId, assignmentsCorner);
         if (string.IsNullOrEmpty(textPostfix))
         {
-            textPostfix= ScheduleHelper.BuildTextSingleGamePostfixOu(gameMapGameId, assignmentsCorner);
+            textPostfix = ScheduleHelper.BuildTextSingleGamePostfixOu(gameMapGameId, assignmentsCorner);
         }
         var assignmentCell = new AssignmentCell
         {
@@ -57,7 +57,11 @@ public class CornerServiceImp : CornerService
 
         var gameInfo = ScheduleHelper.GetGameInfo(assignmentsCorner);
         var etPkValue = FirstHalfHelper.IsFirstHalf(assignmentsCorner) ? string.Empty
-            : ETPKHelper.DetectExtraTime(gameInfo.remark, gameInfo.minorBettypeId);
+            : ETPKHelper.DetectExtraTime(new AssignmentModel
+            {
+                Remark = gameInfo.remark,
+                AssignmentNote = gameInfo.assignmentNote
+            });
 
         return new ScheduleUpdateModel
         {

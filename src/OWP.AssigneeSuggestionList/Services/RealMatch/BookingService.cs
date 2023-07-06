@@ -32,17 +32,17 @@ public class BookingServiceImp : BookingService
         IDictionary<int, List<AssignmentModel>> gameMapGameId)
     {
         var gameGroup = assignments
-            .Where(a => a.BettypeId is  Bettype.FifteenMinsBookings or Bettype.NextBooking or Bettype.TotalBooking )
+            .Where(a => a.BettypeId is Bettype.FifteenMinsBookings or Bettype.NextBooking or Bettype.TotalBooking)
             .ToList();
         owpIdExclude.AddRange(gameGroup.Select(x => x.OWPMatchId).Distinct());
 
         workingSchedule.Group(
            gameGroup,
            schedules,
-            assignmentBooking => BuildScheduleUpdateModel(gameMapGameId,assignmentBooking, filterDate));
+            assignmentBooking => BuildScheduleUpdateModel(gameMapGameId, assignmentBooking, filterDate));
     }
 
-    public static ScheduleUpdateModel BuildScheduleUpdateModel(IDictionary<int, List<AssignmentModel>> gameMapGameId,IList<AssignmentModel> assignmentsBooking, DateTime filterDate)
+    public static ScheduleUpdateModel BuildScheduleUpdateModel(IDictionary<int, List<AssignmentModel>> gameMapGameId, IList<AssignmentModel> assignmentsBooking, DateTime filterDate)
     {
         var textPostfix = ScheduleHelper.BuildTextSingleGamePostfixHdp(gameMapGameId, assignmentsBooking);
         if (string.IsNullOrEmpty(textPostfix))
@@ -59,7 +59,11 @@ public class BookingServiceImp : BookingService
 
         var gameInfo = ScheduleHelper.GetGameInfo(assignmentsBooking);
         var etPkValue = FirstHalfHelper.IsFirstHalf(assignmentsBooking) ? string.Empty
-            : ETPKHelper.DetectExtraTime(gameInfo.remark, gameInfo.minorBettypeId);
+            : ETPKHelper.DetectExtraTime(new AssignmentModel
+            {
+                Remark = gameInfo.remark,
+                AssignmentNote = gameInfo.assignmentNote
+            });
 
         return new ScheduleUpdateModel
         {

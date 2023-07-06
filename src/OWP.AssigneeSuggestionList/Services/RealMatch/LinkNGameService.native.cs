@@ -87,7 +87,7 @@ public class LinkNGameServiceImp : LinkNGameService
             var remark = assignments.Select(x => x.Remark).ToList();
             assignmentCell.Text = ScheduleHelper.BuildScheduleTextGroupGame(assignments);
 
-            var etpkValue = FirstHalfHelper.IsFirstHalf(assignments) ? string.Empty : ETPKHelper.BuildEtPkTextDisplay(remark);
+            var etpkValue = FirstHalfHelper.IsFirstHalf(assignments) ? string.Empty : ETPKHelper.BuildEtPkTextDisplay(assignments);
             var timeRange = TimeRangeHelper.CalculateTimeRangeFT(eventDate, !string.IsNullOrEmpty(etpkValue));
 
             var scheduleUpdateModel = new ScheduleUpdateModel
@@ -101,7 +101,7 @@ public class LinkNGameServiceImp : LinkNGameService
                 AssignmentCell = assignmentCell,
                 TimeRange = timeRange
             };
-            var assignmentPresent = assignments.FirstOrDefault(x => !string.IsNullOrEmpty(ETPKHelper.DetectExtraTime(x.Remark, x.MinorBettypeId)))
+            var assignmentPresent = assignments.FirstOrDefault(x => !string.IsNullOrEmpty(ETPKHelper.DetectExtraTime(x)))
                                     ?? assignments.MinBy(x => x.BettypeId);
             if (assignmentPresent == null)
             {

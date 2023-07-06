@@ -30,7 +30,7 @@ public class SingleTeamServiceImp : SingleTeamService
         List<int> owpIdExclude, IDictionary<int, List<AssignmentModel>> gameMapGameId)
     {
         var gameGroup = assignments
-            .Where(a => a.BettypeId is Bettype.HomeSingleTeam or Bettype.AwaySingleTeam )
+            .Where(a => a.BettypeId is Bettype.HomeSingleTeam or Bettype.AwaySingleTeam)
             .ToList();
         owpIdExclude.AddRange(gameGroup.Select(x => x.OWPMatchId).Distinct());
 
@@ -40,7 +40,7 @@ public class SingleTeamServiceImp : SingleTeamService
             assignment => BuildScheduleUpdateModel(gameMapGameId, assignment, filterDate));
     }
 
-    public static ScheduleUpdateModel BuildScheduleUpdateModel(IDictionary<int, List<AssignmentModel>> gameMapGameId,IList<AssignmentModel> assignmentsSingleTeam, DateTime filterDate)
+    public static ScheduleUpdateModel BuildScheduleUpdateModel(IDictionary<int, List<AssignmentModel>> gameMapGameId, IList<AssignmentModel> assignmentsSingleTeam, DateTime filterDate)
     {
         var textPostfix = ScheduleHelper.BuildTextSingleGamePostfixHdp(gameMapGameId, assignmentsSingleTeam);
         if (string.IsNullOrEmpty(textPostfix))
@@ -52,12 +52,17 @@ public class SingleTeamServiceImp : SingleTeamService
         {
             Color = ColorCodeConst.SINGLE_TEAM,
             TextColor = ColorCodeConst.TEXT_SINGLE_TEAM,
-            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignmentsSingleTeam.First(),textPostfix)
+            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignmentsSingleTeam.First(), textPostfix)
         };
 
         var gameInfo = ScheduleHelper.GetGameInfo(assignmentsSingleTeam);
-        var etPkValue = FirstHalfHelper.IsFirstHalf(assignmentsSingleTeam) ? string.Empty
-            : ETPKHelper.DetectExtraTime(gameInfo.remark, gameInfo.minorBettypeId);
+        var etPkValue = FirstHalfHelper.IsFirstHalf(assignmentsSingleTeam)
+            ? string.Empty
+            : ETPKHelper.DetectExtraTime(new AssignmentModel
+            {
+                Remark = gameInfo.remark,
+                AssignmentNote = gameInfo.assignmentNote
+            });
 
         return new ScheduleUpdateModel
         {

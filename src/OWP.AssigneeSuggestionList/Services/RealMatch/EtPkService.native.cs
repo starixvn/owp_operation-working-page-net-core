@@ -29,7 +29,7 @@ public class EtPkServiceImp : EtPkService
         IList<int> owpMatchIdExclude)
     {
         var gameGroup = assignments?.Where(a =>
-            !string.IsNullOrEmpty(ETPKHelper.DetectExtraTime(a.Remark)) &&
+            !string.IsNullOrEmpty(ETPKHelper.DetectExtraTime(a)) &&
             !owpMatchIdExclude.Contains(a.OWPMatchId)).ToList();
 
         workingSchedule.Group(
@@ -44,7 +44,11 @@ public class EtPkServiceImp : EtPkService
     {
         var gameInfo = ScheduleHelper.GetGameInfo(assignments);
 
-        var etPkValue = ETPKHelper.DetectExtraTime(gameInfo.remark);
+        var etPkValue = ETPKHelper.DetectExtraTime(new AssignmentModel
+        {
+            Remark = gameInfo.remark,
+            AssignmentNote = gameInfo.assignmentNote
+        });
 
         var assignmentCell = new AssignmentCell
         {

@@ -52,7 +52,11 @@ public class MJGroupServiceImp : MJGroupService
             Text = ScheduleHelper.BuildScheduleTextSingleGame(assignments.First(), textPostfix)
         };
         var gameInfo = ScheduleHelper.GetGameInfo(assignments);
-        var etPkValue = ETPKHelper.DetectExtraTime(gameInfo.remark);
+        var etPkValue = ETPKHelper.DetectExtraTime(new AssignmentModel
+        {
+            Remark = gameInfo.remark,
+            AssignmentNote = gameInfo.assignmentNote
+        });
 
         return new ScheduleUpdateModel
         {

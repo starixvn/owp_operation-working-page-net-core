@@ -52,7 +52,11 @@ public class XMinsGroupServiceImp : XMinsGroupService
             TextColor = ColorCodeConst.TEXT_X_MINS,
             Text = ScheduleHelper.BuildScheduleTextSingleGame(assignment, string.Empty)
         };
-        var etPkValue = ETPKHelper.DetectExtraTime(gameInfo.remark);
+        var etPkValue = ETPKHelper.DetectExtraTime(new AssignmentModel
+        {
+            Remark = gameInfo.remark,
+            AssignmentNote = gameInfo.assignmentNote
+        });
 
         return new ScheduleUpdateModel
         {

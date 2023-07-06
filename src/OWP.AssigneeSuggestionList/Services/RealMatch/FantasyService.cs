@@ -35,10 +35,10 @@ public class FantasyServiceImp : FantasyService
         workingSchedule.Group(
            matchGroup,
            schedule,
-           assignment => BuildScheduleUpdateModel(gameMapGameId,assignment, filterDate));
+           assignment => BuildScheduleUpdateModel(gameMapGameId, assignment, filterDate));
     }
 
-    public static ScheduleUpdateModel BuildScheduleUpdateModel(IDictionary<int, List<AssignmentModel>> gameMapGameId,IList<AssignmentModel> assignments, DateTime filterDate)
+    public static ScheduleUpdateModel BuildScheduleUpdateModel(IDictionary<int, List<AssignmentModel>> gameMapGameId, IList<AssignmentModel> assignments, DateTime filterDate)
     {
         var textPostfix = ScheduleHelper.BuildTextSingleGamePostfixHdp(gameMapGameId, assignments);
         if (string.IsNullOrEmpty(textPostfix))
@@ -53,7 +53,13 @@ public class FantasyServiceImp : FantasyService
             Text = ScheduleHelper.BuildScheduleTextSingleGame(assignments.First(), textPostfix)
         };
         var gameInfo = ScheduleHelper.GetGameInfo(assignments);
-        var etPkValue = FirstHalfHelper.IsFirstHalf(assignments) ? string.Empty : ETPKHelper.DetectExtraTime(gameInfo.remark);
+        var etPkValue = FirstHalfHelper.IsFirstHalf(assignments)
+        ? string.Empty
+        : ETPKHelper.DetectExtraTime(new AssignmentModel
+        {
+            Remark = gameInfo.remark,
+            AssignmentNote = gameInfo.assignmentNote
+        });
 
         return new ScheduleUpdateModel
         {

@@ -16,63 +16,63 @@ public static class ScheduleHelper
     {
         var eventDateTime = assignments.First().EventDateTime;
         var labelList = assignments.GroupBy(g => g.MatchType)
-	        .Select(g => g.Count() == 1
-		        ? $"{MatchTypeLabel.MatchTypeMapLabel[g.Key]}"
-		        : $"{MatchTypeLabel.MatchTypeMapLabel[g.Key]}*{g.Count()}").ToList();
+            .Select(g => g.Count() == 1
+                ? $"{MatchTypeLabel.MatchTypeMapLabel[g.Key]}"
+                : $"{MatchTypeLabel.MatchTypeMapLabel[g.Key]}*{g.Count()}").ToList();
 
 
         return eventDateTime.Minute == 0
-		?$"*V/{string.Join("+",labelList)}"
-		: $"*{eventDateTime:hh\\:mm}/{string.Join("+", labelList)}";
+        ? $"*V/{string.Join("+", labelList)}"
+        : $"*{eventDateTime:hh\\:mm}/{string.Join("+", labelList)}";
     }
 
     public static string BuildScheduleTextGroupGame(IList<AssignmentModel> assignments)
     {
-	    var assignmentsToDistinct = assignments
-		    .DistinctBy(x => x.MaxbetHDP)
-		    .ToList();
+        var assignmentsToDistinct = assignments
+            .DistinctBy(x => x.MaxbetHDP)
+            .ToList();
 
-	    return assignmentsToDistinct.Count() == 1
-		    ? BuildTextGameGroupSameMb(assignmentsToDistinct.First())
-		    : BuildTextGameGroupMixedMb(assignmentsToDistinct);
+        return assignmentsToDistinct.Count() == 1
+            ? BuildTextGameGroupSameMb(assignmentsToDistinct.First())
+            : BuildTextGameGroupMixedMb(assignmentsToDistinct);
     }
 
     private static string BuildTextGameGroupMixedMb(IList<AssignmentModel> assignments)
     {
-	    var assignment = assignments.First();
-		var listMaxbet = assignments
-			.Where(a => a.MaxbetHDP.HasValue)
-			.Select(a => $"{FormatMaxbet(a.MaxbetHDP.Value)}");
+        var assignment = assignments.First();
+        var listMaxbet = assignments
+            .Where(a => a.MaxbetHDP.HasValue)
+            .Select(a => $"{FormatMaxbet(a.MaxbetHDP.Value)}");
 
-		var maxbetListText = string.Join("+", listMaxbet);
-		var eventDateTime = assignment.EventDateTime;
-		var kOTimeText = $"{eventDateTime:hh\\:mm}";
+        var maxbetListText = string.Join("+", listMaxbet);
+        var eventDateTime = assignment.EventDateTime;
+        var kOTimeText = $"{eventDateTime:hh\\:mm}";
 
-		return (eventDateTime.Minute == 0, string.IsNullOrEmpty(maxbetListText)) switch
-		{
-			(true, true) => "V",
-			(true, false) => $"V/{maxbetListText}",
-			(false, true) => $"{kOTimeText}",
-			(false, false) => $"{kOTimeText}/{maxbetListText}"
-		};
+        return (eventDateTime.Minute == 0, string.IsNullOrEmpty(maxbetListText)) switch
+        {
+            (true, true) => "V",
+            (true, false) => $"V/{maxbetListText}",
+            (false, true) => $"{kOTimeText}",
+            (false, false) => $"{kOTimeText}/{maxbetListText}"
+        };
     }
 
-	private static string BuildTextGameGroupSameMb(AssignmentModel assignment)
+    private static string BuildTextGameGroupSameMb(AssignmentModel assignment)
     {
-	    var eventDateTime = assignment.EventDateTime;
-	    var maxbet = assignment.MaxbetHDP;
+        var eventDateTime = assignment.EventDateTime;
+        var maxbet = assignment.MaxbetHDP;
 
-	    var kOTimeText = $"{eventDateTime:hh\\:mm}";
-		return (eventDateTime.Minute == 0, maxbet.HasValue) switch
-	    {
-		    (true, false) => "V",
-		    (true, true) => $"V/{FormatMaxbet(maxbet.Value)}",
-		    (false, true) => $"{kOTimeText}/{FormatMaxbet(maxbet.Value)}",
-		    (false, false) => $"{kOTimeText}"
-	    };
-	}
+        var kOTimeText = $"{eventDateTime:hh\\:mm}";
+        return (eventDateTime.Minute == 0, maxbet.HasValue) switch
+        {
+            (true, false) => "V",
+            (true, true) => $"V/{FormatMaxbet(maxbet.Value)}",
+            (false, true) => $"{kOTimeText}/{FormatMaxbet(maxbet.Value)}",
+            (false, false) => $"{kOTimeText}"
+        };
+    }
 
-	public static string BuildScheduleTextSabaSingleGame(AssignmentModel assignment)
+    public static string BuildScheduleTextSabaSingleGame(AssignmentModel assignment)
     => assignment.KOTime.Minutes == 0
         ? "*V"
         : $"*{assignment.KOTime.ToKOTimeWithoutSuffix()}";
@@ -83,7 +83,7 @@ public static class ScheduleHelper
                 ? $"{FormatMaxbet(assignment.MaxbetHDP.Value)}"
             : string.Empty;
         var kOTimeText = assignment.KOTime.ToKOTimeWithoutSuffix();
-        
+
         return (
                 assignment.KOTime.Minutes == 0,
                 string.IsNullOrEmpty(maxbetDisplay),
@@ -91,8 +91,8 @@ public static class ScheduleHelper
         {
             (true, true, false) => "V",
             (false, true, false) => $"{kOTimeText}",
-            (true, false,true) => $"V/{maxbetDisplay}{textPostfix}",
-            (false, false,true) => $"{kOTimeText}/{maxbetDisplay}{textPostfix}",
+            (true, false, true) => $"V/{maxbetDisplay}{textPostfix}",
+            (false, false, true) => $"{kOTimeText}/{maxbetDisplay}{textPostfix}",
 
             (true, true, true) => $"V/{textPostfix}",
             (false, true, true) => $"{kOTimeText}{textPostfix}",
@@ -104,12 +104,12 @@ public static class ScheduleHelper
     public static string BuildTextSingleGamePostfixHdp(IDictionary<int, List<AssignmentModel>> gameMapGameId,
         IList<AssignmentModel> assignments)
     {
-        var assignmentHdp= assignments.FirstOrDefault(a => a.BettypeId == Bettype.Handicap);
+        var assignmentHdp = assignments.FirstOrDefault(a => a.BettypeId == Bettype.Handicap);
 
         return assignmentHdp is not null && gameMapGameId[assignmentHdp.OWPMatchId].Any(a =>
             a.OWPMatchId == assignmentHdp.OWPMatchId
-               && a.BettypeId==Bettype.OverUnder
-               && a.UserId!=assignmentHdp.UserId)
+               && a.BettypeId == Bettype.OverUnder
+               && a.UserId != assignmentHdp.UserId)
             ? "*H"
             : string.Empty;
     }
@@ -127,7 +127,13 @@ public static class ScheduleHelper
             : string.Empty;
     }
 
-    public static (DateTime eventDate, IList<int> bettypeIds, int? minorBettypeId, string remark, decimal? maxbetHdp) GetGameInfo(IList<AssignmentModel> assignments)
+    public static (
+        DateTime eventDate,
+         IList<int> bettypeIds,
+          int? minorBettypeId,
+           string remark,
+            decimal? maxbetHdp,
+             string assignmentNote) GetGameInfo(IList<AssignmentModel> assignments)
     {
         var firstAssignment = assignments.First();
         var bettypeIds = assignments.Select(x => x.BettypeId).Distinct().ToList();
@@ -137,7 +143,8 @@ public static class ScheduleHelper
             bettypeIds,
             firstAssignment.MinorBettypeId,
             firstAssignment.Remark,
-            firstAssignment.MaxbetHDP);
+            firstAssignment.MaxbetHDP,
+            firstAssignment.AssignmentNote);
     }
 
     public static string FormatMaxbet(decimal maxbet)

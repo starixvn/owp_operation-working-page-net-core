@@ -43,7 +43,7 @@ public class OneGameServiceImp : OneGameService
         workingSchedule.Group(
            oneGameGroup,
            schedules,
-           assignment => BuildScheduleUpdateModel(gameMapGameId,assignment, filterDate),
+           assignment => BuildScheduleUpdateModel(gameMapGameId, assignment, filterDate),
            MatchType.RealMatchLink1G);
     }
 
@@ -63,7 +63,13 @@ public class OneGameServiceImp : OneGameService
             Text = ScheduleHelper.BuildScheduleTextSingleGame(assignments.First(), textPostfix)
         };
         var gameInfo = ScheduleHelper.GetGameInfo(assignments);
-        var etPkValue = FirstHalfHelper.IsFirstHalf(assignments) ? string.Empty : ETPKHelper.DetectExtraTime(gameInfo.remark);
+        var etPkValue = FirstHalfHelper.IsFirstHalf(assignments)
+        ? string.Empty
+        : ETPKHelper.DetectExtraTime(new AssignmentModel
+        {
+            Remark = gameInfo.remark,
+            AssignmentNote = gameInfo.assignmentNote
+        });
 
         return new ScheduleUpdateModel
         {

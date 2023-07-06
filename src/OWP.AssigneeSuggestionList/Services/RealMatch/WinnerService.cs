@@ -37,10 +37,10 @@ public class WinnerServiceImp : WinnerService
         workingSchedule.Group(
            gameGroup,
            schedules,
-            assignmentWinner => BuildScheduleUpdateModel(gameMapGameId,assignmentWinner, filterDate));
+            assignmentWinner => BuildScheduleUpdateModel(gameMapGameId, assignmentWinner, filterDate));
     }
 
-    public static ScheduleUpdateModel BuildScheduleUpdateModel(IDictionary<int, List<AssignmentModel>> gameMapGameId,IList<AssignmentModel> assignmentsWinner, DateTime filterDate)
+    public static ScheduleUpdateModel BuildScheduleUpdateModel(IDictionary<int, List<AssignmentModel>> gameMapGameId, IList<AssignmentModel> assignmentsWinner, DateTime filterDate)
     {
         var textPostfix = ScheduleHelper.BuildTextSingleGamePostfixHdp(gameMapGameId, assignmentsWinner);
         if (string.IsNullOrEmpty(textPostfix))
@@ -56,7 +56,11 @@ public class WinnerServiceImp : WinnerService
 
         var gameInfo = ScheduleHelper.GetGameInfo(assignmentsWinner);
         var etPkValue = FirstHalfHelper.IsFirstHalf(assignmentsWinner) ? string.Empty
-            : ETPKHelper.DetectExtraTime(gameInfo.remark, gameInfo.minorBettypeId);
+            : ETPKHelper.DetectExtraTime(new AssignmentModel
+            {
+                Remark = gameInfo.remark,
+                AssignmentNote = gameInfo.assignmentNote
+            });
 
         return new ScheduleUpdateModel
         {

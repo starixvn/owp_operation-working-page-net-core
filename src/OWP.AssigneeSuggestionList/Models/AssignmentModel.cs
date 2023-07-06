@@ -51,6 +51,8 @@ public class AssignmentModel
 
     public int? MinorBettypeId { get; set; }
 
+    public string AssignmentNote { get; set; }
+
     [JsonIgnore]
     public List<AssignmentModel> GroupAssignmentModels { get; set; } = new();
 

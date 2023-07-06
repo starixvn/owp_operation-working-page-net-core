@@ -47,6 +47,8 @@ public class MatchInfo
 
     public bool IsFutsal => LeagueName.IsContains("FUTSAL");
 
+    public string AssignmentNote { get; set; }
+
     public string BettypeName => BettypeId switch
     {
         Bettype.Handicap => "FT HDP",
