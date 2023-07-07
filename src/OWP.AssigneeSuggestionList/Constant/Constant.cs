@@ -10,6 +10,7 @@ public static class ColorCodeConst
     public const string ONE_GAME = "#92D050";
     public const string TWO_GAME = "#FF6699";
     public const string THREE_GAME = "#F79646";
+    public const string FOUR_GAME = "#008080";
     public const string ERROR = "#FFFFFF";
     public const string FIRST_HALF = "#B1A0C7";
     public const string FANTASY = "#E6B8B7";
@@ -21,10 +22,9 @@ public static class ColorCodeConst
     public const string ET_PK = "#000000";
     public const string SHIFT = "#BFBFBF";
 
-
     public const string TEXT_COLOR_BLACK = "#444444";
     public const string TEXT_COLOR_WHITE = "#FFFFFF";
-
+    public const string TEXT_FOUR_GAME = TEXT_COLOR_WHITE;
     public const string TEXT_MJ = TEXT_COLOR_BLACK;
     public const string TEXT_ONE_GAME = TEXT_COLOR_BLACK;
     public const string TEXT_TWO_GAME = TEXT_COLOR_BLACK;
@@ -55,11 +55,16 @@ public static class ColorCodeConst
          new ("1G", ONE_GAME, TEXT_COLOR_BLACK),
          new ("2G", TWO_GAME, TEXT_COLOR_BLACK),
          new ("3G", THREE_GAME, TEXT_COLOR_BLACK),
+         new ("4G+", FOUR_GAME, TEXT_COLOR_WHITE),
          new ("1st half", FIRST_HALF, TEXT_COLOR_BLACK),
          new ("Fantasy", FANTASY, TEXT_COLOR_BLACK),
          new ("CR/NCR", CORNER, TEXT_COLOR_WHITE),
+         new ("BOOKING", BOOKING, TEXT_COLOR_BLACK),
+         new ("WINNER", WINNER, TEXT_COLOR_WHITE),
+         new ("SingleTeam", SINGLE_TEAM, TEXT_COLOR_BLACK),
          new ("15M OU", X_MINS, TEXT_COLOR_WHITE),
          new ("5M", SABA_5MINS, TEXT_COLOR_WHITE),
+         new ("5X2", SABA_5MINS, TEXT_COLOR_WHITE),
          new ("Saba Futsal", SABA_FUTSAL, TEXT_COLOR_BLACK),
          new ("M88", SABA_M88, TEXT_COLOR_BLACK),
          new ("16M", SABA_16MINS, TEXT_COLOR_WHITE),
@@ -195,7 +200,7 @@ public static class OrderConstant
 
 public static class MatchTypeLabel
 {
-	public static ImmutableDictionary<MatchType, string> MatchTypeMapLabel = new Dictionary<MatchType, string>
+    public static ImmutableDictionary<MatchType, string> MatchTypeMapLabel = new Dictionary<MatchType, string>
     {
         {MatchType.Saba5Mins, "5"},
         {MatchType.Saba15Mins, "15"},
@@ -206,7 +211,7 @@ public static class MatchTypeLabel
 
 public static class BetTypeSpecial
 {
-    public static readonly int[] BetTypes = {Bettype.NextCorner, Bettype.Corner, Bettype.NextBooking, Bettype.TotalBooking, Bettype.Winner, Bettype.AwaySingleTeam, Bettype.HomeSingleTeam }
+    public static readonly int[] BetTypes = { Bettype.NextCorner, Bettype.Corner, Bettype.NextBooking, Bettype.TotalBooking, Bettype.Winner, Bettype.AwaySingleTeam, Bettype.HomeSingleTeam }
 }
 
 
