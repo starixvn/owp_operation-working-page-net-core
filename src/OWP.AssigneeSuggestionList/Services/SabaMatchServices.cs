@@ -36,21 +36,20 @@ public class SabaMatchesServicesImp : SabaMatchServices
                 .DistinctBy(x => x.OWPMatchId)
                 .ToList();
 
-            var newSabaAssignments = CategorizeAndGroupSabaMatches(sabaAssignments);
-            workingShift.CategorizedAssignments.AddRange(newSabaAssignments);
+            CategorizeAndGroupSabaMatches(sabaAssignments);
 
-            MapAssignmentsToWorkingSchedule(workingShift, newSabaAssignments, eventDate);
+            workingShift.CategorizedAssignments.AddRange(sabaAssignments);
+
+            MapAssignmentsToWorkingSchedule(workingShift, sabaAssignments, eventDate);
         }
     }
 
-    public List<AssignmentModel> CategorizeAndGroupSabaMatches(List<AssignmentModel> sabaAssignments)
+    public void CategorizeAndGroupSabaMatches(List<AssignmentModel> sabaAssignments)
     {
         CategorizeSabaMatches(sabaAssignments);
         GroupSaba5Mins(sabaAssignments);
-        GroupSaba5minsGames(sabaAssignments);
+        GroupSabaMix5minsGames(sabaAssignments);
         GroupSabaMultipleGames(sabaAssignments);
-
-        return sabaAssignments;
     }
 
     public static void CategorizeSabaMatches(List<AssignmentModel> sabaMatches)
@@ -87,7 +86,7 @@ public class SabaMatchesServicesImp : SabaMatchServices
         sabaMatches.AddRange(groupedSaba5Mins);
     }
 
-    public  void GroupSaba5minsGames(List<AssignmentModel> sabaMatches)
+    public  void GroupSabaMix5minsGames(List<AssignmentModel> sabaMatches)
     {
         var multipleSabaMatches = sabaMatches.Where(x => x.MatchType== MatchType.Saba5Mins)
                 .GroupBy(s => s.EventDateTime.AddMinutes(-s.EventDateTime.Minute))

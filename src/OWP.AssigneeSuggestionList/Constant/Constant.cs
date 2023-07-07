@@ -211,7 +211,7 @@ public static class MatchTypeLabel
 
 public static class BetTypeSpecial
 {
-    public static readonly int[] BetTypes = { Bettype.NextCorner, Bettype.Corner, Bettype.NextBooking, Bettype.TotalBooking, Bettype.Winner, Bettype.AwaySingleTeam, Bettype.HomeSingleTeam }
+    public static readonly int[] BetTypes = {Bettype.NextCorner, Bettype.Corner, Bettype.NextBooking, Bettype.TotalBooking, Bettype.Winner, Bettype.AwaySingleTeam, Bettype.HomeSingleTeam }
 }
 
 
