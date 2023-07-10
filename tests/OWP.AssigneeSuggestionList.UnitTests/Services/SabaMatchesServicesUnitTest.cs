@@ -1,14 +1,29 @@
-﻿using OWP.AssigneeSuggestionList.Models;
+﻿using AutoMapper;
+using OWP.AssigneeSuggestionList.Models;
 using Xunit;
 using Xunit.Asserts.Compare;
 
 namespace OWP.AssigneeSuggestionList.UnitTests.Services;
 
 using Constant;
+using NSubstitute;
 using OWP.AssigneeSuggestionList.Services;
 
 public class SabaMatchesServicesUnitTest
 {
+    private readonly IMapper mapper;
+    public SabaMatchesServicesUnitTest()
+    {
+        var configuration = new MapperConfiguration(cfg =>
+        {
+            cfg.CreateMap<AssignmentModel, AssignmentModel>();
+           
+        });
+        mapper = configuration.CreateMapper();
+    }
+
+
+
     [Theory]
     [InlineData("SABA ELITE FRIENDLY Virtual PES 20 - 5 Mins Play - ALL IN ONE", MatchType.Saba5Mins)]
     [InlineData("SABA CLUB FRIENDLY Virtual PES 20 - 6 Mins Play", MatchType.SabaFutsal6Mins)]
@@ -204,9 +219,9 @@ public class SabaMatchesServicesUnitTest
             }
         };
 
-        var actual = new SabaMatchesServicesImp().CategorizeAndGroupSabaMatches(mockedAssignment);
+        new SabaMatchesServicesImp(mapper).CategorizeAndGroupSabaMatches(mockedAssignment);
 
-        DeepAssert.Equal(expected, actual, "GroupAssignmentModels");
+        DeepAssert.Equal(expected, mockedAssignment, "GroupAssignmentModels");
     }
 
     [Theory]
@@ -358,7 +373,7 @@ public class SabaMatchesServicesUnitTest
             Tomorrow_15h = null
         };
 
-        new SabaMatchesServicesImp().MapAssignmentsToWorkingSchedules(workingSchedules, assignmentModels, eventDate);
+        new SabaMatchesServicesImp(mapper).MapAssignmentsToWorkingSchedules(workingSchedules, assignmentModels, eventDate);
 
         DeepAssert.Equal(expected, workingSchedules[0], "UserInfo", "CategorizedAssignments");
     }

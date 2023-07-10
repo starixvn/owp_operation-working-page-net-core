@@ -73,6 +73,7 @@ public static class ServiceCollectionExtensions
             mc.AddProfile(new MaxbetSetting.AutoMapperProfile());
             mc.AddProfile(new LiveDetail.AutoMapperProfile());
             mc.AddProfile(new AssignmentUpload.AutoMapperProfile());
+            mc.AddProfile(new AssigneeSuggestionList.AutoMapperProfile());
         });
 
         var mapper = mapperConfig.CreateMapper();
