@@ -12,8 +12,28 @@ public static class OrderAssigneeHelper
 
     public static List<WorkingSchedule> SortMainMatchAssignee(MatchInfo matchInfo,
         List<WorkingSchedule> workingSchedules)
-        => matchInfo.IsSoloMatch ? SortAssigneeBySoloMatch(workingSchedules, matchInfo)
-            : SortAssigneeByMaxbet(workingSchedules, matchInfo);
+    {
+        if (matchInfo.IsMainMatch)
+        {
+            return SortAssigneeBySoloMatch(workingSchedules, matchInfo);
+        }
+
+        if (matchInfo.IsFutsal)
+        {
+            return SortFutsalMatchAssignee(workingSchedules, matchInfo);
+        }
+           
+        return SortAssigneeByMaxbet(workingSchedules, matchInfo);
+    }
+
+    public static List<WorkingSchedule> SortFutsalMatchAssignee(
+        List<WorkingSchedule> workingSchedules, MatchInfo matchInfo)
+        => workingSchedules.OrderBy(x => x.UserInfo.ShiftStartTime)
+            .ThenBy(x => SortByMainBetTypeMainMatch(x.UserInfo.MainBetType, matchInfo))
+            .ThenBy(x => SortByMainLevel(x.UserInfo.LevelLabel))
+            .ThenBy(x => SortByRole(x.UserInfo.Role))
+            .ThenBy(x => SortByWorkLoad(x.UserInfo, x.CategorizedAssignments, matchInfo))
+            .ToList();
 
     public static List<WorkingSchedule> SortChildMatchAssignee(MatchInfo matchInfo, List<WorkingSchedule> workingSchedules)
         => workingSchedules.OrderBy(x => x.UserInfo.ShiftStartTime)

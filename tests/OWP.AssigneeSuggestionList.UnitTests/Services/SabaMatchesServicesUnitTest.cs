@@ -22,8 +22,6 @@ public class SabaMatchesServicesUnitTest
         mapper = configuration.CreateMapper();
     }
 
-
-
     [Theory]
     [InlineData("SABA ELITE FRIENDLY Virtual PES 20 - 5 Mins Play - ALL IN ONE", MatchType.Saba5Mins)]
     [InlineData("SABA CLUB FRIENDLY Virtual PES 20 - 6 Mins Play", MatchType.SabaFutsal6Mins)]
