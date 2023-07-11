@@ -35,12 +35,12 @@ public class LinkNGameServiceImp : LinkNGameService
     }
 
     private void LinkTwoGame(
-        IEnumerable<AssignmentModel> assignments,
+        IList<AssignmentModel> assignments,
         WorkingSchedule schedules,
          DateTime filterDate,
          List<int> owpIdExclude)
     {
-        var linkNGamePair = LinkGameConditionHelper.GroupGame(assignments, numberGameInGroup => numberGameInGroup == 2);
+        var linkNGamePair = LinkTwoGameConditionHelper.Group(assignments);
         var assignmentCell = new AssignmentCell
         {
             Color = ColorCodeConst.TWO_GAME,
@@ -51,7 +51,7 @@ public class LinkNGameServiceImp : LinkNGameService
     }
 
     private void LinkThreeGame(
-        IEnumerable<AssignmentModel> assignments,
+        IList<AssignmentModel> assignments,
         WorkingSchedule schedules,
         DateTime filterDate,
         List<int> owpIdExclude)
@@ -103,7 +103,7 @@ public class LinkNGameServiceImp : LinkNGameService
             };
             var assignmentPresent = assignments.FirstOrDefault(x => !string.IsNullOrEmpty(ETPKHelper.DetectExtraTime(x)))
                                     ?? assignments.MinBy(x => x.BettypeId);
-            if (assignmentPresent == null)
+            if (assignmentPresent is null)
             {
                 continue;
             }

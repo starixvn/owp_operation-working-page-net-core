@@ -28,48 +28,28 @@ public static class ScheduleHelper
 
     public static string BuildScheduleTextGroupGame(IList<AssignmentModel> assignments)
     {
-        var assignmentsToDistinct = assignments
-            .DistinctBy(x => x.MaxbetHDP)
-            .ToList();
-
-        return assignmentsToDistinct.Count() == 1
-            ? BuildTextGameGroupSameMb(assignmentsToDistinct.First())
-            : BuildTextGameGroupMixedMb(assignmentsToDistinct);
+        var kOTimeText = BuildKoTextGroupGame(assignments);
+        var mBText = BuildMbTextGroupGame(assignments);
+        return string.Join("/", kOTimeText, mBText);
     }
 
-    private static string BuildTextGameGroupMixedMb(IList<AssignmentModel> assignments)
+    private static string BuildKoTextGroupGame(IList<AssignmentModel> assignments)
     {
-        var assignment = assignments.First();
+        var eventDateTime = assignments.Select(x => x.EventDateTime).Distinct().ToList();
+
+        return eventDateTime.TrueForAll(x => x.Minute == 0)
+        ? "V"
+        : string.Join("+", eventDateTime.Select(x => x.Minute == 0 ? "V" : $"{x:hh\\:mm}"));
+    }
+
+    private static string BuildMbTextGroupGame(IList<AssignmentModel> assignments)
+    {
         var listMaxbet = assignments
             .Where(a => a.MaxbetHDP.HasValue)
-            .Select(a => $"{FormatMaxbet(a.MaxbetHDP.Value)}");
-
-        var maxbetListText = string.Join("+", listMaxbet);
-        var eventDateTime = assignment.EventDateTime;
-        var kOTimeText = $"{eventDateTime:hh\\:mm}";
-
-        return (eventDateTime.Minute == 0, string.IsNullOrEmpty(maxbetListText)) switch
-        {
-            (true, true) => "V",
-            (true, false) => $"V/{maxbetListText}",
-            (false, true) => $"{kOTimeText}",
-            (false, false) => $"{kOTimeText}/{maxbetListText}"
-        };
-    }
-
-    private static string BuildTextGameGroupSameMb(AssignmentModel assignment)
-    {
-        var eventDateTime = assignment.EventDateTime;
-        var maxbet = assignment.MaxbetHDP;
-
-        var kOTimeText = $"{eventDateTime:hh\\:mm}";
-        return (eventDateTime.Minute == 0, maxbet.HasValue) switch
-        {
-            (true, false) => "V",
-            (true, true) => $"V/{FormatMaxbet(maxbet.Value)}",
-            (false, true) => $"{kOTimeText}/{FormatMaxbet(maxbet.Value)}",
-            (false, false) => $"{kOTimeText}"
-        };
+            .Select(a => $"{FormatMaxbet(a.MaxbetHDP.Value)}")
+            .Distinct()
+            .ToList();
+        return string.Join("+", listMaxbet);
     }
 
     public static string BuildScheduleTextSabaSingleGame(AssignmentModel assignment)
