@@ -54,7 +54,7 @@ public class MatchInfoServicesImp : MatchInfoServices
 
     public void UpdateSingleMatch(MatchInfo matchInfo)
     {
-        matchInfo.IsSingleMatch = SingleMatchHelper.IsSingleMatch(matchInfo.MaxbetHDP, matchInfo.SpreadHDP, matchInfo.LeagueName);
+        matchInfo.IsSingleMatch = SingleMatchHelper.IsSingleMatch(matchInfo.MaxbetHDP,matchInfo.LeagueName);
     }
 
     public TimeSpan GetEndTimeForRealMatch(MatchInfo matchInfo)

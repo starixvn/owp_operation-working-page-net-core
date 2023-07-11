@@ -289,7 +289,7 @@ public class CategorizeRealMatchServicesUnitTests
             new()
             {
                 LeagueName = "League A",
-                EventDateTime = new DateTime(2022, 04, 19, 14, 0, 0),
+                EventDateTime = new DateTime(2022, 04, 19, 14, 10, 0),
                 EndTime = new DateTime(2022, 04, 19, 15, 0, 0),
                 MatchType = hasLink1G ? MatchType.RealMatchLink1G : MatchType.Other
             },
