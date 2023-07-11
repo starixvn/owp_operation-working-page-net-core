@@ -10,7 +10,6 @@ public interface CornerService
         IList<AssignmentModel> assignments,
         WorkingSchedule schedules,
         DateTime filterDate,
-        List<int> owpIdExclude,
         IDictionary<int, List<AssignmentModel>> gameMapGameId);
 }
 
@@ -27,14 +26,16 @@ public class CornerServiceImp : CornerService
         IList<AssignmentModel> assignments,
         WorkingSchedule schedules,
         DateTime filterDate,
-        List<int> owpIdExclude,
         IDictionary<int, List<AssignmentModel>> gameMapGameId)
     {
         var gameGroup = assignments
             .Where(a => a.IsCornerMatch)
             .ToList();
-        owpIdExclude.AddRange(gameGroup.Select(x => x.OWPMatchId).Distinct());
-
+        foreach (var game in gameGroup)
+        {
+            game.MatchType = Constant.MatchType.RealCorner;
+        }
+        
         workingSchedule.Group(
            gameGroup,
            schedules,

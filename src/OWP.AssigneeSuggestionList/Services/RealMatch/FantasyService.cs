@@ -10,7 +10,6 @@ public interface FantasyService
         IList<AssignmentModel> assignments,
         WorkingSchedule schedule,
         DateTime filterDate,
-        List<int> owpIdExclude,
         IDictionary<int, List<AssignmentModel>> gameMapGameId);
 }
 
@@ -27,11 +26,14 @@ public class FantasyServiceImp : FantasyService
         IList<AssignmentModel> assignments,
         WorkingSchedule schedule,
         DateTime filterDate,
-        List<int> owpIdExclude,
         IDictionary<int, List<AssignmentModel>> gameMapGameId)
     {
         var matchGroup = assignments.Where(a => a.IsFantasyMatch).ToList();
-        owpIdExclude.AddRange(matchGroup.Select(x => x.OWPMatchId).Distinct());
+        foreach (var game in matchGroup)
+        {
+            game.MatchType = Constant.MatchType.RealFantasy;
+        }
+
         workingSchedule.Group(
            matchGroup,
            schedule,

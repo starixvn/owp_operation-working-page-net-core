@@ -8,7 +8,6 @@ public interface MainGameService
         WorkingSchedule schedule,
         IList<AssignmentModel> assignmentModels,
         DateTime fromDate,
-        List<int> owpIdExclude,
         IDictionary<int, List<AssignmentModel>> gameMapGameId);
 }
 
@@ -34,11 +33,10 @@ public class MainGameServiceImp : MainGameService
         WorkingSchedule schedule,
         IList<AssignmentModel> assignmentModels,
         DateTime fromDate,
-        List<int> owpIdExclude,
         IDictionary<int, List<AssignmentModel>> gameMapGameId)
     {
-        mJGroupService.Group(assignmentModels, schedule, fromDate, owpIdExclude, gameMapGameId);
-        firstHalfService.Group(assignmentModels, schedule, fromDate, owpIdExclude);
-        fantasyService.Group(assignmentModels, schedule, fromDate, owpIdExclude, gameMapGameId);
+        mJGroupService.Group(assignmentModels, schedule, fromDate, gameMapGameId);
+        firstHalfService.Group(assignmentModels, schedule, fromDate);
+        fantasyService.Group(assignmentModels, schedule, fromDate, gameMapGameId);
     }
 }

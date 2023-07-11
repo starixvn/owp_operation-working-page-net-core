@@ -11,7 +11,6 @@ public interface BookingService
         IList<AssignmentModel> assignments,
         WorkingSchedule schedules,
         DateTime filterDate,
-        List<int> owpIdExclude,
         IDictionary<int, List<AssignmentModel>> gameMapGameId);
 }
 
@@ -28,13 +27,16 @@ public class BookingServiceImp : BookingService
         IList<AssignmentModel> assignments,
         WorkingSchedule schedules,
         DateTime filterDate,
-        List<int> owpIdExclude,
         IDictionary<int, List<AssignmentModel>> gameMapGameId)
     {
         var gameGroup = assignments
             .Where(a => a.BettypeId is Bettype.FifteenMinsBookings or Bettype.NextBooking or Bettype.TotalBooking)
             .ToList();
-        owpIdExclude.AddRange(gameGroup.Select(x => x.OWPMatchId).Distinct());
+
+        foreach (var game in gameGroup)
+        {
+            game.MatchType = Constant.MatchType.RealBooking;
+        }
 
         workingSchedule.Group(
            gameGroup,

@@ -19,5 +19,13 @@ public enum MatchType
     RealMatchLink2G,
     RealMatchLink3G,
     RealMatchLinkError,
-    RealMatchOther
+    RealMatchOther,
+    RealFirstHalf,
+    RealFantasy,
+    RealCorner,
+    RealMj,
+    RealBooking,
+    RealWinner,
+    RealSingleTeam,
+    Real15MOU
 }

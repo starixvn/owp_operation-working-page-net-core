@@ -9,8 +9,7 @@ public interface XMinsGroupService
     void Group(
         IList<AssignmentModel> assignments,
         WorkingSchedule schedule,
-        DateTime filterDate,
-        List<int> owpIdExclude);
+        DateTime filterDate);
 }
 
 public class XMinsGroupServiceImp : XMinsGroupService
@@ -25,12 +24,14 @@ public class XMinsGroupServiceImp : XMinsGroupService
     public void Group(
         IList<AssignmentModel> assignments,
         WorkingSchedule schedule,
-        DateTime filterDate,
-        List<int> owpIdExclude)
+        DateTime filterDate)
     {
         var gameGroup = assignments.Where(a => a.Is15Mins).ToList();
-        owpIdExclude.AddRange(gameGroup.Select(x => x.OWPMatchId).Distinct());
-
+      
+        foreach (var game in gameGroup)
+        {
+            game.MatchType = Constant.MatchType.Real15MOU;
+        }
         workingSchedule.Group(
            gameGroup,
            schedule,

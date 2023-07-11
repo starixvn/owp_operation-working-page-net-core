@@ -80,14 +80,14 @@ public class CategorizeRealMatchServicesImp : CategorizeRealMatchServices
     public static AssigneeCategory HasAssignmentLinkNGame(UserInfo userInfo, List<AssignmentModel> assignments, MatchInfo matchInfo)
     {
         var sameKoTimeAssignments = GetSameKoTimeAssignments(assignments, matchInfo);
-       
+
         if (!sameKoTimeAssignments.Any())
         {
             return AssigneeCategory.Busy;
         }
 
-        var hasLink1G = sameKoTimeAssignments.Any(x => x.MatchType is MatchType.RealMatchLink1G) 
-                        || HasAssignmentWithin10MinutesDiff(assignments,matchInfo);
+        var hasLink1G = sameKoTimeAssignments.Any(x => x.MatchType is MatchType.RealMatchLink1G)
+                        || HasAssignmentWithin10MinutesDiff(assignments, matchInfo);
         var hasLink2G = matchInfo.MaxbetHDP <= CategoryConstants.MAX_BET_5K &&
             sameKoTimeAssignments.Any(x =>
                 x.MatchType is MatchType.RealMatchLink2G &&
@@ -110,9 +110,9 @@ public class CategorizeRealMatchServicesImp : CategorizeRealMatchServices
         => assignments
             .Where(x =>
                 !x.IsSaba &&
-                (x.EventDateTime - matchInfo.KOTime).Duration() == TimeSpan.FromMinutes(10) &&
+                (x.EventDateTime - matchInfo.KOTime).Duration() <= TimeSpan.FromMinutes(10) &&
                 !x.IsSingleMatch).Any(x => x.MatchType is MatchType.RealMatchLink1G);
-    
+
     private static List<AssignmentModel> GetSameKoTimeAssignments(IEnumerable<AssignmentModel> assignments, MatchInfo matchInfo)
         => assignments
             .Where(x =>

@@ -12,8 +12,7 @@ public interface LinkErrorService : IRequest<Unit>
     void Group(
         IList<AssignmentModel> assignments,
         WorkingSchedule schedule,
-         DateTime filterDate,
-        List<int> owpIdExclude);
+         DateTime filterDate);
 }
 
 public class LinkErrorServiceImp : LinkErrorService
@@ -28,8 +27,7 @@ public class LinkErrorServiceImp : LinkErrorService
     public void Group(
         IList<AssignmentModel> assignments,
         WorkingSchedule schedule,
-        DateTime filterDate,
-        List<int> owpIdExclude)
+        DateTime filterDate)
     {
         var linkNGamePair = LinkGameConditionHelper.GroupGame(assignments, numberGameInGroup => numberGameInGroup > 3);
         var assignmentCell = new AssignmentCell
@@ -40,7 +38,6 @@ public class LinkErrorServiceImp : LinkErrorService
         foreach (var eventDate in linkNGamePair.Keys)
         {
             var owpMatchId = linkNGamePair[eventDate].Select(x => x.OWPMatchId).Distinct();
-            owpIdExclude.AddRange(owpMatchId);
             assignmentCell.Text = "Error";
 
             var scheduleUpdateModel = new ScheduleUpdateModel

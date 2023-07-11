@@ -10,8 +10,7 @@ public interface WinnerService
     void Group(
         IList<AssignmentModel> assignments,
         WorkingSchedule schedules,
-        DateTime filterDate,
-        List<int> owpIdExclude, IDictionary<int, List<AssignmentModel>> gameMapGameId);
+        DateTime filterDate, IDictionary<int, List<AssignmentModel>> gameMapGameId);
 }
 
 public class WinnerServiceImp : WinnerService
@@ -27,13 +26,16 @@ public class WinnerServiceImp : WinnerService
         IList<AssignmentModel> assignments,
         WorkingSchedule schedules,
         DateTime filterDate,
-        List<int> owpIdExclude, IDictionary<int, List<AssignmentModel>> gameMapGameId)
+        IDictionary<int, List<AssignmentModel>> gameMapGameId)
     {
         var gameGroup = assignments
             .Where(a => a.BettypeId == Bettype.Winner)
             .ToList();
-        owpIdExclude.AddRange(gameGroup.Select(x => x.OWPMatchId).Distinct());
 
+        foreach (var game in gameGroup)
+        {
+            game.MatchType = Constant.MatchType.RealWinner;
+        }
         workingSchedule.Group(
            gameGroup,
            schedules,

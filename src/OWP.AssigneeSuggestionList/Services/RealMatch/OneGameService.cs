@@ -10,8 +10,7 @@ public interface OneGameService
     void Group(
         IList<AssignmentModel> assignments,
         WorkingSchedule schedules,
-        DateTime filterDate,
-        List<int> owpIdExclude, IDictionary<int, List<AssignmentModel>> gameMapGameId);
+        DateTime filterDate, IDictionary<int, List<AssignmentModel>> gameMapGameId);
 }
 
 public class OneGameServiceImp : OneGameService
@@ -27,18 +26,15 @@ public class OneGameServiceImp : OneGameService
         IList<AssignmentModel> assignments,
         WorkingSchedule schedules,
         DateTime filterDate,
-        List<int> owpIdExclude,
         IDictionary<int, List<AssignmentModel>> gameMapGameId)
     {
         var oneGameGroupPair = LinkGameConditionHelper.GroupGame(assignments, numberGameInGroup => numberGameInGroup == 1);
 
         var oneGameGroup = new List<AssignmentModel>();
-        foreach (var assignment in oneGameGroupPair.Values)
+        foreach (var oneGame in oneGameGroupPair.Values)
         {
-            oneGameGroup.AddRange(assignment);
+            oneGame.ForEach(g => g.MatchType = MatchType.RealMatchLink1G);
         }
-
-        owpIdExclude.AddRange(oneGameGroup.Select(x => x.OWPMatchId).Distinct());
 
         workingSchedule.Group(
            oneGameGroup,

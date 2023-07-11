@@ -45,16 +45,15 @@ public class RealMatchServicesImp : RealMatchServices
         var gameMapGameId = GameMapGameId(assignmentModels);
         foreach (var schedule in schedules)
         {
-            var owpIdExclude = new List<int>();
             var assignments = GetAssignmentsBelongWs(assignmentModels, schedule);
-            mainGameServices.MapAssignmentsToWorkingSchedule(schedule, assignments, fromDate, owpIdExclude, gameMapGameId);
-            specialGameService.MapAssignmentsToWorkingSchedule(schedule, assignments, fromDate, owpIdExclude, gameMapGameId);
-            linkGameService.MapAssignmentsToWorkingSchedule(schedule, assignments, fromDate, owpIdExclude, gameMapGameId);
-            etPkService.Group(assignments, schedule, fromDate, owpIdExclude);
+            mainGameServices.MapAssignmentsToWorkingSchedule(schedule, assignments, fromDate, gameMapGameId);
+            specialGameService.MapAssignmentsToWorkingSchedule(schedule, assignments, fromDate, gameMapGameId);
+            linkGameService.MapAssignmentsToWorkingSchedule(schedule, assignments, fromDate, gameMapGameId);
+            etPkService.Group(assignments, schedule, fromDate);
         }
     }
 
-    private static IDictionary<int,List<AssignmentModel>> GameMapGameId(IList<AssignmentModel> assignmentModels)
+    private static IDictionary<int, List<AssignmentModel>> GameMapGameId(IList<AssignmentModel> assignmentModels)
     => assignmentModels
         .GroupBy(g => g.OWPMatchId)
         .ToDictionary(x => x.Key, x => x.ToList());

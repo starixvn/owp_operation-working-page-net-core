@@ -8,7 +8,6 @@ public interface SpecialGameService
         WorkingSchedule schedule,
         IList<AssignmentModel> assignmentModels,
         DateTime fromDate,
-        List<int> owpIdExclude,
         IDictionary<int, List<AssignmentModel>> gameMapGameId);
 }
 
@@ -29,20 +28,19 @@ public class SpecialGameServiceImp : SpecialGameService
         this.xMinsGroupService = xMinsGroupService;
         this.singleTeamService = singleTeamService;
         this.winnerService = winnerService;
-        this.bookingService = bookingService;   
+        this.bookingService = bookingService;
     }
 
     public void MapAssignmentsToWorkingSchedule(
         WorkingSchedule schedule,
         IList<AssignmentModel> assignmentModels,
         DateTime fromDate,
-        List<int> owpIdExclude,
         IDictionary<int, List<AssignmentModel>> gameMapGameId)
     {
-        cornerService.Group(assignmentModels, schedule, fromDate, owpIdExclude, gameMapGameId);
-        xMinsGroupService.Group(assignmentModels, schedule, fromDate, owpIdExclude);
-        winnerService.Group(assignmentModels, schedule, fromDate, owpIdExclude, gameMapGameId);
-        singleTeamService.Group(assignmentModels, schedule, fromDate, owpIdExclude, gameMapGameId);
-        bookingService.Group(assignmentModels, schedule, fromDate, owpIdExclude, gameMapGameId);
+        cornerService.Group(assignmentModels, schedule, fromDate, gameMapGameId);
+        xMinsGroupService.Group(assignmentModels, schedule, fromDate);
+        winnerService.Group(assignmentModels, schedule, fromDate, gameMapGameId);
+        singleTeamService.Group(assignmentModels, schedule, fromDate, gameMapGameId);
+        bookingService.Group(assignmentModels, schedule, fromDate, gameMapGameId);
     }
 }

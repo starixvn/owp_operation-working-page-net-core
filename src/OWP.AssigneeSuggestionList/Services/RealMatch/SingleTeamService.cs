@@ -10,8 +10,7 @@ public interface SingleTeamService
     void Group(
         IList<AssignmentModel> assignments,
         WorkingSchedule schedules,
-        DateTime filterDate,
-        List<int> owpIdExclude, IDictionary<int, List<AssignmentModel>> gameMapGameId);
+        DateTime filterDate, IDictionary<int, List<AssignmentModel>> gameMapGameId);
 }
 
 public class SingleTeamServiceImp : SingleTeamService
@@ -26,14 +25,15 @@ public class SingleTeamServiceImp : SingleTeamService
     public void Group(
         IList<AssignmentModel> assignments,
         WorkingSchedule schedules,
-        DateTime filterDate,
-        List<int> owpIdExclude, IDictionary<int, List<AssignmentModel>> gameMapGameId)
+        DateTime filterDate, IDictionary<int, List<AssignmentModel>> gameMapGameId)
     {
         var gameGroup = assignments
             .Where(a => a.BettypeId is Bettype.HomeSingleTeam or Bettype.AwaySingleTeam)
             .ToList();
-        owpIdExclude.AddRange(gameGroup.Select(x => x.OWPMatchId).Distinct());
-
+        foreach (var game in gameGroup)
+        {
+            game.MatchType = Constant.MatchType.RealSingleTeam;
+        }
         workingSchedule.Group(
            gameGroup,
            schedules,

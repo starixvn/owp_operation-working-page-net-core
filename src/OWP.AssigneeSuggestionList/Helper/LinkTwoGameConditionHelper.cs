@@ -52,9 +52,9 @@ public static class LinkTwoGameConditionHelper
             }
             for (var j = i + 1; j < countAssignment; j++)
             {
-                var countMinutes = assignments[i].EventDateTime.Subtract(assignments[j].EventDateTime).TotalMinutes;
+                var durations = assignments[i].EventDateTime.Subtract(assignments[j].EventDateTime).Duration();
 
-                if (Math.Abs(countMinutes) <= 10)
+                if (durations <= TimeSpan.FromMinutes(10))
                 {
                     var randomEventDateTime = UtilsHelper.RandomDate();
                     group2GameDictionary.Add(randomEventDateTime, new List<AssignmentModel>{

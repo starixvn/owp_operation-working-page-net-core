@@ -9,8 +9,7 @@ public interface EtPkService
     void Group(
         IList<AssignmentModel> assignments,
         WorkingSchedule schedule,
-        DateTime filterDate,
-        IList<int> owpMatchIdExclude);
+        DateTime filterDate);
 }
 
 public class EtPkServiceImp : EtPkService
@@ -25,12 +24,11 @@ public class EtPkServiceImp : EtPkService
     public void Group(
         IList<AssignmentModel> assignments,
         WorkingSchedule schedule,
-        DateTime filterDate,
-        IList<int> owpMatchIdExclude)
+        DateTime filterDate)
     {
         var gameGroup = assignments?.Where(a =>
             !string.IsNullOrEmpty(ETPKHelper.DetectExtraTime(a)) &&
-            !owpMatchIdExclude.Contains(a.OWPMatchId)).ToList();
+            a.MatchType == Constant.MatchType.Other).ToList();
 
         workingSchedule.Group(
            gameGroup,

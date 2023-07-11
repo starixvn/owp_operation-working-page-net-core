@@ -10,7 +10,6 @@ public interface MJGroupService
     void Group(IList<AssignmentModel> assignments,
         WorkingSchedule schedules,
         DateTime filterDate,
-         List<int> owpIdExclude,
         IDictionary<int, List<AssignmentModel>> gameMapGameId);
 }
 
@@ -26,12 +25,11 @@ public class MJGroupServiceImp : MJGroupService
         IList<AssignmentModel> assignments,
         WorkingSchedule schedules,
         DateTime filterDate,
-        List<int> owpIdExclude,
         IDictionary<int, List<AssignmentModel>> gameMapGameId)
     {
         var mJGroup = assignments.Where(a => a.IsMajorLeague)
             .ToList();
-        owpIdExclude.AddRange(mJGroup.Select(x => x.OWPMatchId).Distinct());
+        mJGroup.ForEach(g => g.MatchType = Constant.MatchType.RealMj);
         workingSchedule.Group(
            mJGroup,
            schedules,
