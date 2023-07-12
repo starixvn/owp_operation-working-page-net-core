@@ -7,6 +7,10 @@ namespace OWP.TicketCenter.Handlers;
 
 public class QueryEventTicketsRequest : IRequest<IList<TicketBaseInfo>>
 {
+    public DateTime FromDateFilter { get; set; }
+
+    public DateTime ToDateFilter { get; set; }
+
     public int ActorId { get; set; }
 
     public string Keyword { get; set; }
