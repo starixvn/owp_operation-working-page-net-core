@@ -41,7 +41,7 @@ public class GetSecondAcceptValueHandler
 
         private static int? GetSecondAcceptValue(string matchOffer)
         {
-            if (!IsValidSecondAcceptValue(matchOffer))
+            if (matchOffer == null || !IsValidSecondAcceptValue(matchOffer))
             {
                 return null;
             }
