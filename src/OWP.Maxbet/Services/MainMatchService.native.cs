@@ -57,7 +57,6 @@ public class MainMatchServiceImp : MainMatchService
     {
         var maxbetInfo = await serviceCommon.BuildMatchInfoExcludeNumberOfLines(owpMatchId, adminsiteId);
 
-        MaxbetHelper.SetDefaultMaxbetInfo(maxbetInfo);
         UpdateMaxbetET(maxbetInfo.Maxbet);
         maxbetInfo.NumberOfLines = NumberOfLineHelper.UpdateNumberOfLine();
         maxbetInfo.Ft1stLineHandicap = Ft1stLineHandicapHelper.BuildFt1stLineHandicap();
