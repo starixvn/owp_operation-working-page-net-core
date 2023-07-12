@@ -49,12 +49,7 @@ public class InfoSiteTimeServicesUnitTests
             new () { ParentMatchId = 22, KickOffTime = new TimeSpan(15,30,0) }
         };
 
-        var adminSiteMatchInfo = new List<AdminSiteMatchInfoModel>
-        {
-            new () { ParentMatchId = 22 }
-        };
-
-        service.BuildInfoSiteTimeAndAbsenceIcon(matchInfo, infoSiteInfo, adminSiteMatchInfo);
+        service.BuildInfoSiteTime(matchInfo, infoSiteInfo);
 
         Assert.Equal(new TimeSpan(15, 30, 0), matchInfo.InfoSiteTime);
         Assert.Equal("03:30 PM", matchInfo.InfoSiteTimeDisplay);
@@ -72,9 +67,7 @@ public class InfoSiteTimeServicesUnitTests
 
         var infoSiteInfo = new List<InfoSiteTimeModel>();
 
-        var adminSiteMatchInfo = new List<AdminSiteMatchInfoModel>();
-
-        service.BuildInfoSiteTimeAndAbsenceIcon(matchInfo, infoSiteInfo, adminSiteMatchInfo);
+        service.BuildInfoSiteTime(matchInfo, infoSiteInfo);
 
         Assert.Null(matchInfo.InfoSiteTime);
         Assert.Null(matchInfo.InfoSiteTimeDisplay);

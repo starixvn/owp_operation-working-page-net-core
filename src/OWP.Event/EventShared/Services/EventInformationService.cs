@@ -1,4 +1,5 @@
 ﻿using OWP.Event.EventShared.Builder;
+using OWP.Event.EventShared.Const;
 using OWP.Event.EventShared.Models;
 using OWP.Extensions;
 using OWP.Models;
@@ -20,7 +21,6 @@ public class EventInformationServiceImp : EventInformationService
 
     private IEnumerable<MinorMatchInfo> minorAdminSiteInfos;
     private List<InfoSiteTimeModel> infositeInfos;
-    private List<AdminSiteMatchInfoModel> adminsiteInfos;
 
     public EventInformationServiceImp(AdminSiteMatchServices adminSiteMatchServices, InfoSiteTimeServices infoSiteTimeService)
     {
@@ -34,7 +34,6 @@ public class EventInformationServiceImp : EventInformationService
 
         var parentMatchIds = string.Join(',', matchInfos.Select(x => x.ParentMatchId).Distinct());
         infositeInfos = await infoSiteTimeService.GetInfositeInfo(parentMatchIds);
-        adminsiteInfos = await adminSiteMatchServices.GetAdminSiteInfo(parentMatchIds);
     }
 
     public MatchInfo BuildEvent(EventInformation eventInfo, MatchInfo matchInfo)
@@ -47,9 +46,10 @@ public class EventInformationServiceImp : EventInformationService
         matchInfo.MatchOffers = BuildMatchOffers(eventInfo, owpMatchId);
         matchInfo.IPTVCopy = BuildIptvCopy(matchInfo);
         matchInfo.TicketInfos = BuildTicketInfos(eventInfo, owpMatchId);
+        matchInfo.IsShowAbsenceIcon = matchInfo.OddsStatus != null && !EventConst.StatusOffered.Contains(matchInfo.OddsStatus);
 
         adminSiteMatchServices.UpdateMinorAdminMatchId(matchInfo, minorAdminSiteInfos);
-        infoSiteTimeService.BuildInfoSiteTimeAndAbsenceIcon(matchInfo, infositeInfos, adminsiteInfos);
+        infoSiteTimeService.BuildInfoSiteTime(matchInfo, infositeInfos);
 
         return matchInfo;
     }

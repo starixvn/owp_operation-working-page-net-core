@@ -12,14 +12,12 @@ namespace OWP.Event.UnitTests.EventShared.Services;
 public class AdminSiteMatchServiceUnitTest
 {
     private readonly EventRepository repository;
-    private readonly GetAdminSiteInfoService getAdminSiteInfoService;
     private readonly AdminSiteMatchServices service;
 
     public AdminSiteMatchServiceUnitTest()
     {
         repository = Substitute.For<EventRepository>();
-        getAdminSiteInfoService = Substitute.For<GetAdminSiteInfoService>();
-        service = new AdminSiteMatchServicesImp(repository, getAdminSiteInfoService);
+        service = new AdminSiteMatchServicesImp(repository);
     }
 
     [Fact]
@@ -79,32 +77,5 @@ public class AdminSiteMatchServiceUnitTest
         );
     }
 
-    [Fact]
-    public async Task GetAdminSiteInfo_ReturnsExpectedAdminSiteMatchInfo()
-    {
-        const string parentMatchIds = "11,22";
-        var adminSiteIdsWithOwpMatches = new List<AdminSiteIdModel>
-        {
-            new () { AdminSiteMatchId = 11, ParentMatchId = 33},
-            new () { AdminSiteMatchId = 22 }
-        };
-        var adminSitesIdsOdds = new List<AdminSiteOddsModel>
-        {
-            new () { AdminSiteMatchId = 11, OddsStatus = "complete" },
-            new () { AdminSiteMatchId = 22, OddsStatus = "running" }
-        };
-
-        getAdminSiteInfoService.GetAdminSiteMatchId(parentMatchIds).Returns(adminSiteIdsWithOwpMatches);
-        getAdminSiteInfoService.GetAdminSiteInfo().Returns(adminSitesIdsOdds);
-
-        var actual = await service.GetAdminSiteInfo(parentMatchIds);
-
-        var expected = new List<AdminSiteMatchInfoModel>
-        {
-            new () { AdminSiteMatchId = 11, ParentMatchId = 33 }
-        };
-
-        DeepAssert.Equal(expected, actual);
-    }
 }
 

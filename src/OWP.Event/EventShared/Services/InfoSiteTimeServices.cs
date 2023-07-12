@@ -9,10 +9,7 @@ public interface InfoSiteTimeServices
 {
     Task<List<InfoSiteTimeModel>> GetInfositeInfo(string parentMatchIds);
 
-    void BuildInfoSiteTimeAndAbsenceIcon(
-        MatchInfo matchInfo,
-        List<InfoSiteTimeModel> infoSiteInfo,
-        List<AdminSiteMatchInfoModel> adminSiteMatchInfo);
+    void BuildInfoSiteTime(MatchInfo matchInfo, List<InfoSiteTimeModel> infoSiteInfo);
 }
 
 public class InfoSiteTimeServicesImp : InfoSiteTimeServices
@@ -31,12 +28,10 @@ public class InfoSiteTimeServicesImp : InfoSiteTimeServices
         return infoSiteInfo.ToList();
     }
 
-    public void BuildInfoSiteTimeAndAbsenceIcon(MatchInfo matchInfo, List<InfoSiteTimeModel> infoSiteInfo, List<AdminSiteMatchInfoModel> adminSiteMatchInfo)
+    public void BuildInfoSiteTime(MatchInfo matchInfo, List<InfoSiteTimeModel> infoSiteInfo)
     {
         var infoSite = infoSiteInfo.FirstOrDefault(x => x.ParentMatchId == matchInfo.ParentMatchId);
-        var isShowAbsenceIcon = adminSiteMatchInfo.Any(x => x.ParentMatchId == matchInfo.OWPMatchId);
         matchInfo.InfoSiteTime = infoSite?.KickOffTime;
         matchInfo.InfoSiteTimeDisplay = infoSite?.KickOffTimeDisplay;
-        matchInfo.IsShowAbsenceIcon = !EventConst.StatusNotOffered.Contains(matchInfo.MatchStatus) && isShowAbsenceIcon;
     }
 }

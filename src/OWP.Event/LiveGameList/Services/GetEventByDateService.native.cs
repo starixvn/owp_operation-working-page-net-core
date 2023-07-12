@@ -1,5 +1,6 @@
 ﻿using Fanex.NAP.Core.Business;
 using OWP.Constants;
+using OWP.Event.EventShared.Const;
 using OWP.Event.EventShared.Models;
 using OWP.Event.EventShared.Services;
 using OWP.Event.LiveGameList.Builder;

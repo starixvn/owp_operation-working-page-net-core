@@ -2,5 +2,5 @@
 
 public static class EventConst
 {
-    public static readonly string[] StatusNotOffered = { "Cancel", "Suspended" };
+    public static readonly string[] StatusOffered = { "running", "closePrice", "internal", "suspend" };
 }
