@@ -30,6 +30,7 @@ public class LinkNGameServiceImp : LinkNGameService
     {
         LinkTwoGame(assignments, schedules, filterDate);
         LinkThreeGame(assignments, schedules, filterDate);
+        LinkFourGamePlus(assignments, schedules, filterDate);
     }
 
     private void LinkTwoGame(
@@ -44,6 +45,25 @@ public class LinkNGameServiceImp : LinkNGameService
             TextColor = ColorCodeConst.TEXT_TWO_GAME
         };
         UpdateSchedule(linkNGamePair, schedules, assignmentCell, filterDate, MatchType.RealMatchLink2G);
+    }
+
+    private void LinkFourGamePlus(
+        IList<AssignmentModel> assignments,
+        WorkingSchedule schedules,
+        DateTime filterDate)
+    {
+        var linkNGamePair = LinkGameConditionHelper.GroupGame(assignments, numberGameInGroup => numberGameInGroup >= 4);
+        foreach (var game in linkNGamePair.Values)
+        {
+            game.ForEach(g => g.MatchType = MatchType.RealMatchLink4G);
+        }
+        var assignmentCell = new AssignmentCell
+        {
+            Color = ColorCodeConst.FOUR_GAME,
+            TextColor = ColorCodeConst.TEXT_FOUR_GAME
+        };
+
+        UpdateSchedule(linkNGamePair, schedules, assignmentCell, filterDate, MatchType.RealMatchLink4G);
     }
 
     private void LinkThreeGame(

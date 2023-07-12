@@ -15,13 +15,10 @@ public class LinkGameServiceImp : LinkGameService
     private readonly OneGameService oneGameService;
     private readonly LinkNGameService linkNGameService;
 
-    private readonly LinkErrorService linkErrorService;
-
-    public LinkGameServiceImp(OneGameService oneGameService, LinkNGameService linkNGameService, LinkErrorService linkErrorService)
+    public LinkGameServiceImp(OneGameService oneGameService, LinkNGameService linkNGameService)
     {
         this.oneGameService = oneGameService;
         this.linkNGameService = linkNGameService;
-        this.linkErrorService = linkErrorService;
     }
 
     public void MapAssignmentsToWorkingSchedule(
@@ -34,6 +31,5 @@ public class LinkGameServiceImp : LinkGameService
 
         oneGameService.Group(canLinkAssignments, schedule, fromDate, gameMapGameId);
         linkNGameService.Group(canLinkAssignments, schedule, fromDate);
-        linkErrorService.Group(canLinkAssignments, schedule, fromDate);
     }
 }

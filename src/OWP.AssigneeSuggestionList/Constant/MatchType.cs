@@ -27,5 +27,6 @@ public enum MatchType
     RealBooking,
     RealWinner,
     RealSingleTeam,
-    Real15MOU
+    Real15MOU,
+    RealMatchLink4G
 }
