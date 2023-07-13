@@ -86,14 +86,14 @@ public class SabaMatchesServicesImp : SabaMatchServices
         sabaMatches.AddRange(groupedSaba5Mins);
     }
 
-    public  void GroupSabaMix5minsGames(List<AssignmentModel> sabaMatches)
+    public void GroupSabaMix5minsGames(List<AssignmentModel> sabaMatches)
     {
-        var multipleSabaMatches = sabaMatches.Where(x => x.MatchType== MatchType.Saba5Mins)
+        var multipleSabaMatches = sabaMatches.Where(x => x.MatchType == MatchType.Saba5Mins)
                 .GroupBy(s => s.EventDateTime.AddMinutes(-s.EventDateTime.Minute))
                 .Where(g => g.Count() == 2)
                 .SelectMany(g => g).ToList();
-           
-        sabaMatches.RemoveAll( multipleSabaMatches.Contains);
+
+        sabaMatches.RemoveAll(multipleSabaMatches.Contains);
 
         var groupedMultipleMatches = multipleSabaMatches
             .GroupBy(x => x.EventDateTime.AddMinutes(-x.EventDateTime.Minute))
@@ -109,7 +109,7 @@ public class SabaMatchesServicesImp : SabaMatchServices
         sabaMatches.AddRange(groupedMultipleMatches);
     }
 
-    public  void GroupSabaMultipleGames(List<AssignmentModel> sabaMatches)
+    public void GroupSabaMultipleGames(List<AssignmentModel> sabaMatches)
     {
         MatchType[] multipleGameTypes = { MatchType.Saba15Mins, MatchType.Saba16Mins, MatchType.Saba20Mins };
 
@@ -121,8 +121,8 @@ public class SabaMatchesServicesImp : SabaMatchServices
             .Select(y =>
             {
                 var orderedAssignments = y.OrderBy(x => x.EventDateTime).ToList();
-                var newAssignment = mapper.Map<AssignmentModel>(orderedAssignments.First()); 
-           
+                var newAssignment = mapper.Map<AssignmentModel>(orderedAssignments.First());
+
                 newAssignment.MatchType = GetMultipleMatchType(orderedAssignments.Count, newAssignment.MatchType);
                 newAssignment.GroupAssignmentModels = orderedAssignments;
 
@@ -148,7 +148,7 @@ public class SabaMatchesServicesImp : SabaMatchServices
         foreach (var assignment in assignments)
         {
             var isMultipleMatch =
-                assignment.MatchType is MatchType.SabaLink2G or MatchType.SabaLink3G or MatchType.SabaLink4G or MatchType.SabaMix5mins;
+                assignment.MatchType is MatchType.SabaLink1G or MatchType.SabaLink2G or MatchType.SabaLink3G or MatchType.SabaLink4G or MatchType.SabaMix5mins;
             var text = isMultipleMatch
                 ? ScheduleHelper.BuildScheduleTextSabaGroupGame(assignment.GroupAssignmentModels)
                 : ScheduleHelper.BuildScheduleTextSabaSingleGame(assignment);
