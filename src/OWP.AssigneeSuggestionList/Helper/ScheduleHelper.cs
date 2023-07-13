@@ -53,9 +53,21 @@ public static class ScheduleHelper
     }
 
     public static string BuildScheduleTextSabaSingleGame(AssignmentModel assignment)
-    => assignment.KOTime.Minutes == 0
+    {
+        if (assignment.MatchType == MatchType.Saba5Mins)
+        {
+            return BuildScheduleText5MinsSabaSingleGame(assignment);
+        }
+        return assignment.KOTime.Minutes == 0
         ? "*V"
         : $"*{assignment.KOTime.ToKOTimeWithoutSuffix()}";
+    }
+
+
+    private static string BuildScheduleText5MinsSabaSingleGame(AssignmentModel assignment)
+    => assignment.KOTime.Minutes == 0
+        ? "*V/5"
+        : $"*{assignment.KOTime.ToKOTimeWithoutSuffix()}/5";
 
     public static string BuildScheduleTextSingleGame(AssignmentModel assignment, string textPostfix)
     {
