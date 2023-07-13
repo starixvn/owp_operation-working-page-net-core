@@ -23,10 +23,24 @@ public class MatchInfoServicesImp : MatchInfoServices
         var matchInfo = await repository.QueryMatchInfo(request.OwpMatchId);
         matchInfo.BettypeId = request.BetTypeId;
         matchInfo.FilterDate = request.FilterDate;
+        matchInfo.KOTime = GetSuggestionTime(request, matchInfo);
         UpdateEndTime(matchInfo);
         UpdateSingleMatch(matchInfo);
 
         return matchInfo;
+    }
+
+    private static DateTime GetSuggestionTime(QueryTraderSuggestionRequest request, MatchInfo matchInfo)
+    {
+        if (!request.OtherTime.HasValue)
+        {
+            return matchInfo.KOTime;
+        }
+
+        const int twelfthHour = 12;
+        var eventDate = request.OtherTime.Value.Hour < twelfthHour ? request.FilterDate.AddDays(1) : request.FilterDate;
+
+        return eventDate.Date.Add(request.OtherTime.Value.TimeOfDay);
     }
 
     public void UpdateEndTime(MatchInfo matchInfo)

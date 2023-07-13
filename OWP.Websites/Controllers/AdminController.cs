@@ -124,4 +124,29 @@ public class AdministratorController : Controller
         var bytes = System.IO.File.ReadAllBytes(filePath);
         return File(bytes, "application/octet-stream", fileName);
     }
+
+    public ActionResult DeleteOldLoggedFile()
+    {
+        var fullPath = Path.Combine(
+            AppDomain.CurrentDomain.BaseDirectory,
+            "App_Data",
+            "Files");
+
+        var files = Directory.GetFiles(fullPath);
+        var fileCount = 0;
+        foreach (var file in files)
+        {
+            var fi = new FileInfo(file);
+            if (fi.LastAccessTime >= DateTime.Now.AddMonths(-3))
+            {
+                continue;
+            }
+
+            fileCount++;
+            fi.Delete();
+        }
+
+        ViewBag.FileCount = fileCount;
+        return View("DeleteOldLoggedFile");
+    }
 }
