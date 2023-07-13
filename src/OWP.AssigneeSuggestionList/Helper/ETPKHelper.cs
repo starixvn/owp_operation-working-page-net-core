@@ -30,18 +30,19 @@ public static class ETPKHelper
         => assignment.MinorBettypeId.HasValue && BetTypeSpecial.BetTypes.Contains(assignment.MinorBettypeId.Value) &&
             IsEtPK(assignment);
 
-
     private static bool IsEtPK(AssignmentModel assignment)
     => assignment.Remark.IsContains(ETPKConstant.ET)
         && assignment.Remark.IsContains(ETPKConstant.PK)
         && (assignment.AssignmentNote is null
             || (assignment.AssignmentNote.IsContains(ETPKConstant.ET)
-                && assignment.AssignmentNote.IsContains(ETPKConstant.PK)));
+                && assignment.AssignmentNote.IsContains(ETPKConstant.PK)
+                && !assignment.AssignmentNote.IsContains("No")));
 
     private static bool IsPK(AssignmentModel assignment)
     => !assignment.Remark.IsContains(ETPKConstant.ET)
         && assignment.Remark.IsContains(ETPKConstant.PK)
         && (assignment.AssignmentNote is null
             || (!assignment.AssignmentNote.IsContains(ETPKConstant.ET)
-                && assignment.AssignmentNote.IsContains(ETPKConstant.PK)));
+                && assignment.AssignmentNote.IsContains(ETPKConstant.PK)
+                && !assignment.AssignmentNote.IsContains("No")));
 }

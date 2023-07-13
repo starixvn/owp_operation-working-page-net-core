@@ -2,11 +2,9 @@ using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Models;
 using OWP.Extensions;
 using System.Collections.Immutable;
-using System.Diagnostics;
 using System.Globalization;
 using OWP.Constants;
 using MatchType = OWP.AssigneeSuggestionList.Constant.MatchType;
-using System.Linq;
 
 namespace OWP.AssigneeSuggestionList.Helper;
 
@@ -30,7 +28,9 @@ public static class ScheduleHelper
     {
         var kOTimeText = BuildKoTextGroupGame(assignments);
         var mBText = BuildMbTextGroupGame(assignments);
-        return string.Join("/", kOTimeText, mBText);
+        return string.IsNullOrEmpty(mBText)
+        ? $"{kOTimeText}"
+        : $"{kOTimeText}/{mBText}";
     }
 
     private static string BuildKoTextGroupGame(IList<AssignmentModel> assignments)
@@ -76,21 +76,20 @@ public static class ScheduleHelper
             : string.Empty;
         var kOTimeText = assignment.KOTime.ToKOTimeWithoutSuffix();
 
-        return (
-                assignment.KOTime.Minutes == 0,
-                string.IsNullOrEmpty(maxbetDisplay),
-                string.IsNullOrEmpty(textPostfix)) switch
-        {
-            (true, true, false) => "V",
-            (false, true, false) => $"{kOTimeText}",
-            (true, false, true) => $"V/{maxbetDisplay}{textPostfix}",
-            (false, false, true) => $"{kOTimeText}/{maxbetDisplay}{textPostfix}",
+        var result = assignment.KOTime.Minutes == 0
+        ? "V"
+        : $"{kOTimeText}";
 
-            (true, true, true) => $"V/{textPostfix}",
-            (false, true, true) => $"{kOTimeText}{textPostfix}",
-            (true, false, false) => $"V/{maxbetDisplay}",
-            (false, false, false) => $"{kOTimeText}/{maxbetDisplay}",
-        };
+        if (!string.IsNullOrEmpty(maxbetDisplay))
+        {
+            result += $"/{maxbetDisplay}";
+        }
+
+        if (!string.IsNullOrEmpty(textPostfix))
+        {
+            result += $"{textPostfix}";
+        }
+        return result;
     }
 
     public static string BuildTextSingleGamePostfixHdp(IDictionary<int, List<AssignmentModel>> gameMapGameId,
