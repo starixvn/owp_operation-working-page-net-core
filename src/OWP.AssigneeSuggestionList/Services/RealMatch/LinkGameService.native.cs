@@ -29,7 +29,7 @@ public class LinkGameServiceImp : LinkGameService
     {
         var canLinkAssignments = assignmentModels.Where(x => !x.IsFantasyMatch).ToList();
 
-        oneGameService.Group(canLinkAssignments, schedule, fromDate, gameMapGameId);
         linkNGameService.Group(canLinkAssignments, schedule, fromDate);
+        oneGameService.Group(canLinkAssignments, schedule, fromDate, gameMapGameId);
     }
 }

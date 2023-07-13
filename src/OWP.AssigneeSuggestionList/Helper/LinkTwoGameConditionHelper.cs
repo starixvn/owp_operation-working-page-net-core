@@ -56,8 +56,8 @@ public static class LinkTwoGameConditionHelper
 
                 if (durations <= TimeSpan.FromMinutes(10))
                 {
-                    var randomEventDateTime = UtilsHelper.RandomDate();
-                    group2GameDictionary.Add(randomEventDateTime, new List<AssignmentModel>{
+                    var eventDate = UtilsHelper.SelectTime(assignments[i].EventDateTime, assignments[j].EventDateTime);
+                    group2GameDictionary.TryAdd(eventDate, new List<AssignmentModel>{
                         assignments[i],
                         assignments[j]
                     });

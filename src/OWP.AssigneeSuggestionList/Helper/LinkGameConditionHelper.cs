@@ -8,6 +8,7 @@ public static class LinkGameConditionHelper
     public static bool CanGroupNGame(AssignmentModel assignment) =>
         assignment.IsMainMatch
         && !assignment.IsMajorLeague
+        && assignment.MatchType == Constant.MatchType.Other
         && IsValidBetType(assignment.BettypeId);
 
     public static IDictionary<DateTime, List<AssignmentModel>> GroupGame(
