@@ -28,7 +28,7 @@ public class SingleTeamServiceImp : SingleTeamService
         DateTime filterDate, IDictionary<int, List<AssignmentModel>> gameMapGameId)
     {
         var gameGroup = assignments
-            .Where(a => a.BettypeId is Bettype.HomeSingleTeam or Bettype.AwaySingleTeam)
+            .Where(a => a.MinorBettypeId is Bettype.HomeSingleTeam or Bettype.AwaySingleTeam)
             .ToList();
         foreach (var game in gameGroup)
         {

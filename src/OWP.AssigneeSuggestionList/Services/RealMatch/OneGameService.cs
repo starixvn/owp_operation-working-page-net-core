@@ -34,6 +34,7 @@ public class OneGameServiceImp : OneGameService
         foreach (var oneGame in oneGameGroupPair.Values)
         {
             oneGame.ForEach(g => g.MatchType = MatchType.RealMatchLink1G);
+            oneGameGroup.AddRange(oneGame);
         }
 
         workingSchedule.Group(
