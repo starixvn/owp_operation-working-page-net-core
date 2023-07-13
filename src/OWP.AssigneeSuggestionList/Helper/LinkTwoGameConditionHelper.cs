@@ -41,28 +41,29 @@ public static class LinkTwoGameConditionHelper
     {
         var assignmentOther = assignments
             .Where(a => a.MatchType != Constant.MatchType.RealMatchLink2G && LinkGameConditionHelper.CanGroupNGame(a))
-            .OrderBy(x => x.EventDateTime);
+            .OrderBy(x => x.EventDateTime)
+            .ToList();
 
         var countAssignment = assignmentOther.Count();
         for (var i = 0; i < countAssignment; i++)
         {
-            if (assignments[i].MatchType == Constant.MatchType.RealMatchLink2G)
+            if (assignmentOther[i].MatchType == Constant.MatchType.RealMatchLink2G)
             {
                 continue;
             }
             for (var j = i + 1; j < countAssignment; j++)
             {
-                var durations = assignments[i].EventDateTime.Subtract(assignments[j].EventDateTime).Duration();
+                var durations = assignmentOther[i].EventDateTime.Subtract(assignmentOther[j].EventDateTime).Duration();
 
-                if (durations <= TimeSpan.FromMinutes(10))
+                if (durations <= TimeSpan.FromMinutes(10) && durations.TotalMinutes != 0)
                 {
-                    var eventDate = UtilsHelper.SelectTime(assignments[i].EventDateTime, assignments[j].EventDateTime);
+                    var eventDate = UtilsHelper.SelectTime(assignmentOther[i].EventDateTime, assignmentOther[j].EventDateTime);
                     group2GameDictionary.TryAdd(eventDate, new List<AssignmentModel>{
-                        assignments[i],
-                        assignments[j]
+                        assignmentOther[i],
+                        assignmentOther[j]
                     });
-                    assignments[i].MatchType = Constant.MatchType.RealMatchLink2G;
-                    assignments[j].MatchType = Constant.MatchType.RealMatchLink2G;
+                    assignmentOther[i].MatchType = Constant.MatchType.RealMatchLink2G;
+                    assignmentOther[j].MatchType = Constant.MatchType.RealMatchLink2G;
                     break;
                 }
             }
