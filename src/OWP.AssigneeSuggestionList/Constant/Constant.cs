@@ -94,11 +94,9 @@ public static class ETPKConstant
 {
     public const string ETPK = "ET/PK";
 
-    public const string ET = "ET";
+    public const string ET = " ET";
 
     public const string PK = "PK";
-
-    public const string ETPK_Confirm = "Pls cfm this game have ET, PK or not";
 }
 
 public static class WorkingShiftConst
