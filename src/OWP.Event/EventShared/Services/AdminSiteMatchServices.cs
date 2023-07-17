@@ -10,15 +10,11 @@ public interface AdminSiteMatchServices
 {
     void UpdateMinorAdminMatchId(MatchInfo matchInfo, IEnumerable<MinorMatchInfo> minorAdminSiteIds);
 
-    Task<List<AdminSiteMatchInfoModel>> GetAdminSiteInfo(string parentMatchIds);
-
     Task<IEnumerable<MinorMatchInfo>> GetMinorAdminSiteIds(IEnumerable<MatchInfo> matchInfos);
 }
 public class AdminSiteMatchServicesImp : AdminSiteMatchServices
 {
     private readonly EventRepository eventRepository;
-
-    private readonly GetAdminSiteInfoService getAdminSiteInfoService;
 
     private readonly IList<int> validMinorBetTypes = new List<int>
     {
@@ -57,10 +53,9 @@ public class AdminSiteMatchServicesImp : AdminSiteMatchServices
         { -7, 2901 } // Next Booking
     };
 
-    public AdminSiteMatchServicesImp(EventRepository eventRepository, GetAdminSiteInfoService getAdminSiteInfoService)
+    public AdminSiteMatchServicesImp(EventRepository eventRepository)
     {
         this.eventRepository = eventRepository;
-        this.getAdminSiteInfoService = getAdminSiteInfoService;
     }
 
     public async Task<IEnumerable<MinorMatchInfo>> GetMinorAdminSiteIds(IEnumerable<MatchInfo> matchInfos)
@@ -86,14 +81,6 @@ public class AdminSiteMatchServicesImp : AdminSiteMatchServices
 
         var minorMatch = minorAdminSiteIds.FirstOrDefault(x => x.OwpMatchId == matchInfo.OWPMatchId);
         matchInfo.AdminSiteId = minorMatch?.AdminMatchId;
-    }
-
-    public async Task<List<AdminSiteMatchInfoModel>> GetAdminSiteInfo(string parentMatchIds)
-    {
-        var adminSiteIdsWithOwpMatches = (await getAdminSiteInfoService.GetAdminSiteMatchId(parentMatchIds)).ToList();
-        var adminSitesIdsOdds = (await getAdminSiteInfoService.GetAdminSiteInfo()).ToList();
-
-        return LiveGameHelper.MergeAdminSiteInfo(adminSiteIdsWithOwpMatches, adminSitesIdsOdds).ToList();
     }
 
     private int? GetSubTypeByMinorBetTypeId(int? minorBetTypeId)

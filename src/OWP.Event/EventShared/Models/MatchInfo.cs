@@ -37,6 +37,8 @@ public class MatchInfo : TaskListMatchInfo
 
     public string League { get; set; }
 
+    public string LeagueGroup { get; set; }
+
     public bool IsPES => League.Contains(" PES ", StringComparison.CurrentCultureIgnoreCase);
 
     public bool IsFIFA =>
@@ -178,6 +180,8 @@ public class MatchInfo : TaskListMatchInfo
     public TimeSpan? InfoSiteTime { get; set; }
 
     public string InfoSiteTimeDisplay { get; set; }
+
+    public string OddsStatus { get; set; }
 
     public bool IsShowAbsenceIcon { get; set; }
 

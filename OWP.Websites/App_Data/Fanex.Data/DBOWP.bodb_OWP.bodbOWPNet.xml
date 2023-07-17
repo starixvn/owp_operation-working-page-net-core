@@ -4,8 +4,6 @@
 	    <Setting Key="OWP_RefResourceGetByName" SpName="OWP_RefResourceGetByName" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 	    <Setting Key="OWP_RefResourceGetAll" SpName="OWP_RefResourceGetAll" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
       <Setting Key="OWP_LiveGame_GetInfoSiteTime" SpName="OWP_LiveGame_GetInfoSiteTime" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-      <Setting Key="OWP_LiveGame_GetAdminSiteInfo" SpName="OWP_LiveGame_GetAdminSiteInfo" DbName="DBACC.bodb02.bodbAdminNet" />
-      <Setting Key="OWP_LiveGame_GetAdminSiteIdByOwpMatchId" SpName="OWP_LiveGame_GetAdminSiteIdByOwpMatchId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     </Function>
 	<Function Name="EventAssignment">
         <Setting Key="OWP_MessageGetBySessionId" SpName="OWP_MessageGetBySessionId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
