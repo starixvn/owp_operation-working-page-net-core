@@ -181,8 +181,6 @@ public class MatchInfo : TaskListMatchInfo
 
     public string InfoSiteTimeDisplay { get; set; }
 
-    public string OddsStatus { get; set; }
-
     public bool IsShowAbsenceIcon { get; set; }
 
     public string EventDateDisplay => EventDate.ToKOTimeDateFormat();
