@@ -46,7 +46,6 @@ public class EventInformationServiceImp : EventInformationService
         matchInfo.MatchOffers = BuildMatchOffers(eventInfo, owpMatchId);
         matchInfo.IPTVCopy = BuildIptvCopy(matchInfo);
         matchInfo.TicketInfos = BuildTicketInfos(eventInfo, owpMatchId);
-        matchInfo.IsShowAbsenceIcon = matchInfo.OddsStatus != null && !EventConst.StatusOffered.Contains(matchInfo.OddsStatus);
 
         adminSiteMatchServices.UpdateMinorAdminMatchId(matchInfo, minorAdminSiteInfos);
         infoSiteTimeService.BuildInfoSiteTime(matchInfo, infositeInfos);
