@@ -1,6 +1,5 @@
 using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Models;
-using OWP.Constants;
 using OWP.Extensions;
 
 namespace OWP.AssigneeSuggestionList.Helper;
@@ -12,9 +11,9 @@ public static class ETPKHelper
             IsEt(assignment),
             IsPK(assignment)) switch
         {
-            (true, true, _) => ETPKConstant.ET,
-            (false, _, true) => ETPKConstant.PK,
-            (true, _, _) => ETPKConstant.ETPK,
+            (true, true, _) => "ET",
+            (false, _, true) => "PK",
+            (true, _, _) => "ET/PK",
             _ => string.Empty
         };
 
@@ -31,18 +30,18 @@ public static class ETPKHelper
             IsEtPK(assignment);
 
     private static bool IsEtPK(AssignmentModel assignment)
-    => assignment.Remark.IsContains(ETPKConstant.ET)
-        && assignment.Remark.IsContains(ETPKConstant.PK)
+    => assignment.Remark.IsContains(" ET")
+        && assignment.Remark.IsContains("PK")
         && (assignment.AssignmentNote is null
-            || (assignment.AssignmentNote.IsContains(ETPKConstant.ET)
-                && assignment.AssignmentNote.IsContains(ETPKConstant.PK)
+            || (assignment.AssignmentNote.IsContains("ET")
+                && assignment.AssignmentNote.IsContains("PK")
                 && !assignment.AssignmentNote.IsContains("No")));
 
     private static bool IsPK(AssignmentModel assignment)
-    => !assignment.Remark.IsContains(ETPKConstant.ET)
-        && assignment.Remark.IsContains(ETPKConstant.PK)
+    => !assignment.Remark.IsContains(" ET")
+        && assignment.Remark.IsContains("PK")
         && (assignment.AssignmentNote is null
-            || (!assignment.AssignmentNote.IsContains(ETPKConstant.ET)
-                && assignment.AssignmentNote.IsContains(ETPKConstant.PK)
+            || (!assignment.AssignmentNote.IsContains("ET")
+                && assignment.AssignmentNote.IsContains("PK")
                 && !assignment.AssignmentNote.IsContains("No")));
 }
