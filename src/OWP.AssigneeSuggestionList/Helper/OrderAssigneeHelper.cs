@@ -13,7 +13,7 @@ public static class OrderAssigneeHelper
     public static List<WorkingSchedule> SortMainMatchAssignee(MatchInfo matchInfo,
         List<WorkingSchedule> workingSchedules)
     {
-        if (matchInfo.IsMainMatch)
+        if (matchInfo.IsSoloMatch)
         {
             return SortAssigneeBySoloMatch(workingSchedules, matchInfo);
         }
