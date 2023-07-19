@@ -63,6 +63,7 @@ public static class ColorCodeConst
          new ("WINNER", WINNER, TEXT_COLOR_WHITE),
          new ("SingleTeam", SINGLE_TEAM, TEXT_COLOR_BLACK),
          new ("15M OU", X_MINS, TEXT_COLOR_WHITE),
+         new ("ET/PK", ET_PK, TEXT_ET_PK),
          new ("5M", SABA_5MINS, TEXT_COLOR_WHITE),
          new ("5M*2", SABA_5MINS, TEXT_COLOR_WHITE),
          new ("Saba Futsal", SABA_FUTSAL, TEXT_COLOR_BLACK),
