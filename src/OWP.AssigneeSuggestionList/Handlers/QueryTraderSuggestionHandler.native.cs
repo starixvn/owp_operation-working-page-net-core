@@ -13,6 +13,8 @@ public class QueryTraderSuggestionRequest : IRequest<SuggestionInfo>
     public int BetTypeId { get; set; }
 
     public DateTime FilterDate { get; set; }
+
+    public DateTime? OtherTime { get; set; }
 }
 
 public class QueryTraderSuggestionHandler : IRequestHandler<QueryTraderSuggestionRequest, SuggestionInfo>
