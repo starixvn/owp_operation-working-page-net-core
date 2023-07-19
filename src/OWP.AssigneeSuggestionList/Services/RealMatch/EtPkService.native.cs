@@ -42,11 +42,18 @@ public class EtPkServiceImp : EtPkService
     {
         var gameInfo = ScheduleHelper.GetGameInfo(assignments);
 
-        var etPkValue = ETPKHelper.DetectExtraTime(new AssignmentModel
+        var etPkValue = FirstHalfHelper.IsFirstHalf(assignments) ?
+                string.Empty
+                : ETPKHelper.DetectExtraTime(new AssignmentModel
+                {
+                    Remark = gameInfo.remark,
+                    AssignmentNote = gameInfo.assignmentNote
+                });
+
+        if (string.IsNullOrEmpty(etPkValue))
         {
-            Remark = gameInfo.remark,
-            AssignmentNote = gameInfo.assignmentNote
-        });
+            return null;
+        }
 
         var assignmentCell = new AssignmentCell
         {
@@ -60,7 +67,7 @@ public class EtPkServiceImp : EtPkService
             FilterDate = filterDate,
             EtPk = new ETPKUpdateSchedule
             {
-                IsHasEtPk = true,
+                IsHasEtPk = string.IsNullOrEmpty(etPkValue),
                 EtPkValue = etPkValue
             },
             AssignmentCell = assignmentCell,

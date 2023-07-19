@@ -38,7 +38,10 @@ public class SingleGameGroupServiceImp : SingleGameGroupService
                 assignmentPresent.MatchType = matchType;
             }
             var scheduleUpdateModel = buildUpdateScheduleFunc.Invoke(groupGamePair[key]);
-            workingSchedule.UpdateWorkingSchedule(scheduleUpdateModel, schedule, assignmentPresent);
+            if (scheduleUpdateModel is not null)
+            {
+                workingSchedule.UpdateWorkingSchedule(scheduleUpdateModel, schedule, assignmentPresent);
+            }
         }
     }
 }
