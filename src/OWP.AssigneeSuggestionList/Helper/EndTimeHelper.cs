@@ -20,10 +20,10 @@ public static class EndTimeHelper
 
     private static AssignmentModel UpdateEndTimeForRealMatch(AssignmentModel assignment)
     {
-        var etpkType = ETPKHelper.DetectExtraTime(assignment.Remark, assignment.MinorBettypeId);
+        var etpkType = ETPKHelper.DetectExtraTime(assignment);
         return assignment.IsMainMatch
             ? UpdateEndTimeForFtMatch(assignment, etpkType)
-            : UpdateEndTimeForCornerBooking(assignment, etpkType);
+            : UpdateEndTimeForSpecialProduct(assignment, etpkType);
     }
 
     private static AssignmentModel UpdateEndTimeForFtMatch(AssignmentModel assignment, string remarkType)
@@ -34,10 +34,10 @@ public static class EndTimeHelper
         return assignment;
     }
 
-    private static AssignmentModel UpdateEndTimeForCornerBooking(AssignmentModel assignment, string remarkType)
+    private static AssignmentModel UpdateEndTimeForSpecialProduct(AssignmentModel assignment, string remarkType)
     {
-        var isCornerBooking = assignment.MinorBettypeId is Bettype.NextCorner or Bettype.NextBooking or Bettype.Corner or Bettype.TotalBooking;
-        assignment.EndTime = isCornerBooking
+        var isSpecialProduct = assignment.MinorBettypeId.HasValue && BetTypeSpecial.BetTypes.Contains(assignment.MinorBettypeId.Value);
+        assignment.EndTime = isSpecialProduct
             ? assignment.EventDateTime.Add(CalculateCornerMatchEndTime(remarkType))
             : assignment.EventDateTime.Add(new TimeSpan(2, 0, 0));
 

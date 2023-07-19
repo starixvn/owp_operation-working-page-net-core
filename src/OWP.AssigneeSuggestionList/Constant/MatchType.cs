@@ -4,6 +4,7 @@ public enum MatchType
 {
     Other,
     Saba5Mins,
+    SabaMix5mins,
     SabaFutsal6Mins,
     SabaM8816Mins,
     Saba16Mins,
@@ -18,5 +19,14 @@ public enum MatchType
     RealMatchLink2G,
     RealMatchLink3G,
     RealMatchLinkError,
-    RealMatchOther
+    RealMatchOther,
+    RealFirstHalf,
+    RealFantasy,
+    RealCorner,
+    RealMj,
+    RealBooking,
+    RealWinner,
+    RealSingleTeam,
+    Real15MOU,
+    RealMatchLink4G
 }

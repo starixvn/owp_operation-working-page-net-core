@@ -12,8 +12,7 @@ public interface FirstHalfService : IRequest<Unit>
     void Group(
         IList<AssignmentModel> assignments,
         WorkingSchedule schedule,
-        DateTime filterDate,
-        List<int> owpIdExclude);
+        DateTime filterDate);
 }
 
 public class FirstHalfServiceImp : FirstHalfService
@@ -28,8 +27,7 @@ public class FirstHalfServiceImp : FirstHalfService
     public void Group(
         IList<AssignmentModel> assignments,
         WorkingSchedule schedule,
-        DateTime filterDate,
-        List<int> owpIdExclude)
+        DateTime filterDate)
     {
         var gameGroupPair = assignments
             .GroupBy(x => x.OWPMatchId)
@@ -37,12 +35,12 @@ public class FirstHalfServiceImp : FirstHalfService
             .ToDictionary(a => a.Key, a => a.ToList());
 
         var gameGroup = new List<AssignmentModel>();
-        owpIdExclude.AddRange(gameGroupPair.Keys);
-        foreach (var item in gameGroupPair)
+        foreach (var game in gameGroupPair.Values)
         {
-            gameGroup.AddRange(item.Value);
-
+            game.ForEach(g => g.MatchType = MatchType.RealFirstHalf);
+            gameGroup.AddRange(game);
         }
+
         workingSchedule.Group(gameGroup,
            schedule,
            assignment => BuildScheduleUpdateModel(assignment, filterDate),
@@ -55,7 +53,7 @@ public class FirstHalfServiceImp : FirstHalfService
         {
             Color = ColorCodeConst.FIRST_HALF,
             TextColor = ColorCodeConst.TEXT_FIRST_HALF,
-            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignments.First())
+            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignments.First(), string.Empty)
         };
         var gameInfo = ScheduleHelper.GetGameInfo(assignments);
 

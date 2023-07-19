@@ -1,4 +1,5 @@
-﻿using OWP.AssigneeSuggestionList.Handlers;
+﻿using OWP.AssigneeSuggestionList.Constant;
+using OWP.AssigneeSuggestionList.Handlers;
 using OWP.AssigneeSuggestionList.Helper;
 using OWP.AssigneeSuggestionList.Models;
 using OWP.Constants;
@@ -20,6 +21,7 @@ public class MatchInfoServicesImp : MatchInfoServices
 
     public async Task<MatchInfo> GetMatchInfo(QueryTraderSuggestionRequest request)
     {
+        // TODO
         var matchInfo = await repository.QueryMatchInfo(request.OwpMatchId);
         matchInfo.BettypeId = request.BetTypeId;
         matchInfo.FilterDate = request.FilterDate;
@@ -52,7 +54,7 @@ public class MatchInfoServicesImp : MatchInfoServices
 
     public void UpdateSingleMatch(MatchInfo matchInfo)
     {
-        matchInfo.IsSingleMatch = SingleMatchHelper.IsSingleMatch(matchInfo.MaxbetHDP, matchInfo.SpreadHDP, matchInfo.LeagueName);
+        matchInfo.IsSingleMatch = SingleMatchHelper.IsSingleMatch(matchInfo.MaxbetHDP,matchInfo.LeagueName);
     }
 
     public TimeSpan GetEndTimeForRealMatch(MatchInfo matchInfo)
@@ -62,7 +64,11 @@ public class MatchInfoServicesImp : MatchInfoServices
 
     public TimeSpan GetEndTimeForFtMatch(MatchInfo matchInfo)
     {
-        var etpkType = ETPKHelper.DetectExtraTime(matchInfo.Remark, matchInfo.MinorBettypeId);
+        var etpkType = ETPKHelper.DetectExtraTime(new AssignmentModel
+        {
+            Remark = matchInfo.Remark,
+            AssignmentNote = matchInfo.AssignmentNote
+        });
         return matchInfo.BettypeId is Bettype.FirstHalfHandicap or Bettype.FirstHalfOverUnder
               ? new TimeSpan(1, 0, 0)
               : EndTimeHelper.CalculateFtMatchEndTime(etpkType);
@@ -72,12 +78,16 @@ public class MatchInfoServicesImp : MatchInfoServices
     {
         var endTime = new TimeSpan(2, 0, 0);
 
-        if (matchInfo.MinorBettypeId is not (Bettype.NextCorner or Bettype.NextBooking or Bettype.Corner or Bettype.TotalBooking))
+        if (matchInfo.MinorBettypeId != null && !BetTypeSpecial.BetTypes.Contains(matchInfo.MinorBettypeId.Value))
         {
             return endTime;
         }
 
-        var etpkType = ETPKHelper.DetectExtraTime(matchInfo.Remark, matchInfo.MinorBettypeId);
+        var etpkType = ETPKHelper.DetectExtraTime(new AssignmentModel
+        {
+            Remark = matchInfo.Remark,
+            AssignmentNote = matchInfo.AssignmentNote
+        });
         endTime = EndTimeHelper.CalculateCornerMatchEndTime(etpkType);
 
         return endTime;

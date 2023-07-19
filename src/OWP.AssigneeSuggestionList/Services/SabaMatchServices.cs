@@ -1,4 +1,7 @@
-﻿using OWP.AssigneeSuggestionList.Helper;
+﻿using System.ComponentModel;
+using AutoMapper;
+using Newtonsoft.Json;
+using OWP.AssigneeSuggestionList.Helper;
 using OWP.AssigneeSuggestionList.Models;
 using OWP.Extensions;
 using MatchType = OWP.AssigneeSuggestionList.Constant.MatchType;
@@ -12,6 +15,13 @@ public interface SabaMatchServices
 
 public class SabaMatchesServicesImp : SabaMatchServices
 {
+    private readonly IMapper mapper;
+
+    public SabaMatchesServicesImp(IMapper mapper)
+    {
+        this.mapper = mapper;
+    }
+
     public void MapAssignmentsToWorkingSchedules(IList<WorkingSchedule> workingShifts, IList<AssignmentModel> assignmentModels, DateTime eventDate)
     {
         foreach (var workingShift in workingShifts)
@@ -20,25 +30,26 @@ public class SabaMatchesServicesImp : SabaMatchServices
                 x.UserId == workingShift.UserInfo.UserId &&
                 x.EndTime.CompareTo(workingShift.UserInfo.ShiftStartTime) >= 0 &&
                 x.EventDateTime.CompareTo(workingShift.UserInfo.ShiftEndTime) < 0);
+
             var sabaAssignments = userAssignments
                 .OrderBy(x => x.EventDateTime).ThenBy(x => x.OWPMatchId).ThenBy(x => x.BettypeId)
                 .DistinctBy(x => x.OWPMatchId)
                 .ToList();
 
-            var newSabaAssignments = CategorizeAndGroupSabaMatches(sabaAssignments);
-            workingShift.CategorizedAssignments.AddRange(newSabaAssignments);
+            CategorizeAndGroupSabaMatches(sabaAssignments);
 
-            MapAssignmentsToWorkingSchedule(workingShift, newSabaAssignments, eventDate);
+            workingShift.CategorizedAssignments.AddRange(sabaAssignments);
+
+            MapAssignmentsToWorkingSchedule(workingShift, sabaAssignments, eventDate);
         }
     }
 
-    public List<AssignmentModel> CategorizeAndGroupSabaMatches(List<AssignmentModel> sabaAssignments)
+    public void CategorizeAndGroupSabaMatches(List<AssignmentModel> sabaAssignments)
     {
         CategorizeSabaMatches(sabaAssignments);
         GroupSaba5Mins(sabaAssignments);
+        GroupSabaMix5minsGames(sabaAssignments);
         GroupSabaMultipleGames(sabaAssignments);
-
-        return sabaAssignments;
     }
 
     public static void CategorizeSabaMatches(List<AssignmentModel> sabaMatches)
@@ -75,23 +86,47 @@ public class SabaMatchesServicesImp : SabaMatchServices
         sabaMatches.AddRange(groupedSaba5Mins);
     }
 
-    public static void GroupSabaMultipleGames(List<AssignmentModel> sabaMatches)
+    public void GroupSabaMix5minsGames(List<AssignmentModel> sabaMatches)
+    {
+        var multipleSabaMatches = sabaMatches.Where(x => x.MatchType == MatchType.Saba5Mins)
+                .GroupBy(s => s.EventDateTime.AddMinutes(-s.EventDateTime.Minute))
+                .Where(g => g.Count() == 2)
+                .SelectMany(g => g).ToList();
+
+        sabaMatches.RemoveAll(multipleSabaMatches.Contains);
+
+        var groupedMultipleMatches = multipleSabaMatches
+            .GroupBy(x => x.EventDateTime.AddMinutes(-x.EventDateTime.Minute))
+            .Select(y =>
+            {
+                var orderedAssignments = y.OrderBy(x => x.EventDateTime).ToList();
+                var newAssignment = mapper.Map<AssignmentModel>(orderedAssignments.First());
+                newAssignment.MatchType = MatchType.SabaMix5mins;
+                newAssignment.GroupAssignmentModels = orderedAssignments;
+                return newAssignment;
+            });
+
+        sabaMatches.AddRange(groupedMultipleMatches);
+    }
+
+    public void GroupSabaMultipleGames(List<AssignmentModel> sabaMatches)
     {
         MatchType[] multipleGameTypes = { MatchType.Saba15Mins, MatchType.Saba16Mins, MatchType.Saba20Mins };
 
         var multipleSabaMatches = sabaMatches.Where(x => multipleGameTypes.Contains(x.MatchType)).ToList();
-        sabaMatches.RemoveAll(x => multipleSabaMatches.Contains(x));
+        sabaMatches.RemoveAll(multipleSabaMatches.Contains);
 
         var groupedMultipleMatches = multipleSabaMatches
             .GroupBy(x => x.EventDateTime)
             .Select(y =>
             {
                 var orderedAssignments = y.OrderBy(x => x.EventDateTime).ToList();
-                var firstAssignment = orderedAssignments.First();
-                firstAssignment.MatchType = GetMultipleMatchType(orderedAssignments.Count, firstAssignment.MatchType);
-                firstAssignment.GroupAssignmentModels = orderedAssignments;
+                var newAssignment = mapper.Map<AssignmentModel>(orderedAssignments.First());
 
-                return firstAssignment;
+                newAssignment.MatchType = GetMultipleMatchType(orderedAssignments.Count, newAssignment.MatchType);
+                newAssignment.GroupAssignmentModels = orderedAssignments;
+
+                return newAssignment;
             });
 
         sabaMatches.AddRange(groupedMultipleMatches);
@@ -113,10 +148,10 @@ public class SabaMatchesServicesImp : SabaMatchServices
         foreach (var assignment in assignments)
         {
             var isMultipleMatch =
-                assignment.MatchType is MatchType.SabaLink2G or MatchType.SabaLink3G or MatchType.SabaLink4G;
+                assignment.MatchType is MatchType.SabaLink1G or MatchType.SabaLink2G or MatchType.SabaLink3G or MatchType.SabaLink4G or MatchType.SabaMix5mins;
             var text = isMultipleMatch
-                ? ScheduleHelper.BuildScheduleTextGroupGame(assignment.GroupAssignmentModels)
-                : ScheduleHelper.BuildScheduleTextSingleGame(assignment);
+                ? ScheduleHelper.BuildScheduleTextSabaGroupGame(assignment.GroupAssignmentModels)
+                : ScheduleHelper.BuildScheduleTextSabaSingleGame(assignment);
             var (backgroundColor, textColor) = ScheduleHelper.GetBackgroundAndTextColor(assignment.MatchType);
             var assignmentCell = new AssignmentCell
             {

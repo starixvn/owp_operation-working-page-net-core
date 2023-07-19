@@ -10,7 +10,7 @@ public interface MJGroupService
     void Group(IList<AssignmentModel> assignments,
         WorkingSchedule schedules,
         DateTime filterDate,
-         List<int> owpIdExclude);
+        IDictionary<int, List<AssignmentModel>> gameMapGameId);
 }
 
 public class MJGroupServiceImp : MJGroupService
@@ -25,27 +25,36 @@ public class MJGroupServiceImp : MJGroupService
         IList<AssignmentModel> assignments,
         WorkingSchedule schedules,
         DateTime filterDate,
-        List<int> owpIdExclude)
+        IDictionary<int, List<AssignmentModel>> gameMapGameId)
     {
         var mJGroup = assignments.Where(a => a.IsMajorLeague)
             .ToList();
-        owpIdExclude.AddRange(mJGroup.Select(x => x.OWPMatchId).Distinct());
+        mJGroup.ForEach(g => g.MatchType = Constant.MatchType.RealMj);
         workingSchedule.Group(
            mJGroup,
            schedules,
-           assignment => BuildScheduleUpdateModel(assignment, filterDate));
+           assignment => BuildScheduleUpdateModel(gameMapGameId, assignment, filterDate));
     }
 
-    public static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignments, DateTime filterDate)
+    public static ScheduleUpdateModel BuildScheduleUpdateModel(IDictionary<int, List<AssignmentModel>> gameMapGameId, IList<AssignmentModel> assignments, DateTime filterDate)
     {
+        var textPostfix = ScheduleHelper.BuildTextSingleGamePostfixHdp(gameMapGameId, assignments);
+        if (string.IsNullOrEmpty(textPostfix))
+        {
+            textPostfix = ScheduleHelper.BuildTextSingleGamePostfixOu(gameMapGameId, assignments);
+        }
         var assignmentCell = new AssignmentCell
         {
             Color = ColorCodeConst.MJ,
             TextColor = ColorCodeConst.TEXT_MJ,
-            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignments.First())
+            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignments.First(), textPostfix)
         };
         var gameInfo = ScheduleHelper.GetGameInfo(assignments);
-        var etPkValue = ETPKHelper.DetectExtraTime(gameInfo.remark);
+        var etPkValue = ETPKHelper.DetectExtraTime(new AssignmentModel
+        {
+            Remark = gameInfo.remark,
+            AssignmentNote = gameInfo.assignmentNote
+        });
 
         return new ScheduleUpdateModel
         {

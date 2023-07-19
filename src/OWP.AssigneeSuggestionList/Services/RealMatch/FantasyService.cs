@@ -10,7 +10,7 @@ public interface FantasyService
         IList<AssignmentModel> assignments,
         WorkingSchedule schedule,
         DateTime filterDate,
-        List<int> owpIdExclude);
+        IDictionary<int, List<AssignmentModel>> gameMapGameId);
 }
 
 public class FantasyServiceImp : FantasyService
@@ -26,26 +26,42 @@ public class FantasyServiceImp : FantasyService
         IList<AssignmentModel> assignments,
         WorkingSchedule schedule,
         DateTime filterDate,
-        List<int> owpIdExclude)
+        IDictionary<int, List<AssignmentModel>> gameMapGameId)
     {
         var matchGroup = assignments.Where(a => a.IsFantasyMatch).ToList();
-        owpIdExclude.AddRange(matchGroup.Select(x => x.OWPMatchId).Distinct());
+        foreach (var game in matchGroup)
+        {
+            game.MatchType = Constant.MatchType.RealFantasy;
+        }
+
         workingSchedule.Group(
            matchGroup,
            schedule,
-           assignment => BuildScheduleUpdateModel(assignment, filterDate));
+           assignment => BuildScheduleUpdateModel(gameMapGameId, assignment, filterDate));
     }
 
-    public static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignments, DateTime filterDate)
+    public static ScheduleUpdateModel BuildScheduleUpdateModel(IDictionary<int, List<AssignmentModel>> gameMapGameId, IList<AssignmentModel> assignments, DateTime filterDate)
     {
+        var textPostfix = ScheduleHelper.BuildTextSingleGamePostfixHdp(gameMapGameId, assignments);
+        if (string.IsNullOrEmpty(textPostfix))
+        {
+            textPostfix = ScheduleHelper.BuildTextSingleGamePostfixOu(gameMapGameId, assignments);
+        }
+
         var assignmentCell = new AssignmentCell
         {
             Color = ColorCodeConst.FANTASY,
             TextColor = ColorCodeConst.TEXT_FANTASY,
-            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignments.First())
+            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignments.First(), textPostfix)
         };
         var gameInfo = ScheduleHelper.GetGameInfo(assignments);
-        var etPkValue = FirstHalfHelper.IsFirstHalf(assignments) ? string.Empty : ETPKHelper.DetectExtraTime(gameInfo.remark);
+        var etPkValue = FirstHalfHelper.IsFirstHalf(assignments)
+        ? string.Empty
+        : ETPKHelper.DetectExtraTime(new AssignmentModel
+        {
+            Remark = gameInfo.remark,
+            AssignmentNote = gameInfo.assignmentNote
+        });
 
         return new ScheduleUpdateModel
         {

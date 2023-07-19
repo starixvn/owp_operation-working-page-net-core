@@ -9,6 +9,8 @@ namespace OWP.AssigneeSuggestionList.UnitTests.Services;
 public class MJServiceUnitTests
 {
     private List<AssignmentModel> assignments = new();
+    private IDictionary<int, List<AssignmentModel>> gameMapGameId = new Dictionary<int, List<AssignmentModel>>();
+
 
     private void Initialize()
     {
@@ -24,6 +26,8 @@ public class MJServiceUnitTests
                 Remark = "ET/PK"
             }
         };
+
+        gameMapGameId = assignments.GroupBy(x => x.OWPMatchId).ToDictionary(x => x.Key, x => x.ToList());
     }
 
     [Fact]
@@ -33,7 +37,7 @@ public class MJServiceUnitTests
         Initialize();
 
         // Act
-        var result = MJGroupServiceImp.BuildScheduleUpdateModel(assignments, DateTime.Parse("2023-3-31 18:00:00"));
+        var result = MJGroupServiceImp.BuildScheduleUpdateModel(gameMapGameId,assignments, DateTime.Parse("2023-3-31 18:00:00"));
 
         var expect = new ScheduleUpdateModel
         {

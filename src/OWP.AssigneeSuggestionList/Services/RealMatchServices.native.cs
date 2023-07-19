@@ -1,4 +1,5 @@
-﻿using OWP.AssigneeSuggestionList.Models;
+﻿using System.Collections.Immutable;
+using OWP.AssigneeSuggestionList.Models;
 using OWP.AssigneeSuggestionList.Services.RealMatch;
 
 namespace OWP.AssigneeSuggestionList.Services;
@@ -41,16 +42,21 @@ public class RealMatchServicesImp : RealMatchServices
     {
         var fromDate = filterDate.Date.AddHours(12);
 
+        var gameMapGameId = GameMapGameId(assignmentModels);
         foreach (var schedule in schedules)
         {
-            var owpIdExclude = new List<int>();
             var assignments = GetAssignmentsBelongWs(assignmentModels, schedule);
-            mainGameServices.MapAssignmentsToWorkingSchedule(schedule, assignments, fromDate, owpIdExclude);
-            specialGameService.MapAssignmentsToWorkingSchedule(schedule, assignments, fromDate, owpIdExclude);
-            linkGameService.MapAssignmentsToWorkingSchedule(schedule, assignments, fromDate, owpIdExclude);
-            etPkService.Group(assignments, schedule, fromDate, owpIdExclude);
+            mainGameServices.MapAssignmentsToWorkingSchedule(schedule, assignments, fromDate, gameMapGameId);
+            specialGameService.MapAssignmentsToWorkingSchedule(schedule, assignments, fromDate, gameMapGameId);
+            linkGameService.MapAssignmentsToWorkingSchedule(schedule, assignments, fromDate, gameMapGameId);
+            etPkService.Group(assignments, schedule, fromDate);
         }
     }
+
+    private static IDictionary<int, List<AssignmentModel>> GameMapGameId(IList<AssignmentModel> assignmentModels)
+    => assignmentModels
+        .GroupBy(g => g.OWPMatchId)
+        .ToDictionary(x => x.Key, x => x.ToList());
 
     private static IList<AssignmentModel> GetAssignmentsBelongWs(IEnumerable<AssignmentModel> assignments, WorkingSchedule schedule)
         => assignments.Where(x =>

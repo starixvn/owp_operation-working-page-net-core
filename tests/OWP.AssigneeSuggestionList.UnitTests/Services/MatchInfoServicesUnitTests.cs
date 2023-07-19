@@ -72,7 +72,7 @@ public class MatchInfoServicesUnitTests
         var service = new MatchInfoServicesImp(repository);
         var actual = await service.GetMatchInfo(new QueryTraderSuggestionRequest { BetTypeId = 1 });
 
-        Assert.Equal(new DateTime(2023, 4, 19, 17, 0, 0, 0), actual?.EndTime);
+        Assert.Equal(new DateTime(2023, 4, 19, 16, 0, 0, 0), actual?.EndTime);
         Assert.Equal(true, actual?.IsSingleMatch);
     }
 }

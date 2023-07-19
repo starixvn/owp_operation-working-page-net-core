@@ -1,5 +1,6 @@
 ﻿using OWP.AssigneeSuggestionList.Models;
 using System.Collections.Immutable;
+using OWP.Constants;
 
 namespace OWP.AssigneeSuggestionList.Constant;
 
@@ -9,17 +10,21 @@ public static class ColorCodeConst
     public const string ONE_GAME = "#92D050";
     public const string TWO_GAME = "#FF6699";
     public const string THREE_GAME = "#F79646";
+    public const string FOUR_GAME = "#008080";
     public const string ERROR = "#FFFFFF";
     public const string FIRST_HALF = "#B1A0C7";
     public const string FANTASY = "#E6B8B7";
     public const string CORNER = "#C00000";
+    public const string WINNER = "#036541";
+    public const string BOOKING = "#FEFE88";
+    public const string SINGLE_TEAM = "#DF908E";
     public const string X_MINS = "#0070C0";
     public const string ET_PK = "#000000";
     public const string SHIFT = "#BFBFBF";
 
     public const string TEXT_COLOR_BLACK = "#444444";
     public const string TEXT_COLOR_WHITE = "#FFFFFF";
-
+    public const string TEXT_FOUR_GAME = TEXT_COLOR_WHITE;
     public const string TEXT_MJ = TEXT_COLOR_BLACK;
     public const string TEXT_ONE_GAME = TEXT_COLOR_BLACK;
     public const string TEXT_TWO_GAME = TEXT_COLOR_BLACK;
@@ -28,6 +33,9 @@ public static class ColorCodeConst
     public const string TEXT_FIRST_HALF = TEXT_COLOR_BLACK;
     public const string TEXT_FANTASY = TEXT_COLOR_BLACK;
     public const string TEXT_CORNER = TEXT_COLOR_WHITE;
+    public const string TEXT_WINNER = TEXT_COLOR_WHITE;
+    public const string TEXT_BOOKING = TEXT_COLOR_BLACK;
+    public const string TEXT_SINGLE_TEAM = TEXT_COLOR_BLACK;
     public const string TEXT_X_MINS = TEXT_COLOR_WHITE;
     public const string TEXT_ET_PK = "#FFEA29";
 
@@ -47,11 +55,17 @@ public static class ColorCodeConst
          new ("1G", ONE_GAME, TEXT_COLOR_BLACK),
          new ("2G", TWO_GAME, TEXT_COLOR_BLACK),
          new ("3G", THREE_GAME, TEXT_COLOR_BLACK),
+         new ("4G+", FOUR_GAME, TEXT_COLOR_WHITE),
          new ("1st half", FIRST_HALF, TEXT_COLOR_BLACK),
          new ("Fantasy", FANTASY, TEXT_COLOR_BLACK),
          new ("CR/NCR", CORNER, TEXT_COLOR_WHITE),
+         new ("BOOKING", BOOKING, TEXT_COLOR_BLACK),
+         new ("WINNER", WINNER, TEXT_COLOR_WHITE),
+         new ("SingleTeam", SINGLE_TEAM, TEXT_COLOR_BLACK),
          new ("15M OU", X_MINS, TEXT_COLOR_WHITE),
+         new ("ET/PK", ET_PK, TEXT_ET_PK),
          new ("5M", SABA_5MINS, TEXT_COLOR_WHITE),
+         new ("5M*2", SABA_5MINS, TEXT_COLOR_WHITE),
          new ("Saba Futsal", SABA_FUTSAL, TEXT_COLOR_BLACK),
          new ("M88", SABA_M88, TEXT_COLOR_BLACK),
          new ("16M", SABA_16MINS, TEXT_COLOR_WHITE),
@@ -66,6 +80,7 @@ public static class ColorCodeConst
     public static readonly ImmutableDictionary<MatchType, (string, string)> ColorByGroupName = new Dictionary<MatchType, (string, string)>
     {
         { MatchType.Saba5Mins, (SABA_5MINS, TEXT_COLOR_WHITE) },
+        { MatchType.SabaMix5mins, (SABA_5MINS, TEXT_COLOR_WHITE) },
         { MatchType.SabaFutsal6Mins, (SABA_FUTSAL, TEXT_COLOR_BLACK) },
         { MatchType.SabaM8816Mins, (SABA_M88, TEXT_COLOR_BLACK) },
         { MatchType.SabaLink1G, (SABA_1G, TEXT_COLOR_BLACK) },
@@ -80,11 +95,7 @@ public static class ETPKConstant
 {
     public const string ETPK = "ET/PK";
 
-    public const string ET = "ET";
-
     public const string PK = "PK";
-
-    public const string ETPK_Confirm = "Pls cfm this game have ET, PK or not";
 }
 
 public static class WorkingShiftConst
@@ -184,6 +195,25 @@ public static class OrderConstant
     public const decimal UpperMaxBet = 80_000;
 }
 
+public static class MatchTypeLabel
+{
+    public static ImmutableDictionary<MatchType, string> MatchTypeMapLabel = new Dictionary<MatchType, string>
+    {
+        {MatchType.Saba5Mins, "5"},
+        {MatchType.Saba15Mins, "15"},
+        {MatchType.Saba16Mins, "16"},
+        {MatchType.Saba20Mins, "20"},
+    }.ToImmutableDictionary();
+}
+
+public static class BetTypeSpecial
+{
+    public static readonly int[] BetTypes =
+    {
+        Bettype.NextCorner, Bettype.Corner, Bettype.NextBooking, Bettype.TotalBooking, Bettype.Winner,
+        Bettype.AwaySingleTeam, Bettype.HomeSingleTeam
+    };
+}
 
 
 

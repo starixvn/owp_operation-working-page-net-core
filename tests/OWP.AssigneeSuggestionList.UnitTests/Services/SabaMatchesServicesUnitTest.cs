@@ -1,14 +1,27 @@
-﻿using OWP.AssigneeSuggestionList.Models;
+﻿using AutoMapper;
+using OWP.AssigneeSuggestionList.Models;
 using Xunit;
 using Xunit.Asserts.Compare;
 
 namespace OWP.AssigneeSuggestionList.UnitTests.Services;
 
 using Constant;
+using NSubstitute;
 using OWP.AssigneeSuggestionList.Services;
 
 public class SabaMatchesServicesUnitTest
 {
+    private readonly IMapper mapper;
+    public SabaMatchesServicesUnitTest()
+    {
+        var configuration = new MapperConfiguration(cfg =>
+        {
+            cfg.CreateMap<AssignmentModel, AssignmentModel>();
+           
+        });
+        mapper = configuration.CreateMapper();
+    }
+
     [Theory]
     [InlineData("SABA ELITE FRIENDLY Virtual PES 20 - 5 Mins Play - ALL IN ONE", MatchType.Saba5Mins)]
     [InlineData("SABA CLUB FRIENDLY Virtual PES 20 - 6 Mins Play", MatchType.SabaFutsal6Mins)]
@@ -180,14 +193,7 @@ public class SabaMatchesServicesUnitTest
                 HomeName = "B",
                 AwayName = "C",
                 EventDateTime = new DateTime(2022, 03, 29, 02, 00, 00),
-                MatchType = MatchType.Saba5Mins
-            },
-            new()
-            {
-                OWPMatchId = 4,
-                LeagueName = "SABA PES 20 - 5 Mins Play",
-                EventDateTime = new DateTime(2022, 03, 29, 02, 30, 00),
-                MatchType = MatchType.Saba5Mins
+                MatchType = MatchType.SabaMix5mins
             },
             // multiple game
             new()
@@ -211,9 +217,9 @@ public class SabaMatchesServicesUnitTest
             }
         };
 
-        var actual = new SabaMatchesServicesImp().CategorizeAndGroupSabaMatches(mockedAssignment);
+        new SabaMatchesServicesImp(mapper).CategorizeAndGroupSabaMatches(mockedAssignment);
 
-        DeepAssert.Equal(expected, actual, "GroupAssignmentModels");
+        DeepAssert.Equal(expected, mockedAssignment, "GroupAssignmentModels");
     }
 
     [Theory]
@@ -258,8 +264,8 @@ public class SabaMatchesServicesUnitTest
                 MatchType = MatchType.SabaLink2G,
                 GroupAssignmentModels = new List<AssignmentModel>
                 {
-                    new(){ MaxbetHDP = 100000, LeagueName = "Saba A" },
-                    new(){ MaxbetHDP = 200000, LeagueName = "Saba A" }
+                    new(){ MaxbetHDP = 100000, LeagueName = "Saba A", MatchType = MatchType.Saba15Mins},
+                    new(){ MaxbetHDP = 200000, LeagueName = "Saba A" ,MatchType = MatchType.Saba15Mins}
                 }
             },
             new()
@@ -274,8 +280,8 @@ public class SabaMatchesServicesUnitTest
         var expected = new WorkingSchedule
         {
             Today_14h = new AssignmentCell { Text = "*V", TextColor = "#444444", Color = "#FCD5B4" },
-            Yesterday_02h = new AssignmentCell { Text = "*V/3.333K", TextColor = "#FFFFFF", Color = "#7030A0" },
-            Today_02h = new AssignmentCell { Text = "*V/100K+200K", TextColor = "#FFFFFF", Color = "#A34262" },
+            Yesterday_02h = new AssignmentCell { Text = "*V", TextColor = "#FFFFFF", Color = "#7030A0" },
+            Today_02h = new AssignmentCell { Text = "*V/15*2", TextColor = "#FFFFFF", Color = "#A34262" },
             Tomorrow_15h = new AssignmentCell { Text = "Error!", TextColor = "#FF0000", Color = "#FFFFFF" }
         };
 
@@ -361,11 +367,11 @@ public class SabaMatchesServicesUnitTest
         {
             Today_14h = new AssignmentCell { Text = "*V", TextColor = "#444444", Color = "#FCD5B4" },
             Yesterday_02h = null,
-            Today_02h = new AssignmentCell { Text = "*V/100K+200K", TextColor = "#FFFFFF", Color = "#A34262" },
+            Today_02h = new AssignmentCell { Text = "*V/16+20", TextColor = "#FFFFFF", Color = "#A34262" },
             Tomorrow_15h = null
         };
 
-        new SabaMatchesServicesImp().MapAssignmentsToWorkingSchedules(workingSchedules, assignmentModels, eventDate);
+        new SabaMatchesServicesImp(mapper).MapAssignmentsToWorkingSchedules(workingSchedules, assignmentModels, eventDate);
 
         DeepAssert.Equal(expected, workingSchedules[0], "UserInfo", "CategorizedAssignments");
     }

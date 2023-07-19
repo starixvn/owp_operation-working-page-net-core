@@ -9,8 +9,7 @@ public interface EtPkService
     void Group(
         IList<AssignmentModel> assignments,
         WorkingSchedule schedule,
-        DateTime filterDate,
-        IList<int> owpMatchIdExclude);
+        DateTime filterDate);
 }
 
 public class EtPkServiceImp : EtPkService
@@ -25,12 +24,11 @@ public class EtPkServiceImp : EtPkService
     public void Group(
         IList<AssignmentModel> assignments,
         WorkingSchedule schedule,
-        DateTime filterDate,
-        IList<int> owpMatchIdExclude)
+        DateTime filterDate)
     {
         var gameGroup = assignments?.Where(a =>
-            !string.IsNullOrEmpty(ETPKHelper.DetectExtraTime(a.Remark)) &&
-            !owpMatchIdExclude.Contains(a.OWPMatchId)).ToList();
+            !string.IsNullOrEmpty(ETPKHelper.DetectExtraTime(a)) &&
+            a.MatchType == Constant.MatchType.Other).ToList();
 
         workingSchedule.Group(
            gameGroup,
@@ -44,7 +42,18 @@ public class EtPkServiceImp : EtPkService
     {
         var gameInfo = ScheduleHelper.GetGameInfo(assignments);
 
-        var etPkValue = ETPKHelper.DetectExtraTime(gameInfo.remark);
+        var etPkValue = FirstHalfHelper.IsFirstHalf(assignments) ?
+                string.Empty
+                : ETPKHelper.DetectExtraTime(new AssignmentModel
+                {
+                    Remark = gameInfo.remark,
+                    AssignmentNote = gameInfo.assignmentNote
+                });
+
+        if (string.IsNullOrEmpty(etPkValue))
+        {
+            return null;
+        }
 
         var assignmentCell = new AssignmentCell
         {
@@ -58,7 +67,7 @@ public class EtPkServiceImp : EtPkService
             FilterDate = filterDate,
             EtPk = new ETPKUpdateSchedule
             {
-                IsHasEtPk = true,
+                IsHasEtPk = string.IsNullOrEmpty(etPkValue),
                 EtPkValue = etPkValue
             },
             AssignmentCell = assignmentCell,

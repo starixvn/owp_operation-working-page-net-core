@@ -10,8 +10,7 @@ public interface OneGameService
     void Group(
         IList<AssignmentModel> assignments,
         WorkingSchedule schedules,
-        DateTime filterDate,
-        List<int> owpIdExclude);
+        DateTime filterDate, IDictionary<int, List<AssignmentModel>> gameMapGameId);
 }
 
 public class OneGameServiceImp : OneGameService
@@ -27,35 +26,47 @@ public class OneGameServiceImp : OneGameService
         IList<AssignmentModel> assignments,
         WorkingSchedule schedules,
         DateTime filterDate,
-        List<int> owpIdExclude)
+        IDictionary<int, List<AssignmentModel>> gameMapGameId)
     {
         var oneGameGroupPair = LinkGameConditionHelper.GroupGame(assignments, numberGameInGroup => numberGameInGroup == 1);
 
         var oneGameGroup = new List<AssignmentModel>();
-        foreach (var assignment in oneGameGroupPair.Values)
+        foreach (var oneGame in oneGameGroupPair.Values)
         {
-            oneGameGroup.AddRange(assignment);
+            oneGame.ForEach(g => g.MatchType = MatchType.RealMatchLink1G);
+            oneGameGroup.AddRange(oneGame);
         }
-
-        owpIdExclude.AddRange(oneGameGroup.Select(x => x.OWPMatchId).Distinct());
 
         workingSchedule.Group(
            oneGameGroup,
            schedules,
-           assignment => BuildScheduleUpdateModel(assignment, filterDate),
+           assignment => BuildScheduleUpdateModel(gameMapGameId, assignment, filterDate),
            MatchType.RealMatchLink1G);
     }
 
-    public static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignments, DateTime filterDate)
+    public static ScheduleUpdateModel BuildScheduleUpdateModel(
+    IDictionary<int, List<AssignmentModel>> gameMapGameId,
+    IList<AssignmentModel> assignments, DateTime filterDate)
     {
+        var textPostfix = ScheduleHelper.BuildTextSingleGamePostfixHdp(gameMapGameId, assignments);
+        if (string.IsNullOrEmpty(textPostfix))
+        {
+            textPostfix = ScheduleHelper.BuildTextSingleGamePostfixOu(gameMapGameId, assignments);
+        }
         var assignmentCell = new AssignmentCell
         {
             Color = ColorCodeConst.ONE_GAME,
             TextColor = ColorCodeConst.TEXT_ONE_GAME,
-            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignments.First())
+            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignments.First(), textPostfix)
         };
         var gameInfo = ScheduleHelper.GetGameInfo(assignments);
-        var etPkValue = FirstHalfHelper.IsFirstHalf(assignments) ? string.Empty : ETPKHelper.DetectExtraTime(gameInfo.remark);
+        var etPkValue = FirstHalfHelper.IsFirstHalf(assignments)
+        ? string.Empty
+        : ETPKHelper.DetectExtraTime(new AssignmentModel
+        {
+            Remark = gameInfo.remark,
+            AssignmentNote = gameInfo.assignmentNote
+        });
 
         return new ScheduleUpdateModel
         {

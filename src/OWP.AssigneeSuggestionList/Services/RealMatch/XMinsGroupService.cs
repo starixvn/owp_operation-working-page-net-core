@@ -9,8 +9,7 @@ public interface XMinsGroupService
     void Group(
         IList<AssignmentModel> assignments,
         WorkingSchedule schedule,
-        DateTime filterDate,
-        List<int> owpIdExclude);
+        DateTime filterDate);
 }
 
 public class XMinsGroupServiceImp : XMinsGroupService
@@ -25,12 +24,14 @@ public class XMinsGroupServiceImp : XMinsGroupService
     public void Group(
         IList<AssignmentModel> assignments,
         WorkingSchedule schedule,
-        DateTime filterDate,
-        List<int> owpIdExclude)
+        DateTime filterDate)
     {
         var gameGroup = assignments.Where(a => a.Is15Mins).ToList();
-        owpIdExclude.AddRange(gameGroup.Select(x => x.OWPMatchId).Distinct());
-
+      
+        foreach (var game in gameGroup)
+        {
+            game.MatchType = Constant.MatchType.Real15MOU;
+        }
         workingSchedule.Group(
            gameGroup,
            schedule,
@@ -50,20 +51,15 @@ public class XMinsGroupServiceImp : XMinsGroupService
         {
             Color = ColorCodeConst.X_MINS,
             TextColor = ColorCodeConst.TEXT_X_MINS,
-            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignment)
+            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignment, string.Empty)
         };
-        var etPkValue = ETPKHelper.DetectExtraTime(gameInfo.remark);
 
         return new ScheduleUpdateModel
         {
             FilterDate = filterDate,
-            EtPk = new ETPKUpdateSchedule
-            {
-                IsHasEtPk = !string.IsNullOrEmpty(etPkValue),
-                EtPkValue = etPkValue
-            },
+            EtPk = new ETPKUpdateSchedule(),
             AssignmentCell = assignmentCell,
-            TimeRange = TimeRangeHelper.CalculateTimeRangeFT(gameInfo.eventDate, !string.IsNullOrEmpty(etPkValue))
+            TimeRange = TimeRangeHelper.CalculateTimeRangeFT(gameInfo.eventDate, false)
         };
     }
 }

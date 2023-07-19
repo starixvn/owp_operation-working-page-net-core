@@ -9,6 +9,8 @@ namespace OWP.AssigneeSuggestionList.UnitTests.Services;
 public class CornerServiceUnitTests
 {
     private readonly List<AssignmentModel> assignmentsCorner;
+    private IDictionary<int, List<AssignmentModel>> gameMapGameId = new Dictionary<int, List<AssignmentModel>>();
+
 
     public CornerServiceUnitTests()
     {
@@ -27,12 +29,14 @@ public class CornerServiceUnitTests
                 Remark="ETPK"
             }
         };
+        gameMapGameId = assignmentsCorner.GroupBy(x => x.OWPMatchId).ToDictionary(x => x.Key, x => x.ToList());
+
     }
 
     [Fact]
     public void BuildScheduleUpdateModel_ReturnScheduleUpdateModel()
     {
-        var result = CornerServiceImp.BuildScheduleUpdateModel(assignmentsCorner, DateTime.Parse("2023-3-31 18:05:00"));
+        var result = CornerServiceImp.BuildScheduleUpdateModel(gameMapGameId,assignmentsCorner, DateTime.Parse("2023-3-31 18:05:00"));
 
         var expect = new ScheduleUpdateModel
         {

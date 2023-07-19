@@ -21,12 +21,14 @@ public static class AssigneeSuggestionListInjector
         services.AddScoped<SabaMatchServices, SabaMatchesServicesImp>();
         services.AddScoped<RealMatchServices, RealMatchServicesImp>();
         services.AddScoped<WorkingShiftService, WorkingShiftServiceImp>();
-        services.AddScoped<LinkErrorService, LinkErrorServiceImp>();
         services.AddScoped<EtPkService, EtPkServiceImp>();
         services.AddScoped<MainGameService, MainGameServiceImp>();
         services.AddScoped<SpecialGameService, SpecialGameServiceImp>();
         services.AddScoped<LinkGameService, LinkGameServiceImp>();
         services.AddScoped<MatchInfoServices, MatchInfoServicesImp>();
+        services.AddScoped<SingleTeamService, SingleTeamServiceImp>();
+        services.AddScoped<WinnerService, WinnerServiceImp>();
+        services.AddScoped<BookingService, BookingServiceImp>();
         // categorize
         services.AddScoped<CategorizeRealMatchServices, CategorizeRealMatchServicesImp>();
     }

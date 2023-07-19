@@ -51,8 +51,10 @@ public class AssignmentModel
 
     public int? MinorBettypeId { get; set; }
 
+    public string AssignmentNote { get; set; }
+
     [JsonIgnore]
     public List<AssignmentModel> GroupAssignmentModels { get; set; } = new();
 
-    public bool IsSingleMatch => SingleMatchHelper.IsSingleMatch(MaxbetHDP, SpreadHDP, LeagueName);
+    public bool IsSingleMatch => SingleMatchHelper.IsSingleMatch(MaxbetHDP, LeagueName);
 }
