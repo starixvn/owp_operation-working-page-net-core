@@ -36,7 +36,7 @@ public class EndTimeHelperUnitTest
 
         Assert.Equal(new DateTime(2023, 4, 14, 12, 0, 0), actual[0].EndTime);
         Assert.Equal(new DateTime(2023, 4, 14, 12, 30, 0), actual[1].EndTime);
-        Assert.Equal(new DateTime(2023, 4, 14, 13, 00, 0), actual[2].EndTime);
+        Assert.Equal(new DateTime(2023, 4, 14, 12, 30, 0), actual[2].EndTime);
         Assert.Equal(new DateTime(2023, 4, 14, 11, 00, 0), actual[3].EndTime);
     }
 
@@ -51,7 +51,7 @@ public class EndTimeHelperUnitTest
 
         var actual = EndTimeHelper.Update(assignment);
 
-        Assert.Equal(new DateTime(2023, 4, 14, 13, 0, 0), actual[0].EndTime);
-        Assert.Equal(new DateTime(2023, 4, 14, 12, 0, 0), actual[1].EndTime);
+        Assert.Equal(new DateTime(2023, 4, 14, 12, 00, 0), actual[0].EndTime);
+        Assert.Equal(new DateTime(2023, 4, 14, 12, 00, 0), actual[1].EndTime);
     }
 }

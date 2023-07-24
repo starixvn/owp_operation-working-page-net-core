@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-using AutoMapper;
-using Newtonsoft.Json;
+﻿using AutoMapper;
 using OWP.AssigneeSuggestionList.Helper;
 using OWP.AssigneeSuggestionList.Models;
 using OWP.Extensions;
@@ -11,15 +9,24 @@ namespace OWP.AssigneeSuggestionList.Services;
 public interface SabaMatchServices
 {
     void MapAssignmentsToWorkingSchedules(IList<WorkingSchedule> workingShifts, IList<AssignmentModel> assignmentModels, DateTime eventDate);
+
+    void CategoryAssignee(List<WorkingSchedule> schedules, MatchInfo matchInfo);
 }
 
 public class SabaMatchesServicesImp : SabaMatchServices
 {
     private readonly IMapper mapper;
+    private readonly CategorizeSabaMatchServices categorizeSabaMatchServices;
 
-    public SabaMatchesServicesImp(IMapper mapper)
+    public SabaMatchesServicesImp(IMapper mapper, CategorizeSabaMatchServices categorizeSabaMatchServices)
     {
         this.mapper = mapper;
+        this.categorizeSabaMatchServices = categorizeSabaMatchServices;
+    }
+
+    public void CategoryAssignee(List<WorkingSchedule> schedules, MatchInfo matchInfo)
+    {
+        categorizeSabaMatchServices.Categorize(schedules, matchInfo);
     }
 
     public void MapAssignmentsToWorkingSchedules(IList<WorkingSchedule> workingShifts, IList<AssignmentModel> assignmentModels, DateTime eventDate)

@@ -1,5 +1,6 @@
 ﻿using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Models;
+using OWP.Extensions;
 using MatchType = OWP.AssigneeSuggestionList.Constant.MatchType;
 
 namespace OWP.AssigneeSuggestionList.Helper;
@@ -7,12 +8,16 @@ public static class OrderAssigneeHelper
 {
     public static List<WorkingSchedule> SortAssignee(MatchInfo matchInfo, List<WorkingSchedule> workingSchedules)
         => matchInfo.IsMainMatch
-            ? SortMainMatchAssignee(matchInfo, workingSchedules)
-            : SortChildMatchAssignee(matchInfo, workingSchedules);
+            ? SortMainMatchAssignee(workingSchedules , matchInfo)
+            : SortChildMatchAssignee(workingSchedules, matchInfo);
 
-    public static List<WorkingSchedule> SortMainMatchAssignee(MatchInfo matchInfo,
-        List<WorkingSchedule> workingSchedules)
+    public static List<WorkingSchedule> SortMainMatchAssignee(List<WorkingSchedule> workingSchedules, MatchInfo matchInfo )
     {
+        if (matchInfo.IsSaba)
+        {
+            return SortAssigneeBySabaMatch(workingSchedules, matchInfo);
+        }
+
         if (matchInfo.IsSoloMatch)
         {
             return SortAssigneeBySoloMatch(workingSchedules, matchInfo);
@@ -26,28 +31,37 @@ public static class OrderAssigneeHelper
         return SortAssigneeByMaxbet(workingSchedules, matchInfo);
     }
 
-    public static List<WorkingSchedule> SortFutsalMatchAssignee(
-        List<WorkingSchedule> workingSchedules, MatchInfo matchInfo)
+    public static List<WorkingSchedule> SortAssigneeBySabaMatch(List<WorkingSchedule> workingSchedules, MatchInfo matchInfo)
         => workingSchedules.OrderBy(x => x.UserInfo.ShiftStartTime)
-            .ThenBy(x => SortByMainBetTypeMainMatch(x.UserInfo.MainBetType, matchInfo))
+            .ThenBy(x => SortByMainBetTypeSabaMatch(x.UserInfo.MainBetType, matchInfo))
+            .ThenBy(x => SortByRole(x.UserInfo.Role))
+            .ThenBy(x => SortByWorkLoad(x.UserInfo, x.CategorizedAssignments, matchInfo))
+            .ThenBy(x => SortByMatchType(x.CategorizedAssignments, matchInfo))
+            .ToList();
+
+    public static List<WorkingSchedule> SortFutsalMatchAssignee(List<WorkingSchedule> workingSchedules, MatchInfo matchInfo)
+        => workingSchedules.OrderBy(x => x.UserInfo.ShiftStartTime)
+            .ThenBy(x => SortByMainBetTypeFutsalMatch(x.UserInfo.MainBetType))
             .ThenBy(x => SortByMainLevel(x.UserInfo.LevelLabel))
             .ThenBy(x => SortByRole(x.UserInfo.Role))
             .ThenBy(x => SortByWorkLoad(x.UserInfo, x.CategorizedAssignments, matchInfo))
+            .ThenBy(x => SortByMatchType(x.CategorizedAssignments, matchInfo))
             .ToList();
 
-    public static List<WorkingSchedule> SortChildMatchAssignee(MatchInfo matchInfo, List<WorkingSchedule> workingSchedules)
+    public static List<WorkingSchedule> SortChildMatchAssignee(List<WorkingSchedule> workingSchedules, MatchInfo matchInfo)
         => workingSchedules.OrderBy(x => x.UserInfo.ShiftStartTime)
             .ThenBy(x => SortByChildLevel(x.UserInfo.LevelLabel))
             .ThenBy(x => SortByMainBetTypeChildMatch(x.UserInfo.MainBetType))
             .ThenBy(x => SortByWorkLoad(x.UserInfo, x.CategorizedAssignments, matchInfo))
+            .ThenBy(x => SortByMatchType(x.CategorizedAssignments, matchInfo))
             .ToList();
 
-    public static List<WorkingSchedule> SortAssigneeBySoloMatch(
-        List<WorkingSchedule> workingSchedules, MatchInfo matchInfo)
+    public static List<WorkingSchedule> SortAssigneeBySoloMatch(List<WorkingSchedule> workingSchedules, MatchInfo matchInfo)
         => workingSchedules.OrderBy(x => x.UserInfo.ShiftStartTime)
             .ThenBy(x => SortByMainLevel(x.UserInfo.LevelLabel))
             .ThenBy(x => SortByMainBetTypeMainMatch(x.UserInfo.MainBetType, matchInfo))
             .ThenBy(x => SortByWorkLoad(x.UserInfo, x.CategorizedAssignments, matchInfo))
+            .ThenBy(x => SortByMatchType(x.CategorizedAssignments, matchInfo))
             .ToList();
 
     public static List<WorkingSchedule> SortAssigneeByMaxbet(List<WorkingSchedule> workingSchedules, MatchInfo matchInfo)
@@ -57,12 +71,14 @@ public static class OrderAssigneeHelper
                                       .ThenBy(x => SortByMainLevel(x.UserInfo.LevelLabel))
                                       .ThenBy(x => SortByMainBetTypeMainMatch(x.UserInfo.MainBetType, matchInfo))
                                       .ThenBy(x => SortByWorkLoad(x.UserInfo, x.CategorizedAssignments, matchInfo))
+                                      .ThenBy(x => SortByMatchType(x.CategorizedAssignments, matchInfo))
                                       .ToList(),
 
           <= OrderConstant.LowerMaxBet => workingSchedules.OrderBy(x => x.UserInfo.ShiftStartTime)
                                       .ThenBy(x => SortByMainLevel(x.UserInfo.LevelLabel))
                                       .ThenBy(x => SortByRole(x.UserInfo.Role))
                                       .ThenBy(x => SortByWorkLoad(x.UserInfo, x.CategorizedAssignments, matchInfo))
+                                      .ThenBy(x => SortByMatchType(x.CategorizedAssignments, matchInfo))
                                       .ToList(),
 
           _ => workingSchedules.OrderBy(x => x.UserInfo.ShiftStartTime)
@@ -70,6 +86,7 @@ public static class OrderAssigneeHelper
                                       .ThenBy(x => SortByMainBetTypeMainMatch(x.UserInfo.MainBetType, matchInfo))
                                       .ThenBy(x => SortByRole(x.UserInfo.Role))
                                       .ThenBy(x => SortByWorkLoad(x.UserInfo, x.CategorizedAssignments, matchInfo))
+                                      .ThenBy(x => SortByMatchType(x.CategorizedAssignments, matchInfo))
                                       .ToList()
       };
 
@@ -84,29 +101,34 @@ public static class OrderAssigneeHelper
 
     public static int SortByMainBetTypeMainMatch(string mainBetType, MatchInfo matchInfo)
     {
-        if (string.IsNullOrEmpty(mainBetType))
-        {
-            return int.MaxValue;
-        }
-
-        var mainBetTypeLst = mainBetType.Split(',');
-        if (matchInfo.IsFutsal && !matchInfo.IsSaba)
-        {
-            return mainBetTypeLst.Select(x => Array.IndexOf(OrderConstant.MainBetTypesFs, x)).Min();
-        }
-
         if (OrderConstant.OuTypeIds.Contains(matchInfo.BettypeId))
         {
-            return mainBetTypeLst.Select(x => Array.IndexOf(OrderConstant.MainBetTypesOu, x)).Min();
+            return GetMinIndexOfMainBetType(mainBetType ,OrderConstant.MainBetTypesOu);
         }
 
         return OrderConstant.HdpTypeIds.Contains(matchInfo.BettypeId)
-            ? mainBetTypeLst.Select(x => Array.IndexOf(OrderConstant.MainBetTypesHdp, x)).Min()
+            ? GetMinIndexOfMainBetType(mainBetType, OrderConstant.MainBetTypesHdp)
             : int.MaxValue;
     }
 
-
     public static int SortByMainBetTypeChildMatch(string mainBetType)
+        => GetMinIndexOfMainBetType(mainBetType, OrderConstant.MainBetTypesChild);
+    
+    public static int SortByMainBetTypeFutsalMatch(string mainBetType)
+        => GetMinIndexOfMainBetType(mainBetType, OrderConstant.MainBetTypesFs);
+
+    public static int SortByMainBetTypeSabaMatch(string mainBetType, MatchInfo matchInfo)
+    {
+        var is5MinsMatch = matchInfo.LeagueName.IsContains("-5 Mins Play") && matchInfo.LeagueName.IsContains("PES ");
+        var is6MinsMatch = matchInfo.LeagueName.IsContains("-6 Mins Play");
+
+        return is5MinsMatch
+            ? GetMinIndexOfMainBetType(mainBetType, OrderConstant.MainBetTypes5Mins)
+            : GetMinIndexOfMainBetType(mainBetType,
+                is6MinsMatch ? OrderConstant.MainBetTypes6Mins : OrderConstant.MainBetTypesSb);
+    }
+    
+    private static int GetMinIndexOfMainBetType(string mainBetType, string[] mainBetTypeConstant)
     {
         if (string.IsNullOrEmpty(mainBetType))
         {
@@ -114,28 +136,40 @@ public static class OrderAssigneeHelper
         }
 
         var mainBetTypeLst = mainBetType.Split(',');
-        var mainBetTypeIndex = mainBetTypeLst.Select(x => Array.IndexOf(OrderConstant.MainBetTypesChild, x)).ToList();
-        return mainBetTypeIndex.Min();
+        return mainBetTypeLst.Select(x => Array.IndexOf(mainBetTypeConstant, x)).Min();
     }
 
     public static int SortByWorkLoad(UserInfo userInfo, List<AssignmentModel> categorizedAssignments, MatchInfo matchInfo)
     {
-        var kOTime = matchInfo.KOTime;
-        var endTime = matchInfo.EndTime;
-
-
-        var kOTimeHadBeenRoundMinute = ResetMinuteToZero(kOTime);
-        var kOTimeHadBeenRoundMinuteAddOneHour = kOTimeHadBeenRoundMinute.AddHours(1);
-        var assignmentInTimeRange = FindAssignmentInTimeRange(categorizedAssignments, kOTimeHadBeenRoundMinute, kOTimeHadBeenRoundMinuteAddOneHour);
+        var assignmentInTimeRange = FindAssignmentInTimeRange(categorizedAssignments, matchInfo);
 
         if (assignmentInTimeRange != null)
         {
             return GetAssignmentPriority(assignmentInTimeRange);
         }
 
+        var kOTime = matchInfo.KOTime;
+        var endTime = matchInfo.EndTime;
+
         var hasWorkingShiftInRangeTime = IsWorkingShiftInRangeTime(userInfo, kOTime, endTime);
 
-        return !hasWorkingShiftInRangeTime ? 7 : 0;
+        return !hasWorkingShiftInRangeTime ? int.MaxValue : 0;
+    }
+    public static int SortByMatchType(List<AssignmentModel> categorizedAssignments, MatchInfo matchInfo)
+    {
+        var assignmentInTimeRange = FindAssignmentInTimeRange(categorizedAssignments, matchInfo);
+        return assignmentInTimeRange is { IsSaba: true } ? 1 : 0;
+    }
+
+    private static AssignmentModel FindAssignmentInTimeRange(List<AssignmentModel> categorizedAssignments, MatchInfo matchInfo)
+    {
+        var kOTime = matchInfo.KOTime;
+        var kOTimeHadBeenRoundMinute = ResetMinuteToZero(kOTime);
+        var kOTimeHadBeenRoundMinuteAddOneHour = kOTimeHadBeenRoundMinute.AddHours(1);
+
+        return categorizedAssignments.Find(x =>
+            ResetMinuteToZero(x.EventDateTime) <= kOTime &&
+            kOTimeHadBeenRoundMinuteAddOneHour <= ResetMinuteToZero(x.EndTime));
     }
 
     private static DateTime ResetMinuteToZero(DateTime time)
@@ -144,13 +178,6 @@ public static class OrderAssigneeHelper
     private static bool IsWorkingShiftInRangeTime(UserInfo userInfo, DateTime kOTime, DateTime endTime)
         => userInfo.ShiftStartTime <= kOTime && userInfo.ShiftEndTime >= endTime;
 
-    private static AssignmentModel FindAssignmentInTimeRange(List<AssignmentModel> categorizedAssignments, DateTime kOTime, DateTime kOTimeAddOneHours)
-    {
-        return categorizedAssignments.Find(x =>
-            ResetMinuteToZero(x.EventDateTime) <= kOTime &&
-            kOTimeAddOneHours <= ResetMinuteToZero(x.EndTime));
-    }
-
     private static int GetAssignmentPriority(AssignmentModel assignment)
     {
         return assignment.MatchType switch
@@ -158,6 +185,18 @@ public static class OrderAssigneeHelper
 
             MatchType.RealMatchLink1G => 1,
             MatchType.RealMatchOther => 1,
+            MatchType.SabaOther => 1,
+            MatchType.Saba5Mins => 1,
+            MatchType.Saba15Mins => 1,
+            MatchType.SabaFutsal6Mins => 1,
+            MatchType.SabaM8816Mins => 1,
+            MatchType.Saba16Mins => 1,
+            MatchType.Saba20Mins => 1,
+            MatchType.SabaLink1G => 1,
+            MatchType.SabaMix5mins => 2,
+            MatchType.SabaLink2G => 2,
+            MatchType.SabaLink3G => 3,
+            MatchType.SabaLink4G => 4,
             MatchType.RealMatchLink2G => 2,
             MatchType.RealMatchLink3G => 3,
             MatchType.Other => 4,
