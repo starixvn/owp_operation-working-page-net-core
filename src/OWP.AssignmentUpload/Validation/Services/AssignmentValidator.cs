@@ -57,10 +57,12 @@ public class AssignmentValidatorImp : AssignmentValidator
 
     public bool CheckMaxBetCondition(decimal? maxBet1H, decimal? maxBetFT)
     {
-        var parsedValueMaxBet1H = maxBet1H ?? 0;
-        var parsedValueMaxBetFT = maxBetFT ?? 0;
+        if (maxBet1H is null || maxBetFT is null)
+        {
+            return false;
+        }
 
-        return parsedValueMaxBet1H > parsedValueMaxBetFT;
+        return maxBet1H > maxBetFT;
     }
 
     public void ValidateEventDate(DateTime eventDate, UploadingDataFromExcel uploadingDataFromExcel)
