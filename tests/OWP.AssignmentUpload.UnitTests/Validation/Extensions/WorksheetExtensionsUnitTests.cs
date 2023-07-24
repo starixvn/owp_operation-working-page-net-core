@@ -1,6 +1,10 @@
-﻿using OfficeOpenXml;
+﻿using NSubstitute.ExceptionExtensions;
+using OfficeOpenXml;
 using OWP.AssignmentUpload.Validation.Extensions;
 using OWP.AssignmentUpload.Validation.Models;
+using OWP.AssignmentUpload.Validation.Services;
+using System.ComponentModel.DataAnnotations;
+using OWP.AssignmentUpload.Validation.Exceptions;
 using Xunit;
 using Xunit.Asserts.Compare;
 
@@ -419,13 +423,25 @@ public class WorksheetExtensionsUnitTests
     [InlineData("0.01K", 10)]
     [InlineData("170k", 170000)]
     [InlineData("170K", 170000)]
-    [InlineData("8", 8)]
-    [InlineData("0k", 0)]
-    [InlineData("0.5k", 500)]
+    [InlineData("0k", 0.0)]
+    [InlineData("0.5k", 500.0)]
     public void GetMaxbetValue(string maxbetValue, decimal expect)
     {
-        var actual = WorksheetExtensions.GetMaxbetValue(maxbetValue);
+        var actual = WorksheetExtensions.GetMaxbetValue(maxbetValue, 2, "Max Bet(HDP)");
         Assert.Equal(expect, actual);
+    }
+
+    [Fact]
+    public void GetMaxbetValueWithNull()
+    {
+        var actual = WorksheetExtensions.GetMaxbetValue("", 2, "Max Bet(HDP)");
+        Assert.Null(actual);
+    }
+
+    [Fact]
+    public void GetMaxBetValueShouldThrowError()
+    {
+        Assert.Throws<InvalidAssignmentRowException>(() => WorksheetExtensions.ThrowValidateMaxBetError(2, "Max Bet(HDP)"));
     }
 
     [Fact]

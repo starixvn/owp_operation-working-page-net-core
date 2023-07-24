@@ -40,6 +40,29 @@ public class AssignmentValidatorImp : AssignmentValidator
         CustomValidateAssignment(uploadingDataFromExcel.Assignments, isUploadFmAndAio, traders, matchOffers);
     }
 
+    public void ValidateMaxBet(AssignmentModelInExcel assignment, List<ValidationResult> results)
+    {
+        ValidateMaxBetCondition(assignment.MaxBet1HOU, assignment.MaxBetOU, "Max Bet (1H O/U)", results);
+        ValidateMaxBetCondition(assignment.MaxBet1HHDP, assignment.MaxBetHDP, "Max Bet (1H HDP)", results);
+        ValidateMaxBetCondition(assignment.MaxBet1H1X2, assignment.MaxBet1X2, "Max Bet (1H 1X2)", results);
+    }
+
+    public void ValidateMaxBetCondition(decimal? maxBet1H, decimal? maxBetFT, string maxBetName, List<ValidationResult> results)
+    {
+        if (CheckMaxBetCondition(maxBet1H, maxBetFT))
+        {
+            results.Add(new ValidationResult($"[Column: {maxBetName}] - Error: Invalid max bet. The value of 1st half must be less than or equal that of full time"));
+        }
+    }
+
+    public bool CheckMaxBetCondition(decimal? maxBet1H, decimal? maxBetFT)
+    {
+        var parsedValueMaxBet1H = maxBet1H ?? 0;
+        var parsedValueMaxBetFT = maxBetFT ?? 0;
+
+        return parsedValueMaxBet1H > parsedValueMaxBetFT;
+    }
+
     public void ValidateEventDate(DateTime eventDate, UploadingDataFromExcel uploadingDataFromExcel)
     {
         if (eventDate.Date != uploadingDataFromExcel.EventDate.Date)
@@ -178,7 +201,7 @@ public class AssignmentValidatorImp : AssignmentValidator
         List<ReferenceResource> matchOffers)
     {
         var results = new List<ValidationResult>();
-
+        ValidateMaxBet(assignment, results);
         ValidateTraders(assignment, results, traders);
         ValidateMatchOffers(assignment, matchOffers, results);
         ValidateOtherAssignment(assignment, results, isUploadFmAndAio);

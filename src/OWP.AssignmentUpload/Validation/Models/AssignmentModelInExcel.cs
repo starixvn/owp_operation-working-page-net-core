@@ -206,34 +206,42 @@ public class AssignmentModelInExcel
     public string OtherTradersOU { get; set; }
 
     [Display(Name = "Max Bet (1H 1X2)")]
+    [Range(0, 999000, ErrorMessage = "[Column: {0}] - Error: Invalid max bet. The value must be less than or equal 999K")]
     [MaxBet]
     public decimal? MaxBet1H1X2 { get; set; }
 
     [Display(Name = "Max Bet (1H HDP)")]
+    [Range(0, 999000, ErrorMessage = "[Column: {0}] - Error: Invalid max bet. The value must be less than or equal 999K")]
     [MaxBet]
     public decimal? MaxBet1HHDP { get; set; }
 
     [Display(Name = "Max Bet (1H O/U)")]
+    [Range(0, 999000, ErrorMessage = "[Column: {0}] - Error: Invalid max bet. The value must be less than or equal 999K")]
     [MaxBet]
     public decimal? MaxBet1HOU { get; set; }
 
     [Display(Name = "Max Bet (1X2)")]
+    [Range(0, 999000, ErrorMessage = "[Column: {0}] - Error: Invalid max bet. The value must be less than or equal 999K")]
     [MaxBet]
     public decimal? MaxBet1X2 { get; set; }
 
     [Display(Name = "Max Bet (FM)")]
+    [Range(0, 999000, ErrorMessage = "[Column: {0}] - Error: Invalid max bet. The value must be less than or equal 999K")]
     [MaxBet]
     public decimal? MaxBetFM { get; set; }
 
     [Display(Name = "Max Bet (HDP)")]
+    [Range(0, 999000, ErrorMessage = "[Column: {0}] - Error: Invalid max bet. The value must be less than or equal 999K")]
     [MaxBet]
     public decimal? MaxBetHDP { get; set; }
 
     [Display(Name = "Max Bet (O/U)")]
+    [Range(0, 999000, ErrorMessage = "[Column: {0}] - Error: Invalid max bet. The value must be less than or equal 999K")]
     [MaxBet]
     public decimal? MaxBetOU { get; set; }
 
     [Display(Name = "Max Bet (x mins)")]
+    [Range(0, 999000, ErrorMessage = "[Column: {0}] - Error: Invalid max bet. The value must be less than or equal 999K")]
     [MaxBet]
     public decimal? MaxBetXMins { get; set; }
 
