@@ -119,8 +119,8 @@ public static class OrderAssigneeHelper
 
     public static int SortByMainBetTypeSabaMatch(string mainBetType, MatchInfo matchInfo)
     {
-        var is5MinsMatch = matchInfo.LeagueName.IsContains("-5 Mins Play") && matchInfo.LeagueName.IsContains("PES ");
-        var is6MinsMatch = matchInfo.LeagueName.IsContains("-6 Mins Play");
+        var is5MinsMatch = matchInfo.LeagueName.IsContains("- 5 Mins Play") && matchInfo.LeagueName.IsContains("PES ");
+        var is6MinsMatch = matchInfo.LeagueName.IsContains("- 6 Mins Play");
 
         return is5MinsMatch
             ? GetMinIndexOfMainBetType(mainBetType, OrderConstant.MainBetTypes5Mins)
