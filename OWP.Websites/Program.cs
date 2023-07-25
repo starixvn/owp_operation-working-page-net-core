@@ -5,6 +5,7 @@ using Fanex.NAP.Signin.AspNetCore.Attribute;
 using Microsoft.AspNetCore.Mvc;
 using ONEbook.UM.AspNetCore.Filters;
 using OWP.Hubs;
+using OWP.Models;
 using OWP.OtherSport.Hubs;
 using OWP.RabbitMQ.Model;
 using OWP.TicketCenter.Hubs;
@@ -24,6 +25,7 @@ builder.Services.AddCookieAuthentication(builder.Configuration);
 builder.Services.AddRedis(builder.Configuration);
 builder.Services.AddRedisSession(builder.Configuration);
 builder.Services.Configure<RabbitMQSetting>(builder.Configuration.GetSection(RabbitMQSetting.RabbitMQ));
+builder.Services.Configure<AccessCounterModel>(builder.Configuration.GetSection("AccessCounter"));
 
 builder.Services.AddSignalR(builder.Configuration);
 builder.Services.AddSimpleDataApiModule();

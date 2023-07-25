@@ -6,7 +6,10 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using ONEbook.UM.AspNetCore.Filters;
+using OWP.Models;
+using OWP.Services;
 using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
@@ -21,10 +24,17 @@ public class HomeController : Controller
 
     private readonly INapSettings napSettings;
 
-    public HomeController(INapSession session, INapSettings napSettings)
+    private readonly AccessCounter accessCounter;
+
+    private readonly AccessCounterModel counterModel;
+
+
+    public HomeController(INapSession session, INapSettings napSettings, AccessCounter accessCounter, IOptions<AccessCounterModel> counterOptions)
     {
         this.session = session;
         this.napSettings = napSettings;
+        this.accessCounter = accessCounter;
+        this.counterModel = counterOptions.Value;
     }
 
     [AllowAnonymous]
@@ -40,6 +50,11 @@ public class HomeController : Controller
         ViewBag.FakeLoginEnabled = napSettings.Environment == "UAT";
         return View();
     }
+
+    [AllowAnonymous]
+    [SkipUMFilter]
+    public string GetAccessCounterConfig()
+    => counterModel.ToString();
 
     private static string GetIp()
     {

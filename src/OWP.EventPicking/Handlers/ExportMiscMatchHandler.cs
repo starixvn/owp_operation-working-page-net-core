@@ -1,11 +1,13 @@
 using Epplus.Mapper.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using OWP.EventPicking.Misc;
 using OWP.EventPicking.Models;
 using OWP.EventPicking.Services;
+using OWP.Models;
 using OWP.Services;
 using System.Drawing;
 
@@ -22,12 +24,22 @@ public class ExportMiscMatchHandler : IRequestHandler<ExportMiscMatchRequest, Fi
 
     private readonly BuildMainAndChildMatches buildMainAndChildMatches;
 
+    private readonly AccessCounter accessCounter;
+
+    private readonly AccessCounterModel counterModel;
+
     private ExcelPackage excelPackage;
 
-    public ExportMiscMatchHandler(ConfigurationService configurationService, BuildMainAndChildMatches buildMainAndChildMatches)
+    public ExportMiscMatchHandler(
+        ConfigurationService configurationService,
+         BuildMainAndChildMatches buildMainAndChildMatches,
+         AccessCounter accessCounter,
+         IOptions<AccessCounterModel> counterOptions)
     {
         this.configurationService = configurationService;
         this.buildMainAndChildMatches = buildMainAndChildMatches;
+        this.accessCounter = accessCounter;
+        this.counterModel = counterOptions.Value;
     }
 
     public async Task<FileResult> Handle(ExportMiscMatchRequest request, CancellationToken cancellationToken)
@@ -51,7 +63,7 @@ public class ExportMiscMatchHandler : IRequestHandler<ExportMiscMatchRequest, Fi
         {
             FileDownloadName = $"Event Picking-{request.Date:yyyy-MM-dd}.xlsx"
         };
-
+        await accessCounter.UpdateCounter(counterModel.ExportMiscMatch);
         return fileStreamResult;
     }
 
