@@ -1,6 +1,5 @@
 ﻿using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Models;
-using OWP.Extensions;
 using MatchType = OWP.AssigneeSuggestionList.Constant.MatchType;
 
 namespace OWP.AssigneeSuggestionList.Helper;
@@ -8,10 +7,10 @@ public static class OrderAssigneeHelper
 {
     public static List<WorkingSchedule> SortAssignee(MatchInfo matchInfo, List<WorkingSchedule> workingSchedules)
         => matchInfo.IsMainMatch
-            ? SortMainMatchAssignee(workingSchedules , matchInfo)
+            ? SortMainMatchAssignee(workingSchedules, matchInfo)
             : SortChildMatchAssignee(workingSchedules, matchInfo);
 
-    public static List<WorkingSchedule> SortMainMatchAssignee(List<WorkingSchedule> workingSchedules, MatchInfo matchInfo )
+    public static List<WorkingSchedule> SortMainMatchAssignee(List<WorkingSchedule> workingSchedules, MatchInfo matchInfo)
     {
         if (matchInfo.IsSaba)
         {
@@ -27,7 +26,7 @@ public static class OrderAssigneeHelper
         {
             return SortFutsalMatchAssignee(workingSchedules, matchInfo);
         }
-           
+
         return SortAssigneeByMaxbet(workingSchedules, matchInfo);
     }
 
@@ -103,7 +102,7 @@ public static class OrderAssigneeHelper
     {
         if (OrderConstant.OuTypeIds.Contains(matchInfo.BettypeId))
         {
-            return GetMinIndexOfMainBetType(mainBetType ,OrderConstant.MainBetTypesOu);
+            return GetMinIndexOfMainBetType(mainBetType, OrderConstant.MainBetTypesOu);
         }
 
         return OrderConstant.HdpTypeIds.Contains(matchInfo.BettypeId)
@@ -113,21 +112,21 @@ public static class OrderAssigneeHelper
 
     public static int SortByMainBetTypeChildMatch(string mainBetType)
         => GetMinIndexOfMainBetType(mainBetType, OrderConstant.MainBetTypesChild);
-    
+
     public static int SortByMainBetTypeFutsalMatch(string mainBetType)
         => GetMinIndexOfMainBetType(mainBetType, OrderConstant.MainBetTypesFs);
 
     public static int SortByMainBetTypeSabaMatch(string mainBetType, MatchInfo matchInfo)
     {
-        var is5MinsMatch = matchInfo.LeagueName.IsContains("- 5 Mins Play") && matchInfo.LeagueName.IsContains("PES ");
-        var is6MinsMatch = matchInfo.LeagueName.IsContains("- 6 Mins Play");
+        var is5MinsMatch = matchInfo.MatchType is MatchType.Saba5Mins;
+        var is6MinsMatch = matchInfo.MatchType is MatchType.SabaFutsal6Mins;
+        var mainBettype = is6MinsMatch ? OrderConstant.MainBetTypes6Mins : OrderConstant.MainBetTypesSb;
 
         return is5MinsMatch
             ? GetMinIndexOfMainBetType(mainBetType, OrderConstant.MainBetTypes5Mins)
-            : GetMinIndexOfMainBetType(mainBetType,
-                is6MinsMatch ? OrderConstant.MainBetTypes6Mins : OrderConstant.MainBetTypesSb);
+            : GetMinIndexOfMainBetType(mainBetType, mainBettype);
     }
-    
+
     private static int GetMinIndexOfMainBetType(string mainBetType, string[] mainBetTypeConstant)
     {
         if (string.IsNullOrEmpty(mainBetType))

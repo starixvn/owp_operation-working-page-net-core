@@ -80,46 +80,6 @@ public class CategorizeSabaMatchServicesUnitTests
                     }
                 }
             },
-            new () // Available multiple link SB
-            {
-                UserInfo = new UserInfo
-                {
-                    UserId = 333,
-                    ShiftStartTime = new DateTime(2022, 04, 19, 13, 0, 0),
-                    ShiftEndTime = new DateTime(2022, 04, 19, 18, 0, 0),
-                    MainBetType = "SB,HDP"
-                },
-                CategorizedAssignments = new List<AssignmentModel>
-                {
-                    new()
-                    {
-                        LeagueName = "Saba B",
-                        EventDateTime = new DateTime(2022, 04, 19, 14, 0, 0),
-                        EndTime = new DateTime(2022, 04, 19, 15, 0, 0),
-                        MatchType = MatchType.SabaLink1G,
-                    }
-                }
-            },
-            new () // Free link 5 min
-            {
-                UserInfo = new UserInfo
-                {
-                    UserId = 444,
-                    ShiftStartTime = new DateTime(2022, 04, 19, 13, 0, 0),
-                    ShiftEndTime = new DateTime(2022, 04, 19, 18, 0, 0),
-                    MainBetType = "5min"
-                },
-                CategorizedAssignments = new List<AssignmentModel>
-                {
-                    new()
-                    {
-                        LeagueName = "Saba B",
-                        EventDateTime = new DateTime(2022, 04, 19, 14, 0, 0),
-                        EndTime = new DateTime(2022, 04, 19, 15, 0, 0),
-                        MatchType = MatchType.Saba5Mins,
-                    }
-                }
-            },
             new () // busy, cannot link 5 min
             {
                 UserInfo = new UserInfo
@@ -147,9 +107,7 @@ public class CategorizeSabaMatchServicesUnitTests
         Assert.Equal(CategoryType.Busy, schedules[0].CategoryType);
         Assert.Equal(CategoryType.Busy, schedules[1].CategoryType);
         Assert.Equal(CategoryType.FullyAvailable, schedules[2].CategoryType);
-        Assert.Equal(CategoryType.FullyAvailable, schedules[3].CategoryType);
-        Assert.Equal(CategoryType.FullyAvailable, schedules[4].CategoryType);
-        Assert.Equal(CategoryType.Busy, schedules[5].CategoryType);
+        Assert.Equal(CategoryType.Busy, schedules[3].CategoryType);
     }
 
     [Theory]

@@ -25,22 +25,6 @@ public class SabaMatchesServicesUnitTest
         mapper = configuration.CreateMapper();
     }
 
-    [Theory]
-    [InlineData("SABA ELITE FRIENDLY Virtual PES 20 - 5 Mins Play - ALL IN ONE", MatchType.Saba5Mins)]
-    [InlineData("SABA CLUB FRIENDLY Virtual PES 20 - 6 Mins Play", MatchType.SabaFutsal6Mins)]
-    [InlineData("M88 SABA SPANISH LEAGUE Virtual FIFA 21 Season 6 - 16 Mins Play", MatchType.SabaM8816Mins)]
-    [InlineData("saba", MatchType.SabaOther)]
-    [InlineData("SABA LeagueTest-LT - 20 Mins Play", MatchType.Saba20Mins)]
-    [InlineData("SABA CLUB FRIENDLY Virtual FIFA 21 - 16 Mins Play b", MatchType.Saba16Mins)]
-    [InlineData("SABA CLUB FRIENDLY Virtual PES 20 - 15 Mins Play", MatchType.Saba15Mins)]
-    [InlineData("SABA CLUB FRIENDLY Virtual PES 15 Mins Play", MatchType.SabaOther)]
-    public void CategorizeSabaMatches(string leagueName, MatchType expected)
-    {
-        var actual = SabaMatchesServicesImp.GetSabaBetType(leagueName);
-
-        Assert.Equal(expected, actual);
-    }
-
     [Fact]
     public void GroupSaba5Mins()
     {

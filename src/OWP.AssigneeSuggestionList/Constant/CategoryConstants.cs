@@ -52,4 +52,5 @@ public static class ExplanationConstants
 public static class CategoryConstants
 {
     public const decimal MAX_BET_5K = 5000m;
+    public static readonly MatchType[] MultipleGameTypes = { MatchType.Saba15Mins, MatchType.Saba16Mins, MatchType.Saba20Mins };
 }

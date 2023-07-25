@@ -43,7 +43,7 @@ public class CategorizeSabaMatchServicesImp : CategorizeSabaMatchServices
 
     public static AssigneeSabaCategory HasAssignmentLinkNGame(UserInfo userInfo, List<AssignmentModel> assignments, MatchInfo matchInfo)
     {
-        if (string.IsNullOrEmpty(userInfo.MainBetType))
+        if (string.IsNullOrEmpty(userInfo.MainBetType) || !matchInfo.IsSaba)
         {
             return AssigneeSabaCategory.Busy;
         }
@@ -51,8 +51,8 @@ public class CategorizeSabaMatchServicesImp : CategorizeSabaMatchServices
         var mainBetTypeLst = userInfo.MainBetType.Split(',').ToList();
         return mainBetTypeLst switch
         {
-            _ when mainBetTypeLst.ExistsValue("SB") => LinkSabaGame(assignments, matchInfo),
-            _ when mainBetTypeLst.ExistsValue("5min") => Link5MinsGame(assignments, matchInfo),
+            _ when mainBetTypeLst.ExistsValue("SB") && matchInfo.MatchType is MatchType.Saba5Mins => LinkSabaGame(assignments, matchInfo),
+            _ when mainBetTypeLst.ExistsValue("5min") && matchInfo.MatchType.IsMultipleType() => Link5MinsGame(assignments, matchInfo),
             _ => AssigneeSabaCategory.Busy
         };
     }

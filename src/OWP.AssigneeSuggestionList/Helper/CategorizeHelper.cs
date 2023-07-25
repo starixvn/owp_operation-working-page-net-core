@@ -1,6 +1,10 @@
-﻿using OWP.AssigneeSuggestionList.Models;
+﻿using OWP.AssigneeSuggestionList.Constant;
 
 namespace OWP.AssigneeSuggestionList.Helper;
+
+using Extensions;
+using Models;
+using MatchType = Constant.MatchType;
 
 public static class CategorizeHelper
 {
@@ -25,4 +29,19 @@ public static class CategorizeHelper
         var toTime = isPartially ? matchInfo.KOTime.AddHours(1) : matchInfo.EndTime;
         return string.Format(text, matchInfo.KOTime.ToString(timeFormat), toTime.ToString(timeFormat));
     }
+
+    public static MatchType GetSabaBetType(this string leagueName)
+        => leagueName switch
+        {
+            _ when leagueName.IsContains("M88 SABA") && leagueName.IsContains("- 16 Mins Play") => MatchType.SabaM8816Mins,
+            _ when leagueName.IsContains("- 16 Mins Play") => MatchType.Saba16Mins,
+            _ when leagueName.IsContains("- 6 Mins Play") => MatchType.SabaFutsal6Mins,
+            _ when leagueName.IsContains("- 15 Mins Play") => MatchType.Saba15Mins,
+            _ when leagueName.IsContains("PES ") && leagueName.IsContains("- 5 Mins Play") => MatchType.Saba5Mins,
+            _ when leagueName.IsContains("- 20 Mins Play") => MatchType.Saba20Mins,
+            _ => MatchType.SabaOther
+        };
+
+    public static bool IsMultipleType(this MatchType matchType)
+        => CategoryConstants.MultipleGameTypes.Contains(matchType);
 }
