@@ -51,8 +51,8 @@ public class CategorizeSabaMatchServicesImp : CategorizeSabaMatchServices
         var mainBetTypeLst = userInfo.MainBetType.Split(',').ToList();
         return mainBetTypeLst switch
         {
-            _ when mainBetTypeLst.ExistsValue("SB") && matchInfo.MatchType is MatchType.Saba5Mins => LinkSabaGame(assignments, matchInfo),
-            _ when mainBetTypeLst.ExistsValue("5min") && matchInfo.MatchType.IsMultipleType() => Link5MinsGame(assignments, matchInfo),
+            _ when mainBetTypeLst.ExistsValue("SB") && matchInfo.MatchType.IsMultipleType() => LinkSabaGame(assignments, matchInfo),
+            _ when mainBetTypeLst.ExistsValue("5min") && matchInfo.MatchType is MatchType.Saba5Mins => Link5MinsGame(assignments, matchInfo),
             _ => AssigneeSabaCategory.Busy
         };
     }
@@ -65,7 +65,7 @@ public class CategorizeSabaMatchServicesImp : CategorizeSabaMatchServices
             return AssigneeSabaCategory.Busy;
         }
 
-        return assignments.FirstOrDefault()?.MatchType switch
+        return assignments.LastOrDefault()?.MatchType switch
         {
             MatchType.SabaLink1G or MatchType.Saba16Mins => AssigneeSabaCategory.Doing1G,
             MatchType.SabaLink2G => AssigneeSabaCategory.Doing2G,
