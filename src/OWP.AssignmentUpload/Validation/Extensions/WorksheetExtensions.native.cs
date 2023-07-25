@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Linq;
 using OfficeOpenXml;
 using OWP.AssignmentUpload.Validation.Annotations;
 using OWP.AssignmentUpload.Validation.Constants;
@@ -6,6 +7,8 @@ using OWP.AssignmentUpload.Validation.Models;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Reflection;
+using System.Text.RegularExpressions;
+using Fanex.Data;
 
 namespace OWP.AssignmentUpload.Validation.Extensions;
 
@@ -214,7 +217,7 @@ public static class WorksheetExtensions
         if (property.PropertyType == typeof(decimal?) && property.IsMaxBet)
         {
             var cellValue = sheet.GetValue<string>(row, column);
-            var value = GetMaxbetValue(cellValue);
+            var value = GetMaxbetValue(cellValue, row, property.DisplayName);
             property.PropertyInfo.SetValue(model, value);
             return true;
         }
@@ -240,27 +243,43 @@ public static class WorksheetExtensions
         }).ToList();
     }
 
-    public static decimal? GetMaxbetValue(string maxbet)
+    public static decimal? GetMaxbetValue(string maxbet, int row, string columnName)
     {
         const NumberStyles style = NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands;
         const int K_VALUE = 1000;
+        var maxbetTrimmed = string.IsNullOrEmpty(maxbet) ? "" : Regex.Replace(maxbet, @"\s+|K|k", "");
+        var valid = decimal.TryParse(maxbetTrimmed, style, CultureInfo.InvariantCulture, out var tempValue);
 
-        maxbet ??= string.Empty;
-        decimal tempValue;
-        bool valid;
-
-        if (maxbet.Contains("K") || maxbet.Contains("k"))
+        if (!valid)
         {
-            maxbet = maxbet.Replace("K", "").Replace("k", "");
-            valid = decimal.TryParse(maxbet, style, CultureInfo.InvariantCulture, out tempValue);
-            tempValue *= K_VALUE;
+            return null;
         }
-        else
+        if (maxbet.EndsWith("k", StringComparison.OrdinalIgnoreCase))
         {
-            valid = decimal.TryParse(maxbet, style, CultureInfo.InvariantCulture, out tempValue);
+            return tempValue * K_VALUE;
         }
 
-        return valid ? new decimal?(tempValue) : null;
+        ThrowValidateMaxBetError(row, columnName);
+
+        return null;
+    }
+
+    public static void ThrowValidateMaxBetError(int row, string columnName)
+    {
+        const int rowOffSet = 2;
+        var validationResults = new List<AssignmentValidationRowResult>();
+        var validationResultsOfAssignmentRow = new AssignmentValidationRowResult
+        {
+            Row = row - rowOffSet,
+            Message = $"[Column: {columnName}] - Error: Invalid max bet. Please add a character, 'K' at the end. E.g. 30K"
+        };
+        validationResults.Add(validationResultsOfAssignmentRow);
+
+        var hasError = validationResults.Any();
+        if (hasError)
+        {
+            throw new InvalidAssignmentRowException(validationResults);
+        }
     }
 
     private static decimal? GetSpreadValue(string spread)
