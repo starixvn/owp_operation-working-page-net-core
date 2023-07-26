@@ -186,6 +186,15 @@ public static class OrderConstant
 
     public static readonly string[] MainBetTypesChild = { BetType2Op, BetTypeBkCr, BetType2, BetType2Ou, BetType2Hdp, BetTypeFs, BetTypeSb, BetType5Min, BetType6Min };
 
+    public static readonly string[] MainBetTypes5Mins =
+        { BetType5Min, BetTypeSb, BetType6Min, BetType2, BetType2Hdp, BetType2Ou, BetTypeFs, BetType2Op, BetTypeBkCr };
+
+    public static readonly string[] MainBetTypes6Mins =
+        { BetType6Min, BetTypeSb, BetType5Min, BetType2, BetType2Hdp, BetType2Ou, BetTypeFs, BetType2Op, BetTypeBkCr };
+
+    public static readonly string[] MainBetTypesSb =
+        { BetTypeSb, BetType5Min, BetType6Min, BetType2, BetType2Hdp, BetType2Ou, BetTypeFs, BetType2Op, BetTypeBkCr };
+
     public static readonly int[] HdpTypeIds = { 1, 7 };
 
     public static readonly int[] OuTypeIds = { 3, 8 };

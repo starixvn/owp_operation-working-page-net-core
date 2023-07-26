@@ -18,6 +18,16 @@ public enum AssigneeCategory
     Busy
 }
 
+public enum AssigneeSabaCategory
+{
+    Free,
+    Doing1G,
+    Doing2G,
+    Doing3G,
+    Doing5Mins1G,
+    Busy
+}
+
 public enum CategoryType
 {
     FullyAvailable,
@@ -32,9 +42,15 @@ public static class ExplanationConstants
     public const string CAPACITY_3G_DOING_1G = "doing 1 of 3 games in capacity";
     public const string CAPACITY_3G_DOING_2G = "doing 2 of 3 games in capacity";
     public const string PARTIALLY_AVAILABLE = "free in the first half of the match from {0} to {1}";
+    // SABA
+    public const string CAPACITY_1G_DOING_4G = "doing 1 of 4 games in capacity";
+    public const string CAPACITY_2G_DOING_4G = "doing 2 of 4 games in capacity";
+    public const string CAPACITY_3G_DOING_4G = "doing 3 of 4 games in capacity";
+    public const string CAPACITY_1G_DOING_2G = "doing 1 of 2 games in capacity";
 }
 
 public static class CategoryConstants
 {
     public const decimal MAX_BET_5K = 5000m;
+    public static readonly MatchType[] MultipleGameTypes = { MatchType.Saba15Mins, MatchType.Saba16Mins, MatchType.Saba20Mins };
 }

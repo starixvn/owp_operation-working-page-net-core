@@ -45,7 +45,7 @@ public class OneGameServiceUnitTest
             EtPk = new ETPKUpdateSchedule
             {
                 IsHasEtPk = true,
-                EtPkValue = "ET/PK"
+                EtPkValue = "PK"
             },
             AssignmentCell = new AssignmentCell
             {

@@ -2,6 +2,7 @@
 using OWP.AssigneeSuggestionList.Helper;
 using OWP.Constants;
 using OWP.Extensions;
+using MatchType = OWP.AssigneeSuggestionList.Constant.MatchType;
 
 namespace OWP.AssigneeSuggestionList.Models;
 
@@ -60,4 +61,5 @@ public class MatchInfo
     [JsonIgnore]
     public bool IsSingleMatch { get; set; }
     public DateTime FilterDate { get; set; }
+    public MatchType MatchType { get; set; }
 }

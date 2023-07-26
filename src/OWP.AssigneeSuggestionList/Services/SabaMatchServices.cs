@@ -1,9 +1,6 @@
-﻿using System.ComponentModel;
-using AutoMapper;
-using Newtonsoft.Json;
+﻿using AutoMapper;
 using OWP.AssigneeSuggestionList.Helper;
 using OWP.AssigneeSuggestionList.Models;
-using OWP.Extensions;
 using MatchType = OWP.AssigneeSuggestionList.Constant.MatchType;
 
 namespace OWP.AssigneeSuggestionList.Services;
@@ -11,15 +8,25 @@ namespace OWP.AssigneeSuggestionList.Services;
 public interface SabaMatchServices
 {
     void MapAssignmentsToWorkingSchedules(IList<WorkingSchedule> workingShifts, IList<AssignmentModel> assignmentModels, DateTime eventDate);
+
+    void CategoryAssignee(List<WorkingSchedule> schedules, MatchInfo matchInfo);
 }
 
 public class SabaMatchesServicesImp : SabaMatchServices
 {
     private readonly IMapper mapper;
+    private readonly CategorizeSabaMatchServices categorizeSabaMatchServices;
 
-    public SabaMatchesServicesImp(IMapper mapper)
+    public SabaMatchesServicesImp(IMapper mapper, CategorizeSabaMatchServices categorizeSabaMatchServices)
     {
         this.mapper = mapper;
+        this.categorizeSabaMatchServices = categorizeSabaMatchServices;
+    }
+
+    public void CategoryAssignee(List<WorkingSchedule> schedules, MatchInfo matchInfo)
+    {
+        matchInfo.MatchType = matchInfo.LeagueName.GetSabaBetType();
+        categorizeSabaMatchServices.Categorize(schedules, matchInfo);
     }
 
     public void MapAssignmentsToWorkingSchedules(IList<WorkingSchedule> workingShifts, IList<AssignmentModel> assignmentModels, DateTime eventDate)
@@ -54,20 +61,8 @@ public class SabaMatchesServicesImp : SabaMatchServices
 
     public static void CategorizeSabaMatches(List<AssignmentModel> sabaMatches)
     {
-        sabaMatches.ForEach(x => { x.MatchType = GetSabaBetType(x.LeagueName); });
+        sabaMatches.ForEach(x => { x.MatchType = x.LeagueName.GetSabaBetType(); });
     }
-
-    public static MatchType GetSabaBetType(string leagueName)
-        => leagueName switch
-        {
-            _ when leagueName.IsContains("M88 SABA") && leagueName.IsContains("- 16 Mins Play") => MatchType.SabaM8816Mins,
-            _ when leagueName.IsContains("- 16 Mins Play") => MatchType.Saba16Mins,
-            _ when leagueName.IsContains("- 6 Mins Play") => MatchType.SabaFutsal6Mins,
-            _ when leagueName.IsContains("- 15 Mins Play") => MatchType.Saba15Mins,
-            _ when leagueName.IsContains("PES ") && leagueName.IsContains("- 5 Mins Play") => MatchType.Saba5Mins,
-            _ when leagueName.IsContains("- 20 Mins Play") => MatchType.Saba20Mins,
-            _ => MatchType.SabaOther
-        };
 
     public static void GroupSaba5Mins(List<AssignmentModel> sabaMatches)
     {
@@ -111,9 +106,7 @@ public class SabaMatchesServicesImp : SabaMatchServices
 
     public void GroupSabaMultipleGames(List<AssignmentModel> sabaMatches)
     {
-        MatchType[] multipleGameTypes = { MatchType.Saba15Mins, MatchType.Saba16Mins, MatchType.Saba20Mins };
-
-        var multipleSabaMatches = sabaMatches.Where(x => multipleGameTypes.Contains(x.MatchType)).ToList();
+        var multipleSabaMatches = sabaMatches.Where(x => x.MatchType.IsMultipleType()).ToList();
         sabaMatches.RemoveAll(multipleSabaMatches.Contains);
 
         var groupedMultipleMatches = multipleSabaMatches

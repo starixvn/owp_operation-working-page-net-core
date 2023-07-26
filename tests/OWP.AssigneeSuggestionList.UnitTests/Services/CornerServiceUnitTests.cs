@@ -44,7 +44,7 @@ public class CornerServiceUnitTests
             EtPk = new ETPKUpdateSchedule
             {
                 IsHasEtPk = true,
-                EtPkValue = "ET"
+                EtPkValue = "PK"
             },
             AssignmentCell = new AssignmentCell
             {

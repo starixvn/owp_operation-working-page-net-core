@@ -31,5 +31,6 @@ public static class AssigneeSuggestionListInjector
         services.AddScoped<BookingService, BookingServiceImp>();
         // categorize
         services.AddScoped<CategorizeRealMatchServices, CategorizeRealMatchServicesImp>();
+        services.AddScoped<CategorizeSabaMatchServices, CategorizeSabaMatchServicesImp>();
     }
 }

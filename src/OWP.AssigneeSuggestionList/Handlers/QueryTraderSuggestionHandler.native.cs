@@ -64,16 +64,9 @@ public class QueryTraderSuggestionHandler : IRequestHandler<QueryTraderSuggestio
 
     private SuggestionInfo CategoryAssignees(MatchInfo matchInfo, List<WorkingSchedule> workingShifts)
     {
-        if (matchInfo.IsSaba)
-        {
-            return new SuggestionInfo
-            {
-                MatchInfo = matchInfo,
-                Busy = workingShifts
-            };
-        }
-
         realMatchServices.CategoryAssignee(workingShifts, matchInfo);
+        sabaMatchesServices.CategoryAssignee(workingShifts, matchInfo);
+
         return new SuggestionInfo
         {
             MatchInfo = matchInfo,
@@ -89,5 +82,4 @@ public class QueryTraderSuggestionHandler : IRequestHandler<QueryTraderSuggestio
         var workingShiftsByType = workingShifts.Where(x => x.CategoryType == type).ToList();
         return OrderAssigneeHelper.SortAssignee(matchInfo, workingShiftsByType);
     }
-
 }

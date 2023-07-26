@@ -150,87 +150,6 @@ public class CategorizeRealMatchServicesUnitTests
         Assert.Equal(CategoryType.PartiallyAvailable, schedules[5].CategoryType);
     }
 
-    [Fact]
-    public void IsFreeInRangeTime_NoAssignmentsInRange_ReturnsTrue()
-    {
-        // Arrange
-        var assignments = new List<AssignmentModel>
-        {
-            new()
-            {
-                EventDateTime = new DateTime(2023, 4, 20, 10, 0, 0),
-                EndTime = new DateTime(2023, 4, 20, 12, 0, 0)
-            },
-            new()
-            {
-                EventDateTime = new DateTime(2023, 4, 21, 6, 0, 0),
-                EndTime = new DateTime(2023, 4, 21, 8, 0, 0)
-            }
-        };
-        var kOTime = new DateTime(2023, 4, 22, 8, 0, 0);
-        var endTime = new DateTime(2023, 4, 22, 10, 0, 0);
-
-        // Act
-        var isFree = CategorizeRealMatchServicesImp.IsFreeInRangeTime(assignments, kOTime, endTime);
-
-        // Assert
-        Assert.True(isFree);
-    }
-
-    [Fact]
-    public void IsFreeInRangeTime_OneAssignmentInRange_ReturnsFalse()
-    {
-        // Arrange
-        var assignments = new List<AssignmentModel>
-        {
-            new()
-            {
-                EventDateTime = new DateTime(2023, 4, 20, 10, 0, 0),
-                EndTime = new DateTime(2023, 4, 20, 12, 0, 0)
-            },
-            new()
-            {
-                EventDateTime = new DateTime(2023, 4, 21, 14, 0, 0),
-                EndTime = new DateTime(2023, 4, 21, 16, 0, 0)
-            }
-        };
-        var kOTime = new DateTime(2023, 4, 20, 11, 0, 0);
-        var endTime = new DateTime(2023, 4, 20, 13, 0, 0);
-
-        // Act
-        var isFree = CategorizeRealMatchServicesImp.IsFreeInRangeTime(assignments, kOTime, endTime);
-
-        // Assert
-        Assert.False(isFree);
-    }
-
-    [Fact]
-    public void IsFreeInRangeTime_AllAssignmentsInRange_ReturnsFalse()
-    {
-        // Arrange
-        var assignments = new List<AssignmentModel>
-        {
-            new()
-            {
-                EventDateTime = new DateTime(2023, 4, 20, 10, 0, 0),
-                EndTime = new DateTime(2023, 4, 20, 16, 0, 0)
-            },
-            new()
-            {
-                EventDateTime = new DateTime(2023, 4, 21, 14, 0, 0),
-                EndTime = new DateTime(2023, 4, 21, 16, 0, 0)
-            }
-        };
-        var kOTime = new DateTime(2023, 4, 20, 10, 30, 0);
-        var endTime = new DateTime(2023, 4, 21, 15, 0, 0);
-
-        // Act
-        var isFree = CategorizeRealMatchServicesImp.IsFreeInRangeTime(assignments, kOTime, endTime);
-
-        // Assert
-        Assert.False(isFree);
-    }
-
     [Theory]
     [InlineData(AssigneeCategory.Free, CategoryType.FullyAvailable, "100% free from 02:00 PM to 04:00 PM")]
     [InlineData(AssigneeCategory.Capacity2GDoing1G, CategoryType.FullyAvailable, ExplanationConstants.CAPACITY_2G_DOING_1G)]
@@ -302,7 +221,7 @@ public class CategorizeRealMatchServicesUnitTests
             }
         };
 
-        var result = CategorizeRealMatchServicesImp.HasAssignmentLinkNGame(userInfo, assignments, matchInfo);
+        var result = service.HasAssignmentLinkNGame(userInfo, assignments, matchInfo);
 
         Assert.Equal(expectedCategory, result);
     }

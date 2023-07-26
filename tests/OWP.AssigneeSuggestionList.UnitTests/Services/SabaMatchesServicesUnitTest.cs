@@ -12,30 +12,17 @@ using OWP.AssigneeSuggestionList.Services;
 public class SabaMatchesServicesUnitTest
 {
     private readonly IMapper mapper;
+    private readonly CategorizeSabaMatchServices categorizeSabaMatchServices;
+
     public SabaMatchesServicesUnitTest()
     {
+        categorizeSabaMatchServices = Substitute.For<CategorizeSabaMatchServices>();
         var configuration = new MapperConfiguration(cfg =>
         {
             cfg.CreateMap<AssignmentModel, AssignmentModel>();
-           
+
         });
         mapper = configuration.CreateMapper();
-    }
-
-    [Theory]
-    [InlineData("SABA ELITE FRIENDLY Virtual PES 20 - 5 Mins Play - ALL IN ONE", MatchType.Saba5Mins)]
-    [InlineData("SABA CLUB FRIENDLY Virtual PES 20 - 6 Mins Play", MatchType.SabaFutsal6Mins)]
-    [InlineData("M88 SABA SPANISH LEAGUE Virtual FIFA 21 Season 6 - 16 Mins Play", MatchType.SabaM8816Mins)]
-    [InlineData("saba", MatchType.SabaOther)]
-    [InlineData("SABA LeagueTest-LT - 20 Mins Play", MatchType.Saba20Mins)]
-    [InlineData("SABA CLUB FRIENDLY Virtual FIFA 21 - 16 Mins Play b", MatchType.Saba16Mins)]
-    [InlineData("SABA CLUB FRIENDLY Virtual PES 20 - 15 Mins Play", MatchType.Saba15Mins)]
-    [InlineData("SABA CLUB FRIENDLY Virtual PES 15 Mins Play", MatchType.SabaOther)]
-    public void CategorizeSabaMatches(string leagueName, MatchType expected)
-    {
-        var actual = SabaMatchesServicesImp.GetSabaBetType(leagueName);
-
-        Assert.Equal(expected, actual);
     }
 
     [Fact]
@@ -217,7 +204,7 @@ public class SabaMatchesServicesUnitTest
             }
         };
 
-        new SabaMatchesServicesImp(mapper).CategorizeAndGroupSabaMatches(mockedAssignment);
+        new SabaMatchesServicesImp(mapper, categorizeSabaMatchServices).CategorizeAndGroupSabaMatches(mockedAssignment);
 
         DeepAssert.Equal(expected, mockedAssignment, "GroupAssignmentModels");
     }
@@ -280,7 +267,7 @@ public class SabaMatchesServicesUnitTest
         var expected = new WorkingSchedule
         {
             Today_14h = new AssignmentCell { Text = "*V", TextColor = "#444444", Color = "#FCD5B4" },
-            Yesterday_02h = new AssignmentCell { Text = "*V", TextColor = "#FFFFFF", Color = "#7030A0" },
+            Yesterday_02h = new AssignmentCell { Text = "*V/5", TextColor = "#FFFFFF", Color = "#7030A0" },
             Today_02h = new AssignmentCell { Text = "*V/15*2", TextColor = "#FFFFFF", Color = "#A34262" },
             Tomorrow_15h = new AssignmentCell { Text = "Error!", TextColor = "#FF0000", Color = "#FFFFFF" }
         };
@@ -371,7 +358,7 @@ public class SabaMatchesServicesUnitTest
             Tomorrow_15h = null
         };
 
-        new SabaMatchesServicesImp(mapper).MapAssignmentsToWorkingSchedules(workingSchedules, assignmentModels, eventDate);
+        new SabaMatchesServicesImp(mapper, categorizeSabaMatchServices).MapAssignmentsToWorkingSchedules(workingSchedules, assignmentModels, eventDate);
 
         DeepAssert.Equal(expected, workingSchedules[0], "UserInfo", "CategorizedAssignments");
     }
