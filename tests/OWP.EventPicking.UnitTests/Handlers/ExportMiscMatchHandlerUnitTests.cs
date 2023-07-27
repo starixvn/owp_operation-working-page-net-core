@@ -1,8 +1,10 @@
+using Microsoft.Extensions.Options;
 using NSubstitute;
 using OfficeOpenXml;
 using OWP.EventPicking.Handlers;
 using OWP.EventPicking.Models;
 using OWP.EventPicking.Services;
+using OWP.Models;
 using OWP.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
@@ -21,7 +23,9 @@ public class ExportMiscMatchHandlerUnitTests
     {
         buildMainAndChildMatches = Substitute.For<BuildMainAndChildMatches>();
         configurationService = Substitute.For<ConfigurationService>();
-        service = new ExportMiscMatchHandler(configurationService, buildMainAndChildMatches);
+        var accessCounter = Substitute.For<AccessCounter>();
+        var counterModel = Options.Create(new AccessCounterModel());
+        service = new ExportMiscMatchHandler(configurationService, buildMainAndChildMatches, accessCounter, counterModel);
     }
 
     [Fact]

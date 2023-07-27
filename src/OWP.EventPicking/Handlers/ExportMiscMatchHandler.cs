@@ -32,14 +32,14 @@ public class ExportMiscMatchHandler : IRequestHandler<ExportMiscMatchRequest, Fi
 
     public ExportMiscMatchHandler(
         ConfigurationService configurationService,
-         BuildMainAndChildMatches buildMainAndChildMatches,
-         AccessCounter accessCounter,
-         IOptions<AccessCounterModel> counterOptions)
+        BuildMainAndChildMatches buildMainAndChildMatches,
+        AccessCounter accessCounter,
+        IOptions<AccessCounterModel> counterOptions)
     {
         this.configurationService = configurationService;
         this.buildMainAndChildMatches = buildMainAndChildMatches;
         this.accessCounter = accessCounter;
-        this.counterModel = counterOptions.Value;
+        counterModel = counterOptions.Value;
     }
 
     public async Task<FileResult> Handle(ExportMiscMatchRequest request, CancellationToken cancellationToken)
