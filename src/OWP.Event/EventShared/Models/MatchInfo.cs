@@ -13,6 +13,8 @@ public class MatchInfo : TaskListMatchInfo
 
     public int? AdminSiteId { get; set; }
 
+    public int? ParentAdminSiteId { get; set; }
+
     public bool IsFantasy => League.IsContains("Fantasy");
 
     public string IPTV { get; set; }
