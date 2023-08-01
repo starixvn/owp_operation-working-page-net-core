@@ -15,6 +15,7 @@ public static class EventPickingInjector
         services.AddScoped<BuildMainAndChildMatches, BuildMainAndChildMatchesImp>();
         services.AddScoped<BuildMatchOfferByLiveSetting, BuildMatchOfferByLiveSettingImp>();
         services.AddScoped<BuildProvider, BuildProviderImp>();
+        services.AddScoped<BuildRowHeight, BuildRowHeightImp>();
         services.AddScoped<GetEventValidator>();
     }
 }

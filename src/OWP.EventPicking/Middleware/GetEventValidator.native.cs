@@ -25,6 +25,10 @@ public class GetEventValidator : AsyncFilter<EventPickingRequest>
         {
             return (false, statusCode, "Please select at least one option for Other Provider");
         }
+        if (!model.FilterMatchCategory.Any())
+        {
+            return (false, statusCode, "Please select at least one option for Match Category");
+        }
         statusCode = 200;
         return (true, statusCode, string.Empty);
     }

@@ -1,6 +1,7 @@
 using System.Globalization;
 using Epplus.Mapper.Annotations;
 using OWP.EventPicking.Misc;
+using OWP.Extensions;
 using OWP.Utils;
 
 namespace OWP.EventPicking.Models;
@@ -20,6 +21,8 @@ public class EventPickingModel
     public bool IsChildMatch => SubType.HasValue;
 
     public bool IsTestMatch { get; set; }
+
+    public bool IsSaba => LeagueName.IsContains("SABA ");
 
     public DateTime EventDateTime { get; set; }
 
@@ -254,6 +257,15 @@ public class EventPickingModel
     public string RowColorHex => Constant.ColorDict.GetValueOrDefault(RowColor);
 
     public string RowColor { get; set; }
+
+    public int LengthStreamingCell { get; set; }
+
+    public int LengthProviderCell { get; set; }
+
+    public int LengthRoundCell { get; set; }
+
+    public int LengthRemarkCell { get; set; }
+
 
     // Main match
     public string LiveTV { get; set; }

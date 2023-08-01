@@ -19,6 +19,7 @@ public class BuildMainAndChildMatchesImp : BuildMainAndChildMatches
     private readonly BuildMatchOfferByLiveSetting buildMatchOffer;
     private readonly BuildRowColor buildRowColor;
     private readonly BuildProvider buildProvider;
+    private readonly BuildRowHeight buildRowHeight;
     private readonly IMediator mediator;
 
     public BuildMainAndChildMatchesImp(
@@ -28,6 +29,7 @@ public class BuildMainAndChildMatchesImp : BuildMainAndChildMatches
         BuildRowColor buildRowColor,
         BuildMatchOfferByLiveSetting buildMatchOffer,
         BuildProvider buildProvider,
+        BuildRowHeight buildRowHeight,
         IMediator mediator)
     {
         this.repository = repository;
@@ -36,6 +38,7 @@ public class BuildMainAndChildMatchesImp : BuildMainAndChildMatches
         this.buildRowColor = buildRowColor;
         this.mediator = mediator;
         this.buildProvider = buildProvider;
+        this.buildRowHeight = buildRowHeight;
         this.buildMatchOffer = buildMatchOffer;
     }
 
@@ -52,7 +55,7 @@ public class BuildMainAndChildMatchesImp : BuildMainAndChildMatches
         var allMatches = CombineMainAndChildMatchEvent(filteredMainMatches, childMatches);
         buildRowColor.BuildRowColor(allMatches);
         await buildProvider.Build(allMatches);
-
+        buildRowHeight.Build(allMatches);
         return allMatches;
     }
 

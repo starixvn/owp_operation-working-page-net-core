@@ -12,4 +12,6 @@ public class EventPickingRequest
 
     public List<string> HasOtherProvider { get; set; }
 
+    public List<int> FilterMatchCategory { get; set; }
+
 }
