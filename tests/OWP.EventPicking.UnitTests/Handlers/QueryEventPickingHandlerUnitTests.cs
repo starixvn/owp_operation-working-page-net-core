@@ -28,7 +28,8 @@ public class QueryEventPickingHandlerUnitTests
             SelectGame = new List<int> { 1 },
             FilterMatch = new List<string> { "Red" },
             HasOtherProvider = new List<string> { "yes", "no" },
-            HasProvider = new List<string> { "yes", "no" }
+            HasProvider = new List<string> { "yes", "no" },
+            FilterMatchCategory = new List<int> { 0, 1 }
         };
         var matches = new List<EventPickingModel>
         {

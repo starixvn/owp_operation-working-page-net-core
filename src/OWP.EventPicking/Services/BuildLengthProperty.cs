@@ -3,12 +3,12 @@ using System.Text.RegularExpressions;
 
 namespace OWP.EventPicking.Services;
 
-public interface BuildRowHeight
+public interface BuildLengthProperty
 {
     void Build(List<EventPickingModel> matches);
 }
 
-public class BuildRowHeightImp : BuildRowHeight
+public class BuildLengthPropertyImp : BuildLengthProperty
 {
     public void Build(List<EventPickingModel> matches)
     => matches.ForEach(x =>
