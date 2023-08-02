@@ -16,6 +16,8 @@ public class MessageDetailViewModel
 
     public bool IsFile => FileId.HasValue;
 
+    public byte[] ImageContent { get; set; }
+
     public DateTime? CreatedDate { get; set; }
 
     public string QuoteMessage { get; set; }
