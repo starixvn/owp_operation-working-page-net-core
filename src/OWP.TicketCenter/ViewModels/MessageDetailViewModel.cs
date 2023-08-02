@@ -17,4 +17,10 @@ public class MessageDetailViewModel
     public bool IsFile => FileId.HasValue;
 
     public DateTime? CreatedDate { get; set; }
+
+    public string QuoteMessage { get; set; }
+
+    public string QuoteUsername { get; set; }
+
+    public DateTime QuoteCreatedDate { get; set; }
 }
