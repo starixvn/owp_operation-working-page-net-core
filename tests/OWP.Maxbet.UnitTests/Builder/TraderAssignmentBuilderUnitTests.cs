@@ -2,7 +2,6 @@
 using OWP.Enums;
 using OWP.Maxbet.Builder;
 using OWP.Maxbet.Models;
-using OWP.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
 
@@ -16,9 +15,8 @@ public class TraderAssignmentBuilderUnitTests
 
     public TraderAssignmentBuilderUnitTests()
     {
-        var logServiceWrapper = Substitute.For<LogServiceWrapper>();
         syncMaxbetRepository = Substitute.For<MaxbetRepository>();
-        traderAssignment = new TraderAssignmentBuilderImp(syncMaxbetRepository, logServiceWrapper);
+        traderAssignment = new TraderAssignmentBuilderImp(syncMaxbetRepository);
     }
 
     [Fact]

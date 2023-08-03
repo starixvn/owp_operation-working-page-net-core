@@ -4,7 +4,6 @@ using Olympus.Xml;
 using OWP.AssignmentUpload.Submit.Criteria;
 using OWP.AssignmentUpload.Submit.Models;
 using OWP.AssignmentUpload.Validation.Models;
-using OWP.Services;
 
 namespace OWP.AssignmentUpload.Submit.Services;
 
@@ -39,27 +38,22 @@ public class CommandRepositoryImp : CommandRepository
 
     private readonly AssignmentAnalyzer assignmentAnalyzer;
 
-    private readonly LogServiceWrapper logService;
-
     private readonly CacheManipulator cacheManipulator;
 
     public CommandRepositoryImp(
         IDynamicRepository repository,
         INapSession currentSession,
         AssignmentAnalyzer assignmentAnalyzer,
-        LogServiceWrapper logService,
         CacheManipulator cacheManipulator)
     {
         this.repository = repository;
         this.currentSession = currentSession;
         this.assignmentAnalyzer = assignmentAnalyzer;
-        this.logService = logService;
         this.cacheManipulator = cacheManipulator;
     }
 
     public async Task Update(List<OldMatch> oldMatches, List<AssignmentModel> assignments, SubmitRequest request)
     {
-        await logService.Log("Update - Input parameters", oldMatches, assignments, request);
         var hashKeyMap = (await InsertOrUpdateMatches(assignments, request.EventDate)).ToList();
         assignmentAnalyzer.ReassignMatchId(assignments, hashKeyMap);
 
@@ -67,8 +61,6 @@ public class CommandRepositoryImp : CommandRepository
         var newMatchIdsInString = string.Join(",", newMatchIds);
         var deletedMatchIds = oldMatches.Select(m => m.OWPMatchId).Except(newMatchIds);
         var deletedMatchIdsInString = string.Join(",", deletedMatchIds);
-
-        await logService.Log("UpdateMatchExtraInformation - Input parameters", hashKeyMap, newMatchIdsInString, deletedMatchIdsInString, assignments);
 
         await UpdateMatchExtraInformation(assignments, request, newMatchIdsInString, deletedMatchIdsInString);
         await SaveDeletedInfoSiteMatches(oldMatches, assignments, request.EventDate);

@@ -2,7 +2,6 @@ using OWP.Enums;
 using OWP.Maxbet.Helpers;
 using OWP.Maxbet.Models;
 using OWP.Maxbet.Selector;
-using OWP.Services;
 
 namespace OWP.Maxbet.Services;
 
@@ -21,16 +20,12 @@ public class SpecialProductServiceImp : SpecialProductService
 
     private readonly SpecialProductSelector specialProductSelector;
 
-    private readonly LogServiceWrapper logServiceWrapper;
-
     public SpecialProductServiceImp(
         MaxbetRepository syncMaxbetRepository,
-        SpecialProductSelector specialProductSelector,
-        LogServiceWrapper logServiceWrapper)
+        SpecialProductSelector specialProductSelector)
     {
         this.syncMaxbetRepository = syncMaxbetRepository;
         this.specialProductSelector = specialProductSelector;
-        this.logServiceWrapper = logServiceWrapper;
     }
 
     public async Task<MinorMatchInfo> GetMatchIdByAdminSiteId(int adminsiteId, int bettypeId)
@@ -55,14 +50,6 @@ public class SpecialProductServiceImp : SpecialProductService
         var numberOfLines = await specialProductSelector.SelectNumberOfLines(owpMatch.MinorMatchId, bettypeId);
 
         maxbetInfo.NumberOfLines = numberOfLines;
-
-        await logServiceWrapper.Log("=====GetSpecialProductInfo request======", owpMatch, adminsiteId, bettypeId);
-        await logServiceWrapper.Log("=====GetSpecialProductInfo======",
-            maxbetInfo.Traders,
-            maxbetInfo.Spread,
-            maxbetInfo.Maxbet,
-            maxbetInfo.SecondAcceptValue,
-            maxbetInfo.NumberOfLines);
 
         return maxbetInfo;
     }

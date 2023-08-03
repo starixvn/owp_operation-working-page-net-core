@@ -37,7 +37,7 @@ public class CommandRepositoryIntegrationTest
         var logService = Substitute.For<LogServiceWrapper>();
         var cacheManipulator = Substitute.For<CacheManipulator>();
 
-        var realCommandRepository = new CommandRepositoryImp(dynamicRepository, currentSession, analyzer, logService, cacheManipulator);
+        var realCommandRepository = new CommandRepositoryImp(dynamicRepository, currentSession, analyzer, cacheManipulator);
         var emptyMatchIds = new List<OldMatch>();
         await realCommandRepository.Update(emptyMatchIds, assignments, request);
     }

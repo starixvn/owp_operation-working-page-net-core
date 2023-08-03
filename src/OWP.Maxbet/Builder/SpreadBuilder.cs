@@ -1,7 +1,6 @@
 ﻿using OWP.Enums;
 using OWP.Maxbet.Helpers;
 using OWP.Maxbet.Models;
-using OWP.Services;
 
 namespace OWP.Maxbet.Builder;
 
@@ -20,18 +19,14 @@ public class SpreadBuilderImp : SpreadBuilder
 
     private readonly MaxbetRepository syncMaxbetRepository;
 
-    private readonly LogServiceWrapper logServiceWrapper;
-
-    public SpreadBuilderImp(MaxbetRepository syncMaxbetRepository, LogServiceWrapper logServiceWrapper)
+    public SpreadBuilderImp(MaxbetRepository syncMaxbetRepository)
     {
         this.syncMaxbetRepository = syncMaxbetRepository;
-        this.logServiceWrapper = logServiceWrapper;
     }
 
     public async Task<MaxbetSpread> BuildSpreadSpecialProduct(int specialProductId)
     {
         var (spreads, leagueGroups) = await syncMaxbetRepository.GetSpreadSpecialProductById(specialProductId);
-        await logServiceWrapper.Log("======BuildSpreadSpecialProduct====", spreads, leagueGroups);
         var leagueGroupId = leagueGroups.FirstOrDefault()?.LeagueGroupId;
         return BuildSpread(spreads, leagueGroupId);
     }
