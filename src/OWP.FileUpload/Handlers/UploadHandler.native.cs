@@ -1,4 +1,5 @@
 ﻿using Fanex.Data.Repository;
+using Fanex.Logging;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using OWP.FileUpload.Criteria;
@@ -17,10 +18,12 @@ public class UploadHandler
     public class Handler : IRequestHandler<UploadCommand, FileModel>
     {
         private readonly IDynamicRepository dynamicRepo;
+        private readonly ILogger logger;
 
-        public Handler(IDynamicRepository dynamicRepo)
+        public Handler(IDynamicRepository dynamicRepo, ILogger logger)
         {
             this.dynamicRepo = dynamicRepo;
+            this.logger = logger;
         }
 
         public async Task<FileModel> Handle(UploadCommand request, CancellationToken cancellationToken)
@@ -34,7 +37,7 @@ public class UploadHandler
             return result;
         }
 
-        private static async Task SaveFile(IFormFile uploadFile, string fileName)
+        private async Task SaveFile(IFormFile uploadFile, string fileName)
         {
             try
             {
@@ -42,9 +45,9 @@ public class UploadHandler
                 await using var fileStream = new FileStream(fullPath, FileMode.Create);
                 await uploadFile.CopyToAsync(fileStream);
             }
-            catch
+            catch (Exception ex)
             {
-                // SonarQube
+                await logger.ErrorAsync("LogFile", ex.Message);
             }
         }
     }
