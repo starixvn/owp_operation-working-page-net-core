@@ -6,5 +6,9 @@ public class FileModel
 
     public string Title { get; set; }
 
-    public byte[] FileContent { get; set; }
+    public string SavedFileName { get; set; }
+
+    public string FilePath { get; set; }
+
+    public string MediaType { get; set; }
 }

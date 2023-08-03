@@ -1,6 +1,7 @@
 ﻿using Fanex.Data.Repository;
 using MediatR;
 using OWP.FileUpload.Criteria;
+using OWP.FileUpload.Helper;
 using OWP.FileUpload.Models;
 
 namespace OWP.FileUpload.Handlers;
@@ -23,13 +24,14 @@ public class DownloadHandler
 
         public async Task<FileModel> Handle(DownloadRequest request, CancellationToken cancellationToken)
         {
-            var criteria = new DownloadCriteria
-            {
-                FileId = request.FileId
-            };
+            var criteria = new DownloadCriteria { FileId = request.FileId };
 
-            var data = await dynamicRepo.FetchAsync<FileModel>(criteria, cancellationToken);
-            return data.FirstOrDefault();
+            var fileModel = (await dynamicRepo.FetchAsync<FileModel>(criteria, cancellationToken)).FirstOrDefault();
+
+            fileModel.MediaType = FileHelper.GetMediaType(fileModel.Title);
+            fileModel.FilePath = FileHelper.GetFullPath(fileModel.SavedFileName);
+
+            return fileModel;
         }
     }
 }
