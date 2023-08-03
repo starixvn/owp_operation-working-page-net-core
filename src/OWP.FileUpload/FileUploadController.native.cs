@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OWP.FileUpload.Handlers;
 using OWP.FileUpload.Models;
 using static OWP.FileUpload.Handlers.DownloadHandler;
 using static OWP.FileUpload.Handlers.UploadHandler;
@@ -57,5 +58,14 @@ public class FileUploadController : ControllerBase
         var file = await mediator.Send(request);
 
         return PhysicalFile(file.FilePath, file.MediaType, file.Title);
+    }
+
+    [Route("initial-old-data")]
+    [HttpGet]
+    public async Task<IActionResult> InitialOldData()
+    {
+        var response = await mediator.Send(new InitialOldDataHandler.InitialOldDataRequest());
+
+        return Ok(response.ToString());
     }
 }
