@@ -242,6 +242,7 @@ public class RepositoryImp : Repository
             TicketId = message.TicketId,
             UserId = message.CreatorId,
             FileId = message.FileId,
+            QuoteMessageId = message.QuoteMessageId,
             Message = message.Message ?? "Please add"
         };
         criteria.ThrowExceptionIfInvalid();

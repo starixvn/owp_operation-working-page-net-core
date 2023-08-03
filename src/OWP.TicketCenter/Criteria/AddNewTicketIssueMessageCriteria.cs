@@ -12,6 +12,8 @@ public class AddNewTicketIssueMessageCriteria : CriteriaBase
 
     public int? FileId { get; set; }
 
+    public int? QuoteMessageId { get; set; }
+
     public bool IsSaved { get; set; }
 
     public override string GetSettingKey() => "OWP_TicketIssueMessage_Create";
