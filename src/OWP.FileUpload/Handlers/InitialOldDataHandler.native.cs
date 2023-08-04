@@ -1,7 +1,7 @@
 ﻿using Fanex.Data.Repository;
 using Fanex.Logging;
 using MediatR;
-using OWP.FileUpload.Helper;
+using OWP.Helpers;
 
 namespace OWP.FileUpload.Handlers;
 

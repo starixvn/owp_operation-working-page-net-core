@@ -1,4 +1,7 @@
-﻿namespace OWP.TicketCenter.ViewModels;
+﻿using System.Runtime.CompilerServices;
+using OWP.Helpers;
+
+namespace OWP.TicketCenter.ViewModels;
 
 public class MessageDetailViewModel
 {
@@ -16,7 +19,7 @@ public class MessageDetailViewModel
 
     public bool IsFile => FileId.HasValue;
 
-    public byte[] ImageContent { get; set; }
+    public string  ImageFileName { get; set; }
 
     public DateTime? CreatedDate { get; set; }
 
@@ -25,4 +28,16 @@ public class MessageDetailViewModel
     public string QuoteUsername { get; set; }
 
     public DateTime QuoteCreatedDate { get; set; }
+
+    public byte[] ImageContent => GetImageContent();
+
+    private byte[] GetImageContent()
+    {
+        if (string.IsNullOrEmpty(ImageFileName))
+        {
+            return null;
+        }
+        var filePath = FileHelper.GetFullPath(ImageFileName);
+        return File.Exists(FileHelper.GetFullPath(filePath)) ? File.ReadAllBytes( filePath) : null;
+    }
 }

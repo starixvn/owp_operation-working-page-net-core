@@ -1,8 +1,8 @@
 ﻿using Fanex.Data.Repository;
 using MediatR;
 using OWP.FileUpload.Criteria;
-using OWP.FileUpload.Helper;
 using OWP.FileUpload.Models;
+using OWP.Helpers;
 
 namespace OWP.FileUpload.Handlers;
 

@@ -3,8 +3,8 @@ using Fanex.Logging;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using OWP.FileUpload.Criteria;
-using OWP.FileUpload.Helper;
 using OWP.FileUpload.Models;
+using OWP.Helpers;
 
 namespace OWP.FileUpload.Handlers;
 

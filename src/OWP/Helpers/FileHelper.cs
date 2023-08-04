@@ -1,6 +1,5 @@
-﻿namespace OWP.FileUpload.Helper;
-
-public static class FileHelper
+﻿namespace OWP.Helpers;
+public class FileHelper
 {
     public static string GetMediaType(string fileTitle)
     {
