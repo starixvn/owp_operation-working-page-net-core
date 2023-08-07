@@ -5,7 +5,7 @@ using OWP.TicketCenter.Services;
 
 namespace OWP.TicketCenter.Handlers;
 
-public class QueryEventTicketsRequest : IRequest<IList<TicketBaseInfo>>
+public class QueryEventTicketsRequest : IRequest<IList<TicketInfo>>
 {
     public DateTime FromDateFilter { get; set; }
 
@@ -37,7 +37,7 @@ public class QueryEventTicketsRequest : IRequest<IList<TicketBaseInfo>>
     }
 }
 
-public class QueryEventTicketsHandler : IRequestHandler<QueryEventTicketsRequest, IList<TicketBaseInfo>>
+public class QueryEventTicketsHandler : IRequestHandler<QueryEventTicketsRequest, IList<TicketInfo>>
 {
     private readonly GetEventTicketsService getEventTicketService;
 
@@ -46,6 +46,6 @@ public class QueryEventTicketsHandler : IRequestHandler<QueryEventTicketsRequest
         this.getEventTicketService = getEventTicketService;
     }
 
-    public async Task<IList<TicketBaseInfo>> Handle(QueryEventTicketsRequest request, CancellationToken cancellationToken)
+    public async Task<IList<TicketInfo>> Handle(QueryEventTicketsRequest request, CancellationToken cancellationToken)
         => await getEventTicketService.GetAllTickets(request);
 }
