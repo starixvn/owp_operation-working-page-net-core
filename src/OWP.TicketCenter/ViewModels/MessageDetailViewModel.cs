@@ -35,9 +35,9 @@ public class MessageDetailViewModel
     {
         if (string.IsNullOrEmpty(ImageFileName))
         {
-            return null;
+            return Array.Empty<byte>();
         }
         var filePath = FileHelper.GetFullPath(ImageFileName);
-        return File.Exists(FileHelper.GetFullPath(filePath)) ? File.ReadAllBytes( filePath) : null;
+        return File.Exists(FileHelper.GetFullPath(filePath)) ? File.ReadAllBytes( filePath) : Array.Empty<byte>();
     }
 }
