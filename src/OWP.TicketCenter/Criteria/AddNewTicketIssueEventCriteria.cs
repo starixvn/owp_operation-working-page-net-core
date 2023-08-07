@@ -1,4 +1,5 @@
 ﻿using Fanex.Data.Repository;
+using OWP.TicketCenter.Const;
 
 namespace OWP.TicketCenter.Criteria;
 
@@ -13,6 +14,8 @@ public class AddNewTicketIssueEventCriteria : NonQueryCommand
     public int OwpHomeId { get; set; }
 
     public int OwpAwayId { get; set; }
+
+    public int EventType => (int)EventTypeEnum.MATCH;
 
     public override string GetSettingKey() => "OWP_TicketIssueEvent_Create";
 

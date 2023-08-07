@@ -1,6 +1,10 @@
-﻿namespace OWP.TicketCenter.Criteria;
+﻿using OWP.TicketCenter.Const;
+
+namespace OWP.TicketCenter.Criteria;
 
 public class GetEventTicketMatchCriteria : GetEventTicketCriteriaBase
 {
+    public int EventType => (int)EventTypeEnum.MATCH;
+
     public override string GetSettingKey() => "OWP_TicketCenterEvent_Get";
 }

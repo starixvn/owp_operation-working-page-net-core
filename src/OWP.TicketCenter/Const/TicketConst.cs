@@ -7,6 +7,6 @@ namespace OWP.TicketCenter.Const
         OTHER = 3,
         SUPPORT = 4,
         LIVE_INCIDENT = 5,
-        LOG_WORKER = 6
+        LOG_WORK = 6
     }
 }

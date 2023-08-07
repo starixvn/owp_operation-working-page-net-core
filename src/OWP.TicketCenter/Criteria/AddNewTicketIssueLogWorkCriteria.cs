@@ -1,4 +1,5 @@
 using Fanex.Data.Repository;
+using OWP.TicketCenter.Const;
 
 namespace OWP.TicketCenter.Criteria;
 
@@ -11,6 +12,9 @@ public class AddNewTicketIssueLogWorkCriteria : NonQueryCommand
     public string Subject { get; set; }
 
     public string Status { get; set; }
+
+    public int EventType => (int)EventTypeEnum.LOG_WORK;
+
 
     public override string GetSettingKey() => "OWP_TicketIssueLogWork_Create";
     
