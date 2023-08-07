@@ -212,12 +212,12 @@ public class AssignmentValidatorImp : AssignmentValidator
         foreach (var duplicateMatch in duplicateMatches)
         {
             var duplicateRow = duplicateMatch.Select(x => x.Row).ToList();
-            var rowNumber = duplicateMatch.FirstOrDefault().Row;
+            var rowNumber = duplicateRow.FirstOrDefault();
             duplicateRow.RemoveAt(0);
             validationResults.Add(new AssignmentValidationRowResult
             {
                 Row = rowNumber,
-                Message = $"{duplicateMatch.FirstOrDefault().Message} (with row {string.Join(',', duplicateRow)})"
+                Message = $"{duplicateMatch.FirstOrDefault()?.Message} (with row {string.Join(',', duplicateRow)})"
             });
 
             validationResults.RemoveAll(x => duplicateMatch.Any(y => y.Message == x.Message));
@@ -226,8 +226,5 @@ public class AssignmentValidatorImp : AssignmentValidator
         return validationResults.OrderBy(x => x.Row).ToList();
     }
 
-    private static bool HasStartWith(string source, params string[] childString)
-    {
-        return childString.Any(source.StartsWith);
-    }
+    private static bool HasStartWith(string source, params string[] childString) => childString.Any(source.StartsWith);
 }

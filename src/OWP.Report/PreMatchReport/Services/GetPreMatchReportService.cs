@@ -35,6 +35,11 @@ public class GetPreMatchReportServiceImp : GetPreMatchReportService
         foreach (var element in reportLeague)
         {
             var findTrader = reportMatches.FirstOrDefault(x => x.TraderName == element.TraderName);
+            if (findTrader == null)
+            {
+                continue;
+            }
+
             element.ReportHDPMatches = findTrader.ReportHDPMatches;
             element.ReportOUMatches = findTrader.ReportOUMatches;
             element.TotalMatches = findTrader.TotalMatches;

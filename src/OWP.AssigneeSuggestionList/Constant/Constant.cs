@@ -1,6 +1,6 @@
 ﻿using OWP.AssigneeSuggestionList.Models;
-using System.Collections.Immutable;
 using OWP.Constants;
+using System.Collections.Immutable;
 
 namespace OWP.AssigneeSuggestionList.Constant;
 
@@ -206,12 +206,12 @@ public static class OrderConstant
 
 public static class MatchTypeLabel
 {
-    public static ImmutableDictionary<MatchType, string> MatchTypeMapLabel = new Dictionary<MatchType, string>
+    public static readonly ImmutableDictionary<MatchType, string> MatchTypeMapLabel = new Dictionary<MatchType, string>
     {
         {MatchType.Saba5Mins, "5"},
         {MatchType.Saba15Mins, "15"},
         {MatchType.Saba16Mins, "16"},
-        {MatchType.Saba20Mins, "20"},
+        {MatchType.Saba20Mins, "20"}
     }.ToImmutableDictionary();
 }
 
