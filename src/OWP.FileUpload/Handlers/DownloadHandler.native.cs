@@ -28,10 +28,24 @@ public class DownloadHandler
 
             var fileModel = (await dynamicRepo.FetchAsync<FileModel>(criteria, cancellationToken)).FirstOrDefault();
 
-            fileModel.MediaType = FileHelper.GetMediaType(fileModel.Title);
+            var fileExtension = fileModel.Title[(fileModel.Title.LastIndexOf('.') + 1)..].ToLowerInvariant().Trim();
+            var isImage = IsImage(fileExtension);
+            fileModel.MediaType = GetMediaType(fileExtension, isImage);
             fileModel.FilePath = FileHelper.GetFullPath(fileModel.SavedFileName);
+            fileModel.Title = isImage ? null : fileModel.Title;
 
             return fileModel;
+        }
+
+        private static string GetMediaType(string fileExtension, bool isImage)
+            => isImage
+                ? $"image/{fileExtension}"
+                : "application/octet-stream";
+
+        private static bool IsImage(string fileExtension)
+        {
+            string[] imageExtension = { "jpg", "jpeg", "png", "gif", "bmp" };
+            return imageExtension.Contains(fileExtension);
         }
     }
 }
