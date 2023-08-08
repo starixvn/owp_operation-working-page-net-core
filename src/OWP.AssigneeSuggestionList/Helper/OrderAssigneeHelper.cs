@@ -179,28 +179,6 @@ public static class OrderAssigneeHelper
 
     private static int GetAssignmentPriority(AssignmentModel assignment)
     {
-        return assignment.MatchType switch
-        {
-
-            MatchType.RealMatchLink1G => 1,
-            MatchType.RealMatchOther => 1,
-            MatchType.SabaOther => 1,
-            MatchType.Saba5Mins => 1,
-            MatchType.Saba15Mins => 1,
-            MatchType.SabaFutsal6Mins => 1,
-            MatchType.SabaM8816Mins => 1,
-            MatchType.Saba16Mins => 1,
-            MatchType.Saba20Mins => 1,
-            MatchType.SabaLink1G => 1,
-            MatchType.SabaMix5mins => 2,
-            MatchType.SabaLink2G => 2,
-            MatchType.SabaLink3G => 3,
-            MatchType.SabaLink4G => 4,
-            MatchType.RealMatchLink2G => 2,
-            MatchType.RealMatchLink3G => 3,
-            MatchType.Other => 4,
-            MatchType.RealMatchLinkError => 5,
-            _ => 6
-        };
+        return OrderConstant.PriorityMapping.TryGetValue(assignment.MatchType, out var priority) ? priority : 6;
     }
 }

@@ -75,7 +75,6 @@ public static class ColorCodeConst
          new ("*4G", SABA_4G, TEXT_COLOR_BLACK)
     };
 
-
     public static readonly (string, string) ErrorColor = (TEXT_COLOR_WHITE, TEXT_ERROR);
     public static readonly ImmutableDictionary<MatchType, (string, string)> ColorByGroupName = new Dictionary<MatchType, (string, string)>
     {
@@ -154,6 +153,28 @@ public static class WorkingShiftConst
 
 public static class OrderConstant
 {
+    public static readonly ImmutableDictionary<MatchType, int> PriorityMapping = new Dictionary<MatchType, int>
+    {
+        { MatchType.RealMatchLink1G, 1 },
+        { MatchType.RealMatchOther, 1 },
+        { MatchType.SabaOther, 1 },
+        { MatchType.Saba5Mins, 1 },
+        { MatchType.Saba15Mins, 1 },
+        { MatchType.SabaFutsal6Mins, 1 },
+        { MatchType.SabaM8816Mins, 1 },
+        { MatchType.Saba16Mins, 1 },
+        { MatchType.Saba20Mins, 1 },
+        { MatchType.SabaLink1G, 1 },
+        { MatchType.SabaMix5mins, 1 },
+        { MatchType.SabaLink2G, 2 },
+        { MatchType.RealMatchLink2G, 2 },
+        { MatchType.SabaLink3G, 3 },
+        { MatchType.RealMatchLink3G, 3 },
+        { MatchType.SabaLink4G, 4 },
+        { MatchType.Other, 4 },
+        { MatchType.RealMatchLinkError, 5 },
+    }.ToImmutableDictionary();
+
     public static readonly string[] MainMatchLevel = { "1st", "2nd", "[OP]1st", "[OP]2nd", "Only SB", null };
 
     public static readonly string[] ChildMatchLevel = { "[OP]1st", "[OP]2nd", "1st", "2nd", "Only SB", null };

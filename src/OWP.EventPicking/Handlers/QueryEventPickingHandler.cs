@@ -29,11 +29,16 @@ public class QueryEventPickingHandler : IRequestHandler<QueryEventPickingRequest
         .ToList();
 
     private bool ValidMatch(EventPickingModel match, QueryEventPickingRequest condition)
-        => condition.FilterMatch.Contains(match.RowColor, StringComparer.OrdinalIgnoreCase)
-           && condition.SelectGame.Contains(ConvertBoolToInt(match.IsNoOffer))
-           && condition.HasProvider.Contains(match.HasProvider, StringComparer.OrdinalIgnoreCase)
-           && condition.HasOtherProvider.Contains(match.HasOtherProvider, StringComparer.OrdinalIgnoreCase)
+        => CheckCondition1(match, condition) && CheckCondition2(match, condition);
+
+    private bool CheckCondition1(EventPickingModel match, QueryEventPickingRequest condition)
+        => condition.SelectGame.Contains(ConvertBoolToInt(match.IsNoOffer))
            && condition.FilterMatchCategory.Contains(ConvertBoolToInt(match.IsSaba));
+
+    private bool CheckCondition2(EventPickingModel match, QueryEventPickingRequest condition)
+        => condition.FilterMatch.Contains(match.RowColor, StringComparer.OrdinalIgnoreCase)
+           && condition.HasProvider.Contains(match.HasProvider, StringComparer.OrdinalIgnoreCase)
+           && condition.HasOtherProvider.Contains(match.HasOtherProvider, StringComparer.OrdinalIgnoreCase);
 
     private int ConvertBoolToInt(bool value) => value ? 1 : 0;
 }
