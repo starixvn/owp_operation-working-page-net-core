@@ -26,6 +26,8 @@ public class MessageDetailViewModel
 
     public string QuoteUsername { get; set; }
 
+    public int QuoteMessageId { get; set; }
+
     public DateTime QuoteCreatedDate { get; set; }
 
     public byte[] ImageContent => GetImageContent();
