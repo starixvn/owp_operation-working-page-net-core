@@ -1,7 +1,9 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using OWP.RabbitMQ;
 using OWP.RabbitMQ.Constants;
 using OWP.TicketCenter.Criteria;
+using OWP.TicketCenter.Enum;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Notification.Models;
 using OWP.TicketCenter.Notification.Services;
@@ -12,6 +14,9 @@ namespace OWP.TicketCenter.Handlers;
 public class NewTicketIssueSupportRequest : NewTicketModelBase, IRequest<int>
 {
     public string Subject { get; set; }
+
+    public int? EventType => (int)EventTypeEnum.Support;
+
 }
 
 public class NewTicketIssueSupportHandler : IRequestHandler<NewTicketIssueSupportRequest, int>
@@ -21,36 +26,37 @@ public class NewTicketIssueSupportHandler : IRequestHandler<NewTicketIssueSuppor
     private readonly NotificationService notificationService;
     private readonly RecipientService recipientService;
     private readonly Repository repository;
-
+    private readonly IMapper mapper;
 
     public NewTicketIssueSupportHandler(
         Repository repository,
         MessageService messageService,
         NotificationService notificationService,
         RecipientService recipientService,
-        MessageClient messageClient)
+        MessageClient messageClient,
+        IMapper mapper)
     {
         this.repository = repository;
         this.messageService = messageService;
         this.notificationService = notificationService;
         this.recipientService = recipientService;
         this.messageClient = messageClient;
+        this.mapper = mapper;
     }
 
     public async Task<int> Handle(NewTicketIssueSupportRequest request, CancellationToken cancellationToken)
     {
-        var ticketId = await repository.BuildTicketId(request.TicketType, request.SubType);
+        var criteria = mapper.Map<CreateNewTicketCriteria>(request);
+        var ticketId = await repository.CreateTicketIssue(criteria);
         request.TicketId = ticketId;
 
-        await repository.AddNewTicketIssueSupport(request);
-
-        var criteria = new InsertIssueCreatorCriteria
+        var creatorCriteria = new InsertIssueCreatorCriteria
         {
             TicketId = ticketId,
             CreatorId = request.CreatorId
         };
 
-        await repository.InsertIssueCreator(criteria);
+        await repository.InsertIssueCreator(creatorCriteria);
 
         var newMessage = await messageService.InsertMessage(request, ticketId);
 

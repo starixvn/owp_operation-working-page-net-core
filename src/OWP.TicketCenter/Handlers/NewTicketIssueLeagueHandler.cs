@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using OWP.RabbitMQ;
 using OWP.RabbitMQ.Constants;
 using OWP.TicketCenter.Criteria;
@@ -6,12 +7,15 @@ using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Notification.Models;
 using OWP.TicketCenter.Notification.Services;
 using OWP.TicketCenter.Services;
+using OWP.TicketCenter.Enum;
 
 namespace OWP.TicketCenter.Handlers;
 
 public class NewTicketIssueLeagueRequest : NewTicketModelBase, IRequest<int>
 {
-    public int OwpLeagueId { get; set; }
+    public int? OwpLeagueId { get; set; }
+
+    public int? EventType => (int)EventTypeEnum.League;
 }
 
 public class NewTicketIssueLeagueHandler : IRequestHandler<NewTicketIssueLeagueRequest, int>
@@ -22,6 +26,7 @@ public class NewTicketIssueLeagueHandler : IRequestHandler<NewTicketIssueLeagueR
     private readonly RecipientService recipientService;
     private readonly Repository repository;
     private readonly PreMatchNotificationService preMatchNotification;
+    private readonly IMapper mapper;
 
     public NewTicketIssueLeagueHandler(
         Repository repository,
@@ -29,7 +34,8 @@ public class NewTicketIssueLeagueHandler : IRequestHandler<NewTicketIssueLeagueR
         NotificationService notificationService,
         RecipientService recipientService,
         MessageClient messageClient,
-        PreMatchNotificationService preMatchNotification)
+        PreMatchNotificationService preMatchNotification,
+        IMapper mapper)
     {
         this.repository = repository;
         this.messageService = messageService;
@@ -37,21 +43,22 @@ public class NewTicketIssueLeagueHandler : IRequestHandler<NewTicketIssueLeagueR
         this.recipientService = recipientService;
         this.messageClient = messageClient;
         this.preMatchNotification = preMatchNotification;
+        this.mapper = mapper;
     }
 
     public async Task<int> Handle(NewTicketIssueLeagueRequest request, CancellationToken cancellationToken)
     {
-        var ticketId = await repository.BuildTicketId(request.TicketType, request.SubType);
+        var criteria = mapper.Map<CreateNewTicketCriteria>(request);
+        var ticketId = await repository.CreateTicketIssue(criteria);
         request.TicketId = ticketId;
-        await repository.AddNewTicketIssueLeague(request);
 
-        var criteria = new InsertIssueCreatorCriteria
+        var creatorCriteria = new InsertIssueCreatorCriteria
         {
             TicketId = ticketId,
             CreatorId = request.CreatorId
         };
 
-        await repository.InsertIssueCreator(criteria);
+        await repository.InsertIssueCreator(creatorCriteria);
 
         var newMessage = await messageService.InsertMessage(request, ticketId);
 

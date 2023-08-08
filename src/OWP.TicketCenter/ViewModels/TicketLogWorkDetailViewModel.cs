@@ -16,5 +16,5 @@ public class TicketLogWorkDetailViewModel : TicketDetailBaseViewModel
 
     public string EventName => LeagueName;
 
-    public int EventType => (int)Enum.EventType.LogWork;
+    public int EventType => (int)Enum.EventTypeEnum.LogWork;
 }

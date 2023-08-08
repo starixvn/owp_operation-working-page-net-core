@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Fanex.Data.Repository;
 using NSubstitute;
 using OWP.RabbitMQ;
 using OWP.TicketCenter.Criteria;
@@ -43,7 +44,8 @@ public class NewTicketIssueLeagueHandlerUnitTests
             notificationService,
             recipientService,
             messageClient,
-            preMatchNotificationService
+            preMatchNotificationService,
+            mapper
         );
     }
 
@@ -54,11 +56,8 @@ public class NewTicketIssueLeagueHandlerUnitTests
         var request = new NewTicketIssueLeagueRequest();
 
         repository
-            .BuildTicketId(request.TicketType, request.SubType)
+            .CreateTicketIssue(Arg.Compat.Any<CriteriaBase>())
             .Returns(Task.FromResult(111));
-
-        await repository
-            .AddNewTicketIssueLeague(request);
 
         await repository.AddNewMessage(Arg.Compat.Any<NewMessageRequestModel>());
 

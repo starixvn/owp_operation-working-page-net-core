@@ -1,10 +1,11 @@
-﻿using OWP.TicketCenter.Const;
+﻿
+using OWP.TicketCenter.Enum;
 
 namespace OWP.TicketCenter.Criteria;
 
 internal class GetEventTicketLiveIncidentCriteria : GetEventTicketCriteriaBase
 {
-    public int EventType => (int)EventTypeEnum.LIVE_INCIDENT;
+    public int EventType => (int)EventTypeEnum.LiveIncident;
 
     public override string GetSettingKey() => "OWP_TicketCenterLiveIncident_Get";
 }
