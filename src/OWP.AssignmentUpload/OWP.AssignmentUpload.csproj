@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -10,9 +10,6 @@
   <ItemGroup>
     <AdditionalFiles Include="..\..\.sonarlint\nap-owp-netcore\CSharp\SonarLint.xml" Link="SonarLint.xml" />
   </ItemGroup>
-<ItemGroup>
-        <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\OWP.RabbitMQ\OWP.RabbitMQ.csproj" />
         <ProjectReference Include="..\OWP\OWP.csproj" />
