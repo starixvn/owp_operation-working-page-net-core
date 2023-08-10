@@ -20,15 +20,15 @@ public class TicketInfo
 
     public bool IsPinned { get; set; }
 
-    public int OwpLeagueId { get; set; }
+    public int? OwpLeagueId { get; set; }
 
     public string OwpLeagueName { get; set; }
 
     public int EventType { get; set; }
 
-    public int OwpHomeId { get; set; }
+    public int? OwpHomeId { get; set; }
 
-    public int OwpAwayId { get; set; }
+    public int? OwpAwayId { get; set; }
 
     public string HomeName { get; set; }
 
