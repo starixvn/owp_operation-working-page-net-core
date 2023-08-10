@@ -13,4 +13,6 @@ public class WorkingShiftHRPPModel
     public DateTime? LastUpdated { get; set; }
 
     public bool IsDayOff { get; set; }
+
+    public bool IsPublicHoliday { get; set; }
 }
