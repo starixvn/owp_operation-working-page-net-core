@@ -123,7 +123,8 @@ public class BuildMainAndChildMatchesUnitTests
                 LocalTV= "TV",
                 Round = "Round",
                 OutSide = "Outside",
-                RowColor = "white"
+                RowColor = "white",
+                LengthRoundCell = 5
             },
             new EventPickingModel
             {

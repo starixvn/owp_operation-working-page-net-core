@@ -4,12 +4,12 @@ using OWP.TicketCenter.Notification.Services;
 
 namespace OWP.TicketCenter.Handlers;
 
-public class OnClickIssueNotificationRequest : PermissionCheckedModel, IRequest
+public class OnClickIssueNotificationRequest : PermissionCheckedModel, IRequest<Unit>
 {
     public int EventType { get; set; }
 }
 
-public class OnClickIssueNotificationRequestImp : IRequestHandler<OnClickIssueNotificationRequest>
+public class OnClickIssueNotificationRequestImp : IRequestHandler<OnClickIssueNotificationRequest, Unit>
 {
     private readonly NotificationService notify;
 

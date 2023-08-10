@@ -14,7 +14,7 @@ public class SaveTicketTypeRecipientsCommand : IRequest<Unit>
     public List<Subtype> Subtypes { get; set; }
 }
 
-public class SaveTicketTypeRecipientsHandler : IRequestHandler<SaveTicketTypeRecipientsCommand>
+public class SaveTicketTypeRecipientsHandler : IRequestHandler<SaveTicketTypeRecipientsCommand, Unit>
 {
     private readonly IDynamicRepository repository;
 
