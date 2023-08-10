@@ -15,14 +15,14 @@
         <ProjectReference Include="..\OWP\OWP.csproj" />
     </ItemGroup>
  <ItemGroup>
-        <PackageReference Include="AutoMapper" Version="12.0.0" />
+        <PackageReference Include="AutoMapper" Version="12.0.1" />
         <PackageReference Include="Fanex.Data.Repository" Version="4.2.2" />
         <PackageReference Include="Fanex.NAP.Client.AspNetCore" Version="2.0.0.3" />
         <PackageReference Include="MediatR" Version="12.1.1" />
         <PackageReference Include="Fanex.Caching.Redis.AspNetCore" Version="2.2.3" />
         <PackageReference Include="Olympus.Xml" Version="1.0.0.5" />
         <PackageReference Include="Fanex.Logging" Version="2.0.1" />
-        <PackageReference Include="EPPlus" Version="6.1.0" />
-        <PackageReference Include="Epplus.Mapper" Version="1.0.0.13" />
+        <PackageReference Include="EPPlus" Version="6.2.7" />
+        <PackageReference Include="Epplus.Mapper" Version="6.0.0" />
     </ItemGroup>
 </Project>
