@@ -16,6 +16,8 @@ public class LogDataLeagueSetting
 
     public string IsActive { get; set; }
 
+    public string IsActiveMaxBet { get; set; }
+
     public string Region { get; set; }
 
     public string Category { get; set; }

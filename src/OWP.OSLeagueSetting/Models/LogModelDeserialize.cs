@@ -29,6 +29,8 @@ public class SettingModelDeserialize
 
     [XmlAttribute("osRemark")] public string Remark { get; set; }
 
+    [XmlAttribute("osIsActiveMaxBet")] public string IsActiveMaxBet { get; set; }
+
     [XmlAttribute("osIsManualUpdateScore")]
     public string IsManualUpdateScore { get; set; }
 

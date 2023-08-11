@@ -12,6 +12,8 @@ public class LeagueSettingInfo
 
     public bool IsActive { get; set; }
 
+    public bool IsActiveMaxBet { get; set; }
+
     public double? MaxBetHDP { get; set; }
 
     public double? MaxBetOU { get; set; }
