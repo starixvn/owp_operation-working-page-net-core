@@ -175,9 +175,9 @@ public static class OrderConstant
         { MatchType.RealMatchLinkError, 5 },
     }.ToImmutableDictionary();
 
-    public static readonly string[] MainMatchLevel = { "1st", "2nd", "[OP]1st", "[OP]2nd", "Only SB", null };
+    public static readonly string[] MainMatchLevel = { "1st+", "1st", "2nd", "[OP]1st", "[OP]2nd", "Only SB", null };
 
-    public static readonly string[] ChildMatchLevel = { "[OP]1st", "[OP]2nd", "1st", "2nd", "Only SB", null };
+    public static readonly string[] ChildMatchLevel = { "[OP]1st", "[OP]2nd", "1st+", "1st", "2nd", "Only SB", null };
 
     public static readonly string[] RoleOrder = { "Staff", "Assistant Leader", "Leader", "Supervisor", "Section Head", "Management", "Unit Head", null };
 
@@ -193,9 +193,9 @@ public static class OrderConstant
 
     public const string BetTypeSb = "SB";
 
-    public const string BetType5Min = "5min";
+    public const string BetType5Min = "5mins";
 
-    public const string BetType6Min = "6min";
+    public const string BetType6Min = "6mins";
 
     public const string BetTypeBkCr = "BK CR";
 

@@ -52,7 +52,7 @@ public class CategorizeSabaMatchServicesImp : CategorizeSabaMatchServices
         return mainBetTypeLst switch
         {
             _ when mainBetTypeLst.ExistsValue("SB") && matchInfo.MatchType.IsMultipleType() => LinkSabaGame(assignments, matchInfo),
-            _ when mainBetTypeLst.ExistsValue("5min") && matchInfo.MatchType is MatchType.Saba5Mins => Link5MinsGame(assignments, matchInfo),
+            _ when mainBetTypeLst.ExistsValue("5mins") && matchInfo.MatchType is MatchType.Saba5Mins => Link5MinsGame(assignments, matchInfo),
             _ => AssigneeSabaCategory.Busy
         };
     }
