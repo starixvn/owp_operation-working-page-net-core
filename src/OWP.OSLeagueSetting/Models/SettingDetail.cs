@@ -8,6 +8,8 @@ public class SettingDetail
 
     public bool IsActive { get; set; }
 
+    public bool IsActiveMaxBet { get; set; }
+
     public int? Region { get; set; }
 
     public int? Category { get; set; }
