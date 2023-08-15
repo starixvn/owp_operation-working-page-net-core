@@ -68,7 +68,6 @@ public class GenerateImplicitMinorMatchImp : ImplicitMinorMatchGenerator
             League = mainMatch.League + " - ALL IN ONE",
             Home = mainMatch.Home + " All In One",
             Away = mainMatch.Away + " All In One",
-
             TraderHDP = mainMatch.TraderAIO,
             OtherTradersHDP = mainMatch.OtherTradersAIO,
             IsSaba = mainMatch.IsSaba
@@ -142,9 +141,13 @@ public class GenerateImplicitMinorMatchImp : ImplicitMinorMatchGenerator
         {
             case (int)MinorBettype.NoOfCorner:
                 yield return GetSpecific15MinsCornersMatch(mainMatch);
+                yield return GetAllInOneCornersMatch(mainMatch);
+                yield return GetFastMarketCornersMatch(mainMatch);
                 break;
             case (int)MinorBettype.TotalBooking:
                 yield return GetSpecific15MinsTotalBookingsMatch(mainMatch);
+                yield return GetAllInOneTotalBookingsMatch(mainMatch);
+                yield return GetFastMarketTotalBookingsMatch(mainMatch);
                 break;
             default:
                 yield break;
@@ -185,11 +188,77 @@ public class GenerateImplicitMinorMatchImp : ImplicitMinorMatchGenerator
             OtherTime = mainMatch.OtherTime,
             Home = mainMatch.Home + SPECIFIC_15_MINS,
             Away = mainMatch.Away + SPECIFIC_15_MINS,
-
             MaxBetHDP = mainMatch.MaxBetXMins,
             SpreadHDP = mainMatch.SpreadXMins,
             TraderHDP = mainMatch.Trader15Mins,
             OtherTradersHDP = mainMatch.OtherTraders15Mins
         };
+    }
+
+    public static AssignmentModel GetAllInOneTotalBookingsMatch(AssignmentModel match)
+    {
+        var newMatch = CreateAllInOneChildMatch(match, MinorBettype.AllInOneTotalBookings);
+        newMatch.TraderHDP = match.TraderAIO;
+        newMatch.OtherTradersHDP = match.OtherTradersAIO;
+
+        return newMatch;
+    }
+
+    public static AssignmentModel GetAllInOneCornersMatch(AssignmentModel match)
+    {
+        var newMatch = CreateAllInOneChildMatch(match, MinorBettype.AllInOneCorners);
+        newMatch.TraderHDP = match.TraderAIO;
+        newMatch.OtherTradersHDP = match.OtherTradersAIO;
+
+        return newMatch;
+    }
+
+    public static AssignmentModel GetFastMarketTotalBookingsMatch(AssignmentModel match)
+    {
+        var newMatch = CreateAllInOneChildMatch(match, MinorBettype.FastMarketTotalBookings);
+        newMatch.TraderHDP = match.TraderFM;
+        newMatch.OtherTradersHDP = match.OtherTradersFM;
+
+        return newMatch;
+    }
+
+    public static AssignmentModel GetFastMarketCornersMatch(AssignmentModel match)
+    {
+        var newMatch = CreateAllInOneChildMatch(match, MinorBettype.FastMarketCorners);
+        newMatch.TraderHDP = match.TraderFM;
+        newMatch.OtherTradersHDP = match.OtherTradersFM;
+
+        return newMatch;
+    }
+
+    public static AssignmentModel CreateAllInOneChildMatch(AssignmentModel match, MinorBettype minorBettype)
+    {
+        var (typeName, oldText, replaceText) = minorBettype switch
+        {
+            MinorBettype.AllInOneTotalBookings => (" All In One", " - BOOKING", "TOTAL BOOKINGS"),
+            MinorBettype.AllInOneCorners => (" All In One", " - CORNERS", "NUMBER OF CORNERS"),
+            MinorBettype.FastMarketTotalBookings => (" Fast Market", " - BOOKING", "TOTAL BOOKINGS"),
+            MinorBettype.FastMarketCorners => (" Fast Market", " - CORNERS", "NUMBER OF CORNERS"),
+            _ => (string.Empty, string.Empty, string.Empty)
+        };
+
+        var minorMatch = new AssignmentModel
+        {
+            MinorBettypeId = (int)minorBettype,
+            SessionId = match.SessionId,
+            IsImplicitMinorMatch = true,
+            MatchStatus = match.MatchStatus,
+            EventDate = match.EventDate,
+            KickOffTime = match.KickOffTime,
+            OtherTime = match.OtherTime,
+            Home = match.Home + typeName,
+            Away = match.Away + typeName,
+            IsSaba = match.IsSaba,
+            HashKey = match.HashKey + minorBettype,
+            League = match.League.Replace(oldText, $" -{typeName} {replaceText}".ToUpperInvariant()),
+            ParentHashKey = match.ParentHashKey
+        };
+
+        return minorMatch;
     }
 }
