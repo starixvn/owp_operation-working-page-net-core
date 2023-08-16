@@ -66,6 +66,10 @@ public class InsertRecipientHandler : IRequestHandler<InsertSingleRecipientReque
             var ticketInfoLga = await repository.GetTicketInfoLga(request.TicketId);
             await notificationService.NotifyNewAddRecipientLga(userIds, ticketInfoLga.OwpMatchId, request.ActorId);
         }
-        await preMatchNotification.NotifyToReloadTicketInPrematchTable(request.TicketId, request.TicketEventType, userIds);
+
+        if (request.TicketEventType is (int)EventTypeEnum.League or (int)EventTypeEnum.Match)
+        {
+            await preMatchNotification.NotifyToReloadTicketInPrematchTable(request.TicketId, request.TicketEventType, userIds);
+        }
     }
 }
