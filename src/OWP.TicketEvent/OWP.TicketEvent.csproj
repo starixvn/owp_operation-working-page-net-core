@@ -11,12 +11,12 @@
     <AdditionalFiles Include="..\..\.sonarlint\nap-owp-netcore\CSharp\SonarLint.xml" Link="SonarLint.xml" />
   </ItemGroup>
 <ItemGroup>
-        <PackageReference Include="MediatR" Version="11.0.0" />
-        <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
-        <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+        <PackageReference Include="MediatR" Version="12.1.1" />
         <PackageReference Include="Fanex.Data.Repository" Version="4.2.2" />
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
         <PackageReference Include="Fanex.NAP.Client.AspNetCore" Version="2.0.0.3" />
         <PackageReference Include="Microsoft.NETCore.Targets" Version="6.0.0-preview.4.21253.7" PrivateAssets="all" />
     </ItemGroup>
+<ItemGroup>
+  <ProjectReference Include="..\OWP\OWP.csproj" />
+</ItemGroup>
 </Project>

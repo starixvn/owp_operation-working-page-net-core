@@ -1,6 +1,6 @@
 ﻿using OWP.AssigneeSuggestionList.Models;
-using System.Collections.Immutable;
 using OWP.Constants;
+using System.Collections.Immutable;
 
 namespace OWP.AssigneeSuggestionList.Constant;
 
@@ -74,7 +74,6 @@ public static class ColorCodeConst
          new ("*3G", SABA_3G, TEXT_COLOR_BLACK),
          new ("*4G", SABA_4G, TEXT_COLOR_BLACK)
     };
-
 
     public static readonly (string, string) ErrorColor = (TEXT_COLOR_WHITE, TEXT_ERROR);
     public static readonly ImmutableDictionary<MatchType, (string, string)> ColorByGroupName = new Dictionary<MatchType, (string, string)>
@@ -154,6 +153,28 @@ public static class WorkingShiftConst
 
 public static class OrderConstant
 {
+    public static readonly ImmutableDictionary<MatchType, int> PriorityMapping = new Dictionary<MatchType, int>
+    {
+        { MatchType.RealMatchLink1G, 1 },
+        { MatchType.RealMatchOther, 1 },
+        { MatchType.SabaOther, 1 },
+        { MatchType.Saba5Mins, 1 },
+        { MatchType.Saba15Mins, 1 },
+        { MatchType.SabaFutsal6Mins, 1 },
+        { MatchType.SabaM8816Mins, 1 },
+        { MatchType.Saba16Mins, 1 },
+        { MatchType.Saba20Mins, 1 },
+        { MatchType.SabaLink1G, 1 },
+        { MatchType.SabaMix5mins, 1 },
+        { MatchType.SabaLink2G, 2 },
+        { MatchType.RealMatchLink2G, 2 },
+        { MatchType.SabaLink3G, 3 },
+        { MatchType.RealMatchLink3G, 3 },
+        { MatchType.SabaLink4G, 4 },
+        { MatchType.Other, 4 },
+        { MatchType.RealMatchLinkError, 5 },
+    }.ToImmutableDictionary();
+
     public static readonly string[] MainMatchLevel = { "1st", "2nd", "[OP]1st", "[OP]2nd", "Only SB", null };
 
     public static readonly string[] ChildMatchLevel = { "[OP]1st", "[OP]2nd", "1st", "2nd", "Only SB", null };
@@ -206,12 +227,12 @@ public static class OrderConstant
 
 public static class MatchTypeLabel
 {
-    public static ImmutableDictionary<MatchType, string> MatchTypeMapLabel = new Dictionary<MatchType, string>
+    public static readonly ImmutableDictionary<MatchType, string> MatchTypeMapLabel = new Dictionary<MatchType, string>
     {
         {MatchType.Saba5Mins, "5"},
         {MatchType.Saba15Mins, "15"},
         {MatchType.Saba16Mins, "16"},
-        {MatchType.Saba20Mins, "20"},
+        {MatchType.Saba20Mins, "20"}
     }.ToImmutableDictionary();
 }
 

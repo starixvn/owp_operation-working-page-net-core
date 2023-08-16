@@ -8,7 +8,7 @@ using OWP.RabbitMQ.Constants;
 
 namespace OWP.PrematchAssignment.Handlers;
 
-public class UpdateLeagueAssignmentRequest : IRequest
+public class UpdateLeagueAssignmentRequest : IRequest<Unit>
 {
     public int[] PrematchIdDeleted { get; set; }
 
@@ -19,7 +19,7 @@ public class UpdateLeagueAssignmentRequest : IRequest
     public DateTime Date { get; set; }
 }
 
-public class UpdateHandler : IRequestHandler<UpdateLeagueAssignmentRequest>
+public class UpdateHandler : IRequestHandler<UpdateLeagueAssignmentRequest, Unit>
 {
     private readonly PreMatchAssignmentService preMatchAssignmentService;
     private readonly MessageClient messageClient;

@@ -8,5 +8,7 @@ public class NewMessageRequestModel
 
     public string Message { get; set; }
 
+    public int? QuoteMessageId { get; set; }
+
     public int? FileId { get; set; }
 }

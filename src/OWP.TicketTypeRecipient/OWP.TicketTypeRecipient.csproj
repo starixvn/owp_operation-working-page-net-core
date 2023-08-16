@@ -6,15 +6,16 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <CodeAnalysisRuleSet>..\..\.sonarlint\nap-owp-netcorecsharp.ruleset</CodeAnalysisRuleSet>
     </PropertyGroup>
-
-    <ItemGroup>
+	<ItemGroup>
       <AdditionalFiles Include="..\..\.sonarlint\nap-owp-netcore\CSharp\SonarLint.xml" Link="SonarLint.xml" />
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Fanex.Data.Repository" Version="4.2.2" />
-        <PackageReference Include="MediatR" Version="11.0.0" />
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+        <PackageReference Include="MediatR" Version="12.1.1" />
         <PackageReference Include="Olympus.Xml" Version="1.0.0.5" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\OWP\OWP.csproj" />
     </ItemGroup>
 
 </Project>

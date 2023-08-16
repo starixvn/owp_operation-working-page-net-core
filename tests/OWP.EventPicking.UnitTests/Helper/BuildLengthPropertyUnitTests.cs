@@ -1,39 +1,33 @@
-﻿using OWP.EventPicking.Models;
-using OWP.EventPicking.Services;
+﻿using OWP.EventPicking.Helper;
+using OWP.EventPicking.Models;
 using Xunit;
 
-namespace OWP.EventPicking.UnitTests.Services;
+namespace OWP.EventPicking.UnitTests.Helper;
 
 public class BuildLengthPropertyUnitTests
 {
-    private readonly BuildLengthProperty service;
-    public BuildLengthPropertyUnitTests()
-    {
-        service = new BuildLengthPropertyImp();
-    }
-
     [Fact]
     public void BuildRowColor_MapRowColor()
     {
         var eventPickings = new List<EventPickingModel>
         {
-            new() { 
+            new() {
                 TV = "K+",
                 Channel = "K+NS",
                 Wb = "WB(streaming)"
             },
-            new() { 
+            new() {
                 Provider = "RSD/GB",
                 OtherProvider = "Other"
             },
-            new() { 
+            new() {
                 Division = "division"
             },
-            new() { 
+            new() {
                 LstNote = "test sa"
             }
         };
-        service.Build(eventPickings);
+        LengthPropertyBuilder.Build(eventPickings);
 
         Assert.Equal(19, eventPickings[0].LengthStreamingCell);
         Assert.Equal(11, eventPickings[1].LengthProviderCell);

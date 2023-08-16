@@ -17,7 +17,7 @@ public class SpecialProductSpreadBuilderUnitTests
     {
         var logServiceWrapper = Substitute.For<LogServiceWrapper>();
         syncMaxbetRepository = Substitute.For<MaxbetRepository>();
-        specialProductSpreadBuilder = new SpecialProductSpreadBuilderImp(syncMaxbetRepository, logServiceWrapper);
+        specialProductSpreadBuilder = new SpecialProductSpreadBuilderImp(syncMaxbetRepository);
     }
 
     [Fact]

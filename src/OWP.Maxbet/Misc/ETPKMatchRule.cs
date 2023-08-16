@@ -11,7 +11,9 @@ public class ETPKMatchRule
 
     public virtual async Task<MaxbetInfo> GetMaxBetETPK(MatchInfo matchInfo, int adminSiteId, int subtype)
     {
-        return await NextMatch?.GetMaxBetETPK(matchInfo, adminSiteId, subtype);
+        return NextMatch != null
+            ? await NextMatch.GetMaxBetETPK(matchInfo, adminSiteId, subtype)
+            : null;
     }
 }
 

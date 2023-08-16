@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OWP.FileUpload.Handlers;
 using OWP.FileUpload.Models;
+using static OWP.FileUpload.Handlers.DownloadHandler;
+using static OWP.FileUpload.Handlers.UploadHandler;
 
 namespace OWP.FileUpload;
 
@@ -25,16 +27,7 @@ public class FileUploadController : ControllerBase
     [HttpPost]
     public async Task<int> Upload(IFormFile file)
     {
-        await using var memoryStream = new MemoryStream();
-
-        await file.CopyToAsync(memoryStream);
-
-        var request = new UploadHandler.UploadCommand
-        {
-            FileStream = memoryStream.ToArray(),
-            FileName = file.FileName
-        };
-
+        var request = new UploadCommand { File = file };
         var response = await mediator.Send(request);
 
         return response.FileId;
@@ -45,19 +38,12 @@ public class FileUploadController : ControllerBase
     public async Task<IList<FileModel>> Upload(IList<IFormFile> files)
     {
         var result = new List<FileModel>();
-        await using var memoryStream = new MemoryStream();
 
         foreach (var file in files)
         {
-            await file.CopyToAsync(memoryStream);
-            var request = new UploadHandler.UploadCommand
-            {
-                FileStream = memoryStream.ToArray(),
-                FileName = file.FileName
-            };
+            var request = new UploadCommand { File = file };
             var response = await mediator.Send(request);
 
-            memoryStream.SetLength(0);
             result.Add(response);
         }
 
@@ -68,34 +54,18 @@ public class FileUploadController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> Download(int fileId)
     {
-        var request = new DownloadHandler.DownloadRequest
-        {
-            FileId = fileId
-        };
-
+        var request = new DownloadRequest { FileId = fileId };
         var file = await mediator.Send(request);
 
-        var fileExtension = file.Title[(file.Title.LastIndexOf('.') + 1)..].ToLowerInvariant().Trim();
-        var isImage = IsImage(fileExtension);
-        var mediaType = GetMediaType(isImage, fileExtension);
-
-        var stream = new MemoryStream(file.FileContent);
-
-        return isImage
-            ? File(stream, mediaType)
-            : File(stream, mediaType, file.Title);
+        return PhysicalFile(file.FilePath, file.MediaType, file.Title);
     }
 
-    private static string GetMediaType(bool isImage, string fileExtension)
+    [Route("initial-old-data")]
+    [HttpGet]
+    public async Task<IActionResult> InitialOldData()
     {
-        return isImage
-            ? $"image/{fileExtension}"
-            : "application/octet-stream";
-    }
+        var response = await mediator.Send(new InitialOldDataHandler.InitialOldDataRequest());
 
-    private static bool IsImage(string fileExtension)
-    {
-        string[] imageExtension = { "jpg", "jpeg", "png", "gif", "bmp" };
-        return imageExtension.Contains(fileExtension);
+        return Ok(response.ToString());
     }
 }

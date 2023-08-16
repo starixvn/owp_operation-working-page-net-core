@@ -16,6 +16,8 @@ public class NewMessageRequest : PermissionCheckedModel, IRequest<MessageDetailV
 
     public int? FileId { get; set; }
 
+    public int? QuoteMessageId { get; set; }
+
     public int TicketEventType { get; set; }
 
     public string TicketTitle { get; set; }
@@ -47,6 +49,7 @@ public class NewMessageHandler : IRequestHandler<NewMessageRequest, MessageDetai
             TicketId = request.TicketId,
             Message = request.Message,
             CreatorId = request.ActorId,
+            QuoteMessageId = request.QuoteMessageId,
             FileId = request.FileId
         };
         var criteria = new UpdateManyRecipientReaderCriteria

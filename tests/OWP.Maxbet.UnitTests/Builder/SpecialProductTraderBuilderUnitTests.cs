@@ -1,7 +1,6 @@
 ﻿using NSubstitute;
 using OWP.Maxbet.Builder;
 using OWP.Maxbet.Models;
-using OWP.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
 
@@ -15,9 +14,8 @@ public class SpecialProductTraderBuilderUnitTests
 
     public SpecialProductTraderBuilderUnitTests()
     {
-        var logServiceWrapper = Substitute.For<LogServiceWrapper>();
         syncMaxbetRepository = Substitute.For<MaxbetRepository>();
-        specialProductTraderBuilderImp = new SpecialProductTraderBuilderImp(syncMaxbetRepository, logServiceWrapper);
+        specialProductTraderBuilderImp = new SpecialProductTraderBuilderImp(syncMaxbetRepository);
     }
 
     [Fact]

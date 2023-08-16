@@ -239,28 +239,29 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddMediator(this IServiceCollection services)
     {
-        services.AddMediatR(typeof(MaxbetController).GetTypeInfo().Assembly);
-        services.AddMediatR(typeof(EventPickingController).GetTypeInfo().Assembly);
-        services.AddMediatR(typeof(MaxbetSettingController).GetTypeInfo().Assembly);
-        services.AddMediatR(typeof(OtherSportController).GetTypeInfo().Assembly);
-        services.AddMediatR(typeof(SyncWorkingShiftController).GetTypeInfo().Assembly);
-        services.AddMediatR(typeof(RecipientGroupController).GetTypeInfo().Assembly);
-        services.AddMediatR(typeof(TicketCenterController).GetTypeInfo().Assembly);
-        services.AddMediatR(typeof(FileUploadController).GetTypeInfo().Assembly);
-        services.AddMediatR(typeof(TicketTypeRecipientController).GetTypeInfo().Assembly);
-        services.AddMediatR(typeof(OvertimeReportController).GetTypeInfo().Assembly);
-        services.AddMediatR(typeof(PreMatchAssignmentController).GetTypeInfo().Assembly);
-        services.AddMediatR(typeof(PreMatchReportController).GetTypeInfo().Assembly);
-        services.AddMediatR(typeof(MatchCountLiveReportController).GetTypeInfo().Assembly);
-        services.AddMediatR(typeof(OSLeagueController).GetTypeInfo().Assembly);
-        services.AddMediatR(typeof(LAReportController).GetTypeInfo().Assembly);
-        services.AddMediatR(typeof(TraderReportController).GetTypeInfo().Assembly);
-        services.AddMediatR(typeof(LeagueApiController).GetTypeInfo().Assembly);
-        services.AddMediatR(typeof(TicketEventController).GetTypeInfo().Assembly);
-        services.AddMediatR(typeof(AssignmentUploadingApiController).GetTypeInfo().Assembly);
-        services.AddMediatR(typeof(Event.TaskList.TaskListController).GetTypeInfo().Assembly);
-        services.AddMediatR(typeof(ProviderArrangementController).GetTypeInfo().Assembly);
-        services.AddMediatR(typeof(AssigneeSuggestionController).GetTypeInfo().Assembly);
+        services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(MaxbetController).Assembly));
+        services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(MaxbetController).GetTypeInfo().Assembly));
+        services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(EventPickingController).GetTypeInfo().Assembly));
+        services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(MaxbetSettingController).GetTypeInfo().Assembly));
+        services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(OtherSportController).GetTypeInfo().Assembly));
+        services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(SyncWorkingShiftController).GetTypeInfo().Assembly));
+        services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(RecipientGroupController).GetTypeInfo().Assembly));
+        services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(TicketCenterController).GetTypeInfo().Assembly));
+        services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(FileUploadController).GetTypeInfo().Assembly));
+        services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(TicketTypeRecipientController).GetTypeInfo().Assembly));
+        services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(OvertimeReportController).GetTypeInfo().Assembly));
+        services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(PreMatchAssignmentController).GetTypeInfo().Assembly));
+        services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(PreMatchReportController).GetTypeInfo().Assembly));
+        services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(MatchCountLiveReportController).GetTypeInfo().Assembly));
+        services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(OSLeagueController).GetTypeInfo().Assembly));
+        services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(LAReportController).GetTypeInfo().Assembly));
+        services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(TraderReportController).GetTypeInfo().Assembly));
+        services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(LeagueApiController).GetTypeInfo().Assembly));
+        services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(TicketEventController).GetTypeInfo().Assembly));
+        services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(AssignmentUploadingApiController).GetTypeInfo().Assembly));
+        services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(Event.TaskList.TaskListController).GetTypeInfo().Assembly));
+        services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(ProviderArrangementController).GetTypeInfo().Assembly));
+        services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(AssigneeSuggestionController).GetTypeInfo().Assembly));
         return services;
     }
 

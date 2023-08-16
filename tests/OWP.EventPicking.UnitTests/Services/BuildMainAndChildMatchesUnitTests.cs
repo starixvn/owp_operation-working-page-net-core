@@ -24,7 +24,6 @@ public class BuildMainAndChildMatchesUnitTests
         mediator = Substitute.For<IMediator>();
         var buildMatchOffer = Substitute.For<BuildMatchOfferByLiveSetting>();
         var providerBuilder = Substitute.For<BuildProvider>();
-        var buildLengthProperty = Substitute.For<BuildLengthProperty>();
         services = new BuildMainAndChildMatchesImp(
             repository,
             buildMainMatchMaxBet,
@@ -32,7 +31,6 @@ public class BuildMainAndChildMatchesUnitTests
             buildRowColor,
             buildMatchOffer,
             providerBuilder,
-            buildLengthProperty,
             mediator);
     }
 
@@ -125,7 +123,8 @@ public class BuildMainAndChildMatchesUnitTests
                 LocalTV= "TV",
                 Round = "Round",
                 OutSide = "Outside",
-                RowColor = "white"
+                RowColor = "white",
+                LengthRoundCell = 5
             },
             new EventPickingModel
             {
