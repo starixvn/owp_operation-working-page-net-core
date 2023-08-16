@@ -1,4 +1,3 @@
-using Newtonsoft.Json.Linq;
 using OfficeOpenXml;
 using OWP.AssignmentUpload.Validation.Annotations;
 using OWP.AssignmentUpload.Validation.Constants;
@@ -8,7 +7,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using Fanex.Data;
 
 namespace OWP.AssignmentUpload.Validation.Extensions;
 

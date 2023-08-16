@@ -1,6 +1,4 @@
-﻿using Fanex.NAP.Client.AspNetCore.Attributes;
-using Fanex.NAP.Core.Business;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -9,6 +7,9 @@ using OWP.RabbitMQ;
 using OWP.RabbitMQ.Constants;
 
 namespace OWP.LiveDetail.Assignment;
+
+using Fanex.NAP.Client.Attributes;
+using Fanex.NAP.Client.Helpers.Business;
 
 [ApiController]
 [Authorize]

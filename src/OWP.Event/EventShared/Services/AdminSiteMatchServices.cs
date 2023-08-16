@@ -1,8 +1,5 @@
 ﻿using Olympus.OWP.Constants;
 using OWP.Event.EventShared.Models;
-using OWP.Helpers;
-using OWP.Models;
-using OWP.Services;
 
 namespace OWP.Event.EventShared.Services;
 

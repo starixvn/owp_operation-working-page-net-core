@@ -1,6 +1,4 @@
-﻿using Fanex.NAP.Client.AspNetCore.Attributes;
-using Fanex.NAP.Core.Business;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -14,6 +12,9 @@ using OWP.Services;
 // ReSharper disable InvertIf
 
 namespace OWP.LiveDetail.MatchInfo;
+
+using Fanex.NAP.Client.Attributes;
+using Fanex.NAP.Client.Helpers.Business;
 
 [Route("api/live-detail/match-info")]
 [ApiController]

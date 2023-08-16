@@ -1,14 +1,15 @@
-﻿using Fanex.NAP.Client.AspNetCore.Attributes;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using OWP.Constants;
 using OWP.ProviderArrangement.Handlers;
 using OWP.ProviderArrangement.Models;
-using static Fanex.NAP.Core.Business.Constant;
 
 namespace OWP.ProviderArrangement;
+
+using Fanex.NAP.Client.Attributes;
+using Fanex.NAP.Client.Helpers.Business;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -25,7 +26,7 @@ public class ProviderArrangementController : ControllerBase
     }
 
     [HttpGet("get-provider")]
-    [NapAuth(FunctionKey = FunctionKeys.ProviderArrangement, Policy = Policy.Read)]
+    [NapAuth(FunctionKey = FunctionKeys.ProviderArrangement, Policy = Constant.Policy.Read)]
     public async Task<IList<ProviderModel>> GetProvider()
     => await mediator.Send(new GetProviderRequest());
 
@@ -37,7 +38,7 @@ public class ProviderArrangementController : ControllerBase
     }
 
     [HttpGet("get-log")]
-    [NapAuth(FunctionKey = FunctionKeys.ProviderArrangement, Policy = Policy.Read)]
+    [NapAuth(FunctionKey = FunctionKeys.ProviderArrangement, Policy = Constant.Policy.Read)]
     public async Task<IList<LogDisplayModel>> GetLog()
        => await mediator.Send(new GetLogRequest());
 

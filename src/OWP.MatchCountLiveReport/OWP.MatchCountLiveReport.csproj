@@ -11,7 +11,7 @@
       <AdditionalFiles Include="..\..\.sonarlint\nap-owp-netcore\CSharp\SonarLint.xml" Link="SonarLint.xml" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="EPPlus" Version="6.2.7" />
+        <PackageReference Include="EPPlus" Version="6.2.8" />
         <PackageReference Include="Epplus.Mapper" Version="6.0.0" />
         <PackageReference Include="MediatR" Version="12.1.1" />
     </ItemGroup>

@@ -8,12 +8,9 @@ using Fanex.Logging.Extensions;
 using Fanex.Logging.Extensions.AspNetCore;
 using Fanex.Logging.Extensions.Database;
 using Fanex.Logging.Sentry.RavenClient;
-using Fanex.NAP.Client.AspNetCore.Configuration;
-using Fanex.NAP.Client.AspNetCore.Session;
 using Fanex.NAP.Client.Configuration;
 using Fanex.NAP.Client.Helpers.Web;
 using Fanex.NAP.Client.Services;
-using MediatR;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors.Infrastructure;
@@ -56,6 +53,8 @@ using OWP.Kpi;
 using OWP.Kpi.LA;
 
 namespace OWP.Websites;
+
+using Fanex.NAP.Client.Session;
 
 public static class ServiceCollectionExtensions
 {
