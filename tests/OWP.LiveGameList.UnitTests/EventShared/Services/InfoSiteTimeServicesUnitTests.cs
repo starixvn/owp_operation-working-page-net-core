@@ -4,9 +4,10 @@ using OWP.Event.EventShared.Services;
 using OWP.Models;
 using OWP.Services;
 using Xunit;
-using Xunit.Asserts.Compare;
 
 namespace OWP.Event.UnitTests.EventShared.Services;
+
+using Xunit.Asserts.Compare;
 
 public class InfoSiteTimeServicesUnitTests
 {

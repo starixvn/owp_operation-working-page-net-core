@@ -3,9 +3,10 @@ using OWP.OtherSport.UnitTests.Validation.Services;
 using OWP.OtherSport.Validation.Extensions;
 using OWP.OtherSport.Validation.Models;
 using Xunit;
-using Xunit.Asserts.Compare;
 
 namespace OWP.OtherSport.UnitTests.Validation.Extensions;
+
+using Xunit.Asserts.Compare;
 
 public class WorkSheetExtensionsUnitTests
 {

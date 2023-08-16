@@ -5,9 +5,10 @@ using OWP.MaxbetSetting.Criteria;
 using OWP.MaxbetSetting.Handlers;
 using OWP.MaxbetSetting.Models;
 using Xunit;
-using Xunit.Asserts.Compare;
 
 namespace OWP.MaxbetSetting.UnitTests.Handlers;
+
+using Xunit.Asserts.Compare;
 
 public class GetLogMaxbetSettingHandlerUnitTests
 {

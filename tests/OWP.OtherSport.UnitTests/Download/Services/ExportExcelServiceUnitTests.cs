@@ -7,9 +7,10 @@ using OWP.OtherSport.Submit.Constants;
 using OWP.OtherSport.Submit.Models;
 using OWP.Services;
 using Xunit;
-using Xunit.Asserts.Compare;
 
 namespace OWP.OtherSport.UnitTests.Download.Services;
+
+using Xunit.Asserts.Compare;
 
 public class ExportExcelServiceUnitTests
 {

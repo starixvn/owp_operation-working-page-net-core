@@ -5,9 +5,10 @@ using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Services;
 using OWP.TicketCenter.ViewModels;
 using Xunit;
-using Xunit.Asserts.Compare;
 
 namespace OWP.TicketCenter.UnitTests.Services;
+
+using Xunit.Asserts.Compare;
 
 public class TicketDetailServiceUnitTests
 {

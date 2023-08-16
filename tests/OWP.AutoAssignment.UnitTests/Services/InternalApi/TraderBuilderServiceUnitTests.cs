@@ -3,9 +3,10 @@ using OWP.AutoAssignment.Criteria.InternalApi;
 using OWP.AutoAssignment.Models.InternalApi;
 using OWP.AutoAssignment.Services.InternalApi;
 using Xunit;
-using Xunit.Asserts.Compare;
 
 namespace OWP.AutoAssignment.UnitTests.Services.InternalApi;
+
+using Xunit.Asserts.Compare;
 
 public class TraderBuilderServiceUnitTests
 {

@@ -172,7 +172,7 @@ public static class OrderConstant
         { MatchType.RealMatchLink3G, 3 },
         { MatchType.SabaLink4G, 4 },
         { MatchType.Other, 4 },
-        { MatchType.RealMatchLinkError, 5 },
+        { MatchType.RealMatchLinkError, 5 }
     }.ToImmutableDictionary();
 
     public static readonly string[] MainMatchLevel = { "1st+", "1st", "2nd", "[OP]1st", "[OP]2nd", "Only SB", null };

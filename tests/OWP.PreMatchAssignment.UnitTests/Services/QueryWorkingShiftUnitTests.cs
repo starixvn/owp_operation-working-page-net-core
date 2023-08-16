@@ -5,9 +5,10 @@ using OWP.PrematchAssignment.Criteria;
 using OWP.PrematchAssignment.Models;
 using OWP.PrematchAssignment.Services;
 using Xunit;
-using Xunit.Asserts.Compare;
 
 namespace OWP.PreMatchAssignment.UnitTests.Services;
+
+using Xunit.Asserts.Compare;
 
 public class QueryWorkingShiftUnitTests
 {

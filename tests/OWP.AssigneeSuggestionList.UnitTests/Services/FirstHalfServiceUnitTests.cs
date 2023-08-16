@@ -2,9 +2,10 @@ using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Models;
 using OWP.AssigneeSuggestionList.Services.RealMatch;
 using Xunit;
-using Xunit.Asserts.Compare;
 
 namespace OWP.AssigneeSuggestionList.UnitTests.Services;
+
+using Xunit.Asserts.Compare;
 
 public class FirstHalfServiceUnitTests
 {

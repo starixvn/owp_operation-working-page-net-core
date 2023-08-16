@@ -4,9 +4,10 @@ using OWP.Maxbet.Criteria;
 using OWP.Maxbet.Handlers;
 using OWP.Maxbet.Models;
 using Xunit;
-using Xunit.Asserts.Compare;
 
 namespace OWP.Maxbet.UnitTests.Handlers;
+
+using Xunit.Asserts.Compare;
 
 public class GetNumberOfLinesSpecialProductHandlerUnitTests
 {

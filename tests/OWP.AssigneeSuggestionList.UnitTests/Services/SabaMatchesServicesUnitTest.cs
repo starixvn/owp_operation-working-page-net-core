@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
 using OWP.AssigneeSuggestionList.Models;
 using Xunit;
-using Xunit.Asserts.Compare;
 
 namespace OWP.AssigneeSuggestionList.UnitTests.Services;
 
 using Constant;
 using NSubstitute;
 using OWP.AssigneeSuggestionList.Services;
+using Xunit.Asserts.Compare;
 
 public class SabaMatchesServicesUnitTest
 {

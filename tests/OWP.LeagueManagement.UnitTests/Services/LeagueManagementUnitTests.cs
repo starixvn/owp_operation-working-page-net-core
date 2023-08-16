@@ -7,9 +7,10 @@ using OWP.LeagueManagement.Models;
 using OWP.LeagueManagement.Services;
 using OWP.Models;
 using Xunit;
-using Xunit.Asserts.Compare;
 
 namespace OWP.LeagueManagement.UnitTests.Services;
+
+using Xunit.Asserts.Compare;
 
 public class LeagueManagementUnitTests
 {

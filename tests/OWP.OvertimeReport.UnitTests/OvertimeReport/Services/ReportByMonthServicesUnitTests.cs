@@ -2,9 +2,10 @@
 using OWP.Report.OvertimeReport.Models;
 using OWP.Report.OvertimeReport.Services;
 using Xunit;
-using Xunit.Asserts.Compare;
 
 namespace OWP.Report.UnitTests.OvertimeReport.Services;
+
+using Xunit.Asserts.Compare;
 
 public class ReportByMonthServicesUnitTests
 {

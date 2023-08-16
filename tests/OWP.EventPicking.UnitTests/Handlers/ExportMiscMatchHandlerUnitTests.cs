@@ -7,9 +7,10 @@ using OWP.EventPicking.Services;
 using OWP.Models;
 using OWP.Services;
 using Xunit;
-using Xunit.Asserts.Compare;
 
 namespace OWP.EventPicking.UnitTests.Handlers;
+
+using Xunit.Asserts.Compare;
 
 public class ExportMiscMatchHandlerUnitTests
 {

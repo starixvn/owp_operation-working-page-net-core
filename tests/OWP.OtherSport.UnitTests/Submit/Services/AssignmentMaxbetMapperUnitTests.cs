@@ -3,9 +3,10 @@ using OWP.OtherSport.Submit.Models;
 using OWP.OtherSport.Submit.Services;
 using OWP.OtherSport.Validation.Models;
 using Xunit;
-using Xunit.Asserts.Compare;
 
 namespace OWP.OtherSport.UnitTests.Submit.Services;
+
+using Xunit.Asserts.Compare;
 
 public class AssignmentMaxbetMapperUnitTests
 {

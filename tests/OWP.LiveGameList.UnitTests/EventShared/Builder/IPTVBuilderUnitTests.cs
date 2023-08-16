@@ -1,9 +1,10 @@
 ﻿using OWP.Event.EventShared.Builder;
 using OWP.Event.EventShared.Models;
 using Xunit;
-using Xunit.Asserts.Compare;
 
 namespace OWP.Event.UnitTests.EventShared.Builder;
+
+using Xunit.Asserts.Compare;
 
 public class IPTVBuilderUnitTests
 {

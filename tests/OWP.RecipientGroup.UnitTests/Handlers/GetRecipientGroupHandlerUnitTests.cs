@@ -3,9 +3,10 @@ using OWP.RecipientGroup.Handlers;
 using OWP.RecipientGroup.Models;
 using OWP.RecipientGroup.Services;
 using Xunit;
-using Xunit.Asserts.Compare;
 
 namespace OWP.RecipientGroup.UnitTests.Handlers;
+
+using Xunit.Asserts.Compare;
 
 public class GetRecipientGroupHandlerUnitTests
 {

@@ -2,9 +2,10 @@
 using OWP.AssignmentUpload.SyncInfoSite.Models;
 using OWP.AssignmentUpload.Validation.Models;
 using Xunit;
-using Xunit.Asserts.Compare;
 
 namespace OWP.AssignmentUpload.UnitTests.SyncInfoSite.Helper;
+
+using Xunit.Asserts.Compare;
 
 public class InfoSiteHelperUnitTest
 {

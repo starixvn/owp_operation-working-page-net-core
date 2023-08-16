@@ -2,9 +2,10 @@
 using OWP.AssignmentUpload.Submit.Services;
 using OWP.AssignmentUpload.Validation.Models;
 using Xunit;
-using Xunit.Asserts.Compare;
 
 namespace OWP.AssignmentUpload.UnitTests.Submit.Services;
+
+using Xunit.Asserts.Compare;
 
 public class AssignmentAnalyzerUnitTests
 {

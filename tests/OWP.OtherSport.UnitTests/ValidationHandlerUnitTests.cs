@@ -6,9 +6,10 @@ using OWP.OtherSport.Validation.Exceptions;
 using OWP.OtherSport.Validation.Models;
 using OWP.OtherSport.Validation.Services;
 using Xunit;
-using Xunit.Asserts.Compare;
 
 namespace OWP.OtherSport.UnitTests;
+
+using Xunit.Asserts.Compare;
 
 public class ValidationHandlerUnitTests
 {
