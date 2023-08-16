@@ -10,7 +10,7 @@ public static class AssignmentBuilder
     public static AssignmentModel Build(MatchInfo matchInfo, Dictionary<int, List<Assignment>> assignmentsDict, Dictionary<int, List<Assignment>> minorAssignmentsDict)
     {
         var assignments = assignmentsDict.GetValue(matchInfo.OWPMatchId, new List<Assignment>());
-        var generatedAssignments = minorAssignmentsDict.GetValue(matchInfo.OWPMatchId, new List<Assignment>());
+        var generatedAssignments = minorAssignmentsDict.GetValue(matchInfo.ParentMatchId, new List<Assignment>());
 
         if (!assignments.Any() && !generatedAssignments.Any())
         {
@@ -36,10 +36,10 @@ public static class AssignmentBuilder
             // Special bettype
             Specific10Mins = GetAssignmentForSpecialBetType(generatedAssignments, (int)MinorBetType.Specific10Mins, (int)AssignmentType.Main),
             Specific10MinsOthers = GetAssignmentForSpecialBetType(generatedAssignments, (int)MinorBetType.Specific10Mins, (int)AssignmentType.Others),
-            FastMarket = GetAssignmentForSpecialBetType(generatedAssignments, (int)MinorBetType.FastMarket, (int)AssignmentType.Main),
-            FastMarketOthers = GetAssignmentForSpecialBetType(generatedAssignments, (int)MinorBetType.FastMarket, (int)AssignmentType.Others),
-            AllInOne = GetAssignmentForSpecialBetType(generatedAssignments, (int)MinorBetType.AllInOne, (int)AssignmentType.Main),
-            AllInOneOthers = GetAssignmentForSpecialBetType(generatedAssignments, (int)MinorBetType.AllInOne, (int)AssignmentType.Others),
+            FastMarket = GetAssignmentForFastMarketBetType(generatedAssignments, matchInfo, (int)MinorBetType.FastMarket, (int)AssignmentType.Main),
+            FastMarketOthers = GetAssignmentForFastMarketBetType(generatedAssignments, matchInfo, (int)MinorBetType.FastMarket, (int)AssignmentType.Others),
+            AllInOne = GetAssignmentForAllInOneBetType(generatedAssignments, matchInfo, (int)MinorBetType.AllInOne, (int)AssignmentType.Main),
+            AllInOneOthers = GetAssignmentForAllInOneBetType(generatedAssignments, matchInfo, (int)MinorBetType.AllInOne, (int)AssignmentType.Others),
             // Specific 15 mins
             Specific15Mins = GetAssignmentForSpecific15MinsBetType(generatedAssignments, matchInfo, (int)AssignmentType.Main),
             Specific15MinsOthers = GetAssignmentForSpecific15MinsBetType(generatedAssignments, matchInfo, (int)AssignmentType.Others)
@@ -55,28 +55,31 @@ public static class AssignmentBuilder
     private static IEnumerable<Assignment> GetAssignmentForSpecialBetType(IEnumerable<Assignment> generatedAssignments, int betTypeId, int assignmentType)
         => GetGeneratedAssignmentForMainMatch(generatedAssignments, betTypeId, assignmentType);
 
+    private static IEnumerable<Assignment> GetAssignmentForAllInOneBetType(IEnumerable<Assignment> generatedAssignments, MatchInfo matchInfo, int betTypeId, int assignmentType)
+        => matchInfo.IsMinorMatch
+            ? GetAssignmentSpecialProduct(generatedAssignments, matchInfo, assignmentType, (int)MinorBetType.AllInOneCorners, (int)MinorBetType.AllInOneTotalBookings)
+            : GetGeneratedAssignmentForMainMatch(generatedAssignments, betTypeId, assignmentType);
+
+    private static IEnumerable<Assignment> GetAssignmentForFastMarketBetType(IEnumerable<Assignment> generatedAssignments, MatchInfo matchInfo, int betTypeId, int assignmentType)
+        => matchInfo.IsMinorMatch
+            ? GetAssignmentSpecialProduct(generatedAssignments, matchInfo, assignmentType, (int)MinorBetType.FastMarketCorners, (int)MinorBetType.FastMarketTotalBookings)
+            : GetGeneratedAssignmentForMainMatch(generatedAssignments, betTypeId, assignmentType);
     private static IEnumerable<Assignment> GetAssignmentForSpecific15MinsBetType(IEnumerable<Assignment> generatedAssignments, MatchInfo matchInfo, int assignmentType)
         => matchInfo.IsMinorMatch
-            ? GetAssignmentSpecific15MinsOfSpecialProduct(generatedAssignments, matchInfo, assignmentType)
+            ? GetAssignmentSpecialProduct(generatedAssignments, matchInfo, assignmentType, (int)MinorBetType.Specific15MinsCorners, (int)MinorBetType.Specific15MinsTotalBookings)
             : GetGeneratedAssignmentForMainMatch(generatedAssignments, (int)MinorBetType.Specific15Mins, assignmentType);
 
-    private static IEnumerable<Assignment> GetGeneratedAssignmentForMainMatch(IEnumerable<Assignment> generatedAssignments, int betTypeId, int assignmentType)
-    {
-        return generatedAssignments.Where(x =>
-            x.MinorBettypeId == betTypeId &&
-            x.BettypeId == (int)MajorBetType.Handicap &&
-            x.AssignmentType == assignmentType);
-    }
-
-    private static IEnumerable<Assignment> GetAssignmentSpecific15MinsOfSpecialProduct(
+    private static IEnumerable<Assignment> GetAssignmentSpecialProduct(
         IEnumerable<Assignment> generatedAssignments,
         MatchInfo matchInfo,
-        int assignmentType)
+        int assignmentType,
+        int minorBetTypeCorners,
+        int minorBetTypeTotalBookings)
     {
         var refMinorBettypeId = matchInfo.MinorBettypeId switch
         {
-            (int)MinorBetType.NoOfCorner => (int)MinorBetType.Specific15MinsCorners,
-            (int)MinorBetType.TotalBooking => (int)MinorBetType.Specific15MinsTotalBookings,
+            (int)MinorBetType.NoOfCorner => minorBetTypeCorners,
+            (int)MinorBetType.TotalBooking => minorBetTypeTotalBookings,
             _ => 0
         };
 
@@ -89,6 +92,15 @@ public static class AssignmentBuilder
             x.MinorBettypeId == refMinorBettypeId &&
             x.BettypeId == (int)MajorBetType.Handicap &&
             x.ParentMatchId == matchInfo.ParentMatchId &&
+            x.AssignmentType == assignmentType);
+    }
+
+
+    private static IEnumerable<Assignment> GetGeneratedAssignmentForMainMatch(IEnumerable<Assignment> generatedAssignments, int betTypeId, int assignmentType)
+    {
+        return generatedAssignments.Where(x =>
+            x.MinorBettypeId == betTypeId &&
+            x.BettypeId == (int)MajorBetType.Handicap &&
             x.AssignmentType == assignmentType);
     }
 }
