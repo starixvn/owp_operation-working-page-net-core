@@ -34,5 +34,5 @@ public class PreMatchNotificationServiceImp : PreMatchNotificationService
             .NotifyNewMessageIncome(id, isTicketLeague);
     }
 
-    private static bool IsTicketLeague(int ticketType) => ticketType is (int)EventType.League;
+    private static bool IsTicketLeague(int ticketType) => ticketType is (int)EventTypeEnum.League;
 }

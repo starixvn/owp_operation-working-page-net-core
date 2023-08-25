@@ -1,7 +1,9 @@
+using AutoMapper;
 using MediatR;
 using OWP.RabbitMQ;
 using OWP.RabbitMQ.Constants;
 using OWP.TicketCenter.Criteria;
+using OWP.TicketCenter.Enum;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Notification.Models;
 using OWP.TicketCenter.Notification.Services;
@@ -11,13 +13,16 @@ namespace OWP.TicketCenter.Handlers;
 
 public class NewTicketIssueLiveIncidentRequest : NewTicketModelBase, IRequest<int>
 {
-    public int OwpMatchId { get; set; }
+    public int? OwpMatchId { get; set; }
 
     public string OwpLeagueName { get; set; }
 
     public string OwpHomeName { get; set; }
 
     public string OwpAwayName { get; set; }
+
+    public int? EventType => (int)EventTypeEnum.LiveIncident;
+
 }
 
 public class NewTicketIssueLiveIncidentHandler : IRequestHandler<NewTicketIssueLiveIncidentRequest, int>
@@ -27,38 +32,39 @@ public class NewTicketIssueLiveIncidentHandler : IRequestHandler<NewTicketIssueL
     private readonly NotificationService notificationService;
     private readonly RecipientService recipientService;
     private readonly Repository repository;
+    private readonly IMapper mapper;
 
     public NewTicketIssueLiveIncidentHandler(
         Repository repository,
         MessageService messageService,
         NotificationService notificationService,
         RecipientService recipientService,
-        MessageClient messageClient)
+        MessageClient messageClient,
+        IMapper mapper)
     {
         this.repository = repository;
         this.notificationService = notificationService;
         this.recipientService = recipientService;
         this.messageClient = messageClient;
         this.messageService = messageService;
+        this.mapper = mapper;
     }
 
     public async Task<int> Handle(NewTicketIssueLiveIncidentRequest request, CancellationToken cancellationToken)
     {
-        var ticketId = await repository.BuildTicketId(request.TicketType, request.SubType);
-
+        var criteria = mapper.Map<CreateNewTicketCriteria>(request);
+        var ticketId = await repository.CreateTicketIssue(criteria);
         request.TicketId = ticketId;
 
-        await repository.AddNewTicketIssueLiveIncident(request);
-
-        var newMessage = await messageService.InsertMessage(request, ticketId);
-
-        var criteria = new InsertIssueCreatorCriteria
+        var creatorCriteria = new InsertIssueCreatorCriteria
         {
             TicketId = ticketId,
             CreatorId = request.CreatorId
         };
 
-        await repository.InsertIssueCreator(criteria);
+        var newMessage = await messageService.InsertMessage(request, ticketId);
+
+        await repository.InsertIssueCreator(creatorCriteria);
 
         await recipientService.InsertManyRecipient(request.Recipients, request.TicketId);
 
@@ -86,9 +92,9 @@ public class NewTicketIssueLiveIncidentHandler : IRequestHandler<NewTicketIssueL
 
         var userIds = await repository.GetUserIdsByTicketId(ticketId);
         await notificationService.NotifyNewMessageIncome(userIds);
-        await notificationService.NotifyNewMessageLga(userIds, request.OwpMatchId, request.CreatorId);
+        await notificationService.NotifyNewMessageLga(userIds, request.OwpMatchId.Value, request.CreatorId);
 
         await notificationService.NotifyNewAddRecipient(userIds);
-        await notificationService.NotifyNewAddRecipientLga(userIds, request.OwpMatchId, request.CreatorId);
+        await notificationService.NotifyNewAddRecipientLga(userIds, request.OwpMatchId.Value, request.CreatorId);
     }
 }

@@ -8,5 +8,5 @@ public class TicketLeagueDetailViewModel : TicketDetailBaseViewModel
 
     public string EventName => OwpLeagueName;
 
-    public int EventType => (int)Enum.EventType.League;
+    public int EventType => (int)Enum.EventTypeEnum.League;
 }

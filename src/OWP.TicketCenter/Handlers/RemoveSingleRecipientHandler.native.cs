@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using OWP.TicketCenter.Enum;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Notification.Services;
 using OWP.TicketCenter.Services;
@@ -35,7 +36,10 @@ public class RemoveSingleRecipientHandler : IRequestHandler<RemoveSingleRecipien
         };
         await recipientService.RemoveManyRecipientReader(recipients, request.TicketId);
         var result = repository.RemoveSingleRecipient(request);
-        await preMatchNotification.NotifyToReloadTicketInPrematchTable(request.TicketId, request.TicketEventType, new List<string> { request.RecipientId.ToString() });
+        if (request.TicketEventType is (int)EventTypeEnum.League or (int)EventTypeEnum.Match)
+        {
+            await preMatchNotification.NotifyToReloadTicketInPrematchTable(request.TicketId, request.TicketEventType, new List<string> { request.RecipientId.ToString() });
+        }
 
         return await result;
     }

@@ -15,10 +15,10 @@ public class GetEventTicketsServiceUnitTests
         {
             1,2,3
         };
-    public List<TicketLeagueInfo> MockListEventTicketLeague()
+    public List<TicketInfo> MockListEventTicketLeague()
         => new()
         {
-            new TicketLeagueInfo
+            new TicketInfo
             {
                 TicketId = 1,
                 OwpLeagueId=17,
@@ -27,10 +27,10 @@ public class GetEventTicketsServiceUnitTests
             }
         };
 
-    public List<TicketMatchInfo> MockListEventTicketMatch()
+    public List<TicketInfo> MockListEventTicketMatch()
         => new()
         {
-            new TicketMatchInfo
+            new TicketInfo
             {
                 TicketId = 2,
                 OwpLeagueId=17,
@@ -39,10 +39,10 @@ public class GetEventTicketsServiceUnitTests
             }
         };
 
-    public List<TicketOtherInfo> MockListEventTicketOther()
+    public List<TicketInfo> MockListEventTicketOther()
         => new()
         {
-            new TicketOtherInfo
+            new TicketInfo
             {
                 TicketId = 3,
                 Subject="hi",
@@ -50,10 +50,10 @@ public class GetEventTicketsServiceUnitTests
             }
         };
 
-    public List<TicketSupportInfo> MockListEventTicketSupport()
+    public List<TicketInfo> MockListEventTicketSupport()
         => new()
         {
-            new TicketSupportInfo
+            new TicketInfo
             {
                 TicketId = 4,
                 Subject ="hi",
@@ -86,10 +86,10 @@ public class GetEventTicketsServiceUnitTests
             }
         };
 
-    public IList<TicketBaseInfo> GetExpected()
-        => new List<TicketBaseInfo>
+    public IList<TicketInfo> GetExpected()
+        => new List<TicketInfo>
         {
-            new TicketOtherInfo
+            new TicketInfo
             {
                 TicketId = 3,
                 Subject="hi",
@@ -103,7 +103,7 @@ public class GetEventTicketsServiceUnitTests
                     }
                 }
             },
-            new TicketMatchInfo
+            new TicketInfo
             {
                 TicketId = 2,
                 OwpLeagueId=17,
@@ -118,7 +118,7 @@ public class GetEventTicketsServiceUnitTests
                     }
                 }
             },
-            new TicketLeagueInfo
+            new TicketInfo
             {
                 TicketId = 1,
                 OwpLeagueId=17,

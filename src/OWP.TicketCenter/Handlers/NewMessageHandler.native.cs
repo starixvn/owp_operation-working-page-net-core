@@ -74,7 +74,7 @@ public class NewMessageHandler : IRequestHandler<NewMessageRequest, MessageDetai
         var userIds = await repository.GetUserIdsByTicketId(request.TicketId);
         await notification.NotifyNewMessageIncome(userIds);
 
-        if (request.TicketEventType == (int)EventType.LiveIncident)
+        if (request.TicketEventType == (int)EventTypeEnum.LiveIncident)
         {
             var ticketInfoLga = await repository.GetTicketInfoLga(request.TicketId);
             await notification.NotifyNewMessageLga(userIds, ticketInfoLga.OwpMatchId, request.ActorId);
@@ -85,5 +85,5 @@ public class NewMessageHandler : IRequestHandler<NewMessageRequest, MessageDetai
         }
     }
 
-    private static bool IsEventCheckingType(int ticketType) => ticketType is (int)EventType.League or (int)EventType.Match;
+    private static bool IsEventCheckingType(int ticketType) => ticketType is (int)EventTypeEnum.League or (int)EventTypeEnum.Match;
 }

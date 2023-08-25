@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Fanex.Data.Repository;
 using NSubstitute;
 using OWP.RabbitMQ;
 using OWP.TicketCenter.Criteria;
@@ -39,7 +40,8 @@ public class NewTicketIssueSupportHandlerUnitTests
             messageService,
             notificationService,
             recipientService,
-            messageClient
+            messageClient,
+            mapper
         );
     }
 
@@ -50,11 +52,9 @@ public class NewTicketIssueSupportHandlerUnitTests
         var request = new NewTicketIssueSupportRequest();
 
         repository
-            .BuildTicketId(request.TicketType, request.SubType)
+            .CreateTicketIssue(Arg.Compat.Any<CriteriaBase>())
             .Returns(Task.FromResult(111));
 
-        await repository
-            .AddNewTicketIssueSupport(request);
 
         await repository.AddNewMessage(Arg.Compat.Any<NewMessageRequestModel>());
 

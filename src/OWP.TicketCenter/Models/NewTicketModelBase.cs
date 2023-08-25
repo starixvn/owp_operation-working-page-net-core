@@ -7,7 +7,7 @@ public class NewTicketModelBase
 
     public int TicketType { get; set; }
 
-    public int SubType { get; set; }
+    public int? SubType { get; set; }
 
     #region message
 

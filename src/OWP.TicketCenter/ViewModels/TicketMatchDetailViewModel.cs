@@ -18,5 +18,5 @@ public class TicketMatchDetailViewModel : TicketDetailBaseViewModel
 
     public string EventName => OwpLeagueName;
 
-    public int EventType => (int)Enum.EventType.Match;
+    public int EventType => (int)Enum.EventTypeEnum.Match;
 }

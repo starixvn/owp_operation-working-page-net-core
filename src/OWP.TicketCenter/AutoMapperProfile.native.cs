@@ -10,12 +10,13 @@ public class AutoMapperProfile : Profile
 {
     public AutoMapperProfile()
     {
-        CreateMap<NewTicketIssueLiveIncidentRequest, AddNewTicketIssueLiveIncidentCriteria>();
-        CreateMap<NewTicketIssueEventRequest, AddNewTicketIssueEventCriteria>();
-        CreateMap<NewTicketIssueOtherRequest, AddNewTicketIssueOtherCriteria>();
-        CreateMap<NewTicketIssueLeagueRequest, AddNewTicketIssueLeagueCriteria>();
-        CreateMap<NewTicketIssueSupportRequest, AddNewTicketIssueSupportCriteria>();
-        CreateMap<NewTicketIssueLogWorkRequest, AddNewTicketIssueLogWorkCriteria>();
+        CreateMap<NewTicketIssueLogWorkRequest, CreateNewTicketCriteria>();
+        CreateMap<NewTicketIssueLeagueRequest, CreateNewTicketCriteria>();
+        CreateMap<NewTicketIssueEventRequest, CreateNewTicketCriteria>();
+        CreateMap<NewTicketIssueOtherRequest, CreateNewTicketCriteria>();
+        CreateMap<NewTicketIssueSupportRequest, CreateNewTicketCriteria>();
+        CreateMap<NewTicketIssueLiveIncidentRequest, CreateNewTicketCriteria>();
+
         CreateMap<EventTicketMatchModel, TicketLiveIncidentDetailViewModel>();
         CreateMap<EventTicketMatchOfLogWorkModel, TicketLogWorkDetailViewModel>();
         CreateMap<NewTicketIssueLogWorkRequest, NewMessageRequestModel>().ForMember(
