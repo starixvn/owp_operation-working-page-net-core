@@ -12,5 +12,4 @@ public class TotalGameInfo
 
     public int MultipleProducts { get; set; }
 
-
 }
