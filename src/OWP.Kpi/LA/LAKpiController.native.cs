@@ -15,9 +15,10 @@ public class LAKpiController : ControllerBase
 
     [Route("")]
     [HttpGet]
-    public async Task<List<KpiInfo>> GetLAKpiInfo(DateTime fromDate, DateTime toDate)
+    public async Task<IList<KpiInfo>> GetLAKpiInfo(DateTime fromDate, DateTime toDate)
     {
-        return new List<KpiInfo>();
+        var data = FakeData.FakeKpiInfos();
+        return data;
     }
 
     [HttpGet("get-condition")]
