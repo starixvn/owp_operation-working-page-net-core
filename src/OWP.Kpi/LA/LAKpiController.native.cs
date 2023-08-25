@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 
-namespace OWP.Report.LAReport;
+namespace OWP.Kpi.LA;
 
 [Route("api/kpi/la")]
 [ApiController]
@@ -12,35 +12,11 @@ namespace OWP.Report.LAReport;
 public class LAKpiController : ControllerBase
 {
    
-    [Route("kpi-info")]
+    [Route("")]
     [HttpGet]
-    public async Task<IActionResult> GetDataLAReport(DateTime fromDate, DateTime toDate)
+    public async Task<IActionResult> GetLAKpiInfo(DateTime fromDate, DateTime toDate)
     {
-        var reportModel = await mediator.Send(request);
-        return Ok(JsonConvert.SerializeObject(reportModel));
-    }
-
-    [Route("export-excel")]
-    [HttpGet]
-    public async Task<IActionResult> ExportLAExcel(string fromDate, string toDate)
-    {
-        var reportRequest = new LAReportRequest
-        {
-            FromDate = DateTime.Parse(fromDate),
-            ToDate = DateTime.Parse(toDate)
-        };
-        var reportModels = await mediator.Send(reportRequest);
-
-        var request = new LAExcelRequest
-        {
-            FromDate = fromDate,
-            ToDate = toDate,
-            ReportModels = reportModels
-        };
-
-        using var excelPackage = await mediator.Send(request);
-        var fileName = $"LA Report {reportRequest.FromDate:ddMMMMyyyy}-{reportRequest.ToDate:ddMMMMyyyy}.xlsx";
-        var bytes = await excelPackage.GetAsByteArrayAsync();
-        return File(bytes, "application/octet-stream", fileName);
+        // TODO
+        throw new NotImplementedException();
     }
 }
