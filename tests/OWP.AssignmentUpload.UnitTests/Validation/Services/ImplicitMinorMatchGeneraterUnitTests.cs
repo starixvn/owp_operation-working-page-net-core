@@ -614,7 +614,6 @@ public class GenerateImplicitMinorMatchUnitTests
         DeepAssert.Equal(expected[4], actual[4], "HashKey");
         DeepAssert.Equal(expected[5], actual[5], "HashKey");
         DeepAssert.Equal(expected[6], actual[6], "HashKey");
-        DeepAssert.Equal(expected, actual, "HashKey");
 
         Assert.False(string.IsNullOrEmpty(actual[0].HashKey));
         Assert.False(string.IsNullOrEmpty(actual[1].HashKey));

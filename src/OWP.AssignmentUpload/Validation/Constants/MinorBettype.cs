@@ -30,14 +30,26 @@ public enum MinorBettype
     TotalBooking = -6,
 
     [Description("No.of Corner")]
-    NoOfCorner = -3
+    NoOfCorner = -3,
+
+    [Description("All In One Total Of Bookings")]
+    AllInOneTotalBookings = -189,
+
+    [Description("All In One Number Of Corners")]
+    AllInOneCorners = -289,
+
+    [Description("Fast Market Total Of Bookings")]
+    FastMarketTotalBookings = -188,
+
+    [Description("Fast Market Number Of Corners")]
+    FastMarketCorners = -288,
 }
 
 public static class MinorBettypeConst
 {
     public static readonly ImmutableList<int> MinorBettypeIdGenerateBySystem = ImmutableList<int>.Empty.AddRange(new List<int>
     {
-        -88, -89, -1, -2, -8, -5
+        -88, -89, -1, -2, -8, -5, -188, -288, -189, -289
     });
 }
 

@@ -282,7 +282,7 @@ public class AssignmentValidatorImpUnitTests
 
         var expected = new ValidationResult("Missing main assignment of 10 Mins; 15 Mins; 1H 1X2; 1H HDP; 1H O/U; 1X2; AIO; FM; HDP; LA; O/U");
 
-        assignmentValidator.ValidateOtherAssignment(assignmentModelList[0], actual, true);
+        assignmentValidator.ValidateOtherAssignmentMissMain(assignmentModelList[0], actual, true);
         DeepAssert.Equal(expected, actual[0]);
     }
 
@@ -310,7 +310,7 @@ public class AssignmentValidatorImpUnitTests
 
         var expected = new ValidationResult("Missing main assignment of 10 Mins; 15 Mins; 1H 1X2; 1H HDP; 1H O/U; 1X2; HDP; LA; O/U");
 
-        assignmentValidator.ValidateOtherAssignment(assignmentModelList[0], actual, false);
+        assignmentValidator.ValidateOtherAssignmentMissMain(assignmentModelList[0], actual, false);
         DeepAssert.Equal(expected, actual[0]);
     }
 
@@ -346,7 +346,7 @@ public class AssignmentValidatorImpUnitTests
             }
         };
 
-        assignmentValidator.ValidateOtherAssignment(assignmentModelList[0], actual, true);
+        assignmentValidator.ValidateOtherAssignmentMissMain(assignmentModelList[0], actual, true);
         Assert.Empty(actual);
     }
 
@@ -362,7 +362,7 @@ public class AssignmentValidatorImpUnitTests
             }
         };
 
-        assignmentValidator.ValidateOtherAssignment(assignmentModelList[0], actual, true);
+        assignmentValidator.ValidateOtherAssignmentMissMain(assignmentModelList[0], actual, true);
         Assert.Empty(actual);
     }
 
@@ -383,10 +383,11 @@ public class AssignmentValidatorImpUnitTests
         var assignmentModelList = GetAssignmentModels();
         var expected = new List<ValidationResult>
         {
-            new("Invalid OtherLA: Carlos; OtherTraders (1H O/U): Carlos; OtherTraders (1X2): Carlos; OtherTraders (HDP): Carlos; LA: Mira; Trader (10mins): Mira; Trader (15mins): Mira; Trader (1H 1X2): Mira; Trader (1H HDP): Mira")
+            new("Invalid OtherLA: Carlos; OtherTraders (1H O/U): Carlos; OtherTraders (1X2): Carlos; " +
+                "OtherTraders (HDP): Carlos; LA: Mira; Trader (10mins): Mira; Trader (15mins): Mira; Trader (1H 1X2): Mira; Trader (1H HDP): Mira")
         };
 
-        assignmentValidator.ValidateTraders(assignmentModelList[0], actual, invalidTrader);
+        assignmentValidator.ValidateTraders(assignmentModelList[0], actual, invalidTrader, true);
         DeepAssert.Equal(expected, actual);
     }
 
@@ -399,7 +400,7 @@ public class AssignmentValidatorImpUnitTests
         };
         var assignmentModelList = GetAssignmentModels();
 
-        assignmentValidator.ValidateTraders(assignmentModelList[0], actual, invalidTrader);
+        assignmentValidator.ValidateTraders(assignmentModelList[0], actual, invalidTrader, true);
         Assert.Empty(actual);
     }
 

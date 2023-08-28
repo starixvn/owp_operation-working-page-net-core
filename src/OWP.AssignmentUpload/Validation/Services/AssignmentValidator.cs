@@ -16,15 +16,11 @@ public interface AssignmentValidator
 
     void ValidateEventDate(DateTime eventDate, UploadingDataFromExcel uploadingDataFromExcel);
 
-    void ValidateTraders(AssignmentModelInExcel assignment, List<ValidationResult> results, List<Trader> traders);
-
-    void ValidateInvalidTraders(AssignmentModelInExcel assignment, List<ValidationResult> results, List<Trader> traders);
-
     void ValidateDuplicatedTraders(List<Trader> traders);
 
     void ValidateDataAnnotation(AssignmentModelInExcel assignment, List<ValidationResult> results);
 
-    void ValidateOtherAssignment(AssignmentModelInExcel assignment, List<ValidationResult> results, bool isUploadFmAndAio);
+    void ValidateOtherAssignmentMissMain(AssignmentModelInExcel assignment, List<ValidationResult> results, bool isUploadFmAndAio);
 
     void ValidateDuplicatedMatchNo(AssignmentModelInExcel assignment, List<AssignmentModelInExcel> assignments, List<ValidationResult> results);
 }
@@ -81,13 +77,13 @@ public class AssignmentValidatorImp : AssignmentValidator
         }
     }
 
-    public void ValidateTraders(AssignmentModelInExcel assignment, List<ValidationResult> results, List<Trader> traders)
+    public void ValidateTraders(AssignmentModelInExcel assignment, List<ValidationResult> results, List<Trader> traders, bool isUploadFmAndAio)
     {
-        ValidateInvalidTraders(assignment, results, traders);
+        ValidateInvalidTraders(assignment, results, traders, isUploadFmAndAio);
         ValidateDuplicatedTraders(traders);
     }
 
-    public void ValidateInvalidTraders(AssignmentModelInExcel assignment, List<ValidationResult> results, List<Trader> traders)
+    public void ValidateInvalidTraders(AssignmentModelInExcel assignment, List<ValidationResult> results, List<Trader> traders, bool isUploadFmAndAio)
     {
         var invalidTraders = traders.Where(t => t.UserId == 0).Select(t => t.Username).ToList();
 
@@ -96,7 +92,7 @@ public class AssignmentValidatorImp : AssignmentValidator
             return;
         }
 
-        var error = ValidateInvalidTrader(assignment, invalidTraders);
+        var error = ValidateInvalidTrader(assignment, invalidTraders, isUploadFmAndAio);
         if (error.Count <= 0)
         {
             return;
@@ -106,7 +102,7 @@ public class AssignmentValidatorImp : AssignmentValidator
         results.Add(new ValidationResult("Invalid " + invalidTradersInString));
     }
 
-    public static List<string> ValidateInvalidTrader(AssignmentModelInExcel assignment, List<string> invalidTraders)
+    public static List<string> ValidateInvalidTrader(AssignmentModelInExcel assignment, List<string> invalidTraders, bool isUploadFmAndAio)
     {
         var errorList = new List<string>();
         CheckOtherTrader(errorList, invalidTraders, assignment.OtherTradersLA, "OtherLA");
@@ -116,8 +112,6 @@ public class AssignmentValidatorImp : AssignmentValidator
         CheckOtherTrader(errorList, invalidTraders, assignment.OtherTraders1HHDP, "1H HDP");
         CheckOtherTrader(errorList, invalidTraders, assignment.OtherTraders1HOU, "1H O/U");
         CheckOtherTrader(errorList, invalidTraders, assignment.OtherTraders1X2, "1X2");
-        CheckOtherTrader(errorList, invalidTraders, assignment.OtherTradersAIO, "AIO");
-        CheckOtherTrader(errorList, invalidTraders, assignment.OtherTradersFM, "FM");
         CheckOtherTrader(errorList, invalidTraders, assignment.OtherTradersHDP, "HDP");
         CheckOtherTrader(errorList, invalidTraders, assignment.OtherTradersOU, "O/U");
 
@@ -128,10 +122,16 @@ public class AssignmentValidatorImp : AssignmentValidator
         CheckTrader(errorList, invalidTraders, assignment.Trader1HHDPName, "1H HDP");
         CheckTrader(errorList, invalidTraders, assignment.Trader1HOUName, "1H O/U");
         CheckTrader(errorList, invalidTraders, assignment.Trader1X2Name, "1X2");
-        CheckTrader(errorList, invalidTraders, assignment.TraderAIOName, "AIO");
-        CheckTrader(errorList, invalidTraders, assignment.TraderFMName, "FM");
         CheckTrader(errorList, invalidTraders, assignment.TraderHDPName, "HDP");
         CheckTrader(errorList, invalidTraders, assignment.TraderOUName, "O/U");
+
+        if (isUploadFmAndAio)
+        {
+            CheckTrader(errorList, invalidTraders, assignment.TraderAIOName, "AIO");
+            CheckTrader(errorList, invalidTraders, assignment.TraderFMName, "FM");
+            CheckOtherTrader(errorList, invalidTraders, assignment.OtherTradersAIO, "AIO");
+            CheckOtherTrader(errorList, invalidTraders, assignment.OtherTradersFM, "FM");
+        }
 
         return errorList;
     }
@@ -204,9 +204,9 @@ public class AssignmentValidatorImp : AssignmentValidator
     {
         var results = new List<ValidationResult>();
         ValidateMaxBet(assignment, results);
-        ValidateTraders(assignment, results, traders);
+        ValidateTraders(assignment, results, traders, isUploadFmAndAio);
         ValidateMatchOffers(assignment, matchOffers, results);
-        ValidateOtherAssignment(assignment, results, isUploadFmAndAio);
+        ValidateOtherAssignmentMissMain(assignment, results, isUploadFmAndAio);
         ValidateDataAnnotation(assignment, results);
         ValidateDuplicatedMatchNo(assignment, assignments, results);
         ValidateInvalidTime(assignment, results);
@@ -238,7 +238,7 @@ public class AssignmentValidatorImp : AssignmentValidator
         }
     }
 
-    public void ValidateOtherAssignment(AssignmentModelInExcel assignment, List<ValidationResult> results, bool isUploadFmAndAio)
+    public void ValidateOtherAssignmentMissMain(AssignmentModelInExcel assignment, List<ValidationResult> results, bool isUploadFmAndAio)
     {
         var listTraderError = new List<string>
         {
