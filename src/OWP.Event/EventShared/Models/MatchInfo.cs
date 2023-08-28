@@ -41,7 +41,11 @@ public class MatchInfo : TaskListMatchInfo
 
     public string LeagueGroup { get; set; }
 
-    public bool IsPES => League.Contains(" PES ", StringComparison.CurrentCultureIgnoreCase);
+    public bool IsPES23 => League.Contains(" PES 23", StringComparison.CurrentCultureIgnoreCase);
+
+    public bool IsPESOther => 
+        League.Contains(" PES ", StringComparison.CurrentCultureIgnoreCase) && 
+        !League.Contains(" PES 23", StringComparison.CurrentCultureIgnoreCase);
 
     public bool IsFIFA =>
         League.Contains("SABA ", StringComparison.CurrentCultureIgnoreCase) &&
