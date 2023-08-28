@@ -9,9 +9,11 @@ public static class ProgressHelper
         var progress = string.Empty;
         var firstCondition = conditionInfos.FirstOrDefault();
         var matchingCondition = conditionInfos.Skip(1)
-            .LastOrDefault(condition => IsGreaterThanOrEqualTo(totalGame, condition.ConditionsFirst) || IsGreaterThanOrEqualTo(totalGame, condition.ConditionSecond));
+            .LastOrDefault(condition => IsGreaterThanOrEqualTo(totalGame, condition.ConditionFirst) 
+                                        || IsGreaterThanOrEqualTo(totalGame, condition.ConditionSecond));
 
-        if (totalGame.MultipleMatches + totalGame.VirtualMatches > firstCondition.ConditionsFirst.TotalVirtualMultipleMatches)
+        if (totalGame.MultipleMatches + totalGame.VirtualMatches 
+            > firstCondition.ConditionFirst.TotalVirtualMultipleMatches)
         {
             progress = firstCondition.Progress;
         }

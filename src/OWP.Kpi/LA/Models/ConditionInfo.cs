@@ -11,7 +11,7 @@ public class ConditionInfo
 
     public string Level { get; set; }
 
-    public Condition ConditionsFirst { get; set; }
+    public Condition ConditionFirst { get; set; }
 
     public Condition ConditionSecond { get; set; }
 

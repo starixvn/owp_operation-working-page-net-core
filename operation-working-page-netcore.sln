@@ -95,7 +95,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OWP.Event", "src\OWP.Event\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OWP.Kpi", "src\OWP.Kpi\OWP.Kpi.csproj", "{B5057315-37A8-4015-912E-B01DA79E6044}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OWP.Kpi", "tests\OWP.Kpi\OWP.Kpi.csproj", "{7567AE47-1D16-4016-BF67-6FCB229DF4D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OWP.Kpi.UnitTests", "tests\OWP.Kpi\OWP.Kpi.UnitTests.csproj", "{7567AE47-1D16-4016-BF67-6FCB229DF4D0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

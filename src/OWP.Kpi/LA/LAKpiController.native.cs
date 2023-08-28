@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using OWP.Kpi.LA.Constant;
 using OWP.Kpi.LA.Models;
 
 namespace OWP.Kpi.LA;
@@ -18,4 +19,8 @@ public class LAKpiController : ControllerBase
     {
         return new List<KpiInfo>();
     }
+
+    [HttpGet("get-condition")]
+    public IActionResult GetColorExplain()
+        => Ok(ConditionConstant.ConditionInfos);
 }
