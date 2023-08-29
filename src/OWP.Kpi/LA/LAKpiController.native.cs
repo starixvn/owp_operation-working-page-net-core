@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using OWP.Kpi.LA.Constant;
+using OWP.Kpi.LA.Helper;
 using OWP.Kpi.LA.Models;
 
 namespace OWP.Kpi.LA;
@@ -18,6 +19,7 @@ public class LAKpiController : ControllerBase
     public async Task<IList<KpiInfo>> GetLAKpiInfo(DateTime fromDate, DateTime toDate)
     {
         var data = FakeData.FakeKpiInfos();
+        var isGap = CalculateGapHelper.IsGap(fromDate, toDate);
         return data;
     }
 

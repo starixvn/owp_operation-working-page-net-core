@@ -22,7 +22,7 @@ public static class ConditionConstant
             Level = "D",
             ConditionFirst = new() { VirtualMatches = 3600, MultipleMatches = 500 },
             ConditionSecond = new() { VirtualMatches = 3200, MultipleMatches = 800 },
-            TimeRange = "Last 2 year",
+            TimeRange = "Last 2 years",
             Reward = "10%"
         },
         new()
@@ -31,7 +31,7 @@ public static class ConditionConstant
             Level = "C",
             ConditionFirst = new() { VirtualMatches = 3600, MultipleMatches = 500, SpecialProducts = 15 },
             ConditionSecond = new() { VirtualMatches = 3200, MultipleMatches = 800, SpecialProducts = 15 },
-            TimeRange = "Last 2 year",
+            TimeRange = "Last 2 years",
             Reward = "15%"
         },
         new()
@@ -40,7 +40,7 @@ public static class ConditionConstant
             Level = "B",
             ConditionFirst = new() { VirtualMatches = 2800, MultipleMatches = 600, SpecialProducts = 15, FiveMajorLeagues = 15, MultipleProducts = 350},
             ConditionSecond = new() { VirtualMatches = 2500, MultipleMatches = 800, SpecialProducts = 15, FiveMajorLeagues = 15, MultipleProducts = 450},
-            TimeRange = "Last 2 year",
+            TimeRange = "Last 2 years",
             Reward = "20%"
         },
         new()
@@ -49,7 +49,7 @@ public static class ConditionConstant
             Level = "A",
             ConditionFirst = new() { VirtualMatches = 2800, MultipleMatches = 600, SpecialProducts = 15, FiveMajorLeagues =  15, MultipleProducts = 450},
             ConditionSecond = new() { VirtualMatches = 2500, MultipleMatches = 800, SpecialProducts = 15, FiveMajorLeagues = 15, MultipleProducts = 550},
-            TimeRange = "Last 2 year",
+            TimeRange = "Last 2 years",
             Reward = "25%"
         }
     };
