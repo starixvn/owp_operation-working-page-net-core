@@ -7,8 +7,8 @@ namespace OWP.Kpi.LA.Models
 {
     public class FakeData
     {
-        public static IList<KpiInfo> FakeKpiInfos() => new List<KpiInfo>(){
-            new KpiInfo{
+        public static IList<KpiInfoViewModel> FakeKpiInfos() => new List<KpiInfoViewModel>(){
+            new KpiInfoViewModel{
                 UserId=1,
                 UserName="sa",
 
@@ -28,7 +28,7 @@ namespace OWP.Kpi.LA.Models
                     MultipleProducts=-123,
                 }
             },
-            new KpiInfo{
+            new KpiInfoViewModel{
                 UserId=2,
                 UserName="starix1",
 

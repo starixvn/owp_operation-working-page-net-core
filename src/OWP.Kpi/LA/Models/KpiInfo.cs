@@ -1,8 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using OWP.Kpi.LA.Constant;
-using OWP.Kpi.LA.Helper;
-
-namespace OWP.Kpi.LA.Models;
+﻿namespace OWP.Kpi.LA.Models;
 
 public class KpiInfo
 {
@@ -10,11 +6,13 @@ public class KpiInfo
 
     public string UserName { get; set; }
 
-    public string Target { get; set; }
+    public int VirtualMatches { get; set; }
 
-    public TotalGameInfo GapWithTarget { get; set; }
+    public int MultipleMatches { get; set; }
 
-    public TotalGameInfo AchievedGames { get; set; }
+    public int SpecialProducts { get; set; }
 
-    public string Progress => ProgressHelper.Evaluate(ConditionConstant.ConditionInfos, AchievedGames);
+    public int FiveMajorLeagues { get; set; }
+
+    public int MultipleProducts { get; set; }
 }
