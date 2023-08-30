@@ -11,9 +11,9 @@ public interface KpiService
 
 public class KpiServiceImp : KpiService
 {
-    private readonly DynamicRepository repository;
+    private readonly IDynamicRepository repository;
 
-    public KpiServiceImp(DynamicRepository repository)
+    public KpiServiceImp(IDynamicRepository repository)
     {
         this.repository = repository;
     }
