@@ -6,6 +6,7 @@ using OWP.Kpi.LA.Constant;
 using OWP.Kpi.LA.Handlers;
 using OWP.Kpi.LA.Helper;
 using OWP.Kpi.LA.Models;
+using OWP.Kpi.LA.ViewModels;
 
 namespace OWP.Kpi.LA;
 
@@ -24,14 +25,14 @@ public class LAKpiController : ControllerBase
 
     [Route("")]
     [HttpGet]
-    public async Task<IList<KpiInfoViewModel>> GetLAKpiInfo(DateTime fromDate, DateTime toDate)
+    public async Task<DataViewModel> GetLAKpiInfo(DateTime fromDate, DateTime toDate)
     {
-        var data = await mediator.Send(new CalculateKpiRequest()
+        var data = await mediator.Send(new CalculateKpiRequest
         {
             FromDate = fromDate,
             ToDate = toDate
         });
-        var isGap = CalculateGapHelper.IsGap(fromDate, toDate);
+
         return data;
     }
 
