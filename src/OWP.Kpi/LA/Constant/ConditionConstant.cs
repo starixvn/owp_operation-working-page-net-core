@@ -7,7 +7,7 @@ public static class ConditionConstant
     {
         new()
         {
-            Progress = "New (5%)",
+            Progress = "New",
             Level = "New",
             ConditionFirst = new Condition
             {
@@ -18,7 +18,7 @@ public static class ConditionConstant
         },
         new()
         {
-            Progress = "Level D (10%)",
+            Progress = "Level D",
             Level = "D",
             ConditionFirst = new() { VirtualMatches = 3600, MultipleMatches = 500 },
             ConditionSecond = new() { VirtualMatches = 3200, MultipleMatches = 800 },
@@ -27,7 +27,7 @@ public static class ConditionConstant
         },
         new()
         {
-            Progress = "Level C (15%)",
+            Progress = "Level C",
             Level = "C",
             ConditionFirst = new() { VirtualMatches = 3600, MultipleMatches = 500, SpecialProducts = 15 },
             ConditionSecond = new() { VirtualMatches = 3200, MultipleMatches = 800, SpecialProducts = 15 },
@@ -36,7 +36,7 @@ public static class ConditionConstant
         },
         new()
         {
-            Progress = "Level B (20%)",
+            Progress = "Level B",
             Level = "B",
             ConditionFirst = new() { VirtualMatches = 2800, MultipleMatches = 600, SpecialProducts = 15, FiveMajorLeagues = 15, MultipleProducts = 350},
             ConditionSecond = new() { VirtualMatches = 2500, MultipleMatches = 800, SpecialProducts = 15, FiveMajorLeagues = 15, MultipleProducts = 450},
@@ -45,7 +45,7 @@ public static class ConditionConstant
         },
         new()
         {
-            Progress = "Level A (25%)",
+            Progress = "Level A",
             Level = "A",
             ConditionFirst = new() { VirtualMatches = 2800, MultipleMatches = 600, SpecialProducts = 15, FiveMajorLeagues =  15, MultipleProducts = 450},
             ConditionSecond = new() { VirtualMatches = 2500, MultipleMatches = 800, SpecialProducts = 15, FiveMajorLeagues = 15, MultipleProducts = 550},
