@@ -8,6 +8,8 @@ namespace OWP.EventPicking.Services;
 public interface BuildMatchOfferByLiveSetting
 {
     void Build(List<EventPickingModel> mainMatches, List<EventPickingModel> childMatches, Dictionary<decimal, MaxBetSettingModel> settingDefault);
+
+    void BuildForMainMatch(List<EventPickingModel> mainMatches, Dictionary<decimal, MaxBetSettingModel> settingDefault);
 }
 
 public class BuildMatchOfferByLiveSettingImp : BuildMatchOfferByLiveSetting
@@ -17,6 +19,12 @@ public class BuildMatchOfferByLiveSettingImp : BuildMatchOfferByLiveSetting
         var hasMaxBetMainMatches = mainMatches.Where(x => x.MaxBetHDPNumber.HasValue).ToList();
         BuildMatchOfferMainMatches(hasMaxBetMainMatches, settingDefault);
         BuildMatchOfferChildMatches(hasMaxBetMainMatches, childMatches, settingDefault);
+    }
+
+    public void BuildForMainMatch(List<EventPickingModel> mainMatches, Dictionary<decimal, MaxBetSettingModel> settingDefault)
+    {
+        var hasMaxBetMainMatches = mainMatches.Where(x => x.MaxBetHDPNumber.HasValue).ToList();
+        BuildMatchOfferMainMatches(hasMaxBetMainMatches, settingDefault);
     }
 
     private static void BuildMatchOfferMainMatches(List<EventPickingModel> mainMatches, Dictionary<decimal, MaxBetSettingModel> settingDefault)

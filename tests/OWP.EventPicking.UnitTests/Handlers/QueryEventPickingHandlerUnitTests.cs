@@ -43,7 +43,7 @@ public class QueryEventPickingHandlerUnitTests
             new(){ InfoSiteMatchId = 777, HomeName = "(PEN)", RowColor = "" }
         };
 
-        buildMainAndChildMatches.GetMainAndChildMatchEvent(new DateTime(2022, 11, 07)).Returns(matches);
+        buildMainAndChildMatches.GetMainEvent(new DateTime(2022, 11, 07)).Returns(matches);
 
         var expected = new List<EventPickingModel>
         {

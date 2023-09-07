@@ -5,8 +5,8 @@ using OWP.EventPicking.Services;
 
 namespace OWP.EventPicking.Handlers;
 
-public class QueryEventPickingRequest : EventPickingRequest, IRequest<List<EventPickingModel>>
-{ }
+public class QueryEventPickingRequest : EventPickingRequest, IRequest<List<EventPickingModel>> 
+{}
 
 public class QueryEventPickingHandler : IRequestHandler<QueryEventPickingRequest, List<EventPickingModel>>
 {
@@ -19,7 +19,7 @@ public class QueryEventPickingHandler : IRequestHandler<QueryEventPickingRequest
 
     public async Task<List<EventPickingModel>> Handle(QueryEventPickingRequest request, CancellationToken cancellationToken)
     {
-        var matches = await buildMainAndChildMatches.GetMainAndChildMatchEvent(request.Date);
+        var matches = await buildMainAndChildMatches.GetMainEvent(request.Date);
 
         return FilterAllMatchesByRequest(matches, request);
     }

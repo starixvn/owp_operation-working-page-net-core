@@ -125,7 +125,6 @@ public class BuildMainAndChildMatchesUnitTests
                 Round = "Round",
                 OutSide = "Outside",
                 RowColor = "white",
-                LengthRoundCell = 5
             },
             new EventPickingModel
             {
