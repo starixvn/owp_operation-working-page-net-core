@@ -266,6 +266,9 @@ public class EventPickingModel
 
     public int LengthRemarkCell { get; set; }
 
+    public bool Confirmed { get; set; }
+
+    public IList<RAndDUpdateInfo> RAndDUpdate { get; set; }
 
     // Main match
     public string LiveTV { get; set; }
