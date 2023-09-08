@@ -13,10 +13,12 @@ namespace OWP.EventPicking;
 public class EventPickingController
 {
     private readonly IMediator mediator;
+    private readonly Repository repository;
 
-    public EventPickingController(IMediator mediator)
+    public EventPickingController(IMediator mediator, Repository repository)
     {
         this.mediator = mediator;
+        this.repository = repository;
     }
 
     [HttpPost("get-event-picking")]
@@ -41,4 +43,22 @@ public class EventPickingController
     [HttpGet]
     public async Task<IList<LogModel>> ExportMiscMatch([FromQuery] GetLogRequest request)
         => await mediator.Send(request);
+
+    [Route("get-update-type")]
+    [HttpGet]
+    public async Task<IActionResult> QueryUpdateType()
+    {
+        var result = await repository.GetUpdateType();
+
+        return new JsonResult(result);
+    }
+
+    [Route("get-league-name")]
+    [HttpGet]
+    public async Task<IActionResult> QueryLeagueName(DateTime date)
+    {
+        var result = await repository.GetLeagueName(date);
+
+        return new JsonResult(result);
+    }
 }
