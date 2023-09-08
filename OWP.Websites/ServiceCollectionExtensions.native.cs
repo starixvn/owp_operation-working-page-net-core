@@ -52,6 +52,8 @@ using StackExchange.Redis;
 using System.Reflection;
 using AutoMapperProfile = OWP.OtherSport.AutoMapperProfile;
 using ILogger = Fanex.Logging.ILogger;
+using OWP.Kpi;
+using OWP.Kpi.LA;
 
 namespace OWP.Websites;
 
@@ -74,6 +76,7 @@ public static class ServiceCollectionExtensions
             mc.AddProfile(new LiveDetail.AutoMapperProfile());
             mc.AddProfile(new AssignmentUpload.AutoMapperProfile());
             mc.AddProfile(new AssigneeSuggestionList.AutoMapperProfile());
+            mc.AddProfile(new Kpi.AutoMapperProfile());
         });
 
         var mapper = mapperConfig.CreateMapper();
@@ -234,6 +237,7 @@ public static class ServiceCollectionExtensions
         services.AddResourceManagement();
         services.AddSuggestionList();
         services.AddEventService();
+        services.AddKpiService();
         return services;
     }
 
@@ -262,6 +266,7 @@ public static class ServiceCollectionExtensions
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(Event.TaskList.TaskListController).GetTypeInfo().Assembly));
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(ProviderArrangementController).GetTypeInfo().Assembly));
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(AssigneeSuggestionController).GetTypeInfo().Assembly));
+        services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(LAKpiController).GetTypeInfo().Assembly));
         return services;
     }
 

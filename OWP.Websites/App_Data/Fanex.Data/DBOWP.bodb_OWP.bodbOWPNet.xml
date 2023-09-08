@@ -386,4 +386,7 @@
     <Function Name="AccessCounter">
 		<Setting Key="OWP_AccessCounter_Update" SpName="OWP_AccessCounter_Update" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
 	</Function>
+    <Function Name="Kpi">
+		<Setting Key="OWP_Kpi_Get" SpName="OWP_Kpi_Get" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
+	</Function>
 </Functions>
