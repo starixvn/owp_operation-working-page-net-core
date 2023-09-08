@@ -17,5 +17,6 @@ public static class EventPickingInjector
         services.AddScoped<BuildProvider, BuildProviderImp>();
         services.AddScoped<BuildRAndDInfo, BuildRAndDInfoImp>();
         services.AddScoped<GetEventValidator>();
+        services.AddScoped<LogService, LogServiceImp>();
     }
 }

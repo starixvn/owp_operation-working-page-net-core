@@ -268,6 +268,9 @@ public class EventPickingModel
 
     public bool Confirmed { get; set; }
 
+    public IList<RAndDUpdateInfo> RAndDUpdate { get; set; } = new List<RAndDUpdateInfo>(){
+        new RAndDUpdateInfo()
+    };
     // Main match
     public string LiveTV { get; set; }
 

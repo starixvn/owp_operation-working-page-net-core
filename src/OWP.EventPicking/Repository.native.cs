@@ -22,6 +22,8 @@ public interface Repository
     Task<List<string>> GetProviderArrangement();
 
     Task<List<RAndDInfo>> GetRAndDUpdateInfo(DateTime date);
+    
+    Task<List<LogModel>> GetLog(int infoSiteMatchId);
 }
 
 public class RepositoryImp : Repository
@@ -108,4 +110,10 @@ public class RepositoryImp : Repository
 
         return result.ToList();
     }
+
+    public async Task<List<LogModel>> GetLog(int infoSiteMatchId)
+    => (await dynamicRepository.FetchAsync<LogModel>(new GetLogCriteria
+    {
+        InfoSiteMatchId = infoSiteMatchId,
+    })).ToList();
 }

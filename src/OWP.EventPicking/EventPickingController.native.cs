@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using OWP.EventPicking.Handlers;
 using OWP.EventPicking.Middleware;
+using OWP.EventPicking.Models;
 
 namespace OWP.EventPicking;
 
@@ -34,5 +35,10 @@ public class EventPickingController
     [Route("export-misc-match")]
     [HttpGet]
     public async Task<FileResult> ExportMiscMatch([FromQuery] ExportMiscMatchRequest request)
+        => await mediator.Send(request);
+
+    [Route("get-logs-history")]
+    [HttpGet]
+    public async Task<IList<LogModel>> ExportMiscMatch([FromQuery] GetLogRequest request)
         => await mediator.Send(request);
 }
