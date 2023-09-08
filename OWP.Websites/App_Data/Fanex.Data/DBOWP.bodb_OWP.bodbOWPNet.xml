@@ -365,6 +365,7 @@
 		<Setting Key="OWP_EventPicking_GetInfoSiteChildMatch" SpName="OWP_EventPicking_GetInfoSiteChildMatch" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_EventPicking_GetInfoSiteMatch" SpName="OWP_EventPicking_GetInfoSiteMatch" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_EventPicking_InsertOrDeleteNoOfferMatch" SpName="OWP_EventPicking_InsertOrDeleteNoOfferMatch" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
+    <Setting Key="OWP_EventPicking_GetRandDInfo" SpName="OWP_EventPicking_GetRandDInfo" DbName="DBOWP.bodb_OWP.bodbOWPNet"></Setting>
 	</Function>
     <Function Name="ProviderArrangement">
 		<Setting Key="OWP_ProviderArrangement_GetAllProvider" SpName="OWP_ProviderArrangement_GetAllProvider" DbName="DBOWP.bodb_OWP.bodbOWPNet" />

@@ -20,6 +20,8 @@ public interface Repository
     Task InsertOrDeleteNoOfferMatch(InsertOrDeleteNoOfferMatchRequest request);
 
     Task<List<string>> GetProviderArrangement();
+
+    Task<List<RAndDInfo>> GetRAndDUpdateInfo(DateTime date);
 }
 
 public class RepositoryImp : Repository
@@ -93,5 +95,17 @@ public class RepositoryImp : Repository
             .ToList();
 
         return provider;
+    }
+
+    public async Task<List<RAndDInfo>> GetRAndDUpdateInfo(DateTime date)
+    {
+        var criteria = new QueryRAndDInfoCriteria
+        {
+            Date = date
+        };
+
+        var result = await dynamicRepository.FetchAsync<RAndDInfo>(criteria);
+
+        return result.ToList();
     }
 }

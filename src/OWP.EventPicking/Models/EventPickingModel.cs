@@ -268,8 +268,6 @@ public class EventPickingModel
 
     public bool Confirmed { get; set; }
 
-    public IList<RAndDUpdateInfo> RAndDUpdate { get; set; }
-
     // Main match
     public string LiveTV { get; set; }
 
@@ -279,6 +277,8 @@ public class EventPickingModel
 
     // MaxBet & Spread
     public decimal? MaxBetHDPNumber { get; set; }
+
+    public List<RAndDInfo> RAndDInfos { get; set; }
 
     public string HasProvider => !string.IsNullOrWhiteSpace(Provider)
     ? "yes"
