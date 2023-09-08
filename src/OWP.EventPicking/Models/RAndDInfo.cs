@@ -1,4 +1,6 @@
 ﻿
+using OWP.EventPicking.Constant;
+
 namespace OWP.EventPicking.Models;
 public class RAndDInfo
 {
@@ -7,4 +9,6 @@ public class RAndDInfo
     public string UpdateType { get; set; }
 
     public string RAndDUpdate { get; set; }
+
+    public (string, string) Color  => RAndDColorConstant.RAndDColorDict.GetValueOrDefault(UpdateType);
 }
