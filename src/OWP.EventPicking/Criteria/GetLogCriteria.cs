@@ -7,7 +7,7 @@ public class GetLogCriteria : CriteriaBase
     public int InfoSiteMatchId { get; set; }
 
     public override string GetSettingKey()
-        => "OWP_EventPicking_GetLog";
+        => "OWP_EventPicking_GetLogHistory";
 
     public override bool IsValid() => true;
 }

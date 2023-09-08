@@ -23,14 +23,14 @@ public class BuildRowColorImp : BuildRowColor
 
         if (match.IsBlackList)
         {
-            return Constant.ColorGray;
+            return Misc.Constant.ColorGray;
         }
         if (conditionMatch && smallerNoMaxBet && !exceptMatches)
         {
-            return Constant.ColorRed;
+            return Misc.Constant.ColorRed;
         }
 
-        return Constant.ColorWhite;
+        return Misc.Constant.ColorWhite;
     }
 
     public static bool IsSaBaGame(string leagueName)

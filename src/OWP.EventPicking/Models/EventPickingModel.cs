@@ -254,7 +254,7 @@ public class EventPickingModel
 
     public bool IsNoOffer { get; set; }
 
-    public string RowColorHex => Constant.ColorDict.GetValueOrDefault(RowColor);
+    public string RowColorHex => Misc.Constant.ColorDict.GetValueOrDefault(RowColor);
 
     public string RowColor { get; set; }
 
@@ -268,9 +268,6 @@ public class EventPickingModel
 
     public bool Confirmed { get; set; }
 
-    public IList<RAndDUpdateInfo> RAndDUpdate { get; set; } = new List<RAndDUpdateInfo>(){
-        new RAndDUpdateInfo()
-    };
     // Main match
     public string LiveTV { get; set; }
 

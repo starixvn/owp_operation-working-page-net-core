@@ -1,6 +1,7 @@
 ﻿using System.Collections.Immutable;
 
 namespace OWP.EventPicking.Constant;
+
 public static class RAndDColorConstant
 {
     public static readonly ImmutableDictionary<string, (string,string)> RAndDColorDict = new Dictionary<string,(string, string)>
