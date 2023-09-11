@@ -22,6 +22,10 @@ public class EventPickingModel
 
     public bool IsTestMatch { get; set; }
 
+    public bool IsDeleted { get; set; }
+
+    public bool IsCheck { get; set; }
+
     public bool IsSaba => LeagueName.IsContains("SABA ");
 
     public DateTime EventDateTime { get; set; }
