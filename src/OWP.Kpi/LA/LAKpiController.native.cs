@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using OWP.Kpi.LA.Constant;
 using OWP.Kpi.LA.Handlers;
-using OWP.Kpi.LA.Helper;
-using OWP.Kpi.LA.Models;
 using OWP.Kpi.LA.ViewModels;
 
 namespace OWP.Kpi.LA;

@@ -5,9 +5,10 @@ using KellermanSoftware.CompareNetObjects;
 using NSubstitute;
 using OWP.LiveDetail.MatchOdd;
 using Xunit;
-using Xunit.Asserts.Compare;
 
 namespace OWP.LiveDetail.UnitTests.MatchOdd;
+
+using Xunit.Asserts.Compare;
 
 public class RepositoryUnitTests
 {

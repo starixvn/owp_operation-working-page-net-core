@@ -2,14 +2,15 @@ using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Models;
 using OWP.AssigneeSuggestionList.Services.RealMatch;
 using Xunit;
-using Xunit.Asserts.Compare;
 
 namespace OWP.AssigneeSuggestionList.UnitTests.Services;
+
+using Xunit.Asserts.Compare;
 
 public class CornerServiceUnitTests
 {
     private readonly List<AssignmentModel> assignmentsCorner;
-    private IDictionary<int, List<AssignmentModel>> gameMapGameId = new Dictionary<int, List<AssignmentModel>>();
+    private readonly IDictionary<int, List<AssignmentModel>> gameMapGameId;
 
 
     public CornerServiceUnitTests()

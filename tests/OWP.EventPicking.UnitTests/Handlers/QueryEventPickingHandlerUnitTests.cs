@@ -3,9 +3,10 @@ using OWP.EventPicking.Handlers;
 using OWP.EventPicking.Models;
 using OWP.EventPicking.Services;
 using Xunit;
-using Xunit.Asserts.Compare;
 
 namespace OWP.EventPicking.UnitTests.Handlers;
+
+using Xunit.Asserts.Compare;
 
 public class QueryEventPickingHandlerUnitTests
 {

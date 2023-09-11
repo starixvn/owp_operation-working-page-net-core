@@ -2,9 +2,10 @@
 using OWP.OtherSport.Validation.Helpers;
 using OWP.OtherSport.Validation.Models;
 using Xunit;
-using Xunit.Asserts.Compare;
 
 namespace OWP.OtherSport.UnitTests.Validation.Helpers;
+
+using Xunit.Asserts.Compare;
 
 public class ValidationHelperUnitTests
 {

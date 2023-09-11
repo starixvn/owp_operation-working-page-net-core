@@ -3,9 +3,10 @@ using OWP.Enums;
 using OWP.Maxbet.Builder;
 using OWP.Maxbet.Models;
 using Xunit;
-using Xunit.Asserts.Compare;
 
 namespace OWP.Maxbet.UnitTests.Builder;
+
+using Xunit.Asserts.Compare;
 
 public class TraderAssignmentBuilderUnitTests
 {

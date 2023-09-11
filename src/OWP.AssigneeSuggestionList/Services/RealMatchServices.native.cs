@@ -1,5 +1,4 @@
-﻿using System.Collections.Immutable;
-using OWP.AssigneeSuggestionList.Models;
+﻿using OWP.AssigneeSuggestionList.Models;
 using OWP.AssigneeSuggestionList.Services.RealMatch;
 
 namespace OWP.AssigneeSuggestionList.Services;

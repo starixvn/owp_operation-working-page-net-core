@@ -5,10 +5,10 @@ using NSubstitute;
 using OWP.LiveDetail.Common;
 using OWP.LiveDetail.MatchInfo;
 using Xunit;
-using Xunit.Asserts.Compare;
 
 namespace OWP.LiveDetail.UnitTests.MatchInfo;
 
+using Xunit.Asserts.Compare;
 using AgentSpace = LiveDetail.Agent;
 using OtherProviderSpace = LiveDetail.OtherProvider;
 using ProviderSpace = LiveDetail.Provider;

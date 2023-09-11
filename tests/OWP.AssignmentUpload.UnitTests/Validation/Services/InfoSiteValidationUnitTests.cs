@@ -3,9 +3,10 @@ using OWP.AssignmentUpload.Validation.Exceptions;
 using OWP.AssignmentUpload.Validation.Models;
 using OWP.AssignmentUpload.Validation.Services;
 using Xunit;
-using Xunit.Asserts.Compare;
 
 namespace OWP.AssignmentUpload.UnitTests.Validation.Services;
+
+using Xunit.Asserts.Compare;
 
 public class InfoSiteValidationUnitTests
 {

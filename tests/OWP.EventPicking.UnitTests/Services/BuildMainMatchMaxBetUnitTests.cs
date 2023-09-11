@@ -2,9 +2,10 @@ using NSubstitute;
 using OWP.EventPicking.Models;
 using OWP.EventPicking.Services;
 using Xunit;
-using Xunit.Asserts.Compare;
 
 namespace OWP.EventPicking.UnitTests.Services;
+
+using Xunit.Asserts.Compare;
 
 public class BuildMainMatchMaxBetUnitTests
 {

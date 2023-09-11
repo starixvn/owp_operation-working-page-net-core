@@ -4,9 +4,10 @@ using OWP.AssignmentUpload.Validation.Services;
 using OWP.Models;
 using System.ComponentModel.DataAnnotations;
 using Xunit;
-using Xunit.Asserts.Compare;
 
 namespace OWP.AssignmentUpload.UnitTests.Validation.Services;
+
+using Xunit.Asserts.Compare;
 
 public class AssignmentValidatorImpUnitTests
 {

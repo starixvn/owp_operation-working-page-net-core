@@ -1,8 +1,9 @@
 using Fanex.NAP.Client.Models.ValueObject;
-using Fanex.NAP.Core.Business;
 using OWP.Models;
 
 namespace OWP.Extensions;
+
+using Fanex.NAP.Client.Helpers.Business;
 
 public static class PermissionExtensions
 {

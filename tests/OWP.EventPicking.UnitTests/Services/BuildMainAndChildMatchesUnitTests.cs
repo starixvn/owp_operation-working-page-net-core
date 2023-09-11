@@ -5,9 +5,10 @@ using OWP.EventPicking.Services;
 using OWP.MaxbetSetting.Handlers;
 using OWP.MaxbetSetting.Models;
 using Xunit;
-using Xunit.Asserts.Compare;
 
 namespace OWP.EventPicking.UnitTests.Services;
+
+using Xunit.Asserts.Compare;
 
 public class BuildMainAndChildMatchesUnitTests
 {

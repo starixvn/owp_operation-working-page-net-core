@@ -3,9 +3,10 @@ using OWP.Maxbet.Builder;
 using OWP.Maxbet.Models;
 using OWP.Services;
 using Xunit;
-using Xunit.Asserts.Compare;
 
 namespace OWP.Maxbet.UnitTests.Builder;
+
+using Xunit.Asserts.Compare;
 
 public class SpecialProductSpreadBuilderUnitTests
 {

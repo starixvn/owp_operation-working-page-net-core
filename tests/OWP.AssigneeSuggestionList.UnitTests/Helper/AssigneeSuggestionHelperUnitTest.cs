@@ -1,8 +1,9 @@
 ﻿using OWP.AssigneeSuggestionList.Helper;
 using Xunit;
-using Xunit.Asserts.Compare;
 
 namespace OWP.AssigneeSuggestionList.UnitTests.Helper;
+
+using Xunit.Asserts.Compare;
 
 public class AssigneeSuggestionHelperUnitTest
 {

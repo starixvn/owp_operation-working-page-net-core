@@ -2,9 +2,10 @@
 using OWP.Maxbet.Helpers;
 using OWP.Maxbet.Models;
 using Xunit;
-using Xunit.Asserts.Compare;
 
 namespace OWP.Maxbet.UnitTests.Helpers;
+
+using Xunit.Asserts.Compare;
 
 public class MaxbetHelperUnitTests
 {

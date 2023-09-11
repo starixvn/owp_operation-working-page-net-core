@@ -2,10 +2,7 @@
 using OWP.Event.EventShared;
 using OWP.Event.EventShared.Models;
 using OWP.Event.EventShared.Services;
-using OWP.Models;
-using OWP.Services;
 using Xunit;
-using Xunit.Asserts.Compare;
 
 namespace OWP.Event.UnitTests.EventShared.Services;
 

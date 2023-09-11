@@ -1,12 +1,12 @@
-﻿using Fanex.NAP.Core.Business;
-using OWP.Constants;
-using OWP.Event.EventShared.Const;
+﻿using OWP.Constants;
 using OWP.Event.EventShared.Models;
 using OWP.Event.EventShared.Services;
 using OWP.Event.LiveGameList.Builder;
 using OWP.Services;
 
 namespace OWP.Event.LiveGameList.Services;
+
+using Fanex.NAP.Client.Helpers.Business;
 
 public interface GetEventByDateService
 {

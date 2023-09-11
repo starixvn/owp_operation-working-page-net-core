@@ -4,9 +4,10 @@ using Fanex.NAP.Client.Helpers.Web;
 using NSubstitute;
 using OWP.LiveDetail.MatchNote;
 using Xunit;
-using Xunit.Asserts.Compare;
 
 namespace OWP.LiveDetail.UnitTests.MatchNote;
+
+using Xunit.Asserts.Compare;
 
 public class RepositoryUnitTests
 {

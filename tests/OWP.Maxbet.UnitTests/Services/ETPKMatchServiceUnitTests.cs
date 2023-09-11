@@ -2,9 +2,10 @@
 using OWP.Maxbet.Models;
 using OWP.Maxbet.Services;
 using Xunit;
-using Xunit.Asserts.Compare;
 
 namespace OWP.Maxbet.UnitTests.Services;
+
+using Xunit.Asserts.Compare;
 
 public class ETPKMatchServiceUnitTests
 {

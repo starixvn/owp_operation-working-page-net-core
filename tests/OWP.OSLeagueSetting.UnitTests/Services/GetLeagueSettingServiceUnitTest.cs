@@ -4,9 +4,10 @@ using OWP.OSLeagueSetting.Handlers;
 using OWP.OSLeagueSetting.Models;
 using OWP.OSLeagueSetting.Services;
 using Xunit;
-using Xunit.Asserts.Compare;
 
 namespace OWP.OSLeagueSetting.UnitTests.Services;
+
+using Xunit.Asserts.Compare;
 
 public class GetLeagueSettingServiceUnitTest
 {

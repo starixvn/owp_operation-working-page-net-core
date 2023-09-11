@@ -133,7 +133,7 @@ public class CategorizeSabaMatchServicesUnitTests
                 LeagueName = "Saba A",
                 EventDateTime = new DateTime(2022, 04, 19, startHour, 00, 0),
                 EndTime = new DateTime(2022, 04, 19, 16, 0, 0),
-                MatchType = matchType,
+                MatchType = matchType
             }
         };
         var result = CategorizeSabaMatchServicesImp.LinkSabaGame(assignments, matchInfo);
@@ -162,7 +162,7 @@ public class CategorizeSabaMatchServicesUnitTests
                 LeagueName = "Saba A",
                 EventDateTime = new DateTime(2022, 04, 19, startHour, startMinute, 0),
                 EndTime = new DateTime(2022, 04, 19, 16, 0, 0),
-                MatchType = matchType,
+                MatchType = matchType
             }
         };
         var result = CategorizeSabaMatchServicesImp.Link5MinsGame(assignments, matchInfo);
@@ -183,7 +183,7 @@ public class CategorizeSabaMatchServicesUnitTests
         {
             OwpMatchId = 100,
             KOTime = new DateTime(2022, 04, 19, 14, 0, 0),
-            EndTime = new DateTime(2022, 04, 19, 15, 0, 0),
+            EndTime = new DateTime(2022, 04, 19, 15, 0, 0)
         };
         var (actualCategoryType, actualExplanation) = CategorizeSabaMatchServicesImp.GetCategoryTypeAndExplanation(type, matchInfo);
 

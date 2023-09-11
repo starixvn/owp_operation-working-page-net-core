@@ -2,9 +2,10 @@
 using OWP.OtherSport.EventAssignment.Services;
 using OWP.OtherSport.Submit.Models;
 using Xunit;
-using Xunit.Asserts.Compare;
 
 namespace OWP.OtherSport.UnitTests.EventAssignment.Services;
+
+using Xunit.Asserts.Compare;
 
 public class AssignmentBuilderUnitTest
 {

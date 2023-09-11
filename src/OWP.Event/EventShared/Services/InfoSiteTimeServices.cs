@@ -1,5 +1,4 @@
-﻿using OWP.Event.EventShared.Const;
-using OWP.Event.EventShared.Models;
+﻿using OWP.Event.EventShared.Models;
 using OWP.Models;
 using OWP.Services;
 

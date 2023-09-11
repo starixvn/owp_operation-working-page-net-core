@@ -3,9 +3,10 @@ using OWP.TicketCenter.Handlers;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.ViewModels;
 using Xunit;
-using Xunit.Asserts.Compare;
 
 namespace OWP.TicketCenter.UnitTests.Handlers;
+
+using Xunit.Asserts.Compare;
 
 public class GetEventOptionsUnitTests
 {

@@ -2,9 +2,10 @@
 using OWP.AutoAssignment.Models.PublicApi;
 using OWP.AutoAssignment.Services.PublicApi;
 using Xunit;
-using Xunit.Asserts.Compare;
 
 namespace OWP.AutoAssignment.UnitTests.Services.PublicApi;
+
+using Xunit.Asserts.Compare;
 
 public class RealMatchServiceUnitTests
 {

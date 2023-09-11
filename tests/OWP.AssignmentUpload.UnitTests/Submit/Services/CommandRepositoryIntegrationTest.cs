@@ -6,7 +6,6 @@ using OWP.AssignmentUpload.Submit.Criteria;
 using OWP.AssignmentUpload.Submit.Models;
 using OWP.AssignmentUpload.Submit.Services;
 using OWP.AssignmentUpload.Validation.Models;
-using OWP.Services;
 using Xunit;
 
 namespace OWP.AssignmentUpload.UnitTests.Submit.Services;
@@ -34,7 +33,6 @@ public class CommandRepositoryIntegrationTest
         currentSession.UserId.Returns(0);
 
         var analyzer = new AssignmentAnalyzerImp();
-        var logService = Substitute.For<LogServiceWrapper>();
         var cacheManipulator = Substitute.For<CacheManipulator>();
 
         var realCommandRepository = new CommandRepositoryImp(dynamicRepository, currentSession, analyzer, cacheManipulator);

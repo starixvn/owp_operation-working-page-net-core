@@ -5,11 +5,12 @@ using NSubstitute;
 using OWP.LiveDetail.Assignment;
 using OWP.LiveDetail.Common;
 using Xunit;
-using Xunit.Asserts.Compare;
 
 [assembly: CollectionBehavior(MaxParallelThreads = 1)]
 
 namespace OWP.LiveDetail.UnitTests.Assignment;
+
+using Xunit.Asserts.Compare;
 
 public class RepositoryUnitTests
 {
