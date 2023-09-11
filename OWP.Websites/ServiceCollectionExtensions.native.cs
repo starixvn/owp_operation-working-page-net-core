@@ -49,7 +49,6 @@ using StackExchange.Redis;
 using System.Reflection;
 using AutoMapperProfile = OWP.OtherSport.AutoMapperProfile;
 using ILogger = Fanex.Logging.ILogger;
-using OWP.Kpi;
 using OWP.Kpi.LA;
 
 namespace OWP.Websites;

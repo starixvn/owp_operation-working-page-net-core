@@ -12,7 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="EPPlus" Version="6.2.8" />
+        <PackageReference Include="EPPlus" Version="6.2.9" />
         <PackageReference Include="Epplus.Mapper" Version="6.0.0" />
     </ItemGroup>
 
