@@ -4,6 +4,8 @@ public class EventPickingRequest
 {
     public DateTime Date { get; set; }
 
+    public List<int> League { get; set; }
+
     public List<int> SelectGame { get; set; }
 
     public List<string> FilterMatch { get; set; }
@@ -14,4 +16,5 @@ public class EventPickingRequest
 
     public List<int> FilterMatchCategory { get; set; }
 
+    public List<int?> UpdateType { get; set; }
 }

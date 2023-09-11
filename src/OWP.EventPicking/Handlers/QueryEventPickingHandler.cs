@@ -5,8 +5,8 @@ using OWP.EventPicking.Services;
 
 namespace OWP.EventPicking.Handlers;
 
-public class QueryEventPickingRequest : EventPickingRequest, IRequest<List<EventPickingModel>> 
-{}
+public class QueryEventPickingRequest : EventPickingRequest, IRequest<List<EventPickingModel>>
+{ }
 
 public class QueryEventPickingHandler : IRequestHandler<QueryEventPickingRequest, List<EventPickingModel>>
 {
@@ -29,7 +29,7 @@ public class QueryEventPickingHandler : IRequestHandler<QueryEventPickingRequest
         .ToList();
 
     private bool ValidMatch(EventPickingModel match, QueryEventPickingRequest condition)
-        => CheckCondition1(match, condition) && CheckCondition2(match, condition);
+        => CheckCondition1(match, condition) && CheckCondition2(match, condition) && CheckCondition3(match, condition);
 
     private bool CheckCondition1(EventPickingModel match, QueryEventPickingRequest condition)
         => condition.SelectGame.Contains(ConvertBoolToInt(match.IsNoOffer))
@@ -39,6 +39,19 @@ public class QueryEventPickingHandler : IRequestHandler<QueryEventPickingRequest
         => condition.FilterMatch.Contains(match.RowColor, StringComparer.OrdinalIgnoreCase)
            && condition.HasProvider.Contains(match.HasProvider, StringComparer.OrdinalIgnoreCase)
            && condition.HasOtherProvider.Contains(match.HasOtherProvider, StringComparer.OrdinalIgnoreCase);
+
+    private bool CheckCondition3(EventPickingModel match, QueryEventPickingRequest condition)
+        => condition.League.Contains(match.OWPLeagueId) && CheckUpdateType(match, condition);
+
+    private bool CheckUpdateType(EventPickingModel match, QueryEventPickingRequest condition)
+    {
+        if (condition.UpdateType.Contains(null) && match.RAndDInfos.Count == 0)
+        {
+            return true;
+        }
+
+        return match.RAndDInfos.SelectMany(x => x.UpdateType).Any(x => condition.UpdateType.Contains(x));
+    }
 
     private int ConvertBoolToInt(bool value) => value ? 1 : 0;
 }
