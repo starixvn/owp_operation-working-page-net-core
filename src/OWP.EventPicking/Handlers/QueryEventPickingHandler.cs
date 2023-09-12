@@ -50,7 +50,7 @@ public class QueryEventPickingHandler : IRequestHandler<QueryEventPickingRequest
             return true;
         }
 
-        return match.RAndDInfos.SelectMany(x => x.UpdateType).Any(x => condition.UpdateType.Contains(x));
+        return match.RAndDInfos.Select(x => x.UpdateTypeId).Any(x => condition.UpdateType.Contains(x));
     }
 
     private int ConvertBoolToInt(bool value) => value ? 1 : 0;

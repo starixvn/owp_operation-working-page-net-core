@@ -1,6 +1,6 @@
 ﻿
-using System.Text.Json.Serialization;
 using OWP.EventPicking.Constant;
+using System.Text.Json.Serialization;
 
 namespace OWP.EventPicking.Models;
 public class RAndDInfo
@@ -8,6 +8,8 @@ public class RAndDInfo
     public int InfositeId { get; set; }
 
     public string UpdateType { get; set; }
+
+    public int UpdateTypeId { get; set; }
 
     public string RAndDUpdate { get; set; }
 

@@ -64,14 +64,14 @@ public class BuildMainAndChildMatchesImp : BuildMainAndChildMatches
 
     public async Task<List<EventPickingModel>> GetMainEvent(DateTime date)
     {
-        var mainMatches =  repository.QueryMainMatch(date);
-        var maxBet =  GetMaxBetDefaultSetting();
-        var rAndDInfo =  repository.GetRAndDUpdateInfo(date);
+        var mainMatches = repository.QueryMainMatch(date);
+        var maxBet = GetMaxBetDefaultSetting();
+        var rAndDInfo = repository.GetRAndDUpdateInfo(date);
         await Task.WhenAll(mainMatches, maxBet, rAndDInfo);
 
         await buildMainMatchMaxBet.BuildMainMatchMaxbet(mainMatches.Result);
-        buildMatchOffer.BuildForMainMatch(mainMatches.Result,  maxBet.Result);
-        buildRAndDInfo.Build(mainMatches.Result,rAndDInfo.Result );
+        buildMatchOffer.BuildForMainMatch(mainMatches.Result, maxBet.Result);
+        buildRAndDInfo.Build(mainMatches.Result, rAndDInfo.Result);
 
         var filteredMainMatches = RemoveTestingMatches(mainMatches.Result)
             .OrderBy(x => x.EventDateTime)
