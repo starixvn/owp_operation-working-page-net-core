@@ -44,9 +44,8 @@ public class EventPickingController
     public async Task<IList<LogModel>> GetLogHistory([FromQuery] GetLogRequest request)
         => await mediator.Send(request);
 
-    [Route("update-confirmed")]
-    [HttpPost]
-    public async Task<IList<LogModel>> UpdateConfirmed([FromQuery] GetLogRequest request)
+    [HttpPost("update-confirmed")]
+    public async Task UpdateConfirmed(UpdateConfirmedRequest request)
         => await mediator.Send(request);
 
     [Route("get-update-type")]

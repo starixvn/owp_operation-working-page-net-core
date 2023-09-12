@@ -6,7 +6,7 @@ namespace OWP.EventPicking.Handlers;
 
 public class UpdateConfirmedRequest : IRequest<Unit>
 {
-    public IList<string> InfoSiteMatchIds { get; set; }
+    public string InfoSiteMatchIds { get; set; }
 
     public bool Confirmed { get; set; }
 }

@@ -4,7 +4,7 @@ namespace OWP.EventPicking.Criteria;
 
 public class UpdateConfirmedMatchCriteria : NonQueryCommand
 {
-    public IList<string> InfoSiteMatchIds { get; set; }
+    public string InfoSiteMatchIds { get; set; }
 
     public string ModifiedBy { get; set; }
 
