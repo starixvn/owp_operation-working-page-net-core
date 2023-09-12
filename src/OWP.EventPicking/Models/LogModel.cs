@@ -2,7 +2,7 @@ namespace OWP.EventPicking.Models;
 
 public class LogModel
 {
-    public TimeSpan Date { get; set; }
+    public DateTime Date { get; set; }
 
     public string ModifiedBy { get; set; }
 
