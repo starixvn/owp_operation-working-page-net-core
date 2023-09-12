@@ -41,7 +41,12 @@ public class EventPickingController
 
     [Route("get-logs-history")]
     [HttpGet]
-    public async Task<IList<LogModel>> ExportMiscMatch([FromQuery] GetLogRequest request)
+    public async Task<IList<LogModel>> GetLogHistory([FromQuery] GetLogRequest request)
+        => await mediator.Send(request);
+
+    [Route("update-confirmed")]
+    [HttpPost]
+    public async Task<IList<LogModel>> UpdateConfirmed([FromQuery] GetLogRequest request)
         => await mediator.Send(request);
 
     [Route("get-update-type")]

@@ -22,12 +22,14 @@ public interface Repository
     Task<List<string>> GetProviderArrangement();
 
     Task<List<RAndDInfo>> GetRAndDUpdateInfo(DateTime date);
-    
+
     Task<List<LogModel>> GetLog(int infoSiteMatchId);
 
     Task<List<Option>> GetLeagueName(DateTime date);
 
     Task<List<Option>> GetUpdateType();
+
+    Task UpdateConfirmed(UpdateConfirmedMatchCriteria updateConfirmedMatchCriteria);
 }
 
 public class RepositoryImp : Repository
@@ -138,4 +140,7 @@ public class RepositoryImp : Repository
     {
         InfoSiteMatchId = infoSiteMatchId,
     })).ToList();
+
+    public async Task UpdateConfirmed(UpdateConfirmedMatchCriteria criteria)
+    => await dynamicRepository.ExecuteAsync(criteria);
 }
