@@ -5,7 +5,7 @@ public static class ConditionConstant
 {
     private const string LAST_TWO_YEAR = "Last 2 years";
 
-    public static readonly List<ConditionInfo> ConditionInfos = new()
+    public static readonly ConditionInfo[] ConditionInfos = 
     {
         new()
         {

@@ -23,7 +23,6 @@ public class BuildMainAndChildMatchesImp : BuildMainAndChildMatches
     private readonly BuildRowColor buildRowColor;
     private readonly BuildProvider buildProvider;
     private readonly IMediator mediator;
-    private readonly BuildRAndDInfo buildRAndDInfo;
 
     public BuildMainAndChildMatchesImp(
         Repository repository,
@@ -32,7 +31,6 @@ public class BuildMainAndChildMatchesImp : BuildMainAndChildMatches
         BuildRowColor buildRowColor,
         BuildMatchOfferByLiveSetting buildMatchOffer,
         BuildProvider buildProvider,
-        BuildRAndDInfo buildRAndDInfo,
         IMediator mediator)
     {
         this.repository = repository;
@@ -42,7 +40,6 @@ public class BuildMainAndChildMatchesImp : BuildMainAndChildMatches
         this.mediator = mediator;
         this.buildProvider = buildProvider;
         this.buildMatchOffer = buildMatchOffer;
-        this.buildRAndDInfo = buildRAndDInfo;
     }
 
     public async Task<List<EventPickingModel>> GetMainAndChildMatchEvent(DateTime date)
@@ -71,7 +68,7 @@ public class BuildMainAndChildMatchesImp : BuildMainAndChildMatches
 
         await buildMainMatchMaxBet.BuildMainMatchMaxbet(mainMatches.Result);
         buildMatchOffer.BuildForMainMatch(mainMatches.Result, maxBet.Result);
-        buildRAndDInfo.Build(mainMatches.Result, rAndDInfo.Result);
+        RAndDInfoHelper.Build(mainMatches.Result, rAndDInfo.Result);
 
         var filteredMainMatches = RemoveTestingMatches(mainMatches.Result)
             .OrderBy(x => x.EventDateTime)

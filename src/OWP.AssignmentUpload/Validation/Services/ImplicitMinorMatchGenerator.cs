@@ -28,7 +28,8 @@ public class GenerateImplicitMinorMatchImp : ImplicitMinorMatchGenerator
 {
     private const string SPECIFIC_15_MINS = " (SPECIFIC 15 MINS)";
     private const string SPECIFIC_10_MINS = " (SPECIFIC 10 MINS)";
-
+    private const string ALL_IN_ONE = " All In One";
+    private const string FAST_MARKET = " Fast Market";
     public List<AssignmentModel> GenerateMinorMatch(List<AssignmentModel> assignments)
     {
         var newAssignments = new List<AssignmentModel>();
@@ -66,8 +67,8 @@ public class GenerateImplicitMinorMatchImp : ImplicitMinorMatchGenerator
             KickOffTime = mainMatch.KickOffTime,
             OtherTime = mainMatch.OtherTime,
             League = mainMatch.League + " - ALL IN ONE",
-            Home = mainMatch.Home + " All In One",
-            Away = mainMatch.Away + " All In One",
+            Home = mainMatch.Home + ALL_IN_ONE,
+            Away = mainMatch.Away + ALL_IN_ONE,
             TraderHDP = mainMatch.TraderAIO,
             OtherTradersHDP = mainMatch.OtherTradersAIO,
             IsSaba = mainMatch.IsSaba
@@ -88,8 +89,8 @@ public class GenerateImplicitMinorMatchImp : ImplicitMinorMatchGenerator
             KickOffTime = mainMatch.KickOffTime,
             OtherTime = mainMatch.OtherTime,
             League = mainMatch.League + " - FAST MARKET",
-            Home = mainMatch.Home + " Fast Market",
-            Away = mainMatch.Away + " Fast Market",
+            Home = mainMatch.Home + FAST_MARKET,
+            Away = mainMatch.Away + FAST_MARKET,
             MaxBetHDP = mainMatch.MaxBetFM,
             SpreadHDP = mainMatch.SpreadFM,
             TraderHDP = mainMatch.TraderFM,
@@ -235,10 +236,10 @@ public class GenerateImplicitMinorMatchImp : ImplicitMinorMatchGenerator
     {
         var (typeName, oldText, replaceText) = minorBettype switch
         {
-            MinorBettype.AllInOneTotalBookings => (" All In One", " - BOOKING", "TOTAL BOOKINGS"),
-            MinorBettype.AllInOneCorners => (" All In One", " - CORNERS", "NUMBER OF CORNERS"),
-            MinorBettype.FastMarketTotalBookings => (" Fast Market", " - BOOKING", "TOTAL BOOKINGS"),
-            MinorBettype.FastMarketCorners => (" Fast Market", " - CORNERS", "NUMBER OF CORNERS"),
+            MinorBettype.AllInOneTotalBookings => (ALL_IN_ONE, " - BOOKING", "TOTAL BOOKINGS"),
+            MinorBettype.AllInOneCorners => (ALL_IN_ONE, " - CORNERS", "NUMBER OF CORNERS"),
+            MinorBettype.FastMarketTotalBookings => (FAST_MARKET, " - BOOKING", "TOTAL BOOKINGS"),
+            MinorBettype.FastMarketCorners => (FAST_MARKET, " - CORNERS", "NUMBER OF CORNERS"),
             _ => (string.Empty, string.Empty, string.Empty)
         };
 

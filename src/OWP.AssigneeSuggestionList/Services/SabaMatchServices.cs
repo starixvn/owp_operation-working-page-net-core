@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Helper;
 using OWP.AssigneeSuggestionList.Models;
 using MatchType = OWP.AssigneeSuggestionList.Constant.MatchType;
@@ -140,8 +141,7 @@ public class SabaMatchesServicesImp : SabaMatchServices
     {
         foreach (var assignment in assignments)
         {
-            var isMultipleMatch =
-                assignment.MatchType is MatchType.SabaLink1G or MatchType.SabaLink2G or MatchType.SabaLink3G or MatchType.SabaLink4G or MatchType.SabaMix5mins;
+            var isMultipleMatch = SabaMatch.AllowedMatchTypes.Contains(assignment.MatchType);
             var text = isMultipleMatch
                 ? ScheduleHelper.BuildScheduleTextSabaGroupGame(assignment.GroupAssignmentModels)
                 : ScheduleHelper.BuildScheduleTextSabaSingleGame(assignment);

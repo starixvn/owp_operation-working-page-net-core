@@ -25,7 +25,7 @@ public class BuildMainAndChildMatchesUnitTests
         mediator = Substitute.For<IMediator>();
         var buildMatchOffer = Substitute.For<BuildMatchOfferByLiveSetting>();
         var providerBuilder = Substitute.For<BuildProvider>();
-        var buildRAndDInfo = Substitute.For<BuildRAndDInfo>();
+       
         services = new BuildMainAndChildMatchesImp(
             repository,
             buildMainMatchMaxBet,
@@ -33,7 +33,6 @@ public class BuildMainAndChildMatchesUnitTests
             buildRowColor,
             buildMatchOffer,
             providerBuilder,
-            buildRAndDInfo,
             mediator);
     }
 
