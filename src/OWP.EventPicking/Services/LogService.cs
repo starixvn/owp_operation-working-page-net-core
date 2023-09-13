@@ -9,7 +9,7 @@ public interface LogService
 
 public class LogServiceImp : LogService
 {
-    private Repository repository;
+    private readonly Repository repository;
 
     public LogServiceImp(Repository repository)
     {

@@ -22,7 +22,7 @@ public class NewTicketIssueEventRequest : NewTicketModelBase, IRequest<int>
 
     public int? OwpAwayId { get; set; }
 
-    public int? EventType => (int)EventTypeEnum.Match;
+    public int? EventType => (int)Enum.EventType.Match;
 }
 
 public class NewTicketIssueEventHandler : IRequestHandler<NewTicketIssueEventRequest, int>
@@ -92,6 +92,6 @@ public class NewTicketIssueEventHandler : IRequestHandler<NewTicketIssueEventReq
         await notificationService.NotifyNewMessageIncome(userIds);
         await notificationService.NotifyNewAddRecipient(userIds);
 
-        await preMatchNotification.NotifyToReloadTicketInPrematchTable(request.TicketId, (int)EventTypeEnum.Match, userIds);
+        await preMatchNotification.NotifyToReloadTicketInPrematchTable(request.TicketId, (int)EventType.Match, userIds);
     }
 }

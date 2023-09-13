@@ -61,13 +61,13 @@ public class InsertRecipientHandler : IRequestHandler<InsertSingleRecipientReque
         var userIds = new List<string> { request.RecipientId.ToString() };
         await notificationService.NotifyNewAddRecipient(userIds);
 
-        if (request.TicketEventType == (int)EventTypeEnum.LiveIncident)
+        if (request.TicketEventType == (int)EventType.LiveIncident)
         {
             var ticketInfoLga = await repository.GetTicketInfoLga(request.TicketId);
             await notificationService.NotifyNewAddRecipientLga(userIds, ticketInfoLga.OwpMatchId, request.ActorId);
         }
 
-        if (request.TicketEventType is (int)EventTypeEnum.League or (int)EventTypeEnum.Match)
+        if (request.TicketEventType is (int)EventType.League or (int)EventType.Match)
         {
             await preMatchNotification.NotifyToReloadTicketInPrematchTable(request.TicketId, request.TicketEventType, userIds);
         }

@@ -6,5 +6,5 @@ public class TicketSupportDetailViewModel : TicketDetailBaseViewModel
 
     public string EventName => Subject;
 
-    public int EventType => (int)Enum.EventTypeEnum.Support;
+    public int EventType => (int)Enum.EventType.Support;
 }

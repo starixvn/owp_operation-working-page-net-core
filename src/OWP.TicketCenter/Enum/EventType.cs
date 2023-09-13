@@ -1,6 +1,6 @@
 ﻿namespace OWP.TicketCenter.Enum;
 
-public enum EventTypeEnum
+public enum EventType
 {
     League = 1,
     Match = 2,

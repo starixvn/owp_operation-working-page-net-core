@@ -36,7 +36,7 @@ public class RemoveSingleRecipientHandler : IRequestHandler<RemoveSingleRecipien
         };
         await recipientService.RemoveManyRecipientReader(recipients, request.TicketId);
         var result = repository.RemoveSingleRecipient(request);
-        if (request.TicketEventType is (int)EventTypeEnum.League or (int)EventTypeEnum.Match)
+        if (request.TicketEventType is (int)EventType.League or (int)EventType.Match)
         {
             await preMatchNotification.NotifyToReloadTicketInPrematchTable(request.TicketId, request.TicketEventType, new List<string> { request.RecipientId.ToString() });
         }
