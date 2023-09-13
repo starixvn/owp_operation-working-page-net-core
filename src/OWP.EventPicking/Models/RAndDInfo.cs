@@ -13,9 +13,9 @@ public class RAndDInfo
 
     public string RAndDUpdate { get; set; }
 
-    public string TextColor => Color.Item1;
+    public string BgColor => Color.Item1;
 
-    public string BgColor => Color.Item2;
+    public string TextColor => Color.Item2;
 
     [JsonIgnore]
     public (string, string) Color => RAndDColorConstant.RAndDColorDict.GetValueOrDefault(UpdateType);
