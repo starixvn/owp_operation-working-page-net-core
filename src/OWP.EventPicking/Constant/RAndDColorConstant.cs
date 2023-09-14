@@ -10,19 +10,19 @@ public static class RAndDColorConstant
     private const string deleteColor = "#FAC51F";
     private const string updateColor = "#B1D9BE";
     private const string cancelColor = "#AB383B";
-    public static readonly ImmutableDictionary<string, (string,string)> RAndDColorDict = new Dictionary<string,(string, string)>
+    public static readonly ImmutableDictionary<int, (string,string)> RAndDColorDict = new Dictionary<int,(string, string)>
     {
-        {"New match",(newColor,white)},
-        {"Delete match",(deleteColor,white)},
-        {"KO time update",(updateColor,green)},
-        {"League name update",(updateColor,green)},
-        {"Team name update",(updateColor,green)},
-        {"TV update",(updateColor,green)},
-        {"TV cancel",(cancelColor,white)},
-        {"IPTV update",(updateColor,green)},
-        {"IPTV cancel",(cancelColor,white)},       
-        {"Provider update",(updateColor,green)},
-        {"Provider cancel",(cancelColor,white)},
+        {1,(newColor,white)},
+        {2,(updateColor,green)},
+        {3,(updateColor,green)},
+        {4,(updateColor,green)},
+        {5,(updateColor,green)},
+        {6,(cancelColor,white)},
+        {7,(updateColor,green)},
+        {8,(cancelColor,white)},       
+        {9,(updateColor,green)},
+        {10,(cancelColor,white)},
+        {11,(deleteColor,white)}
     }.ToImmutableDictionary();
 
 }

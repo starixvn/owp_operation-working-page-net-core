@@ -7,8 +7,6 @@ public class RAndDInfo
 {
     public int InfositeId { get; set; }
 
-    public string UpdateType { get; set; }
-
     public int UpdateTypeId { get; set; }
 
     public string RAndDUpdate { get; set; }
@@ -18,5 +16,5 @@ public class RAndDInfo
     public string TextColor => Color.Item2;
 
     [JsonIgnore]
-    public (string, string) Color => RAndDColorConstant.RAndDColorDict.GetValueOrDefault(UpdateType);
+    public (string, string) Color => RAndDColorConstant.RAndDColorDict.GetValueOrDefault(UpdateTypeId);
 }
