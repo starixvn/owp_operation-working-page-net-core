@@ -15,7 +15,7 @@ public class NewTicketIssueLeagueRequest : NewTicketModelBase, IRequest<int>
 {
     public int? OwpLeagueId { get; set; }
 
-    public int? EventType => (int)EventTypeEnum.League;
+    public int? EventType => (int)Enum.EventType.League;
 }
 
 public class NewTicketIssueLeagueHandler : IRequestHandler<NewTicketIssueLeagueRequest, int>

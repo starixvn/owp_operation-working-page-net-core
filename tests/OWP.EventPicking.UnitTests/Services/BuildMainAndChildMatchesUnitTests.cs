@@ -25,6 +25,7 @@ public class BuildMainAndChildMatchesUnitTests
         mediator = Substitute.For<IMediator>();
         var buildMatchOffer = Substitute.For<BuildMatchOfferByLiveSetting>();
         var providerBuilder = Substitute.For<BuildProvider>();
+       
         services = new BuildMainAndChildMatchesImp(
             repository,
             buildMainMatchMaxBet,
@@ -125,7 +126,6 @@ public class BuildMainAndChildMatchesUnitTests
                 Round = "Round",
                 OutSide = "Outside",
                 RowColor = "white",
-                LengthRoundCell = 5
             },
             new EventPickingModel
             {

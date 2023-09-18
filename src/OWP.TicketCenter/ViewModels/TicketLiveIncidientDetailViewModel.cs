@@ -18,5 +18,5 @@ public class TicketLiveIncidentDetailViewModel : TicketDetailBaseViewModel
 
     public string EventName => OwpLeagueName;
 
-    public int EventType => (int)Enum.EventTypeEnum.LiveIncident;
+    public int EventType => (int)Enum.EventType.LiveIncident;
 }

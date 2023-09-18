@@ -13,7 +13,7 @@ public static class ProgressHelper
                                         || IsGreaterThanOrEqualTo(totalGame, condition.ConditionSecond));
 
         if (totalGame.MultipleMatches + totalGame.VirtualMatches 
-            > firstCondition.ConditionFirst.TotalVirtualMultipleMatches)
+            > firstCondition?.ConditionFirst.TotalVirtualMultipleMatches)
         {
             progress = firstCondition.Progress;
         }

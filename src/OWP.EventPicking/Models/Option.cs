@@ -1,0 +1,7 @@
+﻿namespace OWP.EventPicking.Models;
+
+public class Option
+{
+    public int Value { get; set; }
+    public string Label { get; set; }
+}

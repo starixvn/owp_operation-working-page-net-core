@@ -17,9 +17,9 @@ public class ProgressHelperUnitTest
                 MultipleMatches = 2335
             };
 
-            var result = ProgressHelper.Evaluate(ConditionConstant.ConditionInfos, totalGame);
+            var result = ProgressHelper.Evaluate(ConditionConstant.ConditionInfos.ToList(), totalGame);
 
-            Assert.Equal("New (5%)", result);
+            Assert.Equal("New", result);
         }
 
         [Fact]
@@ -31,7 +31,7 @@ public class ProgressHelperUnitTest
                 MultipleMatches = 8
             };
 
-            var result = ProgressHelper.Evaluate(ConditionConstant.ConditionInfos, totalGame);
+            var result = ProgressHelper.Evaluate(ConditionConstant.ConditionInfos.ToList(), totalGame);
 
             Assert.Equal("", result);
         }
@@ -45,9 +45,9 @@ public class ProgressHelperUnitTest
                 MultipleMatches = 900
             };
 
-            var result = ProgressHelper.Evaluate(ConditionConstant.ConditionInfos, totalGame);
+            var result = ProgressHelper.Evaluate(ConditionConstant.ConditionInfos.ToList() , totalGame);
 
-            Assert.Equal("Level D (10%)", result);
+            Assert.Equal("Level D", result);
         }
 }
 

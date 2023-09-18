@@ -15,7 +15,7 @@ public class KpiInfoViewModel
 
     public TotalGameInfo AchievedGames { get; set; } = new();
 
-    public string Progress => ProgressHelper.Evaluate(ConditionConstant.ConditionInfos, AchievedGames);
+    public string Progress => ProgressHelper.Evaluate(ConditionConstant.ConditionInfos.ToList(), AchievedGames);
 
     public string Reward => ConditionConstant.ConditionInfos.FirstOrDefault(x => x.Progress == Progress)?.Reward;
 }

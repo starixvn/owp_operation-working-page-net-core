@@ -26,29 +26,31 @@ public class QueryEventPickingHandlerUnitTests
         var request = new QueryEventPickingRequest
         {
             Date = new DateTime(2022, 11, 07),
+            League = new List<int> { 1, 2 },
             SelectGame = new List<int> { 1 },
             FilterMatch = new List<string> { "Red" },
             HasOtherProvider = new List<string> { "yes", "no" },
             HasProvider = new List<string> { "yes", "no" },
-            FilterMatchCategory = new List<int> { 0, 1 }
+            FilterMatchCategory = new List<int> { 0, 1 },
+            UpdateType = new List<int?> { null }
         };
         var matches = new List<EventPickingModel>
         {
-            new(){ InfoSiteMatchId = 111, IsNoOffer = true, RowColor = "Red" },
-            new(){ InfoSiteMatchId = 222, IsNoOffer = true, RowColor = "Red" },
-            new(){ InfoSiteMatchId = 333, LeagueName = "TESTING", RowColor = ""},
-            new(){ InfoSiteMatchId = 444, IsNoOffer = false, RowColor = "" },
-            new(){ InfoSiteMatchId = 555, IsNoOffer = true, RowColor = "Gray" },
-            new(){ InfoSiteMatchId = 666, HomeName = "(ET)", RowColor = ""  },
-            new(){ InfoSiteMatchId = 777, HomeName = "(PEN)", RowColor = "" }
+            new(){ InfoSiteMatchId = 111, RAndDInfos =new List<RAndDInfo>(), OWPLeagueId = 1, IsNoOffer = true, RowColor = "Red" },
+            new(){ InfoSiteMatchId = 222, RAndDInfos =new List<RAndDInfo>(), OWPLeagueId = 2, IsNoOffer = true, RowColor = "Red" },
+            new(){ InfoSiteMatchId = 333, RAndDInfos =new List<RAndDInfo>(), LeagueName = "TESTING", RowColor = ""},
+            new(){ InfoSiteMatchId = 444, RAndDInfos =new List<RAndDInfo>(), IsNoOffer = false, RowColor = "" },
+            new(){ InfoSiteMatchId = 555, RAndDInfos =new List<RAndDInfo>(), IsNoOffer = true, RowColor = "Gray" },
+            new(){ InfoSiteMatchId = 666, RAndDInfos =new List<RAndDInfo>(), HomeName = "(ET)", RowColor = ""  },
+            new(){ InfoSiteMatchId = 777, RAndDInfos =new List<RAndDInfo>(), HomeName = "(PEN)", RowColor = "" }
         };
 
-        buildMainAndChildMatches.GetMainAndChildMatchEvent(new DateTime(2022, 11, 07)).Returns(matches);
+        buildMainAndChildMatches.GetMainEvent(new DateTime(2022, 11, 07)).Returns(matches);
 
         var expected = new List<EventPickingModel>
         {
-            new(){ InfoSiteMatchId = 111, IsNoOffer = true, RowColor = "Red" },
-            new(){ InfoSiteMatchId = 222, IsNoOffer = true, RowColor = "Red" }
+            new(){ InfoSiteMatchId = 111, RAndDInfos =new List<RAndDInfo>(), OWPLeagueId = 1, IsNoOffer = true, RowColor = "Red" },
+            new(){ InfoSiteMatchId = 222, RAndDInfos =new List<RAndDInfo>(), OWPLeagueId = 2, IsNoOffer = true, RowColor = "Red" },
         };
 
         var actual = await service.Handle(request, CancellationToken.None);

@@ -10,6 +10,8 @@ namespace OWP.EventPicking.Services;
 public interface BuildMainAndChildMatches
 {
     Task<List<EventPickingModel>> GetMainAndChildMatchEvent(DateTime date);
+
+    Task<List<EventPickingModel>> GetMainEvent(DateTime date);
 }
 
 public class BuildMainAndChildMatchesImp : BuildMainAndChildMatches
@@ -53,8 +55,30 @@ public class BuildMainAndChildMatchesImp : BuildMainAndChildMatches
         var allMatches = CombineMainAndChildMatchEvent(filteredMainMatches, childMatches);
         buildRowColor.BuildRowColor(allMatches);
         await buildProvider.Build(allMatches);
-        LengthPropertyBuilder.Build(allMatches);
+
         return allMatches;
+    }
+
+    public async Task<List<EventPickingModel>> GetMainEvent(DateTime date)
+    {
+        var mainMatches = repository.QueryMainMatch(date);
+        var maxBet = GetMaxBetDefaultSetting();
+        var rAndDInfo = repository.GetRAndDUpdateInfo(date);
+        await Task.WhenAll(mainMatches, maxBet, rAndDInfo);
+
+        await buildMainMatchMaxBet.BuildMainMatchMaxbet(mainMatches.Result);
+        buildMatchOffer.BuildForMainMatch(mainMatches.Result, maxBet.Result);
+        RAndDInfoHelper.Build(mainMatches.Result, rAndDInfo.Result);
+
+        var filteredMainMatches = RemoveTestingMatches(mainMatches.Result)
+            .OrderBy(x => x.EventDateTime)
+            .Where(x => !CheckMatchHaveBeenExclude(x.HomeName))
+            .ToList();
+
+        buildRowColor.BuildRowColor(filteredMainMatches);
+        await buildProvider.Build(filteredMainMatches);
+        LengthPropertyBuilder.Build(filteredMainMatches);
+        return filteredMainMatches;
     }
 
     private static List<EventPickingModel> CombineMainAndChildMatchEvent(IEnumerable<EventPickingModel> mainMatches, List<EventPickingModel> childMatches)

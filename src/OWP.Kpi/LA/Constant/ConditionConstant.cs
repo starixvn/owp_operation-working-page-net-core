@@ -3,7 +3,9 @@ namespace OWP.Kpi.LA.Constant;
 
 public static class ConditionConstant
 {
-    public static readonly List<ConditionInfo> ConditionInfos = new()
+    private const string LAST_TWO_YEAR = "Last 2 years";
+
+    public static readonly ConditionInfo[] ConditionInfos = 
     {
         new()
         {
@@ -22,7 +24,7 @@ public static class ConditionConstant
             Level = "D",
             ConditionFirst = new() { VirtualMatches = 3600, MultipleMatches = 500 },
             ConditionSecond = new() { VirtualMatches = 3200, MultipleMatches = 800 },
-            TimeRange = "Last 2 years",
+            TimeRange = LAST_TWO_YEAR,
             Reward = "10%"
         },
         new()
@@ -31,7 +33,7 @@ public static class ConditionConstant
             Level = "C",
             ConditionFirst = new() { VirtualMatches = 3600, MultipleMatches = 500, SpecialProducts = 15 },
             ConditionSecond = new() { VirtualMatches = 3200, MultipleMatches = 800, SpecialProducts = 15 },
-            TimeRange = "Last 2 years",
+            TimeRange = LAST_TWO_YEAR,
             Reward = "15%"
         },
         new()
@@ -40,7 +42,7 @@ public static class ConditionConstant
             Level = "B",
             ConditionFirst = new() { VirtualMatches = 2800, MultipleMatches = 600, SpecialProducts = 15, FiveMajorLeagues = 15, MultipleProducts = 350},
             ConditionSecond = new() { VirtualMatches = 2500, MultipleMatches = 800, SpecialProducts = 15, FiveMajorLeagues = 15, MultipleProducts = 450},
-            TimeRange = "Last 2 years",
+            TimeRange = LAST_TWO_YEAR,
             Reward = "20%"
         },
         new()
@@ -49,7 +51,7 @@ public static class ConditionConstant
             Level = "A",
             ConditionFirst = new() { VirtualMatches = 2800, MultipleMatches = 600, SpecialProducts = 15, FiveMajorLeagues =  15, MultipleProducts = 450},
             ConditionSecond = new() { VirtualMatches = 2500, MultipleMatches = 800, SpecialProducts = 15, FiveMajorLeagues = 15, MultipleProducts = 550},
-            TimeRange = "Last 2 years",
+            TimeRange = LAST_TWO_YEAR,
             Reward = "25%"
         }
     };

@@ -15,7 +15,7 @@ public class NewTicketIssueSupportRequest : NewTicketModelBase, IRequest<int>
 {
     public string Subject { get; set; }
 
-    public int? EventType => (int)EventTypeEnum.Support;
+    public int? EventType => (int)Enum.EventType.Support;
 
 }
 

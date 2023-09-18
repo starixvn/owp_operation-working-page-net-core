@@ -21,7 +21,7 @@ public class NewTicketIssueLiveIncidentRequest : NewTicketModelBase, IRequest<in
 
     public string OwpAwayName { get; set; }
 
-    public int? EventType => (int)EventTypeEnum.LiveIncident;
+    public int? EventType => (int)Enum.EventType.LiveIncident;
 
 }
 

@@ -22,6 +22,10 @@ public class EventPickingModel
 
     public bool IsTestMatch { get; set; }
 
+    public bool IsDeleted { get; set; }
+
+    public bool IsCheck { get; set; }
+
     public bool IsSaba => LeagueName.IsContains("SABA ");
 
     public DateTime EventDateTime { get; set; }
@@ -254,7 +258,7 @@ public class EventPickingModel
 
     public bool IsNoOffer { get; set; }
 
-    public string RowColorHex => Constant.ColorDict.GetValueOrDefault(RowColor);
+    public string RowColorHex => Misc.Constant.ColorDict.GetValueOrDefault(RowColor);
 
     public string RowColor { get; set; }
 
@@ -266,6 +270,7 @@ public class EventPickingModel
 
     public int LengthRemarkCell { get; set; }
 
+    public bool Confirmed { get; set; }
 
     // Main match
     public string LiveTV { get; set; }
@@ -276,6 +281,8 @@ public class EventPickingModel
 
     // MaxBet & Spread
     public decimal? MaxBetHDPNumber { get; set; }
+
+    public List<RAndDInfo> RAndDInfos { get; set; }
 
     public string HasProvider => !string.IsNullOrWhiteSpace(Provider)
     ? "yes"

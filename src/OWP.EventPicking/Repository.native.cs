@@ -20,6 +20,16 @@ public interface Repository
     Task InsertOrDeleteNoOfferMatch(InsertOrDeleteNoOfferMatchRequest request);
 
     Task<List<string>> GetProviderArrangement();
+
+    Task<List<RAndDInfo>> GetRAndDUpdateInfo(DateTime date);
+
+    Task<List<LogModel>> GetLog(int infoSiteMatchId);
+
+    Task<List<Option>> GetLeagueName(DateTime date);
+
+    Task<List<Option>> GetUpdateType();
+
+    Task UpdateConfirmed(UpdateConfirmedMatchCriteria updateConfirmedMatchCriteria);
 }
 
 public class RepositoryImp : Repository
@@ -94,4 +104,43 @@ public class RepositoryImp : Repository
 
         return provider;
     }
+
+    public async Task<List<RAndDInfo>> GetRAndDUpdateInfo(DateTime date)
+    {
+        var criteria = new QueryRAndDInfoCriteria
+        {
+            Date = date
+        };
+
+        var result = await dynamicRepository.FetchAsync<RAndDInfo>(criteria);
+
+        return result.ToList();
+    }
+
+    public async Task<List<Option>> GetUpdateType()
+    {
+        var criteria = new QueryUpdateTypeCriteria();
+
+        var result = await dynamicRepository.FetchAsync<Option>(criteria);
+
+        return result.ToList();
+    }
+
+    public async Task<List<Option>> GetLeagueName(DateTime date)
+    {
+        var criteria = new QueryLeagueNameByDateCriteria { Date = date };
+
+        var result = await dynamicRepository.FetchAsync<Option>(criteria);
+
+        return result.ToList();
+    }
+
+    public async Task<List<LogModel>> GetLog(int infoSiteMatchId)
+    => (await dynamicRepository.FetchAsync<LogModel>(new GetLogCriteria
+    {
+        InfoSiteMatchId = infoSiteMatchId,
+    })).ToList();
+
+    public async Task UpdateConfirmed(UpdateConfirmedMatchCriteria criteria)
+    => await dynamicRepository.ExecuteAsync(criteria);
 }

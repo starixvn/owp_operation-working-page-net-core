@@ -7,9 +7,10 @@ using ONEbook.UM.Configurations;
 using ONEbook.UM.Helpers;
 using ONEbook.UM.Services;
 using ONEbook.UM.Transport;
-using OWP.Websites.CrossCuttingConcern;
 
 namespace OWP.Websites;
+
+using Microsoft.Extensions.Caching.Memory;
 
 public static class OnebookUMInitializer
 {
@@ -53,4 +54,25 @@ public class HttpContextHelper : IHttpContextHelper
     public void SetSession(string key, string value)
     {
     }
+}
+
+public class MemoryUMCacheService : IUMCacheService
+{
+    private readonly IMemoryCache memoryCache;
+
+    public MemoryUMCacheService(IMemoryCache memoryCache)
+    {
+        this.memoryCache = memoryCache;
+    }
+
+    public T Get<T>(string key) => memoryCache.Get<T>(key)
+    ;
+
+    public void Remove(string key)
+    {
+        memoryCache.Remove(key);
+    }
+
+    public void Set<T>(string key, T value, TimeSpan absoluteExpiration)
+        => memoryCache.Set(key, value, new MemoryCacheEntryOptions().SetAbsoluteExpiration(absoluteExpiration));
 }

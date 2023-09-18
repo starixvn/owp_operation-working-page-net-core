@@ -32,10 +32,13 @@ public static class ETPKHelper
     private static bool IsEtPK(AssignmentModel assignment)
     => assignment.Remark.IsContains(" ET")
         && assignment.Remark.IsContains("PK")
-        && (assignment.AssignmentNote is null
+        && IsEtPKConditionTwo(assignment);
+
+    private static bool IsEtPKConditionTwo(AssignmentModel assignment)
+    => assignment.AssignmentNote is null
             || (assignment.AssignmentNote.IsContains("ET")
                 && assignment.AssignmentNote.IsContains("PK")
-                && !assignment.AssignmentNote.IsContains("No")));
+                && !assignment.AssignmentNote.IsContains("No"));
 
     private static bool IsPK(AssignmentModel assignment)
     => !assignment.Remark.IsContains(" ET")

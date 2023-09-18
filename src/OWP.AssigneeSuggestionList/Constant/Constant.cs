@@ -245,5 +245,15 @@ public static class BetTypeSpecial
     };
 }
 
+public static class SabaMatch
+{
+    public static readonly MatchType[] AllowedMatchTypes = {
+        MatchType.SabaLink1G,
+        MatchType.SabaLink2G,
+        MatchType.SabaLink3G,
+        MatchType.SabaLink4G,
+        MatchType.SabaMix5mins
+    };
+}
 
 

@@ -74,7 +74,7 @@ public class ExportMiscMatchHandler : IRequestHandler<ExportMiscMatchRequest, Fi
             var match = matches[i];
             for (var column = 1; column <= 90; column++)
             {
-                if (match.RowColorHex == null || match.RowColorHex == Constant.ColorWhiteHex)
+                if (match.RowColorHex == null || match.RowColorHex == Misc.Constant.ColorWhiteHex)
                 {
                     continue;
                 }

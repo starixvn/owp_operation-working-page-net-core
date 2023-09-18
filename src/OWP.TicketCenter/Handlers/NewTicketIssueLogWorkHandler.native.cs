@@ -19,7 +19,7 @@ public class NewTicketIssueLogWorkRequest : NewTicketModelBase, IRequest<int>
 
     public string Status { get; set; }
 
-    public int? EventType => (int)EventTypeEnum.LogWork;
+    public int? EventType => (int)Enum.EventType.LogWork;
 
 }
 

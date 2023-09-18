@@ -15,7 +15,7 @@ public class NewTicketIssueOtherRequest : NewTicketModelBase, IRequest<int>
 {
     public string Subject { get; set; }
 
-    public int? EventType => (int)EventTypeEnum.Other;
+    public int? EventType => (int)Enum.EventType.Other;
 
 }
 
