@@ -100,37 +100,7 @@ public class HomeController : Controller
     {
         return View();
     }
-
-    [AllowAnonymous]
-    [HttpGet]
-    public IActionResult Collect()
-    {
-        var builder = new StringBuilder();
-        builder.Append($"GC.GetTotalMemory(false): {GC.GetTotalMemory(false):n0}\n<br />");
-
-#pragma warning disable S1215 // "GC.Collect" should not be called
-        GC.Collect();
-        GC.WaitForPendingFinalizers();
-#pragma warning restore S1215 // "GC.Collect" should not be called
-
-        builder.Append(
-            $"GC.WaitForPendingFinalizers was called but GetTotalMemory(false) still is: {GC.GetTotalMemory(false):n0}\n<br />");
-
-        GC.GetTotalMemory(true);
-
-        using var currentProcess = Process.GetCurrentProcess();
-        builder.Append(
-            $"GC.GetTotalMemory(true) was called and GetTotalMemory is: {GC.GetTotalMemory(true):n0}\n<br />");
-        builder.Append($"VirtualMemorySize64 is: {currentProcess.VirtualMemorySize64:n0}\n<br />");
-        builder.Append($"PrivateMemorySize64 is: {currentProcess.PrivateMemorySize64:n0}\n<br />");
-        builder.Append($"WorkingSet64 is: {currentProcess.WorkingSet64:n0}\n<br />");
-        builder.Append($"PagedMemorySize64 is: {currentProcess.PagedMemorySize64:n0}\n<br />");
-        builder.Append($"NonpagedSystemMemorySize64 is: {currentProcess.NonpagedSystemMemorySize64:n0}\n<br />");
-
-        return Content(builder.ToString());
-    }
-
-
+    
     [AllowAnonymous]
     [HttpGet]
     public async Task<IActionResult> FakeLogin()
