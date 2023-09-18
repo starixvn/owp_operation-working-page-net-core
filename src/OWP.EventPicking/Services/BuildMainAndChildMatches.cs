@@ -70,7 +70,7 @@ public class BuildMainAndChildMatchesImp : BuildMainAndChildMatches
         buildMatchOffer.BuildForMainMatch(mainMatches.Result, maxBet.Result);
         RAndDInfoHelper.Build(mainMatches.Result, rAndDInfo.Result);
 
-        var filteredMainMatches = mainMatches.Result
+        var filteredMainMatches = RemoveTestingMatches(mainMatches.Result)
             .OrderBy(x => x.EventDateTime)
             .Where(x => !CheckMatchHaveBeenExclude(x.HomeName))
             .ToList();
