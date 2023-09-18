@@ -6,13 +6,13 @@
     <Nullable>disable</Nullable>
   </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Fanex.Data.SqlServer" Version="4.2.2" />
-        <PackageReference Include="CompareNETObjects" Version="4.81.0" />
+        <PackageReference Include="Fanex.Data.SqlServer" Version="4.2.3-beta3" />
+        <PackageReference Include="CompareNETObjects" Version="4.82.0" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.7.2" />
-        <PackageReference Include="NSubstitute" Version="5.0.0" />
-        <PackageReference Include="xunit" Version="2.5.0" />
+        <PackageReference Include="NSubstitute" Version="5.1.0" />
+        <PackageReference Include="xunit" Version="2.5.1" />
         <PackageReference Include="Xunit.Asserts.Compare" Version="2.5.0" />
-        <PackageReference Include="xunit.runner.visualstudio" Version="2.5.0">
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.5.1">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>

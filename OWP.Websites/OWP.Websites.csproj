@@ -39,22 +39,21 @@
     <ItemGroup>
         <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
         <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
-        <PackageReference Include="Fanex.Data.SqlServer" Version="4.2.2" />
+        <PackageReference Include="Fanex.Data.SqlServer" Version="4.2.3-beta3" />
         <PackageReference Include="Fanex.Logging.Extensions.AspNetCore" Version="1.0.1-beta1" />
         <PackageReference Include="Fanex.Logging.Extensions.Database" Version="1.0.8" />
         <PackageReference Include="Fanex.Logging.Sentry.RavenClient" Version="1.0.1" />
-        <PackageReference Include="Fanex.NAP.Signin.AspNetCore" Version="2.0.0.15" />
-        <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="7.0.10" />
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.10" />
-        <PackageReference Include="Microsoft.AspNetCore.SignalR.StackExchangeRedis" Version="7.0.10" />
-        <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="7.0.10" />
+        <PackageReference Include="Fanex.NAP.Signin.AspNetCore" Version="2.0.0.16" />
+        <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="7.0.11" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.11" />
+        <PackageReference Include="Microsoft.AspNetCore.SignalR.StackExchangeRedis" Version="7.0.11" />
+        <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="7.0.11" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
         <PackageReference Include="Microsoft.NETCore.Targets" Version="6.0.0-preview.4.21253.7" PrivateAssets="all" />
         <PackageReference Include="ONEbook.UM" Version="3.1.6" />
         <PackageReference Include="ONEbook.UM.AspNetCore" Version="3.1.0" />
         <PackageReference Include="ONEbook.UM.AspNetCore.Filters" Version="3.1.1" />
         <PackageReference Include="ONEbook.UM.Transport" Version="3.1.2" />
-        <PackageReference Include="Sentry" Version="3.35.0" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\src\OWP.AutoAssignment\OWP.AutoAssignment.csproj" />

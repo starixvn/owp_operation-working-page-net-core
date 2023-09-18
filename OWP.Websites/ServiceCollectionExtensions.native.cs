@@ -178,22 +178,6 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddFanexServices(this IServiceCollection services, IConfiguration configuration)
     {
-        var connections = configuration.GetSection("ConnectionStrings")
-                               .GetChildren()
-                               .AsEnumerable()
-                               .ToDictionary(
-                                        x => x.GetValue<string>("Name"),
-                                        y => new ConnectionConfiguration(y.GetValue<string>("Name"), y.GetValue<string>("ConnectionString"), y.GetValue<string>("ProviderName"))
-                                );
-        var storedProcedurePath = configuration.GetValue<string>("StoredProcedurePath");
-
-        DbSettingProviderManager
-          .StartNewSession()
-          .Use(connections)
-          .WithSqlServer()
-              .UseDefaultDbSettingProvider(storedProcedurePath)
-          .Run();
-
         LogManager
         .SetDefaultLogCategory(configuration.GetSection("LogCategory").Value)
         .Use(new List<ILogEngine>

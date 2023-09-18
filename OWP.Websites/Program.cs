@@ -1,3 +1,4 @@
+using Fanex.Data.SqlServer;
 using Fanex.NAP.Client;
 using Fanex.NAP.Client.Configuration;
 using Fanex.NAP.Client.Helpers.Web;
@@ -29,6 +30,7 @@ builder.Services.Configure<AccessCounterModel>(builder.Configuration.GetSection(
 
 builder.Services.AddSignalR(builder.Configuration);
 builder.Services.AddSimpleDataApiModule();
+builder.Services.AddFanexSql(builder.Configuration);
 builder.Services.AddNapServices(builder.Configuration);
 builder.Services.AddOnebookUMServices(builder.Configuration);
 builder.Services.AddFanexServices(builder.Configuration);
