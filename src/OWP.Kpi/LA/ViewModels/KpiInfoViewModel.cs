@@ -11,9 +11,11 @@ public class KpiInfoViewModel
 
     public string Target { get; set; }
 
-    public TotalGameInfo GapWithTarget { get; set; } = new();
+    public int? TargetId { get; set; }
 
     public TotalGameInfo AchievedGames { get; set; } = new();
+
+    public TotalGameInfo GapWithTarget => CalculateGapHelper.CalculateGap(TargetId, AchievedGames);
 
     public string Progress => ProgressHelper.Evaluate(ConditionConstant.ConditionInfos.ToList(), AchievedGames);
 

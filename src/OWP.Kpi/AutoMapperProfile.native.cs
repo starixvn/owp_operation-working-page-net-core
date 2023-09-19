@@ -10,6 +10,8 @@ public class AutoMapperProfile : Profile
         CreateMap<KpiInfo, KpiInfoViewModel>()
         .ForMember(dest => dest.UserId, opt => opt.MapFrom(ps => ps.UserId))
         .ForMember(dest => dest.UserName, opt => opt.MapFrom(ps => ps.UserName))
+        .ForMember(dest => dest.Target, opt => opt.MapFrom(ps => ps.Target))
+        .ForMember(dest => dest.TargetId, opt => opt.MapFrom(ps => ps.TargetId))
         .ForPath(dest => dest.AchievedGames.VirtualMatches, opt => opt.MapFrom(ps => ps.VirtualMatches))
         .ForPath(dest => dest.AchievedGames.MultipleMatches, opt => opt.MapFrom(ps => ps.MultipleMatches))
         .ForPath(dest => dest.AchievedGames.SpecialProducts, opt => opt.MapFrom(ps => ps.SpecialProducts))
