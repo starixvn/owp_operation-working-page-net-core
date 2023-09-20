@@ -16,19 +16,19 @@ public class CalculateKpiRequest : IRequest<DataViewModel>
 
 public class CalculateKpiHandler : IRequestHandler<CalculateKpiRequest, DataViewModel>
 {
-    private readonly KpiService kpiService;
+    private readonly Repository repository;
 
     private readonly IMapper mapper;
 
-    public CalculateKpiHandler(KpiService kpiService, IMapper mapper)
+    public CalculateKpiHandler(Repository repository, IMapper mapper)
     {
-        this.kpiService = kpiService;
+        this.repository = repository;
         this.mapper = mapper;
     }
 
     public async Task<DataViewModel> Handle(CalculateKpiRequest request, CancellationToken cancellationToken)
     {
-        var kpiInfo = await kpiService.GetKpiInfo(request.FromDate, request.ToDate);
+        var kpiInfo = await repository.GetKpiInfo(request.FromDate, request.ToDate);
 
         return new DataViewModel
         {

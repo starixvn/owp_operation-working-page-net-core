@@ -378,7 +378,6 @@
     </Function>
 
 	<Function Name="ResourceManagement">
-		<Setting Key="OWP_RefResourceGetByName" SpName="OWP_RefResourceGetByName" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_RefResource_Update" SpName="OWP_RefResource_Update" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 		<Setting Key="OWP_RefResource_Insert" SpName="OWP_RefResource_Insert" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
 	</Function>
@@ -393,5 +392,6 @@
 	</Function>
     <Function Name="Kpi">
 		<Setting Key="OWP_Kpi_Get" SpName="OWP_Kpi_Get" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
+		<Setting Key="OWP_Kpi_UpdateTargetLevel" SpName="OWP_Kpi_UpdateTargetLevel" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
 	</Function>
 </Functions>

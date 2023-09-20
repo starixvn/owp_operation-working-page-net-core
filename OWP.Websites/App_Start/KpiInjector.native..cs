@@ -6,6 +6,6 @@ public static class KpiInjector
 {
     public static void AddKpiService(this IServiceCollection services)
     {
-        services.AddScoped<KpiService, KpiServiceImp>();
+        services.AddScoped<Repository, RepositoryImp>();
     }
 }
