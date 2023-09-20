@@ -13,7 +13,7 @@ using Fanex.NAP.Client.Helpers.Business;
 
 [Route("api/[controller]")]
 [ApiController]
-[EnableCors("AllowOrigin")]
+[EnableCors]
 [Authorize]
 
 public class ProviderArrangementController : ControllerBase

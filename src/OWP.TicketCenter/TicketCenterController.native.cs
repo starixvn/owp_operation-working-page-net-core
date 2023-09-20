@@ -9,7 +9,7 @@ namespace OWP.TicketCenter;
 
 [Route("api/[controller]")]
 [ApiController]
-[EnableCors("AllowOrigin")]
+[EnableCors]
 public class TicketCenterController : ControllerBase
 {
     private readonly IMediator mediator;

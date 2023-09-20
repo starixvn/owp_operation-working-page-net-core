@@ -13,7 +13,7 @@ using Fanex.NAP.Client.Helpers.Business;
 
 [ApiController]
 [Authorize]
-[EnableCors("AllowOrigin")]
+[EnableCors]
 [Route("api/live-detail/assignment")]
 public class AssignmentController : ControllerBase
 {

@@ -11,7 +11,7 @@ namespace OWP.LeagueManagement;
 [Route("api/league-management")]
 [Authorize]
 [ApiController]
-[EnableCors("AllowOrigin")]
+[EnableCors]
 public class LeagueApiController : ControllerBase
 {
     private readonly IMediator mediator;

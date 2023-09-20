@@ -8,7 +8,7 @@ namespace OWP.LiveDetail.InfositeMatch;
 [Route("api/live-detail/infosite-match")]
 [ApiController]
 [Authorize]
-[EnableCors("AllowOrigin")]
+[EnableCors]
 public class InfositeMatchController : ControllerBase
 {
     private readonly InfositeMatchRepository repository;

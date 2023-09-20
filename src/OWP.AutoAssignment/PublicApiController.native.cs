@@ -12,7 +12,7 @@ namespace OWP.AutoAssignment;
 [Route("api/public/auto-assignment")]
 [ApiController]
 [AllowAnonymous]
-[EnableCors("AllowOrigin")]
+[EnableCors]
 public class PublicApiController : ControllerBase
 {
     private readonly GetRequestService getRequestService;

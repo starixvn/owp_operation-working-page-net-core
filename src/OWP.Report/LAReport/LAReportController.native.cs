@@ -10,7 +10,7 @@ namespace OWP.Report.LAReport;
 [Route("api/report/la")]
 [ApiController]
 [Authorize]
-[EnableCors("AllowOrigin")]
+[EnableCors]
 public class LAReportController : ControllerBase
 {
     private readonly IMediator mediator;

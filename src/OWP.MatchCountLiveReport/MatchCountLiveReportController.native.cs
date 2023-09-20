@@ -10,7 +10,7 @@ namespace OWP.MatchCountLiveReport;
 
 [Route("api/[controller]")]
 [ApiController]
-[EnableCors("AllowOrigin")]
+[EnableCors]
 [Authorize]
 public class MatchCountLiveReportController : ControllerBase
 {

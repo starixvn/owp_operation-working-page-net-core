@@ -13,7 +13,7 @@ namespace OWP.FileUpload;
 [Route("api/[controller]")]
 [ApiController]
 [Authorize]
-[EnableCors("AllowOrigin")]
+[EnableCors]
 public class FileUploadController : ControllerBase
 {
     private readonly IMediator mediator;

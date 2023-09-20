@@ -8,7 +8,7 @@ namespace OWP.LiveDetail.Provider;
 [Route("api/live-detail/provider")]
 [ApiController]
 [Authorize]
-[EnableCors("AllowOrigin")]
+[EnableCors]
 public class ProviderController : ControllerBase
 {
     private readonly ProviderRepository repository;

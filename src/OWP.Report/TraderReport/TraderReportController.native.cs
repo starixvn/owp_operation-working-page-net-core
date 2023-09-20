@@ -10,7 +10,7 @@ namespace OWP.Report.TraderReport;
 [Route("api/report")]
 [ApiController]
 [Authorize]
-[EnableCors("AllowOrigin")]
+[EnableCors]
 public class TraderReportController : ControllerBase
 {
     private readonly IMediator mediator;

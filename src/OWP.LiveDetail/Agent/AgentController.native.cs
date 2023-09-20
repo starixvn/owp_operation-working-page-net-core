@@ -8,7 +8,7 @@ namespace OWP.LiveDetail.Agent;
 [Route("api/live-detail/agent")]
 [ApiController]
 [Authorize]
-[EnableCors("AllowOrigin")]
+[EnableCors]
 public class AgentController : ControllerBase
 {
     private readonly AgentRepository repository;

@@ -9,7 +9,7 @@ namespace OWP.ResourceManagement;
 
 [Route("api/resource-assignment")]
 [ApiController]
-[EnableCors("AllowOrigin")]
+[EnableCors]
 [Authorize]
 public class ResourceManagementController : ControllerBase
 {

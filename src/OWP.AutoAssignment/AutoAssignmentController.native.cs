@@ -11,7 +11,7 @@ namespace OWP.AutoAssignment;
 [Route("api/auto-assignment")]
 [ApiController]
 [Authorize]
-[EnableCors("AllowOrigin")]
+[EnableCors]
 public class AutoAssignmentController : ControllerBase
 {
     private readonly CreateRequestService createRequestService;

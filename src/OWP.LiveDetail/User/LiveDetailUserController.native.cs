@@ -7,7 +7,7 @@ namespace OWP.LiveDetail.User;
 
 [Route("api/live-detail/user")]
 [ApiController]
-[EnableCors("AllowOrigin")]
+[EnableCors]
 [Authorize]
 public class LiveDetailUserController : ControllerBase
 {

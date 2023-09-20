@@ -13,7 +13,7 @@ namespace OWP.PrematchAssignment;
 [Route("api/[controller]")]
 [ApiController]
 [Authorize]
-[EnableCors("AllowOrigin")]
+[EnableCors]
 public class PreMatchAssignmentController : ControllerBase
 {
     private readonly IMediator mediator;
