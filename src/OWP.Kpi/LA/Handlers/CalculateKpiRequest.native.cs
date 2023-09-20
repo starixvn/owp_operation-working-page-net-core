@@ -16,27 +16,23 @@ public class CalculateKpiRequest : IRequest<DataViewModel>
 
 public class CalculateKpiHandler : IRequestHandler<CalculateKpiRequest, DataViewModel>
 {
-    private readonly Repository repository;
+    private readonly KpiService kpiService;
 
-    private readonly IMapper mapper;
-
-    public CalculateKpiHandler(Repository repository, IMapper mapper)
+    public CalculateKpiHandler(KpiService kpiService)
     {
-        this.repository = repository;
-        this.mapper = mapper;
+        this.kpiService = kpiService;
     }
 
     public async Task<DataViewModel> Handle(CalculateKpiRequest request, CancellationToken cancellationToken)
     {
-        var kpiInfo = await repository.GetKpiInfo(request.FromDate, request.ToDate);
-
+        var isGap = CalculateGapHelper.IsGap(request.FromDate, request.ToDate);
+        var kpiInfo = await kpiService.BuildKpiInfo(request.FromDate, request.ToDate, isGap);
+        
         return new DataViewModel
         {
-            KpiLa = CalculateKpi(kpiInfo),
-            IsGap = CalculateGapHelper.IsGap(request.FromDate, request.ToDate)
+            KpiLa = kpiInfo,
+            IsGap = isGap
         };
     }
 
-    private IList<KpiInfoViewModel> CalculateKpi(IList<KpiInfo> kpiInfo)
-    => mapper.Map<IList<KpiInfoViewModel>>(kpiInfo);
 }

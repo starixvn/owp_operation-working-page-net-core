@@ -75,3 +75,26 @@ public static class ConditionConstant
     };
 }
 
+public static class ReportConstant
+{
+    private const int ProgressColumn = 3;
+    private const int TargetColumn = 4;
+    private const int VirtualMatchesGapColumn = 5;
+    private const int MultipleMatchesGapColumn = 6;    
+    private const int SpecialProductsGapColumn = 7;            
+    private const int MajorProductsGapColumn = 8;
+    private const int MultipleProductsGapColumn = 9;
+    private const int RewardGapColumn = 15;
+
+    public static readonly int[] DeleteColumns =
+    {
+        ProgressColumn,
+        TargetColumn,
+        VirtualMatchesGapColumn,
+        MultipleMatchesGapColumn,
+        SpecialProductsGapColumn,
+        MajorProductsGapColumn,
+        MultipleProductsGapColumn,
+        RewardGapColumn
+    };
+}

@@ -6,7 +6,7 @@ public static class ProgressHelper
 {
     public static string Evaluate(List<ConditionInfo> conditionInfos, TotalGameInfo totalGame)
     {
-        var progress = string.Empty;
+        var progress = "Fail";
         var firstCondition = conditionInfos.FirstOrDefault();
         var matchingCondition = conditionInfos.Skip(1)
             .LastOrDefault(condition => IsGreaterThanOrEqualTo(totalGame, condition.ConditionFirst) 

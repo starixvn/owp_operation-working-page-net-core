@@ -5,6 +5,8 @@ namespace OWP.Kpi.LA.Models;
 
 public class KpiInfoViewModel
 {
+    public int No { get; set; }
+
     public int UserId { get; set; }
 
     public string UserName { get; set; }
@@ -15,9 +17,9 @@ public class KpiInfoViewModel
 
     public TotalGameInfo AchievedGames { get; set; } = new();
 
-    public TotalGameInfo GapWithTarget => CalculateGapHelper.CalculateGap(TargetId, AchievedGames);
+    public TotalGameInfo GapWithTarget { get; set; } = new();
 
-    public string Progress => ProgressHelper.Evaluate(ConditionConstant.ConditionInfos.ToList(), AchievedGames);
+    public string Progress { get; set; }
 
-    public string Reward => ConditionConstant.ConditionInfos.FirstOrDefault(x => x.Progress == Progress)?.Reward;
+    public string Reward { get; set; }
 }

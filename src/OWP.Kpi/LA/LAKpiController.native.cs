@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Fanex.NAP.Client.Helpers.Web;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +9,7 @@ using OWP.Kpi.LA.Models;
 using OWP.Kpi.LA.ViewModels;
 using OWP.Services;
 
+
 namespace OWP.Kpi.LA;
 
 [Route("api/kpi/la")]
@@ -16,13 +18,17 @@ namespace OWP.Kpi.LA;
 [EnableCors]
 public class LAKpiController : ControllerBase
 {
-    private readonly IMediator mediator;
     private readonly RefResourceService refResourceService;
 
-    public LAKpiController(IMediator mediator, RefResourceService refResourceService)
+    private readonly INapSession session;
+
+    private readonly IMediator mediator;
+
+    public LAKpiController(IMediator mediator,RefResourceService refResourceService,INapSession session)
     {
         this.mediator = mediator;
         this.refResourceService = refResourceService;
+        this.session = session;
     }
 
     [Route("")]
@@ -36,6 +42,20 @@ public class LAKpiController : ControllerBase
         });
 
         return data;
+    }
+
+    [HttpGet("export")]
+    public async Task<IActionResult> DownloadLAKpiInfo(DateTime fromDate, DateTime toDate)
+    {
+        using var data = await mediator.Send(new ExportKpiRequest
+        {
+            FromDate = fromDate,
+            ToDate = toDate
+        });
+      
+        var bytes = await data.GetAsByteArrayAsync();
+        var fileName = GetFileName(fromDate, toDate);
+        return File(bytes, "application/octet-stream", fileName);
     }
 
     [HttpGet("get-condition")]
@@ -56,4 +76,7 @@ public class LAKpiController : ControllerBase
     {
         await mediator.Send(request);
     }
+
+    private string GetFileName(DateTime fromDate, DateTime toDate)
+        => $"LA KPI - {fromDate:MMM yyyy} to {toDate:MMM yyyy} - Export by {session.UserName}.xlsx";
 }
