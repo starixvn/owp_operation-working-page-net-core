@@ -10,7 +10,7 @@ namespace OWP.OSLeagueSetting;
 
 [Route("api/[controller]")]
 [ApiController]
-[EnableCors("AllowOrigin")]
+[EnableCors]
 public class OSLeagueController : ControllerBase
 {
     private readonly IMediator mediator;

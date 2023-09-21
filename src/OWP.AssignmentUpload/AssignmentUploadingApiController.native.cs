@@ -19,7 +19,7 @@ namespace OWP.AssignmentUpload;
 [Route("api/event-assignment-uploading")]
 [ApiController]
 [Authorize]
-[EnableCors("AllowOrigin")]
+[EnableCors]
 
 public class AssignmentUploadingApiController : ControllerBase
 {

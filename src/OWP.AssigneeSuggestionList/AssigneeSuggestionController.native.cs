@@ -9,7 +9,7 @@ namespace OWP.AssigneeSuggestionList;
 
 [Route("api/[controller]")]
 [ApiController]
-[EnableCors("AllowOrigin")]
+[EnableCors]
 [AllowAnonymous]
 public class AssigneeSuggestionController : ControllerBase
 {

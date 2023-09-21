@@ -8,7 +8,7 @@ namespace OWP.LiveDetail.Television;
 [Route("api/live-detail/television")]
 [ApiController]
 [Authorize]
-[EnableCors("AllowOrigin")]
+[EnableCors]
 public class TelevisionController : ControllerBase
 {
     private readonly TelevisionRepository repository;

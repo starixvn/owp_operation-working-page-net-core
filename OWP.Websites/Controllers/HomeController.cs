@@ -24,16 +24,12 @@ public class HomeController : Controller
 
     private readonly INapSettings napSettings;
 
-    private readonly AccessCounter accessCounter;
-
     private readonly AccessCounterModel counterModel;
 
-
-    public HomeController(INapSession session, INapSettings napSettings, AccessCounter accessCounter, IOptions<AccessCounterModel> counterOptions)
+    public HomeController(INapSession session, INapSettings napSettings,  IOptions<AccessCounterModel> counterOptions)
     {
         this.session = session;
         this.napSettings = napSettings;
-        this.accessCounter = accessCounter;
         this.counterModel = counterOptions.Value;
     }
 

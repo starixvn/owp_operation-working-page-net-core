@@ -9,7 +9,7 @@ namespace OWP.Report.OvertimeReport;
 
 [Route("api/[controller]")]
 [ApiController]
-[EnableCors("AllowOrigin")]
+[EnableCors]
 [Authorize]
 public class OvertimeReportController : ControllerBase
 {

@@ -10,7 +10,7 @@ namespace OWP.Maxbet;
 [Route("api/[controller]/{matchId:int}")]
 [ApiController]
 [AllowAnonymous]
-[EnableCors("AllowOrigin")]
+[EnableCors]
 public class MaxbetController : ControllerBase
 {
     private readonly MainMatchService mainMatchService;

@@ -11,7 +11,7 @@ namespace OWP.Kpi.LA;
 [Route("api/kpi/la")]
 [ApiController]
 [Authorize]
-[EnableCors("AllowOrigin")]
+[EnableCors]
 public class LAKpiController : ControllerBase
 {
     private readonly IMediator mediator;

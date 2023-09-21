@@ -1,3 +1,4 @@
+using Fanex.Data.SqlServer;
 using Fanex.NAP.Client;
 using Fanex.NAP.Client.Configuration;
 using Fanex.NAP.Client.Helpers.Web;
@@ -19,7 +20,18 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 });
 
 // Add services to the container.
-builder.Services.AddCorsPolicy();
+#if DEBUG
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+        {
+            policy.WithOrigins("http://localhost:64193")
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials();
+        });
+});
+#endif
 builder.Services.AddControllerAuthorization();
 builder.Services.AddCookieAuthentication(builder.Configuration);
 builder.Services.AddRedis(builder.Configuration);
@@ -29,6 +41,7 @@ builder.Services.Configure<AccessCounterModel>(builder.Configuration.GetSection(
 
 builder.Services.AddSignalR(builder.Configuration);
 builder.Services.AddSimpleDataApiModule();
+builder.Services.AddFanexSql(builder.Configuration);
 builder.Services.AddNapServices(builder.Configuration);
 builder.Services.AddOnebookUMServices(builder.Configuration);
 builder.Services.AddFanexServices(builder.Configuration);
@@ -49,11 +62,15 @@ var app = builder.Build();
 app.UseDeveloperExceptionPage();
 
 app.UseStaticFiles();
+app.UseRouting();
+#if DEBUG
+app.UseCors();
+#endif
+
 app.UseCookiePolicy();
 app.UseSession();
 app.UseMiddleware<ErrorHandler>();
-app.UseRouting();
-app.UseCors("AllowOrigin");
+
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseRabbitListener();

@@ -14,7 +14,7 @@ using Fanex.NAP.Client.Helpers.Business;
 [Route("api/live-detail/match-setting")]
 [ApiController]
 [Authorize]
-[EnableCors("AllowOrigin")]
+[EnableCors]
 public class MatchSettingController : ControllerBase
 {
     private readonly MessageClient messageClient;

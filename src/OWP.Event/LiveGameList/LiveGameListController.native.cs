@@ -7,7 +7,7 @@ namespace OWP.Event.LiveGameList;
 
 [Route("api/[controller]")]
 [ApiController]
-[EnableCors("AllowOrigin")]
+[EnableCors]
 public class LiveGameListController : ControllerBase
 {
     private readonly GetEventByDateService service;

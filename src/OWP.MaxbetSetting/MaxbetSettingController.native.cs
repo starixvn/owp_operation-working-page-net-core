@@ -8,7 +8,7 @@ namespace OWP.MaxbetSetting;
 
 [Route("api/[controller]")]
 [ApiController]
-[EnableCors("AllowOrigin")]
+[EnableCors]
 [Authorize]
 public class MaxbetSettingController
 {

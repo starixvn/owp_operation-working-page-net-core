@@ -10,7 +10,7 @@ namespace OWP.Report.PreMatchReport;
 [Route("api/[controller]")]
 [ApiController]
 [Authorize]
-[EnableCors("AllowOrigin")]
+[EnableCors]
 public class PreMatchReportController : ControllerBase
 {
   private readonly IMediator mediator;
