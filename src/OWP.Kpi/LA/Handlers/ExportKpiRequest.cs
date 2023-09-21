@@ -82,16 +82,14 @@ public class ExportKpiHandler : IRequestHandler<ExportKpiRequest, ExcelPackage>,
                 var cell = reportSheet.Cells[row, col];
                 if (cell.Value is int numericValue and < 0 )
                 {
-                    reportSheet.Cells[row, col].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    reportSheet.Cells[row, col].Style.Fill.PatternType = ExcelFillStyle.None;
                     cell.Style.Font.Color.SetColor(Color.Red);
-                    cell.Style.Fill.BackgroundColor.SetColor(Color.White);
                     cell.Value = -numericValue;
                 }
                 if (col == 3 && cell.Value?.ToString() == "Fail")
                 {
-                    reportSheet.Cells[row, col].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    reportSheet.Cells[row, col].Style.Fill.PatternType = ExcelFillStyle.None;
                     cell.Style.Font.Color.SetColor(Color.Red);
-                    cell.Style.Fill.BackgroundColor.SetColor(Color.White);
                 }
             }
         }
