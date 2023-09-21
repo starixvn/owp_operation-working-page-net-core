@@ -20,8 +20,8 @@ public static class ConditionConstant
             Reward = "5%",
             TargetCondition = new ()
             {
-                MultipleMatches = 2000,
-                VirtualMatches = 50
+                VirtualMatches = 2000 ,
+                MultipleMatches = 50
             }
         },
         new()
