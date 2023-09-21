@@ -20,7 +20,6 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 });
 
 // Add services to the container.
-#if DEBUG
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
@@ -31,7 +30,7 @@ builder.Services.AddCors(options =>
                 .AllowCredentials();
         });
 });
-#endif
+
 builder.Services.AddControllerAuthorization();
 builder.Services.AddCookieAuthentication(builder.Configuration);
 builder.Services.AddRedis(builder.Configuration);
@@ -63,9 +62,8 @@ app.UseDeveloperExceptionPage();
 
 app.UseStaticFiles();
 app.UseRouting();
-#if DEBUG
+
 app.UseCors();
-#endif
 
 app.UseCookiePolicy();
 app.UseSession();
