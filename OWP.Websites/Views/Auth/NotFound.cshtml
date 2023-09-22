@@ -1,19 +1,21 @@
-﻿@{
+﻿@using Fanex.NAP.SignIn
+@{
     Layout = null;
 }
 <!DOCTYPE>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+    <base href="@SignInHelper.PathBase">
     <title>Not Found</title>
-    <link rel="stylesheet" type="text/css" />
+    <link href="Auth/Static?url=error.css" rel="stylesheet" type="text/css"/>
     <style type="text/css" media="screen">
         body {
-            margin: 0;
+            margin: 0px;
         }
     </style>
 </head>
 <body>
-    <div>
+    <div class="note rounded">
         <h2>
             OOPS! This resource is not found
         </h2>
