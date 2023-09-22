@@ -231,4 +231,11 @@ public class TicketCenterController : ControllerBase
         var result = await mediator.Send(new GetMatchInfoByAdminSiteIdRequest { AdminSiteId = adminsiteId });
         return Ok(result);
     }
+
+    [HttpGet("get-function-feedback")]
+    public async Task<IActionResult> GetFunctionFeedback()
+    {
+        var result = await mediator.Send(new GetFunctionFeedbackRequest());
+        return Ok(result);
+    }
 }
