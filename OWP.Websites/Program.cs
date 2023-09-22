@@ -4,6 +4,7 @@ using Fanex.NAP.Client.Configuration;
 using Fanex.NAP.Client.Helpers.Web;
 using Fanex.NAP.SignIn.Attribute;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.FileProviders;
 using ONEbook.UM.AspNetCore.Filters;
 using OWP.Hubs;
 using OWP.Models;
@@ -60,7 +61,11 @@ var app = builder.Build();
 
 app.UseDeveloperExceptionPage();
 
-app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider($"{AppDomain.CurrentDomain.BaseDirectory}App_Data{Path.DirectorySeparatorChar}Tickets"),
+    RequestPath = "/Tickets"
+});
 app.UseRouting();
 
 app.UseCors();
