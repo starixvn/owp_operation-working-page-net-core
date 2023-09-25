@@ -27,7 +27,7 @@
         <PackageReference Include="Olympus.OWP.Constants" Version="1.0.0.4" />
         <PackageReference Include="Fanex.Logging" Version="2.0.1" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-        <PackageReference Include="Fanex.NAP.Client.AspNetCore" Version="2.0.0.13" />
+        <PackageReference Include="Fanex.NAP.Client" Version="2.0.0" />
     </ItemGroup>
     <ItemGroup>
         <None Update="Constants\FunctionKeys.tt">
