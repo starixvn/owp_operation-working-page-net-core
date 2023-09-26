@@ -5,17 +5,21 @@ namespace OWP.Kpi.LA.Models;
 
 public class KpiInfoViewModel
 {
+    public int No { get; set; }
+
     public int UserId { get; set; }
 
     public string UserName { get; set; }
 
     public string Target { get; set; }
 
-    public TotalGameInfo GapWithTarget { get; set; } = new();
+    public int? TargetId { get; set; }
 
     public TotalGameInfo AchievedGames { get; set; } = new();
 
-    public string Progress => ProgressHelper.Evaluate(ConditionConstant.ConditionInfos.ToList(), AchievedGames);
+    public TotalGameInfo GapWithTarget { get; set; } = new();
 
-    public string Reward => ConditionConstant.ConditionInfos.FirstOrDefault(x => x.Progress == Progress)?.Reward;
+    public string Progress { get; set; }
+
+    public string Reward { get; set; }
 }

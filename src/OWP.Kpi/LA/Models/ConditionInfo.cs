@@ -11,9 +11,13 @@ public class ConditionInfo
 
     public string Level { get; set; }
 
+    public int LevelId { get; set; }
+
     public Condition ConditionFirst { get; set; }
 
     public Condition ConditionSecond { get; set; }
+
+    public Condition TargetCondition { get; set; }
 
     public string TimeRange { get; set; }
 

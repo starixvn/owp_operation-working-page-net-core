@@ -18,25 +18,21 @@ public class CalculateKpiHandler : IRequestHandler<CalculateKpiRequest, DataView
 {
     private readonly KpiService kpiService;
 
-    private readonly IMapper mapper;
-
-    public CalculateKpiHandler(KpiService kpiService, IMapper mapper)
+    public CalculateKpiHandler(KpiService kpiService)
     {
         this.kpiService = kpiService;
-        this.mapper = mapper;
     }
 
     public async Task<DataViewModel> Handle(CalculateKpiRequest request, CancellationToken cancellationToken)
     {
-        var kpiInfo = await kpiService.GetKpiInfo(request.FromDate, request.ToDate);
-
+        var isGap = CalculateGapHelper.IsGap(request.FromDate, request.ToDate);
+        var kpiInfo = await kpiService.BuildKpiInfo(request.FromDate, request.ToDate, isGap);
+        
         return new DataViewModel
         {
-            KpiLa = CalculateKpi(kpiInfo),
-            IsGap = CalculateGapHelper.IsGap(request.FromDate, request.ToDate)
+            KpiLa = kpiInfo,
+            IsGap = isGap
         };
     }
 
-    private IList<KpiInfoViewModel> CalculateKpi(IList<KpiInfo> kpiInfo)
-    => mapper.Map<IList<KpiInfoViewModel>>(kpiInfo);
 }

@@ -33,7 +33,7 @@ public class ProgressHelperUnitTest
 
             var result = ProgressHelper.Evaluate(ConditionConstant.ConditionInfos.ToList(), totalGame);
 
-            Assert.Equal("", result);
+            Assert.Equal("Fail", result);
         }
 
         [Fact]
