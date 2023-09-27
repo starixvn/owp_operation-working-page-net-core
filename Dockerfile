@@ -1,3 +1,14 @@
+# Prepare Project/*.csproj
+
+FROM hub.nexdev.net/base/dotnet/core/sdk:7.0-alpine AS prepare-restore-files
+
+ENV PATH="${PATH}:/root/.dotnet/tools"
+RUN dotnet tool install --global --no-cache dotnet-subset --version 0.3.2
+
+WORKDIR /src
+COPY . .
+RUN dotnet subset restore ./OWP.Websites/OWP.Websites.csproj --root-directory /src --output /src/restore_subset/
+
 FROM hub.nexdev.net/base/dotnet/core/sdk:7.0-alpine AS builder
 # Install the tools
 RUN dotnet tool install --tool-path /tools dotnet-trace
@@ -5,6 +16,9 @@ RUN dotnet tool install --tool-path /tools dotnet-dump
 RUN dotnet tool install --tool-path /tools dotnet-counters
 
 WORKDIR /src
+COPY --from=prepare-restore-files /src/restore_subset .
+RUN dotnet nuget add source http://nuget.nexdev.net/api/v2
+RUN dotnet restore ./OWP.Websites/OWP.Websites.csproj
 
 COPY ./.sonarlint/. ./.sonarlint
 COPY ./src/OWP/. ./src/OWP
@@ -34,14 +48,9 @@ COPY ./src/OWP.ResourceManagement/. ./src/OWP.ResourceManagement
 COPY ./src/OWP.AssigneeSuggestionList/. ./src/OWP.AssigneeSuggestionList
 COPY ./src/OWP.Event/. ./src/OWP.Event
 COPY ./src/OWP.Kpi/. ./src/OWP.Kpi
-COPY ./OWP.Websites/OWP.Websites.csproj ./OWP.Websites/OWP.Websites.csproj
+COPY ./OWP.Websites ./OWP.Websites
 
 WORKDIR /src/OWP.Websites
-RUN dotnet nuget add source https://nuget.nexdev.net/api/v2
-RUN dotnet restore -v diag
-
-COPY ./OWP.Websites .
-
 RUN dotnet publish -r linux-x64 --self-contained false -c Release -o /app 
 
 FROM hub.nexdev.net/base/dotnet/core/aspnet:7.0-alpine AS base
