@@ -30,16 +30,4 @@ public class MessageDetailViewModel
 
     public DateTime QuoteCreatedDate { get; set; }
 
-    public byte[] ImageContent => GetImageContent();
-
-    private byte[] GetImageContent()
-    {
-        if (string.IsNullOrEmpty(ImageFileName))
-        {
-            return Array.Empty<byte>();
-        }
-
-        var filePath = FileHelper.GetFullPath(ImageFileName);
-        return File.Exists(FileHelper.GetFullPath(filePath)) ? File.ReadAllBytes(filePath) : Array.Empty<byte>();
-    }
 }
