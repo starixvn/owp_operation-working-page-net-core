@@ -1,5 +1,6 @@
 using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Models;
+using OWP.AssigneeSuggestionList.Services.RealMatch;
 using OWP.Extensions;
 
 namespace OWP.AssigneeSuggestionList.Helper;
@@ -41,10 +42,15 @@ public static class ETPKHelper
                 && !assignment.AssignmentNote.IsContains("No"));
 
     private static bool IsPK(AssignmentModel assignment)
-    => !assignment.Remark.IsContains(" ET")
-        && assignment.Remark.IsContains("PK")
-        && (assignment.AssignmentNote is null
-            || (!assignment.AssignmentNote.IsContains("ET")
-                && assignment.AssignmentNote.IsContains("PK")
-                && !assignment.AssignmentNote.IsContains("No")));
+        => IsPKRemark(assignment) && IsPKAssignmentNote(assignment);
+
+    private static bool IsPKRemark(AssignmentModel assignment)
+        => !assignment.Remark.IsContains(" ET")
+           && assignment.Remark.IsContains("PK");
+
+    private static bool IsPKAssignmentNote(AssignmentModel assignment)
+    => (assignment.AssignmentNote is null
+        || (!assignment.AssignmentNote.IsContains("ET")
+            && assignment.AssignmentNote.IsContains("PK")
+            && !assignment.AssignmentNote.IsContains("No")));
 }
