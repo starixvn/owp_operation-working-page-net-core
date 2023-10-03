@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using OWP.TicketCenter.Handlers;
 using OWP.TicketCenter.Middleware;
 using OWP.TicketCenter.Models;
+using OWP.TicketCenter.Services;
 
 namespace OWP.TicketCenter;
 
@@ -14,9 +15,12 @@ public class TicketCenterController : ControllerBase
 {
     private readonly IMediator mediator;
 
-    public TicketCenterController(IMediator mediator)
+    private readonly GetInfoFeedback getInfoFeedback;
+
+    public TicketCenterController(IMediator mediator, GetInfoFeedback getInfoFeedback)
     {
         this.mediator = mediator;
+        this.getInfoFeedback = getInfoFeedback;
     }
 
     [HttpPost("new-message")]
@@ -229,6 +233,20 @@ public class TicketCenterController : ControllerBase
     public async Task<IActionResult> GetMatchInfo(int adminsiteId)
     {
         var result = await mediator.Send(new GetMatchInfoByAdminSiteIdRequest { AdminSiteId = adminsiteId });
+        return Ok(result);
+    }
+
+    [HttpGet("get-function-feedback")]
+    public async Task<IActionResult> GetFunctionFeedback()
+    {
+        var result = await mediator.Send(new GetFunctionFeedbackRequest());
+        return Ok(result);
+    }
+
+    [HttpGet("get-user-feedback-info")]
+    public async Task<IActionResult> GetUserFeedbackInfo()
+    {
+        var result = await getInfoFeedback.Get();
         return Ok(result);
     }
 }

@@ -20,7 +20,7 @@ public static class TicketCenterInjector
         services.AddScoped<TicketDetailService, TicketDetailServiceImp>();
         services.AddScoped<MessageService, MessageServiceImp>();
         services.AddScoped<GetEventTicketsService, GetEventTicketsServiceImp>();
-
+        services.AddScoped<GetInfoFeedback, GetInfoFeedbackImp>();
         services.AddScoped<NotificationService, NotificationServiceImp>();
         services.AddScoped<PreMatchNotificationService, PreMatchNotificationServiceImp>();
         services.AddScoped<PermissionService, PermissionServiceImp>();

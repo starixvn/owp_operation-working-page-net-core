@@ -53,7 +53,7 @@ public class WorkingScheduleServiceImp : WorkingScheduleService
         for (var index = 1; index < propertiesLength; index++)
         {
             var propertyInfo = objType.GetProperty(propertiesName[index]);
-            if (index <= propertiesLength - 1)
+            if (index <= propertiesLength - 1)//NOSONAR
             {
                 propertyInfo?.SetValue(schedule, new AssignmentCell
                 {

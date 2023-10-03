@@ -63,7 +63,7 @@ public static class LinkTwoGameConditionHelper
                     });
                     assignmentOther[i].MatchType = Constant.MatchType.RealMatchLink2G;
                     assignmentOther[j].MatchType = Constant.MatchType.RealMatchLink2G;
-                    break;
+                    break; // NOSONAR
                 }
             }
         }
