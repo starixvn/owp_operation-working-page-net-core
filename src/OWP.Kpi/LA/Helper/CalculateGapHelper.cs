@@ -13,16 +13,16 @@ public static class CalculateGapHelper
     {
         var targetCondition = ConditionConstant.ConditionInfos
             .FirstOrDefault(x => x.LevelId == targetId)?.TargetCondition ?? new Condition();
-        return new TotalGameInfo
+        return new()
         {
-            MultipleMatches = CalculateValue(achievedGame.MultipleMatches, targetCondition.MultipleMatches) ,
-            VirtualMatches = CalculateValue(achievedGame.VirtualMatches ,targetCondition.VirtualMatches) ,
-            MultipleProducts = CalculateValue(achievedGame.MultipleProducts , targetCondition.MultipleProducts) ,
-            FiveMajorLeagues = CalculateValue(achievedGame.FiveMajorLeagues , targetCondition.FiveMajorLeagues),
-            SpecialProducts = CalculateValue(achievedGame.SpecialProducts , targetCondition.SpecialProducts) 
+            MultipleMatches = CalculateValue(achievedGame.MultipleMatches, targetCondition.MultipleMatches),
+            VirtualMatches = CalculateValue(achievedGame.VirtualMatches, targetCondition.VirtualMatches),
+            MultipleProducts = CalculateValue(achievedGame.MultipleProducts, targetCondition.MultipleProducts),
+            FiveMajorLeagues = CalculateValue(achievedGame.FiveMajorLeagues, targetCondition.FiveMajorLeagues),
+            SpecialProducts = CalculateValue(achievedGame.SpecialProducts, targetCondition.SpecialProducts)
         };
     }
 
-    public static int CalculateValue(int achieved, int target)
+    public static double CalculateValue(double achieved, double target)
         => target != 0 ? achieved - target : 0;
 }
