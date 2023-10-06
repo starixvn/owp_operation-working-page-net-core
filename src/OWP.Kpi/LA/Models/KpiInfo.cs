@@ -10,13 +10,13 @@ public class KpiInfo
 
     public int? TargetId { get; set; }
 
-    public int VirtualMatches { get; set; }
+    public double VirtualMatches { get; set; }
 
-    public int MultipleMatches { get; set; }
+    public double MultipleMatches { get; set; }
 
-    public int SpecialProducts { get; set; }
+    public double SpecialProducts { get; set; }
 
-    public int FiveMajorLeagues { get; set; }
+    public double FiveMajorLeagues { get; set; }
 
-    public int MultipleProducts { get; set; }
+    public double MultipleProducts { get; set; }
 }
