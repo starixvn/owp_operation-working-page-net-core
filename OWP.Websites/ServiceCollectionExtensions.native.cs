@@ -54,6 +54,7 @@ using OWP.Kpi.LA;
 namespace OWP.Websites;
 
 using Fanex.NAP.Client.Session;
+using Microsoft.Extensions.FileProviders;
 
 public static class ServiceCollectionExtensions
 {
@@ -79,9 +80,7 @@ public static class ServiceCollectionExtensions
 
         var mapper = mapperConfig.CreateMapper();
         services.AddSingleton(mapper);
-
-        services.AddMvc();
-
+        
         return services;
     }
 
@@ -338,4 +337,27 @@ public static class ServiceCollectionExtensions
 
         return services;
     }
+
+    public static WebApplication UseTicketPathStaticFiles(this WebApplication app)
+    {
+        var env = app.Environment;
+
+        var ticketPaths = Path.Combine(
+            env.ContentRootPath,
+            "App_Data",
+            "Tickets"
+        );
+        if (!Directory.Exists(ticketPaths))
+        {
+            Directory.CreateDirectory(ticketPaths);
+        }
+        app.UseStaticFiles(new StaticFileOptions
+        {
+            FileProvider = new PhysicalFileProvider(ticketPaths),
+            RequestPath = "/Tickets"
+        });
+
+        return app;
+    }
+    
 }

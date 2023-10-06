@@ -1,5 +1,6 @@
 ﻿using Fanex.NAP.Client.Helpers.Web;
 using MediatR;
+using Microsoft.AspNetCore.Hosting;
 using OWP.AssignmentUpload.Validation.Exceptions;
 using OWP.AssignmentUpload.Validation.Models;
 using OWP.AssignmentUpload.Validation.Services;
@@ -33,16 +34,20 @@ public class Handler : IRequestHandler<ValidationRequest, AssignmentValidationRe
 
     private readonly INapSession currentSession;
 
+    private readonly IWebHostEnvironment hostEnvironment;
+
     public Handler(
         Analyzer analyzer,
         ExcelValidator excelValidator,
         CacheManipulator cacheManipulator,
-        INapSession currentSession)
+        INapSession currentSession,
+        IWebHostEnvironment hostEnvironment)
     {
         this.analyzer = analyzer;
         this.cacheManipulator = cacheManipulator;
         this.excelValidator = excelValidator;
         this.currentSession = currentSession;
+        this.hostEnvironment = hostEnvironment;
     }
 
     public async Task<AssignmentValidationResult> Handle(ValidationRequest request, CancellationToken cancellationToken)
@@ -82,9 +87,12 @@ public class Handler : IRequestHandler<ValidationRequest, AssignmentValidationRe
     {
         try
         {
-            var folderPath = @$"App_Data{Path.DirectorySeparatorChar}Files";
-            var absoluteFolderPath = $"{AppDomain.CurrentDomain.BaseDirectory}{Path.DirectorySeparatorChar}{folderPath}";
-
+            var absoluteFolderPath = Path.Combine(
+                hostEnvironment.ContentRootPath,
+                "App_Data",
+                "Files"
+                );
+            
             if (!Directory.Exists(absoluteFolderPath))
             {
                 Directory.CreateDirectory(absoluteFolderPath);

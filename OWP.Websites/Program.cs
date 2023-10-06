@@ -60,12 +60,7 @@ builder.Services.AddControllersWithViews(options =>
 var app = builder.Build();
 
 app.UseDeveloperExceptionPage();
-
-app.UseStaticFiles(new StaticFileOptions
-{
-    FileProvider = new PhysicalFileProvider($"{AppDomain.CurrentDomain.BaseDirectory}App_Data{Path.DirectorySeparatorChar}Tickets"),
-    RequestPath = "/Tickets"
-});
+app.UseTicketPathStaticFiles();
 app.UseRouting();
 
 app.UseCors();
