@@ -1,10 +1,12 @@
 using MediatR;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using OWP.Extensions;
 using OWP.OSLeagueSetting.Handlers;
 using OWP.OSLeagueSetting.Middleware;
 using OWP.OSLeagueSetting.Models;
 using OWP.OSLeagueSetting.Services;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace OWP.OSLeagueSetting;
 
@@ -36,6 +38,15 @@ public class OSLeagueController : ControllerBase
         return Ok(leagueInfo);
     }
 
+    [HttpGet("export-league-setting")]
+    public async Task<IActionResult> Export([FromQuery] ExportLeagueSettingRequest exportRequest)
+    {
+        var data = await mediator.Send(exportRequest);
+        var bytes = await data.GetAsByteArrayAsync();
+        var fileName = GetFileName();
+        return File(bytes, "application/octet-stream", fileName);
+    }
+
     [TypeFilter(typeof(DuplicateActionFilter))]
     [HttpPost("add-setting")]
     public async Task AddSetting(SettingDetail model)
@@ -53,4 +64,7 @@ public class OSLeagueController : ControllerBase
         var result = await mediator.Send(request);
         return Ok(result);
     }
+
+    private string GetFileName()
+        => $"Basketball Maxbet(Live) {DateTime.Now.ToGmt8():dd MMM yyyy}.xlsx";
 }
