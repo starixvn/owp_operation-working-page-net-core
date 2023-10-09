@@ -10,7 +10,7 @@ using Fanex.NAP.Client.Helpers.Business;
 
 public interface GetEventByDateService
 {
-    Task<IEnumerable<MatchInfo>> GetEvents(DateTime eventDate, string statusId);
+    Task<IEnumerable<MatchInfo>> GetEvents(DateTime eventDate, string statusId, string userName);
 }
 
 public class GetEventByDateServiceImp : GetEventByDateService
@@ -29,12 +29,13 @@ public class GetEventByDateServiceImp : GetEventByDateService
         this.eventService = eventService;
     }
 
-    public async Task<IEnumerable<MatchInfo>> GetEvents(DateTime eventDate, string statusId)
+    public async Task<IEnumerable<MatchInfo>> GetEvents(DateTime eventDate, string statusId, string userName)
     {
         var eventByDates = liveGameListRepository.GetEventInformation(eventDate, statusId, IsShowFullEventInformation());
         await eventService.GetInfositeAndAdminsiteInfo(eventByDates.MatchInfos.ToList());
 
-        return BuildEvents(eventByDates);
+        var eventNew = BuildEvents(eventByDates);
+        return FilterEventByUsername(eventNew, userName);
     }
 
     public IEnumerable<MatchInfo> BuildEvents(EventInformation eventInfos)
@@ -46,6 +47,51 @@ public class GetEventByDateServiceImp : GetEventByDateService
 
             yield return matchInfo;
         }
+
+    }
+
+    private IEnumerable<MatchInfo> FilterEventByUsername(IEnumerable<MatchInfo> matchInfos, string userName)
+    {
+        return string.IsNullOrEmpty(userName) ? matchInfos : matchInfos.Where(e => IsUserAssignedToEvent(userName, e));
+    }
+
+    private static bool IsUserAssignedToEvent(string username, MatchInfo e)
+    {
+        var assignments = new List<IEnumerable<Assignment>>
+        {
+            e.Assignment.OneXTwo,
+            e.Assignment.OneXTwoOthers,
+            e.Assignment.FastMarket,
+            e.Assignment.FastMarketOthers,
+            e.Assignment.AllInOne,
+            e.Assignment.AllInOneOthers,
+            e.Assignment.Handicap,
+            e.Assignment.HandicapOthers,
+            e.Assignment.Handicap1st,
+            e.Assignment.Handicap1stOthers,
+            e.Assignment.OverUnder,
+            e.Assignment.OverUnderOthers,
+            e.Assignment.OverUnder1st,
+            e.Assignment.OverUnder1stOthers,
+            e.Assignment.OneXTwo1st,
+            e.Assignment.OneXTwo1stOthers,
+            e.Assignment.Specific15Mins,
+            e.Assignment.Specific15MinsOthers,
+            e.Assignment.Specific10Mins,
+            e.Assignment.Specific10MinsOthers,
+            e.Assignment.LA,
+            e.Assignment.LAOthers
+        };
+
+        foreach (var assignment in assignments)
+        {
+            if (assignment.Any(i => i.Username == username))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private bool IsShowFullEventInformation() => permissionService.HasRight(FunctionKeys.FullTimeView, Constant.Policy.Read);
