@@ -57,7 +57,7 @@ public class ExportLeagueSettingHandler : IRequestHandler<ExportLeagueSettingReq
         {
             reportSheet.Cells[rowIndex, 1].Value = rowIndex-1;
             reportSheet.Cells[rowIndex, 2].Value = item.Status;
-            reportSheet.Cells[rowIndex, 3].RichText.Add(item.SummaryFirst); 
+            reportSheet.Cells[rowIndex, 3].RichText.Add(item.SummaryFirst).Color= ColorTranslator.FromHtml("#002060"); 
             reportSheet.Cells[rowIndex, 3].RichText.Add(item.SummarySecond).Color = ColorTranslator.FromHtml("#c9211e"); 
             reportSheet.Cells[rowIndex, 4].Value = item.OSLeagueName;
             reportSheet.Cells[rowIndex, 5].Value = item.Region;

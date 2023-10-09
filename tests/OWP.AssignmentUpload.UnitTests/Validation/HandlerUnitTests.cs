@@ -1,4 +1,6 @@
 ﻿using Fanex.NAP.Client.Helpers.Web;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
 using OfficeOpenXml;
@@ -19,7 +21,7 @@ public class HandlerUnitTests
     private readonly INapSession currentSession;
     private readonly Analyzer analyzer;
     private readonly string tempDirectory;
-
+    private readonly IWebHostEnvironment hostEnvironment;
     public HandlerUnitTests()
     {
         request = new ValidationRequest();
@@ -28,8 +30,9 @@ public class HandlerUnitTests
         cacheManipulator = Substitute.For<CacheManipulator>();
         currentSession = Substitute.For<INapSession>();
         analyzer = Substitute.For<Analyzer>();
+        hostEnvironment = Substitute.For<IWebHostEnvironment>();  ;
 
-        var emptyResult = new AnalyzedResult
+    var emptyResult = new AnalyzedResult
         {
             Assignments = new List<AssignmentModel>(),
             OriginalRecordCount = 0
@@ -44,7 +47,7 @@ public class HandlerUnitTests
     {
         // Arrange
         excelValidator.When(x => x.Validate(request.Stream)).Do(_ => throw new InvalidExcelFormatException());
-        var handler = new Handler(analyzer, excelValidator, cacheManipulator, currentSession);
+        var handler = new Handler(analyzer, excelValidator, cacheManipulator, currentSession, hostEnvironment);
 
         // Act
         var actual = await handler.Handle(request, new CancellationToken(false));
@@ -72,7 +75,7 @@ public class HandlerUnitTests
             }
         };
         analyzer.Analyze(Arg.Compat.Any<ValidationRequest>()).Throws(new InvalidAssignmentRowException(expected));
-        var handler = new Handler(analyzer, excelValidator, cacheManipulator, currentSession);
+        var handler = new Handler(analyzer, excelValidator, cacheManipulator, currentSession, hostEnvironment);
 
         // Act
         var actual = await handler.Handle(request, new CancellationToken(false));
@@ -86,7 +89,7 @@ public class HandlerUnitTests
     public async Task Handle_RequestStreamWithCapacityIsZero_ResultIsSuccessful()
     {
         // Arrange
-        var handler = new Handler(analyzer, excelValidator, cacheManipulator, currentSession);
+        var handler = new Handler(analyzer, excelValidator, cacheManipulator, currentSession, hostEnvironment);
 
         // Act
         var actual = await handler.Handle(request, new CancellationToken(false));
@@ -113,7 +116,7 @@ public class HandlerUnitTests
     {
         // Arrange
         var streamWithExcelPackageData = CreateStreamWithExcelPackageData();
-        var handler = new Handler(analyzer, excelValidator, cacheManipulator, currentSession);
+        var handler = new Handler(analyzer, excelValidator, cacheManipulator, currentSession, hostEnvironment);
 
         // Act
         var actual = await handler.Handle(streamWithExcelPackageData, new CancellationToken(false));

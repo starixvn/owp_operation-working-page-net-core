@@ -181,5 +181,5 @@ public static class OSLeagueSettingHelper
     }
 
     public static string FormatToStringExport(IEnumerable<string> values)
-        => $"{string.Join('/', values.ToList().Where(x => !string.IsNullOrEmpty(x)))}";
+        => $"{string.Join('/', values.Where(x => !string.IsNullOrEmpty(x)))}";
 }
