@@ -58,14 +58,14 @@ public class ExportLeagueSettingHandler : IRequestHandler<ExportLeagueSettingReq
             reportSheet.Cells[rowIndex, 1].Value = rowIndex-1;
             reportSheet.Cells[rowIndex, 2].Value = item.Status;
             reportSheet.Cells[rowIndex, 3].RichText.Add(item.SummaryFirst); 
-            reportSheet.Cells[rowIndex, 3].RichText.Add(item.SummarySecond).Color = ColorTranslator.FromHtml("#ff3a2e"); 
+            reportSheet.Cells[rowIndex, 3].RichText.Add(item.SummarySecond).Color = ColorTranslator.FromHtml("#c9211e"); 
             reportSheet.Cells[rowIndex, 4].Value = item.OSLeagueName;
             reportSheet.Cells[rowIndex, 5].Value = item.Region;
             reportSheet.Cells[rowIndex, 6].Value = item.CategoryName;
             reportSheet.Cells[rowIndex, 7].Value = item.RoundName;
             reportSheet.Cells[rowIndex, 8].Value = item.OfferLines;
             reportSheet.Cells[rowIndex, 9].Value = item.BetDelays;
-            reportSheet.Cells[rowIndex, 10].RichText.Add(item.Remark).Color = ColorTranslator.FromHtml("#ff3a2e");
+            reportSheet.Cells[rowIndex, 10].RichText.Add(item.Remark).Color = ColorTranslator.FromHtml("#c9211e");
             var cellRange = reportSheet.Cells[rowIndex, 1, rowIndex, 13];
             cellRange.Style.Border.Top.Style = ExcelBorderStyle.Thin;
             cellRange.Style.Border.Left.Style = ExcelBorderStyle.Thin;
