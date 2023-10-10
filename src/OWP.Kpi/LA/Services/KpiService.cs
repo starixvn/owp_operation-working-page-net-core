@@ -10,7 +10,7 @@ namespace OWP.Kpi.LA.Services;
 
 public interface KpiService
 {
-    Task<IList<KpiInfoViewModel>> BuildKpiInfo(DateTime fromDate, DateTime toDate, bool isGap );
+    Task<IList<KpiInfoViewModel>> BuildKpiInfo(DateTime fromDate, DateTime toDate, bool isGap);
 }
 
 public class KpiServiceImp : KpiService
@@ -26,7 +26,7 @@ public class KpiServiceImp : KpiService
 
     public async Task<IList<KpiInfoViewModel>> BuildKpiInfo(DateTime fromDate, DateTime toDate, bool isGap)
     {
-        var kpiData = await repository.GetKpiInfo ( fromDate,  toDate);
+        var kpiData = await repository.GetKpiInfo(fromDate, toDate);
         var kpiInfos = mapper.Map<IList<KpiInfoViewModel>>(kpiData);
         BuildKpiInfo(kpiInfos, isGap);
         return kpiInfos;
@@ -48,6 +48,4 @@ public class KpiServiceImp : KpiService
             }
         }
     }
-
-
 }

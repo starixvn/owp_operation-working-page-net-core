@@ -13,7 +13,7 @@ using OWP.Kpi.LA.Helper;
 using OWP.Kpi.LA.Constant;
 
 namespace OWP.Kpi.LA.Handlers;
-public class ExportKpiRequest  :IRequest<ExcelPackage>
+public class ExportKpiRequest : IRequest<ExcelPackage>
 {
     public DateTime FromDate { get; set; }
 
@@ -28,10 +28,10 @@ public class ExportKpiHandler : IRequestHandler<ExportKpiRequest, ExcelPackage>,
     private readonly KpiService kpiService;
 
     private readonly ConfigurationService configurationService;
-    
+
     private readonly IMapper mapper;
 
-    public ExportKpiHandler(KpiService kpiService,  ConfigurationService configurationService, IMapper mapper)
+    public ExportKpiHandler(KpiService kpiService, ConfigurationService configurationService, IMapper mapper)
     {
         this.kpiService = kpiService;
         this.configurationService = configurationService;
@@ -42,7 +42,7 @@ public class ExportKpiHandler : IRequestHandler<ExportKpiRequest, ExcelPackage>,
     {
         var templatePath = GetReportTemplate();
         LoadTemplate(templatePath);
-        await  BuildExcelBody(request);
+        await BuildExcelBody(request);
         return await Task.FromResult(excelPackage);
     }
 
@@ -54,10 +54,10 @@ public class ExportKpiHandler : IRequestHandler<ExportKpiRequest, ExcelPackage>,
     }
 
     private async Task BuildExcelBody(ExportKpiRequest request)
-    { 
+    {
         var isGap = CalculateGapHelper.IsGap(request.FromDate, request.ToDate);
-        var kpiInfo = await kpiService.BuildKpiInfo(request.FromDate, request.ToDate,isGap);
-        var kpiReport =  mapper.Map<IList<KpiInfoReport>>(kpiInfo);
+        var kpiInfo = await kpiService.BuildKpiInfo(request.FromDate, request.ToDate, isGap);
+        var kpiReport = mapper.Map<IList<KpiInfoReport>>(kpiInfo);
         reportSheet.ApplyVertical(kpiReport, 3);
         SetStyleTemplate();
         if (!isGap)
@@ -80,7 +80,7 @@ public class ExportKpiHandler : IRequestHandler<ExportKpiRequest, ExcelPackage>,
             for (int col = 1; col <= dimension.End.Column; col++)
             {
                 var cell = reportSheet.Cells[row, col];
-                if (cell.Value is int numericValue and < 0 )
+                if (cell.Value is double numericValue and < 0)
                 {
                     reportSheet.Cells[row, col].Style.Fill.PatternType = ExcelFillStyle.None;
                     cell.Style.Font.Color.SetColor(Color.Red);
