@@ -9,10 +9,10 @@ public static class ProgressHelper
         var progress = "Fail";
         var firstCondition = conditionInfos.FirstOrDefault();
         var matchingCondition = conditionInfos.Skip(1)
-            .LastOrDefault(condition => IsGreaterThanOrEqualTo(totalGame, condition.ConditionFirst) 
+            .LastOrDefault(condition => IsGreaterThanOrEqualTo(totalGame, condition.ConditionFirst)
                                         || IsGreaterThanOrEqualTo(totalGame, condition.ConditionSecond));
 
-        if (totalGame.MultipleMatches + totalGame.VirtualMatches 
+        if (totalGame.MultipleMatches + totalGame.VirtualMatches
             > firstCondition?.ConditionFirst.TotalVirtualMultipleMatches)
         {
             progress = firstCondition.Progress;
@@ -28,11 +28,11 @@ public static class ProgressHelper
 
     private static bool IsGreaterThanOrEqualTo(TotalGameInfo totalGame, TotalGameInfo condition)
     {
-        PropertyInfo[] properties = typeof(TotalGameInfo).GetProperties();
+        var properties = typeof(TotalGameInfo).GetProperties();
         foreach (var property in properties)
         {
-            int totalGameValue = (int)property.GetValue(totalGame);
-            int conditionValue = (int)property.GetValue(condition);
+            var totalGameValue = (double)property.GetValue(totalGame);
+            var conditionValue = (double)property.GetValue(condition);
 
             if (totalGameValue < conditionValue)
             {
