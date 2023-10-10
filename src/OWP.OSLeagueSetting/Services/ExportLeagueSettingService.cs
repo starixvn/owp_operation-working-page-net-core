@@ -26,8 +26,9 @@ public class ExportLeagueSettingServiceImp : ExportLeagueSettingService
     public async Task<IList<LeagueSettingExport>> ExportLeagueSetting(ExportLeagueSettingRequest request)
     {
         var modelRequest = mapper.Map<GetLeagueInfoHandler.Request>(request);
-        var leagueInfo = await repository.GetLeagueSettingInfo(modelRequest);
-        var leagueDict = leagueInfo.GroupBy(x => x.LeagueSettingId)
+        var leagueInfoRaw = await repository.GetLeagueSettingInfo(modelRequest);
+        var leagueInfos = leagueInfoRaw.Where(x => x.IsActiveMaxBet);
+        var leagueDict = leagueInfos.GroupBy(x => x.LeagueSettingId)
             .ToDictionary(g => g.Key, g => g.ToList());
         var leagueSettings = new List<LeagueSettingExport>();
         foreach (var key in leagueDict.Keys)
@@ -52,6 +53,7 @@ public class ExportLeagueSettingServiceImp : ExportLeagueSettingService
 
     private static IList<LeagueSettingExport> SortLeagueSetting(IEnumerable<LeagueSettingExport> leagueSetting)
         => leagueSetting
+            
             .OrderBy(x => x.OSLeagueName)
             .ThenByDescending(x => x.MaxBetHDP)
             .ThenByDescending(x => x.MaxBetOU)
