@@ -24,5 +24,5 @@ public static class CalculateGapHelper
     }
 
     public static double CalculateValue(double achieved, double target)
-        => target != 0 ? achieved - target : 0;
+        => target != 0 ? Math.Round(achieved - target, 1) : 0;
 }
