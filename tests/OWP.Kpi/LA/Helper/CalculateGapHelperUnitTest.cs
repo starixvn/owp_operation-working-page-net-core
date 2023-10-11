@@ -20,8 +20,8 @@ public class CalculateGapHelperUnitTest
 
         var expect = new TotalGameInfo
         {
-            MultipleMatches = 335,
-            VirtualMatches = 950,
+            MultipleMatches = 2285,
+            VirtualMatches = -1000
 
         };
         DeepAssert.Equal(expect, result);

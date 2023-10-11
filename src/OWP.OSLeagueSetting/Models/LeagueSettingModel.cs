@@ -8,6 +8,8 @@ public class LeagueSettingModel
 
     public string CategoryName { get; set; }
 
+    public string Region { get; set; }
+
     public string OSLeagueName { get; set; }
 
     public bool IsActive { get; set; }

@@ -21,7 +21,8 @@
         <ProjectReference Include="..\OWP\OWP.csproj" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\OWP\OWP.csproj" />
+      <PackageReference Include="EPPlus" Version="6.2.9" />
+      <PackageReference Include="Epplus.Mapper" Version="6.0.0" />
     </ItemGroup>
 
 </Project>

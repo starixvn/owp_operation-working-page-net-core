@@ -1,5 +1,6 @@
 ﻿using OWP.OSLeagueSetting.Constants;
 using OWP.OSLeagueSetting.Models;
+using System.Text.RegularExpressions;
 
 namespace OWP.OSLeagueSetting.Helper;
 
@@ -15,9 +16,9 @@ public static class OSLeagueSettingHelper
         var betDeyLay = leagueSettingInfos.Select(x => x.BetDelay).Distinct();
         var summaryInfo = new List<SummaryDetail>
         {
-            FormatToString(offerLines, LeagueSettingConst.OfferLines),
+            FormatStyle(offerLines, LeagueSettingConst.OfferLines),
             FormatNumberBetType(betTypes, LeagueSettingConst.BetType),
-            FormatToString(betDeyLay, LeagueSettingConst.BetDelay),
+            FormatStyle(betDeyLay, LeagueSettingConst.BetDelay),
             FormatManualUpdate(leagueSettingInfos, LeagueSettingConst.ManualUpdate)
         };
 
@@ -30,8 +31,8 @@ public static class OSLeagueSettingHelper
         var providers = leagueSettingInfos.Select(x => x.Provider).Distinct();
         var summaryRemark = new List<SummaryDetail>
         {
-            FormatToString(weekMatches, LeagueSettingConst.WeekMatch),
-            FormatToString(providers, LeagueSettingConst.Provider),
+            FormatStyle(weekMatches, LeagueSettingConst.WeekMatch),
+            FormatStyle(providers, LeagueSettingConst.Provider),
             FormatDateTime(leagueSettingInfos.FirstOrDefault(), LeagueSettingConst.TimeRange),
             FormatManualIpTv(leagueSettingInfos, LeagueSettingConst.IpTv),
             FormatRemark(leagueSettingInfos.FirstOrDefault(), LeagueSettingConst.Remark)
@@ -47,19 +48,21 @@ public static class OSLeagueSettingHelper
         return string.Join(',', roundNames.Where(x => !string.IsNullOrEmpty(x)));
     }
 
-    private static SummaryDetail FormatToString(IEnumerable<string> values, string property)
+    public static SummaryDetail FormatStyle(IEnumerable<string> values, string property)
+        => new ()
+        {
+            Text = FormatToString(values, property),
+            Style = LeagueSettingConst.SummaryStyleOption.GetValueOrDefault(property)
+        };
+ 
+
+    public static string FormatToString(IEnumerable<string> values, string property)
     {
         var valueList = values.ToList();
         var totalOption = LeagueSettingConst.SummaryFullOption.GetValueOrDefault(property);
-        var text = valueList.Count == totalOption
+        return valueList.Count == totalOption
             ? string.Empty
             : $"{string.Join('/', valueList.Where(x => !string.IsNullOrEmpty(x)))}";
-
-        return new SummaryDetail
-        {
-            Text = text,
-            Style = LeagueSettingConst.SummaryStyleOption.GetValueOrDefault(property)
-        };
     }
 
     private static SummaryDetail FormatNumberBetType(int betTypes, string property)
@@ -130,4 +133,53 @@ public static class OSLeagueSettingHelper
 
             Style = LeagueSettingConst.SummaryStyleOption.GetValueOrDefault(property)
         };
+
+    public static string CalculateSummaryExportFirst(LeagueSettingInfo leagueSettingInfo)
+        => (leagueSettingInfo.MaxBetHDP.HasValue ? $"{{HDP {leagueSettingInfo.MaxBetHDP}}}" : string.Empty) +
+           (leagueSettingInfo.MaxBetOU.HasValue ? $"{{OU {leagueSettingInfo.MaxBetOU}}}" : string.Empty);
+
+    public static string CalculateSummaryExportSecond(string offerLines, string bettypes, string betDelays)
+    {
+         string result = "";
+
+        if (!string.IsNullOrEmpty(offerLines))
+        {
+            result += $"({offerLines})";
+        }
+
+        if (!string.IsNullOrEmpty(bettypes))
+        {
+            result += $"({bettypes})";
+        }
+
+        if (!string.IsNullOrEmpty(betDelays))
+        {
+            result += $"({betDelays})";
+        }
+
+        return result;
+    }
+
+
+    public static string CalculateRemarkExport(IList<LeagueSettingInfo> leagueInfos)
+    {
+        var updateScore = FormatManualUpdate(leagueInfos, LeagueSettingConst.ManualUpdate).Text;
+        var weekMatches = leagueInfos.Select(x => x.WeekMatch).Distinct();
+        var weekMatchText = FormatToStringExport(weekMatches);
+        var providers = leagueInfos.Select(x => x.Provider).Distinct();
+        var providerText = FormatToStringExport(providers);
+        var koTime = FormatDateTime(leagueInfos.FirstOrDefault(), LeagueSettingConst.TimeRange)?.Text;
+        var ipTv = FormatManualIpTv(leagueInfos, LeagueSettingConst.IpTv).Text;
+        var remark = FormatRemark(leagueInfos.FirstOrDefault(), LeagueSettingConst.Remark).Text;
+        return string.Join("",
+            !string.IsNullOrEmpty(updateScore) ? $"({updateScore})" : "",
+            !string.IsNullOrEmpty(weekMatchText) ? $"(End Of Preseason before {weekMatchText} Week Match)" : "",
+            !string.IsNullOrEmpty(providerText) ? $"({providerText})" : "",
+            !string.IsNullOrEmpty(koTime) ? $"({koTime})" : "",
+            !string.IsNullOrEmpty(ipTv) ? $"({ipTv})" : "",
+            !string.IsNullOrEmpty(remark) ? $"({remark})" : "");
+    }
+
+    public static string FormatToStringExport(IEnumerable<string> values)
+        => $"{string.Join('/', values.Where(x => !string.IsNullOrEmpty(x)))}";
 }

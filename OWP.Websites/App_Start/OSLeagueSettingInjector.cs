@@ -15,5 +15,6 @@ public static class OSLeagueSettingInjector
         services.AddScoped<DuplicateSettingService, DuplicateSettingServiceImp>();
         services.AddScoped<SettingRuleCreator, SettingRuleCreatorImp>();
         services.AddScoped<LogService, LogServiceImp>();
+        services.AddScoped<ExportLeagueSettingService, ExportLeagueSettingServiceImp>();
     }
 }
