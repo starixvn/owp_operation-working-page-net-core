@@ -1,6 +1,6 @@
 using Fanex.Data.Repository;
 
-namespace OWP.MatchCountLiveReport.Criteria;
+namespace OWP.Report.MatchCountLiveReport.Criteria;
 
 public class QueryReportInfoCriteria : CriteriaBase
 {

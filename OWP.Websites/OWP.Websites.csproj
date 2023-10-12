@@ -60,7 +60,6 @@
     <ProjectReference Include="..\src\OWP.SimpleDataApi\OWP.SimpleDataApi.csproj" />
     <ProjectReference Include="..\src\OWP.TicketTypeRecipient\OWP.TicketTypeRecipient.csproj" />
     <ProjectReference Include="..\src\OWP.TicketCenter\OWP.TicketCenter.csproj" />
-    <ProjectReference Include="..\src\OWP.MatchCountLiveReport\OWP.MatchCountLiveReport.csproj" />
     <ProjectReference Include="..\src\OWP.OSLeagueSetting\OWP.OSLeagueSetting.csproj" />
     <ProjectReference Include="..\src\OWP.Report\OWP.Report.csproj" />
     <ProjectReference Include="..\src\OWP.LeagueManagement\OWP.LeagueManagement.csproj" />
