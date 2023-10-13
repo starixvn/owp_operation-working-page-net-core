@@ -4,7 +4,6 @@ using Fanex.NAP.Client.Configuration;
 using Fanex.NAP.Client.Helpers.Web;
 using Fanex.NAP.SignIn.Attribute;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.FileProviders;
 using ONEbook.UM.AspNetCore.Filters;
 using OWP.Hubs;
 using OWP.Models;
@@ -49,7 +48,7 @@ builder.Services.AddCoreServices();
 builder.Services.AddMediator();
 builder.Services.AddAutoMapper();
 builder.Services.AddInternalServices();
-builder.Services.AddRabbitMQ(builder.Configuration);
+builder.Services.AddRabbitMQ();
 builder.Services.AddControllersWithViews(options =>
 {
     options.Filters.Add(new ServiceFilterAttribute(typeof(CheckUMFilterAttribute)));

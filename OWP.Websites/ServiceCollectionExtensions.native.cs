@@ -307,7 +307,7 @@ public static class ServiceCollectionExtensions
         services.AddSignalR()
         .AddStackExchangeRedis(redisConfig, options =>
         {
-            options.Configuration.ChannelPrefix = channelPrefix;
+            options.Configuration.ChannelPrefix = new RedisChannel(channelPrefix, RedisChannel.PatternMode.Auto);
         });
         services.AddSingleton<NewDataUploadNotifyHubImp>();
         services.AddSingleton<TicketCenterNotifyHubImp>();
@@ -317,8 +317,7 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddSimpleDataApiModule(this IServiceCollection services)
     {
-        SimpleDataApiConfigurationHandler.Instance()
-                .SetActorIdParameterName("ActorId");
+        SimpleDataApiConfigurationHandler.Instance().SetActorIdParameterName("ActorId");
         services.AddTransient<SimpleCriteriaFactory, SimpleCriteriaFactoryImp>();
         services.AddTransient<SimpleFunctionPermissionFactory, SimpleFunctionPermissionFactoryImp>();
         services.AddTransient<SimpleMapperFactory, SimpleMapperFactoryImp>();
@@ -326,7 +325,7 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddRabbitMQ(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddRabbitMQ(this IServiceCollection services)
     {
         services.AddSingleton<MessageClient, MessageClientImp>();
 

@@ -22,7 +22,7 @@
         <PackageReference Include="Fanex.Caching.Redis.AspNetCore" Version="2.2.4" />
         <PackageReference Include="Olympus.Xml" Version="1.0.0.5" />
         <PackageReference Include="Fanex.Logging" Version="2.0.1.1" />
-        <PackageReference Include="EPPlus" Version="6.2.9" />
+        <PackageReference Include="EPPlus" Version="6.2.10" />
         <PackageReference Include="Epplus.Mapper" Version="6.0.0" />
     </ItemGroup>
 </Project>
