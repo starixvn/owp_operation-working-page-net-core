@@ -24,7 +24,7 @@ public class LAKpiController : ControllerBase
 
     private readonly IMediator mediator;
 
-    public LAKpiController(IMediator mediator,RefResourceService refResourceService,INapSession session)
+    public LAKpiController(IMediator mediator, RefResourceService refResourceService, INapSession session)
     {
         this.mediator = mediator;
         this.refResourceService = refResourceService;
@@ -46,7 +46,7 @@ public class LAKpiController : ControllerBase
     }
 
     [HttpGet("export")]
-    public async Task<IActionResult> DownloadLAKpiInfo(DateTime fromDate, DateTime toDate,string sectionIds)
+    public async Task<IActionResult> DownloadLAKpiInfo(DateTime fromDate, DateTime toDate, string sectionIds)
     {
         using var data = await mediator.Send(new ExportKpiRequest
         {
@@ -54,7 +54,7 @@ public class LAKpiController : ControllerBase
             ToDate = toDate,
             SectionIds = sectionIds
         });
-      
+
         var bytes = await data.GetAsByteArrayAsync();
         var fileName = GetFileName(fromDate, toDate);
         return File(bytes, "application/octet-stream", fileName);
@@ -80,10 +80,18 @@ public class LAKpiController : ControllerBase
     }
 
     [HttpGet("get-all-section")]
-    public async Task<IEnumerable<SectionInfo>> UpdateTargetLevel(int  userId)
+    public async Task<IEnumerable<SectionInfo>> UpdateTargetLevel(int userId)
     {
-       var data =  await mediator.Send(new GetAllSectionRequest {UserId = userId});
-       return data;
+        var data = await mediator.Send(new GetAllSectionRequest { UserId = userId });
+        return data;
+    }
+
+    [Route("get-log-target-level")]
+    [HttpGet]
+    public async Task<IEnumerable<LogDisplayModel>> GetLogTargetLevel(int userId)
+    {
+        var result = await mediator.Send(new GetLogRequest { UserId = userId });
+        return result;
     }
 
     private string GetFileName(DateTime fromDate, DateTime toDate)

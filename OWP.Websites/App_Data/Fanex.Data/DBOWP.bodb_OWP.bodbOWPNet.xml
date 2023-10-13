@@ -393,7 +393,8 @@
     <Function Name="Kpi">
 		<Setting Key="OWP_Kpi_Get" SpName="OWP_Kpi_Get" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
 		<Setting Key="OWP_Kpi_UpdateTargetLevel" SpName="OWP_Kpi_UpdateTargetLevel" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
-    <Setting Key="OWP_KPI_GetAllSectionInfos" SpName="OWP_KPI_GetAllSectionInfos" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
+    		<Setting Key="OWP_KPI_GetAllSectionInfos" SpName="OWP_KPI_GetAllSectionInfos" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
+		<Setting Key="OWP_Kpi_GetLogTargetLevel" SpName="OWP_Kpi_GetLogTargetLevel" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>
     </Function>
   <Function Name="Feedback">
     <Setting Key="OWP_Feedback_GetFunctionFeedback" SpName="OWP_Feedback_GetFunctionFeedback" DbName="DBOWP.bodb_OWP.bodbOWPNet"/>

@@ -1,4 +1,5 @@
 using Fanex.Data.Repository;
+using Fanex.NAP.Client.Helpers.Web;
 using Newtonsoft.Json;
 using OWP.Kpi.LA.Criteria;
 using OWP.Kpi.LA.Models;
@@ -17,10 +18,12 @@ public interface Repository
 public class RepositoryImp : Repository
 {
     private readonly IDynamicRepository repository;
+    private readonly INapSession session;
 
-    public RepositoryImp(IDynamicRepository repository)
+    public RepositoryImp(IDynamicRepository repository, INapSession session)
     {
         this.repository = repository;
+        this.session = session;
     }
 
     public async Task<IList<KpiInfo>> GetKpiInfo(DateTime fromDate, DateTime toDate, string sectionIds)
@@ -34,7 +37,8 @@ public class RepositoryImp : Repository
     public async Task UpdateTargetLevel(List<TargetLevel> targetLevels)
         => await repository.FetchAsync<KpiInfo>(new UpdateTargetLevelCriteria
         {
-            TargetJson = JsonConvert.SerializeObject(targetLevels)
+            TargetJson = JsonConvert.SerializeObject(targetLevels),
+            ActorId = session.UserId
         });
 
     public async Task<IEnumerable<SectionInfo>> GetAllSection(int userId)

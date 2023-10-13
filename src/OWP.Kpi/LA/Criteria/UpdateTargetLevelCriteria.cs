@@ -6,6 +6,8 @@ public class UpdateTargetLevelCriteria : CriteriaBase
 {
     public string TargetJson { get; set; }
 
+    public int ActorId { get; set; }
+
     public override string GetSettingKey() => "OWP_Kpi_UpdateTargetLevel";
 
     public override bool IsValid() => true;
