@@ -46,7 +46,7 @@ public class ExportMiscMatchHandler : IRequestHandler<ExportMiscMatchRequest, Fi
     {
         var matches = await buildMainAndChildMatches.GetMainAndChildMatchEvent(request.Date);
 
-        var templatePath = GetReportTemplate();
+        var templatePath = Utils.GetMiscMatchTemplate(configurationService.CurrentDirectory);
 
         await using var stream = new FileStream(templatePath, FileMode.Open, FileAccess.Read);
 
@@ -92,11 +92,6 @@ public class ExportMiscMatchHandler : IRequestHandler<ExportMiscMatchRequest, Fi
         GC.SuppressFinalize(this);
     }
 
-    private string GetReportTemplate()
-    {
-        const string templatePath = @"App_Data/Templates/EventPickingNewFormat.xlsx";
-        return $"{configurationService.CurrentDirectory}{Path.DirectorySeparatorChar}{templatePath}";
-    }
 
     protected virtual void Dispose(bool isDisposing)
     {

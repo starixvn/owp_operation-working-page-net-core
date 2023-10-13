@@ -65,4 +65,9 @@ public class EventPickingController
 
         return new JsonResult(result);
     }
+
+    [Route("export-excel")]
+    [HttpPost]
+    public async Task<FileResult> ExportExcel(ExportExcelRequest request)
+    => await mediator.Send(request);
 }
