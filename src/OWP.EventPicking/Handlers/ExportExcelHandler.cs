@@ -1,7 +1,9 @@
+using System.Drawing;
 using Epplus.Mapper.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using OfficeOpenXml;
+using OfficeOpenXml.Style;
 using OWP.EventPicking.Middleware.Models;
 using OWP.EventPicking.Models;
 using OWP.EventPicking.Services;
@@ -64,8 +66,10 @@ public class ExportExcelHandler : IRequestHandler<ExportExcelRequest, FileResult
                 }
 
                 var colorTraderFromHex = ColorTranslator.FromHtml(match.RowColorHex);
-                templateSheet.Cells[row, column].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                templateSheet.Cells[row, column].Style.Fill.BackgroundColor.SetColor(colorTraderFromHex);
+                var cell = templateSheet.Cells[row, column];
+                cell.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                cell.Style.Fill.BackgroundColor.SetColor(colorTraderFromHex);
+                templateSheet.Cells[row, 1].Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(Misc.Constant.ColorPinkHex));
             }
         }
     }

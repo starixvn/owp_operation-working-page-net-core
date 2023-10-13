@@ -5,6 +5,7 @@ namespace OWP.EventPicking.Misc;
 public static class Constant
 {
     public static string ColorWhiteHex = "#FFFFFF";
+    public static string ColorPinkHex = "#FFCCFF";
     public static string ColorGrayHex = "#808080";
     public static string ColorRedHex = "#F6BEBE";
 
@@ -21,5 +22,5 @@ public static class Constant
         { ColorWhite, ColorWhiteHex }
     }.ToImmutableDictionary();
 
-    public static readonly List<string> SpecialOwpName = new() {"Next Corners","Next Booking", "(SPECIFIC 15 MINS)"};
+    public static readonly List<string> SpecialOwpName = new() { "Next Corners", "Next Booking", "(SPECIFIC 15 MINS)" };
 }
