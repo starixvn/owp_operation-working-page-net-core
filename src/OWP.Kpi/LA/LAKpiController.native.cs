@@ -33,24 +33,26 @@ public class LAKpiController : ControllerBase
 
     [Route("")]
     [HttpGet]
-    public async Task<DataViewModel> GetLAKpiInfo(DateTime fromDate, DateTime toDate)
+    public async Task<DataViewModel> GetLAKpiInfo(DateTime fromDate, DateTime toDate, string sectionIds)
     {
         var data = await mediator.Send(new CalculateKpiRequest
         {
             FromDate = fromDate,
-            ToDate = toDate
+            ToDate = toDate,
+            SectionIds = sectionIds
         });
 
         return data;
     }
 
     [HttpGet("export")]
-    public async Task<IActionResult> DownloadLAKpiInfo(DateTime fromDate, DateTime toDate)
+    public async Task<IActionResult> DownloadLAKpiInfo(DateTime fromDate, DateTime toDate,string sectionIds)
     {
         using var data = await mediator.Send(new ExportKpiRequest
         {
             FromDate = fromDate,
-            ToDate = toDate
+            ToDate = toDate,
+            SectionIds = sectionIds
         });
       
         var bytes = await data.GetAsByteArrayAsync();
@@ -75,6 +77,13 @@ public class LAKpiController : ControllerBase
     public async Task UpdateTargetLevel(UpdateTargetLevelRequest request)
     {
         await mediator.Send(request);
+    }
+
+    [HttpGet("get-all-section")]
+    public async Task<IEnumerable<SectionInfo>> UpdateTargetLevel(int  userId)
+    {
+       var data =  await mediator.Send(new GetAllSectionRequest {UserId = userId});
+       return data;
     }
 
     private string GetFileName(DateTime fromDate, DateTime toDate)

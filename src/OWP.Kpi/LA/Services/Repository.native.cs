@@ -7,9 +7,11 @@ namespace OWP.Kpi.LA.Services;
 
 public interface Repository
 {
-    Task<IList<KpiInfo>> GetKpiInfo(DateTime fromDate, DateTime toDate);
+    Task<IList<KpiInfo>> GetKpiInfo(DateTime fromDate, DateTime toDate, string sectionIds);
 
     Task UpdateTargetLevel(List<TargetLevel> targetLevels);
+
+    Task<IEnumerable<SectionInfo>> GetAllSection( int userId);
 }
 
 public class RepositoryImp : Repository
@@ -21,11 +23,12 @@ public class RepositoryImp : Repository
         this.repository = repository;
     }
 
-    public async Task<IList<KpiInfo>> GetKpiInfo(DateTime fromDate, DateTime toDate)
+    public async Task<IList<KpiInfo>> GetKpiInfo(DateTime fromDate, DateTime toDate, string sectionIds)
         => (await repository.FetchAsync<KpiInfo>(new CalculateKpiCriteria
         {
             FromDate = fromDate,
-            ToDate = toDate
+            ToDate = toDate,
+            SectionIds = sectionIds
         })).ToList();
 
     public async Task UpdateTargetLevel(List<TargetLevel> targetLevels)
@@ -33,4 +36,7 @@ public class RepositoryImp : Repository
         {
             TargetJson = JsonConvert.SerializeObject(targetLevels)
         });
+
+    public async Task<IEnumerable<SectionInfo>> GetAllSection(int userId)
+        => await repository.FetchAsync<SectionInfo>(new GetAllSectionCriteria { UserId = userId });
 }

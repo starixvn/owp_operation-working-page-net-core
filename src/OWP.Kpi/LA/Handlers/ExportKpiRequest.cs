@@ -18,6 +18,8 @@ public class ExportKpiRequest : IRequest<ExcelPackage>
     public DateTime FromDate { get; set; }
 
     public DateTime ToDate { get; set; }
+
+    public string SectionIds { get; set;}
 }
 public class ExportKpiHandler : IRequestHandler<ExportKpiRequest, ExcelPackage>, IDisposable
 {
@@ -56,7 +58,7 @@ public class ExportKpiHandler : IRequestHandler<ExportKpiRequest, ExcelPackage>,
     private async Task BuildExcelBody(ExportKpiRequest request)
     {
         var isGap = CalculateGapHelper.IsGap(request.FromDate, request.ToDate);
-        var kpiInfo = await kpiService.BuildKpiInfo(request.FromDate, request.ToDate, isGap);
+        var kpiInfo = await kpiService.BuildKpiInfo(request.FromDate, request.ToDate,request.SectionIds,isGap);
         var kpiReport = mapper.Map<IList<KpiInfoReport>>(kpiInfo);
         reportSheet.ApplyVertical(kpiReport, 3);
         SetStyleTemplate();
