@@ -1,5 +1,4 @@
-﻿using System.Reflection.Metadata.Ecma335;
-using OWP.Kpi.LA.Constant;
+﻿using OWP.Kpi.LA.Constant;
 using OWP.Kpi.LA.Models;
 
 namespace OWP.Kpi.LA.Helper;
@@ -13,7 +12,7 @@ public static class CalculateGapHelper
     {
         var targetCondition = ConditionConstant.ConditionInfos
             .FirstOrDefault(x => x.LevelId == targetId)?.TargetCondition ?? new Condition();
-        return new()
+        return new TotalGameInfo
         {
             MultipleMatches = CalculateValue(achievedGame.MultipleMatches, targetCondition.MultipleMatches),
             VirtualMatches = CalculateValue(achievedGame.VirtualMatches, targetCondition.VirtualMatches),

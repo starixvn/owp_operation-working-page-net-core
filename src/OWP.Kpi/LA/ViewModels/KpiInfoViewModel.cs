@@ -1,7 +1,6 @@
-﻿using OWP.Kpi.LA.Constant;
-using OWP.Kpi.LA.Helper;
+﻿using OWP.Kpi.LA.Models;
 
-namespace OWP.Kpi.LA.Models;
+namespace OWP.Kpi.LA.ViewModels;
 
 public class KpiInfoViewModel
 {

@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using OWP.Kpi.LA.Models;
+﻿using OWP.Kpi.LA.Models;
 
 namespace OWP.Kpi.LA.Helper;
 public static class ProgressHelper

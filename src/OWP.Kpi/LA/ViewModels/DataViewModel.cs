@@ -1,6 +1,4 @@
 ﻿
-using OWP.Kpi.LA.Models;
-
 namespace OWP.Kpi.LA.ViewModels;
 public class DataViewModel
 {
