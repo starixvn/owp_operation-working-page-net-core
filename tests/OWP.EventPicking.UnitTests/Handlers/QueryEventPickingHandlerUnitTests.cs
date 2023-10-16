@@ -10,14 +10,16 @@ using Xunit.Asserts.Compare;
 
 public class QueryEventPickingHandlerUnitTests
 {
-    private readonly BuildMainAndChildMatches buildMainAndChildMatches;
+    private readonly QueryEventPickingServiceImp queryEventPickingService;
     private readonly QueryEventPickingHandler service;
+
+    private readonly BuildMainAndChildMatches buildMainAndChildMatches;
 
     public QueryEventPickingHandlerUnitTests()
     {
+        queryEventPickingService = Substitute.For<QueryEventPickingServiceImp>();
         buildMainAndChildMatches = Substitute.For<BuildMainAndChildMatches>();
-
-        service = new QueryEventPickingHandler(buildMainAndChildMatches);
+        service = new QueryEventPickingHandler(queryEventPickingService);
     }
 
     [Fact]

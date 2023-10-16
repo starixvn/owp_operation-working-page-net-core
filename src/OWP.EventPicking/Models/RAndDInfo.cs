@@ -16,5 +16,5 @@ public class RAndDInfo
     public string TextColor => Color.Item2;
 
     [JsonIgnore]
-    public (string, string) Color => RAndDColorConstant.RAndDColorDict.GetValueOrDefault(UpdateTypeId);
+    public (string, string) Color => RAndDColorConstant.MAP_R_AND_D_COLOR.GetValueOrDefault(UpdateTypeId);
 }

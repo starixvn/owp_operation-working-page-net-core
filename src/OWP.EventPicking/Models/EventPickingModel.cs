@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Text.Json.Serialization;
 using Epplus.Mapper.Annotations;
 using OWP.EventPicking.Misc;
 using OWP.Extensions;
@@ -38,7 +39,7 @@ public class EventPickingModel
     public string MatchNo { get; set; }
 
     [Cell("B2")]
-    public string MatchStatus { get; set; }
+    public string MatchStatus => IsNoOffer ? "Cancel" : string.Empty;
 
     [Cell("C2")]
     public string EventDate => EventDateTime.Date.ToString(CultureInfo.InvariantCulture);
@@ -256,9 +257,15 @@ public class EventPickingModel
     [Cell("BV2")]
     public string SpreadFM { get; set; }
 
+    [JsonIgnore]
+    public bool HomeUpdated { get; set; }
+
+    [JsonIgnore]
+    public bool AlwayUpdated { get; set; }
+
     public bool IsNoOffer { get; set; }
 
-    public string RowColorHex => Misc.Constant.ColorDict.GetValueOrDefault(RowColor);
+    public string RowColorHex => Misc.Constant.ColorPair.GetValueOrDefault(RowColor);
 
     public string RowColor { get; set; }
 
