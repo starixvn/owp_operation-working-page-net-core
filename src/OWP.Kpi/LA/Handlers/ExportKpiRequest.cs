@@ -88,7 +88,7 @@ public class ExportKpiHandler : IRequestHandler<ExportKpiRequest, ExcelPackage>,
                     cell.Style.Font.Color.SetColor(Color.Red);
                     cell.Value = -numericValue;
                 }
-                if (col == 3 && cell.Value?.ToString() == "Fail")
+                if (col == 4 && cell.Value?.ToString() == "Fail")//NOSONAR
                 {
                     reportSheet.Cells[row, col].Style.Fill.PatternType = ExcelFillStyle.None;
                     cell.Style.Font.Color.SetColor(Color.Red);

@@ -10,6 +10,8 @@ public class KpiInfoViewModel
 
     public string UserName { get; set; }
 
+    public string SectionName { get; set; }
+
     public string Target { get; set; }
 
     public int? TargetId { get; set; }
