@@ -95,10 +95,8 @@ public static class ExcelColorHelper
         if (ExistsUpdateType(RAndDColorConstant.NEW_MATCH, match))
         {
             var cell = templateSheet.Cells[row, Misc.Constant.REMARK_COL_INDEX];
+            cell.Value = $"[NEW ADD] {cell.Value}";
             FillCellColor(cell);
-            cell.Value = !string.IsNullOrWhiteSpace(cell.Value?.ToString()) ?
-            $"[NEW ADD] {cell.Value}"
-            : cell.Value;
         }
     }
 
