@@ -30,6 +30,11 @@ public static class ProgressHelper
         var properties = typeof(TotalGameInfo).GetProperties();
         foreach (var property in properties)
         {
+            if (property.PropertyType == typeof(bool))
+            {
+                continue;
+            }
+
             var totalGameValue = (double)property.GetValue(totalGame);
             var conditionValue = (double)property.GetValue(condition);
 

@@ -8,46 +8,46 @@ using Xunit;
 namespace OWP.Kpi.UnitTests.LA.Helper;
 public class ProgressHelperUnitTest
 {
-        [Fact]
-        public void Evaluate_TotalMatchesAreGreaterThanCondition_ReturnExpect()
+    [Fact]
+    public void Evaluate_TotalMatchesAreGreaterThanCondition_ReturnExpect()
+    {
+        var totalGame = new TotalGameInfo
         {
-            var totalGame = new TotalGameInfo
-            {
-                VirtualMatches = 1000,
-                MultipleMatches = 2335
-            };
+            VirtualMatches = 1000,
+            MultipleMatches = 2335
+        };
 
-            var result = ProgressHelper.Evaluate(ConditionConstant.ConditionInfos.ToList(), totalGame);
+        var result = ProgressHelper.Evaluate(ConditionConstant.ConditionInfos.ToList(), totalGame);
 
-            Assert.Equal("New", result);
-        }
+        Assert.Equal("New", result);
+    }
 
-        [Fact]
-        public void Evaluate_NotMatchingConditionProgress_ReturnEmpty()
+    [Fact]
+    public void Evaluate_NotMatchingConditionProgress_ReturnEmpty()
+    {
+        var totalGame = new TotalGameInfo
         {
-            var totalGame = new TotalGameInfo
-            {
-                VirtualMatches = 15,
-                MultipleMatches = 8
-            };
+            VirtualMatches = 15,
+            MultipleMatches = 8
+        };
 
-            var result = ProgressHelper.Evaluate(ConditionConstant.ConditionInfos.ToList(), totalGame);
+        var result = ProgressHelper.Evaluate(ConditionConstant.ConditionInfos.ToList(), totalGame);
 
-            Assert.Equal("Fail", result);
-        }
+        Assert.Equal("Fail", result);
+    }
 
-        [Fact]
-        public void Evaluate_MatchingConditionProgress_ReturnExpect()
+    [Fact]
+    public void Evaluate_MatchingConditionProgress_ReturnExpect()
+    {
+        var totalGame = new TotalGameInfo
         {
-            var totalGame = new TotalGameInfo
-            {
-                VirtualMatches = 3300,
-                MultipleMatches = 900
-            };
+            VirtualMatches = 3300,
+            MultipleMatches = 900
+        };
 
-            var result = ProgressHelper.Evaluate(ConditionConstant.ConditionInfos.ToList() , totalGame);
+        var result = ProgressHelper.Evaluate(ConditionConstant.ConditionInfos.ToList(), totalGame);
 
-            Assert.Equal("Level D", result);
-        }
+        Assert.Equal("Level D", result);
+    }
 }
 
