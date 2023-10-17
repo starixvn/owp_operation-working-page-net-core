@@ -257,12 +257,6 @@ public class EventPickingModel
     [Cell("BV2")]
     public string SpreadFM { get; set; }
 
-    [JsonIgnore]
-    public bool HomeUpdated { get; set; }
-
-    [JsonIgnore]
-    public bool AlwayUpdated { get; set; }
-
     public bool IsNoOffer { get; set; }
 
     public string RowColorHex => Misc.Constant.ColorPair.GetValueOrDefault(RowColor);

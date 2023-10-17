@@ -41,14 +41,17 @@ public static class ExcelColorHelper
 
     private static void FillColorTeam(EventPickingModel match, int row, ExcelWorksheet templateSheet)
     {
-        if (ExistsUpdateType(RAndDColorConstant.UPDATE_TEAM, match) && match.HomeUpdated)
+        var updateTeam = match.RAndDInfos?.FirstOrDefault(r => r.UpdateTypeId == RAndDColorConstant.UPDATE_TEAM);
+        if (updateTeam is not null)
         {
-            FillCellColor(templateSheet.Cells[row, Misc.Constant.HOME_COL_INDEX]);
-        }
-
-        if (ExistsUpdateType(RAndDColorConstant.UPDATE_TEAM, match) && match.AlwayUpdated)
-        {
-            FillCellColor(templateSheet.Cells[row, Misc.Constant.AWAY_COL_INDEX]);
+            if (updateTeam.HomeUpdated)
+            {
+                FillCellColor(templateSheet.Cells[row, Misc.Constant.HOME_COL_INDEX]);
+            }
+            if (updateTeam.AwayUpdated)
+            {
+                FillCellColor(templateSheet.Cells[row, Misc.Constant.AWAY_COL_INDEX]);
+            }
         }
     }
 
@@ -60,7 +63,6 @@ public static class ExcelColorHelper
             FillCellColor(templateSheet.Cells[row, Misc.Constant.PROVIDER_COL_INDEX]);
         }
     }
-
 
     private static void FillColorIpTv(EventPickingModel match, int row, ExcelWorksheet templateSheet)
     {
@@ -94,7 +96,9 @@ public static class ExcelColorHelper
         {
             var cell = templateSheet.Cells[row, Misc.Constant.REMARK_COL_INDEX];
             FillCellColor(cell);
-            cell.Value = $"[NEW ADD] ${cell.Value?.ToString()}";
+            cell.Value = !string.IsNullOrWhiteSpace(cell.Value?.ToString()) ?
+            $"[NEW ADD] {cell.Value}"
+            : cell.Value;
         }
     }
 
@@ -113,5 +117,5 @@ public static class ExcelColorHelper
     }
 
     private static bool ExistsUpdateType(int updateType, EventPickingModel match)
-    => match.RAndDInfos.Exists(r => r.UpdateTypeId == updateType);
+    => match.RAndDInfos is not null && match.RAndDInfos.Exists(r => r.UpdateTypeId == updateType);
 }
