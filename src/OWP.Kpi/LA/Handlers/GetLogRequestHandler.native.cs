@@ -1,6 +1,5 @@
 using Fanex.Data.Repository;
 using MediatR;
-using OWP.Extensions;
 using OWP.Kpi.LA.Criteria;
 using OWP.Kpi.LA.Models;
 using OWP.Utils;
@@ -40,7 +39,7 @@ public class GetLogRequestHandler : IRequestHandler<GetLogRequest, IEnumerable<L
             {
                 OldValue = infoBeforeChange.Target,
                 NewValue = infoAfterChange.Target,
-                ModifyDate = log.ModifiedDate.ToGmt8().ToString("dd MMM yyyy hh:mm tt"),
+                ModifyDate = log.ModifiedDate.ToString("dd MMM yyyy hh:mm tt"),
                 ModifyBy = log.ModifiedBy
             };
         }
