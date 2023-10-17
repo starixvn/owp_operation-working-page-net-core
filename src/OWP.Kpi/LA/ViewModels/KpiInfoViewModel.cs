@@ -21,6 +21,7 @@ public class KpiInfoViewModel
     public TotalGameInfo GapWithTarget { get; set; } = new();
 
     public bool IsAlmostWinTarget => GapWithTarget.IsWinMinTarget &&
+                                     !string.IsNullOrEmpty(Progress) &&
                                      !string.IsNullOrEmpty(Target) &&
                                      !Progress.Equals(Target, StringComparison.OrdinalIgnoreCase);
 
