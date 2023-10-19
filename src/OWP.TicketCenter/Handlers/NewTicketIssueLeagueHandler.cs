@@ -7,7 +7,6 @@ using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Notification.Models;
 using OWP.TicketCenter.Notification.Services;
 using OWP.TicketCenter.Services;
-using OWP.TicketCenter.Enum;
 
 namespace OWP.TicketCenter.Handlers;
 

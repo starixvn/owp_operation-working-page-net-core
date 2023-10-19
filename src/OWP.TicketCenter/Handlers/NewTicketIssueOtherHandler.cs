@@ -3,7 +3,6 @@ using MediatR;
 using OWP.RabbitMQ;
 using OWP.RabbitMQ.Constants;
 using OWP.TicketCenter.Criteria;
-using OWP.TicketCenter.Enum;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Notification.Models;
 using OWP.TicketCenter.Notification.Services;

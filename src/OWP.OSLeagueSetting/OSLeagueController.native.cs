@@ -6,7 +6,6 @@ using OWP.OSLeagueSetting.Handlers;
 using OWP.OSLeagueSetting.Middleware;
 using OWP.OSLeagueSetting.Models;
 using OWP.OSLeagueSetting.Services;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace OWP.OSLeagueSetting;
 
