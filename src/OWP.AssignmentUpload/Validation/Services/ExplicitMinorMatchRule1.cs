@@ -58,7 +58,7 @@ public class ExplicitMinorMatchRule1Imp : ExplicitMinorMatchRule1
         var home = assignment.Home[..homeLength].TrimEnd();
         var away = assignment.Away[..awayLength].TrimEnd();
 
-        return assignments.FirstOrDefault(p =>
+        return assignments.Find(p =>
             string.Compare(p.League, league, StringComparison.CurrentCultureIgnoreCase) == 0 &&
             string.Compare(p.Home, home, StringComparison.CurrentCultureIgnoreCase) == 0 &&
             string.Compare(p.Away, away, StringComparison.CurrentCultureIgnoreCase) == 0);

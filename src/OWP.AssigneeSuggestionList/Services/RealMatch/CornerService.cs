@@ -53,7 +53,7 @@ public class CornerServiceImp : CornerService
         {
             Color = ColorCodeConst.CORNER,
             TextColor = ColorCodeConst.TEXT_CORNER,
-            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignmentsCorner.First(), textPostfix)
+            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignmentsCorner[0], textPostfix)
         };
 
         var gameInfo = ScheduleHelper.GetGameInfo(assignmentsCorner);

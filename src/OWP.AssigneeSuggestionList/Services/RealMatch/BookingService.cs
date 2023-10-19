@@ -56,7 +56,7 @@ public class BookingServiceImp : BookingService
         {
             Color = ColorCodeConst.BOOKING,
             TextColor = ColorCodeConst.TEXT_BOOKING,
-            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignmentsBooking.First(), textPostfix)
+            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignmentsBooking[0], textPostfix)
         };
 
         var gameInfo = ScheduleHelper.GetGameInfo(assignmentsBooking);

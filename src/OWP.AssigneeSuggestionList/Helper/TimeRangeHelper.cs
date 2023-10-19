@@ -26,13 +26,10 @@ public static class TimeRangeHelper
         const int HDP = (int)EnumBettype.Handicap;
         const int OU = (int)EnumBettype.OverUnder;
 
-        foreach (var bettypeId in bettypeIds)
-        {
-            if (bettypeId is HDP or OU)
-            {
-                increaseHourPair.TryAdd("FT", INCREASE_HOUR_BY_ONE);
-            }
-        }
+        bettypeIds
+            .Where(bettypeId => bettypeId is HDP || bettypeId is OU)
+            .ToList()
+            .ForEach(_ => increaseHourPair.TryAdd("FT", INCREASE_HOUR_BY_ONE));
 
         if (hasEtpk)
         {

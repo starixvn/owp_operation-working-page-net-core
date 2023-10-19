@@ -53,7 +53,7 @@ public class WinnerServiceImp : WinnerService
         {
             Color = ColorCodeConst.WINNER,
             TextColor = ColorCodeConst.TEXT_WINNER,
-            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignmentsWinner.First(), textPostfix)
+            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignmentsWinner[0], textPostfix)
         };
 
         var gameInfo = ScheduleHelper.GetGameInfo(assignmentsWinner);

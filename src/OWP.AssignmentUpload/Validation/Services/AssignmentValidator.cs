@@ -216,7 +216,7 @@ public class AssignmentValidatorImp : AssignmentValidator
 
     public void ValidateMinorMatchIsWrongGrammar(AssignmentModelInExcel assignment, IList<ValidationResult> validationResults)
     {
-        foreach (var key in minorLeagueWrongGrammar.Keys)
+        foreach (var key in minorLeagueWrongGrammar.Keys) //NOSONAR
         {
             if (assignment.League.EndsWith(key, StringComparison.OrdinalIgnoreCase))
             {
@@ -301,7 +301,7 @@ public class AssignmentValidatorImp : AssignmentValidator
             .Split(',')
             .Where(x => !string.IsNullOrEmpty(x)).ToList();
         var matchOfferValues = matchOffers.Select(y => y.Value.ToLower(CultureInfo.InvariantCulture));
-        var isInValid = excelMatchOffers.Any(x => !matchOfferValues.Contains(x.Trim().ToLower(CultureInfo.InvariantCulture)));
+        var isInValid = excelMatchOffers.Exists(x => !matchOfferValues.Contains(x.Trim().ToLower(CultureInfo.InvariantCulture)));
 
         if (!isInValid)
         {

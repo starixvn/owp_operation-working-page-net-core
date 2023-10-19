@@ -58,7 +58,7 @@ public class BuildMainMatchMaxBetImp : BuildMainMatchMaxBet
         }
 
         var chosenLeagueSetting =
-            leagueSettings.FirstOrDefault(x => x.LeagueSettingId == chosenTruthTable.LeagueSettingId);
+            leagueSettings.Find(x => x.LeagueSettingId == chosenTruthTable.LeagueSettingId);
         MapSettings(match, chosenLeagueSetting, isWeekend);
     }
 

@@ -52,7 +52,7 @@ public class SingleTeamServiceImp : SingleTeamService
         {
             Color = ColorCodeConst.SINGLE_TEAM,
             TextColor = ColorCodeConst.TEXT_SINGLE_TEAM,
-            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignmentsSingleTeam.First(), textPostfix)
+            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignmentsSingleTeam[0], textPostfix)
         };
 
         var gameInfo = ScheduleHelper.GetGameInfo(assignmentsSingleTeam);

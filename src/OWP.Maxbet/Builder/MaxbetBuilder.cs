@@ -38,19 +38,19 @@ public class MaxbetBuilderImp : MaxbetBuilder
 
         var maxBetMainMatchDefault = (await syncMaxbetRepository.GetMaxbetSettingDefault()).ToList();
 
-        var hasExistsOu = maxbet.Any(s => s.BettypeId == (int)EnumBettype.OverUnder);
+        var hasExistsOu = maxbet.Exists(s => s.BettypeId == (int)EnumBettype.OverUnder);
         if (!hasExistsOu)
         {
             BuildMaxbetOverUnder(maxbet, maxBetMainMatchDefault);
         }
 
-        var hasExistsFirstHalfHdp = maxbet.Any(s => s.BettypeId == (int)EnumBettype.FirstHalfHandicap);
+        var hasExistsFirstHalfHdp = maxbet.Exists(s => s.BettypeId == (int)EnumBettype.FirstHalfHandicap);
         if (!hasExistsFirstHalfHdp)
         {
             BuildMaxbetFirstHalfHandicap(maxbet, maxBetMainMatchDefault);
         }
 
-        var hasExistsFirstHalfOu = maxbet.Any(s => s.BettypeId == (int)EnumBettype.FirstHalfOverUnder);
+        var hasExistsFirstHalfOu = maxbet.Exists(s => s.BettypeId == (int)EnumBettype.FirstHalfOverUnder);
         if (!hasExistsFirstHalfOu)
         {
             BuildMaxbetFirstHalfOverUnder(maxbet, maxBetMainMatchDefault);
@@ -80,7 +80,7 @@ public class MaxbetBuilderImp : MaxbetBuilder
 
     private MaxbetSpread BuildMaxbetNextCorner(List<MaxbetModel> maxbet, IEnumerable<MaxbetModel> maxbetMainMatch, IEnumerable<MaxbetSetting> maxbetSettingDefault)
     {
-        var hasExistsHdp = maxbet.Any(s => s.BettypeId.Equals((int)EnumBettype.Handicap));
+        var hasExistsHdp = maxbet.Exists(s => s.BettypeId.Equals((int)EnumBettype.Handicap));
         if (hasExistsHdp)
         {
             return BuildMaxbetSender(maxbet);
@@ -97,7 +97,7 @@ public class MaxbetBuilderImp : MaxbetBuilder
 
     private MaxbetSpread BuildMaxbetNextBooking(List<MaxbetModel> maxbet, IEnumerable<MaxbetModel> maxbetMainMatch, IEnumerable<MaxbetSetting> maxbetSettingDefault)
     {
-        var hasExistsHdp = maxbet.Any(s => s.BettypeId.Equals((int)EnumBettype.Handicap));
+        var hasExistsHdp = maxbet.Exists(s => s.BettypeId.Equals((int)EnumBettype.Handicap));
         if (!hasExistsHdp)
         {
             var handicapMainMatch = GetHandicapMainMatch(maxbetMainMatch);
@@ -177,7 +177,7 @@ public class MaxbetBuilderImp : MaxbetBuilder
 
     public void BuildMaxbetOverUnder(List<MaxbetModel> maxbet, IList<MaxbetSetting> maxbetSettings)
     {
-        var handicap = maxbet.FirstOrDefault(m => m.BettypeId == (int)EnumBettype.Handicap) ?? new MaxbetModel();
+        var handicap = maxbet.Find(m => m.BettypeId == (int)EnumBettype.Handicap) ?? new MaxbetModel();
         var maxbetFtOu = maxbetSettings.FirstOrDefault(x => x.FT_HDP == handicap.Value)?.FT_OU;
 
         var maxbetModel = MaxbetHelper.Build((int)EnumBettype.OverUnder, maxbetFtOu, handicap.Value);
@@ -187,7 +187,7 @@ public class MaxbetBuilderImp : MaxbetBuilder
 
     public void BuildMaxbetFirstHalfOverUnder(List<MaxbetModel> maxbet, IList<MaxbetSetting> maxbetSettings)
     {
-        var handicap = maxbet.FirstOrDefault(m => m.BettypeId == (int)EnumBettype.Handicap) ?? new MaxbetModel();
+        var handicap = maxbet.Find(m => m.BettypeId == (int)EnumBettype.Handicap) ?? new MaxbetModel();
 
         var valueFirstHalfOverUnder = maxbetSettings.FirstOrDefault(x => x.FT_HDP == handicap.Value)?.FirstHalf_OU;
 
@@ -198,7 +198,7 @@ public class MaxbetBuilderImp : MaxbetBuilder
 
     public void BuildMaxbetFirstHalfHandicap(List<MaxbetModel> maxbet, IList<MaxbetSetting> maxbetSettings)
     {
-        var handicap = maxbet.FirstOrDefault(m => m.BettypeId == (int)EnumBettype.Handicap) ?? new MaxbetModel();
+        var handicap = maxbet.Find(m => m.BettypeId == (int)EnumBettype.Handicap) ?? new MaxbetModel();
 
         var valueFirstHalfHandicap = maxbetSettings.FirstOrDefault(x => x.FT_HDP == handicap.Value)?.FirstHalf_HDP;
 

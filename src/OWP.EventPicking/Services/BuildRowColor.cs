@@ -45,6 +45,6 @@ public class BuildRowColorImp : BuildRowColor
         var isContainSaba = leagueName.Contains("SABA", StringComparison.OrdinalIgnoreCase);
 
         return leagueName.Contains(TWENTY_MIN, StringComparison.OrdinalIgnoreCase) ||
-               (isContainSaba && sabaMinsPlay.Any(x => leagueName.Contains(x, StringComparison.OrdinalIgnoreCase)));
+               (isContainSaba && sabaMinsPlay.Exists(x => leagueName.Contains(x, StringComparison.OrdinalIgnoreCase)));
     }
 }

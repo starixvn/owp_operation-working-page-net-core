@@ -43,7 +43,7 @@ public class XMinsGroupServiceImp : XMinsGroupService
         var gameInfo = ScheduleHelper.GetGameInfo(assignments15Mins);
         var assignment = new AssignmentModel
         {
-            KOTime = assignments15Mins.First().KOTime,
+            KOTime = assignments15Mins[0].KOTime,
             MaxbetHDP = gameInfo.maxbetHdp
         };
 

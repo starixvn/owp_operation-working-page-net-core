@@ -41,7 +41,7 @@ public class BuildMatchOfferByLiveSettingImp : BuildMatchOfferByLiveSetting
     {
         foreach (var child in childMatches)
         {
-            var parentMatch = mainMatches.FirstOrDefault(x => x.InfoSiteMatchId == child.InfoSiteMatchId);
+            var parentMatch = mainMatches.Find(x => x.InfoSiteMatchId == child.InfoSiteMatchId);
             if (parentMatch != null)
             {
                 child.MatchOffer = GetMatchOffer(settingDefault, child, parentMatch.MaxBetHDPNumber);

@@ -57,7 +57,7 @@ public class OneGameServiceImp : OneGameService
         {
             Color = ColorCodeConst.ONE_GAME,
             TextColor = ColorCodeConst.TEXT_ONE_GAME,
-            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignments.First(), textPostfix)
+            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignments[0], textPostfix)
         };
         var gameInfo = ScheduleHelper.GetGameInfo(assignments);
         var etPkValue = FirstHalfHelper.IsFirstHalf(assignments)

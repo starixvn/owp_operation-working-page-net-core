@@ -96,7 +96,7 @@ public class SabaMatchesServicesImp : SabaMatchServices
             .Select(y =>
             {
                 var orderedAssignments = y.OrderBy(x => x.EventDateTime).ToList();
-                var newAssignment = mapper.Map<AssignmentModel>(orderedAssignments.First());
+                var newAssignment = mapper.Map<AssignmentModel>(orderedAssignments[0]);
                 newAssignment.MatchType = MatchType.SabaMix5mins;
                 newAssignment.GroupAssignmentModels = orderedAssignments;
                 return newAssignment;
@@ -115,7 +115,7 @@ public class SabaMatchesServicesImp : SabaMatchServices
             .Select(y =>
             {
                 var orderedAssignments = y.OrderBy(x => x.EventDateTime).ToList();
-                var newAssignment = mapper.Map<AssignmentModel>(orderedAssignments.First());
+                var newAssignment = mapper.Map<AssignmentModel>(orderedAssignments[0]);
 
                 newAssignment.MatchType = GetMultipleMatchType(orderedAssignments.Count, newAssignment.MatchType);
                 newAssignment.GroupAssignmentModels = orderedAssignments;

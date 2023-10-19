@@ -56,14 +56,14 @@ public class DuplicateSettingServiceImp : DuplicateSettingService
             yield return new DuplicateSettingModel
             {
                 LeagueSettingId = key,
-                Remark = leagueSettingById.First().Remark,
+                Remark = leagueSettingById[0].Remark,
                 BetDeLayIds = leagueSettingById.Select(x => x.BetDeLayId).Distinct().ToList(),
                 OfferLinesIds = leagueSettingById.Select(x => x.OfferLineId).Distinct().ToList(),
                 ProviderIds = leagueSettingById.Select(x => x.ProviderId).Distinct().ToList(),
                 RoundIds = leagueSettingById.Select(x => x.RoundId).Distinct().ToList(),
-                KOFromTime = leagueSettingById.First().KOFromTime,
-                KOToTime = leagueSettingById.First().KOToTime,
-                IsIptvOnly = leagueSettingById.First().IsIptvOnly
+                KOFromTime = leagueSettingById[0].KOFromTime,
+                KOToTime = leagueSettingById[0].KOToTime,
+                IsIptvOnly = leagueSettingById[0].IsIptvOnly
             };
         }
     }
