@@ -1,6 +1,5 @@
 ﻿using OWP.OSLeagueSetting.Constants;
 using OWP.OSLeagueSetting.Models;
-using System.Text.RegularExpressions;
 
 namespace OWP.OSLeagueSetting.Helper;
 
@@ -49,12 +48,12 @@ public static class OSLeagueSettingHelper
     }
 
     public static SummaryDetail FormatStyle(IEnumerable<string> values, string property)
-        => new ()
+        => new()
         {
             Text = FormatToString(values, property),
             Style = LeagueSettingConst.SummaryStyleOption.GetValueOrDefault(property)
         };
- 
+
 
     public static string FormatToString(IEnumerable<string> values, string property)
     {
@@ -140,7 +139,7 @@ public static class OSLeagueSettingHelper
 
     public static string CalculateSummaryExportSecond(string offerLines, string bettypes, string betDelays)
     {
-         string result = "";
+        string result = "";
 
         if (!string.IsNullOrEmpty(offerLines))
         {

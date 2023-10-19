@@ -51,7 +51,7 @@ public class LAUserServiceImp : LAUserService
             Location = user.Location ?? "",
             SpeakEnglish = user.SpeakEnglish,
             SpeakChinese = user.SpeakChinese,
-            WorkingShifts = userWorkingShifts.Any(u => u.IsShiftDeleted)
+            WorkingShifts = userWorkingShifts.Exists(u => u.IsShiftDeleted)
                 ? new List<SchedulingWorkingShift>().ToArray()
                 : userWorkingShifts.Select(ws => new SchedulingWorkingShift
                 {

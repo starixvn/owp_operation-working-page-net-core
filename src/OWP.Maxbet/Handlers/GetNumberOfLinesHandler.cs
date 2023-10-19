@@ -51,7 +51,7 @@ public class GetNumberOfLinesHandler
 
             var noOfHdp = (await dynamicRepository.FetchAsync<MatchResource>(criteria)).ToList();
 
-            return noOfHdp.Any() ? noOfHdp.First().ResourceId : 0;
+            return noOfHdp.Any() ? noOfHdp[0].ResourceId : 0;
         }
 
         private static NumberOfLines BuildNumberOfLines(int noOfHdpId)

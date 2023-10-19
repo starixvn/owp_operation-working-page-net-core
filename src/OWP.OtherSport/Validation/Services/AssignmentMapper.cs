@@ -158,7 +158,7 @@ public class AssignmentMapperImp : AssignmentMapper
 
     public int GetTraderId(string name)
     {
-        var trader = Traders.FirstOrDefault(t => t.Username.Equals(name, StringComparison.CurrentCultureIgnoreCase));
+        var trader = Traders.Find(t => t.Username.Equals(name, StringComparison.CurrentCultureIgnoreCase));
         return trader?.UserId ?? 0;
     }
 

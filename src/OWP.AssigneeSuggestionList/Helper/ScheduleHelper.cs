@@ -1,9 +1,9 @@
 using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Models;
+using OWP.Constants;
 using OWP.Extensions;
 using System.Collections.Immutable;
 using System.Globalization;
-using OWP.Constants;
 using MatchType = OWP.AssigneeSuggestionList.Constant.MatchType;
 
 namespace OWP.AssigneeSuggestionList.Helper;

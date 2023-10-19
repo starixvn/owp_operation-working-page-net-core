@@ -18,6 +18,5 @@ public static class FirstProviderBuilder
     }
 
     private static bool IsProvider(string provider)
-        => AutoConstant.ProviderType
-            .Any(i => provider.Contains(i, StringComparison.OrdinalIgnoreCase));
+        => Array.Exists(AutoConstant.ProviderType, i => provider.Contains(i, StringComparison.OrdinalIgnoreCase));
 }

@@ -1,9 +1,6 @@
-﻿
-using OWP.TicketCenter.Enum;
+﻿namespace OWP.TicketCenter.Criteria;
 
-namespace OWP.TicketCenter.Criteria;
-
-internal class GetEventTicketLiveIncidentCriteria : GetEventTicketCriteriaBase
+public class GetEventTicketLiveIncidentCriteria : GetEventTicketCriteriaBase
 {
     public int EventType => (int)Enum.EventType.LiveIncident;
 

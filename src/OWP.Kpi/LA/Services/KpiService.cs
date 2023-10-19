@@ -36,13 +36,15 @@ public class KpiServiceImp : KpiService
         {
             kpi.No = initialNo;
             initialNo++;
-            if (isGap)
+            if (!isGap)
             {
-                var progress = ProgressHelper.Evaluate(ConditionConstant.ConditionInfos.ToList(), kpi.AchievedGames);
-                kpi.GapWithTarget = CalculateGapHelper.CalculateGap(kpi.TargetId, kpi.AchievedGames);
-                kpi.Progress = progress;
-                kpi.Reward = ConditionConstant.ConditionInfos.FirstOrDefault(x => x.Progress == progress)?.Reward;
+                continue;
             }
+
+            var progress = ProgressHelper.Evaluate(ConditionConstant.ConditionInfos.ToList(), kpi.AchievedGames);
+            kpi.GapWithTarget = CalculateGapHelper.CalculateGap(kpi.TargetId, kpi.AchievedGames);
+            kpi.Progress = progress;
+            kpi.Reward = Array.Find(ConditionConstant.ConditionInfos, x => x.Progress == progress)?.Reward;
         }
     }
 }

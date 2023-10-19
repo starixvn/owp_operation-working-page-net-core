@@ -189,7 +189,7 @@ public class AssignmentValidatorImp : AssignmentValidator
                                                                   IsEquals(x.Away, assignment.Away) &&
                                                                   IsEquals(x.DateTime, assignment.DateTime)).ToList();
 
-        var isDuplicated = dupAssignmentInfo.Any(x => IsEquals(x.Sport, assignment.Sport));
+        var isDuplicated = dupAssignmentInfo.Exists(x => IsEquals(x.Sport, assignment.Sport));
         if (isDuplicated)
         {
             results.Add(new ValidationResult($"Duplicate Match: {assignment.League} | {assignment.Home.Replace("(N)", "").Trim()} -vs- {assignment.Away}"));
@@ -226,5 +226,5 @@ public class AssignmentValidatorImp : AssignmentValidator
         return validationResults.OrderBy(x => x.Row).ToList();
     }
 
-    private static bool HasStartWith(string source, params string[] childString) => childString.Any(source.StartsWith);
+    private static bool HasStartWith(string source, params string[] childString) => Array.Exists(childString, source.StartsWith);
 }

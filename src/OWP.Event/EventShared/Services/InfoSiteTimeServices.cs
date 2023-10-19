@@ -29,7 +29,7 @@ public class InfoSiteTimeServicesImp : InfoSiteTimeServices
 
     public void BuildInfoSiteTime(MatchInfo matchInfo, List<InfoSiteTimeModel> infoSiteInfo)
     {
-        var infoSite = infoSiteInfo.FirstOrDefault(x => x.ParentMatchId == matchInfo.ParentMatchId);
+        var infoSite = infoSiteInfo.Find(x => x.ParentMatchId == matchInfo.ParentMatchId);
         matchInfo.InfoSiteTime = infoSite?.KickOffTime;
         matchInfo.InfoSiteTimeDisplay = infoSite?.KickOffTimeDisplay;
     }
