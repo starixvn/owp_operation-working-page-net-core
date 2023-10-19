@@ -10,6 +10,7 @@ public static class LinkTwoGameConditionHelper
         var group2GameDictionary = new Dictionary<DateTime, List<AssignmentModel>>();
         GroupTwoGameSameKo(group2GameDictionary, assignments);
         GroupTwoGameKoInRange10Mins(group2GameDictionary, assignments);
+
         return group2GameDictionary;
     }
 
@@ -32,6 +33,7 @@ public static class LinkTwoGameConditionHelper
         {
             group2GameDictionary.Add(assignment.Key, assignment.Value);
         }
+
     }
 
     private static void GroupTwoGameKoInRange10Mins(
@@ -54,7 +56,7 @@ public static class LinkTwoGameConditionHelper
             {
                 var durations = assignmentOther[i].EventDateTime.Subtract(assignmentOther[j].EventDateTime).Duration();
 
-                if (durations <= TimeSpan.FromMinutes(10) && durations is { TotalMinutes: 0 })
+                if (durations <= TimeSpan.FromMinutes(10) && durations.TotalMinutes != 0)
                 {
                     var eventDate = UtilsHelper.SelectTime(assignmentOther[i].EventDateTime, assignmentOther[j].EventDateTime);
                     group2GameDictionary.TryAdd(eventDate, new List<AssignmentModel>{

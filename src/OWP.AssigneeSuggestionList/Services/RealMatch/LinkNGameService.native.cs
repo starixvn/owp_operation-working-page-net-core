@@ -39,6 +39,7 @@ public class LinkNGameServiceImp : LinkNGameService
          DateTime filterDate)
     {
         var linkNGamePair = LinkTwoGameConditionHelper.Group(assignments);
+
         var assignmentCell = new AssignmentCell
         {
             Color = ColorCodeConst.TWO_GAME,
