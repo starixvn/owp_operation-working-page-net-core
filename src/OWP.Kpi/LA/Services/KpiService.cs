@@ -1,16 +1,13 @@
 ﻿using AutoMapper;
-using Fanex.Data.Repository;
 using OWP.Kpi.LA.Constant;
-using OWP.Kpi.LA.Criteria;
 using OWP.Kpi.LA.Helper;
-using OWP.Kpi.LA.Models;
 using OWP.Kpi.LA.ViewModels;
 
 namespace OWP.Kpi.LA.Services;
 
 public interface KpiService
 {
-    Task<IList<KpiInfoViewModel>> BuildKpiInfo(DateTime fromDate, DateTime toDate, bool isGap);
+    Task<IList<KpiInfoViewModel>> BuildKpiInfo(DateTime fromDate, DateTime toDate, string sectionIds, bool isGap);
 }
 
 public class KpiServiceImp : KpiService
@@ -24,9 +21,9 @@ public class KpiServiceImp : KpiService
         this.mapper = mapper;
     }
 
-    public async Task<IList<KpiInfoViewModel>> BuildKpiInfo(DateTime fromDate, DateTime toDate, bool isGap)
+    public async Task<IList<KpiInfoViewModel>> BuildKpiInfo(DateTime fromDate, DateTime toDate, string sectionIds, bool isGap)
     {
-        var kpiData = await repository.GetKpiInfo(fromDate, toDate);
+        var kpiData = await repository.GetKpiInfo(fromDate, toDate, sectionIds);
         var kpiInfos = mapper.Map<IList<KpiInfoViewModel>>(kpiData);
         BuildKpiInfo(kpiInfos, isGap);
         return kpiInfos;
@@ -34,7 +31,7 @@ public class KpiServiceImp : KpiService
 
     public void BuildKpiInfo(IList<KpiInfoViewModel> kpiInfos, bool isGap)
     {
-        int initialNo = 1;
+        var initialNo = 1;
         foreach (var kpi in kpiInfos)
         {
             kpi.No = initialNo;

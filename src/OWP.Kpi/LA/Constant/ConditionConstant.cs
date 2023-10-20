@@ -1,11 +1,13 @@
 ﻿using OWP.Kpi.LA.Models;
+using System.Drawing;
+
 namespace OWP.Kpi.LA.Constant;
 
 public static class ConditionConstant
 {
     private const string LAST_TWO_YEAR = "Last 2 years";
 
-    public static readonly ConditionInfo[] ConditionInfos = 
+    public static readonly ConditionInfo[] ConditionInfos =
     {
         new()
         {
@@ -18,7 +20,7 @@ public static class ConditionConstant
             },
             TimeRange = "Last 1 year",
             Reward = "5%",
-            TargetCondition = new ()
+            TargetCondition = new Condition
             {
                 VirtualMatches = 2000 ,
                 MultipleMatches = 50
@@ -29,11 +31,11 @@ public static class ConditionConstant
             Progress = "Level D",
             Level = "D",
             LevelId = 2,
-            ConditionFirst = new() { VirtualMatches = 3600, MultipleMatches = 500 },
-            ConditionSecond = new() { VirtualMatches = 3200, MultipleMatches = 800 },
+            ConditionFirst = new Condition { VirtualMatches = 3600, MultipleMatches = 500 },
+            ConditionSecond = new Condition { VirtualMatches = 3200, MultipleMatches = 800 },
             TimeRange = LAST_TWO_YEAR,
             Reward = "10%",
-            TargetCondition = new()
+            TargetCondition = new Condition
             {
                 VirtualMatches = 3200,
                 MultipleMatches = 500
@@ -44,47 +46,49 @@ public static class ConditionConstant
             Progress = "Level C",
             Level = "C",
             LevelId = 3,
-            ConditionFirst = new() { VirtualMatches = 3600, MultipleMatches = 500, SpecialProducts = 15 },
-            ConditionSecond = new() { VirtualMatches = 3200, MultipleMatches = 800, SpecialProducts = 15 },
+            ConditionFirst = new Condition { VirtualMatches = 3600, MultipleMatches = 500, SpecialProducts = 15 },
+            ConditionSecond = new Condition { VirtualMatches = 3200, MultipleMatches = 800, SpecialProducts = 15 },
             TimeRange = LAST_TWO_YEAR,
             Reward = "15%",
-            TargetCondition = new () {VirtualMatches = 3200, MultipleMatches = 500, SpecialProducts = 15}
+            TargetCondition = new Condition {VirtualMatches = 3200, MultipleMatches = 500, SpecialProducts = 15}
         },
         new()
         {
             Progress = "Level B",
             Level = "B",
             LevelId = 4,
-            ConditionFirst = new() { VirtualMatches = 2800, MultipleMatches = 600, SpecialProducts = 15, FiveMajorLeagues = 15, MultipleProducts = 350},
-            ConditionSecond = new() { VirtualMatches = 2500, MultipleMatches = 800, SpecialProducts = 15, FiveMajorLeagues = 15, MultipleProducts = 450},
+            ConditionFirst = new Condition { VirtualMatches = 2800, MultipleMatches = 600, SpecialProducts = 15, FiveMajorLeagues = 15, MultipleProducts = 350},
+            ConditionSecond = new Condition { VirtualMatches = 2500, MultipleMatches = 800, SpecialProducts = 15, FiveMajorLeagues = 15, MultipleProducts = 450},
             TimeRange = LAST_TWO_YEAR,
             Reward = "20%",
-            TargetCondition = new () { VirtualMatches = 2500, MultipleMatches = 600, SpecialProducts = 15, FiveMajorLeagues = 15,MultipleProducts = 350}
+            TargetCondition = new Condition { VirtualMatches = 2500, MultipleMatches = 600, SpecialProducts = 15, FiveMajorLeagues = 15,MultipleProducts = 350}
         },
         new()
         {
             Progress = "Level A",
             Level = "A",
             LevelId = 5,
-            ConditionFirst = new() { VirtualMatches = 2800, MultipleMatches = 600, SpecialProducts = 15, FiveMajorLeagues =  15, MultipleProducts = 450},
-            ConditionSecond = new() { VirtualMatches = 2500, MultipleMatches = 800, SpecialProducts = 15, FiveMajorLeagues = 15, MultipleProducts = 550},
+            ConditionFirst = new Condition { VirtualMatches = 2800, MultipleMatches = 600, SpecialProducts = 15, FiveMajorLeagues =  15, MultipleProducts = 450},
+            ConditionSecond = new Condition { VirtualMatches = 2500, MultipleMatches = 800, SpecialProducts = 15, FiveMajorLeagues = 15, MultipleProducts = 550},
             TimeRange = LAST_TWO_YEAR,
             Reward = "25%",
-            TargetCondition = new () { VirtualMatches = 2500, MultipleMatches = 600, SpecialProducts = 15, FiveMajorLeagues = 15,MultipleProducts = 450}
+            TargetCondition = new Condition { VirtualMatches = 2500, MultipleMatches = 600, SpecialProducts = 15, FiveMajorLeagues = 15,MultipleProducts = 450}
         }
     };
 }
 
 public static class ReportConstant
 {
-    private const int ProgressColumn = 3;
-    private const int TargetColumn = 4;
-    private const int VirtualMatchesGapColumn = 5;
-    private const int MultipleMatchesGapColumn = 6;    
-    private const int SpecialProductsGapColumn = 7;            
-    private const int MajorProductsGapColumn = 8;
-    private const int MultipleProductsGapColumn = 9;
-    private const int RewardGapColumn = 15;
+    public const int StartRow = 3;
+    public const int ProgressColumn = 4;
+    private const int TargetColumn = 5;
+    private const int VirtualMatchesGapColumn = 6;
+    private const int MultipleMatchesGapColumn = 7;
+    private const int SpecialProductsGapColumn = 8;
+    private const int MajorProductsGapColumn = 9;
+    private const int MultipleProductsGapColumn = 10;
+    private const int RewardGapColumn = 16;
+    public static readonly Color AlmostArchivedTargetColor = ColorTranslator.FromHtml("#EAD97F");
 
     public static readonly int[] DeleteColumns =
     {

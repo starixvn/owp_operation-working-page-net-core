@@ -1,7 +1,5 @@
-using AutoMapper;
 using MediatR;
 using OWP.Kpi.LA.Helper;
-using OWP.Kpi.LA.Models;
 using OWP.Kpi.LA.Services;
 using OWP.Kpi.LA.ViewModels;
 
@@ -12,6 +10,8 @@ public class CalculateKpiRequest : IRequest<DataViewModel>
     public DateTime FromDate { get; set; }
 
     public DateTime ToDate { get; set; }
+
+    public string SectionIds { get; set; }
 }
 
 public class CalculateKpiHandler : IRequestHandler<CalculateKpiRequest, DataViewModel>
@@ -26,8 +26,8 @@ public class CalculateKpiHandler : IRequestHandler<CalculateKpiRequest, DataView
     public async Task<DataViewModel> Handle(CalculateKpiRequest request, CancellationToken cancellationToken)
     {
         var isGap = CalculateGapHelper.IsGap(request.FromDate, request.ToDate);
-        var kpiInfo = await kpiService.BuildKpiInfo(request.FromDate, request.ToDate, isGap);
-        
+        var kpiInfo = await kpiService.BuildKpiInfo(request.FromDate, request.ToDate, request.SectionIds, isGap);
+
         return new DataViewModel
         {
             KpiLa = kpiInfo,

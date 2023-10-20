@@ -8,6 +8,8 @@ public class CalculateKpiCriteria : CriteriaBase
 
     public DateTime ToDate { get; set; }
 
+    public string SectionIds { get; set; }
+
     public override string GetSettingKey() => "OWP_Kpi_Get";
 
     public override bool IsValid() => true;

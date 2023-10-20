@@ -2,11 +2,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using OWP.MatchCountLiveReport.Handlers;
-using OWP.MatchCountLiveReport.Helper;
-using OWP.MatchCountLiveReport.Models;
+using OWP.Report.MatchCountLiveReport.Handlers;
+using OWP.Report.MatchCountLiveReport.Helper;
+using OWP.Report.MatchCountLiveReport.Models;
 
-namespace OWP.MatchCountLiveReport;
+namespace OWP.Report.MatchCountLiveReport;
 
 [Route("api/[controller]")]
 [ApiController]

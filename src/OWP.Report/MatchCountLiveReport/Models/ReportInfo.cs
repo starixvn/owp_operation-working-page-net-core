@@ -1,9 +1,9 @@
-using System.Text.Json.Serialization;
 using Epplus.Mapper.Annotations;
 using OfficeOpenXml.Attributes;
-using OWP.MatchCountLiveReport.Helper;
+using OWP.Report.MatchCountLiveReport.Helper;
+using System.Text.Json.Serialization;
 
-namespace OWP.MatchCountLiveReport.Models;
+namespace OWP.Report.MatchCountLiveReport.Models;
 
 public class ReportInfo
 {

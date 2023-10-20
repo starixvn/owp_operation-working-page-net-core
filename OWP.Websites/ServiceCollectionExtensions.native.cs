@@ -1,8 +1,6 @@
 using AutoMapper;
 using Fanex.Caching.Redis;
-using Fanex.Data;
 using Fanex.Data.Repository;
-using Fanex.Data.SqlServer;
 using Fanex.Logging;
 using Fanex.Logging.Extensions;
 using Fanex.Logging.Extensions.AspNetCore;
@@ -23,8 +21,8 @@ using OWP.AssigneeSuggestionList;
 using OWP.AssignmentUpload;
 using OWP.EventPicking;
 using OWP.FileUpload;
+using OWP.Kpi.LA;
 using OWP.LeagueManagement;
-using OWP.MatchCountLiveReport;
 using OWP.Maxbet;
 using OWP.MaxbetSetting;
 using OWP.OSLeagueSetting;
@@ -35,6 +33,7 @@ using OWP.ProviderArrangement;
 using OWP.RabbitMQ;
 using OWP.RecipientGroup;
 using OWP.Report.LAReport;
+using OWP.Report.MatchCountLiveReport;
 using OWP.Report.OvertimeReport;
 using OWP.Report.PreMatchReport;
 using OWP.Report.TraderReport;
@@ -49,7 +48,6 @@ using StackExchange.Redis;
 using System.Reflection;
 using AutoMapperProfile = OWP.OtherSport.AutoMapperProfile;
 using ILogger = Fanex.Logging.ILogger;
-using OWP.Kpi.LA;
 
 namespace OWP.Websites;
 
@@ -80,7 +78,7 @@ public static class ServiceCollectionExtensions
 
         var mapper = mapperConfig.CreateMapper();
         services.AddSingleton(mapper);
-        
+
         return services;
     }
 
@@ -203,13 +201,10 @@ public static class ServiceCollectionExtensions
         services.AddSyncWorkingShift();
         services.AddRecipientGroup();
         services.AddTicketCenterService();
-        services.AddOvertimeReport();
+        services.AddReportService();
         services.AddPreMatchAssignmentServices();
-        services.AddPreMatchReportService();
         services.AddTicketTypeRecipientService();
-        services.AddMatchLiveReportService();
         services.AddOSLeagueSetting();
-        services.AddLAReportService();
         services.AddLeagueManagementService();
         services.AddLiveDetailService();
         services.AddTicKetEventService();
@@ -312,7 +307,7 @@ public static class ServiceCollectionExtensions
         services.AddSignalR()
         .AddStackExchangeRedis(redisConfig, options =>
         {
-            options.Configuration.ChannelPrefix = channelPrefix;
+            options.Configuration.ChannelPrefix = new RedisChannel(channelPrefix, RedisChannel.PatternMode.Auto);
         });
         services.AddSingleton<NewDataUploadNotifyHubImp>();
         services.AddSingleton<TicketCenterNotifyHubImp>();
@@ -322,8 +317,7 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddSimpleDataApiModule(this IServiceCollection services)
     {
-        SimpleDataApiConfigurationHandler.Instance()
-                .SetActorIdParameterName("ActorId");
+        SimpleDataApiConfigurationHandler.Instance().SetActorIdParameterName("ActorId");
         services.AddTransient<SimpleCriteriaFactory, SimpleCriteriaFactoryImp>();
         services.AddTransient<SimpleFunctionPermissionFactory, SimpleFunctionPermissionFactoryImp>();
         services.AddTransient<SimpleMapperFactory, SimpleMapperFactoryImp>();
@@ -331,7 +325,7 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddRabbitMQ(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddRabbitMQ(this IServiceCollection services)
     {
         services.AddSingleton<MessageClient, MessageClientImp>();
 
@@ -359,5 +353,5 @@ public static class ServiceCollectionExtensions
 
         return app;
     }
-    
+
 }

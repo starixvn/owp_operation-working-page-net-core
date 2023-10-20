@@ -21,7 +21,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="EPPlus" Version="6.2.9" />
+        <PackageReference Include="EPPlus" Version="6.2.10" />
         <PackageReference Include="AutoMapper" Version="12.0.1" />
         <PackageReference Include="Epplus.Mapper" Version="6.0.0" />
         <PackageReference Include="Olympus.Xml" Version="1.0.0.5" />

@@ -1,16 +1,16 @@
 ﻿
 
+using AutoMapper;
+using Epplus.Mapper.Extensions;
 using MediatR;
 using OfficeOpenXml;
-using Epplus.Mapper.Extensions;
-using OWP.Kpi.LA.Services;
-using OWP.Services;
-using AutoMapper;
-using OWP.Kpi.LA.ViewModels;
 using OfficeOpenXml.Style;
-using System.Drawing;
-using OWP.Kpi.LA.Helper;
 using OWP.Kpi.LA.Constant;
+using OWP.Kpi.LA.Helper;
+using OWP.Kpi.LA.Services;
+using OWP.Kpi.LA.ViewModels;
+using OWP.Services;
+using System.Drawing;
 
 namespace OWP.Kpi.LA.Handlers;
 public class ExportKpiRequest : IRequest<ExcelPackage>
@@ -18,6 +18,8 @@ public class ExportKpiRequest : IRequest<ExcelPackage>
     public DateTime FromDate { get; set; }
 
     public DateTime ToDate { get; set; }
+
+    public string SectionIds { get; set; }
 }
 public class ExportKpiHandler : IRequestHandler<ExportKpiRequest, ExcelPackage>, IDisposable
 {
@@ -56,10 +58,11 @@ public class ExportKpiHandler : IRequestHandler<ExportKpiRequest, ExcelPackage>,
     private async Task BuildExcelBody(ExportKpiRequest request)
     {
         var isGap = CalculateGapHelper.IsGap(request.FromDate, request.ToDate);
-        var kpiInfo = await kpiService.BuildKpiInfo(request.FromDate, request.ToDate, isGap);
+        var kpiInfo = await kpiService.BuildKpiInfo(request.FromDate, request.ToDate, request.SectionIds, isGap);
         var kpiReport = mapper.Map<IList<KpiInfoReport>>(kpiInfo);
         reportSheet.ApplyVertical(kpiReport, 3);
-        SetStyleTemplate();
+
+        SetStyleTemplate(kpiInfo);
         if (!isGap)
         {
             DeleteColumnTemplate();
@@ -71,13 +74,14 @@ public class ExportKpiHandler : IRequestHandler<ExportKpiRequest, ExcelPackage>,
         const string templatePath = @"App_Data/Templates/LAKpiReportTemplate.xlsx";
         return $"{configurationService.CurrentDirectory}{Path.DirectorySeparatorChar}{templatePath}";
     }
-    private void SetStyleTemplate()
+
+    private void SetStyleTemplate(IList<KpiInfoViewModel> kpiInfos)
     {
         var dimension = reportSheet.Dimension;
-        var end = dimension.End;
-        for (int row = 3; row <= end.Row; row++)
+        var endRow = kpiInfos.Count + 2;
+        for (var row = ReportConstant.StartRow; row <= endRow; row++)
         {
-            for (int col = 1; col <= dimension.End.Column; col++)
+            for (var col = 1; col <= dimension.End.Column; col++)
             {
                 var cell = reportSheet.Cells[row, col];
                 if (cell.Value is double numericValue and < 0)
@@ -86,22 +90,41 @@ public class ExportKpiHandler : IRequestHandler<ExportKpiRequest, ExcelPackage>,
                     cell.Style.Font.Color.SetColor(Color.Red);
                     cell.Value = -numericValue;
                 }
-                if (col == 3 && cell.Value?.ToString() == "Fail")
+
+                if (col == ReportConstant.ProgressColumn)
                 {
-                    reportSheet.Cells[row, col].Style.Fill.PatternType = ExcelFillStyle.None;
-                    cell.Style.Font.Color.SetColor(Color.Red);
+                    FillProgressCellStyle(kpiInfos, cell, row);
                 }
             }
         }
     }
 
+    private void FillProgressCellStyle(IList<KpiInfoViewModel> kpiInfos, ExcelRange cell, int row)
+    {
+        const int colIndex = ReportConstant.ProgressColumn;
+        if (cell.Value?.ToString() == "Fail")
+        {
+            reportSheet.Cells[row, colIndex].Style.Fill.PatternType = ExcelFillStyle.None;
+            cell.Style.Font.Color.SetColor(Color.Red);
+        }
+
+        if (!kpiInfos[row - ReportConstant.StartRow].IsAlmostWinTarget)
+        {
+            return;
+        }
+
+        reportSheet.Cells[row, colIndex].Style.Fill.PatternType = ExcelFillStyle.Solid;
+        reportSheet.Cells[row, colIndex].Style.Fill.BackgroundColor.SetColor(ReportConstant.AlmostArchivedTargetColor);
+        reportSheet.Cells[row, colIndex].Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.DarkGray);
+    }
+
     private void DeleteColumnTemplate()
     {
-        List<int> columnsToDelete = ReportConstant.DeleteColumns.ToList();
+        var columnsToDelete = ReportConstant.DeleteColumns.ToList();
 
-        for (int i = columnsToDelete.Count - 1; i >= 0; i--)
+        for (var i = columnsToDelete.Count - 1; i >= 0; i--)
         {
-            int column = columnsToDelete[i];
+            var column = columnsToDelete[i];
             reportSheet.DeleteColumn(column);
         }
     }
