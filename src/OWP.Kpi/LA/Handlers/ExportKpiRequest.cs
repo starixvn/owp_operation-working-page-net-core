@@ -101,9 +101,10 @@ public class ExportKpiHandler : IRequestHandler<ExportKpiRequest, ExcelPackage>,
 
     private void FillProgressCellStyle(IList<KpiInfoViewModel> kpiInfos, ExcelRange cell, int row)
     {
+        const int colIndex = ReportConstant.ProgressColumn;
         if (cell.Value?.ToString() == "Fail")
         {
-            reportSheet.Cells[row, ReportConstant.ProgressColumn].Style.Fill.PatternType = ExcelFillStyle.None;
+            reportSheet.Cells[row, colIndex].Style.Fill.PatternType = ExcelFillStyle.None;
             cell.Style.Font.Color.SetColor(Color.Red);
         }
 
@@ -111,8 +112,10 @@ public class ExportKpiHandler : IRequestHandler<ExportKpiRequest, ExcelPackage>,
         {
             return;
         }
-        reportSheet.Cells[row, ReportConstant.ProgressColumn].Style.Fill.PatternType = ExcelFillStyle.Solid;
-        reportSheet.Cells[row, ReportConstant.ProgressColumn].Style.Fill.BackgroundColor.SetColor(ReportConstant.AlmostArchivedTargetColor);
+
+        reportSheet.Cells[row, colIndex].Style.Fill.PatternType = ExcelFillStyle.Solid;
+        reportSheet.Cells[row, colIndex].Style.Fill.BackgroundColor.SetColor(ReportConstant.AlmostArchivedTargetColor);
+        reportSheet.Cells[row, colIndex].Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.DarkGray);
     }
 
     private void DeleteColumnTemplate()
