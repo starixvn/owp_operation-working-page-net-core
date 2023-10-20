@@ -20,7 +20,7 @@ public class GetAllSectionHandler : IRequestHandler<GetAllSectionRequest, IEnume
     public async Task<IEnumerable<SectionInfo>> Handle(GetAllSectionRequest request,
         CancellationToken cancellationToken)
     {
-        var sections = (await repository.GetAllSection(request.UserId)).ToList();
+        var sections = (await repository.GetAllSection(request.UserId)).OrderBy(x=>x.SectionName).ToList();
         AddEmptySection(sections);
         return sections;
     }
