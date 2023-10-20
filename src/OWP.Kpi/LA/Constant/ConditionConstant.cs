@@ -1,4 +1,6 @@
 ﻿using OWP.Kpi.LA.Models;
+using System.Drawing;
+
 namespace OWP.Kpi.LA.Constant;
 
 public static class ConditionConstant
@@ -77,14 +79,16 @@ public static class ConditionConstant
 
 public static class ReportConstant
 {
-    private const int ProgressColumn = 3;
-    private const int TargetColumn = 4;
-    private const int VirtualMatchesGapColumn = 5;
-    private const int MultipleMatchesGapColumn = 6;
-    private const int SpecialProductsGapColumn = 7;
-    private const int MajorProductsGapColumn = 8;
-    private const int MultipleProductsGapColumn = 9;
-    private const int RewardGapColumn = 15;
+    public const int StartRow = 3;
+    public const int ProgressColumn = 4;
+    private const int TargetColumn = 5;
+    private const int VirtualMatchesGapColumn = 6;
+    private const int MultipleMatchesGapColumn = 7;
+    private const int SpecialProductsGapColumn = 8;
+    private const int MajorProductsGapColumn = 9;
+    private const int MultipleProductsGapColumn = 10;
+    private const int RewardGapColumn = 16;
+    public static readonly Color AlmostArchivedTargetColor = ColorTranslator.FromHtml("#EAD97F");
 
     public static readonly int[] DeleteColumns =
     {

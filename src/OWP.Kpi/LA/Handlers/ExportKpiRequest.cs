@@ -61,7 +61,8 @@ public class ExportKpiHandler : IRequestHandler<ExportKpiRequest, ExcelPackage>,
         var kpiInfo = await kpiService.BuildKpiInfo(request.FromDate, request.ToDate, request.SectionIds, isGap);
         var kpiReport = mapper.Map<IList<KpiInfoReport>>(kpiInfo);
         reportSheet.ApplyVertical(kpiReport, 3);
-        SetStyleTemplate();
+
+        SetStyleTemplate(kpiInfo);
         if (!isGap)
         {
             DeleteColumnTemplate();
@@ -73,11 +74,12 @@ public class ExportKpiHandler : IRequestHandler<ExportKpiRequest, ExcelPackage>,
         const string templatePath = @"App_Data/Templates/LAKpiReportTemplate.xlsx";
         return $"{configurationService.CurrentDirectory}{Path.DirectorySeparatorChar}{templatePath}";
     }
-    private void SetStyleTemplate()
+
+    private void SetStyleTemplate(IList<KpiInfoViewModel> kpiInfos)
     {
         var dimension = reportSheet.Dimension;
-        var end = dimension.End;
-        for (var row = 3; row <= end.Row; row++)
+        var endRow = kpiInfos.Count + 2;
+        for (var row = ReportConstant.StartRow; row <= endRow; row++)
         {
             for (var col = 1; col <= dimension.End.Column; col++)
             {
@@ -88,13 +90,29 @@ public class ExportKpiHandler : IRequestHandler<ExportKpiRequest, ExcelPackage>,
                     cell.Style.Font.Color.SetColor(Color.Red);
                     cell.Value = -numericValue;
                 }
-                if (col == 4 && cell.Value?.ToString() == "Fail")//NOSONAR
+
+                if (col == ReportConstant.ProgressColumn)
                 {
-                    reportSheet.Cells[row, col].Style.Fill.PatternType = ExcelFillStyle.None;
-                    cell.Style.Font.Color.SetColor(Color.Red);
+                    FillProgressCellStyle(kpiInfos, cell, row);
                 }
             }
         }
+    }
+
+    private void FillProgressCellStyle(IList<KpiInfoViewModel> kpiInfos, ExcelRange cell, int row)
+    {
+        if (cell.Value?.ToString() == "Fail")
+        {
+            reportSheet.Cells[row, ReportConstant.ProgressColumn].Style.Fill.PatternType = ExcelFillStyle.None;
+            cell.Style.Font.Color.SetColor(Color.Red);
+        }
+
+        if (!kpiInfos[row - ReportConstant.StartRow].IsAlmostWinTarget)
+        {
+            return;
+        }
+        reportSheet.Cells[row, ReportConstant.ProgressColumn].Style.Fill.PatternType = ExcelFillStyle.Solid;
+        reportSheet.Cells[row, ReportConstant.ProgressColumn].Style.Fill.BackgroundColor.SetColor(ReportConstant.AlmostArchivedTargetColor);
     }
 
     private void DeleteColumnTemplate()
