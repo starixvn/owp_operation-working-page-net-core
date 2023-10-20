@@ -17,6 +17,7 @@ public class ExportMiscMatchHandlerUnitTests
     private readonly BuildMainAndChildMatches buildMainAndChildMatches;
 
     private readonly ConfigurationService configurationService;
+    private readonly ExportService exportService;
 
     private readonly ExportMiscMatchHandler service;
 
@@ -26,7 +27,8 @@ public class ExportMiscMatchHandlerUnitTests
         configurationService = Substitute.For<ConfigurationService>();
         var accessCounter = Substitute.For<AccessCounter>();
         var counterModel = Options.Create(new AccessCounterModel());
-        service = new ExportMiscMatchHandler(configurationService, buildMainAndChildMatches, accessCounter, counterModel);
+        exportService = Substitute.For<ExportService>();
+        service = new ExportMiscMatchHandler(buildMainAndChildMatches, accessCounter, counterModel, exportService);
     }
 
     [Fact]
