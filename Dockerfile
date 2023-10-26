@@ -24,7 +24,7 @@ COPY ./OWP.Websites ./OWP.Websites
 
 WORKDIR /src/OWP.Websites
 RUN --mount=type=cache,target=/root/.nuget/packages \
-    dotnet publish -c release -o /app --no-restore
+    dotnet publish -c release -o /app
 
 FROM hub.nexdev.net/base/dotnet/core/aspnet:7.0-alpine AS base
 
