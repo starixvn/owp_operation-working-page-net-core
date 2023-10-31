@@ -1,4 +1,6 @@
 ﻿using OWP.Constants;
+using OWP.Event.EventShared.Const;
+using OWP.Event.EventShared.Helper;
 using OWP.Event.EventShared.Models;
 using OWP.Event.EventShared.Services;
 using OWP.Event.LiveGameList.Builder;
@@ -10,7 +12,7 @@ using Fanex.NAP.Client.Helpers.Business;
 
 public interface GetEventByDateService
 {
-    Task<IEnumerable<MatchInfo>> GetEvents(DateTime eventDate, string statusId, string userName);
+    Task<IEnumerable<MatchInfo>> GetEvents(DateTime eventDate, string statusId, string userName, string matchType);
 }
 
 public class GetEventByDateServiceImp : GetEventByDateService
@@ -29,13 +31,14 @@ public class GetEventByDateServiceImp : GetEventByDateService
         this.eventService = eventService;
     }
 
-    public async Task<IEnumerable<MatchInfo>> GetEvents(DateTime eventDate, string statusId, string userName)
+    public async Task<IEnumerable<MatchInfo>> GetEvents(DateTime eventDate, string statusId, string userName, string matchType)
     {
         var eventByDates = liveGameListRepository.GetEventInformation(eventDate, statusId, IsShowFullEventInformation());
         await eventService.GetInfositeAndAdminsiteInfo(eventByDates.MatchInfos.ToList());
 
         var eventNew = BuildEvents(eventByDates);
-        return FilterEventByUsername(eventNew, userName);
+        var filterEventUserName = FilterEventByUsername(eventNew, userName);
+        return FilterEventByMatchType(filterEventUserName, matchType);
     }
 
     public IEnumerable<MatchInfo> BuildEvents(EventInformation eventInfos)
@@ -53,6 +56,19 @@ public class GetEventByDateServiceImp : GetEventByDateService
     private IEnumerable<MatchInfo> FilterEventByUsername(IEnumerable<MatchInfo> matchInfos, string userName)
     {
         return string.IsNullOrEmpty(userName) ? matchInfos : matchInfos.Where(e => IsUserAssignedToEvent(userName, e));
+    }
+
+    private IEnumerable<MatchInfo> FilterEventByMatchType(IEnumerable<MatchInfo> matchInfos, string matchType)
+    {
+        var types = matchType.Split(',').ToList();
+        if (EventHelper.IsSelectAllMatchType(types))
+        {
+            return matchInfos;
+        }
+     
+        return types.Exists(x => x== EventConst.MatchVirtual)? 
+            matchInfos.Where(x => x.IsSaba):
+            matchInfos.Where(x => !x.IsSaba);
     }
 
     private static bool IsUserAssignedToEvent(string username, MatchInfo e)

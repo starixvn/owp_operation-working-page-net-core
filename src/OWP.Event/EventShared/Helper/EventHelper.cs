@@ -1,5 +1,6 @@
 ﻿using OWP.Event.EventShared.Models;
 using System.Globalization;
+using OWP.Event.EventShared.Const;
 
 namespace OWP.Event.EventShared.Helper;
 
@@ -94,4 +95,8 @@ public static class EventHelper
 
         return (matchSettingsDict, minorMatchSettingsDict);
     }
+
+    public static bool IsSelectAllMatchType( List<string> matchType)
+     =>  matchType.Exists(x=> x== EventConst.MatchReal) 
+         && matchType.Exists(x=>x==EventConst.MatchVirtual);
 }

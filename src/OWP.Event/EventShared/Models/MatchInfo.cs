@@ -194,6 +194,8 @@ public class MatchInfo : TaskListMatchInfo
     public string EventDateDisplay => EventDate.ToKOTimeDateFormat();
 
     public string ReadyDateTimeDisplay => ReadyDateTime.ToString("hh:mm tt MMM dd, yyyy");
+
+    public bool IsSaba => League.Contains("SABA", StringComparison.CurrentCultureIgnoreCase);
 }
 
 public class TaskListMatchInfo
