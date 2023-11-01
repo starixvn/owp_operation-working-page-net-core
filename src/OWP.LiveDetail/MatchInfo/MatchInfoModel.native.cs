@@ -83,5 +83,7 @@ public class MatchInfoModel
 
     public string ParentMatchStatus { get; set; }
 
+    public string TeamRound { get; set; }
+
     public int OWPMatchId { get; set; }
 }

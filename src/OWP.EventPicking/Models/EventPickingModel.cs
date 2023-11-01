@@ -145,114 +145,117 @@ public class EventPickingModel
     public string Round { get; set; }
 
     [Cell("AL2")]
-    public string TV { get; set; }
+    public string TeamRound { get; set; }
 
     [Cell("AM2")]
-    public string Channel { get; set; }
+    public string TV { get; set; }
 
     [Cell("AN2")]
-    public string Iptv { get; set; }
+    public string Channel { get; set; }
 
     [Cell("AO2")]
-    public string Agent { get; set; }
+    public string Iptv { get; set; }
 
     [Cell("AP2")]
-    public string ReporterPhone { get; set; }
+    public string Agent { get; set; }
 
     [Cell("AQ2")]
-    public string InfoSiteIdExport => IsChildMatch ? string.Empty : InfoSiteMatchId.ToString();
+    public string ReporterPhone { get; set; }
 
     [Cell("AR2")]
-    public string AdminSiteIdExport => IsChildMatch ? string.Empty : AdminSiteMatchId.ToString();
+    public string InfoSiteIdExport => IsChildMatch ? string.Empty : InfoSiteMatchId.ToString();
 
     [Cell("AS2")]
-    public string Venue { get; set; }
+    public string AdminSiteIdExport => IsChildMatch ? string.Empty : AdminSiteMatchId.ToString();
 
     [Cell("AT2")]
-    public string HomeRemark { get; set; }
+    public string Venue { get; set; }
 
     [Cell("AU2")]
-    public string AwayRemark { get; set; }
+    public string HomeRemark { get; set; }
 
     [Cell("AV2")]
-    public string ETPK { get; set; }
+    public string AwayRemark { get; set; }
 
     [Cell("AW2")]
-    public string RemarkFromInfosite { get; set; }
+    public string ETPK { get; set; }
 
     [Cell("AX2")]
-    public string Remark2 { get; set; }
+    public string RemarkFromInfosite { get; set; }
 
     [Cell("AY2")]
-    public string TotalRound { get; set; }
+    public string Remark2 { get; set; }
 
     [Cell("AZ2")]
-    public string Website1 { get; set; }
+    public string TotalRound { get; set; }
 
     [Cell("BA2")]
-    public string Website2 { get; set; }
+    public string Website1 { get; set; }
 
     [Cell("BB2")]
-    public string Website3 { get; set; }
+    public string Website2 { get; set; }
 
     [Cell("BC2")]
-    public string Website4 { get; set; }
+    public string Website3 { get; set; }
 
     [Cell("BD2")]
-    public string OtherTraders15mins { get; set; }
+    public string Website4 { get; set; }
 
     [Cell("BE2")]
-    public string OtherTraders10mins { get; set; }
+    public string OtherTraders15mins { get; set; }
 
     [Cell("BF2")]
-    public string OtherTradersFM { get; set; }
+    public string OtherTraders10mins { get; set; }
 
     [Cell("BG2")]
-    public string OtherTradersAIO { get; set; }
+    public string OtherTradersFM { get; set; }
 
     [Cell("BH2")]
-    public string MaxBetOU { get; set; } = string.Empty;
+    public string OtherTradersAIO { get; set; }
 
     [Cell("BI2")]
-    public string MaxBet1HHDP { get; set; } = string.Empty;
+    public string MaxBetOU { get; set; } = string.Empty;
 
     [Cell("BJ2")]
-    public string MaxBet1HOU { get; set; } = string.Empty;
+    public string MaxBet1HHDP { get; set; } = string.Empty;
 
     [Cell("BK2")]
-    public string Spread1HHDP { get; set; } = string.Empty;
+    public string MaxBet1HOU { get; set; } = string.Empty;
 
     [Cell("BL2")]
-    public string Spread1HOU { get; set; } = string.Empty;
+    public string Spread1HHDP { get; set; } = string.Empty;
 
     [Cell("BM2")]
-    public string MaxBetFT1X2 { get; set; } = string.Empty;
+    public string Spread1HOU { get; set; } = string.Empty;
 
     [Cell("BN2")]
-    public string Spread1X2 { get; set; } = string.Empty;
+    public string MaxBetFT1X2 { get; set; } = string.Empty;
 
     [Cell("BO2")]
-    public string MaxBet1H1X2 { get; set; } = string.Empty;
+    public string Spread1X2 { get; set; } = string.Empty;
 
     [Cell("BP2")]
-    public string Spread1H1X2 { get; set; } = string.Empty;
+    public string MaxBet1H1X2 { get; set; } = string.Empty;
 
     [Cell("BQ2")]
-    public string Trader1H1X2 { get; set; } = string.Empty;
+    public string Spread1H1X2 { get; set; } = string.Empty;
 
     [Cell("BR2")]
-    public string OtherTraders1H1X2 { get; set; }
+    public string Trader1H1X2 { get; set; } = string.Empty;
 
     [Cell("BS2")]
-    public string MaxBetXmins { get; set; }
+    public string OtherTraders1H1X2 { get; set; }
 
     [Cell("BT2")]
-    public string SpreadXmins { get; set; }
+    public string MaxBetXmins { get; set; }
 
     [Cell("BU2")]
-    public string MaxBetFM { get; set; }
+    public string SpreadXmins { get; set; }
 
     [Cell("BV2")]
+    public string MaxBetFM { get; set; }
+
+    [Cell("BW2")]
     public string SpreadFM { get; set; }
 
     public bool IsNoOffer { get; set; }

@@ -83,6 +83,8 @@ public class MatchInfo : TaskListMatchInfo
 
     public string MatchCode { get; set; }
 
+    public string TeamRound { get; set; }
+
     public bool IsRead => TicketInfos.All(x => x.IsRead);
 
     public bool HasTicket => TicketInfos.Any();
@@ -205,6 +207,4 @@ public class TaskListMatchInfo
     public bool IsCompletedMatch { get; set; }
 
     public DateTime ReadyDateTime { get; set; }
-
-    public string TeamRound { get; set; }
 }
