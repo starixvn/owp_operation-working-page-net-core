@@ -164,7 +164,7 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
 
         filteredMatches = matchOffers is null
             ? filteredMatches
-            : filteredMatches.Where(m => matchOffers.Any(x => x.Equals(m.MatchOffer)));
+            : filteredMatches.Where(m => matchOffers.Exists(x => x.Equals(m.MatchOffer)));
 
         return (filteredLeagues.ToList(), filteredMatches.ToList());
     }
@@ -175,7 +175,7 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
         var linkedOWPMatches = await repository.QueryLinkedOwpMatch(infositeIds, dateTime);
         foreach (var match in matches)
         {
-            var linkedMatch = linkedOWPMatches.FirstOrDefault(x => x.InfositeMatchId == match.InfoSiteMatchId) ?? new LinkedMatch();
+            var linkedMatch = linkedOWPMatches.Find(x => x.InfositeMatchId == match.InfoSiteMatchId) ?? new LinkedMatch();
             match.MatchStatus = GetMatchStatus(linkedMatch, match);
         }
     }
@@ -209,7 +209,7 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
             league.OUTakeOver,
             league.OUTakeOverNickname };
 
-        return assignments.Any(x => x.IsContains(employee));
+        return assignments.Exists(x => x.IsContains(employee));
     }
 
     private static bool CheckOtherAssignmentContainsEmployee(PreMatchLeague league, string employee)
@@ -224,7 +224,7 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
             league.OtherOUTakeOver,
             league.OtherOUTakeOverNickname };
 
-        return assignments.Any(x => x.IsContains(employee));
+        return assignments.Exists(x => x.IsContains(employee));
     }
 
     private static (IList<PreMatchLeague>, IList<PreMatchLeague>) SplitPrematchLeagues(IEnumerable<PreMatchLeague> leagues)

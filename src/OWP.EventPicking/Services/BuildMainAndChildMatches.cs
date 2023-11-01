@@ -71,8 +71,8 @@ public class BuildMainAndChildMatchesImp : BuildMainAndChildMatches
         RAndDInfoHelper.Build(mainMatches.Result, rAndDInfo.Result);
 
         var filteredMainMatches = RemoveTestingMatches(mainMatches.Result)
-            .OrderBy(x => x.EventDateTime)
             .Where(x => !CheckMatchHaveBeenExclude(x.HomeName))
+            .OrderBy(x => x.EventDateTime)
             .ToList();
 
         buildRowColor.BuildRowColor(filteredMainMatches);
@@ -95,8 +95,8 @@ public class BuildMainAndChildMatchesImp : BuildMainAndChildMatches
         }
 
         return matches
-            .OrderBy(x => x.EventDateTime)
             .Where(x => !CheckMatchHaveBeenExclude(x.HomeName))
+            .OrderBy(x => x.EventDateTime)
             .ToList();
     }
 

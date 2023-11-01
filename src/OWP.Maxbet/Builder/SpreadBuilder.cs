@@ -51,8 +51,8 @@ public class SpreadBuilderImp : SpreadBuilder
 
     public static MaxbetSpread BuildSpreadSenderForLeagueGroupNotMJ(List<SpreadModel> spread)
     {
-        var hasExistsFirstHalfHdp = spread.Any(s => s.Bettype == (int)EnumBettype.FirstHalfHandicap);
-        var hasExistsFirstHalfOu = spread.Any(s => s.Bettype == (int)EnumBettype.FirstHalfOverUnder);
+        var hasExistsFirstHalfHdp = spread.Exists(s => s.Bettype == (int)EnumBettype.FirstHalfHandicap);
+        var hasExistsFirstHalfOu = spread.Exists(s => s.Bettype == (int)EnumBettype.FirstHalfOverUnder);
 
         var handicap = MaxbetHelper.FindSpreadByBettype(spread, (int)EnumBettype.Handicap) ?? new SpreadModel();
         var overUnder = MaxbetHelper.FindSpreadByBettype(spread, (int)EnumBettype.OverUnder) ?? new SpreadModel();
@@ -93,8 +93,8 @@ public class SpreadBuilderImp : SpreadBuilder
 
     public static MaxbetSpread BuildSpreadSenderForLeagueGroupMJ(List<SpreadModel> spread)
     {
-        var hasExistsFirstHalfHdp = spread.Any(s => s.Bettype == (int)EnumBettype.FirstHalfHandicap);
-        var hasExistsFirstHalfOu = spread.Any(s => s.Bettype == (int)EnumBettype.FirstHalfOverUnder);
+        var hasExistsFirstHalfHdp = spread.Exists(s => s.Bettype == (int)EnumBettype.FirstHalfHandicap);
+        var hasExistsFirstHalfOu = spread.Exists(s => s.Bettype == (int)EnumBettype.FirstHalfOverUnder);
 
         var handicap = MaxbetHelper.FindSpreadByBettype(spread, (int)EnumBettype.Handicap) ?? new SpreadModel();
         var overUnder = MaxbetHelper.FindSpreadByBettype(spread, (int)EnumBettype.OverUnder) ?? new SpreadModel();

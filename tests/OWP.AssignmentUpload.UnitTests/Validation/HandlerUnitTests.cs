@@ -1,6 +1,5 @@
 ﻿using Fanex.NAP.Client.Helpers.Web;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
 using OfficeOpenXml;
@@ -30,9 +29,9 @@ public class HandlerUnitTests
         cacheManipulator = Substitute.For<CacheManipulator>();
         currentSession = Substitute.For<INapSession>();
         analyzer = Substitute.For<Analyzer>();
-        hostEnvironment = Substitute.For<IWebHostEnvironment>();  ;
+        hostEnvironment = Substitute.For<IWebHostEnvironment>(); ;
 
-    var emptyResult = new AnalyzedResult
+        var emptyResult = new AnalyzedResult
         {
             Assignments = new List<AssignmentModel>(),
             OriginalRecordCount = 0

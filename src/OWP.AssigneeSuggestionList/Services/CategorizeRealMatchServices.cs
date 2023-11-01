@@ -61,7 +61,7 @@ public class CategorizeRealMatchServicesImp : CategorizeRealMatchServices
         var hasWsInPartiallyRangeTime = userInfo.ShiftStartTime <= kOTime && userInfo.ShiftEndTime >= minToTime;
         if (hasWsInPartiallyRangeTime && matchInfo.BettypeId is Bettype.Handicap or Bettype.OverUnder)
         {
-            return !assignments.Any(x => x.EventDateTime < minToTime && kOTime < x.EndTime);
+            return !assignments.Exists(x => x.EventDateTime < minToTime && kOTime < x.EndTime);
         }
 
         return false;
@@ -76,7 +76,7 @@ public class CategorizeRealMatchServicesImp : CategorizeRealMatchServices
             return AssigneeCategory.Busy;
         }
 
-        var hasLink1G = sameKoTimeAssignments.Any(x => x.MatchType is MatchType.RealMatchLink1G)
+        var hasLink1G = sameKoTimeAssignments.Exists(x => x.MatchType is MatchType.RealMatchLink1G)
                         || isAssignmentWithin10Minutes;
 
         var hasLink2G = HasLink2G(matchInfo, sameKoTimeAssignments);
@@ -92,9 +92,9 @@ public class CategorizeRealMatchServicesImp : CategorizeRealMatchServices
 
     private static bool HasLink2G(MatchInfo matchInfo, List<AssignmentModel> sameKoTimeAssignments)
     => matchInfo.MaxbetHDP <= CategoryConstants.MAX_BET_5K &&
-       sameKoTimeAssignments.Any(x =>
+       sameKoTimeAssignments.Exists(x =>
            x.MatchType is MatchType.RealMatchLink2G &&
-           x.GroupAssignmentModels.All(y =>
+           x.GroupAssignmentModels.TrueForAll(y =>
                y.MaxbetHDP is null or <= CategoryConstants.MAX_BET_5K &&
                !y.IsSingleMatch)
        );

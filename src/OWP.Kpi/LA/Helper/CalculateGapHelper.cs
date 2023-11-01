@@ -10,8 +10,8 @@ public static class CalculateGapHelper
 
     public static TotalGameInfo CalculateGap(int? targetId, TotalGameInfo achievedGame)
     {
-        var targetCondition = ConditionConstant.ConditionInfos
-            .FirstOrDefault(x => x.LevelId == targetId)?.TargetCondition ?? new Condition();
+        var targetCondition = ConditionConstant.ConditionInfos.ToList()
+            .Find(x => x.LevelId == targetId)?.TargetCondition ?? new Condition();
         return new TotalGameInfo
         {
             MultipleMatches = CalculateValue(achievedGame.MultipleMatches, targetCondition.MultipleMatches),

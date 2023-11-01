@@ -8,13 +8,13 @@ namespace OWP.Maxbet.Helpers;
 public static class MaxbetHelper
 {
     public static T FindTraderAssignmentByBettype<T>(List<T> assignment, int bettypeId) where T : TraderAssignment
-        => assignment.FirstOrDefault(a => a.BettypeId == bettypeId);
+        => assignment.Find(a => a.BettypeId == bettypeId);
 
     public static T FindSpreadByBettype<T>(List<T> spreads, int bettypeId) where T : SpreadModel
-        => spreads.FirstOrDefault(a => a.Bettype == bettypeId);
+        => spreads.Find(a => a.Bettype == bettypeId);
 
     public static T FindMaxbetByBettype<T>(List<T> maxbets, int bettypeId) where T : MaxbetModel
-        => maxbets.FirstOrDefault(a => a.BettypeId == bettypeId);
+        => maxbets.Find(a => a.BettypeId == bettypeId);
 
     public static void UpdateSpreadPEN(MaxbetSpread spread, decimal newValueHdp, decimal newValueOU)
     {
@@ -54,10 +54,10 @@ public static class MaxbetHelper
 
     public static ExistsValueBettype CanUpdateValueBettype(List<MaxbetModel> maxbet)
     {
-        var hasExistsHdp = maxbet.Any(s => s.BettypeId.Equals((int)EnumBettype.Handicap));
-        var hasExistsOu = maxbet.Any(s => s.BettypeId.Equals((int)EnumBettype.OverUnder));
-        var hasExistsFirstHalfHdp = maxbet.Any(s => s.BettypeId.Equals((int)EnumBettype.FirstHalfHandicap));
-        var hasExistsFirstHalfOu = maxbet.Any(s => s.BettypeId.Equals((int)EnumBettype.FirstHalfOverUnder));
+        var hasExistsHdp = maxbet.Exists(s => s.BettypeId.Equals((int)EnumBettype.Handicap));
+        var hasExistsOu = maxbet.Exists(s => s.BettypeId.Equals((int)EnumBettype.OverUnder));
+        var hasExistsFirstHalfHdp = maxbet.Exists(s => s.BettypeId.Equals((int)EnumBettype.FirstHalfHandicap));
+        var hasExistsFirstHalfOu = maxbet.Exists(s => s.BettypeId.Equals((int)EnumBettype.FirstHalfOverUnder));
         return new ExistsValueBettype
         {
             Hdp = !hasExistsHdp,

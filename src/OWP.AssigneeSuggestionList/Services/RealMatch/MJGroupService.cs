@@ -47,7 +47,7 @@ public class MJGroupServiceImp : MJGroupService
         {
             Color = ColorCodeConst.MJ,
             TextColor = ColorCodeConst.TEXT_MJ,
-            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignments.First(), textPostfix)
+            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignments[0], textPostfix)
         };
         var gameInfo = ScheduleHelper.GetGameInfo(assignments);
         var etPkValue = ETPKHelper.DetectExtraTime(new AssignmentModel

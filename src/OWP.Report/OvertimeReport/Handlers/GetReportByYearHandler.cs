@@ -38,18 +38,18 @@ public class GetReportByYearHandler : IRequestHandler<QueryReportByYearRequest, 
         return res;
     }
 
-    private IEnumerable<OvertimeByYear> CalculateMonthlyReport(List<GroupedData> dataGroupedByTrader, List<User> users)
+    private static IEnumerable<OvertimeByYear> CalculateMonthlyReport(List<GroupedData> dataGroupedByTrader, List<User> users)
     {
         var result = new List<OvertimeByYear>();
 
         foreach (var trader in users)
         {
-            var traderData = dataGroupedByTrader.FirstOrDefault(x => x.UserId == trader.UserId);
+            var traderData = dataGroupedByTrader.Find(x => x.UserId == trader.UserId);
 
             if (traderData != null)
             {
                 var traderOvertimeData = CalculateTraderMonthlyHours(traderData.Data).ToList();
-                var user = users.FirstOrDefault(x => x.UserId == traderData.UserId);
+                var user = users.Find(x => x.UserId == traderData.UserId);
 
                 result.Add(new OvertimeByYear
                 {
@@ -78,13 +78,13 @@ public class GetReportByYearHandler : IRequestHandler<QueryReportByYearRequest, 
     {
         for (var i = 1; i <= 12; i++)
         {
-            yield return data.Any(x => x.ReportDate.Month == i)
+            yield return data.Exists(x => x.ReportDate.Month == i)
                 ? data.Where(x => x.ReportDate.Month == i).Sum(x => x.Hour)
                 : null;
         }
     }
 
-    private class GroupedData
+    private sealed class GroupedData
     {
         public int UserId { get; set; }
 

@@ -61,7 +61,7 @@ public class ExcelReaderImp : ExcelReader
         var properties = typeof(AssignmentModelInExcel).GetProperties();
         var result = new List<string>();
 
-        foreach (var prop in properties)
+        foreach (var prop in properties) // NOSONAR
         {
             if (prop.Name.StartsWith(type, StringComparison.CurrentCultureIgnoreCase))
             {

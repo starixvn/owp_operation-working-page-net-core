@@ -82,7 +82,7 @@ public class AdminSiteMatchServicesImp : AdminSiteMatchServices
 
     private int? GetSubTypeByMinorBetTypeId(int? minorBetTypeId)
     {
-        if (specialMinorBetTypes.Any(x => x == minorBetTypeId))
+        if (specialMinorBetTypes.Contains(minorBetTypeId ?? 0))
         {
             return GetSubTypeSpecialProduct(minorBetTypeId.GetValueOrDefault());
         }

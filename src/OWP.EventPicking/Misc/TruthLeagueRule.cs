@@ -24,7 +24,7 @@ public class MatchContainsAnyLeagueItemRule : TruthLeagueRule
             return base.Execute(leagueCondition, matchCondition);
         }
 
-        var isFulfillCondition = leagueCondition.Any(x => x.Type == Constant.ContainsCondition
+        var isFulfillCondition = leagueCondition.Exists(x => x.Type == Constant.ContainsCondition
                 ? matchCondition.IsContains(x.Value)
                 : matchCondition.Equals(x.Value, StringComparison.OrdinalIgnoreCase));
 

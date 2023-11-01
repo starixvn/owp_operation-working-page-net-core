@@ -79,11 +79,11 @@ public class ExplicitMinorMatchRule2Imp : ExplicitMinorMatchRule2
     {
         return finder switch
         {
-            TargetFinder.Home => assignments?.FirstOrDefault(p =>
+            TargetFinder.Home => assignments?.Find(p =>
                 string.Compare(p.League, league, StringComparison.CurrentCultureIgnoreCase) == 0 &&
                 string.Compare(p.Home, home, StringComparison.CurrentCultureIgnoreCase) == 0 &&
                 string.Compare(p.Home, away, StringComparison.CurrentCultureIgnoreCase) == 0),
-            TargetFinder.Away => assignments?.FirstOrDefault(p =>
+            TargetFinder.Away => assignments?.Find(p =>
                 string.Compare(p.League, league, StringComparison.CurrentCultureIgnoreCase) == 0 &&
                 string.Compare(p.Away, home, StringComparison.CurrentCultureIgnoreCase) == 0 &&
                 string.Compare(p.Away, away, StringComparison.CurrentCultureIgnoreCase) == 0),

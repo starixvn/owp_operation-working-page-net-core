@@ -1,6 +1,4 @@
-﻿using OWP.Helpers;
-
-namespace OWP.TicketCenter.ViewModels;
+﻿namespace OWP.TicketCenter.ViewModels;
 
 public class MessageDetailViewModel
 {

@@ -9,12 +9,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using ONEbook.UM.AspNetCore.Filters;
 using OWP.Models;
-using OWP.Services;
-using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Security.Claims;
-using System.Text;
 
 namespace OWP.Websites.Controllers;
 
@@ -26,7 +23,7 @@ public class HomeController : Controller
 
     private readonly AccessCounterModel counterModel;
 
-    public HomeController(INapSession session, INapSettings napSettings,  IOptions<AccessCounterModel> counterOptions)
+    public HomeController(INapSession session, INapSettings napSettings, IOptions<AccessCounterModel> counterOptions)
     {
         this.session = session;
         this.napSettings = napSettings;
@@ -96,7 +93,7 @@ public class HomeController : Controller
     {
         return View();
     }
-    
+
     [AllowAnonymous]
     [HttpGet]
     public async Task<IActionResult> FakeLogin()

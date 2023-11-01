@@ -34,7 +34,7 @@ public class MatchSettingBuilderImp : MatchSettingBuilder
                 ? MinorBettypesRelationships.GetValue(bettypeName)
                 : bettypeName;
 
-            var eventAssignmentByBettype = traderMaxbetModels.FirstOrDefault(x => x.BetTypeName == mainBettypeName);
+            var eventAssignmentByBettype = traderMaxbetModels.Find(x => x.BetTypeName == mainBettypeName);
             if (eventAssignmentByBettype == null)
             {
                 continue;

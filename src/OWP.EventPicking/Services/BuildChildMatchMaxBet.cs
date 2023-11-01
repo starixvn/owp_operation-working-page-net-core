@@ -52,7 +52,7 @@ public class BuildChildMatchMaxBetImp : BuildChildMatchMaxBet
 
     public static MaxBetSettingModel GetMaxBetSettingDefault(List<EventPickingModel> mainMatches, int parentInfositeId, Dictionary<decimal, MaxBetSettingModel> maxBetDefault)
     {
-        var parentMaxBet = mainMatches.FirstOrDefault(x => x.InfoSiteMatchId == parentInfositeId);
+        var parentMaxBet = mainMatches.Find(x => x.InfoSiteMatchId == parentInfositeId);
         if (parentMaxBet?.MaxBetHDPNumber == null)
         {
             return null;

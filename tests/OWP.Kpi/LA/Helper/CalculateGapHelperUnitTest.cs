@@ -1,5 +1,4 @@
-﻿using OWP.Kpi.LA.Constant;
-using OWP.Kpi.LA.Helper;
+﻿using OWP.Kpi.LA.Helper;
 using OWP.Kpi.LA.Models;
 using Xunit;
 using Xunit.Asserts.Compare;

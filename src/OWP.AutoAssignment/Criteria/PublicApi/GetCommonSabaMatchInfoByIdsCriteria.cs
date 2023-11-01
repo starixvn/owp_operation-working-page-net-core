@@ -2,7 +2,7 @@
 
 namespace OWP.AutoAssignment.Criteria.PublicApi;
 
-internal class GetCommonSabaMatchInfoByIdsCriteria : CriteriaBase
+public class GetCommonSabaMatchInfoByIdsCriteria : CriteriaBase
 {
     public string Ids { get; set; }
 

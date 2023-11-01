@@ -1,6 +1,4 @@
 ﻿
-using OWP.TicketCenter.Enum;
-
 namespace OWP.TicketCenter.Criteria;
 
 public class GetEventTicketLogWorkCriteria : GetEventTicketCriteriaBase

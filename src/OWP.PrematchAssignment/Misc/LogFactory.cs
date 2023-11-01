@@ -24,7 +24,7 @@ public class LogFactoryImp : LogFactory
                 return BuildUpdateAssignment(data);
 
             case LogActionConst.UpdateRemark:
-                var remarkLog = Parse<UpdateRemarkLogModel>(data).First();
+                var remarkLog = Parse<UpdateRemarkLogModel>(data)[0];
                 return remarkLog.Remark;
 
             case LogActionConst.ChangeStartTime:
@@ -33,7 +33,7 @@ public class LogFactoryImp : LogFactory
                     return string.Empty;
                 }
 
-                var startTimeLog = Parse<UpdateStartTimeLogModel>(data).First();
+                var startTimeLog = Parse<UpdateStartTimeLogModel>(data)[0];
                 return $"Date: {startTimeLog.Date:MM/dd/yyyy}, Start Time: {startTimeLog.StartTime.ToString("hh:mm tt", CultureInfo.InvariantCulture)}";
 
             default:
@@ -48,27 +48,27 @@ public class LogFactoryImp : LogFactory
             return action;
         }
 
-        var assignmentLog = Parse<UpdateAssignmentLogModel>(data).First();
+        var assignmentLog = Parse<UpdateAssignmentLogModel>(data)[0];
 
         return assignmentLog.AssignmentType == 2
             ? LogActionConst.UpdateOtherAssignment
             : LogActionConst.UpdateAssignment;
     }
 
-    private string BuildUpdateAssignment(string data)
+    private static string BuildUpdateAssignment(string data)
     {
         if (string.IsNullOrEmpty(data))
         {
             return string.Empty;
         }
 
-        var assignmentLog = Parse<UpdateAssignmentLogModel>(data).First();
+        var assignmentLog = Parse<UpdateAssignmentLogModel>(data)[0];
         var isTakeOver = assignmentLog.IsTakeOver ? " T.Over" : string.Empty;
         var type = assignmentLog.Bettype == hdp ? $"HDP{isTakeOver}" : $"O/U{isTakeOver}";
         return $"{type}: #{assignmentLog.Username}";
     }
 
-    public List<T> Parse<T>(string xml)
+    public static List<T> Parse<T>(string xml)
     {
         var result = new List<T>();
         var serializer = new XmlSerializer(typeof(T));

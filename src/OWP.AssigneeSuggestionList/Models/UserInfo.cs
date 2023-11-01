@@ -45,5 +45,5 @@ public class UserInfo
     public string Shift => ShiftStartTime.ToString("HH:mm")
                            + " > " + ShiftEndTime.ToString("HH:mm");
 
-    public bool IsManagementRole => WorkingShiftConst.ManagementRole.Any(x => x.Equals(Role));
+    public bool IsManagementRole => Array.Exists(WorkingShiftConst.ManagementRole, x => x.Equals(Role));
 }

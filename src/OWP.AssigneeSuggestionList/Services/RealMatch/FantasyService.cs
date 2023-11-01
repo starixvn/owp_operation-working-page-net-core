@@ -52,7 +52,7 @@ public class FantasyServiceImp : FantasyService
         {
             Color = ColorCodeConst.FANTASY,
             TextColor = ColorCodeConst.TEXT_FANTASY,
-            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignments.First(), textPostfix)
+            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignments[0], textPostfix)
         };
         var gameInfo = ScheduleHelper.GetGameInfo(assignments);
         var etPkValue = FirstHalfHelper.IsFirstHalf(assignments)

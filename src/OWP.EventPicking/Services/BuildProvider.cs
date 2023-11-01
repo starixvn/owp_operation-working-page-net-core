@@ -29,7 +29,7 @@ public class BuildProviderImp : BuildProvider
         var otherProviders = otherProviderInString?.Split("/").ToList();
         foreach (var value in priorityProviders)
         {
-            var provider = otherProviders?.FirstOrDefault(x => x.Equals(value, StringComparison.OrdinalIgnoreCase));
+            var provider = otherProviders?.Find(x => x.Equals(value, StringComparison.OrdinalIgnoreCase));
             if (!string.IsNullOrWhiteSpace(provider))
             {
                 return provider;
@@ -43,7 +43,7 @@ public class BuildProviderImp : BuildProvider
     {
         foreach (var value in priorityProviders)
         {
-            var provider = otherProviders?.FirstOrDefault(x => x.IsContains(value) && x.IsContains("TV"));
+            var provider = otherProviders?.Find(x => x.IsContains(value) && x.IsContains("TV"));
             if (!string.IsNullOrWhiteSpace(provider))
             {
                 return provider;

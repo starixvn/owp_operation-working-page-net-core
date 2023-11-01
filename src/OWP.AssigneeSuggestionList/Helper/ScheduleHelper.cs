@@ -1,9 +1,9 @@
 using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Models;
+using OWP.Constants;
 using OWP.Extensions;
 using System.Collections.Immutable;
 using System.Globalization;
-using OWP.Constants;
 using MatchType = OWP.AssigneeSuggestionList.Constant.MatchType;
 
 namespace OWP.AssigneeSuggestionList.Helper;
@@ -12,7 +12,7 @@ public static class ScheduleHelper
 {
     public static string BuildScheduleTextSabaGroupGame(IList<AssignmentModel> assignments)
     {
-        var eventDateTime = assignments.First().EventDateTime;
+        var eventDateTime = assignments[0].EventDateTime;
         var labelList = assignments.GroupBy(g => g.MatchType)
             .Select(g => g.Count() == 1
                 ? $"{MatchTypeLabel.MatchTypeMapLabel[g.Key]}"
@@ -97,7 +97,7 @@ public static class ScheduleHelper
     {
         var assignmentHdp = assignments.FirstOrDefault(a => a.BettypeId == Bettype.Handicap);
 
-        return assignmentHdp is not null && gameMapGameId[assignmentHdp.OWPMatchId].Any(a =>
+        return assignmentHdp is not null && gameMapGameId[assignmentHdp.OWPMatchId].Exists(a =>
             a.OWPMatchId == assignmentHdp.OWPMatchId
                && a.BettypeId == Bettype.OverUnder
                && a.UserId != assignmentHdp.UserId)
@@ -110,7 +110,7 @@ public static class ScheduleHelper
     {
         var assignmentOu = assignments.FirstOrDefault(a => a.BettypeId == Bettype.OverUnder);
 
-        return assignmentOu is not null && gameMapGameId[assignmentOu.OWPMatchId].Any(a =>
+        return assignmentOu is not null && gameMapGameId[assignmentOu.OWPMatchId].Exists(a =>
            a.OWPMatchId == assignmentOu.OWPMatchId
             && a.BettypeId == Bettype.Handicap
             && a.UserId != assignmentOu.UserId)
@@ -126,7 +126,7 @@ public static class ScheduleHelper
             decimal? maxbetHdp,
              string assignmentNote) GetGameInfo(IList<AssignmentModel> assignments)
     {
-        var firstAssignment = assignments.First();
+        var firstAssignment = assignments[0];
         var bettypeIds = assignments.Select(x => x.BettypeId).Distinct().ToList();
 
         return (

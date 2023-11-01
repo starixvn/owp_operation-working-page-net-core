@@ -47,7 +47,7 @@ public class InfositeMappingServiceImp : InfositeMappingService
         var owpMatch = InfoSiteHelper.GetMainMatchExistsInfoSiteId(owpMainMatch);
         foreach (var match in owpMatch)
         {
-            var infoSiteMatch = infositeMatches.FirstOrDefault(i => i.InfoSiteMatchId == match.InfoSiteMatchId);
+            var infoSiteMatch = infositeMatches.Find(i => i.InfoSiteMatchId == match.InfoSiteMatchId);
             if (infoSiteMatch != null)
             {
                 MapInfo(match, infoSiteMatch);
@@ -61,8 +61,8 @@ public class InfositeMappingServiceImp : InfositeMappingService
         foreach (var match in owpMatch)
         {
             var infoSiteMatch = match.IsSaba
-                ? infositeMatches.FirstOrDefault(infoSite => InfoSiteHelper.IsSameLeagueHomeAwayKoTime(match, infoSite))
-                : infositeMatches.FirstOrDefault(infoSite => InfoSiteHelper.IsSameLeagueHomeAway(match, infoSite));
+                ? infositeMatches.Find(infoSite => InfoSiteHelper.IsSameLeagueHomeAwayKoTime(match, infoSite))
+                : infositeMatches.Find(infoSite => InfoSiteHelper.IsSameLeagueHomeAway(match, infoSite));
 
             if (infoSiteMatch != null)
             {
