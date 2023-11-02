@@ -92,4 +92,10 @@ public class OtherSportController : ControllerBase
         await accessCounter.UpdateCounter(counterModel.OsExportExcel);
         return File(bytes, "application/octet-stream", fileName);
     }
+
+    [Route("update-offer-live")]
+    [HttpPost]
+    public async Task UpdateOfferLive(UpdateOfferLiveRequest request)
+        => await mediator.Send(request);
+   
 }
