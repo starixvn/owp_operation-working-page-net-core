@@ -48,7 +48,6 @@ public class GetEventByDateServiceImp : GetEventByDateService
 
             yield return matchInfo;
         }
-
     }
 
     private static IEnumerable<MatchInfo> FilterEventByUsername(IEnumerable<MatchInfo> matchInfos, string userName)
@@ -61,20 +60,18 @@ public class GetEventByDateServiceImp : GetEventByDateService
         {
             return matchInfos;
         }
-     
-        return types.Exists(x => x== EventConst.MatchVirtual)? 
-            matchInfos.Where(x => x.IsSaba):
+
+        return types.Exists(x => x == EventConst.MatchVirtual) ?
+            matchInfos.Where(x => x.IsSaba) :
             matchInfos.Where(x => !x.IsSaba);
     }
 
     private static bool IsUserAssignedToEvent(string username, MatchInfo e)
     {
-        var assignmentProperties = typeof(Assignment).GetProperties();
-        foreach (var propertyInfo in assignmentProperties)
+        foreach (var property in typeof(AssignmentModel).GetProperties())
         {
-            var assignmentList = (IEnumerable<Assignment>)propertyInfo.GetValue(e.Assignment);
-
-            if (assignmentList != null && assignmentList.Any(i => i.Username == username))
+            if (property.GetValue(e.Assignment) is not IEnumerable<Assignment> assignmentItems) continue;
+            if (assignmentItems.Any(item => item.Username == username))
             {
                 return true;
             }
