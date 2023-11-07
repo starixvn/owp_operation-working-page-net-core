@@ -7,7 +7,7 @@ namespace OWP.Event.LiveGameList;
 
 public interface LiveGameListRepository
 {
-    EventInformation GetEventInformation(DateTime eventDate, string statusId, bool isShowAll);
+    Task<EventInformation> GetEventInformation(DateTime eventDate, string statusId, bool isShowAll);
 }
 
 public class LiveGameListRepositoryImp : LiveGameListRepository
@@ -22,7 +22,7 @@ public class LiveGameListRepositoryImp : LiveGameListRepository
         this.currentSession = currentSession;
     }
 
-    public EventInformation GetEventInformation(DateTime eventDate, string statusId, bool isShowAll)
+    public async Task<EventInformation> GetEventInformation(DateTime eventDate, string statusId, bool isShowAll)
     {
         var criteria = new GetEventsCriteria
         {
@@ -32,6 +32,6 @@ public class LiveGameListRepositoryImp : LiveGameListRepository
             ShowAll = isShowAll
         };
 
-        return eventRepository.GetEventInformation(criteria);
+        return await eventRepository.GetEventInformation(criteria);
     }
 }

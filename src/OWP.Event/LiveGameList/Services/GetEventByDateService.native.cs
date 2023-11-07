@@ -32,7 +32,7 @@ public class GetEventByDateServiceImp : GetEventByDateService
 
     public async Task<IEnumerable<MatchInfo>> GetEvents(DateTime eventDate, string statusId, string userName, string matchType)
     {
-        var eventByDates = liveGameListRepository.GetEventInformation(eventDate, statusId, IsShowFullEventInformation());
+        var eventByDates = await liveGameListRepository.GetEventInformation(eventDate, statusId, IsShowFullEventInformation());
         await eventService.GetInfositeAndAdminsiteInfo(eventByDates.MatchInfos.ToList());
 
         var eventNew = BuildEvents(eventByDates);

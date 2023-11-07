@@ -8,7 +8,7 @@ namespace OWP.Event.TaskList;
 
 public interface TaskListRepository
 {
-    EventInformation GetTaskListInfo(DateTime eventDate);
+    Task<EventInformation> GetTaskListInfo(DateTime eventDate);
 
     public Task<DateTime> UpdateTradeStatus(int matchId);
 
@@ -29,7 +29,7 @@ public class TaskListRepositoryImp : TaskListRepository
         this.eventRepository = eventRepository;
     }
 
-    public EventInformation GetTaskListInfo(DateTime eventDate)
+    public async Task<EventInformation> GetTaskListInfo(DateTime eventDate)
     {
         var criteria = new GetTaskListCriteria
         {
@@ -37,7 +37,7 @@ public class TaskListRepositoryImp : TaskListRepository
             EventDate = eventDate
         };
 
-        return eventRepository.GetEventInformation(criteria);
+        return await eventRepository.GetEventInformation(criteria);
     }
 
     public async Task<DateTime> UpdateTradeStatus(int matchId)
