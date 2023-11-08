@@ -1,7 +1,7 @@
-using System.Drawing;
 using OfficeOpenXml;
 using OWP.EventPicking.Constant;
 using OWP.EventPicking.Models;
+using System.Drawing;
 
 namespace OWP.EventPicking.Helper;
 
@@ -41,7 +41,7 @@ public static class ExcelColorHelper
 
     private static void FillColorTeam(EventPickingModel match, int row, ExcelWorksheet templateSheet)
     {
-        var updateTeam = match.RAndDInfos?.FirstOrDefault(r => r.UpdateTypeId == RAndDColorConstant.UPDATE_TEAM);
+        var updateTeam = match.RAndDInfos?.Find(r => r.UpdateTypeId == RAndDColorConstant.UPDATE_TEAM);
         if (updateTeam is not null)
         {
             if (updateTeam.HomeUpdated)
@@ -66,8 +66,7 @@ public static class ExcelColorHelper
 
     private static void FillColorIpTv(EventPickingModel match, int row, ExcelWorksheet templateSheet)
     {
-        if (ExistsUpdateType(RAndDColorConstant.UPDATE_IPTV, match)
-                || ExistsUpdateType(RAndDColorConstant.UPDATE_IPTV, match))
+        if (ExistsUpdateType(RAndDColorConstant.UPDATE_IPTV, match))
         {
             FillCellColor(templateSheet.Cells[row, Misc.Constant.IPTV_COL_INDEX]);
         }

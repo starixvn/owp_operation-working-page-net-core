@@ -1,6 +1,6 @@
 namespace OWP.EventPicking;
 
-public class Utils
+public static class Utils
 {
     public static string GetMiscMatchTemplate(string currentDirectory)
     {

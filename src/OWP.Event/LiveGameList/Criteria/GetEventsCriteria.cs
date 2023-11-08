@@ -14,7 +14,7 @@ public class GetEventsCriteria : CriteriaBase
 
     public override bool IsValid()
     {
-        return EventDate > DateTime.MinValue;
+        return EventDate > DateTimeOffset.MinValue;
     }
 
     public override string GetSettingKey() => "OWP_LiveGameList_QueryEvents";
