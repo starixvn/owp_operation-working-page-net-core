@@ -41,8 +41,7 @@ public class EventRepositoryImp : EventRepository
         var matchOffers = result[4].Cast<MatchOffer>().ToList();
         var tickets = result[5].Cast<TicketInfo>().ToList();
 
-        return EventHelper.BuildEventInfoInDict(assignments, matchSettings, televisions, matchOffers, tickets,
-            matchInfos);
+        return EventHelper.BuildEventInfoInDict(assignments, matchSettings, televisions, matchOffers, tickets, matchInfos);
     }
 
     public async Task<IEnumerable<MinorMatchInfo>> GetMinorAdminSiteIds(IEnumerable<MinorMatch> minorMatches)

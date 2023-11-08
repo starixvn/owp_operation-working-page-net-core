@@ -47,8 +47,7 @@ public class EventInformationServiceUnitTest
             Division = "job",
             Provider = "provider",
             WatchBet = "ok",
-            Phone = "ok none " ,
-            LengthLeague = 10
+            Phone = "ok none "
             }
         };
         var service = new EventInformationServiceImp(adminSiteMatchServices, infoSiteTimeService);
@@ -59,7 +58,7 @@ public class EventInformationServiceUnitTest
 
     public List<MatchInfo> MockMatchInfo()
         => new()
-        { 
+        {
             new MatchInfo
             {
                 OWPMatchId = 1,
