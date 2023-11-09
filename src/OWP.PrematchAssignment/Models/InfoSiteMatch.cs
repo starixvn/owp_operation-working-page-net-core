@@ -16,6 +16,8 @@ public class InfoSiteMatch
 
     public string AwayName { get; set; }
 
+    public string TeamRound { get; set; }
+
     public MaxbetSpreadBase MaxBetHdp { get; set; } = new();
 
     public MaxbetSpreadBase MaxBetOu { get; set; } = new();

@@ -43,8 +43,8 @@ public class MatchInfo : TaskListMatchInfo
 
     public bool IsPES23 => League.Contains(" PES 23", StringComparison.CurrentCultureIgnoreCase);
 
-    public bool IsPESOther => 
-        League.Contains(" PES ", StringComparison.CurrentCultureIgnoreCase) && 
+    public bool IsPESOther =>
+        League.Contains(" PES ", StringComparison.CurrentCultureIgnoreCase) &&
         !League.Contains(" PES 23", StringComparison.CurrentCultureIgnoreCase);
 
     public bool IsFIFA =>
@@ -82,6 +82,8 @@ public class MatchInfo : TaskListMatchInfo
     public string MatchStatus { get; set; }
 
     public string MatchCode { get; set; }
+
+    public string TeamRound { get; set; }
 
     public bool IsRead => TicketInfos.All(x => x.IsRead);
 
