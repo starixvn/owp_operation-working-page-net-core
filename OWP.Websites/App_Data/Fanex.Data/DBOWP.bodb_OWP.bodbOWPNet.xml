@@ -71,6 +71,7 @@
         <Setting Key="OWP_OSLiveGameAssignment_Query" SpName="OWP_OSLiveGameAssignment_Query" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_AssignmentUpload_MessageInsert" SpName="OWP_AssignmentUpload_MessageInsert" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_OSLiveGameAssignment_GetEventStatusFromMainDB" SpName="OWP_OSLiveGameAssignment_GetEventStatusFromMainDB" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
+        <Setting Key="OWP_OSLiveGameAssignment_UpdateOfferLive" SpName="OWP_OSLiveGameAssignment_UpdateOfferLive" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     </Function>
     <Function Name="ProductAssignment">
 	    <Setting Key="OWP_RefResource_GetMainBettypeBySectionId" SpName="OWP_RefResource_GetMainBettypeBySectionId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />

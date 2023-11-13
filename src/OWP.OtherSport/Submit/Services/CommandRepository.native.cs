@@ -1,6 +1,7 @@
 ﻿using Fanex.Data.Repository;
 using Fanex.NAP.Client.Helpers.Web;
 using Olympus.Xml;
+using OWP.OtherSport.EventAssignment.Criteria;
 using OWP.OtherSport.Submit.Criteria;
 using OWP.OtherSport.Submit.Models;
 using OWP.OtherSport.Validation.Models;
@@ -16,6 +17,8 @@ public interface CommandRepository
     Task<List<MatchByHashKey>> InsertOrUpdateMatch(List<AssignmentModel> assignments);
 
     Task Update(string deletedMatchIds, List<AssignmentModel> newAssignments, string newMatchIdsInString);
+
+    Task UpdateOfferLive(UpdateOfferLiveCriteria criteria);
 }
 
 public class CommandRepositoryImp : CommandRepository
@@ -120,4 +123,8 @@ public class CommandRepositoryImp : CommandRepository
 
         await repository.ExecuteAsync(command);
     }
+
+
+    public async Task UpdateOfferLive(UpdateOfferLiveCriteria criteria)
+        => await repository.ExecuteAsync(criteria);
 }

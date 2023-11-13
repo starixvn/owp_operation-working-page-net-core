@@ -39,4 +39,5 @@ public class CommandRepositoryImp : CommandRepository
             MatchSettings = maxbets.GroupBy(a => a.OSMatchId).ToDictionary(a => a.Key, a => a.ToList())
         };
     }
+
 }
