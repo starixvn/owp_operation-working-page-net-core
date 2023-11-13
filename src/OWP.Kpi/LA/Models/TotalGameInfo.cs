@@ -12,12 +12,12 @@ public class TotalGameInfo
 
     public double MultipleProducts { get; set; }
 
-    public bool IsWinMinTarget => new[]
+    public bool IsWinMinTarget => Array.TrueForAll(new[]
     {
         VirtualMatches,
         MultipleMatches,
         SpecialProducts,
         FiveMajorLeagues,
         MultipleProducts
-    }.All(value => value >= 0);
+    }, value => value >= 0);
 }

@@ -1,6 +1,7 @@
 ﻿using Fanex.Data.Repository;
 namespace OWP.Kpi.LA.Criteria;
-internal class GetAllSectionCriteria : CriteriaBase
+
+public class GetAllSectionCriteria : CriteriaBase
 {
     public int UserId { get; set; }
 

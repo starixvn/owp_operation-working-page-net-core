@@ -25,7 +25,7 @@ public class GetEventByDayServiceImp : GetEventByDayService
 
     public async Task<TaskListModel> GetEventByDay(DateTime eventDate)
     {
-        var taskListInfo = taskListRepository.GetTaskListInfo(eventDate);
+        var taskListInfo = await taskListRepository.GetTaskListInfo(eventDate);
         await eventService.GetInfositeAndAdminsiteInfo(taskListInfo.MatchInfos.ToList());
 
         var adminsiteIds = taskListInfo.MatchInfos.Select(x => x.AdminSiteId);

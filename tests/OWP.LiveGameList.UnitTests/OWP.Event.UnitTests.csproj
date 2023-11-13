@@ -24,8 +24,5 @@
     <ItemGroup>
       <ProjectReference Include="..\..\src\OWP.Event\OWP.Event.csproj" />
     </ItemGroup>
-    <ItemGroup>
-      <Folder Include="LiveGameList\Builder\" />
-    </ItemGroup>
 
 </Project>

@@ -1,10 +1,10 @@
-﻿using System.Globalization;
-using Fanex.NAP.Client.Helpers.Web;
+﻿using Fanex.NAP.Client.Helpers.Web;
 using MediatR;
 using OWP.Extensions;
 using OWP.OtherSport.Validation.Exceptions;
 using OWP.OtherSport.Validation.Models;
 using OWP.OtherSport.Validation.Services;
+using System.Globalization;
 
 namespace OWP.OtherSport.Validation;
 
@@ -119,7 +119,7 @@ public class ValidationHandler
                 Directory.CreateDirectory(absoluteFolderPath);
             }
 
-            var currentTime = DateTime.Now.ToGmt8().ToString("yyyyMMdd-HH'h'mm'm'ss-'GMT8'");
+            var currentTime = DateTime.Now.ToGmt8().ToString("yyyyMMdd-HH'h'mm'm'ss-'GMT8'"); // NOSONAR
             var fileName = $"({request.FromDate:yyyyMMdd}-{request.ToDate:yyyyMMdd})-{session.UserName}-({currentTime})-New-OS.xlsx";
             var fullPath = Path.Combine(absoluteFolderPath, fileName);
 

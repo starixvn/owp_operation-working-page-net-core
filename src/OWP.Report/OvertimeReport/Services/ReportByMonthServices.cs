@@ -71,7 +71,7 @@ public class ReportByMonthServicesImp : ReportByMonthServices
     {
         for (var i = 1; i <= daysInMonth; i++)
         {
-            var date = new DateTime(year, month, i);
+            var date = new DateTimeOffset(year, month, i, 0, 0, 0, TimeSpan.Zero);
             yield return new DateColumnInfo
             {
                 Date = date.ToString("dd-MMM"),
@@ -84,7 +84,7 @@ public class ReportByMonthServicesImp : ReportByMonthServices
     private static List<OvertimeData> GetOvertimeByUserId(Dictionary<int, List<OvertimeData>> dataGroup, int userId)
         => dataGroup.GetValue(userId, new List<OvertimeData>());
 
-    private static bool IsWeekend(DateTime date)
+    private static bool IsWeekend(DateTimeOffset date)
     {
         return date.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday;
     }

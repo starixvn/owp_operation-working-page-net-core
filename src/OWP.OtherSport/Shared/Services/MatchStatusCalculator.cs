@@ -25,7 +25,7 @@ public class MatchStatusCalculatorImp : MatchStatusCalculator
         foreach (var key in matchInfoDict.Keys)
         {
             var match = matchInfoDict[key];
-            var nowDateTime = DateTime.Now.ToGmt8();
+            var nowDateTime = DateTime.Now.ToGmt8(); // NOSONAR
 
             match.MatchStatus = CalculateMatchStatus(match, nowDateTime);
         }

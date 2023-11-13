@@ -41,7 +41,7 @@ public class ExportReportByMonthServicesImp : ExportReportByMonthServices, IDisp
 
     public void BuildTemplate(OverTimeRequest request)
     {
-        var monthYearInString = new DateTime(request.Year, request.Month, 1).ToString("MMM-yyyy");
+        var monthYearInString = new DateTimeOffset(request.Year, request.Month, 1, 0, 0, 0, TimeSpan.Zero).ToString("MMM-yyyy");
         excelPackage = new ExcelPackage();
         reportSheet = excelPackage.Workbook.Worksheets.Add(monthYearInString);
         reportSheet.View.FreezePanes(3, 4);
