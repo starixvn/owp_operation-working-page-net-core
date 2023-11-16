@@ -35,30 +35,34 @@ public class CornerServiceImp : CornerService
         {
             game.MatchType = Constant.MatchType.RealCorner;
         }
-        
+
         workingSchedule.Group(
            gameGroup,
            schedules,
-            assignmentsCorner => BuildScheduleUpdateModel(gameMapGameId, assignmentsCorner, filterDate));
+            assignmentsCorner => BuildScheduleUpdateModel(assignments, gameMapGameId, assignmentsCorner, filterDate));
     }
 
-    public static ScheduleUpdateModel BuildScheduleUpdateModel(IDictionary<int, List<AssignmentModel>> gameMapGameId, IList<AssignmentModel> assignmentsCorner, DateTime filterDate)
+    public static ScheduleUpdateModel BuildScheduleUpdateModel(
+        IList<AssignmentModel> assignments,
+        IDictionary<int, List<AssignmentModel>> gameMapGameId,
+        IList<AssignmentModel> assignmentsCorner,
+        DateTime filterDate)
     {
         var textPostfix = ScheduleHelper.BuildTextSingleGamePostfixHdp(gameMapGameId, assignmentsCorner);
         if (string.IsNullOrEmpty(textPostfix))
         {
             textPostfix = ScheduleHelper.BuildTextSingleGamePostfixOu(gameMapGameId, assignmentsCorner);
         }
-        var assignmentCell = new AssignmentCell
-        {
-            Color = ColorCodeConst.CORNER,
-            TextColor = ColorCodeConst.TEXT_CORNER,
-            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignmentsCorner[0], textPostfix)
-        };
 
         var gameInfo = ScheduleHelper.GetGameInfo(assignmentsCorner);
-        var etPkValue = FirstHalfHelper.IsFirstHalf(assignmentsCorner) ? string.Empty
-            : ETPKHelper.DetectExtraTime(new AssignmentModel
+
+        var parentGame = assignments.FirstOrDefault(a => a.OWPMatchId == assignmentsCorner[0].ParentMatchId);
+
+        var parentGameExtraTime = ETPKHelper.DetectExtraTime(parentGame);
+
+        var etPkValue = (FirstHalfHelper.IsFirstHalf(assignmentsCorner) || string.Equals(parentGameExtraTime, "PK", StringComparison.OrdinalIgnoreCase))
+        ? string.Empty
+            : ETPKHelper.DetectExtraTime(new()
             {
                 Remark = gameInfo.remark,
                 AssignmentNote = gameInfo.assignmentNote,
@@ -73,7 +77,12 @@ public class CornerServiceImp : CornerService
                 IsHasEtPk = !string.IsNullOrEmpty(etPkValue),
                 EtPkValue = etPkValue
             },
-            AssignmentCell = assignmentCell,
+            AssignmentCell = new()
+            {
+                Color = ColorCodeConst.CORNER,
+                TextColor = ColorCodeConst.TEXT_CORNER,
+                Text = ScheduleHelper.BuildScheduleTextSingleGame(assignmentsCorner[0], textPostfix)
+            },
             TimeRange = TimeRangeHelper.CalculateTimeRangeSingleGame(gameInfo.eventDate, gameInfo.bettypeIds, !string.IsNullOrEmpty(etPkValue))
         };
     }

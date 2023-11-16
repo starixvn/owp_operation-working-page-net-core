@@ -41,10 +41,13 @@ public class BookingServiceImp : BookingService
         workingSchedule.Group(
            gameGroup,
            schedules,
-            assignmentBooking => BuildScheduleUpdateModel(gameMapGameId, assignmentBooking, filterDate));
+            assignmentBooking => BuildScheduleUpdateModel(assignments, gameMapGameId, assignmentBooking, filterDate));
     }
 
-    public static ScheduleUpdateModel BuildScheduleUpdateModel(IDictionary<int, List<AssignmentModel>> gameMapGameId, IList<AssignmentModel> assignmentsBooking, DateTime filterDate)
+    public static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignments,
+    IDictionary<int, List<AssignmentModel>> gameMapGameId,
+     IList<AssignmentModel> assignmentsBooking,
+      DateTime filterDate)
     {
         var textPostfix = ScheduleHelper.BuildTextSingleGamePostfixHdp(gameMapGameId, assignmentsBooking);
         if (string.IsNullOrEmpty(textPostfix))
@@ -58,9 +61,15 @@ public class BookingServiceImp : BookingService
             TextColor = ColorCodeConst.TEXT_BOOKING,
             Text = ScheduleHelper.BuildScheduleTextSingleGame(assignmentsBooking[0], textPostfix)
         };
+        var parentGame = assignments.FirstOrDefault(a => a.OWPMatchId == assignmentsBooking[0].ParentMatchId);
 
         var gameInfo = ScheduleHelper.GetGameInfo(assignmentsBooking);
-        var etPkValue = (FirstHalfHelper.IsFirstHalf(assignmentsBooking) || assignmentsBooking.All(x => x.BettypeId is Bettype.FifteenMinsBookings)) ? string.Empty
+
+        var parentGameExtraTime = ETPKHelper.DetectExtraTime(parentGame);
+        var etPkValue = (FirstHalfHelper.IsFirstHalf(assignmentsBooking) ||
+        assignmentsBooking.All(x => x.BettypeId is Bettype.FifteenMinsBookings)
+        || string.Equals(parentGameExtraTime, "PK", StringComparison.OrdinalIgnoreCase))
+         ? string.Empty
             : ETPKHelper.DetectExtraTime(new AssignmentModel
             {
                 Remark = gameInfo.remark,
