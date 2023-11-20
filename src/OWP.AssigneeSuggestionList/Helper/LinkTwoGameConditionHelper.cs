@@ -58,7 +58,7 @@ public static class LinkTwoGameConditionHelper
 
                 if (durations <= TimeSpan.FromMinutes(10) && (durations.TotalMinutes is > 0 or < 0))
                 {
-                    var eventDate = UtilsHelper.SelectTime(assignmentOther[i].EventDateTime, assignmentOther[j].EventDateTime);
+                    var eventDate = Utils.SelectTime(assignmentOther[i].EventDateTime, assignmentOther[j].EventDateTime);
                     group2GameDictionary.TryAdd(eventDate, new List<AssignmentModel>{
                         assignmentOther[i],
                         assignmentOther[j]

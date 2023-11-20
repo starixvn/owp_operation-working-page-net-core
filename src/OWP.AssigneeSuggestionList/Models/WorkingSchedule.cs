@@ -6,7 +6,8 @@ namespace OWP.AssigneeSuggestionList.Models;
 public class WorkingSchedule
 {
     public UserInfo UserInfo { get; set; }
-    public IList<AssignmentCell>  Yesterday_02h { get; set; }
+
+    public IList<AssignmentCell> Yesterday_02h { get; set; }
     public IList<AssignmentCell> Yesterday_03h { get; set; }
     public IList<AssignmentCell> Yesterday_04h { get; set; }
     public IList<AssignmentCell> Yesterday_05h { get; set; }

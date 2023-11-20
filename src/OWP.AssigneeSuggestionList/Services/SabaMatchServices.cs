@@ -34,12 +34,8 @@ public class SabaMatchesServicesImp : SabaMatchServices
     {
         foreach (var workingShift in workingShifts)
         {
-            var userAssignments = assignmentModels.Where(x =>
-                x.UserId == workingShift.UserInfo.UserId &&
-                x.EndTime.CompareTo(workingShift.UserInfo.ShiftStartTime) >= 0 &&
-                x.EventDateTime.CompareTo(workingShift.UserInfo.ShiftEndTime) < 0);
-
-            var sabaAssignments = userAssignments
+            var sabaAssignments = assignmentModels.Where(x =>
+                x.UserId == workingShift.UserInfo.UserId)
                 .OrderBy(x => x.EventDateTime).ThenBy(x => x.OWPMatchId).ThenBy(x => x.BettypeId)
                 .DistinctBy(x => x.OWPMatchId)
                 .ToList();

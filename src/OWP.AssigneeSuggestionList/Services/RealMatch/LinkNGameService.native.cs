@@ -112,7 +112,7 @@ public class LinkNGameServiceImp : LinkNGameService
                 AssignmentCell = assignmentCell,
                 TimeRange = timeRange
             };
-            var assignmentPresent = assignments.FirstOrDefault(x => !string.IsNullOrEmpty(ETPKHelper.DetectExtraTime(x)))
+            var assignmentPresent = assignments.Find(x => !string.IsNullOrEmpty(ETPKHelper.DetectExtraTime(x)))
                                     ?? assignments.MinBy(x => x.BettypeId);
             if (assignmentPresent is null)
             {

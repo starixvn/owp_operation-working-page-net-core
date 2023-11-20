@@ -19,6 +19,10 @@ public class UserInfo
 
     public string MaxMultipleGames { get; set; }
 
+    public bool OTPreShift { get; set; }
+
+    public bool OTPostShift { get; set; }
+
     [JsonIgnore]
     public MixMatchCapacity MixMatchCapacity => MaxMultipleGames switch
     {

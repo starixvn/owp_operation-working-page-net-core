@@ -18,15 +18,18 @@ public class CategorizeRealMatchServicesImp : CategorizeRealMatchServices
         foreach (var schedule in schedules)
         {
             var assignments = schedule.CategorizedAssignments.ToList();
+            var (oTPreShift, oTPostShift) = Helper.Utils.HasOT(assignments, schedule);
             var assigneeType = GetAssigneeType(schedule.UserInfo, assignments, matchInfo);
             var (categoryType, explanation) = GetCategoryTypeAndExplanation(assigneeType, matchInfo);
 
+            schedule.UserInfo.OTPostShift = oTPreShift;
+            schedule.UserInfo.OTPostShift = oTPostShift;
             schedule.CategoryType = categoryType;
             schedule.UserInfo.Explanation = explanation;
         }
     }
 
-    public AssigneeCategory GetAssigneeType(UserInfo userInfo, List<AssignmentModel> assignments, MatchInfo matchInfo)
+    private AssigneeCategory GetAssigneeType(UserInfo userInfo, List<AssignmentModel> assignments, MatchInfo matchInfo)
     {
         var kOTime = matchInfo.KOTime;
         var endTime = matchInfo.EndTime;
@@ -53,7 +56,7 @@ public class CategorizeRealMatchServicesImp : CategorizeRealMatchServices
             : HasAssignmentLinkNGame(userInfo, assignments, matchInfo);
     }
 
-    public static bool IsPartiallyFreeInRangeTime(UserInfo userInfo, List<AssignmentModel> assignments, MatchInfo matchInfo)
+    private static bool IsPartiallyFreeInRangeTime(UserInfo userInfo, List<AssignmentModel> assignments, MatchInfo matchInfo)
     {
         var kOTime = matchInfo.KOTime;
         var minToTime = kOTime.AddMinutes(60);
@@ -67,7 +70,7 @@ public class CategorizeRealMatchServicesImp : CategorizeRealMatchServices
         return false;
     }
 
-    public AssigneeCategory HasAssignmentLinkNGame(UserInfo userInfo, List<AssignmentModel> assignments, MatchInfo matchInfo)
+    private AssigneeCategory HasAssignmentLinkNGame(UserInfo userInfo, List<AssignmentModel> assignments, MatchInfo matchInfo)
     {
         var sameKoTimeAssignments = assignments.GetSameKOTimeAssignments(matchInfo);
         var isAssignmentWithin10Minutes = HasAssignmentWithin10MinutesDiff(assignments, matchInfo);
@@ -107,7 +110,7 @@ public class CategorizeRealMatchServicesImp : CategorizeRealMatchServices
                 (x.EventDateTime - matchInfo.KOTime).Duration() <= TimeSpan.FromMinutes(10) &&
                 !x.IsSingleMatch).Any(x => x.MatchType is MatchType.RealMatchLink1G);
 
-    public static (CategoryType, string) GetCategoryTypeAndExplanation(AssigneeCategory category, MatchInfo matchInfo)
+    private static (CategoryType, string) GetCategoryTypeAndExplanation(AssigneeCategory category, MatchInfo matchInfo)
         => category switch
         {
             AssigneeCategory.Free => (CategoryType.FullyAvailable, CategorizeHelper.FormatExplanation(ExplanationConstants.FREE, matchInfo)),
@@ -117,4 +120,6 @@ public class CategorizeRealMatchServicesImp : CategorizeRealMatchServices
             AssigneeCategory.PartiallyFree => (CategoryType.PartiallyAvailable, CategorizeHelper.FormatExplanation(ExplanationConstants.PARTIALLY_AVAILABLE, matchInfo, true)),
             _ => (CategoryType.Busy, null)
         };
+
+
 }
