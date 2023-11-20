@@ -59,9 +59,7 @@ public class RealMatchServicesImp : RealMatchServices
 
     private static IList<AssignmentModel> GetAssignmentsBelongWs(IEnumerable<AssignmentModel> assignments, WorkingSchedule schedule)
         => assignments.Where(x =>
-            x.UserId == schedule.UserInfo.UserId &&
-            DateTime.Compare(x.EndTime, schedule.UserInfo.ShiftStartTime) >= 0 &&
-            DateTime.Compare(x.EventDateTime, schedule.UserInfo.ShiftEndTime) < 0).ToList();
+            x.UserId == schedule.UserInfo.UserId).ToList();
 
     public void CategoryAssignee(List<WorkingSchedule> schedules, MatchInfo matchInfo)
     {
