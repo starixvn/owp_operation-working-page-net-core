@@ -59,4 +59,8 @@ public class AssignmentCell
     public string TextColor { get; set; }
 
     public string Color { get; set; }
+
+    public bool IsShiftCell { get; set; }
+
+    public DateTime? KoAssignment { get; set; }
 }

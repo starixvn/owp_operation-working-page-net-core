@@ -33,7 +33,7 @@ public class WorkingShiftServiceImp : WorkingShiftService
         {
             propertyInfo?.SetValue(shift,new List<AssignmentCell>
             {
-                new () { Color = ColorCodeConst.SHIFT, Text = string.Empty }
+                new () { Color = ColorCodeConst.SHIFT, Text = string.Empty, IsShiftCell = true}
             });
         }
 

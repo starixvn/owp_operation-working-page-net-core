@@ -46,17 +46,25 @@ public class WorkingScheduleServiceUnitTests
                 UserId = 123,
                 Username = "Los"
             },
-            Yesterday_10h = new AssignmentCell
+            Yesterday_10h =new List<AssignmentCell>
             {
-                Text = "V/15K",
-                TextColor = "#444444",
-                Color = "#C00000"
+                new ()
+                {
+                    Text = "V/15K",
+                    TextColor = "#444444",
+                    Color = "#C00000",
+                    KoAssignment  = DateTime.Parse("2023-04-04 10:00:00")
+                }
             },
-            Yesterday_11h = new AssignmentCell
-            {
-                Text = "",
-                TextColor = "#444444",
-                Color = "#C00000"
+            Yesterday_11h = new List<AssignmentCell>
+            {new ()
+                {
+                    Text = "",
+                    TextColor = "#444444",
+                    Color = "#C00000",
+                    KoAssignment  = DateTime.Parse("2023-04-04 10:00:00")
+                }
+            
             },
             CategorizedAssignments = new List<AssignmentModel> { new() }
         };
@@ -83,7 +91,7 @@ public class WorkingScheduleServiceUnitTests
                 TextColor = "#444444",
                 Color = "#C00000"
             },
-            TimeRange = (DateTime.Parse("2023-04-04 9:00:00"), DateTime.Parse("2023-04-04 10:00:00"))
+            TimeRange = (DateTime.Parse("2023-04-04 9:00:00"), DateTime.Parse("2023-04-04 11:00:00"))
         };
 
         var schedule = new WorkingSchedule
@@ -106,17 +114,34 @@ public class WorkingScheduleServiceUnitTests
                 UserId = 123,
                 Username = "Los"
             },
-            Yesterday_09h = new AssignmentCell
+            Yesterday_09h = new List<AssignmentCell>
             {
-                Text = "V/15K",
-                TextColor = "#444444",
-                Color = "#C00000"
+               new () {
+                    Text = "V/15K",
+                    TextColor = "#444444",
+                    Color = "#C00000",
+                    KoAssignment = DateTime.Parse("2023-04-04 9:00:00")
+                }
             },
-            Yesterday_10h = new AssignmentCell
+            Yesterday_10h = new List<AssignmentCell>
             {
-                Text = "ETPK",
-                TextColor = "#FFEA29",
-                Color = "#000000"
+                new ()
+                {
+                    Text = "",
+                    TextColor = "#444444",
+                    Color = "#C00000",
+                    KoAssignment = DateTime.Parse("2023-04-04 9:00:00")
+                }
+            },
+            Yesterday_11h = new List<AssignmentCell>
+            {
+                new ()
+                {
+                    Text = "ETPK",
+                    TextColor = "#FFEA29",
+                    Color = "#000000",
+                    KoAssignment = DateTime.Parse("2023-04-04 9:00:00")
+                }
             },
             CategorizedAssignments = new List<AssignmentModel> { new() }
         };

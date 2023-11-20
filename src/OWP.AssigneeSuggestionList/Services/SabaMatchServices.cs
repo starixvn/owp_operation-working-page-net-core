@@ -146,7 +146,8 @@ public class SabaMatchesServicesImp : SabaMatchServices
             {
                 Text = assignment.MatchType is MatchType.SabaOther ? "Error!" : text,
                 TextColor = textColor,
-                Color = backgroundColor
+                Color = backgroundColor,
+                KoAssignment = assignment.EventDateTime
             };
 
             schedule.UpdateWorkingSchedule(assignment, assignmentCell, eventDate);

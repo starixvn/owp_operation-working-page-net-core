@@ -1,5 +1,4 @@
 using System.Reflection;
-using Microsoft.AspNetCore.Builder;
 using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Helper;
 using OWP.AssigneeSuggestionList.Models;
@@ -49,37 +48,54 @@ public class WorkingScheduleServiceImp : WorkingScheduleService
          {
              Text = assignmentCell.Text,
              Color = assignmentCell.Color,
-             TextColor = assignmentCell.TextColor
+             TextColor = assignmentCell.TextColor,
+             KoAssignment = updateModel.TimeRange.startDate
          });
          
         for (var index = 1; index < propertiesLength; index++)
         {
             var propertyInfo = objType.GetProperty(propertiesName[index]);
-            if (index <= propertiesLength - 1)//NOSONAR
+            if ( index < propertiesLength - 1 )//NOSONAR
             {
                 UpdatePropertyValue(propertyInfo, schedule, new AssignmentCell
                 {
                     Text = string.Empty,
                     Color = assignmentCell.Color,
-                    TextColor = assignmentCell.TextColor
+                    TextColor = assignmentCell.TextColor,
+                    KoAssignment =  updateModel.TimeRange.startDate
                 });
             }
 
-            if (updateModel.EtPk.IsHasEtPk && index == propertiesLength - 1)
+            if ( index == propertiesLength - 1)
             {
-                UpdatePropertyValue(propertyInfo, schedule, new AssignmentCell
+                if (updateModel.EtPk.IsHasEtPk)
                 {
-                    Text = updateModel.EtPk.EtPkValue,
-                    Color = ColorCodeConst.ET_PK,
-                    TextColor = ColorCodeConst.TEXT_ET_PK
-                });
+                    UpdatePropertyValue(propertyInfo, schedule, new AssignmentCell
+                    {
+                        Text = updateModel.EtPk.EtPkValue,
+                        Color = ColorCodeConst.ET_PK,
+                        TextColor = ColorCodeConst.TEXT_ET_PK,
+                        KoAssignment = updateModel.TimeRange.startDate
+                    });
+                }
+                else
+                {
+                    UpdatePropertyValue(propertyInfo, schedule, new AssignmentCell
+                    {
+                        Text = string.Empty,
+                        Color = assignmentCell.Color,
+                        TextColor = assignmentCell.TextColor,
+                        KoAssignment = updateModel.TimeRange.startDate
+                    });
+
+                }
             }
         }
     }
     public static void UpdatePropertyValue(PropertyInfo info, WorkingSchedule schedule, AssignmentCell cellInfo)
     {
-        var cells = (List<AssignmentCell>)info?.GetValue(schedule);
+        var cells = (List<AssignmentCell>)info?.GetValue(schedule)?? new List<AssignmentCell>();
         cells.Add(cellInfo);
-        info?.SetValue(schedule, cells);
+        info?.SetValue(schedule, cells.FilterAndSortValidCell());
     }
 }
