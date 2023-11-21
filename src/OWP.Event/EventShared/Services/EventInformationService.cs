@@ -73,6 +73,6 @@ public class EventInformationServiceImp : EventInformationService
             .Select(x => new MatchOffer
             {
                 OWPMatchId = x.OWPMatchId,
-                MatchOfferValue = WebUtility.HtmlEncode(x.MatchOfferValue)
+                MatchOfferValue = x.MatchOfferValue
             });
 }
