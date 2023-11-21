@@ -28,7 +28,7 @@ public class FantasyServiceImp : FantasyService
         DateTime filterDate,
         IDictionary<int, List<AssignmentModel>> gameMapGameId)
     {
-        var matchGroup = assignments.Where(a => a.IsFantasyMatch).ToList();
+        var matchGroup = assignments.Where(a => a.IsFantasyMatch && a.MatchType == Constant.MatchType.Other).ToList();
         foreach (var game in matchGroup)
         {
             game.MatchType = Constant.MatchType.RealFantasy;

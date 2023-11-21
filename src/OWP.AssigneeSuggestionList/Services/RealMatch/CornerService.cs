@@ -29,7 +29,7 @@ public class CornerServiceImp : CornerService
         IDictionary<int, List<AssignmentModel>> gameMapGameId)
     {
         var gameGroup = assignments
-            .Where(a => a.IsCornerMatch)
+            .Where(a => a.IsCornerMatch && a.MatchType == Constant.MatchType.Other)
             .ToList();
         foreach (var game in gameGroup)
         {

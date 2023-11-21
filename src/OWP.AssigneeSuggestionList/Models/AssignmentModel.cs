@@ -29,6 +29,8 @@ public class AssignmentModel
 
     public bool IsFantasyMatch => LeagueName.IsContains("Fantasy ");
 
+    public bool GameIsUsed { get; set; }
+
     public bool IsCornerMatch { get; set; }
 
     public bool Is15Mins { get; set; }

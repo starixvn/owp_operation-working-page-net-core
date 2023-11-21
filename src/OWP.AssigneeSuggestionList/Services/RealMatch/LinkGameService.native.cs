@@ -27,7 +27,7 @@ public class LinkGameServiceImp : LinkGameService
         DateTime fromDate,
         IDictionary<int, List<AssignmentModel>> gameMapGameId)
     {
-        var canLinkAssignments = assignmentModels.Where(x => !x.IsFantasyMatch).ToList();
+        var canLinkAssignments = assignmentModels.Where(x => x.MatchType == Constant.MatchType.Other && !x.IsFantasyMatch).ToList();
 
         linkNGameService.Group(canLinkAssignments, schedule, fromDate);
         oneGameService.Group(canLinkAssignments, schedule, fromDate, gameMapGameId);

@@ -30,7 +30,7 @@ public class BookingServiceImp : BookingService
         IDictionary<int, List<AssignmentModel>> gameMapGameId)
     {
         var gameGroup = assignments
-            .Where(a => a.MinorBettypeId is Bettype.FifteenMinsBookings or Bettype.NextBooking or Bettype.TotalBooking)
+            .Where(a => a.MatchType == Constant.MatchType.Other && a.MinorBettypeId is Bettype.FifteenMinsBookings or Bettype.NextBooking or Bettype.TotalBooking)
             .ToList();
 
         foreach (var game in gameGroup)

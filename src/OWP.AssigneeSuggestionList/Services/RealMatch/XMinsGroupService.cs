@@ -26,8 +26,8 @@ public class XMinsGroupServiceImp : XMinsGroupService
         WorkingSchedule schedule,
         DateTime filterDate)
     {
-        var gameGroup = assignments.Where(a => a.Is15Mins).ToList();
-      
+        var gameGroup = assignments.Where(a => a.Is15Mins && a.MatchType == Constant.MatchType.Other).ToList();
+
         foreach (var game in gameGroup)
         {
             game.MatchType = Constant.MatchType.Real15MOU;
