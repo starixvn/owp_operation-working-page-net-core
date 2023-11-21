@@ -43,10 +43,9 @@ public class RealMatchServicesImp : RealMatchServices
         var fromDate = filterDate.Date.AddHours(12);
 
         var gameMapGameId = GameMapGameId(assignmentModels);
-        var assignmentMapUserId = AssignmentMapUserId(assignmentModels);
         foreach (var schedule in schedules)
         {
-            var assignments = assignmentMapUserId.GetValue(schedule.UserInfo.UserId, new List<AssignmentModel>());
+            var assignments = Helper.Utils.GetAssignmentsBelongWs(assignmentModels, schedule);
             mainGameServices.MapAssignmentsToWorkingSchedule(schedule, assignments, fromDate, gameMapGameId);
             specialGameService.MapAssignmentsToWorkingSchedule(schedule, assignments, fromDate, gameMapGameId);
             linkGameService.MapAssignmentsToWorkingSchedule(schedule, assignments, fromDate, gameMapGameId);
@@ -59,10 +58,7 @@ public class RealMatchServicesImp : RealMatchServices
         .GroupBy(g => g.OWPMatchId)
         .ToDictionary(x => x.Key, x => x.ToList());
 
-    private static Dictionary<int, List<AssignmentModel>> AssignmentMapUserId(IList<AssignmentModel> assignments)
-    => assignments
-        .GroupBy(a => a.UserId)
-        .ToDictionary(x => x.Key, x => x.ToList());
+
 
     public void CategoryAssignee(List<WorkingSchedule> schedules, MatchInfo matchInfo)
     {

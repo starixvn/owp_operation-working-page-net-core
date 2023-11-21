@@ -22,7 +22,7 @@ public class CategorizeRealMatchServicesImp : CategorizeRealMatchServices
             var assigneeType = GetAssigneeType(schedule.UserInfo, assignments, matchInfo);
             var (categoryType, explanation) = GetCategoryTypeAndExplanation(assigneeType, matchInfo);
 
-            schedule.UserInfo.OTPostShift = oTPreShift;
+            schedule.UserInfo.OTPreShift = oTPreShift;
             schedule.UserInfo.OTPostShift = oTPostShift;
             schedule.CategoryType = categoryType;
             schedule.UserInfo.Explanation = explanation;

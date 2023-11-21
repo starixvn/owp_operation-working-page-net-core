@@ -34,9 +34,7 @@ public class SabaMatchesServicesImp : SabaMatchServices
     {
         foreach (var workingShift in workingShifts)
         {
-            var sabaAssignments = assignmentModels.Where(x =>
-                !x.GameIsUsed &&
-                x.UserId == workingShift.UserInfo.UserId)
+            var sabaAssignments = Helper.Utils.GetAssignmentsBelongWs(assignmentModels, workingShift)
                 .OrderBy(x => x.EventDateTime)
                 .ThenBy(x => x.OWPMatchId)
                 .ThenBy(x => x.BettypeId)
@@ -44,15 +42,12 @@ public class SabaMatchesServicesImp : SabaMatchServices
                 .ToList();
 
             CategorizeAndGroupSabaMatches(sabaAssignments);
-            MarkGameIsUsed(sabaAssignments);
+
             workingShift.CategorizedAssignments.AddRange(sabaAssignments);
 
             MapAssignmentsToWorkingSchedule(workingShift, sabaAssignments, eventDate);
         }
     }
-
-    private static void MarkGameIsUsed(List<AssignmentModel> sabaAssignments)
-        => sabaAssignments.ForEach(g => g.GameIsUsed = true);
 
     public void CategorizeAndGroupSabaMatches(List<AssignmentModel> sabaAssignments)
     {
