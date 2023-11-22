@@ -58,7 +58,9 @@ public class CornerServiceImp : CornerService
 
         var parentGame = assignments.FirstOrDefault(a => a.OWPMatchId == assignmentsCorner[0].ParentMatchId);
 
-        var parentGameExtraTime = ETPKHelper.DetectExtraTime(parentGame);
+        var parentGameExtraTime = parentGame is not null ?
+            ETPKHelper.DetectExtraTime(parentGame)
+            : string.Empty;
 
         var etPkValue = (FirstHalfHelper.IsFirstHalf(assignmentsCorner) || string.Equals(parentGameExtraTime, "PK", StringComparison.OrdinalIgnoreCase))
         ? string.Empty
