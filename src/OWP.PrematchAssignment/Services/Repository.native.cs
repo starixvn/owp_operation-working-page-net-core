@@ -17,6 +17,8 @@ public interface Repository
     Task<(List<PreMatchLeague>, List<InfoSiteMatch>)> QueryDayShiftPreMatchAssignments(QueryShiftPreMatchCriteria criteria);
 
     Task<IEnumerable<OddStatus>> QueryOddStatusFromMainDb(IEnumerable<InfoSiteMatch> infositeMatches);
+
+    Task<IEnumerable<string>> GetEarlyOfferedLeagues(DateTime eventDate);
 }
 
 public class RepositoryImp : Repository
@@ -98,5 +100,14 @@ public class RepositoryImp : Repository
         };
 
         return await dynamicRepository.FetchAsync<OddStatus>(criteria);
+    }
+
+    public async Task<IEnumerable<string>> GetEarlyOfferedLeagues(DateTime eventDate)
+    {
+        var criteria = new GetEarlyOfferedLeaguesCriteria
+        {
+            EventDate = eventDate
+        };
+        return await dynamicRepository.FetchAsync<string>(criteria);
     }
 }

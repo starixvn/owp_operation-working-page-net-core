@@ -60,5 +60,7 @@ public class LeagueAssignment
 
     public int? PreMatchNoteId { get; set; }
 
+    public bool IsEarlyOffered { get; set; }
+
     public List<TicketLeagueBasicInfo> TicketList { get; set; } = new();
 }

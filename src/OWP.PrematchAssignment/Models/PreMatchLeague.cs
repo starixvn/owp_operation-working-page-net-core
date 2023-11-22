@@ -70,6 +70,8 @@ public class PreMatchLeague
 
     public bool IsDeleted { get; set; }
 
+    public bool IsEarlyOffered { get; set; }
+
     public bool IsEquals(PreMatchLeague other)
     {
         if (other is null)
