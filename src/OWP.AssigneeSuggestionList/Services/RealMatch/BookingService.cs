@@ -41,11 +41,10 @@ public class BookingServiceImp : BookingService
         workingSchedule.Group(
            gameGroup,
            schedules,
-            assignmentBooking => BuildScheduleUpdateModel(assignments, gameMapGameId, assignmentBooking, filterDate));
+            assignmentBooking => BuildScheduleUpdateModel(gameMapGameId, assignmentBooking, filterDate));
     }
 
-    public static ScheduleUpdateModel BuildScheduleUpdateModel(IList<AssignmentModel> assignments,
-    IDictionary<int, List<AssignmentModel>> gameMapGameId,
+    public static ScheduleUpdateModel BuildScheduleUpdateModel(IDictionary<int, List<AssignmentModel>> gameMapGameId,
      IList<AssignmentModel> assignmentsBooking,
       DateTime filterDate)
     {
@@ -61,21 +60,21 @@ public class BookingServiceImp : BookingService
             TextColor = ColorCodeConst.TEXT_BOOKING,
             Text = ScheduleHelper.BuildScheduleTextSingleGame(assignmentsBooking[0], textPostfix)
         };
-        var parentGame = assignments.FirstOrDefault(a => a.OWPMatchId == assignmentsBooking[0].ParentMatchId);
 
         var gameInfo = ScheduleHelper.GetGameInfo(assignmentsBooking);
 
-        var parentGameExtraTime = ETPKHelper.DetectExtraTime(parentGame);
+        var tempEtPkValue = ETPKHelper.DetectExtraTime(new AssignmentModel
+        {
+            Remark = gameInfo.remark,
+            AssignmentNote = gameInfo.assignmentNote,
+            MinorBettypeId = gameInfo.minorBettypeId
+        });
+
         var etPkValue = (FirstHalfHelper.IsFirstHalf(assignmentsBooking) ||
         assignmentsBooking.All(x => x.BettypeId is Bettype.FifteenMinsBookings)
-        || string.Equals(parentGameExtraTime, "PK", StringComparison.OrdinalIgnoreCase))
+        || string.Equals(tempEtPkValue, "PK", StringComparison.OrdinalIgnoreCase))
          ? string.Empty
-            : ETPKHelper.DetectExtraTime(new AssignmentModel
-            {
-                Remark = gameInfo.remark,
-                AssignmentNote = gameInfo.assignmentNote,
-                MinorBettypeId = gameInfo.minorBettypeId
-            });
+            : tempEtPkValue;
 
         return new ScheduleUpdateModel
         {

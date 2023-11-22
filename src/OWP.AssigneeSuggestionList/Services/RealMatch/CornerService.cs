@@ -39,11 +39,10 @@ public class CornerServiceImp : CornerService
         workingSchedule.Group(
            gameGroup,
            schedules,
-            assignmentsCorner => BuildScheduleUpdateModel(assignments, gameMapGameId, assignmentsCorner, filterDate));
+            assignmentsCorner => BuildScheduleUpdateModel(gameMapGameId, assignmentsCorner, filterDate));
     }
 
     public static ScheduleUpdateModel BuildScheduleUpdateModel(
-        IList<AssignmentModel> assignments,
         IDictionary<int, List<AssignmentModel>> gameMapGameId,
         IList<AssignmentModel> assignmentsCorner,
         DateTime filterDate)
@@ -55,21 +54,16 @@ public class CornerServiceImp : CornerService
         }
 
         var gameInfo = ScheduleHelper.GetGameInfo(assignmentsCorner);
+        var tempEtPkValue = ETPKHelper.DetectExtraTime(new AssignmentModel
+        {
+            Remark = gameInfo.remark,
+            AssignmentNote = gameInfo.assignmentNote,
+            MinorBettypeId = gameInfo.minorBettypeId
+        });
 
-        var parentGame = assignments.FirstOrDefault(a => a.OWPMatchId == assignmentsCorner[0].ParentMatchId);
-
-        var parentGameExtraTime = parentGame is not null ?
-            ETPKHelper.DetectExtraTime(parentGame)
-            : string.Empty;
-
-        var etPkValue = (FirstHalfHelper.IsFirstHalf(assignmentsCorner) || string.Equals(parentGameExtraTime, "PK", StringComparison.OrdinalIgnoreCase))
+        var etPkValue = (FirstHalfHelper.IsFirstHalf(assignmentsCorner) || string.Equals(tempEtPkValue, "PK", StringComparison.OrdinalIgnoreCase))
         ? string.Empty
-            : ETPKHelper.DetectExtraTime(new()
-            {
-                Remark = gameInfo.remark,
-                AssignmentNote = gameInfo.assignmentNote,
-                MinorBettypeId = gameInfo.minorBettypeId
-            });
+            : tempEtPkValue;
 
         return new ScheduleUpdateModel
         {
