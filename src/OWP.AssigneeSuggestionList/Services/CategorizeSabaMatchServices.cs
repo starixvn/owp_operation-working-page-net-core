@@ -22,7 +22,7 @@ public class CategorizeSabaMatchServicesImp : CategorizeSabaMatchServices
             var (categoryType, explanation) = GetCategoryTypeAndExplanation(assigneeType, matchInfo);
             var (oTPreShift, oTPostShift) = Utils.HasOT(assignments, schedule);
 
-            schedule.UserInfo.OTPostShift = oTPreShift;
+            schedule.UserInfo.OTPreShift = oTPreShift;
             schedule.UserInfo.OTPostShift = oTPostShift;
             schedule.CategoryType = categoryType;
             schedule.UserInfo.Explanation = explanation;
