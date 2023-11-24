@@ -211,6 +211,7 @@ public static class ServiceCollectionExtensions
         services.AddAssignmentUploadService();
         services.AddEventPicking();
         services.AddResourceManagement();
+        services.AddUserManagement();
         services.AddSuggestionList();
         services.AddEventService();
         services.AddKpiService();
