@@ -70,7 +70,7 @@ public class CategorizeRealMatchServicesImp : CategorizeRealMatchServices
         return false;
     }
 
-    private AssigneeCategory HasAssignmentLinkNGame(UserInfo userInfo, List<AssignmentModel> assignments, MatchInfo matchInfo)
+    public AssigneeCategory HasAssignmentLinkNGame(UserInfo userInfo, List<AssignmentModel> assignments, MatchInfo matchInfo)
     {
         var sameKoTimeAssignments = assignments.GetSameKOTimeAssignments(matchInfo);
         var isAssignmentWithin10Minutes = HasAssignmentWithin10MinutesDiff(assignments, matchInfo);
@@ -110,7 +110,7 @@ public class CategorizeRealMatchServicesImp : CategorizeRealMatchServices
                 (x.EventDateTime - matchInfo.KOTime).Duration() <= TimeSpan.FromMinutes(10) &&
                 !x.IsSingleMatch).Any(x => x.MatchType is MatchType.RealMatchLink1G);
 
-    private static (CategoryType, string) GetCategoryTypeAndExplanation(AssigneeCategory category, MatchInfo matchInfo)
+    public static (CategoryType, string) GetCategoryTypeAndExplanation(AssigneeCategory category, MatchInfo matchInfo)
         => category switch
         {
             AssigneeCategory.Free => (CategoryType.FullyAvailable, CategorizeHelper.FormatExplanation(ExplanationConstants.FREE, matchInfo)),
