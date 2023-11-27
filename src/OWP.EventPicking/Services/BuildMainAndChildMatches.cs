@@ -77,7 +77,6 @@ public class BuildMainAndChildMatchesImp : BuildMainAndChildMatches
 
         buildRowColor.BuildRowColor(filteredMainMatches);
         await buildProvider.Build(filteredMainMatches);
-        LengthPropertyBuilder.Build(filteredMainMatches);
         return filteredMainMatches;
     }
 
