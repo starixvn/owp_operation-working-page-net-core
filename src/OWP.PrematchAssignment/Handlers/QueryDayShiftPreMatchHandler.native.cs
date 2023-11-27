@@ -15,6 +15,8 @@ public class QueryDayShiftPreMatchRequest : IRequest<QueryPreMatchLeagueViewMode
     public int ActorId { get; set; }
 
     public List<string> MatchOffers { get; set; }
+
+    public List<int> EarlyOffered { get; set; }
 }
 
 public class QueryDayShiftPreMatchHandler : IRequestHandler<QueryDayShiftPreMatchRequest, QueryPreMatchLeagueViewModel>

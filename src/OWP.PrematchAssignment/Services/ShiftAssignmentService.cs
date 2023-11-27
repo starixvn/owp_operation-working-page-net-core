@@ -6,6 +6,7 @@ using OWP.PrematchAssignment.Handlers;
 using OWP.PrematchAssignment.Helper;
 using OWP.PrematchAssignment.Models;
 using System.Globalization;
+using System.Linq;
 
 namespace OWP.PrematchAssignment.Services;
 
@@ -43,6 +44,11 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
     private async Task<AssignmentShift> BuildPreMatchAssignments(QueryDayShiftPreMatchRequest request, QueryShiftPreMatchCriteria criteria)
     {
         var result = await repository.QueryDayShiftPreMatchAssignments(criteria);
+        var preMatchLeagues = result.Item1;
+
+        var earlyOfferedLeagues = await repository.GetEarlyOfferedLeagues(request.EventDate);
+
+        preMatchLeagues.ForEach(x => x.IsEarlyOffered = earlyOfferedLeagues.Contains(x.LeagueName.ToString()));
 
         var (filteredLeagues, filteredInfoSiteMatches) = FilterByRequest(result.Item1, result.Item2, request);
 
@@ -159,6 +165,10 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
                                    CheckMainAssignmentContainsEmployee(x, employee) ||
                                    CheckOtherAssignmentContainsEmployee(x, employee));
 
+        filteredLeagues = request.EarlyOffered is null
+            ? filteredLeagues
+            : filteredLeagues.Where(x => request.EarlyOffered.Contains(ConvertBoolToInt(x.IsEarlyOffered)));
+
         var filteredMatches = infoSiteMatches
             .Where(x => filteredLeagues.Any(y => y.PreMatchLeagueId == x.PreMatchLeagueId));
 
@@ -168,6 +178,8 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
 
         return (filteredLeagues.ToList(), filteredMatches.ToList());
     }
+
+    private static int ConvertBoolToInt(bool value) => value ? 1 : 0;
 
     public async Task MapMatchStatusWhichLinkedOwp(List<InfoSiteMatch> matches, DateTime dateTime)
     {
