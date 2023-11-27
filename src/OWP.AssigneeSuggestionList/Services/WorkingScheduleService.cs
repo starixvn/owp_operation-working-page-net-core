@@ -1,5 +1,4 @@
 using System.Reflection;
-using System.Security.Cryptography.X509Certificates;
 using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Helper;
 using OWP.AssigneeSuggestionList.Models;
@@ -97,7 +96,6 @@ public class WorkingScheduleServiceImp : WorkingScheduleService
     {
         var cells = (List<AssignmentCell>)info?.GetValue(schedule) ?? new List<AssignmentCell>();
         cells.Add(cellInfo);
-        var distinctCells = cells.DistinctBy(c => new { c.Color, c.Text }).ToList();
-        info?.SetValue(schedule, distinctCells.FilterAndSortValidCell());
+        info?.SetValue(schedule, cells.FilterAndSortValidCell());
     }
 }

@@ -16,11 +16,11 @@ public interface BookingService
 
 public class BookingServiceImp : BookingService
 {
-    private readonly SingleGameGroupService workingSchedule;
+    private readonly SpecialGameGroupService specialGameGroupService;
 
-    public BookingServiceImp(SingleGameGroupService workingSchedule)
+    public BookingServiceImp(SpecialGameGroupService specialGameGroupService)
     {
-        this.workingSchedule = workingSchedule;
+        this.specialGameGroupService = specialGameGroupService;
     }
 
     public void Group(
@@ -29,19 +29,21 @@ public class BookingServiceImp : BookingService
         DateTime filterDate,
         IDictionary<int, List<AssignmentModel>> gameMapGameId)
     {
-        var gameGroup = assignments
-            .Where(a => a.MatchType == Constant.MatchType.Other && a.MinorBettypeId is Bettype.FifteenMinsBookings or Bettype.NextBooking or Bettype.TotalBooking)
-            .ToList();
+        var gameGroupPair = assignments
+                    .Where(a => a.MatchType is Constant.MatchType.Other && a.MinorBettypeId is Bettype.FifteenMinsBookings or Bettype.NextBooking or Bettype.TotalBooking)
+                    .GroupBy(a => a.ParentMatchId.Value)
+                    .ToDictionary(g => g.Key, g => g.ToList());
 
-        foreach (var game in gameGroup)
+
+        foreach (var key in gameGroupPair.Keys)
         {
-            game.MatchType = Constant.MatchType.RealBooking;
+            gameGroupPair[key].ForEach(g => g.MatchType = Constant.MatchType.RealBooking);
         }
 
-        workingSchedule.Group(
-           gameGroup,
-           schedules,
-            assignmentBooking => BuildScheduleUpdateModel(gameMapGameId, assignmentBooking, filterDate));
+        specialGameGroupService.Group(
+                    gameGroupPair,
+                    schedules,
+                    assignmentsCorner => BuildScheduleUpdateModel(gameMapGameId, assignmentsCorner, filterDate));
     }
 
     public static ScheduleUpdateModel BuildScheduleUpdateModel(IDictionary<int, List<AssignmentModel>> gameMapGameId,

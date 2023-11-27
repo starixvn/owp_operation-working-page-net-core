@@ -15,11 +15,11 @@ public interface CornerService
 
 public class CornerServiceImp : CornerService
 {
-    private readonly SingleGameGroupService workingSchedule;
+    private readonly SpecialGameGroupService specialGameGroupService;
 
-    public CornerServiceImp(SingleGameGroupService workingSchedule)
+    public CornerServiceImp(SpecialGameGroupService specialGameGroupService)
     {
-        this.workingSchedule = workingSchedule;
+        this.specialGameGroupService = specialGameGroupService;
     }
 
     public void Group(
@@ -28,17 +28,19 @@ public class CornerServiceImp : CornerService
         DateTime filterDate,
         IDictionary<int, List<AssignmentModel>> gameMapGameId)
     {
-        var gameGroup = assignments
-            .Where(a => a.IsCornerMatch && a.MatchType == Constant.MatchType.Other)
-            .ToList();
-        foreach (var game in gameGroup)
+        var gameGroupPair = assignments
+            .Where(a => a.IsCornerMatch && a.MatchType is Constant.MatchType.Other)
+            .GroupBy(a => a.ParentMatchId.Value)
+            .ToDictionary(g => g.Key, g => g.ToList());
+
+        foreach (var key in gameGroupPair.Keys)
         {
-            game.MatchType = Constant.MatchType.RealCorner;
+            gameGroupPair[key].ForEach(g => g.MatchType = Constant.MatchType.RealCorner);
         }
 
-        workingSchedule.Group(
-           gameGroup,
-           schedules,
+        specialGameGroupService.Group(
+            gameGroupPair,
+            schedules,
             assignmentsCorner => BuildScheduleUpdateModel(gameMapGameId, assignmentsCorner, filterDate));
     }
 

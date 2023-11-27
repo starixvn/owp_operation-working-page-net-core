@@ -29,6 +29,7 @@ public static class AssigneeSuggestionListInjector
         services.AddScoped<SingleTeamService, SingleTeamServiceImp>();
         services.AddScoped<WinnerService, WinnerServiceImp>();
         services.AddScoped<BookingService, BookingServiceImp>();
+        services.AddScoped<SpecialGameGroupService, SpecialGameGroupServiceImp>();
         // categorize
         services.AddScoped<CategorizeRealMatchServices, CategorizeRealMatchServicesImp>();
         services.AddScoped<CategorizeSabaMatchServices, CategorizeSabaMatchServicesImp>();
