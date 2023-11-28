@@ -1,10 +1,14 @@
-﻿using OWP.AssigneeSuggestionList.Constant;
+﻿using System.Dynamic;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
+using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Models;
 
 namespace OWP.AssigneeSuggestionList.Helper;
 
 public static class PropertyScheduleHelper
 {
+
     public static List<string> GetValidProperties(DateTime eventTime, DateTime fromTime, DateTime toTime)
     {
         var startTime = eventTime.Date.Add(new TimeSpan(02, 00, 00));
@@ -31,8 +35,15 @@ public static class PropertyScheduleHelper
     public static void UpdateWorkingSchedule(this WorkingSchedule schedule, AssignmentModel assignment, AssignmentCell assignmentCell, DateTime eventDate)
     {
         var propertyName = GetPropertyName(assignment.EventDateTime, eventDate);
-        typeof(WorkingSchedule).GetProperty(propertyName)?.SetValue(schedule, assignmentCell);
+        var info = typeof(WorkingSchedule).GetProperty(propertyName);
+        var cells = (List<AssignmentCell>)info?.GetValue(schedule) ?? new List<AssignmentCell>();
+        cells.Add(assignmentCell);
+        info?.SetValue(schedule, cells.FilterAndSortValidCell());
     }
+
+    public static List<AssignmentCell> FilterAndSortValidCell(this List<AssignmentCell> cells)
+        => cells.Where(x => !x.IsShiftCell)
+            .OrderBy(x => x.KoAssignment).ToList();
 
     public static string GetPropertyName(DateTime eventDateTime, DateTime eventDate)
     {

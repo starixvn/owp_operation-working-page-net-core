@@ -1,5 +1,6 @@
 ﻿using OWP.AssigneeSuggestionList.Models;
 using OWP.AssigneeSuggestionList.Services.RealMatch;
+using OWP.Extensions;
 
 namespace OWP.AssigneeSuggestionList.Services;
 
@@ -44,7 +45,7 @@ public class RealMatchServicesImp : RealMatchServices
         var gameMapGameId = GameMapGameId(assignmentModels);
         foreach (var schedule in schedules)
         {
-            var assignments = GetAssignmentsBelongWs(assignmentModels, schedule);
+            var assignments = Helper.Utils.GetAssignmentsBelongWs(assignmentModels, schedule);
             mainGameServices.MapAssignmentsToWorkingSchedule(schedule, assignments, fromDate, gameMapGameId);
             specialGameService.MapAssignmentsToWorkingSchedule(schedule, assignments, fromDate, gameMapGameId);
             linkGameService.MapAssignmentsToWorkingSchedule(schedule, assignments, fromDate, gameMapGameId);
@@ -57,11 +58,7 @@ public class RealMatchServicesImp : RealMatchServices
         .GroupBy(g => g.OWPMatchId)
         .ToDictionary(x => x.Key, x => x.ToList());
 
-    private static IList<AssignmentModel> GetAssignmentsBelongWs(IEnumerable<AssignmentModel> assignments, WorkingSchedule schedule)
-        => assignments.Where(x =>
-            x.UserId == schedule.UserInfo.UserId &&
-            DateTime.Compare(x.EndTime, schedule.UserInfo.ShiftStartTime) >= 0 &&
-            DateTime.Compare(x.EventDateTime, schedule.UserInfo.ShiftEndTime) < 0).ToList();
+
 
     public void CategoryAssignee(List<WorkingSchedule> schedules, MatchInfo matchInfo)
     {

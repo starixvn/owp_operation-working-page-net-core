@@ -27,7 +27,7 @@ public class MJGroupServiceImp : MJGroupService
         DateTime filterDate,
         IDictionary<int, List<AssignmentModel>> gameMapGameId)
     {
-        var mJGroup = assignments.Where(a => a.IsMajorLeague)
+        var mJGroup = assignments.Where(a => a.IsMajorLeague && a.MatchType == Constant.MatchType.Other)
             .ToList();
         mJGroup.ForEach(g => g.MatchType = Constant.MatchType.RealMj);
         workingSchedule.Group(

@@ -18,15 +18,18 @@ public class CategorizeRealMatchServicesImp : CategorizeRealMatchServices
         foreach (var schedule in schedules)
         {
             var assignments = schedule.CategorizedAssignments.ToList();
+            var (oTPreShift, oTPostShift) = Helper.Utils.HasOT(assignments, schedule);
             var assigneeType = GetAssigneeType(schedule.UserInfo, assignments, matchInfo);
             var (categoryType, explanation) = GetCategoryTypeAndExplanation(assigneeType, matchInfo);
 
+            schedule.UserInfo.OTPreShift = oTPreShift;
+            schedule.UserInfo.OTPostShift = oTPostShift;
             schedule.CategoryType = categoryType;
             schedule.UserInfo.Explanation = explanation;
         }
     }
 
-    public AssigneeCategory GetAssigneeType(UserInfo userInfo, List<AssignmentModel> assignments, MatchInfo matchInfo)
+    private AssigneeCategory GetAssigneeType(UserInfo userInfo, List<AssignmentModel> assignments, MatchInfo matchInfo)
     {
         var kOTime = matchInfo.KOTime;
         var endTime = matchInfo.EndTime;
@@ -53,7 +56,7 @@ public class CategorizeRealMatchServicesImp : CategorizeRealMatchServices
             : HasAssignmentLinkNGame(userInfo, assignments, matchInfo);
     }
 
-    public static bool IsPartiallyFreeInRangeTime(UserInfo userInfo, List<AssignmentModel> assignments, MatchInfo matchInfo)
+    private static bool IsPartiallyFreeInRangeTime(UserInfo userInfo, List<AssignmentModel> assignments, MatchInfo matchInfo)
     {
         var kOTime = matchInfo.KOTime;
         var minToTime = kOTime.AddMinutes(60);
@@ -117,4 +120,6 @@ public class CategorizeRealMatchServicesImp : CategorizeRealMatchServices
             AssigneeCategory.PartiallyFree => (CategoryType.PartiallyAvailable, CategorizeHelper.FormatExplanation(ExplanationConstants.PARTIALLY_AVAILABLE, matchInfo, true)),
             _ => (CategoryType.Busy, null)
         };
+
+
 }

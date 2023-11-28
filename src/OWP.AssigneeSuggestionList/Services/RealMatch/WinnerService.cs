@@ -29,7 +29,7 @@ public class WinnerServiceImp : WinnerService
         IDictionary<int, List<AssignmentModel>> gameMapGameId)
     {
         var gameGroup = assignments
-            .Where(a => a.MinorBettypeId is Bettype.Winner)
+            .Where(a => a.MatchType == Constant.MatchType.Other && a.MinorBettypeId is Bettype.Winner)
             .ToList();
 
         foreach (var game in gameGroup)

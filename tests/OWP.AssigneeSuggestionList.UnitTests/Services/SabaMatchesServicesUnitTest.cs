@@ -7,7 +7,9 @@ namespace OWP.AssigneeSuggestionList.UnitTests.Services;
 using Constant;
 using NSubstitute;
 using OWP.AssigneeSuggestionList.Services;
+using System.Drawing;
 using Xunit.Asserts.Compare;
+using static System.Net.Mime.MediaTypeNames;
 
 public class SabaMatchesServicesUnitTest
 {
@@ -266,10 +268,10 @@ public class SabaMatchesServicesUnitTest
         };
         var expected = new WorkingSchedule
         {
-            Today_14h = new AssignmentCell { Text = "*V", TextColor = "#444444", Color = "#FCD5B4" },
-            Yesterday_02h = new AssignmentCell { Text = "*V/5", TextColor = "#FFFFFF", Color = "#7030A0" },
-            Today_02h = new AssignmentCell { Text = "*V/15*2", TextColor = "#FFFFFF", Color = "#A34262" },
-            Tomorrow_15h = new AssignmentCell { Text = "Error!", TextColor = "#FF0000", Color = "#FFFFFF" }
+            Today_14h =new List<AssignmentCell>{ new () { Text = "*V", TextColor = "#444444", Color = "#FCD5B4",KoAssignment = new DateTime(2023, 03, 10, 14, 0, 0), } },
+            Yesterday_02h = new List<AssignmentCell> {new () { Text = "*V/5", TextColor = "#FFFFFF", Color = "#7030A0", KoAssignment = new DateTime(2023, 03, 10, 2, 0, 0) } },
+            Today_02h = new List<AssignmentCell>{ new ()  { Text = "*V/15*2", TextColor = "#FFFFFF", Color = "#A34262", KoAssignment = new DateTime(2023, 03, 11, 2, 0, 0) } } ,
+            Tomorrow_15h = new List<AssignmentCell>{new() { Text = "Error!", TextColor = "#FF0000", Color = "#FFFFFF", KoAssignment = new DateTime(2023, 03, 11, 15, 30, 0)} } 
         };
 
         SabaMatchesServicesImp.MapAssignmentsToWorkingSchedule(workingSchedule, assignmentModels, eventDate);
@@ -352,9 +354,28 @@ public class SabaMatchesServicesUnitTest
         };
         var expected = new WorkingSchedule
         {
-            Today_14h = new AssignmentCell { Text = "*V", TextColor = "#444444", Color = "#FCD5B4" },
+            Today_14h = new List<AssignmentCell>
+            {
+                new()
+                {
+                     Text = "*V", 
+                     TextColor = "#444444",
+                     Color = "#FCD5B4" ,
+                     KoAssignment = new DateTime(2023, 03, 10, 14, 0, 0)
+                }
+
+            } ,
             Yesterday_02h = null,
-            Today_02h = new AssignmentCell { Text = "*V/16+20", TextColor = "#FFFFFF", Color = "#A34262" },
+            Today_02h = new List<AssignmentCell>
+            {
+                new ()
+                {
+                    Text = "*V/16+20",
+                    TextColor = "#FFFFFF",
+                    Color = "#A34262", 
+                    KoAssignment    = new DateTime(2023, 03, 11, 2, 0, 0)
+                }
+            } ,
             Tomorrow_15h = null
         };
 

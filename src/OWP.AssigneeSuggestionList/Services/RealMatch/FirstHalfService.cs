@@ -30,6 +30,7 @@ public class FirstHalfServiceImp : FirstHalfService
         DateTime filterDate)
     {
         var gameGroupPair = assignments
+            .Where(g => g.MatchType == MatchType.Other)
             .GroupBy(x => x.OWPMatchId)
             .Where(x => x.All(a => a.BettypeId is (int)EnumBettype.FirstHalfHandicap or (int)EnumBettype.FirstHalfOverUnder))
             .ToDictionary(a => a.Key, a => a.ToList());

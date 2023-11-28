@@ -20,7 +20,10 @@ public class CategorizeSabaMatchServicesImp : CategorizeSabaMatchServices
             var assignments = schedule.CategorizedAssignments.ToList();
             var assigneeType = GetAssigneeType(schedule.UserInfo, assignments, matchInfo);
             var (categoryType, explanation) = GetCategoryTypeAndExplanation(assigneeType, matchInfo);
+            var (oTPreShift, oTPostShift) = Utils.HasOT(assignments, schedule);
 
+            schedule.UserInfo.OTPreShift = oTPreShift;
+            schedule.UserInfo.OTPostShift = oTPostShift;
             schedule.CategoryType = categoryType;
             schedule.UserInfo.Explanation = explanation;
         }

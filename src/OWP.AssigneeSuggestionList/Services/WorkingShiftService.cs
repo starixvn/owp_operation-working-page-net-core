@@ -31,7 +31,10 @@ public class WorkingShiftServiceImp : WorkingShiftService
 
         foreach (var propertyInfo in properties.Select(property => typeof(WorkingSchedule).GetProperty(property)))
         {
-            propertyInfo?.SetValue(shift, new AssignmentCell { Color = ColorCodeConst.SHIFT, Text = string.Empty });
+            propertyInfo?.SetValue(shift,new List<AssignmentCell>
+            {
+                new () { Color = ColorCodeConst.SHIFT, Text = string.Empty, IsShiftCell = true}
+            });
         }
 
         return shift;
