@@ -5,6 +5,7 @@ using OWP.SimpleDataApi.Criteria.OsLeagueSetting;
 using OWP.SimpleDataApi.Criteria.PreMatchAssignment;
 using OWP.SimpleDataApi.Criteria.TicketCenter;
 using OWP.SimpleDataApi.Criteria.TicketSetting;
+using OWP.SimpleDataApi.Criteria.UserManagement;
 
 namespace OWP.SimpleDataApi;
 
@@ -17,6 +18,7 @@ public class SimpleCriteriaFactoryImp : SimpleCriteriaFactoryBase
         RegisterLeagueManagement();
         RegisterLiveDetail();
         RegisterPreMatchAssignment();
+        RegisterUserManagement();
     }
 
     private static void RegisterLiveDetail()
@@ -98,5 +100,11 @@ public class SimpleCriteriaFactoryImp : SimpleCriteriaFactoryBase
         CriteriaTypes.Add(ConstantApiKey.PreMatchAssignmentGetNoteMessages, typeof(QueryNoteMessagesCriteria));
 
         CommandTypes.Add(ConstantApiKey.PreMatchAssignmentDeleteNoteMessages, typeof(DeleteNoteMessageCriteria));
+    }
+
+    private static void RegisterUserManagement()
+    {
+        CriteriaTypes.Add(ConstantApiKey.GetUserChangeFromAdminSite, typeof(GetUserSyncModelsCriteria));
+        CriteriaTypes.Add(ConstantApiKey.SyncUserChangeFromAdminSite, typeof(SyncUsersCriteria));
     }
 }

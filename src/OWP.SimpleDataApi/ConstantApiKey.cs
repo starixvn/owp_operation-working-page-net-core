@@ -86,4 +86,8 @@ public static class ConstantApiKey
     public const string PreMatchAssignmentDeleteNoteMessages = "pre-match-assignment-delete-note-messages";
 
     #endregion
+
+    public const string GetUserChangeFromAdminSite = "get-user-change-from-admin-site";
+    public const string SyncUserChangeFromAdminSite = "sync-user-change-from-admin-site";
+
 }

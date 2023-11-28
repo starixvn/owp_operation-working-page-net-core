@@ -9,7 +9,7 @@ namespace OWP.UserManagement.Controllers
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
-    
+
     using Constants;
     using Helpers;
     using Models;
@@ -35,7 +35,7 @@ namespace OWP.UserManagement.Controllers
         public UserManagementController(
             ExportService exportService,
             ModelService modelService,
-            Repository repository, AccessCounter accessCounter, 
+            Repository repository, AccessCounter accessCounter,
             UsersService usersService,
             INapSession currentSession, RefResourceService refResourceService)
         {
@@ -58,8 +58,8 @@ namespace OWP.UserManagement.Controllers
             var roles = allResource.Where(x => x.Name == ReferenceResourceNames.UserRole);
             var sections = allResource.Where(x => x.Name == ReferenceResourceNames.Section)
                 .Where(x => !HiddenSectionConst.HiddenSections.Exists(i => i == x.ResourceId));
-            var sectionsByPermission = permission.UserManagementAllSections.IsRead ? sections 
-                : sections.Where(x=> x.ResourceId == userSectionId);
+            var sectionsByPermission = permission.UserManagementAllSections.IsRead ? sections
+                : sections.Where(x => x.ResourceId == userSectionId);
             var departments = allResource.Where(x => x.Name == ReferenceResourceNames.Department);
             var categories = allResource.Where(x => x.Name == ReferenceResourceNames.UserCategory);
             var locationCodes = allResource.Where(x => x.Name == ReferenceResourceNames.LocationCode);
@@ -83,7 +83,7 @@ namespace OWP.UserManagement.Controllers
                 Permission = permission
             };
             //var functionName = ConfigurationManager.AppSettings["UserManagement"];
-           // await accessCounter.UpdateCounter(functionName);
+            // await accessCounter.UpdateCounter(functionName);
             return filter;
         }
 
@@ -113,6 +113,6 @@ namespace OWP.UserManagement.Controllers
         [HttpPost]
         [Route("paging")]
         public async Task<UserManagementViewModel> GetUsers(QueryModel model)
-        =>  await usersService.GetUserPagingAsync(model);
+        => await usersService.GetUserPagingAsync(model);
     }
 }
