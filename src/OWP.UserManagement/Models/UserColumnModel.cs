@@ -1,8 +1,5 @@
 ﻿namespace OWP.UserManagement.Models
 {
-    using System.Linq;
-    using OWP.Models;
-
     public class UserColumnModel
     {
         public UserColumnModel(UserManagementPermission permissions, string section)

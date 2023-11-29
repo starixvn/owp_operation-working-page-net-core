@@ -1,13 +1,10 @@
 ﻿using OWP.Extensions;
+using OWP.Constants;
+using OWP.UserManagement.Models;
+using OWP.Services;
 
 namespace OWP.UserManagement.Services
 {
-    using System.Collections.Generic;
-    using Constants;
-    using Models;
-    using OWP.Services;
-    using Utils;
-
     public interface ModelService
     {
         UserManagementPermission BuildPermissionViewModel();

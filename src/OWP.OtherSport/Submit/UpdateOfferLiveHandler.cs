@@ -1,11 +1,7 @@
 ﻿using Fanex.NAP.Client.Helpers.Web;
 using MediatR;
-using Microsoft.AspNetCore.SignalR;
-using OWP.Extensions;
-using OWP.OtherSport.Hubs;
 using OWP.OtherSport.Submit.Models;
 using OWP.OtherSport.Submit.Services;
-using OWP.OtherSport.Validation.Models;
 using OWP.RabbitMQ;
 using OWP.RabbitMQ.Constants;
 using System.Globalization;
@@ -28,7 +24,7 @@ public class UpdateOfferLiveHandler : IRequestHandler<UpdateOfferLiveRequest, Un
     private readonly CommandRepository commandRepository;
     private readonly CacheManipulator cacheManipulator;
     private readonly MessageClient messageClient;
-    private INapSession session;
+    private readonly INapSession session;
 
     public UpdateOfferLiveHandler(CommandRepository commandRepository, CacheManipulator cacheManipulator, MessageClient messageClient, INapSession session)
     {
@@ -43,9 +39,9 @@ public class UpdateOfferLiveHandler : IRequestHandler<UpdateOfferLiveRequest, Un
         var sessionId = Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture);
         var oldSnapshot = await commandRepository.Query(request.FromDate, request.ToDate);
         await cacheManipulator.SaveOldAssignmentSnapshot(oldSnapshot, sessionId);
-        
+
         await commandRepository.UpdateOfferLive(new UpdateOfferLiveCriteria
-            { Xml = XmlConverter.Serialize(request.OfferLiveInfos) });
+        { Xml = XmlConverter.Serialize(request.OfferLiveInfos) });
 
         messageClient.SendMessage(new
         {
