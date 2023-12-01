@@ -129,10 +129,6 @@ public class UserManagementController : ControllerBase
     [NapAuth(FunctionKey = FunctionKeys.UserManagement, Policy = Constant.Policy.Read)]
     public async Task<IActionResult> ExportToExcel([FromQuery] QueryModel model)
     {
-        const int defaultPageZie = 10000;
-        model.PageSize = defaultPageZie;
-        model.PageIndex = 1;
-
         var dataResult = await repository.GetUserPagingAsync(model);
 
         var exportDate = DateTime.Now;
@@ -143,13 +139,13 @@ public class UserManagementController : ControllerBase
             bytes = stream.ToArray();
         }
 
-        var fileName = $"UserManagement-{exportDate.ToString("yyyyMMdd")}.xlsx";
+        var fileName = $"UserManagement-{exportDate:yyyyMMdd}.xlsx";
         return File(bytes, "application/xlsx", fileName);
     }
 
     [NapAuth(FunctionKey = FunctionKeys.UserManagement, Policy = Constant.Policy.Read)]
     [HttpPost]
-    [Route("paging")]
+    [Route("query-user")]
     public async Task<UserManagementViewModel> GetUsers(QueryModel model)
     => await usersService.GetUserPagingAsync(model);
     

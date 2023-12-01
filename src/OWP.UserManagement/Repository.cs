@@ -20,7 +20,7 @@
     public class RepositoryImp : Repository
     {
         private readonly IDynamicRepository dynamicRepository;
-       
+
         private readonly INapSettings napSettings;
 
         private readonly RefResourceService refResource;
@@ -54,15 +54,13 @@
 
         public async Task<UserManagementViewModel> GetUserPagingAsync(QueryModel model)
         {
-            var criteria = new GetUsersCriteria
+            var criteria = new QueryUsersCriteria
             {
-                CategoryId = model.CategoryId,
-                DepartmentId = model.DepartmentId,
-                LocationCode = model.LocationCode,
-                PageIndex = model.PageIndex,
-                PageSize = model.PageSize,
-                RoleId = model.RoleId,
-                SectionId = model.SectionId,
+                CategoryId = string.Join(",", model.CategoryId),
+                DepartmentId = string.Join(",", model.DepartmentId),
+                LocationCode = string.Join(",", model.LocationCode),
+                RoleId = string.Join(",", model.RoleId),
+                SectionId = string.Join(",", model.SectionId),
                 User = model.User,
                 SiteId = napSettings.SiteId
             };
@@ -84,10 +82,7 @@
 
             return new UserManagementViewModel
             {
-                Users = users,
-                CurrentPage = criteria.PageIndex,
-                ItemsPerPage = criteria.PageSize,
-                TotalItem = criteria.TotalRecords
+                Users = users
             };
         }
     }
