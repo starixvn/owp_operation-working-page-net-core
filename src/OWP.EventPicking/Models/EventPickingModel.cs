@@ -264,14 +264,6 @@ public class EventPickingModel
 
     public string RowColor { get; set; }
 
-    public int LengthStreamingCell { get; set; }
-
-    public int LengthProviderCell { get; set; }
-
-    public int LengthRoundCell { get; set; }
-
-    public int LengthRemarkCell { get; set; }
-
     public bool Confirmed { get; set; }
 
     // Main match
