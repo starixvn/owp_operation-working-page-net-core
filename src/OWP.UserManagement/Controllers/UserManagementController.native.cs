@@ -82,9 +82,9 @@ public class UserManagementController : ControllerBase
         return filter;
     }
 
-    [HttpGet("query-options")]
+    [HttpGet("query-filter-options")]
     [NapAuth(FunctionKey = FunctionKeys.UserManagement, Policy = Constant.Policy.Read)]
-    public async Task<FilterViewModel> QueryOptions()
+    public async Task<FilterViewModel> QueryFilterOptions()
     {
         var userId = currentSession.UserId;
         var userSectionId = await repository.GetSectionIdByUserId(userId);
@@ -121,8 +121,21 @@ public class UserManagementController : ControllerBase
     [HttpGet("query-permission")]
     [NapAuth(FunctionKey = FunctionKeys.UserManagement, Policy = Constant.Policy.Read)]
     public async Task<UserManagementPermission> QueryUserGroupPermissions()
+    => modelService.BuildPermissionViewModel();
+
+    [HttpGet("query-level-options")]
+    [NapAuth(FunctionKey = FunctionKeys.UserManagement, Policy = Constant.Policy.Read)]
+    public async Task<object> QueryLevelOption()
     {
-        return modelService.BuildPermissionViewModel();
+        var levelDefault = await repository.GetLevelBySectionId(null);
+        var levelLiveTrading = await repository.GetLevelBySectionId(3);
+        var levelLiveAssistant = await repository.GetLevelBySectionId(30);
+        return new
+        {
+            LevelOfLiveAssistant = levelLiveAssistant,
+            LevelOfLiveTrading = levelLiveTrading,
+            LevelOfOtherSection = levelDefault
+        };
     }
 
     [HttpGet("export-excel")]
@@ -148,5 +161,5 @@ public class UserManagementController : ControllerBase
     [Route("query-user")]
     public async Task<UserManagementViewModel> GetUsers(QueryModel model)
     => await usersService.GetUserPagingAsync(model);
-    
+
 }

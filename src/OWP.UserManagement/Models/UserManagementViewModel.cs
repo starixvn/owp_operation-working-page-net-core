@@ -12,11 +12,5 @@ public class UserManagementViewModel
 
     public IEnumerable<User> Users { get; set; }
 
-    public IEnumerable<ReferenceResource> LevelOfLiveTrading { get; set; }
-
-    public IEnumerable<ReferenceResource> LevelOfLiveAssistant { get; set; }
-
-    public IEnumerable<ReferenceResource> LevelOfOtherSection { get; set; }
-
     public IEnumerable<UserColumnModel> UserColumnModels { get; set; }
 }
