@@ -56,12 +56,12 @@
         {
             var criteria = new QueryUsersCriteria
             {
-                CategoryId = string.Join(",", model.CategoryId),
-                DepartmentId = string.Join(",", model.DepartmentId),
-                LocationCode = string.Join(",", model.LocationCode),
-                RoleId = string.Join(",", model.RoleId),
-                SectionId = string.Join(",", model.SectionId),
-                User = model.User,
+                CategoryId = model.CategoryId,
+                DepartmentId = model.DepartmentId,
+                LocationCode = model.LocationCode,
+                RoleId = model.RoleId,
+                SectionId = model.SectionId,
+                User = model.User ?? "",
                 SiteId = napSettings.SiteId
             };
 

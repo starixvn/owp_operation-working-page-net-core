@@ -6,15 +6,15 @@ public class QueryModel
 {
     public string User { get; set; }
 
-    public int[] RoleId { get; set; }
+    public string RoleId { get; set; }
 
-    public int[] SectionId { get; set; }
+    public string SectionId { get; set; }
 
-    public int[] DepartmentId { get; set; }
+    public string DepartmentId { get; set; }
 
-    public int[] CategoryId { get; set; }
+    public string CategoryId { get; set; }
 
-    public string[] LocationCode { get; set; }
+    public string LocationCode { get; set; }
 
     public UserManagementPermission Permission { get; set; }
 }
