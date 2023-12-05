@@ -40,7 +40,6 @@ namespace OWP.UserManagement.Services
             var userColumnModels = modelService.BuildUserColumnModel(model.Permission, sections?.Value);
             result.UserColumnModels = userColumnModels;
 
-
             return result;
         }
     }

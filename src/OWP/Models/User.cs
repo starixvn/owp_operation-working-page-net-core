@@ -57,19 +57,14 @@ public class User
     [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
     public string Email { get; set; }
 
-    [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
     public string LocationCode { get; set; }
 
-    [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-    public bool? Pickup { get; set; }
+    public string Pickup { get; set; }
 
-    [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
     public string Address { get; set; }
 
-    [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
     public int? Level { get; set; }
 
-    [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
     public string LevelName { get; set; }
 
     [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
@@ -78,8 +73,7 @@ public class User
     [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
     public string GroupName { get; set; }
 
-    [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-    public bool IsSecondAccount { get; set; }
+    public string IsSecondAccount { get; set; }
 
     [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
     public string FlagCode => UserHelper.GetFlagCodeFromLocationCode(LocationCode);
