@@ -164,4 +164,9 @@ public class UserManagementController : ControllerBase
     public async Task<UserManagementViewModel> GetUsers(QueryModel model)
     => await usersService.GetUserPagingAsync(model);
 
+    [HttpPost]
+    [Route("update-user-info")]
+    public async Task UpdateUserInfo(UpdateUserInfo info)
+        => await usersService.UpdateUserInfo(info);
+
 }

@@ -90,4 +90,6 @@ public static class ConstantApiKey
     public const string GetUserChangeFromAdminSite = "get-user-change-from-admin-site";
     public const string SyncUserChangeFromAdminSite = "sync-user-change-from-admin-site";
 
+    public const string UpdateUser = "update-user";
+
 }

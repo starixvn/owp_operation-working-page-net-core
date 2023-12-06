@@ -1,15 +1,14 @@
 using Fanex.Data.Repository;
 
-namespace OWP.Criteria
+namespace OWP.Criteria;
+
+public class UpdateAccessCounterCriteria : NonQueryCommand
 {
-    public class UpdateAccessCounterCriteria : NonQueryCommand
-    {
-        public int ActorId { get; set; }
+    public int ActorId { get; set; }
 
-        public string FunctionName { get; set; }
+    public string FunctionName { get; set; }
 
-        public override bool IsValid() => ActorId > 0 && FunctionName != null;
+    public override bool IsValid() => ActorId > 0 && FunctionName != null;
 
-        public override string GetSettingKey() => "OWP_AccessCounter_Update";
-    }
+    public override string GetSettingKey() => "OWP_AccessCounter_Update";
 }

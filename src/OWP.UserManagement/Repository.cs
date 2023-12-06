@@ -4,6 +4,7 @@
     using Criteria;
     using Fanex.Data.Repository;
     using Fanex.NAP.Client.Configuration;
+    using Fanex.NAP.Client.Helpers.Web;
     using Models;
     using OWP.Models;
     using OWP.Services;
@@ -15,6 +16,8 @@
         Task<int> GetSectionIdByUserId(int userId);
 
         Task<IList<ReferenceResource>> GetLevelBySectionId(int? sectionId);
+
+        Task UpdateUserInfo(UpdateUserInfo info);
     }
 
     public class RepositoryImp : Repository
@@ -25,12 +28,15 @@
 
         private readonly RefResourceService refResource;
 
+        private readonly INapSession currentSession;
 
-        public RepositoryImp(IDynamicRepository dynamicRepository, INapSettings napSettings, RefResourceService refResource)
+
+        public RepositoryImp(IDynamicRepository dynamicRepository, INapSettings napSettings, RefResourceService refResource, INapSession currentSession)
         {
             this.dynamicRepository = dynamicRepository;
             this.napSettings = napSettings;
             this.refResource = refResource;
+            this.currentSession = currentSession;
         }
 
         public async Task<int> GetSectionIdByUserId(int userId)
@@ -51,6 +57,15 @@
 
             return (await dynamicRepository.FetchAsync<ReferenceResource>(criteria)).ToList();
         }
+
+        public async Task UpdateUserInfo(UpdateUserInfo info)
+            => await dynamicRepository.ExecuteAsync(new UpdateUserCriteria()
+            {
+                ColumnName = info.ColumnName,
+                UserId = info.UserId,
+                Value = info.Value,
+                ActorId = currentSession.UserId
+            });
 
         public async Task<UserManagementViewModel> GetUserPagingAsync(QueryModel model)
         {

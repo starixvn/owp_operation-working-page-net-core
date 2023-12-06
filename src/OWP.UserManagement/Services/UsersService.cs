@@ -10,6 +10,8 @@ namespace OWP.UserManagement.Services
     public interface UsersService
     {
         Task<UserManagementViewModel> GetUserPagingAsync(QueryModel model);
+
+        Task UpdateUserInfo(UpdateUserInfo info);
     }
 
     public class UsersServiceImp : UsersService
@@ -42,5 +44,8 @@ namespace OWP.UserManagement.Services
 
             return result;
         }
+
+        public async Task UpdateUserInfo(UpdateUserInfo info)
+            => await repository.UpdateUserInfo(info);
     }
 }
