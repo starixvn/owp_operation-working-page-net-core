@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using OWP.Constants;
 using OWP.Services;
 using OWP.UserManagement.Helpers;
+using OWP.UserManagement.Middleware;
 using OWP.UserManagement.Models;
 using OWP.UserManagement.Services;
 
@@ -159,6 +160,7 @@ public class UserManagementController : ControllerBase
     [NapAuth(FunctionKey = FunctionKeys.UserManagement, Policy = Constant.Policy.Read)]
     [HttpPost]
     [Route("query-user")]
+    [ServiceFilter(typeof(GetUserValidator))]
     public async Task<UserManagementViewModel> GetUsers(QueryModel model)
     => await usersService.GetUserPagingAsync(model);
 
