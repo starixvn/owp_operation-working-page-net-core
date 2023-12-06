@@ -166,7 +166,10 @@ public class UserManagementController : ControllerBase
 
     [HttpPost]
     [Route("update-user-info")]
-    public async Task UpdateUserInfo(UpdateUserInfo info)
-        => await usersService.UpdateUserInfo(info);
+    public async Task<UpdateUserInfo> UpdateUserInfo(UpdateUserInfo info)
+    {
+        await usersService.UpdateUserInfo(info);
+        return info;
+    }
 
 }

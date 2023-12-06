@@ -14,4 +14,8 @@ public class UpdateUserInfo
     public string ColumnName { get; set; }
 
     public string Value { get; set; }
+
+    public int ErrCode { get; set; }
+
+    public string ErrMsg { get; set; }
 }

@@ -17,7 +17,7 @@
 
         Task<IList<ReferenceResource>> GetLevelBySectionId(int? sectionId);
 
-        Task UpdateUserInfo(UpdateUserInfo info);
+        Task UpdateUserInfo(NonQueryCommand criteria);
     }
 
     public class RepositoryImp : Repository
@@ -58,14 +58,9 @@
             return (await dynamicRepository.FetchAsync<ReferenceResource>(criteria)).ToList();
         }
 
-        public async Task UpdateUserInfo(UpdateUserInfo info)
-            => await dynamicRepository.ExecuteAsync(new UpdateUserCriteria()
-            {
-                ColumnName = info.ColumnName,
-                UserId = info.UserId,
-                Value = info.Value,
-                ActorId = currentSession.UserId
-            });
+        public async Task UpdateUserInfo(NonQueryCommand criteria)
+            =>await dynamicRepository.ExecuteAsync(criteria);
+           
 
         public async Task<UserManagementViewModel> GetUserPagingAsync(QueryModel model)
         {

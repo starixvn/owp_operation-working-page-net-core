@@ -6,6 +6,7 @@ namespace OWP.UserManagement.Services
     using Constants;
     using Models;
     using OWP.Services;
+    using OWP.UserManagement.Criteria;
 
     public interface UsersService
     {
@@ -46,6 +47,18 @@ namespace OWP.UserManagement.Services
         }
 
         public async Task UpdateUserInfo(UpdateUserInfo info)
-            => await repository.UpdateUserInfo(info);
+        {
+            var criteria = new UpdateUserCriteria()
+            {
+                ColumnName = info.ColumnName,
+                UserId = info.UserId,
+                Value = info.Value,
+                ActorId = currentSession.UserId
+            };
+            await repository.UpdateUserInfo(criteria);
+            info.ErrCode = criteria.ErrCode;
+            info.ErrMsg= criteria.ErrMsg;
+        }
+            
     }
 }
