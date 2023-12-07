@@ -42,7 +42,6 @@ public class User
     [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
     public string SectionName { get; set; }
 
-    [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
     public int? CategoryId { get; set; }
 
     [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
@@ -67,7 +66,6 @@ public class User
 
     public string LevelName { get; set; }
 
-    [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
     public int? GroupId { get; set; }
 
     [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
