@@ -144,7 +144,7 @@ public class UserManagementController : ControllerBase
     public async Task<IActionResult> ExportToExcel([FromQuery] QueryModel model)
     {
         var dataResult = await repository.GetUserPagingAsync(model);
-
+        ExportHelper.BuildCorrectDataToExport(dataResult); 
         var exportDate = DateTime.Now;
         byte[] bytes;
         using (var stream = new MemoryStream())
