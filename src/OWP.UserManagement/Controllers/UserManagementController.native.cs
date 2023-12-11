@@ -4,6 +4,7 @@ using Fanex.NAP.Client.Helpers.Web;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OWP.Constants;
+using OWP.Models;
 using OWP.Services;
 using OWP.UserManagement.Helpers;
 using OWP.UserManagement.Middleware;
@@ -17,7 +18,6 @@ namespace OWP.UserManagement.Controllers;
 [Authorize]
 public class UserManagementController : ControllerBase
 {
-    private readonly AccessCounter accessCounter;
     private readonly INapSession currentSession;
     private readonly ExportService exportService;
     private readonly ModelService modelService;
@@ -29,7 +29,7 @@ public class UserManagementController : ControllerBase
     public UserManagementController(
         ExportService exportService,
         ModelService modelService,
-        Repository repository, AccessCounter accessCounter,
+        Repository repository,
         UsersService usersService,
         INapSession currentSession, RefResourceService refResourceService)
     {
@@ -38,7 +38,6 @@ public class UserManagementController : ControllerBase
         this.repository = repository;
         this.currentSession = currentSession;
         this.refResourceService = refResourceService;
-        this.accessCounter = accessCounter;
         this.usersService = usersService;
     }
 
@@ -63,7 +62,7 @@ public class UserManagementController : ControllerBase
         var userGroups = allResource.Where(x => x.Name == ReferenceResourceNames.UserGroup);
         var languages = allResource.Where(x => x.Name.Equals(ReferenceResourceNames.Language));
 
-        var filter = new FilterViewModel
+        return new FilterViewModel
         {
             PageIndex = PagingConstant.PageIndex,
             PageSize = PagingConstant.PageSize,
@@ -78,9 +77,6 @@ public class UserManagementController : ControllerBase
             UserGroups = RefResourceHelper.SortUserGroups(userGroups.ToList()),
             Permission = permission
         };
-        //var functionName = ConfigurationManager.AppSettings["UserManagement"];
-        // await accessCounter.UpdateCounter(functionName);
-        return filter;
     }
 
     [HttpGet("query-filter-options")]
@@ -143,13 +139,13 @@ public class UserManagementController : ControllerBase
     [NapAuth(FunctionKey = FunctionKeys.UserManagement, Policy = Constant.Policy.Read)]
     public async Task<IActionResult> ExportToExcel([FromQuery] QueryModel model)
     {
-        var dataResult = await repository.GetUserPagingAsync(model);
-        ExportHelper.BuildCorrectDataToExport(dataResult); 
+        var users = await repository.GetUserPagingAsync(model);
+        ExportHelper.BuildCorrectDataToExport(users);
         var exportDate = DateTime.Now;
         byte[] bytes;
         using (var stream = new MemoryStream())
         {
-            exportService.ExportToExcel(stream, dataResult.Users, exportDate);
+            exportService.ExportToExcel(stream, users, exportDate);
             bytes = stream.ToArray();
         }
 
@@ -161,7 +157,7 @@ public class UserManagementController : ControllerBase
     [HttpPost]
     [Route("query-user")]
     [ServiceFilter(typeof(GetUserValidator))]
-    public async Task<UserManagementViewModel> GetUsers(QueryModel model)
+    public async Task<IList<User>> GetUsers(QueryModel model)
     => await usersService.GetUserPagingAsync(model);
 
     [HttpPost]

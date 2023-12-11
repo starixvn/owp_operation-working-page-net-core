@@ -11,7 +11,7 @@
 
     public interface Repository
     {
-        Task<UserManagementViewModel> GetUserPagingAsync(QueryModel model);
+        Task<IList<User>> GetUserPagingAsync(QueryModel model);
 
         Task<int> GetSectionIdByUserId(int userId);
 
@@ -59,10 +59,10 @@
         }
 
         public async Task UpdateUserInfo(NonQueryCommand criteria)
-            =>await dynamicRepository.ExecuteAsync(criteria);
-           
+            => await dynamicRepository.ExecuteAsync(criteria);
 
-        public async Task<UserManagementViewModel> GetUserPagingAsync(QueryModel model)
+
+        public async Task<IList<User>> GetUserPagingAsync(QueryModel model)
         {
             var criteria = new QueryUsersCriteria
             {
@@ -90,10 +90,7 @@
                 item.Languages = string.Join(", ", text);
             }
 
-            return new UserManagementViewModel
-            {
-                Users = users
-            };
+            return users.ToList();
         }
     }
 }
