@@ -120,6 +120,18 @@ public class UserManagementController : ControllerBase
     public async Task<UserManagementPermission> QueryUserGroupPermissions()
     => modelService.BuildPermissionViewModel();
 
+
+    [HttpGet("query-current-section")]
+    [NapAuth(FunctionKey = FunctionKeys.UserManagement, Policy = Constant.Policy.Read)]
+    public async Task<ReferenceResource> QuerySectionName()
+    {
+        var userId = currentSession.UserId;
+        var userSectionId = await repository.GetSectionIdByUserId(userId);
+        var allResource = await refResourceService.GetAllReferenceResource();
+        return allResource.First(x =>
+            x.Name == ReferenceResourceNames.Section && x.ResourceId == userSectionId);
+    }
+
     [HttpGet("query-level-options")]
     [NapAuth(FunctionKey = FunctionKeys.UserManagement, Policy = Constant.Policy.Read)]
     public async Task<object> QueryLevelOption()
