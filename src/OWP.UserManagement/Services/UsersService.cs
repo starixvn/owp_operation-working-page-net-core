@@ -35,7 +35,7 @@ public class UsersServiceImp : UsersService
 
     public async Task UpdateUserInfo(UpdateUserInfo info)
     {
-        var criteria = new UpdateUserCriteria()
+        var criteria = new UpdateUserCriteria
         {
             ColumnName = info.ColumnName,
             UserId = info.UserId,

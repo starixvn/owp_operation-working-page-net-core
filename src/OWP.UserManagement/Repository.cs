@@ -1,94 +1,92 @@
-﻿namespace OWP.UserManagement
+﻿namespace OWP.UserManagement;
+
+using System.Threading.Tasks;
+using Criteria;
+using Fanex.Data.Repository;
+using Fanex.NAP.Client.Configuration;
+using Models;
+using OWP.Models;
+using OWP.Services;
+
+public interface Repository
 {
-    using System.Threading.Tasks;
-    using Criteria;
-    using Fanex.Data.Repository;
-    using Fanex.NAP.Client.Configuration;
-    using Fanex.NAP.Client.Helpers.Web;
-    using Models;
-    using OWP.Models;
-    using OWP.Services;
+    Task<IList<User>> GetUserPagingAsync(QueryModel model);
 
-    public interface Repository
+    Task<int> GetSectionIdByUserId(int userId);
+
+    Task<IList<ReferenceResource>> GetLevelBySectionId(int? sectionId);
+
+    Task UpdateUserInfo(NonQueryCommand criteria);
+}
+
+public class RepositoryImp : Repository
+{
+    private readonly IDynamicRepository dynamicRepository;
+
+    private readonly INapSettings napSettings;
+
+    private readonly RefResourceService refResource;
+
+
+
+    public RepositoryImp(IDynamicRepository dynamicRepository, INapSettings napSettings, RefResourceService refResource)
     {
-        Task<IList<User>> GetUserPagingAsync(QueryModel model);
-
-        Task<int> GetSectionIdByUserId(int userId);
-
-        Task<IList<ReferenceResource>> GetLevelBySectionId(int? sectionId);
-
-        Task UpdateUserInfo(NonQueryCommand criteria);
+        this.dynamicRepository = dynamicRepository;
+        this.napSettings = napSettings;
+        this.refResource = refResource;
     }
 
-    public class RepositoryImp : Repository
+    public async Task<int> GetSectionIdByUserId(int userId)
     {
-        private readonly IDynamicRepository dynamicRepository;
-
-        private readonly INapSettings napSettings;
-
-        private readonly RefResourceService refResource;
-
-
-
-        public RepositoryImp(IDynamicRepository dynamicRepository, INapSettings napSettings, RefResourceService refResource)
+        var criteria = new GetSectionIdByUserIdCriteria
         {
-            this.dynamicRepository = dynamicRepository;
-            this.napSettings = napSettings;
-            this.refResource = refResource;
-        }
+            UserId = userId
+        };
+        return (await dynamicRepository.FetchAsync<int>(criteria)).FirstOrDefault();
+    }
 
-        public async Task<int> GetSectionIdByUserId(int userId)
+    public async Task<IList<ReferenceResource>> GetLevelBySectionId(int? sectionId)
+    {
+        var criteria = new GetLevelBySectionIdCriteria
         {
-            var criteria = new GetSectionIdByUserIdCriteria
-            {
-                UserId = userId
-            };
-            return (await dynamicRepository.FetchAsync<int>(criteria)).FirstOrDefault();
-        }
+            SectionId = sectionId
+        };
 
-        public async Task<IList<ReferenceResource>> GetLevelBySectionId(int? sectionId)
+        return (await dynamicRepository.FetchAsync<ReferenceResource>(criteria)).ToList();
+    }
+
+    public async Task UpdateUserInfo(NonQueryCommand criteria)
+        => await dynamicRepository.ExecuteAsync(criteria);
+
+
+    public async Task<IList<User>> GetUserPagingAsync(QueryModel model)
+    {
+        var criteria = new QueryUsersCriteria
         {
-            var criteria = new GetLevelBySectionIdCriteria
-            {
-                SectionId = sectionId
-            };
+            CategoryId = model.CategoryId,
+            DepartmentId = model.DepartmentId,
+            LocationCode = model.LocationCode,
+            RoleId = model.RoleId,
+            SectionId = model.SectionId,
+            User = model.User ?? "",
+            SiteId = napSettings.SiteId
+        };
 
-            return (await dynamicRepository.FetchAsync<ReferenceResource>(criteria)).ToList();
-        }
+        var users = await dynamicRepository.FetchAsync<User>(criteria);
 
-        public async Task UpdateUserInfo(NonQueryCommand criteria)
-            => await dynamicRepository.ExecuteAsync(criteria);
-
-
-        public async Task<IList<User>> GetUserPagingAsync(QueryModel model)
+        var languageResources = await refResource.GetRefResourcesByName("Language");
+        foreach (var item in users)
         {
-            var criteria = new QueryUsersCriteria
+            if (string.IsNullOrEmpty(item.LanguageId))
             {
-                CategoryId = model.CategoryId,
-                DepartmentId = model.DepartmentId,
-                LocationCode = model.LocationCode,
-                RoleId = model.RoleId,
-                SectionId = model.SectionId,
-                User = model.User ?? "",
-                SiteId = napSettings.SiteId
-            };
-
-            var users = await dynamicRepository.FetchAsync<User>(criteria);
-
-            var languageResources = await refResource.GetRefResourcesByName("Language");
-            foreach (var item in users)
-            {
-                if (string.IsNullOrEmpty(item.LanguageId))
-                {
-                    continue;
-                }
-
-                var langIds = item.LanguageId.Split(',').Select(int.Parse);
-                var text = languageResources.Where(y => langIds.Contains(y.ResourceId)).Select(x => x.Value).ToArray();
-                item.Languages = string.Join(", ", text);
+                continue;
             }
 
-            return users.ToList();
+            var langIds = item.LanguageId.Split(',').Select(int.Parse);
+            var text = languageResources.Where(y => langIds.Contains(y.ResourceId)).Select(x => x.Value).ToArray();
+            item.Languages = string.Join(", ", text);
         }
+
+        return users.ToList();
     }
 }

@@ -34,46 +34,45 @@ public class ModelServiceImp : ModelService
         };
     }
 
-    public List<UserColumnModel> BuildUserColumnModel()
-    => new List<UserColumnModel>
+    public List<UserColumnModel> BuildUserColumnModel() => new List<UserColumnModel>
         {
-             new UserColumnModel()
+             new()
                  { HeaderText="Employee ID", Name="EmployeeId"},
-             new UserColumnModel()
+             new()
                  { HeaderText="Account Name", Name="UserName"},
-             new UserColumnModel()
+             new()
                  { HeaderText="Full Name", Name="FullName"},
-             new UserColumnModel()
+             new()
                  { HeaderText="Nick Name", Name="NickName"},
-             new UserColumnModel()
+             new()
                  { HeaderText= "Department", Name= "DepartmentName"},
-             new UserColumnModel()
+             new()
                  { HeaderText= "Section", Name= "SectionName"},
-             new UserColumnModel()
+             new()
                  { HeaderText= "Group", Name= "GroupName" },
-             new UserColumnModel()
+             new()
                  { HeaderText= "Role", Name= "RoleName" },
-             new UserColumnModel()
+             new()
                  { HeaderText= "Extension", Name= "Extension" },
-             new UserColumnModel()
+             new()
                  { HeaderText= "Phone", Name= "Phone" },
-             new UserColumnModel()
+             new()
                  { HeaderText= "Email", Name= "Email" },
-             new UserColumnModel()
+             new()
                  { HeaderText= "Skype", Name= "Skype" },
-             new UserColumnModel()
+             new()
                  { HeaderText= "Category", Name= "CategoryName" },
-             new UserColumnModel()
+             new()
                  { HeaderText= "Location", Name= "LocationCode" },
-             new UserColumnModel()
+             new()
                  { HeaderText= "Level", Name= "LevelName" },
-             new UserColumnModel()
+             new()
                  { HeaderText= "Pickup", Name= "Pickup" },
-             new UserColumnModel()
+             new()
                  { HeaderText= "Address", Name= "Address" },
-             new UserColumnModel()
+             new()
                  { HeaderText= "Second Account", Name= "IsSecondAccount" },
-             new UserColumnModel()
+             new()
                  { HeaderText= "Language", Name= "Languages" }
         };
 }
