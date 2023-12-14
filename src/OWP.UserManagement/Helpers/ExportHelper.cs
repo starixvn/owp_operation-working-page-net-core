@@ -12,16 +12,10 @@ public static class ExportHelper
         }
     }
 
-    private static string ConvertValue(string value)
+    private static string ConvertValue(string value) => value.ToLowerInvariant() switch
     {
-        switch (value.ToLower())
-        {
-            case "true":
-                return "yes";
-            case "false":
-                return "no";
-            default:
-                return "none";
-        }
-    }
+        "true" => "yes",
+        "false" => "no",
+        _ => "none",
+    };
 }

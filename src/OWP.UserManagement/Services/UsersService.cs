@@ -5,7 +5,6 @@ namespace OWP.UserManagement.Services;
 using System.Threading.Tasks;
 using Models;
 using OWP.Models;
-using OWP.Services;
 using OWP.UserManagement.Criteria;
 
 public interface UsersService

@@ -7,9 +7,9 @@ namespace OWP.UserManagement.Services;
 
 public interface ModelService
 {
-    UserManagementPermission BuildPermissionViewModel();
+    List<UserColumnModel> BuildUserColumnModel();
 
-    List<UserColumnModel> BuildUserColumnModel(UserManagementPermission permission, string section);
+    UserManagementPermission BuildPermissionViewModel();
 }
 
 public class ModelServiceImp : ModelService
@@ -34,50 +34,46 @@ public class ModelServiceImp : ModelService
         };
     }
 
-    public List<UserColumnModel> BuildUserColumnModel(UserManagementPermission permission, string section)
-    {
-        var listColumns = new List<UserColumnModel>
+    public List<UserColumnModel> BuildUserColumnModel()
+    => new List<UserColumnModel>
         {
-            new UserColumnModel(permission, section)
-                { HeaderText="Employee ID", Name="EmployeeId", Width=80},
-            new UserColumnModel(permission, section)
-                { HeaderText="Account Name", Name="UserName", Width=150},
-            new UserColumnModel(permission, section)
-                { HeaderText="Full Name", Name="FullName", Width=200},
-            new UserColumnModel(permission, section)
-                { HeaderText="Nick Name", Name="NickName", Width=130},
-            new UserColumnModel(permission, section)
-                { HeaderText= "Department", Width= 120, Name= "DepartmentName"},
-            new UserColumnModel(permission, section)
-                { HeaderText= "Section", Width= 120, Name= "SectionName"},
-            new UserColumnModel(permission, section)
-                { HeaderText= "Group", Width= 150, Name= "GroupName" },
-            new UserColumnModel(permission, section)
-                { HeaderText= "Role", Width= 120, Name= "RoleName" },
-            new UserColumnModel(permission, section)
-                { HeaderText= "Extension", Width= 70, Name= "Extension" },
-            new UserColumnModel(permission, section)
-                { HeaderText= "Phone", Width= 120, Name= "Phone" },
-            new UserColumnModel(permission, section)
-                { HeaderText= "Email", Width= 250, Name= "Email" },
-            new UserColumnModel(permission, section)
-                { HeaderText= "Skype", Width= 120, Name= "Skype" },
-            new UserColumnModel(permission, section)
-                { HeaderText= "Category", Width= 120, Name= "CategoryName" },
-            new UserColumnModel(permission, section)
-                { HeaderText= "Location", Width= 90, Name= "LocationCode" },
-            new UserColumnModel(permission, section)
-                { HeaderText= "Level", Width= 80, Name= "LevelName" },
-            new UserColumnModel(permission, section)
-                { HeaderText= "Pickup", Width= 80, Name= "Pickup" },
-            new UserColumnModel(permission, section)
-                { HeaderText= "Address", Width= 200, Name= "Address" },
-            new UserColumnModel(permission, section)
-                { HeaderText= "Second Account", Width= 100, Name= "IsSecondAccount" },
-            new UserColumnModel(permission, section)
-                { HeaderText= "Language", Width= 120, Name= "Languages" }
+             new UserColumnModel()
+                 { HeaderText="Employee ID", Name="EmployeeId"},
+             new UserColumnModel()
+                 { HeaderText="Account Name", Name="UserName"},
+             new UserColumnModel()
+                 { HeaderText="Full Name", Name="FullName"},
+             new UserColumnModel()
+                 { HeaderText="Nick Name", Name="NickName"},
+             new UserColumnModel()
+                 { HeaderText= "Department", Name= "DepartmentName"},
+             new UserColumnModel()
+                 { HeaderText= "Section", Name= "SectionName"},
+             new UserColumnModel()
+                 { HeaderText= "Group", Name= "GroupName" },
+             new UserColumnModel()
+                 { HeaderText= "Role", Name= "RoleName" },
+             new UserColumnModel()
+                 { HeaderText= "Extension", Name= "Extension" },
+             new UserColumnModel()
+                 { HeaderText= "Phone", Name= "Phone" },
+             new UserColumnModel()
+                 { HeaderText= "Email", Name= "Email" },
+             new UserColumnModel()
+                 { HeaderText= "Skype", Name= "Skype" },
+             new UserColumnModel()
+                 { HeaderText= "Category", Name= "CategoryName" },
+             new UserColumnModel()
+                 { HeaderText= "Location", Name= "LocationCode" },
+             new UserColumnModel()
+                 { HeaderText= "Level", Name= "LevelName" },
+             new UserColumnModel()
+                 { HeaderText= "Pickup", Name= "Pickup" },
+             new UserColumnModel()
+                 { HeaderText= "Address", Name= "Address" },
+             new UserColumnModel()
+                 { HeaderText= "Second Account", Name= "IsSecondAccount" },
+             new UserColumnModel()
+                 { HeaderText= "Language", Name= "Languages" }
         };
-
-        return listColumns;
-    }
 }

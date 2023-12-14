@@ -28,15 +28,13 @@
 
         private readonly RefResourceService refResource;
 
-        private readonly INapSession currentSession;
 
 
-        public RepositoryImp(IDynamicRepository dynamicRepository, INapSettings napSettings, RefResourceService refResource, INapSession currentSession)
+        public RepositoryImp(IDynamicRepository dynamicRepository, INapSettings napSettings, RefResourceService refResource)
         {
             this.dynamicRepository = dynamicRepository;
             this.napSettings = napSettings;
             this.refResource = refResource;
-            this.currentSession = currentSession;
         }
 
         public async Task<int> GetSectionIdByUserId(int userId)

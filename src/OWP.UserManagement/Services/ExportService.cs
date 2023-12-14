@@ -99,12 +99,11 @@
 
         public void ExportToExcel(Stream stream, IEnumerable<User> users, DateTime date)
         {
-            var permission = modelService.BuildPermissionViewModel();
-            var listColumns = modelService.BuildUserColumnModel(permission, "");
+            var listColumns = modelService.BuildUserColumnModel();
 
             using (var xlPackage = new ExcelPackage(stream))
             {
-                var worksheet = xlPackage.Workbook.Worksheets.Add($"{date.ToString("yyyy-MM-dd")} (Total {users.Count() } users)");
+                var worksheet = xlPackage.Workbook.Worksheets.Add($"{date.ToString("yyyy-MM-dd")} (Total {users.Count()} users)");
                 SetStyleHeader(worksheet, listColumns);
                 SetValueForRow(worksheet, listColumns, users);
                 worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();

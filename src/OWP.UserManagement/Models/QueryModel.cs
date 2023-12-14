@@ -1,6 +1,4 @@
-﻿using OWP.Models;
-
-namespace OWP.UserManagement.Models;
+﻿namespace OWP.UserManagement.Models;
 
 public class QueryModel
 {
