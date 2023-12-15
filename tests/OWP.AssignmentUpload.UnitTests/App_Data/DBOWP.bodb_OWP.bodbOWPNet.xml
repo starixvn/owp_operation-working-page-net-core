@@ -133,7 +133,7 @@
     </Setting>
   </Function>
   <Function Name="UserManagement">
-    <Setting Key="OWP_UserListGet" SpName="OWP_UserListGet" DbName="DBOWP.bodb_OWP.bodbOWPNet">
+    <Setting Key="OWP_UserListGet_New" SpName="OWP_UserListGet_New" DbName="DBOWP.bodb_OWP.bodbOWPNet">
       <Mapping DataField="ProfilePic" ObjectProperty="ProfilePicture" />
     </Setting>
     <Setting Key="OWP_UserUpdate" SpName="OWP_UserUpdate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />

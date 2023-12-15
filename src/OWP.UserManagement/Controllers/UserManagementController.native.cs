@@ -128,7 +128,7 @@ public class UserManagementController : ControllerBase
         var userId = currentSession.UserId;
         var userSectionId = await repository.GetSectionIdByUserId(userId);
         var allResource = await refResourceService.GetAllReferenceResource();
-        return allResource.First(x =>
+        return allResource.FirstOrDefault(x =>
             x.Name == ReferenceResourceNames.Section && x.ResourceId == userSectionId);
     }
 

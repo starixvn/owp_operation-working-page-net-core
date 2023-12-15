@@ -1,13 +1,12 @@
-﻿namespace OWP.UserManagement.Criteria
+﻿namespace OWP.UserManagement.Criteria;
+
+using Fanex.Data.Repository;
+
+public class GetLevelBySectionIdCriteria : CriteriaBase
 {
-    using Fanex.Data.Repository;
+    public int? SectionId { get; set; }
 
-    public class GetLevelBySectionIdCriteria : CriteriaBase
-    {
-        public int? SectionId { get; set; }
+    public override bool IsValid() => true;
 
-        public override bool IsValid() => true;
-
-        public override string GetSettingKey() => "OWP_RefResource_GetLevelBySectionId";
-    }
+    public override string GetSettingKey() => "OWP_RefResource_GetLevelBySectionId";
 }
