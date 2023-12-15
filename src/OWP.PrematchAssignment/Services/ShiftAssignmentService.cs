@@ -48,7 +48,7 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
 
         var earlyOfferedLeagues = await repository.GetEarlyOfferedLeagues(request.EventDate);
 
-        preMatchLeagues.ForEach(x => x.IsEarlyOffered = earlyOfferedLeagues.Contains(x.LeagueName.ToString()));
+        preMatchLeagues.ForEach(x => x.IsEarlyOffered = earlyOfferedLeagues.Contains(x.LeagueName));
 
         var (filteredLeagues, filteredInfoSiteMatches) = FilterByRequest(result.Item1, result.Item2, request);
 
