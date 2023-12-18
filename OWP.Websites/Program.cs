@@ -18,9 +18,11 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
     ApplicationName = typeof(Program).Assembly.FullName,
     ContentRootPath = Directory.GetCurrentDirectory()
 });
+var services = builder.Services;
+var configuration = builder.Configuration;
 
 // Add services to the container.
-builder.Services.AddCors(options =>
+services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
         {
@@ -31,25 +33,25 @@ builder.Services.AddCors(options =>
         });
 });
 
-builder.Services.AddControllerAuthorization();
-builder.Services.AddCookieAuthentication(builder.Configuration);
-builder.Services.AddRedis(builder.Configuration);
-builder.Services.AddRedisSession(builder.Configuration);
-builder.Services.Configure<RabbitMQSetting>(builder.Configuration.GetSection(RabbitMQSetting.RabbitMQ));
-builder.Services.Configure<AccessCounterModel>(builder.Configuration.GetSection("AccessCounter"));
+services.AddControllerAuthorization();
+services.AddCookieAuthentication(configuration);
+services.AddRedis(configuration);
+services.AddRedisSession(configuration);
+services.Configure<RabbitMQSetting>(configuration.GetSection(RabbitMQSetting.RabbitMQ));
+services.Configure<AccessCounterModel>(configuration.GetSection("AccessCounter"));
 
-builder.Services.AddSignalR(builder.Configuration);
-builder.Services.AddSimpleDataApiModule();
-builder.Services.AddFanexSql(builder.Configuration);
-builder.Services.AddNapServices(builder.Configuration);
-builder.Services.AddOnebookUMServices(builder.Configuration);
-builder.Services.AddFanexServices(builder.Configuration);
-builder.Services.AddCoreServices();
-builder.Services.AddMediator();
-builder.Services.AddAutoMapper();
-builder.Services.AddInternalServices();
-builder.Services.AddRabbitMQ();
-builder.Services.AddControllersWithViews(options =>
+services.AddSignalR(configuration);
+services.AddSimpleDataApiModule();
+services.AddFanexSql(configuration);
+services.AddNapServices(configuration);
+services.AddOneBookUm(configuration);
+services.AddFanexServices(configuration);
+services.AddCoreServices();
+services.AddMediator();
+services.AddAutoMapper();
+services.AddInternalServices();
+services.AddRabbitMQ();
+services.AddControllersWithViews(options =>
 {
     options.Filters.Add(new ServiceFilterAttribute(typeof(CheckUMFilterAttribute)));
     options.Filters.Add(new SessionAuthorizeAttribute());

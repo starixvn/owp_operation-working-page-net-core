@@ -1,6 +1,5 @@
 ﻿using OWP.AssigneeSuggestionList.Models;
 using OWP.AssigneeSuggestionList.Services.RealMatch;
-using OWP.Extensions;
 
 namespace OWP.AssigneeSuggestionList.Services;
 
