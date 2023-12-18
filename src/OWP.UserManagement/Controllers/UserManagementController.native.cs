@@ -128,8 +128,14 @@ public class UserManagementController : ControllerBase
         var userId = currentSession.UserId;
         var userSectionId = await repository.GetSectionIdByUserId(userId);
         var allResource = await refResourceService.GetAllReferenceResource();
-        return allResource.FirstOrDefault(x =>
+        var currentSection = allResource.FirstOrDefault(x =>
             x.Name == ReferenceResourceNames.Section && x.ResourceId == userSectionId);
+        return currentSection ?? new()
+        {
+            ResourceId = 0,
+            Value = string.Empty,
+            Name = string.Empty
+        };
     }
 
     [HttpGet("query-level-options")]
