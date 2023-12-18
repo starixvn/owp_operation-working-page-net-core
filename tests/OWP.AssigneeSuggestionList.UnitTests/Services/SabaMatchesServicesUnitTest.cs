@@ -7,9 +7,7 @@ namespace OWP.AssigneeSuggestionList.UnitTests.Services;
 using Constant;
 using NSubstitute;
 using OWP.AssigneeSuggestionList.Services;
-using System.Drawing;
 using Xunit.Asserts.Compare;
-using static System.Net.Mime.MediaTypeNames;
 
 public class SabaMatchesServicesUnitTest
 {
