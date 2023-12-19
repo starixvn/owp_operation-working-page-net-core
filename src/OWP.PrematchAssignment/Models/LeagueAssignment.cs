@@ -6,6 +6,10 @@ public class LeagueAssignment
 
     public int LeagueId { get; set; }
 
+    public string LeagueGroup { get; set; }
+
+    public int? LeagueGroupOrder { get; set; }
+
     public int PreMatchLeagueId { get; set; }
 
     public string LeagueName { get; set; }
