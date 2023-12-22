@@ -30,6 +30,7 @@ public static class ExcelColorHelper
         for (int i = 0, row = Misc.Constant.START_ROW; i < matches.Count; i++, row++)
         {
             FillColorNewMatch(matches[i], row, templateSheet);
+            FillColorDeleteMatch(matches[i], row, templateSheet);
             FillColorKoTime(matches[i], row, templateSheet);
             FillColorLeague(matches[i], row, templateSheet);
             FillColorTeam(matches[i], row, templateSheet);
@@ -86,6 +87,16 @@ public static class ExcelColorHelper
         if (ExistsUpdateType(RAndDColorConstant.UPDATE_LEAGUE, match))
         {
             FillCellColor(templateSheet.Cells[row, Misc.Constant.LEAGUE_COL_INDEX]);
+        }
+    }
+
+    private static void FillColorDeleteMatch(EventPickingModel match, int row, ExcelWorksheet templateSheet)
+    {
+        if (ExistsUpdateType(RAndDColorConstant.DELETE_MATCH, match))
+        {
+            var cell = templateSheet.Cells[row, Misc.Constant.REMARK_COL_INDEX];
+            cell.Value = $"[DELETED] {cell.Value}";
+            FillCellColor(cell);
         }
     }
 
