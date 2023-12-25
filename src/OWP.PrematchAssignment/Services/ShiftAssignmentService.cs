@@ -162,20 +162,34 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
             .Where(x => x.LeagueName.IsContains(request.LeagueName))
             .Where(x => string.IsNullOrEmpty(employee) ||
                                    CheckMainAssignmentContainsEmployee(x, employee) ||
-                                   CheckOtherAssignmentContainsEmployee(x, employee));
+                                   CheckOtherAssignmentContainsEmployee(x, employee))
+            .ToList();
 
         filteredLeagues = request.EarlyOffered is null
             ? filteredLeagues
-            : filteredLeagues.Where(x => request.EarlyOffered.Contains(ConvertBoolToInt(x.IsEarlyOffered)));
+            : filteredLeagues.Where(x => request.EarlyOffered.Contains(ConvertBoolToInt(x.IsEarlyOffered))).ToList();
 
         var filteredMatches = infoSiteMatches
-            .Where(x => filteredLeagues.Any(y => y.PreMatchLeagueId == x.PreMatchLeagueId));
+            .Where(x => filteredLeagues.Any(y => y.PreMatchLeagueId == x.PreMatchLeagueId)).ToList();
+        
+       var result= FilterByMatchOffer(filteredLeagues, filteredMatches, matchOffers);
+        
+        return (result.Item1, result.Item2);
+    }
 
-        filteredMatches = matchOffers is null
+    private static (List<PreMatchLeague>, List<InfoSiteMatch>) FilterByMatchOffer(List<PreMatchLeague> filteredLeagues, List<InfoSiteMatch> filteredMatches, List<string> matchOffers)
+    {
+        var matches = matchOffers is null
             ? filteredMatches
-            : filteredMatches.Where(m => matchOffers.Exists(x => x.Equals(m.MatchOffer)));
+            : filteredMatches.Where(m => matchOffers.Exists(x => x.Equals(m.MatchOffer))).ToList();
 
-        return (filteredLeagues.ToList(), filteredMatches.ToList());
+        foreach (var league in filteredLeagues)
+        {
+            league.MatchCount = matches.Count(x => x.LeagueId == league.LeagueId);
+        } 
+        var leagues = filteredLeagues.Where(x => x.MatchCount != 0).ToList();
+
+         return (leagues, matches);
     }
 
     private static int ConvertBoolToInt(bool value) => value ? 1 : 0;
