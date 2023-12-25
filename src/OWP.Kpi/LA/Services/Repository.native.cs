@@ -1,4 +1,5 @@
 using Fanex.Data.Repository;
+using Fanex.NAP.Client.Configuration;
 using Fanex.NAP.Client.Helpers.Web;
 using Newtonsoft.Json;
 using OWP.Kpi.LA.Criteria;
@@ -8,11 +9,11 @@ namespace OWP.Kpi.LA.Services;
 
 public interface Repository
 {
-    Task<IList<KpiInfo>> GetKpiInfo(DateTime fromDate, DateTime toDate, string sectionIds);
+    Task<IList<KpiInfo>> GetKpiInfo(QueryModel request);
 
     Task UpdateTargetLevel(List<TargetLevel> targetLevels);
 
-    Task<IEnumerable<SectionInfo>> GetAllSection( int userId);
+    Task<IEnumerable<SectionInfo>> GetAllSection(int userId);
 }
 
 public class RepositoryImp : Repository
@@ -20,18 +21,24 @@ public class RepositoryImp : Repository
     private readonly IDynamicRepository repository;
     private readonly INapSession session;
 
-    public RepositoryImp(IDynamicRepository repository, INapSession session)
+    private readonly INapSettings napSettings;
+
+    public RepositoryImp(IDynamicRepository repository, INapSession session, INapSettings napSettings)
     {
         this.repository = repository;
         this.session = session;
+        this.napSettings = napSettings;
     }
 
-    public async Task<IList<KpiInfo>> GetKpiInfo(DateTime fromDate, DateTime toDate, string sectionIds)
+    public async Task<IList<KpiInfo>> GetKpiInfo(QueryModel request)
         => (await repository.FetchAsync<KpiInfo>(new CalculateKpiCriteria
         {
-            FromDate = fromDate,
-            ToDate = toDate,
-            SectionIds = sectionIds
+            FromDate = request.FromDate,
+            ToDate = request.ToDate,
+            SectionIds = request.SectionIds,
+            SiteId = napSettings.SiteId,
+            ActiveUser = request.ActiveUser,
+            ResignUser = request.ResignUser,
         })).ToList();
 
     public async Task UpdateTargetLevel(List<TargetLevel> targetLevels)

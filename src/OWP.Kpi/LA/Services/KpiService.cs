@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
 using OWP.Kpi.LA.Constant;
 using OWP.Kpi.LA.Helper;
+using OWP.Kpi.LA.Models;
 using OWP.Kpi.LA.ViewModels;
 
 namespace OWP.Kpi.LA.Services;
 
 public interface KpiService
 {
-    Task<IList<KpiInfoViewModel>> BuildKpiInfo(DateTime fromDate, DateTime toDate, string sectionIds, bool isGap);
+    Task<IList<KpiInfoViewModel>> BuildKpiInfo(QueryModel request, bool isGap);
 }
 
 public class KpiServiceImp : KpiService
@@ -21,9 +22,9 @@ public class KpiServiceImp : KpiService
         this.mapper = mapper;
     }
 
-    public async Task<IList<KpiInfoViewModel>> BuildKpiInfo(DateTime fromDate, DateTime toDate, string sectionIds, bool isGap)
+    public async Task<IList<KpiInfoViewModel>> BuildKpiInfo(QueryModel request, bool isGap)
     {
-        var kpiData = await repository.GetKpiInfo(fromDate, toDate, sectionIds);
+        var kpiData = await repository.GetKpiInfo(request);
         var kpiInfos = mapper.Map<IList<KpiInfoViewModel>>(kpiData);
         BuildKpiInfo(kpiInfos, isGap);
         return kpiInfos;
