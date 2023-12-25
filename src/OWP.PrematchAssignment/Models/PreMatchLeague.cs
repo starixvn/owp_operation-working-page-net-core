@@ -8,6 +8,10 @@ public class PreMatchLeague
 
     public int LeagueId { get; set; }
 
+    public string LeagueGroup { get; set; }
+
+    public int? LeagueGroupOrder { get; set; }
+
     public string LeagueName { get; set; }
 
     public int MatchCount { get; set; }
