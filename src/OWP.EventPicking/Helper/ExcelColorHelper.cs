@@ -37,6 +37,66 @@ public static class ExcelColorHelper
             FillColorTv(matches[i], row, templateSheet);
             FillColorIpTv(matches[i], row, templateSheet);
             FillColorProvider(matches[i], row, templateSheet);
+            FillColorRound(matches[i], row, templateSheet);
+            FillColorRoundHAT(matches[i], row, templateSheet);
+            FillColorRemark(matches[i], row, templateSheet);
+            FillColorHomeRemark(matches[i], row, templateSheet);
+            FillColorAwayRemark(matches[i], row, templateSheet);
+            FillColorDivision(matches[i], row, templateSheet);
+        }
+    }
+
+    private static void FillColorDivision(EventPickingModel match, int row, ExcelWorksheet templateSheet)
+    {
+        if (ExistsUpdateType(RAndDColorConstant.UPDATE_DIVISION, match)
+            || ExistsUpdateType(RAndDColorConstant.CANCEL_DIVISION, match))
+        {
+            FillCellColor(templateSheet.Cells[row, Misc.Constant.DIVISION_COL_INDEX]);
+        }
+    }
+
+    private static void FillColorAwayRemark(EventPickingModel match, int row, ExcelWorksheet templateSheet)
+    {
+        if (ExistsUpdateType(RAndDColorConstant.UPDATE_AWAY_REMARK, match)
+            || ExistsUpdateType(RAndDColorConstant.CANCEL_AWAY_REMARK, match))
+        {
+            FillCellColor(templateSheet.Cells[row, Misc.Constant.AWAY_REMARK_COL_INDEX]);
+        }
+    }
+
+    private static void FillColorHomeRemark(EventPickingModel match, int row, ExcelWorksheet templateSheet)
+    {
+        if (ExistsUpdateType(RAndDColorConstant.UPDATE_HOME_REMARK, match)
+            || ExistsUpdateType(RAndDColorConstant.CANCEL_HOME_REMARK, match))
+        {
+            FillCellColor(templateSheet.Cells[row, Misc.Constant.HOME_REMARK_COL_INDEX]);
+        }
+    }
+
+    private static void FillColorRemark(EventPickingModel match, int row, ExcelWorksheet templateSheet)
+    {
+        if (ExistsUpdateType(RAndDColorConstant.UPDATE_REMARK, match)
+            || ExistsUpdateType(RAndDColorConstant.CANCEL_REMARK, match))
+        {
+            FillCellColor(templateSheet.Cells[row, Misc.Constant.REMARK_COL_INDEX]);
+        }
+    }
+
+    private static void FillColorRoundHAT(EventPickingModel match, int row, ExcelWorksheet templateSheet)
+    {
+        if (ExistsUpdateType(RAndDColorConstant.UPDATE_ROUND_HAT, match)
+            || ExistsUpdateType(RAndDColorConstant.CANCEL_ROUND_HAT, match))
+        {
+            FillCellColor(templateSheet.Cells[row, Misc.Constant.ROUND_HAT_COL_INDEX]);
+        }
+    }
+
+    private static void FillColorRound(EventPickingModel match, int row, ExcelWorksheet templateSheet)
+    {
+        if (ExistsUpdateType(RAndDColorConstant.UPDATE_ROUND, match)
+            || ExistsUpdateType(RAndDColorConstant.CANCEL_ROUND, match))
+        {
+            FillCellColor(templateSheet.Cells[row, Misc.Constant.ROUND_COL_INDEX]);
         }
     }
 
