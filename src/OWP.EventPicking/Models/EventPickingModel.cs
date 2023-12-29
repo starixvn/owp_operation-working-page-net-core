@@ -181,81 +181,78 @@ public class EventPickingModel
     public string ETPK { get; set; }
 
     [Cell("AX2")]
-    public string RemarkFromInfosite { get; set; }
-
-    [Cell("AY2")]
     public string Remark2 { get; set; }
 
-    [Cell("AZ2")]
+    [Cell("AY2")]
     public string TotalRound { get; set; }
 
-    [Cell("BA2")]
+    [Cell("AZ2")]
     public string Website1 { get; set; }
 
-    [Cell("BB2")]
+    [Cell("BA2")]
     public string Website2 { get; set; }
 
-    [Cell("BC2")]
+    [Cell("BB2")]
     public string Website3 { get; set; }
 
-    [Cell("BD2")]
+    [Cell("BC2")]
     public string Website4 { get; set; }
 
-    [Cell("BE2")]
+    [Cell("BD2")]
     public string OtherTraders15mins { get; set; }
 
-    [Cell("BF2")]
+    [Cell("BE2")]
     public string OtherTraders10mins { get; set; }
 
-    [Cell("BG2")]
+    [Cell("BF2")]
     public string OtherTradersFM { get; set; }
 
-    [Cell("BH2")]
+    [Cell("BG2")]
     public string OtherTradersAIO { get; set; }
 
-    [Cell("BI2")]
+    [Cell("BH2")]
     public string MaxBetOU { get; set; } = string.Empty;
 
-    [Cell("BJ2")]
+    [Cell("BI2")]
     public string MaxBet1HHDP { get; set; } = string.Empty;
 
-    [Cell("BK2")]
+    [Cell("BJ2")]
     public string MaxBet1HOU { get; set; } = string.Empty;
 
-    [Cell("BL2")]
+    [Cell("BK2")]
     public string Spread1HHDP { get; set; } = string.Empty;
 
-    [Cell("BM2")]
+    [Cell("BL2")]
     public string Spread1HOU { get; set; } = string.Empty;
 
-    [Cell("BN2")]
+    [Cell("BM2")]
     public string MaxBetFT1X2 { get; set; } = string.Empty;
 
-    [Cell("BO2")]
+    [Cell("BN2")]
     public string Spread1X2 { get; set; } = string.Empty;
 
-    [Cell("BP2")]
+    [Cell("BO2")]
     public string MaxBet1H1X2 { get; set; } = string.Empty;
 
-    [Cell("BQ2")]
+    [Cell("BP2")]
     public string Spread1H1X2 { get; set; } = string.Empty;
 
-    [Cell("BR2")]
+    [Cell("BQ2")]
     public string Trader1H1X2 { get; set; } = string.Empty;
 
-    [Cell("BS2")]
+    [Cell("BR2")]
     public string OtherTraders1H1X2 { get; set; }
 
-    [Cell("BT2")]
+    [Cell("BS2")]
     public string MaxBetXmins { get; set; }
 
-    [Cell("BU2")]
+    [Cell("BT2")]
     public string SpreadXmins { get; set; }
 
-    [Cell("BV2")]
+    [Cell("BU2")]
     public string MaxBetFM { get; set; }
 
-    [Cell("BW2")]
+    [Cell("BV2")]
     public string SpreadFM { get; set; }
 
     public bool IsNoOffer { get; set; }
