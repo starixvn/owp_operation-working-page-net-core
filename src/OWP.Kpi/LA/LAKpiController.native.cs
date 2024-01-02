@@ -8,7 +8,7 @@ using OWP.Kpi.LA.Handlers;
 using OWP.Kpi.LA.Models;
 using OWP.Kpi.LA.ViewModels;
 using OWP.Services;
-
+using Fanex.Logging;
 
 namespace OWP.Kpi.LA;
 
@@ -24,39 +24,44 @@ public class LAKpiController : ControllerBase
 
     private readonly IMediator mediator;
 
-    public LAKpiController(IMediator mediator, RefResourceService refResourceService, INapSession session)
+    private readonly ILogger logger;
+
+    public LAKpiController(IMediator mediator, RefResourceService refResourceService, INapSession session, ILogger logger)
     {
         this.mediator = mediator;
         this.refResourceService = refResourceService;
         this.session = session;
+        this.logger = logger;
     }
 
     [Route("")]
     [HttpGet]
-    public async Task<DataViewModel> GetLAKpiInfo(DateTime fromDate, DateTime toDate, string sectionIds)
-    {
-        var data = await mediator.Send(new CalculateKpiRequest
-        {
-            FromDate = fromDate,
-            ToDate = toDate,
-            SectionIds = sectionIds
-        });
-
-        return data;
-    }
+    public async Task<DataViewModel> GetLAKpiInfo([FromQuery] CalculateKpiRequest request)
+        => await mediator.Send(request);
 
     [HttpGet("export")]
-    public async Task<IActionResult> DownloadLAKpiInfo(DateTime fromDate, DateTime toDate, string sectionIds)
+
+    public async Task<IActionResult> DownloadLAKpiInfo(
+        DateTime fromDate,
+        DateTime toDate,
+        string sectionIds,
+        bool activeUser,
+        bool resignUser)
     {
-        using var data = await mediator.Send(new ExportKpiRequest
+        var request = new ExportKpiRequest
         {
             FromDate = fromDate,
             ToDate = toDate,
-            SectionIds = sectionIds
-        });
+            SectionIds = sectionIds,
+            ActiveUser = activeUser,
+            ResignUser = resignUser
+        };
+
+        logger.InfoAsync(request.ToString()).ConfigureAwait(false);
+        using var data = await mediator.Send(request);
 
         var bytes = await data.GetAsByteArrayAsync();
-        var fileName = GetFileName(fromDate, toDate);
+        var fileName = GetFileName(request.FromDate, request.ToDate);
         return File(bytes, "application/octet-stream", fileName);
     }
 

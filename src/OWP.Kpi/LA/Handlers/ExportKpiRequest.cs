@@ -7,19 +7,16 @@ using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using OWP.Kpi.LA.Constant;
 using OWP.Kpi.LA.Helper;
+using OWP.Kpi.LA.Models;
 using OWP.Kpi.LA.Services;
 using OWP.Kpi.LA.ViewModels;
 using OWP.Services;
 using System.Drawing;
 
 namespace OWP.Kpi.LA.Handlers;
-public class ExportKpiRequest : IRequest<ExcelPackage>
+public class ExportKpiRequest : QueryModel, IRequest<ExcelPackage>
 {
-    public DateTime FromDate { get; set; }
 
-    public DateTime ToDate { get; set; }
-
-    public string SectionIds { get; set; }
 }
 public class ExportKpiHandler : IRequestHandler<ExportKpiRequest, ExcelPackage>, IDisposable
 {
@@ -58,7 +55,7 @@ public class ExportKpiHandler : IRequestHandler<ExportKpiRequest, ExcelPackage>,
     private async Task BuildExcelBody(ExportKpiRequest request)
     {
         var isGap = CalculateGapHelper.IsGap(request.FromDate, request.ToDate);
-        var kpiInfo = await kpiService.BuildKpiInfo(request.FromDate, request.ToDate, request.SectionIds, isGap);
+        var kpiInfo = await kpiService.BuildKpiInfo(request, isGap);
         var kpiReport = mapper.Map<IList<KpiInfoReport>>(kpiInfo);
         reportSheet.ApplyVertical(kpiReport, 3);
 

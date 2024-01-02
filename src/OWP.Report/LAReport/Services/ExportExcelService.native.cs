@@ -39,6 +39,6 @@ public class ExportExcelServiceImp : ExportExcelService
     public void BuildLAReportBody(LAExcelModel model)
     {
         reportSheet.ApplyModel(model.FileInfo);
-        reportSheet.ApplyVertical(model.ExcelModels, ReportConst.StartRowIndex);
+        reportSheet.Cells["A7"].LoadFromCollection(model.ExcelModels);
     }
 }

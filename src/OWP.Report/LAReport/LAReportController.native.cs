@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using OWP.Report.LAReport.Handlers;
+using Fanex.Logging;
 
 namespace OWP.Report.LAReport;
 
@@ -15,9 +16,12 @@ public class LAReportController : ControllerBase
 {
     private readonly IMediator mediator;
 
-    public LAReportController(IMediator mediator)
+    private readonly ILogger logger;
+
+    public LAReportController(IMediator mediator, ILogger logger)
     {
         this.mediator = mediator;
+        this.logger = logger;
     }
 
     [Route("")]
@@ -28,26 +32,32 @@ public class LAReportController : ControllerBase
         return Ok(JsonConvert.SerializeObject(reportModel));
     }
 
-    [Route("export-excel")]
-    [HttpGet]
-    public async Task<IActionResult> ExportLAExcel(string fromDate, string toDate)
-    {
-        var reportRequest = new LAReportRequest
-        {
-            FromDate = DateTime.Parse(fromDate),
-            ToDate = DateTime.Parse(toDate)
-        };
-        var reportModels = await mediator.Send(reportRequest);
+    [HttpGet("export-excel")]
 
-        var request = new LAExcelRequest
+    public async Task<IActionResult> ExportLAExcel(DateTime fromDate,
+        DateTime toDate,
+        bool activeUser,
+        bool resignUser)
+    {
+        var request = new LAReportRequest
         {
             FromDate = fromDate,
             ToDate = toDate,
+            ActiveUser = activeUser,
+            ResignUser = resignUser
+        };
+        logger.InfoAsync(request.ToString()).ConfigureAwait(false);
+        var reportModels = await mediator.Send(request);
+
+        var exportRequest = new LAExcelRequest
+        {
+            FromDate = fromDate.ToString("MM/dd/yyyy"),
+            ToDate = toDate.ToString("MM/dd/yyyy"),
             ReportModels = reportModels
         };
 
-        using var excelPackage = await mediator.Send(request);
-        var fileName = $"LA Report {reportRequest.FromDate:ddMMMMyyyy}-{reportRequest.ToDate:ddMMMMyyyy}.xlsx";
+        using var excelPackage = await mediator.Send(exportRequest);
+        var fileName = $"LA Report {fromDate:ddMMMMyyyy}-{toDate:ddMMMMyyyy}.xlsx";
         var bytes = await excelPackage.GetAsByteArrayAsync();
         return File(bytes, "application/octet-stream", fileName);
     }
