@@ -28,13 +28,13 @@ public static class Constant
     public const int HOME_COL_INDEX = 6;
     public const int AWAY_COL_INDEX = 7;
     public const int LEAGUE_COL_INDEX = 8;
-    public const int TV_COL_INDEX = 38;
     public const int PROVIDER_COL_INDEX = 32;
-    public const int IPTV_COL_INDEX = 40;
     public const int DIVISION_COL_INDEX = 34;
     public const int REMARK_COL_INDEX = 35;
     public const int ROUND_COL_INDEX = 37;
     public const int ROUND_HAT_COL_INDEX = 38;
+    public const int TV_COL_INDEX = 39;
+    public const int IPTV_COL_INDEX = 41;
     public const int HOME_REMARK_COL_INDEX = 47;
     public const int AWAY_REMARK_COL_INDEX = 48;
 
