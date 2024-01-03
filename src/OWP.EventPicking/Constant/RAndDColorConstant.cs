@@ -22,6 +22,18 @@ public static class RAndDColorConstant
     public const int UPDATE_PROVIDER = 9;
     public const int CANCEL_PROVIDER = 10;
     public const int DELETE_MATCH = 11;
+    public const int UPDATE_ROUND = 12;
+    public const int CANCEL_ROUND = 13;
+    public const int UPDATE_ROUND_HAT = 14;
+    public const int CANCEL_ROUND_HAT = 15;
+    public const int UPDATE_REMARK = 16;
+    public const int CANCEL_REMARK = 17;
+    public const int UPDATE_HOME_REMARK = 18;
+    public const int CANCEL_HOME_REMARK = 19;
+    public const int UPDATE_AWAY_REMARK = 20;
+    public const int CANCEL_AWAY_REMARK = 21;
+    public const int UPDATE_DIVISION = 22;
+    public const int CANCEL_DIVISION = 23;
 
     public static readonly ImmutableDictionary<int, (string, string)> MAP_R_AND_D_COLOR = new Dictionary<int, (string, string)>
     {
@@ -35,7 +47,19 @@ public static class RAndDColorConstant
         {CANCEL_IPTV ,(CANCEL_COLOR,WHITE)},
         {UPDATE_PROVIDER,(UPDATE_COLOR,GREEN)},
         {CANCEL_PROVIDER,(CANCEL_COLOR,WHITE)},
-        {DELETE_MATCH,(DELETE_COLOR,WHITE)}
+        {DELETE_MATCH,(DELETE_COLOR,WHITE)},
+        {UPDATE_ROUND,(UPDATE_COLOR,GREEN)},
+        {CANCEL_ROUND,(CANCEL_COLOR,WHITE)},
+        {UPDATE_ROUND_HAT,(UPDATE_COLOR,GREEN)},
+        {CANCEL_ROUND_HAT,(CANCEL_COLOR,WHITE)},
+        {UPDATE_REMARK,(UPDATE_COLOR,GREEN)},
+        {CANCEL_REMARK,(CANCEL_COLOR,WHITE)},
+        {UPDATE_HOME_REMARK,(UPDATE_COLOR,GREEN)},
+        {CANCEL_HOME_REMARK,(CANCEL_COLOR,WHITE)},
+        {UPDATE_AWAY_REMARK,(UPDATE_COLOR,GREEN)},
+        {CANCEL_AWAY_REMARK,(CANCEL_COLOR,WHITE)},
+        {UPDATE_DIVISION,(UPDATE_COLOR,GREEN)},
+        {CANCEL_DIVISION,(CANCEL_COLOR,WHITE)}
     }.ToImmutableDictionary();
 
 }
