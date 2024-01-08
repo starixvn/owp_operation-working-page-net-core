@@ -17,4 +17,6 @@ public class EventPickingRequest
     public List<int> FilterMatchCategory { get; set; }
 
     public List<int?> UpdateType { get; set; }
+
+    public DateTime TurnoverMarginDate { get; set; }
 }

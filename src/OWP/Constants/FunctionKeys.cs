@@ -8,156 +8,162 @@
 // </summary>
 //
 // <history>
-// Lasted generated date: 1/4/2023 2:05:31 PM
+// Lasted generated date: 1/8/2024 3:49:54 PM
 // </history>
 
 namespace OWP.Constants
 {
-    /// <summary>
-    /// Function keys.
-    /// </summary>
-    public static class FunctionKeys
-    {
-        public const string Administration = "Administration";
+	using System.Diagnostics.CodeAnalysis;
 
-        public const string AssignFunctionToGroup = "AssignFunctionToGroup";
+	/// <summary>
+	/// Function keys.
+	/// </summary>
+	public static class FunctionKeys
+	{
+			public const string Administration = "Administration";
 
-        public const string AssignFunctionToUser = "AssignFunctionToUser";
+				public const string AssignFunctionToGroup = "AssignFunctionToGroup";
 
-        public const string AssignmentConfiguration = "AssignmentConfiguration";
+				public const string AssignFunctionToUser = "AssignFunctionToUser";
 
-        public const string AssignSiteToUser = "AssignSiteToUser";
+				public const string AssignmentConfiguration = "AssignmentConfiguration";
 
-        public const string AutoAssignment = "AutoAssignment";
+				public const string AssignSiteToUser = "AssignSiteToUser";
 
-        public const string CreateTickets = "CreateTickets";
+				public const string AutoAssignment = "AutoAssignment";
 
-        public const string DailyWorkingShift = "DailyWorkingShift";
+				public const string CreateTickets = "CreateTickets";
 
-        public const string DailyWorkingShift_AllSections = "DailyWorkingShift_AllSections";
+				public const string DailyWorkingShift = "DailyWorkingShift";
 
-        public const string DailyWorkingShift_OwnSection = "DailyWorkingShift_OwnSection";
+				public const string DailyWorkingShift_AllSections = "DailyWorkingShift_AllSections";
 
-        public const string DayShiftAssignment = "DayShiftAssignment";
+				public const string DailyWorkingShift_OwnSection = "DailyWorkingShift_OwnSection";
 
-        public const string DeleteTickets = "DeleteTickets";
+				public const string DayShiftAssignment = "DayShiftAssignment";
 
-        public const string DetailsInformation = "DetailsInformation";
+				public const string DeleteTickets = "DeleteTickets";
 
-        public const string EventPicking = "EventPicking";
+				public const string DetailsInformation = "DetailsInformation";
 
-        public const string EventPickingNew = "EventPickingNew";
+				public const string EventPicking = "EventPicking";
 
-        public const string EventTickets = "EventTickets";
+				public const string EventPickingNew = "EventPickingNew";
 
-        public const string FullTimeView = "FullTimeView";
+				public const string EventPickingNew_TurnoverMargin = "EventPickingNew_TurnoverMargin";
 
-        public const string LAReport = "LAReport";
+				public const string EventTickets = "EventTickets";
 
-        public const string LeagueManagement = "LeagueManagement";
+				public const string FullTimeView = "FullTimeView";
 
-        public const string LeagueManagement_EditConditions = "LeagueManagement_EditConditions";
+				public const string LAKpi = "LAKpi";
 
-        public const string LeagueManagement_General = "LeagueManagement_General";
+				public const string LAReport = "LAReport";
 
-        public const string LeagueManagement_LSTNote = "LeagueManagement_LSTNote";
+				public const string LeagueManagement = "LeagueManagement";
 
-        public const string LeagueManagement_MaxbetSetting = "LeagueManagement_MaxbetSetting";
+				public const string LeagueManagement_EditConditions = "LeagueManagement_EditConditions";
 
-        public const string LeagueManagement_TVList = "LeagueManagement_TVList";
+				public const string LeagueManagement_General = "LeagueManagement_General";
 
-        public const string LiveGame = "LiveGame";
+				public const string LeagueManagement_LSTNote = "LeagueManagement_LSTNote";
 
-        public const string LiveGameAssignment = "LiveGameAssignment";
+				public const string LeagueManagement_MaxbetSetting = "LeagueManagement_MaxbetSetting";
 
-        public const string LiveGameAssignment_FullBetTypes = "LiveGameAssignment_FullBetTypes";
+				public const string LeagueManagement_TVList = "LeagueManagement_TVList";
 
-        public const string LiveGameAssignment_PHBetTypes = "LiveGameAssignment_PHBetTypes";
+				public const string LiveGame = "LiveGame";
 
-        public const string LiveGameAssignmentOld = "LiveGameAssignmentOld";
+				public const string LiveGameAssignment = "LiveGameAssignment";
 
-        public const string LiveGameList = "LiveGameList";
+				public const string LiveGameAssignment_FullBetTypes = "LiveGameAssignment_FullBetTypes";
 
-        public const string LiveGameList_PublicFilter = "LiveGameList_PublicFilter";
+				public const string LiveGameAssignment_PHBetTypes = "LiveGameAssignment_PHBetTypes";
 
-        public const string LiveGameList_TimeRangeView = "LiveGameList_TimeRangeView";
+				public const string LiveGameAssignmentOld = "LiveGameAssignmentOld";
 
-        public const string ManageFunction = "ManageFunction";
+				public const string LiveGameList = "LiveGameList";
 
-        public const string ManageGroup = "ManageGroup";
+				public const string LiveGameList_PublicFilter = "LiveGameList_PublicFilter";
 
-        public const string ManageMenu = "ManageMenu";
+				public const string LiveGameList_TimeRangeView = "LiveGameList_TimeRangeView";
 
-        public const string ManageUser = "ManageUser";
+				public const string ManageFunction = "ManageFunction";
 
-        public const string MatchCountLiveReport = "MatchCountLiveReport";
+				public const string ManageGroup = "ManageGroup";
 
-        public const string MyTickets = "MyTickets";
+				public const string ManageMenu = "ManageMenu";
 
-        public const string NightShiftAssignment = "NightShiftAssignment";
+				public const string ManageUser = "ManageUser";
 
-        public const string Note = "Note";
+				public const string MatchCountLiveReport = "MatchCountLiveReport";
 
-        public const string NotificationSetting = "NotificationSetting";
+				public const string MyTickets = "MyTickets";
 
-        public const string NotificationSetting_MySectionMessage = "NotificationSetting_MySectionMessage";
+				public const string NightShiftAssignment = "NightShiftAssignment";
 
-        public const string OddsCompiler = "OddsCompiler";
+				public const string Note = "Note";
 
-        public const string OSBasketballMaxbet = "OSBasketballMaxbet";
+				public const string NotificationSetting = "NotificationSetting";
 
-        public const string OSLiveGame = "OSLiveGame";
+				public const string NotificationSetting_MySectionMessage = "NotificationSetting_MySectionMessage";
 
-        public const string OSLiveGameAssignment = "OSLiveGameAssignment";
+				public const string OddsCompiler = "OddsCompiler";
 
-        public const string OvertimeReport = "OvertimeReport";
+				public const string OSBasketballMaxbet = "OSBasketballMaxbet";
 
-        public const string OWPEmployeeManagement = "OWPEmployeeManagement";
+				public const string OSLiveGame = "OSLiveGame";
 
-        public const string OWPEventManagement = "OWPEventManagement";
+				public const string OSLiveGameAssignment = "OSLiveGameAssignment";
 
-        public const string PreMatch = "PreMatch";
+				public const string OvertimeReport = "OvertimeReport";
 
-        public const string PrematchReport = "PrematchReport";
+				public const string OWPEmployeeManagement = "OWPEmployeeManagement";
 
-        public const string ProviderArrangement = "ProviderArrangement";
+				public const string OWPEventManagement = "OWPEventManagement";
 
-        public const string QuickSearch = "QuickSearch";
+				public const string PreMatch = "PreMatch";
 
-        public const string RecipientGroup = "RecipientGroup";
+				public const string PrematchReport = "PrematchReport";
 
-        public const string SystemConfiguration = "SystemConfiguration";
+				public const string ProviderArrangement = "ProviderArrangement";
 
-        public const string TaskList = "TaskList";
+				public const string QuickSearch = "QuickSearch";
 
-        public const string Tickets = "Tickets";
+				public const string RecipientGroup = "RecipientGroup";
 
-        public const string TicketTypeSettings = "TicketTypeSettings";
+				public const string Reports = "Reports";
 
-        public const string TimeRangeView = "TimeRangeView";
+				public const string SystemConfiguration = "SystemConfiguration";
 
-        public const string TraderReport = "TraderReport";
+				public const string Tickets = "Tickets";
 
-        public const string TraderReport_TraderAssignment = "TraderReport_TraderAssignment";
+				public const string TicketTypeSettings = "TicketTypeSettings";
 
-        public const string TraderReport_TraderPerformance = "TraderReport_TraderPerformance";
+				public const string TimeRangeView = "TimeRangeView";
 
-        public const string UserManagement = "UserManagement";
+				public const string TraderReport = "TraderReport";
 
-        public const string UserManagement_AllSections = "UserManagement_AllSections";
+				public const string TraderReport_TraderAssignment = "TraderReport_TraderAssignment";
 
-        public const string UserManagement_OwnSection = "UserManagement_OwnSection";
+				public const string TraderReport_TraderPerformance = "TraderReport_TraderPerformance";
 
-        public const string ViewProviderPhone = "ViewProviderPhone";
+				public const string UserManagement = "UserManagement";
 
-        public const string WorkingShiftManagement = "WorkingShiftManagement";
+				public const string UserManagement_AllSections = "UserManagement_AllSections";
 
-        public const string WorkingShiftManagement_AllSections = "WorkingShiftManagement_AllSections";
+				public const string UserManagement_OwnSection = "UserManagement_OwnSection";
 
-        public const string WorkingShiftManagement_OwnSection = "WorkingShiftManagement_OwnSection";
+				public const string ViewProviderPhone = "ViewProviderPhone";
 
-        public const string WorkingShiftManagement_ShiftManagement = "WorkingShiftManagement_ShiftManagement";
+				public const string WorkingShiftManagement = "WorkingShiftManagement";
 
-    }
+				public const string WorkingShiftManagement_AllSections = "WorkingShiftManagement_AllSections";
 
+				public const string WorkingShiftManagement_OwnSection = "WorkingShiftManagement_OwnSection";
+
+				public const string WorkingShiftManagement_ShiftManagement = "WorkingShiftManagement_ShiftManagement";
+
+			}
+	 
 }

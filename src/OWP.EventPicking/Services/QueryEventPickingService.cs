@@ -1,5 +1,8 @@
+using OWP.Constants;
 using OWP.EventPicking.Middleware.Models;
 using OWP.EventPicking.Models;
+using OWP.Extensions;
+using OWP.Services;
 
 namespace OWP.EventPicking.Services;
 
@@ -12,15 +15,24 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
 {
     private readonly BuildMainAndChildMatches buildMainAndChildMatches;
 
-    public QueryEventPickingServiceImp(BuildMainAndChildMatches buildMainAndChildMatches)
+    private readonly PermissionService permissionService;
+
+
+    public QueryEventPickingServiceImp(BuildMainAndChildMatches buildMainAndChildMatches, PermissionService permissionService)
     {
         this.buildMainAndChildMatches = buildMainAndChildMatches;
+        this.permissionService = permissionService;
     }
 
     public async Task<List<EventPickingModel>> Execute(EventPickingRequest request)
     {
         var matches = await buildMainAndChildMatches.GetMainEvent(request.Date);
-
+        var eventPickingPolicy = permissionService.GetPermissions(FunctionKeys.EventPickingNew);
+        var turnoverMarginPolicy = eventPickingPolicy.GetPermissionModel(FunctionKeys.EventPickingNew_TurnoverMargin);
+        if (turnoverMarginPolicy.IsRead)
+        {
+            //get data from TGR
+        }
         return FilterAllMatchesByRequest(matches, request);
     }
 
