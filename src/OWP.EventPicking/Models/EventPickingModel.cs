@@ -283,6 +283,10 @@ public class EventPickingModel
     ? "yes"
     : "no";
 
+    public double TurnOver { get; set; }
+
+    public double Margin { get; set; }
+
     public void MapWeekendSettings(LeagueSetting leagueSetting)
     {
         MatchOffer = leagueSetting.MaxbetWK_MatchOffer;
