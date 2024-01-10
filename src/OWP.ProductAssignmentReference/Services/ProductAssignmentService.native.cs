@@ -67,12 +67,14 @@ public class ProductAssignmentServiceImp : ProductAssignmentService
         var allResource = await refResourceService.GetAllReferenceResource();
         var roleOption = allResource.Where(r => string.Equals(r.Name, UserRole)).ToList();
         var sectionOption = allResource.Where(r => string.Equals(r.Name, Section) && SectionId.Any(id => id == r.ResourceId));
-        var locationOption = allResource.Where(r => string.Equals(r.Name, Location));
+        var locationOption = allResource.Where(r => string.Equals(r.Name, Location)).ToList();
+        locationOption.Add(new ReferenceResource { ResourceId = 0, Value = "None" });
         var levelOption = await BuildLevelBySectionId();
         var mainBettypeOption = await BuildMainBettypeBySectionId();
         var multipleMaxGamesOption = allResource.Where(r => string.Equals(r.Name, MaxMultipleGame)).ToList();
         AddEmptyOption(roleOption);
         AddEmptyOption(multipleMaxGamesOption);
+
         return new
         {
             roleOption,

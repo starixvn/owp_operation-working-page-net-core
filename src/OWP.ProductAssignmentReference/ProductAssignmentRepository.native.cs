@@ -39,7 +39,6 @@ public class ProductAssignmentRepositoryImp : ProductAssignmentRepository
             SectionId = queryInfo.SectionId,
             LocationId = queryInfo.LocationId,
             SiteId = napSettings.SiteId
-
         };
         return (await dynamicRepository.FetchAsync<UserInfo>(criteria)).ToList();
     }
