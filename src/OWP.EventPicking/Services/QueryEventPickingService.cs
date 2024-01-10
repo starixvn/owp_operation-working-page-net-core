@@ -28,7 +28,7 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
     {
         var matches = await buildMainAndChildMatches.GetMainEvent(request.Date);
         var eventPickingPolicy = permissionService.GetPermissions(FunctionKeys.EventPickingNew);
-        var turnoverMarginPolicy = eventPickingPolicy.GetPermissionModel(FunctionKeys.EventPickingNew_TurnoverMargin);
+        var turnoverMarginPolicy = eventPickingPolicy.GetPermissionModel(FunctionKeys.EventPickingNew_ShowSensitiveColumn);
         if (turnoverMarginPolicy.IsRead)
         {
             //get data from TGR

@@ -8,7 +8,7 @@
 // </summary>
 //
 // <history>
-// Lasted generated date: 1/8/2024 3:49:54 PM
+// Lasted generated date: 1/10/2024 10:13:57 AM
 // </history>
 
 namespace OWP.Constants
@@ -50,7 +50,9 @@ namespace OWP.Constants
 
 				public const string EventPickingNew = "EventPickingNew";
 
-				public const string EventPickingNew_TurnoverMargin = "EventPickingNew_TurnoverMargin";
+				public const string EventPickingNew_ShowNormalColumn = "EventPickingNew_ShowNormalColumn";
+
+				public const string EventPickingNew_ShowSensitiveColumn = "EventPickingNew_ShowSensitiveColumn";
 
 				public const string EventTickets = "EventTickets";
 
