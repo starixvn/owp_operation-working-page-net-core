@@ -14,15 +14,14 @@ public class ProductAssignmentController : ControllerBase
 {
     private readonly ProductAssignmentService service;
 
-
     public ProductAssignmentController(ProductAssignmentService service)
     {
         this.service = service;
     }
 
-        [HttpGet("get-dropdown-option")]
-        public async Task<object> GetDropdownOption()
-        => await service.GetDropdownOption();
+    [HttpGet("get-dropdown-option")]
+    public async Task<object> GetDropdownOption()
+    => await service.GetDropdownOption();
 
     [HttpGet("last-update")]
     public async Task<object> GetLastUpdate()
