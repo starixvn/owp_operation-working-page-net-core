@@ -9,7 +9,7 @@ namespace OWP.Report.TraderReport;
 
 [Route("api/report")]
 [ApiController]
-[Authorize]
+[AllowAnonymous]
 [EnableCors]
 public class TraderReportController : ControllerBase
 {
