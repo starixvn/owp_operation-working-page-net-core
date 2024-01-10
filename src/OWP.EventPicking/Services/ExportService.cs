@@ -1,15 +1,19 @@
 using Epplus.Mapper.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using OfficeOpenXml;
+using OWP.Constants;
 using OWP.EventPicking.Helper;
 using OWP.EventPicking.Models;
+using OWP.Extensions;
 using OWP.Services;
+using System.Data.Common;
+using OWP.EventPicking.Constant;
 
 namespace OWP.EventPicking.Services;
 
 public interface ExportService
 {
-    Task<FileStreamResult> BuildFileStream(IList<EventPickingModel> matches);
+    Task<FileStreamResult> BuildFileStream(IList<EventPickingModel> matches, bool isMiscMatch);
 }
 
 public class ExportServiceImp : ExportService, IDisposable
@@ -18,23 +22,33 @@ public class ExportServiceImp : ExportService, IDisposable
 
     private readonly ConfigurationService configurationService;
 
-    public ExportServiceImp(ConfigurationService configurationService)
+    private readonly PermissionService permissionService;
+
+    public ExportServiceImp(ConfigurationService configurationService , PermissionService permissionService)
     {
         this.configurationService = configurationService;
+        this.permissionService = permissionService;
     }
 
-    public async Task<FileStreamResult> BuildFileStream(IList<EventPickingModel> matches)
+    public async Task<FileStreamResult> BuildFileStream(IList<EventPickingModel> matches, bool isMiscMatch)
     {
         var templatePath = Utils.GetMiscMatchTemplate(configurationService.CurrentDirectory);
 
         await using var stream = new FileStream(templatePath, FileMode.Open, FileAccess.Read);
 
-        excelPackage = new ExcelPackage(stream);
+        excelPackage = new ExcelPackage(stream); 
         var templateSheet = excelPackage.Workbook.Worksheets.First();
         templateSheet.ApplyVertical(matches, 2);
         ExcelColorHelper.FillRowColor(matches, templateSheet);
         ExcelColorHelper.FillCellColor(matches, templateSheet);
-
+        var turnoverMarginPolicy = permissionService
+            .GetPermissions(FunctionKeys.EventPickingNew)?
+            .GetPermissionModel(FunctionKeys.EventPickingNew_ShowSensitiveColumn); 
+        if (!turnoverMarginPolicy.IsRead || isMiscMatch)
+        {
+            templateSheet.DeleteColumn(ReportConstant.MarginColumn);
+            templateSheet.DeleteColumn(ReportConstant.TurnOverColumn);
+        }
         var fileStream = new MemoryStream();
         await excelPackage.SaveAsAsync(fileStream);
         fileStream.Position = 0;
@@ -47,7 +61,6 @@ public class ExportServiceImp : ExportService, IDisposable
         Dispose(true);
         GC.SuppressFinalize(this);
     }
-
 
     protected virtual void Dispose(bool isDisposing)
     {

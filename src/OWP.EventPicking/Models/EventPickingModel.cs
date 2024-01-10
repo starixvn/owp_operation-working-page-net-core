@@ -283,8 +283,10 @@ public class EventPickingModel
     ? "yes"
     : "no";
 
+    [Cell("BW2")]
     public double TurnOver { get; set; }
 
+    [Cell("BX2")]
     public double Margin { get; set; }
 
     public void MapWeekendSettings(LeagueSetting leagueSetting)

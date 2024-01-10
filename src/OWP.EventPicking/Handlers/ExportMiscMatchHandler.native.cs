@@ -38,7 +38,7 @@ public class ExportMiscMatchHandler : IRequestHandler<ExportMiscMatchRequest, Fi
     {
         var matches = await buildMainAndChildMatches.GetMainAndChildMatchEvent(request.Date);
 
-        var fileStreamResult = await exportService.BuildFileStream(matches);
+        var fileStreamResult = await exportService.BuildFileStream(matches,true);
         fileStreamResult.FileDownloadName = $"Event Picking-{request.Date:yyyy-MM-dd}.xlsx";
         await accessCounter.UpdateCounter(counterModel.ExportMiscMatch);
         return fileStreamResult;
