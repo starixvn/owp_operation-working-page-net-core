@@ -38,8 +38,8 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
 
             var turnOver_WinLoss = await tGRSService.GetTurnOverWinLoss(new GetTurnOverWinLossCriteria()
             {
-                //FromDate = request.FromDate,
-                //ToDate = request.ToDate,
+                FromDate = request.FromDate,
+                ToDate = request.ToDate,
                 LeagueName = GetLeagueName(validMatch)
             });
             CalculateTurnOver_Margin(validMatch, turnOver_WinLoss);

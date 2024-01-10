@@ -18,5 +18,7 @@ public class EventPickingRequest
 
     public List<int?> UpdateType { get; set; }
 
-    public DateTime TurnoverMarginDate { get; set; }
+    public DateTime FromDate { get; set; }
+
+    public DateTime ToDate { get; set; }
 }
