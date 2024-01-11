@@ -2,7 +2,7 @@ namespace OWP.EventPicking.Criteria;
 
 public class GetTurnOverWinLossCriteria
 {
-    public static string SportType => "soccer";
+    public string SportType { get; set; }
 
     public DateTime FromDate { get; set; }
 

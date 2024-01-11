@@ -2,6 +2,7 @@ using Epplus.Mapper.Annotations;
 using OWP.Extensions;
 using OWP.Utils;
 using System.Globalization;
+using System.Text.Json.Serialization;
 
 namespace OWP.EventPicking.Models;
 
@@ -284,10 +285,16 @@ public class EventPickingModel
     : "no";
 
     [Cell("BW2")]
-    public double TurnOver { get; set; }
+    [JsonIgnore]
+    public string TurnoverExport => Turnover.Value;
 
     [Cell("BX2")]
-    public double Margin { get; set; }
+    [JsonIgnore]
+    public string MarginExport => Margin.Value;
+
+    public TurnOverInfo Turnover { get; set; } = new();
+
+    public MarginInfo Margin { get; set; } = new();
 
     public void MapWeekendSettings(LeagueSetting leagueSetting)
     {

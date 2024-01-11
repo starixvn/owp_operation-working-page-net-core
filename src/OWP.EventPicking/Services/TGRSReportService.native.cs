@@ -28,8 +28,7 @@ public class TGRSServiceImp : TGRSService
     {
         try
         {
-            // TODO
-            var requestUrl = $"{configuration.GetSection("TRGS_Report_ApiEndpoint").Value}/Trader/GetPerformanceDetails";
+            var requestUrl = $"{configuration.GetSection("TRGS_TurnOver_WinLoss_ApiEndpoint").Value}/LeaguePerformance/GetLeaguePerformance";
             return await richHttpClient.Post<List<TurnOverWinLossModel>>(requestUrl, criteria);
         }
         catch (Exception exception)

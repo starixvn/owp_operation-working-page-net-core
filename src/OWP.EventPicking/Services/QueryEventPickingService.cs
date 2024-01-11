@@ -35,9 +35,9 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
         var validMatch = FilterAllMatchesByRequest(matches, request);
         if (turnoverMarginPolicy.IsRead)
         {
-
             var turnOver_WinLoss = await tGRSService.GetTurnOverWinLoss(new GetTurnOverWinLossCriteria()
             {
+                SportType = "Soccer",
                 FromDate = request.FromDate,
                 ToDate = request.ToDate,
                 LeagueName = GetLeagueName(validMatch)
@@ -49,14 +49,13 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
 
     private static void CalculateTurnOver_Margin(IList<EventPickingModel> matches, IList<TurnOverWinLossModel> turnOverWinLossModels)
     {
-        // TODO
         foreach (var match in matches)
         {
-            var turnOver_winLoss = turnOverWinLossModels.FirstOrDefault(t => string.Equals(t.LeagueName, match.LeagueName));
-            if (turnOver_winLoss is not null)
+            var turnover_winLoss = turnOverWinLossModels.FirstOrDefault(t => string.Equals(t.LeagueName, match.LeagueName));
+            if (turnover_winLoss is not null)
             {
-                match.TurnOver = turnOver_winLoss.TurnOver;
-                match.Margin = 0;
+                Utils.CalculateValueTurnover_WinLoss(match, turnover_winLoss);
+                Utils.CalculateColorTurnover_WinLoss(match, turnover_winLoss);
             }
         }
     }
