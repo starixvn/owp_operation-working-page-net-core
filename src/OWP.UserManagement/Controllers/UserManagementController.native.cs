@@ -117,7 +117,7 @@ public class UserManagementController : ControllerBase
 
     [HttpGet("query-permission")]
     [NapAuth(FunctionKey = FunctionKeys.UserManagement, Policy = Constant.Policy.Read)]
-    public async Task<UserManagementPermission> QueryUserGroupPermissions()
+    public UserManagementPermission QueryUserGroupPermissions()
     => modelService.BuildPermissionViewModel();
 
 

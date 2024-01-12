@@ -1,4 +1,5 @@
-﻿using Fanex.NAP.Client.Helpers.Web;
+﻿using Fanex.Logging;
+using Fanex.NAP.Client.Helpers.Web;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
@@ -8,7 +9,6 @@ using OWP.Kpi.LA.Handlers;
 using OWP.Kpi.LA.Models;
 using OWP.Kpi.LA.ViewModels;
 using OWP.Services;
-using Fanex.Logging;
 
 namespace OWP.Kpi.LA;
 
@@ -57,7 +57,7 @@ public class LAKpiController : ControllerBase
             ResignUser = resignUser
         };
 
-        logger.InfoAsync(request.ToString()).ConfigureAwait(false);
+        await logger.InfoAsync(request.ToString()).ConfigureAwait(false);
         using var data = await mediator.Send(request);
 
         var bytes = await data.GetAsByteArrayAsync();

@@ -2,5 +2,6 @@
 
 public enum ErrorCode
 {
+    Error = -1,
     Ok = 0
 }

@@ -11,6 +11,8 @@ public class MatchInfo : TaskListMatchInfo
 
     public int ParentMatchId { get; set; }
 
+    public int InfoSiteMatchId { get; set; }
+
     public int? AdminSiteId { get; set; }
 
     public int? ParentAdminSiteId { get; set; }
@@ -80,6 +82,9 @@ public class MatchInfo : TaskListMatchInfo
     public bool IsAllowedToViewDetail { get; set; }
 
     public string MatchStatus { get; set; }
+
+    public bool IsLiveMatchStatus => string.Equals(MatchStatus, "Live", StringComparison.OrdinalIgnoreCase) ||
+        string.Equals(MatchStatus, "Postponed", StringComparison.OrdinalIgnoreCase);
 
     public string MatchCode { get; set; }
 

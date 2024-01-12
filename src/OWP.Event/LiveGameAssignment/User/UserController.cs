@@ -1,0 +1,33 @@
+﻿namespace OWP.Event.LiveGameAssignment.User;
+
+using Fanex.NAP.Client.Attributes;
+using Fanex.NAP.Client.Helpers.Business;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
+using OWP.Constants;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+[Route("api/event-assignment/user")]
+[ApiController]
+[EnableCors]
+[Authorize]
+public class UserController : ControllerBase
+{
+    private readonly Repository repository;
+
+    public UserController(Repository repository)
+    {
+        this.repository = repository;
+    }
+
+    [Route("")]
+    [HttpGet]
+    [NapAuth(FunctionKey = FunctionKeys.DetailsInformation, Policy = Constant.Policy.Read)]
+    public async Task<IEnumerable<UserInfo>> Query(DateTime eventDate)
+    {
+        return await repository.Query(eventDate);
+    }
+}
