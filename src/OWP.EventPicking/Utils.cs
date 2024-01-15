@@ -14,7 +14,7 @@ public static class Utils
     {
         if (Math.Abs(turnover_winLoss.Turnover) >= double.Epsilon)
         {
-            match.Turnover.Value = $"{Math.Round(turnover_winLoss.Turnover, 2)}";
+            match.Turnover.Value = string.Format("{0:#,0.00}", Math.Round(turnover_winLoss.Turnover, 2));
         }
 
         if (Math.Abs(turnover_winLoss.WinLoss) < double.Epsilon)
@@ -23,7 +23,7 @@ public static class Utils
         }
         else if (Math.Abs(turnover_winLoss.Turnover) >= double.Epsilon)
         {
-            match.Margin.Value = $"{Math.Round(turnover_winLoss.WinLoss / turnover_winLoss.Turnover, 2)}";
+            match.Margin.Value = string.Format("{0:#,0.00}", Math.Round(turnover_winLoss.WinLoss / turnover_winLoss.Turnover, 2));
         }
     }
     public static void CalculateColorTurnover_WinLoss(EventPickingModel match, TurnOverWinLossModel turnover_winLoss)
