@@ -6,6 +6,7 @@ using Constants;
 using Fanex.NAP.Client.Attributes;
 using Fanex.NAP.Client.Helpers.Business;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using OWP.Event.LiveGameAssignment.Services;
@@ -15,7 +16,7 @@ using System.Threading.Tasks;
 
 [Route("api/event-assignment")]
 [ApiController]
-//[EnableCors]
+[EnableCors]
 [AllowAnonymous]
 public class EventAssignmentController : ControllerBase
 {
@@ -39,7 +40,7 @@ public class EventAssignmentController : ControllerBase
     }
 
     [HttpPost("")]
-    //[NapAuth(FunctionKey = FunctionKeys.LiveGameAssignment, Policy = Constant.Policy.Read)]
+    [NapAuth(FunctionKey = FunctionKeys.LiveGameAssignment, Policy = Constant.Policy.Read)]
     public async Task<IEnumerable<EventModel>> Query(EventQueryModel queryModel)
     {
         var permission = eventAssignmentPermission.BuildPermission();
@@ -118,12 +119,10 @@ public class EventAssignmentController : ControllerBase
         return Ok(result);
     }
 
-
-
     [Route("sync-off-vr")]
     [HttpPost]
     [NapAuth(FunctionKey = FunctionKeys.LiveGameAssignment, Policy = Constant.Policy.Host)]
-    public async Task<IActionResult> SyncOffVR(Model model)
+    public async Task<IActionResult> SyncOffVR(SyncOffVRRequest model)
     {
         await syncOffVrService.Sync(model.date);
 
@@ -139,9 +138,4 @@ public class EventAssignmentController : ControllerBase
 
         return result;
     }
-}
-
-public class Model
-{
-    public DateTime date { get; set; }
 }

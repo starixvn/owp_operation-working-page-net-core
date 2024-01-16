@@ -34,3 +34,8 @@ public class OffVRModel
     public int AdminSiteMatchId { get; set; }
     public string OffVR { get; set; }
 }
+
+public class SyncOffVRRequest
+{
+    public DateTime date { get; set; }
+}
