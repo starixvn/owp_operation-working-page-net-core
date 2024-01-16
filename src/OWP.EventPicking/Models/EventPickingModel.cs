@@ -286,15 +286,19 @@ public class EventPickingModel
 
     [Cell("BW2")]
     [JsonIgnore]
-    public string TurnoverExport => Turnover.Value;
+    public string TurnoverExport => Turnover.ValueDisplay;
 
     [Cell("BX2")]
     [JsonIgnore]
-    public string MarginExport => Margin.Value;
+    public string MarginExport => Margin.ValueDisplay;
 
     public TurnOverInfo Turnover { get; set; } = new();
 
+    public double? TurnoverSort => Turnover.Value;
+
     public MarginInfo Margin { get; set; } = new();
+
+    public double? MarginSort => Margin.Value;
 
     public void MapWeekendSettings(LeagueSetting leagueSetting)
     {
