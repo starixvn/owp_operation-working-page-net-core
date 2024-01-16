@@ -43,7 +43,7 @@ public class ExportServiceImp : ExportService, IDisposable
         ExcelColorHelper.FillCellColor(matches, templateSheet);
         var turnoverMarginPolicy = permissionService
             .GetPermissions(FunctionKeys.EventPickingNew)?
-            .GetPermissionModel(FunctionKeys.EventPickingNew_ShowSensitiveColumn); 
+            .GetPermissionModel(FunctionKeys.EventPickingNew_EventAndPerformance); 
         if (!turnoverMarginPolicy.IsRead || isMiscMatch)
         {
             templateSheet.DeleteColumn(ReportConstant.MarginColumn);
