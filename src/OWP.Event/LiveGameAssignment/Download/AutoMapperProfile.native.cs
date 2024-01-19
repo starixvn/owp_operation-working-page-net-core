@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using OWP.Event.LiveGameAssignment.Download.Models.EventPicking;
+using OWP.Event.LiveGameAssignment.EventPicking.Model;
 
 namespace OWP.Event.LiveGameAssignment.Download;
 

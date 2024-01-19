@@ -2,6 +2,6 @@
 
 public class AppSettings
 {
-    public const string Key = "InfoSite";
+    public const string Key = "InfoSiteSettings";
     public string InfoSiteAPI { get; set; }
 }

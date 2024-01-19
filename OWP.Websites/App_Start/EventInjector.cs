@@ -1,14 +1,17 @@
 ﻿using OWP.Event.EventShared;
 using OWP.Event.EventShared.Services;
 using OWP.Event.LiveGameAssignment;
-using OWP.Event.LiveGameAssignment.Download.Repositories.Implement;
+using OWP.Event.LiveGameAssignment.Download.Repositories;
 using OWP.Event.LiveGameAssignment.Download.Service.Implement;
+using OWP.Event.LiveGameAssignment.EventPicking;
+using OWP.Event.LiveGameAssignment.EventPicking.Service;
 using OWP.Event.LiveGameAssignment.Services;
 using OWP.Event.LiveGameAssignment.User;
 using OWP.Event.LiveGameList;
 using OWP.Event.LiveGameList.Services;
 using OWP.Event.TaskList;
 using OWP.Event.TaskList.Services;
+using OWP.Services;
 
 namespace OWP.Websites;
 
@@ -40,6 +43,8 @@ public static class EventInjector
         services.AddScoped<ExcelService, ExcelServiceImp>();
         services.AddScoped<LeagueSettingNewFormatService, LeagueSettingNewFormatServiceImp>();
         services.AddScoped<LeagueSettingService, LeagueSettingServiceImp>();
+        services.AddScoped<EventPickingService, EventPickingServiceImp>();
+        services.AddScoped<AccessCounter, AccessCounterImp>();
         services.AddScoped<LstNoteMapperService, LstNoteMapperServiceImp>();
         services.AddScoped<OrderMatchService, OrderMatchServiceImp>();
         services.AddScoped<IEventAssignmentRepository, EventAssignmentRepository>();

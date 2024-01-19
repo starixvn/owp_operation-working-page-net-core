@@ -26,12 +26,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="LiveGameAssignment\Download\Controllers\TaskListController.cs" />
-    <Compile Remove="LiveGameAssignment\Download\Repositories\Implement\TaskListTodayRepository.cs" />
-    <Compile Remove="LiveGameAssignment\Download\Service\Implement\TaskListTodayService.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <AdditionalFiles Include="..\..\.sonarlint\nap-owp-netcore\CSharp\SonarLint.xml" Link="SonarLint.xml" />
   </ItemGroup>
 

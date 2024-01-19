@@ -1,7 +1,7 @@
 ﻿namespace OWP.Event.LiveGameAssignment.Download.Extensions;
 
 using NPOI.SS.UserModel;
-using OWP.Event.LiveGameAssignment.Download.Models.EventAssignment;
+using OWP.Event.LiveGameAssignment.Download.Models;
 using OWP.Extensions;
 using System;
 using System.Collections.Generic;

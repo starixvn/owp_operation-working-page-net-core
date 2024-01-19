@@ -9,8 +9,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Models;
+using Newtonsoft.Json;
 using OWP.Event.LiveGameAssignment.Services;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -41,7 +41,7 @@ public class EventAssignmentController : ControllerBase
 
     [HttpPost("")]
     [NapAuth(FunctionKey = FunctionKeys.LiveGameAssignment, Policy = Constant.Policy.Read)]
-    public async Task<IEnumerable<EventModel>> Query(EventQueryModel queryModel)
+    public async Task<IActionResult> Query(EventQueryModel queryModel)
     {
         var permission = eventAssignmentPermission.BuildPermission();
         queryModel.FullTimeViewPermission = permission.FullTimeView;
@@ -69,7 +69,7 @@ public class EventAssignmentController : ControllerBase
         var permissionFullBetTypes = permission.LiveGameAssignment_FullBetTypes;
         if (permissionFullBetTypes.IsRead)
         {
-            return eventModels;
+            return Ok(JsonConvert.SerializeObject(eventModels));
         }
 
         eventModels.ToList().ForEach(eventModel =>
@@ -82,7 +82,7 @@ public class EventAssignmentController : ControllerBase
             eventModel.Specific10Mins = null;
         });
 
-        return eventModels;
+        return Ok(JsonConvert.SerializeObject(eventModels));
     }
 
     [Route("add-event")]
