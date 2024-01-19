@@ -2,6 +2,7 @@ using Epplus.Mapper.Annotations;
 using OWP.Extensions;
 using OWP.Utils;
 using System.Globalization;
+using System.Text.Json.Serialization;
 
 namespace OWP.EventPicking.Models;
 
@@ -282,6 +283,22 @@ public class EventPickingModel
     public string HasOtherProvider => !string.IsNullOrWhiteSpace(OtherProvider)
     ? "yes"
     : "no";
+
+    [Cell("BW2")]
+    [JsonIgnore]
+    public string TurnoverExport => Turnover.ValueDisplay;
+
+    [Cell("BX2")]
+    [JsonIgnore]
+    public string MarginExport => Margin.ValueDisplay;
+
+    public TurnOverInfo Turnover { get; set; } = new();
+
+    public double? TurnoverSort => Turnover.Value;
+
+    public MarginInfo Margin { get; set; } = new();
+
+    public double? MarginSort => Margin.Value;
 
     public void MapWeekendSettings(LeagueSetting leagueSetting)
     {

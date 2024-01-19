@@ -19,5 +19,6 @@ public static class EventPickingInjector
         services.AddScoped<LogService, LogServiceImp>();
         services.AddScoped<QueryEventPickingService, QueryEventPickingServiceImp>();
         services.AddScoped<ExportService, ExportServiceImp>();
+        services.AddScoped<TGRSService, TGRSServiceImp>();
     }
 }

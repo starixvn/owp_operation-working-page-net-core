@@ -260,7 +260,7 @@ public static class ServiceCollectionExtensions
 
         return services;
     }
-    
+
     public static IServiceCollection AddRedis(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddRedisCache(configuration.GetSection("fanex.caching.redis"));

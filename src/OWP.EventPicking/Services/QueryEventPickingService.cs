@@ -1,5 +1,9 @@
+using OWP.Constants;
+using OWP.EventPicking.Criteria;
 using OWP.EventPicking.Middleware.Models;
 using OWP.EventPicking.Models;
+using OWP.Extensions;
+using OWP.Services;
 
 namespace OWP.EventPicking.Services;
 
@@ -12,19 +16,54 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
 {
     private readonly BuildMainAndChildMatches buildMainAndChildMatches;
 
-    public QueryEventPickingServiceImp(BuildMainAndChildMatches buildMainAndChildMatches)
+    private readonly PermissionService permissionService;
+
+    private readonly TGRSService tGRSService;
+
+    public QueryEventPickingServiceImp(TGRSService tGRSService, BuildMainAndChildMatches buildMainAndChildMatches, PermissionService permissionService)
     {
         this.buildMainAndChildMatches = buildMainAndChildMatches;
+        this.permissionService = permissionService;
+        this.tGRSService = tGRSService;
     }
 
     public async Task<List<EventPickingModel>> Execute(EventPickingRequest request)
     {
         var matches = await buildMainAndChildMatches.GetMainEvent(request.Date);
-
-        return FilterAllMatchesByRequest(matches, request);
+        var eventPickingPolicy = permissionService.GetPermissions(FunctionKeys.EventPickingNew);
+        var turnoverMarginPolicy = eventPickingPolicy.GetPermissionModel(FunctionKeys.EventPickingNew_EventAndPerformance);
+        var validMatch = FilterAllMatchesByRequest(matches, request);
+        if (turnoverMarginPolicy.IsRead)
+        {
+            var turnOver_WinLoss = await tGRSService.GetTurnOverWinLoss(new GetTurnOverWinLossCriteria()
+            {
+                SportType = "Soccer",
+                FromDate = request.FromDate,
+                ToDate = request.ToDate,
+                LeagueName = GetLeagueName(validMatch)
+            });
+            CalculateTurnOver_Margin(validMatch, turnOver_WinLoss);
+        }
+        return validMatch;
     }
 
-    public List<EventPickingModel> FilterAllMatchesByRequest(List<EventPickingModel> matches, EventPickingRequest request)
+    private static void CalculateTurnOver_Margin(IList<EventPickingModel> matches, IList<TurnOverWinLossModel> turnOverWinLossModels)
+    {
+        foreach (var match in matches)
+        {
+            var turnover_winLoss = turnOverWinLossModels.FirstOrDefault(t => string.Equals(t.LeagueName, match.LeagueName));
+            if (turnover_winLoss is not null)
+            {
+                Utils.CalculateValueTurnover_WinLoss(match, turnover_winLoss);
+                Utils.CalculateColorTurnover_WinLoss(match, turnover_winLoss);
+            }
+        }
+    }
+
+    private static IList<string> GetLeagueName(List<EventPickingModel> matches)
+    => matches.Select(x => x.LeagueName).Distinct().ToList();
+
+    private List<EventPickingModel> FilterAllMatchesByRequest(List<EventPickingModel> matches, EventPickingRequest request)
     => matches
         .Where(x => ValidMatch(x, request))
         .ToList();
