@@ -2,7 +2,7 @@
 using OWP.Event.EventShared.Services;
 using OWP.Event.LiveGameAssignment;
 using OWP.Event.LiveGameAssignment.Download.Repositories;
-using OWP.Event.LiveGameAssignment.Download.Service.Implement;
+using OWP.Event.LiveGameAssignment.Download.Service;
 using OWP.Event.LiveGameAssignment.EventPicking;
 using OWP.Event.LiveGameAssignment.EventPicking.Service;
 using OWP.Event.LiveGameAssignment.Services;

@@ -2,7 +2,7 @@
 using OWP.Event.LiveGameAssignment.Download.Converter;
 using OWP.Event.LiveGameAssignment.Download.Misc;
 
-namespace OWP.Event.LiveGameAssignment.Download.Builder;
+namespace OWP.Event.LiveGameAssignment.EventPicking.Service;
 
 public static class CommonBuilder
 {

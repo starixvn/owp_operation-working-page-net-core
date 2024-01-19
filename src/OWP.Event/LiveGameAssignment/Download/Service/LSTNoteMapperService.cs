@@ -1,4 +1,4 @@
-﻿namespace OWP.Event.LiveGameAssignment.Download.Service.Implement;
+﻿namespace OWP.Event.LiveGameAssignment.Download.Service;
 
 using AutoMapper;
 using OWP.Event.LiveGameAssignment.Download.Models;

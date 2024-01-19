@@ -1,4 +1,4 @@
-﻿namespace OWP.Event.LiveGameAssignment.Download.Service.Implement;
+﻿namespace OWP.Event.LiveGameAssignment.Download.Service;
 
 using OWP.Enums;
 using OWP.Event.EventShared.Enum;

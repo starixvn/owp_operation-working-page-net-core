@@ -1,4 +1,4 @@
-﻿namespace OWP.Event.LiveGameAssignment.Download.Controllers;
+﻿namespace OWP.Event.LiveGameAssignment.EventPicking;
 
 using Epplus.Mapper.Extensions;
 using Fanex.NAP.Client.Attributes;

@@ -1,7 +1,8 @@
 ﻿using Epplus.Mapper.Annotations;
 using Olympus.InfoSiteClient.Models;
-using OWP.Event.LiveGameAssignment.Download.Builder;
 using OWP.Event.LiveGameAssignment.Download.Converter;
+using OWP.Event.LiveGameAssignment.EventPicking.Builder;
+using OWP.Event.LiveGameAssignment.EventPicking.Service;
 using OWP.Extensions;
 using OWP.Utils;
 

@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using OWP.Constants;
 using OWP.Event.LiveGameAssignment.Download.Models;
-using OWP.Event.LiveGameAssignment.Download.Service.Implement;
+using OWP.Event.LiveGameAssignment.Download.Service;
 using OWP.Event.LiveGameAssignment.Services;
 using System;
 using System.CodeDom.Compiler;

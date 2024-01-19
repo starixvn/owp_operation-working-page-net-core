@@ -1,6 +1,6 @@
 ﻿using Olympus.InfoSiteClient.Models;
 
-namespace OWP.Event.LiveGameAssignment.Download.Builder;
+namespace OWP.Event.LiveGameAssignment.EventPicking.Builder;
 
 public class OtherProviderBuilder
 {

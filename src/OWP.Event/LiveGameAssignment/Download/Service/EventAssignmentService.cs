@@ -1,6 +1,6 @@
 ﻿using OWP.Event.LiveGameAssignment.Download.Models;
 
-namespace OWP.Event.LiveGameAssignment.Download.Service.Implement;
+namespace OWP.Event.LiveGameAssignment.Download.Service;
 
 using Fanex.Data.Repository;
 using OWP.Event.LiveGameAssignment.Download.Criteria;

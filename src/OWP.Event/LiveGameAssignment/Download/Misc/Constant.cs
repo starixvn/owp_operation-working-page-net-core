@@ -1,4 +1,4 @@
-﻿using OWP.Event.LiveGameAssignment.Download.Builder;
+﻿using OWP.Event.LiveGameAssignment.EventPicking.Builder;
 
 namespace OWP.Event.LiveGameAssignment.Download.Misc;
 

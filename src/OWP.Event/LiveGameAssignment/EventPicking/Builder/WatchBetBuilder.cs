@@ -1,7 +1,7 @@
 ﻿using Olympus.InfoSiteClient.Models;
 using OWP.Event.LiveGameAssignment.Download.Misc;
 
-namespace OWP.Event.LiveGameAssignment.Download.Builder;
+namespace OWP.Event.LiveGameAssignment.EventPicking.Builder;
 
 public static class WatchBetBuilder
 {

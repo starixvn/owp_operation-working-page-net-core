@@ -1,7 +1,7 @@
 ﻿using OWP.Event.LiveGameAssignment.Download.Models;
 using OWP.Extensions;
 
-namespace OWP.Event.LiveGameAssignment.Download.Service.Implement;
+namespace OWP.Event.LiveGameAssignment.Download.Service;
 
 using OWP.Event.EventShared.Enum;
 using OWP.Event.LiveGameAssignment;
