@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 [Route("api/event-assignment")]
 [ApiController]
 [EnableCors]
-[AllowAnonymous]
+[Authorize]
 public class EventAssignmentController : ControllerBase
 {
     private readonly LiveGameAssignmentRepository repository;

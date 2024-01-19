@@ -14,10 +14,7 @@
 		<Setting Key="OWP_User_GetSectionIdByUserId" SpName="OWP_User_GetSectionIdByUserId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
          <Setting Key="OWP_API_SyncUsers_Get_Change_From_AdminSite" SpName="OWP_API_SyncUsers_Get_Change_From_AdminSite" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     </Function>
-	<Function Name="EventAssignment">
-        <Setting Key="OWP_MessageGetBySessionId" SpName="OWP_MessageGetBySessionId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-    </Function>
-    <Function Name="AutoAssignment">
+	<Function Name="AutoAssignment">
         <Setting Key="OWP_AutoAssignmentRequest_GetAll" SpName="OWP_AutoAssignmentRequest_GetAll" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_AutoAssignment_GetUsersByDate" SpName="OWP_AutoAssignment_GetUsersByDate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_AutoAssignmentRequest_Insert" SpName="OWP_AutoAssignmentRequest_Insert" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
@@ -289,7 +286,6 @@
     </Function>
     <Function Name="EventAssignment">
         <Setting Key="OWP_MatchListDetailsGet" SpName="OWP_MatchListDetailsGet" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-        <Setting Key="OWP_MessageGetBySessionId" SpName="OWP_MessageGetBySessionId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_EventAssignment_GetUser" SpName="OWP_EventAssignment_GetUser" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_LiveGameAssignment_Query" SpName="OWP_LiveGameAssignment_Query" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_LiveGameAssignment_ValidateToAddEvent" SpName="OWP_LiveGameAssignment_ValidateToAddEvent" DbName="DBOWP.bodb_OWP.bodbOWPNet" />

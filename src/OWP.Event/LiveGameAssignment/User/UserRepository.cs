@@ -1,20 +1,20 @@
 ﻿namespace OWP.Event.LiveGameAssignment.User;
 
+using Fanex.Data.Repository;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Fanex.Data.Repository;
 
-public interface Repository
+public interface UserRepository
 {
     Task<IEnumerable<UserInfo>> Query(DateTime eventDate);
 }
 
-public class RepositoryImp : Repository
+public class UserRepositoryImp : UserRepository
 {
     private readonly IDynamicRepository dynamicRepository;
 
-    public RepositoryImp(IDynamicRepository dynamicRepository)
+    public UserRepositoryImp(IDynamicRepository dynamicRepository)
     {
         this.dynamicRepository = dynamicRepository;
     }

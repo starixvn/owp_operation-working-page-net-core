@@ -16,9 +16,9 @@ using System.Threading.Tasks;
 [Authorize]
 public class UserController : ControllerBase
 {
-    private readonly Repository repository;
+    private readonly UserRepository repository;
 
-    public UserController(Repository repository)
+    public UserController(UserRepository repository)
     {
         this.repository = repository;
     }

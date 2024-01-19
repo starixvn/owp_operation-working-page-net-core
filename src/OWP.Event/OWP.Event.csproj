@@ -8,11 +8,42 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="LiveGameAssignment\DownloadAssignment\**" />
+    <Compile Remove="LiveGameAssignment\Download\Criteria\TaskListToday\**" />
+    <Compile Remove="LiveGameAssignment\Download\Models\TaskListToday\**" />
+    <Compile Remove="LiveGameAssignment\Download\Repositories\Interfaces\**" />
+    <Compile Remove="LiveGameAssignment\Download\Service\Interfaces\**" />
+    <EmbeddedResource Remove="LiveGameAssignment\DownloadAssignment\**" />
+    <EmbeddedResource Remove="LiveGameAssignment\Download\Criteria\TaskListToday\**" />
+    <EmbeddedResource Remove="LiveGameAssignment\Download\Models\TaskListToday\**" />
+    <EmbeddedResource Remove="LiveGameAssignment\Download\Repositories\Interfaces\**" />
+    <EmbeddedResource Remove="LiveGameAssignment\Download\Service\Interfaces\**" />
+    <None Remove="LiveGameAssignment\DownloadAssignment\**" />
+    <None Remove="LiveGameAssignment\Download\Criteria\TaskListToday\**" />
+    <None Remove="LiveGameAssignment\Download\Models\TaskListToday\**" />
+    <None Remove="LiveGameAssignment\Download\Repositories\Interfaces\**" />
+    <None Remove="LiveGameAssignment\Download\Service\Interfaces\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="LiveGameAssignment\Download\Controllers\TaskListController.cs" />
+    <Compile Remove="LiveGameAssignment\Download\Repositories\Implement\TaskListTodayRepository.cs" />
+    <Compile Remove="LiveGameAssignment\Download\Service\Implement\TaskListTodayService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <AdditionalFiles Include="..\..\.sonarlint\nap-owp-netcore\CSharp\SonarLint.xml" Link="SonarLint.xml" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="Epplus.Mapper" Version="7.0.0" />
     <PackageReference Include="MediatR" Version="12.1.1" />
+    <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.3.0" />
+    <PackageReference Include="NPOI" Version="2.5.6" />
+    <PackageReference Include="Olympus.InfoSiteClient" Version="2.2.0.7" />
+    <PackageReference Include="System.CodeDom" Version="8.0.0" />
+    <PackageReference Include="System.Drawing.Common" Version="8.0.1" />
   </ItemGroup>
 
   <ItemGroup>

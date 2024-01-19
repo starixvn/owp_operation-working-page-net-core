@@ -1,7 +1,10 @@
 ﻿using OWP.Event.EventShared;
 using OWP.Event.EventShared.Services;
 using OWP.Event.LiveGameAssignment;
+using OWP.Event.LiveGameAssignment.Download.Repositories.Implement;
+using OWP.Event.LiveGameAssignment.Download.Service.Implement;
 using OWP.Event.LiveGameAssignment.Services;
+using OWP.Event.LiveGameAssignment.User;
 using OWP.Event.LiveGameList;
 using OWP.Event.LiveGameList.Services;
 using OWP.Event.TaskList;
@@ -30,5 +33,17 @@ public static class EventInjector
         services.AddScoped<SyncOffVRService, SyncOffVRServiceImp>();
         services.AddScoped<EventAssignmentPermission, EventAssignmentPermissionImp>();
         services.AddScoped<LiveGameAssignmentRepository, LiveGameAssignmentRepositoryImp>();
+        services.AddScoped<IEventAssignmentService, EventAssignmentService>();
+        services.AddScoped<ExcelService, ExcelServiceImp>();
+        services.AddScoped<BuildEventInfoService, BuildEventInfoServiceImp>();
+        services.AddScoped<EventAssignmentExportFilter, EventAssignmentExportFilterImp>();
+        services.AddScoped<ExcelService, ExcelServiceImp>();
+        services.AddScoped<LeagueSettingNewFormatService, LeagueSettingNewFormatServiceImp>();
+        services.AddScoped<LeagueSettingService, LeagueSettingServiceImp>();
+        services.AddScoped<LstNoteMapperService, LstNoteMapperServiceImp>();
+        services.AddScoped<OrderMatchService, OrderMatchServiceImp>();
+        services.AddScoped<IEventAssignmentRepository, EventAssignmentRepository>();
+        services.AddScoped<LeagueSettingRepository, LeagueSettingRepositoryImp>();
+        services.AddScoped<UserRepository, UserRepositoryImp>();
     }
 }
