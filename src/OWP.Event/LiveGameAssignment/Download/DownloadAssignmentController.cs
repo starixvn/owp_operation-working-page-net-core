@@ -5,7 +5,6 @@ namespace OWP.Event.LiveGameAssignment.Download;
 using Fanex.NAP.Client.Attributes;
 using Fanex.NAP.Client.Helpers.Business;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using OWP.Constants;
 using OWP.Event.LiveGameAssignment.Download.Models;
@@ -20,7 +19,7 @@ using System.Threading.Tasks;
 
 [Route("api/event-assignment/export")]
 [ApiController]
-[EnableCors]
+//[EnableCors]
 [AllowAnonymous]
 public class DownloadAssignmentController : ControllerBase
 {
@@ -54,7 +53,7 @@ public class DownloadAssignmentController : ControllerBase
 
     [HttpGet("download-live-game")]
     [NapAuth(FunctionKey = FunctionKeys.LiveGameAssignment, Policy = Constant.Policy.Read)]
-    public async Task<FileResult> DownloadLiveGameAssignment(DateTime date, string userName, string matchStatusIds, int syncLiveStatus, string matchType, string offVRs)
+    public async Task<IActionResult> DownloadLiveGameAssignment(DateTime date, string userName, string matchStatusIds, int syncLiveStatus, string matchType, string offVRs)
     {
         var lastUpdated = await eventAssignmentService.GetLastUpdated(date);
         var eventExportModel = new DownLoadExportModel

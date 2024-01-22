@@ -21,7 +21,7 @@ using System.Configuration;
 [Route("api/event-assignment/event-picking-old")]
 [ApiController]
 [EnableCors]
-[AllowAnonymous]
+[Authorize]
 public class EventPickingOldController : ControllerBase
 {
     private readonly LeagueSettingService leagueSettingService;
