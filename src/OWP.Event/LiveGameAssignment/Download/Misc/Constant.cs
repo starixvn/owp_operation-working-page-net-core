@@ -1,4 +1,5 @@
 ﻿using OWP.Event.LiveGameAssignment.EventPicking.Builder;
+using System.Collections.Immutable;
 
 namespace OWP.Event.LiveGameAssignment.Download.Misc;
 
@@ -6,7 +7,7 @@ public static class Constant
 {
     public const string EqualsCondition = "Equals";
     public const string ContainsCondition = "Contains";
-    public static readonly Dictionary<int, string> StreamNameSrc1InfoSite = new Dictionary<int, string>
+    public static readonly Dictionary<int, string> StreamNameSrc1InfoSite = new()
     {
         {0, string.Empty },
         {4, "Spanish"},
@@ -22,18 +23,18 @@ public static class Constant
         {20, "LiveStreamer"}
     };
 
-    public static readonly Dictionary<int, string> StreamNameSrc2InfoSite = new Dictionary<int, string>
+    public static readonly ImmutableDictionary<int, string> StreamNameSrc2InfoSite = new Dictionary<int, string>
     {
         {0, string.Empty },
         {11, "Glive"},
-    };
+    }.ToImmutableDictionary();
 
     public const string ColorTransparent = "#00FFFFFF";
     private static string colorGray = "#808080";
     private static string colorYellow = "#FFFF99";
     private static string colorRed = "#FF7C80";
 
-    private static List<ColorBuilder> excelRowColor = new List<ColorBuilder>
+    private static List<ColorBuilder> excelRowColor = new()
     {
         new ColorBuilder {HasProvider= true, HasBlacklist= false, HasMaxbet= true, Color= ColorTransparent },
         new ColorBuilder {HasProvider= true, HasBlacklist= false, HasMaxbet= false , Color=ColorTransparent },
@@ -49,20 +50,17 @@ public static class Constant
     public const int BookingType = 2;
     public const int Special15MinsType = 3;
 
-    public static readonly Dictionary<int, string> SpecialOwpNameDict = new Dictionary<int, string>
+    public static readonly ImmutableDictionary<int, string> SpecialOwpNameDict = new Dictionary<int, string>
     {
         {CornerType,"Next Corners" },
         {BookingType,"Next Booking" },
         {Special15MinsType,"(SPECIFIC 15 MINS)" }
-    };
+    }.ToImmutableDictionary();
 
-    public static readonly List<string> SpecialOwpName = new List<string>
-        {"Next Corners","Next Booking", "(SPECIFIC 15 MINS)"};
+    public static readonly IEnumerable<string> SpecialOwpName = new List<string> { "Next Corners", "Next Booking", "(SPECIFIC 15 MINS)" };
 
-    public static readonly List<string> Special15Min = new List<string>
-        {"00:00-15:00", "15:01-30:00", "30:01-45:00", "45:01-60:00", "60:01-75:00", "75:01-90:00"};
+    public static readonly IEnumerable<string> Special15Min = new List<string> { "00:00-15:00", "15:01-30:00", "30:01-45:00", "45:01-60:00", "60:01-75:00", "75:01-90:00" };
 
 
-    public static List<ColorBuilder> ExcelRowColor
-        => excelRowColor;
+    public static List<ColorBuilder> ExcelRowColor => excelRowColor;
 }

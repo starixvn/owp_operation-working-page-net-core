@@ -7,7 +7,7 @@ public class CoverageBuilder
 {
     private readonly int[] WebsiteIdValid = new[] { 17, 18, 19, 20 };
 
-    private readonly Dictionary<int, string> WebsitePair = new Dictionary<int, string>
+    private readonly Dictionary<int, string> WebsitePair = new()
     {
         {17,"RB2"},
         {18,"RTS"},
@@ -15,7 +15,7 @@ public class CoverageBuilder
         {20,"BET"},
     };
 
-    private readonly Dictionary<int, string> CoveragePair = new Dictionary<int, string>
+    private readonly Dictionary<int, string> CoveragePair = new()
     {
         {0,string.Empty},
         {1,"TV"}
@@ -35,8 +35,8 @@ public class CoverageBuilder
 
     public List<string> BuildCoverageMainMatch(CommonMatchEx infositeMatch)
     {
-        List<string> coverages = new List<string>();
-        var isExistsInWebsiteIdValid = WebsiteIdValid.Any(item => item == infositeMatch.website_id);
+        List<string> coverages = new();
+        var isExistsInWebsiteIdValid = WebsiteIdValid.ToList().Exists(item => item == infositeMatch.website_id);
         if (isExistsInWebsiteIdValid)
         {
             var coverage = BuildCoverage(infositeMatch.coverage_id, infositeMatch.website_id);
@@ -47,10 +47,10 @@ public class CoverageBuilder
 
     public List<string> BuildCoverageMergeMatch(CommonMatchEx infositeMatch)
     {
-        List<string> coverages = new List<string>();
+        List<string> coverages = new();
         infositeMatch.ls_merge_match?.ForEach(match =>
         {
-            var isExistsInWebsiteIdValid = WebsiteIdValid.Any(item => item == match.website_id);
+            var isExistsInWebsiteIdValid = WebsiteIdValid.ToList().Exists(item => item == match.website_id);
             if (isExistsInWebsiteIdValid)
             {
                 var coverage = BuildCoverage(match.coverage_id, match.website_id);

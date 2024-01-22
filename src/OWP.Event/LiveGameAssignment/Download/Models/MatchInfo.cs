@@ -2,7 +2,7 @@
 
 using System;
 
-internal class MatchInfo
+public class MatchInfo
 {
     public int OWPMatchId { get; set; }
 

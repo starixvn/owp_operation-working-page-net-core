@@ -10,7 +10,6 @@ using OWP.Event.EventShared.Helper;
 using OWP.Event.EventShared.Models;
 using OWP.Services;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -26,13 +25,10 @@ public interface IEventAssignmentRepository
 
 public class EventAssignmentRepository : IEventAssignmentRepository
 {
-    private readonly IDynamicRepository dynamicRepository;
-
     private readonly CheckIsLiveStatusServices checkIsLiveStatusServices;
 
-    public EventAssignmentRepository(IDynamicRepository repository, CheckIsLiveStatusServices checkIsLiveStatusServices)
+    public EventAssignmentRepository(CheckIsLiveStatusServices checkIsLiveStatusServices)
     {
-        dynamicRepository = repository;
         this.checkIsLiveStatusServices = checkIsLiveStatusServices;
     }
     public async Task<IEnumerable<EventModel>> GetEventInformationByEventDate(ICriteria criteria)
@@ -45,7 +41,7 @@ public class EventAssignmentRepository : IEventAssignmentRepository
                 var traders = reader.Read<MatchTrader>();
                 var notes = reader.Read<MatchNote>();
                 var matchSettings = reader.Read<MatchMoney>();
-                var _ = reader.Read<Television>();
+                var _ = reader.Read<Television>(); // NOSONAR
                 var matchOffers = reader.Read<MatchOffer>();
                 var events = await GetInfo(matchInfos, traders, notes, matchSettings, matchOffers);
                 return events;
@@ -193,31 +189,37 @@ public class EventAssignmentRepository : IEventAssignmentRepository
         {
             matchSetting = matchSettings.FirstOrDefault(x => x.MinorBettypeId == bettypeId && x.ParentMatchId == matchInfo.OWPMatchId);
         }
+        else if (matchInfo.MinorBettypeId == (int)MinorBetType.NoOfCorner && bettypeId == (int)MinorBetType.Specific15Mins)
+        {
+            matchSetting = GetMatchSettingForCornerMatch(matchSettings, matchInfo);
+        }
+        else if (matchInfo.MinorBettypeId == (int)MinorBetType.TotalBooking && bettypeId == (int)MinorBetType.Specific15Mins)
+        {
+            matchSetting = GetMatchSettingForBookingMatch(matchSettings, matchInfo);
+        }
         else
         {
-            if (matchInfo.MinorBettypeId == (int)MinorBetType.NoOfCorner && bettypeId == (int)MinorBetType.Specific15Mins)
-            {
-                matchSetting = matchSettings.FirstOrDefault(x => x.MinorBettypeId == (int)MinorBetType.Specific15MinsCorners
-                            && x.Bettype == (int)MajorBetType.Handicap
-                            && x.ParentMatchId == matchInfo.ParentMatchId);
-            }
-            else if (matchInfo.MinorBettypeId == (int)MinorBetType.TotalBooking && bettypeId == (int)MinorBetType.Specific15Mins)
-            {
-                matchSetting = matchSettings.FirstOrDefault(x => x.MinorBettypeId == (int)MinorBetType.Specific15MinsTotalBookings
-                            && x.Bettype == (int)MajorBetType.Handicap
-                            && x.ParentMatchId == matchInfo.ParentMatchId);
-            }
-            else
-            {
-                matchSetting = null;
-            }
+            matchSetting = null;
         }
 
         return matchSetting;
     }
 
-    [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed.")]
-    private async Task<IEnumerable<EventModel>> GetInfo(
+    private static MatchMoney GetMatchSettingForBookingMatch(IEnumerable<MatchMoney> matchSettings, MatchInfo matchInfo)
+    {
+        return matchSettings.FirstOrDefault(x => x.MinorBettypeId == (int)MinorBetType.Specific15MinsTotalBookings
+                    && x.Bettype == (int)MajorBetType.Handicap
+                    && x.ParentMatchId == matchInfo.ParentMatchId);
+    }
+
+    private static MatchMoney GetMatchSettingForCornerMatch(IEnumerable<MatchMoney> matchSettings, MatchInfo matchInfo)
+    {
+        return matchSettings.FirstOrDefault(x => x.MinorBettypeId == (int)MinorBetType.Specific15MinsCorners
+                    && x.Bettype == (int)MajorBetType.Handicap
+                    && x.ParentMatchId == matchInfo.ParentMatchId);
+    }
+
+    private async Task<IEnumerable<EventModel>> GetInfo( //NOSONAR
        IEnumerable<MatchInfo> matchInfos,
        IEnumerable<MatchTrader> traders,
        IEnumerable<MatchNote> notes,

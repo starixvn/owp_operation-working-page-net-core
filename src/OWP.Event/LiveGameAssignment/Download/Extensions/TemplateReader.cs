@@ -10,7 +10,7 @@ using System.Reflection;
 
 public abstract class TemplateReader
 {
-    private static readonly DataFormatter _formatter = new DataFormatter();
+    private static readonly DataFormatter _formatter = new();
 
     private ILookup<string, int> _headers;
 
@@ -27,10 +27,7 @@ public abstract class TemplateReader
 
     public abstract int HeaderRow { get; }
 
-    protected ILookup<string, int> Headers
-    {
-        get { return _headers = _headers ?? GetHeaders(); }
-    }
+    protected ILookup<string, int> Headers => _headers ??= GetHeaders();
 
     public virtual bool IsValidRow(int index, IRow row)
     {

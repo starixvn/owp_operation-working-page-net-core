@@ -6,7 +6,7 @@ namespace OWP.Event.LiveGameAssignment.EventPicking.Service;
 
 public static class CommonBuilder
 {
-    private static readonly DateTime MinDate = new DateTime(2000, 1, 1);
+    private static readonly DateTimeOffset MinDate = new(2000, 1, 1, 0, 0, 0, TimeSpan.Zero);
 
     public static int? BuildMatchId(CommonMatchEx infositeMatch)
     {
@@ -25,11 +25,11 @@ public static class CommonBuilder
             ? infositeMatch.ext_info.game_date.Value
             : MinDate;
 
-        return DateTimeConverter.ConvertTimeToUTC8(exInfoGameDate);
+        return DateTimeConverter.ConvertTimeToUTC8(exInfoGameDate.DateTime);
     }
 
     public static string BuildInfositeIdExport(string homeName, long infositeId)
-        => Constant.SpecialOwpName.Any(x => homeName.IsContains(x))
+        => Constant.SpecialOwpName.ToList().Exists(x => homeName.IsContains(x))
             ? string.Empty
             : infositeId.ToString();
 }

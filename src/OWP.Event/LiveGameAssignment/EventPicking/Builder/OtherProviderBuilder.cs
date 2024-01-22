@@ -2,7 +2,7 @@
 
 namespace OWP.Event.LiveGameAssignment.EventPicking.Builder;
 
-public class OtherProviderBuilder
+public static class OtherProviderBuilder
 {
     public static string Build(CommonMatchEx infositeMatch)
     {

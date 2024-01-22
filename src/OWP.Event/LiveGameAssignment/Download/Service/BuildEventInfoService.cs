@@ -5,7 +5,6 @@ using OWP.Event.EventShared.Enum;
 using OWP.Event.EventShared.Helper;
 using OWP.Event.LiveGameAssignment.EventPicking.Model;
 using System.Collections.Generic;
-using System.Linq;
 
 public interface BuildEventInfoService
 {
@@ -67,14 +66,13 @@ public class BuildEventInfoServiceImp : BuildEventInfoService
 
     private static string GetTrader(List<MatchAssignment> assignments, int owpMatchId, int bettype, AssignmentType assignmentType = AssignmentType.Main)
     {
-        var assignment = assignments.FirstOrDefault(x => x.AssignmentType == (int)assignmentType &&
-                    x.AssignmentType == (int)assignmentType && x.OWPMatchId == owpMatchId && x.Bettype == bettype);
+        var assignment = assignments.Find(x => x.AssignmentType == (int)assignmentType && x.OWPMatchId == owpMatchId && x.Bettype == bettype);
         return GetTraderValue(assignmentType, assignment);
     }
 
     private static string GetTraderGeneratedOfMainMatch(List<MatchAssignment> assignments, int owpMatchId, int minorBettype, AssignmentType assignmentType = AssignmentType.Main)
     {
-        var assignment = assignments.FirstOrDefault(x => x.AssignmentType == (int)assignmentType &&
+        var assignment = assignments.Find(x => x.AssignmentType == (int)assignmentType &&
                 x.MinorBettypeId == minorBettype &&
                 x.ParentMatchId == owpMatchId &&
                 x.Bettype == (int)MajorBetType.Handicap);
@@ -86,7 +84,7 @@ public class BuildEventInfoServiceImp : BuildEventInfoService
         var assignment = new MatchAssignment();
         if (matchInfo.MinorBettypeId == (int)MinorBetType.NoOfCorner)
         {
-            assignment = assignments.FirstOrDefault(x => x.AssignmentType == (int)assignmentType &&
+            assignment = assignments.Find(x => x.AssignmentType == (int)assignmentType &&
                     x.MinorBettypeId == (int)MinorBetType.Specific15MinsCorners &&
                     x.ParentMatchId == matchInfo.ParentMatchId &&
                     x.Bettype == (int)MajorBetType.Handicap);
@@ -94,7 +92,7 @@ public class BuildEventInfoServiceImp : BuildEventInfoService
 
         if (matchInfo.MinorBettypeId == (int)MinorBetType.TotalBooking)
         {
-            assignment = assignments.FirstOrDefault(x => x.AssignmentType == (int)assignmentType &&
+            assignment = assignments.Find(x => x.AssignmentType == (int)assignmentType &&
                     x.MinorBettypeId == (int)MinorBetType.Specific15MinsTotalBookings &&
                     x.ParentMatchId == matchInfo.ParentMatchId &&
                     x.Bettype == (int)MajorBetType.Handicap);
@@ -111,11 +109,11 @@ public class BuildEventInfoServiceImp : BuildEventInfoService
     }
 
     private static string GetAssignmentNote(MatchAssignment assignment)
-        => assignment?.AssignmentNote?.Replace("<user>", assignment?.Username);
+        => assignment?.AssignmentNote?.Replace("<user>", assignment.Username);
 
     private static string GetSettingGeneratedOfMainMatch(List<MatchSetting> matchSettings, int owpMatchId, int minorBettype, bool isMaxbet)
     {
-        var matchSetting = matchSettings.FirstOrDefault(x => x.MinorBettypeId == minorBettype &&
+        var matchSetting = matchSettings.Find(x => x.MinorBettypeId == minorBettype &&
                 x.ParentMatchId == owpMatchId &&
                 x.Bettype == (int)MajorBetType.Handicap);
         return GetSettingValue(isMaxbet, matchSetting);
@@ -126,14 +124,14 @@ public class BuildEventInfoServiceImp : BuildEventInfoService
         var matchSetting = new MatchSetting();
         if (matchInfo.MinorBettypeId == (int)MinorBetType.NoOfCorner)
         {
-            matchSetting = matchSettings.FirstOrDefault(x => x.MinorBettypeId == (int)MinorBetType.Specific15MinsCorners &&
+            matchSetting = matchSettings.Find(x => x.MinorBettypeId == (int)MinorBetType.Specific15MinsCorners &&
                     x.ParentMatchId == matchInfo.ParentMatchId &&
                     x.Bettype == (int)MajorBetType.Handicap);
         }
 
         if (matchInfo.MinorBettypeId == (int)MinorBetType.TotalBooking)
         {
-            matchSetting = matchSettings.FirstOrDefault(x => x.MinorBettypeId == (int)MinorBetType.Specific15MinsTotalBookings &&
+            matchSetting = matchSettings.Find(x => x.MinorBettypeId == (int)MinorBetType.Specific15MinsTotalBookings &&
                     x.ParentMatchId == matchInfo.ParentMatchId &&
                     x.Bettype == (int)MajorBetType.Handicap);
         }

@@ -28,26 +28,11 @@ public class MatchContainsAnyLeagueItemRule : TruthRule
             return base.Execute(leagueCondition, matchCondition);
         }
 
-        foreach (var setting in leagueCondition)
-        {
-            var isFulfillCondition = 0;
+        var isFulfillCondition = leagueCondition.ToList().Exists(x => x.Type == Constant.ContainsCondition
+                ? matchCondition.IsContains(x.Value)
+                : matchCondition.Equals(x.Value, StringComparison.OrdinalIgnoreCase));
 
-            if (setting.Type == Constant.ContainsCondition)
-            {
-                isFulfillCondition = matchCondition.IsContains(setting.Value) ? 1 : 0;
-            }
-            else
-            {
-                isFulfillCondition = matchCondition.Equals(setting.Value, StringComparison.OrdinalIgnoreCase) ? 1 : 0;
-            }
-
-            if (isFulfillCondition == 1)
-            {
-                return 1;
-            }
-        }
-
-        return 0;
+        return isFulfillCondition ? 1 : 0;
     }
 }
 

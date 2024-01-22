@@ -10,7 +10,7 @@ namespace OWP.Event.LiveGameAssignment.EventPicking.Model;
 
 public class MatchExportingNewFormat
 {
-    private static readonly DateTime MinDate = new DateTime(2000, 1, 1);
+    private static readonly DateTimeOffset MinDate = new(2000, 1, 1, 0, 0, 0, TimeSpan.Zero);
 
     public void SetMatchInfo(EventInfo eventInfo)
     {
@@ -135,13 +135,13 @@ public class MatchExportingNewFormat
         Provider = string.Empty;
         LocalTV = string.Empty;
         LiveTV = string.Empty;
-        GameDate = DateTimeConverter.ConvertTimeToUTC8(childMatch.game_date.GetValueOrDefault(MinDate));
+        GameDate = DateTimeConverter.ConvertTimeToUTC8(childMatch.game_date.GetValueOrDefault(MinDate.DateTime));
         Agent = string.Empty;
         website1 = string.Empty;
         website2 = string.Empty;
         website3 = string.Empty;
         website4 = string.Empty;
-        game_date = GameDate.ToString();
+        game_date = GameDate.ToString("g");
         OutSide = string.Empty;
     }
 
@@ -177,7 +177,7 @@ public class MatchExportingNewFormat
     public string MatchStatus { get; set; }
 
     [Cell("C2")]
-    public string EventDate => GameDate.Date.ToString();
+    public string EventDate => GameDate.Date.ToString("g");
 
     [Cell("D2")]
     public string Time => GameDate.ToString("hh:mm tt");

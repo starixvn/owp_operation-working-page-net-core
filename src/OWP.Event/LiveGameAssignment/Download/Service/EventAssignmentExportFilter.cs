@@ -4,7 +4,6 @@ using OWP.Extensions;
 namespace OWP.Event.LiveGameAssignment.Download.Service;
 
 using OWP.Event.EventShared.Enum;
-using OWP.Event.LiveGameAssignment;
 using OWP.Event.LiveGameAssignment.Models;
 using System;
 using System.Collections.Generic;
@@ -86,12 +85,44 @@ public class EventAssignmentExportFilterImp : EventAssignmentExportFilter
 
     public List<EventModel> FilterMatchesByTimeRange(List<EventModel> matches)
     {
-        var dateTime = DateTime.Now.ToGmt8();
+        var dateTime = DateTime.Now.ToGmt8(); // NOSONAR
         var timeRange = dateTime.TimeRangeOfDate();
 
-        return matches.Where(m => timeRange.CheckMatch(m.EventDateTime).IsMatchInTimeRange)
-            .ToList();
+        return matches.Where(m => timeRange.CheckMatch(m.EventDateTime).IsMatchInTimeRange).ToList();
     }
+
+    //public List<EventModel> FilterEventModelByUser(List<EventModel> events, string username)
+    //{
+    //    if (string.IsNullOrEmpty(username))
+    //    {
+    //        return events;
+    //    }
+
+    //    return events.Where(
+    //        e =>
+    //            e.Assignments.OneXTwo.MainTrader == username
+    //            || e.Assignments.OneXTwo.OtherTraders.Contains('#' + username)
+    //            || e.Assignments.FM.MainTrader == username
+    //            || e.Assignments.FM.OtherTraders.Contains('#' + username)
+    //            || e.Assignments.AIO.MainTrader == username
+    //            || e.Assignments.AIO.OtherTraders.Contains('#' + username)
+    //            || e.Assignments.Handicap.MainTrader == username
+    //            || e.Assignments.Handicap.OtherTraders.Contains('#' + username)
+    //            || e.Assignments.Handicap1st.MainTrader == username
+    //            || e.Assignments.Handicap1st.OtherTraders.Contains('#' + username)
+    //            || e.Assignments.OverUnder.MainTrader == username
+    //            || e.Assignments.OverUnder.OtherTraders.Contains('#' + username)
+    //            || e.Assignments.OverUnder1st.MainTrader == username
+    //            || e.Assignments.OverUnder1st.OtherTraders.Contains('#' + username)
+    //            || e.Assignments.OneXTwo1st.MainTrader == username
+    //            || e.Assignments.OneXTwo1st.OtherTraders.Contains('#' + username)
+    //            || e.Assignments.Specific15Mins.MainTrader == username
+    //            || e.Assignments.Specific15Mins.OtherTraders.Contains('#' + username)
+    //            || e.Assignments.Specific10Mins.MainTrader == username
+    //            || e.Assignments.Specific10Mins.OtherTraders.Contains('#' + username)
+    //            || e.Assignments.LA2nd.MainTrader == username
+    //            || e.Assignments.LA2nd.OtherTraders.Contains('#' + username)).ToList();
+    //}
 
     public List<EventModel> FilterEventModelByUser(List<EventModel> events, string username)
     {
@@ -100,31 +131,37 @@ public class EventAssignmentExportFilterImp : EventAssignmentExportFilter
             return events;
         }
 
-        return events.Where(
-            e =>
-                e.Assignments.OneXTwo.MainTrader == username
-                || e.Assignments.OneXTwo.OtherTraders.Contains('#' + username)
-                || e.Assignments.FM.MainTrader == username
-                || e.Assignments.FM.OtherTraders.Contains('#' + username)
-                || e.Assignments.AIO.MainTrader == username
-                || e.Assignments.AIO.OtherTraders.Contains('#' + username)
-                || e.Assignments.Handicap.MainTrader == username
-                || e.Assignments.Handicap.OtherTraders.Contains('#' + username)
-                || e.Assignments.Handicap1st.MainTrader == username
-                || e.Assignments.Handicap1st.OtherTraders.Contains('#' + username)
-                || e.Assignments.OverUnder.MainTrader == username
-                || e.Assignments.OverUnder.OtherTraders.Contains('#' + username)
-                || e.Assignments.OverUnder1st.MainTrader == username
-                || e.Assignments.OverUnder1st.OtherTraders.Contains('#' + username)
-                || e.Assignments.OneXTwo1st.MainTrader == username
-                || e.Assignments.OneXTwo1st.OtherTraders.Contains('#' + username)
-                || e.Assignments.Specific15Mins.MainTrader == username
-                || e.Assignments.Specific15Mins.OtherTraders.Contains('#' + username)
-                || e.Assignments.Specific10Mins.MainTrader == username
-                || e.Assignments.Specific10Mins.OtherTraders.Contains('#' + username)
-                || e.Assignments.LA2nd.MainTrader == username
-                || e.Assignments.LA2nd.OtherTraders.Contains('#' + username)).ToList();
+        return events
+            .Where(e => AssignmentContainsTrader(e.Assignments, username))
+            .ToList();
     }
+
+    private static bool AssignmentContainsTrader(AssignmentModel assignments, string username)
+    {
+        foreach (var property in typeof(AssignmentModel).GetProperties())
+        {
+            var assignmentItem = property.GetValue(assignments);
+            if (assignmentItem is int)
+            {
+                continue;
+            }
+            var mainTraderValue = GetPropertyValue(assignmentItem, "MainTrader")?.ToString();
+            var otherTradersValue = GetPropertyValue(assignmentItem, "OtherTraders")?.ToString();
+
+            if (mainTraderValue == username || otherTradersValue?.Contains('#' + username) == true)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static object GetPropertyValue(object obj, string propertyName)
+    {
+        return obj.GetType().GetProperty(propertyName)?.GetValue(obj);
+    }
+
 
     private List<EventModel> FilterEventByOffVRs(List<EventModel> events, string offVRs)
     {

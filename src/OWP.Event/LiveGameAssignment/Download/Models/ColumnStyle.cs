@@ -1,14 +1,13 @@
-﻿using OWP.Extensions;
-
-namespace OWP.Event.LiveGameAssignment.Download.Models;
+﻿namespace OWP.Event.LiveGameAssignment.Download.Models;
 
 using NPOI.SS.UserModel;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Drawing;
 
 public static class ColumnStyle
 {
-    public static readonly Dictionary<ColumnName, Color> BackgroundColorMap = new Dictionary<ColumnName, Color>
+    public static readonly ImmutableDictionary<ColumnName, Color> BackgroundColorMap = new Dictionary<ColumnName, Color>
     {
         {ColumnName.No, Color.Black},
         {ColumnName.MatchStatus, Color.Black},
@@ -77,9 +76,9 @@ public static class ColumnStyle
         {ColumnName.Spread_XMins, Color.FromArgb(204, 204, 255)},
         {ColumnName.MaxBet_FM, Color.FromArgb(204, 204, 255)},
         {ColumnName.Spread_FM, Color.FromArgb(204, 204, 255)}
-    };
+    }.ToImmutableDictionary();
 
-    public static readonly Dictionary<ColumnName, IndexedColors> FontColorMap = new Dictionary<ColumnName, IndexedColors>
+    public static readonly ImmutableDictionary<ColumnName, IndexedColors> FontColorMap = new Dictionary<ColumnName, IndexedColors>
     {
         {ColumnName.No, IndexedColors.White},
         {ColumnName.MatchStatus, IndexedColors.White},
@@ -148,9 +147,9 @@ public static class ColumnStyle
         {ColumnName.Spread_XMins, IndexedColors.Black},
         {ColumnName.MaxBet_FM, IndexedColors.Black},
         {ColumnName.Spread_FM, IndexedColors.Black},
-    };
+    }.ToImmutableDictionary();
 
-    public static Color GetBackgroundColor(ColumnName name) => BackgroundColorMap.GetValue(name);
+    public static Color GetBackgroundColor(ColumnName name) => BackgroundColorMap.GetValueOrDefault(name);
 
-    public static IndexedColors GetFontColorColor(ColumnName name) => FontColorMap.GetValue(name);
+    public static IndexedColors GetFontColorColor(ColumnName name) => FontColorMap.GetValueOrDefault(name);
 }

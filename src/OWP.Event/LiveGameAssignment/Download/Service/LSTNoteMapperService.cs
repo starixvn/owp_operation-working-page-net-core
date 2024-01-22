@@ -52,7 +52,7 @@ public class LstNoteMapperServiceImp : LstNoteMapperService
     private async Task<Dictionary<string, List<LeagueSetting>>> GetLeagueSetting(GetLeagueSettingCriteria criteria)
     {
         var leagueSettings = await repository.GetLeagueSettings(criteria);
-        var leagueSettingsDic = leagueSettings.GroupBy(x => x.LeagueName.ToLower())
+        var leagueSettingsDic = leagueSettings.GroupBy(x => x.LeagueName.ToLowerInvariant())
             .Where(x => x.Any())
             .ToDictionary(x => x.Key, x => x.ToList());
 
@@ -108,8 +108,8 @@ public class LstNoteMapperServiceImp : LstNoteMapperService
         firstRule.SetSuccessor(secondRule);
         secondRule.SetSuccessor(thirdRule);
 
-        var liveTVResult = 0;
-        var localTVResult = 0;
+        int liveTVResult;
+        int localTVResult;
 
         if (leagueSettings.HasTV)
         {
@@ -123,8 +123,7 @@ public class LstNoteMapperServiceImp : LstNoteMapperService
             localTVResult = firstRule.Execute(emptyTVList, match.TVCode);
         }
 
-        result.TV = liveTVResult == 0 && localTVResult == 0 ? 0 : liveTVResult == 1 || localTVResult == 1 ? 1 : -1;
-
+        result.TV = liveTVResult == 1 || localTVResult == 1 ? 1 : 0;
         var leagueSettingCondition = leagueSettings.GetFullConditionDes();
 
         result.Round = firstRule.Execute(leagueSettingCondition.Rounds, match.Round);

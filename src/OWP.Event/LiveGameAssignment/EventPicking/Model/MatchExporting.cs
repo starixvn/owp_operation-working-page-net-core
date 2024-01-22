@@ -5,7 +5,7 @@ namespace OWP.Event.LiveGameAssignment.EventPicking.Model;
 
 public class MatchExporting
 {
-    private static readonly DateTime MinDate = new DateTime(2000, 1, 1);
+    private static readonly DateTimeOffset MinDate = new(2000, 1, 1, 0, 0, 0, TimeSpan.Zero);
 
     public MatchExporting(CommonMatchEx infositeMatch)
     {
@@ -80,15 +80,15 @@ public class MatchExporting
         Website = string.Empty;
         Note = string.Empty;
         Provider = string.Empty;
-        UpdatedTime = MinDate;
+        UpdatedTime = MinDate.DateTime;
 
         IsChecked = true;
-        GameDate = ConvertTimeToUTC8(childMatch.game_date.GetValueOrDefault(MinDate));
+        GameDate = ConvertTimeToUTC8(childMatch.game_date.GetValueOrDefault(MinDate.DateTime));
         Agent = string.Empty;
         parent_create_match_id = childMatch.ibc_match_id.ToString();
         home_remark = string.Empty;
         away_remark = string.Empty;
-        game_date = GameDate.ToString();
+        game_date = GameDate.ToString("g");
         op = string.Empty;
         lt_value = string.Empty;
         et_pk = string.Empty;
@@ -124,7 +124,9 @@ public class MatchExporting
         // Is link parent to child. if set true, this use for "child attribute follow parent when parent changed". BUT this function no implement due to requirement no need
         is_link = childMatch.is_link.ToString();
         // 0:Child League, 1:ExtraTime, 2:Penalty Handicap 3:Penalty Over-Under
-        league_type = childMatch.league_type.HasValue && childMatch.league_type.Value <= 3 ? new[] { "Child League", "ExtraTime", "Penalty Handicap", "Penalty Over-Under" }[childMatch.league_type.Value] : string.Empty;
+        league_type = childMatch.league_type.HasValue && childMatch.league_type.Value <= 3
+            ? new[] { "Child League", "ExtraTime", "Penalty Handicap", "Penalty Over-Under" }[childMatch.league_type.Value]
+            : string.Empty;
         // Is delete.
         is_delete = childMatch.is_delete.ToString();
     }
@@ -134,7 +136,7 @@ public class MatchExporting
     public bool IsChecked { get; set; }
 
     [Cell("A2")]
-    public string EventDate => GameDate.Date.ToString();
+    public string EventDate => GameDate.Date.ToString("g");
 
     [Cell("B2")]
     public string KickOffTime => GameDate.ToString("hh:mm tt");
@@ -362,7 +364,7 @@ public class MatchExporting
             ? infositeMatch.ext_info.game_date.Value
             : MinDate;
 
-        return ConvertTimeToUTC8(exInfoGameDate);
+        return ConvertTimeToUTC8(exInfoGameDate.DateTime);
     }
 
     private static DateTime GetUpdateTime(CommonMatchEx infositeMatch, SoccerEventSchedule extInfo)
@@ -370,7 +372,7 @@ public class MatchExporting
         var exInfoTime = extInfo.update_time.HasValue ? extInfo.update_time.Value : MinDate;
         var matchTime = infositeMatch.update_timestamp.HasValue ? infositeMatch.update_timestamp.Value : MinDate;
 
-        return exInfoTime > matchTime ? exInfoTime : matchTime;
+        return exInfoTime > matchTime ? exInfoTime.DateTime : matchTime.DateTime;
     }
 
     private static DateTime ConvertTimeToUTC8(DateTime date)

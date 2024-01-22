@@ -94,7 +94,7 @@ public class EventPickingOldController : ControllerBase
         var date = fromDate;
         while (date <= toDate)
         {
-            mainRawMatches.AddRange(pullingMainMatch.Query(settings.InfoSiteAPI, date, date, DateTime.Today.AddYears(-10)));
+            mainRawMatches.AddRange(pullingMainMatch.Query(settings.InfoSiteAPI, date, date, DateTime.Today.AddYears(-10))); //NOSONAR
             date = date.AddDays(1);
         }
 

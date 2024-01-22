@@ -1,19 +1,19 @@
 ﻿namespace OWP.Event.LiveGameAssignment.Download.Models;
 
+using NPOI.HSSF.Util;
+using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
 using OWP.Event.EventShared.Enum;
 using OWP.Event.LiveGameAssignment.Download.Extensions;
 using OWP.Extensions;
 using OWP.Utils;
-using NPOI.HSSF.Util;
-using NPOI.SS.UserModel;
-using NPOI.XSSF.UserModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 
-public abstract class TemplateWriter
+public abstract class TemplateWriter // NOSONAR
 {
     public abstract ISheet CustomizedSheet { get; }
 
@@ -38,8 +38,8 @@ public class AssignmentWriter : TemplateWriter
     private readonly ICellStyle matchStatusCellStyle;
     private const int startRow = 2;
     private const int headerRow = 1;
-    private readonly List<ColumnName> colorColumns = new List<ColumnName> { ColumnName.Time, ColumnName.League, ColumnName.Home, ColumnName.Away };
-    private readonly List<ColumnName> colorMatchStatus = new List<ColumnName> { ColumnName.MatchStatus };
+    private readonly List<ColumnName> colorColumns = new() { ColumnName.Time, ColumnName.League, ColumnName.Home, ColumnName.Away };
+    private readonly List<ColumnName> colorMatchStatus = new() { ColumnName.MatchStatus };
 
     public AssignmentWriter(int maxNote, DownLoadExportModel model)
     {
@@ -153,7 +153,7 @@ public class AssignmentWriter : TemplateWriter
 
     private string ConvertToString(string matchStatusIds)
     {
-        StringBuilder matchStatus = new StringBuilder("");
+        StringBuilder matchStatus = new("");
         foreach (var id in matchStatusIds)
         {
             if (id == ',')

@@ -78,23 +78,14 @@ public static class ExcelIO
     private static Expression WriteProp(TemplateWriter writer, Expression row, Expression obj, PropertyInfo prop)
     {
         var value = Expression.Property(obj, prop);
-        Expression result;
-
-        if (IsBasicType(prop.PropertyType))
-        {
-            result =
-                Expression.Call(
-                    Expression.Constant(writer),
-                    typeof(TemplateWriter).GetMethod("WriteColumns"),
-                    row,
-                    Expression.Constant(prop),
-                    Expression.Convert(value, typeof(object)));
-        }
-        else
-        {
-            result = WriteObj(writer, row, value, prop.PropertyType);
-        }
-
+        Expression result = IsBasicType(prop.PropertyType)
+            ? Expression.Call(
+                Expression.Constant(writer),
+                typeof(TemplateWriter).GetMethod("WriteColumns"),
+                row,
+                Expression.Constant(prop),
+                Expression.Convert(value, typeof(object)))
+            : WriteObj(writer, row, value, prop.PropertyType);
         return result;
     }
 
@@ -112,7 +103,7 @@ public static class ExcelIO
                 .Select(p => MapProp(reader, row, lambda, obj, p))
                 .Aggregate(assignExpression, Expression.Block);
 
-        return Expression.Block(new[] { obj }, concat, obj);
+        return Expression.Block(new[] { obj }, concat, obj); // NOSONAR
     }
 
     private static Expression MapProp(TemplateReader reader, Expression row, Expression lambda, Expression obj, PropertyInfo prop)

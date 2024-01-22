@@ -35,7 +35,7 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
         var validMatch = FilterAllMatchesByRequest(matches, request);
         if (turnoverMarginPolicy.IsRead)
         {
-            var turnOver_WinLoss = await tGRSService.GetTurnOverWinLoss(new GetTurnOverWinLossCriteria()
+            var turnOver_WinLoss = await tGRSService.GetTurnOverWinLoss(new GetTurnOverWinLossCriteria
             {
                 SportType = "Soccer",
                 FromDate = request.FromDate,

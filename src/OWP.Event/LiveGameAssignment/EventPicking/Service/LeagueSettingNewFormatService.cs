@@ -1,12 +1,12 @@
 ﻿namespace OWP.Event.LiveGameAssignment.EventPicking.Service;
 
 using AutoMapper;
-using OWP.Event.LiveGameAssignment.EventPicking;
 using OWP.Event.LiveGameAssignment.EventPicking.Criteria;
 using OWP.Event.LiveGameAssignment.EventPicking.Model;
 using OWP.Utils;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -63,7 +63,7 @@ public class LeagueSettingNewFormatServiceImp : LeagueSettingNewFormatService
     private static void SyncMaxbetToInfoSiteMatch(MatchExportingNewFormat match, IList<LeagueSetting> leagueSettings, IEnumerable<Condition> tvList)
     {
         var truthTables = new List<TruthTable>();
-        var eventDateTime = DateTime.SpecifyKind(DateTime.Parse(match.game_date), DateTimeKind.Utc).AddHours(-4);
+        var eventDateTime = DateTime.SpecifyKind(DateTime.Parse(match.game_date, CultureInfo.InvariantCulture), DateTimeKind.Utc).AddHours(-4);
         var isWK = eventDateTime.DayOfWeek == DayOfWeek.Saturday || eventDateTime.DayOfWeek == DayOfWeek.Sunday;
 
         foreach (var setting in leagueSettings)
@@ -162,8 +162,8 @@ public class LeagueSettingNewFormatServiceImp : LeagueSettingNewFormatService
         firstRule.SetSuccessor(secondRule);
         secondRule.SetSuccessor(thirdRule);
 
-        var liveTVResult = 0;
-        var localTVResult = 0;
+        int liveTVResult;
+        int localTVResult;
 
         if (leagueSettings.HasTV)
         {
@@ -177,7 +177,7 @@ public class LeagueSettingNewFormatServiceImp : LeagueSettingNewFormatService
             localTVResult = firstRule.Execute(emptyTVList, match.LocalTV);
         }
 
-        result.TV = liveTVResult == 0 && localTVResult == 0 ? 0 : liveTVResult == 1 || localTVResult == 1 ? 1 : -1;
+        result.TV = liveTVResult == 1 || localTVResult == 1 ? 1 : 0;
 
         var leagueSettingCondition = leagueSettings.GetFullConditionDes();
 

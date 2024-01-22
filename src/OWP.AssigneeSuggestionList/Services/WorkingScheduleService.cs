@@ -1,7 +1,7 @@
-using System.Reflection;
 using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Helper;
 using OWP.AssigneeSuggestionList.Models;
+using System.Reflection;
 
 namespace OWP.AssigneeSuggestionList.Services;
 
@@ -68,27 +68,21 @@ public class WorkingScheduleServiceImp : WorkingScheduleService
 
             if (index == propertiesLength - 1)
             {
-                if (updateModel.EtPk.IsHasEtPk)
-                {
-                    UpdatePropertyValue(propertyInfo, schedule, new AssignmentCell
+                UpdatePropertyValue(propertyInfo, schedule, updateModel.EtPk.IsHasEtPk
+                    ? new AssignmentCell
                     {
                         Text = updateModel.EtPk.EtPkValue,
                         Color = ColorCodeConst.ET_PK,
                         TextColor = ColorCodeConst.TEXT_ET_PK,
                         KoAssignment = updateModel.TimeRange.startDate
-                    });
-                }
-                else
-                {
-                    UpdatePropertyValue(propertyInfo, schedule, new AssignmentCell
+                    }
+                    : new AssignmentCell
                     {
                         Text = string.Empty,
                         Color = assignmentCell.Color,
                         TextColor = assignmentCell.TextColor,
                         KoAssignment = updateModel.TimeRange.startDate
                     });
-
-                }
             }
         }
     }
