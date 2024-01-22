@@ -18,7 +18,7 @@ using OWP.Models;
 using OWP.Services;
 using System.Configuration;
 
-[Route("api/event-picking-old")]
+[Route("api/event-assignment/event-picking-old")]
 [ApiController]
 [EnableCors]
 [AllowAnonymous]

@@ -18,7 +18,7 @@ using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
 
-[Route("api/event")]
+[Route("api/event-assignment/export")]
 [ApiController]
 [EnableCors]
 [AllowAnonymous]
