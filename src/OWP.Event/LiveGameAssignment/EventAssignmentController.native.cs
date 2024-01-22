@@ -12,6 +12,8 @@ using Models;
 using Newtonsoft.Json;
 using OWP.Event.LiveGameAssignment.Download.Service;
 using OWP.Event.LiveGameAssignment.Services;
+using OWP.RabbitMQ;
+using OWP.RabbitMQ.Constants;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -22,21 +24,21 @@ using System.Threading.Tasks;
 public class EventAssignmentController : ControllerBase
 {
     private readonly LiveGameAssignmentRepository repository;
-    //private readonly NotificationService notificationService;
+    private readonly MessageClient messageClient;
     private readonly EventAssignmentPermission eventAssignmentPermission;
     private readonly GetAdminSiteMatchIdService getAdminSiteMatchIdService;
     private readonly SyncOffVRService syncOffVrService;
     private readonly IEventAssignmentService service;
 
     public EventAssignmentController(LiveGameAssignmentRepository repository,
-        //NotificationService notificationService,
+        MessageClient messageClient,
         EventAssignmentPermission eventAssignmentPermission,
         GetAdminSiteMatchIdService getAdminSiteMatchIdService,
         IEventAssignmentService service,
         SyncOffVRService syncOffVrService)
     {
         this.repository = repository;
-        //this.notificationService = notificationService;
+        this.messageClient = messageClient;
         this.eventAssignmentPermission = eventAssignmentPermission;
         this.getAdminSiteMatchIdService = getAdminSiteMatchIdService;
         this.syncOffVrService = syncOffVrService;
@@ -126,7 +128,7 @@ public class EventAssignmentController : ControllerBase
         if (result.IsSuccess)
         {
             var sessionId = result.Data as string;
-            //await notificationService.Notify(sessionId);
+            messageClient.SendMessage(new { SessionId = sessionId }, RoutingKey.LiveDetail);
         }
 
         return Ok(result);
