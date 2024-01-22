@@ -1,11 +1,13 @@
 ﻿using Olympus.SimpleDataApi;
 using OWP.SimpleDataApi.Criteria.LeagueManagement;
 using OWP.SimpleDataApi.Criteria.LiveDetail;
+using OWP.SimpleDataApi.Criteria.LiveGameAssignment;
 using OWP.SimpleDataApi.Criteria.OsLeagueSetting;
 using OWP.SimpleDataApi.Criteria.PreMatchAssignment;
 using OWP.SimpleDataApi.Criteria.TicketCenter;
 using OWP.SimpleDataApi.Criteria.TicketSetting;
 using OWP.SimpleDataApi.Criteria.UserManagement;
+using OWP.SimpleDataApi.LiveGameAssignment.Criteria;
 
 namespace OWP.SimpleDataApi;
 
@@ -19,6 +21,7 @@ public class SimpleCriteriaFactoryImp : SimpleCriteriaFactoryBase
         RegisterLiveDetail();
         RegisterPreMatchAssignment();
         RegisterUserManagement();
+        RegisterLiveGameAssignment();
     }
 
     private static void RegisterLiveDetail()
@@ -106,5 +109,14 @@ public class SimpleCriteriaFactoryImp : SimpleCriteriaFactoryBase
     {
         CriteriaTypes.Add(ConstantApiKey.GetUserChangeFromAdminSite, typeof(GetUserSyncModelsCriteria));
         CriteriaTypes.Add(ConstantApiKey.SyncUserChangeFromAdminSite, typeof(SyncUsersCriteria));
+    }
+
+    private static void RegisterLiveGameAssignment()
+    {
+        CriteriaTypes.Add(ConstantApiKey.GetBettypeForTradingInfo, typeof(GetBettypeForTradingInfoCriteria));
+
+        CriteriaTypes.Add(ConstantApiKey.GetBettypeForSpecialEvent, typeof(GetBettypeForSpecialEventCriteria));
+
+        CriteriaTypes.Add(ConstantApiKey.GetSpecialEventTemplate, typeof(GetSpecialEventTemplateCriteria));
     }
 }

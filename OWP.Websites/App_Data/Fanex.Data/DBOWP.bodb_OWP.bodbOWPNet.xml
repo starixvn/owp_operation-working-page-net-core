@@ -284,25 +284,6 @@
         <Setting Key="OWP_OSLeagueSetting_GetLeagueSettingByLeagueName" SpName="OWP_OSLeagueSetting_GetLeagueSettingByLeagueName" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_OSLeagueSetting_GetLogSetting" SpName="OWP_OSLeagueSetting_GetLogSetting" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
     </Function>
-    <Function Name="EventAssignment">
-        <Setting Key="OWP_MatchListDetailsGet" SpName="OWP_MatchListDetailsGet" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-        <Setting Key="OWP_EventAssignment_GetUser" SpName="OWP_EventAssignment_GetUser" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-        <Setting Key="OWP_LiveGameAssignment_Query" SpName="OWP_LiveGameAssignment_Query" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-        <Setting Key="OWP_LiveGameAssignment_ValidateToAddEvent" SpName="OWP_LiveGameAssignment_ValidateToAddEvent" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-        <Setting Key="OWP_LiveGameAssignment_GetSpecialEventTemplate" SpName="OWP_LiveGameAssignment_GetSpecialEventTemplate" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-        <Setting Key="OWP_LiveGameAssignment_AddMinorMatch" SpName="OWP_LiveGameAssignment_AddMinorMatch" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-        <Setting Key="OWP_LiveGameAssignment_AddMainMatch" SpName="OWP_LiveGameAssignment_AddMainMatch" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-        <Setting Key="OWP_LiveGameAssignment_GetBettypeForTradingInfo" SpName="OWP_LiveGameAssignment_GetBettypeForTradingInfo" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-        <Setting Key="OWP_LiveGameAssignment_GetInfoSiteMatch" SpName="OWP_LiveGameAssignment_GetInfoSiteMatch" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-        <Setting Key="OWP_LiveGameAssignment_GetBettypeForSpecialEvent" SpName="OWP_LiveGameAssignment_GetBettypeForSpecialEvent" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-        <Setting Key="OWP_LiveGameAssignment_AddMatchSetting" SpName="OWP_LiveGameAssignment_AddMatchSetting" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-        <Setting Key="OWP_LiveGameAssignment_AddMatchRecommendOdds" SpName="OWP_LiveGameAssignment_AddMatchRecommendOdds" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-        <Setting Key="OWP_LiveGameAssignment_ValidateToEditEvent" SpName="OWP_LiveGameAssignment_ValidateToEditEvent" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-        <Setting Key="OWP_LiveGameAssignment_EditMainMatch" SpName="OWP_LiveGameAssignment_EditMainMatch" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-        <Setting Key="OWP_LiveGameAssignment_EditMainMatchToMinorMatch" SpName="OWP_LiveGameAssignment_EditMainMatchToMinorMatch" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-        <Setting Key="OWP_LiveGameAssignment_GetLastUpdated" SpName="OWP_LiveGameAssignment_GetLastUpdated" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
-        <Setting Key="OWP_LiveGameAssignment_GetMatchStatusFromMainDB" SpName="OWP_LiveGameAssignment_GetMatchStatusFromMainDB" DbName="DBACC.bodb02.bodbAdminNet" />
-    </Function>
     <Function Name="Assignment">
         <Setting Key="OWP_Assignment_GetByMatchId" SpName="OWP_Assignment_GetByMatchId" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
         <Setting Key="OWP_Assignment_Update" SpName="OWP_Assignment_Update" DbName="DBOWP.bodb_OWP.bodbOWPNet" />
