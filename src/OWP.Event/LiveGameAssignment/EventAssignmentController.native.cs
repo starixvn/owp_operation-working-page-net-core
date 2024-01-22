@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Newtonsoft.Json;
+using OWP.Event.LiveGameAssignment.Download.Service;
 using OWP.Event.LiveGameAssignment.Services;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,11 +26,13 @@ public class EventAssignmentController : ControllerBase
     private readonly EventAssignmentPermission eventAssignmentPermission;
     private readonly GetAdminSiteMatchIdService getAdminSiteMatchIdService;
     private readonly SyncOffVRService syncOffVrService;
+    private readonly IEventAssignmentService service;
 
     public EventAssignmentController(LiveGameAssignmentRepository repository,
         //NotificationService notificationService,
         EventAssignmentPermission eventAssignmentPermission,
         GetAdminSiteMatchIdService getAdminSiteMatchIdService,
+        IEventAssignmentService service,
         SyncOffVRService syncOffVrService)
     {
         this.repository = repository;
@@ -37,6 +40,7 @@ public class EventAssignmentController : ControllerBase
         this.eventAssignmentPermission = eventAssignmentPermission;
         this.getAdminSiteMatchIdService = getAdminSiteMatchIdService;
         this.syncOffVrService = syncOffVrService;
+        this.service = service;
     }
 
     [HttpPost("")]
@@ -83,6 +87,15 @@ public class EventAssignmentController : ControllerBase
         });
 
         return Ok(JsonConvert.SerializeObject(eventModels));
+    }
+
+    [Route("get-last-updated")]
+    [HttpGet]
+    [NapAuth(FunctionKey = FunctionKeys.LiveGameAssignment, Policy = Constant.Policy.Read)]
+    public async Task<IActionResult> GetLastUpdate(DateTime date)
+    {
+        var result = await service.GetLastUpdated(date);
+        return Ok(JsonConvert.SerializeObject(result));
     }
 
     [Route("add-event")]
