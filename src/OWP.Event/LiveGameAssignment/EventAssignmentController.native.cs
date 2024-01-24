@@ -58,11 +58,6 @@ public class EventAssignmentController : ControllerBase
 
         await repository.DetectEventHasTicket(eventModels);
 
-        if (queryModel.ShowUnreadMessage)
-        {
-            eventModels = eventModels.Where(e => e.IsRead.HasValue && !e.IsRead.Value)?.ToList();
-        }
-
         foreach (var match in eventModels)
         {
             var infoSite = infoSiteTimeResult.FirstOrDefault(x => x.ParentMatchId == match.ParentMatchId);

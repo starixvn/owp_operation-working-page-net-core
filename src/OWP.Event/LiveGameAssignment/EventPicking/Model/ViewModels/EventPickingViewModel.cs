@@ -69,48 +69,4 @@ public class EventPickingViewModel : Pagination
     }
 
     public List<string> ErrorMessages { get; set; }
-
-    public bool IsValid()
-    {
-        var isValid = true;
-
-        CheckKickOffTime(ref isValid);
-        CheckMaxBet(ref isValid);
-        CheckSpread(ref isValid);
-
-        return isValid;
-    }
-
-    private void CheckKickOffTime(ref bool isValid)
-    {
-        if (!FromTime.HasValue && ToTime.HasValue
-            || FromTime.HasValue && !ToTime.HasValue
-            || FromTime.HasValue && ToTime.HasValue && DateTime.Compare(FromTime.Value, ToTime.Value) > 0)
-        {
-            ErrorMessages.Add("'From Kick Off Time' must be less than or equal to 'To Kick Off Time'");
-            isValid = false;
-        }
-    }
-
-    private void CheckMaxBet(ref bool isValid)
-    {
-        if (!FromMaxBet.HasValue && ToMaxBet.HasValue
-            || FromMaxBet.HasValue && !ToMaxBet.HasValue
-            || FromMaxBet.HasValue && ToMaxBet.HasValue && FromMaxBet.Value > ToMaxBet.Value)
-        {
-            ErrorMessages.Add("'From Max Bet' must be less than or equal to 'To Max Bet'");
-            isValid = false;
-        }
-    }
-
-    private void CheckSpread(ref bool isValid)
-    {
-        if (!FromSpread.HasValue && ToSpread.HasValue
-            || FromSpread.HasValue && !ToSpread.HasValue
-            || FromSpread.HasValue && ToSpread.HasValue && FromSpread.Value > ToSpread.Value)
-        {
-            ErrorMessages.Add("'From Spread' must be less than or equal to 'To Spread'");
-            isValid = false;
-        }
-    }
 }
