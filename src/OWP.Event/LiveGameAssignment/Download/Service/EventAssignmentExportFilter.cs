@@ -91,40 +91,7 @@ public class EventAssignmentExportFilterImp : EventAssignmentExportFilter
         return matches.Where(m => timeRange.CheckMatch(m.EventDateTime).IsMatchInTimeRange).ToList();
     }
 
-    //public List<EventModel> FilterEventModelByUser(List<EventModel> events, string username)
-    //{
-    //    if (string.IsNullOrEmpty(username))
-    //    {
-    //        return events;
-    //    }
-
-    //    return events.Where(
-    //        e =>
-    //            e.Assignments.OneXTwo.MainTrader == username
-    //            || e.Assignments.OneXTwo.OtherTraders.Contains('#' + username)
-    //            || e.Assignments.FM.MainTrader == username
-    //            || e.Assignments.FM.OtherTraders.Contains('#' + username)
-    //            || e.Assignments.AIO.MainTrader == username
-    //            || e.Assignments.AIO.OtherTraders.Contains('#' + username)
-    //            || e.Assignments.Handicap.MainTrader == username
-    //            || e.Assignments.Handicap.OtherTraders.Contains('#' + username)
-    //            || e.Assignments.Handicap1st.MainTrader == username
-    //            || e.Assignments.Handicap1st.OtherTraders.Contains('#' + username)
-    //            || e.Assignments.OverUnder.MainTrader == username
-    //            || e.Assignments.OverUnder.OtherTraders.Contains('#' + username)
-    //            || e.Assignments.OverUnder1st.MainTrader == username
-    //            || e.Assignments.OverUnder1st.OtherTraders.Contains('#' + username)
-    //            || e.Assignments.OneXTwo1st.MainTrader == username
-    //            || e.Assignments.OneXTwo1st.OtherTraders.Contains('#' + username)
-    //            || e.Assignments.Specific15Mins.MainTrader == username
-    //            || e.Assignments.Specific15Mins.OtherTraders.Contains('#' + username)
-    //            || e.Assignments.Specific10Mins.MainTrader == username
-    //            || e.Assignments.Specific10Mins.OtherTraders.Contains('#' + username)
-    //            || e.Assignments.LA2nd.MainTrader == username
-    //            || e.Assignments.LA2nd.OtherTraders.Contains('#' + username)).ToList();
-    //}
-
-    public List<EventModel> FilterEventModelByUser(List<EventModel> events, string username)
+    public static List<EventModel> FilterEventModelByUser(List<EventModel> events, string username)
     {
         if (string.IsNullOrEmpty(username))
         {

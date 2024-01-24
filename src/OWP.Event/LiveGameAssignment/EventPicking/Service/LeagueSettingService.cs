@@ -56,7 +56,7 @@ public class LeagueSettingServiceImp : LeagueSettingService
     private async Task<Dictionary<string, List<LeagueSetting>>> GetLeagueSetting(GetLeagueSettingCriteria criteria)
     {
         var leagueSettings = await repository.GetLeagueSettings(criteria);
-        var leagueSettingsDic = leagueSettings.GroupBy(x => x.LeagueName.ToLower())
+        var leagueSettingsDic = leagueSettings.GroupBy(x => x.LeagueName.ToLowerInvariant())
             .Where(x => x.Any())
             .ToDictionary(x => x.Key, x => x.ToList());
 

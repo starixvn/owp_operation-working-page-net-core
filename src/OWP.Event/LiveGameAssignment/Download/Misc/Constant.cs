@@ -7,7 +7,7 @@ public static class Constant
 {
     public const string EqualsCondition = "Equals";
     public const string ContainsCondition = "Contains";
-    public static readonly Dictionary<int, string> StreamNameSrc1InfoSite = new()
+    public static readonly ImmutableDictionary<int, string> StreamNameSrc1InfoSite = new Dictionary<int, string>
     {
         {0, string.Empty },
         {4, "Spanish"},
@@ -21,7 +21,7 @@ public static class Constant
         {18, "Weverdat"},
         {19, "CloundRock"},
         {20, "LiveStreamer"}
-    };
+    }.ToImmutableDictionary();
 
     public static readonly ImmutableDictionary<int, string> StreamNameSrc2InfoSite = new Dictionary<int, string>
     {
