@@ -22,16 +22,7 @@ var services = builder.Services;
 var configuration = builder.Configuration;
 
 // Add services to the container.
-services.AddCors(options =>
-{
-    options.AddDefaultPolicy(policy =>
-        {
-            policy.WithOrigins("http://localhost:64193")
-                .AllowAnyHeader()
-                .AllowAnyMethod()
-                .AllowCredentials();
-        });
-});
+
 
 services.AddControllerAuthorization();
 services.AddCookieAuthentication(configuration);
@@ -52,6 +43,8 @@ services.AddMediator();
 services.AddAutoMapper();
 services.AddInternalServices();
 services.AddRabbitMQ();
+services.AddCorsPolicy();
+
 services.AddControllersWithViews(options =>
 {
     options.Filters.Add(new ServiceFilterAttribute(typeof(CheckUMFilterAttribute)));
@@ -65,7 +58,7 @@ app.UseDeveloperExceptionPage();
 app.UseTicketPathStaticFiles();
 app.UseRouting();
 
-app.UseCors();
+app.UseCors("CORSPolicy");
 
 app.UseCookiePolicy();
 app.UseSession();
