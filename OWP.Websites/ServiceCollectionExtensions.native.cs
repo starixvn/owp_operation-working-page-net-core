@@ -141,10 +141,9 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddCorsPolicy(this IServiceCollection services)
     {
-
-        services.AddCors(options =>
+        static void corsPolicy(CorsPolicyBuilder builder)
         {
-            options.AddPolicy("CORSPolicy", builder => builder.WithOrigins("https://localhost:44380",
+            builder.WithOrigins("https://localhost:44380",
                                 "https://localhost:64193",
                                 "http://localhost:64193",
                                 "http://localhost:57420",
@@ -165,7 +164,11 @@ public static class ServiceCollectionExtensions
                                 )
                   .AllowAnyMethod()
                   .AllowAnyHeader()
-                  .AllowCredentials());
+                  .AllowCredentials();
+        }
+        services.AddCors(options =>
+        {
+            options.AddPolicy("AllowOrigin", corsPolicy);
         });
 
         return services;

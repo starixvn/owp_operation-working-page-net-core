@@ -40,7 +40,7 @@ public class NotificationServiceImp : NotificationService
     public async Task NotifyNewMessageIncome(List<string> userIds)
     {
         await notifyMyTicket.Clients
-            .All
+            .Users(userIds)
             .NotifyNewMessageIncome();
     }
 
@@ -64,7 +64,7 @@ public class NotificationServiceImp : NotificationService
             .Users(userIds)
             .NotifyNewAddRecipientLga(owpMatchId, actorId);
     }
-
+    
     public async Task NotifyUserClickOnToast(int userId, int ticketId, int eventType)
     {
         await notifyMyTicket.Clients
