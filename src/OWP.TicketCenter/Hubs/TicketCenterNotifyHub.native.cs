@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using OWP.TicketCenter.ViewModels;
 
 namespace OWP.TicketCenter.Hubs;
 
 public interface TicketCenterNotifyHub
 {
-    Task NotifyNewMessageIncome();
+    Task NotifyNewMessageIncome(MessageDetailViewModel messageResponse);
 
     Task NotifyNewAddRecipient();
 
