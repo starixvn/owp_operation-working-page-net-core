@@ -59,7 +59,7 @@ public class InsertRecipientHandler : IRequestHandler<InsertSingleRecipientReque
         messageClient.SendMessage(request, RoutingKey.TicketCenterNewRecipient);
 
         var userIds = new List<string> { request.RecipientId.ToString() };
-        await notificationService.NotifyNewAddRecipient(userIds);
+        await notificationService.NotifyNewAddRecipient(userIds, request.TicketInfo);
 
         if (request.TicketEventType == (int)EventType.LiveIncident)
         {

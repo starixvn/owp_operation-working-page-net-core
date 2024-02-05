@@ -1,13 +1,14 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using OWP.TicketCenter.Hubs;
 using OWP.TicketCenter.ViewModels;
+using OWP.TicketCenter.Models;
 
 namespace OWP.TicketCenter.Notification.Services;
 
 public interface NotificationService
 {
     Task NotifyNewMessageIncome(List<string> userIds, MessageDetailViewModel messageResponse = null);
-    Task NotifyNewAddRecipient(List<string> userIds);
+    Task NotifyNewAddRecipient(List<string> userIds, TicketInfo ticketInfo);
 
     Task NotifyChangeStatusIncome(int ticketId);
 
@@ -52,11 +53,11 @@ public class NotificationServiceImp : NotificationService
             .NotifyNewMessageLga(owpMatchId, actorId);
     }
 
-    public async Task NotifyNewAddRecipient(List<string> userIdsString)
+    public async Task NotifyNewAddRecipient(List<string> userIdsString, TicketInfo ticketInfo)
     {
         await notifyMyTicket.Clients
             .Users(userIdsString)
-            .NotifyNewAddRecipient();
+            .NotifyNewAddRecipient(ticketInfo);
     }
 
     public async Task NotifyNewAddRecipientLga(List<string> userIds, int owpMatchId, int actorId)
