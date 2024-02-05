@@ -12,6 +12,8 @@ public interface TicketCenterNotifyHub
 
     Task NotifyChangeStatusIncome();
 
+    Task NotifyChangeSubTypeIncome(int ticketId, int ticketSubTypeId, string ticketSubTypeName);
+
     Task NotifyUserOnClickToast(int ticketId, int eventType);
 
     Task NotifyNewMessageLga(int owpMatchId, int actorId);

@@ -8,11 +8,11 @@ namespace OWP.TicketCenter.Notification.Services;
 public interface NotificationService
 {
     Task NotifyNewMessageIncome(List<string> userIds, MessageDetailViewModel messageResponse = null);
-    Task NotifyNewAddRecipient(List<string> userIds, TicketInfo ticketInfo);
+    Task NotifyNewAddRecipient(List<string> userIds, TicketInfo ticketInfo = null);
 
     Task NotifyChangeStatusIncome(int ticketId);
 
-    Task NotifyChangeSubTypeIncome(int ticketId);
+    Task NotifyChangeSubTypeIncome(int ticketId, int ticketSubTypeId, string ticketSubTypeName);
 
     Task NotifyUserClickOnToast(int userId, int ticketId, int eventType);
 
@@ -89,13 +89,13 @@ public class NotificationServiceImp : NotificationService
             .NotifyChangeStatusIncome();
     }
 
-    public async Task NotifyChangeSubTypeIncome(int ticketId)
+    public async Task NotifyChangeSubTypeIncome(int ticketId, int ticketSubTypeId, string ticketSubTypeName)
     {
         var userIdsString = await GetUserIdsInStringByTicketId(ticketId);
 
         await notifyMyTicket.Clients
             .Users(userIdsString)
-            .NotifyChangeStatusIncome();
+            .NotifyChangeSubTypeIncome(ticketId, ticketSubTypeId, ticketSubTypeName);
         await notifyPreMatch.Clients
             .Users(userIdsString)
             .NotifyChangeStatusIncome();

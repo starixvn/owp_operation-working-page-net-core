@@ -8,6 +8,8 @@ namespace OWP.TicketCenter.Handlers;
 public class UpdateTicketSubTypeRequest : PermissionCheckedModel, IRequest<Unit>
 {
     public int TicketSubTypeId { get; set; }
+
+    public string TicketSubTypeName { get; set; }
 }
 
 public class UpdateTicketSubTypeHandler : IRequestHandler<UpdateTicketSubTypeRequest, Unit>
@@ -29,7 +31,7 @@ public class UpdateTicketSubTypeHandler : IRequestHandler<UpdateTicketSubTypeReq
             TicketSubTypeId = request.TicketSubTypeId
         });
 
-        await notificationService.NotifyChangeSubTypeIncome(request.TicketId);
+        await notificationService.NotifyChangeSubTypeIncome(request.TicketId, request.TicketSubTypeId, request.TicketSubTypeName);
 
         return Unit.Value;
     }
