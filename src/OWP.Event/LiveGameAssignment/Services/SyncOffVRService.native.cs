@@ -78,11 +78,10 @@ public class SyncOffVRServiceImp : SyncOffVRService
         {
             DateTime = now,
             RequestUri = requestUrl,
-            ex.Message,
-            BodyContent = body
+            ex.Message
         });
 
-        await Logger.Log.ErrorAsync($"Syn-Off-VR {logErrorString}");
+        await Logger.Log.ErrorAsync($"Syn-Off-VR {logErrorString} BodyContent: {body}");
     }
 
     private static async Task LogInfo(string requestUrl, string body, string response, DateTime now)
@@ -91,11 +90,10 @@ public class SyncOffVRServiceImp : SyncOffVRService
         {
             DateTime = now,
             RequestUri = requestUrl,
-            BodyContent = body,
             Response = response
         });
 
-        await Logger.Log.InfoAsync($"Syn-Off-VR {logInfoString}");
+        await Logger.Log.InfoAsync($"Syn-Off-VR {logInfoString} BodyContent: {body}");
     }
 }
 
