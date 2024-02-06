@@ -81,7 +81,7 @@ public class NewMessageHandler : IRequestHandler<NewMessageRequest, MessageDetai
         }
         if (IsEventCheckingType(request.TicketEventType))
         {
-            await preMatchNotification.NotifyToReloadTicketInPrematchTable(request.TicketId, request.TicketEventType, userIds);
+            await preMatchNotification.NotifyToReloadTicketInPrematchTable(request.TicketId, request.TicketEventType, userIds, messageResponse);
         }
     }
 

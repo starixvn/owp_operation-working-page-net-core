@@ -10,7 +10,11 @@ namespace OWP.TicketCenter.Notification.Services;
 
 public interface PreMatchNotificationService
 {
-    Task NotifyToReloadTicketInPrematchTable(int ticketId, int ticketType, List<string> userIdsInString);
+    Task NotifyToReloadTicketInPrematchTable(
+        int ticketId,
+         int ticketType,
+          List<string> userIdsInString,
+          MessageDetailViewModel messageResponse = null);
 }
 
 public class PreMatchNotificationServiceImp : PreMatchNotificationService
@@ -39,13 +43,13 @@ public class PreMatchNotificationServiceImp : PreMatchNotificationService
     {
         var isTicketLeague = ticketType is (int)EventType.League;
         var id = await repository.GetTicketInfoOfPreMatch(ticketId, isTicketLeague);
-        var tickets = await QueryPrematchTicket(id, ticketId, isTicketLeague);
+        var ticket = await QueryPrematchTicket(id, ticketId, isTicketLeague);
 
         // TODO
         await notifyPreMatch
             .Clients
             .All
-            .NotifyNewMessageIncome(id, isTicketLeague, new { tickets, messageResponse });
+            .NotifyNewMessageIncome(id, isTicketLeague, new { ticket, messageResponse });
     }
 
     private async Task<object> QueryPrematchTicket(int id, int ticketId, bool isTicketLeague)
