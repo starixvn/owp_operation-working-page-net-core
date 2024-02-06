@@ -1,4 +1,5 @@
 using AutoMapper;
+using Fanex.NAP.Client.Helpers.Web;
 using MediatR;
 using OWP.RabbitMQ;
 using OWP.RabbitMQ.Constants;
@@ -22,6 +23,8 @@ public class NewTicketIssueLiveIncidentRequest : NewTicketModelBase, IRequest<in
 
     public int? EventType => (int)Enum.EventType.LiveIncident;
 
+    public DateTime EventDateTimeGmt8 { get; set; }
+
 }
 
 public class NewTicketIssueLiveIncidentHandler : IRequestHandler<NewTicketIssueLiveIncidentRequest, int>
@@ -32,6 +35,7 @@ public class NewTicketIssueLiveIncidentHandler : IRequestHandler<NewTicketIssueL
     private readonly RecipientService recipientService;
     private readonly Repository repository;
     private readonly IMapper mapper;
+    private readonly INapSession currentSession;
 
     public NewTicketIssueLiveIncidentHandler(
         Repository repository,
@@ -39,7 +43,8 @@ public class NewTicketIssueLiveIncidentHandler : IRequestHandler<NewTicketIssueL
         NotificationService notificationService,
         RecipientService recipientService,
         MessageClient messageClient,
-        IMapper mapper)
+        IMapper mapper,
+        INapSession currentSession)
     {
         this.repository = repository;
         this.notificationService = notificationService;
@@ -47,6 +52,7 @@ public class NewTicketIssueLiveIncidentHandler : IRequestHandler<NewTicketIssueL
         this.messageClient = messageClient;
         this.messageService = messageService;
         this.mapper = mapper;
+        this.currentSession=currentSession;
     }
 
     public async Task<int> Handle(NewTicketIssueLiveIncidentRequest request, CancellationToken cancellationToken)
@@ -90,10 +96,32 @@ public class NewTicketIssueLiveIncidentHandler : IRequestHandler<NewTicketIssueL
         messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketLiveIncident);
 
         var userIds = await repository.GetUserIdsByTicketId(ticketId);
-        await notificationService.NotifyNewMessageIncome(userIds);
+
         await notificationService.NotifyNewMessageLga(userIds, request.OwpMatchId.Value, request.CreatorId);
 
-        await notificationService.NotifyNewAddRecipient(userIds);
+        var eventModel = await BuildModelTicket(request, ticketId);
+        await notificationService.NotifyNewAddRecipient(userIds, eventModel);
         await notificationService.NotifyNewAddRecipientLga(userIds, request.OwpMatchId.Value, request.CreatorId);
+    }
+
+    public async Task<TicketInfo> BuildModelTicket(NewTicketIssueLiveIncidentRequest request, int TicketId)
+    {
+        var lastComments = await repository.GetTwoLastComment(new List<int> { TicketId });
+
+        return new TicketInfo
+        {
+            TicketId = TicketId,
+            LeagueName = request.OwpLeagueName,
+            OwpLeagueName = request.OwpLeagueName,
+            Messages = lastComments.ToList(),
+            TicketStatus = "Open",
+            TypeName = request.TicketTypeName,
+            TicketSubTypeName = request.SubTypeName,
+            HomeName = request.OwpHomeName,
+            AwayName = request.OwpAwayName,
+            EventType = request.EventType ?? 0,
+            KoTime = request.EventDateTimeGmt8,
+            IsRead = currentSession.UserId == request.CreatorId,
+        };
     }
 }

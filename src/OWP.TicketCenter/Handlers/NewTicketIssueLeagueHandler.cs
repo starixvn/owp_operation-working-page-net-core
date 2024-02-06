@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Fanex.NAP.Client.Helpers.Web;
 using MediatR;
 using OWP.RabbitMQ;
 using OWP.RabbitMQ.Constants;
@@ -14,6 +15,8 @@ public class NewTicketIssueLeagueRequest : NewTicketModelBase, IRequest<int>
 {
     public int? OwpLeagueId { get; set; }
 
+    public string OwpLeagueName { get; set; }
+
     public int? EventType => (int)Enum.EventType.League;
 }
 
@@ -26,6 +29,7 @@ public class NewTicketIssueLeagueHandler : IRequestHandler<NewTicketIssueLeagueR
     private readonly Repository repository;
     private readonly PreMatchNotificationService preMatchNotification;
     private readonly IMapper mapper;
+    private readonly INapSession currentSession;
 
     public NewTicketIssueLeagueHandler(
         Repository repository,
@@ -34,7 +38,8 @@ public class NewTicketIssueLeagueHandler : IRequestHandler<NewTicketIssueLeagueR
         RecipientService recipientService,
         MessageClient messageClient,
         PreMatchNotificationService preMatchNotification,
-        IMapper mapper)
+        IMapper mapper,
+        INapSession currentSession)
     {
         this.repository = repository;
         this.messageService = messageService;
@@ -43,6 +48,7 @@ public class NewTicketIssueLeagueHandler : IRequestHandler<NewTicketIssueLeagueR
         this.messageClient = messageClient;
         this.preMatchNotification = preMatchNotification;
         this.mapper = mapper;
+        this.currentSession = currentSession;
     }
 
     public async Task<int> Handle(NewTicketIssueLeagueRequest request, CancellationToken cancellationToken)
@@ -70,7 +76,7 @@ public class NewTicketIssueLeagueHandler : IRequestHandler<NewTicketIssueLeagueR
         return ticketId;
     }
 
-    private async Task NotifyToUsers(NewTicketModelBase request, int ticketId, NewMessageRequestModel newMessage)
+    private async Task NotifyToUsers(NewTicketIssueLeagueRequest request, int ticketId, NewMessageRequestModel newMessage)
     {
         var notificationMessage = new MessageTransform
         {
@@ -81,9 +87,29 @@ public class NewTicketIssueLeagueHandler : IRequestHandler<NewTicketIssueLeagueR
         messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketLeague);
 
         var userIds = await repository.GetUserIdsByTicketId(ticketId);
-        await notificationService.NotifyNewMessageIncome(userIds);
-        await notificationService.NotifyNewAddRecipient(userIds);
+        var ticketModel =await BuildModelTicket(request, ticketId);
+        
+        await notificationService.NotifyNewAddRecipient(userIds, ticketModel);
 
         await preMatchNotification.NotifyToReloadTicketInPrematchTable(request.TicketId, request.TicketType, userIds);
+    }
+
+    public async Task<TicketInfo> BuildModelTicket(NewTicketIssueLeagueRequest request, int TicketId)
+    {
+        var lastComments = await repository.GetTwoLastComment(new List<int> { TicketId });
+
+        return new TicketInfo
+        {
+            TicketId = TicketId,
+            LeagueName = request.OwpLeagueName,
+            OwpLeagueName = request.OwpLeagueName,
+            Messages = lastComments.ToList(),
+            TicketStatus = "Open",
+            TypeName = request.TicketTypeName,
+            TicketSubTypeName = request.SubTypeName,
+            OwpLeagueId = request.OwpLeagueId,
+            EventType = request.EventType ?? 0,
+            IsRead = currentSession.UserId == request.CreatorId
+        };
     }
 }

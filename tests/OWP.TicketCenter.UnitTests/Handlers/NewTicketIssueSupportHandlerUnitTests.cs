@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Fanex.Data.Repository;
+using Fanex.NAP.Client.Helpers.Web;
 using NSubstitute;
 using OWP.RabbitMQ;
 using OWP.TicketCenter.Criteria;
@@ -34,14 +35,15 @@ public class NewTicketIssueSupportHandlerUnitTests
         recipientService = Substitute.For<RecipientService>();
         var messageClient = Substitute.For<MessageClient>();
         messageService = Substitute.For<MessageService>();
-
+        var session = Substitute.For<INapSession>();
         handler = new NewTicketIssueSupportHandler(
             repository,
             messageService,
             notificationService,
             recipientService,
             messageClient,
-            mapper
+            mapper,
+            session
         );
     }
 

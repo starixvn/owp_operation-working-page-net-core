@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Fanex.NAP.Client.Helpers.Web;
 using MediatR;
 using OWP.RabbitMQ;
 using OWP.RabbitMQ.Constants;
@@ -26,6 +27,7 @@ public class NewTicketIssueSupportHandler : IRequestHandler<NewTicketIssueSuppor
     private readonly RecipientService recipientService;
     private readonly Repository repository;
     private readonly IMapper mapper;
+    private readonly INapSession currentSession;
 
     public NewTicketIssueSupportHandler(
         Repository repository,
@@ -33,7 +35,8 @@ public class NewTicketIssueSupportHandler : IRequestHandler<NewTicketIssueSuppor
         NotificationService notificationService,
         RecipientService recipientService,
         MessageClient messageClient,
-        IMapper mapper)
+        IMapper mapper,
+        INapSession currentSession)
     {
         this.repository = repository;
         this.messageService = messageService;
@@ -41,6 +44,7 @@ public class NewTicketIssueSupportHandler : IRequestHandler<NewTicketIssueSuppor
         this.recipientService = recipientService;
         this.messageClient = messageClient;
         this.mapper = mapper;
+        this.currentSession = currentSession;
     }
 
     public async Task<int> Handle(NewTicketIssueSupportRequest request, CancellationToken cancellationToken)
@@ -68,7 +72,7 @@ public class NewTicketIssueSupportHandler : IRequestHandler<NewTicketIssueSuppor
         return ticketId;
     }
 
-    private async Task NotifyToUsers(NewTicketModelBase request, int ticketId, NewMessageRequestModel newMessage)
+    private async Task NotifyToUsers(NewTicketIssueSupportRequest request, int ticketId, NewMessageRequestModel newMessage)
     {
         var notificationMessage = new MessageTransform
         {
@@ -76,10 +80,28 @@ public class NewTicketIssueSupportHandler : IRequestHandler<NewTicketIssueSuppor
             Comment = newMessage.Message,
             ActorId = request.CreatorId
         };
+
         messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketSupport);
 
         var userIds = await repository.GetUserIdsByTicketId(request.TicketId);
-        await notificationService.NotifyNewMessageIncome(userIds);
-        await notificationService.NotifyNewAddRecipient(userIds);
+
+        var ticketModel = await BuildModelTicket(request, ticketId);
+
+        await notificationService.NotifyNewAddRecipient(userIds, ticketModel);
+    }
+    public async Task<TicketInfo> BuildModelTicket(NewTicketIssueSupportRequest request, int TicketId)
+    {
+        var lastComments = await repository.GetTwoLastComment(new List<int> { TicketId });
+
+        return new TicketInfo
+        {
+            TicketId = TicketId,
+            Subject = request.Subject,
+            Messages = lastComments.ToList(),
+            TicketStatus = "Open",
+            TypeName = request.TicketTypeName,
+            TicketSubTypeName = request.SubTypeName,
+            IsRead = currentSession.UserId == request.CreatorId
+        };
     }
 }

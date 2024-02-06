@@ -1,4 +1,6 @@
+using System.Runtime.CompilerServices;
 using AutoMapper;
+using Fanex.NAP.Client.Helpers.Web;
 using MediatR;
 using OWP.RabbitMQ;
 using OWP.RabbitMQ.Constants;
@@ -20,6 +22,14 @@ public class NewTicketIssueLogWorkRequest : NewTicketModelBase, IRequest<int>
 
     public int? EventType => (int)Enum.EventType.LogWork;
 
+    public string OwpLeagueName { get; set; }
+
+    public DateTime EventDateTimeGmt8 { get; set; }
+
+    public string OwpHomeName { get; set; }
+
+    public string OwpAwayName { get; set; }
+
 }
 
 public class NewTicketIssueLogWorkHandler : IRequestHandler<NewTicketIssueLogWorkRequest, int>
@@ -30,6 +40,7 @@ public class NewTicketIssueLogWorkHandler : IRequestHandler<NewTicketIssueLogWor
     private readonly RecipientService recipientService;
     private readonly Repository repository;
     private readonly IMapper mapper;
+    private readonly INapSession currentSession;
 
     public NewTicketIssueLogWorkHandler(
         Repository repository,
@@ -37,7 +48,8 @@ public class NewTicketIssueLogWorkHandler : IRequestHandler<NewTicketIssueLogWor
         NotificationService notificationService,
         RecipientService recipientService,
         MessageClient messageClient,
-        IMapper mapper)
+        IMapper mapper,
+        INapSession currentSession)
     {
         this.repository = repository;
         this.notificationService = notificationService;
@@ -45,6 +57,7 @@ public class NewTicketIssueLogWorkHandler : IRequestHandler<NewTicketIssueLogWor
         this.messageClient = messageClient;
         this.messageService = messageService;
         this.mapper = mapper;
+        this.currentSession = currentSession;
     }
 
     public async Task<int> Handle(NewTicketIssueLogWorkRequest request, CancellationToken cancellationToken)
@@ -77,10 +90,32 @@ public class NewTicketIssueLogWorkHandler : IRequestHandler<NewTicketIssueLogWor
         messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketLogWork);
 
         var userIds = await repository.GetUserIdsByTicketId(ticketId);
-        await notificationService.NotifyNewMessageIncome(userIds);
 
-        await notificationService.NotifyNewAddRecipient(userIds);
+        var modelTicket =await BuildModelTicket(request, ticketId);
+
+         await notificationService.NotifyNewAddRecipient(userIds,modelTicket);
 
         return ticketId;
+    }
+    public async Task<TicketInfo> BuildModelTicket(NewTicketIssueLogWorkRequest request, int TicketId)
+    {
+        var lastComments = await repository.GetTwoLastComment(new List<int> { TicketId });
+
+        return new TicketInfo
+        {
+            TicketId = TicketId,
+            LeagueName = request.OwpLeagueName,
+            OwpLeagueName = request.OwpLeagueName,
+            Subject = request.Subject,
+            KoTime = request.EventDateTimeGmt8,
+            HomeName = request.OwpHomeName,
+            AwayName = request.OwpAwayName,
+            Messages = lastComments.ToList(),
+            TicketStatus = "Open",
+            TypeName = request.TicketTypeName,
+            TicketSubTypeName = request.SubTypeName,
+            EventType = request.EventType ?? 0,
+            IsRead = currentSession.UserId == request.CreatorId
+        };
     }
 }

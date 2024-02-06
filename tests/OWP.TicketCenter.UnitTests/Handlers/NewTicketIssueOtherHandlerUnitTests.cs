@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Fanex.Data.Repository;
+using Fanex.NAP.Client.Helpers.Web;
 using NSubstitute;
 using OWP.RabbitMQ;
 using OWP.TicketCenter.Criteria;
@@ -74,14 +75,15 @@ public class NewTicketIssueOtherHandlerUnitTests
         messageService.InsertMessage(request, Arg.Any<int>()).Returns(new NewMessageRequestModel());
 
         await notificationService.NotifyNewMessageIncome(Arg.Compat.Any<List<string>>());
-
+        var session = Substitute.For<INapSession>();
         var handler = new NewTicketIssueOtherHandler(
             repository,
             messageService,
             notificationService,
             recipientService,
             messageClient,
-            mapper
+            mapper,
+            session
         );
         var actual = await handler.Handle(request, CancellationToken.None);
 

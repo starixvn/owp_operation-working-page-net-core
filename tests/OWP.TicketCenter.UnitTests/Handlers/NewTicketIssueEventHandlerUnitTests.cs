@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Fanex.Data.Repository;
+using Fanex.NAP.Client.Helpers.Web;
 using NSubstitute;
 using OWP.RabbitMQ;
 using OWP.TicketCenter.Criteria;
@@ -25,6 +26,7 @@ public class NewTicketIssueEventHandlerUnitTests
 
     private readonly NewTicketIssueEventHandler handler;
 
+
     private readonly PreMatchNotificationService preMatchNotificationService;
 
     public NewTicketIssueEventHandlerUnitTests()
@@ -35,6 +37,8 @@ public class NewTicketIssueEventHandlerUnitTests
         notificationService = Substitute.For<NotificationService>();
         recipientService = Substitute.For<RecipientService>();
         var messageClient = Substitute.For<MessageClient>();
+        var session = Substitute.For<INapSession>();
+
         preMatchNotificationService = Substitute.For<PreMatchNotificationService>();
 
         handler = new NewTicketIssueEventHandler(
@@ -44,7 +48,8 @@ public class NewTicketIssueEventHandlerUnitTests
             recipientService,
             messageClient,
             preMatchNotificationService,
-            mapper
+            mapper,
+            session
         );
     }
 
