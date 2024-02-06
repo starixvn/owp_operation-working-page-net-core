@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using OWP.TicketCenter.Models;
 
 namespace OWP.TicketCenter.Hubs;
 
 public interface PreMatchNotifyHub
 {
-    Task NotifyNewMessageIncome(int id, bool isTicketLeague);
+    Task NotifyNewMessageIncome(int id, bool isTicketLeague, dynamic tickets);
 
     Task NotifyNewAddRecipient(int id, bool isTicketLeague);
 

@@ -10,6 +10,7 @@ namespace OWP.TicketCenter;
 
 public interface Repository
 {
+
     Task<IList<EventCheckingOption>> GetEventOptionInfo(string keyword);
 
     Task<IList<EventLgaOption>> GetEventOptionLgaInfo(string keyword);
@@ -19,18 +20,6 @@ public interface Repository
     Task<IList<SubType>> GetAllTicketSubTypes();
 
     Task<int> CreateTicketIssue(CriteriaBase criteria);
-
-    /* Task AddNewTicketIssueEvent(NewTicketIssueEventRequest request);
-
-    Task AddNewTicketIssueOther(NewTicketIssueOtherRequest request);
-
-    Task AddNewTicketIssueSupport(NewTicketIssueSupportRequest request);
-
-    Task AddNewTicketIssueLiveIncident(NewTicketIssueLiveIncidentRequest request);
-
-    Task AddNewTicketIssueLogWork(NewTicketIssueLogWorkRequest request); 
-
-    Task AddNewTicketIssueLeague(NewTicketIssueLeagueRequest request);*/
 
     Task<MessageDetailViewModel> AddNewMessage(NewMessageRequestModel message);
 
@@ -127,6 +116,7 @@ public class RepositoryImp : Repository
         this.mapper = mapper;
     }
 
+
     public async Task<IList<EventCheckingOption>> GetEventOptionInfo(string keyword)
     {
         var criteria = new GetEventCriteria
@@ -160,41 +150,6 @@ public class RepositoryImp : Repository
 
     public async Task<int> CreateTicketIssue(CriteriaBase criteria)
         => (await dynamicRepository.FetchAsync<int>(criteria)).FirstOrDefault();
-
-    /* public async Task AddNewTicketIssueLiveIncident(NewTicketIssueLiveIncidentRequest request)
-    {
-        var criteria = mapper.Map<AddNewTicketIssueLiveIncidentCriteria>(request);
-        criteria.ThrowExceptionIfInvalid();
-        await dynamicRepository.ExecuteAsync(criteria);
-    }
-
-    public async Task AddNewTicketIssueLogWork(NewTicketIssueLogWorkRequest request)
-    {
-        var criteria = mapper.Map<AddNewTicketIssueLogWorkCriteria>(request);
-        criteria.ThrowExceptionIfInvalid();
-        await dynamicRepository.ExecuteAsync(criteria);
-    }
-
-    public async Task AddNewTicketIssueOther(NewTicketIssueOtherRequest request)
-    {
-        var criteria = mapper.Map<AddNewTicketIssueOtherCriteria>(request);
-        criteria.ThrowExceptionIfInvalid();
-        await dynamicRepository.ExecuteAsync(criteria);
-    }
-
-    public async Task AddNewTicketIssueSupport(NewTicketIssueSupportRequest request)
-    {
-        var criteria = mapper.Map<AddNewTicketIssueSupportCriteria>(request);
-        criteria.ThrowExceptionIfInvalid();
-        await dynamicRepository.ExecuteAsync(criteria);
-    }
-
-    public async Task AddNewTicketIssueLeague(NewTicketIssueLeagueRequest request)
-    {
-        var criteria = mapper.Map<AddNewTicketIssueLeagueCriteria>(request);
-        criteria.ThrowExceptionIfInvalid();
-        await dynamicRepository.ExecuteAsync(criteria);
-    } */
 
     public async Task AddManyRecipients(AddManyRecipientCriteria criteria)
     {
