@@ -4,6 +4,7 @@ using OWP.TicketCenter.Criteria;
 using OWP.TicketCenter.Enum;
 using OWP.TicketCenter.Hubs;
 using OWP.TicketCenter.Models;
+using OWP.TicketCenter.ViewModels;
 
 namespace OWP.TicketCenter.Notification.Services;
 
@@ -30,7 +31,11 @@ public class PreMatchNotificationServiceImp : PreMatchNotificationService
         this.session = session;
     }
 
-    public async Task NotifyToReloadTicketInPrematchTable(int ticketId, int ticketType, List<string> userIdsInString)
+    public async Task NotifyToReloadTicketInPrematchTable(
+        int ticketId,
+         int ticketType,
+          List<string> userIdsInString,
+          MessageDetailViewModel messageResponse)
     {
         var isTicketLeague = ticketType is (int)EventType.League;
         var id = await repository.GetTicketInfoOfPreMatch(ticketId, isTicketLeague);
@@ -40,7 +45,7 @@ public class PreMatchNotificationServiceImp : PreMatchNotificationService
         await notifyPreMatch
             .Clients
             .All
-            .NotifyNewMessageIncome(id, isTicketLeague, tickets);
+            .NotifyNewMessageIncome(id, isTicketLeague, new { tickets, messageResponse });
     }
 
     private async Task<object> QueryPrematchTicket(int id, int ticketId, bool isTicketLeague)
