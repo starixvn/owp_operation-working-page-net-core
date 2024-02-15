@@ -87,7 +87,7 @@ public class NewTicketIssueLogWorkHandler : IRequestHandler<NewTicketIssueLogWor
             ActorId = request.CreatorId
         };
 
-        messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketLogWork);
+       messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketLogWork);
 
         var userIds = await repository.GetUserIdsByTicketId(ticketId);
 
@@ -111,7 +111,7 @@ public class NewTicketIssueLogWorkHandler : IRequestHandler<NewTicketIssueLogWor
             HomeName = request.OwpHomeName,
             AwayName = request.OwpAwayName,
             Messages = lastComments.ToList(),
-            TicketStatus = "Open",
+            TicketStatus = request.Status,
             TypeName = request.TicketTypeName,
             TicketSubTypeName = request.SubTypeName,
             EventType = request.EventType ?? 0,
