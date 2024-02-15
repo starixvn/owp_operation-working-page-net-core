@@ -12,7 +12,7 @@ public interface NotificationService
 
     Task NotifyChangeStatusIncome(int ticketId);
 
-    Task NotifyChangeSubTypeIncome(int ticketId, int ticketSubTypeId, string ticketSubTypeName);
+    Task NotifyChangeSubTypeIncome(TicketInfo ticketInfo);
 
     Task NotifyUserClickOnToast(int userId, int ticketId, int eventType);
 
@@ -90,13 +90,13 @@ public class NotificationServiceImp : NotificationService
             .NotifyChangeStatusIncome();
     }
 
-    public async Task NotifyChangeSubTypeIncome(int ticketId, int ticketSubTypeId, string ticketSubTypeName)
+    public async Task NotifyChangeSubTypeIncome(TicketInfo ticketInfo)
     {
-        var userIdsString = await GetUserIdsInStringByTicketId(ticketId);
+        var userIdsString = await GetUserIdsInStringByTicketId(ticketInfo.TicketId);
 
         await notifyMyTicket.Clients
             .Users(userIdsString)
-            .NotifyChangeSubTypeIncome(ticketId, ticketSubTypeId, ticketSubTypeName);
+            .NotifyChangeSubTypeIncome(ticketInfo);
         await notifyPreMatch.Clients
             .Users(userIdsString)
             .NotifyChangeStatusIncome();

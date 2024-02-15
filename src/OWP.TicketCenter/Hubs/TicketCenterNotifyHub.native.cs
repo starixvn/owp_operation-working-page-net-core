@@ -12,7 +12,7 @@ public interface TicketCenterNotifyHub
 
     Task NotifyChangeStatusIncome();
 
-    Task NotifyChangeSubTypeIncome(int ticketId, int ticketSubTypeId, string ticketSubTypeName);
+    Task NotifyChangeSubTypeIncome(TicketInfo ticketInfo);
 
     Task NotifyUserOnClickToast(int ticketId, int eventType);
 
