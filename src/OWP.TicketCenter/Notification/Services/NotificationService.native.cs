@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using OWP.TicketCenter.Hubs;
-using OWP.TicketCenter.ViewModels;
 using OWP.TicketCenter.Models;
+using OWP.TicketCenter.ViewModels;
 
 namespace OWP.TicketCenter.Notification.Services;
 
@@ -10,7 +10,7 @@ public interface NotificationService
     Task NotifyNewMessageIncome(List<string> userIds, MessageDetailViewModel messageResponse = null);
     Task NotifyNewAddRecipient(List<string> userIds, TicketInfo ticketInfo = null);
 
-    Task NotifyChangeStatusIncome(int ticketId);
+    Task NotifyChangeStatusIncome(TicketInfo ticketInfo);
 
     Task NotifyChangeSubTypeIncome(TicketInfo ticketInfo);
 
@@ -78,9 +78,9 @@ public class NotificationServiceImp : NotificationService
             .NotifyUserOnClickToast(ticketId, eventType);
     }
 
-    public async Task NotifyChangeStatusIncome(int ticketId)
+    public async Task NotifyChangeStatusIncome(TicketInfo ticketInfo)
     {
-        var userIdsString = await GetUserIdsInStringByTicketId(ticketId);
+        var userIdsString = await GetUserIdsInStringByTicketId(ticketInfo.TicketId);
 
         await notifyMyTicket.Clients
             .Users(userIdsString)
