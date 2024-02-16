@@ -45,10 +45,9 @@ public class PreMatchNotificationServiceImp : PreMatchNotificationService
         var id = await repository.GetTicketInfoOfPreMatch(ticketId, isTicketLeague);
         var ticket = await QueryPrematchTicket(id, ticketId, isTicketLeague);
 
-        // TODO
         await notifyPreMatch
             .Clients
-            .All
+            .Users(userIdsInString)
             .NotifyNewMessageIncome(id, isTicketLeague, new { ticket, messageResponse });
     }
 

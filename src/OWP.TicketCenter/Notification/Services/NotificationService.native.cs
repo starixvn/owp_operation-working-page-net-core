@@ -41,9 +41,8 @@ public class NotificationServiceImp : NotificationService
 
     public async Task NotifyNewMessageIncome(List<string> userIds, MessageDetailViewModel messageResponse = null)
     {
-        // TODO
         await notifyMyTicket.Clients
-            .All
+            .Users(userIds)
             .NotifyNewMessageIncome(messageResponse);
     }
 
