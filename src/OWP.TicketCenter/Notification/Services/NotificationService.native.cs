@@ -84,7 +84,7 @@ public class NotificationServiceImp : NotificationService
 
         await notifyMyTicket.Clients
             .Users(userIdsString)
-            .NotifyChangeStatusIncome();
+            .NotifyChangeStatusIncome(ticketInfo);
         await notifyPreMatch.Clients
             .Users(userIdsString)
             .NotifyChangeStatusIncome();
