@@ -79,11 +79,19 @@ public class NotificationServiceImp : NotificationService
 
     public async Task NotifyChangeStatusIncome(TicketInfo ticketInfo)
     {
-        var userIdsString = await GetUserIdsInStringByTicketId(ticketInfo.TicketId);
+        var ticketReaders = await repository.GetTickerReaderInfoByTicketId(ticketInfo.TicketId);
+        var userIdsString = ticketReaders.Select(x => x.RecipientId).Distinct().ToList();
 
-        await notifyMyTicket.Clients
-            .Users(userIdsString)
+        foreach (var ticketReader in ticketReaders)
+        {
+            ticketInfo.IsPinned = ticketReader.IsPinned;
+            ticketInfo.IsRead = ticketReader.IsRead;
+
+            await notifyMyTicket.Clients
+            .User(ticketReader.RecipientId)
             .NotifyChangeStatusIncome(ticketInfo);
+        }
+
         await notifyPreMatch.Clients
             .Users(userIdsString)
             .NotifyChangeStatusIncome();
@@ -91,18 +99,25 @@ public class NotificationServiceImp : NotificationService
 
     public async Task NotifyChangeSubTypeIncome(TicketInfo ticketInfo)
     {
-        var userIdsString = await GetUserIdsInStringByTicketId(ticketInfo.TicketId);
+        var ticketReaders = await repository.GetTickerReaderInfoByTicketId(ticketInfo.TicketId);
+        var userIdsString = ticketReaders.Select(x => x.RecipientId).Distinct().ToList();
 
-        await notifyMyTicket.Clients
-            .Users(userIdsString)
+        foreach (var ticketReader in ticketReaders)
+        {
+            ticketInfo.IsPinned = ticketReader.IsPinned;
+            ticketInfo.IsRead = ticketReader.IsRead;
+
+            await notifyMyTicket.Clients
+            .User(ticketReader.RecipientId)
             .NotifyChangeSubTypeIncome(ticketInfo);
+        }
         await notifyPreMatch.Clients
             .Users(userIdsString)
             .NotifyChangeStatusIncome();
     }
 
-    private async Task<List<string>> GetUserIdsInStringByTicketId(int ticketId, int actorId = 0)
+    private async Task<List<string>> GetUserIdsInStringByTicketId(int ticketId)
     {
-        return await repository.GetUserIdsByTicketId(ticketId, actorId);
+        return await repository.GetUserIdsByTicketId(ticketId);
     }
 }

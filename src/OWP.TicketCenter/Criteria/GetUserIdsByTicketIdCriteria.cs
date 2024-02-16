@@ -8,6 +8,5 @@ public class GetUserIdsByTicketIdCriteria : CriteriaBase
 
     public override string GetSettingKey() => "OWP_TicketCenterEvent_GetUserIdsByTicketId";
 
-    public override bool IsValid()
-        => TicketId > 0;
+    public override bool IsValid() => TicketId > 0;
 }

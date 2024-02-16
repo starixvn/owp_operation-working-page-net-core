@@ -52,7 +52,9 @@ public interface Repository
 
     Task<IEnumerable<RecipientResponseModel>> GetRecipientByTicketId(int ticketId);
 
-    Task<List<string>> GetUserIdsByTicketId(int ticketId, int actorId = 0);
+    Task<List<string>> GetUserIdsByTicketId(int ticketId);
+
+    Task<List<TicketReaderInfo>> GetTickerReaderInfoByTicketId(int ticketId);
 
     Task<int> AddSingleRecipient(InsertSingleRecipientRequest request);
 
@@ -157,14 +159,18 @@ public class RepositoryImp : Repository
         await dynamicRepository.ExecuteAsync(criteria);
     }
 
-    public async Task<List<string>> GetUserIdsByTicketId(int ticketId, int actorId = 0)
+    public async Task<List<string>> GetUserIdsByTicketId(int ticketId)
+    {
+        var userInfors = await GetTickerReaderInfoByTicketId(ticketId);
+        return userInfors.Select(x => x.RecipientId).Distinct().ToList();
+    }
+
+    public async Task<List<TicketReaderInfo>> GetTickerReaderInfoByTicketId(int ticketId)
     {
         var criteria = new GetUserIdsByTicketIdCriteria { TicketId = ticketId };
-        var userIds = await dynamicRepository.FetchAsync<int>(criteria);
+        var userInfors = await dynamicRepository.FetchAsync<TicketReaderInfo>(criteria);
 
-        var selectedUserIds = actorId == 0 ? userIds.Where(u => u != actorId) : userIds;
-
-        return selectedUserIds.Distinct().Select(u => u.ToString()).ToList();
+        return userInfors.ToList();
     }
 
     public async Task<int> AddSingleRecipient(InsertSingleRecipientRequest request)
