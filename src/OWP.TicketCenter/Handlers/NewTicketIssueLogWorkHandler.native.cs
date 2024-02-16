@@ -87,7 +87,7 @@ public class NewTicketIssueLogWorkHandler : IRequestHandler<NewTicketIssueLogWor
             ActorId = request.CreatorId
         };
 
-       messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketLogWork);
+        messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketLogWork);
 
         var userIds = await repository.GetUserIdsByTicketId(ticketId);
 
@@ -99,7 +99,7 @@ public class NewTicketIssueLogWorkHandler : IRequestHandler<NewTicketIssueLogWor
     }
     public async Task<TicketInfo> BuildModelTicket(NewTicketIssueLogWorkRequest request, int TicketId)
     {
-        var lastComments = await repository.GetTwoLastComment(new List<int> { TicketId });
+        var lastComments = (await repository.GetTwoLastComment(new List<int> { TicketId })).ToList();
 
         return new TicketInfo
         {
@@ -110,12 +110,15 @@ public class NewTicketIssueLogWorkHandler : IRequestHandler<NewTicketIssueLogWor
             KoTime = request.EventDateTimeGmt8,
             HomeName = request.OwpHomeName,
             AwayName = request.OwpAwayName,
-            Messages = lastComments.ToList(),
+            Messages = lastComments,
             TicketStatus = request.Status,
             TypeName = request.TicketTypeName,
             TicketSubTypeName = request.SubTypeName,
             EventType = request.EventType ?? 0,
-            IsRead = currentSession.UserId == request.CreatorId
+            IsRead = currentSession.UserId == request.CreatorId,
+            LastCommentDate = lastComments.FirstOrDefault(new MessageInfoModel()).CreatedDate,
+            TicketType = request.TicketType,
+            TicketSubTypeId = request.SubType,
         };
     }
 }

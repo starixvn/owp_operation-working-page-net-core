@@ -111,7 +111,7 @@ public class NewTicketIssueEventHandler : IRequestHandler<NewTicketIssueEventReq
 
     public async Task<TicketInfo> BuildModelTicket(NewTicketIssueEventRequest request, int TicketId)
     {
-        var lastComments = await repository.GetTwoLastComment(new List<int> { TicketId });
+        var lastComments = (await repository.GetTwoLastComment(new List<int> { TicketId })).ToList();
 
         return new TicketInfo
         {
@@ -121,7 +121,7 @@ public class NewTicketIssueEventHandler : IRequestHandler<NewTicketIssueEventReq
             KoTime = request.eventDateTimeGmt8,
             HomeName = request.OwpHomeName,
             AwayName = request.OwpAwayName,
-            Messages = lastComments.ToList(),
+            Messages = lastComments,
             TicketStatus = "Open",
             TypeName = request.TicketTypeName,
             TicketSubTypeName = request.SubTypeName,
@@ -129,7 +129,10 @@ public class NewTicketIssueEventHandler : IRequestHandler<NewTicketIssueEventReq
             OwpHomeId = request.OwpHomeId,
             OwpLeagueId = request.OwpLeagueId,
             EventType = request.EventType ?? 0,
-            IsRead = currentSession.UserId == request.CreatorId
+            IsRead = currentSession.UserId == request.CreatorId,
+            LastCommentDate = lastComments.FirstOrDefault(new MessageInfoModel()).CreatedDate,
+            TicketType = request.TicketType,
+            TicketSubTypeId = request.SubType
         };
     }
 }

@@ -106,14 +106,14 @@ public class NewTicketIssueLiveIncidentHandler : IRequestHandler<NewTicketIssueL
 
     public async Task<TicketInfo> BuildModelTicket(NewTicketIssueLiveIncidentRequest request, int TicketId)
     {
-        var lastComments = await repository.GetTwoLastComment(new List<int> { TicketId });
+        var lastComments = (await repository.GetTwoLastComment(new List<int> { TicketId })).ToList();
 
         return new TicketInfo
         {
             TicketId = TicketId,
             LeagueName = request.OwpLeagueName,
             OwpLeagueName = request.OwpLeagueName,
-            Messages = lastComments.ToList(),
+            Messages = lastComments,
             TicketStatus = "Open",
             TypeName = request.TicketTypeName,
             TicketSubTypeName = request.SubTypeName,
@@ -122,6 +122,9 @@ public class NewTicketIssueLiveIncidentHandler : IRequestHandler<NewTicketIssueL
             EventType = request.EventType ?? 0,
             KoTime = request.EventDateTimeGmt8,
             IsRead = currentSession.UserId == request.CreatorId,
+            LastCommentDate = lastComments.FirstOrDefault(new MessageInfoModel()).CreatedDate,
+            TicketType = request.TicketType,
+            TicketSubTypeId = request.SubType
         };
     }
 }

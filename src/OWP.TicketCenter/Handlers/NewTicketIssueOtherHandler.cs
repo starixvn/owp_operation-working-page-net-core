@@ -85,17 +85,21 @@ public class NewTicketIssueOtherHandler : IRequestHandler<NewTicketIssueOtherReq
 
     public async Task<TicketInfo> BuildModelTicket(NewTicketIssueOtherRequest request, int TicketId)
     {
-        var lastComments =await repository.GetTwoLastComment(new List<int> { TicketId });
+        var lastComments =(await repository.GetTwoLastComment(new List<int> { TicketId })).ToList();
     
         return new TicketInfo
         {
             TicketId = TicketId,
             Subject =request.Subject,
-            Messages = lastComments.ToList(),
+            Messages = lastComments,
             TicketStatus = "Open",
             TypeName = request.TicketTypeName,
             TicketSubTypeName = request.SubTypeName,
-            IsRead = currentSession.UserId == request.CreatorId
+            IsRead = currentSession.UserId == request.CreatorId,
+            LastCommentDate = lastComments.FirstOrDefault(new MessageInfoModel()).CreatedDate,
+            TicketType = request.TicketType,
+            TicketSubTypeId = request.SubType,
+            EventType = request.EventType ?? 0
         };
     }
 }
