@@ -37,7 +37,7 @@ public class NewTicketIssueEventHandlerUnitTests
         notificationService = Substitute.For<NotificationService>();
         recipientService = Substitute.For<RecipientService>();
         var messageClient = Substitute.For<MessageClient>();
-        var session = Substitute.For<INapSession>();
+
 
         preMatchNotificationService = Substitute.For<PreMatchNotificationService>();
 
@@ -48,8 +48,7 @@ public class NewTicketIssueEventHandlerUnitTests
             recipientService,
             messageClient,
             preMatchNotificationService,
-            mapper,
-            session
+            mapper
         );
     }
 

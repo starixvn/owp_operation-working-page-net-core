@@ -75,15 +75,13 @@ public class NewTicketIssueOtherHandlerUnitTests
         messageService.InsertMessage(request, Arg.Any<int>()).Returns(new NewMessageRequestModel());
 
         await notificationService.NotifyNewMessageIncome(Arg.Compat.Any<List<string>>());
-        var session = Substitute.For<INapSession>();
         var handler = new NewTicketIssueOtherHandler(
             repository,
             messageService,
             notificationService,
             recipientService,
             messageClient,
-            mapper,
-            session
+            mapper
         );
         var actual = await handler.Handle(request, CancellationToken.None);
 

@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Fanex.NAP.Client.Helpers.Web;
 using MediatR;
 using OWP.RabbitMQ;
 using OWP.RabbitMQ.Constants;
@@ -27,7 +26,6 @@ public class NewTicketIssueOtherHandler : IRequestHandler<NewTicketIssueOtherReq
     private readonly RecipientService recipientService;
     private readonly Repository repository;
     private readonly IMapper mapper;
-    private readonly INapSession currentSession;
 
     public NewTicketIssueOtherHandler(
         Repository repository,
@@ -35,8 +33,7 @@ public class NewTicketIssueOtherHandler : IRequestHandler<NewTicketIssueOtherReq
         NotificationService notificationService,
         RecipientService recipientService,
         MessageClient messageClient,
-        IMapper mapper, 
-        INapSession currentSession)
+        IMapper mapper)
     {
         this.repository = repository;
         this.recipientService = recipientService;
@@ -44,7 +41,7 @@ public class NewTicketIssueOtherHandler : IRequestHandler<NewTicketIssueOtherReq
         this.messageClient = messageClient;
         this.notificationService = notificationService;
         this.mapper = mapper;
-        this.currentSession = currentSession;
+      
     }
 
     public async Task<int> Handle(NewTicketIssueOtherRequest request, CancellationToken cancellationToken)
@@ -95,7 +92,6 @@ public class NewTicketIssueOtherHandler : IRequestHandler<NewTicketIssueOtherReq
             TicketStatus = "Open",
             TypeName = request.TicketTypeName,
             TicketSubTypeName = request.SubTypeName,
-            IsRead = currentSession.UserId == request.CreatorId,
             LastCommentDate = lastComments.FirstOrDefault(new MessageInfoModel()).CreatedDate,
             TicketType = request.TicketType,
             TicketSubTypeId = request.SubType,

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using System.Security.Cryptography.X509Certificates;
+using Microsoft.AspNetCore.SignalR;
 using OWP.TicketCenter.Hubs;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.ViewModels;
@@ -55,9 +56,17 @@ public class NotificationServiceImp : NotificationService
 
     public async Task NotifyNewAddRecipient(List<string> userIdsString, TicketInfo ticketInfo)
     {
-        await notifyMyTicket.Clients
-            .Users(userIdsString)
-            .NotifyNewAddRecipient(ticketInfo);
+        var ticketReaders = await repository.GetTickerReaderInfoByTicketId(ticketInfo.TicketId);
+        var newReaders = ticketReaders.IntersectBy(userIdsString, x => x.RecipientId.ToString());
+        foreach (var ticketReader in newReaders)
+        {
+            ticketInfo.IsPinned = ticketReader.IsPinned;
+            ticketInfo.IsRead = ticketReader.IsRead;
+
+            await notifyMyTicket.Clients
+                .User(ticketReader.RecipientId)
+                .NotifyNewAddRecipient(ticketInfo);
+        }
     }
 
     public async Task NotifyNewAddRecipientLga(List<string> userIds, int owpMatchId, int actorId)

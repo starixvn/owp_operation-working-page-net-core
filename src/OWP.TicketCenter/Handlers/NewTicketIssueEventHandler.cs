@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Fanex.NAP.Client.Helpers.Web;
 using MediatR;
 using OWP.RabbitMQ;
 using OWP.RabbitMQ.Constants;
@@ -43,7 +42,7 @@ public class NewTicketIssueEventHandler : IRequestHandler<NewTicketIssueEventReq
     private readonly Repository repository;
     private readonly PreMatchNotificationService preMatchNotification;
     private readonly IMapper mapper;
-    private readonly INapSession currentSession;
+
 
     public NewTicketIssueEventHandler(
         Repository repository,
@@ -52,8 +51,7 @@ public class NewTicketIssueEventHandler : IRequestHandler<NewTicketIssueEventReq
         RecipientService recipientService,
         MessageClient messageClient,
         PreMatchNotificationService preMatchNotification,
-        IMapper mapper, 
-        INapSession currentSession)
+        IMapper mapper)
     {
         this.repository = repository;
         this.messageService = messageService;
@@ -62,7 +60,6 @@ public class NewTicketIssueEventHandler : IRequestHandler<NewTicketIssueEventReq
         this.messageClient = messageClient;
         this.preMatchNotification = preMatchNotification;
         this.mapper = mapper;
-        this.currentSession = currentSession;
     }
 
     public async Task<int> Handle(NewTicketIssueEventRequest request, CancellationToken cancellationToken)
@@ -129,7 +126,6 @@ public class NewTicketIssueEventHandler : IRequestHandler<NewTicketIssueEventReq
             OwpHomeId = request.OwpHomeId,
             OwpLeagueId = request.OwpLeagueId,
             EventType = request.EventType ?? 0,
-            IsRead = currentSession.UserId == request.CreatorId,
             LastCommentDate = lastComments.FirstOrDefault(new MessageInfoModel()).CreatedDate,
             TicketType = request.TicketType,
             TicketSubTypeId = request.SubType

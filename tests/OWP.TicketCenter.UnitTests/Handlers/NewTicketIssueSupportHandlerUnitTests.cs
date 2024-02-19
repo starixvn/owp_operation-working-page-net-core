@@ -35,15 +35,13 @@ public class NewTicketIssueSupportHandlerUnitTests
         recipientService = Substitute.For<RecipientService>();
         var messageClient = Substitute.For<MessageClient>();
         messageService = Substitute.For<MessageService>();
-        var session = Substitute.For<INapSession>();
         handler = new NewTicketIssueSupportHandler(
             repository,
             messageService,
             notificationService,
             recipientService,
             messageClient,
-            mapper,
-            session
+            mapper
         );
     }
 
