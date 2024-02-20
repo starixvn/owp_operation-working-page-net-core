@@ -58,12 +58,7 @@ public class SingleTeamServiceImp : SingleTeamService
         var gameInfo = ScheduleHelper.GetGameInfo(assignmentsSingleTeam);
         var etPkValue = FirstHalfHelper.IsFirstHalf(assignmentsSingleTeam)
             ? string.Empty
-            : ETPKHelper.DetectExtraTime(new AssignmentModel
-            {
-                Remark = gameInfo.remark,
-                AssignmentNote = gameInfo.assignmentNote,
-                MinorBettypeId = gameInfo.minorBettypeId
-            });
+            : ETPKHelper.DetectExtraTime(gameInfo.remark, gameInfo.assignmentNote, gameInfo.minorBettypeId);
 
         return new ScheduleUpdateModel
         {

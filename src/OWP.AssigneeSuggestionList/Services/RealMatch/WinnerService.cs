@@ -58,11 +58,7 @@ public class WinnerServiceImp : WinnerService
 
         var gameInfo = ScheduleHelper.GetGameInfo(assignmentsWinner);
         var etPkValue = FirstHalfHelper.IsFirstHalf(assignmentsWinner) ? string.Empty
-            : ETPKHelper.DetectExtraTime(new AssignmentModel
-            {
-                Remark = gameInfo.remark,
-                AssignmentNote = gameInfo.assignmentNote
-            });
+            : ETPKHelper.DetectExtraTime(gameInfo.remark, gameInfo.assignmentNote);
 
         return new ScheduleUpdateModel
         {

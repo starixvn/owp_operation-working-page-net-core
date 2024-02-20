@@ -65,12 +65,7 @@ public class BookingServiceImp : BookingService
 
         var gameInfo = ScheduleHelper.GetGameInfo(assignmentsBooking);
 
-        var tempEtPkValue = ETPKHelper.DetectExtraTime(new AssignmentModel
-        {
-            Remark = gameInfo.remark,
-            AssignmentNote = gameInfo.assignmentNote,
-            MinorBettypeId = gameInfo.minorBettypeId
-        });
+        var tempEtPkValue = ETPKHelper.DetectExtraTime(gameInfo.remark, gameInfo.assignmentNote, gameInfo.minorBettypeId);
 
         var etPkValue = (FirstHalfHelper.IsFirstHalf(assignmentsBooking) ||
         assignmentsBooking.All(x => x.BettypeId is Bettype.FifteenMinsBookings)

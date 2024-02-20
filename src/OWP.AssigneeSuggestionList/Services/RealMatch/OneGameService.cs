@@ -62,11 +62,7 @@ public class OneGameServiceImp : OneGameService
         var gameInfo = ScheduleHelper.GetGameInfo(assignments);
         var etPkValue = FirstHalfHelper.IsFirstHalf(assignments)
         ? string.Empty
-        : ETPKHelper.DetectExtraTime(new AssignmentModel
-        {
-            Remark = gameInfo.remark,
-            AssignmentNote = gameInfo.assignmentNote
-        });
+        : ETPKHelper.DetectExtraTime(gameInfo.remark, gameInfo.assignmentNote);
 
         return new ScheduleUpdateModel
         {
