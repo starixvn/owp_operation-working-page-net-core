@@ -18,13 +18,18 @@ public class EventPickingRequest
 
     public List<int?> UpdateType { get; set; }
 
-    public Period PeriodOneMonth { get; set; }
-    public Period PeriodThreeMonths { get; set; }
-    public Period PeriodSixMonths { get; set; }
-    public Period PeriodTwelveMonths { get; set; }
+    public Period Period { get; set; }
 }
 
 public class Period
+{
+    public TimeRange OneMonth { get; set; }
+    public TimeRange ThreeMonths { get; set; }
+    public TimeRange SixMonths { get; set; }
+    public TimeRange TwelveMonths { get; set; }
+}
+
+public class TimeRange
 {
     public DateTime FromDate { get; set; }
 

@@ -1,3 +1,4 @@
+using System.Reflection;
 using OWP.EventPicking.Middleware.Models;
 using OWP.EventPicking.Models;
 
@@ -12,62 +13,74 @@ public static class Utils
     }
 
     public static void CalculateValueTurnover_WinLoss(TurnOverWinLossModel turnover_winLoss,
-        TurnOverInfo turnover,
-        MarginInfo margin)
+    EventPickingModel match,
+    string turnoverProperty,
+    string marginProperty
+    )
     {
         if (turnover_winLoss is null)
         {
             return;
         }
+
+        var turnoverInfoProperty1 = match.GetType().GetProperty(turnoverProperty);
+        var marginInfoProperty = match.GetType().GetProperty(marginProperty);
+
         if (Math.Abs(turnover_winLoss.Turnover) >= double.Epsilon)
         {
             var value = Math.Round(turnover_winLoss.Turnover, 2);
-            //match.Turnover.ValueDisplay = string.Format("{0:#,0.00}", value);
-            //match.Turnover.Value = value;
-
-            var valueDisplayField = typeof(TurnOverInfo).GetField("ValueDisplay");
-            var valueField = typeof(TurnOverInfo).GetField("Value");
-
-            valueDisplayField.SetValue(turnover, string.Format("{0:#,0.00}", value));
-            valueField.SetValue(turnover, value);
-
+            var turnoverInfo = (TurnOverInfo)turnoverInfoProperty1.GetValue(match);
+            var turnoverInfoType = turnoverInfo.GetType();
+            var valueDisplayProperty = turnoverInfoType.GetProperty("ValueDisplay");
+            var valueProperty = turnoverInfoType.GetProperty("Value");
+            valueDisplayProperty.SetValue(turnoverInfo, string.Format("{0:#,0.00}", value));
+            valueProperty.SetValue(turnoverInfo, value);
         }
 
         if (Math.Abs(turnover_winLoss.WinLoss) < double.Epsilon)
         {
-            var valueDisplayField = typeof(MarginInfo).GetField("ValueDisplay");
-            valueDisplayField.SetValue(margin, "-");
-            //match.Margin.ValueDisplay = "-";
+            var marginInfo = (MarginInfo)marginInfoProperty.GetValue(match);
+            var marginInfoType = marginInfo.GetType();
+            var valueDisplayProperty = marginInfoType.GetProperty("ValueDisplay");
+            valueDisplayProperty.SetValue(marginInfo, "-");
         }
         else
         {
             var value = Math.Round(turnover_winLoss.WinLoss / turnover_winLoss.Turnover, 2);
-            //match.Margin.ValueDisplay = string.Format("{0:#,0.00}", value);
-            //match.Margin.Value = value;
-
-            var valueDisplayField = typeof(MarginInfo).GetField("ValueDisplay");
-            var valueField = typeof(MarginInfo).GetField("Value");
-
-            valueDisplayField.SetValue(margin, string.Format("{0:#,0.00}", value));
-            valueField.SetValue(margin, value);
+            var marginInfo = (MarginInfo)marginInfoProperty.GetValue(match);
+            var marginInfoType = marginInfo.GetType();
+            var valueDisplayProperty = marginInfoType.GetProperty("ValueDisplay");
+            var valueProperty = marginInfoType.GetProperty("Value");
+            valueDisplayProperty.SetValue(marginInfo, string.Format("{0:#,0.00}", value));
+            valueProperty.SetValue(marginInfo, value);
         }
     }
     public static void CalculateColorTurnover_WinLoss(TurnOverWinLossModel turnover_winLoss,
-     TurnOverInfo turnover,
-        MarginInfo margin)
+    EventPickingModel match,
+    string turnoverProperty,
+    string marginProperty)
     {
+        if (turnover_winLoss is null)
+        {
+            return;
+        }
+        var turnoverInfoProperty = match.GetType().GetProperty(turnoverProperty);
+        var marginInfoProperty = match.GetType().GetProperty(marginProperty);
+
         if (turnover_winLoss.Turnover < 0)
         {
-            //match.Turnover.Color = "red";
-            var colorField = typeof(TurnOverInfo).GetField("Color");
-            colorField.SetValue(turnover, "red");
+            var turnOverInfo = (TurnOverInfo)turnoverInfoProperty.GetValue(match);
+            var marginInfoType = turnOverInfo.GetType();
+            var colorProperty = marginInfoType.GetProperty("Color");
+            colorProperty.SetValue(turnOverInfo, "red");
         }
 
         if (Math.Abs(turnover_winLoss.Turnover) >= double.Epsilon && (turnover_winLoss.WinLoss / turnover_winLoss.Turnover) < 0)
         {
-            //match.Margin.Color = "red";
-            var colorField = typeof(MarginInfo).GetField("Color");
-            colorField.SetValue(margin, "red");
+            var marginInfo = (MarginInfo)marginInfoProperty.GetValue(match);
+            var marginInfoType = marginInfo.GetType();
+            var colorProperty = marginInfoType.GetProperty("Color");
+            colorProperty.SetValue(marginInfo, "red");
         }
     }
 }

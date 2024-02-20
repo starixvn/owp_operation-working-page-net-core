@@ -292,19 +292,49 @@ public class EventPickingModel
     //[JsonIgnore]
     //public string MarginExport => Margin.ValueDisplay;
 
-    public TurnOverInfo TurnoverOneMonth { get; set; } = new();
-    public TurnOverInfo TurnoverThreeMonths { get; set; } = new();
-    public TurnOverInfo TurnoverSixMonths { get; set; } = new();
-    public TurnOverInfo TurnoverTwelveMonths { get; set; } = new();
+    [JsonIgnore]
+    public TurnOverInfo TurnoverOneMonth { get; set; }
+
+    [JsonIgnore]
+    public TurnOverInfo TurnoverThreeMonths { get; set; }
+
+    [JsonIgnore]
+    public TurnOverInfo TurnoverSixMonths { get; set; }
+
+    [JsonIgnore]
+    public TurnOverInfo TurnoverTwelveMonths { get; set; }
 
     //public double? TurnoverSort => Turnover.Value;
 
-    public MarginInfo MarginOneMonth { get; set; } = new();
-    public MarginInfo MarginThreeMonths { get; set; } = new();
-    public MarginInfo MarginSixMonths { get; set; } = new();
-    public MarginInfo MarginTwelveMonths { get; set; } = new();
+    [JsonIgnore]
+    public MarginInfo MarginOneMonth { get; set; }
+
+    [JsonIgnore]
+    public MarginInfo MarginThreeMonths { get; set; }
+
+    [JsonIgnore]
+    public MarginInfo MarginSixMonths { get; set; }
+
+    [JsonIgnore]
+    public MarginInfo MarginTwelveMonths { get; set; }
 
     //public double? MarginSort => Margin.Value;
+
+    public IList<TurnOverInfo> TurnoverPeriod => new List<TurnOverInfo>{
+        TurnoverOneMonth ,
+        TurnoverThreeMonths,
+        TurnoverSixMonths,
+        TurnoverTwelveMonths
+    }.Where(t => t is not null)?
+    .ToList();
+
+    public IList<MarginInfo> MarginPeriod => new List<MarginInfo>{
+        MarginOneMonth ,
+        MarginThreeMonths,
+        MarginSixMonths,
+        MarginTwelveMonths
+    }.Where(t => t is not null)?
+   .ToList();
 
     public void MapWeekendSettings(LeagueSetting leagueSetting)
     {
