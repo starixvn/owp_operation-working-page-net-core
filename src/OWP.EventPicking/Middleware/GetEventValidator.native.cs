@@ -37,6 +37,13 @@ public class GetEventValidator : AsyncFilter<EventPickingRequest>
         {
             return (false, statusCode, "Please select at least one option for Update Type");
         }
+        if (model.PeriodOneMonth is null
+        || model.PeriodThreeMonths is null
+        || model.PeriodSixMonths is null
+        || model.PeriodTwelveMonths is null)
+        {
+            return (false, statusCode, "Please select at least one option for Turnover & Margin Period");
+        }
         statusCode = 200;
         return (true, statusCode, string.Empty);
     }

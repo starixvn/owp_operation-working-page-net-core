@@ -35,40 +35,98 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
         var validMatch = FilterAllMatchesByRequest(matches, request);
         if (turnoverMarginPolicy.IsRead)
         {
-            var turnOver_WinLoss = await tGRSService.GetTurnOverWinLoss(new GetTurnOverWinLossCriteria
-            {
-                SportType = "Soccer",
-                FromDate = request.FromDate,
-                ToDate = request.ToDate,
-                LeagueName = GetLeagueName(validMatch)
-            });
-            CalculateTurnOver_Margin(validMatch, turnOver_WinLoss);
+            await CalculateTurnOver_Margin(request, validMatch);
         }
         return validMatch;
     }
 
-    private static void CalculateTurnOver_Margin(IList<EventPickingModel> matches, IList<TurnOverWinLossModel> turnOverWinLossModels)
+    private async Task CalculateTurnOver_Margin(EventPickingRequest request, List<EventPickingModel> matches)
     {
+        var twOneMonth = await GetTurnover_WinLoss_TGRS(request.PeriodOneMonth, matches);
+        var twThreeMonths = await GetTurnover_WinLoss_TGRS(request.PeriodThreeMonths, matches);
+        var twSixMonths = await GetTurnover_WinLoss_TGRS(request.PeriodSixMonths, matches);
+        var twTwelveMonths = await GetTurnover_WinLoss_TGRS(request.PeriodTwelveMonths, matches);
+
         foreach (var match in matches)
         {
-            var turnover_winLoss = turnOverWinLossModels.FirstOrDefault(t => string.Equals(t.LeagueName, match.LeagueName));
-            if (turnover_winLoss is not null)
-            {
-                Utils.CalculateValueTurnover_WinLoss(match, turnover_winLoss);
-                Utils.CalculateColorTurnover_WinLoss(match, turnover_winLoss);
-            }
+            CalculateTurnover_WinLoss_PeriodOneMonth(twOneMonth, match);
+            CalculateTurnover_WinLoss_PeriodThreeMonth(twThreeMonths, match);
+            CalculateTurnover_WinLoss_PeriodSixMonth(twSixMonths, match);
+            CalculateTurnover_WinLoss_PeriodTwelveMonths(twTwelveMonths, match);
         }
+    }
+
+    public static void CalculateTurnover_WinLoss_PeriodOneMonth(IList<TurnOverWinLossModel> tw, EventPickingModel match)
+    {
+        var turnover_winLoss = tw.FirstOrDefault(t => string.Equals(t.LeagueName, match.LeagueName));
+
+        Utils.CalculateValueTurnover_WinLoss(
+            turnover_winLoss,
+            match.TurnoverOneMonth,
+            match.MarginOneMonth);
+
+        Utils.CalculateColorTurnover_WinLoss(turnover_winLoss, match.TurnoverOneMonth,
+            match.MarginOneMonth);
+    }
+    public static void CalculateTurnover_WinLoss_PeriodThreeMonth(IList<TurnOverWinLossModel> tw, EventPickingModel match)
+    {
+        var turnover_winLoss = tw.FirstOrDefault(t => string.Equals(t.LeagueName, match.LeagueName));
+        Utils.CalculateValueTurnover_WinLoss(
+            turnover_winLoss,
+            match.TurnoverThreeMonths,
+            match.MarginThreeMonths);
+        Utils.CalculateColorTurnover_WinLoss(turnover_winLoss, match.TurnoverThreeMonths,
+            match.MarginThreeMonths);
+    }
+    public static void CalculateTurnover_WinLoss_PeriodSixMonth(IList<TurnOverWinLossModel> tw, EventPickingModel match)
+    {
+        var turnover_winLoss = tw.FirstOrDefault(t => string.Equals(t.LeagueName, match.LeagueName));
+        Utils.CalculateValueTurnover_WinLoss(
+            turnover_winLoss,
+            match.TurnoverSixMonths,
+            match.MarginSixMonths);
+        Utils.CalculateColorTurnover_WinLoss(
+            turnover_winLoss,
+            match.TurnoverSixMonths,
+            match.MarginSixMonths);
+    }
+    public static void CalculateTurnover_WinLoss_PeriodTwelveMonths(IList<TurnOverWinLossModel> tw, EventPickingModel match)
+    {
+        var turnover_winLoss = tw.FirstOrDefault(t => string.Equals(t.LeagueName, match.LeagueName));
+        Utils.CalculateValueTurnover_WinLoss(
+            turnover_winLoss,
+            match.TurnoverTwelveMonths,
+            match.MarginTwelveMonths);
+        Utils.CalculateColorTurnover_WinLoss(
+            turnover_winLoss,
+            match.TurnoverTwelveMonths,
+            match.MarginTwelveMonths);
+    }
+
+    public async Task<IList<TurnOverWinLossModel>> GetTurnover_WinLoss_TGRS(Period period, List<EventPickingModel> matches)
+    {
+        if (period is not null)
+        {
+            return await tGRSService.GetTurnOverWinLoss(new()
+            {
+                SportType = "Soccer",
+                FromDate = period.FromDate,
+                ToDate = period.ToDate,
+                LeagueName = GetLeagueName(matches)
+            });
+        }
+        return new List<TurnOverWinLossModel>();
     }
 
     private static IList<string> GetLeagueName(List<EventPickingModel> matches)
     => matches.Select(x => x.LeagueName).Distinct().ToList();
 
-    private List<EventPickingModel> FilterAllMatchesByRequest(List<EventPickingModel> matches, EventPickingRequest request)
+    private static List<EventPickingModel> FilterAllMatchesByRequest(List<EventPickingModel> matches, EventPickingRequest request)
     => matches
         .Where(x => ValidMatch(x, request))
         .ToList();
 
-    private bool ValidMatch(EventPickingModel match, EventPickingRequest condition)
+    private static bool ValidMatch(EventPickingModel match, EventPickingRequest condition)
         => CheckCondition1(match, condition) && CheckCondition2(match, condition) && CheckCondition3(match, condition);
 
     private static bool CheckCondition1(EventPickingModel match, EventPickingRequest condition)

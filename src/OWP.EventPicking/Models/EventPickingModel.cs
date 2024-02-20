@@ -284,21 +284,27 @@ public class EventPickingModel
     ? "yes"
     : "no";
 
-    [Cell("BW2")]
-    [JsonIgnore]
-    public string TurnoverExport => Turnover.ValueDisplay;
+    //[Cell("BW2")]
+    //[JsonIgnore]
+    //public string TurnoverExport => Turnover.ValueDisplay;
 
-    [Cell("BX2")]
-    [JsonIgnore]
-    public string MarginExport => Margin.ValueDisplay;
+    //[Cell("BX2")]
+    //[JsonIgnore]
+    //public string MarginExport => Margin.ValueDisplay;
 
-    public TurnOverInfo Turnover { get; set; } = new();
+    public TurnOverInfo TurnoverOneMonth { get; set; } = new();
+    public TurnOverInfo TurnoverThreeMonths { get; set; } = new();
+    public TurnOverInfo TurnoverSixMonths { get; set; } = new();
+    public TurnOverInfo TurnoverTwelveMonths { get; set; } = new();
 
-    public double? TurnoverSort => Turnover.Value;
+    //public double? TurnoverSort => Turnover.Value;
 
-    public MarginInfo Margin { get; set; } = new();
+    public MarginInfo MarginOneMonth { get; set; } = new();
+    public MarginInfo MarginThreeMonths { get; set; } = new();
+    public MarginInfo MarginSixMonths { get; set; } = new();
+    public MarginInfo MarginTwelveMonths { get; set; } = new();
 
-    public double? MarginSort => Margin.Value;
+    //public double? MarginSort => Margin.Value;
 
     public void MapWeekendSettings(LeagueSetting leagueSetting)
     {
