@@ -74,6 +74,7 @@ public static class ServiceCollectionExtensions
             mc.AddProfile(new AssignmentUpload.AutoMapperProfile());
             mc.AddProfile(new AssigneeSuggestionList.AutoMapperProfile());
             mc.AddProfile(new Kpi.AutoMapperProfile());
+            mc.AddProfile(new Event.LiveGameAssignment.Download.AutoMapperProfile());
         });
 
         var mapper = mapperConfig.CreateMapper();

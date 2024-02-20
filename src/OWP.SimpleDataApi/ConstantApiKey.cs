@@ -87,6 +87,14 @@ public static class ConstantApiKey
 
     #endregion
 
+    #region LiveGameAssignment
+    public const string GetBettypeForTradingInfo = "live-game-assignment-get-bettype-for-trading-info";
+
+    public const string GetBettypeForSpecialEvent = "live-game-assignment-get-bettype-for-special-event";
+
+    public const string GetSpecialEventTemplate = "live-game-assignment-get-special-event-template";
+    #endregion
+
     public const string GetUserChangeFromAdminSite = "get-user-change-from-admin-site";
     public const string SyncUserChangeFromAdminSite = "sync-user-change-from-admin-site";
 

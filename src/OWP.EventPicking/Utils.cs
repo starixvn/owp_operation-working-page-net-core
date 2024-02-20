@@ -23,7 +23,7 @@ public static class Utils
         {
             match.Margin.ValueDisplay = "-";
         }
-        else if (Math.Abs(turnover_winLoss.Turnover) >= double.Epsilon)
+        else
         {
             var value = Math.Round(turnover_winLoss.WinLoss / turnover_winLoss.Turnover, 2);
             match.Margin.ValueDisplay = string.Format("{0:#,0.00}", value);

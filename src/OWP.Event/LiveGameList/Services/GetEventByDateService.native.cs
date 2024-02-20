@@ -70,7 +70,11 @@ public class GetEventByDateServiceImp : GetEventByDateService
     {
         foreach (var property in typeof(AssignmentModel).GetProperties())
         {
-            if (property.GetValue(e.Assignment) is not IEnumerable<Assignment> assignmentItems) continue;
+            if (property.GetValue(e.Assignment) is not IEnumerable<Assignment> assignmentItems)
+            {
+                continue;
+            }
+
             if (assignmentItems.Any(item => item.Username == username))
             {
                 return true;

@@ -170,10 +170,10 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
             : filteredLeagues.Where(x => request.EarlyOffered.Contains(ConvertBoolToInt(x.IsEarlyOffered))).ToList();
 
         var filteredMatches = infoSiteMatches
-            .Where(x => filteredLeagues.Any(y => y.PreMatchLeagueId == x.PreMatchLeagueId)).ToList();
-        
-       var result= FilterByMatchOffer(filteredLeagues, filteredMatches, matchOffers);
-        
+            .Where(x => filteredLeagues.Exists(y => y.PreMatchLeagueId == x.PreMatchLeagueId)).ToList();
+
+        var result = FilterByMatchOffer(filteredLeagues, filteredMatches, matchOffers);
+
         return (result.Item1, result.Item2);
     }
 
@@ -186,10 +186,10 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
         foreach (var league in filteredLeagues)
         {
             league.MatchCount = matches.Count(x => x.LeagueId == league.LeagueId);
-        } 
+        }
         var leagues = filteredLeagues.Where(x => x.MatchCount != 0).ToList();
 
-         return (leagues, matches);
+        return (leagues, matches);
     }
 
     private static int ConvertBoolToInt(bool value) => value ? 1 : 0;

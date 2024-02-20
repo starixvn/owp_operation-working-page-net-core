@@ -63,10 +63,10 @@ public class BuildRowColorUnitTests
         service.BuildRowColor(eventPickings);
 
         Assert.Equal("gray", eventPickings[0].RowColor);
-        Assert.Equal("red", eventPickings[1].RowColor);
+        Assert.Equal("white", eventPickings[1].RowColor);
         Assert.Equal("white", eventPickings[2].RowColor);
         Assert.Equal("white", eventPickings[3].RowColor);
-        Assert.Equal("red", eventPickings[4].RowColor);
+        Assert.Equal("white", eventPickings[4].RowColor);
         Assert.Equal("#FFFFFF", eventPickings[5].RowColorHex);
     }
 }

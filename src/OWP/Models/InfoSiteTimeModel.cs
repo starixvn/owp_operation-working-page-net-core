@@ -12,5 +12,4 @@ public class InfoSiteTimeModel
     public TimeSpan KickOffTime { get; set; }
 
     public string KickOffTimeDisplay => KickOffTime.ToOWPTimeFormat();
-
 }

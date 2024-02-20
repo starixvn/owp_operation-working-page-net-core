@@ -1,6 +1,4 @@
 using OWP.EventPicking.Models;
-using OWP.Extensions;
-using System.Text.RegularExpressions;
 
 namespace OWP.EventPicking.Services;
 
@@ -12,7 +10,7 @@ public interface BuildRowColor
 public class BuildRowColorImp : BuildRowColor
 {
     public void BuildRowColor(List<EventPickingModel> matches)
-        => matches.ForEach(x => { x.RowColor = x.IsBlackList ? Misc.Constant.ColorGray: Misc.Constant.ColorWhite; });
+        => matches.ForEach(x => { x.RowColor = x.IsBlackList ? Misc.Constant.ColorGray : Misc.Constant.ColorWhite; });
 
     public static bool IsSaBaGame(string leagueName)
     {

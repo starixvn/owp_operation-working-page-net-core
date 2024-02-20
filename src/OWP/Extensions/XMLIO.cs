@@ -73,4 +73,29 @@ public static class XMLIO
 
         return GetExpressions(p.PropertyType, prop, lambda);
     }
+
+    public static string ToXmlString<T>(this IEnumerable<T> items)
+    {
+        var xEle = new XElement("Root",
+              from item in items
+              select new XElement("Row", ToXAttribute(item)));
+        return xEle.ToString(SaveOptions.None);
+    }
+
+    private static IEnumerable<XAttribute> ToXAttribute<T>(T item)
+    {
+        var attributes = new List<XAttribute>();
+        var listProperties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance).
+             Where(x => !Attribute.IsDefined(x, typeof(XmlIgnoreAttribute)));
+
+        foreach (var prop in listProperties)
+        {
+            var value = prop.GetValue(item, null);
+            if (value != null)
+            {
+                attributes.Add(new XAttribute(prop.Name, value));
+            }
+        }
+        return attributes;
+    }
 }

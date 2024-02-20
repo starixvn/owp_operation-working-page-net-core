@@ -2,12 +2,11 @@ using Epplus.Mapper.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using OfficeOpenXml;
 using OWP.Constants;
+using OWP.EventPicking.Constant;
 using OWP.EventPicking.Helper;
 using OWP.EventPicking.Models;
 using OWP.Extensions;
 using OWP.Services;
-using System.Data.Common;
-using OWP.EventPicking.Constant;
 
 namespace OWP.EventPicking.Services;
 
@@ -24,7 +23,7 @@ public class ExportServiceImp : ExportService, IDisposable
 
     private readonly PermissionService permissionService;
 
-    public ExportServiceImp(ConfigurationService configurationService , PermissionService permissionService)
+    public ExportServiceImp(ConfigurationService configurationService, PermissionService permissionService)
     {
         this.configurationService = configurationService;
         this.permissionService = permissionService;
@@ -36,15 +35,15 @@ public class ExportServiceImp : ExportService, IDisposable
 
         await using var stream = new FileStream(templatePath, FileMode.Open, FileAccess.Read);
 
-        excelPackage = new ExcelPackage(stream); 
+        excelPackage = new ExcelPackage(stream);
         var templateSheet = excelPackage.Workbook.Worksheets.First();
         templateSheet.ApplyVertical(matches, 2);
         ExcelColorHelper.FillRowColor(matches, templateSheet);
         ExcelColorHelper.FillCellColor(matches, templateSheet);
         var turnoverMarginPolicy = permissionService
             .GetPermissions(FunctionKeys.EventPickingNew)?
-            .GetPermissionModel(FunctionKeys.EventPickingNew_EventAndPerformance); 
-        if (!turnoverMarginPolicy.IsRead || isMiscMatch)
+            .GetPermissionModel(FunctionKeys.EventPickingNew_EventAndPerformance);
+        if (turnoverMarginPolicy != null && !turnoverMarginPolicy.IsRead || isMiscMatch)
         {
             templateSheet.DeleteColumn(ReportConstant.MarginColumn);
             templateSheet.DeleteColumn(ReportConstant.TurnOverColumn);

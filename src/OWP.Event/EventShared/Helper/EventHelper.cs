@@ -1,6 +1,6 @@
-﻿using OWP.Event.EventShared.Models;
+﻿using OWP.Event.EventShared.Const;
+using OWP.Event.EventShared.Models;
 using System.Globalization;
-using OWP.Event.EventShared.Const;
 
 namespace OWP.Event.EventShared.Helper;
 
@@ -96,7 +96,15 @@ public static class EventHelper
         return (matchSettingsDict, minorMatchSettingsDict);
     }
 
-    public static bool IsSelectAllMatchType( List<string> matchType)
-     =>  matchType.Exists(x=> x== EventConst.MatchReal) 
-         && matchType.Exists(x=>x==EventConst.MatchVirtual);
+    public static bool IsSelectAllMatchType(List<string> matchType)
+     => matchType.Exists(x => x == EventConst.MatchReal)
+         && matchType.Exists(x => x == EventConst.MatchVirtual);
+
+    public static string ToOWPTimeFormat(this TimeSpan time)
+    {
+        const string TimeFormat = "hh:mm tt";
+        var date = new DateTimeOffset(1, 1, 1, time.Hours, time.Minutes, 0, TimeSpan.Zero);
+
+        return date.ToString(TimeFormat, CultureInfo.InvariantCulture);
+    }
 }

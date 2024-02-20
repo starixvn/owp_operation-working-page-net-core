@@ -1,0 +1,13 @@
+﻿using Fanex.Data.Repository;
+
+namespace OWP.Event.LiveGameAssignment.Criteria;
+
+public class GetInfoSiteTimeCriteria : CriteriaBase
+{
+    public string ParentMatchIds { get; set; }
+
+    public override string GetSettingKey() => "OWP_LiveGame_GetInfoSiteTime";
+
+    public override bool IsValid() => true;
+}
+

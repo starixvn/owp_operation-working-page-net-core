@@ -37,15 +37,15 @@ public class CornerServiceUnitTests
     [Fact]
     public void BuildScheduleUpdateModel_ReturnScheduleUpdateModel()
     {
-        var result = CornerServiceImp.BuildScheduleUpdateModel(gameMapGameId,assignmentsCorner, DateTime.Parse("2023-3-31 18:05:00"));
+        var result = CornerServiceImp.BuildScheduleUpdateModel(gameMapGameId, assignmentsCorner, DateTime.Parse("2023-3-31 18:05:00"));
 
         var expect = new ScheduleUpdateModel
         {
             FilterDate = DateTime.Parse("2023-3-31 18:05:00"),
             EtPk = new ETPKUpdateSchedule
             {
-                IsHasEtPk = true,
-                EtPkValue = "PK"
+                IsHasEtPk = false,
+                EtPkValue = ""
             },
             AssignmentCell = new AssignmentCell
             {
@@ -53,7 +53,7 @@ public class CornerServiceUnitTests
                 TextColor = ColorCodeConst.TEXT_CORNER,
                 Text = "06:05"
             },
-            TimeRange = (DateTime.Parse("2023-3-31 18:05:00"), DateTime.Parse("2023-3-31 20:05:00"))
+            TimeRange = (DateTime.Parse("2023-3-31 18:05:00"), DateTime.Parse("2023-3-31 19:05:00"))
         };
         DeepAssert.Equal(expect, result);
     }

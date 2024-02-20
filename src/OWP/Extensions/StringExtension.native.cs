@@ -41,4 +41,11 @@ public static class StringExtension
     }
 
     public static string RemoveNonAlphaCharacters(string source) => new(source?.Where(char.IsLetter).ToArray());
+
+    public static string ConvertNullToEmpty(string value)
+    {
+        return string.IsNullOrEmpty(value)
+            ? string.Empty
+            : value.Trim();
+    }
 }

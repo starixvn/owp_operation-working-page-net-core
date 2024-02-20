@@ -38,6 +38,7 @@ services.AddCookieAuthentication(configuration);
 services.AddRedis(configuration);
 services.AddRedisSession(configuration);
 services.Configure<RabbitMQSetting>(configuration.GetSection(RabbitMQSetting.RabbitMQ));
+services.Configure<AppSettings>(configuration.GetSection(AppSettings.Key));
 services.Configure<AccessCounterModel>(configuration.GetSection("AccessCounter"));
 
 services.AddSignalR(configuration);
