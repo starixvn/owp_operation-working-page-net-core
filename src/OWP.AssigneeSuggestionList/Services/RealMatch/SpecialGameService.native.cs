@@ -1,4 +1,5 @@
 using OWP.AssigneeSuggestionList.Models;
+using OWP.Constants;
 
 namespace OWP.AssigneeSuggestionList.Services.RealMatch;
 
@@ -38,9 +39,22 @@ public class SpecialGameServiceImp : SpecialGameService
         IDictionary<int, List<AssignmentModel>> gameMapGameId)
     {
         cornerService.Group(assignmentModels, schedule, fromDate, gameMapGameId);
-        xMinsGroupService.Group(assignmentModels, schedule, fromDate);
-        winnerService.Group(assignmentModels, schedule, fromDate, gameMapGameId);
+        GroupXMins(schedule, assignmentModels, fromDate, gameMapGameId);
+        GroupWinnerAndNextRound(schedule, assignmentModels, fromDate, gameMapGameId);
         singleTeamService.Group(assignmentModels, schedule, fromDate, gameMapGameId);
         bookingService.Group(assignmentModels, schedule, fromDate, gameMapGameId);
+    }
+
+    private void GroupWinnerAndNextRound(WorkingSchedule schedule, IList<AssignmentModel> assignmentModels, DateTime fromDate, IDictionary<int, List<AssignmentModel>> gameMapGameId)
+    {
+        winnerService.Group(assignmentModels, schedule, fromDate, gameMapGameId);
+        winnerService.Group(assignmentModels, schedule, fromDate, gameMapGameId, Bettype.NextRound);
+    }
+
+    private void GroupXMins(WorkingSchedule schedule, IList<AssignmentModel> assignmentModels, DateTime fromDate, IDictionary<int, List<AssignmentModel>> gameMapGameId)
+    {
+        xMinsGroupService.Group(assignmentModels, schedule, fromDate);
+        xMinsGroupService.Group(assignmentModels, schedule, fromDate, Bettype.Specific15MinsCorners);
+        xMinsGroupService.Group(assignmentModels, schedule, fromDate, Bettype.Specific15MinsTotalBookings);
     }
 }

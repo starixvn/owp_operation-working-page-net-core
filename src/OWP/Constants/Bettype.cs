@@ -30,4 +30,9 @@ public static class Bettype
 
     public const int AwaySingleTeam = -93;
 
+    public const int NextRound = -15;
+
+    public const int Specific15Mins = -1;
+    public const int Specific15MinsTotalBookings = -8;
+    public const int Specific15MinsCorners = -5;
 }

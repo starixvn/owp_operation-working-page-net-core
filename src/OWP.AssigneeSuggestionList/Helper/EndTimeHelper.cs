@@ -36,7 +36,7 @@ public static class EndTimeHelper
 
     private static AssignmentModel UpdateEndTimeForSpecialProduct(AssignmentModel assignment, string remarkType)
     {
-        var isSpecialProduct = assignment.MinorBettypeId.HasValue && BetTypeSpecial.BetTypes.Contains(assignment.MinorBettypeId.Value);
+        var isSpecialProduct = Utils.IsValidSpecialProduct(assignment.MinorBettypeId);
         assignment.EndTime = isSpecialProduct
             ? assignment.EventDateTime.Add(CalculateCornerMatchEndTime(remarkType))
             : assignment.EventDateTime.Add(new TimeSpan(2, 0, 0));

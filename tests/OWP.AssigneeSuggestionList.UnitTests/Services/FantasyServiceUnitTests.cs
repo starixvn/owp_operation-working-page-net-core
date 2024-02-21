@@ -15,7 +15,7 @@ public class FantasyServiceUnitTests
 
     public FantasyServiceUnitTests()
     {
-            Substitute.For<SingleGameGroupService>();
+            Substitute.For<SpecialGroupService>();
     }
 
     private void Initialize()

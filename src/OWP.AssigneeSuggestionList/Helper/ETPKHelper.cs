@@ -1,4 +1,3 @@
-using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Models;
 using OWP.Extensions;
 
@@ -8,8 +7,8 @@ public static class ETPKHelper
 {
     public static string DetectExtraTime(string remark, string assignmentNote, int? minorBettypeId = null)
         => (IsEtPK(remark, assignmentNote),
-            IsEt(remark, assignmentNote, minorBettypeId),
-            IsPK(remark, assignmentNote)) switch
+            Utils.IsValidSpecialProduct(minorBettypeId),
+            IsPK(remark, assignmentNote, minorBettypeId)) switch
         {
             (true, true, _) => "ET",
             (false, _, true) => "PK",
@@ -25,11 +24,6 @@ public static class ETPKHelper
         return string.Join("+", etpkValues);
     }
 
-    private static bool IsEt(string remark, string assignmentNote, int? minorBettypeId)
-        => minorBettypeId.HasValue &&
-            BetTypeSpecial.BetTypes.Contains(minorBettypeId.Value) &&
-            IsEtPK(remark, assignmentNote);
-
     private static bool IsEtPK(string remark, string assignmentNote)
     => remark.IsContains(" ET")
         && remark.IsContains("PK")
@@ -41,8 +35,8 @@ public static class ETPKHelper
                 && assignmentNote.IsContains("PK")
                 && !assignmentNote.IsContains("No"));
 
-    private static bool IsPK(string remark, string assignmentNote)
-        => IsPKRemark(remark) && IsPKAssignmentNote(assignmentNote);
+    private static bool IsPK(string remark, string assignmentNote, int? minorBettypeId)
+        => !minorBettypeId.HasValue && IsPKRemark(remark) && IsPKAssignmentNote(assignmentNote);
 
     private static bool IsPKRemark(string remark)
         => !remark.IsContains(" ET")

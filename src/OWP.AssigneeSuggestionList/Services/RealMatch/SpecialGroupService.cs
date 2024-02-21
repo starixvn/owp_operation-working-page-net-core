@@ -4,18 +4,20 @@ using MatchType = OWP.AssigneeSuggestionList.Constant.MatchType;
 
 namespace OWP.AssigneeSuggestionList.Services.RealMatch;
 
-public interface SingleGameGroupService
+public interface SpecialGroupService
 {
     void Group(
         IList<AssignmentModel> assignments,
         WorkingSchedule schedule,
-        Func<IList<AssignmentModel>, ScheduleUpdateModel> buildUpdateScheduleFunc, MatchType matchType = MatchType.RealMatchOther);
+        Func<IList<AssignmentModel>, ScheduleUpdateModel> buildUpdateScheduleFunc,
+        MatchType matchType = MatchType.RealMatchOther);
 }
-public class SingleGameGroupServiceImp : SingleGameGroupService
+
+public class SpeacialGroupServiceImp : SpecialGroupService
 {
     private readonly WorkingScheduleService workingSchedule;
 
-    public SingleGameGroupServiceImp(WorkingScheduleService workingSchedule)
+    public SpeacialGroupServiceImp(WorkingScheduleService workingSchedule)
     {
         this.workingSchedule = workingSchedule;
     }

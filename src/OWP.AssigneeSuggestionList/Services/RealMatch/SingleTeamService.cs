@@ -15,9 +15,9 @@ public interface SingleTeamService
 
 public class SingleTeamServiceImp : SingleTeamService
 {
-    private readonly SingleGameGroupService workingSchedule;
+    private readonly SpecialGroupService workingSchedule;
 
-    public SingleTeamServiceImp(SingleGameGroupService workingSchedule)
+    public SingleTeamServiceImp(SpecialGroupService workingSchedule)
     {
         this.workingSchedule = workingSchedule;
     }

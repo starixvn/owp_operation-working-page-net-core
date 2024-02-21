@@ -15,9 +15,9 @@ public interface OneGameService
 
 public class OneGameServiceImp : OneGameService
 {
-    private readonly SingleGameGroupService workingSchedule;
+    private readonly SpecialGroupService workingSchedule;
 
-    public OneGameServiceImp(SingleGameGroupService workingSchedule)
+    public OneGameServiceImp(SpecialGroupService workingSchedule)
     {
         this.workingSchedule = workingSchedule;
     }

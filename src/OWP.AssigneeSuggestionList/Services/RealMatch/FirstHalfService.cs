@@ -17,9 +17,9 @@ public interface FirstHalfService : IRequest<Unit>
 
 public class FirstHalfServiceImp : FirstHalfService
 {
-    private readonly SingleGameGroupService workingSchedule;
+    private readonly SpecialGroupService workingSchedule;
 
-    public FirstHalfServiceImp(SingleGameGroupService workingSchedule)
+    public FirstHalfServiceImp(SpecialGroupService workingSchedule)
     {
         this.workingSchedule = workingSchedule;
     }

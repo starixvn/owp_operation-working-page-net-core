@@ -16,9 +16,12 @@ public static class ColorCodeConst
     public const string FANTASY = "#E6B8B7";
     public const string CORNER = "#C00000";
     public const string WINNER = "#036541";
+    public const string NEXT_ROUND = "#83D4B6";
     public const string BOOKING = "#FEFE88";
     public const string SINGLE_TEAM = "#DF908E";
     public const string X_MINS = "#0070C0";
+    public const string CR_15_MINS = "#0096C0";
+    public const string TB_15_MINS = "#1241A5";
     public const string ET_PK = "#000000";
     public const string SHIFT = "#BFBFBF";
 
@@ -34,9 +37,11 @@ public static class ColorCodeConst
     public const string TEXT_FANTASY = TEXT_COLOR_BLACK;
     public const string TEXT_CORNER = TEXT_COLOR_WHITE;
     public const string TEXT_WINNER = TEXT_COLOR_WHITE;
+    public const string TEXT_NEXT_ROUND = TEXT_COLOR_WHITE;
     public const string TEXT_BOOKING = TEXT_COLOR_BLACK;
     public const string TEXT_SINGLE_TEAM = TEXT_COLOR_BLACK;
     public const string TEXT_X_MINS = TEXT_COLOR_WHITE;
+
     public const string TEXT_ET_PK = "#FFEA29";
 
     // Saba
@@ -61,8 +66,11 @@ public static class ColorCodeConst
          new ("CR/NCR", CORNER, TEXT_COLOR_WHITE),
          new ("BOOKING", BOOKING, TEXT_COLOR_BLACK),
          new ("WINNER", WINNER, TEXT_COLOR_WHITE),
+         new ("Next Round", NEXT_ROUND, TEXT_COLOR_BLACK),
          new ("SingleTeam", SINGLE_TEAM, TEXT_COLOR_BLACK),
          new ("15M OU", X_MINS, TEXT_COLOR_WHITE),
+         new ("CR-15M OU", CR_15_MINS, TEXT_COLOR_WHITE),
+         new ("TB-15M OU", TB_15_MINS, TEXT_COLOR_WHITE),
          new ("ET/PK", ET_PK, TEXT_ET_PK),
          new ("5M", SABA_5MINS, TEXT_COLOR_WHITE),
          new ("5M*2", SABA_5MINS, TEXT_COLOR_WHITE),
@@ -240,8 +248,14 @@ public static class BetTypeSpecial
 {
     public static readonly int[] BetTypes =
     {
-        Bettype.NextCorner, Bettype.Corner, Bettype.NextBooking, Bettype.TotalBooking, Bettype.Winner,
-        Bettype.AwaySingleTeam, Bettype.HomeSingleTeam
+        Bettype.NextCorner,
+        Bettype.Corner,
+        Bettype.NextBooking,
+        Bettype.TotalBooking,
+        Bettype.Winner,
+        Bettype.NextRound,
+        Bettype.AwaySingleTeam,
+        Bettype.HomeSingleTeam
     };
 }
 

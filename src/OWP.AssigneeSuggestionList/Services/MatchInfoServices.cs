@@ -21,7 +21,6 @@ public class MatchInfoServicesImp : MatchInfoServices
 
     public async Task<MatchInfo> GetMatchInfo(QueryTraderSuggestionRequest request)
     {
-        // TODO
         var matchInfo = await repository.QueryMatchInfo(request.OwpMatchId);
         matchInfo.BettypeId = request.BetTypeId;
         matchInfo.FilterDate = request.FilterDate;

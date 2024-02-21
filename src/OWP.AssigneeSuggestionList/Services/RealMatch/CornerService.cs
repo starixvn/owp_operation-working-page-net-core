@@ -59,7 +59,7 @@ public class CornerServiceImp : CornerService
         var tempEtPkValue = ETPKHelper.DetectExtraTime(gameInfo.remark, gameInfo.assignmentNote, gameInfo.minorBettypeId);
 
         var etPkValue = (FirstHalfHelper.IsFirstHalf(assignmentsCorner) || string.Equals(tempEtPkValue, "PK", StringComparison.OrdinalIgnoreCase))
-        ? string.Empty
+            ? string.Empty
             : tempEtPkValue;
 
         return new ScheduleUpdateModel

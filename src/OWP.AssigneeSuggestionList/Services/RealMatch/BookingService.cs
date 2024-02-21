@@ -68,10 +68,8 @@ public class BookingServiceImp : BookingService
         var tempEtPkValue = ETPKHelper.DetectExtraTime(gameInfo.remark, gameInfo.assignmentNote, gameInfo.minorBettypeId);
 
         var etPkValue = (FirstHalfHelper.IsFirstHalf(assignmentsBooking) ||
-        assignmentsBooking.All(x => x.BettypeId is Bettype.FifteenMinsBookings)
-        || string.Equals(tempEtPkValue, "PK", StringComparison.OrdinalIgnoreCase))
-         ? string.Empty
-            : tempEtPkValue;
+                        assignmentsBooking.All(x => x.BettypeId is Bettype.FifteenMinsBookings))
+         ? string.Empty : tempEtPkValue;
 
         return new ScheduleUpdateModel
         {

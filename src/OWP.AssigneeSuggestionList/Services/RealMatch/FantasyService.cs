@@ -15,9 +15,9 @@ public interface FantasyService
 
 public class FantasyServiceImp : FantasyService
 {
-    private readonly SingleGameGroupService workingSchedule;
+    private readonly SpecialGroupService workingSchedule;
 
-    public FantasyServiceImp(SingleGameGroupService workingSchedule)
+    public FantasyServiceImp(SpecialGroupService workingSchedule)
     {
         this.workingSchedule = workingSchedule;
     }

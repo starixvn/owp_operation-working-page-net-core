@@ -14,9 +14,9 @@ public interface EtPkService
 
 public class EtPkServiceImp : EtPkService
 {
-    private readonly SingleGameGroupService workingSchedule;
+    private readonly SpecialGroupService workingSchedule;
 
-    public EtPkServiceImp(SingleGameGroupService workingSchedule)
+    public EtPkServiceImp(SpecialGroupService workingSchedule)
     {
         this.workingSchedule = workingSchedule;
     }

@@ -1,6 +1,7 @@
 using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Helper;
 using OWP.AssigneeSuggestionList.Models;
+using OWP.Constants;
 
 namespace OWP.AssigneeSuggestionList.Services.RealMatch;
 
@@ -9,14 +10,15 @@ public interface XMinsGroupService
     void Group(
         IList<AssignmentModel> assignments,
         WorkingSchedule schedule,
-        DateTime filterDate);
+        DateTime filterDate,
+        int bettype = Bettype.Specific15Mins);
 }
 
 public class XMinsGroupServiceImp : XMinsGroupService
 {
-    private readonly SingleGameGroupService workingSchedule;
+    private readonly SpecialGroupService workingSchedule;
 
-    public XMinsGroupServiceImp(SingleGameGroupService workingSchedule)
+    public XMinsGroupServiceImp(SpecialGroupService workingSchedule)
     {
         this.workingSchedule = workingSchedule;
     }
@@ -24,9 +26,10 @@ public class XMinsGroupServiceImp : XMinsGroupService
     public void Group(
         IList<AssignmentModel> assignments,
         WorkingSchedule schedule,
-        DateTime filterDate)
+        DateTime filterDate,
+        int bettype = Bettype.Specific15Mins)
     {
-        var gameGroup = assignments.Where(a => a.Is15Mins && a.MatchType == Constant.MatchType.Other).ToList();
+        var gameGroup = assignments.Where(a => a.MatchType == Constant.MatchType.Other && a.MinorBettypeId == bettype).ToList();
 
         foreach (var game in gameGroup)
         {
@@ -46,11 +49,11 @@ public class XMinsGroupServiceImp : XMinsGroupService
             KOTime = assignments15Mins[0].KOTime,
             MaxbetHDP = gameInfo.maxbetHdp
         };
-
+        var (textColor, color) = GetColor(assignments15Mins[0].MinorBettypeId ?? 0);
         var assignmentCell = new AssignmentCell
         {
-            Color = ColorCodeConst.X_MINS,
-            TextColor = ColorCodeConst.TEXT_X_MINS,
+            Color = color,
+            TextColor = textColor,
             Text = ScheduleHelper.BuildScheduleTextSingleGame(assignment, string.Empty)
         };
 
@@ -61,5 +64,17 @@ public class XMinsGroupServiceImp : XMinsGroupService
             AssignmentCell = assignmentCell,
             TimeRange = TimeRangeHelper.CalculateTimeRangeFT(gameInfo.eventDate, false)
         };
+    }
+
+    private static (string, string) GetColor(int minorBettypeId)
+    {
+        var colors = new Dictionary<int, (string, string)>
+        {
+            {Bettype.Specific15Mins, (ColorCodeConst.TEXT_X_MINS, ColorCodeConst.X_MINS)},
+            {Bettype.Specific15MinsCorners, (ColorCodeConst.TEXT_X_MINS, ColorCodeConst.CR_15_MINS)},
+            {Bettype.Specific15MinsTotalBookings, (ColorCodeConst.TEXT_X_MINS, ColorCodeConst.TB_15_MINS)}
+        };
+
+        return colors.GetValueOrDefault(minorBettypeId);
     }
 }

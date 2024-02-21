@@ -15,9 +15,9 @@ public interface MJGroupService
 
 public class MJGroupServiceImp : MJGroupService
 {
-    private readonly SingleGameGroupService workingSchedule;
+    private readonly SpecialGroupService workingSchedule;
 
-    public MJGroupServiceImp(SingleGameGroupService workingSchedule)
+    public MJGroupServiceImp(SpecialGroupService workingSchedule)
     {
         this.workingSchedule = workingSchedule;
     }
