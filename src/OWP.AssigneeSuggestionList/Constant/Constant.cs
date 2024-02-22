@@ -37,7 +37,7 @@ public static class ColorCodeConst
     public const string TEXT_FANTASY = TEXT_COLOR_BLACK;
     public const string TEXT_CORNER = TEXT_COLOR_WHITE;
     public const string TEXT_WINNER = TEXT_COLOR_WHITE;
-    public const string TEXT_NEXT_ROUND = TEXT_COLOR_WHITE;
+    public const string TEXT_NEXT_ROUND = TEXT_COLOR_BLACK;
     public const string TEXT_BOOKING = TEXT_COLOR_BLACK;
     public const string TEXT_SINGLE_TEAM = TEXT_COLOR_BLACK;
     public const string TEXT_X_MINS = TEXT_COLOR_WHITE;

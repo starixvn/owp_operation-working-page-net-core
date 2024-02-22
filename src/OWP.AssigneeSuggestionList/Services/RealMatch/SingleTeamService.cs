@@ -30,14 +30,12 @@ public class SingleTeamServiceImp : SingleTeamService
         var gameGroup = assignments
             .Where(a => a.MatchType == Constant.MatchType.Other && a.MinorBettypeId is Bettype.HomeSingleTeam or Bettype.AwaySingleTeam)
             .ToList();
-        foreach (var game in gameGroup)
-        {
-            game.MatchType = Constant.MatchType.RealSingleTeam;
-        }
-        workingSchedule.Group(
-           gameGroup,
-           schedules,
-            assignment => BuildScheduleUpdateModel(gameMapGameId, assignment, filterDate));
+        gameGroup.ForEach(game => game.MatchType = Constant.MatchType.RealSingleTeam);
+
+        //workingSchedule.Group(
+        //   gameGroup,
+        //   schedules,
+        //    assignment => BuildScheduleUpdateModel(gameMapGameId, assignment, filterDate));
     }
 
     public static ScheduleUpdateModel BuildScheduleUpdateModel(IDictionary<int, List<AssignmentModel>> gameMapGameId, IList<AssignmentModel> assignmentsSingleTeam, DateTime filterDate)
@@ -63,11 +61,7 @@ public class SingleTeamServiceImp : SingleTeamService
         return new ScheduleUpdateModel
         {
             FilterDate = filterDate,
-            EtPk = new ETPKUpdateSchedule
-            {
-                IsHasEtPk = !string.IsNullOrEmpty(etPkValue),
-                EtPkValue = etPkValue
-            },
+            EtPk = new ETPKUpdateSchedule(etPkValue),
             AssignmentCell = assignmentCell,
             TimeRange = TimeRangeHelper.CalculateTimeRangeSingleGame(gameInfo.eventDate, gameInfo.bettypeIds, !string.IsNullOrEmpty(etPkValue))
         };

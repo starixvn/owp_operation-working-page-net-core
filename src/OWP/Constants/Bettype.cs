@@ -24,7 +24,7 @@ public static class Bettype
 
     public const int Winner = -14;
 
-    public const int FifteenMinsBookings = -8;
+    //public const int FifteenMinsBookings = -8;
 
     public const int HomeSingleTeam = -92;
 

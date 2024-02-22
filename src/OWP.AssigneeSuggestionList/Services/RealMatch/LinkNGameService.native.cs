@@ -104,11 +104,7 @@ public class LinkNGameServiceImp : LinkNGameService
             var scheduleUpdateModel = new ScheduleUpdateModel
             {
                 FilterDate = filterDate,
-                EtPk = new ETPKUpdateSchedule
-                {
-                    IsHasEtPk = !string.IsNullOrEmpty(etpkValue),
-                    EtPkValue = etpkValue
-                },
+                EtPk = new ETPKUpdateSchedule(etpkValue),
                 AssignmentCell = assignmentCell,
                 TimeRange = timeRange
             };

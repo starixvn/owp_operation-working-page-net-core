@@ -31,10 +31,7 @@ public class XMinsGroupServiceImp : XMinsGroupService
     {
         var gameGroup = assignments.Where(a => a.MatchType == Constant.MatchType.Other && a.MinorBettypeId == bettype).ToList();
 
-        foreach (var game in gameGroup)
-        {
-            game.MatchType = Constant.MatchType.Real15MOU;
-        }
+        gameGroup.ForEach(game => game.MatchType = Constant.MatchType.Real15MOU);
         workingSchedule.Group(
            gameGroup,
            schedule,
@@ -50,18 +47,17 @@ public class XMinsGroupServiceImp : XMinsGroupService
             MaxbetHDP = gameInfo.maxbetHdp
         };
         var (textColor, color) = GetColor(assignments15Mins[0].MinorBettypeId ?? 0);
-        var assignmentCell = new AssignmentCell
-        {
-            Color = color,
-            TextColor = textColor,
-            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignment, string.Empty)
-        };
 
         return new ScheduleUpdateModel
         {
             FilterDate = filterDate,
             EtPk = new ETPKUpdateSchedule(),
-            AssignmentCell = assignmentCell,
+            AssignmentCell = new AssignmentCell
+            {
+                Color = color,
+                TextColor = textColor,
+                Text = ScheduleHelper.BuildScheduleTextSingleGame(assignment, string.Empty)
+            },
             TimeRange = TimeRangeHelper.CalculateTimeRangeFT(gameInfo.eventDate, false)
         };
     }

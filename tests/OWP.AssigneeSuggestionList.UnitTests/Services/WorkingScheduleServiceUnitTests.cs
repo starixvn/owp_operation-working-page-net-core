@@ -46,7 +46,7 @@ public class WorkingScheduleServiceUnitTests
                 UserId = 123,
                 Username = "Los"
             },
-            Yesterday_10h =new List<AssignmentCell>
+            Yesterday_10h = new List<AssignmentCell>
             {
                 new ()
                 {
@@ -64,7 +64,7 @@ public class WorkingScheduleServiceUnitTests
                     Color = "#C00000",
                     KoAssignment  = DateTime.Parse("2023-04-04 10:00:00")
                 }
-            
+
             },
             CategorizedAssignments = new List<AssignmentModel> { new() }
         };
@@ -81,7 +81,6 @@ public class WorkingScheduleServiceUnitTests
             FilterDate = DateTime.Parse("2023-04-04 13:00:00"),
             EtPk = new ETPKUpdateSchedule
             {
-                IsHasEtPk = true,
                 EtPkValue = "ETPK"
             },
             PropertiesName = new List<string>(),

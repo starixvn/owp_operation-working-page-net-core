@@ -38,14 +38,13 @@ public class MJServiceUnitTests
         Initialize();
 
         // Act
-        var result = MJGroupServiceImp.BuildScheduleUpdateModel(gameMapGameId,assignments, DateTime.Parse("2023-3-31 18:00:00"));
+        var result = MJGroupServiceImp.BuildScheduleUpdateModel(gameMapGameId, assignments, DateTime.Parse("2023-3-31 18:00:00"));
 
         var expect = new ScheduleUpdateModel
         {
             FilterDate = DateTime.Parse("2023-3-31 18:00:00"),
             EtPk = new ETPKUpdateSchedule
             {
-                IsHasEtPk = true,
                 EtPkValue = "PK"
             },
             AssignmentCell = new AssignmentCell

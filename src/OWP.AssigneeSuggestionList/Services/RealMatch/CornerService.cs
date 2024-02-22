@@ -58,18 +58,14 @@ public class CornerServiceImp : CornerService
         var gameInfo = ScheduleHelper.GetGameInfo(assignmentsCorner);
         var tempEtPkValue = ETPKHelper.DetectExtraTime(gameInfo.remark, gameInfo.assignmentNote, gameInfo.minorBettypeId);
 
-        var etPkValue = (FirstHalfHelper.IsFirstHalf(assignmentsCorner) || string.Equals(tempEtPkValue, "PK", StringComparison.OrdinalIgnoreCase))
+        var etPkValue = FirstHalfHelper.IsFirstHalf(assignmentsCorner)
             ? string.Empty
             : tempEtPkValue;
 
         return new ScheduleUpdateModel
         {
             FilterDate = filterDate,
-            EtPk = new ETPKUpdateSchedule
-            {
-                IsHasEtPk = !string.IsNullOrEmpty(etPkValue),
-                EtPkValue = etPkValue
-            },
+            EtPk = new ETPKUpdateSchedule(etPkValue),
             AssignmentCell = new()
             {
                 Color = ColorCodeConst.CORNER,

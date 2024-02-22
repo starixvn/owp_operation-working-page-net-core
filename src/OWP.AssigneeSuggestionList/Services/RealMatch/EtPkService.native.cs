@@ -61,11 +61,7 @@ public class EtPkServiceImp : EtPkService
         return new ScheduleUpdateModel
         {
             FilterDate = filterDate,
-            EtPk = new ETPKUpdateSchedule
-            {
-                IsHasEtPk = string.IsNullOrEmpty(etPkValue),
-                EtPkValue = etPkValue
-            },
+            EtPk = new ETPKUpdateSchedule(etPkValue),
             AssignmentCell = assignmentCell,
             TimeRange = (gameInfo.eventDate, gameInfo.eventDate)
         };

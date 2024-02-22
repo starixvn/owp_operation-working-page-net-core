@@ -30,10 +30,9 @@ public class BookingServiceImp : BookingService
         IDictionary<int, List<AssignmentModel>> gameMapGameId)
     {
         var gameGroupPair = assignments
-                    .Where(a => a.MatchType is Constant.MatchType.Other && a.MinorBettypeId is Bettype.FifteenMinsBookings or Bettype.NextBooking or Bettype.TotalBooking)
+                    .Where(a => a.MatchType is Constant.MatchType.Other && a.MinorBettypeId is Bettype.NextBooking or Bettype.TotalBooking)
                     .GroupBy(a => a.ParentMatchId.Value)
                     .ToDictionary(g => g.Key, g => g.ToList());
-
 
         foreach (var key in gameGroupPair.Keys)
         {
@@ -50,36 +49,24 @@ public class BookingServiceImp : BookingService
      IList<AssignmentModel> assignmentsBooking,
       DateTime filterDate)
     {
-        var textPostfix = ScheduleHelper.BuildTextSingleGamePostfixHdp(gameMapGameId, assignmentsBooking);
-        if (string.IsNullOrEmpty(textPostfix))
-        {
-            textPostfix = ScheduleHelper.BuildTextSingleGamePostfixOu(gameMapGameId, assignmentsBooking);
-        }
-
-        var assignmentCell = new AssignmentCell
-        {
-            Color = ColorCodeConst.BOOKING,
-            TextColor = ColorCodeConst.TEXT_BOOKING,
-            Text = ScheduleHelper.BuildScheduleTextSingleGame(assignmentsBooking[0], textPostfix)
-        };
+        var textPostfix = ScheduleHelper.BuildTextSingleGamePostfixHdp(gameMapGameId, assignmentsBooking)
+            ?? ScheduleHelper.BuildTextSingleGamePostfixOu(gameMapGameId, assignmentsBooking);
 
         var gameInfo = ScheduleHelper.GetGameInfo(assignmentsBooking);
 
         var tempEtPkValue = ETPKHelper.DetectExtraTime(gameInfo.remark, gameInfo.assignmentNote, gameInfo.minorBettypeId);
-
-        var etPkValue = (FirstHalfHelper.IsFirstHalf(assignmentsBooking) ||
-                        assignmentsBooking.All(x => x.BettypeId is Bettype.FifteenMinsBookings))
-         ? string.Empty : tempEtPkValue;
+        var etPkValue = FirstHalfHelper.IsFirstHalf(assignmentsBooking) ? string.Empty : tempEtPkValue;
 
         return new ScheduleUpdateModel
         {
             FilterDate = filterDate,
-            EtPk = new ETPKUpdateSchedule
+            EtPk = new ETPKUpdateSchedule(etPkValue),
+            AssignmentCell = new AssignmentCell
             {
-                IsHasEtPk = !string.IsNullOrEmpty(etPkValue),
-                EtPkValue = etPkValue
+                Color = ColorCodeConst.BOOKING,
+                TextColor = ColorCodeConst.TEXT_BOOKING,
+                Text = ScheduleHelper.BuildScheduleTextSingleGame(assignmentsBooking[0], textPostfix)
             },
-            AssignmentCell = assignmentCell,
             TimeRange = TimeRangeHelper.CalculateTimeRangeSingleGame(gameInfo.eventDate, gameInfo.bettypeIds, !string.IsNullOrEmpty(etPkValue))
         };
     }

@@ -10,12 +10,12 @@ using Xunit.Asserts.Compare;
 
 public class FantasyServiceUnitTests
 {
-        private List<AssignmentModel> assignments = new();
-        private IDictionary<int, List<AssignmentModel>>  gameMapGameId = new Dictionary<int, List<AssignmentModel>>();
+    private List<AssignmentModel> assignments = new();
+    private IDictionary<int, List<AssignmentModel>> gameMapGameId = new Dictionary<int, List<AssignmentModel>>();
 
     public FantasyServiceUnitTests()
     {
-            Substitute.For<SpecialGroupService>();
+        Substitute.For<SpecialGroupService>();
     }
 
     private void Initialize()
@@ -44,14 +44,13 @@ public class FantasyServiceUnitTests
         Initialize();
 
         // Act
-        var result = FantasyServiceImp.BuildScheduleUpdateModel(gameMapGameId,assignments, DateTime.Parse("2023-3-31 18:00:00"));
+        var result = FantasyServiceImp.BuildScheduleUpdateModel(gameMapGameId, assignments, DateTime.Parse("2023-3-31 18:00:00"));
 
         var expect = new ScheduleUpdateModel
         {
             FilterDate = DateTime.Parse("2023-3-31 18:00:00"),
             EtPk = new ETPKUpdateSchedule
             {
-                IsHasEtPk = true,
                 EtPkValue = "PK"
             },
             AssignmentCell = new AssignmentCell
