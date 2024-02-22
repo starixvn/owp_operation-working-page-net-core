@@ -2,6 +2,7 @@ using Epplus.Mapper.Annotations;
 using OWP.Extensions;
 using OWP.Utils;
 using System.Globalization;
+using System.Linq;
 using System.Text.Json.Serialization;
 
 namespace OWP.EventPicking.Models;
@@ -284,13 +285,13 @@ public class EventPickingModel
     ? "yes"
     : "no";
 
-    //[Cell("BW2")]
-    //[JsonIgnore]
-    //public string TurnoverExport => Turnover.ValueDisplay;
+    [Cell("BW2")]
+    [JsonIgnore]
+    public string TurnoverExport => BuildTurnOverExport();
 
-    //[Cell("BX2")]
-    //[JsonIgnore]
-    //public string MarginExport => Margin.ValueDisplay;
+    [Cell("BX2")]
+    [JsonIgnore]
+    public string MarginExport => BuildMarginExport();
 
     [JsonIgnore]
     public TurnOverInfo TurnoverOneMonth { get; set; }
@@ -335,6 +336,18 @@ public class EventPickingModel
         MarginTwelveMonths
     }.Where(t => t is not null)?
    .ToList();
+
+    public string BuildTurnOverExport()
+    {
+        var turnOverPeriodValues = TurnoverPeriod.Select(t => t.ValueDisplay).ToList();
+        return string.Join("\r\n", turnOverPeriodValues);
+    }
+
+    public string BuildMarginExport()
+    {
+        var marginPeriodValues = MarginPeriod.Select(t => t.ValueDisplay).ToList();
+        return string.Join("\r\n", marginPeriodValues);
+    }
 
     public void MapWeekendSettings(LeagueSetting leagueSetting)
     {

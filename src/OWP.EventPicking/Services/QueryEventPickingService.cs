@@ -132,7 +132,7 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
     {
         if (period.OneMonth is not null)
         {
-            match.TurnoverOneMonth = new TurnOverInfo("1 months");
+            match.TurnoverOneMonth = new TurnOverInfo("1 month");
             match.MarginOneMonth = new MarginInfo("1 month");
         }
         if (period.ThreeMonths is not null)
