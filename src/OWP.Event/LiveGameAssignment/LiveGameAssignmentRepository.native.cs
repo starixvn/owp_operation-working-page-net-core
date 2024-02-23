@@ -456,16 +456,33 @@ public class LiveGameAssignmentRepositoryImp : LiveGameAssignmentRepository
     public async Task DetectEventHasTicket(IList<EventModel> eventModels)
     {
         var owpIds = string.Join(",", eventModels.Select(x => x.OWPMatchId));
-        var hasTicketModel = await dynamicRepository.FetchAsync<HasTicketModel>(new DetectEventHasTicketCritetia
+        var hasTicketModel = await dynamicRepository.FetchAsync<HasTicketModel>(new DetectEventHasTicketCriteria
         {
             OWPMatchIds = owpIds,
             ActorId = session.UserId
         });
         foreach (var @event in eventModels)
         {
-            var ticket = hasTicketModel.FirstOrDefault(x => x.OWPMatchId == @event.OWPMatchId);
-            @event.HasTicket = ticket?.HasTicket;
-            @event.IsRead = ticket?.IsRead;
+            var ticket = hasTicketModel.FirstOrDefault(x => x.ParentMatchId == @event.ParentMatchId);
+            var assignment = new List<Assignment>();
+            assignment.AddRange(@event.OneXTwo1st);
+            assignment.AddRange(@event.FM);
+            assignment.AddRange(@event.AIO);
+            assignment.AddRange(@event.Handicap);
+            assignment.AddRange(@event.Handicap1st);
+            assignment.AddRange(@event.OverUnder);
+            assignment.AddRange(@event.OverUnder1st);
+            assignment.AddRange(@event.OneXTwo1st);
+            assignment.AddRange(@event.Specific15Mins);
+            assignment.AddRange(@event.Specific10Mins);
+            assignment.AddRange(@event.LA);
+
+            var hasAssign = assignment.Any(assignee => assignee.UserId == session.UserId);
+            if (ticket is not null && hasAssign)
+            {
+                @event.HasTicket = ticket?.HasTicket;
+                @event.IsRead = ticket?.IsRead;
+            }
         }
     }
 

@@ -2,7 +2,7 @@
 
 public class HasTicketModel
 {
-    public int OWPMatchId { get; set; }
+    public int ParentMatchId { get; set; }
 
     public bool IsRead { get; set; }
 

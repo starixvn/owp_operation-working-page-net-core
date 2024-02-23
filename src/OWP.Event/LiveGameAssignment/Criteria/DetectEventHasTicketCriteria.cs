@@ -2,7 +2,7 @@
 
 namespace OWP.Event.LiveGameAssignment.Criteria;
 
-public class DetectEventHasTicketCritetia : CriteriaBase
+public class DetectEventHasTicketCriteria : CriteriaBase
 {
     public string OWPMatchIds { get; set; }
 
