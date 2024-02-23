@@ -55,9 +55,9 @@ public class SyncOffVRServiceImp : SyncOffVRService
     public async Task PostSyncOffVRAsync(string json, DateTime now)
     {
         const string path = "api/VirtualRate/UpdateEnableVirtualRate";
-        var infositeDomain = settings.AdminSiteAPI;
+        var adminSiteDomain = settings.AdminSiteAPI;
 
-        var requestUrl = $"{infositeDomain}{path}";
+        var requestUrl = $"{adminSiteDomain}{path}";
         var bodyContent = new StringContent(json, Encoding.UTF8, "application/json");
 
         try
