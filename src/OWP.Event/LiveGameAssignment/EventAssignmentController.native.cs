@@ -134,7 +134,7 @@ public class EventAssignmentController : ControllerBase
     [NapAuth(FunctionKey = FunctionKeys.LiveGameAssignment, Policy = Constant.Policy.Host)]
     public async Task<IActionResult> SyncOffVR(SyncOffVRRequest model)
     {
-        await syncOffVrService.Sync(model.date);
+        await syncOffVrService.Sync(model.Date);
 
         return Ok();
     }
