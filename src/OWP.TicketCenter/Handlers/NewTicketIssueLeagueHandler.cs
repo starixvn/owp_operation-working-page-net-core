@@ -81,14 +81,13 @@ public class NewTicketIssueLeagueHandler : IRequestHandler<NewTicketIssueLeagueR
             Comment = newMessage.Message,
             ActorId = request.CreatorId
         };
-        messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketLeague);
+      //  messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketLeague);
 
         var userIds = await repository.GetUserIdsByTicketId(ticketId);
         var ticketModel =await BuildModelTicket(request, ticketId);
         
         await notificationService.NotifyNewAddRecipient(userIds, ticketModel);
-
-        await preMatchNotification.NotifyToReloadTicketInPrematchTable(request.TicketId, request.TicketType, userIds);
+        await preMatchNotification.NotifyNewAddRecipientPrematch(request.TicketId, request.TicketType, userIds);
     }
 
     public async Task<TicketInfo> BuildModelTicket(NewTicketIssueLeagueRequest request, int TicketId)

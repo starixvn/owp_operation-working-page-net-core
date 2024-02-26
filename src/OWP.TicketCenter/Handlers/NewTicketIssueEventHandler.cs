@@ -95,7 +95,7 @@ public class NewTicketIssueEventHandler : IRequestHandler<NewTicketIssueEventReq
             Comment = newMessage.Message,
             ActorId = request.CreatorId
         };
-        messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketEvent);
+       messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketEvent);
 
         var userIds = await repository.GetUserIdsByTicketId(ticketId);
 
@@ -103,7 +103,7 @@ public class NewTicketIssueEventHandler : IRequestHandler<NewTicketIssueEventReq
 
         await notificationService.NotifyNewAddRecipient(userIds,ticketModel);
 
-        await preMatchNotification.NotifyToReloadTicketInPrematchTable(request.TicketId, (int)EventType.Match, userIds);
+        await preMatchNotification.NotifyNewAddRecipientPrematch(request.TicketId, (int)EventType.Match, userIds);
     }
 
     public async Task<TicketInfo> BuildModelTicket(NewTicketIssueEventRequest request, int TicketId)

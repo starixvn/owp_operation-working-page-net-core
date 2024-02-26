@@ -9,6 +9,8 @@ public interface PreMatchNotifyHub
     Task NotifyChangeStatusIncome();
 
     Task NotifyUserOnClickToast(int ticketId, int eventType);
+
+    Task NotifyNewAddRecipient(int id, bool isTicketLeague);
 }
 
 public class PreMatchNotifyHubImp : Hub<PreMatchNotifyHub>

@@ -15,6 +15,11 @@ public interface PreMatchNotificationService
          int ticketType,
           List<string> userIdsInString,
           MessageDetailViewModel messageResponse = null);
+
+    Task NotifyNewAddRecipientPrematch(
+        int ticketId,
+        int ticketType,
+        List<string> userIdsInString);
 }
 
 public class PreMatchNotificationServiceImp : PreMatchNotificationService
@@ -49,6 +54,19 @@ public class PreMatchNotificationServiceImp : PreMatchNotificationService
             .Clients
             .Users(userIdsInString)
             .NotifyNewMessageIncome(id, isTicketLeague, new { ticket, messageResponse });
+    }
+
+    public async Task NotifyNewAddRecipientPrematch(
+        int ticketId,
+        int ticketType,
+        List<string> userIdsInString)
+    {
+        var isTicketLeague = ticketType is (int)EventType.League;
+        var id = await repository.GetTicketInfoOfPreMatch(ticketId, isTicketLeague);
+        await notifyPreMatch
+            .Clients
+            .Users(userIdsInString)
+            .NotifyNewAddRecipient(id, isTicketLeague);
     }
 
     private async Task<object> QueryPrematchTicket(int id, int ticketId, bool isTicketLeague)

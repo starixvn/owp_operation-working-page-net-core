@@ -76,7 +76,7 @@ public class NewTicketIssueEventHandlerUnitTests
                 Arg.Compat.Any<int>(),
                 Arg.Compat.Any<int>())
             .ReturnsForAnyArgs(Task.FromResult(true));
-        await preMatchNotificationService.NotifyToReloadTicketInPrematchTable(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<List<string>>());
+        await preMatchNotificationService.NotifyNewAddRecipientPrematch(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<List<string>>());
 
         messageService.InsertMessage(request, Arg.Any<int>()).Returns(new NewMessageRequestModel());
 

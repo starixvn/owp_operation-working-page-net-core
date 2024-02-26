@@ -56,7 +56,7 @@ public class InsertRecipientHandler : IRequestHandler<InsertSingleRecipientReque
     private async Task NotifyToUsers(InsertOrRemoveSingleRecipientModel request)
     {
         // publish rabbit
-        messageClient.SendMessage(request, RoutingKey.TicketCenterNewRecipient);
+    //    messageClient.SendMessage(request, RoutingKey.TicketCenterNewRecipient);
 
         var userIds = new List<string> { request.RecipientId.ToString() };
         await notificationService.NotifyNewAddRecipient(userIds, request.TicketInfo);
@@ -69,7 +69,7 @@ public class InsertRecipientHandler : IRequestHandler<InsertSingleRecipientReque
 
         if (request.TicketEventType is (int)EventType.League or (int)EventType.Match)
         {
-            await preMatchNotification.NotifyToReloadTicketInPrematchTable(request.TicketId, request.TicketEventType, userIds);
+            await preMatchNotification.NotifyNewAddRecipientPrematch(request.TicketId, request.TicketEventType, userIds);
         }
     }
 }
