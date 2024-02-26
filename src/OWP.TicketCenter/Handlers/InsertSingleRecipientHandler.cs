@@ -56,7 +56,7 @@ public class InsertRecipientHandler : IRequestHandler<InsertSingleRecipientReque
     private async Task NotifyToUsers(InsertOrRemoveSingleRecipientModel request)
     {
         // publish rabbit
-    //    messageClient.SendMessage(request, RoutingKey.TicketCenterNewRecipient);
+        messageClient.SendMessage(request, RoutingKey.TicketCenterNewRecipient);
 
         var userIds = new List<string> { request.RecipientId.ToString() };
         await notificationService.NotifyNewAddRecipient(userIds, request.TicketInfo);

@@ -1,5 +1,4 @@
-﻿using System.Security.Cryptography.X509Certificates;
-using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.SignalR;
 using OWP.TicketCenter.Hubs;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.ViewModels;
@@ -103,7 +102,7 @@ public class NotificationServiceImp : NotificationService
 
         await notifyPreMatch.Clients
             .Users(userIdsString)
-            .NotifyChangeStatusIncome();
+            .NotifyChangeStatusIncome(ticketInfo.TicketId, ticketInfo.TicketStatus);
     }
 
     public async Task NotifyChangeSubTypeIncome(TicketInfo ticketInfo)
@@ -122,7 +121,7 @@ public class NotificationServiceImp : NotificationService
         }
         await notifyPreMatch.Clients
             .Users(userIdsString)
-            .NotifyChangeStatusIncome();
+            .NotifyChangeSybTypeIncome(ticketInfo);
     }
 
     private async Task<List<string>> GetUserIdsInStringByTicketId(int ticketId)

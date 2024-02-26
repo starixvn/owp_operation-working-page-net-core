@@ -81,7 +81,7 @@ public class NewTicketIssueLeagueHandler : IRequestHandler<NewTicketIssueLeagueR
             Comment = newMessage.Message,
             ActorId = request.CreatorId
         };
-      //  messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketLeague);
+        messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketLeague);
 
         var userIds = await repository.GetUserIdsByTicketId(ticketId);
         var ticketModel =await BuildModelTicket(request, ticketId);
