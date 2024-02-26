@@ -92,12 +92,12 @@ public class NewTicketIssueLiveIncidentHandler : IRequestHandler<NewTicketIssueL
         messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketLiveIncident);
 
         var userIds = await repository.GetUserIdsByTicketId(ticketId);
-
-        await notificationService.NotifyNewMessageLga(userIds, request.OwpMatchId.Value, request.CreatorId);
+        var parentMatchId = await repository.GetParentMatchIdByTicketId(ticketId);
+        await notificationService.NotifyNewMessageLga(userIds, parentMatchId, request.CreatorId);
 
         var eventModel = await BuildModelTicket(request, ticketId);
         await notificationService.NotifyNewAddRecipient(userIds, eventModel);
-        await notificationService.NotifyNewAddRecipientLga(userIds, request.OwpMatchId.Value, request.CreatorId);
+        await notificationService.NotifyNewAddRecipientLga(userIds, parentMatchId, request.CreatorId);
     }
 
     public async Task<TicketInfo> BuildModelTicket(NewTicketIssueLiveIncidentRequest request, int TicketId)
