@@ -94,7 +94,7 @@ public interface Repository
 
     Task<(bool, IEnumerable<MessageDetailViewModel>)> GetMessageInLastTwoDays(int ticketId);
 
-    Task<TicketInfoLgaModel> GetTicketInfoLga(int ticketId);
+    Task<int> GetParentMatchIdByTicketId(int ticketId);
     Task<(bool, IEnumerable<MessageDetailViewModel>)> GetNextListMessages(GetNextListMessageCriteria criteria);
 
     Task<(bool canShowMoreMessage, List<MessageDetailViewModel> messages)> GetMessageListByGreaterMessageId(int ticketId, int messageId);
@@ -413,13 +413,13 @@ public class RepositoryImp : Repository
     }
 
 
-    public async Task<TicketInfoLgaModel> GetTicketInfoLga(int ticketId)
+    public async Task<int> GetParentMatchIdByTicketId(int ticketId)
     {
         var criteria = new GetInfoTicketLgaCriteria
         {
             TicketId = ticketId
         };
-        return (await dynamicRepository.FetchAsync<TicketInfoLgaModel>(criteria)).FirstOrDefault();
+        return (await dynamicRepository.FetchAsync<int>(criteria)).FirstOrDefault();
     }
     public async Task<(bool, IEnumerable<MessageDetailViewModel>)> GetNextListMessages(GetNextListMessageCriteria criteria)
     {

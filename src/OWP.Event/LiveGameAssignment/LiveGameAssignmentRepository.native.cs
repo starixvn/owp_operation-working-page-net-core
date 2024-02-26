@@ -464,24 +464,11 @@ public class LiveGameAssignmentRepositoryImp : LiveGameAssignmentRepository
         foreach (var @event in eventModels)
         {
             var ticket = hasTicketModel.FirstOrDefault(x => x.ParentMatchId == @event.ParentMatchId);
-            var assignment = new List<Assignment>();
-            assignment.AddRange(@event.OneXTwo1st);
-            assignment.AddRange(@event.FM);
-            assignment.AddRange(@event.AIO);
-            assignment.AddRange(@event.Handicap);
-            assignment.AddRange(@event.Handicap1st);
-            assignment.AddRange(@event.OverUnder);
-            assignment.AddRange(@event.OverUnder1st);
-            assignment.AddRange(@event.OneXTwo1st);
-            assignment.AddRange(@event.Specific15Mins);
-            assignment.AddRange(@event.Specific10Mins);
-            assignment.AddRange(@event.LA);
 
-            var hasAssign = assignment.Any(assignee => assignee.UserId == session.UserId);
-            if (ticket is not null && hasAssign)
+            if (ticket is not null)
             {
-                @event.HasTicket = ticket?.HasTicket;
-                @event.IsRead = ticket?.IsRead;
+                @event.HasTicket = ticket.HasTicket;
+                @event.IsRead = ticket.IsRead;
             }
         }
     }
