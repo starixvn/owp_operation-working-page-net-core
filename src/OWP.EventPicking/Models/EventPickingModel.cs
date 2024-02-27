@@ -339,13 +339,13 @@ public class EventPickingModel
 
     public string BuildTurnOverExport()
     {
-        var turnOverPeriodValues = TurnoverPeriod.Select(t => t.ValueDisplay).ToList();
+        var turnOverPeriodValues = TurnoverPeriod.Select(t => $"{t.Title}: " + t?.ValueDisplay).ToList();
         return string.Join("\r\n", turnOverPeriodValues);
     }
 
     public string BuildMarginExport()
     {
-        var marginPeriodValues = MarginPeriod.Select(t => t.ValueDisplay).ToList();
+        var marginPeriodValues = MarginPeriod.Select(t => $"{t.Title}: " + t?.ValueDisplay).ToList();
         return string.Join("\r\n", marginPeriodValues);
     }
 
