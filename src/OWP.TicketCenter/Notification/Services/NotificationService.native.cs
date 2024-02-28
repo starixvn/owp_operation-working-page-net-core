@@ -18,7 +18,7 @@ public interface NotificationService
 
     Task NotifyNewMessageLga(List<string> userIds, int parentMatchId, int actorId);
 
-    Task NotifyNewAddRecipientLga(List<string> userIds, int owpMatchId, int actorId);
+    Task NotifyNewAddRecipientLga(List<string> userIds, int parentMatchId, int actorId);
 }
 
 public class NotificationServiceImp : NotificationService
@@ -78,11 +78,11 @@ public class NotificationServiceImp : NotificationService
         }
     }
 
-    public async Task NotifyNewAddRecipientLga(List<string> userIds, int owpMatchId, int actorId)
+    public async Task NotifyNewAddRecipientLga(List<string> userIds, int parentMatchId, int actorId)
     {
         await notifyMyTicket.Clients
             .Users(userIds)
-            .NotifyNewAddRecipientLga(owpMatchId, actorId);
+            .NotifyNewAddRecipientLga(parentMatchId, actorId);
     }
 
     public async Task NotifyUserClickOnToast(int userId, int ticketId, int eventType)
