@@ -63,8 +63,8 @@ public class InsertRecipientHandler : IRequestHandler<InsertSingleRecipientReque
 
         if (request.TicketEventType == (int)EventType.LiveIncident)
         {
-            var ticketInfoLga = await repository.GetParentMatchIdByTicketId(request.TicketId);
-            await notificationService.NotifyNewAddRecipientLga(userIds, ticketInfoLga.OwpMatchId, request.ActorId);
+            var parentMatchId = await repository.GetParentMatchIdByTicketId(request.TicketId);
+            await notificationService.NotifyNewAddRecipientLga(userIds, parentMatchId, request.ActorId);
         }
 
         if (request.TicketEventType is (int)EventType.League or (int)EventType.Match)
