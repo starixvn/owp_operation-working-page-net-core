@@ -111,10 +111,12 @@ public class TicketDetailServiceImp : TicketDetailService
 
         var recipients = await repository.GetRecipientByTicketId(ticketId);
         var issueCreator = await repository.GetIssueCreator(ticketId);
+        var lastComments = await repository.GetTwoLastComment(new List<int> { ticketId });
 
         model.CreatorInfo = issueCreator;
         model.Recipients = recipients?.ToList();
         model.Messages = messages?.ToList();
+        model.LastTwoComments = lastComments.ToList();
         model.CanShowMoreMessage = canShowMoreMessage;
     }
 }

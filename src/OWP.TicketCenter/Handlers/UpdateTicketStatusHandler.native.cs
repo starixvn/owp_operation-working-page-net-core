@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using OWP.TicketCenter.Criteria;
 using OWP.TicketCenter.Middleware.Models;
+using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Notification.Services;
 
 namespace OWP.TicketCenter.Handlers;
@@ -8,6 +9,8 @@ namespace OWP.TicketCenter.Handlers;
 public class UpdateTicketStatusRequest : PermissionCheckedModel, IRequest<string>
 {
     public string TicketStatus { get; set; }
+
+    public TicketInfo TicketInfo { get; set; }
 }
 
 public class UpdateTicketStatusHandler : IRequestHandler<UpdateTicketStatusRequest, string>
@@ -34,7 +37,8 @@ public class UpdateTicketStatusHandler : IRequestHandler<UpdateTicketStatusReque
 
         await repository.UpdateTicketStatus(criteria);
 
-        await notificationService.NotifyChangeStatusIncome(request.TicketId);
+        request.TicketInfo.TicketStatus = request.TicketStatus;
+        await notificationService.NotifyChangeStatusIncome(request.TicketInfo);
 
         return string.Empty;
     }

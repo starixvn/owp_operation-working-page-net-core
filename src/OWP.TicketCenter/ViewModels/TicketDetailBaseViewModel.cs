@@ -22,7 +22,9 @@ public class TicketDetailBaseViewModel
 
     public IList<MessageDetailViewModel> Messages { get; set; }
 
-    public DateTime? CommentLatestDate => Messages.FirstOrDefault()?.CreatedDate;
+    public IList<MessageInfoModel> LastTwoComments { get; set; }
+
+    public DateTime? LastCommentDate => LastTwoComments.FirstOrDefault()?.CreatedDate;
 
     public IssueCreatorModel CreatorInfo { get; set; }
 

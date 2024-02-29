@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Fanex.Data.Repository;
+using Fanex.NAP.Client.Helpers.Web;
 using NSubstitute;
 using OWP.RabbitMQ;
 using OWP.TicketCenter.Criteria;
@@ -74,7 +75,6 @@ public class NewTicketIssueOtherHandlerUnitTests
         messageService.InsertMessage(request, Arg.Any<int>()).Returns(new NewMessageRequestModel());
 
         await notificationService.NotifyNewMessageIncome(Arg.Compat.Any<List<string>>());
-
         var handler = new NewTicketIssueOtherHandler(
             repository,
             messageService,

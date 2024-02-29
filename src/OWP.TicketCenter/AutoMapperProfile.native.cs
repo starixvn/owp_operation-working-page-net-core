@@ -50,7 +50,7 @@ public class AutoMapperProfile : Profile
             .ForMember(
                 m => m.Recipients, opt => opt.Ignore())
             .ForMember(
-                m => m.CommentLatestDate, opt => opt.Ignore());
+                m => m.LastCommentDate, opt => opt.Ignore());
         CreateMap<EventTicketMatchModel, TicketMatchDetailViewModel>()
             .ForMember(
                 m => m.Messages,
@@ -58,7 +58,7 @@ public class AutoMapperProfile : Profile
             .ForMember(
                 m => m.Recipients, opt => opt.Ignore())
             .ForMember(
-                m => m.CommentLatestDate, opt => opt.Ignore());
+                m => m.LastCommentDate, opt => opt.Ignore());
         CreateMap<EventTicketOtherModel, TicketOtherDetailViewModel>()
             .ForMember(
                 m => m.Messages,
@@ -66,7 +66,7 @@ public class AutoMapperProfile : Profile
             .ForMember(
                 m => m.Recipients, opt => opt.Ignore())
             .ForMember(
-                m => m.CommentLatestDate, opt => opt.Ignore());
+                m => m.LastCommentDate, opt => opt.Ignore());
         CreateMap<EventTicketSupportModel, TicketSupportDetailViewModel>()
             .ForMember(
                 m => m.Messages,
@@ -74,7 +74,7 @@ public class AutoMapperProfile : Profile
             .ForMember(
                 m => m.Recipients, opt => opt.Ignore())
             .ForMember(
-                m => m.CommentLatestDate, opt => opt.Ignore());
+                m => m.LastCommentDate, opt => opt.Ignore());
 
         CreateMap<EventTicketLeagueModel, MessageDetailViewModel>();
         CreateMap<EventTicketMatchModel, MessageDetailViewModel>();

@@ -22,6 +22,14 @@ public class NewTicketIssueEventRequest : NewTicketModelBase, IRequest<int>
 
     public int? OwpAwayId { get; set; }
 
+    public string OwpHomeName { get; set; }
+
+    public string OwpAwayName { get; set; }
+
+    public string OwpLeagueName { get; set; }
+
+    public DateTime eventDateTimeGmt8 { get; set; }
+
     public int? EventType => (int)Enum.EventType.Match;
 }
 
@@ -34,6 +42,7 @@ public class NewTicketIssueEventHandler : IRequestHandler<NewTicketIssueEventReq
     private readonly Repository repository;
     private readonly PreMatchNotificationService preMatchNotification;
     private readonly IMapper mapper;
+
 
     public NewTicketIssueEventHandler(
         Repository repository,
@@ -78,7 +87,7 @@ public class NewTicketIssueEventHandler : IRequestHandler<NewTicketIssueEventReq
         return ticketId;
     }
 
-    private async Task NotifyToUsers(NewTicketModelBase request, int ticketId, NewMessageRequestModel newMessage)
+    private async Task NotifyToUsers(NewTicketIssueEventRequest request, int ticketId, NewMessageRequestModel newMessage)
     {
         var notificationMessage = new MessageTransform
         {
@@ -86,12 +95,40 @@ public class NewTicketIssueEventHandler : IRequestHandler<NewTicketIssueEventReq
             Comment = newMessage.Message,
             ActorId = request.CreatorId
         };
-        messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketEvent);
+       messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketEvent);
 
         var userIds = await repository.GetUserIdsByTicketId(ticketId);
-        await notificationService.NotifyNewMessageIncome(userIds);
-        await notificationService.NotifyNewAddRecipient(userIds);
 
-        await preMatchNotification.NotifyToReloadTicketInPrematchTable(request.TicketId, (int)EventType.Match, userIds);
+        var ticketModel = await BuildModelTicket(request, ticketId);
+
+        await notificationService.NotifyNewAddRecipient(userIds,ticketModel);
+
+        await preMatchNotification.NotifyNewAddRecipientPrematch(request.TicketId, (int)EventType.Match, userIds);
+    }
+
+    public async Task<TicketInfo> BuildModelTicket(NewTicketIssueEventRequest request, int TicketId)
+    {
+        var lastComments = (await repository.GetTwoLastComment(new List<int> { TicketId })).ToList();
+
+        return new TicketInfo
+        {
+            TicketId = TicketId,
+            LeagueName = request.OwpLeagueName,
+            OwpLeagueName = request.OwpLeagueName,
+            KoTime = request.eventDateTimeGmt8,
+            HomeName = request.OwpHomeName,
+            AwayName = request.OwpAwayName,
+            Messages = lastComments,
+            TicketStatus = "Open",
+            TypeName = request.TicketTypeName,
+            TicketSubTypeName = request.SubTypeName,
+            OwpAwayId = request.OwpAwayId,
+            OwpHomeId = request.OwpHomeId,
+            OwpLeagueId = request.OwpLeagueId,
+            EventType = request.EventType ?? 0,
+            LastCommentDate = lastComments.FirstOrDefault(new MessageInfoModel()).CreatedDate,
+            TicketType = request.TicketType,
+            TicketSubTypeId = request.SubType
+        };
     }
 }

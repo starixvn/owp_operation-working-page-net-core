@@ -60,19 +60,19 @@ public class NewMessageHandler : IRequestHandler<NewMessageRequest, MessageDetai
         };
 
         await repository.UpdateManyRecipientReader(criteria);
-        var result = await repository.AddNewMessage(message);
+        var messageResponse = await repository.AddNewMessage(message);
+        messageResponse.TicketId = request.TicketId;
+        await NotifyToUsers(request, messageResponse);
 
-        await NotifyToUsers(request);
-
-        return result;
+        return messageResponse;
     }
 
-    private async Task NotifyToUsers(NewMessageRequest request)
+    private async Task NotifyToUsers(NewMessageRequest request, MessageDetailViewModel messageResponse)
     {
         messageClient.SendMessage(request, RoutingKey.TicketCenterNewMessage);
 
         var userIds = await repository.GetUserIdsByTicketId(request.TicketId);
-        await notification.NotifyNewMessageIncome(userIds);
+        await notification.NotifyNewMessageIncome(userIds, messageResponse);
 
         if (request.TicketEventType == (int)EventType.LiveIncident)
         {
@@ -81,7 +81,7 @@ public class NewMessageHandler : IRequestHandler<NewMessageRequest, MessageDetai
         }
         if (IsEventCheckingType(request.TicketEventType))
         {
-            await preMatchNotification.NotifyToReloadTicketInPrematchTable(request.TicketId, request.TicketEventType, userIds);
+            await preMatchNotification.NotifyToReloadTicketInPrematchTable(request.TicketId, request.TicketEventType, userIds, messageResponse);
         }
     }
 

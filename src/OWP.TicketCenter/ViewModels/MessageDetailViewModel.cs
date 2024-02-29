@@ -2,6 +2,8 @@
 
 public class MessageDetailViewModel
 {
+    public int TicketId { get; set; }
+
     public int MessageId { get; set; }
 
     public string Message { get; set; }

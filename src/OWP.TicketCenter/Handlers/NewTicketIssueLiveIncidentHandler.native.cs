@@ -22,6 +22,8 @@ public class NewTicketIssueLiveIncidentRequest : NewTicketModelBase, IRequest<in
 
     public int? EventType => (int)Enum.EventType.LiveIncident;
 
+    public DateTime EventDateTimeGmt8 { get; set; }
+
 }
 
 public class NewTicketIssueLiveIncidentHandler : IRequestHandler<NewTicketIssueLiveIncidentRequest, int>
@@ -90,10 +92,34 @@ public class NewTicketIssueLiveIncidentHandler : IRequestHandler<NewTicketIssueL
         messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketLiveIncident);
 
         var userIds = await repository.GetUserIdsByTicketId(ticketId);
-        await notificationService.NotifyNewMessageIncome(userIds);
+
         await notificationService.NotifyNewMessageLga(userIds, request.OwpMatchId.Value, request.CreatorId);
 
-        await notificationService.NotifyNewAddRecipient(userIds);
+        var eventModel = await BuildModelTicket(request, ticketId);
+        await notificationService.NotifyNewAddRecipient(userIds, eventModel);
         await notificationService.NotifyNewAddRecipientLga(userIds, request.OwpMatchId.Value, request.CreatorId);
+    }
+
+    public async Task<TicketInfo> BuildModelTicket(NewTicketIssueLiveIncidentRequest request, int TicketId)
+    {
+        var lastComments = (await repository.GetTwoLastComment(new List<int> { TicketId })).ToList();
+
+        return new TicketInfo
+        {
+            TicketId = TicketId,
+            LeagueName = request.OwpLeagueName,
+            OwpLeagueName = request.OwpLeagueName,
+            Messages = lastComments,
+            TicketStatus = "Open",
+            TypeName = request.TicketTypeName,
+            TicketSubTypeName = request.SubTypeName,
+            HomeName = request.OwpHomeName,
+            AwayName = request.OwpAwayName,
+            EventType = request.EventType ?? 0,
+            KoTime = request.EventDateTimeGmt8,
+            LastCommentDate = lastComments.FirstOrDefault(new MessageInfoModel()).CreatedDate,
+            TicketType = request.TicketType,
+            TicketSubTypeId = request.SubType
+        };
     }
 }

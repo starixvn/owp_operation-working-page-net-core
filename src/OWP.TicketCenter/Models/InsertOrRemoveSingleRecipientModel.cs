@@ -11,4 +11,6 @@ public class InsertOrRemoveSingleRecipientModel : PermissionCheckedModel
     public int RecipientId { get; set; }
 
     public int RecipientType { get; set; }
+
+    public TicketInfo TicketInfo { get; set; }
 }

@@ -1,16 +1,18 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using OWP.TicketCenter.Hubs;
+using OWP.TicketCenter.Models;
+using OWP.TicketCenter.ViewModels;
 
 namespace OWP.TicketCenter.Notification.Services;
 
 public interface NotificationService
 {
-    Task NotifyNewMessageIncome(List<string> userIds);
-    Task NotifyNewAddRecipient(List<string> userIds);
+    Task NotifyNewMessageIncome(List<string> userIds, MessageDetailViewModel messageResponse = null);
+    Task NotifyNewAddRecipient(List<string> userIds, TicketInfo ticketInfo = null);
 
-    Task NotifyChangeStatusIncome(int ticketId);
+    Task NotifyChangeStatusIncome(TicketInfo ticketInfo);
 
-    Task NotifyChangeSubTypeIncome(int ticketId);
+    Task NotifyChangeSubTypeIncome(TicketInfo ticketInfo);
 
     Task NotifyUserClickOnToast(int userId, int ticketId, int eventType);
 
@@ -37,11 +39,11 @@ public class NotificationServiceImp : NotificationService
         this.repository = repository;
     }
 
-    public async Task NotifyNewMessageIncome(List<string> userIds)
+    public async Task NotifyNewMessageIncome(List<string> userIds, MessageDetailViewModel messageResponse = null)
     {
         await notifyMyTicket.Clients
             .Users(userIds)
-            .NotifyNewMessageIncome();
+            .NotifyNewMessageIncome(messageResponse);
     }
 
     public async Task NotifyNewMessageLga(List<string> userIds, int owpMatchId, int actorId)
@@ -51,11 +53,19 @@ public class NotificationServiceImp : NotificationService
             .NotifyNewMessageLga(owpMatchId, actorId);
     }
 
-    public async Task NotifyNewAddRecipient(List<string> userIdsString)
+    public async Task NotifyNewAddRecipient(List<string> userIdsString, TicketInfo ticketInfo)
     {
-        await notifyMyTicket.Clients
-            .Users(userIdsString)
-            .NotifyNewAddRecipient();
+        var ticketReaders = await repository.GetTickerReaderInfoByTicketId(ticketInfo.TicketId);
+        var newReaders = ticketReaders.IntersectBy(userIdsString, x => x.RecipientId.ToString());
+        foreach (var ticketReader in newReaders)
+        {
+            ticketInfo.IsPinned = ticketReader.IsPinned;
+            ticketInfo.IsRead = ticketReader.IsRead;
+
+            await notifyMyTicket.Clients
+                .User(ticketReader.RecipientId)
+                .NotifyNewAddRecipient(ticketInfo);
+        }
     }
 
     public async Task NotifyNewAddRecipientLga(List<string> userIds, int owpMatchId, int actorId)
@@ -64,7 +74,7 @@ public class NotificationServiceImp : NotificationService
             .Users(userIds)
             .NotifyNewAddRecipientLga(owpMatchId, actorId);
     }
-    
+
     public async Task NotifyUserClickOnToast(int userId, int ticketId, int eventType)
     {
         await notifyMyTicket.Clients
@@ -75,32 +85,47 @@ public class NotificationServiceImp : NotificationService
             .NotifyUserOnClickToast(ticketId, eventType);
     }
 
-    public async Task NotifyChangeStatusIncome(int ticketId)
+    public async Task NotifyChangeStatusIncome(TicketInfo ticketInfo)
     {
-        var userIdsString = await GetUserIdsInStringByTicketId(ticketId);
+        var ticketReaders = await repository.GetTickerReaderInfoByTicketId(ticketInfo.TicketId);
+        var userIdsString = ticketReaders.Select(x => x.RecipientId).Distinct().ToList();
 
-        await notifyMyTicket.Clients
-            .Users(userIdsString)
-            .NotifyChangeStatusIncome();
+        foreach (var ticketReader in ticketReaders)
+        {
+            ticketInfo.IsPinned = ticketReader.IsPinned;
+            ticketInfo.IsRead = ticketReader.IsRead;
+
+            await notifyMyTicket.Clients
+            .User(ticketReader.RecipientId)
+            .NotifyChangeStatusIncome(ticketInfo);
+        }
+
         await notifyPreMatch.Clients
             .Users(userIdsString)
-            .NotifyChangeStatusIncome();
+            .NotifyChangeStatusIncome(ticketInfo.TicketId, ticketInfo.TicketStatus);
     }
 
-    public async Task NotifyChangeSubTypeIncome(int ticketId)
+    public async Task NotifyChangeSubTypeIncome(TicketInfo ticketInfo)
     {
-        var userIdsString = await GetUserIdsInStringByTicketId(ticketId);
+        var ticketReaders = await repository.GetTickerReaderInfoByTicketId(ticketInfo.TicketId);
+        var userIdsString = ticketReaders.Select(x => x.RecipientId).Distinct().ToList();
 
-        await notifyMyTicket.Clients
-            .Users(userIdsString)
-            .NotifyChangeStatusIncome();
+        foreach (var ticketReader in ticketReaders)
+        {
+            ticketInfo.IsPinned = ticketReader.IsPinned;
+            ticketInfo.IsRead = ticketReader.IsRead;
+
+            await notifyMyTicket.Clients
+            .User(ticketReader.RecipientId)
+            .NotifyChangeSubTypeIncome(ticketInfo);
+        }
         await notifyPreMatch.Clients
             .Users(userIdsString)
-            .NotifyChangeStatusIncome();
+            .NotifyChangeSybTypeIncome(ticketInfo);
     }
 
-    private async Task<List<string>> GetUserIdsInStringByTicketId(int ticketId, int actorId = 0)
+    private async Task<List<string>> GetUserIdsInStringByTicketId(int ticketId)
     {
-        return await repository.GetUserIdsByTicketId(ticketId, actorId);
+        return await repository.GetUserIdsByTicketId(ticketId);
     }
 }

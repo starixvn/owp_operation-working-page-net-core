@@ -14,6 +14,8 @@ public class NewTicketIssueLeagueRequest : NewTicketModelBase, IRequest<int>
 {
     public int? OwpLeagueId { get; set; }
 
+    public string OwpLeagueName { get; set; }
+
     public int? EventType => (int)Enum.EventType.League;
 }
 
@@ -26,6 +28,7 @@ public class NewTicketIssueLeagueHandler : IRequestHandler<NewTicketIssueLeagueR
     private readonly Repository repository;
     private readonly PreMatchNotificationService preMatchNotification;
     private readonly IMapper mapper;
+   
 
     public NewTicketIssueLeagueHandler(
         Repository repository,
@@ -70,7 +73,7 @@ public class NewTicketIssueLeagueHandler : IRequestHandler<NewTicketIssueLeagueR
         return ticketId;
     }
 
-    private async Task NotifyToUsers(NewTicketModelBase request, int ticketId, NewMessageRequestModel newMessage)
+    private async Task NotifyToUsers(NewTicketIssueLeagueRequest request, int ticketId, NewMessageRequestModel newMessage)
     {
         var notificationMessage = new MessageTransform
         {
@@ -81,9 +84,30 @@ public class NewTicketIssueLeagueHandler : IRequestHandler<NewTicketIssueLeagueR
         messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketLeague);
 
         var userIds = await repository.GetUserIdsByTicketId(ticketId);
-        await notificationService.NotifyNewMessageIncome(userIds);
-        await notificationService.NotifyNewAddRecipient(userIds);
+        var ticketModel =await BuildModelTicket(request, ticketId);
+        
+        await notificationService.NotifyNewAddRecipient(userIds, ticketModel);
+        await preMatchNotification.NotifyNewAddRecipientPrematch(request.TicketId, request.TicketType, userIds);
+    }
 
-        await preMatchNotification.NotifyToReloadTicketInPrematchTable(request.TicketId, request.TicketType, userIds);
+    public async Task<TicketInfo> BuildModelTicket(NewTicketIssueLeagueRequest request, int TicketId)
+    {
+        var lastComments = (await repository.GetTwoLastComment(new List<int> { TicketId })).ToList();
+
+        return new TicketInfo
+        {
+            TicketId = TicketId,
+            LeagueName = request.OwpLeagueName,
+            OwpLeagueName = request.OwpLeagueName,
+            Messages = lastComments,
+            TicketStatus = "Open",
+            TypeName = request.TicketTypeName,
+            TicketSubTypeName = request.SubTypeName,
+            OwpLeagueId = request.OwpLeagueId,
+            EventType = request.EventType ?? 0,
+            LastCommentDate = lastComments.FirstOrDefault(new MessageInfoModel()).CreatedDate,
+            TicketType = request.TicketType,
+            TicketSubTypeId = request.SubType
+        };
     }
 }

@@ -10,6 +10,7 @@ namespace OWP.TicketCenter;
 
 public interface Repository
 {
+
     Task<IList<EventCheckingOption>> GetEventOptionInfo(string keyword);
 
     Task<IList<EventLgaOption>> GetEventOptionLgaInfo(string keyword);
@@ -19,18 +20,6 @@ public interface Repository
     Task<IList<SubType>> GetAllTicketSubTypes();
 
     Task<int> CreateTicketIssue(CriteriaBase criteria);
-
-    /* Task AddNewTicketIssueEvent(NewTicketIssueEventRequest request);
-
-    Task AddNewTicketIssueOther(NewTicketIssueOtherRequest request);
-
-    Task AddNewTicketIssueSupport(NewTicketIssueSupportRequest request);
-
-    Task AddNewTicketIssueLiveIncident(NewTicketIssueLiveIncidentRequest request);
-
-    Task AddNewTicketIssueLogWork(NewTicketIssueLogWorkRequest request); 
-
-    Task AddNewTicketIssueLeague(NewTicketIssueLeagueRequest request);*/
 
     Task<MessageDetailViewModel> AddNewMessage(NewMessageRequestModel message);
 
@@ -63,7 +52,9 @@ public interface Repository
 
     Task<IEnumerable<RecipientResponseModel>> GetRecipientByTicketId(int ticketId);
 
-    Task<List<string>> GetUserIdsByTicketId(int ticketId, int actorId = 0);
+    Task<List<string>> GetUserIdsByTicketId(int ticketId);
+
+    Task<List<TicketReaderInfo>> GetTickerReaderInfoByTicketId(int ticketId);
 
     Task<int> AddSingleRecipient(InsertSingleRecipientRequest request);
 
@@ -127,6 +118,7 @@ public class RepositoryImp : Repository
         this.mapper = mapper;
     }
 
+
     public async Task<IList<EventCheckingOption>> GetEventOptionInfo(string keyword)
     {
         var criteria = new GetEventCriteria
@@ -161,55 +153,24 @@ public class RepositoryImp : Repository
     public async Task<int> CreateTicketIssue(CriteriaBase criteria)
         => (await dynamicRepository.FetchAsync<int>(criteria)).FirstOrDefault();
 
-    /* public async Task AddNewTicketIssueLiveIncident(NewTicketIssueLiveIncidentRequest request)
-    {
-        var criteria = mapper.Map<AddNewTicketIssueLiveIncidentCriteria>(request);
-        criteria.ThrowExceptionIfInvalid();
-        await dynamicRepository.ExecuteAsync(criteria);
-    }
-
-    public async Task AddNewTicketIssueLogWork(NewTicketIssueLogWorkRequest request)
-    {
-        var criteria = mapper.Map<AddNewTicketIssueLogWorkCriteria>(request);
-        criteria.ThrowExceptionIfInvalid();
-        await dynamicRepository.ExecuteAsync(criteria);
-    }
-
-    public async Task AddNewTicketIssueOther(NewTicketIssueOtherRequest request)
-    {
-        var criteria = mapper.Map<AddNewTicketIssueOtherCriteria>(request);
-        criteria.ThrowExceptionIfInvalid();
-        await dynamicRepository.ExecuteAsync(criteria);
-    }
-
-    public async Task AddNewTicketIssueSupport(NewTicketIssueSupportRequest request)
-    {
-        var criteria = mapper.Map<AddNewTicketIssueSupportCriteria>(request);
-        criteria.ThrowExceptionIfInvalid();
-        await dynamicRepository.ExecuteAsync(criteria);
-    }
-
-    public async Task AddNewTicketIssueLeague(NewTicketIssueLeagueRequest request)
-    {
-        var criteria = mapper.Map<AddNewTicketIssueLeagueCriteria>(request);
-        criteria.ThrowExceptionIfInvalid();
-        await dynamicRepository.ExecuteAsync(criteria);
-    } */
-
     public async Task AddManyRecipients(AddManyRecipientCriteria criteria)
     {
         criteria.ThrowExceptionIfInvalid();
         await dynamicRepository.ExecuteAsync(criteria);
     }
 
-    public async Task<List<string>> GetUserIdsByTicketId(int ticketId, int actorId = 0)
+    public async Task<List<string>> GetUserIdsByTicketId(int ticketId)
+    {
+        var userInfors = await GetTickerReaderInfoByTicketId(ticketId);
+        return userInfors.Select(x => x.RecipientId).Distinct().ToList();
+    }
+
+    public async Task<List<TicketReaderInfo>> GetTickerReaderInfoByTicketId(int ticketId)
     {
         var criteria = new GetUserIdsByTicketIdCriteria { TicketId = ticketId };
-        var userIds = await dynamicRepository.FetchAsync<int>(criteria);
+        var userInfors = await dynamicRepository.FetchAsync<TicketReaderInfo>(criteria);
 
-        var selectedUserIds = actorId == 0 ? userIds.Where(u => u != actorId) : userIds;
-
-        return selectedUserIds.Distinct().Select(u => u.ToString()).ToList();
+        return userInfors.ToList();
     }
 
     public async Task<int> AddSingleRecipient(InsertSingleRecipientRequest request)

@@ -1,12 +1,25 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Fanex.NAP.Client.Helpers.Web;
+using Microsoft.AspNetCore.SignalR;
+using OWP.TicketCenter.Criteria;
 using OWP.TicketCenter.Enum;
 using OWP.TicketCenter.Hubs;
+using OWP.TicketCenter.Models;
+using OWP.TicketCenter.ViewModels;
 
 namespace OWP.TicketCenter.Notification.Services;
 
 public interface PreMatchNotificationService
 {
-    Task NotifyToReloadTicketInPrematchTable(int ticketId, int ticketType, List<string> userIdsInString);
+    Task NotifyToReloadTicketInPrematchTable(
+        int ticketId,
+         int ticketType,
+          List<string> userIdsInString,
+          MessageDetailViewModel messageResponse = null);
+
+    Task NotifyNewAddRecipientPrematch(
+        int ticketId,
+        int ticketType,
+        List<string> userIdsInString);
 }
 
 public class PreMatchNotificationServiceImp : PreMatchNotificationService
@@ -15,24 +28,66 @@ public class PreMatchNotificationServiceImp : PreMatchNotificationService
 
     private readonly NotificationRepository repository;
 
+    private readonly INapSession session;
+
     public PreMatchNotificationServiceImp(
         NotificationRepository repository,
-        IHubContext<PreMatchNotifyHubImp, PreMatchNotifyHub> notifyPreMatch)
+        IHubContext<PreMatchNotifyHubImp, PreMatchNotifyHub> notifyPreMatch,
+        INapSession session)
     {
         this.notifyPreMatch = notifyPreMatch;
         this.repository = repository;
+        this.session = session;
     }
 
-    public async Task NotifyToReloadTicketInPrematchTable(int ticketId, int ticketType, List<string> userIdsInString)
+    public async Task NotifyToReloadTicketInPrematchTable(
+        int ticketId,
+         int ticketType,
+          List<string> userIdsInString,
+          MessageDetailViewModel messageResponse)
     {
-        var isTicketLeague = IsTicketLeague(ticketType);
+        var isTicketLeague = ticketType is (int)EventType.League;
         var id = await repository.GetTicketInfoOfPreMatch(ticketId, isTicketLeague);
+        var ticket = await QueryPrematchTicket(id, ticketId, isTicketLeague);
 
         await notifyPreMatch
             .Clients
             .Users(userIdsInString)
-            .NotifyNewMessageIncome(id, isTicketLeague);
+            .NotifyNewMessageIncome(id, isTicketLeague, new { ticket, messageResponse });
     }
 
-    private static bool IsTicketLeague(int ticketType) => ticketType is (int)EventType.League;
+    public async Task NotifyNewAddRecipientPrematch(
+        int ticketId,
+        int ticketType,
+        List<string> userIdsInString)
+    {
+        var isTicketLeague = ticketType is (int)EventType.League;
+        var id = await repository.GetTicketInfoOfPreMatch(ticketId, isTicketLeague);
+        await notifyPreMatch
+            .Clients
+            .Users(userIdsInString)
+            .NotifyNewAddRecipient(id, isTicketLeague);
+    }
+
+    private async Task<object> QueryPrematchTicket(int id, int ticketId, bool isTicketLeague)
+    {
+        var tickets = new List<PrematchTicketInfo>();
+        if (isTicketLeague)
+        {
+            tickets.AddRange(await repository.QueryPrematchTicket<TicketLeagueBasicInfo>(new QueryAllLeaguesTicketCriteria
+            {
+                OWPLeagueIds = $"{id}",
+                ActorId = session.UserId
+            }));
+        }
+        else
+        {
+            tickets.AddRange(await repository.QueryPrematchTicket<TicketMatchBasicInfo>(new QueryAllMatchesTicketCriteria
+            {
+                InfoSiteMatchIds = $"{id}",
+                ActorId = session.UserId
+            }));
+        }
+        return tickets.Find(t => t.TicketId == ticketId);
+    }
 }

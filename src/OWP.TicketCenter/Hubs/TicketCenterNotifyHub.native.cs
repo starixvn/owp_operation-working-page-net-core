@@ -1,14 +1,18 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using OWP.TicketCenter.Models;
+using OWP.TicketCenter.ViewModels;
 
 namespace OWP.TicketCenter.Hubs;
 
 public interface TicketCenterNotifyHub
 {
-    Task NotifyNewMessageIncome();
+    Task NotifyNewMessageIncome(MessageDetailViewModel messageResponse);
 
-    Task NotifyNewAddRecipient();
+    Task NotifyNewAddRecipient(TicketInfo ticketInfo);
 
-    Task NotifyChangeStatusIncome();
+    Task NotifyChangeStatusIncome(TicketInfo ticketInfo);
+
+    Task NotifyChangeSubTypeIncome(TicketInfo ticketInfo);
 
     Task NotifyUserOnClickToast(int ticketId, int eventType);
 

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Fanex.Data.Repository;
+using Fanex.NAP.Client.Helpers.Web;
 using NSubstitute;
 using OWP.RabbitMQ;
 using OWP.TicketCenter.Criteria;
@@ -25,6 +26,7 @@ public class NewTicketIssueEventHandlerUnitTests
 
     private readonly NewTicketIssueEventHandler handler;
 
+
     private readonly PreMatchNotificationService preMatchNotificationService;
 
     public NewTicketIssueEventHandlerUnitTests()
@@ -35,6 +37,8 @@ public class NewTicketIssueEventHandlerUnitTests
         notificationService = Substitute.For<NotificationService>();
         recipientService = Substitute.For<RecipientService>();
         var messageClient = Substitute.For<MessageClient>();
+
+
         preMatchNotificationService = Substitute.For<PreMatchNotificationService>();
 
         handler = new NewTicketIssueEventHandler(
@@ -72,7 +76,7 @@ public class NewTicketIssueEventHandlerUnitTests
                 Arg.Compat.Any<int>(),
                 Arg.Compat.Any<int>())
             .ReturnsForAnyArgs(Task.FromResult(true));
-        await preMatchNotificationService.NotifyToReloadTicketInPrematchTable(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<List<string>>());
+        await preMatchNotificationService.NotifyNewAddRecipientPrematch(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<List<string>>());
 
         messageService.InsertMessage(request, Arg.Any<int>()).Returns(new NewMessageRequestModel());
 

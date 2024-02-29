@@ -9,6 +9,10 @@ public class NewTicketModelBase
 
     public int? SubType { get; set; }
 
+    public string TicketTypeName { get; set; }
+
+    public string SubTypeName { get; set; }
+
     #region message
 
     public string Message { get; set; }
