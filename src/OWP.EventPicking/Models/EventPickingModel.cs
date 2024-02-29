@@ -2,6 +2,7 @@ using Epplus.Mapper.Annotations;
 using OWP.Extensions;
 using OWP.Utils;
 using System.Globalization;
+using System.Linq;
 using System.Text.Json.Serialization;
 
 namespace OWP.EventPicking.Models;
@@ -286,19 +287,67 @@ public class EventPickingModel
 
     [Cell("BW2")]
     [JsonIgnore]
-    public string TurnoverExport => Turnover.ValueDisplay;
+    public string TurnoverExport => BuildTurnOverExport();
 
     [Cell("BX2")]
     [JsonIgnore]
-    public string MarginExport => Margin.ValueDisplay;
+    public string MarginExport => BuildMarginExport();
 
-    public TurnOverInfo Turnover { get; set; } = new();
+    [JsonIgnore]
+    public TurnOverInfo TurnoverOneMonth { get; set; }
 
-    public double? TurnoverSort => Turnover.Value;
+    [JsonIgnore]
+    public TurnOverInfo TurnoverThreeMonths { get; set; }
 
-    public MarginInfo Margin { get; set; } = new();
+    [JsonIgnore]
+    public TurnOverInfo TurnoverSixMonths { get; set; }
 
-    public double? MarginSort => Margin.Value;
+    [JsonIgnore]
+    public TurnOverInfo TurnoverTwelveMonths { get; set; }
+
+    //public double? TurnoverSort => Turnover.Value;
+
+    [JsonIgnore]
+    public MarginInfo MarginOneMonth { get; set; }
+
+    [JsonIgnore]
+    public MarginInfo MarginThreeMonths { get; set; }
+
+    [JsonIgnore]
+    public MarginInfo MarginSixMonths { get; set; }
+
+    [JsonIgnore]
+    public MarginInfo MarginTwelveMonths { get; set; }
+
+    //public double? MarginSort => Margin.Value;
+
+    public IList<TurnOverInfo> TurnoverPeriod => new List<TurnOverInfo>{
+        TurnoverOneMonth ,
+        TurnoverThreeMonths,
+        TurnoverSixMonths,
+        TurnoverTwelveMonths
+    }.Where(t => t is not null)?
+    .ToList();
+
+    public IList<MarginInfo> MarginPeriod => new List<MarginInfo>{
+        MarginOneMonth ,
+        MarginThreeMonths,
+        MarginSixMonths,
+        MarginTwelveMonths
+    }.Where(t => t is not null)?
+   .ToList();
+
+    public string BuildTurnOverExport()
+    {
+        var turnOverPeriodValues = TurnoverPeriod.Select(t => $"{t.Title}: " + t?.ValueDisplay).ToList();
+        return string.Join("\r\n", turnOverPeriodValues);
+    }
+
+    public string BuildMarginExport()
+    {
+        var marginPeriodValues = MarginPeriod.Select(t => $"{t.Title}: " + t?.ValueDisplay).ToList();
+        return string.Join("\r\n", marginPeriodValues);
+    }
 
     public void MapWeekendSettings(LeagueSetting leagueSetting)
     {
