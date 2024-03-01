@@ -38,8 +38,8 @@ public class EventInformationServiceImp : EventInformationService
     {
         var owpMatchId = matchInfo.OWPMatchId;
 
-        matchInfo.Assignment = AssignmentBuilder.Build(matchInfo, eventInfo.AssignmentsDict, eventInfo.MinorAssignmentsDict);
-        matchInfo.MatchSetting = MatchSettingBuilder.Build(matchInfo, eventInfo.MatchSettingsDict, eventInfo.MinorMatchSettingsDict);
+        matchInfo.Assignment = AssignmentBuilder.Build(matchInfo, eventInfo.AssignmentsPair, eventInfo.MinorAssignmentsPair);
+        matchInfo.MatchSetting = MatchSettingBuilder.Build(matchInfo, eventInfo.MatchSettingsPair, eventInfo.MinorMatchSettingsPair);
         matchInfo.Televisions = BuildTelevisions(eventInfo, owpMatchId);
         matchInfo.MatchOffers = BuildMatchOffers(eventInfo, owpMatchId);
         matchInfo.IPTVCopy = BuildIptvCopy(matchInfo);
@@ -52,10 +52,10 @@ public class EventInformationServiceImp : EventInformationService
     }
 
     private static IEnumerable<Television> BuildTelevisions(EventInformation eventInfo, int owpMatchId)
-        => eventInfo.TelevisionsDict.GetValue(owpMatchId, new List<Television>());
+        => eventInfo.TelevisionsPair.GetValue(owpMatchId, new List<Television>());
 
     private static IEnumerable<TicketInfo> BuildTicketInfos(EventInformation eventInfo, int owpMatchId)
-        => eventInfo.TicketInfosDict.GetValue(owpMatchId, new List<TicketInfo>())
+        => eventInfo.TicketInfosPair.GetValue(owpMatchId, new List<TicketInfo>())
             .OrderByDescending(x => x.LatestCreatedDate);
 
     private static string BuildIptvCopy(MatchInfo matchInfo)
@@ -68,7 +68,7 @@ public class EventInformationServiceImp : EventInformationService
         });
 
     private static IEnumerable<MatchOffer> BuildMatchOffers(EventInformation eventInfo, int owpMatchId)
-        => eventInfo.MatchOffersDict.GetValue(owpMatchId, new List<MatchOffer>())
+        => eventInfo.MatchOffersPair.GetValue(owpMatchId, new List<MatchOffer>())
             .Select(x => new MatchOffer
             {
                 OWPMatchId = x.OWPMatchId,

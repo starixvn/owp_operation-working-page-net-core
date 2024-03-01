@@ -25,14 +25,14 @@ public class EventInformationServiceUnitTest
     {
         var eventInfo = new EventInformation
         {
-            MatchInfos = MockMatchInfo(),
-            AssignmentsDict = MockAssignment(),
-            MinorAssignmentsDict = new Dictionary<int, List<Assignment>>(),
-            MatchSettingsDict = MockMatchSetting(),
-            MinorMatchSettingsDict = new Dictionary<int, List<MatchSetting>>(),
-            TelevisionsDict = MockTelevision(),
-            MatchOffersDict = MockMatchOffers(),
-            TicketInfosDict = MockTicketInfo()
+            MatchInfo = MockMatchInfo(),
+            AssignmentsPair = MockAssignment(),
+            MinorAssignmentsPair = new Dictionary<int, List<Assignment>>(),
+            MatchSettingsPair = MockMatchSetting(),
+            MinorMatchSettingsPair = new Dictionary<int, List<MatchSetting>>(),
+            TelevisionsPair = MockTelevision(),
+            MatchOffersPair = MockMatchOffers(),
+            TicketInfosPair = MockTicketInfo()
         };
         repository.GetEventInformation(Arg.Any<CriteriaBase>()).Returns(eventInfo);
 
@@ -51,7 +51,7 @@ public class EventInformationServiceUnitTest
             }
         };
         var service = new EventInformationServiceImp(adminSiteMatchServices, infoSiteTimeService);
-        var actual = service.BuildEvent(eventInfo, eventInfo.MatchInfos.First());
+        var actual = service.BuildEvent(eventInfo, eventInfo.MatchInfo.First());
 
         Assert.Equal(expected.First().IPTVCopy, actual.IPTVCopy);
     }

@@ -33,7 +33,7 @@ public class GetEventByDateServiceImp : GetEventByDateService
     public async Task<IEnumerable<MatchInfo>> GetEvents(DateTime eventDate, string statusId, string userName, string matchType)
     {
         var eventByDates = await liveGameListRepository.GetEventInformation(eventDate, statusId, IsShowFullEventInformation());
-        await eventService.GetInfositeAndAdminsiteInfo(eventByDates.MatchInfos.ToList());
+        await eventService.GetInfositeAndAdminsiteInfo(eventByDates.MatchInfo.ToList());
 
         var eventNew = BuildEvents(eventByDates);
         var filterEventUserName = FilterEventByUsername(eventNew, userName);
@@ -42,7 +42,7 @@ public class GetEventByDateServiceImp : GetEventByDateService
 
     public IEnumerable<MatchInfo> BuildEvents(EventInformation eventInfos)
     {
-        foreach (var matchInfo in eventInfos.MatchInfos)
+        foreach (var matchInfo in eventInfos.MatchInfo)
         {
             eventService.BuildEvent(eventInfos, matchInfo);
 

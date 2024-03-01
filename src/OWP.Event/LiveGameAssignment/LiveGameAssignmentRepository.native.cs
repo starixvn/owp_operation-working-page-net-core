@@ -461,6 +461,7 @@ public class LiveGameAssignmentRepositoryImp : LiveGameAssignmentRepository
             OWPMatchIds = owpIds,
             ActorId = session.UserId
         });
+
         foreach (var @event in eventModels)
         {
             var ticket = hasTicketModel.FirstOrDefault(x => x.ParentMatchId == @event.ParentMatchId);

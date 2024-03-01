@@ -32,68 +32,68 @@ public static class EventHelper
         return spread.HasValue ? (spread.Value * 100).ToString("0.##", CultureInfo.InvariantCulture) : string.Empty;
     }
 
-    public static EventInformation BuildEventInfoInDict(
+    public static EventInformation BuildEventInfoInPair(
         IEnumerable<Assignment> assignments,
         IEnumerable<MatchSetting> matchSettings,
         IEnumerable<Television> televisions,
         IEnumerable<MatchOffer> matchOffers,
         IEnumerable<TicketInfo> tickets,
-        IEnumerable<MatchInfo> matchInfos)
+        IEnumerable<MatchInfo> matchInfo)
     {
-        var (assignmentsDict, minorAssignmentsDict) = GetAssignmentsInDict(assignments);
-        var (matchSettingsDict, minorMatchSettingsDict) = GetMatchSettingsInDict(matchSettings);
-        var televisionsDict = GetTelevisionsDict(televisions);
-        var matchOffersDict = GetMatchOffersDict(matchOffers);
-        var ticketsDict = GetTicketsDict(tickets);
+        var (assignmentsPair, minorAssignmentsPair) = GetAssignmentsInPair(assignments);
+        var (matchSettingsPair, minorMatchSettingsPair) = GetMatchSettingsInPair(matchSettings);
+        var televisionsPair = GetTelevisionsPair(televisions);
+        var matchOffersPair = GetMatchOffersPair(matchOffers);
+        var ticketsPair = GetTicketsPair(tickets);
 
         return new EventInformation
         {
-            MatchInfos = matchInfos,
-            AssignmentsDict = assignmentsDict,
-            MinorAssignmentsDict = minorAssignmentsDict,
-            MatchSettingsDict = matchSettingsDict,
-            MinorMatchSettingsDict = minorMatchSettingsDict,
-            TelevisionsDict = televisionsDict,
-            MatchOffersDict = matchOffersDict,
-            TicketInfosDict = ticketsDict
+            MatchInfo = matchInfo,
+            AssignmentsPair = assignmentsPair,
+            MinorAssignmentsPair = minorAssignmentsPair,
+            MatchSettingsPair = matchSettingsPair,
+            MinorMatchSettingsPair = minorMatchSettingsPair,
+            TelevisionsPair = televisionsPair,
+            MatchOffersPair = matchOffersPair,
+            TicketInfosPair = ticketsPair
         };
     }
 
-    private static Dictionary<int, List<Television>> GetTelevisionsDict(IEnumerable<Television> televisions)
+    private static Dictionary<int, List<Television>> GetTelevisionsPair(IEnumerable<Television> televisions)
         => televisions.GroupBy(a => a.OWPMatchId).ToDictionary(a => a.Key, a => a.ToList());
 
-    private static Dictionary<int, List<MatchOffer>> GetMatchOffersDict(IEnumerable<MatchOffer> matchOffers)
+    private static Dictionary<int, List<MatchOffer>> GetMatchOffersPair(IEnumerable<MatchOffer> matchOffers)
         => matchOffers.GroupBy(a => a.OWPMatchId).ToDictionary(a => a.Key, a => a.ToList());
 
-    private static Dictionary<int, List<TicketInfo>> GetTicketsDict(IEnumerable<TicketInfo> ticketInfos)
+    private static Dictionary<int, List<TicketInfo>> GetTicketsPair(IEnumerable<TicketInfo> ticketInfos)
         => ticketInfos.GroupBy(a => a.OwpMatchId).ToDictionary(a => a.Key, a => a.ToList());
 
-    private static (Dictionary<int, List<Assignment>>, Dictionary<int, List<Assignment>>) GetAssignmentsInDict(
+    private static (Dictionary<int, List<Assignment>>, Dictionary<int, List<Assignment>>) GetAssignmentsInPair(
         IEnumerable<Assignment> assignments)
     {
         var assignmentList = assignments.ToList();
-        var assignmentsDict = assignmentList
+        var assignmentsPair = assignmentList
             .GroupBy(a => a.OWPMatchId)
             .ToDictionary(a => a.Key, a => a.ToList());
-        var minorAssignmentsDict = assignmentList
+        var minorAssignmentsPair = assignmentList
             .Where(x => x.ParentMatchId > 0)
             .GroupBy(a => a.ParentMatchId).ToDictionary(a => a.Key, a => a.ToList());
 
-        return (assignmentsDict, minorAssignmentsDict);
+        return (assignmentsPair, minorAssignmentsPair);
     }
 
-    private static (Dictionary<int, List<MatchSetting>>, Dictionary<int, List<MatchSetting>>) GetMatchSettingsInDict(
+    private static (Dictionary<int, List<MatchSetting>>, Dictionary<int, List<MatchSetting>>) GetMatchSettingsInPair(
         IEnumerable<MatchSetting> matchSettings)
     {
         var matchSettingList = matchSettings.ToList();
-        var matchSettingsDict = matchSettingList
+        var matchSettingsPair = matchSettingList
             .GroupBy(a => a.OWPMatchId)
             .ToDictionary(a => a.Key, a => a.ToList());
-        var minorMatchSettingsDict = matchSettingList
+        var minorMatchSettingsPair = matchSettingList
             .Where(x => x.ParentMatchId > 0)
             .GroupBy(a => a.ParentMatchId).ToDictionary(a => a.Key, a => a.ToList());
 
-        return (matchSettingsDict, minorMatchSettingsDict);
+        return (matchSettingsPair, minorMatchSettingsPair);
     }
 
     public static bool IsSelectAllMatchType(List<string> matchType)
