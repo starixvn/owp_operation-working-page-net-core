@@ -10,5 +10,6 @@ public class EventInformation
     public Dictionary<int, List<MatchSetting>> MinorMatchSettingsPair { get; set; }
     public Dictionary<int, List<Television>> TelevisionsPair { get; set; }
     public Dictionary<int, List<MatchOffer>> MatchOffersPair { get; set; }
-    public Dictionary<int, List<TicketInfo>> TicketInfosPair { get; set; }
+
+    public IList<HasTicketModel> HasTicketModel { get; set; }
 }

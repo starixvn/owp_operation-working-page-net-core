@@ -1,4 +1,4 @@
-﻿namespace OWP.Event.EventShared.Models;
+﻿/* namespace OWP.Event.EventShared.Models;
 
 public class TicketInfo
 {
@@ -15,4 +15,4 @@ public class TicketInfo
     public string SubtypeName { get; set; }
 
     public bool IsRead { get; set; }
-}
+} */

@@ -37,14 +37,13 @@ public static class EventHelper
         IEnumerable<MatchSetting> matchSettings,
         IEnumerable<Television> televisions,
         IEnumerable<MatchOffer> matchOffers,
-        IEnumerable<TicketInfo> tickets,
-        IEnumerable<MatchInfo> matchInfo)
+        IEnumerable<MatchInfo> matchInfo,
+        IEnumerable<HasTicketModel> hasTicketModel)
     {
         var (assignmentsPair, minorAssignmentsPair) = GetAssignmentsInPair(assignments);
         var (matchSettingsPair, minorMatchSettingsPair) = GetMatchSettingsInPair(matchSettings);
         var televisionsPair = GetTelevisionsPair(televisions);
         var matchOffersPair = GetMatchOffersPair(matchOffers);
-        var ticketsPair = GetTicketsPair(tickets);
 
         return new EventInformation
         {
@@ -55,7 +54,7 @@ public static class EventHelper
             MinorMatchSettingsPair = minorMatchSettingsPair,
             TelevisionsPair = televisionsPair,
             MatchOffersPair = matchOffersPair,
-            TicketInfosPair = ticketsPair
+            HasTicketModel = hasTicketModel?.ToList()
         };
     }
 
@@ -64,9 +63,6 @@ public static class EventHelper
 
     private static Dictionary<int, List<MatchOffer>> GetMatchOffersPair(IEnumerable<MatchOffer> matchOffers)
         => matchOffers.GroupBy(a => a.OWPMatchId).ToDictionary(a => a.Key, a => a.ToList());
-
-    private static Dictionary<int, List<TicketInfo>> GetTicketsPair(IEnumerable<TicketInfo> ticketInfos)
-        => ticketInfos.GroupBy(a => a.OwpMatchId).ToDictionary(a => a.Key, a => a.ToList());
 
     private static (Dictionary<int, List<Assignment>>, Dictionary<int, List<Assignment>>) GetAssignmentsInPair(
         IEnumerable<Assignment> assignments)

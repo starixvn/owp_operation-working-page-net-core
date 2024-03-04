@@ -1,4 +1,4 @@
-﻿namespace OWP.Event.LiveGameAssignment.Models;
+namespace OWP.Event.EventShared.Models;
 
 public class HasTicketModel
 {

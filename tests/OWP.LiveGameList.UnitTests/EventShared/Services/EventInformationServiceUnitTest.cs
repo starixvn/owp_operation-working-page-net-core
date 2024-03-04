@@ -31,8 +31,7 @@ public class EventInformationServiceUnitTest
             MatchSettingsPair = MockMatchSetting(),
             MinorMatchSettingsPair = new Dictionary<int, List<MatchSetting>>(),
             TelevisionsPair = MockTelevision(),
-            MatchOffersPair = MockMatchOffers(),
-            TicketInfosPair = MockTicketInfo()
+            MatchOffersPair = MockMatchOffers()
         };
         repository.GetEventInformation(Arg.Any<CriteriaBase>()).Returns(eventInfo);
 
@@ -110,20 +109,6 @@ public class EventInformationServiceUnitTest
         {
             {
                 1, new List<MatchOffer> { new() { MatchOfferValue = "6s", OWPMatchId = 1 } }
-            }
-        };
-    }
-
-    public Dictionary<int, List<TicketInfo>> MockTicketInfo()
-    {
-        return new Dictionary<int, List<TicketInfo>>
-        {
-            {
-                1, new List<TicketInfo>
-                {
-                    new() { OwpMatchId = 1, LatestCreatedDate = new DateTime(2023,5,20) },
-                    new() { OwpMatchId = 1, LatestCreatedDate = new DateTime(2023,5,22) }
-                }
             }
         };
     }

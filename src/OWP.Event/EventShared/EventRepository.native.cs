@@ -32,16 +32,16 @@ public class EventRepositoryImp : EventRepository
                 typeof(MatchSetting),
                 typeof(Television),
                 typeof(MatchOffer),
-                typeof(TicketInfo)
+                typeof(HasTicketModel)
             });
-        var matchInfos = result[0].Cast<MatchInfo>().ToList();
+        var matchInfo = result[0].Cast<MatchInfo>().ToList();
         var assignments = result[1].Cast<Assignment>().ToList();
         var matchSettings = result[2].Cast<MatchSetting>().ToList();
         var televisions = result[3].Cast<Television>().ToList();
         var matchOffers = result[4].Cast<MatchOffer>().ToList();
-        var tickets = result[5].Cast<TicketInfo>().ToList();
+        var hasTicketModel = result[5].Cast<HasTicketModel>().ToList();
 
-        return EventHelper.BuildEventInfoInPair(assignments, matchSettings, televisions, matchOffers, tickets, matchInfos);
+        return EventHelper.BuildEventInfoInPair(assignments, matchSettings, televisions, matchOffers, matchInfo, hasTicketModel);
     }
 
     public async Task<IEnumerable<MinorMatchInfo>> GetMinorAdminSiteIds(IEnumerable<MinorMatch> minorMatches)
