@@ -21,6 +21,8 @@ public class NewMessageRequest : PermissionCheckedModel, IRequest<MessageDetailV
     public int TicketEventType { get; set; }
 
     public string TicketTitle { get; set; }
+
+    public TicketInfo TicketInfo { get; set; }
 }
 
 public class NewMessageHandler : IRequestHandler<NewMessageRequest, MessageDetailViewModel>
