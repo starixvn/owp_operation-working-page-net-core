@@ -7,7 +7,8 @@ namespace OWP.TicketCenter.Notification.Services;
 
 public interface NotificationService
 {
-    Task NotifyNewMessageIncome(List<string> userIds, MessageDetailViewModel messageResponse = null);
+    Task NotifyNewMessageIncome(List<string> userIds,TicketInfo ticketInfo,  MessageDetailViewModel messageResponse = null);
+
     Task NotifyNewAddRecipient(List<string> userIds, TicketInfo ticketInfo = null);
 
     Task NotifyChangeStatusIncome(TicketInfo ticketInfo);
@@ -39,11 +40,21 @@ public class NotificationServiceImp : NotificationService
         this.repository = repository;
     }
 
-    public async Task NotifyNewMessageIncome(List<string> userIds, MessageDetailViewModel messageResponse = null)
+    public async Task NotifyNewMessageIncome(List<string> userIds, TicketInfo ticketInfo, MessageDetailViewModel messageResponse = null)
     {
-        await notifyMyTicket.Clients
-            .Users(userIds)
-            .NotifyNewMessageIncome(messageResponse);
+        var ticketReaders = await repository.GetTickerReaderInfoByTicketId(ticketInfo.TicketId);
+        var lastComments = (await repository.GetTwoLastComment(new List<int> { ticketInfo.TicketId })).ToList();
+        ticketInfo.Messages = lastComments;
+        ticketInfo.LastCommentDate = lastComments.FirstOrDefault(new MessageInfoModel()).CreatedDate;
+        foreach (var ticketReader in ticketReaders)
+        {
+            ticketInfo.IsPinned = ticketReader.IsPinned;
+            ticketInfo.IsRead = ticketReader.IsRead;
+
+            await notifyMyTicket.Clients
+                .User(ticketReader.RecipientId)
+                .NotifyNewMessageIncome(messageResponse, ticketInfo);
+        }
     }
 
     public async Task NotifyNewMessageLga(List<string> userIds, int owpMatchId, int actorId)

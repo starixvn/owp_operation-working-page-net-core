@@ -74,7 +74,8 @@ public class NewMessageHandler : IRequestHandler<NewMessageRequest, MessageDetai
         messageClient.SendMessage(request, RoutingKey.TicketCenterNewMessage);
 
         var userIds = await repository.GetUserIdsByTicketId(request.TicketId);
-        await notification.NotifyNewMessageIncome(userIds, messageResponse);
+
+        await notification.NotifyNewMessageIncome(userIds,request.TicketInfo, messageResponse);
 
         if (request.TicketEventType == (int)EventType.LiveIncident)
         {

@@ -8,6 +8,7 @@ using OWP.TicketCenter.Handlers;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Notification.Services;
 using OWP.TicketCenter.Services;
+using OWP.TicketCenter.ViewModels;
 using Xunit;
 
 namespace OWP.TicketCenter.UnitTests.Handlers;
@@ -88,7 +89,7 @@ public class NewTicketIssueEventHandlerUnitTests
             }
             );
 
-        await notificationService.NotifyNewMessageIncome(Arg.Compat.Any<List<string>>());
+        await notificationService.NotifyNewMessageIncome(Arg.Compat.Any<List<string>>(), new TicketInfo(), new MessageDetailViewModel());
 
         var actual = await handler.Handle(request, CancellationToken.None);
 

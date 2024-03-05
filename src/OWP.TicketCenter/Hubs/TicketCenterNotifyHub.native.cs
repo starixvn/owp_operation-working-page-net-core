@@ -6,11 +6,11 @@ namespace OWP.TicketCenter.Hubs;
 
 public interface TicketCenterNotifyHub
 {
-    Task NotifyNewMessageIncome(MessageDetailViewModel messageResponse);
+    Task NotifyNewMessageIncome(MessageDetailViewModel messageResponse, TicketInfo ticketInfo);
 
     Task NotifyNewAddRecipient(TicketInfo ticketInfo);
 
-    Task NotifyChangeStatusIncome(TicketInfo ticketInfo);
+    Task NotifyChangeStatusIncome(TicketInfo ticketInfo );
 
     Task NotifyChangeSubTypeIncome(TicketInfo ticketInfo);
 
