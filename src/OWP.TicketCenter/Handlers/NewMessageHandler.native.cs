@@ -21,6 +21,8 @@ public class NewMessageRequest : PermissionCheckedModel, IRequest<MessageDetailV
     public int TicketEventType { get; set; }
 
     public string TicketTitle { get; set; }
+
+    public TicketInfo TicketInfo { get; set; }
 }
 
 public class NewMessageHandler : IRequestHandler<NewMessageRequest, MessageDetailViewModel>
@@ -72,7 +74,8 @@ public class NewMessageHandler : IRequestHandler<NewMessageRequest, MessageDetai
         messageClient.SendMessage(request, RoutingKey.TicketCenterNewMessage);
 
         var userIds = await repository.GetUserIdsByTicketId(request.TicketId);
-        await notification.NotifyNewMessageIncome(userIds, messageResponse);
+
+        await notification.NotifyNewMessageIncome(userIds,request.TicketInfo, messageResponse);
 
         if (request.TicketEventType == (int)EventType.LiveIncident)
         {
