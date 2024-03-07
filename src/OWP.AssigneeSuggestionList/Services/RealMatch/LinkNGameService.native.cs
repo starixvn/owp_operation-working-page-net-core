@@ -28,7 +28,6 @@ public class LinkNGameServiceImp : LinkNGameService
         WorkingSchedule schedules,
         DateTime filterDate)
     {
-
         LinkFourGamePlus(assignments, schedules, filterDate);
         LinkThreeGame(assignments, schedules, filterDate);
         LinkTwoGame(assignments, schedules, filterDate);
@@ -56,7 +55,7 @@ public class LinkNGameServiceImp : LinkNGameService
     {
         var linkNGamePair = LinkGameConditionHelper
             .GroupGameByTimeIntervals(assignments)
-            .Where(x => x.Value.Count >= 4)
+            .Where(x => x.Value.Select(m => m.OWPMatchId).Distinct().Count() >= 4)
             .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
         foreach (var game in linkNGamePair.Values)
@@ -79,7 +78,7 @@ public class LinkNGameServiceImp : LinkNGameService
     {
         var linkNGamePair = LinkGameConditionHelper
             .GroupGameByTimeIntervals(assignments)
-            .Where(x => x.Value.Count == 3)
+            .Where(x => x.Value.Select(m => m.OWPMatchId).Distinct().Count() == 3)
             .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
         foreach (var game in linkNGamePair.Values)
