@@ -2,7 +2,6 @@ using Epplus.Mapper.Annotations;
 using OWP.Extensions;
 using OWP.Utils;
 using System.Globalization;
-using System.Linq;
 using System.Text.Json.Serialization;
 
 namespace OWP.EventPicking.Models;
@@ -34,6 +33,8 @@ public class EventPickingModel
     public int OWPLeagueId { get; set; }
 
     public bool IsBlackList { get; set; }
+
+    public bool IsBlackListFromInfoSite { get; set; }
 
     [Cell("A2")]
     public string MatchNo { get; set; }
