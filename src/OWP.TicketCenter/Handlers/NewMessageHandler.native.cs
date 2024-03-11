@@ -79,8 +79,8 @@ public class NewMessageHandler : IRequestHandler<NewMessageRequest, MessageDetai
 
         if (request.TicketEventType == (int)EventType.LiveIncident)
         {
-            var ticketInfoLga = await repository.GetTicketInfoLga(request.TicketId);
-            await notification.NotifyNewMessageLga(userIds, ticketInfoLga.OwpMatchId, request.ActorId);
+            var parentMatchId = await repository.GetParentMatchIdByTicketId(request.TicketId);
+            await notification.NotifyNewMessageLga(userIds, parentMatchId, request.ActorId);
         }
         if (IsEventCheckingType(request.TicketEventType))
         {

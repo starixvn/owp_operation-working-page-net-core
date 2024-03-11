@@ -1,8 +1,8 @@
-﻿using Fanex.Data.Repository;
+using Fanex.Data.Repository;
 
-namespace OWP.Event.LiveGameAssignment.Criteria;
+namespace OWP.Event.EventShared.Models;
 
-public class DetectEventHasTicketCritetia : CriteriaBase
+public class DetectEventHasTicketCriteria : CriteriaBase
 {
     public string OWPMatchIds { get; set; }
 

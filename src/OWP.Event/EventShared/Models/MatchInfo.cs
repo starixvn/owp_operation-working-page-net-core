@@ -90,9 +90,10 @@ public class MatchInfo : TaskListMatchInfo
 
     public string TeamRound { get; set; }
 
-    public bool IsRead => TicketInfos.All(x => x.IsRead);
+    // TODO
+    public bool IsRead { get; set; }
 
-    public bool HasTicket => TicketInfos.Any();
+    public bool HasTicket { get; set; }
 
     public AssignmentModel Assignment { get; set; }
 
@@ -101,8 +102,6 @@ public class MatchInfo : TaskListMatchInfo
     public IEnumerable<Television> Televisions { get; set; }
 
     public IEnumerable<MatchOffer> MatchOffers { get; set; }
-
-    public IEnumerable<TicketInfo> TicketInfos { get; set; }
 
     public string KickOffTimeDisplay => KickOffTime.ToOWPTimeFormat();
 

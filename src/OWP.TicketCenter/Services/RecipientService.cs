@@ -32,9 +32,7 @@ public class RecipientServiceImp : RecipientService
     {
         foreach (var recipient in recipients)
         {
-            var recipientIds = recipient.RecipientIds
-                .Select(r => r);
-            var recipientIdsString = string.Join(',', recipientIds);
+            var recipientIdsString = string.Join(',', recipient.RecipientIds);
 
             var criteria = new AddManyRecipientCriteria
             {

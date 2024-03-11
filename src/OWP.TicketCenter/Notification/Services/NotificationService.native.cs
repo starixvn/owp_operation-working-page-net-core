@@ -8,8 +8,7 @@ namespace OWP.TicketCenter.Notification.Services;
 public interface NotificationService
 {
     Task NotifyNewMessageIncome(List<string> userIds,TicketInfo ticketInfo,  MessageDetailViewModel messageResponse = null);
-
-    Task NotifyNewAddRecipient(List<string> userIds, TicketInfo ticketInfo = null);
+    Task NotifyNewAddRecipient(List<string> userIds, TicketInfo ticketInfo);
 
     Task NotifyChangeStatusIncome(TicketInfo ticketInfo);
 
@@ -17,9 +16,9 @@ public interface NotificationService
 
     Task NotifyUserClickOnToast(int userId, int ticketId, int eventType);
 
-    Task NotifyNewMessageLga(List<string> userIds, int owpMatchId, int actorId);
+    Task NotifyNewMessageLga(List<string> userIds, int parentMatchId, int actorId);
 
-    Task NotifyNewAddRecipientLga(List<string> userIds, int owpMatchId, int actorId);
+    Task NotifyNewAddRecipientLga(List<string> userIds, int parentMatchId, int actorId);
 }
 
 public class NotificationServiceImp : NotificationService
@@ -57,17 +56,17 @@ public class NotificationServiceImp : NotificationService
         }
     }
 
-    public async Task NotifyNewMessageLga(List<string> userIds, int owpMatchId, int actorId)
+    public async Task NotifyNewMessageLga(List<string> userIds, int parentMatchId, int actorId)
     {
         await notifyMyTicket.Clients
             .Users(userIds)
-            .NotifyNewMessageLga(owpMatchId, actorId);
+            .NotifyNewMessageLga(parentMatchId, actorId);
     }
 
-    public async Task NotifyNewAddRecipient(List<string> userIdsString, TicketInfo ticketInfo)
+    public async Task NotifyNewAddRecipient(List<string> userIds, TicketInfo ticketInfo)
     {
         var ticketReaders = await repository.GetTickerReaderInfoByTicketId(ticketInfo.TicketId);
-        var newReaders = ticketReaders.IntersectBy(userIdsString, x => x.RecipientId.ToString());
+        var newReaders = ticketReaders.IntersectBy(userIds, x => x.RecipientId.ToString());
         foreach (var ticketReader in newReaders)
         {
             ticketInfo.IsPinned = ticketReader.IsPinned;
@@ -79,11 +78,11 @@ public class NotificationServiceImp : NotificationService
         }
     }
 
-    public async Task NotifyNewAddRecipientLga(List<string> userIds, int owpMatchId, int actorId)
+    public async Task NotifyNewAddRecipientLga(List<string> userIds, int parentMatchId, int actorId)
     {
         await notifyMyTicket.Clients
             .Users(userIds)
-            .NotifyNewAddRecipientLga(owpMatchId, actorId);
+            .NotifyNewAddRecipientLga(parentMatchId, actorId);
     }
 
     public async Task NotifyUserClickOnToast(int userId, int ticketId, int eventType)

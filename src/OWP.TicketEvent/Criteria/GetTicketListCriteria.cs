@@ -4,7 +4,7 @@ namespace OWP.TicketEvent.Criteria;
 
 public class GetTicketListCriteria : CriteriaBase
 {
-    public string OwpMatchIds { get; set; }
+    public int OwpMatchId { get; set; }
 
     public int ActorId { get; set; }
 

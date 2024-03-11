@@ -38,13 +38,12 @@ public class EventInformationServiceImp : EventInformationService
     {
         var owpMatchId = matchInfo.OWPMatchId;
 
-        matchInfo.Assignment = AssignmentBuilder.Build(matchInfo, eventInfo.AssignmentsDict, eventInfo.MinorAssignmentsDict);
-        matchInfo.MatchSetting = MatchSettingBuilder.Build(matchInfo, eventInfo.MatchSettingsDict, eventInfo.MinorMatchSettingsDict);
+        matchInfo.Assignment = AssignmentBuilder.Build(matchInfo, eventInfo.AssignmentsPair, eventInfo.MinorAssignmentsPair);
+        matchInfo.MatchSetting = MatchSettingBuilder.Build(matchInfo, eventInfo.MatchSettingsPair, eventInfo.MinorMatchSettingsPair);
         matchInfo.Televisions = BuildTelevisions(eventInfo, owpMatchId);
         matchInfo.MatchOffers = BuildMatchOffers(eventInfo, owpMatchId);
-        matchInfo.IPTVCopy = BuildIptvCopy(matchInfo);
-        matchInfo.TicketInfos = BuildTicketInfos(eventInfo, owpMatchId);
-
+        BuildIptvCopy(matchInfo);
+        BuildTicket(eventInfo.HasTicketModel, matchInfo);
         adminSiteMatchServices.UpdateMinorAdminMatchId(matchInfo, minorAdminSiteInfos);
         infoSiteTimeService.BuildInfoSiteTime(matchInfo, infositeInfos);
 
@@ -52,23 +51,34 @@ public class EventInformationServiceImp : EventInformationService
     }
 
     private static IEnumerable<Television> BuildTelevisions(EventInformation eventInfo, int owpMatchId)
-        => eventInfo.TelevisionsDict.GetValue(owpMatchId, new List<Television>());
+        => eventInfo.TelevisionsPair.GetValue(owpMatchId, new List<Television>());
 
-    private static IEnumerable<TicketInfo> BuildTicketInfos(EventInformation eventInfo, int owpMatchId)
-        => eventInfo.TicketInfosDict.GetValue(owpMatchId, new List<TicketInfo>())
-            .OrderByDescending(x => x.LatestCreatedDate);
 
-    private static string BuildIptvCopy(MatchInfo matchInfo)
-        => IPTVBuilder.Build(new IPTVModel
+    private static void BuildTicket(IList<HasTicketModel> hasTicketModel, MatchInfo @event)
+    {
+        var ticket = hasTicketModel.FirstOrDefault(x => x.ParentMatchId == @event.ParentMatchId);
+
+        if (ticket is not null)
+        {
+            @event.HasTicket = ticket.HasTicket;
+            @event.IsRead = ticket.IsRead;
+        }
+    }
+
+    private static void BuildIptvCopy(MatchInfo matchInfo)
+    {
+
+        matchInfo.IPTVCopy = IPTVBuilder.Build(new IPTVModel
         {
             Television = string.Join("/", matchInfo.Televisions.Select(t => t.TVCode)),
             IpTv = matchInfo.IPTV,
             Channel = matchInfo.Channel,
             Stream = matchInfo.WatchBet
         });
+    }
 
     private static IEnumerable<MatchOffer> BuildMatchOffers(EventInformation eventInfo, int owpMatchId)
-        => eventInfo.MatchOffersDict.GetValue(owpMatchId, new List<MatchOffer>())
+        => eventInfo.MatchOffersPair.GetValue(owpMatchId, new List<MatchOffer>())
             .Select(x => new MatchOffer
             {
                 OWPMatchId = x.OWPMatchId,

@@ -24,7 +24,7 @@ public class RepositoryImp : Repository
         => (await repository.FetchAsync<TicketListModel>(new GetTicketListCriteria
         {
             ActorId = request.ActorId,
-            OwpMatchIds = request.OwpMatchId.ToString()
+            OwpMatchId = request.OwpMatchId
         })).ToList();
 
     public async Task<IEnumerable<TicketAssignees>> QueryAssigneesByLeagueId(int owpMatchId)

@@ -26,9 +26,9 @@ public class GetEventByDayServiceImp : GetEventByDayService
     public async Task<TaskListModel> GetEventByDay(DateTime eventDate)
     {
         var taskListInfo = await taskListRepository.GetTaskListInfo(eventDate);
-        await eventService.GetInfositeAndAdminsiteInfo(taskListInfo.MatchInfos.ToList());
+        await eventService.GetInfositeAndAdminsiteInfo(taskListInfo.MatchInfo.ToList());
 
-        var adminsiteIds = taskListInfo.MatchInfos.Select(x => x.AdminSiteId);
+        var adminsiteIds = taskListInfo.MatchInfo.Select(x => x.AdminSiteId);
         var completedMatchIds = await taskListRepository.GetCompletedMatchFromMainDb(adminsiteIds);
 
         var matchInfos = BuildEvents(taskListInfo, completedMatchIds);
@@ -42,14 +42,14 @@ public class GetEventByDayServiceImp : GetEventByDayService
 
     public IEnumerable<MatchInfo> BuildEvents(EventInformation eventInfos, List<int> completedMatchIds)
     {
-        foreach (var matchInfo in eventInfos.MatchInfos)
+        foreach (var matchInfo in eventInfos.MatchInfo)
         {
             eventService.BuildEvent(eventInfos, matchInfo);
 
             matchInfo.Phone = matchInfo.Assignment.LA.Any(x => x.IsCurrentUser && x.BettypeId < 0 && matchInfo.IsOneHourToKickOffTime)
                 ? matchInfo.Phone
                 : string.Empty;
-            matchInfo.IsCompletedMatch = GetMainMatchCompleteStatus(matchInfo, completedMatchIds, eventInfos.MatchInfos);
+            matchInfo.IsCompletedMatch = GetMainMatchCompleteStatus(matchInfo, completedMatchIds, eventInfos.MatchInfo);
 
             yield return matchInfo;
         }

@@ -456,16 +456,21 @@ public class LiveGameAssignmentRepositoryImp : LiveGameAssignmentRepository
     public async Task DetectEventHasTicket(IList<EventModel> eventModels)
     {
         var owpIds = string.Join(",", eventModels.Select(x => x.OWPMatchId));
-        var hasTicketModel = await dynamicRepository.FetchAsync<HasTicketModel>(new DetectEventHasTicketCritetia
+        var hasTicketModel = await dynamicRepository.FetchAsync<HasTicketModel>(new DetectEventHasTicketCriteria
         {
             OWPMatchIds = owpIds,
             ActorId = session.UserId
         });
+
         foreach (var @event in eventModels)
         {
-            var ticket = hasTicketModel.FirstOrDefault(x => x.OWPMatchId == @event.OWPMatchId);
-            @event.HasTicket = ticket?.HasTicket;
-            @event.IsRead = ticket?.IsRead;
+            var ticket = hasTicketModel.FirstOrDefault(x => x.ParentMatchId == @event.ParentMatchId);
+
+            if (ticket is not null)
+            {
+                @event.HasTicket = ticket.HasTicket;
+                @event.IsRead = ticket.IsRead;
+            }
         }
     }
 

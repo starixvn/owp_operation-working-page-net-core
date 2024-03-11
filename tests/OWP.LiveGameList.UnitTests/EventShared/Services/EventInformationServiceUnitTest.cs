@@ -25,14 +25,13 @@ public class EventInformationServiceUnitTest
     {
         var eventInfo = new EventInformation
         {
-            MatchInfos = MockMatchInfo(),
-            AssignmentsDict = MockAssignment(),
-            MinorAssignmentsDict = new Dictionary<int, List<Assignment>>(),
-            MatchSettingsDict = MockMatchSetting(),
-            MinorMatchSettingsDict = new Dictionary<int, List<MatchSetting>>(),
-            TelevisionsDict = MockTelevision(),
-            MatchOffersDict = MockMatchOffers(),
-            TicketInfosDict = MockTicketInfo()
+            MatchInfo = MockMatchInfo(),
+            AssignmentsPair = MockAssignment(),
+            MinorAssignmentsPair = new Dictionary<int, List<Assignment>>(),
+            MatchSettingsPair = MockMatchSetting(),
+            MinorMatchSettingsPair = new Dictionary<int, List<MatchSetting>>(),
+            TelevisionsPair = MockTelevision(),
+            MatchOffersPair = MockMatchOffers()
         };
         repository.GetEventInformation(Arg.Any<CriteriaBase>()).Returns(eventInfo);
 
@@ -51,7 +50,7 @@ public class EventInformationServiceUnitTest
             }
         };
         var service = new EventInformationServiceImp(adminSiteMatchServices, infoSiteTimeService);
-        var actual = service.BuildEvent(eventInfo, eventInfo.MatchInfos.First());
+        var actual = service.BuildEvent(eventInfo, eventInfo.MatchInfo.First());
 
         Assert.Equal(expected.First().IPTVCopy, actual.IPTVCopy);
     }
@@ -110,20 +109,6 @@ public class EventInformationServiceUnitTest
         {
             {
                 1, new List<MatchOffer> { new() { MatchOfferValue = "6s", OWPMatchId = 1 } }
-            }
-        };
-    }
-
-    public Dictionary<int, List<TicketInfo>> MockTicketInfo()
-    {
-        return new Dictionary<int, List<TicketInfo>>
-        {
-            {
-                1, new List<TicketInfo>
-                {
-                    new() { OwpMatchId = 1, LatestCreatedDate = new DateTime(2023,5,20) },
-                    new() { OwpMatchId = 1, LatestCreatedDate = new DateTime(2023,5,22) }
-                }
             }
         };
     }
