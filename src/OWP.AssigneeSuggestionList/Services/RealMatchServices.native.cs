@@ -40,10 +40,7 @@ public class RealMatchServicesImp : RealMatchServices
         DateTime filterDate)
     {
         var fromDate = filterDate.Date.AddHours(12);
-
         var gameMapGameId = GameMapGameId(assignmentModels);
-        var a = schedules.Where(x => x.UserInfo.Username == "SLGCHRIS").ToList();
-        var assss = assignmentModels.Where(x => x.UserId == 32958).ToList();
         foreach (var schedule in schedules)
         {
             var assignments = Helper.Utils.GetAssignmentsBelongWs(assignmentModels, schedule);

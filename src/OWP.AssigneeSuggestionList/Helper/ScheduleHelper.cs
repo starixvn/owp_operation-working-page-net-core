@@ -100,22 +100,20 @@ public static class ScheduleHelper
         return assignmentHdp is not null && gameMapGameId[assignmentHdp.OWPMatchId].Exists(a =>
             a.OWPMatchId == assignmentHdp.OWPMatchId
                && a.BettypeId == Bettype.OverUnder
-               && a.UserId != assignmentHdp.UserId)
-            ? "*H"
-            : string.Empty;
+               && a.UserId == assignmentHdp.UserId)
+                ? string.Empty : "*H";
     }
 
     public static string BuildTextSingleGamePostfixOu(IDictionary<int, List<AssignmentModel>> gameMapGameId,
         IList<AssignmentModel> assignments)
     {
         var assignmentOu = assignments.FirstOrDefault(a => a.BettypeId == Bettype.OverUnder);
-
         return assignmentOu is not null && gameMapGameId[assignmentOu.OWPMatchId].Exists(a =>
            a.OWPMatchId == assignmentOu.OWPMatchId
             && a.BettypeId == Bettype.Handicap
-            && a.UserId != assignmentOu.UserId)
-            ? "*O"
-            : string.Empty;
+            && a.UserId == assignmentOu.UserId)
+            ? string.Empty 
+            : "*O";
     }
 
     public static (
