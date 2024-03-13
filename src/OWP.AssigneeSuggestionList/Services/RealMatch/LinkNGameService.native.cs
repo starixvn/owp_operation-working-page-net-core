@@ -38,7 +38,15 @@ public class LinkNGameServiceImp : LinkNGameService
         WorkingSchedule schedules,
          DateTime filterDate)
     {
-        var linkNGamePair = LinkTwoGameConditionHelper.Group(assignments);
+        var linkNGamePair = LinkGameConditionHelper
+            .GroupGameByTimeIntervals(assignments)
+            .Where(x => x.Value.Select(m => m.OWPMatchId).Distinct().Count() ==2)
+            .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+
+        foreach (var game in linkNGamePair.Values)
+        {
+            game.ForEach(g => g.MatchType = MatchType.RealMatchLink2G);
+        }
 
         var assignmentCell = new AssignmentCell
         {

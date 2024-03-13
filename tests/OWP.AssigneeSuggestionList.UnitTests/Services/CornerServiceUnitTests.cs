@@ -50,7 +50,7 @@ public class CornerServiceUnitTests
             {
                 Color = ColorCodeConst.CORNER,
                 TextColor = ColorCodeConst.TEXT_CORNER,
-                Text = "06:05"
+                Text = "06:05*H"
             },
             TimeRange = (DateTime.Parse("2023-3-31 18:05:00"), DateTime.Parse("2023-3-31 19:05:00"))
         };

@@ -95,25 +95,41 @@ public static class ScheduleHelper
     public static string BuildTextSingleGamePostfixHdp(IDictionary<int, List<AssignmentModel>> gameMapGameId,
         IList<AssignmentModel> assignments)
     {
+        string prefix = null;
         var assignmentHdp = assignments.FirstOrDefault(a => a.BettypeId == Bettype.Handicap);
+        if (assignmentHdp is not null)
+        {
+            prefix = "*H";
+            if (gameMapGameId[assignmentHdp.OWPMatchId].Exists(a =>
+                    a.OWPMatchId == assignmentHdp.OWPMatchId
+                    && a.BettypeId == Bettype.OverUnder
+                    && a.UserId == assignmentHdp.UserId))
+            {
+                prefix = string.Empty;
+            }
+        }
 
-        return assignmentHdp is not null && gameMapGameId[assignmentHdp.OWPMatchId].Exists(a =>
-            a.OWPMatchId == assignmentHdp.OWPMatchId
-               && a.BettypeId == Bettype.OverUnder
-               && a.UserId == assignmentHdp.UserId)
-                ? string.Empty : "*H";
+        return prefix;
     }
 
     public static string BuildTextSingleGamePostfixOu(IDictionary<int, List<AssignmentModel>> gameMapGameId,
         IList<AssignmentModel> assignments)
     {
+        string prefix = null;
         var assignmentOu = assignments.FirstOrDefault(a => a.BettypeId == Bettype.OverUnder);
-        return assignmentOu is not null && gameMapGameId[assignmentOu.OWPMatchId].Exists(a =>
-           a.OWPMatchId == assignmentOu.OWPMatchId
-            && a.BettypeId == Bettype.Handicap
-            && a.UserId == assignmentOu.UserId)
-            ? string.Empty 
-            : "*O";
+        if (assignmentOu is not null)
+        {
+            prefix = "*O";
+            if (gameMapGameId[assignmentOu.OWPMatchId].Exists(a =>
+                    a.OWPMatchId == assignmentOu.OWPMatchId
+                    && a.BettypeId == Bettype.Handicap
+                    && a.UserId == assignmentOu.UserId))
+            {
+                prefix = string.Empty;
+            }
+        }
+
+        return prefix;
     }
 
     public static (
