@@ -51,7 +51,7 @@ public class OneGameServiceUnitTest
             {
                 Color = ColorCodeConst.ONE_GAME,
                 TextColor = ColorCodeConst.TEXT_ONE_GAME,
-                Text = "V"
+                Text = "V*H"
             },
             TimeRange = (DateTime.Parse("2023-3-31 18:00:00"), DateTime.Parse("2023-3-31 20:00:00"))
         };

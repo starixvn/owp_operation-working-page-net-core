@@ -51,7 +51,7 @@ public class MJServiceUnitTests
             {
                 Color = ColorCodeConst.MJ,
                 TextColor = ColorCodeConst.TEXT_MJ,
-                Text = "V"
+                Text = "V*H"
             },
             TimeRange = (DateTime.Parse("2023-3-31 18:00:00"), DateTime.Parse("2023-3-31 20:00:00"))
         };
