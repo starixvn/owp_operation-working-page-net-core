@@ -93,10 +93,13 @@ public static class ScheduleHelper
     }
 
     public static string BuildTextSingleGamePostfixHdp(IDictionary<int, List<AssignmentModel>> gameMapGameId,
-        IList<AssignmentModel> assignments)
+        IList<AssignmentModel> assignments, int ? priorityMinorBettypeId = null )
     {
         string prefix = null;
-        var assignmentHdp = assignments.FirstOrDefault(a => a.BettypeId == Bettype.Handicap);
+     
+        var assignmentHdp = priorityMinorBettypeId.HasValue ?  assignments.FirstOrDefault(a => a.BettypeId == Bettype.Handicap && a.MinorBettypeId == priorityMinorBettypeId.Value) 
+            : assignments.FirstOrDefault(a => a.BettypeId == Bettype.Handicap );
+
         if (assignmentHdp is not null)
         {
             prefix = "*H";
@@ -113,10 +116,11 @@ public static class ScheduleHelper
     }
 
     public static string BuildTextSingleGamePostfixOu(IDictionary<int, List<AssignmentModel>> gameMapGameId,
-        IList<AssignmentModel> assignments)
+        IList<AssignmentModel> assignments, int? priorityMinorBettypeId = null)
     {
         string prefix = null;
-        var assignmentOu = assignments.FirstOrDefault(a => a.BettypeId == Bettype.OverUnder);
+        var assignmentOu = priorityMinorBettypeId.HasValue ? assignments.FirstOrDefault(a => a.BettypeId == Bettype.OverUnder && a.MinorBettypeId == priorityMinorBettypeId.Value)
+            : assignments.FirstOrDefault(a => a.BettypeId == Bettype.OverUnder );
         if (assignmentOu is not null)
         {
             prefix = "*O";

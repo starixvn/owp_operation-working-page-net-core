@@ -1,6 +1,7 @@
 using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Helper;
 using OWP.AssigneeSuggestionList.Models;
+using OWP.Constants;
 
 namespace OWP.AssigneeSuggestionList.Services.RealMatch;
 
@@ -49,10 +50,10 @@ public class CornerServiceImp : CornerService
         IList<AssignmentModel> assignmentsCorner,
         DateTime filterDate)
     {
-        var textPostfix = ScheduleHelper.BuildTextSingleGamePostfixHdp(gameMapGameId, assignmentsCorner);
+        var textPostfix = ScheduleHelper.BuildTextSingleGamePostfixHdp(gameMapGameId, assignmentsCorner, Bettype.Corner);
         if (string.IsNullOrEmpty(textPostfix))
         {
-            textPostfix = ScheduleHelper.BuildTextSingleGamePostfixOu(gameMapGameId, assignmentsCorner);
+            textPostfix = ScheduleHelper.BuildTextSingleGamePostfixOu(gameMapGameId, assignmentsCorner, Bettype.Corner);
         }
 
         var gameInfo = ScheduleHelper.GetGameInfo(assignmentsCorner);

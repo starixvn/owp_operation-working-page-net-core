@@ -49,8 +49,8 @@ public class BookingServiceImp : BookingService
      IList<AssignmentModel> assignmentsBooking,
       DateTime filterDate)
     {
-        var textPostfix = ScheduleHelper.BuildTextSingleGamePostfixHdp(gameMapGameId, assignmentsBooking)
-            ?? ScheduleHelper.BuildTextSingleGamePostfixOu(gameMapGameId, assignmentsBooking);
+        var textPostfix = ScheduleHelper.BuildTextSingleGamePostfixHdp(gameMapGameId, assignmentsBooking, Bettype.TotalBooking)
+            ?? ScheduleHelper.BuildTextSingleGamePostfixOu(gameMapGameId, assignmentsBooking, Bettype.TotalBooking);
 
         var gameInfo = ScheduleHelper.GetGameInfo(assignmentsBooking);
 
