@@ -17,7 +17,7 @@ public static class AssigneeSuggestionListInjector
         services.AddScoped<CornerService, CornerServiceImp>();
         services.AddScoped<XMinsGroupService, XMinsGroupServiceImp>();
         services.AddScoped<WorkingScheduleService, WorkingScheduleServiceImp>();
-        services.AddScoped<SingleGameGroupService, SingleGameGroupServiceImp>();
+        services.AddScoped<SpecialGroupService, SpeacialGroupServiceImp>();
         services.AddScoped<SabaMatchServices, SabaMatchesServicesImp>();
         services.AddScoped<RealMatchServices, RealMatchServicesImp>();
         services.AddScoped<WorkingShiftService, WorkingShiftServiceImp>();
@@ -26,8 +26,7 @@ public static class AssigneeSuggestionListInjector
         services.AddScoped<SpecialGameService, SpecialGameServiceImp>();
         services.AddScoped<LinkGameService, LinkGameServiceImp>();
         services.AddScoped<MatchInfoServices, MatchInfoServicesImp>();
-        services.AddScoped<SingleTeamService, SingleTeamServiceImp>();
-        services.AddScoped<WinnerService, WinnerServiceImp>();
+        services.AddScoped<SingleSpecialService, WinnerServiceImp>();
         services.AddScoped<BookingService, BookingServiceImp>();
         services.AddScoped<SpecialGameGroupService, SpecialGameGroupServiceImp>();
         // categorize

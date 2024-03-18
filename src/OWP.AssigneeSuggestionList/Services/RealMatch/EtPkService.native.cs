@@ -14,9 +14,9 @@ public interface EtPkService
 
 public class EtPkServiceImp : EtPkService
 {
-    private readonly SingleGameGroupService workingSchedule;
+    private readonly SpecialGroupService workingSchedule;
 
-    public EtPkServiceImp(SingleGameGroupService workingSchedule)
+    public EtPkServiceImp(SpecialGroupService workingSchedule)
     {
         this.workingSchedule = workingSchedule;
     }
@@ -27,7 +27,7 @@ public class EtPkServiceImp : EtPkService
         DateTime filterDate)
     {
         var gameGroup = assignments?.Where(a =>
-            !string.IsNullOrEmpty(ETPKHelper.DetectExtraTime(a)) &&
+            !string.IsNullOrEmpty(ETPKHelper.DetectExtraTime(a.Remark, a.AssignmentNote, a.MinorBettypeId)) &&
             a.MatchType == Constant.MatchType.Other).ToList();
 
         workingSchedule.Group(
@@ -44,11 +44,7 @@ public class EtPkServiceImp : EtPkService
 
         var etPkValue = FirstHalfHelper.IsFirstHalf(assignments) ?
                 string.Empty
-                : ETPKHelper.DetectExtraTime(new AssignmentModel
-                {
-                    Remark = gameInfo.remark,
-                    AssignmentNote = gameInfo.assignmentNote
-                });
+                : ETPKHelper.DetectExtraTime(gameInfo.remark, gameInfo.assignmentNote);
 
         if (string.IsNullOrEmpty(etPkValue))
         {
@@ -65,11 +61,7 @@ public class EtPkServiceImp : EtPkService
         return new ScheduleUpdateModel
         {
             FilterDate = filterDate,
-            EtPk = new ETPKUpdateSchedule
-            {
-                IsHasEtPk = string.IsNullOrEmpty(etPkValue),
-                EtPkValue = etPkValue
-            },
+            EtPk = new ETPKUpdateSchedule(etPkValue),
             AssignmentCell = assignmentCell,
             TimeRange = (gameInfo.eventDate, gameInfo.eventDate)
         };

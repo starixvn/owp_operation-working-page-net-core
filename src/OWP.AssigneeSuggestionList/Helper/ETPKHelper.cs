@@ -1,4 +1,3 @@
-using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Models;
 using OWP.Extensions;
 
@@ -6,10 +5,10 @@ namespace OWP.AssigneeSuggestionList.Helper;
 
 public static class ETPKHelper
 {
-    public static string DetectExtraTime(AssignmentModel assignment)
-        => (IsEtPK(assignment),
-            IsEt(assignment),
-            IsPK(assignment)) switch
+    public static string DetectExtraTime(string remark, string assignmentNote, int? minorBettypeId = null)
+        => (IsEtPK(remark, assignmentNote),
+            Utils.IsValidSpecialProduct(minorBettypeId),
+            IsPK(remark, assignmentNote, minorBettypeId)) switch
         {
             (true, true, _) => "ET",
             (false, _, true) => "PK",
@@ -19,37 +18,33 @@ public static class ETPKHelper
 
     public static string BuildEtPkTextDisplay(IList<AssignmentModel> assignments)
     {
-        var etpkValues = assignments.Select(DetectExtraTime)
+        var etpkValues = assignments.Select(x => DetectExtraTime(x.Remark, x.AssignmentNote, x.MinorBettypeId))
             .Where(value => !string.IsNullOrEmpty(value))
             .ToList();
         return string.Join("+", etpkValues);
     }
 
-    private static bool IsEt(AssignmentModel assignment)
-        => assignment.MinorBettypeId.HasValue && BetTypeSpecial.BetTypes.Contains(assignment.MinorBettypeId.Value) &&
-            IsEtPK(assignment);
+    private static bool IsEtPK(string remark, string assignmentNote)
+    => remark.IsContains(" ET")
+        && remark.IsContains("PK")
+        && IsEtPKConditionTwo(assignmentNote);
 
-    private static bool IsEtPK(AssignmentModel assignment)
-    => assignment.Remark.IsContains(" ET")
-        && assignment.Remark.IsContains("PK")
-        && IsEtPKConditionTwo(assignment);
+    private static bool IsEtPKConditionTwo(string assignmentNote)
+    => assignmentNote is null
+            || (assignmentNote.IsContains("ET")
+                && assignmentNote.IsContains("PK")
+                && !assignmentNote.IsContains("No"));
 
-    private static bool IsEtPKConditionTwo(AssignmentModel assignment)
-    => assignment.AssignmentNote is null
-            || (assignment.AssignmentNote.IsContains("ET")
-                && assignment.AssignmentNote.IsContains("PK")
-                && !assignment.AssignmentNote.IsContains("No"));
+    private static bool IsPK(string remark, string assignmentNote, int? minorBettypeId)
+        => !minorBettypeId.HasValue && IsPKRemark(remark) && IsPKAssignmentNote(assignmentNote);
 
-    private static bool IsPK(AssignmentModel assignment)
-        => IsPKRemark(assignment) && IsPKAssignmentNote(assignment);
+    private static bool IsPKRemark(string remark)
+        => !remark.IsContains(" ET")
+           && remark.IsContains("PK");
 
-    private static bool IsPKRemark(AssignmentModel assignment)
-        => !assignment.Remark.IsContains(" ET")
-           && assignment.Remark.IsContains("PK");
-
-    private static bool IsPKAssignmentNote(AssignmentModel assignment)
-    => assignment.AssignmentNote is null
-        || (!assignment.AssignmentNote.IsContains("ET")
-            && assignment.AssignmentNote.IsContains("PK")
-            && !assignment.AssignmentNote.IsContains("No"));
+    private static bool IsPKAssignmentNote(string assignmentNote)
+        => assignmentNote is null
+            || (!assignmentNote.IsContains("ET")
+                && assignmentNote.IsContains("PK")
+                && !assignmentNote.IsContains("No"));
 }

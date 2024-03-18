@@ -1,6 +1,7 @@
 using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Helper;
 using OWP.AssigneeSuggestionList.Models;
+using OWP.Constants;
 
 namespace OWP.AssigneeSuggestionList.Services.RealMatch;
 
@@ -49,32 +50,23 @@ public class CornerServiceImp : CornerService
         IList<AssignmentModel> assignmentsCorner,
         DateTime filterDate)
     {
-        var textPostfix = ScheduleHelper.BuildTextSingleGamePostfixHdp(gameMapGameId, assignmentsCorner);
+        var textPostfix = ScheduleHelper.BuildTextSingleGamePostfixHdp(gameMapGameId, assignmentsCorner, Bettype.Corner);
         if (string.IsNullOrEmpty(textPostfix))
         {
-            textPostfix = ScheduleHelper.BuildTextSingleGamePostfixOu(gameMapGameId, assignmentsCorner);
+            textPostfix = ScheduleHelper.BuildTextSingleGamePostfixOu(gameMapGameId, assignmentsCorner, Bettype.Corner);
         }
 
         var gameInfo = ScheduleHelper.GetGameInfo(assignmentsCorner);
-        var tempEtPkValue = ETPKHelper.DetectExtraTime(new AssignmentModel
-        {
-            Remark = gameInfo.remark,
-            AssignmentNote = gameInfo.assignmentNote,
-            MinorBettypeId = gameInfo.minorBettypeId
-        });
+        var tempEtPkValue = ETPKHelper.DetectExtraTime(gameInfo.remark, gameInfo.assignmentNote, gameInfo.minorBettypeId);
 
-        var etPkValue = (FirstHalfHelper.IsFirstHalf(assignmentsCorner) || string.Equals(tempEtPkValue, "PK", StringComparison.OrdinalIgnoreCase))
-        ? string.Empty
+        var etPkValue = FirstHalfHelper.IsFirstHalf(assignmentsCorner)
+            ? string.Empty
             : tempEtPkValue;
 
         return new ScheduleUpdateModel
         {
             FilterDate = filterDate,
-            EtPk = new ETPKUpdateSchedule
-            {
-                IsHasEtPk = !string.IsNullOrEmpty(etPkValue),
-                EtPkValue = etPkValue
-            },
+            EtPk = new ETPKUpdateSchedule(etPkValue),
             AssignmentCell = new()
             {
                 Color = ColorCodeConst.CORNER,

@@ -44,7 +44,6 @@ public class CornerServiceUnitTests
             FilterDate = DateTime.Parse("2023-3-31 18:05:00"),
             EtPk = new ETPKUpdateSchedule
             {
-                IsHasEtPk = false,
                 EtPkValue = ""
             },
             AssignmentCell = new AssignmentCell

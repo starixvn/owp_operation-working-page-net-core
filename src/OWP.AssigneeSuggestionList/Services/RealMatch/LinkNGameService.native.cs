@@ -28,9 +28,9 @@ public class LinkNGameServiceImp : LinkNGameService
         WorkingSchedule schedules,
         DateTime filterDate)
     {
-        LinkTwoGame(assignments, schedules, filterDate);
-        LinkThreeGame(assignments, schedules, filterDate);
         LinkFourGamePlus(assignments, schedules, filterDate);
+        LinkThreeGame(assignments, schedules, filterDate);
+        LinkTwoGame(assignments, schedules, filterDate);
     }
 
     private void LinkTwoGame(
@@ -38,7 +38,15 @@ public class LinkNGameServiceImp : LinkNGameService
         WorkingSchedule schedules,
          DateTime filterDate)
     {
-        var linkNGamePair = LinkTwoGameConditionHelper.Group(assignments);
+        var linkNGamePair = LinkGameConditionHelper
+            .GroupGameByTimeIntervals(assignments)
+            .Where(x => x.Value.Select(m => m.OWPMatchId).Distinct().Count() ==2)
+            .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+
+        foreach (var game in linkNGamePair.Values)
+        {
+            game.ForEach(g => g.MatchType = MatchType.RealMatchLink2G);
+        }
 
         var assignmentCell = new AssignmentCell
         {
@@ -53,7 +61,11 @@ public class LinkNGameServiceImp : LinkNGameService
         WorkingSchedule schedules,
         DateTime filterDate)
     {
-        var linkNGamePair = LinkGameConditionHelper.GroupGame(assignments, numberGameInGroup => numberGameInGroup >= 4);
+        var linkNGamePair = LinkGameConditionHelper
+            .GroupGameByTimeIntervals(assignments)
+            .Where(x => x.Value.Select(m => m.OWPMatchId).Distinct().Count() >= 4)
+            .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+
         foreach (var game in linkNGamePair.Values)
         {
             game.ForEach(g => g.MatchType = MatchType.RealMatchLink4G);
@@ -72,7 +84,11 @@ public class LinkNGameServiceImp : LinkNGameService
         WorkingSchedule schedules,
         DateTime filterDate)
     {
-        var linkNGamePair = LinkGameConditionHelper.GroupGame(assignments, numberGameInGroup => numberGameInGroup == 3);
+        var linkNGamePair = LinkGameConditionHelper
+            .GroupGameByTimeIntervals(assignments)
+            .Where(x => x.Value.Select(m => m.OWPMatchId).Distinct().Count() == 3)
+            .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+
         foreach (var game in linkNGamePair.Values)
         {
             game.ForEach(g => g.MatchType = MatchType.RealMatchLink3G);
@@ -104,15 +120,11 @@ public class LinkNGameServiceImp : LinkNGameService
             var scheduleUpdateModel = new ScheduleUpdateModel
             {
                 FilterDate = filterDate,
-                EtPk = new ETPKUpdateSchedule
-                {
-                    IsHasEtPk = !string.IsNullOrEmpty(etpkValue),
-                    EtPkValue = etpkValue
-                },
+                EtPk = new ETPKUpdateSchedule(etpkValue),
                 AssignmentCell = assignmentCell,
                 TimeRange = timeRange
             };
-            var assignmentPresent = assignments.Find(x => !string.IsNullOrEmpty(ETPKHelper.DetectExtraTime(x)))
+            var assignmentPresent = assignments.Find(x => !string.IsNullOrEmpty(ETPKHelper.DetectExtraTime(x.Remark, x.AssignmentNote, x.MinorBettypeId)))
                                     ?? assignments.MinBy(x => x.BettypeId);
             if (assignmentPresent is null)
             {

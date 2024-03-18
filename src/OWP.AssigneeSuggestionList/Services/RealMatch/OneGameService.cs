@@ -15,9 +15,9 @@ public interface OneGameService
 
 public class OneGameServiceImp : OneGameService
 {
-    private readonly SingleGameGroupService workingSchedule;
+    private readonly SpecialGroupService workingSchedule;
 
-    public OneGameServiceImp(SingleGameGroupService workingSchedule)
+    public OneGameServiceImp(SpecialGroupService workingSchedule)
     {
         this.workingSchedule = workingSchedule;
     }
@@ -61,21 +61,13 @@ public class OneGameServiceImp : OneGameService
         };
         var gameInfo = ScheduleHelper.GetGameInfo(assignments);
         var etPkValue = FirstHalfHelper.IsFirstHalf(assignments)
-        ? string.Empty
-        : ETPKHelper.DetectExtraTime(new AssignmentModel
-        {
-            Remark = gameInfo.remark,
-            AssignmentNote = gameInfo.assignmentNote
-        });
+                ? string.Empty
+                : ETPKHelper.DetectExtraTime(gameInfo.remark, gameInfo.assignmentNote);
 
         return new ScheduleUpdateModel
         {
             FilterDate = filterDate,
-            EtPk = new ETPKUpdateSchedule
-            {
-                IsHasEtPk = !string.IsNullOrEmpty(etPkValue),
-                EtPkValue = etPkValue
-            },
+            EtPk = new ETPKUpdateSchedule(etPkValue),
             AssignmentCell = assignmentCell,
             TimeRange = TimeRangeHelper.CalculateTimeRangeSingleGame(gameInfo.eventDate, gameInfo.bettypeIds, !string.IsNullOrEmpty(etPkValue))
         };

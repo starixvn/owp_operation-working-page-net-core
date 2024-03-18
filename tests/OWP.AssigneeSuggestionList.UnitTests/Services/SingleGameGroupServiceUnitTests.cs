@@ -11,7 +11,7 @@ public class SingleGameGroupServiceUnitTests
     [Fact]
     public void Calculate_Group_ReturnMatchTypeDefault()
     {
-        SingleGameGroupService singleGameGroupService = new SingleGameGroupServiceImp(new WorkingScheduleServiceImp());
+        SpecialGroupService singleGameGroupService = new SpeacialGroupServiceImp(new WorkingScheduleServiceImp());
         var assignment = new List<AssignmentModel> { new() { OWPMatchId = 1 } };
         var schedule = new WorkingSchedule();
         ScheduleUpdateModel BuildUpdateScheduleFunc(IList<AssignmentModel> _) => new();
@@ -24,7 +24,7 @@ public class SingleGameGroupServiceUnitTests
     [Fact]
     public void Calculate_Group_ReturnExpectMatchType()
     {
-        SingleGameGroupService singleGameGroupService = new SingleGameGroupServiceImp(new WorkingScheduleServiceImp());
+        SpecialGroupService singleGameGroupService = new SpeacialGroupServiceImp(new WorkingScheduleServiceImp());
         var assignment = new List<AssignmentModel> { new() { OWPMatchId = 1 } };
         var schedule = new WorkingSchedule();
         ScheduleUpdateModel BuildUpdateScheduleFunc(IList<AssignmentModel> _) => new();

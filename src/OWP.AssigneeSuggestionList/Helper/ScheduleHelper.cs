@@ -93,29 +93,47 @@ public static class ScheduleHelper
     }
 
     public static string BuildTextSingleGamePostfixHdp(IDictionary<int, List<AssignmentModel>> gameMapGameId,
-        IList<AssignmentModel> assignments)
+        IList<AssignmentModel> assignments, int ? priorityMinorBettypeId = null )
     {
-        var assignmentHdp = assignments.FirstOrDefault(a => a.BettypeId == Bettype.Handicap);
+        string prefix = null;
+     
+        var assignmentHdp = priorityMinorBettypeId.HasValue ?  assignments.FirstOrDefault(a => a.BettypeId == Bettype.Handicap && a.MinorBettypeId == priorityMinorBettypeId.Value) 
+            : assignments.FirstOrDefault(a => a.BettypeId == Bettype.Handicap );
 
-        return assignmentHdp is not null && gameMapGameId[assignmentHdp.OWPMatchId].Exists(a =>
-            a.OWPMatchId == assignmentHdp.OWPMatchId
-               && a.BettypeId == Bettype.OverUnder
-               && a.UserId != assignmentHdp.UserId)
-            ? "*H"
-            : string.Empty;
+        if (assignmentHdp is not null)
+        {
+            prefix = "*H";
+            if (gameMapGameId[assignmentHdp.OWPMatchId].Exists(a =>
+                    a.OWPMatchId == assignmentHdp.OWPMatchId
+                    && a.BettypeId == Bettype.OverUnder
+                    && a.UserId == assignmentHdp.UserId))
+            {
+                prefix = string.Empty;
+            }
+        }
+
+        return prefix;
     }
 
     public static string BuildTextSingleGamePostfixOu(IDictionary<int, List<AssignmentModel>> gameMapGameId,
-        IList<AssignmentModel> assignments)
+        IList<AssignmentModel> assignments, int? priorityMinorBettypeId = null)
     {
-        var assignmentOu = assignments.FirstOrDefault(a => a.BettypeId == Bettype.OverUnder);
+        string prefix = null;
+        var assignmentOu = priorityMinorBettypeId.HasValue ? assignments.FirstOrDefault(a => a.BettypeId == Bettype.OverUnder && a.MinorBettypeId == priorityMinorBettypeId.Value)
+            : assignments.FirstOrDefault(a => a.BettypeId == Bettype.OverUnder );
+        if (assignmentOu is not null)
+        {
+            prefix = "*O";
+            if (gameMapGameId[assignmentOu.OWPMatchId].Exists(a =>
+                    a.OWPMatchId == assignmentOu.OWPMatchId
+                    && a.BettypeId == Bettype.Handicap
+                    && a.UserId == assignmentOu.UserId))
+            {
+                prefix = string.Empty;
+            }
+        }
 
-        return assignmentOu is not null && gameMapGameId[assignmentOu.OWPMatchId].Exists(a =>
-           a.OWPMatchId == assignmentOu.OWPMatchId
-            && a.BettypeId == Bettype.Handicap
-            && a.UserId != assignmentOu.UserId)
-            ? "*O"
-            : string.Empty;
+        return prefix;
     }
 
     public static (

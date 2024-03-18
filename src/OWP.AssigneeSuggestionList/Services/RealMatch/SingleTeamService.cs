@@ -15,9 +15,9 @@ public interface SingleTeamService
 
 public class SingleTeamServiceImp : SingleTeamService
 {
-    private readonly SingleGameGroupService workingSchedule;
+    private readonly SpecialGroupService workingSchedule;
 
-    public SingleTeamServiceImp(SingleGameGroupService workingSchedule)
+    public SingleTeamServiceImp(SpecialGroupService workingSchedule)
     {
         this.workingSchedule = workingSchedule;
     }
@@ -30,14 +30,12 @@ public class SingleTeamServiceImp : SingleTeamService
         var gameGroup = assignments
             .Where(a => a.MatchType == Constant.MatchType.Other && a.MinorBettypeId is Bettype.HomeSingleTeam or Bettype.AwaySingleTeam)
             .ToList();
-        foreach (var game in gameGroup)
-        {
-            game.MatchType = Constant.MatchType.RealSingleTeam;
-        }
-        workingSchedule.Group(
-           gameGroup,
-           schedules,
-            assignment => BuildScheduleUpdateModel(gameMapGameId, assignment, filterDate));
+        gameGroup.ForEach(game => game.MatchType = Constant.MatchType.RealSingleTeam);
+
+        //workingSchedule.Group(
+        //   gameGroup,
+        //   schedules,
+        //    assignment => BuildScheduleUpdateModel(gameMapGameId, assignment, filterDate));
     }
 
     public static ScheduleUpdateModel BuildScheduleUpdateModel(IDictionary<int, List<AssignmentModel>> gameMapGameId, IList<AssignmentModel> assignmentsSingleTeam, DateTime filterDate)
@@ -58,21 +56,12 @@ public class SingleTeamServiceImp : SingleTeamService
         var gameInfo = ScheduleHelper.GetGameInfo(assignmentsSingleTeam);
         var etPkValue = FirstHalfHelper.IsFirstHalf(assignmentsSingleTeam)
             ? string.Empty
-            : ETPKHelper.DetectExtraTime(new AssignmentModel
-            {
-                Remark = gameInfo.remark,
-                AssignmentNote = gameInfo.assignmentNote,
-                MinorBettypeId = gameInfo.minorBettypeId
-            });
+            : ETPKHelper.DetectExtraTime(gameInfo.remark, gameInfo.assignmentNote, gameInfo.minorBettypeId);
 
         return new ScheduleUpdateModel
         {
             FilterDate = filterDate,
-            EtPk = new ETPKUpdateSchedule
-            {
-                IsHasEtPk = !string.IsNullOrEmpty(etPkValue),
-                EtPkValue = etPkValue
-            },
+            EtPk = new ETPKUpdateSchedule(etPkValue),
             AssignmentCell = assignmentCell,
             TimeRange = TimeRangeHelper.CalculateTimeRangeSingleGame(gameInfo.eventDate, gameInfo.bettypeIds, !string.IsNullOrEmpty(etPkValue))
         };

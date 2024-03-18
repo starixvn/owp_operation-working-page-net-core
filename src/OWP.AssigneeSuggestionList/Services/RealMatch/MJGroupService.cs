@@ -15,9 +15,9 @@ public interface MJGroupService
 
 public class MJGroupServiceImp : MJGroupService
 {
-    private readonly SingleGameGroupService workingSchedule;
+    private readonly SpecialGroupService workingSchedule;
 
-    public MJGroupServiceImp(SingleGameGroupService workingSchedule)
+    public MJGroupServiceImp(SpecialGroupService workingSchedule)
     {
         this.workingSchedule = workingSchedule;
     }
@@ -50,20 +50,12 @@ public class MJGroupServiceImp : MJGroupService
             Text = ScheduleHelper.BuildScheduleTextSingleGame(assignments[0], textPostfix)
         };
         var gameInfo = ScheduleHelper.GetGameInfo(assignments);
-        var etPkValue = ETPKHelper.DetectExtraTime(new AssignmentModel
-        {
-            Remark = gameInfo.remark,
-            AssignmentNote = gameInfo.assignmentNote
-        });
+        var etPkValue = ETPKHelper.DetectExtraTime(gameInfo.remark, gameInfo.assignmentNote);
 
         return new ScheduleUpdateModel
         {
             FilterDate = filterDate,
-            EtPk = new ETPKUpdateSchedule
-            {
-                IsHasEtPk = !string.IsNullOrEmpty(etPkValue),
-                EtPkValue = etPkValue
-            },
+            EtPk = new ETPKUpdateSchedule(etPkValue),
             AssignmentCell = assignmentCell,
             TimeRange = TimeRangeHelper.CalculateTimeRangeSingleGame(
                 gameInfo.eventDate,

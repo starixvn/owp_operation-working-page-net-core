@@ -15,9 +15,9 @@ public interface FantasyService
 
 public class FantasyServiceImp : FantasyService
 {
-    private readonly SingleGameGroupService workingSchedule;
+    private readonly SpecialGroupService workingSchedule;
 
-    public FantasyServiceImp(SingleGameGroupService workingSchedule)
+    public FantasyServiceImp(SpecialGroupService workingSchedule)
     {
         this.workingSchedule = workingSchedule;
     }
@@ -57,20 +57,12 @@ public class FantasyServiceImp : FantasyService
         var gameInfo = ScheduleHelper.GetGameInfo(assignments);
         var etPkValue = FirstHalfHelper.IsFirstHalf(assignments)
         ? string.Empty
-        : ETPKHelper.DetectExtraTime(new AssignmentModel
-        {
-            Remark = gameInfo.remark,
-            AssignmentNote = gameInfo.assignmentNote
-        });
+        : ETPKHelper.DetectExtraTime(gameInfo.remark, gameInfo.assignmentNote);
 
         return new ScheduleUpdateModel
         {
             FilterDate = filterDate,
-            EtPk = new ETPKUpdateSchedule
-            {
-                IsHasEtPk = !string.IsNullOrEmpty(etPkValue),
-                EtPkValue = etPkValue
-            },
+            EtPk = new ETPKUpdateSchedule(etPkValue),
             AssignmentCell = assignmentCell,
             TimeRange = TimeRangeHelper.CalculateTimeRangeSingleGame(gameInfo.eventDate, gameInfo.bettypeIds, !string.IsNullOrEmpty(etPkValue))
         };

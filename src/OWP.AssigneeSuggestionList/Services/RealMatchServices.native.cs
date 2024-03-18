@@ -40,7 +40,6 @@ public class RealMatchServicesImp : RealMatchServices
         DateTime filterDate)
     {
         var fromDate = filterDate.Date.AddHours(12);
-
         var gameMapGameId = GameMapGameId(assignmentModels);
         foreach (var schedule in schedules)
         {
@@ -56,8 +55,6 @@ public class RealMatchServicesImp : RealMatchServices
     => assignmentModels
         .GroupBy(g => g.OWPMatchId)
         .ToDictionary(x => x.Key, x => x.ToList());
-
-
 
     public void CategoryAssignee(List<WorkingSchedule> schedules, MatchInfo matchInfo)
     {

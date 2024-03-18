@@ -1,4 +1,5 @@
 using OWP.AssigneeSuggestionList.Models;
+using OWP.Constants;
 
 namespace OWP.AssigneeSuggestionList.Services.RealMatch;
 
@@ -17,17 +18,14 @@ public class SpecialGameServiceImp : SpecialGameService
 
     private readonly XMinsGroupService xMinsGroupService;
 
-    private readonly SingleTeamService singleTeamService;
-
-    private readonly WinnerService winnerService;
+    private readonly SingleSpecialService singleSpecialService;
 
     private readonly BookingService bookingService;
-    public SpecialGameServiceImp(CornerService cornerService, XMinsGroupService xMinsGroupService, SingleTeamService singleTeamService, WinnerService winnerService, BookingService bookingService)
+    public SpecialGameServiceImp(CornerService cornerService, XMinsGroupService xMinsGroupService, SingleSpecialService singleSpecialService, BookingService bookingService)
     {
         this.cornerService = cornerService;
         this.xMinsGroupService = xMinsGroupService;
-        this.singleTeamService = singleTeamService;
-        this.winnerService = winnerService;
+        this.singleSpecialService = singleSpecialService;
         this.bookingService = bookingService;
     }
 
@@ -38,9 +36,27 @@ public class SpecialGameServiceImp : SpecialGameService
         IDictionary<int, List<AssignmentModel>> gameMapGameId)
     {
         cornerService.Group(assignmentModels, schedule, fromDate, gameMapGameId);
-        xMinsGroupService.Group(assignmentModels, schedule, fromDate);
-        winnerService.Group(assignmentModels, schedule, fromDate, gameMapGameId);
-        singleTeamService.Group(assignmentModels, schedule, fromDate, gameMapGameId);
+        GroupXMins(schedule, assignmentModels, fromDate, gameMapGameId);
+        GroupWinnerAndNextRound(schedule, assignmentModels, fromDate, gameMapGameId);
+        GroupSingleTeam(schedule, assignmentModels, fromDate, gameMapGameId);
         bookingService.Group(assignmentModels, schedule, fromDate, gameMapGameId);
+    }
+
+    private void GroupWinnerAndNextRound(WorkingSchedule schedule, IList<AssignmentModel> assignmentModels, DateTime fromDate, IDictionary<int, List<AssignmentModel>> gameMapGameId)
+    {
+        singleSpecialService.Group(assignmentModels, schedule, fromDate, gameMapGameId, Bettype.Winner);
+        singleSpecialService.Group(assignmentModels, schedule, fromDate, gameMapGameId, Bettype.NextRound);
+    }
+
+    private void GroupXMins(WorkingSchedule schedule, IList<AssignmentModel> assignmentModels, DateTime fromDate, IDictionary<int, List<AssignmentModel>> gameMapGameId)
+    {
+        xMinsGroupService.Group(assignmentModels, schedule, fromDate);
+        xMinsGroupService.Group(assignmentModels, schedule, fromDate, Bettype.Specific15MinsCorners);
+        xMinsGroupService.Group(assignmentModels, schedule, fromDate, Bettype.Specific15MinsTotalBookings);
+    }
+
+    private void GroupSingleTeam(WorkingSchedule schedule, IList<AssignmentModel> assignmentModels, DateTime fromDate, IDictionary<int, List<AssignmentModel>> gameMapGameId)
+    {
+        singleSpecialService.Group(assignmentModels, schedule, fromDate, gameMapGameId, Bettype.HomeSingleTeam, Bettype.AwaySingleTeam);
     }
 }
