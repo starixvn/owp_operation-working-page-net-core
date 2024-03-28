@@ -7,6 +7,8 @@ namespace OWP.OtherSport.EventAssignment.Services;
 public interface CommandRepository
 {
     Task<AssignmentSnapshot> Query(QueryEventAssignmentRequest request);
+
+    Task<int> QueryLeagueIdByAdminSiteId(int adminSiteMatchId);
 }
 
 public class CommandRepositoryImp : CommandRepository
@@ -17,6 +19,15 @@ public class CommandRepositoryImp : CommandRepository
         IDynamicRepository dynamicRepository)
     {
         this.dynamicRepository = dynamicRepository;
+    }
+
+    public async Task<int> QueryLeagueIdByAdminSiteId(int adminSiteMatchId)
+    {
+        var criteria = new GetAdminSiteLeagueIdCriteria
+        {
+            AdminSiteMatchId = adminSiteMatchId
+        };
+        return  (await dynamicRepository.FetchAsync<int>(criteria)).FirstOrDefault();
     }
 
     public async Task<AssignmentSnapshot> Query(QueryEventAssignmentRequest request)

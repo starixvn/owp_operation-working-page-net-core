@@ -45,6 +45,17 @@ public class OtherSportController : ControllerBase
         return await mediator.Send(request);
     }
 
+    [Route("get-adminsite-league-id")]
+    [HttpGet]
+    public async Task<int> QueryAdminSiteLeagueId(int adminSiteMatchId)
+    {
+        var request = new QueryLeagueIdRequest
+        {
+            AdminSiteMatchId = adminSiteMatchId
+        };
+        return await mediator.Send(request);
+    }
+
     [Route("validate")]
     [HttpPost]
     public async Task<IActionResult> Validate()
