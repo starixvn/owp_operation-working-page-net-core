@@ -1,5 +1,4 @@
 using OWP.Constants;
-using OWP.EventPicking.Criteria;
 using OWP.EventPicking.Middleware.Models;
 using OWP.EventPicking.Models;
 using OWP.Extensions;
@@ -9,7 +8,7 @@ namespace OWP.EventPicking.Services;
 
 public interface QueryEventPickingService
 {
-    Task<List<EventPickingModel>> Execute(EventPickingRequest request);
+    Task<EventPickingResult> Execute(EventPickingRequest request);
 }
 
 public class QueryEventPickingServiceImp : QueryEventPickingService
@@ -27,7 +26,7 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
         this.tGRSService = tGRSService;
     }
 
-    public async Task<List<EventPickingModel>> Execute(EventPickingRequest request)
+    public async Task<EventPickingResult> Execute(EventPickingRequest request)
     {
         var matches = await buildMainAndChildMatches.GetMainEvent(request.Date);
         var eventPickingPolicy = permissionService.GetPermissions(FunctionKeys.EventPickingNew);
@@ -37,7 +36,12 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
         {
             await CalculateTurnOver_Margin(request, validMatch);
         }
-        return validMatch;
+
+        return new EventPickingResult
+        {
+            MatchesByDate = matches,
+            FilteredMatches = validMatch
+        };
     }
 
     private async Task CalculateTurnOver_Margin(EventPickingRequest request, List<EventPickingModel> matches)

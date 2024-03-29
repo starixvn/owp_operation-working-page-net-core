@@ -5,10 +5,10 @@ using OWP.EventPicking.Services;
 
 namespace OWP.EventPicking.Handlers;
 
-public class QueryEventPickingRequest : EventPickingRequest, IRequest<List<EventPickingModel>>
+public class QueryEventPickingRequest : EventPickingRequest, IRequest<EventPickingResult>
 { }
 
-public class QueryEventPickingHandler : IRequestHandler<QueryEventPickingRequest, List<EventPickingModel>>
+public class QueryEventPickingHandler : IRequestHandler<QueryEventPickingRequest, EventPickingResult>
 {
     private readonly QueryEventPickingService queryEventPickingService;
 
@@ -17,7 +17,7 @@ public class QueryEventPickingHandler : IRequestHandler<QueryEventPickingRequest
         this.queryEventPickingService = queryEventPickingService;
     }
 
-    public async Task<List<EventPickingModel>> Handle(QueryEventPickingRequest request, CancellationToken cancellationToken)
+    public async Task<EventPickingResult> Handle(QueryEventPickingRequest request, CancellationToken cancellationToken)
     => await queryEventPickingService.Execute(request);
 
 }
