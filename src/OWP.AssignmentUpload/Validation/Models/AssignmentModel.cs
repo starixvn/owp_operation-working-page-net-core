@@ -24,6 +24,9 @@ public class AssignmentModel
         Phone = string.Empty;
         Provider = string.Empty;
         Remark = string.Empty;
+        AgentEst = string.Empty;
+        RemarkEst = string.Empty;
+        RemarkBy = string.Empty;
         Round = string.Empty;
         TV = string.Empty;
         WB = string.Empty;
@@ -96,6 +99,12 @@ public class AssignmentModel
     public string Provider { get; set; }
 
     public string Remark { get; set; }
+
+    public string AgentEst { get; set; }
+
+    public string RemarkEst { get; set; }
+
+    public string RemarkBy { get; set; }
 
     public string Round { get; set; }
 

@@ -81,6 +81,18 @@ public class AssignmentModelInExcel
     [StringLength(EventUploadingMaxLength.Provider, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
     public string Provider { get; set; }
 
+    [Display(Name = "Agent for EST")]
+    [StringLength(EventUploadingMaxLength.Remark, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+    public string AgentEst { get; set; }
+
+    [Display(Name = "Remark for EST")]
+    [StringLength(EventUploadingMaxLength.Remark, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+    public string RemarkEst { get; set; }
+
+    [Display(Name = "Remark by")]
+    [StringLength(EventUploadingMaxLength.Remark, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
+    public string RemarkBy { get; set; }
+
     [Display(Name = "Other Provider")]
     [StringLength(EventUploadingMaxLength.OtherProvider, ErrorMessage = "[Column: {0}] - Error: The item's value must not exceed {1} characters")]
     public string OtherProvider { get; set; }
