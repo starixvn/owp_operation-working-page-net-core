@@ -108,6 +108,15 @@ public class EventModel
     [Column(ColumnName.Agent)]
     public string Agent { get; set; }
 
+    [Column(ColumnName.AgentEst)]
+    public string AgentEst { get; set; }
+
+    [Column(ColumnName.RemarkEst)]
+    public string RemarkEst { get; set; }
+
+    [Column(ColumnName.RemarkBy)]
+    public string RemarkBy { get; set; }
+
     [Column(ColumnName.TV)]
     public string TVCode { get; set; }
 
