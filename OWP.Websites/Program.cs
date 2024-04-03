@@ -74,7 +74,7 @@ app.UseMiddleware<ErrorHandler>();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseRabbitListener();
-app.UseStaticFiles();
+
 NapClientManager
   .UseConfig(app.Services.GetService<INapSettings>())
   .UseSession(app.Services.GetService<INapSession>());
