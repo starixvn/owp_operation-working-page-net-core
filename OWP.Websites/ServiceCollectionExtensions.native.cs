@@ -46,6 +46,7 @@ using OWP.TicketTypeRecipient;
 using SharpRaven;
 using StackExchange.Redis;
 using System.Reflection;
+using OWP.ProviderVerification;
 using AutoMapperProfile = OWP.OtherSport.AutoMapperProfile;
 using ILogger = Fanex.Logging.ILogger;
 
@@ -247,6 +248,7 @@ public static class ServiceCollectionExtensions
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(AssigneeSuggestionController).GetTypeInfo().Assembly));
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(LAKpiController).GetTypeInfo().Assembly));
         services.AddMediatR(x => x.RegisterServicesFromAssembly(AppDomain.CurrentDomain.Load("OWP.NewLeagueSetting")));
+        services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(ProviderVerificationController).GetTypeInfo().Assembly));
         return services;
     }
 

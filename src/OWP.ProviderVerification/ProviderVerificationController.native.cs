@@ -20,11 +20,11 @@ public class ProviderVerificationController : ControllerBase
     }
 
     [HttpGet("get-provider-verification")]
-    public async Task<IActionResult> GetProviderVerification(DateTime filterDate)
+    public async Task<IActionResult> GetProviderVerification(DateTime eventDate)
     {
         var request = new GetProviderVerificationRequest
         {
-            EventDate = filterDate
+            EventDate = eventDate
         };
         var result = await mediator.Send(request);
 
