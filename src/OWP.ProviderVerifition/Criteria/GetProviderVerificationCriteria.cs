@@ -1,0 +1,13 @@
+﻿using Fanex.Data.Repository;
+
+namespace OWP.ProviderVerification.Criteria;
+
+public class GetProviderVerificationCriteria: CriteriaBase
+{
+    public DateTime EventDate { get; set; }
+
+    public override string GetSettingKey()
+        => "OWP_ProviderVerification_Get";
+
+    public override bool IsValid() => true;
+}

@@ -2,9 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using OWP.Constants;
 using OWP.ProviderVerification.Handlers;
-using OWP.ProviderVerification.Models;
 
 namespace OWP.ProviderVerification;
 
@@ -22,6 +20,14 @@ public class ProviderVerificationController : ControllerBase
     }
 
     [HttpGet("get-provider-verification")]
-    public async Task<IList<ProviderVerificationModel>> GetProviderVerification()
-        => await mediator.Send(new GetProviderVerificationRequest());
+    public async Task<IActionResult> GetProviderVerification(DateTime filterDate)
+    {
+        var request = new GetProviderVerificationRequest
+        {
+            EventDate = filterDate
+        };
+        var result = await mediator.Send(request);
+
+        return Ok(result);
+    }
 }
