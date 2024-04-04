@@ -73,6 +73,7 @@ public class BuildMainAndChildMatchesImp : BuildMainAndChildMatches
         var filteredMainMatches = RemoveTestingMatches(mainMatches.Result)
             .Where(x => !CheckMatchHaveBeenExclude(x.HomeName))
             .OrderBy(x => x.IsSaba)
+            .ThenBy(x => x.EventDateTime)
             .ToList();
 
         buildRowColor.BuildRowColor(filteredMainMatches);
@@ -96,6 +97,7 @@ public class BuildMainAndChildMatchesImp : BuildMainAndChildMatches
         return matches
             .Where(x => !CheckMatchHaveBeenExclude(x.HomeName))
             .OrderBy(x => x.IsSaba)
+            .ThenBy(x => x.EventDateTime)
             .ToList();
     }
 

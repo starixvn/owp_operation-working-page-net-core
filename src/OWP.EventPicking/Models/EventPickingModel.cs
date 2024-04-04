@@ -283,11 +283,11 @@ public class EventPickingModel
     ? "yes"
     : "no";
 
-    [Cell("BW2")]
+    [Cell("BV2")]
     [JsonIgnore]
     public string TurnoverExport => BuildTurnOverExport();
 
-    [Cell("BX2")]
+    [Cell("BW2")]
     [JsonIgnore]
     public string MarginExport => BuildMarginExport();
 
