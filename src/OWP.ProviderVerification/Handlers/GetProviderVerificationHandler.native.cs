@@ -1,4 +1,5 @@
 ﻿
+using Fanex.Data;
 using Fanex.Data.Repository;
 using MediatR;
 using OWP.ProviderVerification.Criteria;
@@ -12,43 +13,57 @@ public class GetProviderVerificationRequest : IRequest<IEnumerable<ProviderVerif
 }
 public class GetProviderVerificationHandler: IRequestHandler<GetProviderVerificationRequest, IEnumerable<ProviderVerificationModel>>
 {
-    private readonly IDynamicRepository repository;
+    private readonly ProviderVerificationRepository repository;
 
-    public GetProviderVerificationHandler(IDynamicRepository repository)
+    public GetProviderVerificationHandler(ProviderVerificationRepository repository)
     {
         this.repository = repository;
     }
     public async Task<IEnumerable<ProviderVerificationModel>> Handle(GetProviderVerificationRequest request, CancellationToken cancellationToken)
     {
-        //var criteria = new GetProviderVerificationCriteria
-        //{
-        //    EventDate = request.EventDate
-        //};
-        //return await repository.FetchAsync<ProviderVerificationModel>(criteria, cancellationToken);
-
-        var fakeData = new List<ProviderVerificationModel>
+        var criteria = new GetProviderVerificationCriteria
         {
-            new ()
-            {
-                MatchNo = "123ac",
-                MatchStatus = "Cancel",
-                Agent = "test",
-                AgentConfirm = "test",
-                Away = "test",
-                ESTNote = "test",
-                HasTicket = false,
-                Home = "test",
-                IsRead = false,
-                KoTime = "3:00 AM",
-                League = "test",
-                OtherProvider = "test",
-                Provider = "test",
-                Remark = "test",
-                RemarkBy = "test"
-            }
-            
+            EventDate = request.EventDate
         };
 
-        return fakeData;
+        return await repository.GetProviderVerification(criteria);
+
+        //var fakeData = new List<ProviderVerificationModel>
+        //{
+        //    new ()
+        //    {
+        //        OwpMatchId = 123456,
+        //        MatchNo = "123ac",
+        //        MatchStatus = "Cancel",
+        //        Agent = "test",
+        //        AgentConfirm = new List<AgentConfirmOption>
+        //        {
+        //            new ()
+        //            {
+        //                Value = 1,
+        //                Label = "test"
+        //            },
+        //            new ()
+        //            {
+        //                Value = 2,
+        //                Label = "test2"
+        //            }
+        //        },
+        //        Away = "test",
+        //        EstNote = "test",
+        //        HasTicket = false,
+        //        Home = "test",
+        //        IsRead = false,
+        //        KoTime = "3:00 AM",
+        //        League = "test",
+        //        OtherProvider = "test",
+        //        Provider = "test",
+        //        Remark = "test",
+        //        RemarkBy = "test"
+        //    }
+            
+        //};
+
+        //return fakeData;
     }
 }

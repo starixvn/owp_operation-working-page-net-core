@@ -3,6 +3,8 @@ namespace OWP.ProviderVerification.Models;
 
 public class ProviderVerificationModel
 {
+    public int OwpMatchId { get; set; }
+
     public string MatchNo { get; set; }
 
     public string MatchStatus { get; set; }
@@ -25,13 +27,15 @@ public class ProviderVerificationModel
 
     public string RemarkBy { get; set; }
 
-    public string AgentConfirm { get; set; }
+    public List<AgentConfirmOption> AgentConfirm { get; set; }
 
-    public string ESTNote { get; set; }
+    public string EstNote { get; set; }
 
     public bool? HasTicket { get; set; }
 
     public bool? IsRead { get; set; }
+
+    public int ParentMatchId { get; set; }
 
     public string RowColor => MatchStatus switch
     {
@@ -40,4 +44,20 @@ public class ProviderVerificationModel
         _ => "#FFF"
     };
 
+}
+
+public class AgentConfirmOption
+{
+    public int Value { get; set; }
+
+    public string Label { get; set; }
+}
+
+public class AgentConfirmModel
+{
+    public int OwpMatchId { get; set; }
+
+    public int AgentId { get; set; }
+
+    public string AgentName { get; set; }
 }
