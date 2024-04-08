@@ -1,4 +1,6 @@
-﻿namespace OWP.Event.LiveGameAssignment;
+﻿using OWP.Enums;
+
+namespace OWP.Event.LiveGameAssignment;
 
 using Criteria;
 using Fanex.Data;

@@ -1,6 +1,6 @@
 ﻿using Fanex.Data.Repository;
 using Fanex.NAP.Client.Helpers.Web;
-using OWP.Event.EventShared.Enum;
+using OWP.Enums;
 using OWP.ProviderVerification.Criteria;
 using OWP.ProviderVerification.Models;
 

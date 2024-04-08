@@ -1,4 +1,4 @@
-﻿using OWP.Event.EventShared.Enum;
+﻿using OWP.Enums;
 using OWP.Event.EventShared.Models;
 using OWP.Extensions;
 

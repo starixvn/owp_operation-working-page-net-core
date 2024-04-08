@@ -1,6 +1,7 @@
-﻿namespace OWP.Event.LiveGameAssignment.Download.Models;
+﻿using OWP.Enums;
 
-using OWP.Event.EventShared.Enum;
+namespace OWP.Event.LiveGameAssignment.Download.Models;
+
 using System;
 
 [Serializable]
