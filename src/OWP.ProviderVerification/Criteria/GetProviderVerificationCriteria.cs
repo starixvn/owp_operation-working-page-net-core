@@ -7,7 +7,7 @@ public class GetProviderVerificationCriteria: CriteriaBase
     public DateTime EventDate { get; set; }
 
     public override string GetSettingKey()
-        => "OWP_ProviderVerification_Get";
+        => "OWP_ProviderVerification_Query";
 
     public override bool IsValid() => true;
 }

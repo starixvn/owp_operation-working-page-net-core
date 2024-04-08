@@ -367,7 +367,7 @@
 	    <Setting Key="OWP_ProviderArrangement_GetLogProvider" SpName="OWP_ProviderArrangement_GetLogProvider" DbName="DBOWP.bodb_OWP.wsv_owp" />
     </Function>
   <Function Name="ProviderVerification">
-    <Setting Key="OWP_ProviderVerification_Get" SpName="OWP_ProviderVerification_Get" DbName="DBOWP.bodb_OWP.wsv_owp" />
+    <Setting Key="OWP_ProviderVerification_Query" SpName="OWP_ProviderVerification_Query" DbName="DBOWP.bodb_OWP.wsv_owp" />
     <Setting Key="OWP_ProviderVerification_GetAgentOptions" SpName="OWP_ProviderVerification_GetAgentOptions" DbName="DBOWP.bodb_OWP.wsv_owp" />
   </Function>
 	<Function Name="ResourceManagement">
