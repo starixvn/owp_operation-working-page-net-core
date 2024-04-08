@@ -1,13 +1,15 @@
 ﻿
 namespace OWP.ProviderVerification.Models;
 
-public class ProviderVerificationModel
+public class EventModel
 {
-    public int OwpMatchId { get; set; }
+    public int OWPMatchId { get; set; }
 
     public string MatchNo { get; set; }
 
     public string MatchStatus { get; set; }
+
+    public DateTime EventDateTime { get; set; }
 
     public string KoTime { get; set; }
 
@@ -27,15 +29,18 @@ public class ProviderVerificationModel
 
     public string RemarkBy { get; set; }
 
-    public List<AgentConfirmOption> AgentConfirm { get; set; }
-
     public string EstNote { get; set; }
 
-    public bool? HasTicket { get; set; }
-
-    public bool? IsRead { get; set; }
-
     public int ParentMatchId { get; set; }
+}
+
+public class ProviderVerificationModel: EventModel
+{
+    public MatchSetting HandicapSetting { get; set; }
+
+    public MatchSetting OverUnderSetting { get; set; }
+
+    public List<AgentConfirmOption> AgentConfirm { get; set; }
 
     public string RowColor => MatchStatus switch
     {
@@ -44,20 +49,8 @@ public class ProviderVerificationModel
         _ => "#FFF"
     };
 
-}
+    public bool? HasTicket { get; set; }
 
-public class AgentConfirmOption
-{
-    public int Value { get; set; }
+    public bool? IsRead { get; set; }
 
-    public string Label { get; set; }
-}
-
-public class AgentConfirmModel
-{
-    public int OwpMatchId { get; set; }
-
-    public int AgentId { get; set; }
-
-    public string AgentName { get; set; }
 }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using OWP.ProviderVerification.Handlers;
 
 namespace OWP.ProviderVerification;
@@ -28,7 +29,7 @@ public class ProviderVerificationController : ControllerBase
         };
         var result = await mediator.Send(request);
 
-        return Ok(result);
+        return Ok(JsonConvert.SerializeObject(result));
     }
 
     [HttpGet("get-agent-option")]
