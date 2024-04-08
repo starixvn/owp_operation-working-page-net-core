@@ -8,6 +8,8 @@ namespace OWP.ProviderVerification;
 public interface ProviderVerificationRepository
 {
     Task<IEnumerable<ProviderVerificationModel>> GetProviderVerification(CriteriaBase criteria);
+
+    Task<IEnumerable<AgentOption>> GetAgentOptions();
 }
 
 public class ProviderVerificationRepositoryImp: ProviderVerificationRepository
@@ -59,4 +61,7 @@ public class ProviderVerificationRepositoryImp: ProviderVerificationRepository
 
         return matchInfo;
     }
+
+    public async Task<IEnumerable<AgentOption>> GetAgentOptions()
+    => await dynamicRepository.FetchAsync<AgentOption>(new GetAgentOptionsCriteria());
 }
