@@ -26,11 +26,4 @@ public class ProviderVerificationController : ControllerBase
 
         return Ok(JsonConvert.SerializeObject(result));
     }
-
-    [HttpGet("get-agent-option")]
-    public async Task<IActionResult> GetAgentOption()
-    {
-        var result = await mediator.Send(new GetAgentOptionsRequest());
-        return Ok(result);
-    }
 }

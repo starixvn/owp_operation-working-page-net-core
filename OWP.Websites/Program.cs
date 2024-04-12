@@ -1,4 +1,4 @@
-
+using Carter;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 });
 var services = builder.Services;
 var configuration = builder.Configuration;
-
+services.AddCarter();
 // Add services to the container.
 services.AddCors(options =>
 {
@@ -65,7 +65,7 @@ app.UseRabbitListener();
 NapClientManager
   .UseConfig(app.Services.GetService<INapSettings>())
   .UseSession(app.Services.GetService<INapSession>());
-
+app.MapCarter();
 app.MapControllerRoute(
         "default",
         "{controller=Home}/{action=Index}/{id?}");

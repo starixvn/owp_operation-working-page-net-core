@@ -23,43 +23,5 @@ public class GetProviderVerificationHandler : IRequestHandler<GetProviderVerific
         };
 
         return await repository.GetProviderVerification(criteria);
-
-        //var fakeData = new List<ProviderVerificationModel>
-        //{
-        //    new ()
-        //    {
-        //        OwpMatchId = 123456,
-        //        MatchNo = "123ac",
-        //        MatchStatus = "Cancel",
-        //        Agent = "test",
-        //        AgentConfirm = new List<AgentConfirmOption>
-        //        {
-        //            new ()
-        //            {
-        //                Value = 1,
-        //                Label = "test"
-        //            },
-        //            new ()
-        //            {
-        //                Value = 2,
-        //                Label = "test2"
-        //            }
-        //        },
-        //        Away = "test",
-        //        EstNote = "test",
-        //        HasTicket = false,
-        //        Home = "test",
-        //        IsRead = false,
-        //        KoTime = "3:00 AM",
-        //        League = "test",
-        //        OtherProvider = "test",
-        //        Provider = "test",
-        //        Remark = "test",
-        //        RemarkBy = "test"
-        //    }
-
-        //};
-
-        //return fakeData;
     }
 }

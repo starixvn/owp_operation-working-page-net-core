@@ -9,3 +9,6 @@ global using Newtonsoft.Json;
 global using OWP.ProviderVerification.Handlers;
 global using Fanex.NAP.Client.Helpers.Web;
 global using OWP.Enums;
+global using OWP.CQRS;
+global using Carter;
+
