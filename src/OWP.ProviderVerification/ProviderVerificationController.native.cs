@@ -26,4 +26,18 @@ public class ProviderVerificationController : ControllerBase
 
         return Ok(JsonConvert.SerializeObject(result));
     }
+
+    [HttpPost("save-agent-confirm")]
+    public async Task<IActionResult> SaveAgentOption(SaveAgentConfirmRequest request )
+    {
+        var result = await mediator.Send(request);
+        return Ok(result);
+    }
+
+    [HttpPost("save-est-note")]
+    public async Task<IActionResult> SaveEstNote(SaveEstNoteRequest request)
+    {
+        var result = await mediator.Send(request);
+        return Ok(result);
+    }
 }

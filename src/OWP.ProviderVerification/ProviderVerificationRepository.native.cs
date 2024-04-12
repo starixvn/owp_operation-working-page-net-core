@@ -7,6 +7,10 @@ public interface ProviderVerificationRepository
     Task<IEnumerable<ProviderVerificationModel>> GetProviderVerification(CriteriaBase criteria);
 
     Task<IEnumerable<AgentOption>> GetAgentOptions();
+
+    Task SaveAgentConfirm(int owpMatchId, string agentSelected, int actorId);
+
+    Task SaveEstNote(int owpMatchId, string estNote);
 }
 
 public class ProviderVerificationRepositoryImp : ProviderVerificationRepository
@@ -98,4 +102,19 @@ public class ProviderVerificationRepositoryImp : ProviderVerificationRepository
 
     public async Task<IEnumerable<AgentOption>> GetAgentOptions()
     => await dynamicRepository.FetchAsync<AgentOption>(new GetAgentOptionsCriteria());
+
+    public async Task SaveAgentConfirm(int owpMatchId, string agentSelected, int actorId)
+        => await dynamicRepository.ExecuteAsync(new SaveAgentConfirmCriteria
+        {
+            AgentSelected = agentSelected, 
+            OwpMatchId = owpMatchId,
+            ActorId = actorId
+        });
+
+    public async Task SaveEstNote(int owpMatchId, string estNote)
+        => await dynamicRepository.ExecuteAsync(new SaveEstNoteCriteria
+        {
+            EstNote = estNote,
+            OwpMatchId = owpMatchId
+        });
 }
