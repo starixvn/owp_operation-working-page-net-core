@@ -11,4 +11,10 @@ global using Fanex.NAP.Client.Helpers.Web;
 global using OWP.Enums;
 global using OWP.CQRS;
 global using Carter;
+global using Microsoft.AspNetCore.Http;
+global using Microsoft.AspNetCore.Builder;
+global using Microsoft.AspNetCore.Routing;
+global using System.Text.Json;
+
+
 

@@ -15,20 +15,8 @@ public class ProviderVerificationController : ControllerBase
         this.mediator = mediator;
     }
 
-    [HttpGet("get-provider-verification")]
-    public async Task<IActionResult> GetProviderVerification(DateTime eventDate)
-    {
-        var request = new GetProviderVerificationRequest
-        {
-            EventDate = eventDate
-        };
-        var result = await mediator.Send(request);
-
-        return Ok(JsonConvert.SerializeObject(result));
-    }
-
     [HttpPost("save-agent-confirm")]
-    public async Task<IActionResult> SaveAgentOption(SaveAgentConfirmRequest request )
+    public async Task<IActionResult> SaveAgentOption(SaveAgentConfirmRequest request)
     {
         var result = await mediator.Send(request);
         return Ok(result);
