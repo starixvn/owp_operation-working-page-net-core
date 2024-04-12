@@ -1,6 +1,4 @@
-﻿using Fanex.Data.Repository;
-
-namespace OWP.ProviderVerification.Criteria;
+﻿namespace OWP.ProviderVerification.Criteria;
 
 public class GetAgentOptionsCriteria : CriteriaBase
 {

@@ -1,9 +1,5 @@
 ﻿
-using Fanex.Data;
-using Fanex.Data.Repository;
-using MediatR;
-using OWP.ProviderVerification.Criteria;
-using OWP.ProviderVerification.Models;
+
 
 namespace OWP.ProviderVerification.Handlers;
 
@@ -11,7 +7,7 @@ public class GetProviderVerificationRequest : IRequest<IEnumerable<ProviderVerif
 {
     public DateTime EventDate;
 }
-public class GetProviderVerificationHandler: IRequestHandler<GetProviderVerificationRequest, IEnumerable<ProviderVerificationModel>>
+public class GetProviderVerificationHandler : IRequestHandler<GetProviderVerificationRequest, IEnumerable<ProviderVerificationModel>>
 {
     private readonly ProviderVerificationRepository repository;
 
@@ -61,7 +57,7 @@ public class GetProviderVerificationHandler: IRequestHandler<GetProviderVerifica
         //        Remark = "test",
         //        RemarkBy = "test"
         //    }
-            
+
         //};
 
         //return fakeData;

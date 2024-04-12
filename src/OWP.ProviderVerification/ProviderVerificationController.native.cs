@@ -1,9 +1,4 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using OWP.ProviderVerification.Handlers;
+﻿
 
 namespace OWP.ProviderVerification;
 
@@ -35,7 +30,7 @@ public class ProviderVerificationController : ControllerBase
     [HttpGet("get-agent-option")]
     public async Task<IActionResult> GetAgentOption()
     {
-        var result = await mediator.Send( new GetAgentOptionsRequest());
+        var result = await mediator.Send(new GetAgentOptionsRequest());
         return Ok(result);
     }
 }

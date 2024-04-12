@@ -1,8 +1,6 @@
-﻿using Fanex.Data.Repository;
+﻿namespace OWP.ProviderVerification.Criteria;
 
-namespace OWP.ProviderVerification.Criteria;
-
-public class GetProviderVerificationCriteria: CriteriaBase
+public class GetProviderVerificationCriteria : CriteriaBase
 {
     public DateTime EventDate { get; set; }
 

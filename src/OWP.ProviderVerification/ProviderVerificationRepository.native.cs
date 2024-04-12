@@ -1,8 +1,4 @@
-﻿using Fanex.Data.Repository;
-using Fanex.NAP.Client.Helpers.Web;
-using OWP.Enums;
-using OWP.ProviderVerification.Criteria;
-using OWP.ProviderVerification.Models;
+﻿
 
 namespace OWP.ProviderVerification;
 
@@ -13,7 +9,7 @@ public interface ProviderVerificationRepository
     Task<IEnumerable<AgentOption>> GetAgentOptions();
 }
 
-public class ProviderVerificationRepositoryImp: ProviderVerificationRepository
+public class ProviderVerificationRepositoryImp : ProviderVerificationRepository
 {
     private readonly IDynamicRepository dynamicRepository;
 

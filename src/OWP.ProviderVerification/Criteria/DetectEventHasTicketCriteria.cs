@@ -1,5 +1,3 @@
-using Fanex.Data.Repository;
-
 namespace OWP.ProviderVerification.Criteria;
 
 public class DetectEventHasTicketCriteria : CriteriaBase

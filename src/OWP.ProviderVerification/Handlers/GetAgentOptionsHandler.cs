@@ -1,13 +1,12 @@
-﻿using MediatR;
-using OWP.ProviderVerification.Models;
+﻿
 namespace OWP.ProviderVerification.Handlers;
 
 public class GetAgentOptionsRequest : IRequest<IEnumerable<AgentOption>>
 {
-  
+
 }
 
-internal class GetAgentOptionsHandler: IRequestHandler<GetAgentOptionsRequest, IEnumerable<AgentOption>>
+internal class GetAgentOptionsHandler : IRequestHandler<GetAgentOptionsRequest, IEnumerable<AgentOption>>
 {
     private readonly ProviderVerificationRepository repository;
 
