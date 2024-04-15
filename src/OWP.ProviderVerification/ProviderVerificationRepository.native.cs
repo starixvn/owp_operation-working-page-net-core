@@ -11,6 +11,8 @@ public interface ProviderVerificationRepository
     Task SaveAgentConfirm(int owpMatchId, string agentSelected, int actorId);
 
     Task SaveEstNote(int owpMatchId, string estNote);
+
+    Task SaveEstAgent(int owpMatchId, string estAgent);
 }
 
 public class ProviderVerificationRepositoryImp : ProviderVerificationRepository
@@ -82,7 +84,7 @@ public class ProviderVerificationRepositoryImp : ProviderVerificationRepository
                         Value = y.AgentId
                     }).ToList()
             };
-            var ticket = hasTicketModel.FirstOrDefault(x => x.ParentMatchId == match.ParentMatchId);
+            var ticket = hasTicketModel.Find(x => x.ParentMatchId == match.ParentMatchId);
             if (ticket is not null)
             {
                 providerInfo.HasTicket = ticket.HasTicket;
@@ -106,7 +108,7 @@ public class ProviderVerificationRepositoryImp : ProviderVerificationRepository
     public async Task SaveAgentConfirm(int owpMatchId, string agentSelected, int actorId)
         => await dynamicRepository.ExecuteAsync(new SaveAgentConfirmCriteria
         {
-            AgentSelected = agentSelected, 
+            AgentSelected = agentSelected,
             OwpMatchId = owpMatchId,
             ActorId = actorId
         });
@@ -115,6 +117,13 @@ public class ProviderVerificationRepositoryImp : ProviderVerificationRepository
         => await dynamicRepository.ExecuteAsync(new SaveEstNoteCriteria
         {
             EstNote = estNote,
+            OwpMatchId = owpMatchId
+        });
+
+    public async Task SaveEstAgent(int owpMatchId, string estAgent)
+        => await dynamicRepository.ExecuteAsync(new SaveEstAgentCriteria
+        {
+            EstAgent = estAgent,
             OwpMatchId = owpMatchId
         });
 }
