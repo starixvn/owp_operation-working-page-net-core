@@ -74,7 +74,6 @@ public class ProviderVerificationRepositoryImp : ProviderVerificationRepository
                 Remark = match.Remark,
                 RemarkBy = match.RemarkBy,
                 EstNote = match.EstNote,
-                ParentMatchId = match.ParentMatchId,
                 HandicapSetting = GetMatchSettings(matchSettings, match.OWPMatchId, (int)MajorBetType.Handicap),
                 OverUnderSetting = GetMatchSettings(matchSettings, match.OWPMatchId, (int)MajorBetType.OverUnder),
                 AgentConfirm = agentConfirms.Where(x => x.OwpMatchId == match.OWPMatchId).Select(y =>
@@ -84,7 +83,7 @@ public class ProviderVerificationRepositoryImp : ProviderVerificationRepository
                         Value = y.AgentId
                     }).ToList()
             };
-            var ticket = hasTicketModel.Find(x => x.ParentMatchId == match.ParentMatchId);
+            var ticket = hasTicketModel.Find(x => x.ParentMatchId == match.OWPMatchId);
             if (ticket is not null)
             {
                 providerInfo.HasTicket = ticket.HasTicket;

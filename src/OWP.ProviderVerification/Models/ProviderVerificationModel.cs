@@ -30,8 +30,6 @@ public class EventModel
     public string RemarkBy { get; set; }
 
     public string EstNote { get; set; }
-
-    public int ParentMatchId { get; set; }
 }
 
 public class ProviderVerificationModel: EventModel
