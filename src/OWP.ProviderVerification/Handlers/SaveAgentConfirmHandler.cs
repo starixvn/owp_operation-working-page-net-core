@@ -1,8 +1,4 @@
-﻿
-using Fanex.NAP.Client.Helpers.Web;
-using MediatR;
-
-namespace OWP.ProviderVerification.Handlers;
+﻿namespace OWP.ProviderVerification.Handlers;
 
 public class SaveAgentConfirmRequest : IRequest<Unit>
 {
@@ -11,7 +7,7 @@ public class SaveAgentConfirmRequest : IRequest<Unit>
     public string AgentSelected { get; set; }
 }
 
-public class SaveAgentConfirmHandler : IRequestHandler<SaveAgentConfirmRequest,Unit>
+public class SaveAgentConfirmHandler : IRequestHandler<SaveAgentConfirmRequest, Unit>
 {
     private readonly ProviderVerificationRepository repository;
 
