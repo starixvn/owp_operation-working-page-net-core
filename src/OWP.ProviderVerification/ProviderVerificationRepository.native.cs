@@ -124,6 +124,7 @@ public class ProviderVerificationRepositoryImp : ProviderVerificationRepository
         => await dynamicRepository.ExecuteAsync(new SaveEstAgentCriteria
         {
             EstAgent = estAgent,
-            OwpMatchId = owpMatchId
+            OwpMatchId = owpMatchId,
+            ActorId = session.UserId
         });
 }
