@@ -23,16 +23,16 @@ public class EventModel
 
     public string Provider { get; set; }
 
-    public string Agent { get; set; }
+    public string AgentEst { get; set; }
 
-    public string Remark { get; set; }
+    public string RemarkEst { get; set; }
 
     public string RemarkBy { get; set; }
 
     public string EstNote { get; set; }
 }
 
-public class ProviderVerificationModel: EventModel
+public class ProviderVerificationModel : EventModel
 {
     public MatchSetting HandicapSetting { get; set; }
 
