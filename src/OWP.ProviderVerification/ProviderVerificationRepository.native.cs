@@ -10,7 +10,7 @@ public interface ProviderVerificationRepository
 
     Task SaveAgentConfirm(int owpMatchId, string agentSelected, int actorId);
 
-    Task SaveEstNote(int owpMatchId, string estNote);
+    Task SaveEstNote(int owpMatchId, string estNote, int actorId);
 
     Task SaveEstAgent(int owpMatchId, string estAgent);
 }
@@ -112,11 +112,12 @@ public class ProviderVerificationRepositoryImp : ProviderVerificationRepository
             ActorId = actorId
         });
 
-    public async Task SaveEstNote(int owpMatchId, string estNote)
+    public async Task SaveEstNote(int owpMatchId, string estNote, int actorId)
         => await dynamicRepository.ExecuteAsync(new SaveEstNoteCriteria
         {
             EstNote = estNote,
-            OwpMatchId = owpMatchId
+            OwpMatchId = owpMatchId,
+            ActorId =  actorId
         });
 
     public async Task SaveEstAgent(int owpMatchId, string estAgent)

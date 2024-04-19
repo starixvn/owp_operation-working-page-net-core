@@ -13,15 +13,17 @@ public class SaveEstNoteHandler : IRequestHandler<SaveEstNoteRequest, Unit>
 {
     private readonly ProviderVerificationRepository repository;
 
+    private readonly INapSession currentSession;
 
     public SaveEstNoteHandler(ProviderVerificationRepository repository, INapSession currentSession)
     {
         this.repository = repository;
+        this.currentSession = currentSession;
     }
 
     public async Task<Unit> Handle(SaveEstNoteRequest request, CancellationToken cancellationToken)
     {
-        await repository.SaveEstNote(request.OwpMatchId, request.EstNote);
+        await repository.SaveEstNote(request.OwpMatchId, request.EstNote, currentSession.UserId);
         return Unit.Value;
     }
 }

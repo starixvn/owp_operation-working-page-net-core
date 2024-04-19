@@ -6,6 +6,8 @@ public class SaveEstNoteCriteria : NonQueryCommand
 
     public string EstNote { get; set; }
 
+    public int ActorId { get; set; }
+
     public override string GetSettingKey() => "OWP_ProviderVerification_SaveEstNote";
 
     public override bool IsValid() => true;
