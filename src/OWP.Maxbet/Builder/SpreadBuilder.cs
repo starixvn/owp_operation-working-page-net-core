@@ -13,9 +13,11 @@ public interface SpreadBuilder
 
 public class SpreadBuilderImp : SpreadBuilder
 {
-    private const decimal spreadBaseline = (decimal)0.1;
+    private const decimal SPREAD_BASE_COMPARER = (decimal)0.1;
 
-    private const int leagueGroupMJ = 1;
+    private const decimal SPREAD_BASE_LINE = (decimal)0.11;
+
+    private const int LEAGUE_GROUP_MJ = 1;
 
     private readonly MaxbetRepository syncMaxbetRepository;
 
@@ -44,7 +46,7 @@ public class SpreadBuilderImp : SpreadBuilder
 
         var spreadList = spreads.ToList();
 
-        return leagueGroupId == leagueGroupMJ
+        return leagueGroupId == LEAGUE_GROUP_MJ
             ? BuildSpreadSenderForLeagueGroupMJ(spreadList)
             : BuildSpreadSenderForLeagueGroupNotMJ(spreadList);
     }
@@ -59,11 +61,11 @@ public class SpreadBuilderImp : SpreadBuilder
 
         if (!hasExistsFirstHalfHdp)
         {
-            spread.Add(handicap.Spread < spreadBaseline ?
+            spread.Add(handicap.Spread < SPREAD_BASE_COMPARER ?
                 new SpreadModel
                 {
                     Bettype = (int)EnumBettype.FirstHalfHandicap,
-                    Spread = spreadBaseline
+                    Spread = SPREAD_BASE_LINE
                 } :
                 new SpreadModel
                 {
@@ -75,11 +77,11 @@ public class SpreadBuilderImp : SpreadBuilder
 
         if (!hasExistsFirstHalfOu)
         {
-            spread.Add(overUnder.Spread < spreadBaseline
+            spread.Add(overUnder.Spread < SPREAD_BASE_COMPARER
                 ? new SpreadModel
                 {
                     Bettype = (int)EnumBettype.FirstHalfOverUnder,
-                    Spread = spreadBaseline
+                    Spread = SPREAD_BASE_LINE
                 } :
                 new SpreadModel
                 {
