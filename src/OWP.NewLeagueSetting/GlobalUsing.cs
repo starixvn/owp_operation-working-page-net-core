@@ -1,12 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+global using MediatR;
+global using OfficeOpenXml;
+global using OfficeOpenXml.Table;
+global using OWP.NewLeagueSetting.Models;
+global using Carter;
+global using Microsoft.AspNetCore.Http;
+global using Microsoft.AspNetCore.Routing;
 
-namespace OWP.NewLeagueSetting
-{
-    public class GlobalUsing
-    {
-        
-    }
-}

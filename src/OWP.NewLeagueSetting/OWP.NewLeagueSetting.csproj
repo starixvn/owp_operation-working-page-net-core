@@ -1,11 +1,18 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="InitData\**" />
+    <EmbeddedResource Remove="InitData\**" />
+    <None Remove="InitData\**" />
+  </ItemGroup>
 	<ItemGroup>
+		<PackageReference Include="Carter" Version="7.2.0" />
 		<PackageReference Include="MediatR" Version="12.1.1" />
 		<PackageReference Include="Fanex.Data.Repository" Version="4.2.3" />
 		<PackageReference Include="Fanex.NAP.Client" Version="2.0.0" />
@@ -14,9 +21,5 @@
 	<ItemGroup>
 		<PackageReference Include="EPPlus" Version="6.2.10" />
 		<PackageReference Include="Epplus.Mapper" Version="6.0.0" />
-         <PackageReference Include="Carter" Version="7.0.0" />
-	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="InitData\" />
 	</ItemGroup>
 </Project>

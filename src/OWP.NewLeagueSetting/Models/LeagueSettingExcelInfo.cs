@@ -1,6 +1,6 @@
 namespace OWP.NewLeagueSetting.Models;
 
-public class LeagueSettingInfo
+public class LeagueSettingExcelInfo
 {
     public string LeagueGroup { get; set; } = default!;
 
