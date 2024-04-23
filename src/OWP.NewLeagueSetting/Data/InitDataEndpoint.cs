@@ -1,4 +1,7 @@
 
+
+using Microsoft.AspNetCore.Http;
+
 namespace OWP.NewLeagueSetting.Data;
 
 public class InitDataEndpoint : ICarterModule
@@ -9,8 +12,7 @@ public class InitDataEndpoint : ICarterModule
         {
             await using var ms = new MemoryStream();
             await request.Form.Files[0].CopyToAsync(ms);
-            await sender.SendAsync(new InitDataRequest(ms));
-        }).Accepts("multipart/form-data")
-            .Produces(200);
+            return await sender.Send(new InitDataRequest(ms));
+        }).RequireAuthorization().Accepts<HttpRequest>("multipart/form-data");
     }
 }

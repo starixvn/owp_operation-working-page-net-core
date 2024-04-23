@@ -1,71 +1,86 @@
 
 namespace OWP.NewLeagueSetting.Data;
 
-public record InitDataRequest(Stream Stream) : IRequest<Unit>;
-public class InitDataHandler : IRequestHandler<InitDataRequest, Unit>
+public record InitDataRequest(Stream Stream) : IRequest<IList<LeagueSettingExcelInfo>>;
+public class InitDataHandler : IRequestHandler<InitDataRequest, IList<LeagueSettingExcelInfo>>
 {
-    public async Task<Unit> Handle(InitDataRequest request, CancellationToken cancellationToken)
+    public async Task<IList<LeagueSettingExcelInfo>> Handle(InitDataRequest request, CancellationToken cancellationToken)
     {
         var stream = request.Stream;
         stream.Seek(0, SeekOrigin.Begin);
         using var package = new ExcelPackage(stream);
 
-        // TODO
-        var sheet = package.Workbook.Worksheets[4];
+        var sheet = package.Workbook.Worksheets[3];
 
-        LoadData(sheet.Tables.First());
-        return Unit.Value;
+        return LoadData(sheet);
     }
 
-    private static IList<LeagueSettingExcelInfo> LoadData(ExcelTable table)
+    private static IList<LeagueSettingExcelInfo> LoadData(ExcelWorksheet worksheet)
     {
-        var tprops = (new LeagueSettingExcelInfo())
+        var props = (new LeagueSettingExcelInfo())
             .GetType()
             .GetProperties()
             .ToList();
 
-        var start = table.Address.Start;
-        var end = table.Address.End;
+        const int startRow = 8;
+        var end = worksheet.Dimension.End;
         var cells = new List<ExcelRangeBase>();
 
-        //Have to use for loops insteadof worksheet.Cells to protect against empties
-        for (var r = start.Row; r <= end.Row; r++)
-            for (var c = start.Column; c <= end.Column; c++)
-                cells.Add(table.WorkSheet.Cells[r, c]);
+       
+        for (var r = startRow; r <= end.Row; r++)
+            for (var c = 2; c <= end.Column; c++)
+                cells.Add(worksheet.Cells[r, c]);
 
         var groups = cells
             .GroupBy(cell => cell.Start.Row)
             .ToList();
 
-        //Assume first row has the column names
         var colNames = groups
             .First()
-            .Select((cell, idx) => new { Name = cell.Value.ToString(), index = idx })
-            .Where(o => tprops.Select(p => p.Name).Contains(o.Name))
+            .Select((cell, idx) => new { Name = cell.Value?.ToString(), index = idx })
+            .Where(o => props.Select(p => p.Name).Contains(o.Name))
             .ToList();
 
-        //Everything after the header is data
-        var rowvalues = groups
-            .Skip(1) //Exclude header
-            .Select(cg => cg.Select(c => c.Value).ToList());
+        var rowValues = groups
+            .Skip(1) 
+            .Select(cg => cg.Select(c => new
+            {
+                c?.Value,
+                note = c?.Comment?.Text
+            }).ToList())
+            ;
 
-        //Create the collection container
-        var collection = rowvalues
+        var leagueSetting = rowValues
             .Select(row =>
             {
-                var tnew = new LeagueSettingExcelInfo();
+                var settingInfo = new LeagueSettingExcelInfo();
                 colNames.ForEach(colName =>
                 {
                     var val = row[colName.index];
-                    var prop = tprops.First(p => p.Name == colName.Name);
-                    prop.SetValue(tnew, val);
+                    var prop = props.First(p => p.Name == colName.Name);
+                    var propComment = props.First(p => p.Name == colName.Name + "Note");
+                    prop.SetValue(settingInfo, val?.Value?.ToString());
+                    propComment.SetValue(settingInfo, val?.note);
                 });
 
-                return tnew;
+                return settingInfo;
             });
 
 
-        //Send it back
-        return collection.ToList();
+        // TODO
+        //var result = collection.Where(c => c.LeagueGroup is not null ||
+        //                                   c.LeagueNote is not null ||
+        //                                   c.LocalTvNote is not null ||
+        //                                   c.RoundNote is not null ||
+        //                                   c.LeagueDivisionNote is not null ||
+        //                                   c.RemarkNote is not null ||
+        //                                   c.FTSpreadNote is not null ||
+        //                                   c.WD_HDPNote is not null ||
+        //                                   c.WD_NO_HDPNote is not null ||
+        //                                   c.WK_HDPNote is not null ||
+        //                                   c.WK_NO_HDPNote is not null ||
+        //                                   c.LstNoteNote is not null ||
+        //                                   c.Remark2Note is not null).ToList();
+        return leagueSetting.ToList();
     }
 }
