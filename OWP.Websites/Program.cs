@@ -1,17 +1,4 @@
-using Fanex.Data.SqlServer;
-using Fanex.NAP.Client;
-using Fanex.NAP.Client.Configuration;
-using Fanex.NAP.Client.Helpers.Web;
-using Fanex.NAP.SignIn.Attribute;
-using Microsoft.AspNetCore.Mvc;
-using ONEbook.UM.AspNetCore.Filters;
-using OWP.Hubs;
-using OWP.Models;
-using OWP.OtherSport.Hubs;
-using OWP.RabbitMQ.Model;
-using OWP.TicketCenter.Hubs;
-using OWP.Websites;
-using OWP.Websites.CrossCuttingConcern;
+
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
@@ -57,7 +44,7 @@ services.AddControllersWithViews(options =>
     options.Filters.Add(new ServiceFilterAttribute(typeof(CheckUMFilterAttribute)));
     options.Filters.Add(new SessionAuthorizeAttribute());
 }).AddNewtonsoftJson();
-
+builder.Services.AddCarter();
 // Configure app
 var app = builder.Build();
 
@@ -88,7 +75,7 @@ app.MapHub<TicketCenterNotifyHubImp>("/ticketCenterNotifyHub");
 app.MapHub<PreMatchNotifyHubImp>("/preMatchNotifyHub");
 
 ThreadPool.SetMinThreads(100, 100);
-
+app.MapCarter();
 app.Run();
 
 
