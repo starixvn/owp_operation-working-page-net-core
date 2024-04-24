@@ -61,16 +61,28 @@ public class SpreadBuilderImp : SpreadBuilder
 
         if (!hasExistsFirstHalfHdp)
         {
-            spread.Add(handicap.Spread < SPREAD_BASE_COMPARER ?
+            decimal? spread1H = null;
+            decimal? pivot = (decimal)0.09;
+
+            if (handicap.Spread > pivot)
+            {
+                spread1H = handicap.Spread;
+            }
+
+            if (handicap.Spread < pivot)
+            {
+                spread1H = (decimal)0.1;
+            }
+
+            if (handicap.Spread.Equals(pivot))
+            {
+                spread1H = (decimal)0.11;
+            }
+            spread.Add(
                 new SpreadModel
                 {
                     Bettype = (int)EnumBettype.FirstHalfHandicap,
-                    Spread = SPREAD_BASE_LINE
-                } :
-                new SpreadModel
-                {
-                    Bettype = (int)EnumBettype.FirstHalfHandicap,
-                    Spread = handicap.Spread
+                    Spread = spread1H
                 }
             );
         }
@@ -81,7 +93,7 @@ public class SpreadBuilderImp : SpreadBuilder
                 ? new SpreadModel
                 {
                     Bettype = (int)EnumBettype.FirstHalfOverUnder,
-                    Spread = SPREAD_BASE_LINE
+                    Spread = SPREAD_BASE_COMPARER
                 } :
                 new SpreadModel
                 {
