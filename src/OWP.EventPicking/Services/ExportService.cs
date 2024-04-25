@@ -13,6 +13,8 @@ namespace OWP.EventPicking.Services;
 public interface ExportService
 {
     Task<FileStreamResult> BuildFileStream(IList<EventPickingModel> matches, bool isMiscMatch);
+
+    Task<FileStreamResult> BuildFileLSTStream(IList<ExportLSTFormat> matches);
 }
 
 public class ExportServiceImp : ExportService, IDisposable
@@ -48,6 +50,21 @@ public class ExportServiceImp : ExportService, IDisposable
             templateSheet.DeleteColumn(ReportConstant.MarginColumn);
             templateSheet.DeleteColumn(ReportConstant.TurnOverColumn);
         }
+        var fileStream = new MemoryStream();
+        await excelPackage.SaveAsAsync(fileStream);
+        fileStream.Position = 0;
+        const string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+        return new FileStreamResult(fileStream, contentType);
+    }
+
+    public async Task<FileStreamResult> BuildFileLSTStream(IList<ExportLSTFormat> matches)
+    {
+        var templatePath = Utils.GetLSTFormatTemplate(configurationService.CurrentDirectory);
+        await using var stream = new FileStream(templatePath, FileMode.Open, FileAccess.Read);
+        excelPackage = new ExcelPackage(stream);
+        var templateSheet = excelPackage.Workbook.Worksheets.First();
+        templateSheet.ApplyVertical(matches, 2);
+        ExcelColorHelper.FillRowLSTFileColor(matches, templateSheet);
         var fileStream = new MemoryStream();
         await excelPackage.SaveAsAsync(fileStream);
         fileStream.Position = 0;

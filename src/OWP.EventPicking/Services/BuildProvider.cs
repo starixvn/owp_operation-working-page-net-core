@@ -1,4 +1,5 @@
-﻿using OWP.EventPicking.Models;
+﻿using OWP.EventPicking.Helper;
+using OWP.EventPicking.Models;
 using OWP.Extensions;
 // ReSharper disable ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
 
@@ -21,36 +22,7 @@ public class BuildProviderImp : BuildProvider
     public async Task Build(List<EventPickingModel> matches)
     {
         var priorityProviders = await repository.GetProviderArrangement();
-        matches.ForEach(x => x.Provider = BuildProviderByOtherProvider(priorityProviders, x.OtherProvider));
-    }
-
-    private string BuildProviderByOtherProvider(List<string> priorityProviders, string otherProviderInString)
-    {
-        var otherProviders = otherProviderInString?.Split("/").ToList();
-        foreach (var value in priorityProviders)
-        {
-            var provider = otherProviders?.Find(x => x.Equals(value, StringComparison.OrdinalIgnoreCase));
-            if (!string.IsNullOrWhiteSpace(provider))
-            {
-                return provider;
-            }
-        }
-
-        return BuildProviderTv(priorityProviders, otherProviders);
-    }
-
-    private string BuildProviderTv(List<string> priorityProviders, List<string> otherProviders)
-    {
-        foreach (var value in priorityProviders)
-        {
-            var provider = otherProviders?.Find(x => x.IsContains(value) && x.IsContains("TV"));
-            if (!string.IsNullOrWhiteSpace(provider))
-            {
-                return provider;
-            }
-        }
-
-        return string.Empty;
+        matches.ForEach(x => x.Provider = ProviderHelper.BuildProviderByOtherProvider(priorityProviders, x.OtherProvider));
     }
 }
 
