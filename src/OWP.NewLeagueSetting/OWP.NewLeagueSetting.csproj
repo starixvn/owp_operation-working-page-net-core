@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,10 +12,11 @@
     <None Remove="InitData\**" />
   </ItemGroup>
 	<ItemGroup>
+     <PackageReference Include="Olympus.Xml" Version="1.0.0.5" />  
 		<PackageReference Include="Carter" Version="7.2.0" />
 		<PackageReference Include="MediatR" Version="12.1.1" />
 		<PackageReference Include="Fanex.Data.Repository" Version="4.2.3" />
-		<PackageReference Include="Fanex.NAP.Client" Version="2.0.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="Microsoft.NETCore.Targets" Version="6.0.0-preview.4.21253.7" PrivateAssets="all" />
 	</ItemGroup>
 	<ItemGroup>
