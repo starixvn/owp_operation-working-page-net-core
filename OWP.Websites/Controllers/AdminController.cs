@@ -149,4 +149,14 @@ public class AdministratorController : Controller
         ViewBag.FileCount = fileCount;
         return View("DeleteOldLoggedFile");
     }
+
+    public async Task<string> QueryDataFromUrl(String url)
+    {
+        var httpClient = new HttpClient();
+        var response = await httpClient.GetAsync(url);
+
+        return response.IsSuccessStatusCode
+            ? await response.Content.ReadAsStringAsync()
+            : string.Empty;
+    }
 }
