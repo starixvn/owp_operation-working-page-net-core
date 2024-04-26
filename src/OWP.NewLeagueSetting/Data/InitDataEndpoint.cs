@@ -1,7 +1,4 @@
 
-
-using Microsoft.AspNetCore.Http;
-
 namespace OWP.NewLeagueSetting.Data;
 
 public class InitDataEndpoint : ICarterModule

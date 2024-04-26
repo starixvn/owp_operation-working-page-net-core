@@ -416,4 +416,7 @@
 		<Setting Key="OWP_LiveGame_LogActionSyncOffVR" SpName ="OWP_LiveGame_LogActionSyncOffVR" DbName="DBOWP.bodb_OWP.wsv_owp" />
 		<Setting Key="OWP_LiveGame_GetOffVRMatches" SpName ="OWP_LiveGame_GetOffVRMatches" DbName="DBOWP.bodb_OWP.wsv_owp" />
 	</Function>
+    <Function Name="NewLeagueSetting">
+        <Setting Key="OWP_NewLeague_Init_Data" SpName ="OWP_NewLeague_Init_Data" DbName="DBOWP.bodb_OWP.wsv_owp" />
+    </Function>
 </Functions>

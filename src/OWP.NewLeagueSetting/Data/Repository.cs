@@ -1,11 +1,9 @@
-using Olympus.Xml;
-using OWP.NewLeagueSetting.Criteria;
 
 namespace OWP.NewLeagueSetting.Data;
 
 public interface Repository
 {
-    Task InitData(IList<LeagueSettingInfo> leagueInfo);
+    Task InitData(IList<LeagueSettingInfo> leagueInfo, CancellationToken cancellationToken);
 }
 
 public class RepositoryImp : Repository
@@ -17,12 +15,12 @@ public class RepositoryImp : Repository
         this.repository = repository;
     }
 
-    public async Task InitData(IList<LeagueSettingInfo> leagueInfo)
+    public async Task InitData(IList<LeagueSettingInfo> leagueInfo, CancellationToken cancellationToken)
     {
         var xml = XmlConverter.Serialize(leagueInfo);
         await repository.ExecuteAsync(new InitDataCriteria
         {
             XML = xml
-        });
+        }, cancellationToken);
     }
 }

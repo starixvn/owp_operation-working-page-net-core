@@ -216,6 +216,7 @@ public static class ServiceCollectionExtensions
         services.AddSuggestionList();
         services.AddEventService();
         services.AddKpiService();
+        services.AddNewLeagueSettingService();
         return services;
     }
 

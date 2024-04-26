@@ -7,7 +7,7 @@ public static class ReadExcel
         stream.Seek(0, SeekOrigin.Begin);
         using var package = new ExcelPackage(stream);
 
-        var worksheet = package.Workbook.Worksheets[3];
+        var worksheet = package.Workbook.Worksheets.First();
 
         var props = new LeagueSettingExcelInfo()
             .GetType()
@@ -73,7 +73,8 @@ public static class ReadExcel
         //                                   c.WK_NO_HDPNote is not null ||
         //                                   c.LstNoteNote is not null ||
         //                                   c.Remark2Note is not null).ToList();
-        return leagueSetting.ToList();
+        var result = leagueSetting.ToList().Where(l => !string.IsNullOrWhiteSpace(l.League)).ToList();
+        return result;
     }
 
 }
