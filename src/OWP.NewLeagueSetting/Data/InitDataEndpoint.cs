@@ -1,4 +1,6 @@
 
+using Microsoft.AspNetCore.Http.HttpResults;
+
 namespace OWP.NewLeagueSetting.Data;
 
 public class InitDataEndpoint : ICarterModule
@@ -11,5 +13,10 @@ public class InitDataEndpoint : ICarterModule
             await request.Form.Files[0].CopyToAsync(ms);
             return await sender.Send(new InitDataRequest(ms));
         }).RequireAuthorization().Accepts<HttpRequest>("multipart/form-data");
+
+        app.MapGet("new-league", async () =>
+        {
+            return "OK";
+        }).RequireAuthorization();
     }
 }
