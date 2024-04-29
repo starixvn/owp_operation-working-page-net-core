@@ -35,6 +35,7 @@ public class ExportLSTFormatHandler : IRequestHandler<ExportLSTFormatRequest, Fi
             .Where(x => !CheckMatchHaveBeenExclude(x.HomeName))
             .OrderBy(x => x.IsSaba)
             .ThenBy(x => x.EventDateTime)
+            .ThenBy(x=> x.InfoSiteMatchId)
             .ToList();
         var matches = await BuildProviderAndNoInfo(orderMatches);
 
