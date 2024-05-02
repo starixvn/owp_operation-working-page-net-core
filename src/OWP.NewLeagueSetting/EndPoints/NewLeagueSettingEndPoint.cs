@@ -1,8 +1,6 @@
 ﻿
 using OWP.NewLeagueSetting.Data;
 using OWP.NewLeagueSetting.Query;
-
-
 namespace OWP.NewLeagueSetting.EndPoints;
 public  class NewLeagueSettingEndPoint : ICarterModule
 {
@@ -18,6 +16,12 @@ public  class NewLeagueSettingEndPoint : ICarterModule
         app.MapGet("api/NewLeagueSetting/getAllListSettings", async (string league, ISender sender) =>
         {
             var result = await sender.Send(new QueryLeagueSettingRequest(league));
+            return Results.Json(result);
+        }).RequireAuthorization();
+
+        app.MapGet("api/NewLeagueSetting/getLeagueSettingDetail", async (int leagueSettingId, ISender sender) =>
+        {
+            var result = await sender.Send(new QueryLeagueSettingDetailRequest(leagueSettingId));
             return Results.Json(result);
         }).RequireAuthorization();
     }
