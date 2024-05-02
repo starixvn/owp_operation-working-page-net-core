@@ -54,8 +54,8 @@ public static partial class StandardizedLeagueInfo
         leagueInfo.MaxbetWD_HDP_Note = maxbetSourceWd;
 
         (decimal? maxbetWk, string maxbetSourceWk) = AnalyzeMaxbet(excelInfo.WK_HDP?.Trim());
-        leagueInfo.MaxbetWD_HDP_value = maxbetWk;
-        leagueInfo.MaxbetWD_HDP_Note = maxbetSourceWk;
+        leagueInfo.MaxbetWK_HDP_value = maxbetWk;
+        leagueInfo.MaxbetWK_HDP_Note = maxbetSourceWk;
     }
 
     private static void BuildNoHdp(LeagueSettingInfo leagueInfo, LeagueSettingExcelInfo excelInfo)
