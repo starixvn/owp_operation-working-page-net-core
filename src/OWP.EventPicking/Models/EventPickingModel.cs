@@ -298,6 +298,16 @@ public class EventPickingModel
     public string LocalTV { get; set; }
 
     // MaxBet & Spread
+
+    // New setting
+    public decimal? Spread_HDP { get; set; }
+
+    public decimal? Spread_OU { get; set; }
+    public decimal? Maxbet { get; set; }
+
+    public string NoOfHDP { get; set; }
+
+    // New setting
     public decimal? MaxBetHDPNumber { get; set; }
 
     public List<RAndDInfo> RAndDInfos { get; set; }
@@ -342,33 +352,29 @@ public class EventPickingModel
     [JsonIgnore]
     public MarginInfo MarginTwelveMonths { get; set; }
 
-    //public double? MarginSort => Margin.Value;
-
     public IList<TurnOverInfo> TurnoverPeriod => new List<TurnOverInfo>{
         TurnoverOneMonth ,
         TurnoverThreeMonths,
         TurnoverSixMonths,
         TurnoverTwelveMonths
-    }.Where(t => t is not null)?
-    .ToList();
+    };
 
     public IList<MarginInfo> MarginPeriod => new List<MarginInfo>{
         MarginOneMonth ,
         MarginThreeMonths,
         MarginSixMonths,
         MarginTwelveMonths
-    }.Where(t => t is not null)?
-   .ToList();
+    };
 
     public string BuildTurnOverExport()
     {
-        var turnOverPeriodValues = TurnoverPeriod.Select(t => $"{t.Title}: " + t?.ValueDisplay).ToList();
+        var turnOverPeriodValues = TurnoverPeriod.Select(t => $"{t.Title}: " + t.ValueDisplay).ToList();
         return string.Join("\r\n", turnOverPeriodValues);
     }
 
     public string BuildMarginExport()
     {
-        var marginPeriodValues = MarginPeriod.Select(t => $"{t.Title}: " + t?.ValueDisplay).ToList();
+        var marginPeriodValues = MarginPeriod.Select(t => $"{t.Title}: " + t.ValueDisplay).ToList();
         return string.Join("\r\n", marginPeriodValues);
     }
 

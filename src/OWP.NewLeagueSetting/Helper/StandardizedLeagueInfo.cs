@@ -36,7 +36,7 @@ public static partial class StandardizedLeagueInfo
             IpTv = ipTv,
             Round = AnalyzeConditionString(excelInfo.Round?.Trim()),
             Division = AnalyzeConditionString(excelInfo.LeagueDivision?.Trim()),
-            Remark = excelInfo.Remark
+            Remark = excelInfo.Remark ?? string.Empty
         });
     }
 
@@ -171,17 +171,27 @@ public static partial class StandardizedLeagueInfo
         }
 
         var splitConditionSource = conditionSource.Split("/").Where(c => c.Trim().Length > 0);
-        foreach (var value in splitConditionSource)
+        foreach (var source in splitConditionSource)
         {
-            var type = value.StartsWith('*') && value.EndsWith('*') ?
-            "Contains"
-            : "Equals";
+            var type = "Equals";
+            var value = source;
+            if (source.StartsWith('*') && source.EndsWith('*'))
+            {
+                type = "Contains";
+                value = RemoveContainSymbol(source);
+            }
 
             condition.Add(new(type, value));
         }
         return condition;
     }
 
+    private static string RemoveContainSymbol(string originalString)
+    {
+        return originalString?.Length > 1
+        ? originalString[1..^1]
+        : originalString;
+    }
     private static (decimal? spreadHdp, decimal? spreadOu, string spreadSource) AnalyzeSpreadFT(string spreadSource)
     {
         var regex = Pattern.SpreadRegex();
