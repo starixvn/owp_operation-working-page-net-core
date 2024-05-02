@@ -40,3 +40,13 @@ public class LeagueSettingInfo
     public string Remark2 { get; set; } = default!;
 
 }
+
+public class LeagueSettingInfoSender :LeagueSettingInfo
+{
+    public int LeagueSettingId { get; set; } = default!;
+
+    public int OWPLeagueId { get; set; } = default!;
+
+    public int LeagueGroupId { get; set; } = default!;
+
+}

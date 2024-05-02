@@ -4,6 +4,8 @@ namespace OWP.NewLeagueSetting.Data;
 public interface Repository
 {
     Task InitData(IList<LeagueSettingInfo> leagueInfo, CancellationToken cancellationToken);
+
+    Task<IEnumerable<LeagueSettingInfoSender>> QueryLeagueSetting(string league);
 }
 
 public class RepositoryImp : Repository
@@ -23,4 +25,7 @@ public class RepositoryImp : Repository
             XML = xml
         }, cancellationToken);
     }
+
+    public async Task<IEnumerable<LeagueSettingInfoSender>> QueryLeagueSetting(string league)
+        => await repository.FetchAsync<LeagueSettingInfoSender>(new QueryLeagueSettingCriteria { League = league });
 }

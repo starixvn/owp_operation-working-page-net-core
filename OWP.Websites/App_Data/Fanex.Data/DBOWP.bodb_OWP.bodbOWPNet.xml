@@ -418,5 +418,6 @@
 	</Function>
     <Function Name="NewLeagueSetting">
         <Setting Key="OWP_NewLeague_Init_Data" SpName ="OWP_NewLeague_Init_Data" DbName="DBOWP.bodb_OWP.wsv_owp" />
+        <Setting Key="OWP_NewLeagueSetting_QueryAllLeagueSetting" SpName ="OWP_NewLeagueSetting_QueryAllLeagueSetting" DbName="DBOWP.bodb_OWP.wsv_owp" />
     </Function>
 </Functions>
