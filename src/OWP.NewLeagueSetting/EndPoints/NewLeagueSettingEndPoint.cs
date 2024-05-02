@@ -1,9 +1,10 @@
+﻿
+using OWP.NewLeagueSetting.Data;
+using OWP.NewLeagueSetting.Query;
 
-using Microsoft.AspNetCore.Http.HttpResults;
 
-namespace OWP.NewLeagueSetting.Data;
-
-public class InitDataEndpoint : ICarterModule
+namespace OWP.NewLeagueSetting.EndPoints;
+public  class NewLeagueSettingEndPoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
@@ -14,9 +15,10 @@ public class InitDataEndpoint : ICarterModule
             return await sender.Send(new InitDataRequest(ms));
         }).RequireAuthorization().Accepts<HttpRequest>("multipart/form-data");
 
-        app.MapGet("new-league", async () =>
+        app.MapGet("api/NewLeagueSetting/getAllListSettings", async (string league, ISender sender) =>
         {
-            return "OK";
+            var result = await sender.Send(new QueryLeagueSettingRequest(league));
+            return Results.Json(result.FirstOrDefault());
         }).RequireAuthorization();
     }
 }
