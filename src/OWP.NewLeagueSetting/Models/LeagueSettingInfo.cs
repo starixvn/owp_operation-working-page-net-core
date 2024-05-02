@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+
 namespace OWP.NewLeagueSetting.Models;
 
 [Serializable]
@@ -48,5 +50,23 @@ public class LeagueSettingInfoSender :LeagueSettingInfo
     public int OWPLeagueId { get; set; } = default!;
 
     public int LeagueGroupId { get; set; } = default!;
+
+    public ConditionInfo Condition => JsonConvert.DeserializeObject<ConditionInfo>(this.FullConditionDescription);
+
+}
+
+public class ConditionInfo
+{
+    public bool HasTv { get; set; }
+
+    public bool HasIpTv { get; set; }
+
+    public List<Condition> IpTv { get; set; }
+
+    public List<Condition> Round { get; set;  }
+
+    public List<Condition> Division { get; set;}
+
+    public string Remark { get; set; }
 
 }

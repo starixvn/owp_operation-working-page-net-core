@@ -18,7 +18,7 @@ public  class NewLeagueSettingEndPoint : ICarterModule
         app.MapGet("api/NewLeagueSetting/getAllListSettings", async (string league, ISender sender) =>
         {
             var result = await sender.Send(new QueryLeagueSettingRequest(league));
-            return Results.Json(result.FirstOrDefault());
+            return Results.Json(result);
         }).RequireAuthorization();
     }
 }
