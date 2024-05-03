@@ -51,8 +51,20 @@ public class LeagueSettingInfoSender :LeagueSettingInfo
 
     public int LeagueGroupId { get; set; } = default!;
 
-    public ConditionInfo Condition => JsonConvert.DeserializeObject<ConditionInfo>(this.FullConditionDescription);
+    public string MaxbetWD_HDP_Show => FormatMaxbet(MaxbetWD_HDP_value, MaxbetWD_HDP_Note);
 
+    public string MaxbetWK_HDP_Show => FormatMaxbet(MaxbetWK_HDP_value, MaxbetWK_HDP_Note);
+
+    public string MaxbetWD_NoOfHDP_Show => FormatNoOfHdpMaxbet(MaxbetWD_NoOfHDP_value, MaxbetWD_NoOfHDP_Note);
+
+    public string MaxbetWK_NoOfHDP_Show => FormatNoOfHdpMaxbet(MaxbetWK_NoOfHDP_value, MaxbetWK_NoOfHDP_Note);
+
+    public ConditionInfo Condition => JsonConvert.DeserializeObject<ConditionInfo>(FullConditionDescription);
+
+    public string FormatMaxbet(decimal? maxbet, string maxbetNote) => maxbet.HasValue ? $"{maxbet / 1000}".TrimEnd('0').TrimEnd('.')+"K" : maxbetNote ;
+
+    public string FormatNoOfHdpMaxbet(string maxbetNoOfHdp, string maxbetNote)
+        => !string.IsNullOrWhiteSpace(maxbetNoOfHdp)? maxbetNoOfHdp : maxbetNote;
 }
 
 public class ConditionInfo
