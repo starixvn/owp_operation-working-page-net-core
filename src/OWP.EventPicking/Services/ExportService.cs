@@ -1,12 +1,5 @@
 using Epplus.Mapper.Extensions;
-using Microsoft.AspNetCore.Mvc;
-using OfficeOpenXml;
 using OWP.Constants;
-using OWP.EventPicking.Constant;
-using OWP.EventPicking.Helper;
-using OWP.EventPicking.Models;
-using OWP.Extensions;
-using OWP.Services;
 
 namespace OWP.EventPicking.Services;
 

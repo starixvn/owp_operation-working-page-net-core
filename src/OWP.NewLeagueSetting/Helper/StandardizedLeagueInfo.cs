@@ -33,6 +33,7 @@ public static partial class StandardizedLeagueInfo
         leagueInfo.FullConditionDescription = JsonConvert.SerializeObject(new LeagueSettingCondition
         {
             HasTv = hasTv,
+            HasIpTv = ipTv.Any(),
             IpTv = ipTv,
             Round = AnalyzeConditionString(excelInfo.Round?.Trim()),
             Division = AnalyzeConditionString(excelInfo.LeagueDivision?.Trim()),

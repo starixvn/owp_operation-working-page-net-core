@@ -1,5 +1,7 @@
 
 
+using System.Text.Json.Serialization;
+
 namespace OWP.EventPicking.Models;
 
 public class EventPickingModel : MaxbetSpread
