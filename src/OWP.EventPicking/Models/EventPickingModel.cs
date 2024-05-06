@@ -300,10 +300,11 @@ public class EventPickingModel
     // MaxBet & Spread
 
     // New setting
-    public decimal? Spread_HDP { get; set; }
+    public decimal? SpreadHdp { get; set; }
 
-    public decimal? Spread_OU { get; set; }
-    public decimal? Maxbet { get; set; }
+    public decimal? SpreadOu { get; set; }
+
+    public decimal? MaxbetHdp { get; set; }
 
     public string NoOfHDP { get; set; }
 

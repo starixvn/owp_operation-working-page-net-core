@@ -75,5 +75,11 @@ public class EventPickingController
     [HttpPost]
     public async Task<FileResult> ExportLSTFormat(ExportLSTFormatRequest request)
         => await mediator.Send(request);
+        
+         [HttpPost("edit-event-picking")]
+    [ServiceFilter(typeof(GetEventValidator))]
+    public async Task<object> EditEventPicking(EditEventPickingRequest request)
+       => await mediator.Send(request);
+
 
 }
