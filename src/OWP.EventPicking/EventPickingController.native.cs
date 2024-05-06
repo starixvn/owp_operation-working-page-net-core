@@ -70,4 +70,10 @@ public class EventPickingController
     [HttpPost]
     public async Task<FileResult> ExportExcel(ExportExcelRequest request)
     => await mediator.Send(request);
+
+    [Route("export-excel-lst-format")]
+    [HttpPost]
+    public async Task<FileResult> ExportLSTFormat(ExportLSTFormatRequest request)
+        => await mediator.Send(request);
+
 }

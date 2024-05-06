@@ -34,7 +34,34 @@ public class EventPickingModel
 
     public bool IsBlackList { get; set; }
 
-    public bool IsBlackListFromInfoSite { get; set; }
+    public bool IsLeagueBlackList { get; set; }
+
+    public bool IsHomeBlackList { get; set; }
+
+    public bool IsAwayBlackList { get; set; }
+
+    public List<string> InfoSiteBlackList
+    {
+        get
+        {
+            var blackList = new List<string>();
+
+            if (IsLeagueBlackList)
+            {
+                blackList.Add("League BlackList");
+            }
+            if (IsHomeBlackList)
+            {
+                blackList.Add("Home BlackList");
+            }
+            if (IsAwayBlackList)
+            {
+                blackList.Add("Away BlackList");
+            }
+
+            return blackList;
+        }
+    }
 
     [Cell("A2")]
     public string MatchNo { get; set; }
@@ -302,7 +329,7 @@ public class EventPickingModel
 
     [JsonIgnore]
     public TurnOverInfo TurnoverTwelveMonths { get; set; }
-    
+
     [JsonIgnore]
     public MarginInfo MarginOneMonth { get; set; }
 

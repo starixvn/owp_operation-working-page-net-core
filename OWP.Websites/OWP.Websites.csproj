@@ -25,6 +25,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="App_Data\Templates\EventPicking.xlsx" />
+    <None Remove="App_Data\Templates\Mismatch-LST format.xlsx" />
   </ItemGroup>
 
   <ItemGroup>

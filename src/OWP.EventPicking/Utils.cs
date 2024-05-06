@@ -12,6 +12,12 @@ public static class Utils
         return $"{currentDirectory}{Path.DirectorySeparatorChar}{templatePath}";
     }
 
+    public static string GetLSTFormatTemplate(string currentDirectory)
+    {
+        const string templatePath = @"App_Data/Templates/Mismatch-LST format.xlsx";
+        return $"{currentDirectory}{Path.DirectorySeparatorChar}{templatePath}";
+    }
+
     public static void CalculateValueTurnover_WinLoss(TurnOverWinLossModel turnover_winLoss,
     EventPickingModel match,
     string turnoverProperty,

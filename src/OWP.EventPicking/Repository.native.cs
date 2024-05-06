@@ -30,6 +30,8 @@ public interface Repository
     Task<List<Option>> GetUpdateType();
 
     Task UpdateConfirmed(UpdateConfirmedMatchCriteria updateConfirmedMatchCriteria);
+
+    Task<IEnumerable<ExportLSTFormat>> QueryEventPickingESTFormat(DateTime date );
 }
 
 public class RepositoryImp : Repository
@@ -143,4 +145,11 @@ public class RepositoryImp : Repository
 
     public async Task UpdateConfirmed(UpdateConfirmedMatchCriteria criteria)
     => await dynamicRepository.ExecuteAsync(criteria);
+
+    public async Task<IEnumerable<ExportLSTFormat>> QueryEventPickingESTFormat(DateTime date)
+    {
+        var criteria = new QueryEventPickingESTFormatCriteria { Date = date };
+        var matches = await dynamicRepository.FetchAsync<ExportLSTFormat>(criteria);
+        return matches;
+    }
 }

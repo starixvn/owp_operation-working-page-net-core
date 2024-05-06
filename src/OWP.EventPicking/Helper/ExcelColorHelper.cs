@@ -25,6 +25,25 @@ public static class ExcelColorHelper
         }
     }
 
+    public static void FillRowLSTFileColor(IList<ExportLSTFormat> matches, ExcelWorksheet templateSheet)
+    {
+        for (int i = 0, row = 2; i < matches.Count; i++, row++)
+        {
+            var match = matches[i];
+            for (var column = 1; column <= 35; column++)
+            {
+                if (match.RowColorHex == null || match.RowColorHex == Misc.Constant.ColorWhiteHex)
+                {
+                    continue;
+                }
+
+                var color = ColorTranslator.FromHtml(match.RowColorHex);
+                templateSheet.Cells[row, column].Style.Fill.SetBackground(color);
+            }
+        }
+    }
+
+
     public static void FillCellColor(IList<EventPickingModel> matches, ExcelWorksheet templateSheet)
     {
         for (int i = 0, row = Misc.Constant.START_ROW; i < matches.Count; i++, row++)
