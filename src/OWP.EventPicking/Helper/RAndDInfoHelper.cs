@@ -1,5 +1,4 @@
-﻿using OWP.EventPicking.Models;
-
+﻿
 namespace OWP.EventPicking.Helper;
 
 public static class RAndDInfoHelper

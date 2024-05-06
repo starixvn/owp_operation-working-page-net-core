@@ -1,11 +1,4 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Mvc;
-using OWP.EventPicking.Handlers;
-using OWP.EventPicking.Middleware;
-using OWP.EventPicking.Models;
-
-namespace OWP.EventPicking;
+﻿namespace OWP.EventPicking;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -75,11 +68,14 @@ public class EventPickingController
     [HttpPost]
     public async Task<FileResult> ExportLSTFormat(ExportLSTFormatRequest request)
         => await mediator.Send(request);
-        
-         [HttpPost("edit-event-picking")]
+
+    [HttpPost("edit-event-picking")]
     [ServiceFilter(typeof(GetEventValidator))]
     public async Task<object> EditEventPicking(EditEventPickingRequest request)
        => await mediator.Send(request);
 
-
+    [HttpPost("update-maxbet-spread")]
+    [ServiceFilter(typeof(GetEventValidator))]
+    public async Task<object> UpdateMaxbetSpread(UpdateMaxbetRequest request)
+          => await mediator.Send(request);
 }

@@ -1,6 +1,3 @@
-using MediatR;
-using OWP.EventPicking.Models;
-using OWP.EventPicking.Services;
 
 namespace OWP.EventPicking.Handlers;
 

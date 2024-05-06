@@ -1,6 +1,5 @@
-using OWP.EventPicking.Middleware.Models;
-using OWP.Middleware;
 
+using OWP.Middleware;
 namespace OWP.EventPicking.Middleware;
 
 public class GetEventValidator : AsyncFilter<EventPickingRequest>

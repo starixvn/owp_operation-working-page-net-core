@@ -1,18 +1,17 @@
 ﻿
-using Epplus.Mapper.Annotations;
-using OWP.Extensions;
+
 
 namespace OWP.EventPicking.Models;
 
 public class ExportLSTFormat
 {
     [Cell("A2")]
-    public int No { get; set;  }
+    public int No { get; set; }
 
     [Cell("AI2")]
     public int InfoSiteMatchId { get; set; }
 
-    public DateTime EventDateTime { get; set;  }
+    public DateTime EventDateTime { get; set; }
 
     [Cell("B2")]
     public string Time => EventDateTime.ToString("hh:mm tt");
@@ -63,13 +62,13 @@ public class ExportLSTFormat
     public string Website3 { get; set; }
 
     [Cell("AH2")]
-    public string Website4 { get; set;  }
+    public string Website4 { get; set; }
 
     public string Maxbet { get; set; }
 
     public string Spread { get; set; }
 
-    public string NoHDP { get; set;  }
+    public string NoHDP { get; set; }
 
     public string LSTNoted { get; set; }
 
@@ -79,9 +78,9 @@ public class ExportLSTFormat
 
     public string OU { get; set; }
 
-    public string H1ST { get; set;}
+    public string H1ST { get; set; }
 
-    public string H1x2 { get; set;}
+    public string H1x2 { get; set; }
 
     public string Min15MinOU { get; set; }
 
@@ -99,7 +98,7 @@ public class ExportLSTFormat
 
     public bool IsAwayBlackList { get; set; }
 
-    public bool IsNoOffer { get; set;  }
+    public bool IsNoOffer { get; set; }
 
     public bool IsTestMatch { get; set; }
 
@@ -109,10 +108,10 @@ public class ExportLSTFormat
 
     public string GetRawColor()
     {
-        var  color = Misc.Constant.ColorWhite;
+        var color = Misc.Constant.ColorWhite;
         if (IsAwayBlackList || IsHomeBlackList || IsLeagueBlackList)
         {
-            color =  Misc.Constant.ColorGray;
+            color = Misc.Constant.ColorGray;
         }
         if (IsNoOffer)
         {

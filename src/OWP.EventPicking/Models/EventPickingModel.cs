@@ -1,15 +1,9 @@
-using Epplus.Mapper.Annotations;
-using OWP.Extensions;
-using OWP.Utils;
-using System.Globalization;
-using System.Text.Json.Serialization;
+
 
 namespace OWP.EventPicking.Models;
 
-public class EventPickingModel
+public class EventPickingModel : MaxbetSpread
 {
-    public int InfoSiteMatchId { get; set; }
-
     public int? ChildMatchId { get; set; }
 
     public int? AdminSiteMatchId { get; set; }
@@ -299,16 +293,6 @@ public class EventPickingModel
 
     // MaxBet & Spread
 
-    // New setting
-    public decimal? SpreadHdp { get; set; }
-
-    public decimal? SpreadOu { get; set; }
-
-    public decimal? MaxbetHdp { get; set; }
-
-    public string NoOfHDP { get; set; }
-
-    // New setting
     public decimal? MaxBetHDPNumber { get; set; }
 
     public List<RAndDInfo> RAndDInfos { get; set; }

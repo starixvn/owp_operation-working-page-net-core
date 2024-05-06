@@ -1,12 +1,23 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace OWP.EventPicking
-{
-    public class GlobalUsing
-    {
-        
-    }
-}
+global using MediatR;
+global using OWP.EventPicking.Models;
+global using OWP.EventPicking.Services;
+global using Fanex.NAP.Client.Helpers.Web;
+global using OWP.EventPicking.Criteria;
+global using OWP.EventPicking.Middleware.Models;
+global using OWP.Services;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.Extensions.Options;
+global using OWP.Models;
+global using OWP.EventPicking.Helper;
+global using OWP.Extensions;
+global using OfficeOpenXml;
+global using OWP.EventPicking.Constant;
+global using System.Drawing;
+global using Newtonsoft.Json;
+global using Epplus.Mapper.Annotations;
+global using OWP.Utils;
+global using System.Globalization;
+global using System.Text.Json.Serialization;
+global using Microsoft.AspNetCore.Cors;
+global using OWP.EventPicking.Handlers;
+global using OWP.EventPicking.Middleware;
