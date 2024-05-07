@@ -171,11 +171,15 @@ public static partial class StandardizedLeagueInfo
             return condition;
         }
 
-        var splitConditionSource = conditionSource.Split("/").Where(c => c.Trim().Length > 0);
+        var splitConditionSource = conditionSource
+        .Split("/")
+        .Select(c => c.Trim())
+        .Where(c => c.Length > 0);
         foreach (var source in splitConditionSource)
         {
             var type = "Equals";
             var value = source;
+
             if (source.StartsWith('*') && source.EndsWith('*'))
             {
                 type = "Contains";
