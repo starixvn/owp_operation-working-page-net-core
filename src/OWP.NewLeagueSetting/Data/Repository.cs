@@ -10,6 +10,8 @@ public interface Repository
     Task<IEnumerable<LeagueSettingInfoSender>> QueryLeagueSetting(string league);
 
     Task<LeagueSettingInfoSender> QueryLeagueSettingDetail(int leagueSettingId);
+
+    Task UpdateLeagueSetting(UpdateLeagueSettingRequest request);
 }
 
 public class RepositoryImp : Repository
@@ -35,4 +37,31 @@ public class RepositoryImp : Repository
 
     public async Task<LeagueSettingInfoSender> QueryLeagueSettingDetail(int leagueSettingId)
         => await repository.GetAsync<LeagueSettingInfoSender>(new QueryLeagueSettingDetailCriteria { LeagueSettingId = leagueSettingId });
+
+    public async Task UpdateLeagueSetting(UpdateLeagueSettingRequest request)
+    {
+        var criteria = new UpdateLeagueSettingCriteria
+        {
+            Comment = request.Comment,
+            FullConditionDescription = request.FullConditionDescription,
+            LeagueGroupId = request.LeagueGroupId,
+            LeagueSettingId = request.LeagueSettingId,
+            LstNote = request.LstNote,
+            Remark2 = request.Remark2,
+            MaxbetWD_HDP_Note = request.MaxbetWD_HDP_Note,
+            MaxbetWD_HDP_value = request.MaxbetWD_HDP_value,
+            MaxbetWD_NoOfHDP_Note = request.MaxbetWD_NoOfHDP_Note,
+            MaxbetWD_NoOfHDP_value = request.MaxbetWD_NoOfHDP_value,
+            LeagueGroup = request.LeagueGroup,
+            MaxbetWK_HDP_Note = request.MaxbetWK_HDP_Note,
+            MaxbetWK_HDP_value = request.MaxbetWK_HDP_value,
+            MaxbetWK_NoOfHDP_Note = request.MaxbetWK_NoOfHDP_Note,
+            MaxbetWK_NoOfHDP_value = request.MaxbetWK_NoOfHDP_value,
+            OWPLeagueId = request.OWPLeagueId,
+            Spread_HDP_value = request.Spread_HDP_value,
+            Spread_Note = request.Spread_Note,
+            Spread_OU_value = request.Spread_OU_value
+        }; 
+        await repository.ExecuteAsync(criteria);
+    }
 }
