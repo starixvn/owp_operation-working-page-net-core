@@ -79,6 +79,6 @@ public class EventPickingController
         => await mediator.Send(request);
 
     [HttpPost("update-events")]
-    public async Task UpdateMaxbetSpread(UpdateEvents request)
+    public async Task UpdateMaxbetSpread(UpdateEventsRequest request)
           => await mediator.Send(request);
 }
