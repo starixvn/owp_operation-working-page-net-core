@@ -10,6 +10,8 @@ global using Olympus.Xml;
 global using OWP.NewLeagueSetting.Criteria;
 global using System.Text.RegularExpressions;
 global using Newtonsoft.Json;
+global using OWP.NewLeagueSetting.Data;
+global using OWP.NewLeagueSetting.Query;
 
 
 
