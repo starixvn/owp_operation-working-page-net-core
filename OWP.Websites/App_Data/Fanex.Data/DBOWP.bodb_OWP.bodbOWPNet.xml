@@ -359,6 +359,7 @@
 		<Setting Key="OWP_EventPicking_GetLogHistory" SpName="OWP_EventPicking_GetLogHistory" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
 		<Setting Key="OWP_EventPicking_UpdateConfirmed" SpName="OWP_EventPicking_UpdateConfirmed" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
     <Setting Key="OWP_EventPicking_GetInfoSiteMatchForLST" SpName="OWP_EventPicking_GetInfoSiteMatchForLST" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
+    <Setting Key="OWP_EventPicking_UpdateMaxbetSpread" SpName ="OWP_EventPicking_UpdateMaxbetSpread" DbName="DBOWP.bodb_OWP.wsv_owp" />
 	</Function>
     <Function Name="ProviderArrangement">
 		<Setting Key="OWP_ProviderArrangement_GetAllProvider" SpName="OWP_ProviderArrangement_GetAllProvider" DbName="DBOWP.bodb_OWP.wsv_owp" />
@@ -420,5 +421,5 @@
     <Setting Key="OWP_NewLeague_Init_Data" SpName ="OWP_NewLeague_Init_Data" DbName="DBOWP.bodb_OWP.wsv_owp" />
     <Setting Key="OWP_NewLeagueSetting_QueryAllLeagueSetting" SpName ="OWP_NewLeagueSetting_QueryAllLeagueSetting" DbName="DBOWP.bodb_OWP.wsv_owp" />
     <Setting Key="OWP_NewLeagueSetting_QueryLeagueSettingDetail" SpName ="OWP_NewLeagueSetting_QueryLeagueSettingDetail" DbName="DBOWP.bodb_OWP.wsv_owp" />
-    </Function>
+  </Function>
 </Functions>

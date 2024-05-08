@@ -1,9 +1,7 @@
 using Fanex.Data.Repository;
-using Fanex.NAP.Client.Helpers.Web;
+
 using Newtonsoft.Json;
-using OWP.EventPicking.Criteria;
-using OWP.EventPicking.Handlers;
-using OWP.EventPicking.Models;
+
 
 namespace OWP.EventPicking;
 
@@ -34,6 +32,8 @@ public interface Repository
     Task<IEnumerable<ExportLSTFormat>> QueryEventPickingESTFormat(DateTime date );
 
     Task<IEnumerable<LeagueSettingInfoSender>> QueryLeagueSetting();
+
+    Task UpdateEvent(UpdateMaxbetSpreadCriteria criteria);
 }
 
 public class RepositoryImp : Repository
@@ -157,4 +157,7 @@ public class RepositoryImp : Repository
 
     public async Task<IEnumerable<LeagueSettingInfoSender>> QueryLeagueSetting()
         => await dynamicRepository.FetchAsync<LeagueSettingInfoSender>(new GetNewLeagueSettingCriteria ());
+
+    public async Task UpdateEvent(UpdateMaxbetSpreadCriteria criteria)
+        => await dynamicRepository.ExecuteAsync(criteria);
 }
