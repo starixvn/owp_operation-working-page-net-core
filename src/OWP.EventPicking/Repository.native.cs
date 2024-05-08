@@ -32,6 +32,8 @@ public interface Repository
     Task UpdateConfirmed(UpdateConfirmedMatchCriteria updateConfirmedMatchCriteria);
 
     Task<IEnumerable<ExportLSTFormat>> QueryEventPickingESTFormat(DateTime date );
+
+    Task<IEnumerable<LeagueSettingInfoSender>> QueryLeagueSetting();
 }
 
 public class RepositoryImp : Repository
@@ -152,4 +154,7 @@ public class RepositoryImp : Repository
         var matches = await dynamicRepository.FetchAsync<ExportLSTFormat>(criteria);
         return matches;
     }
+
+    public async Task<IEnumerable<LeagueSettingInfoSender>> QueryLeagueSetting()
+        => await dynamicRepository.FetchAsync<LeagueSettingInfoSender>(new GetNewLeagueSettingCriteria ());
 }
