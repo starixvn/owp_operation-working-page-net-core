@@ -44,29 +44,29 @@ public static class StandardizedLeagueInfo
     public static void BuildSpread(LeagueSettingCore leagueInfo, string ftSpread)
     {
         (decimal? spreadHdp, decimal? spreadOu, string spreadSource) = AnalyzeSpreadFT(ftSpread?.Trim());
-        leagueInfo.Spread_HDP_value = spreadHdp;
-        leagueInfo.Spread_OU_value = spreadOu;
+        leagueInfo.Spread_HDP_Value = spreadHdp;
+        leagueInfo.Spread_OU_Value = spreadOu;
         leagueInfo.Spread_Note = spreadSource;
     }
     public static void BuildMaxbet(LeagueSettingCore leagueInfo, string WD_HDP, string WK_HDP)
     {
         (decimal? maxbetWd, string maxbetSourceWd) = AnalyzeMaxbet(WD_HDP?.Trim());
-        leagueInfo.MaxbetWD_HDP_value = maxbetWd;
+        leagueInfo.MaxbetWD_HDP_Value = maxbetWd;
         leagueInfo.MaxbetWD_HDP_Note = maxbetSourceWd;
 
         (decimal? maxbetWk, string maxbetSourceWk) = AnalyzeMaxbet(WK_HDP?.Trim());
-        leagueInfo.MaxbetWK_HDP_value = maxbetWk;
+        leagueInfo.MaxbetWK_HDP_Value = maxbetWk;
         leagueInfo.MaxbetWK_HDP_Note = maxbetSourceWk;
     }
 
     public static void BuildNoHdp(LeagueSettingCore leagueInfo, string WD_NO_HDP, string WK_NO_HDP)
     {
         (string noHdpWd, string noHdpWdSource) = AnalyzeNoHdp(WD_NO_HDP?.Trim());
-        leagueInfo.WD_NoOfHDP_value = noHdpWd;
+        leagueInfo.WD_NoOfHDP_Value = noHdpWd;
         leagueInfo.WD_NoOfHDP_Note = noHdpWdSource;
 
         (string noHdpWk, string noHdpWkSource) = AnalyzeNoHdp(WK_NO_HDP?.Trim());
-        leagueInfo.WK_NoOfHDP_value = noHdpWk;
+        leagueInfo.WK_NoOfHDP_Value = noHdpWk;
         leagueInfo.WK_NoOfHDP_Note = noHdpWkSource;
     }
 
