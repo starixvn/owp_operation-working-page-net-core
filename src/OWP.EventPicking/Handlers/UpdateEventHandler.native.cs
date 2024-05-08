@@ -1,4 +1,7 @@
 
+using System.Xml;
+using Olympus.Xml;
+
 namespace OWP.EventPicking.Handlers;
 
 public class UpdateEventsRequest : IRequest<Unit>
@@ -20,16 +23,13 @@ public class UpdateMaxbetHandler : IRequestHandler<UpdateEventsRequest, Unit>
 
     public async Task<Unit> Handle(UpdateEventsRequest request, CancellationToken cancellationToken)
     {
+        var xml = XmlConverter.Serialize(request.Events);
         var criteria = new UpdateMaxbetSpreadCriteria
         {
-            InfoSiteMatchId = request.InfoSiteMatchId,
-            MaxbetHdp = request.MaxbetHdp,
-            NoOfHDP = request.NoOfHDP,
-            SpreadHdp = request.SpreadHdp,
-            SpreadOu = request.SpreadOu,
+            Xml = xml,
             ActorId = session.UserId
         };
-         await repository.UpdateEvent(criteria);
+        await repository.UpdateEvent(criteria);
 
          return Unit.Value;
     }

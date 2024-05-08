@@ -3,15 +3,7 @@
 namespace OWP.EventPicking.Criteria;
 public class UpdateMaxbetSpreadCriteria : NonQueryCommand
 {
-    public int InfoSiteMatchId { get; set; }
-
-    public decimal? SpreadHdp { get; set; }
-
-    public decimal? SpreadOu { get; set; }
-
-    public decimal? MaxbetHdp { get; set; }
-
-    public string NoOfHDP { get; set; }
+    public string Xml { get; set; }
 
     public int ActorId { get; set; }
 
