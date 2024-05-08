@@ -24,7 +24,7 @@ public class EventPickingController
     }
 
     [HttpPost("query-event-picking-edit-mode")]
-    
+
     public async Task<IActionResult> QueryEventPickingEditMode(EditEventPickingRequest request)
     {
         var result = await mediator.Send(request);
@@ -78,8 +78,7 @@ public class EventPickingController
     public async Task<FileResult> ExportLSTFormat(ExportLSTFormatRequest request)
         => await mediator.Send(request);
 
-    [HttpPost("update-maxbet-spread")]
-    [ServiceFilter(typeof(GetEventValidator))]
-    public async Task<object> UpdateMaxbetSpread(UpdateMaxbetRequest request)
+    [HttpPost("update-events")]
+    public async Task UpdateMaxbetSpread(UpdateEvents request)
           => await mediator.Send(request);
 }

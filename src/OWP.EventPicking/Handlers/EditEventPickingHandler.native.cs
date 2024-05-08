@@ -20,7 +20,8 @@ public class EditEventPickingHandler : IRequestHandler<EditEventPickingRequest, 
     {
         // TODO
         var eventPickingMatches = await service.Execute(request);
-        var unKnowMaxbetMatches = eventPickingMatches.MatchesByDate.ToList().Where(x => x.MaxbetHdp == null).ToList();
+        return eventPickingMatches;
+        /* var unKnowMaxbetMatches = eventPickingMatches.MatchesByDate.ToList().Where(x => x.MaxbetHdp == null).ToList();
 
         var leagueSetting = (await repository.QueryLeagueSetting()).ToList();
 
@@ -52,7 +53,7 @@ public class EditEventPickingHandler : IRequestHandler<EditEventPickingRequest, 
         }
 
         var test = unKnowMaxbetMatches.Where(x => x.MaxbetHdp != null);
-        return await service.Execute(request);
+        return await service.Execute(request); */
     }
 
     private static bool IsWeekend(DateTime eventDateTime)
