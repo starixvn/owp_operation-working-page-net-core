@@ -62,12 +62,12 @@ public static class StandardizedLeagueInfo
     public static void BuildNoHdp(LeagueSettingCore leagueInfo, string WD_NO_HDP, string WK_NO_HDP)
     {
         (string noHdpWd, string noHdpWdSource) = AnalyzeNoHdp(WD_NO_HDP?.Trim());
-        leagueInfo.MaxbetWD_NoOfHDP_value = noHdpWd;
-        leagueInfo.MaxbetWD_NoOfHDP_Note = noHdpWdSource;
+        leagueInfo.WD_NoOfHDP_value = noHdpWd;
+        leagueInfo.WD_NoOfHDP_Note = noHdpWdSource;
 
         (string noHdpWk, string noHdpWkSource) = AnalyzeNoHdp(WK_NO_HDP?.Trim());
-        leagueInfo.MaxbetWK_NoOfHDP_value = noHdpWk;
-        leagueInfo.MaxbetWK_NoOfHDP_Note = noHdpWkSource;
+        leagueInfo.WK_NoOfHDP_value = noHdpWk;
+        leagueInfo.WK_NoOfHDP_Note = noHdpWkSource;
     }
 
     private static void BuildComment(LeagueSettingInfo leagueInfo, LeagueSettingExcelInfo excelInfo)
