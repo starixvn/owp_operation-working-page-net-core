@@ -1,4 +1,6 @@
 
+using MediatR;
+
 namespace OWP.EventPicking.Handlers;
 
 public class EditEventPickingRequest : EventPickingRequest, IRequest<EventPickingResult>
@@ -18,43 +20,82 @@ public class EditEventPickingHandler : IRequestHandler<EditEventPickingRequest, 
 
     public async Task<EventPickingResult> Handle(EditEventPickingRequest request, CancellationToken cancellationToken)
     {
-        // TODO
-        var eventPickingMatches = await service.Execute(request);
-        return eventPickingMatches;
-        /* var unKnowMaxbetMatches = eventPickingMatches.MatchesByDate.ToList().Where(x => x.MaxbetHdp == null).ToList();
+        var mainMatches = await service.Execute(request);
 
+        var matchFiltered = mainMatches.FilteredMatches;
+        
         var leagueSetting = (await repository.QueryLeagueSetting()).ToList();
 
-        foreach (var match in unKnowMaxbetMatches)
+        var tvList = (await repository.GetTVList()).ToList();
+
+        foreach (var match in matchFiltered)
         {
             var leagueSettings = leagueSetting.Where(x => x.OWPLeagueId == match.OWPLeagueId).ToList();
-
-            if (leagueSettings.Any())
+            var flag = 0;
+            foreach (var league in leagueSettings)
             {
-                foreach (var league in leagueSettings)
+                if (CheckMatchValidMappingWithLeagueManagement(match, league, tvList) && match.MaxbetHdp == null)
                 {
-                    var roundContains = league.Condition.Round.Where(x => x.Type == "Contains").Select(x=> x.Value).ToList();
-                    var roundEquals = league.Condition.Round.Where(x => x.Type != "Contains").Select(x => x.Value).ToList();
-                    var con1 = league.Condition.Round.Count == 0 && match.Round.Length == 0;
-                    var con2 = roundContains.Any(x => match.Round.Contains(x)) ||
-                               roundEquals.Any(x => x.Equals(match.Round));
-                    var divisionContains = league.Condition.Division.Where(x => x.Type == "Contains").Select(x => x.Value).ToList();
-                    var divisionEquals = league.Condition.Division.Where(x => x.Type != "Contains").Select(x => x.Value).ToList();
-                    var con3 = league.Condition.Division.Count == 0 && match.Division.Length == 0;
-                    var con4 = divisionContains.Any(x => match.Round.Contains(x)) ||
-                               divisionEquals.Any(x => x.Equals(match.Round));
-                    if ((con1 && con3) || (con2 && con4))
-                    {
-                        match.MaxbetHdp = IsWeekend(match.EventDateTime ) ? league.MaxbetWK_HDP_value : league.MaxbetWD_HDP_value;
-                    }
-
+                    flag += 1;
+                    match.MaxbetHdp = IsWeekend(match.EventDateTime) ? league.MaxbetWK_HDP_Value : league.MaxbetWD_HDP_Value;
                 }
+            }
+
+            if (flag > 1)
+            {
+                match.MaxbetHdp = null;
             }
         }
 
-        var test = unKnowMaxbetMatches.Where(x => x.MaxbetHdp != null);
-        return await service.Execute(request); */
+        return new EventPickingResult
+        {
+            MatchesByDate = mainMatches.MatchesByDate,
+            FilteredMatches = matchFiltered
+        };
     }
+
+    private bool CheckTvConditions(EventPickingModel match, LeagueSettingInfoSender leagueSetting, IList<Condition> tvList)
+    {
+        var tvContains = GetValueContains(tvList);
+        var tvEqual = GetValueEquals(tvList);
+        var checkTv = !leagueSetting.Condition.HasTv || tvContains.Any(x => x.Contains(match.TV)) || tvEqual.Any((x=>x.Equals(match.TV)));
+        
+        var checkIptv = false;
+        if (leagueSetting.Condition.HasIpTv)
+        {
+            var iptvContains = GetValueContains(leagueSetting.Condition.IpTv);
+            var iptvEquals = GetValueEquals(leagueSetting.Condition.IpTv);
+            checkIptv = iptvContains.Any(x => match.Iptv.Contains(x)) || iptvEquals.Any(x => match.Iptv.Equals(x));
+        }
+        return checkTv || checkIptv;
+    }
+
+    private bool CheckRoundOrDivisionConditions(string matchValues, IList<Condition> conditions)
+    {
+        var containsValues = GetValueContains(conditions);
+        var equalsValues = GetValueEquals(conditions);
+
+        var isEmptyBoth = conditions.Count == 0 && matchValues.Length == 0;
+        var isContains = containsValues.Any(x => matchValues.Contains(x, StringComparison.CurrentCultureIgnoreCase));
+        var isEquals = equalsValues.Any(x => x.Equals(matchValues, StringComparison.CurrentCultureIgnoreCase));
+        return isEmptyBoth || isContains || isEquals;
+    }
+
+    private bool CheckMatchValidMappingWithLeagueManagement(EventPickingModel match, LeagueSettingInfoSender leagueSetting, IList<Condition> tvList)
+    {
+        var roundConditions = CheckRoundOrDivisionConditions(match.Round, leagueSetting.Condition.Round);
+        var divisionConditions = CheckRoundOrDivisionConditions(match.Division, leagueSetting.Condition.Division);
+        var tvConditions = CheckTvConditions(match, leagueSetting, tvList);
+
+        return roundConditions && divisionConditions && tvConditions;
+    }
+
+
+    private static IList<string> GetValueContains(IList<Condition> conditions)
+        => conditions.Where(x => x.Type == "Contains").Select(x => x.Value).ToList();
+
+    private static IList<string> GetValueEquals(IList<Condition> conditions)
+        => conditions.Where(x => x.Type == "Equals").Select(x => x.Value).ToList();
 
     private static bool IsWeekend(DateTime eventDateTime)
     {
@@ -62,6 +103,5 @@ public class EditEventPickingHandler : IRequestHandler<EditEventPickingRequest, 
         var isWeekend = eventDate.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday;
         return isWeekend;
     }
-
 
 }

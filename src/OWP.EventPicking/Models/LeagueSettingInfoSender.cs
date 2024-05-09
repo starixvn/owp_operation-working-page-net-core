@@ -3,6 +3,28 @@
 namespace OWP.EventPicking.Models;
 public class LeagueSettingInfo
 {
+    public decimal? Spread_HDP_Value { get; set; } = default!;
+
+    public decimal? Spread_OU_Value { get; set; } = default!;
+
+    public string Spread_Note { get; set; } = default!;
+
+    public decimal? MaxbetWD_HDP_Value { get; set; } = default!;
+
+    public string MaxbetWD_HDP_Note { get; set; } = default!;
+
+    public string WD_NoOfHDP_Value { get; set; } = default!;
+
+    public string WD_NoOfHDP_Note { get; set; } = default!;
+
+    public decimal? MaxbetWK_HDP_Value { get; set; } = default!;
+
+    public string MaxbetWK_HDP_Note { get; set; } = default!;
+
+    public string WK_NoOfHDP_Value { get; set; } = default!;
+
+    public string WK_NoOfHDP_Note { get; set; } = default!;
+
     public string LeagueGroup { get; set; } = default!;
 
     public string LeagueGroupNote { get; set; } = default!;
@@ -10,28 +32,6 @@ public class LeagueSettingInfo
     public string League { get; set; } = default!;
 
     public string FullConditionDescription { get; set; } = default!;
-
-    public decimal? Spread_HDP_value { get; set; } = default!;
-
-    public decimal? Spread_OU_value { get; set; } = default!;
-
-    public string Spread_Note { get; set; } = default!;
-
-    public decimal? MaxbetWD_HDP_value { get; set; } = default!;
-
-    public string MaxbetWD_HDP_Note { get; set; } = default!;
-
-    public string MaxbetWD_NoOfHDP_value { get; set; } = default!;
-
-    public string MaxbetWD_NoOfHDP_Note { get; set; } = default!;
-
-    public decimal? MaxbetWK_HDP_value { get; set; } = default!;
-
-    public string MaxbetWK_HDP_Note { get; set; } = default!;
-
-    public string MaxbetWK_NoOfHDP_value { get; set; } = default!;
-
-    public string MaxbetWK_NoOfHDP_Note { get; set; } = default!;
 
     public string Comment { get; set; } = default!;
 
@@ -49,19 +49,19 @@ public class LeagueSettingInfoSender : LeagueSettingInfo
 
     public int LeagueGroupId { get; set; } = default!;
 
-    public string MaxbetWD_HDP_Show => FormatMaxbet(MaxbetWD_HDP_value, MaxbetWD_HDP_Note);
+    public string MaxbetWD_HDP_Show => FormatMaxbet(MaxbetWD_HDP_Value, MaxbetWD_HDP_Note);
 
-    public string MaxbetWK_HDP_Show => FormatMaxbet(MaxbetWK_HDP_value, MaxbetWK_HDP_Note);
+    public string MaxbetWK_HDP_Show => FormatMaxbet(MaxbetWK_HDP_Value, MaxbetWK_HDP_Note);
 
-    public string MaxbetWD_NoOfHDP_Show => FormatNoOfHdpMaxbet(MaxbetWD_NoOfHDP_value, MaxbetWD_NoOfHDP_Note);
+    public string MaxbetWD_NoOfHDP_Show => FormatNoOfHdpMaxbet(WD_NoOfHDP_Value, WD_NoOfHDP_Note);
 
-    public string MaxbetWK_NoOfHDP_Show => FormatNoOfHdpMaxbet(MaxbetWK_NoOfHDP_value, MaxbetWK_NoOfHDP_Note);
+    public string MaxbetWK_NoOfHDP_Show => FormatNoOfHdpMaxbet(WK_NoOfHDP_Value, WK_NoOfHDP_Note);
 
-    public ConditionInfo Condition => JsonConvert.DeserializeObject<ConditionInfo>(FullConditionDescription);
+    public NewLeagueSettingCondition Condition => JsonConvert.DeserializeObject<NewLeagueSettingCondition>(FullConditionDescription);
 
-    public string FormatMaxbet(decimal? maxbet, string maxbetNote) => maxbet.HasValue ? $"{maxbet / 1000}".TrimEnd('0').TrimEnd('.') + "K" : maxbetNote;
+    public static string FormatMaxbet(decimal? maxbet, string maxbetNote) => maxbet.HasValue ? $"{maxbet / 1000}".TrimEnd('0').TrimEnd('.') + "K" : maxbetNote;
 
-    public string FormatNoOfHdpMaxbet(string maxbetNoOfHdp, string maxbetNote)
+    public static string FormatNoOfHdpMaxbet(string maxbetNoOfHdp, string maxbetNote)
         => !string.IsNullOrWhiteSpace(maxbetNoOfHdp) ? maxbetNoOfHdp : maxbetNote;
 }
 
@@ -79,4 +79,19 @@ public class ConditionInfo
 
     public string Remark { get; set; }
 
+}
+
+public class NewLeagueSettingCondition
+{
+    public bool HasTv { get; set; }
+
+    public bool HasIpTv { get; set; }
+
+    public IList<Condition> IpTv { get; set; }
+
+    public IList<Condition> Round { get; set; }
+
+    public IList<Condition> Division { get; set; }
+
+    public string Remark { get; set; }
 }
