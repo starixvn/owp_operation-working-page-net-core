@@ -31,7 +31,7 @@ public class UpdateMaxbetHandler : IRequestHandler<UpdateEventsRequest, Unit>
         };
         await repository.UpdateEvent(criteria);
 
-         return Unit.Value;
+        return Unit.Value;
     }
 
 }

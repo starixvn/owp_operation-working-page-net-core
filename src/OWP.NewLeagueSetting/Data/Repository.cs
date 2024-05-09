@@ -1,5 +1,6 @@
 
-using OWP.NewLeagueSetting.Query;
+using OWP.NewLeagueSetting.Command;
+
 
 namespace OWP.NewLeagueSetting.Data;
 
@@ -11,7 +12,7 @@ public interface Repository
 
     Task<LeagueSettingInfoSender> QueryLeagueSettingDetail(int leagueSettingId);
 
-    Task UpdateLeagueSetting(UpdateLeagueSettingRequest request);
+    Task UpdateLeagueSetting(UpdateLeagueSettingRequest request, int actorId );
 }
 
 public class RepositoryImp : Repository
@@ -38,7 +39,7 @@ public class RepositoryImp : Repository
     public async Task<LeagueSettingInfoSender> QueryLeagueSettingDetail(int leagueSettingId)
         => await repository.GetAsync<LeagueSettingInfoSender>(new QueryLeagueSettingDetailCriteria { LeagueSettingId = leagueSettingId });
 
-    public async Task UpdateLeagueSetting(UpdateLeagueSettingRequest request)
+    public async Task UpdateLeagueSetting(UpdateLeagueSettingRequest request, int actorId)
     {
         var criteria = new UpdateLeagueSettingCriteria
         {
@@ -49,18 +50,19 @@ public class RepositoryImp : Repository
             LstNote = request.LstNote,
             Remark2 = request.Remark2,
             MaxbetWD_HDP_Note = request.MaxbetWD_HDP_Note,
-            MaxbetWD_HDP_value = request.MaxbetWD_HDP_Value,
-            MaxbetWD_NoOfHDP_Note = request.WD_NoOfHDP_Note,
-            MaxbetWD_NoOfHDP_value = request.WD_NoOfHDP_Value,
+            MaxbetWD_HDP_Value = request.MaxbetWD_HDP_Value,
+            WD_NoOfHDP_Note = request.WD_NoOfHDP_Note,
+            WD_NoOfHDP_Value = request.WD_NoOfHDP_Value,
             LeagueGroup = request.LeagueGroup,
             MaxbetWK_HDP_Note = request.MaxbetWK_HDP_Note,
-            MaxbetWK_HDP_value = request.MaxbetWK_HDP_Value,
-            MaxbetWK_NoOfHDP_Note = request.WK_NoOfHDP_Note,
-            MaxbetWK_NoOfHDP_value = request.WK_NoOfHDP_Value,
+            MaxbetWK_HDP_Value = request.MaxbetWK_HDP_Value,
+            WK_NoOfHDP_Note = request.WK_NoOfHDP_Note,
+            WK_NoOfHDP_Value = request.WK_NoOfHDP_Value,
             OWPLeagueId = request.OWPLeagueId,
-            Spread_HDP_value = request.Spread_HDP_Value,
+            Spread_HDP_Value = request.Spread_HDP_Value,
             Spread_Note = request.Spread_Note,
-            Spread_OU_value = request.Spread_OU_Value
+            Spread_OU_Value = request.Spread_OU_Value,
+            ActorId = actorId
         };
         await repository.ExecuteAsync(criteria);
     }

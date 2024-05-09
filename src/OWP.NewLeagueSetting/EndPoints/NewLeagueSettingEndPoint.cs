@@ -1,4 +1,6 @@
 ﻿
+using OWP.NewLeagueSetting.Command;
+
 namespace OWP.NewLeagueSetting.EndPoints;
 public class NewLeagueSettingEndPoint : ICarterModule
 {
@@ -24,9 +26,9 @@ public class NewLeagueSettingEndPoint : ICarterModule
             return Results.Json(result);
         });
 
-        groupEndpoint.MapGet("/editLeagueSetting", async (int leagueSettingId, ISender sender) =>
+        groupEndpoint.MapPost("/editLeagueSetting", async (UpdateLeagueSettingRequest request , ISender sender) =>
         {
-            var result = await sender.Send(new QueryLeagueSettingDetailRequest(leagueSettingId));
+            var result = await sender.Send(request);
             return Results.Json(result);
         });
     }

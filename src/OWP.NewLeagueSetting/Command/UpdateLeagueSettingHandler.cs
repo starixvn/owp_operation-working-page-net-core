@@ -1,10 +1,9 @@
 ﻿
 
-
-using OWP.NewLeagueSetting.Data;
+using Fanex.NAP.Client.Helpers.Web;
 using OWP.NewLeagueSetting.Helper;
 
-namespace OWP.NewLeagueSetting.Query;
+namespace OWP.NewLeagueSetting.Command;
 
 public class UpdateLeagueSettingRequest :LeagueSettingCore, IRequest<Unit>
 {
@@ -20,11 +19,11 @@ public class UpdateLeagueSettingRequest :LeagueSettingCore, IRequest<Unit>
 
     public string MaxbetWD_HDP { get; set; }
 
-    public string MaxbetWD_NoOfHDP { get; set; }
+    public string WD_NoOfHDP { get; set; }
 
     public string MaxbetWK_HDP { get; set; }
 
-    public string MaxbetWK_NoOfHDP { get; set; }
+    public string WK_NoOfHDP { get; set; }
 
     public string LstNote { get; set; }
 
@@ -58,17 +57,20 @@ public class UpdateLeagueSettingRequest :LeagueSettingCore, IRequest<Unit>
 public class UpdateLeagueSettingHandler: IRequestHandler<UpdateLeagueSettingRequest, Unit>
 {
     private readonly Repository repository;
-    public UpdateLeagueSettingHandler(Repository repository)
+
+    private readonly INapSession session;
+
+    public UpdateLeagueSettingHandler(Repository repository, INapSession session)
     {
         this.repository = repository;
+        this.session = session;
     }
-
     public async Task<Unit> Handle(UpdateLeagueSettingRequest request, CancellationToken cancellationToken)
     { 
         StandardizedLeagueInfo.BuildMaxbet(request, request.MaxbetWD_HDP, request.MaxbetWK_HDP);
-        StandardizedLeagueInfo.BuildNoHdp(request,request.MaxbetWD_NoOfHDP, request.MaxbetWK_NoOfHDP );
+        StandardizedLeagueInfo.BuildNoHdp(request,request.WD_NoOfHDP, request.WK_NoOfHDP );
         StandardizedLeagueInfo.BuildSpread(request,request.Spread);
-        await repository.UpdateLeagueSetting(request);
+        await repository.UpdateLeagueSetting(request, session.UserId);
        return Unit.Value;
     }
 }
