@@ -13,6 +13,8 @@ public interface Repository
     Task<LeagueSettingInfoSender> QueryLeagueSettingDetail(int leagueSettingId);
 
     Task UpdateLeagueSetting(UpdateLeagueSettingRequest request, int actorId );
+
+    Task<IEnumerable<LeagueSettingInfoSender>> QueryLeagueSettingByOwpLeagueId(int owpLeagueId);
 }
 
 public class RepositoryImp : Repository
@@ -66,4 +68,7 @@ public class RepositoryImp : Repository
         };
         await repository.ExecuteAsync(criteria);
     }
+
+    public async Task<IEnumerable<LeagueSettingInfoSender>> QueryLeagueSettingByOwpLeagueId(int owpLeagueId)
+        => await repository.FetchAsync<LeagueSettingInfoSender>(new QueryLeagueSettingByLeagueIdCriteria { OwpLeagueId = owpLeagueId });
 }

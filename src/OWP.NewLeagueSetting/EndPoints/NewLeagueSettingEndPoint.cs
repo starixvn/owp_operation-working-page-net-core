@@ -26,6 +26,12 @@ public class NewLeagueSettingEndPoint : ICarterModule
             return Results.Json(result);
         });
 
+        groupEndpoint.MapGet("/get-league-setting-by-owpLeagueId", async (int owpLeagueId, ISender sender) =>
+        {
+            var result = await sender.Send(new GetLeagueSettingByLeagueIdRequest(owpLeagueId));
+            return Results.Json(result);
+        });
+
         groupEndpoint.MapPost("/editLeagueSetting", async (UpdateLeagueSettingRequest request , ISender sender) =>
         {
             var result = await sender.Send(request);
