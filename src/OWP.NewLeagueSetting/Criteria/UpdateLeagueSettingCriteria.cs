@@ -7,8 +7,6 @@ public class UpdateLeagueSettingCriteria: NonQueryCommand
 
     public int LeagueGroupId { get; set; }
 
-    public string LeagueGroup { get; set; }
-
     public decimal? Spread_HDP_Value { get; set; } = default!;
 
     public decimal? Spread_OU_Value { get; set; } = default!;

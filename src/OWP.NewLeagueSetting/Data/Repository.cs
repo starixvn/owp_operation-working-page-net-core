@@ -55,7 +55,6 @@ public class RepositoryImp : Repository
             MaxbetWD_HDP_Value = request.MaxbetWD_HDP_Value,
             WD_NoOfHDP_Note = request.WD_NoOfHDP_Note,
             WD_NoOfHDP_Value = request.WD_NoOfHDP_Value,
-            LeagueGroup = request.LeagueGroup,
             MaxbetWK_HDP_Note = request.MaxbetWK_HDP_Note,
             MaxbetWK_HDP_Value = request.MaxbetWK_HDP_Value,
             WK_NoOfHDP_Note = request.WK_NoOfHDP_Note,
