@@ -19,7 +19,7 @@ public class InitDataHandler : IRequestHandler<InitDataRequest, IList<LeagueSett
 
         var settingInfo = StandardizedLeagueInfo.Execute(dataExcel);
 
-        await InitData(settingInfo, cancellationToken);
+        //await InitData(settingInfo, cancellationToken);
         return settingInfo;
     }
 
