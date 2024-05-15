@@ -79,51 +79,51 @@ public static class StandardizedLeagueInfo
         }
         if (!string.IsNullOrWhiteSpace(excelInfo.LeagueNote))
         {
-            comment = $"{Environment.NewLine}{Environment.NewLine}[League]{Environment.NewLine}{excelInfo.LeagueNote}";
+            comment = $"{comment}{Environment.NewLine}{Environment.NewLine}[League]{Environment.NewLine}{excelInfo.LeagueNote}";
         }
         if (!string.IsNullOrWhiteSpace(excelInfo.LocalTvNote))
         {
-            comment = $"{Environment.NewLine}{Environment.NewLine}[Condition - TV]{Environment.NewLine}{excelInfo.LocalTvNote}";
+            comment = $"{comment}{Environment.NewLine}{Environment.NewLine}[Condition - TV]{Environment.NewLine}{excelInfo.LocalTvNote}";
         }
         if (!string.IsNullOrWhiteSpace(excelInfo.RoundNote))
         {
-            comment = $"{Environment.NewLine}{Environment.NewLine}[Condition - Round]{Environment.NewLine}{excelInfo.RoundNote}";
+            comment = $"{comment}{Environment.NewLine}{Environment.NewLine}[Condition - Round]{Environment.NewLine}{excelInfo.RoundNote}";
         }
         if (!string.IsNullOrWhiteSpace(excelInfo.LeagueDivisionNote))
         {
-            comment = $"{Environment.NewLine}{Environment.NewLine}[Condition- League Division]{Environment.NewLine}{excelInfo.LeagueDivisionNote}";
+            comment = $"{comment}{Environment.NewLine}{Environment.NewLine}[Condition- League Division]{Environment.NewLine}{excelInfo.LeagueDivisionNote}";
         }
         if (!string.IsNullOrWhiteSpace(excelInfo.RemarkNote))
         {
-            comment = $"{Environment.NewLine}{Environment.NewLine}[Condition - Remark]{Environment.NewLine}{excelInfo.RemarkNote}";
+            comment = $"{comment}{Environment.NewLine}{Environment.NewLine}[Condition - Remark]{Environment.NewLine}{excelInfo.RemarkNote}";
         }
         if (!string.IsNullOrWhiteSpace(excelInfo.FTSpreadNote))
         {
-            comment = $"{Environment.NewLine}{Environment.NewLine}[Spread(%)]{Environment.NewLine}{excelInfo.FTSpreadNote}";
+            comment = $"{comment}{Environment.NewLine}{Environment.NewLine}[Spread(%)]{Environment.NewLine}{excelInfo.FTSpreadNote}";
         }
         if (!string.IsNullOrWhiteSpace(excelInfo.WD_HDPNote))
         {
-            comment = $"{Environment.NewLine}{Environment.NewLine}[MB Weekday - HDP(K)]{Environment.NewLine}{excelInfo.WD_HDPNote}";
+            comment = $"{comment}{Environment.NewLine}{Environment.NewLine}[MB Weekday - HDP(K)]{Environment.NewLine}{excelInfo.WD_HDPNote}";
         }
         if (!string.IsNullOrWhiteSpace(excelInfo.WD_NO_HDPNote))
         {
-            comment = $"{Environment.NewLine}{Environment.NewLine}[MB Weekday - NO.HDP]{Environment.NewLine}{excelInfo.WD_NO_HDPNote}";
+            comment = $"{comment}{Environment.NewLine}{Environment.NewLine}[MB Weekday - NO.HDP]{Environment.NewLine}{excelInfo.WD_NO_HDPNote}";
         }
         if (!string.IsNullOrWhiteSpace(excelInfo.WK_HDPNote))
         {
-            comment = $"{Environment.NewLine}{Environment.NewLine}[MB Weekend - HDP(K)]{Environment.NewLine}{excelInfo.WK_HDPNote}";
+            comment = $"{comment}{Environment.NewLine}{Environment.NewLine}[MB Weekend - HDP(K)]{Environment.NewLine}{excelInfo.WK_HDPNote}";
         }
         if (!string.IsNullOrWhiteSpace(excelInfo.WK_NO_HDPNote))
         {
-            comment = $"{Environment.NewLine}{Environment.NewLine}[MB Weekend - NO.HDP]{Environment.NewLine}{excelInfo.WK_NO_HDPNote}";
+            comment = $"{comment}{Environment.NewLine}{Environment.NewLine}[MB Weekend - NO.HDP]{Environment.NewLine}{excelInfo.WK_NO_HDPNote}";
         }
         if (!string.IsNullOrWhiteSpace(excelInfo.LstNoteNote))
         {
-            comment = $"{Environment.NewLine}{Environment.NewLine}[Display in Mismatch file - LST Note (Show under League)]{Environment.NewLine}{excelInfo.LstNoteNote}";
+            comment = $"{comment}{Environment.NewLine}{Environment.NewLine}[Display in Mismatch file - LST Note (Show under League)]{Environment.NewLine}{excelInfo.LstNoteNote}";
         }
         if (!string.IsNullOrWhiteSpace(excelInfo.Remark2Note))
         {
-            comment = $"{Environment.NewLine}{Environment.NewLine}[Display in Mismatch file - Remark 2 (Show under match)]{Environment.NewLine}{excelInfo.Remark2Note}`";
+            comment = $"{comment}{Environment.NewLine}{Environment.NewLine}[Display in Mismatch file - Remark 2 (Show under match)]{Environment.NewLine}{excelInfo.Remark2Note}`";
         }
 
         leagueInfo.Comment = comment;
