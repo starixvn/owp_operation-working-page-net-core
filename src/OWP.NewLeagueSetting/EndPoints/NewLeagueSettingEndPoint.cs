@@ -12,7 +12,7 @@ public class NewLeagueSettingEndPoint : ICarterModule
             await using var ms = new MemoryStream();
             await request.Form.Files[0].CopyToAsync(ms);
             return await sender.Send(new InitDataRequest(ms));
-        }).Accepts<HttpRequest>("multipart/form-data");
+        });
 
         groupEndpoint.MapGet("/getAllListSettings", async (string league, ISender sender) =>
         {
@@ -32,7 +32,7 @@ public class NewLeagueSettingEndPoint : ICarterModule
             return Results.Json(result);
         });
 
-        groupEndpoint.MapPost("/editLeagueSetting", async (UpdateLeagueSettingRequest request , ISender sender) =>
+        groupEndpoint.MapPost("/editLeagueSetting", async (UpdateLeagueSettingRequest request, ISender sender) =>
         {
             var result = await sender.Send(request);
             return Results.Json(result);
