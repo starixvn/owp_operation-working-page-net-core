@@ -206,7 +206,7 @@ public static class StandardizedLeagueInfo
             var spreadHdp = RemoveLastCharacterAndParseToNumber(spreadSplit[0]);
             var spreadOu = RemoveLastCharacterAndParseToNumber(spreadSplit[1]);
 
-            return (spreadHdp / 1000, spreadOu / 1000, null);
+            return (spreadHdp / 100, spreadOu / 100, null);
         }
 
         return (null, null, spreadSource);
