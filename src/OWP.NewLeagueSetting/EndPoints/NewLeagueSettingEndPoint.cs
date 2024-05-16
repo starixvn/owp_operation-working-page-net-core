@@ -6,19 +6,13 @@ public class NewLeagueSettingEndPoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/new-league", async (HttpRequest request, ISender sender) =>
-        {
-            await using var ms = new MemoryStream();
-            await request.Form.Files[0].CopyToAsync(ms);
-            return await sender.Send(new InitDataRequest(ms));
-        });
         var groupEndpoint = app.MapGroup("api/NewLeagueSetting").RequireAuthorization();
-        /* groupEndpoint.MapPost("/new-league", async (HttpRequest request, ISender sender) =>
+        groupEndpoint.MapPost("/new-league", async (HttpRequest request, ISender sender) =>
         {
             await using var ms = new MemoryStream();
             await request.Form.Files[0].CopyToAsync(ms);
             return await sender.Send(new InitDataRequest(ms));
-        }); */
+        }).Accepts<HttpRequest>("multipart/form-data");
 
         groupEndpoint.MapGet("/getAllListSettings", async (string league, ISender sender) =>
         {
