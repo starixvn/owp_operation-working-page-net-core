@@ -38,6 +38,11 @@ public class EditEventPickingHandler : IRequestHandler<EditEventPickingRequest, 
                 {
                     flag += 1;
                     match.MaxbetHdp = IsWeekend(match.EventDateTime) ? league.MaxbetWK_HDP_Value : league.MaxbetWD_HDP_Value;
+                    match.SpreadHdp = league.Spread_HDP_Value;
+                    match.SpreadOu = league.Spread_OU_Value;
+                    match.NoOfHDP = IsWeekend(match.EventDateTime)
+                        ? league.MaxbetWK_NoOfHDP_Show
+                        : league.MaxbetWD_NoOfHDP_Show;
                 }
             }
 
