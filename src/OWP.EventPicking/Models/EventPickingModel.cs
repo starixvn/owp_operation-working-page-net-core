@@ -339,19 +339,19 @@ public class EventPickingModel : MaxbetSpread
     [JsonIgnore]
     public MarginInfo MarginTwelveMonths { get; set; }
 
-    public IList<TurnOverInfo> TurnoverPeriod => new List<TurnOverInfo>{
+    public IEnumerable<TurnOverInfo> TurnoverPeriod => new List<TurnOverInfo>{
         TurnoverOneMonth ,
         TurnoverThreeMonths,
         TurnoverSixMonths,
         TurnoverTwelveMonths
-    };
+    }.Where(m => m is not null);
 
-    public IList<MarginInfo> MarginPeriod => new List<MarginInfo>{
+    public IEnumerable<MarginInfo> MarginPeriod => new List<MarginInfo>{
         MarginOneMonth ,
         MarginThreeMonths,
         MarginSixMonths,
         MarginTwelveMonths
-    };
+    }.Where(m => m is not null);
 
     public string BuildTurnOverExport()
     {
