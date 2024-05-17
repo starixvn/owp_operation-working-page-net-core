@@ -23,7 +23,7 @@ public class EditEventPickingHandler : IRequestHandler<EditEventPickingRequest, 
         var mainMatches = await service.Execute(request);
 
         var matchFiltered = mainMatches.FilteredMatches;
-        
+
         var leagueSetting = (await repository.QueryLeagueSetting()).ToList();
 
         var tvList = (await repository.GetTVList()).ToList();
@@ -72,13 +72,13 @@ public class EditEventPickingHandler : IRequestHandler<EditEventPickingRequest, 
     }
     private void BuildSpreadOu(EventPickingModel match, LeagueSettingInfoSender league)
     {
-        if (match.MaxbetHdp != null) return;
+        if (match.SpreadOu != null) return;
         match.SpreadOu = league.Spread_OU_Value;
         match.IsReferenceLeagueManagement = true;
     }
     private void BuildNoOfHdp(EventPickingModel match, LeagueSettingInfoSender league)
     {
-        if (match.MaxbetHdp != null) return;
+        if (match.NoOfHDP != null) return;
         match.NoOfHDP = IsWeekend(match.EventDateTime)
             ? league.MaxbetWK_NoOfHDP_Show
             : league.MaxbetWD_NoOfHDP_Show;
