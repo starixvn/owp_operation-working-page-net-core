@@ -14,21 +14,15 @@ public class NewLeagueSettingEndPoint : ICarterModule
             return await sender.Send(new InitDataRequest(ms));
         }).Accepts<HttpRequest>("multipart/form-data");
 
-        groupEndpoint.MapGet("/getAllListSettings", async (string league, ISender sender) =>
+        groupEndpoint.MapGet("/getAllListSettings", async (string league, bool isEqualLeague, ISender sender) =>
         {
-            var result = await sender.Send(new QueryLeagueSettingRequest(league));
+            var result = await sender.Send(new QueryLeagueSettingRequest(league, isEqualLeague));
             return Results.Json(result);
         });
 
         groupEndpoint.MapGet("/getLeagueSettingDetail", async (int leagueSettingId, ISender sender) =>
         {
             var result = await sender.Send(new QueryLeagueSettingDetailRequest(leagueSettingId));
-            return Results.Json(result);
-        });
-
-        groupEndpoint.MapGet("/get-league-setting-by-owpLeagueId", async (int owpLeagueId, ISender sender) =>
-        {
-            var result = await sender.Send(new GetLeagueSettingByLeagueIdRequest(owpLeagueId));
             return Results.Json(result);
         });
 

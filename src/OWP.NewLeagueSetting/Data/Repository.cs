@@ -8,13 +8,11 @@ public interface Repository
 {
     Task InitData(IList<LeagueSettingInfo> leagueInfo, CancellationToken cancellationToken);
 
-    Task<IEnumerable<LeagueSettingInfoSender>> QueryLeagueSetting(string league);
+    Task<IEnumerable<LeagueSettingInfoSender>> QueryLeagueSetting(string league, bool isEqualLeague);
 
     Task<LeagueSettingInfoSender> QueryLeagueSettingDetail(int leagueSettingId);
 
-    Task UpdateLeagueSetting(UpdateLeagueSettingRequest request, int actorId );
-
-    Task<IEnumerable<LeagueSettingInfoSender>> QueryLeagueSettingByOwpLeagueId(int owpLeagueId);
+    Task UpdateLeagueSetting(UpdateLeagueSettingRequest request, int actorId);
 }
 
 public class RepositoryImp : Repository
@@ -35,8 +33,8 @@ public class RepositoryImp : Repository
         }, cancellationToken);
     }
 
-    public async Task<IEnumerable<LeagueSettingInfoSender>> QueryLeagueSetting(string league)
-        => await repository.FetchAsync<LeagueSettingInfoSender>(new QueryLeagueSettingCriteria { League = league });
+    public async Task<IEnumerable<LeagueSettingInfoSender>> QueryLeagueSetting(string league, bool isEqualLeague)
+        => await repository.FetchAsync<LeagueSettingInfoSender>(new QueryLeagueSettingCriteria { League = league, IsEqualLeague = isEqualLeague });
 
     public async Task<LeagueSettingInfoSender> QueryLeagueSettingDetail(int leagueSettingId)
         => await repository.GetAsync<LeagueSettingInfoSender>(new QueryLeagueSettingDetailCriteria { LeagueSettingId = leagueSettingId });
@@ -67,7 +65,4 @@ public class RepositoryImp : Repository
         };
         await repository.ExecuteAsync(criteria);
     }
-
-    public async Task<IEnumerable<LeagueSettingInfoSender>> QueryLeagueSettingByOwpLeagueId(int owpLeagueId)
-        => await repository.FetchAsync<LeagueSettingInfoSender>(new QueryLeagueSettingByLeagueIdCriteria { OwpLeagueId = owpLeagueId });
 }

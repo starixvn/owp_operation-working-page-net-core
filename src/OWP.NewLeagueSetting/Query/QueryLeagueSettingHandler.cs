@@ -1,9 +1,6 @@
-﻿
-using OWP.NewLeagueSetting.Data;
+﻿namespace OWP.NewLeagueSetting.Query;
 
-namespace OWP.NewLeagueSetting.Query;
-
-public record QueryLeagueSettingRequest(string league) : IRequest<IEnumerable<LeagueSettingInfoSender>>;
+public record QueryLeagueSettingRequest(string League, bool IsEqualLeague) : IRequest<IEnumerable<LeagueSettingInfoSender>>;
 
 public class QueryLeagueSettingHandler : IRequestHandler<QueryLeagueSettingRequest, IEnumerable<LeagueSettingInfoSender>>
 {
@@ -15,6 +12,5 @@ public class QueryLeagueSettingHandler : IRequestHandler<QueryLeagueSettingReque
     }
 
     public async Task<IEnumerable<LeagueSettingInfoSender>> Handle(QueryLeagueSettingRequest request, CancellationToken cancellationToken)
-      => await repository.QueryLeagueSetting(request.league);
-
+      => await repository.QueryLeagueSetting(request.League, request.IsEqualLeague);
 }
