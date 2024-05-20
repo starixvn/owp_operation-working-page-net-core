@@ -7,7 +7,7 @@ public class EventQueryModel
 {
     public DateTime EventDate { get; set; }
 
-    public string Username { get; set; }
+    public string UserIds { get; set; }
 
     public int[] MatchStatusIds { get; set; }
 
