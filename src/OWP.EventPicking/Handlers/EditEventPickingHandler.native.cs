@@ -89,14 +89,26 @@ public class EditEventPickingHandler : IRequestHandler<EditEventPickingRequest, 
     {
         var tvContains = GetValueContains(tvList);
         var tvEqual = GetValueEquals(tvList);
-        var checkTv = !leagueSetting.Condition.HasTv || tvContains.Any(x => x.Contains(match.TV)) || tvEqual.Any((x=>x.Equals(match.TV)));
-        
-        var checkIptv = false;
+        var checkTvIsContain = tvContains.Any(x => x.Contains(match.TV, StringComparison.CurrentCultureIgnoreCase)) &&
+                               !string.IsNullOrEmpty(match.TV);
+        var checkTvIsEqual = tvEqual.Any(x => x.Equals(match.TV, StringComparison.CurrentCultureIgnoreCase));
+        var checkTv = checkTvIsContain || checkTvIsEqual;
+        var checkIptv = match.Iptv.Equals("IPTV");
+
+        if (leagueSetting.Condition.HasTv && leagueSetting.Condition.HasIpTv)
+        {
+            return checkTv || checkIptv;
+        }
+        if (leagueSetting.Condition.HasTv)
+        {
+            return checkTv;
+        }
         if (leagueSetting.Condition.HasIpTv)
         {
-            checkIptv = match.Iptv.Equals("IPTV");
+            return checkIptv;
         }
-        return checkTv || checkIptv;
+
+        return true;
     }
 
     private bool CheckRoundOrDivisionConditions(string matchValues, IList<Condition> conditions)
@@ -105,7 +117,7 @@ public class EditEventPickingHandler : IRequestHandler<EditEventPickingRequest, 
         var equalsValues = GetValueEquals(conditions);
 
         var isEmptyBoth = conditions.Count == 0 && matchValues.Length == 0;
-        var isContains = containsValues.Any(x => matchValues.Contains(x, StringComparison.CurrentCultureIgnoreCase));
+        var isContains = containsValues.Any(x => matchValues.Contains(x, StringComparison.CurrentCultureIgnoreCase)) && !string.IsNullOrEmpty(matchValues);
         var isEquals = equalsValues.Any(x => x.Equals(matchValues, StringComparison.CurrentCultureIgnoreCase));
         return isEmptyBoth || isContains || isEquals;
     }
