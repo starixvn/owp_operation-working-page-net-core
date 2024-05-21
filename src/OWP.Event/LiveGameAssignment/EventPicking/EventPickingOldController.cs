@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using OfficeOpenXml;
 using Olympus.InfoSiteClient;
 using Olympus.InfoSiteClient.Models;
@@ -69,11 +68,12 @@ public class EventPickingOldController : ControllerBase
 
     private async Task<FileStreamResult> DownloadExcel(string templatePath, DateTime date)
     {
+        await logger.InfoAsync("InfoSiteAPI=" + settings.InfoSiteAPI + " date=" + date);
+
         var nextDate = date.AddDays(1);
         var mainMatches = await GetMainMatch(date, nextDate);
         var pullingChildMatch = new PullingChildMatch();
         var childMatches = pullingChildMatch.Query(settings.InfoSiteAPI, date, nextDate);
-        await logger.InfoAsync("childMatches=" + JsonConvert.SerializeObject(childMatches));
         var matches = CombineSubMatch(mainMatches, childMatches);
         var syncedMatches = await leagueSettingService.ApplyMatchMaxbet(matches);
         using (var stream = new FileStream(templatePath, FileMode.Open, FileAccess.Read))
@@ -94,12 +94,8 @@ public class EventPickingOldController : ControllerBase
 
     private async Task<List<MatchExporting>> GetMainMatch(DateTime fromDate, DateTime toDate)
     {
-        await logger.InfoAsync("Fom=" + fromDate.ToString());
-        await logger.InfoAsync("To=" + toDate.ToString());
         var timeFrom = fromDate.AddHours(12);
         var timeTo = toDate.AddHours(12);
-        await logger.InfoAsync("timeFrom=" + timeFrom.ToString());
-        await logger.InfoAsync("timeTo=" + timeTo.ToString());
         var pullingMainMatch = new PullingMainMatch();
         var mainRawMatches = new List<CommonMatchEx>();
         var date = fromDate;
@@ -107,14 +103,12 @@ public class EventPickingOldController : ControllerBase
         {
             mainRawMatches.AddRange(pullingMainMatch.Query(settings.InfoSiteAPI, date, date, DateTime.Today.AddYears(-10))); //NOSONAR
             date = date.AddDays(1);
-            await logger.InfoAsync("InfoSiteAPI=" + settings.InfoSiteAPI + " date=" + date);
         }
 
         var mainMatches = mainRawMatches
                             .Select(e => new MatchExporting(e))
                             .Where(e => e.GameDate >= timeFrom && e.GameDate < timeTo)
                             .ToList();
-        await logger.InfoAsync("mainMatches=" + JsonConvert.SerializeObject(mainMatches));
         return mainMatches;
     }
 
