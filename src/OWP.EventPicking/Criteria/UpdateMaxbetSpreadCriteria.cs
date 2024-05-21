@@ -3,7 +3,7 @@
 namespace OWP.EventPicking.Criteria;
 public class UpdateMaxbetSpreadCriteria : NonQueryCommand
 {
-    public string Xml { get; set; }
+    public string TargetJson { get; set; }
 
     public int ActorId { get; set; }
 

@@ -1,5 +1,6 @@
 
 using System.Xml;
+using Newtonsoft.Json;
 using Olympus.Xml;
 
 namespace OWP.EventPicking.Handlers;
@@ -23,10 +24,10 @@ public class UpdateMaxbetHandler : IRequestHandler<UpdateEventsRequest, Unit>
 
     public async Task<Unit> Handle(UpdateEventsRequest request, CancellationToken cancellationToken)
     {
-        var xml = XmlConverter.Serialize(request.Events);
+        var TargetJson = JsonConvert.SerializeObject(request.Events);
         var criteria = new UpdateMaxbetSpreadCriteria
         {
-            Xml = xml,
+            TargetJson = TargetJson,
             ActorId = session.UserId
         };
         await repository.UpdateEvent(criteria);
