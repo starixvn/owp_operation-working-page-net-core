@@ -498,7 +498,7 @@ public class LiveGameAssignmentRepositoryImp : LiveGameAssignmentRepository
                 }
 
                 var events = await MappingInfoToEventModel(matches, assignments, notes, matchSettings, televisions, matchOffers);
-                var eventsByUsers = FilterEventModelByUser(events, queryModel.Username);
+                var eventsByUsers = FilterEventModelByUser(events, queryModel.UserIds);
                 var eventsByMatchType = FilterEventByMatchType(eventsByUsers, queryModel.MatchType);
                 var eventsByOffVR = FilterEventModelByOffVR(eventsByMatchType, queryModel.SelectedOffVRs);
                 return FilterEventModelByLiveStatus(eventsByOffVR, queryModel.SyncLiveStatus);
@@ -543,15 +543,15 @@ public class LiveGameAssignmentRepositoryImp : LiveGameAssignmentRepository
         return selectedMatches;
     }
 
-    private static IList<EventModel> FilterEventModelByUser(IList<EventModel> events, string username)
+    private static IList<EventModel> FilterEventModelByUser(IList<EventModel> events, string userIds)
     {
-        if (string.IsNullOrEmpty(username))
+        if (string.IsNullOrEmpty(userIds))
         {
             return events;
         }
 
         return events
-            .Where(e => IsUserAssignedToEvent(username, e))
+            .Where(e => IsUserAssignedToEvent(userIds, e))
             .ToList();
     }
 
@@ -572,8 +572,9 @@ public class LiveGameAssignmentRepositoryImp : LiveGameAssignmentRepository
         => matchType.Exists(x => x == EventAssignmentConst.MatchReal)
            && matchType.Exists(x => x == EventAssignmentConst.MatchVirtual);
 
-    private static bool IsUserAssignedToEvent(string username, EventModel e)
+    private static bool IsUserAssignedToEvent(string userIds, EventModel e)
     {
+        var userIdsSplit = userIds.Split(",");
         var assignments = new List<IList<Assignment>>
         {
             e.OneXTwo,
@@ -591,7 +592,7 @@ public class LiveGameAssignmentRepositoryImp : LiveGameAssignmentRepository
 
         foreach (var assignment in assignments)
         {
-            if (assignment.Any(i => i.Username == username))
+            if (assignment.Any(i => userIdsSplit.Any(userId => int.Parse(userId) == i.UserId)))
             {
                 return true;
             }

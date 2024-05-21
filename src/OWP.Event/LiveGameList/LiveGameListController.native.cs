@@ -19,9 +19,9 @@ public class LiveGameListController : ControllerBase
 
     [Route("query")]
     [HttpGet]
-    public async Task<IActionResult> Query(DateTime eventDate, string statusId, string userName, string matchType)
+    public async Task<IActionResult> Query(DateTime eventDate, string statusId, string userIds, string matchType)
     {
-        var result = await service.GetEvents(eventDate, statusId, userName, matchType);
+        var result = await service.GetEvents(eventDate, statusId, userIds, matchType);
 
         return Ok(JsonConvert.SerializeObject(result));
     }

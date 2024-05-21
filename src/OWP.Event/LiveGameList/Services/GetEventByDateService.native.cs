@@ -11,7 +11,7 @@ using Fanex.NAP.Client.Helpers.Business;
 
 public interface GetEventByDateService
 {
-    Task<IEnumerable<MatchInfo>> GetEvents(DateTime eventDate, string statusId, string userName, string matchType);
+    Task<IEnumerable<MatchInfo>> GetEvents(DateTime eventDate, string statusId, string userIds, string matchType);
 }
 
 public class GetEventByDateServiceImp : GetEventByDateService
@@ -30,13 +30,13 @@ public class GetEventByDateServiceImp : GetEventByDateService
         this.eventService = eventService;
     }
 
-    public async Task<IEnumerable<MatchInfo>> GetEvents(DateTime eventDate, string statusId, string userName, string matchType)
+    public async Task<IEnumerable<MatchInfo>> GetEvents(DateTime eventDate, string statusId, string userIds, string matchType)
     {
         var eventByDates = await liveGameListRepository.GetEventInformation(eventDate, statusId, IsShowFullEventInformation());
         await eventService.GetInfositeAndAdminsiteInfo(eventByDates.MatchInfo.ToList());
 
         var eventNew = BuildEvents(eventByDates);
-        var filterEventUserName = FilterEventByUsername(eventNew, userName);
+        var filterEventUserName = FilterEventByUsername(eventNew, userIds);
         return FilterEventByMatchType(filterEventUserName, matchType);
     }
 
@@ -50,8 +50,8 @@ public class GetEventByDateServiceImp : GetEventByDateService
         }
     }
 
-    private static IEnumerable<MatchInfo> FilterEventByUsername(IEnumerable<MatchInfo> matchInfos, string userName)
-        => string.IsNullOrEmpty(userName) ? matchInfos : matchInfos.Where(e => IsUserAssignedToEvent(userName, e));
+    private static IEnumerable<MatchInfo> FilterEventByUsername(IEnumerable<MatchInfo> matchInfos, string userIds)
+        => string.IsNullOrEmpty(userIds) ? matchInfos : matchInfos.Where(e => IsUserAssignedToEvent(userIds, e));
 
     private IEnumerable<MatchInfo> FilterEventByMatchType(IEnumerable<MatchInfo> matchInfos, string matchType)
     {
@@ -66,8 +66,9 @@ public class GetEventByDateServiceImp : GetEventByDateService
             matchInfos.Where(x => !x.IsSaba);
     }
 
-    private static bool IsUserAssignedToEvent(string username, MatchInfo e)
+    private static bool IsUserAssignedToEvent(string userIds, MatchInfo e)
     {
+        var userIdsSplit = userIds.Split(",");
         foreach (var property in typeof(AssignmentModel).GetProperties())
         {
             if (property.GetValue(e.Assignment) is not IEnumerable<Assignment> assignmentItems)
@@ -75,7 +76,7 @@ public class GetEventByDateServiceImp : GetEventByDateService
                 continue;
             }
 
-            if (assignmentItems.Any(item => item.Username == username))
+            if (assignmentItems.Any(item => userIdsSplit.Any(userId => int.Parse(userId) == item.UserId)))
             {
                 return true;
             }
