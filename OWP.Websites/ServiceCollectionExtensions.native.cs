@@ -54,6 +54,7 @@ namespace OWP.Websites;
 
 using Fanex.NAP.Client.Session;
 using Microsoft.Extensions.FileProviders;
+using OWP.AccountSetting;
 
 public static class ServiceCollectionExtensions
 {
@@ -249,6 +250,7 @@ public static class ServiceCollectionExtensions
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(AssigneeSuggestionController).GetTypeInfo().Assembly));
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(LAKpiController).GetTypeInfo().Assembly));
         services.AddMediatR(x => x.RegisterServicesFromAssembly(AppDomain.CurrentDomain.Load("OWP.NewLeagueSetting")));
+        services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(AccountSettingController).GetTypeInfo().Assembly));
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(ProviderVerificationController).GetTypeInfo().Assembly));
         return services;
     }

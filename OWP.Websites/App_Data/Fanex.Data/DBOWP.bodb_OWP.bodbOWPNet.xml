@@ -429,4 +429,10 @@
     <Setting Key="OWP_NewLeagueSetting_QueryLeagueSettingDetail" SpName ="OWP_NewLeagueSetting_QueryLeagueSettingDetail" DbName="DBOWP.bodb_OWP.wsv_owp" />
     <Setting Key="OWP_NewLeagueSetting_UpdateLeagueSetting" SpName ="OWP_NewLeagueSetting_UpdateLeagueSetting" DbName="DBOWP.bodb_OWP.wsv_owp" />
     </Function>
+	<Function Name="AccountSetting">
+		<Setting Key="OWP_AccountSetting_GetUserProfile" SpName ="OWP_AccountSetting_GetUserProfile" DbName="DBOWP.bodb_OWP.wsv_owp" />
+		<Setting Key="OWP_AccountSetting_GetQuickMessage" SpName ="OWP_AccountSetting_GetQuickMessage" DbName="DBOWP.bodb_OWP.wsv_owp" />
+		<Setting Key="OWP_AccountSetting_SaveUserProfile" SpName ="OWP_AccountSetting_SaveUserProfile" DbName="DBOWP.bodb_OWP.wsv_owp" />
+		<Setting Key="OWP_AccountSetting_SaveQuickMessage" SpName ="OWP_AccountSetting_SaveQuickMessage" DbName="DBOWP.bodb_OWP.wsv_owp" />
+	</Function>
 </Functions>
