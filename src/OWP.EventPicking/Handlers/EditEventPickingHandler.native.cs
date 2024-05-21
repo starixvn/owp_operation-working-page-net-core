@@ -94,9 +94,7 @@ public class EditEventPickingHandler : IRequestHandler<EditEventPickingRequest, 
         var checkIptv = false;
         if (leagueSetting.Condition.HasIpTv)
         {
-            var iptvContains = GetValueContains(leagueSetting.Condition.IpTv);
-            var iptvEquals = GetValueEquals(leagueSetting.Condition.IpTv);
-            checkIptv = iptvContains.Any(x => match.Iptv.Contains(x)) || iptvEquals.Any(x => match.Iptv.Equals(x));
+            checkIptv = match.Iptv.Equals("IPTV");
         }
         return checkTv || checkIptv;
     }
