@@ -12,6 +12,8 @@ public class MessageDetailViewModel
 
     public string Username { get; set; }
 
+    public string Extension { get; set; }
+
     public int? FileId { get; set; }
 
     public bool IsSaved { get; set; }

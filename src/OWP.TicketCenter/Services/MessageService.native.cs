@@ -53,7 +53,7 @@ public class MessageServiceImp : MessageService
         var (canShowMoreMessage, messages) = await repository.GetMessageInLastTwoDays(ticketId);
 
         return (canShowMoreMessage, messages
-            .DistinctBy(m => new { m.UserId, m.Username, m.CreatedDate, m.MessageId, m.Message, m.IsSaved })
+            .DistinctBy(m => new { m.UserId, m.Username, m.CreatedDate, m.MessageId, m.Message, m.IsSaved, m.Extension })
             .OrderBy(m => m.CreatedDate)
             .ToList());
     }
@@ -63,7 +63,7 @@ public class MessageServiceImp : MessageService
         var (canShowMoreMessage, messages) = await repository.GetMessageListByGreaterMessageId(ticketId, firstMessageId);
 
         return (canShowMoreMessage, messages
-            .DistinctBy(m => new { m.UserId, m.Username, m.CreatedDate, m.MessageId, m.Message, m.IsSaved })
+            .DistinctBy(m => new { m.UserId, m.Username, m.CreatedDate, m.MessageId, m.Message, m.IsSaved, m.Extension })
             .OrderBy(m => m.CreatedDate)
             .ToList());
     }
