@@ -30,23 +30,12 @@ public class EditEventPickingHandler : IRequestHandler<EditEventPickingRequest, 
 
         foreach (var match in matchFiltered)
         {
-            var leagueSettings = leagueSetting.Where(x => x.OWPLeagueId == match.OWPLeagueId).ToList();
-            var flag = 0;
-            foreach (var league in leagueSettings)
-            {
-                if (CheckMatchValidMappingWithLeagueManagement(match, league, tvList))
-                {
-                    flag += 1;
-                    BuildMaxBet(match, league);
-                    BuildSpreadHdp(match, league);
-                    BuildSpreadOu(match, league);
-                    BuildNoOfHdp(match, league);
-                }
-            }
+            var leagueIsValid = leagueSetting.Where(x => x.OWPLeagueId == match.OWPLeagueId)
+                .Where(league => CheckMatchValidMappingWithLeagueManagement(match, league, tvList)).ToList();
 
-            if (flag > 1)
+            if (leagueIsValid.Count == 1)
             {
-                match.MaxbetHdp = null;
+                SuggestionValue(match, leagueIsValid[0]);
             }
         }
 
@@ -55,6 +44,14 @@ public class EditEventPickingHandler : IRequestHandler<EditEventPickingRequest, 
             MatchesByDate = mainMatches.MatchesByDate,
             FilteredMatches = matchFiltered
         };
+    }
+
+    private void SuggestionValue(EventPickingModel match, LeagueSettingInfoSender league)
+    {
+        BuildMaxBet(match, league);
+        BuildSpreadHdp(match, league);
+        BuildSpreadOu(match, league);
+        BuildNoOfHdp(match, league);
     }
 
     private void BuildMaxBet(EventPickingModel match, LeagueSettingInfoSender league)
@@ -87,13 +84,16 @@ public class EditEventPickingHandler : IRequestHandler<EditEventPickingRequest, 
 
     private bool CheckTvConditions(EventPickingModel match, LeagueSettingInfoSender leagueSetting, IList<Condition> tvList)
     {
+        var matchTvList = match.TV.Split('/').Where(x => x.Length > 0);
         var tvContains = GetValueContains(tvList);
         var tvEqual = GetValueEquals(tvList);
-        var checkTvIsContain = tvContains.Any(x => x.Contains(match.TV, StringComparison.CurrentCultureIgnoreCase)) &&
-                               !string.IsNullOrEmpty(match.TV);
-        var checkTvIsEqual = tvEqual.Any(x => x.Equals(match.TV, StringComparison.CurrentCultureIgnoreCase));
+        var checkTvIsContain =
+            tvContains.Any(x => matchTvList.Any(y => x.Contains(y, StringComparison.CurrentCultureIgnoreCase))) &&
+            !string.IsNullOrEmpty(match.TV);
+        var checkTvIsEqual =
+            tvEqual.Any(x => matchTvList.Any(y => x.Equals(y, StringComparison.CurrentCultureIgnoreCase)));
         var checkTv = checkTvIsContain || checkTvIsEqual;
-        var checkIptv = match.Iptv.Equals("IPTV");
+        var checkIptv = match.Iptv.Length > 0;
 
         if (leagueSetting.Condition.HasTv && leagueSetting.Condition.HasIpTv)
         {
