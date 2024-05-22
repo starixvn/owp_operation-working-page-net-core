@@ -105,6 +105,7 @@ public class EventAssignmentExportFilterImp : EventAssignmentExportFilter
 
     private static bool AssignmentContainsTrader(AssignmentModel assignments, string username)
     {
+        var userNameSplit = username.Split(',');
         foreach (var property in typeof(AssignmentModel).GetProperties())
         {
             var assignmentItem = property.GetValue(assignments);
@@ -114,8 +115,9 @@ public class EventAssignmentExportFilterImp : EventAssignmentExportFilter
             }
             var mainTraderValue = GetPropertyValue(assignmentItem, "MainTrader")?.ToString();
             var otherTradersValue = GetPropertyValue(assignmentItem, "OtherTraders")?.ToString();
-
-            if (mainTraderValue == username || otherTradersValue?.Contains('#' + username) == true)
+            var checkIsValid = userNameSplit.Any(x => x == mainTraderValue) ||
+                               userNameSplit.Any(x => otherTradersValue?.Contains('#' + x) == true);
+            if (checkIsValid)
             {
                 return true;
             }
