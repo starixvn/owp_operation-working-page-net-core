@@ -7,7 +7,7 @@ public class NewLeagueSettingEndPoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         var groupEndpoint = app.MapGroup("api/NewLeagueSetting").RequireAuthorization();
-        groupEndpoint.MapPost("/new-league", async (HttpRequest request, ISender sender) =>
+        app.MapPost("api/NewLeagueSetting/new-league", async (HttpRequest request, ISender sender) =>
         {
             await using var ms = new MemoryStream();
             await request.Form.Files[0].CopyToAsync(ms);
