@@ -12,4 +12,7 @@ public class MaxbetSpread
     public bool IsReferenceLeagueManagement { get; set; } = false;
 
     public string NoOfHDP { get; set; }
+
+    [Cell("J2")]
+    public string LstNote { get; set; }
 }

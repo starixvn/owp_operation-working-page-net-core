@@ -86,9 +86,6 @@ public class EventPickingModel : MaxbetSpread
     [Cell("I2")]
     public string MatchOffer { get; set; }
 
-    [Cell("J2")]
-    public string LstNote { get; set; }
-
     [Cell("K2")]
     public string MaxBetHDP { get; set; }
 
