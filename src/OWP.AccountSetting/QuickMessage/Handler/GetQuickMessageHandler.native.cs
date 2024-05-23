@@ -1,10 +1,11 @@
 using Fanex.Data.Repository;
 using Fanex.NAP.Client.Helpers.Web;
 using MediatR;
-using OWP.AccountSetting.Profile.Criteria;
-using OWP.AccountSetting.Profile.Model;
 
-namespace OWP.AccountSetting.Profile;
+namespace OWP.AccountSetting.QuickMessage.Handler;
+
+using Criteria;
+using Model;
 
 public class GetQuickMessageRequest : IRequest<List<QuickMessage>> { }
 

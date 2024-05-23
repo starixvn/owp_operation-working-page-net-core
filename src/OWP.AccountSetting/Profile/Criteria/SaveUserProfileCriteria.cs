@@ -1,6 +1,6 @@
 ﻿using Fanex.Data.Repository;
 
-namespace OWP.ProviderArrangement.Criteria;
+namespace OWP.AccountSetting.Profile.Criteria;
 
 public class SaveUserProfileCriteria : NonQueryCommand
 {

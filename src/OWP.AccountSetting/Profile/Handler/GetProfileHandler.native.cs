@@ -3,7 +3,7 @@ using Fanex.NAP.Client.Helpers.Web;
 using MediatR;
 using OWP.AccountSetting.Profile.Criteria;
 
-namespace OWP.AccountSetting.Profile;
+namespace OWP.AccountSetting.Profile.Handler;
 
 public class GetProfileRequest : IRequest<string> { }
 
@@ -23,6 +23,6 @@ public class GetProfileHandler : IRequestHandler<GetProfileRequest, string>
         var criteria = new GetUserProfileCriteria { UserId = session.UserId };
         var result = await dynamicRepository.FetchAsync<string>(criteria, cancellationToken);
 
-        return result.FirstOrDefault();
+        return result.FirstOrDefault() ?? string.Empty;
     }
 }

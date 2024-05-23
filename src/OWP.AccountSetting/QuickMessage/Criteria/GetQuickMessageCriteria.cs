@@ -1,6 +1,6 @@
 using Fanex.Data.Repository;
 
-namespace OWP.AccountSetting.Profile.Criteria;
+namespace OWP.AccountSetting.QuickMessage.Criteria;
 
 public class GetQuickMessageCriteria : CriteriaBase
 {

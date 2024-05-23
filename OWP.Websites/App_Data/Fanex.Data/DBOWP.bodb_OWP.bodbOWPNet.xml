@@ -436,5 +436,6 @@
 		<Setting Key="OWP_AccountSetting_GetQuickMessage" SpName ="OWP_AccountSetting_GetQuickMessage" DbName="DBOWP.bodb_OWP.wsv_owp" />
 		<Setting Key="OWP_AccountSetting_SaveUserProfile" SpName ="OWP_AccountSetting_SaveUserProfile" DbName="DBOWP.bodb_OWP.wsv_owp" />
 		<Setting Key="OWP_AccountSetting_SaveQuickMessage" SpName ="OWP_AccountSetting_SaveQuickMessage" DbName="DBOWP.bodb_OWP.wsv_owp" />
+		<Setting Key="OWP_AccountSetting_DeleteQuickMessage" SpName ="OWP_AccountSetting_DeleteQuickMessage" DbName="DBOWP.bodb_OWP.wsv_owp" />
 	</Function>
 </Functions>

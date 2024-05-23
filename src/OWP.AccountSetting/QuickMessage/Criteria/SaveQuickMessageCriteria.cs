@@ -1,6 +1,6 @@
 ﻿using Fanex.Data.Repository;
 
-namespace OWP.ProviderArrangement.Criteria;
+namespace OWP.AccountSetting.QuickMessage.Criteria;
 
 public class SaveQuickMessageCriteria : NonQueryCommand
 {

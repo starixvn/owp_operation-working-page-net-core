@@ -1,4 +1,4 @@
-﻿namespace OWP.AccountSetting.Profile.Model;
+﻿namespace OWP.AccountSetting.QuickMessage.Model;
 
 public class QuickMessage
 {
