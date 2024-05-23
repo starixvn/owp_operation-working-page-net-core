@@ -19,7 +19,6 @@ public class BuildMainAndChildMatchesUnitTests
     public BuildMainAndChildMatchesUnitTests()
     {
         repository = Substitute.For<Repository>();
-        var buildMainMatchMaxBet = Substitute.For<BuildMainMatchMaxBet>();
         var buildChildMatchMaxBet = Substitute.For<BuildChildMatchMaxBet>();
         var buildRowColor = Substitute.For<BuildRowColor>();
         mediator = Substitute.For<IMediator>();
@@ -28,7 +27,6 @@ public class BuildMainAndChildMatchesUnitTests
        
         services = new BuildMainAndChildMatchesImp(
             repository,
-            buildMainMatchMaxBet,
             buildChildMatchMaxBet,
             buildRowColor,
             buildMatchOffer,

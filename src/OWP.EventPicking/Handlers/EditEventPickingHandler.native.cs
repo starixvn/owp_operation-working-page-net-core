@@ -48,10 +48,18 @@ public class EditEventPickingHandler : IRequestHandler<EditEventPickingRequest, 
 
     private void SuggestionValue(EventPickingModel match, LeagueSettingInfoSender league)
     {
+        BuildLstNote(match, league);
         BuildMaxBet(match, league);
         BuildSpreadHdp(match, league);
         BuildSpreadOu(match, league);
         BuildNoOfHdp(match, league);
+    }
+
+    private void BuildLstNote(EventPickingModel match, LeagueSettingInfoSender league)
+    {
+        if (match.LstNote != null) return;
+        match.LstNote = league.LstNote;
+        match.IsReferenceLeagueManagement = true;
     }
 
     private void BuildMaxBet(EventPickingModel match, LeagueSettingInfoSender league)
@@ -84,14 +92,14 @@ public class EditEventPickingHandler : IRequestHandler<EditEventPickingRequest, 
 
     private bool CheckTvConditions(EventPickingModel match, LeagueSettingInfoSender leagueSetting, IList<Condition> tvList)
     {
-        var matchTvList = match.TV.Split('/').Where(x => x.Length > 0);
+        var matchTvList = match.TV.Split('/').Where(x => x.Length > 0).ToList();
         var tvContains = GetValueContains(tvList);
         var tvEqual = GetValueEquals(tvList);
         var checkTvIsContain =
-            tvContains.Any(x => matchTvList.Any(y => x.Contains(y, StringComparison.CurrentCultureIgnoreCase))) &&
+            matchTvList.Any(x => tvContains.Any(y => x.Contains(y, StringComparison.CurrentCultureIgnoreCase))) &&
             !string.IsNullOrEmpty(match.TV);
         var checkTvIsEqual =
-            tvEqual.Any(x => matchTvList.Any(y => x.Equals(y, StringComparison.CurrentCultureIgnoreCase)));
+            matchTvList.Any(x => tvEqual.Any(y => x.Equals(y, StringComparison.CurrentCultureIgnoreCase)));
         var checkTv = checkTvIsContain || checkTvIsEqual;
         var checkIptv = match.Iptv.Length > 0;
 
