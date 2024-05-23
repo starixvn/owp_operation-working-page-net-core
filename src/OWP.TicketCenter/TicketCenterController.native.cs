@@ -249,4 +249,12 @@ public class TicketCenterController : ControllerBase
         var result = await getInfoFeedback.Get();
         return Ok(result);
     }
+
+    [HttpPost("add-messageIcon")]
+    public async Task AddMessageIcon(AddMessageIconRequest request)
+        => await mediator.Send(request);
+
+    [HttpGet("remove-messageIcon")]
+    public async Task RemoveMessageIcon(RemoveMessageIconRequest request )
+    => await mediator.Send(request);
 }

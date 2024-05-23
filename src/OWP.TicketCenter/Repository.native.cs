@@ -104,6 +104,11 @@ public interface Repository
     Task<IEnumerable<FunctionFeedback>> GetFunctionFeedback();
 
     Task<UserFeedbackInfo> GetUserFeedbackInfo(GetUserFeedbackInfoCriteria criteria);
+
+    Task AddMessageIcon(AddMessageIconCriteria criteria);
+
+    Task RemoveMessageIcon(RemoveMessageIconCriteria criteria);
+
 }
 
 public class RepositoryImp : Repository
@@ -457,4 +462,10 @@ public class RepositoryImp : Repository
     {
         return (await dynamicRepository.FetchAsync<UserFeedbackInfo>(criteria)).FirstOrDefault();
     }
+
+    public async Task AddMessageIcon(AddMessageIconCriteria criteria)
+     => await dynamicRepository.ExecuteAsync(criteria);
+
+    public async Task RemoveMessageIcon(RemoveMessageIconCriteria criteria)
+        => await dynamicRepository.ExecuteAsync(criteria);
 }
