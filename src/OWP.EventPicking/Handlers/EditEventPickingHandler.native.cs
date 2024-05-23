@@ -77,8 +77,8 @@ public class EditEventPickingHandler : IRequestHandler<EditEventPickingRequest, 
     {
         if (match.NoOfHDP != null) return;
         match.NoOfHDP = IsWeekend(match.EventDateTime)
-            ? league.MaxbetWK_NoOfHDP_Show
-            : league.MaxbetWD_NoOfHDP_Show;
+            ? league.WK_NoOfHDP_Value
+            : league.WD_NoOfHDP_Value;
         match.IsReferenceLeagueManagement = true;
     }
 
