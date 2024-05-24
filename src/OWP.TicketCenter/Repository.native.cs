@@ -109,6 +109,8 @@ public interface Repository
 
     Task RemoveMessageIcon(RemoveMessageIconCriteria criteria);
 
+    Task<IList<MessageReactIcon>> GetMessageReactIcon(string messageIds);
+
 }
 
 public class RepositoryImp : Repository
@@ -468,4 +470,13 @@ public class RepositoryImp : Repository
 
     public async Task RemoveMessageIcon(RemoveMessageIconCriteria criteria)
         => await dynamicRepository.ExecuteAsync(criteria);
+
+    public async Task<IList<MessageReactIcon>> GetMessageReactIcon(string messageIds)
+    {
+        var criteria = new GetReactionIconCriteria
+        {
+            MessageIds = messageIds
+        };
+        return (await dynamicRepository.FetchAsync<MessageReactIcon>(criteria)).ToList();
+    }
 }

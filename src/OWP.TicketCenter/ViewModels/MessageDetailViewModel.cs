@@ -32,4 +32,16 @@ public class MessageDetailViewModel
 
     public DateTime QuoteCreatedDate { get; set; }
 
+    public IList<MessageReactIcon> MessageReactIcons { get; set; }
+}
+
+public class MessageReactIcon
+{
+    public int MessageId { get; set; }
+
+    public string IconKey { get; set; }
+
+    public string CreatorOfReactIcon { get; set; }
+
+    public string SavedFileName { get; set; }
 }

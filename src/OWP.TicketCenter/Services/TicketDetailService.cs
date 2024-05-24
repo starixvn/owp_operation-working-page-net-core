@@ -118,5 +118,18 @@ public class TicketDetailServiceImp : TicketDetailService
         model.Messages = messages?.ToList();
         model.LastTwoComments = lastComments.ToList();
         model.CanShowMoreMessage = canShowMoreMessage;
+        var messageIds = string.Join(",", model.Messages.Select(x => x.MessageId));
+        var messageReactIcons = await repository.GetMessageReactIcon(messageIds);
+        BuildReactIconForMessage(model.Messages, messageReactIcons);
+    }
+
+    private void BuildReactIconForMessage(IList<MessageDetailViewModel> messages,
+        IList<MessageReactIcon> messageReactIcons)
+    {
+        foreach (var item in messages)
+        {
+            var findByMessageId = messageReactIcons.Where(x => x.MessageId == item.MessageId).ToList();
+            item.MessageReactIcons = findByMessageId;
+        }
     }
 }
