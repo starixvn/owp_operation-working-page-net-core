@@ -12,6 +12,8 @@ public class MessageDetailViewModel
 
     public string Username { get; set; }
 
+    public string AvatarFileName { get; set; }
+
     public string Extension { get; set; }
 
     public int? FileId { get; set; }
@@ -41,7 +43,9 @@ public class MessageReactIcon
 
     public string IconKey { get; set; }
 
-    public string CreatorOfReactIcon { get; set; }
+    public string ReactUserId { get; set; }
 
-    public string SavedFileName { get; set; }
+    public string ReactUserName { get; set; }
+
+    public string ReactAvatarName { get; set; }
 }

@@ -105,9 +105,7 @@ public interface Repository
 
     Task<UserFeedbackInfo> GetUserFeedbackInfo(GetUserFeedbackInfoCriteria criteria);
 
-    Task AddMessageIcon(AddMessageIconCriteria criteria);
-
-    Task RemoveMessageIcon(RemoveMessageIconCriteria criteria);
+    Task AddMessageIcon(UpdateMessageIconCriteria criteria);
 
     Task<IList<MessageReactIcon>> GetMessageReactIcon(string messageIds);
 
@@ -465,11 +463,8 @@ public class RepositoryImp : Repository
         return (await dynamicRepository.FetchAsync<UserFeedbackInfo>(criteria)).FirstOrDefault();
     }
 
-    public async Task AddMessageIcon(AddMessageIconCriteria criteria)
+    public async Task AddMessageIcon(UpdateMessageIconCriteria criteria)
      => await dynamicRepository.ExecuteAsync(criteria);
-
-    public async Task RemoveMessageIcon(RemoveMessageIconCriteria criteria)
-        => await dynamicRepository.ExecuteAsync(criteria);
 
     public async Task<IList<MessageReactIcon>> GetMessageReactIcon(string messageIds)
     {

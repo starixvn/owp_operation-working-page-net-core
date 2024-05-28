@@ -209,8 +209,7 @@
         <Setting Key="OWP_TicketCenterLogWork_Get" SpName="OWP_TicketCenterLogWork_Get" DbName="DBOWP.bodb_OWP.wsv_owp" />      
         <Setting Key="OWP_TicketLogWorkDetail_Get" SpName="OWP_TicketLogWorkDetail_Get" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_TicketCenter_GetMatchInfoByAdminSiteId" SpName="OWP_TicketCenter_GetMatchInfoByAdminSiteId" DbName="DBACC.bodb02.wsv_nap" />
-        <Setting Key="OWP_TicketCenter_AddMessageIcon" SpName="OWP_TicketCenter_AddMessageIcon" DbName="DBOWP.bodb_OWP.wsv_owp" />
-        <Setting Key="OWP_TicketCenter_RemoveMessageIcon" SpName="OWP_TicketCenter_RemoveMessageIcon" DbName="DBOWP.bodb_OWP.wsv_owp" />
+        <Setting Key="OWP_TicketCenter_UpdateMessageIcon" SpName="OWP_TicketCenter_UpdateMessageIcon" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_TicketCenter_GetReactionIcon" SpName="OWP_TicketCenter_GetReactionIcon" DbName="DBOWP.bodb_OWP.wsv_owp" />
 
     </Function>
