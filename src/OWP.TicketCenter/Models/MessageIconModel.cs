@@ -8,4 +8,6 @@ public class MessageIconModel
     public string IconKey { get; set; }
 
     public int CreatorId { get; set; }
+
+    public int TicketId { get; set; }
 }

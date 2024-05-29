@@ -1,7 +1,7 @@
 ﻿using Fanex.Data.Repository;
 
 namespace OWP.TicketCenter.Criteria;
-public class UpdateMessageIconCriteria : NonQueryCommand
+public class UpdateMessageIconCriteria : CriteriaBase
 {
     public int MessageId { get; set; }
 

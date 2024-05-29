@@ -7,7 +7,8 @@ namespace OWP.TicketCenter.Notification.Services;
 
 public interface NotificationService
 {
-    Task NotifyNewMessageIncome(List<string> userIds,TicketInfo ticketInfo,  MessageDetailViewModel messageResponse = null);
+    Task NotifyNewMessageIncome(List<string> userIds, TicketInfo ticketInfo, MessageDetailViewModel messageResponse = null);
+
     Task NotifyNewAddRecipient(List<string> userIds, TicketInfo ticketInfo);
 
     Task NotifyChangeStatusIncome(TicketInfo ticketInfo);
@@ -19,6 +20,8 @@ public interface NotificationService
     Task NotifyNewMessageLga(List<string> userIds, int parentMatchId, int actorId);
 
     Task NotifyNewAddRecipientLga(List<string> userIds, int parentMatchId, int actorId);
+
+    Task NotifyUpdateReactIconMessage(List<string> userIds, MessageReactIcon messageReactIcon, string action, int ticketId);
 }
 
 public class NotificationServiceImp : NotificationService
@@ -134,8 +137,13 @@ public class NotificationServiceImp : NotificationService
             .NotifyChangeSybTypeIncome(ticketInfo);
     }
 
-    private async Task<List<string>> GetUserIdsInStringByTicketId(int ticketId)
+    public async Task NotifyUpdateReactIconMessage(List<string> userIds, MessageReactIcon messageReactIcon, string action, int ticketId)
     {
-        return await repository.GetUserIdsByTicketId(ticketId);
+        await notifyMyTicket.Clients
+            .Users(userIds)
+            .NotifyUpdateReactIconMessage(messageReactIcon, action, ticketId);
+        await notifyPreMatch.Clients
+            .Users(userIds)
+            .NotifyUpdateReactIconMessage(messageReactIcon, action, ticketId);
     }
 }
