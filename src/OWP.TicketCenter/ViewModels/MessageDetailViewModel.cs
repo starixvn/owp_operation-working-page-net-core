@@ -49,3 +49,10 @@ public class MessageReactIcon
 
     public string ReactAvatarName { get; set; }
 }
+
+public class ShowMoreMessageModel
+{
+    public bool CanShowMoreMessage { get; set; }
+
+    public IEnumerable<MessageDetailViewModel> Messages { get; set; }
+}

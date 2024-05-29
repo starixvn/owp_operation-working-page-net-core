@@ -11,6 +11,8 @@ public interface MessageService
     Task<(bool, List<MessageDetailViewModel>)> GetMessageListInLast2Days(int ticketId);
 
     Task<(bool, List<MessageDetailViewModel>)> GetMessageListByGreaterMessageId(int ticketId, int firstMessageId);
+
+    Task BuildReactIconForMessage(IList<MessageDetailViewModel> messages);
 }
 
 public class MessageServiceImp : MessageService
@@ -66,5 +68,17 @@ public class MessageServiceImp : MessageService
             .DistinctBy(m => new { m.UserId, m.Username, m.CreatedDate, m.MessageId, m.Message, m.IsSaved, m.Extension })
             .OrderBy(m => m.CreatedDate)
             .ToList());
+    }
+
+    public async Task BuildReactIconForMessage(IList<MessageDetailViewModel> messages)
+    {
+        var messageIds = string.Join(",", messages.Select(x => x.MessageId));
+        var messageReactIcons = await repository.GetMessageReactIcon(messageIds);
+
+        foreach (var item in messages)
+        {
+            var findByMessageId = messageReactIcons.Where(x => x.MessageId == item.MessageId).ToList();
+            item.MessageReactIcons = findByMessageId;
+        }
     }
 }

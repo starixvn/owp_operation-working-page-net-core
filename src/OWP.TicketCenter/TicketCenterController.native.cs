@@ -5,6 +5,7 @@ using OWP.TicketCenter.Handlers;
 using OWP.TicketCenter.Middleware;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Services;
+using OWP.TicketCenter.ViewModels;
 
 namespace OWP.TicketCenter;
 
@@ -219,15 +220,8 @@ public class TicketCenterController : ControllerBase
         => await mediator.Send(new MarkAllTicketsRequest { ActorId = actorId });
 
     [HttpPost("get-next-list-messages")]
-    public async Task<object> GetNextListMessages(GetNextListMessagesRequest request)
-    {
-        var (canShowMoreMessage, messages) = await mediator.Send(request);
-        return new
-        {
-            canShowMoreMessage,
-            messages
-        };
-    }
+    public async Task<ShowMoreMessageModel> GetNextListMessages(GetNextListMessagesRequest request)
+        => await mediator.Send(request);
 
     [HttpGet("get-match-info")]
     public async Task<IActionResult> GetMatchInfo(int adminsiteId)
