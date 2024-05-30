@@ -18,6 +18,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\OWP.AccountSetting\OWP.AccountSetting.csproj" />
         <ProjectReference Include="..\OWP.RabbitMQ\OWP.RabbitMQ.csproj" />
         <ProjectReference Include="..\OWP\OWP.csproj" />
     </ItemGroup>

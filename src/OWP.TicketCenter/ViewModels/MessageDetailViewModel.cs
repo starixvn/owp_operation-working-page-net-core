@@ -43,7 +43,7 @@ public class MessageReactIcon
 
     public string IconKey { get; set; }
 
-    public string ReactUserId { get; set; }
+    public int ReactUserId { get; set; }
 
     public string ReactUserName { get; set; }
 

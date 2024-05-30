@@ -3,7 +3,7 @@ using Fanex.NAP.Client.Helpers.Web;
 using MediatR;
 using OWP.AccountSetting.Profile.Criteria;
 
-namespace OWP.AccountSetting.Profile;
+namespace OWP.AccountSetting.Profile.Handler;
 
 public class SaveProfileRequest : IRequest
 {
