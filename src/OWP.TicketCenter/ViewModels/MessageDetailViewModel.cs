@@ -34,7 +34,7 @@ public class MessageDetailViewModel
 
     public DateTime QuoteCreatedDate { get; set; }
 
-    public IList<MessageReactIcon> MessageReactIcons { get; set; }
+    public IList<MessageReactIcon> MessageReactIcons { get; set; } = new List<MessageReactIcon>();
 }
 
 public class MessageReactIcon
