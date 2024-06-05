@@ -1,9 +1,4 @@
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using OWP.EventPicking.Services;
-using OWP.Models;
-using OWP.Services;
+
 
 namespace OWP.EventPicking.Handlers;
 
@@ -38,7 +33,7 @@ public class ExportMiscMatchHandler : IRequestHandler<ExportMiscMatchRequest, Fi
     {
         var matches = await buildMainAndChildMatches.GetMainAndChildMatchEvent(request.Date);
 
-        var fileStreamResult = await exportService.BuildFileStream(matches,true);
+        var fileStreamResult = await exportService.BuildFileStream(matches, true);
         fileStreamResult.FileDownloadName = $"Event Picking-{request.Date:yyyy-MM-dd}.xlsx";
         await accessCounter.UpdateCounter(counterModel.ExportMiscMatch);
         return fileStreamResult;

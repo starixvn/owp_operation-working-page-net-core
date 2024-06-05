@@ -17,7 +17,6 @@ public interface BuildMainAndChildMatches
 public class BuildMainAndChildMatchesImp : BuildMainAndChildMatches
 {
     private readonly Repository repository;
-    private readonly BuildMainMatchMaxBet buildMainMatchMaxBet;
     private readonly BuildChildMatchMaxBet buildChildMatchMaxBet;
     private readonly BuildMatchOfferByLiveSetting buildMatchOffer;
     private readonly BuildRowColor buildRowColor;
@@ -26,7 +25,6 @@ public class BuildMainAndChildMatchesImp : BuildMainAndChildMatches
 
     public BuildMainAndChildMatchesImp(
         Repository repository,
-        BuildMainMatchMaxBet buildMainMatchMaxBet,
         BuildChildMatchMaxBet buildChildMatchMaxBet,
         BuildRowColor buildRowColor,
         BuildMatchOfferByLiveSetting buildMatchOffer,
@@ -34,7 +32,6 @@ public class BuildMainAndChildMatchesImp : BuildMainAndChildMatches
         IMediator mediator)
     {
         this.repository = repository;
-        this.buildMainMatchMaxBet = buildMainMatchMaxBet;
         this.buildChildMatchMaxBet = buildChildMatchMaxBet;
         this.buildRowColor = buildRowColor;
         this.mediator = mediator;
@@ -47,8 +44,7 @@ public class BuildMainAndChildMatchesImp : BuildMainAndChildMatches
         var mainMatches = await repository.QueryMainMatch(date);
         var childMatches = await repository.QueryChildMatch(date);
         var maxBet = await GetMaxBetDefaultSetting();
-
-        await buildMainMatchMaxBet.BuildMainMatchMaxbet(mainMatches);
+        
         buildChildMatchMaxBet.Build(mainMatches, childMatches, maxBet);
         buildMatchOffer.Build(mainMatches, childMatches, maxBet);
         var filteredMainMatches = RemoveTestingMatches(mainMatches);
@@ -65,8 +61,7 @@ public class BuildMainAndChildMatchesImp : BuildMainAndChildMatches
         var maxBet = GetMaxBetDefaultSetting();
         var rAndDInfo = repository.GetRAndDUpdateInfo(date);
         await Task.WhenAll(mainMatches, maxBet, rAndDInfo);
-
-        await buildMainMatchMaxBet.BuildMainMatchMaxbet(mainMatches.Result);
+        
         buildMatchOffer.BuildForMainMatch(mainMatches.Result, maxBet.Result);
         RAndDInfoHelper.Build(mainMatches.Result, rAndDInfo.Result);
 

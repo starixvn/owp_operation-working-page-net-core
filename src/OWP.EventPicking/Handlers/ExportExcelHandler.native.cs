@@ -1,8 +1,5 @@
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using OWP.EventPicking.Middleware.Models;
-using OWP.EventPicking.Services;
-using OWP.Services;
+
+
 
 namespace OWP.EventPicking.Handlers;
 

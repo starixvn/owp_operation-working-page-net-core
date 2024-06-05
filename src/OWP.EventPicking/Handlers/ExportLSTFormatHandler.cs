@@ -1,11 +1,4 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using OWP.EventPicking.Helper;
-using OWP.EventPicking.Middleware.Models;
-using OWP.EventPicking.Models;
-using OWP.EventPicking.Services;
-using OWP.Extensions;
-
+﻿
 
 namespace OWP.EventPicking.Handlers;
 
@@ -18,14 +11,14 @@ public class ExportLSTFormatHandler : IRequestHandler<ExportLSTFormatRequest, Fi
 
     public ExportLSTFormatHandler(Repository repository, ExportService exportService)
     {
-       this.repository=repository;
+        this.repository = repository;
         this.exportService = exportService;
     }
 
     public async Task<FileResult> Handle(ExportLSTFormatRequest request, CancellationToken cancellationToken)
     {
         var matches = await GetMatches(request.Date);
-        return  await exportService.BuildFileLSTStream(matches);
+        return await exportService.BuildFileLSTStream(matches);
     }
 
     public async Task<IList<ExportLSTFormat>> GetMatches(DateTime date)
@@ -35,7 +28,7 @@ public class ExportLSTFormatHandler : IRequestHandler<ExportLSTFormatRequest, Fi
             .Where(x => !CheckMatchHaveBeenExclude(x.HomeName))
             .OrderBy(x => x.IsSaba)
             .ThenBy(x => x.EventDateTime)
-            .ThenBy(x=> x.InfoSiteMatchId)
+            .ThenBy(x => x.InfoSiteMatchId)
             .ToList();
         var matches = await BuildProviderAndNoInfo(orderMatches);
 

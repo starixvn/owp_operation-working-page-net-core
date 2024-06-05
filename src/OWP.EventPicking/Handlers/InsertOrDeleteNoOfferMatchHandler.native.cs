@@ -1,6 +1,5 @@
-using MediatR;
-using OWP.EventPicking.Models;
-using OWP.Services;
+
+
 
 namespace OWP.EventPicking.Handlers;
 
@@ -15,7 +14,7 @@ public class InsertOrDeleteNoOfferMatchHandler : IRequestHandler<InsertOrDeleteN
 {
     private readonly Repository repository;
     private readonly AccessCounter accessCounter;
-    public InsertOrDeleteNoOfferMatchHandler(Repository repository , AccessCounter accessCounter)
+    public InsertOrDeleteNoOfferMatchHandler(Repository repository, AccessCounter accessCounter)
     {
         this.repository = repository;
         this.accessCounter = accessCounter;
@@ -25,7 +24,7 @@ public class InsertOrDeleteNoOfferMatchHandler : IRequestHandler<InsertOrDeleteN
     {
         if (request.IsMultiSelected)
         {
-          await  accessCounter.UpdateCounter("EventPicking Multiple NoOffer");
+            await accessCounter.UpdateCounter("EventPicking Multiple NoOffer");
         }
         await repository.InsertOrDeleteNoOfferMatch(request);
         return Unit.Value;

@@ -1,6 +1,4 @@
-using Fanex.NAP.Client.Helpers.Web;
-using MediatR;
-using OWP.EventPicking.Criteria;
+
 
 namespace OWP.EventPicking.Handlers;
 

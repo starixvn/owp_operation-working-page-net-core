@@ -1,15 +1,11 @@
-using Epplus.Mapper.Annotations;
-using OWP.Extensions;
-using OWP.Utils;
-using System.Globalization;
+
+
 using System.Text.Json.Serialization;
 
 namespace OWP.EventPicking.Models;
 
-public class EventPickingModel
+public class EventPickingModel : MaxbetSpread
 {
-    public int InfoSiteMatchId { get; set; }
-
     public int? ChildMatchId { get; set; }
 
     public int? AdminSiteMatchId { get; set; }
@@ -89,9 +85,6 @@ public class EventPickingModel
 
     [Cell("I2")]
     public string MatchOffer { get; set; }
-
-    [Cell("J2")]
-    public string LstNote { get; set; }
 
     [Cell("K2")]
     public string MaxBetHDP { get; set; }
@@ -298,6 +291,7 @@ public class EventPickingModel
     public string LocalTV { get; set; }
 
     // MaxBet & Spread
+
     public decimal? MaxBetHDPNumber { get; set; }
 
     public List<RAndDInfo> RAndDInfos { get; set; }
@@ -342,33 +336,29 @@ public class EventPickingModel
     [JsonIgnore]
     public MarginInfo MarginTwelveMonths { get; set; }
 
-    //public double? MarginSort => Margin.Value;
-
-    public IList<TurnOverInfo> TurnoverPeriod => new List<TurnOverInfo>{
+    public IEnumerable<TurnOverInfo> TurnoverPeriod => new List<TurnOverInfo>{
         TurnoverOneMonth ,
         TurnoverThreeMonths,
         TurnoverSixMonths,
         TurnoverTwelveMonths
-    }.Where(t => t is not null)?
-    .ToList();
+    }.Where(m => m is not null);
 
-    public IList<MarginInfo> MarginPeriod => new List<MarginInfo>{
+    public IEnumerable<MarginInfo> MarginPeriod => new List<MarginInfo>{
         MarginOneMonth ,
         MarginThreeMonths,
         MarginSixMonths,
         MarginTwelveMonths
-    }.Where(t => t is not null)?
-   .ToList();
+    }.Where(m => m is not null);
 
     public string BuildTurnOverExport()
     {
-        var turnOverPeriodValues = TurnoverPeriod.Select(t => $"{t.Title}: " + t?.ValueDisplay).ToList();
+        var turnOverPeriodValues = TurnoverPeriod?.Select(t => $"{t.Title}: " + t.ValueDisplay).ToList();
         return string.Join("\r\n", turnOverPeriodValues);
     }
 
     public string BuildMarginExport()
     {
-        var marginPeriodValues = MarginPeriod.Select(t => $"{t.Title}: " + t?.ValueDisplay).ToList();
+        var marginPeriodValues = MarginPeriod?.Select(t => $"{t.Title}: " + t.ValueDisplay).ToList();
         return string.Join("\r\n", marginPeriodValues);
     }
 
