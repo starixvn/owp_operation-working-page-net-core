@@ -44,7 +44,7 @@ services.AddControllersWithViews(options =>
     options.Filters.Add(new ServiceFilterAttribute(typeof(CheckUMFilterAttribute)));
     options.Filters.Add(new SessionAuthorizeAttribute());
 }).AddNewtonsoftJson();
-builder.Services.AddCarter();
+services.AddCarter();
 // Configure app
 var app = builder.Build();
 
@@ -65,7 +65,7 @@ app.UseRabbitListener();
 NapClientManager
   .UseConfig(app.Services.GetService<INapSettings>())
   .UseSession(app.Services.GetService<INapSession>());
-
+app.MapCarter();
 app.MapControllerRoute(
         "default",
         "{controller=Home}/{action=Index}/{id?}");
@@ -75,7 +75,6 @@ app.MapHub<TicketCenterNotifyHubImp>("/ticketCenterNotifyHub");
 app.MapHub<PreMatchNotifyHubImp>("/preMatchNotifyHub");
 
 ThreadPool.SetMinThreads(100, 100);
-app.MapCarter();
 app.Run();
 
 

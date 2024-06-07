@@ -19,7 +19,6 @@ using System.Threading.Tasks;
 
 [Route("api/event-assignment/export")]
 [ApiController]
-//[EnableCors]
 [AllowAnonymous]
 public class DownloadAssignmentController : ControllerBase
 {

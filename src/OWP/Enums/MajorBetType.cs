@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace OWP.Event.EventShared.Enum;
+namespace OWP.Enums;
 
 public enum MajorBetType
 {

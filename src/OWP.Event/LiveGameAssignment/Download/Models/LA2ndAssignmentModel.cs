@@ -1,7 +1,6 @@
-﻿namespace OWP.Event.LiveGameAssignment.Download.Models;
+﻿using OWP.Enums;
 
-using OWP.Event.EventShared.Enum;
-using System;
+namespace OWP.Event.LiveGameAssignment.Download.Models;
 
 [Serializable]
 public class LA2ndAssignmentModel : LAAssignmentModel
