@@ -50,6 +50,7 @@ var app = builder.Build();
 
 app.UseDeveloperExceptionPage();
 app.UseTicketPathStaticFiles();
+app.UseStaticFiles();
 app.UseRouting();
 
 app.UseCors();
