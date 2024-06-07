@@ -30,19 +30,30 @@ public class HomeController : Controller
         this.counterModel = counterOptions.Value;
     }
 
-    [AllowAnonymous]
-    [SkipUMFilter]
+    [Authorize]
     public IActionResult Index()
     {
         ViewBag.IsSessionAvailable = HttpContext.Session.IsAvailable;
         ViewBag.UserId = session.UserId;
         ViewBag.Username = session.UserName;
         ViewBag.Ip = GetIp();
-        ViewBag.FakeLoginEnabled = false;
-
-        ViewBag.FakeLoginEnabled = napSettings.Environment == "UAT";
+        
         return View();
     }
+
+    //[AllowAnonymous]
+    //[SkipUMFilter]
+    //public IActionResult Index()
+    //{
+    //    ViewBag.IsSessionAvailable = HttpContext.Session.IsAvailable;
+    //    ViewBag.UserId = session.UserId;
+    //    ViewBag.Username = session.UserName;
+    //    ViewBag.Ip = GetIp();
+    //    ViewBag.FakeLoginEnabled = false;
+
+    //    ViewBag.FakeLoginEnabled = napSettings.Environment == "UAT";
+    //    return View();
+    //}
 
     [AllowAnonymous]
     [SkipUMFilter]
