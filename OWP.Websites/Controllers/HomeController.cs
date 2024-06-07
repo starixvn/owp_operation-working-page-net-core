@@ -41,6 +41,13 @@ public class HomeController : Controller
         return View();
     }
 
+    [Route("Welcome")]
+    [Authorize]
+    public ActionResult WelcomeOWP()
+    {
+        return View("~/wwwroot/welcome/server.cshtml");
+    }
+
     //[AllowAnonymous]
     //[SkipUMFilter]
     //public IActionResult Index()
@@ -105,7 +112,7 @@ public class HomeController : Controller
         return View();
     }
 
-    [AllowAnonymous]
+    [Authorize]
     [HttpGet]
     public async Task<IActionResult> FakeLogin()
     {
