@@ -1,4 +1,4 @@
-namespace OWP.ProviderVerification.Provider;
+namespace OWP.ProviderVerification.ProviderVerification.QueryProvider;
 
 public record QueryProviderVerificationRequest(DateTime EventDate) : Query<IEnumerable<ProviderVerificationModel>>;
 public class QueryProviderVerificationHandler : QueryHandler<QueryProviderVerificationRequest, IEnumerable<ProviderVerificationModel>>

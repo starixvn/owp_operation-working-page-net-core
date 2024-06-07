@@ -1,4 +1,4 @@
-namespace OWP.ProviderVerification.Provider;
+namespace OWP.ProviderVerification.ProviderVerification.QueryProvider;
 
 public class QueryProviderVerification : ICarterModule
 {

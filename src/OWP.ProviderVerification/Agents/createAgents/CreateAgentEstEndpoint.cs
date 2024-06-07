@@ -1,5 +1,4 @@
-
-namespace OWP.ProviderVerification.Agents.QueryAgents;
+namespace OWP.ProviderVerification.Agents.createAgents;
 
 public class CreateAgentEstEndpoint : ICarterModule
 {

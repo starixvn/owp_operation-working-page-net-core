@@ -11,6 +11,8 @@ public interface ExcelValidator
 
 public class ExcelValidatorImp : ExcelValidator
 {
+    private readonly string[] OptionalColumn = new string[3] { "Agent for EST", "Remark for EST", "Remark by" };
+
     public void Validate(Stream stream)
     {
         stream.Seek(0, SeekOrigin.Begin);
@@ -21,12 +23,12 @@ public class ExcelValidatorImp : ExcelValidator
         ValidateCellValues(sheet);
     }
 
-    private static void ValidateHeaders(ExcelWorksheet sheet)
+    private void ValidateHeaders(ExcelWorksheet sheet)
     {
         var headerMap = sheet.GetHeaderMap();
 
-        var anyInvalidHeaderColumnIndex = headerMap.Any(i => i.Value <= 0);
-        if (anyInvalidHeaderColumnIndex)
+        var anyInvalidHeaderColumnIndex = headerMap.FirstOrDefault(i => i.Value <= 0 && !OptionalColumn.Any(l => string.Equals(l, i.Key)));
+        if (anyInvalidHeaderColumnIndex.Key is not null)
         {
             throw new InvalidExcelFormatException();
         }
