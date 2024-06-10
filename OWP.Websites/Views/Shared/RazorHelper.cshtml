@@ -1,0 +1,126 @@
+﻿@using OWP.Resources;
+
+@helper Pagination(params int[] itemPerPages)
+{
+    var arrayItemPerPage = (itemPerPages.Length == 0) ? new int[] { 50, 100, 200 } : itemPerPages;
+    <div class="pagination js-pagination" style="display: none;">
+        <div class="detailtext left">Showing 1 to 20 of 142 entries</div>
+        <div class="paging-item">
+            <div class="itemperpage">
+                <span>@ViewLang.Show</span>
+                <span class="input-itemPerPage">
+                    <select class="js-select js-itemperpageOption">
+                        @foreach (var item in arrayItemPerPage)
+                        {
+                            <option value="@item">@item</option>
+                        }
+                    </select>
+                </span>
+                <span>entries</span>
+            </div>
+            <ul id="numberlist" class="pagination border"></ul>
+        </div>
+    </div>
+}
+
+@helper ModalWarningMessage()
+{
+    <div id="js-modalWarningMessage" class="modal small">
+        <div class="modal-header">
+            <a href="javascript:;" class="modal-action modal-close waves-effect"><i class="mdi mdi-close"></i></a>
+        </div>
+
+        <div class="modal-content">
+            <p><i class="mdi mdi-alert-outline icon-alert"></i></p>
+            <p class="text js-message"></p>
+        </div>
+    </div>
+}
+
+@helper ModalErrorMessage()
+{
+    <div id="js-modalErrorMessage" class="modal small">
+        <div class="modal-header">
+            <a href="javascript:;" class="modal-action modal-close waves-effect"><i class="mdi mdi-close"></i></a>
+        </div>
+
+        <div class="modal-content">
+            <p><i class="mdi mdi-close-circle-outline icon-error"></i></p>
+            <p class="text js-message"></p>
+        </div>
+    </div>
+}
+
+@helper MadalInformationMessage()
+{
+    <div id="js-modalInformationMessage" class="modal small">
+        <div class="modal-header">
+            <a href="javascript:;" class="modal-action modal-close waves-effect"><i class="mdi mdi-close"></i></a>
+        </div>
+
+        <div class="modal-content">
+            <p><i class="mdi mdi-checkbox-marked-circle-outline icon-success"></i></p>
+            <p class="text js-message"></p>
+        </div>
+    </div>
+}
+
+@helper ModalDialogForm()
+{
+    <div id="js-modalDialogForm" class="modal small">
+        <div class="modal-header">
+            <a href="javascript:;" class="modal-action modal-close waves-effect"><i class="mdi mdi-close"></i></a>
+        </div>
+
+        <div class="modal-content">
+            <p><i class="mdi mdi-close-circle-outline icon-error"></i></p>
+            <p class="text js-message"></p>
+        </div>
+        <div class="modal-footer button-block">
+
+            <a href="javascript:;"
+               class="modal-action modal-close waves-effect btn btn-confirm">
+                @ViewLang.OK
+            </a>
+        </div>
+    </div>
+}
+
+@helper ModalConfirm(string message, string modalId, string classConfirm = null, string classCancel = null)
+{
+    <div id="@modalId" class="modal small">
+        <div class="modal-header">
+            <a href="javascript:;" class="modal-action modal-close waves-effect @(string.IsNullOrEmpty(classCancel) ? string.Empty : classCancel)">
+                <i class="mdi mdi-close"></i>
+            </a>
+        </div>
+
+        <div class="modal-content">
+            <p><i class="mdi mdi-alert-outline icon-alert"></i></p>
+            <p class="text">@message</p>
+        </div>
+
+        <div class="modal-footer button-block">
+            <a href="javascript:;"
+               class="modal-action modal-close waves-effect btn btn-cancel @(string.IsNullOrEmpty(classCancel) ? string.Empty : classCancel)">
+                @ViewLang.Cancel
+            </a>
+            <a href="javascript:;"
+               class="modal-action modal-close waves-effect btn btn-confirm @(string.IsNullOrEmpty(classConfirm) ? string.Empty : classConfirm)">
+                @ViewLang.OK
+            </a>
+        </div>
+    </div>
+}
+@helper ModalLiveDetail()
+{
+    <div id="js-modalLiveDetail" class="modal modal-detail-info" style="width:80%; height: 80%;">
+        <div class="modal-header">
+            Details Information
+            <a href="javascript:;" class="modal-action modal-close-x waves-effect"><i class="mdi mdi-close"></i></a>
+        </div>
+        <div class="modal-content" style="width:100%; height: 100%;">
+            <iframe style="overflow:hidden; height:100%; width:100%; min-height: 700px;" src="" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </div>
+}

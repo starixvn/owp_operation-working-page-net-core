@@ -1,45 +1,87 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿@using OWP.Resources;
+@{
+    var title = ViewBag.Title == null ? ViewLang.Home : ViewBag.Title;
+}
+
+<!DOCTYPE html>
+<html>
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - OWP.Websites</title>
-    <link rel="stylesheet" href="./lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="./css/site.css" />
-</head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">OWP.Websites</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>@ViewLang.SystemName</title>
+    <link rel="shortcut icon" type="image/ico" href="@Url.Content("~/favicon.ico")">
+    <link href="~/shared/css/fonts/OWP-v1.0/style.css" rel="stylesheet" />
+    <link href="~/shared/css/fonts/font-icon/style.css" rel="stylesheet" />
+    <link href="~/shared/css/fonts/flags/flag-icon.css" rel="stylesheet" />
+    <link href="~/shared/css/site.css" rel="stylesheet" />
+    <link href="~/shared/css/main.css" rel="stylesheet" />
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2020 - OWP.Websites
+    @* @Styles.Render("~/styles/common") *@
+    <link href="~/src/scss/vendors/searchBlock.css" rel="stylesheet" />
+    @* @Scripts.Render("~/scripts/core") *@
+</head>
+<body class="site-menubar-fold">
+    @await Component.InvokeAsync("Header", new { title = title})
+    <main>
+        @RenderBody()
+
+        <div class="loading-process" style="display: none;">
+            <svg class="icon-loading" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="64" height="64" fill="#439ff0">
+                <circle transform="translate(8 0)" cx="0" cy="16" r="0">
+                    <animate attributeName="r" values="0; 4; 0; 0" dur="1.2s" repeatCount="indefinite" begin="0"
+                             keytimes="0;0.2;0.7;1" keySplines="0.2 0.2 0.4 0.8;0.2 0.6 0.4 0.8;0.2 0.6 0.4 0.8" calcMode="spline" />
+                </circle>
+                <circle transform="translate(16 0)" cx="0" cy="16" r="0">
+                    <animate attributeName="r" values="0; 4; 0; 0" dur="1.2s" repeatCount="indefinite" begin="0.3"
+                             keytimes="0;0.2;0.7;1" keySplines="0.2 0.2 0.4 0.8;0.2 0.6 0.4 0.8;0.2 0.6 0.4 0.8" calcMode="spline" />
+                </circle>
+                <circle transform="translate(24 0)" cx="0" cy="16" r="0">
+                    <animate attributeName="r" values="0; 4; 0; 0" dur="1.2s" repeatCount="indefinite" begin="0.6"
+                             keytimes="0;0.2;0.7;1" keySplines="0.2 0.2 0.4 0.8;0.2 0.6 0.4 0.8;0.2 0.6 0.4 0.8" calcMode="spline" />
+                </circle>
+            </svg>
         </div>
-    </footer>
-    <script src="./lib/jquery/dist/jquery.min.js"></script>
-    <script src="./lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="./js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", false)
+    </main>
+    @Html.Hidden("RootURL", Url.Content("~/"))
+   @*  @RazorHelper.ModalWarningMessage()
+    @RazorHelper.ModalErrorMessage()
+    @RazorHelper.MadalInformationMessage()
+    @RazorHelper.ModalDialogForm() *@
+    @* @{
+        var netCoreRootUrl = Fanex.NAP.OWP.Core.Configuration.AppSettings.NetCoreRootUrl;
+    } *@
+    @* <script>
+        window.netCoreRootUrl = '@netCoreRootUrl';
+    </script> *@
+    @* @Scripts.Render("~/scripts/common") *@
+    <script src="~/signalr/hubs"></script>
+    <script src="~/Scripts/Libraries/SignalNetCore/dist/browser/signalr.min.js"></script>
+
+    @* @Scripts.Render("~/scripts/signalR"); *@
+    <script type="text/javascript">
+        var msgNoSearchResults = '@ViewLang.QuickSearch_NoResults';
+
+        $(document).ready(function () {
+            documentTitle.CountUnreadMessage();
+            if (!Notification) {
+                alert('Desktop notifications not available in your browser. Try Chromium.');
+                return;
+            }
+
+            if (Notification.permission !== 'granted') {
+                Notification.requestPermission();
+            }
+
+        });
+    </script>
+    @Html.Raw(Fanex.Logging.LogManager.RenderJavascriptLogger())
+    @RenderSection("scripts", required: false)
+    @{
+        var currentUsername = "mira"; // HttpContext.Current.User.Identity.Name;
+    }
+
+    <input type="hidden" value="@currentUsername" />
 </body>
 </html>
