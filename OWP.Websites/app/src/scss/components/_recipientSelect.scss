@@ -1,0 +1,93 @@
+#recipient-select {
+  display: inline-flex;
+  flex-wrap: wrap;
+  position: relative;
+  background-color: #f9f9f9;
+  .selected-container {
+    max-height: 100px;
+    overflow-y: auto;
+    .MuiChip-root {
+      margin: 1px 1px;
+      font-size: 1.2rem;
+      background-color: #d9e1f2;
+      .MuiSvgIcon-root {
+        height: 18px;
+        width: 18px;
+        color: #459be7;
+        margin-left: 3px;
+      }
+      .MuiChip-deleteIcon {
+        color: #459be7;
+        width: 1.8rem;
+        &:hover {
+          color: #82afd6;
+        }
+      }
+    }
+    .MuiButtonBase-root.MuiChip-root {
+      height: 24px;
+      .MuiChip-label {
+        padding-left: 5px;
+        padding-right: 5px;
+      }
+    }
+  }
+  .search-bar {
+    .MuiInput-root {
+      font-size: 1.2rem;
+      padding-left: 5px;
+      width: 220px;
+    }
+    .MuiFormControl-root.MuiTextField-root {
+      width: 220px;
+    }
+  }
+  .suggest-popup {
+    position: absolute;
+    top: 112%;
+    left: 0;
+    right: 0;
+    padding: 0;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 100;
+    background-color: white;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    .MuiFormControl-root {
+      padding-left: 5px;
+      .MuiInputBase-input {
+        font-size: 1.2rem;
+      }
+    }
+    .suggest-option {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 5px;
+      &:hover {
+        background-color: #c4c4c4;
+      }
+      button {
+        border: 1px;
+        padding: 1px 5px;
+        color: white;
+        background-color: #2fb159;
+        margin: 0;
+        &:focus {
+          border: none;
+          outline: none;
+        }
+      }
+      .suggest-option-content {
+        display: flex;
+        span:first-child {
+          margin-right: 5px;
+        }
+        .MuiSvgIcon-root {
+          font-size: 18px;
+          color: #459be7;
+        }
+      }
+    }
+  }
+}

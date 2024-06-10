@@ -1,0 +1,6 @@
+{
+  "direction":{
+    "asc":"ORDER_ASC",
+    "desc":"ORDER_DESC"
+  }
+}

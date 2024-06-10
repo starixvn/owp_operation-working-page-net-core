@@ -1,0 +1,28 @@
+{
+  "optionsKey": [
+    "roles",
+    "sections",
+    "departments",
+    "categories",
+    "locationCodes"
+  ],
+  "SELECT_CTI_SUPERVISOR_OPTION": {
+    "startIndex": 0,
+    "endIndex": 1
+  },
+  "SELECT_CTI_STAFF_OPTION": {
+    "startIndex": 2,
+    "endIndex": 3
+  },
+  "SELECT_SMS_SUPERVISOR_OPTION": {
+    "startIndex": 4,
+    "endIndex": 9
+  },
+  "SELECT_SMS_STAFF_OPTION": {
+    "startIndex": 10,
+    "endIndex": 14
+  },
+  "SELECT_OTHER_OPTION": {
+    "startIndex": 15
+  }
+}

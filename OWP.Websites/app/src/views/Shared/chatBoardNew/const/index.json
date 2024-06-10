@@ -1,0 +1,83 @@
+{
+  "URL": {
+    "NET_Core_TICKET_CENTER": "api-netcore/TicketCenter",
+    "NET_FW_TICKET_CENTER": "api/TicketCenter",
+    "GET_TICKET_DETAIL_OTHER": "ticket-detail/get-other",
+    "GET_TICKET_DETAIL_LEAGUE": "ticket-detail/get-league",
+    "GET_TICKET_DETAIL_MATCH": "ticket-detail/get-match",
+    "LOAD_MORE_MESSAGE": "get-next-list-messages",
+    "DOWNLOAD_FILE": "download",
+    "UPLOAD_FILE": "upload",
+    "ADD_MESSAGE": "new-message",
+    "ADD_SINGLE_RECIPIENT": "ticket-detail/insert-single-recipient",
+    "REMOVE_SINGLE_RECIPIENT": "ticket-detail/remove-single-recipient",
+    "UPDATE_SAVE_MESSAGE": "ticket-detail/update-save-message",
+    "UPDATE_TICKET_STATUS": "ticket-detail/update-ticket-status",
+    "UPDATE_TICKET_SUBTYPE": "ticket-detail/update-ticket-subtype",
+    "NET_CORE_TICKET_CENTER_FILE": "Tickets"
+  },
+  "TICKET_TYPE": {
+    "EVENT_CHECKING": 1,
+    "GROUP_CHAT": 2,
+    "TICKET_SUPPORT": 3,
+    "LIVE_INCIDENT": 4,
+    "LOG_WORK": 5
+  },
+  "EVENT_TYPE": {
+    "LEAGUE": 1,
+    "MATCH": 2,
+    "OTHER": 3,
+    "LOG_WORK": 6
+  },
+  "validExtension": [
+    ".jpg",
+    ".jpeg",
+    ".png",
+    ".gif",
+    ".bmp",
+    ".pdf",
+    ".doc",
+    ".ppt",
+    ".odt",
+    ".pptx",
+    ".docx",
+    ".pps",
+    ".ppsx",
+    ".xls",
+    ".xlsx",
+    ".xlsm",
+    ".mp3",
+    ".ogg",
+    ".m4a",
+    ".wav",
+    ".mp4",
+    ".m4v"
+  ],
+  "imageExtension": [".jpg", ".jpeg", ".png", ".gif", ".bmp"],
+  "STATUS": [
+    {
+      "value": "Open",
+      "label": "Open"
+    },
+    {
+      "value": "Closed",
+      "label": "Closed"
+    },
+    {
+      "value": "Canceled",
+      "label": "Canceled"
+    }
+  ],
+  "TicketStatus": {
+    "Open": "Open",
+    "Closed": "Closed",
+    "Canceled": "Canceled"
+  },
+  "ReactionIcon": [
+    { "label": "love", "node": "❤️" },
+    { "label": "like", "node": "👍" },
+    { "label": "collaboration", "node": "🤝" },
+    { "label": "checked", "node": "✅" },
+    { "label": "ok", "node": "👌" }
+  ]
+}

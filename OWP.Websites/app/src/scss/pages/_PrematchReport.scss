@@ -1,0 +1,161 @@
+.prematch-report-body {
+  padding: 10px;
+  .top-control {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    padding: 10px;
+  }
+  .top-control {
+    position: relative;
+    .filter-control {
+      display: inline-block;
+      width: 150px;
+      margin-right: 16px;
+      input {
+        background-color: transparent;
+      }
+    }
+    .right-control {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+    }
+    .multi-select {
+      display: inline-block;
+      height: 26px;
+      min-width: 200px;
+      margin-left: 10px;
+      font-size: 12px;
+      background: #f1f1f1;
+      color: #5e7485;
+      border-color: #f1f1f1;
+      box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+        0 3px 2px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+      vertical-align: middle;
+      border-radius: 2px;
+      cursor: pointer;
+      .dropdown-content {
+        z-index: 5 !important;
+        max-height: 400px !important;
+      }
+      .dropdown-heading {
+        height: 26px !important;
+        border-radius: 2px !important;
+        border-bottom: 0 !important;
+        background: #f1f1f1 !important;
+        .dropdown-heading-value {
+          padding-left: 8px !important;
+          padding-right: 8px !important;
+          line-height: 26px !important;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  .table-content {
+    .rthfc.-striped .rt-tr.-odd .rt-td {
+      background-color: white !important;
+    }
+    .rthfc.-striped .rt-tr.-even .rt-td {
+      background-color: #f7f7ff !important;
+    }
+    .ReactTable {
+      .-headerGroups {
+        .rt-th:nth-child(2) {
+          background-color: #fbe78e !important;
+        }
+        .rt-th:nth-child(3) {
+          background-color: #fbe78e !important;
+        }
+        .rt-th:nth-child(4) {
+          background-color: #f0c6c6 !important;
+        }
+        .rt-th:nth-child(5) {
+          background-color: #f0c6c6 !important;
+        }
+      }
+      .-header {
+        .rt-th:nth-child(n + 4) {
+          background-color: #d9e1f2 !important;
+        }
+        .rt-th {
+          height: 50px;
+          padding-top: 18px;
+        }
+        .totalLeague-header,
+        .totalMatches-header {
+          white-space: unset !important;
+          word-break: break-word;
+          padding-top: 15px;
+        }
+      }
+
+      .sort-icon {
+        position: absolute;
+        top: 18px;
+        right: 2px;
+        width: 12px;
+        height: 12px;
+        cursor: pointer;
+        &.asc {
+          &:before {
+            border-color: transparent transparent #4b595c transparent;
+          }
+        }
+        &.desc {
+          &:after {
+            border-color: #4b595c transparent transparent transparent;
+          }
+        }
+        &:before {
+          content: '';
+          position: absolute;
+          width: 0;
+          height: 0;
+          right: 0;
+          border-style: solid;
+          top: 0;
+          border-color: transparent transparent #93a9aa transparent;
+          border-width: 0 3px 5px 3px;
+        }
+        &:after {
+          content: '';
+          position: absolute;
+          width: 0;
+          height: 0;
+          right: 0;
+          border-style: solid;
+          bottom: 0;
+          border-color: #93a9aa transparent transparent transparent;
+          border-width: 5px 3px 0 3px;
+        }
+      }
+
+      .rt-tbody {
+        .rt-td {
+          text-align: center;
+        }
+        .traderName-value {
+          text-align: left;
+        }
+      }
+      .rt-noData {
+        top: 77px;
+        height: 103px;
+      }
+    }
+
+    .total-records {
+      padding-top: 10px;
+      font-weight: bold;
+      display: block;
+      bottom: -15px;
+      left: 10px;
+    }
+  }
+}

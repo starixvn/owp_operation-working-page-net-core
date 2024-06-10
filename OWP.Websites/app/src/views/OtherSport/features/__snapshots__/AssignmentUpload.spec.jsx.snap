@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AssignmentUpload under test should match snapshot 1`] = `
+<div>
+  <button
+    class="button-upload-other-spport"
+  >
+    Upload assignment
+  </button>
+</div>
+`;

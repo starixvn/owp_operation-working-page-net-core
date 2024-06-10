@@ -1,0 +1,57 @@
+{
+  "SECTION_ID_LIVE_ASSISTANT_PH": 30,
+  "SECTION_ID_LIVE_ASSISTANT_VN": 2,
+  "SECTION_LIVE_TRADING_ID": 3,
+  "FILTER_KEY": {
+    "ROLE_ID": "RoleId",
+    "SECTION_ID": "SectionId",
+    "LOCATION_ID": "LocationId",
+    "USER": "User"
+  },
+  "rootUrl": "api-netcore/ProductAssignment",
+  "functionKey": "AssignmentConfiguration",
+  "dbColumnName": {
+    "role": "RoleId",
+    "level": "Level",
+    "betTypePreferences": "BetTypePreferencesId",
+    "multipleGames": "MultipleGamesId",
+    "assignmentRemark": "AssignmentRemark"
+  },
+  "defaultTableStyle": {
+    "rowHeight": 50,
+    "filterOffset": 160,
+    "headerHeight": 40
+  },
+  "tableSchema": [
+    {
+      "headerName": "Name",
+      "columnKey": "name",
+      "width": 200
+    },
+    {
+      "headerName": "Level",
+      "columnKey": "level",
+      "width": 200
+    },
+    {
+      "headerName": "Role",
+      "columnKey": "role",
+      "width": 200
+    },
+    {
+      "headerName": "Main Bettype",
+      "columnKey": "main-bettype",
+      "width": 200
+    },
+    {
+      "headerName": "Max Multiple Games",
+      "columnKey": "max-multiple-games",
+      "width": 200
+    },
+    {
+      "headerName": "Assignment Remark",
+      "columnKey": "assignment-remark",
+      "width": 500
+    }
+  ]
+}

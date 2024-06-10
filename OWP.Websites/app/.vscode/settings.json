@@ -1,0 +1,38 @@
+{
+  "editor.fontSize": 15,
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "window.zoomLevel": 0,
+  "editor.renderWhitespace": "all",
+  "editor.detectIndentation": false,
+  "files.hotExit": "off",
+  "terminal.integrated.fontSize": 14,
+  "javascript.updateImportsOnFileMove.enabled": "never",
+  "git.ignoreLimitWarning": true,
+  "editor.formatOnSave": true,
+  "files.associations": {
+    "*.js": "javascriptreact"
+  },
+  "sonarlint.ls.javaHome": "C:\\Program Files\\Java\\jdk1.8.0_201",
+  "editor.acceptSuggestionOnEnter": "smart",
+  "cSpell.words": [
+    "apikey",
+    "bettype",
+    "charkour",
+    "FIFA",
+    "iptv",
+    "Linkify",
+    "maxbet",
+    "netcore",
+    "NOSONAR",
+    "Prematch",
+    "reduxjs",
+    "starix",
+    "testid",
+    "uuidv"
+  ],
+  "sonarlint.connectedMode.project": {
+    "connectionId": "https-sonarqube-nexdev-net-",
+    "projectKey": "Nap-OWP"
+  }
+}

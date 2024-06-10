@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`wizard under test should match snapshot 1`] = `
+<div>
+  <div
+    class="wizard-overlay"
+  >
+    <div
+      class="wizard-body"
+    >
+      <button
+        class="btn-close"
+      >
+        X
+      </button>
+      <div
+        class="wizard-buttons"
+      />
+    </div>
+  </div>
+</div>
+`;

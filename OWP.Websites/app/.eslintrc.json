@@ -1,0 +1,99 @@
+{
+  "extends": [
+    "standard",
+    "standard-react",
+    "eslint:recommended",
+    "plugin:import/recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "prettier"
+  ],
+  "plugins": ["sonarjs"],
+  "parser": "@babel/eslint-parser",
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module"
+  },
+  "rules": {
+    "react/jsx-uses-react": "off",
+    "react/react-in-jsx-scope": "off",
+    "no-useless-constructor": 0,
+    "multiline-ternary": 0,
+    "semi": [2, "always"],
+    "no-warning-comments": [
+      2,
+      {
+        "terms": [""],
+        "location": "anywhere"
+      }
+    ],
+    "no-unused-vars": "warn",
+    "no-var": "error",
+    "no-empty-function": "error",
+    "prefer-const": "error",
+    "curly": [2, "all"],
+    "space-before-function-paren": [
+      "error",
+      {
+        "anonymous": "never",
+        "named": "never",
+        "asyncArrow": "always"
+      }
+    ],
+    "arrow-parens": ["error", "as-needed"],
+    "no-restricted-syntax": [
+      "error",
+      {
+        "selector": ":matches(ImportNamespaceSpecifier, ExportAllDeclaration, ExportNamespaceSpecifier)",
+        "message": "Import/export only modules you need"
+      }
+    ],
+    "max-depth": ["error", 3],
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": ["off"],
+
+    "sonarjs/no-collapsible-if": "error",
+    "react/jsx-curly-newline": "off",
+    "camelcase": "off",
+    "jsx-a11y/click-events-have-key-events": "off"
+  },
+  "overrides": [
+    {
+      "files": ["*.jsx", "*.ts", "*.tsx"],
+      "parser": "@typescript-eslint/parser",
+      "rules": {
+        "no-use-before-define": "off",
+        "react/self-closing-comp": "off",
+        "react/jsx-closing-bracket-location": "off",
+        "react/jsx-handler-names": "off",
+        "react/jsx-closing-tag-location": "off",
+        "react/jsx-indent": "off",
+        "no-undef": "off",
+        "react/display-name": "off",
+        "space-before-function-paren": "off"
+      }
+    }
+  ],
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node": true,
+    "jest": true
+  },
+  "globals": {
+    "localStorage": true,
+    "document": true,
+    "clearTimeout": true,
+    "setTimeout": true
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    },
+    "react": {
+      "version": "detect"
+    }
+  }
+}

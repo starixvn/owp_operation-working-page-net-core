@@ -1,0 +1,67 @@
+{
+  "TABLE_HEADER": [
+    {
+      "headerName": "No #",
+      "size": 3,
+      "isFilter": true
+    },
+    {
+      "headerName": "KO Time",
+      "size": 4,
+      "isSort": true
+    },
+    {
+      "headerName": "League",
+      "size": 15,
+      "isFilter": true
+    },
+    {
+      "headerName": "Match",
+      "size": 14,
+      "isFilter": true
+    },
+    {
+      "headerName": "Ticket",
+      "size": 3
+    },
+    {
+      "headerName": "Remark",
+      "size": 11
+    },
+    {
+      "headerName": "FT Trader",
+      "size": 11,
+      "isFilter": true
+    },
+    {
+      "headerName": "1H Trader",
+      "size": 11,
+      "isFilter": true
+    },
+    {
+      "headerName": "Other Product Trader",
+      "size": 11,
+      "isFilter": true
+    },
+    {
+      "headerName": "LA",
+      "size": 7,
+      "isFilter": true
+    },
+    {
+      "headerName": "TV/IPTV",
+      "size": 5,
+      "isFilter": true
+    },
+    {
+      "headerName": "Provider",
+      "size": 5,
+      "isFilter": true
+    }
+  ],
+  "itemRowHeight": 100,
+  "netCoreURL": "api-netcore/LiveGameList",
+  "netFwURL": "api/LiveGameList",
+  "ORDER_ASC": "ORDER_ASC",
+  "ORDER_DESC": "ORDER_DESC"
+}

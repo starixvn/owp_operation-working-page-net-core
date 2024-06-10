@@ -1,0 +1,43 @@
+{
+  "netCoreURL": "api-netcore/EventPicking",
+  "netFwURL": "api/EventPicking",
+  "getEventPicking": "get-event-picking",
+  "updateEvents": "update-events",
+  "editEventPicking": "query-event-picking-edit-mode",
+  "getLogsHistory": "get-logs-history",
+  "getLeague": "get-league-name",
+  "getUpdateType": "get-update-type",
+  "UPDATE_NO_OFFER_MATCH": "update-noOffer-match",
+  "UPDATE_CONFIRMED": "update-confirmed",
+  "MESSAGE": {
+    "CHECK_ALL": "Are you sure you want to select all of these matches?",
+    "UN_CHECK_ALL": "Are you sure you want to unselect all of these matches?",
+    "CONFIRM_ALL": "Are you sure you want to check all of these matches?",
+    "EXPORT_AND_CONFIRM_ALL": "Are you sure you want to export and check all? All exported matches will be automatically checked"
+  },
+  "SELECT_GAME": [
+    {
+      "value": 1,
+      "label": "No Offer (x)"
+    },
+    {
+      "value": 0,
+      "label": "Offer"
+    }
+  ],
+  "FILTER_MATCH": [
+    {
+      "value": 0,
+      "label": "Gray"
+    },
+    {
+      "value": 1,
+      "label": "Red"
+    },
+    {
+      "value": 2,
+      "label": "White"
+    }
+  ],
+  "USER_GUIDE": "User Guide - Export Event Picking file"
+}

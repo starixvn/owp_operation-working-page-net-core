@@ -1,0 +1,111 @@
+{
+  "SPORTS": [
+    {
+      "label": "Badminton",
+      "value": "Badminton"
+    },
+    {
+      "label": "Baseball",
+      "value": "Baseball"
+    },
+    {
+      "label": "Basketball",
+      "value": "Basketball"
+    },
+    {
+      "label": "Cricket",
+      "value": "Cricket"
+    },
+    {
+      "label": "Darts",
+      "value": "Darts"
+    },
+    {
+      "label": "Football",
+      "value": "Football"
+    },
+    {
+      "label": "Field Hockey",
+      "value": "Field Hockey"
+    },
+    {
+      "label": "Handball",
+      "value": "Handball"
+    },
+    {
+      "label": "Ice Hockey",
+      "value": "Ice Hockey"
+    },
+    {
+      "label": "Netball",
+      "value": "Netball"
+    },
+    {
+      "label": "Pool",
+      "value": "Pool"
+    },
+    {
+      "label": "Snooker",
+      "value": "Snooker"
+    },
+    {
+      "label": "Table Tennis",
+      "value": "Table Tennis"
+    },
+    {
+      "label": "Tennis",
+      "value": "Tennis"
+    },
+    {
+      "label": "Volleyball",
+      "value": "Volleyball"
+    },
+    {
+      "label": "Other Sports",
+      "value": "Other Sports"
+    }
+  ],
+  "OFFER_LIVES": [
+    {
+      "label": "Live",
+      "value": "Live"
+    },
+    {
+      "label": "Postponed",
+      "value": "Postponed"
+    },
+    {
+      "label": "Canceled",
+      "value": "Canceled"
+    }
+  ],
+  "MATCH_STATUSES": [
+    {
+      "label": "In-play",
+      "value": "In-play"
+    },
+    {
+      "label": "Completed",
+      "value": "Completed"
+    },
+    {
+      "label": "Prematch",
+      "value": "Prematch"
+    },
+    {
+      "label": "Early",
+      "value": "Early"
+    }
+  ],
+  "LINKED_MATCHES": [
+    {
+      "label": "Linked Match",
+      "value": "Linked Match"
+    },
+    {
+      "label": "Unlinked Match",
+      "value": "Unlinked Match"
+    }
+  ],
+  "LOCAL_STORAGE_KEY": "other-sport-key"
+}

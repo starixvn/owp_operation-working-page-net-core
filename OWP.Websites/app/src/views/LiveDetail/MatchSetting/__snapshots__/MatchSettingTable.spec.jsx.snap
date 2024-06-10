@@ -1,0 +1,328 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<MatchSettingTable/> should render <MatchSettingTable/> component success 1`] = `
+<table
+  class="table table-bordered"
+>
+  <thead>
+    <tr>
+      <th
+        class="col-bettype"
+      >
+        BetType
+      </th>
+      <th>
+        MBC
+      </th>
+      <th
+        class="action-col"
+      >
+        Action
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td
+        colspan="4"
+      >
+        There is no data
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;
+
+exports[`<MatchSettingTable/> should render table with data 1`] = `
+<table
+  class="table table-bordered"
+>
+  <thead>
+    <tr>
+      <th
+        class="col-bettype"
+      >
+        BetType
+      </th>
+      <th>
+        MBC
+      </th>
+      <th
+        class="action-col"
+      >
+        Action
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <div
+          class="content select-up"
+        >
+          <div
+            class="basic-multi-select css-2b097c-container"
+          >
+            <div
+              class="select__control css-yk16xz-control"
+            >
+              <div
+                class="select__value-container select__value-container--has-value css-g1d714-ValueContainer"
+              >
+                <div
+                  class="select__single-value css-1uccc91-singleValue"
+                >
+                  HDP
+                </div>
+                <div
+                  class="css-b8ldur-Input"
+                >
+                  <div
+                    class="select__input"
+                    style="display: inline-block;"
+                  >
+                    <input
+                      aria-autocomplete="list"
+                      autocapitalize="none"
+                      autocomplete="off"
+                      autocorrect="off"
+                      id="react-select-2-input"
+                      spellcheck="false"
+                      style="box-sizing: content-box; width: 2px; border: 0px; opacity: 1; outline: 0; padding: 0px;"
+                      tabindex="0"
+                      type="text"
+                      value=""
+                    />
+                    <div
+                      style="position: absolute; top: 0px; left: 0px; visibility: hidden; height: 0px; overflow: scroll; white-space: pre; font-family: -webkit-small-control; letter-spacing: normal; text-transform: none;"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div
+                class="select__indicators css-1hb7zxy-IndicatorsContainer"
+              >
+                <span
+                  class="select__indicator-separator css-1okebmr-indicatorSeparator"
+                />
+                <div
+                  aria-hidden="true"
+                  class="select__indicator select__dropdown-indicator css-tlfecz-indicatorContainer"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="css-6q0nyr-Svg"
+                    focusable="false"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    width="20"
+                  >
+                    <path
+                      d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <input
+              name="bettype"
+              type="hidden"
+              value="1"
+            />
+          </div>
+        </div>
+      </td>
+      <td>
+        <div
+          class="content"
+        >
+          <input
+            class="input-field"
+            type="text"
+            value="3"
+          />
+          <span>
+            K
+          </span>
+          <input
+            class="input-field"
+            type="text"
+            value="2"
+          />
+          <span>
+            %
+          </span>
+        </div>
+      </td>
+      <td
+        class="icon-button"
+      >
+        <button
+          class="icon-save"
+        >
+          <svg
+            class="mdi-icon "
+            fill="currentColor"
+            height="12"
+            viewBox="0 0 24 24"
+            width="12"
+          >
+            <path
+              d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"
+            />
+          </svg>
+        </button>
+        <button
+          class="icon-cancel"
+        >
+          <svg
+            class="mdi-icon "
+            fill="currentColor"
+            height="12"
+            viewBox="0 0 24 24"
+            width="12"
+          >
+            <path
+              d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"
+            />
+          </svg>
+        </button>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div
+          class="content select-up"
+        >
+          <div
+            class="basic-multi-select select--is-disabled css-14jk2my-container"
+          >
+            <div
+              class="select__control select__control--is-disabled css-1fhf3k1-control"
+            >
+              <div
+                class="select__value-container select__value-container--has-value css-g1d714-ValueContainer"
+              >
+                <div
+                  class="select__single-value select__single-value--is-disabled css-107lb6w-singleValue"
+                >
+                  XMins
+                </div>
+                <div
+                  class="css-b8ldur-Input"
+                >
+                  <div
+                    class="select__input"
+                    style="display: inline-block;"
+                  >
+                    <input
+                      aria-autocomplete="list"
+                      autocapitalize="none"
+                      autocomplete="off"
+                      autocorrect="off"
+                      disabled=""
+                      id="react-select-3-input"
+                      spellcheck="false"
+                      style="box-sizing: content-box; width: 2px; border: 0px; opacity: 1; outline: 0; padding: 0px;"
+                      tabindex="0"
+                      type="text"
+                      value=""
+                    />
+                    <div
+                      style="position: absolute; top: 0px; left: 0px; visibility: hidden; height: 0px; overflow: scroll; white-space: pre; font-family: -webkit-small-control; letter-spacing: normal; text-transform: none;"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div
+                class="select__indicators css-1hb7zxy-IndicatorsContainer"
+              >
+                <span
+                  class="select__indicator-separator css-109onse-indicatorSeparator"
+                />
+                <div
+                  aria-hidden="true"
+                  class="select__indicator select__dropdown-indicator css-tlfecz-indicatorContainer"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="css-6q0nyr-Svg"
+                    focusable="false"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    width="20"
+                  >
+                    <path
+                      d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </td>
+      <td>
+        <div
+          class="content"
+        >
+          <input
+            class="input-field"
+            disabled=""
+            type="text"
+            value="5"
+          />
+          <span>
+            K
+          </span>
+          <input
+            class="input-field"
+            disabled=""
+            type="text"
+            value="6"
+          />
+          <span>
+            %
+          </span>
+        </div>
+      </td>
+      <td
+        class="icon-button"
+      >
+        <button
+          class="icon-edit"
+          disabled=""
+        >
+          <svg
+            class="mdi-icon "
+            fill="currentColor"
+            height="12"
+            viewBox="0 0 24 24"
+            width="12"
+          >
+            <path
+              d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z"
+            />
+          </svg>
+        </button>
+        <button
+          class="icon-delete"
+          disabled=""
+        >
+          <svg
+            class="mdi-icon "
+            fill="currentColor"
+            height="12"
+            viewBox="0 0 24 24"
+            width="12"
+          >
+            <path
+              d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19C6,20.1 6.9,21 8,21H16C17.1,21 18,20.1 18,19V7H6V19Z"
+            />
+          </svg>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;

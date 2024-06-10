@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test FlagComponent render FlagMatch 1`] = `
+<img
+  class="flag-default"
+  height="280"
+  width="290"
+/>
+`;

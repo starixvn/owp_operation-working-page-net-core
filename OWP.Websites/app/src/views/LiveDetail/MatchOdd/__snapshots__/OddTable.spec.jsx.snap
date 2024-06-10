@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`OddTable test Table should render empty table if there is no data 1`] = `
+<table
+  class="table table-bordered"
+>
+  <thead>
+    <tr>
+      <th
+        class="bettype-col"
+      >
+        Bet Type
+      </th>
+      <th>
+        Goal
+      </th>
+      <th
+        class="odd-col"
+      >
+        Home
+      </th>
+      <th
+        class="odd-col"
+      >
+        Away
+      </th>
+      <th
+        class="odd-col"
+      >
+        Draw
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td
+        colspan="6"
+      >
+        There is no data
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;

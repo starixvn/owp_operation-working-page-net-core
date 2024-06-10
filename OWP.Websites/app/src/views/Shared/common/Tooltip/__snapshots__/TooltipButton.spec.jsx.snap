@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TooltipButton under test should render TooltipButton 1`] = `
+<div>
+  <button
+    class="button-iptv"
+    id="iptv0"
+  >
+    IPTV
+  </button>
+</div>
+`;

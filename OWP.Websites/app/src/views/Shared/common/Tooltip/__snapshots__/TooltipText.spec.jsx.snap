@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TooltipText under test should render TooltipText 1`] = `
+<div>
+  <div
+    class="iptv"
+    id="iptv0"
+  >
+    IPTV
+  </div>
+</div>
+`;

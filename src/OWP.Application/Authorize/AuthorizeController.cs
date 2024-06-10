@@ -10,9 +10,9 @@ namespace OWP.Application.Authorize;
 [Authorize]
 public class AuthorizeController : ControllerBase
 {
-    private readonly Service service;
+    private readonly AuthorizeService service;
 
-    public AuthorizeController(Service service)
+    public AuthorizeController(AuthorizeService service)
     {
         this.service = service;
     }

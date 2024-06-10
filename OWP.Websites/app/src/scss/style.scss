@@ -1,0 +1,39 @@
+@import './abstracts/mixins.scss';
+@import './abstracts/variables.scss';
+
+// Import styles
+@import '@coreui/coreui/scss/coreui.scss';
+// Temp fix for reactstrap
+@import '~react-bootstrap-multiselect/css/bootstrap-multiselect.css';
+@import '@devexpress/dx-react-grid-bootstrap4/dist/dx-react-grid-bootstrap4.css';
+@import '~sweetalert2/src/sweetalert2.scss';
+@import '~react-toastify/scss/main.scss';
+@import '~react-table/react-table.css';
+@import '~react-datepicker/dist/react-datepicker.css';
+
+@import './base/_base.scss';
+
+@import './components/_dropdown.scss';
+@import './components/_forms.scss';
+@import './components/_tables.scss';
+@import './components/_toastify.scss';
+@import './components/reactDatepicker';
+@import './components/tabs';
+@import './components/sweetAlert';
+@import './components/reactSelect';
+
+@import './layout/_modal.scss';
+@import './layout/_header.scss';
+@import './layout/_sidebar.scss';
+@import './layout/_notification.scss';
+
+@import './vendors/searchHeader.css';
+@import './vendors/timepicker';
+
+@import '~fixed-data-table-2/dist/fixed-data-table.css';
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}

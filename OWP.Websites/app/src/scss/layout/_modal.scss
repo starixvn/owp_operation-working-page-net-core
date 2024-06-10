@@ -1,0 +1,12 @@
+.modal {
+  z-index: 1051;
+  .modal-dark-title .modal-header .close {
+    text-shadow: none;
+    color: #fff;
+    opacity: 1;
+    font-size: 18px;
+    font-weight: normal;
+    background: transparent;
+    border: 0;
+  }
+}

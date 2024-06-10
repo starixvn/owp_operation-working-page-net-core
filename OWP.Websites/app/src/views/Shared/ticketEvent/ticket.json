@@ -1,0 +1,5 @@
+{
+  "URL": {
+    "GET_TICKET_LIST": "/get-ticket-list"
+  }
+}

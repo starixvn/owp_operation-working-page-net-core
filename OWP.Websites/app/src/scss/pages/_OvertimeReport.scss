@@ -1,0 +1,200 @@
+.ot-report-page {
+  padding: 10px;
+}
+
+.filter {
+  padding: 0px 0 0;
+  margin-bottom: 20px;
+  .input-field {
+    background: transparent;
+    max-width: 100%;
+    width: 100%;
+    transition: all 0.3s ease-out;
+    &:hover {
+      border-color: hsl(0, 0%, 70%);
+    }
+  }
+  .select__menu {
+    border: 0 !important;
+    .select__menu-list {
+      border: 0 !important;
+      background-color: #ffffff;
+
+      .select__option {
+        padding: 0.5rem;
+        color: #656a7b;
+        background-color: #ffffff;
+        &:hover {
+          background-color: #ebf5ff;
+        }
+        //   &.select__option--is-selected,&.select__option--is-focused,&.select__option--is-selected{
+        //   background-color: #EBF5FF;
+
+        // }
+      }
+    }
+  }
+}
+.btn {
+  height: 26px;
+  line-height: 25px;
+  padding: 0 1rem;
+  color: #ffffff;
+  font-size: 12px;
+  margin-right: 10px;
+  appearance: none;
+  box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-out;
+  outline: none;
+  &:focus {
+    box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
+  }
+}
+.btn-excel {
+  background: #00a659;
+  &:hover {
+    color: #ffffff !important;
+    background-color: #00a659 !important;
+    box-shadow: 0 4px 4px #00000024, 0 3px 4px -2px #0003, 0 1px 7px #0000001f !important;
+  }
+}
+.btn-search {
+  background: #1e88e5;
+  &:hover {
+    color: #ffffff !important;
+    background-color: #1e88e5 !important;
+    box-shadow: 0 4px 4px #00000024, 0 3px 4px -2px #0003, 0 1px 7px #0000001f !important;
+  }
+}
+.tab-list {
+  padding: 0;
+  border-bottom: 1px solid #c4c4c4;
+  li {
+    display: inline-block;
+    color: #808080;
+    padding: 0px 20px 6px;
+    cursor: pointer;
+    &.active-tabs {
+      color: #1e88e5;
+      position: relative;
+      &:after {
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        background: #1e88e5;
+        content: '';
+        left: 0;
+        bottom: -1px;
+      }
+    }
+  }
+}
+
+.content {
+  display: none;
+  .table-content {
+    padding: 0;
+  }
+  &.active-content {
+    display: block;
+  }
+}
+
+// table by month
+.no-value {
+  text-align: center;
+}
+
+.date-value {
+  text-align: right;
+}
+
+.total-value,
+.date-footer {
+  text-align: right;
+  color: #9c0006;
+  font-weight: bold;
+}
+
+.off-day {
+  color: rgb(21, 204, 21);
+}
+// table
+.ReactTable .rt-tbody .rt-td,
+.ReactTable .rt-tr.-odd .rt-td {
+  border-color: #c8ced3;
+}
+.ReactTable {
+  border-color: #c8ced3;
+}
+.rt-table {
+  .rt-thead {
+    .rt-tr {
+      .rt-th {
+        &.no-header,
+        &.total-header {
+          display: flex;
+          padding: 7px 5px;
+          align-items: center;
+          justify-content: center;
+        }
+        &.location-header,
+        &.trader-header {
+          display: flex;
+          padding: 7px 5px;
+          align-items: center;
+        }
+        &.is-weekend {
+          background-color: #d9edff !important;
+        }
+        &.total-header {
+          background: #ffdedf !important;
+          color: #9c0006;
+        }
+        border-right: 1px solid #c8ced3 !important;
+        border-bottom: 1px solid #c8ced3 !important;
+        padding: 7px 0;
+        > div {
+          .weekday {
+            padding-bottom: 4px;
+            border-bottom: 1px solid #c8ced3 !important;
+            + div {
+              padding-top: 4px;
+            }
+          }
+        }
+      }
+    }
+  }
+  .rt-tbody {
+    .rt-tr {
+      .rt-td:last-child {
+        border-color: #c8ced3;
+      }
+      &.-odd {
+        .rt-td {
+          background-color: #ffffff;
+        }
+      }
+      .total-value {
+        font-weight: bold;
+      }
+    }
+  }
+  .rt-tfoot {
+    border-top: 1px solid #c8ced3 !important;
+    box-shadow: none;
+    .rt-tr {
+      .rt-td {
+        background-color: #f1f1f1;
+      }
+      .total-value {
+        font-weight: bold;
+      }
+    }
+  }
+}
+.total-records {
+  bottom: -23px;
+  left: 0;
+}

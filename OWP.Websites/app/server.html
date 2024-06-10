@@ -1,0 +1,92 @@
+@using Fanex.NAP.OWP.Core.Configuration; @{ var baseHref =
+Request.ApplicationPath; if (baseHref != "/") { baseHref = baseHref + "/"; } }
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="theme-color" content="#000000" />
+    <!--
+          manifest.json provides metadata used when your web app is added to the
+          homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
+        -->
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <!--
+          Notice the use of %PUBLIC_URL% in the tags above.
+          It will be replaced with the URL of the `public` folder during the build.
+          Only files inside the `public` folder can be referenced from the HTML.
+
+          Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+          work correctly both with client-side routing and a non-root public URL.
+          Learn how to configure a non-root public URL by running `npm run build`.
+        -->
+    <title>Operation Working Page</title>
+    <base href="@baseHref" />
+    <script type="text/javascript">
+      var iconUrl = '@baseHref + "favicon.ico"';
+      document.addEventListener('DOMContentLoaded', function () {
+        if (!Notification) {
+          alert(
+            'Desktop notifications not available in your browser. Try Chromium.'
+          );
+          return;
+        }
+        if (Notification.permission !== 'granted')
+          Notification.requestPermission();
+      });
+      function pushNotification(message) {
+        if (!Notification || Notification.permission !== 'granted') {
+          return;
+        }
+
+        var bodyContent = (message.messageContent.replaceAll('<b>', '')).replaceAll('</b>', '');
+
+        var notification = new Notification('OWP Notification', {
+          icon: '@baseHref' + 'favicon.ico',
+          body: bodyContent
+        });
+        notification.onclick = () => {
+          if (message.ticketId) {
+            window.open('@baseHref' + 'MyTickets?actorId=' + message.userId + '&eventType=' + message.eventType + '&ticketId=' + message.ticketId + '',`ticket-center-${message.ticketId}`);
+          }
+          else {
+            window.open('@baseHref' + 'MessageBoxManagement');
+          }
+        };
+      }
+    </script>
+    @Styles.Render("~/styles/fonts") @Scripts.Render("~/scripts/core")
+    @Scripts.Render("~/scripts/common")
+    <script src="~/Areas/Copy/copy.js"></script>
+    <link href="~/Content/Themes/fonts/flags/flag-icon.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <noscript> You need to enable JavaScript to run this app. </noscript>
+    <div id="root"></div>
+    <script src="signalr/hubs"></script>
+    <!--
+          This HTML file is a template.
+          If you open it directly in the browser, you will see an empty page.
+
+          You can add webfonts, meta tags, or analytics to this file.
+          The build step will place the bundled scripts into the <body> tag.
+
+          To begin the development, run `npm start` or `yarn start`.
+          To create a production bundle, use `npm run build` or `yarn build`.
+        -->
+    @{ var currentUsername = HttpContext.Current.User.Identity.Name; var
+    environment = Fanex.NAP.Core.Configuration.NapSettings.Settings.Environment;
+    var netCoreRootUrl =
+    Fanex.NAP.OWP.Core.Configuration.AppSettings.NetCoreRootUrl; }
+    <script>
+      documentTitle.CountUnreadMessage();
+      window.netCoreRootUrl = '@netCoreRootUrl';
+    </script>
+    <input type="hidden" value="@currentUsername" />
+    @Html.Hidden("RootURL", Url.Content("~/"))
+  </body>
+</html>

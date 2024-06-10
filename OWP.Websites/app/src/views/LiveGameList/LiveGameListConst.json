@@ -1,0 +1,29 @@
+{
+  "OFF_VR": "OFF VR",
+  "DEFAULT_STATUS_OPTION": [
+    { "label": "Live", "value": 1 },
+    { "label": "In-play", "value": 2 }
+  ],
+  "MATCH_TYPE_OPTION": [
+    { "label": "Real", "value": "real" },
+    { "label": "Virtual", "value": "virtual" }
+  ],
+  "TICKET_TYPE": {
+    "EVENT_CHECKING": 1,
+    "GROUP_CHAT": 2,
+    "TICKET_SUPPORT": 3,
+    "LIVE_INCIDENT": 4
+  },
+  "RECIPIENT_TYPE": {
+    "INDIVIDUAL": 1,
+    "GROUP": 2
+  },
+  "coefficientTable": 14500,
+  "coefficientTraderRow": 100,
+  "heightLargeTraderDefault": 70,
+  "heightSmallTraderDefault": 30,
+  "heightTraderDefault": 50,
+  "heightOtherProductItemDefault": 40,
+  "two": 2,
+  "three": 3
+}

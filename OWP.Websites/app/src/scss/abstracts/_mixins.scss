@@ -1,0 +1,56 @@
+/// Adds a browser prefix to the property
+/// @param {*} $property Property
+/// @param {*} $value Value
+
+@mixin css3-prefix($property, $value) {
+  -webkit-#{$property}: #{$value};
+   -khtml-#{$property}: #{$value};
+     -moz-#{$property}: #{$value};
+      -ms-#{$property}: #{$value};
+       -o-#{$property}: #{$value};
+          #{$property}: #{$value};
+}
+
+@mixin box-shadow-multiple($string) {
+    @include css3-prefix('box-shadow', $string);
+}
+
+/// Border Radius
+/// @param {Size} $radius [5px] - Radius
+/// @require {mixin} css3-prefix
+
+@mixin border-radius($radius: 5px) {
+    @include css3-prefix('border-radius', $radius);
+}
+
+@mixin iconCircle($value) {
+    width: $value;
+    height: $value;
+    line-height: $value;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 50%;
+}
+
+@mixin button-style($color, $background) {
+  border: 0;
+  height: 26px;
+  line-height: 26px;
+  text-transform: capitalize;
+  border-radius: 2px;
+  font-size: 13px;
+  color: $color;
+  background: $background;
+  padding: 0 1rem;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 2px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  transition: 0.2s ease all;
+
+  &:hover {
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.14), 0 3px 4px -2px rgba(0, 0, 0, 0.2), 0 1px 7px 0 rgba(0, 0, 0, 0.12);
+  }
+
+  &:focus {
+    outline: none;
+  }
+}

@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NoteTable should render "There is no data" if data is empty 1`] = `
+<div>
+  <form
+    class="create-note"
+  >
+    <input
+      class="note-textinput"
+      data-testid="note-testId"
+      placeholder="Write a note"
+      type="text"
+    />
+  </form>
+  <div
+    class="no-data"
+  >
+    There is no data
+  </div>
+</div>
+`;

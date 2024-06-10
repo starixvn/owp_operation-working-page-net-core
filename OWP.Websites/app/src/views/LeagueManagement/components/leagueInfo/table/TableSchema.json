@@ -1,0 +1,81 @@
+{
+  "classNameCells": {
+    "noCell": {
+      "className": "no-cell",
+      "width": "40px"
+    },
+    "leagueGroupCell": {
+      "className": "league-group-cell",
+      "width": "75px"
+    },
+    "leagueCell": {
+      "className": "league-cell",
+      "width": "230px"
+    },
+    "tvCell": {
+      "className": "tv-cell",
+      "width": "80px"
+    },
+    "roundCell": {
+      "className": "round-cell",
+      "width": "80px"
+    },
+    "leagueDivisionCell": {
+      "className": "league-division-cell",
+      "width": "80px"
+    },
+    "remarkCell": {
+      "className": "remark-cell",
+      "width": "80px"
+    },
+    "spreadHDP_OUCell": {
+      "className": "spread-hdp-ou-cell",
+      "width": "100px"
+    },
+    "mbWeekdayHDPCell": {
+      "className": "mb-weekday-hdp-cell",
+      "width": "90px"
+    },
+    "mbWeekdayNoHDPCell": {
+      "className": "mb-weekday-no-hdp-cell",
+      "width": "90px"
+    },
+    "mbWeekendHDPCell": {
+      "className": "mb-weekend-hdp-cell",
+      "width": "90px"
+    },
+    "mbWeekendNoHDPCell": {
+      "className": "mb-weekend-no-hdp-cell",
+      "width": "90px"
+    },
+    "lstNoteCell": {
+      "className": "lst-note-cell",
+      "width": "150px"
+    },
+    "remark2Cell": {
+      "className": "remark2-cell",
+      "width": "150px"
+    },
+    "commentCell": {
+      "className": "comment-cell",
+      "width": "380px"
+    }
+  },
+  "COLUMN_KEY": {
+    "League_Group": "League_Group",
+    "League": "League",
+    "Tv": "Tv",
+    "Round": "Round",
+    "League_Division": "League_Division",
+    "Remark": "Remark",
+    "Spread_HDP_OU": "Spread_HDP_OU",
+    "MB_WK_HDP": "MB_WK_HDP",
+    "MB_WK_NO_HDP": "MB_WK_NO_HDP",
+    "MB_WD_HDP": "MB_WD_HDP",
+    "MB_WD_NO_HDP": "MB_WD_NO_HDP",
+    "LST_Note": "LST_Note",
+    "Remark2": "Remark2",
+    "Comment": "Comment"
+  },
+  "itemRowHeight": 40
+}

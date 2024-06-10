@@ -1,0 +1,113 @@
+{
+  "dateRangeDefault": 180,
+  "dateRangeValid": 365,
+  "time": 86400000,
+  "netCoreURL": "api-netcore/MatchCountLiveReport",
+  "netFwURL": "api/MatchCountLiveReport",
+  "queryReport": "query",
+  "exportReport": "export",
+  "reportTable": {
+    "noCol": {
+      "name": "No",
+      "id": "no",
+      "width": 100,
+      "fixed": "left"
+    },
+    "betType": {
+      "name": "Bet Type",
+      "id": "betType",
+      "width": 400,
+      "fixed": "left"
+    },
+    "totalMatches": {
+      "name": "Total Matches",
+      "id": "totalMatches"
+    },
+    "subColumn": [
+      {
+        "name": "Total",
+        "id": "total"
+      },
+      {
+        "name": "MJ",
+        "id": "mj"
+      },
+      {
+        "name": "M1",
+        "id": "m1"
+      },
+      {
+        "name": "M2",
+        "id": "m2"
+      },
+      {
+        "name": "M3",
+        "id": "m3"
+      },
+      {
+        "name": "M4",
+        "id": "m4"
+      },
+      {
+        "name": "Others",
+        "id": "others"
+      },
+      {
+        "name": "Others 1",
+        "id": "others1"
+      },
+      {
+        "name": "Others 2",
+        "id": "others2"
+      },
+      {
+        "name": "Others 3",
+        "id": "others3"
+      },
+      {
+        "name": "Others 4",
+        "id": "others4"
+      },
+      {
+        "name": "Others 5",
+        "id": "others5"
+      },
+      {
+        "name": "MJ.T1",
+        "id": "mjT1"
+      },
+      {
+        "name": "MJ.T2",
+        "id": "mjT2"
+      },
+      {
+        "name": "CL.MJ.Q",
+        "id": "clmjq"
+      },
+      {
+        "name": "CL.MN.Q",
+        "id": "clmnq"
+      },
+      {
+        "name": "INT.MJ",
+        "id": "intmj"
+      },
+      {
+        "name": "INT.MN",
+        "id": "intmn"
+      },
+      {
+        "name": "World Cup",
+        "id": "worldCup"
+      },
+      {
+        "name": "EURO",
+        "id": "euro"
+      },
+      {
+        "name": "Unknown",
+        "id": "unknown"
+      }
+    ]
+  }
+}

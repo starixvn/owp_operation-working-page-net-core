@@ -1,0 +1,39 @@
+{
+  "HEADER": {
+    "TITLE": "Feedback Form",
+    "DESCRIPTION": {
+      "EN": "We would love to hear your thoughts, suggestions or problems so we can improve!",
+      "CN": "我們很樂意聆聽您的想法、建議或問題，以便我們可以改進系統. 謝謝"
+    }
+  },
+  "THANK_YOU": {
+    "EN": "Thanks for your submission!",
+    "CN": "謝謝您的回饋"
+  },
+  "NEXT_STEP": {
+    "EN": "You can go to <a href= 'MyTickets' target='_blank'>My Tickets</a> and take a look at your recent feedback.",
+    "CN": " 請到 <a href= 'MyTickets' target='_blank'>My Tickets</a> 主頁可以查詢您的最近回饋."
+  },
+  "BODY": {
+    "CHOOSE_FUNCTION": {
+      "EN": "Choose function to give feedback:",
+      "CN": "相關功能"
+    },
+    "DESCRIPTION": {
+      "EN": "Describe your feedback:",
+      "CN": "描述您的問題"
+    },
+    "RATE_FUNCTION": {
+      "EN": "Rate this function:",
+      "CN": "功能滿意度"
+    }
+  },
+  "URL": {
+    "NET_Core_TICKET_CENTER": "api-netcore/TicketCenter",
+    "NET_FW_TICKET_CENTER": "api/TicketCenter"
+  },
+  "RECIPIENT_TYPE": {
+    "INDIVIDUAL": 1,
+    "GROUP": 2
+  }
+}

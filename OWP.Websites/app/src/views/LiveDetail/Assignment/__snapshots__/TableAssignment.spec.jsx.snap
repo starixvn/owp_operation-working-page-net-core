@@ -1,0 +1,253 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TableAssignment should render component 1`] = `
+<table
+  class="table table-bordered"
+>
+  <thead>
+    <tr>
+      <th
+        class="bettype"
+      >
+        Bet Type
+      </th>
+      <th
+        class="maxbet"
+        colspan="2"
+      >
+        Max Bet
+      </th>
+      <th
+        class="assign-col"
+      >
+        FT
+      </th>
+      <th
+        class="assign-col"
+      >
+        1H
+      </th>
+      <th
+        class="assign-col"
+      >
+        LA
+      </th>
+    </tr>
+  </thead>
+  <tbody
+    class="live-assignment"
+  >
+    <tr>
+      <td
+        class="bettype-name"
+      >
+        HDP
+      </td>
+      <td
+        class="maxbet"
+      >
+        <span
+          class="value-center"
+          id="MBCFT-undefined-0"
+        >
+          10K
+           
+          12%
+        </span>
+      </td>
+      <td
+        class="maxbet"
+      >
+        <span
+          class="value-center"
+          id="MBCHT-undefined-0"
+        >
+          10K
+           
+          12%
+        </span>
+      </td>
+      <td>
+        <div
+          class="assignment EditableButtonGroup_Key"
+        >
+          <div
+            class="auto-suggest"
+          />
+          <div
+            class="button-plus"
+          >
+            <button
+              class="btn-add"
+              disabled=""
+            >
+              <svg
+                class="mdi-icon "
+                fill="currentColor"
+                height="15"
+                viewBox="0 0 24 24"
+                width="15"
+              >
+                <path
+                  d="M17,13H13V17H11V13H7V11H11V7H13V11H17M12,2C6.48,2 2,6.48 2,12C2,17.52 6.48,22 12,22C17.52,22 22,17.52 22,12C22,6.48 17.52,2 12,2Z"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+         
+      </td>
+      <td>
+        <div
+          class="assignment EditableButtonGroup_Key"
+        >
+          <div
+            class="auto-suggest"
+          />
+          <div
+            class="button-plus"
+          >
+            <button
+              class="btn-add"
+              disabled=""
+            >
+              <svg
+                class="mdi-icon "
+                fill="currentColor"
+                height="15"
+                viewBox="0 0 24 24"
+                width="15"
+              >
+                <path
+                  d="M17,13H13V17H11V13H7V11H11V7H13V11H17M12,2C6.48,2 2,6.48 2,12C2,17.52 6.48,22 12,22C17.52,22 22,17.52 22,12C22,6.48 17.52,2 12,2Z"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </td>
+      <td
+        rowspan="1"
+      >
+        <div
+          class="assignment EditableButtonGroup_Key"
+        >
+          <div
+            class="auto-suggest"
+          />
+          <div
+            class="button-plus"
+          >
+            <button
+              class="btn-add"
+              disabled=""
+            >
+              <svg
+                class="mdi-icon "
+                fill="currentColor"
+                height="15"
+                viewBox="0 0 24 24"
+                width="15"
+              >
+                <path
+                  d="M17,13H13V17H11V13H7V11H11V7H13V11H17M12,2C6.48,2 2,6.48 2,12C2,17.52 6.48,22 12,22C17.52,22 22,17.52 22,12C22,6.48 17.52,2 12,2Z"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td
+        class="bettype-name"
+      >
+        OU
+      </td>
+      <td
+        class="maxbet"
+      >
+        <span
+          class="value-center"
+          id="MBCFT-undefined-1"
+        >
+          10K
+           
+          12%
+        </span>
+      </td>
+      <td
+        class="maxbet"
+      >
+        <span
+          class="value-center"
+          id="MBCHT-undefined-1"
+        >
+          10K
+           
+          12%
+        </span>
+      </td>
+      <td>
+        <div
+          class="assignment EditableButtonGroup_Key"
+        >
+          <div
+            class="auto-suggest"
+          />
+          <div
+            class="button-plus"
+          >
+            <button
+              class="btn-add"
+              disabled=""
+            >
+              <svg
+                class="mdi-icon "
+                fill="currentColor"
+                height="15"
+                viewBox="0 0 24 24"
+                width="15"
+              >
+                <path
+                  d="M17,13H13V17H11V13H7V11H11V7H13V11H17M12,2C6.48,2 2,6.48 2,12C2,17.52 6.48,22 12,22C17.52,22 22,17.52 22,12C22,6.48 17.52,2 12,2Z"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+         
+      </td>
+      <td>
+        <div
+          class="assignment EditableButtonGroup_Key"
+        >
+          <div
+            class="auto-suggest"
+          />
+          <div
+            class="button-plus"
+          >
+            <button
+              class="btn-add"
+              disabled=""
+            >
+              <svg
+                class="mdi-icon "
+                fill="currentColor"
+                height="15"
+                viewBox="0 0 24 24"
+                width="15"
+              >
+                <path
+                  d="M17,13H13V17H11V13H7V11H11V7H13V11H17M12,2C6.48,2 2,6.48 2,12C2,17.52 6.48,22 12,22C17.52,22 22,17.52 22,12C22,6.48 17.52,2 12,2Z"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;

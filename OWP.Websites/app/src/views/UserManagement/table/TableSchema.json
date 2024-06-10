@@ -1,0 +1,118 @@
+{
+  "DefaultTableStyle": {
+    "rowHeight": 30,
+    "widthResize": 140,
+    "width": 2000,
+    "minWidth": 880,
+    "filterOffset": 180,
+    "height": 750,
+    "maxHeight": 750,
+    "headerHeight": 38,
+    "initialWidth": 15,
+    "NoSize": 0.03,
+    "EmployeeIdSize": 0.06,
+    "AccountNameSize": 0.09,
+    "FullNameSize": 0.12,
+    "NickNameSize": 0.08,
+    "DepartmentSize": 0.08,
+    "SectionSize": 0.08,
+    "GroupSize": 0.08,
+    "RoleSize": 0.08,
+    "ExtensionSize": 0.06,
+    "PhoneSize": 0.06,
+    "EmailSize": 0.15,
+    "SkypeSize": 0.06,
+    "CategorySize": 0.06,
+    "LocationSize": 0.08,
+    "LevelSize": 0.07,
+    "PickupSize": 0.06,
+    "AddressSize": 0.15,
+    "SecondAccountSize": 0.06,
+    "LanguageSize": 0.06,
+    "MaximumLengthOfText": 150
+  },
+  "No": {
+    "order": 1,
+    "headerName": "No",
+    "columnKey": "No",
+    "isFreeze": true
+  },
+  "EmployeeID": {
+    "headerName": "Employee ID",
+    "columnKey": "EmployeeID",
+    "isFreeze": true
+  },
+  "AccountName": {
+    "headerName": "Account Name",
+    "columnKey": "AccountName",
+    "isFreeze": true
+  },
+  "FullName": {
+    "headerName": "Full Name",
+    "columnKey": "FullName"
+  },
+  "NickName": {
+    "headerName": "Nick Name",
+    "columnKey": "NickName"
+  },
+  "Department": {
+    "headerName": "Department",
+    "columnKey": "Department"
+  },
+  "Section": {
+    "headerName": "Section",
+    "columnKey": "Section"
+  },
+  "Group": {
+    "headerName": "Group",
+    "columnKey": "Group"
+  },
+  "Role": {
+    "headerName": "Role",
+    "columnKey": "Role"
+  },
+  "Extension": {
+    "headerName": "Extension",
+    "columnKey": "Extension"
+  },
+  "Phone": {
+    "headerName": "Phone",
+    "columnKey": "Phone"
+  },
+  "Email": {
+    "headerName": "Email",
+    "columnKey": "Email"
+  },
+  "Skype": {
+    "headerName": "Skype",
+    "columnKey": "Skype"
+  },
+  "Category": {
+    "headerName": "Category",
+    "columnKey": "Category"
+  },
+  "Location": {
+    "headerName": "Location",
+    "columnKey": "Location"
+  },
+  "Level": {
+    "headerName": "Level",
+    "columnKey": "Level"
+  },
+  "Pickup": {
+    "headerName": "Pickup",
+    "columnKey": "Pickup"
+  },
+  "Address": {
+    "headerName": "Address",
+    "columnKey": "Address"
+  },
+  "SecondAccount": {
+    "headerName": "Second Account",
+    "columnKey": "SecondAccount"
+  },
+  "Language": {
+    "headerName": "Language",
+    "columnKey": "Language"
+  }
+}

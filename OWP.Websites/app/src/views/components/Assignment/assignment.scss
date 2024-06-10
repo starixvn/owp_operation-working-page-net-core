@@ -1,0 +1,229 @@
+.assignment {
+  position: relative;
+
+  .button-plus {
+    position: absolute;
+    right: -3px;
+    top: -5px;
+    width: 30px;
+    text-align: right;
+  }
+  .button-suggestion {
+    position: absolute;
+    right: 3px;
+    top: 15px;
+    text-align: right;
+  }
+  .editableText {
+    width: 170px;
+    display: inline-block;
+    margin-bottom: 5px;
+    margin-right: 3px;
+    padding: 0 5px;
+    border: 1px solid #c0c0c0;
+    background: #ffffcd;
+    vertical-align: middle;
+
+    &:not(:last-child) {
+      margin-right: 5px;
+    }
+  }
+
+  .mentions-user__control {
+    width: 100%;
+    min-width: 20px;
+  }
+}
+
+.edit-button-group {
+  position: relative;
+}
+
+.btn-add {
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  text-align: center;
+  color: #439ff0;
+  cursor: pointer;
+  font-size: 15px;
+
+  &[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.react-contextmenu-wrapper {
+  display: inline-block;
+  font-size: 12px;
+  color: #43a0f0;
+
+  .aClassName {
+    color: #43a0f0;
+    font-size: 12px;
+  }
+
+  .highligh {
+    background: #ff9f0a;
+    padding: 0 2px;
+    display: inline-block;
+    color: #fff !important;
+    border-radius: 2px;
+    height: 16px;
+    line-height: 16px;
+  }
+}
+
+.react-autosuggest__input {
+  width: calc(100% - 18px);
+  height: 22px;
+  padding: 0;
+  font-size: 12px;
+  border: 0;
+  border-radius: 0;
+  border-bottom: 1px solid #ddd;
+  box-shadow: none;
+  background: none;
+  transition: all 0.3s;
+
+  &:focus {
+    outline: none;
+    border-bottom-color: #43a0f0;
+    box-shadow: 0 1px 0 0 #43a0f0;
+  }
+}
+
+.react-autosuggest__suggestions-list {
+  padding: 0;
+  list-style: none;
+  margin: 0;
+}
+
+.react-autosuggest__suggestion {
+  border-bottom: 1px solid #e1e1e1;
+  padding: 5px;
+  border-radius: 2px;
+}
+
+.react-autosuggest__suggestions-container--open {
+  position: absolute;
+  top: 23px;
+  width: 280px;
+  max-height: 145px;
+  border-radius: 2px;
+  border: 1px solid #43a0f0;
+  background: #fff;
+  font-size: 12px;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  overflow: auto;
+  z-index: 2;
+}
+
+.react-autosuggest__suggestion--highlighted {
+  background: #ececec;
+}
+
+.react-contextmenu {
+  background: #fff;
+  border: 1px solid #43a0f0;
+  border-radius: 2px;
+  font-size: 12px;
+  z-index: 1;
+
+  .react-contextmenu-item {
+    padding: 5px;
+    padding-right: 20px;
+
+    &:hover {
+      background: #ececec;
+    }
+  }
+
+  .mdi-skype,
+  .skype-color {
+    color: #10afe9;
+  }
+
+  .mdi {
+    width: 20px;
+    font-size: 15px;
+    line-height: 1;
+    vertical-align: middle;
+  }
+}
+
+.mentions-user {
+  .mentions-user__input {
+    min-width: 10px;
+    height: 16px;
+    padding: 0;
+    font-size: 12px !important;
+    border: 0 !important;
+    border-radius: 0;
+    border-bottom: 1px solid #ddd !important;
+    box-shadow: none;
+    background: none;
+    transition: all 0.3s;
+
+    &:focus {
+      outline: none;
+      border-bottom-color: #43a0f0 !important;
+      box-shadow: 0 1px 0 0 #43a0f0;
+    }
+  }
+}
+
+.mentions-user__suggestions {
+  width: 200px;
+  max-height: 150px;
+  background: #fff;
+  border: 1px solid #43a0f0;
+  border-radius: 2px;
+  font-size: 12px;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  overflow: auto;
+  z-index: 2 !important;
+
+  .mentions-user__suggestions__item {
+    padding: 5px;
+  }
+
+  .mentions-user__suggestions__item--focused {
+    background: #ececec;
+  }
+}
+
+.has-assignment {
+  display: flex;
+  justify-content: space-between;
+
+  .left,
+  .right {
+    display: flex;
+    align-items: center;
+  }
+
+  .avatar {
+    width: 25px;
+    height: 25px;
+    margin-right: 10px;
+
+    .sb-avatar__text {
+      line-height: 28px !important;
+    }
+  }
+
+  .level {
+    padding: 0 5px;
+    border: 1px solid #b4b4b4;
+    background: #fff;
+    margin-right: 5px;
+  }
+
+  .workingshift {
+    padding: 1px 8px;
+    background: #57a3ce;
+    color: #fff;
+  }
+}

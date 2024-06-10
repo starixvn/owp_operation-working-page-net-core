@@ -1,76 +1,75 @@
- @{
-     var baseHref = "/";
-if (baseHref != "/") { baseHref = baseHref + "/"; } }
+@{
+    var baseHref = "/"; if (baseHref != "/") { baseHref = baseHref + "/"; }
+}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" >
-    <meta 
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    >
-    <meta name="theme-color" content="#000000" >
-    
-    <link rel="shortcut icon" href="/event-picking/favicon.ico" >
-    
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#000000">
+
+    <link rel="shortcut icon" href="/event-picking/favicon.ico">
+
     <title>Operation Working Page</title>
-    <base href="@baseHref" >
+    <base href="@baseHref">
     <script type="text/javascript">
-      var iconUrl = '@baseHref + "favicon.ico"';
-      document.addEventListener('DOMContentLoaded', function () {
-        if (!Notification) {
-          alert(
-            'Desktop notifications not available in your browser. Try Chromium.'
-          );
-          return;
-        }
-        if (Notification.permission !== 'granted')
-          Notification.requestPermission();
-      });
-      function pushNotification(message) {
-        if (!Notification || Notification.permission !== 'granted') {
-          return;
-        }
-
-        var bodyContent = (message.messageContent.replaceAll('<b>', '')).replaceAll('</b>', '');
-
-        var notification = new Notification('OWP Notification', {
-          icon: '@baseHref' + 'favicon.ico',
-          body: bodyContent
+        var iconUrl = '@baseHref + "favicon.ico"';
+        document.addEventListener('DOMContentLoaded', function () {
+            if (!Notification) {
+                alert(
+                    'Desktop notifications not available in your browser. Try Chromium.'
+                );
+                return;
+            }
+            if (Notification.permission !== 'granted')
+                Notification.requestPermission();
         });
-        notification.onclick = () => {
-          if (message.ticketId) {
-            window.open('@baseHref' + 'MyTickets?actorId=' + message.userId + '&eventType=' + message.eventType + '&ticketId=' + message.ticketId + '',`ticket-center-${message.ticketId}`);
-          }
-          else {
-            window.open('@baseHref' + 'MessageBoxManagement');
-          }
-        };
-      }
-    </script>
-@*    @Styles.Render("~/styles/fonts") @Scripts.Render("~/scripts/core")
-    @Scripts.Render("~/scripts/common")*@
-@*    <script src="~/Areas/Copy/copy.js"></script>
-    <link href="~/Content/Themes/fonts/flags/flag-icon.css" rel="stylesheet" >*@
-    <script type="module" crossorigin src="/event-picking/assets/js/main-e0e96d30.js"></script>
-    <link rel="stylesheet" href="/event-picking/assets/ext/server-d0032ae6.css">
-  </head>
+        function pushNotification(message) {
+            if (!Notification || Notification.permission !== 'granted') {
+                return;
+            }
 
-  <body>
+            var bodyContent = (message.messageContent.replaceAll('<b>', '')).replaceAll('</b>', '');
+
+            var notification = new Notification('OWP Notification', {
+                icon: '@baseHref' + 'favicon.ico',
+                body: bodyContent
+            });
+            notification.onclick = () => {
+                if (message.ticketId) {
+                    window.open('@baseHref' + 'MyTickets?actorId=' + message.userId + '&eventType=' + message.eventType + '&ticketId=' + message.ticketId + '', `ticket-center-${message.ticketId}`);
+                }
+                else {
+                    window.open('@baseHref' + 'MessageBoxManagement');
+                }
+            };
+        }
+    </script>
+    @*    @Styles.Render("~/styles/fonts") @Scripts.Render("~/scripts/core")
+    @Scripts.Render("~/scripts/common")*@
+    @*    <script src="~/Areas/Copy/copy.js"></script>
+    <link href="~/Content/Themes/fonts/flags/flag-icon.css" rel="stylesheet" >*@
+    <script type="module" crossorigin src="/event-picking/assets/js/main-0bfd2de1.js"></script>
+    <link rel="stylesheet" href="/event-picking/assets/ext/server-08d1e2a0.css">
+</head>
+
+<body>
+    @{
+        var currentUsername = "sa";
+        var netCoreRootUrl = "https://localhost:5001";
+    }
+    <script>
+        //documentTitle.CountUnreadMessage();
+        window.netCoreRootUrl = '@netCoreRootUrl';
+    </script>
     <noscript> You need to enable JavaScript to run this app. </noscript>
     <div id="root"></div>
-    <script src="signalr/hubs"></script>
-    
-@*    @{ var currentUsername = HttpContext.Current.User.Identity.Name; var
-    environment = Fanex.NAP.Core.Configuration.NapSettings.Settings.Environment;
-    var netCoreRootUrl =
-    Fanex.NAP.OWP.Core.Configuration.AppSettings.NetCoreRootUrl; }
-    <script>
-      documentTitle.CountUnreadMessage();
-      window.netCoreRootUrl = '@netCoreRootUrl';
-    </script>
-    <input type="hidden" value="@currentUsername" >*@
+    @*<script src="signalr/hubs"></script>*@
+
+
+    <input type="hidden" value="@currentUsername">
     @Html.Hidden("RootURL", Url.Content("~/"))
-  
+
 </body>
 </html>
