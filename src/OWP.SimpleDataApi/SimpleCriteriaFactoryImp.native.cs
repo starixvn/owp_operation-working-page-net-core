@@ -1,13 +1,4 @@
-﻿using Olympus.SimpleDataApi;
-using OWP.SimpleDataApi.Criteria.LeagueManagement;
-using OWP.SimpleDataApi.Criteria.LiveDetail;
-using OWP.SimpleDataApi.Criteria.LiveGameAssignment;
-using OWP.SimpleDataApi.Criteria.OsLeagueSetting;
-using OWP.SimpleDataApi.Criteria.PreMatchAssignment;
-using OWP.SimpleDataApi.Criteria.TicketCenter;
-using OWP.SimpleDataApi.Criteria.TicketSetting;
-using OWP.SimpleDataApi.Criteria.UserManagement;
-using OWP.SimpleDataApi.LiveGameAssignment.Criteria;
+﻿
 
 namespace OWP.SimpleDataApi;
 
@@ -22,8 +13,27 @@ public class SimpleCriteriaFactoryImp : SimpleCriteriaFactoryBase
         RegisterPreMatchAssignment();
         RegisterUserManagement();
         RegisterLiveGameAssignment();
+        RegisterEmployeeWorkingShift();
     }
 
+    private static void RegisterEmployeeWorkingShift()
+    {
+        CriteriaTypes.Add(ConstantApiKey.WorkingShiftGetUsers, typeof(WorkingShiftQueryByUserCriteria));
+
+        CriteriaTypes.Add(ConstantApiKey.EmployeeWorkingShiftQueryNoteById, typeof(EmployeeWorkingShiftQueryNoteByIdCriteria));
+
+        CriteriaTypes.Add(ConstantApiKey.EmployeeWorkingShiftInsertNote, typeof(EmployeeWorkingShiftInsertNoteCriteria));
+
+        CriteriaTypes.Add(ConstantApiKey.EmployeeWorkingShiftUpdateNote, typeof(EmployeeWorkingShiftUpdateNoteCriteria));
+
+        CommandTypes.Add(ConstantApiKey.WorkingShiftUpdateSingleShift, typeof(WorkingShiftUpdateCodeCriteria));
+
+        CommandTypes.Add(ConstantApiKey.WorkingShiftUpdateRemarkWeekly, typeof(UserRemarkUpdateCriteria));
+
+        CommandTypes.Add(ConstantApiKey.WorkingShiftUpdateRemarkDaily, typeof(UserRemarkUpdateCriteria));
+
+        CommandTypes.Add(ConstantApiKey.EmployeeWorkingShiftDeleteNote, typeof(EmployeeWorkingShiftDeleteNoteCriteria));
+    }
     private static void RegisterLiveDetail()
     {
         CriteriaTypes.Add(ConstantApiKey.GetTelevisionSuggestion, typeof(GetTelevisionSuggestionCriteria));

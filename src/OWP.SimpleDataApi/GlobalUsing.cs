@@ -1,0 +1,13 @@
+global using Olympus.SimpleDataApi;
+global using OWP.SimpleDataApi.Criteria;
+global using OWP.SimpleDataApi.Criteria.EmployeeWorkingShift;
+global using OWP.SimpleDataApi.Criteria.LeagueManagement;
+global using OWP.SimpleDataApi.Criteria.LiveDetail;
+global using OWP.SimpleDataApi.Criteria.LiveGameAssignment;
+global using OWP.SimpleDataApi.Criteria.OsLeagueSetting;
+global using OWP.SimpleDataApi.Criteria.PreMatchAssignment;
+global using OWP.SimpleDataApi.Criteria.TicketCenter;
+global using OWP.SimpleDataApi.Criteria.TicketSetting;
+global using OWP.SimpleDataApi.Criteria.UserManagement;
+global using Fanex.NAP.Client.Helpers.Business;
+global using Fanex.Data.Repository;
