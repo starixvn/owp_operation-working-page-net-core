@@ -17,9 +17,6 @@
       <None Remove="RequestMediator\**" />
     </ItemGroup>
     <ItemGroup>
-      <Compile Remove="Application\Header\HeaderController.cs" />
-    </ItemGroup>
-    <ItemGroup>
         <AdditionalFiles Include="..\..\.sonarlint\nap-owp\CSharp\SonarLint.xml" Link="SonarLint.xml" />
     </ItemGroup>
     <ItemGroup>

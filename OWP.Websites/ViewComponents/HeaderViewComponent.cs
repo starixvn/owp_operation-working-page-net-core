@@ -1,5 +1,4 @@
 ﻿using Fanex.NAP.Client.Helpers.Business;
-using OWP.Application;
 using OWP.Application.Header;
 using OWP.Constants;
 using OWP.Services;
@@ -9,13 +8,13 @@ namespace OWP.Websites.ViewComponents;
 public class HeaderViewComponent : ViewComponent
 {
     private readonly INapSession session;
-    private readonly Service headerService;
+    //private readonly Service headerService;
     private readonly PermissionService permissionService;
 
-    public HeaderViewComponent(INapSession session, Service headerService, PermissionService permissionService)
+    public HeaderViewComponent(INapSession session, PermissionService permissionService)
     {
         this.session = session;
-        this.headerService = headerService;
+        //this.headerService = headerService;
         this.permissionService = permissionService;
     }
 
@@ -29,7 +28,7 @@ public class HeaderViewComponent : ViewComponent
         var headerViewModel = new HeaderViewModel
         {
             Title = title,
-            Header = await headerService.Query(),
+            //Header = await headerService.Query(),
             HasDetailInformationPermission =
                 permissionService.HasRight(FunctionKeys.DetailsInformation, Constant.Policy.Read),
             HasQuickSearchPermission = permissionService.HasRight(FunctionKeys.QuickSearch, Constant.Policy.Read)
