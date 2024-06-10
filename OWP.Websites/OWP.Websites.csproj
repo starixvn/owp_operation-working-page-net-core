@@ -27,9 +27,34 @@
     <Content Remove="Views\Shared\RazorHelper.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Remove="wwwroot\shared\owp\MessageMachine\Views\**" />
+    <Content Remove="wwwroot\shared\owp\MessageMachine\Views\**" />
+    <EmbeddedResource Remove="wwwroot\shared\owp\MessageMachine\Views\**" />
+    <None Remove="wwwroot\shared\owp\MessageMachine\Views\**" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="App_Data\Templates\EventPicking.xlsx" />
     <None Remove="App_Data\Templates\Mismatch-LST format.xlsx" />
     <None Remove="Views\Shared\RazorHelper.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="wwwroot\shared\owp\DocumentTitle\document-title-factory.js" />
+    <None Include="wwwroot\shared\owp\DocumentTitle\document-title.js" />
+    <None Include="wwwroot\shared\owp\EventManagement\Resources\EventInformation\event-information-factory.js" />
+    <None Include="wwwroot\shared\owp\EventManagement\Resources\EventInformation\event-information.js" />
+    <None Include="wwwroot\shared\owp\EventManagement\Resources\Filter\filter-factory.js" />
+    <None Include="wwwroot\shared\owp\EventManagement\Resources\Filter\filter.js" />
+    <None Include="wwwroot\shared\owp\EventManagement\Resources\MaxBetManagement\max-bet-factory.js" />
+    <None Include="wwwroot\shared\owp\EventManagement\Resources\MaxBetManagement\max-bet-management.js" />
+    <None Include="wwwroot\shared\owp\EventManagement\Resources\MaxBetManagement\special-live-product-factory.js" />
+    <None Include="wwwroot\shared\owp\EventManagement\Resources\MaxBetManagement\special-live-product.js" />
+    <None Include="wwwroot\shared\owp\EventManagement\Resources\OddsCompiler\odds-compiler-factory.js" />
+    <None Include="wwwroot\shared\owp\EventManagement\Resources\OddsCompiler\odds-compiler.js" />
+    <None Include="wwwroot\shared\owp\EventManagement\Resources\QuickSearch\quick-search-factory.js" />
+    <None Include="wwwroot\shared\owp\EventManagement\Resources\QuickSearch\quick-search-service.js" />
+    <None Include="wwwroot\shared\owp\EventManagement\Resources\QuickSearch\quick-search.js" />
+    <None Include="wwwroot\shared\owp\MessageMachine\Resources\MessageBox\message-box-factory.js" />
+    <None Include="wwwroot\shared\owp\MessageMachine\Resources\MessageBox\message-box.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,6 +64,7 @@
     <PackageReference Include="Fanex.Logging.Extensions.Database" Version="1.0.8" />
     <PackageReference Include="Fanex.Logging.Sentry.RavenClient" Version="1.0.1.1" />
     <PackageReference Include="Fanex.NAP.SignIn" Version="2.0.1.1" />
+    <PackageReference Include="LigerShark.WebOptimizer.Core" Version="3.0.405" />
     <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="7.0.12" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.12" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR.StackExchangeRedis" Version="7.0.12" />

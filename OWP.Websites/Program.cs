@@ -45,10 +45,18 @@ services.AddControllersWithViews(options =>
     options.Filters.Add(new SessionAuthorizeAttribute());
 }).AddNewtonsoftJson();
 services.AddCarter();
+services.AddWebOptimizer();
+//services.AddWebOptimizer(pipeline =>
+//    {
+//        pipeline.AddCssBundle("/css/nap-auth.css", "wwwroot/nap-auth/auth.css").UseContentRoot();
+//        pipeline.AddJavaScriptBundle("/css/re-checkin.js", "wwwroot/nap-auth/re-checkin.js").UseContentRoot();
+//    }
+//    );
 // Configure app
 var app = builder.Build();
 
 app.UseDeveloperExceptionPage();
+app.UseWebOptimizer();
 app.UseTicketPathStaticFiles();
 app.UseStaticFiles();
 app.UseRouting();

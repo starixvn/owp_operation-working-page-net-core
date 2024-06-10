@@ -358,4 +358,35 @@ public static class ServiceCollectionExtensions
         return app;
     }
 
+    public static IServiceCollection AddWebOptimizer(this IServiceCollection services)
+    {
+        services.AddWebOptimizer(pipeline =>
+            {
+                pipeline.AddCssBundle("/styles/common",
+                    "shared/lib/**/*.css",
+                    "shared/owp/*.css",
+                    "shared/themes/main.css");
+                pipeline.AddCssBundle("/styles/fonts",
+                    "shared/fonts/icon-OWP/style.css");
+
+                pipeline.AddJavaScriptBundle("scripts/core", 
+                    "shared/lib/jQuery/jquery-2.1.1.js",
+                    "shared/lib/jquery.signalR-2.4.3.min.js");
+
+                pipeline.AddJavaScriptBundle("scripts/common",
+                    "shared/lib/**/*.js",
+                    "shared/owp/*.js",
+                    "shared/lib/modernizr.js",
+                    "shared/owp/**/*.js"
+                );
+                // TODO
+
+
+
+                pipeline.AddJavaScriptBundle("/css/re-checkin.js", "nap-auth/re-checkin.js");
+            }
+        );
+        return services;
+    }
+
 }

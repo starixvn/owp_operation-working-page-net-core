@@ -1,0 +1,72 @@
+﻿@using Fanex.NAP.OWP.MessageMachine.Models.MessageBox
+@using Fanex.NAP.OWP.Core.Enumerations;
+@using OWP.Resources;
+
+@model List<MessageInfo>
+
+@{
+    Func<TimeSpan, string> toStringTime = ts =>
+    {
+        if (ts.Days != 0)
+        {
+            return ts.Days + " days ago";
+        }
+
+        if (ts.Hours != 0)
+        {
+            return ts.Hours + " hours ago";
+        }
+
+        if (ts.Minutes != 0)
+        {
+            return ts.Minutes + " minutes ago";
+        }
+
+        return ts.Seconds + " seconds ago";
+    };
+
+}
+
+@foreach (MessageInfo messageInfo in Model)
+{
+    <li class="noti-item">
+        @switch (messageInfo.MessageType)
+        {
+            case (int)SystemMessageType.Notification:
+                <i class="icon icon-circle mdi mdi-cloud-sync white-text light-blue lighten-2" aria-hidden="true"></i>
+                break;
+            case (int)SystemMessageType.Announcement:
+                <i class="icon icon-circle mdi mdi-bullhorn blue lighten-2 white-text" aria-hidden="true"></i>
+                break;
+            case (int)SystemMessageType.Message:
+                if (string.IsNullOrEmpty(messageInfo.ProfilePic))
+                {
+                    <i class="icon icon-circle mdi mdi-account teal white-text lighten-3" aria-hidden="true"></i>
+                }
+                else
+                {
+                    <i class="icon icon-circle" aria-hidden="true">
+                        <img src="@Url.Content(messageInfo.ProfilePic)" />
+                    </i>
+                }
+                break;
+            default:
+                <i class="icon icon-circle mdi mdi-cloud-sync white-text light-blue lighten-2" aria-hidden="true"></i>
+                break;
+        }
+
+        <div class="notification-content left">
+            <p class="message-content">@messageInfo.MessageContent</p>
+            <p class="text-small"> @toStringTime(DateTime.Now - messageInfo.CreatedDate)</p>
+        </div>
+        @if (messageInfo.IsImportant)
+        {
+            <i class="icon icon-star mdi mdi-star orange-text" aria-hidden="true"></i>
+        }
+        <input class="messageId" name="messageId" type="hidden" value="@messageInfo.MessageId">
+    </li>
+}
+
+@*<li class="noti-footer center">
+    <a href="javascript:;">@ViewLang.ShowAll</a>
+</li>*@
