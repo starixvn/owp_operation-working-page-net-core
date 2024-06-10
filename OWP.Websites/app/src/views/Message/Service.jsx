@@ -70,12 +70,12 @@ export const OpenPreMatchIssueURL =
 export const openTicketCenterIssueURL =
   process.env.NODE_ENV === 'development'
     ? 'api-netcore/TicketCenter/on-click-issue-notification'
-    : `${window.netCoreRootUrl}/api/TicketCenter/on-click-issue-notification`;
+    : `api/TicketCenter/on-click-issue-notification`;
 
 const buildMessageUrl = () =>
   process.env.NODE_ENV === 'development'
     ? 'api-netcore/application/message'
-    : `${window.netCoreRootUrl}/api/application/message`;
+    : 'api/application/message';
 
 const query = async (model = null) => {
   const response = await axios.get(buildMessageUrl(), {

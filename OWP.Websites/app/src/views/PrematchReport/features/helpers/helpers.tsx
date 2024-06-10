@@ -8,7 +8,7 @@ import {
 const buildRequestURL = (key: string) =>
   process.env.NODE_ENV === 'development'
     ? `${netCoreURL}/${key}`
-    : `${window.netCoreRootUrl}/${netFwURL}/${key}`;
+    : `${netFwURL}/${key}`;
 
 const curr = new Date(Date.now());
 const toDateDefault = new Date(curr.setDate(curr.getDate() - 1));

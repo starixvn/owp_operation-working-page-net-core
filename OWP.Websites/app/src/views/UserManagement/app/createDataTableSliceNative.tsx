@@ -23,7 +23,7 @@ const createDataTableSliceNative: StateCreator<
       const url =
         process.env.NODE_ENV === 'development'
           ? `api-netcore/UserManagement/query-user`
-          : `${window.netCoreRootUrl}/api/UserManagement/query-user`;
+          : `api/UserManagement/query-user`;
       const dataSource = await post({
         url,
         ...value

@@ -8,7 +8,7 @@ const { required, duplicated } = errorMessage;
 const getURL = (urlName: string) =>
   process.env.NODE_ENV === 'development'
     ? `${rootUrl}${urlName}`
-    : `${window.netCoreRootUrl}/api/OSLeague/${urlName}`;
+    : `api/OSLeague/${urlName}`;
 
 const detectLogChanged = (item: LogQuery) => {
   const logChanged: Array<LogValue> = [];
@@ -91,14 +91,8 @@ const joinArrayWithComma = (
 };
 
 const hasAnyFieldIsRequired = (source: ISettingDetail) => {
-  const {
-    leagueName,
-    offerLines,
-    betDelay,
-    maxbetHDP,
-    maxbetOU,
-    betTypes
-  } = source;
+  const { leagueName, offerLines, betDelay, maxbetHDP, maxbetOU, betTypes } =
+    source;
 
   const requiredMaxbet = !maxbetHDP && !maxbetOU;
 
@@ -155,14 +149,8 @@ const validateRequiredField = (source: ISettingDetail): TErrorMessage => {
     valid: true
   };
 
-  const {
-    leagueName,
-    offerLines,
-    betDelay,
-    maxbetHDP,
-    maxbetOU,
-    betTypes
-  } = source;
+  const { leagueName, offerLines, betDelay, maxbetHDP, maxbetOU, betTypes } =
+    source;
 
   const requiredMaxbet = !maxbetHDP && !maxbetOU ? required : null;
 

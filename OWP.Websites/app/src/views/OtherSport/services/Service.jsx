@@ -9,7 +9,7 @@ const saveEditOfferLive = async rest => {
   const url =
     process.env.NODE_ENV === 'development'
       ? `${rootUrl}/${updateOfferLive}`
-      : `${window.netCoreRootUrl}/${netFw}/${updateOfferLive}`;
+      : `${netFw}/${updateOfferLive}`;
   const model = {
     ...rest,
     url
@@ -22,7 +22,7 @@ const getLeagueIdFromAdminSite = async adminSiteMatchId => {
   const url =
     process.env.NODE_ENV === 'development'
       ? `${rootUrl}/${getAdminSiteLeagueId}`
-      : `${window.netCoreRootUrl}/${netFw}/${getAdminSiteLeagueId}`;
+      : `${netFw}/${getAdminSiteLeagueId}`;
   const res = await get({ url, adminSiteMatchId });
   return res.data;
 };

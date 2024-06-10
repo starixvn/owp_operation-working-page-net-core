@@ -7,7 +7,7 @@ import { TOptionResponse } from '../../type/agentConfirmOption';
 const getUrl = (methodRoute: string) =>
   process.env.NODE_ENV === 'development'
     ? `${netCoreURL}/${methodRoute}`
-    : `${window.netCoreRootUrl}/${netFwURL}/${methodRoute}`;
+    : `${netFwURL}/${methodRoute}`;
 
 const getEvents = createAsyncThunk(
   'provider-verification/get-event',
@@ -71,5 +71,10 @@ const saveESTAgent = createAsyncThunk(
   }
 );
 
-export { getEvents, getAgentConfirm, saveAgentConfirm, saveESTNote, saveESTAgent };
-
+export {
+  getEvents,
+  getAgentConfirm,
+  saveAgentConfirm,
+  saveESTNote,
+  saveESTAgent
+};

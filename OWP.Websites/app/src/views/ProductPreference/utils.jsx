@@ -4,7 +4,7 @@ import queryString from 'query-string';
 const buildQueryDropdownOptionUrl = () =>
   process.env.NODE_ENV === 'development'
     ? `${rootUrl}/get-dropdown-option`
-    : `${window.netCoreRootUrl}/api/ProductAssignment/get-dropdown-option`;
+    : `api/ProductAssignment/get-dropdown-option`;
 
 const buildQueryProductUrl = filterInfo => {
   const locationId = filterInfo.LocationId.join(',');
@@ -15,17 +15,17 @@ const buildQueryProductUrl = filterInfo => {
   const params = queryString.stringify({ locationId, roleId, sectionId, user });
   return process.env.NODE_ENV === 'development'
     ? `${rootUrl}?${params}`
-    : `${window.netCoreRootUrl}/api/ProductAssignment?${params}`;
+    : `api/ProductAssignment?${params}`;
 };
 const buildUpdateProductUrl = () =>
   process.env.NODE_ENV === 'development'
     ? `${rootUrl}`
-    : `${window.netCoreRootUrl}/api/ProductAssignment`;
+    : `api/ProductAssignment`;
 
 const buildLastUpdateUrl = () =>
   process.env.NODE_ENV === 'development'
     ? `${rootUrl}/last-update`
-    : `${window.netCoreRootUrl}/api/ProductAssignment/last-update`;
+    : `api/ProductAssignment/last-update`;
 
 const convertRefResourceResponseToDropdownOption = data =>
   data.map(d => ({

@@ -38,7 +38,7 @@ const getMessageList = async (ticketId, messageId, messages) => {
   const urlGetLastMessage =
     process.env.NODE_ENV === 'development'
       ? `${URL.NET_Core_TICKET_CENTER}/${URL.LOAD_MORE_MESSAGE}`
-      : `${window.netCoreRootUrl}/${URL.NET_FW_TICKET_CENTER}/${URL.LOAD_MORE_MESSAGE}`;
+      : `${URL.NET_FW_TICKET_CENTER}/${URL.LOAD_MORE_MESSAGE}`;
   const modelLoadMoreMessage = {
     msgOfPage: 20,
     ticketId,
@@ -82,12 +82,12 @@ const getTicketTitle = ticket => {
 const getUrlTicketFile = imageName =>
   process.env.NODE_ENV === 'development'
     ? `${URL.NET_CORE_TICKET_CENTER_FILE}/${imageName}`
-    : `${window.netCoreRootUrl}/${URL.NET_CORE_TICKET_CENTER_FILE}/${imageName}`;
+    : `${URL.NET_CORE_TICKET_CENTER_FILE}/${imageName}`;
 
 const buildURL = urlName =>
   process.env.NODE_ENV === 'development'
     ? `${URL.NET_Core_TICKET_CENTER}/${urlName}`
-    : `${window.netCoreRootUrl}/${URL.NET_FW_TICKET_CENTER}/${urlName}`;
+    : `${URL.NET_FW_TICKET_CENTER}/${urlName}`;
 
 export {
   getMessageList,

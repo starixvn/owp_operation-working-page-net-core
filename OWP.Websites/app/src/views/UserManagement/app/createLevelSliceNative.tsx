@@ -7,7 +7,7 @@ import { normalizeOptions } from '../utils';
 
 const defaultNoneOption = {
   value: 0,
-  label: ""
+  label: ''
 };
 
 const createLevelSliceNative: StateCreator<
@@ -26,27 +26,43 @@ const createLevelSliceNative: StateCreator<
     set(state =>
       update(state, {
         queryLevelOptionStatus: { $set: REQUEST_STATUS.pending }
-      }));
+      })
+    );
     const url =
       process.env.NODE_ENV === 'development'
         ? `api-netcore/UserManagement/query-level-options`
-        : `${window.netCoreRootUrl}/api/UserManagement/query-level-options`;
+        : `api/UserManagement/query-level-options`;
     const options = (await axios.get(url)).data as TLevelOptionsResponse;
 
     set(state =>
       update(state, {
         queryLevelOptionStatus: { $set: REQUEST_STATUS.idle },
         levelOptions: {
-          levelOfLiveTrading: { $set: normalizeOptions(options.levelOfLiveTrading, defaultNoneOption) },
-          levelOfLiveAssistant: { $set: normalizeOptions(options.levelOfLiveAssistant, defaultNoneOption) },
-          levelOfOtherSection: { $set: normalizeOptions(options.levelOfOtherSection, defaultNoneOption) }
+          levelOfLiveTrading: {
+            $set: normalizeOptions(
+              options.levelOfLiveTrading,
+              defaultNoneOption
+            )
+          },
+          levelOfLiveAssistant: {
+            $set: normalizeOptions(
+              options.levelOfLiveAssistant,
+              defaultNoneOption
+            )
+          },
+          levelOfOtherSection: {
+            $set: normalizeOptions(
+              options.levelOfOtherSection,
+              defaultNoneOption
+            )
+          }
         }
-      }));
+      })
+    );
   },
   selectOption(sectionId: number | null) {
-    const { levelOfLiveAssistant,
-      levelOfLiveTrading,
-      levelOfOtherSection } = get().levelOptions;
+    const { levelOfLiveAssistant, levelOfLiveTrading, levelOfOtherSection } =
+      get().levelOptions;
 
     switch (sectionId) {
       case 2:

@@ -132,7 +132,7 @@ const FilterHeader = props => {
     const url =
       process.env.NODE_ENV === 'development'
         ? `${OtherSport.rootUrl}${OtherSport.download}`
-        : `${window.netCoreRootUrl}/api/OtherSport${OtherSport.download}`;
+        : `api/OtherSport${OtherSport.download}`;
     window.location.href = `${url}?From=${from}&To=${to}&Employee=${employee}&Sports=${sports}
     &OfferLives=${offerLives}&MatchStatuses=${matchStatuses}&LinkedMatches=${linkedMatches}`;
   };

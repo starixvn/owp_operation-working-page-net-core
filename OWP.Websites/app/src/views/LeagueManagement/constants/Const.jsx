@@ -5,12 +5,12 @@ const matchOfferParam = '?refName=MatchOffer';
 const buildRequestURL = key =>
   process.env.NODE_ENV === 'development'
     ? `${netCoreURL}/${key}`
-    : `${window.netCoreRootUrl}/${netFwURL}/${key}`;
+    : `${netFwURL}/${key}`;
 
 const buildMatchOfferURL = () =>
   process.env.NODE_ENV === 'development'
     ? `api-netcore/resource-assignment/${matchOfferParam}`
-    : `${window.netCoreRootUrl}/api/resource-assignment/${matchOfferParam}`;
+    : `api/resource-assignment/${matchOfferParam}`;
 
 const message = {
   changeLeagueGroup:

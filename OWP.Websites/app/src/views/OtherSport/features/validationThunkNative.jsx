@@ -11,7 +11,7 @@ const validateFileThunk = createAsyncThunk('validation', async props => {
   const url =
     process.env.NODE_ENV === 'development'
       ? `${OtherSport.rootUrl}${OtherSport.validation}`
-      : `${window.netCoreRootUrl}/api/OtherSport${OtherSport.validation}`;
+      : `api/OtherSport${OtherSport.validation}`;
   const result = await axios.post(url, formData);
   return result.data;
 });

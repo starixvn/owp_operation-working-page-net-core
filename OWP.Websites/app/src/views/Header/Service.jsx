@@ -38,7 +38,7 @@ const transformNavigation = (menus, title) => {
 const buildUrl = () =>
   process.env.NODE_ENV === 'development'
     ? 'api-netcore/application/header'
-    : `${window.netCoreRootUrl}/api/application/header`;
+    : 'api/application/header';
 
 const query = async title => {
   const response = await axios.get(buildUrl());

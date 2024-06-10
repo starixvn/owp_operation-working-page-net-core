@@ -6,7 +6,7 @@ import { Target } from './feature/type/TableType.native';
 const buildRequestURL = (key: string | null) =>
   process.env.NODE_ENV === 'development'
     ? `${netCoreURL}/${key}`
-    : `${window.netCoreRootUrl}/${netFwURL}/${key}`;
+    : `${netFwURL}/${key}`;
 
 const queryDataTable = async (
   filterFromDate: Date,

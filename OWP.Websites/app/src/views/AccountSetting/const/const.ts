@@ -4,14 +4,12 @@ import {
 } from '../../Shared/Constants';
 
 const ENV = process.env.NODE_ENV === 'development';
-const BASE_URL = ENV
-  ? 'api-netcore/AccountSetting'
-  : `${window.netCoreRootUrl}/api/AccountSetting`;
+const BASE_URL = ENV ? 'api-netcore/AccountSetting' : `api/AccountSetting`;
 
 const createUrl = (base: string, endpoint: string) => `${base}/${endpoint}`;
 
 const urlUploadFile = createUrl(
-  ENV ? NET_CORE_FILE_UPLOAD : `${window.netCoreRootUrl}/${NET_FW_FILE_UPLOAD}`,
+  ENV ? NET_CORE_FILE_UPLOAD : `${NET_FW_FILE_UPLOAD}`,
   'upload'
 );
 
@@ -30,10 +28,7 @@ const urlDeleteQuickMessage = createUrl(
   'QuickMessage/delete-quick-message'
 );
 
-const getUrlTicketFile = (imageName: string) =>
-  process.env.NODE_ENV === 'development'
-    ? `Tickets/${imageName}`
-    : `${window.netCoreRootUrl}/Tickets/${imageName}`;
+const getUrlTicketFile = (imageName: string) => `Tickets/${imageName}`;
 
 export {
   urlUploadFile,

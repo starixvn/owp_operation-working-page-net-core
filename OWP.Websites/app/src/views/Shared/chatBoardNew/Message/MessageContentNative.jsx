@@ -32,7 +32,7 @@ const MessageContents = ({
     const basicUrl =
       process.env.NODE_ENV === 'development'
         ? `${NET_CORE_FILE_UPLOAD}/${URL.DOWNLOAD_FILE}`
-        : `${window.netCoreRootUrl}/${NET_FW_FILE_UPLOAD}/${URL.DOWNLOAD_FILE}`;
+        : `${NET_FW_FILE_UPLOAD}/${URL.DOWNLOAD_FILE}`;
 
     const url = `${basicUrl}?fileId=${fileId}`;
 

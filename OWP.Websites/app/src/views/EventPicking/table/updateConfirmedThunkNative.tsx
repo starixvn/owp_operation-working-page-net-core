@@ -6,7 +6,7 @@ import { TConfirmed } from '../types/confirmed';
 const buildRequestURL = () =>
   process.env.NODE_ENV === 'development'
     ? `${netCoreURL}/${UPDATE_CONFIRMED}`
-    : `${window.netCoreRootUrl}/api/EventPicking/${UPDATE_CONFIRMED}`;
+    : `api/EventPicking/${UPDATE_CONFIRMED}`;
 
 const updateConfirmedThunk = createAsyncThunk<TConfirmed, TConfirmed>(
   'confirmed/update',

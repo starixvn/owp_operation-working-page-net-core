@@ -17,7 +17,7 @@ const getTicketTypeRecipients = createAsyncThunk<
   const url =
     process.env.NODE_ENV === 'development'
       ? `${netCoreURL}/${getTicketTypeRecipientsRoute}`
-      : `${window.netCoreRootUrl}/${netFwURL}/${getTicketTypeRecipientsRoute}`;
+      : `${netFwURL}/${getTicketTypeRecipientsRoute}`;
 
   const response = await axios.get(url);
   return response.data;
@@ -29,10 +29,10 @@ const saveTicketTypeRecipients = createAsyncThunk(
     const url =
       process.env.NODE_ENV === 'development'
         ? `${netCoreURL}/${saveTicketTypeRecipientsRoute}`
-        : `${window.netCoreRootUrl}/${netFwURL}/${saveTicketTypeRecipientsRoute}`;
+        : `${netFwURL}/${saveTicketTypeRecipientsRoute}`;
 
     const response = await axios.post(url, postModel);
-    
+
     if (response.status === okStatusCode) {
       ToastrWrapper.showInfo('Recipients have been updated successfully!');
       dispatch(getTicketTypeRecipients());

@@ -26,7 +26,7 @@ import { post } from '../../Shared/Service/Service';
 const simpleApi =
   process.env.NODE_ENV === 'development'
     ? `${NET_CORE_QUERY_SIMPLE_API}`
-    : `${window.netCoreRootUrl}/${QUERY_SIMPLE_API}`;
+    : `${QUERY_SIMPLE_API}`;
 
 const settingInfoDefault = {
   leagueSettingId: 0,

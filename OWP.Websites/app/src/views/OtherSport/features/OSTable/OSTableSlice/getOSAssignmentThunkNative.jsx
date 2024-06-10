@@ -8,7 +8,7 @@ const getOSAssignmentThunkNative = createAsyncThunk(
     const url =
       process.env.NODE_ENV === 'development'
         ? `${OtherSport.rootUrl}${OtherSport.OsAssignmentSubmit}`
-        : `${window.netCoreRootUrl}/api/OtherSport${OtherSport.OsAssignmentSubmit}`;
+        : `api/OtherSport${OtherSport.OsAssignmentSubmit}`;
     const result = await axios.post(url, model);
     return result.data;
   }

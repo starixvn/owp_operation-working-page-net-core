@@ -9,7 +9,11 @@ import {
   maxLengthGroupName
 } from '../../Const.json';
 
-const validateGroupName = (groupId: number, groupName: string, groups: GroupDataSource[]) => {
+const validateGroupName = (
+  groupId: number,
+  groupName: string,
+  groups: GroupDataSource[]
+) => {
   if (isEqual(groupName, '')) {
     ToastrWrapper.showError('Group Name field is required');
     return false;
@@ -19,12 +23,16 @@ const validateGroupName = (groupId: number, groupName: string, groups: GroupData
     .filter(item => item.groupId !== groupId)
     .map(item => item.groupName);
   if (existedGroupNames.includes(groupName)) {
-    ToastrWrapper.showError('A group or account with this name already exists. Please try again');
+    ToastrWrapper.showError(
+      'A group or account with this name already exists. Please try again'
+    );
     return false;
   }
 
   if (groupName.length > maxLengthGroupName) {
-    ToastrWrapper.showError(`The maximum of characters is ${maxLengthGroupName}. Please try again`);
+    ToastrWrapper.showError(
+      `The maximum of characters is ${maxLengthGroupName}. Please try again`
+    );
     return false;
   }
 
@@ -40,12 +48,14 @@ const validateRecipients = (recipients: RecipientModel[]) => {
   return true;
 };
 
-const buildRequestURL = (key: string) => process.env.NODE_ENV === 'development'
-  ? `${netCoreURL}/${key}`
-  : `${window.netCoreRootUrl}/${netFwURL}/${key}`;
+const buildRequestURL = (key: string) =>
+  process.env.NODE_ENV === 'development'
+    ? `${netCoreURL}/${key}`
+    : `${netFwURL}/${key}`;
 
 const buildGetRecipientGroupsURL = () => buildRequestURL(getRecipientGroupsKey);
-const buildSaveRecipientGroupsURL = () => buildRequestURL(saveRecipientGroupsKey);
+const buildSaveRecipientGroupsURL = () =>
+  buildRequestURL(saveRecipientGroupsKey);
 
 export {
   validateGroupName,
@@ -53,4 +63,3 @@ export {
   buildGetRecipientGroupsURL,
   buildSaveRecipientGroupsURL
 };
-

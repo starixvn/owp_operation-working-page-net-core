@@ -5,7 +5,7 @@ import { isEqual } from 'lodash';
 const url =
   process.env.NODE_ENV === 'development'
     ? `api-netcore/resource-assignment`
-    : `${window.netCoreRootUrl}/api/resource-assignment`;
+    : `api/resource-assignment`;
 
 const getResourceOptions = () => {
   return [

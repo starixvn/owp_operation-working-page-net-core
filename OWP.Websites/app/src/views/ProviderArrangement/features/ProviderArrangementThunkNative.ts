@@ -13,7 +13,7 @@ import { TQueryLogProviderArrangement } from './TypeNative';
 const buildRequestURL = (key: string) =>
   process.env.NODE_ENV === 'development'
     ? `${NET_CORE}/${key}`
-    : `${window.netCoreRootUrl}/${NET_FW}/${key}`;
+    : `${NET_FW}/${key}`;
 
 const queryProviderArrangement = createAsyncThunk('queryProvider', async () => {
   const url = buildRequestURL(GET_PROVIDER);

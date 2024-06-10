@@ -11,7 +11,7 @@ import {
 const genUrl = methodRoute =>
   process.env.NODE_ENV === 'development'
     ? `${netCoreURL}/${methodRoute}`
-    : `${window.netCoreRootUrl}/${netFwURL}/${methodRoute}`;
+    : `${netFwURL}/${methodRoute}`;
 
 const getEventTickets = createAsyncThunk(
   'TicketCenter/getEventChecking',

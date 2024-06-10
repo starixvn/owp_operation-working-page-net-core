@@ -16,13 +16,14 @@ const createCurrentSectionSliceNative: StateCreator<
     const url =
       process.env.NODE_ENV === 'development'
         ? `api-netcore/UserManagement/query-current-section`
-        : `${window.netCoreRootUrl}/api/UserManagement/query-current-section`;
+        : `api/UserManagement/query-current-section`;
     const response = await axios.get(url);
     set(state =>
       update(state, {
         querySectionNameStatus: { $set: REQUEST_STATUS.idle },
         currentSection: { $set: response.data }
-      }));
+      })
+    );
   }
 });
 

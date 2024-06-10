@@ -2,7 +2,7 @@ import { isNil } from 'lodash';
 const basePath =
   process.env.NODE_ENV === 'development'
     ? `api-netcore/TicketEvent`
-    : `${window.netCoreRootUrl}/api/TicketEvent`;
+    : `api/TicketEvent`;
 
 const buildIsReadValue = (
   actorId: number,

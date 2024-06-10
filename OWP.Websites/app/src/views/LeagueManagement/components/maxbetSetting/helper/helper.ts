@@ -66,12 +66,12 @@ const validateMaxbet = (value: number | null) =>
 const buildURL = (urlName: string) =>
   process.env.NODE_ENV === 'development'
     ? `${netCoreURL}/${urlName}`
-    : `${window.netCoreRootUrl}/${netFwURL}/${urlName}`;
+    : `${netFwURL}/${urlName}`;
 
 const buildMatchOfferURL = () =>
   process.env.NODE_ENV === 'development'
     ? `api-netcore/resource-assignment/${matchOfferParam}`
-    : `${window.netCoreRootUrl}/api/resource-assignment/${matchOfferParam}`;
+    : `api/resource-assignment/${matchOfferParam}`;
 
 export {
   isSecondAcceptValue,

@@ -6,7 +6,7 @@ import { netCoreURL, netFwURL } from '../TableSchema.json';
 const getUrl = (methodRoute: string) =>
   process.env.NODE_ENV === 'development'
     ? `${netCoreURL}/${methodRoute}`
-    : `${window.netCoreRootUrl}/${netFwURL}/${methodRoute}`;
+    : `${netFwURL}/${methodRoute}`;
 
 const getEvents = createAsyncThunk(
   'live-game-list/get-event',

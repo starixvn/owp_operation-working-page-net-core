@@ -3,6 +3,6 @@ const netFwURL = 'api/live-detail';
 const buildRequestURL = keyword =>
   process.env.NODE_ENV === 'development'
     ? `${netCoreURL}/${keyword}`
-    : `${window.netCoreRootUrl}/${netFwURL}/${keyword}`;
+    : `${netFwURL}/${keyword}`;
 
 export { buildRequestURL };

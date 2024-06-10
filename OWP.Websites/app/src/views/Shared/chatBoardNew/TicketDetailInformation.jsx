@@ -31,7 +31,7 @@ const TicketDetailInformation = ({
       const url =
         process.env.NODE_ENV === 'development'
           ? `${URL.NET_Core_TICKET_CENTER}/${URL.REMOVE_SINGLE_RECIPIENT}`
-          : `${window.netCoreRootUrl}/${URL.NET_FW_TICKET_CENTER}/${URL.REMOVE_SINGLE_RECIPIENT}`;
+          : `${URL.NET_FW_TICKET_CENTER}/${URL.REMOVE_SINGLE_RECIPIENT}`;
 
       const { status, data } = await Axios.post(url, requestModel);
       return { status, data };
@@ -64,7 +64,7 @@ const TicketDetailInformation = ({
       const url =
         process.env.NODE_ENV === 'development'
           ? `${URL.NET_Core_TICKET_CENTER}/${URL.ADD_SINGLE_RECIPIENT}`
-          : `${window.netCoreRootUrl}/${URL.NET_FW_TICKET_CENTER}/${URL.ADD_SINGLE_RECIPIENT}`;
+          : `${URL.NET_FW_TICKET_CENTER}/${URL.ADD_SINGLE_RECIPIENT}`;
 
       const { status, data } = await Axios.post(url, requestModel);
       return { status, data };
@@ -89,22 +89,22 @@ const TicketDetailInformation = ({
         <div className='ticket-status'>
           <TicketStatus policy={policy} />
         </div>
-      
-      <div className='recipient'>
-        <label>
-          Recipient:<span className='required'>*</span>
-        </label>
-        <br />
-        <div className='recipient-input'>
-          <RecipientsSelect
-            defaultValue={ticketDetail.recipients}
-            onAdd={handleAddRecipient}
-            onRemove={handleRemoveRecipient}
-            edit
-            hasWrite={HasWrite}
-          />
+
+        <div className='recipient'>
+          <label>
+            Recipient:<span className='required'>*</span>
+          </label>
+          <br />
+          <div className='recipient-input'>
+            <RecipientsSelect
+              defaultValue={ticketDetail.recipients}
+              onAdd={handleAddRecipient}
+              onRemove={handleRemoveRecipient}
+              edit
+              hasWrite={HasWrite}
+            />
+          </div>
         </div>
-      </div>
       </div>
     </>
   );

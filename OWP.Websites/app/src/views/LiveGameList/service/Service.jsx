@@ -5,7 +5,7 @@ const getByRefName = async refName => {
   const url =
     process.env.NODE_ENV === 'development'
       ? `api-netcore/resource-assignment`
-      : `${window.netCoreRootUrl}/api/resource-assignment`;
+      : `api/resource-assignment`;
 
   let data = JSON.parse(sessionStorage.getItem(key));
   if (!data) {

@@ -9,17 +9,17 @@ const netCoreUrl = window.netCoreRootUrl;
 const url =
   process.env.NODE_ENV === 'development'
     ? `api-netcore/PreMatchAssignment`
-    : `${window.netCoreRootUrl}/api/PreMatchAssignment`;
+    : `api/PreMatchAssignment`;
 
 const simpleApiQueryUrl =
   process.env.NODE_ENV === 'development'
     ? `${NET_CORE_QUERY_SIMPLE_API}`
-    : `${window.netCoreRootUrl}/${QUERY_SIMPLE_API}`;
+    : `${QUERY_SIMPLE_API}`;
 
 const simpleApiUpdateUrl =
   process.env.NODE_ENV === 'development'
     ? `${NET_CORE_UPDATE_SIMPLE_API}`
-    : `${window.netCoreRootUrl}/${UPDATE_SIMPLE_API}`;
+    : `${UPDATE_SIMPLE_API}`;
 
 const URL_QUERY_CHANGE_LOG = `${url}/get-log`;
 

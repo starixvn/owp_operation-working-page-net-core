@@ -162,7 +162,7 @@ const TicketDetail = ({ policy = 'policy', isSmallBoard = false }) => {
       const url =
         process.env.NODE_ENV === 'development'
           ? `${NET_CORE_FILE_UPLOAD}/${URL.UPLOAD_FILE}`
-          : `${window.netCoreRootUrl}/${NET_FW_FILE_UPLOAD}/${URL.UPLOAD_FILE}`;
+          : `${NET_FW_FILE_UPLOAD}/${URL.UPLOAD_FILE}`;
 
       const { data } = await Axios.post(url, formData);
 
@@ -181,13 +181,14 @@ const TicketDetail = ({ policy = 'policy', isSmallBoard = false }) => {
         <div className='chatBoard-Header'>
           {isDisplayCloseButton && renderCloseBtn()}
           <div className='ticket-header'>
-            <TicketDetailHeader {...ticketDetail} 
-            isSmallBoard={isSmallBoard}
-            backToSmallTicket={backToSmallTicket} />
-          </div> 
+            <TicketDetailHeader
+              {...ticketDetail}
+              isSmallBoard={isSmallBoard}
+              backToSmallTicket={backToSmallTicket}
+            />
+          </div>
         </div>
         <div className='chatBoard-info header-filter'>
-          
           <div className='filter-right'>
             {isExpandInfo ? (
               <>

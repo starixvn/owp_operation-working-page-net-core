@@ -86,11 +86,11 @@ export const NET_CORE_UPDATE_SIMPLE_API =
 export const buildQuerySimpleApi = () =>
   process.env.NODE_ENV === 'development'
     ? `${NET_CORE_QUERY_SIMPLE_API}`
-    : `${window.netCoreRootUrl}/${QUERY_SIMPLE_API}`;
+    : `${QUERY_SIMPLE_API}`;
 export const buildUpdateSimpleApi = () =>
   process.env.NODE_ENV === 'development'
     ? `${NET_CORE_UPDATE_SIMPLE_API}`
-    : `${window.netCoreRootUrl}/${UPDATE_SIMPLE_API}`;
+    : `${UPDATE_SIMPLE_API}`;
 
 export const NET_CORE_FILE_UPLOAD = 'api-netcore/FileUpload';
 export const NET_FW_FILE_UPLOAD = 'api/FileUpload';

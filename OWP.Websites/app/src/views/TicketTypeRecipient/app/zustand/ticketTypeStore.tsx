@@ -42,7 +42,7 @@ const useStore = create<ticketTypeState>((set, get) => ({
     const url =
       process.env.NODE_ENV === 'development'
         ? `${netCoreURL}/${saveTicketTypeRecipientsRoute}`
-        : `${window.netCoreRootUrl}/${netFwURL}/${saveTicketTypeRecipientsRoute}`;
+        : `${netFwURL}/${saveTicketTypeRecipientsRoute}`;
 
     const { recipients, subtypes } = get();
 

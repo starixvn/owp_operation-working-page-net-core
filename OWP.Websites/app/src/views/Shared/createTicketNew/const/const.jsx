@@ -31,7 +31,7 @@ const RECIPIENT_TYPE = {
 const buildRequestURL = key =>
   process.env.NODE_ENV === 'development'
     ? `${netCoreURL}/${key}`
-    : `${window.netCoreRootUrl}/${netFwURL}/${key}`;
+    : `${netFwURL}/${key}`;
 
 const urlGetSubType = buildRequestURL(URL.GET_SUBTYPE);
 const urlRequestSupport = buildRequestURL(URL.ADD_NEW_REQUEST_SUPPORT);
@@ -50,19 +50,19 @@ const urlGetAssigneesLGA = (() => {
 
   return process.env.NODE_ENV === 'development'
     ? `${netCoreUrlEvent}/${URL.GET_ASSIGNEES_LGA}`
-    : `${window.netCoreRootUrl}/${netFwURLEvent}/${URL.GET_ASSIGNEES_LGA}`;
+    : `${netFwURLEvent}/${URL.GET_ASSIGNEES_LGA}`;
 })();
 const urlGetEvent = buildRequestURL(URL.GET_EVENT);
 const urlGetEventLGA = buildRequestURL(URL.GET_EVENT_LGA);
 const urlUploadFile =
   process.env.NODE_ENV === 'development'
     ? `${NET_CORE_FILE_UPLOAD}/${URL.UPLOAD_MULTIPLE}`
-    : `${window.netCoreRootUrl}/${NET_FW_FILE_UPLOAD}/${URL.UPLOAD_MULTIPLE}`;
+    : `${NET_FW_FILE_UPLOAD}/${URL.UPLOAD_MULTIPLE}`;
 
 const urlGetRecipient =
   process.env.NODE_ENV === 'development'
     ? `${NET_CORE_QUERY_SIMPLE_API}`
-    : `${window.netCoreRootUrl}/${QUERY_SIMPLE_API}`;
+    : `${QUERY_SIMPLE_API}`;
 
 export {
   URL,

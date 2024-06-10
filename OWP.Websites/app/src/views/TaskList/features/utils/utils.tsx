@@ -18,7 +18,7 @@ const getNoteOrUserName = (
 const buildRequestURL = (key: string) =>
   process.env.NODE_ENV === 'development'
     ? `${ROOT_URL}/${key}`
-    : `${window.netCoreRootUrl}/api/TaskList/${key}`;
+    : `api/TaskList/${key}`;
 
 const buildSpecialListModel = (dataSource: DataSource) => {
   const specialListModel: Array<ModelSpecialProduct> = [

@@ -10,13 +10,10 @@ import { TDropdownOption } from '../typing/queryOptionsType';
 const url =
   process.env.NODE_ENV === 'development'
     ? `${NET_CORE_QUERY_SIMPLE_API}`
-    : `${window.netCoreRootUrl}/${QUERY_SIMPLE_API}`;
+    : `${QUERY_SIMPLE_API}`;
 
 const useQueryDropdownOption = (props: TDropdownOption) => {
-  const {
-    apiKey,
-    localStorageKey
-  } = props;
+  const { apiKey, localStorageKey } = props;
 
   const [loading, setLoading] = useState(true);
   const [options, setOptions] = useState<Option[]>([]);

@@ -30,12 +30,12 @@ import { MultiSelect } from 'react-multi-select-component';
 const urlGetLaData =
   process.env.NODE_ENV === 'development'
     ? `api-netcore/report/la`
-    : `${window.netCoreRootUrl}/api/report/la`;
+    : `api/report/la`;
 
 const urlExportLa =
   process.env.NODE_ENV === 'development'
     ? `api-netcore/report/la/export-excel`
-    : `${window.netCoreRootUrl}/api/report/la/export-excel`;
+    : `api/report/la/export-excel`;
 
 const exportUrl = (fromDate, toDate, activeUser, resignUser) => {
   const url = `${urlExportLa}?fromDate=${fromDate}&toDate=${toDate}&activeUser=${activeUser}&resignUser=${resignUser}`;

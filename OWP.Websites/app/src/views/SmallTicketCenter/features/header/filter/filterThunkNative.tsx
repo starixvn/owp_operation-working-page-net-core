@@ -7,12 +7,12 @@ const getTicketTypeOption = createAsyncThunk<TTicketTypeResponse>(
   'group/GetRecipientGroup',
   async () => {
     const url =
-    process.env.NODE_ENV === 'development'
-      ? `${netCoreURL}/${getTicketType}`
-      : `${window.netCoreRootUrl}/${netFwURL}/${getTicketType}`;
+      process.env.NODE_ENV === 'development'
+        ? `${netCoreURL}/${getTicketType}`
+        : `${netFwURL}/${getTicketType}`;
 
-  const response = await get({ url });
-  return response.data;
+    const response = await get({ url });
+    return response.data;
   }
 );
 

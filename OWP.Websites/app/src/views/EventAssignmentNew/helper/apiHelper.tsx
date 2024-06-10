@@ -8,7 +8,7 @@ import { buildRequestURL } from '../../LiveDetail/buildUrlHelper';
 const buildRequestURLForLGA = (key: string) =>
   process.env.NODE_ENV === 'development'
     ? `${netCoreURL}${key}`
-    : `${window.netCoreRootUrl}/${netFwURL}${key}`;
+    : `${netFwURL}${key}`;
 
 const queryMatchInfo = async (owpMatchId: number) => {
   const response = await axios.get(buildRequestURL('match-info'), {
@@ -60,7 +60,10 @@ const getBettypeForMatchInfo = async (parentMatchId: number) => {
   return response.data;
 };
 
-const getSpecialEventTemplate = async (parentMatchId: number, minorBettypeId: number) => {
+const getSpecialEventTemplate = async (
+  parentMatchId: number,
+  minorBettypeId: number
+) => {
   const postModel = {
     ApiKey: 'live-game-assignment-get-special-event-template',
     ParentMatchId: parentMatchId,
@@ -82,7 +85,7 @@ const getByRefName = (refName: string) => {
   const url =
     process.env.NODE_ENV === 'development'
       ? `api-netcore/resource-assignment`
-      : `${window.netCoreRootUrl}/api/resource-assignment`;
+      : `api/resource-assignment`;
 
   const key = `all-ref-${refName}`;
   return Utils.requestOrGetSessionStorage(key, `${url}/?refName=${refName}`);

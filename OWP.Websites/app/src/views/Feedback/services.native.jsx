@@ -11,7 +11,7 @@ const queryFunction = async () => {
   const url =
     process.env.NODE_ENV === 'development'
       ? `${URL.NET_Core_TICKET_CENTER}/get-function-feedback`
-      : `${window.netCoreRootUrl}/${URL.NET_FW_TICKET_CENTER}/get-function-feedback`;
+      : `${URL.NET_FW_TICKET_CENTER}/get-function-feedback`;
   const response = await Axios.get(url);
   return transformFunctionResponse(response);
 };
@@ -20,7 +20,7 @@ const queryUserFeedbackInfo = async () => {
   const url =
     process.env.NODE_ENV === 'development'
       ? `${URL.NET_Core_TICKET_CENTER}/get-user-feedback-info`
-      : `${window.netCoreRootUrl}/${URL.NET_FW_TICKET_CENTER}/get-user-feedback-info`;
+      : `${URL.NET_FW_TICKET_CENTER}/get-user-feedback-info`;
   const response = await Axios.get(url);
   return response.data;
 };

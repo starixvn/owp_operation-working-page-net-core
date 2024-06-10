@@ -12,7 +12,7 @@ import { TTicket, TFilerParam } from '../../../type';
 const genUrl = (routePostfix: string) =>
   process.env.NODE_ENV === 'development'
     ? `${netCoreURL}/${routePostfix}`
-    : `${window.netCoreRootUrl}/${netFwURL}/${routePostfix}`;
+    : `${netFwURL}/${routePostfix}`;
 
 const getEventTickets = createAppAsyncThunk<Array<TTicket>, void>(
   'TicketCenter/getEventChecking',

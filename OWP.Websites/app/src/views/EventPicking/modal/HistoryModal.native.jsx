@@ -8,7 +8,7 @@ import dayjs from 'dayjs';
 const resolveUrl = () =>
   process.env.NODE_ENV === 'development'
     ? `${netCoreURL}/${getLogsHistory}`
-    : `${window.netCoreRootUrl}/${netFwURL}/${getLogsHistory}`;
+    : `${netFwURL}/${getLogsHistory}`;
 
 const HistoryModal = props => {
   const { infoSiteMatchId, header, onToggle } = props;

@@ -14,10 +14,10 @@ const normalizeOptions = (
 ) => {
   const options = optionsSource.map(
     o =>
-    ({
-      value: o.resourceId,
-      label: o.value
-    } as Option)
+      ({
+        value: o.resourceId,
+        label: o.value
+      } as Option)
   );
   options.push(noneOption);
   return options;
@@ -26,10 +26,10 @@ const normalizeOptions = (
 const buildOptions = (optionsSource: Array<TRefResource>) =>
   optionsSource.map(
     o =>
-    ({
-      value: o.resourceId,
-      label: o.value
-    } as Option)
+      ({
+        value: o.resourceId,
+        label: o.value
+      } as Option)
   );
 
 const normalizeLocationCodeOptions = (
@@ -38,10 +38,10 @@ const normalizeLocationCodeOptions = (
 ) => {
   const options = optionsSource.map(
     o =>
-    ({
-      value: o.value,
-      label: o.value
-    } as Option)
+      ({
+        value: o.value,
+        label: o.value
+      } as Option)
   );
   options.push(noneOption);
   return options;
@@ -50,7 +50,8 @@ const normalizeLocationCodeOptions = (
 const getValueFilter = (): TQueryUserInfo => {
   const { filterValue, permissions, currentSection } = store.getState();
   const { userManagementAllSections } = permissions;
-  const { userName, role, section, department, category, locationCode } = filterValue;
+  const { userName, role, section, department, category, locationCode } =
+    filterValue;
   const sectionId = userManagementAllSections.isRead
     ? section.map(r => r.value).join(',')
     : `${currentSection?.resourceId}`;
@@ -67,13 +68,13 @@ const getValueFilter = (): TQueryUserInfo => {
 const urlExport =
   process.env.NODE_ENV === 'development'
     ? `api-netcore/UserManagement/export-excel`
-    : `${window.netCoreRootUrl}/api/UserManagement/export-excel`;
+    : `api/UserManagement/export-excel`;
 
 const updateUserInfo = async (updateInfo: TUpdateUserInfo) => {
   const url =
     process.env.NODE_ENV === 'development'
       ? `api-netcore/UserManagement/update-user-info`
-      : `${window.netCoreRootUrl}/api/UserManagement/update-user-info`;
+      : `api/UserManagement/update-user-info`;
 
   return (
     await post({
@@ -92,11 +93,13 @@ const hasPermissionUser = (userSection: string | null) => {
   const { userManagementOwnSection, userManagementAllSections } = permissions;
   const temp = userSection ?? null;
 
-  return userManagementAllSections.isHost ||
-    userManagementOwnSection.isHost &&
-    userManagementAllSections.isRead &&
-    currentSection?.value === temp ||
-    userManagementOwnSection.isHost && !userManagementAllSections.isRead;
+  return (
+    userManagementAllSections.isHost ||
+    (userManagementOwnSection.isHost &&
+      userManagementAllSections.isRead &&
+      currentSection?.value === temp) ||
+    (userManagementOwnSection.isHost && !userManagementAllSections.isRead)
+  );
 };
 
 export {
