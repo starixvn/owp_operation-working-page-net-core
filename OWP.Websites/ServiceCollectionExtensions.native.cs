@@ -43,9 +43,7 @@ using OWP.TicketTypeRecipient;
 using SharpRaven;
 using StackExchange.Redis;
 using System.Reflection;
-using AutoMapperProfile = OWP.OtherSport.AutoMapperProfile;
 using ILogger = Fanex.Logging.ILogger;
-using OWP.Application;
 
 namespace OWP.Websites;
 
@@ -54,6 +52,7 @@ using Microsoft.Extensions.FileProviders;
 using OWP.AccountSetting.Profile;
 using OWP.AccountSetting.QuickMessage;
 using OWP.Application;
+using OWP.Application.Header;
 
 public static class ServiceCollectionExtensions
 {
@@ -136,7 +135,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<CheckIsLiveStatusServices, CheckIsLiveStatusServicesImp>();
         services.AddScoped<GetAdminSiteMatchIdService, GetAdminSiteMatchIdServiceImp>();
         services.AddScoped<PermissionService, PermissionServiceImp>();
-        services.AddScoped<Service, ServiceImp>();
+        services.AddScoped<HeaderService, HeaderServiceImp>();
         services.AddScoped<GetInfoSiteTimeService, GetInfoSiteTimeServiceImp>();
         services.AddScoped<AccessCounter, AccessCounterImp>();
         return services;
@@ -370,7 +369,7 @@ public static class ServiceCollectionExtensions
                 pipeline.AddCssBundle("/styles/fonts",
                     "shared/fonts/icon-OWP/style.css");
 
-                pipeline.AddJavaScriptBundle("scripts/core", 
+                pipeline.AddJavaScriptBundle("scripts/core",
                     "shared/lib/jQuery/jquery-2.1.1.js",
                     "shared/lib/jquery.signalR-2.4.3.min.js");
 
