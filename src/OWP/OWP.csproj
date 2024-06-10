@@ -58,6 +58,11 @@
             <AutoGen>True</AutoGen>
             <DependentUpon>FunctionKeys.tt</DependentUpon>
         </Compile>
+        <Compile Update="Constants\MenuItems.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>MenuItems.tt</DependentUpon>
+        </Compile>
         <Compile Update="Resources\ViewLang.Designer.cs">
           <DesignTime>True</DesignTime>
           <AutoGen>True</AutoGen>
@@ -70,5 +75,11 @@
         <LastGenOutput>ViewLang.Designer.cs</LastGenOutput>
         <CustomToolNamespace>OWP.Resources</CustomToolNamespace>
       </EmbeddedResource>
+    </ItemGroup>
+    <ItemGroup>
+        <Content Remove="app\**" />
+        <Compile Remove="app\**" />
+        <EmbeddedResource Remove="app\**" />
+        <None Remove="app\**" />
     </ItemGroup>
 </Project>

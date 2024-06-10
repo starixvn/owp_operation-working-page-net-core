@@ -27,9 +27,13 @@
     <Content Remove="Views\Shared\RazorHelper.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Remove="app\**" />
     <Compile Remove="wwwroot\shared\owp\MessageMachine\Views\**" />
+    <Content Remove="app\**" />
     <Content Remove="wwwroot\shared\owp\MessageMachine\Views\**" />
+    <EmbeddedResource Remove="app\**" />
     <EmbeddedResource Remove="wwwroot\shared\owp\MessageMachine\Views\**" />
+    <None Remove="app\**" />
     <None Remove="wwwroot\shared\owp\MessageMachine\Views\**" />
   </ItemGroup>
   <ItemGroup>
