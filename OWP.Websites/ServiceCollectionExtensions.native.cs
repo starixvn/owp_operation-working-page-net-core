@@ -49,6 +49,7 @@ using System.Reflection;
 using OWP.ProviderVerification;
 using AutoMapperProfile = OWP.OtherSport.AutoMapperProfile;
 using ILogger = Fanex.Logging.ILogger;
+using OWP.Application;
 
 namespace OWP.Websites;
 
@@ -222,6 +223,7 @@ public static class ServiceCollectionExtensions
         services.AddNewLeagueSettingService();
         services.AddAccountSettingService();
         services.AddProviderVerificationService();
+        services.AddApplicationInjector();
         return services;
     }
 

@@ -75,5 +75,6 @@
     <ProjectReference Include="..\src\OWP.AssignmentUpload\OWP.AssignmentUpload.csproj" />
     <ProjectReference Include="..\src\OWP.ProviderArrangement\OWP.ProviderArrangement.csproj" />
     <ProjectReference Include="..\src\OWP.ProviderVerification\OWP.ProviderVerification.csproj" />
+    <ProjectReference Include="..\src\OWP.Application\OWP.Application.csproj" />
   </ItemGroup>
 </Project>

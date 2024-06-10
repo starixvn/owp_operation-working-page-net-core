@@ -1,4 +1,5 @@
-﻿using Fanex.NAP.Client.Configuration;
+﻿using Fanex.NAP.Client.Attributes;
+using Fanex.NAP.Client.Configuration;
 using Fanex.NAP.Client.Helpers.Web;
 using Fanex.NAP.Client.Models.ParameterObject;
 using Fanex.NAP.Client.Services;
@@ -12,6 +13,8 @@ using OWP.Models;
 using System.Net;
 using System.Net.Sockets;
 using System.Security.Claims;
+using Fanex.NAP.Client.Helpers.Business;
+using OWP.Constants;
 
 namespace OWP.Websites.Controllers;
 
@@ -157,5 +160,11 @@ public class HomeController : Controller
 
         var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+    }
+    [Route("EventPickingNew")]
+    [NapAuth(FunctionKey = FunctionKeys.EventPickingNew, Policy = Constant.Policy.Read)]
+    public IActionResult EventPickingNew()
+    {
+        return View("~/wwwroot/event-picking/server.cshtml");
     }
 }
