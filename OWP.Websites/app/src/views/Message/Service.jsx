@@ -72,23 +72,21 @@ export const openTicketCenterIssueURL =
     ? 'api-netcore/TicketCenter/on-click-issue-notification'
     : `${window.netCoreRootUrl}/api/TicketCenter/on-click-issue-notification`;
 
+const buildMessageUrl = () =>
+  process.env.NODE_ENV === 'development'
+    ? 'api-netcore/application/message'
+    : `${window.netCoreRootUrl}/api/application/message`;
+
 const query = async (model = null) => {
-  const response = await axios.get('api/application/message', {
+  const response = await axios.get(buildMessageUrl(), {
     params: model
   });
 
   return response.data;
 };
 
-const notify = async sessionId => {
-  const response = await axios.post('api/application/message/notify', {
-    sessionId
-  });
-  return response.data;
-};
-
 const updateIsViewed = async model => {
-  await axios.put('api/application/message', model);
+  await axios.put(buildMessageUrl(), model);
 };
 
 const removedSpan = '<span class="match-unassigned">REMOVED</span>';
@@ -234,7 +232,6 @@ const customizePreMatchContent = (messageType, messageContent) => {
 
 const service = {
   query,
-  notify,
   updateIsViewed,
   customizeContent,
   customizeOSContent,

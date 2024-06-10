@@ -107,9 +107,7 @@ export default defineConfig({
         {
           src: `../wwwroot/${appName}/server.html`,
           dest: outDir,
-          rename: 'server.cshtml',
-          transform: content =>
-            content.toString().replace(/\/wwwroot/g, 'wwwroot')
+          rename: 'server.cshtml'
         }
       ],
       hook: 'closeBundle'
@@ -137,7 +135,7 @@ export default defineConfig({
   experimental: {
     renderBuiltUrl(filename, { hostType }) {
       if (hostType === 'js') {
-        return `wwwroot/${appName}/` + filename;
+        return `/${appName}/` + filename;
       }
       if (hostType === 'css') {
         const file = filename.replace('assets/ext', '');

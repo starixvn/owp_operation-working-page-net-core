@@ -9,22 +9,22 @@ const transformNavigation = (menus, title) => {
   menus.forEach(menu => {
     navigation.items.push({
       title: true,
-      name: menu.Name,
+      name: menu.name,
       wrapper: {
         element: '',
         attributes: {}
       }
     });
 
-    if (menu.Children) {
-      menu.Children.forEach(childMenu => {
+    if (menu.children) {
+      menu.children.forEach(childMenu => {
         const item = {
-          name: childMenu.Name,
-          url: Utils.resolveUrl(childMenu.Path),
-          icon: childMenu.IconCssClass
+          name: childMenu.name,
+          url: Utils.resolveUrl(childMenu.path),
+          icon: childMenu.iconCssClass
         };
 
-        if (!isEqual(childMenu.Name.toLowerCase(), title.toLowerCase())) {
+        if (!isEqual(childMenu.name.toLowerCase(), title.toLowerCase())) {
           item.variant = 'unactive';
         }
         navigation.items.push(item);

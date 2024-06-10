@@ -5,6 +5,10 @@
 	    <Setting Key="OWP_RefResourceGetAll" SpName="OWP_RefResourceGetAll" DbName="DBOWP.bodb_OWP.wsv_owp" />
       <Setting Key="OWP_LiveGame_GetInfoSiteTime" SpName="OWP_LiveGame_GetInfoSiteTime" DbName="DBOWP.bodb_OWP.wsv_owp" />
     </Function>
+  <Function Name="MessageBox">
+    <Setting Key="OWP_MessageGetByUserId" SpName="OWP_MessageGetByUserId" DbName="DBOWP.bodb_OWP.wsv_owp" />
+    <Setting Key="OWP_MessageStatusUpdateAll" SpName="OWP_MessageStatusUpdateAll" DbName="DBOWP.bodb_OWP.wsv_owp" />
+  </Function>
 	<Function Name="UserManagement">
 		<Setting Key="OWP_RefResource_GetMainBettypeBySectionId" SpName="OWP_RefResource_GetMainBettypeBySectionId" DbName="DBOWP.bodb_OWP.wsv_owp" />
 		<Setting Key="OWP_RefResource_GetLevelBySectionId" SpName="OWP_RefResource_GetLevelBySectionId" DbName="DBOWP.bodb_OWP.wsv_owp" />
