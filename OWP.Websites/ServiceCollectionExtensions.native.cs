@@ -51,7 +51,6 @@ using Fanex.NAP.Client.Session;
 using Microsoft.Extensions.FileProviders;
 using OWP.AccountSetting.Profile;
 using OWP.AccountSetting.QuickMessage;
-using OWP.Application;
 using OWP.Application.Header;
 
 public static class ServiceCollectionExtensions
@@ -60,7 +59,7 @@ public static class ServiceCollectionExtensions
     {
         var mapperConfig = new MapperConfiguration(mc =>
         {
-            mc.AddProfile(new AutoMapperProfile());
+            mc.AddProfile(new OtherSport.AutoMapperProfile());
             mc.AddProfile(new TicketCenter.AutoMapperProfile());
             mc.AddProfile(new Report.OvertimeReport.AutoMapperProfile());
             mc.AddProfile(new Report.PreMatchReport.AutoMapperProfile());
@@ -135,7 +134,6 @@ public static class ServiceCollectionExtensions
         services.AddScoped<CheckIsLiveStatusServices, CheckIsLiveStatusServicesImp>();
         services.AddScoped<GetAdminSiteMatchIdService, GetAdminSiteMatchIdServiceImp>();
         services.AddScoped<PermissionService, PermissionServiceImp>();
-        services.AddScoped<HeaderService, HeaderServiceImp>();
         services.AddScoped<GetInfoSiteTimeService, GetInfoSiteTimeServiceImp>();
         services.AddScoped<AccessCounter, AccessCounterImp>();
         return services;
