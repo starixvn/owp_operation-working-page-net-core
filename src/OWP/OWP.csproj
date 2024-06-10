@@ -26,10 +26,10 @@
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
     </ItemGroup>
     <ItemGroup>
-      <None Include="Constants\MenuItem.cs">
+      <None Include="Constants\MenuItems.cs">
         <DesignTime>True</DesignTime>
         <AutoGen>True</AutoGen>
-        <DependentUpon>MenuItem.tt</DependentUpon>
+        <DependentUpon>MenuItems.tt</DependentUpon>
       </None>
     </ItemGroup>
     <ItemGroup>
@@ -39,6 +39,7 @@
         <PackageReference Include="Olympus.OWP.Constants" Version="1.0.0.4" />
         <PackageReference Include="Fanex.Logging" Version="2.0.1.1" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+        <PackageReference Include="MediatR" Version="12.1.1" />
         <PackageReference Include="Fanex.NAP.Client" Version="2.0.0" />
     </ItemGroup>
     <ItemGroup>
@@ -59,11 +60,6 @@
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
             <DependentUpon>FunctionKeys.tt</DependentUpon>
-        </Compile>
-        <Compile Update="Constants\MenuItems.cs">
-          <DesignTime>True</DesignTime>
-          <AutoGen>True</AutoGen>
-          <DependentUpon>MenuItems.tt</DependentUpon>
         </Compile>
         <Compile Update="Resources\ViewLang.Designer.cs">
           <DesignTime>True</DesignTime>
