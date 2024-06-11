@@ -1,0 +1,29 @@
+﻿@import 'abstracts/variables';
+
+//@import 'fonts/font-icon/style.scss';
+@import 'fonts/montserrat/style.scss';
+/*@import 'fonts/flags/flags-icon';*/
+
+@import 'vendors/pickmeup/pickmeup-ex';
+@import 'vendors/select2/select2-ex';
+@import 'vendors/datepicker';
+@import 'vendors/msgbox';
+@import 'vendors/fanexGrid/fanexGrid-ex';
+@import 'vendors/toastr-ex';
+@import 'vendors/sweetalert.scss';
+
+@import 'base/common';
+@import 'base/_typo.scss';
+
+@import 'layout/sideBar.scss';
+@import 'layout/navBar.scss';
+@import 'layout/content.scss';
+
+@import 'components/button';
+@import 'components/table';
+@import 'components/_form-input.scss';
+@import 'components/icon';
+@import 'components/pagination';
+@import 'components/modal';
+@import 'components/waves';
+@import 'components/tabs';

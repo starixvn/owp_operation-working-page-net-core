@@ -1,0 +1,153 @@
+﻿@import '../abstracts/_mixins.scss';
+
+.text-red {
+    color: #ff0000;
+}
+
+.col-home-away, .col-1x2 {
+    background-color: #fff4ed !important;
+}
+
+.col-over-under {
+    background-color: #def6fc !important;
+}
+
+.icon-add {
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.icon-delete {
+    float: left;    
+}
+
+.icon-plus {
+    float: right;    
+}
+
+.league-name {
+    color: #43a0f1;
+}
+
+.match-name {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.input--l {
+    width: 22rem;
+}
+
+.button-block {
+    position: relative;
+}
+
+.freegrid .table-cell {
+    padding-left: 5px;
+}
+
+.freegrid .highlight-row.freegrid-even:hover td {
+    background: #fafafa;
+}
+
+.freegrid tr.highlight-row:hover td {
+    background: #fff;
+}
+
+
+.popover {
+    background-color: #fff;
+    border: 1px solid #e4e4e4;
+    width: 630px;
+    padding: 8px 16px 20px;
+    position: absolute;
+    z-index: 1000;
+    display: none;
+    @include box-shadow-multiple(0 0 8px rgba(0, 0, 0, 0.1));
+
+    .icon-close:before {
+        cursor: pointer;
+        font-size: 18px;
+        position: absolute;
+        right: 8px;
+    }
+
+    .row-number {
+        background-color: #fef8e7;
+        border: 1px solid #f9d292;
+        color: #c77007;
+        padding: 2px 6px;
+        @include border-radius(2px);
+    }
+
+    .error-info {
+        margin-top: 8px;
+        margin-bottom: 8px;
+    }
+
+    .date {
+        font-weight: bold;
+        font-style: italic;
+    }
+}
+
+.input_value {
+    .label {
+        color: #444;
+    }
+}
+
+.input_field {
+    width: 37px !important;
+}
+
+
+.select-wrapper-default {
+    display: inline-block;
+    vertical-align: middle;
+    width: calc(100% - 55px);
+
+    &:before {
+        top: 0;
+        background: #fff4ed;
+    }
+
+    .browser-default {
+        height: 22px;
+    }    
+}
+
+.value-hdp {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 5px;
+}
+
+.table {
+    position: relative;
+    padding-right: 0 !important;
+}
+
+.search-table {
+    position: absolute;
+    right: 10px;
+    top: -40px;
+
+    .icon-search {
+        position: absolute;
+        right: 0;
+        top: 0;
+        color: #828282;
+    }
+}
+
+.icon-list-provider {
+    width: 12px;
+    height: 12px;
+    font-size: 9px;
+    background: #4794fe;
+    border-radius: 2px;
+    line-height: 13px;
+    text-align: center;
+    color: #fff;
+}

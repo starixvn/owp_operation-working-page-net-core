@@ -1,0 +1,186 @@
+﻿//@import "../../abstracts/variables";
+
+.grid-title {
+    border: solid 1px #e3e3e3;
+    border-bottom: none;
+    background: #fff;
+    color: #333;
+    margin-bottom: 0;
+}
+
+.freegrid {
+    padding: 0 !important;
+    font-size: 12px;
+    border-color: #e3e3e3;
+    /** {
+        box-sizing: content-box;
+    }*/
+    input[type=text] {
+        height: 1.8rem;
+        
+    }
+
+    .checkbox-item {
+        width: 16px;
+        height: 16px;
+
+        [type="checkbox"] + label {
+            display: block;
+            height: 17px;
+        }
+    }
+
+    .table-cell {
+        padding: 0 2px;
+    }
+
+    .table-cell.note-col {
+        vertical-align: top;
+    }
+
+    .note-block {
+        max-height: 200px;
+
+        p {
+            border-top: 1px solid #e1e1e1;
+            padding: 5px;
+            margin-right: 5px;
+
+            &:first-child {
+                border-top: none;
+            }
+        }
+
+        .mCSB_container {
+            margin-right: 0;
+        }
+
+        .mCSB_scrollTools {
+            width: 6px;
+        }
+
+        .mCS-dark-thin.mCSB_scrollTools .mCSB_draggerRail {
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        .mCSB_scrollTools .mCSB_draggerRail {
+            width: 5px;
+        }
+
+        .mCS-light-thin.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar,
+        .mCS-dark-thin.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
+            width: 5px;
+        }
+    }
+
+    .header-container {
+        border-bottom: 1px solid #e1e1e1;
+    }
+
+    .grid-fixed-table thead th {
+        font-weight: normal;
+        //padding: 0 2px;
+        
+    }
+
+    .free-top-left table thead th {
+        background: #f1f1f1;
+        color: #333333;
+        font-weight: bold;
+        border-color: #e3e3e3;
+    }
+
+    .grid-fixed-table td {
+        color: #444;
+        border-color: #e1e1e1;
+        //vertical-align: bottom;
+        padding: 0;
+
+        &.note-cell {
+            padding: 0;
+        }
+    }
+
+    .col-odd {
+        background: #feeee3 !important;
+    }
+
+    .col_header table thead th {
+        background: $color-bg-header-table;
+        color: $color-text-header-table;
+        font-weight: bold;
+        border-color: #e3e3e3;
+        //padding: 0 2px;
+
+        &.th-col-odd {
+            background: #fde0ce;
+        }
+
+        &.th-col-even {
+            background: #ced3d9;
+        }
+
+        &.dark-bg {
+            background: #cdd3d9;
+        }
+    }
+
+    .freegrid-even td {
+        background: $color-bg-striped-table;
+    }
+
+    tr.highlight-row:hover td {
+        background: $color-bg-hover-table;
+    }
+
+    .no-data-not-frozen, .no-data-frozen {
+        color: #444;
+        font-weight: normal;
+        text-align: left !important;
+        padding: 0 10px;
+    }
+}
+
+.grid-title .grid-toolbox {
+    //padding-top: 5px;
+}
+
+.grid-title .btnExcel {
+    display: inline-block;
+    vertical-align: middle;
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+    margin-top: 2px;
+    margin-right: 4px;
+    background: #00a659;
+    color: #fff;
+    padding: 0 5px;
+    border-radius: 2px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+
+    &:after {
+        font: normal normal normal 24px/1 "Material Design Icons";
+        content: "\F21B";
+        font-size: 18px;
+        width: 28px;
+        height: 28px;
+        line-height: 28px;
+        vertical-align: middle;
+    }
+
+    &:hover {
+        background: #018346;
+    }
+
+    &:focus {
+        outline: none;
+    }
+}
+
+// --------------------- User Management FanexGrid ------------------------ //
+#js-listUsers {
+    td, .grid-fixed-table td {
+        overflow: visible;
+    }
+}

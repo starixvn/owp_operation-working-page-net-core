@@ -42,16 +42,14 @@
     <None Remove="Views\Shared\RazorHelper.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="wwwroot\shared\owp\daily-working-shift\daily-working-shift-service.js" />
+    <None Include="wwwroot\shared\owp\daily-working-shift\daily-working-shift.js" />
     <None Include="wwwroot\shared\owp\DocumentTitle\document-title-factory.js" />
     <None Include="wwwroot\shared\owp\DocumentTitle\document-title.js" />
     <None Include="wwwroot\shared\owp\EventManagement\Resources\EventInformation\event-information-factory.js" />
     <None Include="wwwroot\shared\owp\EventManagement\Resources\EventInformation\event-information.js" />
     <None Include="wwwroot\shared\owp\EventManagement\Resources\Filter\filter-factory.js" />
     <None Include="wwwroot\shared\owp\EventManagement\Resources\Filter\filter.js" />
-    <None Include="wwwroot\shared\owp\EventManagement\Resources\MaxBetManagement\max-bet-factory.js" />
-    <None Include="wwwroot\shared\owp\EventManagement\Resources\MaxBetManagement\max-bet-management.js" />
-    <None Include="wwwroot\shared\owp\EventManagement\Resources\MaxBetManagement\special-live-product-factory.js" />
-    <None Include="wwwroot\shared\owp\EventManagement\Resources\MaxBetManagement\special-live-product.js" />
     <None Include="wwwroot\shared\owp\EventManagement\Resources\OddsCompiler\odds-compiler-factory.js" />
     <None Include="wwwroot\shared\owp\EventManagement\Resources\OddsCompiler\odds-compiler.js" />
     <None Include="wwwroot\shared\owp\EventManagement\Resources\QuickSearch\quick-search-factory.js" />
@@ -59,6 +57,93 @@
     <None Include="wwwroot\shared\owp\EventManagement\Resources\QuickSearch\quick-search.js" />
     <None Include="wwwroot\shared\owp\MessageMachine\Resources\MessageBox\message-box-factory.js" />
     <None Include="wwwroot\shared\owp\MessageMachine\Resources\MessageBox\message-box.js" />
+    <None Include="wwwroot\shared\owp\weekly-working-shift\week-picker.js" />
+    <None Include="wwwroot\shared\owp\weekly-working-shift\working-shift-factory.js" />
+    <None Include="wwwroot\shared\owp\weekly-working-shift\working-shift-service.js" />
+    <None Include="wwwroot\shared\owp\weekly-working-shift\working-shift-upload.js" />
+    <None Include="wwwroot\shared\owp\weekly-working-shift\working-shift-weekly.js" />
+    <None Include="wwwroot\shared\owp\weekly-working-shift\working-shift.js" />
+    <None Include="wwwroot\shared\scss\abstracts\_mixins.scss" />
+    <None Include="wwwroot\shared\scss\abstracts\_variables.scss" />
+    <None Include="wwwroot\shared\scss\base\_common.scss" />
+    <None Include="wwwroot\shared\scss\base\_typo.scss" />
+    <None Include="wwwroot\shared\scss\components\_button.scss" />
+    <None Include="wwwroot\shared\scss\components\_form-input.scss" />
+    <None Include="wwwroot\shared\scss\components\_icon.scss" />
+    <None Include="wwwroot\shared\scss\components\_modal.scss" />
+    <None Include="wwwroot\shared\scss\components\_pagination.scss" />
+    <None Include="wwwroot\shared\scss\components\_table.scss" />
+    <None Include="wwwroot\shared\scss\components\_tabs.scss" />
+    <None Include="wwwroot\shared\scss\components\_waves.scss" />
+    <None Include="wwwroot\shared\scss\fonts\montserrat\_style.scss" />
+    <None Include="wwwroot\shared\scss\images\cd-icons.svg" />
+    <None Include="wwwroot\shared\scss\images\feedback-icon.svg" />
+    <None Include="wwwroot\shared\scss\images\pantone.svg" />
+    <None Include="wwwroot\shared\scss\images\settings.svg" />
+    <None Include="wwwroot\shared\scss\layout\_content.scss" />
+    <None Include="wwwroot\shared\scss\layout\_navBar.scss" />
+    <None Include="wwwroot\shared\scss\layout\_sideBar.scss" />
+    <None Include="wwwroot\shared\scss\main.scss" />
+    <None Include="wwwroot\shared\scss\owp.search-autocomplete.scss" />
+    <None Include="wwwroot\shared\scss\pages\DailyWorkingShift.scss" />
+    <None Include="wwwroot\shared\scss\pages\EventInformation.scss" />
+    <None Include="wwwroot\shared\scss\pages\LiveDetail.scss" />
+    <None Include="wwwroot\shared\scss\pages\MaxBetManagement.scss" />
+    <None Include="wwwroot\shared\scss\pages\OddsCompiler.scss" />
+    <None Include="wwwroot\shared\scss\pages\SystemConfiguration.scss" />
+    <None Include="wwwroot\shared\scss\pages\TaskList.scss" />
+    <None Include="wwwroot\shared\scss\pages\WorkingShift.scss" />
+    <None Include="wwwroot\shared\scss\vendors\fanexGrid\fanexGrid-ex.scss" />
+    <None Include="wwwroot\shared\scss\vendors\fonts\roboto\Roboto-Bold.woff2" />
+    <None Include="wwwroot\shared\scss\vendors\fonts\roboto\Roboto-Light.woff2" />
+    <None Include="wwwroot\shared\scss\vendors\fonts\roboto\Roboto-Medium.woff2" />
+    <None Include="wwwroot\shared\scss\vendors\fonts\roboto\Roboto-Regular.woff2" />
+    <None Include="wwwroot\shared\scss\vendors\fonts\roboto\Roboto-Thin.woff2" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\date_picker\_default.date.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\date_picker\_default.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\date_picker\_default.time.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\forms\_checkboxes.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\forms\_file-input.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\forms\_forms.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\forms\_input-fields.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\forms\_radio-buttons.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\forms\_range.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\forms\_select.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\forms\_switches.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_buttons.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_cards.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_carousel.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_chips.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_collapsible.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_color.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_dropdown.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_global.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_grid.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_icons-material-design.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_materialbox.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_mixins.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_modal.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_navbar.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_normalize.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_prefixer.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_preloader.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_roboto.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_sideNav.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_slider.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_table_of_contents.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_tabs.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_toast.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_tooltip.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_typography.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_variables.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_waves.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\materialize.scss" />
+    <None Include="wwwroot\shared\scss\vendors\pickmeup\_pickmeup-ex.scss" />
+    <None Include="wwwroot\shared\scss\vendors\select2\_select2-ex.scss" />
+    <None Include="wwwroot\shared\scss\vendors\_datepicker.scss" />
+    <None Include="wwwroot\shared\scss\vendors\_msgbox.scss" />
+    <None Include="wwwroot\shared\scss\vendors\_sweetalert.scss" />
+    <None Include="wwwroot\shared\scss\vendors\_toastr-ex.scss" />
   </ItemGroup>
 
   <ItemGroup>
@@ -110,5 +195,8 @@
     <ProjectReference Include="..\src\OWP.ProviderArrangement\OWP.ProviderArrangement.csproj" />
     <ProjectReference Include="..\src\OWP.ProviderVerification\OWP.ProviderVerification.csproj" />
     <ProjectReference Include="..\src\OWP.Application\OWP.Application.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="wwwroot\shared\owp\OddsCompiler\" />
   </ItemGroup>
 </Project>

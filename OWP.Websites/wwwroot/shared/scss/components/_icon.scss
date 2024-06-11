@@ -1,0 +1,455 @@
+﻿@import "../abstracts/variables";
+
+@mixin iconStyle($font-size, $color) {
+    font-size: $font-size;
+    color: $color;
+}
+
+@mixin iconNoti() {
+    font-size: 20px;
+    display: inline-block;
+    vertical-align: middle;
+    padding-right: 5px;
+}
+
+@mixin bounceLoadingIcon($right, $top) {
+    .new-message,
+    .new-message::before,
+    .new-message::after {
+        margin-left: -3px;
+        margin-top: -3px;
+        position: absolute;
+        vertical-align: middle;
+        background: #ff6000;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+    }
+
+    .new-message {
+        right: $right;
+        top: $top;
+    }
+
+    .new-message::before {
+        right: 0;
+        top: 3px;
+        content: "";
+        animation: bounce 1.5s infinite;
+    }
+
+    .new-message::after {
+        right: 0;
+        top: 3px;
+        content: "";
+        animation: bounce 1.5s -0.4s infinite;
+    }
+}
+
+.icon {
+    display: inline-block;
+    vertical-align: middle;
+    height: initial;
+    transition: 0.2s ease all;
+    text-rendering: optimizeLegibility;
+    cursor: pointer;
+
+    .icon-disabled {
+    }
+}
+
+.icon-circle {
+    border-radius: 50%;
+}
+
+.icon-excel {
+    @include iconStyle(1.6rem,#00a659);
+}
+
+.icon-error {
+    @include iconNoti;
+}
+
+.icon-warning {
+    @include iconNoti;
+}
+
+.icon-success {
+    @include iconNoti;
+}
+
+.icon-info {
+    @include iconNoti;
+}
+
+.icon-notification {
+    @include iconStyle(2rem,#9fb0bc);
+    cursor: pointer;
+    position: relative;
+}
+
+.icon-message {
+    @include iconStyle(2rem,#6d7d8a);
+    cursor: pointer;
+    position: relative;
+}
+
+.new-message .noti-dot {
+    top: 0px;
+    right: 7px;
+
+    @-moz-document url-prefix() {
+        right: 10px;
+        top: -1px;
+    }
+}
+
+.icon-search {
+    @include iconStyle(2rem,#9fb0bc);
+}
+
+.icon-skype {
+    @include iconStyle(1.2rem,#10ade7);
+}
+
+.icon-view {
+    @include iconStyle(1.2rem,#1e88e5);
+    vertical-align: sub;
+}
+
+.icon-check, .icon-delete, .icon-close, .icon-edit, .icon-reset, .icon-clear {
+    @include iconStyle(12px, #888);
+    width: 20px;
+    text-align: center;
+    height: 20px;
+    line-height: 20px;
+    border-radius: 50%;
+}
+
+.icon-delete {
+    &:hover, &:focus, &:active {
+        color: #ff4a4a;
+        background: #fee0de;
+    }
+
+    &.icon-disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+
+        &:hover, &:focus, &:active {
+            color: #888;
+            background: none;
+        }
+    }
+}
+
+.icon-close, .icon-delete {
+    &:active, &:focus, &:hover {
+        color: #ff4a4a;
+        background: #fee0de;
+    }
+}
+
+.icon-check, .icon-reset {
+    &:active, &:focus, &:hover {
+        color: #2fb159;
+        background: rgba(47,177,89,0.2);
+    }
+}
+
+.icon-edit {
+    &:active, &:focus, &:hover {
+        color: #ff9f09;
+        background: rgba(255,159,9,0.2);
+    }
+}
+
+.icon-clear {
+    &:active, &:focus, &:hover {
+        color: #fe681b;
+        background: #ffddcb;
+    }
+}
+
+.icon-plus {
+    height: 20px;
+    width: 20px;
+    line-height: 20px;
+    text-align: center;
+    border-radius: 50%;
+    color: #888;
+
+    &:active, &:focus, &:hover {
+        color: #1d88e6;
+        background: #b6d8f3;
+    }
+}
+
+.icon-copyAll {
+    height: 20px;
+    width: 20px;
+    line-height: 20px;
+    text-align: center;
+    border-radius: 50%;
+    color: #444;
+
+    &:active, &:focus, &:hover {
+        background: #d8d8d8;
+    }
+}
+
+.icon-infomation {
+    font-size: 1.5rem;
+    line-height: 1;
+    color: #9d9d9d;
+
+    &:hover {
+        color: #65b0f2;
+    }
+}
+
+.icon-link {
+    font-size: 17px;
+    margin-right: 0.5rem;
+    line-height: 1;
+}
+
+.notification-box {
+    position: relative;
+
+    .noti-dot {
+        position: absolute;
+        //top: -40px;
+    }
+
+    .pulse {
+        width: 7px;
+        height: 7px;
+        border: 3px solid #ff6000;
+        -webkit-border-radius: 30px;
+        -moz-border-radius: 30px;
+        border-radius: 30px;
+        background-color: #ff6000;
+        z-index: 2;
+        position: absolute;
+        //right: 2px;
+    }
+
+    .dot {
+        border: 4px solid #ff6000;
+        background: transparent;
+        -webkit-border-radius: 60px;
+        -moz-border-radius: 60px;
+        border-radius: 60px;
+        height: 30px;
+        width: 30px;
+        -webkit-animation: pulse 3s ease-out;
+        -moz-animation: pulse 3s ease-out;
+        animation: pulse 3s ease-out;
+        -webkit-animation-iteration-count: infinite;
+        -moz-animation-iteration-count: infinite;
+        animation-iteration-count: infinite;
+        position: absolute;
+        top: -11px;
+        right: -19px;
+        z-index: 1;
+        opacity: 0;
+    }
+}
+
+.mdi-emoticon-sad {
+    font-size: 25px;
+    color: #888888;
+    margin-right: 1rem;
+}
+
+.icon-spin {
+    font-size: 2rem !important;
+    color: #fff;
+    margin-right: 0 !important;
+    animation: spin 1.2s infinite linear;
+}
+
+.icon-link-off {
+    color: #ff6000;
+    font-size: 15px;
+    padding: 0 5px;
+    vertical-align: middle;
+}
+
+.icon-bookmark-mini {
+    font-size: 11px;
+    color: #ff6000;
+    position: absolute;
+    top: -4px;
+    right: -2px;
+}
+
+.owp-tooltip-top {
+    position: relative;
+    display: inline-block;
+
+    &:before {
+        content: attr(owp-title);
+        display: block;
+        white-space: nowrap;
+        position: absolute;
+        background: rgba(0,0,0,0.8);
+        line-height: 1;
+        -moz-border-radius: 4px;
+        -webkit-border-radius: 4px;
+        border-radius: 4px;
+        padding: 6px 10px;
+        left: 50%;
+        bottom: 35px;
+        font-size: 13px;
+        color: #fff;
+        opacity: 0;
+        transform: translateX(-50%);
+    }
+
+    &:after {
+        bottom: 25px;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        border-top-color: rgba(0,0,0,0.8);
+        border-width: 5px;
+        left: 50%;
+        transform: translateX(-50%);
+        opacity: 0;
+    }
+
+    &:hover {
+        &:before, &:after {
+            opacity: 1;
+        }
+    }
+}
+
+// ------------------- Animation for notification box ------------------- //
+
+@-moz-keyframes pulse {
+    0% {
+        -moz-transform: scale(0);
+        opacity: 0.0;
+    }
+
+    25% {
+        -moz-transform: scale(0);
+        opacity: 0.1;
+    }
+
+    50% {
+        -moz-transform: scale(0.1);
+        opacity: 0.3;
+    }
+
+    75% {
+        -moz-transform: scale(0.5);
+        opacity: 0.5;
+    }
+
+    100% {
+        -moz-transform: scale(1);
+        opacity: 0.0;
+    }
+}
+
+@-webkit-keyframes pulse {
+    0% {
+        -webkit-transform: scale(0);
+        opacity: 0.0;
+    }
+
+    25% {
+        -webkit-transform: scale(0);
+        opacity: 0.1;
+    }
+
+    50% {
+        -webkit-transform: scale(0.1);
+        opacity: 0.3;
+    }
+
+    75% {
+        -webkit-transform: scale(0.5);
+        opacity: 0.5;
+    }
+
+    100% {
+        -webkit-transform: scale(1);
+        opacity: 0.0;
+    }
+}
+
+
+@keyframes bounce {
+    0% {
+        transform: scale(1);
+        -webkit-transform: scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(2.5);
+        -webkit-transform: scale(2.5);
+        opacity: 0;
+    }
+}
+
+@-webkit-keyframes bounce {
+    0% {
+        transform: scale(1);
+        -webkit-transform: scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(2.5);
+        -webkit-transform: scale(2.5);
+        opacity: 0;
+    }
+}
+
+@-moz-keyframes spin {
+    from {
+        -moz-transform: rotate(0deg);
+    }
+
+    to {
+        -moz-transform: rotate(-360deg);
+    }
+}
+
+@-webkit-keyframes spin {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+
+    to {
+        -webkit-transform: rotate(-360deg);
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(-360deg);
+    }
+}
+
+
+
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    nav i, nav [class^="mdi-"], nav [class*="mdi-"], nav i.material-icons {
+        line-height: normal !important;
+        height: auto;
+    }
+}

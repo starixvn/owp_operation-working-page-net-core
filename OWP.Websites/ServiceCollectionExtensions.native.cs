@@ -387,9 +387,31 @@ public static class ServiceCollectionExtensions
                     "shared/owp/TaskList/task-list-factory.js",
                     "shared/owp/EventManagement/Resources/EventInformation/*.js",
                     "shared/owp/EventManagement/Resources/Filter/*.js");
-                // TODO
 
+                pipeline.AddJavaScriptBundle("Scripts/WeeklyWorkingShift/IFrame",
+                    "shared/lib/jQuery/jquery-2.1.1.min.js",
+                    "shared/lib/jQuery/jquery-ui-1.10.4.min.js",
+                    "shared/lib/MsgBox/msgbox-0.0.1.js",
+                    "shared/owp/MsgBox/owp.search-autocomplete.js",
+                    "shared/owp/MsgBox/common.js");
 
+                pipeline.AddJavaScriptBundle("Scripts/WeeklyWorkingShift",
+                    "shared/owp/weekly-working-shift/*.js");
+
+                pipeline.AddCssBundle("Styles/WeeklyWorkingShift",
+                    "shared/owp/weekly-working-shift/WorkingShift.css");
+
+                pipeline.AddJavaScriptBundle("Scripts/DailyWorkingShift",
+                    "shared/owp/daily-working-shift/*.js");
+
+                pipeline.AddCssBundle("Styles/DailyWorkingShift",
+                    "shared/owp/daily-working-shift/DailyWorkingShift.css");
+               
+                pipeline.AddJavaScriptBundle("Scripts/OddsCompiler",
+                    "shared/owp/EventManagement/Resources/OddsCompiler/*.js");
+                
+                pipeline.AddJavaScriptBundle("Styles/OddsCompiler",
+                    "shared/owp/EventManagement/Resources/OddsCompiler/OddsCompiler.css");
 
                 pipeline.AddJavaScriptBundle("/css/re-checkin.js", "nap-auth/re-checkin.js");
             }
