@@ -12,15 +12,12 @@
     <meta name="author" content="">
     <title>@ViewLang.SystemName</title>
     <link rel="shortcut icon" type="image/ico" href="@Url.Content("~/favicon.ico")">
-    <link href="~/shared/css/fonts/OWP-v1.0/style.css" rel="stylesheet" />
-    <link href="~/shared/css/fonts/font-icon/style.css" rel="stylesheet" />
-    <link href="~/shared/css/fonts/flags/flag-icon.css" rel="stylesheet" />
-    <link href="~/shared/css/site.css" rel="stylesheet" />
-    <link href="~/shared/css/main.css" rel="stylesheet" />
-
-    @* @Styles.Render("~/styles/common") *@
-    <link href="~/src/scss/vendors/searchBlock.css" rel="stylesheet" />
-    @* @Scripts.Render("~/scripts/core") *@
+    <link href="~/shared/themes/fonts/OWP-v1.0/style.css" rel="stylesheet" />
+    <link href="~/shared/themes/fonts/font-icon/style.css" rel="stylesheet" />
+    <link href="~/shared/themes/fonts/flags/flag-icon.css" rel="stylesheet" />
+    <link href="~/styles/common" rel="stylesheet" />
+    <link href="~/shared/themes/searchBlock.css" rel="stylesheet" />
+    <link href="~/scripts/core" rel="stylesheet" />
 </head>
 <body class="site-menubar-fold">
     @await Component.InvokeAsync("Header", new { title = title})
