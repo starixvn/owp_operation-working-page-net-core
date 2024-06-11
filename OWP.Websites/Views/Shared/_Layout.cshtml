@@ -17,7 +17,8 @@
     <link href="~/shared/themes/fonts/flags/flag-icon.css" rel="stylesheet" />
     <link href="~/styles/common" rel="stylesheet" />
     <link href="~/shared/themes/searchBlock.css" rel="stylesheet" />
-    <link href="~/scripts/core" rel="stylesheet" />
+    <script src="~/scripts/core" type="text/javascript" ></script>
+    <script src="~/scripts/common" type="text/javascript"></script>
 </head>
 <body class="site-menubar-fold">
     @await Component.InvokeAsync("Header", new { title = title})
@@ -52,12 +53,11 @@
     @* <script>
         window.netCoreRootUrl = '@netCoreRootUrl';
     </script> *@
-    @* @Scripts.Render("~/scripts/common") *@
-    <script src="~/signalr/hubs"></script>
-    <script src="~/Scripts/Libraries/SignalNetCore/dist/browser/signalr.min.js"></script>
+    @* <script src="~/signalr/hubs"></script> *@
+   @*  <script src="~/Scripts/Libraries/SignalNetCore/dist/browser/signalr.min.js"></script> *@
 
     @* @Scripts.Render("~/scripts/signalR"); *@
-    <script type="text/javascript">
+    @* <script type="text/javascript">
         var msgNoSearchResults = '@ViewLang.QuickSearch_NoResults';
 
         $(document).ready(function () {
@@ -72,13 +72,7 @@
             }
 
         });
-    </script>
+    </script> *@
     @Html.Raw(Fanex.Logging.LogManager.RenderJavascriptLogger())
-    @RenderSection("scripts", required: false)
-    @{
-        var currentUsername = "mira"; // HttpContext.Current.User.Identity.Name;
-    }
-
-    <input type="hidden" value="@currentUsername" />
 </body>
 </html>

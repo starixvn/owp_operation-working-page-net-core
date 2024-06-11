@@ -51,7 +51,6 @@ using Fanex.NAP.Client.Session;
 using Microsoft.Extensions.FileProviders;
 using OWP.AccountSetting.Profile;
 using OWP.AccountSetting.QuickMessage;
-using OWP.Application.Header;
 
 public static class ServiceCollectionExtensions
 {

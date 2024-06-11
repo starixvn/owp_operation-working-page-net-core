@@ -61,6 +61,15 @@ namespace OWP.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Account Setting.
+        /// </summary>
+        public static string AccountSetting {
+            get {
+                return ResourceManager.GetString("AccountSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Action.
         /// </summary>
         public static string Action {
