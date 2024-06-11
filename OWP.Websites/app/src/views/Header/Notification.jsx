@@ -64,8 +64,7 @@ class Notification extends Component {
 
   componentDidMount() {
     if (process.env.NODE_ENV !== 'development') {
-      // this.initializeSignalR();
-      // this.initializeSignalRNetCore();
+      this.initializeSignalRNetCore();
     }
 
     this.queryMessages(false);
@@ -217,53 +216,6 @@ class Notification extends Component {
 
     return types;
   };
-
-  // initializeSignalR() {
-  //   const connection = window.jQuery.connection.notifyHub;
-  //   connection.client.notify = data => {
-  //     const { messages } = data;
-
-  //     messages.forEach(message => {
-  //       if (!message.IsImportant) {
-  //         return;
-  //       }
-  //       window.pushNotification(message);
-  //       const messageContent = MessageService.customizeContent(message);
-  //       const notificationContent = this.renderToastContent(messageContent);
-
-  //       const notificationTypes = this.getNotification(
-  //         notificationContent,
-  //         message.PreMatchIssueId
-  //       );
-  //       const type = notificationTypes.find(
-  //         x => x.type === message.MessageType
-  //       );
-
-  //       if (type) {
-  //         type.handler();
-  //       } else {
-  //         this.showInfo(notificationContent);
-  //       }
-  //     });
-  //   };
-
-  //   this.startNetFwSignalr();
-
-  //   $.connection.hub.disconnected(() => {
-  //     this.connectionFailCount = this.connectionFailCount + 1;
-  //     if (this.connectionFailCount < 3) {
-  //       setTimeout(() => {
-  //         this.startNetFwSignalr();
-  //       }, 5000);
-  //     }
-  //   });
-  // }
-
-  startNetFwSignalr() {
-    $.connection.hub.start({ transport: 'webSockets' }).done(() => {
-      this.connectionFailCount = 0;
-    });
-  }
 
   getNetCoreNotificationTypes = (notificationContent, props) => {
     const { isBlinking, ...rest } = props;
@@ -498,12 +450,6 @@ class Notification extends Component {
         });
       });
     }
-
-    $.connection.hub.disconnected(function () {
-      setTimeout(function () {
-        $.connection.hub.start();
-      }, 5000);
-    });
   }
 
   onBadgeClick() {

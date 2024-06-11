@@ -33,8 +33,6 @@ OpenCover/
 *.orig
 *.dbmdl
 *.jfm
-*.js.map
-*.css.map
 node_modules
 */App_Data/Files
 /.axoCover

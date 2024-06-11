@@ -128,6 +128,7 @@ export default defineConfig({
         assetFileNames: 'assets/ext/[name]-[hash][extname]',
         chunkFileNames: 'assets/js/[name]-[hash].js',
         entryFileNames: 'assets/js/[name]-[hash].js',
+        sourcemap: true,
         name: 'MyBundle'
       }
     }

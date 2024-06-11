@@ -1,5 +1,3 @@
-@using Fanex.NAP.OWP.Core.Configuration; @{ var baseHref =
-Request.ApplicationPath; if (baseHref != "/") { baseHref = baseHref + "/"; } }
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -13,9 +11,7 @@ Request.ApplicationPath; if (baseHref != "/") { baseHref = baseHref + "/"; } }
     <link rel="shortcut icon" href="/event-picking/favicon.ico" >
     
     <title>Operation Working Page</title>
-    <base href="@baseHref" >
     <script type="text/javascript">
-      var iconUrl = '@baseHref + "favicon.ico"';
       document.addEventListener('DOMContentLoaded', function () {
         if (!Notification) {
           alert(
@@ -34,15 +30,15 @@ Request.ApplicationPath; if (baseHref != "/") { baseHref = baseHref + "/"; } }
         var bodyContent = (message.messageContent.replaceAll('<b>', '')).replaceAll('</b>', '');
 
         var notification = new Notification('OWP Notification', {
-          icon: '@baseHref' + 'favicon.ico',
+          icon: 'favicon.ico',
           body: bodyContent
         });
         notification.onclick = () => {
           if (message.ticketId) {
-            window.open('@baseHref' + 'MyTickets?actorId=' + message.userId + '&eventType=' + message.eventType + '&ticketId=' + message.ticketId + '',`ticket-center-${message.ticketId}`);
+            window.open('MyTickets?actorId=' + message.userId + '&eventType=' + message.eventType + '&ticketId=' + message.ticketId + '',`ticket-center-${message.ticketId}`);
           }
           else {
-            window.open('@baseHref' + 'MessageBoxManagement');
+            window.open('MessageBoxManagement');
           }
         };
       }
@@ -51,24 +47,16 @@ Request.ApplicationPath; if (baseHref != "/") { baseHref = baseHref + "/"; } }
     @Scripts.Render("~/scripts/common")
     <script src="~/Areas/Copy/copy.js"></script>
     <link href="~/Content/Themes/fonts/flags/flag-icon.css" rel="stylesheet" >
-    <script type="module" crossorigin src="/event-picking/assets/js/main-a9d43bec.js"></script>
+    <script type="module" crossorigin src="/event-picking/assets/js/main-7b10bc3d.js"></script>
     <link rel="stylesheet" href="/event-picking/assets/ext/server-08d1e2a0.css">
   </head>
 
   <body>
     <noscript> You need to enable JavaScript to run this app. </noscript>
     <div id="root"></div>
-    <script src="signalr/hubs"></script>
-    
-    @{ var currentUsername = HttpContext.Current.User.Identity.Name; var
-    environment = Fanex.NAP.Core.Configuration.NapSettings.Settings.Environment;
-    var netCoreRootUrl =
-    Fanex.NAP.OWP.Core.Configuration.AppSettings.NetCoreRootUrl; }
     <script>
       documentTitle.CountUnreadMessage();
-      window.netCoreRootUrl = '@netCoreRootUrl';
     </script>
-    <input type="hidden" value="@currentUsername" >
     @Html.Hidden("RootURL", Url.Content("~/"))
   
 </body>

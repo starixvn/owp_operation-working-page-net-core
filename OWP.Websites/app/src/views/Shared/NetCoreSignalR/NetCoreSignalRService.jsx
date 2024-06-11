@@ -1,8 +1,7 @@
 import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 
 const configSignalR = hubName => {
-  const url =
-    process.env.NODE_ENV === 'development' ? `/${hubName}` : `${hubName}`;
+  const url = `/${hubName}`;
 
   const connection = new HubConnectionBuilder()
     .withUrl(url)
