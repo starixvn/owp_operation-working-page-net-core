@@ -377,6 +377,16 @@ public static class ServiceCollectionExtensions
                     "shared/lib/modernizr.js",
                     "shared/owp/**/*.js"
                 );
+
+                pipeline.AddCssBundle("Styles/EventInformation",
+                    "shared/owp/TaskList/TaskList.css",
+                    "shared/owp/EventManagement/Resources/EventInformation/EventInformation.css");
+
+                pipeline.AddJavaScriptBundle("Scripts/EventInformation",
+                    "shared/lib/jquery.floatThead/jquery.floatThead.min.js",
+                    "shared/owp/TaskList/task-list-factory.js",
+                    "shared/owp/EventManagement/Resources/EventInformation/*.js",
+                    "shared/owp/EventManagement/Resources/Filter/*.js");
                 // TODO
 
 
