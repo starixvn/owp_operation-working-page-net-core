@@ -10,7 +10,7 @@ public static class UserManagementInjector
     {
         services.AddScoped<Repository, RepositoryImp>();
         services.AddScoped<ExportService, ExportServiceImp>();
-        services.AddScoped<ModelService, ModelServiceImp>();
+        services.AddScoped<UserManagement.Services.ModelService, UserManagement.Services.ModelServiceImp>();
         services.AddScoped<UsersService, UsersServiceImp>();
         services.AddScoped<GetUserValidator>();
     }

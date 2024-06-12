@@ -43,6 +43,7 @@ using OWP.TicketTypeRecipient;
 using SharpRaven;
 using StackExchange.Redis;
 using System.Reflection;
+using OWP.Websites.App_Start;
 using ILogger = Fanex.Logging.ILogger;
 
 namespace OWP.Websites;
@@ -74,6 +75,7 @@ public static class ServiceCollectionExtensions
             mc.AddProfile(new Kpi.AutoMapperProfile());
             mc.AddProfile(new Event.LiveGameAssignment.Download.AutoMapperProfile());
             mc.AddProfile(new Application.AutoMapperProfile());
+            mc.AddProfile(new WorkingShift.AutoMapperProfile());
         });
 
         var mapper = mapperConfig.CreateMapper();
@@ -219,6 +221,7 @@ public static class ServiceCollectionExtensions
         services.AddAccountSettingService();
         services.AddProviderVerificationService();
         services.AddApplicationInjector();
+        services.AddWorkingShiftService();
         return services;
     }
 
