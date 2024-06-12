@@ -408,7 +408,9 @@ public static class ServiceCollectionExtensions
                     "shared/lib/favico/favico-0.3.10.min.js",
                     "shared/owp/navbar.js",
                     "shared/owp/main.js",
-                    "shared/lib/modernizr.js"
+                    "shared/lib/modernizr.js",
+                    "shared/owp/DocumentTitle/document-title.js",
+                    "shared/owp/DocumentTitle/document-title-factory.js"
                 );
 
                 pipeline.AddCssBundle("Styles/EventInformation",
