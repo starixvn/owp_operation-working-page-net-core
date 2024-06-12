@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace OWP.Application.Authorize;
 
@@ -22,6 +23,6 @@ public class AuthorizeController : ControllerBase
     public async Task<IActionResult> Authorize(AuthorizeModel model)
     {
         var result = await service.Authorize(model);
-        return Ok(result);
+        return Ok(JsonConvert.SerializeObject(result));
     }
 }

@@ -481,10 +481,10 @@ class Notification extends Component {
         isWatcher
       };
       const data = await MessageService.query(model);
-      const messages = data.messages;
+      const messages = data.Messages;
       if (isWatcher) {
         let { watcherMessages } = this.state;
-        const watcherBadge = data.totalNotViewMessage;
+        const watcherBadge = data.TotalNotViewMessage;
         watcherMessages = watcherMessages.concat(messages);
         this.setState({
           watcherBadge,
@@ -492,7 +492,7 @@ class Notification extends Component {
         });
       } else {
         let { assigneeMessages } = this.state;
-        const assigneeBadge = data.totalNotViewMessage;
+        const assigneeBadge = data.TotalNotViewMessage;
         assigneeMessages = assigneeMessages.concat(messages);
         this.setState({
           assigneeBadge,
@@ -510,7 +510,7 @@ class Notification extends Component {
           messages.map((item, index) => {
             return (
               <NotificationItem
-                key={`NotificationItem_${item.messageId}_${index}`}
+                key={`NotificationItem_${item.MessageId}_${index}`}
                 data={item}
               />
             );

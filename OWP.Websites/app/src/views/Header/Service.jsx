@@ -9,22 +9,22 @@ const transformNavigation = (menus, title) => {
   menus.forEach(menu => {
     navigation.items.push({
       title: true,
-      name: menu.name,
+      name: menu.Name,
       wrapper: {
         element: '',
         attributes: {}
       }
     });
 
-    if (menu.children) {
-      menu.children.forEach(childMenu => {
+    if (menu.Children) {
+      menu.Children.forEach(childMenu => {
         const item = {
-          name: childMenu.name,
-          url: Utils.resolveUrl(childMenu.path),
-          icon: childMenu.iconCssClass
+          name: childMenu.Name,
+          url: Utils.resolveUrl(childMenu.Path),
+          icon: childMenu.IconCssClass
         };
 
-        if (!isEqual(childMenu.name.toLowerCase(), title.toLowerCase())) {
+        if (!isEqual(childMenu.Name.toLowerCase(), title.toLowerCase())) {
           item.variant = 'unactive';
         }
         navigation.items.push(item);
@@ -44,11 +44,11 @@ const query = async title => {
   const response = await axios.get(buildUrl());
   const data = response.data;
   return {
-    username: data.username,
-    logoutLink: Utils.resolveUrl(data.logoutPath),
-    notificationSetingLink: Utils.resolveUrl(data.notificationSetingPath),
-    accountSettingPath: Utils.resolveUrl(data.accountSettingPath),
-    navigation: transformNavigation(data.menus, title)
+    username: data.Username,
+    logoutLink: Utils.resolveUrl(data.LogoutPath),
+    notificationSetingLink: Utils.resolveUrl(data.NotificationSetingPath),
+    accountSettingPath: Utils.resolveUrl(data.AccountSettingPath),
+    navigation: transformNavigation(data.Menus, title)
   };
 };
 const Service = {

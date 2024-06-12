@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace OWP.Application.Message;
 
@@ -14,9 +15,10 @@ public class MessageController: ControllerBase
 
     [Route("")]
     [HttpGet]
-    public async Task<QueryResult> Query([FromQuery] QueryModel model)
+    public async Task<IActionResult> Query([FromQuery] QueryModel model)
     {
-        return await repository.Query(model);
+        var response = await repository.Query(model);
+        return Ok(JsonConvert.SerializeObject(response));
     }
 
     [Route("")]

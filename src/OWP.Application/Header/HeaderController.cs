@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace OWP.Application.Header;
 
@@ -19,8 +20,9 @@ public class HeaderController : ControllerBase
 
     [Route("")]
     [HttpGet]
-    public async Task<Header> Query()
+    public async Task<IActionResult> Query()
     {
-        return await service.Query();
+        var response = await service.Query();
+        return Ok(JsonConvert.SerializeObject(response));
     }
 }
