@@ -1,6 +1,6 @@
 ﻿using OWP.TicketEvent;
 
-namespace OWP.Websites;
+namespace OWP.Websites.App_Start;
 
 public static class TicketEventInjector
 {

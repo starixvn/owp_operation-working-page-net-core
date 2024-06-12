@@ -5,7 +5,7 @@ using ONEbook.UM.Helpers;
 using ONEbook.UM.Services;
 using ONEbook.UM.Transport;
 
-namespace OWP.Websites;
+namespace OWP.Websites.App_Start;
 
 using Microsoft.Extensions.Caching.Memory;
 
@@ -28,7 +28,7 @@ public static class OnebookUMInitializer
     }
 }
 
-public class MemoryUMCacheService: IUMCacheService
+public class MemoryUMCacheService : IUMCacheService
 {
     private readonly IMemoryCache cache;
     public MemoryUMCacheService(IMemoryCache cache)

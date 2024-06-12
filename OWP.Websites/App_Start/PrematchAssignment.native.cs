@@ -1,7 +1,7 @@
 ﻿using OWP.PrematchAssignment.Misc;
 using OWP.PrematchAssignment.Services;
 
-namespace OWP.Websites;
+namespace OWP.Websites.App_Start;
 
 public static class PreMatchAssignmentInjector
 {

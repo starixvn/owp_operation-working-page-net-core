@@ -3,7 +3,7 @@ using OWP.Application.DocumentTitle;
 using OWP.Application.Header;
 using OWP.Application.Message;
 
-namespace OWP.Websites;
+namespace OWP.Websites.App_Start;
 
 public static class ApplicationInjector
 {

@@ -1,8 +1,7 @@
-﻿
-using OWP.AccountSetting.Profile;
+﻿using OWP.AccountSetting.Profile;
 using OWP.Kpi.LA.Services;
 
-namespace OWP.Websites;
+namespace OWP.Websites.App_Start;
 
 public static class KpiInjector
 {

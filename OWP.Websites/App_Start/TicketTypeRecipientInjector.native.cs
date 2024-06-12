@@ -1,12 +1,11 @@
-﻿
-using OWP.TicketTypeRecipient.Middleware;
+﻿using OWP.TicketTypeRecipient.Middleware;
 
-namespace OWP.Websites;
+namespace OWP.Websites.App_Start;
 
 public static class TicketTypeRecipientInjector
 {
-  public static void AddTicketTypeRecipientService(this IServiceCollection services)
-  {
-    services.AddScoped<DuplicateSubtypeValidator>();
-  }
+    public static void AddTicketTypeRecipientService(this IServiceCollection services)
+    {
+        services.AddScoped<DuplicateSubtypeValidator>();
+    }
 }

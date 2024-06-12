@@ -1,6 +1,6 @@
 ﻿using OWP.RecipientGroup.Services;
 
-namespace OWP.Websites;
+namespace OWP.Websites.App_Start;
 
 public static class RecipientGroupInjector
 {

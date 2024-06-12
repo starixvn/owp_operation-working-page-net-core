@@ -13,7 +13,7 @@ using OWP.Event.TaskList;
 using OWP.Event.TaskList.Services;
 using OWP.Services;
 
-namespace OWP.Websites;
+namespace OWP.Websites.App_Start;
 
 public static class EventInjector
 {

@@ -4,7 +4,7 @@ using Shared = OWP.OtherSport.Shared.Services;
 using Submit = OWP.OtherSport.Submit.Services;
 using Validation = OWP.OtherSport.Validation.Services;
 
-namespace OWP.Websites;
+namespace OWP.Websites.App_Start;
 
 public static class OtherSportInjector
 {

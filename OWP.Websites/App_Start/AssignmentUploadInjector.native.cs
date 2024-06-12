@@ -4,7 +4,7 @@ using OWP.AssignmentUpload.Validation.Services;
 using CacheManipulator = OWP.AssignmentUpload.Validation.Services.CacheManipulator;
 using CacheManipulatorImp = OWP.AssignmentUpload.Validation.Services.CacheManipulatorImp;
 
-namespace OWP.Websites;
+namespace OWP.Websites.App_Start;
 
 public static class AssignmentUploadInjector
 {

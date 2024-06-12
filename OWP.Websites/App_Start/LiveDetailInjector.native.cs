@@ -11,7 +11,7 @@ using OWP.LiveDetail.Provider;
 using OWP.LiveDetail.Television;
 using OWP.LiveDetail.User;
 
-namespace OWP.Websites;
+namespace OWP.Websites.App_Start;
 
 public static class LiveDetailInjector
 {

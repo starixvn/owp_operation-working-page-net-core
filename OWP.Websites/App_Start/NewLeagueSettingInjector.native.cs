@@ -1,5 +1,5 @@
 ﻿using OWP.NewLeagueSetting.Data;
-namespace OWP.Websites;
+namespace OWP.Websites.App_Start;
 
 public static class NewLeagueSettingInjector
 {

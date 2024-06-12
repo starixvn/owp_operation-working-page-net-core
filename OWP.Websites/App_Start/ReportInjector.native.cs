@@ -5,7 +5,7 @@ using OvertimeReport = OWP.Report.OvertimeReport.Services;
 using PreMatchReport = OWP.Report.PreMatchReport;
 using TraderReport = OWP.Report.TraderReport.Services;
 
-namespace OWP.Websites;
+namespace OWP.Websites.App_Start;
 
 public static class ReportInjector
 {

@@ -4,7 +4,7 @@ using OWP.TicketCenter.Notification;
 using OWP.TicketCenter.Notification.Services;
 using OWP.TicketCenter.Services;
 
-namespace OWP.Websites;
+namespace OWP.Websites.App_Start;
 
 public static class TicketCenterInjector
 {
