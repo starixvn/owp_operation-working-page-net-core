@@ -3,7 +3,7 @@ import { TicketSettingRecipient } from '../TypeNative';
 import { post } from '../../Service/Service';
 import ToastrWrapper from '../../../components/ToastrWrapper';
 import SuggestionList from './SuggestionList';
-import { NET_CORE_QUERY_SIMPLE_API, QUERY_SIMPLE_API } from '../../Constants';
+import { NET_CORE_QUERY_SIMPLE_API } from '../../Constants';
 import { getRecipientSuggestionKey } from '../Const.json';
 import { orderBy } from 'lodash';
 
@@ -24,10 +24,7 @@ const RecipientSuggestion = (data: PropsType) => {
   );
   const [searchValue, setSearchValue] = useState('');
 
-  const url =
-    process.env.NODE_ENV === 'development'
-      ? `${NET_CORE_QUERY_SIMPLE_API}`
-      : `${QUERY_SIMPLE_API}`;
+  const url = `${NET_CORE_QUERY_SIMPLE_API}`;
 
   const postModel = {
     url,

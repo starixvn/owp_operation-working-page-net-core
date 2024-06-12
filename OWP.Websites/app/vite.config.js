@@ -6,7 +6,7 @@ import { resolve } from 'path';
 
 const appName = process.env.NODE_APP.trim();
 const outDir = resolve(__dirname, `../wwwroot/${appName}`);
-const nerCoreUrl = 'http://localhost:5000';
+const nerCoreUrl = 'https://localhost:5001';
 const netFwUrl = 'http://localhost:64193';
 const webSocket = 'ws://localhost:5000';
 
@@ -41,11 +41,10 @@ export default defineConfig({
         secure: false,
         changeOrigin: true
       },
-      '/net-core-state-api': {
+      '/state-api': {
         target: nerCoreUrl,
         secure: false,
-        changeOrigin: true,
-        rewrite: path => path.replace(/^\/net-core-state-api/, 'state-api')
+        changeOrigin: true
       },
       '/api': {
         target: nerCoreUrl,
@@ -68,11 +67,6 @@ export default defineConfig({
         changeOrigin: true
       },
       '/fonts': {
-        target: netFwUrl,
-        secure: false,
-        changeOrigin: true
-      },
-      '/state-api': {
         target: netFwUrl,
         secure: false,
         changeOrigin: true

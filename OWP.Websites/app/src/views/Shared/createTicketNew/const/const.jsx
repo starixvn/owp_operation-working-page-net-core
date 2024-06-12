@@ -1,7 +1,6 @@
 import { netCoreURL } from '../../../TicketCenter/const/const.json';
 import {
   NET_CORE_QUERY_SIMPLE_API,
-  QUERY_SIMPLE_API,
   NET_CORE_FILE_UPLOAD
 } from '../../../Shared/Constants';
 const URL = {
@@ -49,10 +48,7 @@ const urlGetEvent = buildRequestURL(URL.GET_EVENT);
 const urlGetEventLGA = buildRequestURL(URL.GET_EVENT_LGA);
 const urlUploadFile = `${NET_CORE_FILE_UPLOAD}/${URL.UPLOAD_MULTIPLE}`;
 
-const urlGetRecipient =
-  process.env.NODE_ENV === 'development'
-    ? `${NET_CORE_QUERY_SIMPLE_API}`
-    : `${QUERY_SIMPLE_API}`;
+const urlGetRecipient = `${NET_CORE_QUERY_SIMPLE_API}`;
 
 export {
   URL,

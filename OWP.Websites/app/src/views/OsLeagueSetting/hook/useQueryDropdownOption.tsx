@@ -1,16 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Option } from '../typing/type';
-import {
-  NET_CORE_QUERY_SIMPLE_API,
-  QUERY_SIMPLE_API
-} from '../../Shared/Constants';
+import { NET_CORE_QUERY_SIMPLE_API } from '../../Shared/Constants';
 import Utils from '../../Shared/Utils';
 import { TDropdownOption } from '../typing/queryOptionsType';
 
-const url =
-  process.env.NODE_ENV === 'development'
-    ? `${NET_CORE_QUERY_SIMPLE_API}`
-    : `${QUERY_SIMPLE_API}`;
+const url = `${NET_CORE_QUERY_SIMPLE_API}`;
 
 const useQueryDropdownOption = (props: TDropdownOption) => {
   const { apiKey, localStorageKey } = props;

@@ -1,12 +1,5 @@
-import Linkify from 'react-linkify';
 import { formatTime } from '../../../../DateTime/dateTimeHelper';
 import PropTypes from 'prop-types';
-import { isImage } from '../../../../chatBoardNew/helper/chatBoardHelper';
-import {
-  NET_CORE_FILE_UPLOAD,
-  NET_FW_FILE_UPLOAD
-} from '../../../../../Shared/Constants';
-import { URL } from '../../../../../Shared/chatBoardNew/const/index.json';
 
 const propTypes = {
   createdDate: PropTypes.string.isRequired,

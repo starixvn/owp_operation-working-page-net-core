@@ -10,7 +10,6 @@ import {
 } from '../osLeague.json';
 import {
   NET_CORE_QUERY_SIMPLE_API,
-  QUERY_SIMPLE_API,
   REQUEST_STATUS
 } from '../../Shared/Constants';
 import axios from 'axios';
@@ -23,10 +22,7 @@ import {
 } from '../helper/OsLeagueSettingHelper';
 import { post } from '../../Shared/Service/Service';
 
-const simpleApi =
-  process.env.NODE_ENV === 'development'
-    ? `${NET_CORE_QUERY_SIMPLE_API}`
-    : `${QUERY_SIMPLE_API}`;
+const simpleApi = `${NET_CORE_QUERY_SIMPLE_API}`;
 
 const settingInfoDefault = {
   leagueSettingId: 0,

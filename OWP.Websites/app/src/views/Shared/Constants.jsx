@@ -77,20 +77,10 @@ export const DefaultPageSize = PageSizes[4];
 export const TimePickerDisplayFormat = 'h:mm A';
 export const TimePickerOutputFormat = 'HH:mm';
 
-export const QUERY_SIMPLE_API = 'state-api/simple-data/query';
-export const UPDATE_SIMPLE_API = 'state-api/simple-data/update';
-
-export const NET_CORE_QUERY_SIMPLE_API = 'net-core-state-api/simple-data/query';
-export const NET_CORE_UPDATE_SIMPLE_API =
-  'net-core-state-api/simple-data/update';
-export const buildQuerySimpleApi = () =>
-  process.env.NODE_ENV === 'development'
-    ? `${NET_CORE_QUERY_SIMPLE_API}`
-    : `${QUERY_SIMPLE_API}`;
-export const buildUpdateSimpleApi = () =>
-  process.env.NODE_ENV === 'development'
-    ? `${NET_CORE_UPDATE_SIMPLE_API}`
-    : `${UPDATE_SIMPLE_API}`;
+export const NET_CORE_QUERY_SIMPLE_API = 'state-api/simple-data/query';
+export const NET_CORE_UPDATE_SIMPLE_API = 'state-api/simple-data/update';
+export const buildQuerySimpleApi = () => `${NET_CORE_QUERY_SIMPLE_API}`;
+export const buildUpdateSimpleApi = () => `${NET_CORE_UPDATE_SIMPLE_API}`;
 
 export const NET_CORE_FILE_UPLOAD = 'api/FileUpload';
 

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { QUERY_SIMPLE_API } from '../Shared/Constants';
+import { NET_CORE_QUERY_SIMPLE_API } from '../Shared/Constants';
 import { buildRequestURL } from '../LiveDetail/buildUrlHelper';
 const queryDataExcel = async url => {
   const response = await axios.get(url, { responseType: 'blob' });
@@ -31,7 +31,7 @@ const getBettypeForTraderInfo = async () => {
   const postModel = {
     apiKey: 'live-game-assignment-get-bettype-for-trading-info'
   };
-  const response = await axios.post(QUERY_SIMPLE_API, postModel);
+  const response = await axios.post(NET_CORE_QUERY_SIMPLE_API, postModel);
   return response.data;
 };
 
@@ -48,7 +48,7 @@ const getBettypeForMatchInfo = async parentMatchId => {
     ApiKey: 'live-game-assignment-get-bettype-for-special-event',
     ParentMatchId: parentMatchId
   };
-  const response = await axios.post(QUERY_SIMPLE_API, postModel);
+  const response = await axios.post(NET_CORE_QUERY_SIMPLE_API, postModel);
   return response.data;
 };
 
@@ -58,7 +58,7 @@ const getSpecialEventTemplate = async (parentMatchId, minorBettypeId) => {
     ParentMatchId: parentMatchId,
     MinorBettypeId: minorBettypeId
   };
-  const response = await axios.post(QUERY_SIMPLE_API, postModel);
+  const response = await axios.post(NET_CORE_QUERY_SIMPLE_API, postModel);
   return response.data[0];
 };
 
@@ -67,7 +67,7 @@ const getLastUpdated = async eventDate => {
     ApiKey: 'get-last-updated',
     EventDate: eventDate
   };
-  const response = await axios.post(QUERY_SIMPLE_API, postModel);
+  const response = await axios.post(NET_CORE_QUERY_SIMPLE_API, postModel);
 
   return response.data.length === 0 ? null : response.data[0].UploadDateTime;
 };
