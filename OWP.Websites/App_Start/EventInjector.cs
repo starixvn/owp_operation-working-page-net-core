@@ -49,6 +49,6 @@ public static class EventInjector
         services.AddScoped<OrderMatchService, OrderMatchServiceImp>();
         services.AddScoped<IEventAssignmentRepository, EventAssignmentRepository>();
         services.AddScoped<LeagueSettingRepository, LeagueSettingRepositoryImp>();
-        services.AddScoped<UserRepository, UserRepositoryImp>();
+        services.AddScoped<Event.LiveGameAssignment.User.UserRepository, Event.LiveGameAssignment.User.UserRepositoryImp>();
     }
 }

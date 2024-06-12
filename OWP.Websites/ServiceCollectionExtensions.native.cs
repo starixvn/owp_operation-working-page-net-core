@@ -76,6 +76,7 @@ public static class ServiceCollectionExtensions
             mc.AddProfile(new Event.LiveGameAssignment.Download.AutoMapperProfile());
             mc.AddProfile(new Application.AutoMapperProfile());
             mc.AddProfile(new WorkingShift.AutoMapperProfile());
+            mc.AddProfile(new DailyWorkingShift.AutoMapperProfile());
         });
 
         var mapper = mapperConfig.CreateMapper();
@@ -137,6 +138,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<PermissionService, PermissionServiceImp>();
         services.AddScoped<GetInfoSiteTimeService, GetInfoSiteTimeServiceImp>();
         services.AddScoped<AccessCounter, AccessCounterImp>();
+        services.AddScoped<UserRepository, UserRepositoryImp>();
         return services;
     }
 
@@ -222,6 +224,7 @@ public static class ServiceCollectionExtensions
         services.AddProviderVerificationService();
         services.AddApplicationInjector();
         services.AddWorkingShiftService();
+        services.AddDailyWorkingShiftService();
         return services;
     }
 

@@ -1,7 +1,7 @@
 ﻿
 namespace OWP.Websites.App_Start;
 
-public static class WorkingShiftInjector
+public static class DailyWorkingShiftInjector
 {
     public static void AddWorkingShiftService(this IServiceCollection services)
     {

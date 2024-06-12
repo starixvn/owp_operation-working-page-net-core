@@ -1,0 +1,30 @@
+﻿namespace OWP.DailyWorkingShift.Criteria
+{
+    using System;
+    using Fanex.Data.Repository;
+
+    public class QueryCriteria : CriteriaBase
+    {
+        public int SiteId { get; set; }
+
+        public DateTime? Date { get; set; }
+
+        public string User { get; set; }
+
+        public string SectionId { get; set; }
+
+        public string DepartmentId { get; set; }
+
+        public string ShiftId { get; set; }
+
+        public string LocationCode { get; set; }
+
+        public bool ExcludeClosedAccount { get; set; }
+
+        public override string GetSettingKey() => "OWP_EmployeeWorkingShift_QueryDaily";
+
+        public override bool IsValid() => Date.HasValue
+            && !string.IsNullOrWhiteSpace(SectionId)
+            && !string.IsNullOrWhiteSpace(LocationCode);
+    }
+}

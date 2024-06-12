@@ -3,7 +3,11 @@
     <Function Name="Common">
 	    <Setting Key="OWP_RefResourceGetByName" SpName="OWP_RefResourceGetByName" DbName="DBOWP.bodb_OWP.wsv_owp" />
 	    <Setting Key="OWP_RefResourceGetAll" SpName="OWP_RefResourceGetAll" DbName="DBOWP.bodb_OWP.wsv_owp" />
-      <Setting Key="OWP_LiveGame_GetInfoSiteTime" SpName="OWP_LiveGame_GetInfoSiteTime" DbName="DBOWP.bodb_OWP.wsv_owp" />
+		<Setting Key="OWP_LiveGame_GetInfoSiteTime" SpName="OWP_LiveGame_GetInfoSiteTime" DbName="DBOWP.bodb_OWP.wsv_owp" />
+	    <Setting Key="OWP_LiveGame_GetLastUpdatedSync" SpName ="OWP_LiveGame_GetLastUpdatedSyncOffVR" DbName="DBOWP.bodb_OWP.wsv_owp" />
+	    <Setting Key="OWP_RefResource_Update" SpName="OWP_RefResource_Update" DbName="DBOWP.bodb_OWP.wsv_owp" />
+	    <Setting Key="OWP_RefResource_Insert" SpName="OWP_RefResource_Insert" DbName="DBOWP.bodb_OWP.wsv_owp" />
+	    <Setting Key="OWP_GetUserInfoById" SpName="OWP_GetUserInfoById" DbName="DBOWP.bodb_OWP.wsv_owp" />
     </Function>
   <Function Name="UnreadMessageCounter">
     <Setting Key="OWP_CountUnreadMessageByUserId" SpName="OWP_CountUnreadMessageByUserId" DbName="DBOWP.bodb_OWP.wsv_owp" />
@@ -444,5 +448,40 @@
 		<Setting Key="OWP_AccountSetting_SaveUserProfile" SpName ="OWP_AccountSetting_SaveUserProfile" DbName="DBOWP.bodb_OWP.wsv_owp" />
 		<Setting Key="OWP_AccountSetting_SaveQuickMessage" SpName ="OWP_AccountSetting_SaveQuickMessage" DbName="DBOWP.bodb_OWP.wsv_owp" />
 		<Setting Key="OWP_AccountSetting_DeleteQuickMessage" SpName ="OWP_AccountSetting_DeleteQuickMessage" DbName="DBOWP.bodb_OWP.wsv_owp" />
+	</Function>
+	<Function Name="WorkingShift">
+		<Setting Key="OWP_EmployeeWorkingShift_Upload" SpName="OWP_EmployeeWorkingShift_Upload" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
+		<Setting Key="OWP_EmployeeWorkingShift_QueryWeekly" SpName="OWP_EmployeeWorkingShift_QueryWeekly" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
+		<Setting Key="OWP_EmployeeWorkingShift_QueryDaily" SpName="OWP_EmployeeWorkingShift_QueryDaily" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
+		<Setting Key="OWP_EmployeeWorkingShiftColorUpd" SpName="OWP_EmployeeWorkingShiftColorUpd" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
+		<Setting Key="OWP_EmployeeWorkingShift_GetAllShift" SpName="OWP_EmployeeWorkingShift_GetAllShift" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
+		<Setting Key="OWP_EmployeeWorkingShift_CopyWeekly" SpName="OWP_EmployeeWorkingShift_CopyWeekly" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
+		<Setting Key="OWP_UserRemark_Update" SpName="OWP_UserRemark_Update" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
+		<Setting Key="OWP_EmployeeWorkingShift_UpdateShiftCode" SpName="OWP_EmployeeWorkingShift_UpdateShiftCode" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
+		<Setting Key="OWP_EmployeeWorkingShift_RemoveShiftCode" SpName="OWP_EmployeeWorkingShift_RemoveShiftCode" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
+		<Setting Key="OWP_EmployeeWorkingShift_QuickInsert_WorkingShiftColor" SpName="OWP_EmployeeWorkingShift_QuickInsert_WorkingShiftColor" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
+		<Setting Key="OWP_EmployeeWorkingShift_QuickDelete_WorkingShiftColor" SpName="OWP_EmployeeWorkingShift_QuickDelete_WorkingShiftColor" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
+		<Setting Key="OWP_EmployeeWorkingShiftTimeZone_UpdateUserSetting" SpName="OWP_EmployeeWorkingShiftTimeZone_UpdateUserSetting" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
+		<Setting Key="OWP_EmployeeWorkingShiftTimeZone_GetByUser" SpName="OWP_EmployeeWorkingShiftTimeZone_GetByUser" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
+		<Setting Key="OWP_EmployeeWorkingShift_UpdateDefaultShift" SpName="OWP_EmployeeWorkingShift_UpdateDefaultShift" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
+		<Setting Key="OWP_EmployeeWorkingShift_QueryWeeklyByUser" SpName="OWP_EmployeeWorkingShift_QueryWeeklyByUser" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
+		<Setting Key="OWP_EmployeeWorkingShift_SaveOrder" SpName="OWP_EmployeeWorkingShift_SaveOrder" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
+		<Setting Key="OWP_EmployeeWorkingShift_CopyWholeShifts" SpName="OWP_EmployeeWorkingShift_CopyWholeShifts" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
+		<Setting Key="OWP_EmployeeWorkingShift_CopySingleShift" SpName="OWP_EmployeeWorkingShift_CopySingleShift" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
+		<Setting Key="OWP_EmployeeWorkingShift_DeleteWholeShifts" SpName="OWP_EmployeeWorkingShift_DeleteWholeShifts" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
+		<Setting Key="OWP_EmployeeWorkingShiftPublish_ManualPublish" SpName="OWP_EmployeeWorkingShiftPublish_ManualPublish" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
+		<Setting Key="OWP_EmployeeWorkingShiftPublish_GetSectionByWeek" SpName="OWP_EmployeeWorkingShiftPublish_GetSectionByWeek" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
+		<Setting Key="OWP_EmployeeWorkingShiftDefault_QueryByUser" SpName="OWP_EmployeeWorkingShiftDefault_QueryByUser" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
+		<Setting Key="OWP_EmployeeWorkingShift_QueryByUser" SpName="OWP_EmployeeWorkingShift_QueryByUser" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
+		<Setting Key="OWP_EmployeeWorkingShift_ValidateBeforeDelete_WorkingShiftColor" SpName="OWP_EmployeeWorkingShift_ValidateBeforeDelete_WorkingShiftColor" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
+		<Setting Key="OWP_EmployeeWorkingShift_InsertNote" SpName="OWP_EmployeeWorkingShift_InsertNote" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
+		<Setting Key="OWP_EmployeeWorkingShift_QueryNoteById" SpName="OWP_EmployeeWorkingShift_QueryNoteById" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
+		<Setting Key="OWP_EmployeeWorkingShift_UpdateNote" SpName="OWP_EmployeeWorkingShift_UpdateNote" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
+		<Setting Key="OWP_EmployeeWorkingShift_DeleteNote" SpName="OWP_EmployeeWorkingShift_DeleteNote" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
+		<Setting Key="OWP_EmployeeWorkingShift_QueryWeeklyBySection" SpName="OWP_EmployeeWorkingShift_QueryWeeklyBySection" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
+		<Setting Key="OWP_EmployeeWorkingShift_QueryWeekly" SpName="OWP_EmployeeWorkingShift_QueryWeekly" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
+		<Setting Key="OWP_EmployeeWorkingShift_ViewLog" SpName="OWP_EmployeeWorkingShift_ViewLog" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
+		<Setting Key="OWP_EmployeeWorkingShift_QueryAssignmentStats" SpName="OWP_EmployeeWorkingShift_QueryAssignmentStats" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
+		<Setting Key="OWP_LiveDetail_User_GetAll" SpName="OWP_LiveDetail_User_GetAll" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
 	</Function>
 </Functions>
