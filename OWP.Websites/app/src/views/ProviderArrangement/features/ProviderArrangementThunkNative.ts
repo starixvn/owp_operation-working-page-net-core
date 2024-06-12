@@ -3,17 +3,13 @@ import axios from 'axios';
 import { get } from '../../Shared/Service/Service';
 import {
   NET_CORE,
-  NET_FW,
   GET_LOG,
   GET_PROVIDER,
   UPDATE_PROVIDER_ARRANGEMENT
 } from '../const/ProviderArrangement.json';
 import { TQueryLogProviderArrangement } from './TypeNative';
 
-const buildRequestURL = (key: string) =>
-  process.env.NODE_ENV === 'development'
-    ? `${NET_CORE}/${key}`
-    : `${NET_FW}/${key}`;
+const buildRequestURL = (key: string) => `${NET_CORE}/${key}`;
 
 const queryProviderArrangement = createAsyncThunk('queryProvider', async () => {
   const url = buildRequestURL(GET_PROVIDER);

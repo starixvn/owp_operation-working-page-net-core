@@ -1,7 +1,6 @@
 {
   "functionKey": "RecipientGroup",
-  "netCoreURL": "api-netcore/RecipientGroup",
-  "netFwURL": "api/RecipientGroup",
+  "netCoreURL": "api/RecipientGroup",
   "getRecipientGroupsKey": "get-recipient-group",
   "saveRecipientGroupsKey": "save-recipient-group",
   "maxLengthGroupName": 50

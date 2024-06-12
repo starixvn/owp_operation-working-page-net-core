@@ -3,10 +3,7 @@ import { netCoreURL, UPDATE_NO_OFFER_MATCH } from '../const/const.json';
 import { post } from '../../Shared/Service/Service';
 import { TNoOfferMatch } from '../types/noOfferMatchType';
 
-const buildRequestURL = () =>
-  process.env.NODE_ENV === 'development'
-    ? `${netCoreURL}/${UPDATE_NO_OFFER_MATCH}`
-    : `api/EventPicking/${UPDATE_NO_OFFER_MATCH}`;
+const buildRequestURL = () => `${netCoreURL}/${UPDATE_NO_OFFER_MATCH}`;
 
 const updateNoOfferMatchThunk = createAsyncThunk<
   TNoOfferMatch[],

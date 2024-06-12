@@ -1,8 +1,4 @@
-const netCoreURL = 'api-netcore/live-detail';
-const netFwURL = 'api/live-detail';
-const buildRequestURL = keyword =>
-  process.env.NODE_ENV === 'development'
-    ? `${netCoreURL}/${keyword}`
-    : `${netFwURL}/${keyword}`;
+const netCoreURL = 'api/live-detail';
+const buildRequestURL = keyword => `${netCoreURL}/${keyword}`;
 
 export { buildRequestURL };

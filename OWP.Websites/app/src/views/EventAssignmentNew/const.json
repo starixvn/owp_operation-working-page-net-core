@@ -1,5 +1,4 @@
 {
-  "NET_CORE_URL": "api-netcore/event-assignment",
   "MATCH_STATUS": {
     "LIVE": "Live",
     "IN_PLAY": "In-play",
@@ -272,8 +271,7 @@
       "IS_CAN_FILTER": true
     }
   ],
-  "netCoreURL": "api-netcore/event-assignment",
-  "netFwURL": "api/event-assignment",
+  "netCoreURL": "api/event-assignment",
   "syncOffVRKey": "/sync-off-vr",
   "lastUpdateSyncOffVRKey": "/get-sync-off-vr-last-updated",
   "lastUpdateEventAssignment": "/get-last-updated"

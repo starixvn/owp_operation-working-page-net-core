@@ -2,17 +2,10 @@ import { post } from '../../../../Shared/Service/Service';
 import Utils from '../../../../Shared/Utils';
 import { createAppAsyncThunk } from '../../../app/hooksNative';
 
-import {
-  netCoreURL,
-  netFwURL,
-  getEventTicket
-} from '../../../const/const.json';
+import { netCoreURL, getEventTicket } from '../../../const/const.json';
 import { TTicket, TFilerParam } from '../../../type';
 
-const genUrl = (routePostfix: string) =>
-  process.env.NODE_ENV === 'development'
-    ? `${netCoreURL}/${routePostfix}`
-    : `${netFwURL}/${routePostfix}`;
+const genUrl = (routePostfix: string) => `${netCoreURL}/${routePostfix}`;
 
 const getEventTickets = createAppAsyncThunk<Array<TTicket>, void>(
   'TicketCenter/getEventChecking',

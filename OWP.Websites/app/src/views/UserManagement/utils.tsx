@@ -65,16 +65,10 @@ const getValueFilter = (): TQueryUserInfo => {
   };
 };
 
-const urlExport =
-  process.env.NODE_ENV === 'development'
-    ? `api-netcore/UserManagement/export-excel`
-    : `api/UserManagement/export-excel`;
+const urlExport = `api/UserManagement/export-excel`;
 
 const updateUserInfo = async (updateInfo: TUpdateUserInfo) => {
-  const url =
-    process.env.NODE_ENV === 'development'
-      ? `api-netcore/UserManagement/update-user-info`
-      : `api/UserManagement/update-user-info`;
+  const url = `api/UserManagement/update-user-info`;
 
   return (
     await post({

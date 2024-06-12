@@ -1,10 +1,5 @@
 import { isEqual, isEmpty } from 'lodash';
-import {
-  maxbetSettingTable,
-  netCoreURL,
-  netFwURL,
-  matchOfferParam
-} from '../Const.json';
+import { maxbetSettingTable, netCoreURL, matchOfferParam } from '../Const.json';
 
 const { secondAcceptValue } = maxbetSettingTable;
 const SPECIAL_MAXBET = {
@@ -63,15 +58,9 @@ const validateMaxbet = (value: number | null) =>
   (value >= MAXBET.Min && value <= MAXBET.Max) ||
   value === -1;
 
-const buildURL = (urlName: string) =>
-  process.env.NODE_ENV === 'development'
-    ? `${netCoreURL}/${urlName}`
-    : `${netFwURL}/${urlName}`;
+const buildURL = (urlName: string) => `${netCoreURL}/${urlName}`;
 
-const buildMatchOfferURL = () =>
-  process.env.NODE_ENV === 'development'
-    ? `api-netcore/resource-assignment/${matchOfferParam}`
-    : `api/resource-assignment/${matchOfferParam}`;
+const buildMatchOfferURL = () => `api/resource-assignment/${matchOfferParam}`;
 
 export {
   isSecondAcceptValue,

@@ -25,10 +25,7 @@ describe('QuickSearch service test', () => {
 
   it('return data when exportUrl  is called', async () => {
     const actualData = await Service.exportUrl('2022-06-17', '2022-06-17');
-    const urlExportLst =
-      process.env.NODE_ENV === 'development'
-        ? `api-netcore/report/lst/export-excel`
-        : `api/report/lst/export-excel`;
+    const urlExportLst = `api/report/lst/export-excel`;
     const expectUrl = `${urlExportLst}?fromDate=2022-06-17&toDate=2022-06-17`;
     expect(actualData).toEqual(expectUrl);
   });

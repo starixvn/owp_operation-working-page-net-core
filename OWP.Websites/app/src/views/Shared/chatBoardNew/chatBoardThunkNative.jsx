@@ -29,10 +29,7 @@ const getTicketDetail = createAsyncThunk(
       };
     }
 
-    const url =
-      process.env.NODE_ENV === 'development'
-        ? `${URL.NET_Core_TICKET_CENTER}/${detailSegmentUrl}`
-        : `${URL.NET_FW_TICKET_CENTER}/${detailSegmentUrl}`;
+    const url = `${URL.NET_Core_TICKET_CENTER}/${detailSegmentUrl}`;
 
     const { data, status } = await post({
       url,
@@ -51,10 +48,7 @@ const getTicketDetail = createAsyncThunk(
 const loadMoreMessageThunk = createAsyncThunk(
   'message/loadMore',
   async model => {
-    const url =
-      process.env.NODE_ENV === 'development'
-        ? `${URL.NET_Core_TICKET_CENTER}/${URL.LOAD_MORE_MESSAGE}`
-        : `${URL.NET_FW_TICKET_CENTER}/${URL.LOAD_MORE_MESSAGE}`;
+    const url = `${URL.NET_Core_TICKET_CENTER}/${URL.LOAD_MORE_MESSAGE}`;
     const response = await post({
       url,
       ...model
@@ -66,10 +60,7 @@ const loadMoreMessageThunk = createAsyncThunk(
 const createNewMessage = createAsyncThunk(
   'message/CreateNewMessage',
   async (model, { rejectWithValue }) => {
-    const url =
-      process.env.NODE_ENV === 'development'
-        ? `${URL.NET_Core_TICKET_CENTER}/${URL.ADD_MESSAGE}`
-        : `${URL.NET_FW_TICKET_CENTER}/${URL.ADD_MESSAGE}`;
+    const url = `${URL.NET_Core_TICKET_CENTER}/${URL.ADD_MESSAGE}`;
 
     const { data, status } = await Axios.post(url, model);
     if (status === 203) {
@@ -113,10 +104,7 @@ const getModelByRowIndex = createAsyncThunk(
 const updateTicketStatus = createAsyncThunk(
   'saveStatus',
   async (model, { rejectWithValue }) => {
-    const url =
-      process.env.NODE_ENV === 'development'
-        ? `${URL.NET_Core_TICKET_CENTER}/${URL.UPDATE_TICKET_STATUS}`
-        : `${URL.NET_FW_TICKET_CENTER}/${URL.UPDATE_TICKET_STATUS}`;
+    const url = `${URL.NET_Core_TICKET_CENTER}/${URL.UPDATE_TICKET_STATUS}`;
 
     const { data, status } = await Axios.post(url, model);
     if (status === 203) {
@@ -129,10 +117,7 @@ const updateTicketStatus = createAsyncThunk(
 const updateTicketSubType = createAsyncThunk(
   'changeSubType',
   async (request, { rejectWithValue }) => {
-    const url =
-      process.env.NODE_ENV === 'development'
-        ? `${URL.NET_Core_TICKET_CENTER}/${URL.UPDATE_TICKET_SUBTYPE}`
-        : `${URL.NET_FW_TICKET_CENTER}/${URL.UPDATE_TICKET_SUBTYPE}`;
+    const url = `${URL.NET_Core_TICKET_CENTER}/${URL.UPDATE_TICKET_SUBTYPE}`;
 
     const { data, status } = await Axios.post(url, request);
     if (status === 203) {
@@ -160,10 +145,7 @@ const saveDoneIssue = handleMessage('saveDoneIssue');
 const getTicketSubTypes = createAsyncThunk(
   'getTicketSubTypes',
   async ticketTypeId => {
-    const url =
-      process.env.NODE_ENV === 'development'
-        ? `${URL.NET_Core_TICKET_CENTER}/get-subtype`
-        : `${URL.NET_FW_TICKET_CENTER}/get-subtype`;
+    const url = `${URL.NET_Core_TICKET_CENTER}/get-subtype`;
 
     const { data, status } = await Axios.post(url, {
       ticketTypeId

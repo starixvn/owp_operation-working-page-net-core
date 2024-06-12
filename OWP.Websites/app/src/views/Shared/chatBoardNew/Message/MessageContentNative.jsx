@@ -2,10 +2,7 @@ import Linkify from 'react-linkify';
 import { formatTime } from '../../DateTime/dateTimeHelper';
 import { isImage } from '../helper/chatBoardHelper';
 import { URL } from '../const/index.json';
-import {
-  NET_CORE_FILE_UPLOAD,
-  NET_FW_FILE_UPLOAD
-} from '../../../Shared/Constants';
+import { NET_CORE_FILE_UPLOAD } from '../../../Shared/Constants';
 import ExcelIcon from '../../../../assets/svg-element/ExcelIcon';
 import PdfIcon from '../../../../assets/svg-element/PdfIcon';
 import WordIcon from '../../../../assets/svg-element/WordIcon';
@@ -29,10 +26,7 @@ const MessageContents = ({
 }) => {
   const getCreatedTime = () => formatTime(createdDate, 'minute', 'hh:mm A');
   const handleOnClick = () => {
-    const basicUrl =
-      process.env.NODE_ENV === 'development'
-        ? `${NET_CORE_FILE_UPLOAD}/${URL.DOWNLOAD_FILE}`
-        : `${NET_FW_FILE_UPLOAD}/${URL.DOWNLOAD_FILE}`;
+    const basicUrl = `${NET_CORE_FILE_UPLOAD}/${URL.DOWNLOAD_FILE}`;
 
     const url = `${basicUrl}?fileId=${fileId}`;
 

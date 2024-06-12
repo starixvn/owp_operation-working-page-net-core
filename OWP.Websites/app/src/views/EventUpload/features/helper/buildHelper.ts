@@ -1,12 +1,8 @@
 import dayjs from 'dayjs';
 
-const netCoreURL = 'api-netcore/event-assignment-uploading';
-const netFwURL = 'api/event-assignment-uploading';
+const netCoreURL = 'api/event-assignment-uploading';
 
-const buildRequestURL = (key: string) =>
-  process.env.NODE_ENV === 'development'
-    ? `${netCoreURL}/${key}`
-    : `${netFwURL}/${key}`;
+const buildRequestURL = (key: string) => `${netCoreURL}/${key}`;
 
 const buildDateString = (date: Date) => dayjs(date).format('MMM DD, YYYY');
 

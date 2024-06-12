@@ -2,10 +2,7 @@ import axios from 'axios';
 
 const getByRefName = async refName => {
   const key = `all-ref-${refName}`;
-  const url =
-    process.env.NODE_ENV === 'development'
-      ? `api-netcore/resource-assignment`
-      : `api/resource-assignment`;
+  const url = `api/resource-assignment`;
 
   let data = JSON.parse(sessionStorage.getItem(key));
   if (!data) {

@@ -1,6 +1,5 @@
 {
-  "netCoreURL": "api-netcore/TicketCenter",
-  "netFwURL": "api/TicketCenter",
+  "netCoreURL": "api/TicketCenter",
   "getTicketType": "get-ticket-type",
   "getEventTicket": "get-event-ticket",
   "TicketCenterPageURL": {

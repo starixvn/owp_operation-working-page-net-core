@@ -8,10 +8,7 @@ import { isEqual } from 'lodash';
 import { FunctionKeys } from '../../Shared/Constants';
 import AuthorizeService from '../../Authorize/Service';
 
-const urlGetServerTime =
-  process.env.NODE_ENV === 'development'
-    ? `api-netcore/report/get-server-time`
-    : `api/report/get-server-time`;
+const urlGetServerTime = `api/report/get-server-time`;
 
 const queryDataWithParamsMiddleware =
   ({ dispatch }) =>

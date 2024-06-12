@@ -14,10 +14,7 @@ import { useState, useRef, useEffect } from 'react';
 import GoodIcon from '../../../../assets/svg-element/GoodIcon';
 import AvatarDisplay from '../../common/Avatar/AvatarDisplay';
 
-const url =
-  process.env.NODE_ENV === 'development'
-    ? `${URL.NET_Core_TICKET_CENTER}/${URL.UPDATE_SAVE_MESSAGE}`
-    : `${URL.NET_FW_TICKET_CENTER}/${URL.UPDATE_SAVE_MESSAGE}`;
+const url = `${URL.NET_Core_TICKET_CENTER}/${URL.UPDATE_SAVE_MESSAGE}`;
 
 const propTypes = {
   data: PropTypes.object.isRequired,

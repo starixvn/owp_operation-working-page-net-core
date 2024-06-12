@@ -1,4 +1,4 @@
-import { netCoreURL, netFwURL } from '../const/const.json';
+import { netCoreURL } from '../const/const.json';
 
 const currentDate = new Date();
 const timeRange = {
@@ -12,9 +12,7 @@ const minDate = new Date(
   currentDate.setDate(currentDate.getDate() - timeRange.maxPrevious)
 );
 const buildUrl = (methodRoute: Required<string>) =>
-  process.env.NODE_ENV === 'development'
-    ? `${netCoreURL}/${methodRoute}`
-    : `${netFwURL}/${methodRoute}`;
+  `${netCoreURL}/${methodRoute}`;
 
 const handleCheckButton = (leagueName: string) => {
   const url = `LeagueManagement?leagueName=${leagueName}&isEqualLeague=true`;

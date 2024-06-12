@@ -20,10 +20,7 @@ import {
 } from './helper/chatBoardHelper';
 import DragAndDrop from '../common/DragAndDrop/DragAndDrop';
 import ToastsWrapper from '../../components/ToastrWrapper';
-import {
-  NET_CORE_FILE_UPLOAD,
-  NET_FW_FILE_UPLOAD
-} from '../../Shared/Constants';
+import { NET_CORE_FILE_UPLOAD } from '../../Shared/Constants';
 import { updateTicketStatus } from './chatBoardThunkNative';
 import { backToSmallTicket } from '../../Shared/Utils';
 import isEqual from 'lodash.isequal';
@@ -159,10 +156,7 @@ const TicketDetail = ({ policy = 'policy', isSmallBoard = false }) => {
       const formData = new FormData();
       formData.append('file', file, file.name);
 
-      const url =
-        process.env.NODE_ENV === 'development'
-          ? `${NET_CORE_FILE_UPLOAD}/${URL.UPLOAD_FILE}`
-          : `${NET_FW_FILE_UPLOAD}/${URL.UPLOAD_FILE}`;
+      const url = `${NET_CORE_FILE_UPLOAD}/${URL.UPLOAD_FILE}`;
 
       const { data } = await Axios.post(url, formData);
 

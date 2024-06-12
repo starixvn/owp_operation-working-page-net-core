@@ -43,10 +43,7 @@ export const micsMatchUrl = (eventModel: TFilter) => {
 
 export const eventPickingListUrlNew = (eventModel: TFilter) => {
   const { selectedDate } = eventModel;
-  const url =
-    process.env.NODE_ENV === 'development'
-      ? `api-netcore/EventPicking/export-misc-match`
-      : `api/EventPicking/export-misc-match`;
+  const url = `api/EventPicking/export-misc-match`;
   return `${url}?date=${Utils.formatDate(selectedDate)}`;
 };
 

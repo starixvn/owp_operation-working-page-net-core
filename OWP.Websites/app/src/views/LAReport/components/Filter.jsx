@@ -27,15 +27,9 @@ import { isDateRangeValid } from '../helper/filterHelper';
 import ToastrWrapper from '../../components/ToastrWrapper';
 import { MultiSelect } from 'react-multi-select-component';
 
-const urlGetLaData =
-  process.env.NODE_ENV === 'development'
-    ? `api-netcore/report/la`
-    : `api/report/la`;
+const urlGetLaData = `api/report/la`;
 
-const urlExportLa =
-  process.env.NODE_ENV === 'development'
-    ? `api-netcore/report/la/export-excel`
-    : `api/report/la/export-excel`;
+const urlExportLa = `api/report/la/export-excel`;
 
 const exportUrl = (fromDate, toDate, activeUser, resignUser) => {
   const url = `${urlExportLa}?fromDate=${fromDate}&toDate=${toDate}&activeUser=${activeUser}&resignUser=${resignUser}`;

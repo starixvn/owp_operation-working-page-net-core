@@ -1,9 +1,8 @@
-import { netCoreURL, netFwURL } from '../../../TicketCenter/const/const.json';
+import { netCoreURL } from '../../../TicketCenter/const/const.json';
 import {
   NET_CORE_QUERY_SIMPLE_API,
   QUERY_SIMPLE_API,
-  NET_CORE_FILE_UPLOAD,
-  NET_FW_FILE_UPLOAD
+  NET_CORE_FILE_UPLOAD
 } from '../../../Shared/Constants';
 const URL = {
   ADD_NEW_REQUEST_SUPPORT: 'new-ticket-issue-support',
@@ -28,10 +27,7 @@ const RECIPIENT_TYPE = {
   INDIVIDUAL: 1,
   GROUP: 2
 };
-const buildRequestURL = key =>
-  process.env.NODE_ENV === 'development'
-    ? `${netCoreURL}/${key}`
-    : `${netFwURL}/${key}`;
+const buildRequestURL = key => `${netCoreURL}/${key}`;
 
 const urlGetSubType = buildRequestURL(URL.GET_SUBTYPE);
 const urlRequestSupport = buildRequestURL(URL.ADD_NEW_REQUEST_SUPPORT);
@@ -45,19 +41,13 @@ const urlRequestLiveIncident = buildRequestURL(
 const urlGetMatchInfo = buildRequestURL(URL.GET_MATCH_INFO);
 
 const urlGetAssigneesLGA = (() => {
-  const netCoreUrlEvent = 'api-netcore/TicketEvent';
-  const netFwURLEvent = 'api/TicketEvent';
+  const netCoreUrlEvent = 'api/TicketEvent';
 
-  return process.env.NODE_ENV === 'development'
-    ? `${netCoreUrlEvent}/${URL.GET_ASSIGNEES_LGA}`
-    : `${netFwURLEvent}/${URL.GET_ASSIGNEES_LGA}`;
+  return `${netCoreUrlEvent}/${URL.GET_ASSIGNEES_LGA}`;
 })();
 const urlGetEvent = buildRequestURL(URL.GET_EVENT);
 const urlGetEventLGA = buildRequestURL(URL.GET_EVENT_LGA);
-const urlUploadFile =
-  process.env.NODE_ENV === 'development'
-    ? `${NET_CORE_FILE_UPLOAD}/${URL.UPLOAD_MULTIPLE}`
-    : `${NET_FW_FILE_UPLOAD}/${URL.UPLOAD_MULTIPLE}`;
+const urlUploadFile = `${NET_CORE_FILE_UPLOAD}/${URL.UPLOAD_MULTIPLE}`;
 
 const urlGetRecipient =
   process.env.NODE_ENV === 'development'

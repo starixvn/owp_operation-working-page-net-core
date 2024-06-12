@@ -1,11 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-const netCoreURL = 'api-netcore';
-const url =
-  process.env.NODE_ENV === 'development'
-    ? `${netCoreURL}/AccountSetting/QuickMessage/get-quick-message`
-    : `api/AccountSetting/QuickMessage/get-quick-message`;
+const url = `api/AccountSetting/QuickMessage/get-quick-message`;
 
 const useQueryMessageSuggestion = () => {
   const [suggestionSource, setSuggestionSource] = useState<

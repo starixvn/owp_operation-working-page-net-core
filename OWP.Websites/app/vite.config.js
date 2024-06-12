@@ -36,12 +36,6 @@ export default defineConfig({
         ws: true,
         secure: false
       },
-      '/api-netcore': {
-        target: nerCoreUrl,
-        secure: false,
-        changeOrigin: true,
-        rewrite: path => path.replace(/^\/api-netcore/, 'api')
-      },
       '/Tickets': {
         target: nerCoreUrl,
         secure: false,
@@ -54,7 +48,7 @@ export default defineConfig({
         rewrite: path => path.replace(/^\/net-core-state-api/, 'state-api')
       },
       '/api': {
-        target: netFwUrl,
+        target: nerCoreUrl,
         secure: false,
         changeOrigin: true
       },

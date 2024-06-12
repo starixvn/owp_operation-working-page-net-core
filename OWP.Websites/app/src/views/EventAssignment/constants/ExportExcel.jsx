@@ -34,9 +34,6 @@ export const eventPickingListUrl = eventModel => {
 
 export const eventPickingListUrlNew = eventModel => {
   const { EventDate } = eventModel;
-  const url =
-    process.env.NODE_ENV === 'development'
-      ? `api-netcore/EventPicking/export-misc-match`
-      : `api/EventPicking/export-misc-match`;
+  const url = `api/EventPicking/export-misc-match`;
   return `${url}?date=${EventDate}`;
 };

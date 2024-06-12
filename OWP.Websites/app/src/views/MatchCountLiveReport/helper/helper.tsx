@@ -3,7 +3,6 @@ import { ColumnOrder } from '../typeNative';
 import { orderBy } from 'lodash';
 import {
   netCoreURL,
-  netFwURL,
   dateRangeDefault,
   dateRangeValid,
   time
@@ -22,10 +21,7 @@ const validDateRange = (fromDate: Date, toDate: Date) => {
 
 const getKeyValue = <T, K extends keyof T>(obj: T, key: K): T[K] => obj[key];
 
-const buildRequestURL = (key: string) =>
-  process.env.NODE_ENV === 'development'
-    ? `${netCoreURL}/${key}`
-    : `${netFwURL}/${key}`;
+const buildRequestURL = (key: string) => `${netCoreURL}/${key}`;
 
 const sortDataReport = (
   currentData: ReportData[],

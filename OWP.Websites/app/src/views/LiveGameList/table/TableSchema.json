@@ -60,8 +60,7 @@
     }
   ],
   "itemRowHeight": 100,
-  "netCoreURL": "api-netcore/LiveGameList",
-  "netFwURL": "api/LiveGameList",
+  "netCoreURL": "api/LiveGameList",
   "ORDER_ASC": "ORDER_ASC",
   "ORDER_DESC": "ORDER_DESC"
 }

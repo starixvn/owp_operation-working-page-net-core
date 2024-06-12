@@ -28,10 +28,7 @@ const TicketDetailInformation = ({
         ActorId,
         ticketEventType: eventType
       };
-      const url =
-        process.env.NODE_ENV === 'development'
-          ? `${URL.NET_Core_TICKET_CENTER}/${URL.REMOVE_SINGLE_RECIPIENT}`
-          : `${URL.NET_FW_TICKET_CENTER}/${URL.REMOVE_SINGLE_RECIPIENT}`;
+      const url = `${URL.NET_Core_TICKET_CENTER}/${URL.REMOVE_SINGLE_RECIPIENT}`;
 
       const { status, data } = await Axios.post(url, requestModel);
       return { status, data };
@@ -61,10 +58,7 @@ const TicketDetailInformation = ({
         ticketInfo: modelTicket
       };
 
-      const url =
-        process.env.NODE_ENV === 'development'
-          ? `${URL.NET_Core_TICKET_CENTER}/${URL.ADD_SINGLE_RECIPIENT}`
-          : `${URL.NET_FW_TICKET_CENTER}/${URL.ADD_SINGLE_RECIPIENT}`;
+      const url = `${URL.NET_Core_TICKET_CENTER}/${URL.ADD_SINGLE_RECIPIENT}`;
 
       const { status, data } = await Axios.post(url, requestModel);
       return { status, data };

@@ -6,10 +6,7 @@ import {
 } from '../../Shared/Constants';
 
 const netCoreUrl = window.netCoreRootUrl;
-const url =
-  process.env.NODE_ENV === 'development'
-    ? `api-netcore/PreMatchAssignment`
-    : `api/PreMatchAssignment`;
+const url = `api/PreMatchAssignment`;
 
 const simpleApiQueryUrl =
   process.env.NODE_ENV === 'development'

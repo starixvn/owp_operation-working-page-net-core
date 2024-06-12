@@ -1,17 +1,10 @@
-import {
-  NET_CORE_FILE_UPLOAD,
-  NET_FW_FILE_UPLOAD
-} from '../../Shared/Constants';
+import { NET_CORE_FILE_UPLOAD } from '../../Shared/Constants';
 
-const ENV = process.env.NODE_ENV === 'development';
-const BASE_URL = ENV ? 'api-netcore/AccountSetting' : `api/AccountSetting`;
+const BASE_URL = `api/AccountSetting`;
 
 const createUrl = (base: string, endpoint: string) => `${base}/${endpoint}`;
 
-const urlUploadFile = createUrl(
-  ENV ? NET_CORE_FILE_UPLOAD : `${NET_FW_FILE_UPLOAD}`,
-  'upload'
-);
+const urlUploadFile = createUrl(NET_CORE_FILE_UPLOAD, 'upload');
 
 const urlGetProfileAvatar = createUrl(BASE_URL, 'Profile/get-user-profile');
 const urlSaveProfileAvatar = createUrl(BASE_URL, 'Profile/save-user-profile');

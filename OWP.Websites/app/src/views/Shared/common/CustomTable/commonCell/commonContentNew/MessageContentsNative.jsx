@@ -22,20 +22,6 @@ const MessageContentsNative = props => {
   const getCreatedTime = () =>
     formatTime(createdDate, 'minute', 'hh:mm A DD/MM/YYYY');
 
-  const handleOnClick = () => {
-    const basicUrl =
-      process.env.NODE_ENV === 'development'
-        ? `${NET_CORE_FILE_UPLOAD}/${URL.DOWNLOAD_FILE}`
-        : `${NET_FW_FILE_UPLOAD}/${URL.DOWNLOAD_FILE}`;
-
-    const url = `${basicUrl}?fileId=${fileId}`;
-    if (isImage(message)) {
-      window.open(url);
-    } else {
-      window.location.href = url;
-    }
-  };
-
   const getMessageContent = () => {
     return (
       <>

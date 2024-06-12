@@ -3,7 +3,6 @@ import axios from 'axios';
 import ToastrWrapper from '../../components/ToastrWrapper';
 import {
   netCoreURL,
-  netFwURL,
   getTicketTypeRecipientsRoute,
   saveTicketTypeRecipientsRoute
 } from '../Const.json';
@@ -14,10 +13,7 @@ const okStatusCode = 200;
 const getTicketTypeRecipients = createAsyncThunk<
   TicketTypeRecipientDataSource[]
 >('getTicketTypeRecipients', async () => {
-  const url =
-    process.env.NODE_ENV === 'development'
-      ? `${netCoreURL}/${getTicketTypeRecipientsRoute}`
-      : `${netFwURL}/${getTicketTypeRecipientsRoute}`;
+  const url = `${netCoreURL}/${getTicketTypeRecipientsRoute}`;
 
   const response = await axios.get(url);
   return response.data;
@@ -26,10 +22,7 @@ const getTicketTypeRecipients = createAsyncThunk<
 const saveTicketTypeRecipients = createAsyncThunk(
   'saveTicketTypeRecipients',
   async (postModel: object, { dispatch }) => {
-    const url =
-      process.env.NODE_ENV === 'development'
-        ? `${netCoreURL}/${saveTicketTypeRecipientsRoute}`
-        : `${netFwURL}/${saveTicketTypeRecipientsRoute}`;
+    const url = `${netCoreURL}/${saveTicketTypeRecipientsRoute}`;
 
     const response = await axios.post(url, postModel);
 

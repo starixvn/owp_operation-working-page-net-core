@@ -1,19 +1,10 @@
 import { queryServerTime, queryData } from '../Shared/Service/ServiceCommon';
 
-const urlGetServerTime =
-  process.env.NODE_ENV === 'development'
-    ? `api-netcore/report/get-server-time`
-    : `api/report/get-server-time`;
+const urlGetServerTime = `api/report/get-server-time`;
 
-const urlGetLstData =
-  process.env.NODE_ENV === 'development'
-    ? `api-netcore/report/lst`
-    : `api/report/lst`;
+const urlGetLstData = `api/report/lst`;
 
-const urlExportLst =
-  process.env.NODE_ENV === 'development'
-    ? `api-netcore/report/lst/export-excel`
-    : `api/report/lst/export-excel`;
+const urlExportLst = `api/report/lst/export-excel`;
 
 const query = async model => {
   const data = await queryData(model, urlGetLstData);

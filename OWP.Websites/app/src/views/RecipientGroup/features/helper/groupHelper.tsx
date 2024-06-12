@@ -5,7 +5,6 @@ import {
   getRecipientGroupsKey,
   saveRecipientGroupsKey,
   netCoreURL,
-  netFwURL,
   maxLengthGroupName
 } from '../../Const.json';
 
@@ -48,10 +47,7 @@ const validateRecipients = (recipients: RecipientModel[]) => {
   return true;
 };
 
-const buildRequestURL = (key: string) =>
-  process.env.NODE_ENV === 'development'
-    ? `${netCoreURL}/${key}`
-    : `${netFwURL}/${key}`;
+const buildRequestURL = (key: string) => `${netCoreURL}/${key}`;
 
 const buildGetRecipientGroupsURL = () => buildRequestURL(getRecipientGroupsKey);
 const buildSaveRecipientGroupsURL = () =>

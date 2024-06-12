@@ -1,21 +1,15 @@
 import { get } from '../../Shared/Service/Service';
-import { netCoreURL, netFwURL } from '../const/const.json';
+import { netCoreURL } from '../const/const.json';
 
 const getStatusHistory = async ticketId => {
-  const url =
-    process.env.NODE_ENV === 'development'
-      ? `${netCoreURL}/${URL.GET_STATUS_HISTORY}`
-      : `${netFwURL}/${URL.GET_STATUS_HISTORY}`;
+  const url = `${netCoreURL}/${URL.GET_STATUS_HISTORY}`;
 
   const response = await get({ url, ticketId });
   return response.data;
 };
 
 const markAllTicketsAsRead = async actorId => {
-  const url =
-    process.env.NODE_ENV === 'development'
-      ? `${netCoreURL}/${updateTicketsAsRead}`
-      : `${netFwURL}/${updateTicketsAsRead}`;
+  const url = `${netCoreURL}/${updateTicketsAsRead}`;
 
   const response = await get({ url, actorId });
   return response;

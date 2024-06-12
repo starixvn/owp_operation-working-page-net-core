@@ -8,7 +8,7 @@
     "LOCATION_ID": "LocationId",
     "USER": "User"
   },
-  "rootUrl": "api-netcore/ProductAssignment",
+  "rootUrl": "api/ProductAssignment",
   "functionKey": "AssignmentConfiguration",
   "dbColumnName": {
     "role": "RoleId",

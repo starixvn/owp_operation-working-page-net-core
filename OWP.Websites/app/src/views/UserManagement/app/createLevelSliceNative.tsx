@@ -28,10 +28,7 @@ const createLevelSliceNative: StateCreator<
         queryLevelOptionStatus: { $set: REQUEST_STATUS.pending }
       })
     );
-    const url =
-      process.env.NODE_ENV === 'development'
-        ? `api-netcore/UserManagement/query-level-options`
-        : `api/UserManagement/query-level-options`;
+    const url = `api/UserManagement/query-level-options`;
     const options = (await axios.get(url)).data as TLevelOptionsResponse;
 
     set(state =>

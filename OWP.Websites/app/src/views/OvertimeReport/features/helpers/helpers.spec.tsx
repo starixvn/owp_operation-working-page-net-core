@@ -1,4 +1,3 @@
-
 import { buildRequestURL, formatFractionDigit } from './helpers';
 
 global = Object.create(window);
@@ -21,7 +20,7 @@ describe('helpers under test', () => {
   it('env=development, should return netCoreURL url', () => {
     process.env.NODE_ENV = 'development';
     const devURL = buildRequestURL('key');
-    expect(devURL).toEqual('api-netcore/OvertimeReport/key');
+    expect(devURL).toEqual('api/OvertimeReport/key');
   });
 
   it('inputValue=null, should return -', () => {

@@ -1,12 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { get } from '../../../Shared/Service/Service';
 import Utils from '../../../Shared/Utils';
-import { netCoreURL, netFwURL } from '../TableSchema.json';
+import { netCoreURL } from '../TableSchema.json';
 
-const getUrl = (methodRoute: string) =>
-  process.env.NODE_ENV === 'development'
-    ? `${netCoreURL}/${methodRoute}`
-    : `${netFwURL}/${methodRoute}`;
+const getUrl = (methodRoute: string) => `${netCoreURL}/${methodRoute}`;
 
 const getEvents = createAsyncThunk(
   'live-game-list/get-event',

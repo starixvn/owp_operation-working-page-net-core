@@ -1,16 +1,9 @@
-const netCoreURL = 'api-netcore/league-management';
-const netFwURL = 'api/league-management';
+const netCoreURL = 'api/league-management';
 const matchOfferParam = '?refName=MatchOffer';
 
-const buildRequestURL = key =>
-  process.env.NODE_ENV === 'development'
-    ? `${netCoreURL}/${key}`
-    : `${netFwURL}/${key}`;
+const buildRequestURL = key => `${netCoreURL}/${key}`;
 
-const buildMatchOfferURL = () =>
-  process.env.NODE_ENV === 'development'
-    ? `api-netcore/resource-assignment/${matchOfferParam}`
-    : `api/resource-assignment/${matchOfferParam}`;
+const buildMatchOfferURL = () => `api/resource-assignment/${matchOfferParam}`;
 
 const message = {
   changeLeagueGroup:

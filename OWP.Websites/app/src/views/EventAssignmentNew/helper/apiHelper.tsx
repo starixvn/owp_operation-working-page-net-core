@@ -1,14 +1,11 @@
 import Utils from '../../Shared/Utils';
-import { netCoreURL, netFwURL } from '../const.json';
+import { netCoreURL } from '../const.json';
 import axios from 'axios';
 import Converter from '../../Shared/Converter';
 import { buildQuerySimpleApi } from '../../Shared/Constants';
 import { buildRequestURL } from '../../LiveDetail/buildUrlHelper';
 
-const buildRequestURLForLGA = (key: string) =>
-  process.env.NODE_ENV === 'development'
-    ? `${netCoreURL}${key}`
-    : `${netFwURL}${key}`;
+const buildRequestURLForLGA = (key: string) => `${netCoreURL}${key}`;
 
 const queryMatchInfo = async (owpMatchId: number) => {
   const response = await axios.get(buildRequestURL('match-info'), {
@@ -21,7 +18,7 @@ const queryMatchInfo = async (owpMatchId: number) => {
 
 const addNew = async formModel => {
   const response = await axios.post(
-    'api/event-assignment/add-event',
+    buildRequestURLForLGA('add-event'),
     formModel
   );
   return response.data;
@@ -29,7 +26,7 @@ const addNew = async formModel => {
 
 const editEvent = async formModel => {
   const response = await axios.post(
-    'api/event-assignment/edit-event',
+    buildRequestURLForLGA('edit-event'),
     formModel
   );
   return response.data;
@@ -75,17 +72,14 @@ const getSpecialEventTemplate = async (
 
 const getSyncOffVRLastUpdated = async (eventDate: Date) => {
   const response = await axios.get(
-    `api/event-assignment/get-sync-off-vr-last-updated?date=${eventDate}`
+    buildRequestURLForLGA(`get-sync-off-vr-last-updated?date=${eventDate}`)
   );
 
   return response.data;
 };
 
 const getByRefName = (refName: string) => {
-  const url =
-    process.env.NODE_ENV === 'development'
-      ? `api-netcore/resource-assignment`
-      : `api/resource-assignment`;
+  const url = `api/resource-assignment`;
 
   const key = `all-ref-${refName}`;
   return Utils.requestOrGetSessionStorage(key, `${url}/?refName=${refName}`);

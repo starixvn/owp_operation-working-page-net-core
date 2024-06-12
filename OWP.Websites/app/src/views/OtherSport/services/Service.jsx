@@ -2,14 +2,10 @@ import { post, get } from '../../Shared/Service/Service';
 import {
   rootUrl,
   updateOfferLive,
-  netFw,
   getAdminSiteLeagueId
 } from '../otherSport.json';
 const saveEditOfferLive = async rest => {
-  const url =
-    process.env.NODE_ENV === 'development'
-      ? `${rootUrl}/${updateOfferLive}`
-      : `${netFw}/${updateOfferLive}`;
+  const url = `${rootUrl}/${updateOfferLive}`;
   const model = {
     ...rest,
     url
@@ -19,10 +15,7 @@ const saveEditOfferLive = async rest => {
 };
 
 const getLeagueIdFromAdminSite = async adminSiteMatchId => {
-  const url =
-    process.env.NODE_ENV === 'development'
-      ? `${rootUrl}/${getAdminSiteLeagueId}`
-      : `${netFw}/${getAdminSiteLeagueId}`;
+  const url = `${rootUrl}/${getAdminSiteLeagueId}`;
   const res = await get({ url, adminSiteMatchId });
   return res.data;
 };

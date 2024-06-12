@@ -13,10 +13,7 @@ const createCurrentSectionSliceNative: StateCreator<
   querySectionNameStatus: REQUEST_STATUS.pending,
   currentSection: null,
   async querySectionName() {
-    const url =
-      process.env.NODE_ENV === 'development'
-        ? `api-netcore/UserManagement/query-current-section`
-        : `api/UserManagement/query-current-section`;
+    const url = `api/UserManagement/query-current-section`;
     const response = await axios.get(url);
     set(state =>
       update(state, {

@@ -67,15 +67,9 @@ export const PreMatchMessageTypes = {
 export const OpenPreMatchIssueURL =
   'api/Prematch-Assignment/on-click-issue-notification';
 
-export const openTicketCenterIssueURL =
-  process.env.NODE_ENV === 'development'
-    ? 'api-netcore/TicketCenter/on-click-issue-notification'
-    : `api/TicketCenter/on-click-issue-notification`;
+export const openTicketCenterIssueURL = `api/TicketCenter/on-click-issue-notification`;
 
-const buildMessageUrl = () =>
-  process.env.NODE_ENV === 'development'
-    ? 'api-netcore/application/message'
-    : 'api/application/message';
+const buildMessageUrl = () => 'api/application/message';
 
 const query = async (model = null) => {
   const response = await axios.get(buildMessageUrl(), {

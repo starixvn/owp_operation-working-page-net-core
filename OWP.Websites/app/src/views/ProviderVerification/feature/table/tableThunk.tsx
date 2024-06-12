@@ -1,13 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { get, post } from '../../../Shared/Service/Service';
 import Utils from '../../../Shared/Utils';
-import { netCoreURL, netFwURL } from './TableSchema.json';
+import { netCoreURL } from './TableSchema.json';
 import { TOptionResponse } from '../../type/agentConfirmOption';
 
-const getUrl = (methodRoute: string) =>
-  process.env.NODE_ENV === 'development'
-    ? `${netCoreURL}/${methodRoute}`
-    : `${netFwURL}/${methodRoute}`;
+const getUrl = (methodRoute: string) => `${netCoreURL}/${methodRoute}`;
 
 const getEvents = createAsyncThunk(
   'provider-verification/get-event',

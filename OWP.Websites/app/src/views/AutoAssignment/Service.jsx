@@ -1,9 +1,6 @@
 import axios from 'axios';
 
-const url =
-  process.env.NODE_ENV === 'development'
-    ? `api-netcore/auto-assignment`
-    : `api/auto-assignment`;
+const url = `api/auto-assignment`;
 
 const getRequests = async () => {
   const response = await axios.get(`${url}/get-request`);

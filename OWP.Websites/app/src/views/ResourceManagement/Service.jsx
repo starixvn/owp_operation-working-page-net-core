@@ -2,10 +2,7 @@ import axios from 'axios';
 import Utils from '../Shared/Utils';
 import { isEqual } from 'lodash';
 
-const url =
-  process.env.NODE_ENV === 'development'
-    ? `api-netcore/resource-assignment`
-    : `api/resource-assignment`;
+const url = `api/resource-assignment`;
 
 const getResourceOptions = () => {
   return [

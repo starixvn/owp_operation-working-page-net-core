@@ -2,13 +2,10 @@ import { useEffect, useState } from 'react';
 import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { get } from '../../Shared/Service/Service';
-import { netCoreURL, netFwURL, getLogsHistory } from '../const/const.json';
+import { netCoreURL, getLogsHistory } from '../const/const.json';
 import dayjs from 'dayjs';
 
-const resolveUrl = () =>
-  process.env.NODE_ENV === 'development'
-    ? `${netCoreURL}/${getLogsHistory}`
-    : `${netFwURL}/${getLogsHistory}`;
+const resolveUrl = () => `${netCoreURL}/${getLogsHistory}`;
 
 const HistoryModal = props => {
   const { infoSiteMatchId, header, onToggle } = props;

@@ -1,5 +1,5 @@
 {
-  "ROOT_URL": "api-netcore/TaskList",
+  "ROOT_URL": "api/TaskList",
   "TASK_LIST_URL": "task-list-table",
   "UPDATE_TRADE_STATUS": "update-trade-status"
 }

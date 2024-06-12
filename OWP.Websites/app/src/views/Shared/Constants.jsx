@@ -92,8 +92,7 @@ export const buildUpdateSimpleApi = () =>
     ? `${NET_CORE_UPDATE_SIMPLE_API}`
     : `${UPDATE_SIMPLE_API}`;
 
-export const NET_CORE_FILE_UPLOAD = 'api-netcore/FileUpload';
-export const NET_FW_FILE_UPLOAD = 'api/FileUpload';
+export const NET_CORE_FILE_UPLOAD = 'api/FileUpload';
 
 export const FunctionKeys = {
   LiveGameAssignment_PHBetTypes: 'LiveGameAssignment_PHBetTypes',

@@ -29,8 +29,7 @@
     }
   },
   "URL": {
-    "NET_Core_TICKET_CENTER": "api-netcore/TicketCenter",
-    "NET_FW_TICKET_CENTER": "api/TicketCenter"
+    "NET_Core_TICKET_CENTER": "api/TicketCenter"
   },
   "RECIPIENT_TYPE": {
     "INDIVIDUAL": 1,

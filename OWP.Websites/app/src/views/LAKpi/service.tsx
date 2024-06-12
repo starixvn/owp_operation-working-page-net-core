@@ -1,12 +1,9 @@
 import { get, post } from '../Shared/Service/Service';
 import Utils from '../Shared/Utils';
-import { netCoreURL, netFwURL } from './const.json';
+import { netCoreURL } from './const.json';
 import { Target } from './feature/type/TableType.native';
 
-const buildRequestURL = (key: string | null) =>
-  process.env.NODE_ENV === 'development'
-    ? `${netCoreURL}/${key}`
-    : `${netFwURL}/${key}`;
+const buildRequestURL = (key: string | null) => `${netCoreURL}/${key}`;
 
 const queryDataTable = async (
   filterFromDate: Date,
