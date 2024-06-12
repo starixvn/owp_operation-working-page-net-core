@@ -360,8 +360,23 @@ public static class ServiceCollectionExtensions
         services.AddWebOptimizer(pipeline =>
             {
                 pipeline.AddCssBundle("/styles/common",
-                    "shared/lib/**/*.css",
-                    "shared/owp/*.css",
+                    "shared/lib/Fanex.Grid/Fanex.Grid.css",
+                    "shared/lib/Fanex.Grid/Fanex.Pagination.css",
+                    "shared/lib/fanex-multiselect/fanex.multiSelect.css",
+                    "shared/lib/Materialize/materialize.css",
+                    "shared/lib/CustomScrollbar/jquery.mCustomScrollbar.css",
+                    "shared/lib/Select2/select2.css",
+                    "shared/lib/jQuery-Wizard/wizard.css",
+                    "shared/lib/Tipsy/tipsy.css",
+                    "shared/lib/Colpick/colpick.css",
+                    "shared/lib/SweetAlert2/sweetalert2.css",
+                    "shared/lib/jQueryTagsinput/jquery.tagsinput.min.css",
+                    "shared/lib/jquery-timepicker/jquery.timepicker.css",
+                    "shared/lib/MsgBox/msgbox-0.0.1.css",
+                    "shared/lib/SimplePagination/simplePagination.css",
+                    "shared/lib/Toastr/toastr.css",
+                    "Chosen/bootstrap-chosen.css",
+                    "shared/owp/**/*.css",
                     "shared/themes/main.css",
                     "shared/themes/searchBlock.css"
                    );
