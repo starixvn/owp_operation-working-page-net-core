@@ -362,19 +362,53 @@ public static class ServiceCollectionExtensions
                 pipeline.AddCssBundle("/styles/common",
                     "shared/lib/**/*.css",
                     "shared/owp/*.css",
-                    "shared/themes/main.css");
+                    "shared/themes/main.css",
+                    "shared/themes/searchBlock.css"
+                   );
+
                 pipeline.AddCssBundle("/styles/fonts",
-                    "shared/fonts/icon-OWP/style.css");
+                    "shared/fonts/icon-OWP/style.css",
+                     "shared/themes/fonts/OWP-v1.0/style.css",
+                    "shared/themes/fonts/font-icon/style.css",
+                    "shared/themes/fonts/flags/style.css");
 
                 pipeline.AddJavaScriptBundle("scripts/core",
                     "shared/lib/jQuery/jquery-2.1.1.js",
                     "shared/lib/jquery.signalR-2.4.3.min.js");
 
                 pipeline.AddJavaScriptBundle("scripts/common",
-                    "shared/lib/**/*.js",
-                    "shared/owp/*.js",
-                    "shared/lib/modernizr.js",
-                    "shared/owp/**/*.js"
+                    "shared/lib/JQuery/jquery-ui-1.10.4.js",
+                    "shared/lib/JQuery/jquery.blockUI.2.66.min.js",
+                    "shared/lib/Others/moment-latest.js",
+                    "shared/lib/Chosen/chosen.jquery.js",
+                    "shared/lib/MsgBox/msgbox-0.0.1.js",
+                    "shared/lib/jquery-timepicker/jquery.timepicker.js",
+                    "shared/lib/Others/namespace.js",
+                    "shared/lib/js.cookie/js.cookie.js",
+
+                    "shared/owp/common.js",
+
+                    "shared/lib/Materialize/materialize.js",
+                    "shared/lib/CustomScrollbar/jquery.mCustomScrollbar.concat.min.js",
+                    "shared/lib/Select2/select2.min.js",
+                    "shared/lib/jQuery-Wizard/jquery-wizard.js",
+                    "shared/lib/Tipsy/jquery.tipsy.js",
+                    "shared/lib/jQueryTagsinput/jquery.tagsinput.min.js",
+                    "shared/lib/Inputmask/jquery.inputmask.bundle.js",
+                    "shared/lib/jquery.shiftcheckbox.js",
+                    "shared/lib/Colpick/colpick.js",
+                    "shared/lib/SweetAlert2/sweetalert2.js",
+                    "shared/lib/Fanex.Grid/Fanex.Grid.js",
+                    "shared/lib/Fanex.Grid/Fanex.Pagination.js",
+                    "shared/lib/SimplePagination/jquery.simplePagination.js",
+                    "shared/lib/ContextMenu/bootstrap-contextmenu.js",
+                    "shared/lib/fanex-multiselect/fanex.multiSelect.js",
+                    "shared/lib/Toastr/toastr.js",
+                    "shared/lib/Sortable/Sortable.js",
+                    "shared/lib/favico/favico-0.3.10.min.js",
+                    "shared/owp/navbar.js",
+                    "shared/owp/main.js",
+                    "shared/lib/modernizr.js"
                 );
 
                 pipeline.AddCssBundle("Styles/EventInformation",
@@ -405,10 +439,10 @@ public static class ServiceCollectionExtensions
 
                 pipeline.AddCssBundle("Styles/DailyWorkingShift",
                     "shared/owp/daily-working-shift/DailyWorkingShift.css");
-               
+
                 pipeline.AddJavaScriptBundle("Scripts/OddsCompiler",
                     "shared/owp/EventManagement/Resources/OddsCompiler/*.js");
-                
+
                 pipeline.AddJavaScriptBundle("Styles/OddsCompiler",
                     "shared/owp/EventManagement/Resources/OddsCompiler/OddsCompiler.css");
 

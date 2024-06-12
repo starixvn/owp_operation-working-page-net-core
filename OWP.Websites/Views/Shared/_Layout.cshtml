@@ -4,7 +4,8 @@
 }
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,67 +13,71 @@
     <meta name="author" content="">
     <title>@ViewLang.SystemName</title>
     <link rel="shortcut icon" type="image/ico" href="@Url.Content("~/favicon.ico")">
-    <link href="~/shared/themes/fonts/OWP-v1.0/style.css" rel="stylesheet" />
-    <link href="~/shared/themes/fonts/font-icon/style.css" rel="stylesheet" />
-    <link href="~/shared/themes/fonts/flags/flag-icon.css" rel="stylesheet" />
-    <link href="~/styles/common" rel="stylesheet" />
-    <link href="~/shared/themes/searchBlock.css" rel="stylesheet" />
-    <script src="~/scripts/core" type="text/javascript" ></script>
-    <script src="~/scripts/common" type="text/javascript"></script>
+    <link href="~/styles/common?@DateTime.Now.Ticks" rel="stylesheet" />
+    <link href="~/styles/fonts?@DateTime.Now.Ticks" rel="stylesheet" />
+
 </head>
+
 <body class="site-menubar-fold">
-    @await Component.InvokeAsync("Header", new { title = title})
+    @await Component.InvokeAsync("Header", new { title = title })
     <main>
         @RenderBody()
 
         <div class="loading-process" style="display: none;">
-            <svg class="icon-loading" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="64" height="64" fill="#439ff0">
+            <svg class="icon-loading" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="64" height="64"
+                fill="#439ff0">
                 <circle transform="translate(8 0)" cx="0" cy="16" r="0">
                     <animate attributeName="r" values="0; 4; 0; 0" dur="1.2s" repeatCount="indefinite" begin="0"
-                             keytimes="0;0.2;0.7;1" keySplines="0.2 0.2 0.4 0.8;0.2 0.6 0.4 0.8;0.2 0.6 0.4 0.8" calcMode="spline" />
+                        keytimes="0;0.2;0.7;1" keySplines="0.2 0.2 0.4 0.8;0.2 0.6 0.4 0.8;0.2 0.6 0.4 0.8"
+                        calcMode="spline" />
                 </circle>
                 <circle transform="translate(16 0)" cx="0" cy="16" r="0">
                     <animate attributeName="r" values="0; 4; 0; 0" dur="1.2s" repeatCount="indefinite" begin="0.3"
-                             keytimes="0;0.2;0.7;1" keySplines="0.2 0.2 0.4 0.8;0.2 0.6 0.4 0.8;0.2 0.6 0.4 0.8" calcMode="spline" />
+                        keytimes="0;0.2;0.7;1" keySplines="0.2 0.2 0.4 0.8;0.2 0.6 0.4 0.8;0.2 0.6 0.4 0.8"
+                        calcMode="spline" />
                 </circle>
                 <circle transform="translate(24 0)" cx="0" cy="16" r="0">
                     <animate attributeName="r" values="0; 4; 0; 0" dur="1.2s" repeatCount="indefinite" begin="0.6"
-                             keytimes="0;0.2;0.7;1" keySplines="0.2 0.2 0.4 0.8;0.2 0.6 0.4 0.8;0.2 0.6 0.4 0.8" calcMode="spline" />
+                        keytimes="0;0.2;0.7;1" keySplines="0.2 0.2 0.4 0.8;0.2 0.6 0.4 0.8;0.2 0.6 0.4 0.8"
+                        calcMode="spline" />
                 </circle>
             </svg>
         </div>
     </main>
     @Html.Hidden("RootURL", Url.Content("~/"))
-   @*  @RazorHelper.ModalWarningMessage()
+    @* @RazorHelper.ModalWarningMessage()
     @RazorHelper.ModalErrorMessage()
     @RazorHelper.MadalInformationMessage()
     @RazorHelper.ModalDialogForm() *@
     @* @{
-        var netCoreRootUrl = Fanex.NAP.OWP.Core.Configuration.AppSettings.NetCoreRootUrl;
+    var netCoreRootUrl = Fanex.NAP.OWP.Core.Configuration.AppSettings.NetCoreRootUrl;
     } *@
     @* <script>
-        window.netCoreRootUrl = '@netCoreRootUrl';
+    window.netCoreRootUrl = '@netCoreRootUrl';
     </script> *@
     @* <script src="~/signalr/hubs"></script> *@
-   @*  <script src="~/Scripts/Libraries/SignalNetCore/dist/browser/signalr.min.js"></script> *@
+    @* <script src="~/Scripts/Libraries/SignalNetCore/dist/browser/signalr.min.js"></script> *@
 
     @* @Scripts.Render("~/scripts/signalR"); *@
     @* <script type="text/javascript">
-        var msgNoSearchResults = '@ViewLang.QuickSearch_NoResults';
+    var msgNoSearchResults = '@ViewLang.QuickSearch_NoResults';
 
-        $(document).ready(function () {
-            documentTitle.CountUnreadMessage();
-            if (!Notification) {
-                alert('Desktop notifications not available in your browser. Try Chromium.');
-                return;
-            }
+    $(document).ready(function () {
+    documentTitle.CountUnreadMessage();
+    if (!Notification) {
+    alert('Desktop notifications not available in your browser. Try Chromium.');
+    return;
+    }
 
-            if (Notification.permission !== 'granted') {
-                Notification.requestPermission();
-            }
+    if (Notification.permission !== 'granted') {
+    Notification.requestPermission();
+    }
 
-        });
+    });
     </script> *@
     @Html.Raw(Fanex.Logging.LogManager.RenderJavascriptLogger())
+    <script src="~/scripts/core" type="text/javascript"></script>
+    <script src="~/scripts/common" type="text/javascript"></script>
 </body>
+
 </html>
