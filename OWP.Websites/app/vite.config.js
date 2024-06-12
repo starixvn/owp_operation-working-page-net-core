@@ -7,7 +7,6 @@ import { resolve } from 'path';
 const appName = process.env.NODE_APP.trim();
 const outDir = resolve(__dirname, `../wwwroot/${appName}`);
 const nerCoreUrl = 'https://localhost:5001';
-const netFwUrl = 'http://localhost:64193';
 const webSocket = 'ws://localhost:5000';
 
 export default defineConfig({
@@ -51,33 +50,13 @@ export default defineConfig({
         secure: false,
         changeOrigin: true
       },
-      '/signalr': {
-        target: netFwUrl,
-        secure: false,
-        changeOrigin: true
-      },
-      '/Scripts': {
-        target: netFwUrl,
-        secure: false,
-        changeOrigin: true
-      },
-      '/Content': {
-        target: netFwUrl,
-        secure: false,
-        changeOrigin: true
-      },
-      '/fonts': {
-        target: netFwUrl,
-        secure: false,
-        changeOrigin: true
-      },
       '/TaskScheduling': {
-        target: netFwUrl,
+        target: nerCoreUrl,
         secure: false,
         changeOrigin: true
       },
       '/wwwroot': {
-        target: netFwUrl,
+        target: nerCoreUrl,
         secure: false,
         changeOrigin: true
       }
