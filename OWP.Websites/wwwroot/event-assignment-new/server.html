@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" >
+    <meta 
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    >
+    <meta name="theme-color" content="#000000" >
+    
+    <link rel="shortcut icon" href="/event-assignment-new/favicon.ico" >
+    
+    <title>Operation Working Page</title>
+    <script type="text/javascript">
+      document.addEventListener('DOMContentLoaded', function () {
+        if (!Notification) {
+          alert(
+            'Desktop notifications not available in your browser. Try Chromium.'
+          );
+          return;
+        }
+        if (Notification.permission !== 'granted')
+          Notification.requestPermission();
+      });
+      function pushNotification(message) {
+        if (!Notification || Notification.permission !== 'granted') {
+          return;
+        }
+
+        var bodyContent = (message.messageContent.replaceAll('<b>', '')).replaceAll('</b>', '');
+
+        var notification = new Notification('OWP Notification', {
+          icon: 'favicon.ico',
+          body: bodyContent
+        });
+        notification.onclick = () => {
+          if (message.ticketId) {
+            window.open('MyTickets?actorId=' + message.userId + '&eventType=' + message.eventType + '&ticketId=' + message.ticketId + '',`ticket-center-${message.ticketId}`);
+          }
+          else {
+            window.open('MessageBoxManagement');
+          }
+        };
+      }
+    </script>
+    <link href="/styles/fonts" rel="stylesheet" >
+    <link href="/shared/themes/fonts/flags/flag-icon.css" rel="stylesheet" >
+    <script src="/scripts/core"></script>
+    <script src="/scripts/common"></script>
+    <script src="/shared/owp/copy.js"></script>
+    <script type="module" crossorigin src="/event-assignment-new/assets/js/main-8ca96679.js"></script>
+    <link rel="stylesheet" href="/event-assignment-new/assets/ext/server-f1fbb16e.css">
+  </head>
+
+  <body>
+    <noscript> You need to enable JavaScript to run this app. </noscript>
+    <div id="root"></div>
+    <script>
+      documentTitle.CountUnreadMessage();
+    </script>
+    @Html.Hidden("RootURL", Url.Content("~/"))
+  
+</body>
+</html>
