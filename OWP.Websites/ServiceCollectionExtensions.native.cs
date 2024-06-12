@@ -375,8 +375,9 @@ public static class ServiceCollectionExtensions
                     "shared/lib/MsgBox/msgbox-0.0.1.css",
                     "shared/lib/SimplePagination/simplePagination.css",
                     "shared/lib/Toastr/toastr.css",
-                    "Chosen/bootstrap-chosen.css",
-                    "shared/owp/**/*.css",
+                    "shared/lib/Chosen/bootstrap-chosen.css",
+                    "shared/owp/copy.css",
+                    "shared/owp/owp.search-autocomplete.css",
                     "shared/themes/main.css",
                     "shared/themes/searchBlock.css"
                    );
@@ -385,7 +386,7 @@ public static class ServiceCollectionExtensions
                     "shared/fonts/icon-OWP/style.css",
                      "shared/themes/fonts/OWP-v1.0/style.css",
                     "shared/themes/fonts/font-icon/style.css",
-                    "shared/themes/fonts/flags/style.css");
+                    "shared/themes/fonts/flags/flag-icon.css");
 
                 pipeline.AddJavaScriptBundle("scripts/core",
                     "shared/lib/jQuery/jquery-2.1.1.js",
