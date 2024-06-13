@@ -178,6 +178,7 @@
     <ProjectReference Include="..\src\OWP.MaxbetSetting\OWP.MaxbetSetting.csproj" />
     <ProjectReference Include="..\src\OWP.MessageManagement\OWP.MessageManagement.csproj" />
     <ProjectReference Include="..\src\OWP.NewLeagueSetting\OWP.NewLeagueSetting.csproj" />
+    <ProjectReference Include="..\src\OWP.OddsCompiler\OWP.OddsCompiler.csproj" />
     <ProjectReference Include="..\src\OWP.PrematchAssignment\OWP.PrematchAssignment.csproj" />
     <ProjectReference Include="..\src\OWP.RabbitMQ\OWP.RabbitMQ.csproj" />
     <ProjectReference Include="..\src\OWP.ResourceManagement\OWP.ResourceManagement.csproj" />

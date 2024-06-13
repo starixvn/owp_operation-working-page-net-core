@@ -1,5 +1,7 @@
 ﻿using System.Globalization;
 using System.Text.RegularExpressions;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace OWP.Extensions;
 
@@ -47,5 +49,30 @@ public static class StringExtension
         return string.IsNullOrEmpty(value)
             ? string.Empty
             : value.Trim();
+    }
+
+    public static T ParseXml<T>(this string xml) where T : class
+    {
+        var locker = new object();
+        var stringReader = new StringReader(xml);
+        var reader = new XmlTextReader(stringReader);
+        try
+        {
+            var xmlSerializer = new XmlSerializer(typeof(T));
+            lock (locker)
+            {
+                var item = (T)xmlSerializer.Deserialize(reader);
+                reader.Close();
+                return item;
+            }
+        }
+        catch
+        {
+            return default(T);
+        }
+        finally
+        {
+            reader.Close();
+        }
     }
 }

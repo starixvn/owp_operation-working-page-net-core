@@ -487,5 +487,18 @@
   <Function Name="MessageManagement">
     <Setting Key="OWP_MessageGetByUserIdWithPaging" SpName ="OWP_MessageGetByUserIdWithPaging" DbName="DBOWP.bodb_OWP.wsv_owp" />
     <Setting Key="OWP_MessageUpdateReadStatus" SpName ="OWP_MessageUpdateReadStatus" DbName="DBOWP.bodb_OWP.wsv_owp" />
-     </Function>
+  </Function>
+  <Function Name="OddsCompiler">
+    <Setting Key="OWP_OddsCompiler_DeleteOdds" SpName ="OWP_OddsCompiler_DeleteOdds" DbName="DBOWP.bodb_OWP.wsv_owp" />
+    <Setting Key="OWP_LiveGame_GetInfoSiteTime" SpName ="OWP_LiveGame_GetInfoSiteTime" DbName="DBOWP.bodb_OWP.wsv_owp" />
+    <Setting Key="OWP_GetNotificationQueue" SpName ="OWP_GetNotificationQueue" DbName="DBOWP.bodb_OWP.wsv_owp" />
+    <Setting Key="OWP_OddsCompiler_Get" SpName ="OWP_OddsCompiler_Get" DbName="DBOWP.bodb_OWP.wsv_owp" />
+    <Setting Key="OWP_Notification_GetUsers" SpName ="OWP_Notification_GetUsers" DbName="DBOWP.bodb_OWP.wsv_owp" />
+    <Setting Key="OWP_OddsCompiler_InsertOdds" SpName ="OWP_OddsCompiler_InsertOdds" DbName="DBOWP.bodb_OWP.wsv_owp" />
+    <Setting Key="OWP_MatchInfo_SendNotification" SpName ="OWP_MatchInfo_SendNotification" DbName="DBOWP.bodb_OWP.wsv_owp" />
+    <Setting Key="OWP_OddsCompiler_SendNotification" SpName ="OWP_OddsCompiler_SendNotification" DbName="DBOWP.bodb_OWP.wsv_owp" />
+    <Setting Key="OWP_OddsCompiler_UpdateMarket" SpName ="OWP_OddsCompiler_UpdateMarket" DbName="DBOWP.bodb_OWP.wsv_owp" />
+    <Setting Key="OWP_OddsCompiler_UpdateOdds" SpName ="OWP_OddsCompiler_UpdateOdds" DbName="DBOWP.bodb_OWP.wsv_owp" />
+  </Function>
+  
 </Functions>

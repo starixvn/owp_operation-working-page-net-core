@@ -51,7 +51,7 @@ namespace OWP.Websites;
 using Fanex.NAP.Client.Session;
 using Microsoft.Extensions.FileProviders;
 using OWP.AccountSetting.Profile;
-using OWP.AccountSetting.QuickMessage;
+using AccountSetting.QuickMessage;
 
 public static class ServiceCollectionExtensions
 {
@@ -78,6 +78,7 @@ public static class ServiceCollectionExtensions
             mc.AddProfile(new WorkingShift.AutoMapperProfile());
             mc.AddProfile(new DailyWorkingShift.AutoMapperProfile());
             mc.AddProfile(new MessageManagement.AutoMapperProfile());
+            mc.AddProfile(new OddsCompiler.AutoMapperProfile());
         });
 
         var mapper = mapperConfig.CreateMapper();
@@ -227,6 +228,7 @@ public static class ServiceCollectionExtensions
         services.AddWorkingShiftService();
         services.AddDailyWorkingShiftService();
         services.AddMessageManagementService();
+        services.AddOddsCompilerService();
         return services;
     }
 
