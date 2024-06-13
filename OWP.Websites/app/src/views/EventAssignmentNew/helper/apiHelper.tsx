@@ -1,10 +1,10 @@
 import Utils from '../../Shared/Utils';
-import { netCoreURL } from '../const.json';
 import axios from 'axios';
 import Converter from '../../Shared/Converter';
-import { buildQuerySimpleApi } from '../../Shared/Constants';
+import { buildQuerySimpleApi, baseApiUrl } from '../../Shared/Constants';
 import { buildRequestURL } from '../../LiveDetail/buildUrlHelper';
 
+const netCoreURL = `${baseApiUrl}/api/event-assignment`;
 const buildRequestURLForLGA = (key: string) => `${netCoreURL}${key}`;
 
 const queryMatchInfo = async (owpMatchId: number) => {
@@ -79,7 +79,7 @@ const getSyncOffVRLastUpdated = async (eventDate: Date) => {
 };
 
 const getByRefName = (refName: string) => {
-  const url = `api/resource-assignment`;
+  const url = `${baseApiUrl}/api/resource-assignment`;
 
   const key = `all-ref-${refName}`;
   return Utils.requestOrGetSessionStorage(key, `${url}/?refName=${refName}`);

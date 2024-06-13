@@ -1,5 +1,5 @@
+import { baseApiUrl } from '../../../Shared/Constants';
 import { DataSource, ModelSpecialProduct } from '../../type/TTaskListTable';
-import { ROOT_URL } from '../const/url.json';
 
 const getNoteOrUserName = (
   note: string | null,
@@ -15,10 +15,7 @@ const getNoteOrUserName = (
   return note ? note.replace('#<user>', userNameText()) : '';
 };
 
-const buildRequestURL = (key: string) =>
-  process.env.NODE_ENV === 'development'
-    ? `${ROOT_URL}/${key}`
-    : `api/TaskList/${key}`;
+const buildRequestURL = (key: string) => `${baseApiUrl}/api/TaskList/${key}`;
 
 const buildSpecialListModel = (dataSource: DataSource) => {
   const specialListModel: Array<ModelSpecialProduct> = [

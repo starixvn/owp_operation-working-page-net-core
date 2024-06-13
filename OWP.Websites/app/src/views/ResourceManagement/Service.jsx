@@ -1,8 +1,9 @@
 import axios from 'axios';
 import Utils from '../Shared/Utils';
 import { isEqual } from 'lodash';
+import { baseApiUrl } from '../Shared/Constants';
 
-const url = `api/resource-assignment`;
+const url = `${baseApiUrl}/api/resource-assignment`;
 
 const getResourceOptions = () => {
   return [

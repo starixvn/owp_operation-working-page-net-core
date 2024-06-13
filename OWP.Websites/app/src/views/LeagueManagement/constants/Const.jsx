@@ -1,9 +1,11 @@
+import { baseApiUrl } from '../../Shared/Constants';
 const netCoreURL = 'api/league-management';
 const matchOfferParam = '?refName=MatchOffer';
 
 const buildRequestURL = key => `${netCoreURL}/${key}`;
 
-const buildMatchOfferURL = () => `api/resource-assignment/${matchOfferParam}`;
+const buildMatchOfferURL = () =>
+  `${baseApiUrl}/api/resource-assignment/${matchOfferParam}`;
 
 const message = {
   changeLeagueGroup:

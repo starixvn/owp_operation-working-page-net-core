@@ -1,7 +1,8 @@
+import { baseApiUrl } from '../Shared/Constants';
 import { queryData } from '../Shared/Service/ServiceCommon';
 
 const query = async model => {
-  const data = await queryData(model, 'api/lst-report');
+  const data = await queryData(model, `${baseApiUrl}/api/lst-report`);
   return data;
 };
 

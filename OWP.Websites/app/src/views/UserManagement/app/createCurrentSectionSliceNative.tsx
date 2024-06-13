@@ -1,5 +1,5 @@
 import { StateCreator } from 'zustand';
-import { REQUEST_STATUS } from '../../Shared/Constants';
+import { REQUEST_STATUS, baseApiUrl } from '../../Shared/Constants';
 import { TSectionName } from '../type';
 import axios from 'axios';
 import update from 'immutability-helper';
@@ -13,7 +13,7 @@ const createCurrentSectionSliceNative: StateCreator<
   querySectionNameStatus: REQUEST_STATUS.pending,
   currentSection: null,
   async querySectionName() {
-    const url = `api/UserManagement/query-current-section`;
+    const url = `${baseApiUrl}/api/UserManagement/query-current-section`;
     const response = await axios.get(url);
     set(state =>
       update(state, {

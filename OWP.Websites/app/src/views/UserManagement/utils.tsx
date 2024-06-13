@@ -7,6 +7,7 @@ import {
 import { Option } from '../Shared/MultipleSelection/type';
 import store from './app/useStoreNative';
 import { post } from '../Shared/Service/Service';
+import { baseApiUrl } from '../Shared/Constants';
 
 const normalizeOptions = (
   optionsSource: Array<TRefResource>,
@@ -65,10 +66,10 @@ const getValueFilter = (): TQueryUserInfo => {
   };
 };
 
-const urlExport = `api/UserManagement/export-excel`;
+const urlExport = `${baseApiUrl}/api/UserManagement/export-excel`;
 
 const updateUserInfo = async (updateInfo: TUpdateUserInfo) => {
-  const url = `api/UserManagement/update-user-info`;
+  const url = `${baseApiUrl}/api/UserManagement/update-user-info`;
 
   return (
     await post({

@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { baseApiUrl } from '../Shared/Constants';
 
-const url = 'api/message_management';
+const url = `${baseApiUrl}/api/message_management`;
 const searchAll = async model => {
   const response = await axios.post(url + '/search', model);
 

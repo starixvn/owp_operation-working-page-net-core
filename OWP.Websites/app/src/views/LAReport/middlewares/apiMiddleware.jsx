@@ -5,10 +5,10 @@ import {
   QUERY_SERVERTIME
 } from '../constants/action-type';
 import { isEqual } from 'lodash';
-import { FunctionKeys } from '../../Shared/Constants';
+import { FunctionKeys, baseApiUrl } from '../../Shared/Constants';
 import AuthorizeService from '../../Authorize/Service';
 
-const urlGetServerTime = `api/report/get-server-time`;
+const urlGetServerTime = `${baseApiUrl}/api/report/get-server-time`;
 
 const queryDataWithParamsMiddleware =
   ({ dispatch }) =>

@@ -1,8 +1,8 @@
 import axios from 'axios';
-
+import { baseApiUrl } from '../../Shared/Constants';
 const getByRefName = async refName => {
   const key = `all-ref-${refName}`;
-  const url = `api/resource-assignment`;
+  const url = `${baseApiUrl}/api/resource-assignment`;
 
   let data = JSON.parse(sessionStorage.getItem(key));
   if (!data) {
@@ -14,7 +14,7 @@ const getByRefName = async refName => {
 };
 
 const authorize = async functionKey => {
-  const response = await axios.post('api/application/authorize', {
+  const response = await axios.post(`${baseApiUrl}/api/application/authorize`, {
     functionKey
   });
   return response.data;

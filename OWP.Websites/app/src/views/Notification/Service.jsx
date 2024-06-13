@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { baseApiUrl } from '../Shared/Constants';
 
-const url = 'api/notification-setting';
+const url = `${baseApiUrl}/api/notification-setting`;
 
 const getAll = async () => {
   const response = await axios.get(url + '/all');

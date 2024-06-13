@@ -1,6 +1,7 @@
 import axios from 'axios';
 import Utils from '../Shared/Utils';
 import { isEqual } from 'lodash';
+import { baseApiUrl } from '../Shared/Constants';
 
 const transformNavigation = (menus, title) => {
   const navigation = {
@@ -35,7 +36,7 @@ const transformNavigation = (menus, title) => {
   return navigation;
 };
 
-const buildUrl = () => 'api/application/header';
+const buildUrl = () => `${baseApiUrl}api/application/header`;
 
 const query = async title => {
   const response = await axios.get(buildUrl());

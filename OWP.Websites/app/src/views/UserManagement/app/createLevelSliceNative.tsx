@@ -1,5 +1,5 @@
 import { StateCreator } from 'zustand';
-import { REQUEST_STATUS } from '../../Shared/Constants';
+import { REQUEST_STATUS, baseApiUrl } from '../../Shared/Constants';
 import { TLevelOption, TLevelOptionsResponse } from '../type';
 import axios from 'axios';
 import update from 'immutability-helper';
@@ -28,7 +28,7 @@ const createLevelSliceNative: StateCreator<
         queryLevelOptionStatus: { $set: REQUEST_STATUS.pending }
       })
     );
-    const url = `api/UserManagement/query-level-options`;
+    const url = `${baseApiUrl}/api/UserManagement/query-level-options`;
     const options = (await axios.get(url)).data as TLevelOptionsResponse;
 
     set(state =>

@@ -1,5 +1,5 @@
 import { StateCreator } from 'zustand';
-import { REQUEST_STATUS } from '../../Shared/Constants';
+import { REQUEST_STATUS, baseApiUrl } from '../../Shared/Constants';
 import { TPolicy, TPermission } from '../type';
 import axios from 'axios';
 import update from 'immutability-helper';
@@ -22,7 +22,7 @@ const createPermissionSliceNative: StateCreator<
     userManagementAllSections: defaultPolicy
   },
   async queryPermissions() {
-    const url = `api/UserManagement/query-permission`;
+    const url = `${baseApiUrl}/api/UserManagement/query-permission`;
     const response = await axios.get(url);
     set(state =>
       update(state, {

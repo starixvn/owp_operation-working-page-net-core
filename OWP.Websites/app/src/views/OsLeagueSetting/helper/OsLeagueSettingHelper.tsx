@@ -1,14 +1,12 @@
 import { isEqual } from 'lodash';
-import { rootUrl, errorMessage } from '../osLeague.json';
+import { errorMessage } from '../osLeague.json';
 import { LogQuery, LogValue, TErrorMessage } from '../typing/osLeagueStateType';
 import { ISettingDetail } from '../typing/settingDetailType';
 import { Option, TCommonType, TDefaultSelected } from '../typing/type';
+import { baseApiUrl } from '../../Shared/Constants';
 
 const { required, duplicated } = errorMessage;
-const getURL = (urlName: string) =>
-  process.env.NODE_ENV === 'development'
-    ? `${rootUrl}${urlName}`
-    : `api/OSLeague/${urlName}`;
+const getURL = (urlName: string) => `${baseApiUrl}/api/OSLeague/${urlName}`;
 
 const detectLogChanged = (item: LogQuery) => {
   const logChanged: Array<LogValue> = [];

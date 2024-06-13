@@ -77,12 +77,12 @@ export const DefaultPageSize = PageSizes[4];
 export const TimePickerDisplayFormat = 'h:mm A';
 export const TimePickerOutputFormat = 'HH:mm';
 
-export const NET_CORE_QUERY_SIMPLE_API = 'state-api/simple-data/query';
-export const NET_CORE_UPDATE_SIMPLE_API = 'state-api/simple-data/update';
+export const NET_CORE_QUERY_SIMPLE_API = `${baseApiUrl}/state-api/simple-data/query`;
+export const NET_CORE_UPDATE_SIMPLE_API = `${baseApiUrl}/state-api/simple-data/update`;
 export const buildQuerySimpleApi = () => `${NET_CORE_QUERY_SIMPLE_API}`;
 export const buildUpdateSimpleApi = () => `${NET_CORE_UPDATE_SIMPLE_API}`;
 
-export const NET_CORE_FILE_UPLOAD = 'api/FileUpload';
+export const NET_CORE_FILE_UPLOAD = `${baseApiUrl}/api/FileUpload`;
 
 export const FunctionKeys = {
   LiveGameAssignment_PHBetTypes: 'LiveGameAssignment_PHBetTypes',
@@ -141,3 +141,8 @@ export const BettypeId = {
   noOfCorners: -3,
   nextCorners: -4
 };
+
+export const baseApiUrl =
+  process.env.NODE_ENV === 'development'
+    ? `${location.origin}`
+    : `${location.origin}/n1`;

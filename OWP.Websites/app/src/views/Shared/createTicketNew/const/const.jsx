@@ -1,7 +1,8 @@
 import { netCoreURL } from '../../../TicketCenter/const/const.json';
 import {
   NET_CORE_QUERY_SIMPLE_API,
-  NET_CORE_FILE_UPLOAD
+  NET_CORE_FILE_UPLOAD,
+  baseApiUrl
 } from '../../../Shared/Constants';
 const URL = {
   ADD_NEW_REQUEST_SUPPORT: 'new-ticket-issue-support',
@@ -40,7 +41,7 @@ const urlRequestLiveIncident = buildRequestURL(
 const urlGetMatchInfo = buildRequestURL(URL.GET_MATCH_INFO);
 
 const urlGetAssigneesLGA = (() => {
-  const netCoreUrlEvent = 'api/TicketEvent';
+  const netCoreUrlEvent = `${baseApiUrl}/api/TicketEvent`;
 
   return `${netCoreUrlEvent}/${URL.GET_ASSIGNEES_LGA}`;
 })();

@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { baseApiUrl } from '../Constants';
 
-const url = `api/AccountSetting/QuickMessage/get-quick-message`;
+const url = `${baseApiUrl}/api/AccountSetting/QuickMessage/get-quick-message`;
 
 const useQueryMessageSuggestion = () => {
   const [suggestionSource, setSuggestionSource] = useState<

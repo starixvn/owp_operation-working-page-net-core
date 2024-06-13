@@ -1,9 +1,11 @@
-const netCoreURL = 'api';
+import { baseApiUrl } from '../Constants';
+
+const netCoreURL = `${baseApiUrl}/api`;
 
 const buildRequestURL = (baseUrl: string, key: string) =>
   `${netCoreURL}/${baseUrl}/${key}`;
 
 const buildLeagueGroupURL = () =>
-  `api/resource-assignment/?refName=NewLeagueCategory`;
+  `${baseApiUrl}/api/resource-assignment/?refName=NewLeagueCategory`;
 
 export { buildRequestURL, buildLeagueGroupURL };

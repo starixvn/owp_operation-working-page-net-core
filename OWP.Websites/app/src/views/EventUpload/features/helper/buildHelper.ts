@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
+import { baseApiUrl } from '../../../Shared/Constants';
 
-const netCoreURL = 'api/event-assignment-uploading';
+const netCoreURL = `${baseApiUrl}/api/event-assignment-uploading`;
 
 const buildRequestURL = (key: string) => `${netCoreURL}/${key}`;
 

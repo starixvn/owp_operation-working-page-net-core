@@ -1,5 +1,4 @@
 {
-  "rootUrl": "api/OsLeague/",
   "simpleApiKey": {
     "round": "os-league-setting-get-round-option",
     "category": "os-league-setting-get-category-option",

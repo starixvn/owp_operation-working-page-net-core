@@ -224,6 +224,5 @@
   "startHour": 2,
   "startMinute": 0,
   "numberElement": 2,
-  "headerHeight": 150,
-  "netCoreURL": "api/AssigneeSuggestion"
+  "headerHeight": 150
 }

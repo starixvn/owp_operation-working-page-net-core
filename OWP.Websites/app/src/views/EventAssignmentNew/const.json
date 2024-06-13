@@ -271,7 +271,6 @@
       "IS_CAN_FILTER": true
     }
   ],
-  "netCoreURL": "api/event-assignment",
   "syncOffVRKey": "/sync-off-vr",
   "lastUpdateSyncOffVRKey": "/get-sync-off-vr-last-updated",
   "lastUpdateEventAssignment": "/get-last-updated"
