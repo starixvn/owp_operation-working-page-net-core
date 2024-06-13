@@ -1,21 +1,14 @@
 ﻿using Fanex.NAP.Client.Attributes;
-using Fanex.NAP.Client.Configuration;
-using Fanex.NAP.Client.Helpers.Web;
+using Fanex.NAP.Client.Helpers.Business;
 using Fanex.NAP.Client.Models.ParameterObject;
 using Fanex.NAP.Client.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using ONEbook.UM.AspNetCore.Filters;
-using OWP.Models;
-using System.Net;
-using System.Net.Sockets;
-using System.Security.Claims;
-using Fanex.NAP.Client.Helpers.Business;
 using OWP.Constants;
 using OWP.Services;
+using System.Security.Claims;
 
 namespace OWP.Websites.Controllers;
 
@@ -38,15 +31,7 @@ public class HomeController : Controller
     }
 
     [Authorize]
-    public IActionResult Index()
-    {
-        ViewBag.IsSessionAvailable = HttpContext.Session.IsAvailable;
-        ViewBag.UserId = session.UserId;
-        ViewBag.Username = session.UserName;
-        ViewBag.Ip = GetIp();
-        
-        return View();
-    }
+    public IActionResult Index() => WelcomeOWP();
 
     [Route("Welcome")]
     [Authorize]
@@ -55,57 +40,9 @@ public class HomeController : Controller
         return View("~/wwwroot/welcome/server.cshtml");
     }
 
-    //[AllowAnonymous]
-    //[SkipUMFilter]
-    //public IActionResult Index()
-    //{
-    //    ViewBag.IsSessionAvailable = HttpContext.Session.IsAvailable;
-    //    ViewBag.UserId = session.UserId;
-    //    ViewBag.Username = session.UserName;
-    //    ViewBag.Ip = GetIp();
-    //    ViewBag.FakeLoginEnabled = false;
-
-    //    ViewBag.FakeLoginEnabled = napSettings.Environment == "UAT";
-    //    return View();
-    //}
-
     [AllowAnonymous]
     [SkipUMFilter]
-    public string GetAccessCounterConfig()
-    => counterModel.ToString();
-
-    private static string GetIp()
-    {
-        var hostname = Dns.GetHostName();
-        var log = $"Hostname: {hostname}. ";
-        IPHostEntry hostEntry = null;
-        try
-        {
-            hostEntry = Dns.GetHostEntry(hostname);
-        }
-        catch (Exception e)
-        {
-            log += $"Error when get host entry: {e.Message}. ";
-        }
-
-        var ip = GetMachineIp(hostEntry);
-        log += $"IP:{ip}. ";
-
-        return log;
-    }
-
-    private static string GetMachineIp(IPHostEntry hostEntry)
-    {
-        foreach (var ip in hostEntry.AddressList)
-        {
-            if (ip.AddressFamily == AddressFamily.InterNetwork)
-            {
-                return ip.ToString();
-            }
-        }
-
-        return "1.1.1.1";
-    }
+    public string GetAccessCounterConfig() => counterModel.ToString();
 
     [AllowAnonymous]
     public IActionResult Test()

@@ -46,6 +46,7 @@
     </environment>
 </head>
 
+
 <body class="site-menubar-fold">
     @await Component.InvokeAsync("Header", new { title = title })
     <main>
@@ -76,32 +77,7 @@
     @RazorHelper.ModalErrorMessage()
     @RazorHelper.MadalInformationMessage()
     @RazorHelper.ModalDialogForm() *@
-    @* @{
-    var netCoreRootUrl = Fanex.NAP.OWP.Core.Configuration.AppSettings.NetCoreRootUrl;
-    } *@
-    @* <script>
-    window.netCoreRootUrl = '@netCoreRootUrl';
-    </script> *@
-    @* <script src="~/signalr/hubs"></script> *@
-    @* <script src="~/Scripts/Libraries/SignalNetCore/dist/browser/signalr.min.js"></script> *@
-
-    @* @Scripts.Render("~/scripts/signalR"); *@
-    @* <script type="text/javascript">
-    var msgNoSearchResults = '@ViewLang.QuickSearch_NoResults';
-
-    $(document).ready(function () {
-    documentTitle.CountUnreadMessage();
-    if (!Notification) {
-    alert('Desktop notifications not available in your browser. Try Chromium.');
-    return;
-    }
-
-    if (Notification.permission !== 'granted') {
-    Notification.requestPermission();
-    }
-
-    });
-    </script> *@
+   
     @Html.Raw(Fanex.Logging.LogManager.RenderJavascriptLogger())
 
     <environment exclude="Development">
@@ -147,7 +123,22 @@
         <script src="~/shared/owp/MessageBox/message-box.js" type="text/javascript"></script>
         <script src="~/shared/owp/MessageBox/message-box-factory.js" type="text/javascript"></script>
     </environment>
+    <script type="text/javascript">
+        var msgNoSearchResults = '@ViewLang.QuickSearch_NoResults';
 
+        $(document).ready(function () {
+            documentTitle.CountUnreadMessage();
+            if (!Notification) {
+                alert('Desktop notifications not available in your browser. Try Chromium.');
+                return;
+            }
+
+            if (Notification.permission !== 'granted') {
+                Notification.requestPermission();
+            }
+
+        });
+    </script>
     @await RenderSectionAsync("scripts", required: false)
 </body>
 

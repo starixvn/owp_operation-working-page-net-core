@@ -621,7 +621,6 @@ var dailyWorkingShift = (function ($) {
         getShiftsAndSearch: function () {
             dailyWorkingShiftService.getShifts(function (shifts) {
                 $shifts = shifts;
-                debugger
                 var shiftCodes = $.map(shifts, function (shift) {
                     
                     return {
