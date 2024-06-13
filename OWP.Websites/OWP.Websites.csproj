@@ -170,7 +170,6 @@
   <ItemGroup>
     <ProjectReference Include="..\src\OWP.AccountSetting\OWP.AccountSetting.csproj" />
     <ProjectReference Include="..\src\OWP.AutoAssignment\OWP.AutoAssignment.csproj" />
-    <ProjectReference Include="..\src\OWP.DailyWorkingShift\OWP.DailyWorkingShift.csproj" />
     <ProjectReference Include="..\src\OWP.EventPicking\OWP.EventPicking.csproj" />
     <ProjectReference Include="..\src\OWP.Event\OWP.Event.csproj" />
     <ProjectReference Include="..\src\OWP.FileUpload\OWP.FileUpload.csproj" />

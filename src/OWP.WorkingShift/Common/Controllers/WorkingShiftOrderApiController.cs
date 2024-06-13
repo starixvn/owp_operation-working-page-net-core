@@ -1,6 +1,5 @@
-﻿using OWP.WorkingShift.Common.Models;
-using OWP.WorkingShift.Common.Repositories;
-using OWP.WorkingShift.Common.Services;
+﻿using OWP.WorkingShift.Common.Repositories;
+using ModelService = OWP.WorkingShift.Common.Services.ModelService;
 
 namespace OWP.WorkingShift.Common.Controllers;
 
