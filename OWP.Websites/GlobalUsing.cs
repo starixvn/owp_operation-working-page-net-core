@@ -13,6 +13,5 @@ global using OWP.RabbitMQ.Model;
 global using OWP.TicketCenter.Hubs;
 global using OWP.Websites;
 global using OWP.Websites.CrossCuttingConcern;
-global using OWP.WorkingShift.Repositories;
-global using OWP.WorkingShift.Services;
+
 

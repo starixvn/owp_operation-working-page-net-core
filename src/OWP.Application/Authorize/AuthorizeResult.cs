@@ -3,7 +3,7 @@ public class AuthorizeResult
 {
     public int UserId { get; set; }
 
-    public string? Username { get; set; }
+    public string Username { get; set; }
 
     public bool HasRead { get; set; }
 

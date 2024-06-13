@@ -1,5 +1,5 @@
 ﻿namespace OWP.Application.Authorize;
 public class AuthorizeModel
 {
-    public string? FunctionKey { get; set; }
+    public string FunctionKey { get; set; }
 }

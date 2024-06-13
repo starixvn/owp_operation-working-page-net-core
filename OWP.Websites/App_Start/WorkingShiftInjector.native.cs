@@ -1,4 +1,7 @@
 ﻿
+using OWP.WorkingShift.Common.Repositories;
+using OWP.WorkingShift.Common.Services;
+
 namespace OWP.Websites.App_Start;
 
 public static class DailyWorkingShiftInjector
