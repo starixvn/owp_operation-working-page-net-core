@@ -1,4 +1,6 @@
-﻿namespace OWP.WorkingShift.WeeklyWorkingShift.Controllers;
+﻿using Newtonsoft.Json;
+
+namespace OWP.WorkingShift.WeeklyWorkingShift.Controllers;
 
 using Models;
 using Services;
@@ -49,29 +51,21 @@ public class WeeklyWorkingShiftApiController : ControllerBase
         }
 
         var result = await weeklyWorkingShiftRepository.SearchWorkingShiftWeekly(model);
-        return Ok(result);
+        return new JsonResult(result, new JsonSerializerSettings());
     }
 
     [Route("export")]
     [HttpGet]
     [AllowAnonymous]
-    public async Task<HttpResponseMessage> ExportWorkingShift([FromQuery] ExportModel model)
+    public async Task<IActionResult> ExportWorkingShift([FromQuery] ExportModel model)
     {
         model.Permission = modelService.BuildPermissionViewModel();
         model.OrderUserId = modelService.GetOrderUserId(model.Permission);
         using (var stream = new MemoryStream())
         {
             await exportService.Export(stream, model);
-            var result = new HttpResponseMessage(HttpStatusCode.OK)
-            {
-                Content = new ByteArrayContent(stream.ToArray())
-            };
-            result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
-            {
-                FileName = model.GetExportFileName()
-            };
-            result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/xlsx");
-            return result;
+            
+            return File(stream.ToArray(), "application/octet-stream", model.GetExportFileName());
         }
     }
 
@@ -94,7 +88,7 @@ public class WeeklyWorkingShiftApiController : ControllerBase
         await Request.Form.Files[0].CopyToAsync(ms);
 
         var result = await importService.Validate(ms);
-        return Ok(result);
+        return new JsonResult(result, new JsonSerializerSettings());
     }
 
     [Route("upload")]

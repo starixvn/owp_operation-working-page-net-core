@@ -1,4 +1,6 @@
-﻿namespace OWP.WorkingShift.WeeklyWorkingShift.Controllers;
+﻿using Newtonsoft.Json;
+
+namespace OWP.WorkingShift.WeeklyWorkingShift.Controllers;
 
 using System.Threading.Tasks;
 using Models;
@@ -27,7 +29,7 @@ public class WeeklyWorkingShiftIFrameApiController : ControllerBase
         model.IsFrame = true;
         model.OrderUserId = 0;
         var result = await weeklyWorkingShiftRepository.SearchWorkingShiftWeekly(model);
-        return Ok(result);
+        return new JsonResult(result, new JsonSerializerSettings());
     }
 
 }
