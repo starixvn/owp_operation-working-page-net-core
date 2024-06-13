@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 // ReSharper disable InvertIf
@@ -72,6 +73,25 @@ public static class XMLIO
         }
 
         return GetExpressions(p.PropertyType, prop, lambda);
+    }
+
+    public static string ToXmlString<T>(this T t) where T : class
+    {
+        var serializer = new XmlSerializer(typeof(T));
+        var ns = new XmlSerializerNamespaces();
+        ns.Add("", "");
+        var settings = new XmlWriterSettings
+        {
+            OmitXmlDeclaration = true
+        };
+        using (var stringWriter = new StringWriter())
+        {
+            using (var writer = XmlWriter.Create(stringWriter, settings))
+            {
+                serializer.Serialize(writer, t, ns);
+                return stringWriter.ToString();
+            }
+        }
     }
 
     public static string ToXmlString<T>(this IEnumerable<T> items)

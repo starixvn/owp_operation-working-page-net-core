@@ -19,6 +19,9 @@ global using OWP.WorkingShift.DailyWorkingShift.Models;
 global using OWP.WorkingShift.DailyWorkingShift.Repositories;
 global using OWP.WorkingShift.DailyWorkingShift.Services;
 global using Fanex.NAP.Client.Configuration;
+global using System.Net;
+global using System.Net.Http.Headers;
+
 
 
 

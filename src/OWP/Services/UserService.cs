@@ -7,7 +7,7 @@ public interface UserRepository
 {
     Task<User> GetUserInfoById(int userId);
 
-    Task<IList<User>> GetAllUsers();
+    Task<IList<WeeklyWorkingShiftUser>> GetAllUsers();
 }
 
 public class UserRepositoryImp : UserRepository
@@ -28,9 +28,9 @@ public class UserRepositoryImp : UserRepository
         return await repository.GetAsync<User>(criteria);
     }
 
-    public async Task<IList<User>> GetAllUsers()
+    public async Task<IList<WeeklyWorkingShiftUser>> GetAllUsers()
     {
         var criteria = new GetAllUserCriteria();
-        return (await repository.FetchAsync<User>(criteria)).ToList();
+        return (await repository.FetchAsync<WeeklyWorkingShiftUser>(criteria)).ToList();
     }
 }

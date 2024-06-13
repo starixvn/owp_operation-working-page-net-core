@@ -1,34 +1,31 @@
-﻿namespace OWP.WorkingShift.DailyWorkingShift.Services
+﻿namespace OWP.WorkingShift.DailyWorkingShift.Services;
+
+public interface ModelService
 {
+    DailyWorkingShiftPermission BuildPermissionViewModel();
+}
 
+public class ModelServiceImp : ModelService
+{
+    private readonly PermissionService permissionService;
 
-    public interface ModelService
+    public ModelServiceImp(PermissionService permissionService)
     {
-        DailyWorkingShiftPermission BuildPermissionViewModel();
+        this.permissionService = permissionService;
     }
 
-    public class ModelServiceImp : ModelService
+    public DailyWorkingShiftPermission BuildPermissionViewModel()
     {
-        private readonly PermissionService permissionService;
+        var dailyWorkingShiftFunctionPolicies = permissionService.GetPermissions(FunctionKeys.DailyWorkingShift);
+        var weeklyWorkingShiftManagementPermission = permissionService.GetPermissionModel(FunctionKeys.WorkingShiftManagement);
 
-        public ModelServiceImp(PermissionService permissionService)
+        return new DailyWorkingShiftPermission
         {
-            this.permissionService = permissionService;
-        }
-
-        public DailyWorkingShiftPermission BuildPermissionViewModel()
-        {
-            var dailyWorkingShiftFunctionPolicies = permissionService.GetPermissions(FunctionKeys.DailyWorkingShift);
-            var weeklyWorkingShiftManagementPermission = permissionService.GetPermissionModel(FunctionKeys.WorkingShiftManagement);
-
-            return new DailyWorkingShiftPermission
-            {
-                FullTimeView = permissionService.GetPermissionModel(FunctionKeys.FullTimeView),
-                DailyWorkingShift = permissionService.GetPermissionModel(FunctionKeys.DailyWorkingShift),
-                DailyWorkingShiftAllSections = dailyWorkingShiftFunctionPolicies.GetPermissionModel(FunctionKeys.DailyWorkingShift_AllSections),
-                DailyWorkingShiftOwnSection = dailyWorkingShiftFunctionPolicies.GetPermissionModel(FunctionKeys.DailyWorkingShift_OwnSection),
-                WeeklyWorkingShiftManagement = weeklyWorkingShiftManagementPermission
-            };
-        }
+            FullTimeView = permissionService.GetPermissionModel(FunctionKeys.FullTimeView),
+            DailyWorkingShift = permissionService.GetPermissionModel(FunctionKeys.DailyWorkingShift),
+            DailyWorkingShiftAllSections = dailyWorkingShiftFunctionPolicies.GetPermissionModel(FunctionKeys.DailyWorkingShift_AllSections),
+            DailyWorkingShiftOwnSection = dailyWorkingShiftFunctionPolicies.GetPermissionModel(FunctionKeys.DailyWorkingShift_OwnSection),
+            WeeklyWorkingShiftManagement = weeklyWorkingShiftManagementPermission
+        };
     }
 }

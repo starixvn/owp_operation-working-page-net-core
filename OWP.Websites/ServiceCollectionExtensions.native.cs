@@ -227,6 +227,8 @@ public static class ServiceCollectionExtensions
         services.AddApplicationInjector();
         services.AddWorkingShiftService();
         services.AddDailyWorkingShiftService();
+        services.AddWeeklyWorkingShiftService();
+        services.AddViewLogService();
         services.AddMessageManagementService();
         services.AddOddsCompilerService();
         return services;

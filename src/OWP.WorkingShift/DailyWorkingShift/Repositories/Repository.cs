@@ -1,5 +1,6 @@
 ﻿using OWP.WorkingShift.DailyWorkingShift.Criteria;
 
+
 namespace OWP.WorkingShift.DailyWorkingShift.Repositories;
 
 public interface Repository

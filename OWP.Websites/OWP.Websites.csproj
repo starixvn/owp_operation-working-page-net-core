@@ -38,6 +38,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="App_Data\Templates\EventPicking.xlsx" />
+    <None Remove="App_Data\Templates\ExportOddsCompilerTemplate.xlsx" />
+    <None Remove="App_Data\Templates\ExportWorkingShift.xlsx" />
     <None Remove="App_Data\Templates\Mismatch-LST format.xlsx" />
     <None Remove="Views\Shared\RazorHelper.cshtml" />
   </ItemGroup>
