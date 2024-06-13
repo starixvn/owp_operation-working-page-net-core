@@ -1,0 +1,47 @@
+﻿
+ <!------- Upload Working Shift ------->
+<div class="upload-working-shift">
+    <div class="input-field upload-file">
+        <span class="label">
+            Upload Working Shift (max: 5MB)
+        </span>
+        <div class="file-field">
+            <div class="btn btn-browse">
+                <span>Browse</span>
+                <input type="hidden" id="WorkingShift"  accept=".xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />  
+                <input type="file" id="ExcelFile"  accept=".xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />  
+            </div>
+            <div class="file-path-wrapper">
+                <input id="fileWrapper" class="file-path validate" type="text" placeholder="Upload file"  accept=".xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />  
+            </div>
+        </div>
+    </div>    
+
+    <a class="waves-effect waves-light btn btn-validate" id="btn-validate-upload">Validate</a>  
+
+    <!-- Upload success -->
+    <div class="success-info upload-successfully">
+        <i class="mdi mdi-checkbox-marked-circle-outline icon-success"></i>
+        <span id="modalSuccessContent">All content are valid</span>
+    </div>
+    <div style="display: none; height: 40px;" id="modalError">
+        <span class="error" id="modalErrorContent">No file was selected for uploading</span>
+    </div>
+    <!-- Upload error -->
+    <table class="table table-striped table-bordered excel-validate-error">
+        <thead>
+            <tr>
+                <th>Cell</th>
+                <th>Error Description</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <div class="btn-group">
+        <a class="waves-effect waves-light btn btn-upload" id="btn-confirm-upload">Upload</a>
+    </div>
+
+    <a class="cancel-upload" id="btn-cancel-upload"><i class="mdi mdi-close"></i></a>
+    
+</div>

@@ -1145,7 +1145,8 @@
     this.updateColorItem();
   };
 
-  WorkingShiftSetting.prototype.initEvents = function () {
+    WorkingShiftSetting.prototype.initEvents = function () {
+        debugger
     $("#first_name2")
       .off("input")
       .on("input", function () {
@@ -1161,8 +1162,8 @@
           $(".group-button").show();
         } else {
           $(".group-button").hide();
-        }
-
+          }
+          debugger
         var shifts = filterAndOrderShifts(
           workingShiftSetting.shifts,
           shiftSearchText
@@ -2462,8 +2463,10 @@
       workingShiftUsers = data.WorkingShiftUsers;
       var listSectionPublish = data.ListSectionPublish;
       workingShiftSetting = new WorkingShiftSetting(data.WorkingShiftColors);
-      workingShiftSetting.render();
-      workingShiftSetting.initEvents();
+        workingShiftSetting.render();
+        debugger
+        workingShiftSetting.initEvents();
+      
       workingShiftSetting.handleUpdateColor();
       var momentToDate = moment(toDate, "MMM DD, YYYY");
       var today = moment().startOf("day");

@@ -64,7 +64,8 @@ var workingShiftFactory = (function ($) {
             var url = urls.SearchWorkingShiftWeekly;
             return $.ajax({
                 url: common.ResolveRootUrl(url),
-                data: data,
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
                 method: 'POST',
                 error: common.HandleAjaxError
             });

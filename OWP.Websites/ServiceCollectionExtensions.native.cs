@@ -465,7 +465,13 @@ public static class ServiceCollectionExtensions
                     "shared/owp/weekly-working-shift/WorkingShift.css");
 
                 pipeline.AddJavaScriptBundle("Scripts/DailyWorkingShift",
-                    "shared/owp/daily-working-shift/*.js");
+                    "shared/owp/daily-working-shift/week-picker.js",
+                    "shared/owp/daily-working-shift/working-shift-factory.js",
+                    "shared/owp/daily-working-shift/working-shift-service.js",
+                    "shared/owp/daily-working-shift/working-shift-weekly.js",
+                    "shared/owp/daily-working-shift/working-shift-upload.js",
+                    "shared/owp/daily-working-shift/working-shift.js"
+                    );
 
                 pipeline.AddCssBundle("Styles/DailyWorkingShift",
                     "shared/themes/main.css",
