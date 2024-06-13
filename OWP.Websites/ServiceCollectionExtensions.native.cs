@@ -77,6 +77,7 @@ public static class ServiceCollectionExtensions
             mc.AddProfile(new Application.AutoMapperProfile());
             mc.AddProfile(new WorkingShift.AutoMapperProfile());
             mc.AddProfile(new DailyWorkingShift.AutoMapperProfile());
+            mc.AddProfile(new MessageManagement.AutoMapperProfile());
         });
 
         var mapper = mapperConfig.CreateMapper();
@@ -225,6 +226,7 @@ public static class ServiceCollectionExtensions
         services.AddApplicationInjector();
         services.AddWorkingShiftService();
         services.AddDailyWorkingShiftService();
+        services.AddMessageManagementService();
         return services;
     }
 

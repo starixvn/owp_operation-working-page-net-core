@@ -484,4 +484,8 @@
 		<Setting Key="OWP_EmployeeWorkingShift_QueryAssignmentStats" SpName="OWP_EmployeeWorkingShift_QueryAssignmentStats" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
 		<Setting Key="OWP_LiveDetail_User_GetAll" SpName="OWP_LiveDetail_User_GetAll" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
 	</Function>
+  <Function Name="MessageManagement">
+    <Setting Key="OWP_MessageGetByUserIdWithPaging" SpName ="OWP_MessageGetByUserIdWithPaging" DbName="DBOWP.bodb_OWP.wsv_owp" />
+    <Setting Key="OWP_MessageUpdateReadStatus" SpName ="OWP_MessageUpdateReadStatus" DbName="DBOWP.bodb_OWP.wsv_owp" />
+     </Function>
 </Functions>
