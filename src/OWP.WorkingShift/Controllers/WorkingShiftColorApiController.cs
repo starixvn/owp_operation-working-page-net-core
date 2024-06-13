@@ -1,4 +1,7 @@
-﻿namespace OWP.WorkingShift.Controllers;
+﻿using System.Text.Json;
+using Newtonsoft.Json;
+
+namespace OWP.WorkingShift.Controllers;
 
 [Route("api/working-shift-color")]
 [ApiController]
@@ -76,7 +79,7 @@ public class WorkingShiftColorApiController : ControllerBase
     public async Task<IActionResult> GetAllGmt8()
     {
         var data = await repository.GetAllGmt8();
-        return Ok(data);
+        return new JsonResult(data, new JsonSerializerSettings());
     }
 
     private async Task<string> InsertWS(string item)

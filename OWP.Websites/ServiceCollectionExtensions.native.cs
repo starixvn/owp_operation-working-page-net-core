@@ -464,6 +464,7 @@ public static class ServiceCollectionExtensions
                     "shared/owp/daily-working-shift/*.js");
 
                 pipeline.AddCssBundle("Styles/DailyWorkingShift",
+                    "shared/themes/main.css",
                     "shared/owp/daily-working-shift/DailyWorkingShift.css");
 
                 pipeline.AddJavaScriptBundle("Scripts/OddsCompiler",

@@ -1,5 +1,8 @@
 ﻿
 
+using System.Text.Json;
+using Newtonsoft.Json;
+
 namespace OWP.DailyWorkingShift.Controllers
 {
     [Route("api/daily-working-shift")]
@@ -22,7 +25,7 @@ namespace OWP.DailyWorkingShift.Controllers
         [Route("query")]
         [HttpPost]
         [NapAuth(FunctionKey = FunctionKeys.WorkingShiftManagement, Policy = Constant.Policy.Host)]
-        public async Task<QueryResult> SearchWorkingShiftDaily(QueryModel model)
+        public async Task<IActionResult> SearchWorkingShiftDaily(QueryModel model)
         {
             var permission = modelService.BuildPermissionViewModel();
             model.Permission = permission;
@@ -32,7 +35,9 @@ namespace OWP.DailyWorkingShift.Controllers
                 model.User = currentSession.UserName;
             }
 
-            return await repository.Query(model);
+            var shift = await repository.Query(model);
+
+            return new JsonResult(shift,new JsonSerializerSettings());
         }
     }
 }

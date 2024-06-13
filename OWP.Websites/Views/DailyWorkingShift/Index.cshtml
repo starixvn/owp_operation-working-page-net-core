@@ -23,10 +23,16 @@
         text = x.Value
     });
 }
-@* @section css
+@section css
 {
-    @Styles.Render("~/Styles/DailyWorkingShift")
-} *@
+    <environment include="Development">
+        <link href="~/shared/themes/main.css" rel="stylesheet" />
+        <link href="~/shared/owp/daily-working-shift/dailyworkingshift.css" rel="stylesheet" />
+    </environment>
+    <environment exclude="Development">
+        <link href="~/Styles/DailyWorkingShift" rel="stylesheet" />
+    </environment>
+}
 @section scripts
 {
     <script>
@@ -37,10 +43,16 @@
         var isFullViewPermisson = '@Model.Permission.FullTimeView.IsRead';
         var username = '@Model.Username';
     </script>
-   @*  @Scripts.Render("~/Scripts/DailyWorkingShift") *@
+    <environment include="Development">
+        <script src="~/shared/owp/daily-working-shift/daily-working-shift-service.js" asp-append-version="true"></script>
+        <script src="~/shared/owp/daily-working-shift/daily-working-shift.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/Scripts/DailyWorkingShift"></script>
+    </environment>
+   @*   *@
 }
-<input type="hidden" id="current-logged-user" value="@Model.Username"
-       />
+<input type="hidden" id="current-logged-user" value="@Model.Username"/>
 <div class="body-content" data-isHostDaily="@(Model.Permission.DailyWorkingShift.IsHost)">
     <div class="sticky-filter" id="sticky-filter">
         <form class="filter">
@@ -99,18 +111,20 @@
                         <i class="mdi mdi-chevron-right"></i>
                     </span>
                     <span class="txt-day txt-bold"></span>
-                    <span class="txt-timezone txt-bold"><i class="mdi mdi-earth"></i><span class="timezone-text">GMT+8</span></span>
+                    <span class="txt-timezone txt-bold"><i class="mdi mdi-earth"></i>
+                        <span class="timezone-text">GMT+8</span></span>
                 </div>
                 <div class="right">
                     <span class="total left">Total records: <b id="total-daily">0</b></span>
                     <div class="left daily-option-config js-icon-quickaccess">
                         <span class="btn btn-config">
-                            <img src="~/src/scss/images/pantone.svg" />
+                           
+                            <img src="~/shared/owp/images/pantone.svg" />
                         </span>
                     </div>
                     <div class="right assignment-statistics-type-config  ">
                         <span class="btn btn-setting">
-                            <img src="~/src/scss/images/settings.svg" />
+                            <img src="~/shared/owp/images/settings.svg" />
                         </span>
                     </div>
 
@@ -127,11 +141,11 @@
                     <div class="shift">Shift</div>
                     <div class="time-block">
                         <div class="time">12P</div>
-                        @for (int i = 1; i < 12; i++)
+                        @for (var i = 1; i < 12; i++)
                         {
                             <div class="time">@i<span>P</span></div>
                         }
-                        @for (int i = 0; i < 12; i++)
+                        @for (var i = 0; i < 12; i++)
                         {
                             <div class="time">@i<span>A</span></div>
                         }

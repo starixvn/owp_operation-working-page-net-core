@@ -5,7 +5,9 @@ var dailyWorkingShiftService = (function ($) {
         search: function (data, cb) {
             return $.ajax({
                 url: common.ResolveRootUrl("api/daily-working-shift/query"),
-                data: data,
+                contentType: "application/json",
+                dataType: 'json',
+                data: JSON.stringify(data),
                 method: 'POST',
                 error: common.HandleAjaxError
             }).success(cb);

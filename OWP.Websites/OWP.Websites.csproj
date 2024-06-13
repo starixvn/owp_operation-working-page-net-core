@@ -55,6 +55,10 @@
     <None Include="wwwroot\shared\owp\EventManagement\Resources\QuickSearch\quick-search-factory.js" />
     <None Include="wwwroot\shared\owp\EventManagement\Resources\QuickSearch\quick-search-service.js" />
     <None Include="wwwroot\shared\owp\EventManagement\Resources\QuickSearch\quick-search.js" />
+    <None Include="wwwroot\shared\owp\images\cd-icons.svg" />
+    <None Include="wwwroot\shared\owp\images\feedback-icon.svg" />
+    <None Include="wwwroot\shared\owp\images\pantone.svg" />
+    <None Include="wwwroot\shared\owp\images\settings.svg" />
     <None Include="wwwroot\shared\owp\MessageMachine\Resources\MessageBox\message-box-factory.js" />
     <None Include="wwwroot\shared\owp\MessageMachine\Resources\MessageBox\message-box.js" />
     <None Include="wwwroot\shared\owp\weekly-working-shift\week-picker.js" />

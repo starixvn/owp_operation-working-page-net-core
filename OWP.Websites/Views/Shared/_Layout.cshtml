@@ -13,6 +13,7 @@
     <meta name="author" content="">
     <title>@ViewLang.SystemName</title>
     <link rel="shortcut icon" type="image/ico" href="@Url.Content("~/favicon.ico")">
+    @await RenderSectionAsync("css", false)
     <environment exclude="Development">
         <link href="~/styles/common" rel="stylesheet" />
         <link href="~/styles/fonts" rel="stylesheet" />
@@ -102,8 +103,8 @@
     });
     </script> *@
     @Html.Raw(Fanex.Logging.LogManager.RenderJavascriptLogger())
-@await RenderSectionAsync("scripts", required: false)
-<environment exclude="Development">
+
+    <environment exclude="Development">
         <script src="~/scripts/core" type="text/javascript"></script>
         <script src="~/scripts/common" type="text/javascript"></script>
     </environment>
@@ -121,7 +122,7 @@
         <script src="~/shared/owp/common.js" type="text/javascript"></script>
         <script src="~/shared/lib/Materialize/materialize.js" type="text/javascript"></script>
         <script src="~/shared/lib/CustomScrollbar/jquery.mCustomScrollbar.concat.min.js"
-            type="text/javascript"></script>
+                type="text/javascript"></script>
         <script src="~/shared/lib/Select2/select2.min.js" type="text/javascript"></script>
         <script src="~/shared/lib/jQuery-Wizard/jquery-wizard.js" type="text/javascript"></script>
         <script src="~/shared/lib/Tipsy/jquery.tipsy.js" type="text/javascript"></script>
@@ -133,17 +134,19 @@
         <script src="~/shared/lib/Fanex.Grid/Fanex.Grid.js" type="text/javascript"></script>
         <script src="~/shared/lib/Fanex.Grid/Fanex.Pagination.js" type="text/javascript"></script>
         <script src="~/shared/lib/SimplePagination/jquery.simplePagination.js" type="text/javascript"></script>
-        <script src="~/shared/lib/ContextMenu/bootstrap-contextmenu.js" type="text/javascript"></script>
-        <script src="~/shared/lib/fanex-multiselect/fanex.multiSelect.js" type="text/javascript"></script>
-        <script src="~/shared/lib/Toastr/toastr.js" type="text/javascript"></script>
-        <script src="~/shared/lib/Sortable/Sortable.js" type="text/javascript"></script>
-        <script src="~/shared/lib/favico/favico-0.3.10.min.js" type="text/javascript"></script>
-        <script src="~/shared/owp/navbar.js" type="text/javascript"></script>
-        <script src="~/shared/owp/main.js" type="text/javascript"></script>
-        <script src="~/shared/lib/modernizr.js" type="text/javascript"></script>
-        <script src="~/shared/owp/DocumentTitle/document-title.js" type="text/javascript"></script>
-        <script src="~/shared/owp/DocumentTitle/document-title-factory.js" type="text/javascript"></script>
+        <script src="~/shared/lib/ContextMenu/bootstrap-contextmenu.js"></script>
+        <script src="~/shared/lib/fanex-multiselect/fanex.multiSelect.js"></script>
+        <script src="~/shared/lib/Toastr/toastr.js"></script>
+        <script src="~/shared/lib/Sortable/Sortable.js"></script>
+        <script src="~/shared/lib/favico/favico-0.3.10.min.js"></script>
+        <script src="~/shared/owp/navbar.js"></script>
+        <script src="~/shared/owp/main.js"></script>
+        <script src="~/shared/lib/modernizr.js"></script>
+        <script src="~/shared/owp/DocumentTitle/document-title.js"></script>
+        <script src="~/shared/owp/DocumentTitle/document-title-factory.js"></script>
     </environment>
+
+    @await RenderSectionAsync("scripts", required: false)
 </body>
 
 </html>
