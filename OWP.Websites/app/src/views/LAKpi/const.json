@@ -3,7 +3,6 @@
     "FROM_DATE_KEY": "fromDate",
     "TO_DATE_KEY": "toDate"
   },
-  "netCoreURL": "api/kpi/la",
   "USER_STATUS": [
     { "value": "active", "label": "Active" },
     { "value": "resigned", "label": "Inactive" }

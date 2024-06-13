@@ -1,5 +1,4 @@
 {
-  "netCoreURL": "api/OvertimeReport",
   "getLocationRoute": "get-locations",
   "getReportByYearRoute": "get-report-by-year",
   "precision": 2,

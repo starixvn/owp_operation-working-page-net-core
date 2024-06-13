@@ -11,12 +11,7 @@ import { filterPrematchUpdated } from '../../helper/preMatchHelper';
 import SaveComponent from './SaveComponent';
 import ToastrWrapper from '../../../components/ToastrWrapper';
 import { getLastUpdate } from '../header/headerSlice';
-import {
-  LAST_UPDATED,
-  netCoreUrl,
-  URL,
-  simpleApiQueryUrl
-} from '../../const/const';
+import { LAST_UPDATED, URL, simpleApiQueryUrl } from '../../const/const';
 import { post } from '../../ImportPrematchHelperNative';
 
 const DayShiftSaver = () => {
@@ -46,8 +41,7 @@ const DayShiftSaver = () => {
       url: URL.SAVE_PREMATCH_ASSIGNMENT,
       PrematchIdDeleted: prematchIdDeleted,
       PrematchUpdated,
-      Date: filterDate,
-      NetCoreUrl: netCoreUrl
+      Date: filterDate
     };
 
     return { postModel };

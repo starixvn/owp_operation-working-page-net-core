@@ -1,6 +1,5 @@
-import { baseApiUrl } from '../../Shared/Constants';
+import { netCoreURL } from '../const/apiUrl';
 
-const netCoreURL = `${baseApiUrl}/api/EventPicking`;
 const currentDate = new Date();
 const timeRange = {
   maxFeature: 10,

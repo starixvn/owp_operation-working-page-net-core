@@ -1,7 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { netCoreURL, UPDATE_CONFIRMED } from '../const/const.json';
+import { UPDATE_CONFIRMED } from '../const/const.json';
 import { post } from '../../Shared/Service/Service';
 import { TConfirmed } from '../types/confirmed';
+import { netCoreURL } from '../const/apiUrl';
 
 const buildRequestURL = () => `${netCoreURL}/${UPDATE_CONFIRMED}`;
 

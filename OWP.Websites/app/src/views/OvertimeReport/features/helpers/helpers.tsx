@@ -1,6 +1,7 @@
-import { netCoreURL } from '../../Const.json';
+import { baseApiUrl } from '../../../Shared/Constants';
 
-const buildRequestURL = (key: string) => `${netCoreURL}/${key}`;
+const buildRequestURL = (key: string) =>
+  `${baseApiUrl}/api/OvertimeReport/${key}`;
 
 const formatFractionDigit = (value: number | null | undefined, digit: number) =>
   value

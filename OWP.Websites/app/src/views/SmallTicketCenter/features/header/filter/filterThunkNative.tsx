@@ -1,7 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { get } from '../../../../Shared/Service/Service';
-import { netCoreURL, getTicketType } from '../../../const/const.json';
+import { getTicketType } from '../../../const/const.json';
 import { TTicketTypeResponse } from '../../../type';
+import { netCoreURL } from '../../../services/service';
 
 const getTicketTypeOption = createAsyncThunk<TTicketTypeResponse>(
   'group/GetRecipientGroup',

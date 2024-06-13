@@ -2,8 +2,9 @@ import { post } from '../../../../Shared/Service/Service';
 import Utils from '../../../../Shared/Utils';
 import { createAppAsyncThunk } from '../../../app/hooksNative';
 
-import { netCoreURL, getEventTicket } from '../../../const/const.json';
+import { getEventTicket } from '../../../const/const.json';
 import { TTicket, TFilerParam } from '../../../type';
+import { netCoreURL } from '../../../services/service';
 
 const genUrl = (routePostfix: string) => `${netCoreURL}/${routePostfix}`;
 

@@ -1,7 +1,6 @@
 {
   "dateRangeDefault": 30,
   "dateRangeValid": 366,
-  "netCoreURL": "api/PrematchReport",
   "getPrematchReportRoute": "get-prematch-report",
   "exportRematchReport": "export-prematch-report",
   "ORDER_ASC": "asc",

@@ -1,4 +1,4 @@
-import { netCoreURL } from '../../../TicketCenter/const/const.json';
+import { netCoreURLTicketCenter } from '../../../TicketCenter/const/apiUrl';
 import {
   NET_CORE_QUERY_SIMPLE_API,
   NET_CORE_FILE_UPLOAD,
@@ -27,7 +27,7 @@ const RECIPIENT_TYPE = {
   INDIVIDUAL: 1,
   GROUP: 2
 };
-const buildRequestURL = key => `${netCoreURL}/${key}`;
+const buildRequestURL = key => `${netCoreURLTicketCenter}/${key}`;
 
 const urlGetSubType = buildRequestURL(URL.GET_SUBTYPE);
 const urlRequestSupport = buildRequestURL(URL.ADD_NEW_REQUEST_SUPPORT);

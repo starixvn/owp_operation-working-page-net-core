@@ -1,6 +1,8 @@
-import { netCoreURL, dateRangeDefault, dateRangeValid } from '../../Const.json';
+import { baseApiUrl } from '../../../Shared/Constants';
+import { dateRangeDefault, dateRangeValid } from '../../Const.json';
 
-const buildRequestURL = (key: string) => `${netCoreURL}/${key}`;
+const buildRequestURL = (key: string) =>
+  `${baseApiUrl}/api/PrematchReport/${key}`;
 
 const curr = new Date(Date.now());
 const toDateDefault = new Date(curr.setDate(curr.getDate() - 1));

@@ -1,5 +1,7 @@
 import Axios from 'axios';
-import { URL } from './const.json';
+import { baseApiUrl } from '../Shared/Constants';
+
+const netCoreURLTicKetCenter = `${baseApiUrl}/api/TicketCenter`;
 
 const transformFunctionResponse = response =>
   response.data.map(data => ({
@@ -8,13 +10,13 @@ const transformFunctionResponse = response =>
   }));
 
 const queryFunction = async () => {
-  const url = `${URL.NET_Core_TICKET_CENTER}/get-function-feedback`;
+  const url = `${netCoreURLTicKetCenter}/get-function-feedback`;
   const response = await Axios.get(url);
   return transformFunctionResponse(response);
 };
 
 const queryUserFeedbackInfo = async () => {
-  const url = `${URL.NET_Core_TICKET_CENTER}/get-user-feedback-info`;
+  const url = `${netCoreURLTicKetCenter}/get-user-feedback-info`;
   const response = await Axios.get(url);
   return response.data;
 };

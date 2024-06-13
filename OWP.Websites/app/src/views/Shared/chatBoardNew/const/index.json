@@ -1,6 +1,5 @@
 {
   "URL": {
-    "NET_Core_TICKET_CENTER": "api/TicketCenter",
     "GET_TICKET_DETAIL_OTHER": "ticket-detail/get-other",
     "GET_TICKET_DETAIL_LEAGUE": "ticket-detail/get-league",
     "GET_TICKET_DETAIL_MATCH": "ticket-detail/get-match",

@@ -1,7 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { netCoreURL, UPDATE_NO_OFFER_MATCH } from '../const/const.json';
+import { UPDATE_NO_OFFER_MATCH } from '../const/const.json';
 import { post } from '../../Shared/Service/Service';
 import { TNoOfferMatch } from '../types/noOfferMatchType';
+import { netCoreURL } from '../const/apiUrl';
 
 const buildRequestURL = () => `${netCoreURL}/${UPDATE_NO_OFFER_MATCH}`;
 

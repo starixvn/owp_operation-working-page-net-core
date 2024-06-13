@@ -2,7 +2,6 @@
   "dateRangeDefault": 180,
   "dateRangeValid": 365,
   "time": 86400000,
-  "netCoreURL": "api/MatchCountLiveReport",
   "queryReport": "query",
   "exportReport": "export",
   "reportTable": {

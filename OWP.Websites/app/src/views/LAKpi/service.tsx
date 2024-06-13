@@ -1,9 +1,10 @@
+import { baseApiUrl } from '../Shared/Constants';
 import { get, post } from '../Shared/Service/Service';
 import Utils from '../Shared/Utils';
-import { netCoreURL } from './const.json';
 import { Target } from './feature/type/TableType.native';
 
-const buildRequestURL = (key: string | null) => `${netCoreURL}/${key}`;
+const buildRequestURL = (key: string | null) =>
+  `${baseApiUrl}/api/kpi/la/${key}`;
 
 const queryDataTable = async (
   filterFromDate: Date,

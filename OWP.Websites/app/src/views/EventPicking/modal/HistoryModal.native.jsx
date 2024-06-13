@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { get } from '../../Shared/Service/Service';
-import { netCoreURL, getLogsHistory } from '../const/const.json';
+import { getLogsHistory } from '../const/const.json';
+import { netCoreURL } from '../const/apiUrl';
 import dayjs from 'dayjs';
 
 const resolveUrl = () => `${netCoreURL}/${getLogsHistory}`;

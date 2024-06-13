@@ -1,5 +1,4 @@
 {
-  "netCoreURL": "api/MaxbetSetting",
   "functionKey": "LeagueManagement_MaxbetSetting",
   "query": "get-maxbet-setting",
   "update": "update-maxbet-setting",

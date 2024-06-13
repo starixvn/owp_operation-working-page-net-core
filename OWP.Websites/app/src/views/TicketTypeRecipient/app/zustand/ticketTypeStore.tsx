@@ -1,8 +1,8 @@
 import { create } from 'zustand';
 import { Recipient, Subtype } from '../../features/TypeNative';
 import axios from 'axios';
-
-import { netCoreURL, saveTicketTypeRecipientsRoute } from '../../Const.json';
+import { saveTicketTypeRecipientsRoute } from '../../Const.json';
+import { netCoreURLTicketTypeRecipient } from '../../apiUrl';
 
 type ticketTypeState = {
   subtypeSelected: Subtype;
@@ -35,7 +35,7 @@ const useStore = create<ticketTypeState>((set, get) => ({
       subtypes
     }),
   saveData: async (ticketTypeId: Required<number>): Promise<boolean> => {
-    const url = `${netCoreURL}/${saveTicketTypeRecipientsRoute}`;
+    const url = `${netCoreURLTicketTypeRecipient}/${saveTicketTypeRecipientsRoute}`;
 
     const { recipients, subtypes } = get();
 

@@ -82,6 +82,5 @@
       "WIDTH": "8%",
       "IS_FILTER": true
     }
-  ],
-  "netCoreURL": "api/ProviderVerification"
+  ]
 }

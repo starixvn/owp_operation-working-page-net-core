@@ -1,13 +1,13 @@
 import { post } from '../../../../Shared/Service/Service';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
-  netCoreURL,
   getEventTicket,
   pinTicketRoute,
   deleteTicketRoute
 } from '../../../const/const.json';
+import { netCoreURLTicketCenter } from '../../../const/apiUrl';
 
-const genUrl = methodRoute => `${netCoreURL}/${methodRoute}`;
+const genUrl = methodRoute => `${netCoreURLTicketCenter}/${methodRoute}`;
 
 const getEventTickets = createAsyncThunk(
   'TicketCenter/getEventChecking',

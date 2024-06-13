@@ -28,9 +28,6 @@
       "CN": "功能滿意度"
     }
   },
-  "URL": {
-    "NET_Core_TICKET_CENTER": "api/TicketCenter"
-  },
   "RECIPIENT_TYPE": {
     "INDIVIDUAL": 1,
     "GROUP": 2

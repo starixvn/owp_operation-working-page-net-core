@@ -4,7 +4,6 @@ import {
   baseApiUrl
 } from '../../Shared/Constants';
 
-const netCoreUrl = window.netCoreRootUrl;
 const url = `${baseApiUrl}/api/PreMatchAssignment`;
 
 const simpleApiQueryUrl = `${NET_CORE_QUERY_SIMPLE_API}`;
@@ -99,7 +98,6 @@ export {
   API_KEY,
   URL,
   NOTE_TYPE,
-  netCoreUrl,
   MATCH_OFFER,
   TradingPageUrl,
   BetType,

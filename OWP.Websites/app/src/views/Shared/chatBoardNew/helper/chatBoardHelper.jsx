@@ -5,7 +5,7 @@ import {
   URL
 } from '../const/index.json';
 import Axios from 'axios';
-
+import { netCoreURLTicKetCenter } from '../const/apiUrl';
 const buildMessageListClassName = (height, isExpandInfo) => {
   const className = 'message-list';
   switch (true) {
@@ -35,7 +35,7 @@ const buildMessageListClassName = (height, isExpandInfo) => {
 };
 
 const getMessageList = async (ticketId, messageId, messages) => {
-  const urlGetLastMessage = `${URL.NET_Core_TICKET_CENTER}/${URL.LOAD_MORE_MESSAGE}`;
+  const urlGetLastMessage = `${netCoreURLTicKetCenter}/${URL.LOAD_MORE_MESSAGE}`;
   const modelLoadMoreMessage = {
     msgOfPage: 20,
     ticketId,
@@ -79,7 +79,7 @@ const getTicketTitle = ticket => {
 const getUrlTicketFile = imageName =>
   `${URL.NET_CORE_TICKET_CENTER_FILE}/${imageName}`;
 
-const buildURL = urlName => `${URL.NET_Core_TICKET_CENTER}/${urlName}`;
+const buildURL = urlName => `${netCoreURLTicKetCenter}/${urlName}`;
 
 export {
   getMessageList,

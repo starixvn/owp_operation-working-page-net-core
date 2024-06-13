@@ -1,5 +1,7 @@
+import { baseApiUrl } from '../../Shared/Constants';
 import { get } from '../../Shared/Service/Service';
-import { netCoreURL } from '../const/const.json';
+
+const netCoreURL = `${baseApiUrl}/api/TicketCenter`;
 
 const getStatusHistory = async ticketId => {
   const url = `${netCoreURL}/${URL.GET_STATUS_HISTORY}`;
@@ -15,4 +17,4 @@ const markAllTicketsAsRead = async actorId => {
   return response;
 };
 
-export { getStatusHistory, markAllTicketsAsRead };
+export { getStatusHistory, markAllTicketsAsRead, netCoreURL };

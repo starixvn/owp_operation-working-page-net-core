@@ -4,9 +4,9 @@ import { GroupDataSource, RecipientModel } from '../Type';
 import {
   getRecipientGroupsKey,
   saveRecipientGroupsKey,
-  netCoreURL,
   maxLengthGroupName
 } from '../../Const.json';
+import { baseApiUrl } from '../../../Shared/Constants';
 
 const validateGroupName = (
   groupId: number,
@@ -47,7 +47,8 @@ const validateRecipients = (recipients: RecipientModel[]) => {
   return true;
 };
 
-const buildRequestURL = (key: string) => `${netCoreURL}/${key}`;
+const buildRequestURL = (key: string) =>
+  `${baseApiUrl}/api/RecipientGroup/${key}`;
 
 const buildGetRecipientGroupsURL = () => buildRequestURL(getRecipientGroupsKey);
 const buildSaveRecipientGroupsURL = () =>

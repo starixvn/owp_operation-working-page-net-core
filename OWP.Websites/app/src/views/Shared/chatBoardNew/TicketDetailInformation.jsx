@@ -6,6 +6,7 @@ import RecipientsSelect from '../recipientSelect/RecipientsSelect';
 import { getMessageList, getTicketTitle } from './helper/chatBoardHelper';
 import Axios from 'axios';
 import { URL } from './const/index.json';
+import { netCoreURLTicKetCenter } from './const/apiUrl';
 
 const TicketDetailInformation = ({
   policy,
@@ -28,7 +29,7 @@ const TicketDetailInformation = ({
         ActorId,
         ticketEventType: eventType
       };
-      const url = `${URL.NET_Core_TICKET_CENTER}/${URL.REMOVE_SINGLE_RECIPIENT}`;
+      const url = `${netCoreURLTicKetCenter}/${URL.REMOVE_SINGLE_RECIPIENT}`;
 
       const { status, data } = await Axios.post(url, requestModel);
       return { status, data };
@@ -58,7 +59,7 @@ const TicketDetailInformation = ({
         ticketInfo: modelTicket
       };
 
-      const url = `${URL.NET_Core_TICKET_CENTER}/${URL.ADD_SINGLE_RECIPIENT}`;
+      const url = `${netCoreURLTicKetCenter}/${URL.ADD_SINGLE_RECIPIENT}`;
 
       const { status, data } = await Axios.post(url, requestModel);
       return { status, data };

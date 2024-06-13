@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import { filterPrematchUpdated } from '../../helper/preMatchHelper';
 import { getHourAndMinutes } from '../../../Shared/DateTime/dateTimeHelper';
 import { isEqual } from 'lodash';
-import { netCoreUrl, URL } from '../../const/const';
+import { URL } from '../../const/const';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 dayjs.extend(localizedFormat);
 
@@ -14,7 +14,6 @@ const executeBuilder = props => {
 
   const postModel = {
     url: URL.SAVE_PREMATCH_ASSIGNMENT,
-    NetCoreUrl: netCoreUrl,
     ...rest
   };
 
@@ -59,10 +58,11 @@ const buildModelNightShiftSaver = (dayShift, header, filter) => {
   const { entities, prematchIdDeleted, prematchIdUpdated } = dayShift;
   const { filterDate } = filter;
 
-  const isFilterStartTimeLowerThanOriginalStartTime = IsFilterStartTimeLowerThanOriginalStartTime(
-    dayjs(startTimeFilter, 'LT'),
-    dayjs(startTimeOriginal, 'LT')
-  );
+  const isFilterStartTimeLowerThanOriginalStartTime =
+    IsFilterStartTimeLowerThanOriginalStartTime(
+      dayjs(startTimeFilter, 'LT'),
+      dayjs(startTimeOriginal, 'LT')
+    );
 
   const PrematchUpdated =
     !startTimeOriginal || isFilterStartTimeLowerThanOriginalStartTime
