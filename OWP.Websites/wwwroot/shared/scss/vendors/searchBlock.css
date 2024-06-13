@@ -557,10 +557,9 @@ Search Form
 /*@media only screen and (min-width: 1024px) {*/
 .cd-main-search {
     position: absolute;
-    z-index: 100;
+    z-index: 1021;
     top: 0;
     left: 0;
-    height: 100%;
     width: 100%;
     background: #14151c;
     opacity: 0;

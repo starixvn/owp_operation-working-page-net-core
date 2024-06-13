@@ -40,10 +40,10 @@ using OWP.SimpleDataApi;
 using OWP.TicketCenter;
 using OWP.TicketEvent;
 using OWP.TicketTypeRecipient;
+using OWP.Websites.App_Start;
 using SharpRaven;
 using StackExchange.Redis;
 using System.Reflection;
-using OWP.Websites.App_Start;
 using ILogger = Fanex.Logging.ILogger;
 
 namespace OWP.Websites;
@@ -438,7 +438,9 @@ public static class ServiceCollectionExtensions
                     "shared/owp/main.js",
                     "shared/lib/modernizr.js",
                     "shared/owp/DocumentTitle/document-title.js",
-                    "shared/owp/DocumentTitle/document-title-factory.js"
+                    "shared/owp/DocumentTitle/document-title-factory.js",
+                    "shared/owp/MessageBox/message-box.js",
+                    "shared/owp/MessageBox/message-box-factory.js"
                 );
 
                 pipeline.AddCssBundle("Styles/EventInformation",

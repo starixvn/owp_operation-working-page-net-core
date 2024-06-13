@@ -1,8 +1,7 @@
-﻿@using Fanex.NAP.OWP.MessageMachine.Models.MessageBox
-@using Fanex.NAP.OWP.Core.Enumerations;
+﻿@using OWP.Application.Message;
 @using OWP.Resources;
 
-@model List<MessageInfo>
+@model List<MessageModel>
 
 @{
     Func<TimeSpan, string> toStringTime = ts =>
@@ -27,7 +26,7 @@
 
 }
 
-@foreach (MessageInfo messageInfo in Model)
+@foreach (MessageModel messageInfo in Model)
 {
     <li class="noti-item">
         @switch (messageInfo.MessageType)

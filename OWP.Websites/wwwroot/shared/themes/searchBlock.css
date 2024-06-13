@@ -557,12 +557,13 @@ Search Form
 /*@media only screen and (min-width: 1024px) {*/
 .cd-main-search {
     position: absolute;
-    z-index: 100;
+    z-index: 1021;
     top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
+    left: 0px;
+    height: 55px;
+    width: 96%;
     background: #14151c;
+    margin-left: 60px;
     opacity: 0;
     visibility: hidden;
     -webkit-transition: opacity 0.3s, visibility 0.3s;
@@ -575,13 +576,8 @@ Search Form
         height: 100%;
         /* 170px (margin left) is the sum of the logo width (124px) and additional 46px margin (to separate the form form the logo) */
         /* 116px (margin right) takes into account the space occupied by the a.cd-search-trigger and a.close */
-        margin-left: 260px;
-        padding: 20px;
+        padding: 15px;
     }
-
-.site-menubar-fold .cd-main-search form {
-    margin-left: 70px;
-}
 
 .cd-main-search input[type="search"] {
     font-size: 1.8rem;
@@ -1090,6 +1086,7 @@ Search Form
         height: 100%;
         width: 100%;
         background-color: rgba(255,255,255,0.1);
+        background: url(./images/cd-icons.svg) no-repeat -16px 0;
         border-radius: 50%;
         -webkit-transition: -webkit-transform 0.3s;
         -moz-transition: -moz-transform 0.3s;
@@ -1277,6 +1274,7 @@ JavaScript Disabled
 -------------------------------- */
 .no-js .cd-main-header {
     height: auto;
+    z-index: 101;
 }
 
     .no-js .cd-main-header::after {

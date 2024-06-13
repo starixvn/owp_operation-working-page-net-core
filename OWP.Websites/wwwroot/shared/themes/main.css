@@ -1531,7 +1531,7 @@ nav {
       top: 55px !important; }
       .nav-wrapper .navbar-right .profile-items > li > a {
         width: 100%;
-        padding: 8px 15px; }
+        padding: 2px 10px !important; }
       .nav-wrapper .navbar-right .profile-items span {
         display: inline-block;
         vertical-align: middle; }

@@ -29,13 +29,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="app\**" />
-    <Compile Remove="wwwroot\shared\owp\MessageMachine\Views\**" />
     <Content Remove="app\**" />
-    <Content Remove="wwwroot\shared\owp\MessageMachine\Views\**" />
     <EmbeddedResource Remove="app\**" />
-    <EmbeddedResource Remove="wwwroot\shared\owp\MessageMachine\Views\**" />
     <None Remove="app\**" />
-    <None Remove="wwwroot\shared\owp\MessageMachine\Views\**" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="App_Data\Templates\EventPicking.xlsx" />
@@ -60,10 +56,10 @@
     <None Include="wwwroot\shared\owp\EventManagement\Resources\QuickSearch\quick-search.js" />
     <None Include="wwwroot\shared\owp\images\cd-icons.svg" />
     <None Include="wwwroot\shared\owp\images\feedback-icon.svg" />
+    <None Include="wwwroot\shared\owp\MessageBox\message-box-factory.js" />
+    <None Include="wwwroot\shared\owp\MessageBox\message-box.js" />
     <None Include="wwwroot\shared\owp\images\pantone.svg" />
     <None Include="wwwroot\shared\owp\images\settings.svg" />
-    <None Include="wwwroot\shared\owp\MessageMachine\Resources\MessageBox\message-box-factory.js" />
-    <None Include="wwwroot\shared\owp\MessageMachine\Resources\MessageBox\message-box.js" />
     <None Include="wwwroot\shared\owp\weekly-working-shift\week-picker.js" />
     <None Include="wwwroot\shared\owp\weekly-working-shift\working-shift-factory.js" />
     <None Include="wwwroot\shared\owp\weekly-working-shift\working-shift-service.js" />
@@ -205,8 +201,5 @@
     <ProjectReference Include="..\src\OWP.ProviderArrangement\OWP.ProviderArrangement.csproj" />
     <ProjectReference Include="..\src\OWP.ProviderVerification\OWP.ProviderVerification.csproj" />
     <ProjectReference Include="..\src\OWP.Application\OWP.Application.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="wwwroot\shared\owp\OddsCompiler\" />
   </ItemGroup>
 </Project>

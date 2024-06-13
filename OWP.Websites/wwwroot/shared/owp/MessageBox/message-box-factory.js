@@ -30,9 +30,9 @@ var messageBoxFactory = (function ($) {
         GetFunctionPolicy: function (functionKey) {
             return $.ajax({
                 url: common.ResolveRootUrl(urls.GetFunctionPolicy),
-                data: {
-                    functionKey: functionKey
-                },
+                data: JSON.stringify({ functionKey: functionKey }),
+                contentType: 'application/json',
+                dataType: 'json',
                 method: 'POST',
                 error: common.HandleAjaxError
             });
