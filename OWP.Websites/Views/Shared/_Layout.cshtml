@@ -46,7 +46,6 @@
     </environment>
 </head>
 
-
 <body class="site-menubar-fold">
     @await Component.InvokeAsync("Header", new { title = title })
     <main>
@@ -73,10 +72,11 @@
         </div>
     </main>
     @Html.Hidden("RootURL", Url.Content("~/"))
-    @* @RazorHelper.ModalWarningMessage()
-    @RazorHelper.ModalErrorMessage()
-    @RazorHelper.MadalInformationMessage()
-    @RazorHelper.ModalDialogForm() *@
+
+    @await Html.PartialAsync("_ModalWarningMessage");
+    @await Html.PartialAsync("_ModalErrorMessage");
+    @await Html.PartialAsync("_ModalInformationMessage");
+    @await Html.PartialAsync("_ModalDialogForm");
    
     @Html.Raw(Fanex.Logging.LogManager.RenderJavascriptLogger())
 
@@ -141,5 +141,4 @@
     </script>
     @await RenderSectionAsync("scripts", required: false)
 </body>
-
 </html>
