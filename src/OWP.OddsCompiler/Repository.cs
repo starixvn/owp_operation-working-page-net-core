@@ -73,11 +73,10 @@ public class RepositoryImp : Repository
 
     public async Task<List<MatchInfoModel>> GetOddsCompiler(GetOddsCompilerCriteria criteria)
     {
-        var mappingTypes = new[] { typeof(MatchInfoModel), typeof(MatchSetting), typeof(OddsDetailModel) };
-        var fetchedData = await dynamicRepository.FetchMultipleAsync(criteria, mappingTypes);
-        var matches = fetchedData[0].Cast<MatchInfoModel>().ToList();
-        var settings = fetchedData[1].Cast<MatchSetting>().ToList();
-        var odds = fetchedData[2].Cast<OddsDetailModel>().ToList();
+        var fetchedData = await dynamicRepository.FetchMultipleAsync<MatchInfoModel, MatchSetting, OddsDetailModel>(criteria);
+        var matches = fetchedData.FirstResultSet.ToList();
+        var settings = fetchedData.SecondResultSet.ToList();
+        var odds = fetchedData.ThirdResultSet.ToList();
         var oddsDetails = TransformOdds(odds);
         foreach (var match in matches)
         {
