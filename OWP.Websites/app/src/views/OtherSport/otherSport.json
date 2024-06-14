@@ -1,5 +1,4 @@
 {
-  "rootUrl": "api/OtherSport",
   "validation": "/validate",
   "submit": "/submit",
   "OsAssignmentSubmit": "/get-assignment",

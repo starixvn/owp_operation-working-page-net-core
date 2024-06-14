@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { rootUrl, lastUpdate } from '../../otherSport.json';
-import { baseApiUrl } from '../../../Shared/Constants';
+import { lastUpdate } from '../../otherSport.json';
+import { netCoreURLOtherSport } from '../../const/Constants';
 
 type LastUpdateInfo = {
   date?: string;
@@ -11,7 +11,7 @@ type LastUpdateInfo = {
 const getLastUpdateThunkNative = createAsyncThunk<LastUpdateInfo>(
   'osAssignment/getLastUpdate',
   async () => {
-    const url = `${baseApiUrl}/api/OtherSport${lastUpdate}`;
+    const url = `${netCoreURLOtherSport}${lastUpdate}`;
 
     const response = await axios.get<LastUpdateInfo>(url);
     return response.data;

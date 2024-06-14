@@ -1,5 +1,4 @@
 import { baseApiUrl } from '../Shared/Constants';
-import { rootUrl } from './Const.json';
 import queryString from 'query-string';
 
 const buildQueryDropdownOptionUrl = () =>

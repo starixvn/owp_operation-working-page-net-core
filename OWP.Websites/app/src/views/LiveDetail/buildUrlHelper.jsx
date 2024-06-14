@@ -1,6 +1,6 @@
 import { baseApiUrl } from '../Shared/Constants';
 
-const netCoreURL = `${baseApiUrl}/api/live-detail`;
-const buildRequestURL = keyword => `${netCoreURL}/${keyword}`;
+const netCoreURLLiveDetail = `${baseApiUrl}/api/live-detail`;
+const buildRequestURL = keyword => `${netCoreURLLiveDetail}/${keyword}`;
 
 export { buildRequestURL };

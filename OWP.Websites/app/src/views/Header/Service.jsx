@@ -36,7 +36,7 @@ const transformNavigation = (menus, title) => {
   return navigation;
 };
 
-const buildUrl = () => `${baseApiUrl}api/application/header`;
+const buildUrl = () => `${baseApiUrl}/api/application/header`;
 
 const query = async title => {
   const response = await axios.get(buildUrl());

@@ -1,11 +1,9 @@
 import { post, get } from '../../Shared/Service/Service';
-import {
-  rootUrl,
-  updateOfferLive,
-  getAdminSiteLeagueId
-} from '../otherSport.json';
+import { updateOfferLive, getAdminSiteLeagueId } from '../otherSport.json';
+import { netCoreURLOtherSport } from '../const/Constants';
+
 const saveEditOfferLive = async rest => {
-  const url = `${rootUrl}/${updateOfferLive}`;
+  const url = `${netCoreURLOtherSport}/${updateOfferLive}`;
   const model = {
     ...rest,
     url
@@ -15,7 +13,7 @@ const saveEditOfferLive = async rest => {
 };
 
 const getLeagueIdFromAdminSite = async adminSiteMatchId => {
-  const url = `${rootUrl}/${getAdminSiteLeagueId}`;
+  const url = `${netCoreURLOtherSport}/${getAdminSiteLeagueId}`;
   const res = await get({ url, adminSiteMatchId });
   return res.data;
 };

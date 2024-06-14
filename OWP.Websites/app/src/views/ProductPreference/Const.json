@@ -8,7 +8,6 @@
     "LOCATION_ID": "LocationId",
     "USER": "User"
   },
-  "rootUrl": "api/ProductAssignment",
   "functionKey": "AssignmentConfiguration",
   "dbColumnName": {
     "role": "RoleId",

@@ -2,14 +2,15 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { get } from '../../Shared/Service/Service';
 import {
-  NET_CORE,
   GET_LOG,
   GET_PROVIDER,
   UPDATE_PROVIDER_ARRANGEMENT
 } from '../const/ProviderArrangement.json';
 import { TQueryLogProviderArrangement } from './TypeNative';
+import { baseApiUrl } from '../../Shared/Constants';
 
-const buildRequestURL = (key: string) => `${NET_CORE}/${key}`;
+const buildRequestURL = (key: string) =>
+  `${baseApiUrl}/api/ProviderArrangement/${key}`;
 
 const queryProviderArrangement = createAsyncThunk('queryProvider', async () => {
   const url = buildRequestURL(GET_PROVIDER);

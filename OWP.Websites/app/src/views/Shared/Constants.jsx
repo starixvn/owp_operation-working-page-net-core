@@ -1,3 +1,5 @@
+import { isEqual } from 'lodash';
+
 export const MatchStatuses = {
   Live: 'Live',
   InPlay: 'In-play',
@@ -77,6 +79,18 @@ export const DefaultPageSize = PageSizes[4];
 export const TimePickerDisplayFormat = 'h:mm A';
 export const TimePickerOutputFormat = 'HH:mm';
 
+const buildBaseApiUrl = () => {
+  const segmentPrefix = ['n1', 'n2', 'n3'];
+  if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+    return `${location.origin}`;
+  }
+  const segmentFirst = window.location.pathname.split('/')[1];
+  return segmentPrefix.some(seg => isEqual(seg, segmentFirst))
+    ? `${location.origin}/${segmentFirst}`
+    : `${location.origin}`;
+};
+
+export const baseApiUrl = buildBaseApiUrl();
 export const NET_CORE_QUERY_SIMPLE_API = `${baseApiUrl}/state-api/simple-data/query`;
 export const NET_CORE_UPDATE_SIMPLE_API = `${baseApiUrl}/state-api/simple-data/update`;
 export const buildQuerySimpleApi = () => `${NET_CORE_QUERY_SIMPLE_API}`;
@@ -141,8 +155,3 @@ export const BettypeId = {
   noOfCorners: -3,
   nextCorners: -4
 };
-
-export const baseApiUrl =
-  process.env.NODE_ENV === 'development'
-    ? `${location.origin}`
-    : `${location.origin}/n1`;
