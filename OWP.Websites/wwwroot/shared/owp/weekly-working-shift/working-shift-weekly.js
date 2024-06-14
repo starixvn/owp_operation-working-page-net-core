@@ -1146,7 +1146,6 @@
   };
 
     WorkingShiftSetting.prototype.initEvents = function () {
-        debugger
     $("#first_name2")
       .off("input")
       .on("input", function () {
@@ -1163,7 +1162,6 @@
         } else {
           $(".group-button").hide();
           }
-          debugger
         var shifts = filterAndOrderShifts(
           workingShiftSetting.shifts,
           shiftSearchText
@@ -2464,7 +2462,6 @@
       var listSectionPublish = data.ListSectionPublish;
       workingShiftSetting = new WorkingShiftSetting(data.WorkingShiftColors);
         workingShiftSetting.render();
-        debugger
         workingShiftSetting.initEvents();
       
       workingShiftSetting.handleUpdateColor();

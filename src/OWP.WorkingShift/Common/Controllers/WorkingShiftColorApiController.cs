@@ -25,7 +25,7 @@ public class WorkingShiftColorApiController : ControllerBase
     public async Task<IActionResult> GetAll()
     {
         var data = await repository.GetAll();
-        return Ok(data);
+        return new JsonResult(data, new JsonSerializerSettings());
     }
 
     [Route("validation-create")]
@@ -34,7 +34,7 @@ public class WorkingShiftColorApiController : ControllerBase
     public async Task<IActionResult> ValidateBeforeCreate(QuickInsertWorkingShiftColorModel model)
     {
         var result = await repository.ValidateBeforeCreateAsync(model.ShiftCode);
-        return Ok(result);
+        return new JsonResult(result, new JsonSerializerSettings());
     }
 
     [Route("")]
@@ -43,7 +43,7 @@ public class WorkingShiftColorApiController : ControllerBase
     public async Task<IActionResult> Insert(QuickInsertWorkingShiftColorModel model)
     {
         var result = await repository.Insert(model);
-        return Ok(result);
+        return new JsonResult(result, new JsonSerializerSettings());
     }
 
     [Route("")]
@@ -53,7 +53,7 @@ public class WorkingShiftColorApiController : ControllerBase
     {
         var result = await repository.Update(model);
 
-        return Ok(result);
+        return new JsonResult(result, new JsonSerializerSettings());
     }
 
     [Route("validation-delete")]
@@ -62,7 +62,7 @@ public class WorkingShiftColorApiController : ControllerBase
     public async Task<IActionResult> ValidateBeforeDelete(WorkingShiftColorModel model)
     {
         var result = await repository.ValidateBeforeDeleteAsync(model.ShiftId);
-        return Ok(result);
+        return new JsonResult(result, new JsonSerializerSettings());
     }
 
     [Route("")]
@@ -72,7 +72,7 @@ public class WorkingShiftColorApiController : ControllerBase
     {
         var result = await repository.Delete(model.ShiftId);
 
-        return Ok(result);
+        return new JsonResult(result, new JsonSerializerSettings());
     }
 
     [Route("get-all-gmt8")]
@@ -110,7 +110,7 @@ public class WorkingShiftColorApiController : ControllerBase
     {
         if (models == null || !models.Any())
         {
-            return Ok("Data not found");
+            return new JsonResult("Data not found", new JsonSerializerSettings());
         }
 
         var getAll = await repository.GetAll();
@@ -132,6 +132,6 @@ public class WorkingShiftColorApiController : ControllerBase
             }
         }
 
-        return Ok(list);
+        return new JsonResult(list, new JsonSerializerSettings());
     }
 }

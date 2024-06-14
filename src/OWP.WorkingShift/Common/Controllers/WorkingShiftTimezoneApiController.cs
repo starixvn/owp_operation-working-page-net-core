@@ -1,4 +1,5 @@
-﻿using OWP.WorkingShift.Common.Models;
+﻿using Newtonsoft.Json;
+using OWP.WorkingShift.Common.Models;
 using OWP.WorkingShift.Common.Repositories;
 
 namespace OWP.WorkingShift.Common.Controllers;
@@ -22,6 +23,6 @@ public class WorkingShiftTimezoneApiController : ControllerBase
     public async Task<IActionResult> UpdateTimeZoneSetting(TimezoneUpdateModel model)
     {
         var result = await repository.Update(model);
-        return Ok(result);
+        return new JsonResult(result, new JsonSerializerSettings());
     }
 }

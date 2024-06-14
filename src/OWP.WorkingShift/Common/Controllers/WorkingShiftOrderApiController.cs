@@ -1,4 +1,5 @@
-﻿using OWP.WorkingShift.Common.Repositories;
+﻿using Newtonsoft.Json;
+using OWP.WorkingShift.Common.Repositories;
 using ModelService = OWP.WorkingShift.Common.Services.ModelService;
 
 namespace OWP.WorkingShift.Common.Controllers;
@@ -25,6 +26,6 @@ public class WorkingShiftOrderApiController : ControllerBase
     {
         model.OrderUserId = modelService.GetOrderUserId();
         var result = await repository.UpdateEmployeeWorkingShiftOrder(model);
-        return Ok(result);
+        return new JsonResult(result, new JsonSerializerSettings());
     }
 }

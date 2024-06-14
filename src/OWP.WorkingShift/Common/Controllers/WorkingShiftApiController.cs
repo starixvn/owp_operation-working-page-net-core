@@ -1,4 +1,5 @@
-﻿using OWP.WorkingShift.Common.Models;
+﻿using Newtonsoft.Json;
+using OWP.WorkingShift.Common.Models;
 using OWP.WorkingShift.Common.Repositories;
 using OWP.WorkingShift.Common.Utils;
 
@@ -24,7 +25,7 @@ public class WorkingShiftApiController : ControllerBase
     public async Task<IActionResult> GetUserWorkingShift(WorkingShiftQueryByUserModel model)
     {
         var result = await repository.QueryByUser(model);
-        return Ok(result);
+        return new JsonResult(result, new JsonSerializerSettings());
     }
 
     [Route("get-single-user")]
@@ -39,8 +40,7 @@ public class WorkingShiftApiController : ControllerBase
             ToDate = model.ToDate
         };
         var result = await repository.QueryByUser(newModel);
-
-        return Ok(result.ToArray(model.FromDate.Value, model.ToDate.Value));
+        return new JsonResult(result.ToArray(model.FromDate.Value, model.ToDate.Value), new JsonSerializerSettings());
     }
 
     [Route("copy-previous")]
@@ -56,7 +56,7 @@ public class WorkingShiftApiController : ControllerBase
             ToDate = model.StartDateOfWeek.Value.AddDays(6)
         };
         var result = await repository.QueryByUser(queryModel);
-        return Ok(result.ToArray(queryModel.FromDate.Value, queryModel.ToDate.Value));
+        return new JsonResult(result.ToArray(queryModel.FromDate.Value, queryModel.ToDate.Value), new JsonSerializerSettings());
     }
 
     [Route("copy-whole-shifts")]
@@ -72,7 +72,7 @@ public class WorkingShiftApiController : ControllerBase
             ToDate = model.FromDate.Value.AddDays(6)
         };
         var result = await repository.QueryByUser(queryModel);
-        return Ok(result.ToArray(queryModel.FromDate.Value, queryModel.ToDate.Value));
+        return new JsonResult(result.ToArray(queryModel.FromDate.Value, queryModel.ToDate.Value), new JsonSerializerSettings());
     }
 
     [Route("delete-whole-shifts")]
@@ -81,7 +81,7 @@ public class WorkingShiftApiController : ControllerBase
     public async Task<IActionResult> DeleteWholeShifts(DeleteWholeShiftsModel model)
     {
         var result = await repository.DeleteWholeShifts(model);
-        return Ok(result);
+        return new JsonResult(result, new JsonSerializerSettings());
     }
 
     [Route("copy-single-shift")]
@@ -100,7 +100,7 @@ public class WorkingShiftApiController : ControllerBase
         var queryResult = await repository.QueryByUser(queryModel);
         result.Data = queryResult.FirstOrDefault();
 
-        return Ok(result);
+        return new JsonResult(result, new JsonSerializerSettings());
     }
 
     [Route("remove-single-shift")]
@@ -120,7 +120,7 @@ public class WorkingShiftApiController : ControllerBase
         var queryResult = await repository.QueryByUser(queryModel);
         result.Data = queryResult.FirstOrDefault();
 
-        return Ok(result);
+        return new JsonResult(result, new JsonSerializerSettings());
     }
 
     [Route("update-single-shift")]
@@ -140,6 +140,6 @@ public class WorkingShiftApiController : ControllerBase
         var queryResult = await repository.QueryByUser(queryModel);
         result.Data = queryResult.FirstOrDefault();
 
-        return Ok(result);
+        return new JsonResult(result, new JsonSerializerSettings());
     }
 }

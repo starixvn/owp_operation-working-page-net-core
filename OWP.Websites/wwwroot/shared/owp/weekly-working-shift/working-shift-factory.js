@@ -74,7 +74,8 @@ var workingShiftFactory = (function ($) {
             var url = urls.SearchWorkingShiftWeeklyIFrame;
             return $.ajax({
                 url: common.ResolveRootUrl(url),
-                data: data,
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
                 method: 'POST',
                 error: common.HandleAjaxError
             });
@@ -83,7 +84,8 @@ var workingShiftFactory = (function ($) {
             var url = urls.CopyWorkingShiftWeeklyPrevious;
             return $.ajax({
                 url: common.ResolveRootUrl(url),
-                data: data,
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
                 method: 'POST',
                 error: common.HandleAjaxError
             });
@@ -102,7 +104,8 @@ var workingShiftFactory = (function ($) {
             var url = urls.UpdateWorkingShiftCode;
             return $.ajax({
                 url: common.ResolveRootUrl(url),
-                data: data,
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
                 method: 'POST',
                 error: common.HandleAjaxError
             });
@@ -111,7 +114,9 @@ var workingShiftFactory = (function ($) {
             var url = urls.RemoveWorkingShiftCode;
             return $.ajax({
                 url: common.ResolveRootUrl(url),
-                data: data,
+             
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
                 method: 'POST',
                 error: common.HandleAjaxError
             });
@@ -120,7 +125,8 @@ var workingShiftFactory = (function ($) {
             var url = urls.UpdateDefaultShift;
             return $.ajax({
                 url: common.ResolveRootUrl(url),
-                data: data,
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
                 method: 'POST',
                 error: common.HandleAjaxError
             });
@@ -129,7 +135,8 @@ var workingShiftFactory = (function ($) {
             var url = urls.DefaultShiftGetWorkingShiftByUser;
             return $.ajax({
                 url: common.ResolveRootUrl(url),
-                data: data,
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
                 method: 'POST',
                 error: common.HandleAjaxError
             });
@@ -139,7 +146,8 @@ var workingShiftFactory = (function ($) {
             var url = urls.RemoveWorkingShiftDefault;
             return $.ajax({
                 url: common.ResolveRootUrl(url),
-                data: data,
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
                 method: 'POST',
                 error: common.HandleAjaxError
             });
@@ -148,7 +156,8 @@ var workingShiftFactory = (function ($) {
             var url = urls.QuickInsertWorkingShiftColor;
             return $.ajax({
                 url: common.ResolveRootUrl(url),
-                data: data,
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
                 method: 'POST',
                 error: common.HandleAjaxError
             });
@@ -157,7 +166,8 @@ var workingShiftFactory = (function ($) {
             var url = urls.QuickDeleteWorkingShiftColor;
             return $.ajax({
                 url: common.ResolveRootUrl(url),
-                data: data,
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
                 method: 'DELETE',
                 error: common.HandleAjaxError
             });
@@ -166,7 +176,8 @@ var workingShiftFactory = (function ($) {
             var url = urls.ValidateBeforeCreateWorkingShiftColor;
             return $.ajax({
                 url: common.ResolveRootUrl(url),
-                data: data,
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
                 method: 'POST',
                 error: common.HandleAjaxError
             });
@@ -175,7 +186,8 @@ var workingShiftFactory = (function ($) {
             var url = urls.ValidateBeforeDeleteWorkingShiftColor;
             return $.ajax({
                 url: common.ResolveRootUrl(url),
-                data: data,
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
                 method: 'POST',
                 error: common.HandleAjaxError
             });
@@ -184,7 +196,8 @@ var workingShiftFactory = (function ($) {
             var url = urls.UpdateTimezone;
             return $.ajax({
                 url: common.ResolveRootUrl(url),
-                data: data,
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(data),
                 method: 'PUT',
                 error: common.HandleAjaxError
             });
@@ -193,7 +206,8 @@ var workingShiftFactory = (function ($) {
             var url = urls.UpdateEmployeeWorkingShiftOrder;
             return $.ajax({
                 url: common.ResolveRootUrl(url),
-                data: data,
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
                 method: 'POST',
                 error: common.HandleAjaxError
             });
@@ -203,7 +217,8 @@ var workingShiftFactory = (function ($) {
             var url = urls.CopyWholeShifts;
             return $.ajax({
                 url: common.ResolveRootUrl(url),
-                data: data,
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
                 method: 'POST',
                 error: common.HandleAjaxError
             });
@@ -212,7 +227,8 @@ var workingShiftFactory = (function ($) {
             var url = urls.DeleteWholeShifts;
             return $.ajax({
                 url: common.ResolveRootUrl(url),
-                data: data,
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
                 method: 'POST',
                 error: common.HandleAjaxError
             });
@@ -221,7 +237,8 @@ var workingShiftFactory = (function ($) {
             var url = urls.CopySingleShift;
             return $.ajax({
                 url: common.ResolveRootUrl(url),
-                data: data,
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
                 method: 'POST',
                 error: common.HandleAjaxError
             });
@@ -230,7 +247,8 @@ var workingShiftFactory = (function ($) {
             var url = urls.PublishWeeklyWorkingShift;
             return $.ajax({
                 url: common.ResolveRootUrl(url),
-                data: data,
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(data),
                 method: 'POST',
                 error: common.HandleAjaxError
             });
@@ -239,7 +257,8 @@ var workingShiftFactory = (function ($) {
             var url = urls.QueryShiftModifyHistory;
             return $.ajax({
                 url: common.ResolveRootUrl(url),
-                data: data,
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(data),
                 method: 'POST',
                 error: common.HandleAjaxError
             });
