@@ -30,15 +30,11 @@ public class HomeController : Controller
         this.counterModel = counterOptions.Value;
     }
 
-    [Authorize]
-    public IActionResult Index() => WelcomeOWP();
+    [AllowAnonymous]
 
-    [Route("Welcome")]
-    [Authorize]
-    public ActionResult WelcomeOWP()
-    {
-        return View("~/wwwroot/welcome/server.cshtml");
-    }
+    public IActionResult Index() => View("~/wwwroot/welcome/server.cshtml");
+
+    
 
     [AllowAnonymous]
     [SkipUMFilter]
