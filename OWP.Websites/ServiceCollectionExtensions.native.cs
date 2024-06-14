@@ -485,7 +485,10 @@ public static class ServiceCollectionExtensions
                 pipeline.AddJavaScriptBundle("Styles/OddsCompiler",
                     "shared/owp/EventManagement/Resources/OddsCompiler/OddsCompiler.css");
 
-                pipeline.AddJavaScriptBundle("/css/re-checkin.js", "nap-auth/re-checkin.js");
+                pipeline.AddCssBundle("/Styles/nap-auth", "nap-auth/auth.css");
+                pipeline.AddJavaScriptBundle("/Scripts/nap-auth", 
+                    "nap-auth/jquery-1.8.0.min.js",
+                    "nap-auth/cryptojs.js");
             }
         );
         return services;

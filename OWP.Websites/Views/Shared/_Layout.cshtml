@@ -1,48 +1,50 @@
 ﻿@using OWP.Resources;
 @{
     var title = ViewBag.Title == null ? ViewLang.Home : ViewBag.Title;
+    const string baseHref = ".";
 }
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
+    <base href="@baseHref">
+    <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
     <title>@ViewLang.SystemName</title>
-    <link rel="shortcut icon" type="image/ico" href="@Url.Content("~/favicon.ico")">    
+    <link rel="shortcut icon" type="image/ico" href="@Url.Content("~/favicon.ico")">
     @await RenderSectionAsync("css", false)
     <environment exclude="Development">
-        <link href="~/styles/common" rel="stylesheet" />
-        <link href="~/styles/fonts" rel="stylesheet" />
+        <link href="~/styles/common" rel="stylesheet"/>
+        <link href="~/styles/fonts" rel="stylesheet"/>
     </environment>
     <environment include="Development">
-        <link href="~/shared/lib/Fanex.Grid/Fanex.Grid.css" rel="stylesheet" />
-        <link href="~/shared/lib/Fanex.Grid/Fanex.Pagination.css" rel="stylesheet" />
-        <link href="~/shared/lib/fanex-multiselect/fanex.multiSelect.css" rel="stylesheet" />
-        <link href="~/shared/lib/Materialize/materialize.css" rel="stylesheet" />
-        <link href="~/shared/lib/CustomScrollbar/jquery.mCustomScrollbar.css" rel="stylesheet" />
-        <link href="~/shared/lib/Select2/select2.css" rel="stylesheet" />
-        <link href="~/shared/lib/jQuery-Wizard/wizard.css" rel="stylesheet" />
-        <link href="~/shared/lib/Tipsy/tipsy.css" rel="stylesheet" />
-        <link href="~/shared/lib/Colpick/colpick.css" rel="stylesheet" />
-        <link href="~/shared/lib/SweetAlert2/sweetalert2.css" rel="stylesheet" />
-        <link href="~/shared/lib/jQueryTagsinput/jquery.tagsinput.min.css" rel="stylesheet" />
-        <link href="~/shared/lib/jquery-timepicker/jquery.timepicker.css" rel="stylesheet" />
-        <link href="~/shared/lib/MsgBox/msgbox-0.0.1.css" rel="stylesheet" />
-        <link href="~/shared/lib/SimplePagination/simplePagination.css" rel="stylesheet" />
-        <link href="~/shared/lib/Toastr/toastr.css" rel="stylesheet" />
-        <link href="~/shared/lib/Chosen/bootstrap-chosen.css" rel="stylesheet" />
-        <link href="~/shared/owp/copy.css" rel="stylesheet" />
-        <link href="~/shared/owp/owp.search-autocomplete.css" rel="stylesheet" />
-        <link href="~/shared/themes/main.css" rel="stylesheet" />
-        <link href="~/shared/themes/searchBlock.css" rel="stylesheet" />
-        <link href="~/shared/fonts/icon-OWP/style.css" rel="stylesheet" />
-        <link href="~/shared/themes/fonts/OWP-v1.0/style.css" rel="stylesheet" />
-        <link href="~/shared/themes/fonts/font-icon/style.css" rel="stylesheet" />
-        <link href="~/shared/themes/fonts/flags/flag-icon.css" rel="stylesheet" />
+        <link href="~/shared/lib/Fanex.Grid/Fanex.Grid.css" rel="stylesheet"/>
+        <link href="~/shared/lib/Fanex.Grid/Fanex.Pagination.css" rel="stylesheet"/>
+        <link href="~/shared/lib/fanex-multiselect/fanex.multiSelect.css" rel="stylesheet"/>
+        <link href="~/shared/lib/Materialize/materialize.css" rel="stylesheet"/>
+        <link href="~/shared/lib/CustomScrollbar/jquery.mCustomScrollbar.css" rel="stylesheet"/>
+        <link href="~/shared/lib/Select2/select2.css" rel="stylesheet"/>
+        <link href="~/shared/lib/jQuery-Wizard/wizard.css" rel="stylesheet"/>
+        <link href="~/shared/lib/Tipsy/tipsy.css" rel="stylesheet"/>
+        <link href="~/shared/lib/Colpick/colpick.css" rel="stylesheet"/>
+        <link href="~/shared/lib/SweetAlert2/sweetalert2.css" rel="stylesheet"/>
+        <link href="~/shared/lib/jQueryTagsinput/jquery.tagsinput.min.css" rel="stylesheet"/>
+        <link href="~/shared/lib/jquery-timepicker/jquery.timepicker.css" rel="stylesheet"/>
+        <link href="~/shared/lib/MsgBox/msgbox-0.0.1.css" rel="stylesheet"/>
+        <link href="~/shared/lib/SimplePagination/simplePagination.css" rel="stylesheet"/>
+        <link href="~/shared/lib/Toastr/toastr.css" rel="stylesheet"/>
+        <link href="~/shared/lib/Chosen/bootstrap-chosen.css" rel="stylesheet"/>
+        <link href="~/shared/owp/copy.css" rel="stylesheet"/>
+        <link href="~/shared/owp/owp.search-autocomplete.css" rel="stylesheet"/>
+        <link href="~/shared/themes/main.css" rel="stylesheet"/>
+        <link href="~/shared/themes/searchBlock.css" rel="stylesheet"/>
+        <link href="~/shared/fonts/icon-OWP/style.css" rel="stylesheet"/>
+        <link href="~/shared/themes/fonts/OWP-v1.0/style.css" rel="stylesheet"/>
+        <link href="~/shared/themes/fonts/font-icon/style.css" rel="stylesheet"/>
+        <link href="~/shared/themes/fonts/flags/flag-icon.css" rel="stylesheet"/>
     </environment>
 </head>
 
