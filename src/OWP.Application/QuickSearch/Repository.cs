@@ -7,10 +7,7 @@ using OWP.Enums;
 namespace OWP.Application.QuickSearch
 {
     using Constants;
-    using Enumerations;
     using Fanex.Data.Repository;
-    using Fanex.NAP.Core.Business;
-    using Fanex.NAP.Core.Web.Session;
     using Resources;
     using Services;
     using System;
