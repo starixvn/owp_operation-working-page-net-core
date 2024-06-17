@@ -1,7 +1,14 @@
 ﻿@using OWP.Resources;
 @{
+    
+}
+@{
     var title = ViewBag.Title == null ? ViewLang.Home : ViewBag.Title;
-    const string baseHref = ".";
+    var baseHref = Context.Request.PathBase;
+    if (baseHref != "/")
+    {
+        baseHref = baseHref + "/";
+    }
 }
 
 <!DOCTYPE html>
