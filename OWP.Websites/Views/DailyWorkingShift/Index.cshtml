@@ -2,7 +2,6 @@
 @inject IJsonHelper Json;
 @model OWP.WorkingShift.DailyWorkingShift.ViewModels.DailyViewModel
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = ViewLang.DailyWorkingShiftManagement;
 
     var sections = Model.Sections.Select(x => new
