@@ -51,7 +51,11 @@ services.AddCarter();
 services.AddWebOptimizer();
 
 var app = builder.Build();
-
+app.Use((context, next) =>
+{
+      context.Request.PathBase = new PathString(configuration.GetSection("PathBase").Value);
+    return next();
+});
 app.UseDeveloperExceptionPage();
 app.UseWebOptimizer();
 app.UseTicketPathStaticFiles();
@@ -75,10 +79,7 @@ NapClientManager
 app.MapCarter();
 app.MapControllerRoute(
         "default",
-        "{controller=Home}/{action=Index}/{id?}",
-        defaults: new { controller = "Home", action = "Index" },
-        dataTokens: new { pathBase = configuration.GetSection("PathBase").Value }
-        );
+        "{controller=Home}/{action=Index}/{id?}");
 app.MapHub<NewDataUploadNotifyHubImp>("/otherSportNewDataUploadNotifyHub");
 app.MapHub<ChangedInfoNotifyHubImp>("/changedInfoNotifyHub");
 app.MapHub<TicketCenterNotifyHubImp>("/ticketCenterNotifyHub");
