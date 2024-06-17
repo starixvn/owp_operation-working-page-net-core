@@ -51,12 +51,13 @@ services.AddCarter();
 services.AddWebOptimizer();
 
 var app = builder.Build();
-
+app.UsePathBase("/n2");
 app.UseDeveloperExceptionPage();
 app.UseWebOptimizer();
 app.UseTicketPathStaticFiles();
 app.UseStaticFiles();
 app.UseRouting();
+app.MapControllers();
 
 app.UseCors();
 
