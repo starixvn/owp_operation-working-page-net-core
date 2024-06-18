@@ -51,11 +51,7 @@ services.AddCarter();
 services.AddWebOptimizer();
 
 var app = builder.Build();
-app.Use((context, next) =>
-{
-      context.Request.PathBase = new PathString(configuration.GetSection("PathBase").Value);
-    return next();
-});
+
 app.UseDeveloperExceptionPage();
 app.UseWebOptimizer();
 app.UseTicketPathStaticFiles();
