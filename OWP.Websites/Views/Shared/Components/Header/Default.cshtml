@@ -91,7 +91,7 @@
                         {
                             var classActive = url == childItem.Path ? "actived" : "";
                             <li class="menu-item @classActive">
-                                <a class="collapsible-header waves-effect" href="~" + @childItem.Path>
+                                <a class="collapsible-header waves-effect" href="@childItem.Path">
                                     <i class="menu-icon @childItem.IconCssClass" aria-hidden="true" title="@childItem.Name"></i>
                                     <span class="menu-title">@childItem.Name</span>
                                 </a>
