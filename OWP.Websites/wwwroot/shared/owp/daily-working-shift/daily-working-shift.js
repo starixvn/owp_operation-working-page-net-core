@@ -467,7 +467,7 @@ var dailyWorkingShift = (function ($) {
                     table.append(row);
                 }
             });
-            $(".table-body").css({ 'margin-top': $(".sticky-filter").outerHeight() });
+            $(".table-body").css({ 'margin-top': $(".sticky-filter").outerHeight() + 25 });
         }
 
         function renderRow(name) {
