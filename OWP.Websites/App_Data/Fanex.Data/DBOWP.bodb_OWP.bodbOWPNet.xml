@@ -500,5 +500,7 @@
     <Setting Key="OWP_OddsCompiler_UpdateMarket" SpName ="OWP_OddsCompiler_UpdateMarket" DbName="DBOWP.bodb_OWP.wsv_owp" />
     <Setting Key="OWP_OddsCompiler_UpdateOdds" SpName ="OWP_OddsCompiler_UpdateOdds" DbName="DBOWP.bodb_OWP.wsv_owp" />
   </Function>
-  
+  <Function Name="QuickSearch">
+    <Setting Key="OWP_QuickSearchMatchGet" SpName ="OWP_QuickSearchMatchGet" DbName="DBOWP.bodb_OWP.wsv_owp" />
+  </Function>
 </Functions>

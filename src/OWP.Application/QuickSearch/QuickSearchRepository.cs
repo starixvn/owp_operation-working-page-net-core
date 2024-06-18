@@ -16,12 +16,12 @@ namespace OWP.Application.QuickSearch
     using System.Text;
     using System.Threading.Tasks;
 
-    public interface Repository
+    public interface QuickSearchRepository
     {
         Task<IEnumerable<MatchInfoModel>> Query(QueryModel model);
     }
 
-    public class RepositoryImp : Repository
+    public class QuickSearchRepositoryImp : QuickSearchRepository
     {
         private readonly IDynamicRepository repository;
         private readonly INapSession session;
@@ -30,7 +30,7 @@ namespace OWP.Application.QuickSearch
         private readonly GetAdminSiteMatchIdService getAdminSiteMatchIdService;
 
 
-        public RepositoryImp(IDynamicRepository repository, INapSession session, PermissionService permissionService, GetAdminSiteMatchIdService getAdminSiteMatchIdService)
+        public QuickSearchRepositoryImp(IDynamicRepository repository, INapSession session, PermissionService permissionService, GetAdminSiteMatchIdService getAdminSiteMatchIdService)
         {
             this.repository = repository;
             this.session = session;

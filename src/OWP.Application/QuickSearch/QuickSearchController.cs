@@ -3,6 +3,7 @@
 namespace OWP.Application.QuickSearch;
 
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,17 +11,18 @@ using System.Threading.Tasks;
 [Route("api/application")]
 public class QuickSearchController : ControllerBase
 {
-    private readonly Repository repository;
+    private readonly QuickSearchRepository repository;
 
-    public QuickSearchController(Repository repository)
+    public QuickSearchController(QuickSearchRepository repository)
     {
         this.repository = repository;
     }
 
     [Route("quicksearch")]
     [HttpPost]
-    public async Task<IEnumerable<MatchInfoModel>> Query(QueryModel model)
+    public async Task<IActionResult> Query([FromBody] QueryModel model)
     {
-        return await repository.Query(model);
+         var result= await repository.Query(model);
+         return Ok(JsonConvert.SerializeObject(result));
     }
 }
