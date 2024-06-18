@@ -1,11 +1,10 @@
-﻿namespace OWP.WorkingShift.Common.Models
+﻿namespace OWP.WorkingShift.Common.Models;
+
+using System;
+
+public class RemoveSingleShiftModel
 {
-    using System;
+    public int EmployeeId { get; set; }
 
-    public class RemoveSingleShiftModel
-    {
-        public int EmployeeId { get; set; }
-
-        public DateTime ShiftDate { get; set; }
-    }
+    public DateTime ShiftDate { get; set; }
 }

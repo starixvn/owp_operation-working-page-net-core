@@ -1,15 +1,14 @@
-﻿namespace OWP.WorkingShift.Common.Criteria
+﻿namespace OWP.WorkingShift.Common.Criteria;
+
+using Fanex.Data.Repository;
+
+public class GetAllWorkingShiftColorCriteria : CriteriaBase
 {
-    using Fanex.Data.Repository;
+    public int UserId { get; set; }
 
-    public class GetAllWorkingShiftColorCriteria : CriteriaBase
-    {
-        public int UserId { get; set; }
+    public int? TimeZoneOffset { get; set; }
 
-        public int? TimeZoneOffset { get; set; }
+    public override bool IsValid() => UserId >= 0;
 
-        public override bool IsValid() => UserId >= 0;
-
-        public override string GetSettingKey() => "OWP_EmployeeWorkingShift_GetAllShift";
-    }
+    public override string GetSettingKey() => "OWP_EmployeeWorkingShift_GetAllShift";
 }

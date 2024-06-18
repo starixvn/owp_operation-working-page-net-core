@@ -1,45 +1,44 @@
 ﻿using OWP.WorkingShift.Common.Criteria;
 using OWP.WorkingShift.Common.Models;
 
-namespace OWP.WorkingShift.Common.Repositories
-{
-    public interface WorkingShiftDefaultRepository
-    {
-        Task<ResultDataObject> UpdateDefaultShift(UpdateDefaultShiftModel model);
+namespace OWP.WorkingShift.Common.Repositories;
 
-        Task<IList<WorkingShiftDefaultModel>> QueryByUser(string userIds);
+public interface WorkingShiftDefaultRepository
+{
+    Task<ResultDataObject> UpdateDefaultShift(UpdateDefaultShiftModel model);
+
+    Task<IList<WorkingShiftDefaultModel>> QueryByUser(string userIds);
+}
+
+public class WorkingShiftDefaultRepositoryImp : WorkingShiftDefaultRepository
+{
+    private readonly IMapper mapper;
+    private readonly IDynamicRepository dynamicRepository;
+    private readonly INapSession currentSession;
+
+    public WorkingShiftDefaultRepositoryImp(IMapper mapper, IDynamicRepository dynamicRepository, INapSession currentSession)
+    {
+        this.mapper = mapper;
+        this.dynamicRepository = dynamicRepository;
+        this.currentSession = currentSession;
     }
 
-    public class WorkingShiftDefaultRepositoryImp : WorkingShiftDefaultRepository
+    public async Task<ResultDataObject> UpdateDefaultShift(UpdateDefaultShiftModel model)
     {
-        private readonly IMapper mapper;
-        private readonly IDynamicRepository dynamicRepository;
-        private readonly INapSession currentSession;
+        var criteria = mapper.Map<UpdateDefaultShiftCriteria>(model);
+        criteria.Actor = currentSession.UserId;
 
-        public WorkingShiftDefaultRepositoryImp(IMapper mapper, IDynamicRepository dynamicRepository, INapSession currentSession)
+        await dynamicRepository.ExecuteAsync(criteria);
+        return ResultDataObject.Ok;
+    }
+
+    public async Task<IList<WorkingShiftDefaultModel>> QueryByUser(string userIds)
+    {
+        var criteria = new QueryWorkingShiftDefaultByUserCriteria
         {
-            this.mapper = mapper;
-            this.dynamicRepository = dynamicRepository;
-            this.currentSession = currentSession;
-        }
+            UserIds = userIds
+        };
 
-        public async Task<ResultDataObject> UpdateDefaultShift(UpdateDefaultShiftModel model)
-        {
-            var criteria = mapper.Map<UpdateDefaultShiftCriteria>(model);
-            criteria.Actor = currentSession.UserId;
-
-            await dynamicRepository.ExecuteAsync(criteria);
-            return ResultDataObject.Ok;
-        }
-
-        public async Task<IList<WorkingShiftDefaultModel>> QueryByUser(string userIds)
-        {
-            var criteria = new QueryWorkingShiftDefaultByUserCriteria
-            {
-                UserIds = userIds
-            };
-
-            return (await dynamicRepository.FetchAsync<WorkingShiftDefaultModel>(criteria)).ToList();
-        }
+        return (await dynamicRepository.FetchAsync<WorkingShiftDefaultModel>(criteria)).ToList();
     }
 }

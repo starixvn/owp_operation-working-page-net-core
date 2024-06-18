@@ -1,17 +1,16 @@
-namespace OWP.ProviderVerification.Agents.QueryAgents
+namespace OWP.ProviderVerification.Agents.QueryAgents;
+
+public record QueryAgentOptionRequest() : Query<IEnumerable<AgentOption>>;
+
+internal class GetAgentOptionsHandler : QueryHandler<QueryAgentOptionRequest, IEnumerable<AgentOption>>
 {
-    public record QueryAgentOptionRequest() : Query<IEnumerable<AgentOption>>;
+    private readonly ProviderVerificationRepository repository;
 
-    internal class GetAgentOptionsHandler : QueryHandler<QueryAgentOptionRequest, IEnumerable<AgentOption>>
+    public GetAgentOptionsHandler(ProviderVerificationRepository repository)
     {
-        private readonly ProviderVerificationRepository repository;
-
-        public GetAgentOptionsHandler(ProviderVerificationRepository repository)
-        {
-            this.repository = repository;
-        }
-
-        public Task<IEnumerable<AgentOption>> Handle(QueryAgentOptionRequest request, CancellationToken cancellationToken)
-        => repository.GetAgentOptions();
+        this.repository = repository;
     }
+
+    public Task<IEnumerable<AgentOption>> Handle(QueryAgentOptionRequest request, CancellationToken cancellationToken)
+    => repository.GetAgentOptions();
 }

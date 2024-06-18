@@ -1,17 +1,16 @@
-﻿namespace OWP.WorkingShift.ViewLog.Models
+﻿namespace OWP.WorkingShift.ViewLog.Models;
+
+using System;
+
+public class UserLogModel
 {
-    using System;
+    public DateTime ModifiedDate { get; set; }
 
-    public class UserLogModel
-    {
-        public DateTime ModifiedDate { get; set; }
+    public string ModifiedBy { get; set; }
 
-        public string ModifiedBy { get; set; }
+    public int ActionId { get; set; }
 
-        public int ActionId { get; set; }
+    public string DataOld { get; set; }
 
-        public string DataOld { get; set; }
-
-        public string Data { get; set; }
-    }
+    public string Data { get; set; }
 }

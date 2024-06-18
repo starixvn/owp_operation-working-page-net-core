@@ -1,18 +1,17 @@
-﻿namespace OWP.WorkingShift.Common.Criteria
+﻿namespace OWP.WorkingShift.Common.Criteria;
+
+using System;
+using Fanex.Data.Repository;
+
+public class QueryWorkingShiftByUserCriteria : CriteriaBase
 {
-    using System;
-    using Fanex.Data.Repository;
+    public string UserIds { get; set; }
 
-    public class QueryWorkingShiftByUserCriteria : CriteriaBase
-    {
-        public string UserIds { get; set; }
+    public DateTime? FromDate { get; set; }
 
-        public DateTime? FromDate { get; set; }
+    public DateTime? ToDate { get; set; }
 
-        public DateTime? ToDate { get; set; }
+    public override bool IsValid() => !string.IsNullOrEmpty(UserIds) && FromDate.HasValue && ToDate.HasValue;
 
-        public override bool IsValid() => !string.IsNullOrEmpty(UserIds) && FromDate.HasValue && ToDate.HasValue;
-
-        public override string GetSettingKey() => "OWP_EmployeeWorkingShift_QueryWeeklyByUser";
-    }
+    public override string GetSettingKey() => "OWP_EmployeeWorkingShift_QueryWeeklyByUser";
 }

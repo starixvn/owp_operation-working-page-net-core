@@ -1,18 +1,17 @@
-﻿namespace OWP.SimpleDataApi.Criteria.EmployeeWorkingShift
+﻿namespace OWP.SimpleDataApi.Criteria.EmployeeWorkingShift;
+
+using System;
+using Fanex.Data.Repository;
+
+public class WorkingShiftUpdateCodeCriteria : NonQueryCommand
 {
-    using System;
-    using Fanex.Data.Repository;
+    public int ActorId { get; set; }
 
-    public class WorkingShiftUpdateCodeCriteria : NonQueryCommand
-    {
-        public int ActorId { get; set; }
+    public int EmployeeId { get; set; }
 
-        public int EmployeeId { get; set; }
+    public DateTime ShiftDate { get; set; }
 
-        public DateTime ShiftDate { get; set; }
+    public override string GetSettingKey() => "OWP_EmployeeWorkingShift_RemoveShiftCode";
 
-        public override string GetSettingKey() => "OWP_EmployeeWorkingShift_RemoveShiftCode";
-
-        public override bool IsValid() => ActorId > 0 && EmployeeId > 0;
-    }
+    public override bool IsValid() => ActorId > 0 && EmployeeId > 0;
 }

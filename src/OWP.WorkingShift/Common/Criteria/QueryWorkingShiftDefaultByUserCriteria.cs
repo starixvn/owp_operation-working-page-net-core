@@ -1,13 +1,12 @@
-﻿namespace OWP.WorkingShift.Common.Criteria
+﻿namespace OWP.WorkingShift.Common.Criteria;
+
+using Fanex.Data.Repository;
+
+public class QueryWorkingShiftDefaultByUserCriteria : CriteriaBase
 {
-    using Fanex.Data.Repository;
+    public string UserIds { get; set; }
 
-    public class QueryWorkingShiftDefaultByUserCriteria : CriteriaBase
-    {
-        public string UserIds { get; set; }
+    public override bool IsValid() => !string.IsNullOrEmpty(UserIds);
 
-        public override bool IsValid() => !string.IsNullOrEmpty(UserIds);
-
-        public override string GetSettingKey() => "OWP_EmployeeWorkingShiftDefault_QueryByUser";
-    }
+    public override string GetSettingKey() => "OWP_EmployeeWorkingShiftDefault_QueryByUser";
 }

@@ -1,62 +1,61 @@
 ﻿using OWP.WorkingShift.Common.Models;
 
-namespace OWP.WorkingShift.Common.Repositories
+namespace OWP.WorkingShift.Common.Repositories;
+
+
+public interface WorkingShiftTimezoneSettingRepository
 {
+    Task<ResultDataObject> Update(TimezoneUpdateModel model);
 
-    public interface WorkingShiftTimezoneSettingRepository
+    Task<IList<TimezoneSettingModel>> GetTimezoneSettings();
+
+    Task<TimezoneSettingModel> GetSelectedTimezoneSetting();
+
+    Task<TimezoneSettingModel> GetTimezoneSettingByOffset(int offset);
+}
+
+public class WorkingShiftTimezoneSettingRepositoryImp : WorkingShiftTimezoneSettingRepository
+{
+    private readonly IDynamicRepository repository;
+    private readonly INapSession currentSession;
+
+    public WorkingShiftTimezoneSettingRepositoryImp(IDynamicRepository repository, INapSession currentSession)
     {
-        Task<ResultDataObject> Update(TimezoneUpdateModel model);
-
-        Task<IList<TimezoneSettingModel>> GetTimezoneSettings();
-
-        Task<TimezoneSettingModel> GetSelectedTimezoneSetting();
-
-        Task<TimezoneSettingModel> GetTimezoneSettingByOffset(int offset);
+        this.repository = repository;
+        this.currentSession = currentSession;
     }
 
-    public class WorkingShiftTimezoneSettingRepositoryImp : WorkingShiftTimezoneSettingRepository
+    public async Task<IList<TimezoneSettingModel>> GetTimezoneSettings()
     {
-        private readonly IDynamicRepository repository;
-        private readonly INapSession currentSession;
-
-        public WorkingShiftTimezoneSettingRepositoryImp(IDynamicRepository repository, INapSession currentSession)
+        var criteria = new GetTimezoneSettingCriteria
         {
-            this.repository = repository;
-            this.currentSession = currentSession;
-        }
+            UserId = currentSession?.UserId ?? 0
+        };
 
-        public async Task<IList<TimezoneSettingModel>> GetTimezoneSettings()
+        return (await repository.FetchAsync<TimezoneSettingModel>(criteria)).ToList();
+    }
+
+    public async Task<TimezoneSettingModel> GetSelectedTimezoneSetting()
+    {
+        var timezoneSettings = await GetTimezoneSettings();
+        return timezoneSettings.First(x => x.IsSelected);
+    }
+
+    public async Task<ResultDataObject> Update(TimezoneUpdateModel model)
+    {
+        var criteria = new UpdateTimezoneCriteria
         {
-            var criteria = new GetTimezoneSettingCriteria
-            {
-                UserId = currentSession?.UserId ?? 0
-            };
+            SettingId = model.SettingId,
+            UserId = currentSession.UserId
+        };
 
-            return (await repository.FetchAsync<TimezoneSettingModel>(criteria)).ToList();
-        }
+        await repository.ExecuteAsync(criteria);
+        return ResultDataObject.Ok;
+    }
 
-        public async Task<TimezoneSettingModel> GetSelectedTimezoneSetting()
-        {
-            var timezoneSettings = await GetTimezoneSettings();
-            return timezoneSettings.First(x => x.IsSelected);
-        }
-
-        public async Task<ResultDataObject> Update(TimezoneUpdateModel model)
-        {
-            var criteria = new UpdateTimezoneCriteria
-            {
-                SettingId = model.SettingId,
-                UserId = currentSession.UserId
-            };
-
-            await repository.ExecuteAsync(criteria);
-            return ResultDataObject.Ok;
-        }
-
-        public async Task<TimezoneSettingModel> GetTimezoneSettingByOffset(int offset)
-        {
-            var timezoneSettings = await GetTimezoneSettings();
-            return timezoneSettings.First(x => x.Offset == offset);
-        }
+    public async Task<TimezoneSettingModel> GetTimezoneSettingByOffset(int offset)
+    {
+        var timezoneSettings = await GetTimezoneSettings();
+        return timezoneSettings.First(x => x.Offset == offset);
     }
 }

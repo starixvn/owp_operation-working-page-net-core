@@ -1,25 +1,24 @@
-﻿namespace OWP.WorkingShift.Common.Criteria
+﻿namespace OWP.WorkingShift.Common.Criteria;
+
+using System;
+using Fanex.Data.Repository;
+
+public class CopySingleShiftCriteria : NonQueryCommand
 {
-    using System;
-    using Fanex.Data.Repository;
+    public int ActorId { get; set; }
 
-    public class CopySingleShiftCriteria : NonQueryCommand
-    {
-        public int ActorId { get; set; }
+    public int UserId { get; set; }
 
-        public int UserId { get; set; }
+    public DateTime? ShiftDate { get; set; }
 
-        public DateTime? ShiftDate { get; set; }
+    public int ShiftId { get; set; }
 
-        public int ShiftId { get; set; }
+    public int? RefShiftId { get; set; }
 
-        public int? RefShiftId { get; set; }
+    public override bool IsValid() => ActorId > 0
+        && ShiftId > 0
+        && UserId > 0
+        && ShiftDate.HasValue;
 
-        public override bool IsValid() => ActorId > 0
-            && ShiftId > 0
-            && UserId > 0
-            && ShiftDate.HasValue;
-
-        public override string GetSettingKey() => "OWP_EmployeeWorkingShift_CopySingleShift";
-    }
+    public override string GetSettingKey() => "OWP_EmployeeWorkingShift_CopySingleShift";
 }

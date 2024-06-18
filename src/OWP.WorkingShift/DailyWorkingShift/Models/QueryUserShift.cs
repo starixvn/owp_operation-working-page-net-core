@@ -1,21 +1,20 @@
-﻿namespace OWP.WorkingShift.DailyWorkingShift.Models
+﻿namespace OWP.WorkingShift.DailyWorkingShift.Models;
+
+using System;
+using Attributes;
+using Newtonsoft.Json;
+
+public class QueryUserShift
 {
-    using System;
-    using Attributes;
-    using Newtonsoft.Json;
+    public int EmployeeId { get; set; }
 
-    public class QueryUserShift
-    {
-        public int EmployeeId { get; set; }
+    public DateTime ShiftDate { get; set; }
 
-        public DateTime ShiftDate { get; set; }
+    public int ShiftId { get; set; }
 
-        public int ShiftId { get; set; }
+    [JsonConverter(typeof(DateTimeWithoutGmtConverter))]
+    public DateTime ShiftStartTime { get; set; }
 
-        [JsonConverter(typeof(DateTimeWithoutGmtConverter))]
-        public DateTime ShiftStartTime { get; set; }
-
-        [JsonConverter(typeof(DateTimeWithoutGmtConverter))]
-        public DateTime ShiftEndTime { get; set; }
-    }
+    [JsonConverter(typeof(DateTimeWithoutGmtConverter))]
+    public DateTime ShiftEndTime { get; set; }
 }

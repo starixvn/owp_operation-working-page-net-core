@@ -1,37 +1,36 @@
 ﻿using OWP.WorkingShift.Common.Criteria;
 using OWP.WorkingShift.Common.Models;
 
-namespace OWP.WorkingShift.Common.Repositories
+namespace OWP.WorkingShift.Common.Repositories;
+
+public interface WorkingShiftOrderRepository
 {
-    public interface WorkingShiftOrderRepository
+    Task<ResultDataObject> UpdateEmployeeWorkingShiftOrder(UpdateEmployeeWorkingShiftOrderModel model);
+}
+
+public class WorkingShiftOrderRepositoryImp : WorkingShiftOrderRepository
+{
+    private readonly IMapper mapper;
+    private readonly IDynamicRepository dynamicRepository;
+    private readonly INapSession currentSession;
+
+    public WorkingShiftOrderRepositoryImp(IMapper mapper, IDynamicRepository dynamicRepository, INapSession currentSession)
     {
-        Task<ResultDataObject> UpdateEmployeeWorkingShiftOrder(UpdateEmployeeWorkingShiftOrderModel model);
+        this.mapper = mapper;
+        this.dynamicRepository = dynamicRepository;
+        this.currentSession = currentSession;
     }
 
-    public class WorkingShiftOrderRepositoryImp : WorkingShiftOrderRepository
+    public async Task<ResultDataObject> UpdateEmployeeWorkingShiftOrder(UpdateEmployeeWorkingShiftOrderModel model)
     {
-        private readonly IMapper mapper;
-        private readonly IDynamicRepository dynamicRepository;
-        private readonly INapSession currentSession;
+        var criteria = mapper.Map<UpdateEmployeeWorkingShiftOrderCriteria>(model);
+        criteria.ActorId = currentSession.UserId;
 
-        public WorkingShiftOrderRepositoryImp(IMapper mapper, IDynamicRepository dynamicRepository, INapSession currentSession)
+        await dynamicRepository.ExecuteAsync(criteria);
+
+        return new ResultDataObject
         {
-            this.mapper = mapper;
-            this.dynamicRepository = dynamicRepository;
-            this.currentSession = currentSession;
-        }
-
-        public async Task<ResultDataObject> UpdateEmployeeWorkingShiftOrder(UpdateEmployeeWorkingShiftOrderModel model)
-        {
-            var criteria = mapper.Map<UpdateEmployeeWorkingShiftOrderCriteria>(model);
-            criteria.ActorId = currentSession.UserId;
-
-            await dynamicRepository.ExecuteAsync(criteria);
-
-            return new ResultDataObject
-            {
-                Code = (int)ErrorCode.Ok
-            };
-        }
+            Code = (int)ErrorCode.Ok
+        };
     }
 }

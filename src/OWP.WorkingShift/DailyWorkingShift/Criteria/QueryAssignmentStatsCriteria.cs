@@ -1,14 +1,13 @@
-﻿namespace OWP.WorkingShift.DailyWorkingShift.Criteria
+﻿namespace OWP.WorkingShift.DailyWorkingShift.Criteria;
+
+using System;
+using Fanex.Data.Repository;
+
+public class QueryAssignmentStatsCriteria : CriteriaBase
 {
-    using System;
-    using Fanex.Data.Repository;
+    public DateTime? Date { get; set; }
 
-    public class QueryAssignmentStatsCriteria : CriteriaBase
-    {
-        public DateTime? Date { get; set; }
+    public override string GetSettingKey() => "OWP_EmployeeWorkingShift_QueryAssignmentStats";
 
-        public override string GetSettingKey() => "OWP_EmployeeWorkingShift_QueryAssignmentStats";
-
-        public override bool IsValid() => Date.HasValue;
-    }
+    public override bool IsValid() => Date.HasValue;
 }

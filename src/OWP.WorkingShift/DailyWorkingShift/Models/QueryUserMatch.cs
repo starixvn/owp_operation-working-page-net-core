@@ -1,19 +1,18 @@
-﻿namespace OWP.WorkingShift.DailyWorkingShift.Models
+﻿namespace OWP.WorkingShift.DailyWorkingShift.Models;
+
+using System;
+
+public class QueryUserMatch
 {
-    using System;
+    public int? UserId { get; set; }
 
-    public class QueryUserMatch
-    {
-        public int? UserId { get; set; }
+    public int OWPMatchId { get; set; }
 
-        public int OWPMatchId { get; set; }
+    public int Bettype { get; set; }
 
-        public int Bettype { get; set; }
+    public DateTime EventDateTime { get; set; }
 
-        public DateTime EventDateTime { get; set; }
+    public string AssignmentNote { get; set; }
 
-        public string AssignmentNote { get; set; }
-
-        public bool IsAllowedToViewDetail { get; set; }
-    }
+    public bool IsAllowedToViewDetail { get; set; }
 }

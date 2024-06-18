@@ -1,11 +1,10 @@
-﻿namespace OWP.WorkingShift.ViewLog.Models
+﻿namespace OWP.WorkingShift.ViewLog.Models;
+
+using System.Collections.Generic;
+
+public class LogData
 {
-    using System.Collections.Generic;
+    public UserLogModel UserLog { get; set; }
 
-    public class LogData
-    {
-        public UserLogModel UserLog { get; set; }
-
-        public Dictionary<int, string> Shifts { get; set; }
-    }
+    public Dictionary<int, string> Shifts { get; set; }
 }

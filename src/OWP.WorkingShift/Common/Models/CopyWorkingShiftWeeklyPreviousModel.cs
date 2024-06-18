@@ -1,11 +1,10 @@
-﻿namespace OWP.WorkingShift.Common.Models
+﻿namespace OWP.WorkingShift.Common.Models;
+
+using System;
+
+public class CopyWorkingShiftWeeklyPreviousModel
 {
-    using System;
+    public int UserId { get; set; }
 
-    public class CopyWorkingShiftWeeklyPreviousModel
-    {
-        public int UserId { get; set; }
-
-        public DateTime? StartDateOfWeek { get; set; }
-    }
+    public DateTime? StartDateOfWeek { get; set; }
 }

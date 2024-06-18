@@ -1,64 +1,63 @@
 ﻿using OWP.WorkingShift.Common.Criteria;
 using OWP.WorkingShift.Common.Models;
 
-namespace OWP.WorkingShift.Common.Repositories
+namespace OWP.WorkingShift.Common.Repositories;
+
+
+public interface WorkingShiftPublishRepository
 {
+    Task<ResultDataObject> PublishSection(PublishWeeklyWorkingShiftModel model);
 
-    public interface WorkingShiftPublishRepository
+    Task<IList<SectionPublishWorkingShiftModel>> GetSectionPublishWorkingShift(DateTime fromDate, DateTime toDate, string sectionIds);
+
+    Task<IList<WorkingShiftModel>> GetWeeklyWorkingShiftBySection(WorkingShiftQueryBySectionModel queryModel);
+}
+
+public class WorkingShiftPublishRepositoryImp : WorkingShiftPublishRepository
+{
+    private readonly IMapper mapper;
+    private readonly IDynamicRepository dynamicRepository;
+    private readonly INapSession currentSession;
+
+    public WorkingShiftPublishRepositoryImp(IMapper mapper, IDynamicRepository dynamicRepository, INapSession currentSession)
     {
-        Task<ResultDataObject> PublishSection(PublishWeeklyWorkingShiftModel model);
-
-        Task<IList<SectionPublishWorkingShiftModel>> GetSectionPublishWorkingShift(DateTime fromDate, DateTime toDate, string sectionIds);
-
-        Task<IList<WorkingShiftModel>> GetWeeklyWorkingShiftBySection(WorkingShiftQueryBySectionModel queryModel);
+        this.mapper = mapper;
+        this.dynamicRepository = dynamicRepository;
+        this.currentSession = currentSession;
     }
 
-    public class WorkingShiftPublishRepositoryImp : WorkingShiftPublishRepository
+    public async Task<IList<SectionPublishWorkingShiftModel>> GetSectionPublishWorkingShift(DateTime fromDate, DateTime toDate, string sectionIds)
     {
-        private readonly IMapper mapper;
-        private readonly IDynamicRepository dynamicRepository;
-        private readonly INapSession currentSession;
-
-        public WorkingShiftPublishRepositoryImp(IMapper mapper, IDynamicRepository dynamicRepository, INapSession currentSession)
+        var criteria = new GetSectionWorkingShiftPublishByWeekCriteria
         {
-            this.mapper = mapper;
-            this.dynamicRepository = dynamicRepository;
-            this.currentSession = currentSession;
-        }
-
-        public async Task<IList<SectionPublishWorkingShiftModel>> GetSectionPublishWorkingShift(DateTime fromDate, DateTime toDate, string sectionIds)
-        {
-            var criteria = new GetSectionWorkingShiftPublishByWeekCriteria
-            {
-                FromDate = fromDate,
-                ToDate = toDate,
-                SectionIds = sectionIds
-            };
+            FromDate = fromDate,
+            ToDate = toDate,
+            SectionIds = sectionIds
+        };
 
 
-            return (await dynamicRepository.FetchAsync<SectionPublishWorkingShiftModel>(criteria)).ToList();
-        }
-
-        public async Task<ResultDataObject> PublishSection(PublishWeeklyWorkingShiftModel model)
-        {
-            var criteria = mapper.Map<PublishWeeklyWorkingShiftCriteria>(model);
-
-            criteria.ActorId = currentSession.UserId;
-
-
-            await dynamicRepository.ExecuteAsync(criteria);
-
-            return new ResultDataObject
-            {
-                Code = (int)ErrorCode.Ok,
-                Data = model
-            };
-        }
-        public async Task<IList<WorkingShiftModel>> GetWeeklyWorkingShiftBySection(WorkingShiftQueryBySectionModel queryModel)
-        {
-            var criteria = mapper.Map<QueryWorkingShiftBySectionCriteria>(queryModel);
-            return (await dynamicRepository.FetchAsync<WorkingShiftModel>(criteria)).ToList();
-        }
-
+        return (await dynamicRepository.FetchAsync<SectionPublishWorkingShiftModel>(criteria)).ToList();
     }
+
+    public async Task<ResultDataObject> PublishSection(PublishWeeklyWorkingShiftModel model)
+    {
+        var criteria = mapper.Map<PublishWeeklyWorkingShiftCriteria>(model);
+
+        criteria.ActorId = currentSession.UserId;
+
+
+        await dynamicRepository.ExecuteAsync(criteria);
+
+        return new ResultDataObject
+        {
+            Code = (int)ErrorCode.Ok,
+            Data = model
+        };
+    }
+    public async Task<IList<WorkingShiftModel>> GetWeeklyWorkingShiftBySection(WorkingShiftQueryBySectionModel queryModel)
+    {
+        var criteria = mapper.Map<QueryWorkingShiftBySectionCriteria>(queryModel);
+        return (await dynamicRepository.FetchAsync<WorkingShiftModel>(criteria)).ToList();
+    }
+
 }

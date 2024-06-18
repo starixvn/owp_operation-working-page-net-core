@@ -1,13 +1,12 @@
-﻿namespace OWP.WorkingShift.Common.Models
+﻿namespace OWP.WorkingShift.Common.Models;
+
+using System;
+
+public class DeleteWholeShiftsModel
 {
-    using System;
+    public int UserId { get; set; }
 
-    public class DeleteWholeShiftsModel
-    {
-        public int UserId { get; set; }
+    public DateTime? FromDate { get; set; }
 
-        public DateTime? FromDate { get; set; }
-
-        public DateTime? ToDate { get; set; }
-    }
+    public DateTime? ToDate { get; set; }
 }

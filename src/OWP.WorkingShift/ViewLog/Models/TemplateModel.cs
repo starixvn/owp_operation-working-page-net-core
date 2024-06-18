@@ -1,11 +1,10 @@
-﻿namespace OWP.WorkingShift.ViewLog.Models
+﻿namespace OWP.WorkingShift.ViewLog.Models;
+
+using System.Collections.Generic;
+
+public class TemplateModel
 {
-    using System.Collections.Generic;
+    public List<UserLogModel> UserLogs { get; set; }
 
-    public class TemplateModel
-    {
-        public List<UserLogModel> UserLogs { get; set; }
-
-        public Dictionary<int, string> Shifts { get; set; }
-    }
+    public Dictionary<int, string> Shifts { get; set; }
 }

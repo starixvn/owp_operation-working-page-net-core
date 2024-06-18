@@ -1,18 +1,17 @@
-﻿namespace OWP.WorkingShift.ViewLog.Models
+﻿namespace OWP.WorkingShift.ViewLog.Models;
+
+using System;
+using System.Xml.Serialization;
+
+[XmlRoot(ElementName = "z")]
+public class PublicShiftModel
 {
-    using System;
-    using System.Xml.Serialization;
+    [XmlAttribute("frd")]
+    public DateTime FromDate { get; set; }
 
-    [XmlRoot(ElementName = "z")]
-    public class PublicShiftModel
-    {
-        [XmlAttribute("frd")]
-        public DateTime FromDate { get; set; }
+    [XmlAttribute("tod")]
+    public DateTime ToDate { get; set; }
 
-        [XmlAttribute("tod")]
-        public DateTime ToDate { get; set; }
-
-        [XmlAttribute("isp")]
-        public bool Isp { get; set; }
-    }
+    [XmlAttribute("isp")]
+    public bool Isp { get; set; }
 }

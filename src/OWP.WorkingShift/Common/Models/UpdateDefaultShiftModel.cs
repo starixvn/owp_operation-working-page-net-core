@@ -1,17 +1,16 @@
-﻿namespace OWP.WorkingShift.Common.Models
+﻿namespace OWP.WorkingShift.Common.Models;
+
+using System;
+
+public class UpdateDefaultShiftModel
 {
-    using System;
+    public int EmployeeId { get; set; }
 
-    public class UpdateDefaultShiftModel
-    {
-        public int EmployeeId { get; set; }
+    public string DefaultShiftIds { get; set; }
 
-        public string DefaultShiftIds { get; set; }
+    public bool IsApplyCurrentWeek { get; set; }
 
-        public bool IsApplyCurrentWeek { get; set; }
+    public DateTime? FromDate { get; set; }
 
-        public DateTime? FromDate { get; set; }
-
-        public DateTime? ToDate { get; set; }
-    }
+    public DateTime? ToDate { get; set; }
 }

@@ -1,13 +1,12 @@
-﻿namespace OWP.WorkingShift.DailyWorkingShift.Models
+﻿namespace OWP.WorkingShift.DailyWorkingShift.Models;
+
+using System.Collections.Generic;
+
+public class QueryResult
 {
-    using System.Collections.Generic;
+    public IEnumerable<QueryUserGroup> Users { get; set; }
 
-    public class QueryResult
-    {
-        public IEnumerable<QueryUserGroup> Users { get; set; }
+    public IEnumerable<QueryMatchInfo> Matches { get; set; }
 
-        public IEnumerable<QueryMatchInfo> Matches { get; set; }
-
-        public AssignmentStatistic AssignmentStatistics { get; set; }
-    }
+    public AssignmentStatistic AssignmentStatistics { get; set; }
 }

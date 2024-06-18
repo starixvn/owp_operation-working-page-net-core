@@ -1,11 +1,10 @@
-﻿namespace OWP.WorkingShift.WeeklyWorkingShift.Models
-{
-    using System.Xml.Serialization;
+﻿namespace OWP.WorkingShift.WeeklyWorkingShift.Models;
 
-    [XmlRoot("Data")]
-    public class WorkingShiftUploadData
-    {
-        [XmlElement("Row")]
-        public WorkingShiftImportEntity[] WorkingShifts { get; set; }
-    }
+using System.Xml.Serialization;
+
+[XmlRoot("Data")]
+public class WorkingShiftUploadData
+{
+    [XmlElement("Row")]
+    public WorkingShiftImportEntity[] WorkingShifts { get; set; }
 }

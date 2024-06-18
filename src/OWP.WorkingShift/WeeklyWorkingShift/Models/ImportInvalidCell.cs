@@ -1,15 +1,14 @@
-﻿namespace OWP.WorkingShift.WeeklyWorkingShift.Models
+﻿namespace OWP.WorkingShift.WeeklyWorkingShift.Models;
+
+public class ImportInvalidCell : ImportCell
 {
-    public class ImportInvalidCell : ImportCell
+    public ImportInvalidCell(string address, string type, string message) : base(address)
     {
-        public ImportInvalidCell(string address, string type, string message) : base(address)
-        {
-            Type = type;
-            Message = message;
-        }
-
-        public string Type { get; set; }
-
-        public string Message { get; set; }
+        Type = type;
+        Message = message;
     }
+
+    public string Type { get; set; }
+
+    public string Message { get; set; }
 }

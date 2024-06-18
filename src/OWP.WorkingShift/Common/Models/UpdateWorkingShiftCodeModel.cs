@@ -1,17 +1,16 @@
-﻿namespace OWP.WorkingShift.Common.Models
+﻿namespace OWP.WorkingShift.Common.Models;
+
+using System;
+
+public class UpdateWorkingShiftCodeModel
 {
-    using System;
+    public int EmployeeId { get; set; }
 
-    public class UpdateWorkingShiftCodeModel
-    {
-        public int EmployeeId { get; set; }
+    public int ShiftId { get; set; }
 
-        public int ShiftId { get; set; }
+    public DateTime ShiftDate { get; set; }
 
-        public DateTime ShiftDate { get; set; }
+    public int? RefShiftId { get; set; }
 
-        public int? RefShiftId { get; set; }
-
-        public bool IsOvertime { get; set; }
-    }
+    public bool IsOvertime { get; set; }
 }

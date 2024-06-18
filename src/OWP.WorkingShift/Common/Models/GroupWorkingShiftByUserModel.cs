@@ -1,11 +1,10 @@
-﻿namespace OWP.WorkingShift.Common.Models
+﻿namespace OWP.WorkingShift.Common.Models;
+
+using System.Collections.Generic;
+
+public class GroupWorkingShiftByUserModel
 {
-    using System.Collections.Generic;
+    public int UserId { get; set; }
 
-    public class GroupWorkingShiftByUserModel
-    {
-        public int UserId { get; set; }
-
-        public IList<WorkingShiftModel> WorkingShift { get; set; }
-    }
+    public IList<WorkingShiftModel> WorkingShift { get; set; }
 }

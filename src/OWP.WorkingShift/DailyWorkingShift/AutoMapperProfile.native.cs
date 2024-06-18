@@ -1,13 +1,12 @@
 ﻿using OWP.WorkingShift.DailyWorkingShift.Criteria;
 
-namespace OWP.WorkingShift.DailyWorkingShift
-{
+namespace OWP.WorkingShift.DailyWorkingShift;
 
-    public class AutoMapperProfile : Profile
+
+public class AutoMapperProfile : Profile
+{
+    public AutoMapperProfile()
     {
-        public AutoMapperProfile()
-        {
-            CreateMap<QueryModel, QueryCriteria>();
-        }
+        CreateMap<QueryModel, QueryCriteria>();
     }
 }

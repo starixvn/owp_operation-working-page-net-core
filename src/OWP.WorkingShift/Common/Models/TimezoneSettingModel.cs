@@ -1,13 +1,12 @@
-﻿namespace OWP.WorkingShift.Common.Models
+﻿namespace OWP.WorkingShift.Common.Models;
+
+public class TimezoneSettingModel
 {
-    public class TimezoneSettingModel
-    {
-        public byte SettingId { get; set; }
+    public byte SettingId { get; set; }
 
-        public string Name { get; set; }
+    public string Name { get; set; }
 
-        public int Offset { get; set; }
+    public int Offset { get; set; }
 
-        public bool IsSelected { get; set; }
-    }
+    public bool IsSelected { get; set; }
 }
