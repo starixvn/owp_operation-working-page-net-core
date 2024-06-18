@@ -79,18 +79,7 @@ export const DefaultPageSize = PageSizes[4];
 export const TimePickerDisplayFormat = 'h:mm A';
 export const TimePickerOutputFormat = 'HH:mm';
 
-const buildBaseApiUrl = () => {
-  const segmentPrefix = ['n1', 'n2', 'n3'];
-  if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-    return `${location.origin}`;
-  }
-  const segmentFirst = window.location.pathname.split('/')[1];
-  return segmentPrefix.some(seg => isEqual(seg, segmentFirst))
-    ? `${location.origin}/${segmentFirst}`
-    : `${location.origin}`;
-};
-
-export const baseApiUrl = buildBaseApiUrl();
+export const baseApiUrl = `${location.origin}`;
 export const NET_CORE_QUERY_SIMPLE_API = `${baseApiUrl}/state-api/simple-data/query`;
 export const NET_CORE_UPDATE_SIMPLE_API = `${baseApiUrl}/state-api/simple-data/update`;
 export const buildQuerySimpleApi = () => `${NET_CORE_QUERY_SIMPLE_API}`;

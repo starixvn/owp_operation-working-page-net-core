@@ -131,8 +131,7 @@ public class HomeController : Controller
     [NapAuth(FunctionKey = FunctionKeys.LiveGameAssignment, Policy = Constant.Policy.Host)]
     public async Task<ActionResult> EventUpload()
     {
-        var functionName = FunctionKeys.LiveGameAssignment;
-        await accessCounter.UpdateCounter(functionName);
+        await accessCounter.UpdateCounter("EventUpload");
         return View("~/wwwroot/event-upload/server.cshtml");
     }
 
@@ -303,6 +302,7 @@ public class HomeController : Controller
     [NapAuth(FunctionKey = FunctionKeys.EventPickingNew, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> EventPickingNew()
     {
+        await accessCounter.UpdateCounter("EventPickingNew");
         return View("~/wwwroot/event-picking/server.cshtml");
     }
 
@@ -311,8 +311,7 @@ public class HomeController : Controller
     [NapAuth(FunctionKey = FunctionKeys.OWPEventManagement, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> TaskList()
     {
-        var functionName = FunctionKeys.OWPEventManagement;
-        await accessCounter.UpdateCounter(functionName);
+        await accessCounter.UpdateCounter("TaskListNew");
         return View("~/wwwroot/task-list/server.cshtml");
     }
 
@@ -329,8 +328,7 @@ public class HomeController : Controller
     [NapAuth(FunctionKey = FunctionKeys.LiveGameAssignment, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> AssigneeSuggestionList()
     {
-        var functionName = FunctionKeys.LiveGameAssignment;
-        await accessCounter.UpdateCounter(functionName);
+        await accessCounter.UpdateCounter("AssigneeSuggestionList");
         return View("~/wwwroot/assignee-suggestion-list/server.cshtml");
     }
 
@@ -346,16 +344,15 @@ public class HomeController : Controller
     [NapAuth(FunctionKey = FunctionKeys.OWPEventManagement, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> FeedBack()
     {
-        var functionName = FunctionKeys.OWPEventManagement;
-        await accessCounter.UpdateCounter(functionName);
+        await accessCounter.UpdateCounter("Feedback");
         return View("~/wwwroot/feedback/server.cshtml");
     }
 
-    [Route("UserManagement")]
+    [Route("UserManagement_New")]
     [NapAuth(FunctionKey = FunctionKeys.OWPEventManagement, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> UserManagement()
     {
-        var functionName = FunctionKeys.OWPEventManagement;
+        var functionName = FunctionKeys.UserManagement;
         await accessCounter.UpdateCounter(functionName);
         return View("~/wwwroot/user-management/server.cshtml");
     }
@@ -364,8 +361,7 @@ public class HomeController : Controller
     [NapAuth(FunctionKey = FunctionKeys.MyTickets, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> SmallChatting()
     {
-        var functionName = FunctionKeys.MyTickets;
-        await accessCounter.UpdateCounter(functionName);
+        await accessCounter.UpdateCounter("SmallChatting");
         return View("~/wwwroot/small-chatting/server.cshtml");
     }
 
@@ -380,8 +376,7 @@ public class HomeController : Controller
     [NapAuth(FunctionKey = FunctionKeys.MyTickets, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> SmallTicketCenter()
     {
-        var functionName = FunctionKeys.MyTickets;
-        await accessCounter.UpdateCounter(functionName);
+        await accessCounter.UpdateCounter("SmallTicket");
         return View("~/wwwroot/small-ticket-center/server.cshtml");
     }
 }
