@@ -503,4 +503,8 @@
   <Function Name="QuickSearch">
     <Setting Key="OWP_QuickSearchMatchGet" SpName ="OWP_QuickSearchMatchGet" DbName="DBOWP.bodb_OWP.wsv_owp" />
   </Function>
+  <Function Name="NotificationSetting">
+    <Setting Key="OWP_NotificationSetting_GetByUserId" SpName ="OWP_NotificationSetting_GetByUserId" DbName="DBOWP.bodb_OWP.wsv_owp" />
+    <Setting Key="OWP_NotificationSetting_Update" SpName ="OWP_NotificationSetting_Update" DbName="DBOWP.bodb_OWP.wsv_owp" />
+  </Function>
 </Functions>

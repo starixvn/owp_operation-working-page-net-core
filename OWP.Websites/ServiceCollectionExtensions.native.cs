@@ -231,6 +231,7 @@ public static class ServiceCollectionExtensions
         services.AddViewLogService();
         services.AddMessageManagementService();
         services.AddOddsCompilerService();
+        services.AddNotificationSetting();
         return services;
     }
 
