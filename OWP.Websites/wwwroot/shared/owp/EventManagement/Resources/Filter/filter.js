@@ -174,6 +174,7 @@ var filterManagement = function ($) {
 
     function registerEventSaveFilter() {
         $('#js-btnSaveFilter').on('click', function () {
+            debugger;
             var filterId = parseInt($('#editingFilterId').val());
 
             if (filterId === 0) {

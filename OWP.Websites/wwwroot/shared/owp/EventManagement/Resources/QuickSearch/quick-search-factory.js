@@ -12,7 +12,9 @@ var quickSearchFactory = function ($) {
 
             return $.ajax({
                 url: common.ResolveRootUrl(urls.GetSearchSuggestion),
-                data: criteria,
+                data: JSON.stringify(criteria),
+                contentType: 'application/json',
+                dataType: 'json',
                 method: 'POST',
                 error: common.HandleAjaxError
             });

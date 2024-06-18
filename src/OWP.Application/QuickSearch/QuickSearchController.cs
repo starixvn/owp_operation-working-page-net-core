@@ -1,12 +1,7 @@
-﻿
-
-namespace OWP.Application.QuickSearch;
-
+﻿namespace OWP.Application.QuickSearch;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-
 
 [Route("api/application")]
 public class QuickSearchController : ControllerBase

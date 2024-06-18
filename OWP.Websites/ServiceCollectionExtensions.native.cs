@@ -439,6 +439,9 @@ public static class ServiceCollectionExtensions
                     "shared/lib/modernizr.js",
                     "shared/owp/DocumentTitle/document-title.js",
                     "shared/owp/DocumentTitle/document-title-factory.js",
+                    "shared/owp/EventManagement/quick-search.js",
+                    "shared/owp/EventManagement/quick-search-factory.js",
+                    "shared/owp/EventManagement/quick-search-service.js",
                     "shared/owp/MessageBox/message-box.js",
                     "shared/owp/MessageBox/message-box-factory.js"
                 );

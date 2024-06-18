@@ -799,8 +799,8 @@ Search Form
 }
 
 .site-menubar-fold .cd-search-suggestions {
-    margin-left: 60px;
-    width: calc( 100% - 60px);
+    margin-left: 0px;
+    width:100%;
 }
 
 .no-results {
