@@ -486,6 +486,7 @@ public static class ServiceCollectionExtensions
                     "shared/owp/EventManagement/Resources/OddsCompiler/OddsCompiler.css");
 
                 pipeline.AddCssBundle("Styles/nap-auth", "nap-auth/auth.css");
+                pipeline.AddCssBundle("Styles/nap-auth/error", "nap-auth/error.css");
                 pipeline.AddJavaScriptBundle("Scripts/nap-auth", 
                     "nap-auth/jquery-1.8.0.min.js",
                     "nap-auth/cryptojs.js");
