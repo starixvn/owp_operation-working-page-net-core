@@ -13,6 +13,13 @@ public class EventInformationServiceUnitTest
     private readonly EventRepository repository;
     private readonly InfoSiteTimeServices infoSiteTimeService;
 
+    public EventInformationServiceUnitTest()
+    {
+        adminSiteMatchServices = Substitute.For<AdminSiteMatchServices>();
+        infoSiteTimeService = Substitute.For<InfoSiteTimeServices>();
+        repository = Substitute.For<EventRepository>();
+    }
+
     [Fact]
     public void GetEvents_Always_ReturnExpect()
     {
@@ -23,9 +30,9 @@ public class EventInformationServiceUnitTest
             MinorAssignmentsPair = new Dictionary<int, List<Assignment>>(),
             MatchSettingsPair = MockMatchSetting(),
             MinorMatchSettingsPair = new Dictionary<int, List<MatchSetting>>(),
-            HasTicketModel = new List<HasTicketModel>(),
             TelevisionsPair = MockTelevision(),
-            MatchOffersPair = MockMatchOffers()
+            MatchOffersPair = MockMatchOffers(),
+            HasTicketModel = new List<HasTicketModel>()
         };
         repository.GetEventInformation(Arg.Any<CriteriaBase>()).Returns(eventInfo);
 
