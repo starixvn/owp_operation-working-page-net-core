@@ -1,6 +1,4 @@
-﻿using Fanex.Data.Repository;
-
-namespace OWP.SimpleDataApi.Criteria.LiveDetail;
+﻿namespace OWP.SimpleDataApi.Criteria.LiveDetail;
 
 public class GetTelevisionSuggestionCriteria : CriteriaBase
 {

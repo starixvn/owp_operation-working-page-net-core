@@ -1,12 +1,10 @@
 ﻿
 using OWP.WorkingShift.Common.Repositories;
 using OWP.WorkingShift.Common.Services;
-using OWP.WorkingShift.WeeklyWorkingShift.Services;
-using DailyWorkingShift= OWP.WorkingShift.DailyWorkingShift;
-using WeeklyWorkingShift= OWP.WorkingShift.WeeklyWorkingShift;
-using ViewLog= OWP.WorkingShift.ViewLog;
 using OWP.WorkingShift.ViewLog.Services;
-using System.ComponentModel;
+using OWP.WorkingShift.WeeklyWorkingShift.Services;
+using DailyWorkingShift = OWP.WorkingShift.DailyWorkingShift;
+using WeeklyWorkingShift = OWP.WorkingShift.WeeklyWorkingShift;
 
 namespace OWP.Websites.App_Start;
 
@@ -39,8 +37,8 @@ public static class WorkingShiftInjector
 
     public static void AddViewLogService(this IServiceCollection services)
     {
-         services.AddTransient<LogService, LogServiceImp>();
-        services.AddTransient<TemplateService, TemplateServiceImp >();
-        
+        services.AddTransient<LogService, LogServiceImp>();
+        services.AddTransient<TemplateService, TemplateServiceImp>();
+
     }
 }

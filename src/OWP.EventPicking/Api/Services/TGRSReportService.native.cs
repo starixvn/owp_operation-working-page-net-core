@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Configuration;
 using OWP.EventPicking.Api.Criteria;
 using OWP.EventPicking.Api.Models;
-using OWP.Services;
 
 namespace OWP.EventPicking.Api.Services;
 

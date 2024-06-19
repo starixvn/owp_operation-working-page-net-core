@@ -1,6 +1,4 @@
 ﻿
-using OWP.NewLeagueSetting.Data;
-
 namespace OWP.NewLeagueSetting.Query;
 
 public record QueryLeagueSettingDetailRequest(int leagueSettingId) : IRequest<LeagueSettingInfoSender>;

@@ -1,6 +1,4 @@
-﻿using Fanex.NAP.Client.Helpers.Web;
-using MediatR;
-namespace OWP.ProviderVerification.Handlers;
+﻿namespace OWP.ProviderVerification.Handlers;
 
 public class SaveEstNoteRequest : IRequest<Unit>
 {

@@ -1,6 +1,4 @@
-﻿using Fanex.Data.Repository;
-
-namespace OWP.SimpleDataApi.Criteria.PreMatchAssignment;
+﻿namespace OWP.SimpleDataApi.Criteria.PreMatchAssignment;
 
 public class UpdateIsSavedMessage : NonQueryCommand
 {

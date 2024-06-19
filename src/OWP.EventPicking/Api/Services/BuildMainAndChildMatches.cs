@@ -1,7 +1,5 @@
-using MediatR;
 using OWP.EventPicking.Api.Helper;
 using OWP.EventPicking.Api.Models;
-using OWP.Extensions;
 using OWP.MaxbetSetting.Handlers;
 using OWP.MaxbetSetting.Models;
 

@@ -8,15 +8,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Model;
 using OfficeOpenXml;
 using Olympus.InfoSiteClient;
 using Olympus.InfoSiteClient.Models;
 using OWP.Constants;
-using Model;
-using Model.ViewModels;
-using Service;
 using OWP.Models;
 using OWP.Services;
+using Service;
 using System.Configuration;
 
 [Route("api/event-assignment/event-picking-old")]

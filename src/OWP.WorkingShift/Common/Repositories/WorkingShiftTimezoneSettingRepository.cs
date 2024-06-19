@@ -1,6 +1,4 @@
-﻿using OWP.WorkingShift.Common.Models;
-
-namespace OWP.WorkingShift.Common.Repositories;
+﻿namespace OWP.WorkingShift.Common.Repositories;
 
 
 public interface WorkingShiftTimezoneSettingRepository

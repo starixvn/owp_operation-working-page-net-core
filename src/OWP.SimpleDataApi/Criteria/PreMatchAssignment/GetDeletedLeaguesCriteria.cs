@@ -1,6 +1,4 @@
-﻿using Fanex.Data.Repository;
-
-namespace OWP.SimpleDataApi.Criteria.PreMatchAssignment;
+﻿namespace OWP.SimpleDataApi.Criteria.PreMatchAssignment;
 
 internal class GetDeletedLeaguesCriteria : CriteriaBase
 {

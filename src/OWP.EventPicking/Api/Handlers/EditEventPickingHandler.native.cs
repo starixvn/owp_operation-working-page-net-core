@@ -1,5 +1,3 @@
-
-using MediatR;
 using OWP.EventPicking.Api.Middleware.Models;
 using OWP.EventPicking.Api.Models;
 using OWP.EventPicking.Api.Services;

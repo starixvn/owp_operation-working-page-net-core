@@ -1,7 +1,6 @@
 ﻿namespace OWP.Event.LiveGameAssignment.Download.Service;
 
 using OWP.Enums;
-using OWP.Event.EventShared.Enum;
 using OWP.Event.EventShared.Helper;
 using OWP.Event.LiveGameAssignment.EventPicking.Model;
 using System.Collections.Generic;

@@ -47,11 +47,10 @@ using ILogger = Fanex.Logging.ILogger;
 
 namespace OWP.Websites;
 
+using AccountSetting.QuickMessage;
 using Fanex.NAP.Client.Session;
 using Microsoft.Extensions.FileProviders;
 using OWP.AccountSetting.Profile;
-using AccountSetting.QuickMessage;
-using Org.BouncyCastle.Crypto.Generators;
 using OWP.EventPicking.Api;
 
 public static class ServiceCollectionExtensions
@@ -491,7 +490,7 @@ public static class ServiceCollectionExtensions
 
                 pipeline.AddCssBundle("Styles/nap-auth", "nap-auth/auth.css");
                 pipeline.AddCssBundle("Styles/nap-auth/error", "nap-auth/error.css");
-                pipeline.AddJavaScriptBundle("Scripts/nap-auth", 
+                pipeline.AddJavaScriptBundle("Scripts/nap-auth",
                     "nap-auth/jquery-1.8.0.min.js",
                     "nap-auth/cryptojs.js");
             }

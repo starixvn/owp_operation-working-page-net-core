@@ -1,8 +1,6 @@
 using OWP.Constants;
 using OWP.EventPicking.Api.Middleware.Models;
 using OWP.EventPicking.Api.Models;
-using OWP.Extensions;
-using OWP.Services;
 
 namespace OWP.EventPicking.Api.Services;
 

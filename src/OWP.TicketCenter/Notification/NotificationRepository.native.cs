@@ -1,6 +1,5 @@
 ﻿using Fanex.Data.Repository;
 using OWP.TicketCenter.Criteria;
-using OWP.TicketCenter.Models;
 
 namespace OWP.TicketCenter.Notification;
 

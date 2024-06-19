@@ -1,6 +1,4 @@
-﻿using OWP.WorkingShift.Common.Criteria;
-using OWP.WorkingShift.Common.Models;
-using OWP.WorkingShift.Common.Utils;
+﻿using OWP.WorkingShift.Common.Utils;
 
 namespace OWP.WorkingShift.Common.Repositories;
 

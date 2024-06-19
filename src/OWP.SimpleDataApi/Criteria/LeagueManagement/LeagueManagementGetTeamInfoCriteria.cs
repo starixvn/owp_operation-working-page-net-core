@@ -1,6 +1,4 @@
-﻿using Fanex.Data.Repository;
-
-namespace OWP.SimpleDataApi.Criteria.LeagueManagement;
+﻿namespace OWP.SimpleDataApi.Criteria.LeagueManagement;
 
 public class LeagueManagementGetTeamInfoCriteria : CriteriaBase
 {

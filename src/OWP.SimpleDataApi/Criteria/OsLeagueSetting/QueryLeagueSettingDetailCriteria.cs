@@ -1,6 +1,4 @@
-﻿using Fanex.Data.Repository;
-
-namespace OWP.SimpleDataApi.Criteria.OsLeagueSetting;
+﻿namespace OWP.SimpleDataApi.Criteria.OsLeagueSetting;
 
 internal class QueryLeagueSettingDetailCriteria : CriteriaBase
 {

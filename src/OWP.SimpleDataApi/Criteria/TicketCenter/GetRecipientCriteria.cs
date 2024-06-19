@@ -1,6 +1,4 @@
-﻿using Fanex.Data.Repository;
-
-namespace OWP.SimpleDataApi.Criteria.TicketCenter;
+﻿namespace OWP.SimpleDataApi.Criteria.TicketCenter;
 
 public class GetRecipientCriteria : CriteriaBase
 {

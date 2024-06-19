@@ -1,5 +1,4 @@
 ﻿using OWP.WorkingShift.Common.Constants;
-using OWP.WorkingShift.Common.Models;
 
 namespace OWP.WorkingShift.Common.Utils;
 

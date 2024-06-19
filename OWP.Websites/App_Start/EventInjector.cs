@@ -6,7 +6,6 @@ using OWP.Event.LiveGameAssignment.Download.Service;
 using OWP.Event.LiveGameAssignment.EventPicking;
 using OWP.Event.LiveGameAssignment.EventPicking.Service;
 using OWP.Event.LiveGameAssignment.Services;
-using OWP.Event.LiveGameAssignment.User;
 using OWP.Event.LiveGameList;
 using OWP.Event.LiveGameList.Services;
 using OWP.Event.TaskList;
