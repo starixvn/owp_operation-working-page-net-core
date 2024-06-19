@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Fanex.Data.Repository;
-using Fanex.NAP.Client.Helpers.Web;
 using NSubstitute;
 using OWP.RabbitMQ;
 using OWP.TicketCenter.Criteria;

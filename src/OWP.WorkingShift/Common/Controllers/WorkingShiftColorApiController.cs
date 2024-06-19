@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using OWP.WorkingShift.Common.Models;
 using OWP.WorkingShift.Common.Repositories;
 

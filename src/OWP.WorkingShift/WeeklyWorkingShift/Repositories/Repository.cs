@@ -11,7 +11,6 @@ using Fanex.Data.Repository;
 using Models;
 using Utils;
 using OWP.WorkingShift.Common.Repositories;
-using ViewLog;
 
 
 public interface Repository
