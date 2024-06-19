@@ -9,6 +9,9 @@ public class DuplicatedTraderException : CriticalValidationException
     {
     }
 
+//#if net7.0_OR_GREATER
+//    [Obsolete(DiagnosticId = "SYSLIB0051")]
+//#endif
     protected DuplicatedTraderException(SerializationInfo info, StreamingContext context) : base(info, context)
     {
     }

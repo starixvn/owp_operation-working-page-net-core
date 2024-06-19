@@ -1,25 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
-    <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>disable</Nullable>
-        <CodeAnalysisRuleSet>..\..\.sonarlint\nap-owp-netcorecsharp.ruleset</CodeAnalysisRuleSet>
-    </PropertyGroup>
-
-    <ItemGroup>
-      <AdditionalFiles Include="..\..\.sonarlint\nap-owp-netcore\CSharp\SonarLint.xml" Link="SonarLint.xml" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <PackageReference Include="EPPlus" Version="6.2.10" />
-        <PackageReference Include="Epplus.Mapper" Version="6.0.0" />
-        <PackageReference Include="Olympus.Xml" Version="1.0.0.5" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="..\OWP.MaxbetSetting\OWP.MaxbetSetting.csproj" />
-        <ProjectReference Include="..\OWP\OWP.csproj" />
-    </ItemGroup>
-
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <CodeAnalysisRuleSet>..\..\.sonarlint\nap-owp-netcorecsharp.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="..\..\.sonarlint\nap-owp-netcore\CSharp\SonarLint.xml" Link="SonarLint.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="EPPlus" Version="6.2.10" />
+    <PackageReference Include="Epplus.Mapper" Version="6.0.0" />
+    <PackageReference Include="Olympus.Xml" Version="1.0.0.5" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OWP.MaxbetSetting\OWP.MaxbetSetting.csproj" />
+    <ProjectReference Include="..\OWP\OWP.csproj" />
+  </ItemGroup>
 </Project>

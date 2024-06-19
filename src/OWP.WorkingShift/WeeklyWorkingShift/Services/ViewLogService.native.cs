@@ -8,7 +8,7 @@ using Models;
 using Repositories;
 using ViewLog.Models;
 using ViewLog.Services;
-    
+
 
 public interface ViewLogService
 {

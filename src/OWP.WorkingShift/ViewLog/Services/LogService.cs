@@ -5,7 +5,6 @@ using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 using Constants;
-using OWP.WorkingShift.ViewLog.Constants;
 using Utils;
 
 public interface LogService

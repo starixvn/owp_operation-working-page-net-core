@@ -1,29 +1,23 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
-    <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
-        <Nullable>disable</Nullable>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <CodeAnalysisRuleSet>..\..\.sonarlint\nap-owp-netcorecsharp.ruleset</CodeAnalysisRuleSet>
-    </PropertyGroup>
-
-    <ItemGroup>
-      <AdditionalFiles Include="..\..\.sonarlint\nap-owp-netcore\CSharp\SonarLint.xml" Link="SonarLint.xml" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <PackageReference Include="AutoMapper" Version="12.0.1" />
-        <PackageReference Include="EPPlus" Version="6.2.10" />
-        <PackageReference Include="Epplus.Mapper" Version="6.0.0" />
-        <PackageReference Include="MediatR" Version="12.1.1" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="..\OWP\OWP.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="LAReport\Enum\" />
-    </ItemGroup>
-
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <CodeAnalysisRuleSet>..\..\.sonarlint\nap-owp-netcorecsharp.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="..\..\.sonarlint\nap-owp-netcore\CSharp\SonarLint.xml" Link="SonarLint.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="EPPlus" Version="6.2.10" />
+    <PackageReference Include="Epplus.Mapper" Version="6.0.0" />
+    <PackageReference Include="MediatR" Version="12.1.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OWP\OWP.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="LAReport\Enum\" />
+  </ItemGroup>
 </Project>

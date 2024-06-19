@@ -3,7 +3,6 @@
 using System.Linq;
 using Models;
 using System.Collections.Generic;
-using OWP.WorkingShift.ViewLog.Models;
 
 public class UpdateDefaultShiftTemplateBuilder : TemplateBuilder
 {

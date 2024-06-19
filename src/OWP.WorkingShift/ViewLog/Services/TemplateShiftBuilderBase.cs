@@ -2,7 +2,6 @@
 
 using System.Collections.Generic;
 using Models;
-using OWP.WorkingShift.ViewLog.Models;
 
 public class TemplateShiftBuilderBase : TemplateBuilder
 {

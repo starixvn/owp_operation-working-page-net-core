@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
@@ -113,7 +113,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OWP.MessageManagement", "sr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OWP.OddsCompiler", "src\OWP.OddsCompiler\OWP.OddsCompiler.csproj", "{A7285A59-6181-48C0-B4EF-AC9460A01225}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OWP.NotificationSetting", "src\OWP.NotificationSetting\OWP.NotificationSetting.csproj", "{1D9F4A54-2A81-4810-8D62-933A42401901}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OWP.NotificationSetting", "src\OWP.NotificationSetting\OWP.NotificationSetting.csproj", "{1D9F4A54-2A81-4810-8D62-933A42401901}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

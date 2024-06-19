@@ -1,16 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <CodeAnalysisRuleSet>..\..\.sonarlint\nap-owp-netcorecsharp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Remove="Services\RealMatch\SingleTeamService.cs" />
   </ItemGroup>
-
   <ItemGroup>
     <AdditionalFiles Include="..\..\.sonarlint\nap-owp-netcore\CSharp\SonarLint.xml" Link="SonarLint.xml" />
   </ItemGroup>

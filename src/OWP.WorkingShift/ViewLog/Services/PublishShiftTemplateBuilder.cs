@@ -3,6 +3,7 @@
 using Models;
 using System;
 using System.Linq;
+using Models;
 
 public class PublishShiftTemplateBuilder : TemplateShiftBuilderBase
 {

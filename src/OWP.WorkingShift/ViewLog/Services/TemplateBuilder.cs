@@ -2,7 +2,6 @@
 
 using System;
 using Models;
-using OWP.WorkingShift.ViewLog.Models;
 
 public class TemplateBuilder
 {

@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <LangVersion>latest</LangVersion>
@@ -10,7 +9,6 @@
   <ItemGroup>
     <AdditionalFiles Include="..\..\.sonarlint\nap-owp-netcore\CSharp\SonarLint.xml" Link="SonarLint.xml" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\OWP.RabbitMQ\OWP.RabbitMQ.csproj" />
     <ProjectReference Include="..\OWP\OWP.csproj" />

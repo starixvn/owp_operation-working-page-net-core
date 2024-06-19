@@ -11,6 +11,9 @@ public class InvalidAssignmentRowException : Exception
         ValidationResults = validationResults;
     }
 
+#if NET8_0_OR_GREATER
+    [Obsolete(DiagnosticId = "SYSLIB0051")]
+#endif
     protected InvalidAssignmentRowException(SerializationInfo info, StreamingContext context) : base(info, context)
     {
     }
