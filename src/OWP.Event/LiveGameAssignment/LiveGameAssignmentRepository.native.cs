@@ -529,7 +529,7 @@ public class LiveGameAssignmentRepositoryImp : LiveGameAssignmentRepository
 
     private static List<MatchInfo> FilterMatchesByTimeRange(List<MatchInfo> matches)
     {
-        var dateTime = DateTime.Now.ToGmt8();
+        var dateTime = DateTimeOffset.Now.ToGmt8();
         var timeRange = dateTime.TimeRangeOfDate();
         var selectedMatches = new List<MatchInfo>();
         foreach (var match in matches)

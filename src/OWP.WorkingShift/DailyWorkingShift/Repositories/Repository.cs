@@ -184,7 +184,7 @@ public class RepositoryImp : Repository
                     {
                         OWPMatchId = gg.Key,
                         BetTypes = gg.Select(x => x.Bettype).ToList(),
-                        EventDateTime = gg.FirstOrDefault().EventDateTime,
+                        EventDateTime = gg.FirstOrDefault()!.EventDateTime,
                         isETPK = true
                     };
                 }).ToList();
@@ -203,7 +203,7 @@ public class RepositoryImp : Repository
                     {
                         OWPMatchId = gg.Key,
                         BetTypes = gg.Select(x => x.Bettype).ToList(),
-                        EventDateTime = gg.FirstOrDefault().EventDateTime,
+                        EventDateTime = gg.FirstOrDefault()!.EventDateTime,
                         isETPK = false
                     };
                 }).ToList();

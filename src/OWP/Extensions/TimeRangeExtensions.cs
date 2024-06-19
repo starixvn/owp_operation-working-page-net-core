@@ -11,12 +11,12 @@ public static class TimeRangeExtensions
 
     public static TimeRangeResult CheckMatch(DateTime eventDate)
     {
-        var dateTime = DateTime.Now.ToGmt8();
+        var dateTime = DateTimeOffset.Now.ToGmt8();
         var timeRange = dateTime.TimeRangeOfDate();
         return CheckMatch(timeRange, eventDate);
     }
 
-    public static TimeRangeResult CheckMatch(this DateTime toTime, DateTime eventDate)
+    public static TimeRangeResult CheckMatch(this DateTimeOffset toTime, DateTime eventDate)
     {
         var isMatchInTimeRange = eventDate <= toTime;
         return new TimeRangeResult

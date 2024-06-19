@@ -63,7 +63,7 @@ public static class DateTimeExtensions
         return dateTime.Date.AddDays(HalfOfDateSubtract).AddSeconds(-1);
     }
 
-    public static DateTime TimeRangeOfDate(this DateTimeOffset dateTime)
+    public static DateTimeOffset TimeRangeOfDate(this DateTimeOffset dateTime)
     {
         var startOfDay = dateTime.Date.StartOfDate();
 

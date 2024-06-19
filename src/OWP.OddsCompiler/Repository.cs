@@ -1,17 +1,17 @@
 ﻿using Fanex.Data.Repository;
+using Fanex.NAP.Client.Helpers.Web;
+using OWP.Extensions;
 using OWP.Models;
 using OWP.OddsCompiler.Criteria;
 using OWP.OddsCompiler.Enumerations;
 using OWP.OddsCompiler.Models;
+using OWP.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
-using Fanex.NAP.Client.Helpers.Web;
-using OWP.Extensions;
-using OWP.Services;
 using InfoSiteTimeModel = OWP.OddsCompiler.Models.InfoSiteTimeModel;
 
 namespace OWP.OddsCompiler;
@@ -176,7 +176,6 @@ public class RepositoryImp : Repository
             {
                 Content = new StringContent("Invalid criteria")
             };
-        //    throw new HttpResponseException(resp);
         }
 
         var criteria = new DeleteOddsCompilerCriteria
@@ -238,21 +237,21 @@ public class RepositoryImp : Repository
     private static MatchOddsRow GetMatchOddRow(int owpMatchId, List<MatchOdds> matchOdds)
     {
         var handicap = matchOdds.Find(x => x.Bettype == (int)MajorBettype.Handicap);
-        handicap = handicap ?? new MatchOdds
+        handicap ??= new MatchOdds
         {
             OWPMatchId = owpMatchId,
             Bettype = (int)MajorBettype.Handicap
         };
 
         var overUnder = matchOdds.Find(x => x.Bettype == (int)MajorBettype.OverUnder);
-        overUnder = overUnder ?? new MatchOdds
+        overUnder ??= new MatchOdds
         {
             OWPMatchId = owpMatchId,
             Bettype = (int)MajorBettype.OverUnder
         };
 
         var oneXTwo = matchOdds.Find(x => x.Bettype == (int)MajorBettype.OneXTwo);
-        oneXTwo = oneXTwo ?? new MatchOdds
+        oneXTwo ??= new MatchOdds
         {
             OWPMatchId = owpMatchId,
             Bettype = (int)MajorBettype.OneXTwo

@@ -85,7 +85,7 @@ public class EventAssignmentExportFilterImp : EventAssignmentExportFilter
 
     public List<EventModel> FilterMatchesByTimeRange(List<EventModel> matches)
     {
-        var dateTime = DateTime.Now.ToGmt8(); // NOSONAR
+        var dateTime = DateTimeOffset.Now.ToGmt8(); // NOSONAR
         var timeRange = dateTime.TimeRangeOfDate();
 
         return matches.Where(m => timeRange.CheckMatch(m.EventDateTime).IsMatchInTimeRange).ToList();
