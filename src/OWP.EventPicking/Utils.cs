@@ -1,6 +1,5 @@
-using System.Reflection;
-using OWP.EventPicking.Middleware.Models;
-using OWP.EventPicking.Models;
+using OWP.EventPicking.Api.Models;
+
 
 namespace OWP.EventPicking;
 

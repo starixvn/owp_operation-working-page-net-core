@@ -12,6 +12,8 @@ public class AccessCounterModel
 
     public string OsUpload { get; set; }
 
+    public string EventPicking { get; set; }
+
     public IOptions<AccessCounterModel> Value { get; set; }
 
     public override string ToString()

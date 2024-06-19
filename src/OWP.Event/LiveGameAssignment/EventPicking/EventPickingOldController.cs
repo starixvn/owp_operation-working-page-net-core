@@ -12,9 +12,9 @@ using OfficeOpenXml;
 using Olympus.InfoSiteClient;
 using Olympus.InfoSiteClient.Models;
 using OWP.Constants;
-using OWP.Event.LiveGameAssignment.EventPicking.Model;
-using OWP.Event.LiveGameAssignment.EventPicking.Model.ViewModels;
-using OWP.Event.LiveGameAssignment.EventPicking.Service;
+using Model;
+using Model.ViewModels;
+using Service;
 using OWP.Models;
 using OWP.Services;
 using System.Configuration;
@@ -54,13 +54,12 @@ public class EventPickingOldController : ControllerBase
         return await DownloadExcel(templatePath, date);
     }
 
-    [HttpPost]
+    [HttpGet]
     [NapAuth(FunctionKey = FunctionKeys.EventPicking, Policy = Constant.Policy.Read)]
-    public async Task<ActionResult> EventPickingExcel(EventPickingViewModel model)
+    public async Task<FileResult> EventPickingExcel(DateTime date)
     {
         var functionName = ConfigurationManager.AppSettings["EventPicking_Export_Excel"];
         await accessCounter.UpdateCounter(functionName);
-        var date = model.Date;
         var templatePath = Path.Combine("App_Data", "Templates", "EventPicking.xlsx");
 
         return await DownloadExcel(templatePath, date);
@@ -76,20 +75,20 @@ public class EventPickingOldController : ControllerBase
         var childMatches = pullingChildMatch.Query(settings.InfoSiteAPI, date, nextDate);
         var matches = CombineSubMatch(mainMatches, childMatches);
         var syncedMatches = await leagueSettingService.ApplyMatchMaxbet(matches);
-        using (var stream = new FileStream(templatePath, FileMode.Open, FileAccess.Read))
-        {
-            var excelPackage = new ExcelPackage(stream);
-            var templateSheet = excelPackage.Workbook.Worksheets.First();
-            templateSheet.ApplyVertical(syncedMatches, 2);
+        await using var stream = new FileStream(templatePath, FileMode.Open, FileAccess.Read);
+        var excelPackage = new ExcelPackage(stream);
+        var templateSheet = excelPackage.Workbook.Worksheets.First();
+        templateSheet.ApplyVertical(syncedMatches, 2);
 
-            var fileStream = new MemoryStream();
-            excelPackage.SaveAs(fileStream);
-            fileStream.Position = 0;
-            const string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-            var fsr = new FileStreamResult(fileStream, contentType);
-            fsr.FileDownloadName = $"Event Picking-{date:yyyy-MM-dd}.xlsx";
-            return fsr;
-        }
+        var fileStream = new MemoryStream();
+        await excelPackage.SaveAsAsync(fileStream);
+        fileStream.Position = 0;
+        const string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+        var fsr = new FileStreamResult(fileStream, contentType)
+        {
+            FileDownloadName = $"Event Picking-{date:yyyy-MM-dd}.xlsx"
+        };
+        return fsr;
     }
 
     private async Task<List<MatchExporting>> GetMainMatch(DateTime fromDate, DateTime toDate)

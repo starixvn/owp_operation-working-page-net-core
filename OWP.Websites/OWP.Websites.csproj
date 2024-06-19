@@ -54,6 +54,9 @@
     <None Include="wwwroot\shared\owp\EventManagement\Resources\QuickSearch\quick-search-factory.js" />
     <None Include="wwwroot\shared\owp\EventManagement\Resources\QuickSearch\quick-search-service.js" />
     <None Include="wwwroot\shared\owp\EventManagement\Resources\QuickSearch\quick-search.js" />
+    <None Include="wwwroot\shared\owp\EventPicking\event-picking-factory.js" />
+    <None Include="wwwroot\shared\owp\EventPicking\event-picking-factory.js.orig" />
+    <None Include="wwwroot\shared\owp\EventPicking\event-picking.js" />
     <None Include="wwwroot\shared\owp\images\cd-icons.svg" />
     <None Include="wwwroot\shared\owp\images\feedback-icon.svg" />
     <None Include="wwwroot\shared\owp\MessageBox\message-box-factory.js" />

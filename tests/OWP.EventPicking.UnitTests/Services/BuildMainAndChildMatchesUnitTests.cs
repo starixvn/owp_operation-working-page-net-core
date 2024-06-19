@@ -1,13 +1,13 @@
 using MediatR;
 using NSubstitute;
-using OWP.EventPicking.Models;
-using OWP.EventPicking.Services;
 using OWP.MaxbetSetting.Handlers;
 using OWP.MaxbetSetting.Models;
 using Xunit;
 
 namespace OWP.EventPicking.UnitTests.Services;
 
+using OWP.EventPicking.Api.Models;
+using OWP.EventPicking.Api.Services;
 using Xunit.Asserts.Compare;
 
 public class BuildMainAndChildMatchesUnitTests

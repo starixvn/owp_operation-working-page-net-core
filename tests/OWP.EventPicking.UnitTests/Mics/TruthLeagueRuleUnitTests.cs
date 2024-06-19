@@ -1,5 +1,5 @@
-using OWP.EventPicking.Misc;
-using OWP.EventPicking.Models;
+using OWP.EventPicking.Api.Misc;
+using OWP.EventPicking.Api.Models;
 using Xunit;
 
 namespace OWP.EventPicking.UnitTests.Mics;

@@ -1,6 +1,9 @@
 using Fanex.Data.Repository;
 
 using Newtonsoft.Json;
+using OWP.EventPicking.Api.Criteria;
+using OWP.EventPicking.Api.Handlers;
+using OWP.EventPicking.Api.Models;
 
 
 namespace OWP.EventPicking;

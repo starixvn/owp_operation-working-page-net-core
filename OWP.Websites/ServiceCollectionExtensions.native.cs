@@ -17,7 +17,6 @@ using Olympus.SimpleDataApi;
 using OWP.ApiSyncWorkingShift;
 using OWP.AssigneeSuggestionList;
 using OWP.AssignmentUpload;
-using OWP.EventPicking;
 using OWP.FileUpload;
 using OWP.Kpi.LA;
 using OWP.LeagueManagement;
@@ -53,6 +52,7 @@ using Microsoft.Extensions.FileProviders;
 using OWP.AccountSetting.Profile;
 using AccountSetting.QuickMessage;
 using Org.BouncyCastle.Crypto.Generators;
+using OWP.EventPicking.Api;
 
 public static class ServiceCollectionExtensions
 {
@@ -240,7 +240,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(MaxbetController).Assembly));
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(MaxbetController).GetTypeInfo().Assembly));
-        services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(EventPickingController).GetTypeInfo().Assembly));
+        services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(EventPickingApiController).GetTypeInfo().Assembly));
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(MaxbetSettingController).GetTypeInfo().Assembly));
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(OtherSportController).GetTypeInfo().Assembly));
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(SyncWorkingShiftController).GetTypeInfo().Assembly));
@@ -448,9 +448,13 @@ public static class ServiceCollectionExtensions
                     "shared/owp/MessageBox/message-box-factory.js"
                 );
 
-                pipeline.AddCssBundle("Styles/EventInformation",
+                pipeline.AddCssBundle("Styles/EventPicking",
                     "shared/owp/TaskList/TaskList.css",
                     "shared/owp/EventManagement/Resources/EventInformation/EventInformation.css");
+
+                pipeline.AddCssBundle("Scripts/EventPicking",
+                    "shared/owp/EventPicking/*.js");
+
 
                 pipeline.AddJavaScriptBundle("Scripts/EventInformation",
                     "shared/lib/jquery.floatThead/jquery.floatThead.min.js",
