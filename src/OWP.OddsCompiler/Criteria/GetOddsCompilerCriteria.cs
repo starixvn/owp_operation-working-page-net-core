@@ -15,5 +15,5 @@ public class GetOddsCompilerCriteria : CriteriaBase
 
     public override string GetSettingKey() => "OWP_OddsCompiler_Get";
 
-    public override bool IsValid() => Date > DateTime.MinValue;
+    public override bool IsValid() => Date > DateTimeOffset.MinValue;
 }

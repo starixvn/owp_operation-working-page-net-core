@@ -1,7 +1,7 @@
 ﻿namespace OWP.WorkingShift.Common.Criteria;
 
-using System;
 using Fanex.Data.Repository;
+using System;
 
 public class UpdateWorkingShiftCodeCriteria : NonQueryCommand
 {
@@ -19,5 +19,5 @@ public class UpdateWorkingShiftCodeCriteria : NonQueryCommand
 
     public override string GetSettingKey() => "OWP_EmployeeWorkingShift_UpdateShiftCode";
 
-    public override bool IsValid() => ActorId > 0 && EmployeeId > 0 && ShiftId > 0 && ShiftDate != DateTime.MinValue;
+    public override bool IsValid() => ActorId > 0 && EmployeeId > 0 && ShiftId > 0 && ShiftDate != DateTimeOffset.MinValue;
 }

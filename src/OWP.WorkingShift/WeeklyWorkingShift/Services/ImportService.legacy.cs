@@ -1,13 +1,6 @@
 ﻿
 namespace OWP.WorkingShift.WeeklyWorkingShift.Services;
 
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
 using Criteria;
 using Fanex.Data.Repository;
 using Models;
@@ -15,6 +8,13 @@ using OfficeOpenXml;
 using OWP.Models;
 using OWP.WorkingShift.Common.Repositories;
 using OWP.WorkingShift.Common.Utils;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
 
 
 public interface ImportService
@@ -344,7 +344,7 @@ public class ImportServiceImp : ImportService
 
     private static DateTime GetMinDateOfWorkingShift()
     {
-        var today = DateTime.Today;
+        var today = DateTimeOffset.Now.Date;
         var FOUR_WEEK = 28;
         return StartOfWeek(today).AddDays(-FOUR_WEEK);
     }

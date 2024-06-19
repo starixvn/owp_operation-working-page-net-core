@@ -2,12 +2,6 @@
 
 namespace OWP.WorkingShift.WeeklyWorkingShift.Services;
 
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Constants;
 using Enumerations;
 using Models;
@@ -16,6 +10,12 @@ using OfficeOpenXml.Style;
 using OWP.Services;
 using OWP.WorkingShift.Common.Repositories;
 using OWP.WorkingShift.WeeklyWorkingShift.Utils;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 public interface ExportService
 {
@@ -55,7 +55,7 @@ public class ExportServiceImp : ExportService
     public async Task Export(Stream stream, ExportModel viewModel)
     {
         var exportModel = await BuildWorkingShiftExportModel(viewModel);
-           
+
         var templatePath = @$"App_Data{Path.DirectorySeparatorChar}Templates{Path.DirectorySeparatorChar}ExportWorkingShift.xlsx";
         var absoluteTemplatePath = $"{configurationService.CurrentDirectory}{Path.DirectorySeparatorChar}{templatePath}";
 
@@ -101,7 +101,7 @@ public class ExportServiceImp : ExportService
             .Replace("{export_type}", exportText);
 
         row++;
-        var exportedTime = DateTime.UtcNow.AddMinutes(8 * 60 + exportModel.TimezoneSetting.Offset);
+        var exportedTime = DateTimeOffset.UtcNow.AddMinutes(8 * 60 + exportModel.TimezoneSetting.Offset);
         worksheet.Cells[row, col].Value = worksheet.Cells[row, col].Value.ToString()
             .Replace("{print_date}", exportedTime.ToString("MMM dd, yyyy HH:mm:ss"))
             .Replace("{nick_name}", exportModel.User?.NickName)

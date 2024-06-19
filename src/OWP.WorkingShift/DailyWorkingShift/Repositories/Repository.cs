@@ -69,8 +69,8 @@ public class RepositoryImp : Repository
 
         var userSortedShift = SortUserShift(userGroups, userHaveShiftSorted);
 
-        var fromDate = model.Date?.AddHours(12) ?? DateTime.Now;
-        var toDate = model.Date?.AddDays(1).AddHours(11).AddMinutes(59).AddSeconds(59) ?? DateTime.Now;
+        var fromDate = model.Date?.AddHours(12) ?? DateTimeOffset.Now;
+        var toDate = model.Date?.AddDays(1).AddHours(11).AddMinutes(59).AddSeconds(59) ?? DateTimeOffset.Now;
         var assignmentMappingTypes = new[] { typeof(Assignment), typeof(OWPMatch) };
         var assignmentStatsFetchedData =
             await dynamicRepository.FetchMultipleAsync(new QueryAssignmentStatsCriteria { Date = model.Date },
@@ -246,7 +246,7 @@ public class RepositoryImp : Repository
 
     private static List<QueryUserMatch> QueryMatchesByTimeRange(IEnumerable<QueryUserMatch> matches)
     {
-        var dateTime = DateTime.Now.ToGmt8();
+        var dateTime = DateTimeOffset.Now.ToGmt8();
         var timeRange = dateTime.TimeRangeOfDate();
         var selectedMatches = new List<QueryUserMatch>();
         foreach (var match in matches)
@@ -264,7 +264,7 @@ public class RepositoryImp : Repository
         return selectedMatches;
     }
 
-    private AssignmentStatistic CalculateAssignmentStats(DateTime fromDate, DateTime toDate,
+    private AssignmentStatistic CalculateAssignmentStats(DateTimeOffset fromDate, DateTimeOffset toDate,
         IEnumerable<object>[] assignmentStatsFetchedData)
     {
         var assigments = assignmentStatsFetchedData[0].Cast<Assignment>();
@@ -349,7 +349,7 @@ public class RepositoryImp : Repository
         return matchAssignedTrader;
     }
 
-    private static IEnumerable<OWPMatch> CalculateSelectedMatch(DateTime date,
+    private static IEnumerable<OWPMatch> CalculateSelectedMatch(DateTimeOffset date,
         IEnumerable<OWPMatch> filteredMatches)
     {
         var fromTime = date.AddMinutes(-29);

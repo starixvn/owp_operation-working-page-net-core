@@ -48,6 +48,11 @@ public static class DateTimeExtensions
         return dateTime.ToUniversalTime().AddHours(TimeZoneGMT8);
     }
 
+    public static DateTimeOffset ToGmt8(this DateTimeOffset dateTime)
+    {
+        return dateTime.ToUniversalTime().AddHours(TimeZoneGMT8);
+    }
+
     public static DateTime StartOfDate(this DateTime dateTime)
     {
         return dateTime.Date;
@@ -58,7 +63,7 @@ public static class DateTimeExtensions
         return dateTime.Date.AddDays(HalfOfDateSubtract).AddSeconds(-1);
     }
 
-    public static DateTime TimeRangeOfDate(this DateTime dateTime)
+    public static DateTime TimeRangeOfDate(this DateTimeOffset dateTime)
     {
         var startOfDay = dateTime.Date.StartOfDate();
 

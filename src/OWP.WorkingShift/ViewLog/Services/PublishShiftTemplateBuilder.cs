@@ -1,9 +1,8 @@
 ﻿namespace OWP.WorkingShift.ViewLog.Services;
 
+using Models;
 using System;
 using System.Linq;
-using Models;
-using OWP.WorkingShift.ViewLog.Models;
 
 public class PublishShiftTemplateBuilder : TemplateShiftBuilderBase
 {
@@ -36,7 +35,7 @@ public class PublishShiftTemplateBuilder : TemplateShiftBuilderBase
             publicShiftModel.ToDate.ToString("MM/dd/yyyy"),
             publicShiftModel.Isp?"Yes":"No"
         };
-        return publicShiftModel.FromDate == DateTime.MinValue ?
+        return publicShiftModel.FromDate == DateTimeOffset.MinValue ?
             string.Empty :
             string.Format(Template, args);
     }

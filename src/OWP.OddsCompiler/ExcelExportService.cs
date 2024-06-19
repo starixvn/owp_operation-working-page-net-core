@@ -1,15 +1,15 @@
 ﻿using Fanex.NAP.Client.Helpers.Web;
 namespace OWP.OddsCompiler;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using Criteria;
 using Epplus.Mapper.Extensions;
 using Models;
 using OfficeOpenXml;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 public interface ExcelExportService
 {
@@ -66,11 +66,11 @@ public class ExcelExportServiceImp : ExcelExportService
             FileInfo = new ExcelFileInfo
             {
                 Date = criteria.Date.ToString("MMMM dd, yyyy"),
-                ExportTime = $"export time: {DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss")}",
+                ExportTime = $"export time: {DateTimeOffset.Now.ToString("MM/dd/yyyy HH:mm:ss")}",
                 ExportBy = $"export by {currentSession.UserName}",
                 IsExcludeSpecialProducts = $"exclude special products: {criteria.IsExcludeSpecialProducts}",
                 League = criteria.League,
-                MatchStatus = string.Join(", ", 
+                MatchStatus = string.Join(", ",
                     matchStatuses.Where(x => filterMatchStatus.Contains(x.ResourceId)).Select(x => x.Value))
             },
             ExcelModels = mapper.Map<List<ExcelReportModel>>(matches)
