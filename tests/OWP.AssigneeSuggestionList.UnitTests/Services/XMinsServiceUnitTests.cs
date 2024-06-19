@@ -44,8 +44,6 @@ public class XMinsServiceUnitTests
             ,
             AssignmentCell = new AssignmentCell
             {
-                Color = ColorCodeConst.X_MINS,
-                TextColor = ColorCodeConst.TEXT_X_MINS,
                 Text = "06:05"
             },
             TimeRange = (DateTime.Parse("2023-3-31 18:05:00"), DateTime.Parse("2023-3-31 19:05:00"))

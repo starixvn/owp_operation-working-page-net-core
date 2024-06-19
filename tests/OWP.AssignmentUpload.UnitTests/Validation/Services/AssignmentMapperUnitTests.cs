@@ -394,6 +394,7 @@ public class AssignmentMapperImpUnitTests
         {
             Agent = "Sorry",
             Away = "a",
+            AgentEst = "",
             Channel = "vtv1",
             IPTV = "vtv1",
             Division = "h1",
@@ -482,7 +483,6 @@ public class AssignmentMapperImpUnitTests
             MaxBetOU = 1,
             MaxBetXMins = 1,
             NoHDP = "a",
-
             OtherProvider = "u",
             OtherTime = new TimeSpan(0, 8, 15, 22, 0),
             OtherTraders10Mins = "0,a",
@@ -522,6 +522,9 @@ public class AssignmentMapperImpUnitTests
             TraderLA = 3,
             TraderOU = 0,
             WB = "watchbet",
+            AgentEst = "",
+            RemarkEst = null,
+            RemarkBy = null,
             Website1 = "www.abc.com",
             Website2 = "www.abc1.com",
             Website3 = "www.abc2.com",

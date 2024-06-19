@@ -59,8 +59,10 @@ public class TicketDetailServiceUnitTests
             AwayName = "Liv",
             Recipients = recipients,
             Messages = messages,
+            LastTwoComments = new List<MessageInfoModel>(),
             CanShowMoreMessage = true
         };
+        
 
         var actual = await service.GetTicketMatchDetail(request);
 
@@ -91,6 +93,7 @@ public class TicketDetailServiceUnitTests
             OwpLeagueName = "League test",
             Recipients = recipients,
             Messages = messages,
+            LastTwoComments = new List<MessageInfoModel>(),
             CanShowMoreMessage = true
         };
 
@@ -123,6 +126,7 @@ public class TicketDetailServiceUnitTests
             TypeName = "Other",
             Recipients = recipients,
             Messages = messages,
+            LastTwoComments = new List<MessageInfoModel>(),
             CanShowMoreMessage = true
         };
 
@@ -157,6 +161,7 @@ public class TicketDetailServiceUnitTests
             TypeName = "Other",
             HomeName = "MU",
             AwayName = "Liv",
+            LastTwoComments = new List<MessageInfoModel>(),
             Recipients = recipients,
             Messages = messages,
             CanShowMoreMessage = true
@@ -189,6 +194,7 @@ public class TicketDetailServiceUnitTests
             TicketId = 145,
             Recipients = recipients,
             Messages = messages,
+            LastTwoComments = new List<MessageInfoModel>(),
             CanShowMoreMessage = true
         };
 
