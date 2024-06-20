@@ -380,7 +380,8 @@ public static class ServiceCollectionExtensions
 
                 pipeline.AddJavaScriptBundle("scripts/core",
                     "shared/lib/jQuery/jquery-2.1.1.js",
-                    "shared/lib/jquery.signalR-2.4.3.min.js");
+                    "shared/lib/signalr.min.js"
+                    );
 
                 pipeline.AddJavaScriptBundle("scripts/common",
                     "shared/lib/JQuery/jquery-ui-1.10.4.js",
@@ -470,6 +471,9 @@ public static class ServiceCollectionExtensions
                 pipeline.AddJavaScriptBundle("Scripts/nap-auth",
                     "nap-auth/jquery-1.8.0.min.js",
                     "nap-auth/cryptojs.js");
+
+                pipeline.AddJavaScriptBundle("scripts/signalR",
+                    "shared/owp/SignalR/*.js");
             }
         );
         return services;

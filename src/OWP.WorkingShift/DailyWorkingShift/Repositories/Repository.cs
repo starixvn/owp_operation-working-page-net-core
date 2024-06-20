@@ -352,8 +352,8 @@ public class RepositoryImp : Repository
     private static IEnumerable<OWPMatch> CalculateSelectedMatch(DateTimeOffset date,
         IEnumerable<OWPMatch> filteredMatches)
     {
-        var fromTime = date.AddMinutes(-29);
-        var toTime = date.AddMinutes(30);
+        var fromTime = date.AddMinutes(-29).DateTime;
+        var toTime = date.AddMinutes(30).DateTime;
 
         var selectedMatch = filteredMatches
             .Where(x => x.EventDateTime.CompareTo(fromTime) >= 0 && x.EventDateTime.CompareTo(toTime) <= 0);
