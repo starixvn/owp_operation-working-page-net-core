@@ -1,6 +1,5 @@
 ﻿namespace OWP.WorkingShift.ViewLog.Services;
 
-using System.Linq;
 using Models;
 
 public class UpdateShiftCodeTemplateBuilder : TemplateBuilder
@@ -15,7 +14,7 @@ public class UpdateShiftCodeTemplateBuilder : TemplateBuilder
         {
             return string.Empty;
         }
-        var data = logService.Parse<UpdateShiftCodeModel>(logData.UserLog.DataOld).First();
+        var data = logService.Parse<UpdateShiftCodeModel>(logData.UserLog.DataOld)[0];
         return BuildColumn(data);
     }
 
@@ -25,7 +24,7 @@ public class UpdateShiftCodeTemplateBuilder : TemplateBuilder
         {
             return string.Empty;
         }
-        var data = logService.Parse<UpdateShiftCodeModel>(logData.UserLog.Data).First();
+        var data = logService.Parse<UpdateShiftCodeModel>(logData.UserLog.Data)[0];
         return BuildColumn(data);
     }
 
@@ -35,6 +34,6 @@ public class UpdateShiftCodeTemplateBuilder : TemplateBuilder
         var refShiftCode = model.IsOvertime ? $"/{GetShiftCode(model.RefShiftId)}" : string.Empty;
         return
             string.IsNullOrEmpty(shiftCode) && string.IsNullOrEmpty(refShiftCode) ?
-            string.Empty : $"{model.ShiftDate.ToString("MM/dd/yyyy")}:{shiftCode}{refShiftCode} <br/>";
+            string.Empty : $"{model.ShiftDate:MM/dd/yyyy}:{shiftCode}{refShiftCode} <br/>";
     }
 }

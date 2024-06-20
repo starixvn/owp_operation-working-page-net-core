@@ -16,7 +16,6 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
-
 public interface ImportService
 {
     Task<ValidateImportResult> Validate(Stream stream);
@@ -213,7 +212,7 @@ public class ImportServiceImp : ImportService
             var cell = sheet.Cells[row, employeeIdColumn];
             var employeeId = cell.Value;
 
-            if (employeeIdsExists.All(x => x != employeeId.ToString()))
+            if (employeeIdsExists.TrueForAll(x => x != employeeId.ToString()))
             {
                 employeeIdsExists.Add(employeeId.ToString());
             }

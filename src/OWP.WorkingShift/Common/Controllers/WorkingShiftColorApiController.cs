@@ -117,7 +117,7 @@ public class WorkingShiftColorApiController : ControllerBase
 
         foreach (var item in models)
         {
-            var findExist = getAll.FirstOrDefault(x => x.ShiftCode.Equals(item.ToUpperInvariant()));
+            var findExist = getAll.Find(x => x.ShiftCode.Equals(item.ToUpperInvariant()));
             if (findExist != null)
             {
                 list.Add(item + " is existed");

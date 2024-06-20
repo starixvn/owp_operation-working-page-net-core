@@ -12,8 +12,8 @@ public class RepositoryImp : Repository
 {
     private readonly IDynamicRepository dynamicRepository;
     private readonly INapSettings napSettings;
-    private readonly List<int> ExcludeMinorBettypes = new() { -1, -2, -5, -8, -88, -89 };
-    private readonly List<int> SpecialMainMatchBettypes = new() { -1, -2, -88, -89 };
+    private readonly List<int> ExcludeMinorBettypes = [-1, -2, -5, -8, -88, -89];
+    private readonly List<int> SpecialMainMatchBettypes = [-1, -2, -88, -89];
     private const int LABettype = -1002;
     private const int NoOfCornerBettype = -3;
     private const int TotalBookingBettype = -6;
@@ -98,7 +98,7 @@ public class RepositoryImp : Repository
         }
 
 
-        var userShiftNotToday = userGroups.Where(x => !userShiftToday.Any(y => x.UserId.Equals(y.UserId)))
+        var userShiftNotToday = userGroups.Where(x => !userShiftToday.Exists(y => x.UserId.Equals(y.UserId)))
             .OrderByDescending(x => x.LevelId != 0).ThenBy(x => x.LevelId).ThenBy(x => x.UserName);
 
         return userShiftToday.Concat(userShiftNotToday);
@@ -153,7 +153,7 @@ public class RepositoryImp : Repository
                 LevelId = user.LevelId,
                 Remark = user.Remark,
                 ShiftId = user.ShiftId,
-                Matches = new List<QueryUserMatchGroup>()
+                Matches = []
             };
             if (userMatchDict.ContainsKey(user.EmployeeId))
             {

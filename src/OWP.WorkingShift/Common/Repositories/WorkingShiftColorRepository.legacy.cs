@@ -145,7 +145,7 @@ public class RepositoryWorkingShiftColorImp : WorkingShiftColorRepository
         }
 
         var shifts = await GetAll();
-        var isShiftExisted = shifts.Any(shift => IsShiftExisted(shiftCode, shift, extension, shiftTimeSpan));
+        var isShiftExisted = shifts.Exists(shift => IsShiftExisted(shiftCode, shift, extension, shiftTimeSpan));
         if (isShiftExisted)
         {
             return new ResultDataObject

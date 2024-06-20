@@ -20,15 +20,18 @@ public static class ReadExcel
 
 
         for (var row = startRow; row <= end.Row; row++)
+        {
             for (var col = 2; col <= end.Column; col++)
+            {
                 cells.Add(worksheet.Cells[row, col]);
+            }
+        }
 
         var groups = cells
             .GroupBy(cell => cell.Start.Row)
             .ToList();
 
-        var colNames = groups
-            .First()
+        var colNames = groups[0]
             .Select((cell, idx) => new { Name = cell.Value?.ToString(), index = idx })
             .Where(o => props.Select(p => p.Name).Contains(o.Name))
             .ToList();
@@ -74,6 +77,7 @@ public static class ReadExcel
         //                                   c.LstNoteNote is not null ||
         //                                   c.Remark2Note is not null).ToList();
         var result = leagueSetting.ToList().Where(l => !string.IsNullOrWhiteSpace(l.League)).ToList();
+        var result = leagueSetting.Where(l => !string.IsNullOrWhiteSpace(l.League)).ToList();
         return result;
     }
 

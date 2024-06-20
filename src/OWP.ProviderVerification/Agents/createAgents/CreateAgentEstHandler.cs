@@ -2,7 +2,7 @@ namespace OWP.ProviderVerification.Agents.createAgents;
 
 public record CreateAgentEstRequest(int OwpMatchId, string EstAgent) : Command<Unit>;
 
-internal class CreateAgentEstHandler : CommandHandler<CreateAgentEstRequest, Unit>
+public class CreateAgentEstHandler : CommandHandler<CreateAgentEstRequest, Unit>
 {
     private readonly ProviderVerificationRepository repository;
 

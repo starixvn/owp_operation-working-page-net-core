@@ -115,8 +115,8 @@ public class EventAssignmentExportFilterImp : EventAssignmentExportFilter
             }
             var mainTraderValue = GetPropertyValue(assignmentItem, "MainTrader")?.ToString();
             var otherTradersValue = GetPropertyValue(assignmentItem, "OtherTraders")?.ToString();
-            var checkIsValid = userNameSplit.Any(x => x == mainTraderValue) ||
-                               userNameSplit.Any(x => otherTradersValue?.Contains('#' + x) == true);
+            var checkIsValid = Array.Exists(userNameSplit, x => x == mainTraderValue) ||
+                               Array.Exists(userNameSplit, x => otherTradersValue?.Contains('#' + x) == true);
             if (checkIsValid)
             {
                 return true;

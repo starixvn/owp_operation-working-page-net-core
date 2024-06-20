@@ -1,4 +1,5 @@
 
+
 using OWP.NewLeagueSetting.Helper;
 
 namespace OWP.NewLeagueSetting.Data;
@@ -30,6 +31,6 @@ public class InitDataHandler : IRequestHandler<InitDataRequest, IList<LeagueSett
             return;
         }
         await repository.InitData(settingSource.Skip(skip * take).Take(take).ToList(), cancellationToken);
-        await InitData(settingSource, cancellationToken, skip + 1, 500);
+        await InitData(settingSource, cancellationToken, skip + 1);
     }
 }

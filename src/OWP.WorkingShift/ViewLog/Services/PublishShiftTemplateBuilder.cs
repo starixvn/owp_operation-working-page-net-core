@@ -2,7 +2,6 @@
 
 using Models;
 using System;
-using System.Linq;
 
 public class PublishShiftTemplateBuilder : TemplateShiftBuilderBase
 {
@@ -22,13 +21,13 @@ public class PublishShiftTemplateBuilder : TemplateShiftBuilderBase
         return BuildTemplate(logData.UserLog.DataOld);
     }
 
-    public string BuildTemplate(string logdata)
+    public string BuildTemplate(string logData)
     {
-        if (string.IsNullOrWhiteSpace(logdata))
+        if (string.IsNullOrWhiteSpace(logData))
         {
             return string.Empty;
         }
-        var publicShiftModel = logService.Parse<PublicShiftModel>(logdata).First();
+        var publicShiftModel = logService.Parse<PublicShiftModel>(logData)[0];
         var args = new object[]
         {
             publicShiftModel.FromDate.ToString("MM/dd/yyyy"),

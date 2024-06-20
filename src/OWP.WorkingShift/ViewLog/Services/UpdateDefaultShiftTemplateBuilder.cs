@@ -1,8 +1,8 @@
 ﻿namespace OWP.WorkingShift.ViewLog.Services;
 
-using System.Linq;
 using Models;
 using System.Collections.Generic;
+using System.Linq;
 
 public class UpdateDefaultShiftTemplateBuilder : TemplateBuilder
 {
@@ -17,7 +17,7 @@ public class UpdateDefaultShiftTemplateBuilder : TemplateBuilder
             return string.Empty;
         }
 
-        var model = logService.Parse<UpdateDefaultShiftModel>(logData.UserLog.DataOld).First();
+        var model = logService.Parse<UpdateDefaultShiftModel>(logData.UserLog.DataOld)[0];
         return BuildColumn(model);
     }
 
@@ -27,7 +27,7 @@ public class UpdateDefaultShiftTemplateBuilder : TemplateBuilder
         {
             return string.Empty;
         }
-        var model = logService.Parse<UpdateDefaultShiftModel>(logData.UserLog.Data).First();
+        var model = logService.Parse<UpdateDefaultShiftModel>(logData.UserLog.Data)[0];
         return BuildColumn(model);
     }
 

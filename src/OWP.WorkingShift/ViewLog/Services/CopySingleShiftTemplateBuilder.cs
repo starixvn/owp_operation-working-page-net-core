@@ -1,6 +1,5 @@
 ﻿namespace OWP.WorkingShift.ViewLog.Services;
 
-using System.Linq;
 using Models;
 
 public class CopySingleShiftTemplateBuilder : TemplateBuilder
@@ -15,7 +14,7 @@ public class CopySingleShiftTemplateBuilder : TemplateBuilder
         {
             return string.Empty;
         }
-        var data = logService.Parse<CopySingleShiftModel>(logData.UserLog.Data).First();
+        var data = logService.Parse<CopySingleShiftModel>(logData.UserLog.Data)[0];
         return BuildColumn(data);
     }
 
@@ -25,7 +24,7 @@ public class CopySingleShiftTemplateBuilder : TemplateBuilder
         {
             return string.Empty;
         }
-        var data = logService.Parse<CopySingleShiftModel>(logData.UserLog.DataOld).First();
+        var data = logService.Parse<CopySingleShiftModel>(logData.UserLog.DataOld)[0];
         return BuildColumn(data);
     }
 
@@ -33,6 +32,6 @@ public class CopySingleShiftTemplateBuilder : TemplateBuilder
     {
         var shiftCode = GetShiftCode(data.ShiftId);
         var refShift = !string.IsNullOrEmpty(data.RefShiftId) ? $"/{GetShiftCode(data.RefShiftId)}" : string.Empty;
-        return string.IsNullOrEmpty(shiftCode) && string.IsNullOrEmpty(refShift) ? string.Empty : $"{data.ShiftDate.ToString("MM/dd/yyyy")}: {shiftCode}{refShift}";
+        return string.IsNullOrEmpty(shiftCode) && string.IsNullOrEmpty(refShift) ? string.Empty : $"{data.ShiftDate:MM/dd/yyyy}: {shiftCode}{refShift}";
     }
 }

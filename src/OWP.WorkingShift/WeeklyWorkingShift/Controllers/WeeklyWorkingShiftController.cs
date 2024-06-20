@@ -2,13 +2,13 @@
 using OWP.WorkingShift.Common.Repositories;
 namespace OWP.WorkingShift.WeeklyWorkingShift.Controllers;
 
+using Constants;
+using Models;
 using System;
 using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
-using Constants;
-using Models;
-   
+
 public class WeeklyWorkingShiftController : Controller
 {
     private readonly RefResourceService resourceRepository;
@@ -51,8 +51,8 @@ public class WeeklyWorkingShiftController : Controller
         var model = new FilterViewModel
         {
             Permission = permission,
-            FromDate = DateTime.Today,
-            ToDate = DateTime.Today,
+            FromDate = DateTimeOffset.Now.Date,
+            ToDate = DateTimeOffset.Now.Date,
             Sections = sections,
             Departments = departments,
             UserCategories = (await resourceRepository.GetRefResourcesByName(ReferenceResourceNames.UserCategory)).ToList(),
@@ -96,8 +96,8 @@ public class WeeklyWorkingShiftController : Controller
         var selectedTimezoneSetting = getTimezoneSettings.FirstOrDefault(x => x.IsSelected);
         var model = new FilterViewModel
         {
-            FromDate = DateTime.Today,
-            ToDate = DateTime.Today,
+            FromDate = DateTimeOffset.Now.Date,
+            ToDate = DateTimeOffset.Now.Date,
             Sections = sections,
             Departments = departments,
             UserCategories = (await resourceRepository.GetRefResourcesByName(ReferenceResourceNames.UserCategory)).ToList(),

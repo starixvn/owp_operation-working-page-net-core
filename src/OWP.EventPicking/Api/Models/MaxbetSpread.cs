@@ -9,7 +9,7 @@ public class MaxbetSpread
 
     public decimal? MaxbetHdp { get; set; }
 
-    public bool IsReferenceLeagueManagement { get; set; } = false;
+    public bool IsReferenceLeagueManagement { get; set; }
 
     public string NoOfHDP { get; set; }
 
