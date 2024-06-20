@@ -30,23 +30,11 @@ public interface Repository
     Task<IEnumerable<ReferenceResource>> GetResourceByName(string name);
 }
 
-public class RepositoryImp : Repository
-{
-    private readonly IDynamicRepository dynamicRepository;
-
-    private readonly INapSession currentSession;
-
-    private readonly NotificationOddCompilerService notificationService;
-
-    public RepositoryImp(IDynamicRepository dynamicRepository,
+public class RepositoryImp(IDynamicRepository dynamicRepository,
         INapSession currentSession,
-        NotificationOddCompilerService notificationService)
-    {
-        this.dynamicRepository = dynamicRepository;
-        this.currentSession = currentSession;
-        this.notificationService = notificationService;
-    }
-
+        OldNotificationService notificationService)
+    : Repository
+{
     public async Task<ResultDataObject> SaveMarket(MarketUpdateModel model)
     {
         var criteria = new UpdateMarketOddCompilerCriteria

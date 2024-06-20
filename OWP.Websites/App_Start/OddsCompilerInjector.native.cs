@@ -1,5 +1,6 @@
 ﻿
 using OWP.OddsCompiler;
+using OWP.Services;
 
 namespace OWP.Websites.App_Start;
 
@@ -9,6 +10,6 @@ public static class OddsCompilerInjector
     {
         services.AddScoped<Repository, RepositoryImp>();
         services.AddScoped<ExcelExportService, ExcelExportServiceImp>();
-        services.AddScoped<NotificationOddCompilerService, NotificationOddCompilerServiceImp>();
+        services.AddScoped<OldNotificationService, OldNotificationServiceImp>();
     }
 }

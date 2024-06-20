@@ -1,10 +1,15 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿
+using Microsoft.AspNetCore.SignalR;
+
 
 namespace OWP.Hubs;
 
 public interface ChangedInfoNotifyHub
 {
-    Task notifyChangedInformationData(object messageInfo);
+    Task notifyChangedInformationData(object messageInfo); //implement from notification service 
 }
 
-public class ChangedInfoNotifyHubImp : Hub<ChangedInfoNotifyHub> { }
+public class ChangedInfoNotifyHubImp : Hub<ChangedInfoNotifyHub>
+{
+   
+}

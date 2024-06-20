@@ -63,9 +63,7 @@ class Notification extends Component {
   }
 
   componentDidMount() {
-    if (process.env.NODE_ENV !== 'development') {
-      this.initializeSignalRNetCore();
-    }
+    this.initializeSignalRNetCore();
 
     this.queryMessages(false);
     (async () => {
@@ -405,9 +403,7 @@ class Notification extends Component {
             return;
           }
 
-          const isDevelopment = isEquals(process.env.NODE_ENV, 'development');
-
-          !isDevelopment && window.pushNotification(data.message);
+          window.pushNotification(data.message);
 
           let formattedMessageContent = MessageService.customizeOSContent(
             messageType,
