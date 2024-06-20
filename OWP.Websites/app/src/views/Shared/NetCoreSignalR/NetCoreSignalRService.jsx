@@ -1,7 +1,8 @@
 import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
+import { baseApiUrl } from '../Constants';
 
 const configSignalR = hubName => {
-  const url = `/${hubName}`;
+  const url = `${baseApiUrl}/${hubName}`;
 
   const connection = new HubConnectionBuilder()
     .withUrl(url)

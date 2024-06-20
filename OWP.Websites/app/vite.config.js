@@ -85,7 +85,7 @@ export default defineConfig({
   },
   build: {
     outDir,
-    sourcemap: false,
+    sourcemap: true,
     emptyOutDir: true,
     rollupOptions: {
       input: {
@@ -95,7 +95,6 @@ export default defineConfig({
         assetFileNames: 'assets/ext/[name]-[hash][extname]',
         chunkFileNames: 'assets/js/[name]-[hash].js',
         entryFileNames: 'assets/js/[name]-[hash].js',
-        sourcemap: true,
         name: 'MyBundle'
       }
     }
