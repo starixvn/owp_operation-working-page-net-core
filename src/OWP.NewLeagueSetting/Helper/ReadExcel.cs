@@ -76,7 +76,6 @@ public static class ReadExcel
         //                                   c.WK_NO_HDPNote is not null ||
         //                                   c.LstNoteNote is not null ||
         //                                   c.Remark2Note is not null).ToList();
-        var result = leagueSetting.ToList().Where(l => !string.IsNullOrWhiteSpace(l.League)).ToList();
         var result = leagueSetting.Where(l => !string.IsNullOrWhiteSpace(l.League)).ToList();
         return result;
     }
