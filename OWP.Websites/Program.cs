@@ -1,5 +1,6 @@
 
 
+using OWP.BackgroundWorker.Scheduler;
 using OWP.Websites.App_Start;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
@@ -36,20 +37,17 @@ services.AddFanexSql(configuration);
 services.AddNapServices(configuration);
 services.AddOneBookUm(configuration);
 services.AddFanexServices(configuration);
+services.AddBackgroundWorker();
 services.AddCoreServices();
 services.AddMediator();
 services.AddAutoMapper();
 services.AddInternalServices();
 services.AddRabbitMQ();
-services.AddControllersWithViews(options =>
-{
-    options.Filters.Add(new ServiceFilterAttribute(typeof(CheckUMFilterAttribute)));
-    options.Filters.Add(new SessionAuthorizeAttribute());
-}).AddNewtonsoftJson();
+
 services.AddCarter();
 
 services.AddWebOptimizer();
-
+services.AddHostedService<OWPScheduler>();
 var app = builder.Build();
 
 app.UseDeveloperExceptionPage();

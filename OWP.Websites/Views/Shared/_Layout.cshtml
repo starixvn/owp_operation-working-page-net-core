@@ -80,6 +80,7 @@
             </svg>
         </div>
     </main>
+    @Html.Hidden("RootURL", Url.Content("~/"))
 
     @await Html.PartialAsync("_ModalWarningMessage");
     @await Html.PartialAsync("_ModalErrorMessage");

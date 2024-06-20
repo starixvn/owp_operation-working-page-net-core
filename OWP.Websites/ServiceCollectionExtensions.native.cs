@@ -52,6 +52,10 @@ using Fanex.NAP.Client.Session;
 using Microsoft.Extensions.FileProviders;
 using OWP.AccountSetting.Profile;
 using OWP.EventPicking.Api;
+using Quartz.Impl;
+using Quartz.Spi;
+using Quartz;
+using OWP.BackgroundWorker.Jobs;
 
 public static class ServiceCollectionExtensions
 {
@@ -96,7 +100,11 @@ public static class ServiceCollectionExtensions
                              .Build();
             config.Filters.Add(new AuthorizeFilter(policy));
         });
-        services.AddControllersWithViews()
+        services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add(new ServiceFilterAttribute(typeof(CheckUMFilterAttribute)));
+                options.Filters.Add(new SessionAuthorizeAttribute());
+            })
             .AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
@@ -144,40 +152,13 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddCorsPolicy(this IServiceCollection services)
+    public static IServiceCollection AddBackgroundWorker(this IServiceCollection services)
     {
-        static void corsPolicy(CorsPolicyBuilder builder)
-        {
-            builder.WithOrigins("https://localhost:44380",
-                                "https://localhost:64193",
-                                "http://localhost:64193",
-                                "http://localhost:57420",
-                                "https://owp.nexdev.net",
-                                "https://owp-netcore-v1.nexdev.net",
-                                "https://owp-netcore-v2.nexdev.net",
-                                "https://owp-netcore-v3.nexdev.net",
-                                "https://owp.starixuat.com",
-                                "https://newowp1.starixuat.com",
-                                "https://newowp2.starixuat.com",
-                                "https://newowp3.starixuat.com",
-                                "https://owp.oneops.net",
-                                "https://newowp.oneops.net",
-                                "https://owp1.oneops.net",
-                                "http://localhost:3000",
-                                "http://localhost:3001",
-                                "https://owp.starixuat.com"
-                                )
-                  .AllowAnyMethod()
-                  .AllowAnyHeader()
-                  .AllowCredentials();
-        }
-        services.AddCors(options =>
-        {
-            options.AddPolicy("AllowOrigin", corsPolicy);
-        });
-
+        services.AddSingleton<IJobFactory, JobFactory>();
+        services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
         return services;
     }
+
 
     public static IServiceCollection AddFanexServices(this IServiceCollection services, IConfiguration configuration)
     {
@@ -262,6 +243,7 @@ public static class ServiceCollectionExtensions
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(AssigneeSuggestionController).GetTypeInfo().Assembly));
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(LAKpiController).GetTypeInfo().Assembly));
         services.AddMediatR(x => x.RegisterServicesFromAssembly(AppDomain.CurrentDomain.Load("OWP.NewLeagueSetting")));
+        services.AddMediatR(x => x.RegisterServicesFromAssembly(AppDomain.CurrentDomain.Load("OWP.BackgroundWorker")));
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(ProfileController).GetTypeInfo().Assembly));
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(QuickMessageController).GetTypeInfo().Assembly));
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(ProviderVerificationController).GetTypeInfo().Assembly));
