@@ -149,6 +149,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<GetInfoSiteTimeService, GetInfoSiteTimeServiceImp>();
         services.AddScoped<AccessCounter, AccessCounterImp>();
         services.AddScoped<UserRepository, UserRepositoryImp>();
+        services.AddScoped<OldNotificationService, OldNotificationServiceImp>();
         return services;
     }
 

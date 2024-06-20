@@ -10,6 +10,5 @@ public static class OddsCompilerInjector
     {
         services.AddScoped<Repository, RepositoryImp>();
         services.AddScoped<ExcelExportService, ExcelExportServiceImp>();
-        services.AddScoped<OldNotificationService, OldNotificationServiceImp>();
     }
 }
