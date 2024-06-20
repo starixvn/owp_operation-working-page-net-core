@@ -159,7 +159,6 @@
     <PackageReference Include="Fanex.Logging.Sentry.RavenClient" Version="1.0.1.1" />
     <PackageReference Include="Fanex.NAP.SignIn" Version="2.0.1.1" />
     <PackageReference Include="LigerShark.WebOptimizer.Core" Version="3.0.405" />
-    <PackageReference Include="ONEbook.UM" Version="3.1.6" />
     <PackageReference Include="ONEbook.UM.AspNetCore" Version="3.1.1.1" />
     <PackageReference Include="ONEbook.UM.AspNetCore.Filters" Version="3.1.1.1" />
     <PackageReference Include="ONEbook.UM.Transport" Version="3.1.2" />
@@ -167,6 +166,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR.StackExchangeRedis" Version="8.0.6" />
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.6" />
+    <PackageReference Include="Quartz.AspNetCore" Version="3.9.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\src\OWP.AccountSetting\OWP.AccountSetting.csproj" />

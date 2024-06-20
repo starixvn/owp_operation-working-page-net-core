@@ -69,8 +69,8 @@ public class RepositoryImp : Repository
 
         var userSortedShift = SortUserShift(userGroups, userHaveShiftSorted);
 
-        var fromDate = model.Date?.AddHours(12) ?? DateTimeOffset.Now;
-        var toDate = model.Date?.AddDays(1).AddHours(11).AddMinutes(59).AddSeconds(59) ?? DateTimeOffset.Now;
+        var fromDate = model.Date?.AddHours(12) ?? DateTime.Now;
+        var toDate = model.Date?.AddDays(1).AddHours(11).AddMinutes(59).AddSeconds(59) ?? DateTime.Now;
         var assignmentMappingTypes = new[] { typeof(Assignment), typeof(OWPMatch) };
         var assignmentStatsFetchedData =
             await dynamicRepository.FetchMultipleAsync(new QueryAssignmentStatsCriteria { Date = model.Date },
@@ -264,7 +264,7 @@ public class RepositoryImp : Repository
         return selectedMatches;
     }
 
-    private AssignmentStatistic CalculateAssignmentStats(DateTimeOffset fromDate, DateTimeOffset toDate,
+    private AssignmentStatistic CalculateAssignmentStats(DateTime fromDate, DateTime toDate,
         IEnumerable<object>[] assignmentStatsFetchedData)
     {
         var assigments = assignmentStatsFetchedData[0].Cast<Assignment>();

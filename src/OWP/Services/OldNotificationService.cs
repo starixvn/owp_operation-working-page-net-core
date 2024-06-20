@@ -1,5 +1,4 @@
 ﻿
-using System.Security.Cryptography.X509Certificates;
 using Fanex.Data.Repository;
 using Microsoft.AspNetCore.SignalR;
 using OWP.Criteria;
@@ -14,22 +13,13 @@ public interface OldNotificationService
 
     Task Notify(string sessionId, int preMatchIssueId);
 
-    Task Notify();
 }
 
 public class OldNotificationServiceImp(IDynamicRepository repository,
         IHubContext<ChangedInfoNotifyHubImp, ChangedInfoNotifyHub> changedInfoHub)
     : OldNotificationService
 {
-    public async Task Notify()
-    {
-        var sessionIds = await repository.FetchAsync<string>(new GetNotificationQueueCriteria());
-        foreach (var sessionId in sessionIds)
-        {
-            await NotifyInternal(sessionId);
-        }
-    }
-
+    
     public async Task Notify(string sessionId)
     {
         await NotifyInternal(sessionId);

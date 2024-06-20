@@ -43,6 +43,7 @@ using OWP.Websites.App_Start;
 using SharpRaven;
 using StackExchange.Redis;
 using System.Reflection;
+using OWP.BackgroundWorker.Constants;
 using ILogger = Fanex.Logging.ILogger;
 
 namespace OWP.Websites;
@@ -150,13 +151,6 @@ public static class ServiceCollectionExtensions
         services.AddScoped<AccessCounter, AccessCounterImp>();
         services.AddScoped<UserRepository, UserRepositoryImp>();
         services.AddScoped<OldNotificationService, OldNotificationServiceImp>();
-        return services;
-    }
-
-    public static IServiceCollection AddBackgroundWorker(this IServiceCollection services)
-    {
-        services.AddSingleton<IJobFactory, JobFactory>();
-        services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
         return services;
     }
 
@@ -481,4 +475,25 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
+    public static IServiceCollection AddGetNotificationQueue(this IServiceCollection services)
+        => services.AddBackgroundWorker<GetNotificationQueueJob>(CronExpressionJob.GET_NOTIFICATION_QUEUE);
+
+    private static IServiceCollection AddBackgroundWorker<T>(this IServiceCollection services, string cronExpression)
+    where T : IJob
+    {
+        services.AddQuartz(q =>
+        {
+            var key = typeof(T).Name;
+            var jobKey = new JobKey(key);
+            q.AddJob<T>(opts => opts.WithIdentity(jobKey));
+
+            q.AddTrigger(opts => opts
+                .ForJob(jobKey)
+                .WithIdentity(key)
+                .WithCronSchedule(cronExpression)
+            );
+        });
+        services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
+        return services;
+    }
 }
