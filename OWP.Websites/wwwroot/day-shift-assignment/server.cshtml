@@ -7,9 +7,7 @@
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     >
     <meta name="theme-color" content="#000000" >
-    
     <link rel="shortcut icon" href="/day-shift-assignment/favicon.ico" >
-    
     <title>Operation Working Page</title>
     <script type="text/javascript">
       document.addEventListener('DOMContentLoaded', function () {
@@ -22,34 +20,15 @@
         if (Notification.permission !== 'granted')
           Notification.requestPermission();
       });
-      function pushNotification(message) {
-        if (!Notification || Notification.permission !== 'granted') {
-          return;
-        }
-
-        var bodyContent = (message.messageContent.replaceAll('<b>', '')).replaceAll('</b>', '');
-
-        var notification = new Notification('OWP Notification', {
-          icon: 'favicon.ico',
-          body: bodyContent
-        });
-        notification.onclick = () => {
-          if (message.ticketId) {
-            window.open('MyTickets?actorId=' + message.userId + '&eventType=' + message.eventType + '&ticketId=' + message.ticketId + '',`ticket-center-${message.ticketId}`);
-          }
-          else {
-            window.open('MessageBoxManagement');
-          }
-        };
-      }
     </script>
     <link href="/styles/fonts" rel="stylesheet" >
     <link href="/shared/themes/fonts/flags/flag-icon.css" rel="stylesheet" >
     <script src="/scripts/core"></script>
     <script src="/scripts/common"></script>
     <script src="/shared/owp/copy.js"></script>
-    <script type="module" crossorigin src="/day-shift-assignment/assets/js/main-c60f4397.js"></script>
-    <link rel="stylesheet" href="/day-shift-assignment/assets/ext/server-608b8ace.css">
+    <script src="/shared/owp/SignalR/pushNotification.js" type="text/javascript"></script>
+    <script type="module" crossorigin src="/day-shift-assignment/assets/js/main-e7700048.js"></script>
+    <link rel="stylesheet" href="/day-shift-assignment/assets/ext/server-f8ba8ed4.css">
   </head>
 
   <body>
