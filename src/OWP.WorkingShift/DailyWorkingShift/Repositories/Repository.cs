@@ -267,7 +267,7 @@ public class RepositoryImp : Repository
     private AssignmentStatistic CalculateAssignmentStats(DateTime fromDate, DateTime toDate,
         IEnumerable<object>[] assignmentStatsFetchedData)
     {
-        var assigments = assignmentStatsFetchedData[0].Cast<Assignment>();
+        var assignments = assignmentStatsFetchedData[0].Cast<Assignment>();
         var fetchedMatches = assignmentStatsFetchedData[1].Cast<OWPMatch>();
 
         var filteredMatches = fetchedMatches.Where(x =>
@@ -282,7 +282,7 @@ public class RepositoryImp : Repository
         {
             var selectedMatch = CalculateSelectedMatch(i, filteredMatches);
 
-            var assignedLA = assigments
+            var assignedLA = assignments
                 .Where(x => selectedMatch.Select(y => y.OWPMatchId).Contains(x.OWPMatchId) &&
                             x.Bettype == LABettype)
                 .Select(x => x.UserId)
@@ -293,8 +293,8 @@ public class RepositoryImp : Repository
 
             foreach (var match in selectedMatch)
             {
-                var matchLA = assigments.Count(x => x.OWPMatchId == match.OWPMatchId && x.Bettype == LABettype);
-                var matchAssignedTrader = CalculateMatchAssignedTraders(match, fetchedMatches, assigments);
+                var matchLA = assignments.Count(x => x.OWPMatchId == match.OWPMatchId && x.Bettype == LABettype);
+                var matchAssignedTrader = CalculateMatchAssignedTraders(match, fetchedMatches, assignments);
                 assignedTrader.AddRange(matchAssignedTrader);
                 assignedMatch += matchAssignedTrader.Count > 0 || matchLA > 0 ? 1 : 0;
             }
