@@ -61,21 +61,6 @@ public static class ReadExcel
                 return settingInfo;
             });
 
-
-        // TODO
-        //var result = collection.Where(c => c.LeagueGroup is not null ||
-        //                                   c.LeagueNote is not null ||
-        //                                   c.LocalTvNote is not null ||
-        //                                   c.RoundNote is not null ||
-        //                                   c.LeagueDivisionNote is not null ||
-        //                                   c.RemarkNote is not null ||
-        //                                   c.FTSpreadNote is not null ||
-        //                                   c.WD_HDPNote is not null ||
-        //                                   c.WD_NO_HDPNote is not null ||
-        //                                   c.WK_HDPNote is not null ||
-        //                                   c.WK_NO_HDPNote is not null ||
-        //                                   c.LstNoteNote is not null ||
-        //                                   c.Remark2Note is not null).ToList();
         var result = leagueSetting.Where(l => !string.IsNullOrWhiteSpace(l.League)).ToList();
         return result;
     }

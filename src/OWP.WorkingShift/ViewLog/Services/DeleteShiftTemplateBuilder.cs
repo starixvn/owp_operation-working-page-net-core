@@ -1,7 +1,6 @@
 ﻿namespace OWP.WorkingShift.ViewLog.Services;
 
 using Models;
-using System.Linq;
 
 public class DeleteShiftTemplateBuilder : TemplateBuilder
 {
@@ -26,7 +25,7 @@ public class DeleteShiftTemplateBuilder : TemplateBuilder
             return string.Empty;
         }
 
-        var shiftModel = logService.Parse<DeleteShiftModel>(data).First();
+        var shiftModel = logService.Parse<DeleteShiftModel>(data)[0];
         var shiftCodeFormat = !string.IsNullOrWhiteSpace(shiftModel.RefShiftId) ?
             $"{GetShiftCode(shiftModel.ShiftId)}/{GetShiftCode(shiftModel.RefShiftId)}" :
             $"{GetShiftCode(shiftModel.ShiftId)}";
