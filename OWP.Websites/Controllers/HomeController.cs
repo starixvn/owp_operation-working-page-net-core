@@ -1,34 +1,18 @@
 ﻿using Fanex.NAP.Client.Attributes;
 using Fanex.NAP.Client.Helpers.Business;
-using Fanex.NAP.Client.Models.ParameterObject;
-using Fanex.NAP.Client.Services;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
 using OWP.Constants;
 using OWP.Services;
-using System.Security.Claims;
 
 namespace OWP.Websites.Controllers;
 
-public class HomeController : Controller
+public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessCounter accessCounter) : Controller
 {
-    private readonly INapSession session;
+  
+    private readonly AccessCounterModel counterModel = counterOptions.Value;
 
-    private readonly INapSettings napSettings;
-
-    private readonly AccessCounterModel counterModel;
-
-    private readonly AccessCounter accessCounter;
-
-    public HomeController(INapSession session, INapSettings napSettings, IOptions<AccessCounterModel> counterOptions, AccessCounter accessCounter)
-    {
-        this.session = session;
-        this.napSettings = napSettings;
-        this.accessCounter = accessCounter;
-        this.counterModel = counterOptions.Value;
-    }
+    private readonly AccessCounter accessCounter = accessCounter;
 
     [Authorize]
 
