@@ -6,16 +6,15 @@
     var bodyContent = (notificationContent.messageContent.replaceAll('<b>', '')).replaceAll('</b>', '');
 
     var notification = new window.Notification('OWP Notification', {
-        icon: '' + $('#RootURL').val() + 'favicon.ico',
+        icon: '/favicon.ico',
         body: bodyContent,
     });
     notification.onclick = function () {
         if (notificationContent.ticketId) {
-            window.open($('#RootURL').val() + 'MyTickets?actorId=' + notificationContent.userId + '&eventType=' + notificationContent.eventType + '&ticketId=' + notificationContent.ticketId + '', 'ticket-center-' + message.ticketId + '');
+            window.open('/MyTickets?actorId=' + notificationContent.userId + '&eventType=' + notificationContent.eventType + '&ticketId=' + notificationContent.ticketId + '', 'ticket-center-' + message.ticketId + '');
         }
         else {
-            window.open($('#RootURL').val() + 'MessageBoxManagement');
+            window.open('/MessageBoxManagement');
         }
     };
-
 };
