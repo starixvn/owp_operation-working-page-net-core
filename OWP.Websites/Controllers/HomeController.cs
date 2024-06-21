@@ -30,14 +30,12 @@ public class HomeController : Controller
         this.counterModel = counterOptions.Value;
     }
 
-    [AllowAnonymous]
+    [Authorize]
 
     public IActionResult Index() => View("~/wwwroot/welcome/server.cshtml");
 
 
-
     [AllowAnonymous]
-    [SkipUMFilter]
     public string GetAccessCounterConfig() => counterModel.ToString();
 
     [AllowAnonymous]
@@ -47,56 +45,12 @@ public class HomeController : Controller
     }
 
     [AllowAnonymous]
+    public IActionResult ThrowException(string message) => throw new Exception("Throw exception");
+
+    [AllowAnonymous]
     public IActionResult ExpiredSession()
     {
         return View();
-    }
-
-    [Authorize]
-    [HttpGet]
-    public async Task<IActionResult> FakeLogin()
-    {
-        if (napSettings.Environment == "LIVE")
-        {
-            return Content("This function is unavailable");
-        }
-
-        var criteria = new LoginParameter
-        {
-            UserId = 8,
-            SiteId = 99,
-            LoginDate = DateTimeOffset.Now.DateTime,
-            NetSessionId = HttpContext.Session.Id,
-            Ip = "127.0.0.1",
-            BrowserName = Request.Headers["User-Agent"].ToString(),
-            CountryCode = "VN",
-            Domain = "owp-local.com",
-            Platform = Environment.OSVersion.Platform.ToString()
-        };
-
-        var securityService = new SecurityService();
-        var onUserId = await securityService.LoginAsync(criteria);
-
-        await SaveUserSession(onUserId);
-
-        return Content("Faked Login");
-    }
-
-    private async Task SaveUserSession(int onUserId)
-    {
-        const int fakeUserId = 8;
-        session.UserId = fakeUserId;
-        session.UserName = "sa";
-        session.OnUserId = onUserId;
-
-        var claims = new List<Claim>
-        {
-            new(ClaimTypes.Name, "sa"),
-            new(ClaimTypes.NameIdentifier, "8")
-        };
-
-        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
     }
 
     [Route("EventManagement/LiveDetail/Index/{id:int}")]
