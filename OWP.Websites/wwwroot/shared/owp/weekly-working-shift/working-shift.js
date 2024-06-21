@@ -149,10 +149,10 @@
 jQuery(document).ready(function ($) {
     var queryDate = common.urlParam('date');
     var currentDate = queryDate || currentDateServer;
-    var today = moment(currentDate);
+    var today = moment(currentDate, 'MM/DD/YYYY');
     var mondayofCurrentWeek = today.startOf('isoweek');
     var fourlatestWeeks = moment(mondayofCurrentWeek.subtract(28, "days"));
-    var maxQueryTime = moment(currentDate).diff(fourlatestWeeks, 'days');
+    var maxQueryTime = moment(currentDate, 'MM/DD/YYYY').diff(fourlatestWeeks, 'days');
     function initializeFilters() {
         $('#employee').val('');
         workingShiftCore.InitCategoryFilter();
@@ -266,7 +266,7 @@ jQuery(document).ready(function ($) {
         if (isIFrame) {
             searchWorkingShiftWeeklyFn = workingShiftService.SearchWorkingShiftWeeklyIFrame;
         }
-        var toDate = moment($('.weekpicker').data('endDate')).add(1, 'days').format('MMM DD, YYYY');
+        var toDate = moment($('.weekpicker').data('endDate'), 'MMM DD, YYYY').add(1, 'days').format('MMM DD, YYYY');
         var model = {
             fromDate: $('.weekpicker').data('startDate'),
             toDate: toDate,

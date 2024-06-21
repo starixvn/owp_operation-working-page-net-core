@@ -501,7 +501,7 @@
                     .UpdateWorkingShiftCode(modelUpdate, function (res) {
                       hideAllPopup();
                       var data = res.Data;
-                      var toDate = moment($(".weekpicker").data("endDate")).add(
+                        var toDate = moment($(".weekpicker").data("endDate"), 'MM/DD/YYYY').add(
                         1,
                         "days"
                       );
@@ -2450,7 +2450,7 @@
     },
     render: function (data) {
       var fromDate = $(".weekpicker").data("startDate");
-      var toDate = moment($(".weekpicker").data("endDate"))
+        var toDate = moment($(".weekpicker").data("endDate"), "MMM DD, YYYY")
         .add(1, "days")
         .format("MMM DD, YYYY");
       $(".txt-week").text(fromDate + " - " + toDate);

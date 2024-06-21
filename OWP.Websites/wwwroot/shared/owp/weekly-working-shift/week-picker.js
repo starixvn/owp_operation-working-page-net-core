@@ -24,7 +24,7 @@
                 }
             }));
             
-            this._select(moment(date).format('MM/DD/YYYY'), this._picker, onSelect);
+            this._select(moment(date,'MM/DD/YYYY'), this._picker, onSelect);
         },
 
         _initialDate: function () {
@@ -66,10 +66,10 @@
         },
 
         setDate: function (date) {
-            this._picker.datepicker('setDate', moment(date).format('MM/DD/YYYY'));
+            this._picker.datepicker('setDate', moment(date,'MM/DD/YYYY'));
             $('#ui-datepicker-div').hide();
             var onSelect = this.options.onSelect;
-            this._select(moment(date).format('MM/DD/YYYY'), this._picker, onSelect);
+            this._select(moment(date,'MM/DD/YYYY'), this._picker, onSelect);
         }
     });
 

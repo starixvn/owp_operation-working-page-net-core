@@ -24,7 +24,7 @@ var dailyWorkingShift = (function ($) {
     var today = moment().format('MM/DD/YYYY');
     var queryDate = common.urlParam('date');
     var currentDate = queryDate || today;
-    var mondayofCurrentWeek = moment(currentDate).startOf('isoweek');
+    var mondayofCurrentWeek = moment(currentDate, 'MM/DD/YYYY').startOf('isoweek');
     var fourlatestWeeks = moment(mondayofCurrentWeek.subtract(28, "days"));
     function getBetTypeName(betTypeGroupName) {
         switch (betTypeGroupName) {
@@ -608,7 +608,7 @@ var dailyWorkingShift = (function ($) {
             $('.next-day').on('click', function () {
                 var date = new Date($('.txt-day').text());
                 date.setDate(date.getDate() + 1);
-                $('.datepicker').val(moment(date).format('MM/DD/YYYY'));
+                $('.datepicker').val(moment(date,'MM/DD/YYYY'));
                 $(".btn-search").click();
             });
             $('.daily-option-config').click(function () {
@@ -732,7 +732,9 @@ var dailyWorkingShift = (function ($) {
                 var timeSheet = {};
                 for (var j = 0; j < userData.Shifts.length; j++) {
                     var shift = userData.Shifts[j];
-                    var timeRange = TimeRange.parse(shift, date);
+                    var formattedShift = moment(shift, 'YYYY-MM-DDTHH:mm:ssZ');
+                    var formattedDate = moment(date, 'YYYY-MM-DD');
+                    var timeRange = TimeRange.parse(formattedShift, formattedDate);
                     if (timeRange) {
                         timeRange.update(timeSheet);
                     }
@@ -877,10 +879,10 @@ jQuery(document).ready(function ($) {
     var queryDate = common.urlParam('date');
     var currentDate = queryDate || today;
     var columnFilters = {};
-    var today = moment(currentDate);
+    var today = moment(currentDate, 'MM/DD/YYYY');
     var mondayofCurrentWeek = today.startOf('isoweek');
     var fourlatestWeeks = moment(mondayofCurrentWeek.subtract(28, "days"));
-    var maxQueryTime = moment(currentDate).diff(fourlatestWeeks, 'days');
+    var maxQueryTime = moment(currentDate, 'MM/DD/YYYY').diff(fourlatestWeeks, 'days');
 
     $('.datepicker').datepicker({
         minDate: -maxQueryTime,
