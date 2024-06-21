@@ -24,7 +24,7 @@ public class DailyWorkingShiftApiController : ControllerBase
     [Route("query")]
     [HttpPost]
     [NapAuth(FunctionKey = FunctionKeys.WorkingShiftManagement, Policy = Constant.Policy.Host)]
-    public async Task<ActionResult<JsonResult>> SearchWorkingShiftDaily(QueryModel model)
+    public async Task<JsonResult> SearchWorkingShiftDaily(QueryModel model)
     {
         var permission = modelService.BuildPermissionViewModel();
         model.Permission = permission;

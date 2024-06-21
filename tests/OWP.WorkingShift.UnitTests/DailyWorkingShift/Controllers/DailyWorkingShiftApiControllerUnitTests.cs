@@ -26,7 +26,7 @@ namespace OWP.WorkingShift.UnitTests.DailyWorkingShift.Controllers
                 Matches = new List<QueryMatchInfo>(),
                 Users = new List<QueryUserGroup>()
             };
-            var expect = new ActionResult<JsonResult>(new JsonResult(queryResult, new JsonSerializerSettings()));
+            var expect = new JsonResult(queryResult, new JsonSerializerSettings());
             
             var repository = Substitute.For<Repository>();
             var permissionService = Substitute.For<ModelService>();
@@ -46,10 +46,10 @@ namespace OWP.WorkingShift.UnitTests.DailyWorkingShift.Controllers
                 User = "starix",
                 ExcludeClosedAccount = true
             };
-            var actualResult = await controller.SearchWorkingShiftDaily(queryModel);
+            var actual = await controller.SearchWorkingShiftDaily(queryModel);
 
             // Assert
-            DeepAssert.Equal(expect.Value, actualResult.Value);
+            DeepAssert.Equal(expect, actual);
         }
     }
 }
