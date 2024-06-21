@@ -11,19 +11,10 @@ using OWP.Services;
 
 namespace OWP.OddsCompiler.Controllers;
 [Route("api/odds-compiler")]
-public class OddsCompilerApiController : ControllerBase
+public class OddsCompilerApiController(Repository oddsCompilerRepository, ConfigurationService configurationService,
+        ExcelExportService excelExportService)
+    : ControllerBase
 {
-    private readonly Repository oddsCompilerRepository;
-    private readonly ExcelExportService excelExportService;
-    private readonly ConfigurationService configurationService;
-
-    public OddsCompilerApiController(Repository oddsCompilerRepository, ConfigurationService configurationService, ExcelExportService excelExportService)
-    {
-        this.oddsCompilerRepository = oddsCompilerRepository;
-        this.configurationService = configurationService;
-        this.excelExportService = excelExportService;
-    }
-
     [Route("query")]
     [HttpPost]
     [NapAuth(FunctionKey = FunctionKeys.OddsCompiler, Policy = Constant.Policy.Read)]
@@ -94,7 +85,7 @@ public class OddsCompilerApiController : ControllerBase
         var excelModel = await excelExportService.GetExcelModel(criteria);
         using var excelPackage = excelExportService.CreateExcelPackage(absolutedTemplatePath, excelModel);
         var bytes = await excelPackage.GetAsByteArrayAsync();
-        return File(bytes, "application/octet-stream", $"OddsCompiler_{ date.ToString("yyyyMMdd")}.xlsx");
+        return File(bytes, "application/octet-stream", $"OddsCompiler_{ date:yyyyMMdd}.xlsx");
     }
 }
 

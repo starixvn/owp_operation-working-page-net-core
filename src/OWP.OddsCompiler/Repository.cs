@@ -260,8 +260,8 @@ public class RepositoryImp(IDynamicRepository dynamicRepository,
             Code = 0,
             Message = ""
         };
-        var martketSendNotificationModel = message.ParseXml<MartketSendNotificationModel>();
-        if (!string.IsNullOrEmpty(martketSendNotificationModel.OldValue) || !string.IsNullOrEmpty(martketSendNotificationModel.NewValue))
+        var marketSendNotificationModel = message.ParseXml<MarketSendNotificationModel>();
+        if (!string.IsNullOrEmpty(marketSendNotificationModel.OldValue) || !string.IsNullOrEmpty(marketSendNotificationModel.NewValue))
         {
             var getUserIdResult = await GetUsersToSendNotification(owpMatchId,
                 (int)NotificationSettings.WatcherMatchInfoSetting,
@@ -278,8 +278,8 @@ public class RepositoryImp(IDynamicRepository dynamicRepository,
                     OWPMatchId = owpMatchId,
                     AssigneeIds = assigneeIds,
                     WatcherIds = watcherIds,
-                    OldValue = martketSendNotificationModel.OldValue,
-                    NewValue = martketSendNotificationModel.NewValue
+                    OldValue = marketSendNotificationModel.OldValue,
+                    NewValue = marketSendNotificationModel.NewValue
                 });
             }
         }

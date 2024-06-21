@@ -18,15 +18,11 @@ public interface ExcelExportService
     Task<ExcelModel> GetExcelModel(GetOddsCompilerCriteria criteria);
 }
 
-public class ExcelExportServiceImp : ExcelExportService
+public class ExcelExportServiceImp(Repository oddsCompilerRepository,
+        INapSession currentSession,
+        IMapper mapper)
+    : ExcelExportService
 {
-    private readonly Repository oddsCompilerRepository;
-
-    private readonly INapSession currentSession;
-
-    private readonly IMapper mapper;
-
-
     private ExcelPackage excelPackage { get; set; }
 
     private ExcelWorksheet reportSheet;
@@ -36,16 +32,6 @@ public class ExcelExportServiceImp : ExcelExportService
     private const string SheetName = "Odds";
 
     private const int StartRowIndex = 3;
-
-    public ExcelExportServiceImp(Repository oddsCompilerRepository,
-        INapSession currentSession,
-        IMapper mapper
-        )
-    {
-        this.oddsCompilerRepository = oddsCompilerRepository;
-        this.currentSession = currentSession;
-        this.mapper = mapper;
-    }
 
     public ExcelPackage CreateExcelPackage(string templatePath, ExcelModel model)
     {
@@ -66,7 +52,7 @@ public class ExcelExportServiceImp : ExcelExportService
             FileInfo = new ExcelFileInfo
             {
                 Date = criteria.Date.ToString("MMMM dd, yyyy"),
-                ExportTime = $"export time: {DateTimeOffset.Now.ToString("MM/dd/yyyy HH:mm:ss")}",
+                ExportTime = $"export time: {DateTimeOffset.Now:MM/dd/yyyy HH:mm:ss}",
                 ExportBy = $"export by {currentSession.UserName}",
                 IsExcludeSpecialProducts = $"exclude special products: {criteria.IsExcludeSpecialProducts}",
                 League = criteria.League,

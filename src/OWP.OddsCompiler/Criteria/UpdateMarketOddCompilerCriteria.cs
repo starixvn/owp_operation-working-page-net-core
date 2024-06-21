@@ -1,6 +1,8 @@
-﻿using Fanex.Data.Repository;
-using System;
+﻿using System;
 using System.Globalization;
+using Fanex.Data.Repository;
+
+namespace OWP.OddsCompiler.Criteria;
 
 public class UpdateMarketOddCompilerCriteria : NonQueryCommand
 {
