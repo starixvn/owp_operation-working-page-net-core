@@ -302,6 +302,7 @@ public static class ServiceCollectionExtensions
         });
         services.AddSingleton<NewDataUploadNotifyHubImp>();
         services.AddSingleton<TicketCenterNotifyHubImp>();
+        services.AddSingleton<ChangedInfoNotifyHubImp>();
 
         return services;
     }
