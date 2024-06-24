@@ -87,7 +87,7 @@ public class AssignmentUploadingApiController : ControllerBase
 
         NotifyForAssignmentUpload(request);
         NotifyForPrematch(request);
-        await accessCounter.UpdateCounter(counterModel.EventUploadNewUpload);
+        await accessCounter.UpdateCounter(counterModel.EventUploadNew);
         return Ok(viewModel);
     }
 

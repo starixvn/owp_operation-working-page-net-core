@@ -45,9 +45,7 @@ public class DailyWorkingShiftController : Controller
             Departments = departments,
             UserLocations = resourceRepository.GetAllLocations(),
             Username = currentSession.UserName
-        };// TODO
-        //var functionName = ConfigurationManager.AppSettings["DailyWorkingShift"];
-        //await accessCounter.UpdateCounter(functionName);
+        };
         return View(model);
     }
 }

@@ -9,10 +9,7 @@ namespace OWP.Websites.Controllers;
 
 public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessCounter accessCounter) : Controller
 {
-  
     private readonly AccessCounterModel counterModel = counterOptions.Value;
-
-    private readonly AccessCounter accessCounter = accessCounter;
 
     [Authorize]
 
@@ -20,7 +17,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
 
 
     [AllowAnonymous]
-    public string GetAccessCounterConfig() => counterModel.ToString();
+    public string GetAccessCounterConfig() => counterOptions.Value.ToString();
 
     [AllowAnonymous]
     public IActionResult Test()
@@ -51,8 +48,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.LiveGameAssignment, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> EventAssignment()
     {
-        const string functionName = FunctionKeys.LiveGameAssignment;
-        await accessCounter.UpdateCounter(functionName);
+        await accessCounter.UpdateCounter(counterModel.LiveGameAssignment);
         return View("~/wwwroot/event-assignment/server.cshtml");
     }
 
@@ -60,8 +56,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.LiveGameAssignment, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> EventAssignmentNew()
     {
-        const string functionName = FunctionKeys.EventPickingNew;
-        await accessCounter.UpdateCounter(functionName);
+        await accessCounter.UpdateCounter(counterModel.LiveGameAssignment);
         return View("~/wwwroot/event-assignment-new/server.cshtml");
     }
 
@@ -69,15 +64,14 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.LiveGameAssignment, Policy = Constant.Policy.Host)]
     public async Task<ActionResult> EventUpload()
     {
-        await accessCounter.UpdateCounter("EventUpload");
+        await accessCounter.UpdateCounter(counterModel.EventUploadNew);
         return View("~/wwwroot/event-upload/server.cshtml");
     }
 
     [Route("AutoAssignment")]
     public async Task<ActionResult> AutoAssignment()
     {
-        const string functionName = FunctionKeys.AutoAssignment;
-        await accessCounter.UpdateCounter(functionName);
+        await accessCounter.UpdateCounter(counterModel.AutoAssignment);
         return View("~/wwwroot/auto-assignment/server.cshtml");
     }
 
@@ -92,8 +86,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.OddsCompiler, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> OddsCompiler()
     {
-        const string functionName = FunctionKeys.OddsCompiler;
-        await accessCounter.UpdateCounter(functionName);
+        await accessCounter.UpdateCounter(counterModel.OddsCompiler);
         return View("~/wwwroot/odds-compiler/server.cshtml");
     }
 
@@ -102,8 +95,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.TraderReport, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> LSTReport()
     {
-        const string functionName = FunctionKeys.TraderReport;
-        await accessCounter.UpdateCounter(functionName);
+        await accessCounter.UpdateCounter(counterModel.TraderReport);
         return View("~/wwwroot/lst-report/server.cshtml");
     }
 
@@ -112,8 +104,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.LeagueManagement, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> LeagueManagement()
     {
-        const string functionName = FunctionKeys.LeagueManagement;
-        await accessCounter.UpdateCounter(functionName);
+        await accessCounter.UpdateCounter(counterModel.LeagueManagement);
         return View("~/wwwroot/league-management/server.cshtml");
     }
 
@@ -122,8 +113,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.LAReport, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> LAReport()
     {
-        const string functionName = FunctionKeys.LAReport;
-        await accessCounter.UpdateCounter(functionName);
+        await accessCounter.UpdateCounter(counterModel.LAReport);
         return View("~/wwwroot/la-report/server.cshtml");
     }
 
@@ -131,8 +121,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.OvertimeReport, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> OvertimeReport()
     {
-        const string functionName = FunctionKeys.OvertimeReport;
-        await accessCounter.UpdateCounter(functionName);
+        await accessCounter.UpdateCounter(counterModel.OvertimeReport);
         return View("~/wwwroot/overtime-report/server.cshtml");
     }
 
@@ -140,8 +129,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.DayShiftAssignment, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> DayShiftAssignment()
     {
-        const string functionName = FunctionKeys.DayShiftAssignment;
-        await accessCounter.UpdateCounter(functionName);
+        await accessCounter.UpdateCounter(counterModel.DayShiftAssignment);
         return View("~/wwwroot/day-shift-assignment/server.cshtml");
     }
 
@@ -150,8 +138,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.NightShiftAssignment, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> NightShiftAssignment()
     {
-        const string functionName = FunctionKeys.NightShiftAssignment;
-        await accessCounter.UpdateCounter(functionName);
+        await accessCounter.UpdateCounter(counterModel.NightShiftAssignment);
         return View("~/wwwroot/night-shift-assignment/server.cshtml");
     }
 
@@ -159,8 +146,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.MyTickets, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> TicketCenter()
     {
-        const string functionName = FunctionKeys.MyTickets;
-        await accessCounter.UpdateCounter(functionName);
+        await accessCounter.UpdateCounter(counterModel.MyTickets);
         return View("~/wwwroot/ticket-center/server.cshtml");
     }
 
@@ -168,8 +154,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.TicketTypeSettings, Policy = Constant.Policy.Host)]
     public async Task<ActionResult> TicketTypeRecipient()
     {
-        const string functionName = FunctionKeys.TicketTypeSettings;
-        await accessCounter.UpdateCounter(functionName);
+        await accessCounter.UpdateCounter(counterModel.TicketTypeSettings);
         return View("~/wwwroot/ticket-type-recipient/server.cshtml");
     }
 
@@ -177,8 +162,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.LiveGameList, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> LiveGameList()
     {
-        const string functionName = FunctionKeys.LiveGameList;
-        await accessCounter.UpdateCounter(functionName);
+        await accessCounter.UpdateCounter(counterModel.LiveGameListNew);
         return View("~/wwwroot/live-game-list/server.cshtml");
     }
 
@@ -186,8 +170,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.RecipientGroup, Policy = Constant.Policy.Host)]
     public async Task<ActionResult> RecipientGroup()
     {
-        const string functionName = FunctionKeys.RecipientGroup;
-        await accessCounter.UpdateCounter(functionName);
+        await accessCounter.UpdateCounter(counterModel.RecipientGroup);
         return View("~/wwwroot/recipient-group/server.cshtml");
     }
 
@@ -195,8 +178,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.OSLiveGameAssignment, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> OSLiveGameList()
     {
-        const string functionName = FunctionKeys.OSLiveGameAssignment;
-        await accessCounter.UpdateCounter(functionName);
+        await accessCounter.UpdateCounter(counterModel.OSLiveGameAssignment);
         return View("~/wwwroot/other-sport/server.cshtml");
     }
 
@@ -204,8 +186,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.AssignmentConfiguration, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> TraderAssignmentConfiguration()
     {
-        const string functionName = FunctionKeys.AssignmentConfiguration;
-        await accessCounter.UpdateCounter(functionName);
+        await accessCounter.UpdateCounter(counterModel.AssignmentConfiguration);
         return View("~/wwwroot/product-preference/server.cshtml");
     }
 
@@ -213,8 +194,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.PrematchReport, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> PrematchReportConfiguration()
     {
-        const string functionName = FunctionKeys.PrematchReport;
-        await accessCounter.UpdateCounter(functionName);
+        await accessCounter.UpdateCounter(counterModel.PrematchReport);
         return View("~/wwwroot/prematch-report/server.cshtml");
     }
 
@@ -222,8 +202,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.MatchCountLiveReport, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> MatchCountLiveReport()
     {
-        const string functionName = FunctionKeys.MatchCountLiveReport;
-        await accessCounter.UpdateCounter(functionName);
+        await accessCounter.UpdateCounter(counterModel.MatchCountLiveReport);
         return View("~/wwwroot/match-count-live-report/server.cshtml");
     }
 
@@ -231,8 +210,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.OSBasketballMaxbet, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> OSBasketballMaxbet()
     {
-        const string functionName = FunctionKeys.OSBasketballMaxbet;
-        await accessCounter.UpdateCounter(functionName);
+        await accessCounter.UpdateCounter(counterModel.OSBasketballMaxBet);
         return View("~/wwwroot/os-league-setting/server.cshtml");
     }
 
@@ -240,7 +218,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.EventPickingNew, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> EventPickingNew()
     {
-        await accessCounter.UpdateCounter("EventPickingNew");
+        await accessCounter.UpdateCounter(counterModel.EventPicking);
         return View("~/wwwroot/event-picking/server.cshtml");
     }
 
@@ -249,7 +227,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.OWPEventManagement, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> TaskList()
     {
-        await accessCounter.UpdateCounter("TaskListNew");
+        await accessCounter.UpdateCounter(counterModel.TaskListNew);
         return View("~/wwwroot/task-list/server.cshtml");
     }
 
@@ -257,8 +235,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.ProviderArrangement, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> ProviderArrangement()
     {
-        const string functionName = FunctionKeys.ProviderArrangement;
-        await accessCounter.UpdateCounter(functionName);
+        await accessCounter.UpdateCounter(counterModel.ProviderArrangement);
         return View("~/wwwroot/provider-arrangement/server.cshtml");
     }
 
@@ -266,7 +243,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.LiveGameAssignment, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> AssigneeSuggestionList()
     {
-        await accessCounter.UpdateCounter("AssigneeSuggestionList");
+        await accessCounter.UpdateCounter(counterModel.AssigneeSuggestionList);
         return View("~/wwwroot/assignee-suggestion-list/server.cshtml");
     }
 
@@ -290,8 +267,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.OWPEventManagement, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> UserManagement()
     {
-        const string functionName = FunctionKeys.UserManagement;
-        await accessCounter.UpdateCounter(functionName);
+        await accessCounter.UpdateCounter(counterModel.UserManagement);
         return View("~/wwwroot/user-management/server.cshtml");
     }
 
