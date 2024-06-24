@@ -394,56 +394,105 @@ class Notification extends Component {
     const connection = configSignalR(hub.hubName);
 
     if (connection) {
-      connection.start().then(() => {
-        connection.on(hub.method, data => {
-          const { isImportant, messageContent, messageType, ...rest } =
-            data.message;
+      // connection.start().then(() => {
+      //   connection.on(hub.method, data => {
+      //     const { isImportant, messageContent, messageType, ...rest } =
+      //       data.message;
 
-          if (!isImportant) {
-            return;
-          }
+      //     if (!isImportant) {
+      //       return;
+      //     }
 
-          window.pushNotification(data.message);
+      //     window.pushNotification(data.message);
 
-          let formattedMessageContent = MessageService.customizeOSContent(
-            messageType,
-            messageContent
-          );
+      //     let formattedMessageContent = MessageService.customizeOSContent(
+      //       messageType,
+      //       messageContent
+      //     );
 
-          formattedMessageContent = MessageService.customizePreMatchContent(
-            messageType,
-            formattedMessageContent
-          );
+      //     formattedMessageContent = MessageService.customizePreMatchContent(
+      //       messageType,
+      //       formattedMessageContent
+      //     );
 
-          formattedMessageContent = MessageService.customizeTicketCenterContent(
-            messageType,
-            formattedMessageContent
-          );
+      //     formattedMessageContent = MessageService.customizeTicketCenterContent(
+      //       messageType,
+      //       formattedMessageContent
+      //     );
 
-          formattedMessageContent = MessageService.customizeLiveDetailContent(
-            messageType,
-            formattedMessageContent
-          );
+      //     formattedMessageContent = MessageService.customizeLiveDetailContent(
+      //       messageType,
+      //       formattedMessageContent
+      //     );
 
-          const notificationContent = this.renderToastContent(
-            formattedMessageContent
-          );
-          const notificationTypes = this.getNetCoreNotificationTypes(
-            notificationContent,
-            rest
-          );
-          isEqual(process.env.NODE_ENV, 'production') &&
-            // eslint-disable-next-line no-warning-comments
-            documentTitle.BlinkDocumentTitle(data.message); // NOSONAR
+      //     const notificationContent = this.renderToastContent(
+      //       formattedMessageContent
+      //     );
+      //     const notificationTypes = this.getNetCoreNotificationTypes(
+      //       notificationContent,
+      //       rest
+      //     );
+      //     isEqual(process.env.NODE_ENV, 'production') &&
+      //       // eslint-disable-next-line no-warning-comments
+      //       documentTitle.BlinkDocumentTitle(data.message); // NOSONAR
 
-          const type = notificationTypes.find(x => x.type === messageType);
+      //     const type = notificationTypes.find(x => x.type === messageType);
 
-          if (type) {
-            type.handler();
-          } else {
-            this.showInfo(notificationContent);
-          }
-        });
+      //     if (type) {
+      //       type.handler();
+      //     } else {
+      //       this.showInfo(notificationContent);
+      //     }
+      //   });
+      // });
+      connection.on(hub.method, data => {
+        const { isImportant, messageContent, messageType, ...rest } =
+          data.message;
+
+        if (!isImportant) {
+          return;
+        }
+
+        window.pushNotification(data.message);
+
+        let formattedMessageContent = MessageService.customizeOSContent(
+          messageType,
+          messageContent
+        );
+
+        formattedMessageContent = MessageService.customizePreMatchContent(
+          messageType,
+          formattedMessageContent
+        );
+
+        formattedMessageContent = MessageService.customizeTicketCenterContent(
+          messageType,
+          formattedMessageContent
+        );
+
+        formattedMessageContent = MessageService.customizeLiveDetailContent(
+          messageType,
+          formattedMessageContent
+        );
+
+        const notificationContent = this.renderToastContent(
+          formattedMessageContent
+        );
+        const notificationTypes = this.getNetCoreNotificationTypes(
+          notificationContent,
+          rest
+        );
+        isEqual(process.env.NODE_ENV, 'production') &&
+          // eslint-disable-next-line no-warning-comments
+          documentTitle.BlinkDocumentTitle(data.message); // NOSONAR
+
+        const type = notificationTypes.find(x => x.type === messageType);
+
+        if (type) {
+          type.handler();
+        } else {
+          this.showInfo(notificationContent);
+        }
       });
     }
   }
