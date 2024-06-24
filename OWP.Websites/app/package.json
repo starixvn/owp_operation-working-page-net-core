@@ -110,7 +110,7 @@
     "@devexpress/dx-react-grid-bootstrap4": "^2.7.3",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
-    "@microsoft/signalr": "^5.0.2",
+    "@microsoft/signalr": "^8.0.0",
     "@mui/icons-material": "^5.11.11",
     "@mui/material": "^5.11.12",
     "@reduxjs/toolkit": "^1.9.3",

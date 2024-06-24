@@ -11,7 +11,7 @@
     });
     notification.onclick = function () {
         if (notificationContent.ticketId) {
-            window.open('/MyTickets?actorId=' + notificationContent.userId + '&eventType=' + notificationContent.eventType + '&ticketId=' + notificationContent.ticketId + '', 'ticket-center-' + message.ticketId + '');
+            window.open('/MyTickets?actorId=' + notificationContent.userId + '&eventType=' + notificationContent.eventType + '&ticketId=' + notificationContent.ticketId + '', 'ticket-center-' + notificationContent.ticketId + '');
         }
         else {
             window.open('/MessageBoxManagement');
