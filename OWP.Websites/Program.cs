@@ -16,7 +16,7 @@ services.Configure<RabbitMQSetting>(configuration.GetSection(RabbitMQSetting.Rab
 services.Configure<AppSettings>(configuration.GetSection(AppSettings.Key));
 services.Configure<AccessCounterModel>(configuration.GetSection("AccessCounter"));
 
-services.AddSignalR();
+services.AddSignalR(configuration);
 services.AddSimpleDataApiModule();
 services.AddFanexSql(configuration);
 services.AddNapServices(configuration);
