@@ -26,11 +26,11 @@ var eventPickingFactory = (function ($) {
             xhr.onload = function () {
                 success();
             };
-            xhr.open("GET", common.ResolveRootUrl(urls.ExportEventPickingExcel), true);
+            xhr.open("GET", `${common.ResolveRootUrl(urls.ExportEventPickingExcel)}?date=${date}`, true);
             xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4 && xhr.status === 200) {
-                    debugger
+                  
                     const urlFake = window.URL.createObjectURL(xhr.response);
                     const link = document.createElement('a');
                     link.href = urlFake;

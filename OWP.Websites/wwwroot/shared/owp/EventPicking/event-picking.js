@@ -25,7 +25,7 @@ var eventPicking = function ($) {
         domElements.excelBtn.on('click', function () {
             $('.loading-process').css('display', 'inline');
             var model = domElements.date[0].value;
-            debugger
+           
             eventPickingFactory.ExportEventPickingExcel(model, function () {
                 $('.loading-process').css('display', 'none');
             });
