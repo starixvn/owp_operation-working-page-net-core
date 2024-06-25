@@ -43,7 +43,6 @@ public static class EventInjector
         services.AddScoped<LeagueSettingNewFormatService, LeagueSettingNewFormatServiceImp>();
         services.AddScoped<LeagueSettingService, LeagueSettingServiceImp>();
         services.AddScoped<EventPickingService, EventPickingServiceImp>();
-        services.AddScoped<AccessCounter, AccessCounterImp>();
         services.AddScoped<LstNoteMapperService, LstNoteMapperServiceImp>();
         services.AddScoped<OrderMatchService, OrderMatchServiceImp>();
         services.AddScoped<IEventAssignmentRepository, EventAssignmentRepository>();
