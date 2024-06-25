@@ -5,10 +5,7 @@
     };
 
     const connection = new signalR.HubConnectionBuilder()
-        .withUrl(`/${hub.hubName}`, {
-            skipNegotiation: true,
-            transport: signalR.HttpTransportType.WebSockets
-        })
+        .withUrl(`/${hub.hubName}`)
         .configureLogging(signalR.LogLevel.Error)
         .build();
 
@@ -18,7 +15,7 @@
             console.log('[Net FW] SignalR Connected.');
         } catch (err) {
             console.log(err);
-            //setTimeout(start, 5000);
+            setTimeout(start, 5000);
         }
     }
 
