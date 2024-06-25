@@ -5,7 +5,10 @@
     };
 
     const connection = new signalR.HubConnectionBuilder()
-        .withUrl(`/${hub.hubName}`)
+        .withUrl(`/${hub.hubName}`, {
+            skipNegotiation: true,
+            transport: signalR.HttpTransportType.WebSockets
+        })
         .configureLogging(signalR.LogLevel.Error)
         .build();
 
