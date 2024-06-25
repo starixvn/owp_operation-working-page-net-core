@@ -4,7 +4,6 @@ namespace OWP.WorkingShift.Common.Controllers;
 
 [Route("api/working-shift-default")]
 [ApiController]
-[EnableCors]
 [Authorize]
 public class WorkingShiftDefaultApiController : ControllerBase
 {

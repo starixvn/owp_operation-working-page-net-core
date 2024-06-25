@@ -1,6 +1,5 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using OWP.LeagueManagement.Handlers;
@@ -11,7 +10,6 @@ namespace OWP.LeagueManagement;
 [Route("api/league-management")]
 [Authorize]
 [ApiController]
-[EnableCors]
 public class LeagueApiController : ControllerBase
 {
     private readonly IMediator mediator;

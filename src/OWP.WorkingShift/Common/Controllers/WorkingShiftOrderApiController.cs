@@ -6,7 +6,6 @@ namespace OWP.WorkingShift.Common.Controllers;
 
 [Route("api/working-shift-order")]
 [ApiController]
-[EnableCors]
 [Authorize]
 public class WorkingShiftOrderApiController : ControllerBase
 {

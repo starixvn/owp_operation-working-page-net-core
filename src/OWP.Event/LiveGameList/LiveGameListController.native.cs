@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using OWP.Event.LiveGameList.Services;
 
@@ -7,7 +6,6 @@ namespace OWP.Event.LiveGameList;
 
 [Route("api/[controller]")]
 [ApiController]
-[EnableCors]
 public class LiveGameListController : ControllerBase
 {
     private readonly GetEventByDateService service;

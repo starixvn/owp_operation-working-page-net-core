@@ -1,13 +1,11 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using OWP.AccountSetting.Profile.Handler;
 
 namespace OWP.AccountSetting.Profile;
 [Route("api/AccountSetting/[controller]")]
 [ApiController]
-[EnableCors]
 [Authorize]
 
 public class ProfileController : ControllerBase

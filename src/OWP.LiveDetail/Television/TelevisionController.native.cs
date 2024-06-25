@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -8,7 +7,6 @@ namespace OWP.LiveDetail.Television;
 [Route("api/live-detail/television")]
 [ApiController]
 [Authorize]
-[EnableCors]
 public class TelevisionController : ControllerBase
 {
     private readonly TelevisionRepository repository;

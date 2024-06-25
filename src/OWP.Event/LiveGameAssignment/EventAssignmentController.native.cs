@@ -6,7 +6,6 @@ using Constants;
 using Fanex.NAP.Client.Attributes;
 using Fanex.NAP.Client.Helpers.Business;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Newtonsoft.Json;
@@ -19,7 +18,6 @@ using System.Threading.Tasks;
 
 [Route("api/event-assignment")]
 [ApiController]
-[EnableCors]
 [Authorize]
 public class EventAssignmentController : ControllerBase
 {

@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using OWP.Helpers;
@@ -17,7 +16,6 @@ namespace OWP.OtherSport;
 
 [Route("api/[controller]")]
 [ApiController]
-[EnableCors]
 [Authorize]
 public class OtherSportController : ControllerBase
 {
@@ -108,5 +106,5 @@ public class OtherSportController : ControllerBase
     [HttpPost]
     public async Task UpdateOfferLive(UpdateOfferLiveRequest request)
         => await mediator.Send(request);
-   
+
 }

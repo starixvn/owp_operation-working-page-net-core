@@ -1,5 +1,3 @@
-
-
 using OWP.Websites.App_Start;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
@@ -41,9 +39,6 @@ app.UseWebOptimizer();
 app.UseTicketPathStaticFiles();
 app.UseStaticFiles();
 app.UseRouting();
-
-
-app.UseCors();
 
 app.UseCookiePolicy();
 app.UseSession();

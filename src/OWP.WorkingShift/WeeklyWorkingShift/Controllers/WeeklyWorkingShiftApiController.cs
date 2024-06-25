@@ -8,7 +8,6 @@ using Repository = Repositories.Repository;
 
 [Route("api/weekly-working-shift")]
 [ApiController]
-[EnableCors]
 [Authorize]
 
 public class WeeklyWorkingShiftApiController : ControllerBase
@@ -64,7 +63,7 @@ public class WeeklyWorkingShiftApiController : ControllerBase
         using (var stream = new MemoryStream())
         {
             await exportService.Export(stream, model);
-            
+
             return File(stream.ToArray(), "application/octet-stream", model.GetExportFileName());
         }
     }

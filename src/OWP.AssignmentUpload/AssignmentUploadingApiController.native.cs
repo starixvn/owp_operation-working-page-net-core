@@ -3,7 +3,6 @@
 using Fanex.NAP.Client.Helpers.Web;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using OWP.AssignmentUpload.Submit;
@@ -19,7 +18,6 @@ namespace OWP.AssignmentUpload;
 [Route("api/event-assignment-uploading")]
 [ApiController]
 [Authorize]
-[EnableCors]
 
 public class AssignmentUploadingApiController : ControllerBase
 {

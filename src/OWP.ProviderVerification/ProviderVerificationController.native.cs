@@ -4,7 +4,6 @@ namespace OWP.ProviderVerification;
 
 [Route("api/[controller]")]
 [ApiController]
-[EnableCors]
 [Authorize]
 public class ProviderVerificationController : ControllerBase
 {

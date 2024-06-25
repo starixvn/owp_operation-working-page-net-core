@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using OWP.Constants;
 using OWP.ProviderArrangement.Handlers;
@@ -13,7 +12,6 @@ using Fanex.NAP.Client.Helpers.Business;
 
 [Route("api/[controller]")]
 [ApiController]
-[EnableCors]
 [Authorize]
 
 public class ProviderArrangementController : ControllerBase

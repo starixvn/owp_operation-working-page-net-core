@@ -6,7 +6,6 @@ namespace OWP.WorkingShift.Common.Controllers;
 
 [Route("api/working-shift-publish")]
 [ApiController]
-[EnableCors]
 [Authorize]
 public class WorkingShiftPublishApiController : ControllerBase
 {

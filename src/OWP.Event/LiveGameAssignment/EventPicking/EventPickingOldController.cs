@@ -5,7 +5,6 @@ using Fanex.Logging;
 using Fanex.NAP.Client.Attributes;
 using Fanex.NAP.Client.Helpers.Business;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Model;
@@ -20,7 +19,6 @@ using System.Configuration;
 
 [Route("api/event-assignment/event-picking-old")]
 [ApiController]
-[EnableCors]
 [Authorize]
 public class EventPickingOldController : ControllerBase
 {

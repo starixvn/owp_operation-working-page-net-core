@@ -2,14 +2,13 @@
 
 namespace OWP.WorkingShift.WeeklyWorkingShift.Controllers;
 
-using System.Threading.Tasks;
 using Models;
 using Repositories;
+using System.Threading.Tasks;
 
 
 [Route("api/weekly-working-shift")]
 [ApiController]
-[EnableCors]
 [Authorize]
 public class WeeklyWorkingShiftIFrameApiController : ControllerBase
 {

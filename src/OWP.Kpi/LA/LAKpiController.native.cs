@@ -2,7 +2,6 @@
 using Fanex.NAP.Client.Helpers.Web;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using OWP.Kpi.LA.Constant;
 using OWP.Kpi.LA.Handlers;
@@ -15,7 +14,6 @@ namespace OWP.Kpi.LA;
 [Route("api/kpi/la")]
 [ApiController]
 [Authorize]
-[EnableCors]
 public class LAKpiController : ControllerBase
 {
     private readonly RefResourceService refResourceService;

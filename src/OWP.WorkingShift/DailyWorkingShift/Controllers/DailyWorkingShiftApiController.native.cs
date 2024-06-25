@@ -6,7 +6,6 @@ namespace OWP.WorkingShift.DailyWorkingShift.Controllers;
 
 [Route("api/daily-working-shift")]
 [ApiController]
-[EnableCors]
 [Authorize]
 public class DailyWorkingShiftApiController : ControllerBase
 {

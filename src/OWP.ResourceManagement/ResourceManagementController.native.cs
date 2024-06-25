@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using OWP.ResourceManagement.Models;
@@ -9,7 +8,6 @@ namespace OWP.ResourceManagement;
 
 [Route("api/resource-assignment")]
 [ApiController]
-[EnableCors]
 [Authorize]
 public class ResourceManagementController : ControllerBase
 {

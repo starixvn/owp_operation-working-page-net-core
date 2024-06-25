@@ -5,7 +5,6 @@ namespace OWP.WorkingShift.Common.Controllers;
 
 [Route("api/working-shift-color")]
 [ApiController]
-[EnableCors]
 [Authorize]
 
 public class WorkingShiftColorApiController : ControllerBase

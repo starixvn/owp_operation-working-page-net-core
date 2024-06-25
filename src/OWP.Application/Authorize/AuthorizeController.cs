@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -7,7 +6,6 @@ namespace OWP.Application.Authorize;
 
 [Route("api/application/authorize")]
 [ApiController]
-[EnableCors]
 [Authorize]
 public class AuthorizeController : ControllerBase
 {

@@ -6,7 +6,6 @@ namespace OWP.EventPicking.Api;
 
 [Route("api/EventPicking")]
 [ApiController]
-[EnableCors]
 public class EventPickingApiController
 {
     private readonly IMediator mediator;

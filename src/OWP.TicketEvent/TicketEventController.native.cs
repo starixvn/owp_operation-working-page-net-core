@@ -1,6 +1,5 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using OWP.TicketEvent.Handlers;
@@ -9,7 +8,6 @@ namespace OWP.TicketEvent;
 
 [Route("api/[controller]")]
 [ApiController]
-[EnableCors]
 [Authorize]
 public class TicketEventController : ControllerBase
 {

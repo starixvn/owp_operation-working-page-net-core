@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using OWP.RecipientGroup.Handlers;
 using OWP.RecipientGroup.Models;
@@ -9,7 +8,6 @@ namespace OWP.RecipientGroup;
 
 [Route("api/[controller]")]
 [ApiController]
-[EnableCors]
 [Authorize]
 public class RecipientGroupController : ControllerBase
 {

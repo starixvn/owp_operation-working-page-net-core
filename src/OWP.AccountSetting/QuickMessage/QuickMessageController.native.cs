@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using OWP.AccountSetting.QuickMessage.Handler;
 
@@ -10,7 +9,6 @@ using OWP.AccountSetting.QuickMessage.Model;
 
 [Route("api/AccountSetting/[controller]")]
 [ApiController]
-[EnableCors]
 [Authorize]
 
 public class QuickMessageController : ControllerBase

@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using OWP.TicketCenter.Handlers;
 using OWP.TicketCenter.Middleware;
@@ -11,7 +10,6 @@ namespace OWP.TicketCenter;
 
 [Route("api/[controller]")]
 [ApiController]
-[EnableCors]
 public class TicketCenterController : ControllerBase
 {
     private readonly IMediator mediator;

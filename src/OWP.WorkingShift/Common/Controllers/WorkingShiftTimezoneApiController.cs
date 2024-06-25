@@ -5,7 +5,6 @@ namespace OWP.WorkingShift.Common.Controllers;
 
 [Route("api/working-shift-timezone")]
 [ApiController]
-[EnableCors]
 [Authorize]
 public class WorkingShiftTimezoneApiController : ControllerBase
 {

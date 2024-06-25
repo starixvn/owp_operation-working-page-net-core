@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using OWP.PrematchAssignment.Handlers;
@@ -13,7 +12,6 @@ namespace OWP.PrematchAssignment;
 [Route("api/[controller]")]
 [ApiController]
 [Authorize]
-[EnableCors]
 public class PreMatchAssignmentController : ControllerBase
 {
     private readonly IMediator mediator;
