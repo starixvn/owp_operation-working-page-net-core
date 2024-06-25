@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http.Connections;
 using OWP.Websites.App_Start;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
@@ -55,8 +56,14 @@ app.MapCarter();
 app.MapControllerRoute(
         "default",
         "{controller=Home}/{action=Index}/{id?}");
-app.MapHub<NewDataUploadNotifyHubImp>("/otherSportNewDataUploadNotifyHub");
-app.MapHub<ChangedInfoNotifyHubImp>("/changedInfoNotifyHub");
+app.MapHub<NewDataUploadNotifyHubImp>("/otherSportNewDataUploadNotifyHub", options =>
+{
+    options.Transports = HttpTransportType.WebSockets;
+});
+app.MapHub<ChangedInfoNotifyHubImp>("/changedInfoNotifyHub", options =>
+{
+    options.Transports = HttpTransportType.WebSockets;
+});
 app.MapHub<TicketCenterNotifyHubImp>("/ticketCenterNotifyHub");
 app.MapHub<PreMatchNotifyHubImp>("/preMatchNotifyHub");
 
