@@ -10,18 +10,6 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 var services = builder.Services;
 var configuration = builder.Configuration;
 
-// Add services to the container.
-services.AddCors(options =>
-{
-    options.AddDefaultPolicy(policy =>
-        {
-            policy.WithOrigins("http://localhost:64193")
-                .AllowAnyHeader()
-                .AllowAnyMethod()
-                .AllowCredentials();
-        });
-});
-
 services.AddControllerAuthorization();
 services.AddCookieAuthentication(configuration);
 services.AddRedis(configuration);

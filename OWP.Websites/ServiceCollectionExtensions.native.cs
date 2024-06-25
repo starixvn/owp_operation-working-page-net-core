@@ -9,7 +9,6 @@ using Fanex.Logging.Sentry.RavenClient;
 using Fanex.NAP.Client.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Newtonsoft.Json;
@@ -17,6 +16,7 @@ using Olympus.SimpleDataApi;
 using OWP.ApiSyncWorkingShift;
 using OWP.AssigneeSuggestionList;
 using OWP.AssignmentUpload;
+using OWP.BackgroundWorker.Constants;
 using OWP.FileUpload;
 using OWP.Kpi.LA;
 using OWP.LeagueManagement;
@@ -43,7 +43,6 @@ using OWP.Websites.App_Start;
 using SharpRaven;
 using StackExchange.Redis;
 using System.Reflection;
-using OWP.BackgroundWorker.Constants;
 using ILogger = Fanex.Logging.ILogger;
 
 namespace OWP.Websites;
@@ -52,11 +51,9 @@ using AccountSetting.QuickMessage;
 using Fanex.NAP.Client.Session;
 using Microsoft.Extensions.FileProviders;
 using OWP.AccountSetting.Profile;
-using OWP.EventPicking.Api;
-using Quartz.Impl;
-using Quartz.Spi;
-using Quartz;
 using OWP.BackgroundWorker.Jobs;
+using OWP.EventPicking.Api;
+using Quartz;
 
 public static class ServiceCollectionExtensions
 {
@@ -381,7 +378,7 @@ public static class ServiceCollectionExtensions
 
                 pipeline.AddJavaScriptBundle("scripts/core",
                     "shared/lib/jQuery/jquery-2.1.1.js",
-                    "shared/lib/signalr.min.js"
+                    "shared/lib/signalr.js"
                     );
 
                 pipeline.AddJavaScriptBundle("scripts/common",
