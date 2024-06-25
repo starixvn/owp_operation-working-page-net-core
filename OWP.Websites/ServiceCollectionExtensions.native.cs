@@ -288,21 +288,21 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddSignalR(this IServiceCollection services, IConfiguration configuration)
-    {
-        var redisConfig = configuration.GetSection("AuthSettings:RedisConfig").Value;
-        var channelPrefix = configuration.GetSection("AuthSettings:ChannelPrefix").Value;
-        services.AddSignalR()
-        .AddStackExchangeRedis(redisConfig, options =>
-        {
-            options.Configuration.ChannelPrefix = new RedisChannel(channelPrefix, RedisChannel.PatternMode.Auto);
-        });
-        services.AddSingleton<NewDataUploadNotifyHubImp>();
-        services.AddSingleton<TicketCenterNotifyHubImp>();
-        services.AddSingleton<ChangedInfoNotifyHubImp>();
+    //public static IServiceCollection AddSignalR(this IServiceCollection services, IConfiguration configuration)
+    //{
+    //    var redisConfig = configuration.GetSection("AuthSettings:RedisConfig").Value;
+    //    var channelPrefix = configuration.GetSection("AuthSettings:ChannelPrefix").Value;
+    //    services.AddSignalR()
+    //    .AddStackExchangeRedis(redisConfig, options =>
+    //    {
+    //        options.Configuration.ChannelPrefix = new RedisChannel(channelPrefix, RedisChannel.PatternMode.Auto);
+    //    });
+    //    services.AddSingleton<NewDataUploadNotifyHubImp>();
+    //    services.AddSingleton<TicketCenterNotifyHubImp>();
+    //    services.AddSingleton<ChangedInfoNotifyHubImp>();
 
-        return services;
-    }
+    //    return services;
+    //}
 
     public static IServiceCollection AddSimpleDataApiModule(this IServiceCollection services)
     {
