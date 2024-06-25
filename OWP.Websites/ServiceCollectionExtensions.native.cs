@@ -427,7 +427,7 @@ public static class ServiceCollectionExtensions
                     "shared/owp/TaskList/TaskList.css",
                     "shared/owp/EventManagement/Resources/EventInformation/EventInformation.css");
 
-                pipeline.AddCssBundle("Scripts/EventPicking",
+                pipeline.AddJavaScriptBundle("Scripts/EventPicking",
                     "shared/owp/EventPicking/*.js");
 
 
