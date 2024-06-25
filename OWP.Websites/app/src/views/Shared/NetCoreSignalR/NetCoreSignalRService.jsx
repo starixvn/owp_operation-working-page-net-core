@@ -14,6 +14,7 @@ const configSignalR = hubName => {
       await connection.start();
       console.log('[Net core] SignalR Connected.');
     } catch (err) {
+      debugger
       console.log(err);
       //setTimeout(start, 5000);
     }
@@ -22,8 +23,6 @@ const configSignalR = hubName => {
   connection.onclose(async () => {
     await start();
   });
-
-  start();
 
   return connection;
 };

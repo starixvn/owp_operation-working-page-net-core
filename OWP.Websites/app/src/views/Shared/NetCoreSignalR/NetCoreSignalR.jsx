@@ -7,21 +7,27 @@ const NetCoreSignalR = props => {
   const connection = configSignalR(props.hubName);
 
   const registerSignalRHandler = () => {
+    debugger
     props.handlers.forEach(x => {
       connection.on(x.method, x.handler);
     });
   };
 
-  const startConnect = () => {
+  const startConnect = async () => {
     if (connection) {
+      await connection.stop();
       Spinner.show();
+      
       connection
         .start()
         .then(() => {
+          
           Spinner.hide();
           registerSignalRHandler();
         })
-        .catch(() => {
+        .catch(err => {
+          debugger
+          console.error(err);
           Spinner.hide();
         });
     }
