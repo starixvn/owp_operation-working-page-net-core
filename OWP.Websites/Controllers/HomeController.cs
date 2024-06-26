@@ -9,7 +9,7 @@ namespace OWP.Websites.Controllers;
 
 public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessCounter accessCounter) : Controller
 {
-    private readonly AccessCounterModel counterModel = counterOptions.Value;
+    //private readonly AccessCounterModel counterModel = counterOptions.Value;
 
     [Authorize]
 
@@ -48,7 +48,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.LiveGameAssignment, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> EventAssignment()
     {
-        await accessCounter.UpdateCounter(counterModel.LiveGameAssignment);
+        await accessCounter.UpdateCounter(counterOptions.Value.LiveGameAssignment);
         return View("~/wwwroot/event-assignment/server.cshtml");
     }
 
@@ -56,7 +56,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.LiveGameAssignment, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> EventAssignmentNew()
     {
-        await accessCounter.UpdateCounter(counterModel.LiveGameAssignment);
+        await accessCounter.UpdateCounter(counterOptions.Value.LiveGameAssignment);
         return View("~/wwwroot/event-assignment-new/server.cshtml");
     }
 
@@ -64,14 +64,14 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.LiveGameAssignment, Policy = Constant.Policy.Host)]
     public async Task<ActionResult> EventUpload()
     {
-        await accessCounter.UpdateCounter(counterModel.EventUploadNew);
+        await accessCounter.UpdateCounter(counterOptions.Value.EventUploadNew);
         return View("~/wwwroot/event-upload/server.cshtml");
     }
 
     [Route("AutoAssignment")]
     public async Task<ActionResult> AutoAssignment()
     {
-        await accessCounter.UpdateCounter(counterModel.AutoAssignment);
+        await accessCounter.UpdateCounter(counterOptions.Value.AutoAssignment);
         return View("~/wwwroot/auto-assignment/server.cshtml");
     }
 
@@ -86,7 +86,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.OddsCompiler, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> OddsCompiler()
     {
-        await accessCounter.UpdateCounter(counterModel.OddsCompiler);
+        await accessCounter.UpdateCounter(counterOptions.Value.OddsCompiler);
         return View("~/wwwroot/odds-compiler/server.cshtml");
     }
 
@@ -95,7 +95,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.TraderReport, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> LSTReport()
     {
-        await accessCounter.UpdateCounter(counterModel.TraderReport);
+        await accessCounter.UpdateCounter(counterOptions.Value.TraderReport);
         return View("~/wwwroot/lst-report/server.cshtml");
     }
 
@@ -104,7 +104,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.LeagueManagement, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> LeagueManagement()
     {
-        await accessCounter.UpdateCounter(counterModel.LeagueManagement);
+        await accessCounter.UpdateCounter(counterOptions.Value.LeagueManagement);
         return View("~/wwwroot/league-management/server.cshtml");
     }
 
@@ -113,7 +113,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.LAReport, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> LAReport()
     {
-        await accessCounter.UpdateCounter(counterModel.LAReport);
+        await accessCounter.UpdateCounter(counterOptions.Value.LAReport);
         return View("~/wwwroot/la-report/server.cshtml");
     }
 
@@ -121,7 +121,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.OvertimeReport, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> OvertimeReport()
     {
-        await accessCounter.UpdateCounter(counterModel.OvertimeReport);
+        await accessCounter.UpdateCounter(counterOptions.Value.OvertimeReport);
         return View("~/wwwroot/overtime-report/server.cshtml");
     }
 
@@ -129,7 +129,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.DayShiftAssignment, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> DayShiftAssignment()
     {
-        await accessCounter.UpdateCounter(counterModel.DayShiftAssignment);
+        await accessCounter.UpdateCounter(counterOptions.Value.DayShiftAssignment);
         return View("~/wwwroot/day-shift-assignment/server.cshtml");
     }
 
@@ -138,7 +138,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.NightShiftAssignment, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> NightShiftAssignment()
     {
-        await accessCounter.UpdateCounter(counterModel.NightShiftAssignment);
+        await accessCounter.UpdateCounter(counterOptions.Value.NightShiftAssignment);
         return View("~/wwwroot/night-shift-assignment/server.cshtml");
     }
 
@@ -146,7 +146,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.MyTickets, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> TicketCenter()
     {
-        await accessCounter.UpdateCounter(counterModel.MyTickets);
+        await accessCounter.UpdateCounter(counterOptions.Value.MyTickets);
         return View("~/wwwroot/ticket-center/server.cshtml");
     }
 
@@ -154,7 +154,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.TicketTypeSettings, Policy = Constant.Policy.Host)]
     public async Task<ActionResult> TicketTypeRecipient()
     {
-        await accessCounter.UpdateCounter(counterModel.TicketTypeSettings);
+        await accessCounter.UpdateCounter(counterOptions.Value.TicketTypeSettings);
         return View("~/wwwroot/ticket-type-recipient/server.cshtml");
     }
 
@@ -162,7 +162,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.LiveGameList, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> LiveGameList()
     {
-        await accessCounter.UpdateCounter(counterModel.LiveGameListNew);
+        await accessCounter.UpdateCounter(counterOptions.Value.LiveGameListNew);
         return View("~/wwwroot/live-game-list/server.cshtml");
     }
 
@@ -170,7 +170,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.RecipientGroup, Policy = Constant.Policy.Host)]
     public async Task<ActionResult> RecipientGroup()
     {
-        await accessCounter.UpdateCounter(counterModel.RecipientGroup);
+        await accessCounter.UpdateCounter(counterOptions.Value.RecipientGroup);
         return View("~/wwwroot/recipient-group/server.cshtml");
     }
 
@@ -178,7 +178,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.OSLiveGameAssignment, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> OSLiveGameList()
     {
-        await accessCounter.UpdateCounter(counterModel.OSLiveGameAssignment);
+        await accessCounter.UpdateCounter(counterOptions.Value.OSLiveGameAssignment);
         return View("~/wwwroot/other-sport/server.cshtml");
     }
 
@@ -186,7 +186,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.AssignmentConfiguration, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> TraderAssignmentConfiguration()
     {
-        await accessCounter.UpdateCounter(counterModel.AssignmentConfiguration);
+        await accessCounter.UpdateCounter(counterOptions.Value.AssignmentConfiguration);
         return View("~/wwwroot/product-preference/server.cshtml");
     }
 
@@ -194,7 +194,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.PrematchReport, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> PrematchReportConfiguration()
     {
-        await accessCounter.UpdateCounter(counterModel.PrematchReport);
+        await accessCounter.UpdateCounter(counterOptions.Value.PrematchReport);
         return View("~/wwwroot/prematch-report/server.cshtml");
     }
 
@@ -202,7 +202,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.MatchCountLiveReport, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> MatchCountLiveReport()
     {
-        await accessCounter.UpdateCounter(counterModel.MatchCountLiveReport);
+        await accessCounter.UpdateCounter(counterOptions.Value.MatchCountLiveReport);
         return View("~/wwwroot/match-count-live-report/server.cshtml");
     }
 
@@ -210,7 +210,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.OSBasketballMaxbet, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> OSBasketballMaxbet()
     {
-        await accessCounter.UpdateCounter(counterModel.OSBasketballMaxBet);
+        await accessCounter.UpdateCounter(counterOptions.Value.OSBasketballMaxBet);
         return View("~/wwwroot/os-league-setting/server.cshtml");
     }
 
@@ -218,7 +218,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.EventPickingNew, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> EventPickingNew()
     {
-        await accessCounter.UpdateCounter(counterModel.EventPicking);
+        await accessCounter.UpdateCounter(counterOptions.Value.EventPicking);
         return View("~/wwwroot/event-picking/server.cshtml");
     }
 
@@ -227,7 +227,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.OWPEventManagement, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> TaskList()
     {
-        await accessCounter.UpdateCounter(counterModel.TaskListNew);
+        await accessCounter.UpdateCounter(counterOptions.Value.TaskListNew);
         return View("~/wwwroot/task-list/server.cshtml");
     }
 
@@ -235,7 +235,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.ProviderArrangement, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> ProviderArrangement()
     {
-        await accessCounter.UpdateCounter(counterModel.ProviderArrangement);
+        await accessCounter.UpdateCounter(counterOptions.Value.ProviderArrangement);
         return View("~/wwwroot/provider-arrangement/server.cshtml");
     }
 
@@ -243,7 +243,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.LiveGameAssignment, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> AssigneeSuggestionList()
     {
-        await accessCounter.UpdateCounter(counterModel.AssigneeSuggestionList);
+        await accessCounter.UpdateCounter(counterOptions.Value.AssigneeSuggestionList);
         return View("~/wwwroot/assignee-suggestion-list/server.cshtml");
     }
 
@@ -267,7 +267,7 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [NapAuth(FunctionKey = FunctionKeys.OWPEventManagement, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> UserManagement()
     {
-        await accessCounter.UpdateCounter(counterModel.UserManagement);
+        await accessCounter.UpdateCounter(counterOptions.Value.UserManagement);
         return View("~/wwwroot/user-management/server.cshtml");
     }
 

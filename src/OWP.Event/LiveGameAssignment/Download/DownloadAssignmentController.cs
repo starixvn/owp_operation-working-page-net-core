@@ -26,10 +26,8 @@ public class DownloadAssignmentController(IEventAssignmentService eventAssignmen
     AccessCounter accessCounter,
     IOptions<AccessCounterModel> counterOptions) : ControllerBase
 {
-   
-    private readonly AccessCounterModel counterModel = counterOptions.Value;
 
-   [HttpGet("download-assignment")]
+    [HttpGet("download-assignment")]
     [NapAuth(FunctionKey = FunctionKeys.LiveGameAssignment, Policy = Constant.Policy.Host)]
     public async Task<FileResult> DownloadAssignment(DateTime date)
     {
@@ -61,7 +59,7 @@ public class DownloadAssignmentController(IEventAssignmentService eventAssignmen
             MatchType = matchType,
             OffVRs = offVRs
         };
-        await accessCounter.UpdateCounter(counterModel.LiveGameAssignment_Export);
+        await accessCounter.UpdateCounter(counterOptions.Value.LiveGameAssignment_Export);
         return await DownLoadExport(eventExportModel);
     }
 
