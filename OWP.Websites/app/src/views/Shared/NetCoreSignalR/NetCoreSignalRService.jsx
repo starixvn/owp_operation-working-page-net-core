@@ -10,6 +10,7 @@ const configSignalR = hubName => {
       skipNegotiation: true,
       transport: HttpTransportType.WebSockets
     })
+    .withAutomaticReconnect()
     .configureLogging(LogLevel.Error)
     .build();
   (async () => {
@@ -20,10 +21,6 @@ const configSignalR = hubName => {
       console.log(err);
     }
   })();
-
-  connection.onclose(async () => {
-    await start();
-  });
 
   return connection;
 };
