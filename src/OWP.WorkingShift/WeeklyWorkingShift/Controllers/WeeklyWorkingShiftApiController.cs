@@ -39,7 +39,7 @@ public class WeeklyWorkingShiftApiController : ControllerBase
     [Route("search")]
     [HttpPost]
     [NapAuth(FunctionKey = FunctionKeys.WorkingShiftManagement, Policy = Constant.Policy.Read)]
-    public async Task<IActionResult> SearchWorkingShiftWeekly(QueryModel model)
+    public async Task<JsonResult> SearchWorkingShiftWeekly(QueryModel model)
     {
         model.IsFrame = false;
         model.Permission = modelService.BuildPermissionViewModel();
