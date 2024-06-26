@@ -399,7 +399,7 @@ jQuery(document).ready(function ($) {
     });
 
     $('#btnExportAllWorkingShiftSMSExpat').on('click', function () {
-        var sectionIds = [1, 2, 3, 5, 13, 14, 15, 18, 20, 31, 32, 35, 36];
+        var sectionIds = [1, 2, 3, 5, 13, 14, 15, 18, 20, 31, 32, 35, 36, 7];
         var deparmentIds = [9, 14, 11, 15, 12, 13, 8, 3, 2, 10, 6, 1, 7, 0,16,4,5];
         var userCategoryIds = [2];
         var userLocationCodes = ['SMS', 'WAH HCMC'];
