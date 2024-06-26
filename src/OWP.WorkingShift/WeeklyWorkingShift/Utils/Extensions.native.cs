@@ -21,14 +21,14 @@ public static class Extensions
         this List<WorkingShiftUserModel> users,
         DateTime fromDate,
         DateTime toDate,
-        IList<WorkingShiftModel> workingShifts
+        IList<Common.Models.WorkingShiftModel> workingShifts
         )
     {
         var totalDays = Convert.ToInt32((toDate - fromDate).TotalDays) + 1;
         foreach (var user in users)
         {
             user.Remark = WebUtility.HtmlEncode(user.Remark);
-            user.WorkingShifts = new WorkingShiftModel[totalDays];
+            user.WorkingShifts = new Common.Models.WorkingShiftModel[totalDays];
             workingShifts.Where(ws => ws.UserId == user.UserId).ToList().ForEach(ws =>
             {
                 var dateIndex = Convert.ToInt32((ws.ShiftDate - fromDate).TotalDays);

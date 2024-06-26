@@ -13,7 +13,6 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Newtonsoft.Json;
 using Olympus.SimpleDataApi;
-using OWP.ApiSyncWorkingShift;
 using OWP.AssigneeSuggestionList;
 using OWP.AssignmentUpload;
 using OWP.BackgroundWorker.Constants;
@@ -53,6 +52,7 @@ using Microsoft.Extensions.FileProviders;
 using OWP.AccountSetting.Profile;
 using OWP.BackgroundWorker.Jobs;
 using OWP.EventPicking.Api;
+using OWP.WorkingShift.SyncWorkingShift;
 using Quartz;
 
 public static class ServiceCollectionExtensions

@@ -188,7 +188,6 @@
     <ProjectReference Include="..\src\OWP.UserManagement\OWP.UserManagement.csproj" />
     <ProjectReference Include="..\src\OWP.WorkingShift\OWP.WorkingShift.csproj" />
     <ProjectReference Include="..\src\OWP\OWP.csproj" />
-    <ProjectReference Include="..\src\OWP.ApiSyncWorkingShift\OWP.ApiSyncWorkingShift.csproj" />
     <ProjectReference Include="..\src\OWP.Maxbet\OWP.Maxbet.csproj" />
     <ProjectReference Include="..\src\OWP.OtherSport\OWP.OtherSport.csproj" />
     <ProjectReference Include="..\src\OWP.ProductAssignmentReference\OWP.ProductAssignmentReference.csproj" />

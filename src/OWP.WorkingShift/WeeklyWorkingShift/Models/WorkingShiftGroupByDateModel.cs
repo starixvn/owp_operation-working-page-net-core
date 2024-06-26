@@ -8,5 +8,5 @@ public class WorkingShiftGroupByDateModel
 {
     public WorkingShiftColorModel WorkingShiftColor { get; set; }
 
-    public Dictionary<DateTime, List<WorkingShiftModel>> WorkingShiftDates { get; set; }
+    public Dictionary<DateTime, List<Common.Models.WorkingShiftModel>> WorkingShiftDates { get; set; }
 }

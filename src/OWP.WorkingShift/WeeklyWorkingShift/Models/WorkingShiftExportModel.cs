@@ -1,4 +1,6 @@
-﻿namespace OWP.WorkingShift.WeeklyWorkingShift.Models;
+﻿using WorkingShiftModel = OWP.WorkingShift.Common.Models.WorkingShiftModel;
+
+namespace OWP.WorkingShift.WeeklyWorkingShift.Models;
 
 using System.Collections.Generic;
 using OWP.Models;

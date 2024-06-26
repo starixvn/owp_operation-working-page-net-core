@@ -1,7 +1,7 @@
 ﻿using OWP.WorkingShift.Common.Constants;
+using WorkingShiftModel = OWP.WorkingShift.Common.Models.WorkingShiftModel;
 
 namespace OWP.WorkingShift.Common.Utils;
-
 
 
 public static class WorkingShiftExtensionHelper
@@ -70,7 +70,7 @@ public static class WorkingShiftExtensionHelper
         var acceptedChars = new List<char>();
         foreach (var ch in text)
         {
-            if (ch >= '0' && ch <= '9' || ch >= 'A' && ch <= 'Z')
+            if (ch is >= '0' and <= '9' || ch is >= 'A' and <= 'Z')
             {
                 acceptedChars.Add(ch);
             }

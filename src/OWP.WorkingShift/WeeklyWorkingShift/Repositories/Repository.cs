@@ -11,7 +11,7 @@ using Fanex.Data.Repository;
 using Models;
 using Utils;
 using OWP.WorkingShift.Common.Repositories;
-
+using WorkingShiftModel = Common.Models.WorkingShiftModel;
 
 public interface Repository
 {

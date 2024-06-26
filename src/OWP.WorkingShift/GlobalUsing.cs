@@ -16,4 +16,6 @@ global using OWP.WorkingShift.Common.Criteria;
 global using OWP.WorkingShift.Common.Models;
 global using OWP.WorkingShift.DailyWorkingShift.Models;
 global using OWP.WorkingShift.DailyWorkingShift.Services;
-global using System;
+global using OWP.WorkingShift.SyncWorkingShift.Criteria;
+global using OWP.WorkingShift.SyncWorkingShift.Handlers;
+global using OWP.WorkingShift.SyncWorkingShift.Models;

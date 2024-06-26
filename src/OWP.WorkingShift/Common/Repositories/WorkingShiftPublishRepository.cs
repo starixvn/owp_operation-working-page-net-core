@@ -1,5 +1,5 @@
-﻿namespace OWP.WorkingShift.Common.Repositories;
-
+﻿
+namespace OWP.WorkingShift.Common.Repositories;
 
 public interface WorkingShiftPublishRepository
 {
@@ -7,7 +7,7 @@ public interface WorkingShiftPublishRepository
 
     Task<IList<SectionPublishWorkingShiftModel>> GetSectionPublishWorkingShift(DateTime fromDate, DateTime toDate, string sectionIds);
 
-    Task<IList<WorkingShiftModel>> GetWeeklyWorkingShiftBySection(WorkingShiftQueryBySectionModel queryModel);
+    Task<IList<Models.WorkingShiftModel>> GetWeeklyWorkingShiftBySection(WorkingShiftQueryBySectionModel queryModel);
 }
 
 public class WorkingShiftPublishRepositoryImp : WorkingShiftPublishRepository
@@ -51,10 +51,10 @@ public class WorkingShiftPublishRepositoryImp : WorkingShiftPublishRepository
             Data = model
         };
     }
-    public async Task<IList<WorkingShiftModel>> GetWeeklyWorkingShiftBySection(WorkingShiftQueryBySectionModel queryModel)
+    public async Task<IList<Models.WorkingShiftModel>> GetWeeklyWorkingShiftBySection(WorkingShiftQueryBySectionModel queryModel)
     {
         var criteria = mapper.Map<QueryWorkingShiftBySectionCriteria>(queryModel);
-        return (await dynamicRepository.FetchAsync<WorkingShiftModel>(criteria)).ToList();
+        return (await dynamicRepository.FetchAsync<Common.Models.WorkingShiftModel>(criteria)).ToList();
     }
 
 }

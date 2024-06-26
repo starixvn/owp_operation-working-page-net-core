@@ -44,7 +44,7 @@ public class WorkingShiftUserModel
 
     public string DisplayName => !string.IsNullOrEmpty(Nickname) ? Nickname : Username;
 
-    public WorkingShiftModel[] WorkingShifts { get; set; }
+    public Common.Models.WorkingShiftModel[] WorkingShifts { get; set; }
 
     public int?[] DefaultShiftIds { get; set; }
 }

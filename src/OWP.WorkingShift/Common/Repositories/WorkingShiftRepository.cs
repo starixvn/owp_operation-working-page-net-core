@@ -1,4 +1,6 @@
 ﻿
+using WorkingShiftModel = OWP.WorkingShift.Common.Models.WorkingShiftModel;
+
 namespace OWP.WorkingShift.Common.Repositories;
 
 public interface WorkingShiftRepository
