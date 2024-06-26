@@ -10,10 +10,14 @@
     "**/Global.asax.cs",
     "**/node_modules/**",
     "**/bower_components/**",
-    "**/*.js",
     "**/*.html",
     "**/*.css",
     "**/*.scss"
   ],
-  "sonar.inclusions": []
+  "sonar.inclusions": [
+   "**/*.js",
+   "**/*.ts",
+   "**/*.jsx",
+   "**/*.tsx"
+  ]
 }
