@@ -38,6 +38,6 @@ public class SaveQuickMessageHandler : IRequestHandler<SaveQuickMessageRequest>
             Shortcut = request.Shortcut,
             Message = request.Message,
         };
-        await dynamicRepository.FetchAsync<QuickMessage>(criteria, cancellationToken);
+        await dynamicRepository.FetchAsync<QuickMessage>(criteria);
     }
 }

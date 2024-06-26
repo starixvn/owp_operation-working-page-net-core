@@ -483,28 +483,25 @@ public class LiveGameAssignmentRepositoryImp : LiveGameAssignmentRepository
             MatchStatusIds = string.Join(",", queryModel.MatchStatusIds)
         };
 
-        using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
-        {
-            using (var reader = await db.QueryMultipleAsync(criteria))
-            {
-                var matches = (await reader.ReadAsync<MatchInfo>()).ToList();
-                var assignments = (await reader.ReadAsync<Assignment>()).ToList();
-                var notes = (await reader.ReadAsync<MatchNote>()).ToList();
-                var matchSettings = (await reader.ReadAsync<MatchSetting>()).ToList();
-                var televisions = (await reader.ReadAsync<Television>()).ToList();
-                var matchOffers = (await reader.ReadAsync<MatchOffer>()).ToList();
-                if (!queryModel.FullTimeViewPermission.IsRead)
-                {
-                    matches = FilterMatchesByTimeRange(matches);
-                }
+        var reader = await dynamicRepository
+            .FetchMultipleAsync<MatchInfo, Assignment, MatchNote, MatchSetting, Television, MatchOffer>(criteria);
 
-                var events = await MappingInfoToEventModel(matches, assignments, notes, matchSettings, televisions, matchOffers);
-                var eventsByUsers = FilterEventModelByUser(events, queryModel.UserIds);
-                var eventsByMatchType = FilterEventByMatchType(eventsByUsers, queryModel.MatchType);
-                var eventsByOffVR = FilterEventModelByOffVR(eventsByMatchType, queryModel.SelectedOffVRs);
-                return FilterEventModelByLiveStatus(eventsByOffVR, queryModel.SyncLiveStatus);
-            }
+        var matches = reader.Item1.ToList();
+        var assignments = reader.Item2.ToList();
+        var notes = reader.Item3.ToList();
+        var matchSettings = reader.Item4.ToList();
+        var televisions = reader.Item5.ToList();
+        var matchOffers = reader.Item6.ToList();
+        if (!queryModel.FullTimeViewPermission.IsRead)
+        {
+            matches = FilterMatchesByTimeRange(matches);
         }
+
+        var events = await MappingInfoToEventModel(matches, assignments, notes, matchSettings, televisions, matchOffers);
+        var eventsByUsers = FilterEventModelByUser(events, queryModel.UserIds);
+        var eventsByMatchType = FilterEventByMatchType(eventsByUsers, queryModel.MatchType);
+        var eventsByOffVR = FilterEventModelByOffVR(eventsByMatchType, queryModel.SelectedOffVRs);
+        return FilterEventModelByLiveStatus(eventsByOffVR, queryModel.SyncLiveStatus);
     }
 
     private static IList<EventModel> FilterEventModelByOffVR(IList<EventModel> events, int?[] offVRs)

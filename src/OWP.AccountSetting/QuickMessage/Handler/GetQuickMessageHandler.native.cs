@@ -23,7 +23,7 @@ public class GetQuickMessageHandler : IRequestHandler<GetQuickMessageRequest, Li
     public async Task<List<QuickMessage>> Handle(GetQuickMessageRequest request, CancellationToken cancellationToken)
     {
         var criteria = new GetQuickMessageCriteria { UserId = session.UserId };
-        var result = await dynamicRepository.FetchAsync<QuickMessage>(criteria, cancellationToken);
+        var result = await dynamicRepository.FetchAsync<QuickMessage>(criteria);
 
         return result.ToList();
     }

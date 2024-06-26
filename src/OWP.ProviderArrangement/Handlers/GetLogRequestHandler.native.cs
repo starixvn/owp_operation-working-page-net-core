@@ -26,7 +26,7 @@ public class GetLogRequestHandler : IRequestHandler<GetLogRequest, IList<LogDisp
     public async Task<IList<LogDisplayModel>> Handle(GetLogRequest request, CancellationToken cancellationToken)
     {
         var criteria = new GetLogProviderCriteria();
-        var logModel = await repository.FetchAsync<UserLogModel>(criteria, cancellationToken);
+        var logModel = await repository.FetchAsync<UserLogModel>(criteria);
 
         return BuildLogs(logModel);
     }

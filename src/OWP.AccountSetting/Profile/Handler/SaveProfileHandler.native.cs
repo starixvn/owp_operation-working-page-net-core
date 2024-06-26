@@ -24,6 +24,6 @@ public class SaveProfileHandler : IRequestHandler<SaveProfileRequest>
     public async Task Handle(SaveProfileRequest request, CancellationToken cancellationToken)
     {
         var criteria = new SaveUserProfileCriteria { UserId = session.UserId, FileId = request.FileId };
-        await dynamicRepository.FetchAsync<string>(criteria, cancellationToken);
+        await dynamicRepository.FetchAsync<string>(criteria);
     }
 }

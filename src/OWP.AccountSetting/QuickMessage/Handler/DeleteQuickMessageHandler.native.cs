@@ -23,6 +23,6 @@ public class DeleteQuickMessageHandler : IRequestHandler<DeleteQuickMessageReque
     public async Task Handle(DeleteQuickMessageRequest request, CancellationToken cancellationToken)
     {
         var criteria = new DeleteQuickMessageCriteria { Id = request.Id };
-        await dynamicRepository.FetchAsync<QuickMessage>(criteria, cancellationToken);
+        await dynamicRepository.FetchAsync<QuickMessage>(criteria);
     }
 }

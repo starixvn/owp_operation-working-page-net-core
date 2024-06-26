@@ -1,9 +1,16 @@
-﻿namespace OWP.Criteria;
-using Fanex.Data.Repository;
+﻿using Fanex.Data.Repository;
+
+namespace OWP.Criteria;
 
 public class GetAllUserCriteria : CriteriaBase
 {
-    public override bool IsValid() => true;
+    public override bool IsValid()
+    {
+        return true;
+    }
 
-    public override string GetSettingKey() => "OWP_LiveDetail_User_GetAll";
+    public override string GetSettingKey()
+    {
+        return "OWP_LiveDetail_User_GetAll";
+    }
 }

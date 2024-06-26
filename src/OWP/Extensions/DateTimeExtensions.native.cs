@@ -11,20 +11,11 @@ public static class DateTimeExtensions
     {
         var timeSpan = DateTime.Now - date;
 
-        if (timeSpan.Days != 0)
-        {
-            return timeSpan.Days + " days ago";
-        }
+        if (timeSpan.Days != 0) return timeSpan.Days + " days ago";
 
-        if (timeSpan.Hours != 0)
-        {
-            return timeSpan.Hours + " hours ago";
-        }
+        if (timeSpan.Hours != 0) return timeSpan.Hours + " hours ago";
 
-        if (timeSpan.Minutes != 0)
-        {
-            return timeSpan.Minutes + " minutes ago";
-        }
+        if (timeSpan.Minutes != 0) return timeSpan.Minutes + " minutes ago";
 
         return timeSpan.Seconds + " seconds ago";
     }

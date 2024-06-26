@@ -1,7 +1,5 @@
 ﻿namespace OWP.Constants;
 
-using System.Collections.Generic;
-
 public static class MenuItemExtensions
 {
     private static Dictionary<string, string> MenuItemIcons()
@@ -22,14 +20,14 @@ public static class MenuItemExtensions
             { MenuItems.LeagueManagement, "icon-book" },
             { MenuItems.OddsCompiler, "icon-dice-2" },
             { MenuItems.DailyWorkingShift, "icon-calendar-today" },
-            { MenuItems.TraderReport,"icon-file-chart" },
-            { MenuItems.LAReport,"icon-Path" },
-            { MenuItems.LAKPI, "icon-kpi"},
-            { MenuItems.OvertimeReport,"icon-overtime-report" },
-            { MenuItems.MatchCountLiveReport,"icon-Path" },
+            { MenuItems.TraderReport, "icon-file-chart" },
+            { MenuItems.LAReport, "icon-Path" },
+            { MenuItems.LAKPI, "icon-kpi" },
+            { MenuItems.OvertimeReport, "icon-overtime-report" },
+            { MenuItems.MatchCountLiveReport, "icon-Path" },
             { MenuItems.AutoAssignment, "icon-auto-assignment" },
             { MenuItems.DayShiftAssignment, "icon-day" },
-            { MenuItems.NightShiftAssignment,"icon-night" },
+            { MenuItems.NightShiftAssignment, "icon-night" },
             { MenuItems.PrematchReport, "icon-calendar-clock" },
             { MenuItems.EventTickets, "icon-event-checking" },
             { MenuItems.MyTickets, "icon-event-checking" },

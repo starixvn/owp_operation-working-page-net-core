@@ -1,6 +1,6 @@
-﻿namespace OWP.Attributes;
+﻿using Newtonsoft.Json.Converters;
 
-using Newtonsoft.Json.Converters;
+namespace OWP.Attributes;
 
 public class DateTimeWithoutGmtConverter : IsoDateTimeConverter
 {

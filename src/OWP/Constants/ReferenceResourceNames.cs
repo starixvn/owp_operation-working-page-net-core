@@ -1,4 +1,5 @@
 ﻿namespace OWP.Constants;
+
 public class ReferenceResourceNames
 {
     public const string Market = "Market";

@@ -4,9 +4,7 @@ namespace OWP.Extensions;
 
 public enum WorkingShiftExtension
 {
-    [Description("(REAL)")]
-    Real = 1,
+    [Description("(REAL)")] Real = 1,
 
-    [Description("(SPECIAL)")]
-    Special = 2
+    [Description("(SPECIAL)")] Special = 2
 }

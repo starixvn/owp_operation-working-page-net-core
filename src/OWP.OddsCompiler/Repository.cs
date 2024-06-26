@@ -30,11 +30,21 @@ public interface Repository
     Task<IEnumerable<ReferenceResource>> GetResourceByName(string name);
 }
 
-public class RepositoryImp(IDynamicRepository dynamicRepository,
+public class RepositoryImp: Repository
+{
+    private readonly IDynamicRepository dynamicRepository;
+    private readonly INapSession currentSession;
+    private readonly OldNotificationService notificationService;
+
+    public RepositoryImp(IDynamicRepository dynamicRepository,
         INapSession currentSession,
         OldNotificationService notificationService)
-    : Repository
-{
+    {
+        this.dynamicRepository = dynamicRepository;
+        this.currentSession = currentSession;
+        this.notificationService = notificationService;
+    }
+
     public async Task<ResultDataObject> SaveMarket(MarketUpdateModel model)
     {
         var criteria = new UpdateMarketOddCompilerCriteria
@@ -62,9 +72,9 @@ public class RepositoryImp(IDynamicRepository dynamicRepository,
     public async Task<List<MatchInfoModel>> GetOddsCompiler(GetOddsCompilerCriteria criteria)
     {
         var fetchedData = await dynamicRepository.FetchMultipleAsync<MatchInfoModel, MatchSetting, OddsDetailModel>(criteria);
-        var matches = fetchedData.FirstResultSet.ToList();
-        var settings = fetchedData.SecondResultSet.ToList();
-        var odds = fetchedData.ThirdResultSet.ToList();
+        var matches = fetchedData.Item1.ToList();
+        var settings = fetchedData.Item2.ToList();
+        var odds = fetchedData.Item3.ToList();
         var oddsDetails = TransformOdds(odds);
         foreach (var match in matches)
         {
@@ -364,16 +374,15 @@ public class RepositoryImp(IDynamicRepository dynamicRepository,
 
     private async Task<Tuple<IEnumerable<UserIdModel>, IEnumerable<UserIdModel>>> GetUsersToSendNotification(int owpMatchId, int AssigneeSettingId, int WatcherSettingId)
     {
-        var mappingTypes = new[] { typeof(UserIdModel), typeof(UserIdModel) };
         var criteria = new GetUsersSendNotificationCriteria
         {
             OWPMatchId = owpMatchId,
             AssigneeSettingId = AssigneeSettingId,
             WatcherSettingId = WatcherSettingId
         };
-        var fetchedData = await dynamicRepository.FetchMultipleAsync(criteria, mappingTypes);
-        var listAssigneeIds = fetchedData[0].Cast<UserIdModel>();
-        var listWatcherIds = fetchedData[1].Cast<UserIdModel>();
+        var fetchedData = await dynamicRepository.FetchMultipleAsync<UserIdModel, UserIdModel>(criteria);
+        var listAssigneeIds = fetchedData.Item1;
+        var listWatcherIds = fetchedData.Item2;
         return new Tuple<IEnumerable<UserIdModel>, IEnumerable<UserIdModel>>(listAssigneeIds, listWatcherIds);
     }
 }

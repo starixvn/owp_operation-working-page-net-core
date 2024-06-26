@@ -39,22 +39,16 @@ public class RepositoryImp : Repository
             DepartmentId = model.DepartmentId,
             User = model.User
         };
+        
+        var fetchedData = await dynamicRepository.FetchMultipleAsync<QueryUser, QueryUserShift, QueryUserMatch, QueryMatchInfo, EmployeeWorkingShiftNote>(criteria);
+        var users = fetchedData.Item1;
+        var userShifts = fetchedData.Item2.ToList();
 
+        var userMatches = fetchedData.Item3.ToList();
 
-        var mappingTypes = new[]
-        {
-            typeof(QueryUser), typeof(QueryUserShift), typeof(QueryUserMatch), typeof(QueryMatchInfo),
-            typeof(EmployeeWorkingShiftNote)
-        };
-        var fetchedData = await dynamicRepository.FetchMultipleAsync(criteria, mappingTypes);
-        var users = fetchedData[0].Cast<QueryUser>();
-        var userShifts = fetchedData[1].Cast<QueryUserShift>();
+        var userMatchInfos = fetchedData.Item4.ToList();
 
-        var userMatches = fetchedData[2].Cast<QueryUserMatch>();
-
-        var userMatchInfos = fetchedData[3].Cast<QueryMatchInfo>().AsEnumerable();
-
-        var userNotes = fetchedData[4].Cast<EmployeeWorkingShiftNote>().AsEnumerable();
+        var userNotes = fetchedData.Item5.ToList();
 
         ProcessAssignmentNote(userMatches);
 
@@ -71,12 +65,11 @@ public class RepositoryImp : Repository
 
         var fromDate = model.Date?.AddHours(12) ?? DateTime.Now;
         var toDate = model.Date?.AddDays(1).AddHours(11).AddMinutes(59).AddSeconds(59) ?? DateTime.Now;
-        var assignmentMappingTypes = new[] { typeof(Assignment), typeof(OWPMatch) };
         var assignmentStatsFetchedData =
-            await dynamicRepository.FetchMultipleAsync(new QueryAssignmentStatsCriteria { Date = model.Date },
-                assignmentMappingTypes);
-
-        var assignmentStatistics = CalculateAssignmentStats(fromDate, toDate, assignmentStatsFetchedData);
+            await dynamicRepository.FetchMultipleAsync<Assignment, OWPMatch>(new QueryAssignmentStatsCriteria { Date = model.Date });
+        var assignment = assignmentStatsFetchedData.Item1.ToList();
+        var matches = assignmentStatsFetchedData.Item2.ToList();
+        var assignmentStatistics = CalculateAssignmentStats(fromDate, toDate, assignment, matches);
 
         return new QueryResult
         {
@@ -210,8 +203,8 @@ public class RepositoryImp : Repository
             });
     }
 
-    private static IEnumerable<QueryUserMatch> FilterByTimeRange(QueryModel model,
-        IEnumerable<QueryUserMatch> userMatches, IEnumerable<QueryMatchInfo> userMatchInfos)
+    private static List<QueryUserMatch> FilterByTimeRange(QueryModel model,
+        IList<QueryUserMatch> userMatches, IEnumerable<QueryMatchInfo> userMatchInfos)
     {
         if (!model.Permission.FullTimeView.IsRead)
         {
@@ -226,7 +219,7 @@ public class RepositoryImp : Repository
             }
         }
 
-        return userMatches;
+        return userMatches.ToList();
     }
 
     private static void ProcessAssignmentNote(IEnumerable<QueryUserMatch> userMatches)
@@ -264,12 +257,10 @@ public class RepositoryImp : Repository
         return selectedMatches;
     }
 
-    private AssignmentStatistic CalculateAssignmentStats(DateTime fromDate, DateTime toDate,
-        IEnumerable<object>[] assignmentStatsFetchedData)
+    private AssignmentStatistic CalculateAssignmentStats(DateTime fromDate, DateTime toDate, 
+        IList<Assignment> assignments,
+        IList<OWPMatch> fetchedMatches)
     {
-        var assignments = assignmentStatsFetchedData[0].Cast<Assignment>();
-        var fetchedMatches = assignmentStatsFetchedData[1].Cast<OWPMatch>();
-
         var filteredMatches = fetchedMatches.Where(x =>
                 x.MinorBettypeId.HasValue && !ExcludeMinorBettypes.Contains(x.MinorBettypeId.Value) ||
                 !x.MinorBettypeId.HasValue)
@@ -280,7 +271,7 @@ public class RepositoryImp : Repository
 
         for (var i = fromDate; i.CompareTo(toDate) < 0; i = i.AddHours(1))
         {
-            var selectedMatch = CalculateSelectedMatch(i, filteredMatches);
+            var selectedMatch = CalculateSelectedMatch(i, filteredMatches).ToList();
 
             var assignedLA = assignments
                 .Where(x => selectedMatch.Select(y => y.OWPMatchId).Contains(x.OWPMatchId) &&
@@ -309,7 +300,7 @@ public class RepositoryImp : Repository
     }
 
     private List<int> CalculateMatchAssignedTraders(OWPMatch match, IEnumerable<OWPMatch> fetchedMatches,
-        IEnumerable<Assignment> assigments)
+        IEnumerable<Assignment> assignments)
     {
         var matches = new List<int> { match.OWPMatchId };
         var minorMatches = fetchedMatches
@@ -340,7 +331,7 @@ public class RepositoryImp : Repository
             matches.AddRange(minorMatchIds);
         }
 
-        var matchAssignedTrader = assigments
+        var matchAssignedTrader = assignments
             .Where(x => matches.Contains(x.OWPMatchId) && x.Bettype != LABettype)
             .Select(x => x.UserId)
             .Distinct()

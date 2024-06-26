@@ -44,7 +44,7 @@ public class GetLogMaxbetSettingHandlerUnitTests
                 ModifiedBy = "sa"
             }
         };
-        dynamicRepository.FetchAsync<UserLogModel>(Arg.Compat.Any<GetLogMaxBetSettingCriteria>(), Arg.Any<CancellationToken>()).Returns(log);
+        dynamicRepository.FetchAsync<UserLogModel>(Arg.Compat.Any<GetLogMaxBetSettingCriteria>()).Returns(log);
         var expected = new List<LogDisplayModel>
         {
             new()

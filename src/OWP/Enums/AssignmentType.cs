@@ -4,9 +4,7 @@ namespace OWP.Enums;
 
 public enum AssignmentType
 {
-    [Description("Main Trader")]
-    Main = 1,
+    [Description("Main Trader")] Main = 1,
 
-    [Description("Others Trader")]
-    Others = 2
+    [Description("Others Trader")] Others = 2
 }

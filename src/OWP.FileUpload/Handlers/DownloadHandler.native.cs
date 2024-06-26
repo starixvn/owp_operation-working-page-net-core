@@ -26,7 +26,7 @@ public class DownloadHandler
         {
             var criteria = new DownloadCriteria { FileId = request.FileId };
 
-            var fileModel = (await dynamicRepo.FetchAsync<FileModel>(criteria, cancellationToken)).FirstOrDefault();
+            var fileModel = (await dynamicRepo.FetchAsync<FileModel>(criteria)).FirstOrDefault();
 
             var fileExtension = fileModel.Title[(fileModel.Title.LastIndexOf('.') + 1)..].ToLowerInvariant().Trim();
             var isImage = IsImage(fileExtension);

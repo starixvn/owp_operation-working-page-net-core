@@ -29,16 +29,10 @@ public class ProviderVerificationRepositoryImp : ProviderVerificationRepository
 
     public async Task<IEnumerable<ProviderVerificationModel>> GetProviderVerification(CriteriaBase criteria)
     {
-        var result = await dynamicRepository.FetchMultipleAsync(criteria,
-            new[]
-            {
-                typeof(EventModel),
-                typeof(AgentConfirmModel),
-                typeof(MatchSetting)
-            });
-        var matchInfo = result[0].Cast<EventModel>().ToList();
-        var agentConfirms = result[1].Cast<AgentConfirmModel>().ToList();
-        var matchSettings = result[2].Cast<MatchSetting>().ToList();
+        var result = await dynamicRepository.FetchMultipleAsync<EventModel, AgentConfirmModel, MatchSetting>(criteria);
+        var matchInfo = result.Item1.ToList();
+        var agentConfirms = result.Item2.ToList();
+        var matchSettings = result.Item3.ToList();
 
         return await MappingInfo(matchInfo, agentConfirms, matchSettings);
     }

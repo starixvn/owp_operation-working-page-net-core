@@ -31,7 +31,7 @@ public class RepositoryImp : Repository
         await repository.ExecuteAsync(new InitDataCriteria
         {
             XML = xml
-        }, cancellationToken);
+        });
     }
 
     public async Task<IEnumerable<LeagueSettingInfoSender>> QueryLeagueSetting(string league, bool isEqualLeague)
