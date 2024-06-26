@@ -10,7 +10,6 @@ using OWP.Event.LiveGameList;
 using OWP.Event.LiveGameList.Services;
 using OWP.Event.TaskList;
 using OWP.Event.TaskList.Services;
-using OWP.Services;
 
 namespace OWP.Websites.App_Start;
 

@@ -1,4 +1,6 @@
-﻿namespace OWP.SimpleDataApi.Criteria.PreMatchAssignment;
+﻿using Fanex.Data.Repository;
+
+namespace OWP.SimpleDataApi.Criteria.PreMatchAssignment;
 
 internal class GetLastUpdatedPreMatchAssignmentCriteria : CriteriaBase
 {

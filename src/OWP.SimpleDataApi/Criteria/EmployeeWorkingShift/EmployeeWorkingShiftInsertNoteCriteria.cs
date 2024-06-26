@@ -1,6 +1,6 @@
-﻿namespace OWP.SimpleDataApi.Criteria.EmployeeWorkingShift;
+﻿using Fanex.Data.Repository;
 
-
+namespace OWP.SimpleDataApi.Criteria.EmployeeWorkingShift;
 
 public class EmployeeWorkingShiftInsertNoteCriteria : CriteriaBase
 {

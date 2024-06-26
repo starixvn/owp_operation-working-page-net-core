@@ -1,5 +1,7 @@
-﻿namespace OWP.NewLeagueSetting.Criteria;
-public class UpdateLeagueSettingCriteria: NonQueryCommand
+﻿using Fanex.Data.Repository;
+
+namespace OWP.NewLeagueSetting.Criteria;
+public class UpdateLeagueSettingCriteria : NonQueryCommand
 {
     public int LeagueSettingId { get; set; }
 

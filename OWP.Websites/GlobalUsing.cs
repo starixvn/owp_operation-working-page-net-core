@@ -1,5 +1,4 @@
 global using Carter;
-global using Fanex.Data.SqlServer;
 global using Fanex.NAP.Client;
 global using Fanex.NAP.Client.Configuration;
 global using Fanex.NAP.Client.Helpers.Web;

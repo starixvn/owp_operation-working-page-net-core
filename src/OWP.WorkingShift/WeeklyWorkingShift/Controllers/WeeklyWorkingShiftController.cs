@@ -6,7 +6,6 @@ using Constants;
 using Microsoft.Extensions.Options;
 using Models;
 using System;
-using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -66,7 +65,7 @@ public class WeeklyWorkingShiftController : Controller
             CurrentSectionId = currentSectionId ?? 0,
             IsFrame = false
         };
-       
+
         await accessCounter.UpdateCounter(counterModel.WorkingShiftManagement);
         return View(model);
     }

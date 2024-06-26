@@ -1,4 +1,6 @@
 
+using Fanex.Data.Repository;
+
 namespace OWP.NewLeagueSetting.Criteria;
 
 public class InitDataCriteria : NonQueryCommand

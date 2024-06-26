@@ -1,3 +1,5 @@
+using Fanex.Data.Repository;
+
 namespace OWP.SimpleDataApi.Criteria.UserManagement;
 
 public class GetUserSyncModelsCriteria : CriteriaBase

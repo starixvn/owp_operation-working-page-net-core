@@ -1,4 +1,6 @@
-﻿namespace OWP.SimpleDataApi.Criteria.LeagueManagement;
+﻿using Fanex.Data.Repository;
+
+namespace OWP.SimpleDataApi.Criteria.LeagueManagement;
 
 public class LeagueManagementGetTVListCriteria : CriteriaBase
 {

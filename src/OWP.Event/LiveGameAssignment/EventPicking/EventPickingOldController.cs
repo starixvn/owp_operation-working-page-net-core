@@ -15,7 +15,6 @@ using OWP.Constants;
 using OWP.Models;
 using OWP.Services;
 using Service;
-using System.Configuration;
 
 [Route("api/event-assignment/event-picking-old")]
 [ApiController]
@@ -39,7 +38,7 @@ public class EventPickingOldController : ControllerBase
         this.accessCounter = accessCounter;
         settings = options.Value;
         this.logger = logger;
-        counterModel= counterOptions.Value;
+        counterModel = counterOptions.Value;
     }
 
     [Route("sync-event-picking")]
@@ -56,7 +55,7 @@ public class EventPickingOldController : ControllerBase
     [NapAuth(FunctionKey = FunctionKeys.EventPicking, Policy = Constant.Policy.Read)]
     public async Task<FileResult> EventPickingExcel(DateTime date)
     {
-        
+
         await accessCounter.UpdateCounter(counterModel.EventPicking_Export_Excel);
         var templatePath = Path.Combine("App_Data", "Templates", "EventPicking.xlsx");
 
@@ -89,7 +88,7 @@ public class EventPickingOldController : ControllerBase
         return fsr;
     }
 
-    private async Task<List<MatchExporting>> GetMainMatch(DateTime fromDate, DateTime toDate)
+    private Task<List<MatchExporting>> GetMainMatch(DateTime fromDate, DateTime toDate)
     {
         var timeFrom = fromDate.AddHours(12);
         var timeTo = toDate.AddHours(12);
@@ -106,7 +105,7 @@ public class EventPickingOldController : ControllerBase
                             .Select(e => new MatchExporting(e))
                             .Where(e => e.GameDate >= timeFrom && e.GameDate < timeTo)
                             .ToList();
-        return mainMatches;
+        return Task.FromResult(mainMatches);
     }
 
     private static List<MatchExporting> CombineSubMatch(IList<MatchExporting> mainMatches, IList<ChildMatch> childMatches)

@@ -1,5 +1,4 @@
 ﻿using Fanex.Logging.Extensions;
-using Fanex.Logging.Extensions.Database;
 using ILogger = Fanex.Logging.ILogger;
 
 namespace OWP.Websites.CrossCuttingConcern;
@@ -41,11 +40,11 @@ public class ErrorHandler
         var requestedWith = context.Request.Headers["X-Requested-With"];
 
         var isAjaxRequest = requestedWith == "XMLHttpRequest";
-        if(!context.Response.HasStarted && isAjaxRequest)
+        if (!context.Response.HasStarted && isAjaxRequest)
         {
             context.Response.StatusCode = StatusCodes.Status500InternalServerError;
         }
-        
+
         await context.Response.WriteAsync(exception.Message);
 
         var env = Configuration.GetSection("Fanex.NAP.Client:Environment").Value;
