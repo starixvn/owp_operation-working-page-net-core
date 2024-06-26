@@ -8,18 +8,15 @@ const configSignalR = hubName => {
 })
     .configureLogging(LogLevel.Error)
     .build();
-
-  async function start() {
+  (async ()=>{
     try {
       await connection.start();
       console.log('[Net core] SignalR Connected.');
     } catch (err) {
-      debugger
       console.log(err);
-      //setTimeout(start, 5000);
     }
-  }
-
+  })();
+ 
   connection.onclose(async () => {
     await start();
   });
