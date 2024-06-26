@@ -1,14 +1,18 @@
-import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
+import {
+  HubConnectionBuilder,
+  LogLevel,
+  HttpTransportType
+} from '@microsoft/signalr';
 
 const configSignalR = hubName => {
   const connection = new HubConnectionBuilder()
-  .withUrl(`/${hubName}`, {
-    skipNegotiation: true,
-    transport: signalR.HttpTransportType.WebSockets
-})
+    .withUrl(`/${hubName}`, {
+      skipNegotiation: true,
+      transport: HttpTransportType.WebSockets
+    })
     .configureLogging(LogLevel.Error)
     .build();
-  (async ()=>{
+  (async () => {
     try {
       await connection.start();
       console.log('[Net core] SignalR Connected.');
@@ -16,7 +20,7 @@ const configSignalR = hubName => {
       console.log(err);
     }
   })();
- 
+
   connection.onclose(async () => {
     await start();
   });
