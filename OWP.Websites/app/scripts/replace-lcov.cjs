@@ -1,8 +1,8 @@
-var fs = require('fs')
+var fs = require('fs');
 let rootDir = process.argv[2];
-let lcovFile = rootDir + "\\js-lcov\\lcov.info";
-let replacement = "SF:" + rootDir + "\\NAP.OWP.Websites\\app\\src\\";
-console.log("======lcovFile was replacing===============");
+let lcovFile = rootDir + '\\js-lcov\\lcov.info';
+let replacement = 'SF:' + rootDir + '\\NAP.OWP.Websites\\app\\';
+console.log('======lcovFile was replacing===============');
 fs.readFile(lcovFile, 'utf8', function (err, data) {
   if (err) {
     return console.log(err);
@@ -14,4 +14,4 @@ fs.readFile(lcovFile, 'utf8', function (err, data) {
   });
 });
 
-console.log("======lcovFile was replaced===============");
+console.log('======lcovFile was replaced===============');
