@@ -11,7 +11,7 @@
   "type": "module",
   "scripts": {
     "eslint": "eslint src/**/*.jsx && eslint src/**/*.tsx",
-    "test": "jest --coverage --config ./jest.config.js",
+    "test": "jest --coverage --config ./jest.config.cjs",
     "test-coverage": "jest --ci -u --coverage",
     "stylelint": "stylelint src/**/*.scss",
     "lint": "npm run eslint && npm run stylelint",
