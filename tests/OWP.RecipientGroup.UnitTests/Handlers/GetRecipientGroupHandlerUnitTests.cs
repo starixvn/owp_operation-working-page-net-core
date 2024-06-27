@@ -37,31 +37,29 @@ public class GetRecipientGroupHandlerUnitTests
             {
                 GroupId = 3,
                 GroupName = "Candy",
-                Recipients = new List<Recipient>
-                {
-                    new() { RecipientGroupId = 5, RecipientId = 555, RecipientType = 1, RecipientName = "luca" },
-                    new() { RecipientGroupId = 4, RecipientId = 444, RecipientType = 1, RecipientName = "mira" }
-                }
+                Recipients =
+                [
+                    new Recipient { RecipientGroupId = 5, RecipientId = 555, RecipientType = 1, RecipientName = "luca" },
+                    new Recipient { RecipientGroupId = 4, RecipientId = 444, RecipientType = 1, RecipientName = "mira" }
+                ]
             },
             new()
             {
                 GroupId = 1,
                 GroupName = "LST",
-                Recipients = new List<Recipient>
-                {
-                    new() { RecipientGroupId = 2, RecipientId = 222, RecipientType = 1, RecipientName = "carlos" },
-                    new() { RecipientGroupId = 1, RecipientId = 111, RecipientType = 1, RecipientName = "sa" },
-                    new() { RecipientGroupId = 3, RecipientId = 333, RecipientType = 1, RecipientName = "tyler" }
-                }
+                Recipients =
+                [
+                    new Recipient { RecipientGroupId = 2, RecipientId = 222, RecipientType = 1, RecipientName = "carlos" },
+                    new Recipient { RecipientGroupId = 1, RecipientId = 111, RecipientType = 1, RecipientName = "sa" },
+                    new Recipient { RecipientGroupId = 3, RecipientId = 333, RecipientType = 1, RecipientName = "tyler" }
+                ]
             },
             new()
             {
                 GroupId = 4,
                 GroupName = "Test",
-                Recipients = new List<Recipient>
-                {
-                    new() { RecipientGroupId = 6, RecipientId = 666, RecipientType = 1, RecipientName = "liam" }
-                }
+                Recipients =
+                    [new Recipient { RecipientGroupId = 6, RecipientId = 666, RecipientType = 1, RecipientName = "liam" }]
             }
         };
 

@@ -54,7 +54,8 @@ public static class SubTypeETPK
 
     public const int AwaySingleTeam = 1602;
 
-    public static readonly int[] SubTypeETPKs = {
+    public static readonly int[] SubTypeETPKs =
+    [
         MainMatchET,
         MainMatchPK,
         FutsalET,
@@ -70,7 +71,7 @@ public static class SubTypeETPK
         SpecialGoalET,
         HomeSingleTeamET,
         AwaySingleTeamET
-    };
+    ];
 
     public static readonly ImmutableDictionary<int, int> SpecialSubType = new Dictionary<int, int>
     {

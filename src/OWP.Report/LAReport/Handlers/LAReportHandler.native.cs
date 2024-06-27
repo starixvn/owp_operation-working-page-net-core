@@ -5,9 +5,7 @@ using OWP.Report.Models;
 
 namespace OWP.Report.LAReport.Handlers;
 
-public class LAReportRequest : QueryModel, IRequest<IEnumerable<LAReportModel>>
-{
-}
+public class LAReportRequest : QueryModel, IRequest<IEnumerable<LAReportModel>>;
 
 public class LAReportHandler : IRequestHandler<LAReportRequest, IEnumerable<LAReportModel>>
 {

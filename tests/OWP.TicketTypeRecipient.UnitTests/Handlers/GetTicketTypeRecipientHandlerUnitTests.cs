@@ -24,40 +24,41 @@ public class GetTicketTypeRecipientHandlerUnitTests
                     TypeId = 1,
                     TypeName = "type1"
                 },
-                Recipients = new List<Recipient>
-                {
-                    new()
+                Recipients =
+                [
+                    new Recipient
                     {
                         TicketTypeRecipientId = 4,
                         RecipientId = 2,
                         RecipientName = "CSD",
                         RecipientType = (int)TicketRecipient.GROUP
                     },
-                    new()
+
+                    new Recipient
                     {
                         TicketTypeRecipientId = 2,
                         RecipientId = 1,
                         RecipientName = "LA",
                         RecipientType = (int)TicketRecipient.GROUP
                     },
-                    new()
+
+                    new Recipient
                     {
                         TicketTypeRecipientId = 1,
                         RecipientId = 1070340,
                         RecipientName = "starix1",
                         RecipientType = (int)TicketRecipient.USER
                     },
-                    new()
+
+                    new Recipient
                     {
                         TicketTypeRecipientId = 3,
                         RecipientId = 15469717,
                         RecipientName = "starix2",
                         RecipientType = (int)TicketRecipient.USER
                     }
-                },
-                Subtypes = new List<Subtype> {
-                    new() { TypeId = 1, SubtypeId = 1, SubtypeName = "Verify League" }
-                }
+                ],
+                Subtypes = [new Subtype { TypeId = 1, SubtypeId = 1, SubtypeName = "Verify League" }]
             },
             new()
             {
@@ -66,19 +67,17 @@ public class GetTicketTypeRecipientHandlerUnitTests
                     TypeId = 2,
                     TypeName = "type2"
                 },
-                Recipients = new List<Recipient>
-                {
-                    new()
+                Recipients =
+                [
+                    new Recipient
                     {
                         TicketTypeRecipientId = 5,
                         RecipientId = 2,
                         RecipientName = "CSD",
                         RecipientType = (int)TicketRecipient.GROUP
                     }
-                },
-                Subtypes = new List<Subtype> {
-                    new() { TypeId = 2, SubtypeId = 5, SubtypeName = "Check League" }
-                }
+                ],
+                Subtypes = [new Subtype { TypeId = 2, SubtypeId = 5, SubtypeName = "Check League" }]
             },
             new()
             {
@@ -87,8 +86,8 @@ public class GetTicketTypeRecipientHandlerUnitTests
                     TypeId = 3,
                     TypeName = "type3"
                 },
-                Recipients = new List<Recipient>(),
-                Subtypes = new List<Subtype>()
+                Recipients = [],
+                Subtypes = []
             }
         };
 

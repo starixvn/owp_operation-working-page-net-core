@@ -25,7 +25,7 @@
 
 }
 
-@foreach (MessageModel messageInfo in Model)
+@foreach (var messageInfo in Model)
 {
     <li class="noti-item">
         @switch (messageInfo.MessageType)

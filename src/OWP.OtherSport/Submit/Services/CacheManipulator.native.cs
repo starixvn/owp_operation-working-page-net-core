@@ -48,10 +48,10 @@ public class CacheManipulatorImp : CacheManipulator
         var (_, value) = await cache.TryGetAsync<string>(cacheKey);
 
         var assignments = string.IsNullOrEmpty(value)
-            ? new List<AssignmentModel>()
+            ? []
             : JsonConvert.DeserializeObject<List<AssignmentModel>>(value);
 
-        return assignments ?? new List<AssignmentModel>();
+        return assignments ?? [];
     }
 
     public async Task DeleteAssignments(string sessionId)

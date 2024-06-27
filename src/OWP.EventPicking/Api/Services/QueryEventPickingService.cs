@@ -1,4 +1,5 @@
 using OWP.Constants;
+using OWP.EventPicking.Api.Criteria;
 using OWP.EventPicking.Api.Middleware.Models;
 using OWP.EventPicking.Api.Models;
 
@@ -119,7 +120,7 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
     {
         if (period is not null)
         {
-            return await tGRSService.GetTurnOverWinLoss(new()
+            return await tGRSService.GetTurnOverWinLoss(new GetTurnOverWinLossCriteria
             {
                 SportType = "Soccer",
                 FromDate = period.FromDate,

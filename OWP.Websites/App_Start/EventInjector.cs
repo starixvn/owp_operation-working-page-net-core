@@ -11,7 +11,7 @@ using OWP.Event.LiveGameList.Services;
 using OWP.Event.TaskList;
 using OWP.Event.TaskList.Services;
 
-namespace OWP.Websites.App_Start;
+namespace OWP.Websites;
 
 public static class EventInjector
 {

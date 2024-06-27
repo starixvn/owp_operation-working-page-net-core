@@ -130,7 +130,7 @@ public class UserManagementController : ControllerBase
         var allResource = await refResourceService.GetAllReferenceResource();
         var currentSection = allResource.FirstOrDefault(x =>
             x.Name == ReferenceResourceNames.Section && x.ResourceId == userSectionId);
-        return currentSection ?? new()
+        return currentSection ?? new ReferenceResource
         {
             ResourceId = 0,
             Value = string.Empty,

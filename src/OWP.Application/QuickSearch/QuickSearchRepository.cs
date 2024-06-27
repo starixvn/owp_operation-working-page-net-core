@@ -36,8 +36,8 @@ public class QuickSearchRepositoryImp : QuickSearchRepository
         this.session = session;
         this.permissionService = permissionService;
         this.getAdminSiteMatchIdService = getAdminSiteMatchIdService;
-        matchInfoSuggestion.Item1 = new List<MatchInfoModel>();
-        matchInfoSuggestion.Item2 = new List<Assignee>();
+        matchInfoSuggestion.Item1 = [];
+        matchInfoSuggestion.Item2 = [];
 
     }
 

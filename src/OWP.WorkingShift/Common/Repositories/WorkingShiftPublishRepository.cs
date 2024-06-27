@@ -54,7 +54,7 @@ public class WorkingShiftPublishRepositoryImp : WorkingShiftPublishRepository
     public async Task<IList<Models.WorkingShiftModel>> GetWeeklyWorkingShiftBySection(WorkingShiftQueryBySectionModel queryModel)
     {
         var criteria = mapper.Map<QueryWorkingShiftBySectionCriteria>(queryModel);
-        return (await dynamicRepository.FetchAsync<Common.Models.WorkingShiftModel>(criteria)).ToList();
+        return (await dynamicRepository.FetchAsync<Models.WorkingShiftModel>(criteria)).ToList();
     }
 
 }

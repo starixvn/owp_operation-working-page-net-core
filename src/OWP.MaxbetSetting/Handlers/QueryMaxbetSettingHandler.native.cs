@@ -5,7 +5,7 @@ using OWP.MaxbetSetting.Models;
 
 namespace OWP.MaxbetSetting.Handlers;
 
-public class QueryMaxbetSettingRequest : IRequest<List<MaxBetSettingModel>> { }
+public class QueryMaxbetSettingRequest : IRequest<List<MaxBetSettingModel>>;
 
 public class QueryMaxbetSettingHandler : IRequestHandler<QueryMaxbetSettingRequest, List<MaxBetSettingModel>>
 {

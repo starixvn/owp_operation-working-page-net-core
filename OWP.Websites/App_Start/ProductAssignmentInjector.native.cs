@@ -1,7 +1,7 @@
 ﻿using OWP.ProductAssignmentReference;
 using OWP.ProductAssignmentReference.Services;
 
-namespace OWP.Websites.App_Start;
+namespace OWP.Websites;
 
 public static class ProductAssignmentInjector
 {

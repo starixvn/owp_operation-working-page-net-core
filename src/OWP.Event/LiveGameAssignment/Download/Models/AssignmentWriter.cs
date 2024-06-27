@@ -28,8 +28,9 @@ public abstract class TemplateWriter // NOSONAR
 
 public class AssignmentWriter : TemplateWriter
 {
-    private readonly string[] originalMatchStatus = { "Live", "In-play", "Completed", "Cancel", "Postponed", "Suspended" };
-    private readonly string[] highlightMatchStatus = { "Cancel", "Postponed", "Suspended" };
+    private readonly string[] originalMatchStatus = ["Live", "In-play", "Completed", "Cancel", "Postponed", "Suspended"
+    ];
+    private readonly string[] highlightMatchStatus = ["Cancel", "Postponed", "Suspended"];
     private readonly int _maxNote;
     private readonly int maxLstNote;
     private readonly ISheet _sheet;
@@ -38,8 +39,9 @@ public class AssignmentWriter : TemplateWriter
     private readonly ICellStyle matchStatusCellStyle;
     private const int startRow = 2;
     private const int headerRow = 1;
-    private readonly List<ColumnName> colorColumns = new() { ColumnName.Time, ColumnName.League, ColumnName.Home, ColumnName.Away };
-    private readonly List<ColumnName> colorMatchStatus = new() { ColumnName.MatchStatus };
+    private readonly List<ColumnName> colorColumns =
+        [ColumnName.Time, ColumnName.League, ColumnName.Home, ColumnName.Away];
+    private readonly List<ColumnName> colorMatchStatus = [ColumnName.MatchStatus];
 
     public AssignmentWriter(int maxNote, DownLoadExportModel model)
     {
@@ -197,7 +199,7 @@ public class AssignmentWriter : TemplateWriter
         const int lstnoteColumnIndex = (int)ColumnName.LSTNote;
         if (columnIndex == noteColumnIndex)
         {
-            for (int i = 0; i < _maxNote; i++)
+            for (var i = 0; i < _maxNote; i++)
             {
                 columnIndex = noteColumnIndex + i - maxLstNote;
                 var cell = row.CreateCell(columnIndex);

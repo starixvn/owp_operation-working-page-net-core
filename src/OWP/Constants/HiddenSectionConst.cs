@@ -8,5 +8,5 @@ public static class HiddenSectionConst
 
     public const int PO = 17;
 
-    public static readonly List<int> HiddenSections = new() { LiveTradingPH, OSST, PO };
+    public static readonly List<int> HiddenSections = [LiveTradingPH, OSST, PO];
 }

@@ -170,9 +170,9 @@ public class ExcelReaderImpUnitTests
         var expected = new UploadingDataFromExcel
         {
             EventDate = new DateTime(2020, 3, 30),
-            Assignments = new List<AssignmentModelInExcel>
-            {
-                new()
+            Assignments =
+            [
+                new AssignmentModelInExcel
                 {
                     Time = "01:00 PM",
                     Away = "awaymar27",
@@ -239,8 +239,8 @@ public class ExcelReaderImpUnitTests
                     Website3 = "",
                     Website4 = ""
                 }
-            },
-            Traders = new List<string> { "starix1", "starix14" }
+            ],
+            Traders = ["starix1", "starix14"]
         };
 
         var actual = excelReader.Read(stream);

@@ -8,24 +8,24 @@ using Xunit.Asserts.Compare;
 
 public class XMinsServiceUnitTests
 {
-    private List<AssignmentModel> assignmentsCorner = new();
+    private List<AssignmentModel> assignmentsCorner = [];
 
     private void Initialize()
     {
-        assignmentsCorner = new List<AssignmentModel>
-        {
-            new()
+        assignmentsCorner =
+        [
+            new AssignmentModel
             {
-                OWPMatchId=2,
-                KOTime=DateTime.Parse("2023-3-31 18:05:00").TimeOfDay,
-                EventDateTime=DateTime.Parse("2023-3-31 18:05:00"),
-                IsCornerMatch=true,
-                BettypeId= 1,
-                UserId=123,
-                ParentMatchId=1,
+                OWPMatchId = 2,
+                KOTime = DateTime.Parse("2023-3-31 18:05:00").TimeOfDay,
+                EventDateTime = DateTime.Parse("2023-3-31 18:05:00"),
+                IsCornerMatch = true,
+                BettypeId = 1,
+                UserId = 123,
+                ParentMatchId = 1,
                 Remark = "ET/PK"
             }
-        };
+        ];
     }
 
     [Fact]

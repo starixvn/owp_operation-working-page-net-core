@@ -5,8 +5,7 @@ using OWP.RecipientGroup.Services;
 
 namespace OWP.RecipientGroup.Handlers;
 
-public class QueryRecipientGroupRequest : IRequest<IEnumerable<TicketGroup>>
-{ }
+public class QueryRecipientGroupRequest : IRequest<IEnumerable<TicketGroup>>;
 
 public class GetRecipientGroupHandler : IRequestHandler<QueryRecipientGroupRequest, IEnumerable<TicketGroup>>
 {

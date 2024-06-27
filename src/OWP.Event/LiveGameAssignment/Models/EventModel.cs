@@ -86,7 +86,7 @@ public class EventModel
 
     public IList<MatchOffer> MatchOffers { get; set; }
 
-    public List<MatchSetting> MatchSettings { get; set; } = new List<MatchSetting>();
+    public List<MatchSetting> MatchSettings { get; set; } = [];
 
     public MatchSetting HandicapSetting { get; set; }
 

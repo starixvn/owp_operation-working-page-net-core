@@ -41,12 +41,12 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
     {
         if (!assignment.Sport.Equals(Sport.Basketball, StringComparison.CurrentCultureIgnoreCase))
         {
-            return new List<AssignmentMaxbet>();
+            return [];
         }
 
-        return new List<AssignmentMaxbet>
-        {
-            new()
+        return
+        [
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FTHDP,
                 Trader = assignment.TraderBasketballFTHDP,
@@ -54,19 +54,22 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetBasketballFTHDP,
                 Spread = assignment.SpreadBasketballFTHDP
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FirstHHDP,
                 Trader = assignment.TraderBasketball1HHDP,
                 OtherTrader = assignment.OtherTraderBasketball1HHDP
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FirstQ3QHDP,
                 Trader = assignment.TraderBasketball1Q3QHDP,
                 OtherTrader = assignment.OtherTraderBasketball1Q3QHDP
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FTOUOE,
                 Trader = assignment.TraderBasketballFTOUOE,
@@ -74,37 +77,40 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetBasketballFTOUOE,
                 Spread = assignment.SpreadBasketballFTOUOE
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FTOE,
                 MaxBet = assignment.MaxBetBasketballFTOE,
                 Spread = assignment.SpreadBasketballFTOE
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FirstHOUOE,
                 Trader = assignment.TraderBasketball1HOUOE,
                 OtherTrader = assignment.OtherTraderBasketball1HOUOE
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FirstQ3QOUOE,
                 Trader = assignment.TraderBasketball1Q3QOUOE,
                 OtherTrader = assignment.OtherTraderBasketball1Q3QOUOE
             }
-        };
+        ];
     }
 
     public static List<AssignmentMaxbet> MapFootball(AssignmentModel assignment)
     {
         if (!assignment.Sport.Equals(Sport.Football, StringComparison.CurrentCultureIgnoreCase))
         {
-            return new List<AssignmentMaxbet>();
+            return [];
         }
 
-        return new List<AssignmentMaxbet>
-        {
-            new()
+        return
+        [
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FTHDP,
                 Trader = assignment.TraderFootballFTHDP,
@@ -112,7 +118,8 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetFootballFTHDP,
                 Spread = assignment.SpreadFootballFTHDP
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FirstHHDP,
                 Trader = assignment.TraderFootball1HHDP,
@@ -120,7 +127,8 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetFootball1HHDP,
                 Spread = assignment.SpreadFootball1HHDP
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FirstQ3QHDP,
                 Trader = assignment.TraderFootball1Q3QHDP,
@@ -128,7 +136,8 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetFootball1Q3QHDP,
                 Spread = assignment.SpreadFootball1Q3QHDP
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FTOU,
                 Trader = assignment.TraderFootballFTOU,
@@ -136,7 +145,8 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetFootballFTOU,
                 Spread = assignment.SpreadFootballFTOU
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FirstHOU,
                 Trader = assignment.TraderFootball1HOU,
@@ -144,7 +154,8 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetFootball1HOU,
                 Spread = assignment.SpreadFootball1HOU
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FirstQ3QOU,
                 Trader = assignment.TraderFootball1Q3QOU,
@@ -152,19 +163,19 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetFootball1Q3QOU,
                 Spread = assignment.SpreadFootball1Q3QOU
             }
-        };
+        ];
     }
 
     public static List<AssignmentMaxbet> MapFieldHockey(AssignmentModel assignment)
     {
         if (!assignment.Sport.Equals(Sport.FieldHockey, StringComparison.CurrentCultureIgnoreCase))
         {
-            return new List<AssignmentMaxbet>();
+            return [];
         }
 
-        return new List<AssignmentMaxbet>
-        {
-            new()
+        return
+        [
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FTHDP,
                 Trader = assignment.TraderFieldHockeyFTHDP,
@@ -172,7 +183,8 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetFieldHockeyFTHDP,
                 Spread = assignment.SpreadFieldHockeyFTHDP
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FirstHHDP,
                 Trader = assignment.TraderFieldHockey1HHDP,
@@ -180,7 +192,8 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetFieldHockey1HHDP,
                 Spread = assignment.SpreadFieldHockey1HHDP
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FirstQHDP,
                 Trader = assignment.TraderFieldHockey1QHDP,
@@ -188,7 +201,8 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetFieldHockey1QHDP,
                 Spread = assignment.SpreadFieldHockey1QHDP
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FTOsU,
                 Trader = assignment.TraderFieldHockeyFTOU,
@@ -196,7 +210,8 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetFieldHockeyFTOU,
                 Spread = assignment.SpreadFieldHockeyFTOU
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FirstHOsU,
                 Trader = assignment.TraderFieldHockey1HOU,
@@ -204,7 +219,8 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetFieldHockey1HOU,
                 Spread = assignment.SpreadFieldHockey1HOU
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FirstQOU,
                 Trader = assignment.TraderFieldHockey1QOU,
@@ -212,19 +228,19 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetFieldHockey1QOU,
                 Spread = assignment.SpreadFieldHockey1QOU
             }
-        };
+        ];
     }
 
     public static List<AssignmentMaxbet> MapIceHockey(AssignmentModel assignment)
     {
         if (!assignment.Sport.Equals(Sport.IceHockey, StringComparison.CurrentCultureIgnoreCase))
         {
-            return new List<AssignmentMaxbet>();
+            return [];
         }
 
-        return new List<AssignmentMaxbet>
-        {
-            new()
+        return
+        [
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FTHDP,
                 Trader = assignment.TraderIceHockeyFTHDP,
@@ -232,7 +248,8 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetIceHockeyFTHDP,
                 Spread = assignment.SpreadIceHockeyFTHDP
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.First2ndPeriodsHDP,
                 Trader = assignment.TraderIceHockey1st2ndPeriodsHDP,
@@ -240,7 +257,8 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetIceHockey1st2ndPeriodsHDP,
                 Spread = assignment.SpreadIceHockey1st2ndPeriodsHDP
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FTOsU,
                 Trader = assignment.TraderIceHockeyFTOU,
@@ -248,7 +266,8 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetIceHockeyFTOU,
                 Spread = assignment.SpreadIceHockeyFTOU
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.First2ndPeriodsOU,
                 Trader = assignment.TraderIceHockey1st2ndPeriodsOU,
@@ -256,19 +275,19 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetIceHockey1st2ndPeriodsOU,
                 Spread = assignment.SpreadIceHockey1st2ndPeriodsOU
             }
-        };
+        ];
     }
 
     public static List<AssignmentMaxbet> MapOtherSports(AssignmentModel assignment)
     {
         if (!assignment.Sport.Equals(Sport.OtherSports, StringComparison.CurrentCultureIgnoreCase))
         {
-            return new List<AssignmentMaxbet>();
+            return [];
         }
 
-        return new List<AssignmentMaxbet>
-        {
-            new ()
+        return
+        [
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.MatchWinner,
                 Trader = assignment.TraderOtherSportsMatchWinner,
@@ -276,7 +295,8 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetOtherSportsMatchWinner,
                 Spread = assignment.SpreadOtherSportsMatchWinner
             },
-            new ()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FTHDP,
                 Trader = assignment.TraderOtherSportsFTHDP,
@@ -284,7 +304,8 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetOtherSportsFTHDP,
                 Spread = assignment.SpreadOtherSportsFTHDP
             },
-            new ()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FirstHHDP,
                 Trader = assignment.TraderOtherSports1HHDP,
@@ -292,7 +313,8 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetOtherSports1HHDP,
                 Spread = assignment.SpreadOtherSports1HHDP
             },
-            new ()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FTOsU,
                 Trader = assignment.TraderOtherSportsFTOU,
@@ -300,7 +322,8 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetOtherSportsFTOU,
                 Spread = assignment.SpreadOtherSportsFTOU
             },
-            new ()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FirstHOsU,
                 Trader = assignment.TraderOtherSports1HOU,
@@ -308,18 +331,18 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetOtherSports1HOU,
                 Spread = assignment.SpreadOtherSports1HOU
             }
-        };
+        ];
     }
 
     public static List<AssignmentMaxbet> MapDarts(AssignmentModel assignment)
     {
         if (!assignment.Sport.Equals(Sport.Darts, StringComparison.CurrentCultureIgnoreCase))
         {
-            return new List<AssignmentMaxbet>();
+            return [];
         }
-        return new List<AssignmentMaxbet>
-        {
-            new()
+        return
+        [
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.LegsHDP,
                 Trader = assignment.TraderDartsLegsHDP,
@@ -327,7 +350,8 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetDartsLegsHDP,
                 Spread = assignment.SpreadDartsLegsHDP
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.Most180sHDP,
                 Trader = assignment.TraderDartsMost180sHDP,
@@ -335,18 +359,18 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetDartsMost180sHDP,
                 Spread = assignment.SpreadDartsMost180sHDP
             }
-        };
+        ];
     }
 
     public static List<AssignmentMaxbet> MapPool(AssignmentModel assignment)
     {
         if (!assignment.Sport.Equals(Sport.Pool, StringComparison.CurrentCultureIgnoreCase))
         {
-            return new List<AssignmentMaxbet>();
+            return [];
         }
-        return new List<AssignmentMaxbet>
-        {
-            new()
+        return
+        [
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.MatchWinnerHDP,
                 Trader = assignment.TraderPoolMatchWinnerHDP,
@@ -354,7 +378,8 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetPoolMatchWinnerHDP,
                 Spread = assignment.SpreadPoolMatchWinnerHDP
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.RacksWinnerHDP,
                 Trader = assignment.TraderPoolRacksWinnerHDP,
@@ -362,18 +387,18 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetPoolRacksWinnerHDP,
                 Spread = assignment.SpreadPoolRacksWinnerHDP
             }
-        };
+        ];
     }
 
     public static List<AssignmentMaxbet> MapTableTennis(AssignmentModel assignment)
     {
         if (!assignment.Sport.Equals(Sport.TableTennis, StringComparison.CurrentCultureIgnoreCase))
         {
-            return new List<AssignmentMaxbet>();
+            return [];
         }
-        return new List<AssignmentMaxbet>
-        {
-            new()
+        return
+        [
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.SetWinnerHDP,
                 Trader = assignment.TraderTableTennisSetWinnerHDP,
@@ -381,7 +406,8 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetTableTennisSetWinnerHDP,
                 Spread = assignment.SpreadTableTennisSetWinnerHDP
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.SetXWinnerHDP,
                 Trader = assignment.TraderTableTennisSetXWinnerHDP,
@@ -389,18 +415,18 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetTableTennisSetXWinnerHDP,
                 Spread = assignment.SpreadTableTennisSetXWinnerHDP
             }
-        };
+        ];
     }
 
     public static List<AssignmentMaxbet> MapVolleyball(AssignmentModel assignment)
     {
         if (!assignment.Sport.Equals(Sport.Volleyball, StringComparison.CurrentCultureIgnoreCase))
         {
-            return new List<AssignmentMaxbet>();
+            return [];
         }
-        return new List<AssignmentMaxbet>
-        {
-            new()
+        return
+        [
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.SetWinnerHDPOE,
                 Trader = assignment.TraderVolleyballSetWinnerHDPOE,
@@ -408,13 +434,15 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetVolleyballSetWinnerHDPOE,
                 Spread = assignment.SpreadVolleyballSetWinnerHDPOE
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.SetWinnerOE,
                 MaxBet = assignment.MaxBetVolleyballSetWinnerOE,
                 Spread = assignment.SpreadVolleyballSetWinnerOE
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.SetsXPointWinnerHDP,
                 Trader = assignment.TraderVolleyballSetsXPointWinnerHDP,
@@ -422,19 +450,19 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetVolleyballSetsXPointWinnerHDP,
                 Spread = assignment.SpreadVolleyballSetsXPointWinnerHDP
             }
-        };
+        ];
     }
 
     public static List<AssignmentMaxbet> MapHandball(AssignmentModel assignment)
     {
         if (!assignment.Sport.Equals(Sport.Handball, StringComparison.CurrentCultureIgnoreCase))
         {
-            return new List<AssignmentMaxbet>();
+            return [];
         }
 
-        return new List<AssignmentMaxbet>
-        {
-            new()
+        return
+        [
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FTHDP,
                 Trader = assignment.TraderHandballFTHDP,
@@ -442,7 +470,8 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetHandballFTHDP,
                 Spread = assignment.SpreadHandballFTHDP
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FirstHHDP,
                 Trader = assignment.TraderHandball1HHDP,
@@ -450,7 +479,8 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetHandball1HHDP,
                 Spread = assignment.SpreadHandball1HHDP
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FTOsU,
                 Trader = assignment.TraderHandballFTOU,
@@ -458,7 +488,8 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetHandballFTOU,
                 Spread = assignment.SpreadHandballFTOU
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FirstHOsU,
                 Trader = assignment.TraderHandball1HOU,
@@ -466,19 +497,19 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetHandball1HOU,
                 Spread = assignment.SpreadHandball1HOU
             }
-        };
+        ];
     }
 
     public static List<AssignmentMaxbet> MapNetball(AssignmentModel assignment)
     {
         if (!assignment.Sport.Equals(Sport.Netball, StringComparison.CurrentCultureIgnoreCase))
         {
-            return new List<AssignmentMaxbet>();
+            return [];
         }
 
-        return new List<AssignmentMaxbet>
-        {
-            new()
+        return
+        [
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FTHDP,
                 Trader = assignment.TraderNetballFTHDP,
@@ -486,7 +517,8 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetNetballFTHDP,
                 Spread = assignment.SpreadNetballFTHDP
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FirstHHDP,
                 Trader = assignment.TraderNetball1HHDP,
@@ -494,7 +526,8 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetNetball1HHDP,
                 Spread = assignment.SpreadNetball1HHDP
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FirstQ3QHDP,
                 Trader = assignment.TraderNetball1Q3QHDP,
@@ -502,7 +535,8 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetNetball1Q3QHDP,
                 Spread = assignment.SpreadNetball1Q3QHDP
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FTOUOE,
                 Trader = assignment.TraderNetballFTOUOE,
@@ -510,13 +544,15 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetNetballFTOUOE,
                 Spread = assignment.SpreadNetballFTOUOE
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FTOE,
                 MaxBet = assignment.MaxBetNetballFTOE,
                 Spread = assignment.SpreadNetballFTOE
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FirstHOUOE,
                 Trader = assignment.TraderNetball1HOUOE,
@@ -524,13 +560,15 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetNetball1HOUOE,
                 Spread = assignment.SpreadNetball1HOUOE
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FirstHOE,
                 MaxBet = assignment.MaxBetNetball1HOE,
                 Spread = assignment.SpreadNetball1HOE
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FirstQ3QOUOE,
                 Trader = assignment.TraderNetball1Q3QOUOE,
@@ -538,58 +576,61 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetNetball1Q3QOUOE,
                 Spread = assignment.SpreadNetball1Q3QOUOE
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FirstQ3QOE,
                 MaxBet = assignment.MaxBetNetball1Q3QOE,
                 Spread = assignment.SpreadNetball1Q3QOE
             }
-        };
+        ];
     }
 
     public static List<AssignmentMaxbet> MapCricket(AssignmentModel assignment)
     {
         if (!assignment.Sport.Equals(Sport.Cricket, StringComparison.CurrentCultureIgnoreCase))
         {
-            return new List<AssignmentMaxbet>();
+            return [];
         }
 
-        return new List<AssignmentMaxbet>
-        {
-            new()
+        return
+        [
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.MatchWinnerInningsOU,
                 Trader = assignment.TraderCricketMatchWinnerInningsOU,
                 OtherTrader = assignment.OtherTraderCricketMatchWinnerInningsOU,
                 Spread = assignment.SpreadCricketMatchWinnerInningsOU
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.NextOverOUPlayerOU,
                 Trader = assignment.TraderCricketNextOverOUPlayerOU,
                 OtherTrader = assignment.OtherTraderCricketNextOverOUPlayerOU,
                 Spread = assignment.SpreadCricketNextOverOUPlayerOU
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FT1X2,
                 Trader = assignment.TraderCricketFT1X2,
                 OtherTrader = assignment.OtherTraderCricketFT1X2,
                 Spread = assignment.SpreadCricketFT1X2
             }
-        };
+        ];
     }
 
     public static List<AssignmentMaxbet> MapSnooker(AssignmentModel assignment)
     {
         if (!assignment.Sport.Equals(Sport.Snooker, StringComparison.CurrentCultureIgnoreCase))
         {
-            return new List<AssignmentMaxbet>();
+            return [];
         }
 
-        return new List<AssignmentMaxbet>
-        {
-            new()
+        return
+        [
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.MatchWinnerHDPOU,
                 Trader = assignment.TraderSnookerMatchWinnerHDPOU,
@@ -597,13 +638,15 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetSnookerMatchWinnerHDPOU,
                 Spread = assignment.SpreadSnookerMatchWinnerHDPOU
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.MatchWinnerOU,
                 MaxBet = assignment.MaxBetSnookerMatchWinnerOU,
                 Spread = assignment.SpreadSnookerMatchWinnerOU
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FramesWinnerHDPOUOE,
                 Trader = assignment.TraderSnookerFramesWinnerHDPOUOE,
@@ -611,19 +654,22 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetSnookerFramesWinnerHDPOUOE,
                 Spread = assignment.SpreadSnookerFramesWinnerHDPOUOE
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FramesWinnerOU,
                 MaxBet = assignment.MaxBetSnookerFramesWinnerOU,
                 Spread = assignment.SpreadSnookerFramesWinnerOU
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FramesWinnerOE,
                 MaxBet = assignment.MaxBetSnookerFramesWinnerOE,
                 Spread = assignment.SpreadSnookerFramesWinnerOE
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.First5FramesHDP,
                 Trader = assignment.TraderSnookerFirst5FramesHDP,
@@ -631,7 +677,8 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetSnookerFirst5FramesHDP,
                 Spread = assignment.SpreadSnookerFirst5FramesHDP
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.First8FramesHDP,
                 Trader = assignment.TraderSnookerFirst8FramesHDP,
@@ -639,7 +686,8 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetSnookerFirst8FramesHDP,
                 Spread = assignment.SpreadSnookerFirst8FramesHDP
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.First9FramesHDP,
                 Trader = assignment.TraderSnookerFirst9FramesHDP,
@@ -647,19 +695,19 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetSnookerFirst9FramesHDP,
                 Spread = assignment.SpreadSnookerFirst9FramesHDP
             }
-        };
+        ];
     }
 
     public static List<AssignmentMaxbet> MapBaseball(AssignmentModel assignment)
     {
         if (!assignment.Sport.Equals(Sport.Baseball, StringComparison.CurrentCultureIgnoreCase))
         {
-            return new List<AssignmentMaxbet>();
+            return [];
         }
 
-        return new List<AssignmentMaxbet>
-        {
-            new()
+        return
+        [
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FTRunLineHDP,
                 Trader = assignment.TraderBaseballFTRunLineHDP,
@@ -667,7 +715,8 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetBaseballFTRunLineHDP,
                 Spread = assignment.SpreadBaseballFTRunLineHDP
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FirstH1st5inningsHDP,
                 Trader = assignment.TraderBaseball1H1st5inningsHDP,
@@ -675,7 +724,8 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetBaseball1H1st5inningsHDP,
                 Spread = assignment.SpreadBaseball1H1st5inningsHDP
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FTTotalRunOU,
                 Trader = assignment.TraderBaseballFTTotalRunOU,
@@ -683,7 +733,8 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetBaseballFTTotalRunOU,
                 Spread = assignment.SpreadBaseballFTTotalRunOU
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.FirstH1st5inningsOU,
                 Trader = assignment.TraderBaseball1H1st5inningsOU,
@@ -691,7 +742,8 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetBaseball1H1st5inningsOU,
                 Spread = assignment.SpreadBaseball1H1st5inningsOU
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.InningHitsAndRuns,
                 Trader = assignment.TraderBaseballInningHitsRuns,
@@ -699,93 +751,100 @@ public class AssignmentMaxbetMapperImp : AssignmentMaxbetMapper
                 MaxBet = assignment.MaxBetBaseballInningHitsRuns,
                 Spread = assignment.SpreadBaseballInningHitsRuns
             }
-        };
+        ];
     }
 
     public static List<AssignmentMaxbet> MapBadminton(AssignmentModel assignment)
     {
         if (!assignment.Sport.Equals(Sport.Badminton, StringComparison.CurrentCultureIgnoreCase))
         {
-            return new List<AssignmentMaxbet>();
+            return [];
         }
 
-        return new List<AssignmentMaxbet>
-        {
-            new()
+        return
+        [
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.AllProductSetWinner,
                 Trader = assignment.TraderBadmintonAllProductSetWinner,
                 OtherTrader = assignment.OtherTraderBadmintonAllProductSetWinner,
                 Spread = assignment.SpreadBadmintonAllProductSetWinner
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.AllProductPointWinner,
                 Trader = assignment.TraderBadmintonAllProductPointWinner,
                 OtherTrader = assignment.OtherTraderBadmintonAllProductPointWinner,
                 Spread = assignment.SpreadBadmintonAllProductPointWinner
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.RaceToPoints7911,
                 Trader = assignment.TraderBadmintonRaceToPoints7911,
                 OtherTrader = assignment.OtherTraderBadmintonRaceToPoints7911,
                 Spread = assignment.SpreadBadmintonRaceToPoints7911
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.NextPointWinner,
                 Trader = assignment.TraderBadmintonNextPointWinner,
                 OtherTrader = assignment.OtherTraderBadmintonNextPointWinner,
                 Spread = assignment.SpreadBadmintonNextPointWinner
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.MatchHandicap,
                 Trader = assignment.TraderBadmintonMatchHandicap,
                 OtherTrader = assignment.OtherTraderBadmintonMatchHandicap,
                 Spread = assignment.SpreadBadmintonMatchHandicap
             }
-        };
+        ];
     }
 
     public static List<AssignmentMaxbet> MapTennis(AssignmentModel assignment)
     {
         if (!assignment.Sport.Equals(Sport.Tennis, StringComparison.CurrentCultureIgnoreCase))
         {
-            return new List<AssignmentMaxbet>();
+            return [];
         }
 
-        return new List<AssignmentMaxbet>
-        {
-            new()
+        return
+        [
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.AllProductLS,
                 Trader = assignment.TraderTennisAllProductLS,
                 OtherTrader = assignment.OtherTraderTennisAllProductLS,
                 Spread = assignment.SpreadTennisAllProductLS
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.NextGame,
                 Trader = assignment.TraderTennisNextGame,
                 OtherTrader = assignment.OtherTraderTennisNextGame,
                 Spread = assignment.SpreadTennisNextGame
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.MostAces,
                 Trader = assignment.TraderTennisMostAces,
                 OtherTrader = assignment.OtherTraderTennisMostAces,
                 Spread = assignment.SpreadTennisMostAces
             },
-            new()
+
+            new AssignmentMaxbet
             {
                 Bettype = Bettype.MostDoubleFaults,
                 Trader = assignment.TraderTennisMostDoubleFaults,
                 OtherTrader = assignment.OtherTraderTennisMostDoubleFaults,
                 Spread = assignment.SpreadTennisMostDoubleFaults
             }
-        };
+        ];
     }
 }

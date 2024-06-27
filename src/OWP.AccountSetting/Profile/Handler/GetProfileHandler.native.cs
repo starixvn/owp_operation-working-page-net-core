@@ -3,7 +3,7 @@ using MediatR;
 
 namespace OWP.AccountSetting.Profile.Handler;
 
-public class GetProfileRequest : IRequest<string> { }
+public class GetProfileRequest : IRequest<string>;
 
 public class GetProfileHandler : IRequestHandler<GetProfileRequest, string>
 {
@@ -12,7 +12,7 @@ public class GetProfileHandler : IRequestHandler<GetProfileRequest, string>
 
     public GetProfileHandler(ProfileRepository dynamicRepository, INapSession session)
     {
-        this.repository = dynamicRepository;
+        repository = dynamicRepository;
         this.session = session;
     }
 

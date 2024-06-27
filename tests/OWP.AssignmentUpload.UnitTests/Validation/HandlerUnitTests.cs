@@ -33,7 +33,7 @@ public class HandlerUnitTests
 
         var emptyResult = new AnalyzedResult
         {
-            Assignments = new List<AssignmentModel>(),
+            Assignments = [],
             OriginalRecordCount = 0
         };
         analyzer.Analyze(Arg.Compat.Any<ValidationRequest>()).Returns(Task.FromResult(emptyResult));
@@ -125,7 +125,7 @@ public class HandlerUnitTests
         {
             SessionId = streamWithExcelPackageData.SessionId,
             Exception = "",
-            ValidationResults = new List<AssignmentValidationRowResult>()
+            ValidationResults = []
         };
 
         Assert.Equal(expected.SessionId, actual.SessionId);

@@ -11,85 +11,85 @@ public class GetEventTicketsServiceUnitTests
     }
 
     public List<int> MockListTicketIsSaved()
-        => new()
-        {
-            1,2,3
-        };
+        => [1, 2, 3];
     public List<TicketInfo> MockListEventTicketLeague()
-        => new()
-        {
+        =>
+        [
             new TicketInfo
             {
                 TicketId = 1,
-                OwpLeagueId=17,
-                OwpLeagueName="NHA",
-                LastCommentDate=new DateTime(2022,3,16)
+                OwpLeagueId = 17,
+                OwpLeagueName = "NHA",
+                LastCommentDate = new DateTime(2022, 3, 16)
             }
-        };
+        ];
 
     public List<TicketInfo> MockListEventTicketMatch()
-        => new()
-        {
+        =>
+        [
             new TicketInfo
             {
                 TicketId = 2,
-                OwpLeagueId=17,
-                OwpLeagueName="NHA",
-                LastCommentDate=new DateTime(2022,3,17)
+                OwpLeagueId = 17,
+                OwpLeagueName = "NHA",
+                LastCommentDate = new DateTime(2022, 3, 17)
             }
-        };
+        ];
 
     public List<TicketInfo> MockListEventTicketOther()
-        => new()
-        {
+        =>
+        [
             new TicketInfo
             {
                 TicketId = 3,
-                Subject="hi",
-                LastCommentDate=new DateTime(2022,3,18)
+                Subject = "hi",
+                LastCommentDate = new DateTime(2022, 3, 18)
             }
-        };
+        ];
 
     public List<TicketInfo> MockListEventTicketSupport()
-        => new()
-        {
+        =>
+        [
             new TicketInfo
             {
                 TicketId = 4,
-                Subject ="hi",
-                LastCommentDate=new DateTime(2022,3,15)
+                Subject = "hi",
+                LastCommentDate = new DateTime(2022, 3, 15)
             }
-        };
+        ];
 
     public List<MessageInfoModel> MockLastMessageInfo()
-        => new()
-        {
+        =>
+        [
             new MessageInfoModel
             {
                 MessageId = 1,
-                TicketId=1
+                TicketId = 1
             },
+
             new MessageInfoModel
             {
                 MessageId = 2,
-                TicketId=2
+                TicketId = 2
             },
+
             new MessageInfoModel
             {
                 MessageId = 3,
-                TicketId=3
+                TicketId = 3
             },
+
             new MessageInfoModel
             {
                 MessageId = 4,
-                TicketId=4
+                TicketId = 4
             }
-        };
+        ];
 
     public IList<TicketInfo> GetExpected()
         => new List<TicketInfo>
         {
-            new TicketInfo
+            new()
             {
                 TicketId = 3,
                 Subject="hi",
@@ -103,7 +103,7 @@ public class GetEventTicketsServiceUnitTests
                     }
                 }
             },
-            new TicketInfo
+            new()
             {
                 TicketId = 2,
                 OwpLeagueId=17,
@@ -118,7 +118,7 @@ public class GetEventTicketsServiceUnitTests
                     }
                 }
             },
-            new TicketInfo
+            new()
             {
                 TicketId = 1,
                 OwpLeagueId=17,

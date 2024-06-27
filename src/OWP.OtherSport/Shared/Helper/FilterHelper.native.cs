@@ -16,7 +16,7 @@ public static class FilterHelper
         var matches = new Dictionary<int, MatchInfo>();
         foreach (var key in assignmentSnapshot.Matches.Keys)
         {
-            var assignments = assignmentSnapshot.MatchAssignments.GetValue(key, new List<MatchAssignment>());
+            var assignments = assignmentSnapshot.MatchAssignments.GetValue(key, []);
             var existsAssignment = assignments.Any(match =>
                 (match.Username != null && match.Username.ToLower().Equals(employee.ToLower())) ||
                 (match.Nickname != null && match.Nickname.ToLower().Equals(employee.ToLower())));

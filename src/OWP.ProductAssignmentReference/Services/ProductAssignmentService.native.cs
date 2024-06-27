@@ -35,11 +35,12 @@ public class ProductAssignmentServiceImp : ProductAssignmentService
     public const int LocationCti = 2;
     public const int LocationSms = 1;
 
-    public readonly int[] SectionId = {
+    public readonly int[] SectionId =
+    [
         SectionLiveAssistantVn,
         SectionLiveAssistantPh,
         SectionLiveTrading
-    };
+    ];
 
     public ProductAssignmentServiceImp(
         ProductAssignmentRepository repository,

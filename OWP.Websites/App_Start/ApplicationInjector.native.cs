@@ -4,7 +4,7 @@ using OWP.Application.Header;
 using OWP.Application.Message;
 using OWP.Application.QuickSearch;
 
-namespace OWP.Websites.App_Start;
+namespace OWP.Websites;
 
 public static class ApplicationInjector
 {

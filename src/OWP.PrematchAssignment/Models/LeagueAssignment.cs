@@ -66,5 +66,5 @@ public class LeagueAssignment
 
     public bool IsEarlyOffered { get; set; }
 
-    public List<TicketLeagueBasicInfo> TicketList { get; set; } = new();
+    public List<TicketLeagueBasicInfo> TicketList { get; set; } = [];
 }

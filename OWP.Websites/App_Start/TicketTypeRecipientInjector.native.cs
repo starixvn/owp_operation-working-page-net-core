@@ -1,6 +1,6 @@
 ﻿using OWP.TicketTypeRecipient.Middleware;
 
-namespace OWP.Websites.App_Start;
+namespace OWP.Websites;
 
 public static class TicketTypeRecipientInjector
 {

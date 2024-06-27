@@ -517,7 +517,7 @@ public class AssignmentAnalyzerImp : AssignmentAnalyzer
             yield break;
         }
 
-        var otherTraders = otherTradersInString.Split(new[] { "<o>" }, StringSplitOptions.RemoveEmptyEntries);
+        var otherTraders = otherTradersInString.Split(["<o>"], StringSplitOptions.RemoveEmptyEntries);
         foreach (var otherTrader in otherTraders)
         {
             var parts = otherTrader.Split(',');

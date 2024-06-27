@@ -3,7 +3,7 @@ using OWP.AutoAssignment.Services.InternalApi;
 using OWP.AutoAssignment.Services.PublicApi;
 using OWP.AutoAssignment.Services.SaveResponse;
 
-namespace OWP.Websites.App_Start;
+namespace OWP.Websites;
 
 public static class AutoAssignmentInjector
 {

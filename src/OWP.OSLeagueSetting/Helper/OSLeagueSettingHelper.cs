@@ -139,7 +139,7 @@ public static class OSLeagueSettingHelper
 
     public static string CalculateSummaryExportSecond(string offerLines, string bettypes, string betDelays)
     {
-        string result = "";
+        var result = "";
 
         if (!string.IsNullOrEmpty(offerLines))
         {

@@ -43,7 +43,7 @@ public class EventAssignmentService : IEventAssignmentService
     {
         var criteria = new GetLastUpdatedCriteria
         {
-            EventDate = eventDate,
+            EventDate = eventDate
         };
 
         var result = await dynamicRepository.GetAsync<AssignmentUploadHistoryModel>(criteria);

@@ -91,7 +91,7 @@ public class ProviderBuilderServiceImp : ProviderBuilderService
     private IList<int> GetMatchIdQueryInfo(IEnumerable<AutoAssignmentResultModel> autoAssignModels)
         => autoAssignModels?
                .Select(i => i.InfoSiteMatchId).ToList()
-           ?? new List<int>();
+           ?? [];
 
     private async Task<IEnumerable<ProviderInfo>> QueryProviderInfo(IList<int> queryInfo, string requestId)
         => await repository.GetProviderInfo(queryInfo, requestId);

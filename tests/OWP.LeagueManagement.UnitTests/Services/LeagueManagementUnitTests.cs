@@ -154,9 +154,9 @@ public class LeagueManagementUnitTests
 
     public List<LeagueInfoResponse> MockLeagueInfoResponse()
     {
-        return new List<LeagueInfoResponse>
-        {
-            new()
+        return
+        [
+            new LeagueInfoResponse
             {
                 CN88MaxFT1X2 = null,
                 CN88MaxMaxbetWD = null,
@@ -182,6 +182,6 @@ public class LeagueManagementUnitTests
                 MinSpread = null,
                 OWPLeagueId = 1257
             }
-        };
+        ];
     }
 }

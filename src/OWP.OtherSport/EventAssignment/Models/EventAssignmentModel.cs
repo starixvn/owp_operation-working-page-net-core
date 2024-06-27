@@ -50,5 +50,5 @@ public class EventAssignmentModel
 
     public string Remark { get; set; }
 
-    public List<TraderMaxBetModel> TraderMaxbetModels { get; set; } = new();
+    public List<TraderMaxBetModel> TraderMaxbetModels { get; set; } = [];
 }

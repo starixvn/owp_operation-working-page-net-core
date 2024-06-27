@@ -29,7 +29,7 @@ public class OtherSportController : ControllerBase
     {
         this.mediator = mediator;
         this.accessCounter = accessCounter;
-        this.counterModel = counterOptions.Value;
+        counterModel = counterOptions.Value;
     }
 
     [HttpGet("last-update")]

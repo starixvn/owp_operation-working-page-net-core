@@ -1,6 +1,4 @@
 ﻿using MediatR;
-using OWP.WorkingShift.SyncWorkingShift;
-using OWP.WorkingShift.SyncWorkingShift.Models;
 
 namespace OWP.WorkingShift.SyncWorkingShift.Handlers;
 

@@ -23,7 +23,7 @@ public class RepositoryImp : Repository
         var traderNamesInString = string.Join(",", traderNames);
         if (string.IsNullOrEmpty(traderNamesInString))
         {
-            return new List<Trader>();
+            return [];
         }
 
         var criteria = new TraderByUsernameQueryCriteria

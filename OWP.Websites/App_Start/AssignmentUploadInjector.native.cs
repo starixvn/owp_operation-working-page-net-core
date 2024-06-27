@@ -4,7 +4,7 @@ using OWP.AssignmentUpload.Validation.Services;
 using CacheManipulator = OWP.AssignmentUpload.Validation.Services.CacheManipulator;
 using CacheManipulatorImp = OWP.AssignmentUpload.Validation.Services.CacheManipulatorImp;
 
-namespace OWP.Websites.App_Start;
+namespace OWP.Websites;
 
 public static class AssignmentUploadInjector
 {
@@ -21,7 +21,7 @@ public static class AssignmentUploadInjector
         services.Add(new ServiceDescriptor(typeof(ImplicitMinorMatchGenerator), typeof(GenerateImplicitMinorMatchImp), ServiceLifetime.Transient));
         services.Add(new ServiceDescriptor(typeof(AssignmentBuilder), typeof(AssignmentBuilderImp), ServiceLifetime.Transient));
         services.Add(new ServiceDescriptor(typeof(CacheManipulator), typeof(CacheManipulatorImp), ServiceLifetime.Transient));
-        services.Add(new ServiceDescriptor(typeof(AssignmentUpload.Validation.Services.Analyzer), typeof(AnalyzerImp), ServiceLifetime.Transient));
+        services.Add(new ServiceDescriptor(typeof(Analyzer), typeof(AnalyzerImp), ServiceLifetime.Transient));
         services.Add(new ServiceDescriptor(typeof(ExplicitMinorMatchRule1), typeof(ExplicitMinorMatchRule1Imp), ServiceLifetime.Transient));
         services.Add(new ServiceDescriptor(typeof(ExplicitMinorMatchRule2), typeof(ExplicitMinorMatchRule2Imp), ServiceLifetime.Transient));
         services.Add(new ServiceDescriptor(typeof(SyncInfoSiteRepository), typeof(SyncInfoSiteRepositoryImp), ServiceLifetime.Transient));

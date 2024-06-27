@@ -26,6 +26,6 @@ public class ProviderDetectorServiceImp : ProviderDetectorService
     {
         var firstLabel = FirstProviderBuilder.GetFirstProvider(otherProvider)?.ToUpper();
         var providerTypes = providerHasType.GetValueOrDefault(firstLabel ?? string.Empty, AutoConstant.ProviderOtherId);
-        return new[] { providerTypes };
+        return [providerTypes];
     }
 }

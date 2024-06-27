@@ -1,5 +1,3 @@
 namespace OWP.Report.PreMatchReport.Models;
 
-public class ReportOUMatchesModel : ReportBaseModel
-{
-}
+public class ReportOUMatchesModel : ReportBaseModel;

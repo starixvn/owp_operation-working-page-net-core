@@ -54,8 +54,8 @@ public class BuildMatchOfferByLiveSettingUnitTests
     }
 
     public List<EventPickingModel> MockMainMatches()
-        => new()
-        {
+        =>
+        [
             new EventPickingModel
             {
                 OWPLeagueId = 111,
@@ -64,6 +64,7 @@ public class BuildMatchOfferByLiveSettingUnitTests
                 MaxBetHDPNumber = 5000,
                 MatchOffer = "fantasy offer"
             },
+
             new EventPickingModel
             {
                 OWPLeagueId = 222,
@@ -72,6 +73,7 @@ public class BuildMatchOfferByLiveSettingUnitTests
                 MaxBetHDPNumber = 5000,
                 MatchOffer = null
             },
+
             new EventPickingModel
             {
                 OWPLeagueId = 333,
@@ -80,6 +82,7 @@ public class BuildMatchOfferByLiveSettingUnitTests
                 MaxBetHDPNumber = 4000,
                 MatchOffer = null
             },
+
             new EventPickingModel
             {
                 OWPLeagueId = 444,
@@ -88,6 +91,7 @@ public class BuildMatchOfferByLiveSettingUnitTests
                 MaxBetHDPNumber = 4000,
                 MatchOffer = "offer main match"
             },
+
             new EventPickingModel
             {
                 OWPLeagueId = 5,
@@ -96,39 +100,43 @@ public class BuildMatchOfferByLiveSettingUnitTests
                 MaxBetHDPNumber = null,
                 MatchOffer = null
             }
-        };
+        ];
     public List<EventPickingModel> MockChildMatches()
-        => new()
-        {
+        =>
+        [
             new EventPickingModel
             {
                 OWPLeagueId = 100,
                 InfoSiteMatchId = 1111,
                 MinorBettypeId = -3
             },
+
             new EventPickingModel
             {
                 OWPLeagueId = 200,
                 InfoSiteMatchId = 2222,
                 MinorBettypeId = -4
             },
+
             new EventPickingModel
             {
                 OWPLeagueId = 300,
                 InfoSiteMatchId = 3333,
                 MinorBettypeId = -6
             },
+
             new EventPickingModel
             {
                 OWPLeagueId = 500,
                 InfoSiteMatchId = 5555,
                 MinorBettypeId = -6
             },
+
             new EventPickingModel
             {
                 OWPLeagueId = 400,
                 InfoSiteMatchId = 3333,
                 MinorBettypeId = -99
             }
-        };
+        ];
 }

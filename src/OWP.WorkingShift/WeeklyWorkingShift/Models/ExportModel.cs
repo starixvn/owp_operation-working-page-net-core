@@ -1,7 +1,7 @@
 ﻿namespace OWP.WorkingShift.WeeklyWorkingShift.Models;
 
-using System;
 using Enumerations;
+using System;
 
 public class ExportModel : QueryModel
 {
@@ -9,20 +9,13 @@ public class ExportModel : QueryModel
 
     public string GetExportText()
     {
-        switch (ExportType)
+        return ExportType switch
         {
-            case ExportType.SMS_Local:
-                return "[SMS, WAH HCMC] Local";
-
-            case ExportType.SMS_Local_LA_LST:
-                return "[SMS, WAH HCMC] Local LA, LST";
-
-            case ExportType.SMS_Expat:
-                return "[SMS, WAH HCMC] Expat";
-
-            default:
-                return string.Empty;
-        }
+            ExportType.SMS_Local => "[SMS, WAH HCMC] Local",
+            ExportType.SMS_Local_LA_LST => "[SMS, WAH HCMC] Local LA, LST",
+            ExportType.SMS_Expat => "[SMS, WAH HCMC] Expat",
+            _ => string.Empty
+        };
     }
 
     public string GetExportFileName()

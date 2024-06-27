@@ -5,10 +5,7 @@ using OWP.Services;
 
 namespace OWP.LeagueManagement.Handlers;
 
-public class GetLeagueGroupRequest : IRequest<IEnumerable<ReferenceResource>>
-{
-
-}
+public class GetLeagueGroupRequest : IRequest<IEnumerable<ReferenceResource>>;
 public class GetLeagueGroupHandler : IRequestHandler<GetLeagueGroupRequest, IEnumerable<ReferenceResource>>
 {
     private readonly RefResourceService refResourceService;

@@ -1,12 +1,11 @@
-﻿
-using OWP.WorkingShift.Common.Repositories;
+﻿using OWP.WorkingShift.Common.Repositories;
 using OWP.WorkingShift.Common.Services;
 using OWP.WorkingShift.ViewLog.Services;
 using OWP.WorkingShift.WeeklyWorkingShift.Services;
 using DailyWorkingShift = OWP.WorkingShift.DailyWorkingShift;
 using WeeklyWorkingShift = OWP.WorkingShift.WeeklyWorkingShift;
 
-namespace OWP.Websites.App_Start;
+namespace OWP.Websites;
 
 public static class WorkingShiftInjector
 {
@@ -30,9 +29,9 @@ public static class WorkingShiftInjector
     public static void AddWeeklyWorkingShiftService(this IServiceCollection services)
     {
         services.AddTransient<WeeklyWorkingShift.Repositories.Repository, WeeklyWorkingShift.Repositories.RepositoryImp>();
-        services.AddTransient<WeeklyWorkingShift.Services.ImportService, ImportServiceImp>();
-        services.AddTransient<WeeklyWorkingShift.Services.ExportService, ExportServiceImp>();
-        services.AddTransient<WeeklyWorkingShift.Services.ViewLogService, ViewLogServiceImp>();
+        services.AddTransient<ImportService, ImportServiceImp>();
+        services.AddTransient<ExportService, ExportServiceImp>();
+        services.AddTransient<ViewLogService, ViewLogServiceImp>();
     }
 
     public static void AddViewLogService(this IServiceCollection services)

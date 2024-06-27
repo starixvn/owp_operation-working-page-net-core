@@ -37,7 +37,6 @@ using OWP.SimpleDataApi.Services;
 using OWP.TicketCenter;
 using OWP.TicketEvent;
 using OWP.TicketTypeRecipient;
-using OWP.Websites.App_Start;
 using SharpRaven;
 using StackExchange.Redis;
 using System.Reflection;
@@ -46,13 +45,13 @@ using ILogger = Fanex.Logging.ILogger;
 namespace OWP.Websites;
 
 using AccountSetting.QuickMessage;
+using BackgroundWorker.Jobs;
+using EventPicking.Api;
 using Fanex.NAP.Client.Session;
 using Microsoft.Extensions.FileProviders;
 using OWP.AccountSetting.Profile;
-using OWP.BackgroundWorker.Jobs;
-using OWP.EventPicking.Api;
-using OWP.WorkingShift.SyncWorkingShift;
 using Quartz;
+using WorkingShift.SyncWorkingShift;
 
 public static class ServiceCollectionExtensions
 {

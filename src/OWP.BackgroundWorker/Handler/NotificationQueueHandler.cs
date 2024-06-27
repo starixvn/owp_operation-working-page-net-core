@@ -1,11 +1,10 @@
 ﻿
+using OWP.BackgroundWorker.Criteria;
 using OWP.Services;
 
 namespace OWP.BackgroundWorker.Handler;
 
-public class NotificationQueueRequest: Query<Unit>
-{
-}
+public class NotificationQueueRequest: Query<Unit>;
 
 public class NotificationQueueHandler : QueryHandler<NotificationQueueRequest, Unit>
 {

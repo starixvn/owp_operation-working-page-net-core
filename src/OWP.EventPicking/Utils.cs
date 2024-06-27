@@ -80,7 +80,7 @@ public static class Utils
             colorProperty.SetValue(turnOverInfo, "red");
         }
 
-        if (Math.Abs(turnover_winLoss.Turnover) >= double.Epsilon && (turnover_winLoss.WinLoss / turnover_winLoss.Turnover) < 0)
+        if (Math.Abs(turnover_winLoss.Turnover) >= double.Epsilon && turnover_winLoss.WinLoss / turnover_winLoss.Turnover < 0)
         {
             var marginInfo = (MarginInfo)marginInfoProperty.GetValue(match);
             var marginInfoType = marginInfo.GetType();

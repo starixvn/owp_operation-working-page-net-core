@@ -2,7 +2,7 @@
 using OWP.EventPicking.Api.Middleware;
 using OWP.EventPicking.Api.Services;
 
-namespace OWP.Websites.App_Start;
+namespace OWP.Websites;
 
 public static class EventPickingInjector
 {

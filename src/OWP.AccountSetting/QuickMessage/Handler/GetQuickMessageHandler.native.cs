@@ -7,7 +7,7 @@ namespace OWP.AccountSetting.QuickMessage.Handler;
 using Criteria;
 using Model;
 
-public class GetQuickMessageRequest : IRequest<List<QuickMessage>> { }
+public class GetQuickMessageRequest : IRequest<List<QuickMessage>>;
 
 public class GetQuickMessageHandler : IRequestHandler<GetQuickMessageRequest, List<QuickMessage>>
 {

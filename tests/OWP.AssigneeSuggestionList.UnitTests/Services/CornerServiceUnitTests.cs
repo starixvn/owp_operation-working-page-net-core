@@ -15,21 +15,21 @@ public class CornerServiceUnitTests
 
     public CornerServiceUnitTests()
     {
-        assignmentsCorner = new List<AssignmentModel>
-        {
-                new()
+        assignmentsCorner =
+        [
+            new AssignmentModel
             {
-                OWPMatchId=2,
-                KOTime=DateTime.Parse("2023-3-31 18:05:00").TimeOfDay,
-                EventDateTime=DateTime.Parse("2023-3-31 18:05:00"),
-                IsCornerMatch=true,
-                BettypeId= 1,
-                UserId=123,
-                ParentMatchId=1,
+                OWPMatchId = 2,
+                KOTime = DateTime.Parse("2023-3-31 18:05:00").TimeOfDay,
+                EventDateTime = DateTime.Parse("2023-3-31 18:05:00"),
+                IsCornerMatch = true,
+                BettypeId = 1,
+                UserId = 123,
+                ParentMatchId = 1,
                 MinorBettypeId = -4,
-                Remark="ETPK"
+                Remark = "ETPK"
             }
-        };
+        ];
         gameMapGameId = assignmentsCorner.GroupBy(x => x.OWPMatchId).ToDictionary(x => x.Key, x => x.ToList());
 
     }

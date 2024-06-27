@@ -152,7 +152,7 @@ public static class ColumnStyle
         {ColumnName.MaxBet_XMins, IndexedColors.Black},
         {ColumnName.Spread_XMins, IndexedColors.Black},
         {ColumnName.MaxBet_FM, IndexedColors.Black},
-        {ColumnName.Spread_FM, IndexedColors.Black},
+        {ColumnName.Spread_FM, IndexedColors.Black}
     }.ToImmutableDictionary();
 
     public static Color GetBackgroundColor(ColumnName name) => BackgroundColorMap.GetValueOrDefault(name);

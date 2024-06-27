@@ -122,14 +122,14 @@ public class ExportReportByYearHandlerUnitTests
             {
                 Trader = "sa5",
                 Location = "Phil",
-                OvertimeData = new List<decimal?> { 2, 1, null, null, null, null, null, null, null, null, null, null },
+                OvertimeData = [2, 1, null, null, null, null, null, null, null, null, null, null],
                 Total = null
             },
             new()
             {
                 Trader = "sa",
                 Location = "SMS",
-                OvertimeData = new List<decimal?> { null, null, null, null, null, null, null, null, null, 12, 1, 1 },
+                OvertimeData = [null, null, null, null, null, null, null, null, null, 12, 1, 1],
                 Total = 14
             }
         };

@@ -33,7 +33,7 @@ public class WeeklyWorkingShiftController : Controller
         this.timezoneSettingRepository = timezoneSettingRepository;
         this.userRepository = userRepository;
         this.accessCounter = accessCounter;
-        this.counterModel = counterOptions.Value;
+        counterModel = counterOptions.Value;
     }
 
     [NapAuth(FunctionKey = FunctionKeys.WorkingShiftManagement, Policy = Constant.Policy.Read)]

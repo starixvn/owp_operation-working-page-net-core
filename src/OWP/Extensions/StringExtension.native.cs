@@ -49,7 +49,7 @@ public static class StringExtension
 
     public static string RemoveNonAlphaCharacters(string source)
     {
-        return new(source?.Where(char.IsLetter).ToArray());
+        return new string(source?.Where(char.IsLetter).ToArray());
     }
 
     public static string ConvertNullToEmpty(string value)

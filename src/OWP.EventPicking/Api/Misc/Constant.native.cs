@@ -22,7 +22,7 @@ public static class Constant
         { ColorWhite, ColorWhiteHex }
     }.ToImmutableDictionary();
 
-    public static readonly List<string> SpecialOwpName = new() { "Next Corners", "Next Booking", "(SPECIFIC 15 MINS)" };
+    public static readonly List<string> SpecialOwpName = ["Next Corners", "Next Booking", "(SPECIFIC 15 MINS)"];
 
     public const int TIME_COL_INDEX = 4;
     public const int HOME_COL_INDEX = 6;
@@ -41,6 +41,9 @@ public static class Constant
 
     public const int START_ROW = 2;
 
-    public static readonly List<int> COL_UPDATE_PINK_COLOR = new() { TIME_COL_INDEX,LEAGUE_COL_INDEX,HOME_COL_INDEX,AWAY_COL_INDEX,TV_COL_INDEX,IPTV_COL_INDEX,PROVIDER_COL_INDEX
-    };
+    public static readonly List<int> COL_UPDATE_PINK_COLOR =
+    [
+        TIME_COL_INDEX, LEAGUE_COL_INDEX, HOME_COL_INDEX, AWAY_COL_INDEX, TV_COL_INDEX, IPTV_COL_INDEX,
+        PROVIDER_COL_INDEX
+    ];
 }

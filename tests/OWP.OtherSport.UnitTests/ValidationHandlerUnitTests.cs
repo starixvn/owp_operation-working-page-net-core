@@ -95,9 +95,9 @@ public class ValidationHandlerUnitTests
         analyzer.Analyze(request).Returns(new AnalyzedResult
         {
             OriginalRecordCount = 1,
-            Assignments = new List<AssignmentModel>
-            {
-                new()
+            Assignments =
+            [
+                new AssignmentModel
                 {
                     Sport = "Basketball",
                     Home = "Golden State Warrior",
@@ -107,7 +107,7 @@ public class ValidationHandlerUnitTests
                     League = "NBA",
                     AutoLink = "YES"
                 }
-            }
+            ]
         });
         excelValidator.When(x => x.Validate(request.Stream)).Do(_ => { });
 

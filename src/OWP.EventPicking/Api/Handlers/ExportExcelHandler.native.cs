@@ -3,7 +3,7 @@ using OWP.EventPicking.Api.Services;
 
 namespace OWP.EventPicking.Api.Handlers;
 
-public class ExportExcelRequest : EventPickingRequest, IRequest<FileResult> { }
+public class ExportExcelRequest : EventPickingRequest, IRequest<FileResult>;
 
 public class ExportExcelHandler : IRequestHandler<ExportExcelRequest, FileResult>
 {

@@ -26,7 +26,7 @@ public static class Constant
     public static readonly ImmutableDictionary<int, string> StreamNameSrc2InfoSite = new Dictionary<int, string>
     {
         {0, string.Empty },
-        {11, "Glive"},
+        {11, "Glive"}
     }.ToImmutableDictionary();
 
     public const string ColorTransparent = "#00FFFFFF";
@@ -34,17 +34,17 @@ public static class Constant
     private static string colorYellow = "#FFFF99";
     private static string colorRed = "#FF7C80";
 
-    private static List<ColorBuilder> excelRowColor = new()
-    {
-        new ColorBuilder {HasProvider= true, HasBlacklist= false, HasMaxbet= true, Color= ColorTransparent },
-        new ColorBuilder {HasProvider= true, HasBlacklist= false, HasMaxbet= false , Color=ColorTransparent },
-        new ColorBuilder {HasProvider= true, HasBlacklist= true, HasMaxbet= true , Color=colorGray },
-        new ColorBuilder {HasProvider= true, HasBlacklist= true, HasMaxbet= false , Color=colorGray },
-        new ColorBuilder {HasProvider= false, HasBlacklist= false, HasMaxbet= true , Color=colorYellow },
-        new ColorBuilder {HasProvider= false, HasBlacklist= false, HasMaxbet= false , Color=colorRed },
-        new ColorBuilder {HasProvider= false, HasBlacklist= true, HasMaxbet= true , Color=colorGray },
-        new ColorBuilder {HasProvider= false, HasBlacklist= true, HasMaxbet= false , Color=colorGray }
-    };
+    private static List<ColorBuilder> excelRowColor =
+    [
+        new ColorBuilder { HasProvider = true, HasBlacklist = false, HasMaxbet = true, Color = ColorTransparent },
+        new ColorBuilder { HasProvider = true, HasBlacklist = false, HasMaxbet = false, Color = ColorTransparent },
+        new ColorBuilder { HasProvider = true, HasBlacklist = true, HasMaxbet = true, Color = colorGray },
+        new ColorBuilder { HasProvider = true, HasBlacklist = true, HasMaxbet = false, Color = colorGray },
+        new ColorBuilder { HasProvider = false, HasBlacklist = false, HasMaxbet = true, Color = colorYellow },
+        new ColorBuilder { HasProvider = false, HasBlacklist = false, HasMaxbet = false, Color = colorRed },
+        new ColorBuilder { HasProvider = false, HasBlacklist = true, HasMaxbet = true, Color = colorGray },
+        new ColorBuilder { HasProvider = false, HasBlacklist = true, HasMaxbet = false, Color = colorGray }
+    ];
 
     public const int CornerType = 1;
     public const int BookingType = 2;

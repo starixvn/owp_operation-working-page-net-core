@@ -1,18 +1,8 @@
 ﻿
-using Xunit.Asserts.Compare;
-
 namespace OWP.WorkingShift.UnitTests.DailyWorkingShift.Repositories;
 
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Fanex.Data.Repository;
-using Models;
-using NSubstitute;
-using Xunit;
 using Fanex.NAP.Client.Configuration;
-using OWP.WorkingShift.DailyWorkingShift.Criteria;
-using OWP.WorkingShift.DailyWorkingShift.Models;
 using OWP.WorkingShift.DailyWorkingShift.Repositories;
 
 
@@ -149,7 +139,7 @@ public class RepositoryUnitTests
     //        AssignmentStatistics = stats
     //    };
 
-        
+
     //    DeepAssert.Equal(expectedResult, outputResult);
     //}
 }

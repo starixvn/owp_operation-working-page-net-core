@@ -38,7 +38,7 @@ public class RepositoryImp : Repository
             SectionIds = request.SectionIds,
             SiteId = napSettings.SiteId,
             ActiveUser = request.ActiveUser,
-            ResignUser = request.ResignUser,
+            ResignUser = request.ResignUser
         })).ToList();
 
     public async Task UpdateTargetLevel(List<TargetLevel> targetLevels)

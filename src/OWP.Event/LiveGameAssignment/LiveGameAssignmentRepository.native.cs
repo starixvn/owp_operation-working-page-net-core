@@ -259,7 +259,7 @@ public class LiveGameAssignmentRepositoryImp : LiveGameAssignmentRepository
                 KOTime = model.KOTime,
                 MatchStatus = model.MatchStatus,
                 MatchSettings = minorMatchSetting.MatchSettings,
-                MatchOdds = new List<MatchOddViewModel>()
+                MatchOdds = []
             };
             var minorMatchResult = await AddMinorMatch(minorMatchModel, owpMatchId, minorMatchSetting.MinorBettypeId);
             if (!minorMatchResult.IsSuccess)
@@ -306,7 +306,7 @@ public class LiveGameAssignmentRepositoryImp : LiveGameAssignmentRepository
                     EventDate = model.EventDate,
                     KOTime = model.KOTime,
                     MatchStatus = model.MatchStatus,
-                    MatchOdds = new List<MatchOddViewModel>()
+                    MatchOdds = []
                 };
             }
 

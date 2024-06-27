@@ -8,10 +8,7 @@ using OWP.Utils;
 
 namespace OWP.ProviderArrangement.Handlers;
 
-public class GetLogRequest : IRequest<IList<LogDisplayModel>>
-{
-
-}
+public class GetLogRequest : IRequest<IList<LogDisplayModel>>;
 
 public class GetLogRequestHandler : IRequestHandler<GetLogRequest, IList<LogDisplayModel>>
 {

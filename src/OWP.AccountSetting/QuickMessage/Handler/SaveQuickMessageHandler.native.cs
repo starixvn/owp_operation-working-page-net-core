@@ -36,7 +36,7 @@ public class SaveQuickMessageHandler : IRequestHandler<SaveQuickMessageRequest>
             UserId = session.UserId,
             Id = request.Id,
             Shortcut = request.Shortcut,
-            Message = request.Message,
+            Message = request.Message
         };
         await dynamicRepository.FetchAsync<QuickMessage>(criteria);
     }

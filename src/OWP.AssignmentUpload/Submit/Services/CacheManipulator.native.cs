@@ -52,10 +52,10 @@ public class CacheManipulatorImp : CacheManipulator
         var cacheResult = await cache.TryGetAsync<string>(cacheKey);
 
         var assignments = string.IsNullOrEmpty(cacheResult.Item2)
-            ? new List<AssignmentModel>()
+            ? []
             : JsonConvert.DeserializeObject<List<AssignmentModel>>(cacheResult.Item2);
 
-        return assignments ?? new List<AssignmentModel>();
+        return assignments ?? [];
     }
 
     public async Task DeleteAssignments(string sessionId)
@@ -88,7 +88,7 @@ public class CacheManipulatorImp : CacheManipulator
     public async Task SaveDeletedInfoSiteMatches(IEnumerable<MatchKickoffDate> matches)
     {
         var cacheResult = await cache.TryGetAsync<List<MatchKickoffDate>>(KEY_DELETED_INFO_SITE_MATCH_ID);
-        var currentMatches = cacheResult.Item2 ?? new List<MatchKickoffDate>();
+        var currentMatches = cacheResult.Item2 ?? [];
 
         var allMatches = currentMatches
             .Union(matches)

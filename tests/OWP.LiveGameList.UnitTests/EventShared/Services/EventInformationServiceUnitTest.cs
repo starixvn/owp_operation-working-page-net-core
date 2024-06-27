@@ -57,8 +57,8 @@ public class EventInformationServiceUnitTest
     }
 
     public List<MatchInfo> MockMatchInfo()
-        => new()
-        {
+        =>
+        [
             new MatchInfo
             {
                 OWPMatchId = 1,
@@ -70,17 +70,14 @@ public class EventInformationServiceUnitTest
                 WatchBet = "ok",
                 Phone = "ok none "
             }
-        };
+        ];
 
     public Dictionary<int, List<Assignment>> MockAssignment()
     {
         return new Dictionary<int, List<Assignment>>
         {
             {
-                117, new List<Assignment>
-                {
-                    new() { BettypeId = 1, MinorBettypeId = 1, AssignmentType = 1, OWPMatchId = 117 }
-                }
+                117, [new Assignment { BettypeId = 1, MinorBettypeId = 1, AssignmentType = 1, OWPMatchId = 117 }]
             }
         };
     }
@@ -90,7 +87,7 @@ public class EventInformationServiceUnitTest
         {
             {
                 1,
-                new List<MatchSetting> { new() { OWPMatchId = 1 } }
+                [new MatchSetting { OWPMatchId = 1 }]
             }
         };
 
@@ -99,7 +96,7 @@ public class EventInformationServiceUnitTest
         return new Dictionary<int, List<Television>>
         {
             {
-                1, new List<Television> { new() { TVCode = "ok", OWPMatchId = 1 } }
+                1, [new Television { TVCode = "ok", OWPMatchId = 1 }]
             }
         };
     }
@@ -109,7 +106,7 @@ public class EventInformationServiceUnitTest
         return new Dictionary<int, List<MatchOffer>>
         {
             {
-                1, new List<MatchOffer> { new() { MatchOfferValue = "6s", OWPMatchId = 1 } }
+                1, [new MatchOffer { MatchOfferValue = "6s", OWPMatchId = 1 }]
             }
         };
     }

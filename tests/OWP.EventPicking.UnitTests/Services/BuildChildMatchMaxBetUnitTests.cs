@@ -40,59 +40,65 @@ public class BuildChildMatchMaxBetUnitTests
     }
 
     public List<EventPickingModel> MockChildMatches()
-        => new()
-        {
+        =>
+        [
             new EventPickingModel
             {
                 InfoSiteMatchId = 3333,
                 MinorBettypeId = -3
             },
+
             new EventPickingModel
             {
                 InfoSiteMatchId = 3333,
                 MinorBettypeId = -4
             },
+
             new EventPickingModel
             {
                 InfoSiteMatchId = 4444,
                 MinorBettypeId = -6
             },
+
             new EventPickingModel
             {
                 InfoSiteMatchId = 5555,
                 MinorBettypeId = -7
             },
+
             new EventPickingModel
             {
                 InfoSiteMatchId = 4444,
                 MinorBettypeId = -99
             }
-        };
+        ];
 
     public List<EventPickingModel> MockMainMatches()
-        => new()
-        {
+        =>
+        [
             new EventPickingModel { MaxBetHDP = null },
             new EventPickingModel
             {
                 MaxBetHDPNumber = 5000,
                 InfoSiteMatchId = 3333
             },
+
             new EventPickingModel
             {
                 MaxBetHDPNumber = 3000,
                 InfoSiteMatchId = 4444
             },
+
             new EventPickingModel
             {
                 MaxBetHDPNumber = 100,
                 InfoSiteMatchId = 5555
             }
-        };
+        ];
 
     public List<EventPickingModel> MockExpectedMatches()
-        => new()
-        {
+        =>
+        [
             new EventPickingModel
             {
                 InfoSiteMatchId = 3333,
@@ -100,12 +106,14 @@ public class BuildChildMatchMaxBetUnitTests
                 MaxBetHDP = "2K",
                 MaxBetOU = "0.1K"
             },
+
             new EventPickingModel
             {
                 InfoSiteMatchId = 3333,
                 MinorBettypeId = -4,
                 MaxBetHDP = "12K"
             },
+
             new EventPickingModel
             {
                 InfoSiteMatchId = 4444,
@@ -113,17 +121,19 @@ public class BuildChildMatchMaxBetUnitTests
                 MaxBetHDP = "0.3K",
                 MaxBetOU = "0.1K"
             },
+
             new EventPickingModel
             {
                 InfoSiteMatchId = 5555,
                 MinorBettypeId = -7,
                 MaxBetHDP = "0.333K"
             },
+
             new EventPickingModel
             {
                 InfoSiteMatchId = 4444,
                 MinorBettypeId = -99,
                 MaxBetHDP = ""
             }
-        };
+        ];
 }

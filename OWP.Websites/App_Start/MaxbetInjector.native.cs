@@ -3,7 +3,7 @@ using OWP.Maxbet.Builder;
 using OWP.Maxbet.Selector;
 using OWP.Maxbet.Services;
 
-namespace OWP.Websites.App_Start;
+namespace OWP.Websites;
 
 public static class MaxbetInjector
 {

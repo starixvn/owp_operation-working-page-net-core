@@ -47,8 +47,8 @@ public class RequestBuilderServiceUnitTests
     }
 
     public List<RequestSender> MockRequestSenders()
-        => new()
-        {
+        =>
+        [
             new RequestSender
             {
                 Action = "New",
@@ -58,25 +58,25 @@ public class RequestBuilderServiceUnitTests
                 {
                     Matches = new SchedulingMatch
                     {
-                        Real = new List<RealMatchSender>
-                        {
-                            new ()
+                        Real =
+                        [
+                            new RealMatchSender
                             {
-                                KOTime=  DateTime.Parse("2021-12-08").ToString(CultureInfo.CurrentCulture),
-                                MatchId=1234,
-                                MaxBetMainMatch=12000
+                                KOTime = DateTime.Parse("2021-12-08").ToString(CultureInfo.CurrentCulture),
+                                MatchId = 1234,
+                                MaxBetMainMatch = 12000
                             }
-                        },
-                        Saba = new List<SabaMatchSender>
-                        {
-                            new ()
+                        ],
+                        Saba =
+                        [
+                            new SabaMatchSender
                             {
-                                KOTime=  DateTime.Parse("2021-12-08").ToString(CultureInfo.CurrentCulture),
-                                MatchId=9999,
-                                SabaType=1,
-                                MaxBet=12000
+                                KOTime = DateTime.Parse("2021-12-08").ToString(CultureInfo.CurrentCulture),
+                                MatchId = 9999,
+                                SabaType = 1,
+                                MaxBet = 12000
                             }
-                        }
+                        ]
                     },
                     Suspenders = new List<SchedulingLAUser>
                     {
@@ -87,14 +87,14 @@ public class RequestBuilderServiceUnitTests
                             SpeakChinese = true,
                             SpeakEnglish = true,
                             UserId = 8,
-                            WorkingShifts = new []
-                            {
+                            WorkingShifts =
+                            [
                                 new SchedulingWorkingShift
                                 {
                                     InTime = "2021-12-08T00:00:00",
                                     OutTime = "2021-12-09T00:00:00"
                                 }
-                            }
+                            ]
                         }
                     },
                     Traders = new List<SchedulingTraderInfo>
@@ -107,47 +107,47 @@ public class RequestBuilderServiceUnitTests
                             MultipleGames = "1G",
                             Role = "Employee",
                             TraderId = 8,
-                            WorkingShifts = new []
-                            {
+                            WorkingShifts =
+                            [
                                 new SchedulingWorkingShift
                                 {
-                                    InTime= "2021-12-08T00:00:00",
-                                    OutTime="2021-12-09T00:00:00"
+                                    InTime = "2021-12-08T00:00:00",
+                                    OutTime = "2021-12-09T00:00:00"
                                 }
-                            }
+                            ]
                         }
                     }
                 }
             }
-        };
+        ];
 
     public SchedulingMatch MockMatchService()
         => new()
         {
-            Real = new List<RealMatchSender>
-            {
-                new ()
+            Real =
+            [
+                new RealMatchSender
                 {
-                    KOTime=  DateTime.Parse("2021-12-08").ToString(CultureInfo.CurrentCulture),
-                    MatchId=1234,
-                    MaxBetMainMatch=12000
+                    KOTime = DateTime.Parse("2021-12-08").ToString(CultureInfo.CurrentCulture),
+                    MatchId = 1234,
+                    MaxBetMainMatch = 12000
                 }
-            },
-            Saba = new List<SabaMatchSender>
-            {
-                new ()
+            ],
+            Saba =
+            [
+                new SabaMatchSender
                 {
-                    KOTime=  DateTime.Parse("2021-12-08").ToString(CultureInfo.CurrentCulture),
-                    MatchId=9999,
-                    SabaType=1,
-                    MaxBet=12000
+                    KOTime = DateTime.Parse("2021-12-08").ToString(CultureInfo.CurrentCulture),
+                    MatchId = 9999,
+                    SabaType = 1,
+                    MaxBet = 12000
                 }
-            }
+            ]
         };
 
     public List<SchedulingLAUser> MockLaService()
-        => new()
-        {
+        =>
+        [
             new SchedulingLAUser
             {
                 Level = 1,
@@ -155,20 +155,20 @@ public class RequestBuilderServiceUnitTests
                 SpeakChinese = true,
                 SpeakEnglish = true,
                 UserId = 8,
-                WorkingShifts = new[]
-                {
+                WorkingShifts =
+                [
                     new SchedulingWorkingShift
                     {
                         InTime = "2021-12-08T00:00:00",
                         OutTime = "2021-12-09T00:00:00"
                     }
-                }
+                ]
             }
-        };
+        ];
 
     public List<SchedulingTraderInfo> MockTraderService()
-        => new()
-        {
+        =>
+        [
             new SchedulingTraderInfo
             {
                 Level = 1,
@@ -177,14 +177,14 @@ public class RequestBuilderServiceUnitTests
                 MultipleGames = "1G",
                 Role = "Employee",
                 TraderId = 8,
-                WorkingShifts = new[]
-                {
+                WorkingShifts =
+                [
                     new SchedulingWorkingShift
                     {
-                        InTime= "2021-12-08T00:00:00",
-                        OutTime="2021-12-09T00:00:00"
+                        InTime = "2021-12-08T00:00:00",
+                        OutTime = "2021-12-09T00:00:00"
                     }
-                }
+                ]
             }
-        };
+        ];
 }

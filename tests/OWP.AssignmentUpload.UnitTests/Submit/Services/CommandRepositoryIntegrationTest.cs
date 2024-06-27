@@ -82,7 +82,7 @@ public class CommandRepositoryIntegrationTest
             Remark = "ABCD",
             Round = "2",
             NoHDP = "",
-            Notes = new List<string> { string.Empty },
+            Notes = [string.Empty],
             Trader10Mins = 123,
             Trader15Mins = 123,
             Trader1H1X2 = 123,

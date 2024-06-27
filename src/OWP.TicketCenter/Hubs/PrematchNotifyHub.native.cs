@@ -19,6 +19,4 @@ public interface PreMatchNotifyHub
     Task NotifyUpdateReactIconMessage(MessageReactIcon messageReactIcon, string action, int ticketId);
 }
 
-public class PreMatchNotifyHubImp : Hub<PreMatchNotifyHub>
-{
-}
+public class PreMatchNotifyHubImp : Hub<PreMatchNotifyHub>;

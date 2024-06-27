@@ -4,8 +4,7 @@ using OWP.EventPicking.Api.Services;
 
 namespace OWP.EventPicking.Api.Handlers;
 
-public class QueryEventPickingRequest : EventPickingRequest, IRequest<EventPickingResult>
-{ }
+public class QueryEventPickingRequest : EventPickingRequest, IRequest<EventPickingResult>;
 
 public class QueryEventPickingHandler : IRequestHandler<QueryEventPickingRequest, EventPickingResult>
 {

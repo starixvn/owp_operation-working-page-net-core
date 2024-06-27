@@ -122,7 +122,7 @@ public class EventPickingServiceImp : EventPickingService
         for (int i = 0, row = 2; i < matches.Count; i++, row++)
         {
             var match = matches[i];
-            for (int column = 1; column <= 90; column++)
+            for (var column = 1; column <= 90; column++)
             {
                 if (match.RowColor != null && match.RowColor != Constant.ColorTransparent)
                 {

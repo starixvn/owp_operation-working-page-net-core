@@ -31,12 +31,12 @@ public class WorkingShiftServiceUnitTest
     }
 
     public List<UserInfo> MockUserInfo()
-        => new()
-        {
+        =>
+        [
             new UserInfo
             {
                 UserId = 1, ShiftStartTime = new DateTime(2023, 3, 28, 10, 00, 00),
                 ShiftEndTime = new DateTime(2023, 3, 28, 12, 00, 00)
             }
-        };
+        ];
 }

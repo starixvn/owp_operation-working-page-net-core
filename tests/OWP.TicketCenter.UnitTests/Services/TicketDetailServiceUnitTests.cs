@@ -204,23 +204,23 @@ public class TicketDetailServiceUnitTests
     }
 
     public (bool, List<MessageDetailViewModel>) GetMockMessage()
-        => (true, new List<MessageDetailViewModel>
-        {
-            new()
+        => (true, [
+            new MessageDetailViewModel
             {
                 MessageId = 12,
                 UserId = 8,
                 Message = "hello,test Match",
-                CreatedDate =new DateTime(2021,9,29,15,30,31),
+                CreatedDate = new DateTime(2021, 9, 29, 15, 30, 31),
                 Username = "sa"
             },
-            new()
+
+            new MessageDetailViewModel
             {
                 MessageId = 12,
                 UserId = 8,
                 Message = "hi",
-                CreatedDate = new DateTime(2021,9,29,16,29,31),
+                CreatedDate = new DateTime(2021, 9, 29, 16, 29, 31),
                 Username = "sa"
             }
-        });
+        ]);
 }

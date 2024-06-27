@@ -23,6 +23,4 @@ public interface TicketCenterNotifyHub
     Task NotifyUpdateReactIconMessage(MessageReactIcon messageReactIcon, string action, int ticketId);
 }
 
-public class TicketCenterNotifyHubImp : Hub<TicketCenterNotifyHub>
-{
-}
+public class TicketCenterNotifyHubImp : Hub<TicketCenterNotifyHub>;

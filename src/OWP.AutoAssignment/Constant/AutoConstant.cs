@@ -66,12 +66,13 @@ public static class AutoConstant
 
     public const string EtPkConfirm = "Pls cfm this game have ET, PK or not";
 
-    public static readonly string[] ProviderType = {
+    public static readonly string[] ProviderType =
+    [
         ProviderBgLabel,
         ProviderRb2Label,
         ProviderRtsLabel,
         ProviderBetLabel
-    };
+    ];
 
     public const string TemplateName = "Sheet0";
 

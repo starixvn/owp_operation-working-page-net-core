@@ -34,45 +34,44 @@ public class ModelServiceImp : ModelService
         };
     }
 
-    public List<UserColumnModel> BuildUserColumnModel() => new List<UserColumnModel>
-        {
-             new()
-                 { HeaderText="Employee ID", Name="EmployeeId"},
-             new()
-                 { HeaderText="Account Name", Name="UserName"},
-             new()
-                 { HeaderText="Full Name", Name="FullName"},
-             new()
-                 { HeaderText="Nick Name", Name="NickName"},
-             new()
-                 { HeaderText= "Department", Name= "DepartmentName"},
-             new()
-                 { HeaderText= "Section", Name= "SectionName"},
-             new()
-                 { HeaderText= "Group", Name= "GroupName" },
-             new()
-                 { HeaderText= "Role", Name= "RoleName" },
-             new()
-                 { HeaderText= "Extension", Name= "Extension" },
-             new()
-                 { HeaderText= "Phone", Name= "Phone" },
-             new()
-                 { HeaderText= "Email", Name= "Email" },
-             new()
-                 { HeaderText= "Skype", Name= "Skype" },
-             new()
-                 { HeaderText= "Category", Name= "CategoryName" },
-             new()
-                 { HeaderText= "Location", Name= "LocationCode" },
-             new()
-                 { HeaderText= "Level", Name= "LevelName" },
-             new()
-                 { HeaderText= "Pickup", Name= "Pickup" },
-             new()
-                 { HeaderText= "Address", Name= "Address" },
-             new()
-                 { HeaderText= "Second Account", Name= "IsSecondAccount" },
-             new()
-                 { HeaderText= "Language", Name= "Languages" }
-        };
+    public List<UserColumnModel> BuildUserColumnModel() =>
+    [
+        new UserColumnModel { HeaderText = "Employee ID", Name = "EmployeeId" },
+
+        new UserColumnModel { HeaderText = "Account Name", Name = "UserName" },
+
+        new UserColumnModel { HeaderText = "Full Name", Name = "FullName" },
+
+        new UserColumnModel { HeaderText = "Nick Name", Name = "NickName" },
+
+        new UserColumnModel { HeaderText = "Department", Name = "DepartmentName" },
+
+        new UserColumnModel { HeaderText = "Section", Name = "SectionName" },
+
+        new UserColumnModel { HeaderText = "Group", Name = "GroupName" },
+
+        new UserColumnModel { HeaderText = "Role", Name = "RoleName" },
+
+        new UserColumnModel { HeaderText = "Extension", Name = "Extension" },
+
+        new UserColumnModel { HeaderText = "Phone", Name = "Phone" },
+
+        new UserColumnModel { HeaderText = "Email", Name = "Email" },
+
+        new UserColumnModel { HeaderText = "Skype", Name = "Skype" },
+
+        new UserColumnModel { HeaderText = "Category", Name = "CategoryName" },
+
+        new UserColumnModel { HeaderText = "Location", Name = "LocationCode" },
+
+        new UserColumnModel { HeaderText = "Level", Name = "LevelName" },
+
+        new UserColumnModel { HeaderText = "Pickup", Name = "Pickup" },
+
+        new UserColumnModel { HeaderText = "Address", Name = "Address" },
+
+        new UserColumnModel { HeaderText = "Second Account", Name = "IsSecondAccount" },
+
+        new UserColumnModel { HeaderText = "Language", Name = "Languages" }
+    ];
 }

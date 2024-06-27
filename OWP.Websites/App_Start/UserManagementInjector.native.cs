@@ -2,7 +2,7 @@
 using OWP.UserManagement.Middleware;
 using OWP.UserManagement.Services;
 
-namespace OWP.Websites.App_Start;
+namespace OWP.Websites;
 
 public static class UserManagementInjector
 {
@@ -10,7 +10,7 @@ public static class UserManagementInjector
     {
         services.AddScoped<Repository, RepositoryImp>();
         services.AddScoped<ExportService, ExportServiceImp>();
-        services.AddScoped<UserManagement.Services.ModelService, UserManagement.Services.ModelServiceImp>();
+        services.AddScoped<ModelService, ModelServiceImp>();
         services.AddScoped<UsersService, UsersServiceImp>();
         services.AddScoped<GetUserValidator>();
     }

@@ -19,7 +19,7 @@ public class ExcelAssignmentModel
 
     public ExcelAssignmentModel()
     {
-        Matches = new List<MatchInfo>();
+        Matches = [];
         MaxBetSpread = new Dictionary<int, List<ExcelMatchMaxBetSpread>>();
         MatchAssignments = new Dictionary<int, List<ExcelMatchAssignment>>();
     }

@@ -8,8 +8,6 @@ using OWP.PrematchAssignment.Constants;
 using OWP.PrematchAssignment.Criteria;
 using OWP.PrematchAssignment.Handlers;
 using OWP.PrematchAssignment.Models;
-using OWP.PreMatchAssignment.Criteria;
-using OWP.PreMatchAssignment.Handlers;
 
 namespace OWP.PrematchAssignment.Services;
 

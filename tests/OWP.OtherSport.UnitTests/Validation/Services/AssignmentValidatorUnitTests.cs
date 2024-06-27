@@ -44,9 +44,9 @@ public class AssignmentValidatorUnitTests
     {
         var uploadingDataFromExcel = new UploadingDataFromExcel
         {
-            Assignments = new List<AssignmentModelInExcel>
-            {
-                new()
+            Assignments =
+            [
+                new AssignmentModelInExcel
                 {
                     Away = "OKC",
                     Home = "Toronto Raptor",
@@ -55,7 +55,7 @@ public class AssignmentValidatorUnitTests
                     TraderBadmintonAllProductPointWinner = "starix3",
                     OtherTraderBadmintonRaceToPoints7911 = "#starix3"
                 }
-            }
+            ]
         };
         var traders = new List<Trader>
         {
@@ -179,15 +179,15 @@ public class AssignmentValidatorUnitTests
     {
         var uploadingDataFromExcel = new UploadingDataFromExcel
         {
-            Assignments = new List<AssignmentModelInExcel>
-            {
-                new()
+            Assignments =
+            [
+                new AssignmentModelInExcel
                 {
                     Away = "GSW",
                     Sport = "Basketball",
                     DateTime = "43881.583333333336"
                 }
-            }
+            ]
         };
 
         var assignmentModelList = GetAssignmentModel(string.Empty);
@@ -209,9 +209,9 @@ public class AssignmentValidatorUnitTests
     {
         var uploadingDataFromExcel = new UploadingDataFromExcel
         {
-            Assignments = new List<AssignmentModelInExcel>
-            {
-                new()
+            Assignments =
+            [
+                new AssignmentModelInExcel
                 {
                     Away = "OKC",
                     Home = "Toronto Raptor",
@@ -220,7 +220,7 @@ public class AssignmentValidatorUnitTests
                     TraderBadmintonAllProductSetWinner = "Curry",
                     DateTime = "43883"
                 }
-            }
+            ]
         };
 
         var assignmentModel = GetAssignmentModel(string.Empty);
@@ -245,9 +245,9 @@ public class AssignmentValidatorUnitTests
     {
         var uploadingDataFromExcel = new UploadingDataFromExcel
         {
-            Assignments = new List<AssignmentModelInExcel>
-            {
-                new()
+            Assignments =
+            [
+                new AssignmentModelInExcel
                 {
                     Away = "OKC",
                     Home = "Toronto Raptor",
@@ -256,7 +256,8 @@ public class AssignmentValidatorUnitTests
                     TraderBadmintonAllProductPointWinner = "Esther",
                     DateTime = "43831.645833333336"
                 },
-                new()
+
+                new AssignmentModelInExcel
                 {
                     Away = "OKC",
                     Home = "Toronto Raptor",
@@ -265,7 +266,7 @@ public class AssignmentValidatorUnitTests
                     TraderBadmintonAllProductPointWinner = "Esther",
                     DateTime = "43831.645833333336"
                 }
-            }
+            ]
         };
 
         var assignmentModel = GetAssignmentModel(string.Empty);
@@ -289,9 +290,9 @@ public class AssignmentValidatorUnitTests
     {
         var uploadingDataFromExcel = new UploadingDataFromExcel
         {
-            Assignments = new List<AssignmentModelInExcel>
-            {
-                new()
+            Assignments =
+            [
+                new AssignmentModelInExcel
                 {
                     Away = "OKC",
                     Home = "Toronto Raptor",
@@ -300,7 +301,7 @@ public class AssignmentValidatorUnitTests
                     TraderBadmintonAllProductPointWinner = "Esther",
                     DateTime = "43832.645833333336"
                 }
-            }
+            ]
         };
 
         var assignmentModel = GetAssignmentModel(string.Empty);
@@ -342,11 +343,11 @@ public class AssignmentValidatorUnitTests
 
     private static List<AssignmentModelInExcel> GetAssignmentModels()
     {
-        return new List<AssignmentModelInExcel>
-        {
-            new()
+        return
+        [
+            new AssignmentModelInExcel
             {
-                MatchNo="123",
+                MatchNo = "123",
                 Away = "OKC",
                 Home = "Toronto Raptor",
                 League = "NBA",
@@ -517,7 +518,7 @@ public class AssignmentValidatorUnitTests
                 SpreadTennisMostAces = "",
                 SpreadTennisMostDoubleFaults = ""
             }
-        };
+        ];
     }
 
     private static AssignmentModelInExcel GetAssignmentModel(string maxbet)

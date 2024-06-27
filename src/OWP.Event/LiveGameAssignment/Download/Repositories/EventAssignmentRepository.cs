@@ -346,7 +346,7 @@ public class EventAssignmentRepository : IEventAssignmentRepository
             match.Assignments.SpecificXMins = new SpecificXMinsAssignmentModel
             {
                 MaxBet = GetMaxBet(matchSettingForXmins),
-                Spread = GetSpread(matchSettingForXmins),
+                Spread = GetSpread(matchSettingForXmins)
             };
             matchList.Add(match);
         }

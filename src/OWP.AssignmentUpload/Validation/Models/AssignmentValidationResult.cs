@@ -4,7 +4,7 @@ public class AssignmentValidationResult
 {
     public AssignmentValidationResult()
     {
-        ValidationResults = new List<AssignmentValidationRowResult>();
+        ValidationResults = [];
         Exception = string.Empty;
     }
 

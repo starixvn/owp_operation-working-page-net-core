@@ -1,12 +1,11 @@
-﻿using ONEbook.UM.AspNetCore;
+﻿using Microsoft.Extensions.Caching.Memory;
+using ONEbook.UM.AspNetCore;
 using ONEbook.UM.Configurations;
 using ONEbook.UM.Helpers;
 using ONEbook.UM.Services;
 using ONEbook.UM.Transport;
 
-namespace OWP.Websites.App_Start;
-
-using Microsoft.Extensions.Caching.Memory;
+namespace OWP.Websites;
 
 public static class OnebookUMInitializer
 {

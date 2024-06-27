@@ -5,9 +5,7 @@ using OWP.TicketCenter.ViewModels;
 
 namespace OWP.TicketCenter.Handlers;
 
-public class TicketLogWorkDetailRequest : PermissionCheckedModel, IRequest<TicketLogWorkDetailViewModel>
-{
-}
+public class TicketLogWorkDetailRequest : PermissionCheckedModel, IRequest<TicketLogWorkDetailViewModel>;
 
 public class TicketLogWorkDetailHandler : IRequestHandler<TicketLogWorkDetailRequest, TicketLogWorkDetailViewModel>
 {

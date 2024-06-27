@@ -37,7 +37,7 @@ public static class XMLIO
 
         var args = GetExpressions(t, p, attrSetter);
 
-        var constructor = typeof(XElement).GetConstructor(new[] { typeof(XName), typeof(object[]) });
+        var constructor = typeof(XElement).GetConstructor([typeof(XName), typeof(object[])]);
         var body = Expression.New(constructor, Expression.Constant(elementName),
             Expression.NewArrayInit(typeof(object), args));
 

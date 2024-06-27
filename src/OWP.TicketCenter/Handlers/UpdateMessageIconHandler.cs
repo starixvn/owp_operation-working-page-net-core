@@ -7,7 +7,7 @@ using OWP.TicketCenter.ViewModels;
 
 namespace OWP.TicketCenter.Handlers;
 
-public class UpdateMessageIconRequest : MessageIconModel, IRequest { }
+public class UpdateMessageIconRequest : MessageIconModel, IRequest;
 
 public class UpdateMessageIconHandler : IRequestHandler<UpdateMessageIconRequest>
 {
@@ -39,7 +39,7 @@ public class UpdateMessageIconHandler : IRequestHandler<UpdateMessageIconRequest
             MessageId = request.MessageId,
             ReactUserId = request.CreatorId,
             ReactUserName = userName,
-            ReactAvatarName = avatarFileName,
+            ReactAvatarName = avatarFileName
         };
 
         await notification.NotifyUpdateReactIconMessage(userIds, messageReactIcon, action, request.TicketId);

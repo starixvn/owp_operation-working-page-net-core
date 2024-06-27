@@ -48,65 +48,71 @@ public class SabaMatchServiceUnitTests
     }
 
     public List<SabaMatchCommonInfo> MockListSabaMatchInfo()
-        => new()
-        {
+        =>
+        [
             new SabaMatchCommonInfo
             {
                 InfositeId = 1,
                 KOTime = new DateTime(2021, 11, 30)
             },
+
             new SabaMatchCommonInfo
             {
                 InfositeId = 2,
                 KOTime = new DateTime(2021, 11, 29)
             },
+
             new SabaMatchCommonInfo
             {
                 InfositeId = 3,
                 KOTime = new DateTime(2021, 11, 28)
             }
-        };
+        ];
 
     public List<MatchQueried> MockListMatchQueries()
-        => new()
-        {
+        =>
+        [
             new MatchQueried
             {
                 InfositeMatchId = 1,
                 SabaType = 1
             },
+
             new MatchQueried
             {
                 InfositeMatchId = 2,
                 SabaType = 2
             },
+
             new MatchQueried
             {
                 InfositeMatchId = 3,
                 SabaType = 3
             }
-        };
+        ];
 
     public List<SabaMatchSender> GetExpected()
-        => new()
-        {
+        =>
+        [
             new SabaMatchSender
             {
                 MatchId = 1,
                 SabaType = 1,
                 KOTime = "2021-11-30T00:00:00"
             },
+
             new SabaMatchSender
             {
                 MatchId = 2,
                 SabaType = 2,
                 KOTime = "2021-11-29T00:00:00"
             },
+
             new SabaMatchSender
             {
                 MatchId = 3,
                 SabaType = 3,
                 KOTime = "2021-11-28T00:00:00"
             }
-        };
+        ];
 }

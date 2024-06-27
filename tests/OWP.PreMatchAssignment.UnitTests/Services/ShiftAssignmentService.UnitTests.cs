@@ -85,7 +85,7 @@ public class ShiftAssignmentService
         {
             Employee = "sa",
             EventDate = DateTime.Now,
-            MatchOffers = new List<string> { "" },
+            MatchOffers = [""],
             LeagueName = string.Empty
         });
 
@@ -176,7 +176,7 @@ public class ShiftAssignmentService
         {
             Employee = string.Empty,
             EventDate = DateTime.Now,
-            MatchOffers = new List<string> { "" },
+            MatchOffers = [""],
             LeagueName = string.Empty
         });
 
@@ -268,7 +268,7 @@ public class ShiftAssignmentService
         {
             Employee = string.Empty,
             EventDate = DateTime.Now,
-            MatchOffers = new List<string> { "" },
+            MatchOffers = [""],
             LeagueName = string.Empty
         });
 
@@ -354,7 +354,7 @@ public class ShiftAssignmentService
             Employee = string.Empty,
             EventDate = DateTime.Now,
             LeagueName = string.Empty,
-            MatchOffers = new List<string> { "" },
+            MatchOffers = [""],
             StartTime = new TimeSpan(11, 00, 00)
         });
 

@@ -28,12 +28,12 @@ public class RefResourceServiceImp : RefResourceService
     {
         return new List<UserLocation>
         {
-            new UserLocation { LocationName = "CTI", LocationCode = "CTI" },
-            new UserLocation { LocationName = "SMS", LocationCode = "SMS" },
-            new UserLocation { LocationName = "WAH HCMC", LocationCode = "WAH HCMC" },
-            new UserLocation { LocationName = "WAH MAL", LocationCode = "WAH MAL" },
-            new UserLocation { LocationName = "WAH MNL", LocationCode = "WAH MNL" },
-            new UserLocation { LocationName = "None", LocationCode = "None" }
+            new() { LocationName = "CTI", LocationCode = "CTI" },
+            new() { LocationName = "SMS", LocationCode = "SMS" },
+            new() { LocationName = "WAH HCMC", LocationCode = "WAH HCMC" },
+            new() { LocationName = "WAH MAL", LocationCode = "WAH MAL" },
+            new() { LocationName = "WAH MNL", LocationCode = "WAH MNL" },
+            new() { LocationName = "None", LocationCode = "None" }
         };
     }
 

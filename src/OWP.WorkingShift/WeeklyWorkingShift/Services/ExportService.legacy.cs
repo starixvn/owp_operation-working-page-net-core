@@ -9,13 +9,13 @@ using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using OWP.Services;
 using OWP.WorkingShift.Common.Repositories;
-using OWP.WorkingShift.WeeklyWorkingShift.Utils;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Utils;
 using WorkingShiftModel = Common.Models.WorkingShiftModel;
 
 public interface ExportService
@@ -29,7 +29,7 @@ public class ExportServiceImp : ExportService
     private readonly RefResourceService resourceRepository;
     private readonly WorkingShiftTimezoneSettingRepository timezoneSettingRepository;
     private readonly UserRepository userRepository;
-    private readonly OWP.WorkingShift.WeeklyWorkingShift.Repositories.Repository repository;
+    private readonly Repositories.Repository repository;
     private readonly WorkingShiftRepository workingShiftRepository;
     private readonly WorkingShiftColorRepository workingShiftColorRepository;
     private readonly ConfigurationService configurationService;

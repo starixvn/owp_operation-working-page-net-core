@@ -6,9 +6,7 @@ using OWP.Report.TraderReport.Services;
 
 namespace OWP.Report.TraderReport.Handlers;
 
-public class ReportRequest : QueryModel, IRequest<IEnumerable<ReportModel>>
-{
-}
+public class ReportRequest : QueryModel, IRequest<IEnumerable<ReportModel>>;
 
 public class Handler : IRequestHandler<ReportRequest, IEnumerable<ReportModel>>
 {

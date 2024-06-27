@@ -47,7 +47,7 @@ public class WorkingSchedule
     public IList<AssignmentCell> Tomorrow_15h { get; set; }
     public IList<AssignmentCell> Tomorrow_16h { get; set; }
 
-    [JsonIgnore] public List<AssignmentModel> CategorizedAssignments { get; set; } = new();
+    [JsonIgnore] public List<AssignmentModel> CategorizedAssignments { get; set; } = [];
 
     public CategoryType CategoryType { get; set; }
 }

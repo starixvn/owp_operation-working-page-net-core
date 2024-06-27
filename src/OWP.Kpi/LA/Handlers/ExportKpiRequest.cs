@@ -14,10 +14,7 @@ using OWP.Services;
 using System.Drawing;
 
 namespace OWP.Kpi.LA.Handlers;
-public class ExportKpiRequest : QueryModel, IRequest<ExcelPackage>
-{
-
-}
+public class ExportKpiRequest : QueryModel, IRequest<ExcelPackage>;
 public class ExportKpiHandler : IRequestHandler<ExportKpiRequest, ExcelPackage>, IDisposable
 {
     private ExcelPackage excelPackage;

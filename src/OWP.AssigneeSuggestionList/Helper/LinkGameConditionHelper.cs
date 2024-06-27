@@ -28,14 +28,14 @@ public static class LinkGameConditionHelper
 
         var groupedAssignments = new Dictionary<DateTime, List<AssignmentModel>>();
         List<AssignmentModel> currentGroup = null;
-        DateTime currentGroupStartTime = sortedAssignments.FirstOrDefault(new AssignmentModel()).EventDateTime;
-  
+        var currentGroupStartTime = sortedAssignments.FirstOrDefault(new AssignmentModel()).EventDateTime;
+
         foreach (var assignment in sortedAssignments)
         {
             if (currentGroup == null || (assignment.EventDateTime - currentGroupStartTime).TotalMinutes > 10)
             {
                 currentGroupStartTime = assignment.EventDateTime;
-                currentGroup = new List<AssignmentModel> { assignment };
+                currentGroup = [assignment];
                 groupedAssignments.Add(currentGroupStartTime, currentGroup);
                 continue;
             }

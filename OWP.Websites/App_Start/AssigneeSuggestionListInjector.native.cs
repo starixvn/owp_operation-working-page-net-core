@@ -2,7 +2,7 @@
 using OWP.AssigneeSuggestionList.Services;
 using OWP.AssigneeSuggestionList.Services.RealMatch;
 
-namespace OWP.Websites.App_Start;
+namespace OWP.Websites;
 
 public static class AssigneeSuggestionListInjector
 {

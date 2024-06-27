@@ -1,11 +1,11 @@
 ﻿namespace OWP.UserManagement.UnitTests.Services;
 
-using System;
-using System.Collections.Generic;
-using System.IO;
 using Models;
 using NSubstitute;
 using OWP.Models;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using UserManagement.Services;
 using Xunit;
 
@@ -32,7 +32,7 @@ public class ExportServiceUnitTests
         };
         var users = new List<User>
         {
-            new User
+            new()
             {
                 EmployeeId="1234",
                 UserName="Kane",
@@ -44,7 +44,7 @@ public class ExportServiceUnitTests
                 RoleName="Employeer",
                 Phone="1234567890"
             },
-            new User
+            new()
             {
                 EmployeeId="1232",
                 UserName="Kane1",

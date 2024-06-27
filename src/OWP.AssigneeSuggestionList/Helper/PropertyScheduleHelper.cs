@@ -33,7 +33,7 @@ public static class PropertyScheduleHelper
     {
         var propertyName = GetPropertyName(assignment.EventDateTime, eventDate);
         var info = typeof(WorkingSchedule).GetProperty(propertyName);
-        var cells = (List<AssignmentCell>)info?.GetValue(schedule) ?? new List<AssignmentCell>();
+        var cells = (List<AssignmentCell>)info?.GetValue(schedule) ?? [];
         cells.Add(assignmentCell);
         info?.SetValue(schedule, cells.FilterAndSortValidCell());
     }

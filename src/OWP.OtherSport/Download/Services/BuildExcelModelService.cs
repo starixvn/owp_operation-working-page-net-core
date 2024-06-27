@@ -61,7 +61,7 @@ public class BuildExcelModelServiceImp : BuildExcelModelService
     {
         var assignmentSnapshot = await commandRepository.Query(request);
         await matchStatusCalculator.Map(assignmentSnapshot.Matches);
-        var matchStatus = request.MatchStatuses?.Split(',').ToList() ?? new List<string>();
+        var matchStatus = request.MatchStatuses?.Split(',').ToList() ?? [];
         var filteredMatchesByEmployee = FilterHelper.FilterMatchesByEmployee(request.Employee, assignmentSnapshot);
         assignmentSnapshot.Matches = FilterHelper.FilterMatchesByMatchStatus(matchStatus, filteredMatchesByEmployee);
 
@@ -83,7 +83,7 @@ public class BuildExcelModelServiceImp : BuildExcelModelService
         foreach (var key in assignmentSnapshot.Matches.Keys)
         {
             var sport = assignmentSnapshot.Matches[key].Sport;
-            var assignments = assignmentSnapshot.MatchAssignments.GetValue(key, new List<MatchAssignment>());
+            var assignments = assignmentSnapshot.MatchAssignments.GetValue(key, []);
             var excelAssignments = BuildTrader(sport, assignments);
 
             matchAssignments.Add(key, excelAssignments.ToList());
@@ -121,7 +121,7 @@ public class BuildExcelModelServiceImp : BuildExcelModelService
         foreach (var key in assignmentSnapshot.Matches.Keys)
         {
             var sport = assignmentSnapshot.Matches[key].Sport;
-            var maxbets = assignmentSnapshot.MatchSettings.GetValue(key, new List<MatchSetting>());
+            var maxbets = assignmentSnapshot.MatchSettings.GetValue(key, []);
             var excelAssignments = BuildMatchSetting(sport, maxbets);
 
             matchMaxbets.Add(key, excelAssignments.ToList());

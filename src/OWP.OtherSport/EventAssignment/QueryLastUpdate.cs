@@ -4,9 +4,7 @@ using OWP.OtherSport.Submit.Services;
 
 namespace OWP.OtherSport.EventAssignment;
 
-public class QueryLastUpdate : IRequest<LastUpdateInfo>
-{
-}
+public class QueryLastUpdate : IRequest<LastUpdateInfo>;
 
 public class LastUpdateHandler : IRequestHandler<QueryLastUpdate, LastUpdateInfo>
 {

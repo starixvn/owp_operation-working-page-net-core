@@ -16,6 +16,6 @@ public static class ExportHelper
     {
         "true" => "yes",
         "false" => "no",
-        _ => "none",
+        _ => "none"
     };
 }

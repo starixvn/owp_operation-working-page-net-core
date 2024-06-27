@@ -113,28 +113,28 @@ public class GetReportByYearHandlerUnitTests
             {
                 Trader = "sa5",
                 Location = "Phil",
-                OvertimeData = new List<decimal?> { null, null, null, null, null, null, null, null, null, null, null, null },
+                OvertimeData = [null, null, null, null, null, null, null, null, null, null, null, null],
                 Total = null
             },
             new()
             {
                 Trader = "sa",
                 Location = "SMS",
-                OvertimeData = new List<decimal?> { null, null, null, null, null, null, null, null, null, 12, 1, 1 },
+                OvertimeData = [null, null, null, null, null, null, null, null, null, 12, 1, 1],
                 Total = 14
             },
             new()
             {
                 Trader = "sa2",
                 Location = "SMS",
-                OvertimeData = new List<decimal?> { null, null, null, null, null, null, null, null, null, null, null, null },
+                OvertimeData = [null, null, null, null, null, null, null, null, null, null, null, null],
                 Total = null
             },
             new()
             {
                 Trader = "sa3",
                 Location = "SMS",
-                OvertimeData = new List<decimal?> { null, null, null, null, null, null, null, null, null, null, null, 2 },
+                OvertimeData = [null, null, null, null, null, null, null, null, null, null, null, 2],
                 Total = 2
             }
         };

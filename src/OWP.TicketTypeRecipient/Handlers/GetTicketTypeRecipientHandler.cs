@@ -4,9 +4,7 @@ using OWP.TicketTypeRecipient.Models;
 
 namespace OWP.TicketTypeRecipient.Handlers;
 
-public class GetTicketTypeRecipientRequest : IRequest<IEnumerable<Models.TicketTypeRecipient>>
-{
-}
+public class GetTicketTypeRecipientRequest : IRequest<IEnumerable<Models.TicketTypeRecipient>>;
 
 public class GetTicketTypeRecipientHandler : IRequestHandler<GetTicketTypeRecipientRequest, IEnumerable<Models.TicketTypeRecipient>>
 {

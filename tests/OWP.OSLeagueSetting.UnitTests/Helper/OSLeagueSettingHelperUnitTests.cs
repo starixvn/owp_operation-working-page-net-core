@@ -29,20 +29,20 @@ public class OSLeagueSettingHelperUnitTests
     }
 
     private List<SummaryDetail> GetExpectedSummaryInfos()
-        => new()
-        {
+        =>
+        [
             new SummaryDetail { Text = "1 line/2 line", Style = "offer-lines" },
             new SummaryDetail { Text = "1 Bet Types", Style = "bet-type" },
             new SummaryDetail { Text = "Manual Update Score", Style = "update-score" }
-        };
+        ];
 
     private List<SummaryDetail> GetExpectedSummaryRemark()
-        => new()
-        {
+        =>
+        [
             new SummaryDetail { Text = "abc/cde", Style = "week-match" },
             new SummaryDetail { Text = "00:03 - 00:04", Style = "time-range" },
             new SummaryDetail { Text = "IPTV Only", Style = "Iptv-only" }
-        };
+        ];
 
     private IList<LeagueSettingInfo> GetLeagueSettingInfosRaw()
         => new List<LeagueSettingInfo>

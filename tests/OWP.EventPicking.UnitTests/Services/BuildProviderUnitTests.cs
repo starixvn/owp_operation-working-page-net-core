@@ -31,36 +31,41 @@ public class BuildProviderUnitTests
     }
 
 
-    public List<string> MockProviderManagement() => new() { "RB2", "BG", "SM", "RTS", "BET", "FC" };
+    public List<string> MockProviderManagement() => ["RB2", "BG", "SM", "RTS", "BET", "FC"];
 
     public List<EventPickingModel> MockMatches()
-        => new()
-        {
+        =>
+        [
             new EventPickingModel
             {
                 OtherProvider = ""
             },
+
             new EventPickingModel
             {
                 OtherProvider = "rb2/ok/oke"
             },
+
             new EventPickingModel
             {
                 OtherProvider = "FC/FCTV"
 
             },
+
             new EventPickingModel
             {
                 OtherProvider = "RB2TV"
             },
+
             new EventPickingModel
             {
                 OtherProvider = "abcRB2TVdef/aaa"
             },
+
             new EventPickingModel
             {
                 OtherProvider = "abcRB2aabbTV/aaa"
             }
-        };
+        ];
 
 }

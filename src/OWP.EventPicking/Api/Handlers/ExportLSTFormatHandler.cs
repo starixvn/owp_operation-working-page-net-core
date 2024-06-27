@@ -5,7 +5,7 @@ using OWP.EventPicking.Api.Services;
 
 namespace OWP.EventPicking.Api.Handlers;
 
-public class ExportLSTFormatRequest : EventPickingRequest, IRequest<FileResult> { }
+public class ExportLSTFormatRequest : EventPickingRequest, IRequest<FileResult>;
 
 public class ExportLSTFormatHandler : IRequestHandler<ExportLSTFormatRequest, FileResult>
 {
@@ -42,7 +42,7 @@ public class ExportLSTFormatHandler : IRequestHandler<ExportLSTFormatRequest, Fi
     {
         var priorityProviders = await repository.GetProviderArrangement();
 
-        for (int i = 0; i < matches.Count; i++)
+        for (var i = 0; i < matches.Count; i++)
         {
             matches[i].No = i + 1;
             matches[i].Agent = ProviderHelper.BuildProviderByOtherProvider(priorityProviders, matches[i].OtherProvider);

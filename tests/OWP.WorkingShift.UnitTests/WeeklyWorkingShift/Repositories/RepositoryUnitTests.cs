@@ -1,14 +1,14 @@
-﻿using Fanex.NAP.Client.Configuration;
+﻿using Fanex.Data.Repository;
+using Fanex.NAP.Client.Configuration;
 using Fanex.NAP.Client.Helpers.Web;
+using NSubstitute;
+using OWP.Models;
 using OWP.Services;
 using OWP.WorkingShift.Common.Models;
 using OWP.WorkingShift.Common.Repositories;
 using OWP.WorkingShift.WeeklyWorkingShift.Criteria;
 using OWP.WorkingShift.WeeklyWorkingShift.Models;
 using OWP.WorkingShift.WeeklyWorkingShift.Repositories;
-using Fanex.Data.Repository;
-using OWP.Models;
-using NSubstitute;
 using Xunit;
 
 namespace OWP.WorkingShift.UnitTests.WeeklyWorkingShift.Repositories;
@@ -72,7 +72,8 @@ public class RepositoryUnitTests
         // Arrange
         var expected = new List<WorkingShiftUserModel>
         {
-            new WorkingShiftUserModel{
+            new()
+            {
                 UserId =currentSession.UserId,
                 SectionId =0,
                 Username ="sa",
@@ -80,7 +81,8 @@ public class RepositoryUnitTests
                 Address ="sa",
                 Phone ="123",
                 OrderId=1,
-                WorkingShifts =new[]{ new  WorkingShiftModel { UserId=1, ShiftId=1 } } }
+                WorkingShifts = [new  WorkingShiftModel { UserId=1, ShiftId=1 }]
+            }
         };
 
         dynamicRepository.FetchAsync<WorkingShiftUserModel>(Arg.Compat.Any<SearchEmployeeWorkingShiftCriteria>()).Returns(expected);
@@ -126,14 +128,16 @@ public class RepositoryUnitTests
         // Arrange
         var mockListUserModel = new List<WorkingShiftUserModel>
         {
-            new WorkingShiftUserModel{
+            new()
+            {
                 UserId =currentSession.UserId, SectionId=3, Nickname="Sa", Address="sa", Phone="123", Username="sa",
                 SectionName="est", OrderId=1,
-                WorkingShifts =new[]{ new  WorkingShiftModel { UserId=1, ShiftId=1 } } }
+                WorkingShifts = [new  WorkingShiftModel { UserId=1, ShiftId=1 }]
+            }
         };
         var mockSectionPubslishs = new List<SectionPublishWorkingShiftModel>
         {
-            new SectionPublishWorkingShiftModel {SectionId=3, FromDate=model.FromDate, ToDate=model.ToDate, IsPublished=true}
+            new() {SectionId=3, FromDate=model.FromDate, ToDate=model.ToDate, IsPublished=true}
         };
 
         workingShiftPublishRepository.GetSectionPublishWorkingShift(model.FromDate, model.ToDate, model.Section).Returns(mockSectionPubslishs);
@@ -150,7 +154,7 @@ public class RepositoryUnitTests
         // Act
         var mockWorkingShiftColorModel = new List<WorkingShiftColorModel>
         {
-            new WorkingShiftColorModel{ ShiftId=1}
+            new() { ShiftId=1}
         };
         workingShiftColorRepository.GetAllByTimeZone(model.TimeZoneOffset).Returns(mockWorkingShiftColorModel);
 
@@ -189,14 +193,16 @@ public class RepositoryUnitTests
         // Arrange
         var mockListUserModel = new List<WorkingShiftUserModel>
         {
-            new WorkingShiftUserModel{
+            new()
+            {
                 UserId =currentSession.UserId, SectionId=3, Nickname="Sa", Address="sa", Phone="123", Username="sa",
                 SectionName="est", OrderId=1,
-                WorkingShifts =new[]{ new  WorkingShiftModel { UserId=1, ShiftId=1 } } }
+                WorkingShifts = [new  WorkingShiftModel { UserId=1, ShiftId=1 }]
+            }
         };
         var mockSectionPubslishs = new List<SectionPublishWorkingShiftModel>
         {
-            new SectionPublishWorkingShiftModel {SectionId=3, FromDate=model.FromDate, ToDate=model.ToDate, IsPublished=true}
+            new() {SectionId=3, FromDate=model.FromDate, ToDate=model.ToDate, IsPublished=true}
         };
 
         workingShiftPublishRepository.GetSectionPublishWorkingShift(model.FromDate, model.ToDate, model.Section).Returns(mockSectionPubslishs);
@@ -213,7 +219,7 @@ public class RepositoryUnitTests
         // Act
         var mockWorkingShiftColorModel = new List<WorkingShiftColorModel>
         {
-            new WorkingShiftColorModel{ ShiftId=1}
+            new() { ShiftId=1}
         };
         workingShiftColorRepository.GetAllByTimeZone(model.TimeZoneOffset).Returns(mockWorkingShiftColorModel);
 

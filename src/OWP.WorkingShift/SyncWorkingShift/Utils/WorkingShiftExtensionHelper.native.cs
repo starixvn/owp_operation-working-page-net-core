@@ -1,5 +1,4 @@
-﻿using OWP.Utils;
-// ReSharper disable InvertIf
+﻿// ReSharper disable InvertIf
 
 namespace OWP.WorkingShift.SyncWorkingShift.Utils;
 

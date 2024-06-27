@@ -103,13 +103,13 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
 
         foreach (var league in preMatchLeagues)
         {
-            var leagueTicket = leagueTicketsTask.Result.GetValueOrDefault(league.LeagueId, new List<TicketLeagueBasicInfo>());
+            var leagueTicket = leagueTicketsTask.Result.GetValueOrDefault(league.LeagueId, []);
             league.TicketList = leagueTicket.OrderByDescending(x => x.LatestCreatedDate).ToList();
         }
 
         foreach (var match in infoSiteMatches)
         {
-            var matchTicket = matchTicketsTask.Result.GetValueOrDefault(match.InfoSiteMatchId, new List<TicketMatchBasicInfo>());
+            var matchTicket = matchTicketsTask.Result.GetValueOrDefault(match.InfoSiteMatchId, []);
             match.TicketList = matchTicket.OrderByDescending(x => x.LatestCreatedDate).ToList();
         }
     }
@@ -317,7 +317,7 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
 
         foreach (var infositeMatch in infoSiteMatches)
         {
-            var oddStatusByMatchId = oddStatusesDict.GetValue(infositeMatch.AdminSiteMatchId, new List<OddStatus>());
+            var oddStatusByMatchId = oddStatusesDict.GetValue(infositeMatch.AdminSiteMatchId, []);
             var openedHDP = ShiftHelper.IsRunning(oddStatusByMatchId.Where(x => x.Bettype == 1));
             var openedOU = ShiftHelper.IsRunning(oddStatusByMatchId.Where(x => x.Bettype == 3));
 

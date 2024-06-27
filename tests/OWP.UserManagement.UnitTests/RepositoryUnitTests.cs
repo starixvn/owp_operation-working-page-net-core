@@ -3,13 +3,13 @@ using OWP.Services;
 
 namespace OWP.UserManagement.UnitTests;
 
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Criteria;
 using Fanex.Data.Repository;
 using Models;
 using NSubstitute;
 using OWP.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Asserts.Compare;
 
@@ -44,7 +44,7 @@ public class RepositoryUnitTests
             SectionId = "1"
         };
 
-           
+
         // Arrange
         var expected = new List<User>
         {
@@ -55,7 +55,7 @@ public class RepositoryUnitTests
         dynamicRepository.FetchAsync<User>(Arg.Compat.Any<QueryUsersCriteria>()).Returns(x => expected);
         resourceRepository.GetRefResourcesByName(Arg.Compat.Any<string>()).Returns(x => new List<ReferenceResource>
         {
-            new ReferenceResource{ Name="Language", Value="1", ResourceId=1}
+            new() { Name="Language", Value="1", ResourceId=1}
         });
         // Act
         var actual = await repository.GetUserPagingAsync(queryModel);

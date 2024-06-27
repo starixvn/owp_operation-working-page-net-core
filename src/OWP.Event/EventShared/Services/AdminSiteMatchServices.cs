@@ -38,11 +38,11 @@ public class AdminSiteMatchServicesImp : AdminSiteMatchServices
         -108 // 2H 1st Free Kick
     };
 
-    private readonly List<int> specialMinorBetTypes = new()
-    {
+    private readonly List<int> specialMinorBetTypes =
+    [
         -4, // Next Corners
-        -7 // Next Booking
-    };
+        -7
+    ];
 
     private readonly Dictionary<int, int> specialMinorSubTypes = new()
     {

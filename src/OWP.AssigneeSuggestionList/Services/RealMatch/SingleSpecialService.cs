@@ -52,7 +52,7 @@ public class WinnerServiceImp : SingleSpecialService
 
         var (textColor, color) = GetColor(assignmentsWinner[0].MinorBettypeId ?? 0);
         var gameInfo = ScheduleHelper.GetGameInfo(assignmentsWinner);
-        string etPkValue = GetETPK(assignmentsWinner, gameInfo.minorBettypeId, gameInfo.remark, gameInfo.assignmentNote);
+        var etPkValue = GetETPK(assignmentsWinner, gameInfo.minorBettypeId, gameInfo.remark, gameInfo.assignmentNote);
 
         return new ScheduleUpdateModel
         {

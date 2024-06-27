@@ -51,7 +51,7 @@ public class EventInformationServiceImp : EventInformationService
     }
 
     private static IEnumerable<Television> BuildTelevisions(EventInformation eventInfo, int owpMatchId)
-        => eventInfo.TelevisionsPair.GetValue(owpMatchId, new List<Television>());
+        => eventInfo.TelevisionsPair.GetValue(owpMatchId, []);
 
 
     private static void BuildTicket(IList<HasTicketModel> hasTicketModel, MatchInfo @event)
@@ -78,7 +78,7 @@ public class EventInformationServiceImp : EventInformationService
     }
 
     private static IEnumerable<MatchOffer> BuildMatchOffers(EventInformation eventInfo, int owpMatchId)
-        => eventInfo.MatchOffersPair.GetValue(owpMatchId, new List<MatchOffer>())
+        => eventInfo.MatchOffersPair.GetValue(owpMatchId, [])
             .Select(x => new MatchOffer
             {
                 OWPMatchId = x.OWPMatchId,

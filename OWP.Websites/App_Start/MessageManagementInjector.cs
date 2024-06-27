@@ -1,5 +1,6 @@
-﻿namespace OWP.Websites.App_Start;
-using MessageManagement;
+﻿using OWP.MessageManagement;
+
+namespace OWP.Websites;
 
 public static class MessageManagementInjector
 {

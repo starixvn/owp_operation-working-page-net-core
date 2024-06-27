@@ -91,7 +91,7 @@ public class RepositoryImp : Repository
         }
 
         var searchUsers = string.IsNullOrEmpty(model.Section)
-            ? new List<WorkingShiftUserModel>()
+            ? []
             : await SearchWorkingShiftUser(model);
 
         IList<WorkingShiftDefaultModel> workingShiftDefaults = new List<WorkingShiftDefaultModel>();

@@ -9,7 +9,7 @@ public class QueryModel
 
     public string League { get; set; }
 
-    public List<string> MatchStatusIds { get; set; } = new();
+    public List<string> MatchStatusIds { get; set; } = [];
 
     public bool IsExcludeSpecialProducts { get; set; }
 }

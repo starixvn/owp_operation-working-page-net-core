@@ -1,6 +1,6 @@
 ﻿using OWP.AccountSetting.Profile;
 
-namespace OWP.Websites.App_Start;
+namespace OWP.Websites;
 
 public static class AccountSettingInjector
 {

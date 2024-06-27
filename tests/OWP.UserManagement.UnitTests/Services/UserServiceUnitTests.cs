@@ -1,11 +1,11 @@
 ﻿namespace OWP.UserManagement.UnitTests.Services;
 
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Fanex.NAP.Client.Helpers.Web;
 using Models;
 using NSubstitute;
 using OWP.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using UserManagement.Services;
 using Xunit;
 using Xunit.Asserts.Compare;
@@ -15,12 +15,12 @@ public class UserServiceUnitTests
     private readonly ModelService modelService;
     private readonly Repository repository;
     private readonly UsersService usersService;
-  
+
     public UserServiceUnitTests()
     {
         repository = Substitute.For<Repository>();
         modelService = Substitute.For<ModelService>();
-        
+
         var currentSession = Substitute.For<INapSession>();
         currentSession.UserId = 99;
         usersService = new UsersServiceImp(modelService, repository, currentSession);
@@ -34,7 +34,7 @@ public class UserServiceUnitTests
         {
             UserManagement = new PermissionModel(true, true),
             UserManagementAllSections = new PermissionModel(true, true),
-            UserManagementOwnSection = new PermissionModel(true, true),
+            UserManagementOwnSection = new PermissionModel(true, true)
         };
         var queryModel = new QueryModel
         {
@@ -111,7 +111,7 @@ public class UserServiceUnitTests
 
         var listUser = new List<User>
         {
-            new User{UserId=2, UserName="starix15", SectionId=null }
+            new() {UserId=2, UserName="starix15", SectionId=null }
         };
         // Arrange
         var expected = listUser;
@@ -172,8 +172,8 @@ public class UserServiceUnitTests
 
         var listUser = new List<User>
         {
-            new User{UserId=1, UserName="sa", DepartmentId=1 },
-            new User{UserId=2, UserName="starix15", SectionId=1 }
+            new() {UserId=1, UserName="sa", DepartmentId=1 },
+            new() {UserId=2, UserName="starix15", SectionId=1 }
         };
         // Arrange
         var expected = listUser;

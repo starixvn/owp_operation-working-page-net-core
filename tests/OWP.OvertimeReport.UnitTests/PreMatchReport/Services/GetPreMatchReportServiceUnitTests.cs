@@ -110,23 +110,24 @@ public class GetPreMatchReportServiceUnitTests
     }
 
     public List<UserInfo> mockReturnUsers()
-    => new()
-    {
+    =>
+    [
         new UserInfo
         {
             UserId = 1,
             UserName = "sa"
         },
+
         new UserInfo
         {
             UserId = 2,
             UserName = "sa2"
         }
-    };
+    ];
 
     public List<ExportPreMatchModel> Expected()
-    => new()
-    {
+    =>
+    [
         new ExportPreMatchModel
         {
             TraderName = "sa",
@@ -137,11 +138,11 @@ public class GetPreMatchReportServiceUnitTests
             MatchHdpMj = "7",
             MatchHdpM1 = "7"
         }
-    };
+    ];
 
     public List<QueryPrematchReportModel> MockReportForLeague()
-    => new()
-    {
+    =>
+    [
         new QueryPrematchReportModel
         {
             UserId = 1,
@@ -150,6 +151,7 @@ public class GetPreMatchReportServiceUnitTests
             Bettype = 1,
             Amount = 7
         },
+
         new QueryPrematchReportModel
         {
             UserId = 1,
@@ -158,11 +160,11 @@ public class GetPreMatchReportServiceUnitTests
             Bettype = 1,
             Amount = 7
         }
-    };
+    ];
 
     public List<QueryPrematchReportModel> MockReportForMatches()
-    => new()
-    {
+    =>
+    [
         new QueryPrematchReportModel
         {
             UserId = 1,
@@ -171,6 +173,7 @@ public class GetPreMatchReportServiceUnitTests
             Bettype = 1,
             Amount = 7
         },
+
         new QueryPrematchReportModel
         {
             UserId = 1,
@@ -179,5 +182,5 @@ public class GetPreMatchReportServiceUnitTests
             Bettype = 1,
             Amount = 7
         }
-    };
+    ];
 }

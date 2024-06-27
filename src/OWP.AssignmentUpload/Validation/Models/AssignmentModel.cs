@@ -19,7 +19,7 @@ public class AssignmentModel
         Division = string.Empty;
         MatchOffer = string.Empty;
         NoHDP = string.Empty;
-        Notes = new List<string>();
+        Notes = [];
         OtherProvider = string.Empty;
         Phone = string.Empty;
         Provider = string.Empty;

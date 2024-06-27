@@ -5,7 +5,7 @@ using OWP.AccountSetting.QuickMessage.Handler;
 
 namespace OWP.AccountSetting.QuickMessage;
 
-using OWP.AccountSetting.QuickMessage.Model;
+using Model;
 
 [Route("api/AccountSetting/[controller]")]
 [ApiController]

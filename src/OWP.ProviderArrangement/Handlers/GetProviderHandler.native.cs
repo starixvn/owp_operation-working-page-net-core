@@ -5,10 +5,7 @@ using OWP.ProviderArrangement.Models;
 
 namespace OWP.ProviderArrangement.Handlers;
 
-public class GetProviderRequest : IRequest<IList<ProviderModel>>
-{
-
-}
+public class GetProviderRequest : IRequest<IList<ProviderModel>>;
 
 public class GetProviderHandler : IRequestHandler<GetProviderRequest, IList<ProviderModel>>
 {

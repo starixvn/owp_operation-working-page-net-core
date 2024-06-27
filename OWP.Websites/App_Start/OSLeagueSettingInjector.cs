@@ -2,7 +2,7 @@
 using OWP.OSLeagueSetting.Factory;
 using OWP.OSLeagueSetting.Services;
 
-namespace OWP.Websites.App_Start;
+namespace OWP.Websites;
 
 public static class OSLeagueSettingInjector
 {

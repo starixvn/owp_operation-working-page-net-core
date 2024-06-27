@@ -78,7 +78,7 @@ public static class ExcelIO
     private static Expression WriteProp(TemplateWriter writer, Expression row, Expression obj, PropertyInfo prop)
     {
         var value = Expression.Property(obj, prop);
-        Expression result = IsBasicType(prop.PropertyType)
+        var result = IsBasicType(prop.PropertyType)
             ? Expression.Call(
                 Expression.Constant(writer),
                 typeof(TemplateWriter).GetMethod("WriteColumns"),

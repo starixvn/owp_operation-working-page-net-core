@@ -6,9 +6,7 @@ using OWP.TicketCenter.Services;
 
 namespace OWP.TicketCenter.Handlers;
 
-public class RemoveSingleRecipientRequest : InsertOrRemoveSingleRecipientModel, IRequest<int>
-{
-}
+public class RemoveSingleRecipientRequest : InsertOrRemoveSingleRecipientModel, IRequest<int>;
 
 public class RemoveSingleRecipientHandler : IRequestHandler<RemoveSingleRecipientRequest, int>
 {
@@ -38,7 +36,8 @@ public class RemoveSingleRecipientHandler : IRequestHandler<RemoveSingleRecipien
         var result = repository.RemoveSingleRecipient(request);
         if (request.TicketEventType is (int)EventType.League or (int)EventType.Match)
         {
-            await preMatchNotification.NotifyToReloadTicketInPrematchTable(request.TicketId, request.TicketEventType, new List<string> { request.RecipientId.ToString() });
+            await preMatchNotification.NotifyToReloadTicketInPrematchTable(request.TicketId, request.TicketEventType,
+                [request.RecipientId.ToString()]);
         }
 
         return await result;

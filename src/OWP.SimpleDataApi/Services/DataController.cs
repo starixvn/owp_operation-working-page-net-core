@@ -41,7 +41,7 @@ public class DataController : ControllerBase
     [Route("query")]
     public IActionResult Query(Dictionary<string, object> queryModel) //NOSONAR
     {
-        queryModel ??= new();
+        queryModel ??= new Dictionary<string, object>();
         queryModel.SafeAdd(ParameterConfiguration.ActorId, napSession.UserId)
             .SafeAdd(ParameterConfiguration.ActorUsername, napSession.UserName)
             .SafeAdd("IP", GetClientIP());

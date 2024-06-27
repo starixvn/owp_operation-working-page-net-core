@@ -28,10 +28,10 @@ public class LeagueSettingInfoSender : LeagueSettingInfo
     {
         if (spreadHdp.HasValue && spreadOu.HasValue)
         {
-            string spreadHdpString = (spreadHdp*100).ToString().TrimEnd('0').TrimEnd('.');
-            string spreadOuString = (spreadOu*100).ToString().TrimEnd('0').TrimEnd('.');
+            var spreadHdpString = (spreadHdp * 100).ToString().TrimEnd('0').TrimEnd('.');
+            var spreadOuString = (spreadOu * 100).ToString().TrimEnd('0').TrimEnd('.');
 
-            return  $"{spreadHdpString}%-{spreadOuString}%";
+            return $"{spreadHdpString}%-{spreadOuString}%";
         }
 
         return null;

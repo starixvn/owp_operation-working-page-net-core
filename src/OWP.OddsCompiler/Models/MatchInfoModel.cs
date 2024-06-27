@@ -1,6 +1,6 @@
-﻿using System;
+﻿using OWP.Extensions;
+using System;
 using System.Collections.Generic;
-using OWP.Extensions;
 
 namespace OWP.OddsCompiler.Models;
 
@@ -74,9 +74,9 @@ public class MatchInfoModel
 
     public bool IsLinked { get; set; }
 
-    public List<MatchSetting> MatchSettings { get; set; } = new List<MatchSetting>();
+    public List<MatchSetting> MatchSettings { get; set; } = [];
 
-    public MatchOddsRow MatchOddsRow { get; set; } = new MatchOddsRow();
+    public MatchOddsRow MatchOddsRow { get; set; } = new();
 
     public string KickOffTimeToDisplay => KickOffTime.ToKOTime();
 

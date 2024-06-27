@@ -7,7 +7,7 @@ namespace OWP.FileUpload.Handlers;
 
 public class InitialOldDataHandler
 {
-    public class InitialOldDataRequest : IRequest<int> { }
+    public class InitialOldDataRequest : IRequest<int>;
 
     public class Handler : IRequestHandler<InitialOldDataRequest, int>
     {

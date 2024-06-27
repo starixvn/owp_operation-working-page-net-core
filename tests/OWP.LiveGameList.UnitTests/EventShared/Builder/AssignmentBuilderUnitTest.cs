@@ -49,10 +49,7 @@ public class AssignmentBuilderUnitTest
         return new Dictionary<int, List<Assignment>>
         {
             {
-                117, new List<Assignment>
-                {
-                    new() { BettypeId = 1, MinorBettypeId = 1, AssignmentType = 1, OWPMatchId = 117 }
-                }
+                117, [new Assignment { BettypeId = 1, MinorBettypeId = 1, AssignmentType = 1, OWPMatchId = 117 }]
             }
         };
     }
@@ -62,17 +59,17 @@ public class AssignmentBuilderUnitTest
         return new Dictionary<int, List<Assignment>>
         {
             {
-                117, new List<Assignment>
-                {
-                    new()
+                117, [
+                    new Assignment
                     {
                         BettypeId = 1, MinorBettypeId = -5, AssignmentType = 1, OWPMatchId = 1117, ParentMatchId = 117
                     },
-                    new()
+
+                    new Assignment
                     {
                         BettypeId = 1, MinorBettypeId = -8, AssignmentType = 1, OWPMatchId = 1117, ParentMatchId = 117
                     }
-                }
+                ]
             }
         };
     }

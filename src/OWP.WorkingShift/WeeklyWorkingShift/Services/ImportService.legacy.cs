@@ -72,7 +72,7 @@ public class ImportServiceImp : ImportService
         {
             return new ValidateImportResult
             {
-                InvalidCells = new List<ImportInvalidCell> { new ImportInvalidCell("", "Error", ex.Message) }
+                InvalidCells = new List<ImportInvalidCell> { new("", "Error", ex.Message) }
             };
         }
         finally
@@ -350,7 +350,7 @@ public class ImportServiceImp : ImportService
 
     public static DateTime StartOfWeek(DateTime value)
     {
-        int diff = (7 + (value.DayOfWeek - DayOfWeek.Monday)) % 7;
+        var diff = (7 + (value.DayOfWeek - DayOfWeek.Monday)) % 7;
         return value.AddDays(-1 * diff).Date;
     }
 }

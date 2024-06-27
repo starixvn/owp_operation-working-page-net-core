@@ -56,13 +56,13 @@ public static class LinkTwoGameConditionHelper
             {
                 var durations = assignmentOther[i].EventDateTime.Subtract(assignmentOther[j].EventDateTime).Duration();
 
-                if (durations <= TimeSpan.FromMinutes(10) && (durations.TotalMinutes is > 0 or < 0))
+                if (durations <= TimeSpan.FromMinutes(10) && durations.TotalMinutes is > 0 or < 0)
                 {
                     var eventDate = Utils.SelectTime(assignmentOther[i].EventDateTime, assignmentOther[j].EventDateTime);
-                    group2GameDictionary.TryAdd(eventDate, new List<AssignmentModel>{
+                    group2GameDictionary.TryAdd(eventDate, [
                         assignmentOther[i],
                         assignmentOther[j]
-                    });
+                    ]);
                     assignmentOther[i].MatchType = Constant.MatchType.RealMatchLink2G;
                     assignmentOther[j].MatchType = Constant.MatchType.RealMatchLink2G;
                     break; // NOSONAR

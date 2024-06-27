@@ -9,14 +9,14 @@ using Xunit.Asserts.Compare;
 
 public class OneGameServiceUnitTest
 {
-    private List<AssignmentModel> assignments = new();
+    private List<AssignmentModel> assignments = [];
     private IDictionary<int, List<AssignmentModel>> gameMapGameId = new Dictionary<int, List<AssignmentModel>>();
 
     private void Initialize()
     {
-        assignments = new List<AssignmentModel>
-        {
-            new()
+        assignments =
+        [
+            new AssignmentModel
             {
                 OWPMatchId = 1,
                 KOTime = DateTime.Parse("2023-3-31 18:00:00").TimeOfDay,
@@ -25,7 +25,7 @@ public class OneGameServiceUnitTest
                 UserId = 123,
                 Remark = "ET/PK"
             }
-        };
+        ];
         gameMapGameId = assignments.GroupBy(x => x.OWPMatchId).ToDictionary(x => x.Key, x => x.ToList());
 
 

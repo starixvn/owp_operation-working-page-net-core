@@ -29,7 +29,7 @@ public static class StandardizedLeagueInfo
     }
     public static void BuildCondition(LeagueSettingInfo leagueInfo, LeagueSettingExcelInfo excelInfo)
     {
-        (bool hasTv, List<Condition> ipTv) = AnalyzeHasTv(excelInfo.LocalTv?.Trim());
+        var (hasTv, ipTv) = AnalyzeHasTv(excelInfo.LocalTv?.Trim());
         leagueInfo.FullConditionDescription = JsonConvert.SerializeObject(new LeagueSettingCondition
         {
             HasTv = hasTv,
@@ -43,29 +43,29 @@ public static class StandardizedLeagueInfo
 
     public static void BuildSpread(LeagueSettingCore leagueInfo, string ftSpread)
     {
-        (decimal? spreadHdp, decimal? spreadOu, string spreadSource) = AnalyzeSpreadFT(ftSpread?.Trim());
+        var (spreadHdp, spreadOu, spreadSource) = AnalyzeSpreadFT(ftSpread?.Trim());
         leagueInfo.Spread_HDP_Value = spreadHdp;
         leagueInfo.Spread_OU_Value = spreadOu;
         leagueInfo.Spread_Note = spreadSource;
     }
     public static void BuildMaxbet(LeagueSettingCore leagueInfo, string WD_HDP, string WK_HDP)
     {
-        (decimal? maxbetWd, string maxbetSourceWd) = AnalyzeMaxbet(WD_HDP?.Trim());
+        var (maxbetWd, maxbetSourceWd) = AnalyzeMaxbet(WD_HDP?.Trim());
         leagueInfo.MaxbetWD_HDP_Value = maxbetWd;
         leagueInfo.MaxbetWD_HDP_Note = maxbetSourceWd;
 
-        (decimal? maxbetWk, string maxbetSourceWk) = AnalyzeMaxbet(WK_HDP?.Trim());
+        var (maxbetWk, maxbetSourceWk) = AnalyzeMaxbet(WK_HDP?.Trim());
         leagueInfo.MaxbetWK_HDP_Value = maxbetWk;
         leagueInfo.MaxbetWK_HDP_Note = maxbetSourceWk;
     }
 
     public static void BuildNoHdp(LeagueSettingCore leagueInfo, string WD_NO_HDP, string WK_NO_HDP)
     {
-        (string noHdpWd, string noHdpWdSource) = AnalyzeNoHdp(WD_NO_HDP?.Trim());
+        var (noHdpWd, noHdpWdSource) = AnalyzeNoHdp(WD_NO_HDP?.Trim());
         leagueInfo.WD_NoOfHDP_Value = noHdpWd;
         leagueInfo.WD_NoOfHDP_Note = noHdpWdSource;
 
-        (string noHdpWk, string noHdpWkSource) = AnalyzeNoHdp(WK_NO_HDP?.Trim());
+        var (noHdpWk, noHdpWkSource) = AnalyzeNoHdp(WK_NO_HDP?.Trim());
         leagueInfo.WK_NoOfHDP_Value = noHdpWk;
         leagueInfo.WK_NoOfHDP_Note = noHdpWkSource;
     }
@@ -132,13 +132,13 @@ public static class StandardizedLeagueInfo
 
     private static (bool hasTv, List<Condition> iptv) AnalyzeHasTv(string localTv)
     {
-        var split = localTv?.Split('/') ?? Array.Empty<string>();
+        var split = localTv?.Split('/') ?? [];
         var condition = new List<Condition>();
         var tv = split?.Where(t => t.Trim().Equals("TV", StringComparison.OrdinalIgnoreCase)) ?? new List<string>();
 
         foreach (var iptv in split?.Except(tv))
         {
-            condition.Add(new(Type: "Contains", Value: iptv?.Trim()));
+            condition.Add(new Condition(Type: "Contains", Value: iptv?.Trim()));
         }
 
         return (tv.Any(), condition);
@@ -186,7 +186,7 @@ public static class StandardizedLeagueInfo
                 value = RemoveContainSymbol(source);
             }
 
-            condition.Add(new(type, value));
+            condition.Add(new Condition(type, value));
         }
         return condition;
     }
@@ -214,7 +214,7 @@ public static class StandardizedLeagueInfo
 
     private static decimal RemoveLastCharacterAndParseToNumber(string source)
     {
-        decimal.TryParse(source?.Remove(source.Length - 1), out decimal spread);
+        decimal.TryParse(source?.Remove(source.Length - 1), out var spread);
         return spread;
     }
 

@@ -44,7 +44,7 @@ public class DownloadHandler
 
         private static bool IsImage(string fileExtension)
         {
-            string[] imageExtension = { "jpg", "jpeg", "png", "gif", "bmp" };
+            string[] imageExtension = ["jpg", "jpeg", "png", "gif", "bmp"];
             return imageExtension.Contains(fileExtension);
         }
     }
