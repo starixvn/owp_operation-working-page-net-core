@@ -163,9 +163,7 @@ public static class ServiceCollectionExtensions
             })
         });
 
-        ExceptionHandler
-            .UseConfig(new LoggingConfiguration())
-            .UseGetDbExceptionInfo(DatabaseInfoGetters.GetDbExceptionInfo);
+        ExceptionHandler.UseConfig(new LoggingConfiguration());
 
         return services;
     }
