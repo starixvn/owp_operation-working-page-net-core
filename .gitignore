@@ -44,6 +44,7 @@ node_modules
 /NAP.OWP.Websites/App_Data/Files/Readme.md
 *.ncrunchproject
 *.ncrunchsolution
-**/lcov.info
 **/coverage.json
 **/nCrunchTemp*.csproj
+**/lcov-report/**
+
