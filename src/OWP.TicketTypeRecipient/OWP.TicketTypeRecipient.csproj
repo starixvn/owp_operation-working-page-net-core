@@ -9,7 +9,7 @@
     <AdditionalFiles Include="..\..\.sonarlint\nap-owp-netcore\CSharp\SonarLint.xml" Link="SonarLint.xml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="MediatR" Version="12.1.1" />
+    <PackageReference Include="MediatR" Version="12.3.0" />
     <PackageReference Include="Olympus.Xml" Version="1.0.0.5" />
   </ItemGroup>
   <ItemGroup>

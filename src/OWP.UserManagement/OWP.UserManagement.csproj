@@ -5,8 +5,8 @@
     <Nullable>disable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="EPPlus" Version="6.2.10" />
-    <PackageReference Include="Epplus.Mapper" Version="6.0.0" />
+    <PackageReference Include="EPPlus" Version="7.2.0" />
+    <PackageReference Include="Epplus.Mapper" Version="7.0.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OWP\OWP.csproj" />

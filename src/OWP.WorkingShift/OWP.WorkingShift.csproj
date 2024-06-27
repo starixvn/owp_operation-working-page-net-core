@@ -8,12 +8,12 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="12.0.1" />
-    <PackageReference Include="Fanex.NAP.Client" Version="2.0.0" />
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="Fanex.NAP.Client" Version="2.0.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="EPPlus" Version="6.2.10" />
-    <PackageReference Include="Epplus.Mapper" Version="6.0.0" />
+    <PackageReference Include="EPPlus" Version="7.2.0" />
+    <PackageReference Include="Epplus.Mapper" Version="7.0.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OWP\OWP.csproj" />
