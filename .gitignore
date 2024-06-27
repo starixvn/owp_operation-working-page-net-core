@@ -47,4 +47,4 @@ node_modules
 **/coverage.json
 **/nCrunchTemp*.csproj
 **/lcov-report/**
-
+**/lcov.info

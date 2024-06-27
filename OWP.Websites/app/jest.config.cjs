@@ -40,7 +40,7 @@ module.exports = {
     [
       'lcov',
       {
-        'projectRoot': '<rootDir>'
+        'projectRoot': '../'
       }
     ],
     'text-summary'
