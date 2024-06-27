@@ -1,8 +1,8 @@
 ﻿namespace OWP.Event.LiveGameAssignment.EventPicking.Service;
 
 using AutoMapper;
-using OWP.Event.LiveGameAssignment.EventPicking.Criteria;
-using OWP.Event.LiveGameAssignment.EventPicking.Model;
+using Criteria;
+using Model;
 using System;
 using System.Collections.Generic;
 using System.Globalization;

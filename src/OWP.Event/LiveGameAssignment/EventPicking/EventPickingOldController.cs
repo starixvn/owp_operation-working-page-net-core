@@ -1,5 +1,6 @@
 ﻿namespace OWP.Event.LiveGameAssignment.EventPicking;
 
+using Constants;
 using Epplus.Mapper.Extensions;
 using Fanex.Logging;
 using Fanex.NAP.Client.Attributes;
@@ -11,7 +12,6 @@ using Model;
 using OfficeOpenXml;
 using Olympus.InfoSiteClient;
 using Olympus.InfoSiteClient.Models;
-using OWP.Constants;
 using OWP.Models;
 using OWP.Services;
 using Service;

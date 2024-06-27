@@ -1,10 +1,10 @@
 ﻿namespace OWP.Event.LiveGameAssignment.Download.Service;
 
 using AutoMapper;
-using OWP.Event.LiveGameAssignment.Download.Models;
-using OWP.Event.LiveGameAssignment.EventPicking;
+using EventPicking;
+using EventPicking.Model;
+using Models;
 using OWP.Event.LiveGameAssignment.EventPicking.Criteria;
-using OWP.Event.LiveGameAssignment.EventPicking.Model;
 using OWP.Event.LiveGameAssignment.EventPicking.Service;
 using System;
 using System.Collections.Generic;

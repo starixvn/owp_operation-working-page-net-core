@@ -1,6 +1,6 @@
 ﻿namespace OWP.Event.LiveGameAssignment.Models;
 
-using OWP.Extensions;
+using Extensions;
 
 [XMLName("Row")]
 public class MatchOddUpdateRow

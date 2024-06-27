@@ -1,8 +1,8 @@
 ﻿using OWP.Event.EventShared.Models;
 namespace OWP.Event.LiveGameAssignment.EventPicking.Model;
 
-using OWP.Event.LiveGameAssignment.EventPicking.Model.ViewModels;
 using System.Collections.Generic;
+using ViewModels;
 
 public class EventPickingModel : Pagination
 {

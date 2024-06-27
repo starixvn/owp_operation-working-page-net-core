@@ -2,16 +2,16 @@
 
 namespace OWP.Event.LiveGameAssignment.Download;
 
+using Constants;
 using Fanex.NAP.Client.Attributes;
 using Fanex.NAP.Client.Helpers.Business;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using OWP.Constants;
 using Models;
+using OWP.Models;
 using Service;
 using Services;
-using OWP.Models;
 using System;
 using System.CodeDom.Compiler;
 using System.Globalization;

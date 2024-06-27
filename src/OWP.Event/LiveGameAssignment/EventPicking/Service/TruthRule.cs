@@ -1,6 +1,6 @@
 ﻿namespace OWP.Event.LiveGameAssignment.EventPicking.Service;
-using OWP.Event.LiveGameAssignment.Download.Misc;
-using OWP.Event.LiveGameAssignment.EventPicking.Model;
+using Download.Misc;
+using Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,17 +1,17 @@
 ﻿namespace OWP.Event.LiveGameAssignment.Download.Models;
 
+using Extensions;
 using NPOI.HSSF.Util;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using OWP.Event.EventShared.Enum;
-using OWP.Event.LiveGameAssignment.Download.Extensions;
 using OWP.Extensions;
-using OWP.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Utils;
 
 public abstract class TemplateWriter // NOSONAR
 {
@@ -226,7 +226,9 @@ public class AssignmentWriter : TemplateWriter
         font.Color = fontColor.Index;
         font.FontHeightInPoints = 11;
         var cellStyle = (XSSFCellStyle)_sheet.Workbook.CreateCellStyle();
-        //cellStyle.SetFillForegroundColor(new XSSFColor(backgroundColor)); TODO
+
+        var rgb = new[] { backgroundColor.R, backgroundColor.G, backgroundColor.B };
+        cellStyle.SetFillForegroundColor(new XSSFColor(rgb));
         cellStyle.FillPattern = FillPattern.SolidForeground;
         cellStyle.SetFont(font);
 

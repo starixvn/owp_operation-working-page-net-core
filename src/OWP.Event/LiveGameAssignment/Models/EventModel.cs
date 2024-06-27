@@ -1,6 +1,6 @@
 ﻿namespace OWP.Event.LiveGameAssignment.Models;
 
-using OWP.Extensions;
+using Extensions;
 using System;
 using System.Collections.Generic;
 

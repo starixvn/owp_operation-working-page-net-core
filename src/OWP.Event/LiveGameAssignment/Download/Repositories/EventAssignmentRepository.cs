@@ -2,9 +2,9 @@
 
 namespace OWP.Event.LiveGameAssignment.Download.Repositories;
 
+using Enums;
+using EventShared.Helper;
 using Fanex.Data.Repository;
-using OWP.Enums;
-using OWP.Event.EventShared.Helper;
 using OWP.Event.EventShared.Models;
 using OWP.Services;
 using System.Collections.Generic;

@@ -3,16 +3,16 @@
 namespace OWP.Event.LiveGameAssignment;
 
 using Criteria;
+using EventShared.Builder;
+using Extensions;
 using Fanex.Data.Repository;
 using Fanex.NAP.Client.Helpers.Web;
 using Models;
-using OWP.Event.EventShared.Builder;
 using OWP.Event.EventShared.Enum;
 using OWP.Event.EventShared.Models;
-using OWP.Event.LiveGameAssignment.Services;
-using OWP.Extensions;
 using OWP.Models;
 using OWP.Services;
+using Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;

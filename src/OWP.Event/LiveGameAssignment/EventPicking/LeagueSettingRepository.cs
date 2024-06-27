@@ -1,8 +1,8 @@
 ﻿namespace OWP.Event.LiveGameAssignment.EventPicking;
 
+using Criteria;
 using Fanex.Data.Repository;
-using OWP.Event.LiveGameAssignment.EventPicking.Criteria;
-using OWP.Event.LiveGameAssignment.EventPicking.Model;
+using Model;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

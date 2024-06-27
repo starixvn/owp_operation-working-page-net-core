@@ -3,16 +3,16 @@
 namespace OWP.Event.LiveGameAssignment;
 
 using Constants;
+using Download.Service;
 using Fanex.NAP.Client.Attributes;
 using Fanex.NAP.Client.Helpers.Business;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Newtonsoft.Json;
-using OWP.Event.LiveGameAssignment.Download.Service;
-using OWP.Event.LiveGameAssignment.Services;
-using OWP.RabbitMQ;
 using OWP.RabbitMQ.Constants;
+using RabbitMQ;
+using Services;
 using System.Linq;
 using System.Threading.Tasks;
 
