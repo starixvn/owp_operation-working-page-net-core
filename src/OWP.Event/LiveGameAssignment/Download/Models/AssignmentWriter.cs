@@ -226,7 +226,7 @@ public class AssignmentWriter : TemplateWriter
         font.Color = fontColor.Index;
         font.FontHeightInPoints = 11;
         var cellStyle = (XSSFCellStyle)_sheet.Workbook.CreateCellStyle();
-        cellStyle.SetFillForegroundColor(new XSSFColor(backgroundColor));
+        //cellStyle.SetFillForegroundColor(new XSSFColor(backgroundColor)); TODO
         cellStyle.FillPattern = FillPattern.SolidForeground;
         cellStyle.SetFont(font);
 

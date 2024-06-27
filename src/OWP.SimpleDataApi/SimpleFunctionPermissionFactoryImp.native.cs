@@ -1,4 +1,6 @@
 ﻿
+using OWP.SimpleDataApi.Services;
+
 namespace OWP.SimpleDataApi;
 
 public class SimpleFunctionPermissionFactoryImp : SimpleFunctionPermissionFactoryBase

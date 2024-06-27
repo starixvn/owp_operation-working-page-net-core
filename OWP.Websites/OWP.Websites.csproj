@@ -152,7 +152,6 @@
     <None Include="wwwroot\shared\scss\vendors\_toastr-ex.scss" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
     <PackageReference Include="Fanex.Data.ProxyClient" Version="0.0.3" />
     <PackageReference Include="Fanex.Logging.Extensions.AspNetCore" Version="1.0.1" />
     <PackageReference Include="Fanex.Logging.Sentry.RavenClient" Version="1.0.1.2" />

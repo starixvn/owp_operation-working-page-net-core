@@ -1,4 +1,4 @@
-﻿
+﻿using OWP.SimpleDataApi.Services;
 
 namespace OWP.SimpleDataApi;
 
@@ -34,6 +34,7 @@ public class SimpleCriteriaFactoryImp : SimpleCriteriaFactoryBase
 
         CommandTypes.Add(ConstantApiKey.EmployeeWorkingShiftDeleteNote, typeof(EmployeeWorkingShiftDeleteNoteCriteria));
     }
+
     private static void RegisterLiveDetail()
     {
         CriteriaTypes.Add(ConstantApiKey.GetTelevisionSuggestion, typeof(GetTelevisionSuggestionCriteria));

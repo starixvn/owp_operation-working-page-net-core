@@ -1,5 +1,4 @@
 global using Fanex.NAP.Client.Helpers.Business;
-global using Olympus.SimpleDataApi;
 global using OWP.SimpleDataApi.Criteria.EmployeeWorkingShift;
 global using OWP.SimpleDataApi.Criteria.LeagueManagement;
 global using OWP.SimpleDataApi.Criteria.LiveDetail;

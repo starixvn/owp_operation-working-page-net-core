@@ -1,5 +1,9 @@
-﻿
-namespace OWP.SimpleDataApi.Mapper;
+﻿namespace OWP.SimpleDataApi.Services;
+
+public interface SimpleMapperService
+{
+    void Decorate(dynamic obj);
+}
 
 public class GoalIconMapperService : SimpleMapperService
 {
