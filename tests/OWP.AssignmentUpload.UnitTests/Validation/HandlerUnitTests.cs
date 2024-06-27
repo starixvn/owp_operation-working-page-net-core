@@ -29,7 +29,7 @@ public class HandlerUnitTests
         cacheManipulator = Substitute.For<CacheManipulator>();
         currentSession = Substitute.For<INapSession>();
         analyzer = Substitute.For<Analyzer>();
-        hostEnvironment = Substitute.For<IWebHostEnvironment>(); ;
+        hostEnvironment = Substitute.For<IWebHostEnvironment>();
 
         var emptyResult = new AnalyzedResult
         {

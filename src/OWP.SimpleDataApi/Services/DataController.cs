@@ -158,7 +158,7 @@ public class DataController : ControllerBase
         var clientIP = HttpContext.Request.Headers["x-forwarded-for"].ToString();
         if (string.IsNullOrWhiteSpace(clientIP))
         {
-            clientIP = HttpContext?.Connection?.RemoteIpAddress?.ToString();
+            clientIP = HttpContext.Connection.RemoteIpAddress?.ToString();
         }
 
         return clientIP;

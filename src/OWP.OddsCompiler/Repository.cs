@@ -9,8 +9,6 @@ using OWP.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using InfoSiteTimeModel = OWP.OddsCompiler.Models.InfoSiteTimeModel;
 
@@ -30,7 +28,7 @@ public interface Repository
     Task<IEnumerable<ReferenceResource>> GetResourceByName(string name);
 }
 
-public class RepositoryImp: Repository
+public class RepositoryImp : Repository
 {
     private readonly IDynamicRepository dynamicRepository;
     private readonly INapSession currentSession;
@@ -170,10 +168,6 @@ public class RepositoryImp: Repository
     {
         if (model.List == null || model.List.Count == 0)
         {
-            var resp = new HttpResponseMessage(HttpStatusCode.BadRequest)
-            {
-                Content = new StringContent("Invalid criteria")
-            };
         }
 
         var criteria = new DeleteOddsCompilerCriteria
@@ -319,14 +313,8 @@ public class RepositoryImp: Repository
         };
     }
 
-    private async Task<ResultDataObject> SendOddsCompilerNotificationWithBettype(int owpMatchId, IList<int> bettypes)
+    private async Task SendOddsCompilerNotificationWithBettype(int owpMatchId, IList<int> bettypes)
     {
-        var result = new ResultDataObject
-        {
-            Code = 0,
-            Message = ""
-        };
-
         foreach (var bettype in bettypes)
         {
             var getUserIdResult = await GetUsersToSendNotification(owpMatchId,
@@ -339,7 +327,7 @@ public class RepositoryImp: Repository
                 var assigneeIds = string.Join(",", listAssigneeIds.Select(x => x.UserId).ToArray());
                 var watcherIds = string.Join(",", listWatcherIds.Select(x => x.UserId).ToArray());
 
-                result = await SendOddsCompilerNotificationWithBettype(new OddsCompilerNotificationModel
+                await SendOddsCompilerNotificationWithBettype(new OddsCompilerNotificationModel
                 {
                     OWPMatchId = owpMatchId,
                     AssigneeIds = assigneeIds,
@@ -348,8 +336,6 @@ public class RepositoryImp: Repository
                 });
             }
         }
-
-        return result;
     }
 
     private async Task<ResultDataObject> SendOddsCompilerNotificationWithBettype(OddsCompilerNotificationModel model)

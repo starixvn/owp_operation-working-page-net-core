@@ -119,7 +119,7 @@ public static class WorkingShiftExtensionHelper
                     WorkingShift = workingShiftModel.ToArray(fromDate, toDate)
                 });
             }
-        };
+        }
 
         return groupWorkingShift;
     }

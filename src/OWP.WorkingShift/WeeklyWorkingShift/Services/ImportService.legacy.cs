@@ -268,7 +268,7 @@ public class ImportServiceImp : ImportService
         var result = new List<ValidateCellResult>();
         if (cell.Value == null)
         {
-            result.Add(new ValidateCellResult { Invalid = new ImportInvalidCell(cell.Address, "Name", $"EmployeeId cannot be empty") });
+            result.Add(new ValidateCellResult { Invalid = new ImportInvalidCell(cell.Address, "Name", "EmployeeId cannot be empty") });
 
             return result;
         }

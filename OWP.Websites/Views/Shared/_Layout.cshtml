@@ -53,7 +53,7 @@
 </head>
 
 <body class="site-menubar-fold">
-    @await Component.InvokeAsync("Header", new { title = title })
+    @await Component.InvokeAsync("Header", new { title })
     <main>
         @RenderBody()
         <div class="loading-process" style="display: none;">

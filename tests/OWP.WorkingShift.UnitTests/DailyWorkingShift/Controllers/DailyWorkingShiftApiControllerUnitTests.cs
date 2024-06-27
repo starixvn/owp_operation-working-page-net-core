@@ -21,7 +21,7 @@ public class DailyWorkingShiftControllerUnitTests
     public async Task SearchWorkingShiftDaily_Always_ReturnsDataFromService()
     {
         // Arrange
-        var queryResult = new QueryResult()
+        var queryResult = new QueryResult
         {
             Matches = new List<QueryMatchInfo>(),
             Users = new List<QueryUserGroup>()

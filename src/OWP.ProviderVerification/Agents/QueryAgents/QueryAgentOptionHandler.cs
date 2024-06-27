@@ -1,6 +1,6 @@
 namespace OWP.ProviderVerification.Agents.QueryAgents;
 
-public record QueryAgentOptionRequest() : Query<IEnumerable<AgentOption>>;
+public record QueryAgentOptionRequest : Query<IEnumerable<AgentOption>>;
 
 public class GetAgentOptionsHandler : QueryHandler<QueryAgentOptionRequest, IEnumerable<AgentOption>>
 {

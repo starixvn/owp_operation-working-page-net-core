@@ -22,7 +22,6 @@ public class RepositoryUnitTests
     private readonly WorkingShiftPublishRepository workingShiftPublishRepository;
     private readonly WorkingShiftRepository workingShiftRepository;
     private readonly UserRepository userRepository;
-    private readonly INapSettings settings;
 
     public RepositoryUnitTests()
     {
@@ -33,7 +32,7 @@ public class RepositoryUnitTests
         var workingShiftDefaultRepository = Substitute.For<WorkingShiftDefaultRepository>();
         workingShiftRepository = Substitute.For<WorkingShiftRepository>();
         userRepository = Substitute.For<UserRepository>();
-        settings = Substitute.For<INapSettings>();
+        var settings = Substitute.For<INapSettings>();
         currentSession.UserId.Returns(99);
         repository = new RepositoryImp(dynamicRepository,
             workingShiftColorRepository,

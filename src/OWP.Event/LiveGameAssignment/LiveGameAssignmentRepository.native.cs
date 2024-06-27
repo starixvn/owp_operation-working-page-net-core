@@ -626,7 +626,7 @@ public class LiveGameAssignmentRepositoryImp : LiveGameAssignmentRepository
                 KickOffTime = match.KickOffTime.ToKOTime(),
                 KickOffTimeStr = match.KickOffTime,
                 OtherTime = match.OtherTime?.ToKOTime(),
-                OtherTimeStr = match?.OtherTime,
+                OtherTimeStr = match.OtherTime,
                 LeagueGroup = match.LeagueGroup,
                 League = match.League,
                 Home = match.Home,

@@ -1,8 +1,8 @@
 ﻿
 namespace OWP.OddsCompiler;
-using System.Linq;
 using AutoMapper;
 using Models;
+using System.Linq;
 
 public class AutoMapperProfile : Profile
 {
@@ -29,9 +29,9 @@ public class AutoMapperProfile : Profile
             .ForMember(dest => dest.One, opt => opt.MapFrom(src => src.MatchOddsRow.OneXTwo.Odds1))
             .ForMember(dest => dest.Two, opt => opt.MapFrom(src => src.MatchOddsRow.OneXTwo.Odds2))
             .ForMember(dest => dest.X, opt => opt.MapFrom(src => src.MatchOddsRow.OneXTwo.Odds3))
-            .ForMember(dest => dest.MaxBetHDP, opt => opt.MapFrom((src, dest) => GetMB(src, hdpBettype)))
-            .ForMember(dest => dest.SpreadHDP, opt => opt.MapFrom((src, dest) => GetSpread(src, hdpBettype)))
-            .ForMember(dest => dest.SpreadOU, opt => opt.MapFrom((src, dest) => GetSpread(src, ouBettype)));
+            .ForMember(dest => dest.MaxBetHDP, opt => opt.MapFrom((src, _) => GetMB(src, hdpBettype)))
+            .ForMember(dest => dest.SpreadHDP, opt => opt.MapFrom((src, _) => GetSpread(src, hdpBettype)))
+            .ForMember(dest => dest.SpreadOU, opt => opt.MapFrom((src, _) => GetSpread(src, ouBettype)));
     }
 
     private static string GetMB(MatchInfoModel src, int bettype)

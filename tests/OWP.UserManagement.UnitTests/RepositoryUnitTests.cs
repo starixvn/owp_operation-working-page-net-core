@@ -21,11 +21,9 @@ public class RepositoryUnitTests
 
     private readonly RefResourceService resourceRepository;
 
-    private readonly INapSettings napSettings;
-
     public RepositoryUnitTests()
     {
-        napSettings = Substitute.For<INapSettings>(); ;
+        var napSettings = Substitute.For<INapSettings>();
         dynamicRepository = Substitute.For<IDynamicRepository>();
         resourceRepository = Substitute.For<RefResourceService>();
         repository = new RepositoryImp(dynamicRepository, napSettings, resourceRepository);
@@ -52,8 +50,8 @@ public class RepositoryUnitTests
             new() {UserId=2, UserName="starix15" }
         };
 
-        dynamicRepository.FetchAsync<User>(Arg.Compat.Any<QueryUsersCriteria>()).Returns(x => expected);
-        resourceRepository.GetRefResourcesByName(Arg.Compat.Any<string>()).Returns(x => new List<ReferenceResource>
+        dynamicRepository.FetchAsync<User>(Arg.Compat.Any<QueryUsersCriteria>()).Returns(_ => expected);
+        resourceRepository.GetRefResourcesByName(Arg.Compat.Any<string>()).Returns(_ => new List<ReferenceResource>
         {
             new() { Name="Language", Value="1", ResourceId=1}
         });

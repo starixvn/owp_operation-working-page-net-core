@@ -11,7 +11,7 @@ public class ExportExcelHandler : IRequestHandler<ExportExcelRequest, FileResult
 
     private readonly ExportService exportService;
 
-    public ExportExcelHandler(QueryEventPickingService queryEventPickingService, ConfigurationService configurationService, ExportService exportService)
+    public ExportExcelHandler(QueryEventPickingService queryEventPickingService, ExportService exportService)
     {
         this.queryEventPickingService = queryEventPickingService;
         this.exportService = exportService;
