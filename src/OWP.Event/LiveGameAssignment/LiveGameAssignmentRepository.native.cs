@@ -813,9 +813,16 @@ public class LiveGameAssignmentRepositoryImp : LiveGameAssignmentRepository
     public async Task<(string, string)> GetSyncOffVRLastUpdate(DateTime eventDate)
     {
         var criteria = new GetLastUpdatedSyncOffVRCriteria { EventDate = eventDate };
-        var result = await dynamicRepository.FetchAsync<(DateTime, string)>(criteria);
+        var result = await dynamicRepository.FetchAsync<SyncOffVRInfo>(criteria);
         var first = result.FirstOrDefault();
 
-        return (first.Item1.ToString("MMM dd, hh:mm tt"), first.Item2);
+        return (first.SyncDateTime.ToString("MMM dd, hh:mm tt"), first.Username);
     }
+}
+
+public class SyncOffVRInfo
+{
+    public DateTime SyncDateTime { get; set; }
+
+    public string Username { get; set; }
 }

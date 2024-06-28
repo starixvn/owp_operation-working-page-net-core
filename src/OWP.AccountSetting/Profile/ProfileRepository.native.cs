@@ -23,8 +23,15 @@ public class ProfileRepositoryImp : ProfileRepository
     public async Task<(string, string)> QueryUserProfileInfo()
     {
         var criteria = new GetUserProfileCriteria { UserId = session.UserId };
-        var result = await repository.FetchAsync<(string, string)>(criteria);
-
-        return result.FirstOrDefault();
+        var result = await repository.FetchAsync<UserProfile>(criteria);
+        var firstResult = result.FirstOrDefault();
+        return (firstResult.Username, firstResult.SavedFileName);
     }
+}
+
+public class UserProfile
+{
+    public string Username { get; set; }
+
+    public string SavedFileName { get; set; }
 }

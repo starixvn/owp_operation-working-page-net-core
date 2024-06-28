@@ -136,9 +136,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddScoped<IDynamicRepository, DynamicRepository>();
         services.AddScoped<RefResourceService, RefResourceServiceImp>();
-        services.AddSingleton<LogServiceWrapper, LogServiceWrapperImp>();
         services.AddSingleton<ConfigurationService, ConfigurationServiceImp>();
-        services.AddTransient<ScopedDynamicRepository, ScopedDynamicRepositoryImp>();
         services.AddScoped<CheckIsLiveStatusServices, CheckIsLiveStatusServicesImp>();
         services.AddScoped<GetAdminSiteMatchIdService, GetAdminSiteMatchIdServiceImp>();
         services.AddScoped<PermissionService, PermissionServiceImp>();
@@ -148,7 +146,6 @@ public static class ServiceCollectionExtensions
         services.AddScoped<OldNotificationService, OldNotificationServiceImp>();
         return services;
     }
-
 
     public static IServiceCollection AddFanexServices(this IServiceCollection services, IConfiguration configuration)
     {

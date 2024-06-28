@@ -4,7 +4,6 @@
 	    <Setting Key="OWP_RefResourceGetByName" SpName="OWP_RefResourceGetByName" DbName="DBOWP.bodb_OWP.wsv_owp" />
 	    <Setting Key="OWP_RefResourceGetAll" SpName="OWP_RefResourceGetAll" DbName="DBOWP.bodb_OWP.wsv_owp" />
 		<Setting Key="OWP_LiveGame_GetInfoSiteTime" SpName="OWP_LiveGame_GetInfoSiteTime" DbName="DBOWP.bodb_OWP.wsv_owp" />
-	    <Setting Key="OWP_LiveGame_GetLastUpdatedSync" SpName ="OWP_LiveGame_GetLastUpdatedSyncOffVR" DbName="DBOWP.bodb_OWP.wsv_owp" />
 	    <Setting Key="OWP_RefResource_Update" SpName="OWP_RefResource_Update" DbName="DBOWP.bodb_OWP.wsv_owp" />
 	    <Setting Key="OWP_RefResource_Insert" SpName="OWP_RefResource_Insert" DbName="DBOWP.bodb_OWP.wsv_owp" />
 	    <Setting Key="OWP_GetUserInfoById" SpName="OWP_GetUserInfoById" DbName="DBOWP.bodb_OWP.wsv_owp" />
@@ -431,8 +430,7 @@
 		<Setting Key="OWP_LiveGameAssignment_EditMainMatchToMinorMatch" SpName ="OWP_LiveGameAssignment_EditMainMatchToMinorMatch" DbName="DBOWP.bodb_OWP.wsv_owp" />
 		<Setting Key="OWP_LiveGameAssignment_GetLastUpdated" SpName ="OWP_LiveGameAssignment_GetLastUpdated" DbName="DBOWP.bodb_OWP.wsv_owp" />
 		<Setting Key="OWP_LiveGameAssignment_GetMatchStatusFromMainDB" SpName ="OWP_LiveGameAssignment_GetMatchStatusFromMainDB" DbName="DBACC.bodb02.wsv_nap" />
-		<Setting Key="OWP_LiveGame_GetLastUpdatedSync" SpName ="OWP_LiveGame_GetLastUpdatedSyncOffVR" DbName="DBOWP.bodb_OWP.wsv_owp" />
-		<Setting Key="OWP_LiveGame_GetLastUpdatedSync" SpName ="OWP_LiveGame_GetLastUpdatedSyncOffVR" DbName="DBOWP.bodb_OWP.wsv_owp" />
+		<Setting Key="OWP_LiveGame_GetLastUpdatedSyncOffVR" SpName ="OWP_LiveGame_GetLastUpdatedSyncOffVR" DbName="DBOWP.bodb_OWP.wsv_owp" />
 		<Setting Key="OWP_LiveGame_LogActionSyncOffVR" SpName ="OWP_LiveGame_LogActionSyncOffVR" DbName="DBOWP.bodb_OWP.wsv_owp" />
 		<Setting Key="OWP_LiveGame_GetOffVRMatches" SpName ="OWP_LiveGame_GetOffVRMatches" DbName="DBOWP.bodb_OWP.wsv_owp" />
 	</Function>

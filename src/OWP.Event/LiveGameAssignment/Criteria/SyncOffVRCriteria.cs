@@ -30,7 +30,7 @@ public class GetLastUpdatedSyncOffVRCriteria : CriteriaBase
 {
     public DateTime EventDate { get; set; }
 
-    public override string GetSettingKey() => "OWP_LiveGame_GetLastUpdatedSync";
+    public override string GetSettingKey() => "OWP_LiveGame_GetLastUpdatedSyncOffVR";
 
     public override bool IsValid() => true;
 }
