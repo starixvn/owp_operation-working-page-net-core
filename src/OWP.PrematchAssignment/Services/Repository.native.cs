@@ -79,9 +79,9 @@ public class RepositoryImp : Repository
         {
             EventDate = eventDate
         };
-        var result = (await dynamicRepository.FetchAsync<TimeSpan>(criteria)).ToList();
+        var result = (await dynamicRepository.FetchAsync<string>(criteria)).ToList();
 
-        return result.Any() ? new TimeSpan?(result.FirstOrDefault()) : null;
+        return result.Any() ? TimeSpan.Parse(result.FirstOrDefault()) : null;
     }
 
     public async Task<(List<PreMatchLeague>, List<InfoSiteMatch>)> QueryDayShiftPreMatchAssignments(QueryShiftPreMatchCriteria criteria)
