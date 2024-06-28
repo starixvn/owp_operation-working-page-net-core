@@ -9,6 +9,7 @@ import MaxbetManagement from './MaxbetManagement';
 jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
   useDispatch: jest.fn(),
+  createSelectorHook: jest.fn(),
   useStore: jest.fn()
 }));
 
