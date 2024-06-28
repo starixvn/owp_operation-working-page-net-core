@@ -1,5 +1,3 @@
-import { baseApiUrl } from '../Shared/Constants';
-
-const netCoreURLTicketTypeRecipient = `${baseApiUrl}/api/TicketTypeRecipient`;
+const netCoreURLTicketTypeRecipient = `/api/TicketTypeRecipient`;
 
 export { netCoreURLTicketTypeRecipient };

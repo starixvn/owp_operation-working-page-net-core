@@ -1,7 +1,6 @@
 import Axios from 'axios';
-import { baseApiUrl } from '../Shared/Constants';
 
-const netCoreURLTicKetCenter = `${baseApiUrl}/api/TicketCenter`;
+const netCoreURLTicKetCenter = `/api/TicketCenter`;
 
 const transformFunctionResponse = response =>
   response.data.map(data => ({

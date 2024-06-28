@@ -1,7 +1,6 @@
 import { TFilter } from '../type/type';
 import Utils from '../../Shared/Utils';
 import dayjs from 'dayjs';
-import { baseApiUrl } from '../../Shared/Constants';
 
 export const createModel = (eventModel: TFilter) => {
   return {
@@ -44,7 +43,7 @@ export const micsMatchUrl = (eventModel: TFilter) => {
 
 export const eventPickingListUrlNew = (eventModel: TFilter) => {
   const { selectedDate } = eventModel;
-  const url = `${baseApiUrl}/api/EventPicking/export-misc-match`;
+  const url = `/api/EventPicking/export-misc-match`;
   return `${url}?date=${Utils.formatDate(selectedDate)}`;
 };
 

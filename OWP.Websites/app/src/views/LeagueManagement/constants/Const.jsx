@@ -1,8 +1,6 @@
-import { baseApiUrl } from '../../Shared/Constants';
-
-const netCoreURLMaxbetSetting = `${baseApiUrl}/api/MaxbetSetting`;
-const netCoreURLResourceAssignment = `${baseApiUrl}/api/resource-assignment`;
-const netCoreURLLeagueManagement = `${baseApiUrl}/api/league-management`;
+const netCoreURLMaxbetSetting = `/api/MaxbetSetting`;
+const netCoreURLResourceAssignment = `/api/resource-assignment`;
+const netCoreURLLeagueManagement = `/api/league-management`;
 
 const matchOfferParam = '?refName=MatchOffer';
 

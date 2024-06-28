@@ -1,5 +1,5 @@
 import { StateCreator } from 'zustand';
-import { REQUEST_STATUS, baseApiUrl } from '../../Shared/Constants';
+import { REQUEST_STATUS } from '../../Shared/Constants';
 import { TFilter, TFilterOptionsResponse } from '../type';
 import axios from 'axios';
 import update from 'immutability-helper';
@@ -43,7 +43,7 @@ const createOptionsSliceNative: StateCreator<TFilter, [], [], TFilter> = (
     userGroups: []
   },
   async queryFilterOptions() {
-    const url = `${baseApiUrl}/api/UserManagement/query-filter-options`;
+    const url = `/api/UserManagement/query-filter-options`;
     const options = (await axios.get(url)).data as TFilterOptionsResponse;
 
     set(state =>

@@ -31,7 +31,6 @@ import {
 } from '../OSTable/OSTableSlice/reducer';
 import AssignmentUpload from '../AssignmentUpload';
 import { saveEditOfferLive } from '../../services/Service';
-import { baseApiUrl } from '../../../Shared/Constants';
 const propTypes = {
   policy: PropTypes.object.isRequired
 };
@@ -130,7 +129,7 @@ const FilterHeader = props => {
       );
       return;
     }
-    const url = `${baseApiUrl}/api/OtherSport${OtherSport.download}`;
+    const url = `/api/OtherSport${OtherSport.download}`;
     window.location.href = `${url}?From=${from}&To=${to}&Employee=${employee}&Sports=${sports}
     &OfferLives=${offerLives}&MatchStatuses=${matchStatuses}&LinkedMatches=${linkedMatches}`;
   };

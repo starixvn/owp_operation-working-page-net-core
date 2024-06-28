@@ -3,10 +3,9 @@ import { errorMessage } from '../osLeague.json';
 import { LogQuery, LogValue, TErrorMessage } from '../typing/osLeagueStateType';
 import { ISettingDetail } from '../typing/settingDetailType';
 import { Option, TCommonType, TDefaultSelected } from '../typing/type';
-import { baseApiUrl } from '../../Shared/Constants';
 
 const { required, duplicated } = errorMessage;
-const getURL = (urlName: string) => `${baseApiUrl}/api/OSLeague/${urlName}`;
+const getURL = (urlName: string) => `/api/OSLeague/${urlName}`;
 
 const detectLogChanged = (item: LogQuery) => {
   const logChanged: Array<LogValue> = [];

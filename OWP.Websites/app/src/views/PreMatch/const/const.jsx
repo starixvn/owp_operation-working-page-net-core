@@ -1,10 +1,9 @@
 import {
   NET_CORE_QUERY_SIMPLE_API,
-  NET_CORE_UPDATE_SIMPLE_API,
-  baseApiUrl
+  NET_CORE_UPDATE_SIMPLE_API
 } from '../../Shared/Constants';
 
-const url = `${baseApiUrl}/api/PreMatchAssignment`;
+const url = `/api/PreMatchAssignment`;
 
 const simpleApiQueryUrl = `${NET_CORE_QUERY_SIMPLE_API}`;
 

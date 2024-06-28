@@ -1,5 +1,3 @@
-import { baseApiUrl } from '../../Shared/Constants';
-
-const netCoreURLOtherSport = `${baseApiUrl}/api/OtherSport`;
+const netCoreURLOtherSport = `/api/OtherSport`;
 
 export { netCoreURLOtherSport };

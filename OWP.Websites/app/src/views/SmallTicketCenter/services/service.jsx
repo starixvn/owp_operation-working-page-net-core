@@ -1,7 +1,6 @@
-import { baseApiUrl } from '../../Shared/Constants';
 import { get } from '../../Shared/Service/Service';
 
-const netCoreURL = `${baseApiUrl}/api/TicketCenter`;
+const netCoreURL = `/api/TicketCenter`;
 
 const getStatusHistory = async ticketId => {
   const url = `${netCoreURL}/${URL.GET_STATUS_HISTORY}`;

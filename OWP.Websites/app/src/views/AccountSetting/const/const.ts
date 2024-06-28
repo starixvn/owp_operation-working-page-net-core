@@ -1,6 +1,6 @@
-import { NET_CORE_FILE_UPLOAD, baseApiUrl } from '../../Shared/Constants';
+import { NET_CORE_FILE_UPLOAD } from '../../Shared/Constants';
 
-const BASE_URL = `${baseApiUrl}/api/AccountSetting`;
+const BASE_URL = `/api/AccountSetting`;
 
 const createUrl = (base: string, endpoint: string) => `${base}/${endpoint}`;
 

@@ -1,4 +1,3 @@
-import { baseApiUrl } from '../../../Shared/Constants';
 import { DataSource, ModelSpecialProduct } from '../../type/TTaskListTable';
 
 const getNoteOrUserName = (
@@ -15,7 +14,7 @@ const getNoteOrUserName = (
   return note ? note.replace('#<user>', userNameText()) : '';
 };
 
-const buildRequestURL = (key: string) => `${baseApiUrl}/api/TaskList/${key}`;
+const buildRequestURL = (key: string) => `/api/TaskList/${key}`;
 
 const buildSpecialListModel = (dataSource: DataSource) => {
   const specialListModel: Array<ModelSpecialProduct> = [

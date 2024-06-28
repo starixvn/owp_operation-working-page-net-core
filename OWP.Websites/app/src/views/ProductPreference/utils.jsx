@@ -1,8 +1,7 @@
-import { baseApiUrl } from '../Shared/Constants';
 import queryString from 'query-string';
 
 const buildQueryDropdownOptionUrl = () =>
-  `${baseApiUrl}/api/ProductAssignment/get-dropdown-option`;
+  `/api/ProductAssignment/get-dropdown-option`;
 
 const buildQueryProductUrl = filterInfo => {
   const locationId = filterInfo.LocationId.join(',');
@@ -11,12 +10,11 @@ const buildQueryProductUrl = filterInfo => {
   const user = filterInfo.User;
 
   const params = queryString.stringify({ locationId, roleId, sectionId, user });
-  return `${baseApiUrl}/api/ProductAssignment?${params}`;
+  return `/api/ProductAssignment?${params}`;
 };
-const buildUpdateProductUrl = () => `${baseApiUrl}/api/ProductAssignment`;
+const buildUpdateProductUrl = () => `/api/ProductAssignment`;
 
-const buildLastUpdateUrl = () =>
-  `${baseApiUrl}/api/ProductAssignment/last-update`;
+const buildLastUpdateUrl = () => `/api/ProductAssignment/last-update`;
 
 const convertRefResourceResponseToDropdownOption = data =>
   data.map(d => ({

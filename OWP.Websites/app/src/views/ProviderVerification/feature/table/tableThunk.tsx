@@ -2,10 +2,9 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { get, post } from '../../../Shared/Service/Service';
 import Utils from '../../../Shared/Utils';
 import { TOptionResponse } from '../../type/agentConfirmOption';
-import { baseApiUrl } from '../../../Shared/Constants';
 
 const getUrl = (methodRoute: string) =>
-  `${baseApiUrl}/api/ProviderVerification/${methodRoute}`;
+  `/api/ProviderVerification/${methodRoute}`;
 
 const getEvents = createAsyncThunk(
   'provider-verification/get-event',

@@ -1,11 +1,10 @@
-import { baseApiUrl } from '../Shared/Constants';
 import { queryServerTime, queryData } from '../Shared/Service/ServiceCommon';
 
-const urlGetServerTime = `${baseApiUrl}/api/report/get-server-time`;
+const urlGetServerTime = `/api/report/get-server-time`;
 
-const urlGetLstData = `${baseApiUrl}/api/report/lst`;
+const urlGetLstData = `/api/report/lst`;
 
-const urlExportLst = `${baseApiUrl}/api/report/lst/export-excel`;
+const urlExportLst = `/api/report/lst/export-excel`;
 
 const query = async model => {
   const data = await queryData(model, urlGetLstData);

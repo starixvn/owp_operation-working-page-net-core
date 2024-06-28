@@ -1,7 +1,6 @@
 import axios from 'axios';
-import { baseApiUrl } from '../Shared/Constants';
 
-const buildUrl = () => `${baseApiUrl}/api/application/authorize`;
+const buildUrl = () => `/api/application/authorize`;
 
 const authorize = async functionKey => {
   const authorizeModel = {

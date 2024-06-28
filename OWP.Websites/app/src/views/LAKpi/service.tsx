@@ -1,10 +1,8 @@
-import { baseApiUrl } from '../Shared/Constants';
 import { get, post } from '../Shared/Service/Service';
 import Utils from '../Shared/Utils';
 import { Target } from './feature/type/TableType.native';
 
-const buildRequestURL = (key: string | null) =>
-  `${baseApiUrl}/api/kpi/la/${key}`;
+const buildRequestURL = (key: string | null) => `/api/kpi/la/${key}`;
 
 const queryDataTable = async (
   filterFromDate: Date,

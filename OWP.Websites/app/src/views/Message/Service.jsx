@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { baseApiUrl } from '../Shared/Constants';
+
 export const SystemMessageTypes = {
   Notification: 1,
   Announcement: 2,
@@ -65,11 +65,11 @@ export const PreMatchMessageTypes = {
   UpdateKOTime: 213
 };
 
-export const OpenPreMatchIssueURL = `${baseApiUrl}/api/Prematch-Assignment/on-click-issue-notification`;
+export const OpenPreMatchIssueURL = `/api/Prematch-Assignment/on-click-issue-notification`;
 
-export const openTicketCenterIssueURL = `${baseApiUrl}/api/TicketCenter/on-click-issue-notification`;
+export const openTicketCenterIssueURL = `/api/TicketCenter/on-click-issue-notification`;
 
-const buildMessageUrl = () => `${baseApiUrl}/api/application/message`;
+const buildMessageUrl = () => `/api/application/message`;
 
 const query = async (model = null) => {
   const response = await axios.get(buildMessageUrl(), {

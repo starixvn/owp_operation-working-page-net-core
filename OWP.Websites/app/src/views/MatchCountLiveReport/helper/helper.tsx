@@ -2,7 +2,6 @@ import { ReportData } from '../models/report-data';
 import { ColumnOrder } from '../typeNative';
 import { orderBy } from 'lodash';
 import { dateRangeDefault, dateRangeValid, time } from '../Const.json';
-import { baseApiUrl } from '../../Shared/Constants';
 
 const curr = new Date(Date.now());
 const toDateDefault = new Date(curr.setDate(curr.getDate() - 1));
@@ -17,8 +16,7 @@ const validDateRange = (fromDate: Date, toDate: Date) => {
 
 const getKeyValue = <T, K extends keyof T>(obj: T, key: K): T[K] => obj[key];
 
-const buildRequestURL = (key: string) =>
-  `${baseApiUrl}/api/MatchCountLiveReport/${key}`;
+const buildRequestURL = (key: string) => `/api/MatchCountLiveReport/${key}`;
 
 const sortDataReport = (
   currentData: ReportData[],

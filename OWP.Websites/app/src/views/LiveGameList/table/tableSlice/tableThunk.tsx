@@ -1,10 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { get } from '../../../Shared/Service/Service';
 import Utils from '../../../Shared/Utils';
-import { baseApiUrl } from '../../../Shared/Constants';
 
-const getUrl = (methodRoute: string) =>
-  `${baseApiUrl}/api/LiveGameList/${methodRoute}`;
+const getUrl = (methodRoute: string) => `/api/LiveGameList/${methodRoute}`;
 
 const getEvents = createAsyncThunk(
   'live-game-list/get-event',

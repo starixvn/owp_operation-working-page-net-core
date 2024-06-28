@@ -1,6 +1,5 @@
 import { isNil } from 'lodash';
-import { baseApiUrl } from '../../Constants';
-const basePath = `${baseApiUrl}api/TicketEvent`;
+const basePath = `api/TicketEvent`;
 
 const buildIsReadValue = (
   actorId: number,

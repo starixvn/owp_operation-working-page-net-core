@@ -1,6 +1,4 @@
-import { baseApiUrl } from '../Shared/Constants';
-
-const netCoreURLAssigneeSuggestion = `${baseApiUrl}/api/AssigneeSuggestion`;
+const netCoreURLAssigneeSuggestion = `/api/AssigneeSuggestion`;
 const buildRequestURL = (key: string) =>
   `${netCoreURLAssigneeSuggestion}/${key}`;
 

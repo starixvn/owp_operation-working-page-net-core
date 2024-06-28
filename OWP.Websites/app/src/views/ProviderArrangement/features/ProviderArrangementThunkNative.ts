@@ -7,10 +7,8 @@ import {
   UPDATE_PROVIDER_ARRANGEMENT
 } from '../const/ProviderArrangement.json';
 import { TQueryLogProviderArrangement } from './TypeNative';
-import { baseApiUrl } from '../../Shared/Constants';
 
-const buildRequestURL = (key: string) =>
-  `${baseApiUrl}/api/ProviderArrangement/${key}`;
+const buildRequestURL = (key: string) => `/api/ProviderArrangement/${key}`;
 
 const queryProviderArrangement = createAsyncThunk('queryProvider', async () => {
   const url = buildRequestURL(GET_PROVIDER);

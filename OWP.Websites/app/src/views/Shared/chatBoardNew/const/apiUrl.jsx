@@ -1,5 +1,3 @@
-import { baseApiUrl } from '../../Constants';
-
-const netCoreURLTicKetCenter = `${baseApiUrl}/api/TicketCenter`;
+const netCoreURLTicKetCenter = `/api/TicketCenter`;
 
 export { netCoreURLTicKetCenter };

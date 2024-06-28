@@ -1,5 +1,3 @@
-import { baseApiUrl } from '../../Shared/Constants';
-
-const netCoreURLEventPicking = `${baseApiUrl}/api/EventPicking`;
+const netCoreURLEventPicking = `/api/EventPicking`;
 
 export { netCoreURLEventPicking };

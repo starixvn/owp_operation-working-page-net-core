@@ -1,5 +1,5 @@
 import { StateCreator } from 'zustand';
-import { REQUEST_STATUS, baseApiUrl } from '../../Shared/Constants';
+import { REQUEST_STATUS } from '../../Shared/Constants';
 import { TDataTable, TDataTableResponse } from '../type';
 import { post } from '../../Shared/Service/Service';
 import update from 'immutability-helper';
@@ -20,7 +20,7 @@ const createDataTableSliceNative: StateCreator<
     );
 
     try {
-      const url = `${baseApiUrl}/api/UserManagement/query-user`;
+      const url = `/api/UserManagement/query-user`;
       const dataSource = await post({
         url,
         ...value
