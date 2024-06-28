@@ -1,15 +1,12 @@
 import FormMatchInfo from './FormMatchInfo';
-import EventAssignmentService from './Service';
+import {getSpecialEventTemplate} from '../helper/apiHelper';
 import {
-  act,
   fireEvent,
   render,
-  screen,
   waitFor
 } from '@testing-library/react';
 
-jest.mock('./Service');
-
+jest.mock('../helper/apiHelper');
 const getInfoSiteMatch = jest.fn();
 
 const matchStatusResponseData = [
@@ -37,7 +34,7 @@ const defaultProps = {
 
 describe('FormMatchInfo', () => {
   it('should select Live match status on Init', () => {
-    const { container, getByText } = render(
+    const { getByText } = render(
       <FormMatchInfo {...defaultProps} />
     );
     expect(getByText('Live')).toBeInTheDocument();
@@ -118,7 +115,7 @@ describe('FormMatchInfo', () => {
   });
 
   it('should update state when select SpecialEvent', async () => {
-    EventAssignmentService.getSpecialEventTemplate.mockReturnValue({
+    getSpecialEventTemplate.mockReturnValue({
       LeagueName: 'h - PENALTY',
       HomeName: 'h',
       AwayName: 'h 1st PENALTY Awarded - Yes'

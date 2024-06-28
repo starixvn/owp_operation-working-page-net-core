@@ -1,8 +1,8 @@
-import Converter from '../Shared/Converter';
+import Converter from '../../Shared/Converter';
 import FormProviderInfo from './FormProviderInfo';
 import { render, screen, act, fireEvent } from '@testing-library/react';
 
-jest.mock('../Shared/Converter');
+jest.mock('../../Shared/Converter');
 
 const allTelevisions = [
   {
