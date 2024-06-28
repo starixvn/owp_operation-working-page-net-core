@@ -6,7 +6,7 @@ import { resolve } from 'path';
 
 const appName = process.env.NODE_APP.trim();
 const outDir = resolve(__dirname, `../wwwroot/${appName}`);
-const nerCoreUrl = 'https://localhost:5001';
+const netCoreUrl = 'https://localhost:5001';
 const webSocket = 'ws://localhost:5000';
 
 export default defineConfig({
@@ -36,27 +36,27 @@ export default defineConfig({
         secure: false
       },
       '/Tickets': {
-        target: nerCoreUrl,
+        target: netCoreUrl,
         secure: false,
         changeOrigin: true
       },
       '/state-api': {
-        target: nerCoreUrl,
+        target: netCoreUrl,
         secure: false,
         changeOrigin: true
       },
       '/api': {
-        target: nerCoreUrl,
+        target: netCoreUrl,
         secure: false,
         changeOrigin: true
       },
       '/TaskScheduling': {
-        target: nerCoreUrl,
+        target: netCoreUrl,
         secure: false,
         changeOrigin: true
       },
       '/wwwroot': {
-        target: nerCoreUrl,
+        target: netCoreUrl,
         secure: false,
         changeOrigin: true
       }

@@ -98,16 +98,16 @@ class Header extends Component {
                   <NavLink
                     href='#'
                     className='cd-search-trigger cd-text-replace'
-                    onClick={() =>
-                      this.handleVisibleSearchArea(true)
-                    }></NavLink>
+                    onClick={() => this.handleVisibleSearchArea(true)}
+                  />
                 </CNavItem>
               )}
               <CNavItem>
                 <NavLink
                   href='Feedback'
                   className='cd-feedback'
-                  target='_blank'></NavLink>
+                  target='_blank'
+                />
               </CNavItem>
               <CNavItem>
                 <Notification />

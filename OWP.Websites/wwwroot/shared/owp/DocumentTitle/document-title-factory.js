@@ -4,7 +4,7 @@
 
 var documentTitleFactory = (function ($) {
     var urls = {
-        CountUnreadMessage: 'api/application/title/unread-message'
+        CountUnreadMessage: `${location.origin}/api/application/title/unread-message`
     };
 
     return {
