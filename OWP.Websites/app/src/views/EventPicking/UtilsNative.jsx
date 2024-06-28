@@ -1,13 +1,13 @@
 import axios from 'axios';
-import { netCoreURL } from './const/apiUrl';
+import { netCoreURLEventPicking } from './const/apiUrl';
 
-const exportExcelUrl = `${netCoreURL}/export-excel`;
+const exportExcelUrl = `${netCoreURLEventPicking}/export-excel`;
 
 const queryDataExcel = async (url, queryInfo) =>
   await axios.post(url, queryInfo, { responseType: 'blob' });
 
-const exportExcelLSTUrl = `${baseApiUrl}/api/EventPicking/export-excel-lst-format`;
+const exportExcelLSTUrl = `${netCoreURLEventPicking}/export-excel-lst-format`;
 
-const buildUrl = methodRoute => `${netCoreURL}/${methodRoute}`;
+const buildUrl = methodRoute => `${netCoreURLEventPicking}/${methodRoute}`;
 
 export { exportExcelUrl, exportExcelLSTUrl, queryDataExcel, buildUrl };

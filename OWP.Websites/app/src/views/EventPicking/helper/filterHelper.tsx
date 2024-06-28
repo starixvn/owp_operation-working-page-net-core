@@ -1,4 +1,4 @@
-import { netCoreURL } from '../const/apiUrl';
+import { netCoreURLEventPicking } from '../const/apiUrl';
 
 const currentDate = new Date();
 const timeRange = {
@@ -12,7 +12,7 @@ const minDate = new Date(
   currentDate.setDate(currentDate.getDate() - timeRange.maxPrevious)
 );
 const buildUrl = (methodRoute: Required<string>) =>
-  `${netCoreURL}/${methodRoute}`;
+  `${netCoreURLEventPicking}/${methodRoute}`;
 
 const handleCheckButton = (leagueName: string) => {
   const url = `LeagueManagement?leagueName=${leagueName}&isEqualLeague=true`;

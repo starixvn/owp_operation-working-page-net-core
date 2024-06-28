@@ -3,10 +3,10 @@ import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { get } from '../../Shared/Service/Service';
 import { getLogsHistory } from '../const/const.json';
-import { netCoreURL } from '../const/apiUrl';
+import { netCoreURLEventPicking } from '../const/apiUrl';
 import dayjs from 'dayjs';
 
-const resolveUrl = () => `${netCoreURL}/${getLogsHistory}`;
+const resolveUrl = () => `${netCoreURLEventPicking}/${getLogsHistory}`;
 
 const HistoryModal = props => {
   const { infoSiteMatchId, header, onToggle } = props;
