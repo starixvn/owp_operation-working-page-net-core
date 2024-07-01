@@ -12,7 +12,7 @@
   "scripts": {
     "eslint": "eslint src/**/*.jsx && eslint src/**/*.tsx",
     "test": "jest --coverage --config ./jest.config.cjs",
-    "test-coverage": "jest --ci -u --coverage", 
+    "test-coverage": "jest --ci -u --coverage",
     "stylelint": "stylelint src/**/*.scss",
     "lint": "npm run eslint && npm run stylelint",
     "fix": "eslint --fix src/**/*.jsx",
@@ -204,7 +204,7 @@
     "stylelint-scss": "^4.6.0",
     "ts-jest": "^29.1.0",
     "tslib": "^2.5.0",
-    "typescript": "^5.0.4",
+    "typescript": "^5.5.3",
     "vite": "^4.1.0",
     "vite-plugin-html": "^3.2.0"
   },
