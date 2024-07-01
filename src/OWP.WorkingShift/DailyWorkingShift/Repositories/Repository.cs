@@ -290,7 +290,7 @@ public class RepositoryImp : Repository
                 assignedMatch += matchAssignedTrader.Count > 0 || matchLA > 0 ? 1 : 0;
             }
 
-            assignmentStatistics.MatchSelected.Add(selectedMatch.Count());
+            assignmentStatistics.MatchSelected.Add(selectedMatch.Count);
             assignmentStatistics.MatchAssigned.Add(assignedMatch);
             assignmentStatistics.LAAssigned.Add(assignedLA.Count());
             assignmentStatistics.TraderAssigned.Add(assignedTrader.AsQueryable().Distinct().ToList().Count);

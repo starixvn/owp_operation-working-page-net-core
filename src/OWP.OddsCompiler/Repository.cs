@@ -168,6 +168,7 @@ public class RepositoryImp : Repository
     {
         if (model.List == null || model.List.Count == 0)
         {
+            return ResultDataObject.Ok;
         }
 
         var criteria = new DeleteOddsCompilerCriteria
