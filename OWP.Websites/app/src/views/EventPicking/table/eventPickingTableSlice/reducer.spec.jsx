@@ -6,12 +6,28 @@ import updateNoOfferMatchThunk from '../updateNoOfferMatchThunkNative';
 describe('eventPickingSlice', () => {
   it('should return initial state', () => {
     expect(eventPickingTable(undefined, {})).toEqual({
+      columnKeyFilterCurrent: "",
       entities: [],
       entitiesOriginal: [],
+      entitiesByDate: [],
       filterState: [],
       isConfirmAll: false,
       'isNoOfferAll': false,
-      loading: REQUEST_STATUS.idle
+      loading: REQUEST_STATUS.idle,
+      "multipleFilter":  {
+         "KO_Time":  {
+           "isFilter": false,
+           "options":  [],
+           "selected":  [],
+         },
+         "MB":  {
+           "isFilter": false,
+           "options":  [],
+           "selected":  [],
+         },
+       },
+       "previousNoOfferIndex": null,
+       "valueFilterAllColumn":  {},
     });
   });
   it('filterBySearchKey', () => {
@@ -30,15 +46,23 @@ describe('eventPickingSlice', () => {
           awayName: 'test away'
         }
       ],
-      filterState: []
+      filterState: [],
+      multipleFilter:{
+        MB:{
+          selected:[{
+            value: 1000
+          }]
+        },
+        KO_Time:{
+          selected:[{
+            value: new Date()
+          }]
+        }
+      }
     };
     const expectedState = {
       entities: [
-        {
-          leagueName: 'test league',
-          homeName: 'test home',
-          awayName: 'test away'
-        }
+       
       ],
       entitiesOriginal: [
         {
@@ -53,9 +77,25 @@ describe('eventPickingSlice', () => {
           keyword: 'league'
         }
       ],
-      isConfirmAll: false,
-      isNoOfferAll: false
-    };
+      isConfirmAll: true,
+      isNoOfferAll: true,
+      "multipleFilter":  {
+         "KO_Time":  {
+           "selected":  [
+              {
+               "value": new Date(),
+             },
+           ],
+         },
+         "MB":  {
+           "selected":  [
+              {
+               "value": 1000,
+             },
+           ],
+         },
+    }
+  };
     const action = {
       type: filterBySearchKey.type,
       payload: {
@@ -64,7 +104,7 @@ describe('eventPickingSlice', () => {
       }
     };
     const actual = eventPickingTable(state, action);
-    expect(expectedState).toEqual(actual);
+    expect(actual).toEqual(expectedState);
   });
   it('clearFilter', () => {
     const state = {

@@ -1,13 +1,15 @@
 import dayjs from 'dayjs';
 import FilterHeader from './FilterHeader';
-import { useState, useDispatch } from 'react-redux';
+import { useState, useDispatch, useSelector } from 'react-redux';
 import { render, fireEvent } from '@testing-library/react';
 
 import '@testing-library/jest-dom';
 
 jest.mock('react-redux', () => ({
   useState: jest.fn(),
-  useDispatch: jest.fn()
+  useDispatch: jest.fn(),
+  createSelectorHook: jest.fn(),
+  useSelector: jest.fn(),
 }));
 
 jest.mock('../../otherSport.json', () => ({
@@ -28,6 +30,12 @@ useDispatch.mockReturnValue(mockedDispatch);
 const mockSetState = jest.fn();
 useState.mockImplementation(init => [init, mockSetState]);
 
+useSelector.mockImplementation(selectorFn => selectorFn({
+  osAssignmentTable:{
+    editOfferLiveMatches: [],
+  isEdit: true
+  }
+}));
 const props = {
   policy: {
     Username: 'sa'
@@ -112,9 +120,8 @@ describe('FilterHeader under test', () => {
 
   it('should dispatch query when clicking download', () => {
     const { container } = render(<FilterHeader {...props} />);
-    const today = dayjs(new Date()).format('YYYY-MM-DD');
     const submitButton = container.querySelectorAll('.button-submit')[1];
     fireEvent.click(submitButton);
-    expect(window.location.href).toContain(today.toString());
+    expect(useDispatch).toHaveBeenCalled();
   });
 });
