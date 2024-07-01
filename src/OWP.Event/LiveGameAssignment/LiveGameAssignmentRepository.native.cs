@@ -816,7 +816,7 @@ public class LiveGameAssignmentRepositoryImp : LiveGameAssignmentRepository
         var result = await dynamicRepository.FetchAsync<SyncOffVRInfo>(criteria);
         var first = result.FirstOrDefault();
 
-        return (first.SyncDateTime.ToString("MMM dd, hh:mm tt"), first.Username);
+        return (first?.SyncDateTime.ToString("MMM dd, hh:mm tt"), first?.Username);
     }
 }
 
