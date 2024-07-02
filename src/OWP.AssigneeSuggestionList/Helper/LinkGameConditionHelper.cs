@@ -28,7 +28,9 @@ public static class LinkGameConditionHelper
 
         var groupedAssignments = new Dictionary<DateTime, List<AssignmentModel>>();
         List<AssignmentModel> currentGroup = null;
-        var currentGroupStartTime = sortedAssignments.FirstOrDefault(new AssignmentModel()).EventDateTime;
+        var currentGroupStartTime = sortedAssignments.Count != 0
+            ? sortedAssignments[0].EventDateTime
+            : new AssignmentModel().EventDateTime;
 
         foreach (var assignment in sortedAssignments)
         {

@@ -47,7 +47,9 @@ public class NotificationServiceImp : NotificationService
         var ticketReaders = await repository.GetTickerReaderInfoByTicketId(ticketInfo.TicketId);
         var lastComments = (await repository.GetTwoLastComment(new List<int> { ticketInfo.TicketId })).ToList();
         ticketInfo.Messages = lastComments;
-        ticketInfo.LastCommentDate = lastComments.FirstOrDefault(new MessageInfoModel()).CreatedDate;
+        ticketInfo.LastCommentDate = lastComments.Count != 0
+            ? lastComments[0].CreatedDate
+            : new MessageInfoModel().CreatedDate;
         foreach (var ticketReader in ticketReaders)
         {
             ticketInfo.IsPinned = ticketReader.IsPinned;

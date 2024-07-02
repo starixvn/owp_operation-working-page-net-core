@@ -111,7 +111,7 @@ public class NewTicketIssueLogWorkHandler : IRequestHandler<NewTicketIssueLogWor
             TypeName = request.TicketTypeName,
             TicketSubTypeName = request.SubTypeName,
             EventType = request.EventType ?? 0,
-            LastCommentDate = lastComments.FirstOrDefault(new MessageInfoModel()).CreatedDate,
+            LastCommentDate = lastComments.Count != 0 ? lastComments[0].CreatedDate : new MessageInfoModel().CreatedDate,
             TicketType = request.TicketType,
             TicketSubTypeId = request.SubType
         };
