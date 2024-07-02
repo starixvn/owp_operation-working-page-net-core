@@ -4,11 +4,16 @@ import PropTypes from 'prop-types';
 const propTypes = {
   reloadTicketCellTable: PropTypes.func,
   handleChangeStatus: PropTypes.func,
-  handleChangeSubtype: PropTypes.func
+  handleChangeSubtype: PropTypes.func,
+  changeMessageIconHandler: PropTypes.func
 };
 
 const SignalRWrapper = props => {
   const handlers = [
+    {
+      method: 'NotifyUpdateReactIconMessage',
+      handler: props.changeMessageIconHandler
+    },
     {
       method: 'NotifyNewMessageLga',
       handler: props.reloadTicketCellTable

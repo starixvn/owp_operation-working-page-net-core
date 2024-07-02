@@ -82,9 +82,9 @@ const TabSwitcher = () => {
         <CreateTicketLGAView creatorInfo={creatorInfo} />
         <CreateTicketBoardOther creatorInfo={creatorInfo} />
         <CreateTicketLiveIncident creatorInfo={creatorInfo} />
-        <TicketDetailBoard />
         <PopupDetail />
       </div>
+      <TicketDetailBoard />
     </>
   );
 };
