@@ -5,7 +5,7 @@ import { buildQuerySimpleApi } from '../../Shared/Constants';
 import { buildRequestURL } from '../../LiveDetail/buildUrlHelper';
 
 const netCoreURL = `/api/event-assignment`;
-const buildRequestURLForLGA = (key: string) => `${netCoreURL}${key}`;
+const buildRequestURLForLGA = (key: string) => `${netCoreURL}/${key}`;
 
 const queryMatchInfo = async (owpMatchId: number) => {
   const response = await axios.get(buildRequestURL('match-info'), {

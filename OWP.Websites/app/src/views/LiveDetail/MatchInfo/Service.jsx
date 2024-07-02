@@ -32,13 +32,13 @@ const updateTradingInfo = async model => {
 };
 
 const editEvent = async formModel => {
-  const url = buildRequestURLForLGA('/edit-event');
+  const url = buildRequestURLForLGA('edit-event');
   const response = await axios.post(url, formModel);
   return response.data;
 };
 
 const validateToEditEvent = async model => {
-  const url = buildRequestURLForLGA('/validate-to-edit-event');
+  const url = buildRequestURLForLGA('validate-to-edit-event');
   const response = await axios.post(url, model);
   return response.data;
 };

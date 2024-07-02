@@ -100,7 +100,7 @@ const formatTime = (value, startOf, formatOutput) => {
   if (!value) {
     return null;
   }
-  return dayjs(value).startOf(startOf).format(formatOutput);
+  return dayjs.utc(value).format(formatOutput);
 };
 
 const formatTimeForTicketLGAPopup = (value, startOf, formatOutput) => {
@@ -108,7 +108,7 @@ const formatTimeForTicketLGAPopup = (value, startOf, formatOutput) => {
     return null;
   }
 
-  return dayjs(value).startOf(startOf).format(formatOutput);
+  return dayjs.utc(value).format(formatOutput);
 };
 
 const formatTimeOsLastUpdate = dateStr =>
