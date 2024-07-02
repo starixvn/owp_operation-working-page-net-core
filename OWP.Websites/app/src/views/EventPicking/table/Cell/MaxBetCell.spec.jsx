@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react';
 const props = {
   dataSource: [
     {
-      maxBetHDP: '10K',
+      maxbetHdp: '10K',
       maxBetOU: '10K',
       rowColor: 'red'
     }
