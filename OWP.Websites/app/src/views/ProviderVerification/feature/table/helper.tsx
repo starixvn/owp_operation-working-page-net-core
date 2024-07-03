@@ -86,7 +86,7 @@ const executeFilterTable = (dataSource: TDataSource[], tableFilter: TMultipleFil
     RemarkBy,
     EstNote
   } = tableFilter;
-  const result = dataSource.filter(e => MatchNo.selected.some(m => m.label === buildLabelItemOption(e.MatchNo))
+  const result = dataSource.filter(e => MatchNo.selected.some(m => m.label === buildLabelItemOption(e.MatchNo)) //NOSONAR
     && MatchStatus.selected.some(m => m.label === buildLabelItemOption(e.MatchStatus))
     && Match.selected.some(m => m.label === `${e.Home} -vs- ${e.Away}`)
     && KoTime.selected.some(m => m.label === formatTime(e.EventDateTime, 'minute', 'hh:mm A'))

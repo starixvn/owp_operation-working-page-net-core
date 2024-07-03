@@ -34,12 +34,7 @@ export const eventPickingOldUrl = (eventModel: TFilter) => {
   )}`;
 };
 
-export const micsMatchUrl = (eventModel: TFilter) => {
-  const { selectedDate } = eventModel;
-  return `/event-picking-old/sync-event-picking?date=${Utils.formatDate(
-    selectedDate
-  )}`;
-};
+export const micsMatchUrl = (eventModel: TFilter) => eventPickingOldUrl(eventModel);
 
 export const eventPickingListUrlNew = (eventModel: TFilter) => {
   const { selectedDate } = eventModel;

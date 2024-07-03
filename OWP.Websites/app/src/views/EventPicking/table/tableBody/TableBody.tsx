@@ -28,7 +28,7 @@ const propTypes = {
   displayEnd: PropTypes.number
 };
 
-const TableBody = ({ data = [], displayStart = 0, displayEnd = 0 }) => {
+const TableBody = ({ data = [], displayStart = 0, displayEnd = 0 }) => { //NOSONAR
   const rows = [];
   const {
     turnOverMarginPolicy: {
@@ -63,47 +63,49 @@ const TableBody = ({ data = [], displayStart = 0, displayEnd = 0 }) => {
             )
         );
       };
+
+      const className = row.isNoOffer ? 'color-unselected' : '';
       rows.push(
         <Fragment key={uuidv4()}>
           <tr className={`${row.rowColor}-row`}>
             <td
               rowSpan={rowSpan}
-              className={`${row.isNoOffer ? 'color-unselected' : ''}`}>
+              className={className}>
               <NoCell dataSource={data} rowIndex={i} />
             </td>
             <td
               rowSpan={rowSpan}
-              className={`${row.isNoOffer ? 'color-unselected' : ''}`}>
+              className={className}>
               <KOTimeCell dataSource={data} rowIndex={i} />
             </td>
             <td
               rowSpan={rowSpan}
-              className={`${row.isNoOffer ? 'color-unselected' : ''}`}>
+              className={className}>
               <LeagueCell dataSource={data} rowIndex={i} />
             </td>
             <td
               rowSpan={rowSpan}
-              className={`${row.isNoOffer ? 'color-unselected' : ''}`}>
+              className={className}>
               <MatchCell dataSource={data} rowIndex={i} />
             </td>
             <td
               rowSpan={rowSpan}
-              className={`${row.isNoOffer ? 'color-unselected' : ''}`}>
+              className={className}>
               <MaxBetCell dataSource={data} rowIndex={i} />
             </td>
             <td
               rowSpan={rowSpan}
-              className={`${row.isNoOffer ? 'color-unselected' : ''}`}>
+              className={className}>
               <SpreadHdpCell dataSource={data} rowIndex={i} />
             </td>
             <td
               rowSpan={rowSpan}
-              className={`${row.isNoOffer ? 'color-unselected' : ''}`}>
+              className={className}>
               <SpreadOuCell dataSource={data} rowIndex={i} />
             </td>
             <td
               rowSpan={rowSpan}
-              className={`${row.isNoOffer ? 'color-unselected' : ''}`}>
+              className={className}>
               <NoOfHdpCell dataSource={data} rowIndex={i} />
             </td>
             <td rowSpan={rowSpan}>

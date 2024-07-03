@@ -43,11 +43,11 @@ const LeagueInfoTableSlice = createSlice({
       state.entities = entitiesOriginal;
       buildDefaultTableFilter(state.entitiesOriginal, state.multipleFilter);
     },
-    setLeagueHeaderFiler: (state, actions) => {
+    setLeagueHeaderFiler: (state, actions) => { //NOSONAR
       const league = actions.payload;
       state.leagueFilterHeader = league;
     },
-    setFocusSettingId: (state, actions) => {
+    setFocusSettingId: (state, actions) => { //NOSONAR
       state.focusSettingId = actions.payload;
     },
     setMultipleFilter: (

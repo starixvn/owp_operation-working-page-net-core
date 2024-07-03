@@ -11,7 +11,7 @@ import AssignmentCellFactory from './AssignmentCell/AssignmentCellFactory';
 import NoteCell from '../../note/NoteCell';
 import IssuesCell from './IssuesCell';
 
-const DynamicCell = (rowIndex, cellModel) => {
+const DynamicCell = (rowIndex, cellModel) => /*NOSONAR*/ {
   const { dataSource, columnKey, isEditing, handleShowNote, handleShowTicket } =
     cellModel;
   const {

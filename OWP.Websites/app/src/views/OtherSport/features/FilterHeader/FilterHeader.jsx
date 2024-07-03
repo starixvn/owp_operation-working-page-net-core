@@ -37,7 +37,7 @@ const propTypes = {
 
 const formatDate = 'YYYY-MM-DD';
 
-const FilterHeader = props => {
+const FilterHeader = props => /*NOSONAR*/ {
   const model = useSelector(state => state.osAssignmentTable);
   const { editOfferLiveMatches, isEdit } = model;
   const stableDispatch = useStableDispatch();

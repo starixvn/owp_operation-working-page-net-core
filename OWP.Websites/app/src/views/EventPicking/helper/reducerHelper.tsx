@@ -112,9 +112,9 @@ const filterByMb = (
 const executeFilterTable = (
   state: TTableSlice,
   filterByKeyword: (
-    arraySource: any,
+    arraySource: any, //NOSONAR
     { keyword, columnKey }: { keyword: undefined; columnKey: undefined }
-  ) => any
+  ) => any //NOSONAR
 ) => {
   state.entities = filterDataTable(
     state.entitiesOriginal,

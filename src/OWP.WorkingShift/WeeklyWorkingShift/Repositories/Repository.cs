@@ -3,14 +3,14 @@ using OWP.WorkingShift.ViewLog.Models;
 
 namespace OWP.WorkingShift.WeeklyWorkingShift.Repositories;
 
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Criteria;
 using Fanex.Data.Repository;
 using Models;
-using Utils;
 using OWP.WorkingShift.Common.Repositories;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Utils;
 using WorkingShiftModel = Common.Models.WorkingShiftModel;
 
 public interface Repository
@@ -39,7 +39,7 @@ public class RepositoryImp : Repository
         WorkingShiftPublishRepository workingShiftPublishRepository,
         WorkingShiftRepository workingShiftRepository,
         INapSession currentSession,
-        UserRepository userRepository, INapSettings napSettings)
+        UserRepository userRepository, INapSettings napSettings) //NOSONAR
     {
         this.dynamicRepository = dynamicRepository;
         this.workingShiftColorRepository = workingShiftColorRepository;

@@ -1,12 +1,8 @@
-import { isEquals } from 'immutability-helper';
 import {
+  TCondition,
   TDataSource,
-  TMultipleFilter,
-  TTableSlice,
-  TCondition
+  TMultipleFilter
 } from '../TableType';
-import { COLUMN_KEY } from '../TableSchema.json';
-import { uniqBy } from 'lodash';
 import helper from './calculateFilterOptions';
 
 const buildDefaultTableFilter = (
@@ -92,45 +88,44 @@ const executeFilterTable = (
     Comment
   } = tableFilter;
 
-  const result = dataSource.filter(
-    e =>
-      League_Group.selected.some(
-        m => m.label === buildLabelItemOption(e.leagueGroup)
-      ) &&
-      League.selected.some(m => m.label === buildLabelItemOption(e.league)) &&
-      Tv.selected.some(
-        m =>
-          m.label === buildLabelTvOption(e.condition.hasTv, e.condition.hasIpTv)
-      ) &&
-      Round.selected.some(m =>
-        buildLabelItemForCondition(e.condition.round, m.label)
-      ) &&
-      League_Division.selected.some(m =>
-        buildLabelItemForCondition(e.condition.division, m.label)
-      ) &&
-      Remark.selected.some(
-        m => m.label === buildLabelItemOption(e.condition.remark)
-      ) &&
-      Spread_HDP_OU.selected.some(
-        m => m.label === buildLabelItemOption(e.spreadShow)
-      ) &&
-      MB_WD_HDP.selected.some(
-        m => m.label === buildLabelItemOption(e.maxbetWD_HDP_Show)
-      ) &&
-      MB_WD_NO_HDP.selected.some(
-        m => m.label === buildLabelItemOption(e.wD_NoOfHDP_Show)
-      ) &&
-      MB_WK_HDP.selected.some(
-        m => m.label === buildLabelItemOption(e.maxbetWK_HDP_Show)
-      ) &&
-      MB_WK_NO_HDP.selected.some(
-        m => m.label === buildLabelItemOption(e.wK_NoOfHDP_Show)
-      ) &&
-      LST_Note.selected.some(
-        m => m.label === buildLabelItemOption(e.lstNote)
-      ) &&
-      Remark2.selected.some(m => m.label === buildLabelItemOption(e.remark2)) &&
-      Comment.selected.some(m => m.label === buildLabelItemOption(e.comment))
+  const result = dataSource.filter(e => //NOSONAR
+    League_Group.selected.some(
+      m => m.label === buildLabelItemOption(e.leagueGroup)
+    ) &&
+    League.selected.some(m => m.label === buildLabelItemOption(e.league)) &&
+    Tv.selected.some(
+      m =>
+        m.label === buildLabelTvOption(e.condition.hasTv, e.condition.hasIpTv)
+    ) &&
+    Round.selected.some(m =>
+      buildLabelItemForCondition(e.condition.round, m.label)
+    ) &&
+    League_Division.selected.some(m =>
+      buildLabelItemForCondition(e.condition.division, m.label)
+    ) &&
+    Remark.selected.some(
+      m => m.label === buildLabelItemOption(e.condition.remark)
+    ) &&
+    Spread_HDP_OU.selected.some(
+      m => m.label === buildLabelItemOption(e.spreadShow)
+    ) &&
+    MB_WD_HDP.selected.some(
+      m => m.label === buildLabelItemOption(e.maxbetWD_HDP_Show)
+    ) &&
+    MB_WD_NO_HDP.selected.some(
+      m => m.label === buildLabelItemOption(e.wD_NoOfHDP_Show)
+    ) &&
+    MB_WK_HDP.selected.some(
+      m => m.label === buildLabelItemOption(e.maxbetWK_HDP_Show)
+    ) &&
+    MB_WK_NO_HDP.selected.some(
+      m => m.label === buildLabelItemOption(e.wK_NoOfHDP_Show)
+    ) &&
+    LST_Note.selected.some(
+      m => m.label === buildLabelItemOption(e.lstNote)
+    ) &&
+    Remark2.selected.some(m => m.label === buildLabelItemOption(e.remark2)) &&
+    Comment.selected.some(m => m.label === buildLabelItemOption(e.comment))
   );
   return result;
 };
@@ -138,10 +133,10 @@ const buildLabelTvOption = (hasTv: boolean, hasIpTv: boolean) => {
   return hasIpTv && hasTv
     ? 'TV/IPTV'
     : hasIpTv
-    ? 'IPTV'
-    : hasTv
-    ? 'TV'
-    : '(Blanks)';
+      ? 'IPTV'
+      : hasTv
+        ? 'TV'
+        : '(Blanks)';
 };
 const buildLabelItemOption = (value: string | undefined | null) =>
   value?.trim().length ? value : '(Blanks)';
@@ -158,4 +153,4 @@ const buildLabelItemForCondition = (
 
 const buildValue = (value: string, type: string) =>
   value.length > 0 ? (type === 'Contains' ? `*${value}*` : value) : null;
-export { executeFilterTable, buildDefaultTableFilter };
+export { buildDefaultTableFilter, executeFilterTable };

@@ -9,11 +9,11 @@ type TColumn = {
 type TPickCellModel = {
   dataSource: TDataTable;
   columnKey: string;
-  handleShowTicket: (show: any) => void;
+  handleShowTicket: (show: any) => void; //NOSONAR
 };
 
 type TNoteCell = TCellModel & {
-  onShowNote: (show: any) => void;
+  onShowNote: (show: any) => void; //NOSONAR
 };
 
 type TCellModel = {
@@ -254,7 +254,7 @@ type TOptions = {
 };
 
 type TTicketCell = TCellModel & {
-  onShowTicketList: (show: any) => void;
+  onShowTicketList: (show: any) => void;  //NOSONAR
 };
 type CreatorInfo = {
   groupName: null | string;

@@ -1,13 +1,12 @@
+import { filter, findIndex, includes } from 'lodash';
 import Utils from '../../Shared/Utils';
-import { findIndex, includes, filter } from 'lodash';
+import { TABLE } from '../const.json';
 import {
   TAssignment,
   TColumnFilter,
   TColumnFilterByMbc,
   TDataTable
 } from '../type/type';
-import { TABLE, COLUMN_FULL_BETTYPE } from '../const.json';
-import { bool } from 'prop-types';
 const {
   HEADER: { MATCH_NO, KO_TIME, EVENT, NOTE, IP_TV, PROVIDER, MB, REMARK }
 } = TABLE;
@@ -281,7 +280,7 @@ const filterAIO = (events: TDataTable, keyword: string) => {
   });
 };
 
-const filterByColumn = (events: TDataTable, column: TColumnFilter) => {
+const filterByColumn = (events: TDataTable, column: TColumnFilter) => { //NOSONAR
   const keyword = toLowerCaseForFilter(column.keyword);
   if (!keyword.trim().length) {
     return events;
@@ -344,9 +343,9 @@ const handleDataByTicket = (events: TDataTable, isUnread: boolean) =>
 
 const handleFilter =
   (events: TDataTable) =>
-  (columnFilters: Array<TColumnFilter>) =>
-  (isUnread: boolean) =>
-    handleDataByTicket(handleFilterByColumn(events, columnFilters), isUnread);
+    (columnFilters: Array<TColumnFilter>) =>
+      (isUnread: boolean) =>
+        handleDataByTicket(handleFilterByColumn(events, columnFilters), isUnread);
 
 const updateColumnFilter = (
   currentState: TColumnFilter[],

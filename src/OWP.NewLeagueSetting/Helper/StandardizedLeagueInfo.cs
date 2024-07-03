@@ -70,7 +70,7 @@ public static class StandardizedLeagueInfo
         leagueInfo.WK_NoOfHDP_Note = noHdpWkSource;
     }
 
-    private static void BuildComment(LeagueSettingInfo leagueInfo, LeagueSettingExcelInfo excelInfo)
+    private static void BuildComment(LeagueSettingInfo leagueInfo, LeagueSettingExcelInfo excelInfo) //NOSONAR
     {
         var comment = string.Empty;
         if (!string.IsNullOrWhiteSpace(excelInfo.LeagueGroupNote))

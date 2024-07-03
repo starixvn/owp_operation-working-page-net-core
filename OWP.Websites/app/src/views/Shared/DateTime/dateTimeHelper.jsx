@@ -103,9 +103,8 @@ const formatTime = (value, _startOf, formatOutput) => {
   return dayjs.utc(value).format(formatOutput);
 };
 
-const formatTimeForTicketLGAPopup = (value, _startOf, formatOutput) => {
-  return formatTime(value, _startOf, formatOutput);
-};
+const formatTimeForTicketLGAPopup = (value, _startOf, formatOutput) =>
+  formatTime(value, _startOf, formatOutput);
 
 const formatTimeOsLastUpdate = dateStr =>
   dayjs.utc(dateStr).format('MMMM DD, YYYY hh:mm A');

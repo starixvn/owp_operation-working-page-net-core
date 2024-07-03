@@ -28,28 +28,28 @@ const Condition = (props: {
     setCheckedIPTV(event.currentTarget.checked);
   };
 
-  const renderRoundList = (rounds: TExpressionRow[]) => (
+  const renderRoundList = (roundLists: TExpressionRow[]) => (
     <RowsExpression
-      expressionList={rounds}
+      expressionList={roundLists}
       title='Round'
       property='round'
     />
   );
 
-  const renderDivisionList = (divisions: TExpressionRow[]) => (
+  const renderDivisionList = (divisionLists: TExpressionRow[]) => (
     <RowsExpression
-      expressionList={divisions}
+      expressionList={divisionLists}
       title='Division'
       property='division'
     />
   );
 
-  const renderRemark = (remark: string) => (
+  const renderRemark = (remarkLists: string) => (
     <>
       <div className='content'>
         <div className='left'>Remark</div>
         <CommonTextArea
-          value={remark}
+          value={remarkLists}
           inputKey='remark'
         />
       </div>
