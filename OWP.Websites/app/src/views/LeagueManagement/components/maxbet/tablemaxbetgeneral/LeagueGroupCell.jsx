@@ -41,7 +41,7 @@ const LeagueGroupCell = ({ dataSource, rowIndex }) => {
 
     if (confirmResult.value) {
       const model = {
-        LeagueGroupId: parseInt(GroupValue),
+        LeagueGroupId: parseInt(GroupValue, 10),
         OWPLeagueId,
         apiKey: MaxbetConst.maxbetUpdateLeagueGroupAPIKey
       };

@@ -132,11 +132,11 @@ public static class StandardizedLeagueInfo
 
     private static (bool hasTv, List<Condition> iptv) AnalyzeHasTv(string localTv)
     {
-        var split = localTv?.Split('/') ?? [];
+        var split = (localTv ?? string.Empty).Split('/');
         var condition = new List<Condition>();
-        var tv = split?.Where(t => t.Trim().Equals("TV", StringComparison.OrdinalIgnoreCase)) ?? new List<string>();
+        var tv = split.Where(t => t.Trim().Equals("TV", StringComparison.OrdinalIgnoreCase));
 
-        foreach (var iptv in split?.Except(tv))
+        foreach (var iptv in split.Except(tv))
         {
             condition.Add(new Condition(Type: "Contains", Value: iptv?.Trim()));
         }

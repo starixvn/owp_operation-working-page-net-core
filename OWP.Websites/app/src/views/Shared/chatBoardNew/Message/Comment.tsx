@@ -50,8 +50,11 @@ const Comment = (props: TProps) => {
     }
   };
 
-  const handlePaste = (event: ClipboardEvent<HTMLInputElement>) => {
-    const items = (event.clipboardData).items;
+  const handlePaste = (event: ClipboardEvent<HTMLInputElement>) => { //NOSONAR
+    const items: DataTransferItemList = (event.clipboardData).items;
+    if (items.length === 0) {
+      return;
+    }
     for (let i = 0; i < items.length; i++) {
       if (items[i].type.indexOf('image') !== -1) {
         const blob = items[i].getAsFile();

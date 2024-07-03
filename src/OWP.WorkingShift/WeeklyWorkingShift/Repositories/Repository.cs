@@ -33,13 +33,15 @@ public class RepositoryImp : Repository
     private readonly UserRepository userRepository;
     private readonly INapSettings napSettings;
 
-    public RepositoryImp(IDynamicRepository dynamicRepository,
+    public RepositoryImp( //NOSONAR
+        IDynamicRepository dynamicRepository,
         WorkingShiftColorRepository workingShiftColorRepository,
         WorkingShiftDefaultRepository workingShiftDefaultRepository,
         WorkingShiftPublishRepository workingShiftPublishRepository,
         WorkingShiftRepository workingShiftRepository,
         INapSession currentSession,
-        UserRepository userRepository, INapSettings napSettings) //NOSONAR
+        UserRepository userRepository,
+        INapSettings napSettings)
     {
         this.dynamicRepository = dynamicRepository;
         this.workingShiftColorRepository = workingShiftColorRepository;

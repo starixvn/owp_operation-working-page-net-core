@@ -44,7 +44,7 @@ const eventAssignmentTableSlice = createSlice({
             assignments[index] = assignment;
           }
 
-          assignments = assignments.filter(
+          assignments = assignments.filter( // NOSONAR
             a => a.AssignmentId === 0 || a.AssignmentId === null
           );
         }

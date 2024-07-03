@@ -17,7 +17,6 @@ public class AssigneeSuggestionHelperUnitTest
         var result = PropertyScheduleHelper.GetValidProperties(eventTime, fromTime, toTime);
 
         DeepAssert.Equal(["Yesterday_02h", "Yesterday_03h"], result);
-
     }
 }
 
