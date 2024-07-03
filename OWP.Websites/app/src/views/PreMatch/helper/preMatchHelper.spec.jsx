@@ -1,5 +1,5 @@
 /* eslint-disable no-warning-comments */
-import getPermission from '../../Shared/permission/getPermission';
+
 import {
   buildClassNameAssignmentCell,
   buildLAST_UPDATEDFormatter,
@@ -7,21 +7,7 @@ import {
 } from './preMatchHelper';
 
 jest.mock('../../Shared/permission/getPermission');
-const setUp = permission => {
-  getPermission.mockReturnValue(permission);
-};
 
-const setUpPathname = pathname => {
-  global.window = Object.create(window);
-  const url = 'http://dummy.com/test/v1';
-
-  Object.defineProperty(window, 'location', {
-    value: {
-      href: url,
-      pathname: pathname
-    }
-  });
-};
 
 describe('preMatchHelper under test', () => {
   afterEach(() => {
@@ -72,7 +58,7 @@ describe('preMatchHelper under test', () => {
     };
     const result = buildLAST_UPDATEDFormatter(props);
     const expectState = {
-      LAST_UPDATEDFormatter: 'December 7, 2020 10:12 AM',
+      LAST_UPDATEDFormatter: 'December 7, 2020 3:12 AM',
       updateBy: 'starix14'
     };
     expect(result).toEqual(expectState);

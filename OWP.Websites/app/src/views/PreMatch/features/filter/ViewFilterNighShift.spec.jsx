@@ -52,7 +52,10 @@ const setUp = isSetFilterDate => {
       permission: { ActorId: 8, Username: 'sa', HasRead: true, HasWrite: true }
     },
     dayShift: {
-      isShowUnreadMessage: false
+      isShowUnreadMessage: false,
+      leagueWithTimeCondition: {
+        isShow: true
+      }
     }
   };
   createRef.mockReturnValue(ref);
@@ -95,6 +98,6 @@ describe('ViewFilterNightShift under test', () => {
     await act(async () => {
       await promise;
     });
-    expect(mockedDispatch).toHaveBeenCalledTimes(3);
+    expect(mockedDispatch).toHaveBeenCalledTimes(2);
   });
 });

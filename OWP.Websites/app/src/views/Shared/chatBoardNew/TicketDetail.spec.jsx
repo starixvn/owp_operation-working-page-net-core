@@ -19,6 +19,7 @@ useDispatch.mockReturnValue(mockedDispatch);
 useSelector.mockImplementation(f =>
   f({
     chatBoard: {
+      isDisplayCloseButton: true,
       ticketDetail: {
         koTime: new Date(),
         ticketId: 0,

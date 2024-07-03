@@ -29,7 +29,8 @@ const setUp = isSetFilterDate => {
       filterDate: isSetFilterDate
         ? new Date('2020-09-16T08:36:55.768Z')
         : undefined,
-      matchOffers: [1, 2, 3]
+      matchOffers: [1, 2, 3],
+      earlyOffered: [1, 2, 3]
     },
     header: {
       info: {
@@ -48,7 +49,10 @@ const setUp = isSetFilterDate => {
       permission: { ActorId: 8, Username: 'sa', HasRead: true, HasWrite: true }
     },
     dayShift: {
-      isShowUnreadMessage: false
+      isShowUnreadMessage: false,
+      leagueWithTimeCondition: {
+        isShow: true
+      }
     }
   };
   createRef.mockReturnValue(ref);
