@@ -23,13 +23,13 @@ export const liveGameAssignmentUrl = (eventModel: TFilter) => {
     MatchType
   } = createModel(eventModel);
   const params = `date=${EventDate}&userName=${Username}&matchStatusIds=${MatchStatusIds.toString()}&lastUpdated=${''}&syncLiveStatus=${SyncLiveStatus}&matchType=${MatchType}&offVRs=${OffVRIds.toString()}`;
-  const url = `/export/download-live-game?${params}`;
+  const url = `export/download-live-game?${params}`;
   return url;
 };
 
 export const eventPickingOldUrl = (eventModel: TFilter) => {
   const { selectedDate } = eventModel;
-  return `/event-picking-old/sync-event-picking?date=${Utils.formatDate(
+  return `event-picking-old/sync-event-picking?date=${Utils.formatDate(
     selectedDate
   )}`;
 };
