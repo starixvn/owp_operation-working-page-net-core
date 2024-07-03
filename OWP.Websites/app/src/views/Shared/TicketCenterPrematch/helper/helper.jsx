@@ -1,7 +1,6 @@
 import { EVENT_TYPE, URL, TICKET_TYPE } from '../const/const.json';
 import { FunctionKeys } from '../../Constants';
 import getPermission from '../../permission/getPermission';
-import { isEqual } from 'lodash';
 
 const { LEAGUE, MATCH, OTHER, SUPPORT, LIVE_INCIDENT, LOG_WORK } = EVENT_TYPE;
 const {
@@ -25,30 +24,9 @@ const getDetailSegmentUrlByEventType = eventType => {
   return detailSegmentUrlLookupTable[eventType];
 };
 
-const segmentPrefix = [
-  'V1',
-  'V2',
-  'V3',
-  'V4',
-  'V5',
-  'V6',
-  'V7',
-  'Main',
-  'v1',
-  'v2',
-  'OWP-Staging',
-  'OWP'
-];
-
-const buildGoToMyTicketLink = () => {
-  if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-    return ``;
-  }
-  const segmentFirst = window.location.pathname.split('/')[1];
-  return segmentPrefix.some(seg => isEqual(seg, segmentFirst))
-    ? `/${segmentFirst}/MyTickets`
-    : `/MyTickets`;
-};
+const buildGoToMyTicketLink = () => (!process.env.NODE_ENV || process.env.NODE_ENV === 'development')
+? ''
+: '/MyTickets';
 
 const getMyTicketPermission = () => getPermission(FunctionKeys.Tickets);
 

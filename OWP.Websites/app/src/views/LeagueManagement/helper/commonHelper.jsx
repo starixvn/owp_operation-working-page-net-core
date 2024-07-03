@@ -148,29 +148,11 @@ const hasWriteOnPageMaxbetGeneral = policyData =>
   policyData.lstNotePolicy.HasWrite ||
   policyData.tvListPolicy.HasWrite;
 
-const segmentPrefix = [
-  'V1',
-  'V2',
-  'V3',
-  'V4',
-  'V5',
-  'V6',
-  'V7',
-  'Main',
-  'v1',
-  'v2',
-  'OWP-Staging',
-  'OWP'
-];
-
 const buildLeagueDetailLink = (id, leagueName, isActive) => {
   if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
     return `/${id}/${leagueName}/${isActive}`;
   }
-  const segmentFirst = window.location.pathname.split('/')[1];
-  return segmentPrefix.some(seg => isEqual(seg, segmentFirst))
-    ? `/${segmentFirst}/LeagueManagement/${id}/${leagueName}/${isActive}`
-    : `/LeagueManagement/${id}/${leagueName}/${isActive}`;
+  return `/LeagueManagement/${id}/${leagueName}/${isActive}`;
 };
 
 const buildMaxbetUrl = () => {
@@ -180,14 +162,8 @@ const buildMaxbetUrl = () => {
     maxbetGeneralUrl = '/';
     maxbetDetailUrl = '/:id/:leagueName/:isActive';
   } else {
-    const segmentFirst = window.location.pathname.split('/')[1];
-    if (segmentPrefix.some(seg => isEqual(seg, segmentFirst))) {
-      maxbetGeneralUrl = `/${segmentFirst}/LeagueManagement`;
-      maxbetDetailUrl = `/${segmentFirst}/LeagueManagement/:id/:leagueName/:isActive`;
-    } else {
-      maxbetGeneralUrl = '/LeagueManagement';
-      maxbetDetailUrl = '/LeagueManagement/:id/:leagueName/:isActive';
-    }
+    maxbetGeneralUrl = '/LeagueManagement';
+    maxbetDetailUrl = '/LeagueManagement/:id/:leagueName/:isActive';
   }
   return {
     maxbetGeneralUrl,
