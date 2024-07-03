@@ -8,14 +8,17 @@ interface AvatarDisplayProps {
   size?: number;
 }
 
-const AvatarDisplay: React.FC<AvatarDisplayProps> = ({ imageFileName, size = 27 }) => {
-  const imageUrl = getUrlTicketFile(imageFileName);
+const AvatarDisplay: React.FC<AvatarDisplayProps> = ({
+  imageFileName,
+  size = 27
+}) => {
+  const imageUrl = `/${getUrlTicketFile(imageFileName)}`;
   const handleClick = () => {
     window.open(imageUrl);
   };
 
   return (
-    <div >
+    <div>
       {imageFileName ? (
         <Avatar
           onClick={handleClick}
@@ -35,12 +38,12 @@ const AvatarDisplay: React.FC<AvatarDisplayProps> = ({ imageFileName, size = 27 
 const styles = {
   avatar: {
     borderRadius: '50%',
-    backgroundColor: '#f1eded',
+    backgroundColor: '#f1eded'
   },
   center: {
     borderRadius: '50%',
     backgroundColor: '#f1eded',
-    textAlign: 'center' as 'center',
+    textAlign: 'center' as 'center'
   }
 };
 

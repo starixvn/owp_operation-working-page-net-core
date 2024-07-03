@@ -6,8 +6,8 @@ const createUrl = (base: string, endpoint: string) => `${base}/${endpoint}`;
 
 const urlUploadFile = createUrl(NET_CORE_FILE_UPLOAD, 'upload');
 
-const urlGetProfileAvatar = createUrl(BASE_URL, 'get-user-profile');
-const urlSaveProfileAvatar = createUrl(BASE_URL, 'save-user-profile');
+const urlGetProfileAvatar = createUrl(BASE_URL, 'Profile/get-user-profile');
+const urlSaveProfileAvatar = createUrl(BASE_URL, 'Profile/save-user-profile');
 const urlGetQuickMessage = createUrl(
   BASE_URL,
   'QuickMessage/get-quick-message'
