@@ -99,7 +99,7 @@ public class EventAssignmentController : ControllerBase
     public async Task<IActionResult> AddEvent(AddEventViewModel model)
     {
         var result = await repository.AddEvent(model);
-        return Ok(result);
+        return Ok(JsonConvert.SerializeObject(result));
     }
 
     [Route("validate-to-edit-event")]
@@ -108,7 +108,7 @@ public class EventAssignmentController : ControllerBase
     public async Task<IActionResult> ValidateToEditEvent(EditMatchViewModel model)
     {
         var result = await repository.ValidateToEditEvent(model);
-        return Ok(result);
+        return Ok(JsonConvert.SerializeObject(result));
     }
 
     [Route("edit-event")]
@@ -124,7 +124,7 @@ public class EventAssignmentController : ControllerBase
             messageClient.SendMessage(new { SessionId = sessionId }, RoutingKey.LiveDetail);
         }
 
-        return Ok(result);
+        return Ok(JsonConvert.SerializeObject(result));
     }
 
     [Route("sync-off-vr")]
