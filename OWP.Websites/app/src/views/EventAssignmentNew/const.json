@@ -271,7 +271,7 @@
       "IS_CAN_FILTER": true
     }
   ],
-  "syncOffVRKey": "/sync-off-vr",
-  "lastUpdateSyncOffVRKey": "/get-sync-off-vr-last-updated",
-  "lastUpdateEventAssignment": "/get-last-updated"
+  "syncOffVRKey": "sync-off-vr",
+  "lastUpdateSyncOffVRKey": "get-sync-off-vr-last-updated",
+  "lastUpdateEventAssignment": "get-last-updated"
 }
