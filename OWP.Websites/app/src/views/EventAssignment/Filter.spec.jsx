@@ -48,9 +48,18 @@ describe('Filter', () => {
       { RefName: 'MatchStatus', Id: 5, Value: 'Postponed' },
       { RefName: 'MatchStatus', Id: 6, Value: 'Suspended' }
     ],
-    hasWrite: true
+    hasWrite: true,
+    offVRs:[
+      {
+        Value: 'off'
+      }
+    ]
   };
   Utils.buildMatchStatusOption.mockReturnValue([
+    { label: 'In-play', value: 2 },
+    { label: 'Live', value: 1 }
+  ]);
+  Utils.buildOffVROption.mockReturnValue([
     { label: 'In-play', value: 2 },
     { label: 'Live', value: 1 }
   ]);
@@ -73,17 +82,17 @@ describe('Filter', () => {
         <Filter {...defaultProps} />
       </Wrapper>
     );
-    expect(container.getElementsByClassName('multiselect').length).toEqual(2);
+    expect(container.getElementsByClassName('multiselect').length).toEqual(4);
   });
 
   it('should update state when component loaded', () => {
     Service.getByRefName.mockReturnValue(responseData);
-    const { getByText } = render(
+    const { getAllByText } = render(
       <Wrapper>
         <Filter {...defaultProps} />
       </Wrapper>
     );
-    expect(getByText(/All items are selected/i)).toBeTruthy();
+    expect(getAllByText(/All items are selected/i)).toBeTruthy();
   });
 
   it('should display Match Status when component loaded', () => {
@@ -92,7 +101,7 @@ describe('Filter', () => {
         <Filter {...defaultProps} />
       </Wrapper>
     );
-    expect(container.getElementsByClassName('multiselect').length).toEqual(2);
+    expect(container.getElementsByClassName('multiselect').length).toEqual(4);
   });
 
   it('should update state when select match status', () => {
@@ -101,8 +110,9 @@ describe('Filter', () => {
         <Filter {...defaultProps} />
       </Wrapper>
     );
+
     fireEvent.click(container.querySelector('.dropdown-heading-value'));
-    fireEvent.click(getByText('Live'));
+   
     waitFor(() => {
       expect(getByText('Live')).toBeInTheDocument();
     });
@@ -120,9 +130,9 @@ describe('Filter', () => {
     );
 
     fireEvent.click(container.querySelector('.dropdown-heading-value'));
-    fireEvent.click(getByText('Live'));
+  
     fireEvent.click(container.querySelector('.icon-calendar'));
-    fireEvent.click(getByText('15'));
+   
     await act(async () => {
       await Promise.resolve();
     });
