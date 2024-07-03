@@ -30,8 +30,6 @@ import { FunctionKeys } from '../Shared/Constants';
 import { post } from '../Shared/Service/Service';
 import { configSignalR } from '../Shared/NetCoreSignalR/NetCoreSignalRService';
 import { isEqual } from 'lodash';
-import { isEquals } from 'immutability-helper';
-import { openNewChattingTab } from '../Shared/Utils';
 
 const $ = window.jQuery;
 const classNameToast = 'Toastify__toast--blink';
@@ -89,7 +87,7 @@ class Notification extends Component {
 
   async handleClickTicketCenterNotification(event, rest) {
     if (event.altKey) {
-      openNewChattingTab(rest.actorId, rest.ticketId, rest.eventType);
+      Utils.openNewChattingTab(rest.actorId, rest.ticketId, rest.eventType);
       return;
     }
     const model = {
@@ -394,57 +392,6 @@ class Notification extends Component {
     const connection = configSignalR(hub.hubName);
 
     if (connection) {
-      // connection.start().then(() => {
-      //   connection.on(hub.method, data => {
-      //     const { isImportant, messageContent, messageType, ...rest } =
-      //       data.message;
-
-      //     if (!isImportant) {
-      //       return;
-      //     }
-
-      //     window.pushNotification(data.message);
-
-      //     let formattedMessageContent = MessageService.customizeOSContent(
-      //       messageType,
-      //       messageContent
-      //     );
-
-      //     formattedMessageContent = MessageService.customizePreMatchContent(
-      //       messageType,
-      //       formattedMessageContent
-      //     );
-
-      //     formattedMessageContent = MessageService.customizeTicketCenterContent(
-      //       messageType,
-      //       formattedMessageContent
-      //     );
-
-      //     formattedMessageContent = MessageService.customizeLiveDetailContent(
-      //       messageType,
-      //       formattedMessageContent
-      //     );
-
-      //     const notificationContent = this.renderToastContent(
-      //       formattedMessageContent
-      //     );
-      //     const notificationTypes = this.getNetCoreNotificationTypes(
-      //       notificationContent,
-      //       rest
-      //     );
-      //     isEqual(process.env.NODE_ENV, 'production') &&
-      //       // eslint-disable-next-line no-warning-comments
-      //       documentTitle.BlinkDocumentTitle(data.message); // NOSONAR
-
-      //     const type = notificationTypes.find(x => x.type === messageType);
-
-      //     if (type) {
-      //       type.handler();
-      //     } else {
-      //       this.showInfo(notificationContent);
-      //     }
-      //   });
-      // });
       connection.on(hub.method, data => {
         const { isImportant, messageContent, messageType, ...rest } =
           data.message;

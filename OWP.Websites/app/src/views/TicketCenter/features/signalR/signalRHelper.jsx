@@ -1,6 +1,9 @@
 import { throttle, isUndefined } from 'lodash';
 import { refreshEventTickets } from '../../ImportTicketCenterHelperNative';
-import { getTicketDetail } from '../../../Shared/chatBoardNew/chatBoardSlice';
+import {
+  getTicketDetail,
+  updateSubTypeTicketDetailByTicketId
+} from '../../../Shared/chatBoardNew/chatBoardSlice';
 import store from '../../app/storeNative';
 import dayjs from 'dayjs';
 import {
@@ -8,8 +11,6 @@ import {
   removeTicketItemFromDataSource,
   updateSubTypeByTicketId
 } from '../Table/eventSlice/eventCheckingSlice';
-import { updateSubTypeTicketDetailByTicketId } from '../../../Shared/chatBoardNew/chatBoardSlice';
-
 const reloadTicketCenterTable = model => {
   const { filterModel, issueModel } = model.signalR;
   const { isOpenPopup } = model.chatBoard;
@@ -41,13 +42,15 @@ const updateTicketInfo = (ticketInfo, isOpenPopup) => {
 };
 
 const checkAllFilterCondition = (filterModel, ticketInfo) => {
-  return (
-    checkFilterDate(filterModel, ticketInfo) &&
-    checkFilterEvent(filterModel, ticketInfo) &&
-    checkFilterTicketId(filterModel, ticketInfo) &&
-    checkFilterTicketSubTypeId(filterModel, ticketInfo) &&
+  const conditions = [
+    checkFilterDate(filterModel, ticketInfo),
+    checkFilterEvent(filterModel, ticketInfo),
+    checkFilterTicketId(filterModel, ticketInfo),
+    checkFilterTicketSubTypeId(filterModel, ticketInfo),
     checkFilterStatus(filterModel, ticketInfo)
-  );
+  ];
+
+  return conditions.every(condition => condition);
 };
 
 const checkFilterDate = (filterModel, ticketInfo) => {
@@ -93,9 +96,8 @@ const checkFilterTicketSubTypeId = (filterModel, ticketInfo) => {
   return listSubTypeIdFilterModel.some(x => x === ticketSubTypeId);
 };
 
-const checkFilterStatus = (filterModel, ticketInfo) => {
-  return filterModel.TicketStatuses.includes(ticketInfo.ticketStatus);
-};
+const checkFilterStatus = (filterModel, ticketInfo) =>
+  filterModel.TicketStatuses.includes(ticketInfo.ticketStatus);
 
 export {
   reloadTicketCenterTable,

@@ -36,7 +36,7 @@ const TableBody = ({ data = '', displayStart = 0, displayEnd = 0 }) => {
     const rowColor = `${buildColorRowTable(row)} ${
       i % 2 === 1 ? 'odd-row' : 'even-row'
     }`;
-    if (row !== undefined) {
+    if (row != null) {
       const ouSpecificBetTypeGroupListModel = buildSpecialListModel(row);
       const buildElementOtherTrader = () => {
         return ouSpecificBetTypeGroupListModel.map(

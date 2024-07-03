@@ -81,18 +81,20 @@ const filterHomeOrAwayByKeyword = (
   }
   const keyWordFormat = keyword.toLowerCase();
 
-  if (columnKey === 'League') {
-    return arraySource.filter(item =>
-      item.league.toLowerCase().includes(keyWordFormat)
-    );
-  }
+  if (typeof columnKey === 'string') {
+    if (columnKey === 'League') {
+      return arraySource.filter(item =>
+        item.league.toLowerCase().includes(keyWordFormat)
+      );
+    }
 
-  if (columnKey === 'Match') {
-    return arraySource.filter(
-      item =>
-        item.homeName.toLowerCase().includes(keyWordFormat) ||
-        item.away.toLowerCase().includes(keyWordFormat)
-    );
+    if (columnKey === 'Match') {
+      return arraySource.filter(
+        item =>
+          item.homeName.toLowerCase().includes(keyWordFormat) ||
+          item.away.toLowerCase().includes(keyWordFormat)
+      );
+    }
   }
   return arraySource || [];
 };

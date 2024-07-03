@@ -42,9 +42,7 @@ const StatusCell = props => {
   const buildOfferLiveBorderColor = () =>
     offerLiveColors[offerLiveLowerCase] || null;
 
-  const buildOfferLive = () => {
-    return offerLiveLowerCase === 'live' ? 'LIVE' : '';
-  };
+  const buildOfferLive = () => (offerLiveLowerCase === 'live' ? 'LIVE' : '');
 
   const renderLinkedMatch = row => {
     const renderIcon = () =>

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { OWPBody, OWPHeader } from '../Shared/common/OWP/OPWPage';
-import AssignmentUpload from './features/AssignmentUpload';
 import store from './app/store';
 import { Provider } from 'react-redux';
 import OSTable from './features/OSTable/OSTable';

@@ -8,8 +8,7 @@ import {
 } from '../../chatBoardNew/chatBoardSlice';
 import {
   closeCreatePopup,
-  openPopupCreateTicketInLGA,
-  setSubTypeSelected
+  openPopupCreateTicketInLGA
 } from '../../createTicketNew/createTicketBoardSliceNew';
 
 const propTypes = {

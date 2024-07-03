@@ -18,7 +18,6 @@ import {
 import { SYNC_LIVE_OPTION } from './constants/SyncLive';
 import { MATCH_TYPE_OPTION } from './constants/MatchType';
 import { setFilterDate } from './reducer/tableReducer';
-import Service from './Service';
 
 const propTypes = {
   hasWrite: PropTypes.bool.isRequired,

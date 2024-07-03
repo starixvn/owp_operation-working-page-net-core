@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import { MultiSelect } from 'react-multi-select-component';
 import { useDispatch } from 'react-redux';
 

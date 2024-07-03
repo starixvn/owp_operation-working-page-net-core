@@ -9,12 +9,16 @@ export const RecipientsSelectedList = ({
   collapsed = false,
   onToggleList = f => f
 }) => {
-  const getLabelTag = item =>
-    item.recipientType === 2 ||
-    item.recipientType === 3 ||
-    item.recipientType === 4
-      ? item.groupName
-      : item.userName || item.nickName;
+  const getLabelTag = item => {
+    const isGroup =
+      item.recipientType === 2 ||
+      item.recipientType === 3 ||
+      item.recipientType === 4;
+    if (isGroup) {
+      return item.groupName;
+    }
+    return item.userName || item.nickName;
+  };
 
   const chips = items.map(item => (
     <Chip

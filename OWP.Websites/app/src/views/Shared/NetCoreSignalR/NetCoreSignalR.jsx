@@ -6,15 +6,13 @@ const NetCoreSignalR = props => {
   const connection = configSignalR(props.hubName);
 
   const registerSignalRHandler = () => {
-    try{
-      if(connection){
+    try {
+      if (connection) {
         props.handlers.forEach(x => {
           connection && connection.on(x.method, x.handler);
         });
       }
-    }catch(error){
-      console.error(err);
-    };
+    } catch (error) {}
   };
 
   const executeDisconnect = () => {

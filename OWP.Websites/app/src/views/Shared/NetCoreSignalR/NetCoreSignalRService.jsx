@@ -11,15 +11,10 @@ const configSignalR = hubName => {
       transport: HttpTransportType.WebSockets
     })
     .withAutomaticReconnect()
-    .configureLogging(LogLevel.Error)
+    .configureLogging(LogLevel.Information)
     .build();
   (async () => {
-    try {
-      await connection.start();
-      console.log('[Net core] SignalR Connected.');
-    } catch (err) {
-      console.log(err);
-    }
+    await connection.start();
   })();
 
   return connection;

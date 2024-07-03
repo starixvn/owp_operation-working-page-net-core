@@ -40,7 +40,7 @@ const saveAgentConfirm = createAsyncThunk(
       url,
       ...data
     };
-    return await post(prop);
+    return post(prop);
   }
 );
 
@@ -52,7 +52,7 @@ const saveESTNote = createAsyncThunk(
       url,
       ...data
     };
-    return await post(prop);
+    return post(prop);
   }
 );
 
@@ -64,7 +64,7 @@ const saveESTAgent = createAsyncThunk(
       url,
       ...data
     };
-    return await post(prop);
+    return post(prop);
   }
 );
 

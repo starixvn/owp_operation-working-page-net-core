@@ -45,8 +45,7 @@ const checkFilterTicketSubTypeId = (filterModel, ticketInfo) => {
   return listSubTypeIdFilterModel.some(x => x === ticketSubTypeId);
 };
 
-const checkFilterStatus = (filterModel, ticketInfo) => {
-  return filterModel.ticketStatuses.includes(ticketInfo.ticketStatus);
-};
+const checkFilterStatus = (filterModel, ticketInfo) =>
+  filterModel.ticketStatuses.includes(ticketInfo.ticketStatus);
 
 export { checkAllFilterCondition };
