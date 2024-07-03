@@ -1,7 +1,7 @@
 import { Ref, forwardRef } from 'react';
 
 type TPopup = {
-  className?: string | undefined,
+  className?: string,
   value: string | undefined,
   onBlur: () => void,
 };
@@ -15,9 +15,9 @@ const PopupEditor = forwardRef((props: TPopup, ref: Ref<HTMLTextAreaElement> | u
       cols={60}
       autoFocus
       onFocus={e => {
-        const temp_value = e.target.value;
+        const tempValue = e.target.value;
         e.target.value = '';
-        e.target.value = temp_value;
+        e.target.value = tempValue;
       }} />
   </div>
 ));

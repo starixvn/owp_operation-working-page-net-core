@@ -1,7 +1,7 @@
 
 import OtherIssueContent from '../../../../Shared/common/CustomTable/commonCell/commonContentNew/OtherIssueContent';
 
-const OtherIssueCell = ({ subject, isRead}:{ subject: string, isRead: Boolean}) => {
+const OtherIssueCell = ({ subject, isRead }: { subject: string, isRead: boolean }) => {
   return (
     <span
       className={

@@ -4,10 +4,16 @@ type UserOptions = {
 };
 
 interface Option {
-  value: any;
+  value: string | number;
   label: string;
   key?: string;
   disabled?: boolean;
 }
 
-export { UserOptions, Option };
+interface UserInfo {
+  UserId: number;
+  UserName: string;
+  NickName?: string;
+}
+
+export { UserOptions, Option, UserInfo };

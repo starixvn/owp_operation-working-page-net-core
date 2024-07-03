@@ -8,7 +8,7 @@ type TFilterState = {
 type TFilterHeaderProps = {
   columnKey: string;
   options: Option[];
-  model: any;
+  model: any; //NOSONAR
   handleClickFilterCallback: (value: string) => void;
   handleClearFilterCallback: () => void;
   handleFilterBySearchKeyCallback: (filterState: TFilterState) => void;

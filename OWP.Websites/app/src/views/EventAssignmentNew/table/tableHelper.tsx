@@ -32,12 +32,12 @@ const {
 } = TABLE;
 
 const buildColumn = (column: TColumn) => {
-  const { HEADER_NAME, COLUMN_KEY, IS_CAN_FILTER, WIDTH, IS_FREEZE } = column;
+  const { HEADER_NAME, COLUMN_KEY, IS_CAN_FILTER, IS_FREEZE } = column;
   return {
     headerName: HEADER_NAME,
     columnKey: COLUMN_KEY,
     isCanFilter: IS_CAN_FILTER,
-    width: WIDTH,
+    width: column.WIDTH,
     isFreeze: IS_FREEZE
   };
 };

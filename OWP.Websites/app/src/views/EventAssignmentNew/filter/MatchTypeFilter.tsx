@@ -8,7 +8,7 @@ const MatchTypeFilter = () => {
   const selectedMatchType = useAppSelector(
     state => state.filter.filterState.selectedMatchType
   );
-  const handleOnChange = (value: any) => {
+  const handleOnChange = (value: { label: string, value: string }) => {
     const model = {
       key: 'selectedMatchType',
       value

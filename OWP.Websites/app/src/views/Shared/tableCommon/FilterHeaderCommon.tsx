@@ -5,7 +5,7 @@ import { TFilterState } from './typeCommon';
 import useClickOutside from '../customHook/useClickOutside';
 type FilterHeaderProps = {
   columnKey: string;
-  model: any;
+  model: any; //NOSONAR
   handleClickFilterCallback: (value: string) => void;
   handleClearFilterCallback: () => void;
   handleFilterBySearchKeyCallback: (filterState: TFilterState) => void;

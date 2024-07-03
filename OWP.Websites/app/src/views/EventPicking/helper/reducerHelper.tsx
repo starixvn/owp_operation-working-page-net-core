@@ -8,8 +8,7 @@ import { TNoOfferMatch } from '../types/noOfferMatchType';
 import { uniqBy } from 'lodash';
 import { COLUMN_KEY } from '../table/TableSchema.json';
 import { isEquals } from 'immutability-helper';
-import { filterDataTable } from '../../Shared/Utils';
-import Utils from '../../Shared/Utils';
+import Utils, { filterDataTable } from '../../Shared/Utils';
 
 const KO_TIME = COLUMN_KEY.KO_TIME;
 const MB = COLUMN_KEY.MB;
@@ -114,7 +113,7 @@ const executeFilterTable = (
   state: TTableSlice,
   filterByKeyword: (
     arraySource: any,
-    { keyword, columnKey }: { keyword?: undefined; columnKey?: undefined }
+    { keyword, columnKey }: { keyword: undefined; columnKey: undefined }
   ) => any
 ) => {
   state.entities = filterDataTable(

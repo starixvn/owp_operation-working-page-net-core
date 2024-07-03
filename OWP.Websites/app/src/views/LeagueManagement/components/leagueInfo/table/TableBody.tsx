@@ -18,7 +18,7 @@ const TableBody = ({ data = [], displayStart = 0, displayEnd = 0 }) => {
       style={{ height: displayStart * itemRowHeight }}></tr>
   );
   for (let i = displayStart; i < displayEnd; ++i) {
-    let row = data[i] as TDataSource;
+    const row = data[i] as TDataSource;
     const buildValueForTvCell = () => {
       const tv = row.condition.hasTv ? 'TV' : '';
       const iptv = row.condition.hasIpTv ? 'IPTV' : '';

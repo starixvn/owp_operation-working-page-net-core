@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Option } from './type';
+import { Option, UserInfo } from './type';
 import { MultiSelect } from 'react-multi-select-component';
 import UserService from '../../Shared/User/UserService';
 
@@ -18,11 +18,15 @@ const SearchEmployee: React.FC<SearchEmployeeProps> = ({
       const userFromCache = await UserService.getUserFromCached();
       const userOptions: Option[] =
         userFromCache &&
-        userFromCache.map((x: any) => ({
-          value: x.UserId,
-          key: x.UserName,
-          label: `${x.UserName} ${x.NickName ? `(${x.NickName})` : ''}`
-        }));
+        userFromCache.map((x: UserInfo) => {
+          const nickNamePart = x.NickName ? `(${x.NickName})` : '';
+          const label = `${x.UserName} ${nickNamePart}`;
+          return {
+            value: x.UserId,
+            key: x.UserName,
+            label
+          };
+        });
       setOptions(userOptions);
     };
     handleSetOptions();

@@ -40,7 +40,7 @@ const groupAndCountDataSource = (dataSource: TDataSource[]) => {
   const dataSourceCounts: { [key: string]: number } = {};
   dataSource.forEach(row => {
     const formattedTime = formatTime(row.EventDateTime, 'minute', 'hh:mm A');
-    if (formattedTime) {
+    if (formattedTime !== null) {
       dataSourceCounts[formattedTime] =
         (dataSourceCounts[formattedTime] || 0) + 1;
     }

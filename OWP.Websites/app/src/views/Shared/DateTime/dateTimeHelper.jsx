@@ -104,11 +104,7 @@ const formatTime = (value, _startOf, formatOutput) => {
 };
 
 const formatTimeForTicketLGAPopup = (value, _startOf, formatOutput) => {
-  if (!value) {
-    return null;
-  }
-
-  return dayjs.utc(value).format(formatOutput);
+  return formatTime(value, _startOf, formatOutput);
 };
 
 const formatTimeOsLastUpdate = dateStr =>

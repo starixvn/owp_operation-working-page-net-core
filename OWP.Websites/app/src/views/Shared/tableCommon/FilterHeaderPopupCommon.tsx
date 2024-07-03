@@ -6,7 +6,7 @@ import { TFilterState } from './typeCommon';
 
 type FilterPopupProps = {
   columnKey: string;
-  model: any;
+  model: any; //NOSONAR
   handleClosedPopup: () => void;
   handleClearFilterCallback: () => void;
   handleFilterBySearchKeyCallback: (filterState: TFilterState) => void;

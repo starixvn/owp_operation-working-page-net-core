@@ -72,9 +72,8 @@ const getDefaultTimeCondition = isNightShift => {
   const format = 'h:mm A';
   const localKey = getLocalKey(isNightShift);
   const prevTime = localStorage.getItem(localKey);
-  return prevTime
-    ? dayjs(prevTime, format)
-    : dayjs(isNightShift ? '10:59 PM' : '05:31 PM', format);
+  const defaultTime = isNightShift ? '10:59 PM' : '05:31 PM';
+  return prevTime ? dayjs(prevTime, format) : dayjs(defaultTime, format);
 };
 
 const saveTimeConditionToLocalStorage = (isNightShift, startTimeSelected) => {

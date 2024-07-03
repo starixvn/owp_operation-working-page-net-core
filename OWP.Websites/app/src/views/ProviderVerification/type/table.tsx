@@ -31,16 +31,13 @@ type TDataSource = {
   Home: string;
   Away: string;
   AgentEst: string;
-} & TTicketCell & {
   AgentConfirm: TAgentConfirm[];
-} & {
-    [key in TEditableKey]: string | undefined;
-  } & TMaxbetSetting & {
-    RowColor: string | undefined;
-  };
+  RowColor: string | undefined;
+  [key in TEditableKey]: string | undefined;
+} & TTicketCell & TMaxbetSetting;
 
 type TCommonCell = {
-  className?: string | undefined;
+  className?: string;
   value: string | null;
   index: number;
   isCanToolTip: boolean;
@@ -56,7 +53,7 @@ type TEditableCell = {
   owpMatchId: number;
   columnKey: string;
   rowIndex: number;
-  className?: string | undefined;
+  className?: string;
   value: string | undefined;
 };
 

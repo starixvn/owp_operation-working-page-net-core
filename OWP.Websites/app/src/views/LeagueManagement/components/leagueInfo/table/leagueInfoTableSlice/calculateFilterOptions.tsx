@@ -50,20 +50,20 @@ const buildTvOptions = () => {
 const buildConditionOptions = (first: TCondition[][], second: TCondition[]) => {
   const options: Option[] = uniqBy(
     [...second]
-      .sort((first, second) =>
-        (first.value || '')?.localeCompare(second?.value || '')
+      .sort((a, b) =>
+        (a.value || '')?.localeCompare(b?.value || '')
       )
       .map(
         o =>
-          ({
-            value: o?.value?.length > 0 ? o.value : null,
-            label:
-              o?.value?.length > 0
-                ? o.type === 'Contains'
-                  ? `*${o.value}*`
-                  : o.value
-                : null
-          } as Option)
+        ({
+          value: o?.value?.length > 0 ? o.value : null,
+          label:
+            o?.value?.length > 0
+              ? o.type === 'Contains'
+                ? `*${o.value}*`
+                : o.value
+              : null
+        } as Option)
       ),
     i => i.label
   );

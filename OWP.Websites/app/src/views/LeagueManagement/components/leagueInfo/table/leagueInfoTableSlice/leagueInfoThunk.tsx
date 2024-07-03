@@ -12,7 +12,7 @@ const getLeagueInfoThunk = createAsyncThunk<TDataSource[], { league: string, isE
   }
 );
 
-const fetchLeagueSettingInfo = (league: string, isEqualLeague: boolean = false) => {
+const fetchLeagueSettingInfo = (league: string, isEqualLeague: boolean) => {
   return getLeagueInfoThunk({ league, isEqualLeague });
 };
 
