@@ -36,28 +36,28 @@ const BettypeCell = (props: TAssignmentBuilder) => {
 
   const handleOnSavedAssignment = useCallback((
     assignmentUpdate: TAssignment,
-    bettypeName: TBettype,
-    rowIndex: number
+    betTypeName: TBettype,
+    index: number
   ) => {
     dispatch(
       onUpdatedAssignment({
         assignment: assignmentUpdate,
-        bettypeName,
-        rowIndex
+        bettypeName: betTypeName,
+        rowIndex: index
       })
     );
   }, [dispatch]);
 
   const handleOnDeletedAssignment = useCallback((
     assignmentUpdate: TAssignment,
-    bettypeName: TBettype,
-    rowIndex: number
+    betTypeName: TBettype,
+    index: number
   ) => {
     dispatch(
       onDeletedAssignment({
         assignment: assignmentUpdate,
-        bettypeName,
-        rowIndex
+        bettypeName: betTypeName,
+        rowIndex: index
       })
     );
   }, [dispatch]);

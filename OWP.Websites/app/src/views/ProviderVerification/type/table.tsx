@@ -16,25 +16,24 @@ type TMaxbetSetting = {
     SpreadToDisplay: string | undefined;
   };
 };
+
 type TDataSource = {
-  [key in 'Provider' | 'OtherProvider' | 'RemarkEst' | 'RemarkBy']:
-  | string
-  | null;
-} & {
+  Provider?: string | null;
+  OtherProvider?: string | null;
+  RemarkEst?: string | null;
+  RemarkBy?: string | null;
   OWPMatchId: number;
   ParentMatchId: number;
+  MatchNo: string;
+  MatchStatus: string;
+  EventDateTime: string;
+  League: string;
+  Home: string;
+  Away: string;
+  AgentEst: string;
+} & TTicketCell & {
+  AgentConfirm: TAgentConfirm[];
 } & {
-    [key in
-    | 'MatchNo'
-    | 'MatchStatus'
-    | 'EventDateTime'
-    | 'League'
-    | 'Home'
-    | 'Away'
-    | 'AgentEst']: Required<string>;
-  } & TTicketCell & {
-    AgentConfirm: TAgentConfirm[];
-  } & {
     [key in TEditableKey]: string | undefined;
   } & TMaxbetSetting & {
     RowColor: string | undefined;

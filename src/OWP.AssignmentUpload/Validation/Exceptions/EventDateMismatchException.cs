@@ -1,5 +1,3 @@
-using System.Runtime.Serialization;
-
 namespace OWP.AssignmentUpload.Validation.Exceptions;
 
 public class EventDateMismatchException : CriticalValidationException

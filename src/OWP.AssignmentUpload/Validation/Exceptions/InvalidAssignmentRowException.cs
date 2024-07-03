@@ -1,4 +1,3 @@
-using System.Runtime.Serialization;
 using OWP.AssignmentUpload.Validation.Models;
 
 namespace OWP.AssignmentUpload.Validation.Exceptions;

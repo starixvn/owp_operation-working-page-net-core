@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Routing;
-using OWP.Kpi.LA.Helper;
+﻿using OWP.Kpi.LA.Helper;
 using OWP.Kpi.LA.Models;
 using Xunit;
 

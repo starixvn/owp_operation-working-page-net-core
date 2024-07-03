@@ -1,5 +1,4 @@
-﻿using System.Runtime.Serialization;
-using OWP.OtherSport.Validation.Models;
+﻿using OWP.OtherSport.Validation.Models;
 
 namespace OWP.OtherSport.Validation.Exceptions;
 
