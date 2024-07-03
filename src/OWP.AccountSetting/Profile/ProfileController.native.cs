@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using OWP.AccountSetting.Profile.Handler;
 
 namespace OWP.AccountSetting.Profile;
-[Route("api/AccountSetting/[controller]")]
+[Route("api/AccountSetting")]
 [ApiController]
 [Authorize]
 
