@@ -1,18 +1,10 @@
-﻿using System.Runtime.Serialization;
-
+﻿
 namespace OWP.OtherSport.Validation.Exceptions;
 
-[Serializable]
+
 public class InvalidExcelFormatException : CriticalValidationException
 {
     public InvalidExcelFormatException() : base("Incorrect template")
-    {
-    }
-
-#if NET8_0_OR_GREATER
-    [Obsolete(DiagnosticId = "SYSLIB0051")]
-#endif
-    protected InvalidExcelFormatException(SerializationInfo info, StreamingContext context) : base(info, context)
     {
     }
 }
