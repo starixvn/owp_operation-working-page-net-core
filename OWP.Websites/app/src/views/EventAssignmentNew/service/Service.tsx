@@ -7,11 +7,6 @@ import {
 } from '../const.json';
 import { TQueryDataModel } from '../type/type';
 
-const queryDataExcel = async (url: string) => {
-  const response = await axios.get(url, { responseType: 'blob' });
-  return response.data;
-};
-
 const query = async (eventModel: TQueryDataModel) => {
   const url = buildRequestURLForLGA('');
   const response = await axios.post(url, eventModel);
@@ -43,7 +38,6 @@ const getSyncOffVRLastUpdated = async (eventDate: string) => {
 };
 
 const Service = {
-  queryDataExcel,
   query,
   getLastUpdated,
   syncOffVRs,

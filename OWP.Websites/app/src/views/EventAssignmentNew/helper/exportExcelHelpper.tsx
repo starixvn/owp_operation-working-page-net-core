@@ -34,7 +34,8 @@ export const eventPickingOldUrl = (eventModel: TFilter) => {
   )}`;
 };
 
-export const micsMatchUrl = (eventModel: TFilter) => eventPickingOldUrl(eventModel);
+export const micsMatchUrl = (eventModel: TFilter) =>
+  eventPickingOldUrl(eventModel);
 
 export const eventPickingListUrlNew = (eventModel: TFilter) => {
   const { selectedDate } = eventModel;
@@ -44,6 +45,3 @@ export const eventPickingListUrlNew = (eventModel: TFilter) => {
 
 export const eventPickingListFileName = (date: Date) =>
   `Event Picking-${dayjs(Utils.formatDate(date)).format('YYYY-MM-DD')}.xlsx`;
-
-export const liveGameAssignmentFileName = (date: Date) =>
-  `Assignment - ${dayjs(Utils.formatDate(date)).format('YYYYMMDD')}.xlsx`;
