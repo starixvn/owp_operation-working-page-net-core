@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using Fanex.NAP.Client.Attributes;
 using Fanex.NAP.Client.Helpers.Business;
@@ -73,8 +74,8 @@ public class OddsCompilerApiController(Repository oddsCompilerRepository, Config
     [NapAuth(FunctionKey = FunctionKeys.OddsCompiler, Policy = Constant.Policy.Host)]
     public async Task<IActionResult> ExportExcel(DateTime date, string league, string matchStatuses, bool isExcludeSpecialProducts)
     {
-        const string templatePath = @"App_Data\Templates\ExportOddsCompilerTemplate.xlsx";
-        var absolutedTemplatePath = $"{configurationService.CurrentDirectory}\\{templatePath}";
+        const string templatePath = @"App_Data/Templates/ExportOddsCompilerTemplate.xlsx";
+        var absolutedTemplatePath =  $"{configurationService.CurrentDirectory}{Path.DirectorySeparatorChar}{templatePath}";
         var criteria = new GetOddsCompilerCriteria
         {
             Date = date,

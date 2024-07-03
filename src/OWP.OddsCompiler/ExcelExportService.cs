@@ -66,8 +66,6 @@ public class ExcelExportServiceImp(Repository oddsCompilerRepository,
         return excelModel;
     }
 
-
-
     private void LoadTemplate(string templatePath)
     {
         using var stream = new FileStream(templatePath, FileMode.Open, FileAccess.Read);
