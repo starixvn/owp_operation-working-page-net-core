@@ -48,4 +48,4 @@ node_modules
 **/nCrunchTemp*.csproj
 **/lcov-report/**
 **/lcov.info
-**/.vscode
+OWP.Websites/app/.vscode/settings.json
