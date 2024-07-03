@@ -55,7 +55,7 @@ export default defineConfig({
         secure: false,
         changeOrigin: true
       },
-      '/wwwroot': {
+      '/images': {
         target: netCoreUrl,
         secure: false,
         changeOrigin: true
