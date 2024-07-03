@@ -344,7 +344,7 @@ public class ImportServiceImp : ImportService
     private static DateTime GetMinDateOfWorkingShift()
     {
         var today = DateTimeOffset.Now.Date;
-        const int FOUR_WEEK = 28;
+        var FOUR_WEEK = 28;
         return StartOfWeek(today).AddDays(-FOUR_WEEK);
     }
 
