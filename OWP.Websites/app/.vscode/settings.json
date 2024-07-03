@@ -32,7 +32,7 @@
     "uuidv"
   ],
   "sonarlint.connectedMode.project": {
-    "connectionId": "https-sonarqube-nexdev-net-",
+    "connectionId": "https-sonarqube-nexdev-net",
     "projectKey": "Nap-OWP-NetCore"
   }
 }
