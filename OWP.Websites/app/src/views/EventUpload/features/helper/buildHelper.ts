@@ -4,6 +4,6 @@ const netCoreURLAssignmentUpload = `/api/event-assignment-uploading`;
 
 const buildRequestURL = (key: string) => `${netCoreURLAssignmentUpload}/${key}`;
 
-const buildDateString = (date: Date) => dayjs(date).format('MM/DD/YYYY');
+const buildDateString = (date: Date) => dayjs(date).format('MMM DD, YYYY');
 
 export { buildRequestURL, buildDateString };
