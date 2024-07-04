@@ -13,7 +13,7 @@ public class StandardizedLeagueInfoUnitTest
         // Arrange
         var excelInfos = new List<LeagueSettingExcelInfo>
         {
-            new LeagueSettingExcelInfo
+            new()
             {
                 LeagueGroup = "Group1",
                 League = "League1",
@@ -101,8 +101,6 @@ public class StandardizedLeagueInfoUnitTest
         Assert.Contains(new Condition("Contains", "Division"), condition.Division);
         Assert.Equal("Remark", condition.Remark);
     }
-
-    private const decimal Epsilon = 0.00001m; // Tolerance for decimal comparisons
 
     [Fact]
     public void AnalyzeSpreadFT()
