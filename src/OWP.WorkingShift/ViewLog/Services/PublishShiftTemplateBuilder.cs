@@ -34,7 +34,7 @@ public class PublishShiftTemplateBuilder : TemplateShiftBuilderBase
             publicShiftModel.ToDate.ToString("MM/dd/yyyy"),
             publicShiftModel.Isp?"Yes":"No"
         };
-        return publicShiftModel.FromDate == DateTimeOffset.MinValue ?
+        return publicShiftModel.FromDate == DateTime.MinValue ?
             string.Empty :
             string.Format(Template, args);
     }

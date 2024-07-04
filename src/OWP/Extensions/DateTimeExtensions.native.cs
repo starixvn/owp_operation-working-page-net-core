@@ -6,6 +6,7 @@ public static class DateTimeExtensions
 {
     private const int TimeZoneGMT8 = 8;
     private const double HalfOfDateSubtract = 0.5;
+    private const int GMTMinus4ToGMTPlus8 = 12;
 
     public static string ConvertToTimeAgo(this DateTime date)
     {
@@ -37,6 +38,11 @@ public static class DateTimeExtensions
     public static DateTime ToGmt8(this DateTime dateTime)
     {
         return dateTime.ToUniversalTime().AddHours(TimeZoneGMT8);
+    }
+
+    public static DateTime ToGmt8WorkingShift(this DateTime dateTime)
+    {
+        return dateTime.AddHours(GMTMinus4ToGMTPlus8);
     }
 
     public static DateTimeOffset ToGmt8(this DateTimeOffset dateTime)

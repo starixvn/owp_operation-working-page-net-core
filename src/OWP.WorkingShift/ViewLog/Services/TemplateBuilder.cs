@@ -16,7 +16,7 @@ public class TemplateBuilder
 
     public virtual string BuildDateColumn()
     {
-        return logData.UserLog.ModifiedDate.ToGmt8().ToString("MM/dd/yyyy hh:mm tt");
+        return logData.UserLog.ModifiedDate.ToGmt8WorkingShift().ToString("MM/dd/yyyy hh:mm tt");
     }
 
     public virtual string BuildModifiedByColumn()
