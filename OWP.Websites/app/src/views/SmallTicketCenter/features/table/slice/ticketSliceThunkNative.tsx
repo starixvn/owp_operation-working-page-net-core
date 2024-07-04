@@ -3,10 +3,9 @@ import Utils from '../../../../Shared/Utils';
 import { createAppAsyncThunk } from '../../../app/hooksNative';
 
 import { getEventTicket } from '../../../const/const.json';
-import { TTicket, TFilerParam } from '../../../type';
-import { netCoreURL } from '../../../services/service';
+import { TTicket } from '../../../type';
 
-const genUrl = (routePostfix: string) => `${netCoreURL}/${routePostfix}`;
+const genUrl = (routePostfix: string) => `/api/TicketCenter/${routePostfix}`;
 
 const getEventTickets = createAppAsyncThunk<Array<TTicket>, void>(
   'TicketCenter/getEventChecking',

@@ -6,29 +6,43 @@ import {
   waitFor
 } from '@testing-library/react';
 import { useDispatch } from 'react-redux';
-import FilterTicketCenter from './FilterTicketCenter';
-import { getTicketTypeOption } from '../../../services/service';
+import FilterTicketCenter from './Filter';
+import { getTicketTypeOption } from './filterThunkNative';
+import { getEventTickets } from '../../table/slice/ticketSliceThunkNative';
 import '@testing-library/jest-dom/extend-expect';
 import ToastrWrapper from '../../../../components/ToastrWrapper';
-import MarketFilter from './MarketFilter';
-import TicketTypeFilter from './TicketTypeFilter';
+import TicketType from './TicketType';
+import {useAppSelector, useAppDispatch} from '../../../app/hooksNative'
+
 jest.mock('axios');
-jest.mock('../../../services/service');
+jest.mock('./filterThunkNative');
 jest.mock('../../../../components/ToastrWrapper');
-jest.mock('react-redux', () => ({
-  useDispatch: jest.fn()
+jest.mock('../../table/slice/ticketSliceThunkNative',()=>({
+  getEventTickets: jest.fn()
 }));
-jest.mock('./MarketFilter', () => {
-  return jest.fn(() => null);
-});
-jest.mock('./TicketTypeFilter', () => {
+getEventTickets.mockReturnValue(fn=>({}))
+jest.mock('react-redux', () => ({
+  useDispatch: jest.fn(),
+  createSelectorHook: jest.fn()
+}));
+jest.mock('../../../app/hooksNative', () => ({
+  useDispatch: jest.fn(),
+  useAppSelector: jest.fn(),
+  useAppDispatch: jest.fn()
+}));
+
+jest.mock('./TicketType', () => {
   return jest.fn(() => null);
 });
 
 ToastrWrapper.showError = jest.fn().mockReturnValue('OK');
 
 const mockedDispatch = jest.fn();
-
+useAppSelector.mockReturnValue(fn=>({
+  filter:{
+    ticketTypeOptionReady: true
+  }
+}))
 useDispatch.mockReturnValue(mockedDispatch);
 const props = {
   defaultValue: { ActorId: 8, MarketKey: 1, TicketStatuses: 'liam' }
@@ -81,7 +95,7 @@ describe('test FilterTicketCenter', () => {
     expect(mockedDispatch).toHaveBeenCalledTimes(2);
     await fireEvent.click(screen.queryByText(/Search/i));
     expect(MarketFilter).toHaveBeenCalled();
-    expect(TicketTypeFilter).toHaveBeenCalled();
+    expect(TicketType).toHaveBeenCalled();
     expect(mockedDispatch).toHaveBeenCalledTimes(4);
   });
 

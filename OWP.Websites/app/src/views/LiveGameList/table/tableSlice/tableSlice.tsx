@@ -103,7 +103,6 @@ const tableSlice = createSlice({
       state.entities = action.payload;
     },
 
-    //TODO
     setDataSignalR: (state, action) => {
       const { actorId, parentMatchId } = action.payload;
       state.entities.forEach(item => {

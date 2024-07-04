@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import store, { RootState } from '../app/store';
+import { RootState } from '../app/store';
 import Command from './Command';
 import DateTimePicker from './DateTimePicker';
 import FilterMatch from './FilterMatch';

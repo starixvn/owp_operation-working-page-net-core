@@ -1,7 +1,7 @@
-import { fireEvent, render, screen } from '@testing-library/react';
-import Converter from '../Shared/Converter';
+import { fireEvent, render } from '@testing-library/react';
+import Converter from '../../Shared/Converter';
 import FormTradingInfo from './FormTradingInfo';
-jest.mock('../Shared/Converter');
+jest.mock('../../Shared/Converter');
 
 const matchOffer = [
   { value: 1, label: 'match offer 1' },

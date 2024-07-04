@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch, createSelectorHook } from 'react-redux';
 import { render, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import OSTable from './OSTable';
@@ -7,6 +6,7 @@ import OSTable from './OSTable';
 jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
   useDispatch: jest.fn(),
+  createSelectorHook: jest.fn()
 }));
 
 const mockedDispatch = jest.fn();

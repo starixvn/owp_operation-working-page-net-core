@@ -1,12 +1,14 @@
-import { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { fireEvent, render, waitFor } from '@testing-library/react';
+
+import { useDispatch } from 'react-redux';
+import { fireEvent, render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import CollapseExpandTrader from './CollapseExpandTrader';
 
+
 jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
-  useDispatch: jest.fn()
+  useDispatch: jest.fn(),
+  createSelectorHook: jest.fn(),
 }));
 
 const mockedDispatch = jest.fn();

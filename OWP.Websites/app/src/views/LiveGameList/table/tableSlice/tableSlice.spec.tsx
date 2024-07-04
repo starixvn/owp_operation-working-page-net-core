@@ -6,7 +6,6 @@ import {
   RefreshModel
 } from '../../type/TableType';
 import reducer, {
-  filterBySearchKey,
   clearFilter,
   setDataTable,
   setDataSignalR,
@@ -16,7 +15,6 @@ import reducer, {
   setRefreshModel,
   closePopupDetail
 } from './tableSlice';
-import { ORDER_ASC, ORDER_DESC, KOTime } from '../TableSchema.json';
 import { getEvents } from './tableThunk';
 import { fakeEntities } from './tableSliceConst';
 describe('tableSlice', () => {
@@ -26,12 +24,15 @@ describe('tableSlice', () => {
     entitiesOriginal: [] as MatchInfo[],
     entities: [] as MatchInfo[],
     userId: 0 as number,
+    "valueFilterAllColumn": {},
+    "isShowFilterHeader": false,
+    "columnKeyFilterCurrent": "",
     popupState: {
       matchId: undefined,
       isOpen: false
     } as PopupState,
     sortState: {
-      columnKey: KOTime.columnKey,
+      columnKey: 'KO Time',
       orderType: '',
     },
     filterState: [] as FilterState[],
@@ -138,7 +139,7 @@ describe('tableSlice', () => {
       },
       action
     );
-    expect(state.entities[0].IsRead).toEqual(false);
+    expect(state.entities[0].IsRead).toEqual(true);
   });
 
   it('setDataTable', () => {
