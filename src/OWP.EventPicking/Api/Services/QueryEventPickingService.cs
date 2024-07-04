@@ -43,7 +43,7 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
         };
     }
 
-    private async Task CalculateTurnOver_Margin(EventPickingRequest request, List<EventPickingModel> matches)
+    public async Task CalculateTurnOver_Margin(EventPickingRequest request, List<EventPickingModel> matches)
     {
         var twOneMonth = await GetTurnover_WinLoss_TGRS(request.Period.OneMonth, matches);
         var twThreeMonths = await GetTurnover_WinLoss_TGRS(request.Period.ThreeMonths, matches);
@@ -162,7 +162,7 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
         .Where(x => ValidMatch(x, request))
         .ToList();
 
-    private static bool ValidMatch(EventPickingModel match, EventPickingRequest condition)
+    public static bool ValidMatch(EventPickingModel match, EventPickingRequest condition)
         => CheckCondition1(match, condition) && CheckCondition2(match, condition) && CheckCondition3(match, condition);
 
     private static bool CheckCondition1(EventPickingModel match, EventPickingRequest condition)

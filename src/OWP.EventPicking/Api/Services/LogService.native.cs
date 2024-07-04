@@ -17,5 +17,5 @@ public class LogServiceImp : LogService
     }
 
     public async Task<IList<LogModel>> GetLog(int infoSiteMatchId)
-    => await repository.GetLog(infoSiteMatchId);
+        => await repository.GetLog(infoSiteMatchId);
 }

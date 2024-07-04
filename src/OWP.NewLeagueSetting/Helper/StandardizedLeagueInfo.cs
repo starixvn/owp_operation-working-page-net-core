@@ -197,7 +197,7 @@ public static class StandardizedLeagueInfo
         ? originalString[1..^1]
         : originalString;
     }
-    private static (decimal? spreadHdp, decimal? spreadOu, string spreadSource) AnalyzeSpreadFT(string spreadSource)
+    public static (decimal? spreadHdp, decimal? spreadOu, string spreadSource) AnalyzeSpreadFT(string spreadSource)
     {
         var regex = Pattern.SpreadRegex();
         if (!string.IsNullOrWhiteSpace(spreadSource) && regex.IsMatch(spreadSource))
