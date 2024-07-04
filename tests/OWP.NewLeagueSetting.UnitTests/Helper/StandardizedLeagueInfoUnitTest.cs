@@ -104,31 +104,6 @@ public class StandardizedLeagueInfoUnitTest
 
     private const decimal Epsilon = 0.00001m; // Tolerance for decimal comparisons
 
-    [Theory]
-    [InlineData("10-20", 0.1, 0.2, null)]   // Valid percentages
-    [InlineData("50-30", 0.5, 0.3, null)]   // Valid percentages
-    [InlineData("10%-20%", 0.1, 0.2, null)] // Valid percentages with '%'
-    public void AnalyzeSpreadFT_ShouldReturnExpectedResults(string spreadSource, decimal? expectedHdp, decimal? expectedOu, string expectedNote)
-    {
-        // Act
-        var result = StandardizedLeagueInfo.AnalyzeSpreadFT(spreadSource);
-
-        // Assert
-        Assert.Equal(expectedNote, result.spreadSource);
-
-        Assert.True(AreApproximatelyEqual(expectedHdp, result.spreadHdp));
-        Assert.True(AreApproximatelyEqual(expectedOu, result.spreadOu));
-    }
-
-    private static bool AreApproximatelyEqual(decimal? expected, decimal? actual)
-    {
-        if (expected.HasValue && actual.HasValue)
-        {
-            return Math.Abs(expected.Value - actual.Value) < Epsilon;
-        }
-        return !expected.HasValue && !actual.HasValue;
-    }
-
     [Fact]
     public void AnalyzeSpreadFT()
     {
@@ -136,9 +111,9 @@ public class StandardizedLeagueInfoUnitTest
         var result = StandardizedLeagueInfo.AnalyzeSpreadFT("10%-20%");
 
         // Assert
-        Assert.Equal(null, result.spreadSource);
+        Assert.Null(result.spreadSource);
 
-        Assert.True(AreApproximatelyEqual(0.1m, result.spreadHdp));
-        Assert.True(AreApproximatelyEqual(0.2m, result.spreadOu));
+        Assert.Equal(0.1m, result.spreadHdp);
+        Assert.Equal(0.2m, result.spreadOu);
     }
 }

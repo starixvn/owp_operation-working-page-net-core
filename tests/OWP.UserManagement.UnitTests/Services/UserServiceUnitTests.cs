@@ -4,6 +4,7 @@ using Fanex.NAP.Client.Helpers.Web;
 using Models;
 using NSubstitute;
 using OWP.Models;
+using OWP.UserManagement.Criteria;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UserManagement.Services;
@@ -209,5 +210,32 @@ public class UserServiceUnitTests
 
         // Assert
         DeepAssert.Equal(actual, expected);
+    }
+
+    [Fact]
+    public async Task UpdateUserInfo_ShouldUpdateUserAndSetErrorCode()
+    {
+        // Arrange
+        var updateUserInfo = new UpdateUserInfo
+        {
+            ColumnName = "Email",
+            UserId = 123,
+            Value = "newemail@example.com"
+        };
+
+        repository.UpdateUserInfo(Arg.Any<UpdateUserCriteria>()).Returns(Task.CompletedTask);
+
+        // Act
+        await usersService.UpdateUserInfo(updateUserInfo);
+
+        // Assert
+        await repository.Received(1).UpdateUserInfo(Arg.Is<UpdateUserCriteria>(c =>
+            c.ColumnName == updateUserInfo.ColumnName &&
+            c.UserId == updateUserInfo.UserId &&
+            c.Value == updateUserInfo.Value &&
+            c.ActorId == 99));
+
+        Assert.Equal(0, updateUserInfo.ErrCode);
+        Assert.Equal(null, updateUserInfo.ErrMsg);
     }
 }
