@@ -44,14 +44,6 @@ public class HomeController(IOptions<AccessCounterModel> counterOptions, AccessC
     [Route("UserProfile/AccountSetting")]
     public ActionResult AccountSetting() => View("~/wwwroot/account-setting/server.cshtml");
 
-    [Route("EventAssignment")]
-    [NapAuth(FunctionKey = FunctionKeys.LiveGameAssignment, Policy = Constant.Policy.Read)]
-    public async Task<ActionResult> EventAssignment()
-    {
-        await accessCounter.UpdateCounter(counterOptions.Value.LiveGameAssignment);
-        return View("~/wwwroot/event-assignment/server.cshtml");
-    }
-
     [Route("EventAssignmentNew")]
     [NapAuth(FunctionKey = FunctionKeys.LiveGameAssignment, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> EventAssignmentNew()
