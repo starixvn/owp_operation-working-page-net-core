@@ -238,7 +238,7 @@ public class TicketCenterController : ControllerBase
     [HttpGet("get-user-feedback-info")]
     public async Task<IActionResult> GetUserFeedbackInfo()
     {
-        var result = await getInfoFeedback.Get();
+        var result = await mediator.Send(new GetUserInfoFeedbackRequest());
         return Ok(result);
     }
 

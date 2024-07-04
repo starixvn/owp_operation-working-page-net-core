@@ -71,7 +71,7 @@ public class NewTicketIssueOtherHandler : IRequestHandler<NewTicketIssueOtherReq
             ActorId = request.CreatorId
         };
 
-        messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketOther);
+        //messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketOther);
 
         var userIds = await repository.GetUserIdsByTicketId(request.TicketId);
         var modelTicket = await BuildModelTicket(request, ticketId);

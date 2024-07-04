@@ -52,7 +52,7 @@ const RateFunction = () => {
         )}
         {rate !== RateIconEnum.GOOD ? (
           <a onClick={() => updateFeedbackInfo('rate', RateIconEnum.GOOD)}>
-            <GoodIcon width={17} height={17} />
+            <GoodIcon width={43} height={43} />
           </a>
         ) : (
           <a onClick={() => updateFeedbackInfo('rate', RateIconEnum.DEFAULT)}>

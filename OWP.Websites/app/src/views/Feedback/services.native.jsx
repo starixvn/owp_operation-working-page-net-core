@@ -1,4 +1,4 @@
-import Axios from 'axios';
+import axios from 'axios';
 
 const netCoreURLTicKetCenter = `/api/TicketCenter`;
 
@@ -10,13 +10,13 @@ const transformFunctionResponse = response =>
 
 const queryFunction = async () => {
   const url = `${netCoreURLTicKetCenter}/get-function-feedback`;
-  const response = await Axios.get(url);
+  const response = await axios.get(url);
   return transformFunctionResponse(response);
 };
 
 const queryUserFeedbackInfo = async () => {
   const url = `${netCoreURLTicKetCenter}/get-user-feedback-info`;
-  const response = await Axios.get(url);
+  const response = await axios.get(url);
   return response.data;
 };
 
