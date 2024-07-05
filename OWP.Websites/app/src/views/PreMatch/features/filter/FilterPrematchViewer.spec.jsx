@@ -42,7 +42,10 @@ const setUp = isSetFilterDate => {
       error: null
     },
     dayShift: {
-      isShowUnreadMessage: true
+      isShowUnreadMessage: true,
+      leagueWithTimeCondition:{
+        isShow: true
+      }
     }
   };
   createRef.mockReturnValue(ref);

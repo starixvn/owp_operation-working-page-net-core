@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import TicketList from './TicketList';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -13,9 +13,7 @@ jest.mock('react', () => ({
   createRef: jest.fn()
 }));
 jest.mock('../../createTicketNew/Helper/HelperCreateTicket');
-jest.mock('../../../EventAssignment/app/store', () => ({
-  getState: jest.fn()
-}));
+
 const mockDispatch = jest.fn();
 
 useDispatch.mockReturnValue(mockDispatch);

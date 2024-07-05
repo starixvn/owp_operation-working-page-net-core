@@ -5,7 +5,7 @@ public class Header
 
     public string LogoutPath { get; set; }
 
-    public string NotificationSetingPath { get; set; }
+    public string NotificationSettingPath { get; set; }
 
     public string AccountSettingPath { get; set; }
 

@@ -19,7 +19,7 @@ const header = {
   title: 'Home page',
   username: 'superman',
   logoutLink: 'logout_link',
-  notificationSetingLink: 'notification_link',
+  notificationSettingLink: 'notification_link',
   navigation: {
     items: [{ name: 'My Ticket' }, { name: 'OS live game assignment' }]
   }

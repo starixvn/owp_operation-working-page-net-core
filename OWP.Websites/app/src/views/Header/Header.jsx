@@ -24,7 +24,7 @@ const propTypes = {
   title: PropTypes.string.isRequired,
   username: PropTypes.string.isRequired,
   logoutLink: PropTypes.string.isRequired,
-  notificationSetingLink: PropTypes.string.isRequired,
+  notificationSettingLink: PropTypes.string.isRequired,
   accountSettingLink: PropTypes.string.isRequired,
   quickSearchPolicy: PropTypes.object.isRequired
 };
@@ -69,7 +69,7 @@ class Header extends Component {
       title,
       username,
       logoutLink,
-      notificationSetingLink,
+      notificationSettingLink,
       accountSettingLink,
       quickSearchPolicy
     } = this.props;
@@ -96,6 +96,7 @@ class Header extends Component {
               {quickSearchPolicy.HasRead && (
                 <CNavItem>
                   <NavLink
+                    data-testid='search'
                     href='#'
                     className='cd-search-trigger cd-text-replace'
                     onClick={() => this.handleVisibleSearchArea(true)}
@@ -122,7 +123,7 @@ class Header extends Component {
                       </span>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem href={notificationSetingLink}>
+                      <DropdownItem href={notificationSettingLink}>
                         <span className='icon-setting'>
                           <SettingsIcon size={14} />
                         </span>{' '}

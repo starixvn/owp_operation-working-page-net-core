@@ -8,7 +8,8 @@ describe('Header Component', () => {
     title: 'Home page',
     username: 'superman',
     logoutLink: 'logout_link',
-    notificationSetingLink: 'notification_link',
+    accountSettingLink: 'account_setting_link',
+    notificationSettingLink: 'notification_link',
     quickSearchPolicy: {
       HasRead: true
     }
@@ -16,7 +17,7 @@ describe('Header Component', () => {
 
   it('check handleVisibleSearchArea function when isVisible=true', async () => {
     render(<Header {...props} />);
-    fireEvent.click(screen.getByText(/Search/i));
+    fireEvent.click(screen.getByTestId(/search/i));
 
     expect(Notification).toBeCalled();
     expect(document.body.classList.contains('is-open-search')).toBe(true);
@@ -24,7 +25,7 @@ describe('Header Component', () => {
 
   it('check handleVisibleSearchArea function when isVisible=false', () => {
     render(<Header {...props} />);
-    fireEvent.click(screen.getByText(/Search/i));
+    fireEvent.click(screen.getByTestId(/search/i));
     fireEvent.click(screen.getByText(/close/i));
 
     expect(document.body.classList.contains('is-open-search')).toBe(false);

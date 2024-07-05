@@ -2,7 +2,7 @@ import LiveAssignment from './LiveAssignment';
 import AssignmentService from './Service';
 import MatchSettingService from '../MatchSetting/Service';
 import LiveDetailService from './LiveDetailService';
-import { act, fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render } from '@testing-library/react';
 
 jest.mock('./Service');
 jest.mock('../MatchSetting/Service');
@@ -52,7 +52,7 @@ describe('LiveAssignment', () => {
 
   it('should hide TableAssignment when click button Toggle', async () => {
     const { getByTestId, container } = render(<LiveAssignment {...defaultProps} />);
-    var button = getByTestId('toggle-testId');
+    const button = getByTestId('toggle-testId');
 
     fireEvent.click(button);
 

@@ -61,7 +61,7 @@ class Layout extends Component {
       username,
       navigation,
       logoutLink,
-      notificationSetingLink,
+      notificationSettingLink,
       accountSettingPath
     } = header;
     navigation.items.forEach(element => {
@@ -74,7 +74,7 @@ class Layout extends Component {
             title={title}
             username={username}
             logoutLink={logoutLink}
-            notificationSetingLink={notificationSetingLink}
+            notificationSettingLink={notificationSettingLink}
             accountSettingLink={accountSettingPath}
             quickSearchPolicy={quickSearchPolicy}
           />

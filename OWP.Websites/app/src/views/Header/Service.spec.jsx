@@ -10,7 +10,7 @@ const response = {
   data: {
     Username: 'sa',
     LogoutPath: 'logout_link',
-    NotificationSetingPath: 'notification_link',
+    NotificationSettingPath: 'notification_link',
     Menus: [
       {
         Id: 571,
@@ -73,8 +73,8 @@ describe('Header service', () => {
 
     expect(actual.username).toEqual(response.data.Username);
     expect(actual.logoutLink).toEqual('rootURL_' + response.data.LogoutPath);
-    expect(actual.notificationSetingLink).toEqual(
-      'rootURL_' + response.data.NotificationSetingPath
+    expect(actual.notificationSettingLink).toEqual(
+      'rootURL_' + response.data.NotificationSettingPath
     );
     expect(actual.navigation).toMatchSnapshot();
   });
@@ -95,8 +95,8 @@ describe('Header service', () => {
 
     expect(actual.username).toEqual(response.data.Username);
     expect(actual.logoutLink).toEqual('rootURL_' + response.data.LogoutPath);
-    expect(actual.notificationSetingLink).toEqual(
-      'rootURL_' + response.data.NotificationSetingPath
+    expect(actual.notificationSettingLink).toEqual(
+      'rootURL_' + response.data.NotificationSettingPath
     );
     expect(actual.navigation).toMatchSnapshot();
   });

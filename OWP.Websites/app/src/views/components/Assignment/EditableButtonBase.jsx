@@ -5,8 +5,14 @@ import PlusCircleIcon from 'mdi-react/PlusCircleIcon';
 import PropTypes from 'prop-types';
 import { pullAt } from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
-import { BetTypeSuggestion } from '../../EventAssignment/constants/Column';
 import QuestionMarkCircleIcon from 'mdi-react/QuestionMarkCircleIcon';
+
+const BetTypeSuggestion = [
+  'Handicap',
+  'OverUnder',
+  'Handicap1st',
+  'OverUnder1st'
+];
 
 const propTypes = {
   main: PropTypes.object.isRequired,
