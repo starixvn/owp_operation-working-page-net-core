@@ -97,8 +97,9 @@ const CustomTable = ({
       setDisplayEnd(0);
       setScrollPosition(0);
     }
-    const scrollTo=containerRef.current?.scrollTo;
-    scrollTo && scrollTo(0, 0);
+
+    containerRef.current?.scrollTo
+    && containerRef.current?.scrollTo(0, 0);
   }, [data.length]);
 
   return (
