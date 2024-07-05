@@ -15,7 +15,7 @@ public class ExcelReaderImp : ExcelReader
 {
     private const int StartRow = 3;
 
-    private static readonly Regex otherTraderRegex = new(@"#[^\s#]+", RegexOptions.IgnoreCase);
+    private static readonly Regex otherTraderRegex = new(@"#[^\s#]+", RegexOptions.IgnoreCase, TimeSpan.FromSeconds(5));
 
     public UploadingDataFromExcel Read(Stream stream)
     {

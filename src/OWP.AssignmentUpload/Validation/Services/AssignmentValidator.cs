@@ -1,3 +1,4 @@
+
 using OWP.AssignmentUpload.Validation.Constants;
 using OWP.AssignmentUpload.Validation.Exceptions;
 using OWP.AssignmentUpload.Validation.Helper;
@@ -139,7 +140,7 @@ public class AssignmentValidatorImp : AssignmentValidator
     public static void CheckOtherTrader(List<string> errorList, List<string> invalidTraders, string traders, string name)
     {
         var traderList = traders.Split(',').ToList();
-        var regex = new Regex(@"#(.*?)(\s|$)");
+        var regex = new Regex(@"#(.*?)(\s|$)", RegexOptions.IgnoreCase, TimeSpan.FromSeconds(5));
         foreach (var trader in traderList)
         {
             var traderName = regex.Match(trader).Groups[1].Value;
