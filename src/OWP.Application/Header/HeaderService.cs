@@ -23,7 +23,7 @@ public class HeaderServiceImp : HeaderService
 
     public Task<Header> Query()
     {
-        var sessionMenus = session.MenuItemList ?? new List<MenuItem>();
+        var sessionMenus = session.MenuItemList ?? [];
         var menus = GetMenus(sessionMenus);
         var header = new Header
         {

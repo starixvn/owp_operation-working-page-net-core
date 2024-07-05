@@ -25,7 +25,6 @@ const Filter = () => {
       <MatchTypeFilter />
       <MatchStatusFilter />
       <SyncLiveFilter />
-      <OffVRFilter />
       <ButtonGroupFilter />
       <ShowUnreadMessage />
       <ControlRightFilter />
