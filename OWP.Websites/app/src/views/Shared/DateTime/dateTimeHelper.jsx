@@ -96,15 +96,15 @@ const buildFilterDate = () => {
 
 const getHourAndMinutes = time => (time ? time.substring(0, 5) : undefined);
 
-const formatTime = (value, _startOf, formatOutput) => {
+const formatTime = (value, startOf, formatOutput) => {
   if (!value) {
     return null;
   }
-  return dayjs.utc(value).format(formatOutput);
+  return dayjs(value).startOf(startOf).format(formatOutput);
 };
 
-const formatTimeForTicketLGAPopup = (value, _startOf, formatOutput) =>
-  formatTime(value, _startOf, formatOutput);
+const formatTimeForTicketLGAPopup = (value, startOf, formatOutput) =>
+  formatTime(value, startOf, formatOutput);
 
 const formatTimeOsLastUpdate = dateStr =>
   dayjs.utc(dateStr).format('MMMM DD, YYYY hh:mm A');
