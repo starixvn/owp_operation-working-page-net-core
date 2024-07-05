@@ -69,4 +69,101 @@ public class OSLeagueSettingHelperUnitTests
                 WeekMatch = "cde"
             }
         };
+
+    [Fact]
+    public void CalculateSummaryExportFirst_WithValues_ReturnsFormattedString()
+    {
+        // Arrange
+        var leagueSettingInfo = new LeagueSettingInfo
+        {
+            MaxBetHDP = 100,
+            MaxBetOU = 200
+        };
+
+        // Act
+        var result = OSLeagueSettingHelper.CalculateSummaryExportFirst(leagueSettingInfo);
+
+        // Assert
+        Assert.Equal("{HDP 100}{OU 200}", result);
+    }
+
+    [Fact]
+    public void CalculateSummaryExportFirst_WithoutValues_ReturnsEmptyString()
+    {
+        // Arrange
+        var leagueSettingInfo = new LeagueSettingInfo();
+
+        // Act
+        var result = OSLeagueSettingHelper.CalculateSummaryExportFirst(leagueSettingInfo);
+
+        // Assert
+        Assert.Equal(string.Empty, result);
+    }
+
+    [Fact]
+    public void CalculateSummaryExportSecond_WithValues_ReturnsFormattedString()
+    {
+        // Arrange
+        var offerLines = "OfferLines1/OfferLines2";
+        var bettypes = "BetType1/BetType2";
+        var betDelays = "BetDelay1/BetDelay2";
+
+        // Act
+        var result = OSLeagueSettingHelper.CalculateSummaryExportSecond(offerLines, bettypes, betDelays);
+
+        // Assert
+        Assert.Equal("(OfferLines1/OfferLines2)(BetType1/BetType2)(BetDelay1/BetDelay2)", result);
+    }
+
+    [Fact]
+    public void CalculateSummaryExportSecond_WithoutValues_ReturnsEmptyString()
+    {
+        // Arrange
+        var offerLines = "";
+        var bettypes = "";
+        var betDelays = "";
+
+        // Act
+        var result = OSLeagueSettingHelper.CalculateSummaryExportSecond(offerLines, bettypes, betDelays);
+
+        // Assert
+        Assert.Equal(string.Empty, result);
+    }
+
+    [Fact]
+    public void CalculateRemarkExport_WithValues_ReturnsFormattedString()
+    {
+        // Arrange
+        var leagueSettingInfo = new LeagueSettingInfo
+        {
+            IsManualUpdateScore = true,
+            WeekMatch = "Week1",
+            Provider = "Provider1",
+            KOFromTime = new TimeSpan(14, 0, 0),
+            KOToTime = new TimeSpan(16, 0, 0),
+            IsIptvOnly = true,
+            Remark = "Remark1"
+        };
+        var leagueSettingInfos = new List<LeagueSettingInfo> { leagueSettingInfo };
+
+        // Act
+        var result = OSLeagueSettingHelper.CalculateRemarkExport(leagueSettingInfos);
+
+        // Assert
+        Assert.Equal("(Manual Update Score)(End Of Preseason before Week1 Week Match)(Provider1)(14:00 - 16:00)(IPTV Only)(Remark1)", result);
+    }
+
+    [Fact]
+    public void CalculateRemarkExport_WithoutValues_ReturnsEmptyString()
+    {
+        // Arrange
+        var leagueSettingInfo = new LeagueSettingInfo();
+        var leagueSettingInfos = new List<LeagueSettingInfo> { leagueSettingInfo };
+
+        // Act
+        var result = OSLeagueSettingHelper.CalculateRemarkExport(leagueSettingInfos);
+
+        // Assert
+        Assert.Equal(string.Empty, result);
+    }
 }
