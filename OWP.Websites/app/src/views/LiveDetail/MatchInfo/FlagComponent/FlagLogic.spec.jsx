@@ -14,10 +14,10 @@ describe('FlagLogic under test', () => {
       const props = {
         flagName: 'AC Milan (V)',
         flagNameLibrary: FIFA_IMAGE_STORE,
-        flagURL: 'wwwroot/images/Flags/FIFA'
+        flagURL: '/images/Flags/FIFA'
       };
       const result = getFlagFromStore(props);
-      const expectString = 'wwwroot/images/Flags/FIFA/AC Milan (V).jpg';
+      const expectString = '/images/Flags/FIFA/AC Milan (V).jpg';
 
       expect(result).toEqual(expectString);
     });
@@ -26,7 +26,7 @@ describe('FlagLogic under test', () => {
       const props = {
         flagName: 'no name',
         flagNameLibrary: FIFA_IMAGE_STORE,
-        flagURL: 'wwwroot/images/Flags/FIFA'
+        flagURL: '/images/Flags/FIFA'
       };
       const result = getFlagFromStore(props);
       const expectString = null;
@@ -38,7 +38,7 @@ describe('FlagLogic under test', () => {
     it('should return exact flag base on flagInfo (PES)', () => {
       const props = { flagName: 'AC Milan (V)', flagInfo: 'PES' };
       const result = flagFactory(props);
-      const expectString = 'wwwroot/images/Flags/PES/AC Milan (V).jpg';
+      const expectString = '/images/Flags/PES/AC Milan (V).jpg';
 
       expect(result).toEqual(expectString);
     });
@@ -46,7 +46,7 @@ describe('FlagLogic under test', () => {
     it('should return exact flag base on flagInfo (FIFA)', () => {
       const props = { flagName: 'AC Milan (V)', flagInfo: 'FIFA' };
       const result = flagFactory(props);
-      const expectString = 'wwwroot/images/Flags/FIFA/AC Milan (V).jpg';
+      const expectString = '/images/Flags/FIFA/AC Milan (V).jpg';
 
       expect(result).toEqual(expectString);
     });
@@ -71,7 +71,7 @@ describe('FlagLogic under test', () => {
     it('matchName condition: have `(v)`, do not have string after `(v)`', () => {
       const props = { flagName: 'AC Milan (V)', flagInfo: 'PES' };
       const result = createFlag(props);
-      const expectString = 'wwwroot/images/Flags/PES/AC Milan (V).jpg';
+      const expectString = '/images/Flags/PES/AC Milan (V).jpg';
 
       expect(result).toEqual(expectString);
     });
@@ -79,7 +79,7 @@ describe('FlagLogic under test', () => {
     it('matchName condition: have `(v)`,  string after `(v)` only contain number, return flagString', () => {
       const props = { flagName: 'AC Milan (V) 3', flagInfo: 'PES' };
       const result = createFlag(props);
-      const expectString = 'wwwroot/images/Flags/PES/AC Milan (V).jpg';
+      const expectString = '/images/Flags/PES/AC Milan (V).jpg';
 
       expect(result).toEqual(expectString);
     });
@@ -164,8 +164,8 @@ describe('FlagLogic under test', () => {
       };
       const result = Flag(props);
       const expectString = {
-        awayFlag: 'wwwroot/images/Flags/FIFA/AC Milan (V).jpg',
-        homeFlag: 'wwwroot/images/Flags/FIFA/Arsenal (V).jpg',
+        awayFlag: '/images/Flags/FIFA/AC Milan (V).jpg',
+        homeFlag: '/images/Flags/FIFA/Arsenal (V).jpg',
         flagInfo: 'FIFA'
       };
       expect(result).toEqual(expectString);
@@ -178,8 +178,8 @@ describe('FlagLogic under test', () => {
       };
       const result = Flag(props);
       const expectString = {
-        awayFlag: 'wwwroot/images/Flags/PES21/AC Milan (V).jpg',
-        homeFlag: 'wwwroot/images/Flags/PES21/Arsenal (V).jpg',
+        awayFlag: '/images/Flags/PES21/AC Milan (V).jpg',
+        homeFlag: '/images/Flags/PES21/Arsenal (V).jpg',
         flagInfo: 'PES 21'
       };
       expect(result).toEqual(expectString);
