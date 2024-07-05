@@ -1,4 +1,5 @@
 using Fanex.Data;
+using Newtonsoft.Json;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
@@ -7,6 +8,11 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 });
 var services = builder.Services;
 var configuration = builder.Configuration;
+
+JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+{
+    DateTimeZoneHandling = DateTimeZoneHandling.Unspecified,
+};
 
 services.AddControllerAuthorization();
 services.AddCookieAuthentication(configuration);
