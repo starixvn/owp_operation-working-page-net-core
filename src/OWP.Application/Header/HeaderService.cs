@@ -1,5 +1,6 @@
 ﻿using Fanex.NAP.Client.Helpers.Web;
 using Fanex.NAP.Client.Models;
+using Microsoft.Extensions.Configuration;
 using OWP.Constants;
 
 namespace OWP.Application.Header;
@@ -12,10 +13,12 @@ public interface HeaderService
 public class HeaderServiceImp : HeaderService
 {
     private readonly INapSession session;
+    private readonly IConfiguration configuration;
 
-    public HeaderServiceImp(INapSession session)
+    public HeaderServiceImp(INapSession session, IConfiguration configuration)
     {
         this.session = session;
+        this.configuration = configuration;
     }
 
     public Task<Header> Query()
@@ -25,9 +28,9 @@ public class HeaderServiceImp : HeaderService
         var header = new Header
         {
             Username = session.UserName,
-            LogoutPath = "/Auth/LogOut",
-            NotificationSettingPath = "/UserProfile/NotificationSetting",
-            AccountSettingPath = "/UserProfile/AccountSetting",
+            LogoutPath = configuration.GetSection("AuthSettings:LogoutPath").Value,
+            NotificationSettingPath = configuration.GetSection("ProfileSettings:NotificationSettingPath").Value,
+            AccountSettingPath = configuration.GetSection("ProfileSettings:AccountSettingPath").Value,
             Menus = menus
         };
         return Task.FromResult(header);

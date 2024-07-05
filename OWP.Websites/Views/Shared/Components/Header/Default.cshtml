@@ -1,10 +1,11 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
 @using OWP.Resources;
 @model OWP.Application.Header.HeaderViewModel;
+
 @{
     var controller = ViewContext.RouteData.Values["Controller"];
     var area = ViewContext.RouteData.DataTokens["area"];
-    var url = string.Format("/{0}/{1}", area, controller);
+    var url = $"/{area}/{controller}";
     var baseHref = Context.Request.PathBase.ToString();
     if (baseHref != "/") { baseHref = baseHref + "/"; }
 }
@@ -25,19 +26,19 @@
 
                 <ul id='profile' class='dropdown-content profile-items'>
                     <li>
-                        <a href="~/UserProfile/NotificationSetting">
+                        <a href="@Model.Header.NotificationSettingPath">
                             <i class="icon mdi mdi-settings"></i>
                             <span>@ViewLang.NotificationSetting</span>
                         </a>
                     </li>
                     <li>
-                        <a href="~/UserProfile/AccountSetting">
+                        <a href="@Model.Header.AccountSettingPath">
                             <i class="icon mdi mdi-account"></i>
                             <span>@ViewLang.AccountSetting</span>
                         </a>
                     </li>
                     <li>
-                        <a href="./Auth/LogOut">
+                        <a href="@Model.Header.LogoutPath">
                             <i class="icon mdi mdi-logout"></i>
                             <span>@ViewLang.Logout</span>
                         </a>
