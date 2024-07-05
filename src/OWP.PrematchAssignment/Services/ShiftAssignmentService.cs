@@ -126,7 +126,7 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
         return CreateQueryPreMatchLeagueViewModel(preMatchLeagues, nightShift.Matches);
     }
 
-    private static void UpdateAssignmentHintNightShift(Dictionary<int, PreMatchLeague> nightShiftLeagues, Dictionary<int, PreMatchLeague> dayShiftLeagues)
+    public static void UpdateAssignmentHintNightShift(Dictionary<int, PreMatchLeague> nightShiftLeagues, Dictionary<int, PreMatchLeague> dayShiftLeagues)
     {
         foreach (var nightShiftLeague in nightShiftLeagues)
         {
