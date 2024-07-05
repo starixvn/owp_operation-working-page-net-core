@@ -26,7 +26,7 @@ public class HeaderServiceImp : HeaderService
         {
             Username = session.UserName,
             LogoutPath = "/Auth/LogOut",
-            NotificationSetingPath = "/UserProfile/NotificationSetting",
+            NotificationSettingPath = "/UserProfile/NotificationSetting",
             AccountSettingPath = "/UserProfile/AccountSetting",
             Menus = menus
         };
