@@ -3,6 +3,8 @@ import { noop } from 'lodash';
 import { fireEvent, render } from '@testing-library/react';
 import NoCell from './NoCell';
 import store from '../../app/store';
+import {useAppSelector} from '../../app/hooks';
+
 import {
   buildNoOfferChildMatchInfo,
   buildNoOfferMainMatchInfo
@@ -14,13 +16,20 @@ jest.mock('../../helper/noOfferSingleMatchPipeline');
 jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
   useDispatch: jest.fn(),
-  useStore: jest.fn()
+  useStore: jest.fn(),
+  createSelectorHook: jest.fn()
 }));
 jest.mock('../../app/store');
+jest.mock('../../app/hooks', ()=>({
+  useAppSelector: jest.fn()
+}));
 
 const mockedDispatch = jest.fn();
 
 useDispatch.mockReturnValue(mockedDispatch);
+useAppSelector.mockReturnValue(fn=>({
+  
+}));
 store.getState = () => ({
   pagePolicy: {
     permission: {

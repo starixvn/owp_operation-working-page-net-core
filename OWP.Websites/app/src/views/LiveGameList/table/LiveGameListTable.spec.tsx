@@ -1,12 +1,12 @@
 import LiveGameListTable from './LiveGameListTable';
 import { useSelector, useDispatch } from 'react-redux';
 import { fakeEntities } from './tableSlice/tableSliceConst';
-import { render, screen, waitFor } from '@testing-library/react';
-import { KOTime } from './TableSchema.json';
+import { render, waitFor } from '@testing-library/react';
 
 jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
-  useDispatch: jest.fn()
+  useDispatch: jest.fn(),
+  createSelectorHook: jest.fn()
 }));
 const mockedDispatch = jest.fn();
 
@@ -16,7 +16,7 @@ const mockedDispatch = jest.fn();
       entities: fakeEntities,
       filterState: [],
       sortState: {
-        columnKey: KOTime.columnKey,
+        columnKey: 'KO Time',
         orderType: '',
       },
     },
