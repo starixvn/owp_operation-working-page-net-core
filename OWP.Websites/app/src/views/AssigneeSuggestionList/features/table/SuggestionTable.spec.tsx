@@ -21,11 +21,11 @@ describe('SuggestionTable', () => {
               explanation: 'hello world',
               levelLabel: 'ok'
             },
-            yesterday_02h: {
+            yesterday_02h: [{
               text: 'hello liam',
               color: '#000',
               textColor: '#000'
-            }
+            }]
           }
         ],
         partiallyAvailable: [],

@@ -19,7 +19,7 @@ describe('Notification Serivce test', () => {
 
     expect(data).toEqual(responseData.data);
     expect(axios.get).toBeCalledTimes(1);
-    expect(axios.get).toBeCalledWith('api/notification-setting/all');
+    expect(axios.get).toBeCalledWith('/api/notification-setting/all');
   });
 
   it('return data when getByCurrentUser is called', async () => {
@@ -30,7 +30,7 @@ describe('Notification Serivce test', () => {
 
     expect(data).toEqual(responseData.data);
     expect(axios.get).toBeCalledTimes(1);
-    expect(axios.get).toBeCalledWith('api/notification-setting/me');
+    expect(axios.get).toBeCalledWith('/api/notification-setting/me');
   });
 
   it('return data when update is called', async () => {
@@ -42,6 +42,6 @@ describe('Notification Serivce test', () => {
 
     expect(data).toEqual(responseData.data);
     expect(axios.put).toBeCalledTimes(1);
-    expect(axios.put).toBeCalledWith('api/notification-setting/update', model);
+    expect(axios.put).toBeCalledWith('/api/notification-setting/update', model);
   });
 });

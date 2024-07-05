@@ -24,7 +24,7 @@ describe('MessageBoxService test', () => {
     expect.assertions(3);
     expect(data).toEqual(responseData.data);
     expect(axios.post).toBeCalledTimes(1);
-    expect(axios.post).toBeCalledWith('api/message_management/search', model);
+    expect(axios.post).toBeCalledWith('/api/message_management/search', model);
   });
 
   it('return data when update_read_status call', async () => {

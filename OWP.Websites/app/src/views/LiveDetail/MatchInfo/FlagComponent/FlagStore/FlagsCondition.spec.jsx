@@ -13,7 +13,7 @@ describe('FlagConst core concept under test', () => {
     const expectObj = {
       type: 'FIFA',
       condition: 'FIFA 20',
-      rootPath: 'wwwroot/images/Flags/FIFA'
+      rootPath: '/images/Flags/FIFA'
     };
     const result = FIFA_FLAG;
     expect(result).toEqual(expectObj);
@@ -23,7 +23,7 @@ describe('FlagConst core concept under test', () => {
     const expectObj = {
       type: 'PES',
       condition: 'PES 20',
-      rootPath: 'wwwroot/images/Flags/PES'
+      rootPath: '/images/Flags/PES'
     };
     const result = PES_FLAG;
     expect(result).toEqual(expectObj);

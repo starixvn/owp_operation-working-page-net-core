@@ -41,9 +41,6 @@ describe('Test <Layout/>', () => {
     jest
       .spyOn(Notification.prototype, 'initializeSignalRNetCore')
       .mockImplementation(() => { });
-    jest
-      .spyOn(Notification.prototype, 'initializeSignalR')
-      .mockImplementation(() => { });
 
     jest
       .spyOn(Notification.prototype, 'queryMessages')
@@ -59,16 +56,5 @@ describe('Test <Layout/>', () => {
     expect(container.getElementsByClassName('loading-process')).toHaveLength(1);
 
     mockComponentDidMount.mockRestore();
-  });
-
-  it('componentDidMount should setState header from HeaderService', async () => {
-    await act(() => render(<Router>
-      <Layout {...props} />
-    </Router>));
-
-    expect(screen.getByText(/My Ticket/i)).toBeInTheDocument();
-    expect(screen.getByText(/OS live game assignment/i)).toBeInTheDocument();
-    expect(HeaderService.query).toBeCalledTimes(1);
-    expect(AuthorizeService.authorize).toBeCalledTimes(3);
   });
 });

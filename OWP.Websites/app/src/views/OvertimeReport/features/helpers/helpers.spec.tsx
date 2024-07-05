@@ -14,13 +14,13 @@ describe('helpers under test', () => {
   it('env!=development, should return window.netCoreRootUrl url', () => {
     process.env.NODE_ENV = 'test';
     const devURL = buildRequestURL('key');
-    expect(devURL).toEqual('v1/test/api/OvertimeReport/key');
+    expect(devURL).toEqual('/api/OvertimeReport/key');
   });
 
   it('env=development, should return netCoreURL url', () => {
     process.env.NODE_ENV = 'development';
     const devURL = buildRequestURL('key');
-    expect(devURL).toEqual('api/OvertimeReport/key');
+    expect(devURL).toEqual('/api/OvertimeReport/key');
   });
 
   it('inputValue=null, should return -', () => {

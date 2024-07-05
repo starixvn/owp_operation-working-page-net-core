@@ -15,6 +15,8 @@ describe('unit test for chatBoardSlice', () => {
   it('should return init state', () => {
     const action = {};
     const expectedState = {
+      "isBlinkTitle": false,
+      "isDisplayCloseButton": true,
       isOpenPopup: false,
       isOpenTicket: false,
       modelByRowIndex: {},
@@ -131,6 +133,7 @@ describe('unit test for chatBoardSlice', () => {
       isAllImagesLoaded: false,
       isOpenPopup: true,
       loading: REQUEST_STATUS.idle,
+      "isDisplayCloseButton": true,
       ticketDetail: {
         ticketId: '12',
         ticketTypeId: '1',
@@ -227,6 +230,7 @@ describe('unit test for chatBoardSlice', () => {
       isOpenTicket: false
     };
     const expectedState = {
+      "isDisplayCloseButton": true,
       isOpenTicket: true
     };
     const action = {

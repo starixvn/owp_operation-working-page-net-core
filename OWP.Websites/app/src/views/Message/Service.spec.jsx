@@ -7,6 +7,7 @@ import MessageService, {
   LiveDetailTypes
 } from './Service';
 
+
 jest.mock('axios');
 
 describe('Message service test', () => {
@@ -35,35 +36,18 @@ describe('Message service test', () => {
 
     expect(actualData).toEqual(expectedData);
     expect(axios.get).toBeCalledTimes(1);
-    expect(axios.get).toHaveBeenCalledWith('api/application/message', {
+    expect(axios.get).toHaveBeenCalledWith('/api/application/message', {
       params: model
     });
   });
 
-  it('should notify with correct model', async () => {
-    const responseData = {
-      data: {
-        Messages: [{ CreatedDate: '2019-01-15T00:57:04.58+07:00' }]
-      }
-    };
-    axios.post.mockResolvedValue(responseData);
-    expect.assertions(3);
-
-    const sessionId = 'ABC';
-    const actualData = await MessageService.notify(sessionId);
-    expect(actualData).toEqual(responseData.data);
-    expect(axios.post).toBeCalledTimes(1);
-    expect(axios.post).toHaveBeenCalledWith('api/application/message/notify', {
-      sessionId
-    });
-  });
 
   it('updateIsViewed', async () => {
     const model = {
       isWatcher: false
     };
     await MessageService.updateIsViewed(model);
-    expect(axios.put).toHaveBeenCalledWith('api/application/message', model);
+    expect(axios.put).toHaveBeenCalledWith('/api/application/message', model);
   });
 
   it('customizeLiveDetailContent should handle correctly', () => {

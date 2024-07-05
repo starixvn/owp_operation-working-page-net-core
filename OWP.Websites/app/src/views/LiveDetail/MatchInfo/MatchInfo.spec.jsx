@@ -75,7 +75,7 @@ describe('Match Info service test', () => {
 
     expect(actual).toEqual(responseData.data);
     expect(axios.post).toBeCalledTimes(1);
-    expect(axios.post).toBeCalledWith('api/event-assignment/edit-event', model);
+    expect(axios.post).toBeCalledWith('/api/event-assignment/edit-event', model);
   });
 
   it('return response data when validateToEditEvent  is called', async () => {
@@ -87,7 +87,7 @@ describe('Match Info service test', () => {
     expect(actual).toEqual(responseData.data);
     expect(axios.post).toBeCalledTimes(1);
     expect(axios.post).toBeCalledWith(
-      'api/event-assignment/validate-to-edit-event',
+      '/api/event-assignment/validate-to-edit-event',
       model
     );
   });

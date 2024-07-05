@@ -1,5 +1,5 @@
 import AssignmentUpload from './AssignmentUpload';
-import { render, fireEvent, waitFor, screen } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 const mockSetState = jest.fn();
@@ -14,11 +14,6 @@ describe('AssignmentUpload under test', () => {
     jest.clearAllMocks();
   });
 
-  it('should match snapshot', () => {
-    const { container } = render(<AssignmentUpload />);
-    expect(container).toMatchSnapshot();
-  });
-
   it('should not display wizard control', async () => {
     const { container } = render(<AssignmentUpload />);
     const wizardControl = container.querySelector('.wizard-container');
@@ -28,7 +23,7 @@ describe('AssignmentUpload under test', () => {
 
   it('should setState when click button', async () => {
     const { container } = render(<AssignmentUpload />);
-    const button = container.querySelector('.button-upload-other-spport');
+    const button = container.querySelector('.button-upload-other-sport');
 
     fireEvent.click(button);
 

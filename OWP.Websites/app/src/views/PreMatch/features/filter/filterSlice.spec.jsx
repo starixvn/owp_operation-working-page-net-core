@@ -15,7 +15,12 @@ describe('filterSlice under test', () => {
       loading: REQUEST_STATUS.idle,
       currentRequestId: undefined,
       'matchOffers': ['Opened', 'HDP (?)', 'OU (?)', ''],
-      error: null
+      error: null,
+      "isReloadEdit": false,
+      "earlyOffered":  [
+         1,
+         0,
+       ]
     });
   });
   describe('updateFilterDate under test', () => {

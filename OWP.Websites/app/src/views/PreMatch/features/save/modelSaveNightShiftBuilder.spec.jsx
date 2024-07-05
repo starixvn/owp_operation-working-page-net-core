@@ -118,7 +118,7 @@ describe('modelSaveNightShiftBuilder under test', () => {
     const expected = {
       postModel: {
         url: 'url-save',
-        NetCoreUrl: 'v1/test',
+       
         PrematchIdDeleted: [],
         PrematchUpdated: [],
         Date: 'October 9, 2020 9:51 AM',
@@ -175,7 +175,6 @@ describe('modelSaveNightShiftBuilder under test', () => {
     const expected = {
       postModel: {
         url: 'url-save',
-        NetCoreUrl: 'v1/test',
         PrematchIdDeleted: [],
         PrematchUpdated: [
           {

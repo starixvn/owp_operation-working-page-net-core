@@ -20,7 +20,7 @@ describe('QuickSearch service test', () => {
     expect(actualData).toEqual(responseData.data);
     expect(axios.post).toBeCalledTimes(1);
     expect(axios.post).toHaveBeenCalledWith(
-      'api/application/quicksearch',
+      '/api/application/quicksearch',
       model
     );
   });

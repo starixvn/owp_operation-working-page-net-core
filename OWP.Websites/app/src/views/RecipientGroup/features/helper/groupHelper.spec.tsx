@@ -66,13 +66,13 @@ describe('groupHelper under test', () => {
   it('method buildGetRecipientGroupsURL, should return dev url', () => {
     process.env.NODE_ENV = 'development';
     const devURL = buildGetRecipientGroupsURL();
-    expect(devURL).toEqual('api/RecipientGroup/get-recipient-group');
+    expect(devURL).toEqual('/api/RecipientGroup/get-recipient-group');
   });
 
   it('method buildGetRecipientGroupsURL, should return window url', () => {
     process.env.NODE_ENV = 'test';
     setUpPathname();
     const devURL = buildSaveRecipientGroupsURL();
-    expect(devURL).toEqual('v1/test/api/RecipientGroup/save-recipient-group');
+    expect(devURL).toEqual('/api/RecipientGroup/save-recipient-group');
   });
 });

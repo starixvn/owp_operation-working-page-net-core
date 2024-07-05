@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import OpenTicketListHandler from './OpenTicketListHandler';
 import { render } from '@testing-library/react';
-import { getState } from '../../../EventAssignment/app/store';
 
 jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
@@ -17,11 +16,8 @@ jest.mock('react-redux', () => ({
   useEffect: jest.fn()
 }));
 jest.mock('../../createTicketNew/Helper/HelperCreateTicket');
-jest.mock('../../../EventAssignment/app/store', () => ({
-  getState: jest.fn()
-}));
 
-const mockDispatch = jest.fn();
+
 const mockSetState = jest.fn();
 getState.mockImplementation(() => {
   return {
