@@ -150,7 +150,7 @@ const buildDefaultLGLFilterDate = () => {
     : currentDate;
 };
 
-const getMMDDYYYYStringFromDateTime = source => dayjs.utc(source).format('L');
+const getMMDDYYYYStringFromDateTime = source => dayjs(source).format('L');
 
 const getLocaleDateTime = (source, format = 'L') =>
   dayjs(source).format(format);
