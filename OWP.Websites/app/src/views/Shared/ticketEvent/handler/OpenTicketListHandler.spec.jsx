@@ -1,34 +1,37 @@
 import { useState } from 'react';
 import OpenTicketListHandler from './OpenTicketListHandler';
 import { render } from '@testing-library/react';
+import {  useStore } from 'react-redux';
 
 jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
   useDispatch: jest.fn(),
-  useStore: jest.fn()
+  useStore: jest.fn(),
+  useEffect: jest.fn()
 }));
 jest.mock('react', () => ({
   ...jest.requireActual('react'),
   useState: jest.fn(),
-  createRef: jest.fn()
-}));
-jest.mock('react-redux', () => ({
+  createRef: jest.fn(),
   useEffect: jest.fn()
 }));
+
 jest.mock('../../createTicketNew/Helper/HelperCreateTicket');
 
-
 const mockSetState = jest.fn();
-getState.mockImplementation(() => {
+useStore.mockImplementation(() => {
   return {
-    pagePolicy: {
-      permission: {
-        HasWrite: true,
-        ActorId: 8
-      }
-    }
-  };
-});
+    getState:jest.fn().mockImplementation(() => {
+      return {
+        pagePolicy: {
+          permission: {
+            HasWrite: true,
+            ActorId: 8
+          }
+        }
+      };
+    })
+  }});
 useState.mockImplementation(init => [init, mockSetState]);
 
 describe('OpenTicketListHandler test', () => {

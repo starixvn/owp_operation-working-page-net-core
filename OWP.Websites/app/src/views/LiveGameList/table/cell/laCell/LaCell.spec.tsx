@@ -99,55 +99,64 @@ const props: CellProps = {
           BettypeId: 1,
           Maxbet: 15,
           Spread: 20,
-          MaxbetSpreadToDisplay: ' 15K (20%)'
+          MaxbetSpreadToDisplay: ' 15K (20%)',
+          IsHasMaxbetSpread: true
         },
         Handicap: {
           BettypeId: 2,
           Maxbet: 15,
           Spread: 20,
-          MaxbetSpreadToDisplay: ' 15K (20%)'
+          MaxbetSpreadToDisplay: ' 15K (20%)',
+          IsHasMaxbetSpread: true
         },
         Handicap1st: {
           BettypeId: 3,
           Maxbet: 15,
           Spread: 20,
-          MaxbetSpreadToDisplay: ' 15K (20%)'
+          MaxbetSpreadToDisplay: ' 15K (20%)',
+          IsHasMaxbetSpread: true
         },
         OneXTwo: {
           BettypeId: 1,
           Maxbet: 15,
           Spread: 20,
-          MaxbetSpreadToDisplay: ' 15K (20%)'
+          MaxbetSpreadToDisplay: ' 15K (20%)',
+          IsHasMaxbetSpread: true
         },
         OneXTwo1st: {
           BettypeId: 1,
           Maxbet: 15,
           Spread: 20,
-          MaxbetSpreadToDisplay: ' 15K (20%)'
+          MaxbetSpreadToDisplay: ' 15K (20%)',
+          IsHasMaxbetSpread: true
         },
         OverUnder: {
           BettypeId: 1,
           Maxbet: 15,
           Spread: 20,
-          MaxbetSpreadToDisplay: ' 15K (20%)'
+          MaxbetSpreadToDisplay: ' 15K (20%)',
+          IsHasMaxbetSpread: true
         },
         OverUnder1st: {
           BettypeId: 3,
           Maxbet: 15,
           Spread: 20,
-          MaxbetSpreadToDisplay: ' 15K (20%)'
+          MaxbetSpreadToDisplay: ' 15K (20%)',
+          IsHasMaxbetSpread: true
         },
         Specific10Mins: {
           BettypeId: 3,
           Maxbet: 15,
           Spread: 20,
-          MaxbetSpreadToDisplay: ' 15K (20%)'
+          MaxbetSpreadToDisplay: ' 15K (20%)',
+          IsHasMaxbetSpread: true
         },
         Specific15Mins: {
           BettypeId: 3,
           Maxbet: 15,
           Spread: 20,
-          MaxbetSpreadToDisplay: ' 15K (20%)'
+          MaxbetSpreadToDisplay: ' 15K (20%)',
+          IsHasMaxbetSpread: true
         }
       },
       MatchStatus: 'Live',

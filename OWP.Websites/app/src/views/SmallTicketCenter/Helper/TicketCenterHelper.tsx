@@ -27,30 +27,6 @@ const getDefaultDateRange = () => {
   };
 };
 
-const flowFromPreMatch = (userId, searchKey) => {
-  return {
-    Keyword: searchKey,
-    ActorId: userId,
-    MarketKey: MARKET[0].value
-  };
-};
-
-const flowBasic = userId => {
-  return {
-    MarketKey: MARKET[0].value,
-    ActorId: userId
-  };
-};
-
-const buildValueTicketsFilter = policy => {
-  const { ActorId, Username } = policy;
-  const pathName = getValueHrefByReversedIndex(1);
-  if (isEqual(pathName, TicketCenterPageURL.MyTicket)) {
-    return flowFromPreMatch(ActorId, Username);
-  }
-  return flowBasic(ActorId);
-};
-
 const buildTicketTypeFilter = (
   parents: Array<TParentsResponse>,
   children: Array<TChildrenResponse>
@@ -99,7 +75,6 @@ const sortTickets = entities => {
 };
 
 export {
-  buildValueTicketsFilter,
   getDetailSegmentUrlByEventType,
   buildTicketTypeFilter,
   removeTickets,

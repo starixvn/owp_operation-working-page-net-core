@@ -22,48 +22,48 @@ describe('Service', () => {
 
     expect(data).toEqual(responseData.data);
     expect(axios.post).toBeCalledTimes(1);
-    expect(axios.post).toBeCalledWith('api/odds-compiler/query', postModel);
+    expect(axios.post).toBeCalledWith('/api/odds-compiler/query', postModel);
   });
   it('return data when insertOdds is called', async () => {
     axios.post.mockResolvedValue(responseData);
     await Service.insertOdds({});
 
     expect(axios.post).toBeCalledTimes(1);
-    expect(axios.post).toBeCalledWith('api/odds-compiler/insert-odds', {});
+    expect(axios.post).toBeCalledWith('/api/odds-compiler/insert-odds', {});
   });
 
   it('return data when deleteOdds is called', async () => {
     axios.post.mockResolvedValue(responseData);
-    var data = await Service.deleteOdds({});
+    const data = await Service.deleteOdds({});
 
     expect(data).toEqual(responseData.data);
     expect(axios.post).toBeCalledTimes(1);
-    expect(axios.post).toBeCalledWith('api/odds-compiler/delete-odds', {});
+    expect(axios.post).toBeCalledWith('/api/odds-compiler/delete-odds', {});
   });
 
   it('return data when updateOdds is called', async () => {
     axios.post.mockResolvedValue(responseData);
-    var data = await Service.updateOdds({});
+    const data = await Service.updateOdds({});
 
     expect(data).toEqual(responseData.data);
     expect(axios.post).toBeCalledTimes(1);
-    expect(axios.post).toBeCalledWith('api/odds-compiler/update-odds', {});
+    expect(axios.post).toBeCalledWith('/api/odds-compiler/update-odds', {});
   });
 
   it('return data when updateMarket is called', async () => {
     axios.post.mockResolvedValue(responseData);
-    var data = await Service.updateMarket({});
+    const data = await Service.updateMarket({});
 
     expect(data).toEqual(responseData.data);
     expect(axios.post).toBeCalledTimes(1);
-    expect(axios.post).toBeCalledWith('api/odds-compiler/save-market', {});
+    expect(axios.post).toBeCalledWith('/api/odds-compiler/save-market', {});
   });
 
   it('return data when exportExcel is called', async () => {
     const mockUrl =
-      'api/odds-compiler/export-excel?date=20-2&league=hello&matchStatuses=Live&isExcludeSpecialProducts=true';
+      '/api/odds-compiler/export-excel?date=20-2&league=hello&matchStatuses=Live&isExcludeSpecialProducts=true';
 
-    var Url = Service.exportExcel({
+    const Url = Service.exportExcel({
       date: '20-2',
       league: 'hello',
       matchStatuses: 'Live',

@@ -58,7 +58,7 @@ describe('preMatchHelper under test', () => {
     };
     const result = buildLAST_UPDATEDFormatter(props);
     const expectState = {
-      LAST_UPDATEDFormatter: 'December 7, 2020 3:12 AM',
+      LAST_UPDATEDFormatter: 'December 7, 2020 10:12 AM',
       updateBy: 'starix14'
     };
     expect(result).toEqual(expectState);

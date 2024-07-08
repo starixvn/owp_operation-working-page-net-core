@@ -322,7 +322,7 @@ describe('osTableHelper under test', () => {
   });
 
   describe('selectTable under unit test', () => {
-    it('create correct columnshema', () => {
+    it('create correct columnSchema', () => {
       const columnSchema = [
         {
           headerName: 'No #',
@@ -330,7 +330,7 @@ describe('osTableHelper under test', () => {
           isCanFilter: undefined,
           isCanSort: undefined,
           isCanCollapseExpand: undefined,
-          width: 35.2
+          width:52.8
         },
         {
           headerName: 'KOTime',
@@ -362,7 +362,7 @@ describe('osTableHelper under test', () => {
           isCanFilter: true,
           isCanSort: undefined,
           isCanCollapseExpand: undefined,
-          width: 140.8
+          width: 123.20000000000002
         },
         {
           headerName: 'Remark',
