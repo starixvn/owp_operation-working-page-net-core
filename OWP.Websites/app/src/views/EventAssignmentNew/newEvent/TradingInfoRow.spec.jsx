@@ -1,8 +1,7 @@
 import TradingInfoRow from './TradingInfoRow';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 
-const handleMatchSettingChange = jest.fn();
-const handleDeleteMatchSetting = jest.fn();
+
 const bettypesOpition = [
   { value: 1, label: 'bettype 1' },
   { value: 2, label: 'bettype 2' },
@@ -44,7 +43,7 @@ describe('<TradingInfoRow/>', () => {
     });
     fireEvent.click(getByText('bettype 2'));
     expect(getByText('bettype 2')).toBeInTheDocument();
-    expect(handleMatchSettingChange).toBeCalled();
+    expect(props.handleMatchSettingChange).toBeCalled();
   });
 
   it('update state when change maxbet', () => {
@@ -61,7 +60,7 @@ describe('<TradingInfoRow/>', () => {
       }
     });
     expect(container.querySelectorAll('.input-field')[0].value).toEqual('123');
-    expect(handleMatchSettingChange).toBeCalled();
+    expect(props.handleMatchSettingChange).toBeCalled();
   });
 
   it('update state when change spread', () => {
@@ -78,7 +77,7 @@ describe('<TradingInfoRow/>', () => {
       }
     });
     expect(container.querySelectorAll('.input-field')[1].value).toEqual('0.5');
-    expect(handleMatchSettingChange).toBeCalled();
+    expect(props.handleMatchSettingChange).toBeCalled();
   });
 
   it('handleDeleteMatchSetting to be call', () => {
@@ -90,6 +89,6 @@ describe('<TradingInfoRow/>', () => {
       </table>
     );
     fireEvent.click(container.querySelector('.delete-btn'));
-    expect(handleDeleteMatchSetting).toBeCalled();
+    expect(props.handleDeleteMatchSetting).toBeCalled();
   });
 });

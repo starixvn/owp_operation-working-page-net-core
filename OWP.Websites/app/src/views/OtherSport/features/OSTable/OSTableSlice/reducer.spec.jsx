@@ -13,6 +13,8 @@ import { REQUEST_STATUS } from '../../../../Shared/Constants';
 describe('Slice under test', () => {
   it('should return the initial state', () => {
     expect(reducer(undefined, {})).toEqual({
+      "editOfferLiveMatches":  [],
+      "isEdit": false,
       collapseExpandAllRowState: {
         columnKey: 'Trader',
         mode: 'expand'
@@ -39,6 +41,8 @@ describe('Slice under test', () => {
     };
     const actual = reducer(undefined, action);
     expect(actual).toEqual({
+      "isEdit": false,
+      "editOfferLiveMatches": [],
       collapseExpandAllRowState: {
         columnKey: 'Trader',
         mode: 'expand'
@@ -102,6 +106,8 @@ describe('Slice under test', () => {
     };
     const actual = reducer(undefined, action);
     expect(actual).toEqual({
+      "editOfferLiveMatches": [],
+      "isEdit": false,
       collapseExpandAllRowState: {
         columnKey: 'Trader',
         mode: 'expand'
@@ -352,6 +358,8 @@ describe('Slice under test', () => {
         columnKey: 'Trader',
         mode: 'expand'
       },
+      "editOfferLiveMatches": [],
+      "isEdit": false,
       collapseExpandRowState: {
         columnKey: 'Trader',
         mode: 'expand',

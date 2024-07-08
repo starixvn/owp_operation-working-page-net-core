@@ -5,7 +5,10 @@ import { REQUEST_STATUS } from '../Constants';
 describe('multiplePolicySlice under test', () => {
   it('should return the initial state', () => {
     expect(createReducer()(undefined, {})).toEqual({
-      permission: {},
+      permission: {"ActorId": 0,
+         "HasRead": false,
+        "HasWrite": false,
+      "Username": null,},
       loading: REQUEST_STATUS.idle,
       error: null
     });

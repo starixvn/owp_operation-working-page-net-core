@@ -6,7 +6,8 @@ const props = {
     {
       remark: 'test',
       homeRemark: 'abc',
-      rowColor: 'red'
+      rowColor: 'red',
+      infoSiteBlackList:[]
     }
   ],
   rowIndex: 0

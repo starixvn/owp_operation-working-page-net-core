@@ -1,5 +1,4 @@
 import reducer, { setFilter } from './filterSlice';
-import { REQUEST_STATUS } from '../../../Shared/Constants';
 import { Option } from '../../../Shared/MultipleSelection/type';
 import {
   DATE,
@@ -14,27 +13,53 @@ import {
   SELECT_GAME,
   SELECT_GAME_OPTIONS,
   UPDATE_TYPE,
-  NONE_OPTION
+  FROM_DATE,
+  TO_DATE,
+  PERIOD
 } from '../filterConst.json';
+import { SELECT_TURNOVER_OPTIONS } from '../const';
 import { TFilter } from '../../types/filterType';
 import Utils from '../../../Shared/Utils';
 import { getLeagues, getUpdateTypes } from './filterThunkNative';
+
+const { VALUE: {
+  ONE_MONTH,
+  THREE_MONTHS, SIX_MONTHS, TWELVE_MONTH
+} } = PERIOD;
 
 describe('filterSlice under test', () => {
   it('should return the initial state', () => {
     const initState = {
       leagues: [] as Option[],
-      updateTypes: [] as Option[],
-      param: {
-        [DATE]: Utils.formatDate(new Date()),
-        [FILTER_MATCH]: FILTER_MATCH_OPTIONS.map(m => m.value),
-        [SELECT_GAME]: SELECT_GAME_OPTIONS.map(m => m.value),
-        [HAS_PROVIDER]: HAS_PROVIDER_OPTIONS.map(m => m.value),
-        [HAS_OTHER_PROVIDER]: HAS_PROVIDER_OPTIONS.map(m => m.value),
-        [FILTER_MATCH_CATEGORY]: FILTER_MATCH_CATEGORY_OPTIONS.map(m => m.value),
-        [LEAGUE]: [],
-        [UPDATE_TYPE]: []
-      } as TFilter
+    updateTypes: [] as Option[],
+    param: {
+      [DATE]: Utils.formatDate(new Date()),
+      [FILTER_MATCH]: FILTER_MATCH_OPTIONS.map(m => m.value),
+      [SELECT_GAME]: SELECT_GAME_OPTIONS.map(m => m.value),
+      [HAS_PROVIDER]: HAS_PROVIDER_OPTIONS.map(m => m.value),
+      [HAS_OTHER_PROVIDER]: HAS_PROVIDER_OPTIONS.map(m => m.value),
+      [FILTER_MATCH_CATEGORY]: FILTER_MATCH_CATEGORY_OPTIONS.map(m => m.value),
+      [LEAGUE]: [],
+      [UPDATE_TYPE]: [],
+      [PERIOD.KEY]: {
+        [ONE_MONTH]: {
+          [FROM_DATE]: SELECT_TURNOVER_OPTIONS[0].fromDate,
+          [TO_DATE]: SELECT_TURNOVER_OPTIONS[0].toDate
+        },
+        [THREE_MONTHS]: {
+          [FROM_DATE]: SELECT_TURNOVER_OPTIONS[1].fromDate,
+          [TO_DATE]: SELECT_TURNOVER_OPTIONS[1].toDate
+        },
+        [SIX_MONTHS]: {
+          [FROM_DATE]: SELECT_TURNOVER_OPTIONS[2].fromDate,
+          [TO_DATE]: SELECT_TURNOVER_OPTIONS[2].toDate
+        },
+        [TWELVE_MONTH]: {
+          [FROM_DATE]: SELECT_TURNOVER_OPTIONS[3].fromDate,
+          [TO_DATE]: SELECT_TURNOVER_OPTIONS[3].toDate
+        }
+      }
+    } as TFilter
     };
     const action: any = {};
 

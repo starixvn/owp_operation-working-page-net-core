@@ -235,7 +235,7 @@ describe('User Service test', () => {
   });
 
   it('dataSourceLocalUsers() return data from service getAll', () => {
-    axios.get.mockResolvedValue(responseData);
+    axios.get.mockResolvedValue({data:[]});
     const mockStorageSetItem = jest
       .spyOn(Storage.prototype, 'getItem')
       .mockImplementation(() => {});

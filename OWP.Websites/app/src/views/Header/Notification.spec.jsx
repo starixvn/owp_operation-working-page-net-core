@@ -1,4 +1,4 @@
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, waitFor } from '@testing-library/react';
 import Notification from './Notification';
 import MessageService from '../Message/Service';
 import AuthorizeService from '../Authorize/Service';
@@ -81,35 +81,37 @@ describe('Notification Component', () => {
     mockComponentDidMount.mockRestore();
   });
 
-  it('check Watcher tab onClick callback', done => {
+  it('check Watcher tab onClick callback', () => {
     const mockInitializeSignalRNetcore = jest
       .spyOn(Notification.prototype, 'initializeSignalRNetCore')
       .mockImplementation(() => {});
 
-    const mockInitializeSignalR = jest
-      .spyOn(Notification.prototype, 'initializeSignalR')
-      .mockImplementation(() => {});
+   
     const mockQueryMessages = jest
       .spyOn(Notification.prototype, 'queryMessages')
       .mockImplementation(() => {});
 
+      const queriedData = {
+        Messages: messages,
+        TotalNotViewMessage: 2
+      };
+      MessageService.query.mockResolvedValue(queriedData);
+
     const policy = { HasRead: true, HasWrite: true };
     AuthorizeService.authorize.mockResolvedValue(policy);
     const props = {
-      policy: { HasRead: true, HasWrite: true }
+      policy: { HasRead: true, HasWrite: true },
+     
     };
     render(<Notification {...props} />);
-    process.nextTick(() => {
-      expect(mockInitializeSignalR).toBeCalledTimes(1);
-      expect(mockQueryMessages).toBeCalledTimes(2);
+    act(() => {
+      expect(mockQueryMessages).toBeCalledTimes(1);
       mockInitializeSignalRNetcore.mockReset();
-      mockInitializeSignalR.mockReset();
       mockQueryMessages.mockReset();
-      done();
     });
   });
 
-  it('test Show All onClick callback', done => {
+  it('test Show All onClick callback', () => {
     jest
       .spyOn(Notification.prototype, 'componentDidMount')
       .mockImplementation(() => {});
@@ -129,10 +131,10 @@ describe('Notification Component', () => {
     };
     Utils.resolveUrl.mockResolvedValue('http://');
     const { container } = render(<Notification {...props} />);
-    process.nextTick(() => {
+    act(()=>{
       const element = container.querySelector('.show-all');
       fireEvent.click(element);
-      done();
-    });
+    })
+   
   });
 });

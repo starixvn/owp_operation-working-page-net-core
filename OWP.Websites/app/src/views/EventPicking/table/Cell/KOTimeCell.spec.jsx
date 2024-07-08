@@ -14,7 +14,7 @@ const props = {
 describe('KOTimeCell under test', () => {
   it('render cell', () => {
     render(<KOTimeCell {...props} />);
-    const text = screen.getAllByText('11/07/2022 08:00 PM');
+    const text = screen.getAllByText('08:00 PM');
     expect(text).toBeTruthy();
   });
 });

@@ -68,6 +68,8 @@ useSelector.mockImplementation(f =>
     }
   })
 );
+
+axios.get.mockResolvedValue({data: []});
 createRef.mockReturnValue(ref);
 describe('test InputMessage', () => {
   afterEach(() => {

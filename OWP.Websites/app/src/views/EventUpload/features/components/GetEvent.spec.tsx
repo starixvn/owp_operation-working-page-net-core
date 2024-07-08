@@ -1,8 +1,17 @@
-import { act, fireEvent, render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import { createRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import GetEvent from './GetEvent';
+import {
+  exportExcel
+} from '../../../Shared/common/ExportLiveGameAssignment/Helper';
 
+jest.mock('../../../Shared/common/ExportLiveGameAssignment/Helper', ()=>({
+  exportExcel: jest.fn()
+}));
+
+
+jest.mock('../../../components/Spinner');
 jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
   useDispatch: jest.fn()
@@ -15,6 +24,8 @@ jest.mock('react', () => ({
 
 const mockDispatch = jest.fn();
 const mockSetState = jest.fn();
+
+
 const ref = { current: { value: 'Hello' } };
 
 const setup = () => {
@@ -48,11 +59,9 @@ describe('GetEvent under test', () => {
 
   it('when click icon-calendar button, should call mockSetState', () => {
     const { getByText } = render(<GetEvent />);
-    global.window = Object.create(window);
-    Object.defineProperty(window, 'location', { value: { href: '' } });
     fireEvent.click(getByText('Download'));
 
-    var url = 'TaskScheduling/EventAssignment/DownloadAssignment?date=Nov 11, 2022';
-    expect(window.location.href).toEqual(url);
+    
+    expect(exportExcel).toBeCalled();
   });
 });
