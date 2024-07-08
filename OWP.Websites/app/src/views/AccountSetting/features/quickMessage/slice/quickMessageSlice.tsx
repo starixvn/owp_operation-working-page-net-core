@@ -43,12 +43,6 @@ const quickMessageSlice = createSlice({
         state.isCreating = true;
       }
     },
-    deleteAction: (state, action) => {
-      if (state.editIndex === -1) {
-        const index = action.payload;
-        state.quickMessage.splice(index, 1);
-      }
-    },
   },
   extraReducers: builder => {
     builder

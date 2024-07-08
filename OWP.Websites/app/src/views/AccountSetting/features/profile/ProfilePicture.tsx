@@ -51,7 +51,7 @@ const ProfilePicture = () => {
       <div className='col'>
         <AvatarDisplay imageFileName={imageName} size={100} />
         <div className='right'>
-          <input type="file" accept="image/*" onChange={handleSubmit} hidden ref={fileInputRef} />
+          <input type="file" accept="image/*" onChange={handleSubmit} hidden ref={fileInputRef} data-testid="file-input" />
           <button className='button-submit' onClick={handleClick} >
             Upload image
             <FileUploadIcon />
