@@ -1,6 +1,6 @@
 import useStore from '../../app/store';
 import LAKpiTable from './LAKpiTable';
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 
 useStore.setState({
   dataTable: {
@@ -61,5 +61,17 @@ describe('render table', () => {
     const { container } = render(<LAKpiTable />);
     const element = container.querySelector('.table-content');
     expect(element).toBeInTheDocument();
+  });
+
+  it('should handle change event correctly', () => {
+    const { getByText, container } = render(<LAKpiTable />);
+    const openButton = container.getElementsByClassName('icon-filter')[0];
+    fireEvent.click(openButton);
+    const searchButton = getByText('Search');
+    fireEvent.click(searchButton);
+    const clearButton = container.getElementsByClassName('clear-all')[0];
+    fireEvent.click(clearButton);
+    const closeButton = container.getElementsByClassName('close-popup')[0];
+    fireEvent.click(closeButton);
   });
 });
