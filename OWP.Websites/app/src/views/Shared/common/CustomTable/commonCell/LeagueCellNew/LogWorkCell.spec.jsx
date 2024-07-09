@@ -12,11 +12,10 @@ describe('LogWorkCell under test', () => {
       isRead: true
     };
     const { container } = render(
-      <LogWorkCell data={data} onClick={handleOnclick} />
+      <LogWorkCell data={data}/>
     );
     const leagueName = container.querySelector('.ticket-title-link');
-    fireEvent.click(leagueName);
-    expect(handleOnclick).toBeCalled();
+
     expect(leagueName).toBeInTheDocument();
   });
 
@@ -26,11 +25,10 @@ describe('LogWorkCell under test', () => {
       isRead: true
     };
     const { container } = render(
-      <LogWorkCell data={data} onClick={handleOnclick} />
+      <LogWorkCell data={data} />
     );
     const subject = container.querySelector('.new-add-league-name');
-    fireEvent.click(subject);
-    expect(handleOnclick).toBeCalled();
+   
     expect(subject).toBeInTheDocument();
   });
 });

@@ -33,13 +33,16 @@ const setup = (isEventChecking, valueEvent, valueSearch, typeTicketText) => {
   useSelector.mockImplementation(selectorFn => selectorFn(initialState));
 };
 
+jest.mock('../../Shared/customHook/useStableDispatch', () => () => jest.fn())
+
 describe('CreateTicketEventChecking under test', () => {
   it('Should render popup', async () => {
     setup(true, valueEvent, 'sad', 'Event Checking');
 
     const { container } = render(
       <CreateTicketEventChecking
-        creatorInfo={recipientByCreatorId}
+        creatorInfo={{ ...recipientByCreatorId,
+          userName:'sa'}}
         handleBuildModel={handleBuildModel}
         ticketType={2}
       />

@@ -7,6 +7,9 @@ jest.mock('react-redux', () => ({
   useDispatch: jest.fn(),
   createRef: jest.fn()
 }));
+
+jest.mock('../../Shared/customHook/useStableDispatch', () => () => jest.fn())
+
 const valueEvent = {
   owpMatchId: 869324,
   homeName: 'B',
@@ -39,7 +42,10 @@ describe('CreateTicketLiveIncident under test', () => {
 
     const { container } = render(
       <CreateTicketLiveIncident
-        creatorInfo={recipientByCreatorId}
+        creatorInfo={{
+          ...recipientByCreatorId,
+          userName:'sa'
+        }}
         handleBuildModel={handleBuildModel}
         ticketType={4}
       />

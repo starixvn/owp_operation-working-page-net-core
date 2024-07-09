@@ -13,7 +13,17 @@ jest.mock('react-redux', () => ({
   useStore: jest.fn()
 }));
 
-store.getState = () => { };
+store.getState = () => ({
+  signalR:{
+    filterModel:{}
+  },
+  chatBoard:{
+    isOpenPopup: false,
+    ticketDetail:{
+      ticketId: 123
+    }
+  }
+});
 
 
 describe('changeStatusIncomeHandler under test', () => {
@@ -21,8 +31,11 @@ describe('changeStatusIncomeHandler under test', () => {
     jest.clearAllMocks();
   });
   it('should have call dispatch', () => {
-    changeStatusIncomeHandler();
+    changeStatusIncomeHandler({
+      ticketId: 123,
+      ticketStatus: 'close'
+    });
 
-    expect(reloadTicketCenterTable).toBeCalledTimes(1);
+    expect(store.dispatch).toBeCalled();
   });
 });

@@ -9,8 +9,7 @@ import Service from './Service/Service';
 import ServiceCreateTicket from '../../../Shared/createTicketNew/Service';
 import ToastrWrapper from '../../../components/ToastrWrapper';
 import {
-  formatRecipientModel,
-  saveFileToBackEnd,
+  filterFeedbackSubtype,
   getSubTypeByType
 } from '../../../Shared/createTicketNew/Helper/HelperCreateTicket';
 
@@ -95,7 +94,8 @@ describe('CreateTicketBoard under test', () => {
     Service.GetRecipientPreMatch.mockResolvedValue(fetchDataRecipientPreMatch);
     Service.GetInfoSiteMatch.mockResolvedValue(fetchDataInfoSite);
     ServiceCreateTicket.getSubType.mockResolvedValue(responseDataSubType);
-    getSubTypeByType.mockResolvedValue([]);
+    getSubTypeByType.mockReturnValue([{ subTypeId: 1, subTypeName: 'event' }]);
+    filterFeedbackSubtype.mockReturnValue([{ subTypeId: 1, subTypeName: 'event' }]);
     const selectedRecipients = [
       {
         ticketTypeRecipientId: 1,
@@ -157,7 +157,8 @@ describe('CreateTicketBoard under test', () => {
     Service.GetRecipientPreMatch.mockResolvedValue(fetchDataRecipientPreMatch);
     Service.GetInfoSiteMatch.mockResolvedValue(fetchDataInfoSite);
     ServiceCreateTicket.getSubType.mockResolvedValue(responseDataSubType);
-    getSubTypeByType.mockResolvedValue([]);
+    getSubTypeByType.mockReturnValue([{ subTypeId: 1, subTypeName: 'event' }]);
+    filterFeedbackSubtype.mockReturnValue([{ subTypeId: 1, subTypeName: 'event' }]);
     setup([], false, subTypeOption);
     const props = {
       subTypeSelected: [{ value: 1, label: 'abc' }],
@@ -193,7 +194,8 @@ describe('CreateTicketBoard under test', () => {
     Service.GetRecipientPreMatch.mockResolvedValue(fetchDataRecipientPreMatch);
     Service.GetInfoSiteMatch.mockResolvedValue(fetchDataInfoSite);
     ServiceCreateTicket.getSubType.mockResolvedValue(responseDataSubType);
-    getSubTypeByType.mockResolvedValue([]);
+    getSubTypeByType.mockReturnValue([{ subTypeId: 1, subTypeName: 'event' }]);
+    filterFeedbackSubtype.mockReturnValue([{ subTypeId: 1, subTypeName: 'event' }]);
     post.mockResolvedValue(true);
     const selectedRecipients = [
       {
