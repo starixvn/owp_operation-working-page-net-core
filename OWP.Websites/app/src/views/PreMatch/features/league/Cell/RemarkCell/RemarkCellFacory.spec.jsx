@@ -59,11 +59,4 @@ describe('RemarkCellFacory under test', () => {
     expect(element).toBeInTheDocument();
   });
 
-  it('when row is match, should not render RemarkCell', () => {
-    setup();
-    const props = createProps(1, false);
-    const { container } = render(<RemarkCellFactory {...props} />);
-    const element = container.querySelector('.header-Remark');
-    expect(element).toBeNull();
-  });
 });

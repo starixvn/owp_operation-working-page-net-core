@@ -99,7 +99,7 @@ describe('test YearTabContent', () => {
     const button = screen.getByText('Export');
     fireEvent.click(button);
     expect(window.location.href).toEqual(
-      `v1/test/api/OvertimeReport/export-report-by-year?Location=all&Trader=&Year=${year}`
+      `/api/OvertimeReport/export-report-by-year?Location=all&Trader=&Year=${year}`
     );
   });
 });

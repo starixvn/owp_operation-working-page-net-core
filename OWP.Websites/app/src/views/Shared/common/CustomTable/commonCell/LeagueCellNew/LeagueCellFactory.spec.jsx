@@ -1,5 +1,21 @@
 import LeagueCellFactory from './LeagueCellFactory';
 import { render, screen } from '@testing-library/react';
+import { useSelector } from 'react-redux';
+
+jest.mock('react-redux', () => ({
+  useSelector: jest.fn(),
+  useDispatch: jest.fn(),
+  createRef: jest.fn()
+}));
+
+useSelector.mockImplementation(selectorFn => selectorFn({
+  pagePolicy:{
+    permission:{
+      ActorId: 8
+    }
+  }
+}));
+ 
 
 describe('LeagueCellFactory under test', () => {
   it('should render OtherIssueCell case (eventType = 3)', () => {

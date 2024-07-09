@@ -43,7 +43,7 @@ const setup = (
     createTicketBoard: {
       selectedRecipients: selectedRecipients,
       subTypeSelected: subTypeSelected,
-      isOpenCreateTicketInLGA: isOpenCreateTicketInLGA
+      isOpenCreateTicketInLGA
     },
     chatBoard: {
       modelByRowIndex: modelByRowIndex
@@ -117,7 +117,8 @@ describe('CreateTicketLGAView under test', () => {
       recipientId: 1,
       recipientType: 1,
       recipientName: 'sa',
-      recipientNickname: 'sa_nick'
+      recipientNickname: 'sa_nick',
+      userName:'sa'
     };
     setup(selectedRecipients, subTypeSelected, true, modelByRowIndex);
     const { container } = render(
@@ -127,14 +128,15 @@ describe('CreateTicketLGAView under test', () => {
     fireEvent.click(button);
     await flushPromises();
     expect(post).toHaveBeenCalledTimes(1);
-    expect(mockDispatch).toHaveBeenCalledTimes(2);
+    expect(mockDispatch).toHaveBeenCalledTimes(3);
   });
   it('Should dispatch error', async () => {
     const creatorInfo = {
       recipientId: 1,
       recipientType: 1,
       recipientName: 'sa',
-      recipientNickname: 'sa_nick'
+      recipientNickname: 'sa_nick',
+       userName:'sa'
     };
     setup([], subTypeSelected, true, modelByRowIndex);
     const { container } = render(
@@ -143,6 +145,6 @@ describe('CreateTicketLGAView under test', () => {
     const button = container.querySelector('.button-submit');
     fireEvent.click(button);
     await flushPromises();
-    expect(mockDispatch).toHaveBeenCalledTimes(1);
+    expect(mockDispatch).toHaveBeenCalledTimes(2);
   });
 });

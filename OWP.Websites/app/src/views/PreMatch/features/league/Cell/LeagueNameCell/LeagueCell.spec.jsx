@@ -20,7 +20,10 @@ const setState = jest.fn();
 const setup = isExpandAll => {
   const state = {
     dayShift: {
-      isExpandAll
+      isExpandAll,
+      leagueWithTimeCondition:{
+        leagueInfos:[]
+      }
     }
   };
   useState.mockImplementation(init => [init, setState]);

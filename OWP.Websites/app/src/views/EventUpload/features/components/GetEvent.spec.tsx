@@ -6,9 +6,8 @@ import {
   exportExcel
 } from '../../../Shared/common/ExportLiveGameAssignment/Helper';
 
-jest.mock('../../../Shared/common/ExportLiveGameAssignment/Helper', ()=>({
-  exportExcel: jest.fn()
-}));
+jest.mock('../../../Shared/common/ExportLiveGameAssignment/Helper');
+exportExcel.mockResolveValue({});
 
 
 jest.mock('../../../components/Spinner');
@@ -61,7 +60,6 @@ describe('GetEvent under test', () => {
     const { getByText } = render(<GetEvent />);
     fireEvent.click(getByText('Download'));
 
-    
     expect(exportExcel).toBeCalled();
   });
 });

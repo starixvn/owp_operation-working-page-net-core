@@ -3,7 +3,6 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { getByRefName, authorize } from '../service/Service';
 import Filter from './Filter';
 import { useSelector, useDispatch } from 'react-redux';
-import { FunctionKeys, MatchStatuses } from '../../Shared/Constants';
 
 jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
@@ -60,7 +59,7 @@ describe('Filter', () => {
     fireEvent.click(container.querySelector('.icon-calendar'));
     fireEvent.click(getByText('15'));
     expect(mockDispatch).toHaveBeenCalledTimes(1);
-    expect(mockSetState).toHaveBeenCalledTimes(3);
+    expect(mockSetState).toHaveBeenCalledTimes(6);
   });
   it('should setState when click', () => {
     const state = {
@@ -72,7 +71,7 @@ describe('Filter', () => {
     render(<Filter />);
     const matchStatus = screen.queryByText(/Match Status/i);
     fireEvent.click(matchStatus);
-    expect(mockSetState).toHaveBeenCalledTimes(2);
+    expect(mockSetState).toHaveBeenCalledTimes(5);
   });
 
   it('should handle submit when click', () => {

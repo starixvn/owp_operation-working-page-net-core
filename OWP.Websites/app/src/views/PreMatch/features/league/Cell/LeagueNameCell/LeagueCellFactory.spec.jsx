@@ -16,7 +16,10 @@ const setup = () => {
       }
     },
     dayShift: {
-      isExpandAll: true
+      isExpandAll: true,
+      leagueWithTimeCondition:{
+        leagueInfos:[]
+      }
     }
   };
   useDispatch.mockReturnValue(mockDispatch);
