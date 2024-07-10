@@ -75,7 +75,8 @@ describe('compareDifferent', () => {
         HasTicket: true,
         IsRead: false,
         rowIndex: 0,
-        dataSource: []
+        dataSource: [],
+        EstNote: 'Note 1'
       },
       {
         Provider: 'Provider2',
@@ -108,7 +109,8 @@ describe('compareDifferent', () => {
         HasTicket: false,
         IsRead: true,
         rowIndex: 1,
-        dataSource: []
+        dataSource: [],
+        EstNote: 'Note 1'
       }
     ];
 

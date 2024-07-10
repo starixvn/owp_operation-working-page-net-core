@@ -32,7 +32,8 @@ describe('sumProviderSlice', () => {
         HasTicket: true,
         IsRead: false,
         rowIndex: 0,
-        dataSource: []
+        dataSource: [],
+        EstNote: 'Note 1'
       }
     ];
     const agentOptions: Option[] = [

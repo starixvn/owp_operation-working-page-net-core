@@ -33,8 +33,9 @@ type TDataSource = {
   AgentEst: string;
   AgentConfirm: TAgentConfirm[];
   RowColor: string | undefined;
-  [key in TEditableKey]: string | undefined;
-} & TTicketCell & TMaxbetSetting;
+} & {
+    [key in TEditableKey]: string | undefined;
+  } & TTicketCell & TMaxbetSetting;
 
 type TCommonCell = {
   className?: string;

@@ -2,8 +2,8 @@ import { fireEvent, getByText, render, screen, waitFor } from '@testing-library/
 import React, { act } from 'react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import AgentConfirmCell from '../AgentConfirmCell';
-import { useAppDispatch, useAppSelector } from '../../../../app/hookNative';
+import AgentConfirmCell from './AgentConfirmCell';
+import { useAppDispatch, useAppSelector } from '../../../app/hookNative';
 
 jest.mock('../../../../app/hookNative');
 const mockStore = configureStore([]);
