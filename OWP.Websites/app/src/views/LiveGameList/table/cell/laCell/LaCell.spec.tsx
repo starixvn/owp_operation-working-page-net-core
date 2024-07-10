@@ -1,6 +1,35 @@
 import { render } from '@testing-library/react';
 import LaCell from './LaCell';
 import { CellProps } from '../../../type/TableType';
+import configureStore from 'redux-mock-store';
+import '@testing-library/jest-dom';
+const middleWares = [];
+const mockStore = configureStore(middleWares);
+
+import { useDispatch, useSelector, Provider } from 'react-redux';
+
+const store = mockStore({
+ 
+});
+jest.mock('react-redux', () => ({
+  useDispatch: jest.fn(),
+  useSelector: jest.fn(),
+  createSelectorHook: jest.fn(),
+}));
+
+jest.mock('react', () => ({
+  ...jest.requireActual('react'),
+  useState: jest.fn()
+}));
+const mockedDispatch = jest.fn();
+
+useDispatch.mockReturnValue(mockedDispatch);
+
+useSelector.mockReturnValue({ events:{
+  userNameFilter: 'sa'
+}});
+
+const Wrapper = ({ children }) => <Provider store={store}>{children}</Provider>;
 
 const props: CellProps = {
   dataSource: [
@@ -190,8 +219,12 @@ const props: CellProps = {
   rowIndex: 0
 };
 describe('LaCell under test', () => {
+  beforeAll(()=>{
+    jest.resetAllMocks();
+  })
   it('Should render', () => {
-    const { container } = render(<LaCell {...props} />);
+    const { container } = render(
+      <LaCell {...props} />);
     const la = container.querySelector('.assignee');
     const laOther = container.querySelector('.assignee-other');
     expect(la).toBeInTheDocument();

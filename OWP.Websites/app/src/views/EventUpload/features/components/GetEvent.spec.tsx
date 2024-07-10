@@ -7,7 +7,7 @@ import {
 } from '../../../Shared/common/ExportLiveGameAssignment/Helper';
 
 jest.mock('../../../Shared/common/ExportLiveGameAssignment/Helper');
-exportExcel.mockResolveValue({});
+exportExcel.mockResolvedValue({});
 
 
 jest.mock('../../../components/Spinner');

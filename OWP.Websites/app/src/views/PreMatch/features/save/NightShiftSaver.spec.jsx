@@ -1,11 +1,7 @@
 import { createRef, useState, useEffect } from 'react';
 import { fireEvent, render } from '@testing-library/react';
-/**
- * @jest-environment jsdom
- */
-
 import { setImmediate } from 'timers';
-import { useSelector, useDispatch, useStore } from 'react-redux';
+import { useSelector, useDispatch, useStore, Provider } from 'react-redux';
 import NightShiftSaver from './NightShiftSaver';
 import axios from 'axios';
 import { noop } from 'lodash';
@@ -13,6 +9,14 @@ import Spinner from '../../../components/Spinner';
 import ToastrWrapper from '../../../components/ToastrWrapper';
 import { buildModelNightShiftSaver } from './modelSaveNightShiftBuilder';
 import { REQUEST_STATUS } from '../../../Shared/Constants';
+import configureStore from 'redux-mock-store';
+
+const middleWares = [];
+const mockStore = configureStore(middleWares);
+
+const store = mockStore({
+ 
+});
 
 const flushPromises = () => {
   return new Promise(resolve => setImmediate(resolve));
@@ -116,7 +120,7 @@ describe('NightShiftSaver under test', () => {
     expect(mockedDispatch).toBeCalled();
   });
 
-  it('message is empty, should call dispatch when clisk save', async () => {
+  it('message is empty, should call dispatch when click save', async () => {
     setUp(null);
     axios.post.mockImplementation(() => noop());
     buildModelNightShiftSaver.mockReturnValue({
@@ -142,7 +146,7 @@ describe('NightShiftSaver under test', () => {
     expect(mockedDispatch).toBeCalled();
   });
 
-  it('message is valid, should call dispatch when clisk save', async () => {
+  it('message is valid, should call dispatch when click save', async () => {
     setUp(null);
     axios.post.mockImplementation(() => noop());
     buildModelNightShiftSaver.mockReturnValue({

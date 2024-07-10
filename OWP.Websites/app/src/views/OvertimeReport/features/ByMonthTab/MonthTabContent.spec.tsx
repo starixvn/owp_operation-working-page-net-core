@@ -98,7 +98,7 @@ describe('test MonthTabContent', () => {
     const year = new Date().getFullYear();
     const month = new Date().getMonth() + 1;
     expect(window.location.href).toEqual(
-      `v1/test/api/OvertimeReport/export-report-by-month?Location=all&Trader=&Month=${month}&Year=${year}`
+      `/api/OvertimeReport/export-report-by-month?Location=all&Trader=&Month=${month}&Year=${year}`
     );
   });
 });

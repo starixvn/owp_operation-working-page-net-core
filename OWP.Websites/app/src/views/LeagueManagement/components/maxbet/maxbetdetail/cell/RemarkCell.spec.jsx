@@ -1,7 +1,5 @@
-import { useCallback } from 'react';
-import Router from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import configureStore from 'redux-mock-store';
 import RemarkCell from './RemarkCell';
 import '@testing-library/jest-dom';
