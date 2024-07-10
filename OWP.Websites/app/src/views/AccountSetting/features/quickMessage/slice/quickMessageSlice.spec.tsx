@@ -3,7 +3,6 @@ import quickMessageReducer, {
   closeEditMode,
   setEditModel,
   addQuickMessage,
-  deleteAction
 } from './quickMessageSlice';
 import { TQuickMessage } from '../../../Type';
 import { REQUEST_STATUS } from '../../../../Shared/Constants';
