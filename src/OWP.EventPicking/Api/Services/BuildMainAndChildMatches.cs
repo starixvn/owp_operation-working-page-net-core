@@ -63,7 +63,7 @@ public class BuildMainAndChildMatchesImp : BuildMainAndChildMatches
         buildMatchOffer.BuildForMainMatch(mainMatches.Result, maxBet.Result);
         RAndDInfoHelper.Build(mainMatches.Result, rAndDInfo.Result);
 
-        var filteredMainMatches = RemoveTestingMatches(mainMatches.Result)
+        var filteredMainMatches = mainMatches.Result
             .Where(x => !CheckMatchHaveBeenExclude(x.HomeName))
             .OrderBy(x => x.IsSaba)
             .ThenBy(x => x.EventDateTime)
