@@ -5,7 +5,7 @@ import configureStore from 'redux-mock-store';
 import AgentConfirmCell from './AgentConfirmCell';
 import { useAppDispatch, useAppSelector } from '../../../app/hookNative';
 
-jest.mock('../../../../app/hookNative');
+jest.mock('../../../app/hookNative');
 const mockStore = configureStore([]);
 const mockDispatch = jest.fn();
 
