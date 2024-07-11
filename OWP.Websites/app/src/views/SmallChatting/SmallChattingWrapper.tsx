@@ -1,6 +1,6 @@
 import { Provider } from 'react-redux';
 import store from './app/store';
-import SmallChatting from './SmallChatting';
+import SmallChatting from './SmallChattingNative';
 import useNotificationWrapper from './SignalR/useNotificationWrapper';
 import { SpinnerContainer } from '../components/Spinner';
 import useSignalRWrapper from './SignalR/useSignalRWrapper';
