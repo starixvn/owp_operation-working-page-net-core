@@ -9,8 +9,10 @@ import { setFilterTimeRange } from './filterSlice';
 const { minDate, toDateDefault } = getDefaultDateRange();
 
 const DateRangeFilter = () => {
-  const dispatch= useAppDispatch();
-  const {filterInfo: {fromDateFilter, toDateFilter}}= store.getState().filter.entities;
+  const dispatch = useAppDispatch();
+  const {
+    filterInfo: { fromDateFilter, toDateFilter }
+  } = store.getState().filter.entities;
   const [fromDate, setFromDate] = useState(fromDateFilter);
   const [toDate, setToDate] = useState(toDateFilter);
 
@@ -19,12 +21,12 @@ const DateRangeFilter = () => {
 
   const handleChangeFromDate = (date: Date) => {
     setFromDate(date);
-    dispatch(setFilterTimeRange( {key:'fromDateFilter', value: date}));
+    dispatch(setFilterTimeRange({ key: 'fromDateFilter', value: date }));
   };
 
   const handleChangeToDate = (date: Date) => {
     setToDate(date);
-    dispatch(setFilterTimeRange( {key:'toDateFilter', value: date}));
+    dispatch(setFilterTimeRange({ key: 'toDateFilter', value: date }));
   };
 
   return (
@@ -37,6 +39,7 @@ const DateRangeFilter = () => {
           selected={fromDate}
           dateFormat='MMM dd, yyyy'
           ref={fromDateRef}
+          className='cal-from-date'
           onChange={handleChangeFromDate}
         />
         <span
@@ -53,6 +56,7 @@ const DateRangeFilter = () => {
           selected={toDate}
           dateFormat='MMM dd, yyyy'
           ref={toDateRef}
+          className='cal-to-date'
           onChange={handleChangeToDate}
         />
         <span

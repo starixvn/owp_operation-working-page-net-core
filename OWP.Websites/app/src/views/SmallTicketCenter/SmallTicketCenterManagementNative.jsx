@@ -1,5 +1,5 @@
 import { OWPPage, OWPHeader, OWPBody } from '../Shared/common/OWP/OPWPage';
-import FilterWrapper from './features/header/filter/Filter';
+import FilterWrapper from './features/header/filter/FilterNative';
 import { FunctionKeys } from '../Shared/Constants';
 import TicketList from './features/table/TicketList';
 import usePermission from '../Shared/customHook/usePermission';

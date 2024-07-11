@@ -1,13 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import createTicketBoardReducer from '../../Shared/createTicketNew/createTicketBoardSliceNew';
 import filterReducer from '../features/header/filter/filterSlice';
-import tickerSliceReducer from '../features/table/slice/tickerSlice';
+import ticketSliceReducer from '../features/table/slice/ticketSlice';
 import createMultiplePolicySlice from '../../Shared/permission/multiplePolicySlice';
 const store = configureStore({
   reducer: {
     createTicketBoard: createTicketBoardReducer,
     pagePolicy: createMultiplePolicySlice('pagePolicy'),
-    tickerSlice: tickerSliceReducer,
+    tickerSlice: ticketSliceReducer,
     filter: filterReducer
   },
   middleware: getDefaultMiddleware =>

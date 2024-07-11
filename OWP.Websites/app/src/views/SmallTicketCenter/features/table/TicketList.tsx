@@ -26,6 +26,7 @@ const TicketList = () => {
           {ticketList.map((ticket, index) => (
             <tr className='ticket__list--item' key={index}>
               <td
+                className='ticket-list-cell-item'
                 onClick={event =>
                   handleOnClick(event, ticket.ticketId, ticket.eventType)
                 }>
