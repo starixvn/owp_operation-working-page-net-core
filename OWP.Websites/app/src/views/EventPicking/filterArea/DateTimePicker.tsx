@@ -1,7 +1,6 @@
 import CalendarIcon from 'mdi-react/CalendarIcon';
 import { useState } from 'react';
 import DatePicker from 'react-datepicker';
-import { v4 as uuidv4 } from 'uuid';
 import useStableDispatch from '../../Shared/customHook/useStableDispatch';
 import { maxDate, minDate } from '../helper/filterHelper';
 import { DATE } from './filterConst.json';

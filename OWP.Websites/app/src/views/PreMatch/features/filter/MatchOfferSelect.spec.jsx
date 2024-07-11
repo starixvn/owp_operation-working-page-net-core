@@ -29,20 +29,4 @@ describe('MatchOfferSelect under unit test', () => {
     const element = container.querySelector('.multi-select-dropdown');
     expect(element).toBeInTheDocument();
   });
-
-  // it('should call dispatch, when change input', () => {
-  //   const { container } = render(<MatchOfferSelect />);
-  //   const element = container.querySelector('input');
-  //   fireEvent.focus(element);
-  //   fireEvent.change(element, { target: { value: 'abc' } });
-
-  //   expect(element).toBeInTheDocument();
-  // fireEvent.focus(container.querySelector('input'));
-  //     fireEvent.keyDown(container.querySelector('input'), { key: 'ArrowDown', code: 40 });
-
-  //     fireEvent.click(getByText('1H 1X2'));
-
-  //     expect(getByText('1H 1X2')).toBeInTheDocument();
-
-  // });
 });
