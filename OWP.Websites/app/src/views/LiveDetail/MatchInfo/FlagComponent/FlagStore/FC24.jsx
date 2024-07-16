@@ -94,5 +94,8 @@ export const FC_24_IMAGE_STORE = [
   'Sheffield United (V)',
   'Tottenham Hotspur (V)',
   'West Ham United (V)',
-  'Wolverhampton Wanderers (V)'
+  'Wolverhampton Wanderers (V)',
+  'Leicester City (V)',
+  'Ipswich Town (V)',
+  'Southampton (V)'
 ];
