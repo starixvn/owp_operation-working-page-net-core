@@ -14,6 +14,7 @@ const createTicketBoardSliceNew = createSlice({
     creatorInfo: null,
     selectedRecipients: [],
     defaultRecipients: [],
+    defaultRecipientsLGA: [],
     errorOther: false,
     errorInput: false,
     errorRecipient: false,
@@ -28,6 +29,11 @@ const createTicketBoardSliceNew = createSlice({
     setDefaultRecipients: {
       reducer: (state, { payload }) => {
         state.defaultRecipients = payload;
+      }
+    },
+    setDefaultRecipientsLGA: {
+      reducer: (state, { payload }) => {
+        state.defaultRecipientsLGA = payload;
       }
     },
     setSubTypeSelected: {
@@ -118,7 +124,7 @@ const createTicketBoardSliceNew = createSlice({
         state.errorInput = false;
         state.errorRecipient = false;
         state.valueEvent = null;
-        state.selectedRecipients = state.defaultRecipients;
+        state.selectedRecipients = state.defaultRecipientsLGA;
         state.isOpenPopup = true;
         state.isLiveIncident = true;
         state.isEventChecking = false;
@@ -148,7 +154,7 @@ const createTicketBoardSliceNew = createSlice({
         state.isOpenCreateTicketInLGA = true;
         state.errorRecipient = false;
         state.subTypeSelected = [{ value: 0, label: '' }];
-        state.selectedRecipients = state.defaultRecipients;
+        state.selectedRecipients = state.defaultRecipientsLGA;
       }
     },
     openPopupLogWork: {
@@ -184,6 +190,7 @@ const {
   setRecipientAssigned,
   setTypeTicketText,
   setDefaultRecipients,
+  setDefaultRecipientsLGA,
   setSubTypeOption,
   setSubTypeSelected,
   closePopupCreateTicketInLGA,
@@ -208,6 +215,7 @@ export {
   setRecipientAssigned,
   setTypeTicketText,
   setDefaultRecipients,
+  setDefaultRecipientsLGA,
   setSubTypeOption,
   setSubTypeSelected,
   closePopupCreateTicketInLGA,

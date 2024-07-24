@@ -11,7 +11,7 @@ import {
   changeErrorRecipient,
   setSelectedRecipients,
   closePopupCreateTicketInLGA,
-  setDefaultRecipients,
+  setDefaultRecipientsLGA,
   setSubTypeSelected
 } from './createTicketBoardSliceNew';
 import {
@@ -24,7 +24,7 @@ import {
 import {
   urlRequestLiveIncident,
   providerCheckingSubTypeId,
-  recipientAssignee
+  recipientAssigneeDefault
 } from './const/const';
 import { TICKET_TYPE } from '../TicketCenterPrematch/const/const.json';
 import Loading from '../../components/Loading';
@@ -45,7 +45,7 @@ const CreateTicketLGAView = props => {
     selectedRecipients,
     subTypeSelected,
     isOpenCreateTicketInLGA,
-    defaultRecipients
+    defaultRecipientsLGA
   } = useSelector(state => state.createTicketBoard);
 
   const { OWPMatchId, League, Home, Away, EventDateTime } = modelByRowIndex;
@@ -59,7 +59,7 @@ const CreateTicketLGAView = props => {
     const model = {
       owpMatchId: OWPMatchId
     };
-    let recipientLGA = [recipientAssignee];
+    let recipientLGA = [];
     if (OWPMatchId) {
       recipientLGA = await Service.queryAssigneesByOwpMatchId(model);
     }
@@ -103,9 +103,12 @@ const CreateTicketLGAView = props => {
     setSelectedFiles([]);
   };
 
-  useEffect(() => {
-    creatorInfo.userName && dispatch(setDefaultRecipients([creatorInfo]));
-  }, [creatorInfo, dispatch]);
+  // useEffect(() => {
+  //   creatorInfo.userName &&
+  //     dispatch(
+  //       setDefaultRecipientsLGA([creatorInfo, recipientAssigneeDefault])
+  //     );
+  // }, [creatorInfo, dispatch]);
 
   useEffect(() => {
     (async () => {
@@ -164,6 +167,8 @@ const CreateTicketLGAView = props => {
           </div>
         </div>
         <ShareOfChatBoardTicket
+          defaultRecipients={defaultRecipientsLGA}
+          selectedRecipients={selectedRecipients}
           handleOnSubmit={handleOnSubmit}
           handleOnClosePopup={handleOnClose}
           selectedFiles={selectedFiles}

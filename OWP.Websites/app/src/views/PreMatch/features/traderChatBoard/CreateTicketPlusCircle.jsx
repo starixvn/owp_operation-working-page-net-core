@@ -15,9 +15,8 @@ const CreateTicketPlusCircle = props => {
     state => state.chatBoard
   );
 
-  const { selectedRecipients, subTypeSelected } = useSelector(
-    state => state.createTicketBoard
-  );
+  const { selectedRecipients, subTypeSelected, defaultRecipients } =
+    useSelector(state => state.createTicketBoard);
 
   useEffect(() => {
     creatorInfo.userName && dispatch(setSelectedRecipients([creatorInfo]));
@@ -28,6 +27,7 @@ const CreateTicketPlusCircle = props => {
       {isOpenTicket && (
         <ViewCreateTicketBoard
           modelByRowIndex={modelByRowIndex}
+          defaultRecipients={defaultRecipients}
           selectedRecipients={selectedRecipients}
           creatorInfo={creatorInfo}
           subTypeSelected={subTypeSelected}

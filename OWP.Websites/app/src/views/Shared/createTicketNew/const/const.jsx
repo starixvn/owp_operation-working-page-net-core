@@ -24,16 +24,19 @@ const BUTTON_TYPE = {
 };
 const RECIPIENT_TYPE = {
   INDIVIDUAL: 1,
-  GROUP: 2
+  GROUP: 2,
+  SECTION: 3,
+  ASSIGNEE: 4
 };
 
 const providerCheckingSubTypeId = 1000;
 
-const recipientAssignee = {
+const recipientAssigneeDefault = {
+  groupName: 'Assignee',
+  nickName: null,
   recipientId: 1,
-  recipientName: 'Assignee',
-  recipientNickName: null,
-  recipientType: 4
+  recipientType: RECIPIENT_TYPE.ASSIGNEE,
+  userName: null
 };
 
 const buildRequestURL = key => `${netCoreURLTicketCenter}/${key}`;
@@ -78,5 +81,5 @@ export {
   urlGetAssigneesLGA,
   BUTTON_TYPE,
   providerCheckingSubTypeId,
-  recipientAssignee
+  recipientAssigneeDefault
 };

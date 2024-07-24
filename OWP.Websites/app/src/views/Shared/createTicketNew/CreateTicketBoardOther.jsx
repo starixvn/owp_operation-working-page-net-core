@@ -36,6 +36,7 @@ const CreateTicketBoardOther = props => {
   const {
     isOthers,
     valueOther,
+    defaultRecipients,
     selectedRecipients,
     typeTicketText,
     subTypeSelected
@@ -120,6 +121,8 @@ const CreateTicketBoardOther = props => {
           <span className='close-chat-board-popup' onClick={handleOnClose} />
           <Other />
           <ShareOfChatBoardTicket
+            defaultRecipients={defaultRecipients}
+            selectedRecipients={selectedRecipients}
             handleOnSubmit={handleOnSubmit}
             handleOnClosePopup={handleOnClose}
             selectedFiles={selectedFiles}

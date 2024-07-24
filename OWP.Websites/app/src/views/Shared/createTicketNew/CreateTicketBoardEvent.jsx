@@ -32,6 +32,7 @@ const CreateTicketBoardEvent = props => {
   const dispatch = useStableDispatch();
   const {
     valueEvent,
+    defaultRecipientsLGA,
     selectedRecipients,
     recipientAssigned,
     subTypeSelected,
@@ -108,6 +109,8 @@ const CreateTicketBoardEvent = props => {
       {renderHeader()}
       <Event ticketType={ticketType} typeTicketText={typeTicketText} />
       <ShareOfChatBoardTicket
+        defaultRecipients={defaultRecipientsLGA}
+        selectedRecipients={selectedRecipients}
         handleOnSubmit={handleOnSubmit}
         handleOnClosePopup={handleOnClose}
         selectedFiles={selectedFiles}

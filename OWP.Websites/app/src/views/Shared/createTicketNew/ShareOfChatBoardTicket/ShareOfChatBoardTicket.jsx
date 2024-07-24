@@ -23,7 +23,9 @@ const propTypes = {
   handleOnClosePopup: PropTypes.func,
   selectedFiles: PropTypes.any,
   setSelectedFiles: PropTypes.func,
-  ticketType: PropTypes.any
+  ticketType: PropTypes.any,
+  selectedRecipients: PropTypes.any,
+  defaultRecipients: PropTypes.any
 };
 
 const ShareOfChatBoardTicket = props => {
@@ -32,7 +34,9 @@ const ShareOfChatBoardTicket = props => {
     setSelectedFiles,
     handleOnSubmit,
     handleOnClosePopup,
-    ticketType
+    ticketType,
+    selectedRecipients,
+    defaultRecipients
   } = props;
 
   const commentRef = useRef();
@@ -42,12 +46,9 @@ const ShareOfChatBoardTicket = props => {
   };
   const dispatch = useStableDispatch();
   const [subTypeOption, setSubTypeOption] = useState([]);
-  const {
-    errorRecipient,
-    subTypeSelected,
-    selectedRecipients,
-    defaultRecipients
-  } = useSelector(state => state.createTicketBoard);
+  const { errorRecipient, subTypeSelected } = useSelector(
+    state => state.createTicketBoard
+  );
 
   useEffect(() => {
     (async () => {
@@ -107,8 +108,8 @@ const ShareOfChatBoardTicket = props => {
         <div className='left-form'>
           <div className='label'>Comment:</div>
         </div>
-      
-        <Comment ref={commentRef}/>
+
+        <Comment ref={commentRef} />
       </div>
       <Attachments
         selectedFiles={selectedFiles}

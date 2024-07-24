@@ -25,6 +25,7 @@ import { TICKET_TYPE } from '../../../Shared/TicketCenterPrematch/const/const.js
 const { EVENT_CHECKING } = TICKET_TYPE;
 const propTypes = {
   selectedRecipients: PropTypes.any,
+  defaultRecipients: PropTypes.any,
   modelByRowIndex: PropTypes.any,
   creatorInfo: PropTypes.any,
   subTypeSelected: PropTypes.any
@@ -45,8 +46,13 @@ const informResult = result => {
 const ViewCreateTicketBoard = props => {
   const dispatch = useStableDispatch();
   const [selectedFiles, setSelectedFiles] = useState([]);
-  const { selectedRecipients, modelByRowIndex, creatorInfo, subTypeSelected } =
-    props;
+  const {
+    selectedRecipients,
+    modelByRowIndex,
+    creatorInfo,
+    subTypeSelected,
+    defaultRecipients
+  } = props;
   const { InfoSiteMatchId, PreMatchLeagueId, LeagueId } = modelByRowIndex;
 
   const dispatchActionRecipient = value => {
@@ -167,6 +173,8 @@ const ViewCreateTicketBoard = props => {
         </div>
       </div>
       <ShareOfChatBoardTicket
+        defaultRecipients={defaultRecipients}
+        selectedRecipients={selectedRecipients}
         handleOnSubmit={handleOnSubmit}
         handleOnClosePopup={handleOnClose}
         selectedFiles={selectedFiles}

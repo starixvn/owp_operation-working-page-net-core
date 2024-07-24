@@ -2,10 +2,13 @@ import { useEffect } from 'react';
 import CreateTicketBoardEvent from './CreateTicketBoardEvent';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { urlRequestLiveIncident } from './const/const';
+import {
+  urlRequestLiveIncident,
+  recipientAssigneeDefault
+} from './const/const';
 import { TICKET_TYPE } from '../TicketCenterPrematch/const/const.json';
 import useStableDispatch from '../../Shared/customHook/useStableDispatch';
-import { setDefaultRecipients } from '../../Shared/createTicketNew/createTicketBoardSliceNew';
+import { setDefaultRecipientsLGA } from '../../Shared/createTicketNew/createTicketBoardSliceNew';
 import Loading from '../../components/Loading';
 
 const { LIVE_INCIDENT } = TICKET_TYPE;
@@ -34,7 +37,10 @@ const CreateTicketLiveIncident = props => {
   };
 
   useEffect(() => {
-    creatorInfo.userName && stableDispatch(setDefaultRecipients([creatorInfo]));
+    creatorInfo.userName &&
+      stableDispatch(
+        setDefaultRecipientsLGA([creatorInfo, recipientAssigneeDefault])
+      );
   }, [creatorInfo, stableDispatch]);
 
   if (!creatorInfo.userName) {
