@@ -18,12 +18,16 @@ import {
   formatRecipientModel,
   saveFileToBackEnd,
   informResult,
-  getRecipientDefaultBySubType
+  getRecipientDefaultBySubType,
+  getSubTypeByType
 } from './Helper/HelperCreateTicket';
-import { urlRequestLiveIncident } from './const/const';
+import {
+  urlRequestLiveIncident,
+  providerCheckingSubTypeId,
+  recipientAssignee
+} from './const/const';
 import { TICKET_TYPE } from '../TicketCenterPrematch/const/const.json';
 import Loading from '../../components/Loading';
-import { TicketTypeRecipientEnum } from '../enum/TicketRecipientEnum';
 
 const { LIVE_INCIDENT } = TICKET_TYPE;
 
@@ -55,13 +59,8 @@ const CreateTicketLGAView = props => {
     const model = {
       owpMatchId: OWPMatchId
     };
-    let recipientLGA = [];
-    if (
-      OWPMatchId &&
-      selectedRecipients.some(
-        x => x.recipientType === TicketTypeRecipientEnum.Assignee
-      )
-    ) {
+    let recipientLGA = [recipientAssignee];
+    if (OWPMatchId) {
       recipientLGA = await Service.queryAssigneesByOwpMatchId(model);
     }
     const selected = selectedRecipients.concat(recipientLGA);
@@ -111,10 +110,22 @@ const CreateTicketLGAView = props => {
   useEffect(() => {
     (async () => {
       if (isProviderVerification) {
-        dispatch(
-          setSubTypeSelected([{ value: 27, label: 'Provider Checking' }])
+        const subTypes = await getSubTypeByType(LIVE_INCIDENT);
+        const subtypeSelected = subTypes.find(
+          x => x.subTypeId === providerCheckingSubTypeId
         );
-        const recipient = await getRecipientDefaultBySubType(27);
+
+        dispatch(
+          setSubTypeSelected([
+            {
+              value: subtypeSelected.subTypeId,
+              label: subtypeSelected.subTypeName
+            }
+          ])
+        );
+        const recipient = await getRecipientDefaultBySubType(
+          providerCheckingSubTypeId
+        );
         dispatch(setSelectedRecipients(recipient.concat(defaultRecipients)));
       }
     })();

@@ -26,6 +26,16 @@ const RECIPIENT_TYPE = {
   INDIVIDUAL: 1,
   GROUP: 2
 };
+
+const providerCheckingSubTypeId = 1000;
+
+const recipientAssignee = {
+  recipientId: 1,
+  recipientName: 'Assignee',
+  recipientNickName: null,
+  recipientType: 4
+};
+
 const buildRequestURL = key => `${netCoreURLTicketCenter}/${key}`;
 
 const urlGetSubType = buildRequestURL(URL.GET_SUBTYPE);
@@ -66,5 +76,7 @@ export {
   urlGetMatchInfo,
   RECIPIENT_TYPE,
   urlGetAssigneesLGA,
-  BUTTON_TYPE
+  BUTTON_TYPE,
+  providerCheckingSubTypeId,
+  recipientAssignee
 };
