@@ -72,6 +72,7 @@ const CreateTicketBoardEvent = props => {
         recipientLGA = await Service.queryAssigneesByOwpMatchId(model);
       }
       const selected = selectedRecipients
+        .filter(x => x.recipientType !== TicketTypeRecipientEnum.Assignee)
         .concat(recipientAssigned)
         .concat(recipientLGA);
 

@@ -23,12 +23,12 @@ import {
 } from './Helper/HelperCreateTicket';
 import {
   urlRequestLiveIncident,
-  providerCheckingSubTypeId,
-  recipientAssigneeDefault
+  recipientAssigneeDefault,
+  providerCheckingSubTypeId
 } from './const/const';
 import { TICKET_TYPE } from '../TicketCenterPrematch/const/const.json';
 import Loading from '../../components/Loading';
-
+import { TicketTypeRecipientEnum } from '../enum/TicketRecipientEnum';
 const { LIVE_INCIDENT } = TICKET_TYPE;
 
 const propTypes = {
@@ -60,10 +60,18 @@ const CreateTicketLGAView = props => {
       owpMatchId: OWPMatchId
     };
     let recipientLGA = [];
-    if (OWPMatchId) {
+    if (
+      OWPMatchId &&
+      selectedRecipients.some(
+        x => x.recipientType === TicketTypeRecipientEnum.Assignee
+      )
+    ) {
       recipientLGA = await Service.queryAssigneesByOwpMatchId(model);
     }
-    const selected = selectedRecipients.concat(recipientLGA);
+    const selected = selectedRecipients
+      .filter(x => x.recipientType !== TicketTypeRecipientEnum.Assignee)
+      .concat(recipientLGA);
+
     const reformattedArray = formatRecipientModel(selected, creatorInfo);
     const resultSaveFile =
       selectedFiles.length && (await saveFileToBackEnd(selectedFiles));
@@ -103,12 +111,12 @@ const CreateTicketLGAView = props => {
     setSelectedFiles([]);
   };
 
-  // useEffect(() => {
-  //   creatorInfo.userName &&
-  //     dispatch(
-  //       setDefaultRecipientsLGA([creatorInfo, recipientAssigneeDefault])
-  //     );
-  // }, [creatorInfo, dispatch]);
+  useEffect(() => {
+    creatorInfo.userName &&
+      dispatch(
+        setDefaultRecipientsLGA([creatorInfo, recipientAssigneeDefault])
+      );
+  }, [creatorInfo, dispatch]);
 
   useEffect(() => {
     (async () => {
@@ -119,17 +127,15 @@ const CreateTicketLGAView = props => {
         );
 
         dispatch(
-          setSubTypeSelected([
-            {
-              value: subtypeSelected.subTypeId,
-              label: subtypeSelected.subTypeName
-            }
-          ])
+          setSubTypeSelected({
+            value: subtypeSelected.subTypeId,
+            label: subtypeSelected.subTypeName
+          })
         );
         const recipient = await getRecipientDefaultBySubType(
           providerCheckingSubTypeId
         );
-        dispatch(setSelectedRecipients(recipient.concat(defaultRecipients)));
+        dispatch(setSelectedRecipients(recipient.concat(defaultRecipientsLGA)));
       }
     })();
   }, [modelByRowIndex]);
