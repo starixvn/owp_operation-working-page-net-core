@@ -12,7 +12,8 @@ public class NewLeagueSettingEndPoint : ICarterModule
             await using var ms = new MemoryStream();
             await request.Form.Files[0].CopyToAsync(ms);
             return await sender.Send(new InitDataRequest(ms));
-        }).Accepts<HttpRequest>("multipart/form-data");
+        }).Accepts<HttpRequest>("multipart/form-data")
+            .AllowAnonymous();
 
         groupEndpoint.MapGet("/getAllListSettings", async (string league, bool isEqualLeague, ISender sender) =>
         {
