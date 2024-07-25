@@ -6,7 +6,7 @@ namespace OWP.AccountSetting.Profile;
 
 public interface ProfileRepository
 {
-    Task<(string, string)> QueryUserProfileInfo();
+    Task<(string, string)> QueryUserProfileInfo(int? userId = null );
 }
 
 public class ProfileRepositoryImp : ProfileRepository
@@ -20,9 +20,9 @@ public class ProfileRepositoryImp : ProfileRepository
         this.session = session;
     }
 
-    public async Task<(string, string)> QueryUserProfileInfo()
+    public async Task<(string, string)> QueryUserProfileInfo(int? userId = null)
     {
-        var criteria = new GetUserProfileCriteria { UserId = session.UserId };
+        var criteria = new GetUserProfileCriteria { UserId = userId ?? session.UserId };
         var result = await repository.FetchAsync<UserProfile>(criteria);
         var firstResult = result.FirstOrDefault();
         return (firstResult.Username, firstResult.SavedFileName);

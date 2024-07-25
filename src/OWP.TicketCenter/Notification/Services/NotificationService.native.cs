@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using OWP.AccountSetting.Profile;
 using OWP.TicketCenter.Hubs;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.ViewModels;
@@ -32,20 +33,26 @@ public class NotificationServiceImp : NotificationService
 
     private readonly Repository repository;
 
+    private readonly ProfileRepository profileRepository;
+
     public NotificationServiceImp(
         Repository repository,
+        ProfileRepository profileRepository,
         IHubContext<TicketCenterNotifyHubImp, TicketCenterNotifyHub> notifyMyTicket,
         IHubContext<PreMatchNotifyHubImp, PreMatchNotifyHub> notifyPreMatch)
     {
         this.notifyMyTicket = notifyMyTicket;
         this.notifyPreMatch = notifyPreMatch;
         this.repository = repository;
+        this.profileRepository = profileRepository;
     }
 
     public async Task NotifyNewMessageIncome(List<string> userIds, TicketInfo ticketInfo, MessageDetailViewModel messageResponse = null)
     {
         var ticketReaders = await repository.GetTickerReaderInfoByTicketId(ticketInfo.TicketId);
         var lastComments = (await repository.GetTwoLastComment(new List<int> { ticketInfo.TicketId })).ToList();
+        var (_, avatarFileName) = await profileRepository.QueryUserProfileInfo(messageResponse.UserId);
+        messageResponse.AvatarFileName = avatarFileName;
         ticketInfo.Messages = lastComments;
         ticketInfo.LastCommentDate = lastComments.Count != 0
             ? lastComments[0].CreatedDate
