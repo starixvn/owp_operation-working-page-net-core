@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using OWP.WorkingShift.SyncWorkingShift.Const;
+﻿using OWP.WorkingShift.SyncWorkingShift.Const;
 using OWP.WorkingShift.SyncWorkingShift.Utils;
 using System.Xml.Serialization;
 
@@ -21,7 +20,6 @@ public class WorkingShiftModel
     public DateTime? LastUpdated { get; set; }
 
     [XmlIgnore]
-    [JsonIgnore]
     public string ShiftOT { get; set; }
 
     public bool IsOffDay => string.Equals(ShiftOT, HrmConst.OFF);
@@ -29,11 +27,9 @@ public class WorkingShiftModel
     public bool IsPublicHoliday => string.Equals(ShiftOT, HrmConst.PUBLIC_HOLIDAY);
 
     [XmlIgnore]
-    [JsonIgnore]
     public bool IsTimeShift { get; set; }
 
     [XmlIgnore]
-    [JsonIgnore]
     public int? Extension { get; set; }
 
     public void RecalculateShiftCode()
