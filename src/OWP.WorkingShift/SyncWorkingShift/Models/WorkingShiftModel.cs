@@ -22,13 +22,6 @@ public class WorkingShiftModel
 
     [XmlIgnore]
     [JsonIgnore]
-    public bool LogIsTimeShift => IsTimeShift;
-
-    [XmlIgnore]
-    [JsonIgnore]
-    public string LogShiftCode => ShiftCode;
-    [XmlIgnore]
-    [JsonIgnore]
     public string ShiftOT { get; set; }
 
     public bool IsOffDay => string.Equals(ShiftOT, HrmConst.OFF);
