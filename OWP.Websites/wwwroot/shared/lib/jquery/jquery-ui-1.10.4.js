@@ -4474,7 +4474,7 @@ $.extend(Datepicker.prototype, {
 				return new Date(year, month, day);
 			},
 			newDate = (date == null || date === "" ? defaultDate : (typeof date === "string" ? offsetString(date) :
-				(typeof date === "number" ? (isNaN(date) ? defaultDate : offsetNumeric(date)) : new Date(date.getTime()))));
+				(typeof date === "number" ? (isNaN(date) ? defaultDate : offsetNumeric(date)) : new Date(date))));
 
 		newDate = (newDate && newDate.toString() === "Invalid Date" ? defaultDate : newDate);
 		if (newDate) {
