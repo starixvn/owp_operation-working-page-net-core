@@ -39,7 +39,7 @@ public class OddsCompilerApiController(Repository oddsCompilerRepository, Config
     public async Task<IActionResult> SaveMarket([FromBody] MarketUpdateModel model)
     {
         var result = await oddsCompilerRepository.SaveMarket(model);
-        return Ok(result);
+        return Ok(JsonConvert.SerializeObject(result));
     }
 
     [Route("insert-odds")]
@@ -48,7 +48,7 @@ public class OddsCompilerApiController(Repository oddsCompilerRepository, Config
     public async Task<IActionResult> InsertOdds([FromBody] InsertOddsModel model)
     {
         var result = await oddsCompilerRepository.InsertOdds(model);
-        return Ok(result);
+        return Ok(JsonConvert.SerializeObject(result));
     }
 
     [Route("update-odds")]
@@ -57,7 +57,7 @@ public class OddsCompilerApiController(Repository oddsCompilerRepository, Config
     public async Task<IActionResult> UpdateOdds([FromBody] UpdateOddsModel model)
     {
         var result = await oddsCompilerRepository.UpdateOdds(model);
-        return Ok(result);
+        return Ok(JsonConvert.SerializeObject(result));
     }
 
     [Route("delete-odds")]
@@ -66,7 +66,7 @@ public class OddsCompilerApiController(Repository oddsCompilerRepository, Config
     public async Task<IActionResult> DeleteOdds([FromBody] DeleteOddsModel model)
     {
         var result = await oddsCompilerRepository.DeleteOdds(model);
-        return Ok(result);
+        return Ok(JsonConvert.SerializeObject(result));
     }
 
     [Route("export-excel")]
