@@ -1,0 +1,6 @@
+{
+  "GET_PROVIDER": "get-provider",
+  "UPDATE_PROVIDER_ARRANGEMENT": "update-provider-arrangement",
+  "GET_LOG": "get-log",
+  "System": "System"
+}

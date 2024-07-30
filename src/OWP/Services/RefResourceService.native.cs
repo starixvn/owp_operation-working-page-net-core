@@ -9,6 +9,10 @@ public interface RefResourceService
     Task<IEnumerable<ReferenceResource>> GetRefResourcesByName(string name);
 
     Task<IList<ReferenceResource>> GetAllReferenceResource();
+
+    Task<IList<ReferenceResource>> GetResourceByNameWithNone(string resourceName);
+
+    IList<UserLocation> GetAllLocations();
 }
 
 public class RefResourceServiceImp : RefResourceService
@@ -20,11 +24,36 @@ public class RefResourceServiceImp : RefResourceService
         this.dynamicRepository = dynamicRepository;
     }
 
+    public IList<UserLocation> GetAllLocations()
+    {
+        return new List<UserLocation>
+        {
+            new() { LocationName = "CTI", LocationCode = "CTI" },
+            new() { LocationName = "SMS", LocationCode = "SMS" },
+            new() { LocationName = "WAH HCMC", LocationCode = "WAH HCMC" },
+            new() { LocationName = "WAH MAL", LocationCode = "WAH MAL" },
+            new() { LocationName = "WAH MNL", LocationCode = "WAH MNL" },
+            new() { LocationName = "None", LocationCode = "None" }
+        };
+    }
+
     public async Task<IList<ReferenceResource>> GetAllReferenceResource()
         => (await dynamicRepository.FetchAsync<ReferenceResource>(new GetAllRefResourceCriteria())).ToList();
 
     public async Task<IEnumerable<ReferenceResource>> GetRefResourcesByName(string refName)
         => await dynamicRepository.FetchAsync<ReferenceResource>(new GetRefResourceByNameCriteria { RefName = refName });
+
+    public async Task<IList<ReferenceResource>> GetResourceByNameWithNone(string resourceName)
+    {
+        var resources = (await GetRefResourcesByName(resourceName)).ToList();
+        resources.Add(new ReferenceResource
+        {
+            ResourceId = 0,
+            Value = "None"
+        });
+
+        return resources;
+    }
 }
 
 public class GetRefResourceByNameCriteria : CriteriaBase

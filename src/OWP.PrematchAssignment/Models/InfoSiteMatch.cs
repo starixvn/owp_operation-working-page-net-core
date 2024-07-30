@@ -34,7 +34,7 @@ public class InfoSiteMatch
 
     public string MatchStatus { get; set; } = string.Empty;
 
-    public List<TicketMatchBasicInfo> TicketList { get; set; } = new();
+    public List<TicketMatchBasicInfo> TicketList { get; set; } = [];
 
     public bool HasMessages => TicketList.Count > 0;
 

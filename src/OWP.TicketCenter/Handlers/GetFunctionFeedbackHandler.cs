@@ -3,10 +3,7 @@ using OWP.TicketCenter.Models;
 
 namespace OWP.TicketCenter.Handlers;
 
-public class GetFunctionFeedbackRequest : IRequest<IEnumerable<FunctionFeedback>>
-{
-
-}
+public class GetFunctionFeedbackRequest : IRequest<IEnumerable<FunctionFeedback>>;
 
 public class GetFunctionFeedbackHandler : IRequestHandler<GetFunctionFeedbackRequest, IEnumerable<FunctionFeedback>>
 {

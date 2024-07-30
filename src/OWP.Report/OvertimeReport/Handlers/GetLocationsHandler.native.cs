@@ -4,9 +4,7 @@ using OWP.Services;
 
 namespace OWP.Report.OvertimeReport.Handlers;
 
-public class GetLocationsRequest : IRequest<IEnumerable<Location>>
-{
-}
+public class GetLocationsRequest : IRequest<IEnumerable<Location>>;
 
 public class GetLocationsHandler : IRequestHandler<GetLocationsRequest, IEnumerable<Location>>
 {

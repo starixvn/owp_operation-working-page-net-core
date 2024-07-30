@@ -2,7 +2,7 @@
 
 public class SchedulingMatch
 {
-    public List<RealMatchSender> Real { get; set; } = new();
+    public List<RealMatchSender> Real { get; set; } = [];
 
-    public List<SabaMatchSender> Saba { get; set; } = new();
+    public List<SabaMatchSender> Saba { get; set; } = [];
 }

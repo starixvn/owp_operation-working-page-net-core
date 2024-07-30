@@ -24,7 +24,7 @@ public class GetLogRequestHandler : IRequestHandler<GetLogRequest, IEnumerable<L
     public async Task<IEnumerable<LogDisplayModel>> Handle(GetLogRequest request, CancellationToken cancellationToken)
     {
         var criteria = new GetLogTargetLevelCriteria { UserId = request.UserId };
-        var logModel = await repository.FetchAsync<UserLogModel>(criteria, cancellationToken);
+        var logModel = await repository.FetchAsync<UserLogModel>(criteria);
 
         return BuildLogs(logModel);
     }

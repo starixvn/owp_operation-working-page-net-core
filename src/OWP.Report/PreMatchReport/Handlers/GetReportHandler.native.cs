@@ -4,9 +4,7 @@ using OWP.Report.PreMatchReport.Services;
 
 namespace OWP.Report.PreMatchReport.Handlers;
 
-public class ReportRequest : QueryModel, IRequest<List<ExportPreMatchModel>>
-{
-}
+public class ReportRequest : QueryModel, IRequest<List<ExportPreMatchModel>>;
 
 public class GetReportHandler : IRequestHandler<ReportRequest, List<ExportPreMatchModel>>
 {

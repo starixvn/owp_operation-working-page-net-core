@@ -1,4 +1,4 @@
-﻿namespace OWP.SimpleDataApi.LiveGameAssignment.Criteria;
+﻿namespace OWP.SimpleDataApi.Criteria.LiveGameAssignment;
 
 using Fanex.Data.Repository;
 

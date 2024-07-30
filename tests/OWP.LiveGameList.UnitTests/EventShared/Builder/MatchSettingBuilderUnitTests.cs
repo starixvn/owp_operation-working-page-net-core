@@ -57,19 +57,19 @@ public class MatchSettingBuilderUnitTests
         return new Dictionary<int, List<MatchSetting>>
         {
             {
-                117, new List<MatchSetting>
-                {
-                    new()
+                117, [
+                    new MatchSetting
                     {
                         BettypeId = 1, Maxbet = 1, MinorBettypeId = 1, OWPMatchId = 117, ParentMatchId = 100,
                         Spread = 10
                     },
-                    new()
+
+                    new MatchSetting
                     {
                         BettypeId = 3, Maxbet = 2, MinorBettypeId = 3, OWPMatchId = 117, ParentMatchId = 200,
                         Spread = 20
                     }
-                }
+                ]
             }
         };
     }
@@ -79,14 +79,13 @@ public class MatchSettingBuilderUnitTests
         return new Dictionary<int, List<MatchSetting>>
         {
             {
-                117, new List<MatchSetting>
-                {
-                    new()
+                117, [
+                    new MatchSetting
                     {
                         BettypeId = 1, Maxbet = 1, MinorBettypeId = 1, OWPMatchId = 117, ParentMatchId = 100,
                         Spread = 10
                     }
-                }
+                ]
             }
         };
     }

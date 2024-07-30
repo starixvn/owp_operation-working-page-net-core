@@ -1,0 +1,83 @@
+{
+  "functionKey": "LeagueManagement_MaxbetSetting",
+  "query": "get-maxbet-setting",
+  "update": "update-maxbet-setting",
+  "matchOfferParam": "?refName=MatchOffer",
+  "getLog": "get-log",
+  "maxbetSettingTable": {
+    "key": {
+      "name": "",
+      "id": "fT_HDP",
+      "subColWidth": 80,
+      "fixed": "left",
+      "subColumn": [{ "name": "FT HDP", "id": "fT_HDP" }]
+    },
+    "mainMatch": {
+      "name": "Main Match",
+      "id": "mainMatch",
+      "subColWidth": 80,
+      "subColumn": [
+        { "name": "FT OU", "id": "fT_OU" },
+        { "name": "1H HDP", "id": "firstHalf_HDP" },
+        { "name": "1H OU", "id": "firstHalf_OU" }
+      ]
+    },
+    "noOfCorners": {
+      "name": "No. Of Corners",
+      "id": "noOfCorners",
+      "subColWidth": 80,
+      "subColumn": [
+        { "name": "FT HDP", "id": "noOfCorner_FT_HDP" },
+        { "name": "FT OU", "id": "noOfCorner_FT_OU" },
+        { "name": "1H HDP", "id": "noOfCorner_1H_HDP" },
+        { "name": "1H OU", "id": "noOfCorner_1H_OU" }
+      ]
+    },
+    "nextCorners": {
+      "name": "Next Corner",
+      "id": "nextCorners",
+      "subColWidth": 80,
+      "subColumn": [{ "name": "FT HDP", "id": "nextCorner_FT_HDP" }]
+    },
+    "totalBookings": {
+      "name": "Total Bookings",
+      "id": "totalBookings",
+      "subColWidth": 80,
+      "subColumn": [
+        { "name": "FT HDP", "id": "totalBooking_FT_HDP" },
+        { "name": "FT OU", "id": "totalBooking_FT_OU" },
+        { "name": "1H HDP", "id": "totalBooking_1H_HDP" },
+        { "name": "1H OU", "id": "totalBooking_1H_OU" }
+      ]
+    },
+    "nextBooking": {
+      "name": "Next Booking",
+      "id": "nextBooking",
+      "subColWidth": 80,
+      "subColumn": [{ "name": "FT HDP", "id": "nextBooking_FT_HDP" }]
+    },
+    "secondAcceptValue": {
+      "name": "Second Accept Value",
+      "id": "secondAcceptValue",
+      "subColWidth": 130,
+      "subColumn": [
+        { "name": "Main", "id": "secondAccept_Main" },
+        { "name": "Corner", "id": "secondAccept_Corner" },
+        { "name": "Total Bookings", "id": "secondAccept_TotalBooking" },
+        { "name": "Fantasy", "id": "secondAccept_Fantasy" }
+      ]
+    },
+    "lastUpdate": {
+      "name": "Last Update",
+      "id": "lastUpdatedBy",
+      "subColWidth": 60,
+      "fixed": "right",
+      "subColumn": [{ "name": "", "id": "lastUpdatedBy" }]
+    }
+  },
+  "editPopupType": {
+    "maxbet": 1,
+    "secondAccept": 2
+  },
+  "unit": 1000
+}

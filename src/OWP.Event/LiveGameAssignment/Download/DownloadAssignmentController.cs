@@ -2,17 +2,18 @@
 
 namespace OWP.Event.LiveGameAssignment.Download;
 
+using Constants;
 using Fanex.NAP.Client.Attributes;
 using Fanex.NAP.Client.Helpers.Business;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OWP.Constants;
-using OWP.Event.LiveGameAssignment.Download.Models;
-using OWP.Event.LiveGameAssignment.Download.Service;
-using OWP.Event.LiveGameAssignment.Services;
+using Microsoft.Extensions.Options;
+using Models;
+using OWP.Models;
+using Service;
+using Services;
 using System;
 using System.CodeDom.Compiler;
-using System.Configuration;
 using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
@@ -20,19 +21,11 @@ using System.Threading.Tasks;
 [Route("api/event-assignment/export")]
 [ApiController]
 [AllowAnonymous]
-public class DownloadAssignmentController : ControllerBase
+public class DownloadAssignmentController(IEventAssignmentService eventAssignmentService,
+    EventAssignmentPermission eventAssignmentPermission,
+    AccessCounter accessCounter,
+    IOptions<AccessCounterModel> counterOptions) : ControllerBase
 {
-    private readonly IEventAssignmentService eventAssignmentService;
-    private readonly EventAssignmentPermission eventAssignmentPermission;
-    private readonly AccessCounter accessCounter;
-
-    public DownloadAssignmentController(IEventAssignmentService eventAssignmentService,
-        EventAssignmentPermission eventAssignmentPermission, AccessCounter accessCounter)
-    {
-        this.eventAssignmentService = eventAssignmentService;
-        this.eventAssignmentPermission = eventAssignmentPermission;
-        this.accessCounter = accessCounter;
-    }
 
     [HttpGet("download-assignment")]
     [NapAuth(FunctionKey = FunctionKeys.LiveGameAssignment, Policy = Constant.Policy.Host)]
@@ -66,7 +59,7 @@ public class DownloadAssignmentController : ControllerBase
             MatchType = matchType,
             OffVRs = offVRs
         };
-        await accessCounter.UpdateCounter(ConfigurationManager.AppSettings["LiveGameAssignment_Export"]);
+        await accessCounter.UpdateCounter(counterOptions.Value.LiveGameAssignment_Export);
         return await DownLoadExport(eventExportModel);
     }
 

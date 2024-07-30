@@ -59,8 +59,10 @@ public class TicketDetailServiceUnitTests
             AwayName = "Liv",
             Recipients = recipients,
             Messages = messages,
+            LastTwoComments = new List<MessageInfoModel>(),
             CanShowMoreMessage = true
         };
+        
 
         var actual = await service.GetTicketMatchDetail(request);
 
@@ -91,6 +93,7 @@ public class TicketDetailServiceUnitTests
             OwpLeagueName = "League test",
             Recipients = recipients,
             Messages = messages,
+            LastTwoComments = new List<MessageInfoModel>(),
             CanShowMoreMessage = true
         };
 
@@ -123,6 +126,7 @@ public class TicketDetailServiceUnitTests
             TypeName = "Other",
             Recipients = recipients,
             Messages = messages,
+            LastTwoComments = new List<MessageInfoModel>(),
             CanShowMoreMessage = true
         };
 
@@ -157,6 +161,7 @@ public class TicketDetailServiceUnitTests
             TypeName = "Other",
             HomeName = "MU",
             AwayName = "Liv",
+            LastTwoComments = new List<MessageInfoModel>(),
             Recipients = recipients,
             Messages = messages,
             CanShowMoreMessage = true
@@ -189,6 +194,7 @@ public class TicketDetailServiceUnitTests
             TicketId = 145,
             Recipients = recipients,
             Messages = messages,
+            LastTwoComments = new List<MessageInfoModel>(),
             CanShowMoreMessage = true
         };
 
@@ -198,23 +204,23 @@ public class TicketDetailServiceUnitTests
     }
 
     public (bool, List<MessageDetailViewModel>) GetMockMessage()
-        => (true, new List<MessageDetailViewModel>
-        {
-            new()
+        => (true, [
+            new MessageDetailViewModel
             {
                 MessageId = 12,
                 UserId = 8,
                 Message = "hello,test Match",
-                CreatedDate =new DateTime(2021,9,29,15,30,31),
+                CreatedDate = new DateTime(2021, 9, 29, 15, 30, 31),
                 Username = "sa"
             },
-            new()
+
+            new MessageDetailViewModel
             {
                 MessageId = 12,
                 UserId = 8,
                 Message = "hi",
-                CreatedDate = new DateTime(2021,9,29,16,29,31),
+                CreatedDate = new DateTime(2021, 9, 29, 16, 29, 31),
                 Username = "sa"
             }
-        });
+        ]);
 }

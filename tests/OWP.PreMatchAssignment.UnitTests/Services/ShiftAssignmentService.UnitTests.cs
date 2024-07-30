@@ -11,14 +11,23 @@ namespace OWP.PreMatchAssignment.UnitTests.Services;
 
 using Xunit.Asserts.Compare;
 
-public class ShiftAssignmentService
+public class ShiftAssignmentServiceTests
 {
+    private readonly Repository repository;
+    private readonly IMapper mapper;
+    private readonly ShiftAssignmentService shiftAssignmentService;
+
+    public ShiftAssignmentServiceTests()
+    {
+        repository = Substitute.For<Repository>();
+        mapper = Substitute.For<IMapper>();
+        shiftAssignmentService = new ShiftAssignmentServiceImp(repository, mapper);
+    }
+
     [Fact]
     public async Task QueryDayShift_WithEmployeeFilter_ShouldReturnFilteredPreMatchData()
     {
         //Arrange
-        var repository = Substitute.For<Repository>();
-        var mapper = Substitute.For<IMapper>();
         repository.QueryDayShiftPreMatchAssignments(Arg.Any<QueryShiftPreMatchCriteria>()).Returns(CreateMockData());
         var mockResult = new List<LinkedMatch>
         {
@@ -85,7 +94,7 @@ public class ShiftAssignmentService
         {
             Employee = "sa",
             EventDate = DateTime.Now,
-            MatchOffers = new List<string> { "" },
+            MatchOffers = [""],
             LeagueName = string.Empty
         });
 
@@ -98,9 +107,7 @@ public class ShiftAssignmentService
     public async Task QueryDayShift_WithoutFilter_ShouldReturnAllPreMatchData()
     {
         //Arrange
-        var repository = Substitute.For<Repository>();
         var currentSession = Substitute.For<INapSession>();
-        var mapper = Substitute.For<IMapper>();
         currentSession.UserId = 8;
         var mockResult = new List<LinkedMatch>
         {
@@ -176,7 +183,7 @@ public class ShiftAssignmentService
         {
             Employee = string.Empty,
             EventDate = DateTime.Now,
-            MatchOffers = new List<string> { "" },
+            MatchOffers = [""],
             LeagueName = string.Empty
         });
 
@@ -188,8 +195,6 @@ public class ShiftAssignmentService
     public async Task QueryNightShift_WithoutDBStartTime_ShouldReturnDataWithDayShiftAssignment()
     {
         //Arrange
-        var repository = Substitute.For<Repository>();
-        var mapper = Substitute.For<IMapper>();
         repository.QueryExistedStartTime(Arg.Any<DateTime>()).Returns(MockStartTime(false));
         repository.QueryDayShiftPreMatchAssignments(Arg.Is<QueryShiftPreMatchCriteria>(x => x.IsDay)).Returns(CreateMockData());
         repository.QueryDayShiftPreMatchAssignments(Arg.Is<QueryShiftPreMatchCriteria>(x => !x.IsDay)).Returns(CreateNightShiftMockData());
@@ -268,7 +273,7 @@ public class ShiftAssignmentService
         {
             Employee = string.Empty,
             EventDate = DateTime.Now,
-            MatchOffers = new List<string> { "" },
+            MatchOffers = [""],
             LeagueName = string.Empty
         });
 
@@ -280,8 +285,6 @@ public class ShiftAssignmentService
     public async Task QueryNightShift_WithDBStartTimeLessThanRequestStartTime_ShouldReturnDataWithNightShiftAssignment()
     {
         //Arrange
-        var repository = Substitute.For<Repository>();
-        var mapper = Substitute.For<IMapper>();
         repository.QueryExistedStartTime(Arg.Any<DateTime>()).Returns(MockStartTime(true));
         repository.QueryDayShiftPreMatchAssignments(Arg.Is<QueryShiftPreMatchCriteria>(x => x.IsDay)).Returns(CreateMockData());
         repository.QueryDayShiftPreMatchAssignments(Arg.Is<QueryShiftPreMatchCriteria>(x => !x.IsDay)).Returns(CreateNightShiftMockData());
@@ -354,7 +357,7 @@ public class ShiftAssignmentService
             Employee = string.Empty,
             EventDate = DateTime.Now,
             LeagueName = string.Empty,
-            MatchOffers = new List<string> { "" },
+            MatchOffers = [""],
             StartTime = new TimeSpan(11, 00, 00)
         });
 
@@ -366,8 +369,6 @@ public class ShiftAssignmentService
     public async Task MapMatchStatusWhichLinkedOWPA()
     {
         //Arrange
-        var repository = Substitute.For<Repository>();
-        var mapper = Substitute.For<IMapper>();
         var matches = new List<InfoSiteMatch>
         {
             new() {InfoSiteMatchId = 111, IsLive = false},
@@ -514,8 +515,6 @@ public class ShiftAssignmentService
     [Fact]
     public async Task AddOddStatusNo()
     {
-        var repository = Substitute.For<Repository>();
-        var mapper = Substitute.For<IMapper>();
         var service = new ShiftAssignmentServiceImp(repository, mapper);
         var infositeMatches = new List<InfoSiteMatch>
         {
@@ -540,5 +539,129 @@ public class ShiftAssignmentService
         Assert.Equal("Opened", infositeMatches[1].MatchOffer);
         Assert.Equal("HDP (?)", infositeMatches[2].MatchOffer);
         Assert.Equal("", infositeMatches[3].MatchOffer);
+    }
+
+    [Fact]
+    public async Task MapTicketLists_ShouldMapTicketsCorrectly()
+    {
+        // Arrange
+        var actorId = 1;
+
+        var preMatchLeagues = new List<LeagueAssignment>
+            {
+                new LeagueAssignment { LeagueId = 1 },
+                new LeagueAssignment { LeagueId = 2 }
+            };
+
+        var infoSiteMatches = new List<InfoSiteMatch>
+            {
+                new InfoSiteMatch { InfoSiteMatchId = 1 },
+                new InfoSiteMatch { InfoSiteMatchId = 2 }
+            };
+
+        var leagueTickets = new Dictionary<int, List<TicketLeagueBasicInfo>>
+            {
+                { 1, new List<TicketLeagueBasicInfo> { new TicketLeagueBasicInfo { LatestCreatedDate = DateTime.Now.AddDays(-1) }, new TicketLeagueBasicInfo { LatestCreatedDate = DateTime.Now } } },
+                {
+                    2,
+                    new List<TicketLeagueBasicInfo>
+                    {
+                        new TicketLeagueBasicInfo { LatestCreatedDate = DateTime.Now.AddDays(-2) },
+                        new TicketLeagueBasicInfo { LatestCreatedDate = DateTime.Now.AddDays(-1) }
+                    }
+                }
+            };
+
+        var matchTickets = new Dictionary<int, List<TicketMatchBasicInfo>>
+            {
+                {
+                    1,
+                    new List<TicketMatchBasicInfo>
+                    {
+                        new TicketMatchBasicInfo { LatestCreatedDate = DateTime.Now.AddDays(-3) },
+                        new TicketMatchBasicInfo { LatestCreatedDate = DateTime.Now.AddDays(-1) }
+                    }
+                },
+                {
+                    2,
+                    new List<TicketMatchBasicInfo>
+                    {
+                        new TicketMatchBasicInfo { LatestCreatedDate = DateTime.Now.AddDays(-4) },
+                        new TicketMatchBasicInfo { LatestCreatedDate = DateTime.Now.AddDays(-2) }
+                    }
+                }
+            };
+
+        repository.QueryAllLeaguesTicket(Arg.Any<IEnumerable<int>>(), actorId).Returns(leagueTickets);
+        repository.QueryAllMatchesTicket(Arg.Any<IEnumerable<int>>(), actorId).Returns(matchTickets);
+
+        // Act
+        await shiftAssignmentService.MapTicketLists(preMatchLeagues, infoSiteMatches, actorId);
+
+        // Assert
+        Assert.Equal(2, preMatchLeagues[0].TicketList.Count);
+        Assert.Equal(2, preMatchLeagues[1].TicketList.Count);
+        Assert.Equal(2, infoSiteMatches[0].TicketList.Count);
+        Assert.Equal(2, infoSiteMatches[1].TicketList.Count);
+
+        Assert.Equal(leagueTickets[1].OrderByDescending(t => t.LatestCreatedDate), preMatchLeagues[0].TicketList);
+        Assert.Equal(leagueTickets[2].OrderByDescending(t => t.LatestCreatedDate), preMatchLeagues[1].TicketList);
+        Assert.Equal(matchTickets[1].OrderByDescending(t => t.LatestCreatedDate), infoSiteMatches[0].TicketList);
+        Assert.Equal(matchTickets[2].OrderByDescending(t => t.LatestCreatedDate), infoSiteMatches[1].TicketList);
+    }
+
+    [Fact]
+    public void UpdateAssignmentHintNightShift_ShouldUpdateNightShiftLeaguesHints()
+    {
+        // Arrange
+        var dayShiftLeagues = new Dictionary<int, PreMatchLeague>
+        {
+            {
+                1, new PreMatchLeague
+                {
+                    LeagueId = 1,
+                    HDP = "DayHDP1",
+                    OtherHDP = "DayOtherHDP1",
+                    OU = "DayOU1",
+                    OtherOU = "DayOtherOU1",
+                    HDPTakeOver = "DayHDPTakeOver1",
+                    OtherHDPTakeOver = "DayOtherHDPTakeOver1",
+                    OUTakeOver = "DayOUTakeOver1",
+                    OtherOUTakeOver = "DayOtherOUTakeOver1"
+                }
+            }
+        };
+
+        var nightShiftLeagues = new Dictionary<int, PreMatchLeague>
+        {
+            {
+                1, new PreMatchLeague
+                {
+                    LeagueId = 1,
+                    HDPHint = null,
+                    OtherHDPHint = null,
+                    OUHint = null,
+                    OtherOUHint = null,
+                    HDPTakeOverHint = null,
+                    OtherHDPTakeOverHint = null,
+                    OUTakeOverHint = null,
+                    OtherOUTakeOverHint = null
+                }
+            }
+        };
+
+        // Act
+        ShiftAssignmentServiceImp.UpdateAssignmentHintNightShift(nightShiftLeagues, dayShiftLeagues);
+
+        // Assert
+        var nightShiftLeague = nightShiftLeagues[1];
+        Assert.Equal("DayHDP1", nightShiftLeague.HDPHint);
+        Assert.Equal("DayOtherHDP1", nightShiftLeague.OtherHDPHint);
+        Assert.Equal("DayOU1", nightShiftLeague.OUHint);
+        Assert.Equal("DayOtherOU1", nightShiftLeague.OtherOUHint);
+        Assert.Equal("DayHDPTakeOver1", nightShiftLeague.HDPTakeOverHint);
+        Assert.Equal("DayOtherHDPTakeOver1", nightShiftLeague.OtherHDPTakeOverHint);
+        Assert.Equal("DayOUTakeOver1", nightShiftLeague.OUTakeOverHint);
+        Assert.Equal("DayOtherOUTakeOver1", nightShiftLeague.OtherOUTakeOverHint);
     }
 }

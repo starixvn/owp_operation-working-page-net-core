@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header service query return expected data when response.data.Menus empty 1`] = `
+{
+  "items": [
+    {
+      "name": "General",
+      "title": true,
+      "wrapper": {
+        "attributes": {},
+        "element": "",
+      },
+    },
+  ],
+}
+`;
+
+exports[`Header service query return expected data when response.data.Menus has Children 1`] = `
+{
+  "items": [
+    {
+      "name": "General",
+      "title": true,
+      "wrapper": {
+        "attributes": {},
+        "element": "",
+      },
+    },
+    {
+      "icon": undefined,
+      "name": "Home",
+      "url": "rootURL_/Home",
+      "variant": "unactive",
+    },
+    {
+      "icon": undefined,
+      "name": "User Management",
+      "url": "rootURL_/EmployeeManagement/UserManagement",
+      "variant": "unactive",
+    },
+    {
+      "icon": undefined,
+      "name": "Working Shift Management",
+      "url": "rootURL_/EmployeeManagement/WorkingShiftManagement",
+      "variant": "unactive",
+    },
+    {
+      "name": "Event Management",
+      "title": true,
+      "wrapper": {
+        "attributes": {},
+        "element": "",
+      },
+    },
+    {
+      "icon": undefined,
+      "name": "Max Bet Management",
+      "url": "rootURL_/EventManagement/MaxBetManagement",
+      "variant": "unactive",
+    },
+    {
+      "icon": undefined,
+      "name": "Odds Compiler",
+      "url": "rootURL_/EventManagement/OddsCompiler",
+      "variant": "unactive",
+    },
+  ],
+}
+`;

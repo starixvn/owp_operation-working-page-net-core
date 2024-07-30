@@ -24,22 +24,13 @@ public class EventRepositoryImp : EventRepository
 
     public async Task<EventInformation> GetEventInformation(CriteriaBase criteria)
     {
-        var result = await dynamicRepository.FetchMultipleAsync(criteria,
-            new[]
-            {
-                typeof(MatchInfo),
-                typeof(Assignment),
-                typeof(MatchSetting),
-                typeof(Television),
-                typeof(MatchOffer),
-                typeof(HasTicketModel)
-            });
-        var matchInfo = result[0].Cast<MatchInfo>().ToList();
-        var assignments = result[1].Cast<Assignment>().ToList();
-        var matchSettings = result[2].Cast<MatchSetting>().ToList();
-        var televisions = result[3].Cast<Television>().ToList();
-        var matchOffers = result[4].Cast<MatchOffer>().ToList();
-        var hasTicketModel = result[5].Cast<HasTicketModel>().ToList();
+        var result = await dynamicRepository.FetchMultipleAsync<MatchInfo, Assignment, MatchSetting, Television, MatchOffer, HasTicketModel>(criteria);
+        var matchInfo = result.Item1.ToList();
+        var assignments = result.Item2.ToList();
+        var matchSettings = result.Item3.ToList();
+        var televisions = result.Item4.ToList();
+        var matchOffers = result.Item5.ToList();
+        var hasTicketModel = result.Item6.ToList();
 
         return EventHelper.BuildEventInfoInPair(assignments, matchSettings, televisions, matchOffers, matchInfo, hasTicketModel);
     }

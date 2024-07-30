@@ -1,0 +1,21 @@
+{
+  "STATUS": [
+    {
+      "value": "Open",
+      "label": "Open"
+    },
+    {
+      "value": "Closed",
+      "label": "Closed"
+    },
+    {
+      "value": "Canceled",
+      "label": "Canceled"
+    }
+  ],
+  "ticketType": 5,
+  "subjectMaxLength": 200,
+  "subtypeOther": 24,
+  "subtypeMatchCheck": 21,
+  "subtypeTicketCheck": 20
+}

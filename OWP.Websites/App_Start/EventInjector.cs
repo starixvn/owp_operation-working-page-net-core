@@ -6,12 +6,10 @@ using OWP.Event.LiveGameAssignment.Download.Service;
 using OWP.Event.LiveGameAssignment.EventPicking;
 using OWP.Event.LiveGameAssignment.EventPicking.Service;
 using OWP.Event.LiveGameAssignment.Services;
-using OWP.Event.LiveGameAssignment.User;
 using OWP.Event.LiveGameList;
 using OWP.Event.LiveGameList.Services;
 using OWP.Event.TaskList;
 using OWP.Event.TaskList.Services;
-using OWP.Services;
 
 namespace OWP.Websites;
 
@@ -44,11 +42,10 @@ public static class EventInjector
         services.AddScoped<LeagueSettingNewFormatService, LeagueSettingNewFormatServiceImp>();
         services.AddScoped<LeagueSettingService, LeagueSettingServiceImp>();
         services.AddScoped<EventPickingService, EventPickingServiceImp>();
-        services.AddScoped<AccessCounter, AccessCounterImp>();
         services.AddScoped<LstNoteMapperService, LstNoteMapperServiceImp>();
         services.AddScoped<OrderMatchService, OrderMatchServiceImp>();
         services.AddScoped<IEventAssignmentRepository, EventAssignmentRepository>();
         services.AddScoped<LeagueSettingRepository, LeagueSettingRepositoryImp>();
-        services.AddScoped<UserRepository, UserRepositoryImp>();
+        services.AddScoped<Event.LiveGameAssignment.User.UserRepository, Event.LiveGameAssignment.User.UserRepositoryImp>();
     }
 }

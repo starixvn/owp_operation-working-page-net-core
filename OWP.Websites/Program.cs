@@ -1,4 +1,5 @@
-
+using Fanex.Data;
+using Newtonsoft.Json;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
@@ -8,17 +9,10 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 var services = builder.Services;
 var configuration = builder.Configuration;
 
-// Add services to the container.
-services.AddCors(options =>
+JsonConvert.DefaultSettings = () => new JsonSerializerSettings
 {
-    options.AddDefaultPolicy(policy =>
-        {
-            policy.WithOrigins("http://localhost:64193")
-                .AllowAnyHeader()
-                .AllowAnyMethod()
-                .AllowCredentials();
-        });
-});
+    DateTimeZoneHandling = DateTimeZoneHandling.Unspecified,
+};
 
 services.AddControllerAuthorization();
 services.AddCookieAuthentication(configuration);
@@ -30,29 +24,27 @@ services.Configure<AccessCounterModel>(configuration.GetSection("AccessCounter")
 
 services.AddSignalR(configuration);
 services.AddSimpleDataApiModule();
-services.AddFanexSql(configuration);
+services.AddFanexData(configuration);
 services.AddNapServices(configuration);
 services.AddOneBookUm(configuration);
 services.AddFanexServices(configuration);
+services.AddGetNotificationQueue();
 services.AddCoreServices();
 services.AddMediator();
 services.AddAutoMapper();
 services.AddInternalServices();
 services.AddRabbitMQ();
-services.AddControllersWithViews(options =>
-{
-    options.Filters.Add(new ServiceFilterAttribute(typeof(CheckUMFilterAttribute)));
-    options.Filters.Add(new SessionAuthorizeAttribute());
-}).AddNewtonsoftJson();
+
 services.AddCarter();
-// Configure app
+
+services.AddWebOptimizer();
 var app = builder.Build();
 
 app.UseDeveloperExceptionPage();
+app.UseWebOptimizer();
 app.UseTicketPathStaticFiles();
+app.UseStaticFiles();
 app.UseRouting();
-
-app.UseCors();
 
 app.UseCookiePolicy();
 app.UseSession();

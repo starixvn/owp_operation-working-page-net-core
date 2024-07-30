@@ -33,8 +33,6 @@ OpenCover/
 *.orig
 *.dbmdl
 *.jfm
-*.js.map
-*.css.map
 node_modules
 */App_Data/Files
 /.axoCover
@@ -46,6 +44,8 @@ node_modules
 /NAP.OWP.Websites/App_Data/Files/Readme.md
 *.ncrunchproject
 *.ncrunchsolution
-**/lcov.info
 **/coverage.json
 **/nCrunchTemp*.csproj
+**/lcov-report/**
+**/lcov.info
+OWP.Websites/app/.vscode/settings.json

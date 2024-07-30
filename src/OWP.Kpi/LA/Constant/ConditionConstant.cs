@@ -8,8 +8,8 @@ public static class ConditionConstant
     private const string LAST_TWO_YEAR = "Last 2 years";
 
     public static readonly ConditionInfo[] ConditionInfos =
-    {
-        new()
+    [
+        new ConditionInfo
         {
             Progress = "New",
             Level = "New",
@@ -26,7 +26,7 @@ public static class ConditionConstant
                 MultipleMatches = 50
             }
         },
-        new()
+        new ConditionInfo
         {
             Progress = "Level D",
             Level = "D",
@@ -41,7 +41,7 @@ public static class ConditionConstant
                 MultipleMatches = 500
             }
         },
-        new()
+        new ConditionInfo
         {
             Progress = "Level C",
             Level = "C",
@@ -52,7 +52,7 @@ public static class ConditionConstant
             Reward = "15%",
             TargetCondition = new Condition {VirtualMatches = 3200, MultipleMatches = 500, SpecialProducts = 15}
         },
-        new()
+        new ConditionInfo
         {
             Progress = "Level B",
             Level = "B",
@@ -63,7 +63,7 @@ public static class ConditionConstant
             Reward = "20%",
             TargetCondition = new Condition { VirtualMatches = 2500, MultipleMatches = 600, SpecialProducts = 15, FiveMajorLeagues = 15,MultipleProducts = 350}
         },
-        new()
+        new ConditionInfo
         {
             Progress = "Level A",
             Level = "A",
@@ -74,7 +74,7 @@ public static class ConditionConstant
             Reward = "25%",
             TargetCondition = new Condition { VirtualMatches = 2500, MultipleMatches = 600, SpecialProducts = 15, FiveMajorLeagues = 15,MultipleProducts = 450}
         }
-    };
+    ];
 }
 
 public static class ReportConstant
@@ -91,7 +91,7 @@ public static class ReportConstant
     public static readonly Color AlmostArchivedTargetColor = ColorTranslator.FromHtml("#EAD97F");
 
     public static readonly int[] DeleteColumns =
-    {
+    [
         ProgressColumn,
         TargetColumn,
         VirtualMatchesGapColumn,
@@ -100,5 +100,5 @@ public static class ReportConstant
         MajorProductsGapColumn,
         MultipleProductsGapColumn,
         RewardGapColumn
-    };
+    ];
 }

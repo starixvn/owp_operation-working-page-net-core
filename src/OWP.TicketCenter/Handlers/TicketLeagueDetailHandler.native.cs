@@ -5,7 +5,7 @@ using OWP.TicketCenter.ViewModels;
 
 namespace OWP.TicketCenter.Handlers;
 
-public class TicketLeagueDetailRequest : PermissionCheckedModel, IRequest<TicketLeagueDetailViewModel> { }
+public class TicketLeagueDetailRequest : PermissionCheckedModel, IRequest<TicketLeagueDetailViewModel>;
 
 public class TicketLeagueDetailHandler : IRequestHandler<TicketLeagueDetailRequest, TicketLeagueDetailViewModel>
 {

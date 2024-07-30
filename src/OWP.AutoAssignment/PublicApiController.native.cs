@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using OWP.AutoAssignment.Models.InternalApi;
@@ -12,7 +11,6 @@ namespace OWP.AutoAssignment;
 [Route("api/public/auto-assignment")]
 [ApiController]
 [AllowAnonymous]
-[EnableCors]
 public class PublicApiController : ControllerBase
 {
     private readonly GetRequestService getRequestService;

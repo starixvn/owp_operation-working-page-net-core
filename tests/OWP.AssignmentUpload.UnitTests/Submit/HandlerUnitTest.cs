@@ -24,7 +24,7 @@ public class HandlerUnitTest
         cacheManipulator = Substitute.For<CacheManipulator>();
         var currentSession = Substitute.For<INapSession>();
 
-        queryRepository.GetOldMatchIds(Arg.Compat.Any<DateTime>()).Returns(new List<OldMatch>());
+        queryRepository.GetOldMatchIds(Arg.Compat.Any<DateTime>()).Returns([]);
         handler = new Handler(queryRepository, cacheManipulator, commandRepository, currentSession);
     }
 

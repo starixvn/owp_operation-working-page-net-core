@@ -8,4 +8,7 @@ public static class FunctionKeys
     public const string Tickets = "Tickets";
 
     public const string TicketTypeRecipient = "TicketTypeRecipient";
+    public const string DailyWorkingShift = "DailyWorkingShift";
+
+    public const string WorkingShiftManagement = "WorkingShiftManagement";
 }

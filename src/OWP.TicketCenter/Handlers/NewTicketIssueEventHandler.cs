@@ -126,7 +126,9 @@ public class NewTicketIssueEventHandler : IRequestHandler<NewTicketIssueEventReq
             OwpHomeId = request.OwpHomeId,
             OwpLeagueId = request.OwpLeagueId,
             EventType = request.EventType ?? 0,
-            LastCommentDate = lastComments.FirstOrDefault(new MessageInfoModel()).CreatedDate,
+            LastCommentDate = lastComments.Count!=0
+              ? lastComments[0].CreatedDate
+            : new MessageInfoModel().CreatedDate,
             TicketType = request.TicketType,
             TicketSubTypeId = request.SubType
         };

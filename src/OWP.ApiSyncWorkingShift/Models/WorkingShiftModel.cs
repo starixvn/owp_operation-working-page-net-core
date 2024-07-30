@@ -29,11 +29,9 @@ public class WorkingShiftModel
     public bool IsPublicHoliday => string.Equals(ShiftOT, HrmConst.PUBLIC_HOLIDAY);
 
     [XmlIgnore]
-    [JsonIgnore]
     public bool IsTimeShift { get; set; }
 
     [XmlIgnore]
-    [JsonIgnore]
     public int? Extension { get; set; }
 
     public void RecalculateShiftCode()

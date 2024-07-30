@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using OWP.Report.MatchCountLiveReport.Handlers;
 using OWP.Report.MatchCountLiveReport.Helper;
@@ -10,7 +9,6 @@ namespace OWP.Report.MatchCountLiveReport;
 
 [Route("api/[controller]")]
 [ApiController]
-[EnableCors]
 [Authorize]
 public class MatchCountLiveReportController : ControllerBase
 {

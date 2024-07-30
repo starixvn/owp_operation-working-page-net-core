@@ -1,0 +1,26 @@
+{
+  "getTicketType": "get-ticket-type",
+  "getEventTicket": "get-event-ticket",
+  "TicketCenterPageURL": {
+    "default": "TicketCenter",
+    "MyTicket": "MyTicket"
+  },
+  "STATUS": [
+    {
+      "value": "Open",
+      "label": "Open"
+    },
+    {
+      "value": "Closed",
+      "label": "Closed"
+    },
+    {
+      "value": "Canceled",
+      "label": "Canceled"
+    }
+  ],
+  "RECIPIENT_TYPE": {
+    "INDIVIDUAL": 1,
+    "GROUP": 2
+  }
+}

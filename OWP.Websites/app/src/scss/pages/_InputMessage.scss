@@ -1,0 +1,13 @@
+.right-form, .comment {
+  flex: 1;
+  position: relative;
+
+  .suggestion__message {
+    position: absolute;
+    border: 1px solid gray;
+    padding: 5px;
+    bottom: 110%;
+    background-color: white;
+    left: 5px;
+  }
+}

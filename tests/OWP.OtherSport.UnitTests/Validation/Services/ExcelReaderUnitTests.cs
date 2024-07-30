@@ -45,9 +45,9 @@ public class ExcelReaderUnitTests
 
         var expected = new UploadingDataFromExcel
         {
-            Assignments = new List<AssignmentModelInExcel>
-            {
-                new ()
+            Assignments =
+            [
+                new AssignmentModelInExcel
                 {
                     RowIndex = 2,
                     AdminSiteId = "123456",
@@ -346,8 +346,8 @@ public class ExcelReaderUnitTests
                     SpreadTennisMostAces = string.Empty,
                     SpreadTennisMostDoubleFaults = string.Empty
                 }
-            },
-            Traders = new List<string> { "starix1", "starix2", "starix14" }
+            ],
+            Traders = ["starix1", "starix2", "starix14"]
         };
 
         var actual = excelReader.Read(excelMemoryStream, new DateTime(2022, 01, 01), new DateTime(2022, 10, 01));

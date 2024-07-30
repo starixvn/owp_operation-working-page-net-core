@@ -1,0 +1,161 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using OWP.Resources;
+@inject IJsonHelper Json;
+@model OWP.WorkingShift.DailyWorkingShift.ViewModels.DailyViewModel
+@{
+    ViewBag.Title = ViewLang.DailyWorkingShiftManagement;
+
+    var sections = Model.Sections.Select(x => new
+    {
+        value = x.ResourceId,
+        text = x.Value
+    });
+
+    var userLocations = Model.UserLocations.Select(x => new
+    {
+        value = x.LocationCode,
+        text = x.LocationName
+    });
+
+    var departments = Model.Departments.Select(x => new
+    {
+        value = x.ResourceId,
+        text = x.Value
+    });
+}
+@section css
+{
+    <environment include="Development">
+        <link href="~/shared/themes/main.css" rel="stylesheet" />
+        <link href="~/shared/owp/daily-working-shift/dailyworkingshift.css" rel="stylesheet" />
+    </environment>
+    <environment exclude="Development">
+        <link href="~/Styles/DailyWorkingShift" rel="stylesheet" />
+    </environment>
+}
+@section scripts
+{
+    <script>
+        var workingShiftData = {
+            departments:  @Html.Raw(Json.Serialize(departments)),
+            sections: @Html.Raw(Json.Serialize(sections)),
+            userLocations: @Html.Raw(Json.Serialize(userLocations)) };
+        var isFullViewPermisson = '@Model.Permission.FullTimeView.IsRead';
+        var username = '@Model.Username';
+    </script>
+    <environment include="Development">
+        <script src="~/shared/owp/daily-working-shift/daily-working-shift-service.js" asp-append-version="true"></script>
+        <script src="~/shared/owp/daily-working-shift/daily-working-shift.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/Scripts/DailyWorkingShift"></script>
+    </environment>
+}
+<input type="hidden" id="current-logged-user" value="@Model.Username"/>
+<div class="body-content" data-isHostDaily="@(Model.Permission.DailyWorkingShift.IsHost)">
+    <div class="sticky-filter" id="sticky-filter">
+        <form class="filter">
+            <div class="row margin-bottom-0">
+                <div class="group-btn">
+                    @if (Model.Permission.WeeklyWorkingShiftManagement.IsRead)
+                    {
+                        <a href="~/WeeklyWorkingShift" class="btn btn-week">Week</a>
+                    }
+                    <a href="~/DailyWorkingShift" class="btn btn-day selected">Day</a>
+                </div>
+            </div>
+            <div class="row margin-bottom-0">
+                <div class="input-field calendar col input--m input-date-picker has-margin">
+                    <div class="label">Date</div>
+                    <input type="text" class="js-calendar datepicker" readonly="readonly" />
+                    <i class="mdi mdi-calendar icon-calendar"></i>
+                </div>
+                <div class="input-field col input--ws has-margin">
+                    <div class="label">Employee</div>
+                    <input value="" id="employee" name="employee" type="text" placeholder="Account or Username">
+                </div>
+                <div class="multiple-selection col input--ws has-margin">
+                    <div class="label">Department</div>
+                    <select id="department"></select>
+                </div>
+                <div class="multiple-selection col input--ws has-margin">
+                    <div class="label">Section</div>
+                    <select id="section"></select>
+                </div>
+                <div class="multiple-selection col input--ws has-margin">
+                    <div class="label">Shift</div>
+                    <select id="shift"></select>
+                </div>
+                <div class="multiple-selection col input--ws has-margin">
+                    <div class="label">Location</div>
+                    <select id="userLocations"></select>
+                </div>
+                <div class="input-field col checkbox-active has-margin">
+                    <input checked="checked" class="filled-in checkbox" id="excludeClosedAccount" name="excludeClosedAccount" type="checkbox" value="true" />
+                    <label for="excludeClosedAccount">Exclude closed accounts</label>
+                    <input name="excludeClosedAccount" type="hidden" value="false" />
+                </div>
+                <div class="button-block col">
+                    <a class="waves-effect waves-light btn btn-search">Search</a>
+                </div>
+            </div>
+        </form>
+        <div class="table-control">
+            <div class="header-control">
+                <div class="left">
+                    <span class="btn prev-day">
+                        <i class="mdi mdi-chevron-left"></i>
+                    </span>
+                    <span class="btn next-day">
+                        <i class="mdi mdi-chevron-right"></i>
+                    </span>
+                    <span class="txt-day txt-bold"></span>
+                    <span class="txt-timezone txt-bold"><i class="mdi mdi-earth"></i>
+                        <span class="timezone-text">GMT+8</span></span>
+                </div>
+                <div class="right">
+                    <span class="total left">Total records: <b id="total-daily">0</b></span>
+                    <div class="left daily-option-config js-icon-quickaccess">
+                        <span class="btn btn-config">
+                           
+                            <img src="~/shared/owp/images/pantone.svg" />
+                        </span>
+                    </div>
+                    <div class="right assignment-statistics-type-config  ">
+                        <span class="btn btn-setting">
+                            <img src="~/shared/owp/images/settings.svg" />
+                        </span>
+                    </div>
+
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="js-assigment-statistics"></div>
+            <div class="working-shift-hour">
+                <div id="sticky-header" class="header">
+                    <div class="staff">Staff <i class="icon icon-filter mdi mdi-filter js-iconFilter" data-column-name="Staff"></i></div>
+                    <div class="group">Group <i class="icon icon-filter mdi mdi-filter js-iconFilter" data-column-name="Group"></i></div>
+                    <div class="level">Level <i class="icon icon-filter mdi mdi-filter js-iconFilter" data-column-name="Level"></i></div>
+                    <div class="note">Note <i class="icon icon-filter mdi mdi-filter js-iconFilter" data-column-name="Note"></i></div>
+                    <div class="shift">Shift</div>
+                    <div class="time-block">
+                        <div class="time">12P</div>
+                        @for (var i = 1; i < 12; i++)
+                        {
+                            <div class="time">@i<span>P</span></div>
+                        }
+                        @for (var i = 0; i < 12; i++)
+                        {
+                            <div class="time">@i<span>A</span></div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="table table-body">
+        <div class="working-shift-hour">
+            <div class="body"></div>
+        </div>
+    </div>
+</div>

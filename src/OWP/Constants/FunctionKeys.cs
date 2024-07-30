@@ -8,7 +8,7 @@
 // </summary>
 //
 // <history>
-// Lasted generated date: 1/16/2024 10:35:49 AM
+// Lasted generated date: 6/12/2024 4:58:09 PM
 // </history>
 
 namespace OWP.Constants
@@ -129,6 +129,8 @@ namespace OWP.Constants
 				public const string PrematchReport = "PrematchReport";
 
 				public const string ProviderArrangement = "ProviderArrangement";
+
+				public const string ProviderVerification = "ProviderVerification";
 
 				public const string QuickSearch = "QuickSearch";
 

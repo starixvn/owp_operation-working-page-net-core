@@ -1,0 +1,177 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ActionCell policy's hasWrite is false should match snapshot 1`] = `
+<table>
+  <tbody>
+    <tr>
+      <td
+        class="icon-button"
+      >
+        <button
+          class="icon-save"
+          disabled=""
+        >
+          <svg
+            class="mdi-icon "
+            fill="currentColor"
+            height="12"
+            viewBox="0 0 24 24"
+            width="12"
+          >
+            <path
+              d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"
+            />
+          </svg>
+        </button>
+        <button
+          class="icon-cancel"
+          disabled=""
+        >
+          <svg
+            class="mdi-icon "
+            fill="currentColor"
+            height="12"
+            viewBox="0 0 24 24"
+            width="12"
+          >
+            <path
+              d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"
+            />
+          </svg>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;
+
+exports[`ActionCell policy's hasWrite is true test isEditing=false & disabled=true to match snapshot 1`] = `
+<table>
+  <tbody>
+    <tr>
+      <td
+        class="icon-button"
+      >
+        <button
+          class="icon-edit"
+          disabled=""
+        >
+          <svg
+            class="mdi-icon "
+            fill="currentColor"
+            height="12"
+            viewBox="0 0 24 24"
+            width="12"
+          >
+            <path
+              d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z"
+            />
+          </svg>
+        </button>
+        <button
+          class="icon-delete"
+          disabled=""
+        >
+          <svg
+            class="mdi-icon "
+            fill="currentColor"
+            height="12"
+            viewBox="0 0 24 24"
+            width="12"
+          >
+            <path
+              d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19C6,20.1 6.9,21 8,21H16C17.1,21 18,20.1 18,19V7H6V19Z"
+            />
+          </svg>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;
+
+exports[`ActionCell policy's hasWrite is true test isEditing=true & disabled=false to match snapshot 1`] = `
+<table>
+  <tbody>
+    <tr>
+      <td
+        class="icon-button"
+      >
+        <button
+          class="icon-save"
+        >
+          <svg
+            class="mdi-icon "
+            fill="currentColor"
+            height="12"
+            viewBox="0 0 24 24"
+            width="12"
+          >
+            <path
+              d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"
+            />
+          </svg>
+        </button>
+        <button
+          class="icon-cancel"
+        >
+          <svg
+            class="mdi-icon "
+            fill="currentColor"
+            height="12"
+            viewBox="0 0 24 24"
+            width="12"
+          >
+            <path
+              d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"
+            />
+          </svg>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;
+
+exports[`ActionCell policy's hasWrite is true test isEditing=true & disabled=true to match snapshot 1`] = `
+<table>
+  <tbody>
+    <tr>
+      <td
+        class="icon-button"
+      >
+        <button
+          class="icon-save"
+        >
+          <svg
+            class="mdi-icon "
+            fill="currentColor"
+            height="12"
+            viewBox="0 0 24 24"
+            width="12"
+          >
+            <path
+              d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"
+            />
+          </svg>
+        </button>
+        <button
+          class="icon-cancel"
+        >
+          <svg
+            class="mdi-icon "
+            fill="currentColor"
+            height="12"
+            viewBox="0 0 24 24"
+            width="12"
+          >
+            <path
+              d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"
+            />
+          </svg>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;

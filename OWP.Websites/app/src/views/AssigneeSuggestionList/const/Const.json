@@ -1,0 +1,228 @@
+{
+  "timeLineColumn": [
+    {
+      "id": "yesterday_02h",
+      "title": "02:00 AM",
+      "timeRange": 0
+    },
+    {
+      "id": "yesterday_03h",
+      "title": "03:00 AM",
+      "timeRange": 1
+    },
+    {
+      "id": "yesterday_04h",
+      "title": "04:00 AM",
+      "timeRange": 2
+    },
+    {
+      "id": "yesterday_05h",
+      "title": "05:00 AM",
+      "timeRange": 3
+    },
+    {
+      "id": "yesterday_06h",
+      "title": "06:00 AM",
+      "timeRange": 4
+    },
+    {
+      "id": "yesterday_07h",
+      "title": "07:00 AM",
+      "timeRange": 5
+    },
+    {
+      "id": "yesterday_08h",
+      "title": "08:00 AM",
+      "timeRange": 6
+    },
+    {
+      "id": "yesterday_09h",
+      "title": "09:00 AM",
+      "timeRange": 7
+    },
+    {
+      "id": "yesterday_10h",
+      "title": "10:00 AM",
+      "timeRange": 8
+    },
+    {
+      "id": "yesterday_11h",
+      "title": "11:00 AM",
+      "timeRange": 9
+    },
+    {
+      "id": "today_12h",
+      "title": "12:00 PM",
+      "color": "#1e88e5",
+      "timeRange": 10
+    },
+    {
+      "id": "today_13h",
+      "title": "01:00 PM",
+      "color": "#1e88e5",
+      "timeRange": 11
+    },
+    {
+      "id": "today_14h",
+      "title": "02:00 PM",
+      "color": "#1e88e5",
+      "timeRange": 12
+    },
+    {
+      "id": "today_15h",
+      "title": "03:00 PM",
+      "color": "#1e88e5",
+      "timeRange": 13
+    },
+    {
+      "id": "today_16h",
+      "title": "04:00 PM",
+      "color": "#1e88e5",
+      "timeRange": 14
+    },
+    {
+      "id": "today_17h",
+      "title": "05:00 PM",
+      "color": "#1e88e5",
+      "timeRange": 15
+    },
+    {
+      "id": "today_18h",
+      "title": "06:00 PM",
+      "color": "#1e88e5",
+      "timeRange": 16
+    },
+    {
+      "id": "today_19h",
+      "title": "07:00 PM",
+      "color": "#1e88e5",
+      "timeRange": 17
+    },
+    {
+      "id": "today_20h",
+      "title": "08:00 PM",
+      "color": "#1e88e5",
+      "timeRange": 18
+    },
+    {
+      "id": "today_21h",
+      "title": "09:00 PM",
+      "color": "#1e88e5",
+      "timeRange": 19
+    },
+    {
+      "id": "today_22h",
+      "title": "10:00 PM",
+      "color": "#1e88e5",
+      "timeRange": 20
+    },
+    {
+      "id": "today_23h",
+      "title": "11:00 PM",
+      "color": "#1e88e5",
+      "timeRange": 21
+    },
+    {
+      "id": "today_00h",
+      "timeRange": 22,
+      "color": "#1e88e5",
+      "title": "12:00 AM"
+    },
+    {
+      "id": "today_01h",
+      "title": "01:00 AM",
+      "color": "#1e88e5",
+      "timeRange": 23
+    },
+    {
+      "id": "today_02h",
+      "title": "02:00 AM",
+      "color": "#1e88e5",
+      "timeRange": 24
+    },
+    {
+      "id": "today_03h",
+      "title": "03:00 AM",
+      "color": "#1e88e5",
+      "timeRange": 25
+    },
+    {
+      "id": "today_04h",
+      "title": "04:00 AM",
+      "color": "#1e88e5",
+      "timeRange": 26
+    },
+    {
+      "id": "today_05h",
+      "title": "05:00 AM",
+      "color": "#1e88e5",
+      "timeRange": 27
+    },
+    {
+      "id": "today_06h",
+      "title": "06:00 AM",
+      "color": "#1e88e5",
+      "timeRange": 28
+    },
+    {
+      "id": "today_07h",
+      "title": "07:00 AM",
+      "color": "#1e88e5",
+      "timeRange": 29
+    },
+    {
+      "id": "today_08h",
+      "title": "08:00 AM",
+      "color": "#1e88e5",
+      "timeRange": 30
+    },
+    {
+      "id": "today_09h",
+      "title": "09:00 AM",
+      "color": "#1e88e5",
+      "timeRange": 31
+    },
+    {
+      "id": "today_10h",
+      "title": "10:00 AM",
+      "color": "#1e88e5",
+      "timeRange": 32
+    },
+    {
+      "id": "today_11h",
+      "title": "11:00 AM",
+      "color": "#1e88e5",
+      "timeRange": 33
+    },
+    {
+      "id": "tomorrow_12h",
+      "title": "12:00 PM",
+      "color": "#1e88e5",
+      "timeRange": 34
+    },
+    {
+      "id": "tomorrow_13h",
+      "title": "01:00 PM",
+      "timeRange": 35
+    },
+    {
+      "id": "tomorrow_14h",
+      "title": "02:00 PM",
+      "timeRange": 36
+    },
+    {
+      "id": "tomorrow_15h",
+      "title": "03:00 PM",
+      "timeRange": 37
+    },
+    {
+      "id": "tomorrow_16h",
+      "title": "04:00 PM",
+      "timeRange": 38
+    }
+  ],
+  "startHour": 2,
+  "startMinute": 0,
+  "numberElement": 2,
+  "headerHeight": 150
+}

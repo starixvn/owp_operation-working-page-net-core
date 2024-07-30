@@ -1,0 +1,192 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GeneralInfo Main match should render FlagWrapper 1`] = `
+<div
+  class="general-info"
+>
+  <div
+    class="info-block"
+  >
+    <div>
+      Event Date:
+      <span
+        class="daytime"
+      >
+        Jun 16, 2018
+      </span>
+    </div>
+    <div />
+    <div
+      class="league"
+    >
+      <span>
+        Match No. 
+      </span>
+      <input
+        autocomplete="off"
+        class="input-field match-no form-control"
+        maxlength="50"
+        name="MatchNo"
+        type="text"
+        value="ABC"
+      />
+      <div
+        class="KO-time"
+      >
+        K.O:
+        <div
+          class="ant-picker css-dev-only-do-not-override-htwhyh input-field"
+        >
+          <div
+            class="ant-picker-input"
+          >
+            <input
+              autocomplete="off"
+              id="KOTime"
+              placeholder="Select time"
+              readonly=""
+              size="10"
+              title="9:00 AM"
+              value="9:00 AM"
+            />
+            <span
+              class="ant-picker-suffix"
+            >
+              <span
+                aria-label="clock-circle"
+                class="anticon anticon-clock-circle"
+                role="img"
+              >
+                <svg
+                  aria-hidden="true"
+                  data-icon="clock-circle"
+                  fill="currentColor"
+                  focusable="false"
+                  height="1em"
+                  viewBox="64 64 896 896"
+                  width="1em"
+                >
+                  <path
+                    d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z"
+                  />
+                  <path
+                    d="M686.7 638.6L544.1 535.5V288c0-4.4-3.6-8-8-8H488c-4.4 0-8 3.6-8 8v275.4c0 2.6 1.2 5 3.3 6.5l165.4 120.6c3.6 2.6 8.6 1.8 11.2-1.7l28.6-39c2.6-3.7 1.8-8.7-1.8-11.2z"
+                  />
+                </svg>
+              </span>
+            </span>
+            <span
+              class="ant-picker-clear"
+              role="button"
+            >
+              <span
+                aria-label="close-circle"
+                class="anticon anticon-close-circle"
+                role="img"
+              >
+                <svg
+                  aria-hidden="true"
+                  data-icon="close-circle"
+                  fill="currentColor"
+                  focusable="false"
+                  height="1em"
+                  viewBox="64 64 896 896"
+                  width="1em"
+                >
+                  <path
+                    d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm165.4 618.2l-66-.3L512 563.4l-99.3 118.4-66.1.3c-4.4 0-8-3.5-8-8 0-1.9.7-3.7 1.9-5.2l130.1-155L340.5 359a8.32 8.32 0 01-1.9-5.2c0-4.4 3.6-8 8-8l66.1.3L512 464.6l99.3-118.4 66-.3c4.4 0 8 3.5 8 8 0 1.9-.7 3.7-1.9 5.2L553.5 514l130 155c1.2 1.5 1.9 3.3 1.9 5.2 0 4.4-3.6 8-8 8z"
+                  />
+                </svg>
+              </span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <span>
+        Other Time:
+        <span
+          class="daytime"
+        >
+          8:00 AM
+        </span>
+      </span>
+      <input
+        autocomplete="off"
+        class="input-field form-control"
+        maxlength="200"
+        name="LeagueName"
+        placeholder="League Name"
+        type="text"
+        value="L"
+      />
+    </div>
+    <div
+      class="event"
+    >
+      <span
+        class="team"
+      >
+        <input
+          autocomplete="off"
+          class="input-field form-control"
+          maxlength="200"
+          name="HomeName"
+          placeholder="Home Team"
+          type="text"
+          value="H"
+        />
+        <span>
+          -vs-
+        </span>
+        <input
+          autocomplete="off"
+          class="input-field form-control"
+          maxlength="200"
+          name="AwayName"
+          placeholder="Away Team"
+          type="text"
+          value="A"
+        />
+      </span>
+    </div>
+  </div>
+  <div
+    class="btn-action"
+  >
+    <div
+      class="save"
+    >
+      <button
+        class="action icon-save"
+      >
+        <svg
+          class="mdi-icon "
+          fill="currentColor"
+          height="14"
+          viewBox="0 0 24 24"
+          width="14"
+        >
+          <path
+            d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"
+          />
+        </svg>
+      </button>
+      <button
+        class="action icon-cancel"
+      >
+        <svg
+          class="mdi-icon "
+          fill="currentColor"
+          height="14"
+          viewBox="0 0 24 24"
+          width="14"
+        >
+          <path
+            d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+`;

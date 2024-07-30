@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using OWP.Report.TraderReport.Handlers;
@@ -10,7 +9,6 @@ namespace OWP.Report.TraderReport;
 [Route("api/report")]
 [ApiController]
 [AllowAnonymous]
-[EnableCors]
 public class TraderReportController : ControllerBase
 {
     private readonly IMediator mediator;

@@ -9,13 +9,13 @@ using Xunit.Asserts.Compare;
 
 public class FirstHalfServiceUnitTests
 {
-    private List<AssignmentModel> assignments = new();
+    private List<AssignmentModel> assignments = [];
 
     private void Initialize()
     {
-        assignments = new List<AssignmentModel>
-        {
-            new()
+        assignments =
+        [
+            new AssignmentModel
             {
                 OWPMatchId = 1,
                 KOTime = DateTime.Parse("2023-3-31 18:00:00").TimeOfDay,
@@ -24,7 +24,7 @@ public class FirstHalfServiceUnitTests
                 UserId = 123,
                 Remark = "ET/PK"
             }
-        };
+        ];
     }
 
     [Fact]

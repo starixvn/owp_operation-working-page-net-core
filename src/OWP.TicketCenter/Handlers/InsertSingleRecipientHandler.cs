@@ -8,9 +8,7 @@ using OWP.TicketCenter.Services;
 
 namespace OWP.TicketCenter.Handlers;
 
-public class InsertSingleRecipientRequest : InsertOrRemoveSingleRecipientModel, IRequest<int>
-{
-}
+public class InsertSingleRecipientRequest : InsertOrRemoveSingleRecipientModel, IRequest<int>;
 
 public class InsertRecipientHandler : IRequestHandler<InsertSingleRecipientRequest, int>
 {

@@ -59,43 +59,57 @@ public class BuildExcelModelServiceUnitTests
 
         var expectedAssignments = new ExcelAssignmentModel
         {
-            Matches = new List<MatchInfo>
-            {
-                new() { OSMatchId = 111, Sport = Sport.Basketball, Home = "home111", League = "league111",MatchStatus = "test"}
-            },
+            Matches =
+            [
+                new MatchInfo
+                {
+                    OSMatchId = 111, Sport = Sport.Basketball, Home = "home111", League = "league111",
+                    MatchStatus = "test"
+                }
+            ],
             MatchAssignments = new Dictionary<int, List<ExcelMatchAssignment>>
             {
-                { 111, new List<ExcelMatchAssignment> {
-                    new() { ColumnIndex=20,Value="", AssignmentType = 1, BetTypeName = Bettype.FTHDP, UserId = 8, Username="sa" },
-                    new()
-                    { ColumnIndex=88,Value="#starix15 note", AssignmentType = 2, BetTypeName = Bettype.FirstHHDP,
-                        UserId = 123, Username="starix15", AssignmentNote = "#<user> note" }
-                } }
+                { 111, [
+                        new ExcelMatchAssignment
+                        {
+                            ColumnIndex = 20, Value = "", AssignmentType = 1, BetTypeName = Bettype.FTHDP, UserId = 8,
+                            Username = "sa"
+                        },
+                        new ExcelMatchAssignment
+                        {
+                            ColumnIndex = 88, Value = "#starix15 note", AssignmentType = 2,
+                            BetTypeName = Bettype.FirstHHDP,
+                            UserId = 123, Username = "starix15", AssignmentNote = "#<user> note"
+                        }
+                    ]
+                }
             },
             MaxBetSpread = new Dictionary<int, List<ExcelMatchMaxBetSpread>>
             {
-                { 111, new List<ExcelMatchMaxBetSpread> {
-                    new()
-                    {
-                        ColumnIndexMaxbet=154,
-                        ValueMaxbet="1234",
-                        BetTypeName = Bettype.FTHDP,
-                        MaxBet = 1234,
-                        Spread =12,
-                        ColumnIndexSpread = 225,
-                        ValueSpread = "12"
-                    },
-                    new()
-                    {
-                        ColumnIndexMaxbet=155,
-                        ValueMaxbet="222.05",
-                        BetTypeName = Bettype.FTOUOE,
-                        MaxBet = 222.05m,
-                        Spread = 13,
-                        ColumnIndexSpread = 226,
-                        ValueSpread = "13"
-                    }
-                } }
+                { 111, [
+                        new ExcelMatchMaxBetSpread
+                        {
+                            ColumnIndexMaxbet = 154,
+                            ValueMaxbet = "1234",
+                            BetTypeName = Bettype.FTHDP,
+                            MaxBet = 1234,
+                            Spread = 12,
+                            ColumnIndexSpread = 225,
+                            ValueSpread = "12"
+                        },
+
+                        new ExcelMatchMaxBetSpread
+                        {
+                            ColumnIndexMaxbet = 155,
+                            ValueMaxbet = "222.05",
+                            BetTypeName = Bettype.FTOUOE,
+                            MaxBet = 222.05m,
+                            Spread = 13,
+                            ColumnIndexSpread = 226,
+                            ValueSpread = "13"
+                        }
+                    ]
+                }
             }
         };
 
@@ -121,22 +135,32 @@ public class BuildExcelModelServiceUnitTests
             },
             MatchAssignments = new Dictionary<int, List<MatchAssignment>>
             {
-                { 111, new List<MatchAssignment> {
-                    new() { AssignmentType = 1, BetTypeName = Bettype.FTHDP, UserId = 8, Username="sa" },
-                    new()
-                    { AssignmentType = 2, BetTypeName = Bettype.FirstHHDP, UserId = 123, Username="starix15",
-                        AssignmentNote = "#<user> note" }
-                } },
-                { 222, new List<MatchAssignment> {
-                    new() { AssignmentType = 1, BetTypeName = Bettype.FTHDP, UserId = 2228, Username="tr", Nickname="abc" }
-                } }
+                { 111, [
+                        new MatchAssignment { AssignmentType = 1, BetTypeName = Bettype.FTHDP, UserId = 8, Username = "sa" },
+                        new MatchAssignment
+                        {
+                            AssignmentType = 2, BetTypeName = Bettype.FirstHHDP, UserId = 123, Username = "starix15",
+                            AssignmentNote = "#<user> note"
+                        }
+                    ]
+                },
+                { 222,
+                    [
+                        new MatchAssignment
+                        {
+                            AssignmentType = 1, BetTypeName = Bettype.FTHDP, UserId = 2228, Username = "tr",
+                            Nickname = "abc"
+                        }
+                    ]
+                }
             },
             MatchSettings = new Dictionary<int, List<MatchSetting>>
             {
-                { 111, new List<MatchSetting> {
-                    new() { BetTypeName = Bettype.FTHDP, MaxBet = 1234, Spread = 12 },
-                    new() { BetTypeName = Bettype.FTOUOE, MaxBet = 222.05m, Spread = 13 }
-                } }
+                { 111, [
+                        new MatchSetting { BetTypeName = Bettype.FTHDP, MaxBet = 1234, Spread = 12 },
+                        new MatchSetting { BetTypeName = Bettype.FTOUOE, MaxBet = 222.05m, Spread = 13 }
+                    ]
+                }
             }
         };
     }

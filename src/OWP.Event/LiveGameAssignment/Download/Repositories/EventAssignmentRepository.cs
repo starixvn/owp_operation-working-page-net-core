@@ -2,11 +2,9 @@
 
 namespace OWP.Event.LiveGameAssignment.Download.Repositories;
 
-using Fanex.Data;
+using Enums;
+using EventShared.Helper;
 using Fanex.Data.Repository;
-using OWP.Enums;
-using OWP.Event.EventShared.Enum;
-using OWP.Event.EventShared.Helper;
 using OWP.Event.EventShared.Models;
 using OWP.Services;
 using System.Collections.Generic;
@@ -26,27 +24,25 @@ public interface IEventAssignmentRepository
 public class EventAssignmentRepository : IEventAssignmentRepository
 {
     private readonly CheckIsLiveStatusServices checkIsLiveStatusServices;
+    private readonly IDynamicRepository dynamicRepository;
 
-    public EventAssignmentRepository(CheckIsLiveStatusServices checkIsLiveStatusServices)
+    public EventAssignmentRepository(CheckIsLiveStatusServices checkIsLiveStatusServices, IDynamicRepository dynamicRepository)
     {
         this.checkIsLiveStatusServices = checkIsLiveStatusServices;
+        this.dynamicRepository = dynamicRepository;
     }
     public async Task<IEnumerable<EventModel>> GetEventInformationByEventDate(ICriteria criteria)
     {
-        using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
-        {
-            using (var reader = await db.QueryMultipleAsync(criteria))
-            {
-                var matchInfos = reader.Read<MatchInfo>();
-                var traders = reader.Read<MatchTrader>();
-                var notes = reader.Read<MatchNote>();
-                var matchSettings = reader.Read<MatchMoney>();
-                var _ = reader.Read<Television>(); // NOSONAR
-                var matchOffers = reader.Read<MatchOffer>();
-                var events = await GetInfo(matchInfos, traders, notes, matchSettings, matchOffers);
-                return events;
-            }
-        }
+        var result = await dynamicRepository.FetchMultipleAsync<MatchInfo, MatchTrader, MatchNote, MatchMoney, Television, MatchOffer>(criteria);
+
+        var matchInfos = result.Item1;
+        var traders = result.Item2;
+        var notes = result.Item3;
+        var matchSettings = result.Item4;
+        var _ = result.Item5; // NOSONAR
+        var matchOffers = result.Item6;
+        var events = await GetInfo(matchInfos, traders, notes, matchSettings, matchOffers);
+        return events;
     }
 
     private static List<string> GetMatchNote(IEnumerable<MatchNote> notes, int matchId)
@@ -350,7 +346,7 @@ public class EventAssignmentRepository : IEventAssignmentRepository
             match.Assignments.SpecificXMins = new SpecificXMinsAssignmentModel
             {
                 MaxBet = GetMaxBet(matchSettingForXmins),
-                Spread = GetSpread(matchSettingForXmins),
+                Spread = GetSpread(matchSettingForXmins)
             };
             matchList.Add(match);
         }

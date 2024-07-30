@@ -5,10 +5,7 @@ using OWP.ProviderArrangement.Models;
 
 namespace OWP.ProviderArrangement.Handlers;
 
-public class GetProviderRequest : IRequest<IList<ProviderModel>>
-{
-
-}
+public class GetProviderRequest : IRequest<IList<ProviderModel>>;
 
 public class GetProviderHandler : IRequestHandler<GetProviderRequest, IList<ProviderModel>>
 {
@@ -23,7 +20,7 @@ public class GetProviderHandler : IRequestHandler<GetProviderRequest, IList<Prov
     public async Task<IList<ProviderModel>> Handle(GetProviderRequest request, CancellationToken cancellationToken)
     {
         var criteria = new GetProviderCriteria();
-        var result = await dynamicRepository.FetchAsync<ProviderModel>(criteria, cancellationToken);
+        var result = await dynamicRepository.FetchAsync<ProviderModel>(criteria);
 
         return result.ToList();
     }

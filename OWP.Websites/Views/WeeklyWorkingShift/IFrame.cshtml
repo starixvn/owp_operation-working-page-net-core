@@ -1,0 +1,189 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using OWP.Resources;
+@using OWP.Models;
+@using OWP.WorkingShift.Common.Models
+
+@model OWP.WorkingShift.WeeklyWorkingShift.Models.FilterViewModel
+@{
+    Layout = "~/Views/Shared/Iframe/_IFrame.cshtml";
+    ViewBag.Title = ViewLang.WorkingShiftManagement;
+    var cssClassNameIFrame = "body-iframe";
+    var userCategoryList = Model.UserCategories.ToList();
+    userCategoryList.Add(new ReferenceResource
+    {
+        ResourceId = 0,
+        Value = "None"
+    });
+    var userCategories = userCategoryList.Select(x => new
+    {
+        value = x.ResourceId,
+        text = x.Value
+    });
+
+    var sectionList = Model.Sections.ToList();
+    var sections = sectionList.Select(x => new
+    {
+        value = x.ResourceId,
+        text = x.Value
+    });
+
+    var userLocations = Model.UserLocations.Select(x => new
+    {
+        value = x.LocationCode,
+        text = x.LocationName
+    });
+
+    var departments = Model.Departments.Select(x => new
+    {
+        value = x.ResourceId,
+        text = x.Value
+    });
+
+    var selectedTimezoneSetting = (TimezoneSettingModel)ViewBag.selectedTimezoneSetting;
+    var currentDateServer = DateTime.UtcNow.AddHours(7);
+}
+@section css
+{
+    <environment include="Development">
+        <link href="~/shared/owp/weekly-working-shift/workingshift.css" rel="stylesheet" />
+    </environment>
+    <environment exclude="Development">
+        <link href="~/Styles/WeeklyWorkingShift" rel="stylesheet" />
+    </environment>
+}
+@section scripts
+{
+    <script>
+        var currentDateServer = '@currentDateServer';
+        var workingShiftData = {
+            currentSectionId: '@Model.CurrentSectionId',
+            currentUserId: '@Model.CurrentUserId',
+            messages: {
+                noFile: '@ViewLang.EventUploading_MissingFile',
+                notAnExcelFile: '@ViewLang.EventUploading_NotAnExcelFile',
+                exceedMaxFileSize: '@ViewLang.EventUploading_ExceedMaxFileSize'
+            },
+            departments:  @Html.Raw(Json.Serialize(departments)),
+            sections: @Html.Raw(Json.Serialize(sections)),
+            userCategories: @Html.Raw(Json.Serialize(userCategories)),
+            userLocations: @Html.Raw(Json.Serialize(userLocations)),
+            isInOrderMode: false,
+            isHostWeeklySection: @Json.Serialize(Model.Permission.WorkingShiftManagementAllSections.IsHost)
+            };
+    </script>
+   
+    <environment include="Development">
+        <script src="~/shared/owp/weekly-working-shift/week-picker.js" asp-append-version="true"></script>
+        <script src="~/shared/owp/weekly-working-shift/working-shift-factory.js" asp-append-version="true"></script>
+        <script src="~/shared/owp/weekly-working-shift/working-shift-service.js" asp-append-version="true"></script>
+        <script src="~/shared/owp/weekly-working-shift/working-shift-upload.js" asp-append-version="true"></script>
+        <script src="~/shared/owp/weekly-working-shift/working-shift-weekly.js" asp-append-version="true"></script>
+        <script src="~/shared/owp/weekly-working-shift/working-shift.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/Scripts/WeeklyWorkingShift"></script>
+    </environment>
+}
+}
+<div class="body-content @cssClassNameIFrame" data-isIFrame="@Model.IsFrame" data-isHostWeeklySection="@Model.Permission.WorkingShiftManagementAllSections.IsHost" data-isHostShiftColor="@Model.Permission.WorkingShiftManagementShiftManagement.IsHost" data-isHostWeekly="@(Model.Permission.WorkingShiftManagementOwnSection.IsHost || Model.Permission.WorkingShiftManagementAllSections.IsHost)">
+    <div class="sticky-filter" id="sticky-filter">
+        <form class="filter">
+            <div class="row margin-bottom-0" style="position: relative">
+                <div class="setting-timezone">
+                    <a class='dropdown-button btn' href='#' data-activates='dropdownTimezoneIFrame' id="settingTimeZoneDropdown"></a>
+                    <ul id='dropdownTimezoneIFrame' class='dropdown-content'>
+                        @foreach (var timezoneSetting in Model.TimezoneSettings)
+                        {
+                            <li data-offset="@timezoneSetting.Offset">
+                                <input value="@timezoneSetting.Offset" class="with-gap" name="TimeZone" type="radio" @(timezoneSetting.IsSelected ? "checked" : string.Empty) />
+                                <label for="@timezoneSetting.Name">@timezoneSetting.Name</label>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row margin-bottom-0 filter-row">
+                <div class="hidden-field">
+                    <div class="label">&nbsp;</div>
+                    <input type="text" id="hidden-weekpicker" readonly="readonly" value="@currentDateServer" />
+                </div>
+                <div class="input-field calendar col input--m input-date-picker has-margin js-datePickerWrapper">
+                    <div class="label">Date</div>
+                    <input type="text" class="js-calendar weekpicker" readonly="readonly" />
+                    <i class="mdi mdi-calendar icon-calendar"></i>
+                </div>
+                <div class="input-field col input--ws has-margin js-employeeInputWrapper">
+                    <div class="label">Employee</div>
+                    <input value="" id="employee" name="employee" type="text" placeholder="Account or Username">
+                </div>
+                <div class="multiple-selection col input--ws has-margin js-multiDepartmentWrapper">
+                    <div class="label">Department</div>
+                    <select id="department"></select>
+                </div>
+                <div class="multiple-selection col input--ws has-margin js-multiSectionWrapper">
+                    <div class="label">Section</div>
+                    <select id="section"></select>
+                </div>
+                <div class="multiple-selection col input--ws has-margin js-multiCategoryWrapper">
+                    <div class="label">Category</div>
+                    <select id="userCategories"></select>
+                </div>
+                <div class="multiple-selection col input--ws has-margin js-multiLocationWrapper">
+                    <div class="label">Location</div>
+                    <select id="userLocations"></select>
+                </div>
+                <div class="input-field col checkbox-active has-margin js-excludeClosedAccountsWrapper">
+                    <input checked="checked" class="filled-in checkbox" id="excludeClosedAccount" name="excludeClosedAccount" type="checkbox" value="true" />
+                    <label for="excludeClosedAccount">Exclude closed accounts</label>
+                    <input name="excludeClosedAccount" type="hidden" value="false" />
+                </div>
+                <div class="button-block col">
+                    <a class="waves-effect waves-light btn btn-search">Search</a>
+                    <div id="group_export_excel" style="display: inline-block">
+                        <!-- Dropdown Trigger -->
+                        <a class='dropdown-button btn btn-download' id="exportExcelDropdown"  data-activates='WsTemplate'>
+                            Export Pickup Schedule
+                            <i class="mdi mdi-menu-down"></i>
+                        </a>
+
+                        <!-- Dropdown Structure -->
+                        <ul id='WsTemplate' class='dropdown-content ws-template'>
+                            <li id="btnExportAllWorkingShift" data-isIFrame="@Model.IsFrame"><a >By Filter</a></li>
+                            <li id="btnExportAllWorkingShiftSMSLocal" data-isIFrame="@Model.IsFrame"><a class="tooltip-tipsy" original-title="Automation, EST, SOC Live Trading, BB Live Trading, OS Live Trading, Fraud & Keyscore, Risk & Support, SOC Pre-Match, BB Pre-Match, OS Pre-Match, R&D Supportive, BB Supportive, OS Supportive, OPS Admin, OS Management, PH VN-Site, BB Management, Esports, Credit CSD, B2C">By [SMS, WAH HCMC] Local</a></li>
+                            <li id="btnExportAllWorkingShiftLALST" data-isIFrame="@Model.IsFrame"><a class="tooltip-tipsy" original-title="Live Assistant-VN, LST">By [SMS, WAH HCMC] Local LA, LST</a></li>
+                            <li id="btnExportAllWorkingShiftSMSExpat" data-isIFrame="@Model.IsFrame"><a class="tooltip-tipsy" original-title="Automation, EST, Live Assistant-VN, SOC Live Trading, BB Live Trading, OS Live Trading, LST, Fraud & Keyscore, Risk & Support, R&D Supportive, BB Supportive, OS Supportive, OS Management, OPS Admin">By [SMS, WAH HCMC] Expat</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="table-control weekly">
+            <div class="header-control">
+                <div class="left week-control">
+                    <span class="btn prev-week">
+                        <i class="mdi mdi-chevron-left"></i>
+                    </span>
+                    <span class="btn next-week">
+                        <i class="mdi mdi-chevron-right"></i>
+                    </span>
+                    <span class="txt-week txt-bold"></span>
+                    <span class="txt-timezone txt-bold"><i class="mdi mdi-earth"></i><span class="timezone-text">@selectedTimezoneSetting.Name</span></span>
+                </div>
+                <div class="right">
+                    <span class="total">Total records: <b id="total-weekly">0</b></span>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="working-shift-day">
+            </div>
+        </div>
+    </div>
+
+    <div class="table weekly table-body">
+        <div class="working-shift-day">
+            <div class="body" id="jssortable"></div>
+        </div>
+    </div>
+</div>

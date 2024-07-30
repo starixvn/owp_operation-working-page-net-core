@@ -7,7 +7,7 @@ namespace OWP.FileUpload.Handlers;
 
 public class InitialOldDataHandler
 {
-    public class InitialOldDataRequest : IRequest<int> { }
+    public class InitialOldDataRequest : IRequest<int>;
 
     public class Handler : IRequestHandler<InitialOldDataRequest, int>
     {
@@ -24,7 +24,7 @@ public class InitialOldDataHandler
         {
             var criteria = new InitialOldDataCriteria();
 
-            var result = (await dynamicRepo.FetchAsync<OldFileModel>(criteria, cancellationToken)).ToList();
+            var result = (await dynamicRepo.FetchAsync<OldFileModel>(criteria)).ToList();
             foreach (var file in result)
             {
                 await SaveFile(file.FileContent, file.SavedFileName);

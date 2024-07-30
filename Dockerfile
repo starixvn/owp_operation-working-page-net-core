@@ -1,6 +1,6 @@
 # Prepare Project/*.csproj
 
-FROM hub.nexdev.net/base/dotnet/core/sdk:7.0-alpine AS prepare-restore-files
+FROM hub.nexdev.net/base/dotnet/core/sdk:8.0-alpine AS prepare-restore-files
 
 ENV PATH="${PATH}:/root/.dotnet/tools"
 RUN dotnet tool install --global --no-cache dotnet-subset --version 0.3.2
@@ -9,7 +9,7 @@ WORKDIR /src
 COPY . .
 RUN dotnet subset restore ./OWP.Websites/OWP.Websites.csproj --root-directory /src --output /src/restore_subset/
 
-FROM hub.nexdev.net/base/dotnet/core/sdk:7.0-alpine AS builder
+FROM hub.nexdev.net/base/dotnet/core/sdk:8.0-alpine AS builder
 
 
 WORKDIR /src
@@ -26,7 +26,7 @@ WORKDIR /src/OWP.Websites
 RUN --mount=type=cache,target=/root/.nuget/packages \
     dotnet publish -c release -o /app
 
-FROM hub.nexdev.net/base/dotnet/core/aspnet:7.0-alpine AS base
+FROM hub.nexdev.net/base/dotnet/core/aspnet:8.0-alpine AS base
 
 WORKDIR /app
 COPY --from=builder /app .

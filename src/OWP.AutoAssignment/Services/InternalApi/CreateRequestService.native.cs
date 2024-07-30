@@ -81,7 +81,7 @@ public class CreateRequestServiceImp : CreateRequestService
         var allRequest = (await repository.GetRequestsInternal()).ToList();
         return allRequest.Any()
             ? allRequest.OrderByDescending(r => r.CreatedDate).ToList()
-            : new List<SchedulingRequest>();
+            : [];
     }
 
     public async Task<int> GetRequestStatus(string requestId)

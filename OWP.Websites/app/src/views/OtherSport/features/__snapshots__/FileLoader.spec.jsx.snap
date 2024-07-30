@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FileLoader under test should render correct 1`] = `
+<div
+  class="control-field"
+>
+  <span
+    class="text-input-file"
+  >
+    Drag your file here
+  </span>
+  <label
+    class="button-input-file"
+    for="myFile"
+  >
+    Browse
+  </label>
+  <input
+    accept=".xlsx"
+    id="myFile"
+    name="filename"
+    type="file"
+  />
+</div>
+`;

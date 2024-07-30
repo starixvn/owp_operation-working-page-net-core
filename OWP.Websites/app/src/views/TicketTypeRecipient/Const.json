@@ -1,0 +1,7 @@
+{
+  "functionKey": "TicketTypeSettings",
+  "getRecipientSuggestionKey": "ticket-setting-get-all-recipients",
+  "getTicketTypeRecipientsRoute": "get-ticket-recipients",
+  "saveTicketTypeRecipientsRoute": "save-ticket-recipients",
+  "checkLengthSubTypes": 2
+}

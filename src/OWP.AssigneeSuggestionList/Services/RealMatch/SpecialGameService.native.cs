@@ -36,7 +36,7 @@ public class SpecialGameServiceImp : SpecialGameService
         IDictionary<int, List<AssignmentModel>> gameMapGameId)
     {
         cornerService.Group(assignmentModels, schedule, fromDate, gameMapGameId);
-        GroupXMins(schedule, assignmentModels, fromDate, gameMapGameId);
+        GroupXMins(schedule, assignmentModels, fromDate);
         GroupWinnerAndNextRound(schedule, assignmentModels, fromDate, gameMapGameId);
         GroupSingleTeam(schedule, assignmentModels, fromDate, gameMapGameId);
         bookingService.Group(assignmentModels, schedule, fromDate, gameMapGameId);
@@ -48,7 +48,7 @@ public class SpecialGameServiceImp : SpecialGameService
         singleSpecialService.Group(assignmentModels, schedule, fromDate, gameMapGameId, Bettype.NextRound);
     }
 
-    private void GroupXMins(WorkingSchedule schedule, IList<AssignmentModel> assignmentModels, DateTime fromDate, IDictionary<int, List<AssignmentModel>> gameMapGameId)
+    private void GroupXMins(WorkingSchedule schedule, IList<AssignmentModel> assignmentModels, DateTime fromDate)
     {
         xMinsGroupService.Group(assignmentModels, schedule, fromDate);
         xMinsGroupService.Group(assignmentModels, schedule, fromDate, Bettype.Specific15MinsCorners);

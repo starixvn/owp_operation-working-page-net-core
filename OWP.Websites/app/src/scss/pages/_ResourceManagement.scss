@@ -1,0 +1,74 @@
+.resource-management {
+  margin: 1rem;
+  padding: 1rem;
+  border-radius: 3px;
+  background: #fff;
+  box-shadow: 0 1px 1.5px 0 rgba(0,0,0,.12), 0 1px 2px 0 rgba(0,0,0,.12);
+
+  .basic-multi-select {
+    width: 20rem;
+  }
+
+  .option-table {
+    width: 400px;
+
+    table {
+      width: 100%;
+
+      tr:hover {
+        background: rgb(255, 239, 213);
+      }
+    }
+
+    .action-col {
+      width: 6rem;
+    }
+
+    .id-col {
+      width: 6rem;
+      text-align: center;
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    .add-value {
+      display: flex;
+      justify-content: space-between;
+      margin: 10px 0;
+    }
+
+    .value-textinput {
+      width: calc(100% - 60px);
+      padding-left: 0;
+      border: 0;
+      border-bottom: 1px solid #e1e1e1;
+      border-radius: 0;
+      font-size: 12px;
+      box-shadow: none;
+      transition: all .2s ease;
+
+      &:focus {
+        outline: none;
+        border-color: #1e88e5;
+        -webkit-box-shadow: 0 1px 0 0 #1e88e5;
+        box-shadow: 0 1px 0 0 #1e88e5;
+      }
+    }
+
+    .btn-add {
+      padding: 2px 5px;
+      font-size: 12px;
+      background: #2fb159;
+      border: 1px solid #2fb159;
+      color: #fff;
+    }
+
+    .input-field {
+      min-height: 18px;
+      height: 18px;
+      background: transparent;
+    }
+  }
+}

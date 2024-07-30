@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`dynamicCell under test match snapshot 1`] = `
+<RoleCell
+  productInfo={
+    {
+      "assignmentRemark": "carlos testxzxzxzvsdvsdvsdê2e2e2e2eevsdvsdvsdvsvsdvdsvsdvdvsdvsdvvsdvxztrttrtrtrhfgggehrthbthrththttrhrthrthrtrthp",
+      "betTypePreferencesId": 0,
+      "levelId": 1,
+      "multipleGamesId": 2,
+      "roleId": 2,
+      "userId": 2439,
+      "username": "CLGCHAI",
+    }
+  }
+  rowIndex={0}
+/>
+`;

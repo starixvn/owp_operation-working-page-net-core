@@ -67,7 +67,7 @@ public class CornerServiceImp : CornerService
         {
             FilterDate = filterDate,
             EtPk = new ETPKUpdateSchedule(etPkValue),
-            AssignmentCell = new()
+            AssignmentCell = new AssignmentCell
             {
                 Color = ColorCodeConst.CORNER,
                 TextColor = ColorCodeConst.TEXT_CORNER,

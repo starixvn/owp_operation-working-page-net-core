@@ -64,7 +64,7 @@ public class GetReportByYearHandler : IRequestHandler<QueryReportByYearRequest, 
                 result.Add(new OvertimeByYear
                 {
                     Location = trader.Location,
-                    OvertimeData = new List<decimal?> { null, null, null, null, null, null, null, null, null, null, null, null },
+                    OvertimeData = [null, null, null, null, null, null, null, null, null, null, null, null],
                     Total = null,
                     Trader = trader.Username
                 });

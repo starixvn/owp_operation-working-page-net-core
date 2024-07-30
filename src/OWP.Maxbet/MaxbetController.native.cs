@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Olympus.OWP.Constants;
 using OWP.Maxbet.Constants;
@@ -10,7 +9,6 @@ namespace OWP.Maxbet;
 [Route("api/[controller]/{matchId:int}")]
 [ApiController]
 [AllowAnonymous]
-[EnableCors]
 public class MaxbetController : ControllerBase
 {
     private readonly MainMatchService mainMatchService;

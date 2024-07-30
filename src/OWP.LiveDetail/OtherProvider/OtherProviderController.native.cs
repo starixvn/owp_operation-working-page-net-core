@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -8,7 +7,6 @@ namespace OWP.LiveDetail.OtherProvider;
 [Route("api/live-detail/other-provider")]
 [ApiController]
 [Authorize]
-[EnableCors]
 public class OtherProviderController : ControllerBase
 {
     private readonly OtherProviderRepository repository;

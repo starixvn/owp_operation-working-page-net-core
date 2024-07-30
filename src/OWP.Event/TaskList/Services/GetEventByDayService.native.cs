@@ -49,13 +49,13 @@ public class GetEventByDayServiceImp : GetEventByDayService
             matchInfo.Phone = matchInfo.Assignment.LA.Any(x => x.IsCurrentUser && x.BettypeId < 0 && matchInfo.IsOneHourToKickOffTime)
                 ? matchInfo.Phone
                 : string.Empty;
-            matchInfo.IsCompletedMatch = GetMainMatchCompleteStatus(matchInfo, completedMatchIds, eventInfos.MatchInfo);
+            matchInfo.IsCompletedMatch = GetMainMatchCompleteStatus(matchInfo, completedMatchIds);
 
             yield return matchInfo;
         }
     }
 
-    private static bool GetMainMatchCompleteStatus(MatchInfo matchInfo, List<int> completedMatchIds, IEnumerable<MatchInfo> matchInfos)
+    private static bool GetMainMatchCompleteStatus(MatchInfo matchInfo, List<int> completedMatchIds)
     {
         var adminsiteId = matchInfo.ParentAdminSiteId;
 

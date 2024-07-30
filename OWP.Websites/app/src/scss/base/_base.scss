@@ -1,0 +1,145 @@
+@import '../abstracts/variables';
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: Arial, Tahoma, Helvetica, sans-serif;
+  background: #f5f5f5;
+  font-size: 1.2em;
+  color: $gray;
+  text-rendering: optimizeLegibility;
+}
+
+main {
+  padding-left: 6rem;
+  width: 100%;
+  height: 100%;
+  transition: 0.2s ease padding-left;
+}
+
+@media (min-width: 576px) and (min-width: 992px) {
+  html:not([dir='rtl']) .sidebar-lg-show.sidebar-fixed .main {
+    margin-left: 0;
+  }
+}
+
+.body-content {
+  margin: 1rem;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 2px -2px rgba(0, 0, 0, 0.2),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  border-radius: 3px;
+  background: #fff;
+}
+
+.error-info {
+  color: #fc5448;
+}
+.txt-bold {
+  font-weight: 600;
+}
+
+.success-info {
+  color: #4caf50;
+}
+
+.loading-process {
+  background: rgba(255, 255, 255, 0.7) no-repeat;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  z-index: 1052;
+  top: 55px;
+  left: 60px;
+
+  .icon-loading {
+    position: absolute;
+    top: 30%;
+    width: 64px;
+    height: 64px;
+    left: 50%;
+    margin: -10px 0 0 -70px;
+  }
+}
+
+// --------------------------- Icon action ------------------ //
+.icon-button > button {
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  font: inherit;
+  color: #898989;
+  background-color: transparent;
+  cursor: pointer;
+  transition: 0.2s ease all;
+}
+
+.icon-button > button:not(:last-child) {
+  margin-right: 5px;
+}
+
+.icon-button > button:focus {
+  outline: none;
+}
+
+.icon-button > button:hover {
+  color: #fff;
+}
+
+.icon-button > .icon-delete:hover {
+  background-color: #ff4c48;
+}
+
+.icon-button > .icon-edit:hover {
+  background-color: #ffa861;
+}
+
+.icon-button > .icon-save:hover {
+  background-color: #30b059;
+}
+
+.icon-button > .icon-cancel:hover {
+  background-color: #555555;
+}
+.swal2-popup {
+  width: 48em !important;
+  text-align: center !important;
+  border-radius: 2px !important;
+  padding-bottom: 20px !important;
+  .swal2-icon {
+    width: 35px !important;
+    height: 35px !important;
+    line-height: 35px !important;
+    border-width: 2px !important;
+    &.swal2-error {
+      &.swal2-icon-show {
+        .swal2-x-mark {
+          font-size: 7px !important;
+        }
+      }
+    }
+  }
+  .swal2-icon-content {
+    font-size: 25px !important;
+  }
+  .swal2-html-container {
+    font-size: 13px !important;
+  }
+  .swal2-styled {
+    padding: 5px 15px !important;
+    font-size: 1.0625em !important;
+  }
+  .swal2-confirm {
+    background-color: #3085d6 !important;
+  }
+}
+
+a {
+  text-decoration: none;
+  &:hover {
+    color: #444444;
+  }
+}

@@ -1,0 +1,146 @@
+{
+  "dateRangeDefault": 30,
+  "dateRangeValid": 366,
+  "getPrematchReportRoute": "get-prematch-report",
+  "exportRematchReport": "export-prematch-report",
+  "ORDER_ASC": "asc",
+  "ORDER_DESC": "desc",
+  "prematchTable": {
+    "traderCol": {
+      "name": "Trader",
+      "id": "traderName",
+      "width": 200,
+      "fixed": "left"
+    },
+    "totalMatchesHdpOuCol": {
+      "name": "Total Matches (HDP + OU)",
+      "id": "totalMatches",
+      "width": 100,
+      "fixed": "left"
+    },
+    "totalLeagueHdpOuCol": {
+      "name": "Total League (HDP + OU)",
+      "id": "totalLeague",
+      "width": 100,
+      "fixed": "left"
+    },
+    "totalLeagueHDP": {
+      "name": "Total League (HDP)",
+      "id": "leagueHdp",
+      "color": "bg-yellow",
+      "specialColumn": {
+        "name": "Total HDP",
+        "id": "Total"
+      }
+    },
+    "totalLeagueOU": {
+      "name": "Total League (OU)",
+      "id": "leagueOu",
+      "color": "bg-yellow",
+      "specialColumn": {
+        "name": "Total OU",
+        "id": "Total"
+      }
+    },
+    "totalMatchesOU": {
+      "name": "Total Matches (OU)",
+      "id": "matchOu",
+      "color": "bg-pink",
+      "specialColumn": {
+        "name": "Total OU",
+        "id": "Total"
+      }
+    },
+    "totalMatchesHDP": {
+      "name": "Total Matches (HDP)",
+      "id": "matchHdp",
+      "color": "bg-pink",
+      "specialColumn": {
+        "name": "Total HDP",
+        "id": "Total"
+      }
+    },
+    "subColumn": [
+      {
+        "name": "MJ",
+        "id": "Mj"
+      },
+      {
+        "name": "M1",
+        "id": "M1"
+      },
+      {
+        "name": "M2",
+        "id": "M2"
+      },
+      {
+        "name": "M3",
+        "id": "M3"
+      },
+      {
+        "name": "M4",
+        "id": "M4"
+      },
+      {
+        "name": "Others",
+        "id": "Others"
+      },
+      {
+        "name": "Others 1",
+        "id": "Others1"
+      },
+      {
+        "name": "Others 2",
+        "id": "Others2"
+      },
+      {
+        "name": "Others 3",
+        "id": "Others3"
+      },
+      {
+        "name": "Others 4",
+        "id": "Others4"
+      },
+      {
+        "name": "Others 5",
+        "id": "Others5"
+      },
+      {
+        "name": "MJ.T1",
+        "id": "MjT1"
+      },
+      {
+        "name": "MJ.T2",
+        "id": "MjT2"
+      },
+      {
+        "name": "CL.MJ.Q",
+        "id": "ClMjQ"
+      },
+      {
+        "name": "CL.MN.Q",
+        "id": "ClMnQ"
+      },
+      {
+        "name": "INT.MJ",
+        "id": "IntMj"
+      },
+      {
+        "name": "INT.MN",
+        "id": "IntMn"
+      },
+      {
+        "name": "World Cup",
+        "id": "WorldCup"
+      },
+      {
+        "name": "EURO",
+        "id": "Euro"
+      },
+      {
+        "name": "Unknown",
+        "id": "Unknown"
+      }
+    ]
+  }
+}

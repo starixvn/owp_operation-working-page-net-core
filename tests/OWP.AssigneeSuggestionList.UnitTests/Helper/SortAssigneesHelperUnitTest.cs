@@ -77,63 +77,140 @@ public class SortAssigneesHelperUnitTest
     }
 
     public List<WorkingSchedule> MockWorkingSchedules()
-        => new()
+        =>
+        [
+            new WorkingSchedule
             {
-                new WorkingSchedule { UserInfo = new UserInfo { LevelLabel = "2nd", Role = "management" ,MainBetType = "", ShiftStartTime = new DateTime(2023,5,22)}},
-                new WorkingSchedule { UserInfo = new UserInfo { LevelLabel = "1st", Role = "leader" , MainBetType = "2", ShiftStartTime = new DateTime(2023,5,22)}},
-                new WorkingSchedule { UserInfo = new UserInfo { LevelLabel = null, Role = "supervisor" , MainBetType = "2[OU]", ShiftStartTime = new DateTime(2023,5,22)}},
-                new WorkingSchedule { UserInfo = new UserInfo { LevelLabel = "1st", Role = "staff" , MainBetType = null, ShiftStartTime = new DateTime(2023,5,22)}},
-                new WorkingSchedule { UserInfo = new UserInfo { LevelLabel = "1st", Role = "supervisor" , MainBetType = null, ShiftStartTime = new DateTime(2023,5,22)}}
-            };
+                UserInfo = new UserInfo
+                {
+                    LevelLabel = "2nd", Role = "management", MainBetType = "",
+                    ShiftStartTime = new DateTime(2023, 5, 22)
+                }
+            },
+            new WorkingSchedule
+            {
+                UserInfo = new UserInfo
+                {
+                    LevelLabel = "1st", Role = "leader", MainBetType = "2", ShiftStartTime = new DateTime(2023, 5, 22)
+                }
+            },
+            new WorkingSchedule
+            {
+                UserInfo = new UserInfo
+                {
+                    LevelLabel = null, Role = "supervisor", MainBetType = "2[OU]",
+                    ShiftStartTime = new DateTime(2023, 5, 22)
+                }
+            },
+            new WorkingSchedule
+            {
+                UserInfo = new UserInfo
+                {
+                    LevelLabel = "1st", Role = "staff", MainBetType = null, ShiftStartTime = new DateTime(2023, 5, 22)
+                }
+            },
+            new WorkingSchedule
+            {
+                UserInfo = new UserInfo
+                {
+                    LevelLabel = "1st", Role = "supervisor", MainBetType = null,
+                    ShiftStartTime = new DateTime(2023, 5, 22)
+                }
+            }
+        ];
 
     public List<WorkingSchedule> MockWorkingSchedulesForWorkLoad()
-        => new()
-        {
+        =>
+        [
             new WorkingSchedule
             {
-                UserInfo = new UserInfo { LevelLabel = "2nd",UserId = 4,Role = "management" ,MainBetType = "", ShiftStartTime = new DateTime(2023,5,22), ShiftEndTime =new DateTime(2023,5,23) },
-                CategorizedAssignments = new List<AssignmentModel>{new ()
+                UserInfo = new UserInfo
                 {
-                    MatchType = MatchType.RealMatchLink3G,
-                    EventDateTime = new DateTime(2023,5,22,14,0,0),
-                    EndTime = new DateTime(2023,5,22,16,0,0)
-                } }},
-            new WorkingSchedule
-            {
-                UserInfo = new UserInfo { LevelLabel = "2nd",UserId = 5,Role = "management" ,MainBetType = "", ShiftStartTime = new DateTime(2023,5,24), ShiftEndTime =new DateTime(2023,5,25) },
-                CategorizedAssignments = new List<AssignmentModel>{new ()
-                {
-                    MatchType = MatchType.RealMatchLinkError,
-                    EventDateTime = new DateTime(2023,5,22,14,0,0),
-                    EndTime = new DateTime(2023,5,22,16,0,0)
-                } }},
-            new WorkingSchedule
-            {
-                UserInfo = new UserInfo { LevelLabel = "2nd",UserId = 2,Role = "management" ,MainBetType = "", ShiftStartTime = new DateTime(2023,5,22), ShiftEndTime =new DateTime(2023,5,23) },
-                CategorizedAssignments = new List<AssignmentModel>{new ()
-                {
-                    MatchType = MatchType.RealMatchLink1G,
-                    EventDateTime = new DateTime(2023,5,22,14,0,0),
-                    EndTime = new DateTime(2023,5,22,16,0,0)
-                } }},
-            new WorkingSchedule
-            {
-                UserInfo = new UserInfo { LevelLabel = "2nd",UserId = 1,Role = "management" ,MainBetType = "", ShiftStartTime = new DateTime(2023,5,22), ShiftEndTime =new DateTime(2023,5,23) },
-                CategorizedAssignments = new List<AssignmentModel>{new ()
-                {
-                    MatchType = MatchType.RealMatchLink1G,
-                    EventDateTime = new DateTime(2023,5,22,12,0,0),
-                    EndTime = new DateTime(2023,5,22,13,0,0)
-                } }},
+                    LevelLabel = "2nd", UserId = 4, Role = "management", MainBetType = "",
+                    ShiftStartTime = new DateTime(2023, 5, 22), ShiftEndTime = new DateTime(2023, 5, 23)
+                },
+                CategorizedAssignments =
+                [
+                    new AssignmentModel
+                    {
+                        MatchType = MatchType.RealMatchLink3G,
+                        EventDateTime = new DateTime(2023, 5, 22, 14, 0, 0),
+                        EndTime = new DateTime(2023, 5, 22, 16, 0, 0)
+                    }
+                ]
+            },
 
             new WorkingSchedule
             {
-                UserInfo = new UserInfo { LevelLabel = "2nd",UserId = 3,Role = "management" ,MainBetType = "", ShiftStartTime = new DateTime(2023,5,22), ShiftEndTime =new DateTime(2023,5,23) },
-                CategorizedAssignments = new List<AssignmentModel>{new ()
+                UserInfo = new UserInfo
                 {
-                    MatchType = MatchType.RealMatchLink2G,
-                    EventDateTime = new DateTime(2023,5,22,14,0,0),
-                    EndTime = new DateTime(2023,5,22,16,0,0)
-                } }}
-        };
+                    LevelLabel = "2nd", UserId = 5, Role = "management", MainBetType = "",
+                    ShiftStartTime = new DateTime(2023, 5, 24), ShiftEndTime = new DateTime(2023, 5, 25)
+                },
+                CategorizedAssignments =
+                [
+                    new AssignmentModel
+                    {
+                        MatchType = MatchType.RealMatchLinkError,
+                        EventDateTime = new DateTime(2023, 5, 22, 14, 0, 0),
+                        EndTime = new DateTime(2023, 5, 22, 16, 0, 0)
+                    }
+                ]
+            },
+
+            new WorkingSchedule
+            {
+                UserInfo = new UserInfo
+                {
+                    LevelLabel = "2nd", UserId = 2, Role = "management", MainBetType = "",
+                    ShiftStartTime = new DateTime(2023, 5, 22), ShiftEndTime = new DateTime(2023, 5, 23)
+                },
+                CategorizedAssignments =
+                [
+                    new AssignmentModel
+                    {
+                        MatchType = MatchType.RealMatchLink1G,
+                        EventDateTime = new DateTime(2023, 5, 22, 14, 0, 0),
+                        EndTime = new DateTime(2023, 5, 22, 16, 0, 0)
+                    }
+                ]
+            },
+
+            new WorkingSchedule
+            {
+                UserInfo = new UserInfo
+                {
+                    LevelLabel = "2nd", UserId = 1, Role = "management", MainBetType = "",
+                    ShiftStartTime = new DateTime(2023, 5, 22), ShiftEndTime = new DateTime(2023, 5, 23)
+                },
+                CategorizedAssignments =
+                [
+                    new AssignmentModel
+                    {
+                        MatchType = MatchType.RealMatchLink1G,
+                        EventDateTime = new DateTime(2023, 5, 22, 12, 0, 0),
+                        EndTime = new DateTime(2023, 5, 22, 13, 0, 0)
+                    }
+                ]
+            },
+
+
+            new WorkingSchedule
+            {
+                UserInfo = new UserInfo
+                {
+                    LevelLabel = "2nd", UserId = 3, Role = "management", MainBetType = "",
+                    ShiftStartTime = new DateTime(2023, 5, 22), ShiftEndTime = new DateTime(2023, 5, 23)
+                },
+                CategorizedAssignments =
+                [
+                    new AssignmentModel
+                    {
+                        MatchType = MatchType.RealMatchLink2G,
+                        EventDateTime = new DateTime(2023, 5, 22, 14, 0, 0),
+                        EndTime = new DateTime(2023, 5, 22, 16, 0, 0)
+                    }
+                ]
+            }
+        ];
 }

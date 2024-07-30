@@ -36,7 +36,7 @@ public class AssignmentMapperImp : AssignmentMapper
 {
     private readonly IMapper mapper;
 
-    private static readonly Regex otherTraderRegex = new(@"#[^\s#]+", RegexOptions.IgnoreCase);
+    private static readonly Regex otherTraderRegex = new(@"#[^\s#]+", RegexOptions.IgnoreCase, TimeSpan.FromSeconds(5));
 
     public AssignmentMapperImp(IMapper mapper)
     {

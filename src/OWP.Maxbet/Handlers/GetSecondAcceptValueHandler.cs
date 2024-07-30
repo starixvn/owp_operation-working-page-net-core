@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿
+using MediatR;
 using OWP.Extensions;
 using OWP.Maxbet.Constants;
 using OWP.Maxbet.Models;
@@ -46,14 +47,16 @@ public class GetSecondAcceptValueHandler
                 return null;
             }
 
-            var resultString = Regex.Match(matchOffer, @"\d+").Value;
+            var regex = new Regex(@"\d+", RegexOptions.IgnoreCase, TimeSpan.FromSeconds(5));
+            var resultString = regex.Match(matchOffer).Value;
             return int.Parse(resultString);
         }
 
         private static bool IsValidSecondAcceptValue(string matchOffer)
         {
             const string pattern = @"(?i)\d+(s)\s(Accept)";
-            return Regex.IsMatch(matchOffer, pattern);
+            var regex = new Regex(pattern, RegexOptions.IgnoreCase, TimeSpan.FromSeconds(5));
+            return regex.IsMatch(matchOffer);
         }
 
         private async Task<int?> BuildSecondAcceptValueDefault(Request request)

@@ -1,0 +1,20 @@
+.popup__editor {
+  position: absolute;
+  right: 100%;
+  top: 5px;
+  z-index: 1;
+  padding: 10px 10px;
+  border-color: transparent;
+  background: #fff;
+  box-shadow: 1px 4px 8px #00000026;
+  border-radius: 2px;
+
+  textarea:focus {
+    outline: none;
+  }
+
+  textarea {
+    border: 1px solid #e1e1e1;
+    resize: none;
+  }
+}

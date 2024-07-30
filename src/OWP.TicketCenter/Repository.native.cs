@@ -95,7 +95,7 @@ public interface Repository
     Task<(bool, IEnumerable<MessageDetailViewModel>)> GetMessageInLastTwoDays(int ticketId);
 
     Task<int> GetParentMatchIdByTicketId(int ticketId);
-    Task<(bool, IEnumerable<MessageDetailViewModel>)> GetNextListMessages(GetNextListMessageCriteria criteria);
+    Task<(bool, IList<MessageDetailViewModel>)> GetNextListMessages(GetNextListMessageCriteria criteria);
 
     Task<(bool canShowMoreMessage, List<MessageDetailViewModel> messages)> GetMessageListByGreaterMessageId(int ticketId, int messageId);
 
@@ -104,6 +104,11 @@ public interface Repository
     Task<IEnumerable<FunctionFeedback>> GetFunctionFeedback();
 
     Task<UserFeedbackInfo> GetUserFeedbackInfo(GetUserFeedbackInfoCriteria criteria);
+
+    Task<string> UpdateMessageIcon(UpdateMessageIconCriteria criteria);
+
+    Task<IList<MessageReactIcon>> GetMessageReactIcon(string messageIds);
+
 }
 
 public class RepositoryImp : Repository
@@ -421,10 +426,10 @@ public class RepositoryImp : Repository
         };
         return (await dynamicRepository.FetchAsync<int>(criteria)).FirstOrDefault();
     }
-    public async Task<(bool, IEnumerable<MessageDetailViewModel>)> GetNextListMessages(GetNextListMessageCriteria criteria)
+    public async Task<(bool, IList<MessageDetailViewModel>)> GetNextListMessages(GetNextListMessageCriteria criteria)
     {
         var messages = await dynamicRepository.FetchAsync<MessageDetailViewModel>(criteria);
-        return (criteria.CanShowMoreMessage, messages);
+        return (criteria.CanShowMoreMessage, messages.ToList());
     }
 
     public async Task<(bool, List<MessageDetailViewModel>)> GetMessageListByGreaterMessageId(int ticketId, int messageId)
@@ -456,5 +461,21 @@ public class RepositoryImp : Repository
     public async Task<UserFeedbackInfo> GetUserFeedbackInfo(GetUserFeedbackInfoCriteria criteria)
     {
         return (await dynamicRepository.FetchAsync<UserFeedbackInfo>(criteria)).FirstOrDefault();
+    }
+
+    public async Task<string> UpdateMessageIcon(UpdateMessageIconCriteria criteria)
+    {
+        var result = await dynamicRepository.FetchAsync<string>(criteria);
+
+        return result.FirstOrDefault();
+    }
+
+    public async Task<IList<MessageReactIcon>> GetMessageReactIcon(string messageIds)
+    {
+        var criteria = new GetReactionIconCriteria
+        {
+            MessageIds = messageIds
+        };
+        return (await dynamicRepository.FetchAsync<MessageReactIcon>(criteria)).ToList();
     }
 }

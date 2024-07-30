@@ -20,12 +20,12 @@ public class GetInfoFeedbackImp: GetInfoFeedback
         this.repository = repository;
     }
 
-    public Task<UserFeedbackInfo> Get()
+    public async Task<UserFeedbackInfo> Get()
     {
         var criteria = new GetUserFeedbackInfoCriteria
         {
             sessionId = session.UserId
         };
-        return repository.GetUserFeedbackInfo(criteria);
+        return await repository.GetUserFeedbackInfo(criteria);
     }
 }

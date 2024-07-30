@@ -25,7 +25,7 @@ public static class ProgressHelper
         return progress;
     }
 
-    private static bool IsGreaterThanOrEqualTo(TotalGameInfo totalGame, TotalGameInfo condition)
+    public static bool IsGreaterThanOrEqualTo(TotalGameInfo totalGame, TotalGameInfo condition)
     {
         var properties = typeof(TotalGameInfo).GetProperties();
         foreach (var property in properties)

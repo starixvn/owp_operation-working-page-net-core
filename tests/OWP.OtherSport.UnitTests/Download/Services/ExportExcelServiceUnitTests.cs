@@ -64,25 +64,41 @@ public class ExportExcelServiceUnitTests
             },
             ExcelAssignmentModels = new ExcelAssignmentModel
             {
-                Matches = new List<MatchInfo>
-                {
-                    new() { OSMatchId = 111, Sport = Sport.Basketball, Home = "home111", League = "league111" }
-                },
+                Matches = [new MatchInfo { OSMatchId = 111, Sport = Sport.Basketball, Home = "home111", League = "league111" }],
                 MatchAssignments = new Dictionary<int, List<ExcelMatchAssignment>>
                 {
-                    { 111, new List<ExcelMatchAssignment> {
-                        new() { ColumnIndex=19,Value="sa", AssignmentType = 1, BetTypeName = Bettype.FTHDP, UserId = 8, Username="sa" },
-                        new()
-                        { ColumnIndex=83,Value="#starix15 note", AssignmentType = 2, BetTypeName = Bettype.FirstHHDP,
-                            UserId = 123, Username="starix15", AssignmentNote = "#<user> note" }
-                    } }
+                    { 111, [
+                            new ExcelMatchAssignment
+                            {
+                                ColumnIndex = 19, Value = "sa", AssignmentType = 1, BetTypeName = Bettype.FTHDP,
+                                UserId = 8,
+                                Username = "sa"
+                            },
+                            new ExcelMatchAssignment
+                            {
+                                ColumnIndex = 83, Value = "#starix15 note", AssignmentType = 2,
+                                BetTypeName = Bettype.FirstHHDP,
+                                UserId = 123, Username = "starix15", AssignmentNote = "#<user> note"
+                            }
+                        ]
+                    }
                 },
                 MaxBetSpread = new Dictionary<int, List<ExcelMatchMaxBetSpread>>
                 {
-                    { 111, new List<ExcelMatchMaxBetSpread> {
-                        new() { ColumnIndexMaxbet=145,ValueMaxbet="1234", BetTypeName = Bettype.FTHDP, MaxBet = 1234,ColumnIndexSpread = 190, ValueSpread="13", Spread=13 },
-                        new() { ColumnIndexMaxbet=146,ValueMaxbet="222.05", BetTypeName = Bettype.FTOUOE, MaxBet = 222.05m,ColumnIndexSpread = 191, ValueSpread="14", Spread=14 }
-                    } }
+                    { 111, [
+                            new ExcelMatchMaxBetSpread
+                            {
+                                ColumnIndexMaxbet = 145, ValueMaxbet = "1234", BetTypeName = Bettype.FTHDP,
+                                MaxBet = 1234,
+                                ColumnIndexSpread = 190, ValueSpread = "13", Spread = 13
+                            },
+                            new ExcelMatchMaxBetSpread
+                            {
+                                ColumnIndexMaxbet = 146, ValueMaxbet = "222.05", BetTypeName = Bettype.FTOUOE,
+                                MaxBet = 222.05m, ColumnIndexSpread = 191, ValueSpread = "14", Spread = 14
+                            }
+                        ]
+                    }
                 }
             }
         };

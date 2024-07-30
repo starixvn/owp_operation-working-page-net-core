@@ -13,7 +13,7 @@ public static class WorkSheetExtensions
 
         public string DisplayName { get; set; }
 
-        public List<int> ColumnIndices { get; set; } = new();
+        public List<int> ColumnIndices { get; set; } = [];
 
         public Type PropertyType => PropertyInfo.PropertyType;
     }
@@ -128,7 +128,7 @@ public static class WorkSheetExtensions
             }
 
             var getValueMethodGeneric = getValueMethod.MakeGenericMethod(property.PropertyType);
-            var excelValue = getValueMethodGeneric.Invoke(sheet, new object[] { row, defaultIndex });
+            var excelValue = getValueMethodGeneric.Invoke(sheet, [row, defaultIndex]);
 
             property.PropertyInfo.SetValue(model, excelValue);
         }

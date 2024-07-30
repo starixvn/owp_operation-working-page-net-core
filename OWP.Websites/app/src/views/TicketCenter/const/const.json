@@ -1,0 +1,49 @@
+{
+  "getTicketType": "get-ticket-type",
+  "getEventTicket": "get-event-ticket",
+  "pinTicketRoute": "pin-ticket",
+  "deleteTicketRoute": "delete-ticket",
+  "updateTicketsAsRead": "mark-all-tickets",
+  "TicketCenterPageURL": {
+    "default": "TicketCenter",
+    "MyTicket": "MyTicket"
+  },
+  "MARKET": [
+    {
+      "value": 1,
+      "label": "All"
+    },
+    {
+      "value": 2,
+      "label": "Early"
+    },
+    {
+      "value": 3,
+      "label": "Today"
+    }
+  ],
+  "STATUS": [
+    {
+      "value": "Open",
+      "label": "Open"
+    },
+    {
+      "value": "Closed",
+      "label": "Closed"
+    },
+    {
+      "value": "Canceled",
+      "label": "Canceled"
+    }
+  ],
+  "RECIPIENT_TYPE": {
+    "INDIVIDUAL": 1,
+    "GROUP": 2
+  },
+  "URL": {
+    "DOWNLOAD_FILE": "download",
+    "UPLOAD_FILE": "upload",
+    "ADD_MESSAGE": "new-message",
+    "GET_STATUS_HISTORY": "ticket-detail/get-status-history"
+  }
+}

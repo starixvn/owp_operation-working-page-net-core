@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using OWP.AutoAssignment.Constant;
 using OWP.AutoAssignment.Models.InternalApi;
@@ -11,7 +10,6 @@ namespace OWP.AutoAssignment;
 [Route("api/auto-assignment")]
 [ApiController]
 [Authorize]
-[EnableCors]
 public class AutoAssignmentController : ControllerBase
 {
     private readonly CreateRequestService createRequestService;

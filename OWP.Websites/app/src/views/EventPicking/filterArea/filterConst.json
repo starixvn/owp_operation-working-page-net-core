@@ -1,0 +1,72 @@
+{
+  "DATE": "date",
+  "PERIOD": {
+    "KEY": "period",
+    "VALUE": {
+      "ONE_MONTH": "OneMonth",
+      "THREE_MONTHS": "ThreeMonths",
+      "SIX_MONTHS": "SixMonths",
+      "TWELVE_MONTH": "TwelveMonths"
+    }
+  },
+  "LEAGUE": "league",
+  "FILTER_MATCH_CATEGORY": "filterMatchCategory",
+  "FILTER_MATCH": "filterMatch",
+  "SELECT_GAME": "selectGame",
+  "HAS_PROVIDER": "hasProvider",
+  "HAS_OTHER_PROVIDER": "hasOtherProvider",
+  "UPDATE_TYPE": "updateType",
+  "TURNOVER_MARGIN": "turnoverMarginDate",
+  "FROM_DATE": "fromDate",
+  "TO_DATE": "toDate",
+  "SELECT_GAME_OPTIONS": [
+    {
+      "value": 1,
+      "label": "No Offer (x)"
+    },
+    {
+      "value": 0,
+      "label": "Offer"
+    }
+  ],
+  "FILTER_MATCH_CATEGORY_OPTIONS": [
+    {
+      "value": 1,
+      "label": "Saba"
+    },
+    {
+      "value": 0,
+      "label": "Real"
+    }
+  ],
+  "FILTER_MATCH_OPTIONS": [
+    {
+      "value": "Gray",
+      "label": "Gray"
+    },
+    {
+      "value": "White",
+      "label": "White"
+    }
+  ],
+  "HAS_PROVIDER_OPTIONS": [
+    {
+      "value": "yes",
+      "label": "Yes"
+    },
+    {
+      "value": "no",
+      "label": "No"
+    }
+  ],
+  "NONE_OPTION": {
+    "value": null,
+    "label": "-- None --"
+  },
+  "EXPORT": {
+    "EXPORT_AND_CHECK_ALL": "Export and check all",
+    "EXPORT_ONLY": "Export only",
+    "EXPORT_LST_FORMAT_CHECK_ALL": "Export LST format and check all",
+    "EXPORT_LST_FORMAT": "Export LST format only"
+  }
+}

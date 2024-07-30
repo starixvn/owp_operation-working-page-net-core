@@ -1,0 +1,64 @@
+{
+  "simpleApiKey": {
+    "round": "os-league-setting-get-round-option",
+    "category": "os-league-setting-get-category-option",
+    "betType": "os-league-setting-get-bet-types-option",
+    "betDelay": "os-league-setting-get-bet-delay-option",
+    "offerLine": "os-league-setting-get-offer-line-option",
+    "provider": "os-league-setting-get-provider-option",
+    "region": "os-league-setting-get-region-option",
+    "weekMatch": "os-league-setting-get-week-match-option",
+    "leagueDetail": "os-league-setting-get-detail"
+  },
+  "filter": {
+    "league": "league",
+    "category": "category",
+    "round": "round",
+    "status": "status"
+  },
+  "timeRange": {
+    "fromTime": "koFromTime",
+    "toTime": "koToTime"
+  },
+  "isIptvOnly": "isIptvOnly",
+  "isManualUpdateScore": "isManualUpdateScore",
+  "localStoreKey": {
+    "categoryOption": "os-league-setting-category-option",
+    "roundOption": "os-league-setting-get-round-option",
+    "betTypeOption": "os-league-setting-get-bet-types-option",
+    "betDelayOption": "os-league-setting-get-bet-delay-option",
+    "offerLineOption": "os-league-setting-get-offer-line-option",
+    "providerOption": "os-league-setting-get-provider-option",
+    "regionOption": "os-league-setting-get-region-option",
+    "weekMatchOption": "os-league-setting-get-week-match-option"
+  },
+  "statusOptions": [
+    {
+      "value": 1,
+      "label": "Active"
+    },
+    {
+      "value": 0,
+      "label": "Inactive"
+    }
+  ],
+  "getLeagueSetting": "league-setting",
+  "getLeagueDetail": "league-setting-detail",
+  "addSetting": "add-setting",
+  "editSetting": "edit-setting",
+  "getLogSetting": "get-log-setting",
+  "betTypeGroup": 4,
+  "optionValueNone": 0,
+  "actionId": 123,
+  "errorMessage": {
+    "required": "This field is required",
+    "duplicated": "This field is duplicated"
+  },
+  "functionKey": "OSBasketballMaxbet",
+  "popup": {
+    "type": {
+      "add": "add",
+      "edit": "edit"
+    }
+  }
+}

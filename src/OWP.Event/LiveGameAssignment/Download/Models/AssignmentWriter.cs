@@ -1,17 +1,17 @@
 ﻿namespace OWP.Event.LiveGameAssignment.Download.Models;
 
+using Extensions;
 using NPOI.HSSF.Util;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using OWP.Event.EventShared.Enum;
-using OWP.Event.LiveGameAssignment.Download.Extensions;
 using OWP.Extensions;
-using OWP.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Utils;
 
 public abstract class TemplateWriter // NOSONAR
 {
@@ -28,8 +28,9 @@ public abstract class TemplateWriter // NOSONAR
 
 public class AssignmentWriter : TemplateWriter
 {
-    private readonly string[] originalMatchStatus = { "Live", "In-play", "Completed", "Cancel", "Postponed", "Suspended" };
-    private readonly string[] highlightMatchStatus = { "Cancel", "Postponed", "Suspended" };
+    private readonly string[] originalMatchStatus = ["Live", "In-play", "Completed", "Cancel", "Postponed", "Suspended"
+    ];
+    private readonly string[] highlightMatchStatus = ["Cancel", "Postponed", "Suspended"];
     private readonly int _maxNote;
     private readonly int maxLstNote;
     private readonly ISheet _sheet;
@@ -38,8 +39,9 @@ public class AssignmentWriter : TemplateWriter
     private readonly ICellStyle matchStatusCellStyle;
     private const int startRow = 2;
     private const int headerRow = 1;
-    private readonly List<ColumnName> colorColumns = new() { ColumnName.Time, ColumnName.League, ColumnName.Home, ColumnName.Away };
-    private readonly List<ColumnName> colorMatchStatus = new() { ColumnName.MatchStatus };
+    private readonly List<ColumnName> colorColumns =
+        [ColumnName.Time, ColumnName.League, ColumnName.Home, ColumnName.Away];
+    private readonly List<ColumnName> colorMatchStatus = [ColumnName.MatchStatus];
 
     public AssignmentWriter(int maxNote, DownLoadExportModel model)
     {
@@ -197,7 +199,7 @@ public class AssignmentWriter : TemplateWriter
         const int lstnoteColumnIndex = (int)ColumnName.LSTNote;
         if (columnIndex == noteColumnIndex)
         {
-            for (int i = 0; i < _maxNote; i++)
+            for (var i = 0; i < _maxNote; i++)
             {
                 columnIndex = noteColumnIndex + i - maxLstNote;
                 var cell = row.CreateCell(columnIndex);
@@ -226,7 +228,9 @@ public class AssignmentWriter : TemplateWriter
         font.Color = fontColor.Index;
         font.FontHeightInPoints = 11;
         var cellStyle = (XSSFCellStyle)_sheet.Workbook.CreateCellStyle();
-        cellStyle.SetFillForegroundColor(new XSSFColor(backgroundColor));
+
+        var rgb = new[] { backgroundColor.R, backgroundColor.G, backgroundColor.B };
+        cellStyle.SetFillForegroundColor(new XSSFColor(rgb));
         cellStyle.FillPattern = FillPattern.SolidForeground;
         cellStyle.SetFont(font);
 

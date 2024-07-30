@@ -1,50 +1,84 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
-        <Nullable>disable</Nullable>
-        <ImplicitUsings>enable</ImplicitUsings>
-		<SonarQubeExclude>True</SonarQubeExclude>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-        <CodeAnalysisRuleSet>OWP.ruleset</CodeAnalysisRuleSet>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-        <CodeAnalysisRuleSet>OWP.ruleset</CodeAnalysisRuleSet>
-    </PropertyGroup>
-    <ItemGroup>
-      <Compile Remove="RequestMediator\**" />
-      <EmbeddedResource Remove="RequestMediator\**" />
-      <None Remove="RequestMediator\**" />
-    </ItemGroup>
-    <ItemGroup>
-        <AdditionalFiles Include="..\..\.sonarlint\nap-owp\CSharp\SonarLint.xml" Link="SonarLint.xml" />
-    </ItemGroup>
-    <ItemGroup>
-        <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    </ItemGroup>
-    <ItemGroup>
-        <PackageReference Include="Fanex.Data.Repository" Version="4.2.3" />
-        <PackageReference Include="NPOI" Version="2.5.6" />
-        <PackageReference Include="Olympus.OWP.Constants" Version="1.0.0.4" />
-        <PackageReference Include="Fanex.Logging" Version="2.0.1.1" />
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-        <PackageReference Include="MediatR" Version="12.1.1" />
-        <PackageReference Include="Fanex.NAP.Client" Version="2.0.0" />
-    </ItemGroup>
-    <ItemGroup>
-        <None Update="Constants\FunctionKeys.tt">
-            <Generator>TextTemplatingFileGenerator</Generator>
-            <LastGenOutput>FunctionKeys.cs</LastGenOutput>
-        </None>
-    </ItemGroup>
-    <ItemGroup>
-        <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
-    </ItemGroup>
-    <ItemGroup>
-        <Compile Update="Constants\FunctionKeys.cs">
-            <DesignTime>True</DesignTime>
-            <AutoGen>True</AutoGen>
-            <DependentUpon>FunctionKeys.tt</DependentUpon>
-        </Compile>
-    </ItemGroup>
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <SonarQubeExclude>True</SonarQubeExclude>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <CodeAnalysisRuleSet>OWP.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <CodeAnalysisRuleSet>OWP.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="RequestMediator\**" />
+    <EmbeddedResource Remove="RequestMediator\**" />
+    <None Remove="RequestMediator\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="..\..\.sonarlint\nap-owp\CSharp\SonarLint.xml" Link="SonarLint.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Constants\MenuItems.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MenuItems.tt</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Fanex.Data.ProxyClient" Version="0.0.3" />
+    <PackageReference Include="MediatR" Version="12.3.0" />
+    <PackageReference Include="NPOI" Version="2.7.0" />
+    <PackageReference Include="Olympus.OWP.Constants" Version="1.0.0.4" />
+    <PackageReference Include="Fanex.Logging" Version="2.0.1.1" />
+    <PackageReference Include="Fanex.NAP.Client" Version="2.0.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Constants\FunctionKeys.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>FunctionKeys.cs</LastGenOutput>
+    </None>
+    <None Update="Constants\MenuItems.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MenuItems.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Constants\FunctionKeys.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>FunctionKeys.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Constants\MenuItems.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MenuItems.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\ViewLang.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ViewLang.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\ViewLang.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ViewLang.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>OWP.Resources</CustomToolNamespace>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="app\**" />
+    <Compile Remove="app\**" />
+    <EmbeddedResource Remove="app\**" />
+    <None Remove="app\**" />
+  </ItemGroup>
 </Project>

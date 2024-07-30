@@ -1,0 +1,69 @@
+﻿.tabs {
+    z-index: 2;
+    position: relative;
+    box-sizing: border-box;
+    /*overflow: hidden;*/
+    padding: 0 0.5rem;
+
+    // Tabs Header
+    &-header {
+        position: relative;
+        overflow: hidden;
+        // Border
+        .border {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            background: #439ff0;
+            width: auto;
+            height: 2px;
+            transition: 0.3s ease;
+        }
+        // List
+        ul {
+            display: block;
+            width: 100%;
+            border-bottom: 1px solid #ddd;
+        }
+        // List Item
+        li {
+            transition: 0.3s ease;
+            display: inline-block;
+        }
+        // Anchor
+        a {
+            z-index: 1;
+            display: block;
+            box-sizing: border-box;
+            padding: 0 25px 10px;
+            color: #444;
+            //font-weight: $semibold;
+            text-decoration: none;
+
+            &:focus, &:active {
+                outline: none;
+            }
+        }
+
+        li.active a {
+            color: #439ff0;
+        }
+    }
+
+    // Tabs Content
+    &-content {
+        position: relative;
+        padding: 10px 0 0;
+        transition: 0.3s ease;
+        /*overflow: hidden;*/
+
+        // Tab
+        .tab {
+            display: none;
+            // Active
+            &.active {
+                display: block;
+            }
+        }
+    }
+}

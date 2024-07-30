@@ -5,7 +5,7 @@ using OWP.TicketCenter.ViewModels;
 
 namespace OWP.TicketCenter.Handlers;
 
-public class TicketLiveIncidentDetailRequest : PermissionCheckedModel, IRequest<TicketLiveIncidentDetailViewModel> { }
+public class TicketLiveIncidentDetailRequest : PermissionCheckedModel, IRequest<TicketLiveIncidentDetailViewModel>;
 
 public class TicketLiveIncidentDetailHandler : IRequestHandler<TicketLiveIncidentDetailRequest, TicketLiveIncidentDetailViewModel>
 {

@@ -1,0 +1,82 @@
+import { v4 as uuidv4 } from 'uuid';
+import MaxbetConst from '../../../../constants/MaxbetConst';
+import { TCondition, TDataSource } from '../../table/TableType';
+import { TExpressionRow, TLeagueCategory } from '../EditType';
+
+const mapEditSettingFromDataSource = (dataSource: TDataSource) => {
+  const {
+    leagueSettingId,
+    owpLeagueId,
+    leagueGroupId,
+    leagueGroup,
+    league,
+    spread_HDP_Value,
+    spread_OU_Value,
+    spreadShow,
+    maxbetWD_HDP_Show,
+    maxbetWK_HDP_Show,
+    wD_NoOfHDP_Show,
+    wK_NoOfHDP_Show,
+    lstNote,
+    remark2,
+    comment,
+    condition
+  } = dataSource;
+  const result = {
+    leagueSettingId,
+    owpLeagueId,
+    league,
+    leagueGroupId,
+    leagueGroup,
+    spread_HDP: spread_HDP_Value?.toString(),
+    spread_OU: spread_OU_Value?.toString(),
+    spread: spreadShow,
+    maxbetWD_HDP: maxbetWD_HDP_Show,
+    wD_NoOfHDP: wD_NoOfHDP_Show,
+    maxbetWK_HDP: maxbetWK_HDP_Show,
+    wK_NoOfHDP: wK_NoOfHDP_Show,
+    lstNote,
+    remark2,
+    comment,
+    hasTv: condition.hasTv,
+    hasIpTv: condition.hasIpTv,
+    round: selectCondition(condition.round),
+    division: selectCondition(condition.division),
+    remark: condition.remark
+  };
+
+  return result;
+};
+
+const selectCondition = (conditions: Array<TCondition>) =>
+  conditions?.length
+    ? conditions
+    : [
+        {
+          type: MaxbetConst.expressionOption[0].label as 'Contains' | 'Equals',
+          value: ''
+        }
+      ];
+
+const convertResponseToCondition = (response: TCondition[]) => {
+  return response.map(item => ({
+    key: uuidv4(),
+    condition: MaxbetConst.expressionOption.find(
+      round => round.label === item.type
+    ),
+    value: item.value
+  })) as TExpressionRow[];
+};
+
+const convertResourceToOptions = (resource: TLeagueCategory[]) => {
+  return resource.map(item => ({
+    value: item.Id,
+    label: item.Value
+  }));
+};
+
+export {
+  convertResourceToOptions,
+  convertResponseToCondition,
+  mapEditSettingFromDataSource
+};

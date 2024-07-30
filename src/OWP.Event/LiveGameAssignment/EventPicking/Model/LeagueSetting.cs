@@ -10,19 +10,13 @@ public class LeagueSetting
 
     public string Remark { get; set; }
 
-    public string FormatedRemark
-    {
-        get { return ConvertNullToEmpty(Remark); }
-    }
+    public string FormatedRemark => ConvertNullToEmpty(Remark);
 
     public string LSTNote { get; set; }
 
     public bool IsBlackList { get; set; }
 
-    public string FormatedLSTNote
-    {
-        get { return ConvertNullToEmpty(LSTNote); }
-    }
+    public string FormatedLSTNote => ConvertNullToEmpty(LSTNote);
 
     public bool HasTV { get; set; }
 

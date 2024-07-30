@@ -156,7 +156,8 @@ public static class WorkingShiftConst
         {2,"SPECIAL"}
     }.ToImmutableDictionary();
 
-    public static readonly string[] ManagementRole = { "Section Head", "Management", "Supervisor", "Leader", "Assistant Leader", "Unit Head" };
+    public static readonly string[] ManagementRole = ["Section Head", "Management", "Supervisor", "Leader", "Assistant Leader", "Unit Head"
+    ];
 }
 
 public static class OrderConstant
@@ -183,11 +184,12 @@ public static class OrderConstant
         { MatchType.RealMatchLinkError, 5 }
     }.ToImmutableDictionary();
 
-    public static readonly string[] MainMatchLevel = { "1st+", "1st", "2nd", "[OP]1st", "[OP]2nd", "Only SB", null };
+    public static readonly string[] MainMatchLevel = ["1st+", "1st", "2nd", "[OP]1st", "[OP]2nd", "Only SB", null];
 
-    public static readonly string[] ChildMatchLevel = { "[OP]1st", "[OP]2nd", "1st+", "1st", "2nd", "Only SB", null };
+    public static readonly string[] ChildMatchLevel = ["[OP]1st", "[OP]2nd", "1st+", "1st", "2nd", "Only SB", null];
 
-    public static readonly string[] RoleOrder = { "Staff", "Assistant Leader", "Leader", "Supervisor", "Section Head", "Management", "Unit Head", null };
+    public static readonly string[] RoleOrder = ["Staff", "Assistant Leader", "Leader", "Supervisor", "Section Head", "Management", "Unit Head", null
+    ];
 
     public const string BetType2 = "2";
 
@@ -207,26 +209,30 @@ public static class OrderConstant
 
     public const string BetTypeBkCr = "BK CR";
 
-    public static readonly string[] MainBetTypesHdp = { BetType2, BetType2Hdp, BetType2Ou, BetTypeFs, BetType2Op, BetTypeBkCr, BetTypeSb, BetType5Min, BetType6Min };
+    public static readonly string[] MainBetTypesHdp = [BetType2, BetType2Hdp, BetType2Ou, BetTypeFs, BetType2Op, BetTypeBkCr, BetTypeSb, BetType5Min, BetType6Min
+    ];
 
-    public static readonly string[] MainBetTypesOu = { BetType2, BetType2Ou, BetType2Hdp, BetTypeFs, BetType2Op, BetTypeBkCr, BetTypeSb, BetType5Min, BetType6Min };
+    public static readonly string[] MainBetTypesOu = [BetType2, BetType2Ou, BetType2Hdp, BetTypeFs, BetType2Op, BetTypeBkCr, BetTypeSb, BetType5Min, BetType6Min
+    ];
 
-    public static readonly string[] MainBetTypesFs = { BetTypeFs, BetType2, BetType2Hdp, BetType2Ou, BetType2Op, BetTypeBkCr, BetTypeSb, BetType5Min, BetType6Min };
+    public static readonly string[] MainBetTypesFs = [BetTypeFs, BetType2, BetType2Hdp, BetType2Ou, BetType2Op, BetTypeBkCr, BetTypeSb, BetType5Min, BetType6Min
+    ];
 
-    public static readonly string[] MainBetTypesChild = { BetType2Op, BetTypeBkCr, BetType2, BetType2Ou, BetType2Hdp, BetTypeFs, BetTypeSb, BetType5Min, BetType6Min };
+    public static readonly string[] MainBetTypesChild = [BetType2Op, BetTypeBkCr, BetType2, BetType2Ou, BetType2Hdp, BetTypeFs, BetTypeSb, BetType5Min, BetType6Min
+    ];
 
     public static readonly string[] MainBetTypes5Mins =
-        { BetType5Min, BetTypeSb, BetType6Min, BetType2, BetType2Hdp, BetType2Ou, BetTypeFs, BetType2Op, BetTypeBkCr };
+        [BetType5Min, BetTypeSb, BetType6Min, BetType2, BetType2Hdp, BetType2Ou, BetTypeFs, BetType2Op, BetTypeBkCr];
 
     public static readonly string[] MainBetTypes6Mins =
-        { BetType6Min, BetTypeSb, BetType5Min, BetType2, BetType2Hdp, BetType2Ou, BetTypeFs, BetType2Op, BetTypeBkCr };
+        [BetType6Min, BetTypeSb, BetType5Min, BetType2, BetType2Hdp, BetType2Ou, BetTypeFs, BetType2Op, BetTypeBkCr];
 
     public static readonly string[] MainBetTypesSb =
-        { BetTypeSb, BetType5Min, BetType6Min, BetType2, BetType2Hdp, BetType2Ou, BetTypeFs, BetType2Op, BetTypeBkCr };
+        [BetTypeSb, BetType5Min, BetType6Min, BetType2, BetType2Hdp, BetType2Ou, BetTypeFs, BetType2Op, BetTypeBkCr];
 
-    public static readonly int[] HdpTypeIds = { 1, 7 };
+    public static readonly int[] HdpTypeIds = [1, 7];
 
-    public static readonly int[] OuTypeIds = { 3, 8 };
+    public static readonly int[] OuTypeIds = [3, 8];
 
     public const decimal LowerMaxBet = 35_000;
 
@@ -247,7 +253,7 @@ public static class MatchTypeLabel
 public static class BetTypeSpecial
 {
     public static readonly int[] BetTypes =
-    {
+    [
         Bettype.NextCorner,
         Bettype.Corner,
         Bettype.NextBooking,
@@ -256,18 +262,19 @@ public static class BetTypeSpecial
         Bettype.NextRound,
         Bettype.AwaySingleTeam,
         Bettype.HomeSingleTeam
-    };
+    ];
 }
 
 public static class SabaMatch
 {
-    public static readonly MatchType[] AllowedMatchTypes = {
+    public static readonly MatchType[] AllowedMatchTypes =
+    [
         MatchType.SabaLink1G,
         MatchType.SabaLink2G,
         MatchType.SabaLink3G,
         MatchType.SabaLink4G,
         MatchType.SabaMix5mins
-    };
+    ];
 }
 
 

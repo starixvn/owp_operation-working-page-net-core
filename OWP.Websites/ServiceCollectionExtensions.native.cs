@@ -4,22 +4,16 @@ using Fanex.Data.Repository;
 using Fanex.Logging;
 using Fanex.Logging.Extensions;
 using Fanex.Logging.Extensions.AspNetCore;
-using Fanex.Logging.Extensions.Database;
 using Fanex.Logging.Sentry.RavenClient;
-using Fanex.NAP.Client.Configuration;
-using Fanex.NAP.Client.Helpers.Web;
 using Fanex.NAP.Client.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Newtonsoft.Json;
-using Olympus.SimpleDataApi;
-using OWP.ApiSyncWorkingShift;
 using OWP.AssigneeSuggestionList;
 using OWP.AssignmentUpload;
-using OWP.EventPicking;
+using OWP.BackgroundWorker.Constants;
 using OWP.FileUpload;
 using OWP.Kpi.LA;
 using OWP.LeagueManagement;
@@ -27,11 +21,10 @@ using OWP.Maxbet;
 using OWP.MaxbetSetting;
 using OWP.OSLeagueSetting;
 using OWP.OtherSport;
-using OWP.OtherSport.Hubs;
 using OWP.PrematchAssignment;
 using OWP.ProviderArrangement;
+using OWP.ProviderVerification;
 using OWP.RabbitMQ;
-using OWP.RecipientGroup;
 using OWP.Report.LAReport;
 using OWP.Report.MatchCountLiveReport;
 using OWP.Report.OvertimeReport;
@@ -39,21 +32,26 @@ using OWP.Report.PreMatchReport;
 using OWP.Report.TraderReport;
 using OWP.Services;
 using OWP.SimpleDataApi;
+using OWP.SimpleDataApi.Services;
 using OWP.TicketCenter;
-using OWP.TicketCenter.Hubs;
-using OWP.TicketEvent;
-using OWP.TicketTypeRecipient;
+using OWP.TicketSetting.RecipientGroup;
+using OWP.TicketSetting.TicketEvent;
+using OWP.TicketSetting.TicketTypeRecipient;
 using SharpRaven;
 using StackExchange.Redis;
 using System.Reflection;
-using OWP.ProviderVerification;
-using AutoMapperProfile = OWP.OtherSport.AutoMapperProfile;
 using ILogger = Fanex.Logging.ILogger;
 
 namespace OWP.Websites;
 
+using AccountSetting.QuickMessage;
+using BackgroundWorker.Jobs;
+using EventPicking.Api;
 using Fanex.NAP.Client.Session;
 using Microsoft.Extensions.FileProviders;
+using OWP.AccountSetting.Profile;
+using Quartz;
+using WorkingShift.SyncWorkingShift;
 
 public static class ServiceCollectionExtensions
 {
@@ -61,7 +59,7 @@ public static class ServiceCollectionExtensions
     {
         var mapperConfig = new MapperConfiguration(mc =>
         {
-            mc.AddProfile(new AutoMapperProfile());
+            mc.AddProfile(new OtherSport.AutoMapperProfile());
             mc.AddProfile(new TicketCenter.AutoMapperProfile());
             mc.AddProfile(new Report.OvertimeReport.AutoMapperProfile());
             mc.AddProfile(new Report.PreMatchReport.AutoMapperProfile());
@@ -76,6 +74,11 @@ public static class ServiceCollectionExtensions
             mc.AddProfile(new AssigneeSuggestionList.AutoMapperProfile());
             mc.AddProfile(new Kpi.AutoMapperProfile());
             mc.AddProfile(new Event.LiveGameAssignment.Download.AutoMapperProfile());
+            mc.AddProfile(new Application.AutoMapperProfile());
+            mc.AddProfile(new WorkingShift.Common.AutoMapperProfile());
+            mc.AddProfile(new WorkingShift.DailyWorkingShift.AutoMapperProfile());
+            mc.AddProfile(new MessageManagement.AutoMapperProfile());
+            mc.AddProfile(new OddsCompiler.AutoMapperProfile());
         });
 
         var mapper = mapperConfig.CreateMapper();
@@ -93,7 +96,11 @@ public static class ServiceCollectionExtensions
                              .Build();
             config.Filters.Add(new AuthorizeFilter(policy));
         });
-        services.AddControllersWithViews()
+        services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add(new ServiceFilterAttribute(typeof(CheckUMFilterAttribute)));
+                options.Filters.Add(new SessionAuthorizeAttribute());
+            })
             .AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
@@ -129,49 +136,14 @@ public static class ServiceCollectionExtensions
     {
         services.AddScoped<IDynamicRepository, DynamicRepository>();
         services.AddScoped<RefResourceService, RefResourceServiceImp>();
-        services.AddSingleton<LogServiceWrapper, LogServiceWrapperImp>();
         services.AddSingleton<ConfigurationService, ConfigurationServiceImp>();
-        services.AddTransient<ScopedDynamicRepository, ScopedDynamicRepositoryImp>();
         services.AddScoped<CheckIsLiveStatusServices, CheckIsLiveStatusServicesImp>();
         services.AddScoped<GetAdminSiteMatchIdService, GetAdminSiteMatchIdServiceImp>();
         services.AddScoped<PermissionService, PermissionServiceImp>();
         services.AddScoped<GetInfoSiteTimeService, GetInfoSiteTimeServiceImp>();
         services.AddScoped<AccessCounter, AccessCounterImp>();
-        return services;
-    }
-
-    public static IServiceCollection AddCorsPolicy(this IServiceCollection services)
-    {
-        static void corsPolicy(CorsPolicyBuilder builder)
-        {
-            builder.WithOrigins("https://localhost:44380",
-                                "https://localhost:64193",
-                                "http://localhost:64193",
-                                "http://localhost:57420",
-                                "https://owp.nexdev.net",
-                                "https://owp-netcore-v1.nexdev.net",
-                                "https://owp-netcore-v2.nexdev.net",
-                                "https://owp-netcore-v3.nexdev.net",
-                                "https://owp.starixuat.com",
-                                "https://newowp1.starixuat.com",
-                                "https://newowp2.starixuat.com",
-                                "https://newowp3.starixuat.com",
-                                "https://owp.oneops.net",
-                                "https://newowp.oneops.net",
-                                "https://owp1.oneops.net",
-                                "http://localhost:3000",
-                                "http://localhost:3001",
-                                "https://owp.starixuat.com"
-                                )
-                  .AllowAnyMethod()
-                  .AllowAnyHeader()
-                  .AllowCredentials();
-        }
-        services.AddCors(options =>
-        {
-            options.AddPolicy("AllowOrigin", corsPolicy);
-        });
-
+        services.AddScoped<UserRepository, UserRepositoryImp>();
+        services.AddScoped<OldNotificationService, OldNotificationServiceImp>();
         return services;
     }
 
@@ -187,9 +159,7 @@ public static class ServiceCollectionExtensions
             })
         });
 
-        ExceptionHandler
-            .UseConfig(new LoggingConfiguration())
-            .UseGetDbExceptionInfo(DatabaseInfoGetters.GetDbExceptionInfo);
+        ExceptionHandler.UseConfig(new LoggingConfiguration());
 
         return services;
     }
@@ -218,7 +188,16 @@ public static class ServiceCollectionExtensions
         services.AddEventService();
         services.AddKpiService();
         services.AddNewLeagueSettingService();
+        services.AddAccountSettingService();
         services.AddProviderVerificationService();
+        services.AddApplicationInjector();
+        services.AddWorkingShiftService();
+        services.AddDailyWorkingShiftService();
+        services.AddWeeklyWorkingShiftService();
+        services.AddViewLogService();
+        services.AddMessageManagementService();
+        services.AddOddsCompilerService();
+        services.AddNotificationSetting();
         return services;
     }
 
@@ -226,7 +205,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(MaxbetController).Assembly));
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(MaxbetController).GetTypeInfo().Assembly));
-        services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(EventPickingController).GetTypeInfo().Assembly));
+        services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(EventPickingApiController).GetTypeInfo().Assembly));
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(MaxbetSettingController).GetTypeInfo().Assembly));
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(OtherSportController).GetTypeInfo().Assembly));
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(SyncWorkingShiftController).GetTypeInfo().Assembly));
@@ -249,6 +228,9 @@ public static class ServiceCollectionExtensions
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(AssigneeSuggestionController).GetTypeInfo().Assembly));
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(LAKpiController).GetTypeInfo().Assembly));
         services.AddMediatR(x => x.RegisterServicesFromAssembly(AppDomain.CurrentDomain.Load("OWP.NewLeagueSetting")));
+        services.AddMediatR(x => x.RegisterServicesFromAssembly(AppDomain.CurrentDomain.Load("OWP.BackgroundWorker")));
+        services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(ProfileController).GetTypeInfo().Assembly));
+        services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(QuickMessageController).GetTypeInfo().Assembly));
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(ProviderVerificationController).GetTypeInfo().Assembly));
         return services;
     }
@@ -310,6 +292,7 @@ public static class ServiceCollectionExtensions
         });
         services.AddSingleton<NewDataUploadNotifyHubImp>();
         services.AddSingleton<TicketCenterNotifyHubImp>();
+        services.AddSingleton<ChangedInfoNotifyHubImp>();
 
         return services;
     }
@@ -353,4 +336,159 @@ public static class ServiceCollectionExtensions
         return app;
     }
 
+    public static IServiceCollection AddWebOptimizer(this IServiceCollection services)
+    {
+        services.AddWebOptimizer(pipeline =>
+            {
+                pipeline.AddCssBundle("/styles/common",
+                    "shared/lib/Fanex.Grid/Fanex.Grid.css",
+                    "shared/lib/Fanex.Grid/Fanex.Pagination.css",
+                    "shared/lib/fanex-multiselect/fanex.multiSelect.css",
+                    "shared/lib/Materialize/materialize.css",
+                    "shared/lib/CustomScrollbar/jquery.mCustomScrollbar.css",
+                    "shared/lib/Select2/select2.css",
+                    "shared/lib/jQuery-Wizard/wizard.css",
+                    "shared/lib/Tipsy/tipsy.css",
+                    "shared/lib/Colpick/colpick.css",
+                    "shared/lib/SweetAlert2/sweetalert2.css",
+                    "shared/lib/jQueryTagsinput/jquery.tagsinput.min.css",
+                    "shared/lib/jquery-timepicker/jquery.timepicker.css",
+                    "shared/lib/MsgBox/msgbox-0.0.1.css",
+                    "shared/lib/SimplePagination/simplePagination.css",
+                    "shared/lib/Toastr/toastr.css",
+                    "shared/lib/Chosen/bootstrap-chosen.css",
+                    "shared/owp/copy.css",
+                    "shared/owp/owp.search-autocomplete.css",
+                    "shared/themes/main.css",
+                    "shared/themes/searchBlock.css"
+                   );
+
+                pipeline.AddCssBundle("/styles/fonts",
+                    "shared/fonts/icon-OWP/style.css",
+                     "shared/themes/fonts/OWP-v1.0/style.css",
+                    "shared/themes/fonts/font-icon/style.css",
+                    "shared/themes/fonts/flags/flag-icon.css");
+
+                pipeline.AddJavaScriptBundle("scripts/core",
+                    "shared/lib/jQuery/jquery-2.1.1.js",
+                    "shared/lib/signalr.js"
+                    );
+
+                pipeline.AddJavaScriptBundle("scripts/common",
+                    "shared/lib/JQuery/jquery-ui-1.10.4.js",
+                    "shared/lib/JQuery/jquery.blockUI.2.66.min.js",
+                    "shared/lib/Others/moment-latest.js",
+                    "shared/lib/Chosen/chosen.jquery.js",
+                    "shared/lib/MsgBox/msgbox-0.0.1.js",
+                    "shared/lib/jquery-timepicker/jquery.timepicker.js",
+                    "shared/lib/Others/namespace.js",
+                    "shared/lib/js.cookie/js.cookie.js",
+
+                    "shared/owp/common.js",
+
+                    "shared/lib/Materialize/materialize.js",
+                    "shared/lib/CustomScrollbar/jquery.mCustomScrollbar.concat.min.js",
+                    "shared/lib/Select2/select2.min.js",
+                    "shared/lib/jQuery-Wizard/jquery-wizard.js",
+                    "shared/lib/Tipsy/jquery.tipsy.js",
+                    "shared/lib/jQueryTagsinput/jquery.tagsinput.min.js",
+                    "shared/lib/Inputmask/jquery.inputmask.bundle.js",
+                    "shared/lib/jquery.shiftcheckbox.js",
+                    "shared/lib/Colpick/colpick.js",
+                    "shared/lib/SweetAlert2/sweetalert2.js",
+                    "shared/lib/Fanex.Grid/Fanex.Grid.js",
+                    "shared/lib/Fanex.Grid/Fanex.Pagination.js",
+                    "shared/lib/SimplePagination/jquery.simplePagination.js",
+                    "shared/lib/ContextMenu/bootstrap-contextmenu.js",
+                    "shared/lib/fanex-multiselect/fanex.multiSelect.js",
+                    "shared/lib/Toastr/toastr.js",
+                    "shared/lib/Sortable/Sortable.js",
+                    "shared/lib/favico/favico-0.3.10.min.js",
+                    "shared/owp/navbar.js",
+                    "shared/owp/main.js",
+                    "shared/lib/modernizr.js",
+                    "shared/owp/DocumentTitle/document-title.js",
+                    "shared/owp/DocumentTitle/document-title-factory.js",
+                    "shared/owp/EventManagement/quick-search.js",
+                    "shared/owp/EventManagement/quick-search-factory.js",
+                    "shared/owp/EventManagement/quick-search-service.js",
+                    "shared/owp/MessageBox/message-box.js",
+                    "shared/owp/MessageBox/message-box-factory.js"
+                );
+
+                pipeline.AddCssBundle("Styles/EventPicking",
+                    "shared/owp/TaskList/TaskList.css",
+                    "shared/owp/EventManagement/Resources/EventInformation/EventInformation.css");
+
+                pipeline.AddJavaScriptBundle("Scripts/EventPicking",
+                    "shared/owp/EventPicking/*.js");
+
+
+                pipeline.AddJavaScriptBundle("Scripts/EventInformation",
+                    "shared/lib/jquery.floatThead/jquery.floatThead.min.js",
+                    "shared/owp/TaskList/task-list-factory.js",
+                    "shared/owp/EventManagement/Resources/EventInformation/*.js",
+                    "shared/owp/EventManagement/Resources/Filter/*.js");
+
+                pipeline.AddJavaScriptBundle("Scripts/WeeklyWorkingShift/IFrame",
+                    "shared/lib/jQuery/jquery-2.1.1.min.js",
+                    "shared/lib/jQuery/jquery-ui-1.10.4.min.js",
+                    "shared/lib/MsgBox/msgbox-0.0.1.js",
+                    "shared/owp/MsgBox/owp.search-autocomplete.js",
+                    "shared/owp/MsgBox/common.js");
+
+                pipeline.AddJavaScriptBundle("Scripts/WeeklyWorkingShift",
+                    "shared/owp/weekly-working-shift/*.js");
+
+                pipeline.AddCssBundle("Styles/WeeklyWorkingShift",
+                    "shared/owp/weekly-working-shift/WorkingShift.css");
+
+                pipeline.AddJavaScriptBundle("Scripts/DailyWorkingShift",
+                    "shared/owp/daily-working-shift/*.js"
+                    );
+
+                pipeline.AddCssBundle("Styles/DailyWorkingShift",
+                    "shared/themes/main.css",
+                    "shared/owp/daily-working-shift/DailyWorkingShift.css");
+
+                pipeline.AddJavaScriptBundle("Scripts/OddsCompiler",
+                    "shared/owp/EventManagement/Resources/OddsCompiler/*.js");
+
+                pipeline.AddJavaScriptBundle("Styles/OddsCompiler",
+                    "shared/owp/EventManagement/Resources/OddsCompiler/OddsCompiler.css");
+
+                pipeline.AddCssBundle("Styles/nap-auth", "nap-auth/auth.css");
+                pipeline.AddCssBundle("Styles/nap-auth/error", "nap-auth/error.css");
+                pipeline.AddJavaScriptBundle("Scripts/nap-auth",
+                    "nap-auth/jquery-1.8.0.min.js",
+                    "nap-auth/cryptojs.js");
+
+                pipeline.AddJavaScriptBundle("scripts/signalR",
+                    "shared/owp/SignalR/*.js");
+            }
+        );
+        return services;
+    }
+
+    public static IServiceCollection AddGetNotificationQueue(this IServiceCollection services)
+        => services.AddBackgroundWorker<GetNotificationQueueJob>(CronExpressionJob.GET_NOTIFICATION_QUEUE);
+
+    private static IServiceCollection AddBackgroundWorker<T>(this IServiceCollection services, string cronExpression)
+    where T : IJob
+    {
+        services.AddQuartz(q =>
+        {
+            var key = typeof(T).Name;
+            var jobKey = new JobKey(key);
+            q.AddJob<T>(opts => opts.WithIdentity(jobKey));
+
+            q.AddTrigger(opts => opts
+                .ForJob(jobKey)
+                .WithIdentity(key)
+                .WithCronSchedule(cronExpression)
+            );
+        });
+        services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
+        return services;
+    }
 }

@@ -8,7 +8,13 @@ public class GetMinorAdminSiteMatchCriteria : CriteriaBase
 
     public int SubType { get; set; }
 
-    public override string GetSettingKey() => "OWP_TaskList_GetMinorMatchByMatchId";
+    public override string GetSettingKey()
+    {
+        return "OWP_TaskList_GetMinorMatchByMatchId";
+    }
 
-    public override bool IsValid() => true;
+    public override bool IsValid()
+    {
+        return true;
+    }
 }

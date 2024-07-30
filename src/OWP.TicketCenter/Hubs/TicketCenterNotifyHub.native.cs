@@ -10,7 +10,7 @@ public interface TicketCenterNotifyHub
 
     Task NotifyNewAddRecipient(TicketInfo ticketInfo);
 
-    Task NotifyChangeStatusIncome(TicketInfo ticketInfo );
+    Task NotifyChangeStatusIncome(TicketInfo ticketInfo);
 
     Task NotifyChangeSubTypeIncome(TicketInfo ticketInfo);
 
@@ -19,8 +19,8 @@ public interface TicketCenterNotifyHub
     Task NotifyNewMessageLga(int owpMatchId, int actorId);
 
     Task NotifyNewAddRecipientLga(int owpMatchId, int actorId);
+
+    Task NotifyUpdateReactIconMessage(MessageReactIcon messageReactIcon, string action, int ticketId);
 }
 
-public class TicketCenterNotifyHubImp : Hub<TicketCenterNotifyHub>
-{
-}
+public class TicketCenterNotifyHubImp : Hub<TicketCenterNotifyHub>;

@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<MaxbetSpreadCell/> should highlight input when invalid 1`] = `
+<table>
+  <tbody>
+    <tr>
+      <td>
+        <div
+          class="content"
+        >
+          <input
+            class="input-field input-invalid"
+            type="text"
+            value=""
+          />
+          <span>
+            K
+          </span>
+          <input
+            class="input-field input-invalid"
+            type="text"
+            value=""
+          />
+          <span>
+            %
+          </span>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;
+
+exports[`<MaxbetSpreadCell/> should render <MaxbetSpreadCell/> component success 1`] = `
+<table>
+  <tbody>
+    <tr>
+      <td>
+        <div
+          class="content"
+        >
+          <input
+            class="input-field"
+            type="text"
+            value="1"
+          />
+          <span>
+            K
+          </span>
+          <input
+            class="input-field"
+            type="text"
+            value="2"
+          />
+          <span>
+            %
+          </span>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;

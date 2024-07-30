@@ -1,0 +1,91 @@
+﻿.swal2-popup {
+    border-radius: 2px;
+    padding-bottom: 20px;
+    width: 37rem;
+
+    .swal2-content {
+        font-size: 13px;
+        margin-bottom: 10px;
+    }
+
+    .swal2-actions {
+       // margin: 0;
+        //justify-content: flex-end;
+
+        .swal2-styled {
+            font-size: 12px;
+            margin: 0;
+            padding: 4px 15px;
+            border-radius: 2px;
+            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 2px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+            transition: .2s ease all;
+
+            &:last-child {
+                margin-left: 12px;
+            }
+
+            &:focus {
+                box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 2px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);;
+            }
+        }
+    }
+
+    .swal2-icon {
+        width: 35px;
+        height: 35px;
+        line-height: 35px;
+        border-width: 2px;
+
+        .swal2-icon-text {
+            font-size: 25px;
+        }
+
+        &.swal2-warning {
+            border-color: #ff6000;
+            color: #ff6000;
+        }
+
+        &.swal2-success {
+            border-color: #24b446;
+        }
+        
+    }
+
+    .swal2-error [class^='swal2-x-mark-line'] {
+        top: 10px;
+        width: 2px;
+        height: 17px;
+
+        &[class$='left'] {
+            left: 17px;
+        }
+
+        &[class$='right'] {
+            right: 16px;
+        }
+    }
+
+    .swal2-success {
+        .swal2-success-ring {
+            border: 2px solid #24b446;
+        }
+
+        [class^='swal2-success-line'] {
+            background-color: #24b446;
+            height: 2px;
+        }
+
+        [class^='swal2-success-line'][class$='tip'] {
+            top: 22px;
+            left: 6px;
+            width: 10px;
+        }
+
+        [class^='swal2-success-line'][class$='long'] {
+            top: 19px;
+            right: 5px;
+            width: 19px;
+        }
+    }
+}
+

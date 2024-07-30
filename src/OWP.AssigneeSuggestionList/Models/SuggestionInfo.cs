@@ -4,9 +4,9 @@ public class SuggestionInfo
 {
     public MatchInfo MatchInfo { get; set; }
 
-    public List<WorkingSchedule> FullyAvailable { get; set; } = new();
+    public List<WorkingSchedule> FullyAvailable { get; set; } = [];
 
-    public List<WorkingSchedule> PartiallyAvailable { get; set; } = new();
+    public List<WorkingSchedule> PartiallyAvailable { get; set; } = [];
 
-    public List<WorkingSchedule> Busy { get; set; } = new();
+    public List<WorkingSchedule> Busy { get; set; } = [];
 }

@@ -2,11 +2,11 @@
 
 namespace OWP.Event.LiveGameAssignment.Download.Service;
 
+using Criteria;
+using Extensions;
 using Fanex.Data.Repository;
-using OWP.Event.LiveGameAssignment.Download.Criteria;
-using OWP.Event.LiveGameAssignment.Download.Extensions;
-using OWP.Event.LiveGameAssignment.Download.Models;
-using OWP.Event.LiveGameAssignment.Download.Repositories;
+using Models;
+using Repositories;
 using System;
 using System.IO;
 using System.Linq;
@@ -43,7 +43,7 @@ public class EventAssignmentService : IEventAssignmentService
     {
         var criteria = new GetLastUpdatedCriteria
         {
-            EventDate = eventDate,
+            EventDate = eventDate
         };
 
         var result = await dynamicRepository.GetAsync<AssignmentUploadHistoryModel>(criteria);

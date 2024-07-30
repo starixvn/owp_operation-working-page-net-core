@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OWP.FileUpload.Handlers;
@@ -13,7 +12,6 @@ namespace OWP.FileUpload;
 [Route("api/[controller]")]
 [ApiController]
 [Authorize]
-[EnableCors]
 public class FileUploadController : ControllerBase
 {
     private readonly IMediator mediator;

@@ -11,20 +11,11 @@ public interface SpreadBuilder
     Task<MaxbetSpread> BuildSpreadSpecialProduct(int specialProductId);
 }
 
-public class SpreadBuilderImp : SpreadBuilder
+public class SpreadBuilderImp(MaxbetRepository syncMaxbetRepository) : SpreadBuilder
 {
     private const decimal SPREAD_BASE_COMPARER = (decimal)0.1;
 
-    private const decimal SPREAD_BASE_LINE = (decimal)0.11;
-
     private const int LEAGUE_GROUP_MJ = 1;
-
-    private readonly MaxbetRepository syncMaxbetRepository;
-
-    public SpreadBuilderImp(MaxbetRepository syncMaxbetRepository)
-    {
-        this.syncMaxbetRepository = syncMaxbetRepository;
-    }
 
     public async Task<MaxbetSpread> BuildSpreadSpecialProduct(int specialProductId)
     {

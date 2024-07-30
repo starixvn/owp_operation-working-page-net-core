@@ -54,7 +54,7 @@ public class AssignmentModel
     public string AssignmentNote { get; set; }
 
     [JsonIgnore]
-    public List<AssignmentModel> GroupAssignmentModels { get; set; } = new();
+    public List<AssignmentModel> GroupAssignmentModels { get; set; } = [];
 
     public bool IsSingleMatch => SingleMatchHelper.IsSingleMatch(MaxbetHDP, LeagueName);
 }

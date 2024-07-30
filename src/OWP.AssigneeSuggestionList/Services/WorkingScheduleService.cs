@@ -88,7 +88,7 @@ public class WorkingScheduleServiceImp : WorkingScheduleService
     }
     public static void UpdatePropertyValue(PropertyInfo info, WorkingSchedule schedule, AssignmentCell cellInfo)
     {
-        var cells = (List<AssignmentCell>)info?.GetValue(schedule) ?? new List<AssignmentCell>();
+        var cells = (List<AssignmentCell>)info?.GetValue(schedule) ?? [];
         cells.Add(cellInfo);
         info?.SetValue(schedule, cells.FilterAndSortValidCell());
     }

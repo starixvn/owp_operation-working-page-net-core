@@ -85,7 +85,7 @@ public class EventAssignmentExportFilterImp : EventAssignmentExportFilter
 
     public List<EventModel> FilterMatchesByTimeRange(List<EventModel> matches)
     {
-        var dateTime = DateTime.Now.ToGmt8(); // NOSONAR
+        var dateTime = DateTimeOffset.Now.ToGmt8(); // NOSONAR
         var timeRange = dateTime.TimeRangeOfDate();
 
         return matches.Where(m => timeRange.CheckMatch(m.EventDateTime).IsMatchInTimeRange).ToList();
@@ -115,8 +115,8 @@ public class EventAssignmentExportFilterImp : EventAssignmentExportFilter
             }
             var mainTraderValue = GetPropertyValue(assignmentItem, "MainTrader")?.ToString();
             var otherTradersValue = GetPropertyValue(assignmentItem, "OtherTraders")?.ToString();
-            var checkIsValid = userNameSplit.Any(x => x == mainTraderValue) ||
-                               userNameSplit.Any(x => otherTradersValue?.Contains('#' + x) == true);
+            var checkIsValid = Array.Exists(userNameSplit, x => x == mainTraderValue) ||
+                               Array.Exists(userNameSplit, x => otherTradersValue?.Contains('#' + x) == true);
             if (checkIsValid)
             {
                 return true;

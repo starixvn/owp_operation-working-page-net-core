@@ -1,12 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <CodeAnalysisRuleSet>..\..\.sonarlint\nap-owp-netcorecsharp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Remove="LiveGameAssignment\DownloadAssignment\**" />
     <Compile Remove="LiveGameAssignment\Download\Criteria\TaskListToday\**" />
@@ -24,24 +22,20 @@
     <None Remove="LiveGameAssignment\Download\Repositories\Interfaces\**" />
     <None Remove="LiveGameAssignment\Download\Service\Interfaces\**" />
   </ItemGroup>
-
   <ItemGroup>
     <AdditionalFiles Include="..\..\.sonarlint\nap-owp-netcore\CSharp\SonarLint.xml" Link="SonarLint.xml" />
   </ItemGroup>
-
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="Epplus.Mapper" Version="7.0.0" />
-    <PackageReference Include="MediatR" Version="12.1.1" />
-    <PackageReference Include="NPOI" Version="2.5.6" />
+    <PackageReference Include="MediatR" Version="12.3.0" />
+    <PackageReference Include="NPOI" Version="2.7.0" />
     <PackageReference Include="Olympus.InfoSiteClient" Version="2.2.0.7" />
     <PackageReference Include="System.CodeDom" Version="8.0.0" />
-    <PackageReference Include="System.Drawing.Common" Version="8.0.1" />
+    <PackageReference Include="System.Drawing.Common" Version="8.0.6" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\OWP.RabbitMQ\OWP.RabbitMQ.csproj" />
     <ProjectReference Include="..\OWP\OWP.csproj" />
   </ItemGroup>
-
 </Project>

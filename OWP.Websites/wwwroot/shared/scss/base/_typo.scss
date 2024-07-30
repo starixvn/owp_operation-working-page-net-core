@@ -1,0 +1,354 @@
+﻿@import "../abstracts/variables";
+
+.txt-bold {
+    font-weight: 600;
+}
+
+.txt-uppercase {
+    text-transform: uppercase;
+}
+
+.txt-lineThrough {
+    text-decoration: line-through;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right !important;
+}
+
+.divider {
+    margin-top: 1rem;
+}
+
+.circle {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 5px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #f94a4a;
+}
+
+.link {
+    color: #1e88e5;
+
+    &.underline {
+        text-decoration: underline;
+    }
+
+    &.underline-hover {
+        &:hover, &:active {
+            text-decoration: underline;
+        }
+    }
+
+    &.addNew:before {
+        font-family: "Material Design Icons";
+        content: "\F417";
+        display: inline-block;
+        font-size: 16px;
+        line-height: 1;
+        vertical-align: text-bottom;
+        padding-right: 5px;
+    }
+}
+
+.error {
+    color: #fc5448;
+    margin-top: 16px;
+}
+
+.tooltip-block {
+    text-align: left;
+    font-size: 13px;
+    line-height: 1.2;
+    max-width: 30rem;
+    padding-left: 1.6rem;
+    padding-right: 2px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-left: 3px;
+
+    .list-style-circle li {
+        list-style-type: disc;
+        padding-bottom: 7px;
+
+        &:last-child {
+            padding-bottom: 0;
+        }
+    }
+}
+
+.tipsy {
+    .tipsy-inner {
+        max-width: 200px;
+        background-color: #000;
+        padding: 2px 10px 4px 10px;
+        font-size: 12px;
+        word-wrap: break-word;
+    }
+
+    .tipsy-arrow-s {
+        border-top-color: #000;
+    }
+
+    .tipsy-arrow-n {
+        border-bottom-color: #000;
+    }
+
+    .tipsy-arrow-e {
+        border-left-color: #000;
+    }
+}
+
+.dutyList {
+    font-size: 0;
+}
+
+.betType-badge {
+    position: relative;
+    margin-bottom: 4px;
+    margin-right: 5px;
+    display: inline-block;
+    color: #444;
+    border-radius: 2px;
+    font-size: 0;
+    overflow: hidden;
+
+    .light-purple {
+        background: #e7c1fd;
+        color: #444;
+    }
+
+    .light-blue {
+        background: #bbdaf9 !important;
+        color: #444;
+    }
+
+    &.canceled {
+        opacity: 0.5;
+        text-decoration: line-through;
+    }
+
+    &.no-prefix {
+        .betType-position {
+            display: none;
+        }
+    }
+
+    .betType-color {
+        display: inline-block;
+        font-size: 12px;
+        padding: 0 5px;
+    }
+
+    .betType-position {
+        display: inline-block;
+        background: #72899b;
+        color: #fff;
+        font-size: 12px;
+        padding: 0 7px;
+    }
+}
+
+.toast-message {
+    .message-content {
+        .match-postponed, .match-cancel, .match-suspended, .cancel-live, .match-status-change {
+            padding: 0 2px;
+            display: inline-block;
+            color: #fff !important;
+            border-radius: 2px;
+            height: 16px;
+            line-height: 16px;
+            text-transform: uppercase;
+            font-weight: 600;
+            background: #ec1b20;
+        }
+
+        .match-live,
+        .add-live {
+            padding: 0 2px;
+            display: inline-block;
+            color: #fff !important;
+            border-radius: 2px;
+            height: 16px;
+            line-height: 16px;
+            text-transform: uppercase;
+            font-weight: 600;
+            background-color: #4caf50;
+        }
+
+        .match-assigned, .match-unassigned, .match-edited {
+            font-weight: 600;
+        }
+
+        .new-league {
+            font-weight: 600;
+            color: #4caf50;
+        }
+
+        .match-status-change {
+            color: #000 !important;
+            background-color: #dda0dd !important;
+        }
+    }
+}
+
+.notification-content {
+    .message-content {
+        .match-postponed, .match-cancel, .match-suspended, .cancel-live {
+            padding: 0 2px;
+            display: inline-block;
+            color: #fff !important;
+            border-radius: 2px;
+            height: 16px;
+            line-height: 16px;
+            text-transform: uppercase;
+            font-weight: 600;
+            background: #ec1b20;
+        }
+
+        .match-live,
+        .add-live {
+            padding: 0 2px;
+            display: inline-block;
+            color: #fff !important;
+            border-radius: 2px;
+            height: 16px;
+            line-height: 16px;
+            text-transform: uppercase;
+            font-weight: 600;
+            background-color: #4caf50;
+        }
+
+        .match-assigned, .match-edited, .new-league {
+            font-weight: 600;
+            color: #4caf50;
+        }
+
+        .match-unassigned {
+            font-weight: 600;
+            color: #fc5448;
+        }
+    }
+}
+
+.badge-label {
+    padding: 0 7px;
+    display: inline-block;
+    color: #fff;
+    border-radius: 2px;
+
+    &.blue {
+        background: #2b8fe6;
+    }
+
+    &.red {
+        background: #f8595d;
+    }
+
+    &.light-purple {
+        background: #e7c1fd;
+        color: #444;
+    }
+
+    &.light-blue {
+        background: #bbdaf9 !important;
+        color: #444;
+    }
+
+    &.cancel {
+        background: #ffbd2f;
+        color: #d00000;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    &.three-hdp {
+        background: #313c7a;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    &.one-hdp {
+        background: #8a34bd;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    &.suspended, &.cancelled , &.postponed {
+        background: #ec1b20;
+    }
+
+    &.new-message {
+        position: absolute;
+        top: -8px;
+        left: 11px;
+        font-size: 11px;
+        background: #ff6000;
+        line-height: initial;
+        padding: 1px 4px;
+
+        @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+            line-height: normal !important;
+        }
+    }
+
+    &:last-child {
+        margin-top: 0.2rem;
+    }
+}
+
+.error-info {
+    color: #fc5448;
+
+    > span {
+        display: inline-block;
+        vertical-align: sub;
+    }
+}
+
+.warning-info {
+    color: #ff8b02;
+
+    > span {
+        display: inline-block;
+        vertical-align: sub;
+    }
+}
+
+.success-info {
+    color: #4caf50;
+
+    > span {
+        display: inline-block;
+        vertical-align: sub;
+    }
+}
+
+
+.cancelled-info {
+    color: #222222;
+
+    > span {
+        display: inline-block;
+        vertical-align: sub;
+    }
+}
+
+.home-name {
+    color: #f21616;
+}
+
+.away-name {
+    color: #02940d;
+}

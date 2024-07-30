@@ -1,19 +1,16 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using OWP.PrematchAssignment.Handlers;
 using OWP.PrematchAssignment.Models;
 using OWP.PrematchAssignment.Services;
-using OWP.PreMatchAssignment.Handlers;
 
 namespace OWP.PrematchAssignment;
 
 [Route("api/[controller]")]
 [ApiController]
 [Authorize]
-[EnableCors]
 public class PreMatchAssignmentController : ControllerBase
 {
     private readonly IMediator mediator;
@@ -135,12 +132,12 @@ public class PreMatchAssignmentController : ControllerBase
         if (isTicketLeague)
         {
             var leagueTicketsTask = await repository.QueryAllLeaguesTicket(new List<int> { id }, actorId);
-            tickets = new List<TicketBasicInfo>(leagueTicketsTask.SelectMany(x => x.Value).ToList());
+            tickets = [..leagueTicketsTask.SelectMany(x => x.Value).ToList()];
         }
         else
         {
             var matchTicketsTask = await repository.QueryAllMatchesTicket(new List<int> { id }, actorId);
-            tickets = new List<TicketBasicInfo>(matchTicketsTask.SelectMany(x => x.Value).ToList());
+            tickets = [..matchTicketsTask.SelectMany(x => x.Value).ToList()];
         }
 
         return Ok(JsonConvert.SerializeObject(tickets.OrderByDescending(x => x.LatestCreatedDate).ToList()));

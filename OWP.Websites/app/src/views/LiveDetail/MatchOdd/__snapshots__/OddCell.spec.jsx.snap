@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`OddCell isEditing is false should match snapshot when odd is negative 1`] = `
+<table>
+  <tbody>
+    <tr>
+      <td
+        class="negative-odd"
+      >
+        -1.23
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;
+
+exports[`OddCell isEditing is false should match snapshot when odd is positive 1`] = `
+<table>
+  <tbody>
+    <tr>
+      <td
+        class=""
+      >
+        1.23
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;
+
+exports[`OddCell isEditing is true should match snapshot when odd is not null 1`] = `
+<table>
+  <tbody>
+    <tr>
+      <td>
+        <div
+          class="content"
+        >
+          <input
+            class="input-field"
+            type="text"
+            value="9"
+          />
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;
+
+exports[`OddCell isEditing is true should match snapshot when odd is null 1`] = `
+<table>
+  <tbody>
+    <tr>
+      <td>
+        <div
+          class="content"
+        >
+          <input
+            class="input-field input-invalid"
+            type="text"
+            value=""
+          />
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;

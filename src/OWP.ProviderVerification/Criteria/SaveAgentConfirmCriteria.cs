@@ -1,7 +1,4 @@
-﻿using Fanex.Data.Repository;
-
-
-namespace OWP.ProviderVerification.Criteria;
+﻿namespace OWP.ProviderVerification.Criteria;
 
 public class SaveAgentConfirmCriteria : NonQueryCommand
 {
@@ -9,7 +6,7 @@ public class SaveAgentConfirmCriteria : NonQueryCommand
 
     public int ActorId { get; set; }
 
-    public string AgentSelected { get; set; } 
+    public string AgentSelected { get; set; }
 
     public override string GetSettingKey() => "OWP_ProviderVerification_SaveAgentConfirm";
 

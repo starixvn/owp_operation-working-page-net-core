@@ -1,0 +1,150 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NoteRow test policy's HasWrite = false should match snapshot 1`] = `
+<li
+  class="note-item"
+>
+  <div
+    class="content"
+  >
+    <div
+      class="note-content"
+    >
+      <strong
+        class="user-name"
+      >
+        @
+        leo
+      </strong>
+       
+      ahihi
+    </div>
+    <span
+      class="date-time"
+    />
+  </div>
+  <div
+    class="icon-button"
+  />
+</li>
+`;
+
+exports[`NoteRow test policy's HasWrite = true should match snapshot in case isEditing=false 1`] = `
+<li
+  class="note-item"
+>
+  <div
+    class="content"
+  >
+    <div
+      class="note-content"
+    >
+      <strong
+        class="user-name"
+      >
+        @
+        leo
+      </strong>
+       
+      ahihi
+    </div>
+    <span
+      class="date-time"
+    />
+  </div>
+  <div
+    class="icon-button"
+  >
+    <button
+      class="icon-edit"
+    >
+      <svg
+        class="mdi-icon "
+        fill="currentColor"
+        height="12"
+        viewBox="0 0 24 24"
+        width="12"
+      >
+        <path
+          d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z"
+        />
+      </svg>
+    </button>
+    <button
+      class="icon-delete"
+    >
+      <svg
+        class="mdi-icon "
+        fill="currentColor"
+        height="12"
+        viewBox="0 0 24 24"
+        width="12"
+      >
+        <path
+          d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19C6,20.1 6.9,21 8,21H16C17.1,21 18,20.1 18,19V7H6V19Z"
+        />
+      </svg>
+    </button>
+  </div>
+</li>
+`;
+
+exports[`NoteRow test policy's HasWrite = true should match snapshot in case isEditing=true 1`] = `
+<li
+  class="note-item"
+>
+  <div
+    class="content"
+  >
+    <div
+      class="note-content"
+    >
+      <strong
+        class="user-name"
+      >
+        @
+        leo
+      </strong>
+       
+      ahihi
+    </div>
+    <span
+      class="date-time"
+    />
+  </div>
+  <div
+    class="icon-button"
+  >
+    <button
+      class="icon-edit"
+    >
+      <svg
+        class="mdi-icon "
+        fill="currentColor"
+        height="12"
+        viewBox="0 0 24 24"
+        width="12"
+      >
+        <path
+          d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z"
+        />
+      </svg>
+    </button>
+    <button
+      class="icon-delete"
+    >
+      <svg
+        class="mdi-icon "
+        fill="currentColor"
+        height="12"
+        viewBox="0 0 24 24"
+        width="12"
+      >
+        <path
+          d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19C6,20.1 6.9,21 8,21H16C17.1,21 18,20.1 18,19V7H6V19Z"
+        />
+      </svg>
+    </button>
+  </div>
+</li>
+`;

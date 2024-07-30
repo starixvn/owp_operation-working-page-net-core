@@ -3,8 +3,8 @@
 namespace OWP.Event.LiveGameAssignment.Services;
 
 using Constants;
+using Extensions;
 using Models;
-using OWP.Extensions;
 
 public interface EventAssignmentPermission
 {

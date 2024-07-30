@@ -144,7 +144,7 @@ public class AssignmentValidatorImp : AssignmentValidator
 
     public static void CheckTraderIgnoreNote(List<string> errorList, List<string> invalidTraders, string trader, string name)
     {
-        var regex = new Regex(@"#(.*?)(\s|$)");
+        var regex = new Regex(@"#(.*?)(\s|$)", RegexOptions.IgnoreCase, TimeSpan.FromSeconds(5));
         var traderName = regex.Match(trader).Groups[1].Value;
         if (invalidTraders.Contains(traderName))
         {

@@ -1,0 +1,181 @@
+﻿@import "../abstracts/variables";
+@import "../abstracts/mixins";
+
+@mixin btnStyle($color) {
+    background: $color;
+
+    &:hover, &:active, &:focus {
+        background: lighten($color, 5%);
+    }
+}
+
+.btn {
+    height: 26px;
+    line-height: 26px;
+    text-transform: capitalize;
+    padding: 0 1rem;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 2px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
+
+    &:hover {
+        box-shadow: 0 4px 4px 0 rgba(0,0,0,.14), 0 3px 4px -2px rgba(0,0,0,.2),0 1px 7px 0 rgba(0,0,0,.12);
+    }
+
+    &.disabled {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+}
+
+.btn-block {
+    width: 100%;
+}
+
+.button-block {
+    .btn {
+        margin-right: 7px;
+
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+}
+
+.btn-disabled {
+    cursor: not-allowed;
+}
+
+.btn-search {
+    @include btnStyle(#1e88e5)
+}
+
+.btn-excel {
+    @include btnStyle(#00a659);
+    margin-bottom: 1rem;
+}
+
+.btn-upload {
+    @include btnStyle(#1e88e5);
+}
+
+.btn-browse {
+    @include btnStyle (#96aabc);
+}
+
+.btn-download, .btn-validate {
+    @include btnStyle (#2fb159);
+}
+
+.btn-cancel {
+    @include btnStyle(#a3a3a3);
+}
+
+.btn-editTable {
+    @include btnStyle(#789ab7);
+    margin-bottom: 1rem;
+    padding: 0 0.5rem;
+
+    .icon-editTable {
+        margin: 0;
+        font-size: 16px;
+        margin-top: 1px;
+    }
+}
+
+.btn-moreCondition {
+    @include btnStyle(#2fb159);
+}
+
+
+.file-field {
+    .btn-browse {
+        float: right;
+        height: 26px;
+        line-height: 26px;
+        margin-right: 16px;
+    }
+}
+
+.btn-submit {
+    @include btnStyle(#2fb159);
+
+    &.disabled {
+        color: #fff !important;
+        background: #2fb159 !important;
+        opacity: 0.5;
+
+        &:hover, &:focus, &:active {
+            background: #2fb159 !important;
+            color: #fff !important;
+        }
+    }
+}
+
+.btn-confirm {
+    @include btnStyle(#1e88e5);
+}
+
+.btn-cancel-tasklist {
+    background: #fdd0d0;
+    text-transform: capitalize;
+    color: #fc3c3c;
+    border: 1px solid #fdb0b0;
+    box-shadow: none;
+    transition: visibility .1s ease;
+    visibility: hidden;
+
+    &:hover, &:active {
+        background: #fdd0d0;
+        box-shadow: none;
+        border: 1px solid #fdb0b0;
+    }
+}
+
+.btn-add {
+    @include btnStyle(#2fb159);
+
+    .mdi-plus {
+        margin-right: 0.5rem;
+    }
+}
+
+
+.btn-refresh {
+    @include btnStyle(#439ff0);
+    margin-top: 0;
+    margin-left: 0.5rem;
+
+    .icon-refresh {
+        @include iconCircle(20px);
+        font-size: 15px;
+        margin-right: 0;
+        margin-top: 4px;
+    }
+
+    .select-wrapper {
+        margin-left: 0.5rem;
+
+        input.select-dropdown {
+            border: none;
+            margin-bottom: 0;
+            width: 4rem;
+            height: 2.5rem;
+        }
+
+        span.caret {
+            top: initial;
+
+            &:before {
+                top: initial;
+                font-size: 17px;
+                color: #fff;
+                //right: -2px;
+            }
+        }
+
+        .dropdown-content {
+            margin-left: -3.7rem;
+            top: 2.6rem !important;
+            min-width: 10.5rem !important;
+        }
+    }
+}

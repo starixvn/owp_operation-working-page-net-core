@@ -3,17 +3,16 @@
 namespace OWP.Event.LiveGameAssignment;
 
 using Criteria;
-using Fanex.Data;
+using EventShared.Builder;
+using Extensions;
 using Fanex.Data.Repository;
 using Fanex.NAP.Client.Helpers.Web;
 using Models;
-using OWP.Event.EventShared.Builder;
 using OWP.Event.EventShared.Enum;
 using OWP.Event.EventShared.Models;
-using OWP.Event.LiveGameAssignment.Services;
-using OWP.Extensions;
 using OWP.Models;
 using OWP.Services;
+using Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -260,7 +259,7 @@ public class LiveGameAssignmentRepositoryImp : LiveGameAssignmentRepository
                 KOTime = model.KOTime,
                 MatchStatus = model.MatchStatus,
                 MatchSettings = minorMatchSetting.MatchSettings,
-                MatchOdds = new List<MatchOddViewModel>()
+                MatchOdds = []
             };
             var minorMatchResult = await AddMinorMatch(minorMatchModel, owpMatchId, minorMatchSetting.MinorBettypeId);
             if (!minorMatchResult.IsSuccess)
@@ -307,7 +306,7 @@ public class LiveGameAssignmentRepositoryImp : LiveGameAssignmentRepository
                     EventDate = model.EventDate,
                     KOTime = model.KOTime,
                     MatchStatus = model.MatchStatus,
-                    MatchOdds = new List<MatchOddViewModel>()
+                    MatchOdds = []
                 };
             }
 
@@ -484,28 +483,25 @@ public class LiveGameAssignmentRepositoryImp : LiveGameAssignmentRepository
             MatchStatusIds = string.Join(",", queryModel.MatchStatusIds)
         };
 
-        using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
-        {
-            using (var reader = await db.QueryMultipleAsync(criteria))
-            {
-                var matches = (await reader.ReadAsync<MatchInfo>()).ToList();
-                var assignments = (await reader.ReadAsync<Assignment>()).ToList();
-                var notes = (await reader.ReadAsync<MatchNote>()).ToList();
-                var matchSettings = (await reader.ReadAsync<MatchSetting>()).ToList();
-                var televisions = (await reader.ReadAsync<Television>()).ToList();
-                var matchOffers = (await reader.ReadAsync<MatchOffer>()).ToList();
-                if (!queryModel.FullTimeViewPermission.IsRead)
-                {
-                    matches = FilterMatchesByTimeRange(matches);
-                }
+        var reader = await dynamicRepository
+            .FetchMultipleAsync<MatchInfo, Assignment, MatchNote, MatchSetting, Television, MatchOffer>(criteria);
 
-                var events = await MappingInfoToEventModel(matches, assignments, notes, matchSettings, televisions, matchOffers);
-                var eventsByUsers = FilterEventModelByUser(events, queryModel.UserIds);
-                var eventsByMatchType = FilterEventByMatchType(eventsByUsers, queryModel.MatchType);
-                var eventsByOffVR = FilterEventModelByOffVR(eventsByMatchType, queryModel.SelectedOffVRs);
-                return FilterEventModelByLiveStatus(eventsByOffVR, queryModel.SyncLiveStatus);
-            }
+        var matches = reader.Item1.ToList();
+        var assignments = reader.Item2.ToList();
+        var notes = reader.Item3.ToList();
+        var matchSettings = reader.Item4.ToList();
+        var televisions = reader.Item5.ToList();
+        var matchOffers = reader.Item6.ToList();
+        if (!queryModel.FullTimeViewPermission.IsRead)
+        {
+            matches = FilterMatchesByTimeRange(matches);
         }
+
+        var events = await MappingInfoToEventModel(matches, assignments, notes, matchSettings, televisions, matchOffers);
+        var eventsByUsers = FilterEventModelByUser(events, queryModel.UserIds);
+        var eventsByMatchType = FilterEventByMatchType(eventsByUsers, queryModel.MatchType);
+        var eventsByOffVR = FilterEventModelByOffVR(eventsByMatchType, queryModel.SelectedOffVRs);
+        return FilterEventModelByLiveStatus(eventsByOffVR, queryModel.SyncLiveStatus);
     }
 
     private static IList<EventModel> FilterEventModelByOffVR(IList<EventModel> events, int?[] offVRs)
@@ -529,7 +525,7 @@ public class LiveGameAssignmentRepositoryImp : LiveGameAssignmentRepository
 
     private static List<MatchInfo> FilterMatchesByTimeRange(List<MatchInfo> matches)
     {
-        var dateTime = DateTime.Now.ToGmt8();
+        var dateTime = DateTimeOffset.Now.ToGmt8();
         var timeRange = dateTime.TimeRangeOfDate();
         var selectedMatches = new List<MatchInfo>();
         foreach (var match in matches)
@@ -630,7 +626,7 @@ public class LiveGameAssignmentRepositoryImp : LiveGameAssignmentRepository
                 KickOffTime = match.KickOffTime.ToKOTime(),
                 KickOffTimeStr = match.KickOffTime,
                 OtherTime = match.OtherTime?.ToKOTime(),
-                OtherTimeStr = match?.OtherTime,
+                OtherTimeStr = match.OtherTime,
                 LeagueGroup = match.LeagueGroup,
                 League = match.League,
                 Home = match.Home,
@@ -817,9 +813,16 @@ public class LiveGameAssignmentRepositoryImp : LiveGameAssignmentRepository
     public async Task<(string, string)> GetSyncOffVRLastUpdate(DateTime eventDate)
     {
         var criteria = new GetLastUpdatedSyncOffVRCriteria { EventDate = eventDate };
-        var result = await dynamicRepository.FetchAsync<(DateTime, string)>(criteria);
+        var result = await dynamicRepository.FetchAsync<SyncOffVRInfo>(criteria);
         var first = result.FirstOrDefault();
 
-        return (first.Item1.ToString("MMM dd, hh:mm tt"), first.Item2);
+        return (first?.SyncDateTime.ToString("MMM dd, hh:mm tt"), first?.Username);
     }
+}
+
+public class SyncOffVRInfo
+{
+    public DateTime SyncDateTime { get; set; }
+
+    public string Username { get; set; }
 }

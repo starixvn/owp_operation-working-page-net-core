@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DropdownDefaultNative under test match snapshot 1`] = `
+<div>
+  <div
+    class="style-select"
+  >
+    <select
+      class="browser-default"
+      data-testid="select"
+      id="dropdown"
+    >
+      <option
+        data-testid="select-option"
+        value="1"
+      >
+        A
+      </option>
+      <option
+        data-testid="select-option"
+        selected=""
+        value="2"
+      >
+        B
+      </option>
+    </select>
+  </div>
+</div>
+`;

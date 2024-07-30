@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test FlagExpand awayFlag available and homeFlag is null, should render FlagDetail 1`] = `
+<img
+  class="flag-control"
+  height="150"
+  src="bbbbbb"
+  width="100"
+/>
+`;
+
+exports[`test FlagExpand flagInfo = PES 21, should render FlagDetail 1`] = `
+<img
+  class="flag-control"
+  height="150"
+  src="bbbb"
+  width="175"
+/>
+`;
+
+exports[`test FlagExpand flagInfo = PES, should render FlagDetail 1`] = `
+<img
+  class="flag-control"
+  height="100"
+  src="bbbb"
+  width="200"
+/>
+`;

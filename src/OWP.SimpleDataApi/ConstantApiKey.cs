@@ -100,4 +100,22 @@ public static class ConstantApiKey
 
     public const string UpdateUser = "update-user";
 
+    #region employeeWorkingShift
+    public const string WorkingShiftGetUsers = "working-shift-get-user";
+
+    public const string WorkingShiftUpdateSingleShift = "working-shift-update-single-shift";
+
+    public const string WorkingShiftUpdateRemarkWeekly = "working-shift-update-remark-weekly";
+
+    public const string WorkingShiftUpdateRemarkDaily = "working-shift-update-remark-daily";
+
+    public const string EmployeeWorkingShiftInsertNote = "employee-working-shift-insert-note";
+
+    public const string EmployeeWorkingShiftQueryNoteById = "employee-working-shift-query-note-by-id";
+
+    public const string EmployeeWorkingShiftUpdateNote = "employee-working-shift-update-note";
+
+    public const string EmployeeWorkingShiftDeleteNote = "employee-working-shift-delete-note";
+    #endregion employeeWorkingShift
+
 }

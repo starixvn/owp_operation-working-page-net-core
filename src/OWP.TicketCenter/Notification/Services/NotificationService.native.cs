@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using OWP.AccountSetting.Profile;
 using OWP.TicketCenter.Hubs;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.ViewModels;
@@ -7,7 +8,8 @@ namespace OWP.TicketCenter.Notification.Services;
 
 public interface NotificationService
 {
-    Task NotifyNewMessageIncome(List<string> userIds,TicketInfo ticketInfo,  MessageDetailViewModel messageResponse = null);
+    Task NotifyNewMessageIncome(List<string> userIds, TicketInfo ticketInfo, MessageDetailViewModel messageResponse = null);
+
     Task NotifyNewAddRecipient(List<string> userIds, TicketInfo ticketInfo);
 
     Task NotifyChangeStatusIncome(TicketInfo ticketInfo);
@@ -19,6 +21,8 @@ public interface NotificationService
     Task NotifyNewMessageLga(List<string> userIds, int parentMatchId, int actorId);
 
     Task NotifyNewAddRecipientLga(List<string> userIds, int parentMatchId, int actorId);
+
+    Task NotifyUpdateReactIconMessage(List<string> userIds, MessageReactIcon messageReactIcon, string action, int ticketId);
 }
 
 public class NotificationServiceImp : NotificationService
@@ -29,22 +33,30 @@ public class NotificationServiceImp : NotificationService
 
     private readonly Repository repository;
 
+    private readonly ProfileRepository profileRepository;
+
     public NotificationServiceImp(
         Repository repository,
+        ProfileRepository profileRepository,
         IHubContext<TicketCenterNotifyHubImp, TicketCenterNotifyHub> notifyMyTicket,
         IHubContext<PreMatchNotifyHubImp, PreMatchNotifyHub> notifyPreMatch)
     {
         this.notifyMyTicket = notifyMyTicket;
         this.notifyPreMatch = notifyPreMatch;
         this.repository = repository;
+        this.profileRepository = profileRepository;
     }
 
     public async Task NotifyNewMessageIncome(List<string> userIds, TicketInfo ticketInfo, MessageDetailViewModel messageResponse = null)
     {
         var ticketReaders = await repository.GetTickerReaderInfoByTicketId(ticketInfo.TicketId);
         var lastComments = (await repository.GetTwoLastComment(new List<int> { ticketInfo.TicketId })).ToList();
+        var (_, avatarFileName) = await profileRepository.QueryUserProfileInfo(messageResponse.UserId);
+        messageResponse.AvatarFileName = avatarFileName;
         ticketInfo.Messages = lastComments;
-        ticketInfo.LastCommentDate = lastComments.FirstOrDefault(new MessageInfoModel()).CreatedDate;
+        ticketInfo.LastCommentDate = lastComments.Count != 0
+            ? lastComments[0].CreatedDate
+            : new MessageInfoModel().CreatedDate;
         foreach (var ticketReader in ticketReaders)
         {
             ticketInfo.IsPinned = ticketReader.IsPinned;
@@ -134,8 +146,13 @@ public class NotificationServiceImp : NotificationService
             .NotifyChangeSybTypeIncome(ticketInfo);
     }
 
-    private async Task<List<string>> GetUserIdsInStringByTicketId(int ticketId)
+    public async Task NotifyUpdateReactIconMessage(List<string> userIds, MessageReactIcon messageReactIcon, string action, int ticketId)
     {
-        return await repository.GetUserIdsByTicketId(ticketId);
+        await notifyMyTicket.Clients
+            .Users(userIds)
+            .NotifyUpdateReactIconMessage(messageReactIcon, action, ticketId);
+        await notifyPreMatch.Clients
+            .Users(userIds)
+            .NotifyUpdateReactIconMessage(messageReactIcon, action, ticketId);
     }
 }

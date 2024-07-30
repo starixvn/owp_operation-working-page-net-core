@@ -1,4 +1,6 @@
-﻿namespace OWP.NewLeagueSetting.Criteria;
+﻿using Fanex.Data.Repository;
+
+namespace OWP.NewLeagueSetting.Criteria;
 public class QueryLeagueSettingDetailCriteria : CriteriaBase
 {
     public int LeagueSettingId { get; set; }

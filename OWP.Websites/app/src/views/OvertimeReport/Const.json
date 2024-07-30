@@ -1,0 +1,119 @@
+{
+  "getLocationRoute": "get-locations",
+  "getReportByYearRoute": "get-report-by-year",
+  "precision": 2,
+  "getReportByMonthRoute": "get-report-by-month",
+  "exportReportByMonthRoute": "export-report-by-month",
+  "exportReportByYearRoute": "export-report-by-year",
+  "shortMonthLabel": 3,
+  "locationOptionAll": {
+    "value": "all",
+    "label": "All"
+  },
+  "locationOptionNone": {
+    "value": "none",
+    "label": "None"
+  },
+  "months": [
+    {
+      "value": 1,
+      "label": "January"
+    },
+    {
+      "value": 2,
+      "label": "February"
+    },
+    {
+      "value": 3,
+      "label": "March"
+    },
+    {
+      "value": 4,
+      "label": "April"
+    },
+    {
+      "value": 5,
+      "label": "May"
+    },
+    {
+      "value": 6,
+      "label": "June"
+    },
+    {
+      "value": 7,
+      "label": "July"
+    },
+    {
+      "value": 8,
+      "label": "August"
+    },
+    {
+      "value": 9,
+      "label": "September"
+    },
+    {
+      "value": 10,
+      "label": "October"
+    },
+    {
+      "value": 11,
+      "label": "November"
+    },
+    {
+      "value": 12,
+      "label": "December"
+    }
+  ],
+  "yearReport": {
+    "noCol": {
+      "name": "#",
+      "id": "no",
+      "width": 30,
+      "fixed": "left"
+    },
+    "locationCol": {
+      "name": "Location",
+      "id": "location",
+      "width": 150,
+      "fixed": "left"
+    },
+    "traderCol": {
+      "name": "Trader",
+      "id": "trader",
+      "width": 250,
+      "fixed": "left"
+    },
+    "totalCol": {
+      "name": "Total",
+      "id": "total",
+      "width": 150,
+      "fixed": "right"
+    }
+  },
+  "monthReport": {
+    "noCol": {
+      "name": "#",
+      "id": "no",
+      "width": 30,
+      "fixed": "left"
+    },
+    "locationCol": {
+      "name": "Location",
+      "id": "location",
+      "width": 120,
+      "fixed": "left"
+    },
+    "traderCol": {
+      "name": "Trader",
+      "id": "trader",
+      "width": 120,
+      "fixed": "left"
+    },
+    "totalCol": {
+      "name": "Total",
+      "id": "total",
+      "width": 100,
+      "fixed": "right"
+    }
+  }
+}

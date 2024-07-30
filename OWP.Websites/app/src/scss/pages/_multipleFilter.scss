@@ -1,0 +1,133 @@
+@mixin button-style($color, $background) {
+  border: 0;
+  height: 26px;
+  line-height: 26px;
+  text-transform: capitalize;
+  border-radius: 2px;
+  font-size: 13px;
+  color: $color;
+  background: $background;
+  padding: 0 1rem;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 2px -2px rgba(0, 0, 0, 0.2),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  transition: 0.2s ease all;
+
+  &:hover {
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.14),
+      0 3px 4px -2px rgba(0, 0, 0, 0.2), 0 1px 7px 0 rgba(0, 0, 0, 0.12);
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+input[type='checkbox'] {
+  -webkit-appearance: initial;
+  appearance: initial;
+  width: 15px;
+  height: 15px;
+  border: 2px solid #444;
+  border-radius: 2px;
+  background-color: transparent;
+  position: relative;
+  cursor: pointer;
+
+  &:checked {
+    background-color: #e24e4e;
+    border-color: #e24e4e;
+
+    &:after {
+      content: 'X';
+      color: #fff;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      -webkit-transform: translate(-50%, -50%);
+      -moz-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      margin-top: 1px;
+    }
+  }
+}
+
+input[type='checkbox'] + span {
+  height: auto !important;
+}
+
+.filter-popup {
+  .btn-cancel {
+    @include button-style(#fff, #a3a3a3);
+    margin-right: 10px;
+  }
+
+  .command {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+// --------------- Multiselect ------------------ //
+.filter-popup .rmsc.multi-select {
+  padding-top: 20px;
+  padding-bottom: 10px;
+  font-weight: 500 !important;
+
+  .select-panel > div {
+    display: block !important;
+  }
+
+  .dropdown-heading {
+    display: none;
+  }
+
+  .dropdown-content {
+    padding-top: 0;
+    position: static !important;
+
+    .panel-content {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+  }
+
+  //input field
+  .dropdown-container {
+    padding: 0 !important;
+    border: 0 !important;
+    border-bottom: 1px solid #e1e1e1 !important;
+    border-radius: 0 !important;
+
+    &:focus,
+    &:focus-within {
+      outline: none;
+      box-shadow: none;
+    }
+  }
+
+  .select-item {
+    &:focus {
+      background-color: transparent;
+    }
+
+    &.selected,
+    &:hover {
+      background-color: rgb(235, 245, 255);
+    }
+
+    .item-renderer {
+      input[type='checkbox'] + span {
+        &:after {
+          left: 6px;
+          top: 2px;
+        }
+      }
+    }
+  }
+}
+
+.icon-filter.is-filter {
+  color: #309f53 !important;
+}

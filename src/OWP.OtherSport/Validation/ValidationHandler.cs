@@ -30,7 +30,7 @@ public class ValidationHandler
     {
         public Response()
         {
-            ValidationResults = new List<AssignmentValidationRowResult>();
+            ValidationResults = [];
             Exception = string.Empty;
         }
 

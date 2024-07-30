@@ -1,0 +1,124 @@
+{
+  "DefaultTableStyle": {
+    "rowHeight": 100,
+    "width": 1000,
+    "filterOffset": 200,
+    "height": 750,
+    "maxHeight": 750,
+    "headerHeight": 38
+  },
+  "DefaultTableLargePlusStyle": {
+    "rowHeight": 100,
+    "width": 1200,
+    "defaultHeight": 1200,
+    "height": 1200,
+    "maxHeight": 1200,
+    "headerHeight": 38
+  },
+  "No": {
+    "order": 1,
+    "headerName": "No #",
+    "columnKey": "No",
+    "widthLargePlus": 90,
+    "widthLarge": 50,
+    "widthMedium": 50
+  },
+  "KOTime": {
+    "headerName": "KOTime",
+    "columnKey": "KOTime",
+    "isCanSort": true,
+    "widthLargePlus": 110,
+    "widthLarge": 90,
+    "widthMedium": 80
+  },
+  "Sport": {
+    "headerName": "Sport",
+    "columnKey": "Sport",
+    "isCanSort": true,
+    "widthLargePlus": 110,
+    "widthLarge": 90,
+    "widthMedium": 80
+  },
+  "Event": {
+    "headerName": "Event",
+    "columnKey": "Event",
+    "isCanFilter": true,
+    "widthLargePlus": 700,
+    "widthLarge": 500,
+    "widthMedium": 300
+  },
+  "League": {
+    "headerName": "League",
+    "columnKey": "League",
+    "isCanFilter": true,
+    "widthLargePlus": 500,
+    "widthLarge": 300,
+    "widthMedium": 300
+  },
+  "Match": {
+    "headerName": "Match",
+    "columnKey": "Match",
+    "isCanFilter": true,
+    "widthLargePlus": 300,
+    "widthLarge": 300,
+    "widthMedium": 300
+  },
+  "Remark": {
+    "headerName": "Remark",
+    "columnKey": "Remark",
+    "widthLargePlus": 280,
+    "widthLarge": 200,
+    "widthMedium": 120
+  },
+  "Trader": {
+    "headerName": "Trader",
+    "columnKey": "Trader",
+    "widthLargePlus": 450,
+    "widthLarge": 380,
+    "widthMedium": 300,
+    "isCanCollapseExpand": true
+  },
+  "MaxBet": {
+    "headerName": "MaxBet",
+    "columnKey": "MaxBet",
+    "widthLargePlus": 220,
+    "widthLarge": 120,
+    "widthMedium": 80
+  },
+  "Spread": {
+    "headerName": "Spread",
+    "columnKey": "Spread",
+    "widthLargePlus": 150,
+    "widthLarge": 120,
+    "widthMedium": 80
+  },
+  "IPTvStreaming": {
+    "headerName": "IPTV/Streaming",
+    "columnKey": "IPTvStreaming",
+    "widthLargePlus": 150,
+    "widthLarge": 120,
+    "widthMedium": 100
+  },
+  "Provider": {
+    "headerName": "Provider",
+    "columnKey": "Provider",
+    "widthLargePlus": 160,
+    "widthLarge": 120,
+    "widthMedium": 100
+  },
+  "DefaultCellTrader": {
+    "height": 50,
+    "width": 200
+  },
+  "DefaultCellProvider": {
+    "height": 100
+  },
+  "TableSize": {
+    "large": "large",
+    "medium": "medium",
+    "small": "small",
+    "largePlus": "largePlus"
+  },
+  "OuterwidthStartResizeTable": 1600,
+  "OuterwidthStartResizeTableLarge": 2200
+}

@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LevelCell under test match snapshot 1`] = `
+<div
+  class="fixedDataTableCellLayout_wrap1 public_fixedDataTableCell_wrap1"
+>
+  <div
+    class="fixedDataTableCellLayout_wrap2 public_fixedDataTableCell_wrap2"
+  >
+    <div
+      class="fixedDataTableCellLayout_wrap3 public_fixedDataTableCell_wrap3"
+    >
+      <div
+        class="public_fixedDataTableCell_cellContent"
+      >
+        <div
+          class="style-select"
+        >
+          <select
+            class="browser-default"
+            data-testid="select"
+            id="dropdown"
+          >
+            <option
+              data-testid="select-option"
+              selected=""
+              value="1"
+            >
+              A
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

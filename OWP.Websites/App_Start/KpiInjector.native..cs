@@ -1,5 +1,4 @@
-﻿
-using OWP.Kpi.LA.Services;
+﻿using OWP.Kpi.LA.Services;
 
 namespace OWP.Websites;
 

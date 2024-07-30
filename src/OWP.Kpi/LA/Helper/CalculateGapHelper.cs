@@ -5,7 +5,7 @@ namespace OWP.Kpi.LA.Helper;
 public static class CalculateGapHelper
 {
     public static bool IsGap(DateTime fromDate, DateTime toDate)
-        => toDate.Month == 12&& toDate.Year == DateTimeOffset.Now.Year &&
+        => toDate.Month == 12 && toDate.Year == DateTimeOffset.Now.Year &&
            fromDate.Month == 1 && fromDate.Year == DateTimeOffset.Now.Year - 1;
 
     public static TotalGameInfo CalculateGap(int? targetId, TotalGameInfo achievedGame)
@@ -23,5 +23,5 @@ public static class CalculateGapHelper
     }
 
     public static double CalculateValue(double achieved, double target)
-        => (target is < 0 or > 0) ? Math.Round(achieved - target, 1) : 0;
+        => target is < 0 or > 0 ? Math.Round(achieved - target, 1) : 0;
 }

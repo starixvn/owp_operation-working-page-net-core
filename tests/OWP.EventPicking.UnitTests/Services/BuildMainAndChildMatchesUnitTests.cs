@@ -1,13 +1,13 @@
 using MediatR;
 using NSubstitute;
-using OWP.EventPicking.Models;
-using OWP.EventPicking.Services;
 using OWP.MaxbetSetting.Handlers;
 using OWP.MaxbetSetting.Models;
 using Xunit;
 
 namespace OWP.EventPicking.UnitTests.Services;
 
+using OWP.EventPicking.Api.Models;
+using OWP.EventPicking.Api.Services;
 using Xunit.Asserts.Compare;
 
 public class BuildMainAndChildMatchesUnitTests
@@ -24,7 +24,7 @@ public class BuildMainAndChildMatchesUnitTests
         mediator = Substitute.For<IMediator>();
         var buildMatchOffer = Substitute.For<BuildMatchOfferByLiveSetting>();
         var providerBuilder = Substitute.For<BuildProvider>();
-       
+
         services = new BuildMainAndChildMatchesImp(
             repository,
             buildChildMatchMaxBet,
@@ -59,35 +59,36 @@ public class BuildMainAndChildMatchesUnitTests
     }
 
     public List<EventPickingModel> MockMainMatches()
-        => new()
-        {
+        =>
+        [
             new EventPickingModel
             {
                 OWPLeagueId = 111,
                 InfoSiteMatchId = 3333,
                 EventDateTime = new DateTime(2022, 11, 06),
                 LiveTV = "TV",
-                LocalTV= "TV",
+                LocalTV = "TV",
                 Round = "Round",
                 OutSide = "Outside",
                 RowColor = "white"
             },
+
             new EventPickingModel
             {
                 OWPLeagueId = 222,
                 InfoSiteMatchId = 4444,
                 EventDateTime = new DateTime(2022, 11, 7),
                 LiveTV = "test",
-                LocalTV= "TV",
+                LocalTV = "TV",
                 Round = "Round",
                 OutSide = "Outside",
                 RowColor = "white",
                 IsTestMatch = true
             }
-        };
+        ];
     public List<EventPickingModel> MockChildMatches()
-        => new()
-        {
+        =>
+        [
             new EventPickingModel
             {
                 OWPLeagueId = 111,
@@ -95,6 +96,7 @@ public class BuildMainAndChildMatchesUnitTests
                 EventDateTime = new DateTime(2022, 11, 06),
                 RowColor = "white"
             },
+
             new EventPickingModel
             {
                 OWPLeagueId = 222,
@@ -102,6 +104,7 @@ public class BuildMainAndChildMatchesUnitTests
                 EventDateTime = new DateTime(2022, 11, 7),
                 RowColor = "white"
             },
+
             new EventPickingModel
             {
                 OWPLeagueId = 222,
@@ -110,21 +113,22 @@ public class BuildMainAndChildMatchesUnitTests
                 HomeName = "Match (ET)",
                 RowColor = "white"
             }
-        };
+        ];
     public List<EventPickingModel> ExpectedMatches()
-        => new()
-        {
+        =>
+        [
             new EventPickingModel
             {
                 OWPLeagueId = 111,
                 InfoSiteMatchId = 3333,
                 EventDateTime = new DateTime(2022, 11, 06),
                 LiveTV = "TV",
-                LocalTV= "TV",
+                LocalTV = "TV",
                 Round = "Round",
                 OutSide = "Outside",
-                RowColor = "white",
+                RowColor = "white"
             },
+
             new EventPickingModel
             {
                 OWPLeagueId = 111,
@@ -132,6 +136,7 @@ public class BuildMainAndChildMatchesUnitTests
                 EventDateTime = new DateTime(2022, 11, 06),
                 RowColor = "white"
             },
+
             new EventPickingModel
             {
                 OWPLeagueId = 222,
@@ -139,6 +144,5 @@ public class BuildMainAndChildMatchesUnitTests
                 EventDateTime = new DateTime(2022, 11, 7),
                 RowColor = "white"
             }
-
-        };
+        ];
 }

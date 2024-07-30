@@ -1,0 +1,169 @@
+﻿@import "../abstracts/_variables.scss";
+
+$color-border-table: #e1e1e1;
+
+.table {
+    position: relative;
+    padding: 0 0.5rem;
+    margin-top: 0.5rem;
+    
+    .btn-sync {
+        position: absolute;
+        right: 12px;
+        top: -37px;
+        background: #fd9c3e;            
+    }
+}
+
+.number {
+    text-align: right;
+}
+
+.table-users-sync {
+    width: 345px;
+    table-layout: fixed;
+    border-collapse: collapse;
+
+    thead tr {
+        display: block;
+    }
+
+    tbody {
+        display:block;
+        width: 100%;
+        overflow: auto;
+        max-height: 380px;
+    }
+
+    th, td {
+        padding: 5px;
+        text-align: left;
+        width: 200px;
+        border-left: 0;
+        border-right: 0;
+    }
+}
+
+//--------------------  Specific Style------------------------//
+.no-col {
+    width: 50px;
+}
+
+.date-col {
+    width: 14rem;
+}
+
+.time-col {
+    width: 6.2rem;
+}
+
+.action-col {
+    width: 10rem;
+}
+
+.filter + .table {
+    margin-top: 0;
+    padding: 0 0.75rem;
+}
+
+.checkbox {
+    width: 40px;
+}
+
+.checkbox-item {
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+    vertical-align: middle;
+
+    [type="checkbox"] {
+        + label {
+            padding: 0;
+        }
+
+        &.filled-in:not(:checked) {
+            + label:after {
+                top: 0;
+            }
+        }
+
+        &.filled-in:checked {
+            + label:after {
+                top: 0;
+            }
+
+            + label:before {
+                top: 0;
+            }
+        }
+    }
+}
+
+table, th, td {
+    border: 1px solid $color-border-table;
+    border-radius: 0;
+}
+
+thead tr {
+    th {
+        padding: 3px 4px;
+        background: #f1f1f1;
+        color: #333;
+    }
+
+    .dark-bg {
+        background: #cdd3d9;
+    }
+}
+
+
+tbody tr {
+    td {
+        padding: 2px 4px;
+
+        &.note-col {
+            padding: 0;
+
+            .note-block {
+                max-height: 108px;
+                //overflow:auto;
+            }
+
+            p {
+                padding: 5px;
+                border-bottom: 1px solid #e1e1e1;
+
+                &:last-child {
+                    border-bottom: none;
+                }
+            }
+        }
+    }
+}
+
+
+
+
+table {
+    &.striped {
+        > tbody > tr:nth-child(odd) {
+            background-color: #fafafa;
+        }
+
+        > tbody > tr:nth-child(even) {
+            background-color: #fff;
+        }
+    }
+
+    &.highlight > tbody > tr:hover {
+        background-color: #fff4c2;
+
+        .btn-cancel-tasklist {
+            visibility: visible;
+        }
+    }
+
+    [data-field="date-time"] {
+        width: 15rem;
+    }
+}

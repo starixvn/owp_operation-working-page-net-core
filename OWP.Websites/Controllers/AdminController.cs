@@ -1,5 +1,4 @@
 using Fanex.Caching;
-using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using OWP.Extensions;
 using StackExchange.Redis;
@@ -150,7 +149,7 @@ public class AdministratorController : Controller
         return View("DeleteOldLoggedFile");
     }
 
-    public async Task<string> QueryDataFromUrl(String url)
+    public async Task<string> QueryDataFromUrl(string url)
     {
         var httpClient = new HttpClient();
         var response = await httpClient.GetAsync(url);

@@ -1,16 +1,15 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using OWP.TicketCenter.Handlers;
 using OWP.TicketCenter.Middleware;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.Services;
+using OWP.TicketCenter.ViewModels;
 
 namespace OWP.TicketCenter;
 
 [Route("api/[controller]")]
 [ApiController]
-[EnableCors]
 public class TicketCenterController : ControllerBase
 {
     private readonly IMediator mediator;
@@ -219,15 +218,8 @@ public class TicketCenterController : ControllerBase
         => await mediator.Send(new MarkAllTicketsRequest { ActorId = actorId });
 
     [HttpPost("get-next-list-messages")]
-    public async Task<object> GetNextListMessages(GetNextListMessagesRequest request)
-    {
-        var (canShowMoreMessage, messages) = await mediator.Send(request);
-        return new
-        {
-            canShowMoreMessage,
-            messages
-        };
-    }
+    public async Task<ShowMoreMessageModel> GetNextListMessages(GetNextListMessagesRequest request)
+        => await mediator.Send(request);
 
     [HttpGet("get-match-info")]
     public async Task<IActionResult> GetMatchInfo(int adminsiteId)
@@ -246,7 +238,11 @@ public class TicketCenterController : ControllerBase
     [HttpGet("get-user-feedback-info")]
     public async Task<IActionResult> GetUserFeedbackInfo()
     {
-        var result = await getInfoFeedback.Get();
+        var result = await mediator.Send(new GetUserInfoFeedbackRequest());
         return Ok(result);
     }
+
+    [HttpPost("update-message-icon")]
+    public async Task UpdateMessageIcon(UpdateMessageIconRequest request)
+        => await mediator.Send(request);
 }

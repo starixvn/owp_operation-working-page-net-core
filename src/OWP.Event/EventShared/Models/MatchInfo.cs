@@ -94,7 +94,6 @@ public class MatchInfo : TaskListMatchInfo
 
     public string TeamRound { get; set; }
 
-    // TODO
     public bool IsRead { get; set; }
 
     public bool HasTicket { get; set; }

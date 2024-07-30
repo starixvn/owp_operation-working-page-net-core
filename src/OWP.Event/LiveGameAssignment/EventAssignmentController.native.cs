@@ -3,23 +3,21 @@
 namespace OWP.Event.LiveGameAssignment;
 
 using Constants;
+using Download.Service;
 using Fanex.NAP.Client.Attributes;
 using Fanex.NAP.Client.Helpers.Business;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Newtonsoft.Json;
-using OWP.Event.LiveGameAssignment.Download.Service;
-using OWP.Event.LiveGameAssignment.Services;
-using OWP.RabbitMQ;
 using OWP.RabbitMQ.Constants;
+using RabbitMQ;
+using Services;
 using System.Linq;
 using System.Threading.Tasks;
 
 [Route("api/event-assignment")]
 [ApiController]
-[EnableCors]
 [Authorize]
 public class EventAssignmentController : ControllerBase
 {
@@ -101,7 +99,7 @@ public class EventAssignmentController : ControllerBase
     public async Task<IActionResult> AddEvent(AddEventViewModel model)
     {
         var result = await repository.AddEvent(model);
-        return Ok(result);
+        return Ok(JsonConvert.SerializeObject(result));
     }
 
     [Route("validate-to-edit-event")]
@@ -110,7 +108,7 @@ public class EventAssignmentController : ControllerBase
     public async Task<IActionResult> ValidateToEditEvent(EditMatchViewModel model)
     {
         var result = await repository.ValidateToEditEvent(model);
-        return Ok(result);
+        return Ok(JsonConvert.SerializeObject(result));
     }
 
     [Route("edit-event")]
@@ -126,7 +124,7 @@ public class EventAssignmentController : ControllerBase
             messageClient.SendMessage(new { SessionId = sessionId }, RoutingKey.LiveDetail);
         }
 
-        return Ok(result);
+        return Ok(JsonConvert.SerializeObject(result));
     }
 
     [Route("sync-off-vr")]

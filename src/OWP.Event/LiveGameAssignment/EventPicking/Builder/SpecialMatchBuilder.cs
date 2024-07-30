@@ -1,7 +1,7 @@
 ﻿namespace OWP.Event.LiveGameAssignment.EventPicking.Builder;
 
+using Download.Misc;
 using Olympus.InfoSiteClient.Models;
-using OWP.Event.LiveGameAssignment.Download.Misc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;

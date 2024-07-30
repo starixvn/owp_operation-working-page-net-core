@@ -1,0 +1,96 @@
+[
+  {
+    "OWPMatchId": 1,
+    "MatchNo": "1",
+    "MatchStatus": "Live",
+    "MatchOffers": [
+      {
+        "OWPMatchId": 279044,
+        "MatchOfferValue": "Fast Market"
+      }
+    ],
+    "NoOfHDP": "",
+    "KickOffTime": "12:00 PM",
+    "League": "League 1",
+    "Home": "Home 1",
+    "Away": "Away 1",
+    "Televisions": [
+      {
+        "OWPMatchId": 1,
+        "TVCode": "BET365",
+        "Color": "#444"
+      },
+      {
+        "OWPMatchId": 1,
+        "TVCode": "BET365",
+        "Color": "#444"
+      },
+      {
+        "OWPMatchId": 1,
+        "TVCode": "Euro76",
+        "Color": "#444"
+      },
+      {
+        "OWPMatchId": 1,
+        "TVCode": "U667",
+        "Color": "#F44336"
+      }
+    ],
+
+    "MatchSettings": [
+      {
+        "OWPMatchId": 1158496,
+        "Bettype": 1,
+        "MaxBet": 2500,
+        "Spread": 0.2,
+        "MaxBetToDisplay": "2.5K",
+        "SpreadToDisplay": "20%"
+      },
+      {
+        "OWPMatchId": 1158496,
+        "Bettype": 3,
+        "MaxBet": 2500,
+        "Spread": 0.2,
+        "MaxBetToDisplay": "2.5K",
+        "SpreadToDisplay": "20%"
+      }
+    ],
+    "Channel": "Channel1",
+    "Remark": "Remark1",
+    "Round": "Round1",
+    "Division": "Division1",
+    "OtherProvider": "OtherProvider1",
+    "Provider": "Provider1",
+    "WatchBet": "WatchBet1",
+    "Phone": "Phone1",
+    "Notes": [],
+    "HandicapSetting": {
+      "Maxbet": 10000,
+      "Spread": 0.12
+    },
+    "OverUnderSetting": {
+      "Spread": 0.12
+    },
+    "MatchOddsRow": {
+      "Handicap": { "TeamChoice": 2, "Bettype": 100, "OWPMatchId": 1, "Id": 1 },
+      "OverUnder": { "TeamChoice": 4, "Bettype": 100, "Id": 1 },
+      "OneXTwo": { "TeamChoice": 5, "Bettype": 100, "Id": 1 }
+    },
+    "Handicap": [],
+    "Handicap1st": [],
+    "OverUnder": [],
+    "OverUnder1st": [],
+    "OneXTwo": [],
+    "OneXTwo1st": [],
+    "Specific15Mins": [],
+    "Specific10Mins": [],
+    "LA": [],
+    "FM": [],
+    "AIO": [],
+    "KickOffTimeToDisplay": "5:00 PM",
+    "InfoSiteTimeDisplay": "5:00 PM",
+    "InfoSiteTime": "5:00 PM",
+    "OtherTimeToDisplay": "5:00 PM",
+    "OtherTime": "5:00 PM"
+  }
+]

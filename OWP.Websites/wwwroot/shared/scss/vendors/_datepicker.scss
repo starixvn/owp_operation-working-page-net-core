@@ -1,0 +1,104 @@
+﻿@import "../abstracts/_variables.scss";
+
+.ui-datepicker {
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
+    background: #fff;
+
+    .ui-datepicker-header {
+        overflow: hidden;
+        padding: 1.2rem 1rem;
+        background: $blueDogder;
+
+        .ui-icon {
+            font-size: 0;
+
+            &:after {
+                font-family: $fontIcon;
+                font-size: 17px;
+                color: #fff;
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                text-align: center;
+            }
+        }
+    }
+
+    .ui-state-disabled {
+        opacity: 0.5;
+    }
+
+    .ui-datepicker-prev {
+        float: left;
+        cursor: pointer;
+
+        .ui-icon {
+            &:after {
+                content: "\f141";
+            }
+        }
+    }
+
+    .ui-datepicker-next {
+        float: right;
+        cursor: pointer;
+
+        .ui-icon {
+            &:after {
+                content: "\f142";
+            }
+        }
+    }
+
+    .ui-datepicker-title {
+        text-align: center;
+        font-size: 17px;
+        color: #fff;
+    }
+
+    .ui-datepicker-calendar {
+        border: 0;
+
+        td, th {
+            border: 0;
+            padding: 5px;
+            text-align: center;
+
+            a, span {
+                padding: 7px 9px;
+                text-align: center;
+                color: #444444;
+                display: block;
+            }
+        }
+
+        thead {
+            border-bottom: 0;
+
+            tr th {
+                background: transparent;
+
+                span {
+                    color: $blueDogder;
+                }
+            }
+        }
+
+        .ui-datepicker-today a {
+            color: $blueDogder;
+            font-weight: 600;
+        }
+
+        .ui-datepicker-current-day .ui-state-default {
+            background: $blueDogder;
+            color: #fff;
+            border-radius: 4px;
+        }
+
+        .ui-state-hover {
+            background: lighten($blueDogder, 10%);
+            color: #fff !important;
+            border-radius: 4px;
+        }
+    }
+}

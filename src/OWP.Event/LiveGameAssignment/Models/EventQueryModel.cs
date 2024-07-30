@@ -17,5 +17,5 @@ public class EventQueryModel
 
     public string MatchType { get; set; }
 
-    public PermissionModel FullTimeViewPermission { get; set; } = new PermissionModel();
+    public PermissionModel FullTimeViewPermission { get; set; } = new();
 }

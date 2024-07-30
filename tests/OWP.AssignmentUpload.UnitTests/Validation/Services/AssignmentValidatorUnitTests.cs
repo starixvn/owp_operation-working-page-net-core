@@ -191,7 +191,8 @@ public class AssignmentValidatorImpUnitTests
             }
         };
 
-        var actual = Assert.Throws<InvalidAssignmentRowException>(() => assignmentValidator.CustomValidateAssignment(assignmentModelList, false, new List<Trader>(), new List<ReferenceResource>()));
+        var actual = Assert.Throws<InvalidAssignmentRowException>(() => assignmentValidator.CustomValidateAssignment(assignmentModelList, false,
+            [], []));
         DeepAssert.Equal(expected, actual.ValidationResults);
     }
 
@@ -217,7 +218,8 @@ public class AssignmentValidatorImpUnitTests
                 MatchOffer = ""
             }
         };
-        var exception = Record.Exception(() => assignmentValidator.CustomValidateAssignment(assignmentModelList, false, new List<Trader>(), new List<ReferenceResource>()));
+        var exception = Record.Exception(() => assignmentValidator.CustomValidateAssignment(assignmentModelList, false,
+            [], []));
         Assert.Null(exception);
     }
 
@@ -228,9 +230,9 @@ public class AssignmentValidatorImpUnitTests
         var uploadingDataFromExcel = new UploadingDataFromExcel
         {
             EventDate = new DateTime(2020, 03, 30),
-            Assignments = new List<AssignmentModelInExcel>
-            {
-                new()
+            Assignments =
+            [
+                new AssignmentModelInExcel
                 {
                     League = "League",
                     Home = "homemar27",
@@ -238,7 +240,8 @@ public class AssignmentValidatorImpUnitTests
                     Time = "01:00 PM",
                     MatchOffer = ""
                 },
-                new()
+
+                new AssignmentModelInExcel
                 {
                     League = "League",
                     Home = "homemar27",
@@ -246,7 +249,7 @@ public class AssignmentValidatorImpUnitTests
                     Time = "01:00 PM",
                     MatchOffer = ""
                 }
-            }
+            ]
         };
         var traders = new List<Trader>
         {
@@ -255,7 +258,8 @@ public class AssignmentValidatorImpUnitTests
             new() { UserId = 3, Username = "starix3" }
         };
 
-        var exception = Record.Exception(() => assignmentValidator.Validate(dateTime, uploadingDataFromExcel, traders, false, new List<ReferenceResource>()));
+        var exception = Record.Exception(() => assignmentValidator.Validate(dateTime, uploadingDataFromExcel, traders, false,
+            []));
         Assert.Null(exception);
     }
 
@@ -407,9 +411,9 @@ public class AssignmentValidatorImpUnitTests
 
     private static List<AssignmentModelInExcel> GetAssignmentModels()
     {
-        return new List<AssignmentModelInExcel>
-        {
-            new()
+        return
+        [
+            new AssignmentModelInExcel
             {
                 Trader10MinsName = "Mira",
                 Trader15MinsName = "Mira",
@@ -434,7 +438,7 @@ public class AssignmentValidatorImpUnitTests
                 OtherTradersLA = "#Carlos",
                 OtherTradersOU = "#Jack"
             }
-        };
+        ];
     }
 
     [Fact]

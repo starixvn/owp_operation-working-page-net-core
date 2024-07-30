@@ -1,5 +1,4 @@
 using MediatR;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using OWP.Extensions;
 using OWP.OSLeagueSetting.Handlers;
@@ -11,7 +10,6 @@ namespace OWP.OSLeagueSetting;
 
 [Route("api/[controller]")]
 [ApiController]
-[EnableCors]
 public class OSLeagueController : ControllerBase
 {
     private readonly IMediator mediator;

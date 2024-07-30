@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EditRecipientPopup under test should match snapshot 1`] = `
+<div>
+  <div
+    class="new-subtype"
+  >
+    <label>
+      subtype:
+    </label>
+    <input
+      class="subtype-text-input"
+      maxlength="100"
+      placeholder="Add subtype"
+      type="text"
+      value=""
+    />
+    <button
+      class="button button-add"
+    >
+      Add
+    </button>
+  </div>
+</div>
+`;

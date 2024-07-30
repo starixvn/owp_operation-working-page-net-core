@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
@@ -24,55 +24,181 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Remove="App_Data\Templates\EventPicking.xlsx" />
-    <None Remove="App_Data\Templates\Mismatch-LST format.xlsx" />
+    <Content Remove="Views\Shared\RazorHelper.cshtml" />
+    <Content Remove="Views\Shared\_IFrame.cshtml" />
   </ItemGroup>
-
   <ItemGroup>
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
-    <PackageReference Include="Fanex.Data.SqlServer" Version="4.2.3" />
+    <Compile Remove="app\**" />
+    <Content Remove="app\**" />
+    <EmbeddedResource Remove="app\**" />
+    <None Remove="app\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="App_Data\Templates\EventPicking.xlsx" />
+    <None Remove="App_Data\Templates\ExportOddsCompilerTemplate.xlsx" />
+    <None Remove="App_Data\Templates\ExportWorkingShift.xlsx" />
+    <None Remove="App_Data\Templates\Mismatch-LST format.xlsx" />
+    <None Remove="Views\Shared\RazorHelper.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="wwwroot\shared\owp\daily-working-shift\daily-working-shift-service.js" />
+    <None Include="wwwroot\shared\owp\daily-working-shift\daily-working-shift.js" />
+    <None Include="wwwroot\shared\owp\DocumentTitle\document-title-factory.js" />
+    <None Include="wwwroot\shared\owp\DocumentTitle\document-title.js" />
+    <None Include="wwwroot\shared\owp\EventManagement\Resources\EventInformation\event-information-factory.js" />
+    <None Include="wwwroot\shared\owp\EventManagement\Resources\EventInformation\event-information.js" />
+    <None Include="wwwroot\shared\owp\EventManagement\Resources\Filter\filter-factory.js" />
+    <None Include="wwwroot\shared\owp\EventManagement\Resources\Filter\filter.js" />
+    <None Include="wwwroot\shared\owp\EventManagement\Resources\OddsCompiler\odds-compiler-factory.js" />
+    <None Include="wwwroot\shared\owp\EventManagement\Resources\OddsCompiler\odds-compiler.js" />
+    <None Include="wwwroot\shared\owp\EventManagement\Resources\QuickSearch\quick-search-factory.js" />
+    <None Include="wwwroot\shared\owp\EventManagement\Resources\QuickSearch\quick-search-service.js" />
+    <None Include="wwwroot\shared\owp\EventManagement\Resources\QuickSearch\quick-search.js" />
+    <None Include="wwwroot\shared\owp\EventPicking\event-picking-factory.js" />
+    <None Include="wwwroot\shared\owp\EventPicking\event-picking-factory.js.orig" />
+    <None Include="wwwroot\shared\owp\EventPicking\event-picking.js" />
+    <None Include="wwwroot\shared\owp\images\cd-icons.svg" />
+    <None Include="wwwroot\shared\owp\images\feedback-icon.svg" />
+    <None Include="wwwroot\shared\owp\MessageBox\message-box-factory.js" />
+    <None Include="wwwroot\shared\owp\MessageBox\message-box.js" />
+    <None Include="wwwroot\shared\owp\images\pantone.svg" />
+    <None Include="wwwroot\shared\owp\images\settings.svg" />
+    <None Include="wwwroot\shared\owp\weekly-working-shift\week-picker.js" />
+    <None Include="wwwroot\shared\owp\weekly-working-shift\working-shift-factory.js" />
+    <None Include="wwwroot\shared\owp\weekly-working-shift\working-shift-service.js" />
+    <None Include="wwwroot\shared\owp\weekly-working-shift\working-shift-upload.js" />
+    <None Include="wwwroot\shared\owp\weekly-working-shift\working-shift-weekly.js" />
+    <None Include="wwwroot\shared\owp\weekly-working-shift\working-shift.js" />
+    <None Include="wwwroot\shared\scss\abstracts\_mixins.scss" />
+    <None Include="wwwroot\shared\scss\abstracts\_variables.scss" />
+    <None Include="wwwroot\shared\scss\base\_common.scss" />
+    <None Include="wwwroot\shared\scss\base\_typo.scss" />
+    <None Include="wwwroot\shared\scss\components\_button.scss" />
+    <None Include="wwwroot\shared\scss\components\_form-input.scss" />
+    <None Include="wwwroot\shared\scss\components\_icon.scss" />
+    <None Include="wwwroot\shared\scss\components\_modal.scss" />
+    <None Include="wwwroot\shared\scss\components\_pagination.scss" />
+    <None Include="wwwroot\shared\scss\components\_table.scss" />
+    <None Include="wwwroot\shared\scss\components\_tabs.scss" />
+    <None Include="wwwroot\shared\scss\components\_waves.scss" />
+    <None Include="wwwroot\shared\scss\fonts\montserrat\_style.scss" />
+    <None Include="wwwroot\shared\scss\images\cd-icons.svg" />
+    <None Include="wwwroot\shared\scss\images\feedback-icon.svg" />
+    <None Include="wwwroot\shared\scss\images\pantone.svg" />
+    <None Include="wwwroot\shared\scss\images\settings.svg" />
+    <None Include="wwwroot\shared\scss\layout\_content.scss" />
+    <None Include="wwwroot\shared\scss\layout\_navBar.scss" />
+    <None Include="wwwroot\shared\scss\layout\_sideBar.scss" />
+    <None Include="wwwroot\shared\scss\main.scss" />
+    <None Include="wwwroot\shared\scss\owp.search-autocomplete.scss" />
+    <None Include="wwwroot\shared\scss\pages\DailyWorkingShift.scss" />
+    <None Include="wwwroot\shared\scss\pages\EventInformation.scss" />
+    <None Include="wwwroot\shared\scss\pages\LiveDetail.scss" />
+    <None Include="wwwroot\shared\scss\pages\MaxBetManagement.scss" />
+    <None Include="wwwroot\shared\scss\pages\OddsCompiler.scss" />
+    <None Include="wwwroot\shared\scss\pages\SystemConfiguration.scss" />
+    <None Include="wwwroot\shared\scss\pages\TaskList.scss" />
+    <None Include="wwwroot\shared\scss\pages\WorkingShift.scss" />
+    <None Include="wwwroot\shared\scss\vendors\fanexGrid\fanexGrid-ex.scss" />
+    <None Include="wwwroot\shared\scss\vendors\fonts\roboto\Roboto-Bold.woff2" />
+    <None Include="wwwroot\shared\scss\vendors\fonts\roboto\Roboto-Light.woff2" />
+    <None Include="wwwroot\shared\scss\vendors\fonts\roboto\Roboto-Medium.woff2" />
+    <None Include="wwwroot\shared\scss\vendors\fonts\roboto\Roboto-Regular.woff2" />
+    <None Include="wwwroot\shared\scss\vendors\fonts\roboto\Roboto-Thin.woff2" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\date_picker\_default.date.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\date_picker\_default.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\date_picker\_default.time.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\forms\_checkboxes.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\forms\_file-input.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\forms\_forms.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\forms\_input-fields.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\forms\_radio-buttons.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\forms\_range.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\forms\_select.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\forms\_switches.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_buttons.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_cards.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_carousel.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_chips.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_collapsible.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_color.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_dropdown.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_global.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_grid.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_icons-material-design.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_materialbox.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_mixins.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_modal.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_navbar.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_normalize.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_prefixer.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_preloader.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_roboto.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_sideNav.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_slider.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_table_of_contents.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_tabs.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_toast.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_tooltip.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_typography.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_variables.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\components\_waves.scss" />
+    <None Include="wwwroot\shared\scss\vendors\materialize\materialize.scss" />
+    <None Include="wwwroot\shared\scss\vendors\pickmeup\_pickmeup-ex.scss" />
+    <None Include="wwwroot\shared\scss\vendors\select2\_select2-ex.scss" />
+    <None Include="wwwroot\shared\scss\vendors\_datepicker.scss" />
+    <None Include="wwwroot\shared\scss\vendors\_msgbox.scss" />
+    <None Include="wwwroot\shared\scss\vendors\_sweetalert.scss" />
+    <None Include="wwwroot\shared\scss\vendors\_toastr-ex.scss" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Fanex.Data.ProxyClient" Version="0.0.3" />
     <PackageReference Include="Fanex.Logging.Extensions.AspNetCore" Version="1.0.1" />
-    <PackageReference Include="Fanex.Logging.Extensions.Database" Version="1.0.8" />
-    <PackageReference Include="Fanex.Logging.Sentry.RavenClient" Version="1.0.1.1" />
-    <PackageReference Include="Fanex.NAP.SignIn" Version="2.0.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="7.0.12" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.12" />
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.StackExchangeRedis" Version="7.0.12" />
-    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="7.0.12" />
-    <PackageReference Include="ONEbook.UM" Version="3.1.6" />
+    <PackageReference Include="Fanex.Logging.Sentry.RavenClient" Version="1.0.1.2" />
+    <PackageReference Include="Fanex.NAP.SignIn" Version="2.0.1.2" />
+    <PackageReference Include="LigerShark.WebOptimizer.Core" Version="3.0.405" />
     <PackageReference Include="ONEbook.UM.AspNetCore" Version="3.1.1.1" />
     <PackageReference Include="ONEbook.UM.AspNetCore.Filters" Version="3.1.1.1" />
     <PackageReference Include="ONEbook.UM.Transport" Version="3.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="8.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.StackExchangeRedis" Version="8.0.6" />
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.6" />
+    <PackageReference Include="Quartz.AspNetCore" Version="3.10.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\src\OWP.AccountSetting\OWP.AccountSetting.csproj" />
     <ProjectReference Include="..\src\OWP.AutoAssignment\OWP.AutoAssignment.csproj" />
+    <ProjectReference Include="..\src\OWP.BackgroundWorker\OWP.BackgroundWorker.csproj" />
     <ProjectReference Include="..\src\OWP.EventPicking\OWP.EventPicking.csproj" />
     <ProjectReference Include="..\src\OWP.Event\OWP.Event.csproj" />
     <ProjectReference Include="..\src\OWP.FileUpload\OWP.FileUpload.csproj" />
     <ProjectReference Include="..\src\OWP.Kpi\OWP.Kpi.csproj" />
     <ProjectReference Include="..\src\OWP.MaxbetSetting\OWP.MaxbetSetting.csproj" />
+    <ProjectReference Include="..\src\OWP.MessageManagement\OWP.MessageManagement.csproj" />
     <ProjectReference Include="..\src\OWP.NewLeagueSetting\OWP.NewLeagueSetting.csproj" />
+    <ProjectReference Include="..\src\OWP.NotificationSetting\OWP.NotificationSetting.csproj" />
+    <ProjectReference Include="..\src\OWP.OddsCompiler\OWP.OddsCompiler.csproj" />
     <ProjectReference Include="..\src\OWP.PrematchAssignment\OWP.PrematchAssignment.csproj" />
     <ProjectReference Include="..\src\OWP.RabbitMQ\OWP.RabbitMQ.csproj" />
     <ProjectReference Include="..\src\OWP.ResourceManagement\OWP.ResourceManagement.csproj" />
     <ProjectReference Include="..\src\OWP.AssigneeSuggestionList\OWP.AssigneeSuggestionList.csproj" />
+    <ProjectReference Include="..\src\OWP.TicketSetting\OWP.TicketSetting.csproj" />
     <ProjectReference Include="..\src\OWP.UserManagement\OWP.UserManagement.csproj" />
+    <ProjectReference Include="..\src\OWP.WorkingShift\OWP.WorkingShift.csproj" />
     <ProjectReference Include="..\src\OWP\OWP.csproj" />
-    <ProjectReference Include="..\src\OWP.ApiSyncWorkingShift\OWP.ApiSyncWorkingShift.csproj" />
     <ProjectReference Include="..\src\OWP.Maxbet\OWP.Maxbet.csproj" />
     <ProjectReference Include="..\src\OWP.OtherSport\OWP.OtherSport.csproj" />
     <ProjectReference Include="..\src\OWP.ProductAssignmentReference\OWP.ProductAssignmentReference.csproj" />
-    <ProjectReference Include="..\src\OWP.RecipientGroup\OWP.RecipientGroup.csproj" />
     <ProjectReference Include="..\src\OWP.SimpleDataApi\OWP.SimpleDataApi.csproj" />
-    <ProjectReference Include="..\src\OWP.TicketTypeRecipient\OWP.TicketTypeRecipient.csproj" />
     <ProjectReference Include="..\src\OWP.TicketCenter\OWP.TicketCenter.csproj" />
     <ProjectReference Include="..\src\OWP.OSLeagueSetting\OWP.OSLeagueSetting.csproj" />
     <ProjectReference Include="..\src\OWP.Report\OWP.Report.csproj" />
     <ProjectReference Include="..\src\OWP.LeagueManagement\OWP.LeagueManagement.csproj" />
     <ProjectReference Include="..\src\OWP.LiveDetail\OWP.LiveDetail.csproj" />
-    <ProjectReference Include="..\src\OWP.TicketEvent\OWP.TicketEvent.csproj" />
     <ProjectReference Include="..\src\OWP.AssignmentUpload\OWP.AssignmentUpload.csproj" />
     <ProjectReference Include="..\src\OWP.ProviderArrangement\OWP.ProviderArrangement.csproj" />
     <ProjectReference Include="..\src\OWP.ProviderVerification\OWP.ProviderVerification.csproj" />
+    <ProjectReference Include="..\src\OWP.Application\OWP.Application.csproj" />
   </ItemGroup>
 </Project>

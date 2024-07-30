@@ -1,0 +1,25 @@
+{
+  "TABLE_HEADER": [
+    "No #",
+    "KO Time",
+    "League",
+    "Match",
+    "Ticket",
+    "Remark",
+    "FT Trader",
+    "1H Trader",
+    "Other Product Trader",
+    "Live Assistant",
+    "TV/IPTV",
+    "Provider",
+    "Ready"
+  ],
+  "twoRow": 2,
+  "timeLine": 11,
+  "two": 2,
+  "three": 3,
+  "timeRefreshTable": [60, 90, 120],
+  "timeRefresh": 1000,
+  "intervalInit": 0,
+  "OFF_VR": "OFF VR"
+}

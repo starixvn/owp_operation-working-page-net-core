@@ -1,0 +1,10 @@
+{
+  "validation": "/validate",
+  "submit": "/submit",
+  "OsAssignmentSubmit": "/get-assignment",
+  "lastUpdate": "/last-update",
+  "download": "/download",
+  "updateOfferLive": "update-offer-live",
+  "getAdminSiteLeagueId": "get-adminsite-league-id",
+  "dateRange": 7
+}

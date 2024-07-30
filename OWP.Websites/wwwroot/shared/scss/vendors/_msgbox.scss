@@ -1,0 +1,25 @@
+﻿.msgbox {
+    &.info {
+        background: #fff !important;
+        border-color: #fff !important;
+        width: 400px !important;
+        padding: 4rem;
+    }
+
+    .msgbox-content {
+        font-size: 15px;
+        text-align: center;
+        color: #f8595d;
+        font-weight: 500;
+
+        .mdi {
+            font-size: 35px;
+            color: #f8595d;
+        }
+
+        .text {
+            font-size: 15px;
+            padding: 1rem 0 2rem;
+        }
+    }
+}

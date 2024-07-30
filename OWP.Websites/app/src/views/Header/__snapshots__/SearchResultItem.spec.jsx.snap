@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test <SearchResultItem /> render correct <SearchResultItem /> when props.data is empty and props.keywords not valid 1`] = `<div />`;
+
+exports[`Test <SearchResultItem /> render correct <SearchResultItem /> when props.data is empty and props.keywords valid 1`] = `
+<div>
+  <li
+    class="no-results"
+  >
+    <i
+      class="mdi mdi-emoticon-sad icon"
+    />
+    No results found
+  </li>
+</div>
+`;

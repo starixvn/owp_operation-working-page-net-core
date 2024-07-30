@@ -46,21 +46,22 @@ public class CategorizeRealMatchServicesUnitTests
                     ShiftStartTime = new DateTime(2022, 04, 19, 13, 0, 0),
                     ShiftEndTime = new DateTime(2022, 04, 19, 18, 0, 0)
                 },
-                CategorizedAssignments = new List<AssignmentModel>
-                {
-                    new()
+                CategorizedAssignments =
+                [
+                    new AssignmentModel
                     {
                         LeagueName = "Saba A",
                         EventDateTime = new DateTime(2022, 04, 19, 14, 0, 0),
                         EndTime = new DateTime(2022, 04, 19, 15, 0, 0)
                     },
-                    new()
+
+                    new AssignmentModel
                     {
                         LeagueName = "League B",
                         EventDateTime = new DateTime(2022, 04, 19, 13, 0, 0),
                         EndTime = new DateTime(2022, 04, 19, 16, 0, 0)
                     }
-                }
+                ]
             },
             new () // Available
             {
@@ -70,15 +71,15 @@ public class CategorizeRealMatchServicesUnitTests
                     ShiftStartTime = new DateTime(2022, 04, 19, 13, 0, 0),
                     ShiftEndTime = new DateTime(2022, 04, 19, 18, 0, 0)
                 },
-                CategorizedAssignments = new List<AssignmentModel>
-                {
-                    new()
+                CategorizedAssignments =
+                [
+                    new AssignmentModel
                     {
                         LeagueName = "Saba A",
                         EventDateTime = new DateTime(2022, 04, 19, 17, 0, 0),
                         EndTime = new DateTime(2022, 04, 19, 18, 0, 0)
                     }
-                }
+                ]
             },
             new () // Available multiple
             {
@@ -89,23 +90,24 @@ public class CategorizeRealMatchServicesUnitTests
                     ShiftEndTime = new DateTime(2022, 04, 19, 18, 0, 0),
                     MaxMultipleGames = "2G"
                 },
-                CategorizedAssignments = new List<AssignmentModel>
-                {
-                    new()
+                CategorizedAssignments =
+                [
+                    new AssignmentModel
                     {
                         LeagueName = "League B",
                         EventDateTime = new DateTime(2022, 04, 19, 14, 0, 0),
                         EndTime = new DateTime(2022, 04, 19, 16, 0, 0),
                         MatchType = MatchType.RealMatchLink1G
                     },
-                    new()
+
+                    new AssignmentModel
                     {
                         LeagueName = "Saba B",
                         EventDateTime = new DateTime(2022, 04, 19, 14, 0, 0),
                         EndTime = new DateTime(2022, 04, 19, 15, 0, 0),
                         MatchType = MatchType.SabaLink1G
                     }
-                }
+                ]
             },
             new () // PartiallyFree
             {
@@ -116,16 +118,16 @@ public class CategorizeRealMatchServicesUnitTests
                     ShiftEndTime = new DateTime(2022, 04, 19, 18, 0, 0),
                     MaxMultipleGames = "2G"
                 },
-                CategorizedAssignments = new List<AssignmentModel>
-                {
-                    new()
+                CategorizedAssignments =
+                [
+                    new AssignmentModel
                     {
                         LeagueName = "League B",
                         EventDateTime = new DateTime(2022, 04, 19, 15, 0, 0),
                         EndTime = new DateTime(2022, 04, 19, 16, 0, 0),
                         MatchType = MatchType.RealMatchLink1G
                     }
-                }
+                ]
             },
             new () // PartiallyFree - free in ws
             {

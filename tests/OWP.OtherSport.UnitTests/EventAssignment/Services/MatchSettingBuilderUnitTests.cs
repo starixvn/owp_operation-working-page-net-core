@@ -26,40 +26,56 @@ public class MatchSettingBuilderUnitTests
             {
                 OSMatchId = 111,
                 Sport = "Basketball",
-                TraderMaxbetModels = new List<TraderMaxBetModel>
-                {
-                    new(){ BetTypeName = Bettype.FTOUOE, TraderAssignment = new TraderAssignment{MainTrader="FTOUOE"} },
-                    new(){ BetTypeName = Bettype.FTHDP, TraderAssignment = new TraderAssignment{MainTrader="FTHDP"} }
-                }
+                TraderMaxbetModels =
+                [
+                    new TraderMaxBetModel
+                    {
+                        BetTypeName = Bettype.FTOUOE, TraderAssignment = new TraderAssignment { MainTrader = "FTOUOE" }
+                    },
+                    new TraderMaxBetModel
+                    {
+                        BetTypeName = Bettype.FTHDP, TraderAssignment = new TraderAssignment { MainTrader = "FTHDP" }
+                    }
+                ]
             },
             new()
             {
                 OSMatchId = 222,
                 Sport = "Snooker",
-                TraderMaxbetModels = new List<TraderMaxBetModel>
-                {
-                    new(){ BetTypeName = Bettype.FramesWinnerHDPOUOE, TraderAssignment = new TraderAssignment{MainTrader="FramesWinnerHDPOUOE"} },
-                    new(){ BetTypeName = Bettype.First5FramesHDP, TraderAssignment = new TraderAssignment{MainTrader="First5FramesHDP"} },
-                    new(){ BetTypeName = Bettype.MatchWinnerHDPOU, TraderAssignment = new TraderAssignment{MainTrader="First5FramesHDP"} }
-                }
+                TraderMaxbetModels =
+                [
+                    new TraderMaxBetModel
+                    {
+                        BetTypeName = Bettype.FramesWinnerHDPOUOE,
+                        TraderAssignment = new TraderAssignment { MainTrader = "FramesWinnerHDPOUOE" }
+                    },
+                    new TraderMaxBetModel
+                    {
+                        BetTypeName = Bettype.First5FramesHDP,
+                        TraderAssignment = new TraderAssignment { MainTrader = "First5FramesHDP" }
+                    },
+                    new TraderMaxBetModel
+                    {
+                        BetTypeName = Bettype.MatchWinnerHDPOU,
+                        TraderAssignment = new TraderAssignment { MainTrader = "First5FramesHDP" }
+                    }
+                ]
             }
         };
         var matchSettings = new Dictionary<int, List<MatchSetting>>
         {
-            {   111, new List<MatchSetting>
-                {
-                    new(){BetTypeName=Bettype.FTHDP,MaxBet=2000,Spread=null},
-                    new(){BetTypeName=Bettype.FTOUOE,MaxBet=1000,Spread=0.02m},
-                    new(){BetTypeName=Bettype.FTOE,MaxBet=555,Spread=0.03m}
-                }
+            {   111, [
+                    new MatchSetting { BetTypeName = Bettype.FTHDP, MaxBet = 2000, Spread = null },
+                    new MatchSetting { BetTypeName = Bettype.FTOUOE, MaxBet = 1000, Spread = 0.02m },
+                    new MatchSetting { BetTypeName = Bettype.FTOE, MaxBet = 555, Spread = 0.03m }
+                ]
             },
-            {   222, new List<MatchSetting>
-                {
-                    new(){BetTypeName=Bettype.FramesWinnerOU,MaxBet=2000,Spread=null},
-                    new(){BetTypeName=Bettype.FramesWinnerOE,MaxBet=1000,Spread=0.03m},
-                    new(){BetTypeName=Bettype.FramesWinnerHDPOUOE,MaxBet=2000,Spread=null},
-                    new(){BetTypeName=Bettype.MatchWinnerOU,MaxBet=555,Spread=0.02m}
-                }
+            {   222, [
+                    new MatchSetting { BetTypeName = Bettype.FramesWinnerOU, MaxBet = 2000, Spread = null },
+                    new MatchSetting { BetTypeName = Bettype.FramesWinnerOE, MaxBet = 1000, Spread = 0.03m },
+                    new MatchSetting { BetTypeName = Bettype.FramesWinnerHDPOUOE, MaxBet = 2000, Spread = null },
+                    new MatchSetting { BetTypeName = Bettype.MatchWinnerOU, MaxBet = 555, Spread = 0.02m }
+                ]
             }
         };
 
@@ -69,56 +85,58 @@ public class MatchSettingBuilderUnitTests
             {
                 OSMatchId = 111,
                 Sport = "Basketball",
-                TraderMaxbetModels = new List<TraderMaxBetModel>
-                {
-                    new(){
+                TraderMaxbetModels =
+                [
+                    new TraderMaxBetModel
+                    {
                         BetTypeName = Bettype.FTOUOE,
-                        TraderAssignment = new TraderAssignment{MainTrader="FTOUOE"},
-                        MatchSettings = new List<MatchSettingModel>
-                        {
-                            new(){BetTypeName="OU", MaxBet=1000, Spread="2%"},
-                            new(){BetTypeName="OE", MaxBet=555, Spread="3%"}
-                        }
+                        TraderAssignment = new TraderAssignment { MainTrader = "FTOUOE" },
+                        MatchSettings =
+                        [
+                            new MatchSettingModel { BetTypeName = "OU", MaxBet = 1000, Spread = "2%" },
+                            new MatchSettingModel { BetTypeName = "OE", MaxBet = 555, Spread = "3%" }
+                        ]
                     },
-                    new(){
+
+                    new TraderMaxBetModel
+                    {
                         BetTypeName = Bettype.FTHDP,
-                        TraderAssignment = new TraderAssignment{MainTrader="FTHDP"},
-                        MatchSettings = new List<MatchSettingModel>
-                        {
-                            new(){BetTypeName="", MaxBet=2000, Spread=""}
-                        }
+                        TraderAssignment = new TraderAssignment { MainTrader = "FTHDP" },
+                        MatchSettings = [new MatchSettingModel { BetTypeName = "", MaxBet = 2000, Spread = "" }]
                     }
-                }
+                ]
             },
             new()
             {
                 OSMatchId = 222,
                 Sport = "Snooker",
-                TraderMaxbetModels = new List<TraderMaxBetModel>
-                {
-                    new(){
+                TraderMaxbetModels =
+                [
+                    new TraderMaxBetModel
+                    {
                         BetTypeName = Bettype.FramesWinnerHDPOUOE,
-                        TraderAssignment = new TraderAssignment{MainTrader="FramesWinnerHDPOUOE"},
-                        MatchSettings = new List<MatchSettingModel>
-                        {
-                            new(){BetTypeName="HDP",MaxBet=2000,Spread=""},
-                            new(){BetTypeName="OU",MaxBet=2000,Spread=""},
-                            new(){BetTypeName="OE",MaxBet=1000,Spread="3%"}
-                        }
+                        TraderAssignment = new TraderAssignment { MainTrader = "FramesWinnerHDPOUOE" },
+                        MatchSettings =
+                        [
+                            new MatchSettingModel { BetTypeName = "HDP", MaxBet = 2000, Spread = "" },
+                            new MatchSettingModel { BetTypeName = "OU", MaxBet = 2000, Spread = "" },
+                            new MatchSettingModel { BetTypeName = "OE", MaxBet = 1000, Spread = "3%" }
+                        ]
                     },
-                    new(){
+
+                    new TraderMaxBetModel
+                    {
                         BetTypeName = Bettype.First5FramesHDP,
-                        TraderAssignment = new TraderAssignment{MainTrader="First5FramesHDP"}
+                        TraderAssignment = new TraderAssignment { MainTrader = "First5FramesHDP" }
                     },
-                    new(){
+
+                    new TraderMaxBetModel
+                    {
                         BetTypeName = Bettype.MatchWinnerHDPOU,
-                        TraderAssignment = new TraderAssignment{MainTrader="First5FramesHDP"},
-                        MatchSettings = new List<MatchSettingModel>
-                        {
-                            new(){BetTypeName="OU",MaxBet=555,Spread="2%"}
-                        }
+                        TraderAssignment = new TraderAssignment { MainTrader = "First5FramesHDP" },
+                        MatchSettings = [new MatchSettingModel { BetTypeName = "OU", MaxBet = 555, Spread = "2%" }]
                     }
-                }
+                ]
             }
         };
 

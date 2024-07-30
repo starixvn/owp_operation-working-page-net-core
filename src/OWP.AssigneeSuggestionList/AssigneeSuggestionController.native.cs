@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Handlers;
@@ -9,7 +8,6 @@ namespace OWP.AssigneeSuggestionList;
 
 [Route("api/[controller]")]
 [ApiController]
-[EnableCors]
 [AllowAnonymous]
 public class AssigneeSuggestionController : ControllerBase
 {

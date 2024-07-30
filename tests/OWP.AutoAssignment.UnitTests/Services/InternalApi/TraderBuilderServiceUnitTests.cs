@@ -58,8 +58,8 @@ public class TraderBuilderServiceUnitTests
     }
 
     public List<ExportMatchModel> ExpectedModel()
-        => new()
-        {
+        =>
+        [
             new ExportMatchModel
             {
                 InfoSiteMatchId = 100,
@@ -70,6 +70,7 @@ public class TraderBuilderServiceUnitTests
                 TraderHDP = "Ti",
                 TraderOU = "Ti"
             },
+
             new ExportMatchModel
             {
                 InfoSiteMatchId = 101,
@@ -80,11 +81,11 @@ public class TraderBuilderServiceUnitTests
                 TraderHDP = "Ti",
                 TraderOU = "Ti"
             }
-        };
+        ];
 
     public List<AutoAssignmentResultModel> MockAssignmentResultModels()
-        => new()
-        {
+        =>
+        [
             new AutoAssignmentResultModel
             {
                 Bettype = 0,
@@ -96,6 +97,7 @@ public class TraderBuilderServiceUnitTests
                 UserId_FTHDP = 456,
                 UserId_FTOU = 456
             },
+
             new AutoAssignmentResultModel
             {
                 Bettype = -3,
@@ -107,11 +109,11 @@ public class TraderBuilderServiceUnitTests
                 UserId_FTHDP = 456,
                 UserId_FTOU = 456
             }
-        };
+        ];
 
     public List<TraderExportInfo> MockTraderExportInfos()
-        => new()
-        {
+        =>
+        [
             new TraderExportInfo
             {
                 InfoSiteMatchId = 100,
@@ -121,6 +123,7 @@ public class TraderBuilderServiceUnitTests
                 TraderFTHDP = "Ti",
                 TraderFTOU = "Ti"
             },
+
             new TraderExportInfo
             {
                 InfoSiteMatchId = 101,
@@ -130,5 +133,5 @@ public class TraderBuilderServiceUnitTests
                 TraderFTHDP = "Ti",
                 TraderFTOU = "Ti"
             }
-        };
+        ];
 }

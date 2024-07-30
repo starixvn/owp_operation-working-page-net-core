@@ -13,7 +13,7 @@ public class InfoSiteMatchUpdaterImp : InfoSiteMatchUpdater
 {
     private readonly SyncInfoSiteService syncInfoSiteService;
 
-    private static readonly List<MainMatchBackupModel> mainMatchBackupModel = new();
+    private static readonly List<MainMatchBackupModel> mainMatchBackupModel = [];
 
     public InfoSiteMatchUpdaterImp(SyncInfoSiteService syncInfoSiteIdService)
     {

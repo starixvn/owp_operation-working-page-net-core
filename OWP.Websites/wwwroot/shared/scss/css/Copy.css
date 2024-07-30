@@ -1,0 +1,48 @@
+﻿#toast-container.toast-coppy {
+    height: 100%;
+    top: 0;
+    right: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+#toast-container.toast-coppy .toast-info {
+    position: relative !important;
+}
+
+#toast-container.toast-coppy .toast {
+    display: block;
+    position: relative !important;
+    margin: 0 auto;
+    padding: 0;
+    text-align: center;
+    height: auto;
+    width: auto;
+    border: 0;
+    background: transparent;
+}
+
+#toast-container.toast-coppy .toast:before {
+    display: none;
+}
+
+#toast-container.toast-coppy .toast .toast-message {
+    position: relative;
+    top: auto;
+    left: auto;
+    padding: 0 28px;
+    transform: translate(0, 0);
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 0px 0px 5px 5px;
+    display: inline-flex;
+    font-size: 15px;
+    height: 55px;
+    align-items: center;
+}
+
+#toast-container.toast-coppy .toast:after {
+    display: none;
+}

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using OWP.Constants;
@@ -14,7 +13,6 @@ using Fanex.NAP.Client.Helpers.Business;
 [Route("api/live-detail/match-setting")]
 [ApiController]
 [Authorize]
-[EnableCors]
 public class MatchSettingController : ControllerBase
 {
     private readonly MessageClient messageClient;

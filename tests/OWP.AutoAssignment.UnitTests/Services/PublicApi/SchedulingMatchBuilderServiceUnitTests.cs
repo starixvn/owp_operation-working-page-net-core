@@ -60,25 +60,25 @@ public class SchedulingMatchBuilderServiceUnitTests
 
         var expected = new SchedulingMatch
         {
-            Real = new List<RealMatchSender>
-            {
-                new()
+            Real =
+            [
+                new RealMatchSender
                 {
-                    KOTime= KOTine,
-                    MatchId=1234,
-                    MaxBetMainMatch=12000
+                    KOTime = KOTine,
+                    MatchId = 1234,
+                    MaxBetMainMatch = 12000
                 }
-            },
-            Saba = new List<SabaMatchSender>
-            {
-                new()
+            ],
+            Saba =
+            [
+                new SabaMatchSender
                 {
-                    KOTime= KOTine,
-                    MatchId=9999,
-                    SabaType=1,
-                    MaxBet=12000
+                    KOTime = KOTine,
+                    MatchId = 9999,
+                    SabaType = 1,
+                    MaxBet = 12000
                 }
-            }
+            ]
         };
 
         // Assert

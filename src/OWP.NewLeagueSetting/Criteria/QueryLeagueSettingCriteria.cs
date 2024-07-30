@@ -1,5 +1,7 @@
 ﻿
 
+using Fanex.Data.Repository;
+
 namespace OWP.NewLeagueSetting.Criteria;
 public class QueryLeagueSettingCriteria : CriteriaBase
 {

@@ -1,0 +1,51 @@
+﻿@import "../abstracts/variables";
+
+table {
+    input[type=text] {
+        border-bottom-color: transparent;
+    }
+
+    .editable input[type=text] {
+        border-bottom-color: #ddd;
+    }
+}
+
+div.tagsinput {
+    border: none;
+    background-color: transparent;
+    height: initial !important;
+    min-height: initial !important;
+    padding-left: 0;
+
+    span.tag {
+        border-color: transparent;
+        background: #e1e1e1;
+        color: #333;
+        margin-bottom: 0;
+        padding: 0 5px;
+
+        a {
+            color: #888;
+        }
+    }
+
+    input {
+        height: initial;
+        padding: 0;
+        margin-bottom: 0;
+
+        &:not([type]):focus:not([readonly]) {
+            border-color: transparent;
+            box-shadow: none;
+        }
+    }
+}
+
+.editable .tagsinput {
+    border-bottom: 1px solid #ddd;
+
+    &.focused {
+        border-bottom: 1px solid $color-input-focus;
+        box-shadow: 0 1px 0 0 $color-input-focus;
+    }
+}

@@ -12,6 +12,10 @@ public class MessageDetailViewModel
 
     public string Username { get; set; }
 
+    public string AvatarFileName { get; set; }
+
+    public string Extension { get; set; }
+
     public int? FileId { get; set; }
 
     public bool IsSaved { get; set; }
@@ -30,4 +34,25 @@ public class MessageDetailViewModel
 
     public DateTime QuoteCreatedDate { get; set; }
 
+    public IList<MessageReactIcon> MessageReactIcons { get; set; } = new List<MessageReactIcon>();
+}
+
+public class MessageReactIcon
+{
+    public int MessageId { get; set; }
+
+    public string IconKey { get; set; }
+
+    public int ReactUserId { get; set; }
+
+    public string ReactUserName { get; set; }
+
+    public string ReactAvatarName { get; set; }
+}
+
+public class ShowMoreMessageModel
+{
+    public bool CanShowMoreMessage { get; set; }
+
+    public IEnumerable<MessageDetailViewModel> Messages { get; set; }
 }

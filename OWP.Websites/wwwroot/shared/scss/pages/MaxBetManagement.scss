@@ -1,0 +1,309 @@
+﻿.btn-add {
+    margin-bottom: 10px;
+}
+
+.option-truncate {
+    width: 200px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.checkbox-active {
+    margin-top: 15px;
+    margin-right: 20px;
+}
+
+.grid-title {
+    height: 38px;   
+}
+
+//--------------------- Table Style ----------------------//
+.table {
+    // ------- Table Column Specific Dimension ----- //
+    .league {
+        width: 220px;
+    }
+
+    .id {
+        width: 30px;
+    }
+
+    .option {
+        width: 130px;
+    }
+
+    .update {
+        width: 150px;
+    }
+
+    .active-league {
+        width: 60px;
+    }
+
+    .table-fixed {
+        table-layout: fixed;
+        width: 2400px;
+        white-space: normal;
+    }
+}
+
+table {
+    td {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        position: relative;
+    }
+
+    .th-col-odd {
+        background: #fde0ce;
+    }
+
+    .th-col-even {
+        background: #ced3d9;
+    }
+
+    .col-odd {
+        background: #ffeee4;
+    }
+
+    .blacklist {
+        td {
+            background: #e9e9e9 !important;
+
+            &.col-odd {
+                background: #e8e0db !important;
+            }
+        }
+    }
+}
+
+@-moz-document url-prefix() {
+    .freegrid .grid-fixed-table {
+        border-collapse: separate;
+    }
+}
+
+#max-bet-grid {
+    &.freegrid td {
+        vertical-align: bottom;
+        padding-bottom: 2px;
+
+        &.align-middle {
+            vertical-align: middle;
+        }
+    }
+}
+
+
+.freegrid .highlight-row.freegrid-even:hover td {
+    background: #fafafa;
+}
+
+.freegrid tr.highlight-row:hover td {
+    background: #fff;
+}
+
+// -------------- Checkbox - Radio Button - Input ---------------//
+
+.checkbox {
+    position: absolute;
+    top: 50%;
+    margin: -12px 0 0 -15px;
+    left: 50%;
+
+    @media screen and (min-width:0\0) {
+        top: auto;
+    }
+}
+
+.dropdown-content.editTable {
+    width: 36rem !important;
+    max-height: 585px !important;
+    top: 19px !important;
+
+    @media screen and (max-height: 768px) {
+        max-height: 390px !important;
+    }
+
+    [type="checkbox"] + label {
+        top: 0px;
+    }
+}
+
+.radio-button {
+    //margin-bottom: 7px;
+    padding: 5px 13px;
+
+    &:hover {
+        background: #eeeeee;
+    }
+
+    [type="radio"]:not(:checked) + label,
+    [type="radio"]:checked + label {
+        font-size: 13px;
+        color: #444;
+    }
+
+    [type="radio"]:not(:checked) + label:before, [type="radio"]:not(:checked) + label:after {
+        border-color: #b8b8b8;
+    }
+
+    [type="radio"].with-gap:checked + label:after {
+        background-color: #1e88e5;
+    }
+
+    [type="radio"].with-gap:checked + label:before,
+    [type="radio"].with-gap:checked + label:after {
+        border: 2px solid #1e88e5;
+    }
+}
+
+.input_field.remarks {
+    height: 20px;
+    border-bottom: 1px solid #d1d1d1;
+}
+
+// ------------------ Icon ------------------ //
+
+.icon {
+    transition: background 0.3s ease;
+
+    &.right {
+        margin-left: 0;
+    }
+}
+
+.export-excel {
+    color: #00a659;
+    font-size: 0;
+
+    .icon {
+        font-size: 20px;
+        vertical-align: middle;
+        color: #00a659;
+    }
+
+    span {
+        font-size: 13px;
+        vertical-align: middle;
+        text-decoration: underline;
+    }
+
+    &:hover {
+        color: darken(#00a659, 10%);
+    }
+}
+
+// ----------------- Popup Modal --------------- //
+.modal {
+    .modal-header {
+        overflow: hidden;
+
+        .modal-title {
+            float: left;
+            font-size: 18px;
+            padding-left: 16px;
+            padding-top: 14px;
+        }
+    }
+
+    .modal-content {
+        margin-top: 10px;
+    }
+
+    .modal-footer {
+        .btn {
+            margin-left: 12px;
+        }
+    }
+
+    &.modal-option {
+        height: 500px;
+        max-height: 500%;
+
+        @media screen and (max-height: 768px) {
+            top: 10% !important;
+        }
+
+        .modal-header {
+            position: fixed;
+            width: 100%;
+            height: 45px;
+        }
+
+        .modal-content {
+            position: absolute;
+            margin-top: 45px;
+            width: 100%;
+            text-align: left;
+            padding: 0;
+            height: 400px;
+            overflow-y: scroll;
+
+            .new-option {
+                display: inline-block;
+                vertical-align: middle;
+                padding-bottom: 0;
+
+                .input-field {
+                    display: inline-block;
+                    width: 150px;
+                    height: 25px;
+                    margin-top: -20px;
+                    margin-left: -4px;
+                    vertical-align: middle;
+                    color: #1e88e5;
+                }
+
+                .select-wrapper.option-group {
+                    width: 150px;
+                    display: inline-block;
+                    vertical-align: middle;
+                    padding-left: 13px;
+                    top: -12px;
+
+                    span.caret {
+                        top: 16px;
+                        right: 2px;
+                    }
+                }
+
+                &.dropup {
+                    .select-wrapper.option-group {
+                        top: -3px;
+
+                        span.caret {
+                            top: 10px;
+                            right: 2px;
+                        }
+                    }
+
+                    .select-dropdown {
+                        top: auto !important;
+                        bottom: 9px !important;
+                    }
+                }
+            }
+
+            .select-wrapper.option-group {
+                width: 150px;
+                display: inline-block;
+                vertical-align: middle;
+                padding-left: 13px;
+                top: -3px;
+
+                span.caret {
+                    top: 10px;
+                    right: 2px;
+                }
+            }
+        }
+
+        .modal-footer {
+            position: absolute;
+            height: 60px;
+            bottom: 0;
+        }
+    }
+}

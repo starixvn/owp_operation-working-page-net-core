@@ -6,10 +6,7 @@ using OWP.Kpi.LA.ViewModels;
 
 namespace OWP.Kpi.LA.Handlers;
 
-public class CalculateKpiRequest : QueryModel, IRequest<DataViewModel>
-{
-
-}
+public class CalculateKpiRequest : QueryModel, IRequest<DataViewModel>;
 
 public class CalculateKpiHandler : IRequestHandler<CalculateKpiRequest, DataViewModel>
 {

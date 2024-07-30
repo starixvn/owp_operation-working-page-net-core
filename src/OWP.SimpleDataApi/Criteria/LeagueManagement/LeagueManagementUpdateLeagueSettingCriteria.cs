@@ -1,5 +1,5 @@
-﻿using Fanex.Data.Repository;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
+using Fanex.Data.Repository;
 
 namespace OWP.SimpleDataApi.Criteria.LeagueManagement;
 

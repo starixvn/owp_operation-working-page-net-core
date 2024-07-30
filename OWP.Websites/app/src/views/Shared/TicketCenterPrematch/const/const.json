@@ -1,0 +1,25 @@
+{
+  "EVENT_TYPE": {
+    "LEAGUE": 1,
+    "MATCH": 2,
+    "OTHER": 3,
+    "SUPPORT": 4,
+    "LIVE_INCIDENT": 5,
+    "LOG_WORK": 6
+  },
+  "TICKET_TYPE": {
+    "EVENT_CHECKING": 1,
+    "GROUP_CHAT": 2,
+    "TICKET_SUPPORT": 3,
+    "LIVE_INCIDENT": 4,
+    "LOG_WORK": 5
+  },
+  "URL": {
+    "GET_TICKET_DETAIL_SUPPORT": "ticket-detail/get-support",
+    "GET_TICKET_DETAIL_OTHER": "ticket-detail/get-other",
+    "GET_TICKET_DETAIL_LEAGUE": "ticket-detail/get-league",
+    "GET_TICKET_DETAIL_MATCH": "ticket-detail/get-match",
+    "GET_TICKET_DETAIL_LIVE_INCIDENT": "ticket-detail/get-live-incident",
+    "GET_TICKET_DETAIL_LOG_WORK": "ticket-detail/get-log-work"
+  }
+}

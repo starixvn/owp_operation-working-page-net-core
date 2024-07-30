@@ -249,11 +249,11 @@ public class SabaMatchesServicesUnitTest
                 LeagueName = "Saba A",
                 EventDateTime = new DateTime(2023, 03, 11, 2, 0, 0),
                 MatchType = MatchType.SabaLink2G,
-                GroupAssignmentModels = new List<AssignmentModel>
-                {
-                    new(){ MaxbetHDP = 100000, LeagueName = "Saba A", MatchType = MatchType.Saba15Mins},
-                    new(){ MaxbetHDP = 200000, LeagueName = "Saba A" ,MatchType = MatchType.Saba15Mins}
-                }
+                GroupAssignmentModels =
+                [
+                    new AssignmentModel { MaxbetHDP = 100000, LeagueName = "Saba A", MatchType = MatchType.Saba15Mins },
+                    new AssignmentModel { MaxbetHDP = 200000, LeagueName = "Saba A", MatchType = MatchType.Saba15Mins }
+                ]
             },
             new()
             {
@@ -266,7 +266,7 @@ public class SabaMatchesServicesUnitTest
         };
         var expected = new WorkingSchedule
         {
-            Today_14h = new List<AssignmentCell> { new() { Text = "*V", TextColor = "#444444", Color = "#FCD5B4", KoAssignment = new DateTime(2023, 03, 10, 14, 0, 0), } },
+            Today_14h = new List<AssignmentCell> { new() { Text = "*V", TextColor = "#444444", Color = "#FCD5B4", KoAssignment = new DateTime(2023, 03, 10, 14, 0, 0) } },
             Yesterday_02h = new List<AssignmentCell> { new() { Text = "*V/5", TextColor = "#FFFFFF", Color = "#7030A0", KoAssignment = new DateTime(2023, 03, 10, 2, 0, 0) } },
             Today_02h = new List<AssignmentCell> { new() { Text = "*V/15*2", TextColor = "#FFFFFF", Color = "#A34262", KoAssignment = new DateTime(2023, 03, 11, 2, 0, 0) } },
             Tomorrow_15h = new List<AssignmentCell> { new() { Text = "Error!", TextColor = "#FF0000", Color = "#FFFFFF", KoAssignment = new DateTime(2023, 03, 11, 15, 30, 0) } }

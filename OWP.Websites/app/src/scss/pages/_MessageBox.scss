@@ -1,0 +1,246 @@
+@import '../abstracts/variables';
+
+.message-box {
+  margin: 1rem;
+  padding: 1rem;
+  border-radius: 3px;
+  background: #fff;
+  box-shadow: 0 1px 1.5px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.12);
+}
+
+.search-group {
+  position: relative;
+  border: 1px solid #dbdbdb;
+  border-bottom: 0;
+
+  .icon-search {
+    position: absolute;
+    top: 5px;
+    left: 10px;
+  }
+
+  .icon-clear {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    cursor: pointer;
+    color: #a3a3a3;
+  }
+
+  .search-field {
+    width: 100%;
+    border: 0;
+    height: 25px;
+    padding-left: 3.5rem;
+    background: #f1f1f1;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+.message-list {
+  border: 1px solid #dbdbdb;
+
+  &.unread {
+    font-weight: bold;
+  }
+
+  &.no-data {
+    padding: 1rem;
+    text-align: center;
+  }
+}
+
+.message-item {
+  display: flex;
+  flex: 0 1 auto;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 1rem;
+  cursor: pointer;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid #dbdbdb;
+  }
+
+  &.unread {
+    font-weight: bold;
+  }
+
+  > span {
+    flex: 0 0 auto;
+  }
+
+  .icon {
+    flex-basis: 2.5rem;
+    max-width: 2.5rem;
+    height: 2.5rem !important;
+    line-height: 1.7;
+    margin-right: 10px;
+    align-items: center;
+    text-align: center;
+    border-radius: 50%;
+    background: #34b8df;
+    font-size: inherit !important;
+
+    .mdi-icon {
+      color: #fff;
+    }
+  }
+
+  .date {
+    flex-basis: 12rem;
+    max-width: 12rem;
+  }
+
+  .time {
+    flex-basis: 6.5rem;
+    max-width: 6.5rem;
+  }
+
+  .iconImportant {
+    flex-basis: 3rem;
+    max-width: 3rem;
+    text-align: center;
+
+    .mdi-icon {
+      display: block;
+      fill: #fe5f03;
+    }
+  }
+
+  .content {
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    max-width: 100%;
+  }
+}
+
+.paging-group {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 1rem;
+
+  .pagination {
+    border-radius: 2px;
+    .basic-multi-select {
+      width: 60px;
+      display: inline-block;
+      padding: 0 5px;
+    }
+    .select__menu {
+      //top: 13px;
+      min-width: 70px !important;
+      border-radius: 2px;
+
+      .select__option {
+        text-align: center;
+        padding: 4px 10px;
+      }
+    }
+
+    // .select__value-container {
+    //   position: relative;
+
+    //   &:after {
+    //     content: '';
+    //     position: absolute;
+    //     display: block;
+    //     right: 2px;
+    //     width: 8px;
+    //     height: 4px;
+    //     border-top: solid 4px #444;
+    //     border-left: solid 4px transparent;
+    //     border-right: solid 4px transparent;
+    //   }
+    // }
+
+    .page-size {
+      padding-top: 7px;
+      padding-right: 20px;
+    }
+  }
+
+  .page-link {
+    padding: 0.5rem 1rem;
+    line-height: 1.5;
+    color: #333;
+
+    &:focus {
+      box-shadow: none;
+    }
+  }
+
+  .active .page-link {
+    background: #f1f1f1;
+    border-color: #c8ced3;
+    color: $primary-color;
+  }
+}
+
+.loading-process {
+  background: rgba(255, 255, 255, 0.7) no-repeat;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  z-index: 9999;
+  top: 64px;
+  left: 70px;
+
+  .icon-loading {
+    position: absolute;
+    top: 30%;
+    width: 64px;
+    height: 64px;
+    left: 50%;
+    margin: -10px 0 0 -70px;
+  }
+}
+// message no pages number
+.message-list + .paging-group {
+  padding: 20px 0 4px;
+  .pagination {
+    width: 100%;
+    position: relative;
+    justify-content: center;
+    .page-size {
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 1px 0 0 0;
+    }
+  }
+}
+.paging-move-btn {
+  button {
+    border: 1px solid #1e88e5;
+    border-radius: 2px;
+    font-size: 12px;
+    color: #1e88e5;
+    background-color: transparent;
+    appearance: none;
+    margin: 0 5px;
+    padding: 3px 19px;
+    outline: none;
+    &[disabled] {
+      opacity: 0.3;
+      background-color: transparent;
+      &:hover {
+        background-color: transparent;
+        box-shadow: none;
+        color: #1e88e5;
+      }
+    }
+    &:hover {
+      background-color: #1e88e5;
+      color: #ffffff;
+      box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
+    }
+  }
+}

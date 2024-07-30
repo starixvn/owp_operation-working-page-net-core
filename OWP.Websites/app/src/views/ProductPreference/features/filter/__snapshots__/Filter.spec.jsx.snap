@@ -1,0 +1,159 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Filter component should render correctly 1`] = `
+<div>
+  <div
+    class="filter "
+  >
+    <div
+      class="filter-control user"
+    >
+      <span>
+        User 
+      </span>
+      <input
+        class="input-field"
+        placeholder="Account Name or Nick Name"
+        value=""
+      />
+    </div>
+    <div
+      class="multi-select-dropdown undefined null"
+    >
+      <div
+        class="label"
+      >
+        Role
+      </div>
+      <div
+        class="rmsc multi-select "
+      >
+        <div
+          aria-disabled="false"
+          aria-labelledby="Select..."
+          aria-readonly="true"
+          class="dropdown-container"
+          tabindex="0"
+        >
+          <div
+            class="dropdown-heading"
+          >
+            <div
+              class="dropdown-heading-value"
+            >
+              <span>
+                All
+              </span>
+            </div>
+            <svg
+              class="dropdown-heading-dropdown-arrow gray"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-width="2"
+              width="24"
+            >
+              <path
+                d="M6 9L12 15 18 9"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="multi-select-dropdown undefined null"
+    >
+      <div
+        class="label"
+      >
+        Section
+      </div>
+      <div
+        class="rmsc multi-select "
+      >
+        <div
+          aria-disabled="false"
+          aria-labelledby="Select..."
+          aria-readonly="true"
+          class="dropdown-container"
+          tabindex="0"
+        >
+          <div
+            class="dropdown-heading"
+          >
+            <div
+              class="dropdown-heading-value"
+            >
+              <span>
+                All
+              </span>
+            </div>
+            <svg
+              class="dropdown-heading-dropdown-arrow gray"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-width="2"
+              width="24"
+            >
+              <path
+                d="M6 9L12 15 18 9"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="multi-select-dropdown undefined null"
+    >
+      <div
+        class="label"
+      >
+        Location
+      </div>
+      <div
+        class="rmsc multi-select "
+      >
+        <div
+          aria-disabled="false"
+          aria-labelledby="Select..."
+          aria-readonly="true"
+          class="dropdown-container"
+          tabindex="0"
+        >
+          <div
+            class="dropdown-heading"
+          >
+            <div
+              class="dropdown-heading-value"
+            >
+              <span>
+                All
+              </span>
+            </div>
+            <svg
+              class="dropdown-heading-dropdown-arrow gray"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-width="2"
+              width="24"
+            >
+              <path
+                d="M6 9L12 15 18 9"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button
+      class="button-submit"
+    >
+      Search
+    </button>
+  </div>
+</div>
+`;

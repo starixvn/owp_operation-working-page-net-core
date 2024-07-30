@@ -1,0 +1,12 @@
+body {
+  margin: auto;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.welcome {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

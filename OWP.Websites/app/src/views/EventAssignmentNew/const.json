@@ -1,0 +1,277 @@
+{
+  "MATCH_STATUS": {
+    "LIVE": "Live",
+    "IN_PLAY": "In-play",
+    "COMPLETED": "Completed",
+    "CANCEL": "Cancel",
+    "SUSPENDED": "Suspended",
+    "POSTPONED": "Postponed"
+  },
+  "ASSIGNMENT_BETTYPE": {
+    "Handicap": 1,
+    "Handicap1st": 7,
+    "OverUnder": 3,
+    "OverUnder1st": 8,
+    "OneXTwo": 5,
+    "OneXTwo1st": 15,
+    "Specific15Mins": 1,
+    "Specific10Mins": 1,
+    "FM": 1,
+    "AIO": 1,
+    "LA": -1002
+  },
+  "TABLE": {
+    "HEADER": {
+      "MATCH_NO": {
+        "COLUMN_KEY": "MatchNo",
+        "FIXED": true,
+        "NAME": "MatchNo",
+        "HEADER_NAME": "No#",
+        "WIDTH": 60,
+        "IS_CAN_FILTER": true
+      },
+      "KO_TIME": {
+        "COLUMN_KEY": "KickOffTime",
+        "FIXED": true,
+        "NAME": "KickOffTime",
+        "HEADER_NAME": "KO Time",
+        "WIDTH": 90,
+        "IS_CAN_FILTER": true
+      },
+      "EVENT": {
+        "COLUMN_KEY": "Event",
+        "FIXED": true,
+        "NAME": "Event",
+        "HEADER_NAME": "Event",
+        "WIDTH": 300,
+        "IS_CAN_FILTER": true
+      },
+      "TICKET": {
+        "COLUMN_KEY": "Ticket",
+        "NAME": "Ticket",
+        "HEADER_NAME": "Ticket",
+        "IS_CAN_FILTER": false,
+        "WIDTH": 60,
+        "FIXED": false
+      },
+      "IP_TV": {
+        "COLUMN_KEY": "TV",
+        "NAME": "TV/IPTV",
+        "HEADER_NAME": "TV/IPTV",
+        "WIDTH": 150,
+        "IS_CAN_FILTER": true,
+        "FIXED": false
+      },
+      "PROVIDER": {
+        "COLUMN_KEY": "Provider",
+        "NAME": "Provider",
+        "HEADER_NAME": "Provider",
+        "WIDTH": 180,
+        "IS_CAN_FILTER": true,
+        "FIXED": false
+      },
+      "MB": {
+        "COLUMN_KEY": "MaxBet_Spread",
+        "NAME": "MaxBet_Spread",
+        "HEADER_NAME": "MB",
+        "WIDTH": 115,
+        "IS_CAN_FILTER": true,
+        "FIXED": false
+      },
+      "REMARK": {
+        "COLUMN_KEY": "Remark",
+        "NAME": "Remark",
+        "HEADER_NAME": "Remark",
+        "WIDTH": 200,
+        "IS_CAN_FILTER": true,
+        "FIXED": false
+      },
+      "NOTE": {
+        "COLUMN_KEY": "Note",
+        "FIXED": false,
+        "NAME": "Note",
+        "HEADER_NAME": "Note",
+        "WIDTH": 60,
+        "IS_CAN_FILTER": true
+      },
+      "HDP": {
+        "COLUMN_KEY": "Handicap",
+        "NAME": "Handicap",
+        "HEADER_NAME": "HDP",
+        "WIDTH": 140,
+        "IS_CAN_FILTER": true,
+        "FIXED": false
+      },
+      "OU": {
+        "COLUMN_KEY": "OverUnder",
+        "NAME": "OverUnder",
+        "HEADER_NAME": "O/U",
+        "WIDTH": 140,
+        "IS_CAN_FILTER": true,
+        "FIXED": false
+      },
+      "FIRST_HALF_HDP": {
+        "COLUMN_KEY": "Handicap1st",
+        "NAME": "Handicap1st",
+        "HEADER_NAME": "1H HDP",
+        "WIDTH": 140,
+        "IS_CAN_FILTER": true,
+        "FIXED": false
+      },
+      "FIRST_HALF_OU": {
+        "COLUMN_KEY": "OverUnder1st",
+        "NAME": "OverUnder1st",
+        "HEADER_NAME": "1H O/U",
+        "WIDTH": 140,
+        "IS_CAN_FILTER": true,
+        "FIXED": false
+      },
+      "ONE_X_TWO": {
+        "COLUMN_KEY": "OneXTwo",
+        "NAME": "OneXTwo",
+        "HEADER_NAME": "1X2",
+        "WIDTH": 140,
+        "IS_CAN_FILTER": true,
+        "FIXED": false
+      },
+      "FIRST_HALF_ONE_X_TWO": {
+        "COLUMN_KEY": "OneXTwo1st",
+        "NAME": "OneXTwo1st",
+        "HEADER_NAME": "1H 1X2",
+        "WIDTH": 140,
+        "IS_CAN_FILTER": true,
+        "FIXED": false
+      },
+      "FIFTEEN_MINS": {
+        "COLUMN_KEY": "Specific15Mins",
+        "NAME": "Specific15Mins",
+        "HEADER_NAME": "15 mins",
+        "WIDTH": 140,
+        "IS_CAN_FILTER": true,
+        "FIXED": false
+      },
+      "TEN_MINS": {
+        "COLUMN_KEY": "Specific10Mins",
+        "NAME": "Specific10Mins",
+        "HEADER_NAME": "10 mins",
+        "WIDTH": 140,
+        "IS_CAN_FILTER": true,
+        "FIXED": false
+      },
+      "FM": {
+        "COLUMN_KEY": "FM",
+        "NAME": "FM",
+        "HEADER_NAME": "FM",
+        "WIDTH": 140,
+        "IS_CAN_FILTER": true,
+        "FIXED": false
+      },
+      "AIO": {
+        "COLUMN_KEY": "AIO",
+        "NAME": "AIO",
+        "HEADER_NAME": "AIO",
+        "WIDTH": 140,
+        "IS_CAN_FILTER": true,
+        "FIXED": false
+      },
+      "LA": {
+        "COLUMN_KEY": "LA",
+        "NAME": "LA",
+        "HEADER_NAME": "LA",
+        "WIDTH": 140,
+        "IS_CAN_FILTER": true,
+        "FIXED": false
+      }
+    },
+    "ROW_HEIGHT": 100,
+    "WIDTH": 1810,
+    "DEFAULT_HEIGHT": 125,
+    "HEIGHT": 750,
+    "MAX_HEIGHT": 750,
+    "HEADER_HEIGHT": 30,
+    "FILTER_OFFSET": 200
+  },
+  "COLUMN_FULL_BETTYPE": [
+    {
+      "COLUMN_KEY": "Handicap",
+      "NAME": "Handicap",
+      "HEADER_NAME": "HDP",
+      "WIDTH": 140,
+      "IS_CAN_FILTER": true
+    },
+    {
+      "COLUMN_KEY": "OverUnder",
+      "NAME": "OverUnder",
+      "HEADER_NAME": "O/U",
+      "WIDTH": 140,
+      "IS_CAN_FILTER": true
+    },
+    {
+      "COLUMN_KEY": "Handicap1st",
+      "NAME": "Handicap1st",
+      "HEADER_NAME": "1H HDP",
+      "WIDTH": 140,
+      "IS_CAN_FILTER": true
+    },
+    {
+      "COLUMN_KEY": "OverUnder1st",
+      "NAME": "OverUnder1st",
+      "HEADER_NAME": "1H O/U",
+      "WIDTH": 140,
+      "IS_CAN_FILTER": true
+    },
+    {
+      "COLUMN_KEY": "OneXTwo",
+      "NAME": "OneXTwo",
+      "HEADER_NAME": "1X2",
+      "WIDTH": 140,
+      "IS_CAN_FILTER": true
+    },
+    {
+      "COLUMN_KEY": "OneXTwo1st",
+      "NAME": "OneXTwo1st",
+      "HEADER_NAME": "1H 1X2",
+      "WIDTH": 140,
+      "IS_CAN_FILTER": true
+    },
+    {
+      "COLUMN_KEY": "Specific15Mins",
+      "NAME": "Specific15Mins",
+      "HEADER_NAME": "15 mins",
+      "WIDTH": 140,
+      "IS_CAN_FILTER": true
+    },
+
+    {
+      "COLUMN_KEY": "Specific10Mins",
+      "NAME": "Specific10Mins",
+      "HEADER_NAME": "10 mins",
+      "WIDTH": 140,
+      "IS_CAN_FILTER": true
+    },
+    {
+      "COLUMN_KEY": "FM",
+      "NAME": "FM",
+      "HEADER_NAME": "FM",
+      "WIDTH": 140,
+      "IS_CAN_FILTER": true
+    },
+    {
+      "COLUMN_KEY": "AIO",
+      "NAME": "AIO",
+      "HEADER_NAME": "AIO",
+      "WIDTH": 140,
+      "IS_CAN_FILTER": true
+    },
+    {
+      "COLUMN_KEY": "LA",
+      "NAME": "LA",
+      "HEADER_NAME": "LA",
+      "WIDTH": 140,
+      "IS_CAN_FILTER": true
+    }
+  ],
+  "syncOffVRKey": "sync-off-vr",
+  "lastUpdateSyncOffVRKey": "get-sync-off-vr-last-updated",
+  "lastUpdateEventAssignment": "get-last-updated"
+}

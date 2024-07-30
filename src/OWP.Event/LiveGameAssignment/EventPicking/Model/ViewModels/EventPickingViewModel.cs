@@ -27,7 +27,7 @@ public class EventPickingViewModel : Pagination
     public EventPickingViewModel()
     {
         Leagues = new List<League>();
-        ErrorMessages = new List<string>();
+        ErrorMessages = [];
     }
 
     public DateTime Date { get; set; }
@@ -48,25 +48,13 @@ public class EventPickingViewModel : Pagination
 
     public IEnumerable<League> Leagues { get; set; }
 
-    public decimal? SqlParamFromMaxBet
-    {
-        get
-        {
-            return FromMaxBet * Thousand;
-        }
-    }
+    public decimal? SqlParamFromMaxBet => FromMaxBet * Thousand;
 
     public decimal? SqlParamToMaxBet => ToMaxBet.HasValue ? ToMaxBet.Value * Thousand : null;
 
     public decimal? SqlParamFromSpread => FromSpread.HasValue ? FromSpread.Value / Hundred : null;
 
-    public decimal? SqlParamToSpread
-    {
-        get
-        {
-            return ToSpread / Hundred;
-        }
-    }
+    public decimal? SqlParamToSpread => ToSpread / Hundred;
 
     public List<string> ErrorMessages { get; set; }
 }

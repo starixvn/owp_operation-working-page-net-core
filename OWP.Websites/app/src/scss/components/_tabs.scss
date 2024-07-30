@@ -1,0 +1,56 @@
+@import "../abstracts/variables";
+
+.nav-tabs {
+  .nav-item {
+    margin-bottom: 0;
+  }
+
+  .nav-link {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    transition: .2s ease all;
+
+    &.active {
+      border-bottom-color: $primary-color;
+      color: $primary-color;
+
+      &:hover {
+        color: $primary-color;
+      }
+    }
+  }
+
+}
+
+.tab-content {
+  margin-top: 0;
+  border: 0;
+
+  .tab-pane {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.tabs-notification {
+  padding: .8rem;
+  padding-bottom: 0;
+
+  .nav-item .nav-link {
+    padding-bottom: .5rem;
+    border-bottom: 2px solid transparent;
+    color: #878787;
+
+    &.active {
+      border-bottom-color: $primary-color;
+      font-weight: 500;
+      color: #444;
+    }
+
+    .badge {
+      position: static;
+    }
+  }
+}

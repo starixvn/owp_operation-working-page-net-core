@@ -1,4 +1,3 @@
-using OWP.AssigneeSuggestionList.Constant;
 using OWP.AssigneeSuggestionList.Models;
 using OWP.AssigneeSuggestionList.Services.RealMatch;
 using Xunit;
@@ -9,24 +8,24 @@ using Xunit.Asserts.Compare;
 
 public class XMinsServiceUnitTests
 {
-    private List<AssignmentModel> assignmentsCorner = new();
+    private List<AssignmentModel> assignmentsCorner = [];
 
     private void Initialize()
     {
-        assignmentsCorner = new List<AssignmentModel>
-        {
-            new()
+        assignmentsCorner =
+        [
+            new AssignmentModel
             {
-                OWPMatchId=2,
-                KOTime=DateTime.Parse("2023-3-31 18:05:00").TimeOfDay,
-                EventDateTime=DateTime.Parse("2023-3-31 18:05:00"),
-                IsCornerMatch=true,
-                BettypeId= 1,
-                UserId=123,
-                ParentMatchId=1,
+                OWPMatchId = 2,
+                KOTime = DateTime.Parse("2023-3-31 18:05:00").TimeOfDay,
+                EventDateTime = DateTime.Parse("2023-3-31 18:05:00"),
+                IsCornerMatch = true,
+                BettypeId = 1,
+                UserId = 123,
+                ParentMatchId = 1,
                 Remark = "ET/PK"
             }
-        };
+        ];
     }
 
     [Fact]
@@ -44,8 +43,6 @@ public class XMinsServiceUnitTests
             ,
             AssignmentCell = new AssignmentCell
             {
-                Color = ColorCodeConst.X_MINS,
-                TextColor = ColorCodeConst.TEXT_X_MINS,
                 Text = "06:05"
             },
             TimeRange = (DateTime.Parse("2023-3-31 18:05:00"), DateTime.Parse("2023-3-31 19:05:00"))

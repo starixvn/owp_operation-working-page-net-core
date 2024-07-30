@@ -1,18 +1,16 @@
 ﻿namespace OWP.Event.LiveGameAssignment.User;
 
+using Constants;
 using Fanex.NAP.Client.Attributes;
 using Fanex.NAP.Client.Helpers.Business;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using OWP.Constants;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 [Route("api/event-assignment/user")]
 [ApiController]
-[EnableCors]
 [Authorize]
 public class UserController : ControllerBase
 {

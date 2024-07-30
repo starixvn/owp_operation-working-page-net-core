@@ -1,13 +1,11 @@
-﻿using ONEbook.UM.AspNetCore;
-using ONEbook.UM.AspNetCore.Filters;
+﻿using Microsoft.Extensions.Caching.Memory;
+using ONEbook.UM.AspNetCore;
 using ONEbook.UM.Configurations;
 using ONEbook.UM.Helpers;
 using ONEbook.UM.Services;
 using ONEbook.UM.Transport;
 
 namespace OWP.Websites;
-
-using Microsoft.Extensions.Caching.Memory;
 
 public static class OnebookUMInitializer
 {
@@ -28,7 +26,7 @@ public static class OnebookUMInitializer
     }
 }
 
-public class MemoryUMCacheService: IUMCacheService
+public class MemoryUMCacheService : IUMCacheService
 {
     private readonly IMemoryCache cache;
     public MemoryUMCacheService(IMemoryCache cache)

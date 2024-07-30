@@ -4,10 +4,7 @@ using OWP.TicketCenter.Middleware.Models;
 
 namespace OWP.TicketCenter.Handlers;
 
-public class DeleteTicketRequest : PermissionCheckedModel, IRequest<bool>
-{
-
-}
+public class DeleteTicketRequest : PermissionCheckedModel, IRequest<bool>;
 
 public class DeleteTicketHandler : IRequestHandler<DeleteTicketRequest, bool>
 {

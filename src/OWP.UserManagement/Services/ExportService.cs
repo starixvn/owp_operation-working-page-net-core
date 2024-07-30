@@ -1,14 +1,14 @@
 ﻿namespace OWP.UserManagement.Services;
 
+using Models;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
+using OWP.Models;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using Models;
-using OfficeOpenXml;
-using OfficeOpenXml.Style;
-using OWP.Models;
 
 public interface ExportService
 {
@@ -70,7 +70,7 @@ public class ExportServiceImp : ExportService
 
         if (value is string
         && string.Equals(propName, "Pickup")
-        && string.Equals(value, "none"))
+        && Equals(value, "none"))
         {
             return string.Empty;
         }

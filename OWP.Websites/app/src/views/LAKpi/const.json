@@ -1,0 +1,10 @@
+{
+  "FILTER_PARAM": {
+    "FROM_DATE_KEY": "fromDate",
+    "TO_DATE_KEY": "toDate"
+  },
+  "USER_STATUS": [
+    { "value": "active", "label": "Active" },
+    { "value": "resigned", "label": "Inactive" }
+  ]
+}

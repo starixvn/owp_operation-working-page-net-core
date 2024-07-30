@@ -1,0 +1,79 @@
+﻿.pickmeup {
+    border-radius: 0;
+    background: #fff;
+    color: #4c5246;
+    display: none;
+
+    .pmu-instance {
+        //width: 30rem;
+        height: 263px;
+        overflow: hidden;
+        border: 1px solid #e0e3e4;
+        box-shadow: 0 1px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);       
+
+        nav {
+            justify-content: space-between;
+            flex-wrap: wrap;
+            background: transparent;
+            box-shadow: none;
+            height: initial;
+            line-height: initial;
+        }
+
+        .pmu-day-of-week *,
+        .pmu-days * {
+            display: inline-block;
+            line-height: 26px;
+            width: 26px;
+            height: 26px;
+            margin: 5px;
+            color: #4c5246;
+            border-radius: 50%;
+            transition: 0.3s all ease;
+        }
+
+        .pmu-years *,
+        .pmu-months * {
+            line-height: 70px;
+            width: 65px;
+            height: 70px;
+            color: #4c5246;
+        }
+
+        .pmu-days {
+            color: #eee;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            line-height: 2em;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }       
+
+        .pmu-today {
+            color: #1e88e5;
+            box-shadow: 0 0 1px 0 #5097e6;
+            background: none;
+        }
+
+        .pmu-selected {
+            color: #fff;
+            background: #1e88e5;
+        }
+
+        .pmu-prev, .pmu-month, .pmu-next {
+            color: #1e88e5;
+            height: 35px;
+            line-height: 35px;
+        }
+
+        .pmu-month {
+            font-size: 18px;
+        }
+
+        .pmu-not-in-month {
+            color: #c7c7c7;
+        }
+    }
+}
+

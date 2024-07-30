@@ -1,12 +1,8 @@
-﻿using OWP.PrematchAssignment.Models;
+﻿using MediatR;
+using OWP.PrematchAssignment.Models;
 using OWP.PrematchAssignment.Services;
 
-namespace OWP.PreMatchAssignment.Handlers;
-
-using MediatR;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
+namespace OWP.PrematchAssignment.Handlers;
 
 public class QueryPreMatchLeagueByIdRequest : IRequest<QueryPreMatchLeagueViewModel>
 {

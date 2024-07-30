@@ -5,14 +5,14 @@ namespace OWP.Event.LiveGameAssignment.EventPicking.Builder;
 
 public class CoverageBuilder
 {
-    private readonly int[] WebsiteIdValid = new[] { 17, 18, 19, 20 };
+    private readonly int[] WebsiteIdValid = [17, 18, 19, 20];
 
     private readonly Dictionary<int, string> WebsitePair = new()
     {
         {17,"RB2"},
         {18,"RTS"},
         {19,"BG"},
-        {20,"BET"},
+        {20,"BET"}
     };
 
     private readonly Dictionary<int, string> CoveragePair = new()
@@ -35,7 +35,7 @@ public class CoverageBuilder
 
     public List<string> BuildCoverageMainMatch(CommonMatchEx infositeMatch)
     {
-        List<string> coverages = new();
+        List<string> coverages = [];
         var isExistsInWebsiteIdValid = WebsiteIdValid.ToList().Exists(item => item == infositeMatch.website_id);
         if (isExistsInWebsiteIdValid)
         {
@@ -47,7 +47,7 @@ public class CoverageBuilder
 
     public List<string> BuildCoverageMergeMatch(CommonMatchEx infositeMatch)
     {
-        List<string> coverages = new();
+        List<string> coverages = [];
         infositeMatch.ls_merge_match?.ForEach(match =>
         {
             var isExistsInWebsiteIdValid = WebsiteIdValid.ToList().Exists(item => item == match.website_id);

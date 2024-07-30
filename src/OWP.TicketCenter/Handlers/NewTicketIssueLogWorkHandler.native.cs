@@ -87,9 +87,9 @@ public class NewTicketIssueLogWorkHandler : IRequestHandler<NewTicketIssueLogWor
 
         var userIds = await repository.GetUserIdsByTicketId(ticketId);
 
-        var modelTicket =await BuildModelTicket(request, ticketId);
+        var modelTicket = await BuildModelTicket(request, ticketId);
 
-         await notificationService.NotifyNewAddRecipient(userIds,modelTicket);
+        await notificationService.NotifyNewAddRecipient(userIds, modelTicket);
 
         return ticketId;
     }
@@ -111,9 +111,9 @@ public class NewTicketIssueLogWorkHandler : IRequestHandler<NewTicketIssueLogWor
             TypeName = request.TicketTypeName,
             TicketSubTypeName = request.SubTypeName,
             EventType = request.EventType ?? 0,
-            LastCommentDate = lastComments.FirstOrDefault(new MessageInfoModel()).CreatedDate,
+            LastCommentDate = lastComments.Count != 0 ? lastComments[0].CreatedDate : new MessageInfoModel().CreatedDate,
             TicketType = request.TicketType,
-            TicketSubTypeId = request.SubType,
+            TicketSubTypeId = request.SubType
         };
     }
 }

@@ -66,7 +66,7 @@ public class WorkingScheduleServiceUnitTests
                 }
 
             },
-            CategorizedAssignments = new List<AssignmentModel> { new() }
+            CategorizedAssignments = [new AssignmentModel()]
         };
 
         DeepAssert.Equal(expect, schedule);
@@ -142,7 +142,7 @@ public class WorkingScheduleServiceUnitTests
                     KoAssignment = DateTime.Parse("2023-04-04 9:00:00")
                 }
             },
-            CategorizedAssignments = new List<AssignmentModel> { new() }
+            CategorizedAssignments = [new AssignmentModel()]
         };
 
         DeepAssert.Equal(expect, schedule);

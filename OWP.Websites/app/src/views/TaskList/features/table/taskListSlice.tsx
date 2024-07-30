@@ -1,0 +1,129 @@
+import { createSlice } from '@reduxjs/toolkit';
+import { REQUEST_STATUS } from '../../../Shared/Constants';
+import { DataSource, PopupState } from '../../type/TTaskListTable';
+import { taskListThunk, updateReadyStatusThunk } from './tableThunk';
+import { buildIsReadValue } from '../../../Shared/ticketEvent/helper/ticketHelper';
+import { filterMatchByCriteria } from '../../helper/tasklistHelper';
+import { RefreshModel } from '../../type/Header';
+
+const defaultEntities: Readonly<Array<DataSource>> = [];
+const taskListSlice = createSlice({
+  name: 'taskList/taskListSlice',
+  initialState: {
+    queryTaskListLoading: REQUEST_STATUS.idle,
+    matchesOriginal: defaultEntities,
+    matches: defaultEntities,
+    userId: 0 as number,
+    hasDetailInformationPermission: false,
+    isHideCompletedMatches: false,
+    isShowUnreadMsg: false,
+    popupState: {
+      matchId: undefined,
+      isOpen: false
+    } as PopupState,
+    refreshModel: {
+      filterDate: undefined,
+      isToday: true
+    } as RefreshModel
+  },
+  reducers: {
+    setUserId: (state, action) => {
+      state.userId = action.payload;
+    },
+    setDataTable: (state, action) => {
+      state.matches = action.payload;
+    },
+
+    setDataSignalR: (state, action) => {
+      const { actorId, parentMatchId } = action.payload;
+      state.matches.forEach(item => {
+        if (item.ParentMatchId === parentMatchId) {
+          item.IsRead = buildIsReadValue(actorId, state.userId, item.IsRead);
+          item.HasTicket = true;
+        }
+      });
+    },
+    handleHideCompleteMatches: state => {
+      const { isHideCompletedMatches, isShowUnreadMsg } = state;
+      const currentValue = !isHideCompletedMatches;
+      state.isHideCompletedMatches = currentValue;
+      state.matches = filterMatchByCriteria(state.matchesOriginal)(
+        isShowUnreadMsg
+      )(currentValue);
+    },
+    handleShowUnreadMessage: state => {
+      const { isShowUnreadMsg, isHideCompletedMatches } = state;
+      const currentValue = !isShowUnreadMsg;
+      state.isShowUnreadMsg = currentValue;
+      state.matches = filterMatchByCriteria(state.matchesOriginal)(
+        currentValue
+      )(isHideCompletedMatches);
+    },
+    openPopupDetail: (state, action) => {
+      state.popupState = {
+        matchId: action.payload,
+        isOpen: true
+      };
+    },
+    closePopupDetail: state => {
+      state.popupState = {
+        matchId: undefined,
+        isOpen: false
+      };
+    },
+    setRefreshModel: (state, action) => {
+      state.refreshModel = action.payload;
+    }
+  },
+  extraReducers: builder => {
+    builder
+      .addCase(taskListThunk.pending, state => {
+        state.queryTaskListLoading = REQUEST_STATUS.pending;
+      })
+      .addCase(taskListThunk.fulfilled, (state, { payload }) => {
+        const { isShowUnreadMsg, isHideCompletedMatches } = state;
+        state.matchesOriginal = payload.Matches;
+        state.matches = filterMatchByCriteria(payload.Matches)(isShowUnreadMsg)(
+          isHideCompletedMatches
+        );
+        state.hasDetailInformationPermission =
+          payload.HasDetailInformationPermission;
+        state.queryTaskListLoading = REQUEST_STATUS.idle;
+      })
+      .addCase(updateReadyStatusThunk.fulfilled, (state, { payload }) => {
+        const { rowIndex, readyTime } = payload;
+        const matchTarget = state.matches[rowIndex];
+        const matchOrigin = state.matchesOriginal.find(x => x.OWPMatchId === matchTarget.OWPMatchId);
+        matchTarget.IsReady = true;
+        matchTarget.ReadyDateTimeDisplay = readyTime;
+        if (matchOrigin) {
+          matchOrigin.IsReady = true;
+          matchOrigin.ReadyDateTimeDisplay = readyTime;
+        }
+      });
+  }
+});
+
+const { actions, reducer } = taskListSlice;
+const {
+  setUserId,
+  setDataTable,
+  setDataSignalR,
+  handleShowUnreadMessage,
+  handleHideCompleteMatches,
+  openPopupDetail,
+  closePopupDetail,
+  setRefreshModel
+} = actions;
+export {
+  setUserId,
+  setDataTable,
+  setDataSignalR,
+  handleHideCompleteMatches,
+  handleShowUnreadMessage,
+  openPopupDetail,
+  closePopupDetail,
+  setRefreshModel
+};
+
+export default reducer;

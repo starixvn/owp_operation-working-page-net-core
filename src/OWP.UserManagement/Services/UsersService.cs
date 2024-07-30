@@ -2,10 +2,10 @@
 
 namespace OWP.UserManagement.Services;
 
-using System.Threading.Tasks;
+using Criteria;
 using Models;
 using OWP.Models;
-using OWP.UserManagement.Criteria;
+using System.Threading.Tasks;
 
 public interface UsersService
 {

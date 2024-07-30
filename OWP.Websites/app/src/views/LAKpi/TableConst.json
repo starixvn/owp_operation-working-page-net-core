@@ -1,0 +1,90 @@
+{
+  "keyOfTotalGameInfo": [
+    {
+      "label": "Virtual Matches",
+      "key": "virtualMatches"
+    },
+    {
+      "label": "Multiple Matches",
+      "key": "multipleMatches"
+    },
+    {
+      "label": "Special Products",
+      "key": "specialProducts"
+    },
+    {
+      "label": "5 Major Leagues",
+      "key": "fiveMajorLeagues"
+    },
+    {
+      "label": "Multiple Products",
+      "key": "multipleProducts"
+    }
+  ],
+  "keyOfTotalGameGap": [
+    {
+      "property": "gapWithTarget",
+      "label": "Virtual Matches",
+      "key": "virtualMatches"
+    },
+    {
+      "property": "gapWithTarget",
+      "label": "Multiple Matches",
+      "key": "multipleMatches"
+    },
+    {
+      "property": "gapWithTarget",
+      "label": "Special Products",
+      "key": "specialProducts"
+    },
+    {
+      "property": "gapWithTarget",
+      "label": "5 Major Leagues",
+      "key": "fiveMajorLeagues"
+    },
+    {
+      "property": "gapWithTarget",
+      "label": "Multiple Products",
+      "key": "multipleProducts"
+    }
+  ],
+  "keyOfTotalAchievedMatches": [
+    {
+      "property": "achievedGames",
+      "label": "Virtual Matches",
+      "key": "virtualMatches"
+    },
+    {
+      "property": "achievedGames",
+      "label": "Multiple Matches",
+      "key": "multipleMatches"
+    },
+    {
+      "property": "achievedGames",
+      "label": "Special Products",
+      "key": "specialProducts"
+    },
+    {
+      "property": "achievedGames",
+      "label": "5 Major Leagues",
+      "key": "fiveMajorLeagues"
+    },
+    {
+      "property": "achievedGames",
+      "label": "Multiple Products",
+      "key": "multipleProducts"
+    }
+  ],
+  "orderOfLevel": ["Fail", "New", "Level D", "Level C", "Level B", "Level A"],
+  "keyOfConditionTable": {
+    "totalVirtualMultipleMatches": "Virtual Matches + Multiple Matches",
+    "virtualMatches": "Virtual Matches",
+    "multipleMatches": "Multiple Matches",
+    "specialProducts": "Special Products",
+    "fiveMajorLeagues": "5 Major Leagues",
+    "multipleProducts": "Multiple Products"
+  },
+  "headerHeight": 150,
+  "asc": "ORDER_ASC",
+  "desc": "ORDER_DESC"
+}

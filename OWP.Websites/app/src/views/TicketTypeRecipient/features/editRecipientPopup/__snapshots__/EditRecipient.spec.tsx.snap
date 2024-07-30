@@ -1,0 +1,90 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EditRecipientPopup under test should match snapshot 1`] = `
+<div>
+  <div
+    class="filter-suggestions"
+  >
+    <div
+      class="group-form"
+    >
+      <div
+        class="left-form"
+      >
+        <label
+          class="label"
+          for="recipient"
+        >
+          Recipient:
+        </label>
+      </div>
+      <div
+        class="right-form"
+      >
+        <input
+          autocomplete="off"
+          class="input-field"
+          id="recipient"
+          placeholder="Add by individual, group or section"
+          type="text"
+          value=""
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    class="tableFixHead"
+  >
+    <table
+      class="recipient-table"
+    >
+      <thead>
+        <tr>
+          <th>
+            Recipient
+          </th>
+          <th>
+            Action
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <svg
+              class="mdi-icon "
+              fill="currentColor"
+              height="24"
+              viewBox="0 0 24 24"
+              width="24"
+            >
+              <path
+                d="M12,4C14.21,4 16,5.79 16,8C16,10.21 14.21,12 12,12C9.79,12 8,10.21 8,8C8,5.79 9.79,4 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"
+              />
+            </svg>
+             
+            sa
+          </td>
+          <td>
+            <span
+              class="icon-edit"
+            >
+              <svg
+                class="mdi-icon "
+                fill="currentColor"
+                height="12"
+                viewBox="0 0 24 24"
+                width="12"
+              >
+                <path
+                  d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19C6,20.1 6.9,21 8,21H16C17.1,21 18,20.1 18,19V7H6V19Z"
+                />
+              </svg>
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+`;

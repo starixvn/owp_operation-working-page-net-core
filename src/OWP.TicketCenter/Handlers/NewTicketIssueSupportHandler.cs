@@ -98,7 +98,7 @@ public class NewTicketIssueSupportHandler : IRequestHandler<NewTicketIssueSuppor
             TicketStatus = "Open",
             TypeName = request.TicketTypeName,
             TicketSubTypeName = request.SubTypeName,
-            LastCommentDate = lastComments.FirstOrDefault(new MessageInfoModel()).CreatedDate,
+            LastCommentDate = lastComments.Count != 0 ? lastComments[0].CreatedDate : new MessageInfoModel().CreatedDate,
             TicketType = request.TicketType,
             TicketSubTypeId = request.SubType, 
             EventType = request.EventType ?? 0

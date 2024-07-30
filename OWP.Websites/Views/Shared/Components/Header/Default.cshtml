@@ -1,0 +1,125 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using OWP.Resources;
+@model OWP.Application.Header.HeaderViewModel;
+
+@{
+    var controller = ViewContext.RouteData.Values["Controller"];
+    var area = ViewContext.RouteData.DataTokens["area"];
+    var url = $"/{area}/{controller}";
+    var baseHref = Context.Request.PathBase.ToString();
+    if (baseHref != "/") { baseHref = baseHref + "/"; }
+}
+<header class="cd-main-header animate-search nav-wrapper">
+    <nav class="cd-main-nav-wrapper" style="background: transparent">
+        <div class="toggle">
+            <a class="toggleMenubar waves-effect waves-light" id="js-toggleMenubar" data-activates="nav-mobile"><i class="icon mdi mdi-arrow-left icon-arrow"></i></a>
+            <div class="page-title"><span class="active">@Model.Title</span></div>
+        </div>
+
+        <div class="navbar-right">
+
+            <div class="navbar-avatar">
+                <div class="dropdown-button" href="#!" data-activates="profile">
+                    <span class="user-name">@Model.Header.Username</span>
+                    <i class="icon mdi mdi-account avatar" aria-hidden="true"></i>
+                </div>
+
+                <ul id='profile' class='dropdown-content profile-items'>
+                    <li>
+                        <a href="@Model.Header.NotificationSettingPath">
+                            <i class="icon mdi mdi-settings"></i>
+                            <span>@ViewLang.NotificationSetting</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Model.Header.AccountSettingPath">
+                            <i class="icon mdi mdi-account"></i>
+                            <span>@ViewLang.AccountSetting</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Model.Header.LogoutPath">
+                            <i class="icon mdi mdi-logout"></i>
+                            <span>@ViewLang.Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="notification">
+                <a href="javascript:;" class="dropdown-button notification-box js-dropdown-notification" data-activates="dropdown-notification">
+                    <i class="mdi mdi-bell icon icon-notification"></i>
+                    <span class="badge-label up new-message js-badge-notification" style="display:none">0</span>
+                </a>
+                <div id="dropdown-notification" class="dropdown-content tabs-notification notification-block">
+                    <!-- Assignee-->
+                    <input type="radio" name="tabs" id="assigneeMessageTab" checked="checked">
+                    <label for="assigneeMessageTab"><span>My Message</span><span class="badge badge-new js-assignee-message-badge" style="display:none">3</span></label>
+                    <div class="tab-item js-assignee-messages">
+                    </div>
+
+                    <!-- Watcher-->
+                    <input type="radio" name="tabs" id="watcherMessageTab">
+                    <label for="watcherMessageTab" class="js-watcher-tab-label"><span>My Section Message</span><span class="badge badge-new js-watcher-message-badge" style="display:none">3</span></label>
+                    <div class="tab-item js-watcher-messages">
+                    </div>
+                    <a href="~/MessageBoxManagement" class="show-all">Show all</a>
+                </div>
+            </div>
+            <a href="@(baseHref + "Feedback")" target="_blank" class="cd-feedback"></a>
+            @if (Model.HasQuickSearchPermission)
+            {
+                <a href="#search" class="cd-search-trigger cd-text-replace">Search</a>
+            }
+        </div>
+    </nav>
+
+    <a href="#0" class="cd-nav-trigger cd-text-replace">Menu<span></span></a>
+
+    <ul id="nav-mobile" class="side-nav fixed">
+        <li class="logo">
+            <a id="logo-container" href="~/" class="brand-logo">
+                <span class="logo-img"><img src="~/shared/themes/images/logo_none.svg" style="width: 3.3rem"> </span>
+                <span class="logo-text"><img src="~/shared/themes/images/logo_text.svg" style="width: 6.5rem" /></span>
+            </a>
+        </li>
+        <li class="site-menu mCustomScrollbar light" data-mcs-theme="minimal-dark">
+            <ul class="collapsible collapsible-expandable" data-collapsible="accordion">
+                @foreach (var item in Model.Header.Menus)
+                {
+                    <li class="menu-category"><span class="menu-category-title">@item.Name</span></li>
+                    if (item.Children != null)
+                    {
+                        foreach (var childItem in item.Children)
+                        {
+                            var classActive = url == childItem.Path ? "actived" : "";
+                            <li class="menu-item @classActive">
+                                <a class="collapsible-header waves-effect" href="@childItem.Path">
+                                    <i class="menu-icon @childItem.IconCssClass" aria-hidden="true" title="@childItem.Name"></i>
+                                    <span class="menu-title">@childItem.Name</span>
+                                </a>
+                            </li>
+                        }
+                    }
+                }
+            </ul>
+        </li>
+    </ul>
+</header>
+<div id="search" class="cd-main-search">
+    <form>
+        <input id="txtSearchKeywords" type="search" placeholder="@ViewLang.QuickSearchPlaceHolder">
+    </form>
+
+    <div class="cd-search-suggestions">
+        <div class="news">
+            <ul id="ulSearchSuggestion"></ul>
+        </div> <!-- .news -->
+    </div> <!-- .cd-search-suggestions -->
+
+    <a class="close cd-text-replace">Close Form</a>
+</div>
+<div class="cd-cover-layer"></div> <!-- cover main content when search form is open -->
+@if (Model.HasDetailInformationPermission)
+{    
+    @await Html.PartialAsync("_ModalLiveDetail")
+}

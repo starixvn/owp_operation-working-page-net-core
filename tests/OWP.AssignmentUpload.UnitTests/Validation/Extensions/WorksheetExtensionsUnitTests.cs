@@ -1,7 +1,7 @@
 ﻿using OfficeOpenXml;
+using OWP.AssignmentUpload.Validation.Exceptions;
 using OWP.AssignmentUpload.Validation.Extensions;
 using OWP.AssignmentUpload.Validation.Models;
-using OWP.AssignmentUpload.Validation.Exceptions;
 using Xunit;
 
 namespace OWP.AssignmentUpload.UnitTests.Validation.Extensions;
@@ -86,7 +86,11 @@ public class WorksheetExtensionsUnitTests
             {"Spread (FM)", 0},
             {"Spread (HDP)", 0},
             {"Spread (O/U)", 0},
-            {"Spread (x mins)", 0}
+            {"Spread (x mins)", 0},
+            {"Agent for EST" ,0},
+            {"Remark for EST", 0},
+            {"Remark by", 0}
+
         };
 
         var actual = worksheet.GetHeaderMap();
@@ -242,7 +246,10 @@ public class WorksheetExtensionsUnitTests
             { "Max Bet (x mins)", 61},
             { "Spread (x mins)", 62},
             {"Max Bet (FM)", 63},
-            { "Spread (FM)", 64}
+            { "Spread (FM)", 64},
+            {"Agent for EST" ,0},
+            {"Remark for EST", 0},
+            {"Remark by", 0}
         };
 
         var actual = worksheet.GetHeaderMap();

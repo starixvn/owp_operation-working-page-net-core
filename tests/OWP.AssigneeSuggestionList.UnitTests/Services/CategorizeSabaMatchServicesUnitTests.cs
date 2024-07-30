@@ -46,21 +46,22 @@ public class CategorizeSabaMatchServicesUnitTests
                     ShiftStartTime = new DateTime(2022, 04, 19, 13, 0, 0),
                     ShiftEndTime = new DateTime(2022, 04, 19, 18, 0, 0)
                 },
-                CategorizedAssignments = new List<AssignmentModel>
-                {
-                    new()
+                CategorizedAssignments =
+                [
+                    new AssignmentModel
                     {
                         LeagueName = "Saba A",
                         EventDateTime = new DateTime(2022, 04, 19, 14, 0, 0),
                         EndTime = new DateTime(2022, 04, 19, 15, 0, 0)
                     },
-                    new()
+
+                    new AssignmentModel
                     {
                         LeagueName = "League B",
                         EventDateTime = new DateTime(2022, 04, 19, 13, 0, 0),
                         EndTime = new DateTime(2022, 04, 19, 16, 0, 0)
                     }
-                }
+                ]
             },
             new () // Available
             {
@@ -70,15 +71,15 @@ public class CategorizeSabaMatchServicesUnitTests
                     ShiftStartTime = new DateTime(2022, 04, 19, 13, 0, 0),
                     ShiftEndTime = new DateTime(2022, 04, 19, 18, 0, 0)
                 },
-                CategorizedAssignments = new List<AssignmentModel>
-                {
-                    new()
+                CategorizedAssignments =
+                [
+                    new AssignmentModel
                     {
                         LeagueName = "Saba A",
                         EventDateTime = new DateTime(2022, 04, 19, 17, 0, 0),
                         EndTime = new DateTime(2022, 04, 19, 18, 0, 0)
                     }
-                }
+                ]
             },
             new () // busy, cannot link 5 min
             {
@@ -89,16 +90,16 @@ public class CategorizeSabaMatchServicesUnitTests
                     ShiftEndTime = new DateTime(2022, 04, 19, 18, 0, 0),
                     MainBetType = "HDP"
                 },
-                CategorizedAssignments = new List<AssignmentModel>
-                {
-                    new()
+                CategorizedAssignments =
+                [
+                    new AssignmentModel
                     {
                         LeagueName = "Saba B",
                         EventDateTime = new DateTime(2022, 04, 19, 14, 0, 0),
                         EndTime = new DateTime(2022, 04, 19, 15, 0, 0),
                         MatchType = MatchType.Saba5Mins
                     }
-                }
+                ]
             }
         };
 

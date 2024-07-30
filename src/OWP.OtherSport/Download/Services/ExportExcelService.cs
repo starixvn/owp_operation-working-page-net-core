@@ -73,8 +73,8 @@ public class ExportExcelServiceImp : ExportExcelService, IDisposable
         for (int i = 0, row = ExcelConst.StartRowIndex; i < model.Matches.Count; i++, row++)
         {
             var match = model.Matches[i];
-            var assignments = model.MatchAssignments.GetValue(match.OSMatchId, new List<ExcelMatchAssignment>());
-            var maxbetSpreads = model.MaxBetSpread.GetValue(match.OSMatchId, new List<ExcelMatchMaxBetSpread>());
+            var assignments = model.MatchAssignments.GetValue(match.OSMatchId, []);
+            var maxbetSpreads = model.MaxBetSpread.GetValue(match.OSMatchId, []);
 
             BuildMatchInfo(row, match);
             BuildTrader(row, assignments);

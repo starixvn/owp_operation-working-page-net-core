@@ -1,0 +1,74 @@
+{
+  "Cricket": {
+    "maxbet": {
+      "display": "Admin Setting",
+      "tooltip": "Please Refer to Admin Maxbet Setting"
+    }
+  },
+  "Badminton": {
+    "maxbet": {
+      "display": "Admin Setting",
+      "tooltip": "Please Refer to Admin Maxbet Setting"
+    }
+  },
+  "Tennis": {
+    "maxbet": {
+      "display": "Admin Setting",
+      "tooltip": "Please Refer to Admin Maxbet Setting"
+    }
+  },
+  "Baseball": {
+    "maxbet": {
+      "display": "Admin Setting",
+      "tooltip": "Please Refer to Admin Maxbet Setting"
+    }
+  },
+  "Football": {
+    "maxbet": {
+      "display": "Admin Setting",
+      "tooltip": "Please Refer to Admin Maxbet Setting"
+    }
+  },
+  "Snooker": {
+    "maxbet": {
+      "display": "Admin Setting",
+      "tooltip": "Please Refer to Admin Maxbet Setting"
+    }
+  },
+  "Pool": {
+    "maxbet": {
+      "display": "Admin Setting",
+      "tooltip": "Please Refer to Admin Maxbet Setting"
+    }
+  },
+  "Volleyball": {
+    "maxbet": {
+      "display": "Admin Setting",
+      "tooltip": "Please Refer to Admin Maxbet Setting"
+    }
+  },
+  "Handball": {
+    "maxbet": {
+      "display": "Admin Setting",
+      "tooltip": "Please Refer to Admin Maxbet Setting"
+    }
+  },
+  "Ice Hockey": {
+    "maxbet": {
+      "display": "Admin Setting",
+      "tooltip": "Please Refer to Admin Maxbet Setting"
+    }
+  },
+  "Netball": {
+    "maxbet": {
+      "display": "Admin Setting",
+      "tooltip": "Please Refer to Admin Maxbet Setting"
+    }
+  },
+  "Table Tennis": {
+    "maxbet": {
+      "display": "Admin Setting",
+      "tooltip": "Please Refer to Admin Maxbet Setting"
+    }
+  }
+}

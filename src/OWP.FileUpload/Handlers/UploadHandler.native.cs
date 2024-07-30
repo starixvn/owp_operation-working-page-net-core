@@ -30,7 +30,7 @@ public class UploadHandler
         {
             var criteria = new UploadCriteria { Title = request.File.FileName };
 
-            var result = (await dynamicRepo.FetchAsync<FileModel>(criteria, cancellationToken)).FirstOrDefault();
+            var result = (await dynamicRepo.FetchAsync<FileModel>(criteria)).FirstOrDefault();
 
             await SaveFile(request.File, result.SavedFileName);
 

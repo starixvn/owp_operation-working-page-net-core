@@ -17,7 +17,7 @@ public class SyncOffVRServiceImp : SyncOffVRService
     private readonly LiveGameAssignmentRepository repository;
     private readonly INapSession session;
     private readonly AppSettings settings;
-    private readonly static HttpClient httpClient = new();
+    private static readonly HttpClient httpClient = new();
 
     public SyncOffVRServiceImp(
         LiveGameAssignmentRepository repository,
@@ -35,7 +35,7 @@ public class SyncOffVRServiceImp : SyncOffVRService
         var result = await repository.GetSyncOffVRMatches(date, now);
         await repository.LogActionSyncOffVRMatches(date, now);
 
-        string json = CreateJsonBody(result);
+        var json = CreateJsonBody(result);
 
         await PostSyncOffVRAsync(json, now);
     }
@@ -116,7 +116,7 @@ public class OffVRModel
         "OFF VR 10 mins" => "OffVr10Mins",
         "OFF VR HDP" => "OffVrHdp",
         "OFF VR HDP 10 mins" => "OffVrHdp10Mins",
-        _ => "OnVr",
+        _ => "OnVr"
     };
 }
 

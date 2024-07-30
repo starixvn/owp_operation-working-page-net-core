@@ -118,5 +118,6 @@ public class TicketDetailServiceImp : TicketDetailService
         model.Messages = messages?.ToList();
         model.LastTwoComments = lastComments.ToList();
         model.CanShowMoreMessage = canShowMoreMessage;
+        await messageService.BuildReactIconForMessage(model.Messages);
     }
 }

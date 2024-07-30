@@ -85,7 +85,7 @@ public class RepositoryImp : Repository
         var allRequest = (await dynamicRepository.FetchAsync<SchedulingRequest>(criteria)).ToList();
         return allRequest.Any()
             ? allRequest.OrderByDescending(r => r.CreatedDate).ToList()
-            : new List<SchedulingRequest>();
+            : [];
     }
 
     public async Task<IEnumerable<RealMatchCommonInfo>> GetRealMatchCommonInfoByIds(IList<int> ids)

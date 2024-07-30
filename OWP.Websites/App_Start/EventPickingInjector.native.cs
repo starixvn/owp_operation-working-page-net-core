@@ -1,6 +1,6 @@
 ﻿using OWP.EventPicking;
-using OWP.EventPicking.Middleware;
-using OWP.EventPicking.Services;
+using OWP.EventPicking.Api.Middleware;
+using OWP.EventPicking.Api.Services;
 
 namespace OWP.Websites;
 

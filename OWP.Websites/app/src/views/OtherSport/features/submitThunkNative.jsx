@@ -1,0 +1,12 @@
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
+import OtherSport from '../otherSport.json';
+
+const submitThunk = createAsyncThunk('submit', async props => {
+  const { ...rest } = props;
+  const url = `/api/OtherSport${OtherSport.submit}`;
+  const result = await axios.post(url, rest);
+  return result.data;
+});
+
+export default submitThunk;

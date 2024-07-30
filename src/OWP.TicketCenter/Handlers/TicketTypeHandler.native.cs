@@ -3,9 +3,7 @@ using OWP.TicketCenter.Models;
 
 namespace OWP.TicketCenter.Handlers;
 
-public class TicketTypeRequest : IRequest<TicketTypeModel>
-{
-}
+public class TicketTypeRequest : IRequest<TicketTypeModel>;
 
 public class TicketTypeHandler : IRequestHandler<TicketTypeRequest, TicketTypeModel>
 {

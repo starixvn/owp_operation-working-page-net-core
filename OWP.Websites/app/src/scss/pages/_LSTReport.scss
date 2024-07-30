@@ -1,0 +1,149 @@
+$headerBackgroundColor: (
+  color1:#D9E1F2,
+  color2:#D9E1F2,
+  color3:#F8BBD0,
+  color4:#EC9C9C,
+  color5:#80CBC4,
+  color6:#80DEEA,
+  color7:#B3E5FC,
+  color8:#F0F4C3,
+  color9:#DCEDC8,
+  color10:#FBE9E7,
+  color11:#E0F2F1,
+  color12:#fbf3d5,
+  color13:#7fcdf4
+);
+
+.ReactTable .-header .rt-th {
+  padding: 0;
+  height: 26px;
+  line-height: 26px;
+}
+
+.ReactTable .title-header {
+  padding: 0 3px;
+}
+
+[class^="bg"] {
+  position: relative;
+  text-align: left;
+  padding: 0 3px;
+}
+
+
+@each $name,
+$color in $headerBackgroundColor {
+  .bg-#{$name} {
+    background: $color;
+  }
+}
+
+.icon-filter {
+  cursor: pointer;
+
+  &.is-filter {
+    color: #1e88e5;
+  }
+}
+
+.sort-icon {
+  position: absolute;
+  top: 7px;
+  right: 2px;
+  width: 12px;
+  height: 12px;
+
+  &:before,
+  &:after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    right: 0;
+    border-style: solid;
+  }
+
+  &:before {
+    top: 0;
+    border-color: transparent transparent #93A9AA transparent;
+    border-width: 0 3px 5px 3px;
+  }
+
+  &:after {
+    bottom: 0;
+    border-color: #93A9AA transparent transparent transparent;
+    border-width: 5px 3px 0 3px;
+  }
+
+  &.sort-asc:before {
+    border-color: transparent transparent #4B595C transparent;
+  }
+
+  &.sort-desc:after {
+    border-color: #4B595C transparent transparent transparent;
+  }
+}
+
+.ReactTable {
+  .-header {
+    top: 26px !important;
+  }
+}
+
+.total-records {
+  position: relative;
+  top: 5px;
+  left: 0px;
+}
+.rmsc.multi-select{
+  width: 200px;
+  .dropdown-container{
+    border: 0;
+    border-bottom: 1px solid #e1e1e1;
+    border-radius: 0;
+    background: transparent;
+    &:focus-within{
+      box-shadow: none;
+    }
+  }
+  .dropdown-heading{
+    height: 28px;
+    border: 0!important;
+    .dropdown-heading-dropdown-arrow{
+      display: none;
+    }
+    &:after{
+      position: absolute;
+      top: 50%;
+      margin-top: -2px;
+      right: 5px;
+      content: "";
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 4px 4.5px 0 4.5px;
+      border-color: gray transparent transparent transparent;
+    }
+
+  }
+  .dropdown-content{
+    .select-item{
+      outline: none;
+      
+      &.selected, &:hover{
+        background: #EBF5FF;
+      }
+    }
+    .item-renderer {
+      span{
+        &:before{
+          margin-right: 10px!important;
+        }
+        &:after{
+          left: 6px!important;
+          top: 3px!important;
+        }
+      }     
+    }
+  }
+}

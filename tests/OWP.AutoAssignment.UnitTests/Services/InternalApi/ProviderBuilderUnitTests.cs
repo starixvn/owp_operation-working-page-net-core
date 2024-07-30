@@ -46,8 +46,8 @@ public class ProviderBuilderUnitTests
     }
 
     public List<ProviderInfo> MockListProviderInfo()
-        => new()
-        {
+        =>
+        [
             new ProviderInfo
             {
                 MatchId = 1,
@@ -55,6 +55,7 @@ public class ProviderBuilderUnitTests
                 Provider = "helloWOO",
                 ProviderTv = "TV"
             },
+
             new ProviderInfo
             {
                 MatchId = 2,
@@ -62,6 +63,7 @@ public class ProviderBuilderUnitTests
                 Provider = "hiAL",
                 ProviderTv = ""
             },
+
             new ProviderInfo
             {
                 MatchId = 3,
@@ -69,28 +71,30 @@ public class ProviderBuilderUnitTests
                 Provider = "SLRAL",
                 ProviderTv = "TV"
             }
-        };
+        ];
 
     public List<ExportMatchModel> MockExpected()
-        => new()
-        {
+        =>
+        [
             new ExportMatchModel
             {
                 InfoSiteMatchId = 1,
                 OtherProvider = "TV/BGTV/RB2TV/BETTV/RTSTV",
                 Provider = "TV/BGTV/(WOO)/code1"
             },
+
             new ExportMatchModel
             {
                 InfoSiteMatchId = 2,
                 OtherProvider = "TV/BGTV/RB2TV/BET/RTSTV",
                 Provider = "BET/(AL)"
             },
+
             new ExportMatchModel
             {
                 InfoSiteMatchId = 3,
                 OtherProvider = "TV/BET/RTSTV",
                 Provider = "TV/BET/(AL)(SLR)"
             }
-        };
+        ];
 }
