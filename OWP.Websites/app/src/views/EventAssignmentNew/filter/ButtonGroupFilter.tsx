@@ -53,6 +53,8 @@ const ButtonGroupFilter = () => {
       </button>
       <ExportSelector />
       <button
+        hidden
+        disabled
         className='button-submit button-sync-off-vr'
         onClick={handleSyncOffVR}>
         Sync OFF VR

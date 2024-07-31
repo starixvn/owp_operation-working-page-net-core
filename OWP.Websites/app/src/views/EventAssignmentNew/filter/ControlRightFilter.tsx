@@ -15,16 +15,16 @@ const ControlRightFilter = () => {
   );
   const lastUpdated = dateUpdated
     ? dayjs(dateUpdated.substring(0, dateUpdated.length - 6)).format(
-        'MMM DD, hh:mm A'
-      )
+      'MMM DD, hh:mm A'
+    )
     : '';
   return (
     <div className='filter-control-right'>
       <div className='top-info'>
-        <span className='sync-off-vr-last-update'>
+        <span className='sync-off-vr-last-update' hidden>
           Sync Off VR by {syncOffVRByUser}: {syncOffVRLastTime}
         </span>
-        <span className='lastupdate'>| Last Updated: {lastUpdated}</span>
+        <span className='lastupdate'> Last Updated: {lastUpdated}</span>
         <GoToMyTicket />
       </div>
       <DailyWorking />
