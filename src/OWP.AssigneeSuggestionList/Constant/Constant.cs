@@ -74,6 +74,7 @@ public static class ColorCodeConst
          new ("ET/PK", ET_PK, TEXT_ET_PK),
          new ("5M", SABA_5MINS, TEXT_COLOR_WHITE),
          new ("5M*2", SABA_5MINS, TEXT_COLOR_WHITE),
+         new ("PEN", ET_PK, TEXT_COLOR_WHITE),
          new ("Saba Futsal", SABA_FUTSAL, TEXT_COLOR_BLACK),
          new ("M88", SABA_M88, TEXT_COLOR_BLACK),
          new ("16M", SABA_16MINS, TEXT_COLOR_WHITE),
