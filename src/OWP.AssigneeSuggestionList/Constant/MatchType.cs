@@ -28,5 +28,6 @@ public enum MatchType
     RealWinner,
     RealSingleTeam,
     Real15MOU,
-    RealMatchLink4G
+    RealMatchLink4G,
+    SabaShootOuts,
 }
