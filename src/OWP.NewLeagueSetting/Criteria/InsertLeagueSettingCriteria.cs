@@ -37,6 +37,8 @@ public class InsertLeagueSettingCriteria : NonQueryCommand
 
     public int ActorId { get; set; }
 
+    public int LeagueSettingId { get; set; }
+
     public string FullConditionDescription { get; set; }
 
     public override string GetSettingKey() => "OWP_NewLeagueSetting_InsertLeagueSetting";
