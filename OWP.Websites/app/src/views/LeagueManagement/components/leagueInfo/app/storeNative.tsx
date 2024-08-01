@@ -1,11 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 import LeagueInfoTableSlice from '../table/leagueInfoTableSlice/reducer';
 import EditSettingSlice from '../editPopup/slice/editSettingSlice';
-
+import AddSettingSlice from '../addPopup/slice/addSettingSlice';
 const store = configureStore({
   reducer: {
     leagueInfoTableSlice: LeagueInfoTableSlice,
-    editSettingSlice: EditSettingSlice
+    editSettingSlice: EditSettingSlice,
+    addSettingSlice: AddSettingSlice
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

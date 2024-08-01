@@ -16,7 +16,7 @@ const LeagueNameFilter = () => {
 
   const handleEnter = async () => {
     dispatch(setLeagueHeaderFiler(value));
-    await dispatch(fetchLeagueSettingInfo(value));
+    await dispatch(fetchLeagueSettingInfo(value, false));
   };
 
   useEffect(() => {

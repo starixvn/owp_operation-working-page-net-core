@@ -13,7 +13,8 @@ import { getLeagueGroupOptionsThunk } from './slice/editSettingThunk';
 const EditSettingPopup = (props: { closePopup: () => void }) => {
   const { closePopup } = props;
   const dispatch = useAppDispatch();
-  const { leagueGroupOptions,
+  const {
+    leagueGroupOptions,
     league,
     leagueGroupId,
     hasTv,
@@ -28,25 +29,34 @@ const EditSettingPopup = (props: { closePopup: () => void }) => {
     wK_NoOfHDP,
     comment,
     lstNote,
-    remark2 } = useAppSelector(state => state.editSettingSlice);
+    remark2
+  } = useAppSelector(state => state.editSettingSlice);
 
   useEffect(() => {
     !leagueGroupOptions.length && dispatch(getLeagueGroupOptionsThunk());
   }, [dispatch, leagueGroupOptions]);
 
   return (
-    <Modal isOpen scrollable className='edit-setting-popup' modalClassName='edit-modal' centered>
+    <Modal
+      isOpen
+      scrollable
+      className='edit-setting-popup'
+      modalClassName='edit-modal'
+      centered>
       <ModalBody>
         <Header league={league} leagueGroupId={leagueGroupId} />
-        <Condition condition={{
-          hasTv,
-          hasIpTv,
-          round,
-          division,
-          remark
-        }} />
+        <Condition
+          condition={{
+            hasTv,
+            hasIpTv,
+            round,
+            division,
+            remark
+          }}
+        />
         <FtSpread spread={spread} />
-        <MB maxbetWD_HDP={maxbetWD_HDP}
+        <MB
+          maxbetWD_HDP={maxbetWD_HDP}
           wD_NoOfHDP={wD_NoOfHDP}
           maxbetWK_HDP={maxbetWK_HDP}
           wK_NoOfHDP={wK_NoOfHDP}

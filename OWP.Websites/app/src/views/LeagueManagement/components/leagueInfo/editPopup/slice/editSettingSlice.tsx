@@ -9,7 +9,7 @@ import { getLeagueGroupOptionsThunk } from './editSettingThunk';
 interface ConditionPayLoad {
   key: 'type' | 'value';
   property: keyof TAddExpressionKey;
-  value: ('Contains' | 'Equals') | (string | number | undefined);
+  value: ('Contains' | 'Equals') | string;
   index: number;
 }
 
@@ -35,7 +35,7 @@ const EditSettingSlice = createSlice({
     hasIpTv: false,
     remark: '',
     round: [] as Array<TCondition>,
-    division: [] as Array<TCondition>,
+    division: [] as Array<TCondition>
   },
   reducers: {
     setInitSetting: (state, action: PayloadAction<TDataSource>) => {
@@ -57,7 +57,8 @@ const EditSettingSlice = createSlice({
         hasIpTv,
         remark,
         round,
-        division } = mapEditSettingFromDataSource(action.payload);
+        division
+      } = mapEditSettingFromDataSource(action.payload);
       state.leagueSettingId = leagueSettingId;
       state.league = league;
       state.owpLeagueId = owpLeagueId;
@@ -77,22 +78,36 @@ const EditSettingSlice = createSlice({
       state.round = round;
       state.division = division;
     },
-    updateObject: (state, action: PayloadAction<{ property: keyof TEditSetting; value: string | number | boolean }>) => {
+    updateObject: (
+      state,
+      action: PayloadAction<{
+        property: keyof TEditSetting;
+        value: string | number | boolean;
+      }>
+    ) => {
       const { property, value } = action.payload;
       return { ...state, [property]: value };
     },
-    addRowExpressions: (state, action: { payload: keyof TAddExpressionKey }) => {
-      state[action.payload].push({ type: "Contains", value: '' });
+    addRowExpressions: (
+      state,
+      action: { payload: keyof TAddExpressionKey }
+    ) => {
+      state[action.payload].push({ type: 'Contains', value: '' });
     },
-    removeRowExpressions: (state, action: { payload: { index: number, property: keyof TAddExpressionKey } }) => {
+    removeRowExpressions: (
+      state,
+      action: { payload: { index: number; property: keyof TAddExpressionKey } }
+    ) => {
       const { property } = action.payload;
 
-      state[property] = state[property].filter((_, index) => index !== action.payload.index);
+      state[property] = state[property].filter(
+        (_, index) => index !== action.payload.index
+      );
     },
     updateExpression: (state, action: PayloadAction<ConditionPayLoad>) => {
       const { key, property, value, index } = action.payload;
 
-      if (key === 'type' && (value === "Contains" || value === "Equals")) {
+      if (key === 'type' && (value === 'Contains' || value === 'Equals')) {
         state[property][index].type = value;
       }
       if (key === 'value') {
@@ -113,10 +128,19 @@ const EditSettingSlice = createSlice({
 });
 
 const { reducer, actions } = EditSettingSlice;
-const { updateObject, updateExpression, setInitSetting, addRowExpressions, removeRowExpressions } = actions;
+const {
+  updateObject,
+  updateExpression,
+  setInitSetting,
+  addRowExpressions,
+  removeRowExpressions
+} = actions;
 
 export default reducer;
 export {
-  addRowExpressions, removeRowExpressions, setInitSetting, updateExpression, updateObject
+  addRowExpressions,
+  removeRowExpressions,
+  setInitSetting,
+  updateExpression,
+  updateObject
 };
-

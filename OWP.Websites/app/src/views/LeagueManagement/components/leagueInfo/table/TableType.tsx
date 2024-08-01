@@ -22,7 +22,6 @@ type TDataSource = {
 type TConditionSource = {
   hasTv: boolean;
   hasIpTv: boolean;
-  ipTv: Array<TCondition>;
   round: Array<TCondition>;
   division: Array<TCondition>;
   remark: string;
@@ -40,6 +39,7 @@ type TTableSlice = {
   leagueFilterHeader: string;
   focusSettingId: number;
   multipleFilter: TMultipleFilter;
+  isOpenAddNewSetting: boolean;
 };
 
 type TColumnKey =
