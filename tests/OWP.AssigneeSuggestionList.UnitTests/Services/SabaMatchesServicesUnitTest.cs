@@ -53,6 +53,26 @@ public class SabaMatchesServicesUnitTest
     }
 
     [Fact]
+    public void GroupSabaShootOuts()
+    {
+        var mockedSabaAssignment = new List<AssignmentModel>
+        {
+            new() { OWPMatchId = 1, LeagueName = "A", HomeName = "B", AwayName="C", MatchType=MatchType.SabaShootOuts, UserId = 11, EventDateTime = new DateTime(2022, 03, 29, 02, 30, 00) },
+            new() { OWPMatchId = 2, LeagueName = "A", HomeName = "B", AwayName="C", MatchType=MatchType.SabaShootOuts, UserId = 11, EventDateTime = new DateTime(2022, 03, 29, 02, 00, 00) },
+            new() { OWPMatchId = 3, LeagueName = "A", HomeName = "B", AwayName="C", MatchType=MatchType.SabaShootOuts, UserId = 11, EventDateTime = new DateTime(2022, 03, 29, 02, 45, 00) },
+        };
+
+        SabaMatchesServicesImp.GroupSabaShootOuts(mockedSabaAssignment);
+
+        var expected = new List<AssignmentModel>
+        {
+            new() { OWPMatchId = 2, LeagueName = "A", HomeName = "B", AwayName="C", MatchType=MatchType.SabaShootOuts, UserId = 11, EventDateTime = new DateTime(2022, 03, 29, 02, 00, 00) }
+        };
+
+        DeepAssert.Equal(expected, mockedSabaAssignment);
+    }
+
+    [Fact]
     public void CategorizeAndGroupSabaMatches()
     {
         var mockedAssignment = new List<AssignmentModel>
