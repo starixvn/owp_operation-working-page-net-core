@@ -31,6 +31,11 @@ public class NewLeagueSettingEndPoint : ICarterModule
         {
             var result = await sender.Send(request);
             return Results.Json(result);
+        }); 
+        groupEndpoint.MapPost("/newLeagueSetting", async (InsertLeagueSettingRequest request, ISender sender) =>
+        {
+            var leagueSettingId=await sender.Send(request);
+            return Results.Ok(new{ leagueSettingId });
         });
     }
 }

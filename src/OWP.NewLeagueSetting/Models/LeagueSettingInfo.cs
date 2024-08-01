@@ -18,19 +18,3 @@ public class LeagueSettingInfo : LeagueSettingCore
 
     public string Remark2 { get; set; } = default!;
 }
-
-public class ConditionInfo
-{
-    public bool HasTv { get; set; }
-
-    public bool HasIpTv { get; set; }
-
-    public List<Condition> IpTv { get; set; }
-
-    public List<Condition> Round { get; set; }
-
-    public List<Condition> Division { get; set; }
-
-    public string Remark { get; set; }
-
-}

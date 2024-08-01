@@ -14,6 +14,8 @@ public interface Repository
     Task<LeagueSettingInfoSender> QueryLeagueSettingDetail(int leagueSettingId);
 
     Task UpdateLeagueSetting(UpdateLeagueSettingRequest request, int actorId);
+
+    Task InsertLeagueSetting(NonQueryCommand criteria, int actorId);
 }
 
 public class RepositoryImp : Repository
@@ -66,4 +68,11 @@ public class RepositoryImp : Repository
         };
         await repository.ExecuteAsync(criteria);
     }
+
+    public async Task InsertLeagueSetting(NonQueryCommand criteria, int actorId)
+    {
+        await repository.ExecuteAsync(criteria);
+    }
+    
+    
 }
