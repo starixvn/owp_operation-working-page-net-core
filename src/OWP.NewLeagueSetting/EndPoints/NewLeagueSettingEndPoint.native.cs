@@ -1,5 +1,5 @@
-﻿
-using OWP.NewLeagueSetting.Command;
+﻿using OWP.NewLeagueSetting.Command;
+using OWP.NewLeagueSetting.EndPoints.Middleware;
 
 namespace OWP.NewLeagueSetting.EndPoints;
 public class NewLeagueSettingEndPoint : ICarterModule
@@ -31,11 +31,12 @@ public class NewLeagueSettingEndPoint : ICarterModule
         {
             var result = await sender.Send(request);
             return Results.Json(result);
-        }); 
+        }).AddEndpointFilter<DuplicateActionFilter>();
+
         groupEndpoint.MapPost("/newLeagueSetting", async (InsertLeagueSettingRequest request, ISender sender) =>
         {
-            var leagueSettingId=await sender.Send(request);
-            return Results.Ok(new{ leagueSettingId });
-        });
+            var leagueSettingId = await sender.Send(request);
+            return Results.Ok(new { leagueSettingId });
+        }).AddEndpointFilter<DuplicateActionFilter>();
     }
 }
