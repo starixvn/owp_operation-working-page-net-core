@@ -8,7 +8,7 @@ import FtSpread from './content/FtSpread';
 import Header from './content/Header';
 import MB from './content/MB';
 import MicsMatch from './content/MicsMatch';
-import { getLeagueGroupOptionsThunk } from './slice/editSettingThunk';
+import { getLeagueGroupOptionsThunk } from '../component/commonThunk';
 
 const EditSettingPopup = (props: { closePopup: () => void }) => {
   const { closePopup } = props;

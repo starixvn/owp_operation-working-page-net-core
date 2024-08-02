@@ -1,21 +1,6 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import { buildLeagueGroupURL, buildRequestURL } from '../../../../../Shared/Service/serviceHelper';
-import { get, post } from '../../../../../Shared/Service/Service';
-import { TOption, TUpdateSettingSender } from '../EditType';
-import { rebuildLeagueGroupOption } from '../../../../helper/commonHelper';
-import { convertResourceToOptions } from '../helper/helper';
-
-const getLeagueGroupOptionsThunk = createAsyncThunk<TOption[]>(
-  'leagueGroup/query',
-  async () => {
-    const url = buildLeagueGroupURL();
-    const data = await get({ url });
-
-    const options = convertResourceToOptions(data.data);
-    const leagueGroupOptionIncludeNoneItem = rebuildLeagueGroupOption(options);
-    return leagueGroupOptionIncludeNoneItem as TOption[];
-  }
-);
+import { buildRequestURL } from '../../../../../Shared/Service/serviceHelper';
+import { post } from '../../../../../Shared/Service/Service';
+import { TUpdateSettingSender } from '../EditType';
 
 const updateSettingService = async (model: TUpdateSettingSender) => {
   const url = buildRequestURL('NewLeagueSetting', 'editLeagueSetting');
@@ -23,4 +8,4 @@ const updateSettingService = async (model: TUpdateSettingSender) => {
   return response;
 };
 
-export { getLeagueGroupOptionsThunk, updateSettingService };
+export { updateSettingService };

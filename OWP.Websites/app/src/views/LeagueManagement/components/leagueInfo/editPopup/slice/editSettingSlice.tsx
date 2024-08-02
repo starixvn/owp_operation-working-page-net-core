@@ -4,7 +4,7 @@ import { REQUEST_STATUS } from '../../../../../Shared/Constants';
 import { TCondition, TDataSource } from '../../table/TableType';
 import { TAddExpressionKey, TEditSetting, TOption } from '../EditType';
 import { mapEditSettingFromDataSource } from '../helper/helper';
-import { getLeagueGroupOptionsThunk } from './editSettingThunk';
+import { getLeagueGroupOptionsThunk } from '../../component/commonThunk';
 
 interface ConditionPayLoad {
   key: 'type' | 'value';

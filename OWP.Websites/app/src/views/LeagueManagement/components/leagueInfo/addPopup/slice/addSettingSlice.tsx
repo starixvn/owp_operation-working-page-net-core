@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { REQUEST_STATUS } from '../../../../../Shared/Constants';
 import { TCondition, TDataSource } from '../../table/TableType';
 import { TOption } from '../../editPopup/EditType';
-
+import { getLeagueGroupOptionsThunk } from '../../component/commonThunk';
 const AddSettingSlice = createSlice({
   name: 'editSettingSlice',
   initialState: {
@@ -28,7 +28,17 @@ const AddSettingSlice = createSlice({
     round: [{ value: '', type: 'Contains' }] as Array<TCondition>,
     division: [{ value: '', type: 'Contains' }] as Array<TCondition>
   },
-  reducers: {}
+  reducers: {},
+  extraReducers: builder => {
+    builder
+      .addCase(getLeagueGroupOptionsThunk.pending, state => {
+        state.loading = REQUEST_STATUS.pending;
+      })
+      .addCase(getLeagueGroupOptionsThunk.fulfilled, (state, { payload }) => {
+        state.leagueGroupOptions = payload;
+        state.loading = REQUEST_STATUS.idle;
+      });
+  }
 });
 
 const { reducer, actions } = AddSettingSlice;
