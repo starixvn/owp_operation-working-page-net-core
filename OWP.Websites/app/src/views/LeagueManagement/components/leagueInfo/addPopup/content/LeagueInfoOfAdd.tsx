@@ -13,7 +13,7 @@ const LeagueInfoOfAdd = () => {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const value = event.target.value;
-    dispatch(updateObjectAddPopup({ property: 'leagueName', value }));
+    dispatch(updateObjectAddPopup({ property: 'league', value }));
   };
 
   const handleChangeLeagueGroup = (selectedOption: TOption | null) => {

@@ -18,7 +18,6 @@ interface ConditionPayLoad {
 const AddSettingSlice = createSlice({
   name: 'editSettingSlice',
   initialState: {
-    leagueName: '',
     leagueGroupOptions: [] as TOption[],
     loading: REQUEST_STATUS.idle,
     leagueSettingId: 0,
