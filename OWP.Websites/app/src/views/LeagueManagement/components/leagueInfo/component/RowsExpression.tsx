@@ -9,14 +9,9 @@ interface RowExpressionProps {
   expressionList: Array<TExpressionRow>;
   title?: string;
   property: 'round' | 'division';
-  handleChangeExpression: (
-    selectedOption: TOption | null,
-    property: 'round' | 'division',
-    index: number
-  ) => void;
   handleUpdateValueExpression: (
     property: 'round' | 'division',
-    key: 'value',
+    key: 'value' | 'type',
     value: string,
     index: number
   ) => void;
@@ -35,7 +30,6 @@ const RowsExpression = ({
   expressionList,
   title,
   property,
-  handleChangeExpression,
   handleUpdateValueExpression,
   handleAddRow,
   handleDeleteRow
@@ -51,7 +45,7 @@ const RowsExpression = ({
               index={index}
               hasWrite
               property={property}
-              handleChangeExpression={handleChangeExpression}
+              handleUpdateValueExpression={handleUpdateValueExpression}
             />
             <Value
               value={expression.value}

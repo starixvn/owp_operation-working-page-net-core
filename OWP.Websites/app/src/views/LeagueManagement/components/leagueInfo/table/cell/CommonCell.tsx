@@ -9,7 +9,7 @@ const CommonCell = ({ className = '', value = '' }) => {
       <div className='row-table' id={uuidKey}>
         {value}
       </div>
-      {value.length > 0 && (
+      {value?.length > 0 && (
         <UncontrolledTooltip placement='left' target={uuidKey}>
           {value}
         </UncontrolledTooltip>

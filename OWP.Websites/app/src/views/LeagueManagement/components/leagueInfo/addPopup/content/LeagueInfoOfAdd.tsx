@@ -1,8 +1,10 @@
-import { useAppSelector } from '../../app/hooks';
+import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import Select from 'react-select-ts';
 import { TOption } from '../../editPopup/EditType';
-
+import { updateObjectAddPopup } from '../slice/addSettingSlice';
 const LeagueInfoOfAdd = () => {
+  const dispatch = useAppDispatch();
+
   const leagueGroupOptions = useAppSelector(
     state => state.addSettingSlice.leagueGroupOptions
   );
@@ -10,20 +12,19 @@ const LeagueInfoOfAdd = () => {
   const handleOnChangeLeagueName = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    console.log(event.target.value);
+    const value = event.target.value;
+    dispatch(updateObjectAddPopup({ property: 'leagueName', value }));
   };
 
   const handleChangeLeagueGroup = (selectedOption: TOption | null) => {
     const value = selectedOption?.value || 0;
-    // if (leagueGroupId !== value) {
-    //   dispatch(updateObject({ property: 'leagueGroupId', value }));
-    //   dispatch(
-    //     updateObject({
-    //       property: 'leagueGroup',
-    //       value: selectedOption?.label || ''
-    //     })
-    //   );
-    // }
+    dispatch(updateObjectAddPopup({ property: 'leagueGroupId', value }));
+    dispatch(
+      updateObjectAddPopup({
+        property: 'leagueGroup',
+        value: selectedOption?.label || ''
+      })
+    );
   };
 
   return (
@@ -33,7 +34,6 @@ const LeagueInfoOfAdd = () => {
         <div className='left'>League Name</div>
         <input
           style={{ 'width': '500px' }}
-          value={''}
           className='input'
           onChange={handleOnChangeLeagueName}
         />
@@ -42,7 +42,6 @@ const LeagueInfoOfAdd = () => {
         <div className='left'>League Group</div>
         <Select
           options={leagueGroupOptions}
-          //value={leagueGroupOptions[0]}
           className='basic-multi-select'
           classNamePrefix='select'
           onChange={handleChangeLeagueGroup}

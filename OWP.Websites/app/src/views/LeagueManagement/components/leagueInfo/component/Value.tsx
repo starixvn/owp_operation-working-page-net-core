@@ -7,21 +7,13 @@ const Value = (props: {
   property: 'round' | 'division';
   handleUpdateValueExpression: (
     property: 'round' | 'division',
-    key: 'value',
+    key: 'value' | 'type',
     value: string,
     index: number
   ) => void;
 }) => {
   const { value, index, hasWrite, property, handleUpdateValueExpression } =
     props;
-
-  const handleUpdateValueExpressionCallBack = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const newValue = event.target.value;
-    handleUpdateValueExpression(property, 'value', newValue, index);
-  };
-
   return (
     <Input
       disabled={!hasWrite}
@@ -29,7 +21,14 @@ const Value = (props: {
       className='input-field'
       defaultValue={value}
       maxLength={100}
-      onBlur={handleUpdateValueExpressionCallBack}
+      onBlur={event =>
+        handleUpdateValueExpression(
+          property,
+          'value',
+          event.target.value,
+          index
+        )
+      }
     />
   );
 };

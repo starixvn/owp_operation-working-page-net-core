@@ -1,60 +1,45 @@
-import React, { useState, MouseEvent } from 'react';
+import React, { MouseEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import CommonTextArea from '../../component/CommonTextArea';
 import RowsExpression from '../../component/RowsExpression';
 import { convertResponseToCondition } from '../../editPopup/helper/helper';
 import {
-  TExpressionRow,
-  TOption,
-  TAddExpressionKey
-} from '../../editPopup/EditType';
+  addRowExpressionsAddPopup,
+  removeRowExpressionsAddPopup,
+  updateExpressionAddPopup,
+  updateObjectAddPopup
+} from '../slice/addSettingSlice';
 
 const ConditionOfAdd = () => {
-  const { round, division, remark } = useAppSelector(
+  const { round, division, remark, hasIpTv, hasTv } = useAppSelector(
     state => state.addSettingSlice
   );
   const dispatch = useAppDispatch();
   const rounds = convertResponseToCondition(round);
   const divisions = convertResponseToCondition(division);
 
-  const handleChangeExpression = (
-    selectedOption: TOption | null,
-    property: 'round' | 'division',
-    index: number
-  ) => {
-    // selectedOption &&
-    //   dispatch(
-    //     updateExpression({
-    //       property,
-    //       key: 'type',
-    //       value: selectedOption.label?.toString() || '',
-    //       index
-    //     })
-    //   );
-  };
-
   const handleUpdateValueExpression = (
     property: 'round' | 'division',
-    key: 'value',
+    key: 'value' | 'type',
     value: string,
     index: number
   ) => {
-    // dispatch(
-    //   updateExpression({
-    //     property,
-    //     key: key,
-    //     value: value,
-    //     index
-    //   })
-    // );
+    dispatch(
+      updateExpressionAddPopup({
+        property,
+        key,
+        value,
+        index
+      })
+    );
   };
 
   const handleAddRow = (
     event: MouseEvent<HTMLElement>,
     property: 'round' | 'division'
   ) => {
-    // event.preventDefault();
-    // dispatch(addRowExpressions(property));
+    event.preventDefault();
+    dispatch(addRowExpressionsAddPopup(property));
   };
 
   const handleDeleteRow = (
@@ -62,16 +47,24 @@ const ConditionOfAdd = () => {
     property: 'round' | 'division',
     index: number
   ) => {
-    // event.preventDefault();
-    // dispatch(removeRowExpressions({ index, property }));
+    event.preventDefault();
+    dispatch(removeRowExpressionsAddPopup({ index, property }));
   };
 
   const handleOnChangeRemark = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     const newValue = event.target.value;
-    // remark !== newValue &&
-    //  dispatch(updateObject({ property: 'remark', value: newValue }));
+    dispatch(updateObjectAddPopup({ property: 'remark', value: newValue }));
+  };
+
+  const handleOnChangeCheckBox = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    property: 'hasTv' | 'hasIpTv'
+  ) => {
+    dispatch(
+      updateObjectAddPopup({ property, value: event.currentTarget.checked })
+    );
   };
 
   return (
@@ -84,13 +77,18 @@ const ConditionOfAdd = () => {
             <input
               className='form-check-label'
               type='checkbox'
-              checked={false}
+              checked={hasTv}
+              onChange={event => handleOnChangeCheckBox(event, 'hasTv')}
             />
             TV (check in TV list)
           </label>
           <div className='iptv'>
             <label>
-              <input type='checkbox' checked={false} />
+              <input
+                type='checkbox'
+                checked={hasIpTv}
+                onChange={event => handleOnChangeCheckBox(event, 'hasIpTv')}
+              />
               IPTV
             </label>
           </div>
@@ -100,7 +98,6 @@ const ConditionOfAdd = () => {
         expressionList={rounds}
         title='Round'
         property='round'
-        handleChangeExpression={handleChangeExpression}
         handleUpdateValueExpression={handleUpdateValueExpression}
         handleAddRow={handleAddRow}
         handleDeleteRow={handleDeleteRow}
@@ -109,7 +106,6 @@ const ConditionOfAdd = () => {
         expressionList={divisions}
         title='Division'
         property='division'
-        handleChangeExpression={handleChangeExpression}
         handleUpdateValueExpression={handleUpdateValueExpression}
         handleAddRow={handleAddRow}
         handleDeleteRow={handleDeleteRow}

@@ -11,9 +11,10 @@ interface ConditionProps {
   hasWrite: boolean;
   index: number;
   property: 'round' | 'division';
-  handleChangeExpression: (
-    selectedOption: TOption | null,
+  handleUpdateValueExpression: (
     property: 'round' | 'division',
+    key: 'value' | 'type',
+    value: string,
     index: number
   ) => void;
 }
@@ -23,10 +24,15 @@ const Condition = ({
   hasWrite = true,
   property,
   index,
-  handleChangeExpression
+  handleUpdateValueExpression
 }: ConditionProps) => {
-  const handleChangeExpressionCallBack = (selectedOption: TOption | null) => {
-    handleChangeExpression(selectedOption, property, index);
+  const handleUpdateExpressionCallBack = (selectedOption: TOption | null) => {
+    handleUpdateValueExpression(
+      property,
+      'type',
+      selectedOption?.label || '',
+      index
+    );
   };
   return (
     <Select
@@ -36,7 +42,7 @@ const Condition = ({
       className='basic-multi-select'
       classNamePrefix='select'
       name='list-condition'
-      onChange={handleChangeExpressionCallBack}
+      onChange={handleUpdateExpressionCallBack}
     />
   );
 };

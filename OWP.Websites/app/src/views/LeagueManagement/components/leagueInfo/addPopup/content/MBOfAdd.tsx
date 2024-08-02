@@ -1,6 +1,7 @@
 import { InputItem } from '../../component/InputItem';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { TEditSetting } from '../../editPopup/EditType';
+import { updateObjectAddPopup } from '../slice/addSettingSlice';
 
 const MBOfAdd = () => {
   const { maxbetWD_HDP, wD_NoOfHDP, maxbetWK_HDP, wK_NoOfHDP } = useAppSelector(
@@ -14,8 +15,7 @@ const MBOfAdd = () => {
     inputKey: keyof TEditSetting
   ) => {
     const newValue = event.target.value;
-    // newValue !== value &&
-    //   dispatch(updateObject({ property: inputKey, value: newValue }));
+    dispatch(updateObjectAddPopup({ property: inputKey, value: newValue }));
   };
 
   return (

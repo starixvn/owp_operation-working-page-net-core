@@ -1,6 +1,7 @@
 import { InputItem } from '../../component/InputItem';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { TEditSetting } from '../../editPopup/EditType';
+import { updateObjectAddPopup } from '../slice/addSettingSlice';
 
 const MiscMatchOffAdd = () => {
   const { lstNote, remark2 } = useAppSelector(state => state.addSettingSlice);
@@ -11,8 +12,7 @@ const MiscMatchOffAdd = () => {
     inputKey: keyof TEditSetting
   ) => {
     const newValue = event.target.value;
-    // newValue !== value &&
-    //   dispatch(updateObject({ property: inputKey, value: newValue }));
+    dispatch(updateObjectAddPopup({ property: inputKey, value: newValue }));
   };
   return (
     <div className='list'>

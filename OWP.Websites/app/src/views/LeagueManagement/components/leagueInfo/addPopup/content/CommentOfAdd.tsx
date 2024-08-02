@@ -1,5 +1,6 @@
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import CommonTextArea from '../../component/CommonTextArea';
+import { updateObjectAddPopup } from '../slice/addSettingSlice';
 
 const CommentOfAdd = () => {
   const dispatch = useAppDispatch();
@@ -7,8 +8,7 @@ const CommentOfAdd = () => {
 
   const handleOnChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newValue = event.target.value;
-    // comment !== newValue &&
-    //   dispatch(updateObject({ property: 'comment', value: newValue }));
+    dispatch(updateObjectAddPopup({ property: 'comment', value: newValue }));
   };
 
   return (

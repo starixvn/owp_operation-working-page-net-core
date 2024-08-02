@@ -2,10 +2,11 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { setIsOpenAddNewSetting } from '../../table/leagueInfoTableSlice/reducer';
 
 const CommandOfAdd = () => {
+  const leagueSetting = useAppSelector(state => state.addSettingSlice);
   const dispatch = useAppDispatch();
 
   const handleSave = () => {
-    console.log('close');
+    console.log(leagueSetting);
   };
   return (
     <div className='list-btn'>

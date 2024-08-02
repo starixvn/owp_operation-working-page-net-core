@@ -37,25 +37,9 @@ const Condition = (props: { condition: TConditionSource }) => {
     setCheckedIPTV(event.currentTarget.checked);
   };
 
-  const handleChangeExpression = (
-    selectedOption: TOption | null,
-    property: 'round' | 'division',
-    index: number
-  ) => {
-    selectedOption &&
-      dispatch(
-        updateExpression({
-          property,
-          key: 'type',
-          value: selectedOption.label?.toString() || '',
-          index
-        })
-      );
-  };
-
   const handleUpdateValueExpression = (
     property: 'round' | 'division',
-    key: 'value',
+    key: 'value' | 'type',
     value: string,
     index: number
   ) => {
@@ -91,7 +75,6 @@ const Condition = (props: { condition: TConditionSource }) => {
       expressionList={roundLists}
       title='Round'
       property='round'
-      handleChangeExpression={handleChangeExpression}
       handleUpdateValueExpression={handleUpdateValueExpression}
       handleAddRow={handleAddRow}
       handleDeleteRow={handleDeleteRow}
@@ -103,7 +86,6 @@ const Condition = (props: { condition: TConditionSource }) => {
       expressionList={divisionLists}
       title='Division'
       property='division'
-      handleChangeExpression={handleChangeExpression}
       handleUpdateValueExpression={handleUpdateValueExpression}
       handleAddRow={handleAddRow}
       handleDeleteRow={handleDeleteRow}
