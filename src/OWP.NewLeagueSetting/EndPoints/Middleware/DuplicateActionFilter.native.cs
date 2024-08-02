@@ -11,13 +11,13 @@ public class DuplicateActionFilter(DuplicateSettingService duplicateSettingServi
             return await next(context);
         }
 
-        var duplicatedSettingId = await duplicateSettingService.GetDuplicatedSettingId(model);
-        if (duplicatedSettingId != 0)
+        var isDuplicate = await duplicateSettingService.GetDuplicatedSettingId(model);
+        if (isDuplicate)
         {
             return Results.BadRequest(new
             {
                 Message = "A setting already exists. Please check again",
-                DuplicatedSettingId = duplicatedSettingId
+                DuplicatedLeagueName = model.League
             });
         }
 
