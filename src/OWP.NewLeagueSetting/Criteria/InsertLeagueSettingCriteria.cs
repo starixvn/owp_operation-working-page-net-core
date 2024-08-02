@@ -3,7 +3,7 @@
 namespace OWP.NewLeagueSetting.Criteria;
 public class InsertLeagueSettingCriteria : NonQueryCommand
 {
-    public string LeagueName { get; set; }
+    public string League { get; set; }
 
     public int? LeagueGroupId { get; set; }
 
@@ -43,5 +43,5 @@ public class InsertLeagueSettingCriteria : NonQueryCommand
 
     public override string GetSettingKey() => "OWP_NewLeagueSetting_InsertLeagueSetting";
 
-    public override bool IsValid() => LeagueName is not null;
+    public override bool IsValid() => League is not null;
 }
