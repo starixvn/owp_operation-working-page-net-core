@@ -440,6 +440,7 @@
     <Setting Key="OWP_NewLeagueSetting_QueryLeagueSettingDetail" SpName ="OWP_NewLeagueSetting_QueryLeagueSettingDetail" DbName="DBOWP.bodb_OWP.wsv_owp" />
     <Setting Key="OWP_NewLeagueSetting_UpdateLeagueSetting" SpName ="OWP_NewLeagueSetting_UpdateLeagueSetting" DbName="DBOWP.bodb_OWP.wsv_owp" />
     <Setting Key="OWP_NewLeagueSetting_InsertLeagueSetting" SpName ="OWP_NewLeagueSetting_InsertLeagueSetting" DbName="DBOWP.bodb_OWP.wsv_owp" />
+    <Setting Key="OWP_NewLeagueSetting_RemoveLeagueSetting" SpName ="OWP_NewLeagueSetting_RemoveLeagueSetting" DbName="DBOWP.bodb_OWP.wsv_owp" />
     </Function>
 	<Function Name="AccountSetting">
 		<Setting Key="OWP_AccountSetting_GetUserProfile" SpName ="OWP_AccountSetting_GetUserProfile" DbName="DBOWP.bodb_OWP.wsv_owp" />

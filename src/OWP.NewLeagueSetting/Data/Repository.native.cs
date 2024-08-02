@@ -15,7 +15,7 @@ public interface Repository
 
     Task UpdateLeagueSetting(UpdateLeagueSettingRequest request, int actorId);
 
-    Task InsertLeagueSetting(NonQueryCommand criteria, int actorId);
+    Task ExecuteNonQueryCommand(NonQueryCommand criteria);
 }
 
 public class RepositoryImp : Repository
@@ -37,10 +37,12 @@ public class RepositoryImp : Repository
     }
 
     public async Task<IEnumerable<LeagueSettingInfoSender>> QueryLeagueSetting(string league, bool isEqualLeague)
-        => await repository.FetchAsync<LeagueSettingInfoSender>(new QueryLeagueSettingCriteria { League = league, IsEqualLeague = isEqualLeague });
+        => await repository.FetchAsync<LeagueSettingInfoSender>(new QueryLeagueSettingCriteria
+            { League = league, IsEqualLeague = isEqualLeague });
 
     public async Task<LeagueSettingInfoSender> QueryLeagueSettingDetail(int leagueSettingId)
-        => await repository.GetAsync<LeagueSettingInfoSender>(new QueryLeagueSettingDetailCriteria { LeagueSettingId = leagueSettingId });
+        => await repository.GetAsync<LeagueSettingInfoSender>(new QueryLeagueSettingDetailCriteria
+            { LeagueSettingId = leagueSettingId });
 
     public async Task UpdateLeagueSetting(UpdateLeagueSettingRequest request, int actorId)
     {
@@ -69,10 +71,6 @@ public class RepositoryImp : Repository
         await repository.ExecuteAsync(criteria);
     }
 
-    public async Task InsertLeagueSetting(NonQueryCommand criteria, int actorId)
-    {
-        await repository.ExecuteAsync(criteria);
-    }
-    
-    
+    public async Task ExecuteNonQueryCommand(NonQueryCommand criteria)
+        => await repository.ExecuteAsync(criteria);
 }
