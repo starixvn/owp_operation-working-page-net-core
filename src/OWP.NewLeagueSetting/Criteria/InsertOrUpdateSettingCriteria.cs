@@ -7,8 +7,6 @@ public abstract class InsertOrUpdateSettingCriteria: NonQueryCommand
 
     public int? LeagueGroupId { get; set; }
 
-    public int OWPLeagueId { get; set; }
-
     public decimal? Spread_HDP_Value { get; set; } = default!;
 
     public decimal? Spread_OU_Value { get; set; } = default!;
