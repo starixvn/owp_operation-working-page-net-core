@@ -72,6 +72,10 @@ const LeagueInfoTableSlice = createSlice({
         state.entitiesOriginal,
         state.multipleFilter
       );
+    },
+    removeBySettingId: (state, actions: PayloadAction<{settingId: number}>) => {
+      state.entities= state.entities.filter(l=>l.leagueSettingId!==actions.payload.settingId);
+      state.entitiesOriginal= state.entitiesOriginal.filter(l=>l.leagueSettingId!==actions.payload.settingId);
     }
   },
   extraReducers: builder => {
@@ -94,7 +98,8 @@ const {
   setMultipleFilter,
   setLeagueHeaderFiler,
   setFocusSettingId,
-  setIsOpenAddNewSetting
+  setIsOpenAddNewSetting,
+  removeBySettingId
 } = actions;
 
 export {
@@ -102,7 +107,8 @@ export {
   setMultipleFilter,
   setLeagueHeaderFiler,
   setFocusSettingId,
-  setIsOpenAddNewSetting
+  setIsOpenAddNewSetting,
+  removeBySettingId
 };
 
 export default reducer;
