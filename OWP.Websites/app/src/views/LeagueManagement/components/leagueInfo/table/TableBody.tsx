@@ -5,6 +5,8 @@ import { TDataSource } from './TableType';
 import CommentCell from './cell/CommentCell';
 import CommonCell from './cell/CommonCell';
 import LeagueCell from './cell/LeagueCell';
+import RemoveCell from './cell/RemoveCell';
+
 
 const TableBody = ({ data = [], displayStart = 0, displayEnd = 0 }) => {
   const rows = [];
@@ -93,6 +95,9 @@ const TableBody = ({ data = [], displayStart = 0, displayEnd = 0 }) => {
           <CommentCell
             className={classNameCells.commentCell.className}
             value={row.comment}
+          />
+          <RemoveCell
+            index={i}
           />
         </tr>
       );

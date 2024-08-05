@@ -86,6 +86,17 @@ const TableHeader = () => {
             <FilterHeader columnKey={Comment as TColumnKey} />
           </div>
         </th>
+        <th
+          style={{
+            width: `${classNameCells.action.width}`,
+            textAlign: 'center'
+          }}
+          rowSpan={2}
+          className='blue-header'>
+          <div className='header-table'>
+            <span>Action</span>
+          </div>
+        </th>
       </tr>
       <tr>
         <th
