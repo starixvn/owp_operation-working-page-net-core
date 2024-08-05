@@ -1,8 +1,8 @@
 ﻿namespace OWP.NewLeagueSetting.Command;
 
-public class UpdateLeagueSettingRequest : LeagueSettingRequest, IRequest<Unit> { }
+public class UpdateLeagueSettingRequest : LeagueSettingRequest, Command<Unit> { }
 
-public class UpdateLeagueSettingHandler : IRequestHandler<UpdateLeagueSettingRequest, Unit>
+public class UpdateLeagueSettingHandler : CommandHandler<UpdateLeagueSettingRequest, Unit>
 {
     private readonly Repository repository;
 

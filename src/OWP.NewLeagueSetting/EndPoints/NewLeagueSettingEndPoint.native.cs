@@ -42,5 +42,11 @@ public class NewLeagueSettingEndPoint : ICarterModule
             var leagueSettingId = await sender.Send(request);
             return Results.Ok(new { leagueSettingId });
         }).AddEndpointFilter<DuplicateActionFilter>();
+
+        groupEndpoint.MapPost("/removeLeagueSetting", async (RemoveLeagueSettingRequest request, ISender sender) =>
+        {
+            await sender.Send(request);
+            return Results.Ok();
+        });
     }
 }

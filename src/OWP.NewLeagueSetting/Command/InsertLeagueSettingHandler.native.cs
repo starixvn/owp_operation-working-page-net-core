@@ -12,7 +12,8 @@ public class InsertLeagueSettingHandler(Repository repository, INapSession sessi
         StandardizedLeagueInfo.BuildNoHdp(request, request.WD_NoOfHDP, request.WK_NoOfHDP);
         StandardizedLeagueInfo.BuildSpread(request, request.Spread);
         var criteria = mapper.Map<InsertLeagueSettingCriteria>(request);
-        //await repository.InsertLeagueSetting(criteria, session.UserId);
+        criteria.ActorId = session.UserId;
+        await repository.ExecuteNonQueryCommand(criteria);
         return criteria.LeagueSettingId;
     }
 }
