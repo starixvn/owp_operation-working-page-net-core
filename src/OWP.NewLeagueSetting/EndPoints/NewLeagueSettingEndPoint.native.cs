@@ -35,7 +35,7 @@ public class NewLeagueSettingEndPoint : ICarterModule
             return Results.Json(result);
         }).AddEndpointFilter<DuplicateActionFilter>();
 
-        groupEndpoint.MapPost("/insert", async (InsertLeagueSettingRequest request, ISender sender, AccessCounter accessCounter, IOptions<AccessCounterModel> counterOptions) =>
+        groupEndpoint.MapPost("/insert", async (InsertLeagueSettingRequest request, ISender sender, AccessCounter accessCounter) =>
         {
             await accessCounter.UpdateCounter(AccessCounterConst.AddNewLeagueSetting);
             var leagueSettingId = await sender.Send(request);

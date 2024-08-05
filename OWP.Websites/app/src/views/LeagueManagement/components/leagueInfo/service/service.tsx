@@ -9,7 +9,7 @@ const updateSettingService = async (model: TUpdateSettingSender) => {
 };
 
 const addSettingService = async (model: TUpdateSettingSender) => {
-  const url = buildRequestURL('NewLeagueSetting', 'insert');
+  const url = buildRequestURL('NewLeagueSetting', 'insert123');
   const response = await post({ url, ...model });
   return response;
 };

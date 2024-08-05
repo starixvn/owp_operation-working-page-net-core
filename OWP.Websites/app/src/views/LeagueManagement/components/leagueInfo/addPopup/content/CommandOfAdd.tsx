@@ -41,6 +41,10 @@ const CommandOfAdd = () => {
   const dispatch = useAppDispatch();
 
   const handleSave = async () => {
+    if (league.length === 0) {
+      await ToastrWrapper.showError('League Name field is required!');
+      return;
+    }
     try {
       const response = await addSettingService({
         leagueSettingId,

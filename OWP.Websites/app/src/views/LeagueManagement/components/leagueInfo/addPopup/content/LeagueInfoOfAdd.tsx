@@ -31,7 +31,11 @@ const LeagueInfoOfAdd = () => {
     <div className='list'>
       <div className='title'>League Information</div>
       <div className='content'>
-        <div className='left'>League Name</div>
+        <div className='left'>
+          League Name
+          <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>*</p>
+        </div>
+
         <input
           style={{ 'width': '500px' }}
           className='input'
