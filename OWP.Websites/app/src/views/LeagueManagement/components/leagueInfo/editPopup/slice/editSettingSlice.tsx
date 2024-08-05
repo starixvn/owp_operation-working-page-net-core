@@ -2,8 +2,8 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 import { REQUEST_STATUS } from '../../../../../Shared/Constants';
 import { TCondition, TDataSource } from '../../table/TableType';
-import { TAddExpressionKey, TEditSetting, TOption } from '../EditType';
-import { mapEditSettingFromDataSource } from '../helper/helper';
+import { TAddExpressionKey, TEditSetting, TOption } from '../../component/Type';
+import { mapEditSettingFromDataSource } from '../../helper/helper';
 import { getLeagueGroupOptionsThunk } from '../../component/commonThunk';
 
 interface ConditionPayLoad {

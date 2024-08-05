@@ -2,7 +2,7 @@ import React, { MouseEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import CommonTextArea from '../../component/CommonTextArea';
 import RowsExpression from '../../component/RowsExpression';
-import { convertResponseToCondition } from '../../editPopup/helper/helper';
+import { convertResponseToCondition } from '../../helper/helper';
 import {
   addRowExpressionsAddPopup,
   removeRowExpressionsAddPopup,

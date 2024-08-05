@@ -1,7 +1,6 @@
-import { useDispatch } from 'react-redux';
 import Select from 'react-select-ts';
 import MaxbetConst from '../../../constants/MaxbetConst';
-import { TOption } from '../editPopup/EditType';
+import { TOption } from './Type';
 
 interface ConditionProps {
   condition: {

@@ -1,9 +1,9 @@
 import { rebuildLeagueGroupOption } from '../../../helper/commonHelper';
-import { convertResourceToOptions } from '../editPopup/helper/helper';
+import { convertResourceToOptions } from '../helper/helper';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { buildLeagueGroupURL } from '../../../../Shared/Service/serviceHelper';
 import { get } from '../../../../Shared/Service/Service';
-import { TOption } from '../editPopup/EditType';
+import { TOption } from './Type';
 
 const getLeagueGroupOptionsThunk = createAsyncThunk<TOption[]>(
   'leagueGroup/query',

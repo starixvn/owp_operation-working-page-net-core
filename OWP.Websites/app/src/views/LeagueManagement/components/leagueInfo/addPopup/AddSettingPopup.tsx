@@ -2,9 +2,9 @@ import { useEffect } from 'react';
 import { Modal, ModalBody, ModalFooter } from 'reactstrap';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import ConditionOfAdd from './content/ConditionOfAdd';
-import FtSpreadOffAdd from './content/FtSpreadOffAdd';
+import FtSpreadOfAdd from './content/FtSpreadOfAdd';
 import MBOfAdd from './content/MBOfAdd';
-import MiscMatchOffAdd from './content/MiscMatchOffAdd';
+import MiscMatchOfAdd from './content/MiscMatchOfAdd';
 import CommentOfAdd from './content/CommentOfAdd';
 import CommandOfAdd from './content/CommandOfAdd';
 import LeagueInfoOfAdd from './content/LeagueInfoOfAdd';
@@ -12,9 +12,7 @@ import { getLeagueGroupOptionsThunk } from '../component/commonThunk';
 const AddSettingPopup = () => {
   const dispatch = useAppDispatch();
 
-  const { leagueGroupOptions } = useAppSelector(
-    state => state.editSettingSlice
-  );
+  const { leagueGroupOptions } = useAppSelector(state => state.addSettingSlice);
   useEffect(() => {
     !leagueGroupOptions.length && dispatch(getLeagueGroupOptionsThunk());
   }, [dispatch, leagueGroupOptions]);
@@ -29,9 +27,9 @@ const AddSettingPopup = () => {
       <ModalBody>
         <LeagueInfoOfAdd />
         <ConditionOfAdd />
-        <FtSpreadOffAdd />
+        <FtSpreadOfAdd />
         <MBOfAdd />
-        <MiscMatchOffAdd />
+        <MiscMatchOfAdd />
         <CommentOfAdd />
       </ModalBody>
       <ModalFooter>

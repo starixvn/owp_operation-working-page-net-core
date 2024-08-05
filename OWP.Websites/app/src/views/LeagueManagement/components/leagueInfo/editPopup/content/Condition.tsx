@@ -1,8 +1,8 @@
 import React, { useState, MouseEvent } from 'react';
-import { TExpressionRow, TOption, TAddExpressionKey } from '../EditType';
+import { TExpressionRow } from '../../component/Type';
 import CommonTextArea from '../../component/CommonTextArea';
 import RowsExpression from '../../component/RowsExpression';
-import { convertResponseToCondition } from '../helper/helper';
+import { convertResponseToCondition } from '../../helper/helper';
 import { useAppDispatch } from '../../app/hooks';
 import {
   updateObject,

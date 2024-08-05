@@ -2,7 +2,7 @@ import { InputItem } from '../../component/InputItem';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { updateObjectAddPopup } from '../slice/addSettingSlice';
 
-const FtSpreadOffAdd = () => {
+const FtSpreadOfAdd = () => {
   const dispatch = useAppDispatch();
   const { spread } = useAppSelector(state => state.addSettingSlice);
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,4 +23,4 @@ const FtSpreadOffAdd = () => {
   );
 };
 
-export default FtSpreadOffAdd;
+export default FtSpreadOfAdd;

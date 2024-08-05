@@ -1,4 +1,4 @@
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import {
   setIsOpenAddNewSetting,
@@ -8,7 +8,7 @@ import { addSettingService } from '../../service/service';
 import ToastrWrapper from '../../../../../components/ToastrWrapper';
 import { fetchLeagueSettingInfo } from '../../table/leagueInfoTableSlice/leagueInfoThunk';
 
-type MyExpectedResponseType = {
+type ExpectedResponseType = {
   message: string;
   duplicatedLeagueName: string;
 };
@@ -62,14 +62,14 @@ const CommandOfAdd = () => {
         round: round.filter(d => d.value) || [],
         division: division.filter(d => d.value) || []
       });
-      await ToastrWrapper.showInfo('The setting has been edited successfully!');
+      await ToastrWrapper.showInfo('The setting has been added successfully!');
       dispatch(fetchLeagueSettingInfo(leagueFilterHeader, false));
       dispatch(setFocusSettingId(leagueSettingId));
       dispatch(setIsOpenAddNewSetting());
     } catch (error) {
       if ((error as AxiosError).code === 'ERR_BAD_REQUEST') {
         const { message, duplicatedLeagueName } = (error as AxiosError).response
-          ?.data as MyExpectedResponseType;
+          ?.data as ExpectedResponseType;
         ToastrWrapper.showDuplicateLeagueSetting(message, duplicatedLeagueName);
       }
     }

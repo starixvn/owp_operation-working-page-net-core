@@ -1,6 +1,6 @@
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import Select from 'react-select-ts';
-import { TOption } from '../../editPopup/EditType';
+import { TOption } from '../../component/Type';
 import { updateObjectAddPopup } from '../slice/addSettingSlice';
 const LeagueInfoOfAdd = () => {
   const dispatch = useAppDispatch();

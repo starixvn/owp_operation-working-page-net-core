@@ -1,12 +1,8 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 import { REQUEST_STATUS } from '../../../../../Shared/Constants';
-import { TCondition, TDataSource } from '../../table/TableType';
-import {
-  TOption,
-  TAddSetting,
-  TAddExpressionKey
-} from '../../editPopup/EditType';
+import { TCondition } from '../../table/TableType';
+import { TOption, TAddSetting, TAddExpressionKey } from '../../component/Type';
 import { getLeagueGroupOptionsThunk } from '../../component/commonThunk';
 interface ConditionPayLoad {
   key: 'type' | 'value';
@@ -16,7 +12,7 @@ interface ConditionPayLoad {
 }
 
 const AddSettingSlice = createSlice({
-  name: 'editSettingSlice',
+  name: 'addSettingSlice',
   initialState: {
     leagueGroupOptions: [] as TOption[],
     loading: REQUEST_STATUS.idle,

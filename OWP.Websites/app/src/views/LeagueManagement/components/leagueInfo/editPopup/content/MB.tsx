@@ -1,7 +1,7 @@
 import { InputItem } from '../../component/InputItem';
 import { useAppDispatch } from '../../app/hooks';
 import { updateObject } from '../slice/editSettingSlice';
-import { TEditSetting } from '../EditType';
+import { TEditSetting } from '../../component/Type';
 
 const MB = (props: {
   maxbetWD_HDP: string;

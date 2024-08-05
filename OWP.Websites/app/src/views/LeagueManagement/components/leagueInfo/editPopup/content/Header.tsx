@@ -1,6 +1,6 @@
 import Select from 'react-select-ts';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { TOption } from '../EditType';
+import { TOption } from '../../component/Type';
 import { updateObject } from '../slice/editSettingSlice';
 
 const Header = (props: { leagueGroupId: number; league: string }) => {

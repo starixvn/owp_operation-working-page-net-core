@@ -1,5 +1,5 @@
 import { uniqueId } from 'lodash';
-import { TExpressionRow, TOption } from '../editPopup/EditType';
+import { TExpressionRow } from './Type';
 import Action from './Action';
 import Condition from './Condition';
 import Value from './Value';
