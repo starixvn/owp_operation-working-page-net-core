@@ -30,20 +30,20 @@ public class NewLeagueSettingEndPoint : ICarterModule
             return Results.Json(result);
         });
 
-        groupEndpoint.MapPost("/editLeagueSetting", async (UpdateLeagueSettingRequest request, ISender sender) =>
+        groupEndpoint.MapPost("/update", async (UpdateLeagueSettingRequest request, ISender sender) =>
         {
             var result = await sender.Send(request);
             return Results.Json(result);
         }).AddEndpointFilter<DuplicateActionFilter>();
 
-        groupEndpoint.MapPost("/newLeagueSetting", async (InsertLeagueSettingRequest request, ISender sender, AccessCounter accessCounter, IOptions<AccessCounterModel> counterOptions) =>
+        groupEndpoint.MapPost("/insert", async (InsertLeagueSettingRequest request, ISender sender, AccessCounter accessCounter, IOptions<AccessCounterModel> counterOptions) =>
         {
             await accessCounter.UpdateCounter(counterOptions.Value.AddNewLeagueSetting);
             var leagueSettingId = await sender.Send(request);
             return Results.Ok(new { leagueSettingId });
         }).AddEndpointFilter<DuplicateActionFilter>();
 
-        groupEndpoint.MapPost("/removeLeagueSetting", async (RemoveLeagueSettingRequest request, ISender sender) =>
+        groupEndpoint.MapPost("/remove", async (RemoveLeagueSettingRequest request, ISender sender) =>
         {
             await sender.Send(request);
             return Results.Ok();

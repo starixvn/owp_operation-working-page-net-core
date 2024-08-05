@@ -97,7 +97,7 @@ const TableBody = ({ data = [], displayStart = 0, displayEnd = 0 }) => {
             value={row.comment}
           />
           <RemoveCell
-            index={i}
+            leagueSettingId={row.leagueSettingId}
           />
         </tr>
       );
