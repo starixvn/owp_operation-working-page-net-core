@@ -1,5 +1,5 @@
-﻿using OWP.NewLeagueSetting;
-using OWP.NewLeagueSetting.Data;
+﻿using OWP.NewLeagueSetting.Data;
+using OWP.NewLeagueSetting.Service;
 
 namespace OWP.Websites;
 

@@ -1,4 +1,6 @@
-﻿namespace OWP.NewLeagueSetting.EndPoints.Middleware;
+﻿using OWP.NewLeagueSetting.Service;
+
+namespace OWP.NewLeagueSetting.EndPoints.Middleware;
 
 public class DuplicateActionFilter(DuplicateSettingService duplicateSettingService) : IEndpointFilter
 {

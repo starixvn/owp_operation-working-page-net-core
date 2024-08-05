@@ -106,5 +106,4 @@ public class OtherSportController : ControllerBase
     [HttpPost]
     public async Task UpdateOfferLive(UpdateOfferLiveRequest request)
         => await mediator.Send(request);
-
 }

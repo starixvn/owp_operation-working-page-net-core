@@ -1,4 +1,4 @@
-﻿namespace OWP.NewLeagueSetting;
+﻿namespace OWP.NewLeagueSetting.Service;
 
 public interface DuplicateSettingService
 {
