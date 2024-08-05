@@ -2,6 +2,7 @@ import { KeyboardEvent, useEffect, useState } from 'react';
 import { useAppDispatch } from '../app/hooks';
 import { fetchLeagueSettingInfo } from '../table/leagueInfoTableSlice/leagueInfoThunk';
 import { setLeagueHeaderFiler } from '../table/leagueInfoTableSlice/reducer';
+import AddLeagueSettingButton from './AddLeagueSettingButton';
 
 const LeagueNameFilter = () => {
   const dispatch = useAppDispatch();
@@ -32,6 +33,7 @@ const LeagueNameFilter = () => {
         onKeyDown={handleKeyDown}
         value={value}
         onChange={e => setValue(e.target.value)}></input>
+      <AddLeagueSettingButton />
     </div>
   );
 };

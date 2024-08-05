@@ -11,7 +11,6 @@ const LeagueInfoManagement = () => {
       <TVListCustom></TVListCustom>
       <Provider store={store}>
         <LeagueNameFilter />
-        <AddLeagueSettingButton />
         <LeagueInfoTable />
       </Provider>
     </>

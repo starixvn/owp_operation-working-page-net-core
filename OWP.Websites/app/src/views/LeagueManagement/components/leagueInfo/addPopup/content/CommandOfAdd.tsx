@@ -1,3 +1,4 @@
+import axios, { AxiosError } from 'axios';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import {
   setIsOpenAddNewSetting,
@@ -6,6 +7,11 @@ import {
 import { addSettingService } from '../../service/service';
 import ToastrWrapper from '../../../../../components/ToastrWrapper';
 import { fetchLeagueSettingInfo } from '../../table/leagueInfoTableSlice/leagueInfoThunk';
+
+type MyExpectedResponseType = {
+  message: string;
+  duplicatedLeagueName: string;
+};
 
 const CommandOfAdd = () => {
   const leagueFilterHeader = useAppSelector(
@@ -36,7 +42,7 @@ const CommandOfAdd = () => {
 
   const handleSave = async () => {
     try {
-      const response = await addSettingService({
+      await addSettingService({
         leagueSettingId,
         league,
         owpLeagueId,
@@ -56,21 +62,17 @@ const CommandOfAdd = () => {
         round: round.filter(d => d.value) || [],
         division: division.filter(d => d.value) || []
       });
+      await ToastrWrapper.showInfo('The setting has been edited successfully!');
+      dispatch(fetchLeagueSettingInfo(leagueFilterHeader, false));
+      dispatch(setFocusSettingId(leagueSettingId));
+      dispatch(setIsOpenAddNewSetting());
     } catch (error) {
-      await ToastrWrapper.showWarning(error?.response?.data.message);
+      if ((error as AxiosError).code === 'ERR_BAD_REQUEST') {
+        const { message, duplicatedLeagueName } = (error as AxiosError).response
+          ?.data as MyExpectedResponseType;
+        ToastrWrapper.showDuplicateLeagueSetting(message, duplicatedLeagueName);
+      }
     }
-
-    // if (response.status === 400) {
-    //   console.log(response.data.message);
-    //   await ToastrWrapper.showInfo(response.data.message);
-    // }
-
-    // if (response.status === 200) {
-    //   await ToastrWrapper.showInfo('The setting has been edited successfully!');
-    //   dispatch(fetchLeagueSettingInfo(leagueFilterHeader, false));
-    //   dispatch(setFocusSettingId(leagueSettingId));
-    //   dispatch(setIsOpenAddNewSetting());
-    // }
   };
   return (
     <div className='list-btn'>
