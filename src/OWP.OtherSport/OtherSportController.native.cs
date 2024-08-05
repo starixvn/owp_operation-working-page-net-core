@@ -1,9 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
+using OWP.Constants;
 using OWP.Helpers;
-using OWP.Models;
 using OWP.OtherSport.Download;
 using OWP.OtherSport.EventAssignment;
 using OWP.OtherSport.EventAssignment.Models;
@@ -23,13 +22,10 @@ public class OtherSportController : ControllerBase
 
     private readonly AccessCounter accessCounter;
 
-    private readonly AccessCounterModel counterModel;
-
-    public OtherSportController(IMediator mediator, AccessCounter accessCounter, IOptions<AccessCounterModel> counterOptions)
+    public OtherSportController(IMediator mediator, AccessCounter accessCounter)
     {
         this.mediator = mediator;
         this.accessCounter = accessCounter;
-        counterModel = counterOptions.Value;
     }
 
     [HttpGet("last-update")]
@@ -87,7 +83,7 @@ public class OtherSportController : ControllerBase
     public async Task<IActionResult> Submit(SubmitRequest request)
     {
         var viewModel = await mediator.Send(request);
-        await accessCounter.UpdateCounter(counterModel.OsUpload);
+        await accessCounter.UpdateCounter(AccessCounterConst.OsUpload);
         return new JsonResult(viewModel);
     }
 
@@ -98,7 +94,7 @@ public class OtherSportController : ControllerBase
         using var excelPackage = await mediator.Send(request);
         var fileName = $"OS Live Game Assignment {request.From:MMddyyyy} - {request.To:MMddyyyy}.xlsx";
         var bytes = await excelPackage.GetAsByteArrayAsync();
-        await accessCounter.UpdateCounter(counterModel.OsExportExcel);
+        await accessCounter.UpdateCounter(AccessCounterConst.OsExportExcel);
         return File(bytes, "application/octet-stream", fileName);
     }
 

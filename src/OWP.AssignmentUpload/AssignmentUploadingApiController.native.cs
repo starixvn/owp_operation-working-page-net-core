@@ -4,11 +4,10 @@ using Fanex.NAP.Client.Helpers.Web;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using OWP.AssignmentUpload.Submit;
 using OWP.AssignmentUpload.Validation;
+using OWP.Constants;
 using OWP.Helpers;
-using OWP.Models;
 using OWP.RabbitMQ;
 using OWP.RabbitMQ.Constants;
 using OWP.Services;
@@ -29,19 +28,15 @@ public class AssignmentUploadingApiController : ControllerBase
 
     private readonly AccessCounter accessCounter;
 
-    private readonly AccessCounterModel counterModel;
-
     public AssignmentUploadingApiController(IMediator mediator,
         MessageClient rabbitMqClient,
         INapSession currentSession,
-        AccessCounter accessCounter,
-        IOptions<AccessCounterModel> counterModel)
+        AccessCounter accessCounter)
     {
         this.mediator = mediator;
         this.rabbitMqClient = rabbitMqClient;
         this.currentSession = currentSession;
         this.accessCounter = accessCounter;
-        this.counterModel = counterModel.Value;
     }
 
     [HttpPost]
@@ -85,7 +80,7 @@ public class AssignmentUploadingApiController : ControllerBase
 
         NotifyForAssignmentUpload(request);
         NotifyForPrematch(request);
-        await accessCounter.UpdateCounter(counterModel.EventUploadNew);
+        await accessCounter.UpdateCounter(AccessCounterConst.EventUploadNew);
         return Ok(viewModel);
     }
 

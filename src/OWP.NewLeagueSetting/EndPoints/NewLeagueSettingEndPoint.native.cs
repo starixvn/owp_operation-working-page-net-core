@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Options;
-using OWP.Models;
+﻿using OWP.Constants;
 using OWP.NewLeagueSetting.Command;
 using OWP.NewLeagueSetting.EndPoints.Middleware;
 using OWP.Services;
@@ -36,9 +35,9 @@ public class NewLeagueSettingEndPoint : ICarterModule
             return Results.Json(result);
         }).AddEndpointFilter<DuplicateActionFilter>();
 
-        groupEndpoint.MapPost("/insert", async (InsertLeagueSettingRequest request, ISender sender, AccessCounter accessCounter, IOptions<AccessCounterModel> counterOptions) =>
+        groupEndpoint.MapPost("/insert", async (InsertLeagueSettingRequest request, ISender sender, AccessCounter accessCounter) =>
         {
-            await accessCounter.UpdateCounter(counterOptions.Value.AddNewLeagueSetting);
+            await accessCounter.UpdateCounter(AccessCounterConst.AddNewLeagueSetting);
             var leagueSettingId = await sender.Send(request);
             return Results.Ok(new { leagueSettingId });
         }).AddEndpointFilter<DuplicateActionFilter>();

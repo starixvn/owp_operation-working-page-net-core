@@ -7,9 +7,7 @@ using Fanex.NAP.Client.Attributes;
 using Fanex.NAP.Client.Helpers.Business;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using Models;
-using OWP.Models;
 using Service;
 using Services;
 using System;
@@ -23,8 +21,7 @@ using System.Threading.Tasks;
 [AllowAnonymous]
 public class DownloadAssignmentController(IEventAssignmentService eventAssignmentService,
     EventAssignmentPermission eventAssignmentPermission,
-    AccessCounter accessCounter,
-    IOptions<AccessCounterModel> counterOptions) : ControllerBase
+    AccessCounter accessCounter) : ControllerBase
 {
 
     [HttpGet("download-assignment")]
@@ -59,7 +56,7 @@ public class DownloadAssignmentController(IEventAssignmentService eventAssignmen
             MatchType = matchType,
             OffVRs = offVRs
         };
-        await accessCounter.UpdateCounter(counterOptions.Value.LiveGameAssignment_Export);
+        await accessCounter.UpdateCounter(AccessCounterConst.LiveGameAssignment_Export);
         return await DownLoadExport(eventExportModel);
     }
 

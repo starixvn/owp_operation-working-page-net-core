@@ -1,3 +1,4 @@
+using OWP.Constants;
 using OWP.EventPicking.Api.Services;
 
 namespace OWP.EventPicking.Api.Handlers;
@@ -15,17 +16,13 @@ public class ExportMiscMatchHandler : IRequestHandler<ExportMiscMatchRequest, Fi
 
     private readonly AccessCounter accessCounter;
 
-    private readonly AccessCounterModel counterModel;
-
     public ExportMiscMatchHandler(
         BuildMainAndChildMatches buildMainAndChildMatches,
         AccessCounter accessCounter,
-        IOptions<AccessCounterModel> counterOptions,
         ExportService exportService)
     {
         this.buildMainAndChildMatches = buildMainAndChildMatches;
         this.accessCounter = accessCounter;
-        counterModel = counterOptions.Value;
         this.exportService = exportService;
     }
 
@@ -35,7 +32,7 @@ public class ExportMiscMatchHandler : IRequestHandler<ExportMiscMatchRequest, Fi
 
         var fileStreamResult = await exportService.BuildFileStream(matches, true);
         fileStreamResult.FileDownloadName = $"Event Picking-{request.Date:yyyy-MM-dd}.xlsx";
-        await accessCounter.UpdateCounter(counterModel.ExportMiscMatch);
+        await accessCounter.UpdateCounter(AccessCounterConst.ExportMiscMatch);
         return fileStreamResult;
     }
 }
