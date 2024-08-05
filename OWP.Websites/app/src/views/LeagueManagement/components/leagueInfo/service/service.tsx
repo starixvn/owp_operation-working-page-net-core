@@ -1,6 +1,6 @@
 import { buildRequestURL } from '../../../../Shared/Service/serviceHelper';
 import { post } from '../../../../Shared/Service/Service';
-import { TUpdateSettingSender } from '../editPopup/EditType';
+import { TUpdateSettingSender } from '../component/Type';
 
 const updateSettingService = async (model: TUpdateSettingSender) => {
   const url = buildRequestURL('NewLeagueSetting', 'update');

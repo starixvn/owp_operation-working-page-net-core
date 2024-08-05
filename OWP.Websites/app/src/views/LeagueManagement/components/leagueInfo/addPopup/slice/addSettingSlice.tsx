@@ -10,32 +10,76 @@ interface ConditionPayLoad {
   value: ('Contains' | 'Equals') | string;
   index: number;
 }
+const addSetting = {
+  leagueGroupOptions: [] as TOption[],
+  loading: REQUEST_STATUS.idle,
+  leagueSettingId: 0,
+  league: '',
+  leagueGroupId: 0,
+  leagueGroup: '',
+  spread: '',
+  maxbetWD_HDP: '',
+  wD_NoOfHDP: '',
+  maxbetWK_HDP: '',
+  wK_NoOfHDP: '',
+  lstNote: '',
+  remark2: '',
+  comment: '',
+  hasTv: false,
+  hasIpTv: false,
+  remark: '',
+  round: [{ value: '', type: 'Contains' }] as Array<TCondition>,
+  division: [{ value: '', type: 'Contains' }] as Array<TCondition>
+};
 
 const AddSettingSlice = createSlice({
   name: 'addSettingSlice',
   initialState: {
-    leagueGroupOptions: [] as TOption[],
-    loading: REQUEST_STATUS.idle,
-    leagueSettingId: 0,
-    league: '',
-    owpLeagueId: 0,
-    leagueGroupId: 0,
-    leagueGroup: '',
-    spread: '',
-    maxbetWD_HDP: '',
-    wD_NoOfHDP: '',
-    maxbetWK_HDP: '',
-    wK_NoOfHDP: '',
-    lstNote: '',
-    remark2: '',
-    comment: '',
-    hasTv: false,
-    hasIpTv: false,
-    remark: '',
-    round: [{ value: '', type: 'Contains' }] as Array<TCondition>,
-    division: [{ value: '', type: 'Contains' }] as Array<TCondition>
+    ...addSetting
   },
   reducers: {
+    setValueDefault: state => {
+      const {
+        leagueGroupOptions,
+        loading,
+        leagueSettingId,
+        league,
+        leagueGroupId,
+        leagueGroup,
+        spread,
+        maxbetWD_HDP,
+        wD_NoOfHDP,
+        maxbetWK_HDP,
+        wK_NoOfHDP,
+        lstNote,
+        remark2,
+        comment,
+        hasTv,
+        hasIpTv,
+        remark,
+        round,
+        division
+      } = addSetting;
+      state.leagueGroupOptions = leagueGroupOptions;
+      state.loading = loading;
+      state.leagueSettingId = leagueSettingId;
+      state.league = league;
+      state.leagueGroupId = leagueGroupId;
+      state.leagueGroup = leagueGroup;
+      state.spread = spread;
+      state.maxbetWD_HDP = maxbetWD_HDP;
+      state.wD_NoOfHDP = wD_NoOfHDP;
+      state.maxbetWK_HDP = maxbetWK_HDP;
+      state.wK_NoOfHDP = wK_NoOfHDP;
+      state.lstNote = lstNote;
+      state.remark2 = remark2;
+      state.comment = comment;
+      state.hasTv = hasTv;
+      state.hasIpTv = hasIpTv;
+      state.remark = remark;
+      state.round = round;
+      state.division = division;
+    },
     updateObjectAddPopup: (
       state,
       action: PayloadAction<{
@@ -93,7 +137,8 @@ const {
   updateObjectAddPopup,
   addRowExpressionsAddPopup,
   removeRowExpressionsAddPopup,
-  updateExpressionAddPopup
+  updateExpressionAddPopup,
+  setValueDefault
 } = actions;
 
 export default reducer;
@@ -101,5 +146,6 @@ export {
   updateObjectAddPopup,
   addRowExpressionsAddPopup,
   removeRowExpressionsAddPopup,
-  updateExpressionAddPopup
+  updateExpressionAddPopup,
+  setValueDefault
 };

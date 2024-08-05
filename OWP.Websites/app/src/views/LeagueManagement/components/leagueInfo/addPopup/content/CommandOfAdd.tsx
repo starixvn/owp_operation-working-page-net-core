@@ -7,6 +7,7 @@ import {
 import { addSettingService } from '../../service/service';
 import ToastrWrapper from '../../../../../components/ToastrWrapper';
 import { fetchLeagueSettingInfo } from '../../table/leagueInfoTableSlice/leagueInfoThunk';
+import { setValueDefault } from '../slice/addSettingSlice';
 
 type ExpectedResponseType = {
   message: string;
@@ -21,7 +22,6 @@ const CommandOfAdd = () => {
   const {
     leagueSettingId,
     league,
-    owpLeagueId,
     leagueGroupId,
     leagueGroup,
     spread,
@@ -42,10 +42,9 @@ const CommandOfAdd = () => {
 
   const handleSave = async () => {
     try {
-      await addSettingService({
+      const response = await addSettingService({
         leagueSettingId,
         league,
-        owpLeagueId,
         leagueGroupId,
         leagueGroup,
         spread,
@@ -62,15 +61,23 @@ const CommandOfAdd = () => {
         round: round.filter(d => d.value) || [],
         division: division.filter(d => d.value) || []
       });
+      if (response.status === 500) {
+        await ToastrWrapper.showError('Internal server error');
+        return;
+      }
       await ToastrWrapper.showInfo('The setting has been added successfully!');
       dispatch(fetchLeagueSettingInfo(leagueFilterHeader, false));
       dispatch(setFocusSettingId(leagueSettingId));
       dispatch(setIsOpenAddNewSetting());
+      dispatch(setValueDefault());
     } catch (error) {
-      if ((error as AxiosError).code === 'ERR_BAD_REQUEST') {
+      if ((error as AxiosError).response?.status === 400) {
         const { message, duplicatedLeagueName } = (error as AxiosError).response
           ?.data as ExpectedResponseType;
-        ToastrWrapper.showDuplicateLeagueSetting(message, duplicatedLeagueName);
+        await ToastrWrapper.showDuplicateLeagueSetting(
+          message,
+          duplicatedLeagueName
+        );
       }
     }
   };

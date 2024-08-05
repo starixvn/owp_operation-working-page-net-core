@@ -16,7 +16,7 @@ type TEditSetting = {
   loading: string;
   leagueSettingId: number;
   league: string;
-  owpLeagueId: number;
+  owpLeagueId?: number;
   leagueGroupId: number;
   leagueGroup: string;
   spread: string;
