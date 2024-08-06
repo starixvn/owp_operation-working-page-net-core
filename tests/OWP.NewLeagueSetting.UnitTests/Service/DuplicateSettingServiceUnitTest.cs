@@ -32,7 +32,7 @@ public class DuplicateSettingServiceUnitTest
 
         var leagueSettings = new List<LeagueSettingInfoSender>
         {
-            new LeagueSettingInfoSender
+            new ()
             {
                 LeagueSettingId = 2,
                 FullConditionDescription = JsonConvert.SerializeObject(new LeagueSettingCondition
