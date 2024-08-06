@@ -65,15 +65,16 @@ const CommandOfAdd = () => {
         round: round.filter(d => d.value) || [],
         division: division.filter(d => d.value) || []
       });
-      if (response.status === 500) {
-        await ToastrWrapper.showError('Internal server error');
-        return;
+
+      if (response.status === 200) {
+        await ToastrWrapper.showInfo(
+          'The setting has been added successfully!'
+        );
+        dispatch(fetchLeagueSettingInfo(leagueFilterHeader, false));
+        dispatch(setFocusSettingId(leagueSettingId));
+        dispatch(setIsOpenAddNewSetting());
+        dispatch(setValueDefault());
       }
-      await ToastrWrapper.showInfo('The setting has been added successfully!');
-      dispatch(fetchLeagueSettingInfo(leagueFilterHeader, false));
-      dispatch(setFocusSettingId(leagueSettingId));
-      dispatch(setIsOpenAddNewSetting());
-      dispatch(setValueDefault());
     } catch (error) {
       if ((error as AxiosError).response?.status === 400) {
         const { message, duplicatedLeagueName } = (error as AxiosError).response

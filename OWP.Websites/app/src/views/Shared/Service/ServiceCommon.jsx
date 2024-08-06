@@ -33,7 +33,7 @@ const setAxiosInterceptors = () => {
         return undefined;
       }
       if (response.status === 404) {
-        ToastrWrapper.showError('400 - Not found');
+        ToastrWrapper.showError('404 - Not found');
         return Promise.reject(error);
       }
       if (response.status === 401) {
