@@ -81,6 +81,11 @@ interface RowExpressionProps {
   ) => void;
 }
 
+type TExpectedResponseType = {
+  message: string;
+  duplicatedLeagueName: string;
+};
+
 export {
   TEditSetting,
   TExpressionRow,
@@ -89,5 +94,6 @@ export {
   TUpdateSettingSender,
   TAddExpressionKey,
   TAddSetting,
-  RowExpressionProps
+  RowExpressionProps,
+  TExpectedResponseType
 };

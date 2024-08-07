@@ -8,11 +8,7 @@ import { addSettingService } from '../../service/service';
 import ToastrWrapper from '../../../../../components/ToastrWrapper';
 import { fetchLeagueSettingInfo } from '../../table/leagueInfoTableSlice/leagueInfoThunk';
 import { setValueDefault } from '../slice/addSettingSlice';
-
-type ExpectedResponseType = {
-  message: string;
-  duplicatedLeagueName: string;
-};
+import { TExpectedResponseType } from '../../component/Type';
 
 const CommandOfAdd = () => {
   const leagueFilterHeader = useAppSelector(
@@ -78,7 +74,7 @@ const CommandOfAdd = () => {
     } catch (error) {
       if ((error as AxiosError).response?.status === 400) {
         const { message, duplicatedLeagueName } = (error as AxiosError).response
-          ?.data as ExpectedResponseType;
+          ?.data as TExpectedResponseType;
         await ToastrWrapper.showDuplicateLeagueSetting(
           message,
           duplicatedLeagueName
