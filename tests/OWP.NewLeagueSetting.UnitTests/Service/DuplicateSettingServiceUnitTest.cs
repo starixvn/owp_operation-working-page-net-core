@@ -45,7 +45,7 @@ public class DuplicateSettingServiceUnitTest
             }
         };
 
-        _repository.QueryLeagueSetting(model.League, false).Returns(leagueSettings);
+        _repository.QueryLeagueSetting(model.League, true).Returns(leagueSettings);
 
         // Act
         var result = await _service.GetDuplicatedSettingId(model);
