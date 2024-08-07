@@ -84,4 +84,8 @@ public class EventPickingApiController
     [HttpPost("update-events")]
     public async Task UpdateMaxbetSpread(UpdateEventsRequest request)
           => await mediator.Send(request);
+
+    [HttpPost("remove-special-product")]
+    public async Task RemoveSpecialProduct(RemoveSpecialProductRequest request)
+   => await mediator.Send(request);
 }

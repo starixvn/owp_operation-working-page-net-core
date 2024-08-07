@@ -37,6 +37,9 @@ public interface Repository
     Task<IEnumerable<LeagueSettingInfoSender>> QueryLeagueSetting();
 
     Task UpdateEvent(UpdateMaxbetSpreadCriteria criteria);
+
+    Task ExecuteNonQuery(INonQueryCommand criteria);
+
 }
 
 public class RepositoryImp : Repository
@@ -163,4 +166,7 @@ public class RepositoryImp : Repository
 
     public async Task UpdateEvent(UpdateMaxbetSpreadCriteria criteria)
         => await dynamicRepository.ExecuteAsync(criteria);
+
+    public async Task ExecuteNonQuery(INonQueryCommand criteria)
+    => await dynamicRepository.ExecuteAsync(criteria);
 }
