@@ -19,7 +19,7 @@ public class LeagueSettingInfoSender : LeagueSettingInfo
 
     public LeagueSettingCondition Condition => JsonConvert.DeserializeObject<LeagueSettingCondition>(FullConditionDescription);
 
-    public static string FormatMaxbet(decimal? maxbet, string maxbetNote) => maxbet.HasValue ? $"{maxbet / 1000}".TrimEnd('0').TrimEnd('.') + "K" : maxbetNote;
+    public static string FormatMaxbet(decimal? maxbet, string maxbetNote) => maxbet.HasValue ? $"{maxbet / 1000}" + "K" : maxbetNote;
 
     public static string FormatNoOfHdpMaxbet(string maxbetNoOfHdp, string maxbetNote)
         => !string.IsNullOrWhiteSpace(maxbetNoOfHdp) ? maxbetNoOfHdp : maxbetNote;
