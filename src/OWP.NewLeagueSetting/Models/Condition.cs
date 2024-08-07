@@ -16,5 +16,5 @@ public class ConditionComparer : IEqualityComparer<Condition>
     }
 
     public int GetHashCode(Condition obj)
-        => string.GetHashCode(obj.Type) * string.GetHashCode(obj.Value);
+        => obj.Type.ToLowerInvariant().GetHashCode() ^ obj.Value.ToLowerInvariant().GetHashCode();
 }
