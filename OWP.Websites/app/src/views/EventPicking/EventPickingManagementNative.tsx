@@ -9,6 +9,7 @@ import UserGuideWrapper from './userGuide/UserGuideWrapper';
 import SumProviderWrapper from './sumProvider/SumProviderWrapper';
 import EditWrapper from './mode/EditWrapper';
 import InfoIcon from '../../assets/svg-element/InfoIcon';
+import AddSpecialProductPopup from './table/tableHeader/AddSpecialProductPopup';
 
 const EventPickingManagementNative = () => {
   const pagePolicy = usePermission(FunctionKeys.EventPickingNew, 'pagePolicy');
@@ -38,6 +39,7 @@ const EventPickingManagementNative = () => {
           </div>
         </OWPHeader>
         <OWPBody className='tickets-tab'>
+          {/* <AddSpecialProductPopup /> */}
           <EventPickingTable />
         </OWPBody>
       </OWPPage>

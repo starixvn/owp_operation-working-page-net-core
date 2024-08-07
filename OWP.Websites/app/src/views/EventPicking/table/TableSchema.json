@@ -8,6 +8,7 @@
       "headerName": "No #",
       "size": 3,
       "isCheckBox": true,
+      "isHaveDropdown": true,
       "columnKey": "No #",
       "colSpan": 1
     },
@@ -97,6 +98,7 @@
       "headerName": "No #",
       "size": 3,
       "isCheckBox": true,
+      "isHaveDropdown": true,
       "columnKey": "No #"
     },
     {
@@ -193,5 +195,11 @@
   ],
   "itemRowHeight": 100,
   "ORDER_ASC": "ORDER_ASC",
-  "ORDER_DESC": "ORDER_DESC"
+  "ORDER_DESC": "ORDER_DESC",
+  "Special_Product_Type": [
+    "No. Of Corner",
+    "Next Corner",
+    "Total Booking",
+    "Next Booking"
+  ]
 }
