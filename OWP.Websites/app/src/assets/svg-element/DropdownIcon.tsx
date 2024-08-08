@@ -6,6 +6,7 @@ const DropdownIcon = (props: DropdownIconProps) => {
   const { colorDropdown, handleOnClick } = props;
   return (
     <svg
+      data-testid='dropdown'
       onClick={handleOnClick}
       width='24'
       height='24'

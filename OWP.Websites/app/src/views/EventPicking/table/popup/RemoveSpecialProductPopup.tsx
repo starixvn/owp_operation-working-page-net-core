@@ -16,7 +16,6 @@ const RemoveSpecialProductPopup = () => {
     <Modal
       isOpen={isOpenRemoveSpecialProduct}
       scrollable
-      wrapClassName='add-special-popup'
       modalClassName='edit-modal'
       centered>
       <ModalBody>

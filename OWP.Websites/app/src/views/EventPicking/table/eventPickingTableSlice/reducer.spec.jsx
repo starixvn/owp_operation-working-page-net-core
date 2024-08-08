@@ -8,12 +8,14 @@ import {
   pushOrUpdateObject
 } from '../../../Shared/Utils';
 
-
-
 describe('eventPickingSlice', () => {
   it('should return initial state', () => {
     expect(eventPickingTable(undefined, {})).toEqual({
-      columnKeyFilterCurrent: "",
+      openPopupState: {
+        isOpenAddSpecialProduct: false,
+        isOpenRemoveSpecialProduct: false
+      },
+      columnKeyFilterCurrent: '',
       entities: [],
       entitiesOriginal: [],
       entitiesByDate: [],
@@ -21,20 +23,20 @@ describe('eventPickingSlice', () => {
       isConfirmAll: false,
       'isNoOfferAll': false,
       loading: REQUEST_STATUS.idle,
-      "multipleFilter":  {
-         "KO_Time":  {
-           "isFilter": false,
-           "options":  [],
-           "selected":  [],
-         },
-         "MB":  {
-           "isFilter": false,
-           "options":  [],
-           "selected":  [],
-         },
-       },
-       "previousNoOfferIndex": null,
-       "valueFilterAllColumn":  {},
+      'multipleFilter': {
+        'KO_Time': {
+          'isFilter': false,
+          'options': [],
+          'selected': []
+        },
+        'MB': {
+          'isFilter': false,
+          'options': [],
+          'selected': []
+        }
+      },
+      'previousNoOfferIndex': null,
+      'valueFilterAllColumn': {}
     });
   });
   it('filterBySearchKey', () => {
@@ -54,23 +56,25 @@ describe('eventPickingSlice', () => {
         }
       ],
       filterState: [],
-      multipleFilter:{
-        MB:{
-          selected:[{
-            value: null
-          }]
+      multipleFilter: {
+        MB: {
+          selected: [
+            {
+              value: null
+            }
+          ]
         },
-        KO_Time:{
-          selected:[{
-            value: new Date('2024-07-10')
-          }]
+        KO_Time: {
+          selected: [
+            {
+              value: new Date('2024-07-10')
+            }
+          ]
         }
       }
     };
     const expectedState = {
-      entities: [
-       
-      ],
+      entities: [],
       entitiesOriginal: [
         {
           leagueName: 'test league',
@@ -86,25 +90,19 @@ describe('eventPickingSlice', () => {
       ],
       isConfirmAll: true,
       isNoOfferAll: true,
-      "multipleFilter":  {
-         "KO_Time":  {
-           
-           "selected":  [
-             {value: new Date('2024-07-10')}
-           ],
-         },
-         "MB":  {
-           
-           "selected":  [
-              {
-               "value": null,
-             },
-           ],
-         },
-       },
-      
-  
-  };
+      'multipleFilter': {
+        'KO_Time': {
+          'selected': [{ value: new Date('2024-07-10') }]
+        },
+        'MB': {
+          'selected': [
+            {
+              'value': null
+            }
+          ]
+        }
+      }
+    };
     const action = {
       type: filterBySearchKey.type,
       payload: {
@@ -150,39 +148,39 @@ describe('eventPickingSlice', () => {
       filterState: [],
       isConfirmAll: false,
       isNoOfferAll: false,
-      multipleFilter:  {
-         KO_Time:  {
-           isFilter: false,
-           options:  [
-              {
-               label: "",
-               value: null,
-             },
-           ],
-           selected:  [
-              {
-               label: "",
-               value: null,
-             },
-           ],
-         },
-         MB:  {
-           isFilter: false,
-           options:  [
-              {
-               label: "(Blanks)",
-               value: null,
-             },
-           ],
-           selected:  [
-              {
-               label: "(Blanks)",
-               value: null,
-             },
-           ],
-         },
-       },
-       valueFilterAllColumn:  {},
+      multipleFilter: {
+        KO_Time: {
+          isFilter: false,
+          options: [
+            {
+              label: '',
+              value: null
+            }
+          ],
+          selected: [
+            {
+              label: '',
+              value: null
+            }
+          ]
+        },
+        MB: {
+          isFilter: false,
+          options: [
+            {
+              label: '(Blanks)',
+              value: null
+            }
+          ],
+          selected: [
+            {
+              label: '(Blanks)',
+              value: null
+            }
+          ]
+        }
+      },
+      valueFilterAllColumn: {}
     };
     const action = {
       type: clearFilter.type,
@@ -190,7 +188,6 @@ describe('eventPickingSlice', () => {
     };
     const actual = eventPickingTable(state, action);
     expect(actual).toStrictEqual(expectedState);
-   
   });
   it('getEventPickings.pending', () => {
     const state = { loading: REQUEST_STATUS.pending };
@@ -215,8 +212,7 @@ describe('eventPickingSlice', () => {
       entities: [],
       entitiesOriginal: [],
       filterState: [],
-      loading: REQUEST_STATUS.pending,
-      
+      loading: REQUEST_STATUS.pending
     };
     const expectedState = {
       entities: [
@@ -247,55 +243,55 @@ describe('eventPickingSlice', () => {
       loading: REQUEST_STATUS.idle,
       isConfirmAll: false,
       isNoOfferAll: false,
-      "multipleFilter":  {
-         "KO_Time":  {
-           "isFilter": false,
-           "options":  [
-              {
-               "label": "",
-               "value": null,
-             },
-           ],
-           "selected":  [
-              {
-               "label": "",
-               "value": null,
-             },
-           ],
-         },
-         "MB":  {
-           "isFilter": false,
-           "options":  [
-              {
-               "label": "(Blanks)",
-               "value": null,
-             },
-           ],
-           "selected":  [
-              {
-               "label": "(Blanks)",
-               "value": null,
-             },
-           ],
-         },
-       },
+      'multipleFilter': {
+        'KO_Time': {
+          'isFilter': false,
+          'options': [
+            {
+              'label': '',
+              'value': null
+            }
+          ],
+          'selected': [
+            {
+              'label': '',
+              'value': null
+            }
+          ]
+        },
+        'MB': {
+          'isFilter': false,
+          'options': [
+            {
+              'label': '(Blanks)',
+              'value': null
+            }
+          ],
+          'selected': [
+            {
+              'label': '(Blanks)',
+              'value': null
+            }
+          ]
+        }
+      }
     };
     const action = {
       type: getEventPickings.fulfilled.type,
       payload: {
-        filteredMatches:[
-        {
-          leagueName: 'test league',
-          homeName: 'test home',
-          awayName: 'test away'
-        },
-        {
-          leagueName: 'test1 league',
-          homeName: 'test1 home',
-          awayName: 'test1 away'
-        }
-      ]
-    }
+        filteredMatches: [
+          {
+            leagueName: 'test league',
+            homeName: 'test home',
+            awayName: 'test away'
+          },
+          {
+            leagueName: 'test1 league',
+            homeName: 'test1 home',
+            awayName: 'test1 away'
+          }
+        ]
+      }
     };
     const actual = eventPickingTable(state, action);
     expect(actual).toEqual(expectedState);
@@ -305,7 +301,7 @@ describe('eventPickingSlice', () => {
     const state = {
       entities: [],
       entitiesOriginal: [],
-      entitiesByDate:[],
+      entitiesByDate: [],
       filterState: {
         columnKey: undefined,
         keyword: undefined
@@ -315,7 +311,7 @@ describe('eventPickingSlice', () => {
     const expectedState = {
       entities: [],
       entitiesOriginal: [],
-      entitiesByDate:  [],
+      entitiesByDate: [],
       filterState: {
         columnKey: undefined,
         keyword: undefined
