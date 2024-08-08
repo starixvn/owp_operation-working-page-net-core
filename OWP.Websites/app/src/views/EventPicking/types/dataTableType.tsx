@@ -1,4 +1,5 @@
 import { Option } from '../../Shared/MultipleSelection/type';
+import { TNoOfferMatch } from './noOfferMatchType';
 
 type TResult = {
   matchesByDate: Array<TDataTable>;
@@ -81,6 +82,7 @@ type TMultipleFilter = {
 };
 
 type TTableSlice = {
+  matchSelected: Array<TDataTable>;
   openPopupState: TOpenPopupState;
   entitiesByDate: Array<TDataTable>;
   entities: Array<TDataTable>;
@@ -117,6 +119,11 @@ type TPermission = {
   SiteId: number;
 };
 
+type TActionOfSpecialProduct = {
+  ParentId: string;
+  MinorBettypeId: string;
+};
+
 export default TDataTable;
 export {
   TTurnOverInfo,
@@ -129,5 +136,6 @@ export {
   TResult,
   TMultipleColumnFilterOption,
   TUpdateEvents,
-  TOpenPopupState
+  TOpenPopupState,
+  TActionOfSpecialProduct
 };

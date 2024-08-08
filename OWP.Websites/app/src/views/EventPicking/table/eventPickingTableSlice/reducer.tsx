@@ -9,7 +9,7 @@ import {
   buildMultipleFilterDefault,
   executeFilterTable
 } from '../../helper/reducerHelper';
-import {
+import TDataTable, {
   TTableSlice,
   TFilterState,
   FilterAllColumn,
@@ -27,6 +27,7 @@ import { Option } from '../../../Shared/MultipleSelection/type';
 const EventPickingTableSlice = createSlice({
   name: 'EventPickingTableSlice',
   initialState: {
+    matchSelected: [] as TDataTable[],
     openPopupState: {
       isOpenAddSpecialProduct: false,
       isOpenRemoveSpecialProduct: false

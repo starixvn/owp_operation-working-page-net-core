@@ -7,6 +7,8 @@
   "getUpdateType": "get-update-type",
   "UPDATE_NO_OFFER_MATCH": "update-noOffer-match",
   "UPDATE_CONFIRMED": "update-confirmed",
+  "REMOVE_SPECIAL_PRODUCT": "remove-special-product",
+  "ADD_SPECIAL_PRODUCT": "add-special-product",
   "MESSAGE": {
     "CHECK_ALL": "Are you sure you want to select all of these matches?",
     "UN_CHECK_ALL": "Are you sure you want to unselect all of these matches?",

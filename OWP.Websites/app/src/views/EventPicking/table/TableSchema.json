@@ -197,9 +197,9 @@
   "ORDER_ASC": "ORDER_ASC",
   "ORDER_DESC": "ORDER_DESC",
   "Special_Product_Type": [
-    "No. Of Corner",
-    "Next Corner",
-    "Total Booking",
-    "Next Booking"
+    { "label": "No. Of Corner", "value": -3 },
+    { "label": "Next Corner", "value": -4 },
+    { "label": "Total Booking", "value": -6 },
+    { "label": "Next Booking", "value": -7 }
   ]
 }
