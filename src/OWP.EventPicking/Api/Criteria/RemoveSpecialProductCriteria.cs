@@ -1,12 +1,14 @@
 using Fanex.Data.Repository;
 
-namespace OWP.SimpleDataApi.Criteria.EventPicking;
+namespace OWP.EventPicking.Api.Criteria;
 
 public class RemoveSpecialProductCriteria : NonQueryCommand
 {
     public int ActorId { get; set; }
 
-    public string Id { get; set; }
+    public string ParentId { get; set; }
+
+    public string MinorBettypeId { get; set; }
 
     public override string GetSettingKey() => "OWP_EventPicking_RemoveSpecialProduct";
 

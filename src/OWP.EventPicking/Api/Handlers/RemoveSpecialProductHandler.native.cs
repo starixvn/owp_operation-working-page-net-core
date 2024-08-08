@@ -1,10 +1,10 @@
 using OWP.CQRS;
 using OWP.EventPicking.Api.Criteria;
-using OWP.SimpleDataApi.Criteria.EventPicking;
+using OWP.EventPicking.Api.Models;
 
 namespace OWP.EventPicking.Api.Handlers;
 
-public record RemoveSpecialProductRequest(int[] Id) : Command<Unit>;
+public record RemoveSpecialProductRequest(RemoveSpecialProduct RemoveInfo) : Command<Unit>;
 
 public class RemoveSpecialProductHandler(INapSession session, Repository repository) : CommandHandler<RemoveSpecialProductRequest, Unit>
 {
@@ -13,7 +13,8 @@ public class RemoveSpecialProductHandler(INapSession session, Repository reposit
         await repository.ExecuteNonQuery(new RemoveSpecialProductCriteria
         {
             ActorId = session.UserId,
-            Id = string.Join(",", request.Id ?? [])
+            ParentId = request.RemoveInfo.ParentId,
+            MinorBettypeId = request.RemoveInfo.MinorBettypeId,
         });
         return Unit.Value;
     }
