@@ -23,6 +23,7 @@ public static class ColorCodeConst
     public const string CR_15_MINS = "#0096C0";
     public const string TB_15_MINS = "#1241A5";
     public const string ET_PK = "#000000";
+    public const string SABA_SHOOTOUTS = "#000000";
     public const string SHIFT = "#BFBFBF";
 
     public const string TEXT_COLOR_BLACK = "#444444";
@@ -74,6 +75,7 @@ public static class ColorCodeConst
          new ("ET/PK", ET_PK, TEXT_ET_PK),
          new ("5M", SABA_5MINS, TEXT_COLOR_WHITE),
          new ("5M*2", SABA_5MINS, TEXT_COLOR_WHITE),
+         new ("PEN", ET_PK, TEXT_COLOR_WHITE),
          new ("Saba Futsal", SABA_FUTSAL, TEXT_COLOR_BLACK),
          new ("M88", SABA_M88, TEXT_COLOR_BLACK),
          new ("16M", SABA_16MINS, TEXT_COLOR_WHITE),
@@ -94,7 +96,8 @@ public static class ColorCodeConst
         { MatchType.SabaLink2G, (SABA_2G, TEXT_COLOR_WHITE) },
         { MatchType.SabaLink3G, (SABA_3G, TEXT_COLOR_BLACK) },
         { MatchType.SabaLink4G, (SABA_4G, TEXT_COLOR_BLACK) },
-        { MatchType.Saba16Mins, (SABA_16MINS, TEXT_COLOR_WHITE) }
+        { MatchType.Saba16Mins, (SABA_16MINS, TEXT_COLOR_WHITE) },
+        { MatchType.SabaShootOuts, (SABA_SHOOTOUTS, TEXT_COLOR_WHITE) }
     }.ToImmutableDictionary();
 }
 

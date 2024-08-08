@@ -39,6 +39,7 @@ public static class CategorizeHelper
             _ when leagueName.IsContains("- 15 Mins Play") => MatchType.Saba15Mins,
             _ when leagueName.IsContains("PES ") && leagueName.IsContains("- 5 Mins Play") => MatchType.Saba5Mins,
             _ when leagueName.IsContains("- 20 Mins Play") => MatchType.Saba20Mins,
+            _ when leagueName.IsContains("- PENALTY SHOOTOUTS") => MatchType.SabaShootOuts,
             _ => MatchType.SabaOther
         };
 
