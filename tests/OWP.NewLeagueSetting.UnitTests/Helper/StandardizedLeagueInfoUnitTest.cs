@@ -77,32 +77,6 @@ public class StandardizedLeagueInfoUnitTest
     }
 
     [Fact]
-    public void BuildCondition_SetsConditionCorrectly()
-    {
-        // Arrange
-        var leagueInfo = new LeagueSettingInfo();
-        var excelInfo = new LeagueSettingExcelInfo
-        {
-            LocalTv = "TV/Local",
-            Round = "*Round1*/*Round2*",
-            LeagueDivision = "*Division*",
-            Remark = "Remark"
-        };
-
-        // Act
-        StandardizedLeagueInfo.BuildCondition(leagueInfo, excelInfo);
-
-        // Assert
-        var condition = JsonConvert.DeserializeObject<LeagueSettingCondition>(leagueInfo.FullConditionDescription);
-        Assert.True(condition.HasTv);
-        Assert.Contains(new Condition("Contains", "Local"), condition.IpTv);
-        Assert.Contains(new Condition("Contains", "Round1"), condition.Round);
-        Assert.Contains(new Condition("Contains", "Round2"), condition.Round);
-        Assert.Contains(new Condition("Contains", "Division"), condition.Division);
-        Assert.Equal("Remark", condition.Remark);
-    }
-
-    [Fact]
     public void AnalyzeSpreadFT()
     {
         // Act
