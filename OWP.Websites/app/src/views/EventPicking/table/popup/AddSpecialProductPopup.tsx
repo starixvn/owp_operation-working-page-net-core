@@ -1,10 +1,22 @@
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { TOpenPopupState } from '../../types/dataTableType';
+import { setOpenPopupState } from '../eventPickingTableSlice/reducer';
 import { Special_Product_Type } from '../TableSchema.json';
 import { Modal, ModalBody, ModalFooter } from 'reactstrap';
 
 const AddSpecialProductPopup = () => {
+  const { isOpenAddSpecialProduct } = useAppSelector(
+    state => state.eventPickingTable.openPopupState
+  );
+  const dispatch = useAppDispatch();
+
+  const handleCancel = (key: keyof TOpenPopupState, value: boolean) => {
+    dispatch(setOpenPopupState({ key, value }));
+  };
+
   return (
     <Modal
-      isOpen
+      isOpen={isOpenAddSpecialProduct}
       scrollable
       wrapClassName='add-special-popup'
       modalClassName='edit-modal'
@@ -23,7 +35,12 @@ const AddSpecialProductPopup = () => {
         </div>
       </ModalBody>
       <ModalFooter>
-        <button className='button-submit'>Add</button>
+        <button
+          className='btn-cancel'
+          onClick={() => handleCancel('isOpenAddSpecialProduct', false)}>
+          Cancel
+        </button>
+        <button className='button-export'>Add</button>
       </ModalFooter>
     </Modal>
   );

@@ -1,5 +1,6 @@
 using OWP.CQRS;
 using OWP.EventPicking.Api.Criteria;
+using OWP.SimpleDataApi.Criteria.EventPicking;
 
 namespace OWP.EventPicking.Api.Handlers;
 

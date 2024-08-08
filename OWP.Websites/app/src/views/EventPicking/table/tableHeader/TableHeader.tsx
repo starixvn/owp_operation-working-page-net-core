@@ -11,6 +11,7 @@ import { VIEW } from '../../mode/mode.json';
 import DropdownIcon from '../../../../assets/svg-element/DropdownIcon';
 import { useState } from 'react';
 import useClickOutside from '../../../Shared/customHook/useClickOutside';
+import DropdownActionHeader from './DropdownActionHeader';
 
 const TableHeader = () => {
   const {
@@ -59,16 +60,7 @@ const TableHeader = () => {
                     handleOnClick={() => setIsDropdownAction(true)}
                   />
                   {isShowDropdownAction && (
-                    <div className='dropdown-action is-show' ref={ref}>
-                      <li className='add-special-product'>
-                        Add Special Product
-                      </li>
-                      <li className='remove-special-product'>
-                        Remove Special Product
-                      </li>
-                      <li className='offer'>Select Game</li>
-                      <li className='no-offer'>Unselect Game</li>
-                    </div>
+                    <DropdownActionHeader refValue={ref} />
                   )}
                 </div>
               )}

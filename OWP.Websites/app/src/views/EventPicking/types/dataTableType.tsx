@@ -3,15 +3,15 @@ import { Option } from '../../Shared/MultipleSelection/type';
 type TResult = {
   matchesByDate: Array<TDataTable>;
   filteredMatches: Array<TDataTable>;
-}
+};
 
 type TUpdateEvents = Array<{
-  InfoSiteMatchId: number,
-  SpreadHdp: number | undefined| null,
-  SpreadOu: number | undefined| null,
-  MaxbetHdp: number | undefined|null,
-  NoOfHDP: string | undefined|null
-}>
+  InfoSiteMatchId: number;
+  SpreadHdp: number | undefined | null;
+  SpreadOu: number | undefined | null;
+  MaxbetHdp: number | undefined | null;
+  NoOfHDP: string | undefined | null;
+}>;
 
 type TDataTable = {
   tV: string;
@@ -66,7 +66,7 @@ type MarginInfo = {
   color: string;
 };
 
-type TColumnKey = "MB" | "KO_Time";
+type TColumnKey = 'MB' | 'KO_Time';
 
 type TMultipleColumnFilterOption = {
   [key in TColumnKey]: Option[];
@@ -81,6 +81,7 @@ type TMultipleFilter = {
 };
 
 type TTableSlice = {
+  openPopupState: TOpenPopupState;
   entitiesByDate: Array<TDataTable>;
   entities: Array<TDataTable>;
   entitiesOriginal: Array<TDataTable>;
@@ -92,6 +93,11 @@ type TTableSlice = {
   multipleFilter: TMultipleFilter;
   loading: string;
   previousNoOfferIndex: null | number;
+};
+
+type TOpenPopupState = {
+  isOpenAddSpecialProduct: boolean;
+  isOpenRemoveSpecialProduct: boolean;
 };
 
 type TFilterState = {
@@ -122,5 +128,6 @@ export {
   TColumnKey,
   TResult,
   TMultipleColumnFilterOption,
-  TUpdateEvents
+  TUpdateEvents,
+  TOpenPopupState
 };

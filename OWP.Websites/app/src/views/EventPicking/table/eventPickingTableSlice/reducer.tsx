@@ -27,6 +27,10 @@ import { Option } from '../../../Shared/MultipleSelection/type';
 const EventPickingTableSlice = createSlice({
   name: 'EventPickingTableSlice',
   initialState: {
+    openPopupState: {
+      isOpenAddSpecialProduct: false,
+      isOpenRemoveSpecialProduct: false
+    },
     entitiesByDate: [],
     entities: [],
     entitiesOriginal: [],
@@ -51,6 +55,10 @@ const EventPickingTableSlice = createSlice({
     }
   } as TTableSlice,
   reducers: {
+    setOpenPopupState: (state, action) => {
+      const { key, value } = action.payload;
+      state.openPopupState = { ...state.openPopupState, [key]: value };
+    },
     setColumnKeyValue: (state, action) => {
       state.columnKeyFilterCurrent = action.payload;
     },
@@ -94,29 +102,38 @@ const EventPickingTableSlice = createSlice({
       state.entities = executeFilterTable(state, filterByKeyword);
       state.isConfirmAll = state.entities?.every(x => x.isCheck);
       state.isNoOfferAll = state.entities?.every(x => x.isNoOffer);
-
     },
     setPreviousNoOfferRow: (state, action) => {
       state.previousNoOfferIndex = action.payload;
     },
-    setValueMaxbetSpread: (state, action: PayloadAction<{
-      key: 'maxbetHdp' | 'spreadOu' | 'spreadHdp',
-      infoSiteMatchId: number,
-      value: number | undefined
-    }>) => {
+    setValueMaxbetSpread: (
+      state,
+      action: PayloadAction<{
+        key: 'maxbetHdp' | 'spreadOu' | 'spreadHdp';
+        infoSiteMatchId: number;
+        value: number | undefined;
+      }>
+    ) => {
       const { key, value, infoSiteMatchId } = action.payload;
-      const target = state.entities.find(s => s.infoSiteMatchId === infoSiteMatchId);
+      const target = state.entities.find(
+        s => s.infoSiteMatchId === infoSiteMatchId
+      );
       if (target) {
         target.isModified = true;
         target[key] = value;
       }
     },
-    setValueNoOfHdp: (state, action: PayloadAction<{
-      infoSiteMatchId: number,
-      value: string | undefined
-    }>) => {
+    setValueNoOfHdp: (
+      state,
+      action: PayloadAction<{
+        infoSiteMatchId: number;
+        value: string | undefined;
+      }>
+    ) => {
       const { value, infoSiteMatchId } = action.payload;
-      const target = state.entities.find(s => s.infoSiteMatchId === infoSiteMatchId);
+      const target = state.entities.find(
+        s => s.infoSiteMatchId === infoSiteMatchId
+      );
       if (target) {
         target.noOfHDP = value;
         target.isModified = true;
@@ -192,6 +209,7 @@ const {
   setPreviousNoOfferRow,
   setValueMaxbetSpread,
   setValueNoOfHdp,
+  setOpenPopupState
 } = actions;
 
 export {
@@ -203,5 +221,6 @@ export {
   setMultipleFilter,
   setValueMaxbetSpread,
   setValueNoOfHdp,
+  setOpenPopupState
 };
 export default reducer;

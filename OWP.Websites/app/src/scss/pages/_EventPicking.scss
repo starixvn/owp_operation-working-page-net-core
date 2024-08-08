@@ -85,6 +85,44 @@
   display: block !important;
 }
 
+.btn-cancel {
+  border: 0;
+  height: 26px;
+  line-height: 26px;
+  text-transform: capitalize;
+  border-radius: 2px;
+  font-size: 13px;
+  color: #fff;
+  background: #a3a3a3;
+  padding: 0 1rem;
+  box-shadow: 1px 3px 4px #0000001a;
+  cursor: pointer;
+  -webkit-transition: 0.2s ease all;
+  -o-transition: 0.2s ease all;
+  transition: 0.2s ease all;
+  margin-left: 10px;
+  outline: none;
+}
+
+.btn-remove {
+  border: 0;
+  height: 26px;
+  line-height: 26px;
+  text-transform: capitalize;
+  border-radius: 2px;
+  font-size: 13px;
+  color: #fff;
+  background: #e24c4c;
+  padding: 0 1rem;
+  box-shadow: 1px 3px 4px #0000001a;
+  cursor: pointer;
+  -webkit-transition: 0.2s ease all;
+  -o-transition: 0.2s ease all;
+  transition: 0.2s ease all;
+  margin-left: 10px;
+  outline: none;
+}
+
 .filter-control {
   flex: 0 1;
   display: flex;
@@ -171,24 +209,7 @@
     align-self: flex-end;
   }
 
-  .btn-cancel {
-    border: 0;
-    height: 26px;
-    line-height: 26px;
-    text-transform: capitalize;
-    border-radius: 2px;
-    font-size: 13px;
-    color: #fff;
-    background: #a3a3a3;
-    padding: 0 1rem;
-    box-shadow: 1px 3px 4px #0000001a;
-    cursor: pointer;
-    -webkit-transition: 0.2s ease all;
-    -o-transition: 0.2s ease all;
-    transition: 0.2s ease all;
-    margin-left: 10px;
-    outline: none;
-  }
+
 
   .calendar {
     position: relative;
