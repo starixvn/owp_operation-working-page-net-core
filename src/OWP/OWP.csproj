@@ -30,9 +30,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Fanex.Data.ProxyClient" Version="0.0.3" />
-    <PackageReference Include="MediatR" Version="12.3.0" />
-    <PackageReference Include="NPOI" Version="2.7.0" />
+    <PackageReference Include="Fanex.Data.ProxyClient" Version="0.0.4-beta4" />
+    <PackageReference Include="MediatR" Version="12.4.0" />
+    <PackageReference Include="NPOI" Version="2.7.1" />
     <PackageReference Include="Olympus.OWP.Constants" Version="1.0.0.4" />
     <PackageReference Include="Fanex.Logging" Version="2.0.1.1" />
     <PackageReference Include="Fanex.NAP.Client" Version="2.0.0.1" />

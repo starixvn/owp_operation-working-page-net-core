@@ -10,9 +10,9 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
-    <PackageReference Include="EPPlus" Version="7.2.0" />
+    <PackageReference Include="EPPlus" Version="7.2.2" />
     <PackageReference Include="Epplus.Mapper" Version="7.0.0" />
-    <PackageReference Include="MediatR" Version="12.3.0" />
+    <PackageReference Include="MediatR" Version="12.4.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OWP\OWP.csproj" />
