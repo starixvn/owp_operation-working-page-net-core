@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 import LogHistoryIcon from '../../../../assets/svg-element/LogHistoryIcon';
 import HistoryModal from '../../modal/HistoryModal.native';
 import { getLocaleDateTime } from '../../../Shared/DateTime/dateTimeHelper';
+import DeleteIcon from 'mdi-react/DeleteIcon';
+import ToastrWrapper from '../../../components/ToastrWrapper';
+import { removeSpecialProduct } from '../../service/Service';
+
 const propTypes = {
   dataSource: PropTypes.array.isRequired,
   rowIndex: PropTypes.number.isRequired
@@ -10,9 +14,27 @@ const propTypes = {
 
 const ActionCell = props => {
   const { rowIndex, dataSource } = props;
-  const { infoSiteMatchId, leagueName, homeName, awayName, eventDateTime } =
+  const { infoSiteMatchId, leagueName, homeName, awayName, eventDateTime, minorBettypeId } =
     dataSource[rowIndex];
   const [openLog, setOpenLog] = useState(false);
+
+  const handleSpecialProduct=async ()=>{
+    const confirmResult=await ToastrWrapper.confirmYesNo("Are you sure that you want to delete this event ?");
+    if(confirmResult.value){
+      Spinner.show();
+      const model = {
+        ParentId: infoSiteMatchId,
+        MinorBettypeId: minorBettypeId
+      };
+      const response = await removeSpecialProduct(model);
+      if (response.status === 200) {
+        ToastrWrapper.showInfo('Delete success!');
+        dispatch(getEventPickings(param));
+      }
+      Spinner.hide();
+    }
+  };
+
   const header = (
     <>
       <strong>
@@ -28,6 +50,14 @@ const ActionCell = props => {
         <span className='icon-history-event' onClick={() => setOpenLog(true)}>
           <LogHistoryIcon width={20} height={20} />
         </span>
+        {minorBettypeId &&<span
+      onClick={handleSpecialProduct}
+      >
+    <DeleteIcon
+          className='icon-delete'
+          size={20}
+        />
+        </span>}
       </div>
       {openLog && (
         <HistoryModal
