@@ -23,6 +23,7 @@ import {
 import filterByKeyword from '../filterByKeyword';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { Option } from '../../../Shared/MultipleSelection/type';
+import { isDate } from 'lodash';
 
 const EventPickingTableSlice = createSlice({
   name: 'EventPickingTableSlice',
@@ -139,6 +140,21 @@ const EventPickingTableSlice = createSlice({
         target.noOfHDP = value;
         target.isModified = true;
       }
+    },
+    setMatchSelected: (
+      state,
+      action: PayloadAction<{
+        match: TDataTable;
+        isAdded: boolean;
+      }>
+    ) => {
+      const { match, isAdded } = action.payload;
+
+      state.matchSelected = isAdded
+        ? [...state.matchSelected, match]
+        : state.matchSelected.filter(
+            s => s.infoSiteMatchId !== match.infoSiteMatchId
+          );
     }
   },
   extraReducers: builder => {
@@ -210,7 +226,8 @@ const {
   setPreviousNoOfferRow,
   setValueMaxbetSpread,
   setValueNoOfHdp,
-  setOpenPopupState
+  setOpenPopupState,
+  setMatchSelected
 } = actions;
 
 export {
@@ -222,6 +239,7 @@ export {
   setMultipleFilter,
   setValueMaxbetSpread,
   setValueNoOfHdp,
-  setOpenPopupState
+  setOpenPopupState,
+  setMatchSelected
 };
 export default reducer;
