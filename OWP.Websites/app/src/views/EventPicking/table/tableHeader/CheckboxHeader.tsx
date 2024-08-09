@@ -1,31 +1,33 @@
 import { useSelector } from 'react-redux';
 import { RootState } from '../../app/store';
-import useStableDispatch from '../../../Shared/customHook/useStableDispatch';
-import { setAllMatchSelected } from '../eventPickingTableSlice/reducer';
+import { TPermission } from '../../types/dataTableType';
+import { buildColumnValueByColumnName } from '../EventPickingTableHelper';
+
 type CheckboxHeaderProps = {
   classNameProps: string | undefined;
   columnKey: string;
 };
 
 const CheckboxHeader = ({ classNameProps, columnKey }: CheckboxHeaderProps) => {
-  const dispatch = useStableDispatch();
-  const isSelectedAll = useSelector(
-    (state: RootState) => state.eventPickingTable.isSelectedAll
+  const model = useSelector((state: RootState) => state.eventPickingTable);
+  const policy = useSelector((state: RootState) => state.pagePolicy);
+  const permission = policy.permission as TPermission;
+  const { isNoOfferAll, isConfirmAll } = model;
+
+  const columnValue = buildColumnValueByColumnName(
+    columnKey,
+    isNoOfferAll,
+    isConfirmAll
   );
-  const handleOnChange = async event => {
-    dispatch(
-      setAllMatchSelected({
-        isAdded: event?.target?.checked
-      })
-    );
-  };
+
   return (
     <div className='custom-checkbox'>
       <input
         type='checkbox'
-        className='check-by-lst'
-        checked={isSelectedAll}
-        onClick={handleOnChange}
+        className={classNameProps}
+        disabled={!permission.HasWrite}
+        checked={columnValue?.checked}
+        onChange={columnValue?.onCheckChange}
       />
     </div>
   );

@@ -171,7 +171,8 @@ const EventPickingTableSlice = createSlice({
         : state.matchSelected.filter(
             s => !matches.some(i => s.infoSiteMatchId === i.infoSiteMatchId)
           );
-      state.isSelectedAll = false;
+      state.isSelectedAll =
+        state.matchSelected.length === state.entities.length;
     },
     setAllMatchSelected: (
       state,

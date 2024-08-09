@@ -12,6 +12,7 @@ import DropdownIcon from '../../../../assets/svg-element/DropdownIcon';
 import { useState } from 'react';
 import useClickOutside from '../../../Shared/customHook/useClickOutside';
 import DropdownActionHeader from './DropdownActionHeader';
+import CheckAllHeader from './CheckAllHeader';
 
 const TableHeader = () => {
   const {
@@ -49,6 +50,12 @@ const TableHeader = () => {
             <div className='group-multiple-select'>
               {item?.isCheckBox && (
                 <CheckboxHeader
+                  classNameProps={item?.className}
+                  columnKey={item.columnKey}
+                />
+              )}
+              {item?.isCheckAll && (
+                <CheckAllHeader
                   classNameProps={item?.className}
                   columnKey={item.columnKey}
                 />

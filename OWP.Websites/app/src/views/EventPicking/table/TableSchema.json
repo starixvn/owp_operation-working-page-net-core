@@ -7,7 +7,7 @@
     {
       "headerName": "No #",
       "size": 3,
-      "isCheckBox": true,
+      "isCheckAll": true,
       "isHaveDropdown": true,
       "columnKey": "No #",
       "colSpan": 1
@@ -97,8 +97,8 @@
     {
       "headerName": "No #",
       "size": 3,
-      "isCheckBox": true,
       "isHaveDropdown": true,
+      "isCheckAll": true,
       "columnKey": "No #"
     },
     {
