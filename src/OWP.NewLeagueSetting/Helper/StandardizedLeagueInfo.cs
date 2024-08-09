@@ -1,4 +1,6 @@
 
+using System.Globalization;
+
 namespace OWP.NewLeagueSetting.Helper;
 
 public static class StandardizedLeagueInfo
@@ -10,7 +12,7 @@ public static class StandardizedLeagueInfo
         {
             var setting = new LeagueSettingInfo();
             BuildCommonInfo(setting, info);
-            setting.FullConditionDescription=ConditionHelper.BuildCondition(info);
+            BuildCondition(setting, info);
             BuildSpread(setting, info.FTSpread);
             BuildMaxbet(setting, info.WD_HDP, info.WK_HDP);
             BuildNoHdp(setting, info.WD_NO_HDP, info.WK_NO_HDP);
@@ -155,6 +157,69 @@ public static class StandardizedLeagueInfo
     {
         decimal.TryParse(source?.Remove(source.Length - 1), out var spread);
         return spread;
+    }
+    public static void BuildCondition(LeagueSettingInfo leagueInfo, LeagueSettingExcelInfo excelInfo)
+    {
+        var (hasTv, ipTv) = AnalyzeHasTv(excelInfo.LocalTv?.Trim());
+        leagueInfo.FullConditionDescription = JsonConvert.SerializeObject(new LeagueSettingCondition
+        {
+            HasTv = hasTv,
+            HasIpTv = ipTv.Any(),
+            IpTv = ipTv,
+            Round = AnalyzeConditionString(excelInfo.Round?.Trim()),
+            Division = AnalyzeConditionString(excelInfo.LeagueDivision?.Trim()),
+            Remark = excelInfo.Remark ?? string.Empty
+        });
+    }
+
+    private static (bool hasTv, List<Condition> iptv) AnalyzeHasTv(string localTv)
+    {
+        var split = localTv?.Split('/') ?? Array.Empty<string>();
+        var condition = new List<Condition>();
+        var tv = split?.Where(t => t.Trim().Equals("TV", StringComparison.OrdinalIgnoreCase)) ?? new List<string>();
+
+        foreach (var iptv in split?.Except(tv))
+        {
+            condition.Add(new(Type: "Contains", Value: iptv?.Trim()));
+        }
+
+        return (tv.Any(), condition);
+
+    }
+
+    private static List<Condition> AnalyzeConditionString(string conditionSource)
+    {
+        var condition = new List<Condition>();
+        if (string.IsNullOrWhiteSpace(conditionSource))
+        {
+            return condition;
+        }
+
+        var splitConditionSource = conditionSource
+            .Split("/")
+            .Select(c => c.Trim())
+            .Where(c => c.Length > 0);
+        foreach (var source in splitConditionSource)
+        {
+            var type = "Equals";
+            var value = source;
+
+            if (source.StartsWith('*') && source.EndsWith('*'))
+            {
+                type = "Contains";
+                value = RemoveContainSymbol(source);
+            }
+
+            condition.Add(new Condition(type, value));
+        }
+        return condition;
+    }
+
+    private static string RemoveContainSymbol(string originalString)
+    {
+        return originalString?.Length > 1
+            ? originalString[1..^1]
+            : originalString;
     }
 
 }

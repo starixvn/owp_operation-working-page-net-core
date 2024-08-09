@@ -17,14 +17,6 @@ public class NewLeagueSettingEndPoint : ICarterModule
         }).Accepts<HttpRequest>("multipart/form-data")
             .AllowAnonymous();
 
-        app.MapPost("api/NewLeagueSetting/update-condition", async (HttpRequest request, ISender sender) =>
-            {
-                await using var ms = new MemoryStream();
-                await request.Form.Files[0].CopyToAsync(ms);
-                return await sender.Send(new UpdateConditionRequest(ms));
-            }).Accepts<HttpRequest>("multipart/form-data")
-            .AllowAnonymous();
-
         groupEndpoint.MapGet("/getAllListSettings", async (string league, bool isEqualLeague, ISender sender) =>
         {
             var result = await sender.Send(new QueryLeagueSettingRequest(league, isEqualLeague));

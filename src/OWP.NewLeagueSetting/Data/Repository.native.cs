@@ -14,7 +14,7 @@ public interface Repository
     Task<LeagueSettingInfoSender> QueryLeagueSettingDetail(int leagueSettingId);
 
     Task UpdateLeagueSetting(UpdateLeagueSettingRequest request, int actorId);
-    Task UpdateCondition(List<UpdateCondition> toList, CancellationToken cancellationToken);
+   
     Task ExecuteNonQueryCommand(NonQueryCommand criteria);
 }
 
@@ -69,15 +69,6 @@ public class RepositoryImp : Repository
             ActorId = actorId
         };
         await repository.ExecuteAsync(criteria);
-    }
-
-    public async Task UpdateCondition(List<UpdateCondition> condition, CancellationToken cancellationToken)
-    {
-        var xml = XmlConverter.Serialize(condition);
-        await repository.ExecuteAsync(new UpdateConditionCriteria()
-        {
-            XML = xml
-        });
     }
 
     public async Task ExecuteNonQueryCommand(NonQueryCommand criteria)
