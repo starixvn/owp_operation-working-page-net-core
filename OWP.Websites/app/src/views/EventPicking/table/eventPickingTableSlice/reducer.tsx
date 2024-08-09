@@ -38,6 +38,7 @@ const EventPickingTableSlice = createSlice({
     entitiesOriginal: [],
     isNoOfferAll: false,
     isConfirmAll: false,
+    isSelectedAll: false,
     valueFilterAllColumn: {} as FilterAllColumn,
     columnKeyFilterCurrent: '',
     filterState: [] as TFilterState[],
@@ -155,6 +156,33 @@ const EventPickingTableSlice = createSlice({
         : state.matchSelected.filter(
             s => s.infoSiteMatchId !== match.infoSiteMatchId
           );
+    },
+
+    setListMatchSelected: (
+      state,
+      action: PayloadAction<{
+        matches: TDataTable[];
+        isAdded: boolean;
+        isSelectedAll: boolean;
+      }>
+    ) => {
+      const { matches, isAdded } = action.payload;
+      state.matchSelected = isAdded
+        ? [...state.matchSelected, ...matches]
+        : state.matchSelected.filter(
+            s => !matches.some(i => s.infoSiteMatchId === i.infoSiteMatchId)
+          );
+      state.isSelectedAll = false;
+    },
+    setAllMatchSelected: (
+      state,
+      action: PayloadAction<{
+        isAdded: boolean;
+      }>
+    ) => {
+      const { isAdded } = action.payload;
+      state.matchSelected = isAdded ? state.entities : [];
+      state.isSelectedAll = isAdded;
     }
   },
   extraReducers: builder => {
@@ -227,7 +255,8 @@ const {
   setValueMaxbetSpread,
   setValueNoOfHdp,
   setOpenPopupState,
-  setMatchSelected
+  setListMatchSelected,
+  setAllMatchSelected
 } = actions;
 
 export {
@@ -240,6 +269,7 @@ export {
   setValueMaxbetSpread,
   setValueNoOfHdp,
   setOpenPopupState,
-  setMatchSelected
+  setListMatchSelected,
+  setAllMatchSelected
 };
 export default reducer;

@@ -89,6 +89,7 @@ type TTableSlice = {
   entitiesOriginal: Array<TDataTable>;
   isNoOfferAll: boolean;
   isConfirmAll: boolean;
+  isSelectedAll: boolean;
   valueFilterAllColumn: FilterAllColumn;
   columnKeyFilterCurrent: string;
   filterState: Array<TFilterState>;

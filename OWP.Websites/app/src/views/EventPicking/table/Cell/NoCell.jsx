@@ -1,11 +1,10 @@
 import PropTypes from 'prop-types';
 import { Input } from 'reactstrap';
 import useStableDispatch from '../../../Shared/customHook/useStableDispatch';
-import { buildNoOfferMainMatchInfo } from '../../helper/noOfferSingleMatchPipeline';
 import { useAppSelector } from '../../app/hooks';
 import {
   setPreviousNoOfferRow,
-  setMatchSelected
+  setListMatchSelected
 } from '../eventPickingTableSlice/reducer';
 
 const propTypes = {
@@ -15,6 +14,7 @@ const propTypes = {
 
 const NoCell = props => {
   const { rowIndex, dataSource } = props;
+
   const dispatch = useStableDispatch();
   const previousRowIndex = useAppSelector(
     state => state.eventPickingTable.previousNoOfferIndex
@@ -31,15 +31,12 @@ const NoCell = props => {
   const handleMultipleSelected = async isAdded => {
     const startIndex = Math.min(previousRowIndex, rowIndex);
     const endIndex = Math.max(previousRowIndex, rowIndex);
-
+    const matches = [];
     for (let i = startIndex; i <= endIndex; i++) {
-      dispatch(
-        setMatchSelected({
-          match: dataSource[i],
-          isAdded
-        })
-      );
+      matches.push(dataSource[i]);
     }
+
+    dispatch(setListMatchSelected({ matches, isAdded }));
     dispatch(setPreviousNoOfferRow(rowIndex));
   };
 
@@ -49,8 +46,8 @@ const NoCell = props => {
       return;
     }
     dispatch(
-      setMatchSelected({
-        match: dataSource[rowIndex],
+      setListMatchSelected({
+        matches: [dataSource[rowIndex]],
         isAdded: event?.target?.checked
       })
     );
@@ -58,12 +55,13 @@ const NoCell = props => {
   };
 
   return (
-    <div className='no-cell' onClick={handleSelectedChanged}>
+    <div className='no-cell'>
       <span>{rowIndex + 1}</span>
       <Input
         type='checkbox'
         className='check-by-lst'
         defaultChecked={selected}
+        onClick={handleSelectedChanged}
       />
     </div>
   );
