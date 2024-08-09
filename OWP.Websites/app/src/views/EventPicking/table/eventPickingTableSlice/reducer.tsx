@@ -163,7 +163,6 @@ const EventPickingTableSlice = createSlice({
       action: PayloadAction<{
         matches: TDataTable[];
         isAdded: boolean;
-        isSelectedAll: boolean;
       }>
     ) => {
       const { matches, isAdded } = action.payload;

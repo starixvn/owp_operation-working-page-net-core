@@ -24,7 +24,7 @@ const CheckboxHeader = ({ classNameProps, columnKey }: CheckboxHeaderProps) => {
       <input
         type='checkbox'
         className='check-by-lst'
-        defaultChecked={isSelectedAll}
+        checked={isSelectedAll}
         onClick={handleOnChange}
       />
     </div>
