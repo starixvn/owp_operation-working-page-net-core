@@ -6,7 +6,7 @@ import {
 } from '../../types/dataTableType';
 import { setOpenPopupState } from '../eventPickingTableSlice/reducer';
 import { Special_Product_Type } from '../TableSchema.json';
-import { Modal, ModalBody, ModalFooter } from 'reactstrap';
+import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { addSpecialProduct } from '../../service/Service';
 import ToastrWrapper from '../../../components/ToastrWrapper';
 import { getEventPickings } from '../eventPickingTableSlice/eventSliceThunkNative';
@@ -35,6 +35,7 @@ const AddSpecialProductPopup = () => {
     const response = await addSpecialProduct(model);
     if (response.status === 200) {
       ToastrWrapper.showInfo('Add success!');
+      handleCancel('isOpenAddSpecialProduct', false);
       dispatch(getEventPickings(param));
     }
   };
@@ -52,6 +53,10 @@ const AddSpecialProductPopup = () => {
       scrollable
       modalClassName='edit-modal'
       centered>
+      <ModalHeader
+        toggle={() => handleCancel('isOpenAddSpecialProduct', false)}>
+        <span className='title-action'>Add Special Product</span>
+      </ModalHeader>
       <ModalBody>
         <div className='option-special-product'>
           {Special_Product_Type.map((element, index) => (

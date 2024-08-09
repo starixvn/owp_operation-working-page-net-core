@@ -88,4 +88,8 @@ public class EventPickingApiController
     [HttpPost("remove-special-product")]
     public async Task RemoveSpecialProduct(RemoveSpecialProductRequest request)
    => await mediator.Send(request);
+
+    [HttpPost("add-special-product")]
+    public async Task AddSpecialProduct(AddSpecialProductRequest request)
+        => await mediator.Send(request);
 }

@@ -892,8 +892,8 @@
 }
 
 .select-special-product:checked {
-  background-color: green !important;
-  border-color: green !important;
+  background-color: #2fb159 !important;
+  border-color: #2fb159 !important;
 }
 
 .select-special-product:checked:after {
@@ -910,21 +910,33 @@
 }
 
 .edit-modal {
-  --cui-modal-width: 250px !important;
+  --cui-modal-width: 400px !important;
+}
+
+.title-action {
+  font-size: 15px;
+  font-weight: 600;
 }
 
 .option-special-product {
   display: flex;
   flex-wrap: wrap;
-  height: 50px;
+  height: 80px;
 
   .wrapper-element {
     display: flex;
     width: 50%;
 
+    input {
+      width: 20px !important;
+      height: 20px !important;
+    }
+
     .name-product {
+      padding-top: 5px;
       padding-left: 5px;
       font-size: 13px;
+      font-weight: 600;
     }
   }
 }
