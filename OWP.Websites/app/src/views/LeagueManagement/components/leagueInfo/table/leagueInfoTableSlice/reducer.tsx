@@ -1,8 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { TColumnKey, TTableSlice } from '../TableType';
-import {
-  getLeagueInfoThunk
-} from './leagueInfoThunk';
+import { getLeagueInfoThunk } from './leagueInfoThunk';
 import { REQUEST_STATUS } from '../../../../../Shared/Constants';
 import { Option } from '../../../../../Shared/MultipleSelection/type';
 import { executeFilterTable, buildDefaultTableFilter } from './reducerHelper';
@@ -35,19 +33,25 @@ const LeagueInfoTableSlice = createSlice({
       LST_Note: buildMultipleFilterDefault(),
       Remark2: buildMultipleFilterDefault(),
       Comment: buildMultipleFilterDefault()
-    }
+    },
+    isOpenAddNewSetting: false
   } as TTableSlice,
   reducers: {
+    setIsOpenAddNewSetting: state => {
+      state.isOpenAddNewSetting = !state.isOpenAddNewSetting;
+    },
     clearFilter: state => {
       const { entitiesOriginal } = state;
       state.entities = entitiesOriginal;
       buildDefaultTableFilter(state.entitiesOriginal, state.multipleFilter);
     },
-    setLeagueHeaderFiler: (state, actions) => { //NOSONAR
+    setLeagueHeaderFiler: (state, actions) => {
+      //NOSONAR
       const league = actions.payload;
       state.leagueFilterHeader = league;
     },
-    setFocusSettingId: (state, actions) => { //NOSONAR
+    setFocusSettingId: (state, actions) => {
+      //NOSONAR
       state.focusSettingId = actions.payload;
     },
     setMultipleFilter: (
@@ -69,7 +73,10 @@ const LeagueInfoTableSlice = createSlice({
         state.multipleFilter
       );
     },
-
+    removeBySettingId: (state, actions: PayloadAction<{settingId: number}>) => {
+      state.entities= state.entities.filter(l=>l.leagueSettingId!==actions.payload.settingId);
+      state.entitiesOriginal= state.entitiesOriginal.filter(l=>l.leagueSettingId!==actions.payload.settingId);
+    }
   },
   extraReducers: builder => {
     builder
@@ -86,8 +93,22 @@ const LeagueInfoTableSlice = createSlice({
 });
 const { reducer, actions } = LeagueInfoTableSlice;
 
-const { clearFilter, setMultipleFilter, setLeagueHeaderFiler, setFocusSettingId } = actions;
+const {
+  clearFilter,
+  setMultipleFilter,
+  setLeagueHeaderFiler,
+  setFocusSettingId,
+  setIsOpenAddNewSetting,
+  removeBySettingId
+} = actions;
 
-export { clearFilter, setMultipleFilter, setLeagueHeaderFiler, setFocusSettingId };
+export {
+  clearFilter,
+  setMultipleFilter,
+  setLeagueHeaderFiler,
+  setFocusSettingId,
+  setIsOpenAddNewSetting,
+  removeBySettingId
+};
 
 export default reducer;

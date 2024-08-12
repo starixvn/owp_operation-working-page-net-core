@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
-import MaxbetConst from '../../../../constants/MaxbetConst';
-import { TCondition, TDataSource } from '../../table/TableType';
-import { TExpressionRow, TLeagueCategory } from '../EditType';
+import MaxbetConst from '../../../constants/MaxbetConst';
+import { TCondition, TDataSource } from '../table/TableType';
+import { TExpressionRow, TLeagueCategory } from '../component/Type';
 
 const mapEditSettingFromDataSource = (dataSource: TDataSource) => {
   const {

@@ -51,7 +51,7 @@ const buildConditionOptions = (first: TCondition[][], second: TCondition[]) => {
   const options: Option[] = uniqBy(
     [...second]
       .sort((a, b) =>
-        (a.value || '')?.localeCompare(b?.value || '')
+        (a?.value || '').localeCompare(b?.value || '')
       )
       .map(
         o =>

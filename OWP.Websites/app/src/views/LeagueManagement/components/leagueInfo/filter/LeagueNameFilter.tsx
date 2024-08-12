@@ -2,7 +2,8 @@ import { KeyboardEvent, useEffect, useState } from 'react';
 import { useAppDispatch } from '../app/hooks';
 import { fetchLeagueSettingInfo } from '../table/leagueInfoTableSlice/leagueInfoThunk';
 import { setLeagueHeaderFiler } from '../table/leagueInfoTableSlice/reducer';
-
+import AddLeagueSettingButton from './AddLeagueSettingButton';
+import { Button } from 'reactstrap';
 const LeagueNameFilter = () => {
   const dispatch = useAppDispatch();
   const searchParams = new URLSearchParams(document.location.search);
@@ -16,7 +17,7 @@ const LeagueNameFilter = () => {
 
   const handleEnter = async () => {
     dispatch(setLeagueHeaderFiler(value));
-    await dispatch(fetchLeagueSettingInfo(value));
+    await dispatch(fetchLeagueSettingInfo(value, false));
   };
 
   useEffect(() => {
@@ -32,6 +33,10 @@ const LeagueNameFilter = () => {
         onKeyDown={handleKeyDown}
         value={value}
         onChange={e => setValue(e.target.value)}></input>
+      <Button className='btn-search' onClick={handleEnter}>
+        Search
+      </Button>
+      <AddLeagueSettingButton />
     </div>
   );
 };

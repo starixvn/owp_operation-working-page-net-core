@@ -91,6 +91,19 @@ const showNotifySuccess = async message =>
     }
   });
 
+const showDuplicateLeagueSetting = async (message, leagueName) => {
+  Toastr.fire({
+    html: message,
+    icon: 'error',
+    confirmButtonText: 'Check existing setting',
+    allowOutsideClick: false,
+    allowEnterKey: false
+  }).then(() => {
+    const url = `LeagueManagement?leagueName=${leagueName}&isEqualLeague=true`;
+    window.open(url, '_blank');
+  });
+};
+
 const ToastrWrapper = {
   show,
   showInfo,
@@ -99,7 +112,8 @@ const ToastrWrapper = {
   confirm,
   confirmYesNo,
   showWarningSessionExpired,
-  showNotifySuccess
+  showNotifySuccess,
+  showDuplicateLeagueSetting
 };
 
 export default ToastrWrapper;

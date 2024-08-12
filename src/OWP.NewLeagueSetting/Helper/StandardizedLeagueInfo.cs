@@ -1,4 +1,6 @@
 
+using System.Globalization;
+
 namespace OWP.NewLeagueSetting.Helper;
 
 public static class StandardizedLeagueInfo
@@ -27,19 +29,7 @@ public static class StandardizedLeagueInfo
         leagueInfo.LstNote = excelInfo.LstNote;
         leagueInfo.Remark2 = excelInfo.Remark2;
     }
-    public static void BuildCondition(LeagueSettingInfo leagueInfo, LeagueSettingExcelInfo excelInfo)
-    {
-        var (hasTv, ipTv) = AnalyzeHasTv(excelInfo.LocalTv?.Trim());
-        leagueInfo.FullConditionDescription = JsonConvert.SerializeObject(new LeagueSettingCondition
-        {
-            HasTv = hasTv,
-            HasIpTv = ipTv.Any(),
-            IpTv = ipTv,
-            Round = AnalyzeConditionString(excelInfo.Round?.Trim()),
-            Division = AnalyzeConditionString(excelInfo.LeagueDivision?.Trim()),
-            Remark = excelInfo.Remark ?? string.Empty
-        });
-    }
+   
 
     public static void BuildSpread(LeagueSettingCore leagueInfo, string ftSpread)
     {
@@ -129,21 +119,6 @@ public static class StandardizedLeagueInfo
         leagueInfo.Comment = comment;
     }
 
-
-    private static (bool hasTv, List<Condition> iptv) AnalyzeHasTv(string localTv)
-    {
-        var split = (localTv ?? string.Empty).Split('/');
-        var condition = new List<Condition>();
-        var tv = split.Where(t => t.Trim().Equals("TV", StringComparison.OrdinalIgnoreCase));
-
-        foreach (var iptv in split.Except(tv))
-        {
-            condition.Add(new Condition(Type: "Contains", Value: iptv?.Trim()));
-        }
-
-        return (tv.Any(), condition);
-
-    }
     private static (decimal? maxbet, string maxbetSource) AnalyzeMaxbet(string maxbetSource)
     {
         var regex = Pattern.MaxbetRegex();
@@ -163,40 +138,6 @@ public static class StandardizedLeagueInfo
         : (null, noHdpSource);
     }
 
-    private static List<Condition> AnalyzeConditionString(string conditionSource)
-    {
-        var condition = new List<Condition>();
-        if (string.IsNullOrWhiteSpace(conditionSource))
-        {
-            return condition;
-        }
-
-        var splitConditionSource = conditionSource
-        .Split("/")
-        .Select(c => c.Trim())
-        .Where(c => c.Length > 0);
-        foreach (var source in splitConditionSource)
-        {
-            var type = "Equals";
-            var value = source;
-
-            if (source.StartsWith('*') && source.EndsWith('*'))
-            {
-                type = "Contains";
-                value = RemoveContainSymbol(source);
-            }
-
-            condition.Add(new Condition(type, value));
-        }
-        return condition;
-    }
-
-    private static string RemoveContainSymbol(string originalString)
-    {
-        return originalString?.Length > 1
-        ? originalString[1..^1]
-        : originalString;
-    }
     public static (decimal? spreadHdp, decimal? spreadOu, string spreadSource) AnalyzeSpreadFT(string spreadSource)
     {
         var regex = Pattern.SpreadRegex();
@@ -216,6 +157,69 @@ public static class StandardizedLeagueInfo
     {
         decimal.TryParse(source?.Remove(source.Length - 1), out var spread);
         return spread;
+    }
+    public static void BuildCondition(LeagueSettingInfo leagueInfo, LeagueSettingExcelInfo excelInfo)
+    {
+        var (hasTv, ipTv) = AnalyzeHasTv(excelInfo.LocalTv?.Trim());
+        leagueInfo.FullConditionDescription = JsonConvert.SerializeObject(new LeagueSettingCondition
+        {
+            HasTv = hasTv,
+            HasIpTv = ipTv.Any(),
+            IpTv = ipTv,
+            Round = AnalyzeConditionString(excelInfo.Round?.Trim()),
+            Division = AnalyzeConditionString(excelInfo.LeagueDivision?.Trim()),
+            Remark = excelInfo.Remark ?? string.Empty
+        });
+    }
+
+    private static (bool hasTv, List<Condition> iptv) AnalyzeHasTv(string localTv)
+    {
+        var split = localTv?.Split('/') ?? Array.Empty<string>();
+        var condition = new List<Condition>();
+        var tv = split?.Where(t => t.Trim().Equals("TV", StringComparison.OrdinalIgnoreCase)) ?? new List<string>();
+
+        foreach (var iptv in split?.Except(tv))
+        {
+            condition.Add(new(Type: "Contains", Value: iptv?.Trim()));
+        }
+
+        return (tv.Any(), condition);
+
+    }
+
+    private static List<Condition> AnalyzeConditionString(string conditionSource)
+    {
+        var condition = new List<Condition>();
+        if (string.IsNullOrWhiteSpace(conditionSource))
+        {
+            return condition;
+        }
+
+        var splitConditionSource = conditionSource
+            .Split("/")
+            .Select(c => c.Trim())
+            .Where(c => c.Length > 0);
+        foreach (var source in splitConditionSource)
+        {
+            var type = "Equals";
+            var value = source;
+
+            if (source.StartsWith('*') && source.EndsWith('*'))
+            {
+                type = "Contains";
+                value = RemoveContainSymbol(source);
+            }
+
+            condition.Add(new Condition(type, value));
+        }
+        return condition;
+    }
+
+    private static string RemoveContainSymbol(string originalString)
+    {
+        return originalString?.Length > 1
+            ? originalString[1..^1]
+            : originalString;
     }
 
 }

@@ -24,21 +24,18 @@ public class EventPickingOldController : ControllerBase
     private readonly LeagueSettingService leagueSettingService;
     private readonly AccessCounter accessCounter;
     private readonly AppSettings settings;
-    private readonly AccessCounterModel counterModel;
     private readonly ILogger logger;
 
     public EventPickingOldController(
         LeagueSettingService leagueSettingService,
         AccessCounter accessCounter,
         IOptions<AppSettings> options,
-        ILogger logger,
-        IOptions<AccessCounterModel> counterOptions)
+        ILogger logger)
     {
         this.leagueSettingService = leagueSettingService;
         this.accessCounter = accessCounter;
         settings = options.Value;
         this.logger = logger;
-        counterModel = counterOptions.Value;
     }
 
     [Route("sync-event-picking")]
@@ -47,7 +44,7 @@ public class EventPickingOldController : ControllerBase
     public async Task<FileResult> SyncedEventPickingExcel(DateTime date)
     {
         var templatePath = Path.Combine("App_Data", "Templates", "EventPicking.xlsx");
-        await accessCounter.UpdateCounter(counterModel.LiveGameAssignment_Export_Event_Picking);
+        await accessCounter.UpdateCounter(AccessCounterConst.LiveGameAssignment_Export_Event_Picking);
         return await DownloadExcel(templatePath, date);
     }
 
@@ -56,7 +53,7 @@ public class EventPickingOldController : ControllerBase
     public async Task<FileResult> EventPickingExcel(DateTime date)
     {
 
-        await accessCounter.UpdateCounter(counterModel.EventPicking_Export_Excel);
+        await accessCounter.UpdateCounter(AccessCounterConst.EventPicking_Export_Excel);
         var templatePath = Path.Combine("App_Data", "Templates", "EventPicking.xlsx");
 
         return await DownloadExcel(templatePath, date);

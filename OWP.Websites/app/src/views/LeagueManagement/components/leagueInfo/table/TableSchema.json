@@ -59,6 +59,10 @@
     "commentCell": {
       "className": "comment-cell",
       "width": "380px"
+    },
+    "action": {
+      "className": "action-cell",
+      "width": "40px"
     }
   },
   "COLUMN_KEY": {
@@ -75,7 +79,8 @@
     "MB_WD_NO_HDP": "MB_WD_NO_HDP",
     "LST_Note": "LST_Note",
     "Remark2": "Remark2",
-    "Comment": "Comment"
+    "Comment": "Comment",
+    "Action": "Action"
   },
   "itemRowHeight": 40
 }

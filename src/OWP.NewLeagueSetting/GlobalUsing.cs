@@ -11,6 +11,9 @@ global using OWP.NewLeagueSetting.Data;
 global using OWP.NewLeagueSetting.Models;
 global using OWP.NewLeagueSetting.Query;
 global using System.Text.RegularExpressions;
+global using Fanex.NAP.Client.Helpers.Web;
+global using OWP.CQRS;
+global using OWP.NewLeagueSetting.Helper;
 
 
 

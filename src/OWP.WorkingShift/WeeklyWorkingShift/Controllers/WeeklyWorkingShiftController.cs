@@ -3,7 +3,6 @@ using OWP.WorkingShift.Common.Repositories;
 namespace OWP.WorkingShift.WeeklyWorkingShift.Controllers;
 
 using Constants;
-using Microsoft.Extensions.Options;
 using Models;
 using System;
 using System.Linq;
@@ -17,15 +16,13 @@ public class WeeklyWorkingShiftController : Controller
     private readonly WorkingShiftTimezoneSettingRepository timezoneSettingRepository;
     private readonly UserRepository userRepository;
     private readonly AccessCounter accessCounter;
-    private readonly AccessCounterModel counterModel;
 
     public WeeklyWorkingShiftController(
         RefResourceService resourceRepository,
         Common.Services.ModelService modelService,
         INapSession currentSession,
         WorkingShiftTimezoneSettingRepository timezoneSettingRepository,
-        UserRepository userRepository, AccessCounter accessCounter,
-        IOptions<AccessCounterModel> counterOptions)
+        UserRepository userRepository, AccessCounter accessCounter)
     {
         this.modelService = modelService;
         this.resourceRepository = resourceRepository;
@@ -33,7 +30,6 @@ public class WeeklyWorkingShiftController : Controller
         this.timezoneSettingRepository = timezoneSettingRepository;
         this.userRepository = userRepository;
         this.accessCounter = accessCounter;
-        counterModel = counterOptions.Value;
     }
 
     [NapAuth(FunctionKey = FunctionKeys.WorkingShiftManagement, Policy = Constant.Policy.Read)]
@@ -66,7 +62,7 @@ public class WeeklyWorkingShiftController : Controller
             IsFrame = false
         };
 
-        await accessCounter.UpdateCounter(counterModel.WorkingShiftManagement);
+        await accessCounter.UpdateCounter(AccessCounterConst.WorkingShiftManagement);
         return View(model);
     }
 

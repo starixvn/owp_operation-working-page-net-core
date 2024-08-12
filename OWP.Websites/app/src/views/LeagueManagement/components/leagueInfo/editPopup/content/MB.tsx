@@ -1,17 +1,26 @@
-import { InputItem } from '../component/InputItem';
+import { InputItem } from '../../component/InputItem';
+import { useAppDispatch } from '../../app/hooks';
+import { updateObject } from '../slice/editSettingSlice';
+import { TEditSetting } from '../../component/Type';
 
 const MB = (props: {
-  maxbetWD_HDP: string,
-  wD_NoOfHDP: string,
-  maxbetWK_HDP: string,
-  wK_NoOfHDP: string
+  maxbetWD_HDP: string;
+  wD_NoOfHDP: string;
+  maxbetWK_HDP: string;
+  wK_NoOfHDP: string;
 }) => {
-  const {
-    maxbetWD_HDP,
-    wD_NoOfHDP,
-    maxbetWK_HDP,
-    wK_NoOfHDP
-  } = props;
+  const { maxbetWD_HDP, wD_NoOfHDP, maxbetWK_HDP, wK_NoOfHDP } = props;
+  const dispatch = useAppDispatch();
+
+  const handleOnChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    value: string,
+    inputKey: keyof TEditSetting
+  ) => {
+    const newValue = event.target.value;
+    newValue !== value &&
+      dispatch(updateObject({ property: inputKey, value: newValue }));
+  };
 
   return (
     <div className='list'>
@@ -19,22 +28,34 @@ const MB = (props: {
       <div className='content-column-2'>
         <InputItem
           label='Weekday HDP (K)'
-          inputKey='maxbetWD_HDP'
-          value={maxbetWD_HDP} />
+          value={maxbetWD_HDP}
+          handleOnChange={event =>
+            handleOnChange(event, maxbetWD_HDP, 'maxbetWD_HDP')
+          }
+        />
         <InputItem
           label='Weekday NO. HDP'
-          inputKey='wD_NoOfHDP'
-          value={wD_NoOfHDP} />
+          value={wD_NoOfHDP}
+          handleOnChange={event =>
+            handleOnChange(event, wD_NoOfHDP, 'wD_NoOfHDP')
+          }
+        />
       </div>
       <div className='content-column-2'>
         <InputItem
           label='Weekend HDP (K)'
-          inputKey='maxbetWK_HDP'
-          value={maxbetWK_HDP} />
+          value={maxbetWK_HDP}
+          handleOnChange={event =>
+            handleOnChange(event, maxbetWK_HDP, 'maxbetWK_HDP')
+          }
+        />
         <InputItem
           label='Weekend NO. HDP'
-          inputKey='wK_NoOfHDP'
-          value={wK_NoOfHDP} />
+          value={wK_NoOfHDP}
+          handleOnChange={event =>
+            handleOnChange(event, wK_NoOfHDP, 'wK_NoOfHDP')
+          }
+        />
       </div>
     </div>
   );

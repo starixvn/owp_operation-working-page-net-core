@@ -17,9 +17,11 @@ public class LeagueSettingInfoSender : LeagueSettingInfo
 
     public string SpreadShow => AnalyzeSpreadSourceFT(Spread_HDP_Value, Spread_OU_Value) ?? Spread_Note;
 
-    public LeagueSettingCondition Condition => JsonConvert.DeserializeObject<LeagueSettingCondition>(FullConditionDescription);
+    public LeagueSettingCondition Condition => string.IsNullOrWhiteSpace(FullConditionDescription)?
+        new():
+        JsonConvert.DeserializeObject<LeagueSettingCondition>(FullConditionDescription);
 
-    public static string FormatMaxbet(decimal? maxbet, string maxbetNote) => maxbet.HasValue ? $"{maxbet / 1000}".TrimEnd('0').TrimEnd('.') + "K" : maxbetNote;
+    public static string FormatMaxbet(decimal? maxbet, string maxbetNote) => maxbet.HasValue ? $"{maxbet / 1000}" + "K" : maxbetNote;
 
     public static string FormatNoOfHdpMaxbet(string maxbetNoOfHdp, string maxbetNote)
         => !string.IsNullOrWhiteSpace(maxbetNoOfHdp) ? maxbetNoOfHdp : maxbetNote;
