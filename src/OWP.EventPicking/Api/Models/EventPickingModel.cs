@@ -1,6 +1,6 @@
 
 
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace OWP.EventPicking.Api.Models;
 
@@ -10,11 +10,8 @@ public class EventPickingModel : MaxbetSpread
 
     public int? AdminSiteMatchId { get; set; }
 
+    [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
     public int? MinorBettypeId { get; set; }
-
-    public int? SubType { get; set; }
-
-    public bool IsChildMatch => SubType.HasValue;
 
     public bool IsTestMatch { get; set; }
 
@@ -183,10 +180,10 @@ public class EventPickingModel : MaxbetSpread
     public string ReporterPhone { get; set; }
 
     [Cell("AQ2")]
-    public string InfoSiteIdExport => IsChildMatch ? string.Empty : InfoSiteMatchId.ToString();
+    public string InfoSiteIdExport => MinorBettypeId.HasValue ? string.Empty : InfoSiteMatchId.ToString();
 
     [Cell("AR2")]
-    public string AdminSiteIdExport => IsChildMatch ? string.Empty : AdminSiteMatchId.ToString();
+    public string AdminSiteIdExport => MinorBettypeId.HasValue ? string.Empty : AdminSiteMatchId.ToString();
 
     [Cell("AS2")]
     public string Venue { get; set; }
