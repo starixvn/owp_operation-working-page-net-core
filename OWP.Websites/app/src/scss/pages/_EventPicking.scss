@@ -886,6 +886,24 @@
   }
 }
 
+.unselect-special-product:checked {
+  background-color: #e24e4e;
+  border-color: #e24e4e;
+}
+
+.unselect-special-product:checked:after {
+  content: 'X' !important;
+  color: #fff;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  margin-top: 1px;
+}
+
 .select-special-product:checked {
   background-color: #2fb159 !important;
   border-color: #2fb159 !important;
@@ -948,6 +966,7 @@
 .switch-match-offer .no-offer-text {
   margin-left: 23px;
 }
+
 .custom-checkbox :hover {
   cursor: pointer;
 }

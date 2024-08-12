@@ -62,7 +62,7 @@ const AddSpecialProductPopup = () => {
           {Special_Product_Type.map((element, index) => (
             <div className='wrapper-element' key={`${element}-${index}`}>
               <input
-                className='select-special-product form-check-input'
+                className='select-special-product'
                 type='checkbox'
                 checked={specialProductType.some(x => x === element.value)}
                 onChange={() => handleOnChangeSpecial(element.value)}
