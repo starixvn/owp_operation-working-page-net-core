@@ -137,23 +137,23 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
     {
         if (period.OneMonth is not null)
         {
-            match.TurnoverOneMonth = new TurnOverInfo("1 month");
-            match.MarginOneMonth = new MarginInfo("1 month");
+            match.TurnoverOneMonth = new TurnOverInfo("1m");
+            match.MarginOneMonth = new MarginInfo("1m");
         }
         if (period.ThreeMonths is not null)
         {
-            match.TurnoverThreeMonths = new TurnOverInfo("3 months");
-            match.MarginThreeMonths = new MarginInfo("3 months");
+            match.TurnoverThreeMonths = new TurnOverInfo("3m");
+            match.MarginThreeMonths = new MarginInfo("3m");
         }
         if (period.SixMonths is not null)
         {
-            match.TurnoverSixMonths = new TurnOverInfo("6 months");
-            match.MarginSixMonths = new MarginInfo("6 months");
+            match.TurnoverSixMonths = new TurnOverInfo("6m");
+            match.MarginSixMonths = new MarginInfo("6m");
         }
         if (period.TwelveMonths is not null)
         {
-            match.TurnoverTwelveMonths = new TurnOverInfo("12 months");
-            match.MarginTwelveMonths = new MarginInfo("12 months");
+            match.TurnoverTwelveMonths = new TurnOverInfo("12m");
+            match.MarginTwelveMonths = new MarginInfo("12m");
         }
     }
     private static IList<string> GetLeagueName(List<EventPickingModel> matches)

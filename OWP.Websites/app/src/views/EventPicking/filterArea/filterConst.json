@@ -22,7 +22,7 @@
   "SELECT_GAME_OPTIONS": [
     {
       "value": 1,
-      "label": "No Offer (x)"
+      "label": "No Offer"
     },
     {
       "value": 0,
