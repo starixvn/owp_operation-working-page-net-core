@@ -38,7 +38,7 @@ public static class Utils
             var turnoverInfoType = turnoverInfo.GetType();
             var valueDisplayProperty = turnoverInfoType.GetProperty("ValueDisplay");
             var valueProperty = turnoverInfoType.GetProperty("Value");
-            valueDisplayProperty.SetValue(turnoverInfo, string.Format("{0:#,0.00}", value));
+            valueDisplayProperty.SetValue(turnoverInfo, $"{value:#,0.00}");
             valueProperty.SetValue(turnoverInfo, value);
         }
 
@@ -56,7 +56,7 @@ public static class Utils
             var marginInfoType = marginInfo.GetType();
             var valueDisplayProperty = marginInfoType.GetProperty("ValueDisplay");
             var valueProperty = marginInfoType.GetProperty("Value");
-            valueDisplayProperty.SetValue(marginInfo, string.Format("{0:#,0.00}", value));
+            valueDisplayProperty.SetValue(marginInfo, $"{value:#,0.00}");
             valueProperty.SetValue(marginInfo, value);
         }
     }

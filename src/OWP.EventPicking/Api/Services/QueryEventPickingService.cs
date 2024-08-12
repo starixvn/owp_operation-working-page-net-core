@@ -1,5 +1,6 @@
 using OWP.Constants;
 using OWP.EventPicking.Api.Criteria;
+using OWP.EventPicking.Api.Helper;
 using OWP.EventPicking.Api.Middleware.Models;
 using OWP.EventPicking.Api.Models;
 
@@ -31,6 +32,7 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
         var eventPickingPolicy = permissionService.GetPermissions(FunctionKeys.EventPickingNew);
         var turnoverMarginPolicy = eventPickingPolicy.GetPermissionModel(FunctionKeys.EventPickingNew_EventAndPerformance);
         var validMatch = FilterAllMatchesByRequest(matches, request);
+        SpecialProductHelper.BuildSpecialProduct(validMatch);
         if (turnoverMarginPolicy.IsRead)
         {
             await CalculateTurnOver_Margin(request, matches);
@@ -45,18 +47,18 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
 
     public async Task CalculateTurnOver_Margin(EventPickingRequest request, List<EventPickingModel> matches)
     {
-        var twOneMonth = await GetTurnover_WinLoss_TGRS(request.Period.OneMonth, matches);
-        var twThreeMonths = await GetTurnover_WinLoss_TGRS(request.Period.ThreeMonths, matches);
-        var twSixMonths = await GetTurnover_WinLoss_TGRS(request.Period.SixMonths, matches);
-        var twTwelveMonths = await GetTurnover_WinLoss_TGRS(request.Period.TwelveMonths, matches);
-
+        var twOneMonth = GetTurnover_WinLoss_TGRS(request.Period.OneMonth, matches);
+        var twThreeMonths = GetTurnover_WinLoss_TGRS(request.Period.ThreeMonths, matches);
+        var twSixMonths = GetTurnover_WinLoss_TGRS(request.Period.SixMonths, matches);
+        var twTwelveMonths = GetTurnover_WinLoss_TGRS(request.Period.TwelveMonths, matches);
+        await Task.WhenAll(twOneMonth, twThreeMonths, twSixMonths, twTwelveMonths);
         foreach (var match in matches)
         {
             InitTurnover_MarginInfo(request.Period, match);
-            CalculateTurnover_WinLoss_PeriodOneMonth(twOneMonth, match);
-            CalculateTurnover_WinLoss_PeriodThreeMonth(twThreeMonths, match);
-            CalculateTurnover_WinLoss_PeriodSixMonth(twSixMonths, match);
-            CalculateTurnover_WinLoss_PeriodTwelveMonths(twTwelveMonths, match);
+            CalculateTurnover_WinLoss_PeriodOneMonth(twOneMonth.Result, match);
+            CalculateTurnover_WinLoss_PeriodThreeMonth(twThreeMonths.Result, match);
+            CalculateTurnover_WinLoss_PeriodSixMonth(twSixMonths.Result, match);
+            CalculateTurnover_WinLoss_PeriodTwelveMonths(twTwelveMonths.Result, match);
         }
     }
 
@@ -189,5 +191,6 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
         .Any(x => condition.UpdateType.Contains(x));
     }
 
+   
     private static int ConvertBoolToInt(bool value) => value ? 1 : 0;
 }

@@ -14,7 +14,7 @@ public static class Bettype
 
     public const int FirstHalfOneXTwo = 15;
 
-    public const int Corner = -3;
+    public const int NoOfCorner = -3;
 
     public const int NextCorner = -4;
 

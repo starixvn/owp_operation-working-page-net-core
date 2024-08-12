@@ -50,10 +50,10 @@ public class CornerServiceImp : CornerService
         IList<AssignmentModel> assignmentsCorner,
         DateTime filterDate)
     {
-        var textPostfix = ScheduleHelper.BuildTextSingleGamePostfixHdp(gameMapGameId, assignmentsCorner, Bettype.Corner);
+        var textPostfix = ScheduleHelper.BuildTextSingleGamePostfixHdp(gameMapGameId, assignmentsCorner, Bettype.NoOfCorner);
         if (string.IsNullOrEmpty(textPostfix))
         {
-            textPostfix = ScheduleHelper.BuildTextSingleGamePostfixOu(gameMapGameId, assignmentsCorner, Bettype.Corner);
+            textPostfix = ScheduleHelper.BuildTextSingleGamePostfixOu(gameMapGameId, assignmentsCorner, Bettype.NoOfCorner);
         }
 
         var gameInfo = ScheduleHelper.GetGameInfo(assignmentsCorner);
