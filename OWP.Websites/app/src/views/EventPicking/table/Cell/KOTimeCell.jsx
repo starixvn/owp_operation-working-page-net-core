@@ -54,29 +54,31 @@ const KoTimeCell = props => {
     <div className='ko-time-cell'>
       <span>{formatTime(eventDateTime, 'minute', 'hh:mm A')}</span>
       <br></br>
-      <Switch
-        className='switch-match-offer'
-        slotProps={{
-          track: {
-            children: (
-              <Typography
-                component='span'
-                level='inherit'
-                className={isNoOffer ? 'no-offer-text' : 'offer-text'}>
-                {isNoOffer ? 'No Offer' : 'Offer'}
-              </Typography>
-            )
-          }
-        }}
-        disabled={!permission.HasWrite}
-        checked={!isNoOffer}
-        onChange={handleSelectedChanged}
-        sx={{
-          '--Switch-thumbSize': '20px',
-          '--Switch-trackWidth': '58px',
-          '--Switch-trackHeight': '23px'
-        }}
-      />
+      {!isChildMatch && (
+        <Switch
+          className='switch-match-offer'
+          slotProps={{
+            track: {
+              children: (
+                <Typography
+                  component='span'
+                  level='inherit'
+                  className={isNoOffer ? 'no-offer-text' : 'offer-text'}>
+                  {isNoOffer ? 'No Offer' : 'Offer'}
+                </Typography>
+              )
+            }
+          }}
+          disabled={!permission.HasWrite}
+          checked={!isNoOffer}
+          onChange={handleSelectedChanged}
+          sx={{
+            '--Switch-thumbSize': '20px',
+            '--Switch-trackWidth': '58px',
+            '--Switch-trackHeight': '23px'
+          }}
+        />
+      )}
     </div>
   );
 };

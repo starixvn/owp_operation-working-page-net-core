@@ -33,15 +33,18 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
         var turnoverMarginPolicy = eventPickingPolicy.GetPermissionModel(FunctionKeys.EventPickingNew_EventAndPerformance);
         var validMatch = FilterAllMatchesByRequest(matches, request);
 
+        var generatedMatches = await buildMainAndChildMatches.GetChildEventEventPicking(request.Date);
+        var allMatches = buildMainAndChildMatches.CombineMainAndChildMatchEvent(validMatch, generatedMatches);
+
         if (turnoverMarginPolicy.IsRead)
         {
-            await CalculateTurnOver_Margin(request, matches);
+            await CalculateTurnOver_Margin(request, allMatches);
         }
 
         return new EventPickingResult
         {
             MatchesByDate = matches,
-            FilteredMatches = validMatch
+            FilteredMatches = allMatches
         };
     }
 

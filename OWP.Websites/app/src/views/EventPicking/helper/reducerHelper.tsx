@@ -19,9 +19,7 @@ const updateNoOfferMatch = (
 ) => {
   entities.forEach(element => {
     const noOfferMatchTarget = noOfferMatch.find(
-      x =>
-        x.infoSiteMatchId === element.infoSiteMatchId &&
-        x.childMatchId === element.childMatchId
+      x => x.infoSiteMatchId === element.infoSiteMatchId
     );
 
     if (noOfferMatchTarget) {

@@ -57,12 +57,14 @@ const NoCell = props => {
   return (
     <div className='no-cell'>
       <span>{rowIndex + 1}</span>
-      <Input
-        type='checkbox'
-        className='check-by-lst'
-        defaultChecked={selected}
-        onClick={handleSelectedChanged}
-      />
+      {!dataSource[rowIndex]?.isChildMatch && (
+        <Input
+          type='checkbox'
+          className='check-by-lst'
+          defaultChecked={selected}
+          onClick={handleSelectedChanged}
+        />
+      )}
     </div>
   );
 };
