@@ -732,9 +732,7 @@ var dailyWorkingShift = (function ($) {
                 var timeSheet = {};
                 for (var j = 0; j < userData.Shifts.length; j++) {
                     var shift = userData.Shifts[j];
-                    var formattedShift = moment(shift, 'YYYY-MM-DDTHH:mm:ssZ');
-                    var formattedDate = moment(date, 'YYYY-MM-DD');
-                    var timeRange = TimeRange.parse(formattedShift, formattedDate);
+                    var timeRange = TimeRange.parse(shift, date);
                     if (timeRange) {
                         timeRange.update(timeSheet);
                     }
