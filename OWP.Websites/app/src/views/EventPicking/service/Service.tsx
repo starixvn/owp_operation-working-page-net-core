@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { post } from '../../Shared/Service/Service';
 import { buildUrl } from '../UtilsNative';
 import {
   REMOVE_SPECIAL_PRODUCT,
