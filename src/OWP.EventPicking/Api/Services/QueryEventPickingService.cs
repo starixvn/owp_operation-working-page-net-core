@@ -32,7 +32,7 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
         var eventPickingPolicy = permissionService.GetPermissions(FunctionKeys.EventPickingNew);
         var turnoverMarginPolicy = eventPickingPolicy.GetPermissionModel(FunctionKeys.EventPickingNew_EventAndPerformance);
         var validMatch = FilterAllMatchesByRequest(matches, request);
-        SpecialProductHelper.BuildSpecialProduct(validMatch);
+
         if (turnoverMarginPolicy.IsRead)
         {
             await CalculateTurnOver_Margin(request, matches);

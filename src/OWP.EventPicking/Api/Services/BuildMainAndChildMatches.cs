@@ -56,23 +56,26 @@ public class BuildMainAndChildMatchesImp : BuildMainAndChildMatches
     public async Task<List<EventPickingModel>> GetMainEvent(DateTime date)
     {
         var mainMatches = repository.QueryMainMatch(date);
+        var generatedChildMatch = repository.QueryEventPickingChildMatch(date);
         var maxBet = GetMaxBetDefaultSetting();
         var rAndDInfo = repository.GetRAndDUpdateInfo(date);
-        await Task.WhenAll(mainMatches, maxBet, rAndDInfo);
-
+        await Task.WhenAll(mainMatches, generatedChildMatch, maxBet, rAndDInfo);
+        SpecialProductHelper.BuildSpecialProduct(generatedChildMatch.Result);
         buildMatchOffer.BuildForMainMatch(mainMatches.Result, maxBet.Result);
-        RAndDInfoHelper.Build(mainMatches.Result, rAndDInfo.Result);
-
         var filteredMainMatches = RemoveTestingMatches(mainMatches.Result)
             .Where(x => !CheckMatchHaveBeenExclude(x.HomeName))
             .OrderBy(x => x.IsSaba)
             .ThenBy(x => x.EventDateTime)
             .ToList();
 
-        buildRowColor.BuildRowColor(filteredMainMatches);
-        await buildProvider.Build(filteredMainMatches);
-        return filteredMainMatches;
+        var allMatches = CombineMainAndChildMatchEvent(filteredMainMatches, generatedChildMatch.Result);
+
+        RAndDInfoHelper.Build(allMatches, rAndDInfo.Result);
+        buildRowColor.BuildRowColor(allMatches);
+        await buildProvider.Build(allMatches);
+        return allMatches;
     }
+
 
     private static List<EventPickingModel> CombineMainAndChildMatchEvent(IEnumerable<EventPickingModel> mainMatches, List<EventPickingModel> childMatches)
     {

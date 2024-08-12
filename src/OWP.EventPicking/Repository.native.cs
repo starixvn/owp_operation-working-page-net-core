@@ -40,6 +40,8 @@ public interface Repository
 
     Task ExecuteNonQuery(INonQueryCommand criteria);
 
+    Task<List<EventPickingModel>> QueryEventPickingChildMatch(DateTime date);
+
 }
 
 public class RepositoryImp : Repository
@@ -169,4 +171,17 @@ public class RepositoryImp : Repository
 
     public async Task ExecuteNonQuery(INonQueryCommand criteria)
     => await dynamicRepository.ExecuteAsync(criteria);
+
+    public async Task<List<EventPickingModel>> QueryEventPickingChildMatch(DateTime date)
+    {
+        var criteria = new QueryEventPickingChildMatchCriteria
+        {
+            Date = date
+        };
+
+        var result = await dynamicRepository.FetchAsync<EventPickingModel>(criteria);
+
+        return result.ToList();
+    }
+
 }
