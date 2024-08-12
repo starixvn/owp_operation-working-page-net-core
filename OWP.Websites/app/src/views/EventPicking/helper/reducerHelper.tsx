@@ -73,9 +73,21 @@ const buildMbOptions = (entities: TDataTable[]) =>
     i => i.value
   );
 
+const buildLeagueOptions = (entities: TDataTable[]) =>
+  uniqBy(
+    [...entities]
+      .map(o => ({
+        value: o.leagueName,
+        label: o.leagueName
+      }))
+      .sort((a, b) => a.value.localeCompare(b.value)),
+    i => i.value
+  );
+
 const buildMultipleFilterDefault = (entities: TDataTable[]) => {
   const koTimeOptions = buildKoOptions(entities);
   const mbOptions = buildMbOptions(entities);
+  const leagueOptions = buildLeagueOptions(entities);
   return {
     [KO_TIME]: {
       isFilter: false,
@@ -86,6 +98,11 @@ const buildMultipleFilterDefault = (entities: TDataTable[]) => {
       isFilter: false,
       selected: mbOptions,
       options: mbOptions
+    },
+    [COLUMN_KEY.LEAGUE]: {
+      isFilter: false,
+      selected: leagueOptions,
+      options: leagueOptions
     }
   } as TMultipleFilter;
 };
@@ -119,15 +136,35 @@ const executeFilterTable = (
     state.filterState,
     filterByKeyword
   );
-  state.entities = filterByKo(
-    state.entities,
-    state.multipleFilter.KO_Time.selected.map(x => x.value)
-  );
-  state.entities = filterByMb(
-    state.entities,
-    state.multipleFilter.MB.selected.map(x => x.value)
-  );
+  if (state.multipleFilter.KO_Time) {
+    state.entities = filterByKo(
+      state.entities,
+      state.multipleFilter.KO_Time.selected.map(x => x.value)
+    );
+  }
+  if (state.multipleFilter.MB) {
+    state.entities = filterByMb(
+      state.entities,
+      state.multipleFilter.MB.selected.map(x => x.value)
+    );
+  }
+  if (state.multipleFilter.League) {
+    console.time('filterByLeague');
+    state.entities = filterByLeague(
+      state.entities,
+      state.multipleFilter.League.selected.map(x => x.value)
+    );
+    console.timeEnd('filterByLeague');
+  }
   return state.entities;
+};
+
+const filterByLeague = (
+  entities: TDataTable[],
+  selectedValue: (number | string | null)[]
+) => {
+  const selectedSet = new Set(selectedValue);
+  return entities.filter(e => selectedSet.has(e.leagueName));
 };
 
 export {

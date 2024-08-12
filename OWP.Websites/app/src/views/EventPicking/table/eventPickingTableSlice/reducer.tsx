@@ -53,6 +53,11 @@ const EventPickingTableSlice = createSlice({
         isFilter: false,
         selected: [],
         options: []
+      },
+      League: {
+        isFilter: false,
+        selected: [],
+        options: []
       }
     }
   } as TTableSlice,
@@ -155,8 +160,8 @@ const EventPickingTableSlice = createSlice({
       state.matchSelected = isAdded
         ? [...state.matchSelected, match]
         : state.matchSelected.filter(
-            s => s.infoSiteMatchId !== match.infoSiteMatchId
-          );
+          s => s.infoSiteMatchId !== match.infoSiteMatchId
+        );
     },
 
     setListMatchSelected: (
@@ -170,8 +175,8 @@ const EventPickingTableSlice = createSlice({
       state.matchSelected = isAdded
         ? [...state.matchSelected, ...matches]
         : state.matchSelected.filter(
-            s => !matches.some(i => s.infoSiteMatchId === i.infoSiteMatchId)
-          );
+          s => !matches.some(i => s.infoSiteMatchId === i.infoSiteMatchId)
+        );
       state.isSelectedAll =
         state.matchSelected.length ===
         state.entities.filter(x => !x.isChildMatch).length;

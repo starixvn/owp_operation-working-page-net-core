@@ -77,7 +77,7 @@ type MarginInfo = {
   color: string;
 };
 
-type TColumnKey = 'MB' | 'KO_Time';
+type TColumnKey = 'MB' | 'KO_Time' | "League";
 
 type TMultipleColumnFilterOption = {
   [key in TColumnKey]: Option[];
