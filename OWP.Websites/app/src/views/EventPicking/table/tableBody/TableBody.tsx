@@ -68,7 +68,15 @@ const TableBody = ({ data = [], displayStart = 0, displayEnd = 0 }) => {
         );
       };
 
-      const className = row.isNoOffer ? 'color-unselected' : '';
+      const className = (() => {
+        if (row.isNoOffer) {
+          return 'color-unselected';
+        }
+        if (row.isChildMatch) {
+          return 'color-child-matches';
+        }
+        return '';
+      })();
       rows.push(
         <Fragment key={uuidv4()}>
           <tr className={`${row.rowColor}-row`}>

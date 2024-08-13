@@ -6,20 +6,38 @@ import Utils from '../../../Shared/Utils';
 
 const { convertSpreadToPercent, convertToPercent } = Utils;
 
-const SpreadCell = (
-  { spread, spreadKey, infoSiteMatchId, leagueName }: {
-    spread: number | string | undefined,
-    spreadKey: 'maxbetHdp' | 'spreadOu' | 'spreadHdp',
-    infoSiteMatchId: number,
-    leagueName: string
-  }) => {
-
+const SpreadCell = ({
+  spread,
+  spreadKey,
+  infoSiteMatchId,
+  leagueName,
+  isChildMatch
+}: {
+  spread: number | string | undefined;
+  spreadKey: 'maxbetHdp' | 'spreadOu' | 'spreadHdp';
+  infoSiteMatchId: number;
+  leagueName: string;
+  isChildMatch: boolean;
+}) => {
   const spreadValue = convertSpreadToPercent(spread, false);
   const { mode } = store.getState().mode;
 
   const component = {
-    [VIEW]: <SpreadViewCell spread={spreadValue} leagueName={leagueName} />,
-    [EDIT]: <SpreadEditableCell spreadKey={spreadKey} infoSiteMatchId={infoSiteMatchId} spread={convertToPercent(spread)} leagueName={leagueName} />
+    [VIEW]: (
+      <SpreadViewCell
+        spread={spreadValue}
+        leagueName={leagueName}
+        isChildMatch={isChildMatch}
+      />
+    ),
+    [EDIT]: (
+      <SpreadEditableCell
+        spreadKey={spreadKey}
+        infoSiteMatchId={infoSiteMatchId}
+        spread={convertToPercent(spread)}
+        leagueName={leagueName}
+      />
+    )
   };
   return component[mode];
 };

@@ -23,7 +23,6 @@ import {
 import filterByKeyword from '../filterByKeyword';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { Option } from '../../../Shared/MultipleSelection/type';
-import { isDate } from 'lodash';
 
 const EventPickingTableSlice = createSlice({
   name: 'EventPickingTableSlice',
@@ -172,7 +171,8 @@ const EventPickingTableSlice = createSlice({
             s => !matches.some(i => s.infoSiteMatchId === i.infoSiteMatchId)
           );
       state.isSelectedAll =
-        state.matchSelected.length === state.entities.length;
+        state.matchSelected.length ===
+        state.entities.filter(x => !x.isChildMatch).length;
     },
     setAllMatchSelected: (
       state,
