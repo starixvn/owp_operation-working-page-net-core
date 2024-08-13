@@ -8,10 +8,12 @@ public static class Constant
     public const string ColorPinkHex = "#FFCCFF";
     public const string ColorGrayHex = "#808080";
     public const string ColorRedHex = "#F6BEBE";
+    public const string ColorYellowHex = "#FFC000";
 
     public const string ColorWhite = "white";
     public const string ColorGray = "gray";
     public const string ColorRed = "red";
+    public const string ColorYellow = "yellow";
 
     public const string ContainsCondition = "Contains";
 
@@ -19,7 +21,8 @@ public static class Constant
     {
         { ColorRed, ColorRedHex },
         { ColorGray, ColorGrayHex },
-        { ColorWhite, ColorWhiteHex }
+        { ColorWhite, ColorWhiteHex },
+        {ColorYellow,ColorYellowHex}
     }.ToImmutableDictionary();
 
     public static readonly List<string> SpecialOwpName = ["Next Corners", "Next Booking", "(SPECIFIC 15 MINS)"];

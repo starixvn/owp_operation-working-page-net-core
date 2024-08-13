@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace OWP.EventPicking.Api.Models;
 
-public class EventPickingModel : MainEventMaxbetSpread
+public class EventPickingModel : MainEventMaxbetSpread, EventProductCommon
 {
     public int? ChildMatchId { get; set; }
 

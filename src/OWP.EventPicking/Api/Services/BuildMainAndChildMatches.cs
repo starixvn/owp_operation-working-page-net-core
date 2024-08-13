@@ -14,35 +14,16 @@ public interface BuildMainAndChildMatches
 
     Task<List<EventPickingModel>> GetChildEventEventPicking(DateTime date);
 
-    List<EventPickingModel> CombineMainAndChildMatchEvent(IEnumerable<EventPickingModel> mainMatches,
-        List<EventPickingModel> childMatches);
 }
 
-public class BuildMainAndChildMatchesImp : BuildMainAndChildMatches
-{
-    private readonly Repository repository;
-    private readonly BuildChildMatchMaxBet buildChildMatchMaxBet;
-    private readonly BuildMatchOfferByLiveSetting buildMatchOffer;
-    private readonly BuildRowColor buildRowColor;
-    private readonly BuildProvider buildProvider;
-    private readonly IMediator mediator;
-
-    public BuildMainAndChildMatchesImp(
-        Repository repository,
+public class BuildMainAndChildMatchesImp(Repository repository,
         BuildChildMatchMaxBet buildChildMatchMaxBet,
         BuildRowColor buildRowColor,
         BuildMatchOfferByLiveSetting buildMatchOffer,
         BuildProvider buildProvider,
         IMediator mediator)
-    {
-        this.repository = repository;
-        this.buildChildMatchMaxBet = buildChildMatchMaxBet;
-        this.buildRowColor = buildRowColor;
-        this.mediator = mediator;
-        this.buildProvider = buildProvider;
-        this.buildMatchOffer = buildMatchOffer;
-    }
-
+    : BuildMainAndChildMatches
+{
     public async Task<List<EventPickingModel>> GetMainAndChildMatchEvent(DateTime date)
     {
         var mainMatches = await repository.QueryMainMatch(date);
@@ -51,8 +32,8 @@ public class BuildMainAndChildMatchesImp : BuildMainAndChildMatches
 
         buildChildMatchMaxBet.Build(mainMatches, childMatches, maxBet);
         buildMatchOffer.Build(mainMatches, childMatches, maxBet);
-        var filteredMainMatches = RemoveTestingMatches(mainMatches);
-        var allMatches = CombineMainAndChildMatchEvent(filteredMainMatches, childMatches);
+        var filteredMainMatches = RemoveTestingMatches(mainMatches).ToList();
+        var allMatches = SpecialProductHelper.CombineMainAndChildMatchEvent(filteredMainMatches, childMatches);
         buildRowColor.BuildRowColor(allMatches);
         await buildProvider.Build(allMatches);
 
@@ -67,7 +48,7 @@ public class BuildMainAndChildMatchesImp : BuildMainAndChildMatches
         await Task.WhenAll(mainMatches, maxBet, rAndDInfo);
         buildMatchOffer.BuildForMainMatch(mainMatches.Result, maxBet.Result);
         var filteredMainMatches = RemoveTestingMatches(mainMatches.Result)
-            .Where(x => !CheckMatchHaveBeenExclude(x.HomeName))
+            .Where(x => !SpecialProductHelper.CheckMatchHaveBeenExclude(x.HomeName))
             .OrderBy(x => x.IsSaba)
             .ThenBy(x => x.EventDateTime)
             .ToList();
@@ -89,26 +70,6 @@ public class BuildMainAndChildMatchesImp : BuildMainAndChildMatches
     }
 
 
-    public  List<EventPickingModel> CombineMainAndChildMatchEvent(IEnumerable<EventPickingModel> mainMatches, List<EventPickingModel> childMatches)
-    {
-        var matches = new List<EventPickingModel>();
-
-        foreach (var mainMatch in mainMatches)
-        {
-            matches.Add(mainMatch);
-            var childMatchesOfThisMainMatch = childMatches
-                .Where(childMatch => childMatch.InfoSiteMatchId == mainMatch.InfoSiteMatchId)
-                .OrderByDescending(x => x.MaxBetHDPNumber);
-            matches.AddRange(childMatchesOfThisMainMatch);
-        }
-
-        return matches
-            .Where(x => !CheckMatchHaveBeenExclude(x.HomeName))
-            .OrderBy(x => x.IsSaba)
-            .ThenBy(x => x.EventDateTime)
-            .ToList();
-    }
-
     private async Task<Dictionary<decimal, MaxBetSettingModel>> GetMaxBetDefaultSetting()
     {
         var maxBet = await mediator.Send(new QueryMaxbetSettingRequest());
@@ -117,7 +78,4 @@ public class BuildMainAndChildMatchesImp : BuildMainAndChildMatches
 
     private static IEnumerable<EventPickingModel> RemoveTestingMatches(IEnumerable<EventPickingModel> mainMatches)
         => mainMatches.Where(x => !x.IsTestMatch);
-
-    private static bool CheckMatchHaveBeenExclude(string homeName)
-        => homeName.IsContains("(ET)") || homeName.IsContains("(PEN)");
 }

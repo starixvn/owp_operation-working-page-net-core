@@ -1,5 +1,6 @@
 using OWP.Constants;
 using OWP.EventPicking.Api.Criteria;
+using OWP.EventPicking.Api.Helper;
 using OWP.EventPicking.Api.Middleware.Models;
 using OWP.EventPicking.Api.Models;
 
@@ -33,7 +34,7 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
         var validMatch = FilterAllMatchesByRequest(matches, request);
 
         var generatedMatches = await buildMainAndChildMatches.GetChildEventEventPicking(request.Date);
-        var allMatches = buildMainAndChildMatches.CombineMainAndChildMatchEvent(validMatch, generatedMatches);
+        var allMatches = SpecialProductHelper.CombineMainAndChildMatchEvent(validMatch, generatedMatches);
 
         if (turnoverMarginPolicy.IsRead)
         {
