@@ -171,7 +171,7 @@ var dailyWorkingShift = (function ($) {
 
             var cssClassNameHighlight = this.cssClassNameHighlight();
 
-            htmlMatch.push('<div class="' + cssClassNameHighlight + '  match-box group-' + this.groupId + ' ' + (large ? 'large' : '') + ' ' + '" data-overlap="' + this.overlap + '" data-start-minute="' + box.startMinute + '" data-total-minute="' + box.totalMinute + '" data-match-id="' + this.matchId + '" data-is-etpk="' + this.isETPK + '">');
+            htmlMatch.push('<div class="' + cssClassNameHighlight + '  match-box group-' + (this.groupId - 1) + ' ' + (large ? 'large' : '') + ' ' + '" data-overlap="' + this.overlap + '" data-start-minute="' + box.startMinute + '" data-total-minute="' + box.totalMinute + '" data-match-id="' + this.matchId + '" data-is-etpk="' + this.isETPK + '">');
             htmlMatch.push('<p class="match-name">');
             if (this.maxBet > 0) {
                 var maxBetText = this.maxBet;
