@@ -19,7 +19,7 @@ import {
   PERIOD
 } from '../filterConst.json';
 import { SELECT_TURNOVER_OPTIONS } from '../const';
-import { getLeagues, getUpdateTypes } from './filterThunkNative';
+import { getUpdateTypes } from './filterThunkNative';
 import Utils from '../../../Shared/Utils';
 
 const { VALUE: {

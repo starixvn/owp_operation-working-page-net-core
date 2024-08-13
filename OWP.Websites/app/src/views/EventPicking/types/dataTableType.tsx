@@ -29,6 +29,7 @@ type TDataTable = {
   channel: string;
   wb: string;
   eventDateTime: Required<Date>;
+  time: string;
   leagueName: string;
   matchOffer: string;
   homeName: string;
@@ -60,7 +61,6 @@ type TDataTable = {
   marginPeriod: MarginInfo[];
   isModified: boolean | undefined;
   isReferenceLeagueManagement: boolean;
-  
 };
 
 type TTurnOverInfo = {
@@ -77,7 +77,7 @@ type MarginInfo = {
   color: string;
 };
 
-type TColumnKey = 'MB' | 'KO_Time' | "League";
+type TColumnKey = 'MB' | 'KO_Time' | 'League';
 
 type TMultipleColumnFilterOption = {
   [key in TColumnKey]: Option[];

@@ -17,13 +17,8 @@ const propTypes = {
 
 const KoTimeCell = props => {
   const { rowIndex, dataSource, permission } = props;
-  const {
-    eventDateTime,
-    isNoOffer,
-    infoSiteMatchId,
-    isChildMatch,
-    childMatchId
-  } = dataSource[rowIndex];
+  const { time, isNoOffer, infoSiteMatchId, isChildMatch, childMatchId } =
+    dataSource[rowIndex];
   const dispatch = useStableDispatch();
 
   const handleSelectedChanged = async event => {
@@ -52,7 +47,7 @@ const KoTimeCell = props => {
 
   return (
     <div className='ko-time-cell'>
-      <span>{formatTime(eventDateTime, 'minute', 'hh:mm A')}</span>
+      <span>{time}</span>
       <br></br>
       {!isChildMatch && (
         <Switch
