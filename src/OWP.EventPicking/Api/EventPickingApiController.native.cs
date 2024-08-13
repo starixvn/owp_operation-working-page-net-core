@@ -66,15 +66,6 @@ public class EventPickingApiController
         return new JsonResult(result);
     }
 
-    [Route("get-league-name")]
-    [HttpGet]
-    public async Task<IActionResult> QueryLeagueName(DateTime date)
-    {
-        var result = await repository.GetLeagueName(date);
-
-        return new JsonResult(result);
-    }
-
     [Route("export-excel")]
     [HttpPost]
     public async Task<FileResult> ExportExcel(ExportExcelRequest request)

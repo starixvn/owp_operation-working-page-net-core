@@ -10,7 +10,6 @@ import {
   HAS_OTHER_PROVIDER,
   HAS_PROVIDER,
   HAS_PROVIDER_OPTIONS,
-  LEAGUE,
   SELECT_GAME,
   SELECT_GAME_OPTIONS,
   UPDATE_TYPE,
@@ -40,7 +39,6 @@ const filterSlice = createSlice({
       [HAS_PROVIDER]: HAS_PROVIDER_OPTIONS.map(m => m.value),
       [HAS_OTHER_PROVIDER]: HAS_PROVIDER_OPTIONS.map(m => m.value),
       [FILTER_MATCH_CATEGORY]: FILTER_MATCH_CATEGORY_OPTIONS.map(m => m.value),
-      [LEAGUE]: [],
       [UPDATE_TYPE]: [],
       [PERIOD.KEY]: {
         [ONE_MONTH]: {
@@ -73,10 +71,6 @@ const filterSlice = createSlice({
   },
   extraReducers: builder => {
     builder
-      .addCase(getLeagues.fulfilled, (state, { payload }) => {
-        state.leagues = payload;
-        state.param[LEAGUE] = payload.map(m => m.value);
-      })
       .addCase(getUpdateTypes.fulfilled, (state, { payload }) => {
         const noneOption = NONE_OPTION as Option;
         state.updateTypes = payload.concat(noneOption);

@@ -366,7 +366,6 @@
 		<Setting Key="OWP_EventPicking_GetInfoSiteMatch" SpName="OWP_EventPicking_GetInfoSiteMatch" DbName="DBOWP.bodb_OWP.wsv_owp" />
 		<Setting Key="OWP_EventPicking_InsertOrDeleteNoOfferMatch" SpName="OWP_EventPicking_InsertOrDeleteNoOfferMatch" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
 		<Setting Key="OWP_EventPicking_GetRandDInfo" SpName="OWP_EventPicking_GetRandDInfo" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
-		<Setting Key="OWP_EventPicking_GetLeagueNameByDate" SpName="OWP_EventPicking_GetLeagueNameByDate" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
 		<Setting Key="OWP_EventPicking_GetUpdateType" SpName="OWP_EventPicking_GetUpdateType" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
 		<Setting Key="OWP_EventPicking_GetLogHistory" SpName="OWP_EventPicking_GetLogHistory" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
 		<Setting Key="OWP_EventPicking_UpdateConfirmed" SpName="OWP_EventPicking_UpdateConfirmed" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>

@@ -33,7 +33,6 @@ public class QueryEventPickingServiceImpTests
         var request = new EventPickingRequest
         {
             Date = DateTime.Now,
-            League = [1],
             SelectGame = [1],
             FilterMatch = ["Red"],
             HasProvider = ["yes"],
@@ -90,7 +89,6 @@ public class QueryEventPickingServiceImpTests
         var request = new EventPickingRequest
         {
             Date = DateTime.Now,
-            League = [1],
             SelectGame = [1],
             FilterMatch = ["Red"],
             HasProvider = ["yes"],
@@ -183,7 +181,7 @@ public class QueryEventPickingServiceImpTests
                     FilterMatch = ["Red"],
                     HasProvider = ["yes"],
                     HasOtherProvider = ["yes"],
-                    League = [1],
+
                     UpdateType = [1]
                 },
                 true
@@ -209,7 +207,7 @@ public class QueryEventPickingServiceImpTests
                     FilterMatch = ["Red"],
                     HasProvider = ["yes"],
                     HasOtherProvider = ["yes"],
-                    League = [1],
+
                     UpdateType = [1]
                 },
                 false
@@ -235,7 +233,7 @@ public class QueryEventPickingServiceImpTests
                     FilterMatch = ["Red"],
                     HasProvider = ["yes"],
                     HasOtherProvider = ["yes"],
-                    League = [1],
+
                     UpdateType = [1]
                 },
                 false
@@ -261,10 +259,10 @@ public class QueryEventPickingServiceImpTests
                     FilterMatch = ["Red"],
                     HasProvider = ["yes"],
                     HasOtherProvider = ["yes"],
-                    League = [1],
+
                     UpdateType = [1]
                 },
-                false
+                true
         ];
 
         // Test case 5: Condition 3, UpdateType is null in request
@@ -287,7 +285,7 @@ public class QueryEventPickingServiceImpTests
                     FilterMatch = ["Red"],
                     HasProvider = ["yes"],
                     HasOtherProvider = ["yes"],
-                    League = [1],
+
                     UpdateType = [null]
                 },
                 true
@@ -313,7 +311,7 @@ public class QueryEventPickingServiceImpTests
                     FilterMatch = ["Red"],
                     HasProvider = ["yes"],
                     HasOtherProvider = ["yes"],
-                    League = [1],
+
                     UpdateType = [null]
                 },
                 true

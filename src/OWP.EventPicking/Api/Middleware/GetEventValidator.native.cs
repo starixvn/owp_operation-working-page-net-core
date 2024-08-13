@@ -28,10 +28,6 @@ public class GetEventValidator : AsyncFilter<EventPickingRequest>
         {
             return (false, statusCode, "Please select at least one option for Match Category");
         }
-        if (!model.League.Any())
-        {
-            return (false, statusCode, "Please select at least one option for League");
-        }
         if (!model.UpdateType.Any())
         {
             return (false, statusCode, "Please select at least one option for Update Type");

@@ -26,8 +26,6 @@ public interface Repository
 
     Task<List<LogModel>> GetLog(int infoSiteMatchId);
 
-    Task<List<Option>> GetLeagueName(DateTime date);
-
     Task<List<Option>> GetUpdateType();
 
     Task UpdateConfirmed(UpdateConfirmedMatchCriteria updateConfirmedMatchCriteria);
@@ -132,15 +130,6 @@ public class RepositoryImp : Repository
     public async Task<List<Option>> GetUpdateType()
     {
         var criteria = new QueryUpdateTypeCriteria();
-
-        var result = await dynamicRepository.FetchAsync<Option>(criteria);
-
-        return result.ToList();
-    }
-
-    public async Task<List<Option>> GetLeagueName(DateTime date)
-    {
-        var criteria = new QueryLeagueNameByDateCriteria { Date = date };
 
         var result = await dynamicRepository.FetchAsync<Option>(criteria);
 

@@ -4,7 +4,6 @@
 "updateSpecialProduct": "update-special-product",
   "editEventPicking": "query-event-picking-edit-mode",
   "getLogsHistory": "get-logs-history",
-  "getLeague": "get-league-name",
   "getUpdateType": "get-update-type",
   "UPDATE_NO_OFFER_MATCH": "update-noOffer-match",
   "UPDATE_CONFIRMED": "update-confirmed",

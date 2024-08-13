@@ -1,6 +1,5 @@
 using OWP.Constants;
 using OWP.EventPicking.Api.Criteria;
-using OWP.EventPicking.Api.Helper;
 using OWP.EventPicking.Api.Middleware.Models;
 using OWP.EventPicking.Api.Models;
 
@@ -180,7 +179,7 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
            && condition.HasOtherProvider.Contains(match.HasOtherProvider, StringComparer.OrdinalIgnoreCase);
 
     private static bool CheckCondition3(EventPickingModel match, EventPickingRequest condition)
-        => condition.League.Contains(match.OWPLeagueId) && CheckUpdateType(match, condition);
+        => CheckUpdateType(match, condition);
 
     private static bool CheckUpdateType(EventPickingModel match, EventPickingRequest condition)
     {
@@ -194,6 +193,6 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
         .Any(x => condition.UpdateType.Contains(x));
     }
 
-   
+
     private static int ConvertBoolToInt(bool value) => value ? 1 : 0;
 }
