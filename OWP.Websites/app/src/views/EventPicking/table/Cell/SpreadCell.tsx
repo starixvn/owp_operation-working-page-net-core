@@ -6,18 +6,18 @@ import Utils from '../../../Shared/Utils';
 
 const { convertSpreadToPercent, convertToPercent } = Utils;
 
-const SpreadCell = ({
+const SpreadCell = (
   { spread, spreadKey, infoSiteMatchId, leagueName, minorBettypeId, isChildMatch }: {
-  spreadKey,
-  infoSiteMatchId,
-  leagueName,
-    leagueName: string,
+ 
+  infoSiteMatchId: number,
+  leagueName: string,
+    
     minorBettypeId: number,
     isChildMatch: boolean,
   spread: number | string | undefined;
   spreadKey: 'maxbetHdp' | 'spreadOu' | 'spreadHdp';
-  infoSiteMatchId: number;
-  leagueName: string;
+
+ 
  
 }) => {
   const spreadValue = convertSpreadToPercent(spread, false);
@@ -37,8 +37,6 @@ const SpreadCell = ({
      spread={convertToPercent(spread)}
       leagueName={leagueName}
       minorBettypeId={minorBettypeId} />
-
-    )
   };
   return component[mode];
 };
