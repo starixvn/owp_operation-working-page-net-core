@@ -1,3 +1,5 @@
+import Spinner from '../../../components/Spinner';
+import ToastrWrapper from '../../../components/ToastrWrapper';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { TOpenPopupState } from '../../types/dataTableType';
 import { setOpenPopupState } from '../eventPickingTableSlice/reducer';
@@ -12,8 +14,32 @@ const DropdownActionHeader = ({ refValue }: TDropdownActionHeader) => {
   const matchSelected = useAppSelector(
     state => state.eventPickingTable.matchSelected
   );
+
   const handleOpenPopup = (key: keyof TOpenPopupState, value: boolean) => {
     dispatch(setOpenPopupState({ key, value }));
+  };
+
+  const handleMatchSelection = async (isNoOffer: boolean) => {
+    if (matchSelected.length === 0) {
+      ToastrWrapper.showError('You must select at least one match!');
+      return;
+    }
+
+    const action = isNoOffer ? 'unselect' : 'select';
+    const confirmMessage = `Are you sure that you want to ${action} the game for those events?`;
+    const confirmResult = await ToastrWrapper.confirmYesNo(confirmMessage);
+
+    if (confirmResult.value) {
+      const noOfferMatch = matchSelected.map(x => ({
+        infoSiteMatchId: x.infoSiteMatchId,
+        childMatchId: null,
+        isNoOffer
+      }));
+
+      Spinner.show();
+      await dispatch(updateNoOfferMatchThunk(noOfferMatch));
+      Spinner.hide();
+    }
   };
 
   return (
@@ -28,14 +54,10 @@ const DropdownActionHeader = ({ refValue }: TDropdownActionHeader) => {
         onClick={() => handleOpenPopup('isOpenRemoveSpecialProduct', true)}>
         Remove Special Product
       </li>
-      <li
-        className='offer'
-        onClick={() => dispatch(updateNoOfferMatchThunk(matchSelected))}>
+      <li className='offer' onClick={() => handleMatchSelection(false)}>
         Select Game
       </li>
-      <li
-        className='no-offer'
-        onClick={() => dispatch(updateNoOfferMatchThunk(matchSelected))}>
+      <li className='no-offer' onClick={() => handleMatchSelection(true)}>
         Unselect Game
       </li>
     </div>
