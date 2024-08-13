@@ -467,7 +467,7 @@ var dailyWorkingShift = (function ($) {
                     table.append(row);
                 }
             });
-            $(".table-body").css({ 'margin-top': $(".sticky-filter").outerHeight() + 25 });
+            $(".table-body").css({ 'margin-top': $(".sticky-filter").outerHeight() });
         }
 
         function renderRow(name) {
@@ -605,12 +605,16 @@ var dailyWorkingShift = (function ($) {
                     }
                     
                 });
-            $('.next-day').on('click', function () {
-                var date = new Date($('.txt-day').text());
-                date.setDate(date.getDate() + 1);
-                $('.datepicker').val(moment(date,'MM/DD/YYYY'));
-                $(".btn-search").click();
-            });
+            $('.next-day').on('click',
+                function () {
+                    var date = new Date($(".txt-day").text());
+                    var isValidTimeRangeQuery = moment(date).diff(fourlatestWeeks, "days") > 0;
+                    if (isValidTimeRangeQuery) {
+                        date.setDate(date.getDate() + 1);
+                        $(".datepicker").val(moment(date).format("MM/DD/YYYY"));
+                        $(".btn-search").click();
+                    }
+                });
             $('.daily-option-config').click(function () {
                 $('.color-table').toggle();
             });
