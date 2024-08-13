@@ -171,7 +171,7 @@ var dailyWorkingShift = (function ($) {
 
             var cssClassNameHighlight = this.cssClassNameHighlight();
 
-            htmlMatch.push('<div class="' + cssClassNameHighlight + '  match-box group-' + this.groupId + ' ' + (large ? 'large' : '') + ' ' + '" data-overlap="' + this.overlap + '" data-start-minute="' + box.startMinute + '" data-total-minute="' + box.totalMinute + '" data-match-id="' + this.matchId + '" data-is-etpk="' + this.isETPK + '">');
+            htmlMatch.push('<div class="' + cssClassNameHighlight + '  match-box group-' + (this.groupId - 1) + ' ' + (large ? 'large' : '') + ' ' + '" data-overlap="' + this.overlap + '" data-start-minute="' + box.startMinute + '" data-total-minute="' + box.totalMinute + '" data-match-id="' + this.matchId + '" data-is-etpk="' + this.isETPK + '">');
             htmlMatch.push('<p class="match-name">');
             if (this.maxBet > 0) {
                 var maxBetText = this.maxBet;
@@ -467,7 +467,7 @@ var dailyWorkingShift = (function ($) {
                     table.append(row);
                 }
             });
-            $(".table-body").css({ 'margin-top': $(".sticky-filter").outerHeight() + 25 });
+            $(".table-body").css({ 'margin-top': $(".sticky-filter").outerHeight() });
         }
 
         function renderRow(name) {
@@ -605,12 +605,16 @@ var dailyWorkingShift = (function ($) {
                     }
                     
                 });
-            $('.next-day').on('click', function () {
-                var date = new Date($('.txt-day').text());
-                date.setDate(date.getDate() + 1);
-                $('.datepicker').val(moment(date,'MM/DD/YYYY'));
-                $(".btn-search").click();
-            });
+            $('.next-day').on('click',
+                function () {
+                    var date = new Date($(".txt-day").text());
+                    var isValidTimeRangeQuery = moment(date).diff(fourlatestWeeks, "days") > 0;
+                    if (isValidTimeRangeQuery) {
+                        date.setDate(date.getDate() + 1);
+                        $(".datepicker").val(moment(date).format("MM/DD/YYYY"));
+                        $(".btn-search").click();
+                    }
+                });
             $('.daily-option-config').click(function () {
                 $('.color-table').toggle();
             });
@@ -732,9 +736,7 @@ var dailyWorkingShift = (function ($) {
                 var timeSheet = {};
                 for (var j = 0; j < userData.Shifts.length; j++) {
                     var shift = userData.Shifts[j];
-                    var formattedShift = moment(shift, 'YYYY-MM-DDTHH:mm:ssZ');
-                    var formattedDate = moment(date, 'YYYY-MM-DD');
-                    var timeRange = TimeRange.parse(formattedShift, formattedDate);
+                    var timeRange = TimeRange.parse(shift, date);
                     if (timeRange) {
                         timeRange.update(timeSheet);
                     }
