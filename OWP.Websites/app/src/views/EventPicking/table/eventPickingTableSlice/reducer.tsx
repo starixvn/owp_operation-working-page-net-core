@@ -114,11 +114,12 @@ const EventPickingTableSlice = createSlice({
         key: 'maxbetHdp' | 'spreadOu' | 'spreadHdp';
         infoSiteMatchId: number;
         value: number | undefined;
+        minorBettypeId: number;
       }>
     ) => {
-      const { key, value, infoSiteMatchId } = action.payload;
+      const { key, value, infoSiteMatchId, minorBettypeId } = action.payload;
       const target = state.entities.find(
-        s => s.infoSiteMatchId === infoSiteMatchId
+        s => s.infoSiteMatchId === infoSiteMatchId && s.minorBettypeId===minorBettypeId
       );
       if (target) {
         target.isModified = true;
@@ -130,11 +131,12 @@ const EventPickingTableSlice = createSlice({
       action: PayloadAction<{
         infoSiteMatchId: number;
         value: string | undefined;
+        minorBettypeId: number;
       }>
     ) => {
-      const { value, infoSiteMatchId } = action.payload;
+      const { value, infoSiteMatchId, minorBettypeId } = action.payload;
       const target = state.entities.find(
-        s => s.infoSiteMatchId === infoSiteMatchId
+        s => s.infoSiteMatchId === infoSiteMatchId && s.minorBettypeId===minorBettypeId
       );
       if (target) {
         target.noOfHDP = value;

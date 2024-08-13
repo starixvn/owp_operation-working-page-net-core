@@ -1,6 +1,7 @@
 {
   "getEventPicking": "get-event-picking",
-  "updateEvents": "update-events",
+  "updateEvents": "update-main-events",
+"updateSpecialProduct": "update-special-product",
   "editEventPicking": "query-event-picking-edit-mode",
   "getLogsHistory": "get-logs-history",
   "getLeague": "get-league-name",

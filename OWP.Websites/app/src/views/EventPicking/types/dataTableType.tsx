@@ -1,5 +1,4 @@
 import { Option } from '../../Shared/MultipleSelection/type';
-import { TNoOfferMatch } from './noOfferMatchType';
 
 type TResult = {
   matchesByDate: Array<TDataTable>;
@@ -14,7 +13,17 @@ type TUpdateEvents = Array<{
   NoOfHDP: string | undefined | null;
 }>;
 
+type TUpdateSpecialProduct = Array<{
+  ParentId: number;
+  MinorBettypeId: number;
+  SpreadHdp: number | undefined | null;
+  SpreadOu: number | undefined | null;
+  MaxbetHdp: number | undefined | null;
+  NoOfHDP: string | undefined | null;
+}>;
+
 type TDataTable = {
+  minorBettypeId: number;
   tV: string;
   ipTv: string;
   channel: string;
@@ -51,6 +60,7 @@ type TDataTable = {
   marginPeriod: MarginInfo[];
   isModified: boolean | undefined;
   isReferenceLeagueManagement: boolean;
+  
 };
 
 type TTurnOverInfo = {
@@ -138,5 +148,6 @@ export {
   TMultipleColumnFilterOption,
   TUpdateEvents,
   TOpenPopupState,
-  TActionOfSpecialProduct
+  TActionOfSpecialProduct,
+  TUpdateSpecialProduct
 };

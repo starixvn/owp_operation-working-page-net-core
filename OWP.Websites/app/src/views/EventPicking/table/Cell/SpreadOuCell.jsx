@@ -8,7 +8,7 @@ const propTypes = {
 
 const SpreadOuCell = props => {
   const { rowIndex, dataSource } = props;
-  const { spreadOu, infoSiteMatchId, leagueName, isChildMatch } =
+  const { spreadOu, infoSiteMatchId, leagueName,minorBettypeId, isChildMatch } = dataSource[rowIndex];
     dataSource[rowIndex];
 
   return (
@@ -18,6 +18,7 @@ const SpreadOuCell = props => {
       spread={spreadOu}
       leagueName={leagueName}
       isChildMatch={isChildMatch}
+      minorBettypeId={minorBettypeId}
     />
   );
 };

@@ -7,11 +7,13 @@ import { handleCheckButton } from '../../helper/filterHelper';
 const MaxbetEditableCell = ({
   maxBet,
   infoSiteMatchId,
+  minorBettypeId,
   leagueName
 }: {
   maxBet: string | number | undefined;
   infoSiteMatchId: number;
   leagueName: string;
+  minorBettypeId: number;
 }) => {
   let newValue = -999999999;
   const dispatch = useAppDispatch();
@@ -25,7 +27,8 @@ const MaxbetEditableCell = ({
       setValueMaxbetSpread({
         value:  valueNumber,
         key: 'maxbetHdp',
-        infoSiteMatchId
+        infoSiteMatchId,
+        minorBettypeId
       })
     );
   };
@@ -37,7 +40,8 @@ const MaxbetEditableCell = ({
           setValueMaxbetSpread({
             value: newValue * 1000,
             key: 'maxbetHdp',
-            infoSiteMatchId
+            infoSiteMatchId,
+            minorBettypeId
           })
         );
         newValue = -999999999;

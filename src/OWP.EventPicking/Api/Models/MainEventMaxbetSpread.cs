@@ -1,5 +1,5 @@
 namespace OWP.EventPicking.Api.Models;
-public class MaxbetSpread
+public class MainEventMaxbetSpread
 {
     public int InfoSiteMatchId { get; set; }
 

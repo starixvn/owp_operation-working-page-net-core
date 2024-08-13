@@ -6,6 +6,10 @@ import { getLocaleDateTime } from '../../../Shared/DateTime/dateTimeHelper';
 import DeleteIcon from 'mdi-react/DeleteIcon';
 import ToastrWrapper from '../../../components/ToastrWrapper';
 import { removeSpecialProduct } from '../../service/Service';
+import Spinner from '../../../components/Spinner';
+import { useAppDispatch } from '../../app/hooks';
+import store from '../../app/store';
+import { getEventPickings } from '../eventPickingTableSlice/eventSliceThunkNative';
 
 const propTypes = {
   dataSource: PropTypes.array.isRequired,
@@ -14,12 +18,14 @@ const propTypes = {
 
 const ActionCell = props => {
   const { rowIndex, dataSource } = props;
-  const { infoSiteMatchId, leagueName, homeName, awayName, eventDateTime, minorBettypeId } =
+  const { infoSiteMatchId, leagueName, homeName, awayName, eventDateTime, minorBettypeId, isChildMatch } =
     dataSource[rowIndex];
   const [openLog, setOpenLog] = useState(false);
+  const dispatch = useAppDispatch();
 
-  const handleSpecialProduct=async ()=>{
+  const handleRemoveSpecialProduct=async ()=>{
     const confirmResult=await ToastrWrapper.confirmYesNo("Are you sure that you want to delete this event ?");
+    
     if(confirmResult.value){
       Spinner.show();
       const model = {
@@ -28,7 +34,8 @@ const ActionCell = props => {
       };
       const response = await removeSpecialProduct(model);
       if (response.status === 200) {
-        ToastrWrapper.showInfo('Delete success!');
+        ToastrWrapper.showInfo('Remove event successfully!');
+        const {param}= store.getState().filter;
         dispatch(getEventPickings(param));
       }
       Spinner.hide();
@@ -50,8 +57,8 @@ const ActionCell = props => {
         <span className='icon-history-event' onClick={() => setOpenLog(true)}>
           <LogHistoryIcon width={20} height={20} />
         </span>
-        {minorBettypeId &&<span
-      onClick={handleSpecialProduct}
+        {isChildMatch &&<span
+      onClick={handleRemoveSpecialProduct}
       >
     <DeleteIcon
           className='icon-delete'

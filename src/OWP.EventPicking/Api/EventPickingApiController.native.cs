@@ -23,6 +23,8 @@ public class EventPickingApiController
     {
         var result = await mediator.Send(request);
 
+        result.FilteredMatches = result.FilteredMatches.Take(100).ToList();
+        result.MatchesByDate = result.MatchesByDate.Take(100).ToList();
         return new JsonResult(result);
     }
 
@@ -32,6 +34,8 @@ public class EventPickingApiController
     {
         var result = await mediator.Send(request);
 
+        result.FilteredMatches = result.FilteredMatches.Take(100).ToList();
+        result.MatchesByDate= result.MatchesByDate.Take(100).ToList();
         return new JsonResult(result);
     }
 
@@ -81,8 +85,13 @@ public class EventPickingApiController
     public async Task<FileResult> ExportLSTFormat(ExportLSTFormatRequest request)
         => await mediator.Send(request);
 
-    [HttpPost("update-events")]
-    public async Task UpdateMaxbetSpread(UpdateEventsRequest request)
+    [HttpPost("update-main-events")]
+    public async Task UpdateMainEventMaxbetSpread(UpdateEventsRequest request)
+
+          => await mediator.Send(request);
+    
+    [HttpPost("update-special-product")]
+    public async Task UpdateSpecialProductMaxbetSpread(SpecialProductUpdateMaxbetSpreadRequest request)
           => await mediator.Send(request);
 
     [HttpPost("remove-special-product")]
