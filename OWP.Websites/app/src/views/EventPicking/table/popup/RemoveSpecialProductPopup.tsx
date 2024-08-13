@@ -10,6 +10,7 @@ import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { getEventPickings } from '../eventPickingTableSlice/eventSliceThunkNative';
 import { removeSpecialProduct } from '../../service/Service';
 import ToastrWrapper from '../../../components/ToastrWrapper';
+import Spinner from '../../../components/Spinner';
 
 const RemoveSpecialProductPopup = () => {
   const { isOpenRemoveSpecialProduct } = useAppSelector(
@@ -28,15 +29,28 @@ const RemoveSpecialProductPopup = () => {
   };
 
   const handleRemove = async () => {
+    if (matchSelected.length === 0) {
+      ToastrWrapper.showError('You must select at least one match!');
+      return;
+    }
+
     const model: TActionOfSpecialProduct = {
       ParentId: matchSelected.map(x => x.infoSiteMatchId).join(','),
       MinorBettypeId: specialProductType.join(',')
     };
-    const response = await removeSpecialProduct(model);
-    if (response.status === 200) {
-      ToastrWrapper.showInfo('Delete success!');
-      handleCancel('isOpenRemoveSpecialProduct', false);
-      dispatch(getEventPickings(param));
+
+    const confirmResult = await ToastrWrapper.confirmYesNo(
+      'Are you sure that you want to remove special products for those events?'
+    );
+    if (confirmResult.value) {
+      Spinner.show();
+      const response = await removeSpecialProduct(model);
+      Spinner.hide();
+      if (response.status === 200) {
+        ToastrWrapper.showInfo('Removed successfully!');
+        handleCancel('isOpenRemoveSpecialProduct', false);
+        dispatch(getEventPickings(param));
+      }
     }
   };
 
@@ -77,7 +91,12 @@ const RemoveSpecialProductPopup = () => {
           onClick={() => handleCancel('isOpenRemoveSpecialProduct', false)}>
           Cancel
         </button>
-        <button className='btn-remove' onClick={handleRemove}>
+        <button
+          className={
+            specialProductType.length === 0 ? 'btn-cancel' : 'btn-remove'
+          }
+          disabled={specialProductType.length === 0}
+          onClick={handleRemove}>
           Remove
         </button>
       </ModalFooter>

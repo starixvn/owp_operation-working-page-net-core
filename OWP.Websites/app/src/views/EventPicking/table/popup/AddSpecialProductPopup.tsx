@@ -10,6 +10,7 @@ import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { addSpecialProduct } from '../../service/Service';
 import ToastrWrapper from '../../../components/ToastrWrapper';
 import { getEventPickings } from '../eventPickingTableSlice/eventSliceThunkNative';
+import Spinner from '../../../components/Spinner';
 
 const AddSpecialProductPopup = () => {
   const { isOpenAddSpecialProduct } = useAppSelector(
@@ -28,15 +29,28 @@ const AddSpecialProductPopup = () => {
   };
 
   const handleAdd = async () => {
+    if (matchSelected.length === 0) {
+      ToastrWrapper.showError('You must select at least one match!');
+      return;
+    }
+
     const model: TActionOfSpecialProduct = {
       ParentId: matchSelected.map(x => x.infoSiteMatchId).join(','),
       MinorBettypeId: specialProductType.join(',')
     };
-    const response = await addSpecialProduct(model);
-    if (response.status === 200) {
-      ToastrWrapper.showInfo('Add success!');
-      handleCancel('isOpenAddSpecialProduct', false);
-      dispatch(getEventPickings(param));
+
+    const confirmResult = await ToastrWrapper.confirmYesNo(
+      'Are you sure that you want to add special products for those events?'
+    );
+    if (confirmResult.value) {
+      Spinner.show();
+      const response = await addSpecialProduct(model);
+      Spinner.hide();
+      if (response.status === 200) {
+        ToastrWrapper.showInfo('Added successfully!');
+        handleCancel('isOpenAddSpecialProduct', false);
+        dispatch(getEventPickings(param));
+      }
     }
   };
 
@@ -78,7 +92,12 @@ const AddSpecialProductPopup = () => {
           onClick={() => handleCancel('isOpenAddSpecialProduct', false)}>
           Cancel
         </button>
-        <button className='button-export' onClick={handleAdd}>
+        <button
+          className={
+            specialProductType.length === 0 ? 'btn-cancel' : 'button-export'
+          }
+          disabled={specialProductType.length === 0}
+          onClick={handleAdd}>
           Add
         </button>
       </ModalFooter>
