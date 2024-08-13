@@ -23,8 +23,7 @@ public class EventPickingApiController
     {
         var result = await mediator.Send(request);
 
-        result.FilteredMatches = result.FilteredMatches.Take(100).ToList();
-        result.MatchesByDate = result.MatchesByDate.Take(100).ToList();
+       
         return new JsonResult(result);
     }
 
@@ -34,8 +33,7 @@ public class EventPickingApiController
     {
         var result = await mediator.Send(request);
 
-        result.FilteredMatches = result.FilteredMatches.Take(100).ToList();
-        result.MatchesByDate= result.MatchesByDate.Take(100).ToList();
+       
         return new JsonResult(result);
     }
 
