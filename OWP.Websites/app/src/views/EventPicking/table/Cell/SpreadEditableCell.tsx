@@ -60,7 +60,7 @@ const SpreadEditableCell = ({ spread, spreadKey, infoSiteMatchId, leagueName, mi
         />
         <span>%</span>
       </div>
-      {!spread && <a className='mb__check' onClick={() => handleCheckButton(leagueName)}>
+      {!spread && !minorBettypeId&&<a className='mb__check' onClick={() => handleCheckButton(leagueName)}>
         Check
       </a>}
     </>

@@ -56,7 +56,7 @@ const NoOfHdpEditableCell = ({
           newValue = v.target?.value;
         }}
       />
-      {!value && (
+      {!value && !minorBettypeId &&(
         <a className='mb__check' onClick={() => handleCheckButton(leagueName)}>
           Check
         </a>
