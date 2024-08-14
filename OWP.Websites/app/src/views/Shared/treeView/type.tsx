@@ -1,7 +1,7 @@
 type TNode={
-  id: number
+  id: number|string
   label: string,
-  childNode: TNode[]
+  childNode?: TNode[]
 }
 type TDataSource= {
   dataSource: Array<TNode>

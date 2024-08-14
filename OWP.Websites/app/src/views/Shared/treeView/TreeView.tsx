@@ -15,8 +15,8 @@ const TreeNode = (node: TNode) => {
           {isOpen ? '-' : '+'}
         </button>
       )}
-      <span onClick={toggleNode}  className={leafNodeClassName}>{label}</span>
-      {isOpen && <TreeView  dataSource={childNode} />}
+      <span onClick={toggleNode} className={leafNodeClassName}>{label}</span>
+      {isOpen && childNode && <TreeView  dataSource={childNode} />}
     </div>
   );
 };
