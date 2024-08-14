@@ -43,7 +43,7 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
 
         return new EventPickingResult
         {
-            MatchesByDate = matches,
+            MatchesByDate = SelectMatchOfferInfos(matches),
             FilteredMatches = allMatches
         };
     }
@@ -196,4 +196,7 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
 
 
     private static int ConvertBoolToInt(bool value) => value ? 1 : 0;
+
+    private static List<MatchOfferInfo> SelectMatchOfferInfos(List<EventPickingModel> matches)
+        => matches.Select(e => new MatchOfferInfo(e.InfoSiteMatchId, e.IsNoOffer, e.EventDateTime)).ToList();
 }

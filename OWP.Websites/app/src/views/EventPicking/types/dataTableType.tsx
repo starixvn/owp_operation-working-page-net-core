@@ -1,7 +1,7 @@
 import { Option } from '../../Shared/MultipleSelection/type';
 
 type TResult = {
-  matchesByDate: Array<TDataTable>;
+  matchesByDate: Array<TMatchOfferInfo>;
   filteredMatches: Array<TDataTable>;
 };
 
@@ -22,13 +22,17 @@ type TUpdateSpecialProduct = Array<{
   NoOfHDP: string | undefined | null;
 }>;
 
-type TDataTable = {
+type TMatchOfferInfo = {
+  infoSiteMatchId: number;
+  isNoOffer: boolean;
+  eventDateTime: Required<Date>;
+}
+type TDataTable = TMatchOfferInfo & {
   minorBettypeId: number;
   tV: string;
   ipTv: string;
   channel: string;
   wb: string;
-  eventDateTime: Required<Date>;
   time: string;
   leagueName: string;
   matchOffer: string;
@@ -39,8 +43,6 @@ type TDataTable = {
   noOfHDP: string | undefined;
   spreadOu: number | undefined;
   spreadHdp: number | undefined;
-  isNoOffer: boolean;
-  infoSiteMatchId: number;
   isChildMatch: boolean;
   childMatchId: number;
   otherProvider: string;
@@ -94,7 +96,7 @@ type TMultipleFilter = {
 type TTableSlice = {
   matchSelected: Array<TDataTable>;
   openPopupState: TOpenPopupState;
-  entitiesByDate: Array<TDataTable>;
+  entitiesByDate: Array<TMatchOfferInfo>;
   entities: Array<TDataTable>;
   entitiesOriginal: Array<TDataTable>;
   isNoOfferAll: boolean;
@@ -149,5 +151,6 @@ export {
   TUpdateEvents,
   TOpenPopupState,
   TActionOfSpecialProduct,
-  TUpdateSpecialProduct
+  TUpdateSpecialProduct,
+  TMatchOfferInfo
 };

@@ -124,7 +124,7 @@ const EventPickingTableSlice = createSlice({
     ) => {
       const { key, value, infoSiteMatchId, minorBettypeId } = action.payload;
       const target = state.entities.find(
-        s => s.infoSiteMatchId === infoSiteMatchId && s.minorBettypeId===minorBettypeId
+        s => s.infoSiteMatchId === infoSiteMatchId && s.minorBettypeId === minorBettypeId
       );
       if (target) {
         target.isModified = true;
@@ -141,7 +141,7 @@ const EventPickingTableSlice = createSlice({
     ) => {
       const { value, infoSiteMatchId, minorBettypeId } = action.payload;
       const target = state.entities.find(
-        s => s.infoSiteMatchId === infoSiteMatchId && s.minorBettypeId===minorBettypeId
+        s => s.infoSiteMatchId === infoSiteMatchId && s.minorBettypeId === minorBettypeId
       );
       if (target) {
         target.noOfHDP = value;

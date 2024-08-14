@@ -4,8 +4,7 @@ import Utils, { filterDataTable } from '../../Shared/Utils';
 import { COLUMN_KEY } from '../table/TableSchema.json';
 import { TConfirmed } from '../types/confirmed';
 import TDataTable, {
-  MultipleFilterProperties,
-  TColumnKey,
+  TMatchOfferInfo,
   TMultipleFilter,
   TTableSlice
 } from '../types/dataTableType';
@@ -15,7 +14,7 @@ const KO_TIME = COLUMN_KEY.KO_TIME;
 const MB = COLUMN_KEY.MB;
 
 const updateNoOfferMatch = (
-  entities: TDataTable[],
+  entities: TMatchOfferInfo[],
   noOfferMatch: TNoOfferMatch[]
 ) => {
   entities.forEach(element => {

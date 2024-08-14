@@ -6,6 +6,8 @@ namespace OWP.EventPicking.Api.Models;
 
 public class EventPickingModel : MainEventMaxbetSpread, EventProductCommon
 {
+    public int InfoSiteMatchId { get; set; }
+
     public int? ChildMatchId { get; set; }
 
     public bool IsChildMatch => MinorBettypeId.HasValue;
@@ -401,4 +403,11 @@ public class EventPickingModel : MainEventMaxbetSpread, EventProductCommon
         Spread1H1X2 = leagueSetting.Spread_1H1X2.ToOWPSpreadFormatPercent();
 
     }
+}
+
+public class MatchOfferInfo(int infoSiteMatchId, bool isNoOffer, DateTime eventDateTime)
+{
+    public int InfoSiteMatchId { get; set; } = infoSiteMatchId;
+    public bool IsNoOffer { get; set; } = isNoOffer;
+    public DateTime EventDateTime { get; set; } = eventDateTime;
 }
