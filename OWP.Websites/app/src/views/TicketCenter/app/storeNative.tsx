@@ -4,7 +4,7 @@ import chatBoardReducer from '../../Shared/chatBoardNew/chatBoardSlice';
 import createTicketBoardReducer from '../../Shared/createTicketNew/createTicketBoardSliceNew';
 import createMultiplePolicySlice from '../../Shared/permission/multiplePolicySlice';
 import signalRReducer from '../features/signalR/signalRSlice';
-
+import subtypeReducer from '../features/consolidation/subtype/subtypeSlice';
 const store = configureStore({
   reducer: {
     eventChecking: eventCheckingReducer,
@@ -12,7 +12,8 @@ const store = configureStore({
     createTicketBoard: createTicketBoardReducer,
     pagePolicy: createMultiplePolicySlice('pagePolicy'),
     deletePolicy: createMultiplePolicySlice('deletePolicy'),
-    signalR: signalRReducer
+    signalR: signalRReducer,
+    subtype: subtypeReducer
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

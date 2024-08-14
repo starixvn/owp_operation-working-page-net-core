@@ -3,7 +3,7 @@ using OWP.TicketCenter.Models;
 
 namespace OWP.TicketCenter.Handlers;
 
-public class GetSubTypeRequest : IRequest<IEnumerable<SubTypeModel>>
+public record GetSubTypeRequest() : IRequest<IEnumerable<SubTypeModel>>
 {
     public int TicketTypeId { get; set; }
 }

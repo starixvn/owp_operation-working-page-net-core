@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { TDataSource, TNode } from './type';
+import { TTreeDataSource, TNode } from './type';
 
 const TreeNode = (node: TNode) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,7 +21,7 @@ const TreeNode = (node: TNode) => {
   );
 };
 
-const TreeView = (props: TDataSource) =>
+const TreeView = (props: TTreeDataSource) =>
     <div className='tree-view'>
       {props.dataSource?.map(node => (
         <TreeNode key={node.id} id={node.id} childNode={node.childNode} label={node.label}/>

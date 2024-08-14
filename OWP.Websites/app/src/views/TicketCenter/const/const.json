@@ -1,4 +1,6 @@
 {
+  "CONSOLIDATION_ROOT_URL":"/api/Consolidation",
+  "GET_SUBTYPE": "get-subtype",
   "getTicketType": "get-ticket-type",
   "getEventTicket": "get-event-ticket",
   "pinTicketRoute": "pin-ticket",

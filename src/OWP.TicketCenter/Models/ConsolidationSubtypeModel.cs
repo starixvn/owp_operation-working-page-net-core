@@ -7,5 +7,5 @@ public record ConsolidationSubtypeModel
 
     public int SubTypeId { get; set; }
 
-    public int SubTypeName { get; set; }
+    public string SubTypeName { get; set; }
 }

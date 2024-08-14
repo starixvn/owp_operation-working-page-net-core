@@ -3,11 +3,11 @@ type TNode={
   label: string,
   childNode?: TNode[]
 }
-type TDataSource= {
+type TTreeDataSource= {
   dataSource: Array<TNode>
 }
 
 export {
   TNode,
-  TDataSource
+  TTreeDataSource
 };

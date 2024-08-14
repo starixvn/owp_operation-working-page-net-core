@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Subtype from '../features/consolidation/Subtype';
+import Subtype from '../features/consolidation/subtype/Subtype';
 
 const TicketConsolidationNative = props => {
   return <div className='ticket__consolidation'>
