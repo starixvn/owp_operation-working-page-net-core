@@ -1,4 +1,28 @@
-@-webkit-keyframes ripple {
+.header {
+  border-bottom: none;
+  .tab-my-ticket {
+    display: block;
+    width: 100%;
+    border-bottom: 1px solid #ddd;
+    padding: 0;
+    margin: 0;
+
+    li {
+      transition: 0.3s ease;
+      display: inline-block;
+      border-bottom: 2px solid transparent;
+      padding: 0 25px 10px;
+      cursor: pointer;
+
+      &.active {
+        color: #439ff0;
+        border-color: #439ff0;
+      }
+    }
+  }
+}
+.ticket-center{
+  @-webkit-keyframes ripple {
   0% {
     -webkit-transform: scale(0);
     -khtml-transform: scale(0);
@@ -106,29 +130,7 @@
   }
 }
 
-.header {
-  border-bottom: none;
-  .tab-my-ticket {
-    display: block;
-    width: 100%;
-    border-bottom: 1px solid #ddd;
-    padding: 0;
-    margin: 0;
 
-    li {
-      transition: 0.3s ease;
-      display: inline-block;
-      border-bottom: 2px solid transparent;
-      padding: 0 25px 10px;
-      cursor: pointer;
-
-      &.active {
-        color: #439ff0;
-        border-color: #439ff0;
-      }
-    }
-  }
-}
 
 .react-datepicker-popper {
   z-index: 100 !important;
@@ -1245,5 +1247,47 @@
   :hover {
     cursor: pointer;
     color: #1e88e5;
+  }
+}
+}
+//ticket__consolidation//
+.ticket__consolidation{
+  display: flex;
+  .subtype{
+    flex: 2;
+    height: 100vh;
+    border-right: solid 1px gray;
+
+    .tree-view {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    
+    .tree-node {
+      margin: 10px 0;
+      padding-left: 10px;
+    }
+
+    .leaf__node--label{
+      padding-left: 15px;
+    }
+    
+    .toggle-icon {
+      cursor: pointer;
+      background-color: transparent;
+      border: none;
+      :focus{
+        outline: none;
+      }
+    }
+    
+  }
+  .merge__ticket{
+    flex: 4;
+    border-right: solid 1px gray;
+  }
+  .ticket__detail{
+    flex: 4;
   }
 }
