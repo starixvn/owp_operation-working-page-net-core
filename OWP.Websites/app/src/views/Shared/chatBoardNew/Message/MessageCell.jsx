@@ -19,12 +19,19 @@ const url = `${netCoreURLTicKetCenter}/${URL.UPDATE_SAVE_MESSAGE}`;
 
 const propTypes = {
   data: PropTypes.object.isRequired,
+  showUserInfo: PropTypes.bool,
   policy: PropTypes.string.isRequired,
   ticketId: PropTypes.number,
   isMyMessage: PropTypes.bool
 };
 
-const MessageCell = ({ data, policy = 'policy', ticketId, isMyMessage }) => {
+const MessageCell = ({
+  data,
+  policy = 'policy',
+  ticketId,
+  isMyMessage,
+  showUserInfo
+}) => {
   const {
     createdDate,
     message,
@@ -156,24 +163,31 @@ const MessageCell = ({ data, policy = 'policy', ticketId, isMyMessage }) => {
           creatorId={permission.ActorId}
           ticketId={ticketId}
         />
-        <div className='info-user'>
-          <div className='name-user'>
-            {!isMyMessage && (
-              <>
-                {extension?.length > 0
-                  ? `${username} (${extension})`
-                  : username}
-                {','}
-              </>
-            )}{' '}
-            {getCreatedTime()}
+        {showUserInfo && (
+          <div className='info-user'>
+            <div className='name-user'>
+              {!isMyMessage && (
+                <>
+                  {extension?.length > 0
+                    ? `${username} (${extension})`
+                    : username}
+                  {','}
+                </>
+              )}{' '}
+              {getCreatedTime()}
+            </div>
           </div>
-        </div>
+        )}
 
         <div className='message-group' style={{ whiteSpace: 'pre-wrap' }}>
           {isSaved ? renderUnSaveIcon() : renderSaveIcon()}
           {getMessageContent()}
-          {!isMyMessage && <AvatarDisplay imageFileName={avatarFileName} />}
+          {showUserInfo && !isMyMessage && (
+            <AvatarDisplay imageFileName={avatarFileName} />
+          )}
+          {!showUserInfo && !isMyMessage && (
+            <div style={{ width: '27px' }}></div>
+          )}
         </div>
       </div>
     );

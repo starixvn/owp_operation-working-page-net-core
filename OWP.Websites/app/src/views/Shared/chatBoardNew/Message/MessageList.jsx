@@ -8,6 +8,7 @@ import Loading from '../../../components/Loading';
 import { isEquals } from 'immutability-helper';
 import useStableDispatch from '../../customHook/useStableDispatch';
 import { loadMoreMessageThunk } from '../chatBoardThunkNative';
+import dayjs from 'dayjs';
 
 const MessageList = ({ policy = 'policy', ticketId }) => {
   const listRef = useRef();
@@ -49,9 +50,16 @@ const MessageList = ({ policy = 'policy', ticketId }) => {
     return result;
   }, {});
 
-  const renderMessageRow = (message, index) => {
+  const renderMessageRow = (message, index, previousMessage) => {
     const key = `${message.messageId}-${index}`;
     const isMyMessage = isEquals(message.userId, permission.ActorId);
+    const showUserInfo =
+      !previousMessage ||
+      previousMessage.userId !== message.userId ||
+      dayjs(message.createdDate).diff(
+        dayjs(previousMessage.createdDate),
+        'minute'
+      ) >= 10;
 
     return (
       <li
@@ -64,6 +72,7 @@ const MessageList = ({ policy = 'policy', ticketId }) => {
           data={message}
           ticketId={ticketId}
           isMyMessage={isMyMessage}
+          showUserInfo={showUserInfo}
         />
       </li>
     );
@@ -108,7 +117,11 @@ const MessageList = ({ policy = 'policy', ticketId }) => {
 
             <ul>
               {messageGroupByDate[date].map((message, index) =>
-                renderMessageRow(message, index)
+                renderMessageRow(
+                  message,
+                  index,
+                  messageGroupByDate[date][index - 1]
+                )
               )}
             </ul>
           </Fragment>
