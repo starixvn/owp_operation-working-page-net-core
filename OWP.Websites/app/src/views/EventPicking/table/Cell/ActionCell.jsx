@@ -18,15 +18,24 @@ const propTypes = {
 
 const ActionCell = props => {
   const { rowIndex, dataSource } = props;
-  const { infoSiteMatchId, leagueName, homeName, awayName, eventDateTime, minorBettypeId, isChildMatch } =
-    dataSource[rowIndex];
+  const {
+    infoSiteMatchId,
+    leagueName,
+    homeName,
+    awayName,
+    eventDateTime,
+    minorBettypeId,
+    isChildMatch
+  } = dataSource[rowIndex];
   const [openLog, setOpenLog] = useState(false);
   const dispatch = useAppDispatch();
 
-  const handleRemoveSpecialProduct=async ()=>{
-    const confirmResult=await ToastrWrapper.confirmYesNo("Are you sure that you want to delete this event ?");
-    
-    if(confirmResult.value){
+  const handleRemoveSpecialProduct = async () => {
+    const confirmResult = await ToastrWrapper.confirmYesNo(
+      'Are you sure that you want to delete this event ?'
+    );
+
+    if (confirmResult.value) {
       Spinner.show();
       const model = {
         ParentId: infoSiteMatchId,
@@ -35,7 +44,7 @@ const ActionCell = props => {
       const response = await removeSpecialProduct(model);
       if (response.status === 200) {
         ToastrWrapper.showInfo('Remove event successfully!');
-        const {param}= store.getState().filter;
+        const { param } = store.getState().filter;
         dispatch(getEventPickings(param));
       }
       Spinner.hide();
@@ -54,17 +63,15 @@ const ActionCell = props => {
   return (
     <>
       <div className='action-cell'>
-        <span className='icon-history-event' onClick={() => setOpenLog(true)}>
-          <LogHistoryIcon width={20} height={20} />
-        </span>
-        {isChildMatch &&<span
-      onClick={handleRemoveSpecialProduct}
-      >
-    <DeleteIcon
-          className='icon-delete'
-          size={20}
-        />
-        </span>}
+        {isChildMatch ? (
+          <span onClick={handleRemoveSpecialProduct}>
+            <DeleteIcon className='icon-delete' size={20} />
+          </span>
+        ) : (
+          <span className='icon-history-event' onClick={() => setOpenLog(true)}>
+            <LogHistoryIcon width={20} height={20} />
+          </span>
+        )}
       </div>
       {openLog && (
         <HistoryModal

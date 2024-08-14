@@ -17,7 +17,7 @@
     }
 
     .dropdown-heading-value {
-      > span {
+      >span {
         display: block;
         max-width: 130px;
         overflow: hidden;
@@ -62,7 +62,7 @@
     }
 
     .item-renderer {
-      input[type='checkbox'] + span {
+      input[type='checkbox']+span {
         &:after {
           left: 6px;
           top: 2px;
@@ -81,7 +81,7 @@
   padding: 0 1rem;
 }
 
-.multi-select .select-panel > div {
+.multi-select .select-panel>div {
   display: block !important;
 }
 
@@ -317,6 +317,11 @@
 
           .custom-checkbox {
             padding-left: 10px;
+
+            input {
+              width: 17px;
+              height: 17px;
+            }
           }
 
           .dropdown-wrap {
@@ -325,14 +330,14 @@
 
             svg {
               cursor: pointer;
-              width: 20px;
-              height: 20px;
+              width: 25px;
+              height: 25px;
             }
 
             .dropdown-action {
               position: absolute;
-              top: 20px;
-              left: -15px;
+              top: 23px;
+              left: -13px;
               width: 180px;
               height: 120px;
               margin: 0;
@@ -570,6 +575,7 @@
   .color-unselected {
     background-color: #ffd8d8;
   }
+
   .color-child-matches {
     background-color: #ffc000;
   }
@@ -695,11 +701,7 @@
 }
 
 .event-picking-page-page {
-  .multi-select
-    .select-item
-    .item-renderer
-    input[type='checkbox']
-    + span::before {
+  .multi-select .select-item .item-renderer input[type='checkbox']+span::before {
     margin-right: 7px;
   }
 
@@ -713,16 +715,11 @@
     }
   }
 
-  .multi-select .select-item .item-renderer input[type='checkbox'] + span {
+  .multi-select .select-item .item-renderer input[type='checkbox']+span {
     height: auto;
   }
 
-  .filter-control
-    .league
-    .rmsc.multi-select
-    .dropdown-heading
-    .dropdown-heading-value
-    > span {
+  .filter-control .league .rmsc.multi-select .dropdown-heading .dropdown-heading-value>span {
     max-width: 290px;
   }
 }
@@ -773,6 +770,7 @@
   width: 100%;
 
   thead {
+
     th,
     td {
       background: #dedede;
@@ -781,6 +779,7 @@
   }
 
   tr {
+
     th,
     td {
       border-collapse: collapse;
@@ -842,6 +841,7 @@
 
 .sum-provider-table,
 .right-table {
+
   th,
   td {
     border: 0.5px solid #968585;
@@ -865,6 +865,7 @@
 }
 
 .right-table {
+
   th,
   td {
     border-left: none;
@@ -979,6 +980,7 @@
 .custom-checkbox :hover {
   cursor: pointer;
 }
+
 .form-check-input:checked[type='checkbox'] {
   background-image: none !important;
 }
