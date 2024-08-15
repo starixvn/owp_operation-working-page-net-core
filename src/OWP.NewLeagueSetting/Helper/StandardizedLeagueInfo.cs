@@ -1,6 +1,3 @@
-
-using System.Globalization;
-
 namespace OWP.NewLeagueSetting.Helper;
 
 public static class StandardizedLeagueInfo
@@ -29,7 +26,6 @@ public static class StandardizedLeagueInfo
         leagueInfo.LstNote = excelInfo.LstNote;
         leagueInfo.Remark2 = excelInfo.Remark2;
     }
-   
 
     public static void BuildSpread(LeagueSettingCore leagueInfo, string ftSpread)
     {

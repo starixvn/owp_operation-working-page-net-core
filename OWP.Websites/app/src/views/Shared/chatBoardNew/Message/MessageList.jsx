@@ -8,7 +8,7 @@ import Loading from '../../../components/Loading';
 import { isEquals } from 'immutability-helper';
 import useStableDispatch from '../../customHook/useStableDispatch';
 import { loadMoreMessageThunk } from '../chatBoardThunkNative';
-import dayjs from 'dayjs';
+import { shouldShowUserInfo } from '../helper/chatBoardHelper';
 
 const MessageList = ({ policy = 'policy', ticketId }) => {
   const listRef = useRef();
@@ -53,13 +53,7 @@ const MessageList = ({ policy = 'policy', ticketId }) => {
   const renderMessageRow = (message, index, previousMessage) => {
     const key = `${message.messageId}-${index}`;
     const isMyMessage = isEquals(message.userId, permission.ActorId);
-    const showUserInfo =
-      !previousMessage ||
-      previousMessage.userId !== message.userId ||
-      dayjs(message.createdDate).diff(
-        dayjs(previousMessage.createdDate),
-        'minute'
-      ) >= 10;
+    const showUserInfo = shouldShowUserInfo(previousMessage, message);
 
     return (
       <li

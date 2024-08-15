@@ -6,6 +6,8 @@ import {
 } from '../const/index.json';
 import Axios from 'axios';
 import { netCoreURLTicKetCenter } from '../const/apiUrl';
+import dayjs from 'dayjs';
+
 const buildMessageListClassName = (height, isExpandInfo) => {
   const className = 'message-list';
   switch (true) {
@@ -81,6 +83,17 @@ const getUrlTicketFile = imageName =>
 
 const buildURL = urlName => `${netCoreURLTicKetCenter}/${urlName}`;
 
+const shouldShowUserInfo = (previousMessage, currentMessage) => {
+  return (
+    !previousMessage ||
+    previousMessage.userId !== currentMessage.userId ||
+    dayjs(currentMessage.createdDate).diff(
+      dayjs(previousMessage.createdDate),
+      'minute'
+    ) >= 10
+  );
+};
+
 export {
   getMessageList,
   buildMessageListClassName,
@@ -89,5 +102,6 @@ export {
   validateFileSize,
   getTicketTitle,
   isImage,
-  buildURL
+  buildURL,
+  shouldShowUserInfo
 };
