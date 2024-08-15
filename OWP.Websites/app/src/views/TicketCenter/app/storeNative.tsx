@@ -11,6 +11,7 @@ const store = configureStore({
     chatBoard: chatBoardReducer,
     createTicketBoard: createTicketBoardReducer,
     pagePolicy: createMultiplePolicySlice('pagePolicy'),
+    consolidationPolicy: createMultiplePolicySlice('consolidationPolicy'),
     deletePolicy: createMultiplePolicySlice('deletePolicy'),
     signalR: signalRReducer,
     subtype: subtypeReducer

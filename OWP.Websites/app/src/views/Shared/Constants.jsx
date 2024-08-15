@@ -110,6 +110,7 @@ export const FunctionKeys = {
   NightShiftAssignment: 'NightShiftAssignment',
   Tickets: 'Tickets',
   TicketCenter: 'MyTickets',
+  TicketConsolidation: 'TicketConsolidation',
   CreateTickets: 'CreateTickets',
   DeleteTickets: 'DeleteTickets',
   OSLiveGameAssignment: 'OSLiveGameAssignment',

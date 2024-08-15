@@ -12,13 +12,16 @@ const TAB_CONSOLIDATE: TTab = 'TAB_CONSOLIDATE';
 
 const TabSwitcher = () => {
   const [activeTab, setActiveTab] = useState<TTab>(TAB_MY_TICKET);
-  const pagePermissionModel = usePermission(
+  const pagePolicy = usePermission(
     FunctionKeys.TicketCenter,
     'pagePolicy'
   );
 
-  const { permission } = pagePermissionModel;
-  const { HasWrite } = permission;
+  const consolidationPolicy = usePermission(
+    FunctionKeys.TicketConsolidation,
+    'consolidationPolicy'
+  );
+
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -31,6 +34,10 @@ const TabSwitcher = () => {
     }
   };
 
+  if (!pagePolicy.permission.Username || !consolidationPolicy.permission.Username) {
+    return <Loading />;
+  }
+
   return (
     <>
       <div className='header'>
@@ -40,7 +47,7 @@ const TabSwitcher = () => {
             onClick={() => setActiveTab(TAB_MY_TICKET)}>
             My Tickets
           </li>
-          {HasWrite && <li
+          {consolidationPolicy.permission.HasRead && <li
             className={`${isEqual(TAB_CONSOLIDATE, activeTab) && 'active'}`}
             onClick={() => setActiveTab(TAB_CONSOLIDATE)}>
             Ticket Consolidation

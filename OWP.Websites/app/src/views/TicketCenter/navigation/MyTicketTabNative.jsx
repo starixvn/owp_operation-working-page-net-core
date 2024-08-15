@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { OWPBody, OWPHeader, OWPPage } from '../../Shared/common/OWP/OPWPage';
-import Loading from '../../components/Loading';
+
 import {
   getTicketDetail,
   getTicketSubTypes
@@ -18,6 +18,7 @@ import { onClickIssueModel } from '../features/signalR/signalRSlice';
 import TicketCenterTable from '../features/Table/TicketCenterTable';
 import { getDetailSegmentUrlByEventType } from '../Helper/TicketCenterHelper';
 import { usePermission } from '../ImportTicketCenterHelperNative';
+import store from '../app/storeNative';
 
 const { INDIVIDUAL } = RECIPIENT_TYPE;
 const MyTicketTabNative = () => {
@@ -27,10 +28,6 @@ const MyTicketTabNative = () => {
   const eventType = searchParams.get('eventType');
   const ticketId = searchParams.get('ticketId');
 
-  const pagePermissionModel = usePermission(
-    FunctionKeys.TicketCenter,
-    'pagePolicy'
-  );
   usePermission(FunctionKeys.DeleteTickets, 'deletePolicy');
 
   useEffect(() => {
@@ -55,12 +52,8 @@ const MyTicketTabNative = () => {
     })();
   }, []);
 
-  const { permission } = pagePermissionModel;
-
-  if (!permission.Username) {
-    return <Loading />;
-  }
-
+  const {permission}= store.getState().pagePolicy;
+  // TODO
   const creatorInfo = {
     groupName: null,
     nickName: permission.Username,
