@@ -1,27 +1,33 @@
-.header {
-  border-bottom: none;
-  .tab-my-ticket {
-    display: block;
+main{
+  .header {
+    position: fixed;
     width: 100%;
-    border-bottom: 1px solid #ddd;
-    padding: 0;
-    margin: 0;
+    height: 50px;
+    border-bottom: none;
+    z-index: 100;
+    .tab-my-ticket {
+      display: block;
+      width: 100%;
+      border-bottom: 1px solid #ddd;
+      padding: 0;
+      margin: 0;
 
-    li {
-      transition: 0.3s ease;
-      display: inline-block;
-      border-bottom: 2px solid transparent;
-      padding: 0 25px 10px;
-      cursor: pointer;
+      li {
+        transition: 0.3s ease;
+        display: inline-block;
+        border-bottom: 2px solid transparent;
+        padding: 0 25px 10px;
+        cursor: pointer;
 
-      &.active {
-        color: #439ff0;
-        border-color: #439ff0;
+        &.active {
+          color: #439ff0;
+          border-color: #439ff0;
+        }
       }
     }
-  }
 }
 .ticket-center {
+  margin-top: 50px;
   background: #fff !important;
   @-webkit-keyframes ripple {
     0% {
@@ -1250,11 +1256,14 @@
 }
 //ticket__consolidation//
 .ticket__consolidation {
+  margin-top: 50px;
   display: flex;
+  background: #fff !important;
   .subtype {
     flex: 2;
     border-right: solid 1px gray;
-
+    height: calc(100vh - 50px - 60px);
+    overflow-y: scroll;
     .tree-view {
       margin: 0;
       padding: 0;
@@ -1287,4 +1296,5 @@
   .ticket__detail {
     flex: 4;
   }
+}
 }
