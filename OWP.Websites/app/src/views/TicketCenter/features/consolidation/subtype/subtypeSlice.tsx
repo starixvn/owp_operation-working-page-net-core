@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { TNode } from '../../../../Shared/treeView/type';
+import type { PayloadAction } from '@reduxjs/toolkit';
+import { TSubTypeRow } from '../../../type';
 import { REQUEST_STATUS } from '../../../../Shared/Constants';
 import { querySubtypeThunk } from './subtypeThunk';
 
@@ -7,9 +8,19 @@ const subtypeSlice=createSlice({
   name: 'subtypeSlice',
   initialState: {
     loading: REQUEST_STATUS.pending,
-    entities: [] as TNode[]
+    entities: [] as TSubTypeRow[],
+    subTypeSelected: {
+      typeId: -1,
+      subTypeId: -1
+    }
 },
-  reducers:{},
+  reducers:{
+    setSelect(state, action: PayloadAction<{typeId: number, subTypeId: number}>){
+      const {subTypeId, typeId}= action.payload;
+      state.subTypeSelected.typeId=typeId;
+      state.subTypeSelected.subTypeId=subTypeId;
+    }
+  },
   extraReducers(builder) {
     builder.addCase(querySubtypeThunk.pending, state => {
       state.loading = REQUEST_STATUS.pending;
@@ -19,11 +30,17 @@ const subtypeSlice=createSlice({
       state.entities = payload;
     })
     .addCase(querySubtypeThunk.rejected, state => {
-      state.loading = REQUEST_STATUS.pending;
+      state.loading = REQUEST_STATUS.idle;
     });
   },
 });
 
-const { reducer } = subtypeSlice;
+const { reducer, actions } = subtypeSlice;
+const {
+  setSelect
+}= actions;
 
+export {
+  setSelect
+};
 export default reducer;

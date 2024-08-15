@@ -1259,6 +1259,7 @@
       margin: 0;
       padding: 0;
       list-style: none;
+      font-size: 1.23rem;
     }
 
     .tree-node {
@@ -1266,17 +1267,17 @@
       padding-left: 10px;
     }
 
-    .leaf__node--label {
-      padding-left: 15px;
+    .subtype-item{
+      padding: 5px;
+      cursor: pointer;
     }
 
+    .selected{
+      background-color: #8080802e;
+      font-weight: 600;
+    }
     .toggle-icon {
-      cursor: pointer;
-      background-color: transparent;
-      border: none;
-      :focus {
-        outline: none;
-      }
+      margin-right: 5px;
     }
   }
   .merge__ticket {

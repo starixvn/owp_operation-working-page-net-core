@@ -1,10 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { get } from '../../../../Shared/Service/Service';
-import { TNode } from '../../../../Shared/treeView/type';
 import { CONSOLIDATION_ROOT_URL, GET_SUBTYPE } from '../../../const/const.json';
+import { TSubTypeRow } from '../../../type';
 
 
-const querySubtypeThunk = createAsyncThunk<TNode[]>(
+const querySubtypeThunk = createAsyncThunk<TSubTypeRow[]>(
   'subtype/query',
   async () => {
     const url = `${CONSOLIDATION_ROOT_URL}/${GET_SUBTYPE}`;

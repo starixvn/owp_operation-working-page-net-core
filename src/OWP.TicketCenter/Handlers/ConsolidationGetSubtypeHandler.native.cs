@@ -10,6 +10,7 @@ public record ConsolidationGetSubtypeRequest() : Query<IList<ConsolidationSubtyp
 
 public class ConsolidationGetSubtypeHandler(Repository repository, INapSession session) : QueryHandler<ConsolidationGetSubtypeRequest, IList<ConsolidationSubtypeViewModel>>
 {
+    private readonly Repository repository= repository;
     public async Task<IList<ConsolidationSubtypeViewModel>> Handle(ConsolidationGetSubtypeRequest request,
         CancellationToken cancellationToken)
     {
@@ -18,20 +19,18 @@ public class ConsolidationGetSubtypeHandler(Repository repository, INapSession s
             ActorId = session.UserId
         });
 
-        return subtype.GroupBy(s => new{s.TypeId, s.TypeName})
+        return subtype.GroupBy(s => s.TypeId)
             .ToDictionary(s => s.Key, s => s.ToList())
-            .Select(s=>new ConsolidationSubtypeViewModel
+            .SelectMany(p =>
             {
-                Id = s.Key.TypeId,
-                Label = s.Key.TypeName,
-                ChildNode = s.Value
-                    .DistinctBy(c=>c.SubTypeId)
-                    .OrderBy(c => c.SubTypeId)
-                    .Select(c=>new ConsolidationSubtypeViewModel()
-                {
-                    Id = c.SubTypeId,
-                    Label = c.SubTypeName,
-                }).ToList()
+                return p.Value.OrderByDescending(v => v.SubTypeId)
+                    .Select(v=>new ConsolidationSubtypeViewModel()
+                    {
+                        TypeId = v.TypeId,
+                        SubTypeId = v.SubTypeId,
+                        Label = v.SubTypeName
+                    });
+               
             }).ToList();
     }
 }

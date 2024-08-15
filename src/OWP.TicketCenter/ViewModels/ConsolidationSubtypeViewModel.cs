@@ -1,12 +1,10 @@
-﻿using Newtonsoft.Json;
-
-namespace OWP.TicketCenter.ViewModels;
+﻿namespace OWP.TicketCenter.ViewModels;
 public record ConsolidationSubtypeViewModel
 {
-    public int Id { get; set; }
+
+    public int TypeId { get; set; }
+
+    public int SubTypeId { get; set; }
 
     public  string Label { get; set; }
-
-    [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-    public IList<ConsolidationSubtypeViewModel> ChildNode { get; set; }
 }

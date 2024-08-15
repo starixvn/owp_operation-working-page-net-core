@@ -11,7 +11,7 @@ const TAB_MY_TICKET: TTab = 'TAB_MY_TICKET';
 const TAB_CONSOLIDATE: TTab = 'TAB_CONSOLIDATE';
 
 const TabSwitcher = () => {
-  const [activeTab, setActiveTab] = useState<TTab>(TAB_MY_TICKET);
+  const [activeTab, setActiveTab] = useState<TTab>(TAB_CONSOLIDATE);
   const pagePolicy = usePermission(
     FunctionKeys.TicketCenter,
     'pagePolicy'

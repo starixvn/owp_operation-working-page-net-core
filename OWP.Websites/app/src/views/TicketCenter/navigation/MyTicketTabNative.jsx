@@ -53,7 +53,7 @@ const MyTicketTabNative = () => {
   }, []);
 
   const {permission}= store.getState().pagePolicy;
-  // TODO
+  
   const creatorInfo = {
     groupName: null,
     nickName: permission.Username,

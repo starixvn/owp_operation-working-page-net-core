@@ -1,7 +1,8 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { REQUEST_STATUS } from '../../../../Shared/Constants';
 import { TQuickMessage } from '../../../Type';
 import { queryQuickMessageThunk } from './quickMessageThunk';
+import type { PayloadAction } from '@reduxjs/toolkit';
 
 const quickMessageSlice = createSlice({
   name: 'quickMessageSlice',
