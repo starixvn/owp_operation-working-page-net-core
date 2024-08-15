@@ -28,7 +28,8 @@ public class ConsolidationGetSubtypeHandler(Repository repository, INapSession s
                     {
                         TypeId = v.TypeId,
                         SubTypeId = v.SubTypeId,
-                        Label = v.SubTypeName
+                        Label = v.SubTypeName,
+                        IsRead= v.IsRead
                     });
                
             }).ToList();

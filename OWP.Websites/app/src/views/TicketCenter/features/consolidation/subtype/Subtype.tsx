@@ -26,13 +26,13 @@ const Subtype = () => {
   }
   return (
     <div className='tree-view'>
-      {entities?.map(({typeId, subTypeId, label}) => (
+      {entities?.map(({typeId, subTypeId, label, isRead}) => (
         <div
          key={`${typeId}-${subTypeId}`}
           className='tree-node'>
         <span
         onClick={()=>handleClick(typeId, subTypeId)}
-         className={`subtype-item ${typeId===subTypeSelected.typeId && subTypeId===subTypeSelected.subTypeId && 'selected'}`}>
+         className={`subtype-item ${typeId===subTypeSelected.typeId && subTypeId===subTypeSelected.subTypeId && 'selected'} ${!isRead&&' unread'}`}>
           {label}
           </span>
       </div>

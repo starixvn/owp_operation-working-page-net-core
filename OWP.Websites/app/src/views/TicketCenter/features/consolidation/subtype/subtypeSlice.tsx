@@ -19,6 +19,10 @@ const subtypeSlice=createSlice({
       const {subTypeId, typeId}= action.payload;
       state.subTypeSelected.typeId=typeId;
       state.subTypeSelected.subTypeId=subTypeId;
+      const subtypeRow=state.entities.find(e=>e.typeId===typeId && e.subTypeId===subTypeId);
+      if(subtypeRow){
+        subtypeRow.isRead= true;
+      }
     }
   },
   extraReducers(builder) {

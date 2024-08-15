@@ -7,4 +7,5 @@ public record ConsolidationSubtypeViewModel
     public int SubTypeId { get; set; }
 
     public  string Label { get; set; }
+    public bool IsRead { get; set; }
 }

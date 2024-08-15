@@ -1,7 +1,8 @@
 type TSubTypeRow={
   typeId: number,
   subTypeId: number,
-  label: string
+  label: string,
+  isRead: boolean
 }
 
 export {
