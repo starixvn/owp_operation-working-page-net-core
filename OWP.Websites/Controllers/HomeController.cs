@@ -1,4 +1,5 @@
-﻿using Fanex.NAP.Client.Attributes;
+﻿using Fanex.Caching;
+using Fanex.NAP.Client.Attributes;
 using Fanex.NAP.Client.Helpers.Business;
 using Microsoft.AspNetCore.Authorization;
 using OWP.Constants;
@@ -6,7 +7,7 @@ using OWP.Services;
 
 namespace OWP.Websites.Controllers;
 
-public class HomeController(AccessCounter accessCounter) : Controller
+public class HomeController(AccessCounter accessCounter, ICache cache) : Controller
 {
     [Authorize]
     public IActionResult Index() => View("~/wwwroot/welcome/server.cshtml");
@@ -17,6 +18,15 @@ public class HomeController(AccessCounter accessCounter) : Controller
     [AllowAnonymous]
     public IActionResult ExpiredSession()
     {
+        return View();
+    }
+
+    [AllowAnonymous]
+    public IActionResult MountUM()
+    {
+        bool mountedUMPage;
+        cache.TryGet("OWP_UM_Mounted", out mountedUMPage);
+        ViewBag.UMFlag = mountedUMPage;
         return View();
     }
 
