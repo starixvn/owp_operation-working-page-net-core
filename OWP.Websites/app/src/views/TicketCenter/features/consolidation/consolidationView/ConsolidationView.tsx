@@ -238,7 +238,7 @@ const ConsolidationView = () => {
           ticketId={message.ticketId}
           isMyMessage={isMyMessage}
           showUserInfo={showUserInfo}
-          isShowActionPopup={false}
+          isConsolidationView={true}
         />
       </li>
     );

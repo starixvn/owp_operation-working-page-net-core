@@ -23,7 +23,7 @@ const propTypes = {
   policy: PropTypes.string.isRequired,
   ticketId: PropTypes.number,
   isMyMessage: PropTypes.bool,
-  isShowActionPopup: PropTypes.bool
+  isConsolidationView: PropTypes.bool
 };
 
 const MessageCell = ({
@@ -32,7 +32,7 @@ const MessageCell = ({
   ticketId,
   isMyMessage,
   showUserInfo,
-  isShowActionPopup = true
+  isConsolidationView = false
 }) => {
   const {
     createdDate,
@@ -143,6 +143,13 @@ const MessageCell = ({
       </span>
     );
 
+  const handleShowIcon = () => {
+    if (isConsolidationView) {
+      return <>icon scroll to message</>;
+    }
+    return isSaved ? renderUnSaveIcon() : renderSaveIcon();
+  };
+
   if (message) {
     useEffect(() => {
       const handleClickOutside = event => {
@@ -158,7 +165,7 @@ const MessageCell = ({
     }, [setIsOpenReactionIcon]);
     return (
       <div ref={ref}>
-        {isShowActionPopup && (
+        {!isConsolidationView && (
           <ReactionBar
             isOpenReactionIcon={isOpenReactionIcon}
             setIsOpenReactionIcon={setIsOpenReactionIcon}
@@ -184,8 +191,7 @@ const MessageCell = ({
         )}
 
         <div className='message-group' style={{ whiteSpace: 'pre-wrap' }}>
-          {isShowActionPopup &&
-            (isSaved ? renderUnSaveIcon() : renderSaveIcon())}
+          {handleShowIcon()}
           {getMessageContent()}
           {showUserInfo && !isMyMessage && (
             <AvatarDisplay imageFileName={avatarFileName} />

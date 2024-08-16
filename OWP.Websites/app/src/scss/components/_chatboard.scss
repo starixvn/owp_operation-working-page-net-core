@@ -143,7 +143,7 @@
       right: -5px;
     }
 
-    > * {
+    >* {
       margin-bottom: 5px;
     }
 
@@ -582,7 +582,7 @@
     position: relative;
     padding: 10px 0;
 
-    + .item {
+    +.item {
       border-top: 1px solid #d3d3d3;
     }
 
@@ -631,6 +631,7 @@
   .back__icon:hover {
     cursor: pointer;
   }
+
   .text-bold {
     font-weight: bold;
   }
@@ -646,7 +647,7 @@
   .event-date {
     font-size: 1.2rem;
 
-    > span {
+    >span {
       margin-left: 10px;
     }
 
@@ -720,7 +721,7 @@
     width: 65px;
   }
 
-  > div {
+  >div {
     width: 100%;
     // margin-left: 10px;
   }
@@ -837,7 +838,7 @@
 
   .MuiFormControl-root {
     .MuiInputLabel-formControl {
-      + .MuiInput-underline {
+      +.MuiInput-underline {
         margin-top: 45px;
       }
     }
@@ -876,7 +877,7 @@
       margin-top: 0;
     }
 
-    label + .MuiInput-formControl {
+    label+.MuiInput-formControl {
       margin-top: 35px;
     }
 
@@ -1642,18 +1643,20 @@
 }
 
 .message-list {
+
   .message-row.my-message,
   .message-row.others-user {
     .info-user {
       padding: 5px 0 0 0;
     }
+
     .list-icon-reaction {
       position: absolute;
       display: flex;
       margin-bottom: 0px;
       top: -20px;
 
-      > div {
+      >div {
         background-color: none !important;
         border-radius: 10px !important;
         height: fit-content !important;
@@ -1791,11 +1794,13 @@
 .custom-tooltip {
   margin-top: 0px !important;
   padding: 0px !important;
+
   .table-container {
     overflow: auto;
     max-height: 100px;
     overflow-y: auto;
   }
+
   .table-container::-webkit-scrollbar {
     background-color: #222;
     padding-left: 0px 3px !important;
@@ -1806,12 +1811,15 @@
     background-color: #555454;
     border-radius: 10px;
   }
+
   .react-table {
     margin: 3px !important;
     text-align: left;
+
     .user-name-message-icon {
       padding-left: 5px !important;
     }
+
     td {
       div {
         margin: 0px !important;
