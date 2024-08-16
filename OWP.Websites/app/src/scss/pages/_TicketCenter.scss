@@ -1481,6 +1481,7 @@ main {
     }
 
     .merge__ticket {
+      height: calc(100vh - 50px - 60px);
       flex: 4;
     }
 
@@ -1512,110 +1513,36 @@ main {
   }
 }
 
-.main-wrap-consolidation {
-  height: 800px;
-  overflow: auto;
-  display: flex;
-  flex-direction: column-reverse;
-  padding: 0 20px;
-}
-
-.infinite-scroll-component {
-  .date-time-line {
+.consolidation-wrap {
+  .message-list {
+    height: 800px;
     width: 100%;
-    text-align: center;
-    border-bottom: 1px solid #dbddde;
-    line-height: .1em;
-    margin: 10px 0 20px;
+    overflow: auto;
+    display: flex;
+    flex-direction: column-reverse;
+    padding: 0 20px;
 
-    span {
-      background: #f5f5f5;
-      padding: 0 10px;
-      font-size: 12px;
-      color: #7d8183;
-    }
-  }
+    .date-time-line {
+      width: 100%;
+      text-align: center;
+      border-bottom: 1px solid #dbddde;
+      line-height: .1em;
+      margin: 10px 0 20px;
 
-  ul {
-    padding: 0;
-    margin: 0;
-    list-style: none;
-
-    .message-row {
-      padding-bottom: 2px;
-      position: relative;
-    }
-
-    .my-message {
-      text-align: right;
-    }
-
-    .message-row div:first-child {
-      color: #828282;
-    }
-
-    .message-row div {
-      color: #444;
-      margin-bottom: 5px;
-    }
-
-    .message-row .info-user {
-      padding-right: 70px;
-    }
-
-    .message-row.my-message .info-user {
-      padding: 0 0 0 70px;
-    }
-
-    .message-row.my-message .info-user .name-user {
-      order: 2;
-    }
-
-    .name-user,
-    .info-user {
-      margin-bottom: 0 !important;
-    }
-
-    .my-message .message-group {
-      white-space: pre-wrap;
-      display: flex;
-      column-gap: 5px;
-      justify-content: flex-end;
+      span {
+        padding: 0 10px;
+        font-size: 12px;
+        color: #7d8183;
+      }
     }
 
     .my-message .message-div {
-      height: fit-content;
-      background: #dbf1ff;
-      text-align: left;
-      padding: 5px 10px;
-      border-radius: 9px 9px 0;
-      display: inline-block;
-      max-width: 360px;
-      margin-bottom: 0;
-
       .message-content {
         color: #505253;
       }
     }
 
-    .others-user .message-group {
-      white-space: pre-wrap;
-      display: flex;
-      column-gap: 5px;
-      flex-direction: row-reverse;
-      justify-content: start;
-    }
-
     .others-user .message-div {
-      height: fit-content;
-      background: #f2f6f9;
-      padding: 5px 10px;
-      text-align: left;
-      border-radius: 9px 9px 9px 0;
-      display: inline-block;
-      max-width: 360px;
-      margin-bottom: 0;
-
       .message-content {
         color: #505253;
       }

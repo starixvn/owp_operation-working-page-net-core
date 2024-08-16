@@ -245,12 +245,12 @@ const ConsolidationView = () => {
   };
 
   return (
-    <>
+    <div className='consolidation-wrap'>
       <div className='header-consolidation'>
         <span className='title'>{subTypeSelected.label}</span>
         <span className='describe'>(All messages for 3 last days)</span>
       </div>
-      <div className='main-wrap-consolidation'>
+      <div className='message-list'>
         <InfiniteScroll
           loader={<h4>Loading...</h4>}
           hasMore={false}
@@ -283,7 +283,7 @@ const ConsolidationView = () => {
           ))}
         </InfiniteScroll>
       </div>
-    </>
+    </div>
   );
 };
 
