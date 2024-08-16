@@ -63,7 +63,7 @@ public class BuildMainAndChildMatchesImp(Repository repository,
     {
         var generatedChildMatch = await repository.QueryEventPickingChildMatch(date);
         SpecialProductHelper.BuildSpecialProduct(generatedChildMatch);
-        buildRowColor.BuildRowColor(generatedChildMatch);
+        buildRowColor.BuildRowColor(generatedChildMatch, true);
         await buildProvider.Build(generatedChildMatch);
 
         return generatedChildMatch;

@@ -64,7 +64,7 @@ public class EventPickingModel : MainEventMaxbetSpread, EventProductCommon
     public string MatchNo { get; set; }
 
     [Cell("B2")]
-    public string MatchStatus => IsNoOffer ? "Unselect" : string.Empty;
+    public string MatchStatus => IsNoOffer ? "No Offer" : string.Empty;
 
     [Cell("C2")]
     public string EventDate => EventDateTime.Date.ToString(CultureInfo.InvariantCulture);

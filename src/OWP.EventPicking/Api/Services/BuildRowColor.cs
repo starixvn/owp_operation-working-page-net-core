@@ -4,14 +4,29 @@ namespace OWP.EventPicking.Api.Services;
 
 public interface BuildRowColor
 {
-    void BuildRowColor(List<EventPickingModel> matches);
+    void BuildRowColor(List<EventPickingModel> matches,bool isEventPicking = false);
 }
 
 public class BuildRowColorImp : BuildRowColor
 {
-    public void BuildRowColor(List<EventPickingModel> matches)
-        => matches.ForEach(x => { x.RowColor = x.IsAwayBlackList || x.IsHomeBlackList || x.IsLeagueBlackList ? Misc.Constant.ColorGray : Misc.Constant.ColorWhite; });
-
+    public void BuildRowColor(List<EventPickingModel> matches, bool isEventPicking = false)
+    {
+        foreach (var x in matches)
+        {
+            if (x.IsAwayBlackList || x.IsHomeBlackList || x.IsLeagueBlackList)
+            {
+                x.RowColor = Misc.Constant.ColorGray;
+            }
+            else if (x.MinorBettypeId.HasValue && isEventPicking)
+            {
+                x.RowColor = Misc.Constant.ColorYellow;
+            }
+            else
+            {
+                x.RowColor = Misc.Constant.ColorWhite;
+            }
+        }
+    }
     public static bool IsSaBaGame(string leagueName)
     {
         var sabaMinsPlay = new List<string>
