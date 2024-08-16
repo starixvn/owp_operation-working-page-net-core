@@ -29,9 +29,9 @@ const InfoIcon = () => {
             <ul>
               <li>Gray: A match belongs to Black list</li>
               <li>White: Other cases</li>
-              <li>Orange: Special match</li>
             </ul>
           </li>
+          <li>Orange: Special match</li>
         </ul>
       </UncontrolledTooltip>
     </>
