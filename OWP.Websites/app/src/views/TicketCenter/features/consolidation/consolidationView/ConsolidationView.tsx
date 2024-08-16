@@ -1,7 +1,14 @@
+import { useAppSelector } from '../../../app/hooksNative';
+import { isEquals } from 'immutability-helper';
 import { Fragment, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { shouldShowUserInfo } from '../../../../Shared/chatBoardNew/helper/chatBoardHelper';
+import MessageCell from '../../../../Shared/chatBoardNew/Message/MessageCell';
 
 const ConsolidationView = () => {
+  const subTypeSelected = useAppSelector(
+    state => state.subtype.subTypeSelected
+  );
   const fakeData = [
     {
       ticketId: 0,
@@ -175,41 +182,108 @@ const ConsolidationView = () => {
       quoteMessageId: 0,
       quoteCreatedDate: '0001-01-01T00:00:00',
       messageReactIcons: []
+    },
+    {
+      ticketId: 0,
+      messageId: 45331,
+      message:
+        'Báo Lao Động kỷ niệm 95 năm ngày xuất bản số đầu tiên\nHà NộiSáng 14/8, báo Lao Động tổ chức lễ kỷ niệm 95 năm ngày xuất bản số báo đầu tiên (14/8/1929 - 14/8/2024), tri ân các thế hệ lãnh đạo, phóng viên, người lao động của báo qua các thời kỳ.',
+      userId: 8,
+      username: 'sa_nickname',
+      avatarFileName: '895_download.jpg',
+      extension: '9933',
+      fileId: null,
+      isSaved: false,
+      isFile: false,
+      imageFileName: null,
+      createdDate: '2024-08-15T11:01:24.487',
+      quoteMessage: null,
+      quoteUsername: null,
+      quoteMessageId: 0,
+      quoteCreatedDate: '0001-01-01T00:00:00',
+      messageReactIcons: []
     }
   ];
-  const [hasMore, setHasMore] = useState(true);
-  const [dataSource, setDataSource] = useState([fakeData[0], fakeData[1]]);
+  const [dataSource, setDataSource] = useState(fakeData);
   const fetchMoreData = () => {
-    if (dataSource.length > 3) {
-      setHasMore(false);
+    setDataSource(fakeData);
+  };
+  const messageGroupByDate = dataSource.reduce((result: any, message) => {
+    const date = new Date(message.createdDate);
+    if (!result[date.toDateString()]) {
+      result[date.toDateString()] = [];
     }
-    setTimeout(() => {
-      console.log('abc');
-      setDataSource(dataSource.concat(dataSource[3]));
-    }, 500);
+    result[date.toDateString()].push(message);
+    return result;
+  }, {});
+
+  const renderMessageRow = (
+    message: any,
+    index: number,
+    previousMessage: any
+  ) => {
+    const key = `${message.messageId}-${index}`;
+    const isMyMessage = isEquals(message.userId, 8);
+    const showUserInfo = shouldShowUserInfo(previousMessage, message);
+
+    return (
+      <li
+        key={key}
+        className={
+          isMyMessage ? 'message-row my-message' : 'message-row others-user'
+        }>
+        <MessageCell
+          policy={'pagePolicy'}
+          data={message}
+          ticketId={message.ticketId}
+          isMyMessage={isMyMessage}
+          showUserInfo={showUserInfo}
+          isShowActionPopup={false}
+        />
+      </li>
+    );
   };
 
   return (
-    <div
-      className='main-wrap'
-      style={{
-        height: 300,
-        overflow: 'auto',
-        display: 'flex',
-        flexDirection: 'column-reverse'
-      }}>
-      <InfiniteScroll
-        loader={<h4>Loading...</h4>}
-        hasMore={hasMore}
-        next={fetchMoreData}
-        dataLength={dataSource.length}>
-        {dataSource.map((item, index) => (
-          <Fragment key={`${item.messageId}`}>
-            <p>{item.message}</p>
-          </Fragment>
-        ))}
-      </InfiniteScroll>
-    </div>
+    <>
+      <div className='header-consolidation'>
+        <span className='title'>{subTypeSelected.label}</span>
+        <span className='describe'>(All messages for 3 last days)</span>
+      </div>
+      <div className='main-wrap-consolidation'>
+        <InfiniteScroll
+          loader={<h4>Loading...</h4>}
+          hasMore={false}
+          next={fetchMoreData}
+          dataLength={dataSource.length}>
+          {Object.keys(messageGroupByDate).map((date, key) => (
+            <Fragment key={`${date}-${key}`}>
+              <div>
+                <h2 className='date-time-line'>
+                  <span>
+                    {new Date(date).toLocaleDateString('en-US', {
+                      month: 'long',
+                      day: 'numeric',
+                      year: 'numeric'
+                    })}
+                  </span>
+                </h2>
+              </div>
+
+              <ul>
+                {messageGroupByDate[date].map((message: any, index: number) =>
+                  renderMessageRow(
+                    message,
+                    index,
+                    messageGroupByDate[date][index - 1]
+                  )
+                )}
+              </ul>
+            </Fragment>
+          ))}
+        </InfiniteScroll>
+      </div>
+    </>
   );
 };
 

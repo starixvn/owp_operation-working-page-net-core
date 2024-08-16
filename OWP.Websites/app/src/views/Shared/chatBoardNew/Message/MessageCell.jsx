@@ -22,7 +22,8 @@ const propTypes = {
   showUserInfo: PropTypes.bool,
   policy: PropTypes.string.isRequired,
   ticketId: PropTypes.number,
-  isMyMessage: PropTypes.bool
+  isMyMessage: PropTypes.bool,
+  isShowActionPopup: PropTypes.bool
 };
 
 const MessageCell = ({
@@ -30,7 +31,8 @@ const MessageCell = ({
   policy = 'policy',
   ticketId,
   isMyMessage,
-  showUserInfo
+  showUserInfo,
+  isShowActionPopup = true
 }) => {
   const {
     createdDate,
@@ -156,13 +158,15 @@ const MessageCell = ({
     }, [setIsOpenReactionIcon]);
     return (
       <div ref={ref}>
-        <ReactionBar
-          isOpenReactionIcon={isOpenReactionIcon}
-          setIsOpenReactionIcon={setIsOpenReactionIcon}
-          messageId={messageId}
-          creatorId={permission.ActorId}
-          ticketId={ticketId}
-        />
+        {isShowActionPopup && (
+          <ReactionBar
+            isOpenReactionIcon={isOpenReactionIcon}
+            setIsOpenReactionIcon={setIsOpenReactionIcon}
+            messageId={messageId}
+            creatorId={permission.ActorId}
+            ticketId={ticketId}
+          />
+        )}
         {showUserInfo && (
           <div className='info-user'>
             <div className='name-user'>
@@ -180,7 +184,8 @@ const MessageCell = ({
         )}
 
         <div className='message-group' style={{ whiteSpace: 'pre-wrap' }}>
-          {isSaved ? renderUnSaveIcon() : renderSaveIcon()}
+          {isShowActionPopup &&
+            (isSaved ? renderUnSaveIcon() : renderSaveIcon())}
           {getMessageContent()}
           {showUserInfo && !isMyMessage && (
             <AvatarDisplay imageFileName={avatarFileName} />
