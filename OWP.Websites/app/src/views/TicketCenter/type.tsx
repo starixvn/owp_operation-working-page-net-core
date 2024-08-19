@@ -1,7 +1,7 @@
 type TSubTypeRow={
   typeId: number,
-  subTypeId: number,
-  label: string,
+  subTypeId: number|null,
+  subTypeName: string,
   isRead: boolean
 }
 

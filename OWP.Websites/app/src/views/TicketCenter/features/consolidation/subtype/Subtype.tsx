@@ -12,7 +12,7 @@ const Subtype = () => {
     state => state.subtype
   );
 
-  const handleClick = (typeId: number, subTypeId: number, label: string) => {
+  const handleClick = (typeId: number, subTypeId: number|null) =>{
     dispatch(
       setSelect({
         typeId,
@@ -31,16 +31,15 @@ const Subtype = () => {
   }
   return (
     <div className='tree-view'>
-      {entities?.map(({ typeId, subTypeId, label, isRead }) => (
+      {entities?.map(({typeId, subTypeId, subTypeName, isRead}) => (
         <div key={`${typeId}-${subTypeId}`} className='tree-node'>
           <span
             onClick={() => handleClick(typeId, subTypeId, label)}
             className={`subtype-item ${
-              typeId === subTypeSelected.typeId &&
+          {subTypeName}
               subTypeId === subTypeSelected.subTypeId &&
               'selected'
             } ${!isRead && ' unread'}`}>
-            {label}
           </span>
         </div>
       ))}

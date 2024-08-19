@@ -11,12 +11,12 @@ const subtypeSlice = createSlice({
     entities: [] as TSubTypeRow[],
     subTypeSelected: {
       typeId: -1,
-      subTypeId: -1,
+      subTypeId: -1 as number|null
       label: ''
     }
   },
   reducers: {
-    setSelect(
+    setSelect(state, action: PayloadAction<{typeId: number, subTypeId: number|null}>){
       state,
       action: PayloadAction<{
         typeId: number;
