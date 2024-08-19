@@ -8,16 +8,16 @@ import { setSelect } from './subtypeSlice';
 
 const Subtype = () => {
   const dispatch = useAppDispatch();
-  const { loading, entities, subTypeSelected } = useAppSelector(
+  const { loading, entities, subTypeSelected} = useAppSelector(
     state => state.subtype
   );
 
-  const handleClick = (typeId: number, subTypeId: number|null) =>{
+  const handleClick = (typeId: number, subTypeId: number|null, subTypeName: string) =>{
     dispatch(
       setSelect({
         typeId,
         subTypeId,
-        label
+        label: subTypeName
       })
     );
   };
@@ -34,10 +34,9 @@ const Subtype = () => {
       {entities?.map(({typeId, subTypeId, subTypeName, isRead}) => (
         <div key={`${typeId}-${subTypeId}`} className='tree-node'>
           <span
-            onClick={() => handleClick(typeId, subTypeId, label)}
-            className={`subtype-item ${
-          {subTypeName}
-              subTypeId === subTypeSelected.subTypeId &&
+            onClick={() => handleClick(typeId, subTypeId, subTypeName)}
+            className={`subtype-item ${subTypeName}
+              ${subTypeId === subTypeSelected.subTypeId &&
               'selected'
             } ${!isRead && ' unread'}`}>
           </span>
