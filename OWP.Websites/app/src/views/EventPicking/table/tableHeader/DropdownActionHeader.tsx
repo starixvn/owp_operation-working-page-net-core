@@ -16,6 +16,10 @@ const DropdownActionHeader = ({ refValue }: TDropdownActionHeader) => {
   );
 
   const handleOpenPopup = (key: keyof TOpenPopupState, value: boolean) => {
+    if (matchSelected.length === 0) {
+      ToastrWrapper.showError('You must select at least one match!');
+      return;
+    }
     dispatch(setOpenPopupState({ key, value }));
   };
 
@@ -55,10 +59,10 @@ const DropdownActionHeader = ({ refValue }: TDropdownActionHeader) => {
         Remove Special Product
       </li>
       <li className='offer' onClick={() => handleMatchSelection(false)}>
-        Select Game
+        Offer
       </li>
       <li className='no-offer' onClick={() => handleMatchSelection(true)}>
-        Unselect Game
+        No Offer
       </li>
     </div>
   );

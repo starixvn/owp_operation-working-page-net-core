@@ -29,11 +29,6 @@ const AddSpecialProductPopup = () => {
   };
 
   const handleAdd = async () => {
-    if (matchSelected.length === 0) {
-      ToastrWrapper.showError('You must select at least one match!');
-      return;
-    }
-
     const model: TActionOfSpecialProduct = {
       ParentId: matchSelected.map(x => x.infoSiteMatchId).join(','),
       MinorBettypeId: specialProductType.join(',')
