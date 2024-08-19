@@ -245,4 +245,15 @@ public class TicketCenterController : ControllerBase
     [HttpPost("update-message-icon")]
     public async Task UpdateMessageIcon(UpdateMessageIconRequest request)
         => await mediator.Send(request);
+
+    [HttpGet("get-message-three-day-ago")]
+    public async Task<IActionResult> GetMessageThreeDayAgo(int ticketTypeId, int? subtypeId)
+    {
+      var result =   await mediator.Send(new GetAllMessageThreeDayRequest
+        {
+            SubTypeId = subtypeId,
+            TicketTypeId = ticketTypeId
+        });
+      return Ok(result);
+    } 
 }

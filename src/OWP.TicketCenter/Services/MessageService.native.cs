@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Fanex.NAP.Client.Helpers.Web;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.ViewModels;
 
@@ -13,6 +14,8 @@ public interface MessageService
     Task<(bool, List<MessageDetailViewModel>)> GetMessageListByGreaterMessageId(int ticketId, int firstMessageId);
 
     Task BuildReactIconForMessage(IList<MessageDetailViewModel> messages);
+
+    Task<IEnumerable<MessageDetailViewModel>> GetAllMessageThreeDayAgo(int ticketTypeId, int? subTypeId);
 }
 
 public class MessageServiceImp : MessageService
@@ -21,10 +24,13 @@ public class MessageServiceImp : MessageService
 
     private readonly IMapper mapper;
 
-    public MessageServiceImp(Repository repository, IMapper mapper)
+    private readonly INapSession session;
+    
+    public MessageServiceImp(Repository repository, IMapper mapper, INapSession session)
     {
         this.repository = repository;
         this.mapper = mapper;
+        this.session = session;
     }
 
     public async Task<NewMessageRequestModel> InsertMessage(NewTicketModelBase request, int ticketId)
@@ -80,5 +86,12 @@ public class MessageServiceImp : MessageService
             var findByMessageId = messageReactIcons.Where(x => x.MessageId == item.MessageId).ToList();
             item.MessageReactIcons = findByMessageId;
         }
+    }
+
+    public async Task<IEnumerable<MessageDetailViewModel>> GetAllMessageThreeDayAgo(int ticketTypeId, int? subTypeId)
+    {
+        var message = (await repository.GetAllMessageThreeDayAgo(session.UserId, ticketTypeId, subTypeId)).ToList();
+        await  BuildReactIconForMessage(message);
+        return message;
     }
 }

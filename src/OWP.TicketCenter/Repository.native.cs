@@ -111,6 +111,7 @@ public interface Repository
 
     Task<IList<ConsolidationSubtypeModel>> GetSubtype(CriteriaBase criteria);
 
+    Task<IEnumerable<MessageDetailViewModel>> GetAllMessageThreeDayAgo(int actorId, int ticketTypeId, int? subtypeId);
 }
 
 public class RepositoryImp : Repository
@@ -483,4 +484,12 @@ public class RepositoryImp : Repository
 
     public async Task<IList<ConsolidationSubtypeModel>> GetSubtype(CriteriaBase criteria)
         => (await dynamicRepository.FetchAsync<ConsolidationSubtypeModel>(criteria)).ToList();
+
+    public async Task<IEnumerable<MessageDetailViewModel>> GetAllMessageThreeDayAgo(int actorId, int ticketTypeId, int? subtypeId)
+        => (await dynamicRepository.FetchAsync<MessageDetailViewModel>(new GetAllMessageThreeDayAgoCriteria
+        {
+            ActorId = actorId,
+            TicketTypeId = ticketTypeId,
+            SubtypeId = subtypeId
+        }));
 }
