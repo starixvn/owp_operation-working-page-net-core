@@ -35,20 +35,27 @@ const Subtype = () => {
     return <Loading />;
   }
   return (
-    <div className='tree-view'>
-      {entities?.map(({typeId, subTypeId, subTypeName, isRead}) => (
-        <div key={`${typeId}-${subTypeId}`} className='tree-node'>
-          <span
-            onClick={() => handleClick(typeId, subTypeId, subTypeName)}
-            className={`subtype-item ${subTypeName}
-              ${subTypeId === subTypeSelected.subTypeId && typeId===subTypeSelected.typeId &&
-              'selected'
-            } ${!isRead && ' unread'}`}>
-              {subTypeName}
-          </span>
-        </div>
-      ))}
-    </div>
+    <>
+    <div className='title__wrapper'>
+      <span className='title'>
+        Subtype
+      </span>
+      </div>
+      <div className='tree-view'>
+        {entities?.map(({typeId, subTypeId, subTypeName, isRead}) => (
+          <div key={`${typeId}-${subTypeId}`} className='tree-node'>
+            <span
+              onClick={() => handleClick(typeId, subTypeId, subTypeName)}
+              className={`subtype-item ${subTypeName}
+                ${subTypeId === subTypeSelected.subTypeId && typeId===subTypeSelected.typeId &&
+                'selected'
+              } ${!isRead && ' unread'}`}>
+                {subTypeName}
+            </span>
+          </div>
+        ))}
+      </div>
+    </>
   );
 };
 
