@@ -4,7 +4,8 @@ const signalRSlice = createSlice({
   name: 'signalR',
   initialState: {
     filterModel: null,
-    issueModel: null
+    issueModel: null,
+    activeTab: 'TAB_MY_TICKET'
   },
   reducers: {
     onSubmitFilterModel: {
@@ -16,12 +17,17 @@ const signalRSlice = createSlice({
       reducer: (state, action) => {
         state.issueModel = action.payload;
       }
+    },
+    setActiveTabSignalR: {
+      reducer: (state, action) => {
+        state.activeTab = action.payload;
+      }
     }
   }
 });
 
 const { actions, reducer } = signalRSlice;
-const { onSubmitFilterModel, onClickIssueModel } = actions;
-export { actions, onSubmitFilterModel, onClickIssueModel };
+const { onSubmitFilterModel, onClickIssueModel, setActiveTabSignalR } = actions;
+export { actions, onSubmitFilterModel, onClickIssueModel, setActiveTabSignalR };
 
 export default reducer;
