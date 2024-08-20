@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Fanex.NAP.Client.Helpers.Web;
+using NPOI.SS.Formula.Functions;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.ViewModels;
 
@@ -92,6 +93,24 @@ public class MessageServiceImp : MessageService
     {
         var message = (await repository.GetAllMessageThreeDayAgo(session.UserId, ticketTypeId, subTypeId)).ToList();
         await  BuildReactIconForMessage(message);
+        BuildBorderColorMessageByTicketId(message);
         return message;
+    }
+
+    private void BuildBorderColorMessageByTicketId(List<MessageDetailViewModel> messages)
+    { 
+        var rand = new Random();
+        
+        var ticketColors = messages
+            .GroupBy(x => x.TicketId)
+            .ToDictionary(
+                group => group.Key,
+                _ => String.Format("#{0:X6}", rand.Next(0x1000000))
+            );
+        
+        foreach (var message in messages)
+        {
+            message.BorderColor = ticketColors[message.TicketId];
+        }
     }
 }
