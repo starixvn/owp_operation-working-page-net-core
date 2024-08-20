@@ -29,7 +29,7 @@ public class GetAllMessageThreeDayAgoHandler(MessageService messageService, Repo
     {
         var criteria = new UpdateSingleRecipientReaderCriteria
         {
-            TicketIds = consolidateMessages.Select(x => x.TicketId).Distinct().ToString(),
+            TicketIds = string.Join(",", consolidateMessages.Select(x => x.TicketId).Distinct()),
             IsRead = true,
             RecipientId = session.UserId
         };
