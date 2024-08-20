@@ -5,6 +5,7 @@ import createTicketBoardReducer from '../../Shared/createTicketNew/createTicketB
 import createMultiplePolicySlice from '../../Shared/permission/multiplePolicySlice';
 import signalRReducer from '../features/signalR/signalRSlice';
 import subtypeReducer from '../features/consolidation/subtype/subtypeSlice';
+import consolidationSlice from '../features/consolidation/consolidationView/consolidationSlice';
 const store = configureStore({
   reducer: {
     eventChecking: eventCheckingReducer,
@@ -14,7 +15,8 @@ const store = configureStore({
     consolidationPolicy: createMultiplePolicySlice('consolidationPolicy'),
     deletePolicy: createMultiplePolicySlice('deletePolicy'),
     signalR: signalRReducer,
-    subtype: subtypeReducer
+    subtype: subtypeReducer,
+    consolidation: consolidationSlice
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

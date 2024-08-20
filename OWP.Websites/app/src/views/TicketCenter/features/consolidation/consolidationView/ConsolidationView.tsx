@@ -1,15 +1,17 @@
 import { useAppSelector } from '../../../app/hooksNative';
 import { isEquals } from 'immutability-helper';
-import { Fragment, useState } from 'react';
+import { Fragment } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { shouldShowUserInfo } from '../../../../Shared/chatBoardNew/helper/chatBoardHelper';
 import MessageCell from '../../../../Shared/chatBoardNew/Message/MessageCell';
+import store from '../../../app/storeNative';
 
 const ConsolidationView = () => {
-  const subTypeSelected = useAppSelector(
-    state => state.subtype.subTypeSelected
+  const {subtype:{subTypeSelected: {label}}}= store.getState();
+  const {entities} = useAppSelector(
+    state => state.consolidation
   );
-  const fakeData = [
+/*   const fakeData = [
     {
       ticketId: 0,
       messageId: 45321,
@@ -203,12 +205,10 @@ const ConsolidationView = () => {
       quoteCreatedDate: '0001-01-01T00:00:00',
       messageReactIcons: []
     }
-  ];
-  const [dataSource, setDataSource] = useState(fakeData);
-  const fetchMoreData = () => {
-    setDataSource(fakeData);
-  };
-  const messageGroupByDate = dataSource.reduce((result: any, message) => {
+  ]; */
+
+ 
+  const messageGroupByDate = entities.reduce((result: any, message) => {
     const date = new Date(message.createdDate);
     if (!result[date.toDateString()]) {
       result[date.toDateString()] = [];
@@ -247,15 +247,15 @@ const ConsolidationView = () => {
   return (
     <div className='consolidation-wrap'>
       <div className='header-consolidation'>
-        <span className='title'>{subTypeSelected.label}</span>
+        <span className='title'>{label}</span>
         <span className='describe'>(All messages for 3 last days)</span>
       </div>
       <div className='message-list'>
         <InfiniteScroll
           loader={<h4>Loading...</h4>}
           hasMore={false}
-          next={fetchMoreData}
-          dataLength={dataSource.length}>
+          next={entities}
+          dataLength={entities.length}>
           {Object.keys(messageGroupByDate).map((date, key) => (
             <Fragment key={`${date}-${key}`}>
               <div>

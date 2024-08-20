@@ -5,6 +5,7 @@ import { REQUEST_STATUS } from '../../../../Shared/Constants';
 import Loading from '../../../../components/Loading';
 import { querySubtypeThunk } from './subtypeThunk';
 import { setSelect } from './subtypeSlice';
+import { queryConsolidationThunk } from '../consolidationView/consolidationThunk';
 
 const Subtype = () => {
   const dispatch = useAppDispatch();
@@ -20,6 +21,10 @@ const Subtype = () => {
         label: subTypeName
       })
     );
+    dispatch(queryConsolidationThunk({
+      subTypeId,
+      typeId
+    }));
   };
 
   useEffect(() => {
