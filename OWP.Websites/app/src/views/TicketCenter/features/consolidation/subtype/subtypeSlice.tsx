@@ -25,6 +25,17 @@ const subtypeSlice = createSlice({
       if(subtypeRow){
         subtypeRow.isRead= true;
       }
+    },
+    highlightSubtype(state, action: PayloadAction<{subtype: TSubTypeRow}>){
+      const { subTypeId, typeId } = action.payload.subtype;
+      
+      const subtypeRowIndex=state.entities.findIndex(e=>e.typeId===typeId && e.subTypeId===subTypeId);
+      if(subtypeRowIndex!==-1){
+        state.entities[subtypeRowIndex].isRead= false;
+        state.entities.unshift(state.entities.splice(subtypeRowIndex, 1)[0]);
+      }else{
+        state.entities.unshift(action.payload.subtype);
+      }
     }
   },
   extraReducers(builder) {
@@ -43,7 +54,7 @@ const subtypeSlice = createSlice({
 });
 
 const { reducer, actions } = subtypeSlice;
-const { setSelect } = actions;
+const { setSelect,highlightSubtype } = actions;
 
-export { setSelect };
+export { setSelect, highlightSubtype };
 export default reducer;

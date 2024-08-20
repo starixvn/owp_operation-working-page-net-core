@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using OWP.TicketCenter.Handlers;
-using OWP.TicketCenter.ViewModels;
+using OWP.TicketCenter.Models;
 
 namespace OWP.TicketCenter;
 
@@ -11,6 +11,6 @@ public class ConsolidationController(IMediator mediator) : ControllerBase
 {
     
     [HttpGet("get-subtype")]
-    public async Task<IList<ConsolidationSubtypeViewModel>> GetSubType()
+    public async Task<IList<ConsolidationSubtypeModel>> GetSubType()
         => await mediator.Send(new ConsolidationGetSubtypeRequest());
 }

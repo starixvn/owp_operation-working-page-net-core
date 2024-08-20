@@ -21,6 +21,8 @@ public interface TicketCenterNotifyHub
     Task NotifyNewAddRecipientLga(int owpMatchId, int actorId);
 
     Task NotifyUpdateReactIconMessage(MessageReactIcon messageReactIcon, string action, int ticketId);
+
+    Task NotifyHighlightSubtype(ConsolidationSubtypeModel subtype);
 }
 
 public class TicketCenterNotifyHubImp : Hub<TicketCenterNotifyHub>;
