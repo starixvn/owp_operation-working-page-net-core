@@ -7,10 +7,12 @@ import MessageCell from '../../../../Shared/chatBoardNew/Message/MessageCell';
 import store from '../../../app/storeNative';
 
 const ConsolidationView = () => {
-  const {subtype:{subTypeSelected: {label}}}= store.getState();
-  const {entities} = useAppSelector(
-    state => state.consolidation
-  );
+  const {
+    subtype: {
+      subTypeSelected: { label }
+    }
+  } = store.getState();
+  const { entities } = useAppSelector(state => state.consolidation);
 
   const messageGroupByDate = entities.reduce((result: any, message) => {
     const date = new Date(message.createdDate);
@@ -58,7 +60,7 @@ const ConsolidationView = () => {
         <InfiniteScroll
           loader={<h4>Loading...</h4>}
           hasMore={false}
-          next={()=>entities}
+          next={() => entities}
           dataLength={entities.length}>
           {Object.keys(messageGroupByDate).map((date, key) => (
             <Fragment key={`${date}-${key}`}>

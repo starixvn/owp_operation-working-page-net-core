@@ -1530,7 +1530,16 @@ main {
     overflow: auto;
     display: flex;
     flex-direction: column-reverse;
-    padding: 0 20px;
+    padding: 0;
+
+    .infinite-scroll-component__outerdiv {
+      height: 800px;
+      overflow: auto;
+
+      .infinite-scroll-component {
+        padding: 0 20px;
+      }
+    }
 
     .date-time-line {
       width: 100%;
@@ -1547,17 +1556,31 @@ main {
     }
 
     .my-message .message-div {
+      border-width: 1px;
+      border-style: solid;
+
       .message-content {
         color: #505253;
       }
     }
 
     .others-user .message-div {
-      border-color: #2fb159 !important;
+      border-width: 1px;
+      border-style: solid;
 
       .message-content {
         color: #505253;
       }
     }
   }
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  background-color: #fff;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #c2c2c2;
+  border-radius: 10px;
 }

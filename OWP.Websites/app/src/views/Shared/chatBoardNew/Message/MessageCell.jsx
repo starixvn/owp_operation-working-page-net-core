@@ -48,7 +48,8 @@ const MessageCell = ({
     quoteCreatedDate,
     imageFileName,
     messageReactIcons,
-    avatarFileName
+    avatarFileName,
+    borderColor
   } = data;
   const dispatch = useStableDispatch();
   const ref = useRef(null);
@@ -65,7 +66,8 @@ const MessageCell = ({
     quoteCreatedDate,
     imageFileName,
     messageReactIcons,
-    ticketId
+    ticketId,
+    borderColor
   });
 
   const handleSaveMessages = async value => {
