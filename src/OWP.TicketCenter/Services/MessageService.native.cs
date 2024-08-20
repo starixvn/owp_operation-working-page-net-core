@@ -16,7 +16,7 @@ public interface MessageService
 
     Task BuildReactIconForMessage(IList<MessageDetailViewModel> messages);
 
-    Task<IEnumerable<MessageDetailViewModel>> GetAllMessageThreeDayAgo(int ticketTypeId, int? subTypeId);
+    Task<List<MessageDetailViewModel>> GetAllMessageThreeDayAgo(int ticketTypeId, int? subTypeId);
 }
 
 public class MessageServiceImp : MessageService
@@ -26,7 +26,7 @@ public class MessageServiceImp : MessageService
     private readonly IMapper mapper;
 
     private readonly INapSession session;
-    
+
     public MessageServiceImp(Repository repository, IMapper mapper, INapSession session)
     {
         this.repository = repository;
@@ -89,12 +89,12 @@ public class MessageServiceImp : MessageService
         }
     }
 
-    public async Task<IEnumerable<MessageDetailViewModel>> GetAllMessageThreeDayAgo(int ticketTypeId, int? subTypeId)
+    public async Task<List<MessageDetailViewModel>> GetAllMessageThreeDayAgo(int ticketTypeId, int? subTypeId)
     {
         var message = (await repository.GetAllMessageThreeDayAgo(session.UserId, ticketTypeId, subTypeId)).ToList();
-        await  BuildReactIconForMessage(message);
+        await BuildReactIconForMessage(message);
         BuildBorderColorMessageByTicketId(message);
-        return message;
+        return message.ToList();
     }
 
     private void BuildBorderColorMessageByTicketId(List<MessageDetailViewModel> messages)

@@ -1,11 +1,8 @@
-﻿using MediatR;
-using OWP.TicketCenter.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Fanex.NAP.Client.Helpers.Web;
+using MediatR;
+using OWP.TicketCenter.Criteria;
 using OWP.TicketCenter.Services;
+using OWP.TicketCenter.ViewModels;
 
 namespace OWP.TicketCenter.Handlers;
 
@@ -17,11 +14,26 @@ public class GetAllMessageThreeDayRequest : IRequest<IEnumerable<MessageDetailVi
 
 }
 
-public class GetAllMessageThreeDayAgoHandler(MessageService messageService) : IRequestHandler<GetAllMessageThreeDayRequest, IEnumerable<MessageDetailViewModel>>
+public class GetAllMessageThreeDayAgoHandler(MessageService messageService, Repository repository, INapSession session) :
+    IRequestHandler<GetAllMessageThreeDayRequest, IEnumerable<MessageDetailViewModel>>
 {
     public async Task<IEnumerable<MessageDetailViewModel>> Handle(GetAllMessageThreeDayRequest request, CancellationToken cancellationToken)
     {
         var result = await messageService.GetAllMessageThreeDayAgo(request.TicketTypeId, request.SubTypeId);
+        await UpdateIsReadConsolidateTickets(result);
+
         return result;
+    }
+
+    private async Task UpdateIsReadConsolidateTickets(IEnumerable<MessageDetailViewModel> consolidateMessages)
+    {
+        var criteria = new UpdateSingleRecipientReaderCriteria
+        {
+            TicketIds = consolidateMessages.Select(x => x.TicketId).Distinct().ToString(),
+            IsRead = true,
+            RecipientId = session.UserId
+        };
+
+        await repository.UpdateSingleRecipientReader(criteria);
     }
 }

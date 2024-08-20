@@ -101,13 +101,7 @@ public class TicketDetailServiceImp : TicketDetailService
         var (canShowMoreMessage, messages) = !permissionModel.FirstMessageId.HasValue
             ? await messageService.GetMessageListInLast2Days(ticketId)
             : await messageService.GetMessageListByGreaterMessageId(ticketId, permissionModel.FirstMessageId.Value);
-        var criteria = new UpdateSingleRecipientReaderCriteria
-        {
-            TicketId = ticketId,
-            IsRead = true,
-            RecipientId = permissionModel.ActorId
-        };
-        await repository.UpdateSingleRecipientReader(criteria);
+        await UpdateIsReadTicket(permissionModel, ticketId);
 
         var recipients = await repository.GetRecipientByTicketId(ticketId);
         var issueCreator = await repository.GetIssueCreator(ticketId);
@@ -119,5 +113,16 @@ public class TicketDetailServiceImp : TicketDetailService
         model.LastTwoComments = lastComments.ToList();
         model.CanShowMoreMessage = canShowMoreMessage;
         await messageService.BuildReactIconForMessage(model.Messages);
+    }
+
+    private async Task UpdateIsReadTicket(PermissionCheckedModel permissionModel, int ticketId)
+    {
+        var criteria = new UpdateSingleRecipientReaderCriteria
+        {
+            TicketIds = ticketId.ToString(),
+            IsRead = true,
+            RecipientId = permissionModel.ActorId
+        };
+        await repository.UpdateSingleRecipientReader(criteria);
     }
 }
