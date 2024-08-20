@@ -41,9 +41,10 @@ const Subtype = () => {
           <span
             onClick={() => handleClick(typeId, subTypeId, subTypeName)}
             className={`subtype-item ${subTypeName}
-              ${subTypeId === subTypeSelected.subTypeId &&
+              ${subTypeId === subTypeSelected.subTypeId && typeId===subTypeSelected.subTypeId &&
               'selected'
             } ${!isRead && ' unread'}`}>
+              {subTypeName}
           </span>
         </div>
       ))}

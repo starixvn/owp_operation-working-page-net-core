@@ -22,7 +22,6 @@ const TabSwitcher = () => {
     'consolidationPolicy'
   );
 
-
   const renderTabContent = () => {
     switch (activeTab) {
       case TAB_MY_TICKET:
