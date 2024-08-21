@@ -313,7 +313,6 @@ main {
       .public_fixedDataTable_header {
         .fixedDataTableCellGroupLayout_cellGroup {
           .fixedDataTableCellLayout_main {
-
             &:nth-child(1),
             &:nth-child(2),
             &:nth-child(4) {
@@ -373,7 +372,7 @@ main {
             overflow: hidden;
             text-overflow: ellipsis;
 
-            >* {
+            > * {
               display: inline;
             }
 
@@ -431,7 +430,7 @@ main {
               line-height: 1.2;
               display: inline-block;
 
-              >span {
+              > span {
                 width: 100%;
                 white-space: nowrap;
                 text-overflow: ellipsis;
@@ -643,7 +642,8 @@ main {
             &:focus {
               outline: none;
               box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.14),
-                0 3px 4px -2px rgba(0, 0, 0, 0.2), 0 1px 7px 0 rgba(0, 0, 0, 0.12);
+                0 3px 4px -2px rgba(0, 0, 0, 0.2),
+                0 1px 7px 0 rgba(0, 0, 0, 0.12);
             }
           }
 
@@ -706,7 +706,7 @@ main {
           margin-top: 0;
         }
 
-        label+.MuiInput-formControl {
+        label + .MuiInput-formControl {
           margin-top: 35px;
         }
 
@@ -994,7 +994,9 @@ main {
 
     #selected-event {
       &:has(label) {
-        div.MuiAutocomplete-root>div.MuiFormControl-root>div.MuiInputBase-root {
+        div.MuiAutocomplete-root
+          > div.MuiFormControl-root
+          > div.MuiInputBase-root {
           margin-top: 40px;
         }
       }
@@ -1177,7 +1179,6 @@ main {
       width: 100%;
 
       thead {
-
         th,
         td {
           background: #dedede;
@@ -1185,7 +1186,6 @@ main {
       }
 
       tr {
-
         th,
         td {
           border-collapse: collapse;
@@ -1240,7 +1240,7 @@ main {
     .action-cell {
       text-align: center;
 
-      >span {
+      > span {
         font-size: 16px;
         margin: 0 4px;
         color: #4f4f4f;
@@ -1448,12 +1448,12 @@ main {
       height: calc(100vh - 50px - 60px);
       overflow-y: visible;
 
-      .title__wrapper{
+      .title__wrapper {
         padding: 0 20px;
         background-color: #d9d9d9;
         height: 30px;
       }
-      .title{
+      .title {
         font-weight: 600;
         font-size: 18px;
       }
@@ -1545,7 +1545,7 @@ main {
       width: 100%;
       text-align: center;
       border-bottom: 1px solid #dbddde;
-      line-height: .1em;
+      line-height: 0.1em;
       margin: 10px 0 20px;
 
       span {
@@ -1583,4 +1583,15 @@ main {
 ::-webkit-scrollbar-thumb {
   background-color: #c2c2c2;
   border-radius: 10px;
+}
+
+.btn-new-message-below {
+  cursor: pointer;
+  position: absolute;
+  z-index: 100;
+  bottom: 10px;
+  right: 20px;
+  padding: 5px 10px;
+  background-color: #5fbdfd;
+  border: none;
 }

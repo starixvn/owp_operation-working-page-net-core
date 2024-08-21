@@ -1,10 +1,12 @@
 import { useAppSelector } from '../../../app/hooksNative';
 import { isEquals } from 'immutability-helper';
-import { Fragment } from 'react';
+import { Fragment, useRef } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { shouldShowUserInfo } from '../../../../Shared/chatBoardNew/helper/chatBoardHelper';
 import MessageCell from '../../../../Shared/chatBoardNew/Message/MessageCell';
 import store from '../../../app/storeNative';
+import { useStableDispatch } from '../../../ImportTicketCenterHelperNative';
+import { resetNewMessage } from './consolidationSlice';
 
 const ConsolidationView = () => {
   const {
@@ -12,8 +14,11 @@ const ConsolidationView = () => {
       subTypeSelected: { label }
     }
   } = store.getState();
-  const { entities } = useAppSelector(state => state.consolidation);
-
+  const { entities, isNewMessage } = useAppSelector(
+    state => state.consolidation
+  );
+  const dispatch = useStableDispatch();
+  const scrollRef = useRef(null);
   const messageGroupByDate = entities.reduce((result: any, message) => {
     const date = new Date(message.createdDate);
     if (!result[date.toDateString()]) {
@@ -49,19 +54,29 @@ const ConsolidationView = () => {
       </li>
     );
   };
-
+  const scrollToBottom = () => {
+    scrollRef.current &&
+      scrollRef.current.scrollIntoView({ behavior: 'smooth' });
+    dispatch(resetNewMessage());
+  };
   return (
     <div className='consolidation-wrap'>
       <div className='header-consolidation'>
         <span className='title'>{label}</span>
         <span className='describe'>(All messages for 3 last days)</span>
       </div>
+
       <div className='message-list'>
         <InfiniteScroll
           loader={<h4>Loading...</h4>}
           hasMore={false}
           next={() => entities}
           dataLength={entities.length}>
+          {isNewMessage && (
+            <button className='btn-new-message-below' onClick={scrollToBottom}>
+              New message below
+            </button>
+          )}
           {Object.keys(messageGroupByDate).map((date, key) => (
             <Fragment key={`${date}-${key}`}>
               <div>
@@ -85,6 +100,7 @@ const ConsolidationView = () => {
                   )
                 )}
               </ul>
+              <div ref={scrollRef} />
             </Fragment>
           ))}
         </InfiniteScroll>
